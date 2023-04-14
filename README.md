@@ -1,1 +1,1 @@
-# game
+# genshin/granblue
