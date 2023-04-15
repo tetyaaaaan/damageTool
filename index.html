@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <title>ゲームのダメージ計算サイト予定</title>
+ </head>
+ <body bgcolor="#1a1a1a" text="#cccccc">
+  <div id="wrapper">
+   <section>
+    <font size="7" color="ff0000"><b>
+     <p align="center">ダメージ計算サイト</p>
+     </b></font>
+    <h2>原神</h2>
+    <h4>原神のダメージ計算式は以下の通り (原神Wiki*参照)</h4>
+    <p>ダメージ = <span class = "yellow">基礎ダメージ</span> * <span class = "green">ダメバフ補正 * 会心ダメ補正 * 元素反応</span> * <span class = "pink">敵防御補正 * 敵元素耐性補正</span></p>
+    <br>
+    <!-- アイコンと非表示要素を含む要素 -->
+    <div id="toggleContainer">
+        <button id="toggleButton">＋</button><font size="1" class="gray"><span>　（計算式詳細の表示・非表示）</span></font>
+        <br>
+        <br>
+        <div id="toggleContent" style="display: none;">
+        <!-- 非表示内容 -->
+        <p><span class = "yellow">基礎ダメージ</span> = 攻撃力 * 天賦倍率 * 特殊乗算 + 実数ダメージ加算</p>
+        <p><span class = "green">ダメバフ補正</span> = 1 + ダメージバフ%の合計値</p>
+        <p><span class = "green">会心ダメ補正</span> = 1 + 会心ダメージ%の合計値</p>
+        <p><span class = "green">元素反応</span> = 蒸発・溶解反応倍率 * (1 + 元素熟知の元素反応ダメージボーナス + 装備等元素反応ダメボ)</p>
+        <p>※他の元素反応は固定ダメージ系、実数ダメージ加算に分かれる（今回は割愛）</p>
+
+        <br>
+        <span class = "pink">敵防御補正</span> = 
+        <span style="display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;">
+            <span style="padding: 0 10px; border-bottom: 1px solid #cccccc;">キャラレベル+100</span>
+            <span style="padding: 0 10px;">(1 - 防御無視%) * (1 - 防御デバフ%) * (敵レベル + 100) + キャラレベル +100</span>
+        </span>
+        <br>
+        <br>
+        <p><span class = "pink">敵元素耐性補正</span> = <span class = "purple">敵の現耐性%</span> に応じて3つに場合分け</p>
+        <p>・ 0%未満の場合 = 1 - <span class = "purple">敵の現耐性%</span> / 2</p>
+        <p>・ 0~75%の場合 = 1 - <span class = "purple">敵の現耐性%</span></p>
+        <p>・ 75%以上の場合 = 1 / (4 * <span class = "purple">敵の現耐性%</span> + 1)</p>
+        <p><span class = "purple">敵の現耐性%</span> = 敵の基礎耐性% + 敵の耐性バフ% - 耐性デバフ%</p>
+        <br>
+
+        </div>
+    </div>
+    <script src="./js/show_hide.js"></script>
+
+
+    
+
+    <p>仮想敵「公義」: Lv.90 全元素耐性 10%、物理耐性 -20%  たぶん</p>
+    <br>
+    <!--ここにダメージ計算のフォームを作る-->
+    <!--main.jsファイル-->
+    <!--<script src="./js/main.js"></script>-->
+    <button id = "dmg_button" type = "button" class = "button" onclick="calc()">ダメージ計算実行！</button>
+    <br><br>
+    <p>攻撃力：<input type="number" id="atk" step="1" value="100"></p>
+    <p>天賦倍率：<input type="number" id="talent" step="0.1" value="10"></p>
+    <p>特殊乗算： 1+<input type="number" id="special" step="0.1" value="0"></p>
+    <p>実数ダメージ加算：<input type="number" id="add_b" step="0.1" value="0"></p>
+    <!--<p>防御力：<input type="text" id="def"></p>-->
+    <!--<p>会心率：<input type="text" id="cri"></p>-->
+    <p>ダメージバフ（％）：<input type="number" id="dmg_b" step="0.1" value="0"></p>
+    <p>会心ダメージ（％）：<input type="number" id="cri_dmg" step="0.1" value="50"></p>
+    <p>元素反応(1 1.5 2.0)：<input type="number" id="ele" step="0.5" value="1"></p>
+    <p class = "gray">元素熟知（現状意味なし）：<input type="number" id="ele_m" step="1" value="0"></p>
+    <p>装備等元素反応ダメボ（％）：<input type="number" id="ele_e" step="1" value="0"></p>
+    
+    <p>耐性デバフ（％）：<input type="number" id="ele_d" step="1" value="0"></p>
+    <p>防御デバフ（％）：<input type="number" id="def_d" step="1" value="0"></p>
+    <p>防御無視（％）：<input type="number" id="def_ig" step="1" value="0"></p>
+
+    <p>キャラレベル：<input type="number" id="lv" step="1" value="90"></p>
+    
+    <br>
+    <p>敵レベル：<input type="number" id="e_lv" step="1" value="90"></p>
+    <p>敵の元素・物理耐性（％）：<input type="number" id="e_res" step="1" value="10"></p>
+    <br>
+    
+    <p class = "pink">敵防御補正：<span id="value_e_def"></span></p>
+    <p class = "pink">敵元素耐性補正：<span id="value_e_ele"></span></p>
+    <br>
+    <font size = "5">
+        <p class = "red" id="result">ダメージ計算します：</p>
+    </font>
+    <br>
+
+    
+    <div id="chart-container">
+        <canvas id="myChart" height="200"></canvas>
+        <script src="./js/main.js"></script>
+    </div>
+    <br>
+    
+    <!--画像付き選択肢-->
+    <!-- 聖遺物選択エリア -->
+    <div id="targetArea" class="target-area selection-item" style="cursor: pointer;">　聖遺物を選択してください（無意味）</div>
+    <!-- モーダルウィンドウ -->
+    <div id="modal" style="display: none;">
+        <h3> 聖遺物選択画面</h3>
+        <div class="modal-content">
+            <h3>聖遺物を選択してください</h3>
+            <ul id="imageList">
+                <li class="image-item selection-item" data-image-url="./images/artifact/hanaumi.png" data-image-text="花海甘露の光">
+                    <img src="./images/artifact/hanaumi.png" alt="Image 28">花海甘露の光
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/suisen.png" data-image-text="水仙の夢">
+                    <img src="./images/artifact/suisen.png" alt="Image 27">水仙の夢
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/rakuen.png" data-image-text="楽園の絶花">
+                    <img src="./images/artifact/rakuen.png" alt="Image 26">楽園の絶花
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/sazyou.png" data-image-text="砂上の楼閣の史話">
+                    <img src="./images/artifact/sazyou.png" alt="Image 25">砂上の楼閣の史話
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/kinmekki.png" data-image-text="金メッキの夢">
+                    <img src="./images/artifact/kinmekki.png" alt="Image 24">金メッキの夢
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/sinrin.png" data-image-text="深林の記憶">
+                    <img src="./images/artifact/sinrin.png" alt="Image 23">深林の記憶
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/raikin.png" data-image-text="来歆の余響">
+                    <img src="./images/artifact/raikin.png" alt="Image 22">来歆の余響
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/sinsya.png" data-image-text="辰砂往生録">
+                    <img src="./images/artifact/sinsya.png" alt="Image 21">辰砂往生録
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/umizome.png" data-image-text="海染硨磲">
+                    <img src="./images/artifact/umizome.png" alt="Image 20">海染硨磲
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/kakan.png" data-image-text="華館夢醒形骸記">
+                    <img src="./images/artifact/kakan.png" alt="Image 19">華館夢醒形骸記
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/zetsuen.png" data-image-text="絶縁の旗印">
+                    <img src="./images/artifact/zetsuen.png" alt="Image 18">絶縁の旗印
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/simenawa.png" data-image-text="追憶のしめ縄">
+                    <img src="./images/artifact/simenawa.png" alt="Image 17">追憶のしめ縄
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/souhaku.png" data-image-text="蒼白の炎">
+                    <img src="./images/artifact/souhaku.png" alt="Image 16">蒼白の炎
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/sengan.png" data-image-text="千岩牢固">
+                    <img src="./images/artifact/sengan.png" alt="Image 15">千岩牢固
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/tinrin.png" data-image-text="沈淪の心">
+                    <img src="./images/artifact/tinrin.png" alt="Image 14">沈淪の心
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/hyouhuu.png" data-image-text="氷風を彷徨う勇士">
+                    <img src="./images/artifact/hyouhuu.png" alt="Image 13">氷風を彷徨う勇士
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/himazyo.jpg" data-image-text="燃え盛る炎の魔女">
+                    <img src="./images/artifact/himazyo.jpg" alt="Image 12">燃え盛る炎の魔女
+                </li>
+
+                <li class="image-item selection-item" data-image-url="./images/artifact/kaminari.png" data-image-text="雷のような怒り">
+                    <img src="./images/artifact/kaminari.png" alt="Image 10">雷のような怒り
+                </li>
+
+                <li class="image-item selection-item" data-image-url="./images/artifact/sakatobi.jpg" data-image-text="逆飛びの流星">
+                    <img src="./images/artifact/sakatobi.jpg" alt="Image 8">逆飛びの流星
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/bangan.jpg" data-image-text="悠久の磐岩">
+                    <img src="./images/artifact/bangan.jpg" alt="Image 7">悠久の磐岩
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/suiryoku.jpg" data-image-text="翠緑の影">
+                    <img src="./images/artifact/suiryoku.jpg" alt="Image 6">翠緑の影
+                </li>
+
+                <li class="image-item selection-item" data-image-url="./images/artifact/tizome.jpg" data-image-text="血染めの騎士道">
+                    <img src="./images/artifact/tizome.jpg" alt="Image 4">血染めの騎士道
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/kyuukizoku.jpg" data-image-text="旧貴族のしつけ">
+                    <img src="./images/artifact/kyuukizoku.jpg" alt="Image 3">旧貴族のしつけ
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/gakudan.jpg" data-image-text="大地を放浪する楽団">
+                    <img src="./images/artifact/gakudan.jpg" alt="Image 2">大地を放浪する楽団
+                </li>
+                <li class="image-item selection-item" data-image-url="./images/artifact/kentousi.jpg" data-image-text="剣闘士のフィナーレ">
+                    <img src="./images/artifact/kentousi.jpg" alt="Image 1">剣闘士のフィナーレ
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="./js/artifact.js"></script>
+
+
+    <p></p>
+   </section>
+  </div>
+ </body>
+</html>
