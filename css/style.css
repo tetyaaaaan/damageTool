@@ -148,6 +148,7 @@ h3 {
     max-height: 60%; /* 高さを%に指定 */
     background-color: rgb(98, 74, 56);
     margin: 100px auto;
+    margin-top: 10%;
     margin-left: 5%;
     padding: 20px;
     overflow-y: auto; /* スクロール可能にする */
