@@ -84,6 +84,9 @@ function calc(){
     if(data[0].value == 1){
         data[0].value = 0;
     }
+    if(data[1].value == 1){
+        data[1].value = 0;
+    }
     if(data[2].value == 1){
         data[2].value = value_ele_other;
     }
