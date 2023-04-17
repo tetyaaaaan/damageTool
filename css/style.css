@@ -18,6 +18,7 @@ body {
 /*ローディング画面用のスタイル*/
 #load{
 	width: 90%;
+	margin: 0 auto 0 20px;
 	text-align: center;
 	display: block;
 }
