@@ -14,9 +14,18 @@ body {
     width: 100%;
     font-family: "GenshinFont", sans-serif;
 }
+
+/*ローディング画面用のスタイル*/
+#load{
+	width: 90%;
+	text-align: center;
+	display: block;
+}
+
 #wrapper {
     width: 90%;
     margin: 0 auto 0 20px;
+    display: none;
 }
 
 /* 見出し ここから */
