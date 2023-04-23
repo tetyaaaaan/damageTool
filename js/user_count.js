@@ -1,19 +1,14 @@
-// サーバーにユーザ数を取得するリクエストを送信
+var gaTrackingId = 'G-S82LRCKEPS';
+  
+// ユーザ数を取得する関数
 function getUserCount() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', './php/user_count.php', true);
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
-        // 取得したユーザ数を表示
-        document.getElementById('userCount').innerText = xhr.responseText;
-      } else {
-        console.error('ユーザ数の取得に失敗しました');
-      }
+  gtag('event', 'page_view', {
+    'send_to': gaTrackingId,
+    'event_callback': function() {
+      var userCount = gtag('get', gaTrackingId, 'users');
+      document.getElementById('userCount').textContent = userCount;
     }
-  };
-  xhr.send();
+  });
 }
-
-// 定期的にユーザ数を更新
-setInterval(getUserCount, 1000); // 1秒ごとにユーザ数を更新する例
+// ページが読み込まれた時にユーザ数を取得する
+window.addEventListener('load', getUserCount);
