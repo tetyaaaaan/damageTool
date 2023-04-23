@@ -171,6 +171,9 @@ h4 {
 .waterblue {
     color: #4967ff;
 }
+.white {
+    color: #ffffff;
+}
 
 .normal-text{
     font-weight: normal; /* フォントの太さを通常に設定 */
