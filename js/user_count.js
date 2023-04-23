@@ -1,14 +1,25 @@
-var gaTrackingId = 'G-S82LRCKEPS';
-  
-// ユーザ数を取得する関数
-function getUserCount() {
+//トラッキングID
+var gTrackingId = 'G-S82LRCKEPS';
+
+// ユーザ数を取得してHTML要素に表示する関数
+function updateUserCount(userCount) {
+  document.getElementById('userCount').innerText = userCount;
+}
+
+// Google Analyticsのユーザ数を取得する関数
+function fetchUserCount() {
+  gtag('config', gTrackingId, {'send_page_view': false});
   gtag('event', 'page_view', {
-    'send_to': gaTrackingId,
+    'send_to': 'GA_MEASUREMENT_ID',
     'event_callback': function() {
-      var userCount = gtag('get', gaTrackingId, 'users');
-      document.getElementById('userCount').textContent = userCount;
+      var tracker = ga.getByName(gTrackingId);
+      var userCount = tracker.get('users');
+      updateUserCount(userCount);
     }
   });
 }
-// ページが読み込まれた時にユーザ数を取得する
-window.addEventListener('load', getUserCount);
+
+// ページ読み込み時にユーザ数を取得
+window.addEventListener('load', function() {
+  fetchUserCount();
+});
