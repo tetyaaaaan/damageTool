@@ -10,11 +10,11 @@ function updateUserCount(userCount) {
 function fetchUserCount() {
   gtag('config', gTrackingId, {'send_page_view': false});
   gtag('event', 'page_view', {
-    'send_to': 'GA_MEASUREMENT_ID',
+    'send_to': gTrackingId,
     'event_callback': function() {
-      var tracker = ga.getByName(gTrackingId);
-      var userCount = tracker.get('users');
-      updateUserCount(userCount);
+      gtag('get', gTrackingId, 'users', function(userCount) {
+        updateUserCount(userCount);
+      });
     }
   });
 }
