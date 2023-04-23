@@ -1,48 +1,19 @@
-//トラッキングID
-var gTrackingId = 'G-S82LRCKEPS';
-
-
-// ユーザ数を取得してHTML要素に表示する関数
-function updateUserCount(userCount) {
-  document.getElementById('userCount').innerText = userCount;
-}
-
-// Google Analyticsのユーザ数を取得する関数
-function fetchUserCount() {
-  gtag('get', gTrackingId, 'users', function(response) {
-    // ユーザ数の取得が完了した後にHTML要素に表示
-    var userCount = response['users'];
-    updateUserCount(userCount);
-  });
-}
-
-// ページ読み込み時にユーザ数を取得
-window.addEventListener('load', function() {
-  fetchUserCount();
-});
-
-
-/*
-// ユーザ数を取得してHTML要素に表示する関数
-function updateUserCount(userCount) {
-  document.getElementById('userCount').innerText = userCount;
-}
-
-// Google Analyticsのユーザ数を取得する関数
-function fetchUserCount() {
-  gtag('config', gTrackingId, {'send_page_view': false});
-  gtag('event', 'page_view', {
-    'send_to': gTrackingId,
-    'event_callback': function() {
-      gtag('get', gTrackingId, 'users', function(userCount) {
-        updateUserCount(userCount);
-      });
+// サーバーにユーザ数を取得するリクエストを送信
+function getUserCount() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'user_count.php', true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // 取得したユーザ数を表示
+        document.getElementById('userCount').innerText = xhr.responseText;
+      } else {
+        console.error('ユーザ数の取得に失敗しました');
+      }
     }
-  });
+  };
+  xhr.send();
 }
 
-// ページ読み込み時にユーザ数を取得
-window.addEventListener('load', function() {
-  fetchUserCount();
-});
-*/
+// 定期的にユーザ数を更新
+setInterval(getUserCount, 1000); // 1秒ごとにユーザ数を更新する例
