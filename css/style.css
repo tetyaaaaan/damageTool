@@ -333,7 +333,7 @@ canvas{
     top: 100%;
     left: 0;
     padding: 0px 7px;
-    background-color: #8f8f8f;
+    background-color: #000000;/*#8f8f8f;*/
     border: 1px solid #606060;
 }
 
