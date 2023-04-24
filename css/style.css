@@ -12,7 +12,8 @@
 /* 大枠（気にしないでください） */
 body {
     width: 100%;
-    font-family: "GenshinFont", sans-serif;
+    /*font-family: "GenshinFont", sans-serif;*/
+    font-family: 'Noto Sans JP', sans-serif;
 }
 
 /*ローディング画面用のスタイル*/
