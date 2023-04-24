@@ -66,6 +66,8 @@ label #hamburgerCancel {
 }
 
 label #hamburgerBtn {
+    width: 25px;
+    height: 25px;
     left: 10px;
     top: 10px;
     font-size: 25px;
