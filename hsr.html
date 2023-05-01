@@ -94,20 +94,18 @@
         <p><span class = "green">ダメバフ補正</span> = 1 + ダメージバフ%の合計値</p>
         <p><span class = "green">会心ダメ補正</span> = 1 + 会心ダメージ%の合計値</p>
         
-        <p><span class = "brown">被ダメ補正</span> = 100% ± 被ダメージ%</p>
-        <p><span class = "brown">靭性補正</span> = 白ゲージあり90% / なし100%</p>
+        <p><span class = "brown">被ダメ補正</span> = 1 ± 被ダメージ%</p>
+        <p><span class = "brown">靭性補正</span> = 1 - 靭性耐性%（白いゲージの奴）</p>
         
         <br>
-        <p>（※原神と同じなら以下。基本的に同レベルで50%）</p>
+        <p>（※基本的に同レベルで50%）</p>
         <span class = "pink">敵防御補正</span> = 
         <span style="display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;">
-            <span style="padding: 0 10px; border-bottom: 1px solid #000000;">キャラレベル+100</span>
-            <span style="padding: 0 10px;">(1 - 防御無視%) * (1 - 防御デバフ%) * (敵レベル + 100) + キャラレベル +100</span>
+            <span style="padding: 0 10px; border-bottom: 1px solid #000000;">キャラレベル+20</span>
+            <span style="padding: 0 10px;">(1 - 防御無視%) * (1 - 防御デバフ%) * (敵レベル + 20) + キャラレベル +20</span>
         </span>
         <br><br>
-
-        <p><span class = "pink">属性耐性補正</span> = 弱点以外80% / 弱点100%</p>
-        
+        <p><span class = "pink">属性耐性補正</span> = 1 - <span class = "purple">(敵の基礎耐性% - 弱点は属性貫通(20%) - 耐性デバフ%)</span></p>
         
         <!--
         <p><span class = "green">元素反応</span> = 蒸発・溶解反応倍率 * (1 + 元素熟知の元素反応ダメージボーナス + 装備等元素反応ダメボ)</p>
@@ -136,7 +134,7 @@
 
     
     <div class="box">
-        <h4>敵</h4>
+        <h4>敵（靭性耐性10%、属性耐性20%）</h4>
         <label for="toughness"><span class="brown">靭性</span>：</label>
         <select id="toughness" name="toughness">
             <option value="yes">あり</option>
@@ -149,11 +147,7 @@
             <option value="no">弱点以外</option>
         </select>
 
-        <br><br><br>
-        <p>（こっち意味なし）</p>
-        <p class = "pink">属性耐性</p>
-        <label><input type="radio" name="weakness_2" value="yes" checked>弱点</label>
-        <label><input type="radio" name="weakness_2" value="no">弱点以外</label>
+        
     </div>
 
     <br>
@@ -253,8 +247,8 @@
     </font>
     <br>
 
-    <p>キャラレベル：<input type="number" class="input_num" id="lv" step="1" value="90"></p>
-    <p>敵レベル：<input type="number" class="input_num" id="e_lv" step="1" value="90"></p>
+    <p>キャラレベル：<input type="number" class="input_num" id="lv" step="1" value="80"></p>
+    <p>敵レベル：<input type="number" class="input_num" id="e_lv" step="1" value="80"></p>
     <font size="1" color=#555555>
         <p>※レベル差がないときは無視</p>
     </font>
