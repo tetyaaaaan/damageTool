@@ -78,7 +78,7 @@
     <h2>崩壊スターレイル（HSR）</h2>
     <div class="box">
     <h4>HSRのダメージ計算式は以下の通り（多分）</h4>
-    <p>ダメージ = <span class = "yellow">基礎ダメージ</span> * <span class = "green">ダメバフ補正 * 会心ダメ補正</span> * <span class = "pink">被ダメ補正 * 靭性補正 * 敵防御補正 * 属性耐性補正</span></p>
+    <p>ダメージ = <span class = "yellow">基礎ダメージ</span> * <span class = "green">ダメバフ補正 * 会心ダメ補正</span> * <span class = "pink">靭性補正 * 敵防御補正 * 属性耐性補正 * 被ダメ補正</span></p>
     
     <!-- アイコンと非表示要素を含む要素 -->
     <div id="toggleContainer">
@@ -89,10 +89,25 @@
         <div id="toggleContent" style="display: none;">
         <br>
         <!-- 非表示内容 -->
-        <p><span class = "yellow">基礎ダメージ</span> = 攻撃力 * 天賦倍率 * 特殊乗算 + 実数ダメージ加算</p>
+        <p><span class = "yellow">基礎ダメージ</span> = 攻撃力 * 倍率</p>
         <p><span class = "green">ダメバフ補正</span> = 1 + ダメージバフ%の合計値</p>
         <p><span class = "green">会心ダメ補正</span> = 1 + 会心ダメージ%の合計値</p>
-          <!--
+        
+        <p><span class = "pink">靭性補正</span> = 白ゲージあり90% / なし100%</p>
+        
+        <br>
+        <p>（※原神と同じなら以下。基本的に同レベルで50%）</p>
+        <span class = "pink">敵防御補正</span> = 
+        <span style="display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;">
+            <span style="padding: 0 10px; border-bottom: 1px solid #000000;">キャラレベル+100</span>
+            <span style="padding: 0 10px;">(1 - 防御無視%) * (1 - 防御デバフ%) * (敵レベル + 100) + キャラレベル +100</span>
+        </span>
+        <br><br>
+
+        <p><span class = "pink">属性耐性補正</span> 弱点以外80% / 弱点100%</p>
+        <p><span class = "pink">被ダメ補正</span> = 100% ± 被ダメージ%</p>
+        
+        <!--
         <p><span class = "green">元素反応</span> = 蒸発・溶解反応倍率 * (1 + 元素熟知の元素反応ダメージボーナス + 装備等元素反応ダメボ)</p>
         <p>※他の元素反応は固定ダメージ系、実数ダメージ加算に分かれる（今回は割愛）</p>
 
@@ -135,9 +150,11 @@
         <table class="my-table">
             <tr>
                 <th class="normal-text">攻撃力</th>
+                <th class="normal-text">倍率%</th>
             </tr>
             <tr>
                 <td><input type="number" class="input_num" id="atk" step="1" value="1000"></td>
+                <td><input type="number" class="input_num" id="talent" step="0.1" value="50"></td>
             </tr>
         </table>
       <!--
@@ -206,7 +223,7 @@
     <div id="chart-container">
         <canvas id="myChart" height="200"></canvas>
     </div>
-    <script src="./js/main.js"></script>
+    <script src="./js/hsr_dmgCalc.js"></script>
     <br>
     
 
