@@ -78,7 +78,7 @@
     <h2>崩壊スターレイル（HSR）</h2>
     <div class="box">
     <h4>HSRのダメージ計算式は以下の通り（多分）</h4>
-    <p>ダメージ = <span class = "yellow">基礎ダメージ</span> * <span class = "green">ダメバフ補正 * 会心ダメ補正</span> * <span class = "pink">靭性補正 * 敵防御補正 * 属性耐性補正 * 被ダメ補正</span></p>
+    <p>ダメージ = <span class = "yellow">基礎ダメージ</span> * <span class = "green">ダメバフ補正 * 会心ダメ補正</span> * <span class = "brown">被ダメ補正 * 靭性補正</span> * <span class = "pink">敵防御補正 * 属性耐性補正</span></p>
     
     <!-- アイコンと非表示要素を含む要素 -->
     <div id="toggleContainer">
@@ -90,10 +90,12 @@
         <br>
         <!-- 非表示内容 -->
         <p><span class = "yellow">基礎ダメージ</span> = 攻撃力 * 倍率</p>
+        <p><span class = "yellow">攻撃力</span> = 基礎攻撃力（キャラ＋武器）* (1 + 攻撃%) + 攻撃実数値</p>
         <p><span class = "green">ダメバフ補正</span> = 1 + ダメージバフ%の合計値</p>
         <p><span class = "green">会心ダメ補正</span> = 1 + 会心ダメージ%の合計値</p>
         
-        <p><span class = "pink">靭性補正</span> = 白ゲージあり90% / なし100%</p>
+        <p><span class = "brown">被ダメ補正</span> = 100% ± 被ダメージ%</p>
+        <p><span class = "brown">靭性補正</span> = 白ゲージあり90% / なし100%</p>
         
         <br>
         <p>（※原神と同じなら以下。基本的に同レベルで50%）</p>
@@ -104,8 +106,8 @@
         </span>
         <br><br>
 
-        <p><span class = "pink">属性耐性補正</span> 弱点以外80% / 弱点100%</p>
-        <p><span class = "pink">被ダメ補正</span> = 100% ± 被ダメージ%</p>
+        <p><span class = "pink">属性耐性補正</span> = 弱点以外80% / 弱点100%</p>
+        
         
         <!--
         <p><span class = "green">元素反応</span> = 蒸発・溶解反応倍率 * (1 + 元素熟知の元素反応ダメージボーナス + 装備等元素反応ダメボ)</p>
@@ -134,8 +136,24 @@
 
     
     <div class="box">
-        <h4>敵の種類</h4>
-        <p>ロボット</p>
+        <h4>敵</h4>
+        <label for="toughness"><span class="brown">靭性</span>：</label>
+        <select id="toughness" name="toughness">
+            <option value="yes">あり</option>
+            <option value="no" selected>なし</option>
+        </select>
+        <span>&nbsp</span>
+        <label for="weakness"><span class="pink">属性耐性</span>：</label>
+        <select id="weakness" name="weakness">
+            <option value="yes">弱点</option>
+            <option value="no">弱点以外</option>
+        </select>
+
+        <br><br><br>
+        <p>（こっち意味なし）</p>
+        <p class = "pink">属性耐性</p>
+        <label><input type="radio" name="weakness_2" value="yes" checked>弱点</label>
+        <label><input type="radio" name="weakness_2" value="no">弱点以外</label>
     </div>
 
     <br>
@@ -147,6 +165,7 @@
     <br>
     
     <div id="normalDmgContent">
+        <!--ここは簡易版
         <table class="my-table">
             <tr>
                 <th class="normal-text">攻撃力</th>
@@ -157,6 +176,35 @@
                 <td><input type="number" class="input_num" id="talent" step="0.1" value="50"></td>
             </tr>
         </table>
+    -->
+        <!--ここから複雑版-->
+        <table class="my-table">
+            <tr>
+                <th class="normal-text">表示攻撃力</th>
+                <th class="normal-text">基礎攻撃力</th>
+            </tr>
+            <tr>
+                <td><input type="number" class="input_num" id="atk" step="1" value="1000"></td>
+                <td><input type="number" class="input_num" id="base_atk" step="1" value="800"></td>
+            </tr>
+        </table>
+        <br>
+        <table class="my-table">
+            <tr>
+                <th class="normal-text">攻撃力up %</th>
+                <th class="normal-text">攻撃力up +</th>
+                <th class="normal-text">倍率%</th>
+            </tr>
+            <tr>
+                <td><input type="number" class="input_num" id="atk_buffPer" step="0.1" value="0"></td>
+                <td><input type="number" class="input_num" id="atk_buffPlus" step="1" value="0"></td>
+                <td><input type="number" class="input_num" id="talent" step="0.1" value="50"></td>
+            </tr>
+        </table>
+        <font size="1" color=#555555>
+            <p>※(攻撃力up %)はキャラクター詳細に反映されてないものを書く</p>
+            <p>※(攻撃力up +)はキャラクター詳細に反映されてないものを書く</p>
+        </font>
       <!--
         <table class="my-table">
             <tr>
@@ -177,6 +225,7 @@
         <!--<p>会心率：<input type="text" id="cri"></p>-->
         <p>ダメージバフ (％)：<input type="number" class="input_num" id="dmg_b" step="0.1" value="0"></p>
         <p>会心ダメージ (％)：<input type="number" class="input_num" id="cri_dmg" step="0.1" value="50"></p>
+        <p>被ダメージ (％)：<input type="number" class="input_num" id="taken_dmg" step="0.1" value="0"></p>
     </div>
     
     <br>
@@ -199,13 +248,17 @@
             <td><input type="number" class="input_num" id="def_ig" step="1" value="0"></td>
         </tr>
     </table>
+    <font size="1" color=#555555>
+        <p>※耐性デバフ%の例）属性耐性-12% → 記入[-12]%</p>
+    </font>
     <br>
 
     <p>キャラレベル：<input type="number" class="input_num" id="lv" step="1" value="90"></p>
-    
-    <br>
     <p>敵レベル：<input type="number" class="input_num" id="e_lv" step="1" value="90"></p>
-    <p>敵の元素・物理耐性 (％)：<input type="number" class="input_num" id="e_res" step="1" value="10"></p>
+    <font size="1" color=#555555>
+        <p>※レベル差がないときは無視</p>
+    </font>
+
     </div>
     <br>
     <div class="no-box">
