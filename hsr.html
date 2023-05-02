@@ -131,6 +131,45 @@
     <script src="./js/show_hide.js"></script>
     </div>
     <br>
+    <div class="box">
+        <h4>キャラステータス</h4>
+        <label for="selectName">キャラを選択してください:</label>
+        <select id="selectName"></select>
+
+        <table class="hsrCha-table" id="outputTable">
+            <thead>
+                <!--
+                <tr>
+                    <th>名前</th>
+                    <th>★</th>
+                    <th>属性</th>
+                    <th>運命</th>
+                </tr>
+                <tr>
+                    <td>name</td>
+                    <td>star</td>
+                    <td>element</td>
+                    <td>fate</td>
+                </tr>-->
+            </thead>
+            <tbody>
+                <!--
+                <tr>
+                    <th>HP</th>
+                    <th>攻撃力</th>
+                    <th>防御力</th>
+                    <th>速度</th>
+                <tr>
+                    <td>hp</td>
+                    <td>atk</td>
+                    <td>def</td>
+                    <td>agi</td>
+                </tr>-->
+            </tbody>
+        </table>
+        <script src="./js/hsr_charaList.js"></script>
+    </div>
+    <br>
 
     
     <div class="box">
@@ -146,8 +185,6 @@
             <option value="yes">弱点</option>
             <option value="no">弱点以外</option>
         </select>
-
-        
     </div>
 
     <br>
