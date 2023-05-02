@@ -158,7 +158,7 @@ h4 {
     color: #ffff00;
 }
 .pink {
-    color: #ff00ff;
+    color: #da12da;
 }
 .purple {
     color: #800080;
@@ -207,6 +207,22 @@ h4 {
         overflow-x: auto;
     }
 }
+
+.hsrCha-table{
+    border-collapse: collapse;
+    font-size: 11px;
+    overflow-x: auto;
+}
+.hsrCha-table th, td{
+    text-align: center;
+    border: 1px solid #5a8acd; /* セルの境界線を設定 */
+    padding: 0 5px; /* セルの内側の余白を10pxに設定 */
+    width: 80px; /* セルの幅を100pxに固定 */
+}
+.hsrCha-table th{
+    background-color: #a0a3e0;
+}
+
 
 
 /*聖遺物選択画面のため*/
