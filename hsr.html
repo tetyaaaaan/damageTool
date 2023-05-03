@@ -130,19 +130,31 @@
     </div>
     <br>
     <div class="box">
-        <h4>キャラステータス（Lv.80）</h4>
+        <h4>キャラ・武器ステータス（Lv.80）</h4>
         <font size="1" color=#555555>
             <p>（※参考程度に）</p>
             <p>　</p>
         </font>
+        <!--キャラのテーブル-->
         <label for="selectName">キャラを選択してください:</label>
         <select id="selectName"></select>
-
-        <table class="hsrCha-table" id="outputTable">
+        <table class="hsrCha-table" id="chara-outputTable">
             <thead></thead>
             <tbody></tbody>
         </table>
-        <script src="./js/hsr_charaList.js"></script>
+        <br>
+
+        <!--武器のテーブル-->
+        <label for="selectWeapon">光円錐を選択してください:</label>
+        <select id="selectWeapon"></select>
+        <table class="hsrWeapon-table" id="weapon-outputTable">
+            <tbody></tbody>
+        </table>
+
+        <table class="hsrWeapon-table" id="sumStatus-outputTable">
+            <tbody></tbody>
+        </table>
+        <script src="./js/hsr_selectStatusList.js"></script>
     </div>
     <br>
 
