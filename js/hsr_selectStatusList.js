@@ -215,7 +215,7 @@ function sumStatus() {
         
         let sumHp = parseInt(chaHp) + parseInt(weaHp);
         let sumAtk = parseInt(chaAtk) + parseInt(weaAtk);
-        let sumDef = parseInt(chaDef) + (weaDef);
+        let sumDef = parseInt(chaDef) + parseInt(weaDef);
 
         sumStatus = [sumHp, sumAtk, sumDef];
 
