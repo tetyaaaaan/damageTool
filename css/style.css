@@ -208,21 +208,43 @@ h4 {
     }
 }
 
+/*キャラのテーブル*/
 .hsrCha-table{
     border-collapse: collapse;
     font-size: 11px;
     overflow-x: auto;
 }
-.hsrCha-table th, td{
+.hsrCha-table th{
     text-align: center;
     border: 1px solid #5a8acd; /* セルの境界線を設定 */
     padding: 0 5px; /* セルの内側の余白を10pxに設定 */
     width: 80px; /* セルの幅を100pxに固定 */
-}
-.hsrCha-table th{
     background-color: #a0a3e0;
 }
 .hsrCha-table td{
+    text-align: center;
+    border: 1px solid #5a8acd; /* セルの境界線を設定 */
+    padding: 0 5px; /* セルの内側の余白を10pxに設定 */
+    background-color: #d9e5ff;
+}
+
+/*武器のテーブル*/
+.hsrWeapon-table{
+    border-collapse: collapse;
+    font-size: 11px;
+    overflow-x: auto;
+}
+.hsrWeapon-table th{
+    text-align: center;
+    border: 1px solid #5a8acd; /* セルの境界線を設定 */
+    padding: 0 5px; /* セルの内側の余白を10pxに設定 */
+    width: 80px; /* セルの幅を100pxに固定 */
+    background-color: #a0a3e0;
+}
+.hsrWeapon-table td{
+    text-align: center;
+    border: 1px solid #5a8acd; /* セルの境界線を設定 */
+    padding: 0 5px; /* セルの内側の余白を10pxに設定 */
     background-color: #d9e5ff;
 }
 
