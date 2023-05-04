@@ -50,7 +50,7 @@ function calc(){
     //敵の防御・耐性計算
     //ダメージ計算でのレベル＋FIXLV
     const FIXLV = 20;
-    let value_e_def = (lv+FIXLV)/((1 - def_ig/100) * (1 - def_d/100) * (e_lv+FIXLV) + lv+FIXLV);
+    let value_e_def = (lv+FIXLV)/((1 + def_ig/100) * (1 + def_d/100) * (e_lv+FIXLV) + lv+FIXLV);
     let value_toughness = toughness;
     let value_weakness = weakness - (ele_d/100);
     
