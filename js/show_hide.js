@@ -15,4 +15,8 @@ toggleButton.addEventListener('click', function() {
     toggleContent.style.display = 'none';
     toggleButton.textContent = '＋';
   }
+  gtag('event', 'click', {
+            'event_category': 'button',
+            'event_label': 'show_hide'
+          });
 });
