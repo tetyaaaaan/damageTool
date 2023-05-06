@@ -83,5 +83,8 @@ function calc(){
     myChart.update();*/
     
     console.log("calc()");
-    
+    gtag('event', 'click_dmgCalc', {
+            'event_category': 'button',
+            'event_label': 'dmgCalc'
+          });
 }
