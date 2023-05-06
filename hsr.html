@@ -246,6 +246,9 @@
         <!--<p>会心率：<input type="text" id="cri"></p>-->
         <p>ダメージバフ (％)：<input type="number" class="input_num" id="dmg_b" step="0.1" value="0"></p>
         <p>会心ダメージ (％)：<input type="number" class="input_num" id="cri_dmg" step="0.1" value="50"></p>
+        <font size="1" color=#555555>
+            <p>※(会心ダメージ)は多段攻撃の場合、それぞれで会心判定があるため注意</p>
+        </font>
         <p>被ダメージ (％)：<input type="number" class="input_num" id="taken_dmg" step="0.1" value="0"></p>
     </div>
     
@@ -270,7 +273,9 @@
         </tr>
     </table>
     <font size="1" color=#555555>
-        <p>※耐性デバフ%の例）属性耐性-12% → 記入[-12]%</p>
+        <p>（例）耐性デバフ%：属性耐性-12% → 記入[-12]</p>
+        <p>（例）防御デバフ%：防御力-30% → 記入[-30]</p>
+        <p>（例）防御無視%：防御力を10%無視 → 記入[10]</p>
     </font>
     <br>
 
