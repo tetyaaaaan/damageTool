@@ -77,6 +77,10 @@ function loadCharaCSV() {
                     }
                 }
                 sumStatus();
+                gtag('event', 'click_stsList', {
+                    'event_category': 'select',
+                    'event_label': 'stsList'
+                });
             });
         }
     };
@@ -189,6 +193,10 @@ function loadWeaponCSV() {
                     }
                 }
                 sumStatus();
+                gtag('event', 'click_stsList', {
+                    'event_category': 'select',
+                    'event_label': 'stsList'
+                });
             });
         }
     };
