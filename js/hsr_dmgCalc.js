@@ -60,27 +60,6 @@ function calc(){
     document.getElementById("value_e_def").innerHTML = value_e_def;
     document.getElementById("value_e_ele").innerHTML = value_weakness;
     document.getElementById("result").innerHTML = "ダメージ結果：" + result;
-
-/*
-    // データを更新
-    //valueというあたいはmain.jsの変数です。使用の際はスコープしてください
-    data[0].value = value_dmg_b;
-    data[1].value = value_cri_dmg;
-    data[2].value = value_ele;
-    
-    if(data[0].value == 1){
-        data[0].value = 0;
-    }
-    if(data[1].value == 1){
-        data[1].value = 0;
-    }
-    if(data[2].value == 1){
-        data[2].value = value_ele_other;
-    }
-    // 円グラフのデータを更新
-    myChart.data.datasets[0].data = data.map(function(item) { return item.value; });
-    // 円グラフを再描画
-    myChart.update();*/
     
     console.log("calc()");
     gtag('event', 'click_dmgCalc', {
@@ -88,4 +67,60 @@ function calc(){
             'event_label': 'dmgCalc',
             'value': result.toFixed(2)
           });
+    
+    //円グラフ
+    // データを更新
+    data[0].value = value_dmg_b;
+    data[1].value = value_cri_dmg;
+    data[2].value = value_taken_dmg;
+    //デバフによるダメージ倍率
+    data[3].value = value_weakness / weakness;
+    let chart_value_e_def = (lv+FIXLV)/(e_lv+FIXLV + lv+FIXLV);
+    data[4].value = value_e_def / chart_value_e_def;
+    /*
+    data[3].value = 1/value_e_def;
+    data[4].value = 1/value_e_ele;*/
+    for(let i=0; i<data.length; i++){
+        if(data[i].value <= 1){
+            data[i].value = 0;
+        }
+    }
+    // 円グラフのデータを更新
+    myChart.data.datasets[0].data = data.map(function(item) { return item.value; });
+    // 円グラフを再描画
+    myChart.update();
 }
+
+// 初期の円グラフのデータ
+var data = [
+    //{ label: '基礎ダメージ', value: 0, color: "yellow" },
+    { label: 'ダメバフ', value: 1, color: 'mediumblue' },
+    { label: '会心ダメ', value: 1, color: 'darkgreen' },
+    { label: '被ダメ', value: 1, color: 'orangered' },
+    { label: '耐性デバフ', value: 1, color: 'purple' },
+    { label: '防御デバフ', value: 1, color: 'gold' }
+  ];
+  
+  // グラフのオプションを設定する
+  var options = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+  
+  
+  // 円グラフを描画する
+  // Chart.jsを使用して円グラフを描画
+  var canvas = document.getElementById("myChart");
+  var ctx = canvas.getContext("2d");
+  //var ctx = document.getElementById("chart").getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+    labels: data.map(function(item) { return item.label; }),
+    datasets: [{
+        data: data.map(function(item) { return item.value; }),
+        backgroundColor: data.map(function(item) { return item.color; })
+    }]
+    },
+    options: options
+  });
