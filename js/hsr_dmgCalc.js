@@ -19,6 +19,47 @@ function calc(){
     let lv = parseFloat(document.getElementById("lv").value);
     let e_lv = parseFloat(document.getElementById("e_lv").value);
     //let e_res = parseFloat(document.getElementById("e_res").value);
+    
+    //NaNの対応
+    if(isNaN(atk)){
+        atk = 0;
+    }
+    if(isNaN(base_atk)){
+        base_atk = 0;
+    }
+    if(isNaN(atk_buffPer)){
+        atk_buffPer = 0;
+    }
+    if(isNaN(atk_buffPlus)){
+        atk_buffPlus = 0;
+    }
+    if(isNaN(talent)){
+        talent = 0;
+    }
+    if(isNaN(dmg_b)){
+        dmg_b = 0;
+    }
+    if(isNaN(cri_dmg)){
+        cri_dmg = 0;
+    }
+    if(isNaN(taken_dmg)){
+        taken_dmg = 0;
+    }
+    if(isNaN(ele_d)){
+        ele_d = 0;
+    }
+    if(isNaN(def_d)){
+        def_d = 0;
+    }
+    if(isNaN(def_ig)){
+        def_ig = 0;
+    }
+    if(isNaN(lv)){
+        lv = 0;
+    }
+    if(isNaN(e_lv)){
+        e_lv = 0;
+    }
 
     //基礎ダメージ計算
     var value_base_dmg = (atk + (base_atk*atk_buffPer/100) + atk_buffPlus) * (talent/100);
