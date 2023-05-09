@@ -85,6 +85,7 @@ function calc(){
     console.log("calc()");
     gtag('event', 'click_dmgCalc', {
             'event_category': 'button',
-            'event_label': 'dmgCalc'
+            'event_label': 'dmgCalc',
+            'value': result.toFixed(2)
           });
 }
