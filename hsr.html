@@ -162,7 +162,54 @@
         </table>
         <script src="./js/hsr_selectStatusList.js"></script>
     </div>
-    <br><br>
+    <br>
+    
+    <div class="box">
+        <!--遺物のテーブル-->
+        <h4>遺物セット・次元界オーナメント</h4>
+        <p style="font-size: 10px; color: #555555;">
+            （※計算結果には反映されないので参考程度に）<br><br>
+        </p>
+        <!--遺物のセット数効果の選択-->
+        <label for="setArtifact">遺物のセット数</label>
+        <select name="arti_selectBox" id="setArtifact" onchange="artifactSelect()">
+            <option value="arti_option1" selected>４セット</option>
+            <option value="arti_option2">２＋２セット</option>
+        </select>
+        <p style="margin-top: 15px;"></p>
+        <!--遺物の選択-->
+        <div id="select-artifact-container1" style="display: block;">
+            <label for="selectArtifact1">・遺物を選択してください:</label>
+            <select id="selectArtifact1"></select>
+            <table class="hsrArtifact-table" id="artifact-outputTable1">
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="select-artifact-container2" style="display: none;">
+            <label for="selectArtifact2-1">・遺物1を選択してください:</label>
+            <select id="selectArtifact2-1"></select>
+            <p style="margin-top: 10px;"></p>
+            <label for="selectArtifact2-2">・遺物2を選択してください:</label>
+            <select id="selectArtifact2-2"></select>
+            <table class="hsrArtifact-table" id="artifact-outputTable2-1">
+                <tbody></tbody>
+            </table>
+            <table class="hsrArtifact-table" id="artifact-outputTable2-2">
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <br>
+        <label for="selectOrnament">・オーナメントを選択してください:</label>
+        <select id="selectOrnament"></select>
+        <table class="hsrArtifact-table" id="ornament-outputTable">
+            <tbody></tbody>
+        </table>
+        <script src="./js/hsr_selectArtifactList.js"></script>
+    </div>
+    <h3></h3>
+    <br>
 
     
     <div class="box">
@@ -347,13 +394,13 @@
    <footer>
     <h3>プライバシーポリシー・免責事項</h3>
     <p class="gray">
-     <font size="1">
+     <span style="font-size: 10px;">
       本サイトでは、サイトの分析と改善のためにGoogleが提供している「Google アナリティクス」を利用しています。
       このサービスは、トラフィックデータの収集のためにCookie（クッキー）を使用しています。トラフィックデータは匿名で収集されており、個人を特定するものではありません。<br>
       本サイトでは計算結果の正確性を保障することはできません。本サイトを利用するなどの行為に関連して生じたあらゆる損害等についても、理由の如何に関わらず、本サイトは一切の責任を負いかねますのでご了承ください。<br>
-      本サイトは教育・研究目的で作成されたサイトであり、著作権法第32条に基づき画像を引用しています。また、本サイトは株式会社COGNOSPHEREとは一切関係がない非公式のウェブサイトです。 
+      本サイトは教育・研究目的で作成されたサイトであり、著作権法第32条に基づき画像を引用しています。また、本サイトは株式会社COGNOSPHEREとは一切関係がない非公式のウェブサイトです。
       「崩壊スターレイル」はCOGNOSPHEREの登録商標です。画像、データの著作権はCOGNOSPHEREに帰属します。
-     </font>
+     </span>
     </p>
    </footer>
   </div>
