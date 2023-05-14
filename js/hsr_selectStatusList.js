@@ -22,6 +22,7 @@ function loadCharaCSV() {
 
             // CSVデータをパースする
             const csvRows = csvData.split(/\r?\n/);
+            csvRows.pop();
 
             // ヘッダー行を配列として取得する
             const headerRow = csvRows[0].split(",");
@@ -110,6 +111,7 @@ function loadWeaponCSV() {
 
             // CSVデータをパースする
             const csvRows = csvData.split(/\r?\n/);
+            csvRows.pop();
 
             // ヘッダー行を配列として取得する
             const headerRow = csvRows[0].split(",");
@@ -228,11 +230,12 @@ function sumStatus() {
         sumStatus = [sumHp, sumAtk, sumDef];
 
         const tableBody = document.querySelector("#sumStatus-outputTable tbody");
-        tableBody.innerHTML = "<br><tr><th>基礎HP</th><th>基礎攻撃力</th><th>基礎防御力</th></tr>";
+        tableBody.innerHTML = "<br><tr><th>基礎HP</th><th>基礎攻撃力</th><th>基礎防御力</th><th rowspan='2'><button type='button' class='reflect-button' onclick='reflectStatus()'>反映</button></th></tr>";
         const tr = document.createElement("tr");
         for (let j = 0; j < 3; j++) {
             const td = document.createElement("td");
             td.textContent = sumStatus[j];
+            td.setAttribute("id", "sumStatus_"+headerRow[j]);
             tr.appendChild(td);
         }
         tableBody.appendChild(tr);
@@ -255,7 +258,16 @@ function sumStatus() {
     let sumDef = chaDef + weaDef;
 
     let sumStatus = [sumHp, sumAtk, sumDef];*/
+}
 
-    
-
+function reflectStatus() {
+    if(confirm("基礎ステータスを反映しますか？\n※画面下の基礎攻撃力が変更されます")){
+        //input要素を取得
+        const chaAtk = document.querySelector("#base_atk");
+        const sumStatus = document.querySelector("#sumStatus-outputTable tbody").querySelector("#sumStatus_atk").textContent;
+        chaAtk.value = sumStatus;
+        console.log("反映されます");
+    }else{
+        console.log("キャンセルされました");
+    }
 }
