@@ -228,6 +228,7 @@ function sumStatus() {
         let sumDef = parseInt(chaDef) + parseInt(weaDef);
 
         sumStatus = [sumHp, sumAtk, sumDef];
+        let headerRow = ["hp", "atk", "def"];
 
         const tableBody = document.querySelector("#sumStatus-outputTable tbody");
         tableBody.innerHTML = "<br><tr><th>基礎HP</th><th>基礎攻撃力</th><th>基礎防御力</th><th rowspan='2'><button type='button' class='reflect-button' onclick='reflectStatus()'>反映</button></th></tr>";
