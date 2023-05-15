@@ -262,12 +262,14 @@ function sumStatus() {
 }
 
 function reflectStatus() {
-    if(confirm("基礎ステータスを反映しますか？\n※画面下の基礎攻撃力が変更されます")){
+    if(confirm("基礎ステータスを反映しますか？\n※画面下の表示・基礎攻撃力が変更されます")){
         //input要素を取得
-        const chaAtk = document.querySelector("#base_atk");
+        const chaBaseAtk = document.querySelector("#base_atk");
+        const chaAtk = document.querySelector("#atk");
         const sumStatus = document.querySelector("#sumStatus-outputTable tbody").querySelector("#sumStatus_atk").textContent;
+        chaBaseAtk.value = sumStatus;
         chaAtk.value = sumStatus;
-        console.log("反映されます");
+        console.log("反映されました");
     }else{
         console.log("キャンセルされました");
     }
