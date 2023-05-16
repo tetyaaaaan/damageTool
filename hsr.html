@@ -135,78 +135,79 @@
     <script src="./js/show_hide.js"></script>
     </div>
     <br>
-    <div class="box">
-        <h4>キャラ・武器ステータス（Lv.80）</h4>
-        <font size="1" color=#555555>
-            <p>（※直接計算結果には反映されないので参考程度に）</p>
-            <p>　</p>
-        </font>
-        <!--キャラのテーブル-->
-        <label for="selectName">キャラを選択してください:</label>
-        <select id="selectName"></select>
-        <table class="hsrCha-table" id="chara-outputTable">
-            <thead></thead>
-            <tbody></tbody>
-        </table>
-        <br>
-
-        <!--武器のテーブル-->
-        <label for="selectWeapon">光円錐を選択してください:</label>
-        <select id="selectWeapon"></select>
-        <table class="hsrWeapon-table" id="weapon-outputTable">
-            <tbody></tbody>
-        </table>
-
-        <table class="hsrWeapon-table" id="sumStatus-outputTable">
-            <tbody></tbody>
-        </table>
-        <script src="./js/hsr_selectStatusList.js"></script>
-    </div>
-    <br>
+    <div class="box-container">
+        <div class="box">
+            <h4>キャラ・武器ステータス（Lv.80）</h4>
+            <p style="font-size: 10px; color: #555555;">
+                （※直接計算結果には反映されないので参考程度に）<br><br>
+            </p>
+            <!--キャラのテーブル-->
+            <label for="selectName">キャラを選択してください:</label>
+            <select id="selectName"></select>
+            <table class="hsrCha-table" id="chara-outputTable">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+            <br>
     
-    <div class="box">
-        <!--遺物のテーブル-->
-        <h4>遺物セット・次元界オーナメント</h4>
-        <p style="font-size: 10px; color: #555555;">
-            （※計算結果には反映されないので参考程度に）<br><br>
-        </p>
-        <!--遺物のセット数効果の選択-->
-        <label for="setArtifact">遺物のセット数</label>
-        <select name="arti_selectBox" id="setArtifact" onchange="artifactSelect()">
-            <option value="arti_option1" selected>４セット</option>
-            <option value="arti_option2">２＋２セット</option>
-        </select>
-        <p style="margin-top: 15px;"></p>
-        <!--遺物の選択-->
-        <div id="select-artifact-container1" style="display: block;">
-            <label for="selectArtifact1">・遺物を選択してください:</label>
-            <select id="selectArtifact1"></select>
-            <table class="hsrArtifact-table" id="artifact-outputTable1">
+            <!--武器のテーブル-->
+            <label for="selectWeapon">光円錐を選択してください:</label>
+            <select id="selectWeapon"></select>
+            <table class="hsrWeapon-table" id="weapon-outputTable">
                 <tbody></tbody>
             </table>
+    
+            <table class="hsrWeapon-table" id="sumStatus-outputTable">
+                <tbody></tbody>
+            </table>
+            <script src="./js/hsr_selectStatusList.js"></script>
         </div>
-
-        <div id="select-artifact-container2" style="display: none;">
-            <label for="selectArtifact2-1">・遺物1を選択してください:</label>
-            <select id="selectArtifact2-1"></select>
-            <p style="margin-top: 10px;"></p>
-            <label for="selectArtifact2-2">・遺物2を選択してください:</label>
-            <select id="selectArtifact2-2"></select>
-            <table class="hsrArtifact-table" id="artifact-outputTable2-1">
-                <tbody></tbody>
-            </table>
-            <table class="hsrArtifact-table" id="artifact-outputTable2-2">
-                <tbody></tbody>
-            </table>
-        </div>
-
         <br>
-        <label for="selectOrnament">・オーナメントを選択してください:</label>
-        <select id="selectOrnament"></select>
-        <table class="hsrArtifact-table" id="ornament-outputTable">
-            <tbody></tbody>
-        </table>
-        <script src="./js/hsr_selectArtifactList.js"></script>
+        
+        <div class="box">
+            <!--遺物のテーブル-->
+            <h4>遺物セット・次元界オーナメント</h4>
+            <p style="font-size: 10px; color: #555555;">
+                （※計算結果には反映されないので参考程度に）<br><br>
+            </p>
+            <!--遺物のセット数効果の選択-->
+            <label for="setArtifact">遺物のセット数</label>
+            <select name="arti_selectBox" id="setArtifact" onchange="artifactSelect()">
+                <option value="arti_option1" selected>４セット</option>
+                <option value="arti_option2">２＋２セット</option>
+            </select>
+            <p style="margin-top: 15px;"></p>
+            <!--遺物の選択-->
+            <div id="select-artifact-container1" style="display: block;">
+                <label for="selectArtifact1">・遺物を選択してください:</label>
+                <select id="selectArtifact1"></select>
+                <table class="hsrArtifact-table" id="artifact-outputTable1">
+                    <tbody></tbody>
+                </table>
+            </div>
+    
+            <div id="select-artifact-container2" style="display: none;">
+                <label for="selectArtifact2-1">・遺物1を選択してください:</label>
+                <select id="selectArtifact2-1"></select>
+                <p style="margin-top: 10px;"></p>
+                <label for="selectArtifact2-2">・遺物2を選択してください:</label>
+                <select id="selectArtifact2-2"></select>
+                <table class="hsrArtifact-table" id="artifact-outputTable2-1">
+                    <tbody></tbody>
+                </table>
+                <table class="hsrArtifact-table" id="artifact-outputTable2-2">
+                    <tbody></tbody>
+                </table>
+            </div>
+    
+            <br>
+            <label for="selectOrnament">・オーナメントを選択してください:</label>
+            <select id="selectOrnament"></select>
+            <table class="hsrArtifact-table" id="ornament-outputTable">
+                <tbody></tbody>
+            </table>
+            <script src="./js/hsr_selectArtifactList.js"></script>
+        </div>
     </div>
     <h3></h3>
     <br>
