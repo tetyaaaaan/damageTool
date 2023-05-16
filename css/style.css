@@ -103,6 +103,19 @@ h4 {
     border-radius: 5px;
     /* 角の丸み */
 }
+/* ウィンドウが大きいときのボックスのスタイルを指定 */
+@media (min-width: 900px) {
+    .box-container{
+        max-width: 860px;
+        display: flex;
+        margin: auto;
+    }
+    .box-container .box{
+        margin-top: 0;
+        margin-bottom: 0;
+        max-width: 375px;
+    }
+}
 
 .no-box {
     /* ボックスのスタイルを指定 */
