@@ -267,9 +267,9 @@ function reflectStatus() {
         const chaBaseAtk = document.querySelector("#base_atk");
         const chaAtk = document.querySelector("#atk");
         const sumStatus = document.querySelector("#sumStatus-outputTable tbody").querySelector("#sumStatus_atk").textContent;
-        //const diff_atk = chaAtk - chaBaseAtk;
+        const diff_atk = chaAtk.value - chaBaseAtk.value;
         chaBaseAtk.value = sumStatus;
-        chaAtk.value = sumStatus; //+ diff_atk;
+        chaAtk.value = parseInt(sumStatus) + diff_atk;
         console.log("反映されました");
     }else{
         console.log("キャンセルされました");
