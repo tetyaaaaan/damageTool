@@ -82,7 +82,7 @@ h4 {
 
 .box {
     /* ボックスのスタイルを指定 */
-    max-width: 750px;
+    max-width: 800px;
     /* ボックスの幅を指定 */
     max-height: auto;
     /* ボックスの高さを指定 */
@@ -119,7 +119,7 @@ h4 {
 
 .no-box {
     /* ボックスのスタイルを指定 */
-    max-width: 750px;
+    max-width: 800px;
     /* ボックスの幅を指定 */
     max-height: auto;
     /* ボックスの高さを指定 */
