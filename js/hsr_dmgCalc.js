@@ -109,6 +109,9 @@ function calc(){
             'value': result.toFixed(2)
           });
     
+    //撃破ダメージ
+    loadLevelCSV(lv, value_e_def, ele_d);
+    
     //円グラフ
     // データを更新
     data[0].value = value_dmg_b;
@@ -165,3 +168,37 @@ var data = [
     },
     options: options
   });
+
+//キャラのレベルを見る
+function loadLevelCSV(inputNum, e_def, ele_d) {
+    // CSVファイルのパス
+    const csvFilePath = "./data/hsr/data_hsr_baseBreakDMG.csv";
+
+    const break_effect = parseFloat(document.getElementById("break_effect").value);
+    const toughness_num = parseFloat(document.getElementById("toughness_num").value);
+    const toughness_calc = 0.5 + (toughness_num / 120);
+    
+
+    // CSVファイルを読み込む
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", csvFilePath);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var lines = xhr.responseText.split('\n');
+            for (var i = 0; i < lines.length; i++) {
+                var columns = lines[i].split(',');
+                var num1 = parseInt(columns[0]);
+                var num2 = parseFloat(columns[1]);
+                if (num1 === inputNum) {
+                    //console.log('対応する数字: ' + num2);
+                    const result_break = num2 * (1 + (break_effect/100)) * e_def * 0.9 * (1 - (ele_d / 100)) * toughness_calc;
+                    document.getElementById("result-breakDMG").innerHTML = "撃破ダメージ結果<br>" + "炎・物理　：　"+ (2*result_break).toFixed(2) + "<br>風　　　　：　" +(1.5*result_break).toFixed(2)+"<br>雷・氷　　：　" +result_break.toFixed(2)+"<br>量子・虚数：　" +(0.5*result_break).toFixed(2);
+                    return num2;
+                }
+            }
+            console.log('該当する数字が見つかりませんでした。');
+            return null;
+        }
+    };
+    xhr.send();
+}
