@@ -355,6 +355,23 @@
         <p class = "red" id="result">ダメージ計算します：</p>
     </font>
     <br>
+     <h3></h3>
+    <br>
+    <h4>撃破ダメージ計算（たぶん）</h4>
+    <p>撃破ダメージ = キャラレベル固有値 * 属性倍率 * 敵靭性MAXゲージ値 * 0.9 * 敵防御補正 * 属性耐性補正</p>
+    <span style="font-size: 14px;">
+        <span>撃破特攻 (%)</span>
+        <input type="number" class="input_num" id="break_effect" step="1" value="0"><br>
+        <span>敵の靭性ゲージ</span>
+        <input type="number" class="input_num" id="toughness_num" min="0" step="30" value="30"><br>
+        
+        <p style="font-size: 12px;" id="result-breakDMG">撃破ダメージ：</p>
+    </span>
+    <p style="font-size: 10px; color: #555555;">
+        （※キャラのレベル・属性、撃破特攻、その他の防御・属性耐性補正にかかわるもの）<br>
+        <span>※参考URL：</span><a style="color: #86348e;" href="https://honkai-star-rail.fandom.com/wiki/Toughness" target="_blank">崩壊スターレイル海外Wiki</a>
+    </p>
+    <h3></h3>
     <br>
     <p>バフ・デバフによるダメージ倍率</p>
     <font size="1" color=#555555>
