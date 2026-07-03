@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>敵キャラ情報｜ダメージ計算ツール</title>
+  <meta name="description" content="ダメージ計算で使う敵レベル、耐性、靭性などの参考情報をまとめたページです。">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/menu.css">
+</head>
+<body class="tool-page info-page">
+  <div id="wrapper" style="display:block;">
+    <header class="site-header">
+      <a class="site-logo" href="./">ダメージ計算ツール</a>
+      <nav class="site-nav" aria-label="メインメニュー">
+        <a href="./">原神</a>
+        <a href="./hsr.html">崩壊スターレイル</a>
+        <a href="./formula.html">計算式</a>
+        <a href="./enemies.html">敵キャラ情報</a>
+        <a href="./privacy.html">プライバシー</a>
+      </nav>
+    </header>
+    <main class="info-layout">
+      <h1>敵キャラ情報</h1>
+      <section class="box">
+        <h2>原神の参考敵</h2>
+        <ul>
+          <li>仮想敵「公義」: Lv.90 全元素耐性 10%、物理耐性 -20%（参考値）</li>
+          <li>魔偶剣鬼: Lv.93 全元素・物理耐性 10%</li>
+          <li>遺跡守衛: 物理耐性 70%、元素耐性 10%</li>
+        </ul>
+        <p><a href="https://wikiwiki.jp/genshinwiki/%E6%95%B5%E8%80%90%E6%80%A7">敵の元素耐性一覧リンク</a></p>
+      </section>
+      <section class="box">
+        <h2>崩壊スターレイルの初期条件</h2>
+        <ul>
+          <li>靭性あり: 靭性補正 0.9</li>
+          <li>弱点なし: 属性耐性補正の基礎値を0.8として扱います。</li>
+          <li>弱点あり: 属性耐性補正の基礎値を1として扱います。</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
