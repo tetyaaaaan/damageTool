@@ -1,4 +1,4 @@
-﻿id,name,star,destiny,max_hp,max_atk,max_def,get,skill
+id,name,star,destiny,max_hp,max_atk,max_def,get,skill
 1,とある星神の殞楽を記す,5,壊滅,1058,529,396,模擬宇宙,装備キャラが攻撃した時、今回の戦闘中、装備キャラの攻撃力+<span class='red'>8~16</span>%、最大で4回累積できる。装備キャラが敵を弱点撃破した後、与ダメージ+<span class='red'>12~24</span>%、2ターン継続。
 2,星海巡航,5,巡狩,952,529,463,模擬宇宙,装備キャラの会心率+<span class='red'>8~16</span>%。残りHPが50%以下の敵に対して、さらに装備キャラの会心率+<span class='red'>8~16</span>%。装備キャラが敵を倒した後、攻撃力+<span class='red'>20~40</span>%、2ターン継続。
 3,記憶の素材,5,存護,1058,423,529,模擬宇宙,装備キャラの効果抵抗+<span class='red'>8~16</span>%。装備キャラが攻撃を受けた後、バリアを持っていない場合、装備キャラの最大HP<span class='red'>16~32</span>%分の耐久値を持つバリアを1つ獲得する、2ターン継続。この効果は3ターンごとに1回発動できる。装備キャラがバリアを持っている場合、自身の被ダメージ-<span class='red'>12~24</span>%。
