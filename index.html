@@ -14,9 +14,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ゲームのダメージ計算サイト予定</title>
-  <meta name="title" content="ゲームのダメージ計算サイト予定" />
-  <meta name="description" content="原神のダメージを計算できるサイトです。蒸発・溶解反応、激化反応の計算が行えます。グラブル、FGOなど今後追加していく予定です。" />
+  <title>原神ダメージ計算ツール｜蒸発・溶解・激化対応</title>
+  <meta name="title" content="原神ダメージ計算ツール｜蒸発・溶解・激化対応" />
+  <meta name="description" content="原神のダメージを計算できる非公式ツールです。蒸発・溶解反応、激化反応、敵防御補正、元素耐性補正を入力してダメージ目安を確認できます。" />
   
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/menu.css">
@@ -32,7 +32,7 @@
   <script src="./js/windowLoading.js"></script>
   
  </head>
- <body bgcolor="#cccccc" text="#000000">
+ <body class="tool-page page-genshin">
   <!-- ページ読み込み中の画面表示 -->
   <div id="load">
    <font size="6" color="ff0000">
@@ -43,9 +43,16 @@
   
   <div id="wrapper">
    <section>
-    <font size="6" color="ff0000">
-        <p align="center">ダメージ計算</p>
-    </font>
+    <header class="site-header">
+        <a class="site-logo" href="./">ダメージ計算ツール</a>
+        <nav class="site-nav" aria-label="メインメニュー">
+            <a href="./">原神</a>
+            <a href="./hsr.html">崩壊スターレイル</a>
+            <a href="./formula.html">計算式</a>
+            <a href="./enemies.html">敵キャラ情報</a>
+            <a href="./privacy.html">プライバシー</a>
+        </nav>
+    </header>
     
     <!--ハンバーガーメニューの作成-->
     <div class="hamburger">
@@ -70,65 +77,35 @@
             </ul>
         </div>
     </div>
-    
-    
-
-    <h2>原神</h2>
-    <div class="box">
-    <h4>原神のダメージ計算式は以下の通り (原神Wiki*参照)</h4>
-    <p>ダメージ = <span class = "yellow">基礎ダメージ</span> * <span class = "green">ダメバフ補正 * 会心ダメ補正 * 元素反応</span> * <span class = "pink">敵防御補正 * 敵元素耐性補正</span></p>
-    
-    <!-- アイコンと非表示要素を含む要素 -->
-    <div id="toggleContainer">
-        <button id="toggleButton">＋</button>
-        <font size="1" class="gray"><span>　（計算式詳細の表示・非表示）</span></font>
-        <br>
-        
-        <div id="toggleContent" style="display: none;">
-        <br>
-        <!-- 非表示内容 -->
-        <p><span class = "yellow">基礎ダメージ</span> = 攻撃力 * 天賦倍率 * 特殊乗算 + 実数ダメージ加算</p>
-        <p><span class = "green">ダメバフ補正</span> = 1 + ダメージバフ%の合計値</p>
-        <p><span class = "green">会心ダメ補正</span> = 1 + 会心ダメージ%の合計値</p>
-        <p><span class = "green">元素反応</span> = 蒸発・溶解反応倍率 * (1 + 元素熟知の元素反応ダメージボーナス + 装備等元素反応ダメボ)</p>
-        <p>※他の元素反応は固定ダメージ系、実数ダメージ加算に分かれる（今回は割愛）</p>
-
-        <br>
-        <span class = "pink">敵防御補正</span> = 
-        <span style="display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center;">
-            <span style="padding: 0 10px; border-bottom: 1px solid #000000;">キャラレベル+100</span>
-            <span style="padding: 0 10px;">(1 - 防御無視%) * (1 - 防御デバフ%) * (敵レベル + 100) + キャラレベル +100</span>
-        </span>
-        <br>
-        <br>
-        <p><span class = "pink">敵元素耐性補正</span> = <span class = "purple">敵の現耐性%</span> に応じて3つに場合分け</p>
-        <p>・ 0%未満の場合 = 1 - <span class = "purple">敵の現耐性%</span> / 2</p>
-        <p>・ 0~75%の場合 = 1 - <span class = "purple">敵の現耐性%</span></p>
-        <p>・ 75%以上の場合 = 1 / (4 * <span class = "purple">敵の現耐性%</span> + 1)</p>
-        <p><span class = "purple">敵の現耐性%</span> = 敵の基礎耐性% + 敵の耐性バフ% - 耐性デバフ%</p>
-        
-
+    <div class="tool-hero">
+        <div>
+            <p class="hero-kicker">原神 / ダメージ計算</p>
+            <h1>原神 ダメージ計算</h1>
+            <p>蒸発・溶解・激化を含むダメージを、補正内訳まで見やすく確認できます。</p>
+        </div>
+        <div class="hero-badge">
+            <strong>GENSHIN IMPACT</strong>
+            <span>入力 → 内訳確認 → 比較</span>
         </div>
     </div>
-    <script src="./js/show_hide.js"></script>
-    </div>
-    <br>
 
-    
-    <div class="box">
-        <h4>敵の種類</h4>
-        <p>仮想敵「公義」: Lv.90 全元素耐性 10%、物理耐性 -20%  たぶん</p>
-        <p>魔偶剣鬼: LV.93 全元素・物理耐性 10%</p>
-        <p>遺跡守衛 おすすめ: 物理70%、元素耐性10%</p>
-        <a href="https://wikiwiki.jp/genshinwiki/%E6%95%B5%E8%80%90%E6%80%A7">敵の元素耐性一覧リンク</a>
+    <div class="box info-link-panel">
+        <h2>原神 ダメージ計算</h2>
+        <p>計算式の詳細、敵キャラ情報、免責事項は別ページに整理しました。</p>
+        <div class="link-card-grid">
+            <a class="link-card" href="./formula.html">計算式を見る</a>
+            <a class="link-card" href="./enemies.html">敵キャラ情報を見る</a>
+            <a class="link-card" href="./privacy.html">免責事項・プライバシー</a>
+        </div>
     </div>
 
-    <br>
     <!--ここにダメージ計算のフォームを作る-->
     <!--main.jsファイル-->
     <!--<script src="./js/main.js"></script>-->
     <br>
-    <div class="box">
+    <div class="calculator-layout">
+    <div class="box input-panel">
+    <h3>条件入力</h3>
     <div id="eleArea">元素反応選択：反応なし（初期値） ▼</div>
     <div id="eleChoices" class="white">
         <ul>
@@ -201,7 +178,8 @@
     <p>敵の元素・物理耐性 (％)：<input type="number" class="input_num" id="e_res" step="1" value="10"></p>
     </div>
     <br>
-    <div class="no-box">
+    <div class="no-box result-panel">
+    <h3>計算結果</h3>
     <p class = "pink">敵防御補正：<span id="value_e_def"></span></p>
     <p class = "pink">敵元素耐性補正：<span id="value_e_ele"></span></p>
     <br>
@@ -221,7 +199,7 @@
     
     <!--画像付き選択肢-->
     <!-- 聖遺物選択エリア -->
-    <div id="targetArea" class="target-area selection-item" style="cursor: pointer;">聖遺物を選択してください（無意味）</div>
+    <div id="targetArea" class="target-area selection-item" style="cursor: pointer;">聖遺物セットを選択（参考）</div>
     <!-- モーダルウィンドウ -->
     <div id="modal" style="display: none;">
         <h3>　聖遺物選択画面</h3>
@@ -310,6 +288,10 @@
         </div>
     </div>
     
+    </div>
+    </div>
+
+    <div class="box tool-extra">
     <script src="./js/artifact.js"></script>
     </div>
 
@@ -331,18 +313,10 @@
    <h4 class="realtimeuserscounter realtimeuserscounter--styled"></h4>
    <script src="https://realtimeusers.bycontrast.co/realtimeusers.js"></script>
    <br><br><br><br>
-   <!--footer-->
    <footer>
-    <h3>プライバシーポリシー・免責事項</h3>
-    <p class="gray">
-     <font size="1">
-      本サイトでは、サイトの分析と改善のためにGoogleが提供している「Google アナリティクス」を利用しています。
-      このサービスは、トラフィックデータの収集のためにCookie（クッキー）を使用しています。トラフィックデータは匿名で収集されており、個人を特定するものではありません。<br>
-      本サイトでは計算結果の正確性を保障することはできません。本サイトを利用するなどの行為に関連して生じたあらゆる損害等についても、理由の如何に関わらず、本サイトは一切の責任を負いかねますのでご了承ください。<br>
-      本サイトは教育・研究目的で作成されたサイトであり、著作権法第32条に基づき画像を引用しています。また、本サイトは株式会社COGNOSPHEREとは一切関係がない非公式のウェブサイトです。 
-      「原神」はCOGNOSPHEREの登録商標です。画像、データの著作権はCOGNOSPHEREに帰属します。
-     </font>
-    </p>
+    <a href="./formula.html">計算式</a>
+    <a href="./enemies.html">敵キャラ情報</a>
+    <a href="./privacy.html">免責事項・プライバシー</a>
    </footer>
   </div>
  </body>
