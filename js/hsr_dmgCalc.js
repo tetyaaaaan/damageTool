@@ -1,26 +1,25 @@
-//ボタンを押したときの処理
+// 崩壊スターレイルの通常ダメージ計算を実行
 function calc(){
-    //ここに処理を書く
-    //基礎ダメージ
+    // 入力値を取得し、各補正の計算に使用する
     let atk = parseFloat(document.getElementById("atk").value);
     let base_atk = parseFloat(document.getElementById("base_atk").value);
     let atk_buffPer = parseFloat(document.getElementById("atk_buffPer").value);
     let atk_buffPlus = parseFloat(document.getElementById("atk_buffPlus").value);
     let talent = parseFloat(document.getElementById("talent").value);
-    //ダメバフ・率ダメ・被ダメ
+    // ダメージバフ、会心ダメージ、被ダメージ補正
     let dmg_b = parseFloat(document.getElementById("dmg_b").value);
     let cri_dmg = parseFloat(document.getElementById("cri_dmg").value);
     let taken_dmg = parseFloat(document.getElementById("taken_dmg").value);
-    //デバフ
+    // 敵へのデバフ関連
     let ele_d = parseFloat(document.getElementById("ele_d").value);
     let def_d = parseFloat(document.getElementById("def_d").value);
     let def_ig = parseFloat(document.getElementById("def_ig").value);
-    //敵味方のデータ
+    // 味方と敵のレベル
     let lv = parseFloat(document.getElementById("lv").value);
     let e_lv = parseFloat(document.getElementById("e_lv").value);
     //let e_res = parseFloat(document.getElementById("e_res").value);
     
-    //NaNの対応
+    // 未入力欄は0として扱い、計算結果がNaNになることを防ぐ。
     if(isNaN(atk)){
         atk = 0;
     }
@@ -61,17 +60,17 @@ function calc(){
         e_lv = 0;
     }
 
-    //基礎ダメージ計算
+    // 基礎ダメージ
     var value_base_dmg = (atk + (base_atk*atk_buffPer/100) + atk_buffPlus) * (talent/100);
-    //ダメバフ・率ダメ・被ダメ
+    // 各種ダメージ補正
     var value_dmg_b = 1 + dmg_b/100;
     var value_cri_dmg = 1 + cri_dmg/100;
     var value_taken_dmg = 1 + taken_dmg/100;
 
-    //まとめ
+    // 攻撃側・被ダメージ側の補正をまとめる
     let value_sum_dmg_b = value_dmg_b * value_cri_dmg * value_taken_dmg;
 
-    //敵の靭性・弱点計算
+    // 敵の靭性状態と弱点有無による補正
     let toughnessSelect = document.getElementById("toughness");
     let weaknessSelect = document.getElementById("weakness");
     var toughness = 1;
@@ -88,8 +87,7 @@ function calc(){
     }
 
 
-    //敵の防御・耐性計算
-    //ダメージ計算でのレベル＋FIXLV
+    // 敵の防御補正と耐性補正。ゲーム内仕様に合わせて固定レベル補正を加える。
     const FIXLV = 20;
     let value_e_def = (lv+FIXLV)/((1 - def_ig/100) * (1 + def_d/100) * (e_lv+FIXLV) + lv+FIXLV);
     let value_toughness = toughness;
@@ -98,22 +96,21 @@ function calc(){
     
     
     let result = value_base_dmg * value_sum_dmg_b * value_e_def * value_toughness * value_weakness;
-    document.getElementById("value_e_def").innerHTML = value_e_def;
-    document.getElementById("value_e_ele").innerHTML = value_weakness;
-    document.getElementById("result").innerHTML = "ダメージ結果：" + result;
+    document.getElementById("value_e_def").textContent = value_e_def.toFixed(4);
+    document.getElementById("value_e_ele").textContent = value_weakness.toFixed(4);
+    document.getElementById("result").innerHTML = "<span>推定ダメージ</span><br>" + Math.round(result).toLocaleString("ja-JP");
     
-    console.log("calc()");
+    // Analyticsへ計算イベントを送信
     gtag('event', 'click_dmgCalc', {
             'event_category': 'button',
             'event_label': 'dmgCalc',
             'value': result.toFixed(2)
           });
     
-    //撃破ダメージ
+    // 撃破ダメージも同じ条件で更新する
     loadLevelCSV(lv, value_e_def, ele_d);
     
-    //円グラフ
-    // データを更新
+    // 円グラフ用データを更新
     data[0].value = value_dmg_b;
     data[1].value = value_cri_dmg;
     data[2].value = value_taken_dmg;
@@ -169,9 +166,9 @@ var data = [
     options: options
   });
 
-//キャラのレベルを見る
+// レベル別の基礎撃破ダメージをCSVから取得する
 function loadLevelCSV(inputNum, e_def, ele_d) {
-    // CSVファイルのパス
+    // 元データCSV
     const csvFilePath = "./data/hsr/data_hsr_baseBreakDMG.csv";
 
     const break_effect = parseFloat(document.getElementById("break_effect").value);
@@ -179,7 +176,7 @@ function loadLevelCSV(inputNum, e_def, ele_d) {
     const toughness_calc = 0.5 + (toughness_num / 120);
     
 
-    // CSVファイルを読み込む
+    // CSVを読み込み、入力レベルに一致する基礎値を探す
     const xhr = new XMLHttpRequest();
     xhr.open("GET", csvFilePath);
     xhr.onreadystatechange = function () {
@@ -190,13 +187,12 @@ function loadLevelCSV(inputNum, e_def, ele_d) {
                 var num1 = parseInt(columns[0]);
                 var num2 = parseFloat(columns[1]);
                 if (num1 === inputNum) {
-                    //console.log('対応する数字: ' + num2);
                     const result_break = num2 * (1 + (break_effect/100)) * e_def * 0.9 * (1 - (ele_d / 100)) * toughness_calc;
                     document.getElementById("result-breakDMG").innerHTML = "撃破ダメージ結果<br>" + "炎・物理　：　"+ (2*result_break).toFixed(2) + "<br>風　　　　：　" +(1.5*result_break).toFixed(2)+"<br>雷・氷　　：　" +result_break.toFixed(2)+"<br>量子・虚数：　" +(0.5*result_break).toFixed(2);
                     return num2;
                 }
             }
-            console.log('該当する数字が見つかりませんでした。');
+            console.warn('入力レベルに対応する基礎撃破ダメージが見つかりませんでした。');
             return null;
         }
     };
