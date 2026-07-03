@@ -1,5 +1,5 @@
-// CSVファイルを読み込む関数
-// CSVファイルのパス
+// CSVから選択候補と表示データを作成する
+// 元データCSV
 const csvFilePath = "./data/hsr/data_hsr_cha.csv";
 
 // 名前を選択するセレクトボックス
@@ -9,7 +9,7 @@ const tableHead = document.querySelector("#outputTable thead");
 // テーブルのtbody
 const tableBody = document.querySelector("#outputTable tbody");
 
-// CSVファイルを読み込む
+// CSVを読み込んで画面へ反映する
 const xhr = new XMLHttpRequest();
 xhr.open("GET", csvFilePath);
 xhr.onreadystatechange = function () {
@@ -36,10 +36,10 @@ xhr.onreadystatechange = function () {
         // 名前を選択するセレクトボックスの値が変更された時の処理
         selectName.addEventListener("change", function () {
           
-          // テーブルの中身をクリアする
+          // 前回の表示内容をリセットする
           tableHead.innerHTML = "<tr><th>名前</th><th>★</th><th>属性</th><th>運命</th></tr>";
 
-          // 選択された名前に対応する行をテーブルに追加する
+          // 選択中のデータ行を表示する
           const selectedName1 = this.value;
           for (let i = 1; i < csvRows.length; i++) {
               const row = csvRows[i].split(",");
@@ -53,10 +53,10 @@ xhr.onreadystatechange = function () {
                   tableHead.appendChild(tr);
               }
           }
-            // テーブルの中身をクリアする
+            // 前回の表示内容をリセットする
             tableBody.innerHTML = "<tr><th>HP</th><th>攻撃力</th><th>防御力</th><th>速度</th></tr>";
 
-            // 選択された名前に対応する行をテーブルに追加する
+            // 選択中のデータ行を表示する
             const selectedName2 = this.value;
             for (let i = 1; i < csvRows.length; i++) {
                 const row = csvRows[i].split(",");
