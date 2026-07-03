@@ -1,8 +1,8 @@
-//遺物のデータを表示するか否かを判定する関数
+// 遺物データ表示の切り替え用。UI刷新時に表示条件を集約する。
 function artifactDisplay() {
-    //まだ作ってません
+    // 現在は常時表示のため、処理はartifactSelect側で行う。
 }
-//遺物のセットを選択するラジオボタン関数
+// 遺物セットの選択方式に応じて入力欄を切り替える。
 function artifactSelect() {
     var selectBox = document.getElementsByName("arti_selectBox")[0];
     var selectedOption = selectBox.options[selectBox.selectedIndex];
@@ -16,24 +16,24 @@ function artifactSelect() {
       }
 }
 
-// CSVファイルを読み込む関数
+// 4セット選択用の遺物CSVを読み込む
 function loadArtifact1CSV() {
-    // CSVファイルのパス
+    // 元データCSV
     const csvFilePath = "./data/hsr/data_hsr_artifact.csv";
 
-    // 名前を選択するセレクトボックス
+    // 遺物名の選択欄
     const selectName = document.getElementById("selectArtifact1");
-    // テーブルのtbody
+    // 選択結果の表示先
     const tableBody = document.querySelector("#artifact-outputTable1 tbody");
 
-    // CSVファイルを読み込む
+    // CSVを読み込み、type=1の遺物だけを選択肢へ反映する
     const xhr = new XMLHttpRequest();
     xhr.open("GET", csvFilePath);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             const csvData = xhr.responseText;
 
-            // CSVデータをパースする
+            // 現在のCSVは半角カンマを含まない前提で読み込む
             const csvRows = csvData.split(/\r?\n/);
             csvRows.pop();
 
@@ -68,13 +68,13 @@ function loadArtifact1CSV() {
             // 名前を選択するセレクトボックスの値が変更された時の処理
             selectName.addEventListener("change", function () {
 
-                // 選択された名前に対応する行をテーブルに追加する
+                // 選択中のデータ行を表示する
                 const selectedName = this.value;
                 for (let i = 1; i < csvRows.length; i++) {
                     const row = csvRows[i].split(",");
 
                     if (row[1] === selectedName) {
-                        // テーブルの中身をクリアする
+                        // 前回の表示内容をリセットする
                         tableBody.innerHTML = "<tr><th>名前</th><th>2セット効果</th></tr>";
                         
                         var tr = document.createElement("tr");
@@ -89,7 +89,7 @@ function loadArtifact1CSV() {
                         tr.appendChild(td);
                         tableBody.appendChild(tr);
 
-                        // テーブルの中身をクリアする
+                        // 前回の表示内容をリセットする
                         tableBody.innerHTML += "<tr><th colspan='2'>4セット効果</th></tr>";
                         var tr = document.createElement("tr");
                         var td = document.createElement("td");
@@ -106,9 +106,9 @@ function loadArtifact1CSV() {
     xhr.send();
 }
 
-// CSVファイルを読み込む関数
+// CSVから選択候補と表示データを作成する
 function loadArtifact2CSV() {
-    // CSVファイルのパス
+    // 元データCSV
     const csvFilePath = "./data/hsr/data_hsr_artifact.csv";
 
     // 名前を選択するセレクトボックス
@@ -118,7 +118,7 @@ function loadArtifact2CSV() {
     const tableBody1 = document.querySelector("#artifact-outputTable2-1 tbody");
     const tableBody2 = document.querySelector("#artifact-outputTable2-2 tbody");
 
-    // CSVファイルを読み込む
+    // CSVを読み込んで画面へ反映する
     const xhr = new XMLHttpRequest();
     xhr.open("GET", csvFilePath);
     xhr.onreadystatechange = function () {
@@ -174,13 +174,13 @@ function loadArtifact2CSV() {
             // 名前を選択するセレクトボックスの値が変更された時の処理
             selectName1.addEventListener("change", function () {
 
-                // 選択された名前に対応する行をテーブルに追加する
+                // 選択中のデータ行を表示する
                 const selectedName = this.value;
                 for (let i = 1; i < csvRows.length; i++) {
                     const row = csvRows[i].split(",");
 
                     if (row[1] === selectedName) {
-                        // テーブルの中身をクリアする
+                        // 前回の表示内容をリセットする
                         tableBody1.innerHTML = "<tr><th>名前</th><th>2セット効果</th></tr>";
                         
                         var tr = document.createElement("tr");
@@ -201,13 +201,13 @@ function loadArtifact2CSV() {
             // 名前を選択するセレクトボックスの値が変更された時の処理
             selectName2.addEventListener("change", function () {
 
-                // 選択された名前に対応する行をテーブルに追加する
+                // 選択中のデータ行を表示する
                 const selectedName = this.value;
                 for (let i = 1; i < csvRows.length; i++) {
                     const row = csvRows[i].split(",");
 
                     if (row[1] === selectedName) {
-                        // テーブルの中身をクリアする
+                        // 前回の表示内容をリセットする
                         tableBody2.innerHTML = "<tr><th>名前</th><th>2セット効果</th></tr>";
                         
                         var tr = document.createElement("tr");
@@ -229,9 +229,9 @@ function loadArtifact2CSV() {
     xhr.send();
 }
 
-// CSVファイルを読み込む関数
+// CSVから選択候補と表示データを作成する
 function loadOrnamentCSV() {
-    // CSVファイルのパス
+    // 元データCSV
     const csvFilePath = "./data/hsr/data_hsr_artifact.csv";
 
     // 名前を選択するセレクトボックス
@@ -239,7 +239,7 @@ function loadOrnamentCSV() {
     // テーブルのtbody
     const tableBody = document.querySelector("#ornament-outputTable tbody");
 
-    // CSVファイルを読み込む
+    // CSVを読み込んで画面へ反映する
     const xhr = new XMLHttpRequest();
     xhr.open("GET", csvFilePath);
     xhr.onreadystatechange = function () {
@@ -281,13 +281,13 @@ function loadOrnamentCSV() {
             // 名前を選択するセレクトボックスの値が変更された時の処理
             selectName.addEventListener("change", function () {
 
-                // 選択された名前に対応する行をテーブルに追加する
+                // 選択中のデータ行を表示する
                 const selectedName = this.value;
                 for (let i = 1; i < csvRows.length; i++) {
                     const row = csvRows[i].split(",");
 
                     if (row[1] === selectedName) {
-                        // テーブルの中身をクリアする
+                        // 前回の表示内容をリセットする
                         tableBody.innerHTML = "<tr><th>名前</th><th>2セット効果</th></tr>";
                         
                         var tr = document.createElement("tr");
