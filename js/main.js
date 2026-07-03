@@ -1,61 +1,59 @@
-//ボタンを押したときの処理
+// 原神ダメージ計算の実行処理
 function calc(){
-    //ここに処理を書く
-    //基礎ダメージ
+    // 入力値を取得し、各補正の計算に使用する
     let atk = parseFloat(document.getElementById("atk").value);
     let talent = parseFloat(document.getElementById("talent").value);
     let special = parseFloat(document.getElementById("special").value);
     let add_b = parseFloat(document.getElementById("add_b").value);
-    //ダメバフ・率ダメ・元素反応
+    // ダメージバフ、会心ダメージ、元素反応関連
     let dmg_b = parseFloat(document.getElementById("dmg_b").value);
     let cri_dmg = parseFloat(document.getElementById("cri_dmg").value);
     //let ele = parseFloat(document.getElementById("ele").value);
     let ele_m = parseFloat(document.getElementById("ele_m").value);
     let ele_e = parseFloat(document.getElementById("ele_e").value);
-    //デバフ
+    // 敵へのデバフ関連
     let ele_d = parseFloat(document.getElementById("ele_d").value);
     let def_d = parseFloat(document.getElementById("def_d").value);
     let def_ig = parseFloat(document.getElementById("def_ig").value);
-    //敵味方のデータ
+    // 味方と敵のレベル・耐性
     let lv = parseFloat(document.getElementById("lv").value);
     let e_lv = parseFloat(document.getElementById("e_lv").value);
     let e_res = parseFloat(document.getElementById("e_res").value);
 
-    //基礎ダメージ計算
+    // 基礎ダメージ
     var value_base_dmg = atk * (talent/100) * (1 +special/100) + add_b;
-    //ダメバフ・率ダメ
+    // ダメージバフと会心ダメージ
     var value_dmg_b = 1 + dmg_b/100;
     var value_cri_dmg = 1 + cri_dmg/100;
 
-    //元素反応計算
+    // 元素反応補正。激化系は固定値加算として基礎ダメージへ反映する。
     var value_ele;
     var value_ele_other = 0;
     var value_ele_addDmg = 0;
     if(ele == 1){
         value_ele = 1;
     }else if(ele == 0.15){
-        //超激化のみ処理 lv90で固有値1446
+        // 超激化。現状はLv90固有値を使用する。
         value_ele = 1;
         var ele_m_e = 500 * ele_m / (ele_m + 1200);
         value_ele_addDmg = 1.15 * (1446) * (1 + ele_m_e/100 + ele_e/100);
         value_ele_other = (value_base_dmg + value_ele_addDmg)/ value_base_dmg;
         value_base_dmg = value_base_dmg + value_ele_addDmg;
     }else if(ele == 0.25){
-        //草激化のみ処理
+        // 草激化。現状はLv90固有値を使用する。
         value_ele = 1;
         var ele_m_e = 500 * ele_m / (ele_m + 1200);
         value_ele_addDmg = 1.25 * (1446) * (1 + ele_m_e/100 + ele_e/100);
         value_ele_other = (value_base_dmg + value_ele_addDmg)/ value_base_dmg;
         value_base_dmg = value_base_dmg + value_ele_addDmg;
     }else{
-        //蒸発溶解のみ処理
+        // 蒸発・溶解は反応倍率として扱う。
         var ele_m_e = 278 * ele_m / (ele_m + 1400);
-        //console.log(ele_m_e);
         value_ele = ele * (1 + ele_m_e/100 + ele_e/100);
     }
     
     let value_sum_dmg_b = value_dmg_b * value_cri_dmg * value_ele;
-    //敵の防御・元素耐性計算
+    // 敵の防御補正と元素耐性補正
     let value_e_def = (lv+100)/((1 - def_ig/100) * (1 - def_d/100) * (e_lv+100) + lv+100);
     let value_e_ele_now = e_res - ele_d;
     let value_e_ele = 0;
@@ -68,13 +66,12 @@ function calc(){
     }
     
     let result = value_base_dmg * value_sum_dmg_b * value_e_def * value_e_ele;
-    document.getElementById("value_e_def").innerHTML = value_e_def;
-    document.getElementById("value_e_ele").innerHTML = value_e_ele;
-    document.getElementById("result").innerHTML = "ダメージ結果：" + result;
+    document.getElementById("value_e_def").textContent = value_e_def.toFixed(4);
+    document.getElementById("value_e_ele").textContent = value_e_ele.toFixed(4);
+    document.getElementById("result").innerHTML = "<span>推定ダメージ</span><br>" + Math.round(result).toLocaleString("ja-JP");
 
 
-    // データを更新
-    //valueというあたいはmain.jsの変数です。使用の際はスコープしてください
+    // 円グラフ用データを更新
     data[0].value = value_dmg_b;
     data[1].value = value_cri_dmg;
     data[2].value = value_ele;
@@ -95,7 +92,7 @@ function calc(){
     // 円グラフを再描画
     myChart.update();
     
-    console.log("calc()");
+    // デバッグ時はここで計算完了を確認する
     
 }
 
@@ -173,7 +170,6 @@ for (var i = 0; i < eleChoiceItems.length; i++) {
                 normalDmgContent.style.display = 'block';
                 break;
         }
-        //console.log(eleChoiceList.indexOf(this));
     });
 }
 
