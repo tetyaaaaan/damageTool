@@ -1,9 +1,9 @@
 let chaStatus;
 let weaStatus;
 
-// CSVファイルを読み込む関数
+// CSVから選択候補と表示データを作成する
 function loadCharaCSV() {
-    // CSVファイルのパス
+    // 元データCSV
     const csvFilePath = "./data/hsr/data_hsr_cha.csv";
 
     // 名前を選択するセレクトボックス
@@ -13,7 +13,7 @@ function loadCharaCSV() {
     // テーブルのtbody
     const tableBody = document.querySelector("#chara-outputTable tbody");
 
-    // CSVファイルを読み込む
+    // CSVを読み込んで画面へ反映する
     const xhr = new XMLHttpRequest();
     xhr.open("GET", csvFilePath);
     xhr.onreadystatechange = function () {
@@ -41,10 +41,10 @@ function loadCharaCSV() {
             // 名前を選択するセレクトボックスの値が変更された時の処理
             selectName.addEventListener("change", function () {
             
-            // テーブルの中身をクリアする
+            // 前回の表示内容をリセットする
             tableHead.innerHTML = "<tr><th>名前</th><th>★</th><th>属性</th><th>運命</th></tr>";
 
-            // 選択された名前に対応する行をテーブルに追加する
+            // 選択中のデータ行を表示する
             const selectedName1 = this.value;
             for (let i = 1; i < csvRows.length; i++) {
                 const row = csvRows[i].split(",");
@@ -59,10 +59,10 @@ function loadCharaCSV() {
                     tableHead.appendChild(tr);
                 }
             }
-                // テーブルの中身をクリアする
+                // 前回の表示内容をリセットする
                 tableBody.innerHTML = "<tr><th>HP</th><th>攻撃力</th><th>防御力</th><th>速度</th></tr>";
 
-                // 選択された名前に対応する行をテーブルに追加する
+                // 選択中のデータ行を表示する
                 const selectedName2 = this.value;
                 for (let i = 1; i < csvRows.length; i++) {
                     const row = csvRows[i].split(",");
@@ -88,9 +88,9 @@ function loadCharaCSV() {
     xhr.send();
 }
 
-// CSVファイルを読み込む関数
+// CSVから選択候補と表示データを作成する
 function loadWeaponCSV() {
-    // CSVファイルのパス
+    // 元データCSV
     const csvFilePath = "./data/hsr/data_hsr_weapon.csv";
 
     // 名前を選択するセレクトボックス
@@ -102,7 +102,7 @@ function loadWeaponCSV() {
     //テーブルのtfoot
     const tableFoot = document.querySelector("#weapon-outputTable tfoot");
 
-    // CSVファイルを読み込む
+    // CSVを読み込んで画面へ反映する
     const xhr = new XMLHttpRequest();
     xhr.open("GET", csvFilePath);
     xhr.onreadystatechange = function () {
@@ -130,10 +130,10 @@ function loadWeaponCSV() {
             // 名前を選択するセレクトボックスの値が変更された時の処理
             selectName.addEventListener("change", function () {
             
-                // テーブルの中身をクリアする
+                // 前回の表示内容をリセットする
                 tableBody.innerHTML = "<tr><th colspan='2'>名前</th><th>★</th><th>運命</th></tr>";
 
-                // 選択された名前に対応する行をテーブルに追加する
+                // 選択中のデータ行を表示する
                 const selectedName = this.value;
                 for (let i = 1; i < csvRows.length; i++) {
                     const row = csvRows[i].split(",");
@@ -157,10 +157,10 @@ function loadWeaponCSV() {
                         tableBody.appendChild(tr);
                     }
                 }
-                // テーブルの中身をクリアする
+                // 前回の表示内容をリセットする
                 tableBody.innerHTML += "<tr><th>HP</th><th>攻撃力</th><th>防御力</th><th>入手方法</th></tr>";
 
-                // 選択された名前に対応する行をテーブルに追加する
+                // 選択中のデータ行を表示する
                 for (let i = 1; i < csvRows.length; i++) {
                     const row = csvRows[i].split(",");
                     if (row[1] === selectedName) {
@@ -175,10 +175,10 @@ function loadWeaponCSV() {
                     }
                 }
 
-                // テーブルの中身をクリアする
+                // 前回の表示内容をリセットする
                 tableBody.innerHTML += "<tr><th colspan='4'>スキル</th></tr>";
 
-                // 選択された名前に対応する行をテーブルに追加する
+                // 選択中のデータ行を表示する
                 for (let i = 1; i < csvRows.length; i++) {
                     const row = csvRows[i].split(",");
                     if (row[1] === selectedName) {
@@ -270,8 +270,8 @@ function reflectStatus() {
         const diff_atk = chaAtk.value - chaBaseAtk.value;
         chaBaseAtk.value = sumStatus;
         chaAtk.value = parseInt(sumStatus) + diff_atk;
-        console.log("反映されました");
+        console.info("ステータスを入力欄へ反映しました。");
     }else{
-        console.log("キャンセルされました");
+        console.info("ステータス反映をキャンセルしました。");
     }
 }
