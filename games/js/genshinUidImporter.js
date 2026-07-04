@@ -84,6 +84,13 @@
         wrap.hidden = characters.length === 0;
     }
 
+    function clearCharacterDetail() {
+        const detail = getElement("genshinCharacterDetail");
+        if (!detail) return;
+        detail.hidden = true;
+        detail.innerHTML = "";
+    }
+
     function formatStat(value, suffix = "") {
         if (!Number.isFinite(Number(value))) return "-";
         const num = Number(value);
@@ -157,13 +164,14 @@
         try {
             const response = await window.GenshinProfileApi.fetchGenshinProfile(uid);
             const profile = window.GenshinProfileMapper.mapProfileResponse(response);
-            if (!profile.characters.length) {
-                setMessage(TEXT.noCharacters, "error");
-                return;
-            }
             state.profile = profile;
             renderPlayer(profile);
             renderSelector(profile.characters);
+            if (!profile.characters.length) {
+                clearCharacterDetail();
+                setMessage(TEXT.noCharacters, "error");
+                return;
+            }
             selectCharacter(0);
         } catch (error) {
             if (!navigator.onLine || error instanceof TypeError) {

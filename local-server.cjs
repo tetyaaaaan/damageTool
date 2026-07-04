@@ -76,7 +76,10 @@ async function handleGenshinProfileProxy(requestUrl, response) {
   try {
     const upstream = await fetch(upstreamUrl, {
       method: "GET",
-      headers: { Accept: "application/json" },
+      headers: {
+        Accept: "application/json",
+        "User-Agent": "tetinet-damage-tool/1.0",
+      },
     });
     const body = await upstream.text();
     const ttlSeconds = readTtlSeconds(body);
