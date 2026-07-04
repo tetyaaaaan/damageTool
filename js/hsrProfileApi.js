@@ -10,7 +10,7 @@
             return proxyResponse;
         }
 
-        const response = await fetch(`${API_BASE_URL}${encodeURIComponent(uid)}?lang=ja`, {
+        const response = await fetch(`${API_BASE_URL}${encodeURIComponent(uid)}?lang=jp`, {
             method: "GET"
         });
 
