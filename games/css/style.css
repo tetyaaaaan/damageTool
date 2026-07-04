@@ -1492,6 +1492,7 @@ canvas {
 
 /* tetinet design system */
 :root {
+    --tetinet-content-width: 1200px;
     --tetinet-bg: #0b161f;
     --tetinet-bg-soft: #102932;
     --tetinet-surface: #ffffff;
@@ -1526,13 +1527,13 @@ body {
 }
 
 .tool-page #wrapper {
-    width: min(100%, 1360px);
+    width: min(100%, calc(var(--tetinet-content-width) + 88px));
     padding: 18px 44px 48px;
 }
 
 .site-header {
     min-height: 68px;
-    width: min(1180px, 100%);
+    width: min(var(--tetinet-content-width), 100%);
     box-sizing: border-box;
     margin: 0 auto 26px;
     padding: 14px 18px;
@@ -1571,7 +1572,7 @@ body {
 
 .tool-hero {
     min-height: 230px;
-    max-width: 1200px;
+    max-width: var(--tetinet-content-width);
     margin: 0 auto 28px;
     padding: 42px;
     border-radius: 8px;
@@ -1617,6 +1618,8 @@ body {
 
 .tool-page .box,
 .tool-page .no-box {
+    width: 100%;
+    max-width: var(--tetinet-content-width);
     background: var(--tetinet-surface);
     border-color: var(--tetinet-border);
     border-radius: 8px;
@@ -1651,6 +1654,27 @@ body {
 .uid-importer__controls input {
     border-color: var(--tetinet-border);
     border-radius: 8px;
+}
+
+.my-table {
+    table-layout: fixed;
+}
+
+.my-table .input_num {
+    width: 100%;
+    min-width: 0;
+    margin-right: 0;
+}
+
+.input-panel p {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+}
+
+.input-panel p .input_num {
+    flex: 1 1 150px;
 }
 
 .input_num:focus,
@@ -1697,10 +1721,20 @@ body {
 }
 
 .tool-page footer {
+    width: 100%;
+    max-width: var(--tetinet-content-width);
     align-items: center;
     justify-content: center;
     gap: 14px 22px;
     border-radius: 8px;
+}
+
+.calculator-layout {
+    max-width: var(--tetinet-content-width);
+}
+
+.tool-page .info-link-panel {
+    display: none;
 }
 
 .tool-page footer a {
@@ -1750,6 +1784,7 @@ body {
 @media (max-width: 920px) {
     .tool-page #wrapper {
         padding: 14px 16px 32px;
+        width: 100%;
     }
 
     .site-header {
