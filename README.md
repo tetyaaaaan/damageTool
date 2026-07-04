@@ -4,9 +4,13 @@
 
 ## 開発メモ
 
-- 画面表示は `index.html` と `hsr.html` を中心に構成します。
-- 計算処理は `js/` 配下にまとめます。
-- 元データは `data/` 配下のCSVを正とし、同名のExcelファイルは編集・確認用として扱います。
+- Cloudflare Workers と Workers Assets で運用します。
+- 公開ルートは `https://tetinet.com/games/` とし、静的ファイルは `games/` 配下を正とします。
+- HSRのUID取得APIは `worker.js` の `/games/api/hsr-profile` で処理します。
+- Pages Functionsとは併用しないため、`functions/` ディレクトリは置きません。
+- 画面表示は `games/index.html`、`games/genshin/index.html`、`games/hsr/index.html` を中心に構成します。
+- 計算処理は `games/js/` 配下にまとめます。
+- 元データは `games/data/` 配下のCSVを正とし、同名のExcelファイルは編集・確認用として扱います。
 - 命名規則、コメント方針、CSVの編集ルールは `docs/DEVELOPMENT_RULES.md` を参照してください。
 
 ## ローカル確認
