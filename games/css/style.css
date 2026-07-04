@@ -1,0 +1,1254 @@
+/* ページ全体の余白とフォントを初期化 */
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+/*
+@font-face{
+    
+    font-family: "GenshinFont";
+    src: url("../font/ja-jp.ttf");
+    
+    font-family: "GenshinFont";
+    src: url("../font/ja-jp.woff") format('woff');
+}*/
+
+/* サイト全体の基本フォント設定 */
+body {
+    width: 100%;
+    /*font-family: "GenshinFont", sans-serif;*/
+    font-family: 'Noto Sans JP', sans-serif;
+
+}
+
+/*ローディング画面用のスタイル*/
+#load {
+    width: 90%;
+    margin: 0 auto 0 20px;
+    text-align: center;
+    display: block;
+}
+
+#wrapper {
+    max-width: 100%;
+    margin: auto;
+    padding: 2%;
+    display: none;
+}
+
+/* 見出し ここから */
+h1 {
+    height: auto;
+    margin: 40px 0 0 20px;
+    padding: 0;
+    /*
+    color: #000;
+    */
+    font-size: 30px;
+    font-weight: normal;
+    border-top: 0;
+    line-height: 1.5;
+}
+
+h2 {
+    margin: 60px 0 35px 0;
+    padding: 0 0 0 15px;
+    font-size: 26px;
+    font-weight: normal;
+    border-width: 0 0 0 4px;
+    border-style: solid;
+    border-color: #ffff00;
+}
+
+h3 {
+    margin-top: 20px;
+    padding-bottom: 10px;
+    font-size: 22px;
+    font-weight: normal;
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: #666666;
+}
+
+h4 {
+    font-size: 18px;
+    padding-bottom: 5px;
+    font-weight: normal;
+}
+
+/* ここまで */
+
+.box {
+    /* ボックスのスタイルを指定 */
+    max-width: 800px;
+    /* ボックスの幅を指定 */
+    max-height: auto;
+    /* ボックスの高さを指定 */
+
+    margin: auto;
+    /* 左右の余白を自動的に計算して中央に配置 */
+    padding: 15px 20px 15px 20px;
+    /* 以下はボックスの位置を画面の中央にするためのプロパティ */
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #8ab9ee;
+    /* ボックスの背景色 */
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    /* 影のスタイル */
+    border-radius: 5px;
+    /* 角の丸み */
+}
+/* ウィンドウが大きいときのボックスのスタイルを指定 */
+@media (min-width: 900px) {
+    .box-container{
+        max-width: 860px;
+        display: flex;
+        margin: auto;
+    }
+    .box-container .box{
+        margin-top: 0;
+        margin-bottom: 0;
+        max-width: 375px;
+    }
+}
+
+.no-box {
+    /* ボックスのスタイルを指定 */
+    max-width: 800px;
+    /* ボックスの幅を指定 */
+    max-height: auto;
+    /* ボックスの高さを指定 */
+    margin: auto;
+    /* 左右の余白を自動的に計算して中央に配置 */
+    padding: 15px 20px 15px 20px;
+    /* 以下はボックスの位置を画面の中央にするためのプロパティ */
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    /*background-color: #a7b2c1; /* ボックスの背景色 */
+}
+
+/* アコーディオン ここから */
+/* ここまで */
+/* ボタンのデザイン */
+.calc-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 0 0 0;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #ff0000;
+    border-radius: 5px;
+    border: 1px solid #ff0000;
+    cursor: pointer;
+    transition: .4s;
+    /*font-family: "GenshinFont", sans-serif;*/
+    box-shadow: 1px 0px 10px rgba(0, 0, 0, 0.5);
+    /* 影のスタイル */
+}
+
+.calc-button:hover {
+    background-color: #ff6666;
+    border: 1px solid #ff6666;
+}
+
+.calc-button:active {
+    background-color: #870000;
+    border: 1px solid #870000;
+}
+
+/* ボタンのデザイン */
+.reflect-button {
+    display: inline-block;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px 10px;
+    margin: 0 0 0 0;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: .4s;
+    user-select: none;
+    color: #fff;
+    border-radius: 0;
+    background: #500a0a;
+}
+
+.reflect-button:hover {
+    background-color: #742b2b;
+}
+
+
+/* ここまで */
+
+
+/* テキストの色 */
+/*p {
+    color: #cccccc;
+}*/
+.text {
+    color: #cccccc;
+}
+
+.red {
+    color: #ff0000;
+}
+
+.blue {
+    color: #0000ff;
+}
+
+.green {
+    color: #00ff00;
+}
+
+.yellow {
+    color: #ffff00;
+}
+
+.pink {
+    color: #da12da;
+}
+
+.purple {
+    color: #800080;
+}
+
+.orange {
+    color: #ffa500;
+}
+
+.brown {
+    color: #a52a2a;
+}
+
+.gray {
+    color: #808080;
+}
+
+.lightblue {
+    color: #00ffff;
+}
+
+.waterblue {
+    color: #4967ff;
+}
+
+.white {
+    color: #ffffff;
+}
+
+.normal-text {
+    font-weight: normal;
+    /* フォントの太さを通常に設定 */
+}
+
+.my-table {
+    font-size: 12px;
+    overflow-x: auto;
+    border-collapse: collapse;
+    /* セルの境界を重ねて表示 */
+    border-spacing: 10px;
+    /* 横方向のセルの余白を10pxに設定 */
+}
+
+.my-table td {
+    border: 1px solid #5a8acd;
+    /* セルの境界線を設定 */
+    padding: 0 15px;
+    /* セルの内側の余白を10pxに設定 */
+}
+
+.my-table th {
+    border: 1px solid #5a8acd;
+    /* セルの境界線を設定 */
+    background-color: #a0a3e0;
+    padding: 0 15px;
+    /* セルの内側の余白を10pxに設定 */
+}
+
+@media (max-width: 375px) {
+    .box {
+        overflow-x: auto;
+    }
+}
+
+/*キャラのテーブル*/
+.hsrCha-table {
+    border-collapse: collapse;
+    font-size: 11px;
+    overflow-x: auto;
+}
+
+.hsrCha-table th {
+    text-align: center;
+    border: 1px solid #5a8acd;
+    /* セルの境界線を設定 */
+    padding: 0 5px;
+    /* セルの内側の余白を10pxに設定 */
+    width: 80px;
+    /* セルの幅を100pxに固定 */
+    background-color: #a0a3e0;
+}
+
+.hsrCha-table td {
+    text-align: center;
+    border: 1px solid #5a8acd;
+    /* セルの境界線を設定 */
+    padding: 0 5px;
+    /* セルの内側の余白を10pxに設定 */
+    background-color: #d9e5ff;
+}
+
+/*武器のテーブル*/
+.hsrWeapon-table {
+    border-collapse: collapse;
+    font-size: 11px;
+    overflow-x: auto;
+}
+
+.hsrWeapon-table th {
+    text-align: center;
+    border: 1px solid #5a8acd;
+    /* セルの境界線を設定 */
+    padding: 0 5px;
+    /* セルの内側の余白を10pxに設定 */
+    width: 80px;
+    /* セルの幅を100pxに固定 */
+    background-color: #a0a3e0;
+}
+
+.hsrWeapon-table td {
+    text-align: center;
+    border: 1px solid #5a8acd;
+    /* セルの境界線を設定 */
+    padding: 0 5px;
+    /* セルの内側の余白を10pxに設定 */
+    background-color: #d9e5ff;
+}
+
+/*遺物のテーブル*/
+.hsrArtifact-table {
+    border-collapse: collapse;
+    font-size: 11px;
+    overflow-x: auto;
+}
+
+.hsrArtifact-table th {
+    text-align: center;
+    border: 1px solid #5a8acd;
+    /* セルの境界線を設定 */
+    padding: 0 5px;
+    /* セルの内側の余白を10pxに設定 */
+    width: 170px;
+    /* セルの幅を100pxに固定 */
+    background-color: #a0a3e0;
+}
+
+.hsrArtifact-table td {
+    text-align: center;
+    border: 1px solid #5a8acd;
+    /* セルの境界線を設定 */
+    padding: 0 5px;
+    /* セルの内側の余白を10pxに設定 */
+    background-color: #d9e5ff;
+}
+
+
+
+/*聖遺物選択画面のため*/
+.target-area {
+    max-width: 300px;
+    height: 60px;
+    border: 2px solid #000000;
+    background-color: #b3b3b3;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.modal-content {
+    border-radius: 3px;
+    width: 350px;
+    height: 500px;
+    max-width: 80%;
+    /* 幅を指定 */
+    max-height: 60%;
+    /* 高さを%に指定 */
+    background-color: rgb(98, 74, 56);
+    margin: 100px auto;
+    margin-top: 10%;
+    margin-left: 5%;
+    padding: 20px;
+    overflow-y: auto;
+    /* スクロール可能にする */
+}
+
+.selection-item {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.selection-item img {
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+}
+
+.selection-item span {
+    font-size: 18px;
+}
+
+/* モーダルウィンドウのスタイル */
+/* モーダルウィンドウのスタイル */
+#modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal h3 {
+    color: #fff;
+}
+
+#imageList {
+    list-style: none;
+    padding: 0;
+}
+
+.image-item {
+    cursor: pointer;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: rgb(160, 120, 89);
+}
+
+
+
+/* アイコンのスタイル */
+#toggleButton {
+    cursor: pointer;
+    font-size: 10px;
+    background: none;
+    border: 2px solid rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
+    padding: 0% 2.5px;
+    border-radius: 4px;
+}
+
+/* 非表示要素のスタイル */
+#toggleContent {
+    display: none;
+}
+
+canvas {
+    max-width: 500px;
+}
+
+
+.input_num {
+    display: inline-block;
+    max-width: 72px;
+    padding: 2px 5px;
+    color: #000000;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    background: #ffffff;
+    margin: 0.5em 0;
+}
+
+/* エリアのスタイル */
+#eleArea {
+    padding: 7px;
+    max-width: 400px;
+    border: 2px solid #000000;
+    cursor: pointer;
+}
+
+/* 選択肢ウィンドウのスタイル */
+#eleChoices {
+    display: none;
+    /* 初期状態では非表示 */
+    max-width: 400px;
+    position: relative;
+    top: 100%;
+    left: 0;
+    padding: 0px 7px;
+    background-color: #000000;
+    /*#8f8f8f;*/
+    border: 1px solid #606060;
+}
+
+/* 選択肢リストのスタイル */
+#eleChoices ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#eleChoices ul li {
+    padding: 5px;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Modern tool layout */
+.tool-page {
+    min-height: 100vh;
+    color: #172033;
+    background: #eef6f8;
+    letter-spacing: 0;
+}
+
+.page-hsr {
+    background: #f5f3ff;
+}
+
+.tool-page #load {
+    width: min(92%, 960px);
+    margin: 40px auto;
+    color: #172033;
+}
+
+.tool-page #load font {
+    color: inherit;
+}
+
+.tool-page #wrapper {
+    width: min(100%, 1440px);
+    box-sizing: border-box;
+    padding: 0 48px 48px;
+}
+
+.site-header {
+    min-height: 76px;
+    margin: 0 -48px 28px;
+    padding: 0 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background: #0f172a;
+    color: #ffffff;
+}
+
+.site-logo {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    flex-wrap: wrap;
+}
+
+.site-nav a {
+    color: #dbeafe;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.site-nav a:hover {
+    color: #ffffff;
+}
+
+.tool-page .hamburger {
+    display: none;
+}
+
+.tool-hero {
+    min-height: 190px;
+    margin: 0 0 32px;
+    padding: 40px 38px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    color: #ffffff;
+    border-radius: 12px;
+    background: linear-gradient(105deg, #2f80ed 0%, #18b8a7 100%);
+    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12);
+    overflow: hidden;
+    position: relative;
+}
+
+.page-hsr .tool-hero {
+    background: linear-gradient(105deg, #7c3aed 0%, #f97316 100%);
+}
+
+.tool-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 42%;
+    background: rgba(255, 255, 255, 0.16);
+    clip-path: polygon(34% 0, 100% 48%, 100% 100%, 0 100%);
+    pointer-events: none;
+}
+
+.tool-hero > * {
+    position: relative;
+    z-index: 1;
+}
+
+.tool-hero h1 {
+    margin: 6px 0 14px;
+    font-size: 46px;
+    line-height: 1.18;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.tool-hero p {
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+.hero-kicker {
+    font-size: 13px !important;
+    font-weight: 700;
+    opacity: 0.92;
+}
+
+.hero-badge {
+    min-width: 250px;
+    display: grid;
+    gap: 12px;
+    text-align: left;
+}
+
+.hero-badge strong {
+    font-size: 26px;
+    line-height: 1.2;
+}
+
+.hero-badge span {
+    font-size: 16px;
+}
+
+.tool-page h2 {
+    max-width: 1200px;
+    margin: 40px auto 18px;
+    padding: 0 0 0 14px;
+    color: #172033;
+    font-size: 25px;
+    font-weight: 800;
+    border-color: #2f80ed;
+}
+
+.page-hsr h2 {
+    border-color: #7c3aed;
+}
+
+.tool-page h3 {
+    margin: 0 0 22px;
+    padding: 0;
+    border: 0;
+    color: #172033;
+    font-size: 26px;
+    line-height: 1.25;
+    font-weight: 800;
+}
+
+.tool-page h4 {
+    color: #172033;
+    font-size: 18px;
+    line-height: 1.5;
+    font-weight: 800;
+}
+
+.tool-page p,
+.tool-page label,
+.tool-page li,
+.tool-page td,
+.tool-page th {
+    line-height: 1.75;
+}
+
+.tool-page .box,
+.tool-page .no-box {
+    max-width: 1200px;
+    box-sizing: border-box;
+    margin: 0 auto 24px;
+    padding: 26px 32px;
+    color: #334155;
+    background: #ffffff;
+    border: 1px solid #d9e2ec;
+    border-radius: 12px;
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.10);
+}
+
+.calculator-layout {
+    max-width: 1200px;
+    margin: 0 auto 28px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(330px, 0.95fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.calculator-layout > br {
+    display: none;
+}
+
+.calculator-layout .box,
+.calculator-layout .no-box {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+}
+
+.input-panel {
+    min-height: 520px;
+}
+
+.result-panel {
+    position: sticky;
+    top: 20px;
+}
+
+.result-panel #result {
+    margin: 10px 0 8px;
+    padding: 24px 28px;
+    color: #0f172a;
+    background: linear-gradient(90deg, rgba(47, 128, 237, 0.18), rgba(20, 184, 166, 0.16));
+    border-radius: 12px;
+    font-size: 34px;
+    line-height: 1.28;
+    font-weight: 800;
+    word-break: break-word;
+}
+
+.result-panel #result span {
+    display: block;
+    margin-bottom: 6px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.3;
+    font-weight: 700;
+}
+
+.page-hsr .result-panel #result {
+    background: linear-gradient(90deg, rgba(124, 58, 237, 0.18), rgba(249, 115, 22, 0.14));
+}
+
+.result-panel .pink {
+    color: #475569;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.calc-button,
+.reflect-button {
+    width: 100%;
+    min-height: 56px;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 10px;
+    background: #2f80ed;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 800;
+    box-shadow: none;
+}
+
+.page-hsr .calc-button,
+.page-hsr .reflect-button {
+    background: #7c3aed;
+}
+
+.calc-button:hover,
+.reflect-button:hover {
+    filter: brightness(1.08);
+    background: #2f80ed;
+}
+
+.page-hsr .calc-button:hover,
+.page-hsr .reflect-button:hover {
+    background: #7c3aed;
+}
+
+.calc-button:active,
+.reflect-button:active {
+    transform: translateY(1px);
+    filter: brightness(0.95);
+}
+
+.input_num,
+.tool-page select {
+    min-width: 96px;
+    max-width: 100%;
+    min-height: 42px;
+    box-sizing: border-box;
+    margin: 6px 4px 10px 0;
+    padding: 8px 12px;
+    color: #111827;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.tool-page select {
+    min-width: 180px;
+}
+
+.my-table,
+.hsrCha-table,
+.hsrWeapon-table,
+.hsrArtifact-table {
+    width: 100%;
+    margin: 10px 0 16px;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border: 1px solid #d9e2ec;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.my-table th,
+.hsrCha-table th,
+.hsrWeapon-table th,
+.hsrArtifact-table th {
+    padding: 10px 12px;
+    color: #334155;
+    background: #f1f5f9;
+    border: 0;
+    border-bottom: 1px solid #d9e2ec;
+    font-weight: 800;
+}
+
+.my-table td,
+.hsrCha-table td,
+.hsrWeapon-table td,
+.hsrArtifact-table td {
+    padding: 10px 12px;
+    color: #334155;
+    background: #ffffff;
+    border: 0;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.box-container {
+    gap: 24px;
+}
+
+@media (min-width: 900px) {
+    .box-container {
+        max-width: 1200px;
+        gap: 24px;
+    }
+
+    .box-container .box {
+        max-width: none;
+        flex: 1;
+    }
+}
+
+#toggleButton {
+    width: 34px;
+    height: 34px;
+    margin-right: 8px;
+    color: #172033;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+#eleArea {
+    max-width: none;
+    margin: 8px 0 18px;
+    padding: 13px 16px;
+    color: #172033;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-weight: 800;
+}
+
+#eleChoices {
+    max-width: none;
+    margin: -10px 0 18px;
+    padding: 8px;
+    color: #172033;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    box-shadow: 0 14px 24px rgba(15, 23, 42, 0.12);
+    z-index: 2;
+}
+
+#eleChoices ul li {
+    border-bottom: 1px solid #edf2f7;
+    border-radius: 6px;
+}
+
+#eleChoices ul li:hover {
+    background: #f8fafc;
+}
+
+#chart-container {
+    width: 100%;
+    min-height: 240px;
+    box-sizing: border-box;
+    padding: 14px;
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+canvas {
+    max-width: 100%;
+}
+
+.target-area {
+    max-width: none;
+    height: auto;
+    min-height: 54px;
+    margin-top: 18px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #f8fafc;
+}
+
+.result-panel .target-area,
+.result-panel #modal {
+    display: none !important;
+}
+
+.tool-extra {
+    display: none;
+}
+
+.tool-page a {
+    color: #2563eb;
+}
+
+.page-hsr a {
+    color: #6d28d9;
+}
+
+.tool-page .site-logo {
+    color: #ffffff;
+}
+
+.tool-page .site-nav a {
+    color: #dbeafe;
+}
+
+.tool-page .site-nav a:hover {
+    color: #ffffff;
+}
+
+.tool-page footer {
+    max-width: 1200px;
+    margin: 24px auto 0;
+    padding: 28px 32px;
+    color: #64748b;
+    background: #ffffff;
+    border: 1px solid #d9e2ec;
+    border-radius: 12px;
+}
+
+.tool-page footer h3 {
+    margin-bottom: 12px;
+    font-size: 20px;
+}
+
+.tool-page .red {
+    color: #dc2626;
+}
+
+.tool-page .green {
+    color: #059669;
+}
+
+.tool-page .yellow {
+    color: #ca8a04;
+}
+
+.tool-page .pink {
+    color: #c026d3;
+}
+
+.tool-page .brown {
+    color: #92400e;
+}
+
+.tool-page .gray {
+    color: #64748b;
+}
+
+@media (max-width: 920px) {
+    .tool-page #wrapper {
+        padding: 0 18px 32px;
+    }
+
+    .site-header {
+        margin: 0 -18px 20px;
+        padding: 18px;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .site-logo {
+        font-size: 24px;
+    }
+
+    .site-nav {
+        gap: 14px 18px;
+    }
+
+    .tool-hero {
+        padding: 28px 24px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .tool-hero h1 {
+        font-size: 34px;
+    }
+
+    .hero-badge {
+        min-width: 0;
+    }
+
+    .calculator-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .result-panel {
+        position: static;
+    }
+}
+
+@media (max-width: 560px) {
+    .tool-page .box,
+    .tool-page .no-box,
+    .tool-page footer {
+        padding: 22px 18px;
+    }
+
+    .tool-hero h1 {
+        font-size: 29px;
+    }
+
+    .result-panel #result {
+        padding: 18px;
+        font-size: 26px;
+    }
+
+    .my-table,
+    .hsrCha-table,
+    .hsrWeapon-table,
+    .hsrArtifact-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+/* Info pages and HSR UID importer */
+.info-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.info-layout h1 {
+    margin: 36px 0 24px;
+    color: #172033;
+    font-size: 38px;
+    font-weight: 800;
+}
+
+.info-link-panel h2 {
+    margin-top: 0;
+}
+
+.link-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.link-card {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+    padding: 12px 16px;
+    color: #172033 !important;
+    text-decoration: none;
+    background: #f8fafc;
+    border: 1px solid #d9e2ec;
+    border-radius: 10px;
+    font-weight: 800;
+}
+
+.link-card:hover {
+    background: #eef6ff;
+}
+
+.uid-importer__note {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.uid-importer__controls {
+    display: grid;
+    grid-template-columns: auto minmax(180px, 260px) minmax(140px, 180px);
+    gap: 12px;
+    align-items: center;
+    margin-top: 18px;
+}
+
+.uid-importer__controls input {
+    min-height: 46px;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.uid-importer__controls .calc-button {
+    min-height: 46px;
+}
+
+.uid-importer__controls .calc-button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+.uid-importer__message {
+    min-height: 24px;
+    margin-top: 12px;
+    font-weight: 800;
+}
+
+.uid-importer__message[data-type="error"] {
+    color: #dc2626;
+}
+
+.uid-importer__message[data-type="success"] {
+    color: #059669;
+}
+
+.uid-importer__player,
+.uid-importer__selector,
+.uid-importer__detail {
+    margin-top: 18px;
+    padding: 16px;
+    background: #f8fafc;
+    border: 1px solid #d9e2ec;
+    border-radius: 10px;
+}
+
+.uid-importer__player {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.uid-importer__selector {
+    display: grid;
+    grid-template-columns: auto minmax(220px, 1fr);
+    gap: 12px;
+    align-items: center;
+}
+
+.character-build-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.character-build-grid div {
+    padding: 10px 12px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+.character-build-grid dt {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.character-build-grid dd {
+    margin: 4px 0 0;
+    color: #172033;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.tool-page footer {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 760px) {
+    .link-card-grid,
+    .uid-importer__controls,
+    .uid-importer__selector,
+    .character-build-grid {
+        grid-template-columns: 1fr;
+    }
+}
+[hidden],
+.uid-importer__player[hidden],
+.uid-importer__selector[hidden],
+.uid-importer__detail[hidden] {
+    display: none !important;
+}
