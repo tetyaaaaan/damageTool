@@ -9,7 +9,7 @@ export async function fetchHsrProfile(uid: string): Promise<HsrProfileApiRespons
     return proxyResponse;
   }
 
-  const response = await fetch(`${MIHOMO_ENDPOINT}/${encodeURIComponent(uid)}?lang=ja`, {
+  const response = await fetch(`${MIHOMO_ENDPOINT}/${encodeURIComponent(uid)}?lang=jp`, {
     method: "GET",
   });
 
