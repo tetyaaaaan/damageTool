@@ -6,6 +6,7 @@ const LEGACY_REDIRECTS = new Map([
   ["/formula.html", "/games/formula/"],
   ["/enemies.html", "/games/enemies/"],
   ["/privacy.html", "/games/privacy/"],
+  ["/granblue/granblue.html", "/games/granblue/"],
   ["/api/hsr-profile", HSR_PROFILE_API_PATH],
 ]);
 
