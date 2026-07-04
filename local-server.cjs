@@ -21,7 +21,7 @@ const contentTypes = {
 const server = http.createServer(async (request, response) => {
   const requestUrl = new URL(request.url || "/", `http://${host}:${port}`);
 
-  if (requestUrl.pathname === "/api/hsr-profile") {
+  if (requestUrl.pathname === "/api/hsr-profile" || requestUrl.pathname === "/games/api/hsr-profile") {
     await handleHsrProfileProxy(requestUrl, response);
     return;
   }
@@ -58,6 +58,7 @@ async function handleHsrProfileProxy(requestUrl, response) {
 function serveStaticFile(requestUrl, response) {
   let pathname = decodeURIComponent(requestUrl.pathname);
   if (pathname === "/") pathname = "/index.html";
+  if (pathname.endsWith("/")) pathname += "index.html";
 
   const filePath = path.normalize(path.join(root, pathname));
   if (!filePath.startsWith(root)) {

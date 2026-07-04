@@ -22,5 +22,5 @@ node local-server.cjs
 起動後、次のURLを開きます。
 
 ```text
-http://127.0.0.1:4173/hsr.html
+http://127.0.0.1:4173/games/hsr/
 ```

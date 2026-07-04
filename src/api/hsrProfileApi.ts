@@ -1,7 +1,7 @@
-import type { HsrProfileApiResponse } from "../types/hsr";
+﻿import type { HsrProfileApiResponse } from "../types/hsr";
 
 const MIHOMO_ENDPOINT = "https://api.mihomo.me/sr_info_parsed";
-const SAME_ORIGIN_PROXY_ENDPOINT = "./api/hsr-profile";
+const SAME_ORIGIN_PROXY_ENDPOINT = "/games/api/hsr-profile";
 
 export async function fetchHsrProfile(uid: string): Promise<HsrProfileApiResponse> {
   const proxyResponse = await fetchFromSameOriginProxy(uid);
@@ -46,3 +46,4 @@ async function fetchFromSameOriginProxy(uid: string): Promise<HsrProfileApiRespo
     throw error;
   }
 }
+

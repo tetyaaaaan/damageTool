@@ -18,10 +18,10 @@
   <meta name="title" content="原神ダメージ計算ツール｜蒸発・溶解・激化対応" />
   <meta name="description" content="原神のダメージを計算できる非公式ツールです。蒸発・溶解反応、激化反応、敵防御補正、元素耐性補正を入力してダメージ目安を確認できます。" />
   
-  <link rel="stylesheet" href="./css/style.css">
-  <link rel="stylesheet" href="./css/menu.css">
-  <link rel="icon" href="./images/icon/te_maru.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="./images/icon/te_maru.ico">
+  <link rel="stylesheet" href="/games/css/style.css">
+  <link rel="stylesheet" href="/games/css/menu.css">
+  <link rel="icon" href="/games/images/icon/te_maru.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/games/images/icon/te_maru.ico">
   <!--<link href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" rel="stylesheet">-->
   <!--フォント-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
 　<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="./js/windowLoading.js"></script>
+  <script src="/games/js/windowLoading.js"></script>
   
  </head>
  <body class="tool-page page-genshin">
@@ -48,9 +48,9 @@
         <nav class="site-nav" aria-label="メインメニュー">
             <a href="/games/genshin/">原神</a>
             <a href="/games/hsr/">崩壊スターレイル</a>
-            <a href="/formula.html">計算式</a>
-            <a href="/enemies.html">敵キャラ情報</a>
-            <a href="/privacy.html">プライバシー</a>
+            <a href="/games/formula/">計算式</a>
+            <a href="/games/enemies/">敵キャラ情報</a>
+            <a href="/games/privacy/">プライバシー</a>
         </nav>
     </header>
     
@@ -59,7 +59,7 @@
         <!-- ハンバーガーメニューのチェックボックス -->
         <input type="checkbox" id="hamburger_check">
         <label for="hamburger_check">
-            <span><img id="hamburgerBtn" alt="メニュー" src="./images/icon/bars-solid.svg"></span>
+            <span><img id="hamburgerBtn" alt="メニュー" src="/games/images/icon/bars-solid.svg"></span>
             <span id="hamburgerCancel"></span>
         </label>
         <!--メニューバーの作成-->
@@ -69,7 +69,7 @@
             <ul>
                 <li><a href="/games/genshin/">ホーム</a></li>
                 <li><a href="/games/genshin/">原神</a></li>
-                <li><a href="./granblue/granblue.html">グラブル</a></li>
+                <li><a href="/games/granblue/">グラブル</a></li>
                 <li><a href="/games/hsr/">崩壊スターレイル</a></li>
                 <li><a href="https://twitter.com/Genshin_7">twitter</a></li>
                 <li><a href="https://peing.net/ja/dmgt">バグ報告</a></li>
@@ -93,15 +93,15 @@
         <h2>原神 ダメージ計算</h2>
         <p>計算式の詳細、敵キャラ情報、免責事項は別ページに整理しました。</p>
         <div class="link-card-grid">
-            <a class="link-card" href="/formula.html">計算式を見る</a>
-            <a class="link-card" href="/enemies.html">敵キャラ情報を見る</a>
-            <a class="link-card" href="/privacy.html">免責事項・プライバシー</a>
+            <a class="link-card" href="/games/formula/">計算式を見る</a>
+            <a class="link-card" href="/games/enemies/">敵キャラ情報を見る</a>
+            <a class="link-card" href="/games/privacy/">免責事項・プライバシー</a>
         </div>
     </div>
 
     <!--ここにダメージ計算のフォームを作る-->
     <!--main.jsファイル-->
-    <!--<script src="./js/main.js"></script>-->
+    <!--<script src="/games/js/main.js"></script>-->
     <br>
     <div class="calculator-layout">
     <div class="box input-panel">
@@ -194,7 +194,7 @@
     <div id="chart-container">
         <canvas id="myChart" height="200"></canvas>
     </div>
-    <script src="./js/main.js"></script>
+    <script src="/games/js/main.js"></script>
     <br>
     
     <!--画像付き選択肢-->
@@ -206,83 +206,83 @@
         <div class="modal-content">
             <h3>聖遺物を選択してください</h3>
             <ul id="imageList">
-                <li class="image-item selection-item" data-image-url="/images/artifact/hanaumi.png" data-image-text="花海甘露の光">
-                    <img src="./images/artifact/hanaumi.png" alt="Image 28">花海甘露の光
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/hanaumi.png" data-image-text="花海甘露の光">
+                    <img src="/games/images/artifact/hanaumi.png" alt="Image 28">花海甘露の光
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/suisen.png" data-image-text="水仙の夢">
-                    <img src="./images/artifact/suisen.png" alt="Image 27">水仙の夢
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/suisen.png" data-image-text="水仙の夢">
+                    <img src="/games/images/artifact/suisen.png" alt="Image 27">水仙の夢
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/rakuen.png" data-image-text="楽園の絶花">
-                    <img src="./images/artifact/rakuen.png" alt="Image 26">楽園の絶花
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/rakuen.png" data-image-text="楽園の絶花">
+                    <img src="/games/images/artifact/rakuen.png" alt="Image 26">楽園の絶花
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/sazyou.png" data-image-text="砂上の楼閣の史話">
-                    <img src="./images/artifact/sazyou.png" alt="Image 25">砂上の楼閣の史話
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/sazyou.png" data-image-text="砂上の楼閣の史話">
+                    <img src="/games/images/artifact/sazyou.png" alt="Image 25">砂上の楼閣の史話
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/kinmekki.png" data-image-text="金メッキの夢">
-                    <img src="./images/artifact/kinmekki.png" alt="Image 24">金メッキの夢
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/kinmekki.png" data-image-text="金メッキの夢">
+                    <img src="/games/images/artifact/kinmekki.png" alt="Image 24">金メッキの夢
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/sinrin.png" data-image-text="深林の記憶">
-                    <img src="./images/artifact/sinrin.png" alt="Image 23">深林の記憶
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/sinrin.png" data-image-text="深林の記憶">
+                    <img src="/games/images/artifact/sinrin.png" alt="Image 23">深林の記憶
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/raikin.png" data-image-text="来歆の余響">
-                    <img src="./images/artifact/raikin.png" alt="Image 22">来歆の余響
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/raikin.png" data-image-text="来歆の余響">
+                    <img src="/games/images/artifact/raikin.png" alt="Image 22">来歆の余響
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/sinsya.png" data-image-text="辰砂往生録">
-                    <img src="./images/artifact/sinsya.png" alt="Image 21">辰砂往生録
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/sinsya.png" data-image-text="辰砂往生録">
+                    <img src="/games/images/artifact/sinsya.png" alt="Image 21">辰砂往生録
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/umizome.png" data-image-text="海染硨磲">
-                    <img src="./images/artifact/umizome.png" alt="Image 20">海染硨磲
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/umizome.png" data-image-text="海染硨磲">
+                    <img src="/games/images/artifact/umizome.png" alt="Image 20">海染硨磲
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/kakan.png" data-image-text="華館夢醒形骸記">
-                    <img src="./images/artifact/kakan.png" alt="Image 19">華館夢醒形骸記
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/kakan.png" data-image-text="華館夢醒形骸記">
+                    <img src="/games/images/artifact/kakan.png" alt="Image 19">華館夢醒形骸記
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/zetsuen.png" data-image-text="絶縁の旗印">
-                    <img src="./images/artifact/zetsuen.png" alt="Image 18">絶縁の旗印
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/zetsuen.png" data-image-text="絶縁の旗印">
+                    <img src="/games/images/artifact/zetsuen.png" alt="Image 18">絶縁の旗印
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/simenawa.png" data-image-text="追憶のしめ縄">
-                    <img src="./images/artifact/simenawa.png" alt="Image 17">追憶のしめ縄
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/simenawa.png" data-image-text="追憶のしめ縄">
+                    <img src="/games/images/artifact/simenawa.png" alt="Image 17">追憶のしめ縄
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/souhaku.png" data-image-text="蒼白の炎">
-                    <img src="./images/artifact/souhaku.png" alt="Image 16">蒼白の炎
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/souhaku.png" data-image-text="蒼白の炎">
+                    <img src="/games/images/artifact/souhaku.png" alt="Image 16">蒼白の炎
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/sengan.png" data-image-text="千岩牢固">
-                    <img src="./images/artifact/sengan.png" alt="Image 15">千岩牢固
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/sengan.png" data-image-text="千岩牢固">
+                    <img src="/games/images/artifact/sengan.png" alt="Image 15">千岩牢固
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/tinrin.png" data-image-text="沈淪の心">
-                    <img src="./images/artifact/tinrin.png" alt="Image 14">沈淪の心
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/tinrin.png" data-image-text="沈淪の心">
+                    <img src="/games/images/artifact/tinrin.png" alt="Image 14">沈淪の心
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/hyouhuu.png" data-image-text="氷風を彷徨う勇士">
-                    <img src="./images/artifact/hyouhuu.png" alt="Image 13">氷風を彷徨う勇士
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/hyouhuu.png" data-image-text="氷風を彷徨う勇士">
+                    <img src="/games/images/artifact/hyouhuu.png" alt="Image 13">氷風を彷徨う勇士
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/himazyo.jpg" data-image-text="燃え盛る炎の魔女">
-                    <img src="./images/artifact/himazyo.jpg" alt="Image 12">燃え盛る炎の魔女
-                </li>
-
-                <li class="image-item selection-item" data-image-url="/images/artifact/kaminari.png" data-image-text="雷のような怒り">
-                    <img src="./images/artifact/kaminari.png" alt="Image 10">雷のような怒り
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/himazyo.jpg" data-image-text="燃え盛る炎の魔女">
+                    <img src="/games/images/artifact/himazyo.jpg" alt="Image 12">燃え盛る炎の魔女
                 </li>
 
-                <li class="image-item selection-item" data-image-url="/images/artifact/sakatobi.jpg" data-image-text="逆飛びの流星">
-                    <img src="./images/artifact/sakatobi.jpg" alt="Image 8">逆飛びの流星
-                </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/bangan.jpg" data-image-text="悠久の磐岩">
-                    <img src="./images/artifact/bangan.jpg" alt="Image 7">悠久の磐岩
-                </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/suiryoku.jpg" data-image-text="翠緑の影">
-                    <img src="./images/artifact/suiryoku.jpg" alt="Image 6">翠緑の影
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/kaminari.png" data-image-text="雷のような怒り">
+                    <img src="/games/images/artifact/kaminari.png" alt="Image 10">雷のような怒り
                 </li>
 
-                <li class="image-item selection-item" data-image-url="/images/artifact/tizome.jpg" data-image-text="血染めの騎士道">
-                    <img src="./images/artifact/tizome.jpg" alt="Image 4">血染めの騎士道
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/sakatobi.jpg" data-image-text="逆飛びの流星">
+                    <img src="/games/images/artifact/sakatobi.jpg" alt="Image 8">逆飛びの流星
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/kyuukizoku.jpg" data-image-text="旧貴族のしつけ">
-                    <img src="./images/artifact/kyuukizoku.jpg" alt="Image 3">旧貴族のしつけ
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/bangan.jpg" data-image-text="悠久の磐岩">
+                    <img src="/games/images/artifact/bangan.jpg" alt="Image 7">悠久の磐岩
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/gakudan.jpg" data-image-text="大地を放浪する楽団">
-                    <img src="./images/artifact/gakudan.jpg" alt="Image 2">大地を放浪する楽団
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/suiryoku.jpg" data-image-text="翠緑の影">
+                    <img src="/games/images/artifact/suiryoku.jpg" alt="Image 6">翠緑の影
                 </li>
-                <li class="image-item selection-item" data-image-url="/images/artifact/kentousi.jpg" data-image-text="剣闘士のフィナーレ">
-                    <img src="./images/artifact/kentousi.jpg" alt="Image 1">剣闘士のフィナーレ
+
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/tizome.jpg" data-image-text="血染めの騎士道">
+                    <img src="/games/images/artifact/tizome.jpg" alt="Image 4">血染めの騎士道
+                </li>
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/kyuukizoku.jpg" data-image-text="旧貴族のしつけ">
+                    <img src="/games/images/artifact/kyuukizoku.jpg" alt="Image 3">旧貴族のしつけ
+                </li>
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/gakudan.jpg" data-image-text="大地を放浪する楽団">
+                    <img src="/games/images/artifact/gakudan.jpg" alt="Image 2">大地を放浪する楽団
+                </li>
+                <li class="image-item selection-item" data-image-url="/games/images/artifact/kentousi.jpg" data-image-text="剣闘士のフィナーレ">
+                    <img src="/games/images/artifact/kentousi.jpg" alt="Image 1">剣闘士のフィナーレ
                 </li>
             </ul>
         </div>
@@ -292,7 +292,7 @@
     </div>
 
     <div class="box tool-extra">
-    <script src="./js/artifact.js"></script>
+    <script src="/games/js/artifact.js"></script>
     </div>
 
 
@@ -307,19 +307,20 @@
    <br><br><br><br><br>
    <!--
    <h4>現在閲覧中のユーザ数： <span id="userCount">0</span>人</h4>
-   <script src="./js/user_count.js"></script>
+   <script src="/games/js/user_count.js"></script>
    -->
    <h4>現在閲覧中のユーザ数 wow!</h4>
    <h4 class="realtimeuserscounter realtimeuserscounter--styled"></h4>
    <script src="https://realtimeusers.bycontrast.co/realtimeusers.js"></script>
    <br><br><br><br>
    <footer>
-    <a href="/formula.html">計算式</a>
-    <a href="/enemies.html">敵キャラ情報</a>
-    <a href="/privacy.html">免責事項・プライバシー</a>
+    <a href="/games/formula/">計算式</a>
+    <a href="/games/enemies/">敵キャラ情報</a>
+    <a href="/games/privacy/">免責事項・プライバシー</a>
    </footer>
   </div>
  </body>
 </html>
+
 
 

@@ -21,10 +21,10 @@
   <meta name="title" content="崩壊スターレイル ダメージ計算ツール｜防御・耐性・靭性補正対応" />
   <meta name="description" content="崩壊スターレイルのダメージを計算できる非公式ツールです。攻撃力、ダメージバフ、会心ダメージ、防御補正、耐性補正、靭性補正を入力してダメージ目安を確認できます。" />
   
-  <link rel="stylesheet" href="./css/style.css">
-  <link rel="stylesheet" href="./css/menu.css">
-  <link rel="icon" href="./images/icon/te_maru.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="./images/icon/te_maru.ico">
+  <link rel="stylesheet" href="/games/css/style.css">
+  <link rel="stylesheet" href="/games/css/menu.css">
+  <link rel="icon" href="/games/images/icon/te_maru.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/games/images/icon/te_maru.ico">
   <!--<link href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" rel="stylesheet">-->
   <!--フォント-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,7 +32,7 @@
 　<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="./js/windowLoading.js"></script>
+  <script src="/games/js/windowLoading.js"></script>
   
  </head>
  <body class="tool-page page-hsr">
@@ -51,9 +51,9 @@
         <nav class="site-nav" aria-label="メインメニュー">
             <a href="/games/genshin/">原神</a>
             <a href="/games/hsr/">崩壊スターレイル</a>
-            <a href="/formula.html">計算式</a>
-            <a href="/enemies.html">敵キャラ情報</a>
-            <a href="/privacy.html">プライバシー</a>
+            <a href="/games/formula/">計算式</a>
+            <a href="/games/enemies/">敵キャラ情報</a>
+            <a href="/games/privacy/">プライバシー</a>
         </nav>
     </header>
     
@@ -62,7 +62,7 @@
         <!-- ハンバーガーメニューのチェックボックス -->
         <input type="checkbox" id="hamburger_check">
         <label for="hamburger_check">
-            <span><img id="hamburgerBtn" alt="メニュー" src="./images/icon/bars-solid.svg"></span>
+            <span><img id="hamburgerBtn" alt="メニュー" src="/games/images/icon/bars-solid.svg"></span>
             <span id="hamburgerCancel"></span>
         </label>
         <!--メニューバーの作成-->
@@ -72,7 +72,7 @@
             <ul>
                 <li><a href="/games/genshin/">ホーム</a></li>
                 <li><a href="/games/genshin/">原神</a></li>
-                <li><a href="./granblue/granblue.html">グラブル</a></li>
+                <li><a href="/games/granblue/">グラブル</a></li>
                 <li><a href="/games/hsr/">崩壊スターレイル</a></li>
                 <li><a href="https://twitter.com/fQhtIdkG2G73110">twitter</a></li>
                 <li><a href="https://peing.net/ja/dmgt">バグ報告</a></li>
@@ -96,9 +96,9 @@
         <h2>崩壊スターレイル ダメージ計算</h2>
         <p>計算式の詳細、敵キャラ情報、免責事項は別ページに整理しました。</p>
         <div class="link-card-grid">
-            <a class="link-card" href="/formula.html">計算式を見る</a>
-            <a class="link-card" href="/enemies.html">敵キャラ情報を見る</a>
-            <a class="link-card" href="/privacy.html">免責事項・プライバシー</a>
+            <a class="link-card" href="/games/formula/">計算式を見る</a>
+            <a class="link-card" href="/games/enemies/">敵キャラ情報を見る</a>
+            <a class="link-card" href="/games/privacy/">免責事項・プライバシー</a>
         </div>
     </div>
     <div class="box uid-importer" id="uidImporter">
@@ -142,7 +142,7 @@
             <table class="hsrWeapon-table" id="sumStatus-outputTable">
                 <tbody></tbody>
             </table>
-            <script src="./js/hsr_selectStatusList.js"></script>
+            <script src="/games/js/hsr_selectStatusList.js"></script>
         </div>
         <br>
         
@@ -188,7 +188,7 @@
             <table class="hsrArtifact-table" id="ornament-outputTable">
                 <tbody></tbody>
             </table>
-            <script src="./js/hsr_selectArtifactList.js"></script>
+            <script src="/games/js/hsr_selectArtifactList.js"></script>
         </div>
     </div>
     <h3></h3>
@@ -212,7 +212,7 @@
     
     <!--ここにダメージ計算のフォームを作る-->
     <!--main.jsファイル-->
-    <!--<script src="./js/main.js"></script>-->
+    <!--<script src="/games/js/main.js"></script>-->
     <br>
     <div class="calculator-layout">
     <div class="box input-panel">
@@ -368,10 +368,10 @@
     <div id="chart-container">
         <canvas id="myChart" height="200"></canvas>
     </div>-->
-    <script src="./js/hsrProfileApi.js"></script>
-    <script src="./js/hsrProfileMapper.js"></script>
-    <script src="./js/hsrUidImporter.js"></script>
-    <script src="./js/hsr_dmgCalc.js"></script>
+    <script src="/games/js/hsrProfileApi.js"></script>
+    <script src="/games/js/hsrProfileMapper.js"></script>
+    <script src="/games/js/hsrUidImporter.js"></script>
+    <script src="/games/js/hsr_dmgCalc.js"></script>
     <br>
     
 
@@ -389,7 +389,7 @@
    <br><br><br><br><br>
    <!--
    <h4>現在閲覧中のユーザ数： <span id="userCount">0</span>人</h4>
-   <script src="./js/user_count.js"></script>
+   <script src="/games/js/user_count.js"></script>
    -->
    <h4>現在閲覧中のユーザ数 wow!</h4>
    <h4 class="realtimeuserscounter realtimeuserscounter--styled"></h4>
@@ -399,11 +399,12 @@
    <a href="https://twitter.com/fQhtIdkG2G73110">twitter</a>
    <br>
    <footer>
-    <a href="/formula.html">計算式</a>
-    <a href="/enemies.html">敵キャラ情報</a>
-    <a href="/privacy.html">免責事項・プライバシー</a>
+    <a href="/games/formula/">計算式</a>
+    <a href="/games/enemies/">敵キャラ情報</a>
+    <a href="/games/privacy/">免責事項・プライバシー</a>
    </footer>
   </div>
  </body>
 </html>
+
 
