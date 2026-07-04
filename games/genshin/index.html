@@ -90,6 +90,23 @@
         </div>
     </div>
 
+    <div class="box uid-importer genshin-uid-importer" id="genshinUidImporter">
+        <h3>UIDから公開キャラクターを取得</h3>
+        <p class="uid-importer__note">Enka.Networkから、ゲーム内プロフィールで公開されているキャラクターのみ取得します。取得後も入力欄は手動で調整できます。</p>
+        <div class="uid-importer__controls">
+            <label for="genshinUidInput">原神UID</label>
+            <input type="text" inputmode="numeric" pattern="[0-9]*" id="genshinUidInput" placeholder="例: 800000000">
+            <button type="button" id="genshinUidSearchButton">UID検索</button>
+        </div>
+        <p class="uid-importer__message" id="genshinUidMessage" aria-live="polite"></p>
+        <div class="uid-importer__player" id="genshinPlayerInfo" hidden></div>
+        <div class="uid-importer__selector" id="genshinCharacterSelector" hidden>
+            <label for="genshinProfileCharacterSelect">反映するキャラクター</label>
+            <select id="genshinProfileCharacterSelect"></select>
+        </div>
+        <div class="uid-importer__detail" id="genshinCharacterDetail" hidden></div>
+    </div>
+
     <!--ここにダメージ計算のフォームを作る-->
     <!--main.jsファイル-->
     <!--<script src="/games/js/main.js"></script>-->
@@ -185,6 +202,9 @@
     <div id="chart-container">
         <canvas id="myChart" height="200"></canvas>
     </div>
+    <script src="/games/js/genshinProfileApi.js"></script>
+    <script src="/games/js/genshinProfileMapper.js"></script>
+    <script src="/games/js/genshinUidImporter.js"></script>
     <script src="/games/js/main.js"></script>
     <br>
     

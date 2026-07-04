@@ -26,6 +26,11 @@ const server = http.createServer(async (request, response) => {
     return;
   }
 
+  if (requestUrl.pathname === "/api/genshin-profile" || requestUrl.pathname === "/games/api/genshin-profile") {
+    await handleGenshinProfileProxy(requestUrl, response);
+    return;
+  }
+
   serveStaticFile(requestUrl, response);
 });
 
@@ -42,7 +47,10 @@ async function handleHsrProfileProxy(requestUrl, response) {
   try {
     const upstream = await fetch(upstreamUrl, {
       method: "GET",
-      headers: { Accept: "application/json" },
+      headers: {
+        Accept: "application/json",
+        "User-Agent": "tetinet-damage-tool/1.0",
+      },
     });
     const body = await upstream.text();
     response.writeHead(upstream.status, {
@@ -52,6 +60,43 @@ async function handleHsrProfileProxy(requestUrl, response) {
     response.end(body);
   } catch (error) {
     sendJson(response, 502, { message: "Upstream request failed" });
+  }
+}
+
+async function handleGenshinProfileProxy(requestUrl, response) {
+  const uid = (requestUrl.searchParams.get("uid") || "").trim();
+
+  if (!/^\d{8,10}$/.test(uid)) {
+    sendJson(response, 400, { message: "UID is invalid" });
+    return;
+  }
+
+  const upstreamUrl = `https://enka.network/api/uid/${encodeURIComponent(uid)}`;
+
+  try {
+    const upstream = await fetch(upstreamUrl, {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    });
+    const body = await upstream.text();
+    const ttlSeconds = readTtlSeconds(body);
+    response.writeHead(upstream.status, {
+      "content-type": upstream.headers.get("content-type") || "application/json; charset=utf-8",
+      "cache-control": upstream.ok && ttlSeconds > 0 ? `public, max-age=${Math.min(ttlSeconds, 3600)}` : "no-store",
+    });
+    response.end(body);
+  } catch (error) {
+    sendJson(response, 502, { message: "Upstream request failed" });
+  }
+}
+
+function readTtlSeconds(body) {
+  try {
+    const data = JSON.parse(body);
+    const ttl = Number(data?.ttl);
+    return Number.isFinite(ttl) ? Math.max(0, ttl) : 0;
+  } catch (error) {
+    return 0;
   }
 }
 

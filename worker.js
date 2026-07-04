@@ -1,5 +1,6 @@
 const GAMES_PREFIX = "/games";
 const HSR_PROFILE_API_PATH = "/games/api/hsr-profile";
+const GENSHIN_PROFILE_API_PATH = "/games/api/genshin-profile";
 
 const LEGACY_REDIRECTS = new Map([
   ["/hsr.html", "/games/hsr/"],
@@ -8,6 +9,7 @@ const LEGACY_REDIRECTS = new Map([
   ["/privacy.html", "/games/privacy/"],
   ["/granblue/granblue.html", "/games/granblue/"],
   ["/api/hsr-profile", HSR_PROFILE_API_PATH],
+  ["/api/genshin-profile", GENSHIN_PROFILE_API_PATH],
 ]);
 
 export default {
@@ -25,6 +27,10 @@ export default {
 
     if (url.pathname === HSR_PROFILE_API_PATH) {
       return fetchHsrProfile(url);
+    }
+
+    if (url.pathname === GENSHIN_PROFILE_API_PATH) {
+      return fetchGenshinProfile(url);
     }
 
     if (url.pathname === GAMES_PREFIX) {
@@ -51,7 +57,10 @@ async function fetchHsrProfile(url) {
   try {
     const upstream = await fetch(upstreamUrl, {
       method: "GET",
-      headers: { Accept: "application/json" },
+      headers: {
+        Accept: "application/json",
+        "User-Agent": "tetinet-damage-tool/1.0",
+      },
     });
     const body = await upstream.text();
 
@@ -64,6 +73,45 @@ async function fetchHsrProfile(url) {
     });
   } catch (error) {
     return json({ message: "Upstream request failed" }, 502);
+  }
+}
+
+async function fetchGenshinProfile(url) {
+  const uid = (url.searchParams.get("uid") || "").trim();
+
+  if (!/^\d{8,10}$/.test(uid)) {
+    return json({ message: "UID is invalid" }, 400);
+  }
+
+  const upstreamUrl = `https://enka.network/api/uid/${encodeURIComponent(uid)}`;
+
+  try {
+    const upstream = await fetch(upstreamUrl, {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    });
+    const body = await upstream.text();
+    const ttlSeconds = readTtlSeconds(body);
+
+    return new Response(body, {
+      status: upstream.status,
+      headers: {
+        "content-type": upstream.headers.get("content-type") || "application/json; charset=utf-8",
+        "cache-control": upstream.ok && ttlSeconds > 0 ? `public, max-age=${Math.min(ttlSeconds, 3600)}` : "no-store",
+      },
+    });
+  } catch (error) {
+    return json({ message: "Upstream request failed" }, 502);
+  }
+}
+
+function readTtlSeconds(body) {
+  try {
+    const data = JSON.parse(body);
+    const ttl = Number(data?.ttl);
+    return Number.isFinite(ttl) ? Math.max(0, ttl) : 0;
+  } catch (error) {
+    return 0;
   }
 }
 
