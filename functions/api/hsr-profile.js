@@ -6,7 +6,7 @@ export async function onRequestGet(context) {
     return json({ message: "UID is invalid" }, 400);
   }
 
-  const upstreamUrl = `https://api.mihomo.me/sr_info_parsed/${encodeURIComponent(uid)}?lang=ja`;
+  const upstreamUrl = `https://api.mihomo.me/sr_info_parsed/${encodeURIComponent(uid)}?lang=jp`;
 
   try {
     const upstream = await fetch(upstreamUrl, {
