@@ -1489,3 +1489,489 @@ canvas {
 .uid-importer__detail[hidden] {
     display: none !important;
 }
+
+/* tetinet design system */
+:root {
+    --tetinet-bg: #0b161f;
+    --tetinet-bg-soft: #102932;
+    --tetinet-surface: #ffffff;
+    --tetinet-surface-soft: #f4f7f9;
+    --tetinet-border: #d8e4e7;
+    --tetinet-text: #16232d;
+    --tetinet-muted: #5b6c78;
+    --tetinet-main: #123c43;
+    --tetinet-accent: #7fe0d4;
+    --tetinet-link: #168c83;
+    --tetinet-error: #d64545;
+    --tetinet-success: #2f9e6d;
+    --tetinet-warning: #c98218;
+    --tetinet-shadow: 0 18px 42px rgba(8, 20, 28, 0.14);
+}
+
+body {
+    letter-spacing: 0;
+}
+
+.tool-page {
+    color: var(--tetinet-text);
+    background:
+        linear-gradient(180deg, rgba(11, 22, 31, 0.04), rgba(244, 247, 249, 0.96) 280px),
+        var(--tetinet-surface-soft);
+}
+
+.page-hsr {
+    background:
+        linear-gradient(180deg, rgba(11, 22, 31, 0.05), rgba(244, 247, 249, 0.96) 280px),
+        var(--tetinet-surface-soft);
+}
+
+.tool-page #wrapper {
+    width: min(100%, 1360px);
+    padding: 18px 44px 48px;
+}
+
+.site-header {
+    min-height: 68px;
+    width: min(1180px, 100%);
+    box-sizing: border-box;
+    margin: 0 auto 26px;
+    padding: 14px 18px;
+    color: #fff;
+    background: rgba(11, 24, 34, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 8px;
+    box-shadow: 0 16px 38px rgba(8, 20, 28, 0.18);
+    backdrop-filter: blur(16px);
+}
+
+.site-logo {
+    font-size: 24px;
+    letter-spacing: 0;
+}
+
+.site-nav {
+    gap: 8px;
+}
+
+.site-nav a,
+.tool-page .site-nav a {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 11px;
+    color: rgba(255, 255, 255, 0.86);
+    border-radius: 8px;
+}
+
+.site-nav a:hover,
+.tool-page .site-nav a:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.tool-hero {
+    min-height: 230px;
+    max-width: 1200px;
+    margin: 0 auto 28px;
+    padding: 42px;
+    border-radius: 8px;
+    background:
+        linear-gradient(115deg, rgba(11, 22, 31, 0.96), rgba(18, 60, 67, 0.9)),
+        url("../images/artifact/souhaku.png");
+    background-size: cover;
+    background-position: center;
+    box-shadow: var(--tetinet-shadow);
+}
+
+.page-hsr .tool-hero {
+    background:
+        linear-gradient(115deg, rgba(11, 22, 31, 0.96), rgba(18, 60, 67, 0.9)),
+        url("../images/artifact/souhaku.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.tool-hero::after {
+    display: none;
+}
+
+.tool-hero h1 {
+    max-width: 760px;
+    font-size: clamp(34px, 4.2vw, 58px);
+    letter-spacing: 0;
+}
+
+.hero-kicker {
+    color: var(--tetinet-accent);
+    opacity: 1;
+    text-transform: uppercase;
+}
+
+.hero-badge {
+    min-width: 220px;
+    padding: 18px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+}
+
+.tool-page .box,
+.tool-page .no-box {
+    background: var(--tetinet-surface);
+    border-color: var(--tetinet-border);
+    border-radius: 8px;
+    box-shadow: 0 14px 34px rgba(8, 20, 28, 0.08);
+}
+
+.tool-page h2,
+.page-hsr h2 {
+    border-color: var(--tetinet-accent);
+}
+
+.tool-page h3,
+.tool-page h4 {
+    color: var(--tetinet-text);
+}
+
+.calc-button,
+.reflect-button,
+.page-hsr .calc-button,
+.page-hsr .reflect-button,
+.calc-button:hover,
+.reflect-button:hover,
+.page-hsr .calc-button:hover,
+.page-hsr .reflect-button:hover {
+    color: #08272b;
+    background: var(--tetinet-accent);
+    border-radius: 8px;
+}
+
+.input_num,
+.tool-page select,
+.uid-importer__controls input {
+    border-color: var(--tetinet-border);
+    border-radius: 8px;
+}
+
+.input_num:focus,
+.tool-page select:focus,
+.uid-importer__controls input:focus {
+    outline: 3px solid rgba(127, 224, 212, 0.28);
+    border-color: var(--tetinet-link);
+}
+
+.result-panel #result,
+.page-hsr .result-panel #result {
+    color: var(--tetinet-text);
+    background: linear-gradient(135deg, rgba(127, 224, 212, 0.28), rgba(18, 60, 67, 0.08));
+    border: 1px solid rgba(22, 140, 131, 0.22);
+    border-radius: 8px;
+}
+
+.my-table,
+.hsrCha-table,
+.hsrWeapon-table,
+.hsrArtifact-table,
+#eleArea,
+#eleChoices,
+#chart-container,
+.target-area {
+    border-color: var(--tetinet-border);
+    border-radius: 8px;
+}
+
+.my-table th,
+.hsrCha-table th,
+.hsrWeapon-table th,
+.hsrArtifact-table th {
+    background: #edf7f6;
+}
+
+.tool-page a,
+.page-hsr a {
+    color: var(--tetinet-link);
+}
+
+.link-card {
+    border-radius: 8px;
+}
+
+.tool-page footer {
+    align-items: center;
+    justify-content: center;
+    gap: 14px 22px;
+    border-radius: 8px;
+}
+
+.tool-page footer a {
+    font-weight: 800;
+}
+
+.home-footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin: 34px 0 0;
+    padding: 24px 0 38px;
+    color: rgba(255, 255, 255, 0.8);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.home-footer strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #fff;
+    font-size: 18px;
+}
+
+.home-footer p {
+    margin: 0;
+    line-height: 1.7;
+}
+
+.home-footer nav {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+}
+
+.home-footer a {
+    color: rgba(255, 255, 255, 0.84);
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.home-footer a:hover {
+    color: var(--tetinet-accent);
+}
+
+@media (max-width: 920px) {
+    .tool-page #wrapper {
+        padding: 14px 16px 32px;
+    }
+
+    .site-header {
+        margin: 0 auto 20px;
+        padding: 16px;
+    }
+
+    .tool-hero {
+        padding: 28px 22px;
+    }
+}
+
+@media (max-width: 720px) {
+    .home-footer {
+        flex-direction: column;
+    }
+
+    .home-footer nav {
+        justify-content: flex-start;
+    }
+}
+
+/* per-page visual themes */
+.theme-home,
+.theme-games {
+    background:
+        linear-gradient(135deg, rgba(11, 22, 31, 0.92), rgba(18, 60, 67, 0.78)),
+        url("../images/theme/home-abstract.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.theme-games {
+    background:
+        linear-gradient(135deg, rgba(11, 22, 31, 0.9), rgba(28, 54, 72, 0.78)),
+        url("../images/theme/home-abstract.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.page-genshin {
+    --theme-main: #1f8f69;
+    --theme-sub: #40c8b8;
+    --theme-accent: #d5b75b;
+    --theme-text-on-hero: #ffffff;
+}
+
+.page-hsr {
+    --theme-main: #7138d7;
+    --theme-sub: #c44b91;
+    --theme-accent: #ff8a32;
+    --theme-text-on-hero: #ffffff;
+}
+
+.page-granblue {
+    --theme-main: #1d73c9;
+    --theme-sub: #47b8ec;
+    --theme-accent: #f0c86a;
+    --theme-text-on-hero: #ffffff;
+}
+
+.page-genshin .tool-hero {
+    background:
+        linear-gradient(115deg, rgba(26, 112, 79, 0.96), rgba(64, 200, 184, 0.84)),
+        url("../images/theme/genshin-abstract.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.page-hsr .tool-hero {
+    background:
+        linear-gradient(115deg, rgba(113, 56, 215, 0.94), rgba(255, 138, 50, 0.82)),
+        url("../images/theme/hsr-abstract.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.page-granblue .tool-hero {
+    background:
+        linear-gradient(115deg, rgba(29, 115, 201, 0.94), rgba(71, 184, 236, 0.82)),
+        url("../images/theme/granblue-abstract.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.page-genshin h2,
+.page-genshin .tool-page h2 {
+    border-color: #40c8b8;
+}
+
+.page-hsr h2 {
+    border-color: #ff8a32;
+}
+
+.page-granblue h2 {
+    border-color: #47b8ec;
+}
+
+.page-genshin .calc-button,
+.page-genshin .reflect-button,
+.page-genshin .calc-button:hover,
+.page-genshin .reflect-button:hover {
+    background: linear-gradient(135deg, #7fe0d4, #d5b75b);
+}
+
+.page-hsr .calc-button,
+.page-hsr .reflect-button,
+.page-hsr .calc-button:hover,
+.page-hsr .reflect-button:hover {
+    background: linear-gradient(135deg, #a98cff, #ff9a4d);
+}
+
+.page-granblue .calc-button,
+.page-granblue .reflect-button,
+.page-granblue .calc-button:hover,
+.page-granblue .reflect-button:hover {
+    background: linear-gradient(135deg, #86d7ff, #f0c86a);
+}
+
+.home-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.home-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.12;
+    background-size: cover;
+    background-position: center;
+    pointer-events: none;
+}
+
+.home-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.home-card--genshin::before {
+    opacity: 0.18;
+    background-image: url("../images/theme/genshin-abstract.png");
+}
+
+.home-card--hsr::before {
+    opacity: 0.18;
+    background-image: url("../images/theme/hsr-abstract.png");
+}
+
+.home-card--granblue::before {
+    opacity: 0.18;
+    background-image: url("../images/theme/granblue-abstract.png");
+}
+
+.home-card--future::before {
+    opacity: 0.14;
+    background-image: url("../images/theme/home-abstract.png");
+}
+
+.home-card--genshin span {
+    color: #1f8f69;
+}
+
+.home-card--hsr span {
+    color: #7138d7;
+}
+
+.home-card--granblue span {
+    color: #1d73c9;
+}
+
+.home-card--future span {
+    color: #168c83;
+}
+
+.notice-panel {
+    margin-top: 22px;
+    padding: 16px 18px;
+    color: #29445a;
+    background: #f1f8fb;
+    border: 1px solid var(--tetinet-border);
+    border-radius: 8px;
+}
+
+.notice-panel strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--tetinet-text);
+}
+
+.notice-panel p {
+    margin: 0;
+}
+
+.gb-damage-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.gb-damage-grid div {
+    min-height: 54px;
+    display: flex;
+    align-items: center;
+    padding: 12px 14px;
+    color: #14344e;
+    background: linear-gradient(135deg, rgba(134, 215, 255, 0.24), rgba(240, 200, 106, 0.18));
+    border: 1px solid rgba(29, 115, 201, 0.16);
+    border-radius: 8px;
+    font-weight: 800;
+}
+
+@media (max-width: 920px) {
+    .gb-damage-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .gb-damage-grid {
+        grid-template-columns: 1fr;
+    }
+}

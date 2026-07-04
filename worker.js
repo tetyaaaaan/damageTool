@@ -96,7 +96,7 @@ function renderHomePage() {
   <link rel="stylesheet" href="/games/css/menu.css">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
 </head>
-<body class="site-home">
+<body class="site-home theme-home">
   <div class="home-shell">
     <header class="home-header">
       <a class="home-logo" href="/">tetinet</a>
@@ -137,7 +137,7 @@ function renderHomePage() {
             <p>UID取得と手入力を組み合わせて、戦闘ステータスを確認できます。</p>
             <small>開く</small>
           </a>
-          <a class="home-card" href="/games/">
+          <a class="home-card home-card--future" href="/games/">
             <span>Coming next</span>
             <strong>今後追加予定</strong>
             <p>ゲームや小さなWebツールを、ここから探せるように整理していきます。</p>
@@ -146,6 +146,18 @@ function renderHomePage() {
         </div>
       </section>
     </main>
+    <footer class="home-footer">
+      <div>
+        <strong>tetinet</strong>
+        <p>ゲーム・ツール・個人制作物を少しずつまとめています。</p>
+      </div>
+      <nav aria-label="フッター">
+        <a href="/games/">ゲーム</a>
+        <a href="/games/formula/">計算式</a>
+        <a href="/games/enemies/">敵キャラ情報</a>
+        <a href="/games/privacy/">免責事項・プライバシー</a>
+      </nav>
+    </footer>
   </div>
 </body>
 </html>`, {
