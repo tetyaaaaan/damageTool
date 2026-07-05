@@ -98,18 +98,39 @@
         return `${fixed}${suffix}`;
     }
 
+    function escapeHtml(value) {
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+    }
+
+    function formatNamedItem(item) {
+        if (!item) return "-";
+        const name = item.name || (item.id ? `ID: ${item.id}` : "-");
+        const level = item.level ? ` Lv.${item.level}` : "";
+        return `${escapeHtml(name)}${escapeHtml(level)}`;
+    }
+
+    function formatArtifact(item) {
+        const slot = item.slot ? `${item.slot}: ` : "";
+        return `${escapeHtml(slot)}${formatNamedItem(item)}`;
+    }
+
     function renderCharacterDetail(character) {
         const detail = getElement("genshinCharacterDetail");
         if (!detail) return;
 
         detail.hidden = false;
-        const weapon = character.weapon ? `${TEXT.weaponId}: ${character.weapon.id} Lv.${character.weapon.level || "-"}` : "-";
-        const artifacts = character.artifacts.length ? character.artifacts.map((item) => `${item.slot} ID:${item.id}`).join(" / ") : "-";
+        const weapon = character.weapon ? formatNamedItem(character.weapon) : "-";
+        const artifacts = character.artifacts.length ? character.artifacts.map(formatArtifact).join(" / ") : "-";
         detail.innerHTML = `
-            <h4>${character.name}</h4>
+            <h4>${escapeHtml(character.name)}</h4>
             <dl class="character-build-grid">
                 <div><dt>${TEXT.level}</dt><dd>${character.level || "-"}</dd></div>
-                <div><dt>${TEXT.estimatedElement}</dt><dd>${character.element}</dd></div>
+                <div><dt>${TEXT.estimatedElement}</dt><dd>${escapeHtml(character.element)}</dd></div>
                 <div><dt>${TEXT.constellation}</dt><dd>${character.constellation}</dd></div>
                 <div><dt>${TEXT.weapon}</dt><dd>${weapon}</dd></div>
                 <div><dt>HP</dt><dd>${formatStat(character.stats.hp)}</dd></div>

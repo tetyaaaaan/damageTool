@@ -1,4 +1,4 @@
-// 原神ダメージ計算の実行処理
+﻿// 原神ダメージ計算の実行処理
 function calc(){
     // 入力値を取得し、各補正の計算に使用する
     let atk = parseFloat(document.getElementById("atk").value);
@@ -91,9 +91,26 @@ function calc(){
     myChart.data.datasets[0].data = data.map(function(item) { return item.value; });
     // 円グラフを再描画
     myChart.update();
+    scrollToDamageResult();
     
     // デバッグ時はここで計算完了を確認する
     
+}
+
+
+function scrollToDamageResult() {
+    const resultPanel = document.querySelector(".genshin-result-panel");
+    if (!resultPanel) return;
+
+    requestAnimationFrame(function () {
+        const header = document.querySelector(".teti-site-header");
+        const headerHeight = header ? header.getBoundingClientRect().height : 0;
+        const top = resultPanel.getBoundingClientRect().top + window.pageYOffset - headerHeight - 14;
+        window.scrollTo({
+            top: Math.max(top, 0),
+            behavior: "smooth"
+        });
+    });
 }
 
 
@@ -200,3 +217,4 @@ var data = [
     update: function() {}
   };
   
+

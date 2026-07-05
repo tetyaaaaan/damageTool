@@ -1260,6 +1260,15 @@ html[data-theme="dark"] .genshin-result-card #result {
   border: 1px solid var(--teti-border);
   border-radius: var(--teti-radius-sm);
   background: var(--teti-surface);
+  color: var(--teti-text);
+}
+
+html[data-theme="dark"] .genshin-tool-page .uid-importer__player,
+html[data-theme="dark"] .genshin-tool-page .uid-importer__selector,
+html[data-theme="dark"] .genshin-tool-page .uid-importer__detail {
+  background: #0d2633;
+  border-color: #244351;
+  color: #eef8fb;
 }
 
 .genshin-tool-page .character-build-grid {
@@ -1270,6 +1279,15 @@ html[data-theme="dark"] .genshin-result-card #result {
 
 .genshin-tool-page .character-build-grid div {
   min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  background: var(--teti-surface-soft);
+}
+
+html[data-theme="dark"] .genshin-tool-page .character-build-grid div {
+  background: #0a1c27;
+  border-color: #244351;
 }
 
 .genshin-tool-page .character-build-grid dt {
@@ -1280,8 +1298,13 @@ html[data-theme="dark"] .genshin-result-card #result {
 
 .genshin-tool-page .character-build-grid dd {
   margin: 0;
+  color: var(--teti-text);
   overflow-wrap: anywhere;
   font-weight: 800;
+}
+
+html[data-theme="dark"] .genshin-tool-page .character-build-grid dd {
+  color: #eef8fb;
 }
 
 .genshin-tool-page #modal {

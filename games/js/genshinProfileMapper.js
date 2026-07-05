@@ -22,6 +22,113 @@
         { key: 30, name: "\u7269\u7406" }
     ];
 
+    const LOCALE_KEYS = ["ja", "JP", "ja-JP", "ja_jp", "en", "EN"];
+
+    const EQUIP_TYPE_NAMES = {
+        EQUIP_BRACER: "生の花",
+        EQUIP_NECKLACE: "死の羽",
+        EQUIP_SHOES: "時の砂",
+        EQUIP_RING: "空の杯",
+        EQUIP_DRESS: "理の冠"
+    };
+
+    const CHARACTER_NAME_BY_AVATAR_ID_JA = {
+        "10000002": "神里綾華",
+        "10000003": "ジン",
+        "10000005": "旅人",
+        "10000006": "リサ",
+        "10000007": "旅人",
+        "10000014": "バーバラ",
+        "10000015": "ガイア",
+        "10000016": "ディルック",
+        "10000020": "レザー",
+        "10000021": "アンバー",
+        "10000022": "ウェンティ",
+        "10000023": "香菱",
+        "10000024": "北斗",
+        "10000025": "行秋",
+        "10000026": "魈",
+        "10000027": "凝光",
+        "10000029": "クレー",
+        "10000030": "鍾離",
+        "10000031": "フィッシュル",
+        "10000032": "ベネット",
+        "10000033": "タルタリヤ",
+        "10000034": "ノエル",
+        "10000035": "七七",
+        "10000036": "重雲",
+        "10000037": "甘雨",
+        "10000038": "アルベド",
+        "10000039": "ディオナ",
+        "10000041": "モナ",
+        "10000042": "刻晴",
+        "10000043": "スクロース",
+        "10000044": "辛炎",
+        "10000045": "ロサリア",
+        "10000046": "胡桃",
+        "10000047": "楓原万葉",
+        "10000048": "煙緋",
+        "10000049": "宵宮",
+        "10000050": "トーマ",
+        "10000051": "エウルア",
+        "10000052": "雷電将軍",
+        "10000053": "早柚",
+        "10000054": "珊瑚宮心海",
+        "10000055": "ゴロー",
+        "10000056": "九条裟羅",
+        "10000057": "荒瀧一斗",
+        "10000058": "八重神子",
+        "10000059": "鹿野院平蔵",
+        "10000060": "夜蘭",
+        "10000062": "アーロイ",
+        "10000063": "申鶴",
+        "10000064": "雲菫",
+        "10000065": "久岐忍",
+        "10000066": "神里綾人",
+        "10000067": "コレイ",
+        "10000068": "ドリー",
+        "10000069": "ティナリ",
+        "10000070": "ニィロウ",
+        "10000071": "セノ",
+        "10000072": "キャンディス",
+        "10000073": "ナヒーダ",
+        "10000074": "レイラ",
+        "10000075": "放浪者",
+        "10000076": "ファルザン",
+        "10000077": "ヨォーヨ",
+        "10000078": "アルハイゼン",
+        "10000079": "ディシア",
+        "10000080": "ミカ",
+        "10000081": "カーヴェ",
+        "10000082": "白朮",
+        "10000083": "リネット",
+        "10000084": "リネ",
+        "10000085": "フレミネ",
+        "10000086": "リオセスリ",
+        "10000087": "ヌヴィレット",
+        "10000088": "シャルロット",
+        "10000089": "フリーナ",
+        "10000090": "シュヴルーズ",
+        "10000091": "ナヴィア",
+        "10000092": "嘉明",
+        "10000093": "閑雲",
+        "10000094": "千織",
+        "10000095": "シグウィン",
+        "10000096": "アルレッキーノ",
+        "10000097": "セトス",
+        "10000098": "クロリンデ",
+        "10000099": "エミリエ",
+        "10000100": "カチーナ",
+        "10000101": "キィニチ",
+        "10000102": "ムアラニ",
+        "10000103": "シロネン",
+        "10000104": "チャスカ",
+        "10000105": "オロルン",
+        "10000106": "マーヴィカ",
+        "10000107": "シトラリ",
+        "10000108": "藍硯"
+    };
+
     const CHARACTER_NAME_BY_AVATAR_ID = {
         "10000002": "神里綾華",
         "10000003": "ジン",
@@ -128,6 +235,20 @@
         return typeof value === "string" && value.trim() ? value : fallback;
     }
 
+    function pickLocalizedName(nameTextMap, fallback = "") {
+        if (!nameTextMap || typeof nameTextMap !== "object") return fallback;
+        for (const key of LOCALE_KEYS) {
+            const text = nameTextMap[key];
+            if (typeof text === "string" && text.trim()) return text.trim();
+        }
+        const firstText = Object.values(nameTextMap).find((text) => typeof text === "string" && text.trim());
+        return firstText ? firstText.trim() : fallback;
+    }
+
+    function unknownName(id) {
+        return `名称不明（ID: ${id || "-"}）`;
+    }
+
     function readFightProp(avatar, key, fallback = 0) {
         return pickNumber(avatar?.fightPropMap?.[String(key)] ?? avatar?.fightPropMap?.[key], fallback);
     }
@@ -155,8 +276,10 @@
         const weapon = (avatar?.equipList || []).find((item) => item?.flat?.itemType === "ITEM_WEAPON");
         if (!weapon) return null;
 
+        const id = String(weapon.itemId || "-");
         return {
-            id: String(weapon.itemId || "-"),
+            id,
+            name: pickLocalizedName(weapon.flat?.nameTextMap, unknownName(id)),
             level: pickNumber(weapon.weapon?.level),
             rank: pickNumber(weapon.weapon?.affixMap ? Object.values(weapon.weapon.affixMap)[0] : 0)
         };
@@ -167,8 +290,9 @@
             .filter((item) => item?.flat?.itemType === "ITEM_RELIQUARY")
             .map((item) => ({
                 id: String(item.itemId || "-"),
+                name: pickLocalizedName(item.flat?.nameTextMap, unknownName(item.itemId)),
                 level: pickNumber(item.reliquary?.level),
-                slot: pickText(item.flat?.equipType, "-")
+                slot: pickText(EQUIP_TYPE_NAMES[item.flat?.equipType] || item.flat?.equipType, "-")
             }));
     }
 
@@ -176,11 +300,11 @@
         const bestDamage = mapBestElementDamage(avatar);
         const avatarId = String(avatar?.avatarId || "-");
         const level = readPropMapValue(avatar, 4001);
-        const mappedName = CHARACTER_NAME_BY_AVATAR_ID[avatarId];
+        const mappedName = pickLocalizedName(avatar?.flat?.nameTextMap) || CHARACTER_NAME_BY_AVATAR_ID_JA[avatarId];
 
         return {
             id: avatarId,
-            name: pickText(avatar?.name || avatar?.avatarName || mappedName, `\u30ad\u30e3\u30e9\u30af\u30bf\u30fcID: ${avatarId}`),
+            name: pickText(avatar?.name || avatar?.avatarName || mappedName, unknownName(avatarId)),
             level,
             element: bestDamage.element,
             constellation: Array.isArray(avatar?.talentIdList) ? avatar.talentIdList.length : 0,
