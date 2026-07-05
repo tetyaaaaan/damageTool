@@ -17,7 +17,7 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === "/") {
-      return renderHomePage();
+      return fetchAssetPath(request, env, "/home/index.html");
     }
 
     const legacyRedirect = LEGACY_REDIRECTS.get(url.pathname);
@@ -121,6 +121,13 @@ function readTtlSeconds(body) {
 function fetchGameAsset(request, env, url) {
   const assetUrl = new URL(request.url);
   assetUrl.pathname = url.pathname.slice(GAMES_PREFIX.length) || "/";
+
+  return env.ASSETS.fetch(new Request(assetUrl, request));
+}
+
+function fetchAssetPath(request, env, pathname) {
+  const assetUrl = new URL(request.url);
+  assetUrl.pathname = pathname;
 
   return env.ASSETS.fetch(new Request(assetUrl, request));
 }
