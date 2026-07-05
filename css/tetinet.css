@@ -1,0 +1,1141 @@
+/* tetinet shared design foundation */
+:root {
+  color-scheme: light;
+  --teti-font-sans: "M PLUS Rounded 1c", "Noto Sans JP", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --teti-page-bg: #f7f8fc;
+  --teti-surface: #ffffff;
+  --teti-surface-soft: #fbf8ff;
+  --teti-surface-strong: #f1ecff;
+  --teti-text: #172033;
+  --teti-muted: #667085;
+  --teti-border: #e5e7f0;
+  --teti-primary: #7428ff;
+  --teti-secondary: #ff7a1a;
+  --teti-pink: #f0378f;
+  --teti-accent: #7428ff;
+  --teti-accent-contrast: #ffffff;
+  --teti-focus: #8b5cf6;
+  --teti-notice-bg: #fff7e6;
+  --teti-notice-border: #ffd78a;
+  --teti-notice-text: #6f4a00;
+  --teti-shadow-soft: 0 18px 45px rgba(31, 41, 55, 0.12);
+  --teti-shadow-card: 0 10px 30px rgba(31, 41, 55, 0.09);
+  --teti-radius-sm: 6px;
+  --teti-radius-md: 8px;
+  --teti-radius-lg: 14px;
+  --teti-content-width: 1180px;
+  --teti-footer-bg: #071a2f;
+  --teti-footer-text: #e8f1ff;
+  --teti-footer-muted: #a9b8cc;
+  --teti-genshin: #1ba95c;
+  --teti-hsr: #9b7cff;
+  --teti-granblue: #1d9bd7;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --teti-page-bg: #05141d;
+  --teti-surface: #0a1c27;
+  --teti-surface-soft: #0d2633;
+  --teti-surface-strong: #12303d;
+  --teti-text: #eef8fb;
+  --teti-muted: #a8c0c8;
+  --teti-border: #244351;
+  --teti-primary: #35d2bc;
+  --teti-secondary: #72ead8;
+  --teti-pink: #66e0cf;
+  --teti-accent: #35d2bc;
+  --teti-accent-contrast: #03211d;
+  --teti-focus: #5eead4;
+  --teti-notice-bg: #162d34;
+  --teti-notice-border: #315d66;
+  --teti-notice-text: #d8f9f3;
+  --teti-shadow-soft: 0 20px 50px rgba(0, 0, 0, 0.34);
+  --teti-shadow-card: 0 12px 32px rgba(0, 0, 0, 0.28);
+  --teti-footer-bg: #061827;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.tetinet-page {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--teti-text);
+  background: var(--teti-page-bg);
+  font-family: var(--teti-font-sans);
+  letter-spacing: 0;
+}
+
+.teti-container {
+  width: min(var(--teti-content-width), calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.teti-site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--teti-surface) 88%, transparent);
+  border-bottom: 1px solid var(--teti-border);
+  backdrop-filter: blur(14px);
+}
+
+.teti-header-inner {
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.teti-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--teti-text);
+  text-decoration: none;
+  font-size: 1.55rem;
+  font-weight: 900;
+}
+
+.teti-brand img,
+.teti-footer-brand img {
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.teti-brand img {
+  width: 40px;
+  height: 40px;
+}
+
+.teti-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.teti-nav a {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px;
+  border-radius: var(--teti-radius-sm);
+  color: var(--teti-muted);
+  font-size: 0.92rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.teti-nav a[aria-current="page"],
+.teti-nav a:hover {
+  color: var(--teti-accent);
+  background: var(--teti-surface-soft);
+}
+
+.teti-theme-toggle {
+  width: 40px;
+  height: 40px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  background: var(--teti-surface);
+  color: var(--teti-text);
+  cursor: pointer;
+}
+
+.teti-theme-toggle:hover {
+  border-color: var(--teti-accent);
+  color: var(--teti-accent);
+}
+
+.teti-theme-toggle .theme-sun {
+  display: none;
+}
+
+html[data-theme="dark"] .teti-theme-toggle .theme-sun {
+  display: block;
+}
+
+html[data-theme="dark"] .teti-theme-toggle .theme-moon {
+  display: none;
+}
+
+.teti-main {
+  min-height: 55vh;
+}
+
+.teti-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 76px 0;
+  background: linear-gradient(135deg, rgba(116, 40, 255, 0.92), rgba(240, 55, 143, 0.88) 52%, rgba(255, 122, 26, 0.88));
+  color: #ffffff;
+}
+
+html[data-theme="dark"] .teti-hero {
+  background:
+    linear-gradient(rgba(5, 20, 29, 0.34), rgba(5, 20, 29, 0.86)),
+    radial-gradient(circle at 50% 0%, rgba(53, 210, 188, 0.32), transparent 45%),
+    linear-gradient(135deg, #061827, #092838 58%, #0e3c44);
+}
+
+.teti-hero-content {
+  max-width: 760px;
+}
+
+.teti-hero-logo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.teti-hero-logo img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+}
+
+.teti-hero h1,
+.teti-page-title h1 {
+  margin: 0;
+  font-size: clamp(2.6rem, 7vw, 5rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.teti-hero p,
+.teti-page-title p {
+  max-width: 680px;
+  margin: 18px 0 0;
+  font-size: 1.08rem;
+  line-height: 1.9;
+}
+
+.teti-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.teti-button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: var(--teti-radius-sm);
+  font: inherit;
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.teti-button:hover {
+  transform: translateY(-1px);
+}
+
+.teti-button-primary {
+  background: linear-gradient(135deg, var(--teti-primary), var(--teti-secondary));
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgba(116, 40, 255, 0.25);
+}
+
+html[data-theme="dark"] .teti-button-primary {
+  background: linear-gradient(135deg, #1aa997, #35d2bc);
+  color: #031c19;
+}
+
+.teti-button-secondary {
+  background: color-mix(in srgb, var(--teti-surface) 88%, transparent);
+  color: var(--teti-text);
+  border-color: var(--teti-border);
+}
+
+.teti-hero .teti-button-secondary {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.54);
+}
+
+.teti-section {
+  padding: 54px 0;
+}
+
+.teti-section-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+
+.teti-section h2,
+.teti-page-title h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  line-height: 1.25;
+}
+
+.teti-muted {
+  color: var(--teti-muted);
+}
+
+.teti-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.teti-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.teti-card {
+  display: block;
+  min-width: 0;
+  background: var(--teti-surface);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-md);
+  color: var(--teti-text);
+  text-decoration: none;
+  box-shadow: var(--teti-shadow-card);
+}
+
+.teti-card-body {
+  padding: 22px;
+}
+
+.teti-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.22rem;
+}
+
+.teti-card p {
+  margin: 0;
+  color: var(--teti-muted);
+  line-height: 1.75;
+}
+
+.teti-game-card {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 42% minmax(0, 1fr);
+}
+
+.teti-game-card-media {
+  min-height: 170px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--game-color, var(--teti-accent)) 35%, transparent), transparent),
+    var(--teti-surface-strong);
+}
+
+.teti-game-label {
+  display: inline-flex;
+  margin-bottom: 8px;
+  color: var(--game-color, var(--teti-accent));
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.teti-input,
+.teti-select,
+.teti-table {
+  width: 100%;
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  background: var(--teti-surface);
+  color: var(--teti-text);
+}
+
+.teti-input,
+.teti-select {
+  min-height: 42px;
+  padding: 8px 12px;
+  font: inherit;
+}
+
+.teti-input:focus,
+.teti-select:focus {
+  outline: 2px solid color-mix(in srgb, var(--teti-focus) 34%, transparent);
+  border-color: var(--teti-focus);
+}
+
+.teti-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+
+.teti-table th,
+.teti-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--teti-border);
+  text-align: left;
+}
+
+.teti-table th {
+  background: var(--teti-surface-soft);
+}
+
+.teti-notice {
+  padding: 16px 18px;
+  border: 1px solid var(--teti-notice-border);
+  border-radius: var(--teti-radius-md);
+  background: var(--teti-notice-bg);
+  color: var(--teti-notice-text);
+  line-height: 1.75;
+}
+
+.teti-page-title {
+  padding: 48px 0 26px;
+}
+
+.teti-site-footer {
+  margin-top: 54px;
+  padding: 38px 0 26px;
+  background: var(--teti-footer-bg);
+  color: var(--teti-footer-text);
+}
+
+.teti-footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: 28px;
+}
+
+.teti-footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.teti-footer-brand img {
+  width: 34px;
+  height: 34px;
+}
+
+.teti-footer-col h2,
+.teti-footer-col h3 {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  color: #ffffff;
+}
+
+.teti-footer-col p,
+.teti-footer-col a {
+  color: var(--teti-footer-muted);
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.teti-footer-col a {
+  display: block;
+  text-decoration: none;
+  margin: 6px 0;
+}
+
+.teti-footer-col a:hover {
+  color: #ffffff;
+}
+
+.teti-footer-bottom {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--teti-footer-muted);
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 860px) {
+  .teti-header-inner {
+    flex-wrap: wrap;
+    padding: 12px 0;
+  }
+
+  .teti-nav {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .teti-grid-3,
+  .teti-game-card {
+    grid-template-columns: 1fr;
+  }
+
+  .teti-footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .teti-container {
+    width: min(100% - 24px, var(--teti-content-width));
+  }
+
+  .teti-hero {
+    padding: 54px 0;
+  }
+
+  .teti-hero-logo {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .teti-hero-logo img {
+    width: 78px;
+    height: 78px;
+  }
+
+  .teti-nav {
+    overflow-x: visible;
+    flex-wrap: wrap;
+  }
+
+  .teti-section-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .teti-footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* STEP3: Genshin tool page */
+.genshin-tool-page {
+  --genshin-gold: #d7b15c;
+  --genshin-gold-bright: #f2c94c;
+  --genshin-gold-deep: #b8892e;
+  --teti-section-accent: linear-gradient(180deg, #6a30ff, #ff7a1a);
+  background:
+    radial-gradient(circle at 10% 0%, color-mix(in srgb, var(--teti-primary) 13%, transparent), transparent 30%),
+    radial-gradient(circle at 92% 8%, rgba(242, 201, 76, 0.15), transparent 30%),
+    var(--teti-page-bg);
+}
+
+html[data-theme="dark"] .genshin-tool-page {
+  --teti-section-accent: #14b8a6;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(53, 210, 188, 0.12), transparent 32%),
+    radial-gradient(circle at 88% 4%, rgba(215, 177, 92, 0.12), transparent 28%),
+    var(--teti-page-bg);
+}
+
+.genshin-tool-page #wrapper {
+  display: none;
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.teti-loading {
+  width: min(100% - 32px, 480px);
+  margin: 48px auto;
+  padding: 24px;
+  text-align: center;
+  color: var(--teti-text);
+  background: var(--teti-surface);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-md);
+  box-shadow: var(--teti-shadow-card);
+}
+
+.genshin-tool-main {
+  padding: 30px 0 0;
+}
+
+.genshin-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 22px;
+  color: var(--teti-muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.genshin-breadcrumb a {
+  color: var(--teti-accent);
+  text-decoration: none;
+}
+
+.genshin-breadcrumb span::before {
+  content: ">";
+  margin-right: 8px;
+  color: var(--teti-muted);
+}
+
+.genshin-tool-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  margin-bottom: 28px;
+  padding: 28px;
+  color: var(--teti-text);
+  background: var(--teti-surface);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-md);
+  box-shadow: var(--teti-shadow-card);
+  border-top: 3px solid color-mix(in srgb, var(--genshin-gold) 58%, transparent);
+}
+
+.genshin-tool-title {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.genshin-symbol {
+  width: 58px;
+  height: 58px;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  color: #0f5132;
+  background: linear-gradient(135deg, rgba(27, 169, 92, 0.16), rgba(242, 201, 76, 0.18));
+  border: 2px solid color-mix(in srgb, var(--genshin-gold) 52%, transparent);
+  border-radius: 50%;
+  font-size: 1.8rem;
+}
+
+html[data-theme="dark"] .genshin-symbol {
+  color: var(--genshin-gold-bright);
+  background: rgba(53, 210, 188, 0.08);
+}
+
+.genshin-kicker {
+  margin: 0 0 6px;
+  color: var(--genshin-gold-deep);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+html[data-theme="dark"] .genshin-kicker {
+  color: var(--genshin-gold-bright);
+}
+
+.genshin-tool-hero h1,
+.genshin-panel h2,
+.genshin-detail-card h2 {
+  margin: 0;
+  padding: 0;
+  color: var(--teti-text);
+  border: 0;
+  letter-spacing: 0;
+}
+
+.genshin-tool-hero h1 {
+  font-size: clamp(1.9rem, 4vw, 2.75rem);
+  line-height: 1.18;
+}
+
+.genshin-tool-hero p {
+  margin: 8px 0 0;
+  color: var(--teti-muted);
+  line-height: 1.8;
+}
+
+.genshin-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.genshin-tool-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(340px, 0.82fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.genshin-panel,
+.genshin-detail-card {
+  background: var(--teti-surface);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-md);
+  box-shadow: var(--teti-shadow-card);
+}
+
+.genshin-panel {
+  padding: 22px;
+}
+
+.genshin-result-panel {
+  position: static;
+}
+
+.genshin-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.genshin-panel h2 {
+  position: relative;
+  padding-left: 18px;
+  font-size: 1.55rem;
+}
+
+.genshin-panel h2::before,
+.genshin-detail-card h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.18em;
+  bottom: 0.18em;
+  width: 4px;
+  border-radius: 999px;
+  background: var(--teti-section-accent);
+}
+
+.genshin-detail-card h2 {
+  position: relative;
+  padding-left: 18px;
+}
+
+.genshin-fieldset {
+  padding: 16px;
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-md);
+  background: var(--teti-surface-soft);
+}
+
+.genshin-fieldset + .genshin-fieldset {
+  margin-top: 16px;
+}
+
+.genshin-fieldset h3,
+.genshin-breakdown h3,
+.genshin-info-box h3,
+.genshin-details-card summary {
+  margin: 0 0 12px;
+  color: var(--teti-text);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.genshin-help {
+  margin: 0 0 12px;
+  color: var(--teti-muted);
+  line-height: 1.75;
+}
+
+.genshin-form-grid,
+.genshin-inline-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+#eleCalcContent.genshin-form-grid[style*="block"] {
+  display: grid !important;
+}
+
+.genshin-inline-controls {
+  grid-template-columns: minmax(92px, auto) minmax(180px, 1fr) auto;
+  align-items: end;
+}
+
+.genshin-field {
+  display: grid;
+  gap: 6px;
+  color: var(--teti-text);
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.genshin-tool-page .input_num,
+.genshin-tool-page select,
+.genshin-tool-page input[type="text"] {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  min-height: 42px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 8px 11px;
+  color: var(--teti-text);
+  background: var(--teti-surface);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  font: inherit;
+  font-weight: 800;
+}
+
+.genshin-tool-page .input_num:focus,
+.genshin-tool-page select:focus,
+.genshin-tool-page input[type="text"]:focus {
+  outline: 2px solid color-mix(in srgb, var(--teti-focus) 34%, transparent);
+  border-color: var(--teti-focus);
+}
+
+.genshin-tool-page #eleArea {
+  max-width: none;
+  margin: 0;
+  padding: 12px 14px;
+  color: var(--teti-text);
+  background: var(--teti-surface);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  font-weight: 900;
+}
+
+.genshin-tool-page #eleChoices {
+  max-width: none;
+  margin-top: 8px;
+  padding: 8px;
+  color: var(--teti-text);
+  background: var(--teti-surface);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  box-shadow: var(--teti-shadow-card);
+}
+
+.genshin-tool-page #eleChoices ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.genshin-tool-page #eleChoices li {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--teti-border);
+  cursor: pointer;
+}
+
+.genshin-tool-page #eleChoices li:last-child {
+  border-bottom: 0;
+}
+
+.genshin-tool-page #eleChoices li:hover {
+  background: var(--teti-surface-soft);
+}
+
+.genshin-calc-button {
+  width: 100%;
+  min-height: 54px;
+  margin-top: 18px;
+  background: linear-gradient(135deg, var(--teti-primary), var(--teti-secondary));
+}
+
+html[data-theme="dark"] .genshin-calc-button {
+  background: linear-gradient(135deg, #1aa997, #35d2bc);
+  color: #031c19;
+}
+
+.genshin-result-card {
+  margin-bottom: 16px;
+  padding: 18px;
+  border: 1px solid var(--teti-border);
+  border-top: 3px solid color-mix(in srgb, var(--genshin-gold) 58%, transparent);
+  border-radius: var(--teti-radius-md);
+  background: linear-gradient(135deg, rgba(242, 201, 76, 0.12), rgba(116, 40, 255, 0.05)), var(--teti-surface);
+}
+
+.genshin-result-label {
+  margin: 0 0 10px;
+  color: var(--teti-muted);
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+.genshin-result-card #result {
+  margin: 0;
+  color: var(--teti-primary);
+  font-size: clamp(2.2rem, 5vw, 3.35rem);
+  line-height: 1.15;
+  font-weight: 900;
+  text-align: center;
+  word-break: break-word;
+}
+
+html[data-theme="dark"] .genshin-result-card #result {
+  color: var(--teti-accent);
+}
+
+.genshin-result-card #result span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--teti-muted);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.genshin-breakdown,
+.genshin-info-box,
+.genshin-details-card {
+  padding: 16px;
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-md);
+  background: var(--teti-surface-soft);
+}
+
+.genshin-breakdown + .genshin-details-card,
+.genshin-details-card + .genshin-info-box {
+  margin-top: 14px;
+}
+
+.genshin-breakdown dl {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+}
+
+.genshin-breakdown dl div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--teti-border);
+}
+
+.genshin-breakdown dl div:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.genshin-breakdown dt {
+  color: var(--teti-muted);
+  font-weight: 800;
+}
+
+.genshin-breakdown dd {
+  margin: 0;
+  color: var(--teti-text);
+  font-weight: 900;
+}
+
+.genshin-details-card summary {
+  cursor: pointer;
+}
+
+.genshin-tool-page .target-area {
+  max-width: none;
+  min-height: 52px;
+  height: auto;
+  margin: 0;
+  padding: 10px 12px;
+  color: var(--teti-text);
+  background: var(--teti-surface);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+}
+
+.genshin-info-box h3 {
+  color: var(--teti-accent);
+}
+
+.genshin-info-box p,
+.genshin-detail-card p {
+  margin: 0;
+  color: var(--teti-muted);
+  line-height: 1.75;
+}
+
+.genshin-detail-section {
+  margin-top: 24px;
+}
+
+.genshin-detail-card {
+  padding: 22px;
+}
+
+.genshin-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.genshin-link-row a {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 13px;
+  color: var(--teti-accent);
+  background: var(--teti-surface-soft);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.genshin-tool-page .uid-importer__message {
+  margin: 10px 0 0;
+  min-height: 1.5em;
+  color: var(--teti-muted);
+  font-weight: 800;
+}
+
+.genshin-tool-page .uid-importer__message[data-type="error"] {
+  color: #dc2626;
+}
+
+.genshin-tool-page .uid-importer__message[data-type="success"] {
+  color: #16845f;
+}
+
+.genshin-tool-page .uid-importer__player,
+.genshin-tool-page .uid-importer__selector,
+.genshin-tool-page .uid-importer__detail {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  background: var(--teti-surface);
+}
+
+.genshin-tool-page .character-build-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.genshin-tool-page .character-build-grid div {
+  min-width: 0;
+}
+
+.genshin-tool-page .character-build-grid dt {
+  color: var(--teti-muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.genshin-tool-page .character-build-grid dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-weight: 800;
+}
+
+.genshin-tool-page #modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.52);
+  overflow: auto;
+}
+
+.genshin-tool-page #modal > h3 {
+  width: min(720px, 100%);
+  margin: 4vh auto 10px;
+  color: #ffffff;
+}
+
+.genshin-tool-page .modal-content {
+  width: min(720px, 100%);
+  max-width: none;
+  max-height: 74vh;
+  margin: 0 auto;
+  padding: 20px;
+  overflow-y: auto;
+  background: var(--teti-surface);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-md);
+  box-shadow: var(--teti-shadow-soft);
+}
+
+.genshin-tool-page .modal-content h3 {
+  margin: 0 0 14px;
+  color: var(--teti-text);
+}
+
+.genshin-tool-page #imageList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.genshin-tool-page .image-item {
+  min-width: 0;
+  margin: 0;
+  padding: 9px;
+  color: var(--teti-text);
+  background: var(--teti-surface-soft);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  cursor: pointer;
+}
+
+.genshin-tool-page .selection-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.genshin-tool-page .selection-item img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 980px) {
+  .genshin-tool-hero,
+  .genshin-tool-title {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .genshin-hero-actions {
+    justify-content: flex-start;
+  }
+
+  .genshin-tool-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .genshin-tool-hero,
+  .genshin-panel,
+  .genshin-detail-card {
+    padding: 18px;
+  }
+
+  .genshin-form-grid,
+  .genshin-inline-controls,
+  #eleCalcContent.genshin-form-grid[style*="block"] {
+    grid-template-columns: 1fr;
+  }
+
+  .genshin-breakdown dl div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .genshin-tool-page #imageList {
+    grid-template-columns: 1fr;
+  }
+
+  .genshin-hero-actions .teti-button,
+  .genshin-link-row a {
+    width: 100%;
+  }
+}

@@ -1,335 +1,284 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
- <head>
-  <!-- Google tag (gtag.js) -->
+<head>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-S82LRCKEPS"></script>
   <script>
-   window.dataLayer = window.dataLayer || [];
-   function gtag(){dataLayer.push(arguments);}
-   gtag('js', new Date());
-   
-   gtag('config', 'G-S82LRCKEPS');
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-S82LRCKEPS');
   </script>
-  
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>原神ダメージ計算ツール｜蒸発・溶解・激化対応</title>
-  <meta name="title" content="原神ダメージ計算ツール｜蒸発・溶解・激化対応" />
-  <meta name="description" content="原神のダメージを計算できる非公式ツールです。蒸発・溶解反応、激化反応、敵防御補正、元素耐性補正を入力してダメージ目安を確認できます。" />
-  
+  <title>原神ダメージ計算ツール｜tetinet</title>
+  <meta name="title" content="原神ダメージ計算ツール｜tetinet">
+  <meta name="description" content="原神のダメージを計算できる非公式ツールです。蒸発・溶解・激化反応、敵防御補正、元素耐性補正を入力してダメージ目安を確認できます。">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/games/css/style.css">
   <link rel="stylesheet" href="/games/css/menu.css">
+  <link rel="stylesheet" href="/css/tetinet.css">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/games/images/icon/te_maru.ico">
-  <!--<link href="https://use.fontawesome.com/releases/v5.10.2/css/all.css" rel="stylesheet">-->
-  <!--フォント-->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-　<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-　<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
-
   <script src="/games/js/windowLoading.js"></script>
-  
- </head>
- <body class="tool-page page-genshin">
-  <!-- ページ読み込み中の画面表示 -->
-  <div id="load">
-   <font size="6" color="ff0000">
-    <p>ダメージ計算</p><br>
-    <p>Now Loading...</p>
-   </font>
+  <script src="/js/theme.js"></script>
+</head>
+<body class="tetinet-page genshin-tool-page">
+  <div id="load" class="teti-loading">
+    <p>原神ダメージ計算</p>
+    <p>Loading...</p>
   </div>
-  
+
   <div id="wrapper">
-   <section>
-    <header class="site-header">
-        <a class="site-logo" href="/games/">ゲームツール</a>
-        <nav class="site-nav" aria-label="メインメニュー">
-            <a href="/">ホーム</a>
-            <a href="/games/genshin/">原神</a>
-            <a href="/games/hsr/">崩壊スターレイル</a>
-            <a href="/games/">ゲーム</a>
-            <a href="/games/granblue/">グラブル</a>
+    <header class="teti-site-header">
+      <div class="teti-container teti-header-inner">
+        <a class="teti-brand" href="/" aria-label="tetinet ホーム">
+          <img src="/images/logo/tetinet_icon_purple_orange.webp" alt="" width="40" height="40">
+          <span>tetinet</span>
+        </a>
+        <nav class="teti-nav" aria-label="メインナビゲーション">
+          <a href="/">ホーム</a>
+          <a href="/games/" aria-current="page">ゲーム</a>
+          <a href="/games/">ツール</a>
+          <a href="/#about">このサイトについて</a>
         </nav>
+        <button class="teti-theme-toggle" type="button" data-theme-toggle aria-label="テーマ切り替え">
+          <span class="theme-moon" aria-hidden="true">☾</span>
+          <span class="theme-sun" aria-hidden="true">☀</span>
+        </button>
+      </div>
     </header>
-    
-    <!--ハンバーガーメニューの作成-->
-    <div class="hamburger">
-        <!-- ハンバーガーメニューのチェックボックス -->
-        <input type="checkbox" id="hamburger_check">
-        <label for="hamburger_check">
-            <span><img id="hamburgerBtn" alt="メニュー" src="/games/images/icon/bars-solid.svg"></span>
-            <span id="hamburgerCancel"></span>
-        </label>
-        <!--メニューバーの作成-->
-        <div class="sideMenu"></div>
-        <div class="sideMenu_content">
-            <header>メニュー</header>
-            <ul>
-                <li><a href="/">tetinet ホーム</a></li>
-                <li><a href="/games/genshin/">原神</a></li>
-                <li><a href="/games/granblue/">グラブル</a></li>
-                <li><a href="/games/hsr/">崩壊スターレイル</a></li>
-                <li><a href="https://twitter.com/Genshin_7">twitter</a></li>
-                <li><a href="https://peing.net/ja/dmgt">バグ報告</a></li>
-                <li><a href="/games/">ゲーム一覧</a></li>
-            </ul>
-        </div>
-    </div>
-    <nav class="breadcrumb" aria-label="パンくず">
-        <a href="/">ホーム</a>
-        <a href="/games/">ゲーム</a>
-        <span>原神 ダメージ計算</span>
-    </nav>
-    <div class="tool-hero">
-        <div>
-            <p class="hero-kicker">原神 / ダメージ計算</p>
-            <h1>原神 ダメージ計算</h1>
-            <p>蒸発・溶解・激化を含むダメージを、補正内訳まで見やすく確認できます。</p>
-        </div>
-        <div class="hero-badge">
-            <strong>GENSHIN IMPACT</strong>
-            <span>入力 → 内訳確認 → 比較</span>
-        </div>
-    </div>
 
-    <div class="box uid-importer genshin-uid-importer" id="genshinUidImporter">
-        <h3>UIDから公開キャラクターを取得</h3>
-        <p class="uid-importer__note">Enka.Networkから、ゲーム内プロフィールで公開されているキャラクターのみ取得します。取得後も入力欄は手動で調整できます。</p>
-        <div class="uid-importer__controls">
-            <label for="genshinUidInput">原神UID</label>
-            <input type="text" inputmode="numeric" pattern="[0-9]*" id="genshinUidInput" maxlength="10" placeholder="例: 800000000" autocomplete="off">
-            <button type="button" id="genshinUidSearchButton" class="calc-button">UID検索</button>
-        </div>
-        <p class="uid-importer__message" id="genshinUidMessage" aria-live="polite"></p>
-        <div class="uid-importer__player" id="genshinPlayerInfo" hidden></div>
-        <div class="uid-importer__selector" id="genshinCharacterSelector" hidden>
-            <label for="genshinProfileCharacterSelect">反映するキャラクター</label>
-            <select id="genshinProfileCharacterSelect"></select>
-        </div>
-        <div class="uid-importer__detail" id="genshinCharacterDetail" hidden></div>
-    </div>
+    <main class="teti-main genshin-tool-main">
+      <div class="teti-container">
+        <nav class="genshin-breadcrumb" aria-label="パンくず">
+          <a href="/">ホーム</a>
+          <a href="/games/">ゲーム一覧</a>
+          <span>原神 ダメージ計算</span>
+        </nav>
 
-    <!--ここにダメージ計算のフォームを作る-->
-    <!--main.jsファイル-->
-    <!--<script src="/games/js/main.js"></script>-->
-    <br>
-    <div class="calculator-layout">
-    <div class="box input-panel">
-    <h3>条件入力</h3>
-    <div id="eleArea">元素反応選択：反応なし（初期値） ▼</div>
-    <div id="eleChoices" class="white">
-        <ul>
-            <li>元素反応なし</li>
-            <li>蒸発 <span class="red">炎ダメ</span> / 溶解 <span class="lightblue">氷ダメ</span> （× 1.5倍）</li>
-            <li>蒸発 <span class="waterblue">水ダメ</span> / 溶解 <span class="red">炎ダメ</span> （× 2倍）</li>
-            <li>激化 <span class="pink">超激化</span> （激化係数: × 1.15倍）※Lv.90と仮定</li>
-            <li>激化 <span class="green">草激化</span> （激化係数: × 1.25倍）※Lv.90と仮定</li>
-            <li>その他反応 （未実装）※Lv.90と仮定</li>
-        </ul>
-    </div>
-    <br>
-    
-    <div id="normalDmgContent">
-        <table class="my-table">
-            <tr>
-                <th class="normal-text">攻撃力</th>
-            </tr>
-            <tr>
-                <td><input type="number" class="input_num" id="atk" step="1" value="1000"></td>
-            </tr>
-        </table>
-        <table class="my-table">
-            <tr>
-                <th class="normal-text">天賦倍率%</th>
-                <th class="normal-text">特殊乗算%</th>
-                <th class="normal-text">実数ダメ加算</th>
-            </tr>
-            <tr>
-                <td><input type="number" class="input_num" id="talent" step="0.1" value="50"></td>
-                <td><input type="number" class="input_num" id="special" step="0.1" value="0"></td>
-                <td><input type="number" class="input_num" id="add_b" step="0.1" value="0"></td>
-            </tr>
-        </table>
-        <br>
-    
-        
-        <!--<p>防御力：<input type="text" id="def"></p>-->
-        <!--<p>会心率：<input type="text" id="cri"></p>-->
-        <p>ダメージバフ (％)：<input type="number" class="input_num" id="dmg_b" step="0.1" value="0"></p>
-        <p>会心ダメージ (％)：<input type="number" class="input_num" id="cri_dmg" step="0.1" value="50"></p>
-    </div>
-    
-    <br>
-    <div id="eleCalcContent" style="display: none;">
-        <!--<p>元素反応倍率(1 1.5 2.0)：<input type="number" id="ele" step="0.5" value="1"></p>-->
-        <p>元素熟知：<input type="number" class="input_num" id="ele_m" step="1" value="0"></p>
-        <p>装備等元素反応ダメボ (％)：<input type="number" class="input_num" id="ele_e" step="1" value="0"></p>
-    </div>
-    <br>
-    
-    <table class="my-table">
-        <tr>
-            <th class="normal-text">耐性デバフ%</th>
-            <th class="normal-text">防御デバフ%</th>
-            <th class="normal-text">防御無視%</th>
-        </tr>
-        <tr>
-            <td><input type="number" class="input_num" id="ele_d" step="1" value="0"></td>
-            <td><input type="number" class="input_num" id="def_d" step="1" value="0"></td>
-            <td><input type="number" class="input_num" id="def_ig" step="1" value="0"></td>
-        </tr>
-    </table>
-    <br>
+        <section class="genshin-tool-hero">
+          <div class="genshin-tool-title">
+            <span class="genshin-symbol" aria-hidden="true">✦</span>
+            <div>
+              <p class="genshin-kicker">Genshin Impact</p>
+              <h1>原神 ダメージ計算ツール</h1>
+              <p>キャラクターのステータスや武器、聖遺物、反応倍率を入力してダメージを計算します。</p>
+            </div>
+          </div>
+          <div class="genshin-hero-actions">
+            <a class="teti-button teti-button-secondary" href="/games/">ゲーム一覧へ</a>
+            <a class="teti-button teti-button-secondary" href="/">ホームへ</a>
+          </div>
+        </section>
 
-    <p>キャラレベル：<input type="number" class="input_num" id="lv" step="1" value="90"></p>
-    
-    <br>
-    <p>敵レベル：<input type="number" class="input_num" id="e_lv" step="1" value="90"></p>
-    <p>敵の元素・物理耐性 (％)：<input type="number" class="input_num" id="e_res" step="1" value="10"></p>
-    </div>
-    <br>
-    <div class="no-box result-panel">
-    <h3>計算結果</h3>
-    <p class = "pink">敵防御補正：<span id="value_e_def"></span></p>
-    <p class = "pink">敵元素耐性補正：<span id="value_e_ele"></span></p>
-    <br>
-    <button id = "dmg_button" type = "button" class = "calc-button" onclick="calc()">ダメージ計算実行！</button>
-    <br><br>
-    <p class = "red" id="result">ダメージ計算します：</p>
-    <br>
+        <section class="genshin-tool-grid" aria-label="原神ダメージ計算">
+          <div class="genshin-panel genshin-input-panel">
+            <div class="genshin-panel-head">
+              <div>
+                <p class="genshin-kicker">入力エリア</p>
+                <h2>条件入力</h2>
+              </div>
+            </div>
 
-    
-    <script src="/games/js/genshinProfileApi.js"></script>
-    <script src="/games/js/genshinProfileMapper.js"></script>
-    <script src="/games/js/genshinUidImporter.js"></script>
-    <script src="/games/js/main.js"></script>
-    <br>
-    
-    <!--画像付き選択肢-->
-    <!-- 聖遺物選択エリア -->
-    <div id="targetArea" class="target-area selection-item" style="cursor: pointer;">聖遺物セットを選択（参考）</div>
-    <!-- モーダルウィンドウ -->
-    <div id="modal" style="display: none;">
-        <h3>　聖遺物選択画面</h3>
-        <div class="modal-content">
+            <div class="genshin-fieldset uid-importer genshin-uid-importer" id="genshinUidImporter">
+              <h3>公開プロフィールから反映</h3>
+              <p class="genshin-help">UIDから公開キャラクターを取得できます。取得後も入力欄は手動で調整できます。</p>
+              <div class="uid-importer__controls genshin-inline-controls">
+                <label for="genshinUidInput">原神UID</label>
+                <input class="teti-input" type="text" inputmode="numeric" pattern="[0-9]*" id="genshinUidInput" maxlength="10" placeholder="例: 800000000" autocomplete="off">
+                <button type="button" id="genshinUidSearchButton" class="teti-button teti-button-secondary">UID検索</button>
+              </div>
+              <p class="uid-importer__message" id="genshinUidMessage" aria-live="polite"></p>
+              <div class="uid-importer__player" id="genshinPlayerInfo" hidden></div>
+              <div class="uid-importer__selector" id="genshinCharacterSelector" hidden>
+                <label for="genshinProfileCharacterSelect">反映するキャラクター</label>
+                <select class="teti-select" id="genshinProfileCharacterSelect"></select>
+              </div>
+              <div class="uid-importer__detail" id="genshinCharacterDetail" hidden></div>
+            </div>
+
+            <div class="genshin-fieldset">
+              <h3>元素反応</h3>
+              <div id="eleArea">元素反応選択：反応なし（初期値） ▼</div>
+              <div id="eleChoices" class="white">
+                <ul>
+                  <li>元素反応なし</li>
+                  <li>蒸発 <span class="red">炎ダメ</span> / 溶解 <span class="lightblue">氷ダメ</span> （× 1.5倍）</li>
+                  <li>蒸発 <span class="waterblue">水ダメ</span> / 溶解 <span class="red">炎ダメ</span> （× 2倍）</li>
+                  <li>激化 <span class="pink">超激化</span> （激化係数: × 1.15倍）※Lv.90と仮定</li>
+                  <li>激化 <span class="green">草激化</span> （激化係数: × 1.25倍）※Lv.90と仮定</li>
+                  <li>その他反応 （未実装）※Lv.90と仮定</li>
+                </ul>
+              </div>
+
+              <div id="eleCalcContent" class="genshin-form-grid" style="display: none;">
+                <label class="genshin-field">元素熟知<input type="number" class="input_num" id="ele_m" step="1" value="0"></label>
+                <label class="genshin-field">元素反応ダメボ%<input type="number" class="input_num" id="ele_e" step="1" value="0"></label>
+              </div>
+            </div>
+
+            <div class="genshin-fieldset" id="normalDmgContent">
+              <h3>基礎ステータス</h3>
+              <div class="genshin-form-grid">
+                <label class="genshin-field">攻撃力<input type="number" class="input_num" id="atk" step="1" value="1000"></label>
+                <label class="genshin-field">天賦倍率%<input type="number" class="input_num" id="talent" step="0.1" value="50"></label>
+                <label class="genshin-field">特殊乗算%<input type="number" class="input_num" id="special" step="0.1" value="0"></label>
+                <label class="genshin-field">実数ダメ加算<input type="number" class="input_num" id="add_b" step="0.1" value="0"></label>
+                <label class="genshin-field">ダメージバフ%<input type="number" class="input_num" id="dmg_b" step="0.1" value="0"></label>
+                <label class="genshin-field">会心ダメージ%<input type="number" class="input_num" id="cri_dmg" step="0.1" value="50"></label>
+              </div>
+            </div>
+
+            <div class="genshin-fieldset">
+              <h3>敵・補正</h3>
+              <div class="genshin-form-grid">
+                <label class="genshin-field">耐性デバフ%<input type="number" class="input_num" id="ele_d" step="1" value="0"></label>
+                <label class="genshin-field">防御デバフ%<input type="number" class="input_num" id="def_d" step="1" value="0"></label>
+                <label class="genshin-field">防御無視%<input type="number" class="input_num" id="def_ig" step="1" value="0"></label>
+                <label class="genshin-field">キャラレベル<input type="number" class="input_num" id="lv" step="1" value="90"></label>
+                <label class="genshin-field">敵レベル<input type="number" class="input_num" id="e_lv" step="1" value="90"></label>
+                <label class="genshin-field">敵の元素・物理耐性%<input type="number" class="input_num" id="e_res" step="1" value="10"></label>
+              </div>
+            </div>
+
+            <button id="dmg_button" type="button" class="teti-button teti-button-primary genshin-calc-button" onclick="calc()">ダメージを計算する</button>
+          </div>
+
+          <aside class="genshin-panel genshin-result-panel" aria-label="計算結果">
+            <div class="genshin-panel-head">
+              <div>
+                <p class="genshin-kicker">計算結果</p>
+                <h2>結果</h2>
+              </div>
+            </div>
+
+            <div class="genshin-result-card">
+              <p class="genshin-result-label">推定ダメージ</p>
+              <p class="red" id="result"><span>未計算</span><br>-</p>
+            </div>
+
+            <div class="genshin-breakdown">
+              <h3>ダメージ内訳</h3>
+              <dl>
+                <div>
+                  <dt>敵防御補正</dt>
+                  <dd id="value_e_def">-</dd>
+                </div>
+                <div>
+                  <dt>敵元素耐性補正</dt>
+                  <dd id="value_e_ele">-</dd>
+                </div>
+                <div>
+                  <dt>反応・バフ</dt>
+                  <dd>入力値をもとに計算</dd>
+                </div>
+              </dl>
+            </div>
+
+            <details class="genshin-details-card">
+              <summary>聖遺物セットを選択</summary>
+              <div id="targetArea" class="target-area selection-item" style="cursor: pointer;">聖遺物セットを選択（参考）</div>
+            </details>
+
+            <div class="genshin-info-box">
+              <h3>INFO</h3>
+              <p>このツールはあくまで目安です。実際のダメージは環境や条件によって変動します。</p>
+            </div>
+          </aside>
+        </section>
+
+        <section class="genshin-detail-section" aria-label="詳細と補足">
+          <div class="genshin-detail-card">
+            <h2>詳細・補足</h2>
+            <p>計算式や敵耐性の詳細は補助ページに整理しています。必要なときだけ確認できます。</p>
+            <div class="genshin-link-row">
+              <a href="/games/formula/">計算式を見る</a>
+              <a href="/games/enemies/">敵キャラ情報</a>
+            </div>
+          </div>
+        </section>
+
+        <div id="modal" style="display: none;">
+          <h3>聖遺物選択画面</h3>
+          <div class="modal-content">
             <h3>聖遺物を選択してください</h3>
             <ul id="imageList">
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/hanaumi.png" data-image-text="花海甘露の光">
-                    <img src="/games/images/artifact/hanaumi.png" alt="Image 28">花海甘露の光
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/suisen.png" data-image-text="水仙の夢">
-                    <img src="/games/images/artifact/suisen.png" alt="Image 27">水仙の夢
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/rakuen.png" data-image-text="楽園の絶花">
-                    <img src="/games/images/artifact/rakuen.png" alt="Image 26">楽園の絶花
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/sazyou.png" data-image-text="砂上の楼閣の史話">
-                    <img src="/games/images/artifact/sazyou.png" alt="Image 25">砂上の楼閣の史話
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/kinmekki.png" data-image-text="金メッキの夢">
-                    <img src="/games/images/artifact/kinmekki.png" alt="Image 24">金メッキの夢
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/sinrin.png" data-image-text="深林の記憶">
-                    <img src="/games/images/artifact/sinrin.png" alt="Image 23">深林の記憶
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/raikin.png" data-image-text="来歆の余響">
-                    <img src="/games/images/artifact/raikin.png" alt="Image 22">来歆の余響
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/sinsya.png" data-image-text="辰砂往生録">
-                    <img src="/games/images/artifact/sinsya.png" alt="Image 21">辰砂往生録
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/umizome.png" data-image-text="海染硨磲">
-                    <img src="/games/images/artifact/umizome.png" alt="Image 20">海染硨磲
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/kakan.png" data-image-text="華館夢醒形骸記">
-                    <img src="/games/images/artifact/kakan.png" alt="Image 19">華館夢醒形骸記
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/zetsuen.png" data-image-text="絶縁の旗印">
-                    <img src="/games/images/artifact/zetsuen.png" alt="Image 18">絶縁の旗印
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/simenawa.png" data-image-text="追憶のしめ縄">
-                    <img src="/games/images/artifact/simenawa.png" alt="Image 17">追憶のしめ縄
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/souhaku.png" data-image-text="蒼白の炎">
-                    <img src="/games/images/artifact/souhaku.png" alt="Image 16">蒼白の炎
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/sengan.png" data-image-text="千岩牢固">
-                    <img src="/games/images/artifact/sengan.png" alt="Image 15">千岩牢固
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/tinrin.png" data-image-text="沈淪の心">
-                    <img src="/games/images/artifact/tinrin.png" alt="Image 14">沈淪の心
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/hyouhuu.png" data-image-text="氷風を彷徨う勇士">
-                    <img src="/games/images/artifact/hyouhuu.png" alt="Image 13">氷風を彷徨う勇士
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/himazyo.jpg" data-image-text="燃え盛る炎の魔女">
-                    <img src="/games/images/artifact/himazyo.jpg" alt="Image 12">燃え盛る炎の魔女
-                </li>
-
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/kaminari.png" data-image-text="雷のような怒り">
-                    <img src="/games/images/artifact/kaminari.png" alt="Image 10">雷のような怒り
-                </li>
-
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/sakatobi.jpg" data-image-text="逆飛びの流星">
-                    <img src="/games/images/artifact/sakatobi.jpg" alt="Image 8">逆飛びの流星
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/bangan.jpg" data-image-text="悠久の磐岩">
-                    <img src="/games/images/artifact/bangan.jpg" alt="Image 7">悠久の磐岩
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/suiryoku.jpg" data-image-text="翠緑の影">
-                    <img src="/games/images/artifact/suiryoku.jpg" alt="Image 6">翠緑の影
-                </li>
-
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/tizome.jpg" data-image-text="血染めの騎士道">
-                    <img src="/games/images/artifact/tizome.jpg" alt="Image 4">血染めの騎士道
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/kyuukizoku.jpg" data-image-text="旧貴族のしつけ">
-                    <img src="/games/images/artifact/kyuukizoku.jpg" alt="Image 3">旧貴族のしつけ
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/gakudan.jpg" data-image-text="大地を放浪する楽団">
-                    <img src="/games/images/artifact/gakudan.jpg" alt="Image 2">大地を放浪する楽団
-                </li>
-                <li class="image-item selection-item" data-image-url="/games/images/artifact/kentousi.jpg" data-image-text="剣闘士のフィナーレ">
-                    <img src="/games/images/artifact/kentousi.jpg" alt="Image 1">剣闘士のフィナーレ
-                </li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/hanaumi.png" data-image-text="花海甘露の光"><img src="/games/images/artifact/hanaumi.png" alt="Image 28">花海甘露の光</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/suisen.png" data-image-text="水仙の夢"><img src="/games/images/artifact/suisen.png" alt="Image 27">水仙の夢</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/rakuen.png" data-image-text="楽園の絶花"><img src="/games/images/artifact/rakuen.png" alt="Image 26">楽園の絶花</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/sazyou.png" data-image-text="砂上の楼閣の史話"><img src="/games/images/artifact/sazyou.png" alt="Image 25">砂上の楼閣の史話</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/kinmekki.png" data-image-text="金メッキの夢"><img src="/games/images/artifact/kinmekki.png" alt="Image 24">金メッキの夢</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/sinrin.png" data-image-text="深林の記憶"><img src="/games/images/artifact/sinrin.png" alt="Image 23">深林の記憶</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/raikin.png" data-image-text="来歆の余響"><img src="/games/images/artifact/raikin.png" alt="Image 22">来歆の余響</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/sinsya.png" data-image-text="辰砂往生録"><img src="/games/images/artifact/sinsya.png" alt="Image 21">辰砂往生録</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/umizome.png" data-image-text="海染硨磲"><img src="/games/images/artifact/umizome.png" alt="Image 20">海染硨磲</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/kakan.png" data-image-text="華館夢醒形骸記"><img src="/games/images/artifact/kakan.png" alt="Image 19">華館夢醒形骸記</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/zetsuen.png" data-image-text="絶縁の旗印"><img src="/games/images/artifact/zetsuen.png" alt="Image 18">絶縁の旗印</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/simenawa.png" data-image-text="追憶のしめ縄"><img src="/games/images/artifact/simenawa.png" alt="Image 17">追憶のしめ縄</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/souhaku.png" data-image-text="蒼白の炎"><img src="/games/images/artifact/souhaku.png" alt="Image 16">蒼白の炎</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/sengan.png" data-image-text="千岩牢固"><img src="/games/images/artifact/sengan.png" alt="Image 15">千岩牢固</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/tinrin.png" data-image-text="沈淪の心"><img src="/games/images/artifact/tinrin.png" alt="Image 14">沈淪の心</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/hyouhuu.png" data-image-text="氷風を彷徨う勇士"><img src="/games/images/artifact/hyouhuu.png" alt="Image 13">氷風を彷徨う勇士</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/himazyo.jpg" data-image-text="燃え盛る炎の魔女"><img src="/games/images/artifact/himazyo.jpg" alt="Image 12">燃え盛る炎の魔女</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/kaminari.png" data-image-text="雷のような怒り"><img src="/games/images/artifact/kaminari.png" alt="Image 10">雷のような怒り</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/sakatobi.jpg" data-image-text="逆飛びの流星"><img src="/games/images/artifact/sakatobi.jpg" alt="Image 8">逆飛びの流星</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/bangan.jpg" data-image-text="悠久の磐岩"><img src="/games/images/artifact/bangan.jpg" alt="Image 7">悠久の磐岩</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/suiryoku.jpg" data-image-text="翠緑の影"><img src="/games/images/artifact/suiryoku.jpg" alt="Image 6">翠緑の影</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/tizome.jpg" data-image-text="血染めの騎士道"><img src="/games/images/artifact/tizome.jpg" alt="Image 4">血染めの騎士道</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/kyuukizoku.jpg" data-image-text="旧貴族のしつけ"><img src="/games/images/artifact/kyuukizoku.jpg" alt="Image 3">旧貴族のしつけ</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/gakudan.jpg" data-image-text="大地を放浪する楽団"><img src="/games/images/artifact/gakudan.jpg" alt="Image 2">大地を放浪する楽団</li>
+              <li class="image-item selection-item" data-image-url="/games/images/artifact/kentousi.jpg" data-image-text="剣闘士のフィナーレ"><img src="/games/images/artifact/kentousi.jpg" alt="Image 1">剣闘士のフィナーレ</li>
             </ul>
+          </div>
         </div>
-    </div>
-    
-    </div>
-    </div>
 
-    <div class="box tool-extra">
-    <script src="/games/js/artifact.js"></script>
-    </div>
+        <script src="/games/js/genshinProfileApi.js"></script>
+        <script src="/games/js/genshinProfileMapper.js"></script>
+        <script src="/games/js/genshinUidImporter.js"></script>
+        <script src="/games/js/main.js"></script>
+        <script src="/games/js/artifact.js"></script>
+      </div>
+    </main>
 
-
-    <p></p>
-   </section>
-   
-   <br><br><br><br><br><br>
-   <div>
-    <h3>原神公式 Twitter</h3>
-    <a class="twitter-timeline" width="350px" height="400px" data-chrome="noheader nofooter" href="https://twitter.com/Genshin_7?ref_src=twsrc%5Etfw">Tweets by Genshin_7</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-   </div>
-   <br><br><br><br><br>
-<br><br><br><br>
-   <footer>
-    <a href="/games/formula/">計算式</a>
-    <a href="/games/enemies/">敵キャラ情報</a>
-    <a href="/games/privacy/">プライバシーポリシー</a>
-   </footer>
+    <footer class="teti-site-footer">
+      <div class="teti-container">
+        <div class="teti-footer-grid">
+          <div class="teti-footer-col">
+            <div class="teti-footer-brand">
+              <img src="/images/logo/tetinet_icon_purple_orange.webp" alt="" width="34" height="34">
+              <span>tetinet</span>
+            </div>
+            <p>ゲーム・ツール・個人制作物をまとめるサイト。</p>
+          </div>
+          <div class="teti-footer-col">
+            <h3>コンテンツ</h3>
+            <a href="/">ホーム</a>
+            <a href="/games/">ゲーム一覧</a>
+            <a href="/games/">ツール一覧</a>
+            <a href="/#about">このサイトについて</a>
+          </div>
+          <div class="teti-footer-col">
+            <h3>サポート</h3>
+            <a href="/games/">使い方ガイド</a>
+            <a href="/games/">更新履歴</a>
+            <a href="/games/">よくある質問</a>
+            <a href="/games/">お問い合わせ</a>
+          </div>
+          <div class="teti-footer-col">
+            <h3>その他</h3>
+            <a href="/games/privacy/">免責事項</a>
+            <a href="/games/privacy/">プライバシーポリシー</a>
+            <a href="/games/">リンク集</a>
+            <a href="/games/">サイトマップ</a>
+          </div>
+        </div>
+        <div class="teti-footer-bottom">© 2025 tetinet. All rights reserved.</div>
+      </div>
+    </footer>
   </div>
- </body>
+</body>
 </html>
-
-
-
-
-
-
-
-
-
-

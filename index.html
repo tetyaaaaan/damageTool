@@ -3,80 +3,127 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>tetinet</title>
-  <meta name="description" content="ゲーム・ツール・個人制作物をまとめるサイトです。">
-  <link rel="stylesheet" href="/games/css/style.css">
-  <link rel="stylesheet" href="/games/css/menu.css">
+  <title>tetinet｜ゲーム・ツール・個人制作物をまとめるサイト</title>
+  <meta name="description" content="tetinetはゲームの便利ツールや個人制作物をまとめるサイトです。原神、崩壊スターレイル、グラブル関連ツールを掲載しています。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/tetinet.css">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/games/images/icon/te_maru.ico">
+  <script src="/js/theme.js"></script>
 </head>
-<body class="site-home theme-home">
-  <div class="home-shell">
-    <header class="home-header">
-      <a class="home-logo" href="/">tetinet</a>
-      <nav class="home-nav" aria-label="メインメニュー">
+<body class="tetinet-page">
+  <header class="teti-site-header">
+    <div class="teti-container teti-header-inner">
+      <a class="teti-brand" href="/" aria-label="tetinet ホーム">
+        <img src="/images/logo/tetinet_icon_purple_orange.webp" alt="" width="40" height="40">
+        <span>tetinet</span>
+      </a>
+      <nav class="teti-nav" aria-label="メインナビゲーション">
+        <a href="/" aria-current="page">ホーム</a>
         <a href="/games/">ゲーム</a>
-        <a href="/games/genshin/">原神</a>
-        <a href="/games/hsr/">崩壊スターレイル</a>
-        <a href="/games/privacy/">プライバシー</a>
+        <a href="/games/">ツール</a>
+        <a href="#about">このサイトについて</a>
       </nav>
-    </header>
+      <button class="teti-theme-toggle" type="button" data-theme-toggle aria-label="テーマ切り替え">
+        <span class="theme-moon" aria-hidden="true">☾</span>
+        <span class="theme-sun" aria-hidden="true">☀</span>
+      </button>
+    </div>
+  </header>
 
-    <main>
-      <section class="home-hero">
-        <div class="home-hero__content">
-          <p class="home-kicker">Personal hub</p>
+  <main class="teti-main">
+    <section class="teti-hero">
+      <div class="teti-container teti-hero-content">
+        <div class="teti-hero-logo">
+          <img src="/images/logo/tetinet_icon_purple_orange.webp" alt="" width="96" height="96">
           <h1>tetinet</h1>
-          <p class="home-lead">ゲーム・ツール・個人制作物をまとめるサイトです。</p>
-          <div class="home-actions">
-            <a class="home-primary-link" href="/games/">ゲームツールを見る</a>
-            <a class="home-secondary-link" href="/games/genshin/">原神ツールへ</a>
-          </div>
         </div>
-      </section>
-
-      <section class="home-section" aria-labelledby="tools-heading">
-        <div class="home-section-heading">
-          <p class="home-kicker">Tools</p>
-          <h2 id="tools-heading">公開中のツール</h2>
+        <p>ゲーム・ツール・個人制作物をまとめるサイト。原神・崩壊: スターレイルなどのダメージ計算ツールや、ゲームに役立つ情報を見やすく整理しています。</p>
+        <div class="teti-actions">
+          <a class="teti-button teti-button-primary" href="/games/genshin/">原神ツールを開く →</a>
+          <a class="teti-button teti-button-secondary" href="/games/">ゲーム一覧を見る</a>
         </div>
-
-        <div class="home-card-grid">
-          <a class="home-card home-card--genshin" href="/games/genshin/">
-            <span>Genshin Impact</span>
-            <strong>原神 ダメージ計算</strong>
-            <p>蒸発・溶解・激化などの条件を入力して、ダメージの目安を確認できます。</p>
-            <small>開く</small>
-          </a>
-
-          <a class="home-card home-card--hsr" href="/games/hsr/">
-            <span>Honkai: Star Rail</span>
-            <strong>崩壊:スターレイル ダメージ計算</strong>
-            <p>UID取得と手入力を組み合わせて、戦闘ステータスを確認できます。</p>
-            <small>開く</small>
-          </a>
-
-          <a class="home-card home-card--future" href="/games/">
-            <span>Coming next</span>
-            <strong>今後追加予定</strong>
-            <p>ゲームや小さなWebツールを、ここから探せるように整理していきます。</p>
-            <small>一覧へ</small>
-          </a>
-        </div>
-      </section>
-    </main>
-    <footer class="home-footer">
-      <div>
-        <strong>tetinet</strong>
-        <p>ゲーム・ツール・個人制作物を少しずつまとめています。</p>
       </div>
-      <nav aria-label="フッター">
-        <a href="/games/">ゲーム</a>
-        <a href="/games/formula/">計算式</a>
-        <a href="/games/enemies/">敵キャラ情報</a>
-        <a href="/games/privacy/">免責事項・プライバシー</a>
-      </nav>
-    </footer>
-  </div>
+    </section>
+
+    <section class="teti-section">
+      <div class="teti-container">
+        <div class="teti-section-header">
+          <div>
+            <h2>よく使うツール</h2>
+            <p class="teti-muted">主要なゲームツールへすぐ移動できます。</p>
+          </div>
+          <a class="teti-button teti-button-secondary" href="/games/">すべて見る</a>
+        </div>
+        <div class="teti-grid teti-grid-3">
+          <a class="teti-card" href="/games/genshin/" style="--game-color: var(--teti-genshin);">
+            <div class="teti-card-body">
+              <span class="teti-game-label">原神</span>
+              <h3>ダメージ計算ツール</h3>
+              <p>キャラクターや敵、防御・耐性補正などを入力してダメージを確認できます。</p>
+            </div>
+          </a>
+          <a class="teti-card" href="/games/hsr/" style="--game-color: var(--teti-hsr);">
+            <div class="teti-card-body">
+              <span class="teti-game-label">崩壊: スターレイル</span>
+              <h3>ダメージ計算ツール</h3>
+              <p>攻撃力、会心、靭性、耐性などをもとにダメージ目安を計算できます。</p>
+            </div>
+          </a>
+          <a class="teti-card" href="/games/granblue/" style="--game-color: var(--teti-granblue);">
+            <div class="teti-card-body">
+              <span class="teti-game-label">グラブル</span>
+              <h3>ツール準備中</h3>
+              <p>今後の追加に向けて、共通デザイン上で自然に見える入口を用意しています。</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="teti-section" id="about">
+      <div class="teti-container">
+        <div class="teti-notice">新しいデザイン基盤を導入中です。各ツールの細かい画面リニューアルは次のSTEPで順番に進めます。</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="teti-site-footer">
+    <div class="teti-container">
+      <div class="teti-footer-grid">
+        <div class="teti-footer-col">
+          <div class="teti-footer-brand">
+            <img src="/images/logo/tetinet_icon_purple_orange.webp" alt="" width="34" height="34">
+            <span>tetinet</span>
+          </div>
+          <p>ゲーム・ツール・個人制作物をまとめるサイト。</p>
+        </div>
+        <div class="teti-footer-col">
+          <h3>コンテンツ</h3>
+          <a href="/">ホーム</a>
+          <a href="/games/">ゲーム一覧</a>
+          <a href="/games/">ツール一覧</a>
+          <a href="/#about">このサイトについて</a>
+        </div>
+        <div class="teti-footer-col">
+          <h3>サポート</h3>
+          <a href="/games/">使い方ガイド</a>
+          <a href="/games/">更新履歴</a>
+          <a href="/games/">よくある質問</a>
+          <a href="/games/">お問い合わせ</a>
+        </div>
+        <div class="teti-footer-col">
+          <h3>その他</h3>
+          <a href="/games/privacy/">免責事項</a>
+          <a href="/games/privacy/">プライバシーポリシー</a>
+          <a href="/games/">リンク集</a>
+          <a href="/games/">サイトマップ</a>
+        </div>
+      </div>
+      <div class="teti-footer-bottom">© 2025 tetinet. All rights reserved.</div>
+    </div>
+  </footer>
 </body>
 </html>
