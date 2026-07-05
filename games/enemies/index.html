@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -13,16 +13,29 @@
     <header class="site-header">
       <a class="site-logo" href="/games/">ゲームツール</a>
       <nav class="site-nav" aria-label="メインメニュー">
-            <a href="/">ホーム</a>
+        <a href="/">ホーム</a>
+        <a href="/games/">ゲーム</a>
         <a href="/games/genshin/">原神</a>
         <a href="/games/hsr/">崩壊スターレイル</a>
-        <a href="/games/formula/">計算式</a>
-        <a href="/games/enemies/">敵キャラ情報</a>
-        <a href="/games/privacy/">プライバシー</a>
+        <a href="/games/granblue/">グラブル</a>
       </nav>
     </header>
+
     <main class="info-layout">
-      <h1>敵キャラ情報</h1>
+      <nav class="breadcrumb" aria-label="パンくず">
+        <a href="/">ホーム</a>
+        <a href="/games/">ゲーム</a>
+        <span>敵キャラ情報</span>
+      </nav>
+
+      <section class="info-hero">
+        <div>
+          <p class="hero-kicker">Enemy Reference</p>
+          <h1>敵キャラ情報</h1>
+          <p>ダメージ計算で使う敵レベル、耐性、靭性などの参考値を整理しています。</p>
+        </div>
+      </section>
+
       <section class="box">
         <h2>原神の参考敵</h2>
         <ul>
@@ -32,6 +45,7 @@
         </ul>
         <p><a href="https://wikiwiki.jp/genshinwiki/%E6%95%B5%E8%80%90%E6%80%A7">敵の元素耐性一覧リンク</a></p>
       </section>
+
       <section class="box">
         <h2>崩壊スターレイルの初期条件</h2>
         <ul>
@@ -41,9 +55,13 @@
         </ul>
       </section>
     </main>
+
+    <footer>
+      <a href="/">tetinet ホーム</a>
+      <a href="/games/">ゲーム一覧</a>
+      <a href="/games/formula/">計算式</a>
+      <a href="/games/privacy/">プライバシーポリシー</a>
+    </footer>
   </div>
 </body>
 </html>
-
-
-

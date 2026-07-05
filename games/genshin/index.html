@@ -28,7 +28,6 @@
 　<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 　<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/games/js/windowLoading.js"></script>
   
  </head>
@@ -49,9 +48,8 @@
             <a href="/">ホーム</a>
             <a href="/games/genshin/">原神</a>
             <a href="/games/hsr/">崩壊スターレイル</a>
-            <a href="/games/formula/">計算式</a>
-            <a href="/games/enemies/">敵キャラ情報</a>
-            <a href="/games/privacy/">プライバシー</a>
+            <a href="/games/">ゲーム</a>
+            <a href="/games/granblue/">グラブル</a>
         </nav>
     </header>
     
@@ -78,6 +76,11 @@
             </ul>
         </div>
     </div>
+    <nav class="breadcrumb" aria-label="パンくず">
+        <a href="/">ホーム</a>
+        <a href="/games/">ゲーム</a>
+        <span>原神 ダメージ計算</span>
+    </nav>
     <div class="tool-hero">
         <div>
             <p class="hero-kicker">原神 / ダメージ計算</p>
@@ -193,15 +196,10 @@
     <br>
     <button id = "dmg_button" type = "button" class = "calc-button" onclick="calc()">ダメージ計算実行！</button>
     <br><br>
-    <font size = "5">
-        <p class = "red" id="result">ダメージ計算します：</p>
-    </font>
+    <p class = "red" id="result">ダメージ計算します：</p>
     <br>
 
     
-    <div id="chart-container">
-        <canvas id="myChart" height="200"></canvas>
-    </div>
     <script src="/games/js/genshinProfileApi.js"></script>
     <script src="/games/js/genshinProfileMapper.js"></script>
     <script src="/games/js/genshinUidImporter.js"></script>
@@ -320,7 +318,7 @@
    <footer>
     <a href="/games/formula/">計算式</a>
     <a href="/games/enemies/">敵キャラ情報</a>
-    <a href="/games/privacy/">免責事項・プライバシー</a>
+    <a href="/games/privacy/">プライバシーポリシー</a>
    </footer>
   </div>
  </body>

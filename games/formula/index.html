@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -13,16 +13,29 @@
     <header class="site-header">
       <a class="site-logo" href="/games/">ゲームツール</a>
       <nav class="site-nav" aria-label="メインメニュー">
-            <a href="/">ホーム</a>
+        <a href="/">ホーム</a>
+        <a href="/games/">ゲーム</a>
         <a href="/games/genshin/">原神</a>
         <a href="/games/hsr/">崩壊スターレイル</a>
-        <a href="/games/formula/">計算式</a>
-        <a href="/games/enemies/">敵キャラ情報</a>
-        <a href="/games/privacy/">プライバシー</a>
+        <a href="/games/granblue/">グラブル</a>
       </nav>
     </header>
+
     <main class="info-layout">
-      <h1>計算式</h1>
+      <nav class="breadcrumb" aria-label="パンくず">
+        <a href="/">ホーム</a>
+        <a href="/games/">ゲーム</a>
+        <span>計算式</span>
+      </nav>
+
+      <section class="info-hero">
+        <div>
+          <p class="hero-kicker">Formula & Data</p>
+          <h1>計算式</h1>
+          <p>各ツールで使っているダメージ計算式と、補正項目の考え方をまとめています。</p>
+        </div>
+      </section>
+
       <section class="box">
         <h2>原神</h2>
         <p>ダメージ = 基礎ダメージ * ダメージバフ補正 * 会心ダメージ補正 * 元素反応補正 * 敵防御補正 * 敵元素耐性補正</p>
@@ -34,6 +47,7 @@
           <li>激化系はLv90固有値を前提に固定値加算として扱います。</li>
         </ul>
       </section>
+
       <section class="box">
         <h2>崩壊スターレイル</h2>
         <p>ダメージ = 基礎ダメージ * ダメージバフ補正 * 会心ダメージ補正 * 被ダメージ補正 * 靭性補正 * 敵防御補正 * 属性耐性補正</p>
@@ -44,14 +58,19 @@
           <li>属性耐性補正は弱点有無と耐性デバフをもとに計算します。</li>
         </ul>
       </section>
+
       <section class="box">
         <h2>注意点</h2>
         <p>本ツールは公開情報と一般的な計算式をもとにした目安計算です。キャラクター固有効果、条件付きバフ、敵固有ギミックなど、すべての状況を完全に再現するものではありません。</p>
       </section>
     </main>
+
+    <footer>
+      <a href="/">tetinet ホーム</a>
+      <a href="/games/">ゲーム一覧</a>
+      <a href="/games/enemies/">敵キャラ情報</a>
+      <a href="/games/privacy/">プライバシーポリシー</a>
+    </footer>
   </div>
 </body>
 </html>
-
-
-

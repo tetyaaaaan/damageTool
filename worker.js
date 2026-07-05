@@ -155,48 +155,53 @@ function renderHomePage() {
         <a href="/games/">ゲーム</a>
         <a href="/games/genshin/">原神</a>
         <a href="/games/hsr/">崩壊スターレイル</a>
-        <a href="/games/privacy/">プライバシー</a>
+        <a href="/games/granblue/">グラブル</a>
       </nav>
     </header>
+
     <main>
       <section class="home-hero">
         <div class="home-hero__content">
           <p class="home-kicker">Personal hub</p>
           <h1>tetinet</h1>
-          <p class="home-lead">ゲーム・ツール・個人制作物をまとめるサイトです。</p>
+          <p class="home-lead">ゲーム・ツール・個人制作物をまとめるサイトです。よく使う計算ツールやデータページへ、ここからすぐ移動できます。</p>
           <div class="home-actions">
             <a class="home-primary-link" href="/games/">ゲームツールを見る</a>
-            <a class="home-secondary-link" href="/games/genshin/">原神ツールへ</a>
+            <a class="home-secondary-link" href="/games/privacy/">このサイトについて</a>
           </div>
         </div>
       </section>
+
       <section class="home-section" aria-labelledby="tools-heading">
         <div class="home-section-heading">
-          <p class="home-kicker">Tools</p>
-          <h2 id="tools-heading">公開中のツール</h2>
+          <div>
+            <p class="home-kicker">Tools</p>
+            <h2 id="tools-heading">公開中のコンテンツ</h2>
+          </div>
         </div>
         <div class="home-card-grid">
-          <a class="home-card home-card--genshin" href="/games/genshin/">
-            <span>Genshin Impact</span>
-            <strong>原神 ダメージ計算</strong>
-            <p>蒸発・溶解・激化などの条件を入力して、ダメージの目安を確認できます。</p>
-            <small>開く</small>
+          <a class="home-card home-card--games" href="/games/">
+            <span>Game Tools</span>
+            <strong>ゲームツール</strong>
+            <p>原神、崩壊スターレイル、グラブルなど、ゲーム別の便利ツールをまとめています。</p>
+            <small>一覧を見る</small>
           </a>
-          <a class="home-card home-card--hsr" href="/games/hsr/">
-            <span>Honkai: Star Rail</span>
-            <strong>崩壊:スターレイル ダメージ計算</strong>
-            <p>UID取得と手入力を組み合わせて、戦闘ステータスを確認できます。</p>
-            <small>開く</small>
+          <a class="home-card home-card--formula" href="/games/formula/">
+            <span>Formula & Data</span>
+            <strong>計算式・データ</strong>
+            <p>各ツールで使っている計算式や、補正項目の考え方を確認できます。</p>
+            <small>参考情報を見る</small>
           </a>
-          <a class="home-card home-card--future" href="/games/">
-            <span>Coming next</span>
-            <strong>今後追加予定</strong>
-            <p>ゲームや小さなWebツールを、ここから探せるように整理していきます。</p>
-            <small>一覧へ</small>
+          <a class="home-card home-card--future" href="/games/privacy/">
+            <span>About</span>
+            <strong>プライバシーポリシー</strong>
+            <p>非公式ファンツールとしての注意事項、アクセス解析、UID取得機能についてまとめています。</p>
+            <small>確認する</small>
           </a>
         </div>
       </section>
     </main>
+
     <footer class="home-footer">
       <div>
         <strong>tetinet</strong>
@@ -206,7 +211,7 @@ function renderHomePage() {
         <a href="/games/">ゲーム</a>
         <a href="/games/formula/">計算式</a>
         <a href="/games/enemies/">敵キャラ情報</a>
-        <a href="/games/privacy/">免責事項・プライバシー</a>
+        <a href="/games/privacy/">プライバシーポリシー</a>
       </nav>
     </footer>
   </div>

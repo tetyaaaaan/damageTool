@@ -194,19 +194,9 @@ var data = [
   
   
   // 円グラフを描画する
-  // Chart.jsを使用して円グラフを描画
-  var canvas = document.getElementById("myChart");
-  var ctx = canvas.getContext("2d");
-  //var ctx = document.getElementById("chart").getContext('2d');
-  var myChart = new Chart(ctx, {
-    type: 'pie',
-    data: {
-    labels: data.map(function(item) { return item.label; }),
-    datasets: [{
-        data: data.map(function(item) { return item.value; }),
-        backgroundColor: data.map(function(item) { return item.color; })
-    }]
-    },
-    options: options
-  });
+  // 円グラフ表示は廃止済み。既存の計算処理から呼ばれても画面を壊さないための互換オブジェクト。
+  var myChart = {
+    data: { datasets: [{ data: [] }] },
+    update: function() {}
+  };
   

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
@@ -19,47 +19,66 @@
         <a href="/games/">ゲーム</a>
         <a href="/games/genshin/">原神</a>
         <a href="/games/hsr/">崩壊スターレイル</a>
-        <a href="/games/privacy/">プライバシー</a>
+        <a href="/games/granblue/">グラブル</a>
       </nav>
     </header>
 
     <main>
+      <nav class="breadcrumb" aria-label="パンくず">
+        <a href="/">ホーム</a>
+        <span>ゲーム</span>
+      </nav>
+
       <section class="home-hero home-hero--compact">
-        <p class="home-kicker">Games</p>
-        <h1>ゲームツール</h1>
-        <p>公開中のゲーム向けツールをまとめています。</p>
+        <div>
+          <p class="home-kicker">Games Listing</p>
+          <h1>ゲームツール</h1>
+          <p>公開中のゲーム向けツールをまとめています。後からツールや画像を追加しやすいカード構成です。</p>
+        </div>
       </section>
 
       <section class="home-section" aria-labelledby="games-heading">
         <div class="home-section-heading">
-          <p class="home-kicker">Tool list</p>
-          <h2 id="games-heading">公開中</h2>
+          <div>
+            <p class="home-kicker">Tool list</p>
+            <h2 id="games-heading">公開中のツール</h2>
+          </div>
         </div>
 
-        <div class="home-card-grid">
-          <a class="home-card home-card--genshin" href="/games/genshin/">
-            <span>Genshin Impact</span>
-            <strong>原神 ダメージ計算</strong>
-            <p>蒸発・溶解・激化などの条件を入力して、ダメージの目安を確認できます。</p>
-            <small>開く</small>
+        <div class="tool-card-list">
+          <a class="tool-card tool-card--genshin" href="/games/genshin/">
+            <div class="tool-card__media" aria-hidden="true"></div>
+            <div class="tool-card__body">
+              <span class="tool-card__eyebrow">Genshin Impact</span>
+              <h3>原神 ダメージ計算</h3>
+              <p>蒸発・溶解・激化などの条件を入力して、ダメージの目安を確認できます。Enka.Networkの公開プロフィール取得にも対応しています。</p>
+              <span class="tool-card__action">ツールを開く</span>
+            </div>
           </a>
 
-          <a class="home-card home-card--hsr" href="/games/hsr/">
-            <span>Honkai: Star Rail</span>
-            <strong>崩壊:スターレイル ダメージ計算</strong>
-            <p>UID取得と手入力を組み合わせて、戦闘ステータスを確認できます。</p>
-            <small>開く</small>
+          <a class="tool-card tool-card--hsr" href="/games/hsr/">
+            <div class="tool-card__media" aria-hidden="true"></div>
+            <div class="tool-card__body">
+              <span class="tool-card__eyebrow">Honkai: Star Rail</span>
+              <h3>崩壊スターレイル ダメージ計算</h3>
+              <p>UID取得と手入力を組み合わせて、攻撃力・会心・防御・耐性・靭性補正を整理しながら計算できます。</p>
+              <span class="tool-card__action">ツールを開く</span>
+            </div>
           </a>
 
-          <a class="home-card home-card--granblue" href="/games/granblue/">
-            <span>Granblue Fantasy</span>
-            <strong>グラブル ツール</strong>
-            <p>既存ツールを整理しながら、今後の追加に備える場所です。</p>
-            <small>開く</small>
+          <a class="tool-card tool-card--granblue" href="/games/granblue/">
+            <div class="tool-card__media" aria-hidden="true"></div>
+            <div class="tool-card__body">
+              <span class="tool-card__eyebrow">Granblue Fantasy</span>
+              <h3>グラブル ツール</h3>
+              <p>ダメージ計算式や与ダメージ種類のメモを整理しています。今後の入力フォーム追加に備えたページです。</p>
+              <span class="tool-card__action">ツールを開く</span>
+            </div>
           </a>
         </div>
       </section>
     </main>
+
     <footer class="home-footer">
       <div>
         <strong>tetinet games</strong>
@@ -69,10 +88,9 @@
         <a href="/">ホーム</a>
         <a href="/games/formula/">計算式</a>
         <a href="/games/enemies/">敵キャラ情報</a>
-        <a href="/games/privacy/">免責事項・プライバシー</a>
+        <a href="/games/privacy/">プライバシーポリシー</a>
       </nav>
     </footer>
   </div>
 </body>
 </html>
-

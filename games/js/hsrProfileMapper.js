@@ -48,7 +48,7 @@
 
     function normalizePercent(value) {
         const num = pickNumber(value, 0);
-        return Math.abs(num) <= 1 ? num * 100 : num;
+        return Math.abs(num) <= 10 ? num * 100 : num;
     }
 
     function mapElement(character) {
