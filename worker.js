@@ -17,11 +17,11 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === "/") {
-      return renderTetinetHome();
+      return fetchAssetPath(request, env, "/index.html");
     }
 
     if (url.pathname === "/home" || url.pathname === "/home/") {
-      return renderTetinetHome();
+      return Response.redirect(`${url.origin}/`, 301);
     }
 
     const legacyRedirect = LEGACY_REDIRECTS.get(url.pathname);
