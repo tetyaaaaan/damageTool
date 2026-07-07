@@ -7,6 +7,6 @@ routes = [
 ]
 
 [assets]
-directory = "./games"
+directory = "."
 binding = "ASSETS"
 run_worker_first = true

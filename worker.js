@@ -17,7 +17,7 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === "/") {
-      return fetchAssetPath(request, env, "/index.html");
+      return env.ASSETS.fetch(request);
     }
 
     if (url.pathname === "/home" || url.pathname === "/home/") {
@@ -123,10 +123,7 @@ function readTtlSeconds(body) {
 }
 
 function fetchGameAsset(request, env, url) {
-  const assetUrl = new URL(request.url);
-  assetUrl.pathname = url.pathname.slice(GAMES_PREFIX.length) || "/";
-
-  return env.ASSETS.fetch(new Request(assetUrl, request));
+  return env.ASSETS.fetch(request);
 }
 
 function fetchAssetPath(request, env, pathname) {
