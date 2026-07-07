@@ -925,6 +925,7 @@ html[data-theme="dark"] .genshin-kicker {
 
 .genshin-panel,
 .genshin-detail-card {
+  min-width: 0;
   background: var(--teti-surface);
   border: 1px solid var(--teti-border);
   border-radius: var(--teti-radius-md);
@@ -971,6 +972,7 @@ html[data-theme="dark"] .genshin-kicker {
 }
 
 .genshin-fieldset {
+  min-width: 0;
   padding: 16px;
   border: 1px solid var(--teti-border);
   border-radius: var(--teti-radius-md);
@@ -1109,6 +1111,49 @@ html[data-theme="dark"] .genshin-calc-button {
   background: linear-gradient(135deg, rgba(242, 201, 76, 0.12), rgba(116, 40, 255, 0.05)), var(--teti-surface);
 }
 
+.genshin-result-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 6px;
+  overflow-x: auto;
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-md);
+  background: var(--teti-surface-soft);
+  scrollbar-width: thin;
+}
+
+.genshin-result-tab {
+  min-height: 38px;
+  flex: 0 0 auto;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: var(--teti-radius-sm);
+  background: transparent;
+  color: var(--teti-muted);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.genshin-result-tab.is-active,
+.genshin-result-tab[aria-selected="true"] {
+  color: var(--teti-primary);
+  border-color: color-mix(in srgb, var(--teti-primary) 32%, var(--teti-border));
+  background: var(--teti-surface);
+  box-shadow: 0 8px 18px rgba(116, 40, 255, 0.12);
+}
+
+html[data-theme="dark"] .genshin-result-tab.is-active,
+html[data-theme="dark"] .genshin-result-tab[aria-selected="true"] {
+  color: var(--teti-accent);
+  border-color: rgba(53, 210, 188, 0.36);
+  background: #0a1c27;
+  box-shadow: none;
+}
+
 .genshin-result-label {
   margin: 0 0 10px;
   color: var(--teti-muted);
@@ -1136,6 +1181,22 @@ html[data-theme="dark"] .genshin-result-card #result {
   color: var(--teti-muted);
   font-size: 0.88rem;
   line-height: 1.4;
+}
+
+.genshin-result-meta {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.genshin-result-meta span {
+  padding: 8px 10px;
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  background: var(--teti-surface-soft);
+  color: var(--teti-muted);
+  font-size: 0.82rem;
+  font-weight: 900;
 }
 
 .genshin-breakdown,
@@ -1180,6 +1241,45 @@ html[data-theme="dark"] .genshin-result-card #result {
   margin: 0;
   color: var(--teti-text);
   font-weight: 900;
+}
+
+.genshin-breakdown-groups {
+  display: grid;
+  gap: 12px;
+}
+
+.genshin-breakdown-groups section {
+  padding: 13px;
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  background: var(--teti-surface);
+}
+
+.genshin-breakdown-groups h4 {
+  margin: 0 0 10px;
+  color: var(--teti-primary);
+  font-size: 0.92rem;
+  font-weight: 900;
+}
+
+.genshin-breakdown-groups dl {
+  gap: 8px;
+}
+
+.genshin-breakdown-groups dl div {
+  gap: 10px;
+  padding-bottom: 8px;
+}
+
+html[data-theme="dark"] .genshin-result-tabs,
+html[data-theme="dark"] .genshin-result-meta span,
+html[data-theme="dark"] .genshin-breakdown-groups section {
+  border-color: rgba(53, 210, 188, 0.18);
+  background: #0a1c27;
+}
+
+html[data-theme="dark"] .genshin-breakdown-groups h4 {
+  color: var(--teti-accent);
 }
 
 .genshin-details-card summary {
@@ -1411,6 +1511,18 @@ html[data-theme="dark"] .genshin-tool-page .character-build-grid dd {
   .genshin-breakdown dl div {
     grid-template-columns: 1fr;
     gap: 2px;
+  }
+
+  .genshin-result-tabs {
+    gap: 6px;
+  }
+
+  .genshin-result-tab {
+    padding: 0 12px;
+  }
+
+  .genshin-breakdown-groups section {
+    padding: 12px;
   }
 
   .genshin-tool-page #imageList {

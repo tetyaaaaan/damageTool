@@ -22,14 +22,14 @@
         { key: 30, name: "\u7269\u7406" }
     ];
 
-    const LOCALE_KEYS = ["ja", "JP", "ja-JP", "ja_jp", "en", "EN"];
+    const LOCALE_KEYS = ["ja", "JP", "ja-JP", "ja_jp", "JPN", "Japanese", "en", "EN", "en-US", "ENG", "English"];
 
     const EQUIP_TYPE_NAMES = {
-        EQUIP_BRACER: "生の花",
-        EQUIP_NECKLACE: "死の羽",
-        EQUIP_SHOES: "時の砂",
-        EQUIP_RING: "空の杯",
-        EQUIP_DRESS: "理の冠"
+        EQUIP_BRACER: "\u751f\u306e\u82b1",
+        EQUIP_NECKLACE: "\u6b7b\u306e\u7fbd",
+        EQUIP_SHOES: "\u6642\u306e\u7802",
+        EQUIP_RING: "\u7a7a\u306e\u676f",
+        EQUIP_DRESS: "\u7406\u306e\u51a0"
     };
 
     const CHARACTER_NAME_BY_AVATAR_ID_JA = {
@@ -244,9 +244,17 @@
         const firstText = Object.values(nameTextMap).find((text) => typeof text === "string" && text.trim());
         return firstText ? firstText.trim() : fallback;
     }
-
+    function pickFlatName(flat, fallback = "") {
+        if (!flat || typeof flat !== "object") return fallback;
+        const directName = pickText(flat.itemName || flat.name || flat.displayName, "");
+        if (directName) return directName;
+        return pickLocalizedName(flat.nameTextMap, "") ||
+            pickLocalizedName(flat.setNameTextMap, "") ||
+            pickLocalizedName(flat.reliquarySetNameTextMap, "") ||
+            fallback;
+    }
     function unknownName(id) {
-        return `名称不明（ID: ${id || "-"}）`;
+        return `\u540d\u79f0\u4e0d\u660e\uff08ID: ${id || "-"}\uff09`;
     }
 
     function readFightProp(avatar, key, fallback = 0) {
@@ -279,7 +287,7 @@
         const id = String(weapon.itemId || "-");
         return {
             id,
-            name: pickLocalizedName(weapon.flat?.nameTextMap, unknownName(id)),
+            name: pickFlatName(weapon.flat, unknownName(id)),
             level: pickNumber(weapon.weapon?.level),
             rank: pickNumber(weapon.weapon?.affixMap ? Object.values(weapon.weapon.affixMap)[0] : 0)
         };
@@ -290,7 +298,7 @@
             .filter((item) => item?.flat?.itemType === "ITEM_RELIQUARY")
             .map((item) => ({
                 id: String(item.itemId || "-"),
-                name: pickLocalizedName(item.flat?.nameTextMap, unknownName(item.itemId)),
+                name: pickFlatName(item.flat, unknownName(item.itemId)),
                 level: pickNumber(item.reliquary?.level),
                 slot: pickText(EQUIP_TYPE_NAMES[item.flat?.equipType] || item.flat?.equipType, "-")
             }));
@@ -341,3 +349,4 @@
 
     window.GenshinProfileMapper = { mapProfileResponse };
 })();
+

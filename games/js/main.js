@@ -217,4 +217,20 @@ var data = [
     update: function() {}
   };
   
+  (function initGenshinResultTabs() {
+    const tabs = Array.from(document.querySelectorAll('.genshin-result-tab'));
+    if (!tabs.length) return;
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', function() {
+        tabs.forEach((item) => {
+          item.classList.remove('is-active');
+          item.setAttribute('aria-selected', 'false');
+        });
+        this.classList.add('is-active');
+        this.setAttribute('aria-selected', 'true');
+      });
+    });
+  })();
+
 

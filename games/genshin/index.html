@@ -156,27 +156,114 @@
               </div>
             </div>
 
+            <div class="genshin-result-tabs" role="tablist" aria-label="ダメージ種別">
+              <button class="genshin-result-tab is-active" type="button" role="tab" aria-selected="true">通常攻撃</button>
+              <button class="genshin-result-tab" type="button" role="tab" aria-selected="false">重撃</button>
+              <button class="genshin-result-tab" type="button" role="tab" aria-selected="false">元素スキル</button>
+              <button class="genshin-result-tab" type="button" role="tab" aria-selected="false">元素爆発</button>
+              <button class="genshin-result-tab" type="button" role="tab" aria-selected="false">元素反応</button>
+            </div>
+
             <div class="genshin-result-card">
               <p class="genshin-result-label">推定ダメージ</p>
               <p class="red" id="result"><span>未計算</span><br>-</p>
+              <div class="genshin-result-meta">
+                <span>会心なし：未対応</span>
+                <span>会心あり：入力値を反映</span>
+                <span>平均：今後対応予定</span>
+              </div>
             </div>
 
             <div class="genshin-breakdown">
               <h3>ダメージ内訳</h3>
-              <dl>
-                <div>
-                  <dt>敵防御補正</dt>
-                  <dd id="value_e_def">-</dd>
-                </div>
-                <div>
-                  <dt>敵元素耐性補正</dt>
-                  <dd id="value_e_ele">-</dd>
-                </div>
-                <div>
-                  <dt>反応・バフ</dt>
-                  <dd>入力値をもとに計算</dd>
-                </div>
-              </dl>
+              <div class="genshin-breakdown-groups">
+                <section>
+                  <h4>基礎ダメージ</h4>
+                  <dl>
+                    <div>
+                      <dt>攻撃力</dt>
+                      <dd>入力値を使用</dd>
+                    </div>
+                    <div>
+                      <dt>天賦倍率</dt>
+                      <dd>入力値を使用</dd>
+                    </div>
+                    <div>
+                      <dt>ダメージバフ</dt>
+                      <dd>入力値を使用</dd>
+                    </div>
+                  </dl>
+                </section>
+                <section>
+                  <h4>元素反応</h4>
+                  <dl>
+                    <div>
+                      <dt>反応種別</dt>
+                      <dd>選択中の反応を使用</dd>
+                    </div>
+                    <div>
+                      <dt>元素熟知補正</dt>
+                      <dd>入力値を使用</dd>
+                    </div>
+                    <div>
+                      <dt>反応倍率</dt>
+                      <dd>入力値をもとに計算</dd>
+                    </div>
+                  </dl>
+                </section>
+                <section>
+                  <h4>バフ</h4>
+                  <dl>
+                    <div>
+                      <dt>武器効果</dt>
+                      <dd>手動入力で反映</dd>
+                    </div>
+                    <div>
+                      <dt>聖遺物効果</dt>
+                      <dd>手動入力で反映</dd>
+                    </div>
+                    <div>
+                      <dt>その他バフ</dt>
+                      <dd>特殊乗算・実数加算を使用</dd>
+                    </div>
+                  </dl>
+                </section>
+                <section>
+                  <h4>会心</h4>
+                  <dl>
+                    <div>
+                      <dt>会心ダメージ</dt>
+                      <dd>入力値を使用</dd>
+                    </div>
+                    <div>
+                      <dt>平均化</dt>
+                      <dd>今後対応予定</dd>
+                    </div>
+                  </dl>
+                </section>
+                <section>
+                  <h4>耐性</h4>
+                  <dl>
+                    <div>
+                      <dt>防御補正</dt>
+                      <dd id="value_e_def">-</dd>
+                    </div>
+                    <div>
+                      <dt>元素・物理耐性</dt>
+                      <dd id="value_e_ele">-</dd>
+                    </div>
+                  </dl>
+                </section>
+                <section>
+                  <h4>その他補正</h4>
+                  <dl>
+                    <div>
+                      <dt>未分類</dt>
+                      <dd>今後のタブ別計算で拡張予定</dd>
+                    </div>
+                  </dl>
+                </section>
+              </div>
             </div>
 
             <details class="genshin-details-card">
