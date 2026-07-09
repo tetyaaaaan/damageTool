@@ -20,6 +20,10 @@ export default {
       return env.ASSETS.fetch(request);
     }
 
+    if (url.pathname === "/ads.txt") {
+      return env.ASSETS.fetch(request);
+    }
+
     if (url.pathname === "/home" || url.pathname === "/home/") {
       return Response.redirect(`${url.origin}/`, 301);
     }
