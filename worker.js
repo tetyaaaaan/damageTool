@@ -7,7 +7,8 @@ const LEGACY_REDIRECTS = new Map([
   ["/formula.html", "/games/formula/"],
   ["/enemies.html", "/games/enemies/"],
   ["/privacy.html", "/games/privacy/"],
-  ["/granblue/granblue.html", "/games/granblue/"],
+  ["/granblue/granblue.html", "/games/gbf/"],
+  ["/games/granblue/", "/games/gbf/"],
   ["/api/hsr-profile", HSR_PROFILE_API_PATH],
   ["/api/genshin-profile", GENSHIN_PROFILE_API_PATH],
 ]);
@@ -18,10 +19,6 @@ export default {
 
     if (url.pathname === "/") {
       return env.ASSETS.fetch(request);
-    }
-
-    if (url.pathname === "/home" || url.pathname === "/home/") {
-      return Response.redirect(`${url.origin}/`, 301);
     }
 
     const legacyRedirect = LEGACY_REDIRECTS.get(url.pathname);
@@ -317,7 +314,7 @@ function renderHomePage() {
         <a href="/games/">ゲーム</a>
         <a href="/games/genshin/">原神</a>
         <a href="/games/hsr/">崩壊スターレイル</a>
-        <a href="/games/granblue/">グラブル</a>
+        <a href="/games/gbf/">グラブル</a>
       </nav>
     </header>
 

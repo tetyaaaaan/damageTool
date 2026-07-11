@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-S82LRCKEPS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-S82LRCKEPS');
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>敵キャラ情報｜ダメージ計算ツール</title>
-  <meta name="description" content="ダメージ計算で使う敵レベル、耐性、靭性などの参考情報をまとめたページです。">
+  <title>グラブル ツール｜tetinet</title>
+  <meta name="title" content="グラブル ツール｜tetinet">
+  <meta name="description" content="グラブル向けツールの準備ページです。ダメージ計算式や与ダメージ種類のメモを整理しています。">
+
   <link rel="stylesheet" href="/games/css/tetinet.css">
-  
   
   <link rel="icon" href="/games/images/icon/tetinet.ico">
   <script src="/games/js/theme.js"></script>
 </head>
-<body class="tetinet-page info-page">
-  <div id="wrapper" style="display:block;">
+<body class="tetinet-page page-granblue">
+  <div id="wrapper">
     <header class="teti-site-header">
   <div class="teti-container teti-header-inner">
     <a class="teti-brand" href="/" aria-label="tetinet ホーム">
@@ -31,45 +40,58 @@
     </button>
   </div>
 </header>
-
-    <main class="teti-main teti-tool-main info-layout">
-      <div class="teti-container">
+<main class="teti-main teti-tool-main">
+  <div class="teti-container">
       <nav class="teti-breadcrumb" aria-label="パンくず">
         <a href="/">ホーム</a>
         <a href="/games/">ゲーム</a>
-        <span>敵キャラ情報</span>
+        <span>グラブル ツール</span>
       </nav>
 
-      <section class="teti-page-header">
+      <div class="teti-page-header">
         <div>
-          <p class="teti-page-kicker">Enemy Reference</p>
-          <h1>敵キャラ情報</h1>
-          <p>ダメージ計算で使う敵レベル、耐性、靭性などの参考値を整理しています。</p>
+          <p class="teti-page-kicker">グラブル / ツール</p>
+          <h1>グラブル ツール</h1>
+          <p>ダメージ計算式のメモを整理しながら、今後の入力フォーム追加に備えています。</p>
         </div>
-      </section>
-
-      <section class="teti-panel teti-detail-card">
-        <h2>原神の参考敵</h2>
-        <ul>
-          <li>仮想敵「公義」: Lv.90 全元素耐性 10%、物理耐性 -20%（参考値）</li>
-          <li>魔偶剣鬼: Lv.93 全元素・物理耐性 10%</li>
-          <li>遺跡守衛: 物理耐性 70%、元素耐性 10%</li>
-        </ul>
-        <p><a href="https://wikiwiki.jp/genshinwiki/%E6%95%B5%E8%80%90%E6%80%A7">敵の元素耐性一覧リンク</a></p>
-      </section>
-
-      <section class="teti-panel teti-detail-card">
-        <h2>崩壊スターレイルの初期条件</h2>
-        <ul>
-          <li>靭性あり: 靭性補正 0.9</li>
-          <li>弱点なし: 属性耐性補正の基礎値を0.8として扱います。</li>
-          <li>弱点あり: 属性耐性補正の基礎値を1として扱います。</li>
-        </ul>
-      </section>
+        <div class="teti-hero-badge gbf-hero-badge">
+          <strong>GRANBLUE FANTASY</strong>
+          <span>整理 → 確認 → 拡張</span>
+        </div>
       </div>
-    </main>
+<div class="teti-tool-grid gbf-tool-grid">
+        <div class="teti-panel teti-input-panel gbf-input-panel">
+          <h3>計算メモ</h3>
+          <h4>基礎ダメージ</h4>
+          <p>基礎ダメージ = <span class="gbf-highlight gbf-highlight-base">表示攻撃力 * 騎空艇効果 * 団サポ</span> * <span class="gbf-highlight gbf-highlight-modifier">通常攻刃 * 通常渾身 * 通常背水 * 方陣攻刃 * 方陣渾身 * 方陣背水 * EX攻刃 * 属性 * ストレングス * 逆境 * 総べ称号 * 対OD攻撃 * 対ブレイク攻撃 * フィールド効果 * その他別枠 * クリティカル</span> * <span class="gbf-highlight gbf-highlight-defense">攻撃力DOWN * 敵防御値</span></p>
+          <div class="teti-notice gbf-notice">
+            <strong>今後追加予定</strong>
+            <p>武器スキル、属性補正、防御値、上限補正などを入力できるフォームを追加する想定です。</p>
+          </div>
+        </div>
 
-    <footer class="teti-site-footer">
+        <div class="teti-panel teti-result-panel gbf-result-panel">
+          <h3>ツール状態</h3>
+          <p id="result"><span>Status</span>準備中</p>
+          <p class="gbf-muted-note">既存の計算メモを整理し、後から入力フォームと結果表示を追加できる状態にしています。</p>
+        </div>
+      </div>
+
+      <div class="teti-panel teti-detail-card gbf-detail-card">
+        <h3>与ダメージの種類</h3>
+        <div class="gb-damage-grid">
+          <div>通常攻撃</div>
+          <div>追撃ダメージ</div>
+          <div>アビリティダメージ</div>
+          <div>奥義ダメージ</div>
+          <div>チェインバーストダメージ</div>
+          <div>カウンターダメージ</div>
+          <div>召喚石ダメージ</div>
+        </div>
+      </div>
+  </div>
+</main>
+<footer class="teti-site-footer">
   <div class="teti-container">
     <div class="teti-footer-grid">
       <div class="teti-footer-col">
@@ -112,3 +134,4 @@
   </div>
 </body>
 </html>
+

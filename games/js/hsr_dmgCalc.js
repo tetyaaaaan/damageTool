@@ -1,4 +1,4 @@
-﻿// 崩壊スターレイルの通常ダメージ計算を実行
+// 崩壊スターレイルの通常ダメージ計算を実行
 function calc(){
     // 入力値を取得し、各補正の計算に使用する
     let atk = parseFloat(document.getElementById("atk").value);
@@ -130,9 +130,25 @@ function calc(){
     myChart.data.datasets[0].data = data.map(function(item) { return item.value; });
     // 円グラフを再描画
     myChart.update();
+    scrollToHsrResult();
 }
 
 // 初期の円グラフのデータ
+
+// 計算後に結果カードが見える位置へ移動する。計算処理には影響させない。
+function scrollToHsrResult(){
+    const resultPanel = document.querySelector(".hsr-result-panel");
+    if(!resultPanel){
+        return;
+    }
+    const header = document.querySelector(".teti-site-header");
+    const headerHeight = header ? header.getBoundingClientRect().height : 0;
+    const targetTop = resultPanel.getBoundingClientRect().top + window.pageYOffset - headerHeight - 16;
+    window.scrollTo({
+        top: Math.max(targetTop, 0),
+        behavior: "smooth"
+    });
+}
 var data = [
     //{ label: '基礎ダメージ', value: 0, color: "yellow" },
     { label: 'ダメバフ', value: 1, color: 'mediumblue' },
