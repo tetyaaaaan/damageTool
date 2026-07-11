@@ -315,6 +315,7 @@
         setLoading(true);
         setMessage("", "");
         try {
+            if (window.GenshinIdResolver?.ready) await window.GenshinIdResolver.ready;
             const response = await window.GenshinProfileApi.fetchGenshinProfile(uid);
             const profile = window.GenshinProfileMapper.mapProfileResponse(response);
             state.profile = profile;

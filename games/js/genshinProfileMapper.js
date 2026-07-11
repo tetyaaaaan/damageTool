@@ -292,6 +292,49 @@
         }
         return "";
     }
+
+    function getGenshinResolverEntry(kind, id) {
+        const resolver = window.GenshinIdResolver;
+        if (!resolver) return null;
+        if (kind === "character" && typeof resolver.resolveCharacter === "function") return resolver.resolveCharacter(id);
+        if (kind === "weapon" && typeof resolver.resolveWeapon === "function") return resolver.resolveWeapon(id);
+        if (kind === "artifactSet" && typeof resolver.resolveArtifactSet === "function") return resolver.resolveArtifactSet(id);
+        return null;
+    }
+
+    function warnUnsupportedId(kind, id) {
+        if (!id || id === "-") return;
+        console.warn(`[genshin-id-resolver] 未登録ID: ${kind} ${id}`);
+    }
+
+    function resolveNameFromJson(kind, id, fallback, unsupportedType) {
+        const entry = getGenshinResolverEntry(kind, id);
+        const jsonName = pickText(entry?.nameJa || entry?.name, "");
+        if (jsonName) return jsonName;
+        warnUnsupportedId(kind, id);
+        return unsupportedName(unsupportedType, id);
+    }
+
+    function resolveNumberFromJson(kind, id, key, fallback = 0) {
+        const entry = getGenshinResolverEntry(kind, id);
+        return pickNumber(entry?.[key], fallback);
+    }
+
+    function resolveTextFromJson(kind, id, key, fallback = "-") {
+        const entry = getGenshinResolverEntry(kind, id);
+        return pickText(entry?.[key], fallback);
+    }
+
+    function readArtifactSetId(item) {
+        return String(
+            item?.flat?.setId ||
+            item?.flat?.reliquarySetId ||
+            item?.flat?.reliquarySet?.id ||
+            item?.reliquary?.setId ||
+            item?.reliquary?.mainPropId ||
+            ""
+        );
+    }
     function readFightProp(avatar, key, fallback = 0) {
         return pickNumber(avatar?.fightPropMap?.[String(key)] ?? avatar?.fightPropMap?.[key], fallback);
     }
@@ -322,11 +365,11 @@
         const id = String(weapon.itemId || "-");
         return {
             id,
-            name: pickFlatName(weapon.flat, unsupportedName("武器", id)),
+            name: resolveNameFromJson("weapon", id, pickFlatName(weapon.flat, ""), "武器"),
             level: pickNumber(weapon.weapon?.level),
             rank: normalizeRank(weapon.weapon?.affixMap ? Object.values(weapon.weapon.affixMap)[0] : 0),
-            type: pickText(weapon.flat?.weaponType || weapon.flat?.itemType, "-"),
-            rarity: pickNumber(weapon.flat?.rankLevel),
+            type: resolveTextFromJson("weapon", id, "weaponType", pickText(weapon.flat?.weaponType || weapon.flat?.itemType, "-")),
+            rarity: resolveNumberFromJson("weapon", id, "rarity", pickNumber(weapon.flat?.rankLevel)),
             effect: readFlatText(weapon.flat, ["descTextMap", "weaponDescTextMap", "effectTextMap", "awakenNameTextMap"]) || "武器効果データは未対応です。"
         };
     }
@@ -334,31 +377,41 @@
     function mapArtifacts(avatar) {
         return (avatar?.equipList || [])
             .filter((item) => item?.flat?.itemType === "ITEM_RELIQUARY")
-            .map((item) => ({
-                id: String(item.itemId || "-"),
-                name: pickFlatName(item.flat, unsupportedName("聖遺物", item.itemId)),
-                level: pickNumber(item.reliquary?.level),
-                slot: pickText(EQUIP_TYPE_NAMES[item.flat?.equipType] || item.flat?.equipType, "-"),
-                setName: pickLocalizedName(item.flat?.setNameTextMap, "") || pickLocalizedName(item.flat?.reliquarySetNameTextMap, "") || pickFlatName(item.flat?.reliquarySet, "") || pickFlatName(item.flat, unsupportedName("聖遺物", item.itemId)),
-                effect: readFlatText(item.flat, ["setDescTextMap", "reliquarySetDescTextMap", "descTextMap"]) || "聖遺物効果データは未対応です。"
-            }));
+            .map((item) => {
+                const id = String(item.itemId || "-");
+                const setId = readArtifactSetId(item);
+                const fallbackSetName = pickLocalizedName(item.flat?.setNameTextMap, "") ||
+                    pickLocalizedName(item.flat?.reliquarySetNameTextMap, "") ||
+                    pickFlatName(item.flat?.reliquarySet, "") ||
+                    pickFlatName(item.flat, "");
+                const setName = resolveNameFromJson("artifactSet", setId, fallbackSetName, "聖遺物セット");
+                return {
+                    id,
+                    setId,
+                    name: pickFlatName(item.flat, setName || unsupportedName("聖遺物", id)),
+                    level: pickNumber(item.reliquary?.level),
+                    slot: pickText(EQUIP_TYPE_NAMES[item.flat?.equipType] || item.flat?.equipType, "-"),
+                    setName,
+                    effect: readFlatText(item.flat, ["setDescTextMap", "reliquarySetDescTextMap", "descTextMap"]) || "聖遺物効果データは未対応です。"
+                };
+            });
     }
 
     function mapCharacter(avatar) {
         const bestDamage = mapBestElementDamage(avatar);
         const avatarId = String(avatar?.avatarId || "-");
         const level = readPropMapValue(avatar, 4001);
-        const mappedName = pickLocalizedName(avatar?.flat?.nameTextMap) || CHARACTER_NAME_BY_AVATAR_ID_JA[avatarId];
+        const mappedName = resolveNameFromJson("character", avatarId, pickLocalizedName(avatar?.flat?.nameTextMap) || CHARACTER_NAME_BY_AVATAR_ID_JA[avatarId], "キャラクター");
 
         return {
             id: avatarId,
-            name: pickText(avatar?.name || avatar?.avatarName || mappedName, unsupportedName("キャラクター", avatarId)),
+            name: mappedName,
             level,
             element: bestDamage.element,
             constellation: Array.isArray(avatar?.talentIdList) ? avatar.talentIdList.length : 0,
             constellationEffect: "命ノ星座効果データは未対応です。",
-            weaponType: pickText(avatar?.flat?.weaponType || avatar?.weaponType, "-"),
-            rarity: pickNumber(avatar?.flat?.rankLevel || avatar?.rankLevel),
+            weaponType: resolveTextFromJson("character", avatarId, "weaponType", pickText(avatar?.flat?.weaponType || avatar?.weaponType, "-")),
+            rarity: resolveNumberFromJson("character", avatarId, "rarity", pickNumber(avatar?.flat?.rankLevel || avatar?.rankLevel)),
             talents: mapTalentLevels(avatar),
             weapon: mapWeapon(avatar),
             artifacts: mapArtifacts(avatar),

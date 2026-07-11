@@ -1,0 +1,704 @@
+{
+  "10000002": {
+    "nameJa": "神里綾華",
+    "element": "氷",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000003": {
+    "nameJa": "ジン",
+    "element": "風",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000005": {
+    "nameJa": "旅人",
+    "element": "-",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000006": {
+    "nameJa": "リサ",
+    "element": "雷",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "10000007": {
+    "nameJa": "旅人",
+    "element": "-",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000014": {
+    "nameJa": "バーバラ",
+    "element": "水",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "10000015": {
+    "nameJa": "ガイア",
+    "element": "氷",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "10000016": {
+    "nameJa": "ディルック",
+    "element": "炎",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "10000020": {
+    "nameJa": "レザー",
+    "element": "雷",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "10000021": {
+    "nameJa": "アンバー",
+    "element": "炎",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "10000022": {
+    "nameJa": "ウェンティ",
+    "element": "風",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "10000023": {
+    "nameJa": "香菱",
+    "element": "炎",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "10000024": {
+    "nameJa": "北斗",
+    "element": "雷",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "10000025": {
+    "nameJa": "行秋",
+    "element": "水",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "10000026": {
+    "nameJa": "魈",
+    "element": "風",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "10000027": {
+    "nameJa": "凝光",
+    "element": "岩",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "10000029": {
+    "nameJa": "クレー",
+    "element": "炎",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000030": {
+    "nameJa": "鍾離",
+    "element": "岩",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "10000031": {
+    "nameJa": "フィッシュル",
+    "element": "雷",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "10000032": {
+    "nameJa": "ベネット",
+    "element": "炎",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "10000033": {
+    "nameJa": "タルタリヤ",
+    "element": "水",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "10000034": {
+    "nameJa": "ノエル",
+    "element": "岩",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "10000035": {
+    "nameJa": "七七",
+    "element": "氷",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000036": {
+    "nameJa": "重雲",
+    "element": "氷",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "10000037": {
+    "nameJa": "甘雨",
+    "element": "氷",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "10000038": {
+    "nameJa": "アルベド",
+    "element": "岩",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000039": {
+    "nameJa": "ディオナ",
+    "element": "氷",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "10000041": {
+    "nameJa": "モナ",
+    "element": "水",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000042": {
+    "nameJa": "刻晴",
+    "element": "雷",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000043": {
+    "nameJa": "スクロース",
+    "element": "風",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "10000044": {
+    "nameJa": "辛炎",
+    "element": "炎",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "10000045": {
+    "nameJa": "ロサリア",
+    "element": "氷",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "10000046": {
+    "nameJa": "胡桃",
+    "element": "炎",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "10000047": {
+    "nameJa": "楓原万葉",
+    "element": "風",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000048": {
+    "nameJa": "煙緋",
+    "element": "炎",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "10000049": {
+    "nameJa": "宵宮",
+    "element": "炎",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "10000050": {
+    "nameJa": "トーマ",
+    "element": "炎",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "10000051": {
+    "nameJa": "エウルア",
+    "element": "氷",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "10000052": {
+    "nameJa": "雷電将軍",
+    "element": "雷",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "10000053": {
+    "nameJa": "早柚",
+    "element": "風",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "10000054": {
+    "nameJa": "珊瑚宮心海",
+    "element": "水",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000055": {
+    "nameJa": "ゴロー",
+    "element": "岩",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "10000056": {
+    "nameJa": "九条裟羅",
+    "element": "雷",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "10000057": {
+    "nameJa": "荒瀧一斗",
+    "element": "岩",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "10000058": {
+    "nameJa": "八重神子",
+    "element": "雷",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000059": {
+    "nameJa": "鹿野院平蔵",
+    "element": "風",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "10000060": {
+    "nameJa": "夜蘭",
+    "element": "水",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "10000062": {
+    "nameJa": "アーロイ",
+    "element": "氷",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "10000063": {
+    "nameJa": "申鶴",
+    "element": "氷",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "10000064": {
+    "nameJa": "雲菫",
+    "element": "岩",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "10000065": {
+    "nameJa": "久岐忍",
+    "element": "雷",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "10000066": {
+    "nameJa": "神里綾人",
+    "element": "水",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000067": {
+    "nameJa": "コレイ",
+    "element": "草",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "10000068": {
+    "nameJa": "ドリー",
+    "element": "雷",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "10000069": {
+    "nameJa": "ティナリ",
+    "element": "草",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "10000070": {
+    "nameJa": "ニィロウ",
+    "element": "水",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000071": {
+    "nameJa": "セノ",
+    "element": "雷",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "10000072": {
+    "nameJa": "キャンディス",
+    "element": "水",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "10000073": {
+    "nameJa": "ナヒーダ",
+    "element": "草",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000074": {
+    "nameJa": "レイラ",
+    "element": "氷",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "10000075": {
+    "nameJa": "放浪者",
+    "element": "風",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000076": {
+    "nameJa": "ファルザン",
+    "element": "風",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "10000077": {
+    "nameJa": "ヨォーヨ",
+    "element": "草",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "10000078": {
+    "nameJa": "アルハイゼン",
+    "element": "草",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000079": {
+    "nameJa": "ディシア",
+    "element": "炎",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "10000080": {
+    "nameJa": "ミカ",
+    "element": "氷",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "10000081": {
+    "nameJa": "カーヴェ",
+    "element": "草",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "10000082": {
+    "nameJa": "白朮",
+    "element": "草",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000083": {
+    "nameJa": "リネット",
+    "element": "風",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "10000084": {
+    "nameJa": "リネ",
+    "element": "炎",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "10000085": {
+    "nameJa": "フレミネ",
+    "element": "氷",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "10000086": {
+    "nameJa": "リオセスリ",
+    "element": "氷",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000087": {
+    "nameJa": "ヌヴィレット",
+    "element": "水",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000088": {
+    "nameJa": "シャルロット",
+    "element": "氷",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "10000089": {
+    "nameJa": "フリーナ",
+    "element": "水",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000090": {
+    "nameJa": "シュヴルーズ",
+    "element": "炎",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "10000091": {
+    "nameJa": "ナヴィア",
+    "element": "岩",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "10000092": {
+    "nameJa": "閑雲",
+    "element": "風",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000093": {
+    "nameJa": "嘉明",
+    "element": "炎",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "10000094": {
+    "nameJa": "千織",
+    "element": "岩",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000095": {
+    "nameJa": "シグウィン",
+    "element": "水",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "10000096": {
+    "nameJa": "アルレッキーノ",
+    "element": "炎",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "10000097": {
+    "nameJa": "セトス",
+    "element": "雷",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "10000098": {
+    "nameJa": "クロリンデ",
+    "element": "雷",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000099": {
+    "nameJa": "エミリエ",
+    "element": "草",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "10000100": {
+    "nameJa": "カチーナ",
+    "element": "岩",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "10000101": {
+    "nameJa": "キィニチ",
+    "element": "草",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "10000102": {
+    "nameJa": "ムアラニ",
+    "element": "水",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000103": {
+    "nameJa": "シロネン",
+    "element": "岩",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000104": {
+    "nameJa": "チャスカ",
+    "element": "風",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "10000105": {
+    "nameJa": "オロルン",
+    "element": "雷",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "10000106": {
+    "nameJa": "マーヴィカ",
+    "element": "炎",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "10000107": {
+    "nameJa": "シトラリ",
+    "element": "氷",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000108": {
+    "nameJa": "藍硯",
+    "element": "風",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "10000109": {
+    "nameJa": "夢見月瑞希",
+    "element": "風",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000110": {
+    "nameJa": "イアンサ",
+    "element": "雷",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "10000111": {
+    "nameJa": "ヴァレサ",
+    "element": "雷",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000112": {
+    "nameJa": "エスコフィエ",
+    "element": "氷",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "10000113": {
+    "nameJa": "イファ",
+    "element": "風",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "10000114": {
+    "nameJa": "スカーク",
+    "element": "氷",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000115": {
+    "nameJa": "ダリア",
+    "element": "水",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "10000116": {
+    "nameJa": "イネファ",
+    "element": "雷",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "10000119": {
+    "nameJa": "ラウマ",
+    "element": "草",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000120": {
+    "nameJa": "フリンズ",
+    "element": "雷",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "10000121": {
+    "nameJa": "アイノ",
+    "element": "水",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "10000122": {
+    "nameJa": "ネフェル",
+    "element": "草",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000123": {
+    "nameJa": "ドゥリン",
+    "element": "炎",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000124": {
+    "nameJa": "ヤフォダ",
+    "element": "風",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "10000125": {
+    "nameJa": "コロンビーナ",
+    "element": "水",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000126": {
+    "nameJa": "兹白",
+    "element": "岩",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "10000127": {
+    "nameJa": "イルーガ",
+    "element": "岩",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "10000128": {
+    "nameJa": "ファルカ",
+    "element": "風",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "10000129": {
+    "nameJa": "ロエン",
+    "element": "氷",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "10000130": {
+    "nameJa": "リンネア",
+    "element": "岩",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "10000131": {
+    "nameJa": "ニコル",
+    "element": "炎",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "10000132": {
+    "nameJa": "プルーネ",
+    "element": "風",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "10000133": {
+    "nameJa": "サンドローネ",
+    "element": "氷",
+    "weaponType": "両手剣",
+    "rarity": 5
+  }
+}
