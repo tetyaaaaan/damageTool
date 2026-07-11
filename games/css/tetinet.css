@@ -2465,3 +2465,212 @@ body.tool-page .teti-main > .teti-container > .box {
     width: 100%;
   }
 }
+.genshin-tool-page .genshin-player-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  color: var(--teti-text);
+}
+
+.genshin-tool-page .genshin-player-strip span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+}
+
+.genshin-tool-page .genshin-profile-detail-card {
+  display: grid;
+  gap: 18px;
+}
+
+.genshin-tool-page .genshin-profile-detail-main h4 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0;
+  color: var(--teti-text);
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 900;
+}
+
+.genshin-tool-page .genshin-profile-detail-main h4 span {
+  padding: 3px 10px;
+  color: var(--teti-primary);
+  font-size: 0.95rem;
+  background: var(--teti-surface-soft);
+  border: 1px solid var(--teti-border);
+  border-radius: 999px;
+}
+
+.genshin-tool-page .genshin-profile-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.genshin-tool-page .genshin-profile-tags span {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 11px;
+  color: var(--teti-primary);
+  background: var(--teti-surface-soft);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  font-weight: 900;
+}
+
+.genshin-tool-page .genshin-profile-summary-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.genshin-tool-page .genshin-profile-accordion {
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  background: var(--teti-surface-soft);
+  overflow: hidden;
+}
+
+.genshin-tool-page .genshin-profile-accordion summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 14px;
+  color: var(--teti-text);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.genshin-tool-page .genshin-profile-accordion summary span {
+  color: var(--teti-muted);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.genshin-tool-page .genshin-profile-accordion p,
+.genshin-tool-page .genshin-artifact-effects {
+  margin: 0;
+  padding: 0 14px 14px;
+  color: var(--teti-muted);
+  line-height: 1.75;
+}
+
+.genshin-tool-page .genshin-artifact-effects div + div {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--teti-border);
+}
+
+.genshin-tool-page .genshin-profile-two-col {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.3fr);
+  gap: 16px;
+}
+
+.genshin-tool-page .genshin-profile-two-col section {
+  min-width: 0;
+  padding: 14px;
+  background: var(--teti-surface-soft);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+}
+
+.genshin-tool-page .genshin-profile-two-col h5,
+.genshin-tool-page .genshin-reflect-inputs h4 {
+  margin: 0 0 12px;
+  color: var(--teti-text);
+  font-size: 0.98rem;
+  font-weight: 900;
+}
+
+.genshin-tool-page .genshin-talent-grid {
+  grid-template-columns: 1fr;
+}
+
+.genshin-tool-page .genshin-stat-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.genshin-tool-page .genshin-profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--teti-border);
+}
+
+.genshin-tool-page .genshin-profile-actions .teti-button {
+  min-width: min(100%, 340px);
+}
+
+.genshin-tool-page .genshin-profile-actions span {
+  color: var(--teti-muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.genshin-tool-page .genshin-reflect-inputs {
+  background: color-mix(in srgb, var(--teti-surface) 92%, var(--teti-primary) 8%);
+}
+
+.genshin-tool-page .genshin-reflect-inputs input,
+.genshin-tool-page .genshin-reflect-inputs select {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  box-sizing: border-box;
+  padding: 8px 11px;
+  color: var(--teti-text);
+  background: var(--teti-surface);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  font: inherit;
+  font-weight: 800;
+}
+
+.genshin-tool-page .genshin-reflect-inputs .genshin-field {
+  position: relative;
+}
+
+.genshin-tool-page .genshin-reflect-inputs .genshin-field span {
+  position: absolute;
+  right: 12px;
+  bottom: 11px;
+  color: var(--teti-muted);
+  font-weight: 900;
+  pointer-events: none;
+}
+
+
+.genshin-tool-page .genshin-talent-inputs,
+.genshin-tool-page .genshin-profile-stat-inputs {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--teti-border);
+}
+
+html[data-theme="dark"] .genshin-tool-page .genshin-profile-detail-main h4 span,
+html[data-theme="dark"] .genshin-tool-page .genshin-profile-tags span,
+html[data-theme="dark"] .genshin-tool-page .genshin-profile-accordion,
+html[data-theme="dark"] .genshin-tool-page .genshin-profile-two-col section,
+html[data-theme="dark"] .genshin-tool-page .genshin-reflect-inputs {
+  background: #0a1c27;
+  border-color: #244351;
+}
+
+@media (max-width: 760px) {
+  .genshin-tool-page .genshin-profile-two-col,
+  .genshin-tool-page .genshin-stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .genshin-tool-page .genshin-profile-accordion summary {
+    flex-direction: column;
+  }
+}

@@ -257,6 +257,41 @@
         return `\u540d\u79f0\u4e0d\u660e\uff08ID: ${id || "-"}\uff09`;
     }
 
+    function unsupportedName(type, id) {
+        return `未対応${type}（ID: ${id || "-"}）`;
+    }
+
+    function readPromoteLevel(item) {
+        return pickNumber(item?.weapon?.promoteLevel ?? item?.reliquary?.promoteLevel ?? item?.promoteLevel);
+    }
+
+    function normalizeRank(value) {
+        const rank = pickNumber(value, 0);
+        if (rank === 0) return 1;
+        if (rank >= 1 && rank <= 5) return rank;
+        return 1;
+    }
+
+    function mapTalentLevels(avatar) {
+        const raw = avatar?.skillLevelMap || avatar?.avatarSkillLevelMap || {};
+        const values = Object.values(raw).map((value) => pickNumber(value)).filter((value) => value > 0);
+        return {
+            normal: values[0] || 1,
+            skill: values[1] || 1,
+            burst: values[2] || 1
+        };
+    }
+
+    function readFlatText(flat, keys) {
+        if (!flat || typeof flat !== "object") return "";
+        for (const key of keys) {
+            const value = flat[key];
+            if (typeof value === "string" && value.trim()) return value.trim();
+            const localized = pickLocalizedName(value, "");
+            if (localized) return localized;
+        }
+        return "";
+    }
     function readFightProp(avatar, key, fallback = 0) {
         return pickNumber(avatar?.fightPropMap?.[String(key)] ?? avatar?.fightPropMap?.[key], fallback);
     }
@@ -287,9 +322,12 @@
         const id = String(weapon.itemId || "-");
         return {
             id,
-            name: pickFlatName(weapon.flat, unknownName(id)),
+            name: pickFlatName(weapon.flat, unsupportedName("武器", id)),
             level: pickNumber(weapon.weapon?.level),
-            rank: pickNumber(weapon.weapon?.affixMap ? Object.values(weapon.weapon.affixMap)[0] : 0)
+            rank: normalizeRank(weapon.weapon?.affixMap ? Object.values(weapon.weapon.affixMap)[0] : 0),
+            type: pickText(weapon.flat?.weaponType || weapon.flat?.itemType, "-"),
+            rarity: pickNumber(weapon.flat?.rankLevel),
+            effect: readFlatText(weapon.flat, ["descTextMap", "weaponDescTextMap", "effectTextMap", "awakenNameTextMap"]) || "武器効果データは未対応です。"
         };
     }
 
@@ -298,9 +336,11 @@
             .filter((item) => item?.flat?.itemType === "ITEM_RELIQUARY")
             .map((item) => ({
                 id: String(item.itemId || "-"),
-                name: pickFlatName(item.flat, unknownName(item.itemId)),
+                name: pickFlatName(item.flat, unsupportedName("聖遺物", item.itemId)),
                 level: pickNumber(item.reliquary?.level),
-                slot: pickText(EQUIP_TYPE_NAMES[item.flat?.equipType] || item.flat?.equipType, "-")
+                slot: pickText(EQUIP_TYPE_NAMES[item.flat?.equipType] || item.flat?.equipType, "-"),
+                setName: pickLocalizedName(item.flat?.setNameTextMap, "") || pickLocalizedName(item.flat?.reliquarySetNameTextMap, "") || pickFlatName(item.flat?.reliquarySet, "") || pickFlatName(item.flat, unsupportedName("聖遺物", item.itemId)),
+                effect: readFlatText(item.flat, ["setDescTextMap", "reliquarySetDescTextMap", "descTextMap"]) || "聖遺物効果データは未対応です。"
             }));
     }
 
@@ -312,10 +352,14 @@
 
         return {
             id: avatarId,
-            name: pickText(avatar?.name || avatar?.avatarName || mappedName, unknownName(avatarId)),
+            name: pickText(avatar?.name || avatar?.avatarName || mappedName, unsupportedName("キャラクター", avatarId)),
             level,
             element: bestDamage.element,
             constellation: Array.isArray(avatar?.talentIdList) ? avatar.talentIdList.length : 0,
+            constellationEffect: "命ノ星座効果データは未対応です。",
+            weaponType: pickText(avatar?.flat?.weaponType || avatar?.weaponType, "-"),
+            rarity: pickNumber(avatar?.flat?.rankLevel || avatar?.rankLevel),
+            talents: mapTalentLevels(avatar),
             weapon: mapWeapon(avatar),
             artifacts: mapArtifacts(avatar),
             stats: {

@@ -101,6 +101,59 @@
               <div class="uid-importer__detail" id="genshinCharacterDetail" hidden></div>
             </div>
 
+            <div class="genshin-fieldset genshin-reflect-inputs">
+              <h3>計算入力欄（反映後に編集可能）</h3>
+              <div class="genshin-form-grid genshin-profile-form-grid">
+                <label class="genshin-field">キャラクター<input type="text" id="genshinReflectCharacter" autocomplete="off"></label>
+                <label class="genshin-field">レベル<input type="number" id="genshinReflectLevel" min="1" max="90" step="1"></label>
+                <label class="genshin-field">命ノ星座
+                  <select id="genshinReflectConstellation">
+                    <option value="C0">C0</option>
+                    <option value="C1">C1</option>
+                    <option value="C2">C2</option>
+                    <option value="C3">C3</option>
+                    <option value="C4">C4</option>
+                    <option value="C5">C5</option>
+                    <option value="C6">C6</option>
+                  </select>
+                </label>
+                <label class="genshin-field">武器<input type="text" id="genshinWeaponInput" list="genshinWeaponOptions" autocomplete="off"></label>
+                <datalist id="genshinWeaponOptions"></datalist>
+                <label class="genshin-field">武器レベル<input type="number" id="genshinWeaponLevel" min="1" max="90" step="1"></label>
+                <label class="genshin-field">精錬ランク
+                  <select id="genshinWeaponRefinement">
+                    <option value="R1">R1</option>
+                    <option value="R2">R2</option>
+                    <option value="R3">R3</option>
+                    <option value="R4">R4</option>
+                    <option value="R5">R5</option>
+                  </select>
+                </label>
+              </div>
+              <div class="genshin-talent-inputs">
+                <h4>天賦レベル</h4>
+                <div class="genshin-form-grid">
+                  <label class="genshin-field">通常攻撃Lv<input type="number" id="genshinNormalTalentLevel" min="1" max="15" step="1"></label>
+                  <label class="genshin-field">元素スキルLv<input type="number" id="genshinSkillTalentLevel" min="1" max="15" step="1"></label>
+                  <label class="genshin-field">元素爆発Lv<input type="number" id="genshinBurstTalentLevel" min="1" max="15" step="1"></label>
+                </div>
+              </div>
+              <div class="genshin-profile-stat-inputs">
+                <h4>ステータス</h4>
+                <div class="genshin-form-grid">
+                  <label class="genshin-field">HP<input type="number" id="genshinHpInput" step="1"></label>
+                  <label class="genshin-field">攻撃力<input type="number" id="genshinAtkInput" step="1"></label>
+                  <label class="genshin-field">防御力<input type="number" id="genshinDefInput" step="1"></label>
+                  <label class="genshin-field">元素熟知<input type="number" id="genshinElementalMasteryInput" step="1"></label>
+                  <label class="genshin-field">会心率<input type="number" id="genshinCritRateInput" step="0.01"><span>%</span></label>
+                  <label class="genshin-field">会心ダメージ<input type="number" id="genshinCritDamageInput" step="0.01"><span>%</span></label>
+                  <label class="genshin-field">元素チャージ効率<input type="number" id="genshinEnergyRechargeInput" step="0.01"><span>%</span></label>
+                  <label class="genshin-field">属性ダメージ<input type="number" id="genshinElementalDamageInput" step="0.01"><span>%</span></label>
+                </div>
+              </div>
+              <p class="genshin-help">反映した数値は編集可能です。計算に使う攻撃力・元素熟知・会心ダメージ・属性ダメージ・レベルは下の既存入力欄にも同期します。</p>
+            </div>
+
             <div class="genshin-fieldset">
               <h3>元素反応</h3>
               <div id="eleArea">元素反応選択：反応なし（初期値） ▼</div>
