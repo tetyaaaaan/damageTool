@@ -1450,6 +1450,7 @@ html[data-theme="dark"] .genshin-tool-page .character-build-grid dd {
 
 .genshin-tool-page .genshin-element-damage-stat summary strong {
   color: var(--teti-text);
+  font-size: 1rem;
   font-weight: 800;
 }
 

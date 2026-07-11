@@ -135,8 +135,9 @@
             entry.count += 1;
             entry.effects.add(artifact.effect || "聖遺物効果データは未対応です。");
         });
-        if (!counts.size) return "<p>聖遺物情報は取得できませんでした。</p>";
-        return Array.from(counts.entries()).map(([name, entry]) => {
+        const activeSets = Array.from(counts.entries()).filter(([, entry]) => entry.count >= 2);
+        if (!activeSets.length) return "<p>発動中の聖遺物セット効果はありません。</p>";
+        return activeSets.map(([name, entry]) => {
             const label = entry.count >= 4 ? "2セット効果 / 4セット効果" : `${Math.min(entry.count, 2)}セット効果`;
             return `<div><strong>${escapeHtml(name)} ${Math.min(entry.count, 4)}セット</strong><p>${escapeHtml(label)}: ${escapeHtml(Array.from(entry.effects).join(" / "))}</p></div>`;
         }).join("");
