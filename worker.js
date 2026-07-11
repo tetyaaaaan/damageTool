@@ -29,7 +29,7 @@ export default {
     if (legacyRedirect) {
       return Response.redirect(`${url.origin}${legacyRedirect}${url.search}`, 301);
     }
-
+    
     if (url.pathname === HSR_PROFILE_API_PATH) {
       return fetchHsrProfile(url);
     }
