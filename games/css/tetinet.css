@@ -1425,6 +1425,39 @@ html[data-theme="dark"] .genshin-tool-page .character-build-grid dd {
   color: #eef8fb;
 }
 
+.genshin-tool-page .character-build-grid .genshin-element-damage-stat {
+  padding: 0;
+}
+
+.genshin-tool-page .genshin-element-damage-stat details {
+  min-width: 0;
+}
+
+.genshin-tool-page .genshin-element-damage-stat summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.genshin-tool-page .genshin-element-damage-stat summary span {
+  color: var(--teti-muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.genshin-tool-page .genshin-element-damage-stat summary strong {
+  color: var(--teti-text);
+  font-weight: 800;
+}
+
+.genshin-tool-page .genshin-element-damage-list {
+  grid-template-columns: 1fr;
+  padding: 0 8px 8px;
+}
+
 /* Legacy tool/info pages: HSR, Granblue, formula, enemies, privacy */
 body.tool-page {
   min-height: 100vh;
