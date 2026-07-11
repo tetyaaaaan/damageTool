@@ -12,14 +12,14 @@
     };
 
     const ELEMENT_DAMAGE_PROPS = [
-        { key: 40, name: "\u708e" },
-        { key: 41, name: "\u96f7" },
-        { key: 42, name: "\u6c34" },
-        { key: 43, name: "\u8349" },
-        { key: 44, name: "\u98a8" },
-        { key: 45, name: "\u5ca9" },
-        { key: 46, name: "\u6c37" },
-        { key: 30, name: "\u7269\u7406" }
+        { key: 40, element: "炎", label: "炎元素ダメージ" },
+        { key: 41, element: "雷", label: "雷元素ダメージ" },
+        { key: 42, element: "水", label: "水元素ダメージ" },
+        { key: 43, element: "草", label: "草元素ダメージ" },
+        { key: 44, element: "風", label: "風元素ダメージ" },
+        { key: 45, element: "岩", label: "岩元素ダメージ" },
+        { key: 46, element: "氷", label: "氷元素ダメージ" },
+        { key: 30, element: "物理", label: "物理ダメージ" }
     ];
 
     const LOCALE_KEYS = ["ja", "JP", "ja-JP", "ja_jp", "JPN", "Japanese", "en", "EN", "en-US", "ENG", "English"];
@@ -348,14 +348,26 @@
         return Math.abs(num) <= 10 ? num * 100 : num;
     }
 
-    function mapBestElementDamage(avatar) {
-        const damages = ELEMENT_DAMAGE_PROPS.map((item) => ({
-            element: item.name,
+    function mapElementDamageStats(avatar) {
+        const details = ELEMENT_DAMAGE_PROPS.map((item) => ({
+            key: item.key,
+            element: item.element,
+            label: item.label,
             value: normalizePercent(readFightProp(avatar, item.key))
-        })).filter((item) => item.value > 0);
+        }));
+        const byElement = details.reduce((acc, item) => {
+            acc[item.element] = item.value;
+            return acc;
+        }, {});
+        return { details, byElement };
+    }
 
-        damages.sort((a, b) => b.value - a.value);
-        return damages[0] || { element: "-", value: 0 };
+    function resolveCharacterElement(avatarId) {
+        const entry = getGenshinResolverEntry("character", avatarId);
+        const element = pickText(entry?.element, "");
+        if (element) return element;
+        warnUnsupportedId("character.element", avatarId);
+        return "未対応";
     }
 
     function mapWeapon(avatar) {
@@ -398,16 +410,18 @@
     }
 
     function mapCharacter(avatar) {
-        const bestDamage = mapBestElementDamage(avatar);
+        const elementDamageStats = mapElementDamageStats(avatar);
         const avatarId = String(avatar?.avatarId || "-");
         const level = readPropMapValue(avatar, 4001);
         const mappedName = resolveNameFromJson("character", avatarId, pickLocalizedName(avatar?.flat?.nameTextMap) || CHARACTER_NAME_BY_AVATAR_ID_JA[avatarId], "キャラクター");
+        const characterElement = resolveCharacterElement(avatarId);
+        const representativeElementDamage = elementDamageStats.byElement[characterElement] || 0;
 
         return {
             id: avatarId,
             name: mappedName,
             level,
-            element: bestDamage.element,
+            element: characterElement,
             constellation: Array.isArray(avatar?.talentIdList) ? avatar.talentIdList.length : 0,
             constellationEffect: "命ノ星座効果データは未対応です。",
             weaponType: resolveTextFromJson("character", avatarId, "weaponType", pickText(avatar?.flat?.weaponType || avatar?.weaponType, "-")),
@@ -423,7 +437,8 @@
                 critRate: normalizePercent(readFightProp(avatar, FIGHT_PROPS.critRate)),
                 critDamage: normalizePercent(readFightProp(avatar, FIGHT_PROPS.critDamage)),
                 energyRecharge: normalizePercent(readFightProp(avatar, FIGHT_PROPS.energyRecharge)),
-                elementalDamage: bestDamage.value
+                elementalDamage: representativeElementDamage,
+                elementalDamageDetails: elementDamageStats.details
             }
         };
     }

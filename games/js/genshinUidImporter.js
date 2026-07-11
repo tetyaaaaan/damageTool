@@ -146,6 +146,24 @@
         return `<div><dt>${escapeHtml(label)}</dt><dd>${formatter(value)}</dd></div>`;
     }
 
+    function formatElementDamageLabel(character) {
+        const element = character?.element;
+        return element && element !== "未対応" && element !== "-" ? `${element}元素ダメージ` : "元素ダメージ";
+    }
+
+    function renderElementDamageDetails(character) {
+        const details = character?.stats?.elementalDamageDetails || [];
+        if (!details.length) return "";
+        return `
+            <details class="genshin-profile-accordion genshin-element-damage-details">
+                <summary><strong>元素ダメージ詳細</strong><span>fightPropMap</span></summary>
+                <dl class="character-build-grid genshin-stat-grid">
+                    ${details.map((item) => renderStatItem(item.label, item.value, (value) => formatDecimal(value, 2, "%"))).join("")}
+                </dl>
+            </details>
+        `;
+    }
+
     function renderCharacterDetail(character) {
         const detail = getElement("genshinCharacterDetail");
         if (!detail) return;
@@ -164,7 +182,7 @@
                     <div>
                         <h4>${escapeHtml(character.name || unsupported("キャラクター", character.id))} <span>Lv.${character.level || "-"}</span></h4>
                         <div class="genshin-profile-tags">
-                            <span>${escapeHtml(character.element || "元素未対応")}</span>
+                            <span>元素：${escapeHtml(character.element || "未対応")}</span>
                             <span>${escapeHtml(character.weaponType || "武器種未対応")}</span>
                             <span>★${character.rarity || "-"}</span>
                             <span>${constellation}</span>
@@ -206,8 +224,9 @@
                             ${renderStatItem("会心率", character.stats.critRate, (value) => formatDecimal(value, 2, "%"))}
                             ${renderStatItem("会心ダメージ", character.stats.critDamage, (value) => formatDecimal(value, 2, "%"))}
                             ${renderStatItem("元素チャージ効率", character.stats.energyRecharge, (value) => formatDecimal(value, 2, "%"))}
-                            ${renderStatItem(`${escapeHtml(character.element || "属性")}ダメージ`, character.stats.elementalDamage, (value) => formatDecimal(value, 2, "%"))}
+                            ${renderStatItem(formatElementDamageLabel(character), character.stats.elementalDamage, (value) => formatDecimal(value, 2, "%"))}
                         </dl>
+                        ${renderElementDamageDetails(character)}
                     </section>
                 </div>
 

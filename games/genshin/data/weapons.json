@@ -1,12 +1,1187 @@
 {
-  "11517": {
-    "nameJa": "蒼耀",
+  "11101": {
+    "nameJa": "無鋒の剣",
+    "weaponType": "片手剣",
+    "rarity": 1
+  },
+  "11201": {
+    "nameJa": "銀の剣",
+    "weaponType": "片手剣",
+    "rarity": 2
+  },
+  "11301": {
+    "nameJa": "冷刃",
+    "weaponType": "片手剣",
+    "rarity": 3
+  },
+  "11302": {
+    "nameJa": "黎明の神剣",
+    "weaponType": "片手剣",
+    "rarity": 3
+  },
+  "11303": {
+    "nameJa": "旅道の剣",
+    "weaponType": "片手剣",
+    "rarity": 3
+  },
+  "11304": {
+    "nameJa": "暗鉄剣",
+    "weaponType": "片手剣",
+    "rarity": 3
+  },
+  "11305": {
+    "nameJa": "チ虎魚の刀",
+    "weaponType": "片手剣",
+    "rarity": 3
+  },
+  "11306": {
+    "nameJa": "飛天御剣",
+    "weaponType": "片手剣",
+    "rarity": 3
+  },
+  "11401": {
+    "nameJa": "西風剣",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11402": {
+    "nameJa": "笛の剣",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11403": {
+    "nameJa": "祭礼の剣",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11404": {
+    "nameJa": "旧貴族長剣",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11405": {
+    "nameJa": "匣中龍吟",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11406": {
+    "nameJa": "斬岩·試作",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11407": {
+    "nameJa": "鉄蜂の刺し",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11408": {
+    "nameJa": "黒岩の長剣",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11409": {
+    "nameJa": "黒剣",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11410": {
+    "nameJa": "ダークアレイの閃光",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11412": {
+    "nameJa": "降臨の剣",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11413": {
+    "nameJa": "腐植の剣",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11414": {
+    "nameJa": "天目影打",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11415": {
+    "nameJa": "シナバースピンドル",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11416": {
+    "nameJa": "籠釣瓶一心",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11417": {
+    "nameJa": "原木刀",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11418": {
+    "nameJa": "サイフォスの月明かり",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11419": {
+    "nameJa": "「一心伝」名刀",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11420": {
+    "nameJa": "「一心伝」名刀",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11421": {
+    "nameJa": "「一心伝」名刀",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11422": {
+    "nameJa": "東花坊時雨",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11424": {
+    "nameJa": "狼牙",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11425": {
+    "nameJa": "海淵のフィナーレ",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11426": {
+    "nameJa": "サーンドルの渡し守",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11427": {
+    "nameJa": "船渠剣",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11428": {
+    "nameJa": "水仙十字の剣",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11430": {
+    "nameJa": "ストロング・ボーン",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11431": {
+    "nameJa": "エズピツァルの笛",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11432": {
+    "nameJa": "厄水の災い",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11433": {
+    "nameJa": "静謐の笛",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11434": {
+    "nameJa": "月紡ぎの曙光",
+    "weaponType": "片手剣",
+    "rarity": 4
+  },
+  "11501": {
+    "nameJa": "風鷹剣",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "11502": {
+    "nameJa": "天空の刃",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "11503": {
+    "nameJa": "蒼古なる自由への誓い",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "11504": {
+    "nameJa": "斬山の刃",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "11505": {
+    "nameJa": "磐岩結緑",
     "weaponType": "片手剣",
     "rarity": 5
   },
   "11509": {
     "nameJa": "霧切の廻光",
     "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "11510": {
+    "nameJa": "波乱月白経津",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "11511": {
+    "nameJa": "聖顕の鍵",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "11512": {
+    "nameJa": "萃光の裁葉",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "11513": {
+    "nameJa": "静水流転の輝き",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "11514": {
+    "nameJa": "有楽御簾切",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "11515": {
+    "nameJa": "赦罪",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "11516": {
+    "nameJa": "岩峰を巡る歌",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "11517": {
+    "nameJa": "蒼耀",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "11518": {
+    "nameJa": "黒蝕",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "11519": {
+    "nameJa": "三日月の含光",
+    "weaponType": "片手剣",
+    "rarity": 5
+  },
+  "12101": {
+    "nameJa": "訓練用大剣",
+    "weaponType": "両手剣",
+    "rarity": 1
+  },
+  "12201": {
+    "nameJa": "傭兵の重剣",
+    "weaponType": "両手剣",
+    "rarity": 2
+  },
+  "12301": {
+    "nameJa": "鉄影段平",
+    "weaponType": "両手剣",
+    "rarity": 3
+  },
+  "12302": {
+    "nameJa": "龍血を浴びた剣",
+    "weaponType": "両手剣",
+    "rarity": 3
+  },
+  "12303": {
+    "nameJa": "白鉄の大剣",
+    "weaponType": "両手剣",
+    "rarity": 3
+  },
+  "12305": {
+    "nameJa": "理屈責め",
+    "weaponType": "両手剣",
+    "rarity": 3
+  },
+  "12306": {
+    "nameJa": "飛天大御剣",
+    "weaponType": "両手剣",
+    "rarity": 3
+  },
+  "12401": {
+    "nameJa": "西風大剣",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12402": {
+    "nameJa": "鐘の剣",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12403": {
+    "nameJa": "祭礼の大剣",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12404": {
+    "nameJa": "旧貴族大剣",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12405": {
+    "nameJa": "雨裁",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12406": {
+    "nameJa": "古華·試作",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12407": {
+    "nameJa": "白影の剣",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12408": {
+    "nameJa": "黒岩の斬刀",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12409": {
+    "nameJa": "螭龍の剣",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12410": {
+    "nameJa": "千岩古剣",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12411": {
+    "nameJa": "雪葬の星銀",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12412": {
+    "nameJa": "銜玉の海皇",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12414": {
+    "nameJa": "桂木斬長正",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12415": {
+    "nameJa": "マカイラの水色",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12416": {
+    "nameJa": "惡王丸",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12417": {
+    "nameJa": "森林のレガリア",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12418": {
+    "nameJa": "鉄彩の花",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12424": {
+    "nameJa": "話死合い棒",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12425": {
+    "nameJa": "タイダル·シャドー",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12426": {
+    "nameJa": "「スーパーアルティメット覇王魔剣」",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12427": {
+    "nameJa": "携帯型チェーンソー",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12430": {
+    "nameJa": "実りの鉤鉈",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12431": {
+    "nameJa": "アースシェイカー",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12432": {
+    "nameJa": "知恵の溶炎",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12433": {
+    "nameJa": "万能の鍵",
+    "weaponType": "両手剣",
+    "rarity": 4
+  },
+  "12501": {
+    "nameJa": "天空の傲",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "12502": {
+    "nameJa": "狼の末路",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "12503": {
+    "nameJa": "松韻の響く頃",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "12504": {
+    "nameJa": "無工の剣",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "12510": {
+    "nameJa": "赤角石塵滅砕",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "12511": {
+    "nameJa": "葦海の標",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "12512": {
+    "nameJa": "裁断",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "12513": {
+    "nameJa": "山の王の長牙",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "12514": {
+    "nameJa": "千烈の日輪",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "12515": {
+    "nameJa": "狼の武勲詩",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "12516": {
+    "nameJa": "超越の鍵",
+    "weaponType": "両手剣",
+    "rarity": 5
+  },
+  "13101": {
+    "nameJa": "新米の長槍",
+    "weaponType": "長柄武器",
+    "rarity": 1
+  },
+  "13201": {
+    "nameJa": "鉄尖槍",
+    "weaponType": "長柄武器",
+    "rarity": 2
+  },
+  "13301": {
+    "nameJa": "白纓槍",
+    "weaponType": "長柄武器",
+    "rarity": 3
+  },
+  "13302": {
+    "nameJa": "鉾槍",
+    "weaponType": "長柄武器",
+    "rarity": 3
+  },
+  "13303": {
+    "nameJa": "黒纓槍",
+    "weaponType": "長柄武器",
+    "rarity": 3
+  },
+  "13401": {
+    "nameJa": "匣中滅龍",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13402": {
+    "nameJa": "星鎌·試作",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13403": {
+    "nameJa": "流月の針",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13404": {
+    "nameJa": "黒岩の突槍",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13405": {
+    "nameJa": "死闘の槍",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13406": {
+    "nameJa": "千岩長槍",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13407": {
+    "nameJa": "西風長槍",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13408": {
+    "nameJa": "旧貴族猟槍",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13409": {
+    "nameJa": "ドラゴンスピア",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13414": {
+    "nameJa": "喜多院十文字槍",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13415": {
+    "nameJa": "「漁獲」",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13416": {
+    "nameJa": "斬波のひれ長",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13417": {
+    "nameJa": "ムーンピアサー",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13419": {
+    "nameJa": "風信の矛",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13424": {
+    "nameJa": "フィヨルドの歌",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13425": {
+    "nameJa": "正義の報酬",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13426": {
+    "nameJa": "砂中の賢者達の問答",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13427": {
+    "nameJa": "プロスペクタードリル",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13430": {
+    "nameJa": "鎮山の釘",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13431": {
+    "nameJa": "虹の行方",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13432": {
+    "nameJa": "玉響停の御噺",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13433": {
+    "nameJa": "金掘りのシャベル",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13434": {
+    "nameJa": "聖祭者の輝杖",
+    "weaponType": "長柄武器",
+    "rarity": 4
+  },
+  "13501": {
+    "nameJa": "護摩の杖",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "13502": {
+    "nameJa": "天空の脊",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "13504": {
+    "nameJa": "破天の槍",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "13505": {
+    "nameJa": "和璞鳶",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "13507": {
+    "nameJa": "息災",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "13509": {
+    "nameJa": "草薙の稲光",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "13511": {
+    "nameJa": "赤砂の杖",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "13512": {
+    "nameJa": "赤月のシルエット",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "13513": {
+    "nameJa": "ルミドゥースの挽歌",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "13514": {
+    "nameJa": "香りのシンフォニスト",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "13515": {
+    "nameJa": "砕け散る光輪",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "13516": {
+    "nameJa": "血染めの荒れ地",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "13517": {
+    "nameJa": "災憾",
+    "weaponType": "長柄武器",
+    "rarity": 5
+  },
+  "14101": {
+    "nameJa": "生徒ノート",
+    "weaponType": "法器",
+    "rarity": 1
+  },
+  "14201": {
+    "nameJa": "ポケット魔導書",
+    "weaponType": "法器",
+    "rarity": 2
+  },
+  "14301": {
+    "nameJa": "魔導緒論",
+    "weaponType": "法器",
+    "rarity": 3
+  },
+  "14302": {
+    "nameJa": "龍殺しの英傑譚",
+    "weaponType": "法器",
+    "rarity": 3
+  },
+  "14303": {
+    "nameJa": "異世界旅行記",
+    "weaponType": "法器",
+    "rarity": 3
+  },
+  "14304": {
+    "nameJa": "翡玉法珠",
+    "weaponType": "法器",
+    "rarity": 3
+  },
+  "14305": {
+    "nameJa": "特級の宝玉",
+    "weaponType": "法器",
+    "rarity": 3
+  },
+  "14401": {
+    "nameJa": "西風秘典",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14402": {
+    "nameJa": "流浪楽章",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14403": {
+    "nameJa": "祭礼の断片",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14404": {
+    "nameJa": "旧貴族秘法録",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14405": {
+    "nameJa": "匣中日月",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14406": {
+    "nameJa": "金珀·試作",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14407": {
+    "nameJa": "万国諸海の図譜",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14408": {
+    "nameJa": "黒岩の緋玉",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14409": {
+    "nameJa": "昭心",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14410": {
+    "nameJa": "ダークアレイの酒と詩",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14412": {
+    "nameJa": "冬忍びの実",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14413": {
+    "nameJa": "ドドコの物語",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14414": {
+    "nameJa": "白辰の輪",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14415": {
+    "nameJa": "誓いの明瞳",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14416": {
+    "nameJa": "彷徨える星",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14417": {
+    "nameJa": "満悦の実",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14424": {
+    "nameJa": "古祠の瓏",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14425": {
+    "nameJa": "純水流華",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14426": {
+    "nameJa": "果てなき紺碧の唄",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14427": {
+    "nameJa": "蒼紋の角杯",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14430": {
+    "nameJa": "波乗りの旋回",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14431": {
+    "nameJa": "ヤシュチェの環",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14432": {
+    "nameJa": "天光のリュート",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14433": {
+    "nameJa": "烏髄の孤灯",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14434": {
+    "nameJa": "霜辰",
+    "weaponType": "法器",
+    "rarity": 4
+  },
+  "14501": {
+    "nameJa": "天空の巻",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14502": {
+    "nameJa": "四風原典",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14504": {
+    "nameJa": "浮世の錠",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14505": {
+    "nameJa": "碧落の瓏",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14506": {
+    "nameJa": "不滅の月華",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14509": {
+    "nameJa": "神楽の真意",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14511": {
+    "nameJa": "千夜に浮かぶ夢",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14512": {
+    "nameJa": "トゥライトゥーラの記憶",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14513": {
+    "nameJa": "凛流の監視者",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14514": {
+    "nameJa": "久遠流転の大典",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14515": {
+    "nameJa": "鶴鳴の余韻",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14516": {
+    "nameJa": "サーフィンタイム",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14517": {
+    "nameJa": "祭星者の眺め",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14518": {
+    "nameJa": "寝正月の初晴",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14519": {
+    "nameJa": "ヴィヴィッド・ハート",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14520": {
+    "nameJa": "夜を紡ぐ天鏡",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14521": {
+    "nameJa": "真言の匣",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14522": {
+    "nameJa": "帳の夜曲",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "14523": {
+    "nameJa": "塵と光の七つの誓約",
+    "weaponType": "法器",
+    "rarity": 5
+  },
+  "15101": {
+    "nameJa": "狩猟弓",
+    "weaponType": "弓",
+    "rarity": 1
+  },
+  "15201": {
+    "nameJa": "歴戦の狩猟弓",
+    "weaponType": "弓",
+    "rarity": 2
+  },
+  "15301": {
+    "nameJa": "鴉羽の弓",
+    "weaponType": "弓",
+    "rarity": 3
+  },
+  "15302": {
+    "nameJa": "シャープシューターの誓い",
+    "weaponType": "弓",
+    "rarity": 3
+  },
+  "15303": {
+    "nameJa": "リカーブボウ",
+    "weaponType": "弓",
+    "rarity": 3
+  },
+  "15304": {
+    "nameJa": "弾弓",
+    "weaponType": "弓",
+    "rarity": 3
+  },
+  "15305": {
+    "nameJa": "文使い",
+    "weaponType": "弓",
+    "rarity": 3
+  },
+  "15401": {
+    "nameJa": "西風猟弓",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15402": {
+    "nameJa": "絶弦",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15403": {
+    "nameJa": "祭礼の弓",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15404": {
+    "nameJa": "旧貴族長弓",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15405": {
+    "nameJa": "弓蔵",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15406": {
+    "nameJa": "澹月·試作",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15407": {
+    "nameJa": "リングボウ",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15408": {
+    "nameJa": "黒岩の戦弓",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15409": {
+    "nameJa": "蒼翠の狩猟弓",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15410": {
+    "nameJa": "ダークアレイの狩人",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15411": {
+    "nameJa": "落霞",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15412": {
+    "nameJa": "幽夜のワルツ",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15413": {
+    "nameJa": "風花の頌歌",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15414": {
+    "nameJa": "破魔の弓",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15415": {
+    "nameJa": "プレデター",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15416": {
+    "nameJa": "曚雲の月",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15417": {
+    "nameJa": "王の近侍",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15418": {
+    "nameJa": "竭沢",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15419": {
+    "nameJa": "トキの嘴",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15424": {
+    "nameJa": "烈日の後嗣",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15425": {
+    "nameJa": "静寂の唄",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15426": {
+    "nameJa": "築雲",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15427": {
+    "nameJa": "レンジゲージ",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15430": {
+    "nameJa": "花飾りの羽",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15431": {
+    "nameJa": "チェーンブレイカー",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15432": {
+    "nameJa": "冷寂の音",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15433": {
+    "nameJa": "羅網の針",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15434": {
+    "nameJa": "虹蛇の雨弦",
+    "weaponType": "弓",
+    "rarity": 4
+  },
+  "15501": {
+    "nameJa": "天空の翼",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "15502": {
+    "nameJa": "アモスの弓",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "15503": {
+    "nameJa": "終焉を嘆く詩",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "15507": {
+    "nameJa": "冬極の白星",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "15508": {
+    "nameJa": "若水",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "15509": {
+    "nameJa": "飛雷の鳴弦",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "15511": {
+    "nameJa": "狩人の道",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "15512": {
+    "nameJa": "始まりの大魔術",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "15513": {
+    "nameJa": "白雨心弦",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "15514": {
+    "nameJa": "星鷲の紅き羽",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "15515": {
+    "nameJa": "暁を告げる歴史",
+    "weaponType": "弓",
+    "rarity": 5
+  },
+  "15516": {
+    "nameJa": "霜契の金枝",
+    "weaponType": "弓",
     "rarity": 5
   }
 }
