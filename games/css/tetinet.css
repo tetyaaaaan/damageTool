@@ -1434,21 +1434,22 @@ html[data-theme="dark"] .genshin-tool-page .character-build-grid dd {
 }
 
 .genshin-tool-page .genshin-element-damage-stat summary {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 8px;
-  align-items: center;
+  display: block;
   padding: 8px;
   cursor: pointer;
 }
 
 .genshin-tool-page .genshin-element-damage-stat summary span {
+  display: block;
   color: var(--teti-muted);
   font-size: 0.78rem;
   font-weight: 900;
+  overflow-wrap: normal;
 }
 
 .genshin-tool-page .genshin-element-damage-stat summary strong {
+  display: block;
+  margin-top: 2px;
   color: var(--teti-text);
   font-size: 1rem;
   font-weight: 800;
