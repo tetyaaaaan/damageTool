@@ -24,15 +24,11 @@ export default {
       return env.ASSETS.fetch(request);
     }
 
-    if (url.pathname === "/home" || url.pathname === "/home/") {
-      return Response.redirect(`${url.origin}/`, 301);
-    }
-
     const legacyRedirect = LEGACY_REDIRECTS.get(url.pathname);
     if (legacyRedirect) {
       return Response.redirect(`${url.origin}${legacyRedirect}${url.search}`, 301);
     }
-
+    
     if (url.pathname === HSR_PROFILE_API_PATH) {
       return fetchHsrProfile(url);
     }
