@@ -21,6 +21,10 @@ export default {
       return env.ASSETS.fetch(request);
     }
 
+    if (url.pathname === "/ads.txt") {
+      return env.ASSETS.fetch(request);
+    }
+
     const legacyRedirect = LEGACY_REDIRECTS.get(url.pathname);
     if (legacyRedirect) {
       return Response.redirect(`${url.origin}${legacyRedirect}${url.search}`, 301);
