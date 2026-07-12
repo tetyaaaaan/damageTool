@@ -9,6 +9,13 @@
         constellationModifiers: "/games/genshin/data/calc/constellation-modifiers.json"
     };
 
+    const DISPLAY_DATA_PATHS = {
+        weapons: "/games/genshin/data/weapons.json",
+        artifactSets: "/games/genshin/data/artifact-sets.json",
+        weaponEffects: "/games/genshin/data/weapon-effects.json",
+        artifactSetEffects: "/games/genshin/data/artifact-set-effects.json"
+    };
+
     const VALID_UID_HANDLING = new Set([
         "includedInUidStats",
         "includedInUidTalentLevels",
@@ -144,7 +151,7 @@
         if (cache) return cache;
         const warnings = [];
         const entries = await Promise.all(
-            Object.entries(CALC_PATHS).map(async ([key, path]) => [key, await fetchJson(key, path, warnings)])
+            Object.entries({ ...CALC_PATHS, ...DISPLAY_DATA_PATHS }).map(async ([key, path]) => [key, await fetchJson(key, path, warnings)])
         );
         const data = Object.fromEntries(entries);
         data.warnings = warnings.concat(validateCalcData(data));

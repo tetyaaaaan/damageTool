@@ -352,9 +352,9 @@
           "allDamageBonus"
         ],
         "unit": "percent",
-        "condition": "always",
+        "condition": "arrowFlightTime",
         "calculationSupport": "stack",
-        "uidHandling": "includedInUidStats",
+        "uidHandling": "conditional",
         "valueByRefinement": {
           "1": 6,
           "2": 7.5,
@@ -2242,8 +2242,8 @@
         "originalCategory": "special",
         "targetEffect": "previousDamageBonusEffects",
         "effect": "multiplyOrIncreaseExistingEffect",
-        "effectMultiplierPercent": 100.0,
-        "value": 100.0,
+        "effectMultiplierPercent": 100,
+        "value": 100,
         "unit": "percentOfOriginalEffect",
         "customHandlingRequired": true
       }
@@ -4024,7 +4024,7 @@
         "calculationSupport": "custom",
         "uidHandling": "special",
         "sourceText": "チームにいるキャラクターが炎元素関連反応を起こした後、装備者の元素スキルダメージ+16%、継続期間8秒",
-        "value": 16.0,
+        "value": 16,
         "unit": "percent",
         "customHandlingRequired": true
       }
@@ -6607,7 +6607,7 @@
         "calculationSupport": "custom",
         "uidHandling": "special",
         "sourceText": "「無赦」：装備者の通常攻撃と重撃のダメージ+40%",
-        "value": 40.0,
+        "value": 40,
         "unit": "percent",
         "customHandlingRequired": true,
         "stack": {
@@ -6626,7 +6626,7 @@
         "calculationSupport": "custom",
         "uidHandling": "special",
         "sourceText": "「無癒」：装備者の元素スキルと元素爆発のダメージ+40%",
-        "value": 40.0,
+        "value": 40,
         "unit": "percent",
         "customHandlingRequired": true,
         "stack": {
@@ -6648,8 +6648,8 @@
         "originalCategory": "special",
         "targetEffect": "previousDamageBonusEffects",
         "effect": "multiplyOrIncreaseExistingEffect",
-        "effectMultiplierPercent": 75.0,
-        "value": 75.0,
+        "effectMultiplierPercent": 75,
+        "value": 75,
         "unit": "percentOfOriginalEffect",
         "customHandlingRequired": true,
         "stack": {
@@ -8227,7 +8227,7 @@
         "calculationSupport": "custom",
         "uidHandling": "special",
         "sourceText": "この武器を装備したキャラクターのHP上限の1%分、通常攻撃ダメージがアップする",
-        "value": 1.0,
+        "value": 1,
         "unit": "percent",
         "reference": {
           "stat": "hp",
@@ -10850,9 +10850,9 @@
           "chargedAttackDamageBonus"
         ],
         "unit": "percent",
-        "condition": "always",
+        "condition": "arrowFlightTime",
         "calculationSupport": "stack",
-        "uidHandling": "includedInUidStats",
+        "uidHandling": "conditional",
         "valueByRefinement": {
           "1": 8,
           "2": 10,
@@ -10878,7 +10878,7 @@
         "unit": "percent",
         "condition": "always",
         "calculationSupport": "simple",
-        "uidHandling": "includedInUidStats",
+        "uidHandling": "conditional",
         "sourceText": "通常攻撃と重撃のダメージ+12%",
         "valueByRefinement": {
           "1": 12,
@@ -10886,11 +10886,6 @@
           "3": 18,
           "4": 21,
           "5": 24
-        },
-        "stack": {
-          "min": 0,
-          "default": 0,
-          "max": 5
         }
       }
     ]

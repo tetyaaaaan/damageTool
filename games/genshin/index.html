@@ -237,8 +237,15 @@
                     <option value="vaporize20">蒸発 2.0</option>
                   </select>
                 </label>
-                <label class="genshin-field">条件付き補正
-                  <span class="genshin-checkbox-line"><input type="checkbox" id="genshinJsonEnableArtifact4pc" checked> 楽団4セット</span>
+                <label class="genshin-field">アモス距離補正
+                  <select id="genshinJsonAmosStack">
+                    <option value="0">0段（近距離）</option>
+                    <option value="1">1段</option>
+                    <option value="2">2段</option>
+                    <option value="3">3段</option>
+                    <option value="4">4段</option>
+                    <option value="5" selected>5段（最大）</option>
+                  </select>
                 </label>
                 <label class="genshin-field">命ノ星座補正
                   <span class="genshin-checkbox-line"><input type="checkbox" id="genshinJsonEnableConstellation" checked> C1耐性デバフ</span>

@@ -69,8 +69,9 @@
             mode: "uidMode",
             reactionOption: REACTION_OPTIONS[readText("genshinJsonReactionOption", "none")] || REACTION_OPTIONS.none,
             uiState: {
-                enableArtifact4pc: Boolean(getElement("genshinJsonEnableArtifact4pc")?.checked),
-                enableConstellation: Boolean(getElement("genshinJsonEnableConstellation")?.checked)
+                amosStack: readNumber("genshinJsonAmosStack", 5),
+                enableConstellation: Boolean(getElement("genshinJsonEnableConstellation")?.checked),
+                stackByModifier: {}
             }
         };
     }
@@ -103,22 +104,26 @@
         return { entries, warnings };
     }
 
-    function resolveModifierValue(modifier, context, uiState = {}) {
+    function resolveModifierValue(modifier, context, uiState = context.uiState || {}) {
         if (modifier.value !== undefined) return modifier.value;
         if (modifier.valueByRefinement) {
             const raw = modifier.valueByRefinement[String(context.refinement)] ?? modifier.valueByRefinement["1"];
             if (Array.isArray(raw)) {
-                const stack = Math.min(Math.max(uiState.stack ?? modifier.stack?.default ?? 0, modifier.stack?.min ?? 0), modifier.stack?.max ?? raw.length);
+                const stack = Math.min(Math.max(uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0, modifier.stack?.min ?? 0), modifier.stack?.max ?? raw.length);
                 return raw[Math.max(stack - 1, 0)] ?? 0;
+            }
+            if (modifier.calculationSupport === "stack" && modifier.stack) {
+                const stack = Math.min(Math.max(uiState.stackByModifier?.[modifier.id] ?? uiState.amosStack ?? modifier.stack.default ?? 0, modifier.stack.min ?? 0), modifier.stack.max ?? 0);
+                return (Number(raw) || 0) * stack;
             }
             return raw ?? 0;
         }
         if (modifier.valueByStack) {
-            const stack = uiState.stack ?? modifier.stack?.default ?? 0;
+            const stack = uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
             return modifier.valueByStack[String(stack)] ?? 0;
         }
         if (modifier.valuePerStack) {
-            const stack = uiState.stack ?? modifier.stack?.default ?? 0;
+            const stack = uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
             return modifier.valuePerStack * stack;
         }
         return 0;
@@ -166,11 +171,17 @@
         });
 
         const weaponModifiers = calcData.weaponModifiers?.[context.weaponId]?.modifiers || [];
-        weaponModifiers.forEach((modifier) => consider(modifier, `weapon:${context.weaponId}`, false));
+        weaponModifiers.forEach((modifier) => {
+            const isAlways = modifier.condition === "always";
+            const isAmosDistance = context.weaponId === "15502" && modifier.condition === "arrowFlightTime" && context.uiState.amosStack > 0;
+            consider(modifier, `weapon:${context.weaponId}`, isAlways || isAmosDistance);
+        });
 
         context.artifactSetIds.forEach((setId) => {
             const artifact = calcData.artifactSetModifiers?.[setId];
-            (artifact?.fourPiece || []).forEach((modifier) => consider(modifier, `artifact4:${setId}`, context.uiState.enableArtifact4pc));
+            const weaponType = calcData.weapons?.[context.weaponId]?.weaponType || "";
+            const autoFourPiece = setId === "15003" && ["弓", "法器"].includes(weaponType);
+            (artifact?.fourPiece || []).forEach((modifier) => consider(modifier, `artifact4:${setId}`, autoFourPiece));
             (artifact?.twoPiece || []).forEach((modifier) => consider(modifier, `artifact2:${setId}`, false));
         });
 
@@ -182,15 +193,7 @@
         return { applied, candidates };
     }
 
-    function modifierAppliesToEntry(modifier, entry) {
-        const applyTo = modifier.applyTo || [];
-        const map = {
-            normalAttack: "normalAttackDamageBonus",
-            chargedAttack: "chargedAttackDamageBonus",
-            plungingAttack: "plungingAttackDamageBonus",
-            skill: "skillDamageBonus",
-            burst: "burstDamageBonus"
-        };
+    function elementBonusKey(element) {
         const elementMap = {
             "炎": "pyroDamageBonus",
             "水": "hydroDamageBonus",
@@ -201,13 +204,41 @@
             "草": "dendroDamageBonus",
             physical: "physicalDamageBonus"
         };
+        return elementMap[element] || "";
+    }
+
+    function modifierAppliesToEntry(modifier, entry) {
+        const applyTo = modifier.applyTo || [];
+        const map = {
+            normalAttack: "normalAttackDamageBonus",
+            chargedAttack: "chargedAttackDamageBonus",
+            plungingAttack: "plungingAttackDamageBonus",
+            skill: "skillDamageBonus",
+            burst: "burstDamageBonus"
+        };
         const target = map[entry.attackType] || map[entry.damageType];
-        const elementTarget = elementMap[entry.element];
+        const elementTarget = elementBonusKey(entry.element);
         return applyTo.includes(target)
             || applyTo.includes(elementTarget)
             || applyTo.includes("allDamageBonus")
             || applyTo.includes("allElementDamageBonus")
             || applyTo.includes("ownElementDamageBonus");
+    }
+
+    function resistanceDebuffAppliesToEntry(modifier, entry) {
+        const applyTo = modifier.applyTo || [];
+        const resistanceMap = {
+            "炎": "pyroResistance",
+            "水": "hydroResistance",
+            "雷": "electroResistance",
+            "氷": "cryoResistance",
+            "風": "anemoResistance",
+            "岩": "geoResistance",
+            "草": "dendroResistance",
+            physical: "physicalResistance"
+        };
+        const target = resistanceMap[entry.element];
+        return !applyTo.length || applyTo.includes(target) || applyTo.includes("allResistance");
     }
 
     function applyModifiersToDamageEntry(entry, context, collected) {
@@ -222,7 +253,7 @@
             if (modifier.category === "damageBonus" && modifierAppliesToEntry(modifier, entry)) {
                 totals.damageBonus += Number(value) || 0;
                 applied.push(item);
-            } else if (modifier.category === "resistanceDebuff") {
+            } else if (modifier.category === "resistanceDebuff" && resistanceDebuffAppliesToEntry(modifier, entry)) {
                 totals.resistanceDebuff += Math.abs(Number(value) || 0);
                 applied.push(item);
             } else {
@@ -299,7 +330,16 @@
                 resistanceMultiplier: resMultiplier,
                 reaction: reaction.detail,
                 appliedModifiers: appliedModifiers.applied,
-                skippedModifiers: appliedModifiers.candidates
+                skippedModifiers: appliedModifiers.candidates,
+                inputStats: {
+                    hp: context.stats.hp,
+                    atk: context.stats.atk,
+                    def: context.stats.def,
+                    elementalMastery: context.stats.elementalMastery,
+                    critRate: context.stats.critRate,
+                    critDamage: context.stats.critDamage,
+                    elementDamageBonus: context.stats.elementDamageBonus
+                }
             }
         };
     }
@@ -322,9 +362,8 @@
         const calcData = await window.GenshinCalcData.loadGenshinCalcData();
         const context = buildCharacterCalcContext();
         const talentResult = collectTalentDamageEntries(calcData, context);
-        const chargedEntries = talentResult.entries.filter((entry) => entry.attackType === "chargedAttack" || entry.damageType === "charged" || entry.damageType === "chargedAttack");
         const collected = collectActiveModifiers(calcData, context);
-        const results = chargedEntries.map((entry) => {
+        const results = talentResult.entries.map((entry) => {
             const entryModifiers = applyModifiersToDamageEntry(entry, context, collected);
             return calculateDamage(entry, context, entryModifiers);
         });
