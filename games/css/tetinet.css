@@ -2669,6 +2669,28 @@ body.tool-page .teti-main > .teti-container > .box {
   font-weight: 800;
 }
 
+.genshin-tool-page .genshin-artifact-set-summary {
+  margin-top: 12px;
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  background: var(--teti-surface-soft);
+  overflow: hidden;
+}
+
+.genshin-tool-page .genshin-artifact-set-summary summary {
+  padding: 11px 12px;
+  color: var(--teti-text);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.genshin-tool-page .genshin-artifact-set-summary div {
+  padding: 0 12px 12px;
+  color: var(--teti-muted);
+  white-space: pre-line;
+  line-height: 1.7;
+}
+
 .genshin-tool-page .genshin-reflect-inputs .genshin-field {
   position: relative;
 }

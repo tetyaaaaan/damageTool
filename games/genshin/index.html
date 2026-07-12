@@ -138,6 +138,28 @@
                   <label class="genshin-field">元素爆発Lv<input type="number" id="genshinBurstTalentLevel" min="1" max="15" step="1"></label>
                 </div>
               </div>
+              <div class="genshin-artifact-set-inputs">
+                <h4>聖遺物セット</h4>
+                <div class="genshin-form-grid">
+                  <label class="genshin-field">セット構成
+                    <select id="genshinArtifactSetMode">
+                      <option value="">未選択</option>
+                      <option value="4pc">4セット</option>
+                      <option value="2pc2pc">2セット + 2セット</option>
+                    </select>
+                  </label>
+                  <label class="genshin-field" id="genshinArtifactSetOneField" hidden>セット
+                    <select id="genshinArtifactSetOne"></select>
+                  </label>
+                  <label class="genshin-field" id="genshinArtifactSetTwoField" hidden>セット2
+                    <select id="genshinArtifactSetTwo"></select>
+                  </label>
+                </div>
+                <details class="genshin-artifact-set-summary">
+                  <summary id="genshinArtifactSetSummary">聖遺物セット未選択</summary>
+                  <div id="genshinArtifactSetEffects">効果文データは未対応です。</div>
+                </details>
+              </div>
               <div class="genshin-profile-stat-inputs">
                 <h4>ステータス</h4>
                 <div class="genshin-form-grid">

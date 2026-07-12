@@ -52,10 +52,15 @@
         return findEntry(data.artifactSets, id);
     }
 
+    function listArtifactSets() {
+        return Object.entries(data.artifactSets).map(([id, entry]) => ({ id, ...entry }));
+    }
+
     window.GenshinIdResolver = {
         ready,
         resolveCharacter,
         resolveWeapon,
-        resolveArtifactSet
+        resolveArtifactSet,
+        listArtifactSets
     };
 })();

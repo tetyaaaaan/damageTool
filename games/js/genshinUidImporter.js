@@ -78,6 +78,144 @@
         return unsupported(type, item.id);
     }
 
+    function getArtifactSetName(id, fallback = "") {
+        const entry = window.GenshinIdResolver?.resolveArtifactSet?.(id);
+        return entry?.nameJa || entry?.name || fallback || unsupported("聖遺物セット", id);
+    }
+
+    function getArtifactSetEffectText(id) {
+        const entry = window.GenshinIdResolver?.resolveArtifactSet?.(id);
+        if (!entry) return "";
+        const twoPiece = entry.twoPieceEffect || entry.effect2 || entry.twoSetEffect || entry.twoPiece || "";
+        const fourPiece = entry.fourPieceEffect || entry.effect4 || entry.fourSetEffect || entry.fourPiece || "";
+        const effects = [];
+        if (twoPiece) effects.push(`2セット効果: ${twoPiece}`);
+        if (fourPiece) effects.push(`4セット効果: ${fourPiece}`);
+        if (!effects.length && entry.effectText) effects.push(entry.effectText);
+        return effects.join("\n");
+    }
+
+    function fillArtifactSetSelect(select) {
+        if (!select) return;
+        select.innerHTML = '<option value="">未選択</option>';
+        const sets = window.GenshinIdResolver?.listArtifactSets?.() || [];
+        sets
+            .slice()
+            .sort((a, b) => String(a.nameJa || a.name || "").localeCompare(String(b.nameJa || b.name || ""), "ja"))
+            .forEach((set) => {
+                const option = document.createElement("option");
+                option.value = String(set.id);
+                option.textContent = set.nameJa || set.name || unsupported("聖遺物セット", set.id);
+                select.appendChild(option);
+            });
+    }
+
+    function populateArtifactSetOptions() {
+        fillArtifactSetSelect(getElement("genshinArtifactSetOne"));
+        fillArtifactSetSelect(getElement("genshinArtifactSetTwo"));
+        updateArtifactSetSummary();
+    }
+
+    function ensureArtifactSetOption(selectId, id, name) {
+        const select = getElement(selectId);
+        if (!select || !id) return;
+        const value = String(id);
+        if (![...select.options].some((option) => option.value === value)) {
+            const option = document.createElement("option");
+            option.value = value;
+            option.textContent = name || unsupported("聖遺物セット", id);
+            select.appendChild(option);
+        }
+    }
+
+    function setArtifactSetSelectValue(selectId, id, name) {
+        if (!id) return;
+        ensureArtifactSetOption(selectId, id, name);
+        setSelectValue(selectId, id);
+    }
+
+    function updateArtifactSetModeVisibility() {
+        const mode = getElement("genshinArtifactSetMode")?.value || "";
+        const oneField = getElement("genshinArtifactSetOneField");
+        const twoField = getElement("genshinArtifactSetTwoField");
+        if (oneField) oneField.hidden = !mode;
+        if (twoField) twoField.hidden = mode !== "2pc2pc";
+    }
+
+    function getSelectedArtifactSet(selectId) {
+        const select = getElement(selectId);
+        if (!select || !select.value) return null;
+        return {
+            id: select.value,
+            name: select.selectedOptions[0]?.textContent || getArtifactSetName(select.value)
+        };
+    }
+
+    function updateArtifactSetSummary() {
+        const mode = getElement("genshinArtifactSetMode")?.value || "";
+        const summary = getElement("genshinArtifactSetSummary");
+        const effects = getElement("genshinArtifactSetEffects");
+        updateArtifactSetModeVisibility();
+        if (!summary || !effects) return;
+
+        const first = getSelectedArtifactSet("genshinArtifactSetOne");
+        const second = getSelectedArtifactSet("genshinArtifactSetTwo");
+        if (mode === "4pc" && first) {
+            summary.textContent = `${first.name} 4セット`;
+            effects.textContent = getArtifactSetEffectText(first.id) || "効果文データは未対応です。";
+            return;
+        }
+        if (mode === "2pc2pc" && first && second) {
+            summary.textContent = `${first.name} 2セット + ${second.name} 2セット`;
+            const effectText = [
+                getArtifactSetEffectText(first.id),
+                getArtifactSetEffectText(second.id)
+            ].filter(Boolean).join("\n");
+            effects.textContent = effectText || "効果文データは未対応です。";
+            return;
+        }
+        summary.textContent = "聖遺物セット未選択";
+        effects.textContent = "効果文データは未対応です。";
+    }
+
+    function getArtifactSetCounts(artifacts) {
+        const counts = new Map();
+        (artifacts || []).forEach((artifact) => {
+            const id = artifact.setId || artifact.setName || artifact.name || "";
+            if (!id) return;
+            if (!counts.has(id)) {
+                counts.set(id, {
+                    id,
+                    name: getArtifactSetName(artifact.setId, artifact.setName || artifact.name),
+                    count: 0
+                });
+            }
+            counts.get(id).count += 1;
+        });
+        return [...counts.values()].sort((a, b) => b.count - a.count);
+    }
+
+    function applyArtifactSetsToForm(artifacts) {
+        const sets = getArtifactSetCounts(artifacts);
+        const fourSet = sets.find((set) => set.count >= 4);
+        const twoSets = sets.filter((set) => set.count >= 2);
+
+        if (fourSet) {
+            setSelectValue("genshinArtifactSetMode", "4pc");
+            setArtifactSetSelectValue("genshinArtifactSetOne", fourSet.id, fourSet.name);
+            setSelectValue("genshinArtifactSetTwo", "");
+        } else if (twoSets.length >= 2) {
+            setSelectValue("genshinArtifactSetMode", "2pc2pc");
+            setArtifactSetSelectValue("genshinArtifactSetOne", twoSets[0].id, twoSets[0].name);
+            setArtifactSetSelectValue("genshinArtifactSetTwo", twoSets[1].id, twoSets[1].name);
+        } else {
+            setSelectValue("genshinArtifactSetMode", "");
+            setSelectValue("genshinArtifactSetOne", "");
+            setSelectValue("genshinArtifactSetTwo", "");
+        }
+        updateArtifactSetSummary();
+    }
+
     function renderPlayer(profile) {
         const playerEl = getElement("genshinPlayerInfo");
         if (!playerEl) return;
@@ -302,6 +440,7 @@
         setInputValue("genshinNormalTalentLevel", talents.normal, "integer");
         setInputValue("genshinSkillTalentLevel", talents.skill, "integer");
         setInputValue("genshinBurstTalentLevel", talents.burst, "integer");
+        applyArtifactSetsToForm(character.artifacts || []);
         setInputValue("genshinHpInput", character.stats.hp, "integer");
         setInputValue("genshinAtkInput", character.stats.atk, "integer");
         setInputValue("genshinDefInput", character.stats.def, "integer");
@@ -379,6 +518,18 @@
         });
         button.addEventListener("click", handleSearch);
         select.addEventListener("change", () => selectCharacter(Number(select.value)));
+
+        ["genshinArtifactSetMode", "genshinArtifactSetOne", "genshinArtifactSetTwo"].forEach((id) => {
+            const field = getElement(id);
+            if (field) field.addEventListener("change", updateArtifactSetSummary);
+        });
+
+        if (window.GenshinIdResolver?.ready) {
+            window.GenshinIdResolver.ready.then(populateArtifactSetOptions);
+        } else {
+            populateArtifactSetOptions();
+        }
+        updateArtifactSetModeVisibility();
     }
 
     document.addEventListener("DOMContentLoaded", initializeUidImporter);
