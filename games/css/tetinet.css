@@ -2720,6 +2720,89 @@ body.tool-page .teti-main > .teti-container > .box {
   line-height: 1.7;
 }
 
+.genshin-tool-page .genshin-checkbox-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+}
+
+.genshin-tool-page .genshin-json-calc-warnings {
+  margin-top: 12px;
+  padding: 12px;
+  color: #7a4b00;
+  background: #fff7d6;
+  border: 1px solid #f4d27b;
+  border-radius: var(--teti-radius-sm);
+}
+
+html[data-theme="dark"] .genshin-tool-page .genshin-json-calc-warnings {
+  color: #ffe7a6;
+  background: #2a230f;
+  border-color: #67531c;
+}
+
+.genshin-tool-page .genshin-json-calc-results {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.genshin-tool-page .genshin-json-result-card {
+  padding: 14px;
+  background: var(--teti-surface-soft);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+}
+
+.genshin-tool-page .genshin-json-result-card h4 {
+  margin: 0 0 10px;
+  color: var(--teti-text);
+  font-weight: 900;
+}
+
+.genshin-tool-page .genshin-json-result-values {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.genshin-tool-page .genshin-json-result-values span {
+  padding: 10px;
+  color: var(--teti-muted);
+  background: var(--teti-surface);
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  font-weight: 800;
+}
+
+.genshin-tool-page .genshin-json-result-values strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--teti-text);
+  font-size: 1.1rem;
+}
+
+.genshin-tool-page .genshin-json-breakdown {
+  margin-top: 12px;
+}
+
+.genshin-tool-page .genshin-json-breakdown dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.genshin-tool-page .genshin-json-breakdown dt {
+  color: var(--teti-muted);
+  font-weight: 900;
+}
+
+.genshin-tool-page .genshin-json-breakdown dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
 .genshin-tool-page .genshin-reflect-inputs .genshin-field {
   position: relative;
 }

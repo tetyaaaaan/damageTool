@@ -105,6 +105,7 @@
               <h3>計算入力欄（反映後に編集可能）</h3>
               <div class="genshin-form-grid genshin-profile-form-grid">
                 <label class="genshin-field">キャラクター<input type="text" id="genshinReflectCharacter" autocomplete="off"></label>
+                <input type="hidden" id="genshinCalcCharacterId" value="10000037">
                 <label class="genshin-field">レベル<input type="number" id="genshinReflectLevel" min="1" max="90" step="1"></label>
                 <label class="genshin-field">命ノ星座
                   <select id="genshinReflectConstellation">
@@ -118,6 +119,7 @@
                   </select>
                 </label>
                 <label class="genshin-field">武器<input type="text" id="genshinWeaponInput" list="genshinWeaponOptions" autocomplete="off"></label>
+                <input type="hidden" id="genshinCalcWeaponId" value="15502">
                 <datalist id="genshinWeaponOptions"></datalist>
                 <label class="genshin-field">武器レベル<input type="number" id="genshinWeaponLevel" min="1" max="90" step="1"></label>
                 <label class="genshin-field">精錬ランク
@@ -221,6 +223,31 @@
             </div>
 
             <button id="dmg_button" type="button" class="teti-button teti-button-primary genshin-calc-button" onclick="calc()">ダメージを計算する</button>
+
+            <div class="genshin-fieldset genshin-json-calc-test">
+              <h3>JSON計算テスト</h3>
+              <p class="genshin-help">既存計算とは別経路で、data/calc のJSONから代表パターンを計算します。</p>
+              <div class="genshin-form-grid">
+                <label class="genshin-field">元素反応
+                  <select id="genshinJsonReactionOption">
+                    <option value="none">反応なし</option>
+                    <option value="melt15">溶解 1.5</option>
+                    <option value="melt20">溶解 2.0</option>
+                    <option value="vaporize15">蒸発 1.5</option>
+                    <option value="vaporize20">蒸発 2.0</option>
+                  </select>
+                </label>
+                <label class="genshin-field">条件付き補正
+                  <span class="genshin-checkbox-line"><input type="checkbox" id="genshinJsonEnableArtifact4pc" checked> 楽団4セット</span>
+                </label>
+                <label class="genshin-field">命ノ星座補正
+                  <span class="genshin-checkbox-line"><input type="checkbox" id="genshinJsonEnableConstellation" checked> C1耐性デバフ</span>
+                </label>
+              </div>
+              <button type="button" class="teti-button teti-button-secondary" id="genshinJsonCalcButton">JSON計算を実行</button>
+              <div id="genshinJsonCalcWarnings" class="genshin-json-calc-warnings" hidden></div>
+              <div id="genshinJsonCalcResults" class="genshin-json-calc-results" hidden></div>
+            </div>
           </div>
 
           <aside class="genshin-panel genshin-result-panel" aria-label="計算結果">
@@ -402,6 +429,9 @@
         <script src="/games/js/genshinIdResolver.js"></script>
         <script src="/games/js/genshinProfileMapper.js"></script>
         <script src="/games/js/genshinUidImporter.js"></script>
+        <script src="/games/js/genshinCalcData.js"></script>
+        <script src="/games/js/genshinCalcEngine.js"></script>
+        <script src="/games/js/genshinCalcRenderer.js"></script>
         <script src="/games/js/main.js"></script>
         <script src="/games/js/artifact.js"></script>
       </div>

@@ -531,6 +531,8 @@
         const constellation = `C${toNumber(character.constellation)}`;
 
         updateWeaponOption(weaponName);
+        setInputValue("genshinCalcCharacterId", character.id || "10000037", "text");
+        setInputValue("genshinCalcWeaponId", weapon.id || "15502", "text");
         setInputValue("genshinReflectCharacter", character.name || unsupported("キャラクター", character.id), "text");
         setInputValue("genshinReflectLevel", character.level, "integer");
         setSelectValue("genshinReflectConstellation", constellation);
