@@ -2586,6 +2586,33 @@ body.tool-page .teti-main > .teti-container > .box {
   font-weight: 800;
 }
 
+.genshin-tool-page .genshin-profile-accordion .genshin-profile-row-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+}
+
+.genshin-tool-page .genshin-profile-row-summary strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.genshin-tool-page .genshin-profile-row-summary em {
+  color: var(--teti-muted);
+  font-size: 0.88rem;
+  font-style: normal;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.genshin-tool-page .genshin-profile-row-summary em::after {
+  content: " ▼";
+}
+
+.genshin-tool-page .genshin-profile-accordion[open] .genshin-profile-row-summary em::after {
+  content: " ▲";
+}
+
 .genshin-tool-page .genshin-profile-accordion p,
 .genshin-tool-page .genshin-artifact-effects {
   margin: 0;

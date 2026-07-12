@@ -264,6 +264,19 @@
         return parts.length ? parts.join(" + ") : "セット効果なし / 未対応";
     }
 
+    function summarizeArtifactSetType(artifacts) {
+        const counts = new Map();
+        artifacts.forEach((artifact) => {
+            const name = artifact.setName || artifact.name || unsupported("聖遺物", artifact.id);
+            counts.set(name, (counts.get(name) || 0) + 1);
+        });
+        const activeCounts = Array.from(counts.values()).filter((count) => count >= 2).sort((a, b) => b - a);
+        if (activeCounts[0] >= 4) return "4セット";
+        if (activeCounts.length >= 2) return "2+2セット";
+        if (activeCounts[0] >= 2) return "2セット";
+        return "未発動";
+    }
+
     function renderArtifactEffects(artifacts) {
         const counts = new Map();
         artifacts.forEach((artifact) => {
@@ -271,7 +284,7 @@
             if (!counts.has(name)) counts.set(name, { count: 0, effects: new Set() });
             const entry = counts.get(name);
             entry.count += 1;
-            entry.effects.add(artifact.effect || "聖遺物効果データは未対応です。");
+            entry.effects.add(artifact.effect || "セット効果データは未対応です。");
         });
         const activeSets = Array.from(counts.entries()).filter(([, entry]) => entry.count >= 2);
         if (!activeSets.length) return "<p>発動中の聖遺物セット効果はありません。</p>";
@@ -318,6 +331,7 @@
         const weapon = character.weapon || null;
         const weaponName = safeName(weapon, "武器");
         const artifactSummary = summarizeArtifactSets(character.artifacts || []);
+        const artifactSetType = summarizeArtifactSetType(character.artifacts || []);
         const constellation = `C${toNumber(character.constellation)}`;
         const talents = character.talents || { normal: 1, skill: 1, burst: 1 };
 
@@ -338,15 +352,27 @@
 
                 <div class="genshin-profile-summary-grid">
                     <details class="genshin-profile-accordion">
-                        <summary><strong>${escapeHtml(weaponName)}</strong><span>Lv.${weapon?.level || "-"} / R${weapon?.rank || 1}</span></summary>
+                        <summary class="genshin-profile-row-summary">
+                            <strong>${escapeHtml(weaponName)}</strong>
+                            <span>Lv.${weapon?.level || "-"} / R${weapon?.rank || 1}</span>
+                            <em>効果</em>
+                        </summary>
                         <p>${escapeHtml(weapon?.effect || "武器効果データは未対応です。")}</p>
                     </details>
                     <details class="genshin-profile-accordion">
-                        <summary><strong>${escapeHtml(artifactSummary)}</strong><span>聖遺物効果</span></summary>
+                        <summary class="genshin-profile-row-summary">
+                            <strong>${escapeHtml(artifactSummary)}</strong>
+                            <span>${escapeHtml(artifactSetType)}</span>
+                            <em>効果</em>
+                        </summary>
                         <div class="genshin-artifact-effects">${renderArtifactEffects(character.artifacts || [])}</div>
                     </details>
                     <details class="genshin-profile-accordion">
-                        <summary><strong>命ノ星座 ${constellation}</strong><span>効果</span></summary>
+                        <summary class="genshin-profile-row-summary">
+                            <strong>命ノ星座</strong>
+                            <span>${constellation}</span>
+                            <em>効果</em>
+                        </summary>
                         <p>${escapeHtml(character.constellationEffect || "命ノ星座効果データは未対応です。")}</p>
                     </details>
                 </div>
