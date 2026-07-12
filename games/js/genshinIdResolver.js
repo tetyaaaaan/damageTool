@@ -3,6 +3,7 @@
 
     const DATA_PATHS = {
         characters: "/games/genshin/data/characters.json",
+        characterConstellations: "/games/genshin/data/character-constellations.json",
         weapons: "/games/genshin/data/weapons.json",
         artifactSets: "/games/genshin/data/artifact-sets.json",
         artifactSetEffects: "/games/genshin/data/artifact-set-effects.json",
@@ -11,6 +12,7 @@
 
     const data = {
         characters: {},
+        characterConstellations: {},
         weapons: {},
         artifactSets: {},
         artifactSetEffects: {},
@@ -34,6 +36,7 @@
 
     const ready = Promise.all([
         loadJson("characters", DATA_PATHS.characters),
+        loadJson("characterConstellations", DATA_PATHS.characterConstellations),
         loadJson("weapons", DATA_PATHS.weapons),
         loadJson("artifactSets", DATA_PATHS.artifactSets),
         loadJson("artifactSetEffects", DATA_PATHS.artifactSetEffects),
@@ -48,6 +51,10 @@
 
     function resolveCharacter(id) {
         return findEntry(data.characters, id);
+    }
+
+    function resolveCharacterConstellation(id) {
+        return findEntry(data.characterConstellations, id);
     }
 
     function resolveWeapon(id) {
@@ -73,6 +80,7 @@
     window.GenshinIdResolver = {
         ready,
         resolveCharacter,
+        resolveCharacterConstellation,
         resolveWeapon,
         resolveWeaponEffect,
         resolveArtifactSet,

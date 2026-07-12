@@ -2614,14 +2614,16 @@ body.tool-page .teti-main > .teti-container > .box {
 }
 
 .genshin-tool-page .genshin-profile-accordion p,
-.genshin-tool-page .genshin-artifact-effects {
+.genshin-tool-page .genshin-artifact-effects,
+.genshin-tool-page .genshin-constellation-effects {
   margin: 0;
   padding: 0 14px 14px;
   color: var(--teti-muted);
   line-height: 1.75;
 }
 
-.genshin-tool-page .genshin-artifact-effects div + div {
+.genshin-tool-page .genshin-artifact-effects div + div,
+.genshin-tool-page .genshin-constellation-effects div + div {
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid var(--teti-border);

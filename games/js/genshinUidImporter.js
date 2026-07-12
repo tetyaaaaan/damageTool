@@ -343,6 +343,31 @@
         }).join("");
     }
 
+    function renderConstellationEffects(character) {
+        const constellationLevel = toNumber(character?.constellation);
+        if (constellationLevel <= 0) return "<p>命ノ星座は未解放です。</p>";
+
+        const data = window.GenshinIdResolver?.resolveCharacterConstellation?.(character.id);
+        if (!data?.constellations) {
+            console.warn(`[genshin-character-constellations] 未登録キャラクターID: ${character.id}`);
+            return "<p>命ノ星座効果データは未対応です</p>";
+        }
+
+        const entries = [];
+        for (let level = 1; level <= Math.min(constellationLevel, 6); level += 1) {
+            const constellation = data.constellations[String(level)];
+            if (!constellation) continue;
+            entries.push(`
+                <div>
+                    <strong>C${level}：${escapeHtml(constellation.nameJa || "名称未対応")}</strong>
+                    <p>${escapeHtml(constellation.effectText || "命ノ星座効果データは未対応です")}</p>
+                </div>
+            `);
+        }
+
+        return entries.join("") || "<p>命ノ星座効果データは未対応です</p>";
+    }
+
     function renderStatItem(label, value, formatter) {
         return `<div><dt>${escapeHtml(label)}</dt><dd>${formatter(value)}</dd></div>`;
     }
@@ -422,7 +447,7 @@
                             <span>${constellation}</span>
                             <em>効果</em>
                         </summary>
-                        <p>${escapeHtml(character.constellationEffect || "命ノ星座効果データは未対応です。")}</p>
+                        <div class="genshin-constellation-effects">${renderConstellationEffects(character)}</div>
                     </details>
                 </div>
 
