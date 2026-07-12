@@ -78,6 +78,38 @@
         return unsupported(type, item.id);
     }
 
+    function normalizeRefinementRank(rank) {
+        const num = Number(rank);
+        if (Number.isFinite(num) && num >= 1 && num <= 5) return String(Math.round(num));
+        return "1";
+    }
+
+    function formatEffectParam(value) {
+        if (Array.isArray(value)) return value.join("/");
+        return String(value ?? "");
+    }
+
+    function buildEffectText(template, params) {
+        if (!template || !params) return "";
+        return template.replace(/\{([a-zA-Z0-9_]+)\}/g, (match, key) => {
+            if (!Object.prototype.hasOwnProperty.call(params, key)) return match;
+            return formatEffectParam(params[key]);
+        });
+    }
+
+    function renderWeaponEffectText(weapon) {
+        if (!weapon?.id) return "武器効果データは未対応です";
+        const effect = window.GenshinIdResolver?.resolveWeaponEffect?.(weapon.id);
+        if (!effect) {
+            console.warn(`[genshin-weapon-effects] 未登録武器ID: ${weapon.id}`);
+            return "武器効果データは未対応です";
+        }
+        const rank = normalizeRefinementRank(weapon.rank);
+        const params = effect.effectParamsByRefinement?.[rank] || effect.effectParamsByRefinement?.["1"];
+        const text = buildEffectText(effect.effectTextTemplate, params);
+        return text || "武器効果データは未対応です";
+    }
+
     function getArtifactSetName(id, fallback = "") {
         const entry = window.GenshinIdResolver?.resolveArtifactSet?.(id);
         return entry?.nameJa || entry?.name || fallback || unsupported("聖遺物セット", id);
@@ -357,7 +389,7 @@
                             <span>Lv.${weapon?.level || "-"} / R${weapon?.rank || 1}</span>
                             <em>効果</em>
                         </summary>
-                        <p>${escapeHtml(weapon?.effect || "武器効果データは未対応です。")}</p>
+                        <p>${escapeHtml(renderWeaponEffectText(weapon))}</p>
                     </details>
                     <details class="genshin-profile-accordion">
                         <summary class="genshin-profile-row-summary">

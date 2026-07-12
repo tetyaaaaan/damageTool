@@ -4,13 +4,15 @@
     const DATA_PATHS = {
         characters: "/games/genshin/data/characters.json",
         weapons: "/games/genshin/data/weapons.json",
-        artifactSets: "/games/genshin/data/artifact-sets.json"
+        artifactSets: "/games/genshin/data/artifact-sets.json",
+        weaponEffects: "/games/genshin/data/weapon-effects.json"
     };
 
     const data = {
         characters: {},
         weapons: {},
-        artifactSets: {}
+        artifactSets: {},
+        weaponEffects: {}
     };
 
     function normalizeId(id) {
@@ -31,7 +33,8 @@
     const ready = Promise.all([
         loadJson("characters", DATA_PATHS.characters),
         loadJson("weapons", DATA_PATHS.weapons),
-        loadJson("artifactSets", DATA_PATHS.artifactSets)
+        loadJson("artifactSets", DATA_PATHS.artifactSets),
+        loadJson("weaponEffects", DATA_PATHS.weaponEffects)
     ]);
 
     function findEntry(collection, id) {
@@ -48,6 +51,10 @@
         return findEntry(data.weapons, id);
     }
 
+    function resolveWeaponEffect(id) {
+        return findEntry(data.weaponEffects, id);
+    }
+
     function resolveArtifactSet(id) {
         return findEntry(data.artifactSets, id);
     }
@@ -60,6 +67,7 @@
         ready,
         resolveCharacter,
         resolveWeapon,
+        resolveWeaponEffect,
         resolveArtifactSet,
         listArtifactSets
     };
