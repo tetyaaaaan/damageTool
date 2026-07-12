@@ -78,8 +78,10 @@
         });
     }
 
-    function validateModifier(modifier, source, warnings) {
-        ["category", "applyTo", "condition", "calculationSupport", "uidHandling"].forEach((key) => {
+    function validateModifier(modifier, source, warnings, options = {}) {
+        const requiredKeys = ["category", "applyTo", "condition", "calculationSupport"];
+        if (!options.uidHandlingOptional) requiredKeys.push("uidHandling");
+        requiredKeys.forEach((key) => {
             if (modifier[key] === undefined) {
                 warnings.push({ level: "warn", message: `${source}.${modifier.id || "unknown"} に ${key} がありません。` });
             }
@@ -103,11 +105,20 @@
             if (Array.isArray(entry.modifiers)) {
                 entry.modifiers.forEach((modifier) => validateModifier(modifier, `${sourceName}.${id}`, warnings));
             }
-            ["twoPiece", "fourPiece", "onePiece", "passives"].forEach((key) => {
+            ["twoPiece", "fourPiece", "onePiece"].forEach((key) => {
                 if (Array.isArray(entry[key])) {
                     entry[key].forEach((modifier) => validateModifier(modifier, `${sourceName}.${id}.${key}`, warnings));
                 }
             });
+            if (Array.isArray(entry.passives)) {
+                entry.passives.forEach((passive) => {
+                    (passive.modifiers || []).forEach((modifier) => {
+                        validateModifier(modifier, `${sourceName}.${id}.passives.${passive.sourceId || "unknown"}`, warnings, {
+                            uidHandlingOptional: sourceName === "talentModifiers"
+                        });
+                    });
+                });
+            }
             if (entry.constellations) {
                 Object.entries(entry.constellations).forEach(([level, modifiers]) => {
                     (modifiers || []).forEach((modifier) => validateModifier(modifier, `${sourceName}.${id}.C${level}`, warnings));
@@ -123,7 +134,9 @@
         walkModifiers(data.weaponModifiers, warnings, "weaponModifiers");
         walkModifiers(data.artifactSetModifiers, warnings, "artifactSetModifiers");
         walkModifiers(data.constellationModifiers, warnings, "constellationModifiers");
-        warnings.forEach((warning) => console.warn(`[genshin-calc-validate] ${warning.message}`));
+        if (warnings.length) {
+            console.warn(`[genshin-calc-validate] ${warnings.length}件の確認事項があります。`, warnings.slice(0, 10));
+        }
         return warnings;
     }
 

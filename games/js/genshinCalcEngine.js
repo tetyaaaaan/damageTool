@@ -50,16 +50,16 @@
             },
             stats: {
                 hp: readNumber("genshinHpInput", 0),
-                atk: readNumber("atk", readNumber("genshinAtkInput", 1000)),
+                atk: readNumber("genshinAtkInput", readNumber("atk", 1000)),
                 def: readNumber("genshinDefInput", 0),
-                elementalMastery: readNumber("ele_m", readNumber("genshinElementalMasteryInput", 0)),
+                elementalMastery: readNumber("genshinElementalMasteryInput", readNumber("ele_m", 0)),
                 critRate: readNumber("genshinCritRateInput", 5),
-                critDamage: readNumber("cri_dmg", readNumber("genshinCritDamageInput", 50)),
+                critDamage: readNumber("genshinCritDamageInput", readNumber("cri_dmg", 50)),
                 energyRecharge: readNumber("genshinEnergyRechargeInput", 100),
-                elementDamageBonus: readNumber("dmg_b", readNumber("genshinElementalDamageInput", 0))
+                elementDamageBonus: readNumber("genshinElementalDamageInput", readNumber("dmg_b", 0))
             },
             enemy: {
-                characterLevel: readNumber("lv", 90),
+                characterLevel: readNumber("genshinReflectLevel", readNumber("lv", 90)),
                 enemyLevel: readNumber("e_lv", 90),
                 enemyResistance: readNumber("e_res", 10),
                 resistanceDebuff: readNumber("ele_d", 0),
@@ -125,12 +125,13 @@
     }
 
     function shouldSkipByUidHandling(modifier, context) {
+        const uidHandling = modifier.uidHandling || "conditional";
         if (context.mode !== "uidMode") return "";
-        if (modifier.uidHandling === "includedInUidStats") return "uidIncludedのため未適用";
-        if (modifier.uidHandling === "includedInUidTalentLevels") return "UID天賦Lv反映済みの可能性があるため未適用";
-        if (modifier.uidHandling === "manualOnly") return "manualOnlyのため未適用";
-        if (modifier.uidHandling === "displayOnly") return "displayOnly";
-        if (modifier.uidHandling === "special") return "special未対応";
+        if (uidHandling === "includedInUidStats") return "includedInUidStatsのため未適用";
+        if (uidHandling === "includedInUidTalentLevels") return "UID天賦Lv反映済みの可能性があるため未適用";
+        if (uidHandling === "manualOnly") return "manualOnlyのため未適用";
+        if (uidHandling === "displayOnly") return "displayOnly";
+        if (uidHandling === "special") return "special未対応";
         return "";
     }
 
@@ -140,6 +141,7 @@
 
         function consider(modifier, source, uiEnabled) {
             if (!modifier) return;
+            const uidHandling = modifier.uidHandling || "conditional";
             const uidReason = shouldSkipByUidHandling(modifier, context);
             if (uidReason) {
                 candidates.push({ modifier, source, reason: uidReason });
@@ -149,12 +151,19 @@
                 candidates.push({ modifier, source, reason: "special未対応" });
                 return;
             }
-            if (modifier.uidHandling === "conditional" && !uiEnabled) {
+            if (uidHandling === "conditional" && !uiEnabled) {
                 candidates.push({ modifier, source, reason: "条件OFF" });
                 return;
             }
             applied.push({ modifier, source, value: resolveModifierValue(modifier, context) });
         }
+
+        const talentPassives = calcData.talentModifiers?.[context.characterId]?.passives || [];
+        talentPassives.forEach((passive) => {
+            (passive.modifiers || []).forEach((modifier) => {
+                consider(modifier, `talent:${passive.sourceId || context.characterId}`, false);
+            });
+        });
 
         const weaponModifiers = calcData.weaponModifiers?.[context.weaponId]?.modifiers || [];
         weaponModifiers.forEach((modifier) => consider(modifier, `weapon:${context.weaponId}`, false));
@@ -182,8 +191,23 @@
             skill: "skillDamageBonus",
             burst: "burstDamageBonus"
         };
+        const elementMap = {
+            "炎": "pyroDamageBonus",
+            "水": "hydroDamageBonus",
+            "雷": "electroDamageBonus",
+            "氷": "cryoDamageBonus",
+            "風": "anemoDamageBonus",
+            "岩": "geoDamageBonus",
+            "草": "dendroDamageBonus",
+            physical: "physicalDamageBonus"
+        };
         const target = map[entry.attackType] || map[entry.damageType];
-        return applyTo.includes(target) || applyTo.includes("allDamageBonus") || applyTo.includes("ownElementDamageBonus");
+        const elementTarget = elementMap[entry.element];
+        return applyTo.includes(target)
+            || applyTo.includes(elementTarget)
+            || applyTo.includes("allDamageBonus")
+            || applyTo.includes("allElementDamageBonus")
+            || applyTo.includes("ownElementDamageBonus");
     }
 
     function applyModifiersToDamageEntry(entry, context, collected) {
@@ -280,11 +304,25 @@
         };
     }
 
+    function filterRelevantWarnings(warnings, context) {
+        const setIds = new Set(context.artifactSetIds || []);
+        return (warnings || []).filter((warning) => {
+            const message = warning.message || "";
+            if (warning.level === "error" || message.includes("読み込みに失敗")) return true;
+            if (message.includes(`talentModifiers.${context.characterId}`)) return true;
+            if (message.includes(`constellationModifiers.${context.characterId}`)) return true;
+            if (message.includes(`weaponModifiers.${context.weaponId}`)) return true;
+            if ([...setIds].some((setId) => message.includes(`artifactSetModifiers.${setId}`))) return true;
+            if (message.startsWith(`${context.characterId}.`)) return true;
+            return false;
+        });
+    }
+
     async function runGenshinJsonCalc() {
         const calcData = await window.GenshinCalcData.loadGenshinCalcData();
         const context = buildCharacterCalcContext();
         const talentResult = collectTalentDamageEntries(calcData, context);
-        const chargedEntries = talentResult.entries.filter((entry) => entry.attackType === "chargedAttack" || entry.damageType === "charged");
+        const chargedEntries = talentResult.entries.filter((entry) => entry.attackType === "chargedAttack" || entry.damageType === "charged" || entry.damageType === "chargedAttack");
         const collected = collectActiveModifiers(calcData, context);
         const results = chargedEntries.map((entry) => {
             const entryModifiers = applyModifiersToDamageEntry(entry, context, collected);
@@ -292,7 +330,7 @@
         });
         return {
             context,
-            warnings: [...(calcData.warnings || []), ...talentResult.warnings.map((message) => ({ level: "warn", message }))],
+            warnings: [...filterRelevantWarnings(calcData.warnings, context), ...talentResult.warnings.map((message) => ({ level: "warn", message }))],
             results,
             candidateModifiers: collected.candidates
         };

@@ -11635,9 +11635,9 @@
         {
           "id": "damage",
           "label": "霜華の矢の命中ダメージ",
-          "attackType": "normalAttack",
-          "damageType": "normal",
-          "element": "physical",
+          "attackType": "chargedAttack",
+          "damageType": "charged",
+          "element": "氷",
           "hitCount": 1,
           "levelSource": "normalAttack",
           "source": {
@@ -11672,9 +11672,9 @@
         {
           "id": "damage_2",
           "label": "霜華の矢·霜華満開ダメージ",
-          "attackType": "normalAttack",
-          "damageType": "normal",
-          "element": "physical",
+          "attackType": "chargedAttack",
+          "damageType": "charged",
+          "element": "氷",
           "hitCount": 1,
           "levelSource": "normalAttack",
           "source": {
