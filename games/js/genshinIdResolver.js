@@ -5,6 +5,7 @@
         characters: "/games/genshin/data/characters.json",
         weapons: "/games/genshin/data/weapons.json",
         artifactSets: "/games/genshin/data/artifact-sets.json",
+        artifactSetEffects: "/games/genshin/data/artifact-set-effects.json",
         weaponEffects: "/games/genshin/data/weapon-effects.json"
     };
 
@@ -12,6 +13,7 @@
         characters: {},
         weapons: {},
         artifactSets: {},
+        artifactSetEffects: {},
         weaponEffects: {}
     };
 
@@ -34,6 +36,7 @@
         loadJson("characters", DATA_PATHS.characters),
         loadJson("weapons", DATA_PATHS.weapons),
         loadJson("artifactSets", DATA_PATHS.artifactSets),
+        loadJson("artifactSetEffects", DATA_PATHS.artifactSetEffects),
         loadJson("weaponEffects", DATA_PATHS.weaponEffects)
     ]);
 
@@ -59,6 +62,10 @@
         return findEntry(data.artifactSets, id);
     }
 
+    function resolveArtifactSetEffect(id) {
+        return findEntry(data.artifactSetEffects, id);
+    }
+
     function listArtifactSets() {
         return Object.entries(data.artifactSets).map(([id, entry]) => ({ id, ...entry }));
     }
@@ -69,6 +76,7 @@
         resolveWeapon,
         resolveWeaponEffect,
         resolveArtifactSet,
+        resolveArtifactSetEffect,
         listArtifactSets
     };
 })();

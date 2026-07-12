@@ -312,17 +312,34 @@
     function renderArtifactEffects(artifacts) {
         const counts = new Map();
         artifacts.forEach((artifact) => {
-            const name = artifact.setName || artifact.name || unsupported("聖遺物", artifact.id);
-            if (!counts.has(name)) counts.set(name, { count: 0, effects: new Set() });
-            const entry = counts.get(name);
+            const id = artifact.setId || artifact.setName || artifact.name || "";
+            if (!id) return;
+            if (!counts.has(id)) {
+                counts.set(id, {
+                    id,
+                    name: getArtifactSetName(artifact.setId, artifact.setName || artifact.name),
+                    count: 0
+                });
+            }
+            const entry = counts.get(id);
             entry.count += 1;
-            entry.effects.add(artifact.effect || "セット効果データは未対応です。");
         });
-        const activeSets = Array.from(counts.entries()).filter(([, entry]) => entry.count >= 2);
+        const activeSets = Array.from(counts.values()).filter((entry) => entry.count >= 2);
         if (!activeSets.length) return "<p>発動中の聖遺物セット効果はありません。</p>";
-        return activeSets.map(([name, entry]) => {
-            const label = entry.count >= 4 ? "2セット効果 / 4セット効果" : `${Math.min(entry.count, 2)}セット効果`;
-            return `<div><strong>${escapeHtml(name)} ${Math.min(entry.count, 4)}セット</strong><p>${escapeHtml(label)}: ${escapeHtml(Array.from(entry.effects).join(" / "))}</p></div>`;
+        return activeSets.map((entry) => {
+            const effect = window.GenshinIdResolver?.resolveArtifactSetEffect?.(entry.id);
+            if (!effect) {
+                console.warn(`[genshin-artifact-set-effects] 未登録聖遺物セットID: ${entry.id}`);
+                return `<div><strong>${escapeHtml(entry.name)} ${Math.min(entry.count, 4)}セット</strong><p>聖遺物効果データは未対応です</p></div>`;
+            }
+            const lines = [];
+            if (effect.twoPieceEffect) {
+                lines.push(`<p><strong>2セット効果:</strong><br>${escapeHtml(effect.twoPieceEffect)}</p>`);
+            }
+            if (entry.count >= 4 && effect.fourPieceEffect) {
+                lines.push(`<p><strong>4セット効果:</strong><br>${escapeHtml(effect.fourPieceEffect)}</p>`);
+            }
+            return `<div><strong>${escapeHtml(entry.name)}</strong>${lines.join("") || "<p>聖遺物効果データは未対応です</p>"}</div>`;
         }).join("");
     }
 
