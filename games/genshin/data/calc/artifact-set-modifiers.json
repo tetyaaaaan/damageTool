@@ -1,0 +1,2284 @@
+{
+  "10001": {
+    "twoPiece": [
+      {
+        "id": "2pc_atk_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 18
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_charged_crit_rate",
+        "category": "critBonus",
+        "applyTo": [
+          "critRate"
+        ],
+        "unit": "percent",
+        "condition": "chargedAttack",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 30
+      }
+    ],
+    "onePiece": []
+  },
+  "10002": {
+    "twoPiece": [
+      {
+        "id": "2pc_atk_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 18
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_damage_vs_enemy_hp_gt_50",
+        "category": "damageBonus",
+        "applyTo": [
+          "allDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "enemyHpAtLeast50",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 30
+      }
+    ],
+    "onePiece": []
+  },
+  "10003": {
+    "twoPiece": [
+      {
+        "id": "2pc_def_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "defPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 30
+      }
+    ],
+    "fourPiece": [],
+    "onePiece": []
+  },
+  "10005": {
+    "twoPiece": [
+      {
+        "id": "2pc_crit_rate",
+        "category": "critBonus",
+        "applyTo": [
+          "critRate"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 12
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_crit_rate_low_hp",
+        "category": "critBonus",
+        "applyTo": [
+          "critRate"
+        ],
+        "unit": "percent",
+        "condition": "hpAtMost70",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 24
+      }
+    ],
+    "onePiece": []
+  },
+  "10006": {
+    "twoPiece": [
+      {
+        "id": "2pc_normal_charged_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "normalAttackDamageBonus",
+          "chargedAttackDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 15
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_normal_charged_damage_bonus_after_skill",
+        "category": "damageBonus",
+        "applyTo": [
+          "normalAttackDamageBonus",
+          "chargedAttackDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterSkill",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 25,
+        "duration": 8
+      }
+    ],
+    "onePiece": []
+  },
+  "10007": {
+    "twoPiece": [
+      {
+        "id": "2pc_elemental_mastery",
+        "category": "statBonus",
+        "applyTo": [
+          "elementalMastery"
+        ],
+        "unit": "flat",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 80
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_team_elemental_mastery_after_reaction",
+        "category": "statBonus",
+        "applyTo": [
+          "elementalMastery"
+        ],
+        "unit": "flat",
+        "condition": "afterReaction",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 120,
+        "duration": 8,
+        "target": "team"
+      }
+    ],
+    "onePiece": []
+  },
+  "10008": {
+    "twoPiece": [
+      {
+        "id": "2pc_skill_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "skillDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 20
+      }
+    ],
+    "fourPiece": [],
+    "onePiece": []
+  },
+  "10009": {
+    "twoPiece": [
+      {
+        "id": "2pc_energy_recharge",
+        "category": "statBonus",
+        "applyTo": [
+          "energyRecharge"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 20
+      }
+    ],
+    "fourPiece": [],
+    "onePiece": []
+  },
+  "10010": {
+    "twoPiece": [
+      {
+        "id": "2pc_hp_flat",
+        "category": "statBonus",
+        "applyTo": [
+          "hpFlat"
+        ],
+        "unit": "flat",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 1000
+      }
+    ],
+    "fourPiece": [],
+    "onePiece": []
+  },
+  "10011": {
+    "twoPiece": [
+      {
+        "id": "2pc_def_flat",
+        "category": "statBonus",
+        "applyTo": [
+          "defFlat"
+        ],
+        "unit": "flat",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 100
+      }
+    ],
+    "fourPiece": [],
+    "onePiece": []
+  },
+  "10012": {
+    "twoPiece": [
+      {
+        "id": "2pc_energy_recharge",
+        "category": "statBonus",
+        "applyTo": [
+          "energyRecharge"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 20
+      }
+    ],
+    "fourPiece": [],
+    "onePiece": []
+  },
+  "14001": {
+    "twoPiece": [
+      {
+        "id": "2pc_cryo_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "cryoDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 15
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_crit_rate_vs_cryo",
+        "category": "critBonus",
+        "applyTo": [
+          "critRate"
+        ],
+        "unit": "percent",
+        "condition": "enemyAffectedByCryo",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 20
+      }
+    ],
+    "onePiece": []
+  },
+  "14002": {
+    "twoPiece": [],
+    "fourPiece": [
+      {
+        "id": "4pc_damage_vs_electro_affected_enemy",
+        "category": "damageBonus",
+        "applyTo": [
+          "allDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "enemyAffectedByElectro",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 35
+      }
+    ],
+    "onePiece": []
+  },
+  "14003": {
+    "twoPiece": [],
+    "fourPiece": [
+      {
+        "id": "4pc_damage_vs_pyro_affected_enemy",
+        "category": "damageBonus",
+        "applyTo": [
+          "allDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "enemyAffectedByPyro",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 35
+      }
+    ],
+    "onePiece": []
+  },
+  "15001": {
+    "twoPiece": [
+      {
+        "id": "2pc_atk_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 18
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_normal_damage_bonus_melee",
+        "category": "damageBonus",
+        "applyTo": [
+          "normalAttackDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "weaponTypeSwordClaymorePolearm",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 35
+      }
+    ],
+    "onePiece": []
+  },
+  "15002": {
+    "twoPiece": [
+      {
+        "id": "2pc_anemo_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "anemoDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 15
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "a_15002_4pc_1_v10",
+        "category": "reactionBonus",
+        "applyTo": [
+          "swirlDamageBonus"
+        ],
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 60,
+        "unit": "percent"
+      },
+      {
+        "id": "a_15002_4pc_2_v10",
+        "category": "resistanceDebuff",
+        "applyTo": [
+          "correspondingElementResistance"
+        ],
+        "condition": "afterSwirlCorrespondingElement",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": -40,
+        "unit": "percent",
+        "duration": 10,
+        "relatedElements": [
+          "炎",
+          "水",
+          "雷",
+          "氷"
+        ]
+      }
+    ],
+    "onePiece": []
+  },
+  "15003": {
+    "twoPiece": [
+      {
+        "id": "2pc_elemental_mastery",
+        "category": "statBonus",
+        "applyTo": [
+          "elementalMastery"
+        ],
+        "unit": "flat",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 80
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_charged_damage_bonus_catalyst_bow",
+        "category": "damageBonus",
+        "applyTo": [
+          "chargedAttackDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "weaponTypeCatalystOrBow",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 35
+      }
+    ],
+    "onePiece": []
+  },
+  "15005": {
+    "twoPiece": [
+      {
+        "id": "2pc_electro_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "electroDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 15,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 1
+        }
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_overloaded_electrocharged_superconduct_hyperbloom_bonus",
+        "category": "reactionBonus",
+        "applyTo": [
+          "overloadedDamageBonus",
+          "electroChargedDamageBonus",
+          "superconductDamageBonus",
+          "hyperbloomDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 40,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 1
+        }
+      },
+      {
+        "id": "4pc_aggravate_bonus",
+        "category": "reactionBonus",
+        "applyTo": [
+          "aggravateDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 20,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 1
+        }
+      },
+      {
+        "id": "4pc_lunar_charged_and_superconduct_bonus",
+        "category": "reactionBonus",
+        "applyTo": [
+          "lunarChargedDamageBonus",
+          "lunarSuperconductDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 20,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 1
+        }
+      }
+    ],
+    "onePiece": []
+  },
+  "15006": {
+    "twoPiece": [
+      {
+        "id": "2pc_pyro_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "pyroDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 15,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 3
+        }
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_overloaded_burning_burgeon_bonus",
+        "category": "reactionBonus",
+        "applyTo": [
+          "overloadedDamageBonus",
+          "burningDamageBonus",
+          "burgeonDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 40,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 3
+        }
+      },
+      {
+        "id": "4pc_vaporize_melt_bonus",
+        "category": "reactionBonus",
+        "applyTo": [
+          "vaporizeDamageBonus",
+          "meltDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 15,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 3
+        }
+      },
+      {
+        "id": "4pc_pyro_damage_bonus_stack_from_skill",
+        "category": "damageBonus",
+        "applyTo": [
+          "pyroDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterSkill",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "value": 7.5,
+        "duration": 10,
+        "stack": {
+          "min": 0,
+          "max": 3,
+          "default": 0
+        },
+        "note": "2セット効果15%の50%=7.5%を1層として最大3層"
+      }
+    ],
+    "onePiece": []
+  },
+  "15007": {
+    "twoPiece": [
+      {
+        "id": "2pc_burst_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "burstDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 20
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_team_atk_after_burst",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "afterBurst",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 20,
+        "duration": 12,
+        "target": "team",
+        "stacking": "notStackable"
+      }
+    ],
+    "onePiece": []
+  },
+  "15008": {
+    "twoPiece": [
+      {
+        "id": "2pc_physical_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "physicalDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 25
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_charged_damage_bonus_after_kill",
+        "category": "damageBonus",
+        "applyTo": [
+          "chargedAttackDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterDefeatingEnemy",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 50,
+        "duration": 10
+      }
+    ],
+    "onePiece": []
+  },
+  "15014": {
+    "twoPiece": [
+      {
+        "id": "2pc_geo_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "geoDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 15
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_crystallize_element_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "correspondingElementDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterPickingCrystallizeShardOrTriggeringMoonCrystallize",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 35,
+        "duration": 10,
+        "relatedElements": [
+          "炎",
+          "水",
+          "雷",
+          "氷"
+        ],
+        "maxActiveElements": 1
+      }
+    ],
+    "onePiece": []
+  },
+  "15015": {
+    "twoPiece": [],
+    "fourPiece": [
+      {
+        "id": "4pc_normal_charged_damage_bonus_shielded",
+        "category": "damageBonus",
+        "applyTo": [
+          "normalAttackDamageBonus",
+          "chargedAttackDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "whileShielded",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 40
+      }
+    ],
+    "onePiece": []
+  },
+  "15016": {
+    "twoPiece": [
+      {
+        "id": "2pc_hydro_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "hydroDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 15
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_normal_charged_damage_bonus_after_skill",
+        "category": "damageBonus",
+        "applyTo": [
+          "normalAttackDamageBonus",
+          "chargedAttackDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterSkill",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 30,
+        "duration": 15
+      }
+    ],
+    "onePiece": []
+  },
+  "15017": {
+    "twoPiece": [
+      {
+        "id": "2pc_hp_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "hpPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 20
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_team_atk_after_skill_hit",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "afterSkillHit",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 20,
+        "duration": 3,
+        "target": "team"
+      }
+    ],
+    "onePiece": []
+  },
+  "15018": {
+    "twoPiece": [
+      {
+        "id": "2pc_physical_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "physicalDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 25,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 2
+        }
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_atk_stack_after_skill_hit",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "afterSkillHit",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "value": 9,
+        "duration": 7,
+        "stack": {
+          "min": 0,
+          "max": 2,
+          "default": 0
+        }
+      },
+      {
+        "id": "4pc_physical_2pc_doubled_at_2_stacks",
+        "category": "damageBonus",
+        "applyTo": [
+          "physicalDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "paleFlameTwoStacks",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 25,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 2
+        }
+      }
+    ],
+    "onePiece": []
+  },
+  "15019": {
+    "twoPiece": [
+      {
+        "id": "2pc_atk_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 18
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_normal_charged_plunging_after_skill_energy_cost",
+        "category": "damageBonus",
+        "applyTo": [
+          "normalAttackDamageBonus",
+          "chargedAttackDamageBonus",
+          "plungingAttackDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterSkillWithEnergyAtLeast15",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 50,
+        "duration": 10
+      }
+    ],
+    "onePiece": []
+  },
+  "15020": {
+    "twoPiece": [
+      {
+        "id": "2pc_energy_recharge",
+        "category": "statBonus",
+        "applyTo": [
+          "energyRecharge"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 20
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_burst_damage_bonus_from_er",
+        "category": "scalingBonus",
+        "applyTo": [
+          "burstDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "reference": {
+          "stat": "energyRecharge",
+          "source": "self"
+        },
+        "ratio": 0.25,
+        "maxValue": 75
+      }
+    ],
+    "onePiece": []
+  },
+  "15021": {
+    "twoPiece": [
+      {
+        "id": "2pc_def_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "defPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "valuePerStack": 30,
+        "valueRole": "perStack",
+        "stack": {
+          "min": 0,
+          "max": 4,
+          "default": 0
+        }
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_def_stack",
+        "category": "statBonus",
+        "applyTo": [
+          "defPercent"
+        ],
+        "unit": "percent",
+        "condition": "huskCuriosityStacks",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "stack": {
+          "min": 0,
+          "max": 4,
+          "default": 0
+        },
+        "valuePerStack": 6,
+        "valueRole": "perStack"
+      },
+      {
+        "id": "4pc_geo_damage_stack",
+        "category": "damageBonus",
+        "applyTo": [
+          "geoDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "huskCuriosityStacks",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "stack": {
+          "min": 0,
+          "max": 4,
+          "default": 0
+        },
+        "valuePerStack": 6,
+        "valueRole": "perStack"
+      }
+    ],
+    "onePiece": []
+  },
+  "15022": {
+    "twoPiece": [
+      {
+        "id": "2pc_outgoing_healing_bonus_indirect_damage_related",
+        "category": "healingBonus",
+        "applyTo": [
+          "outgoingHealingBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 15,
+        "damageRelevance": "indirectForHealingRecordedDamage",
+        "note": "この2セット効果自体は直接ダメージではないが、4セットの回復量記録型ダメージを厳密に扱う場合に回復量へ影響する。"
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_sea_dyed_foam_damage",
+        "category": "extraDamage",
+        "applyTo": [
+          "physicalDamage"
+        ],
+        "unit": "percent",
+        "condition": "afterHealingRecorded",
+        "calculationSupport": "custom",
+        "uidHandling": "conditional",
+        "value": 90,
+        "duration": 3,
+        "damageCalculation": "transformativeLikeButUnaffectedByEMLevelReactionBonus",
+        "cooldown": 3.5,
+        "reference": {
+          "type": "healingRecorded",
+          "maxValue": 30000,
+          "includesOverflowHealing": true
+        },
+        "customHandlingRequired": true
+      }
+    ],
+    "onePiece": []
+  },
+  "15023": {
+    "twoPiece": [
+      {
+        "id": "2pc_atk_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 18,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 4
+        }
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_atk_after_burst",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "afterBurst",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 8,
+        "duration": 16,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 4
+        }
+      },
+      {
+        "id": "4pc_atk_stack_after_hp_loss",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "afterHpLossDuringLatentLight",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "value": 10,
+        "duration": 16,
+        "stack": {
+          "min": 0,
+          "max": 4,
+          "default": 0
+        }
+      }
+    ],
+    "onePiece": []
+  },
+  "15024": {
+    "twoPiece": [
+      {
+        "id": "2pc_atk_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 18
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_normal_attack_atk_additive_damage",
+        "category": "additiveBaseDamage",
+        "applyTo": [
+          "normalAttack"
+        ],
+        "unit": "percent",
+        "condition": "normalAttackHitProc",
+        "calculationSupport": "custom",
+        "uidHandling": "conditional",
+        "value": 70,
+        "probability": 36,
+        "probabilityIncreaseOnFail": 20,
+        "reference": {
+          "stat": "atk",
+          "source": "self"
+        },
+        "customHandlingRequired": true
+      }
+    ],
+    "onePiece": []
+  },
+  "15025": {
+    "twoPiece": [
+      {
+        "id": "2pc_dendro_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "dendroDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 15
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_dendro_resistance_debuff",
+        "category": "resistanceDebuff",
+        "applyTo": [
+          "dendroResistance"
+        ],
+        "unit": "percent",
+        "condition": "afterSkillOrBurstHit",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": -30,
+        "duration": 8
+      }
+    ],
+    "onePiece": []
+  },
+  "15026": {
+    "twoPiece": [
+      {
+        "id": "2pc_elemental_mastery",
+        "category": "statBonus",
+        "applyTo": [
+          "elementalMastery"
+        ],
+        "unit": "flat",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 80
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_atk_by_same_element_teammates",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "afterReaction",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "value": 14,
+        "duration": 8,
+        "stack": {
+          "type": "sameElementTeammates",
+          "min": 0,
+          "max": 3,
+          "default": 0
+        }
+      },
+      {
+        "id": "4pc_em_by_different_element_teammates",
+        "category": "statBonus",
+        "applyTo": [
+          "elementalMastery"
+        ],
+        "unit": "flat",
+        "condition": "afterReaction",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "value": 50,
+        "duration": 8,
+        "stack": {
+          "type": "differentElementTeammates",
+          "min": 0,
+          "max": 3,
+          "default": 0
+        }
+      }
+    ],
+    "onePiece": []
+  },
+  "15027": {
+    "twoPiece": [
+      {
+        "id": "2pc_anemo_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "anemoDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 15
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_normal_charged_plunging_damage_bonus_after_charged_hit",
+        "category": "damageBonus",
+        "applyTo": [
+          "normalAttackDamageBonus",
+          "chargedAttackDamageBonus",
+          "plungingAttackDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterChargedAttackHit",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 40,
+        "duration": 15
+      }
+    ],
+    "onePiece": []
+  },
+  "15028": {
+    "twoPiece": [
+      {
+        "id": "2pc_elemental_mastery",
+        "category": "statBonus",
+        "applyTo": [
+          "elementalMastery"
+        ],
+        "unit": "flat",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 80,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 4
+        }
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_bloom_hyperbloom_burgeon_bonus",
+        "category": "reactionBonus",
+        "applyTo": [
+          "bloomDamageBonus",
+          "hyperbloomDamageBonus",
+          "burgeonDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 40,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 4
+        }
+      },
+      {
+        "id": "4pc_lunar_bloom_bonus",
+        "category": "reactionBonus",
+        "applyTo": [
+          "lunarBloomDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 10,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 4
+        }
+      },
+      {
+        "id": "4pc_bloom_reaction_bonus_stack_multiplier",
+        "category": "reactionBonus",
+        "applyTo": [
+          "bloomDamageBonus",
+          "hyperbloomDamageBonus",
+          "burgeonDamageBonus",
+          "lunarBloomDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterOwnerTriggersBloomRelatedReaction",
+        "calculationSupport": "custom",
+        "uidHandling": "conditional",
+        "duration": 10,
+        "stack": {
+          "min": 0,
+          "max": 4,
+          "default": 0
+        },
+        "baseValueByReaction": {
+          "bloomDamageBonus": 40,
+          "hyperbloomDamageBonus": 40,
+          "burgeonDamageBonus": 40,
+          "lunarBloomDamageBonus": 10
+        },
+        "bonusMultiplierPerStack": 0.25,
+        "effectiveAdditionalValuePerStack": {
+          "bloomDamageBonus": 10,
+          "hyperbloomDamageBonus": 10,
+          "burgeonDamageBonus": 10,
+          "lunarBloomDamageBonus": 2.5
+        },
+        "note": "「上記強化効果が25%アップ」は25pt加算ではなく、基本強化量に対する25%増加として扱う。",
+        "customHandlingRequired": true,
+        "valueRole": "multipliesBaseReactionBonusPerStack",
+        "valuePerStackByReaction": {
+          "bloomDamageBonus": 10,
+          "hyperbloomDamageBonus": 10,
+          "burgeonDamageBonus": 10,
+          "lunarBloomDamageBonus": 2.5
+        },
+        "maxStack": 4
+      }
+    ],
+    "onePiece": []
+  },
+  "15029": {
+    "twoPiece": [
+      {
+        "id": "2pc_hydro_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "hydroDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 15
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_atk_stack_mirrored_nymph",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "mirroredNymphStacks",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "duration": 8,
+        "valueByStack": {
+          "1": 7,
+          "2": 16,
+          "3": 25
+        },
+        "stack": {
+          "min": 0,
+          "max": 3,
+          "default": 0
+        }
+      },
+      {
+        "id": "4pc_hydro_damage_stack_mirrored_nymph",
+        "category": "damageBonus",
+        "applyTo": [
+          "hydroDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "mirroredNymphStacks",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "duration": 8,
+        "valueByStack": {
+          "1": 4,
+          "2": 9,
+          "3": 15
+        },
+        "stack": {
+          "min": 0,
+          "max": 3,
+          "default": 0
+        }
+      }
+    ],
+    "onePiece": []
+  },
+  "15030": {
+    "twoPiece": [
+      {
+        "id": "2pc_hp_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "hpPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 20,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 5
+        }
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_skill_burst_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "skillDamageBonus",
+          "burstDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 10,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 5
+        }
+      },
+      {
+        "id": "4pc_skill_burst_damage_bonus_after_damage_stack",
+        "category": "damageBonus",
+        "applyTo": [
+          "skillDamageBonus",
+          "burstDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterTakingDamage",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "value": 8,
+        "duration": 5,
+        "stack": {
+          "min": 0,
+          "max": 5,
+          "default": 0
+        },
+        "note": "10%の80%=8%を1層として加算"
+      }
+    ],
+    "onePiece": []
+  },
+  "15031": {
+    "twoPiece": [
+      {
+        "id": "2pc_normal_charged_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "normalAttackDamageBonus",
+          "chargedAttackDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 15,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 3
+        }
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_crit_rate_hp_change_stack",
+        "category": "critBonus",
+        "applyTo": [
+          "critRate"
+        ],
+        "unit": "percent",
+        "condition": "afterHpChanges",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "value": 12,
+        "duration": 5,
+        "stack": {
+          "min": 0,
+          "max": 3,
+          "default": 0
+        }
+      }
+    ],
+    "onePiece": []
+  },
+  "15032": {
+    "twoPiece": [
+      {
+        "id": "2pc_skill_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "skillDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 20
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_skill_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "skillDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 25
+      }
+    ],
+    "onePiece": []
+  },
+  "15033": {
+    "twoPiece": [
+      {
+        "id": "2pc_outgoing_healing_bonus_indirect_damage_related",
+        "category": "healingBonus",
+        "applyTo": [
+          "outgoingHealingBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 15,
+        "damageRelevance": "indirectForHealingRecordedDamage",
+        "note": "この2セット効果自体は直接ダメージではないが、4セットの回復量記録型ダメージを厳密に扱う場合に回復量へ影響する。"
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_recorded_healing_additive_damage",
+        "category": "additiveBaseDamage",
+        "applyTo": [
+          "normalAttack",
+          "chargedAttack",
+          "plungingAttack",
+          "skill",
+          "burst"
+        ],
+        "unit": "percent",
+        "condition": "afterHealingRecordedAndConverted",
+        "calculationSupport": "custom",
+        "uidHandling": "conditional",
+        "value": 8,
+        "duration": 10,
+        "maxTriggerCount": 5,
+        "reference": {
+          "type": "healingRecorded",
+          "maxValue": 15000,
+          "includesOverflowHealing": true
+        },
+        "customHandlingRequired": true
+      }
+    ],
+    "onePiece": []
+  },
+  "15034": {
+    "twoPiece": [
+      {
+        "id": "2pc_atk_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 18
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_geo_damage_bonus_after_skill",
+        "category": "damageBonus",
+        "applyTo": [
+          "geoDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterSkill",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 20,
+        "duration": 10
+      },
+      {
+        "id": "4pc_geo_damage_bonus_crystallize_shield_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "geoDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterSkillAndCrystallizeShieldOrMoonCrystallizeObjectNearby",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 30,
+        "duration": 10,
+        "note": "20%の150%=30%を追加分として扱う"
+      }
+    ],
+    "onePiece": []
+  },
+  "15035": {
+    "twoPiece": [
+      {
+        "id": "2pc_atk_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 18,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 3
+        }
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_all_damage_bonus_bond_of_life_change",
+        "category": "damageBonus",
+        "applyTo": [
+          "allDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "bondOfLifeChanges",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "value": 18,
+        "duration": 6,
+        "stack": {
+          "min": 0,
+          "max": 3,
+          "default": 0
+        }
+      }
+    ],
+    "onePiece": []
+  },
+  "15036": {
+    "twoPiece": [
+      {
+        "id": "2pc_atk_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 18
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_all_damage_bonus_burning_condition",
+        "category": "damageBonus",
+        "applyTo": [
+          "allDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "burningEnemyNearbyOrOutOfCombat",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "value": 50,
+        "stack": {
+          "type": "dynamicValue0To50",
+          "min": 0,
+          "max": 50,
+          "default": 50
+        },
+        "note": "燃焼敵の有無/戦闘状態で0〜50%に増減"
+      }
+    ],
+    "onePiece": []
+  },
+  "15037": {
+    "twoPiece": [],
+    "fourPiece": [
+      {
+        "id": "4pc_reaction_related_element_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "reactionRelatedElementDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterTriggeringRelatedElementReaction",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 12,
+        "duration": 15,
+        "relatedElementsByReaction": "includedInModifier",
+        "relatedElementMap": {
+          "蒸発": [
+            "炎",
+            "水"
+          ],
+          "溶解": [
+            "炎",
+            "氷"
+          ],
+          "過負荷": [
+            "炎",
+            "雷"
+          ],
+          "燃焼": [
+            "炎",
+            "草"
+          ],
+          "感電": [
+            "水",
+            "雷"
+          ],
+          "超電導": [
+            "氷",
+            "雷"
+          ],
+          "凍結": [
+            "水",
+            "氷"
+          ],
+          "拡散": [
+            "風",
+            "炎",
+            "水",
+            "雷",
+            "氷"
+          ],
+          "結晶": [
+            "岩",
+            "炎",
+            "水",
+            "雷",
+            "氷"
+          ],
+          "開花": [
+            "水",
+            "草"
+          ],
+          "超開花": [
+            "雷",
+            "草"
+          ],
+          "烈開花": [
+            "炎",
+            "草"
+          ],
+          "原激化": [
+            "雷",
+            "草"
+          ],
+          "超激化": [
+            "雷"
+          ],
+          "草激化": [
+            "草"
+          ],
+          "月感電": [
+            "水",
+            "雷"
+          ],
+          "月開花": [
+            "水",
+            "草"
+          ]
+        }
+      },
+      {
+        "id": "4pc_reaction_related_element_damage_bonus_nightsoul",
+        "category": "damageBonus",
+        "applyTo": [
+          "reactionRelatedElementDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterTriggeringRelatedElementReactionWhileInNightsoulBlessing",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 28,
+        "duration": 20,
+        "relatedElementsByReaction": "sameAsBase"
+      }
+    ],
+    "onePiece": []
+  },
+  "15038": {
+    "twoPiece": [
+      {
+        "id": "2pc_all_damage_bonus_nightsoul_onfield",
+        "category": "damageBonus",
+        "applyTo": [
+          "allDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "nightsoulBlessingOnField",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 15
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_crit_rate_after_nightsoul_point_consumed",
+        "category": "critBonus",
+        "applyTo": [
+          "critRate"
+        ],
+        "unit": "percent",
+        "condition": "afterConsumingNightsoulPointOnField",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 40,
+        "duration": 6
+      }
+    ],
+    "onePiece": []
+  },
+  "15039": {
+    "twoPiece": [
+      {
+        "id": "2pc_plunging_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "plungingAttackDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 25,
+        "stack": {
+          "min": 0,
+          "default": 0,
+          "max": 5
+        }
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_plunging_damage_stack",
+        "category": "damageBonus",
+        "applyTo": [
+          "plungingAttackDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterPlungingChargedOrSkillHit",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "value": 15,
+        "duration": 6,
+        "stack": {
+          "min": 0,
+          "max": 5,
+          "default": 0
+        }
+      }
+    ],
+    "onePiece": []
+  },
+  "15040": {
+    "twoPiece": [
+      {
+        "id": "2pc_cryo_damage_bonus",
+        "category": "damageBonus",
+        "applyTo": [
+          "cryoDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 15
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_normal_damage_bonus_energy_zero",
+        "category": "damageBonus",
+        "applyTo": [
+          "normalAttackDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "energyIsZeroAndNotDisabledByBurstHit",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 60
+      },
+      {
+        "id": "4pc_burst_damage_bonus_energy_zero",
+        "category": "damageBonus",
+        "applyTo": [
+          "burstDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "energyIsZeroAndNotDisabledByNormalHit",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 60
+      }
+    ],
+    "onePiece": []
+  },
+  "15041": {
+    "twoPiece": [
+      {
+        "id": "2pc_elemental_mastery",
+        "category": "statBonus",
+        "applyTo": [
+          "elementalMastery"
+        ],
+        "unit": "flat",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 80
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_crit_rate_moon_omen",
+        "category": "critBonus",
+        "applyTo": [
+          "critRate"
+        ],
+        "unit": "percent",
+        "condition": "moonReactionWhileOnField",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "duration": 4,
+        "valueByState": {
+          "nascentGleam": 15,
+          "ascendantGleam": 30
+        },
+        "valueRole": "byMoonOmenState"
+      },
+      {
+        "id": "4pc_team_moon_reaction_damage_bonus_per_moonglow",
+        "category": "reactionBonus",
+        "applyTo": [
+          "moonReactionDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "perMoonglowEffectInTeam",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "value": 10,
+        "stack": {
+          "type": "moonglowEffectCount",
+          "min": 0,
+          "max": 4,
+          "default": 0
+        }
+      }
+    ],
+    "onePiece": []
+  },
+  "15042": {
+    "twoPiece": [
+      {
+        "id": "2pc_energy_recharge",
+        "category": "statBonus",
+        "applyTo": [
+          "energyRecharge"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 20
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_team_elemental_mastery_moon_omen",
+        "category": "statBonus",
+        "applyTo": [
+          "elementalMastery"
+        ],
+        "unit": "flat",
+        "condition": "afterElementalDamage",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "duration": 8,
+        "valueByState": {
+          "nascentGleam": 60,
+          "ascendantGleam": 120
+        },
+        "target": "team",
+        "valueRole": "byMoonOmenState"
+      },
+      {
+        "id": "4pc_team_moon_reaction_damage_bonus_per_moonglow",
+        "category": "reactionBonus",
+        "applyTo": [
+          "moonReactionDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "perMoonglowEffectInTeam",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "value": 10,
+        "stack": {
+          "type": "moonglowEffectCount",
+          "min": 0,
+          "max": 4,
+          "default": 0
+        }
+      }
+    ],
+    "onePiece": []
+  },
+  "15043": {
+    "twoPiece": [
+      {
+        "id": "2pc_elemental_mastery",
+        "category": "statBonus",
+        "applyTo": [
+          "elementalMastery"
+        ],
+        "unit": "flat",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 80
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_moon_reaction_damage_bonus_off_field",
+        "category": "reactionBonus",
+        "applyTo": [
+          "moonReactionDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "offField",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 20
+      },
+      {
+        "id": "4pc_moon_reaction_damage_bonus_ascendant_gleam",
+        "category": "reactionBonus",
+        "applyTo": [
+          "moonReactionDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "teamMoonOmenAtLeastAscendantGleam",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 40
+      }
+    ],
+    "onePiece": []
+  },
+  "15044": {
+    "twoPiece": [
+      {
+        "id": "2pc_atk_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 18
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_atk_after_hit",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "afterNormalChargedSkillOrBurstHit",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 25,
+        "duration": 6
+      },
+      {
+        "id": "4pc_crit_rate_witch_assignment_completed",
+        "category": "critBonus",
+        "applyTo": [
+          "critRate"
+        ],
+        "unit": "percent",
+        "condition": "witchAssignmentCompletedAndFavorEnhanced",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 20,
+        "duration": 6
+      }
+    ],
+    "onePiece": []
+  },
+  "15045": {
+    "twoPiece": [
+      {
+        "id": "2pc_energy_recharge",
+        "category": "statBonus",
+        "applyTo": [
+          "energyRecharge"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 20
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_team_own_element_damage_bonus_after_skill",
+        "category": "damageBonus",
+        "applyTo": [
+          "ownElementDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "afterSkillAndWitchAssignmentCompleted",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 20,
+        "duration": 20,
+        "target": "team"
+      },
+      {
+        "id": "4pc_team_own_and_active_element_damage_bonus_magical_secret_rite",
+        "category": "damageBonus",
+        "applyTo": [
+          "ownAndActiveCharacterElementDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "magicalSecretRiteActiveAfterSkill",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 40,
+        "duration": 20,
+        "target": "team",
+        "appliesElements": "wearerElementAndActiveCharacterElement"
+      }
+    ],
+    "onePiece": []
+  },
+  "15046": {
+    "twoPiece": [
+      {
+        "id": "2pc_atk_percent",
+        "category": "statBonus",
+        "applyTo": [
+          "atkPercent"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 18
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_superconduct_damage_bonus",
+        "category": "reactionBonus",
+        "applyTo": [
+          "superconductDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 80
+      },
+      {
+        "id": "4pc_lunar_superconduct_damage_bonus",
+        "category": "reactionBonus",
+        "applyTo": [
+          "lunarSuperconductDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "conditional",
+        "value": 40
+      },
+      {
+        "id": "4pc_crit_rate_vs_superconduct_affected_enemy",
+        "category": "critBonus",
+        "applyTo": [
+          "critRate"
+        ],
+        "unit": "percent",
+        "condition": "attackingEnemyAffectedBySuperconductOrLunarSuperconduct",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 16
+      }
+    ],
+    "onePiece": []
+  },
+  "10004": {
+    "twoPiece": [],
+    "fourPiece": [],
+    "onePiece": []
+  },
+  "10013": {
+    "twoPiece": [],
+    "fourPiece": [],
+    "onePiece": []
+  },
+  "14004": {
+    "twoPiece": [],
+    "fourPiece": [],
+    "onePiece": []
+  },
+  "15009": {
+    "twoPiece": [],
+    "fourPiece": [],
+    "onePiece": []
+  },
+  "15010": {
+    "twoPiece": [],
+    "fourPiece": [],
+    "onePiece": []
+  },
+  "15011": {
+    "twoPiece": [],
+    "fourPiece": [],
+    "onePiece": []
+  },
+  "15012": {
+    "twoPiece": [],
+    "fourPiece": [],
+    "onePiece": []
+  }
+}

@@ -1,0 +1,4845 @@
+{
+  "10000002": {
+    "passives": [
+      {
+        "sourceId": "combatsp",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "氷",
+            "unit": "element",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "cryoDamageBonus"
+            ],
+            "value": 18.0,
+            "unit": "percent",
+            "condition": "afterHit",
+            "duration": 10.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000006": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "afterHit",
+            "calculationSupport": "special"
+          }
+        ]
+      }
+    ]
+  },
+  "10000016": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "炎",
+            "unit": "element",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "炎",
+            "unit": "element",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "pyroDamageBonus"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000020": {
+    "passives": [
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "energyRecharge"
+            ],
+            "value": 30.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000021": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "critBonus",
+            "applyTo": [
+              "critRate"
+            ],
+            "value": 10.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "value": 15.0,
+            "unit": "percent",
+            "condition": "afterHit",
+            "duration": 10.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000022": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "active",
+            "calculationSupport": "special"
+          }
+        ]
+      }
+    ]
+  },
+  "10000023": {
+    "passives": [
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "value": 10.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 10.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000024": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 160.0,
+              "2": 172.0,
+              "3": 184.0,
+              "4": 200.0,
+              "5": 212.0,
+              "6": 224.0,
+              "7": 240.0,
+              "8": 256.0,
+              "9": 272.0,
+              "10": 288.0,
+              "11": 304.0,
+              "12": 320.0,
+              "13": 340.0,
+              "14": 360.0,
+              "15": 380.0
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param4",
+              "label": "被撃時ダメージアップ"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000025": {
+    "passives": [
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "hydroDamageBonus"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000026": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "normalAttackDamageBonus",
+              "chargedAttackDamageBonus",
+              "plungingAttackDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 58.45,
+              "2": 61.95,
+              "3": 65.45,
+              "4": 70.0,
+              "5": 73.5,
+              "6": 77.0,
+              "7": 81.55,
+              "8": 86.1,
+              "9": 90.65,
+              "10": 95.2,
+              "11": 99.75,
+              "12": 104.3,
+              "13": 108.85,
+              "14": 113.4,
+              "15": 117.95
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param1",
+              "label": "通常攻撃/重撃/落下攻撃ダメージアップ"
+            }
+          },
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "風",
+            "unit": "element",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      }
+    ]
+  },
+  "10000027": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "active",
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "geoDamageBonus"
+            ],
+            "value": 12.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 10.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000029": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "value": 50.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000030": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "resistanceDebuff",
+            "applyTo": [
+              "physicalResistance"
+            ],
+            "value": -20.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000032": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "valueByLevel": {
+              "1": 56.0,
+              "2": 60.2,
+              "3": 64.4,
+              "4": 70.0,
+              "5": 74.2,
+              "6": 78.4,
+              "7": 84.0,
+              "8": 89.6,
+              "9": 95.2,
+              "10": 100.8,
+              "11": 106.4,
+              "12": 112.0,
+              "13": 119.0,
+              "14": 126.0,
+              "15": 133.0
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param4",
+              "label": "攻撃力上昇率"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000033": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "水",
+            "unit": "element",
+            "condition": "afterHit",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      }
+    ]
+  },
+  "10000034": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "valueByLevel": {
+              "1": 40.0,
+              "2": 43.0,
+              "3": 46.0,
+              "4": 50.0,
+              "5": 53.0,
+              "6": 56.0,
+              "7": 60.0,
+              "8": 64.0,
+              "9": 68.0,
+              "10": 72.0,
+              "11": 76.0,
+              "12": 80.0,
+              "13": 85.0,
+              "14": 90.0,
+              "15": 95.0
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param3",
+              "label": "攻撃力アップ"
+            }
+          },
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "岩",
+            "unit": "element",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      }
+    ]
+  },
+  "10000035": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "reactionBonus",
+            "applyTo": [
+              "reactionDamageBonus"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 8.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000036": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "氷",
+            "unit": "element",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "resistanceDebuff",
+            "applyTo": [
+              "cryoResistance"
+            ],
+            "value": -10.0,
+            "unit": "percent",
+            "condition": "afterHit",
+            "duration": 8.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000037": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "critBonus",
+            "applyTo": [
+              "critRate"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "cryoDamageBonus"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000041": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 42.0,
+              "2": 44.0,
+              "3": 46.0,
+              "4": 48.0,
+              "5": 50.0,
+              "6": 52.0,
+              "7": 54.0,
+              "8": 56.0,
+              "9": 58.0,
+              "10": 60.0,
+              "11": 60.0,
+              "12": 60.0,
+              "13": 60.0,
+              "14": 60.0,
+              "15": 60.0
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param10",
+              "label": "ダメージアップ"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000042": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "雷",
+            "unit": "element",
+            "condition": "active",
+            "duration": 5.0,
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "critBonus",
+            "applyTo": [
+              "critRate"
+            ],
+            "value": 15.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 8.0,
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "energyRecharge"
+            ],
+            "value": 15.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 8.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000043": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "active",
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "value": 50.0,
+            "unit": "flat",
+            "condition": "active",
+            "duration": 8.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000044": {
+    "passives": [
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "physicalDamageBonus"
+            ],
+            "value": 15.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000045": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "critBonus",
+            "applyTo": [
+              "critRate"
+            ],
+            "value": 12.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 5.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000046": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "valueByLevel": {
+              "1": 3.841,
+              "2": 4.071,
+              "3": 4.301,
+              "4": 4.6,
+              "5": 4.83,
+              "6": 5.06,
+              "7": 5.359,
+              "8": 5.658,
+              "9": 5.957,
+              "10": 6.256,
+              "11": 6.555,
+              "12": 6.854,
+              "13": 7.153,
+              "14": 7.452,
+              "15": 7.751
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param2",
+              "label": "攻撃力アップ"
+            }
+          },
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "炎",
+            "unit": "element",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "critBonus",
+            "applyTo": [
+              "critRate"
+            ],
+            "value": 12.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 8.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "pyroDamageBonus"
+            ],
+            "value": 33.0,
+            "unit": "percent",
+            "condition": "hpCondition",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000047": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "active",
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "active",
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "reactionBonus",
+            "applyTo": [
+              "swirlDamageBonus"
+            ],
+            "value": 0.04,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 8.0,
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "active",
+            "duration": 8.0,
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "elementalMastery",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000048": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "chargedAttackDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 33.4,
+              "2": 35.4,
+              "3": 37.4,
+              "4": 40.0,
+              "5": 42.0,
+              "6": 44.0,
+              "7": 46.6,
+              "8": 49.2,
+              "9": 51.8,
+              "10": 54.4,
+              "11": 57.0,
+              "12": 59.6,
+              "13": 62.2,
+              "14": 64.8,
+              "15": 67.4
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param2",
+              "label": "重撃ダメージアップ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "pyroDamageBonus"
+            ],
+            "value": 5.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 6.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "active",
+            "calculationSupport": "special"
+          }
+        ]
+      }
+    ]
+  },
+  "10000049": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "pyroDamageBonus"
+            ],
+            "value": 2.0,
+            "unit": "percent",
+            "condition": "afterHit",
+            "duration": 3.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "value": 10.0,
+            "unit": "percent",
+            "condition": "afterTalentUse",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000051": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "defPercent"
+            ],
+            "valueByLevel": {
+              "1": 30.0,
+              "2": 30.0,
+              "3": 30.0,
+              "4": 30.0,
+              "5": 30.0,
+              "6": 30.0,
+              "7": 30.0,
+              "8": 30.0,
+              "9": 30.0,
+              "10": 30.0,
+              "11": 30.0,
+              "12": 30.0,
+              "13": 30.0,
+              "14": 30.0,
+              "15": 30.0
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param9",
+              "label": "防御力アップ"
+            }
+          },
+          {
+            "category": "defenseDebuff",
+            "applyTo": [
+              "enemyDefense"
+            ],
+            "unit": "percent",
+            "condition": "afterHit",
+            "calculationSupport": "special"
+          }
+        ]
+      }
+    ]
+  },
+  "10000052": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "burstDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 0.22,
+              "2": 0.23,
+              "3": 0.24,
+              "4": 0.25,
+              "5": 0.26,
+              "6": 0.27,
+              "7": 0.28,
+              "8": 0.29,
+              "9": 0.3,
+              "10": 0.3,
+              "11": 0.3,
+              "12": 0.3,
+              "13": 0.3,
+              "14": 0.3,
+              "15": 0.3
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param4",
+              "label": "元素爆発ダメージアップ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "雷",
+            "unit": "element",
+            "condition": "afterHit",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "electroDamageBonus"
+            ],
+            "value": 0.4,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000053": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "afterHit",
+            "calculationSupport": "special"
+          }
+        ]
+      }
+    ]
+  },
+  "10000054": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "normalAttackDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 4.84,
+              "2": 5.203,
+              "3": 5.566,
+              "4": 6.05,
+              "5": 6.413,
+              "6": 6.776,
+              "7": 7.26,
+              "8": 7.744,
+              "9": 8.228,
+              "10": 8.712,
+              "11": 9.196,
+              "12": 9.68,
+              "13": 10.285,
+              "14": 10.89,
+              "15": 11.495
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param4",
+              "label": "通常攻撃ダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "chargedAttackDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 6.776,
+              "2": 7.2842,
+              "3": 7.7924,
+              "4": 8.47,
+              "5": 8.9782,
+              "6": 9.4864,
+              "7": 10.164,
+              "8": 10.8416,
+              "9": 11.5192,
+              "10": 12.1968,
+              "11": 12.8744,
+              "12": 13.552,
+              "13": 14.399,
+              "14": 15.246,
+              "15": 16.093
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param5",
+              "label": "重撃ダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 7.0963,
+              "2": 7.6285,
+              "3": 8.1608,
+              "4": 8.8704,
+              "5": 9.4026,
+              "6": 9.9348,
+              "7": 10.6445,
+              "8": 11.3541,
+              "9": 12.0637,
+              "10": 12.7734,
+              "11": 13.483,
+              "12": 14.1926,
+              "13": 15.0797,
+              "14": 15.9667,
+              "15": 16.8538
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param9",
+              "label": "化海月ダメージアップ"
+            }
+          },
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "normalAttackDamageBonus",
+              "chargedAttackDamageBonus",
+              "skillDamageBonus",
+              "hydroDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "afterHit",
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "hp",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000055": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "defPercent"
+            ],
+            "valueByLevel": {
+              "1": 206.16,
+              "2": 221.622,
+              "3": 237.084,
+              "4": 257.7,
+              "5": 273.162,
+              "6": 288.624,
+              "7": 309.24,
+              "8": 329.856,
+              "9": 350.472,
+              "10": 371.088,
+              "11": 391.704,
+              "12": 412.32,
+              "13": 438.09,
+              "14": 463.86,
+              "15": 489.63
+            },
+            "unit": "flat",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param2",
+              "label": "防御力アップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "geoDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 15.0,
+              "2": 15.0,
+              "3": 15.0,
+              "4": 15.0,
+              "5": 15.0,
+              "6": 15.0,
+              "7": 15.0,
+              "8": 15.0,
+              "9": 15.0,
+              "10": 15.0,
+              "11": 15.0,
+              "12": 15.0,
+              "13": 15.0,
+              "14": 15.0,
+              "15": 15.0
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param3",
+              "label": "岩元素ダメージアップ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "defPercent"
+            ],
+            "value": 25.0,
+            "unit": "percent",
+            "condition": "afterTalentUse",
+            "duration": 12.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000056": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "valueByLevel": {
+              "1": 42.96,
+              "2": 46.182,
+              "3": 49.404,
+              "4": 53.7,
+              "5": 56.922,
+              "6": 60.144,
+              "7": 64.44,
+              "8": 68.736,
+              "9": 73.032,
+              "10": 77.328,
+              "11": 81.624,
+              "12": 85.92,
+              "13": 91.29,
+              "14": 96.66,
+              "15": 102.03
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param2",
+              "label": "攻撃力上昇率"
+            }
+          },
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "valueByLevel": {
+              "1": 6.0,
+              "2": 6.0,
+              "3": 6.0,
+              "4": 6.0,
+              "5": 6.0,
+              "6": 6.0,
+              "7": 6.0,
+              "8": 6.0,
+              "9": 6.0,
+              "10": 6.0,
+              "11": 6.0,
+              "12": 6.0,
+              "13": 6.0,
+              "14": 6.0,
+              "15": 6.0
+            },
+            "unit": "flat",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param3",
+              "label": "攻撃力上昇継続時間"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000057": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "valueByLevel": {
+              "1": 57.6,
+              "2": 61.92,
+              "3": 66.24,
+              "4": 72.0,
+              "5": 76.32,
+              "6": 80.64,
+              "7": 86.4,
+              "8": 92.16,
+              "9": 97.92,
+              "10": 103.68,
+              "11": 109.44,
+              "12": 115.2,
+              "13": 122.4,
+              "14": 129.6,
+              "15": 136.8
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param2",
+              "label": "攻撃力アップ"
+            }
+          },
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "岩",
+            "unit": "element",
+            "condition": "afterTalentUse",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          },
+          {
+            "category": "resistanceDebuff",
+            "applyTo": [
+              "physicalResistance"
+            ],
+            "value": -20.0,
+            "unit": "percent",
+            "condition": "afterTalentUse",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000059": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 56.88,
+              "2": 61.146,
+              "3": 65.412,
+              "4": 71.1,
+              "5": 75.366,
+              "6": 79.632,
+              "7": 85.32,
+              "8": 91.008,
+              "9": 96.696,
+              "10": 102.384,
+              "11": 108.072,
+              "12": 113.76,
+              "13": 120.87,
+              "14": 127.98,
+              "15": 135.09
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param2",
+              "label": "変格によるダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 113.76,
+              "2": 122.292,
+              "3": 130.824,
+              "4": 142.2,
+              "5": 150.732,
+              "6": 159.264,
+              "7": 170.64,
+              "8": 182.016,
+              "9": 193.392,
+              "10": 204.768,
+              "11": 216.144,
+              "12": 227.52,
+              "13": 241.74,
+              "14": 255.96,
+              "15": 270.18
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param3",
+              "label": "正論によるダメージアップ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "value": 80.0,
+            "unit": "flat",
+            "condition": "afterHit",
+            "duration": 10.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000060": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "hpPercent"
+            ],
+            "value": 6.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "value": 1.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000062": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "normalAttackDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 5.845,
+              "2": 6.195,
+              "3": 6.545,
+              "4": 7.0,
+              "5": 7.35,
+              "6": 7.7,
+              "7": 8.155,
+              "8": 8.61,
+              "9": 9.065,
+              "10": 9.52,
+              "11": 9.975,
+              "12": 10.43,
+              "13": 10.885,
+              "14": 11.34,
+              "15": 11.795
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param5",
+              "label": "コイル通常攻撃ダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "normalAttackDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 11.69,
+              "2": 12.39,
+              "3": 13.09,
+              "4": 14.0,
+              "5": 14.7,
+              "6": 15.4,
+              "7": 16.31,
+              "8": 17.22,
+              "9": 18.13,
+              "10": 19.04,
+              "11": 19.95,
+              "12": 20.86,
+              "13": 21.77,
+              "14": 22.68,
+              "15": 23.59
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param6",
+              "label": "コイル通常攻撃ダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "normalAttackDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 17.535,
+              "2": 18.585,
+              "3": 19.635,
+              "4": 21.0,
+              "5": 22.05,
+              "6": 23.1,
+              "7": 24.465,
+              "8": 25.83,
+              "9": 27.195,
+              "10": 28.56,
+              "11": 29.925,
+              "12": 31.29,
+              "13": 32.655,
+              "14": 34.02,
+              "15": 35.385
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param7",
+              "label": "コイル通常攻撃ダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "normalAttackDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 29.225,
+              "2": 30.975,
+              "3": 32.725,
+              "4": 35.0,
+              "5": 36.75,
+              "6": 38.5,
+              "7": 40.775,
+              "8": 43.05,
+              "9": 45.325,
+              "10": 47.6,
+              "11": 49.875,
+              "12": 52.15,
+              "13": 54.425,
+              "14": 56.7,
+              "15": 58.975
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param8",
+              "label": "アイスラッシュ通常攻撃ダメージアップ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "value": 16.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "value": 8.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "cryoDamageBonus"
+            ],
+            "value": 3.5,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000063": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 45.656,
+              "2": 49.0802,
+              "3": 52.5044,
+              "4": 57.07,
+              "5": 60.4942,
+              "6": 63.9184,
+              "7": 68.484,
+              "8": 73.0496,
+              "9": 77.6152,
+              "10": 82.1808,
+              "11": 86.7464,
+              "12": 91.312,
+              "13": 97.019,
+              "14": 102.726,
+              "15": 108.433
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param3",
+              "label": "ダメージアップ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "cryoDamageBonus"
+            ],
+            "value": 15.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000064": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 32.16,
+              "2": 34.572,
+              "3": 36.984,
+              "4": 40.2,
+              "5": 42.612,
+              "6": 45.024,
+              "7": 48.24,
+              "8": 51.456,
+              "9": 54.672,
+              "10": 57.888,
+              "11": 61.104,
+              "12": 64.32,
+              "13": 68.34,
+              "14": 72.36,
+              "15": 76.38
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param2",
+              "label": "ダメージアップ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "normalAttackDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "def",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000066": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 0.5611,
+              "2": 0.6067,
+              "3": 0.6524,
+              "4": 0.7176,
+              "5": 0.7633,
+              "6": 0.8155,
+              "7": 0.8873,
+              "8": 0.959,
+              "9": 1.0308,
+              "10": 1.1091,
+              "11": 1.1874,
+              "12": 1.2657,
+              "13": 1.3439,
+              "14": 1.4222,
+              "15": 1.5005
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param5",
+              "label": "浪閃ダメージアップ"
+            }
+          },
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "水",
+            "unit": "element",
+            "condition": "afterHit",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "normalAttackDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 11.0,
+              "2": 12.0,
+              "3": 13.0,
+              "4": 14.0,
+              "5": 15.0,
+              "6": 16.0,
+              "7": 17.0,
+              "8": 18.0,
+              "9": 19.0,
+              "10": 20.0,
+              "11": 20.0,
+              "12": 20.0,
+              "13": 20.0,
+              "14": 20.0,
+              "15": 20.0
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param2",
+              "label": "通常攻撃ダメージアップ"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000069": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "value": 50.0,
+            "unit": "flat",
+            "condition": "active",
+            "duration": 4.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000070": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "水",
+            "unit": "element",
+            "condition": "afterHit",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "value": 100.0,
+            "unit": "flat",
+            "condition": "active",
+            "duration": 30.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000071": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "valueByLevel": {
+              "1": 100.0,
+              "2": 100.0,
+              "3": 100.0,
+              "4": 100.0,
+              "5": 100.0,
+              "6": 100.0,
+              "7": 100.0,
+              "8": 100.0,
+              "9": 100.0,
+              "10": 100.0,
+              "11": 100.0,
+              "12": 100.0,
+              "13": 100.0,
+              "14": 100.0,
+              "15": 100.0
+            },
+            "unit": "flat",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param12",
+              "label": "元素熟知アップ"
+            }
+          },
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "雷",
+            "unit": "element",
+            "condition": "afterReaction",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "value": 35.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000072": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 20.0,
+              "2": 20.0,
+              "3": 20.0,
+              "4": 20.0,
+              "5": 20.0,
+              "6": 20.0,
+              "7": 20.0,
+              "8": 20.0,
+              "9": 20.0,
+              "10": 20.0,
+              "11": 20.0,
+              "12": 20.0,
+              "13": 20.0,
+              "14": 20.0,
+              "15": 20.0
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param3",
+              "label": "ダメージアップ"
+            }
+          },
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "水",
+            "unit": "element",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      }
+    ]
+  },
+  "10000073": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 14.88,
+              "2": 15.996,
+              "3": 17.112,
+              "4": 18.6,
+              "5": 19.716,
+              "6": 20.832,
+              "7": 22.32,
+              "8": 23.808,
+              "9": 25.296,
+              "10": 26.784,
+              "11": 28.272,
+              "12": 29.76,
+              "13": 31.62,
+              "14": 33.48,
+              "15": 35.34
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param1",
+              "label": "炎：ダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 22.32,
+              "2": 23.994,
+              "3": 25.668,
+              "4": 27.9,
+              "5": 29.574,
+              "6": 31.248,
+              "7": 33.48,
+              "8": 35.712,
+              "9": 37.944,
+              "10": 40.176,
+              "11": 42.408,
+              "12": 44.64,
+              "13": 47.43,
+              "14": 50.22,
+              "15": 53.01
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param2",
+              "label": "炎：ダメージアップ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "critBonus",
+            "applyTo": [
+              "critRate"
+            ],
+            "value": 0.03,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000075": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "active",
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "value": 30.0,
+            "unit": "percent",
+            "condition": "afterHit",
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "critBonus",
+            "applyTo": [
+              "critRate"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "afterHit",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000076": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "anemoDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 18.0,
+              "2": 19.35,
+              "3": 20.7,
+              "4": 22.5,
+              "5": 23.85,
+              "6": 25.2,
+              "7": 27.0,
+              "8": 28.8,
+              "9": 30.6,
+              "10": 32.4,
+              "11": 34.2,
+              "12": 36.0,
+              "13": 38.25,
+              "14": 40.5,
+              "15": 42.75
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param2",
+              "label": "風元素ダメージアップ"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000078": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "草",
+            "unit": "element",
+            "condition": "afterHit",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          },
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "afterHit",
+            "calculationSupport": "special"
+          }
+        ]
+      }
+    ]
+  },
+  "10000080": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "physicalDamageBonus"
+            ],
+            "value": 10.0,
+            "unit": "percent",
+            "condition": "afterHit",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000081": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 27.488,
+              "2": 29.5496,
+              "3": 31.6112,
+              "4": 34.36,
+              "5": 36.4216,
+              "6": 38.4832,
+              "7": 41.232,
+              "8": 43.9808,
+              "9": 46.7296,
+              "10": 49.4784,
+              "11": 52.2272,
+              "12": 54.976,
+              "13": 58.412,
+              "14": 61.848,
+              "15": 65.284
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param3",
+              "label": "草原核が迸る時のダメージがアップ"
+            }
+          },
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "草",
+            "unit": "element",
+            "condition": "afterReaction",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "value": 25.0,
+            "unit": "flat",
+            "condition": "afterHit",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000082": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "dendroDamageBonus"
+            ],
+            "value": 25.0,
+            "unit": "percent",
+            "condition": "hpCondition",
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "reactionBonus",
+            "applyTo": [
+              "bloomDamageBonus"
+            ],
+            "value": 2.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 6.0,
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "reactionBonus",
+            "applyTo": [
+              "aggravateDamageBonus"
+            ],
+            "value": 0.8,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 6.0,
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "reactionBonus",
+            "applyTo": [
+              "bloomDamageBonus"
+            ],
+            "value": 0.7,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 6.0,
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "active",
+            "duration": 6.0,
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "hp",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000084": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "skillDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 53.2,
+              "2": 57.19,
+              "3": 61.18,
+              "4": 66.5,
+              "5": 70.49,
+              "6": 74.48,
+              "7": 79.8,
+              "8": 85.12,
+              "9": 90.44,
+              "10": 95.76,
+              "11": 101.08,
+              "12": 106.4,
+              "13": 113.05,
+              "14": 119.7,
+              "15": 126.35
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param2",
+              "label": "スキルダメージアップ効果"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000085": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "afterTalentUse",
+            "duration": 10.0,
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "active",
+            "duration": 10.0,
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "value": 40.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 5.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000086": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "value": 50.0,
+            "unit": "percent",
+            "condition": "afterHit",
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "value": 6.0,
+            "unit": "percent",
+            "condition": "hpCondition",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000087": {
+    "passives": [
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "hydroDamageBonus"
+            ],
+            "value": 0.6,
+            "unit": "percent",
+            "condition": "hpCondition",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000089": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 0.07,
+              "2": 0.09,
+              "3": 0.11,
+              "4": 0.13,
+              "5": 0.15,
+              "6": 0.17,
+              "7": 0.19,
+              "8": 0.21,
+              "9": 0.23,
+              "10": 0.25,
+              "11": 0.27,
+              "12": 0.29,
+              "13": 0.31,
+              "14": 0.33,
+              "15": 0.35
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param5",
+              "label": "テンションのダメージアップ効果への変換率"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "value": 0.7,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000090": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "resistanceDebuff",
+            "applyTo": [
+              "electroResistance"
+            ],
+            "value": -40.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 6.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "value": 1.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 30.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000091": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "岩",
+            "unit": "element",
+            "condition": "afterTalentUse",
+            "duration": 4.0,
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000092": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "炎",
+            "unit": "element",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "hpCondition",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000093": {
+    "passives": [
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "plungingAttackDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "atk",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000094": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "岩",
+            "unit": "element",
+            "condition": "afterTalentUse",
+            "duration": 5.0,
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "geoDamageBonus"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 20.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000095": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "value": 5.0,
+            "unit": "percent",
+            "condition": "afterHit",
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "hydroDamageBonus"
+            ],
+            "value": 8.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 18.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive3",
+        "modifiers": [
+          {
+            "category": "resistanceDebuff",
+            "applyTo": [
+              "physicalResistance"
+            ],
+            "value": -10.0,
+            "unit": "percent",
+            "condition": "hpCondition",
+            "duration": 10.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000096": {
+    "passives": [
+      {
+        "sourceId": "combat1",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 120.4,
+              "2": 130.2,
+              "3": 140.0,
+              "4": 154.0,
+              "5": 163.8,
+              "6": 175.0,
+              "7": 190.4,
+              "8": 205.8,
+              "9": 221.2,
+              "10": 238.0,
+              "11": 254.8,
+              "12": 271.6,
+              "13": 288.4,
+              "14": 305.2,
+              "15": 322.0
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat1",
+              "param": "param12",
+              "label": "赤死の宴ダメージアップ率"
+            }
+          },
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "炎",
+            "unit": "element",
+            "condition": "afterHit",
+            "duration": 5.0,
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "pyroDamageBonus"
+            ],
+            "value": 40.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000097": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 196.16,
+              "2": 210.872,
+              "3": 225.584,
+              "4": 245.2,
+              "5": 259.912,
+              "6": 274.624,
+              "7": 294.24,
+              "8": 313.856,
+              "9": 333.472,
+              "10": 353.088,
+              "11": 372.704,
+              "12": 392.32,
+              "13": 416.84,
+              "14": 441.36,
+              "15": 465.88
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param1",
+              "label": "瞑弦の矢ダメージアップ"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000098": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "雷",
+            "unit": "element",
+            "condition": "afterHit",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "critBonus",
+            "applyTo": [
+              "critRate"
+            ],
+            "value": 10.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000099": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "active",
+            "duration": 8.0,
+            "calculationSupport": "special"
+          }
+        ]
+      }
+    ]
+  },
+  "10000100": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "geoDamageBonus"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 12.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000102": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 4.34,
+              "2": 4.6655,
+              "3": 4.991,
+              "4": 5.425,
+              "5": 5.7505,
+              "6": 6.076,
+              "7": 6.51,
+              "8": 6.944,
+              "9": 7.378,
+              "10": 7.812,
+              "11": 8.246,
+              "12": 8.68,
+              "13": 9.2225,
+              "14": 9.765,
+              "15": 10.3075
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param2",
+              "label": "ウェーブチャージダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 21.7,
+              "2": 23.3275,
+              "3": 24.955,
+              "4": 27.125,
+              "5": 28.7525,
+              "6": 30.38,
+              "7": 32.55,
+              "8": 34.72,
+              "9": 36.89,
+              "10": 39.06,
+              "11": 41.23,
+              "12": 43.4,
+              "13": 46.1125,
+              "14": 48.825,
+              "15": 51.5375
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param3",
+              "label": "サメサメバイト·ビッグウェーブの追加ダメージアップ"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000103": {
+    "passives": [
+      {
+        "sourceId": "combat1",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "岩",
+            "unit": "element",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "defenseDebuff",
+            "applyTo": [
+              "enemyDefense"
+            ],
+            "unit": "percent",
+            "condition": "afterTalentUse",
+            "duration": 15.0,
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "hpCondition",
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "defPercent"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 15.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000104": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "afterTalentUse",
+            "calculationSupport": "special"
+          }
+        ]
+      }
+    ]
+  },
+  "10000106": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "炎",
+            "unit": "element",
+            "condition": "afterTalentUse",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 1.6,
+              "2": 1.72,
+              "3": 1.84,
+              "4": 2.0,
+              "5": 2.12,
+              "6": 2.24,
+              "7": 2.4,
+              "8": 2.56,
+              "9": 2.72,
+              "10": 2.88,
+              "11": 3.04,
+              "12": 3.2,
+              "13": 3.4,
+              "14": 3.6,
+              "15": 3.8
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param3",
+              "label": "墜陽斬ダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "normalAttackDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 0.258,
+              "2": 0.279,
+              "3": 0.3,
+              "4": 0.33,
+              "5": 0.351,
+              "6": 0.375,
+              "7": 0.408,
+              "8": 0.441,
+              "9": 0.474,
+              "10": 0.51,
+              "11": 0.546,
+              "12": 0.582,
+              "13": 0.618,
+              "14": 0.654,
+              "15": 0.69
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param4",
+              "label": "双駆輪の通常攻撃ダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "chargedAttackDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 0.516,
+              "2": 0.558,
+              "3": 0.6,
+              "4": 0.66,
+              "5": 0.702,
+              "6": 0.75,
+              "7": 0.816,
+              "8": 0.882,
+              "9": 0.948,
+              "10": 1.02,
+              "11": 1.092,
+              "12": 1.164,
+              "13": 1.236,
+              "14": 1.308,
+              "15": 1.38
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param5",
+              "label": "双駆輪の重撃ダメージアップ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "value": 30.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 10.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "value": 0.2,
+            "unit": "percent",
+            "condition": "afterTalentUse",
+            "duration": 20.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000107": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "resistanceDebuff",
+            "applyTo": [
+              "allResistance"
+            ],
+            "value": -20.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 12.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000109": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 0.18,
+              "2": 0.21,
+              "3": 0.24,
+              "4": 0.27,
+              "5": 0.3,
+              "6": 0.33,
+              "7": 0.36,
+              "8": 0.39,
+              "9": 0.42,
+              "10": 0.45,
+              "11": 0.48,
+              "12": 0.51,
+              "13": 0.54,
+              "14": 0.57,
+              "15": 0.6
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param2",
+              "label": "元素熟知1ごとにアップする拡散反応ダメージ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "value": 100.0,
+            "unit": "flat",
+            "condition": "afterHit",
+            "duration": 4.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000110": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "valueByLevel": {
+              "1": 330.0,
+              "2": 370.0,
+              "3": 410.0,
+              "4": 450.0,
+              "5": 490.0,
+              "6": 530.0,
+              "7": 570.0,
+              "8": 610.0,
+              "9": 650.0,
+              "10": 690.0,
+              "11": 730.0,
+              "12": 770.0,
+              "13": 810.0,
+              "14": 850.0,
+              "15": 890.0
+            },
+            "unit": "flat",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param4",
+              "label": "最大攻撃力アップ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "afterHit",
+            "duration": 15.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000111": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "afterTalentUse",
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "value": 35.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 12.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000113": {
+    "passives": [
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "value": 80.0,
+            "unit": "flat",
+            "condition": "active",
+            "duration": 10.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000114": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 3.5,
+              "2": 4.0,
+              "3": 4.5,
+              "4": 5.0,
+              "5": 5.5,
+              "6": 6.0,
+              "7": 6.5,
+              "8": 7.0,
+              "9": 7.5,
+              "10": 8.0,
+              "11": 8.5,
+              "12": 9.0,
+              "13": 9.5,
+              "14": 10.0,
+              "15": 10.5
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param4",
+              "label": "虚境の裂け目を0/1/2/3枚吸収時のダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 6.6,
+              "2": 7.2,
+              "3": 7.8,
+              "4": 8.4,
+              "5": 9.0,
+              "6": 9.6,
+              "7": 10.2,
+              "8": 10.8,
+              "9": 11.4,
+              "10": 12.0,
+              "11": 12.6,
+              "12": 13.2,
+              "13": 13.8,
+              "14": 14.4,
+              "15": 15.0
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param5",
+              "label": "虚境の裂け目を0/1/2/3枚吸収時のダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 8.8,
+              "2": 9.6,
+              "3": 10.4,
+              "4": 11.2,
+              "5": 12.0,
+              "6": 12.8,
+              "7": 13.6,
+              "8": 14.4,
+              "9": 15.2,
+              "10": 16.0,
+              "11": 16.8,
+              "12": 17.6,
+              "13": 18.4,
+              "14": 19.2,
+              "15": 20.0
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param6",
+              "label": "虚境の裂け目を0/1/2/3枚吸収時のダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 11.0,
+              "2": 12.0,
+              "3": 13.0,
+              "4": 14.0,
+              "5": 15.0,
+              "6": 16.0,
+              "7": 17.0,
+              "8": 18.0,
+              "9": 19.0,
+              "10": 20.0,
+              "11": 21.0,
+              "12": 22.0,
+              "13": 23.0,
+              "14": 24.0,
+              "15": 25.0
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param7",
+              "label": "虚境の裂け目を0/1/2/3枚吸収時のダメージアップ"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000116": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "afterReaction",
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive3",
+        "modifiers": [
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "afterReaction",
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "atk",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000119": {
+    "passives": [
+      {
+        "sourceId": "combat1",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "active",
+            "duration": 10.0,
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 277.76,
+              "2": 298.592,
+              "3": 319.424,
+              "4": 347.2,
+              "5": 368.032,
+              "6": 388.864,
+              "7": 416.64,
+              "8": 444.416,
+              "9": 472.192,
+              "10": 499.968,
+              "11": 527.744,
+              "12": 555.52,
+              "13": 590.24,
+              "14": 624.96,
+              "15": 659.68
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param3",
+              "label": "開花、超開花、烈開花反応ダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 222.24,
+              "2": 238.908,
+              "3": 255.576,
+              "4": 277.8,
+              "5": 294.468,
+              "6": 311.136,
+              "7": 333.36,
+              "8": 355.584,
+              "9": 377.808,
+              "10": 400.032,
+              "11": 422.256,
+              "12": 444.48,
+              "13": 472.26,
+              "14": 500.04,
+              "15": 527.82
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param4",
+              "label": "月開花反応ダメージアップ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "critBonus",
+            "applyTo": [
+              "critRate"
+            ],
+            "value": 10.0,
+            "unit": "percent",
+            "condition": "afterTalentUse",
+            "duration": 20.0,
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "critBonus",
+            "applyTo": [
+              "critDamage"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "afterTalentUse",
+            "duration": 20.0,
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "reactionBonus",
+            "applyTo": [
+              "bloomDamageBonus"
+            ],
+            "value": 10.0,
+            "unit": "percent",
+            "condition": "afterTalentUse",
+            "duration": 20.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "value": 0.04,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive3",
+        "modifiers": [
+          {
+            "category": "reactionBonus",
+            "applyTo": [
+              "bloomDamageBonus"
+            ],
+            "value": 0.0175,
+            "unit": "percent",
+            "condition": "afterReaction",
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "afterReaction",
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "elementalMastery",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000120": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "雷",
+            "unit": "element",
+            "condition": "active",
+            "duration": 6.0,
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "afterTalentUse",
+            "duration": 6.0,
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "reactionBonus",
+            "applyTo": [
+              "electroChargedDamageBonus"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "afterReaction",
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive3",
+        "modifiers": [
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "afterReaction",
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "atk",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000122": {
+    "passives": [
+      {
+        "sourceId": "combat1",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "active",
+            "duration": 2.5,
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 13.0,
+              "2": 16.0,
+              "3": 19.0,
+              "4": 22.0,
+              "5": 25.0,
+              "6": 28.0,
+              "7": 31.0,
+              "8": 34.0,
+              "9": 37.0,
+              "10": 40.0,
+              "11": 43.0,
+              "12": 46.0,
+              "13": 49.0,
+              "14": 52.0,
+              "15": 55.0
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param5",
+              "label": "ダメージアップ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "value": 100.0,
+            "unit": "flat",
+            "condition": "active",
+            "duration": 8.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive3",
+        "modifiers": [
+          {
+            "category": "reactionBonus",
+            "applyTo": [
+              "bloomDamageBonus"
+            ],
+            "value": 0.0175,
+            "unit": "percent",
+            "condition": "afterReaction",
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "afterReaction",
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "elementalMastery",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000123": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "resistanceDebuff",
+            "applyTo": [
+              "allResistance"
+            ],
+            "value": -20.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 6.0,
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "reactionBonus",
+            "applyTo": [
+              "overloadedDamageBonus"
+            ],
+            "value": 20.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 6.0,
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "reactionBonus",
+            "applyTo": [
+              "vaporizeDamageBonus"
+            ],
+            "value": 40.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 6.0,
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "reactionBonus",
+            "applyTo": [
+              "meltDamageBonus"
+            ],
+            "value": 40.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 6.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000124": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "afterHit",
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "value": 100.0,
+            "unit": "flat",
+            "condition": "active",
+            "duration": 6.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000125": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 13.0,
+              "2": 16.0,
+              "3": 19.0,
+              "4": 22.0,
+              "5": 25.0,
+              "6": 28.0,
+              "7": 31.0,
+              "8": 34.0,
+              "9": 37.0,
+              "10": 40.0,
+              "11": 43.0,
+              "12": 46.0,
+              "13": 49.0,
+              "14": 52.0,
+              "15": 55.0
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param2",
+              "label": "月反応ダメージアップ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "critBonus",
+            "applyTo": [
+              "critRate"
+            ],
+            "value": 5.0,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 10.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive3",
+        "modifiers": [
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "hydroDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "afterReaction",
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "hp",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000126": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "岩",
+            "unit": "element",
+            "condition": "afterReaction",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          },
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "afterReaction",
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "defPercent"
+            ],
+            "value": 15.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "value": 60.0,
+            "unit": "flat",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive3",
+        "modifiers": [
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "hydroDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "afterReaction",
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "def",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000127": {
+    "passives": [
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "geoDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 33.6,
+              "2": 36.12,
+              "3": 38.64,
+              "4": 42.0,
+              "5": 44.52,
+              "6": 47.04,
+              "7": 50.4,
+              "8": 53.76,
+              "9": 57.12,
+              "10": 60.48,
+              "11": 63.84,
+              "12": 67.2,
+              "13": 71.4,
+              "14": 75.6,
+              "15": 79.8
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param3",
+              "label": "岩元素ダメージアップ"
+            }
+          },
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 225.92,
+              "2": 242.864,
+              "3": 259.808,
+              "4": 282.4,
+              "5": 299.344,
+              "6": 316.288,
+              "7": 338.88,
+              "8": 361.472,
+              "9": 384.064,
+              "10": 406.656,
+              "11": 429.248,
+              "12": 451.84,
+              "13": 480.08,
+              "14": 508.32,
+              "15": 536.56
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param4",
+              "label": "月結晶反応ダメージアップ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "critBonus",
+            "applyTo": [
+              "critRate"
+            ],
+            "value": 5.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "critBonus",
+            "applyTo": [
+              "critDamage"
+            ],
+            "value": 10.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "value": 50.0,
+            "unit": "flat",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "hydroDamageBonus",
+              "geoDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "afterReaction",
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "elementalMastery",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000128": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "elementOverride",
+            "applyTo": [
+              "normalAttack",
+              "chargedAttack",
+              "plungingAttack"
+            ],
+            "value": "炎",
+            "unit": "element",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "overwrite": true
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "normalAttackDamageBonus",
+              "chargedAttackDamageBonus",
+              "skillDamageBonus",
+              "pyroDamageBonus",
+              "hydroDamageBonus",
+              "electroDamageBonus",
+              "cryoDamageBonus",
+              "anemoDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "atk",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "value": 7.5,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 8.0,
+            "calculationSupport": "toggle"
+          },
+          {
+            "category": "reactionBonus",
+            "applyTo": [
+              "swirlDamageBonus"
+            ],
+            "value": 7.5,
+            "unit": "percent",
+            "condition": "active",
+            "duration": 8.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000129": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 0.4,
+              "2": 0.4,
+              "3": 0.4,
+              "4": 0.4,
+              "5": 0.4,
+              "6": 0.4,
+              "7": 0.4,
+              "8": 0.4,
+              "9": 0.4,
+              "10": 0.4,
+              "11": 0.4,
+              "12": 0.4,
+              "13": 0.4,
+              "14": 0.4,
+              "15": 0.4
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param18",
+              "label": "闘争心1につきアップするダメージ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByLevel": {
+              "1": 0.4,
+              "2": 0.4,
+              "3": 0.4,
+              "4": 0.4,
+              "5": 0.4,
+              "6": 0.4,
+              "7": 0.4,
+              "8": 0.4,
+              "9": 0.4,
+              "10": 0.4,
+              "11": 0.4,
+              "12": 0.4,
+              "13": 0.4,
+              "14": 0.4,
+              "15": 0.4
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param2",
+              "label": "闘争心1につきアップするダメージ"
+            }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "active",
+            "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "value": 15.0,
+            "unit": "percent",
+            "condition": "afterReaction",
+            "duration": 8.0,
+            "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000130": {
+    "passives": [
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "category": "resistanceDebuff",
+            "applyTo": [
+              "geoResistance"
+            ],
+            "value": -15.0,
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive3",
+        "modifiers": [
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "hydroDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "afterReaction",
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "def",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000131": {
+    "passives": [
+      {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "valueByLevel": {
+              "1": 8.25,
+              "2": 9.0,
+              "3": 9.75,
+              "4": 10.5,
+              "5": 11.25,
+              "6": 12.0,
+              "7": 12.75,
+              "8": 13.5,
+              "9": 14.25,
+              "10": 15.0,
+              "11": 15.9,
+              "12": 16.8,
+              "13": 17.7,
+              "14": 18.6,
+              "15": 19.5
+            },
+            "unit": "percent",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param5",
+              "label": "虚己の恵みによる攻撃力上昇率"
+            }
+          },
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "valueByLevel": {
+              "1": 330.0,
+              "2": 360.0,
+              "3": 390.0,
+              "4": 420.0,
+              "5": 450.0,
+              "6": 480.0,
+              "7": 510.0,
+              "8": 540.0,
+              "9": 570.0,
+              "10": 600.0,
+              "11": 636.0,
+              "12": 672.0,
+              "13": 708.0,
+              "14": 744.0,
+              "15": 780.0
+            },
+            "unit": "flat",
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param6",
+              "label": "虚己の恵みによる攻撃力アップの上限"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000133": {
+    "passives": [
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "value": 8.0,
+            "unit": "flat",
+            "condition": "active",
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive3",
+        "modifiers": [
+          {
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "unit": "percent",
+            "condition": "afterReaction",
+            "calculationSupport": "special",
+            "reference": {
+              "stat": "atk",
+              "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

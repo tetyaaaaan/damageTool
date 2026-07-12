@@ -1,0 +1,2566 @@
+[
+  {
+    "characterId": "10000006",
+    "characterName": "リサ",
+    "sourceId": "combat2",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "afterHit",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000022",
+    "characterName": "ウェンティ",
+    "sourceId": "combat3",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "active",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000024",
+    "characterName": "北斗",
+    "sourceId": "combat2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 160.0,
+        "2": 172.0,
+        "3": 184.0,
+        "4": 200.0,
+        "5": 212.0,
+        "6": 224.0,
+        "7": 240.0,
+        "8": 256.0,
+        "9": 272.0,
+        "10": 288.0,
+        "11": 304.0,
+        "12": 320.0,
+        "13": 340.0,
+        "14": 360.0,
+        "15": 380.0
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat2",
+        "param": "param4",
+        "label": "被撃時ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000027",
+    "characterName": "凝光",
+    "sourceId": "combat3",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "active",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000029",
+    "characterName": "クレー",
+    "sourceId": "passive1",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "value": 50.0,
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle"
+    }
+  },
+  {
+    "characterId": "10000041",
+    "characterName": "モナ",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 42.0,
+        "2": 44.0,
+        "3": 46.0,
+        "4": 48.0,
+        "5": 50.0,
+        "6": 52.0,
+        "7": 54.0,
+        "8": 56.0,
+        "9": 58.0,
+        "10": 60.0,
+        "11": 60.0,
+        "12": 60.0,
+        "13": 60.0,
+        "14": 60.0,
+        "15": 60.0
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param10",
+        "label": "ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000043",
+    "characterName": "スクロース",
+    "sourceId": "combat3",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "active",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000047",
+    "characterName": "楓原万葉",
+    "sourceId": "combat3",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "active",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000047",
+    "characterName": "楓原万葉",
+    "sourceId": "passive1",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "active",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000047",
+    "characterName": "楓原万葉",
+    "sourceId": "passive2",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "active",
+      "duration": 8.0,
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "elementalMastery",
+        "source": "selfOrProvider"
+      }
+    }
+  },
+  {
+    "characterId": "10000048",
+    "characterName": "煙緋",
+    "sourceId": "passive2",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "active",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000051",
+    "characterName": "エウルア",
+    "sourceId": "combat2",
+    "category": "defenseDebuff",
+    "applyTo": [
+      "enemyDefense"
+    ],
+    "reasons": [
+      "specialCalculation"
+    ],
+    "modifier": {
+      "category": "defenseDebuff",
+      "applyTo": [
+        "enemyDefense"
+      ],
+      "unit": "percent",
+      "condition": "afterHit",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000053",
+    "characterName": "早柚",
+    "sourceId": "combat2",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "afterHit",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000054",
+    "characterName": "珊瑚宮心海",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 7.0963,
+        "2": 7.6285,
+        "3": 8.1608,
+        "4": 8.8704,
+        "5": 9.4026,
+        "6": 9.9348,
+        "7": 10.6445,
+        "8": 11.3541,
+        "9": 12.0637,
+        "10": 12.7734,
+        "11": 13.483,
+        "12": 14.1926,
+        "13": 15.0797,
+        "14": 15.9667,
+        "15": 16.8538
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param9",
+        "label": "化海月ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000054",
+    "characterName": "珊瑚宮心海",
+    "sourceId": "combat3",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "normalAttackDamageBonus",
+      "chargedAttackDamageBonus",
+      "skillDamageBonus",
+      "hydroDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "normalAttackDamageBonus",
+        "chargedAttackDamageBonus",
+        "skillDamageBonus",
+        "hydroDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "afterHit",
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "hp",
+        "source": "selfOrProvider"
+      }
+    }
+  },
+  {
+    "characterId": "10000059",
+    "characterName": "鹿野院平蔵",
+    "sourceId": "combat2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 56.88,
+        "2": 61.146,
+        "3": 65.412,
+        "4": 71.1,
+        "5": 75.366,
+        "6": 79.632,
+        "7": 85.32,
+        "8": 91.008,
+        "9": 96.696,
+        "10": 102.384,
+        "11": 108.072,
+        "12": 113.76,
+        "13": 120.87,
+        "14": 127.98,
+        "15": 135.09
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat2",
+        "param": "param2",
+        "label": "変格によるダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000059",
+    "characterName": "鹿野院平蔵",
+    "sourceId": "combat2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 113.76,
+        "2": 122.292,
+        "3": 130.824,
+        "4": 142.2,
+        "5": 150.732,
+        "6": 159.264,
+        "7": 170.64,
+        "8": 182.016,
+        "9": 193.392,
+        "10": 204.768,
+        "11": 216.144,
+        "12": 227.52,
+        "13": 241.74,
+        "14": 255.96,
+        "15": 270.18
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat2",
+        "param": "param3",
+        "label": "正論によるダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000060",
+    "characterName": "夜蘭",
+    "sourceId": "passive2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "value": 1.0,
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle"
+    }
+  },
+  {
+    "characterId": "10000063",
+    "characterName": "申鶴",
+    "sourceId": "combat2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 45.656,
+        "2": 49.0802,
+        "3": 52.5044,
+        "4": 57.07,
+        "5": 60.4942,
+        "6": 63.9184,
+        "7": 68.484,
+        "8": 73.0496,
+        "9": 77.6152,
+        "10": 82.1808,
+        "11": 86.7464,
+        "12": 91.312,
+        "13": 97.019,
+        "14": 102.726,
+        "15": 108.433
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat2",
+        "param": "param3",
+        "label": "ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000064",
+    "characterName": "雲菫",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 32.16,
+        "2": 34.572,
+        "3": 36.984,
+        "4": 40.2,
+        "5": 42.612,
+        "6": 45.024,
+        "7": 48.24,
+        "8": 51.456,
+        "9": 54.672,
+        "10": 57.888,
+        "11": 61.104,
+        "12": 64.32,
+        "13": 68.34,
+        "14": 72.36,
+        "15": 76.38
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param2",
+        "label": "ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000064",
+    "characterName": "雲菫",
+    "sourceId": "passive2",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "normalAttackDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "normalAttackDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "def",
+        "source": "selfOrProvider"
+      }
+    }
+  },
+  {
+    "characterId": "10000066",
+    "characterName": "神里綾人",
+    "sourceId": "combat2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 0.5611,
+        "2": 0.6067,
+        "3": 0.6524,
+        "4": 0.7176,
+        "5": 0.7633,
+        "6": 0.8155,
+        "7": 0.8873,
+        "8": 0.959,
+        "9": 1.0308,
+        "10": 1.1091,
+        "11": 1.1874,
+        "12": 1.2657,
+        "13": 1.3439,
+        "14": 1.4222,
+        "15": 1.5005
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat2",
+        "param": "param5",
+        "label": "浪閃ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000071",
+    "characterName": "セノ",
+    "sourceId": "passive1",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "value": 35.0,
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle"
+    }
+  },
+  {
+    "characterId": "10000072",
+    "characterName": "キャンディス",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 20.0,
+        "2": 20.0,
+        "3": 20.0,
+        "4": 20.0,
+        "5": 20.0,
+        "6": 20.0,
+        "7": 20.0,
+        "8": 20.0,
+        "9": 20.0,
+        "10": 20.0,
+        "11": 20.0,
+        "12": 20.0,
+        "13": 20.0,
+        "14": 20.0,
+        "15": 20.0
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param3",
+        "label": "ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000073",
+    "characterName": "ナヒーダ",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 14.88,
+        "2": 15.996,
+        "3": 17.112,
+        "4": 18.6,
+        "5": 19.716,
+        "6": 20.832,
+        "7": 22.32,
+        "8": 23.808,
+        "9": 25.296,
+        "10": 26.784,
+        "11": 28.272,
+        "12": 29.76,
+        "13": 31.62,
+        "14": 33.48,
+        "15": 35.34
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param1",
+        "label": "炎：ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000073",
+    "characterName": "ナヒーダ",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 22.32,
+        "2": 23.994,
+        "3": 25.668,
+        "4": 27.9,
+        "5": 29.574,
+        "6": 31.248,
+        "7": 33.48,
+        "8": 35.712,
+        "9": 37.944,
+        "10": 40.176,
+        "11": 42.408,
+        "12": 44.64,
+        "13": 47.43,
+        "14": 50.22,
+        "15": 53.01
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param2",
+        "label": "炎：ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000075",
+    "characterName": "放浪者",
+    "sourceId": "combat2",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "active",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000078",
+    "characterName": "アルハイゼン",
+    "sourceId": "combat2",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "afterHit",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000081",
+    "characterName": "カーヴェ",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 27.488,
+        "2": 29.5496,
+        "3": 31.6112,
+        "4": 34.36,
+        "5": 36.4216,
+        "6": 38.4832,
+        "7": 41.232,
+        "8": 43.9808,
+        "9": 46.7296,
+        "10": 49.4784,
+        "11": 52.2272,
+        "12": 54.976,
+        "13": 58.412,
+        "14": 61.848,
+        "15": 65.284
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param3",
+        "label": "草原核が迸る時のダメージがアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000082",
+    "characterName": "白朮",
+    "sourceId": "passive2",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "active",
+      "duration": 6.0,
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "hp",
+        "source": "selfOrProvider"
+      }
+    }
+  },
+  {
+    "characterId": "10000085",
+    "characterName": "フレミネ",
+    "sourceId": "combat2",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "afterTalentUse",
+      "duration": 10.0,
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000085",
+    "characterName": "フレミネ",
+    "sourceId": "combat3",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "active",
+      "duration": 10.0,
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000085",
+    "characterName": "フレミネ",
+    "sourceId": "passive2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "value": 40.0,
+      "unit": "percent",
+      "condition": "active",
+      "duration": 5.0,
+      "calculationSupport": "toggle"
+    }
+  },
+  {
+    "characterId": "10000086",
+    "characterName": "リオセスリ",
+    "sourceId": "passive1",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "value": 50.0,
+      "unit": "percent",
+      "condition": "afterHit",
+      "calculationSupport": "toggle"
+    }
+  },
+  {
+    "characterId": "10000089",
+    "characterName": "フリーナ",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 0.07,
+        "2": 0.09,
+        "3": 0.11,
+        "4": 0.13,
+        "5": 0.15,
+        "6": 0.17,
+        "7": 0.19,
+        "8": 0.21,
+        "9": 0.23,
+        "10": 0.25,
+        "11": 0.27,
+        "12": 0.29,
+        "13": 0.31,
+        "14": 0.33,
+        "15": 0.35
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param5",
+        "label": "テンションのダメージアップ効果への変換率"
+      }
+    }
+  },
+  {
+    "characterId": "10000089",
+    "characterName": "フリーナ",
+    "sourceId": "passive2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "value": 0.7,
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle"
+    }
+  },
+  {
+    "characterId": "10000092",
+    "characterName": "閑雲",
+    "sourceId": "passive2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "value": 20.0,
+      "unit": "percent",
+      "condition": "hpCondition",
+      "calculationSupport": "toggle"
+    }
+  },
+  {
+    "characterId": "10000093",
+    "characterName": "嘉明",
+    "sourceId": "passive2",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "plungingAttackDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "plungingAttackDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "atk",
+        "source": "selfOrProvider"
+      }
+    }
+  },
+  {
+    "characterId": "10000095",
+    "characterName": "シグウィン",
+    "sourceId": "combat2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "value": 5.0,
+      "unit": "percent",
+      "condition": "afterHit",
+      "calculationSupport": "toggle"
+    }
+  },
+  {
+    "characterId": "10000096",
+    "characterName": "アルレッキーノ",
+    "sourceId": "combat1",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 120.4,
+        "2": 130.2,
+        "3": 140.0,
+        "4": 154.0,
+        "5": 163.8,
+        "6": 175.0,
+        "7": 190.4,
+        "8": 205.8,
+        "9": 221.2,
+        "10": 238.0,
+        "11": 254.8,
+        "12": 271.6,
+        "13": 288.4,
+        "14": 305.2,
+        "15": 322.0
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat1",
+        "param": "param12",
+        "label": "赤死の宴ダメージアップ率"
+      }
+    }
+  },
+  {
+    "characterId": "10000097",
+    "characterName": "セトス",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 196.16,
+        "2": 210.872,
+        "3": 225.584,
+        "4": 245.2,
+        "5": 259.912,
+        "6": 274.624,
+        "7": 294.24,
+        "8": 313.856,
+        "9": 333.472,
+        "10": 353.088,
+        "11": 372.704,
+        "12": 392.32,
+        "13": 416.84,
+        "14": 441.36,
+        "15": 465.88
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param1",
+        "label": "瞑弦の矢ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000099",
+    "characterName": "エミリエ",
+    "sourceId": "combat2",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "active",
+      "duration": 8.0,
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000102",
+    "characterName": "ムアラニ",
+    "sourceId": "combat2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 4.34,
+        "2": 4.6655,
+        "3": 4.991,
+        "4": 5.425,
+        "5": 5.7505,
+        "6": 6.076,
+        "7": 6.51,
+        "8": 6.944,
+        "9": 7.378,
+        "10": 7.812,
+        "11": 8.246,
+        "12": 8.68,
+        "13": 9.2225,
+        "14": 9.765,
+        "15": 10.3075
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat2",
+        "param": "param2",
+        "label": "ウェーブチャージダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000102",
+    "characterName": "ムアラニ",
+    "sourceId": "combat2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 21.7,
+        "2": 23.3275,
+        "3": 24.955,
+        "4": 27.125,
+        "5": 28.7525,
+        "6": 30.38,
+        "7": 32.55,
+        "8": 34.72,
+        "9": 36.89,
+        "10": 39.06,
+        "11": 41.23,
+        "12": 43.4,
+        "13": 46.1125,
+        "14": 48.825,
+        "15": 51.5375
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat2",
+        "param": "param3",
+        "label": "サメサメバイト·ビッグウェーブの追加ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000103",
+    "characterName": "シロネン",
+    "sourceId": "combat2",
+    "category": "defenseDebuff",
+    "applyTo": [
+      "enemyDefense"
+    ],
+    "reasons": [
+      "specialCalculation"
+    ],
+    "modifier": {
+      "category": "defenseDebuff",
+      "applyTo": [
+        "enemyDefense"
+      ],
+      "unit": "percent",
+      "condition": "afterTalentUse",
+      "duration": 15.0,
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000103",
+    "characterName": "シロネン",
+    "sourceId": "combat3",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "hpCondition",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000104",
+    "characterName": "チャスカ",
+    "sourceId": "combat2",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "afterTalentUse",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000106",
+    "characterName": "マーヴィカ",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 1.6,
+        "2": 1.72,
+        "3": 1.84,
+        "4": 2.0,
+        "5": 2.12,
+        "6": 2.24,
+        "7": 2.4,
+        "8": 2.56,
+        "9": 2.72,
+        "10": 2.88,
+        "11": 3.04,
+        "12": 3.2,
+        "13": 3.4,
+        "14": 3.6,
+        "15": 3.8
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param3",
+        "label": "墜陽斬ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000106",
+    "characterName": "マーヴィカ",
+    "sourceId": "passive2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "value": 0.2,
+      "unit": "percent",
+      "condition": "afterTalentUse",
+      "duration": 20.0,
+      "calculationSupport": "toggle"
+    }
+  },
+  {
+    "characterId": "10000107",
+    "characterName": "シトラリ",
+    "sourceId": "passive1",
+    "category": "resistanceDebuff",
+    "applyTo": [
+      "allResistance"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "resistanceDebuff",
+      "applyTo": [
+        "allResistance"
+      ],
+      "value": -20.0,
+      "unit": "percent",
+      "condition": "active",
+      "duration": 12.0,
+      "calculationSupport": "toggle"
+    }
+  },
+  {
+    "characterId": "10000109",
+    "characterName": "夢見月瑞希",
+    "sourceId": "combat2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 0.18,
+        "2": 0.21,
+        "3": 0.24,
+        "4": 0.27,
+        "5": 0.3,
+        "6": 0.33,
+        "7": 0.36,
+        "8": 0.39,
+        "9": 0.42,
+        "10": 0.45,
+        "11": 0.48,
+        "12": 0.51,
+        "13": 0.54,
+        "14": 0.57,
+        "15": 0.6
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat2",
+        "param": "param2",
+        "label": "元素熟知1ごとにアップする拡散反応ダメージ"
+      }
+    }
+  },
+  {
+    "characterId": "10000111",
+    "characterName": "ヴァレサ",
+    "sourceId": "combat2",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "afterTalentUse",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000114",
+    "characterName": "スカーク",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 3.5,
+        "2": 4.0,
+        "3": 4.5,
+        "4": 5.0,
+        "5": 5.5,
+        "6": 6.0,
+        "7": 6.5,
+        "8": 7.0,
+        "9": 7.5,
+        "10": 8.0,
+        "11": 8.5,
+        "12": 9.0,
+        "13": 9.5,
+        "14": 10.0,
+        "15": 10.5
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param4",
+        "label": "虚境の裂け目を0/1/2/3枚吸収時のダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000114",
+    "characterName": "スカーク",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 6.6,
+        "2": 7.2,
+        "3": 7.8,
+        "4": 8.4,
+        "5": 9.0,
+        "6": 9.6,
+        "7": 10.2,
+        "8": 10.8,
+        "9": 11.4,
+        "10": 12.0,
+        "11": 12.6,
+        "12": 13.2,
+        "13": 13.8,
+        "14": 14.4,
+        "15": 15.0
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param5",
+        "label": "虚境の裂け目を0/1/2/3枚吸収時のダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000114",
+    "characterName": "スカーク",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 8.8,
+        "2": 9.6,
+        "3": 10.4,
+        "4": 11.2,
+        "5": 12.0,
+        "6": 12.8,
+        "7": 13.6,
+        "8": 14.4,
+        "9": 15.2,
+        "10": 16.0,
+        "11": 16.8,
+        "12": 17.6,
+        "13": 18.4,
+        "14": 19.2,
+        "15": 20.0
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param6",
+        "label": "虚境の裂け目を0/1/2/3枚吸収時のダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000114",
+    "characterName": "スカーク",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 11.0,
+        "2": 12.0,
+        "3": 13.0,
+        "4": 14.0,
+        "5": 15.0,
+        "6": 16.0,
+        "7": 17.0,
+        "8": 18.0,
+        "9": 19.0,
+        "10": 20.0,
+        "11": 21.0,
+        "12": 22.0,
+        "13": 23.0,
+        "14": 24.0,
+        "15": 25.0
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param7",
+        "label": "虚境の裂け目を0/1/2/3枚吸収時のダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000116",
+    "characterName": "イネファ",
+    "sourceId": "passive1",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "afterReaction",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000116",
+    "characterName": "イネファ",
+    "sourceId": "passive3",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "afterReaction",
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "atk",
+        "source": "selfOrProvider"
+      }
+    }
+  },
+  {
+    "characterId": "10000119",
+    "characterName": "ラウマ",
+    "sourceId": "combat1",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "active",
+      "duration": 10.0,
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000119",
+    "characterName": "ラウマ",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 277.76,
+        "2": 298.592,
+        "3": 319.424,
+        "4": 347.2,
+        "5": 368.032,
+        "6": 388.864,
+        "7": 416.64,
+        "8": 444.416,
+        "9": 472.192,
+        "10": 499.968,
+        "11": 527.744,
+        "12": 555.52,
+        "13": 590.24,
+        "14": 624.96,
+        "15": 659.68
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param3",
+        "label": "開花、超開花、烈開花反応ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000119",
+    "characterName": "ラウマ",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 222.24,
+        "2": 238.908,
+        "3": 255.576,
+        "4": 277.8,
+        "5": 294.468,
+        "6": 311.136,
+        "7": 333.36,
+        "8": 355.584,
+        "9": 377.808,
+        "10": 400.032,
+        "11": 422.256,
+        "12": 444.48,
+        "13": 472.26,
+        "14": 500.04,
+        "15": 527.82
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param4",
+        "label": "月開花反応ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000119",
+    "characterName": "ラウマ",
+    "sourceId": "passive2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "value": 0.04,
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle"
+    }
+  },
+  {
+    "characterId": "10000119",
+    "characterName": "ラウマ",
+    "sourceId": "passive3",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "afterReaction",
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "elementalMastery",
+        "source": "selfOrProvider"
+      }
+    }
+  },
+  {
+    "characterId": "10000120",
+    "characterName": "フリンズ",
+    "sourceId": "combat3",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "afterTalentUse",
+      "duration": 6.0,
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000120",
+    "characterName": "フリンズ",
+    "sourceId": "passive3",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "afterReaction",
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "atk",
+        "source": "selfOrProvider"
+      }
+    }
+  },
+  {
+    "characterId": "10000122",
+    "characterName": "ネフェル",
+    "sourceId": "combat1",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "active",
+      "duration": 2.5,
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000122",
+    "characterName": "ネフェル",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 13.0,
+        "2": 16.0,
+        "3": 19.0,
+        "4": 22.0,
+        "5": 25.0,
+        "6": 28.0,
+        "7": 31.0,
+        "8": 34.0,
+        "9": 37.0,
+        "10": 40.0,
+        "11": 43.0,
+        "12": 46.0,
+        "13": 49.0,
+        "14": 52.0,
+        "15": 55.0
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param5",
+        "label": "ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000122",
+    "characterName": "ネフェル",
+    "sourceId": "passive3",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "afterReaction",
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "elementalMastery",
+        "source": "selfOrProvider"
+      }
+    }
+  },
+  {
+    "characterId": "10000123",
+    "characterName": "ドゥリン",
+    "sourceId": "passive1",
+    "category": "resistanceDebuff",
+    "applyTo": [
+      "allResistance"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "resistanceDebuff",
+      "applyTo": [
+        "allResistance"
+      ],
+      "value": -20.0,
+      "unit": "percent",
+      "condition": "active",
+      "duration": 6.0,
+      "calculationSupport": "toggle"
+    }
+  },
+  {
+    "characterId": "10000124",
+    "characterName": "ヤフォダ",
+    "sourceId": "combat2",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "afterHit",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000125",
+    "characterName": "コロンビーナ",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 13.0,
+        "2": 16.0,
+        "3": 19.0,
+        "4": 22.0,
+        "5": 25.0,
+        "6": 28.0,
+        "7": 31.0,
+        "8": 34.0,
+        "9": 37.0,
+        "10": 40.0,
+        "11": 43.0,
+        "12": 46.0,
+        "13": 49.0,
+        "14": 52.0,
+        "15": 55.0
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param2",
+        "label": "月反応ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000125",
+    "characterName": "コロンビーナ",
+    "sourceId": "passive3",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "hydroDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "hydroDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "afterReaction",
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "hp",
+        "source": "selfOrProvider"
+      }
+    }
+  },
+  {
+    "characterId": "10000126",
+    "characterName": "兹白",
+    "sourceId": "combat2",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "afterReaction",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000126",
+    "characterName": "兹白",
+    "sourceId": "passive3",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "hydroDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "hydroDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "afterReaction",
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "def",
+        "source": "selfOrProvider"
+      }
+    }
+  },
+  {
+    "characterId": "10000127",
+    "characterName": "イルーガ",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 225.92,
+        "2": 242.864,
+        "3": 259.808,
+        "4": 282.4,
+        "5": 299.344,
+        "6": 316.288,
+        "7": 338.88,
+        "8": 361.472,
+        "9": 384.064,
+        "10": 406.656,
+        "11": 429.248,
+        "12": 451.84,
+        "13": 480.08,
+        "14": 508.32,
+        "15": 536.56
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param4",
+        "label": "月結晶反応ダメージアップ"
+      }
+    }
+  },
+  {
+    "characterId": "10000127",
+    "characterName": "イルーガ",
+    "sourceId": "passive2",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "hydroDamageBonus",
+      "geoDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "hydroDamageBonus",
+        "geoDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "afterReaction",
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "elementalMastery",
+        "source": "selfOrProvider"
+      }
+    }
+  },
+  {
+    "characterId": "10000128",
+    "characterName": "ファルカ",
+    "sourceId": "passive1",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "normalAttackDamageBonus",
+      "chargedAttackDamageBonus",
+      "skillDamageBonus",
+      "pyroDamageBonus",
+      "hydroDamageBonus",
+      "electroDamageBonus",
+      "cryoDamageBonus",
+      "anemoDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "normalAttackDamageBonus",
+        "chargedAttackDamageBonus",
+        "skillDamageBonus",
+        "pyroDamageBonus",
+        "hydroDamageBonus",
+        "electroDamageBonus",
+        "cryoDamageBonus",
+        "anemoDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "atk",
+        "source": "selfOrProvider"
+      }
+    }
+  },
+  {
+    "characterId": "10000128",
+    "characterName": "ファルカ",
+    "sourceId": "passive2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "value": 7.5,
+      "unit": "percent",
+      "condition": "active",
+      "duration": 8.0,
+      "calculationSupport": "toggle"
+    }
+  },
+  {
+    "characterId": "10000129",
+    "characterName": "ロエン",
+    "sourceId": "combat2",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 0.4,
+        "2": 0.4,
+        "3": 0.4,
+        "4": 0.4,
+        "5": 0.4,
+        "6": 0.4,
+        "7": 0.4,
+        "8": 0.4,
+        "9": 0.4,
+        "10": 0.4,
+        "11": 0.4,
+        "12": 0.4,
+        "13": 0.4,
+        "14": 0.4,
+        "15": 0.4
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat2",
+        "param": "param18",
+        "label": "闘争心1につきアップするダメージ"
+      }
+    }
+  },
+  {
+    "characterId": "10000129",
+    "characterName": "ロエン",
+    "sourceId": "combat3",
+    "category": "damageBonus",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "damageBonus",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "valueByLevel": {
+        "1": 0.4,
+        "2": 0.4,
+        "3": 0.4,
+        "4": 0.4,
+        "5": 0.4,
+        "6": 0.4,
+        "7": 0.4,
+        "8": 0.4,
+        "9": 0.4,
+        "10": 0.4,
+        "11": 0.4,
+        "12": 0.4,
+        "13": 0.4,
+        "14": 0.4,
+        "15": 0.4
+      },
+      "unit": "percent",
+      "condition": "active",
+      "calculationSupport": "toggle",
+      "valueSource": {
+        "type": "talentAttribute",
+        "section": "combat3",
+        "param": "param2",
+        "label": "闘争心1につきアップするダメージ"
+      }
+    }
+  },
+  {
+    "characterId": "10000129",
+    "characterName": "ロエン",
+    "sourceId": "passive1",
+    "category": "extraDamage",
+    "applyTo": [
+      "triggeredDamage"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo"
+    ],
+    "modifier": {
+      "category": "extraDamage",
+      "applyTo": [
+        "triggeredDamage"
+      ],
+      "condition": "active",
+      "calculationSupport": "special"
+    }
+  },
+  {
+    "characterId": "10000130",
+    "characterName": "リンネア",
+    "sourceId": "passive3",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "hydroDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "hydroDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "afterReaction",
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "def",
+        "source": "selfOrProvider"
+      }
+    }
+  },
+  {
+    "characterId": "10000133",
+    "characterName": "サンドローネ",
+    "sourceId": "passive3",
+    "category": "additiveBaseDamage",
+    "applyTo": [
+      "allDamageBonus"
+    ],
+    "reasons": [
+      "specialCalculation",
+      "broadApplyTo",
+      "referenceSourceNeedsConfirmation"
+    ],
+    "modifier": {
+      "category": "additiveBaseDamage",
+      "applyTo": [
+        "allDamageBonus"
+      ],
+      "unit": "percent",
+      "condition": "afterReaction",
+      "calculationSupport": "special",
+      "reference": {
+        "stat": "atk",
+        "source": "selfOrProvider"
+      }
+    }
+  }
+]

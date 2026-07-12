@@ -1,0 +1,55 @@
+{
+  "summary": {
+    "version": "v10-finalized",
+    "auditIterations": [
+      {
+        "name": "source fragment segmentation",
+        "result": "done"
+      },
+      {
+        "name": "value existence",
+        "result": "done"
+      },
+      {
+        "name": "value-role semantic",
+        "result": "done"
+      },
+      {
+        "name": "resource/stack/consume",
+        "result": "done"
+      },
+      {
+        "name": "special escape",
+        "result": "done"
+      },
+      {
+        "name": "known-complex regression",
+        "result": "done"
+      },
+      {
+        "name": "post-fix re-audit",
+        "result": "done"
+      }
+    ],
+    "remainingIssues": {
+      "artifact": 0,
+      "weapon": 0,
+      "constellation": 0
+    },
+    "manualFinalFixes": [
+      "Navia C2/C6",
+      "Heizou C6",
+      "Alhaitham C2/C4/C6",
+      "Nilou C6",
+      "Sigewinne C1/C6",
+      "Citlali C6",
+      "Farka C2/C4/C6",
+      "Skirk C6",
+      "Sandrone C2",
+      "VV artifact",
+      "12515 weapon per-stack cleanup"
+    ],
+    "note": "監査はmodifierのsourceText fragment単位で実施。全文中の別効果による誤検出を避けた。"
+  },
+  "issues": []
+}
