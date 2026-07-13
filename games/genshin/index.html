@@ -228,105 +228,11 @@
               <h3>JSON計算 <span class="genshin-calc-recommended">推奨</span></h3>
               <p class="genshin-help">data/calc の構造化データと現在の入力欄を正として計算します。未対応効果は理由付きで表示し、従来計算は互換用として残しています。</p>
               <div class="genshin-json-actions">
-                <button type="button" class="teti-button teti-button-secondary" id="genshinJsonPrepareConditionsButton">補正条件を更新</button>
+                <button type="button" class="teti-button teti-button-secondary" id="genshinJsonPrepareConditionsButton">計算条件を再読み込み</button>
                 <button type="button" class="teti-button teti-button-primary" id="genshinJsonCalcButton" data-genshin-calc-path="json">JSON計算を実行</button>
               </div>
-              <p class="genshin-help" id="genshinJsonConditionHelp">計算前に、現在のキャラ・武器に合わせて補正条件を更新してください。</p>
-              <div class="genshin-form-grid genshin-json-condition-grid">
-                <label class="genshin-field">元素反応
-                  <select id="genshinJsonReactionOption">
-                    <option value="none">反応なし</option>
-                    <optgroup label="増幅反応（現在計算対応）">
-                      <option value="melt15">溶解 1.5</option>
-                      <option value="melt20">溶解 2.0</option>
-                      <option value="vaporize15">蒸発 1.5</option>
-                      <option value="vaporize20">蒸発 2.0</option>
-                    </optgroup>
-                    <optgroup label="加算反応（表示のみ）">
-                      <option value="aggravate">超激化</option>
-                      <option value="spread">草激化</option>
-                    </optgroup>
-                    <optgroup label="変化反応（表示のみ）">
-                      <option value="overload">過負荷</option>
-                      <option value="electroCharged">感電</option>
-                      <option value="superconduct">超電導</option>
-                      <option value="swirl">拡散</option>
-                      <option value="burning">燃焼</option>
-                      <option value="bloom">開花</option>
-                      <option value="hyperbloom">超開花</option>
-                      <option value="burgeon">烈開花</option>
-                      <option value="crystallize">結晶</option>
-                    </optgroup>
-                    <optgroup label="月反応（表示のみ）">
-                      <option value="lunarBloom">月開花</option>
-                      <option value="lunarCharged">月感電</option>
-                      <option value="lunarCrystallize">月結晶</option>
-                    </optgroup>
-                    <optgroup label="その他（未対応）">
-                      <option value="astralReaction">星反応（未対応）</option>
-                    </optgroup>
-                  </select>
-                </label>
-                <label class="genshin-field" id="genshinJsonDedicatedReferenceField" hidden>専用参照入力
-                  <small>記録治療量や、補正を提供する別キャラクターのステータスが必要な効果でだけ使用します。</small>
-                  <span class="genshin-condition-line" id="genshinJsonRecordedHealingLine"><span>記録治療量</span><input type="number" class="input_num" id="genshinJsonRecordedHealing" min="0" step="1" placeholder="未入力"></span>
-                  <span class="genshin-condition-line" id="genshinJsonProviderHpLine"><span>提供者 HP</span><input type="number" class="input_num" id="genshinJsonProviderHp" min="0" step="1" placeholder="未入力"></span>
-                  <span class="genshin-condition-line" id="genshinJsonProviderAtkLine"><span>提供者 攻撃力</span><input type="number" class="input_num" id="genshinJsonProviderAtk" min="0" step="1" placeholder="未入力"></span>
-                  <span class="genshin-condition-line" id="genshinJsonProviderDefLine"><span>提供者 防御力</span><input type="number" class="input_num" id="genshinJsonProviderDef" min="0" step="1" placeholder="未入力"></span>
-                  <span class="genshin-condition-line" id="genshinJsonProviderElementalMasteryLine"><span>提供者 元素熟知</span><input type="number" class="input_num" id="genshinJsonProviderElementalMastery" min="0" step="1" placeholder="未入力"></span>
-                </label>
-                <label class="genshin-field" id="genshinJsonResourceStateField" hidden>リソース状態
-                  <span id="genshinJsonResourceInputs"></span>
-                </label>
-                <label class="genshin-field" id="genshinJsonComplexConditionField" hidden>詳細条件
-                  <span id="genshinJsonComplexConditionInputs"></span>
-                </label>
-                <label class="genshin-field" id="genshinJsonCharacterConditionField">キャラ・天賦補正
-                  <span class="genshin-checkbox-line" id="genshinJsonCharacterConditionLine"><input type="checkbox" id="genshinJsonEnableCharacterCondition"> <span id="genshinJsonCharacterConditionText">スキル/固有条件を適用</span></span>
-                  <span class="genshin-checkbox-line" id="genshinJsonLowHpConditionLine"><input type="checkbox" id="genshinJsonEnableLowHpCondition"> <span id="genshinJsonLowHpConditionText">HP50%以下条件</span></span>
-                </label>
-                <label class="genshin-field" id="genshinJsonEquipmentConditionField">装備枠補正
-                  <span class="genshin-condition-line" id="genshinJsonWeaponConditionField">
-                    <span id="genshinJsonWeaponConditionText">武器条件</span>
-                    <select id="genshinJsonAmosStack">
-                      <option value="0" selected>飛翔時間追加なし / 0段</option>
-                      <option value="1">1段</option>
-                      <option value="2">2段</option>
-                      <option value="3">3段</option>
-                      <option value="4">4段</option>
-                      <option value="5">5段（最大）</option>
-                    </select>
-                  </span>
-                  <span class="genshin-checkbox-line" id="genshinJsonWeaponLowHpConditionLine"><input type="checkbox" id="genshinJsonEnableWeaponLowHpCondition"> <span id="genshinJsonWeaponLowHpConditionText">武器HP条件</span></span>
-                  <span class="genshin-condition-line" id="genshinJsonCrimsonWitchConditionLine">
-                    <span>火魔女4セット（元素スキル使用後）</span>
-                    <select id="genshinJsonCrimsonWitchStack">
-                      <option value="0">0層</option>
-                      <option value="1">1層</option>
-                      <option value="2">2層</option>
-                      <option value="3">3層</option>
-                    </select>
-                  </span>
-                </label>
-                <label class="genshin-field" id="genshinJsonConstellationConditionField">命ノ星座補正
-                  <span class="genshin-condition-line" id="genshinJsonConstellationConditionLine">
-                    <span id="genshinJsonConstellationConditionText">解放段階</span>
-                    <select id="genshinJsonConstellationLevel">
-                      <option value="C0">C0</option>
-                      <option value="C1">C1</option>
-                      <option value="C2">C2</option>
-                      <option value="C3">C3</option>
-                      <option value="C4">C4</option>
-                      <option value="C5">C5</option>
-                      <option value="C6">C6</option>
-                    </select>
-                  </span>
-                  <span class="genshin-checkbox-line" id="genshinJsonConstellationC1Line"><input type="checkbox" id="genshinJsonEnableConstellationC1"> <span id="genshinJsonConstellationC1Text">1C効果</span></span>
-                  <span class="genshin-checkbox-line" id="genshinJsonConstellationC2Line"><input type="checkbox" id="genshinJsonEnableConstellationC2"> <span id="genshinJsonConstellationC2Text">2C効果</span></span>
-                  <span class="genshin-checkbox-line" id="genshinJsonConstellationC4Line"><input type="checkbox" id="genshinJsonEnableConstellationC4"> <span id="genshinJsonConstellationC4Text">4C効果</span></span>
-                  <span class="genshin-checkbox-line" id="genshinJsonConstellationC6Line"><input type="checkbox" id="genshinJsonEnableConstellationC6"> <span id="genshinJsonConstellationC6Text">6C効果</span></span>
-                </label>
-              </div>
+              <p class="genshin-help" id="genshinJsonConditionHelp">キャラクター・武器・聖遺物に応じた計算条件を、効果の出所ごとに表示します。</p>
+              <div id="genshinJsonConditionCards" class="genshin-condition-cards" aria-live="polite"></div>
               <div id="genshinJsonCalcWarnings" class="genshin-json-calc-warnings" hidden></div>
               <div id="genshinJsonCalcResults" class="genshin-json-calc-results" hidden></div>
             </div>

@@ -88,10 +88,16 @@
 
     function collectSelectedModifiers(context, calcData) {
         const selected = [];
-        const add = (modifier, source) => selected.push({ modifier, source });
+        const add = (modifier, source, display = {}) => selected.push({ modifier, source, ...display });
         const talentPassives = calcData.talentModifiers?.[context.characterId]?.passives || [];
+        const talentDisplays = calcData.characterTalents?.[context.characterId]?.passives || [];
         talentPassives.forEach((passive) => {
-            (passive.modifiers || []).forEach((modifier) => add(modifier, `talent:${passive.sourceId || context.characterId}`));
+            const normalizedSourceId = String(passive.sourceId || "").replace(/_/g, "");
+            const display = talentDisplays.find((item) => String(item.sourceId || "").replace(/_/g, "") === normalizedSourceId) || {};
+            (passive.modifiers || []).forEach((modifier) => add(modifier, `talent:${passive.sourceId || context.characterId}`, {
+                sourceName: display.nameJa || "",
+                sourceDescription: display.descriptionJa || ""
+            }));
         });
         (calcData.weaponModifiers?.[context.weaponId]?.modifiers || [])
             .forEach((modifier) => add(modifier, `weapon:${context.weaponId}`));
@@ -162,6 +168,13 @@
 
     function captureActiveConditionState(uiState) {
         activeConditionDefinitions.forEach((definition) => {
+            if (Object.prototype.hasOwnProperty.call(uiState.toggleByModifier || {}, definition.key)) {
+                conditionStateByModifier[definition.key] = {
+                    ...(conditionStateByModifier[definition.key] || { stack: 0, option: "" }),
+                    enabled: Boolean(uiState.toggleByModifier[definition.key])
+                };
+                return;
+            }
             const uiValue = stateFromUiGroup(definition.group, uiState);
             if (uiValue) conditionStateByModifier[definition.key] = uiValue;
         });
@@ -482,6 +495,139 @@
         return result;
     }
 
+    const CARD_DEFINITIONS = [
+        { id: "weapon", title: "武器補正" },
+        { id: "artifact", title: "聖遺物補正" },
+        { id: "talent", title: "天賦補正" },
+        { id: "constellation", title: "命ノ星座補正" }
+    ];
+
+    function cardIdForSource(source) {
+        const type = parseSource(source).type;
+        if (type === "weapon") return "weapon";
+        if (type === "artifact2" || type === "artifact4") return "artifact";
+        if (type === "talent") return "talent";
+        if (type === "constellation") return "constellation";
+        return "";
+    }
+
+    function modifierDisplayValue(modifier, context, stack = null) {
+        let value = modifier.value;
+        if (modifier.valueByRefinement) {
+            value = modifier.valueByRefinement[String(context.refinement)] ?? modifier.valueByRefinement["1"];
+        }
+        if (value === undefined || Array.isArray(value)) return "";
+        const numericValue = Number(value);
+        if (!Number.isFinite(numericValue)) return String(value);
+        if (stack !== null) return `${numericValue}% × ${stack}段 = ${numericValue * stack}%`;
+        const suffix = modifier.unit === "percent" || modifier.valueByRefinement ? "%" : "";
+        return `${numericValue >= 0 ? "+" : ""}${numericValue}${suffix}`;
+    }
+
+    function cardSubtitle(cardId, context, calcData) {
+        if (cardId === "weapon") {
+            if (!context.weaponId) return "武器は選択されていません";
+            return `${calcData.weapons?.[context.weaponId]?.nameJa || `武器ID ${context.weaponId}`} R${context.refinement}`;
+        }
+        if (cardId === "artifact") {
+            if (!(context.artifactSetIds || []).length) return "聖遺物セットは選択されていません";
+            return context.artifactSetIds.map((id) => calcData.artifactSets?.[id]?.nameJa || `聖遺物ID ${id}`).join(" / ");
+        }
+        if (cardId === "talent") {
+            return calcData.characters?.[context.characterId]?.nameJa || "キャラクター未選択";
+        }
+        return `現在の解放段階：C${context.constellation}`;
+    }
+
+    function buildConditionCards(context, calcData, resourceInputs, complexConditionInputs) {
+        const cards = CARD_DEFINITIONS.map((definition) => ({
+            ...definition,
+            subtitle: cardSubtitle(definition.id, context, calcData),
+            effects: []
+        }));
+        const cardById = Object.fromEntries(cards.map((card) => [card.id, card]));
+        const complexByKey = new Map(complexConditionInputs.map((input) => [input.key, input]));
+        const resourceByKey = new Map(resourceInputs.map((input) => [input.key, input]));
+        const dedicatedOwners = new Set();
+
+        collectSelectedModifiers(context, calcData).forEach((item) => {
+            const cardId = cardIdForSource(item.source);
+            if (!cardId) return;
+            const analysis = analyzeModifier(item.modifier, item.source, context);
+            const isRelevantCategory = USER_TOGGLE_CATEGORIES.has(item.modifier.category);
+            const isResourceInput = analysis.resourceClassification === "calculationInput";
+            if (!isRelevantCategory && !isResourceInput) return;
+            if (analysis.inputStatus !== "applicable" && analysis.inputStatus !== "includedInInput") return;
+            if (["unsupported", "invalidData"].includes(analysis.supportStatus) && analysis.inputStatus !== "includedInInput") return;
+
+            const sourceInfo = parseSource(item.source);
+            const conditionState = conditionStateByModifier[analysis.conditionStateKey] || {};
+            const controls = [];
+            const complex = complexByKey.get(analysis.conditionStateKey);
+            const resource = resourceByKey.get(analysis.resourceStateKey || analysis.conditionStateKey);
+            if (item.modifier.condition === "arrowFlightTime") {
+                controls.push({ type: "amosStack", value: context.uiState.amosStack, min: 0, max: 5, label: "飛翔時間段階" });
+            } else if (sourceInfo.type === "artifact4" && sourceInfo.id === "15006" && item.modifier.condition === "afterSkill") {
+                controls.push({ type: "crimsonWitchStack", value: context.uiState.crimsonWitchStack, min: 0, max: 3, label: "元素スキル使用後の強化段階" });
+            } else if (complex) {
+                controls.push({ type: "complex", ...complex });
+            } else if (resource && isResourceInput) {
+                controls.push({ type: "resource", ...resource });
+            } else if (analysis.requiresConditionEvaluation && analysis.condition !== "always" && analysis.calculable) {
+                controls.push({
+                    type: "toggle",
+                    key: analysis.conditionStateKey,
+                    checked: Boolean(conditionState.enabled),
+                    label: "この発動条件を適用する"
+                });
+            }
+
+            (analysis.requiredInputs || []).forEach((key) => {
+                if (dedicatedOwners.has(key)) return;
+                const dedicatedMap = {
+                    recordedHealing: { id: "genshinJsonRecordedHealing", label: "記録治療量", value: context.manualInputs.recordedHealing },
+                    "providerStats.hp": { id: "genshinJsonProviderHp", label: "補正提供者のHP", value: context.manualInputs.providerStats.hp },
+                    "providerStats.atk": { id: "genshinJsonProviderAtk", label: "補正提供者の攻撃力", value: context.manualInputs.providerStats.atk },
+                    "providerStats.def": { id: "genshinJsonProviderDef", label: "補正提供者の防御力", value: context.manualInputs.providerStats.def },
+                    "providerStats.elementalMastery": { id: "genshinJsonProviderElementalMastery", label: "補正提供者の元素熟知", value: context.manualInputs.providerStats.elementalMastery }
+                };
+                if (dedicatedMap[key]) {
+                    controls.push({ type: "dedicated", key, ...dedicatedMap[key] });
+                    dedicatedOwners.add(key);
+                }
+            });
+
+            let status = "auto";
+            if (analysis.inputStatus === "includedInInput") status = "reflected";
+            else if (analysis.supportStatus === "missingInput") status = "missing";
+            else if (controls.length) status = "userInput";
+            else if (analysis.supportStatus === "displayOnly") status = "displayOnly";
+
+            const stack = item.modifier.condition === "arrowFlightTime" ? Number(context.uiState.amosStack) || 0 : null;
+            cards.find((card) => card.id === cardId).effects.push({
+                id: item.modifier.id || analysis.key,
+                name: `${sourceInfo.type === "constellation" ? `${sourceInfo.id} ` : ""}${item.modifier.effectLabel || item.sourceName || categoryLabel(item.modifier.category)}`,
+                description: item.modifier.sourceText || item.sourceDescription || `${categoryLabel(item.modifier.category)}を計算に反映します。`,
+                status,
+                statusReason: analysis.reason || analysis.inputReason || "",
+                target: (item.modifier.applyTo || []).join(" / "),
+                impact: modifierDisplayValue(item.modifier, context, stack),
+                controls
+            });
+        });
+
+        cards.forEach((card) => {
+            const priority = { auto: 0, reflected: 1, userInput: 2, missing: 3, displayOnly: 4 };
+            card.effects.sort((a, b) => (priority[a.status] ?? 9) - (priority[b.status] ?? 9));
+            if (card.effects.length) return;
+            if (card.id === "weapon" && !context.weaponId) card.emptyText = "武器を選択すると、武器効果と必要な条件が表示されます。";
+            else if (card.id === "artifact" && !(context.artifactSetIds || []).length) card.emptyText = "聖遺物セットは選択されていません。入力済みステータスをそのまま使用します。";
+            else if (card.id === "constellation") card.emptyText = "現在の解放段階では、手動指定が必要な命ノ星座効果はありません。";
+            else card.emptyText = "手動で指定する条件はありません。入力値に反映済みの値を使用します。";
+        });
+        return cards;
+    }
+
     function conditionPanelState(context, calcData) {
         reconcileConditionState(context, calcData);
         const resourceInputs = reconcileResourceState(context, calcData);
@@ -504,6 +650,7 @@
             providerElementalMastery: false
         });
         dedicatedReferenceInputs.visible = Object.values(dedicatedReferenceInputs).some(Boolean);
+        const cards = buildConditionCards(context, calcData, resourceInputs, complexConditionInputs);
         const hasCharacter = Boolean(context.characterId);
         const hasWeapon = Boolean(context.weaponId);
         const characterName = hasCharacter ? calcData.characters?.[context.characterId]?.nameJa || `キャラクターID ${context.characterId}` : "キャラクター未選択";
@@ -543,6 +690,7 @@
             resourceInputs,
             complexConditionInputs,
             dedicatedReferenceInputs,
+            cards,
             weaponCondition: {
                 visible: hasAmos,
                 label: "アモス距離補正"

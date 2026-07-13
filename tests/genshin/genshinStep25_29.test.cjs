@@ -94,9 +94,26 @@ test("STEP 28 consolidates Shenhe and Skirk input waits outside every damage bre
     }
 });
 
-test("STEP 29 keeps the conditional dedicated-input markup in production", () => {
+test("condition inputs are rendered inside source cards instead of generic condition fields", () => {
     const html = fs.readFileSync(path.resolve(__dirname, "../../games/genshin/index.html"), "utf8");
-    assert.match(html, /id="genshinJsonDedicatedReferenceField" hidden/);
-    assert.match(html, /id="genshinJsonRecordedHealingLine"/);
-    assert.match(html, /id="genshinJsonProviderDefLine"/);
+    assert.match(html, /id="genshinJsonConditionCards"/);
+    assert.doesNotMatch(html, /id="genshinJsonComplexConditionField"/);
+    assert.doesNotMatch(html, /id="genshinJsonEquipmentConditionField"/);
+    assert.doesNotMatch(html, /id="genshinJsonConstellationLevel"/);
+});
+
+test("condition card model groups Ganyu and Amos effects by their actual source", () => {
+    const harness = prepared({ characterId: "10000037", constellation: 1, weaponId: "15502" });
+    const context = harness.sandbox.GenshinCalcEngine.buildCharacterCalcContext();
+    const state = harness.sandbox.GenshinCalcConditions.conditionPanelState(context, harness.calcData);
+    assert.equal(state.cards.map((card) => card.id).join(","), "weapon,artifact,talent,constellation");
+    const weapon = state.cards.find((card) => card.id === "weapon");
+    assert.equal(weapon.subtitle, "アモスの弓 R1");
+    assert.equal(weapon.effects.some((effect) => effect.name === "常時発動する基礎効果" && effect.status === "auto"), true);
+    assert.equal(weapon.effects.some((effect) => effect.name === "飛翔時間による追加効果" && effect.controls[0]?.type === "amosStack"), true);
+    const talent = state.cards.find((card) => card.id === "talent");
+    assert.equal(talent.effects.some((effect) => effect.name === "唯一の心" && effect.description.includes("霜華の矢")), true);
+    const constellation = state.cards.find((card) => card.id === "constellation");
+    assert.equal(constellation.subtitle, "現在の解放段階：C1");
+    assert.equal(constellation.effects.every((effect) => effect.name.startsWith("C1 ")), true);
 });

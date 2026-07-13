@@ -298,54 +298,103 @@
         }).join("");
     }
 
+    const CONDITION_STATUS = {
+        auto: { label: "自動適用", className: "is-auto" },
+        reflected: { label: "入力値に反映済み", className: "is-reflected" },
+        userInput: { label: "条件指定", className: "is-input" },
+        missing: { label: "未入力", className: "is-missing" },
+        displayOnly: { label: "表示のみ", className: "is-display" }
+    };
+
+    function reactionOptions(selected) {
+        const groups = [
+            ["", [["none", "反応なし"]]],
+            ["増幅反応（計算対応）", [["melt15", "溶解 1.5"], ["melt20", "溶解 2.0"], ["vaporize15", "蒸発 1.5"], ["vaporize20", "蒸発 2.0"]]],
+            ["加算反応", [["aggravate", "超激化"], ["spread", "草激化"]]],
+            ["変化反応", [["overload", "過負荷"], ["electroCharged", "感電"], ["superconduct", "超電導"], ["swirl", "拡散"], ["burning", "燃焼"], ["bloom", "開花"], ["hyperbloom", "超開花"], ["burgeon", "烈開花"], ["crystallize", "結晶"]]],
+            ["月反応", [["lunarBloom", "月開花"], ["lunarCharged", "月感電"], ["lunarCrystallize", "月結晶"]]],
+            ["その他", [["astralReaction", "星反応（未対応）"]]]
+        ];
+        return groups.map(([label, options]) => {
+            const html = options.map(([value, text]) => `<option value="${value}"${value === selected ? " selected" : ""}>${text}</option>`).join("");
+            return label ? `<optgroup label="${label}">${html}</optgroup>` : html;
+        }).join("");
+    }
+
+    function renderCardControl(control) {
+        if (control.type === "toggle") {
+            return `<label class="genshin-condition-toggle"><input type="checkbox" data-genshin-toggle-key="${escapeHtml(control.key)}"${control.checked ? " checked" : ""}> <span>${escapeHtml(control.label)}</span></label>`;
+        }
+        if (control.type === "amosStack") {
+            const options = Array.from({ length: 6 }, (_, value) => `<option value="${value}"${Number(control.value) === value ? " selected" : ""}>${value === 0 ? "追加なし / 0段" : `${value}段${value === 5 ? "（最大）" : ""}`}</option>`).join("");
+            return `<label class="genshin-condition-control"><span>${escapeHtml(control.label)}</span><select id="genshinJsonAmosStack">${options}</select></label>`;
+        }
+        if (control.type === "crimsonWitchStack") {
+            const options = Array.from({ length: 4 }, (_, value) => `<option value="${value}"${Number(control.value) === value ? " selected" : ""}>${value}段</option>`).join("");
+            return `<label class="genshin-condition-control"><span>${escapeHtml(control.label)}</span><select id="genshinJsonCrimsonWitchStack">${options}</select></label>`;
+        }
+        if (control.options?.length) {
+            const options = control.options.map((option) => {
+                const value = typeof option === "object" ? option.value : option;
+                const label = typeof option === "object" ? option.label : option;
+                return `<option value="${escapeHtml(value)}"${String(control.value) === String(value) ? " selected" : ""}>${escapeHtml(label)}</option>`;
+            }).join("");
+            return `<label class="genshin-condition-control"><span>${escapeHtml(control.label)}</span><select data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="option">${options}</select></label>`;
+        }
+        if (control.type === "resource") {
+            const max = control.max === null ? "" : ` max="${escapeHtml(control.max)}"`;
+            return `<label class="genshin-condition-control"><span>${escapeHtml(control.label)}</span><input type="number" class="input_num" data-genshin-resource-key="${escapeHtml(control.key)}" min="${escapeHtml(control.min)}"${max} step="1" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力"></label>`;
+        }
+        if (control.type === "dedicated") {
+            return `<label class="genshin-condition-control"><span>${escapeHtml(control.label)}</span><input type="number" class="input_num" id="${escapeHtml(control.id)}" min="0" step="1" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力"></label>`;
+        }
+        return `<label class="genshin-condition-control"><span>${escapeHtml(control.label)}</span><input type="number" class="input_num" data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="${escapeHtml(control.type)}" min="${escapeHtml(control.min)}" max="${escapeHtml(control.max)}" step="1" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力"></label>`;
+    }
+
+    function renderConditionEffect(effect) {
+        const status = CONDITION_STATUS[effect.status] || CONDITION_STATUS.auto;
+        return `<article class="genshin-condition-effect">
+            <div class="genshin-condition-effect-head">
+                <h5>${escapeHtml(effect.name)}</h5>
+                <span class="genshin-condition-status ${status.className}">${status.label}</span>
+            </div>
+            <p class="genshin-condition-description">${escapeHtml(effect.description)}</p>
+            ${effect.controls.map(renderCardControl).join("")}
+            ${effect.impact ? `<p class="genshin-condition-impact">現在の反映：<strong>${escapeHtml(effect.impact)}</strong></p>` : ""}
+            ${effect.statusReason && effect.status === "missing" ? `<p class="genshin-condition-missing">${escapeHtml(effect.statusReason)}</p>` : ""}
+        </article>`;
+    }
+
+    function renderConditionCards(panelState, context) {
+        const wrap = getElement("genshinJsonConditionCards");
+        if (!wrap) return;
+        const cards = panelState.cards || [];
+        const conditionCount = cards.flatMap((card) => card.effects).filter((effect) => effect.status === "userInput").length;
+        const missingCount = cards.flatMap((card) => card.effects).filter((effect) => effect.status === "missing").length;
+        const summaryClass = missingCount ? " has-missing" : "";
+        const reaction = context.reactionOption || { reactionId: "none", label: "反応なし", enabled: false, baseMultiplier: 1 };
+        wrap.innerHTML = `
+            <div class="genshin-condition-summary${summaryClass}">
+                <strong>現在の計算条件</strong>
+                <span>手動設定 ${conditionCount}件 / 未入力 ${missingCount}件</span>
+            </div>
+            <section class="genshin-condition-card" data-condition-card="reaction">
+                <header><div><h4>元素反応</h4><p>${escapeHtml(reaction.label)}</p></div></header>
+                <label class="genshin-reaction-control"><span>計算する元素反応</span><select id="genshinJsonReactionOption">${reactionOptions(context.reactionOptionKey || "none")}</select></label>
+                <p class="genshin-condition-card-empty">${reaction.enabled ? `基礎反応倍率 ×${escapeHtml(reaction.baseMultiplier)}` : "元素反応による倍率・追加補正は適用されません。"}</p>
+            </section>
+            ${cards.map((card) => `<section class="genshin-condition-card" data-condition-card="${escapeHtml(card.id)}">
+                <header><div><h4>${escapeHtml(card.title)}</h4><p>${escapeHtml(card.subtitle)}</p></div></header>
+                ${card.effects.length ? card.effects.map(renderConditionEffect).join("") : `<p class="genshin-condition-card-empty">${escapeHtml(card.emptyText)}</p>`}
+            </section>`).join("")}
+        `;
+    }
+
     async function handlePrepareConditionsClick() {
-        const weaponId = getElement("genshinCalcWeaponId")?.value || "";
         const calcData = await window.GenshinCalcData.loadGenshinCalcData();
         const context = window.GenshinCalcEngine.buildCharacterCalcContext();
         const panelState = window.GenshinCalcConditions.conditionPanelState(context, calcData);
-        renderResourceInputs(panelState.resourceInputs || []);
-        renderComplexConditionInputs(panelState.complexConditionInputs || []);
-        const dedicated = panelState.dedicatedReferenceInputs || {};
-        setHidden("genshinJsonDedicatedReferenceField", !dedicated.visible);
-        setHidden("genshinJsonRecordedHealingLine", !dedicated.recordedHealing);
-        setHidden("genshinJsonProviderHpLine", !dedicated.providerHp);
-        setHidden("genshinJsonProviderAtkLine", !dedicated.providerAtk);
-        setHidden("genshinJsonProviderDefLine", !dedicated.providerDef);
-        setHidden("genshinJsonProviderElementalMasteryLine", !dedicated.providerElementalMastery);
-
-        setHidden("genshinJsonCharacterConditionField", !panelState.characterCondition.visible && !panelState.lowHpCondition.visible);
-        setHidden("genshinJsonEquipmentConditionField", !panelState.weaponCondition.visible && !panelState.weaponLowHpCondition.visible && !panelState.crimsonWitchCondition.visible);
-        setHidden("genshinJsonConstellationConditionField", !panelState.constellationCondition.visible);
-        setHidden("genshinJsonWeaponConditionField", !panelState.weaponCondition.visible);
-        setHidden("genshinJsonCharacterConditionLine", !panelState.characterCondition.visible);
-        setHidden("genshinJsonLowHpConditionLine", !panelState.lowHpCondition.visible);
-        setHidden("genshinJsonWeaponLowHpConditionLine", !panelState.weaponLowHpCondition.visible);
-        setHidden("genshinJsonConstellationConditionLine", !panelState.constellationCondition.visible);
-        setHidden("genshinJsonCrimsonWitchConditionLine", !panelState.crimsonWitchCondition.visible);
-
-        setText("genshinJsonWeaponConditionText", panelState.weaponCondition.label);
-        setText("genshinJsonCharacterConditionText", panelState.characterCondition.label);
-        setText("genshinJsonLowHpConditionText", panelState.lowHpCondition.label);
-        setText("genshinJsonWeaponLowHpConditionText", panelState.weaponLowHpCondition.label);
-        setText("genshinJsonConstellationConditionText", panelState.constellationCondition.label);
-
-        const controls = panelState.controlState || {};
-        setChecked("genshinJsonEnableCharacterCondition", Boolean(controls.character?.enabled));
-        setChecked("genshinJsonEnableLowHpCondition", Boolean(controls.lowHp?.enabled));
-        setChecked("genshinJsonEnableWeaponLowHpCondition", Boolean(controls.equipment?.enabled));
-        ["C1", "C2", "C4", "C6"].forEach((level) => {
-            panelState.constellationRows[level].checked = Boolean(controls[`constellation:${level}`]?.enabled);
-        });
-        applyConstellationRow("genshinJsonConstellationC1Line", "genshinJsonConstellationC1Text", "genshinJsonEnableConstellationC1", panelState.constellationRows.C1);
-        applyConstellationRow("genshinJsonConstellationC2Line", "genshinJsonConstellationC2Text", "genshinJsonEnableConstellationC2", panelState.constellationRows.C2);
-        applyConstellationRow("genshinJsonConstellationC4Line", "genshinJsonConstellationC4Text", "genshinJsonEnableConstellationC4", panelState.constellationRows.C4);
-        applyConstellationRow("genshinJsonConstellationC6Line", "genshinJsonConstellationC6Text", "genshinJsonEnableConstellationC6", panelState.constellationRows.C6);
-        setValue("genshinJsonConstellationLevel", `C${Math.min(Math.max(context.constellation, 0), 6)}`);
-        setValue("genshinJsonCrimsonWitchStack", String(controls.crimsonWitchStack?.stack || 0));
-        if (weaponId !== "15502") {
-            const amosStack = getElement("genshinJsonAmosStack");
-            if (amosStack) amosStack.value = "0";
-        }
+        renderConditionCards(panelState, context);
 
         const help = getElement("genshinJsonConditionHelp");
         if (help) {

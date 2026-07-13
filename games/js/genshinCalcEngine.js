@@ -72,6 +72,16 @@
         return states;
     }
 
+    function readModifierToggleStates() {
+        const states = {};
+        const inputs = document.querySelectorAll?.("[data-genshin-toggle-key]") || [];
+        Array.from(inputs).forEach((input) => {
+            const key = input.dataset?.genshinToggleKey || "";
+            if (key) states[key] = Boolean(input.checked);
+        });
+        return states;
+    }
+
     function parseConstellation(value) {
         const match = String(value || "").match(/\d+/);
         return match ? Number(match[0]) : 0;
@@ -126,6 +136,7 @@
                 defenseIgnore: readNumber("def_ig", 0)
             },
             mode: "uidMode",
+            reactionOptionKey: readText("genshinJsonReactionOption", "none"),
             reactionOption: REACTION_OPTIONS[readText("genshinJsonReactionOption", "none")] || REACTION_OPTIONS.none,
             manualInputs: {
                 recordedHealing: readOptionalNumber("genshinJsonRecordedHealing"),
@@ -152,6 +163,7 @@
                 enableConstellation: parseConstellation(selectedConstellation) > 0,
                 stackByModifier: {},
                 conditionByModifier: {},
+                toggleByModifier: readModifierToggleStates(),
                 complexConditionByModifier: readComplexConditionStates()
             }
         };

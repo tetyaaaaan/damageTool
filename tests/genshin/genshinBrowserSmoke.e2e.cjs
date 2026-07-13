@@ -148,6 +148,29 @@ async function clickAndWait(client, selector) {
         }
 
         await evaluate(client, selectionExpression({
+            characterName: "甘雨",
+            characterId: "10000037",
+            weaponName: "アモスの弓",
+            weaponId: "15502",
+            constellation: "C1"
+        }));
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        await waitFor(client, `document.querySelectorAll(".genshin-condition-card").length === 5`);
+        const cardLayout = await evaluate(client, `(() => ({
+            order: [...document.querySelectorAll(".genshin-condition-card")].map((card) => card.dataset.conditionCard),
+            text: document.querySelector("#genshinJsonConditionCards").innerText,
+            hasAmosStack: Boolean(document.querySelector("[data-condition-card='weapon'] #genshinJsonAmosStack")),
+            hasConstellationSelect: Boolean(document.querySelector("#genshinJsonConstellationLevel"))
+        }))()`);
+        assert.deepEqual(cardLayout.order, ["reaction", "weapon", "artifact", "talent", "constellation"]);
+        assert.ok(cardLayout.text.includes("常時発動する基礎効果"));
+        assert.ok(cardLayout.text.includes("飛翔時間による追加効果"));
+        assert.ok(cardLayout.text.includes("唯一の心"));
+        assert.ok(cardLayout.text.includes("現在の解放段階：C1"));
+        assert.equal(cardLayout.hasAmosStack, true);
+        assert.equal(cardLayout.hasConstellationSelect, false);
+
+        await evaluate(client, selectionExpression({
             characterName: "神里綾華",
             characterId: "10000002",
             weaponName: "resource smoke weapon",

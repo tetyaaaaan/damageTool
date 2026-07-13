@@ -22,6 +22,9 @@ function createBrowserScriptHarness(scriptPaths, elements = {}) {
                 if (selector === "[data-genshin-condition-key]") {
                     return Object.values(elements).filter((element) => element.dataset?.genshinConditionKey);
                 }
+                if (selector === "[data-genshin-toggle-key]") {
+                    return Object.values(elements).filter((element) => element.dataset?.genshinToggleKey);
+                }
                 return [];
             }
         }
@@ -45,6 +48,7 @@ function loadCalcData() {
         characters: readJson("games/genshin/data/characters.json"),
         weapons: readJson("games/genshin/data/weapons.json"),
         artifactSets: readJson("games/genshin/data/artifact-sets.json"),
+        characterTalents: readJson("games/genshin/data/character-talents.json"),
         warnings: []
     };
 }

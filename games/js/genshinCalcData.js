@@ -13,6 +13,7 @@
         characters: "/games/genshin/data/characters.json",
         weapons: "/games/genshin/data/weapons.json",
         artifactSets: "/games/genshin/data/artifact-sets.json",
+        characterTalents: "/games/genshin/data/character-talents.json",
         weaponEffects: "/games/genshin/data/weapon-effects.json",
         artifactSetEffects: "/games/genshin/data/artifact-set-effects.json"
     };
