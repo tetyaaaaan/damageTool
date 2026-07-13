@@ -4949,6 +4949,7 @@
           "uidHandling": "conditional",
           "sourceText": "浪閃の重ね掛け上限が5層になる。神里綾人が3層以上の浪閃状態の時、HP上限が50%アップする。",
           "id": "c_10000066_2_1_resolved_2",
+          "customCalculation": "directStatBonus",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -5764,6 +5765,9 @@
           "uidHandling": "conditional",
           "sourceText": "近くに所聞遍計の蘊種印状態にある敵が1/2/3/4体またはそれ以上いる時、ナヒーダの元素熟知が100/120/140/160アップする。",
           "id": "c_10000073_4_1_resolved_1",
+          "customCalculation": "directStatBonus",
+          "valueByCondition": { "1": 100, "2": 120, "3": 140, "4": 160 },
+          "conditionInput": { "type": "targetCount", "label": "蘊種印状態の敵数", "min": 1, "max": 4 },
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -7400,6 +7404,9 @@
           "uidHandling": "conditional",
           "sourceText": "フレーミング·氷点法発動時、「ヴェリテくん」の攻撃が1/2/3体以上の敵に命中すると、シャルロットの攻撃力はそれぞれ+10%/20%/30%となる。継続時間12秒。",
           "id": "c_10000088_2_1_resolved_1",
+          "customCalculation": "directStatBonus",
+          "valueByCondition": { "1": 10, "2": 20, "3": 30 },
+          "conditionInput": { "type": "targetCount", "label": "命中した敵数", "min": 1, "max": 3 },
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -8824,6 +8831,9 @@
           "uidHandling": "conditional",
           "sourceText": "さあ、本気出すよ！のスーパードリル領域にいる敵の数が1/2/3/4体またはそれ以上のとき、領域内にいるフィールド上のキャラクターの防御力がそれぞれ+8%/12%/16%/20%。",
           "id": "c_10000100_4_1_resolved_1",
+          "customCalculation": "directStatBonus",
+          "valueByCondition": { "1": 8, "2": 12, "3": 16, "4": 20 },
+          "conditionInput": { "type": "targetCount", "label": "領域内の敵数", "min": 1, "max": 4 },
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -10839,6 +10849,9 @@
           "uidHandling": "conditional",
           "sourceText": "固有天賦**万流帰寂**の効果が次のように強化される。「死川渡り」効果が1層/2層/3層の時、スカークの攻撃力が10%/20%/40%アップする。\n固有天賦「万流帰寂」を解放する必要がある。",
           "id": "c_10000114_4_1_resolved_1",
+          "customCalculation": "directStatBonus",
+          "valueByCondition": { "1": 10, "2": 20, "3": 40 },
+          "conditionInput": { "type": "stack", "label": "死川渡り層数", "min": 1, "max": 3 },
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -11843,6 +11856,7 @@
           "uidHandling": "conditional",
           "sourceText": "固有天賦**「月下の賭け」**の効果を強化する。**「偽りの帳」**の継続時間+5秒。さらに重ね掛け可能な上限が5層になり、**幻の戯**による与ダメージが最大で元の140%分まで上がる。ネフェルは元素スキル**盤術・千夜一舞**を発動した時、直ちに「偽りの帳」を2層獲得する。「偽りの帳」が5層まで重ねられた時、または5層の継続時間がリセットされた時、ネフェルの元素熟知は+200となる。継続時間8秒。\n固有天賦「月下の賭け」を解放する必要がある。",
           "id": "c_10000122_2_1_resolved_2",
+          "customCalculation": "directStatBonus",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         },
@@ -12701,6 +12715,7 @@
           "uidHandling": "conditional",
           "sourceText": "元素爆発**影無き灯り**の「闇の小夜啼歌」効果継続時間中、付近にいるチーム内フィールド上キャラクターの防御力+200。",
           "id": "c_10000127_4_1_resolved_1",
+          "customCalculation": "directStatBonus",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -13371,6 +13386,7 @@
           "uidHandling": "conditional",
           "sourceText": "元素スキル**聖言黙示・顕れぬ光**の効果が強化される。**虚己の恵み**は追加で攻撃力を300アップさせ（この効果による攻撃力アップは上限には含まれない）、**聖祝の導き**はキャラクターの元素タイプに基づき、周囲の敵の対応する元素耐性を25%ダウンさせる。同じ元素タイプの元素耐性ダウン効果は重ね掛けできない。\nまた、ニコが元素スキル聖言黙示・顕れぬ光を発動した時、周囲のフィールド上のキャラクターにも熾光の護りを付与する。",
           "id": "c_10000131_2_1_resolved_2",
+          "customCalculation": "directStatBonus",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         },
@@ -13479,6 +13495,9 @@
           "uidHandling": "conditional",
           "sourceText": "元素爆発**魔女狩りの時間なのだ！**の発動中、「魔女を誘う鈴」が「ハンティング」モードの時、プルーネは「魔女狩り」効果を獲得する。この時、プルーネの攻撃力が10%アップし、「魔女を誘う鈴」および元素変化した**「災いを狩るハンマー」**が敵に命中した場合、攻撃力がさらに5%アップする。この方法で攻撃力は最大40%までアップできる。\n継続時間中、「魔女狩りの時間なのだ！」を再発動すると、既存の上記効果が先にクリアされる。",
           "id": "c_10000132_2_1_resolved_2",
+          "customCalculation": "directStatBonus",
+          "valueByCondition": { "0": 10, "1": 15, "2": 20, "3": 25, "4": 30, "5": 35, "6": 40 },
+          "conditionInput": { "type": "stack", "label": "追加命中回数", "min": 0, "max": 6 },
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -13550,6 +13569,7 @@
           "uidHandling": "conditional",
           "sourceText": "元素爆発**魔女狩りの時間なのだ！**における「魔女を誘う鈴」の「ハンティング」モード継続時間が4秒間延長される。\nまた、「鈴の鼓舞」状態にあるチーム内キャラクターが敵に元素反応を起こすと、プルーネ自身と付近にいる「鈴の鼓舞」状態のフィールド上キャラクター全員の攻撃力が350アップする。継続時間5秒。",
           "id": "c_10000132_6_1_resolved_1",
+          "customCalculation": "directStatBonus",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }

@@ -83,7 +83,15 @@
         const valueText = Number.isFinite(value) ? `（${value >= 0 ? "+" : ""}${formatDecimal(value)}%）` : "";
         const sourceText = modifier.sourceText ? `: ${modifier.sourceText}` : "";
         const reason = item.reason ? ` / ${reasonLabel(item.reason)}` : "";
-        return `${sourceLabel(item.source)} ${valueText}${sourceText}${reason}`;
+        const resourceLabels = {
+            calculationInput: "計算入力",
+            displayOnly: "表示専用",
+            unsupported: "未対応"
+        };
+        const classification = item.analysis?.resourceClassification
+            ? ` [${resourceLabels[item.analysis.resourceClassification] || item.analysis.resourceClassification}]`
+            : "";
+        return `${sourceLabel(item.source)}${classification} ${valueText}${sourceText}${reason}`;
     }
 
     function renderModifierList(items, emptyText) {
@@ -109,6 +117,9 @@
         const rows = parts || [];
         if (!rows.length) return "-";
         return rows.map((part) => {
+            if (part.stat === "fixedDamage") {
+                return `固定基礎ダメージ / ${formatNumber(part.baseDamage)}`;
+            }
             return `${escapeHtml(part.stat)} / ${formatNumber(part.statValue)} / ${formatDecimal(part.talentMultiplier)}%`;
         }).join("<br>");
     }
@@ -129,10 +140,11 @@
                     <div><dt>天賦Lv</dt><dd>Lv.${b.talentLevel}</dd></div>
                     <div><dt>ヒット数</dt><dd>${escapeHtml(b.hitCount)}</dd></div>
                     <div><dt>ダメージバフ合計</dt><dd>${formatDecimal(b.damageBonus)}%</dd></div>
+                    <div><dt>最終倍率補正</dt><dd>x${formatDecimal(b.finalDamageMultiplier || 1, 4)}</dd></div>
                     <div><dt>会心率 / 会心ダメージ</dt><dd>${formatDecimal(b.critRate)}% / ${formatDecimal(b.critDamage)}%</dd></div>
                     <div><dt>防御補正</dt><dd>${formatDecimal(b.defenseMultiplier, 4)}</dd></div>
                     <div><dt>耐性 / 耐性補正</dt><dd>${formatDecimal(b.resistance)}% / ${formatDecimal(b.resistanceMultiplier, 4)}</dd></div>
-                    <div><dt>反応</dt><dd>${escapeHtml(b.reaction.label)} / x${formatDecimal(b.reaction.baseMultiplier || 1)}</dd></div>
+                    <div><dt>反応</dt><dd>${escapeHtml(b.reaction.label)} / x${formatDecimal(b.reaction.baseMultiplier || 1)} / 反応補正 ${formatDecimal(b.reactionBonus || 0)}%</dd></div>
                 </dl>
                 <h5>今回加算した効果</h5>
                 <ul>${renderModifierList(b.appliedModifiers, "追加効果なし")}</ul>
@@ -245,21 +257,48 @@
     function applyConstellationRow(rowId, textId, checkedId, rowState) {
         setHidden(rowId, !rowState.visible);
         setText(textId, rowState.label || "");
-        setChecked(checkedId, false);
+        setChecked(checkedId, Boolean(rowState.checked));
     }
 
-    function parseConstellation(value) {
-        const match = String(value || "").match(/\d+/);
-        return match ? Number(match[0]) : 0;
+    function renderResourceInputs(resourceInputs) {
+        const field = getElement("genshinJsonResourceStateField");
+        const wrap = getElement("genshinJsonResourceInputs");
+        if (!field || !wrap) return;
+        field.hidden = !resourceInputs.length;
+        wrap.innerHTML = resourceInputs.map((input) => {
+            const max = input.max === null ? "" : ` max="${escapeHtml(input.max)}"`;
+            const value = input.value === null ? "" : escapeHtml(input.value);
+            return `<span class="genshin-condition-line"><span>${escapeHtml(input.label)}</span><input type="number" class="input_num" data-genshin-resource-key="${escapeHtml(input.key)}" min="${escapeHtml(input.min)}"${max} step="1" value="${value}" placeholder="未入力"></span>`;
+        }).join("");
+    }
+
+    function renderComplexConditionInputs(inputs) {
+        const field = getElement("genshinJsonComplexConditionField");
+        const wrap = getElement("genshinJsonComplexConditionInputs");
+        if (!field || !wrap) return;
+        field.hidden = !inputs.length;
+        wrap.innerHTML = inputs.map((input) => {
+            if (input.type === "option") {
+                const options = input.options.map((option) => {
+                    const value = typeof option === "object" ? option.value : option;
+                    const label = typeof option === "object" ? option.label : option;
+                    const selected = String(input.value) === String(value) ? " selected" : "";
+                    return `<option value="${escapeHtml(value)}"${selected}>${escapeHtml(label)}</option>`;
+                }).join("");
+                return `<span class="genshin-condition-line"><span>${escapeHtml(input.label)}</span><select data-genshin-condition-key="${escapeHtml(input.key)}" data-genshin-condition-kind="option">${options}</select></span>`;
+            }
+            const value = input.value === null ? "" : escapeHtml(input.value);
+            return `<span class="genshin-condition-line"><span>${escapeHtml(input.label)}</span><input type="number" class="input_num" data-genshin-condition-key="${escapeHtml(input.key)}" data-genshin-condition-kind="${escapeHtml(input.type)}" min="${escapeHtml(input.min)}" max="${escapeHtml(input.max)}" step="1" value="${value}" placeholder="未入力"></span>`;
+        }).join("");
     }
 
     async function handlePrepareConditionsClick() {
         const weaponId = getElement("genshinCalcWeaponId")?.value || "";
-        const hasReflectedCharacter = Boolean(getElement("genshinReflectCharacter")?.value || "");
-        const reflectedConstellation = hasReflectedCharacter ? getElement("genshinReflectConstellation")?.value || "C0" : "C0";
         const calcData = await window.GenshinCalcData.loadGenshinCalcData();
         const context = window.GenshinCalcEngine.buildCharacterCalcContext();
         const panelState = window.GenshinCalcConditions.conditionPanelState(context, calcData);
+        renderResourceInputs(panelState.resourceInputs || []);
+        renderComplexConditionInputs(panelState.complexConditionInputs || []);
 
         setHidden("genshinJsonCharacterConditionField", !panelState.characterCondition.visible && !panelState.lowHpCondition.visible);
         setHidden("genshinJsonEquipmentConditionField", !panelState.weaponCondition.visible && !panelState.weaponLowHpCondition.visible && !panelState.crimsonWitchCondition.visible);
@@ -277,15 +316,19 @@
         setText("genshinJsonWeaponLowHpConditionText", panelState.weaponLowHpCondition.label);
         setText("genshinJsonConstellationConditionText", panelState.constellationCondition.label);
 
-        setChecked("genshinJsonEnableCharacterCondition", false);
-        setChecked("genshinJsonEnableLowHpCondition", false);
-        setChecked("genshinJsonEnableWeaponLowHpCondition", false);
+        const controls = panelState.controlState || {};
+        setChecked("genshinJsonEnableCharacterCondition", Boolean(controls.character?.enabled));
+        setChecked("genshinJsonEnableLowHpCondition", Boolean(controls.lowHp?.enabled));
+        setChecked("genshinJsonEnableWeaponLowHpCondition", Boolean(controls.equipment?.enabled));
+        ["C1", "C2", "C4", "C6"].forEach((level) => {
+            panelState.constellationRows[level].checked = Boolean(controls[`constellation:${level}`]?.enabled);
+        });
         applyConstellationRow("genshinJsonConstellationC1Line", "genshinJsonConstellationC1Text", "genshinJsonEnableConstellationC1", panelState.constellationRows.C1);
         applyConstellationRow("genshinJsonConstellationC2Line", "genshinJsonConstellationC2Text", "genshinJsonEnableConstellationC2", panelState.constellationRows.C2);
         applyConstellationRow("genshinJsonConstellationC4Line", "genshinJsonConstellationC4Text", "genshinJsonEnableConstellationC4", panelState.constellationRows.C4);
         applyConstellationRow("genshinJsonConstellationC6Line", "genshinJsonConstellationC6Text", "genshinJsonEnableConstellationC6", panelState.constellationRows.C6);
-        setValue("genshinJsonConstellationLevel", `C${Math.min(Math.max(parseConstellation(reflectedConstellation), 0), 6)}`);
-        setValue("genshinJsonCrimsonWitchStack", "0");
+        setValue("genshinJsonConstellationLevel", `C${Math.min(Math.max(context.constellation, 0), 6)}`);
+        setValue("genshinJsonCrimsonWitchStack", String(controls.crimsonWitchStack?.stack || 0));
         if (weaponId !== "15502") {
             const amosStack = getElement("genshinJsonAmosStack");
             if (amosStack) amosStack.value = "0";
@@ -301,6 +344,7 @@
         const button = getElement("genshinJsonCalcButton");
         if (button) button.disabled = true;
         try {
+            await handlePrepareConditionsClick();
             const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
             renderWarnings(payload.warnings);
             renderDamageTabs(payload);

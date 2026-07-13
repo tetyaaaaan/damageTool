@@ -12,6 +12,15 @@
 - 計算処理は `games/js/` 配下にまとめます。
 - 元データは `games/data/` 配下のCSVを正とし、同名のExcelファイルは編集・確認用として扱います。
 - 命名規則、コメント方針、CSVの編集ルールは `docs/DEVELOPMENT_RULES.md` を参照してください。
+- 原神JSON計算の責務、補正解析、対応順は `docs/GENSHIN_CALC_DESIGN.md` を参照してください。
+
+## テスト
+
+原神JSON計算の単体・統合テストはNode.js標準テストランナーで実行します。
+
+```bash
+node --test "tests/genshin/*.test.cjs"
+```
 
 ## ローカル確認
 

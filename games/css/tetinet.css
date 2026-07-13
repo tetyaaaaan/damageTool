@@ -2760,9 +2760,19 @@ body.tool-page .teti-main > .teti-container > .box {
   align-items: start;
 }
 
-.genshin-tool-page .genshin-json-calc-test .genshin-field select {
+.genshin-tool-page .genshin-json-calc-production .genshin-field select {
   min-height: 40px;
 }
+
+.genshin-tool-page .genshin-calc-recommended {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 8px;
+  color: #fff;
+  background: var(--teti-accent);
+  border-radius: 999px;
+  font-size: 0.72em;
+  vertical-align: middle;
 }
 
 .genshin-tool-page .genshin-json-calc-warnings {

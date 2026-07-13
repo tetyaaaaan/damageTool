@@ -54043,6 +54043,7 @@
         },
         {
           "id": "damage",
+          "effectId": "dezhuruFourWinds",
           "label": "出づる四風ダメージ",
           "attackType": "skill",
           "damageType": "skill",
@@ -54080,6 +54081,7 @@
         },
         {
           "id": "damage_2",
+          "effectId": "cangyaSpecialChargedAttack",
           "label": "蒼牙ダメージ",
           "attackType": "skill",
           "damageType": "skill",

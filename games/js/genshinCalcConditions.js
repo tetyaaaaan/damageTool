@@ -27,8 +27,13 @@
         "damageBonus",
         "defenseDebuff",
         "defenseIgnore",
+        "effectOverride",
         "elementOverride",
+        "extraDamage",
+        "reactionBonus",
         "resistanceDebuff",
+        "scalingBonus",
+        "statConversion",
         "statBonus"
     ]);
 
@@ -55,11 +60,222 @@
             damageBonus: "ダメージバフ",
             defenseDebuff: "防御デバフ",
             defenseIgnore: "防御無視",
+            effectOverride: "効果上書き",
             elementOverride: "元素変化",
+            extraDamage: "追加ダメージ",
+            reactionBonus: "元素反応補正",
             resistanceDebuff: "耐性デバフ",
+            scalingBonus: "参照ステータス補正",
+            statConversion: "ステータス変換",
             statBonus: "ステータス補正"
         };
         return labels[category] || category || "補正";
+    }
+
+    function analyzeModifier(modifier, source = "", context = {}) {
+        if (!window.GenshinModifierAnalyzer) {
+            throw new Error("GenshinModifierAnalyzer が読み込まれていません");
+        }
+        return window.GenshinModifierAnalyzer.analyzeModifier({ modifier, source, context });
+    }
+
+    let activeConditionDefinitions = [];
+    let conditionStateByModifier = {};
+    let activeResourceDefinitions = [];
+    let resourceStateByKey = {};
+    let activeComplexDefinitions = [];
+    let complexStateByKey = {};
+
+    function collectSelectedModifiers(context, calcData) {
+        const selected = [];
+        const add = (modifier, source) => selected.push({ modifier, source });
+        const talentPassives = calcData.talentModifiers?.[context.characterId]?.passives || [];
+        talentPassives.forEach((passive) => {
+            (passive.modifiers || []).forEach((modifier) => add(modifier, `talent:${passive.sourceId || context.characterId}`));
+        });
+        (calcData.weaponModifiers?.[context.weaponId]?.modifiers || [])
+            .forEach((modifier) => add(modifier, `weapon:${context.weaponId}`));
+        (context.artifactSetIds || []).forEach((setId, index) => {
+            const artifact = calcData.artifactSetModifiers?.[setId] || {};
+            (artifact.twoPiece || []).forEach((modifier) => add(modifier, `artifact2:${setId}`));
+            if (context.artifactSetMode === "4pc" && index === 0) {
+                (artifact.fourPiece || []).forEach((modifier) => add(modifier, `artifact4:${setId}`));
+            }
+        });
+        const constellations = calcData.constellationModifiers?.[context.characterId]?.constellations || {};
+        for (let level = 1; level <= context.constellation; level += 1) {
+            (constellations[String(level)] || [])
+                .forEach((modifier) => add(modifier, `constellation:C${level}`));
+        }
+        return selected;
+    }
+
+    function conditionUiGroup(modifier, source, context) {
+        const sourceInfo = parseSource(source);
+        const condition = modifier.condition || "always";
+        if (condition === "arrowFlightTime") return "amosStack";
+        if (condition === "hpCondition") return "lowHp";
+        if (sourceInfo.type === "constellation" && supportsConstellationToggle(modifier, sourceInfo, context)) {
+            return `constellation:${sourceInfo.id}`;
+        }
+        if (sourceInfo.type === "artifact4" && sourceInfo.id === "15006" && condition === "afterSkill") {
+            return "crimsonWitchStack";
+        }
+        if (sourceInfo.type === "weapon" || sourceInfo.type === "artifact4" || sourceInfo.type === "artifact2") {
+            return "equipment";
+        }
+        if (sourceInfo.type === "talent") return "character";
+        return "";
+    }
+
+    function stateFromUiGroup(group, uiState) {
+        if (group === "character") return { enabled: Boolean(uiState.enableCharacterCondition), stack: 0, option: "" };
+        if (group === "lowHp") return { enabled: Boolean(uiState.enableLowHpCondition), stack: 0, option: "" };
+        if (group === "equipment") return { enabled: Boolean(uiState.enableWeaponLowHpCondition), stack: 0, option: "" };
+        if (group === "amosStack") {
+            const stack = Number(uiState.amosStack) || 0;
+            return { enabled: stack > 0, stack, option: "" };
+        }
+        if (group === "crimsonWitchStack") {
+            const stack = Number(uiState.crimsonWitchStack) || 0;
+            return { enabled: stack > 0, stack, option: "" };
+        }
+        if (group.startsWith("constellation:")) {
+            const level = group.slice("constellation:".length);
+            return { enabled: Boolean(uiState.constellationConditions?.[level]), stack: 0, option: "" };
+        }
+        return null;
+    }
+
+    function buildConditionDefinitions(context, calcData) {
+        return collectSelectedModifiers(context, calcData).reduce((definitions, item) => {
+            const analysis = analyzeModifier(item.modifier, item.source, context);
+            if (!analysis.requiresConditionEvaluation || analysis.condition === "always") return definitions;
+            definitions.push({
+                ...item,
+                key: analysis.conditionStateKey,
+                group: conditionUiGroup(item.modifier, item.source, context)
+            });
+            return definitions;
+        }, []);
+    }
+
+    function captureActiveConditionState(uiState) {
+        activeConditionDefinitions.forEach((definition) => {
+            const uiValue = stateFromUiGroup(definition.group, uiState);
+            if (uiValue) conditionStateByModifier[definition.key] = uiValue;
+        });
+    }
+
+    function buildResourceInputDefinitions(context, calcData) {
+        const definitions = new Map();
+        collectSelectedModifiers(context, calcData).forEach(({ modifier, source }) => {
+            const analysis = analyzeModifier(modifier, source, context);
+            if (analysis.resourceClassification !== "calculationInput") return;
+            const key = analysis.resourceStateKey;
+            const existing = definitions.get(key);
+            const min = Number(modifier.stack?.min ?? 0);
+            const maxRaw = modifier.stack?.max ?? modifier.resource?.max;
+            const max = Number.isFinite(Number(maxRaw)) ? Number(maxRaw) : null;
+            definitions.set(key, {
+                key,
+                id: modifier.resource?.id || modifier.id || "",
+                label: modifier.resource?.nameJa || modifier.resource?.id || "リソース",
+                min: existing ? Math.min(existing.min, min) : min,
+                max: existing?.max ?? max,
+                source
+            });
+        });
+        return [...definitions.values()];
+    }
+
+    function reconcileResourceState(context, calcData) {
+        const incoming = context.manualInputs?.resourceStates || {};
+        activeResourceDefinitions.forEach((definition) => {
+            if (Number.isFinite(Number(incoming[definition.key]))) {
+                resourceStateByKey[definition.key] = Number(incoming[definition.key]);
+            }
+        });
+        const definitions = buildResourceInputDefinitions(context, calcData);
+        const nextState = {};
+        definitions.forEach((definition) => {
+            const incomingValue = incoming[definition.key];
+            const storedValue = resourceStateByKey[definition.key];
+            const value = Number.isFinite(Number(incomingValue)) ? incomingValue : storedValue;
+            if (!Number.isFinite(Number(value))) return;
+            const raw = Number(value);
+            nextState[definition.key] = Math.min(
+                Math.max(raw, definition.min),
+                definition.max === null ? Number.POSITIVE_INFINITY : definition.max
+            );
+        });
+        activeResourceDefinitions = definitions;
+        resourceStateByKey = nextState;
+        context.manualInputs.resourceStates = { ...nextState };
+        return definitions.map((definition) => ({
+            ...definition,
+            value: nextState[definition.key] ?? null
+        }));
+    }
+
+    function buildComplexConditionDefinitions(context, calcData) {
+        return collectSelectedModifiers(context, calcData).flatMap(({ modifier, source }) => {
+            if (modifier.resource) return [];
+            const analysis = analyzeModifier(modifier, source, context);
+            const configured = modifier.conditionInput;
+            const numericStack = modifier.stack
+                && Number.isFinite(Number(modifier.stack.min))
+                && Number.isFinite(Number(modifier.stack.max));
+            if (!configured && !numericStack) return [];
+            const type = configured?.type || "stack";
+            return [{
+                key: analysis.conditionStateKey,
+                modifierId: modifier.id || "",
+                label: configured?.label || `${categoryLabel(modifier.category)}: ${shortSourceText(modifier.sourceText)}`,
+                type,
+                min: Number(configured?.min ?? modifier.stack?.min ?? 0),
+                max: Number(configured?.max ?? modifier.stack?.max ?? 0),
+                options: configured?.options || [],
+                source
+            }];
+        });
+    }
+
+    function reconcileComplexConditionState(context, calcData) {
+        const incoming = context.uiState.complexConditionByModifier || {};
+        activeComplexDefinitions.forEach((definition) => {
+            if (incoming[definition.key]) complexStateByKey[definition.key] = { ...incoming[definition.key] };
+        });
+        const definitions = buildComplexConditionDefinitions(context, calcData);
+        const nextState = {};
+        definitions.forEach((definition) => {
+            const incomingState = incoming[definition.key];
+            const storedState = complexStateByKey[definition.key];
+            const state = incomingState || storedState;
+            if (!state) return;
+            nextState[definition.key] = { ...state };
+            const numericValue = Number(state[definition.type]);
+            if (definition.type !== "option" && Number.isFinite(numericValue)) {
+                nextState[definition.key][definition.type] = Math.min(Math.max(numericValue, definition.min), definition.max);
+            }
+        });
+        activeComplexDefinitions = definitions;
+        complexStateByKey = nextState;
+        definitions.forEach((definition) => {
+            const state = nextState[definition.key];
+            if (!state) return;
+            context.uiState.conditionByModifier[definition.key] = {
+                ...(context.uiState.conditionByModifier[definition.key] || {}),
+                ...state
+            };
+            if (definition.type === "stack" && definition.modifierId) {
+                context.uiState.stackByModifier[definition.modifierId] = state.stack;
+            }
+        });
+        return definitions.map((definition) => ({
+            ...definition,
+            value: nextState[definition.key]?.[definition.type] ?? null
+        }));
     }
 
     function buildConstellationRows(context, calcData) {
@@ -70,7 +286,11 @@
             const visibleModifiers = modifiers.filter((modifier) => {
                 if (modifier.uidHandling === "includedInUidTalentLevels") return false;
                 if (!supportsConstellationToggle(modifier, { type: "constellation", id: cLabel }, context)) return false;
-                return modifier.calculationSupport !== "custom" && modifier.calculationSupport !== "special";
+                const analysis = analyzeModifier(modifier, `constellation:${cLabel}`, context);
+                if (modifier.calculationSupport === "custom" || modifier.calculationSupport === "special") {
+                    return analysis.calculable || analysis.supportStatus === "missingInput";
+                }
+                return true;
             });
             const first = visibleModifiers[0];
             rows[cLabel] = {
@@ -83,7 +303,7 @@
         }, {});
     }
 
-    function evaluateModifierCondition({ modifier, source, context, calcData }) {
+    function evaluateLegacyModifierCondition({ modifier, source, context, calcData }) {
         const condition = modifier.condition || "always";
         const sourceInfo = parseSource(source);
 
@@ -122,15 +342,51 @@
                 if (enabled) setModifierStack(context, modifier, context.uiState.crimsonWitchStack);
                 return { enabled };
             }
+            if (sourceInfo.type === "weapon") {
+                return { enabled: context.uiState.enableWeaponLowHpCondition };
+            }
+            if (sourceInfo.type === "talent" || sourceInfo.type === "constellation") {
+                return { enabled: context.uiState.enableCharacterCondition };
+            }
             return { enabled: context.uiState.enableCharacterCondition };
         }
 
         if (condition === "active") {
             return {
                 enabled: sourceInfo.type === "talent"
-                    && sourceInfo.id === "combat2"
                     && context.uiState.enableCharacterCondition
             };
+        }
+
+        if ([
+            "afterHit",
+            "afterNormalAttackHit",
+            "afterChargedAttackHit",
+            "afterNormalOrChargedHit",
+            "afterReaction",
+            "afterBurst",
+            "afterCrystallize",
+            "afterTalentUse",
+            "afterSkillOrBurst",
+            "afterCast",
+            "afterEnteringGaleState",
+            "stateActive",
+            "duringBurst",
+            "chargedAttack",
+            "conditional",
+            "nearbyPartyActive",
+            "moonsignFullIllumination"
+        ].includes(condition)) {
+            if (sourceInfo.type === "constellation" && supportsConstellationToggle(modifier, sourceInfo, context)) {
+                return {
+                    enabled: isUnlockedConstellation(sourceInfo.id, context)
+                        && userEnabledConstellation(sourceInfo, context)
+                };
+            }
+            if (sourceInfo.type === "weapon" || sourceInfo.type === "artifact4" || sourceInfo.type === "artifact2") {
+                return { enabled: context.uiState.enableWeaponLowHpCondition };
+            }
+            return { enabled: context.uiState.enableCharacterCondition };
         }
 
         if (condition === "constellationUnlocked") {
@@ -143,10 +399,93 @@
             return { enabled: false };
         }
 
+        if (USER_TOGGLE_CATEGORIES.has(modifier.category)) {
+            if (sourceInfo.type === "constellation") {
+                return {
+                    enabled: isUnlockedConstellation(sourceInfo.id, context)
+                        && userEnabledConstellation(sourceInfo, context)
+                };
+            }
+            if (sourceInfo.type === "weapon" || sourceInfo.type === "artifact4" || sourceInfo.type === "artifact2") {
+                return { enabled: context.uiState.enableWeaponLowHpCondition };
+            }
+            if (sourceInfo.type === "talent") {
+                return { enabled: context.uiState.enableCharacterCondition };
+            }
+        }
+
         return { enabled: false };
     }
 
+    function reconcileConditionState(context, calcData) {
+        const hadActiveDefinitions = activeConditionDefinitions.length > 0;
+        captureActiveConditionState(context.uiState || {});
+        const definitions = buildConditionDefinitions(context, calcData);
+        const nextState = {};
+        definitions.forEach((definition) => {
+            const previous = conditionStateByModifier[definition.key];
+            if (previous) {
+                nextState[definition.key] = { ...previous };
+                return;
+            }
+            if (hadActiveDefinitions && definition.group) {
+                nextState[definition.key] = { enabled: false, stack: 0, option: "" };
+                return;
+            }
+            const evaluated = evaluateLegacyModifierCondition({
+                modifier: definition.modifier,
+                source: definition.source,
+                context,
+                calcData
+            });
+            nextState[definition.key] = {
+                enabled: Boolean(evaluated.enabled),
+                stack: Number(context.uiState.stackByModifier?.[definition.modifier.id]) || 0,
+                option: ""
+            };
+        });
+        activeConditionDefinitions = definitions;
+        conditionStateByModifier = nextState;
+        context.uiState.conditionByModifier = Object.fromEntries(
+            Object.entries(nextState).map(([key, value]) => [key, { ...value }])
+        );
+        definitions.forEach((definition) => {
+            const state = nextState[definition.key];
+            if (state?.stack > 0) setModifierStack(context, definition.modifier, state.stack);
+        });
+        return context.uiState.conditionByModifier;
+    }
+
+    function evaluateModifierCondition({ modifier, source, context, calcData }) {
+        const key = analyzeModifier(modifier, source, context).conditionStateKey;
+        const state = context.uiState.conditionByModifier?.[key];
+        if (state) {
+            if (state.stack > 0) setModifierStack(context, modifier, state.stack);
+            return { enabled: Boolean(state.enabled), stack: state.stack, option: state.option };
+        }
+        return evaluateLegacyModifierCondition({ modifier, source, context, calcData });
+    }
+
+    function conditionControlState() {
+        const result = {};
+        const groups = [...new Set(activeConditionDefinitions.map((definition) => definition.group).filter(Boolean))];
+        groups.forEach((group) => {
+            const states = activeConditionDefinitions
+                .filter((definition) => definition.group === group)
+                .map((definition) => conditionStateByModifier[definition.key])
+                .filter(Boolean);
+            result[group] = {
+                enabled: states.length > 0 && states.every((state) => state.enabled),
+                stack: states.find((state) => state.stack > 0)?.stack || 0
+            };
+        });
+        return result;
+    }
+
     function conditionPanelState(context, calcData) {
+        reconcileConditionState(context, calcData);
+        const resourceInputs = reconcileResourceState(context, calcData);
+        const complexConditionInputs = reconcileComplexConditionState(context, calcData);
         const hasCharacter = Boolean(context.characterId);
         const hasWeapon = Boolean(context.weaponId);
         const characterName = hasCharacter ? calcData.characters?.[context.characterId]?.nameJa || `キャラクターID ${context.characterId}` : "キャラクター未選択";
@@ -157,25 +496,53 @@
         const hasGanyu = context.characterId === "10000037";
         const hasCrimsonWitch = (context.artifactSetIds || []).includes("15006");
         const constellationRows = buildConstellationRows(context, calcData);
+        const weaponModifiers = calcData.weaponModifiers?.[context.weaponId]?.modifiers || [];
+        const artifactModifiers = (context.artifactSetIds || []).flatMap((setId, index) => {
+            const artifact = calcData.artifactSetModifiers?.[setId] || {};
+            return [
+                ...(artifact.twoPiece || []),
+                ...(context.artifactSetMode === "4pc" && index === 0 ? (artifact.fourPiece || []) : [])
+            ];
+        });
+        const talentModifiers = calcData.talentModifiers?.[context.characterId]?.passives || [];
+        const hasGenericEquipmentCondition = [...weaponModifiers, ...artifactModifiers].some((modifier) => {
+            if (modifier.uidHandling && modifier.uidHandling !== "conditional") return false;
+            if (modifier.condition === "always") return false;
+            return Boolean(modifier.condition);
+        });
+        const hasGenericCharacterCondition = talentModifiers.some((passive) => {
+            return (passive.modifiers || []).some((modifier) => {
+                if (modifier.uidHandling && modifier.uidHandling !== "conditional") return false;
+                const analysis = analyzeModifier(modifier, `talent:${passive.sourceId || "unknown"}`, context);
+                if ((modifier.calculationSupport === "custom" || modifier.calculationSupport === "special")
+                    && !analysis.calculable) return false;
+                return USER_TOGGLE_CATEGORIES.has(modifier.category) && modifier.condition && modifier.condition !== "always";
+            });
+        });
 
         return {
+            controlState: conditionControlState(),
+            resourceInputs,
+            complexConditionInputs,
             weaponCondition: {
                 visible: hasAmos,
                 label: "アモス距離補正"
             },
             characterCondition: {
-                visible: hasHuTao,
+                visible: hasHuTao || hasGenericCharacterCondition,
                 label: hasHuTao
                     ? "蝶導来世中（通常/重撃/落下を炎元素化し、HP参照で攻撃力アップ）"
-                    : "スキル/固有条件を適用"
+                    : "キャラ固有・天賦の条件付き補正を適用"
             },
             lowHpCondition: {
                 visible: hasHuTao,
                 label: "胡桃 HP50%以下条件（炎元素ダメージ+33%）"
             },
             weaponLowHpCondition: {
-                visible: hasHoma,
-                label: "護摩の杖 HP50%未満条件（追加攻撃力）"
+                visible: hasHoma || hasGenericEquipmentCondition,
+                label: hasHoma
+                    ? "護摩の杖 HP50%未満条件（追加攻撃力）"
+                    : "装備枠の条件付き効果を適用"
             },
             constellationCondition: {
                 visible: Object.values(constellationRows).some((row) => row.visible),
@@ -193,6 +560,12 @@
     }
 
     window.GenshinCalcConditions = {
+        buildConditionDefinitions,
+        buildResourceInputDefinitions,
+        buildComplexConditionDefinitions,
+        reconcileConditionState,
+        reconcileComplexConditionState,
+        reconcileResourceState,
         evaluateModifierCondition,
         conditionPanelState
     };

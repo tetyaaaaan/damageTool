@@ -222,14 +222,14 @@
               </div>
             </div>
 
-            <button id="dmg_button" type="button" class="teti-button teti-button-primary genshin-calc-button" onclick="calc()">ダメージを計算する</button>
+            <button id="dmg_button" type="button" class="teti-button teti-button-secondary genshin-calc-button" data-genshin-calc-path="legacy" onclick="calc()">従来計算を実行（互換）</button>
 
-            <div class="genshin-fieldset genshin-json-calc-test">
-              <h3>JSON計算テスト</h3>
-              <p class="genshin-help">既存計算とは別経路で、data/calc のJSONから代表パターンを計算します。</p>
+            <div class="genshin-fieldset genshin-json-calc-production" data-genshin-calc-primary="json">
+              <h3>JSON計算 <span class="genshin-calc-recommended">推奨</span></h3>
+              <p class="genshin-help">data/calc の構造化データと現在の入力欄を正として計算します。未対応効果は理由付きで表示し、従来計算は互換用として残しています。</p>
               <div class="genshin-json-actions">
                 <button type="button" class="teti-button teti-button-secondary" id="genshinJsonPrepareConditionsButton">補正条件を更新</button>
-                <button type="button" class="teti-button teti-button-secondary" id="genshinJsonCalcButton">JSON計算を実行</button>
+                <button type="button" class="teti-button teti-button-primary" id="genshinJsonCalcButton" data-genshin-calc-path="json">JSON計算を実行</button>
               </div>
               <p class="genshin-help" id="genshinJsonConditionHelp">計算前に、現在のキャラ・武器に合わせて補正条件を更新してください。</p>
               <div class="genshin-form-grid genshin-json-condition-grid">
@@ -266,6 +266,19 @@
                       <option value="astralReaction">星反応（未対応）</option>
                     </optgroup>
                   </select>
+                </label>
+                <label class="genshin-field">専用参照入力
+                  <span class="genshin-condition-line"><span>記録治療量</span><input type="number" class="input_num" id="genshinJsonRecordedHealing" min="0" step="1" placeholder="未入力"></span>
+                  <span class="genshin-condition-line"><span>提供者 HP</span><input type="number" class="input_num" id="genshinJsonProviderHp" min="0" step="1" placeholder="未入力"></span>
+                  <span class="genshin-condition-line"><span>提供者 攻撃力</span><input type="number" class="input_num" id="genshinJsonProviderAtk" min="0" step="1" placeholder="未入力"></span>
+                  <span class="genshin-condition-line"><span>提供者 防御力</span><input type="number" class="input_num" id="genshinJsonProviderDef" min="0" step="1" placeholder="未入力"></span>
+                  <span class="genshin-condition-line"><span>提供者 元素熟知</span><input type="number" class="input_num" id="genshinJsonProviderElementalMastery" min="0" step="1" placeholder="未入力"></span>
+                </label>
+                <label class="genshin-field" id="genshinJsonResourceStateField" hidden>リソース状態
+                  <span id="genshinJsonResourceInputs"></span>
+                </label>
+                <label class="genshin-field" id="genshinJsonComplexConditionField" hidden>詳細条件
+                  <span id="genshinJsonComplexConditionInputs"></span>
                 </label>
                 <label class="genshin-field" id="genshinJsonCharacterConditionField">キャラ・天賦補正
                   <span class="genshin-checkbox-line" id="genshinJsonCharacterConditionLine"><input type="checkbox" id="genshinJsonEnableCharacterCondition"> <span id="genshinJsonCharacterConditionText">スキル/固有条件を適用</span></span>
@@ -498,6 +511,7 @@
         <script src="/games/js/genshinProfileMapper.js"></script>
         <script src="/games/js/genshinUidImporter.js"></script>
         <script src="/games/js/genshinCalcData.js"></script>
+        <script src="/games/js/genshinModifierAnalyzer.js"></script>
         <script src="/games/js/genshinCalcConditions.js"></script>
         <script src="/games/js/genshinCalcEngine.js"></script>
         <script src="/games/js/genshinCalcRenderer.js"></script>

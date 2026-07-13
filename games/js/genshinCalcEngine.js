@@ -33,8 +33,43 @@
         return Number.isFinite(value) ? value : fallback;
     }
 
+    function readOptionalNumber(id) {
+        const raw = getElement(id)?.value;
+        if (raw === undefined || raw === null || raw === "") return null;
+        const value = Number(raw);
+        return Number.isFinite(value) ? value : null;
+    }
+
     function readText(id, fallback = "") {
         return getElement(id)?.value || fallback;
+    }
+
+    function readResourceStates() {
+        const states = {};
+        const inputs = document.querySelectorAll?.("[data-genshin-resource-key]") || [];
+        Array.from(inputs).forEach((input) => {
+            const key = input.dataset?.genshinResourceKey || "";
+            const value = input.value === "" ? null : Number(input.value);
+            if (key && Number.isFinite(value)) states[key] = value;
+        });
+        return states;
+    }
+
+    function readComplexConditionStates() {
+        const states = {};
+        const inputs = document.querySelectorAll?.("[data-genshin-condition-key]") || [];
+        Array.from(inputs).forEach((input) => {
+            const key = input.dataset?.genshinConditionKey || "";
+            const kind = input.dataset?.genshinConditionKind || "option";
+            if (!key) return;
+            states[key] ||= {};
+            if (kind === "option") states[key].option = input.value;
+            else {
+                const value = input.value === "" ? null : Number(input.value);
+                if (Number.isFinite(value)) states[key][kind] = value;
+            }
+        });
+        return states;
     }
 
     function parseConstellation(value) {
@@ -59,7 +94,7 @@
         }
         const hasReflectedCharacter = Boolean(readText("genshinReflectCharacter", ""));
         const constellationValue = hasReflectedCharacter ? readText("genshinReflectConstellation", "C0") : "C0";
-        const selectedConstellation = readText("genshinJsonConstellationLevel", constellationValue) || constellationValue;
+        const selectedConstellation = constellationValue;
         return {
             characterId: readText("genshinCalcCharacterId", ""),
             weaponId: readText("genshinCalcWeaponId", ""),
@@ -92,6 +127,16 @@
             },
             mode: "uidMode",
             reactionOption: REACTION_OPTIONS[readText("genshinJsonReactionOption", "none")] || REACTION_OPTIONS.none,
+            manualInputs: {
+                recordedHealing: readOptionalNumber("genshinJsonRecordedHealing"),
+                providerStats: {
+                    hp: readOptionalNumber("genshinJsonProviderHp"),
+                    atk: readOptionalNumber("genshinJsonProviderAtk"),
+                    def: readOptionalNumber("genshinJsonProviderDef"),
+                    elementalMastery: readOptionalNumber("genshinJsonProviderElementalMastery")
+                },
+                resourceStates: readResourceStates()
+            },
             uiState: {
                 amosStack: readNumber("genshinJsonAmosStack", 5),
                 crimsonWitchStack: readNumber("genshinJsonCrimsonWitchStack", 0),
@@ -105,7 +150,9 @@
                     C6: Boolean(getElement("genshinJsonEnableConstellationC6")?.checked)
                 },
                 enableConstellation: parseConstellation(selectedConstellation) > 0,
-                stackByModifier: {}
+                stackByModifier: {},
+                conditionByModifier: {},
+                complexConditionByModifier: readComplexConditionStates()
             }
         };
     }
@@ -154,23 +201,55 @@
         return { entries, warnings };
     }
 
-    function resolveModifierValue(modifier, context, uiState = context.uiState || {}) {
-        if (modifier.value !== undefined && modifier.calculationSupport === "stack" && modifier.stack) {
-            const stack = Math.min(Math.max(uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack.default ?? 0, modifier.stack.min ?? 0), modifier.stack.max ?? 0);
-            return (Number(modifier.value) || 0) * stack;
+    function numericModifierValue(value) {
+        if (typeof value === "string") {
+            const parsed = Number(value.replace(/[%％,]/g, "").trim());
+            return Number.isFinite(parsed) ? parsed : 0;
         }
-        if (modifier.value !== undefined) return modifier.value;
+        return Number(value) || 0;
+    }
+
+    function consumedResourceStack(modifier, context, analysis = {}) {
+        const current = Number(context.manualInputs?.resourceStates?.[analysis.resourceStateKey]);
+        if (!Number.isFinite(current)) return null;
+        const maxConsumed = Number(modifier.resource?.maxConsumed);
+        const consume = modifier.resource?.consume;
+        if (consume === "all") return Number.isFinite(maxConsumed) ? Math.min(current, maxConsumed) : current;
+        if (Number.isFinite(Number(consume))) return Math.min(current, Number(consume));
+        if (consume?.type === "upTo") return Math.min(current, Number(consume.max) || current);
+        return current;
+    }
+
+    function resolveModifierValue(modifier, context, uiState = context.uiState || {}, analysis = {}) {
+        const resourceStack = consumedResourceStack(modifier, context, analysis);
+        const conditionState = uiState.conditionByModifier?.[analysis.conditionStateKey] || {};
+        if (modifier.valueByCondition) {
+            const conditionKind = modifier.conditionInput?.type || "option";
+            const conditionValue = conditionState[conditionKind];
+            return numericModifierValue(modifier.valueByCondition[String(conditionValue)] ?? 0);
+        }
+        if (modifier.value !== undefined && modifier.calculationSupport === "stack" && (modifier.stack || resourceStack !== null)) {
+            if (modifier.category === "extraDamage") return modifier.value;
+            const min = modifier.stack?.min ?? 0;
+            const max = modifier.stack?.max ?? modifier.resource?.maxConsumed ?? resourceStack ?? 0;
+            const stack = Math.min(Math.max(resourceStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0, min), max);
+            return numericModifierValue(modifier.value) * stack;
+        }
+        if (modifier.value !== undefined) return numericModifierValue(modifier.value);
         if (modifier.valueByRefinement) {
             const raw = modifier.valueByRefinement[String(context.refinement)] ?? modifier.valueByRefinement["1"];
             if (Array.isArray(raw)) {
-                const stack = Math.min(Math.max(uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0, modifier.stack?.min ?? 0), modifier.stack?.max ?? raw.length);
-                return raw[Math.max(stack - 1, 0)] ?? 0;
+                const stack = Math.min(Math.max(resourceStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0, modifier.stack?.min ?? 0), modifier.stack?.max ?? raw.length);
+                return numericModifierValue(raw[Math.max(stack - 1, 0)] ?? 0);
             }
-            if (modifier.calculationSupport === "stack" && modifier.stack) {
-                const stack = Math.min(Math.max(uiState.stackByModifier?.[modifier.id] ?? uiState.amosStack ?? modifier.stack.default ?? 0, modifier.stack.min ?? 0), modifier.stack.max ?? 0);
-                return (Number(raw) || 0) * stack;
+            if (modifier.calculationSupport === "stack" && (modifier.stack || resourceStack !== null)) {
+                if (modifier.category === "extraDamage") return Number(raw) || 0;
+                const min = modifier.stack?.min ?? 0;
+                const max = modifier.stack?.max ?? modifier.resource?.maxConsumed ?? resourceStack ?? 0;
+                const stack = Math.min(Math.max(resourceStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.amosStack ?? modifier.stack?.default ?? 0, min), max);
+                return numericModifierValue(raw) * stack;
             }
-            return raw ?? 0;
+            return numericModifierValue(raw);
         }
         if (modifier.valueByLevel) {
             const levelSource = modifier.levelSource || modifier.valueSource?.section || "skill";
@@ -180,28 +259,24 @@
                     ? context.talentLevels.burst
                     : context.talentLevels.skill;
             const level = Math.min(Math.max(Math.round(talentLevel || 1), 1), 15);
-            return modifier.valueByLevel[String(level)] ?? modifier.valueByLevel["1"] ?? 0;
+            return numericModifierValue(modifier.valueByLevel[String(level)] ?? modifier.valueByLevel["1"] ?? 0);
         }
         if (modifier.valueByStack) {
-            const stack = uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
-            return modifier.valueByStack[String(stack)] ?? 0;
+            const stack = resourceStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
+            return numericModifierValue(modifier.valueByStack[String(stack)] ?? 0);
         }
         if (modifier.valuePerStack) {
-            const stack = uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
-            return modifier.valuePerStack * stack;
+            const stack = resourceStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
+            return numericModifierValue(modifier.valuePerStack) * stack;
         }
         return 0;
     }
 
-    function shouldSkipByUidHandling(modifier, context) {
-        const uidHandling = modifier.uidHandling || "conditional";
-        if (context.mode !== "uidMode") return "";
-        if (uidHandling === "includedInUidStats") return "includedInUidStatsのため未適用";
-        if (uidHandling === "includedInUidTalentLevels") return "UID天賦Lv反映済みの可能性があるため未適用";
-        if (uidHandling === "manualOnly") return "manualOnlyのため未適用";
-        if (uidHandling === "displayOnly") return "displayOnly";
-        if (uidHandling === "special") return "special未対応";
-        return "";
+    function analyzeModifier(modifier, source = "", context = {}) {
+        if (!window.GenshinModifierAnalyzer) {
+            throw new Error("GenshinModifierAnalyzer が読み込まれていません");
+        }
+        return window.GenshinModifierAnalyzer.analyzeModifier({ modifier, source, context });
     }
 
     function modifierConditionEnabled(modifier, source, context, calcData) {
@@ -219,25 +294,37 @@
     function collectActiveModifiers(calcData, context) {
         const applied = [];
         const candidates = [];
+        const activeEffectGroups = new Set();
+
+        function addCandidate(modifier, source, reason, analysis) {
+            candidates.push({ modifier, source, reason, analysis });
+        }
 
         function consider(modifier, source) {
             if (!modifier) return;
-            const uidHandling = modifier.uidHandling || "conditional";
-            const uidReason = shouldSkipByUidHandling(modifier, context);
-            if (uidReason) {
-                candidates.push({ modifier, source, reason: uidReason });
+            const analysis = analyzeModifier(modifier, source, context);
+            if (analysis.inputStatus !== "applicable") {
+                addCandidate(modifier, source, analysis.inputReason || analysis.status, analysis);
                 return;
             }
-            if (modifier.calculationSupport === "custom" || modifier.calculationSupport === "special") {
-                candidates.push({ modifier, source, reason: "special未対応" });
+            if (!analysis.calculable) {
+                addCandidate(modifier, source, analysis.reason || "special未対応", analysis);
                 return;
             }
             const uiEnabled = modifierConditionEnabled(modifier, source, context, calcData);
-            if (uidHandling === "conditional" && !uiEnabled) {
-                candidates.push({ modifier, source, reason: "条件OFF" });
+            if (analysis.requiresConditionEvaluation && !uiEnabled) {
+                addCandidate(modifier, source, "条件OFF", analysis);
                 return;
             }
-            applied.push({ modifier, source, value: resolveModifierValue(modifier, context) });
+            const dedupeKey = ["effectOverride", "extraDamage"].includes(analysis.calculation)
+                ? window.GenshinModifierAnalyzer.modifierDedupeKey(analysis)
+                : "";
+            if (dedupeKey && activeEffectGroups.has(dedupeKey)) {
+                addCandidate(modifier, source, "同一効果の計算済みレコードがあるため未適用", analysis);
+                return;
+            }
+            if (dedupeKey) activeEffectGroups.add(dedupeKey);
+            applied.push({ modifier, source, value: resolveModifierValue(modifier, context, context.uiState, analysis), analysis });
         }
 
         const talentPassives = calcData.talentModifiers?.[context.characterId]?.passives || [];
@@ -301,21 +388,58 @@
     }
 
     function modifierTargetsEntry(modifier, entry) {
+        const targetEffects = Array.isArray(modifier.targetEffect)
+            ? modifier.targetEffect
+            : modifier.targetEffect ? [modifier.targetEffect] : [];
+        if (targetEffects.length) {
+            return Boolean(entry.effectId && targetEffects.includes(entry.effectId));
+        }
         const applyTo = modifier.applyTo || [];
         if (entry.effectId && applyTo.includes(entry.effectId)) return true;
         if (entry.id && applyTo.includes(entry.id)) return true;
-        return applyTo.includes(entry.attackType) || applyTo.includes(entry.damageType);
+        if (applyTo.includes(`${entry.attackType}Damage`) || applyTo.includes(`${entry.damageType}Damage`)) return true;
+        return applyTo.includes(entry.attackType)
+            || applyTo.includes(entry.damageType)
+            || modifierAppliesToEntry(modifier, entry);
+    }
+
+    function resolveReferenceBase(modifier, context) {
+        if (modifier.reference?.type === "healingRecorded") {
+            const recorded = Number(context.manualInputs?.recordedHealing) || 0;
+            const maxValue = Number(modifier.reference.maxValue);
+            return Number.isFinite(maxValue) ? Math.min(recorded, maxValue) : recorded;
+        }
+        const referenceStat = modifier.reference?.stat || "hp";
+        if (modifier.reference?.source === "provider") {
+            return Number(context.manualInputs?.providerStats?.[referenceStat]) || 0;
+        }
+        return Number(context.stats[referenceStat]) || 0;
     }
 
     function resolveReferencedValue(modifier, value, context) {
-        const referenceStat = modifier.reference?.stat || "hp";
-        const referenceValue = Number(context.stats[referenceStat]) || 0;
+        const referenceValue = resolveReferenceBase(modifier, context);
         return referenceValue * (Number(value) || 0) / 100;
+    }
+
+    function normalizeStatTarget(target) {
+        const map = {
+            atkFlat: "atk",
+            atkPercent: "atk",
+            hpFlat: "hp",
+            hpPercent: "hp",
+            defFlat: "def",
+            defPercent: "def",
+            elementalMastery: "elementalMastery",
+            energyRecharge: "energyRecharge",
+            critRate: "critRate",
+            critDamage: "critDamage"
+        };
+        return map[target] || target;
     }
 
     function resolveStatBonusValue(modifier, value, context) {
         const applyTo = modifier.applyTo || [];
-        const targetStat = applyTo.includes("atk") || applyTo.includes("atkPercent") ? "atk" : applyTo[0];
+        const targetStat = normalizeStatTarget(applyTo.includes("atk") || applyTo.includes("atkPercent") ? "atk" : applyTo[0]);
         if (!targetStat) return null;
         if (modifier.unit === "percentOfReference" || modifier.valueSource?.label === "攻撃力アップ") {
             const referenceStat = modifier.reference?.stat || "hp";
@@ -326,6 +450,24 @@
             return { stat: targetStat, value: (Number(context.stats[targetStat]) || 0) * (Number(value) || 0) / 100 };
         }
         return { stat: targetStat, value: Number(value) || 0 };
+    }
+
+    function resolveConversionBonusValue(modifier, value, context) {
+        const targetStat = normalizeStatTarget((modifier.applyTo || [])[0]);
+        const referenceStat = modifier.reference?.stat;
+        if (!targetStat || !referenceStat) return null;
+        const referenceValue = Number(context.stats[referenceStat]) || 0;
+        return { stat: targetStat, value: referenceValue * (Number(value) || 0) / 100 };
+    }
+
+    function resolveScalingDamageBonus(modifier, context) {
+        const referenceStat = modifier.reference?.stat;
+        if (!referenceStat) return 0;
+        const referenceValue = Number(context.stats[referenceStat]) || 0;
+        const calculated = referenceValue * (Number(modifier.ratio) || 0);
+        return Number.isFinite(Number(modifier.maxValue))
+            ? Math.min(calculated, Number(modifier.maxValue))
+            : calculated;
     }
 
     function resistanceDebuffAppliesToEntry(modifier, entry) {
@@ -344,6 +486,22 @@
         return !applyTo.length || applyTo.includes(target) || applyTo.includes("allResistance");
     }
 
+    function reactionBonusApplies(modifier, reaction) {
+        if (!reaction?.enabled) return false;
+        const applyTo = modifier.applyTo || [];
+        if (!applyTo.length) return true;
+        const reactionId = reaction.reactionId;
+        const reactionType = reaction.reactionType;
+        const reactionTargets = [
+            "reactionDamageBonus",
+            `${reactionId}DamageBonus`,
+            `${reactionId}ReactionBonus`,
+            `${reactionType}ReactionBonus`,
+            `${reactionType}DamageBonus`
+        ];
+        return reactionTargets.some((target) => applyTo.includes(target));
+    }
+
     function applyModifiersToDamageEntry(entry, context, collected) {
         const applied = [];
         const candidates = [...collected.candidates];
@@ -355,16 +513,20 @@
             statBonus: {},
             critRateBonus: 0,
             critDamageBonus: 0,
+            reactionBonus: 0,
             additiveBaseDamage: 0,
+            finalDamageMultiplier: 1,
             elementOverride: ""
         };
         collected.applied.forEach((item) => {
-            const { modifier, value } = item;
+            const { modifier, value, analysis } = item;
             if (modifier.category === "elementOverride" && modifierTargetsEntry(modifier, entry)) {
                 totals.elementOverride = value || modifier.value || "";
                 applied.push(item);
-            } else if (modifier.category === "statBonus") {
-                const statBonus = resolveStatBonusValue(modifier, value, context);
+            } else if (["statBonus", "statConversion", "scalingStatBonus"].includes(analysis?.calculation)) {
+                const statBonus = analysis.calculation === "statBonus"
+                    ? resolveStatBonusValue(modifier, value, context)
+                    : resolveConversionBonusValue(modifier, value, context);
                 if (statBonus) {
                     totals.statBonus[statBonus.stat] = (totals.statBonus[statBonus.stat] || 0) + statBonus.value;
                     applied.push(item);
@@ -378,8 +540,8 @@
             totals.damageBonus += context.stats.elementDamageBonus;
         }
         collected.applied.forEach((item) => {
-            const { modifier, value } = item;
-            if (modifier.category === "elementOverride" || modifier.category === "statBonus") {
+            const { modifier, value, analysis } = item;
+            if (modifier.category === "elementOverride" || ["statBonus", "statConversion", "scalingStatBonus"].includes(analysis?.calculation)) {
                 return;
             }
             if (modifier.category === "damageBonus" && modifierAppliesToEntry(modifier, effectiveEntry)) {
@@ -396,12 +558,16 @@
                 } else {
                     candidates.push({ modifier, source: item.source, reason: "対象entry外" });
                 }
-            } else if (modifier.category === "additiveBaseDamage" && modifierTargetsEntry(modifier, effectiveEntry)) {
+            } else if (analysis?.calculation === "additiveBaseDamage" && modifierTargetsEntry(modifier, effectiveEntry)) {
                 const additiveValue = modifier.reference
                     ? resolveReferencedValue(modifier, value, context)
                     : Number(value) || 0;
                 totals.additiveBaseDamage += additiveValue;
                 applied.push({ ...item, value: additiveValue });
+            } else if (analysis?.calculation === "scalingDamageBonus" && modifierAppliesToEntry(modifier, effectiveEntry)) {
+                const scalingDamageBonus = resolveScalingDamageBonus(modifier, context);
+                totals.damageBonus += scalingDamageBonus;
+                applied.push({ ...item, value: scalingDamageBonus });
             } else if (modifier.category === "resistanceDebuff" && resistanceDebuffAppliesToEntry(modifier, effectiveEntry)) {
                 totals.resistanceDebuff += Math.abs(Number(value) || 0);
                 applied.push(item);
@@ -411,6 +577,19 @@
             } else if (modifier.category === "defenseIgnore") {
                 totals.defenseIgnore += Math.abs(Number(value) || 0);
                 applied.push(item);
+            } else if (modifier.category === "reactionBonus" && reactionBonusApplies(modifier, context.reactionOption)) {
+                totals.reactionBonus += Number(value) || 0;
+                applied.push(item);
+            } else if (analysis?.calculation === "effectOverride") {
+                if (modifierTargetsEntry(modifier, effectiveEntry)) {
+                    const overrideValue = Number(window.GenshinModifierAnalyzer.effectOverrideValue(modifier));
+                    totals.finalDamageMultiplier *= overrideValue / 100;
+                    applied.push({ ...item, value: overrideValue });
+                } else {
+                    candidates.push({ modifier, source: item.source, reason: "対象entry外", analysis });
+                }
+            } else if (analysis?.calculation === "extraDamage") {
+                return;
             } else {
                 candidates.push({ modifier, source: item.source, reason: "対象entry外" });
             }
@@ -430,14 +609,14 @@
         return 1 / (resistance / 25 + 1);
     }
 
-    function reactionMultiplier(context) {
+    function reactionMultiplier(context, reactionBonus = 0) {
         const reaction = context.reactionOption || REACTION_OPTIONS.none;
         if (!reaction.enabled) return { multiplier: 1, detail: reaction };
         const em = context.stats.elementalMastery;
         const emBonus = 278 * em / (em + 1400);
         return {
-            multiplier: reaction.baseMultiplier * (1 + emBonus / 100),
-            detail: { ...reaction, elementalMasteryBonus: emBonus, reactionBonus: 0 }
+            multiplier: reaction.baseMultiplier * (1 + (emBonus + reactionBonus) / 100),
+            detail: { ...reaction, elementalMasteryBonus: emBonus, reactionBonus }
         };
     }
 
@@ -449,7 +628,8 @@
         }
         return scalings.map((scaling) => {
             const talentMultiplier = Number(scaling?.valuesByLevel?.[String(talentLevel)]);
-            const statValue = Number(context.stats[scaling?.stat]) + (appliedModifiers.totals.statBonus?.[scaling?.stat] || 0);
+            const rawStatValue = scaling?.stat === "fixedDamage" ? 1 : Number(context.stats[scaling?.stat]);
+            const statValue = rawStatValue + (appliedModifiers.totals.statBonus?.[scaling?.stat] || 0);
             const valid = Number.isFinite(talentMultiplier) && Number.isFinite(statValue);
             if (!valid) {
                 problems.push("天賦倍率または参照ステータスが不足しています。");
@@ -458,7 +638,9 @@
                 stat: scaling?.stat || "-",
                 statValue: Number.isFinite(statValue) ? statValue : 0,
                 talentMultiplier: Number.isFinite(talentMultiplier) ? talentMultiplier : 0,
-                baseDamage: valid ? statValue * talentMultiplier / 100 : 0
+                baseDamage: valid
+                    ? scaling?.stat === "fixedDamage" ? talentMultiplier : statValue * talentMultiplier / 100
+                    : 0
             };
         });
     }
@@ -481,8 +663,8 @@
         });
         const effectiveResistance = context.enemy.enemyResistance - appliedModifiers.totals.resistanceDebuff;
         const resMultiplier = resistanceMultiplier(effectiveResistance);
-        const reaction = reactionMultiplier(context);
-        const nonCrit = baseDamage * damageBonusMultiplier * defMultiplier * resMultiplier * reaction.multiplier;
+        const reaction = reactionMultiplier(context, appliedModifiers.totals.reactionBonus);
+        const nonCrit = baseDamage * damageBonusMultiplier * defMultiplier * resMultiplier * reaction.multiplier * appliedModifiers.totals.finalDamageMultiplier;
         const critRate = context.stats.critRate + (appliedModifiers.totals.critRateBonus || 0);
         const critDamage = context.stats.critDamage + (appliedModifiers.totals.critDamageBonus || 0);
         const crit = nonCrit * (1 + critDamage / 100);
@@ -506,6 +688,8 @@
                 damageBonus: appliedModifiers.totals.damageBonus,
                 statBonus: appliedModifiers.totals.statBonus,
                 additiveBaseDamage: appliedModifiers.totals.additiveBaseDamage,
+                reactionBonus: appliedModifiers.totals.reactionBonus,
+                finalDamageMultiplier: appliedModifiers.totals.finalDamageMultiplier,
                 critRate,
                 critDamage,
                 defenseMultiplier: defMultiplier,
@@ -527,6 +711,105 @@
                 }
             }
         };
+    }
+
+    function valueAsLevelMap(value) {
+        const map = {};
+        for (let level = 1; level <= 15; level += 1) {
+            map[String(level)] = Number(value) || 0;
+        }
+        return map;
+    }
+
+    function extraDamageLabel(modifier, source) {
+        if (modifier.label) return modifier.label;
+        if (modifier.sourceText) {
+            return String(modifier.sourceText).replace(/\s+/g, " ").slice(0, 36);
+        }
+        if (source?.startsWith("weapon:")) return "武器追加ダメージ";
+        if (source?.startsWith("constellation:")) return "命ノ星座追加ダメージ";
+        if (source?.startsWith("talent:")) return "天賦追加ダメージ";
+        return "追加ダメージ";
+    }
+
+    function normalizeExtraDamageScalings(scalings, modifier, context, analysis) {
+        const resourceStack = consumedResourceStack(modifier, context, analysis) ?? 0;
+        return (scalings || []).map((scaling) => ({
+            ...scaling,
+            valuesByLevel: scaling.valuesByLevel || valueAsLevelMap(
+                scaling.valuePerStack !== undefined
+                    ? numericModifierValue(scaling.valuePerStack) * resourceStack
+                    : scaling.value
+            )
+        }));
+    }
+
+    function scaleEntryScalings(entry, rate) {
+        return (entry.scalings || []).map((scaling) => ({
+            ...scaling,
+            valuesByLevel: Object.fromEntries(Object.entries(scaling.valuesByLevel || {}).map(([level, value]) => {
+                return [level, (Number(value) || 0) * rate];
+            }))
+        }));
+    }
+
+    function buildExtraDamageEntries(collected, talentEntries, context) {
+        return collected.applied
+            .filter((item) => item.analysis?.calculable && item.analysis.calculation === "extraDamage")
+            .flatMap((item) => {
+                const { modifier, source, value } = item;
+                const label = extraDamageLabel(modifier, source);
+                const baseAttackType = window.GenshinModifierAnalyzer.extraDamageBaseAttackType(modifier);
+                if (modifier.reference?.type === "healingRecorded") {
+                    const fixedDamage = resolveReferencedValue(modifier, value, context);
+                    return [{
+                        id: modifier.id || `extra_${source}`,
+                        effectId: modifier.id || "",
+                        label,
+                        attackType: "extraDamage",
+                        damageType: "extraDamage",
+                        element: modifier.element || "physical",
+                        hitCount: Number(modifier.hitCount) || 1,
+                        scalings: [{ stat: "fixedDamage", valuesByLevel: valueAsLevelMap(fixedDamage) }],
+                        group: "extraDamage",
+                        sourceModifier: item
+                    }];
+                }
+                if (!modifier.reference?.stat && !(modifier.scalings || []).length && baseAttackType) {
+                    const rate = (Number(value) || 0) / 100;
+                    return talentEntries
+                        .filter((entry) => entry.attackType === baseAttackType)
+                        .map((entry, index) => ({
+                            ...entry,
+                            id: `${modifier.id || `extra_${source}`}_${entry.id || index}`,
+                            effectId: modifier.id || "",
+                            label: `${label}: ${entry.label}`,
+                            element: modifier.element || entry.element,
+                            hitCount: (Number(entry.hitCount) || 1) * (Number(modifier.extraCount) || 1),
+                            scalings: scaleEntryScalings(entry, rate),
+                            group: "extraDamage",
+                            sourceModifier: item
+                        }));
+                }
+                const scalings = Array.isArray(modifier.scalings) && modifier.scalings.length
+                    ? normalizeExtraDamageScalings(modifier.scalings, modifier, context, item.analysis)
+                    : [{
+                        stat: modifier.reference?.stat || "atk",
+                        valuesByLevel: valueAsLevelMap(value)
+                    }];
+                return [{
+                    id: modifier.id || `extra_${source}`,
+                    effectId: modifier.id || "",
+                    label,
+                    attackType: modifier.damageType || "extraDamage",
+                    damageType: modifier.damageType || "extraDamage",
+                    element: modifier.element || "physical",
+                    hitCount: Number(modifier.extraCount) || Number(modifier.hitCount) || 1,
+                    scalings,
+                    group: "extraDamage",
+                    sourceModifier: item
+                }];
+            });
     }
 
     function filterRelevantWarnings(warnings, context) {
@@ -552,9 +835,13 @@
     async function runGenshinJsonCalc() {
         const calcData = await window.GenshinCalcData.loadGenshinCalcData();
         const context = buildCharacterCalcContext();
+        window.GenshinCalcConditions.reconcileConditionState(context, calcData);
+        window.GenshinCalcConditions.reconcileResourceState(context, calcData);
+        window.GenshinCalcConditions.reconcileComplexConditionState(context, calcData);
         const talentResult = collectTalentDamageEntries(calcData, context);
         const collected = collectActiveModifiers(calcData, context);
-        const results = talentResult.entries.map((entry) => {
+        const extraEntries = buildExtraDamageEntries(collected, talentResult.entries, context);
+        const results = [...talentResult.entries, ...extraEntries].map((entry) => {
             const entryModifiers = applyModifiersToDamageEntry(entry, context, collected);
             return calculateDamage(entry, context, entryModifiers);
         });
@@ -563,6 +850,17 @@
             warnings: [...filterRelevantWarnings(calcData.warnings, context), ...talentResult.warnings.map((message) => ({ level: "warn", message }))],
             results,
             candidateModifiers: collected.candidates,
+            resourceStateInputs: collected.candidates
+                .filter((item) => item.analysis?.resourceClassification === "calculationInput")
+                .map((item) => ({
+                    key: item.analysis.conditionStateKey,
+                    id: item.modifier.resource?.id || item.modifier.id || "",
+                    name: item.modifier.resource?.nameJa || item.modifier.resource?.id || "リソース",
+                    min: item.modifier.stack?.min ?? 0,
+                    max: item.modifier.stack?.max ?? item.modifier.resource?.max ?? null,
+                    current: context.manualInputs.resourceStates?.[item.analysis.resourceStateKey] ?? null,
+                    source: item.source
+                })),
             displayData: {
                 characters: calcData.characters || {},
                 weapons: calcData.weapons || {},
