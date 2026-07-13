@@ -51,6 +51,9 @@
     }
 
     function extraDamageBaseAttackType(modifier) {
+        if (["normalAttack", "chargedAttack", "plungingAttack", "skill", "burst"].includes(modifier?.referenceAttackType)) {
+            return modifier.referenceAttackType;
+        }
         const base = String(modifier?.base || "");
         if (/normalAttack/i.test(base)) return "normalAttack";
         if (/chargedAttack|breakthroughBarb|rebukeVaultingFist/i.test(base)) return "chargedAttack";
@@ -80,12 +83,27 @@
     }
 
     function hasComputableEffectOverride(modifier) {
-        return modifier?.category === "effectOverride"
-            && modifier.unit === "percentOfOriginalDamage"
-            && finiteNumber(effectOverrideValue(modifier));
+        if (modifier?.category !== "effectOverride") return false;
+        if (modifier.unit === "percentOfOriginalDamage") return finiteNumber(effectOverrideValue(modifier));
+        if (modifier.unit === "percentOfOriginalEffect") {
+            return modifier.targetEffect === "previousDamageBonusEffects"
+                && finiteNumber(modifier.effectMultiplierPercent ?? modifier.value);
+        }
+        return false;
+    }
+
+    function effectOverrideKind(modifier) {
+        if (modifier?.unit === "percentOfOriginalDamage") return "damageMultiplier";
+        if (modifier?.unit === "percentOfOriginalEffect" && modifier.targetEffect === "previousDamageBonusEffects") {
+            return "effectValueMultiplier";
+        }
+        return "unsupported";
     }
 
     function effectOverrideValue(modifier) {
+        if (modifier?.unit === "percentOfOriginalEffect" && finiteNumber(modifier.effectMultiplierPercent)) {
+            return Number(modifier.effectMultiplierPercent);
+        }
         return finiteNumber(modifier?.value) ? Number(modifier.value) : modifier?.effectMultiplier;
     }
 
@@ -279,6 +297,27 @@
         return { calculable: false, calculation: "scalingBonus", supportStatus: "invalidData", reason: "scalingBonus の倍率・対象・単位が不足しています" };
     }
 
+    function scalingAdditiveBaseDamageInfo(modifier, context = {}) {
+        if (modifier?.customCalculation !== "scalingAdditiveBaseDamage") return null;
+        if (!modifier.reference?.stat || !["self", "provider"].includes(modifier.reference?.source)) {
+            return { calculable: false, calculation: "scalingAdditiveBaseDamage", supportStatus: "invalidData", reason: "加算基礎ダメージの参照元が不足しています" };
+        }
+        if (!finiteNumber(modifier.ratio) && !finiteNumber(modifier.value)) {
+            return { calculable: false, calculation: "scalingAdditiveBaseDamage", supportStatus: "invalidData", reason: "加算基礎ダメージの倍率が不足しています" };
+        }
+        if (!Array.isArray(modifier.applyTo) || !modifier.applyTo.length) {
+            return { calculable: false, calculation: "scalingAdditiveBaseDamage", supportStatus: "invalidData", reason: "加算基礎ダメージの対象が不足しています" };
+        }
+        const input = referenceInputInfo(modifier, context);
+        return {
+            calculable: input.missingInputs.length === 0,
+            calculation: "scalingAdditiveBaseDamage",
+            supportStatus: input.missingInputs.length ? "missingInput" : "supported",
+            reason: input.reason,
+            ...input
+        };
+    }
+
     function inputStatus(modifier, context) {
         if (context?.mode !== "uidMode") return "applicable";
         return UID_STATUS[modifier?.uidHandling] || "applicable";
@@ -289,9 +328,90 @@
         return UID_REASON[modifier?.uidHandling] || "";
     }
 
+    function analysisReasonCode(modifier, calculation = {}) {
+        if (modifier?.auditDisposition === "supersededByStructuredRecord") return "SUPERSEDED_RECORD";
+        if (modifier?.auditDisposition === "displayOnlyMisclassification") return "DISPLAY_ONLY_MISCLASSIFICATION";
+        const status = calculation.supportStatus || "";
+        if (["supported", "stateInput"].includes(status)) return "";
+        if (status === "missingInput") {
+            if (calculation.resourceStateKey || modifier?.resource) return "RESOURCE_INPUT_REQUIRED";
+            if (modifier?.conditionInput) return "CONDITION_INPUT_REQUIRED";
+            if ((calculation.missingInputs || []).includes("recordedHealing")) return "RECORDED_HEALING_INPUT_REQUIRED";
+            if ((calculation.missingInputs || []).some((key) => key.startsWith("providerStats."))) return "PROVIDER_INPUT_REQUIRED";
+            return "MANUAL_INPUT_REQUIRED";
+        }
+        if (status === "displayOnly") return "DISPLAY_ONLY_SOURCE_TEXT";
+        if (modifier?.category === "effectOverride") {
+            const classification = classifyEffectOverride(modifier);
+            const codes = {
+                damageOverrideMissingValue: "MISSING_VALUE",
+                effectMultiplier: "EFFECT_MULTIPLIER_FORMULA_REQUIRED",
+                displayOrState: "DISPLAY_OR_STATE_EFFECT",
+                extraDamageMissingData: "CATEGORY_MISCLASSIFIED_EXTRA_DAMAGE",
+                modifierMissingData: "CATEGORY_MISCLASSIFIED_MODIFIER",
+                unknown: "EFFECT_OVERRIDE_FORMULA_REQUIRED"
+            };
+            return codes[classification] || "EFFECT_OVERRIDE_FORMULA_REQUIRED";
+        }
+        if (modifier?.category === "extraDamage") {
+            const text = String(modifier.sourceText || "");
+            if (!/ダメージを与|追加ダメージ|範囲ダメージ|ダメージを与える/.test(text)) {
+                return "CATEGORY_MISCLASSIFIED";
+            }
+            if (!hasResolvableValue(modifier) && !hasStructuredScaling(modifier)) return "MISSING_VALUE";
+            if (!modifier.reference?.stat && !extraDamageBaseAttackType(modifier) && !hasStructuredScaling(modifier)) {
+                return "MISSING_REFERENCE";
+            }
+            return "EXTRA_DAMAGE_FORMULA_REQUIRED";
+        }
+        if (modifier?.category === "additiveBaseDamage") {
+            if (!modifier.reference?.stat && modifier.reference?.type !== "healingRecorded") return "MISSING_REFERENCE";
+            if (!hasResolvableValue(modifier)) return "MISSING_VALUE";
+            if (!Array.isArray(modifier.applyTo) || !modifier.applyTo.length) return "MISSING_TARGET";
+            if (!["percent", "percentOfReference"].includes(modifier.unit)) return "CUSTOM_UNIT_REQUIRED";
+            return "ADDITIVE_FORMULA_REQUIRED";
+        }
+        if (modifier?.category === "scalingBonus") {
+            if (!modifier.reference?.stat) return "MISSING_REFERENCE";
+            if (!Array.isArray(modifier.applyTo) || !modifier.applyTo.length) return "MISSING_TARGET";
+            if (!modifier.customCalculation && ["custom", "special"].includes(modifier.calculationSupport)) {
+                return "CUSTOM_FORMULA_REQUIRED";
+            }
+            return "SCALING_FORMULA_REQUIRED";
+        }
+        if (modifier?.category === "statBonus") {
+            if (!modifier.customCalculation && ["custom", "special"].includes(modifier.calculationSupport)) {
+                return "CATEGORY_MISCLASSIFIED_OR_CUSTOM_FORMULA_REQUIRED";
+            }
+            if (!hasResolvableValue(modifier)) return "MISSING_VALUE";
+            if (!Array.isArray(modifier.applyTo) || !modifier.applyTo.length) return "MISSING_TARGET";
+            return "INVALID_STAT_CONTRACT";
+        }
+        if (status === "invalidData") return "INVALID_DATA";
+        if (["custom", "special"].includes(modifier?.calculationSupport)) return "CUSTOM_FORMULA_REQUIRED";
+        return "UNSUPPORTED_CATEGORY";
+    }
+
     function calculationInfo(modifier, context = {}, source = "") {
         if (!modifier || !modifier.category) {
             return { calculable: false, calculation: "", supportStatus: "invalidData", reason: "category が未登録です" };
+        }
+        if (modifier.auditDisposition === "supersededByStructuredRecord") {
+            return { calculable: false, calculation: "", supportStatus: "displayOnly", reason: "同じ効果の構造化済みレコードへ統合済みです" };
+        }
+        if (modifier.auditDisposition === "displayOnlyMisclassification") {
+            return { calculable: false, calculation: "", supportStatus: "displayOnly", reason: "旧カテゴリ誤分類を表示専用として隔離しています" };
+        }
+        const scalingAdditive = scalingAdditiveBaseDamageInfo(modifier, context);
+        if (scalingAdditive) return scalingAdditive;
+        if (modifier.customCalculation === "extraDamage") {
+            const calculable = hasResolvableValue(modifier) && Boolean(modifier.reference?.stat || hasStructuredScaling(modifier));
+            return {
+                calculable,
+                calculation: "extraDamage",
+                supportStatus: calculable ? "supported" : "invalidData",
+                reason: calculable ? "" : "明示追加ダメージの倍率または参照元が不足しています"
+            };
         }
         if (modifier.category === "extraDamage") {
             const dedicated = dedicatedExtraDamageInfo(modifier, context);
@@ -431,6 +551,7 @@
             calculation: calculation.calculation,
             supportStatus: calculation.supportStatus,
             reason: calculation.reason,
+            reasonCode: analysisReasonCode(modifier, calculation),
             requiredInputs: calculation.requiredInputs || [],
             missingInputs: calculation.missingInputs || [],
             resourceClassification: calculation.resourceClassification || "",
@@ -447,10 +568,12 @@
 
     window.GenshinModifierAnalyzer = {
         analyzeModifier,
+        analysisReasonCode,
         additiveBaseDamageInfo,
         classifyEffectOverride,
         effectGroupKey,
         effectOverrideReason,
+        effectOverrideKind,
         effectOverrideValue,
         extraDamageBaseAttackType,
         extraDamageReason,
@@ -464,6 +587,7 @@
         resourceEffectInfo,
         resourceStateKey,
         scalingBonusInfo,
+        scalingAdditiveBaseDamageInfo,
         statBonusInfo
     };
 })();

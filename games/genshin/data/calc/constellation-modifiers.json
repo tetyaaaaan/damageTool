@@ -986,6 +986,8 @@
       "1": [
         {
           "id": "c_10000022_1_1",
+          "referenceAttackType": "chargedAttack",
+          "extraCount": 2,
           "category": "extraDamage",
           "applyTo": [
             "triggeredDamage"
@@ -1120,6 +1122,7 @@
           "uidHandling": "conditional",
           "sourceText": "通常攻撃の最後の1撃で敵に2秒継続する爆縮効果を与える。効果終了時に爆発し、敵に攻撃力75%分の炎元素範囲ダメージを与える。",
           "id": "c_10000023_2_1_resolved_1",
+          "auditDisposition": "supersededByStructuredRecord",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         },
@@ -1512,6 +1515,7 @@
           "uidHandling": "conditional",
           "sourceText": "攻撃やスキル発動時、一定の確率で火花を召喚して敵を攻撃し、ドッカン花火の120%分のダメージを与える。",
           "id": "c_10000029_1_1_resolved_1",
+          "referenceAttackType": "burst",
           "resolvedFromCategory": "special",
           "value": 120.0,
           "unit": "percentOfReferencedEffect",
@@ -1668,6 +1672,7 @@
           "uidHandling": "conditional",
           "sourceText": "オズが戦場にいない時も、鴉の目を通してフィッシュルを守る。フィッシュルが敵に通常攻撃する時、オズは鴉の目を通して攻撃し、攻撃力22%分のダメージを与える。",
           "id": "c_10000031_1_1_resolved_1",
+          "auditDisposition": "supersededByStructuredRecord",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         },
@@ -1785,6 +1790,7 @@
           "uidHandling": "conditional",
           "sourceText": "オズの存在時間+2秒。オズは出場している自身のキャラクターと共に攻撃し、攻撃力30%分の雷元素ダメージを与える。",
           "id": "c_10000031_6_1_resolved_1",
+          "auditDisposition": "supersededByStructuredRecord",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         },
@@ -2708,6 +2714,7 @@
           "uidHandling": "conditional",
           "sourceText": "雷楔継続中に再び星辰帰位を発動すると、刻晴は消失位置と出現位置に攻撃力50%分の雷元素範囲ダメージを与える。",
           "id": "c_10000042_1_1_resolved_1",
+          "auditDisposition": "supersededByStructuredRecord",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         },
@@ -4099,6 +4106,7 @@
           "uidHandling": "conditional",
           "sourceText": "大将威儀が「破耐」または「粉砕」効果を持つ時、1.5秒毎に領域内のフィールド上キャラクターのHPを回復する。回復量はゴロー自身の防御力50%分に相当する。",
           "id": "c_10000055_4_1_resolved_1",
+          "auditDisposition": "displayOnlyMisclassification",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -5041,6 +5049,7 @@
           "uidHandling": "conditional",
           "sourceText": "固有天賦「フライリーフワインダー」が下記のように変化する。\nリーフブーメランが戻ってきた時、キャラクターに固有天賦「フライリーフワインダー」の「芽生え」状態を付与し、持続的に周囲の敵にコレイの攻撃力40%分の草元素ダメージを与える、継続時間3秒。\n花触葉讃発動から今回の芽生え状態が消失するまでの間に、チーム内の自身キャラクターが燃焼、原激化、超激化、草激化、開花、超開花、烈開花、または月開花反応を起こすと、今回の芽生え状態の継続時間+3秒。\nこの方法により芽生え状態を延長できるのは最大1回まで。芽生え状態中に再度獲得すると、既存の芽生え状態が先にクリアされる。芽生え状態によるダメージは元素スキルダメージと見なされる。\n固有天賦「フライリーフワインダー」を解放する必要がある。",
           "id": "c_10000067_2_1_resolved_2",
+          "auditDisposition": "supersededByStructuredRecord",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true,
           "stack": {
@@ -5981,6 +5990,7 @@
       "6": [
         {
           "id": "c_10000075_6_1",
+          "referenceAttackType": "normalAttack",
           "category": "extraDamage",
           "applyTo": [
             "triggeredDamage"
@@ -6056,6 +6066,7 @@
         },
         {
           "id": "c_10000076_6_3",
+          "auditDisposition": "supersededByStructuredRecord",
           "category": "extraDamage",
           "applyTo": [
             "triggeredDamage"
@@ -6674,6 +6685,15 @@
           "uidHandling": "conditional",
           "sourceText": "フィールド上にいるチーム内の自身のキャラクターの攻撃が近くの敵に命中した時、白朮は遊糸徴霊·切を発動する。\n遊糸徴霊·切は1回のみ攻撃を行ってから戻り、白朮の攻撃力250%の草元素ダメージを与え、さらに太素診要の遊糸徴霊による回復量の20%分のHPを回復する。\nこれによるダメージは元素スキルダメージと見なされる。\n5秒毎に1回のみ発動可能。",
           "id": "c_10000082_2_1_resolved_1",
+          "customCalculation": "extraDamage",
+          "applyTo": [
+            "triggeredDamage"
+          ],
+          "reference": {
+            "stat": "atk",
+            "source": "self"
+          },
+          "element": "草",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -6937,6 +6957,7 @@
       "6": [
         {
           "id": "c_10000084_6_1",
+          "referenceAttackType": "chargedAttack",
           "category": "extraDamage",
           "applyTo": [
             "triggeredDamage"
@@ -7507,6 +7528,19 @@
           "uidHandling": "conditional",
           "sourceText": "万民のカルナバル継続期間中、周囲のチーム全員の現在HPが増減する時、フリーナの獲得する「テンション」が250%増加する。さらに「テンション」が上限を超えた部分について、1ポイントごとに、フリーナのHP上限が0.35%増える。この方法で増やせるフリーナのHP上限は最大140%まで。",
           "id": "c_10000089_2_1_resolved_2",
+          "customCalculation": "directStatBonus",
+          "calculationSupport": "stack",
+          "conditionInput": {
+            "type": "stack",
+            "label": "上限超過テンション",
+            "min": 0,
+            "max": 400
+          },
+          "stack": {
+            "min": 0,
+            "max": 400,
+            "default": 0
+          },
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -7544,6 +7578,7 @@
       "6": [
         {
           "id": "c_10000089_6_1",
+          "customCalculation": "scalingAdditiveBaseDamage",
           "category": "scalingBonus",
           "applyTo": [
             "normalAttackDamageBonus",
@@ -7887,6 +7922,7 @@
         },
         {
           "id": "c_10000092_2_2",
+          "customCalculation": "scalingAdditiveBaseDamage",
           "category": "scalingBonus",
           "applyTo": [
             "plungingAttackDamageBonus"
@@ -8866,6 +8902,7 @@
           "uidHandling": "conditional",
           "sourceText": "フィールド上にいるチーム内の自身のキャラクターのシールドが何らかの理由で交換または破壊されたとき、カチーナは自身の防御力200%分の岩元素範囲ダメージを与える。この効果は5秒毎に1回のみ発動可能。",
           "id": "c_10000100_6_1_resolved_1",
+          "auditDisposition": "supersededByStructuredRecord",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         },
@@ -10340,6 +10377,14 @@
           "uidHandling": "conditional",
           "sourceText": "固有天賦「連翔、三段跳び！」の効果が強化される。\n特殊な落下攻撃・大火山サンダートルネードを行う時、ヴァレサは継続時間5秒の「レインボークラッシュ」を獲得する。\n「レインボークラッシュ」継続期間中、ヴァレサが猛烈パッション状態であるかに関わらず、落下攻撃を行う時、着地時の落下攻撃ダメージが攻撃力180%分アップするようになる。固有天賦「連翔、三段跳び！」を解放する必要がある。\n\nまた、ヴァレサが夜魂の加護状態での「パワフルタックル」モードにある場合、消費する夜魂値または燃素-30%。",
           "id": "c_10000111_1_1_resolved_2",
+          "customCalculation": "scalingAdditiveBaseDamage",
+          "applyTo": [
+            "plungingAttackDamageBonus"
+          ],
+          "reference": {
+            "stat": "atk",
+            "source": "self"
+          },
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -10529,6 +10574,14 @@
           "uidHandling": "conditional",
           "sourceText": "エスコフィエが**「チルド」モード**で調理マシナリーを起動する時、継続時間15秒の「即席スペシャリテ」効果を獲得する。継続期間中、エスコフィエは「冷製料理」効果を5層獲得する。周囲のフィールド上キャラクター（エスコフィエを除く）の通常攻撃、重撃、落下攻撃、元素スキルまたは元素爆発が敵に氷元素ダメージを与えると、「冷製料理」を1層消費して与えるダメージをエスコフィエの攻撃力240%分アップする。\n一回の氷元素ダメージが同時に複数の敵に命中した場合、命中した敵の数に応じて「冷製料理」の層数が消費される。",
           "id": "c_10000112_2_1_resolved_2",
+          "customCalculation": "scalingAdditiveBaseDamage",
+          "applyTo": [
+            "allDamageBonus"
+          ],
+          "reference": {
+            "stat": "atk",
+            "source": "provider"
+          },
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -11392,6 +11445,11 @@
         },
         {
           "id": "c_10000119_6_4",
+          "reference": {
+            "stat": "elementalMastery",
+            "source": "self"
+          },
+          "element": "草",
           "category": "extraDamage",
           "applyTo": [
             "triggeredDamage"
@@ -11450,6 +11508,7 @@
           "uidHandling": "conditional",
           "sourceText": "**霜林の聖域**が敵を攻撃する時、月開花反応ダメージと見なされる草元素範囲ダメージを追加で1回与える。このダメージはラウマの元素熟知の185%に基づく。また、このときラウマは**「蒼の讃歌」**を消費せず、逆に「蒼の讃歌」を2層獲得し、この方法で獲得した「蒼の讃歌」の継続時間をリセットする。\n1回の霜林の聖域の継続時間中に、この効果は最大8回発動可能。元素スキル**聖言のルノ・永夜の眠り**発動時、この方法で獲得した「蒼の讃歌」はクリアされる。\n\nまた、ラウマが「蒼の讃歌」を所持している状態で通常攻撃を行うと、「蒼の讃歌」を1層消費して、ラウマの元素熟知150%分の草元素ダメージを与える。このダメージは月開花反応によるダメージと見なされる。\n\n月兆・満照：付近にいるチーム内キャラクターの与える月開花反応によるダメージが25%**向上**する。",
           "id": "c_10000119_6_5_resolved_2",
+          "auditDisposition": "supersededByStructuredRecord",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true,
           "stack": {

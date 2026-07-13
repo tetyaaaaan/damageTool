@@ -52,7 +52,7 @@ test("STEP 17 coverage contract keeps the complete modifier inventory classified
     assert.equal(categoryTotals.get("effectOverride"), 47);
     assert.equal(categoryTotals.get("additiveBaseDamage"), 30);
     assert.equal(categoryTotals.get("scalingBonus"), 27);
-    assert.equal(complexConditionCount, 5);
+    assert.equal(complexConditionCount, 6);
     assert.equal(resourceClassifications.get("calculationInput"), 27);
     assert.equal(resourceClassifications.get("displayOnly"), 22);
     assert.equal(resourceClassifications.get("unsupported") || 0, 0);

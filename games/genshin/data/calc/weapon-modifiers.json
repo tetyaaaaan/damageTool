@@ -520,6 +520,7 @@
           "source": "self"
         },
         "id": "w_11412_extraDamage_f23c5dd2",
+        "auditDisposition": "supersededByStructuredRecord",
         "sourceText": "は重撃が命中時50%の確率で攻撃力の200%の狭範囲ダメージを与える"
       },
       {
@@ -875,6 +876,7 @@
           "source": "self"
         },
         "id": "w_11420_extraDamage_9ddce68a",
+        "auditDisposition": "supersededByStructuredRecord",
         "sourceText": "通常攻撃、重撃、落下攻撃が敵に命中すると怨霊を放ち、攻撃力の180%の範囲ダメージを与える"
       },
       {
@@ -936,6 +938,7 @@
           "source": "self"
         },
         "id": "w_11421_extraDamage_934d6229",
+        "auditDisposition": "supersededByStructuredRecord",
         "sourceText": "通常攻撃、重撃、落下攻撃が敵に命中すると怨霊を放ち、攻撃力の180%の範囲ダメージを与える"
       },
       {
@@ -1693,6 +1696,7 @@
           "source": "self"
         },
         "id": "w_11505_extraDamage_6e3b5617",
+        "auditDisposition": "supersededByStructuredRecord",
         "sourceText": "キャラクターのHP上限の1.2%分、攻撃力がアップする",
         "customHandlingRequired": true
       },
@@ -1962,6 +1966,7 @@
           "source": "self"
         },
         "id": "w_11511_extraDamage_da815d6f",
+        "auditDisposition": "supersededByStructuredRecord",
         "sourceText": "「壮大な詩篇」：装備したキャラクターのHP上限の0.12%を基準に元素熟知がアップする、この効果は0.3秒ごとに1回のみ発動でき、最大3層まで重ね掛け可能",
         "valueRole": "stackedOrScalingByRefinement",
         "valueByRefinementPerStack": {
@@ -3017,6 +3022,7 @@
           "source": "self"
         },
         "id": "w_12402_extraDamage_4ff89bef",
+        "auditDisposition": "displayOnlyMisclassification",
         "sourceText": "ダメージを受けた時、HP上限の20%に相当するダメージを吸収できるシールドを生成する",
         "customHandlingRequired": true
       }
@@ -5812,6 +5818,7 @@
           "source": "self"
         },
         "id": "w_13501_extraDamage_17c16bd9",
+        "auditDisposition": "supersededByStructuredRecord",
         "sourceText": "キャラクターのHP上限の0.8%分、攻撃力がアップする",
         "customHandlingRequired": true
       },
@@ -8214,6 +8221,7 @@
           "source": "self"
         },
         "id": "w_14506_extraDamage_e46955e5",
+        "auditDisposition": "supersededByStructuredRecord",
         "sourceText": "この武器を装備したキャラクターのHP上限の1%分、通常攻撃ダメージがアップする",
         "customHandlingRequired": true
       },

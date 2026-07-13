@@ -223,6 +223,9 @@
     function resolveModifierValue(modifier, context, uiState = context.uiState || {}, analysis = {}) {
         const resourceStack = consumedResourceStack(modifier, context, analysis);
         const conditionState = uiState.conditionByModifier?.[analysis.conditionStateKey] || {};
+        const conditionStack = modifier.conditionInput?.type === "stack" && Number.isFinite(Number(conditionState.stack))
+            ? Number(conditionState.stack)
+            : null;
         if (modifier.valueByCondition) {
             const conditionKind = modifier.conditionInput?.type || "option";
             const conditionValue = conditionState[conditionKind];
@@ -232,7 +235,7 @@
             if (modifier.category === "extraDamage") return modifier.value;
             const min = modifier.stack?.min ?? 0;
             const max = modifier.stack?.max ?? modifier.resource?.maxConsumed ?? resourceStack ?? 0;
-            const stack = Math.min(Math.max(resourceStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0, min), max);
+            const stack = Math.min(Math.max(resourceStack ?? conditionStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0, min), max);
             return numericModifierValue(modifier.value) * stack;
         }
         if (modifier.value !== undefined) return numericModifierValue(modifier.value);
@@ -262,11 +265,11 @@
             return numericModifierValue(modifier.valueByLevel[String(level)] ?? modifier.valueByLevel["1"] ?? 0);
         }
         if (modifier.valueByStack) {
-            const stack = resourceStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
+            const stack = resourceStack ?? conditionStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
             return numericModifierValue(modifier.valueByStack[String(stack)] ?? 0);
         }
         if (modifier.valuePerStack) {
-            const stack = resourceStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
+            const stack = resourceStack ?? conditionStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
             return numericModifierValue(modifier.valuePerStack) * stack;
         }
         return 0;
@@ -470,6 +473,15 @@
             : calculated;
     }
 
+    function resolveScalingAdditiveBaseDamage(modifier, context) {
+        const referenceValue = resolveReferenceBase(modifier, context);
+        const ratio = Number(modifier.ratio ?? modifier.value) || 0;
+        const calculated = referenceValue * ratio / 100;
+        return Number.isFinite(Number(modifier.maxValue))
+            ? Math.min(calculated, Number(modifier.maxValue))
+            : calculated;
+    }
+
     function resistanceDebuffAppliesToEntry(modifier, entry) {
         const applyTo = modifier.applyTo || [];
         const resistanceMap = {
@@ -516,6 +528,7 @@
             reactionBonus: 0,
             additiveBaseDamage: 0,
             finalDamageMultiplier: 1,
+            effectOverrides: [],
             elementOverride: ""
         };
         collected.applied.forEach((item) => {
@@ -545,8 +558,28 @@
                 return;
             }
             if (modifier.category === "damageBonus" && modifierAppliesToEntry(modifier, effectiveEntry)) {
-                totals.damageBonus += Number(value) || 0;
+                const effectOverrides = collected.applied.filter((overrideItem) => {
+                    return overrideItem.source === item.source
+                        && overrideItem.analysis?.calculation === "effectOverride"
+                        && window.GenshinModifierAnalyzer.effectOverrideKind(overrideItem.modifier) === "effectValueMultiplier";
+                });
+                const effectValueMultiplier = effectOverrides.reduce((multiplier, overrideItem) => {
+                    const increase = Number(window.GenshinModifierAnalyzer.effectOverrideValue(overrideItem.modifier)) || 0;
+                    return multiplier * (1 + increase / 100);
+                }, 1);
+                totals.damageBonus += (Number(value) || 0) * effectValueMultiplier;
                 applied.push(item);
+                effectOverrides.forEach((overrideItem) => {
+                    if (!applied.some((appliedItem) => appliedItem.analysis?.key === overrideItem.analysis?.key)) {
+                        applied.push({ ...overrideItem, value: window.GenshinModifierAnalyzer.effectOverrideValue(overrideItem.modifier) });
+                        totals.effectOverrides.push({
+                            id: overrideItem.modifier.id || "",
+                            kind: "effectValueMultiplier",
+                            multiplier: 1 + Number(window.GenshinModifierAnalyzer.effectOverrideValue(overrideItem.modifier)) / 100,
+                            source: overrideItem.source
+                        });
+                    }
+                });
             } else if (modifier.category === "critBonus") {
                 const applyTo = modifier.applyTo || [];
                 if (applyTo.includes("critRate")) {
@@ -562,6 +595,10 @@
                 const additiveValue = modifier.reference
                     ? resolveReferencedValue(modifier, value, context)
                     : Number(value) || 0;
+                totals.additiveBaseDamage += additiveValue;
+                applied.push({ ...item, value: additiveValue });
+            } else if (analysis?.calculation === "scalingAdditiveBaseDamage" && modifierTargetsEntry(modifier, effectiveEntry)) {
+                const additiveValue = resolveScalingAdditiveBaseDamage(modifier, context);
                 totals.additiveBaseDamage += additiveValue;
                 applied.push({ ...item, value: additiveValue });
             } else if (analysis?.calculation === "scalingDamageBonus" && modifierAppliesToEntry(modifier, effectiveEntry)) {
@@ -581,10 +618,20 @@
                 totals.reactionBonus += Number(value) || 0;
                 applied.push(item);
             } else if (analysis?.calculation === "effectOverride") {
+                const overrideKind = window.GenshinModifierAnalyzer.effectOverrideKind(modifier);
+                if (overrideKind === "effectValueMultiplier") {
+                    return;
+                }
                 if (modifierTargetsEntry(modifier, effectiveEntry)) {
                     const overrideValue = Number(window.GenshinModifierAnalyzer.effectOverrideValue(modifier));
                     totals.finalDamageMultiplier *= overrideValue / 100;
                     applied.push({ ...item, value: overrideValue });
+                    totals.effectOverrides.push({
+                        id: modifier.id || "",
+                        kind: "damageMultiplier",
+                        multiplier: overrideValue / 100,
+                        source: item.source
+                    });
                 } else {
                     candidates.push({ modifier, source: item.source, reason: "対象entry外", analysis });
                 }
@@ -690,6 +737,7 @@
                 additiveBaseDamage: appliedModifiers.totals.additiveBaseDamage,
                 reactionBonus: appliedModifiers.totals.reactionBonus,
                 finalDamageMultiplier: appliedModifiers.totals.finalDamageMultiplier,
+                effectOverrides: appliedModifiers.totals.effectOverrides,
                 critRate,
                 critDamage,
                 defenseMultiplier: defMultiplier,

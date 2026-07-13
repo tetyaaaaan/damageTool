@@ -1,0 +1,80 @@
+{
+  "ayakaBaseline": {
+    "id": "normal_1damage",
+    "effectId": "",
+    "attackType": "normalAttack",
+    "nonCrit": 1366.655976,
+    "crit": 2733.311952,
+    "additiveBaseDamage": 0,
+    "damageBonus": 68,
+    "finalDamageMultiplier": 1
+  },
+  "wandererRepeatedAttack": [
+    {
+      "id": "c_10000075_6_1_normal_1damage",
+      "effectId": "c_10000075_6_1",
+      "attackType": "normalAttack",
+      "nonCrit": 978.953976,
+      "crit": 1957.907952,
+      "additiveBaseDamage": 0,
+      "damageBonus": 54,
+      "finalDamageMultiplier": 1
+    },
+    {
+      "id": "c_10000075_6_1_normal_2damage",
+      "effectId": "c_10000075_6_1",
+      "attackType": "normalAttack",
+      "nonCrit": 926.269344,
+      "crit": 1852.538688,
+      "additiveBaseDamage": 0,
+      "damageBonus": 54,
+      "finalDamageMultiplier": 1
+    }
+  ],
+  "albedoResourceBurst": {
+    "id": "burstdamage",
+    "effectId": "",
+    "attackType": "burst",
+    "nonCrit": 9530.46,
+    "crit": 19060.92,
+    "additiveBaseDamage": 900,
+    "damageBonus": 50,
+    "finalDamageMultiplier": 1
+  },
+  "charlotteTargetCount": {
+    "atkBonus": 600,
+    "result": {
+      "id": "normal_1damage",
+      "effectId": "",
+      "attackType": "normalAttack",
+      "nonCrit": 1574.622855,
+      "crit": 3149.24571,
+      "additiveBaseDamage": 0,
+      "damageBonus": 50,
+      "finalDamageMultiplier": 1
+    }
+  },
+  "furinaOverflowFanfare": {
+    "hpBonus": 7000,
+    "result": {
+      "id": "normal_1damage",
+      "effectId": "",
+      "attackType": "normalAttack",
+      "nonCrit": 869.001727,
+      "crit": 1738.003454,
+      "additiveBaseDamage": 0,
+      "damageBonus": 0.95,
+      "finalDamageMultiplier": 1
+    }
+  },
+  "baizhuExtraDamage": {
+    "id": "c_10000082_2_1_resolved_1",
+    "effectId": "c_10000082_2_1_resolved_1",
+    "attackType": "extraDamage",
+    "nonCrit": 3375,
+    "crit": 6750,
+    "additiveBaseDamage": 0,
+    "damageBonus": 50,
+    "finalDamageMultiplier": 1
+  }
+}

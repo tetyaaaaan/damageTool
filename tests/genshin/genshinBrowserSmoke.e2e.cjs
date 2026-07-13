@@ -155,6 +155,7 @@ async function clickAndWait(client, selector) {
             constellation: "C0"
         }));
         await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        await waitFor(client, `document.querySelectorAll("[data-genshin-resource-key]").length > 0`);
         const resource = await evaluate(client, `(() => {
             const inputs = [...document.querySelectorAll("[data-genshin-resource-key]")];
             return { count: inputs.length, key: inputs[0]?.dataset.genshinResourceKey || "" };
@@ -179,6 +180,7 @@ async function clickAndWait(client, selector) {
             constellation: "C2"
         }));
         await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        await waitFor(client, `document.querySelectorAll('[data-genshin-condition-kind="targetCount"]').length > 0`);
         const complexCondition = await evaluate(client, `(() => ({
             count: document.querySelectorAll("[data-genshin-condition-key]").length,
             targetCount: document.querySelectorAll('[data-genshin-condition-kind="targetCount"]').length
@@ -194,6 +196,39 @@ async function clickAndWait(client, selector) {
         await clickAndWait(client, "#genshinJsonCalcButton");
         const finalResultLength = await evaluate(client, `document.querySelector("#genshinJsonCalcResults").innerText.trim().length`);
         assert.ok(finalResultLength > 0);
+
+        await evaluate(client, selectionExpression({
+            characterName: "フリーナ",
+            characterId: "10000089",
+            weaponName: "",
+            weaponId: "",
+            constellation: "C2"
+        }));
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        await waitFor(client, `document.querySelectorAll('[data-genshin-condition-kind="stack"]').length > 0`);
+        const stackConditionCount = await evaluate(client, `document.querySelectorAll('[data-genshin-condition-kind="stack"]').length`);
+        assert.ok(stackConditionCount > 0, "stack condition input was not rendered");
+        await evaluate(client, `(() => {
+            const input = document.querySelector('[data-genshin-condition-kind="stack"]');
+            input.value = "100";
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+        })()`);
+        await clickAndWait(client, "#genshinJsonCalcButton");
+        const stackResultLength = await evaluate(client, `document.querySelector("#genshinJsonCalcResults").innerText.trim().length`);
+        assert.ok(stackResultLength > 0);
+
+        await evaluate(client, selectionExpression({
+            characterName: "白朮",
+            characterId: "10000082",
+            weaponName: "",
+            weaponId: "",
+            constellation: "C2"
+        }));
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        await clickAndWait(client, "#genshinJsonCalcButton");
+        const baizhuResult = await evaluate(client, `document.querySelector("#genshinJsonCalcResults").innerText`);
+        assert.ok(baizhuResult.includes("遊糸徴霊"), "custom extra damage was not rendered");
         assert.deepEqual(client.exceptions, []);
 
         console.log(JSON.stringify({
@@ -201,7 +236,8 @@ async function clickAndWait(client, selector) {
             resourceKey: resource.key,
             resourceInputCount: resource.count,
             complexConditionInputCount: complexCondition.count,
-            resultTextLength: finalResultLength
+            stackConditionInputCount: stackConditionCount,
+            resultTextLength: baizhuResult.trim().length
         }));
     } finally {
         if (client) client.socket.close();

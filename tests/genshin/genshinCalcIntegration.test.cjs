@@ -104,7 +104,7 @@ test("null倍率とspecial追撃を計算せず理由付き候補に残す", asy
     assert.equal(extraResults.length, 0);
     const nullCandidate = payload.candidateModifiers.find((item) => item.modifier.id === "w_11412_extraDamage_f23c5dd2");
     const specialCandidate = payload.candidateModifiers.find((item) => item.modifier.id === "w_11412_extra_damage_1");
-    assert.equal(nullCandidate.reason, "追加ダメージの倍率または参照元データが不足しています");
+    assert.equal(nullCandidate.reason, "同じ効果の構造化済みレコードへ統合済みです");
     assert.equal(specialCandidate.reason, "special未対応");
 });
 
@@ -162,7 +162,7 @@ test("明示されたcustom直接ステータス補正だけを計算へ適用�
     prepareInputs(unsafeHarness.elements, { characterId: "10000023", constellation: 2 });
     const unsafe = await unsafeHarness.sandbox.GenshinCalcEngine.runGenshinJsonCalc();
     const falseStat = unsafe.candidateModifiers.find((item) => item.modifier.id === "c_10000023_2_1_resolved_1");
-    assert.equal(falseStat.reason, "custom statBonus の直接補正指定がありません");
+    assert.equal(falseStat.reason, "同じ効果の構造化済みレコードへ統合済みです");
 });
 
 test("自己ステータス参照のscalingBonusを対象ダメージ補正へ変換する", async () => {
@@ -357,4 +357,119 @@ test("実データの対象数条件は未入力時に停止し、入力値に�
     payload = await harness.sandbox.GenshinCalcEngine.runGenshinJsonCalc();
     const normal = payload.results.find((result) => result.entry.attackType === "normalAttack");
     assert.equal(normal.breakdown.statBonus.atk, 600);
+});
+
+test("STEP 21 builds repeated extra damage from an explicit reference attack type", async () => {
+    const { sandbox, elements } = createCalcHarness();
+    prepareInputs(elements, { characterId: "10000075", constellation: 6 });
+    const payload = await sandbox.GenshinCalcEngine.runGenshinJsonCalc();
+    const repeatedAttacks = payload.results.filter((result) => result.entry.effectId === "c_10000075_6_1");
+    assert.ok(repeatedAttacks.length > 0);
+    assert.equal(repeatedAttacks.every((result) => result.entry.attackType === "normalAttack"), true);
+    const source = payload.results.find((result) => result.entry.id === "normal_1damage");
+    const repeated = repeatedAttacks.find((result) => result.entry.id.endsWith("normal_1damage"));
+    assert.ok(source && repeated);
+    assert.equal(Math.round(repeated.breakdown.scalingParts[0].talentMultiplier * 1000), Math.round(source.breakdown.scalingParts[0].talentMultiplier * 400));
+});
+
+test("STEP 21 calculates explicit elemental-mastery extra damage", async () => {
+    const { sandbox, elements } = createCalcHarness();
+    prepareInputs(elements, { characterId: "10000119", constellation: 6 });
+    setElement(elements, "genshinElementalMasteryInput", 1000);
+    const payload = await sandbox.GenshinCalcEngine.runGenshinJsonCalc();
+    const extra = payload.results.find((result) => result.entry.effectId === "c_10000119_6_4");
+    assert.ok(extra);
+    assert.equal(extra.breakdown.scalingParts[0].baseDamage, 1850);
+});
+
+test("STEP 22 applies effect overrides in explicit pipeline stages", () => {
+    const { sandbox, elements } = createCalcHarness();
+    prepareInputs(elements, { characterId: "10000002", constellation: 0, weaponId: "override-test" });
+    const context = sandbox.GenshinCalcEngine.buildCharacterCalcContext();
+    const calcData = {
+        talentModifiers: {},
+        artifactSetModifiers: {},
+        constellationModifiers: {},
+        weapons: {},
+        weaponModifiers: {
+            "override-test": {
+                modifiers: [
+                    {
+                        id: "base-skill-bonus",
+                        category: "damageBonus",
+                        applyTo: ["skillDamageBonus"],
+                        value: 40,
+                        unit: "percent",
+                        condition: "always",
+                        calculationSupport: "simple",
+                        uidHandling: "conditional"
+                    },
+                    {
+                        id: "increase-previous-effect",
+                        category: "effectOverride",
+                        applyTo: ["previousDamageBonusMultiplier"],
+                        targetEffect: "previousDamageBonusEffects",
+                        effectMultiplierPercent: 100,
+                        value: 100,
+                        unit: "percentOfOriginalEffect",
+                        condition: "always",
+                        calculationSupport: "custom",
+                        uidHandling: "conditional"
+                    },
+                    {
+                        id: "double-original-damage",
+                        category: "effectOverride",
+                        applyTo: ["skillDamage"],
+                        value: 200,
+                        unit: "percentOfOriginalDamage",
+                        condition: "always",
+                        calculationSupport: "custom",
+                        uidHandling: "conditional"
+                    }
+                ]
+            }
+        }
+    };
+    const collected = sandbox.GenshinCalcEngine.collectActiveModifiers(calcData, context);
+    const entry = { id: "skill", attackType: "skill", damageType: "skill", element: "氷", scalings: [] };
+    const applied = sandbox.GenshinCalcEngine.applyModifiersToDamageEntry(entry, context, collected);
+    assert.equal(applied.totals.damageBonus, 80 + context.stats.elementDamageBonus);
+    assert.equal(applied.totals.finalDamageMultiplier, 2);
+    assert.deepEqual(Array.from(applied.totals.effectOverrides, (item) => item.kind).sort(), ["damageMultiplier", "effectValueMultiplier"]);
+});
+
+test("STEP 23 applies scaling additive base damage with an explicit cap", () => {
+    const { sandbox, elements } = createCalcHarness();
+    prepareInputs(elements, { characterId: "test-character", constellation: 0 });
+    const context = sandbox.GenshinCalcEngine.buildCharacterCalcContext();
+    const modifier = {
+        id: "provider-plunge-additive",
+        category: "scalingBonus",
+        customCalculation: "scalingAdditiveBaseDamage",
+        applyTo: ["plungingAttackDamageBonus"],
+        ratio: 400,
+        maxValue: 18000,
+        unit: "percent",
+        reference: { stat: "atk", source: "self" },
+        condition: "always",
+        calculationSupport: "custom",
+        uidHandling: "conditional"
+    };
+    const calcData = {
+        talentModifiers: { "test-character": { passives: [{ sourceId: "test", modifiers: [modifier] }] } },
+        weaponModifiers: {}, artifactSetModifiers: {}, constellationModifiers: {}, weapons: {}
+    };
+    const collected = sandbox.GenshinCalcEngine.collectActiveModifiers(calcData, context);
+    const entry = { id: "plunge", attackType: "plungingAttack", damageType: "plungingAttack", element: "風", scalings: [] };
+    const applied = sandbox.GenshinCalcEngine.applyModifiersToDamageEntry(entry, context, collected);
+    assert.equal(applied.totals.additiveBaseDamage, 8000);
+});
+
+test("STEP 23 reclassifies an explicitly marked custom stat record as extra damage", async () => {
+    const { sandbox, elements } = createCalcHarness();
+    prepareInputs(elements, { characterId: "10000082", constellation: 2 });
+    const payload = await sandbox.GenshinCalcEngine.runGenshinJsonCalc();
+    const extra = payload.results.find((result) => result.entry.effectId === "c_10000082_2_1_resolved_1");
+    assert.ok(extra);
+    assert.equal(extra.breakdown.scalingParts[0].baseDamage, 5000);
 });

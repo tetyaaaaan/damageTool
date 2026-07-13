@@ -13,6 +13,7 @@
 - 元データは `games/data/` 配下のCSVを正とし、同名のExcelファイルは編集・確認用として扱います。
 - 命名規則、コメント方針、CSVの編集ルールは `docs/DEVELOPMENT_RULES.md` を参照してください。
 - 原神JSON計算の責務、補正解析、対応順は `docs/GENSHIN_CALC_DESIGN.md` を参照してください。
+- STEP 19〜24の監査・数式拡張・ゴールデン検証は `docs/GENSHIN_CALC_STEP19_24.md` を参照してください。
 
 ## テスト
 
@@ -20,6 +21,13 @@
 
 ```bash
 node --test "tests/genshin/*.test.cjs"
+```
+
+補正監査レポートと代表シナリオのゴールデン値は次のコマンドで再生成します。
+
+```bash
+node scripts/genshinModifierAudit.cjs
+node scripts/generateGenshinGolden.cjs
 ```
 
 ## ローカル確認
