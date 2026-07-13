@@ -267,12 +267,13 @@
                     </optgroup>
                   </select>
                 </label>
-                <label class="genshin-field">専用参照入力
-                  <span class="genshin-condition-line"><span>記録治療量</span><input type="number" class="input_num" id="genshinJsonRecordedHealing" min="0" step="1" placeholder="未入力"></span>
-                  <span class="genshin-condition-line"><span>提供者 HP</span><input type="number" class="input_num" id="genshinJsonProviderHp" min="0" step="1" placeholder="未入力"></span>
-                  <span class="genshin-condition-line"><span>提供者 攻撃力</span><input type="number" class="input_num" id="genshinJsonProviderAtk" min="0" step="1" placeholder="未入力"></span>
-                  <span class="genshin-condition-line"><span>提供者 防御力</span><input type="number" class="input_num" id="genshinJsonProviderDef" min="0" step="1" placeholder="未入力"></span>
-                  <span class="genshin-condition-line"><span>提供者 元素熟知</span><input type="number" class="input_num" id="genshinJsonProviderElementalMastery" min="0" step="1" placeholder="未入力"></span>
+                <label class="genshin-field" id="genshinJsonDedicatedReferenceField" hidden>専用参照入力
+                  <small>記録治療量や、補正を提供する別キャラクターのステータスが必要な効果でだけ使用します。</small>
+                  <span class="genshin-condition-line" id="genshinJsonRecordedHealingLine"><span>記録治療量</span><input type="number" class="input_num" id="genshinJsonRecordedHealing" min="0" step="1" placeholder="未入力"></span>
+                  <span class="genshin-condition-line" id="genshinJsonProviderHpLine"><span>提供者 HP</span><input type="number" class="input_num" id="genshinJsonProviderHp" min="0" step="1" placeholder="未入力"></span>
+                  <span class="genshin-condition-line" id="genshinJsonProviderAtkLine"><span>提供者 攻撃力</span><input type="number" class="input_num" id="genshinJsonProviderAtk" min="0" step="1" placeholder="未入力"></span>
+                  <span class="genshin-condition-line" id="genshinJsonProviderDefLine"><span>提供者 防御力</span><input type="number" class="input_num" id="genshinJsonProviderDef" min="0" step="1" placeholder="未入力"></span>
+                  <span class="genshin-condition-line" id="genshinJsonProviderElementalMasteryLine"><span>提供者 元素熟知</span><input type="number" class="input_num" id="genshinJsonProviderElementalMastery" min="0" step="1" placeholder="未入力"></span>
                 </label>
                 <label class="genshin-field" id="genshinJsonResourceStateField" hidden>リソース状態
                   <span id="genshinJsonResourceInputs"></span>
@@ -288,12 +289,12 @@
                   <span class="genshin-condition-line" id="genshinJsonWeaponConditionField">
                     <span id="genshinJsonWeaponConditionText">武器条件</span>
                     <select id="genshinJsonAmosStack">
-                      <option value="0">武器条件なし / 0段</option>
+                      <option value="0" selected>飛翔時間追加なし / 0段</option>
                       <option value="1">1段</option>
                       <option value="2">2段</option>
                       <option value="3">3段</option>
                       <option value="4">4段</option>
-                      <option value="5" selected>5段（最大）</option>
+                      <option value="5">5段（最大）</option>
                     </select>
                   </span>
                   <span class="genshin-checkbox-line" id="genshinJsonWeaponLowHpConditionLine"><input type="checkbox" id="genshinJsonEnableWeaponLowHpCondition"> <span id="genshinJsonWeaponLowHpConditionText">武器HP条件</span></span>

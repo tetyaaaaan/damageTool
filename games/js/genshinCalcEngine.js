@@ -138,7 +138,7 @@
                 resourceStates: readResourceStates()
             },
             uiState: {
-                amosStack: readNumber("genshinJsonAmosStack", 5),
+                amosStack: readNumber("genshinJsonAmosStack", 0),
                 crimsonWitchStack: readNumber("genshinJsonCrimsonWitchStack", 0),
                 enableCharacterCondition: Boolean(getElement("genshinJsonEnableCharacterCondition")?.checked),
                 enableLowHpCondition: Boolean(getElement("genshinJsonEnableLowHpCondition")?.checked),
@@ -460,14 +460,26 @@
         const referenceStat = modifier.reference?.stat;
         if (!targetStat || !referenceStat) return null;
         const referenceValue = Number(context.stats[referenceStat]) || 0;
-        return { stat: targetStat, value: referenceValue * (Number(value) || 0) / 100 };
+        if (modifier.customCalculation === "thresholdStatBonus") {
+            const calculated = Math.floor(referenceValue / Number(modifier.divisor)) * Number(modifier.ratio);
+            return {
+                stat: targetStat,
+                value: Number.isFinite(Number(modifier.maxValue)) ? Math.min(calculated, Number(modifier.maxValue)) : calculated
+            };
+        }
+        const calculated = referenceValue * (Number(value) || 0) / 100;
+        return {
+            stat: targetStat,
+            value: Number.isFinite(Number(modifier.maxValue)) ? Math.min(calculated, Number(modifier.maxValue)) : calculated
+        };
     }
 
     function resolveScalingDamageBonus(modifier, context) {
         const referenceStat = modifier.reference?.stat;
         if (!referenceStat) return 0;
         const referenceValue = Number(context.stats[referenceStat]) || 0;
-        const calculated = referenceValue * (Number(modifier.ratio) || 0);
+        const divisor = Number(modifier.divisor) || 1;
+        const calculated = referenceValue / divisor * (Number(modifier.ratio) || 0);
         return Number.isFinite(Number(modifier.maxValue))
             ? Math.min(calculated, Number(modifier.maxValue))
             : calculated;
@@ -514,6 +526,11 @@
         return reactionTargets.some((target) => applyTo.includes(target));
     }
 
+    function critBonusApplies(modifier, entry) {
+        const damageTargets = (modifier.applyTo || []).filter((target) => !["critRate", "critDamage"].includes(target));
+        return damageTargets.length === 0 || modifierTargetsEntry({ ...modifier, applyTo: damageTargets }, entry);
+    }
+
     function applyModifiersToDamageEntry(entry, context, collected) {
         const applied = [];
         const candidates = [...collected.candidates];
@@ -541,7 +558,16 @@
                     ? resolveStatBonusValue(modifier, value, context)
                     : resolveConversionBonusValue(modifier, value, context);
                 if (statBonus) {
-                    totals.statBonus[statBonus.stat] = (totals.statBonus[statBonus.stat] || 0) + statBonus.value;
+                    if (["critRate", "critDamage"].includes(statBonus.stat) && !critBonusApplies(modifier, entry)) {
+                        return;
+                    }
+                    if (statBonus.stat === "critRate") {
+                        totals.critRateBonus += statBonus.value;
+                    } else if (statBonus.stat === "critDamage") {
+                        totals.critDamageBonus += statBonus.value;
+                    } else {
+                        totals.statBonus[statBonus.stat] = (totals.statBonus[statBonus.stat] || 0) + statBonus.value;
+                    }
                     applied.push(item);
                 } else {
                     candidates.push({ modifier, source: item.source, reason: "対象entry外" });
@@ -580,7 +606,7 @@
                         });
                     }
                 });
-            } else if (modifier.category === "critBonus") {
+            } else if (modifier.category === "critBonus" && critBonusApplies(modifier, effectiveEntry)) {
                 const applyTo = modifier.applyTo || [];
                 if (applyTo.includes("critRate")) {
                     totals.critRateBonus += Number(value) || 0;
@@ -893,11 +919,33 @@
             const entryModifiers = applyModifiersToDamageEntry(entry, context, collected);
             return calculateDamage(entry, context, entryModifiers);
         });
+        const inputNotices = [...new Map(collected.candidates
+            .filter((item) => item.analysis?.supportStatus === "missingInput")
+            .filter((item) => item.analysis?.resourceClassification !== "calculationInput")
+            .map((item) => [
+                `${item.analysis?.reasonCode || "INPUT_REQUIRED"}:${item.modifier?.id || item.source}`,
+                {
+                    id: item.modifier?.id || "",
+                    source: item.source,
+                    message: item.reason,
+                    reasonCode: item.analysis?.reasonCode || "INPUT_REQUIRED"
+                }
+            ])).values()];
+        const isDiagnosticOnlyCandidate = (item) => {
+            return item.analysis?.inputStatus === "includedInInput"
+                || item.analysis?.resourceClassification === "calculationInput"
+                || item.analysis?.supportStatus === "missingInput"
+                || item.reason === "条件OFF";
+        };
+        results.forEach((result) => {
+            result.breakdown.skippedModifiers = result.breakdown.skippedModifiers.filter((item) => !isDiagnosticOnlyCandidate(item));
+        });
         return {
             context,
             warnings: [...filterRelevantWarnings(calcData.warnings, context), ...talentResult.warnings.map((message) => ({ level: "warn", message }))],
             results,
             candidateModifiers: collected.candidates,
+            inputNotices,
             resourceStateInputs: collected.candidates
                 .filter((item) => item.analysis?.resourceClassification === "calculationInput")
                 .map((item) => ({

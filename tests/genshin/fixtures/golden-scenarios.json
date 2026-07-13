@@ -76,5 +76,41 @@
     "additiveBaseDamage": 0,
     "damageBonus": 50,
     "finalDamageMultiplier": 1
+  },
+  "ganyuAmosFiveStacks": {
+    "amosBonuses": [
+      {
+        "id": "w_15502_damageBonus_fc388315",
+        "value": 40
+      },
+      {
+        "id": "w_15502_damage_1",
+        "value": 12
+      }
+    ],
+    "result": {
+      "id": "damage",
+      "effectId": "",
+      "attackType": "chargedAttack",
+      "nonCrit": 4603.392,
+      "crit": 9206.784,
+      "additiveBaseDamage": 0,
+      "damageBonus": 122,
+      "finalDamageMultiplier": 1
+    }
+  },
+  "nilouThresholdCrit": {
+    "critRate": 80,
+    "critDamage": 160,
+    "result": {
+      "id": "normal_1damage",
+      "effectId": "",
+      "attackType": "normalAttack",
+      "nonCrit": 2964.701081,
+      "crit": 7708.222811,
+      "additiveBaseDamage": 0,
+      "damageBonus": 165,
+      "finalDamageMultiplier": 1
+    }
   }
 }

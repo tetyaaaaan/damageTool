@@ -486,6 +486,24 @@
         reconcileConditionState(context, calcData);
         const resourceInputs = reconcileResourceState(context, calcData);
         const complexConditionInputs = reconcileComplexConditionState(context, calcData);
+        const dedicatedReferenceInputs = collectSelectedModifiers(context, calcData).reduce((state, item) => {
+            const analysis = analyzeModifier(item.modifier, item.source, context);
+            (analysis.requiredInputs || []).forEach((key) => {
+                if (key === "recordedHealing") state.recordedHealing = true;
+                if (key === "providerStats.hp") state.providerHp = true;
+                if (key === "providerStats.atk") state.providerAtk = true;
+                if (key === "providerStats.def") state.providerDef = true;
+                if (key === "providerStats.elementalMastery") state.providerElementalMastery = true;
+            });
+            return state;
+        }, {
+            recordedHealing: false,
+            providerHp: false,
+            providerAtk: false,
+            providerDef: false,
+            providerElementalMastery: false
+        });
+        dedicatedReferenceInputs.visible = Object.values(dedicatedReferenceInputs).some(Boolean);
         const hasCharacter = Boolean(context.characterId);
         const hasWeapon = Boolean(context.weaponId);
         const characterName = hasCharacter ? calcData.characters?.[context.characterId]?.nameJa || `キャラクターID ${context.characterId}` : "キャラクター未選択";
@@ -524,6 +542,7 @@
             controlState: conditionControlState(),
             resourceInputs,
             complexConditionInputs,
+            dedicatedReferenceInputs,
             weaponCondition: {
                 visible: hasAmos,
                 label: "アモス距離補正"

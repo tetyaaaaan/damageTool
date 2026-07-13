@@ -81,6 +81,7 @@
         const modifier = item.modifier || {};
         const value = Number(item.value);
         const valueText = Number.isFinite(value) ? `（${value >= 0 ? "+" : ""}${formatDecimal(value)}%）` : "";
+        const effectLabel = modifier.effectLabel ? ` / ${modifier.effectLabel}` : "";
         const sourceText = modifier.sourceText ? `: ${modifier.sourceText}` : "";
         const reason = item.reason ? ` / ${reasonLabel(item.reason)}` : "";
         const resourceLabels = {
@@ -91,7 +92,7 @@
         const classification = item.analysis?.resourceClassification
             ? ` [${resourceLabels[item.analysis.resourceClassification] || item.analysis.resourceClassification}]`
             : "";
-        return `${sourceLabel(item.source)}${classification} ${valueText}${sourceText}${reason}`;
+        return `${sourceLabel(item.source)}${effectLabel}${classification} ${valueText}${sourceText}${reason}`;
     }
 
     function renderModifierList(items, emptyText) {
@@ -221,11 +222,16 @@
             grouped[classifyResult(result)].push(result);
         });
         const activeTab = RESULT_TABS.find((tab) => grouped[tab.id].length)?.id || "normal";
+        const inputNotices = payload.inputNotices || [];
+        const inputNoticeHtml = inputNotices.length
+            ? `<aside class="genshin-json-input-notices"><strong>追加入力待ち</strong><ul>${inputNotices.map((notice) => `<li>${escapeHtml(notice.message)}</li>`).join("")}</ul></aside>`
+            : "";
         wrap.innerHTML = `
             <div class="genshin-json-result-head">
                 <h3>JSON計算結果</h3>
                 <p>計算対象: ${escapeHtml(characterName)} / ${escapeHtml(weaponName)} / 反応 ${escapeHtml(context.reactionOption.label)}</p>
             </div>
+            ${inputNoticeHtml}
             <div class="genshin-result-tabs" role="tablist" aria-label="JSON計算タブ">
                 ${renderTabButtons(grouped, activeTab)}
             </div>
@@ -299,6 +305,13 @@
         const panelState = window.GenshinCalcConditions.conditionPanelState(context, calcData);
         renderResourceInputs(panelState.resourceInputs || []);
         renderComplexConditionInputs(panelState.complexConditionInputs || []);
+        const dedicated = panelState.dedicatedReferenceInputs || {};
+        setHidden("genshinJsonDedicatedReferenceField", !dedicated.visible);
+        setHidden("genshinJsonRecordedHealingLine", !dedicated.recordedHealing);
+        setHidden("genshinJsonProviderHpLine", !dedicated.providerHp);
+        setHidden("genshinJsonProviderAtkLine", !dedicated.providerAtk);
+        setHidden("genshinJsonProviderDefLine", !dedicated.providerDef);
+        setHidden("genshinJsonProviderElementalMasteryLine", !dedicated.providerElementalMastery);
 
         setHidden("genshinJsonCharacterConditionField", !panelState.characterCondition.visible && !panelState.lowHpCondition.visible);
         setHidden("genshinJsonEquipmentConditionField", !panelState.weaponCondition.visible && !panelState.weaponLowHpCondition.visible && !panelState.crimsonWitchCondition.visible);

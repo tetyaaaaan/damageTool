@@ -318,6 +318,20 @@
         };
     }
 
+    function thresholdStatBonusInfo(modifier) {
+        if (modifier?.customCalculation !== "thresholdStatBonus") return null;
+        const target = (modifier.applyTo || [])[0];
+        const validTarget = ["critRate", "critDamage", "elementalMastery", "atkFlat", "hpFlat", "defFlat"].includes(target);
+        const validReference = ["hp", "atk", "def", "elementalMastery"].includes(modifier.reference?.stat);
+        const validNumbers = finiteNumber(modifier.ratio) && finiteNumber(modifier.divisor) && Number(modifier.divisor) > 0;
+        return {
+            calculable: validTarget && validReference && validNumbers,
+            calculation: "scalingStatBonus",
+            supportStatus: validTarget && validReference && validNumbers ? "supported" : "invalidData",
+            reason: validTarget && validReference && validNumbers ? "" : "段階式ステータス補正の対象・参照値・除数が不足しています"
+        };
+    }
+
     function inputStatus(modifier, context) {
         if (context?.mode !== "uidMode") return "applicable";
         return UID_STATUS[modifier?.uidHandling] || "applicable";
@@ -331,6 +345,7 @@
     function analysisReasonCode(modifier, calculation = {}) {
         if (modifier?.auditDisposition === "supersededByStructuredRecord") return "SUPERSEDED_RECORD";
         if (modifier?.auditDisposition === "displayOnlyMisclassification") return "DISPLAY_ONLY_MISCLASSIFICATION";
+        if (modifier?.auditDisposition === "sourceContextRequired") return "SOURCE_CONTEXT_REQUIRED";
         const status = calculation.supportStatus || "";
         if (["supported", "stateInput"].includes(status)) return "";
         if (status === "missingInput") {
@@ -402,8 +417,13 @@
         if (modifier.auditDisposition === "displayOnlyMisclassification") {
             return { calculable: false, calculation: "", supportStatus: "displayOnly", reason: "旧カテゴリ誤分類を表示専用として隔離しています" };
         }
+        if (modifier.auditDisposition === "sourceContextRequired") {
+            return { calculable: false, calculation: "", supportStatus: "displayOnly", reason: "安全な計算に必要な原文コンテキストが不足しています" };
+        }
         const scalingAdditive = scalingAdditiveBaseDamageInfo(modifier, context);
         if (scalingAdditive) return scalingAdditive;
+        const thresholdStatBonus = thresholdStatBonusInfo(modifier);
+        if (thresholdStatBonus) return thresholdStatBonus;
         if (modifier.customCalculation === "extraDamage") {
             const calculable = hasResolvableValue(modifier) && Boolean(modifier.reference?.stat || hasStructuredScaling(modifier));
             return {

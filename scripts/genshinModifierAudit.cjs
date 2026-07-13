@@ -24,6 +24,8 @@ function loadAnalyzer() {
 
 function priorityFor(record) {
     if (["includedInUidStats", "includedInUidTalentLevels"].includes(record.uidHandling)) return "P4";
+    if (record.reasonCode === "SOURCE_CONTEXT_REQUIRED" || record.sourceContextRequired) return "P4";
+    if (record.uidHandling === "special" && /FORMULA_REQUIRED/.test(record.reasonCode)) return "P4";
     if (record.reasonCode.startsWith("CATEGORY_MISCLASSIFIED")) return "P0";
     if (["MISSING_VALUE", "MISSING_REFERENCE", "MISSING_TARGET", "INVALID_DATA", "INVALID_STAT_CONTRACT"].includes(record.reasonCode)) return "P1";
     if (/FORMULA_REQUIRED|CUSTOM_UNIT_REQUIRED/.test(record.reasonCode)) return "P2";
@@ -34,6 +36,8 @@ function priorityFor(record) {
 
 function implementationLane(record) {
     if (["includedInUidStats", "includedInUidTalentLevels"].includes(record.uidHandling)) return "includedInput";
+    if (record.reasonCode === "SOURCE_CONTEXT_REQUIRED" || record.sourceContextRequired) return "sourceData";
+    if (record.uidHandling === "special" && /FORMULA_REQUIRED/.test(record.reasonCode)) return "legacyCompat";
     if (record.reasonCode.startsWith("CATEGORY_MISCLASSIFIED")) return "categoryFix";
     if (/^MISSING_|^INVALID_/.test(record.reasonCode)) return "dataFix";
     if (/FORMULA_REQUIRED|CUSTOM_UNIT_REQUIRED/.test(record.reasonCode)) return "formula";
@@ -76,6 +80,8 @@ function buildAudit() {
                 inputStatus: analysis.inputStatus,
                 uidHandling: analysis.uidHandling
             };
+            record.sourceContextRequired = !record.id
+                && ["CATEGORY_MISCLASSIFIED", "MISSING_VALUE", "MISSING_REFERENCE"].includes(record.reasonCode);
             record.priority = priorityFor(record);
             record.lane = implementationLane(record);
             records.push(record);

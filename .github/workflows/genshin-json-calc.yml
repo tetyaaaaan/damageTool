@@ -1,0 +1,28 @@
+name: Genshin JSON calculation
+
+on:
+  push:
+    paths:
+      - "games/genshin/**"
+      - "games/js/genshin*.js"
+      - "scripts/genshin*.cjs"
+      - "scripts/generateGenshinGolden.cjs"
+      - "scripts/verifyGenshinCalc.cjs"
+      - "tests/genshin/**"
+      - ".github/workflows/genshin-json-calc.yml"
+  pull_request:
+    paths:
+      - "games/genshin/**"
+      - "games/js/genshin*.js"
+      - "scripts/**"
+      - "tests/genshin/**"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/verifyGenshinCalc.cjs

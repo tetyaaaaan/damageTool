@@ -902,15 +902,18 @@
     "constellations": {
       "1": [
         {
-          "category": "effectOverride",
+          "category": "extraDamage",
           "applyTo": [
             "triggeredDamage"
           ],
           "targetEffect": "seeSourceText",
           "effect": "complexConstellationEffect",
           "sourceText": "狙い撃ちする時、矢を連続で2本放つ。2本目の矢は元の矢の20%のダメージを与える。",
+          "referenceAttackType": "chargedAttack",
+          "value": 20,
+          "unit": "percent",
           "condition": "constellationUnlocked",
-          "calculationSupport": "custom",
+          "calculationSupport": "referenceAttackType",
           "uidHandling": "conditional",
           "id": "c_10000021_1_resolved_effect_override",
           "resolvedFromCategory": "special",
@@ -920,12 +923,12 @@
       "2": [
         {
           "id": "c_10000021_2_1",
-          "category": "extraDamage",
+          "category": "damageBonus",
           "applyTo": [
-            "triggeredDamage"
+            "skillDamageBonus"
           ],
           "condition": "conditional",
-          "calculationSupport": "custom",
+          "calculationSupport": "toggle",
           "uidHandling": "conditional",
           "sourceText": "ウサギ伯爵が改良された！フルチャージの狙い撃ちがウサギ伯爵の足に命中するとウサギ伯爵を直接起爆させることができる。\nこの方法で自らウサギ伯爵を起爆した場合、追加で200%のダメージを与える。",
           "value": 200.0,
@@ -1222,11 +1225,11 @@
           "effect": "complexConstellationEffect",
           "sourceText": "雷斫りの稲妻が2体の敵を追加で攻撃可能になる。",
           "condition": "constellationUnlocked",
-          "calculationSupport": "custom",
+          "calculationSupport": "displayOnly",
           "uidHandling": "conditional",
           "id": "c_10000024_2_resolved_effect_override",
           "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "auditDisposition": "displayOnlyMisclassification"
         }
       ],
       "3": [
@@ -1266,7 +1269,12 @@
           "base": "normalAttackDamage",
           "element": "雷",
           "damageType": "normal",
-          "customHandlingRequired": true
+          "reference": {
+            "stat": "atk",
+            "source": "self"
+          },
+          "customCalculation": "extraDamage",
+          "element": "雷"
         }
       ],
       "5": [
@@ -1441,11 +1449,11 @@
           "effect": "complexConstellationEffect",
           "sourceText": "通常攻撃が命中すると範囲ダメージを与える。",
           "condition": "onHit",
-          "calculationSupport": "custom",
+          "calculationSupport": "displayOnly",
           "uidHandling": "conditional",
           "id": "c_10000027_1_resolved_effect_override",
           "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "auditDisposition": "displayOnlyMisclassification"
         }
       ],
       "3": [
@@ -2161,11 +2169,11 @@
           "effect": "complexConstellationEffect",
           "sourceText": "度厄のお札マークがついている敵の攻撃力-20%。",
           "condition": "constellationUnlocked",
-          "calculationSupport": "custom",
+          "calculationSupport": "displayOnly",
           "uidHandling": "conditional",
           "id": "c_10000035_4_resolved_effect_override",
           "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "auditDisposition": "displayOnlyMisclassification"
         }
       ],
       "5": [
@@ -2283,7 +2291,7 @@
           "value": 15.0,
           "unit": "percent",
           "base": "damageMentionedInSourceText",
-          "customHandlingRequired": true
+          "auditDisposition": "supersededByStructuredRecord"
         }
       ]
     }
@@ -2322,19 +2330,29 @@
       ],
       "4": [
         {
-          "category": "effectOverride",
+          "category": "damageBonus",
           "applyTo": [
-            "triggeredDamage"
+            "allDamageBonus"
           ],
-          "targetEffect": "seeSourceText",
-          "effect": "complexConstellationEffect",
+          "value": 5,
+          "unit": "percent",
+          "stack": {
+            "min": 1,
+            "max": 5,
+            "default": 1
+          },
+          "conditionInput": {
+            "type": "stack",
+            "label": "降衆天華エリア内の経過段階",
+            "min": 1,
+            "max": 5
+          },
           "sourceText": "降衆天華エリア内、敵の受けるダメージがアップする。\n受けるダメージのアップ量は初期が5%、3秒毎に5%アップし、最大25%までアップできる。\n敵がエリアを出た後、エリアによる効果は3秒続く。",
           "condition": "constellationUnlocked",
-          "calculationSupport": "custom",
+          "calculationSupport": "stack",
           "uidHandling": "conditional",
           "id": "c_10000037_4_resolved_effect_override",
-          "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "resolvedFromCategory": "special"
         }
       ],
       "5": [
@@ -4128,20 +4146,31 @@
       ],
       "6": [
         {
-          "category": "effectOverride",
+          "category": "critBonus",
           "applyTo": [
-            "triggeredDamage"
+            "critDamage"
           ],
-          "targetEffect": "seeSourceText",
-          "effect": "complexConstellationEffect",
+          "valueByCondition": {
+            "sturdy": 10,
+            "impregnable": 20,
+            "crunch": 40
+          },
+          "conditionInput": {
+            "type": "option",
+            "label": "ゴローの領域状態",
+            "options": [
+              { "value": "sturdy", "label": "堅牢（岩1人）" },
+              { "value": "impregnable", "label": "破耐（岩2人）" },
+              { "value": "crunch", "label": "粉砕（岩3人）" }
+            ]
+          },
           "sourceText": "犬坂の遠吠え方円陣または獣牙突撃陣形戦法発動後の12秒間、発動時の領域状態に基づき、周囲チーム全員の岩元素ダメージの会心ダメージをアップする。\n·「堅牢」：10%アップ。\n·「破耐」：20%アップ。\n·「粉砕」：40%アップ。\n\nこの効果は重ね掛けできず、最後に発動したものが反映される。",
           "condition": "afterCast",
-          "calculationSupport": "custom",
+          "calculationSupport": "toggle",
           "uidHandling": "conditional",
           "id": "c_10000055_6_resolved_effect_override",
           "element": "岩",
-          "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "resolvedFromCategory": "special"
         }
       ]
     }
@@ -4167,15 +4196,18 @@
       ],
       "2": [
         {
-          "category": "effectOverride",
+          "category": "extraDamage",
           "applyTo": [
             "triggeredDamage"
           ],
           "targetEffect": "seeSourceText",
           "effect": "complexConstellationEffect",
           "sourceText": "烏天狗雷霆召呪を発動した時、九条裟羅が元々いた位置に微弱な天狗呪雷·伏の「烏羽」を発動し、本来の30%のダメージを与える。",
+          "referenceAttackType": "skill",
+          "value": 30,
+          "unit": "percent",
           "condition": "constellationUnlocked",
-          "calculationSupport": "custom",
+          "calculationSupport": "referenceAttackType",
           "uidHandling": "conditional",
           "id": "c_10000056_2_resolved_effect_override",
           "resolvedFromCategory": "special",
@@ -4620,6 +4652,8 @@
           "value": 156,
           "unit": "percent",
           "base": "breakthroughBarbDamage",
+          "referenceAttackType": "chargedAttack",
+          "customCalculation": "extraDamage",
           "condition": "afterBurst",
           "duration": 20,
           "maxTriggerCount": 5,
@@ -4630,7 +4664,8 @@
           "calculationSupport": "custom",
           "uidHandling": "conditional",
           "sourceText": "深謀玲瓏賽を発動後、夜蘭は「権謀術数」状態に入る。\n通常攻撃は特殊な「打破の矢」に変化する。この矢は打破の矢に近い特性を持ち、与えるダメージは打破の矢の156%、かつ重撃ダメージとみなされる。\n\n「権謀術数」状態の継続時間は最大20秒となり、5本の矢が発射されると終了する。",
-          "customHandlingRequired": true
+          "customHandlingRequired": true,
+          "auditDisposition": "displayOnlyMisclassification"
         }
       ]
     }
@@ -5476,6 +5511,10 @@
       "6": [
         {
           "id": "c_10000070_6_1",
+          "ratio": 0.6,
+          "divisor": 1000,
+          "maxValue": 30,
+          "customCalculation": "thresholdStatBonus",
           "category": "critBonus",
           "applyTo": [
             "critRate"
@@ -5501,6 +5540,10 @@
         },
         {
           "id": "c_10000070_6_2",
+          "ratio": 1.2,
+          "divisor": 1000,
+          "maxValue": 60,
+          "customCalculation": "thresholdStatBonus",
           "category": "critBonus",
           "applyTo": [
             "critDamage"
@@ -6173,6 +6216,7 @@
       "4": [
         {
           "id": "c_yaoyao_4_hp_to_em_v8",
+          "value": 0.3,
           "category": "statConversion",
           "applyTo": [
             "elementalMastery"
@@ -6186,7 +6230,7 @@
           "maxValue": 120,
           "condition": "afterSkillOrBurst",
           "duration": 8,
-          "calculationSupport": "custom",
+          "calculationSupport": "simple",
           "customHandlingRequired": true,
           "uidHandling": "conditional",
           "sourceText": "祥雲団々落清白、または玉顆珊々月中落を発動後、ヨォーヨのHP上限の0.3%を基にヨォーヨの元素熟知をアップする、継続時間8秒。この方法でアップできる元素熟知は最大120までとなる。"
@@ -6416,7 +6460,7 @@
           "value": 50.0,
           "unit": "percent",
           "base": "damageMentionedInSourceText",
-          "customHandlingRequired": true
+          "auditDisposition": "supersededByStructuredRecord"
         }
       ],
       "3": [
@@ -7814,6 +7858,8 @@
           "effect": "fireSupportFromBurst",
           "trigger": "ceremonialCrystalshotHit",
           "maxTriggerCount": 1,
+          "calculationSupport": "displayOnly",
+          "auditDisposition": "displayOnlyMisclassification",
           "target": {
             "section": "burst",
             "effectId": "fireSupport",
@@ -8290,9 +8336,14 @@
       "6": [
         {
           "id": "c_10000095_6_1",
+          "ratio": 0.4,
+          "divisor": 1000,
+          "maxValue": 20,
+          "customCalculation": "thresholdStatBonus",
           "category": "critBonus",
           "applyTo": [
-            "critRate"
+            "critRate",
+            "burstDamage"
           ],
           "unit": "percent",
           "sourceText": "シグウィンが治療を行う時、HP上限を基に自身の過飽和まごころお注射の会心率と会心ダメージを以下のようにアップする。HP上限1000ごとに会心率+0.4%、会心ダメージ+2.2%、継続時間15秒。この方法でアップできる会心率は最大20%まで、会心ダメージは最大110%まで。",
@@ -8315,9 +8366,14 @@
         },
         {
           "id": "c_10000095_6_2",
+          "ratio": 2.2,
+          "divisor": 1000,
+          "maxValue": 110,
+          "customCalculation": "thresholdStatBonus",
           "category": "critBonus",
           "applyTo": [
-            "critDamage"
+            "critDamage",
+            "burstDamage"
           ],
           "unit": "percent",
           "sourceText": "シグウィンが治療を行う時、HP上限を基に自身の過飽和まごころお注射の会心率と会心ダメージを以下のようにアップする。HP上限1000ごとに会心率+0.4%、会心ダメージ+2.2%、継続時間15秒。この方法でアップできる会心率は最大20%まで、会心ダメージは最大110%まで。",
@@ -8759,12 +8815,12 @@
         },
         {
           "id": "c_10000099_1_2",
-          "category": "extraDamage",
+          "category": "damageBonus",
           "applyTo": [
-            "triggeredDamage"
+            "skillDamageBonus"
           ],
           "condition": "conditional",
-          "calculationSupport": "custom",
+          "calculationSupport": "toggle",
           "uidHandling": "conditional",
           "sourceText": "フレグランス・アコードと固有天賦「余香」の清露コロンによるダメージ+20%。固有天賦「余香」を解放する必要がある。\nまた、付近にいるチーム内キャラクターが敵に燃焼反応を起こした時、または燃焼状態の敵に草元素ダメージを与えた時、追加で芳香を1生成する。この効果は2.9秒毎に1回のみ発動可能。",
           "value": 20.0,
@@ -9608,7 +9664,7 @@
           "value": 8.0,
           "unit": "percent",
           "base": "damageMentionedInSourceText",
-          "customHandlingRequired": true
+          "auditDisposition": "supersededByStructuredRecord"
         }
       ],
       "3": [
@@ -9737,7 +9793,7 @@
           "value": 10.0,
           "unit": "percent",
           "base": "damageMentionedInSourceText",
-          "customHandlingRequired": true
+          "auditDisposition": "supersededByStructuredRecord"
         }
       ],
       "5": [
@@ -12271,6 +12327,7 @@
       "1": [
         {
           "id": "c_10000124_1_1",
+          "auditDisposition": "sourceContextRequired",
           "category": "extraDamage",
           "applyTo": [
             "triggeredDamage"
@@ -13162,6 +13219,7 @@
         },
         {
           "id": "c_10000130_1_3",
+          "auditDisposition": "sourceContextRequired",
           "category": "additiveBaseDamage",
           "applyTo": [
             "skillDamage"

@@ -88,6 +88,32 @@ async function buildGoldenScenarios() {
         golden.baizhuExtraDamage = resultSummary(payload.results.find((result) => result.entry.effectId === "c_10000082_2_1_resolved_1"));
     }
 
+    {
+        const { sandbox, elements } = createScenarioHarness();
+        prepareScenarioInputs(elements, { characterId: "10000037", weaponId: "15502" });
+        setElement(elements, "genshinJsonAmosStack", 5);
+        const payload = await sandbox.GenshinCalcEngine.runGenshinJsonCalc();
+        const charged = payload.results.find((result) => result.entry.attackType === "chargedAttack");
+        golden.ganyuAmosFiveStacks = {
+            amosBonuses: charged.breakdown.appliedModifiers
+                .filter((item) => item.source === "weapon:15502")
+                .map((item) => ({ id: item.modifier.id, value: round(item.value) })),
+            result: resultSummary(charged)
+        };
+    }
+
+    {
+        const { sandbox, elements } = createScenarioHarness();
+        prepareScenarioInputs(elements, { characterId: "10000070", constellation: 6, stats: { hp: 60000 } });
+        const payload = await sandbox.GenshinCalcEngine.runGenshinJsonCalc();
+        const normal = payload.results.find((result) => result.entry.attackType === "normalAttack");
+        golden.nilouThresholdCrit = {
+            critRate: round(normal.breakdown.critRate),
+            critDamage: round(normal.breakdown.critDamage),
+            result: resultSummary(normal)
+        };
+    }
+
     return golden;
 }
 
