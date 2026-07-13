@@ -50,6 +50,7 @@
             "value",
             "valueByRefinement",
             "valueByStack",
+            "valueByLevel",
             "valuePerStack",
             "valuePerConsumedStack",
             "valuePerExcessStack",

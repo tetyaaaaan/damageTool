@@ -262,9 +262,9 @@
                     </optgroup>
                   </select>
                 </label>
-                <label class="genshin-field">アモス距離補正
+                <label class="genshin-field">武器条件補正（対応武器のみ）
                   <select id="genshinJsonAmosStack">
-                    <option value="0">0段（近距離）</option>
+                    <option value="0">武器条件なし / 0段</option>
                     <option value="1">1段</option>
                     <option value="2">2段</option>
                     <option value="3">3段</option>
@@ -272,8 +272,10 @@
                     <option value="5" selected>5段（最大）</option>
                   </select>
                 </label>
-                <label class="genshin-field">命ノ星座補正
-                  <span class="genshin-checkbox-line"><input type="checkbox" id="genshinJsonEnableConstellation" checked> C1耐性デバフ</span>
+                <label class="genshin-field">キャラ条件補正
+                  <span class="genshin-checkbox-line"><input type="checkbox" id="genshinJsonEnableCharacterCondition" checked> スキル/固有条件を適用</span>
+                  <span class="genshin-checkbox-line"><input type="checkbox" id="genshinJsonEnableLowHpCondition"> HP50%以下条件</span>
+                  <span class="genshin-checkbox-line"><input type="checkbox" id="genshinJsonEnableConstellation" checked> 命ノ星座条件を適用</span>
                 </label>
               </div>
               <button type="button" class="teti-button teti-button-secondary" id="genshinJsonCalcButton">JSON計算を実行</button>
