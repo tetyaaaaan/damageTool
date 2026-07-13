@@ -2721,10 +2721,48 @@ body.tool-page .teti-main > .teti-container > .box {
 }
 
 .genshin-tool-page .genshin-checkbox-line {
-  display: inline-flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
   gap: 8px;
-  min-height: 42px;
+  min-height: auto;
+  padding: 4px 0;
+  line-height: 1.45;
+}
+
+.genshin-tool-page .genshin-checkbox-line input {
+  margin-top: 0.2em;
+}
+
+.genshin-tool-page .genshin-condition-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(88px, auto);
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+  line-height: 1.45;
+}
+
+.genshin-tool-page .genshin-condition-line select {
+  width: auto;
+  min-width: 88px;
+}
+
+.genshin-tool-page .genshin-json-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0 8px;
+}
+
+.genshin-tool-page .genshin-json-condition-grid {
+  grid-template-columns: minmax(160px, 0.75fr) minmax(180px, 0.95fr) minmax(240px, 1.3fr);
+  align-items: start;
+}
+
+.genshin-tool-page .genshin-json-calc-test .genshin-field select {
+  min-height: 40px;
+}
 }
 
 .genshin-tool-page .genshin-json-calc-warnings {

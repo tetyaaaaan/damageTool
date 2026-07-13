@@ -28,6 +28,11 @@
         return Number.isFinite(num) ? Math.round(num).toLocaleString("ja-JP") : "-";
     }
 
+    function formatDamageNumber(value) {
+        const num = Number(value);
+        return Number.isFinite(num) ? Math.floor(num).toLocaleString("ja-JP") : "-";
+    }
+
     function formatDecimal(value, digits = 2) {
         const num = Number(value);
         return Number.isFinite(num) ? num.toFixed(digits) : "-";
@@ -135,10 +140,10 @@
             <article class="genshin-json-result-card">
                 <h4>${escapeHtml(result.entry.label)}</h4>
                 <div class="genshin-json-result-values">
-                    <span>非会心<br><strong>${formatNumber(result.nonCrit)}</strong></span>
-                    <span>会心<br><strong>${formatNumber(result.crit)}</strong></span>
-                    <span>期待値<br><strong>${formatNumber(result.expected)}</strong></span>
-                    <span>ヒット合計<br><strong>${formatNumber(result.total.expected)}</strong></span>
+                    <span>非会心<br><strong>${formatDamageNumber(result.nonCrit)}</strong></span>
+                    <span>会心<br><strong>${formatDamageNumber(result.crit)}</strong></span>
+                    <span>期待値<br><strong>${formatDamageNumber(result.expected)}</strong></span>
+                    <span>ヒット合計<br><strong>${formatDamageNumber(result.total.expected)}</strong></span>
                 </div>
                 ${renderBreakdown(result)}
             </article>
@@ -224,9 +229,22 @@
         if (element) element.checked = checked;
     }
 
+    function setValue(id, value) {
+        const element = getElement(id);
+        if (element) element.value = value;
+    }
+
+    function parseConstellation(value) {
+        const match = String(value || "").match(/\d+/);
+        return match ? Number(match[0]) : 0;
+    }
+
     async function handlePrepareConditionsClick() {
         const characterId = getElement("genshinCalcCharacterId")?.value || "";
         const weaponId = getElement("genshinCalcWeaponId")?.value || "";
+        const artifactSetOne = getElement("genshinArtifactSetOne")?.value || "";
+        const hasReflectedCharacter = Boolean(getElement("genshinReflectCharacter")?.value || "");
+        const reflectedConstellation = hasReflectedCharacter ? getElement("genshinReflectConstellation")?.value || "C0" : "C1";
         const calcData = await window.GenshinCalcData.loadGenshinCalcData();
         const characterName = calcData.characters?.[characterId]?.nameJa || `キャラクターID ${characterId || "-"}`;
         const weaponName = calcData.weapons?.[weaponId]?.nameJa || `武器ID ${weaponId || "-"}`;
@@ -235,6 +253,7 @@
         setHidden("genshinJsonCharacterConditionLine", characterId !== "10000046");
         setHidden("genshinJsonLowHpConditionLine", characterId !== "10000046" && weaponId !== "13501");
         setHidden("genshinJsonConstellationConditionLine", !["10000037", "10000046"].includes(characterId));
+        setHidden("genshinJsonCrimsonWitchConditionLine", artifactSetOne !== "15006");
 
         setText("genshinJsonCharacterConditionText", characterId === "10000046"
             ? "蝶導来世中（通常/重撃/落下を炎元素化し、HP参照で攻撃力アップ）"
@@ -245,14 +264,15 @@
                 ? "HP50%以下条件（炎元素ダメージ+33%）"
                 : "HP50%未満条件（護摩の追加攻撃力）");
         setText("genshinJsonConstellationConditionText", characterId === "10000037"
-            ? "甘雨 C1 氷元素耐性デバフ"
+            ? "甘雨 命ノ星座（C1以上で氷元素耐性デバフ）"
             : characterId === "10000046"
-                ? "胡桃 命ノ星座条件"
-                : "命ノ星座条件を適用");
+                ? "胡桃 命ノ星座"
+                : "命ノ星座");
 
         setChecked("genshinJsonEnableCharacterCondition", false);
         setChecked("genshinJsonEnableLowHpCondition", false);
-        setChecked("genshinJsonEnableConstellation", false);
+        setValue("genshinJsonConstellationLevel", `C${Math.min(Math.max(parseConstellation(reflectedConstellation), 0), 6)}`);
+        setValue("genshinJsonCrimsonWitchStack", "0");
         if (weaponId !== "15502") {
             const amosStack = getElement("genshinJsonAmosStack");
             if (amosStack) amosStack.value = "0";
@@ -260,7 +280,7 @@
 
         const help = getElement("genshinJsonConditionHelp");
         if (help) {
-            help.textContent = `${characterName} / ${weaponName} に合わせて補正条件を更新しました。必要な条件だけチェックしてからJSON計算を実行してください。`;
+            help.textContent = `${characterName} / ${weaponName} に合わせて補正条件を更新しました。命ノ星座は現在の入力欄の値を初期選択しています。必要な条件を選んでからJSON計算を実行してください。`;
         }
     }
 

@@ -52,12 +52,13 @@
         const artifactSetOne = readText("genshinArtifactSetOne", "15003") || "15003";
         const hasReflectedCharacter = Boolean(readText("genshinReflectCharacter", ""));
         const constellationValue = hasReflectedCharacter ? readText("genshinReflectConstellation", "C0") : "C1";
+        const selectedConstellation = readText("genshinJsonConstellationLevel", constellationValue) || constellationValue;
         return {
             characterId: readText("genshinCalcCharacterId", "10000037") || "10000037",
             weaponId: readText("genshinCalcWeaponId", "15502") || "15502",
             refinement: normalizeRefinement(readText("genshinWeaponRefinement", "R1")),
             artifactSetIds: [artifactSetOne],
-            constellation: parseConstellation(constellationValue),
+            constellation: parseConstellation(selectedConstellation),
             talentLevels: {
                 normal: readNumber("genshinNormalTalentLevel", 10),
                 skill: readNumber("genshinSkillTalentLevel", 10),
@@ -85,9 +86,10 @@
             reactionOption: REACTION_OPTIONS[readText("genshinJsonReactionOption", "none")] || REACTION_OPTIONS.none,
             uiState: {
                 amosStack: readNumber("genshinJsonAmosStack", 5),
+                crimsonWitchStack: readNumber("genshinJsonCrimsonWitchStack", 0),
                 enableCharacterCondition: Boolean(getElement("genshinJsonEnableCharacterCondition")?.checked),
                 enableLowHpCondition: Boolean(getElement("genshinJsonEnableLowHpCondition")?.checked),
-                enableConstellation: Boolean(getElement("genshinJsonEnableConstellation")?.checked),
+                enableConstellation: parseConstellation(selectedConstellation) > 0,
                 stackByModifier: {}
             }
         };
@@ -134,6 +136,10 @@
     }
 
     function resolveModifierValue(modifier, context, uiState = context.uiState || {}) {
+        if (modifier.value !== undefined && modifier.calculationSupport === "stack" && modifier.stack) {
+            const stack = Math.min(Math.max(uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack.default ?? 0, modifier.stack.min ?? 0), modifier.stack.max ?? 0);
+            return (Number(modifier.value) || 0) * stack;
+        }
         if (modifier.value !== undefined) return modifier.value;
         if (modifier.valueByRefinement) {
             const raw = modifier.valueByRefinement[String(context.refinement)] ?? modifier.valueByRefinement["1"];
@@ -226,7 +232,15 @@
             const artifact = calcData.artifactSetModifiers?.[setId];
             const weaponType = calcData.weapons?.[context.weaponId]?.weaponType || "";
             const autoFourPiece = setId === "15003" && ["弓", "法器"].includes(weaponType);
-            (artifact?.fourPiece || []).forEach((modifier) => consider(modifier, `artifact4:${setId}`, autoFourPiece));
+            (artifact?.fourPiece || []).forEach((modifier) => {
+                const isCrimsonWitchSkillStack = setId === "15006"
+                    && modifier.condition === "afterSkill"
+                    && context.uiState.crimsonWitchStack > 0;
+                if (isCrimsonWitchSkillStack) {
+                    context.uiState.stackByModifier[modifier.id] = context.uiState.crimsonWitchStack;
+                }
+                consider(modifier, `artifact4:${setId}`, autoFourPiece || isCrimsonWitchSkillStack);
+            });
             (artifact?.twoPiece || []).forEach((modifier) => consider(modifier, `artifact2:${setId}`, false));
         });
 

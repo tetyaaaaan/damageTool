@@ -227,7 +227,12 @@
             <div class="genshin-fieldset genshin-json-calc-test">
               <h3>JSON計算テスト</h3>
               <p class="genshin-help">既存計算とは別経路で、data/calc のJSONから代表パターンを計算します。</p>
-              <div class="genshin-form-grid">
+              <div class="genshin-json-actions">
+                <button type="button" class="teti-button teti-button-secondary" id="genshinJsonPrepareConditionsButton">補正条件を更新</button>
+                <button type="button" class="teti-button teti-button-secondary" id="genshinJsonCalcButton">JSON計算を実行</button>
+              </div>
+              <p class="genshin-help" id="genshinJsonConditionHelp">計算前に、現在のキャラ・武器に合わせて補正条件を更新してください。</p>
+              <div class="genshin-form-grid genshin-json-condition-grid">
                 <label class="genshin-field">元素反応
                   <select id="genshinJsonReactionOption">
                     <option value="none">反応なし</option>
@@ -275,12 +280,29 @@
                 <label class="genshin-field" id="genshinJsonCharacterConditionField">キャラ条件補正
                   <span class="genshin-checkbox-line" id="genshinJsonCharacterConditionLine"><input type="checkbox" id="genshinJsonEnableCharacterCondition"> <span id="genshinJsonCharacterConditionText">スキル/固有条件を適用</span></span>
                   <span class="genshin-checkbox-line" id="genshinJsonLowHpConditionLine"><input type="checkbox" id="genshinJsonEnableLowHpCondition"> <span id="genshinJsonLowHpConditionText">HP50%以下条件</span></span>
-                  <span class="genshin-checkbox-line" id="genshinJsonConstellationConditionLine"><input type="checkbox" id="genshinJsonEnableConstellation"> <span id="genshinJsonConstellationConditionText">命ノ星座条件を適用</span></span>
+                  <span class="genshin-condition-line" id="genshinJsonConstellationConditionLine">
+                    <span id="genshinJsonConstellationConditionText">命ノ星座</span>
+                    <select id="genshinJsonConstellationLevel">
+                      <option value="C0">C0</option>
+                      <option value="C1">C1</option>
+                      <option value="C2">C2</option>
+                      <option value="C3">C3</option>
+                      <option value="C4">C4</option>
+                      <option value="C5">C5</option>
+                      <option value="C6">C6</option>
+                    </select>
+                  </span>
+                  <span class="genshin-condition-line" id="genshinJsonCrimsonWitchConditionLine">
+                    <span>火魔女4セット（元素スキル使用後）</span>
+                    <select id="genshinJsonCrimsonWitchStack">
+                      <option value="0">0層</option>
+                      <option value="1">1層</option>
+                      <option value="2">2層</option>
+                      <option value="3">3層</option>
+                    </select>
+                  </span>
                 </label>
               </div>
-              <button type="button" class="teti-button teti-button-secondary" id="genshinJsonPrepareConditionsButton">補正条件を更新</button>
-              <button type="button" class="teti-button teti-button-secondary" id="genshinJsonCalcButton">JSON計算を実行</button>
-              <p class="genshin-help" id="genshinJsonConditionHelp">計算前に、現在のキャラ・武器に合わせて補正条件を更新してください。</p>
               <div id="genshinJsonCalcWarnings" class="genshin-json-calc-warnings" hidden></div>
               <div id="genshinJsonCalcResults" class="genshin-json-calc-results" hidden></div>
             </div>
