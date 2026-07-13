@@ -15579,6 +15579,7 @@
       "entries": [
         {
           "id": "damage",
+          "effectId": "bloodBlossomDamage",
           "label": "血梅香ダメージ",
           "attackType": "skill",
           "damageType": "skill",

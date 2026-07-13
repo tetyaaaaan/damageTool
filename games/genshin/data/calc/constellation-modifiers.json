@@ -3192,8 +3192,8 @@
             "source": "self"
           },
           "condition": "constellationUnlocked",
-          "calculationSupport": "custom",
-          "customHandlingRequired": true,
+          "calculationSupport": "toggle",
+          "customHandlingRequired": false,
           "uidHandling": "conditional",
           "sourceText": "血梅香のダメージ量が胡桃のHP上限の10%分アップする。\nまた、安神秘法は命中した敵に血梅香効果を与える。"
         }

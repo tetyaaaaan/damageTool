@@ -105,6 +105,14 @@
         `;
     }
 
+    function renderScalingParts(parts) {
+        const rows = parts || [];
+        if (!rows.length) return "-";
+        return rows.map((part) => {
+            return `${escapeHtml(part.stat)} / ${formatNumber(part.statValue)} / ${formatDecimal(part.talentMultiplier)}%`;
+        }).join("<br>");
+    }
+
     function renderBreakdown(result) {
         const b = result.breakdown;
         return `
@@ -117,8 +125,8 @@
                     <div><dt>攻撃種別</dt><dd>${escapeHtml(result.entry.attackType)}</dd></div>
                     <div><dt>ダメージ種別</dt><dd>${escapeHtml(result.entry.damageType)}</dd></div>
                     <div><dt>元素</dt><dd>${escapeHtml(result.entry.element)}</dd></div>
-                    <div><dt>参照ステータス</dt><dd>${escapeHtml(b.stat)} / ${formatNumber(b.statValue)}</dd></div>
-                    <div><dt>天賦Lv / 倍率</dt><dd>Lv.${b.talentLevel} / ${formatDecimal(b.talentMultiplier)}%</dd></div>
+                    <div><dt>参照ステータス / 倍率</dt><dd>${renderScalingParts(b.scalingParts)}</dd></div>
+                    <div><dt>天賦Lv</dt><dd>Lv.${b.talentLevel}</dd></div>
                     <div><dt>ヒット数</dt><dd>${escapeHtml(b.hitCount)}</dd></div>
                     <div><dt>ダメージバフ合計</dt><dd>${formatDecimal(b.damageBonus)}%</dd></div>
                     <div><dt>会心率 / 会心ダメージ</dt><dd>${formatDecimal(b.critRate)}% / ${formatDecimal(b.critDamage)}%</dd></div>
@@ -234,6 +242,12 @@
         if (element) element.value = value;
     }
 
+    function applyConstellationRow(rowId, textId, checkedId, rowState) {
+        setHidden(rowId, !rowState.visible);
+        setText(textId, rowState.label || "");
+        setChecked(checkedId, false);
+    }
+
     function parseConstellation(value) {
         const match = String(value || "").match(/\d+/);
         return match ? Number(match[0]) : 0;
@@ -255,7 +269,6 @@
         setHidden("genshinJsonLowHpConditionLine", !panelState.lowHpCondition.visible);
         setHidden("genshinJsonWeaponLowHpConditionLine", !panelState.weaponLowHpCondition.visible);
         setHidden("genshinJsonConstellationConditionLine", !panelState.constellationCondition.visible);
-        setHidden("genshinJsonConstellationActiveConditionLine", !panelState.constellationActiveCondition.visible);
         setHidden("genshinJsonCrimsonWitchConditionLine", !panelState.crimsonWitchCondition.visible);
 
         setText("genshinJsonWeaponConditionText", panelState.weaponCondition.label);
@@ -263,12 +276,14 @@
         setText("genshinJsonLowHpConditionText", panelState.lowHpCondition.label);
         setText("genshinJsonWeaponLowHpConditionText", panelState.weaponLowHpCondition.label);
         setText("genshinJsonConstellationConditionText", panelState.constellationCondition.label);
-        setText("genshinJsonConstellationActiveConditionText", panelState.constellationActiveCondition.label);
 
         setChecked("genshinJsonEnableCharacterCondition", false);
         setChecked("genshinJsonEnableLowHpCondition", false);
         setChecked("genshinJsonEnableWeaponLowHpCondition", false);
-        setChecked("genshinJsonEnableConstellationCondition", false);
+        applyConstellationRow("genshinJsonConstellationC1Line", "genshinJsonConstellationC1Text", "genshinJsonEnableConstellationC1", panelState.constellationRows.C1);
+        applyConstellationRow("genshinJsonConstellationC2Line", "genshinJsonConstellationC2Text", "genshinJsonEnableConstellationC2", panelState.constellationRows.C2);
+        applyConstellationRow("genshinJsonConstellationC4Line", "genshinJsonConstellationC4Text", "genshinJsonEnableConstellationC4", panelState.constellationRows.C4);
+        applyConstellationRow("genshinJsonConstellationC6Line", "genshinJsonConstellationC6Text", "genshinJsonEnableConstellationC6", panelState.constellationRows.C6);
         setValue("genshinJsonConstellationLevel", `C${Math.min(Math.max(parseConstellation(reflectedConstellation), 0), 6)}`);
         setValue("genshinJsonCrimsonWitchStack", "0");
         if (weaponId !== "15502") {

@@ -2756,7 +2756,7 @@ body.tool-page .teti-main > .teti-container > .box {
 }
 
 .genshin-tool-page .genshin-json-condition-grid {
-  grid-template-columns: minmax(150px, 0.8fr) repeat(3, minmax(190px, 1fr));
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
   align-items: start;
 }
 

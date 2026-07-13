@@ -20,18 +20,67 @@
         return Number.isFinite(level) && context.constellation >= level;
     }
 
-    function isGanyuC1Debuff(modifier, sourceInfo, context) {
-        return context.characterId === "10000037"
-            && sourceInfo.type === "constellation"
-            && sourceInfo.id === "C1"
-            && modifier.category === "resistanceDebuff";
+    const CONSTELLATION_UI_LEVELS = ["C1", "C2", "C4", "C6"];
+    const USER_TOGGLE_CATEGORIES = new Set([
+        "additiveBaseDamage",
+        "critBonus",
+        "damageBonus",
+        "defenseDebuff",
+        "defenseIgnore",
+        "elementOverride",
+        "resistanceDebuff",
+        "statBonus"
+    ]);
+
+    function userEnabledConstellation(sourceInfo, context) {
+        return Boolean(context.uiState.constellationConditions?.[sourceInfo.id]);
     }
 
-    function isUserToggleConstellation(modifier, sourceInfo, context) {
-        return context.characterId === "10000046"
-            && sourceInfo.type === "constellation"
-            && ["C4", "C6"].includes(sourceInfo.id)
-            && ["critBonus"].includes(modifier.category);
+    function supportsConstellationToggle(modifier, sourceInfo, context) {
+        if (sourceInfo.type !== "constellation") return false;
+        return USER_TOGGLE_CATEGORIES.has(modifier.category);
+    }
+
+    function shortSourceText(text) {
+        return String(text || "")
+            .replace(/\s+/g, " ")
+            .replace(/。.*$/, "。")
+            .slice(0, 42);
+    }
+
+    function categoryLabel(category) {
+        const labels = {
+            additiveBaseDamage: "基礎ダメージ加算",
+            critBonus: "会心補正",
+            damageBonus: "ダメージバフ",
+            defenseDebuff: "防御デバフ",
+            defenseIgnore: "防御無視",
+            elementOverride: "元素変化",
+            resistanceDebuff: "耐性デバフ",
+            statBonus: "ステータス補正"
+        };
+        return labels[category] || category || "補正";
+    }
+
+    function buildConstellationRows(context, calcData) {
+        const constellations = calcData.constellationModifiers?.[context.characterId]?.constellations || {};
+        return CONSTELLATION_UI_LEVELS.reduce((rows, cLabel) => {
+            const level = Number(cLabel.slice(1));
+            const modifiers = constellations[String(level)] || [];
+            const visibleModifiers = modifiers.filter((modifier) => {
+                if (modifier.uidHandling === "includedInUidTalentLevels") return false;
+                if (!supportsConstellationToggle(modifier, { type: "constellation", id: cLabel }, context)) return false;
+                return modifier.calculationSupport !== "custom" && modifier.calculationSupport !== "special";
+            });
+            const first = visibleModifiers[0];
+            rows[cLabel] = {
+                visible: context.constellation >= level && visibleModifiers.length > 0,
+                label: first
+                    ? `${level}C ${categoryLabel(first.category)}: ${shortSourceText(first.sourceText)}`
+                    : `${level}C 補正`
+            };
+            return rows;
+        }, {});
     }
 
     function evaluateModifierCondition({ modifier, source, context, calcData }) {
@@ -88,11 +137,8 @@
             if (!isUnlockedConstellation(sourceInfo.id, context)) {
                 return { enabled: false };
             }
-            if (isGanyuC1Debuff(modifier, sourceInfo, context)) {
-                return { enabled: true };
-            }
-            if (isUserToggleConstellation(modifier, sourceInfo, context)) {
-                return { enabled: context.uiState.enableConstellationCondition };
+            if (supportsConstellationToggle(modifier, sourceInfo, context)) {
+                return { enabled: userEnabledConstellation(sourceInfo, context) };
             }
             return { enabled: false };
         }
@@ -110,7 +156,7 @@
         const hasHuTao = context.characterId === "10000046";
         const hasGanyu = context.characterId === "10000037";
         const hasCrimsonWitch = (context.artifactSetIds || []).includes("15006");
-        const hasHuTaoConditionalConstellation = hasHuTao && context.constellation >= 4;
+        const constellationRows = buildConstellationRows(context, calcData);
 
         return {
             weaponCondition: {
@@ -132,19 +178,10 @@
                 label: "護摩の杖 HP50%未満条件（追加攻撃力）"
             },
             constellationCondition: {
-                visible: hasGanyu || hasHuTao,
-                label: hasGanyu
-                    ? "解放段階（C1以上で氷元素耐性デバフ）"
-                    : hasHuTao
-                        ? "解放段階"
-                        : "解放段階"
+                visible: Object.values(constellationRows).some((row) => row.visible),
+                label: "解放段階"
             },
-            constellationActiveCondition: {
-                visible: hasHuTaoConditionalConstellation,
-                label: context.constellation >= 6
-                    ? "胡桃 C4/C6条件を満たす（会心率上昇）"
-                    : "胡桃 C4条件を満たす（会心率上昇）"
-            },
+            constellationRows,
             crimsonWitchCondition: {
                 visible: hasCrimsonWitch,
                 label: "火魔女4セット（元素スキル使用後）"

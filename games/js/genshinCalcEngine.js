@@ -49,7 +49,14 @@
     }
 
     function buildCharacterCalcContext() {
+        const artifactSetMode = readText("genshinArtifactSetMode", "");
         const artifactSetOne = readText("genshinArtifactSetOne", "");
+        const artifactSetTwo = readText("genshinArtifactSetTwo", "");
+        const artifactSetIds = [];
+        if (artifactSetOne) artifactSetIds.push(artifactSetOne);
+        if (artifactSetMode === "2pc2pc" && artifactSetTwo && artifactSetTwo !== artifactSetOne) {
+            artifactSetIds.push(artifactSetTwo);
+        }
         const hasReflectedCharacter = Boolean(readText("genshinReflectCharacter", ""));
         const constellationValue = hasReflectedCharacter ? readText("genshinReflectConstellation", "C0") : "C0";
         const selectedConstellation = readText("genshinJsonConstellationLevel", constellationValue) || constellationValue;
@@ -57,7 +64,8 @@
             characterId: readText("genshinCalcCharacterId", ""),
             weaponId: readText("genshinCalcWeaponId", ""),
             refinement: normalizeRefinement(readText("genshinWeaponRefinement", "R1")),
-            artifactSetIds: artifactSetOne ? [artifactSetOne] : [],
+            artifactSetMode,
+            artifactSetIds,
             constellation: parseConstellation(selectedConstellation),
             talentLevels: {
                 normal: readNumber("genshinNormalTalentLevel", 10),
@@ -90,7 +98,12 @@
                 enableCharacterCondition: Boolean(getElement("genshinJsonEnableCharacterCondition")?.checked),
                 enableLowHpCondition: Boolean(getElement("genshinJsonEnableLowHpCondition")?.checked),
                 enableWeaponLowHpCondition: Boolean(getElement("genshinJsonEnableWeaponLowHpCondition")?.checked),
-                enableConstellationCondition: Boolean(getElement("genshinJsonEnableConstellationCondition")?.checked),
+                constellationConditions: {
+                    C1: Boolean(getElement("genshinJsonEnableConstellationC1")?.checked),
+                    C2: Boolean(getElement("genshinJsonEnableConstellationC2")?.checked),
+                    C4: Boolean(getElement("genshinJsonEnableConstellationC4")?.checked),
+                    C6: Boolean(getElement("genshinJsonEnableConstellationC6")?.checked)
+                },
                 enableConstellation: parseConstellation(selectedConstellation) > 0,
                 stackByModifier: {}
             }
@@ -239,10 +252,12 @@
             consider(modifier, `weapon:${context.weaponId}`);
         });
 
-        context.artifactSetIds.forEach((setId) => {
+        context.artifactSetIds.forEach((setId, index) => {
             const artifact = calcData.artifactSetModifiers?.[setId];
-            (artifact?.fourPiece || []).forEach((modifier) => consider(modifier, `artifact4:${setId}`));
             (artifact?.twoPiece || []).forEach((modifier) => consider(modifier, `artifact2:${setId}`));
+            if (context.artifactSetMode === "4pc" && index === 0) {
+                (artifact?.fourPiece || []).forEach((modifier) => consider(modifier, `artifact4:${setId}`));
+            }
         });
 
         const constellations = calcData.constellationModifiers?.[context.characterId]?.constellations || {};
@@ -287,7 +302,15 @@
 
     function modifierTargetsEntry(modifier, entry) {
         const applyTo = modifier.applyTo || [];
+        if (entry.effectId && applyTo.includes(entry.effectId)) return true;
+        if (entry.id && applyTo.includes(entry.id)) return true;
         return applyTo.includes(entry.attackType) || applyTo.includes(entry.damageType);
+    }
+
+    function resolveReferencedValue(modifier, value, context) {
+        const referenceStat = modifier.reference?.stat || "hp";
+        const referenceValue = Number(context.stats[referenceStat]) || 0;
+        return referenceValue * (Number(value) || 0) / 100;
     }
 
     function resolveStatBonusValue(modifier, value, context) {
@@ -327,9 +350,12 @@
         const totals = {
             damageBonus: 0,
             resistanceDebuff: context.enemy.resistanceDebuff,
+            defenseDebuff: context.enemy.defenseDebuff,
+            defenseIgnore: context.enemy.defenseIgnore,
             statBonus: {},
             critRateBonus: 0,
             critDamageBonus: 0,
+            additiveBaseDamage: 0,
             elementOverride: ""
         };
         collected.applied.forEach((item) => {
@@ -370,8 +396,20 @@
                 } else {
                     candidates.push({ modifier, source: item.source, reason: "対象entry外" });
                 }
+            } else if (modifier.category === "additiveBaseDamage" && modifierTargetsEntry(modifier, effectiveEntry)) {
+                const additiveValue = modifier.reference
+                    ? resolveReferencedValue(modifier, value, context)
+                    : Number(value) || 0;
+                totals.additiveBaseDamage += additiveValue;
+                applied.push({ ...item, value: additiveValue });
             } else if (modifier.category === "resistanceDebuff" && resistanceDebuffAppliesToEntry(modifier, effectiveEntry)) {
                 totals.resistanceDebuff += Math.abs(Number(value) || 0);
+                applied.push(item);
+            } else if (modifier.category === "defenseDebuff") {
+                totals.defenseDebuff += Math.abs(Number(value) || 0);
+                applied.push(item);
+            } else if (modifier.category === "defenseIgnore") {
+                totals.defenseIgnore += Math.abs(Number(value) || 0);
                 applied.push(item);
             } else {
                 candidates.push({ modifier, source: item.source, reason: "対象entry外" });
@@ -403,19 +441,44 @@
         };
     }
 
+    function calculateScalingParts(entry, context, appliedModifiers, talentLevel, problems) {
+        const scalings = Array.isArray(entry.scalings) ? entry.scalings : [];
+        if (!scalings.length) {
+            problems.push("天賦倍率データが不足しています。");
+            return [];
+        }
+        return scalings.map((scaling) => {
+            const talentMultiplier = Number(scaling?.valuesByLevel?.[String(talentLevel)]);
+            const statValue = Number(context.stats[scaling?.stat]) + (appliedModifiers.totals.statBonus?.[scaling?.stat] || 0);
+            const valid = Number.isFinite(talentMultiplier) && Number.isFinite(statValue);
+            if (!valid) {
+                problems.push("天賦倍率または参照ステータスが不足しています。");
+            }
+            return {
+                stat: scaling?.stat || "-",
+                statValue: Number.isFinite(statValue) ? statValue : 0,
+                talentMultiplier: Number.isFinite(talentMultiplier) ? talentMultiplier : 0,
+                baseDamage: valid ? statValue * talentMultiplier / 100 : 0
+            };
+        });
+    }
+
     function calculateDamage(entry, context, appliedModifiers) {
         const effectiveEntry = appliedModifiers.entry || entry;
-        const scaling = entry.scalings?.[0];
         const talentLevel = Math.min(Math.max(Math.round(getTalentLevel(context, entry)), 1), 15);
-        const talentMultiplier = Number(scaling?.valuesByLevel?.[String(talentLevel)]);
-        const statValue = Number(context.stats[scaling?.stat]) + (appliedModifiers.totals.statBonus?.[scaling?.stat] || 0);
         const problems = [];
-        if (!scaling || !Number.isFinite(talentMultiplier) || !Number.isFinite(statValue)) {
-            problems.push("天賦倍率または参照ステータスが不足しています。");
-        }
-        const baseDamage = problems.length ? 0 : statValue * talentMultiplier / 100;
+        const scalingParts = calculateScalingParts(entry, context, appliedModifiers, talentLevel, problems);
+        const scalingBaseDamage = scalingParts.reduce((sum, part) => sum + part.baseDamage, 0);
+        const baseDamage = problems.length ? 0 : scalingBaseDamage + (appliedModifiers.totals.additiveBaseDamage || 0);
         const damageBonusMultiplier = 1 + appliedModifiers.totals.damageBonus / 100;
-        const defMultiplier = defenseMultiplier(context);
+        const defMultiplier = defenseMultiplier({
+            ...context,
+            enemy: {
+                ...context.enemy,
+                defenseDebuff: appliedModifiers.totals.defenseDebuff,
+                defenseIgnore: appliedModifiers.totals.defenseIgnore
+            }
+        });
         const effectiveResistance = context.enemy.enemyResistance - appliedModifiers.totals.resistanceDebuff;
         const resMultiplier = resistanceMultiplier(effectiveResistance);
         const reaction = reactionMultiplier(context);
@@ -437,16 +500,17 @@
                 expected: expected * hitCount
             },
             breakdown: {
-                stat: scaling?.stat || "-",
-                statValue,
                 talentLevel,
-                talentMultiplier,
                 hitCount,
+                scalingParts,
                 damageBonus: appliedModifiers.totals.damageBonus,
                 statBonus: appliedModifiers.totals.statBonus,
+                additiveBaseDamage: appliedModifiers.totals.additiveBaseDamage,
                 critRate,
                 critDamage,
                 defenseMultiplier: defMultiplier,
+                defenseDebuff: appliedModifiers.totals.defenseDebuff,
+                defenseIgnore: appliedModifiers.totals.defenseIgnore,
                 resistance: effectiveResistance,
                 resistanceMultiplier: resMultiplier,
                 reaction: reaction.detail,
