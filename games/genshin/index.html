@@ -231,10 +231,35 @@
                 <label class="genshin-field">元素反応
                   <select id="genshinJsonReactionOption">
                     <option value="none">反応なし</option>
-                    <option value="melt15">溶解 1.5</option>
-                    <option value="melt20">溶解 2.0</option>
-                    <option value="vaporize15">蒸発 1.5</option>
-                    <option value="vaporize20">蒸発 2.0</option>
+                    <optgroup label="増幅反応（現在計算対応）">
+                      <option value="melt15">溶解 1.5</option>
+                      <option value="melt20">溶解 2.0</option>
+                      <option value="vaporize15">蒸発 1.5</option>
+                      <option value="vaporize20">蒸発 2.0</option>
+                    </optgroup>
+                    <optgroup label="加算反応（表示のみ）">
+                      <option value="aggravate">超激化</option>
+                      <option value="spread">草激化</option>
+                    </optgroup>
+                    <optgroup label="変化反応（表示のみ）">
+                      <option value="overload">過負荷</option>
+                      <option value="electroCharged">感電</option>
+                      <option value="superconduct">超電導</option>
+                      <option value="swirl">拡散</option>
+                      <option value="burning">燃焼</option>
+                      <option value="bloom">開花</option>
+                      <option value="hyperbloom">超開花</option>
+                      <option value="burgeon">烈開花</option>
+                      <option value="crystallize">結晶</option>
+                    </optgroup>
+                    <optgroup label="月反応（表示のみ）">
+                      <option value="lunarBloom">月開花</option>
+                      <option value="lunarCharged">月感電</option>
+                      <option value="lunarCrystallize">月結晶</option>
+                    </optgroup>
+                    <optgroup label="その他（未対応）">
+                      <option value="astralReaction">星反応（未対応）</option>
+                    </optgroup>
                   </select>
                 </label>
                 <label class="genshin-field">アモス距離補正

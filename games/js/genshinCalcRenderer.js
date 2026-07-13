@@ -147,10 +147,15 @@
 
     function renderTabButtons(grouped, activeTab) {
         return RESULT_TABS.map((tab) => {
-            const count = grouped[tab.id]?.length || 0;
             const active = tab.id === activeTab ? " is-active" : "";
-            return `<button class="genshin-result-tab${active}" type="button" data-json-tab="${tab.id}">${escapeHtml(tab.label)} <span>${count}</span></button>`;
+            return `<button class="genshin-result-tab${active}" type="button" data-json-tab="${tab.id}">${escapeHtml(tab.label)}</button>`;
         }).join("");
+    }
+
+    function resolveDisplayName(map, id, fallbackLabel) {
+        if (!id) return "-";
+        const item = map?.[String(id)];
+        return item?.nameJa || `${fallbackLabel}（ID: ${id}）`;
     }
 
     function renderTabSections(grouped, activeTab) {
@@ -180,6 +185,9 @@
         if (!wrap) return;
         wrap.hidden = false;
         const context = payload.context;
+        const displayData = payload.displayData || {};
+        const characterName = resolveDisplayName(displayData.characters, context.characterId, "未対応キャラクター");
+        const weaponName = resolveDisplayName(displayData.weapons, context.weaponId, "未対応武器");
         const grouped = RESULT_TABS.reduce((acc, tab) => {
             acc[tab.id] = [];
             return acc;
@@ -191,7 +199,7 @@
         wrap.innerHTML = `
             <div class="genshin-json-result-head">
                 <h3>JSON計算結果</h3>
-                <p>計算対象: character ${escapeHtml(context.characterId)} / weapon ${escapeHtml(context.weaponId)} / reaction ${escapeHtml(context.reactionOption.label)}</p>
+                <p>計算対象: ${escapeHtml(characterName)} / ${escapeHtml(weaponName)} / 反応 ${escapeHtml(context.reactionOption.label)}</p>
             </div>
             <div class="genshin-result-tabs" role="tablist" aria-label="JSON計算タブ">
                 ${renderTabButtons(grouped, activeTab)}

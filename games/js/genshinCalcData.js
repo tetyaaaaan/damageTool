@@ -10,6 +10,7 @@
     };
 
     const DISPLAY_DATA_PATHS = {
+        characters: "/games/genshin/data/characters.json",
         weapons: "/games/genshin/data/weapons.json",
         artifactSets: "/games/genshin/data/artifact-sets.json",
         weaponEffects: "/games/genshin/data/weapon-effects.json",

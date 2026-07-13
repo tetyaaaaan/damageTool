@@ -6,7 +6,22 @@
         melt15: { reactionId: "melt", reactionType: "amplifying", label: "溶解 1.5", baseMultiplier: 1.5, enabled: true },
         melt20: { reactionId: "melt", reactionType: "amplifying", label: "溶解 2.0", baseMultiplier: 2, enabled: true },
         vaporize15: { reactionId: "vaporize", reactionType: "amplifying", label: "蒸発 1.5", baseMultiplier: 1.5, enabled: true },
-        vaporize20: { reactionId: "vaporize", reactionType: "amplifying", label: "蒸発 2.0", baseMultiplier: 2, enabled: true }
+        vaporize20: { reactionId: "vaporize", reactionType: "amplifying", label: "蒸発 2.0", baseMultiplier: 2, enabled: true },
+        aggravate: { reactionId: "aggravate", reactionType: "additive", label: "超激化", baseMultiplier: 1, enabled: false },
+        spread: { reactionId: "spread", reactionType: "additive", label: "草激化", baseMultiplier: 1, enabled: false },
+        overload: { reactionId: "overload", reactionType: "transformative", label: "過負荷", baseMultiplier: 1, enabled: false },
+        electroCharged: { reactionId: "electroCharged", reactionType: "transformative", label: "感電", baseMultiplier: 1, enabled: false },
+        superconduct: { reactionId: "superconduct", reactionType: "transformative", label: "超電導", baseMultiplier: 1, enabled: false },
+        swirl: { reactionId: "swirl", reactionType: "transformative", label: "拡散", baseMultiplier: 1, enabled: false },
+        burning: { reactionId: "burning", reactionType: "transformative", label: "燃焼", baseMultiplier: 1, enabled: false },
+        bloom: { reactionId: "bloom", reactionType: "transformative", label: "開花", baseMultiplier: 1, enabled: false },
+        hyperbloom: { reactionId: "hyperbloom", reactionType: "transformative", label: "超開花", baseMultiplier: 1, enabled: false },
+        burgeon: { reactionId: "burgeon", reactionType: "transformative", label: "烈開花", baseMultiplier: 1, enabled: false },
+        crystallize: { reactionId: "crystallize", reactionType: "shield", label: "結晶", baseMultiplier: 1, enabled: false },
+        lunarBloom: { reactionId: "lunarBloom", reactionType: "lunar", label: "月開花", baseMultiplier: 1, enabled: false },
+        lunarCharged: { reactionId: "lunarCharged", reactionType: "lunar", label: "月感電", baseMultiplier: 1, enabled: false },
+        lunarCrystallize: { reactionId: "lunarCrystallize", reactionType: "lunar", label: "月結晶", baseMultiplier: 1, enabled: false },
+        astralReaction: { reactionId: "astralReaction", reactionType: "special", label: "星反応（未対応）", baseMultiplier: 1, enabled: false }
     };
 
     function getElement(id) {
@@ -83,8 +98,20 @@
         return context.talentLevels.normal;
     }
 
+    function normalizeDamageElement(entry, characterInfo = {}) {
+        const weaponType = characterInfo.weaponType || "";
+        const ownElement = characterInfo.element || entry.element;
+        const isNormalTalentAttack = ["normalAttack", "chargedAttack", "plungingAttack"].includes(entry.attackType);
+
+        if (entry.element === "ownElement") return ownElement;
+        if (weaponType === "弓" && entry.attackType === "chargedAttack") return ownElement;
+        if (weaponType === "法器" && isNormalTalentAttack) return ownElement;
+        return entry.element;
+    }
+
     function collectTalentDamageEntries(calcData, context) {
         const characterTalents = calcData.talentScalings?.[context.characterId];
+        const characterInfo = calcData.characters?.[context.characterId] || {};
         const warnings = [];
         if (!characterTalents) {
             warnings.push(`天賦倍率が未登録です: ${context.characterId}`);
@@ -98,7 +125,7 @@
         const entries = [];
         groups.forEach(([group, talent]) => {
             (talent?.entries || []).forEach((entry) => {
-                entries.push({ ...entry, group });
+                entries.push({ ...entry, element: normalizeDamageElement(entry, characterInfo), group });
             });
         });
         return { entries, warnings };
@@ -371,7 +398,12 @@
             context,
             warnings: [...filterRelevantWarnings(calcData.warnings, context), ...talentResult.warnings.map((message) => ({ level: "warn", message }))],
             results,
-            candidateModifiers: collected.candidates
+            candidateModifiers: collected.candidates,
+            displayData: {
+                characters: calcData.characters || {},
+                weapons: calcData.weapons || {},
+                artifactSets: calcData.artifactSets || {}
+            }
         };
     }
 
