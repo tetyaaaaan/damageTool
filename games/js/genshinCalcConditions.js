@@ -27,6 +27,13 @@
             && modifier.category === "resistanceDebuff";
     }
 
+    function isUserToggleConstellation(modifier, sourceInfo, context) {
+        return context.characterId === "10000046"
+            && sourceInfo.type === "constellation"
+            && ["C4", "C6"].includes(sourceInfo.id)
+            && ["critBonus"].includes(modifier.category);
+    }
+
     function evaluateModifierCondition({ modifier, source, context, calcData }) {
         const condition = modifier.condition || "always";
         const sourceInfo = parseSource(source);
@@ -81,20 +88,29 @@
             if (!isUnlockedConstellation(sourceInfo.id, context)) {
                 return { enabled: false };
             }
-            return { enabled: isGanyuC1Debuff(modifier, sourceInfo, context) };
+            if (isGanyuC1Debuff(modifier, sourceInfo, context)) {
+                return { enabled: true };
+            }
+            if (isUserToggleConstellation(modifier, sourceInfo, context)) {
+                return { enabled: context.uiState.enableConstellationCondition };
+            }
+            return { enabled: false };
         }
 
         return { enabled: false };
     }
 
     function conditionPanelState(context, calcData) {
-        const characterName = calcData.characters?.[context.characterId]?.nameJa || `キャラクターID ${context.characterId || "-"}`;
-        const weaponName = calcData.weapons?.[context.weaponId]?.nameJa || `武器ID ${context.weaponId || "-"}`;
+        const hasCharacter = Boolean(context.characterId);
+        const hasWeapon = Boolean(context.weaponId);
+        const characterName = hasCharacter ? calcData.characters?.[context.characterId]?.nameJa || `キャラクターID ${context.characterId}` : "キャラクター未選択";
+        const weaponName = hasWeapon ? calcData.weapons?.[context.weaponId]?.nameJa || `武器ID ${context.weaponId}` : "武器未選択";
         const hasAmos = context.weaponId === "15502";
         const hasHoma = context.weaponId === "13501";
         const hasHuTao = context.characterId === "10000046";
         const hasGanyu = context.characterId === "10000037";
         const hasCrimsonWitch = (context.artifactSetIds || []).includes("15006");
+        const hasHuTaoConditionalConstellation = hasHuTao && context.constellation >= 4;
 
         return {
             weaponCondition: {
@@ -118,16 +134,24 @@
             constellationCondition: {
                 visible: hasGanyu || hasHuTao,
                 label: hasGanyu
-                    ? "甘雨 命ノ星座（C1以上で氷元素耐性デバフ）"
+                    ? "解放段階（C1以上で氷元素耐性デバフ）"
                     : hasHuTao
-                        ? "胡桃 命ノ星座"
-                        : "命ノ星座"
+                        ? "解放段階"
+                        : "解放段階"
+            },
+            constellationActiveCondition: {
+                visible: hasHuTaoConditionalConstellation,
+                label: context.constellation >= 6
+                    ? "胡桃 C4/C6条件を満たす（会心率上昇）"
+                    : "胡桃 C4条件を満たす（会心率上昇）"
             },
             crimsonWitchCondition: {
                 visible: hasCrimsonWitch,
                 label: "火魔女4セット（元素スキル使用後）"
             },
-            helpText: `${characterName} / ${weaponName} に合わせて補正条件を更新しました。命ノ星座は現在の入力欄の値を初期選択しています。必要な条件を選んでからJSON計算を実行してください。`
+            helpText: hasCharacter
+                ? `${characterName} / ${weaponName} に合わせて補正条件を更新しました。命ノ星座は現在の入力欄の値を初期選択しています。必要な条件を選んでからJSON計算を実行してください。`
+                : "計算入力欄でキャラクター・武器・聖遺物を選ぶと、利用できる補正条件がここに表示されます。"
         };
     }
 

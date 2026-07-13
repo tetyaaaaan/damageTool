@@ -105,7 +105,7 @@
               <h3>計算入力欄（反映後に編集可能）</h3>
               <div class="genshin-form-grid genshin-profile-form-grid">
                 <label class="genshin-field">キャラクター<input type="text" id="genshinReflectCharacter" autocomplete="off"></label>
-                <input type="hidden" id="genshinCalcCharacterId" value="10000037">
+                <input type="hidden" id="genshinCalcCharacterId" value="">
                 <label class="genshin-field">レベル<input type="number" id="genshinReflectLevel" min="1" max="90" step="1"></label>
                 <label class="genshin-field">命ノ星座
                   <select id="genshinReflectConstellation">
@@ -119,7 +119,7 @@
                   </select>
                 </label>
                 <label class="genshin-field">武器<input type="text" id="genshinWeaponInput" list="genshinWeaponOptions" autocomplete="off"></label>
-                <input type="hidden" id="genshinCalcWeaponId" value="15502">
+                <input type="hidden" id="genshinCalcWeaponId" value="">
                 <datalist id="genshinWeaponOptions"></datalist>
                 <label class="genshin-field">武器レベル<input type="number" id="genshinWeaponLevel" min="1" max="90" step="1"></label>
                 <label class="genshin-field">精錬ランク
@@ -267,22 +267,36 @@
                     </optgroup>
                   </select>
                 </label>
-                <label class="genshin-field" id="genshinJsonWeaponConditionField">武器条件補正（対応武器のみ）
-                  <select id="genshinJsonAmosStack">
-                    <option value="0">武器条件なし / 0段</option>
-                    <option value="1">1段</option>
-                    <option value="2">2段</option>
-                    <option value="3">3段</option>
-                    <option value="4">4段</option>
-                    <option value="5" selected>5段（最大）</option>
-                  </select>
-                </label>
-                <label class="genshin-field" id="genshinJsonCharacterConditionField">キャラ条件補正
+                <label class="genshin-field" id="genshinJsonCharacterConditionField">キャラ・天賦補正
                   <span class="genshin-checkbox-line" id="genshinJsonCharacterConditionLine"><input type="checkbox" id="genshinJsonEnableCharacterCondition"> <span id="genshinJsonCharacterConditionText">スキル/固有条件を適用</span></span>
                   <span class="genshin-checkbox-line" id="genshinJsonLowHpConditionLine"><input type="checkbox" id="genshinJsonEnableLowHpCondition"> <span id="genshinJsonLowHpConditionText">HP50%以下条件</span></span>
+                </label>
+                <label class="genshin-field" id="genshinJsonEquipmentConditionField">装備枠補正
+                  <span class="genshin-condition-line" id="genshinJsonWeaponConditionField">
+                    <span id="genshinJsonWeaponConditionText">武器条件</span>
+                    <select id="genshinJsonAmosStack">
+                      <option value="0">武器条件なし / 0段</option>
+                      <option value="1">1段</option>
+                      <option value="2">2段</option>
+                      <option value="3">3段</option>
+                      <option value="4">4段</option>
+                      <option value="5" selected>5段（最大）</option>
+                    </select>
+                  </span>
                   <span class="genshin-checkbox-line" id="genshinJsonWeaponLowHpConditionLine"><input type="checkbox" id="genshinJsonEnableWeaponLowHpCondition"> <span id="genshinJsonWeaponLowHpConditionText">武器HP条件</span></span>
+                  <span class="genshin-condition-line" id="genshinJsonCrimsonWitchConditionLine">
+                    <span>火魔女4セット（元素スキル使用後）</span>
+                    <select id="genshinJsonCrimsonWitchStack">
+                      <option value="0">0層</option>
+                      <option value="1">1層</option>
+                      <option value="2">2層</option>
+                      <option value="3">3層</option>
+                    </select>
+                  </span>
+                </label>
+                <label class="genshin-field" id="genshinJsonConstellationConditionField">命ノ星座補正
                   <span class="genshin-condition-line" id="genshinJsonConstellationConditionLine">
-                    <span id="genshinJsonConstellationConditionText">命ノ星座</span>
+                    <span id="genshinJsonConstellationConditionText">解放段階</span>
                     <select id="genshinJsonConstellationLevel">
                       <option value="C0">C0</option>
                       <option value="C1">C1</option>
@@ -293,15 +307,7 @@
                       <option value="C6">C6</option>
                     </select>
                   </span>
-                  <span class="genshin-condition-line" id="genshinJsonCrimsonWitchConditionLine">
-                    <span>火魔女4セット（元素スキル使用後）</span>
-                    <select id="genshinJsonCrimsonWitchStack">
-                      <option value="0">0層</option>
-                      <option value="1">1層</option>
-                      <option value="2">2層</option>
-                      <option value="3">3層</option>
-                    </select>
-                  </span>
+                  <span class="genshin-checkbox-line" id="genshinJsonConstellationActiveConditionLine"><input type="checkbox" id="genshinJsonEnableConstellationCondition"> <span id="genshinJsonConstellationActiveConditionText">命ノ星座の発動条件を満たす</span></span>
                 </label>
               </div>
               <div id="genshinJsonCalcWarnings" class="genshin-json-calc-warnings" hidden></div>

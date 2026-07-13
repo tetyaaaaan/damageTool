@@ -242,26 +242,33 @@
     async function handlePrepareConditionsClick() {
         const weaponId = getElement("genshinCalcWeaponId")?.value || "";
         const hasReflectedCharacter = Boolean(getElement("genshinReflectCharacter")?.value || "");
-        const reflectedConstellation = hasReflectedCharacter ? getElement("genshinReflectConstellation")?.value || "C0" : "C1";
+        const reflectedConstellation = hasReflectedCharacter ? getElement("genshinReflectConstellation")?.value || "C0" : "C0";
         const calcData = await window.GenshinCalcData.loadGenshinCalcData();
         const context = window.GenshinCalcEngine.buildCharacterCalcContext();
         const panelState = window.GenshinCalcConditions.conditionPanelState(context, calcData);
 
+        setHidden("genshinJsonCharacterConditionField", !panelState.characterCondition.visible && !panelState.lowHpCondition.visible);
+        setHidden("genshinJsonEquipmentConditionField", !panelState.weaponCondition.visible && !panelState.weaponLowHpCondition.visible && !panelState.crimsonWitchCondition.visible);
+        setHidden("genshinJsonConstellationConditionField", !panelState.constellationCondition.visible);
         setHidden("genshinJsonWeaponConditionField", !panelState.weaponCondition.visible);
         setHidden("genshinJsonCharacterConditionLine", !panelState.characterCondition.visible);
         setHidden("genshinJsonLowHpConditionLine", !panelState.lowHpCondition.visible);
         setHidden("genshinJsonWeaponLowHpConditionLine", !panelState.weaponLowHpCondition.visible);
         setHidden("genshinJsonConstellationConditionLine", !panelState.constellationCondition.visible);
+        setHidden("genshinJsonConstellationActiveConditionLine", !panelState.constellationActiveCondition.visible);
         setHidden("genshinJsonCrimsonWitchConditionLine", !panelState.crimsonWitchCondition.visible);
 
+        setText("genshinJsonWeaponConditionText", panelState.weaponCondition.label);
         setText("genshinJsonCharacterConditionText", panelState.characterCondition.label);
         setText("genshinJsonLowHpConditionText", panelState.lowHpCondition.label);
         setText("genshinJsonWeaponLowHpConditionText", panelState.weaponLowHpCondition.label);
         setText("genshinJsonConstellationConditionText", panelState.constellationCondition.label);
+        setText("genshinJsonConstellationActiveConditionText", panelState.constellationActiveCondition.label);
 
         setChecked("genshinJsonEnableCharacterCondition", false);
         setChecked("genshinJsonEnableLowHpCondition", false);
         setChecked("genshinJsonEnableWeaponLowHpCondition", false);
+        setChecked("genshinJsonEnableConstellationCondition", false);
         setValue("genshinJsonConstellationLevel", `C${Math.min(Math.max(parseConstellation(reflectedConstellation), 0), 6)}`);
         setValue("genshinJsonCrimsonWitchStack", "0");
         if (weaponId !== "15502") {

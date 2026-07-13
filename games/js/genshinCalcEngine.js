@@ -49,15 +49,15 @@
     }
 
     function buildCharacterCalcContext() {
-        const artifactSetOne = readText("genshinArtifactSetOne", "15003") || "15003";
+        const artifactSetOne = readText("genshinArtifactSetOne", "");
         const hasReflectedCharacter = Boolean(readText("genshinReflectCharacter", ""));
-        const constellationValue = hasReflectedCharacter ? readText("genshinReflectConstellation", "C0") : "C1";
+        const constellationValue = hasReflectedCharacter ? readText("genshinReflectConstellation", "C0") : "C0";
         const selectedConstellation = readText("genshinJsonConstellationLevel", constellationValue) || constellationValue;
         return {
-            characterId: readText("genshinCalcCharacterId", "10000037") || "10000037",
-            weaponId: readText("genshinCalcWeaponId", "15502") || "15502",
+            characterId: readText("genshinCalcCharacterId", ""),
+            weaponId: readText("genshinCalcWeaponId", ""),
             refinement: normalizeRefinement(readText("genshinWeaponRefinement", "R1")),
-            artifactSetIds: [artifactSetOne],
+            artifactSetIds: artifactSetOne ? [artifactSetOne] : [],
             constellation: parseConstellation(selectedConstellation),
             talentLevels: {
                 normal: readNumber("genshinNormalTalentLevel", 10),
@@ -90,6 +90,7 @@
                 enableCharacterCondition: Boolean(getElement("genshinJsonEnableCharacterCondition")?.checked),
                 enableLowHpCondition: Boolean(getElement("genshinJsonEnableLowHpCondition")?.checked),
                 enableWeaponLowHpCondition: Boolean(getElement("genshinJsonEnableWeaponLowHpCondition")?.checked),
+                enableConstellationCondition: Boolean(getElement("genshinJsonEnableConstellationCondition")?.checked),
                 enableConstellation: parseConstellation(selectedConstellation) > 0,
                 stackByModifier: {}
             }
@@ -118,6 +119,10 @@
         const characterTalents = calcData.talentScalings?.[context.characterId];
         const characterInfo = calcData.characters?.[context.characterId] || {};
         const warnings = [];
+        if (!context.characterId) {
+            warnings.push("キャラクターが未選択です。計算入力欄でキャラクターを選択してください。");
+            return { entries: [], warnings };
+        }
         if (!characterTalents) {
             warnings.push(`天賦倍率が未登録です: ${context.characterId}`);
             return { entries: [], warnings };
@@ -323,6 +328,8 @@
             damageBonus: 0,
             resistanceDebuff: context.enemy.resistanceDebuff,
             statBonus: {},
+            critRateBonus: 0,
+            critDamageBonus: 0,
             elementOverride: ""
         };
         collected.applied.forEach((item) => {
@@ -352,6 +359,17 @@
             if (modifier.category === "damageBonus" && modifierAppliesToEntry(modifier, effectiveEntry)) {
                 totals.damageBonus += Number(value) || 0;
                 applied.push(item);
+            } else if (modifier.category === "critBonus") {
+                const applyTo = modifier.applyTo || [];
+                if (applyTo.includes("critRate")) {
+                    totals.critRateBonus += Number(value) || 0;
+                    applied.push(item);
+                } else if (applyTo.includes("critDamage")) {
+                    totals.critDamageBonus += Number(value) || 0;
+                    applied.push(item);
+                } else {
+                    candidates.push({ modifier, source: item.source, reason: "対象entry外" });
+                }
             } else if (modifier.category === "resistanceDebuff" && resistanceDebuffAppliesToEntry(modifier, effectiveEntry)) {
                 totals.resistanceDebuff += Math.abs(Number(value) || 0);
                 applied.push(item);
@@ -402,8 +420,10 @@
         const resMultiplier = resistanceMultiplier(effectiveResistance);
         const reaction = reactionMultiplier(context);
         const nonCrit = baseDamage * damageBonusMultiplier * defMultiplier * resMultiplier * reaction.multiplier;
-        const crit = nonCrit * (1 + context.stats.critDamage / 100);
-        const expected = nonCrit * (1 + (context.stats.critRate / 100) * (context.stats.critDamage / 100));
+        const critRate = context.stats.critRate + (appliedModifiers.totals.critRateBonus || 0);
+        const critDamage = context.stats.critDamage + (appliedModifiers.totals.critDamageBonus || 0);
+        const crit = nonCrit * (1 + critDamage / 100);
+        const expected = nonCrit * (1 + (critRate / 100) * (critDamage / 100));
         const hitCount = Number(entry.hitCount) || 1;
         return {
             entry: effectiveEntry,
@@ -424,8 +444,8 @@
                 hitCount,
                 damageBonus: appliedModifiers.totals.damageBonus,
                 statBonus: appliedModifiers.totals.statBonus,
-                critRate: context.stats.critRate,
-                critDamage: context.stats.critDamage,
+                critRate,
+                critDamage,
                 defenseMultiplier: defMultiplier,
                 resistance: effectiveResistance,
                 resistanceMultiplier: resMultiplier,
@@ -447,6 +467,12 @@
 
     function filterRelevantWarnings(warnings, context) {
         const setIds = new Set(context.artifactSetIds || []);
+        if (!context.characterId) {
+            return (warnings || []).filter((warning) => {
+                const message = warning.message || "";
+                return warning.level === "error" || message.includes("読み込みに失敗");
+            });
+        }
         return (warnings || []).filter((warning) => {
             const message = warning.message || "";
             if (warning.level === "error" || message.includes("読み込みに失敗")) return true;
