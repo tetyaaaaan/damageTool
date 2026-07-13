@@ -5816,14 +5816,14 @@
         "customHandlingRequired": true
       },
       {
-        "category": "extraDamage",
+        "category": "statBonus",
         "applyTo": [
-          "triggeredDamage"
+          "atk"
         ],
-        "unit": "percent",
-        "condition": "always",
-        "calculationSupport": "custom",
-        "uidHandling": "special",
+        "unit": "percentOfReference",
+        "condition": "hpBelow50",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
         "valueByRefinement": {
           "1": 1,
           "2": 1.2,
@@ -5837,7 +5837,7 @@
         },
         "id": "w_13501_extraDamage_800a1eaf",
         "sourceText": "キャラクターのHPが50%未満の時、攻撃力が更にHP上限の1%分アップする",
-        "customHandlingRequired": true
+        "customHandlingRequired": false
       },
       {
         "category": "statBonus",

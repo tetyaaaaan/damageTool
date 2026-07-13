@@ -218,7 +218,8 @@
         weaponModifiers.forEach((modifier) => {
             const isAlways = modifier.condition === "always";
             const isAmosDistance = context.weaponId === "15502" && modifier.condition === "arrowFlightTime" && context.uiState.amosStack > 0;
-            consider(modifier, `weapon:${context.weaponId}`, isAlways || isAmosDistance);
+            const isLowHpWeapon = ["hpBelow50", "hpLessThan50", "hpCondition"].includes(modifier.condition) && context.uiState.enableLowHpCondition;
+            consider(modifier, `weapon:${context.weaponId}`, isAlways || isAmosDistance || isLowHpWeapon);
         });
 
         context.artifactSetIds.forEach((setId) => {
@@ -309,7 +310,7 @@
         const applied = [];
         const candidates = [...collected.candidates];
         const totals = {
-            damageBonus: context.stats.elementDamageBonus,
+            damageBonus: 0,
             resistanceDebuff: context.enemy.resistanceDebuff,
             statBonus: {},
             elementOverride: ""
@@ -330,6 +331,9 @@
             }
         });
         const effectiveEntry = totals.elementOverride ? { ...entry, element: totals.elementOverride } : entry;
+        if (effectiveEntry.element !== "physical") {
+            totals.damageBonus += context.stats.elementDamageBonus;
+        }
         collected.applied.forEach((item) => {
             const { modifier, value } = item;
             if (modifier.category === "elementOverride" || modifier.category === "statBonus") {

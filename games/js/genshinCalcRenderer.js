@@ -209,6 +209,61 @@
         bindTabSwitch(wrap);
     }
 
+    function setHidden(id, hidden) {
+        const element = getElement(id);
+        if (element) element.hidden = hidden;
+    }
+
+    function setText(id, text) {
+        const element = getElement(id);
+        if (element) element.textContent = text;
+    }
+
+    function setChecked(id, checked) {
+        const element = getElement(id);
+        if (element) element.checked = checked;
+    }
+
+    async function handlePrepareConditionsClick() {
+        const characterId = getElement("genshinCalcCharacterId")?.value || "";
+        const weaponId = getElement("genshinCalcWeaponId")?.value || "";
+        const calcData = await window.GenshinCalcData.loadGenshinCalcData();
+        const characterName = calcData.characters?.[characterId]?.nameJa || `キャラクターID ${characterId || "-"}`;
+        const weaponName = calcData.weapons?.[weaponId]?.nameJa || `武器ID ${weaponId || "-"}`;
+
+        setHidden("genshinJsonWeaponConditionField", weaponId !== "15502");
+        setHidden("genshinJsonCharacterConditionLine", characterId !== "10000046");
+        setHidden("genshinJsonLowHpConditionLine", characterId !== "10000046" && weaponId !== "13501");
+        setHidden("genshinJsonConstellationConditionLine", !["10000037", "10000046"].includes(characterId));
+
+        setText("genshinJsonCharacterConditionText", characterId === "10000046"
+            ? "蝶導来世中（通常/重撃/落下を炎元素化し、HP参照で攻撃力アップ）"
+            : "スキル/固有条件を適用");
+        setText("genshinJsonLowHpConditionText", characterId === "10000046" && weaponId === "13501"
+            ? "HP50%以下/未満条件（胡桃炎ダメージ+33%、護摩の追加攻撃力）"
+            : characterId === "10000046"
+                ? "HP50%以下条件（炎元素ダメージ+33%）"
+                : "HP50%未満条件（護摩の追加攻撃力）");
+        setText("genshinJsonConstellationConditionText", characterId === "10000037"
+            ? "甘雨 C1 氷元素耐性デバフ"
+            : characterId === "10000046"
+                ? "胡桃 命ノ星座条件"
+                : "命ノ星座条件を適用");
+
+        setChecked("genshinJsonEnableCharacterCondition", false);
+        setChecked("genshinJsonEnableLowHpCondition", false);
+        setChecked("genshinJsonEnableConstellation", false);
+        if (weaponId !== "15502") {
+            const amosStack = getElement("genshinJsonAmosStack");
+            if (amosStack) amosStack.value = "0";
+        }
+
+        const help = getElement("genshinJsonConditionHelp");
+        if (help) {
+            help.textContent = `${characterName} / ${weaponName} に合わせて補正条件を更新しました。必要な条件だけチェックしてからJSON計算を実行してください。`;
+        }
+    }
+
     async function handleJsonCalcClick() {
         const button = getElement("genshinJsonCalcButton");
         if (button) button.disabled = true;
@@ -228,6 +283,11 @@
         const button = getElement("genshinJsonCalcButton");
         if (!button || !window.GenshinCalcEngine || !window.GenshinCalcData) return;
         button.addEventListener("click", handleJsonCalcClick);
+        const prepareButton = getElement("genshinJsonPrepareConditionsButton");
+        if (prepareButton) {
+            prepareButton.addEventListener("click", handlePrepareConditionsClick);
+            handlePrepareConditionsClick();
+        }
     }
 
     document.addEventListener("DOMContentLoaded", initializeGenshinCalcRenderer);
