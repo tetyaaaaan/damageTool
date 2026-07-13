@@ -240,37 +240,28 @@
     }
 
     async function handlePrepareConditionsClick() {
-        const characterId = getElement("genshinCalcCharacterId")?.value || "";
         const weaponId = getElement("genshinCalcWeaponId")?.value || "";
-        const artifactSetOne = getElement("genshinArtifactSetOne")?.value || "";
         const hasReflectedCharacter = Boolean(getElement("genshinReflectCharacter")?.value || "");
         const reflectedConstellation = hasReflectedCharacter ? getElement("genshinReflectConstellation")?.value || "C0" : "C1";
         const calcData = await window.GenshinCalcData.loadGenshinCalcData();
-        const characterName = calcData.characters?.[characterId]?.nameJa || `キャラクターID ${characterId || "-"}`;
-        const weaponName = calcData.weapons?.[weaponId]?.nameJa || `武器ID ${weaponId || "-"}`;
+        const context = window.GenshinCalcEngine.buildCharacterCalcContext();
+        const panelState = window.GenshinCalcConditions.conditionPanelState(context, calcData);
 
-        setHidden("genshinJsonWeaponConditionField", weaponId !== "15502");
-        setHidden("genshinJsonCharacterConditionLine", characterId !== "10000046");
-        setHidden("genshinJsonLowHpConditionLine", characterId !== "10000046" && weaponId !== "13501");
-        setHidden("genshinJsonConstellationConditionLine", !["10000037", "10000046"].includes(characterId));
-        setHidden("genshinJsonCrimsonWitchConditionLine", artifactSetOne !== "15006");
+        setHidden("genshinJsonWeaponConditionField", !panelState.weaponCondition.visible);
+        setHidden("genshinJsonCharacterConditionLine", !panelState.characterCondition.visible);
+        setHidden("genshinJsonLowHpConditionLine", !panelState.lowHpCondition.visible);
+        setHidden("genshinJsonWeaponLowHpConditionLine", !panelState.weaponLowHpCondition.visible);
+        setHidden("genshinJsonConstellationConditionLine", !panelState.constellationCondition.visible);
+        setHidden("genshinJsonCrimsonWitchConditionLine", !panelState.crimsonWitchCondition.visible);
 
-        setText("genshinJsonCharacterConditionText", characterId === "10000046"
-            ? "蝶導来世中（通常/重撃/落下を炎元素化し、HP参照で攻撃力アップ）"
-            : "スキル/固有条件を適用");
-        setText("genshinJsonLowHpConditionText", characterId === "10000046" && weaponId === "13501"
-            ? "HP50%以下/未満条件（胡桃炎ダメージ+33%、護摩の追加攻撃力）"
-            : characterId === "10000046"
-                ? "HP50%以下条件（炎元素ダメージ+33%）"
-                : "HP50%未満条件（護摩の追加攻撃力）");
-        setText("genshinJsonConstellationConditionText", characterId === "10000037"
-            ? "甘雨 命ノ星座（C1以上で氷元素耐性デバフ）"
-            : characterId === "10000046"
-                ? "胡桃 命ノ星座"
-                : "命ノ星座");
+        setText("genshinJsonCharacterConditionText", panelState.characterCondition.label);
+        setText("genshinJsonLowHpConditionText", panelState.lowHpCondition.label);
+        setText("genshinJsonWeaponLowHpConditionText", panelState.weaponLowHpCondition.label);
+        setText("genshinJsonConstellationConditionText", panelState.constellationCondition.label);
 
         setChecked("genshinJsonEnableCharacterCondition", false);
         setChecked("genshinJsonEnableLowHpCondition", false);
+        setChecked("genshinJsonEnableWeaponLowHpCondition", false);
         setValue("genshinJsonConstellationLevel", `C${Math.min(Math.max(parseConstellation(reflectedConstellation), 0), 6)}`);
         setValue("genshinJsonCrimsonWitchStack", "0");
         if (weaponId !== "15502") {
@@ -280,7 +271,7 @@
 
         const help = getElement("genshinJsonConditionHelp");
         if (help) {
-            help.textContent = `${characterName} / ${weaponName} に合わせて補正条件を更新しました。命ノ星座は現在の入力欄の値を初期選択しています。必要な条件を選んでからJSON計算を実行してください。`;
+            help.textContent = panelState.helpText;
         }
     }
 

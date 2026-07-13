@@ -89,6 +89,7 @@
                 crimsonWitchStack: readNumber("genshinJsonCrimsonWitchStack", 0),
                 enableCharacterCondition: Boolean(getElement("genshinJsonEnableCharacterCondition")?.checked),
                 enableLowHpCondition: Boolean(getElement("genshinJsonEnableLowHpCondition")?.checked),
+                enableWeaponLowHpCondition: Boolean(getElement("genshinJsonEnableWeaponLowHpCondition")?.checked),
                 enableConstellation: parseConstellation(selectedConstellation) > 0,
                 stackByModifier: {}
             }
@@ -185,11 +186,23 @@
         return "";
     }
 
+    function modifierConditionEnabled(modifier, source, context, calcData) {
+        if (!window.GenshinCalcConditions?.evaluateModifierCondition) {
+            return false;
+        }
+        return Boolean(window.GenshinCalcConditions.evaluateModifierCondition({
+            modifier,
+            source,
+            context,
+            calcData
+        }).enabled);
+    }
+
     function collectActiveModifiers(calcData, context) {
         const applied = [];
         const candidates = [];
 
-        function consider(modifier, source, uiEnabled) {
+        function consider(modifier, source) {
             if (!modifier) return;
             const uidHandling = modifier.uidHandling || "conditional";
             const uidReason = shouldSkipByUidHandling(modifier, context);
@@ -201,6 +214,7 @@
                 candidates.push({ modifier, source, reason: "special未対応" });
                 return;
             }
+            const uiEnabled = modifierConditionEnabled(modifier, source, context, calcData);
             if (uidHandling === "conditional" && !uiEnabled) {
                 candidates.push({ modifier, source, reason: "条件OFF" });
                 return;
@@ -211,42 +225,24 @@
         const talentPassives = calcData.talentModifiers?.[context.characterId]?.passives || [];
         talentPassives.forEach((passive) => {
             (passive.modifiers || []).forEach((modifier) => {
-                const enabled = passive.sourceId === "combat2"
-                    ? context.uiState.enableCharacterCondition
-                    : modifier.condition === "hpCondition"
-                        ? context.uiState.enableLowHpCondition
-                        : false;
-                consider(modifier, `talent:${passive.sourceId || context.characterId}`, enabled);
+                consider(modifier, `talent:${passive.sourceId || context.characterId}`);
             });
         });
 
         const weaponModifiers = calcData.weaponModifiers?.[context.weaponId]?.modifiers || [];
         weaponModifiers.forEach((modifier) => {
-            const isAlways = modifier.condition === "always";
-            const isAmosDistance = context.weaponId === "15502" && modifier.condition === "arrowFlightTime" && context.uiState.amosStack > 0;
-            const isLowHpWeapon = ["hpBelow50", "hpLessThan50", "hpCondition"].includes(modifier.condition) && context.uiState.enableLowHpCondition;
-            consider(modifier, `weapon:${context.weaponId}`, isAlways || isAmosDistance || isLowHpWeapon);
+            consider(modifier, `weapon:${context.weaponId}`);
         });
 
         context.artifactSetIds.forEach((setId) => {
             const artifact = calcData.artifactSetModifiers?.[setId];
-            const weaponType = calcData.weapons?.[context.weaponId]?.weaponType || "";
-            const autoFourPiece = setId === "15003" && ["弓", "法器"].includes(weaponType);
-            (artifact?.fourPiece || []).forEach((modifier) => {
-                const isCrimsonWitchSkillStack = setId === "15006"
-                    && modifier.condition === "afterSkill"
-                    && context.uiState.crimsonWitchStack > 0;
-                if (isCrimsonWitchSkillStack) {
-                    context.uiState.stackByModifier[modifier.id] = context.uiState.crimsonWitchStack;
-                }
-                consider(modifier, `artifact4:${setId}`, autoFourPiece || isCrimsonWitchSkillStack);
-            });
-            (artifact?.twoPiece || []).forEach((modifier) => consider(modifier, `artifact2:${setId}`, false));
+            (artifact?.fourPiece || []).forEach((modifier) => consider(modifier, `artifact4:${setId}`));
+            (artifact?.twoPiece || []).forEach((modifier) => consider(modifier, `artifact2:${setId}`));
         });
 
         const constellations = calcData.constellationModifiers?.[context.characterId]?.constellations || {};
         for (let level = 1; level <= context.constellation; level += 1) {
-            (constellations[String(level)] || []).forEach((modifier) => consider(modifier, `constellation:C${level}`, context.uiState.enableConstellation));
+            (constellations[String(level)] || []).forEach((modifier) => consider(modifier, `constellation:C${level}`));
         }
 
         return { applied, candidates };
