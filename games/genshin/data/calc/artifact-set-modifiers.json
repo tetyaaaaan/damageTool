@@ -954,6 +954,7 @@
         ],
         "unit": "percent",
         "condition": "huskCuriosityStacks",
+        "conditionGroupId": "artifact:15021:huskCuriosityStacks",
         "calculationSupport": "stack",
         "uidHandling": "conditional",
         "stack": {
@@ -972,6 +973,7 @@
         ],
         "unit": "percent",
         "condition": "huskCuriosityStacks",
+        "conditionGroupId": "artifact:15021:huskCuriosityStacks",
         "calculationSupport": "stack",
         "uidHandling": "conditional",
         "stack": {
@@ -1375,6 +1377,7 @@
         ],
         "unit": "percent",
         "condition": "mirroredNymphStacks",
+        "conditionGroupId": "artifact:15029:mirroredNymphStacks",
         "calculationSupport": "stack",
         "uidHandling": "conditional",
         "duration": 8,
@@ -1397,6 +1400,7 @@
         ],
         "unit": "percent",
         "condition": "mirroredNymphStacks",
+        "conditionGroupId": "artifact:15029:mirroredNymphStacks",
         "calculationSupport": "stack",
         "uidHandling": "conditional",
         "duration": 8,
@@ -1546,6 +1550,21 @@
         "calculationSupport": "simple",
         "uidHandling": "conditional",
         "value": 25
+      },
+      {
+        "id": "4pc_skill_damage_bonus_off_field",
+        "category": "damageBonus",
+        "applyTo": [
+          "skillDamageBonus"
+        ],
+        "unit": "percent",
+        "condition": "offField",
+        "conditionLabel": "キャラクターが待機中",
+        "effectLabel": "待機中の追加効果",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 25,
+        "durationAfterEnteringField": 2
       }
     ],
     "onePiece": []

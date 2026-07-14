@@ -5,8 +5,11 @@
         talentScalings: "/games/genshin/data/calc/talent-scalings.json",
         talentModifiers: "/games/genshin/data/calc/talent-modifiers.json",
         weaponModifiers: "/games/genshin/data/calc/weapon-modifiers.json",
+        weaponEffectRegistry: "/games/genshin/data/calc/weapon-effect-registry.json",
         artifactSetModifiers: "/games/genshin/data/calc/artifact-set-modifiers.json",
-        constellationModifiers: "/games/genshin/data/calc/constellation-modifiers.json"
+        constellationModifiers: "/games/genshin/data/calc/constellation-modifiers.json",
+        constellationEffectRegistry: "/games/genshin/data/calc/constellation-effect-registry.json",
+        attackModeRules: "/games/genshin/data/calc/attack-mode-rules.json"
     };
 
     const DISPLAY_DATA_PATHS = {
@@ -27,7 +30,7 @@
         "special"
     ]);
 
-    const VALID_CALC_SUPPORT = new Set(["simple", "toggle", "stack", "custom", "special"]);
+    const VALID_CALC_SUPPORT = new Set(["simple", "toggle", "stack", "custom", "special", "displayOnly", "referenceAttackType"]);
 
     let cache = null;
 
@@ -53,11 +56,20 @@
             "valueByStack",
             "valueByLevel",
             "valuePerStack",
+            "valuePerGeneratedStack",
             "valuePerConsumedStack",
             "valuePerExcessStack",
+            "valuePer1000",
+            "valuePerStep",
+            "valueByCondition",
+            "critRate",
+            "critDamage",
             "ratio",
+            "maxValue",
             "scalings",
-            "targetEffect"
+            "targetEffect",
+            "effect",
+            "resource"
         ].some((key) => Object.prototype.hasOwnProperty.call(modifier, key));
     }
 
@@ -89,7 +101,10 @@
     }
 
     function validateModifier(modifier, source, warnings, options = {}) {
-        const requiredKeys = ["category", "applyTo", "condition", "calculationSupport"];
+        const requiredKeys = ["category", "condition", "calculationSupport"];
+        if (!["resourceEffect", "resourceGeneratedEffect", "resourceCostOverride"].includes(modifier.category)) {
+            requiredKeys.push("applyTo");
+        }
         if (!options.uidHandlingOptional) requiredKeys.push("uidHandling");
         requiredKeys.forEach((key) => {
             if (modifier[key] === undefined) {
@@ -105,12 +120,32 @@
         if ((modifier.category === "special" || (modifier.applyTo || []).includes("specialEffect"))) {
             warnings.push({ level: "warn", message: `${source}.${modifier.id || "unknown"} は special 扱いです。候補表示のみ推奨です。` });
         }
-        if (!hasAnyValueSource(modifier)) {
+        if (!hasAnyValueSource(modifier) && !options.valueOptional) {
             warnings.push({ level: "warn", message: `${source}.${modifier.id || "unknown"} に値情報がありません。` });
         }
     }
 
-    function walkModifiers(data, warnings, sourceName) {
+    function talentScalingGroup(sourceId) {
+        return {
+            combat1: "normalAttack",
+            combat2: "skill",
+            combat3: "burst"
+        }[sourceId] || "";
+    }
+
+    function talentModifierRepresentedByScalings(modifier, characterId, sourceId, talentScalings) {
+        const group = talentScalingGroup(sourceId);
+        return Boolean(
+            group
+            && modifier?.category === "extraDamage"
+            && modifier?.calculationSupport === "special"
+            && (modifier.applyTo || []).includes("triggeredDamage")
+            && !hasAnyValueSource(modifier)
+            && (talentScalings?.[characterId]?.[group]?.entries || []).length
+        );
+    }
+
+    function walkModifiers(data, warnings, sourceName, options = {}) {
         Object.entries(data || {}).forEach(([id, entry]) => {
             if (Array.isArray(entry.modifiers)) {
                 entry.modifiers.forEach((modifier) => validateModifier(modifier, `${sourceName}.${id}`, warnings));
@@ -124,7 +159,13 @@
                 entry.passives.forEach((passive) => {
                     (passive.modifiers || []).forEach((modifier) => {
                         validateModifier(modifier, `${sourceName}.${id}.passives.${passive.sourceId || "unknown"}`, warnings, {
-                            uidHandlingOptional: sourceName === "talentModifiers"
+                            uidHandlingOptional: sourceName === "talentModifiers",
+                            valueOptional: sourceName === "talentModifiers" && talentModifierRepresentedByScalings(
+                                modifier,
+                                id,
+                                passive.sourceId,
+                                options.talentScalings
+                            )
                         });
                     });
                 });
@@ -137,13 +178,55 @@
         });
     }
 
+    function validateAttackModeRules(data, warnings) {
+        const validGroups = new Set(["skill", "burst"]);
+        const validAttackTypes = new Set(["normalAttack", "chargedAttack", "plungingAttack"]);
+        const validDamageTypes = new Set(["normal", "charged", "plunging", "skill", "burst"]);
+        Object.entries(data?.characters || {}).forEach(([characterId, groups]) => {
+            Object.entries(groups || {}).forEach(([group, rule]) => {
+                if (!validGroups.has(group)) {
+                    warnings.push({ level: "warn", message: `attackModeRules.${characterId}.${group} has an unsupported source group.` });
+                }
+                Object.entries(rule?.damageTypeByAttackType || {}).forEach(([attackType, damageType]) => {
+                    if (!validAttackTypes.has(attackType) || !validDamageTypes.has(damageType)) {
+                        warnings.push({ level: "warn", message: `attackModeRules.${characterId}.${group}.${attackType} has an unsupported damage type: ${damageType}` });
+                    }
+                });
+            });
+        });
+    }
+
+    function validateWeaponEffectRegistry(registry, weaponModifiers, warnings) {
+        const validActivationTypes = new Set(["always", "toggle", "stack", "option", "displayOnly"]);
+        const validInputPolicies = new Set(["reflected", "calculate", "sourceContext", "displayOnly"]);
+        const validTargetOwners = new Set(["self", "team", "activeCharacter", "enemy"]);
+        Object.entries(registry?.weapons || {}).forEach(([weaponId, definition]) => {
+            const modifierIds = new Set((weaponModifiers?.[weaponId]?.modifiers || []).map((modifier) => modifier.id));
+            const seenGroups = new Set();
+            (definition.groups || []).forEach((group) => {
+                const path = `weaponEffectRegistry.${weaponId}.${group.id || "unknown"}`;
+                if (!group.id || seenGroups.has(group.id)) warnings.push({ level: "warn", message: `${path} has a missing or duplicate group id.` });
+                seenGroups.add(group.id);
+                if (!group.name) warnings.push({ level: "warn", message: `${path} has no display name.` });
+                if (!validActivationTypes.has(group.activation?.type)) warnings.push({ level: "warn", message: `${path} has an unsupported activation type.` });
+                if (!validInputPolicies.has(group.inputPolicy)) warnings.push({ level: "warn", message: `${path} has an unsupported input policy.` });
+                if (!validTargetOwners.has(group.targetOwner)) warnings.push({ level: "warn", message: `${path} has an unsupported target owner.` });
+                (group.modifierIds || []).forEach((modifierId) => {
+                    if (!modifierIds.has(modifierId)) warnings.push({ level: "warn", message: `${path} references unknown modifier ${modifierId}.` });
+                });
+            });
+        });
+    }
+
     function validateCalcData(data) {
         const warnings = [];
         validateTalentScalings(data.talentScalings, warnings);
-        walkModifiers(data.talentModifiers, warnings, "talentModifiers");
+        walkModifiers(data.talentModifiers, warnings, "talentModifiers", { talentScalings: data.talentScalings });
         walkModifiers(data.weaponModifiers, warnings, "weaponModifiers");
+        validateWeaponEffectRegistry(data.weaponEffectRegistry, data.weaponModifiers, warnings);
         walkModifiers(data.artifactSetModifiers, warnings, "artifactSetModifiers");
         walkModifiers(data.constellationModifiers, warnings, "constellationModifiers");
+        validateAttackModeRules(data.attackModeRules, warnings);
         if (warnings.length) {
             console.warn(`[genshin-calc-validate] ${warnings.length}件の確認事項があります。`, warnings.slice(0, 10));
         }
@@ -164,6 +247,7 @@
 
     window.GenshinCalcData = {
         loadGenshinCalcData,
-        validateCalcData
+        validateCalcData,
+        talentModifierRepresentedByScalings
     };
 })();

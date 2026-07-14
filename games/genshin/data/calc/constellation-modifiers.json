@@ -3022,6 +3022,7 @@
       "2": [
         {
           "id": "c_10000044_2_1",
+          "auditDisposition": "displayOnlyMisclassification",
           "category": "talentLevelBonus",
           "applyTo": [
             "burstTalentLevel"
@@ -3388,6 +3389,7 @@
           "uidHandling": "conditional",
           "sourceText": "煙緋が丹火の印を1枚所持するごとに、重撃を詠唱している間の中断耐性がアップ、さらに重撃のスタミナ消費-10%。",
           "id": "c_10000048_1_1_resolved_2",
+          "auditDisposition": "displayOnlyMisclassification",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -8232,17 +8234,21 @@
       ],
       "6": [
         {
-          "category": "defenseDebuff",
-          "applyTo": [
-            "enemyDefense"
-          ],
-          "value": -30,
-          "unit": "percent",
           "condition": "afterCast",
           "calculationSupport": "custom",
           "uidHandling": "conditional",
           "sourceText": "固有天賦「量体裁衣」の後続効果を発動した後、千織自身の羽袖一触のクールタイム-12秒。固有天賦「量体裁衣」を解放する必要がある。\nまた、千織自身の通常攻撃によるダメージは、千織自身の防御力の235%分アップする。",
           "id": "c_10000094_6_1_resolved_1",
+          "category": "additiveBaseDamage",
+          "applyTo": [
+            "normalAttack"
+          ],
+          "value": 235,
+          "unit": "percent",
+          "reference": {
+            "stat": "def",
+            "source": "self"
+          },
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -9258,6 +9264,7 @@
           "uidHandling": "conditional",
           "sourceText": "シロネンが夜魂の加護状態で消費する夜魂値と燃素-30%、かつ夜魂値の時間制限+45%。\nまた、シロネンの「サンプル音源」がアクティブ状態の時、付近にいるチーム内フィールド上キャラクターの中断耐性がアップする。",
           "id": "c_10000103_1_1_resolved_2",
+          "auditDisposition": "displayOnlyMisclassification",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -9404,12 +9411,17 @@
       ],
       "6": [
         {
-          "category": "defenseDebuff",
+          "category": "additiveBaseDamage",
           "applyTo": [
-            "enemyDefense"
+            "normalAttack",
+            "plungingAttack"
           ],
-          "value": -30,
+          "value": 300,
           "unit": "percent",
+          "reference": {
+            "stat": "def",
+            "source": "self"
+          },
           "condition": "stateActive",
           "calculationSupport": "custom",
           "uidHandling": "conditional",
@@ -9430,6 +9442,7 @@
           "uidHandling": "conditional",
           "sourceText": "夜魂の加護状態にある時、シロネンがダッシュ、跳躍、通常攻撃、落下攻撃を行うと、「永夜の祝福」効果を獲得する。夜魂の加護状態における制限を無視し、通常攻撃と落下攻撃の与えるダメージをアップ、継続時間5秒。\n継続期間中：\n・シロネンの夜魂値の時間制限カウントダウンを一時停止し、シロネンの夜魂値、燃素、スタミナは減少しなくなる。さらに、夜魂値が上限に達した時、シロネンの夜魂の加護状態は終了しない。\n・夜魂の加護状態にあるシロネンの通常攻撃と落下攻撃の与えるダメージがシロネンの防御力の300%分アップする。\n・1.5秒毎に、付近のチームメンバー全員のHPを回復する。回復量はシロネンの防御力の120%分に相当する。\n「永夜の祝福」は15秒毎に1回のみ獲得可能。",
           "id": "c_10000103_6_1_resolved_3",
+          "auditDisposition": "displayOnlyMisclassification",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }

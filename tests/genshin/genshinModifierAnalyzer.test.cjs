@@ -99,7 +99,13 @@ test("計算可能性と入力ポリシーを分離する", () => {
 test("入力へ反映済みの種類ごとに理由を保持する", () => {
     const analyzer = loadAnalyzer();
     const stats = analyzer.analyzeModifier({
-        modifier: { category: "statBonus", uidHandling: "includedInUidStats" },
+        modifier: {
+            category: "statBonus",
+            applyTo: ["atkPercent"],
+            condition: "always",
+            calculationSupport: "simple",
+            uidHandling: "includedInUidStats"
+        },
         context: { mode: "uidMode" }
     });
     const talent = analyzer.analyzeModifier({
@@ -110,6 +116,74 @@ test("入力へ反映済みの種類ごとに理由を保持する", () => {
     assert.equal(stats.inputReason, "includedInUidStatsのため未適用");
     assert.equal(talent.inputStatus, "includedInInput");
     assert.equal(talent.inputReason, "UID天賦Lv反映済みの可能性があるため未適用");
+});
+
+test("専用入力のないダメージ補正を入力反映済みから計算対象へ戻す", () => {
+    const analyzer = loadAnalyzer();
+    const goldenTroupe = {
+        category: "damageBonus",
+        applyTo: ["skillDamageBonus"],
+        value: 20,
+        condition: "always",
+        calculationSupport: "simple",
+        uidHandling: "includedInUidStats"
+    };
+    const analysis = analyzer.analyzeModifier({
+        modifier: goldenTroupe,
+        source: "artifact2:15032",
+        context: { mode: "uidMode" }
+    });
+    assert.equal(analyzer.uidStatsCoverage(goldenTroupe).represented, false);
+    assert.equal(analysis.inputStatus, "applicable");
+    assert.equal(analysis.uidHandling, "conditional");
+    assert.equal(analysis.condition, "always");
+});
+
+test("戦闘中だけ成立する武器効果を入力反映済みから手動条件へ戻す", () => {
+    const analyzer = loadAnalyzer();
+    const conditionalWeaponBonus = {
+        category: "damageBonus",
+        applyTo: ["allDamageBonus"],
+        value: 12,
+        condition: "always",
+        calculationSupport: "simple",
+        uidHandling: "includedInUidStats",
+        sourceText: "シールドが存在する時、キャラクターの与えるダメージ+12%"
+    };
+    const analysis = analyzer.analyzeModifier({
+        modifier: conditionalWeaponBonus,
+        source: "weapon:12402",
+        context: { mode: "uidMode" }
+    });
+    assert.equal(analysis.inputStatus, "applicable");
+    assert.equal(analysis.condition, "manualActivation");
+    assert.equal(analysis.requiresConditionEvaluation, true);
+});
+
+test("全JSONの入力反映済み補正を入力欄の表現範囲で監査する", () => {
+    const analyzer = loadAnalyzer();
+    const expectations = {
+        "artifact-set-modifiers.json": { total: 49, represented: 43, routed: 6 },
+        "weapon-modifiers.json": { total: 241, represented: 43, routed: 198 },
+        "talent-modifiers.json": { total: 0, represented: 0, routed: 0 },
+        "constellation-modifiers.json": { total: 0, represented: 0, routed: 0 }
+    };
+    Object.entries(expectations).forEach(([file, expected]) => {
+        const data = readJson(`games/genshin/data/calc/${file}`);
+        const summary = { total: 0, represented: 0, routed: 0 };
+        const visit = (value) => {
+            if (Array.isArray(value)) return value.forEach(visit);
+            if (!value || typeof value !== "object") return;
+            if (value.uidHandling === "includedInUidStats") {
+                summary.total += 1;
+                if (analyzer.uidStatsCoverage(value).represented) summary.represented += 1;
+                else summary.routed += 1;
+            }
+            Object.values(value).forEach(visit);
+        };
+        visit(data);
+        assert.deepEqual(summary, expected, file);
+    });
 });
 
 test("resolved分割レコードを同じ効果グループへ正規化する", () => {

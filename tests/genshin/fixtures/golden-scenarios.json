@@ -103,11 +103,11 @@
     "critRate": 80,
     "critDamage": 160,
     "result": {
-      "id": "normal_1damage",
+      "id": "normal_1damage_2",
       "effectId": "",
       "attackType": "normalAttack",
-      "nonCrit": 2964.701081,
-      "crit": 7708.222811,
+      "nonCrit": 7328.955938,
+      "crit": 19055.285438,
       "additiveBaseDamage": 0,
       "damageBonus": 165,
       "finalDamageMultiplier": 1

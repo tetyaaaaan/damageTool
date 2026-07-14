@@ -1,0 +1,175 @@
+{
+  "version": 1,
+  "weapons": {
+    "15502": {
+      "groups": [
+        {
+          "id": "amos_base_damage",
+          "name": "通常攻撃・重撃の基礎強化",
+          "description": "通常攻撃と重撃のダメージを常時強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "always", "label": "常時適用" },
+          "modifierIds": ["w_15502_damage_1"]
+        },
+        {
+          "id": "amos_flight_time",
+          "name": "矢の飛翔時間による強化",
+          "description": "放たれた矢が0.1秒飛ぶごとに通常攻撃と重撃のダメージが上昇します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "stack", "stateKey": "arrowFlightTime", "label": "矢の飛翔時間", "min": 0, "max": 5, "default": 0, "unit": "段階" },
+          "modifierIds": ["w_15502_damageBonus_fc388315"]
+        }
+      ]
+    },
+    "12402": {
+      "groups": [
+        {
+          "id": "bell_shield_damage",
+          "name": "シールド中のダメージ強化",
+          "description": "シールドが存在する時だけ、与えるダメージを強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "whileShielded", "label": "シールド状態で計算する" },
+          "modifierIds": ["w_12402_damage_1"]
+        },
+        {
+          "id": "bell_shield_generation",
+          "name": "被ダメージ時のシールド生成",
+          "description": "ダメージ計算へ直接加算しない防御効果です。",
+          "targetOwner": "self",
+          "inputPolicy": "displayOnly",
+          "activation": { "type": "displayOnly", "label": "表示のみ" },
+          "modifierIds": ["w_12402_extraDamage_4ff89bef"]
+        }
+      ]
+    },
+    "11509": {
+      "groups": [
+        {
+          "id": "mistsplitter_base_element",
+          "name": "全元素ダメージ強化",
+          "description": "常時発動する全元素ダメージ補正です。現在の元素ダメージ入力に含まれます。",
+          "targetOwner": "self",
+          "inputPolicy": "reflected",
+          "activation": { "type": "always", "label": "入力値に反映済み" },
+          "modifierIds": ["w_11509_damage_1"]
+        },
+        {
+          "id": "mistsplitter_emblem",
+          "name": "霧切の巴紋",
+          "description": "現在の巴紋の層数に応じて、自身元素タイプの元素ダメージを強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "stack", "stateKey": "mistsplitterEmblem", "label": "霧切の巴紋", "min": 0, "max": 3, "default": 0, "unit": "層" },
+          "modifierIds": ["w_11509_damageBonus_ae1b42da", "w_11509_damage_2"],
+          "modifierOverrides": {
+            "w_11509_damage_2": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        }
+      ]
+    },
+    "14402": {
+      "groups": [
+        {
+          "id": "widsith_song",
+          "name": "流浪楽章",
+          "description": "登場時に発動した楽章を一つ選び、その効果だけを計算します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": {
+            "type": "option",
+            "stateKey": "widsithSong",
+            "label": "発動した楽章",
+            "options": [
+              { "value": "none", "label": "未発動" },
+              { "value": "recitative", "label": "叙唱：攻撃力" },
+              { "value": "aria", "label": "詠唱：全元素ダメージ" },
+              { "value": "interlude", "label": "間奏曲：元素熟知" }
+            ]
+          },
+          "modifierIds": ["w_14402_stat_1", "w_14402_damage_2", "w_14402_stat_3"],
+          "modifierOverrides": {
+            "w_14402_stat_1": { "conditionOptionValue": "recitative" },
+            "w_14402_damage_2": { "conditionOptionValue": "aria" },
+            "w_14402_stat_3": { "conditionOptionValue": "interlude", "unit": "flat" }
+          }
+        }
+      ]
+    },
+    "15402": {
+      "groups": [
+        {
+          "id": "stringless_skill_burst",
+          "name": "元素スキル・元素爆発強化",
+          "description": "元素スキルと元素爆発のダメージを常時強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "always", "label": "常時適用" },
+          "modifierIds": ["w_15402_damage_1"]
+        }
+      ]
+    },
+    "11518": {
+      "groups": [
+        {
+          "id": "black_eclipse_burst_crit",
+          "name": "元素爆発の会心ダメージ強化",
+          "description": "元素爆発にだけ会心ダメージ補正を適用します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "always", "label": "元素爆発へ自動適用" },
+          "modifierIds": ["w_11518_critBonus_765ef224", "w_11518_crit_1", "w_11518_damage_2"],
+          "modifierOverrides": {
+            "w_11518_critBonus_765ef224": { "auditDisposition": "supersededByStructuredRecord" },
+            "w_11518_damage_2": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        },
+        {
+          "id": "black_eclipse_self_atk",
+          "name": "装備者の攻撃力強化",
+          "description": "装備者自身へ常時適用され、現在の攻撃力入力に含まれます。",
+          "targetOwner": "self",
+          "inputPolicy": "reflected",
+          "activation": { "type": "always", "label": "入力値に反映済み" },
+          "modifierIds": ["w_11518_stat_3"]
+        },
+        {
+          "id": "black_eclipse_active_character_atk",
+          "name": "装備者以外のフィールド上キャラ強化",
+          "description": "装備者自身には加算しないチーム側効果です。",
+          "targetOwner": "activeCharacter",
+          "inputPolicy": "sourceContext",
+          "activation": { "type": "toggle", "stateKey": "blackEclipseTeamBuff", "label": "別キャラクターへのチーム効果" },
+          "modifierIds": ["w_11518_stat_4"]
+        }
+      ]
+    },
+    "12430": {
+      "groups": [
+        {
+          "id": "fruitful_hook_plunge_crit",
+          "name": "落下攻撃の会心率強化",
+          "description": "落下攻撃にだけ会心率補正を適用します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "always", "label": "落下攻撃へ自動適用" },
+          "modifierIds": ["w_12430_critBonus_ef236f15", "w_12430_crit_1"],
+          "modifierOverrides": {
+            "w_12430_critBonus_ef236f15": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        },
+        {
+          "id": "fruitful_hook_hit_stacks",
+          "name": "命中後の攻撃強化",
+          "description": "落下攻撃命中後の強化段階を指定します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "stack", "stateKey": "fruitfulHookStacks", "label": "命中後の強化段階", "min": 0, "max": 3, "default": 0, "unit": "層" },
+          "modifierIds": ["w_12430_damageBonus_c7243261"]
+        }
+      ]
+    }
+  }
+}

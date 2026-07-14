@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "description": "Normalizes attacks whose operation type and damage classification differ.",
+  "talentSourceOverrides": {
+    "10000002": {
+      "combatsp": {
+        "typeLabel": "特殊移動",
+        "nameJa": "神里流・霰歩"
+      }
+    }
+  },
+  "characters": {
+    "10000114": {
+      "skill": {
+        "nameJa": "七相一閃"
+      }
+    },
+    "10000052": {
+      "burst": {
+        "nameJa": "夢想の一心",
+        "damageTypeByAttackType": {
+          "normalAttack": "burst",
+          "chargedAttack": "burst",
+          "plungingAttack": "burst"
+        }
+      }
+    },
+    "10000070": {
+      "skill": {
+        "nameJa": "剣舞のステップ",
+        "damageTypeByAttackType": {
+          "normalAttack": "skill"
+        }
+      }
+    }
+  }
+}

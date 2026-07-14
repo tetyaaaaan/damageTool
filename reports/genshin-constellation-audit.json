@@ -1,0 +1,16 @@
+{
+  "summary": {
+    "characters": 117,
+    "constellationLevels": 702,
+    "effects": 743,
+    "byVerificationStatus": {
+      "mechanicOnly": 69,
+      "corroborated": 452,
+      "textVerified": 198,
+      "quarantined": 22,
+      "sourceContextRequired": 2
+    },
+    "issues": 0
+  },
+  "issues": []
+}

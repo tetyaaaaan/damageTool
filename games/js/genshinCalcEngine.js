@@ -187,6 +187,267 @@
         return entry.element;
     }
 
+    const ATTACK_MODE_ACTION_TYPES = new Set(["normalAttack", "chargedAttack", "plungingAttack"]);
+
+    function talentSourceIdForGroup(group) {
+        return group === "skill" ? "combat2" : group === "burst" ? "combat3" : "combat1";
+    }
+
+    function talentConditionGroupId(characterId, sourceId) {
+        return `talent-state:${characterId}:${sourceId}`;
+    }
+
+    function talentStateConditionKey(characterId, group) {
+        const sourceId = talentSourceIdForGroup(group);
+        return `talent:${sourceId}:group:${talentConditionGroupId(characterId, sourceId)}`;
+    }
+
+    function buildAttackModeDefinitions(calcData, context) {
+        const characterId = context.characterId;
+        if (!characterId) return [];
+        return ["skill"].flatMap((group) => {
+            const entries = calcData.talentScalings?.[characterId]?.[group]?.entries || [];
+            const modeEntries = entries.filter((entry) => ATTACK_MODE_ACTION_TYPES.has(entry.attackType));
+            if (!modeEntries.length) return [];
+            const talent = calcData.characterTalents?.[characterId]?.[group] || {};
+            const rule = calcData.attackModeRules?.characters?.[characterId]?.[group] || {};
+            const sourceId = talentSourceIdForGroup(group);
+            const sourceModifiers = (calcData.talentModifiers?.[characterId]?.passives || [])
+                .find((passive) => String(passive.sourceId || "").replace(/_/g, "") === sourceId)?.modifiers || [];
+            const hasMatchingElementOverride = sourceModifiers.some((modifier) => {
+                return modifier.category === "elementOverride"
+                    && modeEntries.some((entry) => entry.element === modifier.value);
+            });
+            if (!hasMatchingElementOverride && !rule.nameJa) return [];
+            const attackTypes = [...new Set(modeEntries.map((entry) => entry.attackType))];
+            return [{
+                characterId,
+                group,
+                sourceId,
+                sourceName: talent.nameJa || "元素スキル",
+                sourceDescription: talent.descriptionJa || "",
+                stateName: rule.nameJa || `${talent.nameJa || "元素スキル"}発動中`,
+                element: modeEntries[0]?.element || "",
+                attackTypes,
+                conditionGroupId: talentConditionGroupId(characterId, sourceId),
+                conditionStateKey: talentStateConditionKey(characterId, group)
+            }];
+        });
+    }
+
+    function attackModeIsEnabled(calcData, context, group) {
+        const definition = buildAttackModeDefinitions(calcData, context).find((item) => item.group === group);
+        if (!definition) return false;
+        return Boolean(context.uiState?.conditionByModifier?.[definition.conditionStateKey]?.enabled);
+    }
+
+    function normalizeAttackModeEntry(entry, group, calcData, context) {
+        if (group === "normalAttack" || !ATTACK_MODE_ACTION_TYPES.has(entry.attackType)) return entry;
+        const rule = calcData.attackModeRules?.characters?.[context.characterId]?.[group] || {};
+        const damageType = rule.damageTypeByAttackType?.[entry.attackType] || entry.damageType;
+        return {
+            ...entry,
+            damageType,
+            attackMode: {
+                id: `${context.characterId}:${group}`,
+                nameJa: rule.nameJa || (group === "skill" ? "元素スキル攻撃モード" : "元素爆発攻撃モード"),
+                sourceGroup: group,
+                operationType: entry.attackType,
+                damageType,
+                element: entry.element
+            }
+        };
+    }
+
+    function normalizeElementOverrideModifier(modifier, source, calcData, context) {
+        if (modifier.category !== "elementOverride") return modifier;
+        if (!String(source).startsWith("talent:")) {
+            return { ...modifier, targetGroups: modifier.targetGroups || ["normalAttack"] };
+        }
+        const sourceId = String(source).slice("talent:".length);
+        const expectedGroup = sourceId === "combat2" ? "skill" : sourceId === "combat3" ? "burst" : "";
+        if (!expectedGroup) return { ...modifier, targetGroups: modifier.targetGroups || ["normalAttack"] };
+
+        const entries = calcData.talentScalings?.[context.characterId]?.[expectedGroup]?.entries || [];
+        const applyTo = new Set(modifier.applyTo || []);
+        const modeEntries = entries.filter((entry) => ATTACK_MODE_ACTION_TYPES.has(entry.attackType) && applyTo.has(entry.attackType));
+        if (!modeEntries.length) return { ...modifier, targetGroups: ["normalAttack"] };
+
+        const matchingEntries = modeEntries.filter((entry) => normalizeDamageElement(entry, calcData.characters?.[context.characterId] || {}) === modifier.value);
+        if (!matchingEntries.length) {
+            return {
+                ...modifier,
+                targetGroups: [],
+                attackModeConflict: true,
+                attackModeConflictReason: `攻撃モードの元素が専用倍率と不一致: ${modifier.value}`
+            };
+        }
+        return {
+            ...modifier,
+            targetGroups: [expectedGroup],
+            attackModeSourceGroup: expectedGroup,
+            attackModeEncodedInScaling: true
+        };
+    }
+
+    function normalizeTalentStateModifier(modifier, source, calcData, context) {
+        const normalized = normalizeElementOverrideModifier(modifier, source, calcData, context);
+        if (!String(source).startsWith("talent:")) return normalized;
+        const sourceId = String(source).slice("talent:".length);
+        if (!["combat2", "combat3"].includes(sourceId)) return normalized;
+        if (!["active", "stateActive", "duringBurst"].includes(normalized.condition)) return normalized;
+        return {
+            ...normalized,
+            conditionGroupId: talentConditionGroupId(context.characterId, sourceId)
+        };
+    }
+
+    function normalizeArtifactModifier(modifier, source) {
+        const match = String(source || "").match(/^artifact(2|4):(.+)$/);
+        if (!match) return modifier;
+        const normalized = {
+            ...modifier,
+            artifactSetId: match[2],
+            artifactPieceCount: Number(match[1])
+        };
+        if (modifier.condition === "chargedAttack" && normalized.category === "critBonus") {
+            normalized.applyTo = [...new Set([...(normalized.applyTo || []), "chargedAttack"] )];
+        }
+        return normalized;
+    }
+
+    function weaponEffectGroup(modifier, weaponDefinition = {}) {
+        return (weaponDefinition.groups || []).find((group) => (group.modifierIds || []).includes(modifier?.id)) || null;
+    }
+
+    function stableTextHash(value) {
+        let hash = 2166136261;
+        for (const character of String(value || "")) {
+            hash ^= character.charCodeAt(0);
+            hash = Math.imul(hash, 16777619);
+        }
+        return (hash >>> 0).toString(16).padStart(8, "0");
+    }
+
+    function fallbackWeaponMetadata(modifier) {
+        const sourceText = String(modifier?.sourceText || "");
+        const descriptionKey = sourceText || modifier?.id || "unknown";
+        const firstClause = sourceText.split(/[、。]/)[0] || "武器効果";
+        const targetOwner = /装備者(?:自身)?を除|他のキャラクター|他キャラクター/.test(sourceText)
+            ? "activeCharacter"
+            : "self";
+        const dynamicCondition = /(?:時|後|間|毎|状態|以下|以上|につき|層|影響を受け|付着|命中|消費|解除|獲得|存在する場合)/.test(sourceText);
+        const normalized = {
+            ...modifier,
+            effectGroupId: modifier.effectGroupId || `fallback_${stableTextHash(descriptionKey)}`,
+            effectLabel: modifier.effectLabel || firstClause.slice(0, 36),
+            effectDescription: modifier.effectDescription || sourceText,
+            targetOwner,
+            conditionLabel: modifier.conditionLabel || (dynamicCondition ? firstClause.slice(0, 48) : "")
+        };
+        if (targetOwner !== "self") normalized.auditDisposition = "sourceContextRequired";
+        return normalized;
+    }
+
+    function duplicateWeaponRecord(modifier, siblings) {
+        const signature = (candidate) => JSON.stringify({
+            category: candidate.category,
+            applyTo: [...(candidate.applyTo || [])].sort(),
+            unit: candidate.unit,
+            condition: candidate.condition,
+            calculationSupport: candidate.calculationSupport,
+            sourceText: candidate.sourceText || "",
+            value: candidate.value,
+            valueByRefinement: candidate.valueByRefinement,
+            valueByStack: candidate.valueByStack
+        });
+        const ownIndex = siblings.indexOf(modifier);
+        if (ownIndex < 0) return false;
+        const ownSignature = signature(modifier);
+        return siblings.slice(0, ownIndex).some((candidate) => signature(candidate) === ownSignature);
+    }
+
+    function normalizeWeaponModifier(modifier, siblings = [], weaponDefinition = {}) {
+        const group = weaponEffectGroup(modifier, weaponDefinition);
+        if (group) {
+            const activation = group.activation || { type: "always" };
+            const override = group.modifierOverrides?.[modifier.id] || {};
+            const normalized = {
+                ...modifier,
+                ...override,
+                effectGroupId: group.id,
+                effectGroupOrder: (weaponDefinition.groups || []).indexOf(group),
+                effectLabel: group.name,
+                effectDescription: group.description || "",
+                targetOwner: group.targetOwner || "self",
+                inputPolicy: group.inputPolicy || "calculate",
+                activation
+            };
+            if (group.inputPolicy === "reflected") normalized.uidHandling = "includedInUidStats";
+            if (["calculate", "sourceContext"].includes(group.inputPolicy)) normalized.uidHandling = "conditional";
+            if (group.inputPolicy === "displayOnly") {
+                normalized.uidHandling = "displayOnly";
+                normalized.auditDisposition = normalized.auditDisposition || "displayOnlyMisclassification";
+            }
+            if (group.inputPolicy === "sourceContext" || !["self", "enemy"].includes(group.targetOwner || "self")) {
+                normalized.auditDisposition = "sourceContextRequired";
+            }
+            if (activation.type === "always") normalized.condition = "always";
+            if (activation.type === "toggle") {
+                normalized.condition = activation.stateKey || "conditional";
+                normalized.conditionLabel = activation.label || group.name;
+                normalized.calculationSupport = "toggle";
+            }
+            if (activation.type === "stack") {
+                normalized.condition = activation.stateKey || "stack";
+                normalized.conditionLabel = activation.label || group.name;
+                normalized.calculationSupport = "stack";
+                normalized.stack = {
+                    min: Number(activation.min) || 0,
+                    max: Number(activation.max) || 0,
+                    default: Number(activation.default) || 0
+                };
+                normalized.conditionInput = {
+                    type: "stack",
+                    label: activation.label || group.name,
+                    min: normalized.stack.min,
+                    max: normalized.stack.max,
+                    unit: activation.unit || "層"
+                };
+            }
+            if (activation.type === "option") {
+                normalized.condition = activation.stateKey || "option";
+                normalized.conditionLabel = activation.label || group.name;
+                normalized.calculationSupport = "simple";
+                normalized.conditionGroupId = activation.stateKey || group.id;
+                normalized.conditionInput = {
+                    type: "option",
+                    label: activation.label || group.name,
+                    options: activation.options || []
+                };
+            }
+            return normalized;
+        }
+        const sourceText = String(modifier?.sourceText || "");
+        if (!sourceText) return modifier;
+        const targets = modifier.applyTo || [];
+        const genericCrit = modifier.category === "critBonus"
+            && targets.some((target) => ["critRate", "critDamage"].includes(target));
+        const specificCritSibling = siblings.some((candidate) => {
+            if (candidate === modifier || candidate.category !== "critBonus" || candidate.sourceText !== sourceText) return false;
+            return (candidate.applyTo || []).some((target) => /Crit(?:Rate|Damage)$/.test(target));
+        });
+        const textWithoutCritDamage = sourceText.replace(/会心ダメージ/g, "会心補正");
+        const critOnlyDamageRecord = modifier.category === "damageBonus"
+            && /会心(?:率|ダメージ)/.test(sourceText)
+            && !/ダメージ\s*[+＋-]/.test(textWithoutCritDamage)
+            && siblings.some((candidate) => candidate.category === "critBonus" && candidate.sourceText === sourceText);
+        if ((genericCrit && specificCritSibling) || critOnlyDamageRecord || duplicateWeaponRecord(modifier, siblings)) {
+            return fallbackWeaponMetadata({ ...modifier, auditDisposition: "supersededByStructuredRecord" });
+        }
+        return fallbackWeaponMetadata(modifier);
+    }
+
     function collectTalentDamageEntries(calcData, context) {
         const characterTalents = calcData.talentScalings?.[context.characterId];
         const characterInfo = calcData.characters?.[context.characterId] || {};
@@ -205,9 +466,14 @@
             ["burst", characterTalents.burst]
         ];
         const entries = [];
+        const skillMode = buildAttackModeDefinitions(calcData, context).find((item) => item.group === "skill");
+        const skillModeEnabled = Boolean(skillMode && attackModeIsEnabled(calcData, context, "skill"));
         groups.forEach(([group, talent]) => {
             (talent?.entries || []).forEach((entry) => {
-                entries.push({ ...entry, element: normalizeDamageElement(entry, characterInfo), group });
+                if (group === "skill" && skillMode?.attackTypes.includes(entry.attackType) && !skillModeEnabled) return;
+                if (group === "normalAttack" && skillModeEnabled && skillMode?.attackTypes.includes(entry.attackType)) return;
+                const normalizedEntry = { ...entry, element: normalizeDamageElement(entry, characterInfo), group };
+                entries.push(normalizeAttackModeEntry(normalizedEntry, group, calcData, context));
             });
         });
         return { entries, warnings };
@@ -284,6 +550,15 @@
             const stack = resourceStack ?? conditionStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
             return numericModifierValue(modifier.valuePerStack) * stack;
         }
+        const structuredPerStackValue = [
+            modifier.valuePerGeneratedStack,
+            modifier.valuePerConsumedStack,
+            modifier.valuePerExcessStack
+        ].find((value) => value !== undefined && value !== null && value !== "");
+        if (structuredPerStackValue !== undefined) {
+            const stack = resourceStack ?? conditionStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
+            return numericModifierValue(structuredPerStackValue) * stack;
+        }
         return 0;
     }
 
@@ -306,6 +581,28 @@
         }).enabled);
     }
 
+    function talentModifierRepresentedByScalings(modifier, characterId, sourceId, talentScalings) {
+        const group = {
+            combat1: "normalAttack",
+            combat2: "skill",
+            combat3: "burst"
+        }[sourceId] || "";
+        const valueKeys = [
+            "value", "valueByRefinement", "valueByStack", "valueByLevel", "valuePerStack",
+            "valuePerGeneratedStack", "valuePerConsumedStack", "valuePerExcessStack", "valuePer1000",
+            "valuePerStep", "valueByCondition", "critRate", "critDamage", "ratio", "maxValue",
+            "scalings", "targetEffect", "effect", "resource"
+        ];
+        return Boolean(
+            group
+            && modifier?.category === "extraDamage"
+            && modifier?.calculationSupport === "special"
+            && (modifier.applyTo || []).includes("triggeredDamage")
+            && !valueKeys.some((key) => Object.prototype.hasOwnProperty.call(modifier, key))
+            && (talentScalings?.[characterId]?.[group]?.entries || []).length
+        );
+    }
+
     function collectActiveModifiers(calcData, context) {
         const applied = [];
         const candidates = [];
@@ -315,9 +612,29 @@
             candidates.push({ modifier, source, reason, analysis });
         }
 
-        function consider(modifier, source) {
+        function consider(rawModifier, source) {
+            const talentSourceId = source.startsWith("talent:") ? source.slice("talent:".length) : "";
+            if (talentSourceId && talentModifierRepresentedByScalings(
+                rawModifier,
+                context.characterId,
+                talentSourceId,
+                calcData.talentScalings
+            )) return;
+            const modifier = normalizeArtifactModifier(
+                normalizeTalentStateModifier(rawModifier, source, calcData, context),
+                source
+            );
             if (!modifier) return;
             const analysis = analyzeModifier(modifier, source, context);
+            if (modifier.attackModeConflict) {
+                addCandidate(modifier, source, modifier.attackModeConflictReason, {
+                    ...analysis,
+                    calculable: false,
+                    reasonCode: "ATTACK_MODE_ELEMENT_CONFLICT"
+                });
+                return;
+            }
+            if (modifier.attackModeEncodedInScaling) return;
             if (analysis.inputStatus !== "applicable") {
                 addCandidate(modifier, source, analysis.inputReason || analysis.status, analysis);
                 return;
@@ -350,8 +667,9 @@
         });
 
         const weaponModifiers = calcData.weaponModifiers?.[context.weaponId]?.modifiers || [];
+        const weaponDefinition = calcData.weaponEffectRegistry?.weapons?.[context.weaponId] || {};
         weaponModifiers.forEach((modifier) => {
-            consider(modifier, `weapon:${context.weaponId}`);
+            consider(normalizeWeaponModifier(modifier, weaponModifiers, weaponDefinition), `weapon:${context.weaponId}`);
         });
 
         context.artifactSetIds.forEach((setId, index) => {
@@ -393,7 +711,7 @@
             skill: "skillDamageBonus",
             burst: "burstDamageBonus"
         };
-        const target = map[entry.attackType] || map[entry.damageType];
+        const target = map[entry.damageType] || map[entry.attackType];
         const elementTarget = elementBonusKey(entry.element);
         return applyTo.includes(target)
             || applyTo.includes(elementTarget)
@@ -403,6 +721,7 @@
     }
 
     function modifierTargetsEntry(modifier, entry) {
+        if (Array.isArray(modifier.targetGroups) && !modifier.targetGroups.includes(entry.group)) return false;
         const targetEffects = Array.isArray(modifier.targetEffect)
             ? modifier.targetEffect
             : modifier.targetEffect ? [modifier.targetEffect] : [];
@@ -538,9 +857,31 @@
         return reactionTargets.some((target) => applyTo.includes(target));
     }
 
+    function critBonusKind(modifier) {
+        const targets = modifier.applyTo || [];
+        if (targets.some((target) => target === "critRate" || /CritRate$/.test(target))) return "critRate";
+        if (targets.some((target) => target === "critDamage" || /CritDamage$/.test(target))) return "critDamage";
+        return "";
+    }
+
     function critBonusApplies(modifier, entry) {
-        const damageTargets = (modifier.applyTo || []).filter((target) => !["critRate", "critDamage"].includes(target));
-        return damageTargets.length === 0 || modifierTargetsEntry({ ...modifier, applyTo: damageTargets }, entry);
+        const attackTargets = {
+            normalAttackCritRate: "normalAttackDamageBonus",
+            normalAttackCritDamage: "normalAttackDamageBonus",
+            chargedAttackCritRate: "chargedAttackDamageBonus",
+            chargedAttackCritDamage: "chargedAttackDamageBonus",
+            plungingAttackCritRate: "plungingAttackDamageBonus",
+            plungingAttackCritDamage: "plungingAttackDamageBonus",
+            skillCritRate: "skillDamageBonus",
+            skillCritDamage: "skillDamageBonus",
+            burstCritRate: "burstDamageBonus",
+            burstCritDamage: "burstDamageBonus"
+        };
+        const scopeTargets = (modifier.applyTo || [])
+            .filter((target) => !["critRate", "critDamage"].includes(target))
+            .map((target) => attackTargets[target] || target);
+        if (!scopeTargets.length) return true;
+        return modifierTargetsEntry({ ...modifier, applyTo: scopeTargets }, entry);
     }
 
     function applyModifiersToDamageEntry(entry, context, collected) {
@@ -619,11 +960,11 @@
                     }
                 });
             } else if (modifier.category === "critBonus" && critBonusApplies(modifier, effectiveEntry)) {
-                const applyTo = modifier.applyTo || [];
-                if (applyTo.includes("critRate")) {
+                const kind = critBonusKind(modifier);
+                if (kind === "critRate") {
                     totals.critRateBonus += Number(value) || 0;
                     applied.push(item);
-                } else if (applyTo.includes("critDamage")) {
+                } else if (kind === "critDamage") {
                     totals.critDamageBonus += Number(value) || 0;
                     applied.push(item);
                 } else {
@@ -911,7 +1252,7 @@
             if (warning.level === "error" || message.includes("読み込みに失敗")) return true;
             if (message.includes(`talentModifiers.${context.characterId}`)) return true;
             if (message.includes(`constellationModifiers.${context.characterId}`)) return true;
-            if (message.includes(`weaponModifiers.${context.weaponId}`)) return true;
+            if (context.weaponId && message.includes(`weaponModifiers.${context.weaponId}`)) return true;
             if ([...setIds].some((setId) => message.includes(`artifactSetModifiers.${setId}`))) return true;
             if (message.startsWith(`${context.characterId}.`)) return true;
             return false;
@@ -946,6 +1287,7 @@
         const isDiagnosticOnlyCandidate = (item) => {
             return item.analysis?.inputStatus === "includedInInput"
                 || item.analysis?.resourceClassification === "calculationInput"
+                || item.analysis?.reasonCode === "ATTACK_MODE_ELEMENT_CONFLICT"
                 || item.analysis?.supportStatus === "missingInput"
                 || item.reason === "条件OFF";
         };
@@ -985,6 +1327,14 @@
         applyModifiersToDamageEntry,
         calculateDamage,
         runGenshinJsonCalc,
-        resolveModifierValue
+        resolveModifierValue,
+        normalizeElementOverrideModifier,
+        normalizeTalentStateModifier,
+        normalizeArtifactModifier,
+        normalizeWeaponModifier,
+        weaponEffectGroup,
+        buildAttackModeDefinitions,
+        talentStateConditionKey,
+        talentModifierRepresentedByScalings
     };
 })();

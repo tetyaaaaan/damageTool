@@ -25,6 +25,18 @@
         special: "unsupported"
     };
 
+    const UID_INPUT_STAT_TARGETS = new Set([
+        "atkPercent", "atkFlat", "hpPercent", "hpFlat", "defPercent", "defFlat",
+        "elementalMastery", "energyRecharge"
+    ]);
+    const UID_INPUT_CRIT_TARGETS = new Set(["critRate", "critDamage"]);
+    const UID_INPUT_DAMAGE_TARGETS = new Set([
+        "pyroDamageBonus", "hydroDamageBonus", "electroDamageBonus", "cryoDamageBonus",
+        "anemoDamageBonus", "geoDamageBonus", "dendroDamageBonus", "physicalDamageBonus",
+        "allElementDamageBonus", "ownElementDamageBonus"
+    ]);
+    const UID_DYNAMIC_SOURCE_PATTERN = /(?:時|後|間|毎|状態|以下|以上|につき|1ポイント|1名いるごと|層|影響を受け|付着|命中|消費|解除|獲得|基づき|同じ場合|異なる|チームに|周囲のチーム|シールドが存在|命の契約を有|詠唱|叙唱|間奏曲|継続期間中|この効果により|「[^」]+」効果|元素爆発の会心|落下攻撃の会心|月反応ダメージの会心|さらに.*(?:会心|ダメージ))/;
+
     const UID_REASON = {
         includedInUidStats: "includedInUidStatsのため未適用",
         includedInUidTalentLevels: "UID天賦Lv反映済みの可能性があるため未適用",
@@ -47,7 +59,13 @@
             || valueMapHasFiniteNumber(modifier?.valueByLevel)
             || valueMapHasFiniteNumber(modifier?.valueByStack)
             || valueMapHasFiniteNumber(modifier?.valueByCondition)
-            || finiteNumber(modifier?.valuePerStack);
+            || finiteNumber(modifier?.valuePerStack)
+            || finiteNumber(modifier?.valuePerGeneratedStack)
+            || finiteNumber(modifier?.valuePerConsumedStack)
+            || finiteNumber(modifier?.valuePerExcessStack)
+            || finiteNumber(modifier?.valuePer1000)
+            || finiteNumber(modifier?.critRate)
+            || finiteNumber(modifier?.critDamage);
     }
 
     function extraDamageBaseAttackType(modifier) {
@@ -332,14 +350,63 @@
         };
     }
 
+    function uidStatsCoverage(modifier) {
+        if (modifier?.uidHandling !== "includedInUidStats") {
+            return { represented: true, reason: "" };
+        }
+        if (modifier.inputPolicy === "reflected") return { represented: true, reason: "structuredInputPolicy" };
+        if (["calculate", "sourceContext"].includes(modifier.inputPolicy)) {
+            return { represented: false, reason: "structuredInputPolicy" };
+        }
+        const targets = Array.isArray(modifier.applyTo) ? modifier.applyTo : [];
+        if (modifier.condition !== "always") {
+            return { represented: false, reason: "conditionalEffect" };
+        }
+        if (modifier.calculationSupport === "stack") {
+            return { represented: false, reason: "stackEffect" };
+        }
+        if (UID_DYNAMIC_SOURCE_PATTERN.test(String(modifier.sourceText || ""))) {
+            return { represented: false, reason: "dynamicSourceCondition" };
+        }
+        if (modifier.category === "statBonus" && targets.length && targets.every((target) => UID_INPUT_STAT_TARGETS.has(target))) {
+            return { represented: true, reason: "statusInput" };
+        }
+        if (modifier.category === "critBonus" && targets.length && targets.every((target) => UID_INPUT_CRIT_TARGETS.has(target))) {
+            return { represented: true, reason: "critInput" };
+        }
+        if (modifier.category === "damageBonus" && targets.length && targets.every((target) => UID_INPUT_DAMAGE_TARGETS.has(target))) {
+            return { represented: true, reason: "elementDamageInput" };
+        }
+        if (modifier.category === "healingBonus" && targets.every((target) => target === "outgoingHealingBonus")) {
+            return { represented: true, reason: "uidStatusOnly" };
+        }
+        return { represented: false, reason: "noDedicatedInput" };
+    }
+
+    function effectiveUidHandling(modifier) {
+        if (modifier?.uidHandling !== "includedInUidStats") return modifier?.uidHandling || "conditional";
+        return uidStatsCoverage(modifier).represented ? "includedInUidStats" : "conditional";
+    }
+
+    function effectiveCondition(modifier) {
+        const coverage = uidStatsCoverage(modifier);
+        if (modifier?.uidHandling === "includedInUidStats"
+            && !coverage.represented
+            && modifier?.condition === "always"
+            && coverage.reason === "dynamicSourceCondition") {
+            return "manualActivation";
+        }
+        return modifier?.condition || "always";
+    }
+
     function inputStatus(modifier, context) {
         if (context?.mode !== "uidMode") return "applicable";
-        return UID_STATUS[modifier?.uidHandling] || "applicable";
+        return UID_STATUS[effectiveUidHandling(modifier)] || "applicable";
     }
 
     function inputReason(modifier, context) {
         if (context?.mode !== "uidMode") return "";
-        return UID_REASON[modifier?.uidHandling] || "";
+        return UID_REASON[effectiveUidHandling(modifier)] || "";
     }
 
     function analysisReasonCode(modifier, calculation = {}) {
@@ -509,6 +576,7 @@
     }
 
     function modifierStateKey(modifier, source = "") {
+        if (modifier?.conditionGroupId) return `${source}:group:${modifier.conditionGroupId}`;
         if (modifier?.id) return `${source}:${modifier.id}`;
         const anonymousSignature = [
             modifier?.category || "",
@@ -556,7 +624,8 @@
             };
         }
         const input = inputStatus(modifier, context);
-        const uidHandling = modifier?.uidHandling || "conditional";
+        const uidHandling = effectiveUidHandling(modifier);
+        const condition = effectiveCondition(modifier);
         const status = input !== "applicable"
             ? input
             : calculation.calculable ? "applicable" : calculation.supportStatus;
@@ -580,7 +649,7 @@
             inputReason: inputReason(modifier, context),
             uidHandling,
             requiresConditionEvaluation: uidHandling === "conditional",
-            condition: modifier?.condition || "always",
+            condition,
             targets: Array.isArray(modifier?.applyTo) ? modifier.applyTo : [],
             customHandlingRequired: Boolean(modifier?.customHandlingRequired)
         };
@@ -595,6 +664,8 @@
         effectOverrideReason,
         effectOverrideKind,
         effectOverrideValue,
+        effectiveCondition,
+        effectiveUidHandling,
         extraDamageBaseAttackType,
         extraDamageReason,
         finiteNumber,
@@ -608,6 +679,7 @@
         resourceStateKey,
         scalingBonusInfo,
         scalingAdditiveBaseDamageInfo,
-        statBonusInfo
+        statBonusInfo,
+        uidStatsCoverage
     };
 })();

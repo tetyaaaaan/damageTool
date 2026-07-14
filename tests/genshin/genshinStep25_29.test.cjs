@@ -21,7 +21,7 @@ test("STEP 25 distinguishes Amos' base bonus from its flight-time bonus", async 
     let payload = await harness.sandbox.GenshinCalcEngine.runGenshinJsonCalc();
     let charged = payload.results.find((result) => result.entry.attackType === "chargedAttack");
     let amos = charged.breakdown.appliedModifiers.filter((item) => item.source === "weapon:15502");
-    assert.equal(JSON.stringify(amos.map((item) => [item.modifier.effectLabel, item.value])), JSON.stringify([["常時発動する基礎効果", 12]]));
+    assert.equal(JSON.stringify(amos.map((item) => [item.modifier.effectLabel, item.value])), JSON.stringify([["通常攻撃・重撃の基礎強化", 12]]));
 
     harness = prepared({ characterId: "10000037", weaponId: "15502" });
     setElement(harness.elements, "genshinJsonAmosStack", 5);
@@ -109,8 +109,10 @@ test("condition card model groups Ganyu and Amos effects by their actual source"
     assert.equal(state.cards.map((card) => card.id).join(","), "weapon,artifact,talent,constellation");
     const weapon = state.cards.find((card) => card.id === "weapon");
     assert.equal(weapon.subtitle, "アモスの弓 R1");
-    assert.equal(weapon.effects.some((effect) => effect.name === "常時発動する基礎効果" && effect.status === "auto"), true);
-    assert.equal(weapon.effects.some((effect) => effect.name === "飛翔時間による追加効果" && effect.controls[0]?.type === "amosStack"), true);
+    assert.deepEqual(Array.from(weapon.sections, (section) => section.name), ["通常攻撃・重撃の基礎強化", "矢の飛翔時間による強化"]);
+    assert.equal(weapon.sections[0].status, "auto");
+    assert.equal(weapon.sections[1].controls[0]?.type, "amosStack");
+    assert.equal(weapon.sections[1].controls[0]?.label, "矢の飛翔時間");
     const talent = state.cards.find((card) => card.id === "talent");
     assert.equal(talent.effects.some((effect) => effect.name === "唯一の心" && effect.description.includes("霜華の矢")), true);
     const constellation = state.cards.find((card) => card.id === "constellation");

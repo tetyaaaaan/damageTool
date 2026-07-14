@@ -50,10 +50,12 @@
 
     function classifyResult(result) {
         const entry = result.entry || {};
+        if (entry.damageType === "skill") return "skill";
+        if (entry.damageType === "burst") return "burst";
         if (entry.attackType === "chargedAttack" || entry.damageType === "charged" || entry.damageType === "chargedAttack") return "charged";
         if (entry.attackType === "plungingAttack" || entry.damageType === "plunging") return "plunging";
-        if (entry.attackType === "skill" || entry.damageType === "skill") return "skill";
-        if (entry.attackType === "burst" || entry.damageType === "burst") return "burst";
+        if (entry.attackType === "skill") return "skill";
+        if (entry.attackType === "burst") return "burst";
         if (entry.attackType === "normalAttack" || entry.damageType === "normal") return "normal";
         return "other";
     }
@@ -127,6 +129,10 @@
 
     function renderBreakdown(result) {
         const b = result.breakdown;
+        const attackMode = result.entry.attackMode;
+        const attackModeRow = attackMode
+            ? `<div><dt>攻撃モード</dt><dd>${escapeHtml(attackMode.nameJa)}（操作: ${escapeHtml(attackMode.operationType)} / 扱い: ${escapeHtml(attackMode.damageType)}）</dd></div>`
+            : "";
         return `
             <details class="genshin-json-breakdown">
                 <summary>計算内訳を表示</summary>
@@ -134,6 +140,7 @@
                 ${renderInputStats(b.inputStats)}
                 <h5>このダメージ項目</h5>
                 <dl>
+                    ${attackModeRow}
                     <div><dt>攻撃種別</dt><dd>${escapeHtml(result.entry.attackType)}</dd></div>
                     <div><dt>ダメージ種別</dt><dd>${escapeHtml(result.entry.damageType)}</dd></div>
                     <div><dt>元素</dt><dd>${escapeHtml(result.entry.element)}</dd></div>
@@ -157,9 +164,11 @@
     }
 
     function renderResultCard(result) {
+        const modeName = result.entry.attackMode?.nameJa;
+        const resultLabel = modeName ? `${modeName}・${result.entry.label}` : result.entry.label;
         return `
             <article class="genshin-json-result-card">
-                <h4>${escapeHtml(result.entry.label)}</h4>
+                <h4>${escapeHtml(resultLabel)}</h4>
                 <div class="genshin-json-result-values">
                     <span>非会心<br><strong>${formatDamageNumber(result.nonCrit)}</strong></span>
                     <span>会心<br><strong>${formatDamageNumber(result.crit)}</strong></span>
@@ -301,6 +310,7 @@
     const CONDITION_STATUS = {
         auto: { label: "自動適用", className: "is-auto" },
         reflected: { label: "入力値に反映済み", className: "is-reflected" },
+        notApplicable: { label: "現在は対象外", className: "is-inactive" },
         userInput: { label: "条件指定", className: "is-input" },
         missing: { label: "未入力", className: "is-missing" },
         displayOnly: { label: "表示のみ", className: "is-display" }
@@ -323,7 +333,7 @@
 
     function renderCardControl(control) {
         if (control.type === "toggle") {
-            return `<label class="genshin-condition-toggle"><input type="checkbox" data-genshin-toggle-key="${escapeHtml(control.key)}"${control.checked ? " checked" : ""}> <span>${escapeHtml(control.label)}</span></label>`;
+            return `<label class="genshin-condition-toggle"><input type="checkbox" data-genshin-toggle-key="${escapeHtml(control.key)}"${control.checked ? " checked" : ""}> <span class="genshin-condition-control-copy"><strong>${escapeHtml(control.label)}</strong>${control.help ? `<small>${escapeHtml(control.help)}</small>` : ""}</span></label>`;
         }
         if (control.type === "amosStack") {
             const options = Array.from({ length: 6 }, (_, value) => `<option value="${value}"${Number(control.value) === value ? " selected" : ""}>${value === 0 ? "追加なし / 0段" : `${value}段${value === 5 ? "（最大）" : ""}`}</option>`).join("");
@@ -339,16 +349,16 @@
                 const label = typeof option === "object" ? option.label : option;
                 return `<option value="${escapeHtml(value)}"${String(control.value) === String(value) ? " selected" : ""}>${escapeHtml(label)}</option>`;
             }).join("");
-            return `<label class="genshin-condition-control"><span>${escapeHtml(control.label)}</span><select data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="option">${options}</select></label>`;
+            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(control.label)}</strong>${control.help ? `<small>${escapeHtml(control.help)}</small>` : ""}</span><select data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="option">${options}</select></label>`;
         }
         if (control.type === "resource") {
             const max = control.max === null ? "" : ` max="${escapeHtml(control.max)}"`;
-            return `<label class="genshin-condition-control"><span>${escapeHtml(control.label)}</span><input type="number" class="input_num" data-genshin-resource-key="${escapeHtml(control.key)}" min="${escapeHtml(control.min)}"${max} step="1" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力"></label>`;
+            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(control.label)}</strong>${control.help ? `<small>${escapeHtml(control.help)}</small>` : ""}</span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-genshin-resource-key="${escapeHtml(control.key)}" min="${escapeHtml(control.min)}"${max} step="1" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力">${control.unit ? `<em>${escapeHtml(control.unit)}</em>` : ""}</span></label>`;
         }
         if (control.type === "dedicated") {
-            return `<label class="genshin-condition-control"><span>${escapeHtml(control.label)}</span><input type="number" class="input_num" id="${escapeHtml(control.id)}" min="0" step="1" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力"></label>`;
+            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(control.label)}</strong>${control.help ? `<small>${escapeHtml(control.help)}</small>` : ""}</span><input type="number" class="input_num" id="${escapeHtml(control.id)}" min="0" step="1" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力"></label>`;
         }
-        return `<label class="genshin-condition-control"><span>${escapeHtml(control.label)}</span><input type="number" class="input_num" data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="${escapeHtml(control.type)}" min="${escapeHtml(control.min)}" max="${escapeHtml(control.max)}" step="1" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力"></label>`;
+        return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(control.label)}</strong>${control.help ? `<small>${escapeHtml(control.help)}</small>` : ""}</span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="${escapeHtml(control.type)}" min="${escapeHtml(control.min)}" max="${escapeHtml(control.max)}" step="1" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力">${control.unit ? `<em>${escapeHtml(control.unit)}</em>` : ""}</span></label>`;
     }
 
     function renderConditionEffect(effect) {
@@ -365,12 +375,130 @@
         </article>`;
     }
 
+    function renderConstellationImpact(effect) {
+        return `<li class="genshin-constellation-impact-row">
+            <div><strong>${escapeHtml(effect.name)}</strong>${effect.target ? `<small>対象：${escapeHtml(effect.target)}</small>` : ""}</div>
+            ${effect.impact ? `<span>${escapeHtml(effect.impact)}</span>` : ""}
+            ${effect.statusReason && effect.status === "missing" ? `<p class="genshin-condition-missing">${escapeHtml(effect.statusReason)}</p>` : ""}
+        </li>`;
+    }
+
+    function renderConstellationSection(section) {
+        const status = CONDITION_STATUS[section.status] || CONDITION_STATUS.auto;
+        const originalText = section.description
+            ? `<details class="genshin-constellation-original"><summary>星座効果の原文を表示</summary><p>${escapeHtml(section.description)}</p></details>`
+            : "";
+        const controls = section.controls.length
+            ? `<div class="genshin-constellation-controls"><h6>条件入力</h6>${section.controls.map(renderCardControl).join("")}</div>`
+            : "";
+        return `<article class="genshin-constellation-section" data-constellation-level="C${escapeHtml(section.level)}">
+            <header class="genshin-constellation-head">
+                <div><strong>C${escapeHtml(section.level)}</strong><h5>${escapeHtml(section.nameJa)}</h5></div>
+                <span class="genshin-condition-status ${status.className}">${status.label}</span>
+            </header>
+            <p class="genshin-constellation-targets"><strong>影響：</strong>${escapeHtml(section.impactLabels.join("／"))}</p>
+            ${originalText}
+            ${controls}
+            <div class="genshin-constellation-impacts"><h6>計算への影響</h6><ul>${section.effects.map(renderConstellationImpact).join("")}</ul></div>
+        </article>`;
+    }
+
+    function renderTalentSection(section) {
+        const status = CONDITION_STATUS[section.status] || CONDITION_STATUS.auto;
+        const originalText = section.description
+            ? `<details class="genshin-constellation-original"><summary>天賦効果の原文を表示</summary><p>${escapeHtml(section.description)}</p></details>`
+            : "";
+        const controls = section.controls.length
+            ? `<div class="genshin-constellation-controls"><h6>状態・条件</h6>${section.controls.map(renderCardControl).join("")}</div>`
+            : "";
+        return `<article class="genshin-constellation-section genshin-talent-section" data-talent-source="${escapeHtml(section.key)}">
+            <header class="genshin-constellation-head">
+                <div><strong>${escapeHtml(section.typeLabel)}</strong><h5>${escapeHtml(section.nameJa)}</h5></div>
+                <span class="genshin-condition-status ${status.className}">${status.label}</span>
+            </header>
+            <p class="genshin-constellation-targets"><strong>影響：</strong>${escapeHtml(section.impactLabels.join("／"))}</p>
+            ${controls}
+            <div class="genshin-constellation-impacts"><h6>計算への影響</h6><ul>${section.effects.map(renderConstellationImpact).join("")}</ul></div>
+            ${originalText}
+        </article>`;
+    }
+
+    function renderArtifactImpact(effect) {
+        return `<li class="genshin-constellation-impact-row">
+            <div><strong>${escapeHtml(effect.name)}</strong>${effect.target ? `<small>対象：${escapeHtml(effect.target)}</small>` : ""}</div>
+            ${effect.impact ? `<span>${escapeHtml(effect.impact)}</span>` : ""}
+            ${effect.statusReason ? `<p class="genshin-condition-note">${escapeHtml(effect.statusReason)}</p>` : ""}
+        </li>`;
+    }
+
+    function renderArtifactSection(section) {
+        const status = CONDITION_STATUS[section.status] || CONDITION_STATUS.auto;
+        const controls = section.controls.length
+            ? `<div class="genshin-constellation-controls"><h6>条件・段階</h6>${section.controls.map(renderCardControl).join("")}</div>`
+            : "";
+        return `<article class="genshin-constellation-section genshin-artifact-section" data-artifact-set="${escapeHtml(section.setId)}" data-artifact-piece="${escapeHtml(section.pieceCount)}">
+            <header class="genshin-constellation-head">
+                <div><strong>${escapeHtml(section.pieceCount)}セット効果</strong><h5>${escapeHtml(section.nameJa)}</h5></div>
+                <span class="genshin-condition-status ${status.className}">${status.label}</span>
+            </header>
+            ${section.description ? `<p class="genshin-artifact-description">${escapeHtml(section.description)}</p>` : ""}
+            ${controls}
+            <div class="genshin-constellation-impacts"><h6>計算への反映</h6><ul>${section.effects.map(renderArtifactImpact).join("")}</ul></div>
+        </article>`;
+    }
+
+    function renderWeaponImpact(effect) {
+        return `<li class="genshin-constellation-impact-row">
+            <div><strong>${escapeHtml(effect.name)}</strong>${effect.target ? `<small>対象：${escapeHtml(effect.target)}</small>` : ""}</div>
+            ${effect.impact ? `<span>${escapeHtml(effect.impact)}</span>` : ""}
+            ${effect.statusReason && effect.status === "missing" ? `<p class="genshin-condition-missing">${escapeHtml(effect.statusReason)}</p>` : ""}
+        </li>`;
+    }
+
+    function renderWeaponSection(section) {
+        const status = CONDITION_STATUS[section.status] || CONDITION_STATUS.auto;
+        const ownerLabels = { self: "装備者", team: "チーム", activeCharacter: "装備者以外のフィールド上キャラ", enemy: "敵" };
+        const controls = section.controls.length
+            ? `<div class="genshin-constellation-controls"><h6>発動状態</h6>${section.controls.map(renderCardControl).join("")}</div>`
+            : "";
+        return `<article class="genshin-constellation-section genshin-weapon-section" data-weapon-effect-group="${escapeHtml(section.id)}">
+            <header class="genshin-constellation-head">
+                <div><strong>${escapeHtml(ownerLabels[section.targetOwner] || section.targetOwner)}</strong><h5>${escapeHtml(section.name)}</h5></div>
+                <span class="genshin-condition-status ${status.className}">${status.label}</span>
+            </header>
+            ${section.description ? `<p class="genshin-artifact-description">${escapeHtml(section.description)}</p>` : ""}
+            ${controls}
+            <div class="genshin-constellation-impacts"><h6>計算への反映</h6><ul>${section.effects.map(renderWeaponImpact).join("")}</ul></div>
+        </article>`;
+    }
+
     function renderConditionCards(panelState, context) {
         const wrap = getElement("genshinJsonConditionCards");
         if (!wrap) return;
         const cards = panelState.cards || [];
-        const conditionCount = cards.flatMap((card) => card.effects).filter((effect) => effect.status === "userInput").length;
-        const missingCount = cards.flatMap((card) => card.effects).filter((effect) => effect.status === "missing").length;
+        const flatCards = cards.filter((card) => !["weapon", "artifact", "talent", "constellation"].includes(card.id));
+        const artifactSections = cards.find((card) => card.id === "artifact")?.sections || [];
+        const weaponSections = cards.find((card) => card.id === "weapon")?.sections || [];
+        const talentSections = cards.find((card) => card.id === "talent")?.sections || [];
+        const constellationSections = cards.find((card) => card.id === "constellation")?.sections || [];
+        const conditionCount = flatCards.flatMap((card) => card.effects).filter((effect) => effect.status === "userInput").length
+            + weaponSections.reduce((count, section) => count + section.controls.length, 0)
+            + artifactSections.reduce((count, section) => count + section.controls.length, 0)
+            + talentSections.reduce((count, section) => count + section.controls.length, 0)
+            + constellationSections.reduce((count, section) => count + section.controls.length, 0);
+        const missingCount = flatCards.flatMap((card) => card.effects).filter((effect) => effect.status === "missing").length
+            + weaponSections.reduce((count, section) => count + section.controls.filter((control) => {
+                return control.type !== "toggle" && (control.value === null || control.value === undefined || control.value === "");
+            }).length, 0)
+            + artifactSections.reduce((count, section) => count + section.controls.filter((control) => {
+                return control.type !== "toggle" && (control.value === null || control.value === undefined || control.value === "");
+            }).length, 0)
+            + talentSections.reduce((count, section) => count + section.controls.filter((control) => {
+                return control.type !== "toggle" && (control.value === null || control.value === undefined || control.value === "");
+            }).length, 0)
+            + constellationSections.reduce((count, section) => count + section.controls.filter((control) => {
+                return control.type !== "toggle" && (control.value === null || control.value === undefined || control.value === "");
+            }).length, 0);
         const summaryClass = missingCount ? " has-missing" : "";
         const reaction = context.reactionOption || { reactionId: "none", label: "反応なし", enabled: false, baseMultiplier: 1 };
         wrap.innerHTML = `
@@ -385,7 +513,15 @@
             </section>
             ${cards.map((card) => `<section class="genshin-condition-card" data-condition-card="${escapeHtml(card.id)}">
                 <header><div><h4>${escapeHtml(card.title)}</h4><p>${escapeHtml(card.subtitle)}</p></div></header>
-                ${card.effects.length ? card.effects.map(renderConditionEffect).join("") : `<p class="genshin-condition-card-empty">${escapeHtml(card.emptyText)}</p>`}
+                ${card.id === "weapon" && card.sections?.length
+                    ? card.sections.map(renderWeaponSection).join("")
+                    : card.id === "constellation" && card.sections?.length
+                    ? card.sections.map(renderConstellationSection).join("")
+                    : card.id === "talent" && card.sections?.length
+                        ? card.sections.map(renderTalentSection).join("")
+                    : card.id === "artifact" && card.sections?.length
+                        ? card.sections.map(renderArtifactSection).join("")
+                    : card.effects.length ? card.effects.map(renderConditionEffect).join("") : `<p class="genshin-condition-card-empty">${escapeHtml(card.emptyText)}</p>`}
             </section>`).join("")}
         `;
     }
@@ -427,12 +563,17 @@
             prepareButton.addEventListener("click", handlePrepareConditionsClick);
             handlePrepareConditionsClick();
         }
+        const conditionCards = getElement("genshinJsonConditionCards");
+        if (conditionCards) {
+            conditionCards.addEventListener("change", handlePrepareConditionsClick);
+        }
     }
 
     document.addEventListener("DOMContentLoaded", initializeGenshinCalcRenderer);
 
     window.GenshinCalcRenderer = {
         renderDamageTabs,
-        renderDamageBreakdown: renderBreakdown
+        renderDamageBreakdown: renderBreakdown,
+        renderConditionCards
     };
 })();

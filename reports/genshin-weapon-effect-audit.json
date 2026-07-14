@@ -1,0 +1,5444 @@
+{
+  "summary": {
+    "weapons": 210,
+    "modifiers": 455,
+    "structuredWeapons": 7,
+    "structuredGroups": 13,
+    "structuredModifiers": 19,
+    "fallbackModifiers": 436,
+    "duplicateCandidateGroups": 50,
+    "byInputPolicy": {
+      "manual": 225,
+      "displayOnly": 57,
+      "stack": 76,
+      "calculate": 51,
+      "reflected": 45,
+      "sourceContext": 1
+    },
+    "byTargetOwner": {
+      "self": 454,
+      "activeCharacter": 1
+    }
+  },
+  "records": [
+    {
+      "weaponId": "11301",
+      "weaponName": "冷刃",
+      "modifierId": "w_11301_damageBonus_91cc873a",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11301",
+      "weaponName": "冷刃",
+      "modifierId": "w_11301_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11302",
+      "weaponName": "黎明の神剣",
+      "modifierId": "w_11302_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "hpAtLeast90",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11304",
+      "weaponName": "暗鉄剣",
+      "modifierId": "w_11304_statBonus_8009fd12",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11304",
+      "weaponName": "暗鉄剣",
+      "modifierId": "w_11304_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSwirl",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11305",
+      "weaponName": "チ虎魚の刀",
+      "modifierId": "w_11305_extraDamage_7347a245",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11306",
+      "weaponName": "飛天御剣",
+      "modifierId": "w_11306_1_v10",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterBurst",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11402",
+      "weaponName": "笛の剣",
+      "modifierId": "w_11402_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11404",
+      "weaponName": "旧貴族長剣",
+      "modifierId": "w_11404_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11405",
+      "weaponName": "匣中龍吟",
+      "modifierId": "w_11405_damageBonus_973138ba",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11405",
+      "weaponName": "匣中龍吟",
+      "modifierId": "w_11405_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11406",
+      "weaponName": "斬岩·試作",
+      "modifierId": "w_11406_statBonus_4bf72f2e",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11406",
+      "weaponName": "斬岩·試作",
+      "modifierId": "w_11406_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11407",
+      "weaponName": "鉄蜂の刺し",
+      "modifierId": "w_11407_damageBonus_b0a176a7",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11407",
+      "weaponName": "鉄蜂の刺し",
+      "modifierId": "w_11407_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11408",
+      "weaponName": "黒岩の長剣",
+      "modifierId": "w_11408_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterDefeatingEnemy",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11409",
+      "weaponName": "黒剣",
+      "modifierId": "w_11409_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11410",
+      "weaponName": "ダークアレイの閃光",
+      "modifierId": "w_11410_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11412",
+      "weaponName": "降臨の剣",
+      "modifierId": "w_11412_extraDamage_f23c5dd2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11412",
+      "weaponName": "降臨の剣",
+      "modifierId": "w_11412_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11412",
+      "weaponName": "降臨の剣",
+      "modifierId": "w_11412_statBonus_200acee8",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "11412",
+      "weaponName": "降臨の剣",
+      "modifierId": "w_11412_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "11413",
+      "weaponName": "腐植の剣",
+      "modifierId": "w_11413_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11413",
+      "weaponName": "腐植の剣",
+      "modifierId": "w_11413_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11415",
+      "weaponName": "シナバースピンドル",
+      "modifierId": "w_11415_add_base_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11416",
+      "weaponName": "籠釣瓶一心",
+      "modifierId": "w_11416_extraDamage_7e54e257",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11416",
+      "weaponName": "籠釣瓶一心",
+      "modifierId": "w_11416_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11417",
+      "weaponName": "原木刀",
+      "modifierId": "w_11417_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11418",
+      "weaponName": "サイフォスの月明かり",
+      "modifierId": "w_11418_scalingBonus_cf36aef0",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11418",
+      "weaponName": "サイフォスの月明かり",
+      "modifierId": "w_11418_scaling_bonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11418",
+      "weaponName": "サイフォスの月明かり",
+      "modifierId": "w_11418_scaling_bonus_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11418",
+      "weaponName": "サイフォスの月明かり",
+      "modifierId": "w_11418_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11419",
+      "weaponName": "「一心伝」名刀",
+      "modifierId": "w_11419_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11419",
+      "weaponName": "「一心伝」名刀",
+      "modifierId": "w_11419_extraDamage_449c352f",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11420",
+      "weaponName": "「一心伝」名刀",
+      "modifierId": "w_11420_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11420",
+      "weaponName": "「一心伝」名刀",
+      "modifierId": "w_11420_extraDamage_9ddce68a",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11420",
+      "weaponName": "「一心伝」名刀",
+      "modifierId": "w_11420_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11421",
+      "weaponName": "「一心伝」名刀",
+      "modifierId": "w_11421_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11421",
+      "weaponName": "「一心伝」名刀",
+      "modifierId": "w_11421_extraDamage_934d6229",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11421",
+      "weaponName": "「一心伝」名刀",
+      "modifierId": "w_11421_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11422",
+      "weaponName": "東花坊時雨",
+      "modifierId": "w_11422_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11424",
+      "weaponName": "狼牙",
+      "modifierId": "w_11424_critBonus_0da1d9be",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterBurstHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11424",
+      "weaponName": "狼牙",
+      "modifierId": "w_11424_critBonus_e567e99f",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkillHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11424",
+      "weaponName": "狼牙",
+      "modifierId": "w_11424_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11425",
+      "weaponName": "海淵のフィナーレ",
+      "modifierId": "w_11425_statBonus_ff739aa5",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11425",
+      "weaponName": "海淵のフィナーレ",
+      "modifierId": "w_11425_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11426",
+      "weaponName": "サーンドルの渡し守",
+      "modifierId": "w_11426_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11426",
+      "weaponName": "サーンドルの渡し守",
+      "modifierId": "w_11426_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11427",
+      "weaponName": "船渠剣",
+      "modifierId": "w_11427_1_v10",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "conditional",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11427",
+      "weaponName": "船渠剣",
+      "modifierId": "w_11427_2_v10",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11428",
+      "weaponName": "水仙十字の剣",
+      "modifierId": "w_11428_extraDamage_ac4f2d59",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11428",
+      "weaponName": "水仙十字の剣",
+      "modifierId": "w_11428_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11430",
+      "weaponName": "ストロング・ボーン",
+      "modifierId": "w_11430_add_base_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11431",
+      "weaponName": "エズピツァルの笛",
+      "modifierId": "w_11431_statBonus_4aa6a00e",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11432",
+      "weaponName": "厄水の災い",
+      "modifierId": "w_11432_critBonus_382b690c",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11432",
+      "weaponName": "厄水の災い",
+      "modifierId": "w_11432_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "shielded",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11432",
+      "weaponName": "厄水の災い",
+      "modifierId": "w_11432_damageBonus_cafd35b3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11433",
+      "weaponName": "静謐の笛",
+      "modifierId": "w_11433_statBonus_ffeb67a4",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11434",
+      "weaponName": "月紡ぎの曙光",
+      "modifierId": "w_11434_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11501",
+      "weaponName": "風鷹剣",
+      "modifierId": "w_11501_extra_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11501",
+      "weaponName": "風鷹剣",
+      "modifierId": "w_11501_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "11502",
+      "weaponName": "天空の刃",
+      "modifierId": "w_11502_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "11502",
+      "weaponName": "天空の刃",
+      "modifierId": "w_11502_extraDamage_30713777",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11502",
+      "weaponName": "天空の刃",
+      "modifierId": "w_11502_extra_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterBurst",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11503",
+      "weaponName": "蒼古なる自由への誓い",
+      "modifierId": "w_11503_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11503",
+      "weaponName": "蒼古なる自由への誓い",
+      "modifierId": "w_11503_damage_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11503",
+      "weaponName": "蒼古なる自由への誓い",
+      "modifierId": "w_11503_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11504",
+      "weaponName": "斬山の刃",
+      "modifierId": "w_11504_statBonus_c2e177a6",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11505",
+      "weaponName": "磐岩結緑",
+      "modifierId": "w_11505_extraDamage_6e3b5617",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11505",
+      "weaponName": "磐岩結緑",
+      "modifierId": "w_11505_statBonus_3b0ac810",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "11505",
+      "weaponName": "磐岩結緑",
+      "modifierId": "w_11505_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "11505",
+      "weaponName": "磐岩結緑",
+      "modifierId": "w_11505_v3_scalingBonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "specialCondition",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11509",
+      "weaponName": "霧切の廻光",
+      "modifierId": "w_11509_damageBonus_ae1b42da",
+      "structured": true,
+      "effectGroupId": "mistsplitter_emblem",
+      "effectName": "霧切の巴紋",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11509",
+      "weaponName": "霧切の廻光",
+      "modifierId": "w_11509_damage_1",
+      "structured": true,
+      "effectGroupId": "mistsplitter_base_element",
+      "effectName": "全元素ダメージ強化",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "11509",
+      "weaponName": "霧切の廻光",
+      "modifierId": "w_11509_damage_2",
+      "structured": true,
+      "effectGroupId": "mistsplitter_emblem",
+      "effectName": "霧切の巴紋",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11510",
+      "weaponName": "波乱月白経津",
+      "modifierId": "w_11510_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "11510",
+      "weaponName": "波乱月白経津",
+      "modifierId": "w_11510_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11511",
+      "weaponName": "聖顕の鍵",
+      "modifierId": "w_11511_extraDamage_da815d6f",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11511",
+      "weaponName": "聖顕の鍵",
+      "modifierId": "w_11511_scaling_bonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11511",
+      "weaponName": "聖顕の鍵",
+      "modifierId": "w_11511_scaling_bonus_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11511",
+      "weaponName": "聖顕の鍵",
+      "modifierId": "w_11511_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "11512",
+      "weaponName": "萃光の裁葉",
+      "modifierId": "w_11512_add_base_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11512",
+      "weaponName": "萃光の裁葉",
+      "modifierId": "w_11512_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "11513",
+      "weaponName": "静水流転の輝き",
+      "modifierId": "w_11513_damageBonus_8c1af5a9",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11513",
+      "weaponName": "静水流転の輝き",
+      "modifierId": "w_11513_statBonus_73a67980",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11514",
+      "weaponName": "有楽御簾切",
+      "modifierId": "w_11514_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11514",
+      "weaponName": "有楽御簾切",
+      "modifierId": "w_11514_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11514",
+      "weaponName": "有楽御簾切",
+      "modifierId": "w_11514_stat_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "11514",
+      "weaponName": "有楽御簾切",
+      "modifierId": "w_11514_v3_special_4",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "specialCondition",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11515",
+      "weaponName": "赦罪",
+      "modifierId": "w_11515_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "11515",
+      "weaponName": "赦罪",
+      "modifierId": "w_11515_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11515",
+      "weaponName": "赦罪",
+      "modifierId": "w_11515_damage_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11516",
+      "weaponName": "岩峰を巡る歌",
+      "modifierId": "w_11516_damageBonus_b78b7787",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11516",
+      "weaponName": "岩峰を巡る歌",
+      "modifierId": "w_11516_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11516",
+      "weaponName": "岩峰を巡る歌",
+      "modifierId": "w_11516_damage_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11516",
+      "weaponName": "岩峰を巡る歌",
+      "modifierId": "w_11516_scaling_bonus_4",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "11516",
+      "weaponName": "岩峰を巡る歌",
+      "modifierId": "w_11516_statBonus_097433f4",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11516",
+      "weaponName": "岩峰を巡る歌",
+      "modifierId": "w_11516_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "11517",
+      "weaponName": "蒼耀",
+      "modifierId": "w_11517_crit_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11517",
+      "weaponName": "蒼耀",
+      "modifierId": "w_11517_damage_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11517",
+      "weaponName": "蒼耀",
+      "modifierId": "w_11517_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11518",
+      "weaponName": "黒蝕",
+      "modifierId": "w_11518_critBonus_765ef224",
+      "structured": true,
+      "effectGroupId": "black_eclipse_burst_crit",
+      "effectName": "元素爆発の会心ダメージ強化",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11518",
+      "weaponName": "黒蝕",
+      "modifierId": "w_11518_crit_1",
+      "structured": true,
+      "effectGroupId": "black_eclipse_burst_crit",
+      "effectName": "元素爆発の会心ダメージ強化",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11518",
+      "weaponName": "黒蝕",
+      "modifierId": "w_11518_damage_2",
+      "structured": true,
+      "effectGroupId": "black_eclipse_burst_crit",
+      "effectName": "元素爆発の会心ダメージ強化",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "11518",
+      "weaponName": "黒蝕",
+      "modifierId": "w_11518_stat_3",
+      "structured": true,
+      "effectGroupId": "black_eclipse_self_atk",
+      "effectName": "装備者の攻撃力強化",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "11518",
+      "weaponName": "黒蝕",
+      "modifierId": "w_11518_stat_4",
+      "structured": true,
+      "effectGroupId": "black_eclipse_active_character_atk",
+      "effectName": "装備者以外のフィールド上キャラ強化",
+      "targetOwner": "activeCharacter",
+      "activationType": "toggle",
+      "inputPolicy": "sourceContext"
+    },
+    {
+      "weaponId": "11519",
+      "weaponName": "三日月の含光",
+      "modifierId": "w_11519_reactionBonus_903ea413",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11519",
+      "weaponName": "三日月の含光",
+      "modifierId": "w_11519_reaction_bonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterCrystallize",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "11519",
+      "weaponName": "三日月の含光",
+      "modifierId": "w_11519_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "12301",
+      "weaponName": "鉄影段平",
+      "modifierId": "w_12301_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12302",
+      "weaponName": "龍血を浴びた剣",
+      "modifierId": "w_12302_damageBonus_4bc56ade",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12302",
+      "weaponName": "龍血を浴びた剣",
+      "modifierId": "w_12302_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12305",
+      "weaponName": "理屈責め",
+      "modifierId": "w_12305_extraDamage_58cc8734",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12305",
+      "weaponName": "理屈責め",
+      "modifierId": "w_12305_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "12306",
+      "weaponName": "飛天大御剣",
+      "modifierId": "w_12306_statBonus_9db0a5f0",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12306",
+      "weaponName": "飛天大御剣",
+      "modifierId": "w_12306_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12402",
+      "weaponName": "鐘の剣",
+      "modifierId": "w_12402_damage_1",
+      "structured": true,
+      "effectGroupId": "bell_shield_damage",
+      "effectName": "シールド中のダメージ強化",
+      "targetOwner": "self",
+      "activationType": "toggle",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "12402",
+      "weaponName": "鐘の剣",
+      "modifierId": "w_12402_extraDamage_4ff89bef",
+      "structured": true,
+      "effectGroupId": "bell_shield_generation",
+      "effectName": "被ダメージ時のシールド生成",
+      "targetOwner": "self",
+      "activationType": "displayOnly",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "12404",
+      "weaponName": "旧貴族大剣",
+      "modifierId": "w_12404_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12405",
+      "weaponName": "雨裁",
+      "modifierId": "w_12405_damageBonus_43450e5a",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12405",
+      "weaponName": "雨裁",
+      "modifierId": "w_12405_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12406",
+      "weaponName": "古華·試作",
+      "modifierId": "w_12406_extraDamage_228da292",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12406",
+      "weaponName": "古華·試作",
+      "modifierId": "w_12406_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "12407",
+      "weaponName": "白影の剣",
+      "modifierId": "w_12407_statBonus_31f416fb",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12407",
+      "weaponName": "白影の剣",
+      "modifierId": "w_12407_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12408",
+      "weaponName": "黒岩の斬刀",
+      "modifierId": "w_12408_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterDefeatingEnemy",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12409",
+      "weaponName": "螭龍の剣",
+      "modifierId": "w_12409_damageBonus_1b734d3c",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12409",
+      "weaponName": "螭龍の剣",
+      "modifierId": "w_12409_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "onField",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12410",
+      "weaponName": "千岩古剣",
+      "modifierId": "w_12410_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12410",
+      "weaponName": "千岩古剣",
+      "modifierId": "w_12410_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12411",
+      "weaponName": "雪葬の星銀",
+      "modifierId": "w_12411_extraDamage_c558a23f",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12411",
+      "weaponName": "雪葬の星銀",
+      "modifierId": "w_12411_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "12411",
+      "weaponName": "雪葬の星銀",
+      "modifierId": "w_12411_extra_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "12412",
+      "weaponName": "銜玉の海皇",
+      "modifierId": "w_12412_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "12412",
+      "weaponName": "銜玉の海皇",
+      "modifierId": "w_12412_extraDamage_5c1cd1ea",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterBurstHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "12414",
+      "weaponName": "桂木斬長正",
+      "modifierId": "w_12414_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "12415",
+      "weaponName": "マカイラの水色",
+      "modifierId": "w_12415_scaling_bonus_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "12415",
+      "weaponName": "マカイラの水色",
+      "modifierId": "w_12415_statBonus_7d15f7d0",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12416",
+      "weaponName": "惡王丸",
+      "modifierId": "w_12416_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12417",
+      "weaponName": "森林のレガリア",
+      "modifierId": "w_12417_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12418",
+      "weaponName": "鉄彩の花",
+      "modifierId": "w_12418_statBonus_4abee3c5",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12418",
+      "weaponName": "鉄彩の花",
+      "modifierId": "w_12418_statBonus_d123e765",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12418",
+      "weaponName": "鉄彩の花",
+      "modifierId": "w_12418_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterElementalReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12418",
+      "weaponName": "鉄彩の花",
+      "modifierId": "w_12418_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterElementalReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12424",
+      "weaponName": "話死合い棒",
+      "modifierId": "w_12424_damageBonus_00cb7776",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12424",
+      "weaponName": "話死合い棒",
+      "modifierId": "w_12424_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12424",
+      "weaponName": "話死合い棒",
+      "modifierId": "w_12424_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12425",
+      "weaponName": "タイダル·シャドー",
+      "modifierId": "w_12425_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12426",
+      "weaponName": "「スーパーアルティメット覇王魔剣」",
+      "modifierId": "w_12426_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "12427",
+      "weaponName": "携帯型チェーンソー",
+      "modifierId": "w_12427_1_v10",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "conditional",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12427",
+      "weaponName": "携帯型チェーンソー",
+      "modifierId": "w_12427_2_v10",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12430",
+      "weaponName": "実りの鉤鉈",
+      "modifierId": "w_12430_critBonus_ef236f15",
+      "structured": true,
+      "effectGroupId": "fruitful_hook_plunge_crit",
+      "effectName": "落下攻撃の会心率強化",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "12430",
+      "weaponName": "実りの鉤鉈",
+      "modifierId": "w_12430_crit_1",
+      "structured": true,
+      "effectGroupId": "fruitful_hook_plunge_crit",
+      "effectName": "落下攻撃の会心率強化",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "12430",
+      "weaponName": "実りの鉤鉈",
+      "modifierId": "w_12430_damageBonus_c7243261",
+      "structured": true,
+      "effectGroupId": "fruitful_hook_hit_stacks",
+      "effectName": "命中後の攻撃強化",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "12431",
+      "weaponName": "アースシェイカー",
+      "modifierId": "w_12431_damageBonus_f365c31c",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12431",
+      "weaponName": "アースシェイカー",
+      "modifierId": "w_12431_reactionBonus_22612d3e",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12431",
+      "weaponName": "アースシェイカー",
+      "modifierId": "w_12431_v3_damageBonus_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "specialCondition",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "12432",
+      "weaponName": "知恵の溶炎",
+      "modifierId": "w_12432_statBonus_1cbe7e0f",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12432",
+      "weaponName": "知恵の溶炎",
+      "modifierId": "w_12432_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterCrystallize",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12433",
+      "weaponName": "万能の鍵",
+      "modifierId": "w_12433_statBonus_82f9bf11",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12501",
+      "weaponName": "天空の傲",
+      "modifierId": "w_12501_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "12501",
+      "weaponName": "天空の傲",
+      "modifierId": "w_12501_extraDamage_0b165a8e",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12501",
+      "weaponName": "天空の傲",
+      "modifierId": "w_12501_extra_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterBurst",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "12502",
+      "weaponName": "狼の末路",
+      "modifierId": "w_12502_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "12502",
+      "weaponName": "狼の末路",
+      "modifierId": "w_12502_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12503",
+      "weaponName": "松韻の響く頃",
+      "modifierId": "w_12503_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "12503",
+      "weaponName": "松韻の響く頃",
+      "modifierId": "w_12503_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12504",
+      "weaponName": "無工の剣",
+      "modifierId": "w_12504_statBonus_9f4e3296",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12510",
+      "weaponName": "赤角石塵滅砕",
+      "modifierId": "w_12510_add_base_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "12510",
+      "weaponName": "赤角石塵滅砕",
+      "modifierId": "w_12510_additiveBaseDamage_fb548a4e",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12510",
+      "weaponName": "赤角石塵滅砕",
+      "modifierId": "w_12510_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "12511",
+      "weaponName": "葦海の標",
+      "modifierId": "w_12511_statBonus_38dc356d",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkillHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12511",
+      "weaponName": "葦海の標",
+      "modifierId": "w_12511_statBonus_686cb1e6",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12511",
+      "weaponName": "葦海の標",
+      "modifierId": "w_12511_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12511",
+      "weaponName": "葦海の標",
+      "modifierId": "w_12511_stat_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "shielded",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12512",
+      "weaponName": "裁断",
+      "modifierId": "w_12512_damageBonus_0fd363d7",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12512",
+      "weaponName": "裁断",
+      "modifierId": "w_12512_reactionBonus_167ad0eb",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12512",
+      "weaponName": "裁断",
+      "modifierId": "w_12512_reaction_bonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterCrystallize",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12512",
+      "weaponName": "裁断",
+      "modifierId": "w_12512_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "12513",
+      "weaponName": "山の王の長牙",
+      "modifierId": "w_12513_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12514",
+      "weaponName": "千烈の日輪",
+      "modifierId": "w_12514_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12514",
+      "weaponName": "千烈の日輪",
+      "modifierId": "w_12514_damage_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12514",
+      "weaponName": "千烈の日輪",
+      "modifierId": "w_12514_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12515",
+      "weaponName": "狼の武勲詩",
+      "modifierId": "w_12515_four_winds_damage_per_stack_v10",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12515",
+      "weaponName": "狼の武勲詩",
+      "modifierId": "w_12515_magic_secret_crit_damage_per_stack_v10",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12516",
+      "weaponName": "超越の鍵",
+      "modifierId": "w_12516_reactionBonus_d0fe6e2e",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "12516",
+      "weaponName": "超越の鍵",
+      "modifierId": "w_12516_reaction_bonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterChargedAttackHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "12516",
+      "weaponName": "超越の鍵",
+      "modifierId": "w_12516_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "13301",
+      "weaponName": "白纓槍",
+      "modifierId": "w_13301_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "13302",
+      "weaponName": "鉾槍",
+      "modifierId": "w_13302_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "13303",
+      "weaponName": "黒纓槍",
+      "modifierId": "w_13303_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "13401",
+      "weaponName": "匣中滅龍",
+      "modifierId": "w_13401_damageBonus_57a5968c",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13401",
+      "weaponName": "匣中滅龍",
+      "modifierId": "w_13401_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13402",
+      "weaponName": "星鎌·試作",
+      "modifierId": "w_13402_damageBonus_820b608f",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "13402",
+      "weaponName": "星鎌·試作",
+      "modifierId": "w_13402_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "13403",
+      "weaponName": "流月の針",
+      "modifierId": "w_13403_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "13404",
+      "weaponName": "黒岩の突槍",
+      "modifierId": "w_13404_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterDefeatingEnemy",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13405",
+      "weaponName": "死闘の槍",
+      "modifierId": "w_13405_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13405",
+      "weaponName": "死闘の槍",
+      "modifierId": "w_13405_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13405",
+      "weaponName": "死闘の槍",
+      "modifierId": "w_13405_stat_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13406",
+      "weaponName": "千岩長槍",
+      "modifierId": "w_13406_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13406",
+      "weaponName": "千岩長槍",
+      "modifierId": "w_13406_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13408",
+      "weaponName": "旧貴族猟槍",
+      "modifierId": "w_13408_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "13409",
+      "weaponName": "ドラゴンスピア",
+      "modifierId": "w_13409_extraDamage_c9330e7b",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "13409",
+      "weaponName": "ドラゴンスピア",
+      "modifierId": "w_13409_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "13409",
+      "weaponName": "ドラゴンスピア",
+      "modifierId": "w_13409_extra_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "13414",
+      "weaponName": "喜多院十文字槍",
+      "modifierId": "w_13414_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "13415",
+      "weaponName": "「漁獲」",
+      "modifierId": "w_13415_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13415",
+      "weaponName": "「漁獲」",
+      "modifierId": "w_13415_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13416",
+      "weaponName": "斬波のひれ長",
+      "modifierId": "w_13416_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13417",
+      "weaponName": "ムーンピアサー",
+      "modifierId": "w_13417_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13419",
+      "weaponName": "風信の矛",
+      "modifierId": "w_13419_statBonus_5bf6f612",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13419",
+      "weaponName": "風信の矛",
+      "modifierId": "w_13419_statBonus_740027e0",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13424",
+      "weaponName": "フィヨルドの歌",
+      "modifierId": "w_13424_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13427",
+      "weaponName": "プロスペクタードリル",
+      "modifierId": "w_13427_1_v10",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "conditional",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13427",
+      "weaponName": "プロスペクタードリル",
+      "modifierId": "w_13427_2_v10",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "13427",
+      "weaponName": "プロスペクタードリル",
+      "modifierId": "w_13427_3_v10",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "13430",
+      "weaponName": "鎮山の釘",
+      "modifierId": "w_13430_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13431",
+      "weaponName": "虹の行方",
+      "modifierId": "w_13431_statBonus_2bc3e516",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13432",
+      "weaponName": "玉響停の御噺",
+      "modifierId": "w_13432_statBonus_2f1846f4",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13433",
+      "weaponName": "金掘りのシャベル",
+      "modifierId": "w_13433_reactionBonus_45ef3fc4",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "13433",
+      "weaponName": "金掘りのシャベル",
+      "modifierId": "w_13433_reactionBonus_acac6169",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "13433",
+      "weaponName": "金掘りのシャベル",
+      "modifierId": "w_13433_reaction_bonus_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13433",
+      "weaponName": "金掘りのシャベル",
+      "modifierId": "w_13433_reaction_bonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13434",
+      "weaponName": "聖祭者の輝杖",
+      "modifierId": "w_13434_statBonus_bb86c0e8",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkillHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13434",
+      "weaponName": "聖祭者の輝杖",
+      "modifierId": "w_13434_statBonus_bf856255",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkillHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13501",
+      "weaponName": "護摩の杖",
+      "modifierId": "w_13501_extraDamage_17c16bd9",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "13501",
+      "weaponName": "護摩の杖",
+      "modifierId": "w_13501_extraDamage_800a1eaf",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "hpBelow50",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13501",
+      "weaponName": "護摩の杖",
+      "modifierId": "w_13501_statBonus_bd150185",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "13501",
+      "weaponName": "護摩の杖",
+      "modifierId": "w_13501_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "13501",
+      "weaponName": "護摩の杖",
+      "modifierId": "w_13501_v3_scalingBonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "specialCondition",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "13502",
+      "weaponName": "天空の脊",
+      "modifierId": "w_13502_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "13502",
+      "weaponName": "天空の脊",
+      "modifierId": "w_13502_extraDamage_6ebc9349",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "13502",
+      "weaponName": "天空の脊",
+      "modifierId": "w_13502_extra_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "13504",
+      "weaponName": "破天の槍",
+      "modifierId": "w_13504_statBonus_5df4b7c9",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13505",
+      "weaponName": "和璞鳶",
+      "modifierId": "w_13505_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "13505",
+      "weaponName": "和璞鳶",
+      "modifierId": "w_13505_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "13507",
+      "weaponName": "息災",
+      "modifierId": "w_13507_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "13509",
+      "weaponName": "草薙の稲光",
+      "modifierId": "w_13509_statBonus_a105dd86",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "13509",
+      "weaponName": "草薙の稲光",
+      "modifierId": "w_13509_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterBurst",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13511",
+      "weaponName": "赤砂の杖",
+      "modifierId": "w_13511_scaling_bonus_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "13511",
+      "weaponName": "赤砂の杖",
+      "modifierId": "w_13511_statBonus_3f1f80b6",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "13511",
+      "weaponName": "赤砂の杖",
+      "modifierId": "w_13511_statBonus_f902d11b",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "13512",
+      "weaponName": "赤月のシルエット",
+      "modifierId": "w_13512_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13513",
+      "weaponName": "ルミドゥースの挽歌",
+      "modifierId": "w_13513_damageBonus_09aed831",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13513",
+      "weaponName": "ルミドゥースの挽歌",
+      "modifierId": "w_13513_reaction_bonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13513",
+      "weaponName": "ルミドゥースの挽歌",
+      "modifierId": "w_13513_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "13514",
+      "weaponName": "香りのシンフォニスト",
+      "modifierId": "w_13514_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "13514",
+      "weaponName": "香りのシンフォニスト",
+      "modifierId": "w_13514_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13515",
+      "weaponName": "砕け散る光輪",
+      "modifierId": "w_13515_reactionBonus_e1533e72",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13515",
+      "weaponName": "砕け散る光輪",
+      "modifierId": "w_13515_reaction_bonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13515",
+      "weaponName": "砕け散る光輪",
+      "modifierId": "w_13515_statBonus_c3ad91b6",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterBurst",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13515",
+      "weaponName": "砕け散る光輪",
+      "modifierId": "w_13515_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13516",
+      "weaponName": "血染めの荒れ地",
+      "modifierId": "w_13516_critBonus_0eecdab8",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13516",
+      "weaponName": "血染めの荒れ地",
+      "modifierId": "w_13516_reactionBonus_5d637427",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterBurst",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13516",
+      "weaponName": "血染めの荒れ地",
+      "modifierId": "w_13516_reactionBonus_d4e397ce",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13516",
+      "weaponName": "血染めの荒れ地",
+      "modifierId": "w_13516_reaction_bonus_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterBurst",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13516",
+      "weaponName": "血染めの荒れ地",
+      "modifierId": "w_13516_reaction_bonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "13517",
+      "weaponName": "災憾",
+      "modifierId": "w_13517_v3_damageBonus_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "specialCondition",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "13517",
+      "weaponName": "災憾",
+      "modifierId": "w_13517_v3_damageBonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "specialCondition",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "13517",
+      "weaponName": "災憾",
+      "modifierId": "w_13517_v3_special_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "specialCondition",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "14301",
+      "weaponName": "魔導緒論",
+      "modifierId": "w_14301_damageBonus_4b54fa3c",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14301",
+      "weaponName": "魔導緒論",
+      "modifierId": "w_14301_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14302",
+      "weaponName": "龍殺しの英傑譚",
+      "modifierId": "w_14302_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14304",
+      "weaponName": "翡玉法珠",
+      "modifierId": "w_14304_statBonus_76bc7350",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14304",
+      "weaponName": "翡玉法珠",
+      "modifierId": "w_14304_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSwirl",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14305",
+      "weaponName": "特級の宝玉",
+      "modifierId": "w_14305_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterDefeatingEnemy",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14402",
+      "weaponName": "流浪楽章",
+      "modifierId": "w_14402_damage_2",
+      "structured": true,
+      "effectGroupId": "widsith_song",
+      "effectName": "流浪楽章",
+      "targetOwner": "self",
+      "activationType": "option",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "14402",
+      "weaponName": "流浪楽章",
+      "modifierId": "w_14402_stat_1",
+      "structured": true,
+      "effectGroupId": "widsith_song",
+      "effectName": "流浪楽章",
+      "targetOwner": "self",
+      "activationType": "option",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "14402",
+      "weaponName": "流浪楽章",
+      "modifierId": "w_14402_stat_3",
+      "structured": true,
+      "effectGroupId": "widsith_song",
+      "effectName": "流浪楽章",
+      "targetOwner": "self",
+      "activationType": "option",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "14404",
+      "weaponName": "旧貴族秘法録",
+      "modifierId": "w_14404_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14405",
+      "weaponName": "匣中日月",
+      "modifierId": "w_14405_damageBonus_56d18214",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14405",
+      "weaponName": "匣中日月",
+      "modifierId": "w_14405_damageBonus_8cf737d5",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14405",
+      "weaponName": "匣中日月",
+      "modifierId": "w_14405_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14405",
+      "weaponName": "匣中日月",
+      "modifierId": "w_14405_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14407",
+      "weaponName": "万国諸海の図譜",
+      "modifierId": "w_14407_damageBonus_4ba3ed74",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14407",
+      "weaponName": "万国諸海の図譜",
+      "modifierId": "w_14407_reactionBonus_7884a422",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14408",
+      "weaponName": "黒岩の緋玉",
+      "modifierId": "w_14408_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterDefeatingEnemy",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14409",
+      "weaponName": "昭心",
+      "modifierId": "w_14409_extraDamage_1721aac4",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14409",
+      "weaponName": "昭心",
+      "modifierId": "w_14409_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "14410",
+      "weaponName": "ダークアレイの酒と詩",
+      "modifierId": "w_14410_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14412",
+      "weaponName": "冬忍びの実",
+      "modifierId": "w_14412_extraDamage_db770126",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14412",
+      "weaponName": "冬忍びの実",
+      "modifierId": "w_14412_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "14412",
+      "weaponName": "冬忍びの実",
+      "modifierId": "w_14412_extra_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "14413",
+      "weaponName": "ドドコの物語",
+      "modifierId": "w_14413_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14413",
+      "weaponName": "ドドコの物語",
+      "modifierId": "w_14413_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterChargedAttackHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14414",
+      "weaponName": "白辰の輪",
+      "modifierId": "w_14414_damageBonus_7575ce9b",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14414",
+      "weaponName": "白辰の輪",
+      "modifierId": "w_14414_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14415",
+      "weaponName": "誓いの明瞳",
+      "modifierId": "w_14415_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14416",
+      "weaponName": "彷徨える星",
+      "modifierId": "w_14416_scaling_bonus_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "14416",
+      "weaponName": "彷徨える星",
+      "modifierId": "w_14416_statBonus_7c529294",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14417",
+      "weaponName": "満悦の実",
+      "modifierId": "w_14417_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14424",
+      "weaponName": "古祠の瓏",
+      "modifierId": "w_14424_statBonus_3fe2e64a",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14424",
+      "weaponName": "古祠の瓏",
+      "modifierId": "w_14424_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14424",
+      "weaponName": "古祠の瓏",
+      "modifierId": "w_14424_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14425",
+      "weaponName": "純水流華",
+      "modifierId": "w_14425_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14425",
+      "weaponName": "純水流華",
+      "modifierId": "w_14425_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14426",
+      "weaponName": "果てなき紺碧の唄",
+      "modifierId": "w_14426_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14426",
+      "weaponName": "果てなき紺碧の唄",
+      "modifierId": "w_14426_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14427",
+      "weaponName": "蒼紋の角杯",
+      "modifierId": "w_14427_extraDamage_aafebcff",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "14430",
+      "weaponName": "波乗りの旋回",
+      "modifierId": "w_14430_statBonus_9fed3ad4",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14431",
+      "weaponName": "ヤシュチェの環",
+      "modifierId": "w_14431_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14431",
+      "weaponName": "ヤシュチェの環",
+      "modifierId": "w_14431_scaling_bonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "14431",
+      "weaponName": "ヤシュチェの環",
+      "modifierId": "w_14431_statBonus_9159f3ac",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14432",
+      "weaponName": "天光のリュート",
+      "modifierId": "w_14432_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14433",
+      "weaponName": "烏髄の孤灯",
+      "modifierId": "w_14433_reactionBonus_b6eb8abd",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "14433",
+      "weaponName": "烏髄の孤灯",
+      "modifierId": "w_14433_reactionBonus_fba9df82",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "14433",
+      "weaponName": "烏髄の孤灯",
+      "modifierId": "w_14433_reaction_bonus_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14433",
+      "weaponName": "烏髄の孤灯",
+      "modifierId": "w_14433_reaction_bonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14434",
+      "weaponName": "霜辰",
+      "modifierId": "w_14434_statBonus_21bcb6a6",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkillHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14434",
+      "weaponName": "霜辰",
+      "modifierId": "w_14434_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterChargedAttackHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14501",
+      "weaponName": "天空の巻",
+      "modifierId": "w_14501_damageBonus_0357441e",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "14501",
+      "weaponName": "天空の巻",
+      "modifierId": "w_14501_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "14501",
+      "weaponName": "天空の巻",
+      "modifierId": "w_14501_extra_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "14502",
+      "weaponName": "四風原典",
+      "modifierId": "w_14502_damageBonus_c0f6e9e9",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14502",
+      "weaponName": "四風原典",
+      "modifierId": "w_14502_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14504",
+      "weaponName": "浮世の錠",
+      "modifierId": "w_14504_statBonus_4506aeb7",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14505",
+      "weaponName": "碧落の瓏",
+      "modifierId": "w_14505_damageBonus_3d9190cd",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14505",
+      "weaponName": "碧落の瓏",
+      "modifierId": "w_14505_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14506",
+      "weaponName": "不滅の月華",
+      "modifierId": "w_14506_extraDamage_e46955e5",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "14506",
+      "weaponName": "不滅の月華",
+      "modifierId": "w_14506_v3_scalingBonus_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "specialCondition",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "14509",
+      "weaponName": "神楽の真意",
+      "modifierId": "w_14509_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14509",
+      "weaponName": "神楽の真意",
+      "modifierId": "w_14509_damage_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14509",
+      "weaponName": "神楽の真意",
+      "modifierId": "w_14509_reactionBonus_5227efb6",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14509",
+      "weaponName": "神楽の真意",
+      "modifierId": "w_14509_reaction_bonus_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14511",
+      "weaponName": "千夜に浮かぶ夢",
+      "modifierId": "w_14511_damageBonus_c65afcef",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14511",
+      "weaponName": "千夜に浮かぶ夢",
+      "modifierId": "w_14511_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14511",
+      "weaponName": "千夜に浮かぶ夢",
+      "modifierId": "w_14511_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14511",
+      "weaponName": "千夜に浮かぶ夢",
+      "modifierId": "w_14511_stat_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14512",
+      "weaponName": "トゥライトゥーラの記憶",
+      "modifierId": "w_14512_damageBonus_265ee011",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14512",
+      "weaponName": "トゥライトゥーラの記憶",
+      "modifierId": "w_14512_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14513",
+      "weaponName": "凛流の監視者",
+      "modifierId": "w_14513_damageBonus_9c4f8189",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14513",
+      "weaponName": "凛流の監視者",
+      "modifierId": "w_14513_damageBonus_f927ae7f",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14513",
+      "weaponName": "凛流の監視者",
+      "modifierId": "w_14513_damage_4",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "hpChanged",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14513",
+      "weaponName": "凛流の監視者",
+      "modifierId": "w_14513_reactionBonus_5a95da29",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14513",
+      "weaponName": "凛流の監視者",
+      "modifierId": "w_14513_reactionBonus_bbe64f46",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14513",
+      "weaponName": "凛流の監視者",
+      "modifierId": "w_14513_reaction_bonus_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "hpChanged",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14513",
+      "weaponName": "凛流の監視者",
+      "modifierId": "w_14513_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "14514",
+      "weaponName": "久遠流転の大典",
+      "modifierId": "w_14514_damageBonus_d69673bb",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "14514",
+      "weaponName": "久遠流転の大典",
+      "modifierId": "w_14514_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "14515",
+      "weaponName": "鶴鳴の余韻",
+      "modifierId": "w_14515_damageBonus_903f8d7c",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14516",
+      "weaponName": "サーフィンタイム",
+      "modifierId": "w_14516_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14516",
+      "weaponName": "サーフィンタイム",
+      "modifierId": "w_14516_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "14517",
+      "weaponName": "祭星者の眺め",
+      "modifierId": "w_14517_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "14517",
+      "weaponName": "祭星者の眺め",
+      "modifierId": "w_14517_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "14518",
+      "weaponName": "寝正月の初晴",
+      "modifierId": "w_14518_statBonus_3c7c2d85",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14518",
+      "weaponName": "寝正月の初晴",
+      "modifierId": "w_14518_statBonus_a61ba947",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkillHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14518",
+      "weaponName": "寝正月の初晴",
+      "modifierId": "w_14518_statBonus_d9d3a378",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterBurstHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14519",
+      "weaponName": "ヴィヴィッド・ハート",
+      "modifierId": "w_14519_critBonus_13e1d773",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14519",
+      "weaponName": "ヴィヴィッド・ハート",
+      "modifierId": "w_14519_critBonus_f7391ebb",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterBurst",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14519",
+      "weaponName": "ヴィヴィッド・ハート",
+      "modifierId": "w_14519_crit_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14519",
+      "weaponName": "ヴィヴィッド・ハート",
+      "modifierId": "w_14519_crit_4",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14519",
+      "weaponName": "ヴィヴィッド・ハート",
+      "modifierId": "w_14519_damageBonus_65abb321",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterBurst",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14519",
+      "weaponName": "ヴィヴィッド・ハート",
+      "modifierId": "w_14519_damage_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14519",
+      "weaponName": "ヴィヴィッド・ハート",
+      "modifierId": "w_14519_damage_5",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14519",
+      "weaponName": "ヴィヴィッド・ハート",
+      "modifierId": "w_14519_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "14520",
+      "weaponName": "夜を紡ぐ天鏡",
+      "modifierId": "w_14520_reactionBonus_51ed08f7",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14520",
+      "weaponName": "夜を紡ぐ天鏡",
+      "modifierId": "w_14520_reactionBonus_86c966e8",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14520",
+      "weaponName": "夜を紡ぐ天鏡",
+      "modifierId": "w_14520_reactionBonus_8f49bc48",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14520",
+      "weaponName": "夜を紡ぐ天鏡",
+      "modifierId": "w_14520_reaction_bonus_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14520",
+      "weaponName": "夜を紡ぐ天鏡",
+      "modifierId": "w_14520_reaction_bonus_4",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14520",
+      "weaponName": "夜を紡ぐ天鏡",
+      "modifierId": "w_14520_reaction_bonus_5",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14520",
+      "weaponName": "夜を紡ぐ天鏡",
+      "modifierId": "w_14520_statBonus_f3cdffb9",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14520",
+      "weaponName": "夜を紡ぐ天鏡",
+      "modifierId": "w_14520_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14521",
+      "weaponName": "真言の匣",
+      "modifierId": "w_14521_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "14521",
+      "weaponName": "真言の匣",
+      "modifierId": "w_14521_crit_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14521",
+      "weaponName": "真言の匣",
+      "modifierId": "w_14521_damage_4",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14521",
+      "weaponName": "真言の匣",
+      "modifierId": "w_14521_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14522",
+      "weaponName": "帳の夜曲",
+      "modifierId": "w_14522_crit_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14522",
+      "weaponName": "帳の夜曲",
+      "modifierId": "w_14522_reactionBonus_f6439a2b",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14522",
+      "weaponName": "帳の夜曲",
+      "modifierId": "w_14522_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "14523",
+      "weaponName": "塵と光の七つの誓約",
+      "modifierId": "w_14523_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "14523",
+      "weaponName": "塵と光の七つの誓約",
+      "modifierId": "w_14523_scaling_bonus_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "14523",
+      "weaponName": "塵と光の七つの誓約",
+      "modifierId": "w_14523_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "15301",
+      "weaponName": "鴉羽の弓",
+      "modifierId": "w_15301_damageBonus_518c221d",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15301",
+      "weaponName": "鴉羽の弓",
+      "modifierId": "w_15301_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15302",
+      "weaponName": "シャープシューターの誓い",
+      "modifierId": "w_15302_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "15304",
+      "weaponName": "弾弓",
+      "modifierId": "w_15304_damageBonus_f4fa036a",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "15304",
+      "weaponName": "弾弓",
+      "modifierId": "w_15304_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15304",
+      "weaponName": "弾弓",
+      "modifierId": "w_15304_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15305",
+      "weaponName": "文使い",
+      "modifierId": "w_15305_extraDamage_087ca33a",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "15402",
+      "weaponName": "絶弦",
+      "modifierId": "w_15402_damage_1",
+      "structured": true,
+      "effectGroupId": "stringless_skill_burst",
+      "effectName": "元素スキル・元素爆発強化",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "15404",
+      "weaponName": "旧貴族長弓",
+      "modifierId": "w_15404_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "15405",
+      "weaponName": "弓蔵",
+      "modifierId": "w_15405_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "15405",
+      "weaponName": "弓蔵",
+      "modifierId": "w_15405_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "15406",
+      "weaponName": "澹月·試作",
+      "modifierId": "w_15406_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterChargedAttackHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15407",
+      "weaponName": "リングボウ",
+      "modifierId": "w_15407_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15408",
+      "weaponName": "黒岩の戦弓",
+      "modifierId": "w_15408_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterDefeatingEnemy",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15409",
+      "weaponName": "蒼翠の狩猟弓",
+      "modifierId": "w_15409_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "15410",
+      "weaponName": "ダークアレイの狩人",
+      "modifierId": "w_15410_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15411",
+      "weaponName": "落霞",
+      "modifierId": "w_15411_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "15412",
+      "weaponName": "幽夜のワルツ",
+      "modifierId": "w_15412_damageBonus_aa0d2de1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkillHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15412",
+      "weaponName": "幽夜のワルツ",
+      "modifierId": "w_15412_damageBonus_b20218ef",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterNormalAttackHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15412",
+      "weaponName": "幽夜のワルツ",
+      "modifierId": "w_15412_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15412",
+      "weaponName": "幽夜のワルツ",
+      "modifierId": "w_15412_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15413",
+      "weaponName": "風花の頌歌",
+      "modifierId": "w_15413_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15414",
+      "weaponName": "破魔の弓",
+      "modifierId": "w_15414_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "15414",
+      "weaponName": "破魔の弓",
+      "modifierId": "w_15414_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "15415",
+      "weaponName": "プレデター",
+      "modifierId": "w_15415_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "15415",
+      "weaponName": "プレデター",
+      "modifierId": "w_15415_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "15415",
+      "weaponName": "プレデター",
+      "modifierId": "w_15415_stat_flat_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "15416",
+      "weaponName": "曚雲の月",
+      "modifierId": "w_15416_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15417",
+      "weaponName": "王の近侍",
+      "modifierId": "w_15417_extra_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "15417",
+      "weaponName": "王の近侍",
+      "modifierId": "w_15417_statBonus_30e670eb",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterBurst",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15417",
+      "weaponName": "王の近侍",
+      "modifierId": "w_15417_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15418",
+      "weaponName": "竭沢",
+      "modifierId": "w_15418_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterSkill",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "15419",
+      "weaponName": "トキの嘴",
+      "modifierId": "w_15419_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterChargedAttackHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15424",
+      "weaponName": "烈日の後嗣",
+      "modifierId": "w_15424_damageBonus_05580649",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "15424",
+      "weaponName": "烈日の後嗣",
+      "modifierId": "w_15424_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15424",
+      "weaponName": "烈日の後嗣",
+      "modifierId": "w_15424_extra_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterChargedAttackHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "15425",
+      "weaponName": "静寂の唄",
+      "modifierId": "w_15425_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15426",
+      "weaponName": "築雲",
+      "modifierId": "w_15426_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15427",
+      "weaponName": "レンジゲージ",
+      "modifierId": "w_15427_1_v10",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "conditional",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15427",
+      "weaponName": "レンジゲージ",
+      "modifierId": "w_15427_2_v10",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "15427",
+      "weaponName": "レンジゲージ",
+      "modifierId": "w_15427_3_v10",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "15430",
+      "weaponName": "花飾りの羽",
+      "modifierId": "w_15430_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15431",
+      "weaponName": "チェーンブレイカー",
+      "modifierId": "w_15431_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15431",
+      "weaponName": "チェーンブレイカー",
+      "modifierId": "w_15431_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15432",
+      "weaponName": "冷寂の音",
+      "modifierId": "w_15432_extraDamage_367a328c",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "15433",
+      "weaponName": "羅網の針",
+      "modifierId": "w_15433_statBonus_8099b23b",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15434",
+      "weaponName": "虹蛇の雨弦",
+      "modifierId": "w_15434_statBonus_f48668d9",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterHit",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15501",
+      "weaponName": "天空の翼",
+      "modifierId": "w_15501_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "15501",
+      "weaponName": "天空の翼",
+      "modifierId": "w_15501_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "15501",
+      "weaponName": "天空の翼",
+      "modifierId": "w_15501_extraDamage_29b93c67",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "15502",
+      "weaponName": "アモスの弓",
+      "modifierId": "w_15502_damageBonus_fc388315",
+      "structured": true,
+      "effectGroupId": "amos_flight_time",
+      "effectName": "矢の飛翔時間による強化",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "15502",
+      "weaponName": "アモスの弓",
+      "modifierId": "w_15502_damage_1",
+      "structured": true,
+      "effectGroupId": "amos_base_damage",
+      "effectName": "通常攻撃・重撃の基礎強化",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "15503",
+      "weaponName": "終焉を嘆く詩",
+      "modifierId": "w_15503_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "15503",
+      "weaponName": "終焉を嘆く詩",
+      "modifierId": "w_15503_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15503",
+      "weaponName": "終焉を嘆く詩",
+      "modifierId": "w_15503_stat_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15507",
+      "weaponName": "冬極の白星",
+      "modifierId": "w_15507_damageBonus_6894c25e",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "15507",
+      "weaponName": "冬極の白星",
+      "modifierId": "w_15507_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "15507",
+      "weaponName": "冬極の白星",
+      "modifierId": "w_15507_stat_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "15508",
+      "weaponName": "若水",
+      "modifierId": "w_15508_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15508",
+      "weaponName": "若水",
+      "modifierId": "w_15508_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "15509",
+      "weaponName": "飛雷の鳴弦",
+      "modifierId": "w_15509_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "15509",
+      "weaponName": "飛雷の鳴弦",
+      "modifierId": "w_15509_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15511",
+      "weaponName": "狩人の道",
+      "modifierId": "w_15511_add_base_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterChargedAttackHit",
+      "inputPolicy": "displayOnly"
+    },
+    {
+      "weaponId": "15511",
+      "weaponName": "狩人の道",
+      "modifierId": "w_15511_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    },
+    {
+      "weaponId": "15512",
+      "weaponName": "始まりの大魔術",
+      "modifierId": "w_15512_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "15512",
+      "weaponName": "始まりの大魔術",
+      "modifierId": "w_15512_statBonus_5c669f4b",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "15513",
+      "weaponName": "白雨心弦",
+      "modifierId": "w_15513_crit_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15513",
+      "weaponName": "白雨心弦",
+      "modifierId": "w_15513_statBonus_6b22fafe",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "15514",
+      "weaponName": "星鷲の紅き羽",
+      "modifierId": "w_15514_damageBonus_da26c5de",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "15514",
+      "weaponName": "星鷲の紅き羽",
+      "modifierId": "w_15514_damageBonus_e8964879",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "stack",
+      "inputPolicy": "stack"
+    },
+    {
+      "weaponId": "15514",
+      "weaponName": "星鷲の紅き羽",
+      "modifierId": "w_15514_statBonus_b409d658",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterReaction",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15515",
+      "weaponName": "暁を告げる歴史",
+      "modifierId": "w_15515_damage_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15516",
+      "weaponName": "霜契の金枝",
+      "modifierId": "w_15516_damageBonus_1923e8e9",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15516",
+      "weaponName": "霜契の金枝",
+      "modifierId": "w_15516_damageBonus_f827969c",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15516",
+      "weaponName": "霜契の金枝",
+      "modifierId": "w_15516_damage_2",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15516",
+      "weaponName": "霜契の金枝",
+      "modifierId": "w_15516_damage_5",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterCrystallize",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15516",
+      "weaponName": "霜契の金枝",
+      "modifierId": "w_15516_reactionBonus_232c59cc",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15516",
+      "weaponName": "霜契の金枝",
+      "modifierId": "w_15516_reactionBonus_999a052c",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "calculate"
+    },
+    {
+      "weaponId": "15516",
+      "weaponName": "霜契の金枝",
+      "modifierId": "w_15516_reaction_bonus_3",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterCrystallize",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15516",
+      "weaponName": "霜契の金枝",
+      "modifierId": "w_15516_reaction_bonus_4",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "afterCrystallize",
+      "inputPolicy": "manual"
+    },
+    {
+      "weaponId": "15516",
+      "weaponName": "霜契の金枝",
+      "modifierId": "w_15516_stat_1",
+      "structured": false,
+      "effectGroupId": "",
+      "effectName": "",
+      "targetOwner": "self",
+      "activationType": "always",
+      "inputPolicy": "reflected"
+    }
+  ],
+  "duplicateCandidates": [
+    {
+      "weaponId": "11407",
+      "key": "damageBonus|元素ダメージを与えた後の6秒間、キャラクターの与えるダメージ+6%、最大2重まで",
+      "modifierIds": [
+        "w_11407_damageBonus_b0a176a7",
+        "w_11407_damage_1"
+      ]
+    },
+    {
+      "weaponId": "11418",
+      "key": "scalingBonus|装備したキャラクターの元素熟知の数値が1につき、該当キャラクターの元素チャージ効率+0.036%、アップする元素チャージ効率の30%を基準に、周囲にいるチーム内の他キャラクターの元素チャージ効率がアップする、継続時間12秒",
+      "modifierIds": [
+        "w_11418_scalingBonus_cf36aef0",
+        "w_11418_scaling_bonus_2",
+        "w_11418_scaling_bonus_3"
+      ]
+    },
+    {
+      "weaponId": "11420",
+      "key": "extraDamage|通常攻撃、重撃、落下攻撃が敵に命中すると怨霊を放ち、攻撃力の180%の範囲ダメージを与える",
+      "modifierIds": [
+        "w_11420_extraDamage_9ddce68a",
+        "w_11420_extra_damage_1"
+      ]
+    },
+    {
+      "weaponId": "11421",
+      "key": "extraDamage|通常攻撃、重撃、落下攻撃が敵に命中すると怨霊を放ち、攻撃力の180%の範囲ダメージを与える",
+      "modifierIds": [
+        "w_11421_extraDamage_934d6229",
+        "w_11421_extra_damage_1"
+      ]
+    },
+    {
+      "weaponId": "11432",
+      "key": "critBonus|キャラクターがシールド状態の時、通常攻撃と重撃ダメージ+20%、通常攻撃と重撃の会心率+8%",
+      "modifierIds": [
+        "w_11432_critBonus_382b690c",
+        "w_11432_crit_1"
+      ]
+    },
+    {
+      "weaponId": "11509",
+      "key": "damageBonus|霧切の巴紋を1/2/3層有する時、自身元素タイプの元素ダメージ+8%/16%/28%",
+      "modifierIds": [
+        "w_11509_damageBonus_ae1b42da",
+        "w_11509_damage_2"
+      ]
+    },
+    {
+      "weaponId": "11514",
+      "key": "damageBonus|通常攻撃ダメージ+16%、元素スキルダメージ+24%",
+      "modifierIds": [
+        "w_11514_damage_1",
+        "w_11514_damage_2"
+      ]
+    },
+    {
+      "weaponId": "11518",
+      "key": "critBonus|元素爆発の会心ダメージ+16%",
+      "modifierIds": [
+        "w_11518_critBonus_765ef224",
+        "w_11518_crit_1"
+      ]
+    },
+    {
+      "weaponId": "11518",
+      "key": "statBonus|攻撃力+20%、装備者を除いた付近にいるチーム内フィールド上キャラクターの攻撃力+16%、継続時間3秒",
+      "modifierIds": [
+        "w_11518_stat_3",
+        "w_11518_stat_4"
+      ]
+    },
+    {
+      "weaponId": "11519",
+      "key": "reactionBonus|装備者が元素スキルを発動した後の5秒間、月結晶反応によるダメージ+64%",
+      "modifierIds": [
+        "w_11519_reactionBonus_903ea413",
+        "w_11519_reaction_bonus_2"
+      ]
+    },
+    {
+      "weaponId": "12409",
+      "key": "damageBonus|フィールドにいる時、4秒毎に、与えるダメージ+6%、被ダメージ+3%",
+      "modifierIds": [
+        "w_12409_damageBonus_1b734d3c",
+        "w_12409_damage_2"
+      ]
+    },
+    {
+      "weaponId": "12418",
+      "key": "statBonus|は元素反応を起こした後の8秒間、攻撃力+12%、元素熟知+48",
+      "modifierIds": [
+        "w_12418_statBonus_4abee3c5",
+        "w_12418_statBonus_d123e765"
+      ]
+    },
+    {
+      "weaponId": "12418",
+      "key": "statBonus|元素スキルが敵に命中する、または元素反応を起こした後の8秒間、攻撃力+12%、元素熟知+48",
+      "modifierIds": [
+        "w_12418_stat_1",
+        "w_12418_stat_2"
+      ]
+    },
+    {
+      "weaponId": "12430",
+      "key": "critBonus|落下攻撃の会心率+16%",
+      "modifierIds": [
+        "w_12430_critBonus_ef236f15",
+        "w_12430_crit_1"
+      ]
+    },
+    {
+      "weaponId": "12431",
+      "key": "damageBonus|チームにいるキャラクターが炎元素関連反応を起こした後、装備者の元素スキルダメージ+16%、継続期間8秒",
+      "modifierIds": [
+        "w_12431_damageBonus_f365c31c",
+        "w_12431_v3_damageBonus_1"
+      ]
+    },
+    {
+      "weaponId": "12510",
+      "key": "additiveBaseDamage|通常攻撃と重撃ダメージが防御力40%分アップする",
+      "modifierIds": [
+        "w_12510_add_base_2",
+        "w_12510_additiveBaseDamage_fb548a4e"
+      ]
+    },
+    {
+      "weaponId": "13402",
+      "key": "damageBonus|元素スキルを発動した後、通常攻撃と重撃のダメージ+8%、継続時間12秒、最大2重まで",
+      "modifierIds": [
+        "w_13402_damageBonus_820b608f",
+        "w_13402_damage_1"
+      ]
+    },
+    {
+      "weaponId": "13405",
+      "key": "statBonus|近くに敵が2人以上いる時、攻撃力+16%、防御力+16%",
+      "modifierIds": [
+        "w_13405_stat_1",
+        "w_13405_stat_2"
+      ]
+    },
+    {
+      "weaponId": "13419",
+      "key": "statBonus|元素反応を起こした後の10秒間、攻撃力+12%、元素熟知+48",
+      "modifierIds": [
+        "w_13419_statBonus_5bf6f612",
+        "w_13419_statBonus_740027e0"
+      ]
+    },
+    {
+      "weaponId": "13433",
+      "key": "reactionBonus|感電反応ダメージ+48%、月感電反応ダメージ+12%",
+      "modifierIds": [
+        "w_13433_reactionBonus_45ef3fc4",
+        "w_13433_reactionBonus_acac6169",
+        "w_13433_reaction_bonus_1",
+        "w_13433_reaction_bonus_2"
+      ]
+    },
+    {
+      "weaponId": "13434",
+      "key": "statBonus|元素スキルが敵に命中した後の6秒間、攻撃力+8%、元素チャージ効率+6%",
+      "modifierIds": [
+        "w_13434_statBonus_bb86c0e8",
+        "w_13434_statBonus_bf856255"
+      ]
+    },
+    {
+      "weaponId": "13516",
+      "key": "reactionBonus|元素爆発を発動した後の3.5秒間、装備者が敵に与える月感電反応ダメージ+36%",
+      "modifierIds": [
+        "w_13516_reactionBonus_5d637427",
+        "w_13516_reaction_bonus_1"
+      ]
+    },
+    {
+      "weaponId": "13516",
+      "key": "reactionBonus|装備者が月感電反応を起こした後、「荒涼たる挽歌」効果を獲得し、会心ダメージ+28%、継続時間6秒",
+      "modifierIds": [
+        "w_13516_reactionBonus_d4e397ce",
+        "w_13516_reaction_bonus_2"
+      ]
+    },
+    {
+      "weaponId": "14405",
+      "key": "damageBonus|通常攻撃が命中した後、6秒間元素スキルと元素爆発のダメージ+20%",
+      "modifierIds": [
+        "w_14405_damageBonus_8cf737d5",
+        "w_14405_damage_1"
+      ]
+    },
+    {
+      "weaponId": "14414",
+      "key": "damageBonus|強化効果：該当元素タイプの元素ダメージ+10%、継続時間6秒",
+      "modifierIds": [
+        "w_14414_damageBonus_7575ce9b",
+        "w_14414_damage_1"
+      ]
+    },
+    {
+      "weaponId": "14424",
+      "key": "statBonus|待機時間が5秒を超えている場合、HP上限+32%、元素熟知+40",
+      "modifierIds": [
+        "w_14424_statBonus_3fe2e64a",
+        "w_14424_stat_1",
+        "w_14424_stat_2"
+      ]
+    },
+    {
+      "weaponId": "14426",
+      "key": "damageBonus|通常攻撃または重撃が敵に命中した6秒間、通常攻撃のダメージ+8%、重撃のダメージ+6%",
+      "modifierIds": [
+        "w_14426_damage_1",
+        "w_14426_damage_2"
+      ]
+    },
+    {
+      "weaponId": "14433",
+      "key": "reactionBonus|開花反応ダメージ+48%、月開花反応ダメージ+12%",
+      "modifierIds": [
+        "w_14433_reactionBonus_b6eb8abd",
+        "w_14433_reactionBonus_fba9df82",
+        "w_14433_reaction_bonus_1",
+        "w_14433_reaction_bonus_2"
+      ]
+    },
+    {
+      "weaponId": "14501",
+      "key": "damageBonus|元素ダメージ+12%",
+      "modifierIds": [
+        "w_14501_damageBonus_0357441e",
+        "w_14501_damage_1"
+      ]
+    },
+    {
+      "weaponId": "14502",
+      "key": "damageBonus|フィールドにいる時、4秒毎に元素ダメージ+8%、最大4重まで",
+      "modifierIds": [
+        "w_14502_damageBonus_c0f6e9e9",
+        "w_14502_damage_1"
+      ]
+    },
+    {
+      "weaponId": "14509",
+      "key": "reactionBonus|この武器を装備したキャラクターの元素スキルによるダメージ+12%、与える星電導反応のダメージ+12%、継続時間24秒、最大3層まで",
+      "modifierIds": [
+        "w_14509_reactionBonus_5227efb6",
+        "w_14509_reaction_bonus_1"
+      ]
+    },
+    {
+      "weaponId": "14511",
+      "key": "damageBonus|元素タイプが異なる場合：自身元素タイプの元素ダメージ+10%",
+      "modifierIds": [
+        "w_14511_damageBonus_c65afcef",
+        "w_14511_damage_2"
+      ]
+    },
+    {
+      "weaponId": "14512",
+      "key": "damageBonus|1秒毎に通常攻撃の与えるダメージ+4.8%",
+      "modifierIds": [
+        "w_14512_damageBonus_265ee011",
+        "w_14512_damage_1"
+      ]
+    },
+    {
+      "weaponId": "14513",
+      "key": "damageBonus|現在HPが増減する時、通常攻撃ダメージ+16%、重撃ダメージ+14%、星電導反応のダメージ+14%",
+      "modifierIds": [
+        "w_14513_damageBonus_9c4f8189",
+        "w_14513_damageBonus_f927ae7f",
+        "w_14513_damage_4"
+      ]
+    },
+    {
+      "weaponId": "14513",
+      "key": "reactionBonus|現在HPが増減する時、通常攻撃ダメージ+16%、重撃ダメージ+14%、星電導反応のダメージ+14%",
+      "modifierIds": [
+        "w_14513_reactionBonus_5a95da29",
+        "w_14513_reactionBonus_bbe64f46",
+        "w_14513_reaction_bonus_2"
+      ]
+    },
+    {
+      "weaponId": "14519",
+      "key": "critBonus|落下攻撃を行う際、「初霞の彩り」効果を獲得し、落下攻撃の会心ダメージ+28%",
+      "modifierIds": [
+        "w_14519_critBonus_13e1d773",
+        "w_14519_crit_2"
+      ]
+    },
+    {
+      "weaponId": "14520",
+      "key": "reactionBonus|「北の果ての聖言」効果と「朔月の詩」効果が同時に存在する時、周囲のチーム内キャラクターが起こした開花反応によるダメージ+120%、超開花と烈開花反応によるダメージ+80%、月開花反応によるダメージ+40%",
+      "modifierIds": [
+        "w_14520_reactionBonus_51ed08f7",
+        "w_14520_reactionBonus_86c966e8",
+        "w_14520_reactionBonus_8f49bc48",
+        "w_14520_reaction_bonus_3",
+        "w_14520_reaction_bonus_4",
+        "w_14520_reaction_bonus_5"
+      ]
+    },
+    {
+      "weaponId": "15405",
+      "key": "damageBonus|通常攻撃のダメージ+40%、重撃のダメージ-10%",
+      "modifierIds": [
+        "w_15405_damage_1",
+        "w_15405_damage_2"
+      ]
+    },
+    {
+      "weaponId": "15412",
+      "key": "damageBonus|元素スキルが敵に命中した後の5秒間、通常攻撃のダメージ+20%",
+      "modifierIds": [
+        "w_15412_damageBonus_aa0d2de1",
+        "w_15412_damage_2"
+      ]
+    },
+    {
+      "weaponId": "15412",
+      "key": "damageBonus|通常攻撃が敵に命中した後の5秒間、元素スキルのダメージ+20%",
+      "modifierIds": [
+        "w_15412_damageBonus_b20218ef",
+        "w_15412_damage_1"
+      ]
+    },
+    {
+      "weaponId": "15414",
+      "key": "damageBonus|通常攻撃のダメージ+16%、重撃のダメージ+12%",
+      "modifierIds": [
+        "w_15414_damage_1",
+        "w_15414_damage_2"
+      ]
+    },
+    {
+      "weaponId": "15415",
+      "key": "statBonus|また、アーロイがプレデターを装備している場合、攻撃力+66",
+      "modifierIds": [
+        "w_15415_stat_2",
+        "w_15415_stat_flat_3"
+      ]
+    },
+    {
+      "weaponId": "15424",
+      "key": "damageBonus|灼心状態にある敵に対して、装備者の重撃が与えるダメージ+28%",
+      "modifierIds": [
+        "w_15424_damageBonus_05580649",
+        "w_15424_damage_2"
+      ]
+    },
+    {
+      "weaponId": "15503",
+      "key": "statBonus|追憶の欠片を4枚集めると、全ての追憶の欠片を消費し、周囲のチーム全員に12秒継続する「千年の大楽章·別れの歌」効果を付与する：元素熟知+100、攻撃力+20%",
+      "modifierIds": [
+        "w_15503_stat_2",
+        "w_15503_stat_3"
+      ]
+    },
+    {
+      "weaponId": "15507",
+      "key": "damageBonus|元素スキルと元素爆発が与えるダメージ+12%",
+      "modifierIds": [
+        "w_15507_damageBonus_6894c25e",
+        "w_15507_damage_1"
+      ]
+    },
+    {
+      "weaponId": "15514",
+      "key": "damageBonus|チームに装備者と元素タイプが異なるキャラクターが1/2名以上いる場合、装備者の重撃ダメージがそれぞれ+20%/48%、元素爆発ダメージがそれぞれ+10%/24%",
+      "modifierIds": [
+        "w_15514_damageBonus_da26c5de",
+        "w_15514_damageBonus_e8964879"
+      ]
+    },
+    {
+      "weaponId": "15516",
+      "key": "damageBonus|継続期間中、装備者の近くに月籠が存在する場合、チーム内の近くにいる他のキャラクター全員が「霜の精のいたずら」効果を獲得し、与える岩元素ダメージ+20%、月結晶反応ダメージ+20%",
+      "modifierIds": [
+        "w_15516_damageBonus_1923e8e9",
+        "w_15516_damage_5"
+      ]
+    },
+    {
+      "weaponId": "15516",
+      "key": "damageBonus|この効果により、装備者の与える岩元素ダメージ+40%",
+      "modifierIds": [
+        "w_15516_damageBonus_f827969c",
+        "w_15516_damage_2"
+      ]
+    },
+    {
+      "weaponId": "15516",
+      "key": "reactionBonus|継続期間中、装備者の近くに月籠が存在する場合、チーム内の近くにいる他のキャラクター全員が「霜の精のいたずら」効果を獲得し、与える岩元素ダメージ+20%、月結晶反応ダメージ+20%",
+      "modifierIds": [
+        "w_15516_reactionBonus_232c59cc",
+        "w_15516_reaction_bonus_4"
+      ]
+    },
+    {
+      "weaponId": "15516",
+      "key": "reactionBonus|月結晶反応ダメージ+40%",
+      "modifierIds": [
+        "w_15516_reactionBonus_999a052c",
+        "w_15516_reaction_bonus_3"
+      ]
+    }
+  ]
+}

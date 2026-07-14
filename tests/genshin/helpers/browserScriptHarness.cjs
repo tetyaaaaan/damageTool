@@ -12,6 +12,7 @@ function createBrowserScriptHarness(scriptPaths, elements = {}) {
     const sandbox = {
         console,
         document: {
+            addEventListener() {},
             getElementById(id) {
                 return elements[id] || null;
             },
@@ -43,8 +44,11 @@ function loadCalcData() {
         talentScalings: readJson("games/genshin/data/calc/talent-scalings.json"),
         talentModifiers: readJson("games/genshin/data/calc/talent-modifiers.json"),
         weaponModifiers: readJson("games/genshin/data/calc/weapon-modifiers.json"),
+        weaponEffectRegistry: readJson("games/genshin/data/calc/weapon-effect-registry.json"),
         artifactSetModifiers: readJson("games/genshin/data/calc/artifact-set-modifiers.json"),
         constellationModifiers: readJson("games/genshin/data/calc/constellation-modifiers.json"),
+        constellationEffectRegistry: readJson("games/genshin/data/calc/constellation-effect-registry.json"),
+        attackModeRules: readJson("games/genshin/data/calc/attack-mode-rules.json"),
         characters: readJson("games/genshin/data/characters.json"),
         weapons: readJson("games/genshin/data/weapons.json"),
         artifactSets: readJson("games/genshin/data/artifact-sets.json"),

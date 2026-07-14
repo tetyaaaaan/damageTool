@@ -2906,6 +2906,12 @@ body.tool-page .teti-main > .teti-container > .box {
   border-color: #7ca5d0;
 }
 
+.genshin-tool-page .genshin-condition-status.is-inactive {
+  color: var(--teti-muted);
+  border-color: var(--teti-border);
+  background: color-mix(in srgb, var(--teti-muted) 7%, var(--teti-surface));
+}
+
 .genshin-tool-page .genshin-condition-status.is-input {
   color: #875d00;
   border-color: #c79a35;
@@ -2922,6 +2928,172 @@ body.tool-page .teti-main > .teti-container > .box {
   white-space: pre-line;
   line-height: 1.65;
   font-size: 0.82rem;
+}
+
+.genshin-tool-page .genshin-artifact-description {
+  margin: 0 !important;
+  padding: 12px 14px;
+  color: var(--teti-muted);
+  background: color-mix(in srgb, var(--teti-accent) 4%, var(--teti-surface));
+  border-bottom: 1px solid var(--teti-border);
+  white-space: pre-line;
+  line-height: 1.65;
+  font-size: 0.82rem;
+}
+
+.genshin-tool-page .genshin-condition-note {
+  grid-column: 1 / -1;
+  margin: 2px 0 0 !important;
+  color: var(--teti-muted);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.genshin-tool-page .genshin-constellation-section {
+  padding: 15px;
+}
+
+.genshin-tool-page .genshin-constellation-section + .genshin-constellation-section {
+  border-top: 1px solid var(--teti-border);
+}
+
+.genshin-tool-page .genshin-constellation-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.genshin-tool-page .genshin-constellation-head > div {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+
+.genshin-tool-page .genshin-constellation-head > div > strong {
+  flex: 0 0 auto;
+  color: var(--teti-accent);
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.genshin-tool-page .genshin-constellation-head h5 {
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.genshin-tool-page .genshin-constellation-targets {
+  margin-top: 8px !important;
+  color: var(--teti-text);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.genshin-tool-page .genshin-constellation-original {
+  margin-top: 8px;
+  color: var(--teti-muted);
+  font-size: 0.8rem;
+}
+
+.genshin-tool-page .genshin-constellation-original summary {
+  cursor: pointer;
+  color: var(--teti-accent);
+  font-weight: 850;
+}
+
+.genshin-tool-page .genshin-constellation-original p {
+  margin-top: 8px !important;
+  padding: 10px 12px;
+  border-left: 3px solid var(--teti-border);
+  white-space: pre-line;
+  line-height: 1.65;
+}
+
+.genshin-tool-page .genshin-constellation-controls,
+.genshin-tool-page .genshin-constellation-impacts {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--teti-border);
+}
+
+.genshin-tool-page .genshin-constellation-controls h6,
+.genshin-tool-page .genshin-constellation-impacts h6 {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.genshin-tool-page .genshin-condition-control-copy {
+  display: grid;
+  gap: 3px;
+}
+
+.genshin-tool-page .genshin-condition-control-copy small {
+  color: var(--teti-muted);
+  font-size: 0.75rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.genshin-tool-page .genshin-condition-input-unit {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.genshin-tool-page .genshin-condition-input-unit input {
+  min-width: 0;
+  width: 100%;
+}
+
+.genshin-tool-page .genshin-condition-input-unit em {
+  flex: 0 0 auto;
+  color: var(--teti-muted);
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: 850;
+}
+
+.genshin-tool-page .genshin-constellation-impacts ul {
+  display: grid;
+  gap: 8px;
+  margin: 9px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.genshin-tool-page .genshin-constellation-impact-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(130px, auto);
+  gap: 4px 12px;
+  padding: 9px 10px;
+  border: 1px solid var(--teti-border);
+  border-radius: 7px;
+  background: var(--teti-surface);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.genshin-tool-page .genshin-constellation-impact-row > div {
+  display: grid;
+  gap: 2px;
+}
+
+.genshin-tool-page .genshin-constellation-impact-row small {
+  color: var(--teti-muted);
+  font-size: 0.72rem;
+}
+
+.genshin-tool-page .genshin-constellation-impact-row > span {
+  color: var(--teti-text);
+  font-weight: 850;
+  text-align: right;
+}
+
+.genshin-tool-page .genshin-constellation-impact-row .genshin-condition-missing {
+  grid-column: 1 / -1;
+  margin-top: 2px !important;
 }
 
 .genshin-tool-page .genshin-condition-control,
@@ -2974,6 +3146,14 @@ body.tool-page .teti-main > .teti-container > .box {
   .genshin-tool-page .genshin-condition-control,
   .genshin-tool-page .genshin-reaction-control {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .genshin-tool-page .genshin-constellation-impact-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .genshin-tool-page .genshin-constellation-impact-row > span {
+    text-align: left;
   }
 }
 
