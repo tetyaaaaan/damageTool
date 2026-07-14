@@ -1077,6 +1077,7 @@
             const cardId = cardIdForSource(item.source);
             if (!cardId) return;
             const analysis = analyzeModifier(item.modifier, item.source, context);
+            if (analysis.reasonCode === "SUPERSEDED_RECORD") return;
             const isRelevantCategory = USER_TOGGLE_CATEGORIES.has(item.modifier.category);
             const isResourceInput = analysis.resourceClassification === "calculationInput";
             if (!isRelevantCategory && !isResourceInput) return;

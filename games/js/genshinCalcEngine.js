@@ -402,6 +402,51 @@
         return siblings.slice(0, ownIndex).some((candidate) => signature(candidate) === ownSignature);
     }
 
+    function weaponValueContract(modifier) {
+        return JSON.stringify({
+            value: modifier?.value,
+            valueByRefinement: modifier?.valueByRefinement,
+            valueByStack: modifier?.valueByStack,
+            valueByRefinementPerStack: modifier?.valueByRefinementPerStack
+        });
+    }
+
+    function weaponTargetsOverlap(left, right, category) {
+        const leftTargets = left?.applyTo || [];
+        const rightTargets = right?.applyTo || [];
+        if (leftTargets.some((target) => rightTargets.includes(target))) return true;
+        const broadTarget = (target, candidates) => {
+            if (category === "reactionBonus" && target === "reactionDamageBonus") {
+                return candidates.some((candidate) => /(?:Reaction|Bloom|Burgeon|Hyperbloom|Crystallize|Charged|Conduct)DamageBonus$/i.test(candidate));
+            }
+            if (category === "damageBonus" && target === "allDamageBonus") {
+                return candidates.some((candidate) => /DamageBonus$/.test(candidate));
+            }
+            if (category === "damageBonus" && ["allElementDamageBonus", "ownElementDamageBonus"].includes(target)) {
+                return candidates.some((candidate) => /^(?:allElement|ownElement|pyro|hydro|electro|cryo|anemo|geo|dendro)DamageBonus$/.test(candidate));
+            }
+            if (category === "critBonus" && ["critRate", "critDamage"].includes(target)) {
+                const suffix = target === "critRate" ? "CritRate" : "CritDamage";
+                return candidates.some((candidate) => candidate.endsWith(suffix));
+            }
+            return false;
+        };
+        return leftTargets.some((target) => broadTarget(target, rightTargets))
+            || rightTargets.some((target) => broadTarget(target, leftTargets));
+    }
+
+    function generatedWeaponRecordSuperseded(modifier, siblings) {
+        if (!/_[0-9a-f]{8}$/i.test(String(modifier?.id || ""))) return false;
+        const sourceText = String(modifier?.sourceText || "");
+        if (!sourceText) return false;
+        return siblings.some((candidate) => candidate !== modifier
+            && !/_[0-9a-f]{8}$/i.test(String(candidate?.id || ""))
+            && candidate?.category === modifier.category
+            && String(candidate?.sourceText || "") === sourceText
+            && weaponValueContract(candidate) === weaponValueContract(modifier)
+            && weaponTargetsOverlap(modifier, candidate, modifier.category));
+    }
+
     function normalizeWeaponModifier(modifier, siblings = [], weaponDefinition = {}) {
         const group = weaponEffectGroup(modifier, weaponDefinition);
         if (group) {
@@ -425,18 +470,20 @@
                 normalized.auditDisposition = normalized.auditDisposition || "displayOnlyMisclassification";
             }
             if (group.inputPolicy === "sourceContext" || !["self", "enemy"].includes(group.targetOwner || "self")) {
-                normalized.auditDisposition = "sourceContextRequired";
+                normalized.auditDisposition = normalized.auditDisposition || "sourceContextRequired";
             }
             if (activation.type === "always") normalized.condition = "always";
             if (activation.type === "toggle") {
                 normalized.condition = activation.stateKey || "conditional";
                 normalized.conditionLabel = activation.label || group.name;
                 normalized.calculationSupport = "toggle";
+                normalized.conditionGroupId = activation.stateKey || group.id;
             }
             if (activation.type === "stack") {
                 normalized.condition = activation.stateKey || "stack";
                 normalized.conditionLabel = activation.label || group.name;
                 normalized.calculationSupport = "stack";
+                normalized.conditionGroupId = activation.stateKey || group.id;
                 normalized.stack = {
                     min: Number(activation.min) || 0,
                     max: Number(activation.max) || 0,
@@ -477,7 +524,10 @@
             && /会心(?:率|ダメージ)/.test(sourceText)
             && !/ダメージ\s*[+＋-]/.test(textWithoutCritDamage)
             && siblings.some((candidate) => candidate.category === "critBonus" && candidate.sourceText === sourceText);
-        if ((genericCrit && specificCritSibling) || critOnlyDamageRecord || duplicateWeaponRecord(modifier, siblings)) {
+        if ((genericCrit && specificCritSibling)
+            || critOnlyDamageRecord
+            || duplicateWeaponRecord(modifier, siblings)
+            || generatedWeaponRecordSuperseded(modifier, siblings)) {
             return fallbackWeaponMetadata({ ...modifier, auditDisposition: "supersededByStructuredRecord" });
         }
         return fallbackWeaponMetadata(modifier);

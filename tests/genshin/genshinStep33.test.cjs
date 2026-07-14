@@ -44,10 +44,10 @@ test("STEP33 classifies every weapon modifier and records duplicate candidates",
     const audit = buildAudit();
     assert.equal(audit.summary.weapons, 210);
     assert.equal(audit.summary.modifiers, 455);
-    assert.equal(audit.summary.structuredWeapons, 7);
-    assert.equal(audit.summary.structuredGroups, 13);
-    assert.equal(audit.summary.structuredModifiers, 19);
-    assert.equal(audit.summary.fallbackModifiers, 436);
+    assert.equal(audit.summary.structuredWeapons, 8);
+    assert.equal(audit.summary.structuredGroups, 16);
+    assert.equal(audit.summary.structuredModifiers, 28);
+    assert.equal(audit.summary.fallbackModifiers, 427);
     assert.equal(audit.summary.duplicateCandidateGroups, 50);
     assert.equal(audit.records.every((record) => record.inputPolicy && record.activationType && record.targetOwner), true);
 });

@@ -170,6 +170,45 @@
           "modifierIds": ["w_12430_damageBonus_c7243261"]
         }
       ]
+    },
+    "15516": {
+      "groups": [
+        {
+          "id": "golden_frostbound_oath_self_favor",
+          "name": "霜の精の祝福",
+          "description": "元素スキルまたは月結晶攻撃が命中した後、装備者の岩元素ダメージと月結晶反応ダメージを強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "frostFaeFavorActive", "label": "霜の精の祝福が発動中" },
+          "modifierIds": ["w_15516_damageBonus_f827969c", "w_15516_damage_2", "w_15516_reactionBonus_999a052c", "w_15516_reaction_bonus_3"],
+          "modifierOverrides": {
+            "w_15516_damageBonus_f827969c": { "auditDisposition": "supersededByStructuredRecord" },
+            "w_15516_reactionBonus_999a052c": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        },
+        {
+          "id": "golden_frostbound_oath_team_mischief",
+          "name": "霜の精のいたずら（装備者以外）",
+          "description": "祝福の継続中に月籠が近くにある場合、装備者以外の近くにいるチームメンバーへ岩元素・月結晶反応ダメージ強化を付与します。装備者自身の計算には加算しません。",
+          "targetOwner": "activeCharacter",
+          "inputPolicy": "displayOnly",
+          "activation": { "type": "displayOnly", "label": "チーム編成計算で使用" },
+          "modifierIds": ["w_15516_damageBonus_1923e8e9", "w_15516_damage_5", "w_15516_reactionBonus_232c59cc", "w_15516_reaction_bonus_4"],
+          "modifierOverrides": {
+            "w_15516_damageBonus_1923e8e9": { "auditDisposition": "supersededByStructuredRecord" },
+            "w_15516_reactionBonus_232c59cc": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        },
+        {
+          "id": "golden_frostbound_oath_defense",
+          "name": "防御力+16%",
+          "description": "常時発動する防御力補正です。現在の防御力入力に含まれます。",
+          "targetOwner": "self",
+          "inputPolicy": "reflected",
+          "activation": { "type": "always", "label": "入力値に反映済み" },
+          "modifierIds": ["w_15516_stat_1"]
+        }
+      ]
     }
   }
 }
