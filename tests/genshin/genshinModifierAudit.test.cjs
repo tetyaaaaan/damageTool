@@ -4,7 +4,7 @@ const { buildAudit, renderMarkdown } = require("../../scripts/genshinModifierAud
 
 test("STEP 19 audit classifies every modifier with a stable reason code", () => {
     const audit = buildAudit();
-    assert.equal(audit.summary.total, 1561);
+    assert.equal(audit.summary.total, 1562);
     assert.equal(audit.records.filter((record) => {
         return ["unsupported", "invalidData", "missingInput", "displayOnly"].includes(record.supportStatus)
             && !record.reasonCode;

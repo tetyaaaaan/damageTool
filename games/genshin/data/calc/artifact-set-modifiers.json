@@ -1996,6 +1996,21 @@
           "nascentGleam": 15,
           "ascendantGleam": 30
         },
+        "valueByCondition": {
+          "none": 0,
+          "nascentGleam": 15,
+          "ascendantGleam": 30
+        },
+        "conditionInput": {
+          "type": "option",
+          "label": "月兆状態",
+          "help": "月反応を起こした後の現在の月兆を選択します。",
+          "options": [
+            { "value": "none", "label": "未発動" },
+            { "value": "nascentGleam", "label": "初照" },
+            { "value": "ascendantGleam", "label": "満照" }
+          ]
+        },
         "valueRole": "byMoonOmenState"
       },
       {
@@ -2049,6 +2064,21 @@
         "valueByState": {
           "nascentGleam": 60,
           "ascendantGleam": 120
+        },
+        "valueByCondition": {
+          "none": 0,
+          "nascentGleam": 60,
+          "ascendantGleam": 120
+        },
+        "conditionInput": {
+          "type": "option",
+          "label": "月兆状態",
+          "help": "元素ダメージを与えた後の現在の月兆を選択します。未発動時は補正しません。",
+          "options": [
+            { "value": "none", "label": "未発動" },
+            { "value": "nascentGleam", "label": "初照" },
+            { "value": "ascendantGleam", "label": "満照" }
+          ]
         },
         "target": "team",
         "valueRole": "byMoonOmenState"

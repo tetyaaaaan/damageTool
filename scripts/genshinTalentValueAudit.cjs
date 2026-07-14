@@ -36,12 +36,23 @@ function representedByTalentScalings(modifier, characterId, sourceId, talentScal
     );
 }
 
-function classify(modifier, characterId, sourceId, talentScalings) {
+function classify(modifier, characterId, sourceId, modifierIndex, talentScalings, registry) {
     if (representedByTalentScalings(modifier, characterId, sourceId, talentScalings)) {
         return {
             classification: "representedByTalentScalings",
             action: "suppressDuplicate",
             reason: "The dedicated damage entries in talent-scalings.json are the calculation source."
+        };
+    }
+    const registryKey = `${characterId}.${sourceId}.${modifierIndex}`;
+    const registered = registry?.records?.[registryKey];
+    if (registered) {
+        return {
+            classification: registered.resolution === "structured" ? "structuredByTalentRegistry" : "explicitlyDeferredByTalentRegistry",
+            action: registered.resolution === "structured" ? "calculateFromRegistry" : "displayWithReason",
+            reason: registered.reasonJa || registered.resolution,
+            registryKey,
+            resolution: registered.resolution
         };
     }
     if (modifier.category === "extraDamage") {
@@ -61,6 +72,7 @@ function classify(modifier, characterId, sourceId, talentScalings) {
 function buildAudit() {
     const modifiers = readJson("games/genshin/data/calc/talent-modifiers.json");
     const talentScalings = readJson("games/genshin/data/calc/talent-scalings.json");
+    const registry = readJson("games/genshin/data/calc/talent-effect-registry.json");
     const characters = readJson("games/genshin/data/characters.json");
     const talents = readJson("games/genshin/data/character-talents.json");
     const records = [];
@@ -69,7 +81,7 @@ function buildAudit() {
         (entry.passives || []).forEach((passive) => {
             (passive.modifiers || []).forEach((modifier, modifierIndex) => {
                 if (hasValueSource(modifier)) return;
-                const result = classify(modifier, characterId, passive.sourceId, talentScalings);
+                const result = classify(modifier, characterId, passive.sourceId, modifierIndex, talentScalings, registry);
                 const talentGroup = TALENT_GROUP_BY_SOURCE[passive.sourceId] || passive.sourceId;
                 records.push({
                     characterId,
@@ -92,7 +104,8 @@ function buildAudit() {
     return {
         generatedFrom: [
             "games/genshin/data/calc/talent-modifiers.json",
-            "games/genshin/data/calc/talent-scalings.json"
+            "games/genshin/data/calc/talent-scalings.json",
+            "games/genshin/data/calc/talent-effect-registry.json"
         ],
         summary: { total: records.length, byClassification },
         records
@@ -108,6 +121,8 @@ function renderMarkdown(audit) {
         `- Represented by dedicated talent scalings: ${counts.representedByTalentScalings || 0}`,
         `- Unsupported distinct extra-damage effects: ${counts.unsupportedSpecialEffect || 0}`,
         `- Missing structured values: ${counts.missingStructuredValue || 0}`,
+        `- Calculated from talent registry: ${counts.structuredByTalentRegistry || 0}`,
+        `- Explicitly deferred with a reason: ${counts.explicitlyDeferredByTalentRegistry || 0}`,
         "",
         "| Character | Source | Modifier | Category | Classification | Action |",
         "| --- | --- | --- | --- | --- | --- |"

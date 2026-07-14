@@ -2,18 +2,18 @@
 
 このファイルは `node scripts/genshinModifierAudit.cjs` で再生成します。
 
-- 全補正: 1561
+- 全補正: 1562
 - 数式対応可能: 1101
-- 実装修正候補（P0〜P2）: 23
+- 実装修正候補（P0〜P2）: 19
 
 ## supportStatus
 
 | status | count |
 | --- | ---: |
 | `supported` | 1101 |
-| `unsupported` | 304 |
-| `missingInput` | 63 |
-| `displayOnly` | 54 |
+| `unsupported` | 300 |
+| `missingInput` | 67 |
+| `displayOnly` | 55 |
 | `invalidData` | 39 |
 
 ## reasonCode
@@ -23,14 +23,14 @@
 | `SUPPORTED` | 1101 |
 | `UNSUPPORTED_CATEGORY` | 234 |
 | `RESOURCE_INPUT_REQUIRED` | 50 |
-| `CUSTOM_FORMULA_REQUIRED` | 33 |
 | `DISPLAY_OR_STATE_EFFECT` | 33 |
+| `CUSTOM_FORMULA_REQUIRED` | 29 |
 | `CATEGORY_MISCLASSIFIED` | 23 |
 | `DISPLAY_ONLY_SOURCE_TEXT` | 22 |
-| `SUPERSEDED_RECORD` | 19 |
+| `SUPERSEDED_RECORD` | 20 |
 | `MISSING_VALUE` | 15 |
+| `CONDITION_INPUT_REQUIRED` | 12 |
 | `DISPLAY_ONLY_MISCLASSIFICATION` | 11 |
-| `CONDITION_INPUT_REQUIRED` | 8 |
 | `EFFECT_OVERRIDE_FORMULA_REQUIRED` | 4 |
 | `PROVIDER_INPUT_REQUIRED` | 3 |
 | `RECORDED_HEALING_INPUT_REQUIRED` | 2 |
@@ -43,10 +43,10 @@
 | --- | ---: |
 | `supported` | 1017 |
 | `includedInput` | 319 |
-| `displayOnly` | 84 |
-| `input` | 63 |
+| `displayOnly` | 85 |
+| `input` | 67 |
 | `sourceData` | 40 |
-| `formula` | 23 |
+| `formula` | 19 |
 | `legacyCompat` | 15 |
 
 ## P0・P1候補

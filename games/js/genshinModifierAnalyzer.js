@@ -11,6 +11,8 @@
         "elementOverride",
         "extraDamage",
         "reactionBonus",
+        "reactionBaseDamageBonus",
+        "reactionCritBonus",
         "resistanceDebuff",
         "scalingBonus",
         "statBonus",
@@ -56,6 +58,7 @@
     function hasResolvableValue(modifier) {
         return finiteNumber(modifier?.value)
             || valueMapHasFiniteNumber(modifier?.valueByRefinement)
+            || valueMapHasFiniteNumber(modifier?.valueByRefinementPerStack)
             || valueMapHasFiniteNumber(modifier?.valueByLevel)
             || valueMapHasFiniteNumber(modifier?.valueByStack)
             || valueMapHasFiniteNumber(modifier?.valueByCondition)
@@ -534,6 +537,38 @@
         }
         if (modifier.category === "scalingBonus") {
             return scalingBonusInfo(modifier);
+        }
+        if (modifier.category === "reactionBonus") {
+            const calculable = (hasResolvableValue(modifier)
+                || Object.values(modifier.effectiveAdditionalValuePerStack || {}).some(finiteNumber))
+                && (modifier.applyTo || []).length > 0;
+            return {
+                calculable,
+                calculation: "reactionBonus",
+                supportStatus: calculable ? "supported" : "invalidData",
+                reason: calculable ? "" : "反応補正の対象または効果量が不足しています"
+            };
+        }
+        if (modifier.category === "reactionBaseDamageBonus") {
+            const validReference = ["hp", "atk", "def", "elementalMastery"].includes(modifier.reference?.stat);
+            const validNumbers = finiteNumber(modifier.ratio) && finiteNumber(modifier.divisor) && Number(modifier.divisor) > 0;
+            const calculable = validReference && validNumbers && (modifier.applyTo || []).length > 0;
+            return {
+                calculable,
+                calculation: "reactionBaseDamageBonus",
+                supportStatus: calculable ? "supported" : "invalidData",
+                reason: calculable ? "" : "専用反応の基礎ダメージ向上に必要な参照値・比率・対象が不足しています"
+            };
+        }
+        if (modifier.category === "reactionCritBonus") {
+            const calculable = (finiteNumber(modifier.critRate) || finiteNumber(modifier.critDamage))
+                && (modifier.applyTo || []).length > 0;
+            return {
+                calculable,
+                calculation: "reactionCritBonus",
+                supportStatus: calculable ? "supported" : "invalidData",
+                reason: calculable ? "" : "反応会心の対象または会心値が不足しています"
+            };
         }
         const resource = resourceEffectInfo(modifier);
         if (resource) {

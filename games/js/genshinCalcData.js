@@ -4,12 +4,14 @@
     const CALC_PATHS = {
         talentScalings: "/games/genshin/data/calc/talent-scalings.json",
         talentModifiers: "/games/genshin/data/calc/talent-modifiers.json",
+        talentEffectRegistry: "/games/genshin/data/calc/talent-effect-registry.json",
         weaponModifiers: "/games/genshin/data/calc/weapon-modifiers.json",
         weaponEffectRegistry: "/games/genshin/data/calc/weapon-effect-registry.json",
         artifactSetModifiers: "/games/genshin/data/calc/artifact-set-modifiers.json",
         constellationModifiers: "/games/genshin/data/calc/constellation-modifiers.json",
         constellationEffectRegistry: "/games/genshin/data/calc/constellation-effect-registry.json",
-        attackModeRules: "/games/genshin/data/calc/attack-mode-rules.json"
+        attackModeRules: "/games/genshin/data/calc/attack-mode-rules.json",
+        reactionDefinitions: "/games/genshin/data/calc/reaction-definitions.json"
     };
 
     const DISPLAY_DATA_PATHS = {
@@ -53,6 +55,7 @@
         return [
             "value",
             "valueByRefinement",
+            "valueByRefinementPerStack",
             "valueByStack",
             "valueByLevel",
             "valuePerStack",
@@ -62,6 +65,7 @@
             "valuePer1000",
             "valuePerStep",
             "valueByCondition",
+            "effectiveAdditionalValuePerStack",
             "critRate",
             "critDamage",
             "ratio",
@@ -157,14 +161,13 @@
             });
             if (Array.isArray(entry.passives)) {
                 entry.passives.forEach((passive) => {
-                    (passive.modifiers || []).forEach((modifier) => {
+                    (passive.modifiers || []).forEach((modifier, modifierIndex) => {
+                        const registryKey = `${id}.${passive.sourceId || "unknown"}.${modifierIndex}`;
                         validateModifier(modifier, `${sourceName}.${id}.passives.${passive.sourceId || "unknown"}`, warnings, {
                             uidHandlingOptional: sourceName === "talentModifiers",
-                            valueOptional: sourceName === "talentModifiers" && talentModifierRepresentedByScalings(
-                                modifier,
-                                id,
-                                passive.sourceId,
-                                options.talentScalings
+                            valueOptional: sourceName === "talentModifiers" && (
+                                Boolean(options.talentEffectRegistry?.records?.[registryKey])
+                                || talentModifierRepresentedByScalings(modifier, id, passive.sourceId, options.talentScalings)
                             )
                         });
                     });
@@ -221,7 +224,10 @@
     function validateCalcData(data) {
         const warnings = [];
         validateTalentScalings(data.talentScalings, warnings);
-        walkModifiers(data.talentModifiers, warnings, "talentModifiers", { talentScalings: data.talentScalings });
+        walkModifiers(data.talentModifiers, warnings, "talentModifiers", {
+            talentScalings: data.talentScalings,
+            talentEffectRegistry: data.talentEffectRegistry
+        });
         walkModifiers(data.weaponModifiers, warnings, "weaponModifiers");
         validateWeaponEffectRegistry(data.weaponEffectRegistry, data.weaponModifiers, warnings);
         walkModifiers(data.artifactSetModifiers, warnings, "artifactSetModifiers");

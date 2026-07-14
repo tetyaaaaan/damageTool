@@ -2,12 +2,12 @@
   "summary": {
     "characters": 117,
     "constellationLevels": 702,
-    "effects": 743,
+    "effects": 744,
     "byVerificationStatus": {
       "mechanicOnly": 69,
-      "corroborated": 452,
-      "textVerified": 198,
-      "quarantined": 22,
+      "corroborated": 451,
+      "textVerified": 199,
+      "quarantined": 23,
       "sourceContextRequired": 2
     },
     "issues": 0

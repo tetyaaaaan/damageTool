@@ -20,12 +20,12 @@
   "summary": {
     "characters": 117,
     "constellationLevels": 702,
-    "effects": 743,
+    "effects": 744,
     "byVerificationStatus": {
       "mechanicOnly": 69,
-      "corroborated": 452,
-      "textVerified": 198,
-      "quarantined": 22,
+      "corroborated": 451,
+      "textVerified": 199,
+      "quarantined": 23,
       "sourceContextRequired": 2
     },
     "issues": 0
@@ -10797,7 +10797,10 @@
               "id": "c_10000073_2_1_resolved_1",
               "category": "reactionCritBonus",
               "targets": [
-                "lunarBloomCrit"
+                "burningCrit",
+                "bloomCrit",
+                "hyperbloomCrit",
+                "burgeonCrit"
               ],
               "condition": "stateActive",
               "unit": "",
@@ -10809,6 +10812,32 @@
                 {
                   "field": "critDamage",
                   "value": 100
+                }
+              ],
+              "requiresNumericValue": true,
+              "hasNumericContract": true,
+              "verificationStatus": "textVerified",
+              "evidence": {
+                "officialTextValueMatch": true,
+                "externalNumericHints": []
+              }
+            },
+            {
+              "id": "c_10000073_2_1_resolved_3",
+              "category": "reactionCritBonus",
+              "targets": [
+                "lunarBloomCrit"
+              ],
+              "condition": "stateActive",
+              "unit": "",
+              "numericValues": [
+                {
+                  "field": "critRate",
+                  "value": 10
+                },
+                {
+                  "field": "critDamage",
+                  "value": 20
                 }
               ],
               "requiresNumericValue": true,
@@ -10835,7 +10864,7 @@
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "corroborated",
+              "verificationStatus": "quarantined",
               "evidence": {
                 "officialTextValueMatch": true,
                 "externalNumericHints": [
@@ -18559,7 +18588,7 @@
               "id": "c_10000109_6_1_resolved_1",
               "category": "reactionCritBonus",
               "targets": [
-                "reactionCrit"
+                "swirlCrit"
               ],
               "condition": "stateActive",
               "unit": "",
@@ -32184,7 +32213,10 @@
       "id": "c_10000073_2_1_resolved_1",
       "category": "reactionCritBonus",
       "targets": [
-        "lunarBloomCrit"
+        "burningCrit",
+        "bloomCrit",
+        "hyperbloomCrit",
+        "burgeonCrit"
       ],
       "condition": "stateActive",
       "unit": "",
@@ -32196,6 +32228,34 @@
         {
           "field": "critDamage",
           "value": 100
+        }
+      ],
+      "requiresNumericValue": true,
+      "hasNumericContract": true,
+      "verificationStatus": "textVerified",
+      "evidence": {
+        "officialTextValueMatch": true,
+        "externalNumericHints": []
+      }
+    },
+    "c_10000073_2_1_resolved_3": {
+      "characterId": "10000073",
+      "constellation": 2,
+      "id": "c_10000073_2_1_resolved_3",
+      "category": "reactionCritBonus",
+      "targets": [
+        "lunarBloomCrit"
+      ],
+      "condition": "stateActive",
+      "unit": "",
+      "numericValues": [
+        {
+          "field": "critRate",
+          "value": 10
+        },
+        {
+          "field": "critDamage",
+          "value": 20
         }
       ],
       "requiresNumericValue": true,
@@ -32224,7 +32284,7 @@
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "corroborated",
+      "verificationStatus": "quarantined",
       "evidence": {
         "officialTextValueMatch": true,
         "externalNumericHints": [
@@ -38311,7 +38371,7 @@
       "id": "c_10000109_6_1_resolved_1",
       "category": "reactionCritBonus",
       "targets": [
-        "reactionCrit"
+        "swirlCrit"
       ],
       "condition": "stateActive",
       "unit": "",

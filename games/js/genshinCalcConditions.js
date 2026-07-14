@@ -9,6 +9,7 @@
     function setModifierStack(context, modifier, stack) {
         if (!modifier?.id) return;
         context.uiState.stackByModifier[modifier.id] = stack;
+        if (modifier.stack?.id) context.uiState.stackByModifier[modifier.stack.id] = stack;
     }
 
     function readWeaponType(context, calcData) {
@@ -31,6 +32,7 @@
         "elementOverride",
         "extraDamage",
         "reactionBonus",
+        "reactionCritBonus",
         "resistanceDebuff",
         "scalingBonus",
         "statConversion",
@@ -277,9 +279,9 @@
 
     function collectSelectedModifiers(context, calcData) {
         const selected = [];
-        const add = (modifier, source, display = {}) => {
+        const add = (modifier, source, display = {}, modifierIndex = 0) => {
             const talentNormalized = window.GenshinCalcEngine?.normalizeTalentStateModifier
-                ? window.GenshinCalcEngine.normalizeTalentStateModifier(modifier, source, calcData, context)
+                ? window.GenshinCalcEngine.normalizeTalentStateModifier(modifier, source, calcData, context, modifierIndex)
                 : modifier;
             const normalized = window.GenshinCalcEngine?.normalizeArtifactModifier
                 ? window.GenshinCalcEngine.normalizeArtifactModifier(talentNormalized, source)
@@ -292,10 +294,10 @@
         talentPassives.forEach((passive) => {
             const normalizedSourceId = String(passive.sourceId || "").replace(/_/g, "");
             const display = talentDisplays.find((item) => String(item.sourceId || "").replace(/_/g, "") === normalizedSourceId) || {};
-            (passive.modifiers || []).forEach((modifier) => add(modifier, `talent:${passive.sourceId || context.characterId}`, {
+            (passive.modifiers || []).forEach((modifier, modifierIndex) => add(modifier, `talent:${passive.sourceId || context.characterId}`, {
                 sourceName: display.nameJa || "",
                 sourceDescription: display.descriptionJa || ""
-            }));
+            }, modifierIndex));
         });
         (window.GenshinCalcEngine?.buildAttackModeDefinitions?.(calcData, context) || []).forEach((mode) => {
             add({
@@ -531,6 +533,9 @@
             };
             if (definition.type === "stack" && definition.modifierId) {
                 context.uiState.stackByModifier[definition.modifierId] = state.stack;
+                const selected = collectSelectedModifiers(context, calcData)
+                    .find(({ modifier }) => modifier.id === definition.modifierId)?.modifier;
+                if (selected?.stack?.id) context.uiState.stackByModifier[selected.stack.id] = state.stack;
             }
         });
         return definitions.map((definition) => ({
@@ -777,6 +782,13 @@
         let value = modifier.value;
         if (modifier.valueByRefinement) {
             value = modifier.valueByRefinement[String(context.refinement)] ?? modifier.valueByRefinement["1"];
+        }
+        if (modifier.valueByRefinementPerStack) {
+            value = modifier.valueByRefinementPerStack[String(context.refinement)] ?? modifier.valueByRefinementPerStack["1"];
+        }
+        if (modifier.valueByCondition && modifier.conditionInput?.type === "option") {
+            const values = [...new Set(Object.values(modifier.valueByCondition).map(Number).filter(Number.isFinite))];
+            return values.map((item) => `${item >= 0 ? "+" : ""}${item}${modifier.unit === "percent" ? "%" : ""}`).join(" / ");
         }
         if (value === undefined || Array.isArray(value)) return "";
         const numericValue = Number(value);

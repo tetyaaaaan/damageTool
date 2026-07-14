@@ -4663,6 +4663,14 @@
           "max": 4,
           "default": 0
         },
+        "conditionInput": {
+          "type": "stack",
+          "label": "四風の詩の現在層数",
+          "help": "通常攻撃命中で1層、元素スキル発動または重撃開始で2層獲得します。現在の合計層数を指定してください。",
+          "min": 0,
+          "max": 4,
+          "unit": "層"
+        },
         "calculationSupport": "stack",
         "uidHandling": "conditional",
         "sourceText": "通常攻撃が敵に命中/元素スキルを発動/重撃を開始する時、装備者は「四風の詩」をそれぞれ1/2/2層獲得し、与えるダメージが上昇。最大4層。"
@@ -4688,6 +4696,17 @@
           "max": 4,
           "default": 0
         },
+        "stackReferenceId": "fourWindsPoem",
+        "conditionInput": {
+          "type": "option",
+          "label": "チームの魔導秘儀効果",
+          "help": "チームで魔導秘儀が発動している場合、四風の詩の共通層数に応じて会心ダメージを加算します。",
+          "options": [
+            { "value": "inactive", "label": "未発動" },
+            { "value": "active", "label": "発動中" }
+          ]
+        },
+        "conditionOptionValue": "active",
         "calculationSupport": "stack",
         "uidHandling": "conditional",
         "sourceText": "チームが「魔導秘儀」効果を発動している場合は、「四風の詩」1層につき、装備者の会心ダメージが上昇。"

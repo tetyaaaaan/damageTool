@@ -4,16 +4,16 @@
 
 - キャラクター: 117
 - C1〜C6: 702
-- 計算効果: 743
+- 計算効果: 744
 - 要確認: 0
 
 ## 検証状態
 
-- `corroborated`: 452
+- `corroborated`: 451
 - `mechanicOnly`: 69
-- `quarantined`: 22
+- `quarantined`: 23
 - `sourceContextRequired`: 2
-- `textVerified`: 198
+- `textVerified`: 199
 
 ## 要確認効果
 

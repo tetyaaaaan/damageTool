@@ -8,10 +8,10 @@ test("value-less talent modifiers are exhaustively classified", () => {
     assert.equal(audit.summary.total, 40);
     assert.deepEqual(audit.summary.byClassification, {
         representedByTalentScalings: 19,
-        missingStructuredValue: 17,
-        unsupportedSpecialEffect: 4
+        structuredByTalentRegistry: 3,
+        explicitlyDeferredByTalentRegistry: 18
     });
-    assert.equal(audit.records.every((record) => ["suppressDuplicate", "keepWarning"].includes(record.action)), true);
+    assert.equal(audit.records.every((record) => ["suppressDuplicate", "calculateFromRegistry", "displayWithReason"].includes(record.action)), true);
 });
 
 test("every suppressed talent modifier has dedicated scaling entries", () => {
@@ -29,17 +29,17 @@ test("every suppressed talent modifier has dedicated scaling entries", () => {
     });
 });
 
-test("calc-data validation suppresses duplicate scaling warnings but keeps genuine missing values", () => {
+test("calc-data validation suppresses resolved registry records and duplicate scaling warnings", () => {
     const sandbox = createBrowserScriptHarness(["games/js/genshinCalcData.js"]).sandbox;
     sandbox.console.warn = () => {};
     const warnings = sandbox.GenshinCalcData.validateCalcData(loadCalcData());
     const messages = warnings.map((warning) => warning.message);
     assert.equal(messages.some((message) => message.includes("talentModifiers.10000078.passives.combat2")), false);
 
-    const unresolved = buildAudit().records.filter((record) => record.action === "keepWarning");
-    unresolved.forEach((record) => {
+    const resolved = buildAudit().records.filter((record) => record.action !== "suppressDuplicate");
+    resolved.forEach((record) => {
         const path = `talentModifiers.${record.characterId}.passives.${record.sourceId}.${record.modifierId}`;
-        assert.equal(messages.some((message) => message.includes(path)), true, `${path} should remain visible`);
+        assert.equal(messages.some((message) => message.includes(path)), false, `${path} is classified by the talent registry`);
     });
 });
 

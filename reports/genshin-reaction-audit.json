@@ -1,0 +1,2164 @@
+{
+  "generatedFrom": [
+    "artifact-set-modifiers.json",
+    "constellation-modifiers.json",
+    "talent-modifiers.json",
+    "weapon-modifiers.json",
+    "reaction-definitions.json"
+  ],
+  "summary": {
+    "total": 117,
+    "reactionBonus": 114,
+    "reactionCritBonus": 3,
+    "resolved": 117,
+    "unresolved": 0,
+    "dedicatedFormulaRecords": 62
+  },
+  "records": [
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15002.fourPiece[0]",
+      "id": "a_15002_4pc_1_v10",
+      "category": "reactionBonus",
+      "targets": [
+        "swirlDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "swirl"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15005.fourPiece[0]",
+      "id": "4pc_overloaded_electrocharged_superconduct_hyperbloom_bonus",
+      "category": "reactionBonus",
+      "targets": [
+        "overloadedDamageBonus",
+        "electroChargedDamageBonus",
+        "superconductDamageBonus",
+        "hyperbloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "overload",
+        "electroCharged",
+        "superconduct",
+        "hyperbloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15005.fourPiece[1]",
+      "id": "4pc_aggravate_bonus",
+      "category": "reactionBonus",
+      "targets": [
+        "aggravateDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "aggravate"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15005.fourPiece[2]",
+      "id": "4pc_lunar_charged_and_superconduct_bonus",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus",
+        "lunarSuperconductDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged",
+        "stellarConduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15006.fourPiece[0]",
+      "id": "4pc_overloaded_burning_burgeon_bonus",
+      "category": "reactionBonus",
+      "targets": [
+        "overloadedDamageBonus",
+        "burningDamageBonus",
+        "burgeonDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "overload",
+        "burning",
+        "burgeon"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15006.fourPiece[1]",
+      "id": "4pc_vaporize_melt_bonus",
+      "category": "reactionBonus",
+      "targets": [
+        "vaporizeDamageBonus",
+        "meltDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "vaporize",
+        "melt"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15028.fourPiece[0]",
+      "id": "4pc_bloom_hyperbloom_burgeon_bonus",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus",
+        "hyperbloomDamageBonus",
+        "burgeonDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom",
+        "hyperbloom",
+        "burgeon"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15028.fourPiece[1]",
+      "id": "4pc_lunar_bloom_bonus",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15028.fourPiece[2]",
+      "id": "4pc_bloom_reaction_bonus_stack_multiplier",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus",
+        "hyperbloomDamageBonus",
+        "burgeonDamageBonus",
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom",
+        "hyperbloom",
+        "burgeon",
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15041.fourPiece[1]",
+      "id": "4pc_team_moon_reaction_damage_bonus_per_moonglow",
+      "category": "reactionBonus",
+      "targets": [
+        "moonReactionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom",
+        "lunarCharged",
+        "lunarCrystallize"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15042.fourPiece[1]",
+      "id": "4pc_team_moon_reaction_damage_bonus_per_moonglow",
+      "category": "reactionBonus",
+      "targets": [
+        "moonReactionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom",
+        "lunarCharged",
+        "lunarCrystallize"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15043.fourPiece[0]",
+      "id": "4pc_moon_reaction_damage_bonus_off_field",
+      "category": "reactionBonus",
+      "targets": [
+        "moonReactionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom",
+        "lunarCharged",
+        "lunarCrystallize"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15043.fourPiece[1]",
+      "id": "4pc_moon_reaction_damage_bonus_ascendant_gleam",
+      "category": "reactionBonus",
+      "targets": [
+        "moonReactionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom",
+        "lunarCharged",
+        "lunarCrystallize"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15046.fourPiece[0]",
+      "id": "4pc_superconduct_damage_bonus",
+      "category": "reactionBonus",
+      "targets": [
+        "superconductDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "superconduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "artifact-set-modifiers.json",
+      "jsonPath": "$.15046.fourPiece[1]",
+      "id": "4pc_lunar_superconduct_damage_bonus",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarSuperconductDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "stellarConduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000041.constellations.1[1]",
+      "id": "c_10000041_1_2",
+      "category": "reactionBonus",
+      "targets": [
+        "vaporizeDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "vaporize"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000041.constellations.1[2]",
+      "id": "c_10000041_1_3",
+      "category": "reactionBonus",
+      "targets": [
+        "electroChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "electroCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000041.constellations.1[3]",
+      "id": "c_10000041_1_4",
+      "category": "reactionBonus",
+      "targets": [
+        "swirlDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "swirl"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000041.constellations.1[4]",
+      "id": "c_10000041_1_5",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000070.constellations.2[2]",
+      "id": "c_10000070_2_3",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000070.constellations.2[3]",
+      "id": "c_10000070_2_4",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000073.constellations.2[0]",
+      "id": "c_10000073_2_1_resolved_1",
+      "category": "reactionCritBonus",
+      "targets": [
+        "burningCrit",
+        "bloomCrit",
+        "hyperbloomCrit",
+        "burgeonCrit"
+      ],
+      "resolvedReactionIds": [
+        "burning",
+        "bloom",
+        "hyperbloom",
+        "burgeon"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000073.constellations.2[1]",
+      "id": "c_10000073_2_1_resolved_3",
+      "category": "reactionCritBonus",
+      "targets": [
+        "lunarBloomCrit"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000081.constellations.4[1]",
+      "id": "c_10000081_4_2",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000081.constellations.4[2]",
+      "id": "c_10000081_4_3",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000085.constellations.4[1]",
+      "id": "c_10000085_4_2",
+      "category": "reactionBonus",
+      "targets": [
+        "superconductDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "superconduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000085.constellations.6[1]",
+      "id": "c_10000085_6_3",
+      "category": "reactionBonus",
+      "targets": [
+        "superconductDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "superconduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000107.constellations.2[2]",
+      "id": "c_10000107_2_3",
+      "category": "reactionBonus",
+      "targets": [
+        "meltDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "melt"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000109.constellations.1[0]",
+      "id": "c_10000109_1_1",
+      "category": "reactionBonus",
+      "targets": [
+        "swirlDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "swirl"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000109.constellations.6[0]",
+      "id": "c_10000109_6_1_resolved_1",
+      "category": "reactionCritBonus",
+      "targets": [
+        "swirlCrit"
+      ],
+      "resolvedReactionIds": [
+        "swirl"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000119.constellations.1[0]",
+      "id": "c_10000119_1_1",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000119.constellations.1[1]",
+      "id": "c_10000119_1_2",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000119.constellations.2[1]",
+      "id": "c_10000119_2_2",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000119.constellations.2[2]",
+      "id": "c_10000119_2_3",
+      "category": "reactionBonus",
+      "targets": [
+        "hyperbloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "hyperbloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000119.constellations.2[3]",
+      "id": "c_10000119_2_4",
+      "category": "reactionBonus",
+      "targets": [
+        "burgeonDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "burgeon"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000119.constellations.2[4]",
+      "id": "c_10000119_2_5",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000119.constellations.6[1]",
+      "id": "c_10000119_6_2",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000119.constellations.6[2]",
+      "id": "c_10000119_6_3",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000120.constellations.6[2]",
+      "id": "c_10000120_6_3",
+      "category": "reactionBonus",
+      "targets": [
+        "electroChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "electroCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000120.constellations.6[3]",
+      "id": "c_10000120_6_4",
+      "category": "reactionBonus",
+      "targets": [
+        "electroChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "electroCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000120.constellations.6[4]",
+      "id": "c_10000120_6_5",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000120.constellations.6[5]",
+      "id": "c_10000120_6_6",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000121.constellations.6[1]",
+      "id": "c_10000121_6_2",
+      "category": "reactionBonus",
+      "targets": [
+        "electroChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "electroCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000121.constellations.6[2]",
+      "id": "c_10000121_6_3",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000121.constellations.6[3]",
+      "id": "c_10000121_6_4",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000121.constellations.6[4]",
+      "id": "c_10000121_6_5",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000122.constellations.1[0]",
+      "id": "c_10000122_1_1",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000122.constellations.1[1]",
+      "id": "c_10000122_1_2",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000122.constellations.6[1]",
+      "id": "c_10000122_6_2",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000122.constellations.6[2]",
+      "id": "c_10000122_6_3",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000123.constellations.2[1]",
+      "id": "c_10000123_2_2",
+      "category": "reactionBonus",
+      "targets": [
+        "vaporizeDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "vaporize"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000123.constellations.2[2]",
+      "id": "c_10000123_2_3",
+      "category": "reactionBonus",
+      "targets": [
+        "meltDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "melt"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000123.constellations.2[3]",
+      "id": "c_10000123_2_4",
+      "category": "reactionBonus",
+      "targets": [
+        "overloadedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "overload"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000123.constellations.2[4]",
+      "id": "c_10000123_2_5",
+      "category": "reactionBonus",
+      "targets": [
+        "swirlDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "swirl"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000123.constellations.2[5]",
+      "id": "c_10000123_2_6",
+      "category": "reactionBonus",
+      "targets": [
+        "burningDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "burning"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000125.constellations.2[2]",
+      "id": "c_10000125_2_3",
+      "category": "reactionBonus",
+      "targets": [
+        "electroChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "electroCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000125.constellations.2[3]",
+      "id": "c_10000125_2_4",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000125.constellations.2[4]",
+      "id": "c_10000125_2_5",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000125.constellations.2[5]",
+      "id": "c_10000125_2_6",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000125.constellations.4[1]",
+      "id": "c_10000125_4_2",
+      "category": "reactionBonus",
+      "targets": [
+        "electroChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "electroCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000125.constellations.4[2]",
+      "id": "c_10000125_4_3",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000125.constellations.4[3]",
+      "id": "c_10000125_4_4",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000125.constellations.4[4]",
+      "id": "c_10000125_4_5",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000125.constellations.6[1]",
+      "id": "c_columbina_6_moon_reaction_bonus_v7",
+      "category": "reactionBonus",
+      "targets": [
+        "moonReactionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom",
+        "lunarCharged",
+        "lunarCrystallize"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000130.constellations.6[2]",
+      "id": "c_10000130_6_3",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarCrystallizeDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCrystallize"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "talent-modifiers.json",
+      "jsonPath": "$.10000035.passives[0].modifiers[0]",
+      "id": "",
+      "category": "reactionBonus",
+      "targets": [
+        "reactionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "melt",
+        "vaporize",
+        "aggravate",
+        "spread",
+        "burning",
+        "swirl",
+        "superconduct",
+        "electroCharged",
+        "bloom",
+        "overload",
+        "burgeon",
+        "hyperbloom",
+        "shatter",
+        "crystallize",
+        "frozen",
+        "quicken",
+        "lunarBloom",
+        "lunarCharged",
+        "lunarCrystallize",
+        "stellarConduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "displayOnly",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "talent-modifiers.json",
+      "jsonPath": "$.10000047.passives[2].modifiers[0]",
+      "id": "",
+      "category": "reactionBonus",
+      "targets": [
+        "swirlDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "swirl"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "talent-modifiers.json",
+      "jsonPath": "$.10000082.passives[1].modifiers[0]",
+      "id": "",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "talent-modifiers.json",
+      "jsonPath": "$.10000082.passives[1].modifiers[1]",
+      "id": "",
+      "category": "reactionBonus",
+      "targets": [
+        "aggravateDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "aggravate"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "talent-modifiers.json",
+      "jsonPath": "$.10000082.passives[1].modifiers[2]",
+      "id": "",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "talent-modifiers.json",
+      "jsonPath": "$.10000119.passives[2].modifiers[2]",
+      "id": "",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "talent-modifiers.json",
+      "jsonPath": "$.10000119.passives[4].modifiers[0]",
+      "id": "",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "talent-modifiers.json",
+      "jsonPath": "$.10000120.passives[2].modifiers[0]",
+      "id": "",
+      "category": "reactionBonus",
+      "targets": [
+        "electroChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "electroCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "talent-modifiers.json",
+      "jsonPath": "$.10000122.passives[3].modifiers[0]",
+      "id": "",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "talent-modifiers.json",
+      "jsonPath": "$.10000123.passives[0].modifiers[1]",
+      "id": "",
+      "category": "reactionBonus",
+      "targets": [
+        "overloadedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "overload"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "talent-modifiers.json",
+      "jsonPath": "$.10000123.passives[0].modifiers[2]",
+      "id": "",
+      "category": "reactionBonus",
+      "targets": [
+        "vaporizeDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "vaporize"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "talent-modifiers.json",
+      "jsonPath": "$.10000123.passives[0].modifiers[3]",
+      "id": "",
+      "category": "reactionBonus",
+      "targets": [
+        "meltDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "melt"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "talent-modifiers.json",
+      "jsonPath": "$.10000128.passives[2].modifiers[1]",
+      "id": "",
+      "category": "reactionBonus",
+      "targets": [
+        "swirlDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "swirl"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.11519.modifiers[0]",
+      "id": "w_11519_reactionBonus_903ea413",
+      "category": "reactionBonus",
+      "targets": [
+        "reactionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "melt",
+        "vaporize",
+        "aggravate",
+        "spread",
+        "burning",
+        "swirl",
+        "superconduct",
+        "electroCharged",
+        "bloom",
+        "overload",
+        "burgeon",
+        "hyperbloom",
+        "shatter",
+        "crystallize",
+        "frozen",
+        "quicken",
+        "lunarBloom",
+        "lunarCharged",
+        "lunarCrystallize",
+        "stellarConduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "displayOnly",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.11519.modifiers[1]",
+      "id": "w_11519_reaction_bonus_2",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarCrystallizeDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCrystallize"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.12431.modifiers[1]",
+      "id": "w_12431_reactionBonus_22612d3e",
+      "category": "reactionBonus",
+      "targets": [
+        "reactionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "melt",
+        "vaporize",
+        "aggravate",
+        "spread",
+        "burning",
+        "swirl",
+        "superconduct",
+        "electroCharged",
+        "bloom",
+        "overload",
+        "burgeon",
+        "hyperbloom",
+        "shatter",
+        "crystallize",
+        "frozen",
+        "quicken",
+        "lunarBloom",
+        "lunarCharged",
+        "lunarCrystallize",
+        "stellarConduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "displayOnly",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.12512.modifiers[1]",
+      "id": "w_12512_reactionBonus_167ad0eb",
+      "category": "reactionBonus",
+      "targets": [
+        "reactionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "melt",
+        "vaporize",
+        "aggravate",
+        "spread",
+        "burning",
+        "swirl",
+        "superconduct",
+        "electroCharged",
+        "bloom",
+        "overload",
+        "burgeon",
+        "hyperbloom",
+        "shatter",
+        "crystallize",
+        "frozen",
+        "quicken",
+        "lunarBloom",
+        "lunarCharged",
+        "lunarCrystallize",
+        "stellarConduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "displayOnly",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.12512.modifiers[2]",
+      "id": "w_12512_reaction_bonus_2",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarCrystallizeDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCrystallize"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.12516.modifiers[0]",
+      "id": "w_12516_reactionBonus_d0fe6e2e",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.12516.modifiers[1]",
+      "id": "w_12516_reaction_bonus_2",
+      "category": "reactionBonus",
+      "targets": [
+        "astralConductionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "stellarConduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.13433.modifiers[0]",
+      "id": "w_13433_reactionBonus_45ef3fc4",
+      "category": "reactionBonus",
+      "targets": [
+        "electroChargedDamageBonus",
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "electroCharged",
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.13433.modifiers[1]",
+      "id": "w_13433_reactionBonus_acac6169",
+      "category": "reactionBonus",
+      "targets": [
+        "electroChargedDamageBonus",
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "electroCharged",
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.13433.modifiers[2]",
+      "id": "w_13433_reaction_bonus_1",
+      "category": "reactionBonus",
+      "targets": [
+        "electroChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "electroCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.13433.modifiers[3]",
+      "id": "w_13433_reaction_bonus_2",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus",
+        "electroChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged",
+        "electroCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired",
+        "supported"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.13513.modifiers[1]",
+      "id": "w_13513_reaction_bonus_2",
+      "category": "reactionBonus",
+      "targets": [
+        "burningDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "burning"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.13515.modifiers[0]",
+      "id": "w_13515_reactionBonus_e1533e72",
+      "category": "reactionBonus",
+      "targets": [
+        "electroChargedDamageBonus",
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "electroCharged",
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.13515.modifiers[1]",
+      "id": "w_13515_reaction_bonus_2",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus",
+        "electroChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged",
+        "electroCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired",
+        "supported"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.13516.modifiers[1]",
+      "id": "w_13516_reactionBonus_5d637427",
+      "category": "reactionBonus",
+      "targets": [
+        "electroChargedDamageBonus",
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "electroCharged",
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.13516.modifiers[2]",
+      "id": "w_13516_reactionBonus_d4e397ce",
+      "category": "reactionBonus",
+      "targets": [
+        "electroChargedDamageBonus",
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "electroCharged",
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.13516.modifiers[3]",
+      "id": "w_13516_reaction_bonus_1",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus",
+        "electroChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged",
+        "electroCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired",
+        "supported"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.13516.modifiers[4]",
+      "id": "w_13516_reaction_bonus_2",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus",
+        "electroChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged",
+        "electroCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired",
+        "supported"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14407.modifiers[1]",
+      "id": "w_14407_reactionBonus_7884a422",
+      "category": "reactionBonus",
+      "targets": [
+        "reactionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "melt",
+        "vaporize",
+        "aggravate",
+        "spread",
+        "burning",
+        "swirl",
+        "superconduct",
+        "electroCharged",
+        "bloom",
+        "overload",
+        "burgeon",
+        "hyperbloom",
+        "shatter",
+        "crystallize",
+        "frozen",
+        "quicken",
+        "lunarBloom",
+        "lunarCharged",
+        "lunarCrystallize",
+        "stellarConduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "displayOnly",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14433.modifiers[0]",
+      "id": "w_14433_reactionBonus_b6eb8abd",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus",
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom",
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14433.modifiers[1]",
+      "id": "w_14433_reactionBonus_fba9df82",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus",
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom",
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14433.modifiers[2]",
+      "id": "w_14433_reaction_bonus_1",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14433.modifiers[3]",
+      "id": "w_14433_reaction_bonus_2",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarBloomDamageBonus",
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom",
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired",
+        "supported"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14509.modifiers[2]",
+      "id": "w_14509_reactionBonus_5227efb6",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14509.modifiers[3]",
+      "id": "w_14509_reaction_bonus_1",
+      "category": "reactionBonus",
+      "targets": [
+        "astralConductionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "stellarConduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14513.modifiers[3]",
+      "id": "w_14513_reactionBonus_5a95da29",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14513.modifiers[4]",
+      "id": "w_14513_reactionBonus_bbe64f46",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarChargedDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCharged"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14513.modifiers[5]",
+      "id": "w_14513_reaction_bonus_2",
+      "category": "reactionBonus",
+      "targets": [
+        "astralConductionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "stellarConduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14520.modifiers[0]",
+      "id": "w_14520_reactionBonus_51ed08f7",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus",
+        "lunarBloomDamageBonus",
+        "hyperbloomDamageBonus",
+        "burgeonDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom",
+        "lunarBloom",
+        "hyperbloom",
+        "burgeon"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14520.modifiers[1]",
+      "id": "w_14520_reactionBonus_86c966e8",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus",
+        "lunarBloomDamageBonus",
+        "hyperbloomDamageBonus",
+        "burgeonDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom",
+        "lunarBloom",
+        "hyperbloom",
+        "burgeon"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14520.modifiers[2]",
+      "id": "w_14520_reactionBonus_8f49bc48",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus",
+        "lunarBloomDamageBonus",
+        "hyperbloomDamageBonus",
+        "burgeonDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom",
+        "lunarBloom",
+        "hyperbloom",
+        "burgeon"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14520.modifiers[3]",
+      "id": "w_14520_reaction_bonus_3",
+      "category": "reactionBonus",
+      "targets": [
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14520.modifiers[4]",
+      "id": "w_14520_reaction_bonus_4",
+      "category": "reactionBonus",
+      "targets": [
+        "hyperbloomDamageBonus",
+        "burgeonDamageBonus",
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "hyperbloom",
+        "burgeon",
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14520.modifiers[5]",
+      "id": "w_14520_reaction_bonus_5",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarBloomDamageBonus",
+        "bloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom",
+        "bloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired",
+        "supported"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.14522.modifiers[1]",
+      "id": "w_14522_reactionBonus_f6439a2b",
+      "category": "reactionBonus",
+      "targets": [
+        "reactionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "melt",
+        "vaporize",
+        "aggravate",
+        "spread",
+        "burning",
+        "swirl",
+        "superconduct",
+        "electroCharged",
+        "bloom",
+        "overload",
+        "burgeon",
+        "hyperbloom",
+        "shatter",
+        "crystallize",
+        "frozen",
+        "quicken",
+        "lunarBloom",
+        "lunarCharged",
+        "lunarCrystallize",
+        "stellarConduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "displayOnly",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.15516.modifiers[4]",
+      "id": "w_15516_reactionBonus_232c59cc",
+      "category": "reactionBonus",
+      "targets": [
+        "reactionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "melt",
+        "vaporize",
+        "aggravate",
+        "spread",
+        "burning",
+        "swirl",
+        "superconduct",
+        "electroCharged",
+        "bloom",
+        "overload",
+        "burgeon",
+        "hyperbloom",
+        "shatter",
+        "crystallize",
+        "frozen",
+        "quicken",
+        "lunarBloom",
+        "lunarCharged",
+        "lunarCrystallize",
+        "stellarConduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "displayOnly",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.15516.modifiers[5]",
+      "id": "w_15516_reactionBonus_999a052c",
+      "category": "reactionBonus",
+      "targets": [
+        "reactionDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "melt",
+        "vaporize",
+        "aggravate",
+        "spread",
+        "burning",
+        "swirl",
+        "superconduct",
+        "electroCharged",
+        "bloom",
+        "overload",
+        "burgeon",
+        "hyperbloom",
+        "shatter",
+        "crystallize",
+        "frozen",
+        "quicken",
+        "lunarBloom",
+        "lunarCharged",
+        "lunarCrystallize",
+        "stellarConduct"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported",
+        "displayOnly",
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.15516.modifiers[6]",
+      "id": "w_15516_reaction_bonus_3",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarCrystallizeDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCrystallize"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    },
+    {
+      "file": "weapon-modifiers.json",
+      "jsonPath": "$.15516.modifiers[7]",
+      "id": "w_15516_reaction_bonus_4",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarCrystallizeDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCrystallize"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "dedicatedFormulaRequired"
+      ]
+    }
+  ]
+}

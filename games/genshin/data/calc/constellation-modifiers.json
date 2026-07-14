@@ -5739,7 +5739,10 @@
         {
           "category": "reactionCritBonus",
           "applyTo": [
-            "lunarBloomCrit"
+            "burningCrit",
+            "bloomCrit",
+            "hyperbloomCrit",
+            "burgeonCrit"
           ],
           "condition": "stateActive",
           "calculationSupport": "custom",
@@ -5748,6 +5751,21 @@
           "critRate": 20.0,
           "critDamage": 100.0,
           "id": "c_10000073_2_1_resolved_1",
+          "resolvedFromCategory": "special",
+          "customHandlingRequired": true
+        },
+        {
+          "category": "reactionCritBonus",
+          "applyTo": [
+            "lunarBloomCrit"
+          ],
+          "condition": "stateActive",
+          "calculationSupport": "custom",
+          "uidHandling": "conditional",
+          "sourceText": "ナヒーダの2凸効果：月開花反応の会心率+10%、会心ダメージ+20%。",
+          "critRate": 10.0,
+          "critDamage": 20.0,
+          "id": "c_10000073_2_1_resolved_3",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         },
@@ -5764,7 +5782,8 @@
           "sourceText": "ナヒーダ自身が付与した蘊種印状態にある敵は、下記の効果を受ける。\n・燃焼、開花、超開花、烈開花反応によるダメージを受けると、一定の確率で会心が発生する。なお会心率は20%、会心ダメージは100%に固定される。この効果による会心率は、元素反応で会心を発生させる他の同種の効果と重ね掛け可能。\n・原激化、超激化、または草激化反応を受けた後の8秒間、防御力-30%。\n・受ける月開花反応によるダメージの会心率+10%、会心ダメージ+20%。",
           "id": "c_10000073_2_1_resolved_2",
           "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "customHandlingRequired": true,
+          "auditDisposition": "supersededByStructuredRecord"
         },
         {
           "id": "c_10000073_2_2",
@@ -10255,7 +10274,7 @@
         {
           "category": "reactionCritBonus",
           "applyTo": [
-            "reactionCrit"
+            "swirlCrit"
           ],
           "condition": "stateActive",
           "calculationSupport": "custom",

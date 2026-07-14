@@ -2,27 +2,34 @@
     "use strict";
 
     const REACTION_OPTIONS = {
-        none: { reactionId: "none", reactionType: "none", label: "反応なし", baseMultiplier: 1, enabled: false },
-        melt15: { reactionId: "melt", reactionType: "amplifying", label: "溶解 1.5", baseMultiplier: 1.5, enabled: true },
-        melt20: { reactionId: "melt", reactionType: "amplifying", label: "溶解 2.0", baseMultiplier: 2, enabled: true },
-        vaporize15: { reactionId: "vaporize", reactionType: "amplifying", label: "蒸発 1.5", baseMultiplier: 1.5, enabled: true },
-        vaporize20: { reactionId: "vaporize", reactionType: "amplifying", label: "蒸発 2.0", baseMultiplier: 2, enabled: true },
-        aggravate: { reactionId: "aggravate", reactionType: "additive", label: "超激化", baseMultiplier: 1, enabled: false },
-        spread: { reactionId: "spread", reactionType: "additive", label: "草激化", baseMultiplier: 1, enabled: false },
-        overload: { reactionId: "overload", reactionType: "transformative", label: "過負荷", baseMultiplier: 1, enabled: false },
-        electroCharged: { reactionId: "electroCharged", reactionType: "transformative", label: "感電", baseMultiplier: 1, enabled: false },
-        superconduct: { reactionId: "superconduct", reactionType: "transformative", label: "超電導", baseMultiplier: 1, enabled: false },
-        swirl: { reactionId: "swirl", reactionType: "transformative", label: "拡散", baseMultiplier: 1, enabled: false },
-        burning: { reactionId: "burning", reactionType: "transformative", label: "燃焼", baseMultiplier: 1, enabled: false },
-        bloom: { reactionId: "bloom", reactionType: "transformative", label: "開花", baseMultiplier: 1, enabled: false },
-        hyperbloom: { reactionId: "hyperbloom", reactionType: "transformative", label: "超開花", baseMultiplier: 1, enabled: false },
-        burgeon: { reactionId: "burgeon", reactionType: "transformative", label: "烈開花", baseMultiplier: 1, enabled: false },
-        crystallize: { reactionId: "crystallize", reactionType: "shield", label: "結晶", baseMultiplier: 1, enabled: false },
-        lunarBloom: { reactionId: "lunarBloom", reactionType: "lunar", label: "月開花", baseMultiplier: 1, enabled: false },
-        lunarCharged: { reactionId: "lunarCharged", reactionType: "lunar", label: "月感電", baseMultiplier: 1, enabled: false },
-        lunarCrystallize: { reactionId: "lunarCrystallize", reactionType: "lunar", label: "月結晶", baseMultiplier: 1, enabled: false },
-        astralReaction: { reactionId: "astralReaction", reactionType: "special", label: "星反応（未対応）", baseMultiplier: 1, enabled: false }
+        none: { reactionId: "none", family: "none", label: "反応なし", enabled: false },
+        melt15: { reactionId: "melt", family: "amplifying", label: "溶解 1.5倍", coefficient: 1.5, enabled: true },
+        melt20: { reactionId: "melt", family: "amplifying", label: "溶解 2.0倍", coefficient: 2, enabled: true },
+        vaporize15: { reactionId: "vaporize", family: "amplifying", label: "蒸発 1.5倍", coefficient: 1.5, enabled: true },
+        vaporize20: { reactionId: "vaporize", family: "amplifying", label: "蒸発 2.0倍", coefficient: 2, enabled: true }
     };
+
+    function hydrateReactionContext(context, calcData) {
+        const key = context.reactionOptionKey || "none";
+        const definition = calcData?.reactionDefinitions?.options?.[key] || REACTION_OPTIONS[key] || REACTION_OPTIONS.none;
+        const family = definition.family || definition.reactionType || "none";
+        const damageElement = definition.damageElement === "select"
+            ? context.reactionElement || "炎"
+            : definition.damageElement || "";
+        context.reactionDefinitions = calcData?.reactionDefinitions || {};
+        context.reactionOption = {
+            ...definition,
+            key,
+            family,
+            reactionType: family,
+            label: definition.labelJa || definition.label || key,
+            coefficient: Number(definition.coefficient ?? definition.baseMultiplier ?? 1),
+            baseMultiplier: Number(definition.coefficient ?? definition.baseMultiplier ?? 1),
+            damageElement,
+            enabled: definition.calculationStatus === "supported" && !["none", "statusOnly"].includes(family)
+        };
+        return context.reactionOption;
+    }
 
     function getElement(id) {
         return document.getElementById(id);
@@ -82,6 +89,23 @@
         return states;
     }
 
+    function readReactionContributors() {
+        return [2, 3, 4].map((slot) => {
+            const level = readOptionalNumber(`genshinReactionContributor${slot}Level`);
+            const elementalMastery = readOptionalNumber(`genshinReactionContributor${slot}Em`);
+            if (level === null && elementalMastery === null) return null;
+            return {
+                slot,
+                level: Math.min(Math.max(Math.round(level ?? 90), 1), 100),
+                elementalMastery: Math.max(elementalMastery ?? 0, 0),
+                critRate: Math.min(Math.max(readOptionalNumber(`genshinReactionContributor${slot}CritRate`) ?? 0, 0), 100),
+                critDamage: Math.max(readOptionalNumber(`genshinReactionContributor${slot}CritDamage`) ?? 50, 0),
+                reactionBonus: readOptionalNumber(`genshinReactionContributor${slot}ReactionBonus`) ?? 0,
+                baseDamageBonus: readOptionalNumber(`genshinReactionContributor${slot}BaseBonus`) ?? 0
+            };
+        }).filter(Boolean);
+    }
+
     function parseConstellation(value) {
         const match = String(value || "").match(/\d+/);
         return match ? Number(match[0]) : 0;
@@ -138,6 +162,7 @@
             mode: "uidMode",
             reactionOptionKey: readText("genshinJsonReactionOption", "none"),
             reactionOption: REACTION_OPTIONS[readText("genshinJsonReactionOption", "none")] || REACTION_OPTIONS.none,
+            reactionElement: readText("genshinJsonReactionElement", "炎"),
             manualInputs: {
                 recordedHealing: readOptionalNumber("genshinJsonRecordedHealing"),
                 providerStats: {
@@ -146,7 +171,9 @@
                     def: readOptionalNumber("genshinJsonProviderDef"),
                     elementalMastery: readOptionalNumber("genshinJsonProviderElementalMastery")
                 },
-                resourceStates: readResourceStates()
+                resourceStates: readResourceStates(),
+                reactionContributors: readReactionContributors(),
+                stellarConductStacks: Math.min(Math.max(readNumber("genshinStellarConductStacks", 0), 0), 12)
             },
             uiState: {
                 amosStack: readNumber("genshinJsonAmosStack", 0),
@@ -290,10 +317,18 @@
         };
     }
 
-    function normalizeTalentStateModifier(modifier, source, calcData, context) {
-        const normalized = normalizeElementOverrideModifier(modifier, source, calcData, context);
+    function normalizeTalentStateModifier(modifier, source, calcData, context, modifierIndex = 0) {
+        const sourceId = String(source).startsWith("talent:") ? String(source).slice("talent:".length) : "";
+        const registryKey = `${context.characterId}.${sourceId}.${modifierIndex}`;
+        const registryRecord = calcData?.talentEffectRegistry?.records?.[registryKey];
+        const registered = registryRecord ? {
+            ...modifier,
+            ...(registryRecord.modifierOverride || {}),
+            talentResolution: registryRecord.resolution,
+            talentResolutionReason: registryRecord.reasonJa
+        } : modifier;
+        const normalized = normalizeElementOverrideModifier(registered, source, calcData, context);
         if (!String(source).startsWith("talent:")) return normalized;
-        const sourceId = String(source).slice("talent:".length);
         if (!["combat2", "combat3"].includes(sourceId)) return normalized;
         if (!["active", "stateActive", "duringBurst"].includes(normalized.condition)) return normalized;
         return {
@@ -472,7 +507,19 @@
             (talent?.entries || []).forEach((entry) => {
                 if (group === "skill" && skillMode?.attackTypes.includes(entry.attackType) && !skillModeEnabled) return;
                 if (group === "normalAttack" && skillModeEnabled && skillMode?.attackTypes.includes(entry.attackType)) return;
-                const normalizedEntry = { ...entry, element: normalizeDamageElement(entry, characterInfo), group };
+                const directReactionId = calcData.reactionDefinitions?.directReactionEntryRules?.[context.characterId]?.[group]?.[entry.id]
+                    || (/月感電/.test(entry.label || "") ? "lunarCharged"
+                        : /月開花/.test(entry.label || "") ? "lunarBloom"
+                            : /月結晶/.test(entry.label || "") ? "lunarCrystallize"
+                                : /星電導/.test(entry.label || "") ? "stellarConduct" : "");
+                const normalizedEntry = {
+                    ...entry,
+                    element: directReactionId
+                        ? calcData.reactionDefinitions?.options?.[directReactionId]?.damageElement || normalizeDamageElement(entry, characterInfo)
+                        : normalizeDamageElement(entry, characterInfo),
+                    group,
+                    directReactionId
+                };
                 entries.push(normalizeAttackModeEntry(normalizedEntry, group, calcData, context));
             });
         });
@@ -499,11 +546,29 @@
     }
 
     function resolveModifierValue(modifier, context, uiState = context.uiState || {}, analysis = {}) {
+        if (modifier.category === "reactionBaseDamageBonus") {
+            const referenceValue = Number(context.stats?.[modifier.reference?.stat]) || 0;
+            const value = Math.floor(referenceValue / (Number(modifier.divisor) || 1)) * (Number(modifier.ratio) || 0);
+            return Number.isFinite(Number(modifier.maxValue)) ? Math.min(value, Number(modifier.maxValue)) : value;
+        }
         const resourceStack = consumedResourceStack(modifier, context, analysis);
         const conditionState = uiState.conditionByModifier?.[analysis.conditionStateKey] || {};
         const conditionStack = modifier.conditionInput?.type === "stack" && Number.isFinite(Number(conditionState.stack))
             ? Number(conditionState.stack)
             : null;
+        if (modifier.category === "reactionBonus" && modifier.effectiveAdditionalValuePerStack) {
+            const reactionId = context.reactionOption?.reactionId || "none";
+            const targetAliases = {
+                overload: "overloadedDamageBonus",
+                stellarConduct: "astralConductionDamageBonus"
+            };
+            const target = targetAliases[reactionId] || `${reactionId}DamageBonus`;
+            const perStack = Number(modifier.effectiveAdditionalValuePerStack[target]) || 0;
+            const stack = resourceStack ?? conditionStack ?? uiState.stackByModifier?.[modifier.id]
+                ?? uiState.stack ?? modifier.stack?.default ?? 0;
+            const maxStack = modifier.stack?.max ?? (Number(stack) || 0);
+            return perStack * Math.min(Math.max(Number(stack) || 0, modifier.stack?.min ?? 0), maxStack);
+        }
         if (modifier.valueByCondition) {
             const conditionKind = modifier.conditionInput?.type || "option";
             const conditionValue = conditionState[conditionKind];
@@ -517,6 +582,16 @@
             return numericModifierValue(modifier.value) * stack;
         }
         if (modifier.value !== undefined) return numericModifierValue(modifier.value);
+        if (modifier.valueByRefinementPerStack) {
+            const perStack = modifier.valueByRefinementPerStack[String(context.refinement)]
+                ?? modifier.valueByRefinementPerStack["1"];
+            const sharedStackId = modifier.stackReferenceId || modifier.stack?.id || modifier.id;
+            const stack = resourceStack ?? conditionStack ?? uiState.stackByModifier?.[sharedStackId]
+                ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
+            const min = modifier.stack?.min ?? 0;
+            const max = modifier.stack?.max ?? (Number(stack) || 0);
+            return numericModifierValue(perStack) * Math.min(Math.max(Number(stack) || 0, min), max);
+        }
         if (modifier.valueByRefinement) {
             const raw = modifier.valueByRefinement[String(context.refinement)] ?? modifier.valueByRefinement["1"];
             if (Array.isArray(raw)) {
@@ -614,14 +689,16 @@
 
         function consider(rawModifier, source) {
             const talentSourceId = source.startsWith("talent:") ? source.slice("talent:".length) : "";
+            const sourceModifier = rawModifier.modifier || rawModifier;
+            const modifierIndex = rawModifier.modifierIndex || 0;
             if (talentSourceId && talentModifierRepresentedByScalings(
-                rawModifier,
+                sourceModifier,
                 context.characterId,
                 talentSourceId,
                 calcData.talentScalings
             )) return;
             const modifier = normalizeArtifactModifier(
-                normalizeTalentStateModifier(rawModifier, source, calcData, context),
+                normalizeTalentStateModifier(sourceModifier, source, calcData, context, modifierIndex),
                 source
             );
             if (!modifier) return;
@@ -661,8 +738,8 @@
 
         const talentPassives = calcData.talentModifiers?.[context.characterId]?.passives || [];
         talentPassives.forEach((passive) => {
-            (passive.modifiers || []).forEach((modifier) => {
-                consider(modifier, `talent:${passive.sourceId || context.characterId}`);
+            (passive.modifiers || []).forEach((modifier, modifierIndex) => {
+                consider({ modifier, modifierIndex }, `talent:${passive.sourceId || context.characterId}`);
             });
         });
 
@@ -842,19 +919,57 @@
     }
 
     function reactionBonusApplies(modifier, reaction) {
-        if (!reaction?.enabled) return false;
+        if (!reaction || reaction.reactionId === "none") return false;
         const applyTo = modifier.applyTo || [];
         if (!applyTo.length) return true;
         const reactionId = reaction.reactionId;
-        const reactionType = reaction.reactionType;
+        const reactionType = reaction.family || reaction.reactionType;
+        const aliases = {
+            overload: ["overloaded"],
+            stellarConduct: ["astralConduction", "lunarSuperconduct"]
+        }[reactionId] || [];
         const reactionTargets = [
             "reactionDamageBonus",
             `${reactionId}DamageBonus`,
             `${reactionId}ReactionBonus`,
             `${reactionType}ReactionBonus`,
-            `${reactionType}DamageBonus`
+            `${reactionType}DamageBonus`,
+            ...aliases.flatMap((alias) => [`${alias}DamageBonus`, `${alias}ReactionBonus`])
         ];
+        if (["lunarBloom", "lunarCharged", "lunarCrystallize"].includes(reactionId)) {
+            reactionTargets.push("moonReactionDamageBonus");
+        }
         return reactionTargets.some((target) => applyTo.includes(target));
+    }
+
+    function reactionForDamageEntry(entry, context) {
+        if (!entry?.directReactionId) return context.reactionOption || REACTION_OPTIONS.none;
+        const definition = context.reactionDefinitions?.options?.[entry.directReactionId] || {};
+        return {
+            ...definition,
+            reactionId: entry.directReactionId,
+            family: "dedicated",
+            reactionType: "dedicated",
+            label: definition.labelJa || entry.directReactionId,
+            enabled: true
+        };
+    }
+
+    function reactionBaseDamageBonusApplies(modifier, reaction) {
+        if (!reaction || reaction.family !== "dedicated") return false;
+        const applyTo = modifier.applyTo || [];
+        return applyTo.includes("moonReactionBaseDamageBonus")
+            || applyTo.includes("stellarReactionBaseDamageBonus")
+            || applyTo.includes(`${reaction.reactionId}BaseDamageBonus`);
+    }
+
+    function reactionCritApplies(modifier, reaction) {
+        if (!reaction || reaction.reactionId === "none") return false;
+        const applyTo = modifier.applyTo || [];
+        if (!applyTo.length) return false;
+        return applyTo.includes("reactionCrit")
+            || applyTo.includes(`${reaction.reactionId}Crit`)
+            || applyTo.includes(`${reaction.family || reaction.reactionType}ReactionCrit`);
     }
 
     function critBonusKind(modifier) {
@@ -896,11 +1011,15 @@
             critRateBonus: 0,
             critDamageBonus: 0,
             reactionBonus: 0,
+            reactionCritRate: 0,
+            reactionCritDamage: 0,
+            reactionBaseDamageBonus: 0,
             additiveBaseDamage: 0,
             finalDamageMultiplier: 1,
             effectOverrides: [],
             elementOverride: ""
         };
+        const entryReaction = reactionForDamageEntry(entry, context);
         collected.applied.forEach((item) => {
             const { modifier, value, analysis } = item;
             if (modifier.category === "elementOverride" && modifierTargetsEntry(modifier, entry)) {
@@ -928,7 +1047,7 @@
             }
         });
         const effectiveEntry = totals.elementOverride ? { ...entry, element: totals.elementOverride } : entry;
-        if (effectiveEntry.element !== "physical") {
+        if (effectiveEntry.element !== "physical" && !entry.directReactionId) {
             totals.damageBonus += context.stats.elementDamageBonus;
         }
         collected.applied.forEach((item) => {
@@ -937,6 +1056,10 @@
                 return;
             }
             if (modifier.category === "damageBonus" && modifierAppliesToEntry(modifier, effectiveEntry)) {
+                if (entry.directReactionId) {
+                    candidates.push({ modifier, source: item.source, reason: "専用反応式では通常ダメージバフ対象外", analysis });
+                    return;
+                }
                 const effectOverrides = collected.applied.filter((overrideItem) => {
                     return overrideItem.source === item.source
                         && overrideItem.analysis?.calculation === "effectOverride"
@@ -987,14 +1110,21 @@
             } else if (modifier.category === "resistanceDebuff" && resistanceDebuffAppliesToEntry(modifier, effectiveEntry)) {
                 totals.resistanceDebuff += Math.abs(Number(value) || 0);
                 applied.push(item);
-            } else if (modifier.category === "defenseDebuff") {
+            } else if (modifier.category === "defenseDebuff" && !entry.directReactionId) {
                 totals.defenseDebuff += Math.abs(Number(value) || 0);
                 applied.push(item);
-            } else if (modifier.category === "defenseIgnore") {
+            } else if (modifier.category === "defenseIgnore" && !entry.directReactionId) {
                 totals.defenseIgnore += Math.abs(Number(value) || 0);
                 applied.push(item);
-            } else if (modifier.category === "reactionBonus" && reactionBonusApplies(modifier, context.reactionOption)) {
+            } else if (modifier.category === "reactionBonus" && reactionBonusApplies(modifier, entryReaction)) {
                 totals.reactionBonus += Number(value) || 0;
+                applied.push(item);
+            } else if (modifier.category === "reactionCritBonus" && reactionCritApplies(modifier, entryReaction)) {
+                totals.reactionCritRate += Number(modifier.critRate) || 0;
+                totals.reactionCritDamage += Number(modifier.critDamage) || 0;
+                applied.push(item);
+            } else if (modifier.category === "reactionBaseDamageBonus" && reactionBaseDamageBonusApplies(modifier, entryReaction)) {
+                totals.reactionBaseDamageBonus += Number(value) || 0;
                 applied.push(item);
             } else if (analysis?.calculation === "effectOverride") {
                 const overrideKind = window.GenshinModifierAnalyzer.effectOverrideKind(modifier);
@@ -1035,15 +1165,56 @@
         return 1 / (resistance / 25 + 1);
     }
 
-    function reactionMultiplier(context, reactionBonus = 0) {
+    function reactionLevelValue(context, tableName) {
+        const table = context.reactionDefinitions?.[tableName] || {};
+        const level = Math.min(Math.max(Math.round(Number(context.enemy?.characterLevel) || 90), 1), 100);
+        if (Number.isFinite(Number(table[String(level)]))) return Number(table[String(level)]);
+        const knownLevels = Object.keys(table).map(Number).filter(Number.isFinite).sort((a, b) => a - b);
+        const lower = [...knownLevels].reverse().find((value) => value <= level);
+        const upper = knownLevels.find((value) => value >= level);
+        if (lower === undefined || upper === undefined) return 0;
+        if (lower === upper) return Number(table[String(lower)]) || 0;
+        const ratio = (level - lower) / (upper - lower);
+        return Number(table[String(lower)]) + (Number(table[String(upper)]) - Number(table[String(lower)])) * ratio;
+    }
+
+    function reactionEmBonusPercent(family, elementalMastery) {
+        const em = Math.max(Number(elementalMastery) || 0, 0);
+        if (family === "amplifying") return 278 * em / (em + 1400);
+        if (family === "additive") return 500 * em / (em + 1200);
+        if (family === "transformative") return 1600 * em / (em + 2000);
+        if (family === "shield") return 444 * em / (em + 1400);
+        if (family === "dedicated") return 600 * em / (em + 2000);
+        return 0;
+    }
+
+    function dedicatedDirectCoefficient(reaction, context) {
+        if (reaction.reactionId !== "stellarConduct") return Number(reaction.directCoefficient) || 1;
+        const stacks = Math.min(Math.max(Number(context.manualInputs?.stellarConductStacks) || 0, 0), Number(reaction.maxFieldStacks) || 12);
+        return (Number(reaction.directCoefficientBase) || 1.4) + stacks * (Number(reaction.directCoefficientPerStack) || 0.05);
+    }
+
+    function reactionAttackAdjustment(context, reactionBonus = 0) {
         const reaction = context.reactionOption || REACTION_OPTIONS.none;
-        if (!reaction.enabled) return { multiplier: 1, detail: reaction };
-        const em = context.stats.elementalMastery;
-        const emBonus = 278 * em / (em + 1400);
-        return {
-            multiplier: reaction.baseMultiplier * (1 + (emBonus + reactionBonus) / 100),
-            detail: { ...reaction, elementalMasteryBonus: emBonus, reactionBonus }
-        };
+        const family = reaction.family || reaction.reactionType || "none";
+        const emBonus = reactionEmBonusPercent(family, context.stats.elementalMastery);
+        const detail = { ...reaction, elementalMasteryBonus: emBonus, reactionBonus };
+        if (family === "amplifying" && reaction.enabled) {
+            return {
+                multiplier: reaction.coefficient * (1 + (emBonus + reactionBonus) / 100),
+                additiveBaseDamage: 0,
+                detail
+            };
+        }
+        if (family === "additive" && reaction.enabled) {
+            const levelMultiplier = reactionLevelValue(context, "characterLevelMultipliers");
+            return {
+                multiplier: 1,
+                additiveBaseDamage: levelMultiplier * reaction.coefficient * (1 + (emBonus + reactionBonus) / 100),
+                detail: { ...detail, levelMultiplier }
+            };
+        }
+        return { multiplier: 1, additiveBaseDamage: 0, detail };
     }
 
     function calculateScalingParts(entry, context, appliedModifiers, talentLevel, problems) {
@@ -1077,7 +1248,78 @@
         const problems = [];
         const scalingParts = calculateScalingParts(entry, context, appliedModifiers, talentLevel, problems);
         const scalingBaseDamage = scalingParts.reduce((sum, part) => sum + part.baseDamage, 0);
-        const baseDamage = problems.length ? 0 : scalingBaseDamage + (appliedModifiers.totals.additiveBaseDamage || 0);
+        const directReaction = reactionForDamageEntry(entry, context);
+        if (entry.directReactionId) {
+            const coefficient = dedicatedDirectCoefficient(directReaction, context);
+            const emBonus = reactionEmBonusPercent("dedicated", context.stats.elementalMastery);
+            const baseDamageBonus = appliedModifiers.totals.reactionBaseDamageBonus || 0;
+            const reactionBonus = appliedModifiers.totals.reactionBonus || 0;
+            const baseDamage = problems.length ? 0
+                : scalingBaseDamage * coefficient
+                    * (1 + baseDamageBonus / 100)
+                    * (1 + (emBonus + reactionBonus) / 100)
+                    + (appliedModifiers.totals.additiveBaseDamage || 0);
+            const effectiveResistance = context.enemy.enemyResistance - appliedModifiers.totals.resistanceDebuff;
+            const resMultiplier = resistanceMultiplier(effectiveResistance);
+            const nonCrit = baseDamage * resMultiplier * appliedModifiers.totals.finalDamageMultiplier;
+            const critRate = context.stats.critRate + (appliedModifiers.totals.critRateBonus || 0) + (appliedModifiers.totals.reactionCritRate || 0);
+            const critDamage = context.stats.critDamage + (appliedModifiers.totals.critDamageBonus || 0) + (appliedModifiers.totals.reactionCritDamage || 0);
+            const crit = nonCrit * (1 + critDamage / 100);
+            const expected = nonCrit * (1 + Math.min(Math.max(critRate, 0), 100) / 100 * critDamage / 100);
+            const hitCount = Number(entry.hitCount) || 1;
+            return {
+                entry: { ...appliedModifiers.entry, dedicatedReactionId: entry.directReactionId },
+                problems,
+                nonCrit,
+                crit,
+                expected,
+                total: { nonCrit: nonCrit * hitCount, crit: crit * hitCount, expected: expected * hitCount },
+                breakdown: {
+                    talentLevel,
+                    hitCount,
+                    scalingParts,
+                    damageBonus: 0,
+                    statBonus: appliedModifiers.totals.statBonus,
+                    additiveBaseDamage: appliedModifiers.totals.additiveBaseDamage,
+                    reactionAdditiveBaseDamage: 0,
+                    reactionBaseDamageBonus: baseDamageBonus,
+                    reactionBonus,
+                    finalDamageMultiplier: appliedModifiers.totals.finalDamageMultiplier,
+                    effectOverrides: appliedModifiers.totals.effectOverrides,
+                    critRate,
+                    critDamage,
+                    defenseMultiplier: 1,
+                    defenseDebuff: 0,
+                    defenseIgnore: 0,
+                    resistance: effectiveResistance,
+                    resistanceMultiplier: resMultiplier,
+                    reaction: {
+                        ...directReaction,
+                        label: `${directReaction.label}（天賦直撃）`,
+                        baseMultiplier: coefficient,
+                        elementalMasteryBonus: emBonus,
+                        reactionBonus,
+                        baseDamageBonus,
+                        stellarConductStacks: directReaction.reactionId === "stellarConduct" ? context.manualInputs?.stellarConductStacks || 0 : null
+                    },
+                    appliedModifiers: appliedModifiers.applied,
+                    skippedModifiers: appliedModifiers.candidates,
+                    inputStats: {
+                        hp: context.stats.hp,
+                        atk: context.stats.atk,
+                        def: context.stats.def,
+                        elementalMastery: context.stats.elementalMastery,
+                        critRate: context.stats.critRate,
+                        critDamage: context.stats.critDamage,
+                        elementDamageBonus: context.stats.elementDamageBonus
+                    }
+                }
+            };
+        }
+        const reaction = reactionAttackAdjustment(context, appliedModifiers.totals.reactionBonus);
+        const baseDamage = problems.length ? 0 : scalingBaseDamage
+            + (appliedModifiers.totals.additiveBaseDamage || 0)
+            + reaction.additiveBaseDamage;
         const damageBonusMultiplier = 1 + appliedModifiers.totals.damageBonus / 100;
         const defMultiplier = defenseMultiplier({
             ...context,
@@ -1089,7 +1331,6 @@
         });
         const effectiveResistance = context.enemy.enemyResistance - appliedModifiers.totals.resistanceDebuff;
         const resMultiplier = resistanceMultiplier(effectiveResistance);
-        const reaction = reactionMultiplier(context, appliedModifiers.totals.reactionBonus);
         const nonCrit = baseDamage * damageBonusMultiplier * defMultiplier * resMultiplier * reaction.multiplier * appliedModifiers.totals.finalDamageMultiplier;
         const critRate = context.stats.critRate + (appliedModifiers.totals.critRateBonus || 0);
         const critDamage = context.stats.critDamage + (appliedModifiers.totals.critDamageBonus || 0);
@@ -1114,6 +1355,7 @@
                 damageBonus: appliedModifiers.totals.damageBonus,
                 statBonus: appliedModifiers.totals.statBonus,
                 additiveBaseDamage: appliedModifiers.totals.additiveBaseDamage,
+                reactionAdditiveBaseDamage: reaction.additiveBaseDamage,
                 reactionBonus: appliedModifiers.totals.reactionBonus,
                 finalDamageMultiplier: appliedModifiers.totals.finalDamageMultiplier,
                 effectOverrides: appliedModifiers.totals.effectOverrides,
@@ -1127,6 +1369,235 @@
                 reaction: reaction.detail,
                 appliedModifiers: appliedModifiers.applied,
                 skippedModifiers: appliedModifiers.candidates,
+                inputStats: {
+                    hp: context.stats.hp,
+                    atk: context.stats.atk,
+                    def: context.stats.def,
+                    elementalMastery: context.stats.elementalMastery,
+                    critRate: context.stats.critRate,
+                    critDamage: context.stats.critDamage,
+                    elementDamageBonus: context.stats.elementDamageBonus
+                }
+            }
+        };
+    }
+
+    function collectReactionTotals(context, collected) {
+        const reaction = context.reactionOption || REACTION_OPTIONS.none;
+        const totals = {
+            reactionBonus: 0,
+            baseDamageBonus: 0,
+            critRate: 0,
+            critDamage: 0,
+            resistanceDebuff: context.enemy.resistanceDebuff,
+            applied: []
+        };
+        const reactionEntry = { element: reaction.damageElement || "physical" };
+        (collected.applied || []).forEach((item) => {
+            const { modifier, value } = item;
+            if (modifier.category === "reactionBonus" && reactionBonusApplies(modifier, reaction)) {
+                totals.reactionBonus += Number(value) || 0;
+                totals.applied.push(item);
+            } else if (modifier.category === "reactionBaseDamageBonus" && reactionBaseDamageBonusApplies(modifier, reaction)) {
+                totals.baseDamageBonus += Number(value) || 0;
+                totals.applied.push(item);
+            } else if (modifier.category === "reactionCritBonus" && reactionCritApplies(modifier, reaction)) {
+                totals.critRate += Number(modifier.critRate) || 0;
+                totals.critDamage += Number(modifier.critDamage) || 0;
+                totals.applied.push(item);
+            } else if (modifier.category === "resistanceDebuff" && resistanceDebuffAppliesToEntry(modifier, reactionEntry)) {
+                totals.resistanceDebuff += Math.abs(Number(value) || 0);
+                totals.applied.push(item);
+            }
+        });
+        return totals;
+    }
+
+    function combineRankedContributions(values, weights) {
+        return [...values].sort((a, b) => b - a).reduce((sum, value, index) => sum + value * (weights[index] ?? 0), 0);
+    }
+
+    function buildIndirectLunarResult(context, collected, reaction) {
+        const totals = collectReactionTotals(context, collected);
+        const weights = reaction.contributionWeights || [1, 0.5, 1 / 12, 1 / 12];
+        const effectiveResistance = context.enemy.enemyResistance - totals.resistanceDebuff;
+        const resMultiplier = resistanceMultiplier(effectiveResistance);
+        const current = {
+            slot: 1,
+            source: "currentCharacter",
+            level: context.enemy.characterLevel,
+            elementalMastery: context.stats.elementalMastery,
+            critRate: Math.min(Math.max(context.stats.critRate + totals.critRate, 0), 100),
+            critDamage: Math.max(context.stats.critDamage + totals.critDamage, 0),
+            reactionBonus: totals.reactionBonus,
+            baseDamageBonus: totals.baseDamageBonus
+        };
+        const contributors = [current, ...(context.manualInputs?.reactionContributors || []).slice(0, 3)].map((contributor) => {
+            const levelContext = { ...context, enemy: { ...context.enemy, characterLevel: contributor.level } };
+            const levelMultiplier = reactionLevelValue(levelContext, "characterLevelMultipliers");
+            const emBonus = reactionEmBonusPercent("dedicated", contributor.elementalMastery);
+            const baseDamageBonus = totals.baseDamageBonus + (contributor.slot === 1 ? 0 : Number(contributor.baseDamageBonus) || 0);
+            const reactionBonus = contributor.slot === 1 ? totals.reactionBonus : Number(contributor.reactionBonus) || 0;
+            const nonCrit = reaction.coefficient * levelMultiplier
+                * (1 + baseDamageBonus / 100)
+                * (1 + (emBonus + reactionBonus) / 100)
+                * resMultiplier;
+            return {
+                ...contributor,
+                levelMultiplier,
+                elementalMasteryBonus: emBonus,
+                baseDamageBonus,
+                reactionBonus,
+                nonCrit,
+                crit: nonCrit * (1 + contributor.critDamage / 100)
+            };
+        });
+        const nonCrit = combineRankedContributions(contributors.map((item) => item.nonCrit), weights);
+        const crit = combineRankedContributions(contributors.map((item) => item.crit), weights);
+        let expected = 0;
+        const stateCount = 2 ** contributors.length;
+        for (let mask = 0; mask < stateCount; mask += 1) {
+            let probability = 1;
+            const values = contributors.map((item, index) => {
+                const didCrit = Boolean(mask & (1 << index));
+                const critChance = Math.min(Math.max(item.critRate, 0), 100) / 100;
+                probability *= didCrit ? critChance : 1 - critChance;
+                return didCrit ? item.crit : item.nonCrit;
+            });
+            expected += probability * combineRankedContributions(values, weights);
+        }
+        return {
+            entry: {
+                id: `reaction_${reaction.reactionId}`,
+                label: `${reaction.label}ダメージ（参加者${contributors.length}人）`,
+                attackType: "reaction",
+                damageType: "reaction",
+                element: reaction.damageElement,
+                hitCount: 1,
+                group: "reaction",
+                resultKind: "damage"
+            },
+            problems: [],
+            nonCrit,
+            crit,
+            expected,
+            total: { nonCrit, crit, expected },
+            breakdown: {
+                talentLevel: null,
+                hitCount: 1,
+                scalingParts: [],
+                damageBonus: 0,
+                statBonus: {},
+                additiveBaseDamage: 0,
+                reactionAdditiveBaseDamage: 0,
+                reactionBaseDamageBonus: totals.baseDamageBonus,
+                reactionBonus: totals.reactionBonus,
+                finalDamageMultiplier: 1,
+                effectOverrides: [],
+                critRate: current.critRate,
+                critDamage: current.critDamage,
+                defenseMultiplier: 1,
+                defenseDebuff: 0,
+                defenseIgnore: 0,
+                resistance: effectiveResistance,
+                resistanceMultiplier: resMultiplier,
+                reaction: {
+                    ...reaction,
+                    baseMultiplier: reaction.coefficient,
+                    label: `${reaction.label}（元素付着）`,
+                    contributors,
+                    contributionWeights: weights
+                },
+                appliedModifiers: totals.applied,
+                skippedModifiers: [],
+                inputStats: {
+                    hp: context.stats.hp,
+                    atk: context.stats.atk,
+                    def: context.stats.def,
+                    elementalMastery: context.stats.elementalMastery,
+                    critRate: context.stats.critRate,
+                    critDamage: context.stats.critDamage,
+                    elementDamageBonus: context.stats.elementDamageBonus
+                }
+            }
+        };
+    }
+
+    function buildStandaloneReactionResult(context, collected) {
+        const reaction = context.reactionOption || REACTION_OPTIONS.none;
+        const family = reaction.family || reaction.reactionType || "none";
+        if (!reaction.enabled) return null;
+        if (family === "dedicated") {
+            return reaction.dedicatedKind === "indirectLunar" && reaction.standaloneDamage
+                ? buildIndirectLunarResult(context, collected, reaction)
+                : null;
+        }
+        if (!["transformative", "shield"].includes(family)) return null;
+        const totals = collectReactionTotals(context, collected);
+        const emBonus = reactionEmBonusPercent(family, context.stats.elementalMastery);
+        const isShield = family === "shield";
+        const levelMultiplier = reactionLevelValue(
+            context,
+            isShield ? "crystallizeShieldBase" : "characterLevelMultipliers"
+        );
+        const baseValue = isShield ? levelMultiplier : levelMultiplier * reaction.coefficient;
+        const effectiveResistance = context.enemy.enemyResistance - totals.resistanceDebuff;
+        const resMultiplier = isShield ? 1 : resistanceMultiplier(effectiveResistance);
+        const nonCrit = baseValue * (1 + (emBonus + (isShield ? 0 : totals.reactionBonus)) / 100) * resMultiplier;
+        const canCrit = !isShield && totals.critRate > 0 && totals.critDamage > 0;
+        const crit = canCrit ? nonCrit * (1 + totals.critDamage / 100) : nonCrit;
+        const expected = canCrit
+            ? nonCrit * (1 + totals.critRate / 100 * totals.critDamage / 100)
+            : nonCrit;
+        return {
+            entry: {
+                id: `reaction_${reaction.reactionId}`,
+                label: isShield ? `${reaction.label}シールド` : `${reaction.label}ダメージ`,
+                attackType: "reaction",
+                damageType: "reaction",
+                element: reaction.damageElement || "-",
+                hitCount: 1,
+                group: "reaction",
+                resultKind: isShield ? "shield" : "damage"
+            },
+            problems: [],
+            nonCrit,
+            crit,
+            expected,
+            total: { nonCrit, crit, expected },
+            breakdown: {
+                talentLevel: null,
+                hitCount: 1,
+                scalingParts: [{
+                    stat: isShield ? "crystallizeShieldBase" : "reactionLevelMultiplier",
+                    statValue: levelMultiplier,
+                    talentMultiplier: isShield ? 100 : reaction.coefficient * 100,
+                    baseDamage: baseValue
+                }],
+                damageBonus: 0,
+                statBonus: {},
+                additiveBaseDamage: 0,
+                reactionAdditiveBaseDamage: 0,
+                reactionBonus: totals.reactionBonus,
+                finalDamageMultiplier: 1,
+                effectOverrides: [],
+                critRate: totals.critRate,
+                critDamage: totals.critDamage,
+                defenseMultiplier: 1,
+                defenseDebuff: 0,
+                defenseIgnore: 0,
+                resistance: isShield ? null : effectiveResistance,
+                resistanceMultiplier: resMultiplier,
+                reaction: {
+                    ...reaction,
+                    levelMultiplier,
+                    elementalMasteryBonus: emBonus,
+                    reactionBonus: totals.reactionBonus,
+                    critRate: totals.critRate,
+                    critDamage: totals.critDamage
+                },
+                appliedModifiers: totals.applied,
+                skippedModifiers: [],
                 inputStats: {
                     hp: context.stats.hp,
                     atk: context.stats.atk,
@@ -1262,6 +1733,7 @@
     async function runGenshinJsonCalc() {
         const calcData = await window.GenshinCalcData.loadGenshinCalcData();
         const context = buildCharacterCalcContext();
+        hydrateReactionContext(context, calcData);
         window.GenshinCalcConditions.reconcileConditionState(context, calcData);
         window.GenshinCalcConditions.reconcileResourceState(context, calcData);
         window.GenshinCalcConditions.reconcileComplexConditionState(context, calcData);
@@ -1272,6 +1744,8 @@
             const entryModifiers = applyModifiersToDamageEntry(entry, context, collected);
             return calculateDamage(entry, context, entryModifiers);
         });
+        const reactionResult = buildStandaloneReactionResult(context, collected);
+        if (reactionResult) results.push(reactionResult);
         const inputNotices = [...new Map(collected.candidates
             .filter((item) => item.analysis?.supportStatus === "missingInput")
             .filter((item) => item.analysis?.resourceClassification !== "calculationInput")
@@ -1296,6 +1770,11 @@
         });
         return {
             context,
+            reactionState: {
+                ...context.reactionOption,
+                calculated: Boolean(reactionResult) || ["amplifying", "additive"].includes(context.reactionOption.family),
+                unsupportedReason: context.reactionOption.unsupportedReasonJa || ""
+            },
             warnings: [...filterRelevantWarnings(calcData.warnings, context), ...talentResult.warnings.map((message) => ({ level: "warn", message }))],
             results,
             candidateModifiers: collected.candidates,
@@ -1326,6 +1805,11 @@
         collectActiveModifiers,
         applyModifiersToDamageEntry,
         calculateDamage,
+        hydrateReactionContext,
+        buildStandaloneReactionResult,
+        reactionBonusApplies,
+        reactionCritApplies,
+        reactionEmBonusPercent,
         runGenshinJsonCalc,
         resolveModifierValue,
         normalizeElementOverrideModifier,

@@ -7,6 +7,7 @@
         { id: "plunging", label: "落下攻撃" },
         { id: "skill", label: "元素スキル" },
         { id: "burst", label: "元素爆発" },
+        { id: "reaction", label: "元素反応" },
         { id: "other", label: "その他" }
     ];
 
@@ -50,6 +51,7 @@
 
     function classifyResult(result) {
         const entry = result.entry || {};
+        if (entry.group === "reaction" || entry.attackType === "reaction") return "reaction";
         if (entry.damageType === "skill") return "skill";
         if (entry.damageType === "burst") return "burst";
         if (entry.attackType === "chargedAttack" || entry.damageType === "charged" || entry.damageType === "chargedAttack") return "charged";
@@ -127,6 +129,11 @@
         }).join("<br>");
     }
 
+    function renderReactionContributors(contributors) {
+        if (!contributors?.length) return "";
+        return `<h5>月反応の参加者寄与</h5><ul>${contributors.map((item) => `<li>参加者${escapeHtml(item.slot)}: Lv.${escapeHtml(item.level)} / 熟知 ${formatNumber(item.elementalMastery)} / 会心 ${formatDecimal(item.critRate)}%・${formatDecimal(item.critDamage)}% / 非会心 ${formatDamageNumber(item.nonCrit)} / 会心 ${formatDamageNumber(item.crit)}</li>`).join("")}</ul>`;
+    }
+
     function renderBreakdown(result) {
         const b = result.breakdown;
         const attackMode = result.entry.attackMode;
@@ -153,7 +160,10 @@
                     <div><dt>防御補正</dt><dd>${formatDecimal(b.defenseMultiplier, 4)}</dd></div>
                     <div><dt>耐性 / 耐性補正</dt><dd>${formatDecimal(b.resistance)}% / ${formatDecimal(b.resistanceMultiplier, 4)}</dd></div>
                     <div><dt>反応</dt><dd>${escapeHtml(b.reaction.label)} / x${formatDecimal(b.reaction.baseMultiplier || 1)} / 反応補正 ${formatDecimal(b.reactionBonus || 0)}%</dd></div>
+                    <div><dt>専用反応の基礎ダメージ向上</dt><dd>${formatDecimal(b.reactionBaseDamageBonus || 0)}%</dd></div>
+                    <div><dt>元素熟知による専用反応補正</dt><dd>${formatDecimal(b.reaction.elementalMasteryBonus || 0)}%</dd></div>
                 </dl>
+                ${renderReactionContributors(b.reaction.contributors)}
                 <h5>今回加算した効果</h5>
                 <ul>${renderModifierList(b.appliedModifiers, "追加効果なし")}</ul>
                 <h5>未加算の候補</h5>
@@ -166,6 +176,16 @@
     function renderResultCard(result) {
         const modeName = result.entry.attackMode?.nameJa;
         const resultLabel = modeName ? `${modeName}・${result.entry.label}` : result.entry.label;
+        if (result.entry.resultKind === "shield") {
+            return `
+                <article class="genshin-json-result-card">
+                    <h4>${escapeHtml(resultLabel)}</h4>
+                    <div class="genshin-json-result-values">
+                        <span>基礎シールド量<br><strong>${formatDamageNumber(result.nonCrit)}</strong></span>
+                    </div>
+                    ${renderBreakdown(result)}
+                </article>`;
+        }
         return `
             <article class="genshin-json-result-card">
                 <h4>${escapeHtml(resultLabel)}</h4>
@@ -321,9 +341,10 @@
             ["", [["none", "反応なし"]]],
             ["増幅反応（計算対応）", [["melt15", "溶解 1.5"], ["melt20", "溶解 2.0"], ["vaporize15", "蒸発 1.5"], ["vaporize20", "蒸発 2.0"]]],
             ["加算反応", [["aggravate", "超激化"], ["spread", "草激化"]]],
-            ["変化反応", [["overload", "過負荷"], ["electroCharged", "感電"], ["superconduct", "超電導"], ["swirl", "拡散"], ["burning", "燃焼"], ["bloom", "開花"], ["hyperbloom", "超開花"], ["burgeon", "烈開花"], ["crystallize", "結晶"]]],
+            ["変化反応", [["overload", "過負荷"], ["electroCharged", "感電"], ["superconduct", "超電導"], ["swirl", "拡散"], ["burning", "燃焼"], ["bloom", "開花"], ["hyperbloom", "超開花"], ["burgeon", "烈開花"], ["shatter", "氷砕き"], ["crystallize", "結晶"]]],
+            ["状態反応", [["frozen", "凍結"], ["quicken", "原激化"]]],
             ["月反応", [["lunarBloom", "月開花"], ["lunarCharged", "月感電"], ["lunarCrystallize", "月結晶"]]],
-            ["その他", [["astralReaction", "星反応（未対応）"]]]
+            ["星反応", [["stellarConduct", "星電導"]]]
         ];
         return groups.map(([label, options]) => {
             const html = options.map(([value, text]) => `<option value="${value}"${value === selected ? " selected" : ""}>${text}</option>`).join("");
@@ -472,6 +493,35 @@
         </article>`;
     }
 
+    function renderReactionContributor(slot, contributor) {
+        const value = (key) => contributor?.[key] ?? "";
+        return `<fieldset class="genshin-reaction-contributor"><legend>参加者${slot}（任意）</legend>
+            <label><span>Lv</span><input id="genshinReactionContributor${slot}Level" type="number" min="1" max="100" value="${escapeHtml(value("level"))}" placeholder="未入力"></label>
+            <label><span>元素熟知</span><input id="genshinReactionContributor${slot}Em" type="number" min="0" value="${escapeHtml(value("elementalMastery"))}" placeholder="未入力"></label>
+            <label><span>会心率%</span><input id="genshinReactionContributor${slot}CritRate" type="number" min="0" max="100" step="0.1" value="${escapeHtml(value("critRate"))}" placeholder="0"></label>
+            <label><span>会心ダメージ%</span><input id="genshinReactionContributor${slot}CritDamage" type="number" min="0" step="0.1" value="${escapeHtml(value("critDamage"))}" placeholder="50"></label>
+            <label><span>反応ダメージ補正%</span><input id="genshinReactionContributor${slot}ReactionBonus" type="number" step="0.1" value="${escapeHtml(value("reactionBonus"))}" placeholder="0"></label>
+            <label><span>基礎ダメージ向上%</span><input id="genshinReactionContributor${slot}BaseBonus" type="number" step="0.1" value="${escapeHtml(value("baseDamageBonus"))}" placeholder="0"></label>
+        </fieldset>`;
+    }
+
+    function renderDedicatedReactionControls(reaction, context) {
+        if (reaction.dedicatedKind === "indirectLunar") {
+            const contributors = new Map((context.manualInputs?.reactionContributors || []).map((item) => [item.slot, item]));
+            return `<div class="genshin-reaction-dedicated">
+                <p><strong>参加者1：</strong>現在のキャラクター（Lv・元素熟知・会心は上の計算入力欄を自動使用）</p>
+                <p>参加者2～4は、その4秒間に対象元素を付着したキャラクターだけ入力してください。Lvまたは元素熟知を入れると参加扱いになります。</p>
+                <div class="genshin-reaction-contributor-grid">${[2, 3, 4].map((slot) => renderReactionContributor(slot, contributors.get(slot))).join("")}</div>
+            </div>`;
+        }
+        if (reaction.reactionId === "stellarConduct") {
+            const current = Number(context.manualInputs?.stellarConductStacks) || 0;
+            const options = Array.from({ length: 13 }, (_, stack) => `<option value="${stack}"${stack === current ? " selected" : ""}>${stack}回（係数 ${(1.4 + stack * 0.05).toFixed(2)}）</option>`).join("");
+            return `<div class="genshin-reaction-dedicated"><label class="genshin-reaction-control"><span>直前4秒の氷・雷付着回数</span><select id="genshinStellarConductStacks">${options}</select></label><p>0～12回を係数1.40～2.00へ変換し、星電導扱いの天賦ダメージだけに適用します。</p></div>`;
+        }
+        return "";
+    }
+
     function renderConditionCards(panelState, context) {
         const wrap = getElement("genshinJsonConditionCards");
         if (!wrap) return;
@@ -501,6 +551,15 @@
             }).length, 0);
         const summaryClass = missingCount ? " has-missing" : "";
         const reaction = context.reactionOption || { reactionId: "none", label: "反応なし", enabled: false, baseMultiplier: 1 };
+        const reactionDescription = reaction.family === "none"
+            ? "反応なしを選択中です。元素反応ダメージは計算しません。"
+            : reaction.calculationStatus === "dedicatedFormulaRequired"
+                ? `${reaction.descriptionJa || reaction.label}${reaction.unsupportedReasonJa ? ` ${reaction.unsupportedReasonJa}` : ""} 現在の結果には反映されません。`
+                : reaction.descriptionJa || (reaction.enabled ? "選択した元素反応を計算へ反映します。" : "この反応自体は数値ダメージを発生させません。");
+        const reactionElementControl = reaction.reactionId === "swirl"
+            ? `<label class="genshin-reaction-control"><span>拡散する元素</span><select id="genshinJsonReactionElement">${["炎", "水", "雷", "氷"].map((element) => `<option value="${element}"${context.reactionElement === element ? " selected" : ""}>${element}元素</option>`).join("")}</select></label>`
+            : "";
+        const dedicatedReactionControls = renderDedicatedReactionControls(reaction, context);
         wrap.innerHTML = `
             <div class="genshin-condition-summary${summaryClass}">
                 <strong>現在の計算条件</strong>
@@ -509,7 +568,9 @@
             <section class="genshin-condition-card" data-condition-card="reaction">
                 <header><div><h4>元素反応</h4><p>${escapeHtml(reaction.label)}</p></div></header>
                 <label class="genshin-reaction-control"><span>計算する元素反応</span><select id="genshinJsonReactionOption">${reactionOptions(context.reactionOptionKey || "none")}</select></label>
-                <p class="genshin-condition-card-empty">${reaction.enabled ? `基礎反応倍率 ×${escapeHtml(reaction.baseMultiplier)}` : "元素反応による倍率・追加補正は適用されません。"}</p>
+                ${reactionElementControl}
+                ${dedicatedReactionControls}
+                <p class="genshin-condition-card-empty">${escapeHtml(reactionDescription)}</p>
             </section>
             ${cards.map((card) => `<section class="genshin-condition-card" data-condition-card="${escapeHtml(card.id)}">
                 <header><div><h4>${escapeHtml(card.title)}</h4><p>${escapeHtml(card.subtitle)}</p></div></header>
@@ -529,6 +590,7 @@
     async function handlePrepareConditionsClick() {
         const calcData = await window.GenshinCalcData.loadGenshinCalcData();
         const context = window.GenshinCalcEngine.buildCharacterCalcContext();
+        window.GenshinCalcEngine.hydrateReactionContext(context, calcData);
         const panelState = window.GenshinCalcConditions.conditionPanelState(context, calcData);
         renderConditionCards(panelState, context);
 
