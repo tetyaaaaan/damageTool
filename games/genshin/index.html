@@ -62,7 +62,10 @@
 
         <section class="genshin-tool-hero">
           <div class="genshin-tool-title">
-            <span class="genshin-symbol" aria-hidden="true">✦</span>
+            <span class="teti-tool-mark" aria-hidden="true">
+              <img class="teti-tool-mark-light" src="/games/images/theme/genshin-mascot-light.webp" alt="">
+              <img class="teti-tool-mark-dark" src="/games/images/theme/genshin-mascot-dark.webp" alt="">
+            </span>
             <div>
               <p class="genshin-kicker">Genshin Impact</p>
               <h1>原神 ダメージ計算ツール</h1>
@@ -104,7 +107,9 @@
             <div class="genshin-fieldset genshin-reflect-inputs">
               <h3>計算入力欄（反映後に編集可能）</h3>
               <div class="genshin-form-grid genshin-profile-form-grid">
-                <label class="genshin-field">キャラクター<input type="text" id="genshinReflectCharacter" autocomplete="off"></label>
+                <label class="genshin-field">キャラクター
+                  <input type="text" id="genshinReflectCharacter" class="genshin-selection-input" placeholder="キャラクターを選択" readonly aria-haspopup="dialog" aria-controls="genshinSelectionDialog">
+                </label>
                 <input type="hidden" id="genshinCalcCharacterId" value="">
                 <label class="genshin-field">レベル<input type="number" id="genshinReflectLevel" min="1" max="90" step="1"></label>
                 <label class="genshin-field">命ノ星座
@@ -118,7 +123,9 @@
                     <option value="C6">C6</option>
                   </select>
                 </label>
-                <label class="genshin-field">武器<input type="text" id="genshinWeaponInput" list="genshinWeaponOptions" autocomplete="off"></label>
+                <label class="genshin-field">武器
+                  <input type="text" id="genshinWeaponInput" class="genshin-selection-input" placeholder="先にキャラクターを選択" readonly disabled aria-haspopup="dialog" aria-controls="genshinSelectionDialog">
+                </label>
                 <input type="hidden" id="genshinCalcWeaponId" value="">
                 <datalist id="genshinWeaponOptions"></datalist>
                 <label class="genshin-field">武器レベル<input type="number" id="genshinWeaponLevel" min="1" max="90" step="1"></label>
@@ -416,6 +423,7 @@
         <script src="/games/js/genshinProfileApi.js"></script>
         <script src="/games/js/genshinIdResolver.js"></script>
         <script src="/games/js/genshinProfileMapper.js"></script>
+        <script src="/games/js/genshinSelectionModal.js"></script>
         <script src="/games/js/genshinUidImporter.js"></script>
         <script src="/games/js/genshinCalcData.js"></script>
         <script src="/games/js/genshinModifierAnalyzer.js"></script>
@@ -426,6 +434,28 @@
         <script src="/games/js/artifact.js"></script>
       </div>
     </main>
+
+    <dialog class="genshin-selection-dialog" id="genshinSelectionDialog" aria-labelledby="genshinSelectionTitle">
+      <div class="genshin-selection-dialog-inner">
+        <header class="genshin-selection-dialog-head">
+          <div>
+            <p class="genshin-kicker" id="genshinSelectionKicker">選択</p>
+            <h2 id="genshinSelectionTitle">キャラクターを選択</h2>
+          </div>
+          <button type="button" class="genshin-selection-close" id="genshinSelectionClose" aria-label="選択画面を閉じる">×</button>
+        </header>
+        <div class="genshin-selection-search-wrap">
+          <label for="genshinSelectionSearch">名前で検索</label>
+          <div class="genshin-selection-search-control">
+            <input type="text" id="genshinSelectionSearch" placeholder="漢字・ひらがな・カタカナで検索" autocomplete="off">
+            <button type="button" id="genshinSelectionSearchClear" disabled>名前をクリア</button>
+          </div>
+        </div>
+        <div class="genshin-selection-filters" id="genshinSelectionFilters"></div>
+        <p class="genshin-selection-summary" id="genshinSelectionSummary" aria-live="polite"></p>
+        <div class="genshin-selection-list" id="genshinSelectionList"></div>
+      </div>
+    </dialog>
 
     <footer class="teti-site-footer">
       <div class="teti-container">

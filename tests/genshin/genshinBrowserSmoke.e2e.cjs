@@ -147,6 +147,75 @@ async function clickAndWait(client, selector) {
             throw new Error(`${error.message}\n${JSON.stringify(diagnostics)}`);
         }
 
+        await evaluate(client, `document.querySelector("#genshinReflectCharacter").click()`);
+        try {
+            await waitFor(client, `document.querySelector("#genshinSelectionDialog").open && document.querySelectorAll("#genshinSelectionList [data-selection-id]").length > 0`);
+        } catch (error) {
+            const selectionDiagnostics = await evaluate(client, `({
+                dialogOpen: document.querySelector("#genshinSelectionDialog")?.open,
+                optionCount: document.querySelectorAll("#genshinSelectionList [data-selection-id]").length,
+                summary: document.querySelector("#genshinSelectionSummary")?.textContent,
+                bulkButton: Boolean(document.querySelector("#genshinFilterToggleAll"))
+            })`);
+            throw new Error(`${error.message}\n${JSON.stringify(selectionDiagnostics)}\n${JSON.stringify(client.exceptions)}`);
+        }
+        const initialSelectionUi = await evaluate(client, `({
+            title: document.querySelector("#genshinSelectionTitle").textContent,
+            elementFilters: document.querySelectorAll('[data-filter-group="element"]').length,
+            rarityFilters: document.querySelectorAll('[data-filter-group="rarity"]').length,
+            optionCount: document.querySelectorAll("#genshinSelectionList [data-selection-id]").length,
+            headingBorder: getComputedStyle(document.querySelector("#genshinSelectionTitle")).borderLeftWidth,
+            headingAccent: getComputedStyle(document.querySelector("#genshinSelectionTitle"), "::before").backgroundImage,
+            dialogHeight: document.querySelector("#genshinSelectionDialog").getBoundingClientRect().height,
+            bulkFilterRow: document.querySelector("#genshinFilterToggleAll").parentElement.querySelector("[data-filter-group]").dataset.filterGroup
+        })`);
+        assert.equal(initialSelectionUi.title, "キャラクターを選択");
+        assert.equal(initialSelectionUi.elementFilters, 8);
+        assert.equal(initialSelectionUi.rarityFilters, 2);
+        assert.ok(initialSelectionUi.optionCount > 50);
+        assert.equal(initialSelectionUi.headingBorder, "0px");
+        assert.ok(initialSelectionUi.headingAccent.includes("linear-gradient"));
+        assert.equal(initialSelectionUi.bulkFilterRow, "element");
+
+        await evaluate(client, `(() => { const input = document.querySelector("#genshinSelectionSearch"); input.value = "かんう"; input.dispatchEvent(new Event("input", { bubbles: true })); })()`);
+        await waitFor(client, `document.querySelectorAll("#genshinSelectionList [data-selection-id]").length > 0`);
+        const kanaSearchNames = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList [data-selection-id] strong")].map((item) => item.textContent)`);
+        assert.ok(kanaSearchNames.includes("甘雨"));
+        const clearButtonState = await evaluate(client, `({ text: document.querySelector("#genshinSelectionSearchClear").textContent, disabled: document.querySelector("#genshinSelectionSearchClear").disabled })`);
+        assert.equal(clearButtonState.text, "名前をクリア");
+        assert.equal(clearButtonState.disabled, false);
+        const filteredDialogHeight = await evaluate(client, `document.querySelector("#genshinSelectionDialog").getBoundingClientRect().height`);
+        assert.equal(filteredDialogHeight, initialSelectionUi.dialogHeight);
+        await evaluate(client, `document.querySelector("#genshinSelectionSearchClear").click()`);
+        await waitFor(client, `document.querySelectorAll("#genshinSelectionList [data-selection-id]").length > 50`);
+
+        await evaluate(client, `document.querySelector("#genshinFilterToggleAll").click()`);
+        await waitFor(client, `document.querySelectorAll("#genshinSelectionList [data-selection-id]").length === 0`);
+        const bulkClearLabel = await evaluate(client, `document.querySelector("#genshinFilterToggleAll").textContent`);
+        assert.equal(bulkClearLabel, "すべて選択");
+        await evaluate(client, `document.querySelector("#genshinFilterToggleAll").click()`);
+        await waitFor(client, `document.querySelectorAll("#genshinSelectionList [data-selection-id]").length > 50`);
+
+        await evaluate(client, `document.querySelectorAll('[data-filter-group="element"]').forEach((button) => { if (button.dataset.filterValue !== "炎") button.click(); })`);
+        const pyroOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList .genshin-selection-option span")].every((item) => item.textContent.startsWith("炎・"))`);
+        assert.equal(pyroOnly, true);
+        await evaluate(client, `document.querySelector('#genshinSelectionList [data-selection-id="10000016"]').click()`);
+        await waitFor(client, `document.querySelector("#genshinReflectCharacter").value === "ディルック" && !document.querySelector("#genshinWeaponInput").disabled`);
+
+        await evaluate(client, `document.querySelector("#genshinWeaponInput").click()`);
+        await waitFor(client, `document.querySelector("#genshinSelectionDialog").open && document.querySelector("#genshinSelectionTitle").textContent === "武器を選択"`);
+        const weaponSelectionUi = await evaluate(client, `({
+            summary: document.querySelector("#genshinSelectionSummary").textContent,
+            rarityFilters: document.querySelectorAll('[data-filter-group="rarity"]').length,
+            types: [...document.querySelectorAll("#genshinSelectionList .genshin-selection-option span")].map((item) => item.textContent.split("・")[1]),
+            bulkFilterRow: document.querySelector("#genshinFilterToggleAll").parentElement.querySelector("[data-filter-group]").dataset.filterGroup
+        })`);
+        assert.ok(weaponSelectionUi.summary.includes("両手剣"));
+        assert.equal(weaponSelectionUi.rarityFilters, 5);
+        assert.equal(weaponSelectionUi.bulkFilterRow, "rarity");
+        assert.equal(weaponSelectionUi.types.every((type) => type === "両手剣"), true);
+        await evaluate(client, `document.querySelector("#genshinSelectionClose").click()`);
+
         await evaluate(client, selectionExpression({
             characterName: "甘雨",
             characterId: "10000037",

@@ -77,6 +77,14 @@
         return Object.entries(data.artifactSets).map(([id, entry]) => ({ id, ...entry }));
     }
 
+    function listCharacters() {
+        return Object.entries(data.characters).map(([id, entry]) => ({ id, ...entry }));
+    }
+
+    function listWeapons() {
+        return Object.entries(data.weapons).map(([id, entry]) => ({ id, ...entry }));
+    }
+
     window.GenshinIdResolver = {
         ready,
         resolveCharacter,
@@ -85,6 +93,8 @@
         resolveWeaponEffect,
         resolveArtifactSet,
         resolveArtifactSetEffect,
+        listCharacters,
+        listWeapons,
         listArtifactSets
     };
 })();
