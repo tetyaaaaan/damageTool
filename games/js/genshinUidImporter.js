@@ -11,7 +11,8 @@
         network: "通信に失敗しました",
         noCharacters: "公開キャラクターが設定されていません",
         fetched: "公開プロフィールを取得しました。数値ステータスを入力欄へ反映できます。",
-        appliedSuffix: "の情報を入力欄へ反映しました。必要に応じて手動で修正できます。"
+        appliedSuffix: "の情報を入力欄へ反映しました。必要に応じて手動で修正できます。",
+        savedUidRemoved: "このブラウザに保存したUIDを削除しました。"
     };
 
     const state = {
@@ -541,6 +542,9 @@
                 return;
             }
             selectCharacter(0);
+            const saved = window.TetinetUidStorage?.save("genshin", uid);
+            const clearButton = getElement("genshinUidClearSavedButton");
+            if (saved && clearButton) clearButton.hidden = false;
             setMessage(TEXT.fetched, "success");
         } catch (error) {
             if (!navigator.onLine || error instanceof TypeError) {
@@ -557,7 +561,21 @@
         const input = getElement("genshinUidInput");
         const button = getElement("genshinUidSearchButton");
         const select = getElement("genshinProfileCharacterSelect");
+        const clearButton = getElement("genshinUidClearSavedButton");
         if (!input || !button || !select) return;
+
+        const savedUid = window.TetinetUidStorage?.load("genshin") || "";
+        if (savedUid) input.value = savedUid;
+        if (clearButton) {
+            clearButton.hidden = !savedUid;
+            clearButton.addEventListener("click", () => {
+                window.TetinetUidStorage?.remove("genshin");
+                input.value = "";
+                clearButton.hidden = true;
+                setMessage(TEXT.savedUidRemoved, "success");
+                input.focus();
+            });
+        }
 
         input.addEventListener("input", () => {
             input.value = input.value.replace(/\D/g, "");

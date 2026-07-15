@@ -141,6 +141,10 @@
             renderPlayer(profile);
             renderSelector(profile.characters);
             selectCharacter(0);
+            const saved = window.TetinetUidStorage?.save("hsr", uid);
+            const clearButton = getElement("hsrUidClearSavedButton");
+            if (saved && clearButton) clearButton.hidden = false;
+            setMessage("公開プロフィールを取得しました", "success");
         } catch (error) {
             const isCorsOrNetworkError = error instanceof TypeError;
             if (!navigator.onLine) {
@@ -159,7 +163,21 @@
         const input = getElement("hsrUidInput");
         const button = getElement("hsrUidSearchButton");
         const select = getElement("hsrProfileCharacterSelect");
+        const clearButton = getElement("hsrUidClearSavedButton");
         if (!input || !button || !select) return;
+
+        const savedUid = window.TetinetUidStorage?.load("hsr") || "";
+        if (savedUid) input.value = savedUid;
+        if (clearButton) {
+            clearButton.hidden = !savedUid;
+            clearButton.addEventListener("click", () => {
+                window.TetinetUidStorage?.remove("hsr");
+                input.value = "";
+                clearButton.hidden = true;
+                setMessage("このブラウザに保存したUIDを削除しました。", "success");
+                input.focus();
+            });
+        }
 
         input.addEventListener("input", () => {
             input.value = input.value.replace(/\D/g, "");

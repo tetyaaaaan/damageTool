@@ -124,6 +124,10 @@
         <input type="text" class="teti-input" id="hsrUidInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="例: 800000000" autocomplete="off">
         <button type="button" id="hsrUidSearchButton" class="teti-button teti-button-secondary calc-button">UID検索</button>
       </div>
+      <div class="uid-importer__storage">
+        <p>検索に成功したUIDは、このブラウザに保存して次回入力します。</p>
+        <button type="button" id="hsrUidClearSavedButton" class="uid-importer__clear-saved" hidden>保存したUIDを削除</button>
+      </div>
       <p id="hsrUidMessage" class="uid-importer__message" role="status" aria-live="polite"></p>
       <div id="hsrPlayerInfo" class="uid-importer__player" hidden></div>
       <div id="hsrCharacterSelector" class="uid-importer__selector" hidden>
@@ -301,6 +305,7 @@
 <script src="/games/js/hsr_selectArtifactList.js"></script>
 <script src="/games/js/hsrProfileApi.js"></script>
 <script src="/games/js/hsrProfileMapper.js"></script>
+<script src="/games/js/uidStorage.js"></script>
 <script src="/games/js/hsrUidImporter.js"></script>
 <script src="/games/js/hsr_dmgCalc.js"></script>
   </div>
@@ -348,7 +353,6 @@
   </div>
  </body>
 </html>
-
 
 
 

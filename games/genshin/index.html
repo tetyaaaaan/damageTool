@@ -97,6 +97,10 @@
                 <input class="teti-input" type="text" inputmode="numeric" pattern="[0-9]*" id="genshinUidInput" maxlength="10" placeholder="例: 800000000" autocomplete="off">
                 <button type="button" id="genshinUidSearchButton" class="teti-button teti-button-secondary">UID検索</button>
               </div>
+              <div class="uid-importer__storage">
+                <p>検索に成功したUIDは、このブラウザに保存して次回入力します。</p>
+                <button type="button" id="genshinUidClearSavedButton" class="uid-importer__clear-saved" hidden>保存したUIDを削除</button>
+              </div>
               <p class="uid-importer__message" id="genshinUidMessage" aria-live="polite"></p>
               <div class="uid-importer__player" id="genshinPlayerInfo" hidden></div>
               <div class="uid-importer__selector" id="genshinCharacterSelector" hidden>
@@ -308,6 +312,7 @@
         <script src="/games/js/genshinIdResolver.js"></script>
         <script src="/games/js/genshinProfileMapper.js"></script>
         <script src="/games/js/genshinSelectionModal.js"></script>
+        <script src="/games/js/uidStorage.js"></script>
         <script src="/games/js/genshinUidImporter.js"></script>
         <script src="/games/js/genshinCalcData.js"></script>
         <script src="/games/js/genshinModifierAnalyzer.js"></script>

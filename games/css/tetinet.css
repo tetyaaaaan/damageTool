@@ -1379,6 +1379,40 @@ html[data-theme="dark"] .genshin-breakdown-groups h4 {
   color: #16845f;
 }
 
+.uid-importer__storage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.uid-importer__storage p {
+  margin: 0;
+  color: var(--teti-muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.uid-importer__clear-saved {
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  border: 1px solid var(--teti-border);
+  border-radius: var(--teti-radius-sm);
+  background: transparent;
+  color: var(--teti-muted);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.uid-importer__clear-saved:hover,
+.uid-importer__clear-saved:focus-visible {
+  border-color: var(--teti-accent);
+  color: var(--teti-accent);
+}
+
 .genshin-tool-page .uid-importer__player,
 .genshin-tool-page .uid-importer__selector,
 .genshin-tool-page .uid-importer__detail {
@@ -1841,6 +1875,11 @@ body.tool-page footer:not(.teti-site-footer) a:hover {
   .genshin-inline-controls,
   #eleCalcContent.genshin-form-grid[style*="block"] {
     grid-template-columns: 1fr;
+  }
+
+  .uid-importer__storage {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .genshin-breakdown dl div {
