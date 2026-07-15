@@ -129,6 +129,7 @@ async function clickAndWait(client, selector) {
         client = await createCdpClient(target.webSocketDebuggerUrl);
         try {
             await waitFor(client, "Boolean(window.GenshinCalcEngine && window.GenshinCalcConditions && window.GenshinCalcRenderer)");
+            await waitFor(client, "Boolean(window.GenshinIdResolver && window.GenshinIdResolver.listCharacters().length > 0)");
         } catch (error) {
             const diagnostics = await evaluate(client, `({
                 location: location.href,
@@ -167,7 +168,10 @@ async function clickAndWait(client, selector) {
             headingBorder: getComputedStyle(document.querySelector("#genshinSelectionTitle")).borderLeftWidth,
             headingAccent: getComputedStyle(document.querySelector("#genshinSelectionTitle"), "::before").backgroundImage,
             dialogHeight: document.querySelector("#genshinSelectionDialog").getBoundingClientRect().height,
-            bulkFilterRow: document.querySelector("#genshinFilterToggleAll").parentElement.querySelector("[data-filter-group]").dataset.filterGroup
+            bulkFilterRow: document.querySelector("#genshinFilterToggleAll").parentElement.querySelector("[data-filter-group]").dataset.filterGroup,
+            selectedFilterCount: document.querySelectorAll('[data-filter-group][aria-pressed="true"]').length,
+            clearFilterText: document.querySelector("#genshinFilterToggleAll").textContent,
+            clearFilterDisabled: document.querySelector("#genshinFilterToggleAll").disabled
         })`);
         assert.equal(initialSelectionUi.title, "キャラクターを選択");
         assert.equal(initialSelectionUi.elementFilters, 8);
@@ -176,6 +180,9 @@ async function clickAndWait(client, selector) {
         assert.equal(initialSelectionUi.headingBorder, "0px");
         assert.ok(initialSelectionUi.headingAccent.includes("linear-gradient"));
         assert.equal(initialSelectionUi.bulkFilterRow, "element");
+        assert.equal(initialSelectionUi.selectedFilterCount, 0);
+        assert.equal(initialSelectionUi.clearFilterText, "フィルタ解除");
+        assert.equal(initialSelectionUi.clearFilterDisabled, true);
 
         await evaluate(client, `(() => { const input = document.querySelector("#genshinSelectionSearch"); input.value = "かんう"; input.dispatchEvent(new Event("input", { bubbles: true })); })()`);
         await waitFor(client, `document.querySelectorAll("#genshinSelectionList [data-selection-id]").length > 0`);
@@ -189,16 +196,20 @@ async function clickAndWait(client, selector) {
         await evaluate(client, `document.querySelector("#genshinSelectionSearchClear").click()`);
         await waitFor(client, `document.querySelectorAll("#genshinSelectionList [data-selection-id]").length > 50`);
 
-        await evaluate(client, `document.querySelector("#genshinFilterToggleAll").click()`);
-        await waitFor(client, `document.querySelectorAll("#genshinSelectionList [data-selection-id]").length === 0`);
-        const bulkClearLabel = await evaluate(client, `document.querySelector("#genshinFilterToggleAll").textContent`);
-        assert.equal(bulkClearLabel, "すべて選択");
-        await evaluate(client, `document.querySelector("#genshinFilterToggleAll").click()`);
-        await waitFor(client, `document.querySelectorAll("#genshinSelectionList [data-selection-id]").length > 50`);
-
-        await evaluate(client, `document.querySelectorAll('[data-filter-group="element"]').forEach((button) => { if (button.dataset.filterValue !== "炎") button.click(); })`);
+        await evaluate(client, `document.querySelector('[data-filter-group="element"][data-filter-value="炎"]').click()`);
         const pyroOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList .genshin-selection-option span")].every((item) => item.textContent.startsWith("炎・"))`);
         assert.equal(pyroOnly, true);
+        await evaluate(client, `document.querySelector('[data-filter-group="rarity"][data-filter-value="5"]').click()`);
+        const pyroFiveStarOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList .genshin-selection-option span")].every((item) => item.textContent.startsWith("炎・★5・"))`);
+        assert.equal(pyroFiveStarOnly, true);
+        const activeClearFilter = await evaluate(client, `({ disabled: document.querySelector("#genshinFilterToggleAll").disabled, selected: document.querySelectorAll('[data-filter-group][aria-pressed="true"]').length })`);
+        assert.equal(activeClearFilter.disabled, false);
+        assert.equal(activeClearFilter.selected, 2);
+        await evaluate(client, `document.querySelector("#genshinFilterToggleAll").click()`);
+        await waitFor(client, `document.querySelectorAll("#genshinSelectionList [data-selection-id]").length > 50`);
+        const resetFilterState = await evaluate(client, `({ disabled: document.querySelector("#genshinFilterToggleAll").disabled, selected: document.querySelectorAll('[data-filter-group][aria-pressed="true"]').length })`);
+        assert.equal(resetFilterState.disabled, true);
+        assert.equal(resetFilterState.selected, 0);
         await evaluate(client, `document.querySelector('#genshinSelectionList [data-selection-id="10000016"]').click()`);
         await waitFor(client, `document.querySelector("#genshinReflectCharacter").value === "ディルック" && !document.querySelector("#genshinWeaponInput").disabled`);
 
@@ -208,12 +219,23 @@ async function clickAndWait(client, selector) {
             summary: document.querySelector("#genshinSelectionSummary").textContent,
             rarityFilters: document.querySelectorAll('[data-filter-group="rarity"]').length,
             types: [...document.querySelectorAll("#genshinSelectionList .genshin-selection-option span")].map((item) => item.textContent.split("・")[1]),
-            bulkFilterRow: document.querySelector("#genshinFilterToggleAll").parentElement.querySelector("[data-filter-group]").dataset.filterGroup
+            bulkFilterRow: document.querySelector("#genshinFilterToggleAll").parentElement.querySelector("[data-filter-group]").dataset.filterGroup,
+            selectedFilterCount: document.querySelectorAll('[data-filter-group][aria-pressed="true"]').length,
+            clearFilterDisabled: document.querySelector("#genshinFilterToggleAll").disabled
         })`);
         assert.ok(weaponSelectionUi.summary.includes("両手剣"));
         assert.equal(weaponSelectionUi.rarityFilters, 5);
         assert.equal(weaponSelectionUi.bulkFilterRow, "rarity");
+        assert.equal(weaponSelectionUi.selectedFilterCount, 0);
+        assert.equal(weaponSelectionUi.clearFilterDisabled, true);
         assert.equal(weaponSelectionUi.types.every((type) => type === "両手剣"), true);
+        await evaluate(client, `document.querySelector('[data-filter-group="rarity"][data-filter-value="5"]').click()`);
+        const fiveStarWeaponsOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList .genshin-selection-option span")].every((item) => item.textContent.startsWith("★5・両手剣"))`);
+        assert.equal(fiveStarWeaponsOnly, true);
+        await evaluate(client, `document.querySelector("#genshinFilterToggleAll").click()`);
+        const resetWeaponFilters = await evaluate(client, `({ disabled: document.querySelector("#genshinFilterToggleAll").disabled, selected: document.querySelectorAll('[data-filter-group][aria-pressed="true"]').length })`);
+        assert.equal(resetWeaponFilters.disabled, true);
+        assert.equal(resetWeaponFilters.selected, 0);
         await evaluate(client, `document.querySelector("#genshinSelectionClose").click()`);
 
         await evaluate(client, selectionExpression({

@@ -3368,6 +3368,7 @@ html[data-theme="dark"] .genshin-tool-page .genshin-reflect-inputs {
 .genshin-filter-toggle-all { margin-left: auto; padding: 7px 12px; color: var(--teti-accent); background: transparent; border: 1px solid color-mix(in srgb, var(--teti-accent) 52%, var(--teti-border)); border-radius: 8px; font-weight: 900; cursor: pointer; }
 .genshin-filter-toggle-all:hover,
 .genshin-filter-toggle-all:focus-visible { color: var(--teti-accent-contrast); background: var(--teti-accent); border-color: var(--teti-accent); }
+.genshin-filter-toggle-all:disabled { color: var(--teti-muted); background: transparent; border-color: var(--teti-border); cursor: default; opacity: .62; }
 .genshin-filter-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
 .genshin-filter-label { min-width: 72px; color: var(--teti-muted); font-size: 0.82rem; font-weight: 900; }
 .genshin-filter-button { padding: 7px 11px; color: var(--teti-muted); background: var(--teti-surface-soft); border: 1px solid var(--teti-border); border-radius: 999px; font-weight: 800; cursor: pointer; }

@@ -43,25 +43,18 @@
 
     function resetFilters() {
         state.filters.clear();
-        const groups = state.mode === "character"
-            ? [["element", ELEMENTS], ["rarity", CHARACTER_RARITIES]]
-            : [["rarity", WEAPON_RARITIES]];
-        groups.forEach(([group, entries]) => entries.forEach((value) => state.filters.add(filterKey(group, value))));
     }
 
-    function currentFilterKeys() {
-        const groups = state.mode === "character"
-            ? [["element", ELEMENTS], ["rarity", CHARACTER_RARITIES]]
-            : [["rarity", WEAPON_RARITIES]];
-        return groups.flatMap(([group, entries]) => entries.map((value) => filterKey(group, value)));
+    function hasSelectedFilter(group) {
+        const prefix = `${group}:`;
+        return [...state.filters].some((key) => key.startsWith(prefix));
     }
 
     function updateBulkFilterButton() {
         const button = byId("genshinFilterToggleAll");
         if (!button) return;
-        const allSelected = currentFilterKeys().every((key) => state.filters.has(key));
-        button.textContent = allSelected ? "すべて解除" : "すべて選択";
-        button.setAttribute("aria-pressed", String(allSelected));
+        button.textContent = "フィルタ解除";
+        button.disabled = state.filters.size === 0;
     }
 
     function makeFilterRow(label, group, values) {
@@ -77,7 +70,7 @@
             button.className = "genshin-filter-button";
             button.dataset.filterGroup = group;
             button.dataset.filterValue = String(value);
-            button.setAttribute("aria-pressed", "true");
+            button.setAttribute("aria-pressed", "false");
             button.textContent = group === "rarity" ? `★${value}` : value === "-" ? "旅人" : value;
             row.appendChild(button);
         });
@@ -110,8 +103,9 @@
         return source.filter((item) => {
             const searchText = normalizeSearchText(`${item.nameJa} ${state.mode === "character" ? CHARACTER_READINGS[item.nameJa] || "" : ""}`);
             if (query && !searchText.includes(query)) return false;
-            if (!state.filters.has(filterKey("rarity", item.rarity))) return false;
-            if (state.mode === "character") return state.filters.has(filterKey("element", item.element));
+            if (hasSelectedFilter("rarity") && !state.filters.has(filterKey("rarity", item.rarity))) return false;
+            if (state.mode === "character" && hasSelectedFilter("element") && !state.filters.has(filterKey("element", item.element))) return false;
+            if (state.mode === "character") return true;
             return state.character && item.weaponType === state.character.weaponType;
         });
     }
@@ -228,13 +222,9 @@
         byId("genshinSelectionFilters").addEventListener("click", (event) => {
             const toggleAll = event.target.closest("#genshinFilterToggleAll");
             if (toggleAll) {
-                const keys = currentFilterKeys();
-                const allSelected = keys.every((key) => state.filters.has(key));
-                if (allSelected) state.filters.clear();
-                else keys.forEach((key) => state.filters.add(key));
+                state.filters.clear();
                 byId("genshinSelectionFilters").querySelectorAll("[data-filter-group]").forEach((button) => {
-                    const key = filterKey(button.dataset.filterGroup, button.dataset.filterValue);
-                    button.setAttribute("aria-pressed", String(state.filters.has(key)));
+                    button.setAttribute("aria-pressed", "false");
                 });
                 updateBulkFilterButton();
                 renderList();
