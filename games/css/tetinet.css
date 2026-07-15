@@ -1337,6 +1337,13 @@ html[data-theme="dark"] .genshin-breakdown-groups h4 {
   padding: 22px;
 }
 
+.genshin-tool-page .genshin-detail-card ul,
+.genshin-tool-page .genshin-detail-card ol {
+  margin: 0 0 16px;
+  padding-inline-start: 1.5rem;
+  list-style-position: outside;
+}
+
 .genshin-link-row {
   display: flex;
   flex-wrap: wrap;

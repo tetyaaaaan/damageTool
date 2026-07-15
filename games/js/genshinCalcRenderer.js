@@ -651,7 +651,7 @@
     function reactionOptions(selected) {
         const groups = [
             ["", [["none", "反応なし"]]],
-            ["増幅反応（計算対応）", [["melt15", "溶解 1.5"], ["melt20", "溶解 2.0"], ["vaporize15", "蒸発 1.5"], ["vaporize20", "蒸発 2.0"]]],
+            ["増幅反応", [["melt15", "溶解 1.5　氷ダメ"], ["melt20", "溶解 2.0　炎ダメ"], ["vaporize15", "蒸発 1.5　炎ダメ"], ["vaporize20", "蒸発 2.0　水ダメ"]]],
             ["加算反応", [["aggravate", "超激化"], ["spread", "草激化"]]],
             ["変化反応", [["overload", "過負荷"], ["electroCharged", "感電"], ["superconduct", "超電導"], ["swirl", "拡散"], ["burning", "燃焼"], ["bloom", "開花"], ["hyperbloom", "超開花"], ["burgeon", "烈開花"], ["shatter", "氷砕き"], ["crystallize", "結晶"]]],
             ["状態反応", [["frozen", "凍結"], ["quicken", "原激化"]]],

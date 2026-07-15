@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1364333463446351"
      crossorigin="anonymous"></script>
-  <title>敵キャラ情報｜ダメージ計算ツール</title>
-  <meta name="description" content="ダメージ計算で使う敵レベル、耐性、靭性などの参考情報をまとめたページです。">
+  <title>原神・スターレイル 敵の耐性・防御条件｜tetinet</title>
+  <meta name="description" content="原神と崩壊：スターレイルのダメージ計算で使う敵レベル、元素・物理耐性、属性弱点、靭性、防御条件の入力方法と参考値を説明します。">
+  <link rel="canonical" href="https://tetinet.com/games/enemies/">
   <link rel="stylesheet" href="/games/css/tetinet.css">
   
   
@@ -39,34 +40,67 @@
       <nav class="teti-breadcrumb" aria-label="パンくず">
         <a href="/">ホーム</a>
         <a href="/games/">ゲーム</a>
-        <span>敵キャラ情報</span>
+        <span>敵の耐性・防御条件</span>
       </nav>
 
       <section class="teti-page-header">
         <div>
           <p class="teti-page-kicker">Enemy Reference</p>
-          <h1>敵キャラ情報</h1>
-          <p>ダメージ計算で使う敵レベル、耐性、靭性などの参考値を整理しています。</p>
+          <h1>原神・スターレイル 敵の耐性・防御条件</h1>
+          <p>ダメージ計算へ入力する敵レベル、元素・物理耐性、属性弱点、靭性などの考え方と参考値を整理しています。</p>
         </div>
       </section>
 
       <section class="teti-panel teti-detail-card">
-        <h2>原神の参考敵</h2>
+        <h2>敵情報を入力するときの考え方</h2>
+        <p>ダメージは、攻撃側のステータスだけでなく敵レベル、防御補正、攻撃属性に対応する耐性によって変わります。装備やバフを比較するときは、比較対象以外の敵条件を同じ値に揃えてください。</p>
         <ul>
-          <li>仮想敵「公義」: Lv.90 全元素耐性 10%、物理耐性 -20%（参考値）</li>
-          <li>魔偶剣鬼: Lv.93 全元素・物理耐性 10%</li>
-          <li>遺跡守衛: 物理耐性 70%、元素耐性 10%</li>
+          <li>敵レベルは、実際に比較したい敵またはコンテンツのレベルを入力します。</li>
+          <li>耐性はデバフ適用前の値を敵情報へ入力し、耐性を下げる効果はデバフ欄へ分けて入力します。</li>
+          <li>敵の形態変化や特殊状態で耐性が変わる場合は、ダメージを与える時点の値を使います。</li>
         </ul>
-        <p><a href="https://wikiwiki.jp/genshinwiki/%E6%95%B5%E8%80%90%E6%80%A7">敵の元素耐性一覧リンク</a></p>
       </section>
 
       <section class="teti-panel teti-detail-card">
-        <h2>崩壊スターレイルの初期条件</h2>
+        <h2>原神の敵レベル・元素耐性・物理耐性</h2>
+        <h3>ツールの初期値</h3>
         <ul>
-          <li>靭性あり: 靭性補正 0.9</li>
-          <li>弱点なし: 属性耐性補正の基礎値を0.8として扱います。</li>
-          <li>弱点あり: 属性耐性補正の基礎値を1として扱います。</li>
+          <li>敵レベル: 90</li>
+          <li>敵の元素耐性: 10%</li>
+          <li>敵の物理耐性: 10%</li>
+          <li>元素耐性デバフ、物理耐性デバフ、防御デバフ、防御無視: すべて0%</li>
         </ul>
+        <p>元素ダメージには元素耐性、物理ダメージには物理耐性を使用します。元素耐性デバフと物理耐性デバフも独立しており、選択した攻撃属性に対応する値だけが計算へ反映されます。</p>
+
+        <h3>参考入力例</h3>
+        <ul>
+          <li>魔偶剣鬼: Lv.93、元素耐性10%、物理耐性10%を比較条件の例として使用できます。</li>
+          <li>遺跡守衛: 元素耐性10%、物理耐性70%を物理攻撃との比較例として使用できます。</li>
+        </ul>
+        <p>敵ごとの耐性は形態や状態によって変わる場合があります。入力前にゲーム内の対象と最新情報を確認してください。参考: <a href="https://wikiwiki.jp/genshinwiki/%E6%95%B5%E8%80%90%E6%80%A7" target="_blank" rel="noopener noreferrer">原神Wiki 敵の耐性一覧</a></p>
+        <p><a href="/games/genshin/">原神ダメージ計算ツールを開く</a>・<a href="/games/formula/#genshin-formula">原神の防御・耐性計算式を見る</a></p>
+      </section>
+
+      <section class="teti-panel teti-detail-card">
+        <h2>崩壊：スターレイルの属性弱点・靭性条件</h2>
+        <h3>ツールで選択する敵の状態</h3>
+        <ul>
+          <li>属性弱点がある場合: 属性耐性補正の基礎値を1として扱います。</li>
+          <li>属性弱点がない場合: 属性耐性補正の基礎値を0.8として扱います。</li>
+          <li>靭性が残っている場合: 靭性補正として0.9を掛けます。</li>
+          <li>靭性がない場合: 靭性補正を1として扱います。</li>
+        </ul>
+        <p>耐性デバフ、防御デバフ、防御無視は条件入力欄へ別々に入力します。防御補正にはキャラレベルと敵レベルも使うため、実際に比較したい戦闘条件へ揃えてください。</p>
+
+        <h3>撃破ダメージで使う条件</h3>
+        <p>撃破ダメージでは、キャラレベルごとの基礎値、撃破特効、敵の靭性ゲージ、防御補正、耐性補正と属性ごとの倍率を使用します。通常ダメージとは別枠の結果として表示されます。</p>
+        <p><a href="/games/hsr/">スターレイルダメージ計算ツールを開く</a>・<a href="/games/formula/#hsr-formula">スターレイルの防御・耐性計算式を見る</a></p>
+      </section>
+
+      <section class="teti-panel teti-detail-card">
+        <h2>参考値を使うときの注意</h2>
+        <p>このページの値は、計算条件を揃えるための参考です。ゲームのアップデート、敵固有の状態、コンテンツごとのレベル差などにより実際の条件は変化します。特定の敵を再現する場合は、対象の最新情報を確認したうえで入力値を調整してください。</p>
+        <p>最終確認日: 2026年7月15日</p>
       </section>
       </div>
     </main>
