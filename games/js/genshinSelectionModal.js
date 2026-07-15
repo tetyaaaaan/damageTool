@@ -155,7 +155,7 @@
         state.character = character || null;
         const weaponInput = byId("genshinWeaponInput");
         weaponInput.disabled = !state.character;
-        weaponInput.placeholder = state.character ? `${state.character.weaponType}を選択` : "先にキャラクターを選択";
+        weaponInput.placeholder = state.character ? `${state.character.weaponType}を選択` : "先にキャラ選択";
         if (!state.character) return clearWeapon();
         if (!keepWeapon) {
             const currentWeapon = state.weapons.find((item) => item.id === byId("genshinCalcWeaponId").value);

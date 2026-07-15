@@ -943,7 +943,9 @@
             const section = sectionMap.get(key);
             const impactLabel = effect.modifier?.syntheticAttackMode
                 ? `攻撃モードを${effect.modifier.attackModeStateName}へ切り替え`
-                : modifierImpactLabel(effect.modifier);
+                : effect.modifier?.effectLabel
+                    || effect.modifier?.valueSource?.label
+                    || modifierImpactLabel(effect.modifier);
             section.impactLabels.push(impactLabel);
             section.effects.push({
                 ...effect,
@@ -1259,7 +1261,7 @@
                 label: "火魔女4セット（元素スキル使用後）"
             },
             helpText: hasCharacter
-                ? `${characterName} / ${weaponName} に合わせて補正条件を更新しました。命ノ星座は現在の入力欄の値を初期選択しています。必要な条件を選んでからJSON計算を実行してください。`
+                ? `${characterName} / ${weaponName} に合わせて補正条件を更新しました。命ノ星座は現在の入力欄の値を初期選択しています。必要な条件を選んでからダメージ計算を実行してください。`
                 : "計算入力欄でキャラクター・武器・聖遺物を選ぶと、利用できる補正条件がここに表示されます。"
         };
     }

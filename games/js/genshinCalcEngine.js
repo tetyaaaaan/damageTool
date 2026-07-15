@@ -51,6 +51,104 @@
         return getElement(id)?.value || fallback;
     }
 
+    const RESISTANCE_ELEMENT_ALIASES = {
+        "\u708e": "pyro",
+        fire: "pyro",
+        pyro: "pyro",
+        "\u6c34": "hydro",
+        water: "hydro",
+        hydro: "hydro",
+        "\u96f7": "electro",
+        lightning: "electro",
+        electro: "electro",
+        "\u6c37": "cryo",
+        ice: "cryo",
+        cryo: "cryo",
+        "\u98a8": "anemo",
+        wind: "anemo",
+        anemo: "anemo",
+        "\u5ca9": "geo",
+        rock: "geo",
+        geo: "geo",
+        "\u8349": "dendro",
+        grass: "dendro",
+        dendro: "dendro",
+        "\u7269\u7406": "physical",
+        phys: "physical",
+        physical: "physical"
+    };
+
+    function finiteNumber(value, fallback) {
+        const number = Number(value);
+        return Number.isFinite(number) ? number : fallback;
+    }
+
+    function normalizeResistanceElement(element) {
+        const normalized = String(element || "").trim().toLocaleLowerCase("en");
+        return RESISTANCE_ELEMENT_ALIASES[normalized] || normalized;
+    }
+
+    function normalizeResistanceValues(values) {
+        if (!values || typeof values !== "object" || Array.isArray(values)) return {};
+        return Object.fromEntries(Object.entries(values).flatMap(([element, value]) => {
+            const normalizedElement = normalizeResistanceElement(element);
+            const normalizedValue = Number(value);
+            return normalizedElement && normalizedElement !== "physical" && Number.isFinite(normalizedValue)
+                ? [[normalizedElement, normalizedValue]]
+                : [];
+        }));
+    }
+
+    function normalizeEnemyResistance(enemy = {}) {
+        const resistance = enemy.resistance || {};
+        const base = resistance.base || {};
+        const manualDebuff = resistance.manualDebuff || {};
+        const legacyBaseResistance = finiteNumber(enemy.enemyResistance, 10);
+        const legacyResistanceDebuff = finiteNumber(enemy.resistanceDebuff, 0);
+        return {
+            base: {
+                defaultElemental: finiteNumber(base.defaultElemental, legacyBaseResistance),
+                physical: finiteNumber(base.physical, legacyBaseResistance),
+                byElement: normalizeResistanceValues(base.byElement)
+            },
+            manualDebuff: {
+                allElemental: finiteNumber(manualDebuff.allElemental, legacyResistanceDebuff),
+                physical: finiteNumber(manualDebuff.physical, legacyResistanceDebuff),
+                byElement: normalizeResistanceValues(manualDebuff.byElement)
+            }
+        };
+    }
+
+    function resolveBaseResistance(enemy, damageElement) {
+        const resistance = normalizeEnemyResistance(enemy);
+        const element = normalizeResistanceElement(damageElement);
+        if (element === "physical") return resistance.base.physical;
+        return resistance.base.byElement[element] ?? resistance.base.defaultElemental;
+    }
+
+    function resolveManualResistanceDebuff(enemy, damageElement) {
+        const resistance = normalizeEnemyResistance(enemy);
+        const element = normalizeResistanceElement(damageElement);
+        if (element === "physical") return resistance.manualDebuff.physical;
+        return resistance.manualDebuff.allElemental + (resistance.manualDebuff.byElement[element] ?? 0);
+    }
+
+    function resolveEffectiveResistance(enemy, damageElement, structuredResistanceDebuff = 0) {
+        return resolveBaseResistance(enemy, damageElement)
+            - resolveManualResistanceDebuff(enemy, damageElement)
+            - finiteNumber(structuredResistanceDebuff, 0);
+    }
+
+    function resolveDamageResistanceElement(entry = {}, reaction = {}) {
+        const isReactionDamage = Boolean(entry.directReactionId)
+            || entry.attackType === "reaction"
+            || entry.damageType === "reaction";
+        const element = isReactionDamage
+            ? reaction.damageElement || entry.element || "physical"
+            : entry.element || reaction.damageElement || "physical";
+        return normalizeResistanceElement(element);
+    }
+
     function readResourceStates() {
         const states = {};
         const inputs = document.querySelectorAll?.("[data-genshin-resource-key]") || [];
@@ -129,6 +227,10 @@
         const hasReflectedCharacter = Boolean(readText("genshinReflectCharacter", ""));
         const constellationValue = hasReflectedCharacter ? readText("genshinReflectConstellation", "C0") : "C0";
         const selectedConstellation = constellationValue;
+        const elementalResistance = readNumber("genshinEnemyElementalResistanceInput", 10);
+        const physicalResistance = readNumber("genshinEnemyPhysicalResistanceInput", 10);
+        const elementalResistanceDebuff = readNumber("genshinElementalResistanceDebuffInput", 0);
+        const physicalResistanceDebuff = readNumber("genshinPhysicalResistanceDebuffInput", 0);
         return {
             characterId: readText("genshinCalcCharacterId", ""),
             weaponId: readText("genshinCalcWeaponId", ""),
@@ -153,11 +255,21 @@
             },
             enemy: {
                 characterLevel: readNumber("genshinReflectLevel", readNumber("lv", 90)),
-                enemyLevel: readNumber("e_lv", 90),
-                enemyResistance: readNumber("e_res", 10),
-                resistanceDebuff: readNumber("ele_d", 0),
-                defenseDebuff: readNumber("def_d", 0),
-                defenseIgnore: readNumber("def_ig", 0)
+                enemyLevel: readNumber("genshinEnemyLevelInput", 90),
+                resistance: {
+                    base: {
+                        defaultElemental: elementalResistance,
+                        physical: physicalResistance,
+                        byElement: {}
+                    },
+                    manualDebuff: {
+                        allElemental: elementalResistanceDebuff,
+                        physical: physicalResistanceDebuff,
+                        byElement: {}
+                    }
+                },
+                defenseReduction: readNumber("genshinDefenseReductionInput", 0),
+                defenseIgnore: readNumber("genshinDefenseIgnoreInput", 0)
             },
             mode: "uidMode",
             reactionOptionKey: readText("genshinJsonReactionOption", "none"),
@@ -209,7 +321,9 @@
         const isNormalTalentAttack = ["normalAttack", "chargedAttack", "plungingAttack"].includes(entry.attackType);
 
         if (entry.element === "ownElement") return ownElement;
-        if (weaponType === "弓" && entry.attackType === "chargedAttack") return ownElement;
+        if (weaponType === "弓" && entry.attackType === "chargedAttack") {
+            return entry.chargedAttackStage === "aimed" ? "physical" : ownElement;
+        }
         if (weaponType === "法器" && isNormalTalentAttack) return ownElement;
         return entry.element;
     }
@@ -317,6 +431,44 @@
         };
     }
 
+    function talentLevelForSource(sourceId, context) {
+        if (sourceId === "combat1") return context.talentLevels?.normal || 1;
+        if (sourceId === "combat3") return context.talentLevels?.burst || 1;
+        return context.talentLevels?.skill || 1;
+    }
+
+    function normalizeExclusiveTalentOptions(modifier, sourceId, calcData, context) {
+        const config = modifier.exclusiveTalentOptions;
+        if (!config?.options?.length) return modifier;
+        const siblings = (calcData.talentModifiers?.[context.characterId]?.passives || [])
+            .find((passive) => String(passive.sourceId || "").replace(/_/g, "") === String(sourceId).replace(/_/g, ""))
+            ?.modifiers || [];
+        const talentLevel = Math.min(Math.max(Math.round(talentLevelForSource(sourceId, context)), 1), 15);
+        const valueByCondition = {};
+        config.options.forEach((option) => {
+            const sourceModifier = Number.isInteger(option.modifierIndex) ? siblings[option.modifierIndex] : null;
+            const rawValue = option.value !== undefined
+                ? option.value
+                : sourceModifier?.valueByLevel?.[String(talentLevel)] ?? sourceModifier?.valueByLevel?.["1"] ?? 0;
+            valueByCondition[String(option.valueKey)] = numericModifierValue(rawValue);
+        });
+        return {
+            ...modifier,
+            id: config.id || modifier.id,
+            effectLabel: config.effectLabel || modifier.effectLabel,
+            valueByCondition,
+            conditionInput: {
+                type: "option",
+                label: config.label || "効果段階",
+                help: config.help || "現在の段階を選択します。各段階は同時には適用されません。",
+                options: config.options.map((option) => ({ value: String(option.valueKey), label: option.label }))
+            },
+            conditionGroupId: config.id || modifier.conditionGroupId,
+            calculationSupport: "simple",
+            uidHandling: "conditional"
+        };
+    }
+
     function normalizeTalentStateModifier(modifier, source, calcData, context, modifierIndex = 0) {
         const sourceId = String(source).startsWith("talent:") ? String(source).slice("talent:".length) : "";
         const registryKey = `${context.characterId}.${sourceId}.${modifierIndex}`;
@@ -327,7 +479,8 @@
             talentResolution: registryRecord.resolution,
             talentResolutionReason: registryRecord.reasonJa
         } : modifier;
-        const normalized = normalizeElementOverrideModifier(registered, source, calcData, context);
+        const optionNormalized = normalizeExclusiveTalentOptions(registered, sourceId, calcData, context);
+        const normalized = normalizeElementOverrideModifier(optionNormalized, source, calcData, context);
         if (!String(source).startsWith("talent:")) return normalized;
         if (!["combat2", "combat3"].includes(sourceId)) return normalized;
         if (!["active", "stateActive", "duringBurst"].includes(normalized.condition)) return normalized;
@@ -954,18 +1107,18 @@
 
     function resistanceDebuffAppliesToEntry(modifier, entry) {
         const applyTo = modifier.applyTo || [];
-        const resistanceMap = {
-            "炎": "pyroResistance",
-            "水": "hydroResistance",
-            "雷": "electroResistance",
-            "氷": "cryoResistance",
-            "風": "anemoResistance",
-            "岩": "geoResistance",
-            "草": "dendroResistance",
-            physical: "physicalResistance"
-        };
-        const target = resistanceMap[entry.element];
+        const element = normalizeResistanceElement(entry.element);
+        const target = element === "physical" ? "physicalResistance" : `${element}Resistance`;
         return !applyTo.length || applyTo.includes(target) || applyTo.includes("allResistance");
+    }
+
+    function defenseModifierAppliesToEntry(modifier, entry) {
+        if (entry.directReactionId || entry.attackType === "reaction" || entry.damageType === "reaction") return false;
+        if (modifier.targetEffect) return modifierTargetsEntry(modifier, entry);
+        if (Array.isArray(modifier.targetGroups) && !modifier.targetGroups.includes(entry.group)) return false;
+        const scopedTargets = (modifier.applyTo || []).filter((target) => target !== "enemyDefense");
+        if (!scopedTargets.length) return true;
+        return modifierTargetsEntry({ ...modifier, applyTo: scopedTargets }, entry);
     }
 
     function reactionBonusApplies(modifier, reaction) {
@@ -1054,9 +1207,9 @@
         const candidates = [...collected.candidates];
         const totals = {
             damageBonus: 0,
-            resistanceDebuff: context.enemy.resistanceDebuff,
-            defenseDebuff: context.enemy.defenseDebuff,
-            defenseIgnore: context.enemy.defenseIgnore,
+            resistanceDebuff: 0,
+            defenseDebuff: finiteNumber(context.enemy.defenseReduction ?? context.enemy.defenseDebuff, 0),
+            defenseIgnore: finiteNumber(context.enemy.defenseIgnore, 0),
             statBonus: {},
             critRateBonus: 0,
             critDamageBonus: 0,
@@ -1160,10 +1313,10 @@
             } else if (modifier.category === "resistanceDebuff" && resistanceDebuffAppliesToEntry(modifier, effectiveEntry)) {
                 totals.resistanceDebuff += Math.abs(Number(value) || 0);
                 applied.push(item);
-            } else if (modifier.category === "defenseDebuff" && !entry.directReactionId) {
+            } else if (modifier.category === "defenseDebuff" && defenseModifierAppliesToEntry(modifier, effectiveEntry)) {
                 totals.defenseDebuff += Math.abs(Number(value) || 0);
                 applied.push(item);
-            } else if (modifier.category === "defenseIgnore" && !entry.directReactionId) {
+            } else if (modifier.category === "defenseIgnore" && defenseModifierAppliesToEntry(modifier, effectiveEntry)) {
                 totals.defenseIgnore += Math.abs(Number(value) || 0);
                 applied.push(item);
             } else if (modifier.category === "reactionBonus" && reactionBonusApplies(modifier, entryReaction)) {
@@ -1203,10 +1356,24 @@
         return { entry: effectiveEntry, totals, applied, candidates };
     }
 
+    function clampPercent(value, maximum = 100) {
+        return Math.min(Math.max(finiteNumber(value, 0), 0), maximum);
+    }
+
+    function resolveDefenseReduction(enemy = {}) {
+        return clampPercent(enemy.defenseReduction ?? enemy.defenseDebuff, 90);
+    }
+
+    function resolveDefenseIgnore(enemy = {}) {
+        return clampPercent(enemy.defenseIgnore, 100);
+    }
+
     function defenseMultiplier(context) {
-        const lv = context.enemy.characterLevel;
-        const eLv = context.enemy.enemyLevel;
-        return (lv + 100) / ((1 - context.enemy.defenseIgnore / 100) * (1 - context.enemy.defenseDebuff / 100) * (eLv + 100) + lv + 100);
+        const lv = finiteNumber(context.enemy.characterLevel, 90);
+        const eLv = finiteNumber(context.enemy.enemyLevel, 90);
+        const defenseReduction = resolveDefenseReduction(context.enemy);
+        const defenseIgnore = resolveDefenseIgnore(context.enemy);
+        return (lv + 100) / ((1 - defenseIgnore / 100) * (1 - defenseReduction / 100) * (eLv + 100) + lv + 100);
     }
 
     function resistanceMultiplier(resistance) {
@@ -1309,7 +1476,8 @@
                     * (1 + baseDamageBonus / 100)
                     * (1 + (emBonus + reactionBonus) / 100)
                     + (appliedModifiers.totals.additiveBaseDamage || 0);
-            const effectiveResistance = context.enemy.enemyResistance - appliedModifiers.totals.resistanceDebuff;
+            const resistanceElement = resolveDamageResistanceElement(effectiveEntry, directReaction);
+            const effectiveResistance = resolveEffectiveResistance(context.enemy, resistanceElement, appliedModifiers.totals.resistanceDebuff);
             const resMultiplier = resistanceMultiplier(effectiveResistance);
             const nonCrit = baseDamage * resMultiplier * appliedModifiers.totals.finalDamageMultiplier;
             const critRate = context.stats.critRate + (appliedModifiers.totals.critRateBonus || 0) + (appliedModifiers.totals.reactionCritRate || 0);
@@ -1371,15 +1539,18 @@
             + (appliedModifiers.totals.additiveBaseDamage || 0)
             + reaction.additiveBaseDamage;
         const damageBonusMultiplier = 1 + appliedModifiers.totals.damageBonus / 100;
+        const defenseReduction = resolveDefenseReduction({ defenseReduction: appliedModifiers.totals.defenseDebuff });
+        const defenseIgnore = resolveDefenseIgnore({ defenseIgnore: appliedModifiers.totals.defenseIgnore });
         const defMultiplier = defenseMultiplier({
             ...context,
             enemy: {
                 ...context.enemy,
-                defenseDebuff: appliedModifiers.totals.defenseDebuff,
-                defenseIgnore: appliedModifiers.totals.defenseIgnore
+                defenseReduction,
+                defenseIgnore
             }
         });
-        const effectiveResistance = context.enemy.enemyResistance - appliedModifiers.totals.resistanceDebuff;
+        const resistanceElement = resolveDamageResistanceElement(effectiveEntry, reaction.detail);
+        const effectiveResistance = resolveEffectiveResistance(context.enemy, resistanceElement, appliedModifiers.totals.resistanceDebuff);
         const resMultiplier = resistanceMultiplier(effectiveResistance);
         const nonCrit = baseDamage * damageBonusMultiplier * defMultiplier * resMultiplier * reaction.multiplier * appliedModifiers.totals.finalDamageMultiplier;
         const critRate = context.stats.critRate + (appliedModifiers.totals.critRateBonus || 0);
@@ -1412,8 +1583,9 @@
                 critRate,
                 critDamage,
                 defenseMultiplier: defMultiplier,
-                defenseDebuff: appliedModifiers.totals.defenseDebuff,
-                defenseIgnore: appliedModifiers.totals.defenseIgnore,
+                defenseDebuff: defenseReduction,
+                defenseReduction,
+                defenseIgnore,
                 resistance: effectiveResistance,
                 resistanceMultiplier: resMultiplier,
                 reaction: reaction.detail,
@@ -1434,15 +1606,19 @@
 
     function collectReactionTotals(context, collected) {
         const reaction = context.reactionOption || REACTION_OPTIONS.none;
+        const reactionEntry = {
+            attackType: "reaction",
+            damageType: "reaction",
+            element: reaction.damageElement || "physical"
+        };
         const totals = {
             reactionBonus: 0,
             baseDamageBonus: 0,
             critRate: 0,
             critDamage: 0,
-            resistanceDebuff: context.enemy.resistanceDebuff,
+            resistanceDebuff: 0,
             applied: []
         };
-        const reactionEntry = { element: reaction.damageElement || "physical" };
         (collected.applied || []).forEach((item) => {
             const { modifier, value } = item;
             if (modifier.category === "reactionBonus" && reactionBonusApplies(modifier, reaction)) {
@@ -1470,7 +1646,12 @@
     function buildIndirectLunarResult(context, collected, reaction) {
         const totals = collectReactionTotals(context, collected);
         const weights = reaction.contributionWeights || [1, 0.5, 1 / 12, 1 / 12];
-        const effectiveResistance = context.enemy.enemyResistance - totals.resistanceDebuff;
+        const resistanceElement = resolveDamageResistanceElement({
+            attackType: "reaction",
+            damageType: "reaction",
+            element: reaction.damageElement
+        }, reaction);
+        const effectiveResistance = resolveEffectiveResistance(context.enemy, resistanceElement, totals.resistanceDebuff);
         const resMultiplier = resistanceMultiplier(effectiveResistance);
         const current = {
             slot: 1,
@@ -1591,7 +1772,12 @@
             isShield ? "crystallizeShieldBase" : "characterLevelMultipliers"
         );
         const baseValue = isShield ? levelMultiplier : levelMultiplier * reaction.coefficient;
-        const effectiveResistance = context.enemy.enemyResistance - totals.resistanceDebuff;
+        const resistanceElement = resolveDamageResistanceElement({
+            attackType: "reaction",
+            damageType: "reaction",
+            element: reaction.damageElement
+        }, reaction);
+        const effectiveResistance = resolveEffectiveResistance(context.enemy, resistanceElement, totals.resistanceDebuff);
         const resMultiplier = isShield ? 1 : resistanceMultiplier(effectiveResistance);
         const nonCrit = baseValue * (1 + (emBonus + (isShield ? 0 : totals.reactionBonus)) / 100) * resMultiplier;
         const canCrit = !isShield && totals.critRate > 0 && totals.critDamage > 0;
@@ -1860,6 +2046,17 @@
         reactionBonusApplies,
         reactionCritApplies,
         reactionEmBonusPercent,
+        normalizeResistanceElement,
+        normalizeEnemyResistance,
+        resolveBaseResistance,
+        resolveManualResistanceDebuff,
+        resolveEffectiveResistance,
+        resolveDamageResistanceElement,
+        defenseModifierAppliesToEntry,
+        resolveDefenseReduction,
+        resolveDefenseIgnore,
+        defenseMultiplier,
+        resistanceMultiplier,
         runGenshinJsonCalc,
         resolveModifierValue,
         normalizeElementOverrideModifier,

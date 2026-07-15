@@ -108,12 +108,12 @@
             <div class="genshin-fieldset genshin-reflect-inputs">
               <h3>計算入力欄（反映後に編集可能）</h3>
               <div class="genshin-form-grid genshin-profile-form-grid">
-                <label class="genshin-field">キャラクター
-                  <input type="text" id="genshinReflectCharacter" class="genshin-selection-input" placeholder="キャラクターを選択" readonly aria-haspopup="dialog" aria-controls="genshinSelectionDialog">
+                <label class="genshin-field genshin-profile-character-field">キャラ
+                  <input type="text" id="genshinReflectCharacter" class="genshin-selection-input" placeholder="キャラ選択" readonly aria-haspopup="dialog" aria-controls="genshinSelectionDialog">
                 </label>
                 <input type="hidden" id="genshinCalcCharacterId" value="">
-                <label class="genshin-field">レベル<input type="number" id="genshinReflectLevel" min="1" max="90" step="1"></label>
-                <label class="genshin-field">命ノ星座
+                <label class="genshin-field genshin-profile-short-field genshin-profile-middle-field"><span class="genshin-profile-positioned-label">Lv</span><input type="number" id="genshinReflectLevel" min="1" max="90" step="1" value="90"></label>
+                <label class="genshin-field genshin-profile-short-field genshin-profile-end-field"><span class="genshin-profile-positioned-label">命ノ星座</span>
                   <select id="genshinReflectConstellation">
                     <option value="C0">C0</option>
                     <option value="C1">C1</option>
@@ -124,13 +124,13 @@
                     <option value="C6">C6</option>
                   </select>
                 </label>
-                <label class="genshin-field">武器
-                  <input type="text" id="genshinWeaponInput" class="genshin-selection-input" placeholder="先にキャラクターを選択" readonly disabled aria-haspopup="dialog" aria-controls="genshinSelectionDialog">
+                <label class="genshin-field genshin-profile-character-field">武器
+                  <input type="text" id="genshinWeaponInput" class="genshin-selection-input" placeholder="先にキャラ選択" readonly disabled aria-haspopup="dialog" aria-controls="genshinSelectionDialog">
                 </label>
                 <input type="hidden" id="genshinCalcWeaponId" value="">
                 <datalist id="genshinWeaponOptions"></datalist>
-                <label class="genshin-field">武器レベル<input type="number" id="genshinWeaponLevel" min="1" max="90" step="1"></label>
-                <label class="genshin-field">精錬ランク
+                <label class="genshin-field genshin-profile-short-field genshin-profile-middle-field"><span class="genshin-profile-positioned-label">武器Lv</span><input type="number" id="genshinWeaponLevel" min="1" max="90" step="1" value="90"></label>
+                <label class="genshin-field genshin-profile-short-field genshin-profile-end-field"><span class="genshin-profile-positioned-label">精錬</span>
                   <select id="genshinWeaponRefinement">
                     <option value="R1">R1</option>
                     <option value="R2">R2</option>
@@ -142,15 +142,69 @@
               </div>
               <div class="genshin-talent-inputs">
                 <h4>天賦レベル</h4>
-                <div class="genshin-form-grid">
-                  <label class="genshin-field">通常攻撃Lv<input type="number" id="genshinNormalTalentLevel" min="1" max="15" step="1"></label>
-                  <label class="genshin-field">元素スキルLv<input type="number" id="genshinSkillTalentLevel" min="1" max="15" step="1"></label>
-                  <label class="genshin-field">元素爆発Lv<input type="number" id="genshinBurstTalentLevel" min="1" max="15" step="1"></label>
+                <div class="genshin-form-grid genshin-compact-triple">
+                  <label class="genshin-field"><span class="genshin-inline-field-label">通常攻撃Lv</span>
+                    <select id="genshinNormalTalentLevel">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10" selected>10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                      <option value="13">13</option>
+                      <option value="14">14</option>
+                      <option value="15">15</option>
+                    </select>
+                  </label>
+                  <label class="genshin-field"><span class="genshin-inline-field-label">元素スキルLv</span>
+                    <select id="genshinSkillTalentLevel">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10" selected>10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                      <option value="13">13</option>
+                      <option value="14">14</option>
+                      <option value="15">15</option>
+                    </select>
+                  </label>
+                  <label class="genshin-field"><span class="genshin-inline-field-label">元素爆発Lv</span>
+                    <select id="genshinBurstTalentLevel">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10" selected>10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                      <option value="13">13</option>
+                      <option value="14">14</option>
+                      <option value="15">15</option>
+                    </select>
+                  </label>
                 </div>
               </div>
               <div class="genshin-artifact-set-inputs">
                 <h4>聖遺物セット</h4>
-                <div class="genshin-form-grid">
+                <div class="genshin-artifact-mode-row">
                   <label class="genshin-field">セット構成
                     <select id="genshinArtifactSetMode">
                       <option value="">未選択</option>
@@ -158,6 +212,8 @@
                       <option value="2pc2pc">2セット + 2セット</option>
                     </select>
                   </label>
+                </div>
+                <div class="genshin-form-grid genshin-compact-artifact-sets">
                   <label class="genshin-field" id="genshinArtifactSetOneField" hidden>セット
                     <select id="genshinArtifactSetOne"></select>
                   </label>
@@ -165,84 +221,52 @@
                     <select id="genshinArtifactSetTwo"></select>
                   </label>
                 </div>
-                <details class="genshin-artifact-set-summary">
-                  <summary id="genshinArtifactSetSummary">聖遺物セット未選択</summary>
-                  <div id="genshinArtifactSetEffects">効果文データは未対応です。</div>
-                </details>
               </div>
               <div class="genshin-profile-stat-inputs">
                 <h4>ステータス</h4>
-                <div class="genshin-form-grid">
-                  <label class="genshin-field">HP<input type="number" id="genshinHpInput" step="1"></label>
-                  <label class="genshin-field">攻撃力<input type="number" id="genshinAtkInput" step="1"></label>
-                  <label class="genshin-field">防御力<input type="number" id="genshinDefInput" step="1"></label>
-                  <label class="genshin-field">元素熟知<input type="number" id="genshinElementalMasteryInput" step="1"></label>
-                  <label class="genshin-field">会心率<input type="number" id="genshinCritRateInput" step="0.01"><span>%</span></label>
-                  <label class="genshin-field">会心ダメージ<input type="number" id="genshinCritDamageInput" step="0.01"><span>%</span></label>
-                  <label class="genshin-field">元素チャージ効率<input type="number" id="genshinEnergyRechargeInput" step="0.01"><span>%</span></label>
-                  <label class="genshin-field">元素ダメージ<input type="number" id="genshinElementalDamageInput" step="0.01"><span>%</span></label>
+                <div class="genshin-form-grid genshin-compact-pairs">
+                  <label class="genshin-field">HP<input type="number" id="genshinHpInput" step="1" value="10000"></label>
+                  <label class="genshin-field">攻撃力<input type="number" id="genshinAtkInput" step="1" value="1000"></label>
+                  <label class="genshin-field">防御力<input type="number" id="genshinDefInput" step="1" value="1000"></label>
+                  <label class="genshin-field">元素熟知<input type="number" id="genshinElementalMasteryInput" step="1" value="0"></label>
+                  <label class="genshin-field">会心率<input type="number" id="genshinCritRateInput" step="0.01" value="5"><span>%</span></label>
+                  <label class="genshin-field">会心ダメージ<input type="number" id="genshinCritDamageInput" step="0.01" value="50"><span>%</span></label>
+                  <label class="genshin-field">元素チャージ効率<input type="number" id="genshinEnergyRechargeInput" step="0.01" value="100"><span>%</span></label>
+                  <label class="genshin-field">元素ダメージ<input type="number" id="genshinElementalDamageInput" step="0.01" value="0"><span>%</span></label>
                 </div>
               </div>
-              <p class="genshin-help">反映した数値は編集可能です。計算に使う攻撃力・元素熟知・会心ダメージ・元素ダメージ・レベルは下の既存入力欄にも同期します。</p>
+              <div class="genshin-profile-stat-inputs" id="genshinDebuffInputs">
+                <h4>デバフ</h4>
+                <div class="genshin-form-grid genshin-compact-pairs">
+                  <label class="genshin-field">元素耐性デバフ<input type="number" id="genshinElementalResistanceDebuffInput" step="0.01" value="0"><span>%</span></label>
+                  <label class="genshin-field">物理耐性デバフ<input type="number" id="genshinPhysicalResistanceDebuffInput" step="0.01" value="0"><span>%</span></label>
+                  <label class="genshin-field">防御デバフ<input type="number" id="genshinDefenseReductionInput" step="0.01" value="0"><span>%</span></label>
+                  <label class="genshin-field">防御無視<input type="number" id="genshinDefenseIgnoreInput" step="0.01" value="0"><span>%</span></label>
+                </div>
+              </div>
+              <div class="genshin-profile-stat-inputs" id="genshinEnemyInputs">
+                <h4>敵情報</h4>
+                <div class="genshin-form-grid genshin-compact-enemy">
+                  <label class="genshin-field"><span class="genshin-inline-field-label">敵レベル</span><input type="number" id="genshinEnemyLevelInput" min="1" step="1" value="90"></label>
+                  <label class="genshin-field"><span class="genshin-inline-field-label">敵の元素耐性</span><input type="number" id="genshinEnemyElementalResistanceInput" step="0.01" value="10"><span>%</span></label>
+                  <label class="genshin-field"><span class="genshin-inline-field-label">敵の物理耐性</span><input type="number" id="genshinEnemyPhysicalResistanceInput" step="0.01" value="10"><span>%</span></label>
+                </div>
+              </div>
+              <p class="genshin-help">反映した数値は編集可能です。この入力欄の値をダメージ計算に使用します。</p>
             </div>
 
-            <div class="genshin-fieldset">
-              <h3>元素反応</h3>
-              <div id="eleArea">元素反応選択：反応なし（初期値） ▼</div>
-              <div id="eleChoices" class="white">
-                <ul>
-                  <li>元素反応なし</li>
-                  <li>蒸発 <span class="red">炎ダメ</span> / 溶解 <span class="lightblue">氷ダメ</span> （× 1.5倍）</li>
-                  <li>蒸発 <span class="waterblue">水ダメ</span> / 溶解 <span class="red">炎ダメ</span> （× 2倍）</li>
-                  <li>激化 <span class="pink">超激化</span> （激化係数: × 1.15倍）※Lv.90と仮定</li>
-                  <li>激化 <span class="green">草激化</span> （激化係数: × 1.25倍）※Lv.90と仮定</li>
-                  <li>その他反応 （未実装）※Lv.90と仮定</li>
-                </ul>
-              </div>
-
-              <div id="eleCalcContent" class="genshin-form-grid" style="display: none;">
-                <label class="genshin-field">元素熟知<input type="number" class="input_num" id="ele_m" step="1" value="0"></label>
-                <label class="genshin-field">元素反応ダメボ%<input type="number" class="input_num" id="ele_e" step="1" value="0"></label>
-              </div>
-            </div>
-
-            <div class="genshin-fieldset" id="normalDmgContent">
-              <h3>基礎ステータス</h3>
-              <div class="genshin-form-grid">
-                <label class="genshin-field">攻撃力<input type="number" class="input_num" id="atk" step="1" value="1000"></label>
-                <label class="genshin-field">天賦倍率%<input type="number" class="input_num" id="talent" step="0.1" value="50"></label>
-                <label class="genshin-field">特殊乗算%<input type="number" class="input_num" id="special" step="0.1" value="0"></label>
-                <label class="genshin-field">実数ダメ加算<input type="number" class="input_num" id="add_b" step="0.1" value="0"></label>
-                <label class="genshin-field">ダメージバフ%<input type="number" class="input_num" id="dmg_b" step="0.1" value="0"></label>
-                <label class="genshin-field">会心ダメージ%<input type="number" class="input_num" id="cri_dmg" step="0.1" value="50"></label>
-              </div>
-            </div>
-
-            <div class="genshin-fieldset">
-              <h3>敵・補正</h3>
-              <div class="genshin-form-grid">
-                <label class="genshin-field">耐性デバフ%<input type="number" class="input_num" id="ele_d" step="1" value="0"></label>
-                <label class="genshin-field">防御デバフ%<input type="number" class="input_num" id="def_d" step="1" value="0"></label>
-                <label class="genshin-field">防御無視%<input type="number" class="input_num" id="def_ig" step="1" value="0"></label>
-                <label class="genshin-field">キャラレベル<input type="number" class="input_num" id="lv" step="1" value="90"></label>
-                <label class="genshin-field">敵レベル<input type="number" class="input_num" id="e_lv" step="1" value="90"></label>
-                <label class="genshin-field">敵の元素・物理耐性%<input type="number" class="input_num" id="e_res" step="1" value="10"></label>
-              </div>
-            </div>
-
-            <button id="dmg_button" type="button" class="teti-button teti-button-secondary genshin-calc-button" data-genshin-calc-path="legacy" onclick="calc()">従来計算を実行（互換）</button>
-
-            <div class="genshin-fieldset genshin-json-calc-production" data-genshin-calc-primary="json">
-              <h3>JSON計算 <span class="genshin-calc-recommended">推奨</span></h3>
-              <p class="genshin-help">data/calc の構造化データと現在の入力欄を正として計算します。未対応効果は理由付きで表示し、従来計算は互換用として残しています。</p>
+            <div class="genshin-fieldset genshin-json-calc-production" data-genshin-calc-primary="structured">
+              <h3>ダメージ計算</h3>
+              <p class="genshin-help">選択したキャラクター・武器・聖遺物と現在の入力値から計算します。未対応効果は理由付きで表示します。</p>
               <div class="genshin-json-actions">
-                <button type="button" class="teti-button teti-button-secondary" id="genshinJsonPrepareConditionsButton">計算条件を再読み込み</button>
-                <button type="button" class="teti-button teti-button-primary" id="genshinJsonCalcButton" data-genshin-calc-path="json">JSON計算を実行</button>
+                <button type="button" class="teti-button teti-button-secondary genshin-prepare-button" id="genshinJsonPrepareConditionsButton"><span aria-hidden="true">↻</span>計算条件を再読み込み</button>
+                <button type="button" class="teti-button teti-button-primary" id="genshinJsonCalcButton" data-genshin-calc-path="structured">ダメージ計算を実行</button>
               </div>
               <p class="genshin-help" id="genshinJsonConditionHelp">キャラクター・武器・聖遺物に応じた計算条件を、効果の出所ごとに表示します。</p>
               <div id="genshinJsonConditionCards" class="genshin-condition-cards" aria-live="polite"></div>
-              <div id="genshinJsonCalcWarnings" class="genshin-json-calc-warnings" hidden></div>
-              <div id="genshinJsonCalcResults" class="genshin-json-calc-results" hidden></div>
+              <div class="genshin-json-actions genshin-json-actions-bottom">
+                <button type="button" class="teti-button teti-button-primary" id="genshinJsonCalcButtonBottom">ダメージ計算を実行</button>
+              </div>
             </div>
           </div>
 
@@ -254,120 +278,8 @@
               </div>
             </div>
 
-            <div class="genshin-result-tabs" role="tablist" aria-label="ダメージ種別">
-              <button class="genshin-result-tab is-active" type="button" role="tab" aria-selected="true">通常攻撃</button>
-              <button class="genshin-result-tab" type="button" role="tab" aria-selected="false">重撃</button>
-              <button class="genshin-result-tab" type="button" role="tab" aria-selected="false">元素スキル</button>
-              <button class="genshin-result-tab" type="button" role="tab" aria-selected="false">元素爆発</button>
-              <button class="genshin-result-tab" type="button" role="tab" aria-selected="false">元素反応</button>
-            </div>
-
-            <div class="genshin-result-card">
-              <p class="genshin-result-label">推定ダメージ</p>
-              <p class="red" id="result"><span>未計算</span><br>-</p>
-              <div class="genshin-result-meta">
-                <span>会心なし：未対応</span>
-                <span>会心あり：入力値を反映</span>
-                <span>平均：今後対応予定</span>
-              </div>
-            </div>
-
-            <div class="genshin-breakdown">
-              <h3>ダメージ内訳</h3>
-              <div class="genshin-breakdown-groups">
-                <section>
-                  <h4>基礎ダメージ</h4>
-                  <dl>
-                    <div>
-                      <dt>攻撃力</dt>
-                      <dd>入力値を使用</dd>
-                    </div>
-                    <div>
-                      <dt>天賦倍率</dt>
-                      <dd>入力値を使用</dd>
-                    </div>
-                    <div>
-                      <dt>ダメージバフ</dt>
-                      <dd>入力値を使用</dd>
-                    </div>
-                  </dl>
-                </section>
-                <section>
-                  <h4>元素反応</h4>
-                  <dl>
-                    <div>
-                      <dt>反応種別</dt>
-                      <dd>選択中の反応を使用</dd>
-                    </div>
-                    <div>
-                      <dt>元素熟知補正</dt>
-                      <dd>入力値を使用</dd>
-                    </div>
-                    <div>
-                      <dt>反応倍率</dt>
-                      <dd>入力値をもとに計算</dd>
-                    </div>
-                  </dl>
-                </section>
-                <section>
-                  <h4>バフ</h4>
-                  <dl>
-                    <div>
-                      <dt>武器効果</dt>
-                      <dd>手動入力で反映</dd>
-                    </div>
-                    <div>
-                      <dt>聖遺物効果</dt>
-                      <dd>手動入力で反映</dd>
-                    </div>
-                    <div>
-                      <dt>その他バフ</dt>
-                      <dd>特殊乗算・実数加算を使用</dd>
-                    </div>
-                  </dl>
-                </section>
-                <section>
-                  <h4>会心</h4>
-                  <dl>
-                    <div>
-                      <dt>会心ダメージ</dt>
-                      <dd>入力値を使用</dd>
-                    </div>
-                    <div>
-                      <dt>平均化</dt>
-                      <dd>今後対応予定</dd>
-                    </div>
-                  </dl>
-                </section>
-                <section>
-                  <h4>耐性</h4>
-                  <dl>
-                    <div>
-                      <dt>防御補正</dt>
-                      <dd id="value_e_def">-</dd>
-                    </div>
-                    <div>
-                      <dt>元素・物理耐性</dt>
-                      <dd id="value_e_ele">-</dd>
-                    </div>
-                  </dl>
-                </section>
-                <section>
-                  <h4>その他補正</h4>
-                  <dl>
-                    <div>
-                      <dt>未分類</dt>
-                      <dd>今後のタブ別計算で拡張予定</dd>
-                    </div>
-                  </dl>
-                </section>
-              </div>
-            </div>
-
-            <details class="genshin-details-card">
-              <summary>聖遺物セットを選択</summary>
-              <div id="targetArea" class="target-area selection-item" style="cursor: pointer;">聖遺物セットを選択（参考）</div>
-            </details>
+            <div id="genshinJsonCalcWarnings" class="genshin-json-calc-warnings" hidden></div>
+            <div id="genshinJsonCalcResults" class="genshin-json-calc-results" hidden></div>
 
             <div class="genshin-info-box">
               <h3>INFO</h3>
@@ -387,40 +299,6 @@
           </div>
         </section>
 
-        <div id="modal" style="display: none;">
-          <h3>聖遺物選択画面</h3>
-          <div class="modal-content">
-            <h3>聖遺物を選択してください</h3>
-            <ul id="imageList">
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/hanaumi.png" data-image-text="花海甘露の光"><img src="/games/images/artifact/hanaumi.png" alt="Image 28">花海甘露の光</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/suisen.png" data-image-text="水仙の夢"><img src="/games/images/artifact/suisen.png" alt="Image 27">水仙の夢</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/rakuen.png" data-image-text="楽園の絶花"><img src="/games/images/artifact/rakuen.png" alt="Image 26">楽園の絶花</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/sazyou.png" data-image-text="砂上の楼閣の史話"><img src="/games/images/artifact/sazyou.png" alt="Image 25">砂上の楼閣の史話</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/kinmekki.png" data-image-text="金メッキの夢"><img src="/games/images/artifact/kinmekki.png" alt="Image 24">金メッキの夢</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/sinrin.png" data-image-text="深林の記憶"><img src="/games/images/artifact/sinrin.png" alt="Image 23">深林の記憶</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/raikin.png" data-image-text="来歆の余響"><img src="/games/images/artifact/raikin.png" alt="Image 22">来歆の余響</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/sinsya.png" data-image-text="辰砂往生録"><img src="/games/images/artifact/sinsya.png" alt="Image 21">辰砂往生録</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/umizome.png" data-image-text="海染硨磲"><img src="/games/images/artifact/umizome.png" alt="Image 20">海染硨磲</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/kakan.png" data-image-text="華館夢醒形骸記"><img src="/games/images/artifact/kakan.png" alt="Image 19">華館夢醒形骸記</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/zetsuen.png" data-image-text="絶縁の旗印"><img src="/games/images/artifact/zetsuen.png" alt="Image 18">絶縁の旗印</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/simenawa.png" data-image-text="追憶のしめ縄"><img src="/games/images/artifact/simenawa.png" alt="Image 17">追憶のしめ縄</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/souhaku.png" data-image-text="蒼白の炎"><img src="/games/images/artifact/souhaku.png" alt="Image 16">蒼白の炎</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/sengan.png" data-image-text="千岩牢固"><img src="/games/images/artifact/sengan.png" alt="Image 15">千岩牢固</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/tinrin.png" data-image-text="沈淪の心"><img src="/games/images/artifact/tinrin.png" alt="Image 14">沈淪の心</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/hyouhuu.png" data-image-text="氷風を彷徨う勇士"><img src="/games/images/artifact/hyouhuu.png" alt="Image 13">氷風を彷徨う勇士</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/himazyo.jpg" data-image-text="燃え盛る炎の魔女"><img src="/games/images/artifact/himazyo.jpg" alt="Image 12">燃え盛る炎の魔女</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/kaminari.png" data-image-text="雷のような怒り"><img src="/games/images/artifact/kaminari.png" alt="Image 10">雷のような怒り</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/sakatobi.jpg" data-image-text="逆飛びの流星"><img src="/games/images/artifact/sakatobi.jpg" alt="Image 8">逆飛びの流星</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/bangan.jpg" data-image-text="悠久の磐岩"><img src="/games/images/artifact/bangan.jpg" alt="Image 7">悠久の磐岩</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/suiryoku.jpg" data-image-text="翠緑の影"><img src="/games/images/artifact/suiryoku.jpg" alt="Image 6">翠緑の影</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/tizome.jpg" data-image-text="血染めの騎士道"><img src="/games/images/artifact/tizome.jpg" alt="Image 4">血染めの騎士道</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/kyuukizoku.jpg" data-image-text="旧貴族のしつけ"><img src="/games/images/artifact/kyuukizoku.jpg" alt="Image 3">旧貴族のしつけ</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/gakudan.jpg" data-image-text="大地を放浪する楽団"><img src="/games/images/artifact/gakudan.jpg" alt="Image 2">大地を放浪する楽団</li>
-              <li class="image-item selection-item" data-image-url="/games/images/artifact/kentousi.jpg" data-image-text="剣闘士のフィナーレ"><img src="/games/images/artifact/kentousi.jpg" alt="Image 1">剣闘士のフィナーレ</li>
-            </ul>
-          </div>
-        </div>
-
         <script src="/games/js/genshinProfileApi.js"></script>
         <script src="/games/js/genshinIdResolver.js"></script>
         <script src="/games/js/genshinProfileMapper.js"></script>
@@ -431,8 +309,6 @@
         <script src="/games/js/genshinCalcConditions.js"></script>
         <script src="/games/js/genshinCalcEngine.js"></script>
         <script src="/games/js/genshinCalcRenderer.js"></script>
-        <script src="/games/js/main.js"></script>
-        <script src="/games/js/artifact.js"></script>
       </div>
     </main>
 

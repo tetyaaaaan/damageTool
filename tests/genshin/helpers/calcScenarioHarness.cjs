@@ -38,8 +38,13 @@ function prepareScenarioInputs(elements, { characterId, constellation = 0, weapo
         genshinCritDamageInput: stats.critDamage ?? 100,
         genshinEnergyRechargeInput: stats.energyRecharge ?? 100,
         genshinElementalDamageInput: stats.elementDamageBonus ?? 50,
-        e_lv: 90,
-        e_res: 10,
+        genshinEnemyLevelInput: 90,
+        genshinEnemyElementalResistanceInput: 10,
+        genshinEnemyPhysicalResistanceInput: 10,
+        genshinElementalResistanceDebuffInput: 0,
+        genshinPhysicalResistanceDebuffInput: 0,
+        genshinDefenseReductionInput: 0,
+        genshinDefenseIgnoreInput: 0,
         genshinJsonReactionOption: "none"
     };
     Object.entries(values).forEach(([id, value]) => setElement(elements, id, value));

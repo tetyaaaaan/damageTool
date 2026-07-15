@@ -93,7 +93,7 @@ async function buildGoldenScenarios() {
         prepareScenarioInputs(elements, { characterId: "10000037", weaponId: "15502" });
         setElement(elements, "genshinJsonAmosStack", 5);
         const payload = await sandbox.GenshinCalcEngine.runGenshinJsonCalc();
-        const charged = payload.results.find((result) => result.entry.attackType === "chargedAttack");
+        const charged = payload.results.find((result) => result.entry.id === "damage");
         golden.ganyuAmosFiveStacks = {
             amosBonuses: charged.breakdown.appliedModifiers
                 .filter((item) => item.source === "weapon:15502")

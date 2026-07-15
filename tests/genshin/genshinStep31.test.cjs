@@ -190,6 +190,8 @@ test("STEP31: Hu Tao groups attack bonus and Pyro conversion under one talent st
     assert.equal((html.match(/蝶導来世/g) || []).length >= 1, true);
     assert.match(html, /元素スキル/);
     assert.match(html, /天賦効果の原文を表示/);
+    assert.equal(html.indexOf("影響：") < html.indexOf("天賦効果の原文を表示"), true);
+    assert.equal(html.indexOf("天賦効果の原文を表示") < html.indexOf("状態・条件"), true);
 });
 
 test("STEP31: every talent modifier source resolves to a user-facing talent name", () => {
