@@ -1,0 +1,16 @@
+.info-content { display: grid; gap: 20px; padding-bottom: 48px; }
+.info-content .teti-panel { padding: clamp(20px, 4vw, 32px); }
+.info-content h2 { margin-top: 0; }
+.info-content h3 { margin: 1.4em 0 0.45em; }
+.info-content p, .info-content li { line-height: 1.85; }
+.info-content ul, .info-content ol { padding-left: 1.4em; }
+.info-meta { color: var(--teti-muted); font-size: 0.9rem; }
+.info-link-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.info-link-card { display: block; padding: 18px; color: var(--teti-text); background: var(--teti-surface-soft); border: 1px solid var(--teti-border); border-radius: var(--teti-radius-sm); text-decoration: none; }
+.info-link-card strong, .info-link-card span { display: block; }
+.info-link-card span { margin-top: 6px; color: var(--teti-muted); line-height: 1.65; }
+.info-link-card:hover, .info-link-card:focus-visible { border-color: var(--teti-accent); }
+.info-definition { display: grid; grid-template-columns: minmax(130px, 0.35fr) minmax(0, 1fr); gap: 10px 20px; }
+.info-definition dt { font-weight: 900; }
+.info-definition dd { margin: 0; }
+@media (max-width: 680px) { .info-link-grid, .info-definition { grid-template-columns: 1fr; } .info-definition dd { margin-bottom: 10px; } }
