@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ja" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>原神ダメージ計算ツール 改善案モック</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #071922;
+      --bg-glow: #0d2a2b;
+      --panel: #091f2a;
+      --panel-2: #0d2935;
+      --field: #0b222d;
+      --border: #284957;
+      --border-soft: #1f3d4a;
+      --text: #f5f8fa;
+      --muted: #9bb5c0;
+      --accent: #27d3c0;
+      --accent-soft: rgba(39,211,192,.11);
+      --yellow: #f3cf45;
+      --danger: #ff7f7f;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 1100px; color: var(--text); background: radial-gradient(circle at 10% 6%, var(--bg-glow), transparent 36%), var(--bg); font-family: "Yu Gothic UI", "Noto Sans JP", system-ui, sans-serif; }
+    button, input, select { font: inherit; }
+    .site-head { height: 62px; display: flex; align-items: center; border-bottom: 1px solid var(--border-soft); background: rgba(6,24,33,.92); }
+    .head-inner { width: min(1180px, calc(100% - 48px)); margin: auto; display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 10px; font-size: 21px; font-weight: 900; }
+    .brand-mark { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; color: #08212a; background: linear-gradient(135deg, #b97cff, #3de2ca); font-size: 15px; }
+    nav { display: flex; gap: 30px; font-size: 14px; font-weight: 800; color: #b8cad2; }
+    nav .active { color: var(--accent); }
+    .theme { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--border); border-radius: 7px; color: var(--muted); }
+    .page { width: min(1180px, calc(100% - 48px)); margin: 0 auto 52px; }
+    .crumbs { padding: 17px 0 12px; color: #9bb5c0; font-size: 12px; font-weight: 700; }
+    .hero { display: flex; align-items: end; justify-content: space-between; padding: 8px 0 18px; }
+    .eyebrow { margin: 0 0 4px; color: var(--yellow); font-size: 12px; font-weight: 900; }
+    h1 { margin: 0; font-size: 32px; letter-spacing: .01em; }
+    .lead { margin: 7px 0 0; color: #aec3cc; font-size: 14px; font-weight: 500; }
+    .guide { padding: 9px 14px; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-weight: 800; }
+    .workspace { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+    .main-card { min-width: 0; padding: 19px; background: rgba(8,30,41,.92); border: 1px solid var(--border); border-radius: 11px; box-shadow: 0 18px 50px rgba(0,0,0,.12); }
+    .card-kicker { margin: 0 0 5px; color: var(--yellow); font-size: 11px; font-weight: 900; }
+    .card-title { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; font-size: 23px; }
+    .card-title::before { content: ""; width: 4px; height: 27px; border-radius: 99px; background: var(--accent); }
+    .import { display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 10px; align-items: center; padding: 12px 13px; background: var(--panel-2); border: 1px solid var(--border-soft); border-radius: 8px; }
+    .import strong { font-size: 13px; }
+    .import input { width: 100%; min-width: 0; height: 35px; padding: 0 11px; color: var(--muted); background: var(--field); border: 1px solid var(--border); border-radius: 6px; font-size: 13px; }
+    .small-btn { height: 35px; padding: 0 13px; color: var(--text); background: #102f3c; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; font-weight: 900; }
+    .saved { grid-column: 2 / -1; margin: -3px 0 0; color: var(--muted); font-size: 10px; font-weight: 500; }
+    .section { margin-top: 14px; padding-top: 13px; border-top: 1px solid var(--border-soft); }
+    .section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .section-name { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 15px; }
+    .step { width: 21px; height: 21px; display: grid; place-items: center; color: var(--accent); background: var(--accent-soft); border: 1px solid rgba(39,211,192,.38); border-radius: 50%; font-size: 11px; }
+    .section-note { color: var(--muted); font-size: 10px; font-weight: 500; }
+    .grid-profile { display: grid; grid-template-columns: minmax(250px, 300px) 66px 76px; justify-content: start; gap: 10px; }
+    .grid-profile + .grid-profile { margin-top: 8px; }
+    .field { min-width: 0; }
+    .label { display: flex; align-items: center; min-height: 17px; margin: 0 0 4px; color: #cbd8de; font-size: 10px; font-weight: 700; }
+    .help { width: 15px; height: 15px; margin-left: 5px; display: inline-grid; place-items: center; color: var(--muted); border: 1px solid #526b76; border-radius: 50%; font-size: 9px; }
+    .control { width: 100%; height: 34px; padding: 0 10px; overflow: hidden; color: var(--text); background: var(--field); border: 1px solid var(--border); border-radius: 6px; font-size: 12px; font-weight: 800; text-align: left; white-space: nowrap; text-overflow: ellipsis; }
+    .control.muted { color: var(--muted); }
+    .talent-artifact { display: grid; grid-template-columns: .9fr 1.1fr; gap: 12px; margin-top: 10px; }
+    .talents { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
+    .artifact-row { display: grid; grid-template-columns: 74px 1fr 1fr; gap: 7px; }
+    .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+    .stat-box { display: grid; grid-template-columns: 1fr; gap: 3px; }
+    .stat-box .label { margin: 0 0 2px; }
+    .stat-box .control { text-align: right; font-variant-numeric: tabular-nums; }
+    .combat { display: grid; grid-template-columns: 1.15fr .95fr; gap: 13px; }
+    .subgroup { min-width: 0; padding: 10px; background: rgba(13,41,53,.55); border: 1px solid var(--border-soft); border-radius: 7px; }
+    .subgroup-title { margin: 0 0 8px; color: #dce5e9; font-size: 11px; }
+    .combat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+    .reaction { grid-column: 1 / -1; display: grid; grid-template-columns: 118px 1fr; gap: 8px; align-items: center; margin-top: 8px; }
+    .reaction .label { margin: 0; }
+    .modifier-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+    .modifier-card { min-width: 0; padding: 10px 11px; background: rgba(13,41,53,.55); border: 1px solid var(--border-soft); border-radius: 7px; }
+    .modifier-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 7px; }
+    .modifier-head strong { overflow: hidden; font-size: 11px; white-space: nowrap; text-overflow: ellipsis; }
+    .modifier-source { flex: 0 0 auto; padding: 3px 6px; color: var(--accent); background: var(--accent-soft); border-radius: 999px; font-size: 8px; font-weight: 900; }
+    .modifier-option { display: flex; align-items: center; gap: 7px; color: #d5e0e4; font-size: 10px; font-weight: 700; }
+    .checkbox { width: 15px; height: 15px; display: grid; place-items: center; flex: 0 0 15px; color: #08212a; background: var(--accent); border-radius: 3px; font-size: 10px; font-weight: 1000; }
+    .modifier-note { margin: 6px 0 0 22px; color: var(--muted); font-size: 9px; font-weight: 500; line-height: 1.45; }
+    .modifier-auto { color: var(--muted); font-size: 9px; font-weight: 600; }
+    .condition-status { display: inline-flex; align-items: center; gap: 5px; color: var(--accent); font-size: 9px; font-weight: 800; }
+    .condition-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .action-bar { position: sticky; bottom: 10px; z-index: 2; display: grid; grid-template-columns: auto minmax(0,1fr); gap: 9px; margin-top: 14px; padding: 9px; background: rgba(7,25,34,.96); border: 1px solid var(--border); border-radius: 9px; box-shadow: 0 12px 30px rgba(0,0,0,.28); }
+    .reload { height: 39px; padding: 0 14px; color: #b8ccd4; background: #102a36; border: 1px solid var(--border); border-radius: 7px; font-size: 11px; font-weight: 800; }
+    .calculate { height: 39px; color: #092029; background: linear-gradient(135deg, #f7dc65, #eabf31); border: 0; border-radius: 7px; box-shadow: 0 8px 20px rgba(234,191,49,.16); font-size: 13px; font-weight: 1000; }
+    .result-card { position: sticky; top: 78px; }
+    .selection-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 12px; }
+    .summary-item { min-width: 0; padding: 9px 10px; background: var(--panel-2); border: 1px solid var(--border-soft); border-radius: 7px; }
+    .summary-item small { display: block; margin-bottom: 3px; color: var(--muted); font-size: 9px; }
+    .summary-item strong { display: block; overflow: hidden; font-size: 11px; white-space: nowrap; text-overflow: ellipsis; }
+    .tabs { display: flex; gap: 5px; padding: 5px; border: 1px solid var(--border); border-radius: 8px; }
+    .tab { flex: 1; padding: 8px 5px; color: #aec1c9; text-align: center; border-radius: 6px; font-size: 10px; font-weight: 800; }
+    .tab.active { color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px rgba(39,211,192,.36); }
+    .subtabs { display: flex; gap: 15px; margin: 11px 0 8px; padding-bottom: 7px; border-bottom: 1px solid var(--border); }
+    .subtab { color: var(--muted); font-size: 10px; font-weight: 800; }
+    .subtab.active { color: var(--accent); }
+    .damage-table { overflow: hidden; border: 1px solid var(--border); border-radius: 8px; }
+    .damage-head, .damage-row { display: grid; grid-template-columns: minmax(0,1.6fr) repeat(3,.68fr); align-items: center; }
+    .damage-head { min-height: 32px; color: #b9ccd3; background: #0a202b; font-size: 9px; }
+    .damage-row { min-height: 61px; border-top: 1px solid var(--border-soft); }
+    .damage-head > *, .damage-row > * { padding: 8px 9px; }
+    .damage-head > :not(:first-child), .damage-value { text-align: right; }
+    .attack strong { display: block; font-size: 12px; }
+    .attack span { display: block; margin-top: 3px; color: var(--muted); font-size: 9px; font-weight: 500; }
+    .details { margin-left: 5px; color: var(--accent); font-size: 8px; }
+    .damage-value { font-size: 15px; font-weight: 1000; font-variant-numeric: tabular-nums; }
+    .damage-value.crit { color: var(--accent); }
+    .info { margin-top: 12px; padding: 11px 12px; color: var(--muted); background: rgba(13,41,53,.65); border: 1px solid var(--border-soft); border-radius: 7px; font-size: 10px; font-weight: 500; line-height: 1.6; }
+    .info strong { color: var(--accent); }
+    .mock-label { position: fixed; right: 18px; bottom: 16px; z-index: 5; padding: 7px 11px; color: #10222a; background: var(--yellow); border-radius: 999px; font-size: 10px; font-weight: 1000; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+    @media (max-width: 900px) {
+      body { min-width: 0; }
+      .workspace { grid-template-columns: 1fr; }
+      .result-card { position: static; }
+      .stats { grid-template-columns: repeat(2,1fr); }
+      .combat { grid-template-columns: 1fr; }
+    }
+    html.capture body { min-width: 1180px; zoom: .52; }
+    html.capture .page { width: 1132px; }
+    html.capture .workspace { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+    html.capture .result-card { position: sticky; }
+    html.capture .stats { grid-template-columns: repeat(4,1fr); }
+    html.capture .combat { grid-template-columns: 1.15fr .95fr; }
+  </style>
+  <script>if (location.search.includes("capture")) document.documentElement.classList.add("capture");</script>
+</head>
+<body>
+  <header class="site-head"><div class="head-inner"><div class="brand"><span class="brand-mark">✦</span>tetinet</div><nav><span>ホーム</span><span class="active">ゲーム</span><span>ツール</span><span>このサイトについて</span></nav><div class="theme">☀</div></div></header>
+  <main class="page">
+    <div class="crumbs">ホーム　&gt;　ゲーム一覧　&gt;　原神 ダメージ計算</div>
+    <section class="hero"><div><p class="eyebrow">Genshin Impact</p><h1>原神 ダメージ計算ツール</h1><p class="lead">キャラクター、武器、聖遺物、敵条件を指定してダメージを比較できます。</p></div><button class="guide">使い方を見る</button></section>
+    <div class="workspace">
+      <section class="main-card">
+        <p class="card-kicker">入力エリア</p><h2 class="card-title">条件入力</h2>
+        <div class="import"><strong>公開プロフィールから反映</strong><input value="800000000" aria-label="原神UID"><button class="small-btn">UID検索</button><p class="saved">検索に成功したUIDは次回も自動入力されます。</p></div>
+
+        <section class="section">
+          <div class="section-head"><h3 class="section-name"><span class="step">1</span>キャラ・装備</h3><span class="section-note">キャラを選ぶと装備できる武器が表示されます</span></div>
+          <div class="grid-profile"><div class="field"><div class="label">キャラ</div><button class="control">ディルック</button></div><div class="field"><div class="label">Lv</div><button class="control">90</button></div><div class="field"><div class="label">命ノ星座</div><button class="control">C0　⌄</button></div></div>
+          <div class="grid-profile"><div class="field"><div class="label">武器</div><button class="control">「スーパーアルティメット覇王魔剣」</button></div><div class="field"><div class="label">武器Lv</div><button class="control">90</button></div><div class="field"><div class="label">精錬</div><button class="control">R1　⌄</button></div></div>
+          <div class="talent-artifact"><div><div class="label">天賦レベル</div><div class="talents"><button class="control">通常 Lv10</button><button class="control">スキル Lv10</button><button class="control">爆発 Lv10</button></div></div><div><div class="label">聖遺物セット</div><div class="artifact-row"><button class="control">2＋2⌄</button><button class="control" title="深廊の終曲">深廊</button><button class="control" title="残響の森で囁かれる夜話">残響</button></div></div></div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><h3 class="section-name"><span class="step">2</span>ステータス</h3><span class="section-note">プロフィール反映後も編集できます</span></div>
+          <div class="stats">
+            <div class="stat-box"><div class="label">HP</div><button class="control">10000</button></div><div class="stat-box"><div class="label">攻撃力</div><button class="control">1000</button></div><div class="stat-box"><div class="label">防御力</div><button class="control">1000</button></div><div class="stat-box"><div class="label">元素熟知</div><button class="control">0</button></div>
+            <div class="stat-box"><div class="label">会心率</div><button class="control">65%</button></div><div class="stat-box"><div class="label">会心ダメージ</div><button class="control">180%</button></div><div class="stat-box"><div class="label">元素チャージ</div><button class="control">120%</button></div><div class="stat-box"><div class="label">元素ダメージ</div><button class="control">46.6%</button></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><h3 class="section-name"><span class="step">3</span>戦闘条件</h3><span class="section-note">敵と反応に合わせて調整</span></div>
+          <div class="combat">
+            <div class="subgroup"><h4 class="subgroup-title">デバフ</h4><div class="combat-grid"><div class="field"><div class="label">元素耐性デバフ<span class="help">?</span></div><button class="control">0%</button></div><div class="field"><div class="label">物理耐性デバフ<span class="help">?</span></div><button class="control">0%</button></div><div class="field"><div class="label">防御デバフ<span class="help">?</span></div><button class="control">0%</button></div><div class="field"><div class="label">防御無視<span class="help">?</span></div><button class="control">0%</button></div></div></div>
+            <div class="subgroup"><h4 class="subgroup-title">敵情報</h4><div class="combat-grid"><div class="field"><div class="label">敵Lv</div><button class="control">90</button></div><div class="field"><div class="label">元素耐性<span class="help">?</span></div><button class="control">10%</button></div><div class="field"><div class="label">物理耐性<span class="help">?</span></div><button class="control">10%</button></div></div></div>
+            <div class="reaction"><div class="label">元素反応</div><button class="control">蒸発 1.5　炎ダメ　⌄</button></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><h3 class="section-name"><span class="step">4</span>計算条件</h3><span class="condition-status">再読み込み済み</span></div>
+          <div class="modifier-grid">
+            <div class="modifier-card"><div class="modifier-head"><strong>元素反応</strong><span class="modifier-source">REACTION</span></div><div class="modifier-option"><span class="checkbox">✓</span>蒸発 1.5・炎ダメージ</div><p class="modifier-note">選択した反応倍率を計算へ適用します。</p></div>
+            <div class="modifier-card"><div class="modifier-head"><strong>武器補正</strong><span class="modifier-source">WEAPON</span></div><div class="modifier-option"><span class="checkbox">✓</span>武器効果を発動</div><p class="modifier-note">精錬R1の効果量を使用します。</p></div>
+            <div class="modifier-card"><div class="modifier-head"><strong>聖遺物補正</strong><span class="modifier-source">ARTIFACT</span></div><div class="modifier-option"><span class="checkbox">✓</span>深廊2セット＋残響2セット</div><p class="modifier-note">2セット効果は自動で反映されます。</p></div>
+            <div class="modifier-card"><div class="modifier-head"><strong>天賦・命ノ星座補正</strong><span class="modifier-source">TALENT</span></div><div class="modifier-option"><span class="checkbox">✓</span>戦闘時の天賦効果を発動</div><p class="modifier-note">C0：追加の星座条件はありません。</p></div>
+          </div>
+        </section>
+
+        <div class="action-bar"><button class="reload">↻ 計算条件を再読み込み</button><button class="calculate">ダメージ計算を実行</button></div>
+      </section>
+
+      <aside class="main-card result-card">
+        <p class="card-kicker">計算結果</p><h2 class="card-title">結果</h2>
+        <div class="selection-summary"><div class="summary-item"><small>キャラ・武器</small><strong>ディルック ／ 「スーパーアルティメット覇王魔剣」</strong></div><div class="summary-item"><small>聖遺物・反応</small><strong>深廊＋残響 ／ 蒸発 1.5</strong></div></div>
+        <div class="tabs"><div class="tab active">通常・重撃・落下</div><div class="tab">元素スキル</div><div class="tab">元素爆発</div><div class="tab">元素反応</div><div class="tab">その他</div></div>
+        <div class="subtabs"><span class="subtab active">通常攻撃</span><span class="subtab">重撃</span><span class="subtab">落下攻撃</span></div>
+        <div class="damage-table">
+          <div class="damage-head"><div>攻撃名</div><div>非会心</div><div>会心</div><div>期待値<span class="help">?</span></div></div>
+          <div class="damage-row"><div class="attack"><strong>1段ダメージ<span class="details">詳細▼</span></strong><span>炎・通常攻撃・1ヒット</span></div><div class="damage-value">12,481</div><div class="damage-value crit">34,947</div><div class="damage-value">27,084</div></div>
+          <div class="damage-row"><div class="attack"><strong>2段ダメージ<span class="details">詳細▼</span></strong><span>炎・通常攻撃・1ヒット</span></div><div class="damage-value">11,966</div><div class="damage-value crit">33,505</div><div class="damage-value">25,967</div></div>
+          <div class="damage-row"><div class="attack"><strong>3段ダメージ<span class="details">詳細▼</span></strong><span>炎・通常攻撃・2ヒット</span></div><div class="damage-value">18,702</div><div class="damage-value crit">52,366</div><div class="damage-value">40,588</div></div>
+          <div class="damage-row"><div class="attack"><strong>4段ダメージ<span class="details">詳細▼</span></strong><span>炎・通常攻撃・1ヒット</span></div><div class="damage-value">15,608</div><div class="damage-value crit">43,702</div><div class="damage-value">33,859</div></div>
+        </div>
+        <div class="info"><strong>計算条件を確認できます</strong><br>各攻撃の「詳細」から、参照ステータス・天賦倍率・バフ・防御補正を確認できます。</div>
+      </aside>
+    </div>
+  </main>
+  <div class="mock-label">改善案モック・未実装</div>
+</body>
+</html>

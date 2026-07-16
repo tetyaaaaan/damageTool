@@ -3802,8 +3802,7 @@ html[data-theme="dark"] .genshin-tool-page .genshin-json-debug-details > summary
 .genshin-tool-page .genshin-reflect-inputs .genshin-compact-triple .genshin-field,
 .genshin-tool-page .genshin-reflect-inputs .genshin-compact-pairs .genshin-field,
 .genshin-tool-page .genshin-reflect-inputs .genshin-compact-enemy .genshin-field,
-.genshin-tool-page .genshin-reflect-inputs .genshin-artifact-mode-row .genshin-field,
-.genshin-tool-page .genshin-reflect-inputs .genshin-compact-artifact-sets .genshin-field {
+.genshin-tool-page .genshin-reflect-inputs .genshin-artifact-mode-row .genshin-field {
   grid-template-columns: minmax(0, 1fr) minmax(64px, 0.72fr);
   align-items: center;
   gap: 8px;
@@ -3825,9 +3824,40 @@ html[data-theme="dark"] .genshin-tool-page .genshin-json-debug-details > summary
   justify-content: end;
 }
 
-.genshin-tool-page .genshin-reflect-inputs .genshin-artifact-mode-row .genshin-field,
-.genshin-tool-page .genshin-reflect-inputs .genshin-compact-artifact-sets .genshin-field {
+.genshin-tool-page .genshin-reflect-inputs .genshin-artifact-mode-row .genshin-field {
   grid-template-columns: auto minmax(0, 1fr);
+}
+
+.genshin-artifact-selection-field {
+  min-width: 0;
+}
+
+.genshin-artifact-selection-trigger {
+  width: 100%;
+  min-width: 0;
+  min-height: 36px;
+  overflow: hidden;
+  padding: 6px 11px;
+  color: var(--teti-text);
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: var(--teti-surface-soft);
+  border: 1px solid var(--teti-border);
+  border-radius: 7px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.genshin-artifact-selection-trigger:hover,
+.genshin-artifact-selection-trigger:focus-visible {
+  border-color: var(--teti-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--teti-accent) 16%, transparent);
+}
+
+.genshin-artifact-selection-trigger.is-empty {
+  color: var(--teti-muted);
 }
 
 .genshin-tool-page .genshin-reflect-inputs .genshin-compact-enemy .genshin-field {
@@ -3909,8 +3939,7 @@ html[data-theme="dark"] .genshin-tool-page .genshin-reflect-inputs :is(.genshin-
   .genshin-tool-page .genshin-reflect-inputs .genshin-compact-triple .genshin-field,
   .genshin-tool-page .genshin-reflect-inputs .genshin-compact-pairs .genshin-field,
   .genshin-tool-page .genshin-reflect-inputs .genshin-compact-enemy .genshin-field,
-  .genshin-tool-page .genshin-reflect-inputs .genshin-profile-form-grid .genshin-field,
-  .genshin-tool-page .genshin-reflect-inputs .genshin-compact-artifact-sets .genshin-field {
+  .genshin-tool-page .genshin-reflect-inputs .genshin-profile-form-grid .genshin-field {
     grid-template-columns: minmax(0, 1fr) minmax(88px, 0.7fr);
   }
 }
@@ -3940,18 +3969,36 @@ html[data-theme="dark"] .genshin-tool-page .genshin-reflect-inputs :is(.genshin-
 .genshin-filter-toggle-all:focus-visible { color: var(--teti-accent-contrast); background: var(--teti-accent); border-color: var(--teti-accent); }
 .genshin-filter-toggle-all:disabled { color: var(--teti-muted); background: transparent; border-color: var(--teti-border); cursor: default; opacity: .62; }
 .genshin-filter-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-.genshin-filter-label { min-width: 72px; color: var(--teti-muted); font-size: 0.82rem; font-weight: 900; }
 .genshin-filter-button { padding: 7px 11px; color: var(--teti-muted); background: var(--teti-surface-soft); border: 1px solid var(--teti-border); border-radius: 999px; font-weight: 800; cursor: pointer; }
 .genshin-filter-button[aria-pressed="true"] { color: var(--teti-accent-contrast); background: var(--teti-accent); border-color: var(--teti-accent); }
+.genshin-filter-button[data-filter-group="element"] { min-height: 40px; }
+.genshin-filter-button--element { display: grid; place-items: center; width: 40px; height: 40px; padding: 5px; }
+.genshin-filter-button--element img { display: block; width: 26px; height: 26px; object-fit: contain; border-radius: 50%; background: #18303d; box-shadow: 0 0 0 2px #18303d; filter: saturate(1.06) contrast(1.1); transition: transform .16s ease, filter .16s ease; }
+.genshin-filter-button--element:hover img,
+.genshin-filter-button--element:focus-visible img { filter: saturate(1.08) brightness(1.06); transform: scale(1.08); }
+.genshin-filter-button--element[aria-pressed="true"] { background: color-mix(in srgb, var(--teti-surface-soft) 74%, var(--teti-accent)); box-shadow: inset 0 0 0 1px var(--teti-accent); }
+html[data-theme="dark"] .genshin-filter-button--element img { background: transparent; box-shadow: none; filter: saturate(.92); }
 .genshin-selection-summary { margin: 16px 0 10px; color: var(--teti-muted); font-size: 0.85rem; font-weight: 800; }
 .genshin-selection-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: start; flex: 1 1 auto; min-height: 0; gap: 10px; overflow-y: auto; padding: 2px 4px 10px 2px; overscroll-behavior: contain; }
-.genshin-selection-option { min-width: 0; padding: 13px; color: var(--teti-text); text-align: left; background: var(--teti-surface-soft); border: 1px solid var(--teti-border); border-radius: 10px; cursor: pointer; }
+.genshin-selection-option { display: flex; align-items: center; gap: 11px; min-width: 0; padding: 9px; color: var(--teti-text); text-align: left; background: var(--teti-surface-soft); border: 1px solid var(--teti-border); border-radius: 10px; cursor: pointer; }
 .genshin-selection-option:hover,
 .genshin-selection-option:focus-visible { border-color: var(--teti-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--teti-accent) 14%, transparent); }
+.genshin-selection-option-image { width: 48px; height: 48px; flex: 0 0 48px; object-fit: contain; border: 1px solid color-mix(in srgb, var(--teti-border) 70%, transparent); border-radius: 9px; background: color-mix(in srgb, var(--teti-surface) 72%, #64748b); }
+.genshin-selection-option[data-rarity="5"] .genshin-selection-option-image { background: linear-gradient(135deg, #7d5526, #d9a441); }
+.genshin-selection-option[data-rarity="4"] .genshin-selection-option-image { background: linear-gradient(135deg, #554080, #9272c8); }
+.genshin-selection-option[data-rarity="3"] .genshin-selection-option-image { background: linear-gradient(135deg, #315a7a, #558db6); }
+.genshin-selection-option[data-selection-kind="artifact"] .genshin-selection-option-image { background: linear-gradient(135deg, #7d5526, #d9a441); }
+.genshin-selection-option-copy { display: block; min-width: 0; }
 .genshin-selection-option strong,
 .genshin-selection-option span { display: block; }
 .genshin-selection-option strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.95rem; }
 .genshin-selection-option span { margin-top: 5px; color: var(--teti-muted); font-size: 0.78rem; }
+.genshin-selection-dialog.is-artifact .genshin-selection-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.genshin-selection-dialog.is-artifact .genshin-selection-option { min-height: 68px; }
+.genshin-selection-dialog.is-artifact .genshin-selection-option strong { white-space: normal; line-height: 1.35; }
+.genshin-selection-option.is-selected { border-color: var(--teti-accent); box-shadow: inset 0 0 0 1px var(--teti-accent); }
+.genshin-selection-option-check { display: grid !important; place-items: center; width: 28px; height: 28px; flex: 0 0 28px; margin: 0 0 0 auto !important; color: var(--teti-accent-contrast) !important; background: var(--teti-accent); border-radius: 50%; font-size: 1rem !important; font-weight: 900; }
+.genshin-artifact-selection-actions { justify-content: flex-end; }
 .genshin-selection-empty { grid-column: 1 / -1; padding: 30px 16px; color: var(--teti-muted); text-align: center; border: 1px dashed var(--teti-border); border-radius: 10px; }
 
 @media (max-width: 680px) {
@@ -3959,6 +4006,10 @@ html[data-theme="dark"] .genshin-tool-page .genshin-reflect-inputs :is(.genshin-
   .genshin-selection-search-control { grid-template-columns: 1fr; }
   .genshin-selection-search-control button { justify-self: end; }
   .genshin-selection-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .genshin-selection-dialog.is-artifact .genshin-selection-list { grid-template-columns: 1fr; }
+  .genshin-selection-option { gap: 8px; padding: 8px; }
+  .genshin-selection-option-image { width: 44px; height: 44px; flex-basis: 44px; }
+  .genshin-selection-option strong { display: -webkit-box; max-height: 2.6em; overflow: hidden; line-height: 1.3; white-space: normal; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
   .genshin-filter-label { width: 100%; }
   .genshin-filter-toggle-all { margin-left: 0; }
 }

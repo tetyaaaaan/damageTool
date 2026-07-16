@@ -219,12 +219,14 @@
                   </label>
                 </div>
                 <div class="genshin-form-grid genshin-compact-artifact-sets">
-                  <label class="genshin-field" id="genshinArtifactSetOneField" hidden>セット
-                    <select id="genshinArtifactSetOne"></select>
-                  </label>
-                  <label class="genshin-field" id="genshinArtifactSetTwoField" hidden>セット2
-                    <select id="genshinArtifactSetTwo"></select>
-                  </label>
+                  <div class="genshin-artifact-selection-field" id="genshinArtifactSetOneField" hidden>
+                    <button type="button" class="genshin-artifact-selection-trigger is-empty" id="genshinArtifactSetOneTrigger" aria-haspopup="dialog" aria-controls="genshinSelectionDialog">聖遺物を選択</button>
+                    <select id="genshinArtifactSetOne" hidden aria-hidden="true" tabindex="-1"></select>
+                  </div>
+                  <div class="genshin-artifact-selection-field" id="genshinArtifactSetTwoField" hidden>
+                    <button type="button" class="genshin-artifact-selection-trigger is-empty" id="genshinArtifactSetTwoTrigger" aria-haspopup="dialog" aria-controls="genshinSelectionDialog">聖遺物を選択</button>
+                    <select id="genshinArtifactSetTwo" hidden aria-hidden="true" tabindex="-1"></select>
+                  </div>
                 </div>
               </div>
               <div class="genshin-profile-stat-inputs">

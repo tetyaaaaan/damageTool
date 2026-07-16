@@ -87,7 +87,8 @@
     function modifierText(item) {
         const modifier = item.modifier || {};
         const value = Number(item.value);
-        const valueText = Number.isFinite(value) ? `（${value >= 0 ? "+" : ""}${formatDecimal(value)}%）` : "";
+        const suffix = modifierValueSuffix(modifier);
+        const valueText = Number.isFinite(value) ? `（${value >= 0 ? "+" : ""}${formatDecimal(value)}${suffix}）` : "";
         const effectLabel = modifier.effectLabel ? ` / ${modifier.effectLabel}` : "";
         const sourceText = modifier.sourceText ? `: ${modifier.sourceText}` : "";
         const reason = item.reason ? ` / ${reasonLabel(item.reason)}` : "";
@@ -173,18 +174,21 @@
         return STAT_LABELS[stat] || stat || "参照値";
     }
 
+    function modifierValueSuffix(modifier = {}) {
+        if (modifier.unit === "flat") return "";
+        if (["percent", "percentOfReference", "percentPerPoint"].includes(modifier.unit)) return "%";
+        if (modifier.category === "statBonus" && (modifier.applyTo || []).includes("elementalMastery")) return "";
+        return "%";
+    }
+
     function modifierDisplayItem(item) {
         const modifier = item.modifier || {};
         const category = MODIFIER_CATEGORY_LABELS[modifier.category] || "補正効果";
         const source = sourceLabel(item.source);
         const effect = modifier.effectLabel || "";
         const numericValue = Number(item.value);
-        const percentCategories = new Set([
-            "damageBonus", "statBonus", "critBonus", "resistanceDebuff", "defenseDebuff",
-            "defenseIgnore", "reactionBonus", "scalingBonus"
-        ]);
         const value = Number.isFinite(numericValue)
-            ? `${numericValue >= 0 ? "+" : ""}${formatDecimal(numericValue)}${percentCategories.has(modifier.category) ? "%" : ""}`
+            ? `${numericValue >= 0 ? "+" : ""}${formatDecimal(numericValue)}${modifierValueSuffix(modifier)}`
             : "";
         return {
             label: [source, effect, category].filter(Boolean).join("・"),

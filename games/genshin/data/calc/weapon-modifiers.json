@@ -691,7 +691,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
@@ -3645,7 +3645,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
@@ -3727,7 +3727,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "afterElementalReaction",
         "calculationSupport": "toggle",
         "uidHandling": "conditional",
@@ -4063,7 +4063,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "afterCrystallize",
         "calculationSupport": "toggle",
         "uidHandling": "conditional",
@@ -5491,7 +5491,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
@@ -6866,7 +6866,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
@@ -7440,7 +7440,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
@@ -7514,7 +7514,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
@@ -7837,7 +7837,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "afterSkill",
         "calculationSupport": "toggle",
         "uidHandling": "conditional",
@@ -7963,7 +7963,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "afterChargedAttackHit",
         "calculationSupport": "toggle",
         "uidHandling": "conditional",
@@ -8471,7 +8471,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
@@ -8503,7 +8503,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
@@ -8990,7 +8990,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
@@ -9378,7 +9378,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
@@ -9461,7 +9461,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
@@ -10357,7 +10357,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "afterSkill",
         "calculationSupport": "toggle",
         "uidHandling": "conditional",
@@ -10409,7 +10409,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "afterChargedAttackHit",
         "calculationSupport": "toggle",
         "uidHandling": "conditional",
@@ -10542,7 +10542,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
@@ -10719,7 +10719,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
@@ -10927,7 +10927,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
@@ -10946,7 +10946,7 @@
         "applyTo": [
           "elementalMastery"
         ],
-        "unit": "percent",
+        "unit": "flat",
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",

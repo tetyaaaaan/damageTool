@@ -265,10 +265,9 @@
         return pickNumber(item?.weapon?.promoteLevel ?? item?.reliquary?.promoteLevel ?? item?.promoteLevel);
     }
 
-    function normalizeRank(value) {
-        const rank = pickNumber(value, 0);
-        if (rank === 0) return 1;
-        if (rank >= 1 && rank <= 5) return rank;
+    function normalizeAffixRank(value) {
+        const affixRank = pickNumber(value, 0);
+        if (affixRank >= 0 && affixRank <= 4) return affixRank + 1;
         return 1;
     }
 
@@ -379,7 +378,9 @@
             id,
             name: resolveNameFromJson("weapon", id, pickFlatName(weapon.flat, ""), "武器"),
             level: pickNumber(weapon.weapon?.level),
-            rank: normalizeRank(weapon.weapon?.affixMap ? Object.values(weapon.weapon.affixMap)[0] : 0),
+            // Enka-compatible profile responses expose weapon affix ranks as 0..4,
+            // while the calculator and UI use refinement ranks R1..R5.
+            rank: normalizeAffixRank(weapon.weapon?.affixMap ? Object.values(weapon.weapon.affixMap)[0] : 0),
             type: resolveTextFromJson("weapon", id, "weaponType", pickText(weapon.flat?.weaponType || weapon.flat?.itemType, "-")),
             rarity: resolveNumberFromJson("weapon", id, "rarity", pickNumber(weapon.flat?.rankLevel)),
             effect: readFlatText(weapon.flat, ["descTextMap", "weaponDescTextMap", "effectTextMap", "awakenNameTextMap"]) || "武器効果データは未対応です。"
