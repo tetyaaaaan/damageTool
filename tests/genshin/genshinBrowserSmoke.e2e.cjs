@@ -114,6 +114,7 @@ async function clickAndWait(client, selector) {
     const browserProcess = spawn(executablePath, [
         "--headless=new",
         "--disable-gpu",
+        "--window-size=1280,900",
         "--no-first-run",
         "--no-default-browser-check",
         `--remote-debugging-port=${remotePort}`,
@@ -147,6 +148,169 @@ async function clickAndWait(client, selector) {
             })`);
             throw new Error(`${error.message}\n${JSON.stringify(diagnostics)}`);
         }
+
+        await waitFor(client, `document.getElementById("genshinNormalTalentLevel").getBoundingClientRect().width > 0`);
+
+        const layoutAudit = await evaluate(client, `(() => {
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+            const talentIds = ["genshinNormalTalentLevel", "genshinSkillTalentLevel", "genshinBurstTalentLevel"];
+            const talentControls = talentIds.map((id) => {
+                const element = document.getElementById(id);
+                const style = getComputedStyle(element);
+                context.font = style.font;
+                const text = element.options[element.selectedIndex].text;
+                return {
+                    id,
+                    text,
+                    width: element.getBoundingClientRect().width,
+                    requiredWidth: Math.ceil(context.measureText(text).width + parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + 2),
+                    fontSize: style.fontSize
+                };
+            });
+            const artifactMode = document.getElementById("genshinArtifactSetMode");
+            const artifactTrigger = document.getElementById("genshinArtifactSetOneTrigger");
+            const artifactSelect = document.getElementById("genshinArtifactSetOne");
+            const cardStyle = getComputedStyle(document.querySelector(".genshin-combat-input-grid > .genshin-profile-stat-inputs"));
+            const unitStyles = [...document.querySelectorAll(".genshin-compact-stats .genshin-field > span, .genshin-combat-input-grid .genshin-field > span")]
+                .map((element) => {
+                    const style = getComputedStyle(element);
+                    return [style.right, style.bottom, style.fontSize].join("|");
+                });
+            const unitCenterOffsets = [...document.querySelectorAll(".genshin-compact-stats .genshin-field > span, .genshin-combat-input-grid .genshin-field > span")]
+                .map((element) => {
+                    const input = element.previousElementSibling;
+                    const inputRect = input.getBoundingClientRect();
+                    const unitRect = element.getBoundingClientRect();
+                    return Math.round((unitRect.top + unitRect.height / 2) - (inputRect.top + inputRect.height / 2));
+                });
+            const selectStyles = [...document.querySelectorAll(".genshin-reflect-inputs select:not([hidden]), .genshin-json-calc-production select:not([hidden])")]
+                .filter((element) => element.offsetParent !== null)
+                .map((element) => {
+                    const style = getComputedStyle(element);
+                    return [style.appearance, style.backgroundPosition, style.backgroundSize, style.paddingRight, style.backgroundImage.includes("svg")].join("|");
+                });
+            artifactMode.value = "";
+            artifactMode.dispatchEvent(new Event("change", { bubbles: true }));
+            const artifactModeStyle = getComputedStyle(artifactMode);
+            const emptyModeText = artifactMode.options[artifactMode.selectedIndex].text;
+            context.font = artifactModeStyle.font;
+            const emptyModeRequiredWidth = Math.ceil(context.measureText(emptyModeText).width
+                + parseFloat(artifactModeStyle.paddingLeft) + parseFloat(artifactModeStyle.paddingRight) + 2);
+            artifactMode.value = "4pc";
+            artifactMode.dispatchEvent(new Event("change", { bubbles: true }));
+            artifactSelect.value = "15037";
+            artifactSelect.dispatchEvent(new Event("change", { bubbles: true }));
+            const artifactImage = artifactTrigger.querySelector(".genshin-artifact-selection-trigger-image");
+            const artifactLabel = artifactTrigger.querySelector(".genshin-artifact-selection-trigger-label");
+            const artifactSelectedState = {
+                text: artifactLabel?.textContent || "",
+                clipped: Boolean(artifactLabel && artifactLabel.scrollWidth > artifactLabel.clientWidth),
+                imageSrc: artifactImage?.getAttribute("src") || "",
+                imageWidth: artifactImage?.clientWidth || 0
+            };
+            artifactMode.value = "2pc2pc";
+            artifactMode.dispatchEvent(new Event("change", { bubbles: true }));
+            const twoPieceButtons = [...document.querySelectorAll(".genshin-artifact-selection-trigger")]
+                .filter((element) => element.offsetWidth > 0)
+                .map((element) => ({ clientWidth: element.clientWidth, scrollWidth: element.scrollWidth }));
+            artifactMode.value = "4pc";
+            artifactMode.dispatchEvent(new Event("change", { bubbles: true }));
+            artifactSelect.value = "";
+            artifactSelect.dispatchEvent(new Event("change", { bubbles: true }));
+            return {
+                talentControls,
+                artifactModeText: artifactMode.options[artifactMode.selectedIndex].text,
+                emptyModeText,
+                emptyModeWidth: artifactMode.getBoundingClientRect().width,
+                emptyModeRequiredWidth,
+                selectStyles: [...new Set(selectStyles)],
+                artifactSelectedState,
+                artifactTriggerFits: artifactTrigger.scrollWidth <= artifactTrigger.clientWidth,
+                twoPieceButtons,
+                unitStyles: [...new Set(unitStyles)],
+                unitCenterOffsets: [...new Set(unitCenterOffsets)],
+                numberAppearance: getComputedStyle(document.getElementById("genshinCritRateInput")).appearance,
+                cardPadding: cardStyle.padding,
+                cardBorderWidth: cardStyle.borderTopWidth,
+                pageOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth
+            };
+        })()`);
+        assert.equal(layoutAudit.pageOverflow, false, "calculator page has horizontal overflow");
+        assert.equal(layoutAudit.artifactModeText, "4");
+        assert.equal(layoutAudit.emptyModeText, "未選択");
+        assert.ok(layoutAudit.emptyModeWidth >= layoutAudit.emptyModeRequiredWidth, `artifact mode text is clipped: ${JSON.stringify(layoutAudit)}`);
+        assert.deepEqual(layoutAudit.selectStyles, ["none|calc(100% - 14px) 50%|12px 8px|34px|true"]);
+        assert.deepEqual(layoutAudit.artifactSelectedState, {
+            text: "絵巻",
+            clipped: false,
+            imageSrc: "/games/images/genshin/artifacts/15037.webp",
+            imageWidth: 26
+        });
+        assert.equal(layoutAudit.artifactTriggerFits, true, "artifact selection text is clipped in 4-piece mode");
+        assert.ok(layoutAudit.talentControls.every((control) => control.width >= control.requiredWidth), `talent level text is clipped: ${JSON.stringify(layoutAudit.talentControls)}`);
+        assert.ok(layoutAudit.talentControls.every((control) => control.fontSize === "12px"), "talent controls do not share one font size");
+        assert.ok(layoutAudit.twoPieceButtons.every((button) => button.scrollWidth <= button.clientWidth), "artifact selection text is clipped in 2+2 mode");
+        assert.deepEqual(layoutAudit.unitStyles.sort(), ["10px|11px|12px", "10px|12px|12px"]);
+        assert.deepEqual(layoutAudit.unitCenterOffsets, [0]);
+        assert.equal(layoutAudit.numberAppearance, "textfield");
+        assert.equal(layoutAudit.cardPadding, "11px");
+        assert.equal(layoutAudit.cardBorderWidth, "1px");
+
+        await client.send("Emulation.setDeviceMetricsOverride", {
+            width: 375,
+            height: 844,
+            deviceScaleFactor: 1,
+            mobile: true
+        });
+        await waitFor(client, `innerWidth === 375`);
+        const mobileLayoutAudit = await evaluate(client, `(() => {
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+            const measureControl = (element, text) => {
+                const style = getComputedStyle(element);
+                context.font = style.font;
+                return {
+                    id: element.id,
+                    text,
+                    width: element.getBoundingClientRect().width,
+                    requiredWidth: Math.ceil(context.measureText(text).width + parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + 2),
+                    backgroundPosition: style.backgroundPosition,
+                    backgroundSize: style.backgroundSize
+                };
+            };
+            const artifactMode = document.getElementById("genshinArtifactSetMode");
+            artifactMode.value = "";
+            artifactMode.dispatchEvent(new Event("change", { bubbles: true }));
+            const controls = [
+                ...["genshinNormalTalentLevel", "genshinSkillTalentLevel", "genshinBurstTalentLevel"].map((id) => {
+                    const element = document.getElementById(id);
+                    return measureControl(element, element.options[element.selectedIndex].text);
+                }),
+                measureControl(artifactMode, artifactMode.options[artifactMode.selectedIndex].text),
+                ...["genshinReflectCharacter", "genshinWeaponInput"].map((id) => {
+                    const element = document.getElementById(id);
+                    return measureControl(element, element.value || element.placeholder);
+                })
+            ];
+            return {
+                controls,
+                profileColumns: getComputedStyle(document.querySelector(".genshin-profile-form-grid")).gridTemplateColumns,
+                pageOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth
+            };
+        })()`);
+        assert.ok(mobileLayoutAudit.controls.every((control) => control.width >= control.requiredWidth), `mobile control text is clipped: ${JSON.stringify(mobileLayoutAudit.controls)}`);
+        assert.ok(mobileLayoutAudit.controls.slice(0, 4).every((control) => control.backgroundPosition === "calc(100% - 9px) 50%"));
+        assert.ok(mobileLayoutAudit.controls.slice(0, 4).every((control) => control.backgroundSize === "9px 6px"));
+        assert.match(mobileLayoutAudit.profileColumns, /^\d+(?:\.\d+)?px 54px 64px$/);
+        assert.equal(mobileLayoutAudit.pageOverflow, false);
+        await client.send("Emulation.setDeviceMetricsOverride", {
+            width: 1280,
+            height: 900,
+            deviceScaleFactor: 1,
+            mobile: false
+        });
+        await waitFor(client, `innerWidth === 1280`);
 
         await evaluate(client, `document.querySelector("#genshinReflectCharacter").click()`);
         try {
@@ -197,10 +361,12 @@ async function clickAndWait(client, selector) {
         await waitFor(client, `document.querySelectorAll("#genshinSelectionList [data-selection-id]").length > 50`);
 
         await evaluate(client, `document.querySelector('[data-filter-group="element"][data-filter-value="炎"]').click()`);
-        const pyroOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList .genshin-selection-option span")].every((item) => item.textContent.startsWith("炎・"))`);
+        await waitFor(client, `document.querySelector('[data-filter-group="element"][data-filter-value="炎"]').getAttribute("aria-pressed") === "true"`);
+        const pyroOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList .genshin-selection-option-copy > span")].every((item) => item.textContent.startsWith("炎・"))`);
         assert.equal(pyroOnly, true);
         await evaluate(client, `document.querySelector('[data-filter-group="rarity"][data-filter-value="5"]').click()`);
-        const pyroFiveStarOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList .genshin-selection-option span")].every((item) => item.textContent.startsWith("炎・★5・"))`);
+        await waitFor(client, `document.querySelector('[data-filter-group="rarity"][data-filter-value="5"]').getAttribute("aria-pressed") === "true"`);
+        const pyroFiveStarOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList .genshin-selection-option-copy > span")].every((item) => item.textContent.startsWith("炎・★5・"))`);
         assert.equal(pyroFiveStarOnly, true);
         const activeClearFilter = await evaluate(client, `({ disabled: document.querySelector("#genshinFilterToggleAll").disabled, selected: document.querySelectorAll('[data-filter-group][aria-pressed="true"]').length })`);
         assert.equal(activeClearFilter.disabled, false);
@@ -230,7 +396,8 @@ async function clickAndWait(client, selector) {
         assert.equal(weaponSelectionUi.clearFilterDisabled, true);
         assert.equal(weaponSelectionUi.types.every((type) => type === "両手剣"), true);
         await evaluate(client, `document.querySelector('[data-filter-group="rarity"][data-filter-value="5"]').click()`);
-        const fiveStarWeaponsOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList .genshin-selection-option span")].every((item) => item.textContent.startsWith("★5・両手剣"))`);
+        await waitFor(client, `document.querySelector('[data-filter-group="rarity"][data-filter-value="5"]').getAttribute("aria-pressed") === "true"`);
+        const fiveStarWeaponsOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList .genshin-selection-option-copy > span")].every((item) => item.textContent.startsWith("★5・両手剣"))`);
         assert.equal(fiveStarWeaponsOnly, true);
         await evaluate(client, `document.querySelector("#genshinFilterToggleAll").click()`);
         const resetWeaponFilters = await evaluate(client, `({ disabled: document.querySelector("#genshinFilterToggleAll").disabled, selected: document.querySelectorAll('[data-filter-group][aria-pressed="true"]').length })`);
@@ -246,18 +413,18 @@ async function clickAndWait(client, selector) {
             constellation: "C1"
         }));
         await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
-        await waitFor(client, `document.querySelectorAll(".genshin-condition-card").length === 5`);
+        await waitFor(client, `document.querySelectorAll(".genshin-condition-card").length === 4`);
         const cardLayout = await evaluate(client, `(() => ({
             order: [...document.querySelectorAll(".genshin-condition-card")].map((card) => card.dataset.conditionCard),
             text: document.querySelector("#genshinJsonConditionCards").innerText,
             hasAmosStack: Boolean(document.querySelector("[data-condition-card='weapon'] #genshinJsonAmosStack")),
             hasConstellationSelect: Boolean(document.querySelector("#genshinJsonConstellationLevel"))
         }))()`);
-        assert.deepEqual(cardLayout.order, ["reaction", "weapon", "artifact", "talent", "constellation"]);
-        assert.ok(cardLayout.text.includes("常時発動する基礎効果"));
-        assert.ok(cardLayout.text.includes("飛翔時間による追加効果"));
+        assert.deepEqual(cardLayout.order, ["reaction", "weapon", "artifact", "talent-constellation"]);
+        assert.ok(cardLayout.text.includes("武器補正"));
+        assert.ok(cardLayout.text.includes("天賦・命ノ星座補正"));
         assert.ok(cardLayout.text.includes("唯一の心"));
-        assert.ok(cardLayout.text.includes("現在の解放段階：C1"));
+        assert.ok(cardLayout.text.includes("C1"));
         assert.equal(cardLayout.hasAmosStack, true);
         assert.equal(cardLayout.hasConstellationSelect, false);
 
@@ -282,9 +449,33 @@ async function clickAndWait(client, selector) {
             input.dispatchEvent(new Event("input", { bubbles: true }));
             input.dispatchEvent(new Event("change", { bubbles: true }));
         })()`);
-        await clickAndWait(client, "#genshinJsonCalcButton");
+        await clickAndWait(client, "#genshinJsonCalcButtonBottom");
         const firstResultLength = await evaluate(client, `document.querySelector("#genshinJsonCalcResults").innerText.trim().length`);
         assert.ok(firstResultLength > 0);
+        const resultStyleAudit = await evaluate(client, `(() => {
+            const result = document.querySelector("#genshinJsonCalcResults");
+            const attack = result.querySelector(".genshin-result-attack-head strong");
+            const number = result.querySelector(".genshin-damage-result-row td");
+            const info = document.querySelector(".genshin-info-box");
+            result.querySelector("[data-result-detail-toggle]").click();
+            const detail = result.querySelector(".genshin-damage-detail-row:not([hidden])");
+            return {
+                attackFont: getComputedStyle(attack).fontSize,
+                attackClipped: attack.scrollWidth > attack.clientWidth,
+                numberFont: getComputedStyle(number).fontSize,
+                infoGap: Math.round(info.getBoundingClientRect().top - result.getBoundingClientRect().bottom),
+                detailFont: getComputedStyle(detail.querySelector(".genshin-json-breakdown")).fontSize,
+                detailTitleFont: getComputedStyle(detail.querySelector(".genshin-breakdown-title")).fontSize,
+                detailOverflow: detail.scrollWidth > detail.clientWidth
+            };
+        })()`);
+        assert.equal(resultStyleAudit.attackFont, "12.48px");
+        assert.equal(resultStyleAudit.attackClipped, false);
+        assert.ok(parseFloat(resultStyleAudit.numberFont) > parseFloat(resultStyleAudit.attackFont), "damage numbers must be more prominent than attack names");
+        assert.equal(resultStyleAudit.infoGap, 22);
+        assert.equal(resultStyleAudit.detailFont, "11.84px");
+        assert.equal(resultStyleAudit.detailTitleFont, "12.48px");
+        assert.equal(resultStyleAudit.detailOverflow, false);
 
         await evaluate(client, selectionExpression({
             characterName: "シャルロット",
@@ -307,7 +498,7 @@ async function clickAndWait(client, selector) {
             input.dispatchEvent(new Event("input", { bubbles: true }));
             input.dispatchEvent(new Event("change", { bubbles: true }));
         })()`);
-        await clickAndWait(client, "#genshinJsonCalcButton");
+        await clickAndWait(client, "#genshinJsonCalcButtonBottom");
         const finalResultLength = await evaluate(client, `document.querySelector("#genshinJsonCalcResults").innerText.trim().length`);
         assert.ok(finalResultLength > 0);
 
@@ -328,7 +519,7 @@ async function clickAndWait(client, selector) {
             input.dispatchEvent(new Event("input", { bubbles: true }));
             input.dispatchEvent(new Event("change", { bubbles: true }));
         })()`);
-        await clickAndWait(client, "#genshinJsonCalcButton");
+        await clickAndWait(client, "#genshinJsonCalcButtonBottom");
         const stackResultLength = await evaluate(client, `document.querySelector("#genshinJsonCalcResults").innerText.trim().length`);
         assert.ok(stackResultLength > 0);
 
@@ -340,7 +531,7 @@ async function clickAndWait(client, selector) {
             constellation: "C2"
         }));
         await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
-        await clickAndWait(client, "#genshinJsonCalcButton");
+        await clickAndWait(client, "#genshinJsonCalcButtonBottom");
         const baizhuResult = await evaluate(client, `document.querySelector("#genshinJsonCalcResults").innerText`);
         assert.ok(baizhuResult.trim().length > 0, "JSON calculation result was not rendered");
         assert.deepEqual(client.exceptions, []);

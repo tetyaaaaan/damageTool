@@ -13,7 +13,8 @@ test("STEP44-46 promotes structured calculation as the only production path", ()
     const html = read("games/genshin/index.html");
     assert.doesNotMatch(html, /data-genshin-calc-path="legacy"|onclick="calc\(\)"|id="dmg_button"/);
     assert.match(html, /data-genshin-calc-primary="structured"/);
-    assert.match(html, /id="genshinJsonCalcButton"[^>]+data-genshin-calc-path="structured"[^>]*>ダメージ計算を実行<\/button>/);
+    assert.match(html, /id="genshinJsonCalcButtonBottom"[^>]+data-genshin-calc-path="structured"[^>]*>ダメージ計算を実行<\/button>/);
+    assert.doesNotMatch(html, /id="genshinJsonCalcButton"/);
     assert.doesNotMatch(html, /従来計算|JSON計算/);
 });
 
@@ -38,7 +39,7 @@ test("calculation controls keep a dedicated reload design and result scrolling",
     const renderer = read("games/js/genshinCalcRenderer.js");
 
     assert.match(html, /class="[^"]*genshin-prepare-button[^"]*" id="genshinJsonPrepareConditionsButton"/);
-    assert.match(html, /<span aria-hidden="true">↻<\/span>計算条件を再読み込み/);
+    assert.match(html, /<span aria-hidden="true">↻<\/span>補正条件を再読み込み/);
     assert.match(css, /\.genshin-tool-page \.genshin-prepare-button \{/);
     assert.match(renderer, /function scrollToCalcResults\(\)/);
     assert.match(renderer, /window\.scrollTo\(\{[\s\S]*behavior: "smooth"/);

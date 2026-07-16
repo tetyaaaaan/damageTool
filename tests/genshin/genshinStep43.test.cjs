@@ -11,7 +11,7 @@ test("STEP43 places the new debuff and enemy inputs directly after status inputs
     const statusIndex = html.indexOf('id="genshinElementalDamageInput"');
     const debuffIndex = html.indexOf('id="genshinDebuffInputs"');
     const enemyIndex = html.indexOf('id="genshinEnemyInputs"');
-    const calculationIndex = html.indexOf("<h3>ダメージ計算</h3>");
+    const calculationIndex = html.indexOf('class="genshin-input-step-head genshin-calculation-step-head"');
 
     assert.ok(statusIndex >= 0 && statusIndex < debuffIndex);
     assert.ok(debuffIndex < enemyIndex);

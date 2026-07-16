@@ -107,7 +107,9 @@ test("artifact set selection stays compact and keeps the existing select values"
     assert.match(css, /\.genshin-artifact-selection-trigger \{[^}]*width: 100%;/s);
     assert.match(css, /\.genshin-artifact-selection-trigger\.is-empty \{[^}]*color: var\(--teti-muted\);/s);
     assert.match(modal, /item\.nameReading \|\| ""/);
-    assert.match(modal, /selected\?\.nameJa \|\| "聖遺物を選択"/);
+    assert.match(modal, /selected\?\.shortNameJa \|\| selected\?\.nameJa \|\| "聖遺物を選択"/);
+    assert.match(modal, /SELECTION_IMAGE_ROOT}\/artifacts\/\$\{selected\.id\}\.webp/);
+    assert.match(modal, /genshin-artifact-selection-trigger-image/);
     assert.match(modal, /classList\.toggle\("is-empty", !selected\)/);
     Object.values(artifactSets).forEach((artifactSet) => {
         assert.equal(typeof artifactSet.nameReading, "string", `${artifactSet.nameJa} needs a reading`);
@@ -115,6 +117,11 @@ test("artifact set selection stays compact and keeps the existing select values"
     });
     assert.equal(artifactSets["15040"].nameReading, "しんろうのしゅうきょく");
     assert.equal(artifactSets["15034"].nameReading, "ざんきょうのもりでささやかれるやわ");
+    assert.equal(artifactSets["15005"].shortNameJa, "雷怒");
+    assert.equal(artifactSets["15037"].shortNameJa, "絵巻");
+    const shortNames = Object.values(artifactSets).map((artifactSet) => artifactSet.shortNameJa);
+    assert.equal(new Set(shortNames).size, shortNames.length, "artifact short names must be unique");
+    shortNames.forEach((shortName) => assert.ok(shortName.length <= 6, `${shortName} is too long for the compact trigger`));
 });
 
 test("image source and rights attribution are published", () => {

@@ -1,246 +1,307 @@
 {
   "10001": {
     "nameJa": "旅人の心",
+    "shortNameJa": "旅人",
     "nameReading": "たびびとのこころ"
   },
   "10002": {
     "nameJa": "勇士の心",
+    "shortNameJa": "勇士",
     "nameReading": "ゆうしのこころ"
   },
   "10003": {
     "nameJa": "守護の心",
+    "shortNameJa": "守護",
     "nameReading": "しゅごのこころ"
   },
   "10004": {
     "nameJa": "奇跡",
+    "shortNameJa": "奇跡",
     "nameReading": "きせき"
   },
   "10005": {
     "nameJa": "狂戦士",
+    "shortNameJa": "狂戦士",
     "nameReading": "きょうせんし"
   },
   "10006": {
     "nameJa": "武人",
+    "shortNameJa": "武人",
     "nameReading": "ぶじん"
   },
   "10007": {
     "nameJa": "教官",
+    "shortNameJa": "教官",
     "nameReading": "きょうかん"
   },
   "10008": {
     "nameJa": "博徒",
+    "shortNameJa": "博徒",
     "nameReading": "ばくと"
   },
   "10009": {
     "nameJa": "亡命者",
+    "shortNameJa": "亡命者",
     "nameReading": "ぼうめいしゃ"
   },
   "10010": {
     "nameJa": "冒険者",
+    "shortNameJa": "冒険者",
     "nameReading": "ぼうけんしゃ"
   },
   "10011": {
     "nameJa": "幸運",
+    "shortNameJa": "幸運",
     "nameReading": "こううん"
   },
   "10012": {
     "nameJa": "学者",
+    "shortNameJa": "学者",
     "nameReading": "がくしゃ"
   },
   "10013": {
     "nameJa": "医者",
+    "shortNameJa": "医者",
     "nameReading": "いしゃ"
   },
   "14001": {
     "nameJa": "氷風を彷徨う勇士",
+    "shortNameJa": "氷風",
     "nameReading": "ひょうふうをさまようゆうし"
   },
   "14002": {
     "nameJa": "雷を鎮める尊者",
+    "shortNameJa": "雷尊者",
     "nameReading": "かみなりをしずめるそんじゃ"
   },
   "14003": {
     "nameJa": "烈火を渡る賢者",
+    "shortNameJa": "火渡り",
     "nameReading": "れっかをわたるけんじゃ"
   },
   "14004": {
     "nameJa": "愛される少女",
+    "shortNameJa": "少女",
     "nameReading": "あいされるしょうじょ"
   },
   "15001": {
     "nameJa": "剣闘士のフィナーレ",
+    "shortNameJa": "剣闘士",
     "nameReading": "けんとうしのふぃなーれ"
   },
   "15002": {
     "nameJa": "翠緑の影",
+    "shortNameJa": "翠緑",
     "nameReading": "すいりょくのかげ"
   },
   "15003": {
     "nameJa": "大地を流浪する楽団",
+    "shortNameJa": "楽団",
     "nameReading": "だいちをるろうするがくだん"
   },
   "15005": {
     "nameJa": "雷のような怒り",
+    "shortNameJa": "雷怒",
     "nameReading": "かみなりのようないかり"
   },
   "15006": {
     "nameJa": "燃え盛る炎の魔女",
+    "shortNameJa": "火魔女",
     "nameReading": "もえさかるほのおのまじょ"
   },
   "15007": {
     "nameJa": "旧貴族のしつけ",
+    "shortNameJa": "旧貴族",
     "nameReading": "きゅうきぞくのしつけ"
   },
   "15008": {
     "nameJa": "血染めの騎士道",
+    "shortNameJa": "血染め",
     "nameReading": "ちぞめのきしどう"
   },
   "15009": {
     "nameJa": "火祭りの人",
+    "shortNameJa": "火祭り",
     "nameReading": "ひまつりのひと"
   },
   "15010": {
     "nameJa": "水祭りの人",
+    "shortNameJa": "水祭り",
     "nameReading": "みずまつりのひと"
   },
   "15011": {
     "nameJa": "雷祭りの人",
+    "shortNameJa": "雷祭り",
     "nameReading": "かみなりまつりのひと"
   },
   "15012": {
     "nameJa": "氷祭りの人",
+    "shortNameJa": "氷祭り",
     "nameReading": "こおりまつりのひと"
   },
   "15014": {
     "nameJa": "悠久の磐岩",
+    "shortNameJa": "磐岩",
     "nameReading": "ゆうきゅうのばんがん"
   },
   "15015": {
     "nameJa": "逆飛びの流星",
+    "shortNameJa": "逆飛び",
     "nameReading": "さかとびのりゅうせい"
   },
   "15016": {
     "nameJa": "沈淪の心",
+    "shortNameJa": "沈淪",
     "nameReading": "ちんりんのこころ"
   },
   "15017": {
     "nameJa": "千岩牢固",
+    "shortNameJa": "千岩",
     "nameReading": "せんがんろうこ"
   },
   "15018": {
     "nameJa": "蒼白の炎",
+    "shortNameJa": "蒼白",
     "nameReading": "そうはくのほのお"
   },
   "15019": {
     "nameJa": "追憶のしめ縄",
+    "shortNameJa": "しめ縄",
     "nameReading": "ついおくのしめなわ"
   },
   "15020": {
     "nameJa": "絶縁の旗印",
+    "shortNameJa": "絶縁",
     "nameReading": "ぜつえんのはたじるし"
   },
   "15021": {
     "nameJa": "華館夢醒形骸記",
+    "shortNameJa": "華館",
     "nameReading": "かかんむせいけいがいき"
   },
   "15022": {
     "nameJa": "海染硨磲",
+    "shortNameJa": "海染",
     "nameReading": "うみぞめしゃこ"
   },
   "15023": {
     "nameJa": "辰砂往生録",
+    "shortNameJa": "辰砂",
     "nameReading": "しんしゃおうじょうろく"
   },
   "15024": {
     "nameJa": "来歆の余響",
+    "shortNameJa": "余響",
     "nameReading": "らいきんのよきょう"
   },
   "15025": {
     "nameJa": "深林の記憶",
+    "shortNameJa": "深林",
     "nameReading": "しんりんのきおく"
   },
   "15026": {
     "nameJa": "金メッキの夢",
+    "shortNameJa": "金メッキ",
     "nameReading": "きんめっきのゆめ"
   },
   "15027": {
     "nameJa": "砂上の楼閣の史話",
+    "shortNameJa": "砂上",
     "nameReading": "さじょうのろうかくのしわ"
   },
   "15028": {
     "nameJa": "楽園の絶花",
+    "shortNameJa": "楽園",
     "nameReading": "らくえんのぜっか"
   },
   "15029": {
     "nameJa": "水仙の夢",
+    "shortNameJa": "水仙",
     "nameReading": "すいせんのゆめ"
   },
   "15030": {
     "nameJa": "花海甘露の光",
+    "shortNameJa": "花海",
     "nameReading": "かかいかんろのひかり"
   },
   "15031": {
     "nameJa": "ファントムハンター",
+    "shortNameJa": "ファントム",
     "nameReading": "ふぁんとむはんたー"
   },
   "15032": {
     "nameJa": "黄金の劇団",
+    "shortNameJa": "黄金",
     "nameReading": "おうごんのげきだん"
   },
   "15033": {
     "nameJa": "在りし日の歌",
+    "shortNameJa": "在りし日",
     "nameReading": "ありしひのうた"
   },
   "15034": {
     "nameJa": "残響の森で囁かれる夜話",
+    "shortNameJa": "残響",
     "nameReading": "ざんきょうのもりでささやかれるやわ"
   },
   "15035": {
     "nameJa": "諧律奇想の断章",
+    "shortNameJa": "諧律",
     "nameReading": "かいりつきそうのだんしょう"
   },
   "15036": {
     "nameJa": "遂げられなかった想い",
+    "shortNameJa": "想い",
     "nameReading": "とげられなかったおもい"
   },
   "15037": {
     "nameJa": "灰燼の都に立つ英雄の絵巻",
+    "shortNameJa": "絵巻",
     "nameReading": "はいじんのみやこにたつえいゆうのえまき"
   },
   "15038": {
     "nameJa": "黒曜の秘典",
+    "shortNameJa": "黒曜",
     "nameReading": "こくようのひてん"
   },
   "15039": {
     "nameJa": "長き夜の誓い",
+    "shortNameJa": "長き夜",
     "nameReading": "ながきよるのちかい"
   },
   "15040": {
     "nameJa": "深廊の終曲",
+    "shortNameJa": "深廊",
     "nameReading": "しんろうのしゅうきょく"
   },
   "15041": {
     "nameJa": "天穹の顕現せし夜",
+    "shortNameJa": "天穹",
     "nameReading": "てんきゅうのけんげんせしよる"
   },
   "15042": {
     "nameJa": "月を紡ぐ夜の歌",
+    "shortNameJa": "月歌",
     "nameReading": "つきをつむぐよるのうた"
   },
   "15043": {
     "nameJa": "暁の星と月の歌",
+    "shortNameJa": "暁歌",
     "nameReading": "あかつきのほしとつきのうた"
   },
   "15044": {
     "nameJa": "風立ちの日",
+    "shortNameJa": "風立ち",
     "nameReading": "かぜたちのひ"
   },
   "15045": {
     "nameJa": "天からの贈り物",
+    "shortNameJa": "贈り物",
     "nameReading": "てんからのおくりもの"
   },
   "15046": {
     "nameJa": "影に沈む幻",
+    "shortNameJa": "沈む幻",
     "nameReading": "かげにしずむまぼろし"
   }
 }

@@ -199,6 +199,9 @@ test("STEP47-51 design and responsive equal-width CSS are committed", () => {
     assert.match(css, /grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
     assert.match(css, /@media \(max-width: 980px\)[\s\S]*?\.genshin-tool-grid\s*\{\s*grid-template-columns: 1fr/);
     assert.match(css, /\.genshin-damage-table[\s\S]*?table-layout: fixed/);
+    assert.match(css, /\.genshin-result-attack-head strong\s*\{[\s\S]*font-size:\s*0\.78rem/);
+    assert.match(css, /\.genshin-json-breakdown\s*\{[\s\S]*font-size:\s*0\.74rem/);
+    assert.match(css, /\.genshin-json-calc-results \+ \.genshin-info-box\s*\{[\s\S]*margin-top:\s*22px/);
     assert.match(css, /@media \(max-width: 560px\)[\s\S]*?\.genshin-damage-result-row\s*\{[\s\S]*?grid-template-columns: repeat\(3/);
     assert.match(design, /STEP47: レイアウトと表示グループ/);
     assert.match(design, /STEP51: 検証/);

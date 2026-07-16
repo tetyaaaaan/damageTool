@@ -167,6 +167,7 @@ test("STEP38 renders contributor inputs and Stellar-Conduct field stacks in the 
     stellar.manualInputs.stellarConductStacks = 12;
     sandbox.GenshinCalcRenderer.renderConditionCards({ cards: [] }, stellar);
     assert.match(conditionWrap.innerHTML, /genshinStellarConductStacks/);
+    assert.match(conditionWrap.innerHTML, /class="genshin-condition-card is-wide" data-condition-card="reaction"/);
     assert.match(conditionWrap.innerHTML, /12回（係数 2\.00）/);
     assert.match(conditionWrap.innerHTML, /value="12" selected/);
 });

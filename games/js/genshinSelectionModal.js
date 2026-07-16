@@ -253,9 +253,29 @@
         const trigger = byId(artifactTriggerId(slot));
         if (!select || !trigger) return;
         const selected = state.artifactSets.find((item) => item.id === select.value);
-        trigger.textContent = selected?.nameJa || "聖遺物を選択";
+        const label = document.createElement("span");
+        label.className = "genshin-artifact-selection-trigger-label";
+        label.textContent = selected?.shortNameJa || selected?.nameJa || "聖遺物を選択";
+        trigger.replaceChildren();
+        if (selected) {
+            const image = document.createElement("img");
+            image.className = "genshin-artifact-selection-trigger-image";
+            image.src = `${SELECTION_IMAGE_ROOT}/artifacts/${selected.id}.webp`;
+            image.alt = "";
+            image.width = 26;
+            image.height = 26;
+            image.decoding = "async";
+            image.addEventListener("error", () => {
+                if (image.dataset.fallbackApplied === "true") return;
+                image.dataset.fallbackApplied = "true";
+                image.src = SELECTION_IMAGE_FALLBACK;
+            });
+            trigger.appendChild(image);
+        }
+        trigger.appendChild(label);
         trigger.classList.toggle("is-empty", !selected);
         trigger.title = selected?.nameJa || "";
+        trigger.setAttribute("aria-label", selected ? `聖遺物：${selected.nameJa}` : "聖遺物を選択");
     }
 
     function syncArtifactTriggers() {

@@ -30,7 +30,7 @@ test("STEP45 exposes one structured calculation action and renders into the resu
     const resultPanel = html.slice(resultPanelStart, resultPanelEnd);
 
     assert.equal(actionMatches.length, 1);
-    assert.match(html, /<h3>ダメージ計算<\/h3>/);
+    assert.match(html, /<h3><span aria-hidden="true">4<\/span>補正条件<\/h3>/);
     assert.match(html, />ダメージ計算を実行<\/button>/);
     assert.match(html, /id="genshinJsonCalcButtonBottom"/);
     assert.match(resultPanel, /id="genshinJsonCalcWarnings"/);
@@ -38,7 +38,7 @@ test("STEP45 exposes one structured calculation action and renders into the resu
     assert.match(renderer, /計算対象:/);
     assert.doesNotMatch(renderer, /<h3>計算結果<\/h3>/);
     assert.match(renderer, /aria-label="計算結果タブ"/);
-    assert.match(renderer, /\["genshinJsonCalcButton", "genshinJsonCalcButtonBottom"\]/);
+    assert.match(renderer, /\["genshinJsonCalcButtonBottom"\]/);
     assert.doesNotMatch(`${html}\n${renderer}`, /JSON計算/);
 });
 
@@ -59,8 +59,8 @@ test("STEP45 provides neutral initial calculation values", () => {
     Object.entries(defaults).forEach(([id, value]) => {
         assert.match(html, new RegExp(`id="${id}"[^>]*value="${value}"`), id);
     });
-    ["genshinNormalTalentLevel", "genshinSkillTalentLevel", "genshinBurstTalentLevel"].forEach((id) => {
-        assert.match(html, new RegExp(`<select id="${id}">[\\s\\S]*?<option value="10" selected>10<\\/option>`), id);
+    [["genshinNormalTalentLevel", "通常攻撃"], ["genshinSkillTalentLevel", "元素スキル"], ["genshinBurstTalentLevel", "元素爆発"]].forEach(([id, label]) => {
+        assert.match(html, new RegExp(`<select id="${id}"[^>]*>[\\s\\S]*?<option value="10" selected>${label} Lv10<\\/option>`), id);
     });
 });
 
