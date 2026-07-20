@@ -30,7 +30,7 @@ test("STEP45 exposes one structured calculation action and renders into the resu
     const resultPanel = html.slice(resultPanelStart, resultPanelEnd);
 
     assert.equal(actionMatches.length, 1);
-    assert.match(html, /<h3><span aria-hidden="true">4<\/span>補正条件<\/h3>/);
+    assert.match(html, /<h3>補正条件<\/h3>/);
     assert.match(html, />ダメージ計算を実行<\/button>/);
     assert.match(html, /id="genshinJsonCalcButtonBottom"/);
     assert.match(resultPanel, /id="genshinJsonCalcWarnings"/);

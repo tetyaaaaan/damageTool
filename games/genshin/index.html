@@ -23,11 +23,12 @@
   <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/games/css/style.css">
   <link rel="stylesheet" href="/games/css/menu.css">
-  <link rel="stylesheet" href="/games/css/tetinet.css">
+  <link rel="stylesheet" href="/games/css/tetinet.css?v=20260720-2">
+  <link rel="stylesheet" href="/games/css/genshin-visual-repair.css?v=20260720">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/games/images/icon/te_maru.ico">
   <script src="/games/js/windowLoading.js"></script>
-  <script src="/games/js/theme.js"></script>
+  <script src="/games/js/theme.js?v=20260720-2"></script>
 </head>
 <body class="tetinet-page genshin-tool-page">
   <div id="load" class="teti-loading">
@@ -42,7 +43,7 @@
           <img src="/games/images/logo/tetinet_icon_purple_orange.webp" alt="" width="40" height="40">
           <span>tetinet</span>
         </a>
-        <nav class="teti-nav" aria-label="メインナビゲーション">
+        <nav class="teti-nav" id="tetiMainNavigation" aria-label="メインナビゲーション">
           <a href="/">ホーム</a>
           <a href="/games/" aria-current="page">ゲーム</a>
           <a href="/games/">ツール</a>
@@ -90,8 +91,8 @@
             </div>
 
             <div class="genshin-fieldset uid-importer genshin-uid-importer" id="genshinUidImporter">
-              <h3>公開プロフィールから反映</h3>
-              <p class="genshin-help">UIDから公開キャラクターを取得できます。取得後も入力欄は手動で調整できます。</p>
+              <h3>UIDから読み込む</h3>
+              <p class="genshin-help">公開プロフィールを計算欄へ反映します。</p>
               <div class="uid-importer__controls genshin-inline-controls">
                 <label for="genshinUidInput">原神UID</label>
                 <input class="teti-input" type="text" inputmode="numeric" pattern="[0-9]*" id="genshinUidInput" maxlength="10" placeholder="例: 800000000" autocomplete="off">
@@ -111,10 +112,9 @@
             </div>
 
             <div class="genshin-fieldset genshin-reflect-inputs">
-              <h3>計算入力欄（反映後に編集可能）</h3>
               <section class="genshin-input-step genshin-equipment-step" aria-labelledby="genshinEquipmentStepTitle">
                 <div class="genshin-input-step-head">
-                  <h4 id="genshinEquipmentStepTitle"><span aria-hidden="true">1</span>キャラ・装備</h4>
+                  <h4 id="genshinEquipmentStepTitle">キャラ・装備</h4>
                   <p>キャラを選ぶと装備できる武器が表示されます。</p>
                 </div>
               <div class="genshin-form-grid genshin-profile-form-grid">
@@ -247,25 +247,25 @@
               </section>
               <section class="genshin-input-step" aria-labelledby="genshinStatusStepTitle">
                 <div class="genshin-input-step-head">
-                  <h4 id="genshinStatusStepTitle"><span aria-hidden="true">2</span>ステータス</h4>
+                  <h4 id="genshinStatusStepTitle">ステータス</h4>
                   <p>プロフィール反映後も編集できます。</p>
                 </div>
               <div class="genshin-profile-stat-inputs">
                 <div class="genshin-form-grid genshin-compact-stats">
-                  <label class="genshin-field">HP<input type="number" id="genshinHpInput" step="1" value="10000"></label>
-                  <label class="genshin-field">攻撃力<input type="number" id="genshinAtkInput" step="1" value="1000"></label>
-                  <label class="genshin-field">防御力<input type="number" id="genshinDefInput" step="1" value="1000"></label>
-                  <label class="genshin-field">元素熟知<input type="number" id="genshinElementalMasteryInput" step="1" value="0"></label>
-                  <label class="genshin-field">会心率<input type="number" id="genshinCritRateInput" step="0.01" value="5"><span>%</span></label>
-                  <label class="genshin-field">会心ダメージ<input type="number" id="genshinCritDamageInput" step="0.01" value="50"><span>%</span></label>
-                  <label class="genshin-field">元素チャージ効率<input type="number" id="genshinEnergyRechargeInput" step="0.01" value="100"><span>%</span></label>
-                  <label class="genshin-field">元素ダメージ<input type="number" id="genshinElementalDamageInput" step="0.01" value="0"><span>%</span></label>
+                  <label class="genshin-field"><span class="genshin-stat-label"><svg aria-hidden="true"><use href="/games/images/genshin/ui-icons.svg#stat-hp"></use></svg>HP</span><input type="number" id="genshinHpInput" step="1" value="10000"></label>
+                  <label class="genshin-field"><span class="genshin-stat-label"><svg aria-hidden="true"><use href="/games/images/genshin/ui-icons.svg#stat-crit-rate"></use></svg>会心率</span><input type="number" id="genshinCritRateInput" step="0.01" value="5"><span class="genshin-field-unit">%</span></label>
+                  <label class="genshin-field"><span class="genshin-stat-label"><svg aria-hidden="true"><use href="/games/images/genshin/ui-icons.svg#stat-attack"></use></svg>攻撃力</span><input type="number" id="genshinAtkInput" step="1" value="1000"></label>
+                  <label class="genshin-field"><span class="genshin-stat-label"><svg aria-hidden="true"><use href="/games/images/genshin/ui-icons.svg#stat-crit-damage"></use></svg>会心ダメージ</span><input type="number" id="genshinCritDamageInput" step="0.01" value="50"><span class="genshin-field-unit">%</span></label>
+                  <label class="genshin-field"><span class="genshin-stat-label"><svg aria-hidden="true"><use href="/games/images/genshin/ui-icons.svg#stat-defense"></use></svg>防御力</span><input type="number" id="genshinDefInput" step="1" value="1000"></label>
+                  <label class="genshin-field"><span class="genshin-stat-label"><svg aria-hidden="true"><use href="/games/images/genshin/ui-icons.svg#stat-energy-recharge"></use></svg>元素チャージ効率</span><input type="number" id="genshinEnergyRechargeInput" step="0.01" value="100"><span class="genshin-field-unit">%</span></label>
+                  <label class="genshin-field"><span class="genshin-stat-label"><svg aria-hidden="true"><use href="/games/images/genshin/ui-icons.svg#stat-elemental-mastery"></use></svg>元素熟知</span><input type="number" id="genshinElementalMasteryInput" step="1" value="0"></label>
+                  <label class="genshin-field"><span class="genshin-stat-label"><svg aria-hidden="true"><use href="/games/images/genshin/ui-icons.svg#stat-elemental-damage"></use></svg>元素ダメージ</span><input type="number" id="genshinElementalDamageInput" step="0.01" value="0"><span class="genshin-field-unit">%</span></label>
                 </div>
               </div>
               </section>
               <section class="genshin-input-step" aria-labelledby="genshinCombatStepTitle">
                 <div class="genshin-input-step-head">
-                  <h4 id="genshinCombatStepTitle"><span aria-hidden="true">3</span>敵・反応設定</h4>
+                  <h4 id="genshinCombatStepTitle">敵・反応設定</h4>
                   <p>敵の耐性やデバフ、元素反応を設定します。</p>
                 </div>
                 <div class="genshin-combat-input-grid">
@@ -292,12 +292,11 @@
               </div>
                 </div>
               </section>
-              <p class="genshin-help">反映した数値は編集可能です。この入力欄の値をダメージ計算に使用します。</p>
             </div>
 
             <div class="genshin-fieldset genshin-json-calc-production" data-genshin-calc-primary="structured">
               <div class="genshin-input-step-head genshin-calculation-step-head">
-                <h3><span aria-hidden="true">4</span>補正条件</h3>
+                <h3>補正条件</h3>
                 <p id="genshinConditionReloadStatus">キャラ・装備に応じた補正を確認します。</p>
               </div>
               <p class="genshin-help">選択したキャラクター・武器・聖遺物と現在の入力値から計算します。未対応効果は理由付きで表示します。</p>
@@ -384,7 +383,7 @@
           <label for="genshinSelectionSearch">名前で検索</label>
           <div class="genshin-selection-search-control">
             <input type="text" id="genshinSelectionSearch" placeholder="漢字・ひらがな・カタカナで検索" autocomplete="off">
-            <button type="button" id="genshinSelectionSearchClear" disabled>名前をクリア</button>
+            <button type="button" id="genshinSelectionSearchClear" aria-label="検索文字をクリア" title="検索文字をクリア" disabled>名前をクリア</button>
           </div>
         </div>
         <div class="genshin-selection-filters" id="genshinSelectionFilters"></div>

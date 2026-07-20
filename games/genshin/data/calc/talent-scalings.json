@@ -16130,7 +16130,7 @@
           },
           "scalings": [
             {
-              "stat": "hp",
+              "stat": "atk",
               "valuesByLevel": {
                 "1": 379.09,
                 "2": 401.79,

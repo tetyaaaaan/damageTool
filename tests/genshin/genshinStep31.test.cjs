@@ -189,9 +189,10 @@ test("STEP31: Hu Tao groups attack bonus and Pyro conversion under one talent st
     const html = elements.genshinJsonConditionCards.innerHTML;
     assert.equal((html.match(/蝶導来世/g) || []).length >= 1, true);
     assert.match(html, /元素スキル/);
-    assert.match(html, /<summary>効果の詳細<\/summary>/);
-    assert.equal(html.indexOf("影響：") < html.indexOf("効果の詳細"), true);
-    assert.equal(html.indexOf("効果の詳細") < html.indexOf("状態・条件"), true);
+    assert.match(html, /<summary>効果説明<\/summary>/);
+    assert.match(html, /genshin-description-kind">全文/);
+    assert.equal(html.indexOf("影響：") < html.indexOf("状態・条件"), true);
+    assert.equal(html.indexOf("状態・条件") < html.indexOf("効果説明"), true);
 });
 
 test("STEP31: every talent modifier source resolves to a user-facing talent name", () => {

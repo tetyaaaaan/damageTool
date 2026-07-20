@@ -17,7 +17,8 @@
 
     const state = {
         profile: null,
-        selectedCharacter: null
+        selectedCharacter: null,
+        applyingPreciseStats: false
     };
 
     function getElement(id) {
@@ -449,7 +450,15 @@
         }
         const num = Number(value);
         if (!Number.isFinite(num)) return;
-        input.value = mode === "integer" ? String(Math.round(num)) : String(Math.round(num * 100) / 100);
+        if (mode === "preciseInteger" || mode === "preciseDecimal") {
+            input.value = mode === "preciseInteger"
+                ? String(Math.round(num))
+                : String(Math.round(num * 100) / 100);
+            input.dataset.preciseValue = String(num);
+        } else {
+            delete input.dataset.preciseValue;
+            input.value = mode === "integer" ? String(Math.round(num)) : String(Math.round(num * 100) / 100);
+        }
         input.dispatchEvent(new Event("input", { bubbles: true }));
     }
 
@@ -483,27 +492,32 @@
         const weaponName = safeName(weapon, "武器");
         const constellation = `C${toNumber(character.constellation)}`;
 
-        updateWeaponOption(weaponName);
-        setInputValue("genshinCalcCharacterId", character.id || "10000037", "text");
-        setInputValue("genshinCalcWeaponId", weapon.id || "15502", "text");
-        setInputValue("genshinReflectCharacter", character.name || unsupported("キャラクター", character.id), "text");
-        setInputValue("genshinReflectLevel", character.level, "integer");
-        setSelectValue("genshinReflectConstellation", constellation);
-        setInputValue("genshinWeaponInput", weaponName, "text");
-        setInputValue("genshinWeaponLevel", weapon.level, "integer");
-        setSelectValue("genshinWeaponRefinement", `R${weapon.rank || 1}`);
-        setInputValue("genshinNormalTalentLevel", talents.normal, "integer");
-        setInputValue("genshinSkillTalentLevel", talents.skill, "integer");
-        setInputValue("genshinBurstTalentLevel", talents.burst, "integer");
-        applyArtifactSetsToForm(character.artifacts || []);
-        setInputValue("genshinHpInput", character.stats.hp, "integer");
-        setInputValue("genshinAtkInput", character.stats.atk, "integer");
-        setInputValue("genshinDefInput", character.stats.def, "integer");
-        setInputValue("genshinElementalMasteryInput", character.stats.elementalMastery, "integer");
-        setInputValue("genshinCritRateInput", character.stats.critRate);
-        setInputValue("genshinCritDamageInput", character.stats.critDamage);
-        setInputValue("genshinEnergyRechargeInput", character.stats.energyRecharge);
-        setInputValue("genshinElementalDamageInput", character.stats.elementalDamage);
+        state.applyingPreciseStats = true;
+        try {
+            updateWeaponOption(weaponName);
+            setInputValue("genshinCalcCharacterId", character.id || "10000037", "text");
+            setInputValue("genshinCalcWeaponId", weapon.id || "15502", "text");
+            setInputValue("genshinReflectCharacter", character.name || unsupported("キャラクター", character.id), "text");
+            setInputValue("genshinReflectLevel", character.level, "integer");
+            setSelectValue("genshinReflectConstellation", constellation);
+            setInputValue("genshinWeaponInput", weaponName, "text");
+            setInputValue("genshinWeaponLevel", weapon.level, "integer");
+            setSelectValue("genshinWeaponRefinement", `R${weapon.rank || 1}`);
+            setInputValue("genshinNormalTalentLevel", talents.normal, "integer");
+            setInputValue("genshinSkillTalentLevel", talents.skill, "integer");
+            setInputValue("genshinBurstTalentLevel", talents.burst, "integer");
+            applyArtifactSetsToForm(character.artifacts || []);
+            setInputValue("genshinHpInput", character.stats.hp, "preciseInteger");
+            setInputValue("genshinAtkInput", character.stats.atk, "preciseInteger");
+            setInputValue("genshinDefInput", character.stats.def, "preciseInteger");
+            setInputValue("genshinElementalMasteryInput", character.stats.elementalMastery, "preciseInteger");
+            setInputValue("genshinCritRateInput", character.stats.critRate, "preciseDecimal");
+            setInputValue("genshinCritDamageInput", character.stats.critDamage, "preciseDecimal");
+            setInputValue("genshinEnergyRechargeInput", character.stats.energyRecharge, "preciseDecimal");
+            setInputValue("genshinElementalDamageInput", character.stats.elementalDamage, "preciseDecimal");
+        } finally {
+            state.applyingPreciseStats = false;
+        }
 
 
         state.selectedCharacter = character;
@@ -585,6 +599,20 @@
         });
         button.addEventListener("click", handleSearch);
         select.addEventListener("change", () => selectCharacter(Number(select.value)));
+        [
+            "genshinHpInput",
+            "genshinAtkInput",
+            "genshinDefInput",
+            "genshinElementalMasteryInput",
+            "genshinCritRateInput",
+            "genshinCritDamageInput",
+            "genshinEnergyRechargeInput",
+            "genshinElementalDamageInput"
+        ].forEach((id) => {
+            getElement(id)?.addEventListener("input", (event) => {
+                if (!state.applyingPreciseStats) delete event.currentTarget.dataset.preciseValue;
+            });
+        });
 
         const artifactSetMode = getElement("genshinArtifactSetMode");
         if (artifactSetMode) artifactSetMode.addEventListener("change", updateArtifactSetModeVisibility);

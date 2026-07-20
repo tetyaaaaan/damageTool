@@ -9,8 +9,8 @@ const read = (relativePath) => fs.readFileSync(path.join(root, relativePath), "u
 test("STEP52-55 presents four input steps without replacing calculator field IDs", () => {
     const html = read("games/genshin/index.html");
     const expectedSteps = ["キャラ・装備", "ステータス", "敵・反応設定", "補正条件"];
-    expectedSteps.forEach((label, index) => {
-        assert.match(html, new RegExp(`<span aria-hidden="true">${index + 1}<\\/span>${label}`));
+    expectedSteps.forEach((label) => {
+        assert.match(html, new RegExp(`>${label}<\\/h[34]>`));
     });
     [
         "genshinReflectCharacter", "genshinCalcCharacterId", "genshinWeaponInput", "genshinCalcWeaponId",

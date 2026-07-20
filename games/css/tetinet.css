@@ -4868,3 +4868,144 @@ html[data-theme="dark"] .genshin-filter-button--element img { background: transp
   .genshin-filter-label { width: 100%; }
   .genshin-filter-toggle-all { margin-left: 0; }
 }
+
+/* Shared mobile site header. Activated only after theme.js has wired controls. */
+.teti-mobile-menu-button,
+.teti-mobile-menu-backdrop {
+  display: none;
+}
+
+@media (max-width: 680px) {
+  .teti-site-header.has-mobile-navigation {
+    min-height: 57px;
+  }
+
+  .teti-site-header.has-mobile-navigation .teti-header-inner {
+    position: static;
+    min-height: 56px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 9px;
+    padding-block: 0;
+  }
+
+  .teti-site-header.has-mobile-navigation .teti-mobile-menu-button,
+  .teti-site-header.has-mobile-navigation .teti-theme-toggle {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+  }
+
+  .teti-site-header.has-mobile-navigation .teti-mobile-menu-button {
+    display: grid;
+    place-items: center;
+    padding: 0;
+    color: var(--teti-text);
+    background: var(--teti-surface);
+    border: 1px solid var(--teti-border);
+    border-radius: var(--teti-radius-sm);
+    cursor: pointer;
+  }
+
+  .teti-mobile-menu-icon,
+  .teti-mobile-menu-icon::before,
+  .teti-mobile-menu-icon::after {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 999px;
+  }
+
+  .teti-mobile-menu-icon {
+    position: relative;
+  }
+
+  .teti-mobile-menu-icon::before,
+  .teti-mobile-menu-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+  }
+
+  .teti-mobile-menu-icon::before {
+    top: -6px;
+  }
+
+  .teti-mobile-menu-icon::after {
+    top: 6px;
+  }
+
+  .teti-site-header.has-mobile-navigation .teti-brand {
+    gap: 7px;
+    font-size: 1.08rem;
+  }
+
+  .teti-site-header.has-mobile-navigation .teti-brand img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .teti-site-header.has-mobile-navigation .teti-theme-toggle {
+    margin-left: auto;
+  }
+
+  .teti-site-header.has-mobile-navigation .teti-nav {
+    position: absolute;
+    top: 100%;
+    bottom: auto;
+    left: 0;
+    right: auto;
+    z-index: 80;
+    display: grid;
+    align-content: start;
+    width: min(288px, calc(100vw - 48px));
+    height: calc(100dvh - 57px);
+    padding: 12px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: var(--teti-surface);
+    border: 0;
+    border-right: 1px solid var(--teti-border);
+    border-radius: 0;
+    box-shadow: 18px 0 40px rgba(3, 15, 24, .22);
+    visibility: hidden;
+    transform: translateX(-100%);
+    transition: transform .18s ease, visibility .18s step-end;
+  }
+
+  .teti-site-header.has-mobile-navigation.is-menu-open {
+    z-index: 90;
+  }
+
+  .teti-site-header.has-mobile-navigation.is-menu-open .teti-nav {
+    visibility: visible;
+    transform: translateX(0);
+    transition: transform .18s ease;
+  }
+
+  .teti-site-header.has-mobile-navigation .teti-mobile-menu-backdrop:not([hidden]) {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    z-index: 70;
+    display: block;
+    width: auto;
+    height: calc(100dvh - 57px);
+    padding: 0;
+    background: rgba(3, 15, 24, .52);
+    border: 0;
+    cursor: default;
+  }
+
+  body.is-site-menu-open {
+    overflow: hidden;
+  }
+
+  .teti-site-header.has-mobile-navigation .teti-nav a {
+    min-height: 44px;
+    padding-inline: 12px;
+  }
+}

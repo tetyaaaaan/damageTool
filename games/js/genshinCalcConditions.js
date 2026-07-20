@@ -263,6 +263,13 @@
         return String(text || "").replace(/\*\*/g, "");
     }
 
+    function normalizeConditionDescription(text) {
+        return String(text || "")
+            .replace(/\*\*/g, "")
+            .replace(/\s+/g, " ")
+            .trim();
+    }
+
     function analyzeModifier(modifier, source = "", context = {}) {
         if (!window.GenshinModifierAnalyzer) {
             throw new Error("GenshinModifierAnalyzer が読み込まれていません");
@@ -851,7 +858,8 @@
                     level,
                     label: `C${level}`,
                     nameJa: registryLevel.nameJa || "星座効果",
-                    description: plainConstellationText(registryLevel.effectText || effect.description || ""),
+                    description: normalizeConditionDescription(plainConstellationText(registryLevel.effectText || effect.description || "")),
+                    descriptionKind: "full",
                     impactLabels: [],
                     controls: [],
                     effects: []
@@ -901,17 +909,18 @@
                 order: sourceOverride.order ?? 4,
                 typeLabel: sourceOverride.typeLabel || "天賦",
                 nameJa: sourceOverride.nameJa || "天賦効果",
-                description: sourceOverride.description || ""
+                description: normalizeConditionDescription(sourceOverride.description || ""),
+                descriptionKind: "summary"
             };
         }
         if (normalizedId === "combat1") {
-            return { order: 1, typeLabel: "通常攻撃", nameJa: talents.normalAttack?.nameJa || "通常攻撃", description: talents.normalAttack?.normalDescriptionJa || "" };
+            return { order: 1, typeLabel: "通常攻撃", nameJa: talents.normalAttack?.nameJa || "通常攻撃", description: normalizeConditionDescription(talents.normalAttack?.normalDescriptionJa || ""), descriptionKind: "full" };
         }
         if (normalizedId === "combat2") {
-            return { order: 2, typeLabel: "元素スキル", nameJa: talents.skill?.nameJa || "元素スキル", description: talents.skill?.descriptionJa || "" };
+            return { order: 2, typeLabel: "元素スキル", nameJa: talents.skill?.nameJa || "元素スキル", description: normalizeConditionDescription(talents.skill?.descriptionJa || ""), descriptionKind: "full" };
         }
         if (normalizedId === "combat3") {
-            return { order: 3, typeLabel: "元素爆発", nameJa: talents.burst?.nameJa || "元素爆発", description: talents.burst?.descriptionJa || "" };
+            return { order: 3, typeLabel: "元素爆発", nameJa: talents.burst?.nameJa || "元素爆発", description: normalizeConditionDescription(talents.burst?.descriptionJa || ""), descriptionKind: "full" };
         }
         const passives = talents.passives || [];
         const exactPassive = passives.find((item) => String(item.sourceId || "").replace(/_/g, "") === normalizedId);
@@ -922,7 +931,8 @@
             order: 10 + passiveIndex,
             typeLabel: normalizedId.startsWith("passive") ? `固有天賦${passiveIndex + 1}` : "天賦",
             nameJa: passive.nameJa || "天賦効果",
-            description: passive.descriptionJa || ""
+            description: normalizeConditionDescription(passive.descriptionJa || ""),
+            descriptionKind: "full"
         };
     }
 
@@ -1004,7 +1014,8 @@
                     pieceCount,
                     order: (setOrder.get(String(setId)) ?? 99) * 10 + pieceCount,
                     nameJa: calcData.artifactSets?.[setId]?.nameJa || `聖遺物ID ${setId}`,
-                    description: pieceCount === 4 ? effectText.fourPieceEffect || "" : effectText.twoPieceEffect || "",
+                    description: normalizeConditionDescription(pieceCount === 4 ? effectText.fourPieceEffect || "" : effectText.twoPieceEffect || ""),
+                    descriptionKind: "full",
                     controls: [],
                     effects: []
                 });
@@ -1044,7 +1055,8 @@
                     id: groupId,
                     name: effect.modifier.effectLabel || effect.name,
                     order: Number(effect.modifier.effectGroupOrder) || 0,
-                    description: effect.modifier.effectDescription || effect.description || "",
+                    description: normalizeConditionDescription(effect.modifier.effectDescription || effect.description || ""),
+                    descriptionKind: "summary",
                     targetOwner: effect.modifier.targetOwner || "self",
                     controls: [],
                     effects: []
@@ -1136,10 +1148,15 @@
             else if (analysis.supportStatus === "displayOnly") status = "displayOnly";
 
             const stack = item.modifier.condition === "arrowFlightTime" ? Number(context.uiState.amosStack) || 0 : null;
+            const sourceDescription = item.modifier.sourceText || item.sourceDescription || `${categoryLabel(item.modifier.category)}を計算に反映します。`;
+            const descriptionKind = item.modifier.sourceText
+                ? "excerpt"
+                : item.sourceDescription ? "summary" : "generated";
             cards.find((card) => card.id === cardId).effects.push({
                 id: item.modifier.id || analysis.key,
                 name: `${sourceInfo.type === "constellation" ? `${sourceInfo.id} ` : ""}${item.modifier.effectLabel || item.sourceName || categoryLabel(item.modifier.category)}`,
-                description: item.modifier.sourceText || item.sourceDescription || `${categoryLabel(item.modifier.category)}を計算に反映します。`,
+                description: normalizeConditionDescription(sourceDescription),
+                descriptionKind: descriptionKind,
                 status,
                 statusReason: artifactPolicy?.reason || analysis.reason || analysis.inputReason || "",
                 target: modifierTargetLabels(item.modifier).join(" / "),

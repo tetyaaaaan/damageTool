@@ -1,7 +1,7 @@
 (function () {
     "use strict";
 
-    const ELEMENTS = ["炎", "水", "風", "雷", "草", "氷", "岩", "-"];
+    const ELEMENTS = ["炎", "水", "風", "雷", "草", "氷", "岩"];
     const CHARACTER_RARITIES = [5, 4];
     const WEAPON_RARITIES = [5, 4, 3, 2, 1];
     const SELECTION_IMAGE_ROOT = "/games/images/genshin";
@@ -15,6 +15,13 @@
         "草": "dendro",
         "氷": "cryo",
         "岩": "geo"
+    };
+    const WEAPON_ICON_NAMES = {
+        "片手剣": "sword",
+        "両手剣": "claymore",
+        "長柄武器": "polearm",
+        "弓": "bow",
+        "法器": "catalyst"
     };
     const CHARACTER_READINGS = {
         "七七": "なな", "久岐忍": "くきしのぶ", "九条裟羅": "くじょうさら", "八重神子": "やえみこ",
@@ -95,35 +102,37 @@
         button.disabled = state.filters.size === 0;
     }
 
+    function makeFilterButton(group, value) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "genshin-filter-button";
+        button.dataset.filterGroup = group;
+        button.dataset.filterValue = String(value);
+        button.setAttribute("aria-pressed", "false");
+        if (group === "element" && ELEMENT_ICON_NAMES[value]) {
+            button.classList.add("genshin-filter-button--element");
+            button.setAttribute("aria-label", `${value}元素`);
+            button.title = `${value}元素`;
+            const icon = document.createElement("img");
+            icon.src = `${SELECTION_IMAGE_ROOT}/elements/${ELEMENT_ICON_NAMES[value]}.webp`;
+            icon.alt = "";
+            icon.width = 30;
+            icon.height = 30;
+            icon.decoding = "async";
+            button.appendChild(icon);
+        } else {
+            button.textContent = group === "rarity" ? `★${value}` : "旅人";
+            if (group === "element") button.setAttribute("aria-label", "旅人");
+        }
+        return button;
+    }
+
     function makeFilterRow(label, group, values) {
         const row = document.createElement("div");
         row.className = "genshin-filter-row";
         row.setAttribute("role", "group");
         row.setAttribute("aria-label", label);
-        values.forEach((value) => {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "genshin-filter-button";
-            button.dataset.filterGroup = group;
-            button.dataset.filterValue = String(value);
-            button.setAttribute("aria-pressed", "false");
-            if (group === "element" && ELEMENT_ICON_NAMES[value]) {
-                button.classList.add("genshin-filter-button--element");
-                button.setAttribute("aria-label", `${value}元素`);
-                button.title = `${value}元素`;
-                const icon = document.createElement("img");
-                icon.src = `${SELECTION_IMAGE_ROOT}/elements/${ELEMENT_ICON_NAMES[value]}.webp`;
-                icon.alt = "";
-                icon.width = 30;
-                icon.height = 30;
-                icon.decoding = "async";
-                button.appendChild(icon);
-            } else {
-                button.textContent = group === "rarity" ? `★${value}` : "旅人";
-                if (group === "element") button.setAttribute("aria-label", "旅人");
-            }
-            row.appendChild(button);
-        });
+        values.forEach((value) => row.appendChild(makeFilterButton(group, value)));
         return row;
     }
 
@@ -149,9 +158,11 @@
         toggleAll.id = "genshinFilterToggleAll";
         if (state.mode === "character") {
             const elementRow = makeFilterRow("元素", "element", ELEMENTS);
-            elementRow.appendChild(toggleAll);
             wrap.appendChild(elementRow);
-            wrap.appendChild(makeFilterRow("レアリティ", "rarity", CHARACTER_RARITIES));
+            const rarityRow = makeFilterRow("レアリティと旅人", "rarity", CHARACTER_RARITIES);
+            rarityRow.appendChild(makeFilterButton("element", "-"));
+            rarityRow.appendChild(toggleAll);
+            wrap.appendChild(rarityRow);
         } else {
             const rarityRow = makeFilterRow("レアリティ", "rarity", WEAPON_RARITIES);
             rarityRow.appendChild(toggleAll);
@@ -182,7 +193,7 @@
         const items = visibleItems();
         list.replaceChildren();
         byId("genshinSelectionSummary").textContent = state.mode === "weapon" && state.character
-            ? `${state.character.nameJa}の武器種「${state.character.weaponType}」・${items.length}件`
+            ? `${state.character.nameJa}が装備できる武器・${items.length}件`
             : `${items.length}件を表示`;
         if (!items.length) {
             const empty = document.createElement("p");
@@ -198,6 +209,10 @@
             button.dataset.selectionId = item.id;
             button.dataset.selectionKind = state.mode;
             if (item.rarity) button.dataset.rarity = String(item.rarity);
+            if (state.mode === "character") {
+                const elementName = item.element === "-" ? "旅人" : `${item.element}元素`;
+                button.setAttribute("aria-label", `${item.nameJa}、${elementName}、★${item.rarity}、${item.weaponType}`);
+            }
             if (state.mode === "artifact" && item.id === byId(artifactSelectId()).value) {
                 button.classList.add("is-selected");
                 button.setAttribute("aria-pressed", "true");
@@ -216,19 +231,43 @@
                 image.dataset.fallbackApplied = "true";
                 image.src = SELECTION_IMAGE_FALLBACK;
             });
+            if (state.mode === "character") {
+                const badges = document.createElement("span");
+                badges.className = "genshin-selection-option-badges";
+                if (ELEMENT_ICON_NAMES[item.element]) {
+                    const elementIcon = document.createElement("img");
+                    elementIcon.className = "genshin-selection-element-icon";
+                    elementIcon.src = `${SELECTION_IMAGE_ROOT}/elements/${ELEMENT_ICON_NAMES[item.element]}.webp`;
+                    elementIcon.alt = "";
+                    elementIcon.width = 20;
+                    elementIcon.height = 20;
+                    elementIcon.decoding = "async";
+                    badges.appendChild(elementIcon);
+                }
+                if (WEAPON_ICON_NAMES[item.weaponType]) {
+                    const weaponIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                    weaponIcon.classList.add("genshin-selection-weapon-icon");
+                    weaponIcon.setAttribute("aria-hidden", "true");
+                    const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+                    use.setAttribute("href", `${SELECTION_IMAGE_ROOT}/ui-icons.svg#weapon-${WEAPON_ICON_NAMES[item.weaponType]}`);
+                    weaponIcon.appendChild(use);
+                    badges.appendChild(weaponIcon);
+                }
+                button.append(image, badges);
+            } else {
+                button.appendChild(image);
+            }
             const copy = document.createElement("span");
             copy.className = "genshin-selection-option-copy";
             const name = document.createElement("strong");
             name.textContent = item.nameJa;
             copy.appendChild(name);
-            if (state.mode !== "artifact") {
+            if (state.mode === "weapon") {
                 const meta = document.createElement("span");
-                meta.textContent = state.mode === "character"
-                    ? `${item.element === "-" ? "旅人" : item.element}・★${item.rarity}・${item.weaponType}`
-                    : `★${item.rarity}・${item.weaponType}`;
+                meta.textContent = `★${item.rarity}`;
                 copy.appendChild(meta);
             }
-            button.append(image, copy);
+            button.appendChild(copy);
             if (state.mode === "artifact" && button.classList.contains("is-selected")) {
                 const check = document.createElement("span");
                 check.className = "genshin-selection-option-check";
@@ -343,11 +382,19 @@
         byId("genshinSelectionSearch").placeholder = mode === "artifact" ? "聖遺物セット名で検索" : "漢字・ひらがな・カタカナで検索";
         byId("genshinSelectionKicker").textContent = mode === "character" ? "CHARACTER" : mode === "weapon" ? "WEAPON" : "ARTIFACT SET";
         byId("genshinSelectionTitle").textContent = mode === "character" ? "キャラクターを選択" : mode === "weapon" ? "武器を選択" : "聖遺物セットを選択";
-        byId("genshinSelectionDialog").classList.toggle("is-artifact", mode === "artifact");
+        const dialog = byId("genshinSelectionDialog");
+        dialog.classList.toggle("is-character", mode === "character");
+        dialog.classList.toggle("is-weapon", mode === "weapon");
+        dialog.classList.toggle("is-artifact", mode === "artifact");
         renderFilters();
         renderList();
-        byId("genshinSelectionDialog").showModal();
-        byId("genshinSelectionSearch").focus();
+        dialog.showModal();
+        const touchCapable = navigator.maxTouchPoints > 0
+            || window.matchMedia?.("(pointer: coarse)").matches;
+        const finePointer = window.matchMedia?.("(hover: hover) and (pointer: fine)").matches;
+        if (!touchCapable && finePointer && window.innerWidth > 680) {
+            byId("genshinSelectionSearch").focus();
+        }
     }
 
     function bindEvents() {

@@ -36,7 +36,10 @@
     }
 
     function readNumber(id, fallback = 0) {
-        const value = Number(getElement(id)?.value);
+        const element = getElement(id);
+        const preciseValue = Number(element?.dataset?.preciseValue);
+        if (Number.isFinite(preciseValue)) return preciseValue;
+        const value = Number(element?.value);
         return Number.isFinite(value) ? value : fallback;
     }
 

@@ -275,6 +275,7 @@ async function clickAndWait(client, selector) {
                     text,
                     width: element.getBoundingClientRect().width,
                     requiredWidth: Math.ceil(context.measureText(text).width + parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + 2),
+                    fontSize: style.fontSize,
                     backgroundPosition: style.backgroundPosition,
                     backgroundSize: style.backgroundSize
                 };
@@ -300,10 +301,26 @@ async function clickAndWait(client, selector) {
             };
         })()`);
         assert.ok(mobileLayoutAudit.controls.every((control) => control.width >= control.requiredWidth), `mobile control text is clipped: ${JSON.stringify(mobileLayoutAudit.controls)}`);
+        assert.ok(mobileLayoutAudit.controls.slice(0, 3).every((control) => control.fontSize === "12px"), "mobile talent labels are not compact");
         assert.ok(mobileLayoutAudit.controls.slice(0, 4).every((control) => control.backgroundPosition === "calc(100% - 9px) 50%"));
         assert.ok(mobileLayoutAudit.controls.slice(0, 4).every((control) => control.backgroundSize === "9px 6px"));
         assert.match(mobileLayoutAudit.profileColumns, /^\d+(?:\.\d+)?px 54px 64px$/);
         assert.equal(mobileLayoutAudit.pageOverflow, false);
+        await evaluate(client, `document.querySelector("#tetiMobileMenuButton").click()`);
+        const mobileMenuAudit = await evaluate(client, `(() => {
+            const header = document.querySelector(".teti-site-header");
+            const nav = document.querySelector("#tetiMainNavigation");
+            return {
+                open: document.body.classList.contains("is-site-menu-open"),
+                expanded: document.querySelector("#tetiMobileMenuButton").getAttribute("aria-expanded"),
+                navHidden: nav.getAttribute("aria-hidden"),
+                navVisible: getComputedStyle(nav).visibility,
+                navLeft: Math.round(nav.getBoundingClientRect().left),
+                headerZ: Number(getComputedStyle(header).zIndex)
+            };
+        })()`);
+        assert.deepEqual(mobileMenuAudit, { open: true, expanded: "true", navHidden: "false", navVisible: "visible", navLeft: 0, headerZ: 90 });
+        await evaluate(client, `document.querySelector("#tetiMobileMenuButton").click()`);
         await client.send("Emulation.setDeviceMetricsOverride", {
             width: 1280,
             height: 900,
@@ -335,7 +352,9 @@ async function clickAndWait(client, selector) {
             bulkFilterRow: document.querySelector("#genshinFilterToggleAll").parentElement.querySelector("[data-filter-group]").dataset.filterGroup,
             selectedFilterCount: document.querySelectorAll('[data-filter-group][aria-pressed="true"]').length,
             clearFilterText: document.querySelector("#genshinFilterToggleAll").textContent,
-            clearFilterDisabled: document.querySelector("#genshinFilterToggleAll").disabled
+            clearFilterDisabled: document.querySelector("#genshinFilterToggleAll").disabled,
+            rarityRowText: document.querySelector('[role="group"][aria-label="レアリティと旅人"]').innerText,
+            travelerBesideClear: document.querySelector('[data-filter-group="element"][data-filter-value="-"]').parentElement === document.querySelector("#genshinFilterToggleAll").parentElement
         })`);
         assert.equal(initialSelectionUi.title, "キャラクターを選択");
         assert.equal(initialSelectionUi.elementFilters, 8);
@@ -343,10 +362,12 @@ async function clickAndWait(client, selector) {
         assert.ok(initialSelectionUi.optionCount > 50);
         assert.equal(initialSelectionUi.headingBorder, "0px");
         assert.ok(initialSelectionUi.headingAccent.includes("linear-gradient"));
-        assert.equal(initialSelectionUi.bulkFilterRow, "element");
+        assert.equal(initialSelectionUi.bulkFilterRow, "rarity");
         assert.equal(initialSelectionUi.selectedFilterCount, 0);
         assert.equal(initialSelectionUi.clearFilterText, "フィルタ解除");
         assert.equal(initialSelectionUi.clearFilterDisabled, true);
+        assert.match(initialSelectionUi.rarityRowText, /★5[\s\S]*★4[\s\S]*旅人[\s\S]*フィルタ解除/);
+        assert.equal(initialSelectionUi.travelerBesideClear, true);
 
         await evaluate(client, `(() => { const input = document.querySelector("#genshinSelectionSearch"); input.value = "かんう"; input.dispatchEvent(new Event("input", { bubbles: true })); })()`);
         await waitFor(client, `document.querySelectorAll("#genshinSelectionList [data-selection-id]").length > 0`);
@@ -362,11 +383,11 @@ async function clickAndWait(client, selector) {
 
         await evaluate(client, `document.querySelector('[data-filter-group="element"][data-filter-value="炎"]').click()`);
         await waitFor(client, `document.querySelector('[data-filter-group="element"][data-filter-value="炎"]').getAttribute("aria-pressed") === "true"`);
-        const pyroOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList .genshin-selection-option-copy > span")].every((item) => item.textContent.startsWith("炎・"))`);
+        const pyroOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList [data-selection-id]")].every((item) => item.getAttribute("aria-label").includes("炎元素"))`);
         assert.equal(pyroOnly, true);
         await evaluate(client, `document.querySelector('[data-filter-group="rarity"][data-filter-value="5"]').click()`);
         await waitFor(client, `document.querySelector('[data-filter-group="rarity"][data-filter-value="5"]').getAttribute("aria-pressed") === "true"`);
-        const pyroFiveStarOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList .genshin-selection-option-copy > span")].every((item) => item.textContent.startsWith("炎・★5・"))`);
+        const pyroFiveStarOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList [data-selection-id]")].every((item) => item.getAttribute("aria-label").includes("炎元素") && item.getAttribute("aria-label").includes("★5"))`);
         assert.equal(pyroFiveStarOnly, true);
         const activeClearFilter = await evaluate(client, `({ disabled: document.querySelector("#genshinFilterToggleAll").disabled, selected: document.querySelectorAll('[data-filter-group][aria-pressed="true"]').length })`);
         assert.equal(activeClearFilter.disabled, false);
@@ -384,7 +405,7 @@ async function clickAndWait(client, selector) {
         const weaponSelectionUi = await evaluate(client, `({
             summary: document.querySelector("#genshinSelectionSummary").textContent,
             rarityFilters: document.querySelectorAll('[data-filter-group="rarity"]').length,
-            types: [...document.querySelectorAll("#genshinSelectionList .genshin-selection-option span")].map((item) => item.textContent.split("・")[1]),
+            metas: [...document.querySelectorAll("#genshinSelectionList .genshin-selection-option-copy > span")].map((item) => item.textContent),
             bulkFilterRow: document.querySelector("#genshinFilterToggleAll").parentElement.querySelector("[data-filter-group]").dataset.filterGroup,
             selectedFilterCount: document.querySelectorAll('[data-filter-group][aria-pressed="true"]').length,
             clearFilterDisabled: document.querySelector("#genshinFilterToggleAll").disabled
@@ -394,10 +415,10 @@ async function clickAndWait(client, selector) {
         assert.equal(weaponSelectionUi.bulkFilterRow, "rarity");
         assert.equal(weaponSelectionUi.selectedFilterCount, 0);
         assert.equal(weaponSelectionUi.clearFilterDisabled, true);
-        assert.equal(weaponSelectionUi.types.every((type) => type === "両手剣"), true);
+        assert.equal(weaponSelectionUi.metas.every((meta) => !meta.includes("両手剣")), true);
         await evaluate(client, `document.querySelector('[data-filter-group="rarity"][data-filter-value="5"]').click()`);
         await waitFor(client, `document.querySelector('[data-filter-group="rarity"][data-filter-value="5"]').getAttribute("aria-pressed") === "true"`);
-        const fiveStarWeaponsOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList .genshin-selection-option-copy > span")].every((item) => item.textContent.startsWith("★5・両手剣"))`);
+        const fiveStarWeaponsOnly = await evaluate(client, `[...document.querySelectorAll("#genshinSelectionList .genshin-selection-option-copy > span")].every((item) => item.textContent === "★5")`);
         assert.equal(fiveStarWeaponsOnly, true);
         await evaluate(client, `document.querySelector("#genshinFilterToggleAll").click()`);
         const resetWeaponFilters = await evaluate(client, `({ disabled: document.querySelector("#genshinFilterToggleAll").disabled, selected: document.querySelectorAll('[data-filter-group][aria-pressed="true"]').length })`);

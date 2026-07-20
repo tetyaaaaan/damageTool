@@ -698,29 +698,42 @@
         return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(control.label)}</strong>${control.help ? `<small>${escapeHtml(control.help)}</small>` : ""}</span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="${escapeHtml(control.type)}" min="${escapeHtml(control.min)}" max="${escapeHtml(control.max)}" step="1" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力">${control.unit ? `<em>${escapeHtml(control.unit)}</em>` : ""}</span></label>`;
     }
 
+    const DESCRIPTION_KIND_LABELS = {
+        full: "全文",
+        excerpt: "該当箇所",
+        summary: "要約",
+        generated: "自動説明"
+    };
+
+    function renderDescriptionBlock(description, descriptionKind = "summary") {
+        if (!description) return "";
+        const kindLabel = DESCRIPTION_KIND_LABELS[descriptionKind] || DESCRIPTION_KIND_LABELS.summary;
+        return `<div class="genshin-condition-detail-block"><h6>効果説明 <span class="genshin-description-kind">${escapeHtml(kindLabel)}</span></h6><p>${escapeHtml(description)}</p></div>`;
+    }
+
     function renderConditionEffect(effect) {
         const status = CONDITION_STATUS[effect.status] || CONDITION_STATUS.auto;
         const detail = effect.description
-            ? `<details class="genshin-condition-detail"><summary>効果の詳細</summary><p>${escapeHtml(effect.description)}</p></details>`
+            ? `<details class="genshin-condition-detail"><summary>効果説明</summary>${renderDescriptionBlock(effect.description, effect.descriptionKind)}</details>`
             : "";
         return `<article class="genshin-condition-effect">
             <div class="genshin-condition-effect-head">
                 <h5>${escapeHtml(effect.name)}</h5>
                 <span class="genshin-condition-status ${status.className}">${status.label}</span>
             </div>
-            ${effect.controls.map(renderCardControl).join("")}
             ${effect.impact ? `<p class="genshin-condition-impact">現在の反映：<strong>${escapeHtml(effect.impact)}</strong></p>` : ""}
             ${effect.statusReason && effect.status === "missing" ? `<p class="genshin-condition-missing">${escapeHtml(effect.statusReason)}</p>` : ""}
+            ${effect.controls.map(renderCardControl).join("")}
             ${detail}
         </article>`;
     }
 
-    function renderSectionDetail(description, originalLabel, impactTitle, impacts) {
+    function renderSectionDetail(description, descriptionKind, impacts) {
         if (!description && !impacts) return "";
         return `<details class="genshin-condition-detail">
-            <summary>効果の詳細</summary>
-            ${description ? `<div class="genshin-condition-detail-block"><h6>${escapeHtml(originalLabel)}</h6><p>${escapeHtml(description)}</p></div>` : ""}
-            ${impacts ? `<div class="genshin-condition-detail-block genshin-constellation-impacts"><h6>${escapeHtml(impactTitle)}</h6><ul>${impacts}</ul></div>` : ""}
+            <summary>効果説明</summary>
+            ${renderDescriptionBlock(description, descriptionKind)}
+            ${impacts ? `<div class="genshin-condition-detail-block genshin-constellation-impacts"><h6>計算への反映</h6><ul>${impacts}</ul></div>` : ""}
         </details>`;
     }
 
@@ -737,15 +750,15 @@
         const controls = section.controls.length
             ? `<div class="genshin-constellation-controls"><h6>条件入力</h6>${section.controls.map(renderCardControl).join("")}</div>`
             : "";
-        const detail = renderSectionDetail(section.description, "星座効果の原文", "計算への影響", section.effects.map(renderConstellationImpact).join(""));
+        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderConstellationImpact).join(""));
         return `<article class="genshin-constellation-section" data-constellation-level="C${escapeHtml(section.level)}">
             <header class="genshin-constellation-head">
                 <div><strong>C${escapeHtml(section.level)}</strong><h5>${escapeHtml(section.nameJa)}</h5></div>
                 <span class="genshin-condition-status ${status.className}">${status.label}</span>
             </header>
             <p class="genshin-constellation-targets"><strong>影響：</strong>${escapeHtml(section.impactLabels.join("／"))}</p>
-            ${detail}
             ${controls}
+            ${detail}
         </article>`;
     }
 
@@ -754,15 +767,15 @@
         const controls = section.controls.length
             ? `<div class="genshin-constellation-controls"><h6>状態・条件</h6>${section.controls.map(renderCardControl).join("")}</div>`
             : "";
-        const detail = renderSectionDetail(section.description, "天賦効果の原文", "計算への影響", section.effects.map(renderConstellationImpact).join(""));
+        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderConstellationImpact).join(""));
         return `<article class="genshin-constellation-section genshin-talent-section" data-talent-source="${escapeHtml(section.key)}">
             <header class="genshin-constellation-head">
                 <div><strong>${escapeHtml(section.typeLabel)}</strong><h5>${escapeHtml(section.nameJa)}</h5></div>
                 <span class="genshin-condition-status ${status.className}">${status.label}</span>
             </header>
             <p class="genshin-constellation-targets"><strong>影響：</strong>${escapeHtml(section.impactLabels.join("／"))}</p>
-            ${detail}
             ${controls}
+            ${detail}
         </article>`;
     }
 
@@ -779,7 +792,7 @@
         const controls = section.controls.length
             ? `<div class="genshin-constellation-controls"><h6>条件・段階</h6>${section.controls.map(renderCardControl).join("")}</div>`
             : "";
-        const detail = renderSectionDetail(section.description, "セット効果の原文", "計算への反映", section.effects.map(renderArtifactImpact).join(""));
+        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderArtifactImpact).join(""));
         return `<article class="genshin-constellation-section genshin-artifact-section" data-artifact-set="${escapeHtml(section.setId)}" data-artifact-piece="${escapeHtml(section.pieceCount)}">
             <header class="genshin-constellation-head">
                 <div><strong>${escapeHtml(section.pieceCount)}セット効果</strong><h5>${escapeHtml(section.nameJa)}</h5></div>
@@ -805,7 +818,7 @@
         const controls = section.controls.length
             ? `<div class="genshin-constellation-controls"><h6>発動状態</h6>${section.controls.map(renderCardControl).join("")}</div>`
             : "";
-        const detail = renderSectionDetail(section.description, "武器効果の原文", "計算への反映", section.effects.map(renderWeaponImpact).join(""));
+        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderWeaponImpact).join(""));
         return `<article class="genshin-constellation-section genshin-weapon-section" data-weapon-effect-group="${escapeHtml(section.id)}">
             <header class="genshin-constellation-head">
                 <div><strong>${escapeHtml(ownerLabels[section.targetOwner] || section.targetOwner)}</strong><h5>${escapeHtml(section.name)}</h5></div>
