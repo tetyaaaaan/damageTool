@@ -2,13 +2,13 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const { createBrowserScriptHarness, loadCalcData } = require("./helpers/browserScriptHarness.cjs");
 
-function createHarness() {
+function createHarness(elements = {}) {
     return createBrowserScriptHarness([
         "games/js/genshinModifierAnalyzer.js",
         "games/js/genshinCalcConditions.js",
         "games/js/genshinCalcEngine.js",
         "games/js/genshinCalcRenderer.js"
-    ]).sandbox;
+    ], elements).sandbox;
 }
 
 function context(overrides = {}) {
@@ -51,7 +51,7 @@ test("霜契の金枝は三つの意味別カードへ統合される", () => {
         "golden_frostbound_oath_defense"
     ]);
     assert.equal(sections[0].controls.length, 1);
-    assert.equal(sections[0].controls[0].label, "霜の精の祝福が発動中");
+    assert.equal(sections[0].controls[0].label, "装備者の元素スキルまたは月結晶攻撃が敵に命中した時");
     assert.deepEqual(Array.from(sections[0].effects, (effect) => effect.modifier.id), [
         "w_15516_damage_2",
         "w_15516_reaction_bonus_3"
@@ -61,6 +61,10 @@ test("霜契の金枝は三つの意味別カードへ統合される", () => {
         "w_15516_damage_5",
         "w_15516_reaction_bonus_4"
     ]);
+    assert.equal(sections[1].targetOwner, "otherPartyMembers");
+    assert.equal(sections[1].effects[0].activationCondition, "霜の精の祝福が発動中、近くに月籠が存在する場合");
+    assert.deepEqual(Array.from(sections[0].effects, (effect) => effect.displayTarget), ["岩元素ダメージ", "月結晶反応ダメージ"]);
+    assert.deepEqual(Array.from(sections[1].effects, (effect) => effect.displayTarget), ["岩元素ダメージ", "月結晶反応ダメージ"]);
     assert.deepEqual(Array.from(sections[2].effects, (effect) => effect.modifier.id), ["w_15516_stat_1"]);
 });
 
@@ -84,6 +88,26 @@ test("霜の精の祝福は一つの発動状態で装備者の二効果だけ�
         ["w_15516_damage_2", 40],
         ["w_15516_reaction_bonus_3", 40]
     ]);
+});
+
+test("霜契の金枝は発動条件・対象・効果・未適用時0%を意味別に表示する", () => {
+    const conditionCards = { innerHTML: "" };
+    const sandbox = createHarness({ genshinJsonConditionCards: conditionCards });
+    const calcData = loadCalcData();
+    const current = context();
+    const state = sandbox.GenshinCalcConditions.conditionPanelState(current, calcData);
+    sandbox.GenshinCalcRenderer.renderConditionCards(state, current);
+    const html = conditionCards.innerHTML;
+
+    assert.match(html, /発動条件<\/dt><dd>装備者の元素スキルまたは月結晶攻撃が敵に命中した時<\/dd>/);
+    assert.match(html, /効果<\/dt><dd>岩元素ダメージ：\+40%／月結晶反応ダメージ：\+40%<\/dd>/);
+    assert.match(html, /現在の反映<\/dt><dd>岩元素ダメージ：0%／月結晶反応ダメージ：0%<\/dd>/);
+    assert.match(html, /装備者以外の近くにいるチームメンバー全員/);
+    assert.match(html, /霜の精の祝福が発動中、近くに月籠が存在する場合/);
+    assert.match(html, /効果<\/dt><dd>岩元素ダメージ：\+20%／月結晶反応ダメージ：\+20%<\/dd>/);
+    assert.match(html, /<strong>岩元素ダメージ<\/strong>[\s\S]*?<span>\+40%<\/span>/);
+    assert.match(html, /<strong>月結晶反応ダメージ<\/strong>[\s\S]*?<span>\+40%<\/span>/);
+    assert.doesNotMatch(html, /装備者以外のフィールド上キャラ/);
 });
 
 test("全武器で安全条件に合う自動生成重複は計算対象から隔離される", () => {

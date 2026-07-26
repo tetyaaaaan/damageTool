@@ -1,6 +1,56 @@
 {
   "version": 1,
   "weapons": {
+    "11503": {
+      "groups": [
+        {
+          "id": "freedom_sworn_personal_damage",
+          "name": "執行と抗争の歌",
+          "description": "装備者自身の与えるダメージをアップします。",
+          "targetOwner": "self",
+          "inputPolicy": "reflected",
+          "activation": { "type": "always" },
+          "modifierIds": ["w_11503_damage_1"]
+        },
+        {
+          "id": "freedom_sworn_millennial_anthem",
+          "name": "千年の大楽章・抗争の歌",
+          "description": "奮起の欠片を2枚集めた後、チーム全員の通常攻撃・重撃・落下攻撃ダメージと攻撃力をアップします。",
+          "targetOwner": "team",
+          "inputPolicy": "calculate",
+          "activation": {
+            "type": "toggle",
+            "stateKey": "freedomSwornMillennialAnthem",
+            "label": "千年の大楽章・抗争の歌が発動中"
+          },
+          "modifierIds": ["w_11503_damage_3", "w_11503_stat_2"]
+        }
+      ]
+    },
+    "12516": {
+      "groups": [
+        {
+          "id": "transcendence_astral_conduction",
+          "name": "超越",
+          "description": "重撃が敵に命中するたびに「超越」を1層獲得します。最大3層、0.2秒ごとに1層まで獲得可能です。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": {
+            "type": "stack",
+            "stateKey": "transcendenceStacks",
+            "label": "重撃命中ごとの超越層数",
+            "min": 0,
+            "max": 3,
+            "default": 0,
+            "unit": "層"
+          },
+          "modifierIds": ["w_12516_reaction_bonus_2", "w_12516_reactionBonus_d0fe6e2e"],
+          "modifierOverrides": {
+            "w_12516_reactionBonus_d0fe6e2e": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        }
+      ]
+    },
     "15502": {
       "groups": [
         {
@@ -179,7 +229,7 @@
           "description": "元素スキルまたは月結晶攻撃が命中した後、装備者の岩元素ダメージと月結晶反応ダメージを強化します。",
           "targetOwner": "self",
           "inputPolicy": "calculate",
-          "activation": { "type": "toggle", "stateKey": "frostFaeFavorActive", "label": "霜の精の祝福が発動中" },
+          "activation": { "type": "toggle", "stateKey": "frostFaeFavorActive", "label": "装備者の元素スキルまたは月結晶攻撃が敵に命中した時" },
           "modifierIds": ["w_15516_damageBonus_f827969c", "w_15516_damage_2", "w_15516_reactionBonus_999a052c", "w_15516_reaction_bonus_3"],
           "modifierOverrides": {
             "w_15516_damageBonus_f827969c": { "auditDisposition": "supersededByStructuredRecord" },
@@ -188,11 +238,11 @@
         },
         {
           "id": "golden_frostbound_oath_team_mischief",
-          "name": "霜の精のいたずら（装備者以外）",
-          "description": "祝福の継続中に月籠が近くにある場合、装備者以外の近くにいるチームメンバーへ岩元素・月結晶反応ダメージ強化を付与します。装備者自身の計算には加算しません。",
-          "targetOwner": "activeCharacter",
+          "name": "霜の精のいたずら",
+          "description": "霜の精の祝福の継続中に月籠が近くにある場合、装備者以外の近くにいるチームメンバー全員へ岩元素・月結晶反応ダメージ強化を付与します。装備者自身には加算しません。",
+          "targetOwner": "otherPartyMembers",
           "inputPolicy": "displayOnly",
-          "activation": { "type": "displayOnly", "label": "チーム編成計算で使用" },
+          "activation": { "type": "displayOnly", "label": "霜の精の祝福が発動中、近くに月籠が存在する場合" },
           "modifierIds": ["w_15516_damageBonus_1923e8e9", "w_15516_damage_5", "w_15516_reactionBonus_232c59cc", "w_15516_reaction_bonus_4"],
           "modifierOverrides": {
             "w_15516_damageBonus_1923e8e9": { "auditDisposition": "supersededByStructuredRecord" },

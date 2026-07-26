@@ -44,10 +44,10 @@ test("STEP33 classifies every weapon modifier and records duplicate candidates",
     const audit = buildAudit();
     assert.equal(audit.summary.weapons, 210);
     assert.equal(audit.summary.modifiers, 455);
-    assert.equal(audit.summary.structuredWeapons, 8);
-    assert.equal(audit.summary.structuredGroups, 16);
-    assert.equal(audit.summary.structuredModifiers, 28);
-    assert.equal(audit.summary.fallbackModifiers, 427);
+    assert.equal(audit.summary.structuredWeapons, 10);
+    assert.equal(audit.summary.structuredGroups, 19);
+    assert.equal(audit.summary.structuredModifiers, 33);
+    assert.equal(audit.summary.fallbackModifiers, 422);
     assert.equal(audit.summary.duplicateCandidateGroups, 50);
     assert.equal(audit.records.every((record) => record.inputPolicy && record.activationType && record.targetOwner), true);
 });
@@ -58,6 +58,24 @@ test("STEP33 weapon registry passes calc-data validation", () => {
     const warnings = sandbox.GenshinCalcData.validateCalcData(calcData)
         .filter((warning) => warning.message.includes("weaponEffectRegistry"));
     assert.deepEqual(Array.from(warnings), []);
+});
+
+test("Haran consumes one shared stack input and reflects the selected value", () => {
+    const sandbox = createHarness();
+    const calcData = loadCalcData();
+    const haranContext = context({ weaponId: "11510", refinement: 1 });
+    const key = "weapon:11510:group:haranWavepikeStacks";
+    haranContext.uiState.complexConditionByModifier[key] = { stack: 2 };
+
+    const state = sandbox.GenshinCalcConditions.conditionPanelState(haranContext, calcData);
+    const weaponCard = state.cards.find((card) => card.id === "weapon");
+    const waveEffect = weaponCard.effects.find((effect) => effect.modifier.id === "w_11510_damage_2");
+    assert.equal(waveEffect.controls.length, 1);
+    assert.equal(waveEffect.controls[0].value, 2);
+    assert.equal(waveEffect.impact, "20% × 2段 = 40%");
+
+    const collected = sandbox.GenshinCalcEngine.collectActiveModifiers(calcData, haranContext);
+    assert.equal(collected.applied.find((item) => item.modifier.id === "w_11510_damage_2").value, 40);
 });
 
 test("鐘の剣はシールド状態を明示した一つの効果カードになる", () => {
@@ -129,4 +147,19 @@ test("装備者以外への武器効果を装備者自身へ加算しない", ()
         .find((item) => item.id === "black_eclipse_active_character_atk");
     assert.equal(section.targetOwner, "activeCharacter");
     assert.equal(section.status, "displayOnly");
+});
+
+test("未構造化の武器効果も原文から具体的な発動条件を表示する", () => {
+    const sandbox = createHarness();
+    const calcData = loadCalcData();
+    const modifiers = calcData.weaponModifiers["11427"].modifiers;
+    const raw = modifiers.find((modifier) => modifier.condition === "conditional");
+    const normalized = sandbox.GenshinCalcEngine.normalizeWeaponModifier(raw, modifiers, {});
+
+    assert.equal(normalized.conditionLabelKind, "generated");
+    assert.equal(
+        sandbox.GenshinCalcConditions.modifierActivationCondition(normalized, [], null, "武器効果"),
+        "治療効果を受ける、または治療効果を与える時"
+    );
+    assert.equal(normalized.effectLabel, "武器効果");
 });

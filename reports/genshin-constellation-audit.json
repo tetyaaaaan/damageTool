@@ -4,10 +4,10 @@
     "constellationLevels": 702,
     "effects": 744,
     "byVerificationStatus": {
-      "mechanicOnly": 69,
+      "mechanicOnly": 68,
       "corroborated": 451,
-      "textVerified": 199,
-      "quarantined": 23,
+      "textVerified": 193,
+      "quarantined": 30,
       "sourceContextRequired": 2
     },
     "issues": 0

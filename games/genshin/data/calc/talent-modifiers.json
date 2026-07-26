@@ -786,6 +786,10 @@
               "stat": "hp",
               "source": "self"
             },
+            "maxReference": {
+              "stat": "baseAtk",
+              "ratio": 400
+            },
             "condition": "active",
             "calculationSupport": "toggle",
             "valueSource": {
@@ -875,28 +879,21 @@
         "sourceId": "passive2",
         "modifiers": [
           {
-            "category": "reactionBonus",
+            "id": "t_10000047_passive2_swirl_buff",
+            "category": "scalingBonus",
             "applyTo": [
-              "swirlDamageBonus"
+              "swirledElementDamageBonus"
             ],
-            "value": 0.04,
-            "unit": "percent",
+            "ratio": 0.04,
+            "unit": "percentPerPoint",
             "condition": "active",
             "duration": 8.0,
-            "calculationSupport": "toggle"
-          },
-          {
-            "category": "additiveBaseDamage",
-            "applyTo": [
-              "allDamageBonus"
-            ],
-            "unit": "percent",
-            "condition": "active",
-            "duration": 8.0,
-            "calculationSupport": "special",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional",
+            "targetOwner": "team",
             "reference": {
               "stat": "elementalMastery",
-              "source": "selfOrProvider"
+              "source": "self"
             }
           }
         ]
@@ -1046,13 +1043,16 @@
             }
           },
           {
+            "id": "t_10000051_combat2_defense_debuff_deferred",
             "category": "defenseDebuff",
             "applyTo": [
               "enemyDefense"
             ],
             "unit": "percent",
             "condition": "afterHit",
-            "calculationSupport": "special"
+            "calculationSupport": "special",
+            "auditDisposition": "dedicatedFormulaDeferred",
+            "deferredReason": "生成データに防御力ダウン率がなく、安全な効果量を確定できません。"
           }
         ]
       }
@@ -2659,7 +2659,7 @@
             ],
             "value": 6.0,
             "unit": "percent",
-            "condition": "hpCondition",
+            "condition": "hpChangedDuringChillingPenalty",
             "calculationSupport": "toggle"
           }
         ]
@@ -2845,7 +2845,7 @@
             ],
             "value": 20.0,
             "unit": "percent",
-            "condition": "hpCondition",
+            "condition": "adeptalAssistanceRemaining",
             "calculationSupport": "toggle"
           }
         ]
@@ -3247,6 +3247,7 @@
         "sourceId": "combat2",
         "modifiers": [
           {
+            "id": "t_10000103_combat2_defense_debuff_deferred",
             "category": "defenseDebuff",
             "applyTo": [
               "enemyDefense"
@@ -3254,7 +3255,9 @@
             "unit": "percent",
             "condition": "afterTalentUse",
             "duration": 15.0,
-            "calculationSupport": "special"
+            "calculationSupport": "special",
+            "auditDisposition": "dedicatedFormulaDeferred",
+            "deferredReason": "生成データに防御力ダウン率がなく、安全な効果量を確定できません。"
           }
         ]
       },
@@ -3266,7 +3269,7 @@
             "applyTo": [
               "triggeredDamage"
             ],
-            "condition": "hpCondition",
+            "condition": "fewerThanTwoConvertedSourceSamples",
             "calculationSupport": "special"
           }
         ]
@@ -4815,14 +4818,25 @@
         "sourceId": "passive2",
         "modifiers": [
           {
-            "category": "statBonus",
+            "category": "scalingBonus",
             "applyTo": [
               "elementalMastery"
             ],
             "value": 8.0,
+            "ratio": 8,
+            "divisor": 100,
+            "maxValue": 160,
+            "customCalculation": "thresholdStatBonus",
             "unit": "flat",
+            "reference": {
+              "stat": "atk",
+              "source": "self",
+              "per": 100
+            },
             "condition": "active",
-            "calculationSupport": "toggle"
+            "calculationSupport": "custom",
+            "uidHandling": "conditional",
+            "sourceText": "攻撃力100ごとに元素熟知+8、最大160まで"
           }
         ]
       },

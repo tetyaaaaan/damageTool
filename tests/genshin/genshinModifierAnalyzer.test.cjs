@@ -164,7 +164,7 @@ test("全JSONの入力反映済み補正を入力欄の表現範囲で監査す�
     const analyzer = loadAnalyzer();
     const expectations = {
         "artifact-set-modifiers.json": { total: 49, represented: 43, routed: 6 },
-        "weapon-modifiers.json": { total: 241, represented: 43, routed: 198 },
+        "weapon-modifiers.json": { total: 240, represented: 43, routed: 197 },
         "talent-modifiers.json": { total: 0, represented: 0, routed: 0 },
         "constellation-modifiers.json": { total: 0, represented: 0, routed: 0 }
     };

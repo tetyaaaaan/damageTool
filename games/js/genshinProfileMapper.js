@@ -2,6 +2,9 @@
     "use strict";
 
     const FIGHT_PROPS = {
+        baseHp: 1,
+        baseAtk: 4,
+        baseDef: 7,
         maxHp: 2000,
         atk: 2001,
         def: 2002,
@@ -431,9 +434,12 @@
             weapon: mapWeapon(avatar),
             artifacts: mapArtifacts(avatar),
             stats: {
+                baseHp: readFightProp(avatar, FIGHT_PROPS.baseHp),
+                baseAtk: readFightProp(avatar, FIGHT_PROPS.baseAtk),
                 hp: readFightProp(avatar, FIGHT_PROPS.maxHp),
                 atk: readFightProp(avatar, FIGHT_PROPS.atk),
                 def: readFightProp(avatar, FIGHT_PROPS.def),
+                baseDef: readFightProp(avatar, FIGHT_PROPS.baseDef),
                 elementalMastery: readFightProp(avatar, FIGHT_PROPS.elementalMastery),
                 critRate: normalizePercent(readFightProp(avatar, FIGHT_PROPS.critRate)),
                 critDamage: normalizePercent(readFightProp(avatar, FIGHT_PROPS.critDamage)),

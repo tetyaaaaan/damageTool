@@ -8,8 +8,11 @@ const {
 
 function createScenarioHarness() {
     const harness = createBrowserScriptHarness([
+        "games/js/genshinInputProvenance.js",
         "games/js/genshinModifierAnalyzer.js",
         "games/js/genshinCalcConditions.js",
+        "games/js/genshinElementalResonance.js",
+        "games/js/genshinPartyModifiers.js",
         "games/js/genshinCalcEngine.js"
     ]);
     const calcData = loadCalcData();
@@ -31,7 +34,10 @@ function prepareScenarioInputs(elements, { characterId, constellation = 0, weapo
         genshinSkillTalentLevel: 10,
         genshinBurstTalentLevel: 10,
         genshinHpInput: stats.hp ?? 20000,
+        genshinBaseHpInput: stats.baseHp ?? 0,
+        genshinBaseAtkInput: stats.baseAtk ?? 0,
         genshinAtkInput: stats.atk ?? 2000,
+        genshinBaseDefInput: stats.baseDef ?? 0,
         genshinDefInput: stats.def ?? 1000,
         genshinElementalMasteryInput: stats.elementalMastery ?? 100,
         genshinCritRateInput: stats.critRate ?? 50,

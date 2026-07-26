@@ -23,7 +23,7 @@ test("mobile visual repair removes the rejected workspace and restores header or
 });
 
 test("mobile selection avoids involuntary keyboard zoom and exposes compact metadata", () => {
-    const css = read("games/css/genshin-visual-repair.css");
+    const css = read("games/css/genshin-tool-ui.css");
     const modal = read("games/js/genshinSelectionModal.js");
 
     assert.match(css, /\.genshin-selection-dialog \.genshin-selection-search-wrap input\s*\{[^}]*font-size:\s*16px/s);
@@ -37,15 +37,18 @@ test("mobile selection avoids involuntary keyboard zoom and exposes compact meta
 });
 
 test("mobile result navigation and values keep semantic labels intact", () => {
-    const css = read("games/css/genshin-visual-repair.css");
+    const css = read("games/css/genshin-tool-ui.css");
+    const renderer = read("games/js/genshinCalcRenderer.js");
 
     assert.match(css, /\.genshin-result-tab\s*\{[^}]*white-space:\s*nowrap/s);
+    assert.match(css, /@media \(max-width: 680px\)[\s\S]*\.genshin-result-tabs\s*\{[^}]*grid-template-columns:\s*repeat\(5, minmax\(0, 1fr\)\)[^}]*overflow-x:\s*visible/s);
+    assert.match(renderer, /aria-label="\$\{escapeHtml\(tab\.fullLabel\)\}"/);
     assert.match(css, /\.genshin-damage-result-row\s*\{[^}]*display:\s*table-row/s);
     assert.match(css, /\.genshin-damage-result-row td\s*\{[^}]*white-space:\s*nowrap/s);
 });
 
 test("layout cards stop at one level while controls keep their own boundaries", () => {
-    const css = read("games/css/genshin-visual-repair.css");
+    const css = read("games/css/genshin-tool-ui.css");
     const design = read("docs/GENSHIN_VISUAL_REPAIR_PLAN.md");
 
     assert.match(css, /\.genshin-panel > \.genshin-fieldset\s*\{[^}]*background:\s*transparent;[^}]*border:\s*0;/s);

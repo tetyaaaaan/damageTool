@@ -22,10 +22,10 @@
     "constellationLevels": 702,
     "effects": 744,
     "byVerificationStatus": {
-      "mechanicOnly": 69,
+      "mechanicOnly": 68,
       "corroborated": 451,
-      "textVerified": 199,
-      "quarantined": 23,
+      "textVerified": 193,
+      "quarantined": 30,
       "sourceContextRequired": 2
     },
     "issues": 0
@@ -3528,20 +3528,27 @@
           "effectText": "素晴らしい旅の攻撃力アップ効果のHPによる制限がなくなり、更にベネットの基礎攻撃力の20%に当たる数値を追加する。",
           "effects": [
             {
-              "id": "c_10000032_1_resolved_effect_override",
-              "category": "effectOverride",
+              "id": "c_10000032_1_burst_atk_bonus",
+              "category": "statBonus",
               "targets": [
-                "effect"
+                "atkPercent"
               ],
-              "condition": "constellationUnlocked",
-              "unit": "",
-              "numericValues": [],
-              "requiresNumericValue": false,
-              "hasNumericContract": false,
-              "verificationStatus": "mechanicOnly",
+              "condition": "active",
+              "unit": "percent",
+              "numericValues": [
+                {
+                  "field": "value",
+                  "value": 20
+                }
+              ],
+              "requiresNumericValue": true,
+              "hasNumericContract": true,
+              "verificationStatus": "corroborated",
               "evidence": {
                 "officialTextValueMatch": true,
-                "externalNumericHints": []
+                "externalNumericHints": [
+                  "genshinOptimizer"
+                ]
               }
             }
           ],
@@ -8578,16 +8585,19 @@
               "unit": "percent",
               "numericValues": [
                 {
-                  "field": "valuePerStack",
+                  "field": "value",
                   "value": 32
                 }
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "textVerified",
+              "verificationStatus": "corroborated",
               "evidence": {
                 "officialTextValueMatch": true,
-                "externalNumericHints": []
+                "externalNumericHints": [
+                  "genshinOptimizer",
+                  "gcsim"
+                ]
               }
             }
           ],
@@ -17017,7 +17027,7 @@
               "id": "c_10000103_2_4",
               "category": "damageBonus",
               "targets": [
-                "burstDamageBonus"
+                "geoDamageBonus"
               ],
               "condition": "constellationUnlocked",
               "unit": "percent",
@@ -17054,7 +17064,7 @@
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "corroborated",
+              "verificationStatus": "quarantined",
               "evidence": {
                 "officialTextValueMatch": true,
                 "externalNumericHints": [
@@ -17079,7 +17089,7 @@
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "textVerified",
+              "verificationStatus": "quarantined",
               "evidence": {
                 "officialTextValueMatch": true,
                 "externalNumericHints": []
@@ -19865,7 +19875,7 @@
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "corroborated",
+              "verificationStatus": "quarantined",
               "evidence": {
                 "officialTextValueMatch": true,
                 "externalNumericHints": [
@@ -19878,7 +19888,7 @@
               "id": "c_10000116_1_2",
               "category": "scalingBonus",
               "targets": [
-                "allDamageBonus"
+                "lunarChargedDamageBonus"
               ],
               "condition": "conditional",
               "unit": "percent",
@@ -20106,11 +20116,11 @@
           "effects": [
             {
               "id": "c_10000119_2_1",
-              "category": "damageBonus",
+              "category": "reactionBonus",
               "targets": [
-                "burstDamageBonus"
+                "lunarBloomDamageBonus"
               ],
-              "condition": "constellationUnlocked",
+              "condition": "moonsignFullIllumination",
               "unit": "percent",
               "numericValues": [
                 {
@@ -20145,7 +20155,7 @@
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "textVerified",
+              "verificationStatus": "quarantined",
               "evidence": {
                 "officialTextValueMatch": true,
                 "externalNumericHints": []
@@ -20167,7 +20177,7 @@
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "textVerified",
+              "verificationStatus": "quarantined",
               "evidence": {
                 "officialTextValueMatch": true,
                 "externalNumericHints": []
@@ -20189,7 +20199,7 @@
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "textVerified",
+              "verificationStatus": "quarantined",
               "evidence": {
                 "officialTextValueMatch": true,
                 "externalNumericHints": []
@@ -20211,7 +20221,7 @@
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "textVerified",
+              "verificationStatus": "quarantined",
               "evidence": {
                 "officialTextValueMatch": true,
                 "externalNumericHints": []
@@ -20219,20 +20229,18 @@
             },
             {
               "id": "c_10000119_2_6",
-              "category": "extraDamage",
+              "category": "additiveBaseDamage",
               "targets": [
-                "triggeredDamage"
+                "bloomDamageBonus",
+                "hyperbloomDamageBonus",
+                "burgeonDamageBonus"
               ],
-              "condition": "conditional",
-              "unit": "",
+              "condition": "stateActive",
+              "unit": "percent",
               "numericValues": [
                 {
-                  "field": "scalings.0.value",
+                  "field": "ratio",
                   "value": 500
-                },
-                {
-                  "field": "scalings.1.value",
-                  "value": 400
                 }
               ],
               "requiresNumericValue": true,
@@ -20245,16 +20253,16 @@
             },
             {
               "id": "c_10000119_2_7",
-              "category": "scalingBonus",
+              "category": "additiveBaseDamage",
               "targets": [
-                "burstDamageBonus"
+                "lunarBloomDamageBonus"
               ],
-              "condition": "conditional",
+              "condition": "stateActive",
               "unit": "percent",
               "numericValues": [
                 {
                   "field": "ratio",
-                  "value": 500
+                  "value": 400
                 }
               ],
               "requiresNumericValue": true,
@@ -22485,11 +22493,11 @@
           "effects": [
             {
               "id": "c_10000126_2_1",
-              "category": "damageBonus",
+              "category": "reactionBonus",
               "targets": [
-                "allDamageBonus"
+                "lunarCrystallizeDamageBonus"
               ],
-              "condition": "constellationUnlocked",
+              "condition": "stateActive",
               "unit": "percent",
               "numericValues": [
                 {
@@ -23577,7 +23585,7 @@
               "targets": [
                 "atkFlat"
               ],
-              "condition": "constellationUnlocked",
+              "condition": "active",
               "unit": "flat",
               "numericValues": [
                 {
@@ -23602,7 +23610,7 @@
               "targets": [
                 "correspondingElementResistance"
               ],
-              "condition": "constellationUnlocked",
+              "condition": "active",
               "unit": "percent",
               "numericValues": [
                 {
@@ -26768,23 +26776,30 @@
         "externalNumericHints": []
       }
     },
-    "c_10000032_1_resolved_effect_override": {
+    "c_10000032_1_burst_atk_bonus": {
       "characterId": "10000032",
       "constellation": 1,
-      "id": "c_10000032_1_resolved_effect_override",
-      "category": "effectOverride",
+      "id": "c_10000032_1_burst_atk_bonus",
+      "category": "statBonus",
       "targets": [
-        "effect"
+        "atkPercent"
       ],
-      "condition": "constellationUnlocked",
-      "unit": "",
-      "numericValues": [],
-      "requiresNumericValue": false,
-      "hasNumericContract": false,
-      "verificationStatus": "mechanicOnly",
+      "condition": "active",
+      "unit": "percent",
+      "numericValues": [
+        {
+          "field": "value",
+          "value": 20
+        }
+      ],
+      "requiresNumericValue": true,
+      "hasNumericContract": true,
+      "verificationStatus": "corroborated",
       "evidence": {
         "officialTextValueMatch": true,
-        "externalNumericHints": []
+        "externalNumericHints": [
+          "genshinOptimizer"
+        ]
       }
     },
     "c_10000032_2_1": {
@@ -30588,16 +30603,19 @@
       "unit": "percent",
       "numericValues": [
         {
-          "field": "valuePerStack",
+          "field": "value",
           "value": 32
         }
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "textVerified",
+      "verificationStatus": "corroborated",
       "evidence": {
         "officialTextValueMatch": true,
-        "externalNumericHints": []
+        "externalNumericHints": [
+          "genshinOptimizer",
+          "gcsim"
+        ]
       }
     },
     "c_10000060_2_1": {
@@ -37077,7 +37095,7 @@
       "id": "c_10000103_2_4",
       "category": "damageBonus",
       "targets": [
-        "burstDamageBonus"
+        "geoDamageBonus"
       ],
       "condition": "constellationUnlocked",
       "unit": "percent",
@@ -37116,7 +37134,7 @@
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "corroborated",
+      "verificationStatus": "quarantined",
       "evidence": {
         "officialTextValueMatch": true,
         "externalNumericHints": [
@@ -37143,7 +37161,7 @@
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "textVerified",
+      "verificationStatus": "quarantined",
       "evidence": {
         "officialTextValueMatch": true,
         "externalNumericHints": []
@@ -39372,7 +39390,7 @@
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "corroborated",
+      "verificationStatus": "quarantined",
       "evidence": {
         "officialTextValueMatch": true,
         "externalNumericHints": [
@@ -39387,7 +39405,7 @@
       "id": "c_10000116_1_2",
       "category": "scalingBonus",
       "targets": [
-        "allDamageBonus"
+        "lunarChargedDamageBonus"
       ],
       "condition": "conditional",
       "unit": "percent",
@@ -39564,11 +39582,11 @@
       "characterId": "10000119",
       "constellation": 2,
       "id": "c_10000119_2_1",
-      "category": "damageBonus",
+      "category": "reactionBonus",
       "targets": [
-        "burstDamageBonus"
+        "lunarBloomDamageBonus"
       ],
-      "condition": "constellationUnlocked",
+      "condition": "moonsignFullIllumination",
       "unit": "percent",
       "numericValues": [
         {
@@ -39605,7 +39623,7 @@
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "textVerified",
+      "verificationStatus": "quarantined",
       "evidence": {
         "officialTextValueMatch": true,
         "externalNumericHints": []
@@ -39629,7 +39647,7 @@
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "textVerified",
+      "verificationStatus": "quarantined",
       "evidence": {
         "officialTextValueMatch": true,
         "externalNumericHints": []
@@ -39653,7 +39671,7 @@
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "textVerified",
+      "verificationStatus": "quarantined",
       "evidence": {
         "officialTextValueMatch": true,
         "externalNumericHints": []
@@ -39677,7 +39695,7 @@
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "textVerified",
+      "verificationStatus": "quarantined",
       "evidence": {
         "officialTextValueMatch": true,
         "externalNumericHints": []
@@ -39687,20 +39705,18 @@
       "characterId": "10000119",
       "constellation": 2,
       "id": "c_10000119_2_6",
-      "category": "extraDamage",
+      "category": "additiveBaseDamage",
       "targets": [
-        "triggeredDamage"
+        "bloomDamageBonus",
+        "hyperbloomDamageBonus",
+        "burgeonDamageBonus"
       ],
-      "condition": "conditional",
-      "unit": "",
+      "condition": "stateActive",
+      "unit": "percent",
       "numericValues": [
         {
-          "field": "scalings.0.value",
+          "field": "ratio",
           "value": 500
-        },
-        {
-          "field": "scalings.1.value",
-          "value": 400
         }
       ],
       "requiresNumericValue": true,
@@ -39715,16 +39731,16 @@
       "characterId": "10000119",
       "constellation": 2,
       "id": "c_10000119_2_7",
-      "category": "scalingBonus",
+      "category": "additiveBaseDamage",
       "targets": [
-        "burstDamageBonus"
+        "lunarBloomDamageBonus"
       ],
-      "condition": "conditional",
+      "condition": "stateActive",
       "unit": "percent",
       "numericValues": [
         {
           "field": "ratio",
-          "value": 500
+          "value": 400
         }
       ],
       "requiresNumericValue": true,
@@ -41733,11 +41749,11 @@
       "characterId": "10000126",
       "constellation": 2,
       "id": "c_10000126_2_1",
-      "category": "damageBonus",
+      "category": "reactionBonus",
       "targets": [
-        "allDamageBonus"
+        "lunarCrystallizeDamageBonus"
       ],
-      "condition": "constellationUnlocked",
+      "condition": "stateActive",
       "unit": "percent",
       "numericValues": [
         {
@@ -42643,7 +42659,7 @@
       "targets": [
         "atkFlat"
       ],
-      "condition": "constellationUnlocked",
+      "condition": "active",
       "unit": "flat",
       "numericValues": [
         {
@@ -42670,7 +42686,7 @@
       "targets": [
         "correspondingElementResistance"
       ],
-      "condition": "constellationUnlocked",
+      "condition": "active",
       "unit": "percent",
       "numericValues": [
         {

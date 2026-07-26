@@ -46,14 +46,14 @@ test("STEP 17 coverage contract keeps the complete modifier inventory classified
 
     files.forEach((file) => walk(readJson(`games/genshin/data/calc/${file}`), file));
 
-    assert.equal(modifierCount, 1562);
+    assert.equal(modifierCount, 1561);
     assert.equal(categoryTotals.get("statBonus"), 302);
-    assert.equal(categoryTotals.get("extraDamage"), 156);
-    assert.equal(categoryTotals.get("effectOverride"), 43);
-    assert.equal(categoryTotals.get("additiveBaseDamage"), 32);
-    assert.equal(categoryTotals.get("scalingBonus"), 27);
-    assert.equal(complexConditionCount, 12);
+    assert.equal(categoryTotals.get("extraDamage"), 155);
+    assert.equal(categoryTotals.get("effectOverride"), 42);
+    assert.equal(categoryTotals.get("additiveBaseDamage"), 33);
+    assert.equal(categoryTotals.get("scalingBonus"), 28);
+    assert.equal(complexConditionCount, 13);
     assert.equal(resourceClassifications.get("calculationInput"), 27);
-    assert.equal(resourceClassifications.get("displayOnly"), 22);
+    assert.equal(resourceClassifications.get("displayOnly"), 15);
     assert.equal(resourceClassifications.get("unsupported") || 0, 0);
 });

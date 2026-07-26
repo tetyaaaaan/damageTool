@@ -18,6 +18,7 @@
         characters: "/games/genshin/data/characters.json",
         weapons: "/games/genshin/data/weapons.json",
         artifactSets: "/games/genshin/data/artifact-sets.json",
+        enemies: "/games/genshin/data/enemies.json",
         characterTalents: "/games/genshin/data/character-talents.json",
         weaponEffects: "/games/genshin/data/weapon-effects.json",
         artifactSetEffects: "/games/genshin/data/artifact-set-effects.json"
@@ -32,7 +33,7 @@
         "special"
     ]);
 
-    const VALID_CALC_SUPPORT = new Set(["simple", "toggle", "stack", "custom", "special", "displayOnly", "referenceAttackType"]);
+    const VALID_CALC_SUPPORT = new Set(["simple", "toggle", "stack", "custom", "dynamic", "special", "displayOnly", "referenceAttackType"]);
 
     let cache = null;
 
@@ -202,7 +203,7 @@
     function validateWeaponEffectRegistry(registry, weaponModifiers, warnings) {
         const validActivationTypes = new Set(["always", "toggle", "stack", "option", "displayOnly"]);
         const validInputPolicies = new Set(["reflected", "calculate", "sourceContext", "displayOnly"]);
-        const validTargetOwners = new Set(["self", "team", "activeCharacter", "enemy"]);
+        const validTargetOwners = new Set(["self", "team", "activeCharacter", "otherPartyMembers", "enemy"]);
         Object.entries(registry?.weapons || {}).forEach(([weaponId, definition]) => {
             const modifierIds = new Set((weaponModifiers?.[weaponId]?.modifiers || []).map((modifier) => modifier.id));
             const seenGroups = new Set();

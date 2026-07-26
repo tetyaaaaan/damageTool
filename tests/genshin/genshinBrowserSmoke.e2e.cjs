@@ -172,12 +172,14 @@ async function clickAndWait(client, selector) {
             const artifactTrigger = document.getElementById("genshinArtifactSetOneTrigger");
             const artifactSelect = document.getElementById("genshinArtifactSetOne");
             const cardStyle = getComputedStyle(document.querySelector(".genshin-combat-input-grid > .genshin-profile-stat-inputs"));
-            const unitStyles = [...document.querySelectorAll(".genshin-compact-stats .genshin-field > span, .genshin-combat-input-grid .genshin-field > span")]
+            const unitElements = [...document.querySelectorAll(".genshin-compact-stats .genshin-field > span, .genshin-combat-input-grid .genshin-field > span")]
+                .filter((element) => element.previousElementSibling?.matches("input"));
+            const unitStyles = unitElements
                 .map((element) => {
                     const style = getComputedStyle(element);
                     return [style.right, style.bottom, style.fontSize].join("|");
                 });
-            const unitCenterOffsets = [...document.querySelectorAll(".genshin-compact-stats .genshin-field > span, .genshin-combat-input-grid .genshin-field > span")]
+            const unitCenterOffsets = unitElements
                 .map((element) => {
                     const input = element.previousElementSibling;
                     const inputRect = input.getBoundingClientRect();
@@ -297,6 +299,11 @@ async function clickAndWait(client, selector) {
             return {
                 controls,
                 profileColumns: getComputedStyle(document.querySelector(".genshin-profile-form-grid")).gridTemplateColumns,
+                equipmentCards: [...document.querySelectorAll(".genshin-equipment-card")].map((card) => ({
+                    columns: getComputedStyle(card).gridTemplateColumns,
+                    imageWidth: card.querySelector(".genshin-profile-selection-image").getBoundingClientRect().width,
+                    nameWhiteSpace: getComputedStyle(card.querySelector(".genshin-equipment-name")).whiteSpace
+                })),
                 pageOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth
             };
         })()`);
@@ -304,15 +311,20 @@ async function clickAndWait(client, selector) {
         assert.ok(mobileLayoutAudit.controls.slice(0, 3).every((control) => control.fontSize === "12px"), "mobile talent labels are not compact");
         assert.ok(mobileLayoutAudit.controls.slice(0, 4).every((control) => control.backgroundPosition === "calc(100% - 9px) 50%"));
         assert.ok(mobileLayoutAudit.controls.slice(0, 4).every((control) => control.backgroundSize === "9px 6px"));
-        assert.match(mobileLayoutAudit.profileColumns, /^\d+(?:\.\d+)?px 54px 64px$/);
+        assert.match(mobileLayoutAudit.profileColumns, /^\d+(?:\.\d+)?px$/);
+        assert.equal(mobileLayoutAudit.equipmentCards.length, 2);
+        assert.ok(mobileLayoutAudit.equipmentCards.every((card) => /^68px \d+(?:\.\d+)?px$/.test(card.columns)));
+        assert.ok(mobileLayoutAudit.equipmentCards.every((card) => card.imageWidth === 68));
+        assert.ok(mobileLayoutAudit.equipmentCards.every((card) => card.nameWhiteSpace === "nowrap"));
         assert.equal(mobileLayoutAudit.pageOverflow, false);
-        await evaluate(client, `document.querySelector("#tetiMobileMenuButton").click()`);
+        await evaluate(client, `document.querySelector(".teti-mobile-menu-button").click()`);
+        await waitFor(client, `Math.round(document.querySelector("#tetiMainNavigation").getBoundingClientRect().left) === 0`);
         const mobileMenuAudit = await evaluate(client, `(() => {
             const header = document.querySelector(".teti-site-header");
             const nav = document.querySelector("#tetiMainNavigation");
             return {
                 open: document.body.classList.contains("is-site-menu-open"),
-                expanded: document.querySelector("#tetiMobileMenuButton").getAttribute("aria-expanded"),
+                expanded: document.querySelector(".teti-mobile-menu-button").getAttribute("aria-expanded"),
                 navHidden: nav.getAttribute("aria-hidden"),
                 navVisible: getComputedStyle(nav).visibility,
                 navLeft: Math.round(nav.getBoundingClientRect().left),
@@ -320,7 +332,7 @@ async function clickAndWait(client, selector) {
             };
         })()`);
         assert.deepEqual(mobileMenuAudit, { open: true, expanded: "true", navHidden: "false", navVisible: "visible", navLeft: 0, headerZ: 90 });
-        await evaluate(client, `document.querySelector("#tetiMobileMenuButton").click()`);
+        await evaluate(client, `document.querySelector(".teti-mobile-menu-button").click()`);
         await client.send("Emulation.setDeviceMetricsOverride", {
             width: 1280,
             height: 900,
@@ -347,7 +359,7 @@ async function clickAndWait(client, selector) {
             rarityFilters: document.querySelectorAll('[data-filter-group="rarity"]').length,
             optionCount: document.querySelectorAll("#genshinSelectionList [data-selection-id]").length,
             headingBorder: getComputedStyle(document.querySelector("#genshinSelectionTitle")).borderLeftWidth,
-            headingAccent: getComputedStyle(document.querySelector("#genshinSelectionTitle"), "::before").backgroundImage,
+            headingAccent: getComputedStyle(document.querySelector("#genshinSelectionTitle"), "::before").backgroundColor,
             dialogHeight: document.querySelector("#genshinSelectionDialog").getBoundingClientRect().height,
             bulkFilterRow: document.querySelector("#genshinFilterToggleAll").parentElement.querySelector("[data-filter-group]").dataset.filterGroup,
             selectedFilterCount: document.querySelectorAll('[data-filter-group][aria-pressed="true"]').length,
@@ -361,7 +373,7 @@ async function clickAndWait(client, selector) {
         assert.equal(initialSelectionUi.rarityFilters, 2);
         assert.ok(initialSelectionUi.optionCount > 50);
         assert.equal(initialSelectionUi.headingBorder, "0px");
-        assert.ok(initialSelectionUi.headingAccent.includes("linear-gradient"));
+        assert.notEqual(initialSelectionUi.headingAccent, "rgba(0, 0, 0, 0)");
         assert.equal(initialSelectionUi.bulkFilterRow, "rarity");
         assert.equal(initialSelectionUi.selectedFilterCount, 0);
         assert.equal(initialSelectionUi.clearFilterText, "フィルタ解除");
@@ -404,13 +416,14 @@ async function clickAndWait(client, selector) {
         await waitFor(client, `document.querySelector("#genshinSelectionDialog").open && document.querySelector("#genshinSelectionTitle").textContent === "武器を選択"`);
         const weaponSelectionUi = await evaluate(client, `({
             summary: document.querySelector("#genshinSelectionSummary").textContent,
+            compatibleType: [...document.querySelectorAll("#genshinSelectionList [data-selection-id]")].every((item) => window.GenshinIdResolver.resolveWeapon(item.dataset.selectionId)?.weaponType === "両手剣"),
             rarityFilters: document.querySelectorAll('[data-filter-group="rarity"]').length,
             metas: [...document.querySelectorAll("#genshinSelectionList .genshin-selection-option-copy > span")].map((item) => item.textContent),
             bulkFilterRow: document.querySelector("#genshinFilterToggleAll").parentElement.querySelector("[data-filter-group]").dataset.filterGroup,
             selectedFilterCount: document.querySelectorAll('[data-filter-group][aria-pressed="true"]').length,
             clearFilterDisabled: document.querySelector("#genshinFilterToggleAll").disabled
         })`);
-        assert.ok(weaponSelectionUi.summary.includes("両手剣"));
+        assert.equal(weaponSelectionUi.compatibleType, true);
         assert.equal(weaponSelectionUi.rarityFilters, 5);
         assert.equal(weaponSelectionUi.bulkFilterRow, "rarity");
         assert.equal(weaponSelectionUi.selectedFilterCount, 0);
@@ -434,14 +447,14 @@ async function clickAndWait(client, selector) {
             constellation: "C1"
         }));
         await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
-        await waitFor(client, `document.querySelectorAll(".genshin-condition-card").length === 4`);
+        await waitFor(client, `document.querySelectorAll(".genshin-condition-card").length >= 5`);
         const cardLayout = await evaluate(client, `(() => ({
             order: [...document.querySelectorAll(".genshin-condition-card")].map((card) => card.dataset.conditionCard),
-            text: document.querySelector("#genshinJsonConditionCards").innerText,
+            text: document.querySelector("#genshinJsonConditionCards").textContent,
             hasAmosStack: Boolean(document.querySelector("[data-condition-card='weapon'] #genshinJsonAmosStack")),
             hasConstellationSelect: Boolean(document.querySelector("#genshinJsonConstellationLevel"))
         }))()`);
-        assert.deepEqual(cardLayout.order, ["reaction", "weapon", "artifact", "talent-constellation"]);
+        assert.deepEqual(cardLayout.order, ["reaction", "party", "weapon", "artifact", "talent-constellation"]);
         assert.ok(cardLayout.text.includes("武器補正"));
         assert.ok(cardLayout.text.includes("天賦・命ノ星座補正"));
         assert.ok(cardLayout.text.includes("唯一の心"));
@@ -569,7 +582,12 @@ async function clickAndWait(client, selector) {
         if (client) client.socket.close();
         browserProcess.kill();
         await delay(200);
-        fs.rmSync(userDataDir, { recursive: true, force: true });
+        fs.rmSync(userDataDir, {
+            recursive: true,
+            force: true,
+            maxRetries: 5,
+            retryDelay: 200
+        });
     }
 })().catch((error) => {
     console.error(error);

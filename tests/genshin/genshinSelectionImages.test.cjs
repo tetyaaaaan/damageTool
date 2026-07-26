@@ -25,7 +25,7 @@ test("every selectable Genshin character and weapon has a local WebP image", () 
     Object.keys(characters).forEach((id) => {
         if (!fallbackItems.characters.includes(id)) assertWebp(`games/images/genshin/characters/${id}.webp`);
     });
-    Object.keys(weapons).forEach((id) => {
+    Object.keys(weapons).filter((id) => weapons[id].selectable !== false).forEach((id) => {
         if (!fallbackItems.weapons.includes(id)) assertWebp(`games/images/genshin/weapons/${id}.webp`);
     });
     Object.keys(artifactSets).forEach((id) => {

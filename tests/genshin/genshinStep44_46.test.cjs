@@ -72,8 +72,8 @@ test("STEP46 removes obsolete result placeholders and artifact compatibility UI"
     ["result", "value_e_def", "value_e_ele", "targetArea", "modal", "imageList"].forEach((id) => {
         assert.doesNotMatch(html, new RegExp(`id=["']${id}["']`), id);
     });
-    assert.match(html, /placeholder="先にキャラ選択"/);
-    assert.match(selectionModal, /"先にキャラ選択"/);
+    assert.match(html, /placeholder="先にキャラを選択"/);
+    assert.match(selectionModal, /"先にキャラを選択"/);
     assert.doesNotMatch(`${html}\n${uidImporter}`, /genshinArtifactSetSummary|genshinArtifactSetEffects|効果文データは未対応/);
     assert.doesNotMatch(html, /\/games\/js\/(?:main|artifact)\.js/);
     assert.equal(fs.existsSync(path.join(root, "games/js/artifact.js")), false);

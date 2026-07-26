@@ -21,6 +21,34 @@
         applyingPreciseStats: false
     };
 
+    const ELEMENT_ICON_NAMES = {
+        "炎": "pyro",
+        "水": "hydro",
+        "風": "anemo",
+        "雷": "electro",
+        "草": "dendro",
+        "氷": "cryo",
+        "岩": "geo"
+    };
+
+    const WEAPON_ICON_NAMES = {
+        "片手剣": "sword",
+        "両手剣": "claymore",
+        "長柄武器": "polearm",
+        "弓": "bow",
+        "法器": "catalyst"
+    };
+
+    const STAT_ICON_PATHS = {
+        "HP": "/games/images/genshin/ui/stat-hp.webp",
+        "攻撃力": "/games/images/genshin/ui/stat-attack.webp",
+        "防御力": "/games/images/genshin/ui/stat-defense.webp",
+        "元素熟知": "/games/images/genshin/ui/stat-elemental-mastery.webp",
+        "会心率": "/games/images/genshin/ui/stat-critical.webp",
+        "会心ダメージ": "/games/images/genshin/ui/stat-critical.webp",
+        "元素チャージ効率": "/games/images/genshin/ui/stat-energy-recharge.webp"
+    };
+
     function getElement(id) {
         return document.getElementById(id);
     }
@@ -205,6 +233,8 @@
     function renderPlayer(profile) {
         const playerEl = getElement("genshinPlayerInfo");
         if (!playerEl) return;
+        const resultEl = getElement("genshinUidResult");
+        if (resultEl) resultEl.hidden = false;
         playerEl.hidden = false;
         playerEl.innerHTML = `
             <div class="genshin-player-strip">
@@ -235,6 +265,21 @@
         if (!detail) return;
         detail.hidden = true;
         detail.innerHTML = "";
+    }
+
+    function clearProfileResult() {
+        state.profile = null;
+        state.selectedCharacter = null;
+        const result = getElement("genshinUidResult");
+        const player = getElement("genshinPlayerInfo");
+        const selector = getElement("genshinCharacterSelector");
+        if (result) result.hidden = true;
+        if (player) {
+            player.hidden = true;
+            player.innerHTML = "";
+        }
+        if (selector) selector.hidden = true;
+        clearCharacterDetail();
     }
 
     function summarizeArtifactSets(artifacts) {
@@ -322,8 +367,18 @@
         return entries.join("") || "<p>命ノ星座効果データは未対応です</p>";
     }
 
-    function renderStatItem(label, value, formatter) {
-        return `<div><dt>${escapeHtml(label)}</dt><dd>${formatter(value)}</dd></div>`;
+    function renderStatItem(label, value, formatter, iconPath = STAT_ICON_PATHS[label], shortLabel = "") {
+        const iconClass = iconPath?.includes("/elements/")
+            ? "genshin-profile-stat-icon genshin-profile-stat-icon--element"
+            : "genshin-profile-stat-icon";
+        const icon = iconPath
+            ? `<img class="${iconClass}" src="${escapeHtml(iconPath)}" alt="" width="14" height="14">`
+            : "";
+        const labelText = shortLabel
+            ? `<span class="genshin-uid-label-full">${escapeHtml(label)}</span><span class="genshin-uid-label-short" aria-hidden="true">${escapeHtml(shortLabel)}</span>`
+            : escapeHtml(label);
+        const ariaLabel = shortLabel ? ` aria-label="${escapeHtml(label)}"` : "";
+        return `<div><dt${ariaLabel}>${icon}${labelText}</dt><dd>${formatter(value)}</dd></div>`;
     }
 
     function formatElementDamageLabel(character) {
@@ -335,12 +390,15 @@
         const details = character?.stats?.elementalDamageDetails || [];
         const label = formatElementDamageLabel(character);
         const value = character?.stats?.elementalDamage;
-        if (!details.length) return renderStatItem(label, value, (statValue) => formatDecimal(statValue, 2, "%"));
+        const elementIcon = ELEMENT_ICON_NAMES[character?.element]
+            ? `/games/images/genshin/elements/${ELEMENT_ICON_NAMES[character.element]}.webp`
+            : "";
+        if (!details.length) return renderStatItem(label, value, (statValue) => formatDecimal(statValue, 2, "%"), elementIcon);
         return `
             <div class="genshin-element-damage-stat">
                 <details>
                     <summary>
-                        <span>${escapeHtml(label)}</span>
+                        <span>${elementIcon ? `<img class="genshin-profile-stat-icon genshin-profile-stat-icon--element" src="${escapeHtml(elementIcon)}" alt="" width="14" height="14">` : ""}${escapeHtml(label)}</span>
                         <strong>${formatDecimal(value, 2, "%")}</strong>
                     </summary>
                     <dl class="character-build-grid genshin-element-damage-list">
@@ -351,10 +409,95 @@
         `;
     }
 
+    function renderUidArtifactRows(artifacts) {
+        const sets = new Map();
+        (artifacts || []).forEach((artifact) => {
+            const key = String(artifact.setId || artifact.setName || artifact.name || artifact.id || "");
+            if (!key) return;
+            if (!sets.has(key)) sets.set(key, { name: artifact.setName || artifact.name || "聖遺物セット", count: 0, imageId: artifact.setId || artifact.id });
+            sets.get(key).count += 1;
+        });
+        return [...sets.values()].filter((set) => set.count >= 2).sort((a, b) => b.count - a.count).map((set) => {
+            const image = set.imageId ? `/games/images/genshin/artifacts/${encodeURIComponent(set.imageId)}.webp` : "/games/images/genshin/fallback.webp";
+            return `<div class="genshin-uid-summary-row genshin-uid-artifact-row"><img class="genshin-uid-summary-image genshin-uid-artifact-image" src="${escapeHtml(image)}" alt=""><div class="genshin-uid-summary-copy"><strong>${escapeHtml(set.name)}</strong><span>${Math.min(set.count, 4)}セット</span></div></div>`;
+        }).join("") || `<div class="genshin-uid-summary-row genshin-uid-artifact-row"><img class="genshin-uid-summary-image genshin-uid-artifact-image" src="/games/images/genshin/fallback.webp" alt=""><div class="genshin-uid-summary-copy"><strong>聖遺物セット未取得</strong></div></div>`;
+    }
+
+      function renderUidElementStats(character, includeAll = false) {
+          const details = character?.stats?.elementalDamageDetails || [];
+          const visible = includeAll ? details : details.filter((item) => item.element === character?.element);
+          return visible.map((item) => {
+              const elementKey = item.element || String(item.label || "").replace(/元素ダメージ$/, "");
+              const iconName = ELEMENT_ICON_NAMES[elementKey];
+              const iconPath = iconName ? `/games/images/genshin/elements/${iconName}.webp` : "";
+              return renderStatItem(item.label, item.value, (value) => formatDecimal(value, 2, "%"), iconPath);
+          }).join("");
+      }
+
+    function renderUidSummary(character) {
+        const weapon = character.weapon || null;
+        const characterImage = `/games/images/genshin/characters/${encodeURIComponent(character.id)}.webp`;
+        const weaponImage = weapon?.id ? `/games/images/genshin/weapons/${encodeURIComponent(weapon.id)}.webp` : "/games/images/genshin/fallback.webp";
+        const elementIcon = ELEMENT_ICON_NAMES[character.element] ? `/games/images/genshin/elements/${ELEMENT_ICON_NAMES[character.element]}.webp` : "";
+        const weaponTypeIcon = WEAPON_ICON_NAMES[character.weaponType] ? `/games/images/genshin/ui/weapon-${WEAPON_ICON_NAMES[character.weaponType]}.webp` : "";
+        const talents = character.talents || { normal: 1, skill: 1, burst: 1 };
+        return `<div class="genshin-uid-profile-summary">
+            <div class="genshin-uid-character-row"><img class="genshin-uid-character-image" src="${escapeHtml(characterImage)}" alt="" width="64" height="64"><div class="genshin-uid-character-copy"><strong>${escapeHtml(character.name || unsupported("キャラクター", character.id))} <span class="genshin-uid-level">Lv.${escapeHtml(character.level || "-")}</span></strong><div class="genshin-uid-tags">${elementIcon ? `<span class="genshin-uid-icon-tag genshin-uid-element-tag"><img src="${escapeHtml(elementIcon)}" alt="${escapeHtml(character.element)}"></span>` : ""}${weaponTypeIcon ? `<span class="genshin-uid-icon-tag"><img src="${escapeHtml(weaponTypeIcon)}" alt="${escapeHtml(character.weaponType)}"></span>` : ""}<span class="genshin-uid-badge genshin-uid-rarity">★${escapeHtml(character.rarity || "-")}</span><span class="genshin-uid-badge genshin-uid-constellation">C${toNumber(character.constellation)}</span></div></div><button type="button" class="genshin-uid-details-button" id="genshinUidDetailsOpen">詳細</button></div>
+            <div class="genshin-uid-summary-list"><div class="genshin-uid-summary-row"><img class="genshin-uid-summary-image" src="${escapeHtml(weaponImage)}" alt=""><div class="genshin-uid-summary-copy"><strong>${escapeHtml(safeName(weapon, "武器"))}</strong><span>Lv.${escapeHtml(weapon?.level || "-")} / R${escapeHtml(weapon?.rank || 1)}</span></div></div>${renderUidArtifactRows(character.artifacts || [])}</div>
+            <div class="genshin-uid-two-col"><section><h5>天賦</h5><dl class="genshin-uid-talent-list">${renderStatItem("通常攻撃", talents.normal, (value) => `Lv.${formatInteger(value)}`, undefined, "通常")}${renderStatItem("元素スキル", talents.skill, (value) => `Lv.${formatInteger(value)}`, undefined, "スキル")}${renderStatItem("元素爆発", talents.burst, (value) => `Lv.${formatInteger(value)}`, undefined, "爆発")}</dl></section><section><h5>ステータス</h5><div class="genshin-uid-summary-stats"><dl class="genshin-uid-stat-list">${renderStatItem("HP", character.stats.hp, formatInteger)}${renderStatItem("攻撃力", character.stats.atk, formatInteger)}${renderStatItem("防御力", character.stats.def, formatInteger)}${renderStatItem("元素熟知", character.stats.elementalMastery, formatInteger)}</dl><dl class="genshin-uid-stat-list">${renderStatItem("会心率", character.stats.critRate, (value) => formatDecimal(value, 2, "%"))}${renderStatItem("会心ダメージ", character.stats.critDamage, (value) => formatDecimal(value, 2, "%"))}${renderStatItem("元素チャージ効率", character.stats.energyRecharge, (value) => formatDecimal(value, 2, "%"))}${renderUidElementStats(character)}</dl></div></section></div>
+            <div class="genshin-profile-actions"><button type="button" class="teti-button teti-button-primary" id="genshinApplyProfileButton">この内容を入力欄へ反映</button><span>反映後も手動で編集できます</span></div>
+        </div>`;
+    }
+
+    function renderUidDetails(character, activeTab = "character") {
+        const dialog = getElement("genshinUidDetailsDialog");
+        const body = getElement("genshinUidDetailsBody");
+        const tabs = getElement("genshinUidDetailsTabs");
+        const title = getElement("genshinUidDetailsTitle");
+        if (!dialog || !body || !tabs) return;
+        const resolver = window.GenshinIdResolver;
+        const talents = resolver?.resolveCharacterTalent?.(character.id) || {};
+        const constellationData = resolver?.resolveCharacterConstellation?.(character.id)?.constellations || {};
+        const weapon = character.weapon || {};
+        const tabItems = [{ id: "character", label: "キャラ" }, { id: "equipment", label: "装備" }, { id: "status", label: "ステータス" }];
+        tabs.innerHTML = tabItems.map((tab) => `<button type="button" class="genshin-uid-details-tab${tab.id === activeTab ? " is-active" : ""}" data-uid-detail-tab="${tab.id}">${tab.label}</button>`).join("");
+        title.textContent = `${character.name || "キャラクター"} Lv.${character.level || "-"}`;
+        const normal = talents.normalAttack?.normalDescriptionJa || "";
+        const charged = talents.normalAttack?.chargedDescriptionJa || "";
+        const plunging = talents.normalAttack?.plungingDescriptionJa || "";
+        const talentItems = [
+            [talents.normalAttack?.nameJa || "通常攻撃", [normal, charged, plunging].filter(Boolean).join("\n\n")],
+            [talents.skill?.nameJa || "元素スキル", talents.skill?.descriptionJa || ""],
+            [talents.burst?.nameJa || "元素爆発", talents.burst?.descriptionJa || ""]
+        ].map(([name, text]) => `<article class="genshin-uid-detail-item"><h4>${escapeHtml(name)}</h4><p>${escapeHtml(text || "説明データ未登録")}</p></article>`).join("");
+        const passiveItems = (talents.passives || []).map((passive) => `<article class="genshin-uid-detail-item"><h4>${escapeHtml(passive.nameJa || "固有天賦")}</h4><p>${escapeHtml(passive.descriptionJa || "説明データ未登録")}</p></article>`).join("");
+        const constellationItems = Object.entries(constellationData).map(([level, item]) => `<article class="genshin-uid-detail-item"><h4>C${escapeHtml(level)} ${escapeHtml(item.nameJa || "")}</h4><p>${escapeHtml(item.effectText || "説明データ未登録")}</p></article>`).join("");
+        const artifactEffects = getArtifactSetCounts(character.artifacts || []).filter((set) => set.count >= 2).map((set) => `<article class="genshin-uid-detail-item"><h4>${escapeHtml(set.name)} ${Math.min(set.count, 4)}セット</h4><p>${escapeHtml((character.artifacts || []).find((artifact) => artifact.setId === set.id)?.effect || "説明データ未登録")}</p></article>`).join("");
+        const sections = {
+            character: `<section data-uid-detail-panel="character"><div class="genshin-uid-detail-group"><h3>通常・スキル・爆発</h3>${talentItems}</div><div class="genshin-uid-detail-group"><h3>固有天賦</h3>${passiveItems || "<p>説明データ未登録</p>"}</div><div class="genshin-uid-detail-group"><h3>命ノ星座</h3>${constellationItems || "<p>説明データ未登録</p>"}</div></section>`,
+            equipment: `<section data-uid-detail-panel="equipment"><div class="genshin-uid-detail-group"><h3>${escapeHtml(safeName(weapon, "武器"))} Lv.${escapeHtml(weapon.level || "-")} / R${escapeHtml(weapon.rank || 1)}</h3><p>${escapeHtml(renderWeaponEffectText(weapon))}</p></div><div class="genshin-uid-detail-group"><h3>聖遺物</h3><div class="genshin-uid-artifact-effects">${renderArtifactEffects(character.artifacts || []) || "<p>説明データ未登録</p>"}</div></div></section>`,
+            status: `<section data-uid-detail-panel="status"><div class="genshin-uid-detail-group"><h3>ステータス</h3><div class="genshin-uid-modal-status-layout"><dl>${renderStatItem("HP", character.stats.hp, formatInteger)}${renderStatItem("攻撃力", character.stats.atk, formatInteger)}${renderStatItem("防御力", character.stats.def, formatInteger)}${renderStatItem("元素熟知", character.stats.elementalMastery, formatInteger)}</dl><dl>${renderStatItem("会心率", character.stats.critRate, (value) => formatDecimal(value, 2, "%"))}${renderStatItem("会心ダメージ", character.stats.critDamage, (value) => formatDecimal(value, 2, "%"))}${renderStatItem("元素チャージ効率", character.stats.energyRecharge, (value) => formatDecimal(value, 2, "%"))}${renderUidElementStats(character, true)}</dl></div></div></section>`
+        };
+        body.innerHTML = sections[activeTab] || sections.character;
+        tabs.querySelectorAll("[data-uid-detail-tab]").forEach((button) => button.addEventListener("click", () => renderUidDetails(character, button.dataset.uidDetailTab)));
+        if (!dialog.open) dialog.showModal();
+    }
+
     function renderCharacterDetail(character) {
         const detail = getElement("genshinCharacterDetail");
         if (!detail) return;
         state.selectedCharacter = character;
+
+        detail.hidden = false;
+        detail.innerHTML = renderUidSummary(character);
+        getElement("genshinApplyProfileButton")?.addEventListener("click", () => applyCharacterToForm(character));
+        getElement("genshinUidDetailsOpen")?.addEventListener("click", () => renderUidDetails(character));
+        detail.querySelectorAll("img").forEach((image) => image.addEventListener("error", () => {
+            if (image.dataset.fallbackApplied === "true") return;
+            image.dataset.fallbackApplied = "true";
+            image.src = "/games/images/genshin/fallback.webp";
+        }));
+        return;
 
         const weapon = character.weapon || null;
         const weaponName = safeName(weapon, "武器");
@@ -362,16 +505,25 @@
         const artifactSetType = summarizeArtifactSetType(character.artifacts || []);
         const constellation = `C${toNumber(character.constellation)}`;
         const talents = character.talents || { normal: 1, skill: 1, burst: 1 };
+        const characterImage = `/games/images/genshin/characters/${encodeURIComponent(character.id)}.webp`;
+        const weaponImage = weapon?.id ? `/games/images/genshin/weapons/${encodeURIComponent(weapon.id)}.webp` : "/games/images/genshin/fallback.webp";
+        const elementIcon = ELEMENT_ICON_NAMES[character.element]
+            ? `/games/images/genshin/elements/${ELEMENT_ICON_NAMES[character.element]}.webp`
+            : "";
+        const weaponTypeIcon = WEAPON_ICON_NAMES[character.weaponType]
+            ? `/games/images/genshin/ui/weapon-${WEAPON_ICON_NAMES[character.weaponType]}.webp`
+            : "";
 
         detail.hidden = false;
         detail.innerHTML = `
             <div class="genshin-profile-detail-card">
                 <div class="genshin-profile-detail-main">
+                    <img class="genshin-profile-character-image" src="${escapeHtml(characterImage)}" alt="" width="64" height="64">
                     <div>
                         <h4>${escapeHtml(character.name || unsupported("キャラクター", character.id))} <span>Lv.${character.level || "-"}</span></h4>
                         <div class="genshin-profile-tags">
-                            <span>${escapeHtml(character.element || "未対応")}</span>
-                            <span>${escapeHtml(character.weaponType || "武器種未対応")}</span>
+                            ${elementIcon ? `<span class="genshin-profile-icon-tag genshin-profile-icon-tag--element" aria-label="${escapeHtml(character.element)}元素" title="${escapeHtml(character.element)}元素"><img src="${escapeHtml(elementIcon)}" alt="" width="20" height="20"></span>` : ""}
+                            ${weaponTypeIcon ? `<span class="genshin-profile-icon-tag" aria-label="${escapeHtml(character.weaponType)}" title="${escapeHtml(character.weaponType)}"><img src="${escapeHtml(weaponTypeIcon)}" alt="" width="20" height="20"></span>` : ""}
                             <span>★${character.rarity || "-"}</span>
                             <span>${constellation}</span>
                         </div>
@@ -381,7 +533,7 @@
                 <div class="genshin-profile-summary-grid">
                     <details class="genshin-profile-accordion">
                         <summary class="genshin-profile-row-summary">
-                            <strong>${escapeHtml(weaponName)}</strong>
+                            <strong class="genshin-profile-summary-name"><img class="genshin-profile-weapon-image" src="${escapeHtml(weaponImage)}" alt="" width="32" height="32"><span class="genshin-profile-summary-title">${escapeHtml(weaponName)}</span></strong>
                             <span>Lv.${weapon?.level || "-"} / R${weapon?.rank || 1}</span>
                             <em>効果</em>
                         </summary>
@@ -438,6 +590,13 @@
 
         const applyButton = getElement("genshinApplyProfileButton");
         if (applyButton) applyButton.addEventListener("click", () => applyCharacterToForm(character));
+        detail.querySelectorAll(".genshin-profile-character-image, .genshin-profile-weapon-image").forEach((image) => {
+            image.addEventListener("error", () => {
+                if (image.dataset.fallbackApplied === "true") return;
+                image.dataset.fallbackApplied = "true";
+                image.src = "/games/images/genshin/fallback.webp";
+            });
+        });
     }
 
     function setInputValue(id, value, mode = "decimal") {
@@ -460,6 +619,9 @@
             input.value = mode === "integer" ? String(Math.round(num)) : String(Math.round(num * 100) / 100);
         }
         input.dispatchEvent(new Event("input", { bubbles: true }));
+        if (mode === "preciseInteger" || mode === "preciseDecimal") {
+            input.dataset.valueOrigin = "uid";
+        }
     }
 
     function setSelectValue(id, value) {
@@ -508,8 +670,11 @@
             setInputValue("genshinBurstTalentLevel", talents.burst, "integer");
             applyArtifactSetsToForm(character.artifacts || []);
             setInputValue("genshinHpInput", character.stats.hp, "preciseInteger");
+            setInputValue("genshinBaseHpInput", character.stats.baseHp, "preciseDecimal");
+            setInputValue("genshinBaseAtkInput", character.stats.baseAtk, "preciseDecimal");
             setInputValue("genshinAtkInput", character.stats.atk, "preciseInteger");
             setInputValue("genshinDefInput", character.stats.def, "preciseInteger");
+            setInputValue("genshinBaseDefInput", character.stats.baseDef, "preciseDecimal");
             setInputValue("genshinElementalMasteryInput", character.stats.elementalMastery, "preciseInteger");
             setInputValue("genshinCritRateInput", character.stats.critRate, "preciseDecimal");
             setInputValue("genshinCritDamageInput", character.stats.critDamage, "preciseDecimal");
@@ -543,6 +708,7 @@
 
         setLoading(true);
         setMessage("", "");
+        clearProfileResult();
         try {
             if (window.GenshinIdResolver?.ready) await window.GenshinIdResolver.ready;
             const response = await window.GenshinProfileApi.fetchGenshinProfile(uid);
@@ -561,6 +727,7 @@
             if (saved && clearButton) clearButton.hidden = false;
             setMessage(TEXT.fetched, "success");
         } catch (error) {
+            clearProfileResult();
             if (!navigator.onLine || error instanceof TypeError) {
                 setMessage(TEXT.network, "error");
             } else {
@@ -599,6 +766,14 @@
         });
         button.addEventListener("click", handleSearch);
         select.addEventListener("change", () => selectCharacter(Number(select.value)));
+        getElement("genshinUidDetailsClose")?.addEventListener("click", () => {
+            const dialog = getElement("genshinUidDetailsDialog");
+            if (dialog?.open) dialog.close();
+        });
+        getElement("genshinUidDetailsDialog")?.addEventListener("click", (event) => {
+            const dialog = getElement("genshinUidDetailsDialog");
+            if (event.target === dialog) dialog.close();
+        });
         [
             "genshinHpInput",
             "genshinAtkInput",
@@ -610,7 +785,10 @@
             "genshinElementalDamageInput"
         ].forEach((id) => {
             getElement(id)?.addEventListener("input", (event) => {
-                if (!state.applyingPreciseStats) delete event.currentTarget.dataset.preciseValue;
+                if (!state.applyingPreciseStats) {
+                    delete event.currentTarget.dataset.preciseValue;
+                    event.currentTarget.dataset.valueOrigin = "manual";
+                }
             });
         });
 

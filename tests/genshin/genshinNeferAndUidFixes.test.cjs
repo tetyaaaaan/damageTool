@@ -73,8 +73,8 @@ test("固定値の元素熟知バフにはパーセント記号を付けない",
         }
     });
 
-    assert.equal(view.buffs.effects[0].value, "+72.00");
-    assert.doesNotMatch(view.buffs.effects[0].value, /%/);
+    assert.equal(view.base.effects[0].value, "+72.00");
+    assert.doesNotMatch(view.base.effects[0].value, /%/);
 });
 
 test("UID武器の0始まりaffixMapをR1からR5へ変換する", () => {

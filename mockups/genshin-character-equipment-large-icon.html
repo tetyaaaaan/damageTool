@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>キャラ・装備入力 大型アイコン案</title>
+  <style>
+    :root { color-scheme: dark; font-family: "Noto Sans JP", system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 24px 12px; color: #edf7fb; background: #071923; }
+    main { width: min(100%, 430px); margin: auto; }
+    .note { margin: 0 0 12px; color: #9eb5c0; font-size: 12px; line-height: 1.6; }
+    .panel { padding: 14px 12px; background: #0b222d; border: 1px solid #254857; border-radius: 12px; }
+    .heading { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; font-size: 15px; }
+    .heading span { display: grid; place-items: center; width: 21px; height: 21px; color: #36d0c1; border: 1px solid #36d0c1; border-radius: 50%; font-size: 10px; }
+    .equipment { display: grid; grid-template-columns: 76px minmax(0, 1fr) 54px 64px; gap: 8px 7px; align-items: end; }
+    .portrait { grid-row: 1 / 3; align-self: stretch; min-height: 108px; overflow: hidden; background: linear-gradient(155deg, #8f6a38, #3b2737); border: 1px solid #d7a442; border-radius: 10px; }
+    .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+    .field { min-width: 0; }
+    .field > span { display: block; margin: 0 0 4px; font-size: 10px; font-weight: 800; }
+    button, .value { width: 100%; min-height: 40px; color: #edf7fb; background: #081c27; border: 1px solid #2b5363; border-radius: 8px; font: inherit; font-size: 12px; font-weight: 800; }
+    button { display: flex; align-items: center; justify-content: space-between; gap: 7px; padding: 7px 10px; cursor: pointer; text-align: left; }
+    button::after { content: "›"; color: #36d0c1; font-size: 18px; }
+    .value { display: grid; place-items: center; padding: 5px; }
+    .weapon { grid-column: 2; display: grid; grid-template-columns: 40px minmax(0, 1fr); min-height: 48px; overflow: hidden; background: #081c27; border: 1px solid #2b5363; border-radius: 8px; }
+    .weapon img { width: 40px; height: 46px; object-fit: contain; background: #6f526f; }
+    .weapon button { min-height: 46px; border: 0; border-radius: 0; background: transparent; }
+    .caption { margin: 12px 2px 0; color: #9eb5c0; font-size: 11px; line-height: 1.55; }
+    @media (max-width: 370px) {
+      .equipment { grid-template-columns: 68px minmax(0, 1fr) 50px 58px; gap: 7px 5px; }
+      .portrait { min-height: 102px; }
+      button, .value { font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="note">本体未反映の確認用モックです。キャラを視覚的な主役にしつつ、スマホ幅でも名前・Lv・凸を1行内に保ちます。</p>
+    <section class="panel" aria-labelledby="mockTitle">
+      <h1 class="heading" id="mockTitle"><span>1</span>キャラ・装備</h1>
+      <div class="equipment">
+        <div class="portrait"><img src="/games/images/genshin/characters/10000046.webp" alt="胡桃"></div>
+        <div class="field">
+          <span>キャラ</span>
+          <button type="button">胡桃</button>
+        </div>
+        <div class="field"><span>Lv</span><div class="value">90</div></div>
+        <div class="field"><span>凸</span><div class="value">C1</div></div>
+        <div class="weapon">
+          <img src="/games/images/genshin/weapons/13501.webp" alt="">
+          <button type="button">護摩の杖</button>
+        </div>
+        <div class="field"><span>武器Lv</span><div class="value">90</div></div>
+        <div class="field"><span>精錬</span><div class="value">R1</div></div>
+      </div>
+      <p class="caption">推奨案：キャラ画像は76px幅で2段をまたぎ、選択名はボタン全体をタップ領域にします。武器は重要度を一段下げて40px表示。ラベルと枠を増やさず、現行と同じ横幅に収めます。</p>
+    </section>
+  </main>
+</body>
+</html>

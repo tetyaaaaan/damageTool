@@ -8,6 +8,7 @@ const root = path.resolve(__dirname, "..", "..");
 test("calculator input groups use dedicated compact layouts without hiding fields", () => {
     const html = fs.readFileSync(path.join(root, "games/genshin/index.html"), "utf8");
     const css = fs.readFileSync(path.join(root, "games/css/tetinet.css"), "utf8");
+    const uiCss = fs.readFileSync(path.join(root, "games/css/genshin-tool-ui.css"), "utf8");
 
     assert.equal((html.match(/genshin-compact-triple/g) || []).length, 1);
     assert.equal((html.match(/genshin-compact-pairs/g) || []).length, 1);
@@ -17,14 +18,14 @@ test("calculator input groups use dedicated compact layouts without hiding field
     assert.equal((html.match(/genshin-field-help/g) || []).length, 6);
     assert.equal((html.match(/genshin-artifact-mode-row/g) || []).length, 1);
     assert.equal((html.match(/genshin-compact-artifact-sets/g) || []).length, 1);
-    assert.match(html, /genshin-profile-character-field/);
+    assert.equal((html.match(/class="genshin-equipment-card /g) || []).length, 2);
     assert.match(css, /\.genshin-compact-stats[\s\S]*grid-template-columns:\s*repeat\(4,/);
     assert.match(css, /\.genshin-compact-triple[\s\S]*grid-template-columns:\s*repeat\(3,/);
-    assert.match(css, /\.genshin-profile-form-grid\s*\{[\s\S]*grid-template-columns:\s*minmax\(250px, 320px\) 66px 76px/);
-    assert.match(css, /\.genshin-profile-selection-control\s*\{[\s\S]*grid-template-columns:\s*40px minmax\(0, 1fr\)/);
-    assert.match(css, /\.genshin-profile-selection-image\s*\{[\s\S]*width:\s*36px[\s\S]*height:\s*36px/);
-    assert.equal((html.match(/genshin-profile-positioned-label/g) || []).length, 4);
-    assert.match(css, /\.genshin-profile-positioned-label[\s\S]*transform:\s*none/);
+    assert.match(uiCss, /\.genshin-equipment-step\s*\{[^}]*container-type:\s*inline-size/s);
+    assert.match(uiCss, /\.genshin-profile-form-grid\.genshin-equipment-grid\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1fr\)/s);
+    assert.match(uiCss, /\.genshin-equipment-card\s*\{[^}]*grid-template-columns:\s*76px minmax\(0, 1fr\)/s);
+    assert.match(uiCss, /@container \(min-width: 720px\)[\s\S]*grid-template-columns:\s*repeat\(2,/);
+    assert.equal((html.match(/genshin-profile-positioned-label/g) || []).length, 0);
     assert.match(css, /\.genshin-artifact-compact-row\s*\{[\s\S]*82px minmax\(0, 1fr\)/);
     assert.match(css, /\.genshin-equipment-step\s*\{[\s\S]*grid-template-columns:\s*minmax\(0, 1fr\)/);
     assert.match(css, /\.genshin-compact-artifact-sets:has\(#genshinArtifactSetTwoField\[hidden\]\)[\s\S]*grid-template-columns:\s*minmax\(0, 1fr\)/);
@@ -36,9 +37,12 @@ test("calculator input groups use dedicated compact layouts without hiding field
 test("compact profile labels stay clear and light mode section dividers remain visible", () => {
     const html = fs.readFileSync(path.join(root, "games/genshin/index.html"), "utf8");
     const css = fs.readFileSync(path.join(root, "games/css/tetinet.css"), "utf8");
+    const uiCss = fs.readFileSync(path.join(root, "games/css/genshin-tool-ui.css"), "utf8");
 
-    assert.match(html, /<label for="genshinReflectCharacter">キャラ<\/label>[\s\S]*placeholder="キャラ選択"/);
-    assert.match(html, />命ノ星座<\/span>\s*<select id="genshinReflectConstellation">/);
+    assert.match(html, /class="genshin-visually-hidden" for="genshinReflectCharacter">キャラ<\/label>[\s\S]*placeholder="キャラを選択"/);
+    assert.match(html, /<span>命ノ星座<\/span>[\s\S]*<select id="genshinReflectConstellation" aria-label="命ノ星座">/);
+    assert.match(uiCss, /\.genshin-equipment-name\s*\{[^}]*white-space:\s*nowrap/s);
+    assert.match(uiCss, /\.genshin-equipment-meta\s*\{[^}]*flex-wrap:\s*nowrap/s);
     assert.match(css, /\.genshin-reflect-inputs\s*\{[\s\S]*97%[\s\S]*3%/);
     assert.match(css, /\.genshin-artifact-set-inputs\s*\{[\s\S]*border-top:/);
     assert.match(css, /html\[data-theme="dark"\][\s\S]*\.genshin-artifact-set-inputs[\s\S]*border-top-color:\s*var\(--teti-border\)/);
@@ -64,6 +68,7 @@ test("talent levels are explicit selectors from 1 through 15", () => {
 test("compact controls reserve enough structure for full labels and aligned percent units", () => {
     const html = fs.readFileSync(path.join(root, "games/genshin/index.html"), "utf8");
     const css = fs.readFileSync(path.join(root, "games/css/tetinet.css"), "utf8");
+    const uiCss = fs.readFileSync(path.join(root, "games/css/genshin-tool-ui.css"), "utf8");
 
     assert.match(html, /<option value="4pc" selected>4<\/option>/);
     assert.match(html, /<option value="2pc2pc">2＋2<\/option>/);
@@ -74,9 +79,9 @@ test("compact controls reserve enough structure for full labels and aligned perc
     assert.match(css, /:is\(\.genshin-compact-pairs, \.genshin-compact-enemy\) \.genshin-field > span\s*\{[\s\S]*bottom:\s*12px/);
     assert.doesNotMatch(css, /\.genshin-artifact-mode-row \.genshin-field::after/);
     assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.genshin-artifact-mode-row\s*\{[\s\S]*width:\s*82px/);
-    assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.genshin-profile-form-grid\s*\{[\s\S]*minmax\(0, 1fr\) 54px 64px/);
-    assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.genshin-profile-selection-control\s*\{[\s\S]*grid-template-columns:\s*36px minmax\(0, 1fr\)/);
-    assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.genshin-profile-selection-image\s*\{[\s\S]*width:\s*32px[\s\S]*height:\s*32px/);
+    assert.match(uiCss, /@media \(max-width: 400px\)[\s\S]*\.genshin-equipment-card\s*\{[^}]*grid-template-columns:\s*68px minmax\(0, 1fr\)/);
+    assert.match(uiCss, /@media \(max-width: 400px\)[\s\S]*\.genshin-equipment-image-button[\s\S]*width:\s*68px[\s\S]*height:\s*68px/);
+    assert.match(uiCss, /@media \(max-width: 680px\)[\s\S]*\.genshin-equipment-meta input\s*\{[^}]*font-size:\s*16px/s);
     assert.match(css, /@media \(max-width: 560px\)[\s\S]*select:not\(\[hidden\]\)\s*\{[\s\S]*padding-right:\s*21px !important[\s\S]*background-position:\s*right 9px center[\s\S]*background-size:\s*9px 6px/);
     assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.genshin-compact-triple\s*\{[\s\S]*1fr\) minmax\(0, 1\.15fr\) minmax\(0, 1fr\)[\s\S]*gap:\s*4px/);
     assert.match(css, /@media \(max-width: 560px\)[\s\S]*\.genshin-field-help::after\s*\{[\s\S]*left:\s*50%[\s\S]*width:\s*min\(200px, calc\(100vw - 48px\)\)[\s\S]*translate\(-50%, 3px\)/);

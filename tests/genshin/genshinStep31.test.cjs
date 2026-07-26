@@ -184,6 +184,10 @@ test("STEP31: Hu Tao groups attack bonus and Pyro conversion under one talent st
     assert.equal(section.nameJa, "蝶導来世");
     assert.equal(section.controls.length, 1);
     assert.equal(section.effects.length, 2);
+    const lowHpSection = panel.cards.find((card) => card.id === "talent").sections.find((item) => item.nameJa === "血のかまど");
+    assert.ok(lowHpSection);
+    assert.equal(lowHpSection.effects[0].activationCondition, "HPが50%以下の時");
+    assert.equal(lowHpSection.controls[0].label, "HPが50%以下として計算する");
     elements.genshinJsonConditionCards = { innerHTML: "" };
     sandbox.GenshinCalcRenderer.renderConditionCards(panel, context);
     const html = elements.genshinJsonConditionCards.innerHTML;
@@ -191,6 +195,8 @@ test("STEP31: Hu Tao groups attack bonus and Pyro conversion under one talent st
     assert.match(html, /元素スキル/);
     assert.match(html, /<summary>効果説明<\/summary>/);
     assert.match(html, /genshin-description-kind">全文/);
+    assert.match(html, /発動条件<\/dt><dd>HPが50%以下の時<\/dd>/);
+    assert.doesNotMatch(html, /指定されたHP条件/);
     assert.equal(html.indexOf("影響：") < html.indexOf("状態・条件"), true);
     assert.equal(html.indexOf("状態・条件") < html.indexOf("効果説明"), true);
 });

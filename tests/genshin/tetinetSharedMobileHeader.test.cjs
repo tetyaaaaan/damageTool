@@ -138,10 +138,12 @@ test("common runtime actually opens and closes a generated mobile drawer", () =>
 
 test("common CSS owns the mobile drawer and keeps it functional without JavaScript", () => {
     const css = read("games/css/tetinet.css");
-    const repairCss = read("games/css/genshin-visual-repair.css");
+    const uiCss = read("games/css/genshin-tool-ui.css");
 
     assert.match(css, /\.teti-mobile-menu-button,\s*\.teti-mobile-menu-backdrop\s*\{[^}]*display:\s*none/s);
     assert.match(css, /@media \(max-width: 680px\)[\s\S]*\.teti-site-header\.has-mobile-navigation \.teti-nav\s*\{[^}]*position:\s*absolute;[^}]*top:\s*100%;[^}]*height:\s*calc\(100dvh - 57px\);[^}]*transform:\s*translateX\(-100%\)/s);
+    assert.match(css, /@media \(max-width: 680px\)[\s\S]*body\.tetinet-page\s*\{[^}]*padding-top:\s*calc\(57px \+ env\(safe-area-inset-top, 0px\)\)/s);
+    assert.match(css, /\.teti-site-header\.has-mobile-navigation\s*\{[^}]*position:\s*fixed;[^}]*top:\s*env\(safe-area-inset-top, 0px\);[^}]*right:\s*0;[^}]*left:\s*0;[^}]*width:\s*100%/s);
     assert.match(css, /\.teti-site-header\.has-mobile-navigation\.is-menu-open \.teti-nav\s*\{[^}]*visibility:\s*visible;[^}]*transform:\s*translateX\(0\)/s);
-    assert.doesNotMatch(repairCss, /teti-mobile-menu|is-site-menu-open \.teti-site-header|body\.is-site-menu-open::before/);
+    assert.doesNotMatch(uiCss, /teti-mobile-menu|is-site-menu-open \.teti-site-header|body\.is-site-menu-open::before/);
 });

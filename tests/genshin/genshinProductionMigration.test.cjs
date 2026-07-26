@@ -35,12 +35,12 @@ test("JSON production calculation refreshes conditions before reading the calcul
 
 test("calculation controls keep a dedicated reload design and result scrolling", () => {
     const html = read("games/genshin/index.html");
-    const css = read("games/css/tetinet.css");
+    const css = read("games/css/genshin-tool-ui.css");
     const renderer = read("games/js/genshinCalcRenderer.js");
 
-    assert.match(html, /class="[^"]*genshin-prepare-button[^"]*" id="genshinJsonPrepareConditionsButton"/);
+    assert.match(html, /class="[^"]*genshin-condition-reload[^"]*" id="genshinJsonPrepareConditionsButton"/);
     assert.match(html, /<span aria-hidden="true">↻<\/span>補正条件を再読み込み/);
-    assert.match(css, /\.genshin-tool-page \.genshin-prepare-button \{/);
+    assert.match(css, /\.genshin-condition-reload \{/);
     assert.match(renderer, /function scrollToCalcResults\(\)/);
     assert.match(renderer, /window\.scrollTo\(\{[\s\S]*behavior: "smooth"/);
 });

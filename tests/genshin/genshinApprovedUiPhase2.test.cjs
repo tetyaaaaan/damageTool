@@ -5,6 +5,10 @@ const path = require("node:path");
 
 const root = path.resolve(__dirname, "..", "..");
 const read = (relativePath) => fs.readFileSync(path.join(root, relativePath), "utf8");
+const isWebp = (filePath) => {
+    const header = fs.readFileSync(filePath).subarray(0, 12);
+    return header.subarray(0, 4).toString("ascii") === "RIFF" && header.subarray(8, 12).toString("ascii") === "WEBP";
+};
 
 test("approved status order is a two-column semantic sequence", () => {
     const html = read("games/genshin/index.html");
@@ -24,21 +28,32 @@ test("approved status order is a two-column semantic sequence", () => {
     assert.equal((html.match(/class="genshin-stat-label"/g) || []).length, 8);
 });
 
-test("local UI sprite contains approved stat and weapon symbols", () => {
-    const sprite = read("games/images/genshin/ui-icons.svg");
-    ["hp", "attack", "defense", "elemental-mastery", "crit-rate", "crit-damage", "energy-recharge", "elemental-damage"]
-        .forEach((name) => assert.match(sprite, new RegExp(`id="stat-${name}"`)));
+test("local UI uses sourced in-game stat and weapon icons", () => {
+    const html = read("games/genshin/index.html");
+    ["hp", "attack", "defense", "elemental-mastery", "critical", "energy-recharge"]
+        .forEach((name) => {
+            const file = path.join(root, `games/images/genshin/ui/stat-${name}.webp`);
+            assert.ok(fs.statSync(file).size > 0, `${name} icon should not be empty`);
+            assert.ok(isWebp(file), `${name} icon should contain WebP data`);
+            assert.match(html, new RegExp(`/games/images/genshin/ui/stat-${name}\\.webp`));
+        });
     ["sword", "claymore", "polearm", "bow", "catalyst"]
-        .forEach((name) => assert.match(sprite, new RegExp(`id="weapon-${name}"`)));
+        .forEach((name) => {
+            const file = path.join(root, `games/images/genshin/ui/weapon-${name}.webp`);
+            assert.ok(fs.statSync(file).size > 0);
+            assert.ok(isWebp(file), `${name} icon should contain WebP data`);
+        });
+    assert.doesNotMatch(html, /ui-icons\.svg/);
 });
 
 test("character choices are icon-first and expose visual metadata accessibly", () => {
     const modal = read("games/js/genshinSelectionModal.js");
-    const css = read("games/css/genshin-visual-repair.css");
+    const css = read("games/css/genshin-tool-ui.css");
 
     assert.match(modal, /className = "genshin-selection-option-badges"/);
     assert.match(modal, /genshin-selection-element-icon/);
     assert.match(modal, /genshin-selection-weapon-icon/);
+    assert.match(modal, /ui\/weapon-\$\{WEAPON_ICON_NAMES\[item\.weaponType\]\}\.webp/);
     assert.match(modal, /setAttribute\("aria-label", `\$\{item\.nameJa\}/);
     assert.match(css, /\.genshin-selection-dialog\.is-character \.genshin-selection-list\s*\{[^}]*repeat\(3,/s);
     assert.match(css, /\.genshin-selection-dialog\.is-character \.genshin-selection-option-image\s*\{[^}]*width:\s*64px/s);
@@ -57,7 +72,7 @@ test("condition descriptions use one label and declare their source kind", () =>
 });
 
 test("select typography and modal filter height are explicit", () => {
-    const css = read("games/css/genshin-visual-repair.css");
+    const css = read("games/css/genshin-tool-ui.css");
 
     assert.match(css, /\.genshin-tool-page :is\(input, select, option, button\)\s*\{[^}]*font-family:\s*var\(--teti-font-sans\)/s);
     assert.match(css, /\.genshin-selection-(?:dialog-head|search-wrap|filters|summary)[^}]*flex:\s*0 0 auto/s);

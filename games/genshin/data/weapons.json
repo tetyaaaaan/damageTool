@@ -127,17 +127,20 @@
   "11419": {
     "nameJa": "「一心伝」名刀",
     "weaponType": "片手剣",
-    "rarity": 4
+    "rarity": 4,
+    "selectable": false
   },
   "11420": {
     "nameJa": "「一心伝」名刀",
     "weaponType": "片手剣",
-    "rarity": 4
+    "rarity": 4,
+    "selectable": false
   },
   "11421": {
     "nameJa": "「一心伝」名刀",
     "weaponType": "片手剣",
-    "rarity": 4
+    "rarity": 4,
+    "selectable": false
   },
   "11422": {
     "nameJa": "東花坊時雨",

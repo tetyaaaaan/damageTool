@@ -345,6 +345,7 @@
       },
       {
         "id": "c_10000005_2_resource_from_skip_2",
+        "auditDisposition": "supersededByStructuredRecord",
         "category": "resourceEffect",
         "applyTo": [
           "resourceState"
@@ -561,6 +562,7 @@
       },
       {
         "id": "c_10000007_2_resource_from_skip_4",
+        "auditDisposition": "supersededByStructuredRecord",
         "category": "resourceEffect",
         "applyTo": [
           "resourceState"
@@ -1831,19 +1833,19 @@
     "constellations": {
       "1": [
         {
-          "category": "effectOverride",
+          "category": "statBonus",
           "applyTo": [
-            "effect"
+            "atkPercent"
           ],
-          "targetEffect": "seeSourceText",
-          "effect": "complexConstellationEffect",
+          "value": 20,
+          "unit": "percent",
+          "targetOwner": "team",
+          "conditionGroupId": "talent-state:10000032:combat3",
           "sourceText": "素晴らしい旅の攻撃力アップ効果のHPによる制限がなくなり、更にベネットの基礎攻撃力の20%に当たる数値を追加する。",
-          "condition": "constellationUnlocked",
-          "calculationSupport": "custom",
+          "condition": "active",
+          "calculationSupport": "toggle",
           "uidHandling": "conditional",
-          "id": "c_10000032_1_resolved_effect_override",
-          "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "id": "c_10000032_1_burst_atk_bonus"
         }
       ],
       "2": [
@@ -1888,7 +1890,7 @@
           },
           "effect": "additionalHitOrProjectile",
           "condition": "constellationUnlocked",
-          "calculationSupport": "custom",
+          "calculationSupport": "toggle",
           "uidHandling": "conditional",
           "sourceText": "1段チャージ溢れる情熱を発動する時、二段目攻撃中に通常攻撃をすると追加攻撃を発動できる。\n二段目攻撃の135%の追加ダメージを与える。",
           "id": "c_10000032_4_1_resolved_1",
@@ -2645,6 +2647,8 @@
           "calculationSupport": "custom",
           "uidHandling": "conditional",
           "id": "c_10000041_2_resolved_effect_override",
+          "auditDisposition": "dedicatedFormulaDeferred",
+          "deferredReason": "確率発動する自動重撃は、現在の単発ダメージ補正ではなく独立した攻撃回数モデルが必要です。",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -3746,6 +3750,8 @@
           "calculationSupport": "custom",
           "uidHandling": "conditional",
           "id": "c_10000052_1_resolved_effect_override",
+          "auditDisposition": "dedicatedFormulaDeferred",
+          "deferredReason": "願力の獲得量変更はダメージ補正ではなく、元素爆発コストとパーティ行動を扱う状態モデルが必要です。",
           "element": "雷",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
@@ -3892,6 +3898,8 @@
       "6": [
         {
           "id": "c_10000053_6_1",
+          "auditDisposition": "dedicatedFormulaDeferred",
+          "deferredReason": "元素熟知から攻撃力倍率へ変換する召喚物専用加算は、むじむじだるま攻撃の専用entryが必要です。",
           "category": "scalingBonus",
           "applyTo": [
             "skillSummonDamageBonus"
@@ -4529,13 +4537,7 @@
             "nameJa": "戮心拳"
           },
           "calculationSupport": "toggle",
-          "valuePerStack": 32,
-          "valueRole": "perStack",
-          "stack": {
-            "min": 0,
-            "max": "seeSourceText",
-            "default": 0
-          }
+          "value": 32
         }
       ]
     },
@@ -7363,13 +7365,13 @@
           "unit": "percent",
           "sourceText": "固有天賦「古海継嗣の権威」は以下のように強化される。「遺龍の栄光」1層につき、重撃・衡平な裁量の会心ダメージ+14%。この方法でアップできる会心ダメージは最大42%まで。\n固有天賦「古海継嗣の権威」を解放する必要がある。",
           "condition": "constellationUnlocked",
-          "calculationSupport": "toggle",
+          "calculationSupport": "stack",
           "uidHandling": "conditional",
           "valuePerStack": 14,
           "valueRole": "perStack",
           "stack": {
             "min": 0,
-            "max": "seeSourceText",
+            "max": 3,
             "default": 0
           },
           "maxValue": 42
@@ -8279,6 +8281,8 @@
       "1": [
         {
           "id": "c_10000095_1_1",
+          "auditDisposition": "dedicatedFormulaDeferred",
+          "deferredReason": "HP上限30000超過分を1000単位で固定ダメージ加算するため、静養カウントと対象攻撃の専用式が必要です。",
           "category": "scalingBonus",
           "applyTo": [
             "allDamageBonus"
@@ -8438,6 +8442,8 @@
           "uidHandling": "conditional",
           "sourceText": "赤死の宴ダメージアップ率の効果量が100%アップする。また、赤死の宴状態で通常攻撃または重撃を行う時、アルレッキーノの中断耐性がアップする。",
           "id": "c_10000096_1_1_resolved_1",
+          "auditDisposition": "dedicatedFormulaDeferred",
+          "deferredReason": "既存の赤死の宴倍率そのものを100%増幅する効果であり、一般ダメージバフとして適用できません。",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -8798,6 +8804,8 @@
         },
         {
           "id": "c_10000098_6_5",
+          "auditDisposition": "dedicatedFormulaDeferred",
+          "deferredReason": "明燭の影は攻撃力200%の独立追撃であり、通常攻撃ダメージバフではなく追加攻撃entryが必要です。",
           "category": "scalingBonus",
           "applyTo": [
             "normalAttackDamageBonus"
@@ -9133,6 +9141,8 @@
       "1": [
         {
           "id": "c_10000102_1_1",
+          "auditDisposition": "dedicatedFormulaDeferred",
+          "deferredReason": "特定の初回攻撃だけへHP上限66%を加算し、個別の減衰規則も持つため専用entryが必要です。",
           "category": "scalingBonus",
           "applyTo": [
             "allDamageBonus"
@@ -9251,6 +9261,7 @@
       },
       {
         "id": "c_10000102_2_resource_from_skip_10",
+        "auditDisposition": "supersededByStructuredRecord",
         "category": "resourceEffect",
         "applyTo": [
           "resourceState"
@@ -9291,6 +9302,10 @@
       "2": [
         {
           "id": "c_10000103_2_1",
+          "effectLabel": "炎元素サンプル音源",
+          "targetOwner": "team",
+          "requiredTargetElement": "pyro",
+          "dynamicInputResolved": true,
           "category": "statBonus",
           "applyTo": [
             "atkPercent"
@@ -9304,6 +9319,10 @@
         },
         {
           "id": "c_10000103_2_2",
+          "effectLabel": "水元素サンプル音源",
+          "targetOwner": "team",
+          "requiredTargetElement": "hydro",
+          "dynamicInputResolved": true,
           "category": "statBonus",
           "applyTo": [
             "hpPercent"
@@ -9317,6 +9336,10 @@
         },
         {
           "id": "c_10000103_2_3",
+          "effectLabel": "氷元素サンプル音源",
+          "targetOwner": "team",
+          "requiredTargetElement": "cryo",
+          "dynamicInputResolved": true,
           "category": "critBonus",
           "applyTo": [
             "critDamage"
@@ -9330,9 +9353,13 @@
         },
         {
           "id": "c_10000103_2_4",
+          "effectLabel": "岩元素サンプル音源",
+          "targetOwner": "team",
+          "requiredTargetElement": "geo",
+          "dynamicInputResolved": true,
           "category": "damageBonus",
           "applyTo": [
-            "burstDamageBonus"
+            "geoDamageBonus"
           ],
           "value": 50,
           "unit": "percent",
@@ -9343,6 +9370,7 @@
         },
         {
           "id": "c_10000103_2_5",
+          "auditDisposition": "supersededByStructuredRecord",
           "category": "damageBonus",
           "applyTo": [
             "burstDamageBonus"
@@ -9356,6 +9384,8 @@
         },
         {
           "id": "c_10000103_2_6",
+          "auditDisposition": "supersededByStructuredRecord",
+          "deferredReason": "元素別の構造化レコードへ分割済みです。",
           "category": "scalingBonus",
           "applyTo": [
             "burstDamageBonus"
@@ -10127,6 +10157,8 @@
           "calculationSupport": "custom",
           "uidHandling": "conditional",
           "id": "c_10000108_1_resolved_effect_override",
+          "auditDisposition": "dedicatedFormulaDeferred",
+          "deferredReason": "追加投擲は既存スキルへの倍率補正ではなく、独立した追加攻撃entryが必要です。",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -10397,6 +10429,7 @@
       },
       {
         "id": "c_10000110_1_resource_from_skip_14",
+        "auditDisposition": "supersededByStructuredRecord",
         "category": "resourceEffect",
         "applyTo": [
           "resourceState"
@@ -10433,6 +10466,7 @@
       },
       {
         "id": "c_10000110_4_resource_from_skip_16",
+        "auditDisposition": "supersededByStructuredRecord",
         "category": "resourceEffect",
         "applyTo": [
           "resourceState"
@@ -10551,6 +10585,8 @@
         },
         {
           "id": "c_10000111_4_3",
+          "auditDisposition": "dedicatedFormulaDeferred",
+          "deferredReason": "状態により攻撃力500%加算と元素爆発100%増幅が排他的に切り替わるため、専用状態選択が必要です。",
           "category": "scalingBonus",
           "applyTo": [
             "plungingAttackDamageBonus",
@@ -11188,6 +11224,7 @@
       "1": [
         {
           "id": "c_10000116_1_1",
+          "auditDisposition": "supersededByStructuredRecord",
           "category": "damageBonus",
           "applyTo": [
             "allDamageBonus"
@@ -11201,20 +11238,25 @@
         },
         {
           "id": "c_10000116_1_2",
+          "effectLabel": "キャリア再結合",
+          "targetOwner": "team",
+          "dynamicInputResolved": true,
           "category": "scalingBonus",
           "applyTo": [
-            "allDamageBonus"
+            "lunarChargedDamageBonus"
           ],
           "reference": {
             "stat": "atk",
             "source": "self"
           },
           "condition": "conditional",
-          "calculationSupport": "custom",
+          "conditionGroupId": "ineffaCarrierRecombination",
+          "calculationSupport": "dynamic",
           "sourceText": "イネファがオプティカルフローシールドを展開した時、周囲のチーム全員に20秒継続する「キャリア再結合」効果を付与し、月感電反応の与えるダメージが、イネファの攻撃力に基づいてアップする。攻撃力100につき、ダメージ+2.5%。この方法でアップできるダメージは最大50%まで。",
           "uidHandling": "conditional",
           "customHandlingRequired": true,
           "ratio": 2.5,
+          "divisor": 100,
           "unit": "percent",
           "maxValue": 50
         }
@@ -11333,19 +11375,23 @@
       "2": [
         {
           "id": "c_10000119_2_1",
-          "category": "damageBonus",
+          "effectLabel": "月兆・満照",
+          "targetOwner": "team",
+          "category": "reactionBonus",
           "applyTo": [
-            "burstDamageBonus"
+            "lunarBloomDamageBonus"
           ],
           "value": 40,
           "unit": "percent",
           "sourceText": "元素爆発**聖言のルノ・月の心**を以下のように強化する。\n・**「蒼の讃歌」**の効果が強化される。付近にいるチーム内キャラクターが開花、超開花、烈開花反応を起こした時に与えるダメージが、ラウマの元素熟知の500%分、追加でアップする。また、付近にいるチーム内キャラクターが与える月開花反応ダメージが、ラウマの元素熟知の400%分、追加でアップする。\n\n月兆・満照：付近にいるチーム内キャラクターが与える月開花反応ダメージ+40%。",
-          "condition": "constellationUnlocked",
+          "condition": "moonsignFullIllumination",
+          "conditionGroupId": "laumaC2FullMoon",
           "calculationSupport": "toggle",
           "uidHandling": "conditional"
         },
         {
           "id": "c_10000119_2_2",
+          "auditDisposition": "supersededByStructuredRecord",
           "category": "reactionBonus",
           "applyTo": [
             "bloomDamageBonus"
@@ -11359,6 +11405,7 @@
         },
         {
           "id": "c_10000119_2_3",
+          "auditDisposition": "supersededByStructuredRecord",
           "category": "reactionBonus",
           "applyTo": [
             "hyperbloomDamageBonus"
@@ -11372,6 +11419,7 @@
         },
         {
           "id": "c_10000119_2_4",
+          "auditDisposition": "supersededByStructuredRecord",
           "category": "reactionBonus",
           "applyTo": [
             "burgeonDamageBonus"
@@ -11385,6 +11433,7 @@
         },
         {
           "id": "c_10000119_2_5",
+          "auditDisposition": "supersededByStructuredRecord",
           "category": "reactionBonus",
           "applyTo": [
             "lunarBloomDamageBonus"
@@ -11398,44 +11447,47 @@
         },
         {
           "id": "c_10000119_2_6",
-          "category": "extraDamage",
+          "effectLabel": "蒼の讃歌・開花系反応",
+          "targetOwner": "team",
+          "dynamicInputResolved": true,
+          "category": "additiveBaseDamage",
           "applyTo": [
-            "triggeredDamage"
+            "bloomDamageBonus",
+            "hyperbloomDamageBonus",
+            "burgeonDamageBonus"
           ],
-          "condition": "conditional",
+          "condition": "stateActive",
+          "conditionGroupId": "laumaC2SongOfBlue",
           "calculationSupport": "custom",
           "uidHandling": "conditional",
           "sourceText": "元素爆発**聖言のルノ・月の心**を以下のように強化する。\n・**「蒼の讃歌」**の効果が強化される。付近にいるチーム内キャラクターが開花、超開花、烈開花反応を起こした時に与えるダメージが、ラウマの元素熟知の500%分、追加でアップする。また、付近にいるチーム内キャラクターが与える月開花反応ダメージが、ラウマの元素熟知の400%分、追加でアップする。\n\n月兆・満照：付近にいるチーム内キャラクターが与える月開花反応ダメージ+40%。",
-          "scalings": [
-            {
-              "stat": "elementalMastery",
-              "value": 500.0,
-              "unit": "percent"
-            },
-            {
-              "stat": "elementalMastery",
-              "value": 400.0,
-              "unit": "percent"
-            }
-          ],
+          "customCalculation": "scalingAdditiveBaseDamage",
+          "reference": { "stat": "elementalMastery", "source": "self" },
+          "ratio": 500,
+          "unit": "percent",
           "customHandlingRequired": true
         },
         {
           "id": "c_10000119_2_7",
-          "category": "scalingBonus",
+          "effectLabel": "蒼の讃歌・月開花",
+          "targetOwner": "team",
+          "dynamicInputResolved": true,
+          "category": "additiveBaseDamage",
           "applyTo": [
-            "burstDamageBonus"
+            "lunarBloomDamageBonus"
           ],
           "reference": {
             "stat": "elementalMastery",
             "source": "self"
           },
-          "condition": "conditional",
+          "condition": "stateActive",
+          "conditionGroupId": "laumaC2SongOfBlue",
           "calculationSupport": "custom",
           "sourceText": "元素爆発**聖言のルノ・月の心**を以下のように強化する。\n・**「蒼の讃歌」**の効果が強化される。付近にいるチーム内キャラクターが開花、超開花、烈開花反応を起こした時に与えるダメージが、ラウマの元素熟知の500%分、追加でアップする。また、付近にいるチーム内キャラクターが与える月開花反応ダメージが、ラウマの元素熟知の400%分、追加でアップする。\n\n月兆・満照：付近にいるチーム内キャラクターが与える月開花反応ダメージ+40%。",
           "uidHandling": "conditional",
+          "customCalculation": "scalingAdditiveBaseDamage",
           "customHandlingRequired": true,
-          "ratio": 500.0,
+          "ratio": 400.0,
           "unit": "percent"
         }
       ],
@@ -12019,6 +12071,8 @@
           "uidHandling": "conditional",
           "sourceText": "固有天賦**「月下の賭け」**の効果を強化する。**「偽りの帳」**の継続時間+5秒。さらに重ね掛け可能な上限が5層になり、**幻の戯**による与ダメージが最大で元の140%分まで上がる。ネフェルは元素スキル**盤術・千夜一舞**を発動した時、直ちに「偽りの帳」を2層獲得する。「偽りの帳」が5層まで重ねられた時、または5層の継続時間がリセットされた時、ネフェルの元素熟知は+200となる。継続時間8秒。\n固有天賦「月下の賭け」を解放する必要がある。",
           "id": "c_10000122_2_1_resolved_3",
+          "auditDisposition": "dedicatedFormulaDeferred",
+          "deferredReason": "偽りの帳の層数により幻の戯を最大140%へ変える効果であり、層数と元ダメージ倍率の専用式が必要です。",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -12718,19 +12772,24 @@
       "2": [
         {
           "id": "c_10000126_2_1",
-          "category": "damageBonus",
+          "effectLabel": "隙を過ぐる月",
+          "targetOwner": "team",
+          "category": "reactionBonus",
           "applyTo": [
-            "allDamageBonus"
+            "lunarCrystallizeDamageBonus"
           ],
           "value": 30,
           "unit": "percent",
           "sourceText": "**「隙を過ぐる月」**状態における、付近にいるチーム全員の月結晶反応ダメージ+30%。\n\n月兆・満照：固有天賦**月下に舞い降りる天女**の効果が強化され、翔ける霊駒の二段目攻撃によるダメージがさらに兹白の防御力の550%分アップする。固有天賦「月下に舞い降りる天女」を解放する必要がある。",
-          "condition": "constellationUnlocked",
+          "condition": "stateActive",
+          "conditionGroupId": "zibaiMoonGapState",
           "calculationSupport": "toggle",
           "uidHandling": "conditional"
         },
         {
           "id": "c_10000126_2_2",
+          "auditDisposition": "dedicatedFormulaDeferred",
+          "deferredReason": "翔ける霊駒の2段目だけへ防御力550%を加算するため、対象効果を識別できる専用entryが必要です。",
           "category": "scalingBonus",
           "applyTo": [
             "allDamageBonus"
@@ -13080,7 +13139,7 @@
           },
           "stack": {
             "min": 0,
-            "max": "seeTalent",
+            "max": 4,
             "default": 0
           },
           "target": {
@@ -13179,6 +13238,8 @@
           "uidHandling": "conditional",
           "sourceText": "特殊元素スキル**魂を穿つ痛み**を発動して敵に命中、または**奇策**状態で元素爆発制裁の刻を発動する際、**闘争心**を消費しなくなる。さらに、ローエンの**愉悦**が上限まで回復し、次に発動する特殊元素スキル魂を穿つ痛みが敵に命中した時、その奇策状態の継続時間が1.25秒延長される。この効果は7秒毎に1回のみ発動可能。\nまた、上記全てのダメージの会心ダメージが175%アップし、この奇策状態の期間中、魂を穿つ痛みを発動できる最大回数+2。",
           "id": "c_10000129_6_2_resolved_2",
+          "auditDisposition": "dedicatedFormulaDeferred",
+          "deferredReason": "会心ダメージ175%の対象が特殊スキル等の限定攻撃であり、対象効果IDを持つ専用entryが必要です。",
           "resolvedFromCategory": "special",
           "customHandlingRequired": true
         }
@@ -13537,7 +13598,10 @@
           "id": "c_10000131_2_1_resolved_2",
           "customCalculation": "directStatBonus",
           "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "targetOwner": "activeCharacter",
+          "condition": "active",
+          "conditionGroupId": "character:10000131:skill:blessing",
+          "calculationSupport": "toggle"
         },
         {
           "category": "resistanceDebuff",
@@ -13546,13 +13610,15 @@
           ],
           "value": -25,
           "unit": "percent",
-          "condition": "constellationUnlocked",
-          "calculationSupport": "custom",
+          "condition": "active",
+          "conditionGroupId": "character:10000131:skill:blessing",
+          "calculationSupport": "toggle",
           "uidHandling": "conditional",
           "sourceText": "元素スキル**聖言黙示・顕れぬ光**の効果が強化される。**虚己の恵み**は追加で攻撃力を300アップさせ（この効果による攻撃力アップは上限には含まれない）、**聖祝の導き**はキャラクターの元素タイプに基づき、周囲の敵の対応する元素耐性を25%ダウンさせる。同じ元素タイプの元素耐性ダウン効果は重ね掛けできない。\nまた、ニコが元素スキル聖言黙示・顕れぬ光を発動した時、周囲のフィールド上のキャラクターにも熾光の護りを付与する。",
           "id": "c_10000131_2_1_resolved_3",
           "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "targetOwner": "enemy",
+          "relatedElements": ["炎", "水", "雷", "氷", "風", "岩", "草"]
         }
       ],
       "3": [
@@ -13744,6 +13810,7 @@
       },
       {
         "id": "c_10000132_1_resource_from_skip_20",
+        "auditDisposition": "supersededByStructuredRecord",
         "category": "resourceEffect",
         "applyTo": [
           "resourceState"
@@ -13761,6 +13828,7 @@
       },
       {
         "id": "c_10000132_1_resource_from_skip_21",
+        "auditDisposition": "supersededByStructuredRecord",
         "category": "resourceEffect",
         "applyTo": [
           "resourceState"

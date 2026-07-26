@@ -4,11 +4,13 @@
 
 - 画像名の対応付け: [Enka.Network API-docs](https://github.com/EnkaNetwork/API-docs)
 - 元素アイコン: [genshin.dev](https://github.com/genshindev/api)
+- ステータス・武器種UIアイコン: 原神ゲーム内UI画像（[Genshin Impact Wiki の Attribute Icons](https://genshin-impact.fandom.com/wiki/Category:Attribute_Icons)、[Weapon Type Icons](https://genshin-impact.fandom.com/wiki/Category:Weapon_Type_Icons)から取得）
 - 生成コマンド: `python scripts/syncGenshinSelectionImages.py`
 - キャラクター出力: `characters/{avatarId}.webp`
 - 武器出力: `weapons/{weaponId}.webp`
 - 聖遺物セット出力: `artifacts/{setId}.webp`
 - 代替画像: `fallback.webp`
 - 代替画像を使うID: `fallback-items.json`
+- UIアイコン出力: `ui/stat-*.webp`、`ui/weapon-*.webp`
 
-ゲーム内の画像、名称、商標などの権利はHoYoverseおよび各権利者に帰属します。Enka.Networkの公開メタデータは画像名とゲーム内IDの対応付けに、genshin.devは元素アイコンの取得に利用しています。
+ゲーム内の画像、名称、商標などの権利はHoYoverseおよび各権利者に帰属します。Enka.Networkの公開メタデータは画像名とゲーム内IDの対応付けに、genshin.devは元素アイコンの取得に利用しています。ステータス・武器種アイコンは独自図案ではなく、ゲーム内UI画像を利用しています。

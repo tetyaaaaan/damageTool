@@ -27,7 +27,7 @@ test("character filter keeps Traveler and clear beside rarity filters", () => {
 });
 
 test("mobile talent selectors keep the compact control font", () => {
-    const css = read("games/css/genshin-visual-repair.css");
+    const css = read("games/css/genshin-tool-ui.css");
 
     assert.match(css, /@media \(max-width: 680px\)[\s\S]*\.genshin-tool-page \.genshin-reflect-inputs \.genshin-compact-triple select\s*\{[^}]*font-size:\s*var\(--genshin-ui-control\)/s);
 });

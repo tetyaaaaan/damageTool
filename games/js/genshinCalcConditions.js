@@ -70,6 +70,7 @@
         normalAttackHitProc: "通常攻撃命中時に幽谷祭祀が発動",
         afterSkillOrBurstHit: "元素スキルまたは元素爆発が命中した後",
         afterChargedAttackHit: "重撃が命中した後",
+        haranWavepikeStacks: "元素スキル発動後、「波穂」を消費した時",
         afterOwnerTriggersBloomRelatedReaction: "装備者が開花系反応を起こした後",
         mirroredNymphStacks: "鏡中の水仙効果の段階",
         afterTakingDamage: "ダメージを受けた後",
@@ -78,8 +79,8 @@
         afterSkillAndCrystallizeShieldOrMoonCrystallizeObjectNearby: "元素スキル使用後、結晶シールドまたは月結晶生成物が存在",
         bondOfLifeChanges: "命の契約の数値が増減した後",
         burningEnemyNearbyOrOutOfCombat: "燃焼状態の敵が付近にいる、または非戦闘状態",
-        afterTriggeringRelatedElementReaction: "関連元素反応を起こした後",
-        afterTriggeringRelatedElementReactionWhileInNightsoulBlessing: "夜魂の加護中に関連元素反応を起こした後",
+        afterTriggeringRelatedElementReaction: "装備者が自身の元素タイプに関連する元素反応を起こした後",
+        afterTriggeringRelatedElementReactionWhileInNightsoulBlessing: "装備者が夜魂の加護状態で、自身の元素タイプに関連する元素反応を起こした後",
         nightsoulBlessingOnField: "夜魂の加護状態でフィールド上にいる",
         afterConsumingNightsoulPointOnField: "フィールド上で夜魂値を消費した後",
         afterPlungingChargedOrSkillHit: "落下攻撃・重撃・元素スキルが命中した後",
@@ -97,11 +98,206 @@
         attackingEnemyAffectedBySuperconductOrLunarSuperconduct: "超電導または月感電の影響を受けた敵を攻撃"
     };
 
+    const COMMON_CONDITION_LABELS = {
+        always: "常時",
+        active: "効果の発動中",
+        conditional: "効果固有の発動条件を満たす",
+        stateActive: "固有状態の発動中",
+        specialCondition: "武器固有の発動条件を満たす",
+        constellationUnlocked: "対象の命ノ星座を解放",
+        passiveUnlocked: "対象の固有天賦を解放",
+        afterCast: "対象の攻撃を発動した後",
+        afterHit: "対象の攻撃が命中した後",
+        onHit: "対象の攻撃が命中した時",
+        afterTalentUse: "対象の天賦を使用した後",
+        afterBurstHit: "元素爆発が命中した後",
+        afterNormalAttackHit: "通常攻撃が命中した後",
+        afterNormalOrChargedHit: "通常攻撃または重撃が命中した後",
+        afterElementalReaction: "元素反応を起こした後",
+        afterSkillCast: "元素スキルを発動した後",
+        afterSkillOrBurst: "元素スキルまたは元素爆発を発動した後",
+        afterSkillOrBurstConsumesMarks: "元素スキルまたは元素爆発で印を消費した後",
+        afterSwirl: "拡散反応を起こした後",
+        afterCrystallize: "結晶反応を起こした後",
+        afterQuickenAggravateSpread: "激化系反応を起こした後",
+        hpChanged: "HPが増減した後",
+        hpCondition: "指定されたHP条件を満たす",
+        hpAtLeast90: "HPが90%以上",
+        hpBelow50: "HPが50%未満",
+        shielded: "シールド状態",
+        onField: "フィールド上にいる間",
+        nearbyPartyActive: "付近にチームメンバーがいる時",
+        duringBurst: "元素爆発の継続中",
+        duringSkill: "元素スキルの継続中",
+        insideBurstField: "元素爆発の領域内",
+        insideBurstFieldForMeleeCharacters: "元素爆発の領域内に近接武器キャラがいる時",
+        onBurstCast: "元素爆発を発動した時",
+        onSkillCast: "元素スキルを発動した時",
+        onShieldBrokenOrReplaced: "シールドが破壊または更新された時",
+        arrowFlightTime: "矢の飛翔時間に応じて適用",
+        fourWindsPoemStacks: "四風の詩の段階に応じて適用",
+        fourWindsPoemStacksAndMagicSecretActive: "四風の詩の段階があり、魔導秘儀が発動中",
+        burstSummonDamage: "元素爆発の召喚物によるダメージ",
+        exquisiteThrowCoordinatedAttack: "「虹剣勢」の連携攻撃時",
+        enemyHitByBurst: "元素爆発が命中した敵を攻撃",
+        lastNormalAttackDuringBurst: "元素爆発中の通常攻撃最終段",
+        normalOrChargedAttackTriggersIcyQuill: "通常攻撃または重撃で氷翎を発動",
+        moonsignFullIllumination: "月兆が満照状態",
+        afterLunarResonance: "月共鳴を起こした後",
+        afterMoonReactionInMoonField: "月の領域内で月反応を起こした後",
+        activeCharacterNA_CA_PA_HitWhileRingActive: "越祓草輪を受けたフィールド上キャラの通常攻撃・重撃・落下攻撃が命中した時",
+        afterEnteringGaleState: "疾風怒濤状態に入った時",
+        cangyaOathActive: "疾風怒濤状態で追加の「蒼牙」または「出づる四風」を発動した時",
+        convictionActive: "「正論」効果が付与されている時",
+        duringBurstMusouIsshinOrSecretArt: "元素爆発「夢想の一心」状態中",
+        duringCraneCloudTransmogrification: "「鶴雲幻化」状態中",
+        galeStateShortWindow: "「出づる四風」または「蒼牙」発動後の短時間",
+        graciousRebukeActive: "「恩典の戒め」を獲得している時",
+        guidanceBlessing: "対象キャラが「導きの加護」を持っている時",
+        lifelineExplosionPerEnemyMarked: "「命の糸」が爆発した時",
+        lumiMegatonHammerInFinalTrickMode: "ルミが「さいごのきりふだ形態」で100万トンハンマーを使用した時",
+        mirrorGeneratedAtLimit: "琢光鏡が上限の状態で、新たに琢光鏡を生成した時",
+        nextShunsuikenAfterSkill: "神里流・鏡花発動後、次の瞬水剣が敵に命中した時",
+        onCeremonialCrystalshotCast: "セレモニアル・クリスタルショットを発動した時",
+        onCeremonialCrystalshotCastWithMoreThan3Shards: "裂晶の欠片を4個以上消費してセレモニアル・クリスタルショットを発動した時",
+        onChiselLightMirrorGenerated: "琢光鏡を生成した時",
+        onHeartstopperStrikeCast: "戮心拳を発動した時",
+        passiveTranscendenceActive: "固有天賦「理の超越」で「極悪技・斬」を獲得している時",
+        perCoolingBeamFiredInCalculationMode: "同じ「演算」モード中に冷却ビームを発射するたび",
+        rebukeVaultingFist: "誅罰・ヴォールティングアッパーを発動した時",
+        rebukeVaultingFistCast: "誅罰・ヴォールティングアッパーを発動した時",
+        rebukeVaultingFistHitsDuringChillingPenalty: "烈霜の懲戒状態中に誅罰・ヴォールティングアッパーが命中した時",
+        secretLawCountActive: "「秘律カウント」を獲得している時",
+        sesshouSakuraDamage: "殺生櫻が攻撃する時",
+        sevenPhaseMode: "「七相一閃」モード中",
+        skillCastOrLunarResonance: "元素スキル「ルミのやっふー作戦」または月籠の共鳴が発動した時",
+        spiritConversionEligibleTeamElement: "チームにスピリット転化の元素条件を満たすキャラがいる時",
+        stardriveChargedBeam: "輝映・星電導の重撃で冷却ビームを発射した時",
+        usuhiButouActive: "「薄氷の舞」状態中",
+        whenLiteratureResearchConsumed: "「文献調査」を消費する時",
+        whenPartyMemberDealsLunarCrystallizeDamage: "近くのチームメンバーが月結晶反応ダメージを与えた時",
+        hpChangedDuringChillingPenalty: "HPが増減し、「烈霜の懲戒」状態中",
+        adeptalAssistanceRemaining: "「竹星」の補助仙力が残っている時",
+        fewerThanTwoConvertedSourceSamples: "元素変化した「サンプル音源」が2つ未満の時"
+    };
+
+    function conditionLabelForKey(condition, sourceName = "") {
+        if (["active", "stateActive"].includes(condition) && sourceName) return `「${sourceName}」が発動中`;
+        if (["conditional", "specialCondition"].includes(condition) && sourceName) return `「${sourceName}」の発動条件を満たす`;
+        if (["afterCast", "afterTalentUse"].includes(condition) && sourceName) return `「${sourceName}」を発動した後`;
+        if (condition === "afterHit" && sourceName) return `「${sourceName}」が命中した後`;
+        if (condition === "onHit" && sourceName) return `「${sourceName}」が命中した時`;
+        return ARTIFACT_CONDITION_LABELS[condition] || COMMON_CONDITION_LABELS[condition] || "";
+    }
+
+    function hpConditionLabelFromText(sourceText, modifier = {}) {
+        const text = normalizeConditionDescription(sourceText);
+        const sentences = text.split(/[。\n]/).map((sentence) => sentence.trim()).filter(Boolean);
+        const value = Number(modifier.value);
+        const valueToken = Number.isFinite(value) ? `${value >= 0 ? "+" : ""}${value}%` : "";
+        const candidates = sentences.map((sentence) => {
+            const match = sentence.match(/(?:現在)?HP(?:上限)?が(?:上限の)?\s*(\d+(?:\.\d+)?)%\s*(以上|以下|未満|を超えている|を超える)/);
+            if (!match) return null;
+            let score = 0;
+            if (valueToken && sentence.includes(valueToken)) score += 4;
+            modifierTargetLabels(modifier).forEach((label) => {
+                if (sentence.includes(label)) score += 1;
+            });
+            return { match, score };
+        }).filter(Boolean).sort((left, right) => right.score - left.score);
+        const match = candidates[0]?.match;
+        if (!match) return "";
+        const comparator = match[2] === "を超えている" || match[2] === "を超える" ? "を超えている" : match[2];
+        return comparator.startsWith("を")
+            ? `HPが${match[1]}%${comparator}時`
+            : `HPが${match[1]}%${comparator}の時`;
+    }
+
+    function conditionLabelFromSourceText(sourceText) {
+        const text = normalizeConditionDescription(sourceText).replace(/^(?:また、|は)/, "");
+        if (!text) return "";
+        const match = text.match(/^(.{1,96}?(?:した時|する時|した後|する際|すると|している時|状態の時|状態中|継続中|存在する場合|以上の時|以下の時|時))(?:、|。|$)/);
+        return match ? match[1] : "";
+    }
+
+    function modifierActivationCondition(modifier, controls = [], artifactPolicy = null, sourceName = "", sourceDescription = "") {
+        if (modifier.display?.activationCondition) return modifier.display.activationCondition;
+        if (modifier.activationCondition) return modifier.activationCondition;
+        if (modifier.activation?.label) return modifier.activation.label;
+        if (artifactPolicy?.label) return artifactPolicy.label;
+        const condition = modifier.condition || "always";
+        if (modifier.conditionLabel && modifier.conditionLabelKind !== "generated") return modifier.conditionLabel;
+        if (condition === "hpCondition") {
+            const hpLabel = hpConditionLabelFromText(modifier.sourceText || sourceDescription, modifier);
+            if (hpLabel) return hpLabel;
+        }
+        if (["conditional", "specialCondition"].includes(condition)) {
+            const sourceLabel = conditionLabelFromSourceText(modifier.sourceText || sourceDescription);
+            if (sourceLabel) return sourceLabel;
+        }
+        const semanticLabel = conditionLabelForKey(condition, sourceName);
+        if (semanticLabel) return semanticLabel;
+        const controlLabels = controls.map((control) => control.label).filter(Boolean);
+        if (controlLabels.length) return [...new Set(controlLabels)].join("／");
+        if (modifier.conditionLabel) return modifier.conditionLabel;
+        if (/^after/.test(condition)) return "対象効果の発動後";
+        if (/^(during|inside)/.test(condition)) return "対象効果の継続中";
+        if (/^(on|when)/.test(condition)) return "対象効果が発生した時";
+        return "効果固有の発動条件を満たす";
+    }
+
+    function modifierEffectSummary(modifier, context) {
+        if (modifier.display?.effectSummary) return modifier.display.effectSummary;
+        if (modifier.effectSummary) return modifier.effectSummary;
+        const targets = modifierTargetLabels(modifier);
+        const targetCategories = new Set(["damageBonus", "reactionBonus", "reactionCritBonus", "critBonus", "statBonus"]);
+        const label = targetCategories.has(modifier.category) && targets.length
+            ? targets.join("・")
+            : modifierImpactLabel(modifier);
+        if (modifier.customCalculation === "thresholdStatBonus" && modifier.reference?.stat) {
+            const per = Number(modifier.ratio) || 0;
+            const divisor = Number(modifier.divisor) || 1;
+            const max = Number(modifier.maxValue);
+            const referenceLabel = STAT_LABELS[modifier.reference.stat] || "参照ステータス";
+            return `${label}：${referenceLabel}${divisor}ごとに+${per}${Number.isFinite(max) ? `（最大+${max}）` : ""}`;
+        }
+        if (modifier.valueByRefinementPerStack || modifier.valueByRefinementPerConsumedStack) {
+            const values = modifier.valueByRefinementPerStack || modifier.valueByRefinementPerConsumedStack;
+            const perStack = Number(values[String(context.refinement)] ?? values["1"]);
+            const maxStack = Number(modifier.stack?.max);
+            if (Number.isFinite(perStack)) {
+                const maxValue = Number.isFinite(maxStack) ? perStack * maxStack : null;
+                return `${label}：+${perStack}%／層${maxValue === null ? "" : `（最大+${maxValue}%）`}`;
+            }
+        }
+        if (modifier.calculationSupport === "stack" && Number.isFinite(Number(modifier.value))) {
+            const perStack = Number(modifier.value);
+            const maxStack = Number(modifier.stack?.max);
+            const maxValue = Number.isFinite(maxStack) ? perStack * maxStack : null;
+            return `${label}：+${perStack}%／層${maxValue === null ? "" : `（最大+${maxValue}%）`}`;
+        }
+        const value = structuredImpactValue(modifier, context);
+        return value ? `${label}：${value}` : label;
+    }
+
+    function sourceAwareActivationCondition(effect, sourceName, sourceDescription = "") {
+        const current = String(effect.activationCondition || "");
+        if (!/(?:指定されたHP条件|対象の攻撃|対象の天賦|効果固有の発動条件|固有状態の発動中|武器固有の発動条件)/.test(current)) return current;
+        if (effect.modifier?.condition === "hpCondition") {
+            const hpLabel = hpConditionLabelFromText(effect.modifier.sourceText || sourceDescription, effect.modifier);
+            if (hpLabel) return hpLabel;
+        }
+        return conditionLabelForKey(effect.modifier?.condition || "always", sourceName) || current;
+    }
+
     function artifactConditionPolicy(modifier, source, context, calcData) {
         const sourceInfo = parseSource(source);
         if (!["artifact2", "artifact4"].includes(sourceInfo.type)) return null;
         const condition = modifier.condition || "always";
-        const label = modifier.conditionLabel || ARTIFACT_CONDITION_LABELS[condition] || `発動条件: ${condition}`;
+        const label = modifier.conditionLabel
+            || ARTIFACT_CONDITION_LABELS[condition]
+            || COMMON_CONDITION_LABELS[condition]
+            || "効果固有の発動条件を満たす";
         const uidHandling = window.GenshinModifierAnalyzer?.effectiveUidHandling
             ? window.GenshinModifierAnalyzer.effectiveUidHandling(modifier)
             : modifier.uidHandling;
@@ -160,6 +356,9 @@
             extraDamage: "追加ダメージ",
             reactionBonus: "元素反応補正",
             resistanceDebuff: "耐性デバフ",
+            resourceCostOverride: "専用効果の消費量変更",
+            resourceEffect: "専用効果の獲得・消費",
+            resourceGeneratedEffect: "専用効果の獲得",
             scalingBonus: "参照ステータス補正",
             statConversion: "ステータス変換",
             statBonus: "ステータス補正"
@@ -185,6 +384,8 @@
         burstDamageBonus: "元素爆発",
         allDamageBonus: "すべてのダメージ",
         allElementDamageBonus: "元素ダメージ",
+        ownElementDamageBonus: "装備者の元素ダメージ",
+        geoDamageBonus: "岩元素ダメージ",
         enemyDefense: "敵の防御力",
         correspondingElementResistance: "対応元素の耐性",
         elementalMastery: "元素熟知",
@@ -194,7 +395,96 @@
         critRate: "会心率",
         critDamage: "会心ダメージ",
         reactionCrit: "元素反応の会心",
-        lunarBloomCrit: "月開花反応の会心"
+        lunarBloomCrit: "月開花反応の会心",
+        reactionDamageBonus: "元素反応ダメージ",
+        lunarCrystallizeDamageBonus: "月結晶反応ダメージ",
+        triggeredDamage: "追加ダメージ",
+        burstTalentLevel: "元素爆発の天賦レベル",
+        skillTalentLevel: "元素スキルの天賦レベル",
+        normalAttackTalentLevel: "通常攻撃の天賦レベル",
+        talentLevel: "天賦レベル",
+        resourceState: "専用効果の状態",
+        effect: "固有効果",
+        mark: "専用マーク",
+        special: "特殊効果",
+        atk: "攻撃力",
+        atkFlat: "攻撃力",
+        hpFlat: "HP上限",
+        defFlat: "防御力",
+        energyRecharge: "元素チャージ効率",
+        outgoingHealingBonus: "与える治療効果",
+        hydroDamageBonus: "水元素ダメージ",
+        pyroDamageBonus: "炎元素ダメージ",
+        electroDamageBonus: "雷元素ダメージ",
+        cryoDamageBonus: "氷元素ダメージ",
+        anemoDamageBonus: "風元素ダメージ",
+        dendroDamageBonus: "草元素ダメージ",
+        physicalDamageBonus: "物理ダメージ",
+        correspondingElementDamageBonus: "対応元素ダメージ",
+        correspondingSwirledElementDamageBonus: "拡散した元素のダメージ",
+        swirledElementDamageBonus: "拡散した元素",
+        ownAndActiveCharacterElementDamageBonus: "装備者とフィールド上キャラの元素ダメージ",
+        bloomDamageBonus: "開花反応ダメージ",
+        hyperbloomDamageBonus: "超開花反応ダメージ",
+        burgeonDamageBonus: "烈開花反応ダメージ",
+        burningDamageBonus: "燃焼反応ダメージ",
+        swirlDamageBonus: "拡散反応ダメージ",
+        overloadedDamageBonus: "過負荷反応ダメージ",
+        superconductDamageBonus: "超電導反応ダメージ",
+        electroChargedDamageBonus: "感電反応ダメージ",
+        vaporizeDamageBonus: "蒸発反応ダメージ",
+        meltDamageBonus: "溶解反応ダメージ",
+        aggravateDamageBonus: "超激化反応ダメージ",
+        lunarChargedDamageBonus: "月感電反応ダメージ",
+        lunarBloomDamageBonus: "月開花反応ダメージ",
+        lunarSuperconductDamageBonus: "星電導反応ダメージ",
+        astralConductionDamageBonus: "星電導反応ダメージ",
+        moonReactionDamageBonus: "月反応ダメージ",
+        reactionRelatedElementDamageBonus: "反応に関連する元素ダメージ",
+        physicalResistance: "物理耐性",
+        dendroResistance: "草元素耐性",
+        electroResistance: "雷元素耐性",
+        hydroResistance: "水元素耐性",
+        cryoResistance: "氷元素耐性",
+        geoResistance: "岩元素耐性",
+        anemoResistance: "風元素耐性",
+        pyroResistance: "炎元素耐性",
+        allResistance: "全元素耐性と物理耐性",
+        skillCritRate: "元素スキルの会心率",
+        burstCritRate: "元素爆発の会心率",
+        normalAttackCritRate: "通常攻撃の会心率",
+        plungingAttackCritRate: "落下攻撃の会心率",
+        burstCritDamage: "元素爆発の会心ダメージ",
+        plungingAttackCritDamage: "落下攻撃の会心ダメージ",
+        correspondingElementCritDamage: "対応元素ダメージの会心ダメージ",
+        burningCrit: "燃焼反応の会心",
+        bloomCrit: "開花反応の会心",
+        hyperbloomCrit: "超開花反応の会心",
+        burgeonCrit: "烈開花反応の会心",
+        swirlCrit: "拡散反応の会心",
+        lunarChargedDamage: "月感電反応ダメージ",
+        lunarCrystallizeDamage: "月結晶反応ダメージ",
+        physicalDamage: "物理ダメージ",
+        fatalReckoning: "「死生の辻」の効果",
+        fatalBlossomDamage: "「死生の辻」の追加ダメージ",
+        bloodBlossomDamage: "血梅香ダメージ",
+        skillSummonDamageBonus: "元素スキル召喚物のダメージ",
+        frostyMantra: "氷翎効果",
+        icyQuillTriggerCount: "氷翎の発動回数",
+        chiselLightMirror: "琢光鏡",
+        spiritveinDamage: "霊脈ダメージ",
+        graciousRebuke: "恩典の戒め",
+        rebukeVaultingFist: "誅罰・ヴォールティングアッパー",
+        chillingPenaltyDuration: "烈霜の懲戒の継続時間",
+        shockwaveCritDamage: "衝撃波の会心ダメージ",
+        secretLawCount: "秘律カウント",
+        ultimateSkillSlash: "元素爆発の斬撃",
+        chargedAttackDamage: "重撃ダメージ",
+        specialChargedAttack: "特殊重撃",
+        specialSkill: "特殊元素スキル",
+        lunarResonance: "月籠の共鳴",
+        literatureResearch: "文献調査",
+        previousDamageBonusMultiplier: "直前のダメージアップ効果"
     };
 
     const STAT_LABELS = {
@@ -204,9 +494,31 @@
         elementalMastery: "元素熟知"
     };
 
+    const RESOURCE_LABELS = {
+        unityOrStalwartMark: "強靭マーク",
+        fatalReckoning: "死生の辻",
+        declension: "変格",
+        frostyMantra: "氷翎",
+        icyQuill: "氷翎",
+        chiselLightMirror: "琢光鏡",
+        prosecutionEdict: "抵罪の赦免",
+        crystalShrapnel: "裂晶の欠片",
+        sourceResource: "専用効果",
+        secretLawCount: "秘律カウント",
+        ultimateSkillSlash: "極悪技・斬",
+        praisedWine: "謳われる美酒",
+        cangyaOath: "蒼牙の誓い",
+        literatureResearch: "文献調査",
+        lunarResonance: "月籠の共鳴"
+    };
+
     function modifierTargetLabels(modifier) {
-        const labels = (modifier.applyTo || []).map((target) => TARGET_LABELS[target] || "").filter(Boolean);
+        const labels = (modifier.applyTo || []).map(targetLabel).filter(Boolean);
         return [...new Set(labels)];
+    }
+
+    function targetLabel(target) {
+        return TARGET_LABELS[target] || "対象効果";
     }
 
     function modifierImpactLabel(modifier) {
@@ -215,7 +527,10 @@
             const attackModeTargetText = attackModeTargets.length ? attackModeTargets.join("・") : "対象攻撃";
             return `攻撃モード: ${attackModeTargetText}を${modifier.value || "指定"}元素に変化`;
         }
-        const resourceName = modifier.resource?.nameJa || modifier.resource?.id || "専用効果";
+        const explicitResourceName = /[\u3040-\u30ff\u3400-\u9fff]/.test(String(modifier.resource?.nameJa || ""))
+            ? modifier.resource.nameJa
+            : "";
+        const resourceName = explicitResourceName || RESOURCE_LABELS[modifier.resource?.id] || "専用効果";
         if (["resourceEffect", "resourceGeneratedEffect", "resourceCostOverride"].includes(modifier.category)) {
             return `専用効果「${resourceName}」の獲得・消費`;
         }
@@ -231,7 +546,12 @@
         if (modifier.category === "defenseIgnore") return "敵の防御力無視";
         if (modifier.category === "resistanceDebuff") return `${targetText}低下`;
         if (modifier.category === "statBonus" || modifier.category === "statConversion") return `${targetText}のステータス補正`;
-        if (modifier.category === "additiveBaseDamage" || modifier.category === "scalingBonus") return `${targetText}の基礎ダメージ加算`;
+        if (modifier.category === "additiveBaseDamage") return `${targetText}の基礎ダメージ加算`;
+        if (modifier.category === "scalingBonus") {
+            return (modifier.applyTo || []).some((target) => /DamageBonus$/.test(target))
+                ? `${targetText}のダメージ補正`
+                : `${targetText}の参照ステータス補正`;
+        }
         if (modifier.category === "elementOverride") return `${targetText}の元素変化`;
         if (modifier.category === "effectOverride") return `${targetText}の効果変更`;
         return "計算補正";
@@ -331,13 +651,19 @@
             const normalized = window.GenshinCalcEngine?.normalizeWeaponModifier
                 ? window.GenshinCalcEngine.normalizeWeaponModifier(modifier, weaponModifiers, weaponDefinition)
                 : modifier;
-            add(normalized, `weapon:${context.weaponId}`);
+            add(normalized, `weapon:${context.weaponId}`, {
+                sourceName: calcData.weapons?.[context.weaponId]?.nameJa || "武器効果"
+            });
         });
         (context.artifactSetIds || []).forEach((setId, index) => {
             const artifact = calcData.artifactSetModifiers?.[setId] || {};
-            (artifact.twoPiece || []).forEach((modifier) => add(modifier, `artifact2:${setId}`));
+            (artifact.twoPiece || []).forEach((modifier) => add(modifier, `artifact2:${setId}`, {
+                sourceDescription: calcData.artifactSetEffects?.[setId]?.twoPieceEffect || ""
+            }));
             if (context.artifactSetMode === "4pc" && index === 0) {
-                (artifact.fourPiece || []).forEach((modifier) => add(modifier, `artifact4:${setId}`));
+                (artifact.fourPiece || []).forEach((modifier) => add(modifier, `artifact4:${setId}`, {
+                    sourceDescription: calcData.artifactSetEffects?.[setId]?.fourPieceEffect || ""
+                }));
             }
         });
         const constellations = calcData.constellationModifiers?.[context.characterId]?.constellations || {};
@@ -477,13 +803,23 @@
             const analysis = analyzeModifier(modifier, source, context);
             if (analysis.inputStatus !== "applicable") return [];
             const configured = modifier.conditionInput;
-            const numericStack = modifier.stack
+            const conditionGroupId = modifier.conditionGroupId || modifier.activation?.stateKey || modifier.effectGroupId || "";
+            const stableConditionKey = conditionGroupId
+                ? `${source}:group:${conditionGroupId}`
+                : analysis.conditionStateKey;
+            const hasImplicitStackContract = modifier.calculationSupport === "stack"
+                || Boolean(modifier.valueByRefinementPerStack)
+                || Boolean(modifier.valueByRefinementPerConsumedStack)
+                || Boolean(modifier.valueByStack)
+                || Boolean(modifier.effectiveAdditionalValuePerStack)
+                || (modifier.scalings || []).some((scaling) => Number.isFinite(Number(scaling.valuePerStack)));
+            const numericStack = hasImplicitStackContract && modifier.stack
                 && Number.isFinite(Number(modifier.stack.min))
                 && Number.isFinite(Number(modifier.stack.max));
             if (!configured && !numericStack) return [];
             const type = configured?.type || "stack";
             return [{
-                key: analysis.conditionStateKey,
+                key: stableConditionKey,
                 modifierId: modifier.id || "",
                 label: configured?.label || `${categoryLabel(modifier.category)}: ${shortSourceText(modifier.sourceText)}`,
                 help: configured?.help || (type === "option" ? "適用する状態を選択します。" : "この効果の現在の段階・回数を入力します。"),
@@ -493,7 +829,9 @@
                 max: Number(configured?.max ?? modifier.stack?.max ?? 0),
                 options: configured?.options || [],
                 configured: Boolean(configured),
-                source
+                source,
+                modifier,
+                conditionGroupId
             }];
         });
         return definitions.filter((definition, index) => {
@@ -511,8 +849,14 @@
         definitions.forEach((definition) => {
             const incomingState = incoming[definition.key];
             const storedState = complexStateByKey[definition.key];
-            const configuredDefault = definition.type === "stack" && (definition.configured || String(definition.source).startsWith("artifact"))
-                ? { stack: definition.min }
+            const useConfiguredStackDefault = definition.type === "stack"
+                && (definition.configured
+                    || String(definition.source).startsWith("artifact")
+                    || String(definition.source).startsWith("weapon:"));
+            const configuredDefault = useConfiguredStackDefault
+                ? { stack: Number.isFinite(Number(definition.modifier?.stack?.default))
+                    ? Number(definition.modifier.stack.default)
+                    : definition.min }
                 : definition.type === "option" && definition.options.length
                     ? { option: typeof definition.options[0] === "object" ? definition.options[0].value : definition.options[0] }
                     : null;
@@ -540,6 +884,19 @@
             };
             if (definition.type === "stack" && definition.modifierId) {
                 context.uiState.stackByModifier[definition.modifierId] = state.stack;
+                context.uiState.resolvedConditionByModifier ||= {};
+                context.uiState.resolvedConditionByModifier[definition.modifierId] = state.stack;
+                context.uiState.resolvedConditionByGroup ||= {};
+                if (definition.conditionGroupId) {
+                    context.uiState.resolvedConditionByGroup[definition.conditionGroupId] = state.stack;
+                }
+                collectSelectedModifiers(context, calcData)
+                    .filter((item) => item.source === definition.source
+                        && item.modifier?.conditionInput?.type === "stack"
+                        && Number(item.modifier?.stack?.max) === Number(definition.max))
+                    .forEach((item) => {
+                        if (item.modifier.id) context.uiState.resolvedConditionByModifier[item.modifier.id] = state.stack;
+                    });
                 const selected = collectSelectedModifiers(context, calcData)
                     .find(({ modifier }) => modifier.id === definition.modifierId)?.modifier;
                 if (selected?.stack?.id) context.uiState.stackByModifier[selected.stack.id] = state.stack;
@@ -692,6 +1049,7 @@
 
     function reconcileConditionState(context, calcData) {
         const hadActiveDefinitions = activeConditionDefinitions.length > 0;
+        const incomingState = context.uiState?.conditionByModifier || {};
         captureActiveConditionState(context.uiState || {});
         const definitions = buildConditionDefinitions(context, calcData);
         const nextState = {};
@@ -704,7 +1062,7 @@
                 };
                 return;
             }
-            const previous = conditionStateByModifier[definition.key];
+            const previous = incomingState[definition.key] || conditionStateByModifier[definition.key];
             if (previous) {
                 nextState[definition.key] = { ...previous };
                 return;
@@ -742,6 +1100,13 @@
     }
 
     function evaluateModifierCondition({ modifier, source, context, calcData }) {
+        if (modifier.requiredTargetElement) {
+            const normalizeElement = (value) => ({ "炎": "pyro", pyro: "pyro", "水": "hydro", hydro: "hydro", "風": "anemo", anemo: "anemo", "雷": "electro", electro: "electro", "草": "dendro", dendro: "dendro", "氷": "cryo", cryo: "cryo", "岩": "geo", geo: "geo" })[String(value || "").trim().toLowerCase()] || String(value || "").trim().toLowerCase();
+            const currentElement = normalizeElement(calcData.characters?.[context.characterId]?.element);
+            if (currentElement !== normalizeElement(modifier.requiredTargetElement)) {
+                return { enabled: false, derived: true, reason: "対象キャラクターの元素が一致しません。" };
+            }
+        }
         const key = analyzeModifier(modifier, source, context).conditionStateKey;
         const state = context.uiState.conditionByModifier?.[key];
         if (state) {
@@ -786,12 +1151,29 @@
     }
 
     function modifierDisplayValue(modifier, context, stack = null) {
+        const activeStack = stack !== null
+            ? Number(stack) || 0
+            : modifier.conditionInput?.type === "stack"
+                ? Number(context.uiState?.resolvedConditionByModifier?.[modifier.id]
+                    ?? context.uiState?.resolvedConditionByGroup?.[modifier.conditionGroupId]
+                    ?? context.uiState?.stackByModifier?.[modifier.id]
+                    ?? modifier.stack?.default ?? 0) || 0
+                : null;
+        if (modifier.customCalculation === "thresholdStatBonus" && modifier.reference?.stat) {
+            const referenceValue = Number(context.stats?.[modifier.reference.stat]) || 0;
+            const divisor = Number(modifier.divisor) || 1;
+            const ratio = Number(modifier.ratio) || 0;
+            const calculated = Math.floor(referenceValue / divisor) * ratio;
+            const value = Number.isFinite(Number(modifier.maxValue)) ? Math.min(calculated, Number(modifier.maxValue)) : calculated;
+            return `${value >= 0 ? "+" : ""}${value}${modifier.unit === "percent" ? "%" : ""}`;
+        }
         let value = modifier.value;
         if (modifier.valueByRefinement) {
             value = modifier.valueByRefinement[String(context.refinement)] ?? modifier.valueByRefinement["1"];
         }
-        if (modifier.valueByRefinementPerStack) {
-            value = modifier.valueByRefinementPerStack[String(context.refinement)] ?? modifier.valueByRefinementPerStack["1"];
+        if (modifier.valueByRefinementPerStack || modifier.valueByRefinementPerConsumedStack) {
+            const values = modifier.valueByRefinementPerStack || modifier.valueByRefinementPerConsumedStack;
+            value = values[String(context.refinement)] ?? values["1"];
         }
         if (modifier.valueByCondition && modifier.conditionInput?.type === "option") {
             const values = [...new Set(Object.values(modifier.valueByCondition).map(Number).filter(Number.isFinite))];
@@ -800,8 +1182,8 @@
         if (value === undefined || Array.isArray(value)) return "";
         const numericValue = Number(value);
         if (!Number.isFinite(numericValue)) return String(value);
-        if (stack !== null) return `${numericValue}% × ${stack}段 = ${numericValue * stack}%`;
-        const suffix = modifier.unit === "percent" || modifier.valueByRefinement ? "%" : "";
+        if (activeStack !== null) return `${numericValue}% × ${activeStack}段 = ${numericValue * activeStack}%`;
+        const suffix = ["percent", "percentPerPoint"].includes(modifier.unit) || modifier.valueByRefinement ? "%" : "";
         return `${numericValue >= 0 ? "+" : ""}${numericValue}${suffix}`;
     }
 
@@ -872,8 +1254,10 @@
                 ...effect,
                 name: impactLabel,
                 description: "",
-                impact: structuredImpactValue(effect.modifier, context),
-                controls: []
+                impact: effect.impact || structuredImpactValue(effect.modifier, context),
+                activationCondition: effect.modifier.condition === "constellationUnlocked"
+                    ? `C${level}「${section.nameJa}」を解放`
+                    : sourceAwareActivationCondition(effect, `C${level}「${section.nameJa}」`, section.description)
             });
             effect.controls.forEach((control) => {
                 if (!section.controls.some((current) => controlIdentity(current) === controlIdentity(control))) {
@@ -963,18 +1347,22 @@
                 description: "",
                 impact: effect.modifier?.syntheticAttackMode
                     ? `${modifierTargetLabels(effect.modifier).join("・")}を${effect.modifier.value}元素の専用倍率へ変更`
-                    : structuredImpactValue(effect.modifier, context),
-                controls: []
+                    : effect.impact || structuredImpactValue(effect.modifier, context),
+                activationCondition: sourceAwareActivationCondition(effect, meta.nameJa, meta.description)
             });
             effect.controls.forEach((control) => {
                 if (section.controls.some((current) => controlIdentity(current) === controlIdentity(control))) return;
                 section.controls.push({
                     ...control,
                     label: control.type === "toggle"
-                        ? `${effect.modifier?.attackModeStateName || meta.nameJa}を発動する`
+                        ? effect.modifier?.condition === "hpCondition"
+                            ? `${effect.activationCondition.replace(/の?時$/, "")}として計算する`
+                            : `${effect.modifier?.attackModeStateName || meta.nameJa}を発動する`
                         : control.label,
                     help: control.type === "toggle"
-                        ? "この天賦状態が発動している場合に有効にします。同じ状態に属する効果をまとめて切り替えます。"
+                        ? effect.modifier?.condition === "hpCondition"
+                            ? "現在のHPがこの条件を満たしている場合に有効にします。"
+                            : "この天賦状態が発動している場合に有効にします。同じ状態に属する効果をまとめて切り替えます。"
                         : control.help
                 });
             });
@@ -1025,8 +1413,7 @@
                 ...effect,
                 name: effect.modifier.effectLabel || modifierImpactLabel(effect.modifier),
                 description: "",
-                impact: structuredImpactValue(effect.modifier, context),
-                controls: []
+                impact: effect.impact || structuredImpactValue(effect.modifier, context)
             });
             effect.controls.forEach((control) => {
                 const policy = artifactConditionPolicy(effect.modifier, effect.source, context, calcData);
@@ -1056,14 +1443,14 @@
                     name: effect.modifier.effectLabel || effect.name,
                     order: Number(effect.modifier.effectGroupOrder) || 0,
                     description: normalizeConditionDescription(effect.modifier.effectDescription || effect.description || ""),
-                    descriptionKind: "summary",
+                    descriptionKind: effect.modifier.sourceText ? "full" : "summary",
                     targetOwner: effect.modifier.targetOwner || "self",
                     controls: [],
                     effects: []
                 });
             }
             const section = sections.get(groupId);
-            section.effects.push({ ...effect, description: "", controls: [] });
+            section.effects.push({ ...effect, description: "" });
             effect.controls.forEach((control) => {
                 if (!section.controls.some((current) => controlIdentity(current) === controlIdentity(control))) {
                     section.controls.push(control);
@@ -1100,10 +1487,16 @@
 
             const sourceInfo = parseSource(item.source);
             const artifactPolicy = artifactConditionPolicy(item.modifier, item.source, context, calcData);
-            const conditionState = conditionStateByModifier[analysis.conditionStateKey] || {};
+            const conditionGroupId = item.modifier.conditionGroupId || item.modifier.activation?.stateKey || item.modifier.effectGroupId || "";
+            const conditionKey = conditionGroupId
+                ? `${item.source}:group:${conditionGroupId}`
+                : analysis.conditionStateKey;
+            const conditionState = conditionStateByModifier[conditionKey]
+                || conditionStateByModifier[analysis.conditionStateKey]
+                || {};
             const controls = [];
-            const complex = complexByKey.get(analysis.conditionStateKey);
-            const resource = resourceByKey.get(analysis.resourceStateKey || analysis.conditionStateKey);
+            const complex = complexByKey.get(conditionKey) || complexByKey.get(analysis.conditionStateKey);
+            const resource = resourceByKey.get(analysis.resourceStateKey || conditionKey || analysis.conditionStateKey);
             if (item.modifier.condition === "arrowFlightTime") {
                 controls.push({ type: "amosStack", value: context.uiState.amosStack, min: 0, max: 5, label: item.modifier.conditionLabel || "矢の飛翔時間" });
             } else if (sourceInfo.type === "artifact4" && sourceInfo.id === "15006" && item.modifier.condition === "afterSkill") {
@@ -1147,10 +1540,14 @@
             else if (controls.length) status = "userInput";
             else if (analysis.supportStatus === "displayOnly") status = "displayOnly";
 
-            const stack = item.modifier.condition === "arrowFlightTime" ? Number(context.uiState.amosStack) || 0 : null;
+            const stack = item.modifier.condition === "arrowFlightTime"
+                ? Number(context.uiState.amosStack) || 0
+                : item.modifier.artifactPieceCount === 4 && item.modifier.artifactSetId === "15006" && item.modifier.condition === "afterSkill"
+                    ? Number(context.uiState.crimsonWitchStack) || 0
+                    : null;
             const sourceDescription = item.modifier.sourceText || item.sourceDescription || `${categoryLabel(item.modifier.category)}を計算に反映します。`;
             const descriptionKind = item.modifier.sourceText
-                ? "excerpt"
+                ? "full"
                 : item.sourceDescription ? "summary" : "generated";
             cards.find((card) => card.id === cardId).effects.push({
                 id: item.modifier.id || analysis.key,
@@ -1160,7 +1557,10 @@
                 status,
                 statusReason: artifactPolicy?.reason || analysis.reason || analysis.inputReason || "",
                 target: modifierTargetLabels(item.modifier).join(" / "),
+                displayTarget: modifierTargetLabels(item.modifier).join("・") || item.modifier.effectLabel || categoryLabel(item.modifier.category),
                 impact: modifierDisplayValue(item.modifier, context, stack),
+                activationCondition: modifierActivationCondition(item.modifier, controls, artifactPolicy, item.sourceName || "", item.sourceDescription || ""),
+                effectSummary: modifierEffectSummary(item.modifier, context),
                 controls,
                 modifier: item.modifier,
                 source: item.source,
@@ -1208,6 +1608,7 @@
         });
         dedicatedReferenceInputs.visible = Object.values(dedicatedReferenceInputs).some(Boolean);
         const cards = buildConditionCards(context, calcData, resourceInputs, complexConditionInputs);
+        const partyModifiers = window.GenshinPartyModifiers?.collectPartyModifierCandidates?.(calcData, context) || [];
         const hasCharacter = Boolean(context.characterId);
         const hasWeapon = Boolean(context.weaponId);
         const characterName = hasCharacter ? calcData.characters?.[context.characterId]?.nameJa || `キャラクターID ${context.characterId}` : "キャラクター未選択";
@@ -1248,6 +1649,7 @@
             complexConditionInputs,
             dedicatedReferenceInputs,
             cards,
+            partyModifiers,
             weaponCondition: {
                 visible: hasAmos,
                 label: "アモス距離補正"
@@ -1293,6 +1695,10 @@
         evaluateModifierCondition,
         conditionPanelState,
         talentSourceMeta,
-        artifactConditionPolicy
+        artifactConditionPolicy,
+        conditionLabelForKey,
+        targetLabel,
+        modifierActivationCondition,
+        modifierEffectSummary
     };
 })();

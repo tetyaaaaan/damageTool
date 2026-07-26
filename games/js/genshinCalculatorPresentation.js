@@ -2,7 +2,6 @@
     "use strict";
 
     const FALLBACK_IMAGE = "/games/images/genshin/fallback.webp";
-
     function byId(id) {
         return document.getElementById(id);
     }
@@ -39,6 +38,7 @@
         image.src = id
             ? `/games/images/genshin/${isCharacter ? "characters" : "weapons"}/${encodeURIComponent(id)}.webp`
             : FALLBACK_IMAGE;
+
     }
 
     function selectedArtifactLabels() {

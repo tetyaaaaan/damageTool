@@ -5,11 +5,11 @@ const { createBrowserScriptHarness, loadCalcData } = require("./helpers/browserS
 
 test("value-less talent modifiers are exhaustively classified", () => {
     const audit = buildAudit();
-    assert.equal(audit.summary.total, 40);
+    assert.equal(audit.summary.total, 39);
     assert.deepEqual(audit.summary.byClassification, {
         representedByTalentScalings: 19,
         structuredByTalentRegistry: 3,
-        explicitlyDeferredByTalentRegistry: 18
+        explicitlyDeferredByTalentRegistry: 17
     });
     assert.equal(audit.records.every((record) => ["suppressDuplicate", "calculateFromRegistry", "displayWithReason"].includes(record.action)), true);
 });

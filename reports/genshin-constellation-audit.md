@@ -10,10 +10,10 @@
 ## 検証状態
 
 - `corroborated`: 451
-- `mechanicOnly`: 69
-- `quarantined`: 23
+- `mechanicOnly`: 68
+- `quarantined`: 30
 - `sourceContextRequired`: 2
-- `textVerified`: 199
+- `textVerified`: 193
 
 ## 要確認効果
 

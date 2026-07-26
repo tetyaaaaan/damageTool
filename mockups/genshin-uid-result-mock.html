@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UID検索結果モック</title>
+  <link rel="stylesheet" href="genshin-uid-detail-mock.css">
+</head>
+<body>
+  <main class="mock-page">
+    <p class="mock-note">UID検索結果：概要画面モック</p>
+    <section class="result-panel">
+      <header class="profile-head">
+        <div><strong>てち</strong><span>冒険ランク 60</span><span>世界ランク 9</span><span>UID: 802454312</span></div>
+        <button class="ghost-button" type="button">UID変更</button>
+      </header>
+
+      <div class="target-row">
+        <label for="target">反映するキャラクター</label>
+        <select id="target"><option>リンネア Lv.90</option></select>
+      </div>
+
+      <section class="summary-section" aria-labelledby="summary-title">
+        <div class="summary-head">
+          <h1 id="summary-title">リンネア</h1>
+          <button class="accent-button" type="button" onclick="location.href='genshin-uid-detail-modal-mock.html'">詳細</button>
+        </div>
+
+        <article class="summary-row character-row">
+          <img class="character-image" src="../games/images/genshin/characters/10000046.webp" alt="リンネア">
+          <div class="summary-copy"><strong>リンネア</strong><div class="meta"><span>Lv.90</span><span class="icon-chip image-chip"><img src="../games/images/genshin/elements/geo.webp" alt="岩元素"></span><span class="icon-chip image-chip"><img src="../games/images/genshin/ui/weapon-bow.webp" alt="弓"></span><span>★5</span><span>C2</span></div></div>
+        </article>
+        <article class="summary-row">
+          <img class="equipment-image" src="../games/images/genshin/weapons/13501.webp" alt="霜翠の金枝">
+          <div class="summary-copy"><strong>霜翠の金枝</strong><div class="meta"><span>Lv.90</span><span>R1</span></div></div>
+        </article>
+        <article class="summary-row artifact-row">
+          <div class="artifact-icons"><img src="../games/images/genshin/artifacts/10001.webp" alt=""><img src="../games/images/genshin/artifacts/10002.webp" alt=""></div>
+          <div class="summary-copy"><strong>暁の星と月の歌</strong><div class="meta"><span>4セット</span><span>セット効果は詳細で確認</span></div></div>
+        </article>
+      </section>
+
+      <section class="overview-data" aria-label="天賦とステータス">
+        <div class="overview-column talents-column">
+          <div class="section-label">天賦</div>
+          <div class="talent-list">
+            <div class="talent-row"><span>通常攻撃</span><strong>Lv.1</strong></div>
+            <div class="talent-row"><span>元素スキル</span><strong>Lv.10</strong></div>
+            <div class="talent-row"><span>元素爆発</span><strong>Lv.8</strong></div>
+          </div>
+        </div>
+        <div class="overview-column stats-column">
+          <div class="section-label">ステータス</div>
+          <div class="status-summary-grid">
+            <div class="status-summary-item"><span>♙ HP</span><strong>17,431</strong></div>
+            <div class="status-summary-item"><span>⚔ 攻撃力</span><strong>996</strong></div>
+            <div class="status-summary-item"><span>◈ 防御力</span><strong>2,846</strong></div>
+            <div class="status-summary-item"><span>♧ 元素熟知</span><strong>134</strong></div>
+            <div class="status-summary-item"><span>★ 会心率</span><strong>90.29%</strong></div>
+            <div class="status-summary-item"><span>★ 会心ダメージ</span><strong>222.11%</strong></div>
+            <div class="status-summary-item"><span>◌ 元素チャージ効率</span><strong>100.00%</strong></div>
+            <div class="status-summary-item"><span>岩 元素ダメージ</span><strong>0.00%</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <button class="reflect-button" type="button">この内容を入力欄へ反映</button>
+      <span class="reflect-note">反映後も手動で編集できます</span>
+    </section>
+  </main>
+</body>
+</html>

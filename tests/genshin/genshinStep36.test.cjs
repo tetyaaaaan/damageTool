@@ -30,11 +30,11 @@ function context(characterId) {
 
 test("STEP36 classifies every formerly value-less talent effect", () => {
     const audit = buildAudit();
-    assert.equal(audit.summary.total, 40);
+    assert.equal(audit.summary.total, 39);
     assert.equal(audit.summary.byClassification.missingStructuredValue || 0, 0);
     assert.equal(audit.summary.byClassification.unsupportedSpecialEffect || 0, 0);
     assert.equal(audit.summary.byClassification.structuredByTalentRegistry, 3);
-    assert.equal(audit.summary.byClassification.explicitlyDeferredByTalentRegistry, 18);
+    assert.equal(audit.summary.byClassification.explicitlyDeferredByTalentRegistry, 17);
 });
 
 test("Yanfei and Ineffa extra damage use exact ATK scalings", () => {

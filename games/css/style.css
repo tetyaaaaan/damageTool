@@ -2013,28 +2013,28 @@ body {
 /* tetinet visual refresh */
 :root {
     --tetinet-content-width: 1240px;
-    --tetinet-page-bg: #f7f4ff;
-    --tetinet-page-bg-2: #fff7f3;
+    --tetinet-page-bg: #f3f7f7;
+    --tetinet-page-bg-2: #edf4f3;
     --tetinet-surface: #ffffff;
-    --tetinet-surface-soft: #fbfaff;
-    --tetinet-border: #e6ddff;
-    --tetinet-text: #18243b;
-    --tetinet-muted: #657189;
-    --tetinet-purple: #6a30ff;
-    --tetinet-pink: #ff4da6;
-    --tetinet-orange: #ff8a2a;
-    --tetinet-gradient: linear-gradient(135deg, #6a30ff 0%, #ff4da6 52%, #ff8a2a 100%);
-    --tetinet-gradient-soft: linear-gradient(135deg, rgba(106, 48, 255, 0.12), rgba(255, 77, 166, 0.08), rgba(255, 138, 42, 0.12));
-    --tetinet-shadow: 0 18px 42px rgba(77, 43, 130, 0.12);
-    --tetinet-shadow-soft: 0 10px 28px rgba(77, 43, 130, 0.08);
+    --tetinet-surface-soft: #edf4f3;
+    --tetinet-border: #cadadc;
+    --tetinet-text: #142b31;
+    --tetinet-muted: #60757a;
+    --tetinet-purple: #087c75;
+    --tetinet-pink: #087c75;
+    --tetinet-orange: #0b6d68;
+    --tetinet-gradient: linear-gradient(135deg, #087c75 0%, #0b6d68 100%);
+    --tetinet-gradient-soft: linear-gradient(135deg, rgba(8, 124, 117, 0.12), rgba(11, 109, 104, 0.07));
+    --tetinet-shadow: 0 18px 42px rgba(20, 43, 49, 0.12);
+    --tetinet-shadow-soft: 0 10px 28px rgba(20, 43, 49, 0.08);
     --tetinet-radius: 8px;
 }
 
 body {
     color: var(--tetinet-text);
     background:
-        radial-gradient(circle at 8% 0%, rgba(106, 48, 255, 0.10), transparent 30%),
-        radial-gradient(circle at 92% 6%, rgba(255, 138, 42, 0.12), transparent 28%),
+        radial-gradient(circle at 8% 0%, rgba(8, 124, 117, 0.08), transparent 30%),
+        radial-gradient(circle at 92% 6%, rgba(11, 109, 104, 0.06), transparent 28%),
         linear-gradient(180deg, var(--tetinet-page-bg), var(--tetinet-page-bg-2));
     overflow-x: hidden;
 }
@@ -2046,9 +2046,9 @@ body {
 .page-hsr {
     color: var(--tetinet-text);
     background:
-        radial-gradient(circle at 7% 0%, rgba(106, 48, 255, 0.12), transparent 28%),
-        radial-gradient(circle at 96% 4%, rgba(255, 138, 42, 0.14), transparent 26%),
-        linear-gradient(180deg, #fbf9ff 0%, #fff8f3 100%);
+        radial-gradient(circle at 7% 0%, rgba(8, 124, 117, 0.09), transparent 28%),
+        radial-gradient(circle at 96% 4%, rgba(11, 109, 104, 0.07), transparent 26%),
+        linear-gradient(180deg, #f5f9f8 0%, #edf4f3 100%);
     background-attachment: fixed;
 }
 
@@ -2076,7 +2076,7 @@ body {
     margin: 0 auto 22px;
     padding: 12px 16px 12px 20px;
     background: rgba(255, 255, 255, 0.88);
-    border: 1px solid rgba(143, 107, 255, 0.28);
+    border: 1px solid rgba(8, 124, 117, 0.24);
     border-radius: var(--tetinet-radius);
     box-shadow: var(--tetinet-shadow-soft);
     backdrop-filter: blur(18px);
@@ -2134,14 +2134,14 @@ body {
 .home-nav a:hover,
 .tool-page .site-nav a:hover {
     color: var(--tetinet-purple);
-    background: rgba(106, 48, 255, 0.08);
+    background: rgba(8, 124, 117, 0.08);
 }
 
 .site-nav a:last-child,
 .home-nav a:last-child {
     color: #ffffff;
     background: var(--tetinet-gradient);
-    box-shadow: 0 8px 18px rgba(255, 77, 166, 0.22);
+    box-shadow: 0 8px 18px rgba(8, 124, 117, 0.22);
 }
 
 .breadcrumb {
@@ -2182,7 +2182,7 @@ body {
     padding: 46px 52px;
     color: #ffffff;
     background:
-        linear-gradient(115deg, rgba(106, 48, 255, 0.96), rgba(255, 77, 166, 0.88), rgba(255, 138, 42, 0.96)),
+        linear-gradient(115deg, rgba(7, 93, 89, 0.97), rgba(8, 124, 117, 0.94), rgba(15, 145, 136, 0.92)),
         url("../images/theme/home-abstract.png");
     background-size: cover;
     background-position: center;
@@ -2326,7 +2326,7 @@ body {
     color: #ffffff;
     background: var(--tetinet-gradient);
     border-color: transparent;
-    box-shadow: 0 10px 22px rgba(255, 77, 166, 0.22);
+    box-shadow: 0 10px 22px rgba(8, 124, 117, 0.22);
 }
 
 .home-secondary-link,
@@ -2416,7 +2416,7 @@ body {
     aspect-ratio: 16 / 9;
     min-height: 190px;
     background:
-        var(--tool-card-image, linear-gradient(135deg, rgba(106, 48, 255, 0.18), rgba(255, 138, 42, 0.14))),
+        var(--tool-card-image, linear-gradient(135deg, rgba(8, 124, 117, 0.18), rgba(11, 109, 104, 0.1))),
         var(--tetinet-gradient-soft);
     background-size: cover;
     background-position: center;
@@ -2448,25 +2448,25 @@ body {
 
 .tool-card--genshin .tool-card__media {
     background-image:
-        linear-gradient(135deg, rgba(44, 173, 123, 0.30), rgba(255, 138, 42, 0.24)),
+        linear-gradient(135deg, rgba(44, 173, 123, 0.28), rgba(8, 124, 117, 0.14)),
         url("../images/theme/genshin-abstract.png");
 }
 
 .tool-card--hsr .tool-card__media {
     background-image:
-        linear-gradient(135deg, rgba(106, 48, 255, 0.28), rgba(255, 77, 166, 0.18)),
+        linear-gradient(135deg, rgba(155, 124, 255, 0.26), rgba(8, 124, 117, 0.12)),
         url("../images/theme/hsr-abstract.png");
 }
 
 .tool-card--granblue .tool-card__media {
     background-image:
-        linear-gradient(135deg, rgba(45, 122, 255, 0.28), rgba(255, 138, 42, 0.18)),
+        linear-gradient(135deg, rgba(45, 122, 255, 0.26), rgba(8, 124, 117, 0.12)),
         url("../images/theme/granblue-abstract.png");
 }
 
 .page-genshin .tool-hero {
     background:
-        linear-gradient(115deg, rgba(44, 173, 123, 0.93), rgba(255, 77, 166, 0.62), rgba(255, 138, 42, 0.78)),
+        linear-gradient(115deg, rgba(7, 93, 89, 0.96), rgba(8, 124, 117, 0.9), rgba(15, 145, 136, 0.8)),
         url("../images/theme/genshin-abstract.png");
     background-size: cover;
     background-position: center;
@@ -2474,7 +2474,7 @@ body {
 
 .page-hsr .tool-hero {
     background:
-        linear-gradient(115deg, rgba(106, 48, 255, 0.94), rgba(255, 77, 166, 0.80), rgba(255, 138, 42, 0.92)),
+        linear-gradient(115deg, rgba(7, 93, 89, 0.96), rgba(8, 124, 117, 0.9), rgba(15, 145, 136, 0.8)),
         url("../images/theme/hsr-abstract.png");
     background-size: cover;
     background-position: center;
@@ -2482,7 +2482,7 @@ body {
 
 .page-granblue .tool-hero {
     background:
-        linear-gradient(115deg, rgba(45, 122, 255, 0.94), rgba(106, 48, 255, 0.65), rgba(255, 138, 42, 0.72)),
+        linear-gradient(115deg, rgba(7, 93, 89, 0.96), rgba(8, 124, 117, 0.9), rgba(15, 145, 136, 0.8)),
         url("../images/theme/granblue-abstract.png");
     background-size: cover;
     background-position: center;
@@ -2549,7 +2549,7 @@ body {
 .tool-page select:focus,
 .uid-importer__controls input:focus,
 .uid-importer__selector select:focus {
-    outline: 3px solid rgba(106, 48, 255, 0.16);
+    outline: 3px solid rgba(8, 124, 117, 0.16);
     border-color: var(--tetinet-purple);
 }
 
@@ -2584,7 +2584,7 @@ body {
 .page-hsr .result-panel #result {
     color: var(--tetinet-purple);
     background: var(--tetinet-gradient-soft);
-    border: 1px solid rgba(106, 48, 255, 0.20);
+    border: 1px solid rgba(8, 124, 117, 0.2);
     border-radius: var(--tetinet-radius);
 }
 
@@ -2811,7 +2811,7 @@ body {
 .home-nav a[href="/games/"] {
     color: #ffffff;
     background: var(--tetinet-gradient);
-    box-shadow: 0 8px 18px rgba(255, 77, 166, 0.22);
+    box-shadow: 0 8px 18px rgba(8, 124, 117, 0.22);
 }
 
 .result-panel {
@@ -2848,9 +2848,9 @@ body {
     padding: 28px 24px;
     color: var(--tetinet-purple);
     background:
-        linear-gradient(135deg, rgba(106, 48, 255, 0.10), rgba(255, 77, 166, 0.06), rgba(255, 138, 42, 0.08)),
+        linear-gradient(135deg, rgba(8, 124, 117, 0.1), rgba(11, 109, 104, 0.06)),
         #ffffff;
-    border: 1px solid rgba(106, 48, 255, 0.20);
+    border: 1px solid rgba(8, 124, 117, 0.2);
     border-radius: var(--tetinet-radius);
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.72);
     font-size: clamp(34px, 5vw, 52px);
@@ -2892,8 +2892,8 @@ body {
 .page-genshin .calc-button:hover,
 .page-genshin .reflect-button:hover {
     color: #ffffff;
-    background: linear-gradient(135deg, #23c7a4, #ff9a43);
-    box-shadow: 0 12px 24px rgba(35, 199, 164, 0.22);
+    background: var(--tetinet-accent);
+    box-shadow: 0 12px 24px rgba(8, 124, 117, 0.22);
 }
 
 .page-hsr .calc-button,
@@ -2901,8 +2901,8 @@ body {
 .page-hsr .calc-button:hover,
 .page-hsr .reflect-button:hover {
     color: #ffffff;
-    background: linear-gradient(135deg, #8b35ef, #ff7043);
-    box-shadow: 0 12px 24px rgba(139, 53, 239, 0.22);
+    background: var(--tetinet-accent);
+    box-shadow: 0 12px 24px rgba(8, 124, 117, 0.22);
 }
 
 .page-granblue .calc-button,
@@ -2910,6 +2910,6 @@ body {
 .page-granblue .calc-button:hover,
 .page-granblue .reflect-button:hover {
     color: #ffffff;
-    background: linear-gradient(135deg, #2688e5, #5fcfe8);
-    box-shadow: 0 12px 24px rgba(38, 136, 229, 0.22);
+    background: var(--tetinet-accent);
+    box-shadow: 0 12px 24px rgba(8, 124, 117, 0.22);
 }

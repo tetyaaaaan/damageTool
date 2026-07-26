@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 2,
+  "categories": {
+    "training": "検証用",
+    "normal": "通常敵",
+    "elite": "精鋭・機械",
+    "boss": "ボス"
+  },
+  "presets": [
+    {
+      "id": "masanori",
+      "nameJa": "公義",
+      "category": "training",
+      "defaultLevel": 90,
+      "resistance": { "defaultElemental": 10, "physical": -20, "byElement": {} },
+      "immunities": [],
+      "noteJa": "物理耐性-20%の検証用プリセット"
+    },
+    {
+      "id": "hilichurl",
+      "nameJa": "ヒルチャール",
+      "category": "normal",
+      "defaultLevel": 90,
+      "resistance": { "defaultElemental": 10, "physical": 10, "byElement": {} }
+    },
+    {
+      "id": "pyro_slime",
+      "nameJa": "炎スライム",
+      "category": "normal",
+      "defaultLevel": 90,
+      "resistance": { "defaultElemental": 10, "physical": 10, "byElement": {} },
+      "immunities": ["pyro"],
+      "noteJa": "炎元素ダメージ無効"
+    },
+    {
+      "id": "cryo_slime",
+      "nameJa": "氷スライム",
+      "category": "normal",
+      "defaultLevel": 90,
+      "resistance": { "defaultElemental": 10, "physical": 10, "byElement": {} },
+      "immunities": ["cryo"],
+      "noteJa": "氷元素ダメージ無効"
+    },
+    {
+      "id": "electro_cicin_mage",
+      "nameJa": "雷蛍術師",
+      "category": "elite",
+      "defaultLevel": 90,
+      "resistance": { "defaultElemental": 10, "physical": -20, "byElement": { "electro": 50 } }
+    },
+    {
+      "id": "fatui_pyro_agent",
+      "nameJa": "デットエージェント・炎",
+      "category": "elite",
+      "defaultLevel": 90,
+      "resistance": { "defaultElemental": 10, "physical": -20, "byElement": { "pyro": 50 } }
+    },
+    {
+      "id": "ruin_guard",
+      "nameJa": "遺跡守衛",
+      "category": "elite",
+      "defaultLevel": 90,
+      "resistance": { "defaultElemental": 10, "physical": 70, "byElement": {} }
+    },
+    {
+      "id": "ruin_hunter",
+      "nameJa": "遺跡ハンター",
+      "category": "elite",
+      "defaultLevel": 90,
+      "resistance": { "defaultElemental": 10, "physical": 50, "byElement": {} }
+    },
+    {
+      "id": "ruin_grader",
+      "nameJa": "遺跡重機",
+      "category": "elite",
+      "defaultLevel": 90,
+      "resistance": { "defaultElemental": 10, "physical": 70, "byElement": {} }
+    },
+    {
+      "id": "maguu_kenki",
+      "nameJa": "魔偶剣鬼",
+      "category": "boss",
+      "defaultLevel": 90,
+      "resistance": { "defaultElemental": 10, "physical": 10, "byElement": {} }
+    }
+  ]
+}

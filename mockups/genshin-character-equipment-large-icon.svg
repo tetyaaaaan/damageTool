@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="430" height="350" viewBox="0 0 430 350">
+  <rect width="430" height="350" fill="#071923"/>
+  <text x="18" y="28" fill="#9eb5c0" font-family="Noto Sans JP, sans-serif" font-size="11">本体未反映・キャラ装備入力の大型アイコン案</text>
+  <rect x="12" y="44" width="406" height="278" rx="12" fill="#0b222d" stroke="#254857"/>
+  <circle cx="32" cy="70" r="10" fill="none" stroke="#36d0c1"/>
+  <text x="32" y="74" text-anchor="middle" fill="#36d0c1" font-family="sans-serif" font-size="10">1</text>
+  <text x="50" y="75" fill="#edf7fb" font-family="Noto Sans JP, sans-serif" font-size="15" font-weight="700">キャラ・装備</text>
+
+  <defs><clipPath id="portrait"><rect x="24" y="92" width="76" height="108" rx="10"/></clipPath></defs>
+  <rect x="24" y="92" width="76" height="108" rx="10" fill="#68472f" stroke="#d7a442"/>
+  <image href="../games/images/genshin/characters/10000046.webp" x="24" y="92" width="76" height="108" preserveAspectRatio="xMidYMid slice" clip-path="url(#portrait)"/>
+
+  <text x="108" y="101" fill="#edf7fb" font-family="Noto Sans JP, sans-serif" font-size="10" font-weight="700">キャラ</text>
+  <rect x="108" y="108" width="171" height="40" rx="8" fill="#081c27" stroke="#2b5363"/>
+  <text x="120" y="133" fill="#edf7fb" font-family="Noto Sans JP, sans-serif" font-size="12" font-weight="700">胡桃</text>
+  <text x="264" y="135" fill="#36d0c1" font-family="sans-serif" font-size="18">›</text>
+
+  <text x="287" y="101" fill="#edf7fb" font-family="Noto Sans JP, sans-serif" font-size="10" font-weight="700">Lv</text>
+  <rect x="287" y="108" width="54" height="40" rx="8" fill="#081c27" stroke="#2b5363"/>
+  <text x="314" y="133" text-anchor="middle" fill="#edf7fb" font-family="sans-serif" font-size="12" font-weight="700">90</text>
+
+  <text x="349" y="101" fill="#edf7fb" font-family="Noto Sans JP, sans-serif" font-size="10" font-weight="700">凸</text>
+  <rect x="349" y="108" width="57" height="40" rx="8" fill="#081c27" stroke="#2b5363"/>
+  <text x="377" y="133" text-anchor="middle" fill="#edf7fb" font-family="sans-serif" font-size="12" font-weight="700">C1</text>
+
+  <rect x="108" y="156" width="171" height="48" rx="8" fill="#081c27" stroke="#2b5363"/>
+  <image href="../games/images/genshin/weapons/13501.webp" x="109" y="157" width="40" height="46" preserveAspectRatio="xMidYMid meet"/>
+  <text x="158" y="185" fill="#edf7fb" font-family="Noto Sans JP, sans-serif" font-size="12" font-weight="700">護摩の杖</text>
+  <text x="264" y="187" fill="#36d0c1" font-family="sans-serif" font-size="18">›</text>
+
+  <text x="287" y="199" fill="#edf7fb" font-family="Noto Sans JP, sans-serif" font-size="10" font-weight="700">武器Lv</text>
+  <rect x="287" y="156" width="54" height="40" rx="8" fill="#081c27" stroke="#2b5363"/>
+  <text x="314" y="181" text-anchor="middle" fill="#edf7fb" font-family="sans-serif" font-size="12" font-weight="700">90</text>
+  <text x="349" y="199" fill="#edf7fb" font-family="Noto Sans JP, sans-serif" font-size="10" font-weight="700">精錬</text>
+  <rect x="349" y="156" width="57" height="40" rx="8" fill="#081c27" stroke="#2b5363"/>
+  <text x="377" y="181" text-anchor="middle" fill="#edf7fb" font-family="sans-serif" font-size="12" font-weight="700">R1</text>
+
+  <line x1="24" y1="222" x2="406" y2="222" stroke="#254857"/>
+  <text x="24" y="246" fill="#9eb5c0" font-family="Noto Sans JP, sans-serif" font-size="11">キャラ画像：76px・2段をまたぐ</text>
+  <text x="24" y="266" fill="#9eb5c0" font-family="Noto Sans JP, sans-serif" font-size="11">武器画像：40px・情報の優先度を一段下げる</text>
+  <text x="24" y="286" fill="#9eb5c0" font-family="Noto Sans JP, sans-serif" font-size="11">名前部分全体を選択ボタンにし、余分な枠を増やさない</text>
+</svg>

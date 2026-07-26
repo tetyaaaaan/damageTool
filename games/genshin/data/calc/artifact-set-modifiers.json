@@ -384,6 +384,7 @@
       {
         "id": "a_15002_4pc_1_v10",
         "category": "reactionBonus",
+        "targetOwner": "self",
         "applyTo": [
           "swirlDamageBonus"
         ],
@@ -396,6 +397,7 @@
       {
         "id": "a_15002_4pc_2_v10",
         "category": "resistanceDebuff",
+        "targetOwner": "enemy",
         "applyTo": [
           "correspondingElementResistance"
         ],
@@ -537,12 +539,7 @@
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
-        "value": 15,
-        "stack": {
-          "min": 0,
-          "default": 0,
-          "max": 3
-        }
+        "value": 15
       }
     ],
     "fourPiece": [
@@ -558,12 +555,7 @@
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "conditional",
-        "value": 40,
-        "stack": {
-          "min": 0,
-          "default": 0,
-          "max": 3
-        }
+        "value": 40
       },
       {
         "id": "4pc_vaporize_melt_bonus",
@@ -576,12 +568,7 @@
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "conditional",
-        "value": 15,
-        "stack": {
-          "min": 0,
-          "default": 0,
-          "max": 3
-        }
+        "value": 15
       },
       {
         "id": "4pc_pyro_damage_bonus_stack_from_skill",
@@ -591,6 +578,7 @@
         ],
         "unit": "percent",
         "condition": "afterSkill",
+        "conditionGroupId": "crimsonWitchSkillStacks",
         "calculationSupport": "stack",
         "uidHandling": "conditional",
         "value": 7.5,

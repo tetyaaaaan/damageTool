@@ -1910,9 +1910,19 @@
           "normalAttackDamageBonus"
         ],
         "unit": "percent",
-        "condition": "always",
-        "calculationSupport": "simple",
-        "uidHandling": "includedInUidStats",
+        "condition": "haranWavepikeStacks",
+        "conditionLabel": "元素スキル発動後、「波穂」を消費した時",
+        "conditionGroupId": "haranWavepikeStacks",
+        "conditionInput": {
+          "type": "stack",
+          "label": "消費した「波穂」の層数",
+          "help": "元素スキル発動後、消費した「波穂」の層数を選択します。0層は未発動です。",
+          "min": 0,
+          "max": 2,
+          "unit": "層"
+        },
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
         "sourceText": "「波乱」：消費した「波穂」1層につき、通常攻撃ダメージ+20%、継続時間8秒",
         "valueByRefinement": {
           "1": 20,
@@ -4738,6 +4748,7 @@
           "default": 0
         },
         "id": "w_12516_reactionBonus_d0fe6e2e",
+        "auditDisposition": "supersededByStructuredRecord",
         "sourceText": "装備者の重撃が敵に命中するたびに一時的に「超越」状態となり、装備者の星電導反応ダメージ+16%、継続時間5秒",
         "valueRole": "stackedOrScalingByRefinement",
         "valueByRefinementPerStack": {
@@ -4756,7 +4767,7 @@
         ],
         "unit": "percent",
         "condition": "afterChargedAttackHit",
-        "calculationSupport": "toggle",
+        "calculationSupport": "stack",
         "uidHandling": "conditional",
         "sourceText": "さらに、装備者の重撃が敵に命中するたびに一時的に「超越」状態となり、装備者の星電導反応ダメージ+16%、継続時間5秒",
         "valueByRefinement": {
@@ -5683,6 +5694,7 @@
           "5": 24
         },
         "id": "w_13433_reactionBonus_45ef3fc4",
+        "auditDisposition": "supersededByStructuredRecord",
         "sourceText": "感電反応ダメージ+48%、月感電反応ダメージ+12%"
       },
       {
@@ -6554,6 +6566,7 @@
           "5": 84
         },
         "id": "w_13516_reactionBonus_5d637427",
+        "auditDisposition": "supersededByStructuredRecord",
         "sourceText": "元素爆発を発動した後の3.5秒間、装備者が敵に与える月感電反応ダメージ+36%"
       },
       {
@@ -7873,6 +7886,7 @@
           "5": 24
         },
         "id": "w_14433_reactionBonus_b6eb8abd",
+        "auditDisposition": "supersededByStructuredRecord",
         "sourceText": "開花反応ダメージ+48%、月開花反応ダメージ+12%"
       },
       {
@@ -8354,6 +8368,7 @@
           "default": 0
         },
         "id": "w_14509_reactionBonus_5227efb6",
+        "auditDisposition": "supersededByStructuredRecord",
         "sourceText": "この武器を装備したキャラクターの元素スキルによるダメージ+12%、与える星電導反応のダメージ+12%、継続時間24秒、最大3層まで",
         "valueRole": "stackedOrScalingByRefinement",
         "valueByRefinementPerStack": {
@@ -8695,6 +8710,7 @@
           "default": 0
         },
         "id": "w_14513_reactionBonus_5a95da29",
+        "auditDisposition": "supersededByStructuredRecord",
         "sourceText": "現在HPが増減する時、通常攻撃ダメージ+16%、重撃ダメージ+14%、星電導反応のダメージ+14%",
         "valueRole": "stackedOrScalingByRefinement",
         "valueByRefinementPerStack": {
@@ -8727,6 +8743,7 @@
           "default": 0
         },
         "id": "w_14513_reactionBonus_bbe64f46",
+        "auditDisposition": "supersededByStructuredRecord",
         "sourceText": "現在HPが増減する時、通常攻撃ダメージ+16%、重撃ダメージ+14%、星電導反応のダメージ+14%",
         "valueRole": "stackedOrScalingByRefinement",
         "valueByRefinementPerStack": {

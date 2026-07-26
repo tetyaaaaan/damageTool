@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tetinet.example/schemas/genshin-modifier-contract.schema.json",
+  "title": "tetinet Genshin modifier contract",
+  "type": "object",
+  "required": ["id", "category", "applyTo", "condition", "calculationSupport", "uidHandling"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "category": { "type": "string", "minLength": 1 },
+    "applyTo": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "condition": { "type": "string", "minLength": 1 },
+    "conditionGroupId": { "type": "string", "minLength": 1 },
+    "effectGroupId": { "type": "string", "minLength": 1 },
+    "calculationSupport": {
+      "enum": ["simple", "toggle", "stack", "custom", "special", "referenceAttackType", "displayOnly", "dynamic"]
+    },
+    "uidHandling": {
+      "enum": ["includedInUidStats", "includedInUidTalentLevels", "conditional", "special", "displayOnly"]
+    },
+    "targetOwner": {
+      "enum": ["self", "team", "activeCharacter", "otherPartyMembers", "enemy"]
+    },
+    "conditionInput": {
+      "type": "object",
+      "required": ["type", "label"],
+      "properties": {
+        "type": { "enum": ["option", "stack", "targetCount"] },
+        "label": { "type": "string", "minLength": 1 },
+        "min": { "type": "number" },
+        "max": { "type": "number" },
+        "unit": { "type": "string" },
+        "options": { "type": "array" }
+      }
+    },
+    "sourceText": { "type": "string" }
+  },
+  "additionalProperties": true
+}

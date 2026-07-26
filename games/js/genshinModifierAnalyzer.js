@@ -302,7 +302,13 @@
         const statTargets = new Set(["atkPercent", "hpPercent", "defPercent", "elementalMastery", "energyRecharge"]);
         const damageTargets = new Set([
             "allDamageBonus", "allElementDamageBonus", "normalAttackDamageBonus",
-            "chargedAttackDamageBonus", "plungingAttackDamageBonus", "skillDamageBonus", "burstDamageBonus"
+            "chargedAttackDamageBonus", "plungingAttackDamageBonus", "skillDamageBonus", "burstDamageBonus",
+            "swirledElementDamageBonus"
+        ]);
+        const reactionTargets = new Set([
+            "bloomDamageBonus", "hyperbloomDamageBonus", "burgeonDamageBonus",
+            "lunarBloomDamageBonus", "lunarChargedDamageBonus", "lunarCrystallizeDamageBonus",
+            "moonReactionDamageBonus", "stellarConductDamageBonus"
         ]);
         const isCustom = modifier.calculationSupport === "custom" || modifier.calculationSupport === "special";
         if (isCustom && !modifier.customCalculation) {
@@ -314,6 +320,10 @@
         if (targets.length > 0 && targets.every((target) => damageTargets.has(target))
             && finiteNumber(modifier.ratio) && ["percent", "percentPerPoint"].includes(modifier.unit)) {
             return { calculable: true, calculation: "scalingDamageBonus", supportStatus: "supported", reason: "" };
+        }
+        if (targets.length > 0 && targets.every((target) => reactionTargets.has(target))
+            && finiteNumber(modifier.ratio) && ["percent", "percentPerPoint"].includes(modifier.unit)) {
+            return { calculable: true, calculation: "scalingReactionBonus", supportStatus: "supported", reason: "" };
         }
         return { calculable: false, calculation: "scalingBonus", supportStatus: "invalidData", reason: "scalingBonus の倍率・対象・単位が不足しています" };
     }
@@ -403,12 +413,16 @@
     }
 
     function inputStatus(modifier, context) {
-        if (context?.mode !== "uidMode") return "applicable";
+        const includesPersistentBonuses = context?.inputProvenance?.includesPersistentBonuses
+            ?? context?.mode === "uidMode";
+        if (!includesPersistentBonuses) return "applicable";
         return UID_STATUS[effectiveUidHandling(modifier)] || "applicable";
     }
 
     function inputReason(modifier, context) {
-        if (context?.mode !== "uidMode") return "";
+        const includesPersistentBonuses = context?.inputProvenance?.includesPersistentBonuses
+            ?? context?.mode === "uidMode";
+        if (!includesPersistentBonuses) return "";
         return UID_REASON[effectiveUidHandling(modifier)] || "";
     }
 
@@ -416,6 +430,7 @@
         if (modifier?.auditDisposition === "supersededByStructuredRecord") return "SUPERSEDED_RECORD";
         if (modifier?.auditDisposition === "displayOnlyMisclassification") return "DISPLAY_ONLY_MISCLASSIFICATION";
         if (modifier?.auditDisposition === "sourceContextRequired") return "SOURCE_CONTEXT_REQUIRED";
+        if (modifier?.auditDisposition === "dedicatedFormulaDeferred") return "DEDICATED_FORMULA_DEFERRED";
         const status = calculation.supportStatus || "";
         if (["supported", "stateInput"].includes(status)) return "";
         if (status === "missingInput") {
@@ -489,6 +504,9 @@
         }
         if (modifier.auditDisposition === "sourceContextRequired") {
             return { calculable: false, calculation: "", supportStatus: "displayOnly", reason: "安全な計算に必要な原文コンテキストが不足しています" };
+        }
+        if (modifier.auditDisposition === "dedicatedFormulaDeferred") {
+            return { calculable: false, calculation: "", supportStatus: "displayOnly", reason: modifier.deferredReason || "専用の攻撃・状態モデルが必要なため、誤適用を避けて表示のみにしています" };
         }
         const scalingAdditive = scalingAdditiveBaseDamageInfo(modifier, context);
         if (scalingAdditive) return scalingAdditive;

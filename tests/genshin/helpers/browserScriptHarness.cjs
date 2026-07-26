@@ -47,6 +47,7 @@ function loadCalcData() {
         weaponModifiers: readJson("games/genshin/data/calc/weapon-modifiers.json"),
         weaponEffectRegistry: readJson("games/genshin/data/calc/weapon-effect-registry.json"),
         artifactSetModifiers: readJson("games/genshin/data/calc/artifact-set-modifiers.json"),
+        artifactSetEffects: readJson("games/genshin/data/artifact-set-effects.json"),
         constellationModifiers: readJson("games/genshin/data/calc/constellation-modifiers.json"),
         constellationEffectRegistry: readJson("games/genshin/data/calc/constellation-effect-registry.json"),
         attackModeRules: readJson("games/genshin/data/calc/attack-mode-rules.json"),
@@ -54,6 +55,7 @@ function loadCalcData() {
         characters: readJson("games/genshin/data/characters.json"),
         weapons: readJson("games/genshin/data/weapons.json"),
         artifactSets: readJson("games/genshin/data/artifact-sets.json"),
+        enemies: readJson("games/genshin/data/enemies.json"),
         characterTalents: readJson("games/genshin/data/character-talents.json"),
         warnings: []
     };

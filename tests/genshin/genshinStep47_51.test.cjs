@@ -62,12 +62,12 @@ function rendererHarness() {
 
 test("STEP47 groups normal, charged, and plunging results into one explicit basic tab", () => {
     const { renderer } = rendererHarness();
-    assert.deepEqual(Array.from(renderer.RESULT_TABS, (tab) => [tab.id, tab.label]), [
-        ["basic", "通常・重撃・落下"],
-        ["skill", "元素スキル"],
-        ["burst", "元素爆発"],
-        ["reaction", "元素反応"],
-        ["other", "その他"]
+    assert.deepEqual(Array.from(renderer.RESULT_TABS, (tab) => [tab.id, tab.label, tab.fullLabel]), [
+        ["basic", "通常", "通常・重撃・落下"],
+        ["skill", "スキル", "元素スキル"],
+        ["burst", "爆発", "元素爆発"],
+        ["reaction", "反応", "元素反応"],
+        ["other", "その他", "その他"]
     ]);
     const cases = [
         ["normalAttack", "normal"],
@@ -138,6 +138,65 @@ test("STEP49-50 renders friendly sections and hides raw element enums from the u
     assert.doesNotMatch(html, />physical</);
     assert.match(html, /検証用データを見る/);
     assert.doesNotMatch(html, /詳細データ・検証情報/);
+});
+
+test("damage details render a sequential influence graph without changing the calculated result", () => {
+    const { renderer } = rendererHarness();
+    const result = mockResult({ breakdown: {
+        damageInfluence: [
+            { key: "base", label: "基礎ダメージ", contribution: 1000, before: 0, after: 1000 },
+            { key: "buff", label: "ダメージバフ", contribution: 500, before: 1000, after: 1500 },
+            { key: "enemy", label: "敵への補正", contribution: -150, before: 1500, after: 1350 }
+        ]
+    } });
+    const before = JSON.stringify(result);
+    const html = renderer.renderDamageBreakdown(result);
+
+    assert.match(html, /ダメージ影響度/);
+    assert.match(html, /genshin-influence-bar/);
+    assert.match(html, /is-enemy is-negative/);
+    assert.match(html, /基礎ダメージ/);
+    assert.equal(JSON.stringify(result), before);
+});
+
+test("party stat bonuses use Japanese source names and stay in the base-damage stage", () => {
+    const { renderer } = rendererHarness();
+    const bennettSource = "party:2:10000032:talent:combat3";
+    const noblesseSource = "party:2:10000032:artifact:4:15007";
+    const partyModifier = (sourceName, applyTo, value, source, id = "") => ({
+        source,
+        value,
+        analysis: { calculation: "statBonus" },
+        modifier: {
+            id,
+            category: "statBonus",
+            applyTo: [applyTo],
+            unit: "percent",
+            partySource: true,
+            partyProviderName: "ベネット",
+            partySourceName: sourceName
+        }
+    });
+    const html = renderer.renderDamageBreakdown(mockResult({ breakdown: {
+        appliedModifiers: [
+            partyModifier("素晴らしい旅", "atkPercent", 100.8, bennettSource),
+            partyModifier("旧貴族のしつけ 4セット効果", "atkPercent", 20, noblesseSource, "4pc_team_atk_after_burst"),
+            { source: "weapon:15502", value: 12, analysis: { calculation: "damageBonus" }, modifier: { category: "damageBonus", applyTo: ["normalAttackDamageBonus"], unit: "percent" } }
+        ],
+        statTrace: [
+            { modifierId: "", source: bennettSource, stat: "atk", value: 806 },
+            { modifierId: "4pc_team_atk_after_burst", source: noblesseSource, stat: "atk", value: 203 }
+        ]
+    } }));
+    const baseSection = html.slice(html.indexOf("1. 基礎ダメージ"), html.indexOf("2. ダメージバフ"));
+    const buffSection = html.slice(html.indexOf("2. ダメージバフ"), html.indexOf("3. 敵への補正"));
+
+    assert.match(baseSection, /ベネット・素晴らしい旅・攻撃力/);
+    assert.match(baseSection, /\+806（\+100\.80%）/);
+    assert.match(baseSection, /ベネット・旧貴族のしつけ 4セット効果・攻撃力/);
+    assert.doesNotMatch(buffSection, /ベネット|旧貴族|party:2:/);
+    assert.match(buffSection, /武器効果・通常攻撃ダメージ/);
+    assert.doesNotMatch(html, /party:2:10000032/);
 });
 
 test("STEP48 places one compact detail toggle beside each attack name", () => {

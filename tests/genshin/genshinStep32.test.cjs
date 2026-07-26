@@ -3,13 +3,13 @@ const assert = require("node:assert/strict");
 const { buildAudit } = require("../../scripts/genshinArtifactConditionAudit.cjs");
 const { createBrowserScriptHarness, loadCalcData } = require("./helpers/browserScriptHarness.cjs");
 
-function createHarness() {
+function createHarness(elements = {}) {
     return createBrowserScriptHarness([
         "games/js/genshinModifierAnalyzer.js",
         "games/js/genshinCalcConditions.js",
         "games/js/genshinCalcEngine.js",
         "games/js/genshinCalcRenderer.js"
-    ]).sandbox;
+    ], elements).sandbox;
 }
 
 function context(overrides = {}) {
@@ -75,7 +75,8 @@ test("Wanderer's Troupe derives its weapon requirement without a checkbox", () =
 });
 
 test("Golden Troupe separates its automatic and off-field bonuses", () => {
-    const sandbox = createHarness();
+    const conditionCards = { innerHTML: "" };
+    const sandbox = createHarness({ genshinJsonConditionCards: conditionCards });
     const calcData = loadCalcData();
     const modifiers = calcData.artifactSetModifiers["15032"].fourPiece;
     assert.deepEqual(modifiers.map((modifier) => modifier.id), [
@@ -89,6 +90,11 @@ test("Golden Troupe separates its automatic and off-field bonuses", () => {
         .find((item) => item.setId === "15032" && item.pieceCount === 4);
     assert.equal(section.controls.length, 1);
     assert.equal(section.controls[0].label, "キャラクターが待機中");
+    const conditionalEffect = section.effects.find((effect) => effect.modifier.condition === "offField");
+    assert.equal(conditionalEffect.controls.length, 1);
+    assert.equal(conditionalEffect.controls[0].checked, false);
+    sandbox.GenshinCalcRenderer.renderConditionCards(state, goldenContext);
+    assert.match(conditionCards.innerHTML, /現在の反映<\/dt><dd>元素スキル：\+25%／元素スキル：0%<\/dd>/);
     const twoPieceSection = state.cards.find((card) => card.id === "artifact").sections
         .find((item) => item.setId === "15032" && item.pieceCount === 2);
     assert.equal(twoPieceSection.status, "auto");
@@ -123,6 +129,54 @@ test("shared artifact stacks render one control and use one state key", () => {
         return sandbox.GenshinModifierAnalyzer.modifierStateKey(normalized, "artifact4:15021");
     });
     assert.equal(new Set(keys).size, 1);
+});
+
+test("Crimson Witch uses one skill-stack control and updates the reflected value", () => {
+    const calcData = loadCalcData();
+    const inspect = (stack) => {
+        const sandbox = createHarness();
+        const crimsonContext = context({
+            characterId: "10000046",
+            weaponId: "",
+            artifactSetIds: ["15006"],
+            uiState: {
+                ...context().uiState,
+                crimsonWitchStack: stack
+            }
+        });
+        const state = sandbox.GenshinCalcConditions.conditionPanelState(crimsonContext, calcData);
+        const section = state.cards.find((card) => card.id === "artifact").sections
+            .find((item) => item.setId === "15006" && item.pieceCount === 4);
+        const collected = sandbox.GenshinCalcEngine.collectActiveModifiers(calcData, crimsonContext);
+        return { section, collected };
+    };
+
+    const inactive = inspect(0);
+    assert.equal(inactive.section.controls.length, 1);
+    assert.equal(inactive.section.controls[0].type, "crimsonWitchStack");
+    assert.equal(inactive.section.effects[0].controls.length, 0);
+    assert.equal(inactive.section.effects[1].controls.length, 0);
+    assert.equal(inactive.section.effects[2].impact, "7.5% × 0段 = 0%");
+    assert.match(inactive.section.effects[2].effectSummary, /7\.5%／層/);
+    assert.equal(inactive.collected.applied.some((item) => item.modifier.id === "4pc_pyro_damage_bonus_stack_from_skill"), false);
+
+    const active = inspect(3);
+    assert.equal(active.section.controls.length, 1);
+    assert.equal(active.section.effects[2].impact, "7.5% × 3段 = 22.5%");
+    assert.equal(active.collected.applied.find((item) => item.modifier.id === "4pc_pyro_damage_bonus_stack_from_skill").value, 22.5);
+});
+
+test("static stack metadata never creates a non-functional artifact input", () => {
+    const calcData = loadCalcData();
+    Object.keys(calcData.artifactSetModifiers).forEach((setId) => {
+        const sandbox = createHarness();
+        const state = sandbox.GenshinCalcConditions.conditionPanelState(context({ artifactSetIds: [setId] }), calcData);
+        const sections = state.cards.find((card) => card.id === "artifact").sections;
+        sections.flatMap((section) => section.effects).forEach((effect) => {
+            if (effect.modifier.condition !== "always" || effect.modifier.calculationSupport !== "simple") return;
+            assert.equal(effect.controls.length, 0, `${setId}:${effect.modifier.id}`);
+        });
+    });
 });
 
 test("2pc+2pc builds only the two selected two-piece sections", () => {
