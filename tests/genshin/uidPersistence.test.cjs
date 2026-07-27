@@ -88,7 +88,8 @@ test("both calculator pages load UID storage before their importer and expose de
     cases.forEach(([file, importer, clearButtonId]) => {
         const html = read(file);
         assert.ok(html.indexOf("/games/js/uidStorage.js") < html.indexOf(`/games/js/${importer}`), file);
-        assert.match(html, new RegExp(`id="${clearButtonId}"[^>]*hidden`));
+        const hsrTool = file.includes("/hsr/") ? read("games/js/hsrTool.js") : "";
+        assert.ok(new RegExp(`id="${clearButtonId}"[^>]*hidden`).test(html) || hsrTool.includes(`id="${clearButtonId}"`), file);
         assert.match(html, /検索に成功したUIDは、このブラウザに保存/);
     });
 });

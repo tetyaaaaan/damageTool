@@ -2490,6 +2490,44 @@ html[data-theme="dark"] .page-hsr .reflect-button {
   line-height: 1.75;
 }
 
+/* HSR calculator v2: data-driven build and result controls */
+.page-hsr .hsr-v2-input .teti-section-heading p { margin: 0.35rem 0 0; color: var(--teti-muted); font-size: 0.9rem; }
+.page-hsr .teti-tool-title > div { min-width: 0; }
+.page-hsr .teti-page-header h1 { overflow-wrap: anywhere; }
+.page-hsr .hsr-mobile-title-break { display: none; }
+.page-hsr .hsr-v2-input .hsr-section-grid label > input,
+.page-hsr .hsr-v2-input .hsr-section-grid label > select { width: 100%; }
+.page-hsr .hsr-selection-preview { display: flex; align-items: center; gap: 0.7rem; margin-top: 0.8rem; padding: 0.7rem; background: var(--teti-selected-bg); border-radius: 10px; }
+.page-hsr .hsr-selection-preview img { width: 72px; height: 72px; object-fit: cover; border-radius: 10px; background: var(--teti-card); }
+.page-hsr .hsr-selection-preview strong, .page-hsr .hsr-selection-preview span { display: block; }
+.page-hsr .hsr-selection-preview span { margin-top: 0.2rem; color: var(--teti-muted); font-size: 0.86rem; }
+.page-hsr .hsr-stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.page-hsr .hsr-party-grid { display: grid; gap: 0.8rem; }
+.page-hsr .hsr-party-member { margin: 0; padding: 0.85rem; border: 1px solid var(--teti-border); border-radius: 12px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.65rem; }
+.page-hsr .hsr-party-member legend { padding: 0 0.25rem; color: var(--teti-interactive); font-weight: 800; }
+.page-hsr .hsr-party-member label { min-width: 0; }
+.page-hsr .hsr-check { display: flex; align-items: center; gap: 0.45rem; padding-top: 1.4rem; font-weight: 700; }
+.page-hsr .hsr-check input { width: auto; min-height: auto; }
+.page-hsr .hsr-v2-result { align-self: start; }
+.page-hsr .hsr-result-summary dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.55rem; margin: 0.75rem 0; }
+.page-hsr .hsr-result-summary dl div { padding: 0.75rem; border-radius: 10px; background: var(--teti-selected-bg); }
+.page-hsr .hsr-result-summary dt { color: var(--teti-muted); font-size: 0.8rem; }
+.page-hsr .hsr-result-summary dd { margin: 0.25rem 0 0; color: var(--teti-interactive); font-size: 1.35rem; font-weight: 900; }
+.page-hsr .hsr-v2-result details { margin-top: 0.75rem; border-top: 1px solid var(--teti-border); padding-top: 0.75rem; }
+.page-hsr .hsr-v2-result summary { cursor: pointer; font-weight: 800; }
+.page-hsr .hsr-breakdown { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+.page-hsr .hsr-breakdown div { display: flex; justify-content: space-between; gap: 0.75rem; border-bottom: 1px solid var(--teti-border); padding: 0.35rem 0; }
+.page-hsr .hsr-breakdown dd { margin: 0; font-weight: 700; }
+.page-hsr .hsr-action-value, .page-hsr .hsr-future-note { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--teti-border); }
+.page-hsr .hsr-action-value label { display: grid; gap: 0.3rem; font-weight: 700; }
+.page-hsr .hsr-action-value input { width: 100%; }
+@media (max-width: 720px) {
+  .page-hsr .hsr-stat-grid, .page-hsr .hsr-party-member { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .page-hsr .hsr-result-summary dl { grid-template-columns: 1fr; }
+  .page-hsr .hsr-breakdown { grid-template-columns: 1fr; }
+  .page-hsr .hsr-check { padding-top: 0; }
+}
+
 
 .page-granblue .gbf-muted-note {
   color: var(--teti-muted);
@@ -2576,6 +2614,34 @@ html[data-theme="dark"] .page-granblue .gbf-highlight-defense {
 
   .page-granblue .gb-damage-grid {
     grid-template-columns: 1fr;
+  }
+
+  .page-hsr .teti-tool-title {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    width: 100%;
+    gap: 12px;
+  }
+
+  .page-hsr .teti-tool-mark {
+    width: 56px;
+    height: 56px;
+  }
+
+  .page-hsr .teti-tool-title > div {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .page-hsr .teti-page-header h1 {
+    font-size: 1.55rem;
+    white-space: normal;
+    word-break: break-all;
+    overflow-wrap: anywhere;
+  }
+
+  .page-hsr .hsr-mobile-title-break {
+    display: inline;
   }
 }
 

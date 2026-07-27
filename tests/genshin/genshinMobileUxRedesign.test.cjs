@@ -27,7 +27,7 @@ test("mobile selection avoids involuntary keyboard zoom and exposes compact meta
     const modal = read("games/js/genshinSelectionModal.js");
 
     assert.match(css, /\.genshin-selection-dialog \.genshin-selection-search-wrap input\s*\{[^}]*font-size:\s*16px/s);
-    assert.match(css, /\.genshin-selection-dialog\s*\{[^}]*width:\s*calc\(100% - 24px\)[^}]*height:\s*min\(72dvh, 680px\)/s);
+    assert.match(css, /\.genshin-modal\s*\{[^}]*width:\s*calc\(100% - 24px\)[^}]*height:\s*min\(72dvh, 680px\)/s);
     assert.doesNotMatch(css, /height:\s*100dvh/);
     assert.match(modal, /navigator\.maxTouchPoints > 0/);
     assert.match(modal, /\(pointer: coarse\)/);

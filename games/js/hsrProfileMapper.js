@@ -63,6 +63,7 @@
         const lightCone = readPath(character, [["light_cone"], ["weapon"]], null);
         if (!lightCone) return null;
         return {
+            id: String(lightCone.id ?? lightCone.name ?? ""),
             name: pickText(lightCone.name),
             level: pickNumber(lightCone.level),
             rank: pickNumber(lightCone.rank)
@@ -73,9 +74,13 @@
         const relics = readPath(character, [["relics"]], []);
         if (!Array.isArray(relics)) return [];
         return relics.map((relic) => ({
+            id: String(relic.id ?? relic.name ?? ""),
             name: pickText(relic.name),
             level: pickNumber(relic.level),
-            rarity: pickNumber(relic.rarity)
+            rarity: pickNumber(relic.rarity),
+            setName: pickText(relic.set_name ?? relic.setName, "-"),
+            mainAffix: pickText(relic.main_affix?.name ?? relic.mainAffix?.name, "-"),
+            subAffixes: Array.isArray(relic.sub_affix) ? relic.sub_affix.map((item) => pickText(item?.name)).filter((item) => item !== "-") : []
         }));
     }
 
@@ -97,6 +102,8 @@
             critRate: normalizePercent(readStat(character, ["crit_rate", "critRate", "会心率"])),
             critDamage: normalizePercent(readStat(character, ["crit_dmg", "critDamage", "会心ダメージ"])),
             breakEffect: normalizePercent(readStat(character, ["break_dmg", "breakEffect", "撃破特効"])),
+            effectHitRate: normalizePercent(readStat(character, ["effect_hit", "effectHitRate", "効果命中"])),
+            effectRes: normalizePercent(readStat(character, ["effect_res", "effectRes", "効果抵抗"])),
             energyRegen: normalizePercent(readStat(character, ["energy_recovery", "energyRegen", "EP回復効率"])),
             elementalDamage: normalizePercent(readStat(character, ["element_dmg", "damage_boost", "属性与ダメージ"]))
         };

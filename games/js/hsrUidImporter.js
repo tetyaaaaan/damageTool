@@ -100,6 +100,11 @@
     }
 
     function applyCharacterToForm(character) {
+        // 新しい計算画面では、API値の反映と手動編集状態を HsrTool が管理する。
+        // 旧入力欄が残る環境でも壊さないため、従来の反映は後方互換として維持する。
+        if (window.HsrTool?.applyProfileCharacter) {
+            window.HsrTool.applyProfileCharacter(character);
+        }
         setInputValue("atk", character.stats.atk);
         setInputValue("base_atk", character.stats.atk);
         setInputValue("cri_dmg", character.stats.critDamage);

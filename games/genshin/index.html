@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="/games/css/style.css?v=20260722-1">
   <link rel="stylesheet" href="/games/css/menu.css">
   <link rel="stylesheet" href="/games/css/tetinet.css?v=20260722-1">
-  <link rel="stylesheet" href="/games/css/genshin-tool-ui.css?v=20260726-7">
+  <link rel="stylesheet" href="/games/css/genshin-tool-ui.css?v=20260727-4">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/games/images/icon/te_maru.ico">
   <script src="/games/js/windowLoading.js"></script>
@@ -415,14 +415,14 @@
       </div>
     </main>
 
-    <dialog class="genshin-selection-dialog" id="genshinSelectionDialog" aria-labelledby="genshinSelectionTitle">
-      <div class="genshin-selection-dialog-inner">
-        <header class="genshin-selection-dialog-head">
+    <dialog class="genshin-modal genshin-modal--selection genshin-selection-dialog" id="genshinSelectionDialog" aria-labelledby="genshinSelectionTitle">
+      <div class="genshin-modal-shell genshin-selection-dialog-inner">
+        <header class="genshin-modal-head genshin-selection-dialog-head">
           <div>
             <p class="genshin-kicker" id="genshinSelectionKicker">選択</p>
             <h2 id="genshinSelectionTitle">キャラクターを選択</h2>
           </div>
-          <button type="button" class="genshin-selection-close" id="genshinSelectionClose" aria-label="選択画面を閉じる">×</button>
+          <button type="button" class="genshin-modal-close genshin-selection-close" id="genshinSelectionClose" aria-label="選択画面を閉じる">×</button>
         </header>
         <div class="genshin-selection-search-wrap">
           <label for="genshinSelectionSearch">名前で検索</label>
@@ -433,7 +433,7 @@
         </div>
         <div class="genshin-selection-filters" id="genshinSelectionFilters"></div>
         <p class="genshin-selection-summary" id="genshinSelectionSummary" aria-live="polite"></p>
-        <div class="genshin-selection-list" id="genshinSelectionList"></div>
+        <div class="genshin-modal-scroll-region genshin-selection-list" id="genshinSelectionList"></div>
       </div>
     </dialog>
 
@@ -464,34 +464,34 @@
       </div>
     </dialog>
 
-    <dialog class="genshin-equipment-details-dialog genshin-condition-dialog" id="genshinConditionDialog" aria-labelledby="genshinConditionDialogTitle">
-      <div class="genshin-equipment-details-dialog-inner">
-        <header class="genshin-equipment-details-head">
+    <dialog class="genshin-modal genshin-modal--condition genshin-equipment-details-dialog genshin-condition-dialog" id="genshinConditionDialog" aria-labelledby="genshinConditionDialogTitle">
+      <div class="genshin-modal-shell genshin-equipment-details-dialog-inner">
+        <header class="genshin-modal-head genshin-equipment-details-head">
           <div>
             <p class="genshin-kicker">CONDITIONS</p>
             <h2 id="genshinConditionDialogTitle">補正条件</h2>
           </div>
-          <button type="button" class="genshin-selection-close" id="genshinConditionDialogClose" aria-label="補正条件を閉じる">×</button>
+          <button type="button" class="genshin-modal-close genshin-selection-close" id="genshinConditionDialogClose" aria-label="補正条件を閉じる">×</button>
         </header>
         <nav class="genshin-condition-tabs" id="genshinConditionTabs" aria-label="補正条件カテゴリ"></nav>
-        <div class="genshin-equipment-details-body genshin-condition-dialog-body">
+        <div class="genshin-modal-scroll-region genshin-equipment-details-body genshin-condition-dialog-body">
           <div id="genshinJsonConditionCards" class="genshin-condition-cards" aria-live="polite"></div>
         </div>
       </div>
     </dialog>
 
-    <dialog class="genshin-equipment-details-dialog genshin-party-dialog" id="genshinPartyDialog" aria-labelledby="genshinPartyDialogTitle">
-      <div class="genshin-equipment-details-dialog-inner">
-        <header class="genshin-equipment-details-head">
+    <dialog class="genshin-modal genshin-modal--party genshin-equipment-details-dialog genshin-party-dialog" id="genshinPartyDialog" aria-labelledby="genshinPartyDialogTitle">
+      <div class="genshin-modal-shell genshin-equipment-details-dialog-inner">
+        <header class="genshin-modal-head genshin-equipment-details-head">
           <div>
             <p class="genshin-kicker">PARTY</p>
             <h2 id="genshinPartyDialogTitle">パーティメンバー</h2>
           </div>
-          <button type="button" class="genshin-selection-close" id="genshinPartyDialogClose" aria-label="パーティ設定を閉じる">×</button>
+          <button type="button" class="genshin-modal-close genshin-selection-close" id="genshinPartyDialogClose" aria-label="パーティ設定を閉じる">×</button>
         </header>
         <div class="genshin-equipment-details-body genshin-party-dialog-body">
           <p class="genshin-party-dialog-help">計算対象は現在選択中のメインキャラです。残り3枠はアイコンからキャラと武器を選択できます。</p>
-          <div class="genshin-party-member-list" id="genshinPartyMemberList"></div>
+          <div class="genshin-modal-scroll-region genshin-party-member-list" id="genshinPartyMemberList"></div>
           <div class="genshin-party-dialog-actions">
             <button type="button" class="teti-button teti-button-primary" id="genshinPartyDialogDone">設定を完了</button>
           </div>
