@@ -46,6 +46,38 @@
         return pickNumber(found?.value ?? found?.display ?? found?.percent, fallback);
     }
 
+    function readLargestStat(character, names, fallback = 0) {
+        const properties = [
+            ...(Array.isArray(character.properties) ? character.properties : []),
+            ...(Array.isArray(character.propertyList) ? character.propertyList : []),
+            ...(Array.isArray(character.avatarPropertyList) ? character.avatarPropertyList : []),
+            ...(Array.isArray(character.additions) ? character.additions : []),
+            ...(Array.isArray(character.attributes) ? character.attributes : [])
+        ];
+        const values = properties.filter((item) => names.includes(item?.field) || names.includes(item?.type) || names.includes(item?.name)).map((item) => pickNumber(item?.value ?? item?.display ?? item?.percent, 0));
+        return values.length ? Math.max(...values) : fallback;
+    }
+
+    function readCombinedStat(character, names, fallback = 0) {
+        const attributes = Array.isArray(character.attributes) ? character.attributes : [];
+        const additions = Array.isArray(character.additions) ? character.additions : [];
+        const matches = (item) => names.includes(item?.field) || names.includes(item?.type) || names.includes(item?.name);
+        const matched = attributes.filter(matches).concat(additions.filter(matches));
+        if (matched.length) return matched.reduce((sum, item) => sum + pickNumber(item?.value ?? item?.display ?? item?.percent, 0), 0);
+        return readStat(character, names, fallback);
+    }
+
+    function readCombinedElementDamage(character, names, fallback = 0) {
+        const attributes = Array.isArray(character.attributes) ? character.attributes : [];
+        const additions = Array.isArray(character.additions) ? character.additions : [];
+        const totals = new Map();
+        attributes.concat(additions).forEach((item) => {
+            const key = names.includes(item?.field) ? item.field : names.includes(item?.type) ? item.type : names.includes(item?.name) ? item.name : "";
+            if (key) totals.set(key, (totals.get(key) || 0) + pickNumber(item?.value ?? item?.display ?? item?.percent, 0));
+        });
+        return totals.size ? Math.max(...totals.values()) : readLargestStat(character, names, fallback);
+    }
+
     function normalizePercent(value) {
         const num = pickNumber(value, 0);
         return Math.abs(num) <= 10 ? num * 100 : num;
@@ -66,7 +98,8 @@
             id: String(lightCone.id ?? lightCone.name ?? ""),
             name: pickText(lightCone.name),
             level: pickNumber(lightCone.level),
-            rank: pickNumber(lightCone.rank)
+            rank: pickNumber(lightCone.rank),
+            image: readPath(lightCone, [["icon"], ["portrait"], ["preview"]], "")
         };
     }
 
@@ -80,32 +113,48 @@
             rarity: pickNumber(relic.rarity),
             setName: pickText(relic.set_name ?? relic.setName, "-"),
             mainAffix: pickText(relic.main_affix?.name ?? relic.mainAffix?.name, "-"),
-            subAffixes: Array.isArray(relic.sub_affix) ? relic.sub_affix.map((item) => pickText(item?.name)).filter((item) => item !== "-") : []
+            subAffixes: Array.isArray(relic.sub_affix) ? relic.sub_affix.map((item) => pickText(item?.name)).filter((item) => item !== "-") : [],
+            image: readPath(relic, [["icon"]], "")
         }));
+    }
+
+    function mapRelicSets(character) {
+        const sets = readPath(character, [["relic_sets"], ["relicSets"]], []);
+        if (!Array.isArray(sets)) return [];
+        const merged = new Map();
+        sets.forEach((set) => {
+            const id = String(set.id ?? ""); const previous = merged.get(id);
+            const current = { id, name: pickText(set.name), pieces: pickNumber(set.num ?? set.pieces), properties: Array.isArray(set.properties) ? set.properties : [] };
+            if (!previous || current.pieces >= previous.pieces) merged.set(id, current);
+        });
+        return [...merged.values()];
     }
 
     function mapTraces(character) {
         const skills = readPath(character, [["skills"]], []);
         if (!Array.isArray(skills)) return [];
         return skills.map((skill) => ({
+            id: String(skill.id ?? ""),
             name: pickText(skill.name),
-            level: pickNumber(skill.level)
+            type: pickText(skill.type, ""),
+            level: pickNumber(skill.level),
+            maxLevel: pickNumber(skill.max_level ?? skill.maxLevel)
         }));
     }
 
     function mapCharacter(character) {
         const stats = {
-            hp: pickNumber(readPath(character, [["attributes", "hp"], ["stats", "hp"], ["final_stats", "hp"]], readStat(character, ["hp", "HP"]))),
-            atk: pickNumber(readPath(character, [["attributes", "atk"], ["stats", "atk"], ["final_stats", "atk"]], readStat(character, ["atk", "attack", "攻撃力"]))),
-            def: pickNumber(readPath(character, [["attributes", "def"], ["stats", "def"], ["final_stats", "def"]], readStat(character, ["def", "defence", "防御力"]))),
-            speed: pickNumber(readPath(character, [["attributes", "spd"], ["stats", "spd"], ["final_stats", "spd"]], readStat(character, ["spd", "speed", "速度"]))),
-            critRate: normalizePercent(readStat(character, ["crit_rate", "critRate", "会心率"])),
-            critDamage: normalizePercent(readStat(character, ["crit_dmg", "critDamage", "会心ダメージ"])),
-            breakEffect: normalizePercent(readStat(character, ["break_dmg", "breakEffect", "撃破特効"])),
-            effectHitRate: normalizePercent(readStat(character, ["effect_hit", "effectHitRate", "効果命中"])),
-            effectRes: normalizePercent(readStat(character, ["effect_res", "effectRes", "効果抵抗"])),
-            energyRegen: normalizePercent(readStat(character, ["energy_recovery", "energyRegen", "EP回復効率"])),
-            elementalDamage: normalizePercent(readStat(character, ["element_dmg", "damage_boost", "属性与ダメージ"]))
+            hp: readCombinedStat(character, ["hp", "HP"]),
+            atk: readCombinedStat(character, ["atk", "attack", "攻撃力"]),
+            def: readCombinedStat(character, ["def", "defence", "防御力"]),
+            speed: readCombinedStat(character, ["spd", "speed", "速度"]),
+            critRate: normalizePercent(readCombinedStat(character, ["crit_rate", "critRate", "会心率"])),
+            critDamage: normalizePercent(readCombinedStat(character, ["crit_dmg", "critDamage", "会心ダメージ"])),
+            breakEffect: normalizePercent(readCombinedStat(character, ["break_dmg", "breakEffect", "撃破特効"])),
+            effectHitRate: normalizePercent(readCombinedStat(character, ["effect_hit", "effectHitRate", "効果命中"])),
+            effectRes: normalizePercent(readCombinedStat(character, ["effect_res", "effectRes", "効果抵抗"])),
+            energyRegen: normalizePercent(readCombinedStat(character, ["energy_recovery", "energyRegen", "EP回復効率"], 1)),
+            damageBonus: normalizePercent(readCombinedElementDamage(character, ["physical_dmg", "fire_dmg", "ice_dmg", "lightning_dmg", "wind_dmg", "quantum_dmg", "imaginary_dmg", "element_dmg", "damage_boost", "属性与ダメージ"]))
         };
 
         return {
@@ -117,7 +166,9 @@
             eidolon: pickNumber(character.rank ?? character.eidolon),
             lightCone: mapLightCone(character),
             relics: mapRelics(character),
+            relicSets: mapRelicSets(character),
             traces: mapTraces(character),
+            image: readPath(character, [["icon"], ["portrait"], ["preview"]], ""),
             stats
         };
     }

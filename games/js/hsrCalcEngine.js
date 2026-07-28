@@ -6,7 +6,9 @@
 
     function resistanceMultiplier(resistancePercent) {
         const resistance = number(resistancePercent) / 100;
-        if (resistance < 0) return 1 - resistance / 2;
+        // Star Rail keeps the full benefit below 0% RES (unlike Genshin's
+        // halved negative-resistance branch).
+        if (resistance < 0) return 1 - resistance;
         if (resistance < 0.75) return 1 - resistance;
         return 1 / (1 + resistance * 4);
     }
@@ -16,7 +18,7 @@
         const defender = Math.max(1, number(enemyLevel, 80)) + 20;
         const reduction = clamp(defenseReduction, 0, 100) / 100;
         const ignore = clamp(defenseIgnore, 0, 100) / 100;
-        const effectiveDefense = defender * Math.max(0, 1 - reduction) * Math.max(0, 1 - ignore);
+        const effectiveDefense = defender * Math.max(0, 1 - reduction - ignore);
         return attacker / (attacker + effectiveDefense);
     }
 
@@ -60,8 +62,10 @@
         const skipped = modifiers.filter((item) => !item.enabled || !item.applicable);
 
         const scalingStat = attack.scalingStat || "atk";
-        const referenceValue = number(stats[scalingStat]);
-        const multiplier = number(attack.multiplier) / 100;
+        const scalingTerms = Array.isArray(attack.scalingTerms) && attack.scalingTerms.length
+            ? attack.scalingTerms.map((term) => ({ stat: term.stat || "atk", referenceValue: number(stats[term.stat || "atk"]), multiplierPercent: number(term.multiplier) }))
+            : [{ stat: scalingStat, referenceValue: number(stats[scalingStat]), multiplierPercent: number(attack.multiplier) }];
+        const referenceValue = scalingTerms.length === 1 ? scalingTerms[0].referenceValue : scalingTerms.reduce((sum, term) => sum + term.referenceValue, 0);
         const flatDamage = number(attack.flatDamage);
         const hitCount = Math.max(1, Math.floor(number(attack.hitCount, 1)));
         const damageBonus = number(stats.damageBonus) + applied.filter((item) => item.category === "damageBonus").reduce((sum, item) => sum + item.value, 0);
@@ -69,10 +73,13 @@
         const defenseReduction = number(enemy.defenseReduction) + applied.filter((item) => item.category === "defenseReduction").reduce((sum, item) => sum + item.value, 0);
         const defenseIgnore = number(enemy.defenseIgnore) + applied.filter((item) => item.category === "defenseIgnore").reduce((sum, item) => sum + item.value, 0);
         const resistancePen = number(enemy.resistancePenetration) + applied.filter((item) => item.category === "resistancePenetration").reduce((sum, item) => sum + item.value, 0);
-        const baseDamage = referenceValue * multiplier + flatDamage;
+        const baseDamage = scalingTerms.reduce((sum, term) => sum + term.referenceValue * term.multiplierPercent / 100, 0) + flatDamage;
         const defense = defenseMultiplier(character.level, enemy.level, defenseReduction, defenseIgnore);
         const resistance = resistanceMultiplier(number(enemy.resistance) - resistancePen);
-        const weakness = enemy.weakness === false ? 0.8 : 1;
+        // Weakness itself is not a separate direct-damage multiplier.  It
+        // controls toughness reduction and break eligibility; base RES is an
+        // explicit enemy input.
+        const weakness = 1;
         const toughness = enemy.toughnessActive ? 0.9 : 1;
         const commonMultiplier = (1 + damageBonus / 100) * (1 + takenDamage / 100) * defense * resistance * weakness * toughness;
         const nonCritPerHit = baseDamage * commonMultiplier;
@@ -89,7 +96,7 @@
             expected: expectedPerHit * hitCount,
             perHit: { nonCrit: nonCritPerHit, crit: critPerHit, expected: expectedPerHit },
             breakdown: {
-                referenceValue, multiplierPercent: number(attack.multiplier), flatDamage,
+                referenceValue, multiplierPercent: number(attack.multiplier), scalingTerms, flatDamage,
                 damageBonus, takenDamage, defense, resistance, weakness, toughness,
                 baseDamage, commonMultiplier, critRatePercent: critRate * 100, critDamagePercent: number(stats.critDamage)
             },
@@ -101,15 +108,28 @@
     function calculateBreak(input) {
         const character = input?.character || {};
         const enemy = input?.enemy || {};
+        const modifiers = (input?.modifiers || []).map(normalizeModifier);
+        const applied = modifiers.filter((item) => item.enabled && item.applicable);
         const level = Math.max(1, Math.min(80, Math.round(number(character.level, 80))));
         const table = input?.breakBaseDamage || {};
-        const base = number(table[level], 3767);
-        const multiplier = number(input?.multiplier, 1);
+        const base = number(table[level], NaN);
+        if (!Number.isFinite(base) || enemy.weakness === false) {
+            return { supported: false, reason: enemy.weakness === false ? "選択中の属性は敵の弱点ではありません。" : `Lv.${level}の撃破基礎値は未検証です。` };
+        }
+        const elementMultipliers = { Physical: 2, Fire: 2, Wind: 1.5, Ice: 1, Thunder: 1, Quantum: 0.5, Imaginary: 0.5 };
+        const explicitMultiplier = Number(input?.multiplier);
+        const multiplier = Number.isFinite(explicitMultiplier) ? explicitMultiplier : elementMultipliers[input?.element];
+        if (!Number.isFinite(multiplier)) return { supported: false, reason: "撃破属性倍率を特定できません。" };
         const effect = 1 + number(character.stats?.breakEffect) / 100;
-        const defense = defenseMultiplier(character.level, enemy.level, enemy.defenseReduction, enemy.defenseIgnore);
-        const resistance = resistanceMultiplier(number(enemy.resistance) - number(enemy.resistancePenetration));
-        const toughnessScale = 0.5 + Math.max(0, number(enemy.currentToughness, 30)) / 120;
-        return { value: base * multiplier * effect * defense * resistance * toughnessScale, base, effect, defense, resistance, toughnessScale };
+        const defenseReduction = number(enemy.defenseReduction) + applied.filter((item) => item.category === "defenseReduction").reduce((sum, item) => sum + item.value, 0);
+        const defenseIgnore = number(enemy.defenseIgnore) + applied.filter((item) => item.category === "defenseIgnore").reduce((sum, item) => sum + item.value, 0);
+        const resistancePenetration = number(enemy.resistancePenetration) + applied.filter((item) => item.category === "resistancePenetration").reduce((sum, item) => sum + item.value, 0);
+        const takenDamage = number(enemy.takenDamage) + applied.filter((item) => item.category === "takenDamage").reduce((sum, item) => sum + item.value, 0);
+        const defense = defenseMultiplier(character.level, enemy.level, defenseReduction, defenseIgnore);
+        const resistance = resistanceMultiplier(number(enemy.resistance) - resistancePenetration);
+        const toughnessScale = 0.5 + Math.max(0, number(enemy.maxToughness, 30)) / 120;
+        const vulnerability = 1 + takenDamage / 100;
+        return { supported: true, value: base * multiplier * effect * defense * resistance * toughnessScale * vulnerability, base, multiplier, effect, defense, resistance, toughnessScale, vulnerability, applied };
     }
 
     window.HsrCalcEngine = Object.freeze({ calculate, calculateBreak, defenseMultiplier, resistanceMultiplier, actionSummary });

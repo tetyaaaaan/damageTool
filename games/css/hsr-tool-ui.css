@@ -1,0 +1,80 @@
+/* HSR only supplies semantic adjustments. Shared cards, panels and dialogs
+   intentionally use the production Genshin tool classes. */
+.hsr-tool-main .genshin-tool-mark img { object-fit: contain; }
+.hsr-mobile-only { display: none; }
+.hsr-equipment-layout .genshin-equipment-card { min-width: 0; }
+.hsr-equipment-subline { display: block; min-width: 0; overflow: hidden; color: var(--teti-text-muted); font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
+.hsr-set-kind { overflow: hidden; color: var(--teti-text-muted); font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
+.hsr-relic-mode-row { margin-bottom: .6rem; }
+.hsr-stat-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.hsr-check-field { display: flex; flex-direction: row; align-items: center; gap: .55rem; min-height: 3rem; }
+.hsr-check-field input { width: auto; }
+.hsr-action-value-card { margin-top: 1rem; padding: 1rem; border: 1px solid var(--teti-border); border-radius: 1rem; background: var(--teti-surface-soft); }
+.hsr-action-value-card h3 { margin: 0 0 .8rem; }
+.hsr-action-value-card p { margin: .65rem 0 0; font-size: .82rem; color: var(--teti-text-muted); }
+.hsr-action-summary { display: grid; align-content: center; gap: .2rem; }
+.hsr-action-summary strong { font-size: 1.15rem; color: var(--teti-interactive); }
+.hsr-enemy-trigger { display: grid; grid-template-columns: 4rem minmax(0,1fr); gap: .75rem; align-items: center; width: 100%; margin-bottom: .85rem; padding: .65rem; color: inherit; background: var(--teti-surface-soft); border: 1px solid var(--teti-border); border-radius: .85rem; text-align: left; cursor: pointer; }
+.hsr-enemy-trigger:hover { border-color: var(--teti-interactive); background: var(--teti-selected-bg); }
+.hsr-enemy-trigger img { width: 4rem; height: 4rem; object-fit: contain; border-radius: .65rem; background: var(--teti-surface); }
+.hsr-enemy-trigger span { min-width: 0; display: grid; gap: .2rem; }
+.hsr-enemy-trigger strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hsr-enemy-trigger small { color: var(--teti-text-muted); }
+.hsr-selection-card { position: relative; display: grid; grid-template-columns: 4.25rem minmax(0,1fr); gap: .75rem; align-items: center; width: 100%; min-height: 5.25rem; padding: .7rem; border: 1px solid var(--teti-border); border-radius: .9rem; background: var(--teti-surface); color: inherit; text-align: left; cursor: pointer; }
+.hsr-selection-card:hover,
+.hsr-selection-card.is-selected { border-color: var(--teti-interactive); background: var(--teti-selected-bg); }
+.hsr-selection-card img { width: 4.25rem; height: 4.25rem; object-fit: contain; border-radius: .65rem; background: var(--teti-surface-soft); }
+.hsr-selection-card-copy { min-width: 0; display: grid; gap: .2rem; }
+.hsr-selection-card-copy strong { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-height: 1.3; }
+.hsr-selection-card-copy span { font-size: .75rem; color: var(--teti-text-muted); }
+.hsr-selection-empty { grid-column: 1/-1; padding: 2rem; text-align: center; color: var(--teti-text-muted); }
+.genshin-selection-dialog[data-selection-type="enemy"] .genshin-selection-dialog-inner { height: auto; max-height: min(42rem, calc(100dvh - 2rem)); }
+.genshin-selection-dialog[data-selection-type="enemy"] .genshin-selection-list { min-height: 0; }
+.hsr-uid-character-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(12rem,1fr)); gap: .65rem; margin-top: .75rem; }
+.hsr-uid-character-card { display: grid; grid-template-columns: 4.5rem minmax(0,1fr); gap: .65rem; align-items: center; padding: .65rem; border: 1px solid var(--teti-border); border-radius: .85rem; background: var(--teti-surface); color: inherit; text-align: left; cursor: pointer; }
+.hsr-uid-character-card:hover,
+.hsr-uid-character-card.is-selected { border-color: var(--teti-interactive); background: var(--teti-selected-bg); }
+.hsr-uid-character-card img { width: 4.5rem; height: 4.5rem; object-fit: contain; border-radius: .65rem; background: var(--teti-surface-soft); }
+.hsr-uid-character-card span { min-width: 0; display: grid; gap: .15rem; }
+.hsr-uid-character-card strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hsr-uid-character-card small { color: var(--teti-text-muted); }
+.hsr-uid-detail-head { display: flex; gap: .8rem; align-items: center; }
+.hsr-uid-detail-head img { width: 6rem; height: 6rem; object-fit: contain; border-radius: .8rem; background: var(--teti-surface-soft); }
+.hsr-uid-detail-head div { display: grid; gap: .2rem; }
+.hsr-uid-stat-list { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .35rem .8rem; }
+.hsr-uid-stat-list div { display: flex; justify-content: space-between; gap: .5rem; }
+.hsr-party-slot { display: grid; grid-template-columns: 4.5rem minmax(0,1fr) auto; gap: .8rem; align-items: center; padding: .8rem; border: 1px solid var(--teti-border); border-radius: .9rem; }
+.hsr-party-slot img { width: 4.5rem; height: 4.5rem; object-fit: contain; border-radius: .7rem; background: var(--teti-surface-soft); }
+.hsr-party-slot-copy { min-width: 0; display: grid; gap: .25rem; }
+.hsr-party-slot-copy button { justify-self: start; }
+.hsr-condition-row { display: grid; grid-template-columns: auto minmax(0,1fr) 7rem; gap: .8rem; align-items: start; padding: .85rem; border-bottom: 1px solid var(--teti-border); }
+.hsr-condition-row p { margin: .2rem 0 0; font-size: .8rem; color: var(--teti-text-muted); }
+.hsr-condition-row input[type="number"] { width: 100%; }
+.hsr-result-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .65rem; }
+.hsr-result-card { padding: .85rem; border-radius: .85rem; background: var(--teti-surface-soft); }
+.hsr-result-card span { display: block; font-size: .75rem; color: var(--teti-text-muted); }
+.hsr-result-card strong { display: block; margin-top: .2rem; font-size: 1.25rem; }
+.hsr-result-details { margin-top: .85rem; }
+.hsr-result-details dl { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .45rem 1rem; }
+.hsr-result-details dl div { display: flex; justify-content: space-between; gap: .6rem; }
+.hsr-result-details dt { color: var(--teti-text-muted); }
+
+@media (max-width: 980px) {
+  .hsr-stat-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+
+@media (max-width: 640px) {
+  .hsr-mobile-only { display: initial; }
+  .hsr-stat-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .hsr-selection-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .hsr-selection-card { grid-template-columns: 3.25rem minmax(0,1fr); min-height: 4.4rem; padding: .55rem; }
+  .hsr-selection-card img { width: 3.25rem; height: 3.25rem; }
+  .hsr-party-slot { grid-template-columns: 3.75rem minmax(0,1fr); }
+  .hsr-party-slot > button { grid-column: 1/-1; }
+  .hsr-uid-character-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .hsr-uid-character-card { grid-template-columns: 3.25rem minmax(0,1fr); padding: .5rem; }
+  .hsr-uid-character-card img { width: 3.25rem; height: 3.25rem; }
+  .hsr-uid-stat-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .hsr-result-cards { grid-template-columns: 1fr; }
+  .hsr-result-details dl { grid-template-columns: 1fr; }
+}

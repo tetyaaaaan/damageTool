@@ -24,9 +24,38 @@ test("HSR engine applies structured party and enemy modifiers and reports them",
     const result = engine().calculate(input);
     assert.equal(result.breakdown.damageBonus, 30); assert.equal(result.applied.length, 1); assert.equal(result.skipped.length, 1);
 });
+test("HSR engine supports explicit mixed-stat scaling without parsing descriptions", () => {
+    const input = baseInput(); input.attack = { ...input.attack, scalingTerms: [{ stat: "atk", multiplier: 50 }, { stat: "hp", multiplier: 10 }] };
+    const result = engine().calculate(input);
+    assert.equal(result.breakdown.baseDamage, 1000);
+    assert.equal(result.breakdown.scalingTerms.length, 2);
+});
 test("HSR resistance and defense multipliers have explicit boundary behavior", () => {
-    const calc = engine(); assert.ok(calc.resistanceMultiplier(-20) > 1); assert.ok(calc.resistanceMultiplier(90) < calc.resistanceMultiplier(20)); assert.ok(calc.defenseMultiplier(80, 80, 100, 0) > calc.defenseMultiplier(80, 80, 0, 0));
+    const calc = engine(); assert.equal(calc.resistanceMultiplier(-20), 1.2); assert.ok(calc.resistanceMultiplier(90) < calc.resistanceMultiplier(20)); assert.equal(calc.defenseMultiplier(80, 80, 50, 50), 1); assert.ok(calc.defenseMultiplier(80, 80, 100, 0) > calc.defenseMultiplier(80, 80, 0, 0));
 });
 test("HSR action-value helper is isolated from damage calculation", () => {
     const result = engine().actionSummary(134, 150); assert.equal(result.actions, 2); assert.ok(result.actionValue > 0);
+});
+test("weakness does not add an invented direct-damage multiplier", () => {
+    const calc = engine(); const weak = baseInput(); const neutral = baseInput(); neutral.enemy.weakness = false;
+    assert.equal(calc.calculate(weak).nonCrit, calc.calculate(neutral).nonCrit);
+});
+test("break damage refuses unverified levels and non-weak targets", () => {
+    const calc = engine(); const input = baseInput();
+    assert.equal(calc.calculateBreak({ character: input.character, enemy: input.enemy, breakBaseDamage: {} }).supported, false);
+    input.enemy.weakness = false;
+    assert.equal(calc.calculateBreak({ character: input.character, enemy: input.enemy, breakBaseDamage: { 80: 3767.5533 } }).supported, false);
+});
+test("break damage applies the selected element multiplier", () => {
+    const calc = engine(); const input = baseInput(); const common = { character: input.character, enemy: input.enemy, breakBaseDamage: { 80: 3767.5533 } };
+    const fire = calc.calculateBreak({ ...common, element: "Fire" });
+    const imaginary = calc.calculateBreak({ ...common, element: "Imaginary" });
+    assert.equal(fire.supported, true); assert.equal(imaginary.supported, true);
+    assert.equal(fire.value, imaginary.value * 4);
+});
+test("break damage applies defense, resistance and vulnerability modifiers but not generic damage bonus", () => {
+    const calc = engine(); const input = baseInput(); const common = { character: input.character, enemy: input.enemy, element: "Ice", breakBaseDamage: { 80: 3767.5533 } };
+    const base = calc.calculateBreak(common);
+    const modified = calc.calculateBreak({ ...common, modifiers: [{ category: "defenseReduction", value: 100, enabled: true }, { category: "takenDamage", value: 20, enabled: true }, { category: "damageBonus", value: 999, enabled: true }] });
+    assert.equal(modified.value, base.value * 2.4);
 });
