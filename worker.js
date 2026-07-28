@@ -70,7 +70,7 @@ const INFO_PAGES = {
     content: `
       <section class="teti-panel"><h2>広告配信について</h2><p>本サイトでは、第三者配信の広告サービス「Google AdSense」を利用します。Googleなどの第三者配信事業者は、利用者が本サイトや他のサイトへ過去にアクセスした情報に基づいて広告を配信するため、Cookie、Webビーコン、IPアドレスなどの識別情報を使用する場合があります。</p><p>Googleが広告Cookieを使用することにより、Googleおよびそのパートナーは本サイトや他のサイトへのアクセス情報に基づく広告を表示できます。利用者は<a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer">Google広告設定</a>でパーソナライズ広告を無効にできます。Googleによる情報の利用については、<a href="https://policies.google.com/technologies/partner-sites?hl=ja" target="_blank" rel="noopener noreferrer">Googleの案内</a>をご確認ください。</p></section>
       <section class="teti-panel"><h2>アクセス解析について</h2><p>本サイトでは、利用状況の分析と改善のためGoogle Analyticsを利用する場合があります。Google AnalyticsはCookie等を使用して閲覧ページ、利用環境、概略的な地域などのトラフィックデータを収集します。収集される情報はGoogleの規約とプライバシーポリシーに基づいて管理されます。</p></section>
-      <section class="teti-panel"><h2>UID取得機能について</h2><p>原神ではEnka.Network、崩壊：スターレイルではMiHoMo APIを利用し、入力されたUIDに対応する公開プロフィール情報を取得します。取得対象は公開設定された情報に限られます。本サイトにはUIDや取得結果を継続保存するデータベース機能はありませんが、通信のためUIDは本サイトのサーバーおよび外部APIへ送信されます。</p></section>
+      <section class="teti-panel"><h2>UID取得機能について</h2><p>原神・崩壊：スターレイルともにEnka.Networkを利用し、入力されたUIDに対応する公開プロフィール情報を取得します。取得対象は公開設定された情報に限られます。本サイトにはUIDや取得結果を継続保存するデータベース機能はありませんが、通信のためUIDは本サイトのサーバーおよび外部APIへ送信されます。</p></section>
       <section class="teti-panel"><h2>外部リンクとお問い合わせ</h2><p>外部サイトへ移動した後の情報の取り扱いは、各サイトの方針に従います。お問い合わせ時に利用者が任意で提供した情報は、問い合わせ対応のためにのみ利用します。パスワードや認証コードなどの機密情報は送信しないでください。</p></section>
       <section class="teti-panel"><h2>改定について</h2><p>法令、利用サービス、サイト機能の変更に応じて本ポリシーを改定する場合があります。</p><p class="info-meta">制定・最終更新：2026年7月15日</p></section>`,
   },
@@ -83,7 +83,7 @@ const INFO_PAGES = {
       <section class="teti-panel"><h2>計算結果について</h2><p>本サイトの計算結果は、公開情報と独自に実装した計算処理に基づく参考値です。正確性、完全性、最新性を保証するものではありません。ゲーム内の仕様変更や入力条件により実際の結果と異なる場合があります。</p></section>
       <section class="teti-panel"><h2>免責事項</h2><p>本サイトの利用、利用不能、掲載情報または計算結果をもとにした判断によって生じた損害について、運営者は法令上認められる範囲で責任を負いません。外部サイトや外部APIの利用によって生じた問題についても同様です。</p></section>
       <section class="teti-panel"><h2>著作権・商標</h2><p>本サイトが独自に作成した文章、デザイン、プログラム等の権利は運営者に帰属します。原神および崩壊：スターレイルはCOGNOSPHEREの登録商標または商標です。その他のゲーム名、画像、データ、名称等の権利は各権利者に帰属します。</p></section>
-      <section class="teti-panel"><h2>非公式ファンサイト</h2><p>本サイトは各ゲームの運営会社、Google、Enka.Network、MiHoMo API等から公式に運営・承認されたものではありません。各サービスへのお問い合わせを本サイトの窓口で受け付けることはできません。</p></section>
+      <section class="teti-panel"><h2>非公式ファンサイト</h2><p>本サイトは各ゲームの運営会社、Google、Enka.Network等から公式に運営・承認されたものではありません。各サービスへのお問い合わせを本サイトの窓口で受け付けることはできません。</p></section>
       <section class="teti-panel"><h2>変更</h2><p>サイト機能や運営状況の変化に応じて本条件を変更する場合があります。</p><p class="info-meta">制定・最終更新：2026年7月15日</p></section>`,
   },
   "/links": {
@@ -93,7 +93,7 @@ const INFO_PAGES = {
     lead: "ゲームの公式情報、プロフィール取得サービス、計算仕様の確認に利用する主な参考先です。",
     content: `
       <section class="teti-panel"><h2>公式サイト</h2><div class="info-link-grid"><a class="info-link-card" href="https://genshin.hoyoverse.com/ja/" target="_blank" rel="noopener noreferrer"><strong>原神 公式サイト</strong><span>ゲームの公式情報とお知らせ</span></a><a class="info-link-card" href="https://hsr.hoyoverse.com/ja-jp/" target="_blank" rel="noopener noreferrer"><strong>崩壊：スターレイル 公式サイト</strong><span>ゲームの公式情報とお知らせ</span></a></div></section>
-      <section class="teti-panel"><h2>プロフィール取得サービス</h2><div class="info-link-grid"><a class="info-link-card" href="https://enka.network/" target="_blank" rel="noopener noreferrer"><strong>Enka.Network</strong><span>原神の公開プロフィール取得に利用</span></a><a class="info-link-card" href="https://github.com/Mar-7th/StarRailScore" target="_blank" rel="noopener noreferrer"><strong>MiHoMo関連情報</strong><span>スターレイルの公開プロフィール取得機能で利用</span></a></div></section>
+      <section class="teti-panel"><h2>プロフィール取得サービス</h2><div class="info-link-grid"><a class="info-link-card" href="https://enka.network/" target="_blank" rel="noopener noreferrer"><strong>Enka.Network</strong><span>原神・スターレイルの公開プロフィール取得に利用</span></a></div></section>
       <section class="teti-panel"><h2>参照について</h2><p>外部情報は計算ロジックを検討する際の参考として利用しています。本サイトの実装や解説が各リンク先によって保証されているわけではありません。具体的な計算前提は<a href="/games/formula/">計算式ページ</a>に掲載します。</p></section>`,
   },
   "/sitemap": {
@@ -182,7 +182,7 @@ async function fetchHsrProfile(url) {
     return json({ message: "UID is invalid" }, 400);
   }
 
-  const upstreamUrl = `https://api.mihomo.me/sr_info_parsed/${encodeURIComponent(uid)}?lang=jp`;
+  const upstreamUrl = `https://enka.network/api/hsr/uid/${encodeURIComponent(uid)}`;
 
   try {
     const upstream = await fetch(upstreamUrl, {
@@ -193,6 +193,12 @@ async function fetchHsrProfile(url) {
       },
     });
     const body = await upstream.text();
+
+    if (upstream.ok) {
+      const data = JSON.parse(body);
+      const ttlSeconds = Math.max(0, Number(data?.ttl) || 0);
+      return json({ ...data, _tetinetProvider: "enka" }, 200, ttlSeconds);
+    }
 
     return new Response(body, {
       status: upstream.status,
@@ -259,12 +265,12 @@ function fetchAssetPath(request, env, pathname) {
   return env.ASSETS.fetch(new Request(assetUrl, request));
 }
 
-function json(data, status) {
+function json(data, status, ttlSeconds = 0) {
   return new Response(JSON.stringify(data), {
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
-      "cache-control": "no-store",
+      "cache-control": status === 200 && ttlSeconds > 0 ? `public, max-age=${Math.min(ttlSeconds, 300)}` : "no-store",
     },
   });
 }

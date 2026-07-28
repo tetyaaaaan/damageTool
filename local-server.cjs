@@ -43,10 +43,8 @@ async function handleHsrProfileProxy(requestUrl, response) {
     return;
   }
 
-  const upstreamUrl = `https://api.mihomo.me/sr_info_parsed/${encodeURIComponent(uid)}?lang=jp`;
-
   try {
-    const upstream = await fetch(upstreamUrl, {
+    const upstream = await fetch(`https://enka.network/api/hsr/uid/${encodeURIComponent(uid)}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -54,6 +52,11 @@ async function handleHsrProfileProxy(requestUrl, response) {
       },
     });
     const body = await upstream.text();
+    if (upstream.ok) {
+      const data = JSON.parse(body);
+      sendJson(response, 200, { ...data, _tetinetProvider: "enka" }, Math.max(0, Number(data?.ttl) || 0));
+      return;
+    }
     response.writeHead(upstream.status, {
       "content-type": upstream.headers.get("content-type") || "application/json; charset=utf-8",
       "cache-control": "no-store",
@@ -130,8 +133,11 @@ function serveStaticFile(requestUrl, response) {
   });
 }
 
-function sendJson(response, status, data) {
-  response.writeHead(status, { "content-type": "application/json; charset=utf-8" });
+function sendJson(response, status, data, ttl = 0) {
+  response.writeHead(status, {
+    "content-type": "application/json; charset=utf-8",
+    "cache-control": status === 200 && ttl > 0 ? `public, max-age=${Math.min(ttl, 300)}` : "no-store",
+  });
   response.end(JSON.stringify(data));
 }
 

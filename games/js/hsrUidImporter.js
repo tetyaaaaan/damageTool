@@ -59,10 +59,11 @@
     setLoading(true); setMessage("公開プロフィールを取得しています。", "loading");
     try {
       const raw = await window.HsrProfileApi.fetchHsrProfile(uid);
-      const profile = window.HsrProfileMapper.mapProfileResponse(raw);
+      const profile = window.HsrProfileMapper.mapProfileResponse(raw, window.HsrTool?.getState()?.data);
       if (!profile.characters.length) throw Object.assign(new Error("公開キャラクターがありません"), { code: "NO_PUBLIC_CHARACTERS" });
       state.profile = profile; state.selectedIndex = -1;
       $("hsrUidResult").hidden = false; renderPlayer(profile); renderCharacters(); selectCharacter(0);
+      setMessage(`${profile.characters.length}人を${profile.provider || "公開プロフィールAPI"}経由で取得しました。キャラクターを選択すると初期値へ反映します。`, "success");
       if (window.TetinetUidStorage?.save("hsr", uid)) $("hsrUidClearSavedButton").hidden = false;
     } catch (error) {
       const offline = typeof navigator !== "undefined" && !navigator.onLine;

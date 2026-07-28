@@ -1,7 +1,7 @@
 ﻿(function () {
     "use strict";
 
-    const API_BASE_URL = "https://api.mihomo.me/sr_info_parsed/";
+    const API_BASE_URL = "https://enka.network/api/hsr/uid/";
     const SAME_ORIGIN_PROXY_URL = "/games/api/hsr-profile";
 
     async function fetchHsrProfile(uid) {
@@ -10,7 +10,7 @@
             return proxyResponse;
         }
 
-        const response = await fetch(`${API_BASE_URL}${encodeURIComponent(uid)}?lang=jp`, {
+        const response = await fetch(`${API_BASE_URL}${encodeURIComponent(uid)}`, {
             method: "GET"
         });
 
@@ -26,7 +26,7 @@
             throw error;
         }
 
-        return response.json();
+        return { ...(await response.json()), _tetinetProvider: "enka" };
     }
 
     async function fetchFromSameOriginProxy(uid) {

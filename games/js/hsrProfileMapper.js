@@ -1,191 +1,163 @@
 (function () {
     "use strict";
 
-    function pickNumber(value, fallback = 0) {
-        const num = Number(value);
-        return Number.isFinite(num) ? num : fallback;
+    function number(value, fallback = 0) {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? parsed : fallback;
     }
 
-    function pickText(value, fallback = "-") {
+    function text(value, fallback = "-") {
         return typeof value === "string" && value.trim() ? value : fallback;
     }
 
-    function readPath(source, paths, fallback = undefined) {
-        for (const path of paths) {
-            let current = source;
-            let found = true;
-            for (const key of path) {
-                if (current && Object.prototype.hasOwnProperty.call(current, key)) {
-                    current = current[key];
-                } else {
-                    found = false;
-                    break;
-                }
-            }
-            if (found && current !== undefined && current !== null) {
-                return current;
-            }
-        }
-        return fallback;
+    function percent(value) {
+        return number(value) * 100;
     }
 
-    function findProperty(properties, names) {
-        if (!Array.isArray(properties)) return undefined;
-        return properties.find((item) => names.includes(item?.field) || names.includes(item?.type) || names.includes(item?.name));
+    function byId(items, id) {
+        return items?.find((item) => String(item.id) === String(id));
     }
 
-    function readStat(character, names, fallback = 0) {
-        const properties = [
-            ...(Array.isArray(character.properties) ? character.properties : []),
-            ...(Array.isArray(character.propertyList) ? character.propertyList : []),
-            ...(Array.isArray(character.avatarPropertyList) ? character.avatarPropertyList : []),
-            ...(Array.isArray(character.additions) ? character.additions : []),
-            ...(Array.isArray(character.attributes) ? character.attributes : [])
-        ];
-        const found = findProperty(properties, names);
-        return pickNumber(found?.value ?? found?.display ?? found?.percent, fallback);
-    }
-
-    function readLargestStat(character, names, fallback = 0) {
-        const properties = [
-            ...(Array.isArray(character.properties) ? character.properties : []),
-            ...(Array.isArray(character.propertyList) ? character.propertyList : []),
-            ...(Array.isArray(character.avatarPropertyList) ? character.avatarPropertyList : []),
-            ...(Array.isArray(character.additions) ? character.additions : []),
-            ...(Array.isArray(character.attributes) ? character.attributes : [])
-        ];
-        const values = properties.filter((item) => names.includes(item?.field) || names.includes(item?.type) || names.includes(item?.name)).map((item) => pickNumber(item?.value ?? item?.display ?? item?.percent, 0));
-        return values.length ? Math.max(...values) : fallback;
-    }
-
-    function readCombinedStat(character, names, fallback = 0) {
-        const attributes = Array.isArray(character.attributes) ? character.attributes : [];
-        const additions = Array.isArray(character.additions) ? character.additions : [];
-        const matches = (item) => names.includes(item?.field) || names.includes(item?.type) || names.includes(item?.name);
-        const matched = attributes.filter(matches).concat(additions.filter(matches));
-        if (matched.length) return matched.reduce((sum, item) => sum + pickNumber(item?.value ?? item?.display ?? item?.percent, 0), 0);
-        return readStat(character, names, fallback);
-    }
-
-    function readCombinedElementDamage(character, names, fallback = 0) {
-        const attributes = Array.isArray(character.attributes) ? character.attributes : [];
-        const additions = Array.isArray(character.additions) ? character.additions : [];
-        const totals = new Map();
-        attributes.concat(additions).forEach((item) => {
-            const key = names.includes(item?.field) ? item.field : names.includes(item?.type) ? item.type : names.includes(item?.name) ? item.name : "";
-            if (key) totals.set(key, (totals.get(key) || 0) + pickNumber(item?.value ?? item?.display ?? item?.percent, 0));
+    function addProperties(target, properties) {
+        if (!Array.isArray(properties)) return;
+        properties.forEach((property) => {
+            const type = String(property?.type || "");
+            if (type) target[type] = (target[type] || 0) + number(property.value);
         });
-        return totals.size ? Math.max(...totals.values()) : readLargestStat(character, names, fallback);
     }
 
-    function normalizePercent(value) {
-        const num = pickNumber(value, 0);
-        return Math.abs(num) <= 10 ? num * 100 : num;
-    }
-
-    function mapElement(character) {
-        return pickText(readPath(character, [["element", "name"], ["element"], ["damage_type", "name"]], "-"));
-    }
-
-    function mapPath(character) {
-        return pickText(readPath(character, [["path", "name"], ["path"], ["destiny", "name"], ["destiny"]], "-"));
-    }
-
-    function mapLightCone(character) {
-        const lightCone = readPath(character, [["light_cone"], ["weapon"]], null);
-        if (!lightCone) return null;
-        return {
-            id: String(lightCone.id ?? lightCone.name ?? ""),
-            name: pickText(lightCone.name),
-            level: pickNumber(lightCone.level),
-            rank: pickNumber(lightCone.rank),
-            image: readPath(lightCone, [["icon"], ["portrait"], ["preview"]], "")
-        };
-    }
-
-    function mapRelics(character) {
-        const relics = readPath(character, [["relics"]], []);
-        if (!Array.isArray(relics)) return [];
-        return relics.map((relic) => ({
-            id: String(relic.id ?? relic.name ?? ""),
-            name: pickText(relic.name),
-            level: pickNumber(relic.level),
-            rarity: pickNumber(relic.rarity),
-            setName: pickText(relic.set_name ?? relic.setName, "-"),
-            mainAffix: pickText(relic.main_affix?.name ?? relic.mainAffix?.name, "-"),
-            subAffixes: Array.isArray(relic.sub_affix) ? relic.sub_affix.map((item) => pickText(item?.name)).filter((item) => item !== "-") : [],
-            image: readPath(relic, [["icon"]], "")
+    function mapRelicSets(character, catalog) {
+        const counts = new Map();
+        (character.relicList || []).forEach((relic) => {
+            const id = String(relic?._flat?.setID || "");
+            if (id) counts.set(id, (counts.get(id) || 0) + 1);
+        });
+        return [...counts.entries()].map(([id, pieces]) => ({
+            id,
+            name: text(byId(catalog?.relicSets, id)?.name),
+            pieces,
+            properties: []
         }));
     }
 
-    function mapRelicSets(character) {
-        const sets = readPath(character, [["relic_sets"], ["relicSets"]], []);
-        if (!Array.isArray(sets)) return [];
-        const merged = new Map();
-        sets.forEach((set) => {
-            const id = String(set.id ?? ""); const previous = merged.get(id);
-            const current = { id, name: pickText(set.name), pieces: pickNumber(set.num ?? set.pieces), properties: Array.isArray(set.properties) ? set.properties : [] };
-            if (!previous || current.pieces >= previous.pieces) merged.set(id, current);
+    function mapTraces(character, characterData) {
+        return (character.skillTreeList || []).map((tree) => {
+            const id = String(tree.pointId || "");
+            const skill = byId(characterData?.skills, id);
+            const trace = byId(characterData?.traces, id);
+            return {
+                id,
+                name: text(skill?.name || trace?.name),
+                type: text(skill?.type, ""),
+                level: number(tree.level),
+                maxLevel: number(skill?.params?.length || trace?.maxLevel)
+            };
         });
-        return [...merged.values()];
     }
 
-    function mapTraces(character) {
-        const skills = readPath(character, [["skills"]], []);
-        if (!Array.isArray(skills)) return [];
-        return skills.map((skill) => ({
-            id: String(skill.id ?? ""),
-            name: pickText(skill.name),
-            type: pickText(skill.type, ""),
-            level: pickNumber(skill.level),
-            maxLevel: pickNumber(skill.max_level ?? skill.maxLevel)
-        }));
+    function collectProperties(character, characterData, lightCone, relicSets, catalog) {
+        const totals = {};
+        (character.relicList || []).forEach((relic) => addProperties(totals, relic?._flat?.props));
+        (character.skillTreeList || []).forEach((tree) => {
+            if (number(tree.level) <= 0) return;
+            addProperties(totals, byId(characterData?.traces, tree.pointId)?.levels?.[0]?.properties);
+        });
+        const rank = Math.max(1, number(character.equipment?.rank, 1));
+        addProperties(totals, lightCone?.effect?.propertiesByRank?.[rank - 1]);
+        relicSets.forEach((selected) => {
+            const set = byId(catalog?.relicSets, selected.id);
+            (set?.effects || [])
+                .filter((effect) => selected.pieces >= number(effect.pieces))
+                .forEach((effect) => addProperties(totals, effect.properties));
+        });
+        return totals;
     }
 
-    function mapCharacter(character) {
-        const stats = {
-            hp: readCombinedStat(character, ["hp", "HP"]),
-            atk: readCombinedStat(character, ["atk", "attack", "攻撃力"]),
-            def: readCombinedStat(character, ["def", "defence", "防御力"]),
-            speed: readCombinedStat(character, ["spd", "speed", "速度"]),
-            critRate: normalizePercent(readCombinedStat(character, ["crit_rate", "critRate", "会心率"])),
-            critDamage: normalizePercent(readCombinedStat(character, ["crit_dmg", "critDamage", "会心ダメージ"])),
-            breakEffect: normalizePercent(readCombinedStat(character, ["break_dmg", "breakEffect", "撃破特効"])),
-            effectHitRate: normalizePercent(readCombinedStat(character, ["effect_hit", "effectHitRate", "効果命中"])),
-            effectRes: normalizePercent(readCombinedStat(character, ["effect_res", "effectRes", "効果抵抗"])),
-            energyRegen: normalizePercent(readCombinedStat(character, ["energy_recovery", "energyRegen", "EP回復効率"], 1)),
-            damageBonus: normalizePercent(readCombinedElementDamage(character, ["physical_dmg", "fire_dmg", "ice_dmg", "lightning_dmg", "wind_dmg", "quantum_dmg", "imaginary_dmg", "element_dmg", "damage_boost", "属性与ダメージ"]))
-        };
-
+    function calculateStats(character, characterData, lightCone, relicSets, catalog) {
+        const props = collectProperties(character, characterData, lightCone, relicSets, catalog);
+        const coneProps = character.equipment?._flat?.props || [];
+        const coneBase = (type) => number(coneProps.find((item) => item?.type === type)?.value);
+        const exactLevel = number(character.level) === 80;
+        const hpBase = number(characterData?.base?.hp) + coneBase("BaseHP");
+        const atkBase = number(characterData?.base?.atk) + coneBase("BaseAttack");
+        const defBase = number(characterData?.base?.def) + coneBase("BaseDefence");
+        const damageTypes = ["PhysicalAddedRatio", "FireAddedRatio", "IceAddedRatio", "ThunderAddedRatio", "WindAddedRatio", "QuantumAddedRatio", "ImaginaryAddedRatio"];
+        const damageBonus = Math.max(0, ...damageTypes.map((type) => props[type] || 0));
         return {
-            id: String(character.id ?? character.name ?? Math.random()),
-            name: pickText(character.name),
-            level: pickNumber(character.level),
-            element: mapElement(character),
-            path: mapPath(character),
-            eidolon: pickNumber(character.rank ?? character.eidolon),
-            lightCone: mapLightCone(character),
-            relics: mapRelics(character),
-            relicSets: mapRelicSets(character),
-            traces: mapTraces(character),
-            image: readPath(character, [["icon"], ["portrait"], ["preview"]], ""),
-            stats
+            // The local catalog currently records exact character bases at Lv.80.
+            // Lower-level HP/ATK/DEF are intentionally left unset instead of interpolated.
+            hp: exactLevel ? hpBase * (1 + (props.HPAddedRatio || 0)) + (props.HPDelta || 0) : undefined,
+            atk: exactLevel ? atkBase * (1 + (props.AttackAddedRatio || 0)) + (props.AttackDelta || 0) : undefined,
+            def: exactLevel ? defBase * (1 + (props.DefenceAddedRatio || 0)) + (props.DefenceDelta || 0) : undefined,
+            speed: number(characterData?.base?.speed) * (1 + (props.SpeedAddedRatio || 0)) + (props.SpeedDelta || 0),
+            critRate: percent(0.05 + (props.CriticalChanceBase || 0) + (props.CriticalChance || 0)),
+            critDamage: percent(0.5 + (props.CriticalDamageBase || 0) + (props.CriticalDamage || 0)),
+            breakEffect: percent((props.BreakDamageAddedRatioBase || 0) + (props.BreakDamageAddedRatio || 0)),
+            effectHitRate: percent((props.StatusProbabilityBase || 0) + (props.StatusProbability || 0)),
+            effectRes: percent((props.StatusResistanceBase || 0) + (props.StatusResistance || 0)),
+            energyRegen: percent(1 + (props.SPRatioBase || 0)),
+            damageBonus: percent(damageBonus)
         };
     }
 
-    function mapProfileResponse(response) {
-        const player = readPath(response, [["player"], ["detailInfo", "recordInfo"], ["detailInfo"], ["recordInfo"]], {});
-        const rawCharacters = readPath(response, [["characters"], ["avatar_list"], ["avatars"], ["detailInfo", "avatarDetailList"], ["detailInfo", "assistAvatarList"]], []);
-        const characters = Array.isArray(rawCharacters) ? rawCharacters.map(mapCharacter) : [];
+    function mapCharacter(character, catalog) {
+        const id = String(character.avatarId || "");
+        const characterData = byId(catalog?.characters, id);
+        const coneId = String(character.equipment?.tid || "");
+        const lightConeData = byId(catalog?.lightCones, coneId);
+        const relicSets = mapRelicSets(character, catalog);
+        const lightCone = character.equipment ? {
+            id: coneId,
+            name: text(lightConeData?.name),
+            level: number(character.equipment.level),
+            rank: Math.max(1, number(character.equipment.rank, 1)),
+            image: lightConeData?.image || ""
+        } : null;
+        const relics = (character.relicList || []).map((relic) => {
+            const set = byId(catalog?.relicSets, relic?._flat?.setID);
+            const properties = relic?._flat?.props || [];
+            return {
+                id: String(relic.tid || ""),
+                name: text(set?.name),
+                level: number(relic.level),
+                rarity: 0,
+                setName: text(set?.name),
+                mainAffix: text(properties[0]?.type),
+                subAffixes: properties.slice(1).map((item) => text(item?.type)).filter((item) => item !== "-"),
+                image: set?.image || ""
+            };
+        });
         return {
+            id,
+            name: text(characterData?.name),
+            level: number(character.level),
+            element: text(characterData?.elementName),
+            path: text(characterData?.pathName),
+            eidolon: number(character.rank),
+            lightCone,
+            relics,
+            relicSets,
+            traces: mapTraces(character, characterData),
+            image: characterData?.image || "",
+            stats: calculateStats(character, characterData, lightConeData, relicSets, catalog)
+        };
+    }
+
+    function mapProfileResponse(response, catalog) {
+        const player = response?.detailInfo || {};
+        const characters = Array.isArray(player.avatarDetailList)
+            ? player.avatarDetailList.map((character) => mapCharacter(character, catalog))
+            : [];
+        return {
+            provider: "Enka.Network",
             player: {
-                nickname: pickText(player.nickname ?? player.name, "プレイヤー"),
-                level: pickNumber(player.level),
-                uid: pickText(player.uid)
+                nickname: text(player.nickname, "プレイヤー"),
+                level: number(player.level),
+                uid: String(player.uid ?? response?.uid ?? "-")
             },
             characters
         };
     }
 
-    window.HsrProfileMapper = { mapProfileResponse };
+    window.HsrProfileMapper = Object.freeze({ mapProfileResponse });
 })();

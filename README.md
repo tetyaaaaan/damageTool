@@ -32,7 +32,7 @@ node scripts/generateGenshinGolden.cjs
 
 ## ローカル確認
 
-VS Code Live Server の `http://127.0.0.1:5500/` でも画面表示は確認できますが、崩壊:スターレイルのUID取得はMiHoMo APIのCORS制限で失敗する場合があります。
+VS Code Live Server の `http://127.0.0.1:5500/` でも画面表示は確認できますが、崩壊:スターレイルのUID取得はEnka.Network APIのCORS制限で失敗する場合があります。
 
 UID取得を含めて確認する場合は、同一オリジンのプロキシを持つローカルサーバーを使ってください。
 

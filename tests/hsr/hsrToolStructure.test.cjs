@@ -49,26 +49,45 @@ test("HSR production page has image selection, party and condition dialogs", () 
     assert.doesNotMatch(html, /data_hsr_|hsr_charaList|hsr_selectArtifactList|hsr_dmgCalc/);
 });
 
-test("HSR profile mapper does not need to guess missing public-profile values", () => {
-    const source = read("games/js/hsrProfileMapper.js");
-    const window = {};
-    vm.runInNewContext(source, { window, Math });
-    const profile = window.HsrProfileMapper.mapProfileResponse({ player: { nickname: "Tester", level: 70, uid: "800000000" }, characters: [{ id: "1001", name: "Sample", level: 80, rank: 2, element: { name: "Fire" }, path: { name: "Destruction" }, properties: [{ field: "atk", value: 1200 }, { field: "crit_rate", value: 0.5 }, { field: "crit_dmg", value: 1.2 }, { field: "effect_hit", value: 0.4 }, { field: "effect_res", value: 0.3 }, { field: "fire_dmg", value: 0.388 }], light_cone: { id: "2001", name: "Cone", level: 80, rank: 1 }, relics: [], relic_sets: [{ id: "101", name: "Tunnel", num: 4 }, { id: "301", name: "Planar", num: 2 }], skills: [{ id: "100101", name: "Normal", type: "Normal", level: 6 }] }] });
-    assert.equal(profile.characters[0].stats.atk, 1200);
-    assert.equal(profile.characters[0].stats.critRate, 50);
-    assert.equal(profile.characters[0].stats.effectHitRate, 40);
-    assert.ok(Math.abs(profile.characters[0].stats.damageBonus - 38.8) < 1e-9);
-    assert.equal(profile.characters[0].lightCone.id, "2001");
-    assert.equal(profile.characters[0].relicSets[0].id, "101");
-    assert.equal(profile.characters[0].traces[0].type, "Normal");
+test("HSR profile mapper normalizes Enka equipment, relic, trace and set properties", () => {
+    const source = read("games/js/hsrProfileMapper.js"); const window = {}; vm.runInNewContext(source, { window, Math });
+    const catalog = {
+        characters: [{
+            id: "1407", name: "Sample", elementName: "炎", pathName: "記憶", image: "/character.webp",
+            base: { hp: 1000, atk: 500, def: 400, speed: 100 },
+            skills: [{ id: "1407001", name: "通常攻撃", type: "Normal", params: Array(6).fill([]) }],
+            traces: [{ id: "1407201", name: "会心率強化", maxLevel: 1, levels: [{ properties: [{ type: "CriticalChanceBase", value: 0.04 }] }] }]
+        }],
+        lightCones: [{ id: "23001", name: "Sample Cone", image: "/cone.webp", effect: { propertiesByRank: [[{ type: "CriticalDamageBase", value: 0.36 }]] } }],
+        relicSets: [{ id: "124", name: "Sample Set", image: "/set.webp", effects: [{ pieces: 2, properties: [{ type: "AttackAddedRatio", value: 0.12 }] }] }]
+    };
+    const profile = window.HsrProfileMapper.mapProfileResponse({
+        _tetinetProvider: "enka", uid: "802980865",
+        detailInfo: { uid: 802980865, nickname: "Tester", level: 70, avatarDetailList: [{
+            avatarId: 1407, level: 80, rank: 2,
+            equipment: { tid: 23001, level: 80, rank: 1, _flat: { props: [{ type: "BaseHP", value: 100 }, { type: "BaseAttack", value: 200 }, { type: "BaseDefence", value: 100 }] } },
+            skillTreeList: [{ pointId: 1407001, level: 6 }, { pointId: 1407201, level: 1 }],
+            relicList: [
+                { tid: 1, level: 15, _flat: { setID: 124, props: [{ type: "HPAddedRatio", value: 0.1 }, { type: "HPDelta", value: 100 }, { type: "AttackAddedRatio", value: 0.2 }] } },
+                { tid: 2, level: 15, _flat: { setID: 124, props: [{ type: "FireAddedRatio", value: 0.388 }, { type: "CriticalDamage", value: 0.1 }, { type: "SpeedDelta", value: 5 }] } }
+            ]
+        }] }
+    }, catalog);
+    const character = profile.characters[0];
+    assert.equal(profile.provider, "Enka.Network"); assert.equal(profile.player.uid, "802980865"); assert.equal(profile.characters.length, 1);
+    assert.ok(Math.abs(character.stats.hp - 1310) < 1e-9); assert.ok(Math.abs(character.stats.atk - 924) < 1e-9); assert.equal(character.stats.def, 500);
+    assert.equal(character.stats.speed, 105); assert.equal(character.stats.critRate, 9); assert.equal(character.stats.critDamage, 96); assert.ok(Math.abs(character.stats.damageBonus - 38.8) < 1e-9);
+    assert.equal(character.lightCone.id, "23001"); assert.equal(character.relicSets[0].id, "124"); assert.equal(character.relicSets[0].pieces, 2);
+    assert.equal(character.traces.find((item) => item.type === "Normal").level, 6);
 });
 
-test("HSR profile mapper combines MiHoMo V2 attributes and additions without treating raw properties as totals", () => {
-    const source = read("games/js/hsrProfileMapper.js"); const window = {}; vm.runInNewContext(source, { window, Math });
-    const profile = window.HsrProfileMapper.mapProfileResponse({ player: { uid: "800333171" }, characters: [{ id: "1413", name: "Sample", attributes: [{ field: "hp", value: 1000 }, { field: "atk", value: 500 }, { field: "def", value: 400 }, { field: "spd", value: 100 }, { field: "crit_rate", value: 0.05 }, { field: "crit_dmg", value: 0.5 }], additions: [{ field: "hp", value: 200 }, { field: "atk", value: 50 }, { field: "def", value: 40 }, { field: "spd", value: 5 }, { field: "crit_rate", value: 0.2 }, { field: "crit_dmg", value: 0.8 }], properties: [{ type: "AttackAddedRatio", field: "atk", value: 0.4, percent: true }], relic_sets: [{ id: "127", name: "Set", num: 2 }, { id: "127", name: "Set", num: 4 }], skills: [] }] });
-    const character = profile.characters[0];
-    assert.equal(character.stats.hp, 1200); assert.equal(character.stats.atk, 550); assert.equal(character.stats.def, 440); assert.equal(character.stats.speed, 105);
-    assert.equal(character.stats.critRate, 25); assert.equal(character.stats.critDamage, 130);
-    assert.equal(character.stats.energyRegen, 100);
-    assert.equal(character.relicSets.length, 1); assert.equal(character.relicSets[0].pieces, 4);
+test("HSR profile API implementations use Enka without a MiHoMo runtime dependency", () => {
+    [read("worker.js"), read("local-server.cjs")].forEach((source) => {
+        assert.match(source, /enka\.network\/api\/hsr\/uid/);
+        assert.match(source, /_tetinetProvider:\s*"enka"/);
+        assert.doesNotMatch(source, /api\.mihomo\.me|sr_info_parsed/);
+    });
+    const client = read("games/js/hsrProfileApi.js");
+    assert.match(client, /enka\.network\/api\/hsr\/uid/);
+    assert.doesNotMatch(client, /api\.mihomo\.me|sr_info_parsed/);
 });
