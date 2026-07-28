@@ -113,6 +113,7 @@ const LEGACY_REDIRECTS = new Map([
   ["/formula.html", "/games/formula/"],
   ["/enemies.html", "/games/enemies/"],
   ["/privacy.html", "/privacy/"],
+  ["/games/privacy", "/privacy/"],
   ["/games/privacy/", "/privacy/"],
   ["/granblue/granblue.html", "/games/gbf/"],
   ["/games/granblue/", "/games/gbf/"],
@@ -428,8 +429,8 @@ function renderTetinetHome() {
         </div>
         <div class="teti-footer-col">
           <h3>その他</h3>
-          <a href="/games/privacy/">免責事項</a>
-          <a href="/games/privacy/">プライバシーポリシー</a>
+          <a href="/terms/">免責事項</a>
+          <a href="/privacy/">プライバシーポリシー</a>
           <a href="/games/">リンク集</a>
           <a href="/games/">サイトマップ</a>
         </div>
@@ -478,7 +479,7 @@ function renderHomePage() {
           <p class="home-lead">ゲーム・ツール・個人制作物をまとめるサイトです。よく使う計算ツールやデータページへ、ここからすぐ移動できます。</p>
           <div class="home-actions">
             <a class="home-primary-link" href="/games/">ゲームツールを見る</a>
-            <a class="home-secondary-link" href="/games/privacy/">このサイトについて</a>
+            <a class="home-secondary-link" href="/about/">このサイトについて</a>
           </div>
         </div>
       </section>
@@ -503,7 +504,7 @@ function renderHomePage() {
             <p>各ツールで使っている計算式や、補正項目の考え方を確認できます。</p>
             <small>参考情報を見る</small>
           </a>
-          <a class="home-card home-card--future" href="/games/privacy/">
+          <a class="home-card home-card--future" href="/privacy/">
             <span>About</span>
             <strong>プライバシーポリシー</strong>
             <p>非公式ファンツールとしての注意事項、アクセス解析、UID取得機能についてまとめています。</p>
@@ -522,7 +523,7 @@ function renderHomePage() {
         <a href="/games/">ゲーム</a>
         <a href="/games/formula/">計算式</a>
         <a href="/games/enemies/">敵キャラ情報</a>
-        <a href="/games/privacy/">プライバシーポリシー</a>
+        <a href="/privacy/">プライバシーポリシー</a>
       </nav>
     </footer>
   </div>

@@ -19,8 +19,21 @@ const contentTypes = {
   ".ico": "image/x-icon",
 };
 
+const legacyRedirects = new Map([
+  ["/privacy.html", "/privacy/"],
+  ["/games/privacy", "/privacy/"],
+  ["/games/privacy/", "/privacy/"],
+]);
+
 const server = http.createServer(async (request, response) => {
   const requestUrl = new URL(request.url || "/", `http://${host}:${port}`);
+
+  const redirect = legacyRedirects.get(requestUrl.pathname);
+  if (redirect) {
+    response.writeHead(301, { location: `${redirect}${requestUrl.search}` });
+    response.end();
+    return;
+  }
 
   if (requestUrl.pathname === "/api/hsr-profile" || requestUrl.pathname === "/games/api/hsr-profile") {
     await handleHsrProfileProxy(requestUrl, response);

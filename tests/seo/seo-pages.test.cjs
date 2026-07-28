@@ -12,6 +12,7 @@ const canonicalPages = new Map([
   ["games/hsr/index.html", "https://tetinet.com/games/hsr/"],
   ["games/formula/index.html", "https://tetinet.com/games/formula/"],
   ["games/enemies/index.html", "https://tetinet.com/games/enemies/"],
+  ["privacy/index.html", "https://tetinet.com/privacy/"],
 ]);
 
 function read(relativePath) {
@@ -76,4 +77,14 @@ test("sitemapは主要ページの正規URLを含みgithub.ioを含まない", (
     assert.ok(sitemap.includes(`<loc>${expectedCanonical}</loc>`), expectedCanonical);
   }
   assert.doesNotMatch(sitemap, /github\.io/i);
+});
+
+test("プライバシーポリシーはルート正本だけを持ち旧URLをリダイレクトする", () => {
+  assert.equal(fs.existsSync(path.join(root, "games/privacy/index.html")), false);
+  const privacy = read("privacy/index.html");
+  assert.match(privacy, /原神・崩壊：スターレイルともにEnka\.Network/);
+  assert.doesNotMatch(privacy, /MiHoMo/i);
+  [read("worker.js"), read("local-server.cjs")].forEach((source) => {
+    assert.match(source, /\["\/games\/privacy\/",\s*"\/privacy\/"\]/);
+  });
 });

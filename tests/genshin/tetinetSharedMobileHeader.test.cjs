@@ -18,7 +18,27 @@ function htmlFiles(directory = root) {
 
 test("every shared site header uses the common mobile navigation runtime", () => {
     const pages = htmlFiles().filter((file) => fs.readFileSync(file, "utf8").includes("teti-site-header"));
-    assert.ok(pages.length >= 18, `shared header coverage unexpectedly shrank: ${pages.length}`);
+    const requiredPages = [
+        "index.html",
+        "about/index.html",
+        "contact/index.html",
+        "faq/index.html",
+        "guides/index.html",
+        "links/index.html",
+        "privacy/index.html",
+        "sitemap/index.html",
+        "terms/index.html",
+        "updates/index.html",
+        "games/index.html",
+        "games/enemies/index.html",
+        "games/formula/index.html",
+        "games/gbf/index.html",
+        "games/genshin/index.html",
+        "games/hsr/index.html",
+        "guides/genshin/index.html"
+    ];
+    const relativePages = new Set(pages.map((file) => path.relative(root, file).replaceAll("\\", "/")));
+    requiredPages.forEach((file) => assert.ok(relativePages.has(file), `shared header page missing: ${file}`));
     pages.forEach((file) => {
         const html = fs.readFileSync(file, "utf8");
         assert.match(html, /\/games\/js\/theme\.js/, path.relative(root, file));
