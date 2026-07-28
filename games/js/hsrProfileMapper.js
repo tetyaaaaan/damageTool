@@ -32,18 +32,24 @@
             const id = String(relic?._flat?.setID || "");
             if (id) counts.set(id, (counts.get(id) || 0) + 1);
         });
-        return [...counts.entries()].map(([id, pieces]) => ({
-            id,
-            name: text(byId(catalog?.relicSets, id)?.name),
-            pieces,
-            properties: []
-        }));
+        return [...counts.entries()].map(([id, pieces]) => {
+            const set = byId(catalog?.relicSets, id);
+            return {
+                id,
+                name: text(set?.name),
+                pieces,
+                image: set?.image || "",
+                effects: (set?.effects || []).filter((effect) => pieces >= number(effect.pieces)),
+                properties: []
+            };
+        });
     }
 
     function mapTraces(character, characterData) {
         return (character.skillTreeList || []).map((tree) => {
             const id = String(tree.pointId || "");
-            const skill = byId(characterData?.skills, id);
+            const skill = byId(characterData?.skills, id)
+                || byId(characterData?.skills, `${characterData?.id || ""}${id.slice(-2)}`);
             const trace = byId(characterData?.traces, id);
             return {
                 id,

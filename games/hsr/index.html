@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/games/css/menu.css">
   <link rel="stylesheet" href="/games/css/tetinet.css?v=20260722-1">
   <link rel="stylesheet" href="/games/css/genshin-tool-ui.css?v=20260727-4">
-  <link rel="stylesheet" href="/games/css/hsr-tool-ui.css?v=20260728-1">
+  <link rel="stylesheet" href="/games/css/hsr-tool-ui.css?v=20260728-2">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
   <script src="/games/js/windowLoading.js"></script>
   <script src="/games/js/theme.js?v=20260720-2"></script>
@@ -31,52 +31,52 @@
 
     <main class="teti-main genshin-tool-main hsr-tool-main">
       <div class="teti-container">
-        <nav class="teti-breadcrumb" aria-label="パンくず"><a href="/">ホーム</a><a href="/games/">ゲーム</a><span>崩壊：スターレイル ダメージ計算</span></nav>
+        <nav class="genshin-breadcrumb" aria-label="パンくず"><a href="/">ホーム</a><a href="/games/">ゲーム一覧</a><span>崩壊：スターレイル ダメージ計算</span></nav>
 
         <section class="genshin-tool-hero hsr-tool-hero">
           <div class="genshin-tool-title">
-            <span class="genshin-tool-mark" aria-hidden="true"><img class="teti-tool-mark-light" src="/games/images/theme/hsr-mascot-light.webp" alt="" width="88" height="88"><img class="teti-tool-mark-dark" src="/games/images/theme/hsr-mascot-dark.webp" alt="" width="88" height="88"></span>
-            <div><p class="genshin-kicker">崩壊：スターレイル / ダメージ計算</p><h1>崩壊：スターレイル<br class="hsr-mobile-only"> ダメージ計算</h1><p>キャラ・装備・パーティ・敵条件を揃え、結果と計算内訳を確認できます。</p></div>
+            <span class="teti-tool-mark" aria-hidden="true"><img class="teti-tool-mark-light" src="/games/images/theme/hsr-mascot-light.webp" alt=""><img class="teti-tool-mark-dark" src="/games/images/theme/hsr-mascot-dark.webp" alt=""></span>
+            <div><p class="genshin-kicker">Honkai: Star Rail</p><h1>崩壊：スターレイル ダメージ計算ツール</h1><p>キャラクターのステータスや光円錐、遺物、パーティ、敵条件を入力してダメージを計算します。</p></div>
           </div>
-          <div class="genshin-hero-actions"><span class="genshin-status-badge">IDベースJSON</span><a class="teti-button teti-button-secondary" href="#hsrToolDetails">対応範囲を見る</a></div>
+          <div class="genshin-hero-actions"><a class="teti-button teti-button-secondary" href="/guides/">使い方を見る</a></div>
         </section>
 
         <section class="genshin-tool-grid" aria-label="崩壊：スターレイル ダメージ計算">
           <div class="genshin-panel genshin-input-panel">
-            <div class="genshin-panel-head"><div><p class="genshin-kicker">条件入力</p><h2>ビルドと戦闘条件</h2></div></div>
+            <div class="genshin-panel-head"><div><p class="genshin-kicker">入力エリア</p><h2>条件入力</h2></div></div>
 
             <div class="genshin-fieldset uid-importer genshin-uid-importer hsr-uid-importer" id="hsrUidImporter">
-              <div class="genshin-fieldset-head"><div><h3>UIDから反映</h3><p>ゲーム内プロフィールで公開中のキャラクターを取得します。</p></div></div>
-              <div class="uid-importer__controls genshin-inline-controls"><label for="hsrUidInput">UID</label><input id="hsrUidInput" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="例: 800000000" autocomplete="off"><button id="hsrUidSearchButton" type="button" class="teti-button teti-button-secondary">UID検索</button></div>
-              <div class="uid-importer__storage"><p>検索に成功したUIDは、このブラウザに保存します。保存先はこの端末内だけです。</p><button id="hsrUidClearSavedButton" type="button" class="uid-importer__clear-saved" hidden>保存したUIDを削除</button></div>
+              <h3>UIDから読み込む</h3>
+              <p class="genshin-help">公開プロフィールを計算欄へ反映します。</p>
+              <div class="uid-importer__controls genshin-inline-controls"><label for="hsrUidInput">スタレUID</label><input class="teti-input" id="hsrUidInput" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="例: 800000000" autocomplete="off"><button id="hsrUidSearchButton" type="button" class="teti-button teti-button-secondary">UID検索</button></div>
+              <div class="uid-importer__storage"><p>検索に成功したUIDは、このブラウザに保存して次回入力します。</p><button id="hsrUidClearSavedButton" type="button" class="uid-importer__clear-saved" hidden>保存したUIDを削除</button></div>
               <p id="hsrUidMessage" class="uid-importer__message" role="status" aria-live="polite"></p>
-              <div class="genshin-uid-result" id="hsrUidResult" hidden><div id="hsrPlayerInfo" class="uid-importer__player"></div><div id="hsrCharacterSelector" class="uid-importer__selector"></div><div id="hsrCharacterDetail" class="uid-importer__detail" hidden></div></div>
+              <div class="genshin-uid-result" id="hsrUidResult" hidden><div id="hsrPlayerInfo" class="uid-importer__player" hidden></div><div id="hsrCharacterSelector" class="uid-importer__selector" hidden><label for="hsrProfileCharacterSelect">反映するキャラクター</label><select class="teti-select" id="hsrProfileCharacterSelect"></select></div><div id="hsrCharacterDetail" class="uid-importer__detail" hidden></div></div>
             </div>
 
             <div class="genshin-fieldset genshin-json-calc-production genshin-reflect-inputs hsr-build-fieldset">
-              <div class="genshin-input-step-head"><h3>キャラクター・装備</h3><p>画像を押して選択します。UID反映後も変更できます。</p></div>
               <section class="genshin-input-step genshin-equipment-step" aria-labelledby="hsrBuildStepTitle">
-                <div class="genshin-input-step-head"><h4 id="hsrBuildStepTitle">計算対象</h4><p id="hsrInputProvenance">手動入力</p></div>
+                <div class="genshin-input-step-head"><h4 id="hsrBuildStepTitle">キャラ・装備</h4><p>キャラを選ぶと装備できる光円錐が表示されます。</p><span id="hsrInputProvenance" hidden>手動入力値</span></div>
                 <div class="genshin-form-grid genshin-artifact-mode-row hsr-relic-mode-row"><label class="genshin-field">遺物セット構成<select id="hsrRelicMode"><option value="4pc">4セット</option><option value="2+2">2セット + 2セット</option></select></label></div>
                 <div class="genshin-form-grid genshin-profile-form-grid genshin-equipment-grid hsr-equipment-layout">
                   <article class="genshin-equipment-card genshin-equipment-card--character" id="hsrCharacterCard">
-                    <button type="button" id="hsrCharacterTrigger" class="genshin-equipment-image-button" aria-label="キャラクターを選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img id="hsrCharacterImage" class="genshin-profile-selection-image" src="/games/images/hsr/fallback.webp" alt="" width="76" height="76" loading="lazy"></button>
+                    <button type="button" id="hsrCharacterTrigger" class="genshin-equipment-image-button" aria-label="キャラクターを選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img id="hsrCharacterImage" class="genshin-profile-selection-image" src="/games/images/genshin/fallback.webp" alt="" width="76" height="76" loading="lazy"></button>
                     <div class="genshin-equipment-content"><input id="hsrCharacterName" class="genshin-selection-input genshin-equipment-name" type="text" value="選択してください" readonly aria-label="キャラクターを選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><div class="genshin-equipment-meta"><label><span>Lv</span><input id="hsrLevel" type="number" min="1" max="80" value="80"></label><label><span>星魂</span><select id="hsrEidolon"></select></label><button type="button" class="genshin-equipment-details-button" id="hsrCharacterDetailsButton" disabled>詳細</button></div><small id="hsrCharacterMeta" class="hsr-equipment-subline">属性・運命</small></div>
                   </article>
                   <article class="genshin-equipment-card genshin-equipment-card--weapon" id="hsrConeCard">
-                    <button type="button" id="hsrConeTrigger" class="genshin-equipment-image-button" aria-label="光円錐を選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img id="hsrConeImage" class="genshin-profile-selection-image" src="/games/images/hsr/fallback.webp" alt="" width="76" height="76" loading="lazy"></button>
+                    <button type="button" id="hsrConeTrigger" class="genshin-equipment-image-button" aria-label="光円錐を選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img id="hsrConeImage" class="genshin-profile-selection-image" src="/games/images/genshin/fallback.webp" alt="" width="76" height="76" loading="lazy"></button>
                     <div class="genshin-equipment-content"><input id="hsrConeName" class="genshin-selection-input genshin-equipment-name" type="text" value="選択してください" readonly aria-label="光円錐を選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><div class="genshin-equipment-meta"><label><span>Lv</span><input id="hsrConeLevel" type="number" min="1" max="80" value="80"></label><label><span>重畳</span><select id="hsrConeRank"></select></label><button type="button" class="genshin-equipment-details-button" id="hsrConeDetailsButton" disabled>詳細</button></div><small id="hsrConeMeta" class="hsr-equipment-subline">運命に合う候補を表示</small></div>
                   </article>
                   <article class="genshin-equipment-card genshin-equipment-card--weapon" id="hsrRelicCard">
-                    <button type="button" id="hsrRelicTrigger" class="genshin-equipment-image-button" aria-label="遺物を選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img id="hsrRelicImage" class="genshin-profile-selection-image" src="/games/images/hsr/fallback.webp" alt="" width="76" height="76" loading="lazy"></button>
+                    <button type="button" id="hsrRelicTrigger" class="genshin-equipment-image-button" aria-label="遺物を選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img id="hsrRelicImage" class="genshin-profile-selection-image" src="/games/images/genshin/fallback.webp" alt="" width="76" height="76" loading="lazy"></button>
                     <div class="genshin-equipment-content"><input id="hsrRelicName" class="genshin-selection-input genshin-equipment-name" type="text" value="選択しない" readonly aria-label="遺物を選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><div class="genshin-equipment-meta"><span class="hsr-set-kind">トンネル遺物・4セット / 2セット</span><button type="button" class="genshin-equipment-details-button" id="hsrRelicDetailsButton" disabled>詳細</button></div></div>
                   </article>
                   <article class="genshin-equipment-card genshin-equipment-card--weapon" id="hsrRelicSecondCard" hidden>
-                    <button type="button" id="hsrRelicSecondTrigger" class="genshin-equipment-image-button" aria-label="2つ目の遺物セットを選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img id="hsrRelicSecondImage" class="genshin-profile-selection-image" src="/games/images/hsr/fallback.webp" alt="" width="76" height="76" loading="lazy"></button>
+                    <button type="button" id="hsrRelicSecondTrigger" class="genshin-equipment-image-button" aria-label="2つ目の遺物セットを選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img id="hsrRelicSecondImage" class="genshin-profile-selection-image" src="/games/images/genshin/fallback.webp" alt="" width="76" height="76" loading="lazy"></button>
                     <div class="genshin-equipment-content"><input id="hsrRelicSecondName" class="genshin-selection-input genshin-equipment-name" type="text" value="選択しない" readonly aria-label="2つ目の遺物セットを選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><div class="genshin-equipment-meta"><span class="hsr-set-kind">トンネル遺物・2セット</span><button type="button" class="genshin-equipment-details-button" id="hsrRelicSecondDetailsButton" disabled>詳細</button></div></div>
                   </article>
                   <article class="genshin-equipment-card genshin-equipment-card--weapon" id="hsrOrnamentCard">
-                    <button type="button" id="hsrOrnamentTrigger" class="genshin-equipment-image-button" aria-label="次元界オーナメントを選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img id="hsrOrnamentImage" class="genshin-profile-selection-image" src="/games/images/hsr/fallback.webp" alt="" width="76" height="76" loading="lazy"></button>
+                    <button type="button" id="hsrOrnamentTrigger" class="genshin-equipment-image-button" aria-label="次元界オーナメントを選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img id="hsrOrnamentImage" class="genshin-profile-selection-image" src="/games/images/genshin/fallback.webp" alt="" width="76" height="76" loading="lazy"></button>
                     <div class="genshin-equipment-content"><input id="hsrOrnamentName" class="genshin-selection-input genshin-equipment-name" type="text" value="選択しない" readonly aria-label="次元界オーナメントを選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><div class="genshin-equipment-meta"><span class="hsr-set-kind">次元界オーナメント・2セット</span><button type="button" class="genshin-equipment-details-button" id="hsrOrnamentDetailsButton" disabled>詳細</button></div></div>
                   </article>
                 </div>
@@ -84,7 +84,7 @@
               </section>
 
               <section class="genshin-input-step" aria-labelledby="hsrStatusStepTitle">
-                <div class="genshin-input-step-head"><h4 id="hsrStatusStepTitle">ステータス</h4><p>取得後も手動編集できます。</p></div>
+                <div class="genshin-input-step-head"><h4 id="hsrStatusStepTitle">ステータス</h4><p>プロフィール反映後も編集できます。</p></div>
                 <div class="genshin-profile-stat-inputs"><div class="genshin-form-grid genshin-compact-stats hsr-stat-grid">
                   <label class="genshin-field">HP<input id="hsrStat-hp" data-stat="hp" type="number" step="1"></label><label class="genshin-field">会心率<input id="hsrStat-critRate" data-stat="critRate" type="number" step="0.1"><span class="genshin-field-unit">%</span></label>
                   <label class="genshin-field">攻撃力<input id="hsrStat-atk" data-stat="atk" type="number" step="1"></label><label class="genshin-field">会心ダメージ<input id="hsrStat-critDamage" data-stat="critDamage" type="number" step="0.1"><span class="genshin-field-unit">%</span></label>
@@ -95,13 +95,13 @@
                 </div></div>
               </section>
 
-              <section class="genshin-input-step" aria-labelledby="hsrPartyStepTitle"><div class="genshin-input-step-head"><h4 id="hsrPartyStepTitle">パーティ</h4><p>メインを支援する残り3人を設定します。</p></div><div class="genshin-party-launcher"><div><strong>サポートメンバー</strong><span id="hsrPartySummary">サポートメンバーは未設定です。</span></div><button type="button" class="teti-button teti-button-secondary" id="hsrPartyDialogOpen" aria-haspopup="dialog" aria-controls="hsrPartyDialog">メンバーを設定</button></div><p class="genshin-party-note">条件付き効果はメンバー選択だけでは適用されません。</p></section>
+              <section class="genshin-input-step" aria-labelledby="hsrPartyStepTitle"><div class="genshin-input-step-head"><h4 id="hsrPartyStepTitle">パーティ</h4><p>メインキャラを支援する残り3人を設定します。</p></div><div class="genshin-party-launcher"><div><strong>サポートメンバー</strong><span id="hsrPartySummary">サポートメンバーは未設定です。</span></div><button type="button" class="teti-button teti-button-secondary" id="hsrPartyDialogOpen" aria-haspopup="dialog" aria-controls="hsrPartyDialog">メンバーを設定</button></div><p class="genshin-party-note">メンバーを設定すると、適用可能な効果を補正条件の「パーティ」タブで選べます。</p></section>
 
               <section class="genshin-input-step" aria-labelledby="hsrCombatStepTitle">
                 <div class="genshin-input-step-head"><h4 id="hsrCombatStepTitle">敵・攻撃設定</h4><p>敵カードと計算対象の攻撃を選びます。</p></div>
                 <div class="genshin-combat-input-grid">
                   <div class="genshin-profile-stat-inputs"><h5>攻撃</h5><div class="genshin-form-grid genshin-compact-enemy"><div class="genshin-field"><label for="hsrAttackSelect">攻撃</label><select id="hsrAttackSelect"></select><p id="hsrAttackSupportNote">キャラクターを選択してください。</p></div><div class="genshin-field"><label for="hsrAttackLevel">軌跡Lv</label><select id="hsrAttackLevel"></select></div><div class="genshin-field"><label for="hsrManualMultiplier">手動倍率</label><input id="hsrManualMultiplier" type="number" step="0.1" value="100"><span>%</span></div></div></div>
-                  <div class="genshin-profile-stat-inputs"><h5>敵情報</h5><button type="button" class="hsr-enemy-trigger" id="hsrEnemyTrigger" aria-label="敵を選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img id="hsrEnemyImage" src="/games/images/hsr/fallback.webp" alt="" width="64" height="64" loading="lazy"><span><strong id="hsrEnemyName">敵を選択</strong><small id="hsrEnemySummary">敵条件を選択できます。</small></span></button><select id="hsrEnemySelect" hidden aria-hidden="true" tabindex="-1"></select><div class="genshin-form-grid genshin-compact-enemy"><div class="genshin-field"><label for="hsrEnemyLevel">敵Lv</label><input id="hsrEnemyLevel" type="number" min="1" max="100" value="80"></div><div class="genshin-field"><label for="hsrEnemyResistance">属性耐性</label><input id="hsrEnemyResistance" type="number" step="0.1" value="20"><span>%</span></div><div class="genshin-field"><label for="hsrMaxToughness">最大靭性</label><input id="hsrMaxToughness" type="number" min="0" step="10" value="30"></div><label class="genshin-field hsr-check-field"><input id="hsrWeakness" type="checkbox" checked>属性弱点</label><label class="genshin-field hsr-check-field"><input id="hsrToughnessActive" type="checkbox">靭性が残っている</label></div></div>
+                  <div class="genshin-profile-stat-inputs"><h5>敵情報</h5><button type="button" class="hsr-enemy-trigger" id="hsrEnemyTrigger" aria-label="敵を選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img id="hsrEnemyImage" src="/games/images/genshin/fallback.webp" alt="" width="64" height="64" loading="lazy"><span><strong id="hsrEnemyName">敵を選択</strong><small id="hsrEnemySummary">敵条件を選択できます。</small></span></button><select id="hsrEnemySelect" hidden aria-hidden="true" tabindex="-1"></select><div class="genshin-form-grid genshin-compact-enemy"><div class="genshin-field"><label for="hsrEnemyLevel">敵Lv</label><input id="hsrEnemyLevel" type="number" min="1" max="100" value="80"></div><div class="genshin-field"><label for="hsrEnemyResistance">属性耐性</label><input id="hsrEnemyResistance" type="number" step="0.1" value="20"><span>%</span></div><div class="genshin-field"><label for="hsrMaxToughness">最大靭性</label><input id="hsrMaxToughness" type="number" min="0" step="10" value="30"></div><label class="genshin-field hsr-check-field"><input id="hsrWeakness" type="checkbox" checked>属性弱点</label><label class="genshin-field hsr-check-field"><input id="hsrToughnessActive" type="checkbox">靭性が残っている</label></div></div>
                   <div class="genshin-profile-stat-inputs"><h5>敵デバフ</h5><div class="genshin-form-grid genshin-compact-pairs"><div class="genshin-field"><label for="hsrEnemyDefenseReduction">防御ダウン</label><input id="hsrEnemyDefenseReduction" type="number" step="0.1" value="0"><span>%</span></div><div class="genshin-field"><label for="hsrEnemyDefenseIgnore">防御無視</label><input id="hsrEnemyDefenseIgnore" type="number" step="0.1" value="0"><span>%</span></div><div class="genshin-field"><label for="hsrEnemyResistancePenetration">耐性貫通</label><input id="hsrEnemyResistancePenetration" type="number" step="0.1" value="0"><span>%</span></div><div class="genshin-field"><label for="hsrEnemyTakenDamage">被ダメージ増加</label><input id="hsrEnemyTakenDamage" type="number" step="0.1" value="0"><span>%</span></div></div></div>
                 </div>
               </section>
@@ -132,9 +132,11 @@
 
     <dialog class="genshin-equipment-details-dialog" id="hsrDetailsDialog" aria-labelledby="hsrDetailsTitle"><div class="genshin-equipment-details-dialog-inner"><header class="genshin-equipment-details-head"><div><p class="genshin-kicker">詳細</p><h2 id="hsrDetailsTitle">装備詳細</h2></div><button type="button" class="genshin-selection-close" id="hsrDetailsClose" aria-label="詳細を閉じる">×</button></header><div class="genshin-equipment-details-body" id="hsrDetailsBody"></div></div></dialog>
 
-    <script src="/games/js/hsrProfileApi.js"></script><script src="/games/js/hsrProfileMapper.js"></script><script src="/games/js/uidStorage.js"></script><script src="/games/js/hsrCalcData.js"></script><script src="/games/js/hsrCalcEngine.js"></script><script src="/games/js/hsrApp.js"></script><script src="/games/js/hsrUidImporter.js"></script>
+    <dialog class="genshin-equipment-details-dialog genshin-uid-details-dialog" id="hsrUidDetailsDialog" aria-labelledby="hsrUidDetailsTitle"><div class="genshin-equipment-details-dialog-inner"><header class="genshin-equipment-details-head"><div><p class="genshin-kicker">UID DETAIL</p><h2 id="hsrUidDetailsTitle">キャラクター詳細</h2></div><button type="button" class="genshin-selection-close" id="hsrUidDetailsClose" aria-label="詳細を閉じる">×</button></header><nav class="genshin-uid-details-tabs" id="hsrUidDetailsTabs" aria-label="UID詳細カテゴリ"></nav><div class="genshin-equipment-details-body" id="hsrUidDetailsBody"></div></div></dialog>
 
-    <footer class="teti-site-footer"><div class="teti-container"><div class="teti-footer-grid"><div class="teti-footer-col"><div class="teti-footer-brand"><img src="/games/images/logo/tetinet_icon_white.webp" alt="" width="34" height="34"><span>tetinet</span></div><p>ゲーム・ツール・個人制作物をまとめるサイト。</p></div><div class="teti-footer-col"><h3>コンテンツ</h3><a href="/">ホーム</a><a href="/games/">ゲーム一覧</a><a href="/about/">このサイトについて</a></div><div class="teti-footer-col"><h3>サポート</h3><a href="/guides/">使い方ガイド</a><a href="/updates/">更新履歴</a><a href="/faq/">よくある質問</a></div><div class="teti-footer-col"><h3>その他</h3><a href="/terms/">利用条件・免責事項</a><a href="/privacy/">プライバシーポリシー</a><a href="/links/">参考リンク</a></div></div><div class="teti-footer-bottom">© 2026 tetinet. All rights reserved.</div></div></footer>
+    <script src="/games/js/hsrProfileApi.js"></script><script src="/games/js/hsrProfileMapper.js?v=20260728-2"></script><script src="/games/js/uidStorage.js"></script><script src="/games/js/hsrCalcData.js"></script><script src="/games/js/hsrCalcEngine.js"></script><script src="/games/js/hsrApp.js?v=20260728-2"></script><script src="/games/js/hsrUidImporter.js?v=20260728-2"></script>
+
+    <footer class="teti-site-footer"><div class="teti-container"><div class="teti-footer-grid"><div class="teti-footer-col"><div class="teti-footer-brand"><img src="/games/images/logo/tetinet_icon_white.webp" alt="" width="34" height="34"><span>tetinet</span></div><p>ゲーム・ツール・個人制作物をまとめるサイト。</p><div class="teti-social-links"><a href="https://x.com/tetinet_jp" target="_blank" rel="noopener noreferrer" aria-label="Xでtetinet_jpを開く"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 10.6 22 2h-1.7l-6.4 7.4L8.9 2H3l7.7 11.2L3 22h1.7l6.8-7.9 5.5 7.9h5.9l-8.2-11.4Zm-2.4 2.8-.8-1.1L5.4 3.3h2.7l4.9 7.2.8 1.1 6.4 9.2h-2.7l-5.2-7.4Z"/></svg></a></div></div><div class="teti-footer-col"><h3>コンテンツ</h3><a href="/">ホーム</a><a href="/games/">ゲーム一覧</a><a href="/games/">ツール一覧</a><a href="/about/">このサイトについて</a></div><div class="teti-footer-col"><h3>サポート</h3><a href="/guides/">使い方ガイド</a><a href="/updates/">更新履歴</a><a href="/faq/">よくある質問</a><a href="/contact/">お問い合わせ</a></div><div class="teti-footer-col"><h3>その他</h3><a href="/terms/">利用条件・免責事項</a><a href="/privacy/">プライバシーポリシー</a><a href="/links/">参考リンク</a><a href="/sitemap/">サイトマップ</a></div></div><div class="teti-footer-bottom">© 2026 tetinet. All rights reserved.</div></div></footer>
   </div>
 </body>
 </html>

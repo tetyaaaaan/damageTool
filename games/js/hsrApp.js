@@ -2,7 +2,14 @@
   "use strict";
 
   const $ = (id) => document.getElementById(id);
-  const FALLBACK = "/games/images/hsr/fallback.webp";
+  const FALLBACK = "/games/images/genshin/fallback.webp";
+  const ELEMENT_KEYS = { Physical: "物理", Fire: "炎", Ice: "氷", Thunder: "雷", Wind: "風", Quantum: "量子", Imaginary: "虚数" };
+  const CHARACTER_READINGS = {
+    "開拓者": "かいたくしゃ", "姫子": "ひめこ", "遠坂凛": "とおさかりん", "銀狼": "ぎんろう", "火花": "ひばな", "丹恒": "たんこう", "長夜月": "ちょうやづき",
+    "黄泉": "よみ", "花火": "はなび", "帰忘の流離人": "きぼうのさすらいびと", "霊砂": "れいさ", "雲璃": "うんり", "飛霄": "ひしょう", "椒丘": "しょうきゅう",
+    "鏡流": "けいりゅう", "白露": "びゃくろ", "彦卿": "げんきょう", "符玄": "ふげん", "刃": "じん", "景元": "けいげん", "羅刹": "らせつ", "三月なのか": "みつきなのか",
+    "寒鴉": "かんあ", "雪衣": "せつい", "桂乃芬": "けいないふん", "御空": "ぎょくう", "素裳": "すしょう", "停雲": "ていうん", "青雀": "せいじゃく"
+  };
   const num = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
   const fmt = (value) => Math.round(num(value)).toLocaleString("ja-JP");
   const esc = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[char]));
@@ -17,7 +24,7 @@
     party: Array.from({ length: 3 }, () => ({ characterId: "", effectId: "", level: 10, category: "damageBonus", value: 0, enabled: false })),
     enemyId: "3001020",
     enemy: { level: 80, resistance: 20, weakness: false, toughnessActive: true, maxToughness: 30, defenseReduction: 0, defenseIgnore: 0, resistancePenetration: 0, takenDamage: 0 },
-    attackId: "manual", attackLevel: 10, attackConditions: {}, selectionType: "", selectionFilters: { element: "", rarity: "", path: "" }, partySlot: -1, conditionTab: "手動", initialized: false,
+    attackId: "manual", attackLevel: 10, attackConditions: {}, selectionType: "", selectionFilters: { element: new Set(), rarity: new Set(), path: new Set() }, partySlot: -1, conditionTab: "手動", initialized: false,
     conditions: [
       { id: "damage", tab: "手動", name: "ダメージバフ", description: "現在の攻撃へ加算するダメージバフ", source: "手動入力", category: "damageBonus", value: 0, enabled: false, appliesTo: "現在の攻撃" },
       { id: "vulnerability", tab: "敵", name: "被ダメージ増加", description: "敵へ付与された被ダメージ増加", source: "敵デバフ", category: "takenDamage", value: 0, enabled: false, appliesTo: "敵単体" },
@@ -39,6 +46,14 @@
   function partyRules(characterId) { return state.data?.modifiers?.filter((item) => item.sourceId === characterId) || []; }
   function partyRuleValue(member, rule = modifierRule(member.effectId)) { const values = rule?.valuesByLevel || []; return values.length ? num(values[Math.max(0, Math.min(values.length - 1, num(member.level, rule.defaultLevel) - 1))]) : num(member.value); }
   function imageUrl(value) { return value || FALLBACK; }
+  function elementIcon(element) { return element ? `/games/images/hsr/elements/${element}.png` : ""; }
+  function normalizeSearchText(value) { return String(value || "").normalize("NFKC").toLocaleLowerCase("ja").replace(/[ァ-ヶ]/g, (character) => String.fromCharCode(character.charCodeAt(0) - 0x60)).replace(/[\s・ー（）()&]/g, ""); }
+  function searchText(item) {
+    const reading = Object.entries(CHARACTER_READINGS).filter(([name]) => item.name.includes(name)).map(([, value]) => value).join(" ");
+    return normalizeSearchText(`${item.name} ${item.nameReading || ""} ${reading}`);
+  }
+  function cleanGameText(value) { return window.HsrUidImporter?.cleanGameText?.(value) || String(value || "").replace(/\{RUBY_B#[^}]*\}|\{RUBY_E#\}/g, ""); }
+  function formatGameText(value, params) { return window.HsrUidImporter?.formatGameText?.(value, params) || cleanGameText(value); }
   function fixImage(event) { event.currentTarget.onerror = null; event.currentTarget.src = FALLBACK; }
   function setImage(id, src, alt) { const image = $(id); image.src = imageUrl(src); image.alt = alt || ""; image.onerror = fixImage; }
 
@@ -130,22 +145,26 @@
   }
 
   function populateSelectionFilters() {
-    state.selectionFilters = { element: "", rarity: "", path: "" };
+    state.selectionFilters = { element: new Set(), rarity: new Set(), path: new Set() };
     const items = selectionItems(state.selectionType); const characterMode = ["character", "party"].includes(state.selectionType); const equipmentMode = ["cone", "relic", "relicSecond", "ornament"].includes(state.selectionType);
-    const group = (label, key, values) => `<div class="genshin-filter-row" role="group" aria-label="${esc(label)}">${[...new Set(values.filter(Boolean))].sort().map((value) => `<button type="button" class="genshin-filter-button" data-filter-group="${key}" data-filter-value="${esc(value)}" aria-pressed="false">${key === "rarity" ? `★${esc(value)}` : esc(value)}</button>`).join("")}</div>`;
+    const group = (label, key, values) => `<div class="genshin-filter-row" role="group" aria-label="${esc(label)}">${[...new Set(values.filter(Boolean))].sort().map((value) => {
+      const element = key === "element" ? items.find((item) => item.elementName === value)?.element : "";
+      const content = element ? `<img src="${elementIcon(element)}" alt="" width="30" height="30">` : key === "rarity" ? `★${esc(value)}` : esc(value);
+      return `<button type="button" class="genshin-filter-button${element ? " genshin-filter-button--element" : ""}" data-filter-group="${key}" data-filter-value="${esc(value)}" aria-label="${esc(value)}" title="${esc(value)}" aria-pressed="false">${content}</button>`;
+    }).join("")}</div>`;
     let html = ""; if (characterMode) html += group("属性", "element", items.map((item) => item.elementName)); if (characterMode || state.selectionType === "cone") html += group("レアリティ", "rarity", items.map((item) => String(item.rarity))); if (characterMode || equipmentMode) html += group(["relic", "relicSecond", "ornament"].includes(state.selectionType) ? "種別" : "運命", "path", items.map((item) => item.pathName || item.type));
     if (html) html += '<div class="genshin-filter-row"><button type="button" class="genshin-filter-toggle-all" id="hsrFilterClear" disabled>フィルタ解除</button></div>';
     $("hsrSelectionFilters").innerHTML = html;
   }
 
   function renderSelectionList() {
-    const query = $("hsrSelectionSearch").value.trim().toLocaleLowerCase("ja");
+    const query = normalizeSearchText($("hsrSelectionSearch").value);
     const { element, rarity, path } = state.selectionFilters;
-    const items = selectionItems(state.selectionType).filter((item) => (!query || item.name.toLocaleLowerCase("ja").includes(query)) && (!element || item.elementName === element) && (!rarity || String(item.rarity) === rarity) && (!path || (item.pathName || item.type) === path));
+    const items = selectionItems(state.selectionType).filter((item) => (!query || searchText(item).includes(query)) && (!element.size || element.has(item.elementName)) && (!rarity.size || rarity.has(String(item.rarity))) && (!path.size || path.has(item.pathName || item.type)));
     const canClear = ["cone", "relic", "relicSecond", "ornament", "party"].includes(state.selectionType);
-    const clearCard = canClear ? `<button type="button" class="hsr-selection-card" data-selection-id=""><img src="${FALLBACK}" alt="" width="68" height="68" loading="lazy"><span class="hsr-selection-card-copy"><strong>選択しない</strong><span>設定を解除</span></span></button>` : "";
-    const cards = items.map((item) => { const meta = state.selectionType === "enemy" ? `Lv${item.level} / 耐性${item.resistance}% / 最大靭性${item.maxToughness}` : item.elementName ? `${item.elementName}・${item.pathName} / ★${item.rarity}` : `${item.pathName || (item.type === "ornament" ? "オーナメント" : "遺物")} / ★${item.rarity || "-"}`; return `<button type="button" class="hsr-selection-card${item.id === currentSelectionId() ? " is-selected" : ""}" data-selection-id="${item.id}"><img src="${esc(imageUrl(item.image))}" alt="" width="68" height="68" loading="lazy"><span class="hsr-selection-card-copy"><strong>${esc(item.name)}</strong><span>${esc(meta)}</span></span></button>`; }).join("");
-    $("hsrSelectionList").innerHTML = clearCard + cards || '<p class="hsr-selection-empty">条件に一致する候補がありません。</p>';
+    const clearCard = canClear ? `<button type="button" class="genshin-selection-option" data-selection-id=""><img class="genshin-selection-option-image" src="${FALLBACK}" alt="" width="48" height="48" loading="lazy"><span class="genshin-selection-option-copy"><strong>選択しない</strong><span>設定を解除</span></span></button>` : "";
+    const cards = items.map((item) => { const element = item.element ? `<span class="genshin-selection-option-badges"><img class="genshin-selection-element-icon" src="${elementIcon(item.element)}" alt="${esc(item.elementName)}" width="20" height="20"></span>` : ""; const meta = state.selectionType === "enemy" ? `Lv${item.level} / 耐性${item.resistance}% / 最大靭性${item.maxToughness}` : item.elementName ? `${item.pathName} / ★${item.rarity}` : `${item.pathName || (item.type === "ornament" ? "オーナメント" : "遺物")} / ★${item.rarity || "-"}`; return `<button type="button" class="genshin-selection-option${item.id === currentSelectionId() ? " is-selected" : ""}" data-selection-id="${item.id}" aria-label="${esc(`${item.name}、${item.elementName || meta}`)}"><img class="genshin-selection-option-image" src="${esc(imageUrl(item.image))}" alt="" width="48" height="48" loading="lazy">${element}<span class="genshin-selection-option-copy"><strong>${esc(item.name)}</strong><span>${esc(meta)}</span></span></button>`; }).join("");
+    $("hsrSelectionList").innerHTML = clearCard + cards || '<p class="genshin-selection-empty">条件に一致する候補がありません。フィルターを切り替えてください。</p>';
     $("hsrSelectionSummary").textContent = `${items.length}件を表示`;
     $("hsrSelectionList").querySelectorAll("img").forEach((image) => { image.onerror = fixImage; });
   }
@@ -153,6 +172,8 @@
   function openSelection(type, slot = -1) {
     state.selectionType = type; state.partySlot = slot;
     const labels = { character: "キャラクター", party: "パーティメンバー", cone: "光円錐", relic: "遺物", relicSecond: "2つ目の遺物セット", ornament: "次元界オーナメント", enemy: "敵" };
+    const kickers = { character: "CHARACTER", party: "CHARACTER", cone: "LIGHT CONE", relic: "RELIC SET", relicSecond: "RELIC SET", ornament: "PLANAR ORNAMENT", enemy: "ENEMY" };
+    $("hsrSelectionKicker").textContent = kickers[type];
     $("hsrSelectionTitle").textContent = `${labels[type]}を選択`;
     $("hsrSelectionDialog").dataset.selectionType = type;
     $("hsrSelectionSearch").value = ""; $("hsrSelectionSearchClear").disabled = true; populateSelectionFilters(); renderSelectionList();
@@ -298,7 +319,7 @@
     const item = type === "character" ? character() : type === "cone" ? cone() : type === "relic" ? relic() : type === "relicSecond" ? relicSecond() : ornament(); if (!item) return;
     $("hsrDetailsTitle").textContent = item.name;
     const base = item.base ? `<dl><div><dt>ゲーム内ID</dt><dd>${esc(item.id)}</dd></div><div><dt>運命</dt><dd>${esc(item.pathName)}</dd></div><div><dt>Lv80基礎HP</dt><dd>${fmt(item.base.hp)}</dd></div><div><dt>Lv80基礎攻撃力</dt><dd>${fmt(item.base.atk)}</dd></div><div><dt>Lv80基礎防御力</dt><dd>${fmt(item.base.def)}</dd></div></dl>` : `<dl><div><dt>ゲーム内ID</dt><dd>${esc(item.id)}</dd></div><div><dt>セット種別</dt><dd>${item.type === "ornament" ? "次元界オーナメント" : "トンネル遺物"}</dd></div></dl>`;
-    const extra = type === "character" ? `<h3>星魂</h3><ul>${item.eidolons.map((row) => `<li><strong>${row.rank}: ${esc(row.name)}</strong><br>${esc(row.description)}</li>`).join("")}</ul><h3>追加能力・軌跡</h3><ul>${item.traces.filter((row) => row.name).map((row) => `<li><strong>${esc(row.name)}</strong><br>${esc(row.description || "ステータスノード")}</li>`).join("")}</ul>` : type === "cone" ? `<h3>${esc(item.effect?.name || "光円錐効果")}</h3><p>${esc(item.effect?.description || "効果データなし")}</p><p>重畳${state.coneRank} パラメータ: ${esc(JSON.stringify(item.effect?.paramsByRank?.[state.coneRank - 1] || []))}</p>` : `<h3>セット効果</h3><ul>${item.effects.map((effect) => `<li><strong>${effect.pieces}セット</strong><br>${esc(effect.description || "説明なし")}</li>`).join("")}</ul>`;
+    const extra = type === "character" ? `<h3>星魂</h3><ul>${item.eidolons.map((row) => `<li><strong>${row.rank}: ${esc(cleanGameText(row.name))}</strong><br>${esc(formatGameText(row.description, []))}</li>`).join("")}</ul><h3>追加能力・軌跡</h3><ul>${item.traces.filter((row) => row.name).map((row) => `<li><strong>${esc(cleanGameText(row.name))}</strong><br>${esc(formatGameText(row.description || "ステータスノード", row.params?.[0] || []))}</li>`).join("")}</ul>` : type === "cone" ? `<h3>${esc(cleanGameText(item.effect?.name || "光円錐効果"))}</h3><p>${esc(formatGameText(item.effect?.description || "効果データなし", item.effect?.paramsByRank?.[state.coneRank - 1] || []))}</p>` : `<h3>セット効果</h3><ul>${item.effects.map((effect) => `<li><strong>${effect.pieces}セット</strong><br>${esc(formatGameText(effect.description || "説明なし", effect.params || []))}</li>`).join("")}</ul>`;
     $("hsrDetailsBody").innerHTML = `<div class="genshin-equipment-detail-summary"><img src="${esc(imageUrl(item.image))}" alt="" width="112" height="112"><div><p>${esc(item.elementName || item.pathName || (item.type === "ornament" ? "次元界オーナメント" : "トンネル遺物"))}</p><strong>${item.rarity ? `★${item.rarity}` : "セット装備"}</strong></div></div>${base}${extra}`;
     $("hsrDetailsBody").querySelector("img").onerror = fixImage; $("hsrDetailsDialog").showModal();
   }
@@ -318,7 +339,7 @@
     Object.entries(triggers).forEach(([id, type]) => $(id).addEventListener("click", () => openSelection(type)));
     $("hsrSelectionSearch").addEventListener("input", () => { $("hsrSelectionSearchClear").disabled = !$("hsrSelectionSearch").value; renderSelectionList(); });
     $("hsrSelectionSearchClear").addEventListener("click", () => { $("hsrSelectionSearch").value = ""; $("hsrSelectionSearchClear").disabled = true; renderSelectionList(); if (window.matchMedia("(min-width: 769px)").matches) $("hsrSelectionSearch").focus(); });
-    $("hsrSelectionFilters").addEventListener("click", (event) => { const clear = event.target.closest("#hsrFilterClear"); if (clear) { state.selectionFilters = { element: "", rarity: "", path: "" }; $("hsrSelectionFilters").querySelectorAll("[data-filter-group]").forEach((button) => button.setAttribute("aria-pressed", "false")); clear.disabled = true; renderSelectionList(); return; } const button = event.target.closest("[data-filter-group]"); if (!button) return; const key = button.dataset.filterGroup; const value = button.dataset.filterValue; state.selectionFilters[key] = state.selectionFilters[key] === value ? "" : value; $("hsrSelectionFilters").querySelectorAll(`[data-filter-group="${key}"]`).forEach((entry) => entry.setAttribute("aria-pressed", String(entry === button && state.selectionFilters[key] === value))); const clearButton = $("hsrFilterClear"); if (clearButton) clearButton.disabled = !Object.values(state.selectionFilters).some(Boolean); renderSelectionList(); });
+    $("hsrSelectionFilters").addEventListener("click", (event) => { const clear = event.target.closest("#hsrFilterClear"); if (clear) { Object.values(state.selectionFilters).forEach((values) => values.clear()); $("hsrSelectionFilters").querySelectorAll("[data-filter-group]").forEach((button) => button.setAttribute("aria-pressed", "false")); clear.disabled = true; renderSelectionList(); return; } const button = event.target.closest("[data-filter-group]"); if (!button) return; const values = state.selectionFilters[button.dataset.filterGroup]; const value = button.dataset.filterValue; if (values.has(value)) values.delete(value); else values.add(value); button.setAttribute("aria-pressed", String(values.has(value))); const clearButton = $("hsrFilterClear"); if (clearButton) clearButton.disabled = !Object.values(state.selectionFilters).some((selected) => selected.size); renderSelectionList(); });
     $("hsrSelectionList").addEventListener("click", (event) => { const card = event.target.closest("[data-selection-id]"); if (card) chooseSelection(card.dataset.selectionId); });
     $("hsrSelectionClose").addEventListener("click", () => closeDialog($("hsrSelectionDialog")));
     $("hsrPartyDialogOpen").addEventListener("click", () => { renderPartyDialog(); $("hsrPartyDialog").showModal(); });

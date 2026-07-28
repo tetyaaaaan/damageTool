@@ -49,6 +49,47 @@ test("HSR production page has image selection, party and condition dialogs", () 
     assert.doesNotMatch(html, /data_hsr_|hsr_charaList|hsr_selectArtifactList|hsr_dmgCalc/);
 });
 
+test("HSR page follows the Genshin presentation and UID result contract", () => {
+    const html = read("games/hsr/index.html");
+    const importer = read("games/js/hsrUidImporter.js");
+    [
+        "ゲーム一覧",
+        "Honkai: Star Rail",
+        "崩壊：スターレイル ダメージ計算ツール",
+        "使い方を見る",
+        "入力エリア",
+        "UIDから読み込む",
+        "公開プロフィールを計算欄へ反映します。",
+        "反映するキャラクター",
+        "hsrProfileCharacterSelect",
+        "hsrUidDetailsDialog"
+    ].forEach((token) => assert.ok(html.includes(token), token));
+    assert.doesNotMatch(html, /IDベースJSON|対応範囲を見る|保存先はこの端末内だけです|UIDから反映|ビルドと戦闘条件/);
+    assert.match(importer, /この内容を入力欄へ反映/);
+    assert.match(importer, /element\.dataset\.type = type/);
+    assert.doesNotMatch(importer, /element\.dataset\.state = type/);
+});
+
+test("HSR selection supports kana search, multi-select filters, element icons and shared empty copy", () => {
+    const source = read("games/js/hsrApp.js");
+    assert.match(source, /normalizeSearchText/);
+    assert.match(source, /CHARACTER_READINGS/);
+    assert.match(source, /selectionFilters:\s*\{\s*element:\s*new Set\(\)/);
+    assert.match(source, /条件に一致する候補がありません。フィルターを切り替えてください。/);
+    assert.match(source, /CHARACTER/);
+    ["Physical", "Fire", "Ice", "Thunder", "Wind", "Quantum", "Imaginary"].forEach((element) => {
+        assert.ok(fs.existsSync(path.join(root, `games/images/hsr/elements/${element}.png`)), `${element} icon`);
+    });
+});
+
+test("HSR detail text removes ruby controls and resolves game-data parameters", () => {
+    const source = read("games/js/hsrUidImporter.js");
+    assert.match(source, /RUBY_B/);
+    assert.match(source, /RUBY_E/);
+    assert.match(source, /#\(\\d\+\)/);
+    assert.match(source, /formatGameText/);
+});
+
 test("HSR profile mapper normalizes Enka equipment, relic, trace and set properties", () => {
     const source = read("games/js/hsrProfileMapper.js"); const window = {}; vm.runInNewContext(source, { window, Math });
     const catalog = {

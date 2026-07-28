@@ -1,6 +1,14 @@
 /* HSR only supplies semantic adjustments. Shared cards, panels and dialogs
    intentionally use the production Genshin tool classes. */
-.hsr-tool-main .genshin-tool-mark img { object-fit: contain; }
+.page-hsr .teti-brand { color: var(--teti-text); }
+.hsr-tool-main .teti-tool-mark img { object-fit: contain; }
+.page-hsr .uid-importer__message { color: var(--teti-muted); }
+.page-hsr .uid-importer__message[data-type="error"] { color: #dc2626; }
+.page-hsr .uid-importer__message[data-type="success"] { color: #16845f; }
+html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="error"] { color: #dc2626; }
+html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { color: #16845f; }
+.page-hsr .genshin-selection-option-badges { pointer-events: none; }
+.page-hsr .genshin-selection-element-icon { object-fit: contain; }
 .hsr-mobile-only { display: none; }
 .hsr-equipment-layout .genshin-equipment-card { min-width: 0; }
 .hsr-equipment-subline { display: block; min-width: 0; overflow: hidden; color: var(--teti-text-muted); font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
