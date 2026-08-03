@@ -1,0 +1,3187 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-01",
+  "purpose": "Offline candidate packet for batch classification. It does not infer calculation values and is never loaded by the browser runtime.",
+  "ids": [
+    "1206",
+    "1207",
+    "1208",
+    "1209",
+    "1210"
+  ],
+  "summary": {
+    "characters": 5,
+    "pendingAttacks": 15,
+    "pendingModifierCandidates": 27,
+    "existingOverrides": 0,
+    "existingStructuredModifiers": 0
+  },
+  "knownPatternKeys": [
+    "atk:normal:single:crit",
+    "atk:skill:blast:crit",
+    "atk:skill:single:crit",
+    "atk:talent:single:crit",
+    "atk:ultimate:aoe:crit",
+    "atk:ultimate:single:crit",
+    "hp:normal:single:crit",
+    "hp:ultimate:aoe:crit"
+  ],
+  "newPatternKeys": [
+    "atk:talent:single:crit",
+    "hp:ultimate:aoe:crit"
+  ],
+  "attackPatternGroups": {
+    "atk:normal:single:crit": [
+      "1206:120601",
+      "1207:120701",
+      "1209:120901",
+      "1210:121001"
+    ],
+    "atk:skill:blast:crit": [
+      "1210:121002"
+    ],
+    "atk:skill:single:crit": [
+      "1206:120602",
+      "1209:120902"
+    ],
+    "atk:talent:single:crit": [
+      "1207:120704",
+      "1209:120904"
+    ],
+    "atk:ultimate:aoe:crit": [
+      "1210:121003"
+    ],
+    "atk:ultimate:single:crit": [
+      "1206:120603",
+      "1207:120703",
+      "1209:120903"
+    ],
+    "hp:normal:single:crit": [
+      "1208:120801"
+    ],
+    "hp:ultimate:aoe:crit": [
+      "1208:120803"
+    ]
+  },
+  "characters": [
+    {
+      "id": "1206",
+      "name": "素裳",
+      "element": "Physical",
+      "path": "Rogue",
+      "base": {
+        "hp": 917.28,
+        "atk": 564.48,
+        "def": 418.95,
+        "speed": 107
+      },
+      "pendingAttacks": [
+        {
+          "id": "120601",
+          "characterId": "1206",
+          "name": "雲騎剣経・月虹",
+          "element": "Physical",
+          "type": "normal",
+          "traceKey": "normal",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            50,
+            60,
+            70,
+            80,
+            90,
+            100,
+            110.00000000000001,
+            120,
+            130,
+            140
+          ],
+          "sourceSkillId": "120601",
+          "displayOrder": 10,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "atk:normal:single:crit",
+          "establishedPattern": true,
+          "sourceSkill": {
+            "id": "120601",
+            "name": "雲騎剣経・月虹",
+            "type": "Normal",
+            "target": "",
+            "description": "指定した敵単体に素裳の攻撃力#1[i]%分の物理属性ダメージを与える。",
+            "params": [
+              [
+                0.5
+              ],
+              [
+                0.6
+              ],
+              [
+                0.7
+              ],
+              [
+                0.8
+              ],
+              [
+                0.9
+              ],
+              [
+                1
+              ],
+              [
+                1.1
+              ],
+              [
+                1.2
+              ],
+              [
+                1.3
+              ],
+              [
+                1.4
+              ]
+            ]
+          }
+        },
+        {
+          "id": "120602",
+          "characterId": "1206",
+          "name": "雲騎剣経・山傾",
+          "element": "Physical",
+          "type": "skill",
+          "traceKey": "skill",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            105,
+            115.5,
+            126,
+            136.5,
+            147,
+            157.5,
+            170.63,
+            183.75,
+            196.88000000000002,
+            210,
+            220.5,
+            231,
+            241.5,
+            252,
+            262.5
+          ],
+          "sourceSkillId": "120602",
+          "displayOrder": 20,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "atk:skill:single:crit",
+          "establishedPattern": true,
+          "sourceSkill": {
+            "id": "120602",
+            "name": "雲騎剣経・山傾",
+            "type": "BPSkill",
+            "target": "",
+            "description": "指定した敵単体に素裳の攻撃力#1[i]%分の物理属性ダメージを与える。最後の1ヒットの後に#3[i]%の確率で「剣勢」を発動し、敵に素裳の攻撃力#2[i]%分の物理属性付加ダメージを与える。\n敵が弱点撃破状態である場合、「剣勢」は必ず発動する。",
+            "params": [
+              [
+                1.05,
+                0.5,
+                0.33
+              ],
+              [
+                1.155,
+                0.55,
+                0.33
+              ],
+              [
+                1.26,
+                0.6,
+                0.33
+              ],
+              [
+                1.365,
+                0.65,
+                0.33
+              ],
+              [
+                1.47,
+                0.7,
+                0.33
+              ],
+              [
+                1.575,
+                0.75,
+                0.33
+              ],
+              [
+                1.7063,
+                0.8125,
+                0.33
+              ],
+              [
+                1.8375,
+                0.875,
+                0.33
+              ],
+              [
+                1.9688,
+                0.9375,
+                0.33
+              ],
+              [
+                2.1,
+                1,
+                0.33
+              ],
+              [
+                2.205,
+                1.05,
+                0.33
+              ],
+              [
+                2.31,
+                1.1,
+                0.33
+              ],
+              [
+                2.415,
+                1.15,
+                0.33
+              ],
+              [
+                2.52,
+                1.2,
+                0.33
+              ],
+              [
+                2.625,
+                1.25,
+                0.33
+              ]
+            ]
+          }
+        },
+        {
+          "id": "120603",
+          "characterId": "1206",
+          "name": "太虚形蘊・燭夜",
+          "element": "Physical",
+          "type": "ultimate",
+          "traceKey": "ultimate",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            192,
+            204.8,
+            217.60000000000002,
+            230.39999999999998,
+            243.2,
+            256,
+            272,
+            288,
+            304,
+            320,
+            332.8,
+            345.6,
+            358.40000000000003,
+            371.20000000000005,
+            384
+          ],
+          "sourceSkillId": "120603",
+          "displayOrder": 30,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "atk:ultimate:single:crit",
+          "establishedPattern": true,
+          "sourceSkill": {
+            "id": "120603",
+            "name": "太虚形蘊・燭夜",
+            "type": "Ultra",
+            "target": "",
+            "description": "指定した敵単体に素裳の攻撃力#1[i]%分の物理属性ダメージを与え、素裳が即座に行動する。素裳の攻撃力+#4[i]%、戦闘スキルを発動した時に「剣勢」発動の判定回数+2、#2[i]ターン継続。\n追加の判定で発動した「剣勢」のダメージは、本来のダメージの#3[i]%。",
+            "params": [
+              [
+                1.92,
+                2,
+                0.5,
+                0.18
+              ],
+              [
+                2.048,
+                2,
+                0.5,
+                0.192
+              ],
+              [
+                2.176,
+                2,
+                0.5,
+                0.204
+              ],
+              [
+                2.304,
+                2,
+                0.5,
+                0.216
+              ],
+              [
+                2.432,
+                2,
+                0.5,
+                0.228
+              ],
+              [
+                2.56,
+                2,
+                0.5,
+                0.24
+              ],
+              [
+                2.72,
+                2,
+                0.5,
+                0.255
+              ],
+              [
+                2.88,
+                2,
+                0.5,
+                0.27
+              ],
+              [
+                3.04,
+                2,
+                0.5,
+                0.285
+              ],
+              [
+                3.2,
+                2,
+                0.5,
+                0.3
+              ],
+              [
+                3.328,
+                2,
+                0.5,
+                0.312
+              ],
+              [
+                3.456,
+                2,
+                0.5,
+                0.324
+              ],
+              [
+                3.584,
+                2,
+                0.5,
+                0.336
+              ],
+              [
+                3.712,
+                2,
+                0.5,
+                0.348
+              ],
+              [
+                3.84,
+                2,
+                0.5,
+                0.36
+              ]
+            ]
+          }
+        }
+      ],
+      "pendingModifierCandidates": [
+        {
+          "kind": "trace",
+          "sourceId": "1206",
+          "recordId": "120601",
+          "sourceName": "素裳",
+          "recordName": "雲騎剣経・月虹",
+          "sourceRecord": {
+            "id": "120601",
+            "name": "雲騎剣経・月虹",
+            "type": "Normal",
+            "target": "",
+            "description": "指定した敵単体に素裳の攻撃力#1[i]%分の物理属性ダメージを与える。",
+            "params": [
+              [
+                0.5
+              ],
+              [
+                0.6
+              ],
+              [
+                0.7
+              ],
+              [
+                0.8
+              ],
+              [
+                0.9
+              ],
+              [
+                1
+              ],
+              [
+                1.1
+              ],
+              [
+                1.2
+              ],
+              [
+                1.3
+              ],
+              [
+                1.4
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "trace",
+          "sourceId": "1206",
+          "recordId": "120602",
+          "sourceName": "素裳",
+          "recordName": "雲騎剣経・山傾",
+          "sourceRecord": {
+            "id": "120602",
+            "name": "雲騎剣経・山傾",
+            "type": "BPSkill",
+            "target": "",
+            "description": "指定した敵単体に素裳の攻撃力#1[i]%分の物理属性ダメージを与える。最後の1ヒットの後に#3[i]%の確率で「剣勢」を発動し、敵に素裳の攻撃力#2[i]%分の物理属性付加ダメージを与える。\n敵が弱点撃破状態である場合、「剣勢」は必ず発動する。",
+            "params": [
+              [
+                1.05,
+                0.5,
+                0.33
+              ],
+              [
+                1.155,
+                0.55,
+                0.33
+              ],
+              [
+                1.26,
+                0.6,
+                0.33
+              ],
+              [
+                1.365,
+                0.65,
+                0.33
+              ],
+              [
+                1.47,
+                0.7,
+                0.33
+              ],
+              [
+                1.575,
+                0.75,
+                0.33
+              ],
+              [
+                1.7063,
+                0.8125,
+                0.33
+              ],
+              [
+                1.8375,
+                0.875,
+                0.33
+              ],
+              [
+                1.9688,
+                0.9375,
+                0.33
+              ],
+              [
+                2.1,
+                1,
+                0.33
+              ],
+              [
+                2.205,
+                1.05,
+                0.33
+              ],
+              [
+                2.31,
+                1.1,
+                0.33
+              ],
+              [
+                2.415,
+                1.15,
+                0.33
+              ],
+              [
+                2.52,
+                1.2,
+                0.33
+              ],
+              [
+                2.625,
+                1.25,
+                0.33
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "trace",
+          "sourceId": "1206",
+          "recordId": "120603",
+          "sourceName": "素裳",
+          "recordName": "太虚形蘊・燭夜",
+          "sourceRecord": {
+            "id": "120603",
+            "name": "太虚形蘊・燭夜",
+            "type": "Ultra",
+            "target": "",
+            "description": "指定した敵単体に素裳の攻撃力#1[i]%分の物理属性ダメージを与え、素裳が即座に行動する。素裳の攻撃力+#4[i]%、戦闘スキルを発動した時に「剣勢」発動の判定回数+2、#2[i]ターン継続。\n追加の判定で発動した「剣勢」のダメージは、本来のダメージの#3[i]%。",
+            "params": [
+              [
+                1.92,
+                2,
+                0.5,
+                0.18
+              ],
+              [
+                2.048,
+                2,
+                0.5,
+                0.192
+              ],
+              [
+                2.176,
+                2,
+                0.5,
+                0.204
+              ],
+              [
+                2.304,
+                2,
+                0.5,
+                0.216
+              ],
+              [
+                2.432,
+                2,
+                0.5,
+                0.228
+              ],
+              [
+                2.56,
+                2,
+                0.5,
+                0.24
+              ],
+              [
+                2.72,
+                2,
+                0.5,
+                0.255
+              ],
+              [
+                2.88,
+                2,
+                0.5,
+                0.27
+              ],
+              [
+                3.04,
+                2,
+                0.5,
+                0.285
+              ],
+              [
+                3.2,
+                2,
+                0.5,
+                0.3
+              ],
+              [
+                3.328,
+                2,
+                0.5,
+                0.312
+              ],
+              [
+                3.456,
+                2,
+                0.5,
+                0.324
+              ],
+              [
+                3.584,
+                2,
+                0.5,
+                0.336
+              ],
+              [
+                3.712,
+                2,
+                0.5,
+                0.348
+              ],
+              [
+                3.84,
+                2,
+                0.5,
+                0.36
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "trace",
+          "sourceId": "1206",
+          "recordId": "120607",
+          "sourceName": "素裳",
+          "recordName": "雲騎剣経・叩陣",
+          "sourceRecord": {
+            "id": "120607",
+            "name": "雲騎剣経・叩陣",
+            "type": "Maze",
+            "target": "",
+            "description": "敵を攻撃。戦闘に入った後、敵全体に素裳の攻撃力#1[i]%分の物理属性ダメージを与える。",
+            "params": [
+              [
+                0.8
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "eidolon",
+          "sourceId": "1206",
+          "recordId": "1206:E2",
+          "sourceName": "素裳",
+          "recordName": "{RUBY_B#そ}其{RUBY_E#}の{RUBY_B#み}身{RUBY_E#}、{RUBY_B#ひゃくれん}百煉{RUBY_E#}",
+          "sourceRecord": {
+            "id": "120602",
+            "rank": 2,
+            "name": "{RUBY_B#そ}其{RUBY_E#}の{RUBY_B#み}身{RUBY_E#}、{RUBY_B#ひゃくれん}百煉{RUBY_E#}",
+            "description": "「剣勢」発動後、素裳の被ダメージ-20%、1ターン継続。",
+            "levelUpSkills": []
+          }
+        },
+        {
+          "kind": "eidolon",
+          "sourceId": "1206",
+          "recordId": "1206:E4",
+          "sourceName": "素裳",
+          "recordName": "{RUBY_B#そ}其{RUBY_E#}の{RUBY_B#こころ}心{RUBY_E#}、{RUBY_B#ひゃくへき}百闢{RUBY_E#}",
+          "sourceRecord": {
+            "id": "120604",
+            "rank": 4,
+            "name": "{RUBY_B#そ}其{RUBY_E#}の{RUBY_B#こころ}心{RUBY_E#}、{RUBY_B#ひゃくへき}百闢{RUBY_E#}",
+            "description": "素裳の撃破特効+40%。",
+            "levelUpSkills": []
+          }
+        }
+      ],
+      "existingOverrides": [],
+      "existingStructuredModifiers": [],
+      "sourceCounts": {
+        "skills": 6,
+        "traces": 18,
+        "eidolons": 6
+      }
+    },
+    {
+      "id": "1207",
+      "name": "御空",
+      "element": "Imaginary",
+      "path": "Shaman",
+      "base": {
+        "hp": 917.28,
+        "atk": 599.76,
+        "def": 374.85,
+        "speed": 107
+      },
+      "pendingAttacks": [
+        {
+          "id": "120701",
+          "characterId": "1207",
+          "name": "流鏑",
+          "element": "Imaginary",
+          "type": "normal",
+          "traceKey": "normal",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            50,
+            60,
+            70,
+            80,
+            90,
+            100,
+            110.00000000000001,
+            120,
+            130,
+            140
+          ],
+          "sourceSkillId": "120701",
+          "displayOrder": 10,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "atk:normal:single:crit",
+          "establishedPattern": true,
+          "sourceSkill": {
+            "id": "120701",
+            "name": "流鏑",
+            "type": "Normal",
+            "target": "",
+            "description": "指定した敵単体に御空の攻撃力#1[i]%分の虚数属性ダメージを与える。",
+            "params": [
+              [
+                0.5
+              ],
+              [
+                0.6
+              ],
+              [
+                0.7
+              ],
+              [
+                0.8
+              ],
+              [
+                0.9
+              ],
+              [
+                1
+              ],
+              [
+                1.1
+              ],
+              [
+                1.2
+              ],
+              [
+                1.3
+              ],
+              [
+                1.4
+              ]
+            ]
+          }
+        },
+        {
+          "id": "120703",
+          "characterId": "1207",
+          "name": "貫雲箭",
+          "element": "Imaginary",
+          "type": "ultimate",
+          "traceKey": "ultimate",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            227.99999999999997,
+            243.2,
+            258.40000000000003,
+            273.6,
+            288.8,
+            304,
+            323,
+            342,
+            361,
+            380,
+            395.2,
+            410.40000000000003,
+            425.6,
+            440.8,
+            455.99999999999994
+          ],
+          "sourceSkillId": "120703",
+          "displayOrder": 30,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "atk:ultimate:single:crit",
+          "establishedPattern": true,
+          "sourceSkill": {
+            "id": "120703",
+            "name": "貫雲箭",
+            "type": "Ultra",
+            "target": "",
+            "description": "必殺技を発動した時、御空に「鳴弦号令」がある場合、さらに味方全体の会心率+#2[f1]%、会心ダメージ+#3[i]%。指定した敵単体に御空の攻撃力#1[i]%分の虚数属性ダメージを与える。",
+            "params": [
+              [
+                2.28,
+                0.21,
+                0.39
+              ],
+              [
+                2.432,
+                0.217,
+                0.416
+              ],
+              [
+                2.584,
+                0.224,
+                0.442
+              ],
+              [
+                2.736,
+                0.231,
+                0.468
+              ],
+              [
+                2.888,
+                0.238,
+                0.494
+              ],
+              [
+                3.04,
+                0.245,
+                0.52
+              ],
+              [
+                3.23,
+                0.2537,
+                0.5525
+              ],
+              [
+                3.42,
+                0.2625,
+                0.585
+              ],
+              [
+                3.61,
+                0.2712,
+                0.6175
+              ],
+              [
+                3.8,
+                0.28,
+                0.65
+              ],
+              [
+                3.952,
+                0.287,
+                0.676
+              ],
+              [
+                4.104,
+                0.294,
+                0.702
+              ],
+              [
+                4.256,
+                0.301,
+                0.728
+              ],
+              [
+                4.408,
+                0.308,
+                0.754
+              ],
+              [
+                4.56,
+                0.315,
+                0.78
+              ]
+            ]
+          }
+        },
+        {
+          "id": "120704",
+          "characterId": "1207",
+          "name": "徹札矢",
+          "element": "Imaginary",
+          "type": "talent",
+          "traceKey": "talent",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            40,
+            44,
+            48,
+            52,
+            56.00000000000001,
+            60,
+            65,
+            70,
+            75,
+            80,
+            84,
+            88,
+            92,
+            96,
+            100
+          ],
+          "sourceSkillId": "120704",
+          "displayOrder": 40,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "atk:talent:single:crit",
+          "establishedPattern": false,
+          "sourceSkill": {
+            "id": "120704",
+            "name": "徹札矢",
+            "type": "Talent",
+            "target": "",
+            "description": "通常攻撃を行うと、追加で御空の攻撃力#1[i]%分の虚数属性ダメージを与え、その回の攻撃の削靭値+#2[i]%。この効果は#3[i]ターン後に再度発動できる。",
+            "params": [
+              [
+                0.4,
+                1,
+                1
+              ],
+              [
+                0.44,
+                1,
+                1
+              ],
+              [
+                0.48,
+                1,
+                1
+              ],
+              [
+                0.52,
+                1,
+                1
+              ],
+              [
+                0.56,
+                1,
+                1
+              ],
+              [
+                0.6,
+                1,
+                1
+              ],
+              [
+                0.65,
+                1,
+                1
+              ],
+              [
+                0.7,
+                1,
+                1
+              ],
+              [
+                0.75,
+                1,
+                1
+              ],
+              [
+                0.8,
+                1,
+                1
+              ],
+              [
+                0.84,
+                1,
+                1
+              ],
+              [
+                0.88,
+                1,
+                1
+              ],
+              [
+                0.92,
+                1,
+                1
+              ],
+              [
+                0.96,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1
+              ]
+            ]
+          }
+        }
+      ],
+      "pendingModifierCandidates": [
+        {
+          "kind": "trace",
+          "sourceId": "1207",
+          "recordId": "120701",
+          "sourceName": "御空",
+          "recordName": "流鏑",
+          "sourceRecord": {
+            "id": "120701",
+            "name": "流鏑",
+            "type": "Normal",
+            "target": "",
+            "description": "指定した敵単体に御空の攻撃力#1[i]%分の虚数属性ダメージを与える。",
+            "params": [
+              [
+                0.5
+              ],
+              [
+                0.6
+              ],
+              [
+                0.7
+              ],
+              [
+                0.8
+              ],
+              [
+                0.9
+              ],
+              [
+                1
+              ],
+              [
+                1.1
+              ],
+              [
+                1.2
+              ],
+              [
+                1.3
+              ],
+              [
+                1.4
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "trace",
+          "sourceId": "1207",
+          "recordId": "120702",
+          "sourceName": "御空",
+          "recordName": "天宮に鳴り響む弦",
+          "sourceRecord": {
+            "id": "120702",
+            "name": "天宮に鳴り響む弦",
+            "type": "BPSkill",
+            "target": "",
+            "description": "「鳴弦号令」を#1[i]層獲得する。「鳴弦号令」は最大で2層累積できる。御空に「鳴弦号令」がある時、味方全体の攻撃力+#2[i]%。味方のターンが終了するたびに、御空の「鳴弦号令」が1層減る。\n御空が戦闘スキルで「鳴弦号令」を獲得したターン、「鳴弦号令」は減らない。",
+            "params": [
+              [
+                2,
+                0.4
+              ],
+              [
+                2,
+                0.44
+              ],
+              [
+                2,
+                0.48
+              ],
+              [
+                2,
+                0.52
+              ],
+              [
+                2,
+                0.56
+              ],
+              [
+                2,
+                0.6
+              ],
+              [
+                2,
+                0.65
+              ],
+              [
+                2,
+                0.7
+              ],
+              [
+                2,
+                0.75
+              ],
+              [
+                2,
+                0.8
+              ],
+              [
+                2,
+                0.84
+              ],
+              [
+                2,
+                0.88
+              ],
+              [
+                2,
+                0.92
+              ],
+              [
+                2,
+                0.96
+              ],
+              [
+                2,
+                1
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "trace",
+          "sourceId": "1207",
+          "recordId": "120703",
+          "sourceName": "御空",
+          "recordName": "貫雲箭",
+          "sourceRecord": {
+            "id": "120703",
+            "name": "貫雲箭",
+            "type": "Ultra",
+            "target": "",
+            "description": "必殺技を発動した時、御空に「鳴弦号令」がある場合、さらに味方全体の会心率+#2[f1]%、会心ダメージ+#3[i]%。指定した敵単体に御空の攻撃力#1[i]%分の虚数属性ダメージを与える。",
+            "params": [
+              [
+                2.28,
+                0.21,
+                0.39
+              ],
+              [
+                2.432,
+                0.217,
+                0.416
+              ],
+              [
+                2.584,
+                0.224,
+                0.442
+              ],
+              [
+                2.736,
+                0.231,
+                0.468
+              ],
+              [
+                2.888,
+                0.238,
+                0.494
+              ],
+              [
+                3.04,
+                0.245,
+                0.52
+              ],
+              [
+                3.23,
+                0.2537,
+                0.5525
+              ],
+              [
+                3.42,
+                0.2625,
+                0.585
+              ],
+              [
+                3.61,
+                0.2712,
+                0.6175
+              ],
+              [
+                3.8,
+                0.28,
+                0.65
+              ],
+              [
+                3.952,
+                0.287,
+                0.676
+              ],
+              [
+                4.104,
+                0.294,
+                0.702
+              ],
+              [
+                4.256,
+                0.301,
+                0.728
+              ],
+              [
+                4.408,
+                0.308,
+                0.754
+              ],
+              [
+                4.56,
+                0.315,
+                0.78
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "trace",
+          "sourceId": "1207",
+          "recordId": "120704",
+          "sourceName": "御空",
+          "recordName": "徹札矢",
+          "sourceRecord": {
+            "id": "120704",
+            "name": "徹札矢",
+            "type": "Talent",
+            "target": "",
+            "description": "通常攻撃を行うと、追加で御空の攻撃力#1[i]%分の虚数属性ダメージを与え、その回の攻撃の削靭値+#2[i]%。この効果は#3[i]ターン後に再度発動できる。",
+            "params": [
+              [
+                0.4,
+                1,
+                1
+              ],
+              [
+                0.44,
+                1,
+                1
+              ],
+              [
+                0.48,
+                1,
+                1
+              ],
+              [
+                0.52,
+                1,
+                1
+              ],
+              [
+                0.56,
+                1,
+                1
+              ],
+              [
+                0.6,
+                1,
+                1
+              ],
+              [
+                0.65,
+                1,
+                1
+              ],
+              [
+                0.7,
+                1,
+                1
+              ],
+              [
+                0.75,
+                1,
+                1
+              ],
+              [
+                0.8,
+                1,
+                1
+              ],
+              [
+                0.84,
+                1,
+                1
+              ],
+              [
+                0.88,
+                1,
+                1
+              ],
+              [
+                0.92,
+                1,
+                1
+              ],
+              [
+                0.96,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "eidolon",
+          "sourceId": "1207",
+          "recordId": "1207:E4",
+          "sourceName": "御空",
+          "recordName": "{RUBY_B#ひゃくり}百里{RUBY_E#}の{RUBY_B#かぜひろ}風拾{RUBY_E#}い\n{RUBY_B#きゅうきょく}九曲{RUBY_E#}の{RUBY_B#かぶらな}鏑鳴{RUBY_E#}らす",
+          "sourceRecord": {
+            "id": "120704",
+            "rank": 4,
+            "name": "{RUBY_B#ひゃくり}百里{RUBY_E#}の{RUBY_B#かぜひろ}風拾{RUBY_E#}い\n{RUBY_B#きゅうきょく}九曲{RUBY_E#}の{RUBY_B#かぶらな}鏑鳴{RUBY_E#}らす",
+            "description": "「鳴弦号令」がある時、御空の与ダメージ+30%。",
+            "levelUpSkills": []
+          }
+        }
+      ],
+      "existingOverrides": [],
+      "existingStructuredModifiers": [],
+      "sourceCounts": {
+        "skills": 6,
+        "traces": 18,
+        "eidolons": 6
+      }
+    },
+    {
+      "id": "1208",
+      "name": "符玄",
+      "element": "Quantum",
+      "path": "Knight",
+      "base": {
+        "hp": 1474.704,
+        "atk": 465.696,
+        "def": 606.375,
+        "speed": 100
+      },
+      "pendingAttacks": [
+        {
+          "id": "120801",
+          "characterId": "1208",
+          "name": "始撃歳星",
+          "element": "Quantum",
+          "type": "normal",
+          "traceKey": "normal",
+          "target": "single",
+          "scalingStat": "hp",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            25,
+            30,
+            35,
+            40,
+            45,
+            50,
+            55.00000000000001,
+            60,
+            65,
+            70
+          ],
+          "sourceSkillId": "120801",
+          "displayOrder": 10,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "hp:normal:single:crit",
+          "establishedPattern": true,
+          "sourceSkill": {
+            "id": "120801",
+            "name": "始撃歳星",
+            "type": "Normal",
+            "target": "",
+            "description": "指定した敵単体に符玄の最大HPの#1[i]%分の量子属性ダメージを与える。",
+            "params": [
+              [
+                0.25
+              ],
+              [
+                0.3
+              ],
+              [
+                0.35
+              ],
+              [
+                0.4
+              ],
+              [
+                0.45
+              ],
+              [
+                0.5
+              ],
+              [
+                0.55
+              ],
+              [
+                0.6
+              ],
+              [
+                0.65
+              ],
+              [
+                0.7
+              ]
+            ]
+          }
+        },
+        {
+          "id": "120803",
+          "characterId": "1208",
+          "name": "天律大衍、歴劫帰一",
+          "element": "Quantum",
+          "type": "ultimate",
+          "traceKey": "ultimate",
+          "target": "aoe",
+          "scalingStat": "hp",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            60,
+            64,
+            68,
+            72,
+            76,
+            80,
+            85,
+            90,
+            95,
+            100,
+            104,
+            108,
+            112.00000000000001,
+            115.99999999999999,
+            120
+          ],
+          "sourceSkillId": "120803",
+          "displayOrder": 30,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "hp:ultimate:aoe:crit",
+          "establishedPattern": false,
+          "sourceSkill": {
+            "id": "120803",
+            "name": "天律大衍、歴劫帰一",
+            "type": "Ultra",
+            "target": "",
+            "description": "敵全体に符玄の最大HPの#1[i]%分の量子属性ダメージを与え、天賦によるHP回復の発動回数+1。",
+            "params": [
+              [
+                0.6
+              ],
+              [
+                0.64
+              ],
+              [
+                0.68
+              ],
+              [
+                0.72
+              ],
+              [
+                0.76
+              ],
+              [
+                0.8
+              ],
+              [
+                0.85
+              ],
+              [
+                0.9
+              ],
+              [
+                0.95
+              ],
+              [
+                1
+              ],
+              [
+                1.04
+              ],
+              [
+                1.08
+              ],
+              [
+                1.12
+              ],
+              [
+                1.16
+              ],
+              [
+                1.2
+              ]
+            ]
+          }
+        }
+      ],
+      "pendingModifierCandidates": [
+        {
+          "kind": "trace",
+          "sourceId": "1208",
+          "recordId": "120802",
+          "sourceName": "符玄",
+          "recordName": "太微の行棋、影示す霊台",
+          "sourceRecord": {
+            "id": "120802",
+            "name": "太微の行棋、影示す霊台",
+            "type": "BPSkill",
+            "target": "",
+            "description": "「窮観の陣」を起動し、符玄以外の味方が受ける、バリアに防がれる前のダメージの#1[i]%を符玄が分担する、#3[i]ターン継続。\n「窮観の陣」の中にいる味方全体は「鑑知」を得る。「鑑知」状態の味方は、最大HPが符玄の最大HPの#4[f1]%分アップし、会心率+#5[f1]%。\n符玄が戦闘不能状態になった時、「窮観の陣」は解除される。",
+            "params": [
+              [
+                0.65,
+                0,
+                3,
+                0.03,
+                0.06
+              ],
+              [
+                0.65,
+                0,
+                3,
+                0.033,
+                0.066
+              ],
+              [
+                0.65,
+                0,
+                3,
+                0.036,
+                0.072
+              ],
+              [
+                0.65,
+                0,
+                3,
+                0.039,
+                0.078
+              ],
+              [
+                0.65,
+                0,
+                3,
+                0.042,
+                0.084
+              ],
+              [
+                0.65,
+                0,
+                3,
+                0.045,
+                0.09
+              ],
+              [
+                0.65,
+                0,
+                3,
+                0.0488,
+                0.0975
+              ],
+              [
+                0.65,
+                0,
+                3,
+                0.0525,
+                0.105
+              ],
+              [
+                0.65,
+                0,
+                3,
+                0.0563,
+                0.1125
+              ],
+              [
+                0.65,
+                0,
+                3,
+                0.06,
+                0.12
+              ],
+              [
+                0.65,
+                0,
+                3,
+                0.063,
+                0.126
+              ],
+              [
+                0.65,
+                0,
+                3,
+                0.066,
+                0.132
+              ],
+              [
+                0.65,
+                0,
+                3,
+                0.069,
+                0.138
+              ],
+              [
+                0.65,
+                0,
+                3,
+                0.072,
+                0.144
+              ],
+              [
+                0.65,
+                0,
+                3,
+                0.075,
+                0.15
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "eidolon",
+          "sourceId": "1208",
+          "recordId": "1208:E1",
+          "sourceName": "符玄",
+          "recordName": "{RUBY_B#しき}司危{RUBY_E#}",
+          "sourceRecord": {
+            "id": "120801",
+            "rank": 1,
+            "name": "{RUBY_B#しき}司危{RUBY_E#}",
+            "description": "「鑑知」状態の味方の会心ダメージ+30%。",
+            "levelUpSkills": []
+          }
+        }
+      ],
+      "existingOverrides": [],
+      "existingStructuredModifiers": [],
+      "sourceCounts": {
+        "skills": 6,
+        "traces": 18,
+        "eidolons": 6
+      }
+    },
+    {
+      "id": "1209",
+      "name": "彦卿",
+      "element": "Ice",
+      "path": "Rogue",
+      "base": {
+        "hp": 892.584,
+        "atk": 679.14,
+        "def": 412.335,
+        "speed": 109
+      },
+      "pendingAttacks": [
+        {
+          "id": "120901",
+          "characterId": "1209",
+          "name": "寒光刺す霜鋒",
+          "element": "Ice",
+          "type": "normal",
+          "traceKey": "normal",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            50,
+            60,
+            70,
+            80,
+            90,
+            100,
+            110.00000000000001,
+            120,
+            130,
+            140
+          ],
+          "sourceSkillId": "120901",
+          "displayOrder": 10,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "atk:normal:single:crit",
+          "establishedPattern": true,
+          "sourceSkill": {
+            "id": "120901",
+            "name": "寒光刺す霜鋒",
+            "type": "Normal",
+            "target": "",
+            "description": "指定した敵単体に彦卿の攻撃力#1[i]%分の氷属性ダメージを与える。",
+            "params": [
+              [
+                0.5
+              ],
+              [
+                0.6
+              ],
+              [
+                0.7
+              ],
+              [
+                0.8
+              ],
+              [
+                0.9
+              ],
+              [
+                1
+              ],
+              [
+                1.1
+              ],
+              [
+                1.2
+              ],
+              [
+                1.3
+              ],
+              [
+                1.4
+              ]
+            ]
+          }
+        },
+        {
+          "id": "120902",
+          "characterId": "1209",
+          "name": "三尺秋水",
+          "element": "Ice",
+          "type": "skill",
+          "traceKey": "skill",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            110.00000000000001,
+            121,
+            132,
+            143,
+            154,
+            165,
+            178.75,
+            192.5,
+            206.25,
+            220.00000000000003,
+            231,
+            242,
+            252.99999999999997,
+            264,
+            275
+          ],
+          "sourceSkillId": "120902",
+          "displayOrder": 20,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "atk:skill:single:crit",
+          "establishedPattern": true,
+          "sourceSkill": {
+            "id": "120902",
+            "name": "三尺秋水",
+            "type": "BPSkill",
+            "target": "",
+            "description": "指定した敵単体に彦卿の攻撃力#1[i]%分の氷属性ダメージを与え、彦卿に「智剣連心」を付与する、1ターン継続。",
+            "params": [
+              [
+                1.1
+              ],
+              [
+                1.21
+              ],
+              [
+                1.32
+              ],
+              [
+                1.43
+              ],
+              [
+                1.54
+              ],
+              [
+                1.65
+              ],
+              [
+                1.7875
+              ],
+              [
+                1.925
+              ],
+              [
+                2.0625
+              ],
+              [
+                2.2
+              ],
+              [
+                2.31
+              ],
+              [
+                2.42
+              ],
+              [
+                2.53
+              ],
+              [
+                2.64
+              ],
+              [
+                2.75
+              ]
+            ]
+          }
+        },
+        {
+          "id": "120903",
+          "characterId": "1209",
+          "name": "快雨に戯れる燕",
+          "element": "Ice",
+          "type": "ultimate",
+          "traceKey": "ultimate",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            210,
+            224.00000000000003,
+            238,
+            252,
+            266,
+            280,
+            297.5,
+            315,
+            332.5,
+            350,
+            364,
+            378,
+            392,
+            405.99999999999994,
+            420
+          ],
+          "sourceSkillId": "120903",
+          "displayOrder": 30,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "atk:ultimate:single:crit",
+          "establishedPattern": true,
+          "sourceSkill": {
+            "id": "120903",
+            "name": "快雨に戯れる燕",
+            "type": "Ultra",
+            "target": "",
+            "description": "自身の会心率+#1[i]%、彦卿に「智剣連心」がある場合、さらに会心ダメージ+#2[i]%、バフは1ターン継続。その後、指定した敵単体に彦卿の攻撃力#3[i]%分の氷属性ダメージを与える。",
+            "params": [
+              [
+                0.6,
+                0.3,
+                2.1
+              ],
+              [
+                0.6,
+                0.32,
+                2.24
+              ],
+              [
+                0.6,
+                0.34,
+                2.38
+              ],
+              [
+                0.6,
+                0.36,
+                2.52
+              ],
+              [
+                0.6,
+                0.38,
+                2.66
+              ],
+              [
+                0.6,
+                0.4,
+                2.8
+              ],
+              [
+                0.6,
+                0.425,
+                2.975
+              ],
+              [
+                0.6,
+                0.45,
+                3.15
+              ],
+              [
+                0.6,
+                0.475,
+                3.325
+              ],
+              [
+                0.6,
+                0.5,
+                3.5
+              ],
+              [
+                0.6,
+                0.52,
+                3.64
+              ],
+              [
+                0.6,
+                0.54,
+                3.78
+              ],
+              [
+                0.6,
+                0.56,
+                3.92
+              ],
+              [
+                0.6,
+                0.58,
+                4.06
+              ],
+              [
+                0.6,
+                0.6,
+                4.2
+              ]
+            ]
+          }
+        },
+        {
+          "id": "120904",
+          "characterId": "1209",
+          "name": "呼影剣",
+          "element": "Ice",
+          "type": "talent",
+          "traceKey": "talent",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            25,
+            27.500000000000004,
+            30,
+            32.5,
+            35,
+            37.5,
+            40.62,
+            43.75,
+            46.88,
+            50,
+            52.5,
+            55.00000000000001,
+            57.49999999999999,
+            60,
+            62.5
+          ],
+          "sourceSkillId": "120904",
+          "displayOrder": 40,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "atk:talent:single:crit",
+          "establishedPattern": false,
+          "sourceSkill": {
+            "id": "120904",
+            "name": "呼影剣",
+            "type": "Talent",
+            "target": "",
+            "description": "彦卿に「智剣連心」がある場合、攻撃を受ける確率ダウン、自身の会心率+#1[f1]%、会心ダメージ+#2[i]%。敵に攻撃を行った後、#3[i]%の固定確率で追加攻撃を行い、敵に彦卿の攻撃力#4[i]%分の氷属性ダメージを与え、#6[i]%の基礎確率で敵を凍結状態にする、1ターン継続。\n凍結状態の敵は行動できず、ターンが回ってくるたびに彦卿の攻撃力#5[i]%分の氷属性付加ダメージを受ける。\n彦卿がダメージを受けると「智剣連心」が解除される。",
+            "params": [
+              [
+                0.15,
+                0.15,
+                0.5,
+                0.25,
+                0.25,
+                0.65
+              ],
+              [
+                0.155,
+                0.165,
+                0.51,
+                0.275,
+                0.275,
+                0.65
+              ],
+              [
+                0.16,
+                0.18,
+                0.52,
+                0.3,
+                0.3,
+                0.65
+              ],
+              [
+                0.165,
+                0.195,
+                0.53,
+                0.325,
+                0.325,
+                0.65
+              ],
+              [
+                0.17,
+                0.21,
+                0.54,
+                0.35,
+                0.35,
+                0.65
+              ],
+              [
+                0.175,
+                0.225,
+                0.55,
+                0.375,
+                0.375,
+                0.65
+              ],
+              [
+                0.1812,
+                0.2437,
+                0.5625,
+                0.4062,
+                0.4062,
+                0.65
+              ],
+              [
+                0.1875,
+                0.2625,
+                0.575,
+                0.4375,
+                0.4375,
+                0.65
+              ],
+              [
+                0.1938,
+                0.2812,
+                0.5875,
+                0.4688,
+                0.4688,
+                0.65
+              ],
+              [
+                0.2,
+                0.3,
+                0.6,
+                0.5,
+                0.5,
+                0.65
+              ],
+              [
+                0.205,
+                0.315,
+                0.61,
+                0.525,
+                0.525,
+                0.65
+              ],
+              [
+                0.21,
+                0.33,
+                0.62,
+                0.55,
+                0.55,
+                0.65
+              ],
+              [
+                0.215,
+                0.345,
+                0.63,
+                0.575,
+                0.575,
+                0.65
+              ],
+              [
+                0.22,
+                0.36,
+                0.64,
+                0.6,
+                0.6,
+                0.65
+              ],
+              [
+                0.225,
+                0.375,
+                0.65,
+                0.625,
+                0.625,
+                0.65
+              ]
+            ]
+          }
+        }
+      ],
+      "pendingModifierCandidates": [
+        {
+          "kind": "trace",
+          "sourceId": "1209",
+          "recordId": "120901",
+          "sourceName": "彦卿",
+          "recordName": "寒光刺す霜鋒",
+          "sourceRecord": {
+            "id": "120901",
+            "name": "寒光刺す霜鋒",
+            "type": "Normal",
+            "target": "",
+            "description": "指定した敵単体に彦卿の攻撃力#1[i]%分の氷属性ダメージを与える。",
+            "params": [
+              [
+                0.5
+              ],
+              [
+                0.6
+              ],
+              [
+                0.7
+              ],
+              [
+                0.8
+              ],
+              [
+                0.9
+              ],
+              [
+                1
+              ],
+              [
+                1.1
+              ],
+              [
+                1.2
+              ],
+              [
+                1.3
+              ],
+              [
+                1.4
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "trace",
+          "sourceId": "1209",
+          "recordId": "120902",
+          "sourceName": "彦卿",
+          "recordName": "三尺秋水",
+          "sourceRecord": {
+            "id": "120902",
+            "name": "三尺秋水",
+            "type": "BPSkill",
+            "target": "",
+            "description": "指定した敵単体に彦卿の攻撃力#1[i]%分の氷属性ダメージを与え、彦卿に「智剣連心」を付与する、1ターン継続。",
+            "params": [
+              [
+                1.1
+              ],
+              [
+                1.21
+              ],
+              [
+                1.32
+              ],
+              [
+                1.43
+              ],
+              [
+                1.54
+              ],
+              [
+                1.65
+              ],
+              [
+                1.7875
+              ],
+              [
+                1.925
+              ],
+              [
+                2.0625
+              ],
+              [
+                2.2
+              ],
+              [
+                2.31
+              ],
+              [
+                2.42
+              ],
+              [
+                2.53
+              ],
+              [
+                2.64
+              ],
+              [
+                2.75
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "trace",
+          "sourceId": "1209",
+          "recordId": "120903",
+          "sourceName": "彦卿",
+          "recordName": "快雨に戯れる燕",
+          "sourceRecord": {
+            "id": "120903",
+            "name": "快雨に戯れる燕",
+            "type": "Ultra",
+            "target": "",
+            "description": "自身の会心率+#1[i]%、彦卿に「智剣連心」がある場合、さらに会心ダメージ+#2[i]%、バフは1ターン継続。その後、指定した敵単体に彦卿の攻撃力#3[i]%分の氷属性ダメージを与える。",
+            "params": [
+              [
+                0.6,
+                0.3,
+                2.1
+              ],
+              [
+                0.6,
+                0.32,
+                2.24
+              ],
+              [
+                0.6,
+                0.34,
+                2.38
+              ],
+              [
+                0.6,
+                0.36,
+                2.52
+              ],
+              [
+                0.6,
+                0.38,
+                2.66
+              ],
+              [
+                0.6,
+                0.4,
+                2.8
+              ],
+              [
+                0.6,
+                0.425,
+                2.975
+              ],
+              [
+                0.6,
+                0.45,
+                3.15
+              ],
+              [
+                0.6,
+                0.475,
+                3.325
+              ],
+              [
+                0.6,
+                0.5,
+                3.5
+              ],
+              [
+                0.6,
+                0.52,
+                3.64
+              ],
+              [
+                0.6,
+                0.54,
+                3.78
+              ],
+              [
+                0.6,
+                0.56,
+                3.92
+              ],
+              [
+                0.6,
+                0.58,
+                4.06
+              ],
+              [
+                0.6,
+                0.6,
+                4.2
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "trace",
+          "sourceId": "1209",
+          "recordId": "120904",
+          "sourceName": "彦卿",
+          "recordName": "呼影剣",
+          "sourceRecord": {
+            "id": "120904",
+            "name": "呼影剣",
+            "type": "Talent",
+            "target": "",
+            "description": "彦卿に「智剣連心」がある場合、攻撃を受ける確率ダウン、自身の会心率+#1[f1]%、会心ダメージ+#2[i]%。敵に攻撃を行った後、#3[i]%の固定確率で追加攻撃を行い、敵に彦卿の攻撃力#4[i]%分の氷属性ダメージを与え、#6[i]%の基礎確率で敵を凍結状態にする、1ターン継続。\n凍結状態の敵は行動できず、ターンが回ってくるたびに彦卿の攻撃力#5[i]%分の氷属性付加ダメージを受ける。\n彦卿がダメージを受けると「智剣連心」が解除される。",
+            "params": [
+              [
+                0.15,
+                0.15,
+                0.5,
+                0.25,
+                0.25,
+                0.65
+              ],
+              [
+                0.155,
+                0.165,
+                0.51,
+                0.275,
+                0.275,
+                0.65
+              ],
+              [
+                0.16,
+                0.18,
+                0.52,
+                0.3,
+                0.3,
+                0.65
+              ],
+              [
+                0.165,
+                0.195,
+                0.53,
+                0.325,
+                0.325,
+                0.65
+              ],
+              [
+                0.17,
+                0.21,
+                0.54,
+                0.35,
+                0.35,
+                0.65
+              ],
+              [
+                0.175,
+                0.225,
+                0.55,
+                0.375,
+                0.375,
+                0.65
+              ],
+              [
+                0.1812,
+                0.2437,
+                0.5625,
+                0.4062,
+                0.4062,
+                0.65
+              ],
+              [
+                0.1875,
+                0.2625,
+                0.575,
+                0.4375,
+                0.4375,
+                0.65
+              ],
+              [
+                0.1938,
+                0.2812,
+                0.5875,
+                0.4688,
+                0.4688,
+                0.65
+              ],
+              [
+                0.2,
+                0.3,
+                0.6,
+                0.5,
+                0.5,
+                0.65
+              ],
+              [
+                0.205,
+                0.315,
+                0.61,
+                0.525,
+                0.525,
+                0.65
+              ],
+              [
+                0.21,
+                0.33,
+                0.62,
+                0.55,
+                0.55,
+                0.65
+              ],
+              [
+                0.215,
+                0.345,
+                0.63,
+                0.575,
+                0.575,
+                0.65
+              ],
+              [
+                0.22,
+                0.36,
+                0.64,
+                0.6,
+                0.6,
+                0.65
+              ],
+              [
+                0.225,
+                0.375,
+                0.65,
+                0.625,
+                0.625,
+                0.65
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "trace",
+          "sourceId": "1209",
+          "recordId": "120907",
+          "sourceName": "彦卿",
+          "recordName": "御剣真訣",
+          "sourceRecord": {
+            "id": "120907",
+            "name": "御剣真訣",
+            "type": "Maze",
+            "target": "",
+            "description": "秘技を使用した後、次の戦闘開始時、残りHPが#1[i]%以上の敵に対して、彦卿の与ダメージ+#2[i]%、#3[i]ターン継続。",
+            "params": [
+              [
+                0.5,
+                0.3,
+                2
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "traceNode",
+          "sourceId": "1209",
+          "recordId": "1209101",
+          "sourceName": "彦卿",
+          "recordName": "{RUBY_B#はんぴょう}頒氷{RUBY_E#}",
+          "sourceRecord": {
+            "id": "1209101",
+            "name": "{RUBY_B#はんぴょう}頒氷{RUBY_E#}",
+            "maxLevel": 1,
+            "description": "攻撃を行った後、氷属性の弱点がある敵に、彦卿の攻撃力#1[i]%分の氷属性付加ダメージを与える。",
+            "params": [
+              [
+                0.3
+              ]
+            ],
+            "levels": [
+              {
+                "promotion": 2,
+                "level": 0,
+                "properties": []
+              }
+            ]
+          }
+        },
+        {
+          "kind": "eidolon",
+          "sourceId": "1209",
+          "recordId": "1209:E1",
+          "sourceName": "彦卿",
+          "recordName": "{RUBY_B#そじん}素刃{RUBY_E#}",
+          "sourceRecord": {
+            "id": "120901",
+            "rank": 1,
+            "name": "{RUBY_B#そじん}素刃{RUBY_E#}",
+            "description": "彦卿が敵に攻撃を行う時、その敵が凍結状態の場合、敵に彦卿の攻撃力60%分の氷属性付加ダメージを与える。",
+            "levelUpSkills": []
+          }
+        },
+        {
+          "kind": "eidolon",
+          "sourceId": "1209",
+          "recordId": "1209:E4",
+          "sourceName": "彦卿",
+          "recordName": "{RUBY_B#そうれい}霜厲{RUBY_E#}",
+          "sourceRecord": {
+            "id": "120904",
+            "rank": 4,
+            "name": "{RUBY_B#そうれい}霜厲{RUBY_E#}",
+            "description": "残りHPが80%以上の時、自身の氷属性耐性貫通+12%。",
+            "levelUpSkills": []
+          }
+        }
+      ],
+      "existingOverrides": [],
+      "existingStructuredModifiers": [],
+      "sourceCounts": {
+        "skills": 6,
+        "traces": 18,
+        "eidolons": 6
+      }
+    },
+    {
+      "id": "1210",
+      "name": "桂乃芬",
+      "element": "Fire",
+      "path": "Warlock",
+      "base": {
+        "hp": 882,
+        "atk": 582.12,
+        "def": 441,
+        "speed": 106
+      },
+      "pendingAttacks": [
+        {
+          "id": "121001",
+          "characterId": "1210",
+          "name": "喝采満場",
+          "element": "Fire",
+          "type": "normal",
+          "traceKey": "normal",
+          "target": "single",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            50,
+            60,
+            70,
+            80,
+            90,
+            100,
+            110.00000000000001,
+            120,
+            130,
+            140
+          ],
+          "sourceSkillId": "121001",
+          "displayOrder": 10,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "atk:normal:single:crit",
+          "establishedPattern": true,
+          "sourceSkill": {
+            "id": "121001",
+            "name": "喝采満場",
+            "type": "Normal",
+            "target": "",
+            "description": "指定した敵単体に桂乃芬の攻撃力#1[i]%分の炎属性ダメージを与える。",
+            "params": [
+              [
+                0.5
+              ],
+              [
+                0.6
+              ],
+              [
+                0.7
+              ],
+              [
+                0.8
+              ],
+              [
+                0.9
+              ],
+              [
+                1
+              ],
+              [
+                1.1
+              ],
+              [
+                1.2
+              ],
+              [
+                1.3
+              ],
+              [
+                1.4
+              ]
+            ]
+          }
+        },
+        {
+          "id": "121002",
+          "characterId": "1210",
+          "name": "出だし好調",
+          "element": "Fire",
+          "type": "skill",
+          "traceKey": "skill",
+          "target": "blast",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            60,
+            66,
+            72,
+            78,
+            84,
+            90,
+            97.5,
+            105,
+            112.5,
+            120,
+            126,
+            132,
+            138,
+            144,
+            150
+          ],
+          "sourceSkillId": "121002",
+          "displayOrder": 20,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "atk:skill:blast:crit",
+          "establishedPattern": true,
+          "sourceSkill": {
+            "id": "121002",
+            "name": "出だし好調",
+            "type": "BPSkill",
+            "target": "",
+            "description": "指定した敵単体に桂乃芬の攻撃力#1[i]%分の炎属性ダメージを与え、隣接する敵に桂乃芬の攻撃力#2[i]%分の炎属性ダメージを与える。#3[i]%の基礎確率で指定した敵とその隣接する敵に燃焼状態を付与する。燃焼状態の敵は、ターンが回ってくるたびに桂乃芬の攻撃力#4[i]%分の炎属性持続ダメージを受ける、#5[i]ターン継続。",
+            "params": [
+              [
+                0.6,
+                0.2,
+                1,
+                0.839,
+                2
+              ],
+              [
+                0.66,
+                0.22,
+                1,
+                0.923,
+                2
+              ],
+              [
+                0.72,
+                0.24,
+                1,
+                1.0069,
+                2
+              ],
+              [
+                0.78,
+                0.26,
+                1,
+                1.0909,
+                2
+              ],
+              [
+                0.84,
+                0.28,
+                1,
+                1.1748,
+                2
+              ],
+              [
+                0.9,
+                0.3,
+                1,
+                1.3007,
+                2
+              ],
+              [
+                0.975,
+                0.325,
+                1,
+                1.4686,
+                2
+              ],
+              [
+                1.05,
+                0.35,
+                1,
+                1.6784,
+                2
+              ],
+              [
+                1.125,
+                0.375,
+                1,
+                1.9303,
+                2
+              ],
+              [
+                1.2,
+                0.4,
+                1,
+                2.1821,
+                2
+              ],
+              [
+                1.26,
+                0.42,
+                1,
+                2.2912,
+                2
+              ],
+              [
+                1.32,
+                0.44,
+                1,
+                2.4003,
+                2
+              ],
+              [
+                1.38,
+                0.46,
+                1,
+                2.5094,
+                2
+              ],
+              [
+                1.44,
+                0.48,
+                1,
+                2.6186,
+                2
+              ],
+              [
+                1.5,
+                0.5,
+                1,
+                2.7277,
+                2
+              ]
+            ]
+          }
+        },
+        {
+          "id": "121003",
+          "characterId": "1210",
+          "name": "十八番を披露するね",
+          "element": "Fire",
+          "type": "ultimate",
+          "traceKey": "ultimate",
+          "target": "aoe",
+          "scalingStat": "atk",
+          "hitCount": 1,
+          "canCrit": true,
+          "multipliers": [
+            72,
+            76.8,
+            81.6,
+            86.4,
+            91.2,
+            96,
+            102,
+            108,
+            113.99999999999999,
+            120,
+            124.8,
+            129.6,
+            134.4,
+            139.2,
+            144
+          ],
+          "sourceSkillId": "121003",
+          "displayOrder": 30,
+          "generatedFrom": "catalog.json:characters[].skills",
+          "calculationScope": "description-primary-term",
+          "patternKey": "atk:ultimate:aoe:crit",
+          "establishedPattern": true,
+          "sourceSkill": {
+            "id": "121003",
+            "name": "十八番を披露するね",
+            "type": "Ultra",
+            "target": "",
+            "description": "敵全体に桂乃芬の攻撃力#1[f1]%分の炎属性ダメージを与える。敵が燃焼状態の場合、付与された燃焼状態が本来のダメージ#2[i]%分のダメージを発生する。",
+            "params": [
+              [
+                0.72,
+                0.72
+              ],
+              [
+                0.768,
+                0.74
+              ],
+              [
+                0.816,
+                0.76
+              ],
+              [
+                0.864,
+                0.78
+              ],
+              [
+                0.912,
+                0.8
+              ],
+              [
+                0.96,
+                0.82
+              ],
+              [
+                1.02,
+                0.845
+              ],
+              [
+                1.08,
+                0.87
+              ],
+              [
+                1.14,
+                0.895
+              ],
+              [
+                1.2,
+                0.92
+              ],
+              [
+                1.248,
+                0.94
+              ],
+              [
+                1.296,
+                0.96
+              ],
+              [
+                1.344,
+                0.98
+              ],
+              [
+                1.392,
+                1
+              ],
+              [
+                1.44,
+                1.02
+              ]
+            ]
+          }
+        }
+      ],
+      "pendingModifierCandidates": [
+        {
+          "kind": "trace",
+          "sourceId": "1210",
+          "recordId": "121001",
+          "sourceName": "桂乃芬",
+          "recordName": "喝采満場",
+          "sourceRecord": {
+            "id": "121001",
+            "name": "喝采満場",
+            "type": "Normal",
+            "target": "",
+            "description": "指定した敵単体に桂乃芬の攻撃力#1[i]%分の炎属性ダメージを与える。",
+            "params": [
+              [
+                0.5
+              ],
+              [
+                0.6
+              ],
+              [
+                0.7
+              ],
+              [
+                0.8
+              ],
+              [
+                0.9
+              ],
+              [
+                1
+              ],
+              [
+                1.1
+              ],
+              [
+                1.2
+              ],
+              [
+                1.3
+              ],
+              [
+                1.4
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "trace",
+          "sourceId": "1210",
+          "recordId": "121002",
+          "sourceName": "桂乃芬",
+          "recordName": "出だし好調",
+          "sourceRecord": {
+            "id": "121002",
+            "name": "出だし好調",
+            "type": "BPSkill",
+            "target": "",
+            "description": "指定した敵単体に桂乃芬の攻撃力#1[i]%分の炎属性ダメージを与え、隣接する敵に桂乃芬の攻撃力#2[i]%分の炎属性ダメージを与える。#3[i]%の基礎確率で指定した敵とその隣接する敵に燃焼状態を付与する。燃焼状態の敵は、ターンが回ってくるたびに桂乃芬の攻撃力#4[i]%分の炎属性持続ダメージを受ける、#5[i]ターン継続。",
+            "params": [
+              [
+                0.6,
+                0.2,
+                1,
+                0.839,
+                2
+              ],
+              [
+                0.66,
+                0.22,
+                1,
+                0.923,
+                2
+              ],
+              [
+                0.72,
+                0.24,
+                1,
+                1.0069,
+                2
+              ],
+              [
+                0.78,
+                0.26,
+                1,
+                1.0909,
+                2
+              ],
+              [
+                0.84,
+                0.28,
+                1,
+                1.1748,
+                2
+              ],
+              [
+                0.9,
+                0.3,
+                1,
+                1.3007,
+                2
+              ],
+              [
+                0.975,
+                0.325,
+                1,
+                1.4686,
+                2
+              ],
+              [
+                1.05,
+                0.35,
+                1,
+                1.6784,
+                2
+              ],
+              [
+                1.125,
+                0.375,
+                1,
+                1.9303,
+                2
+              ],
+              [
+                1.2,
+                0.4,
+                1,
+                2.1821,
+                2
+              ],
+              [
+                1.26,
+                0.42,
+                1,
+                2.2912,
+                2
+              ],
+              [
+                1.32,
+                0.44,
+                1,
+                2.4003,
+                2
+              ],
+              [
+                1.38,
+                0.46,
+                1,
+                2.5094,
+                2
+              ],
+              [
+                1.44,
+                0.48,
+                1,
+                2.6186,
+                2
+              ],
+              [
+                1.5,
+                0.5,
+                1,
+                2.7277,
+                2
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "trace",
+          "sourceId": "1210",
+          "recordId": "121003",
+          "sourceName": "桂乃芬",
+          "recordName": "十八番を披露するね",
+          "sourceRecord": {
+            "id": "121003",
+            "name": "十八番を披露するね",
+            "type": "Ultra",
+            "target": "",
+            "description": "敵全体に桂乃芬の攻撃力#1[f1]%分の炎属性ダメージを与える。敵が燃焼状態の場合、付与された燃焼状態が本来のダメージ#2[i]%分のダメージを発生する。",
+            "params": [
+              [
+                0.72,
+                0.72
+              ],
+              [
+                0.768,
+                0.74
+              ],
+              [
+                0.816,
+                0.76
+              ],
+              [
+                0.864,
+                0.78
+              ],
+              [
+                0.912,
+                0.8
+              ],
+              [
+                0.96,
+                0.82
+              ],
+              [
+                1.02,
+                0.845
+              ],
+              [
+                1.08,
+                0.87
+              ],
+              [
+                1.14,
+                0.895
+              ],
+              [
+                1.2,
+                0.92
+              ],
+              [
+                1.248,
+                0.94
+              ],
+              [
+                1.296,
+                0.96
+              ],
+              [
+                1.344,
+                0.98
+              ],
+              [
+                1.392,
+                1
+              ],
+              [
+                1.44,
+                1.02
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "trace",
+          "sourceId": "1210",
+          "recordId": "121007",
+          "sourceName": "桂乃芬",
+          "recordName": "大道芸",
+          "sourceRecord": {
+            "id": "121007",
+            "name": "大道芸",
+            "type": "Maze",
+            "target": "",
+            "description": "敵を攻撃。戦闘に入った後、敵にダメージを#2[i]回与える。1ヒットごとにランダムな敵単体に桂乃芬の攻撃力#1[i]%分の炎属性ダメージを与え、#3[i]%の基礎確率でその敵を「火喰い」状態にする。",
+            "params": [
+              [
+                0.5,
+                4,
+                1
+              ]
+            ]
+          }
+        },
+        {
+          "kind": "traceNode",
+          "sourceId": "1210",
+          "recordId": "1210103",
+          "sourceName": "桂乃芬",
+          "recordName": "{RUBY_B#はだしとうとう}裸足踏刀{RUBY_E#}",
+          "sourceRecord": {
+            "id": "1210103",
+            "name": "{RUBY_B#はだしとうとう}裸足踏刀{RUBY_E#}",
+            "maxLevel": 1,
+            "description": "燃焼状態の敵に対する与ダメージ+#1[i]%。",
+            "params": [
+              [
+                0.2
+              ]
+            ],
+            "levels": [
+              {
+                "promotion": 6,
+                "level": 0,
+                "properties": []
+              }
+            ]
+          }
+        },
+        {
+          "kind": "eidolon",
+          "sourceId": "1210",
+          "recordId": "1210:E2",
+          "sourceName": "桂乃芬",
+          "recordName": "{RUBY_B#は}歯{RUBY_E#}を{RUBY_B#みが}磨{RUBY_E#}きながら{RUBY_B#くちぶえ}口笛{RUBY_E#}を{RUBY_B#ふ}吹{RUBY_E#}く",
+          "sourceRecord": {
+            "id": "121002",
+            "rank": 2,
+            "name": "{RUBY_B#は}歯{RUBY_E#}を{RUBY_B#みが}磨{RUBY_E#}きながら{RUBY_B#くちぶえ}口笛{RUBY_E#}を{RUBY_B#ふ}吹{RUBY_E#}く",
+            "description": "敵が燃焼状態の時、桂乃芬の通常攻撃と戦闘スキルがその敵に付与する燃焼状態のダメージ倍率+40%。",
+            "levelUpSkills": []
+          }
+        }
+      ],
+      "existingOverrides": [],
+      "existingStructuredModifiers": [],
+      "sourceCounts": {
+        "skills": 6,
+        "traces": 18,
+        "eidolons": 6
+      }
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tetinet.com/schemas/hsr-modifier-contract-v1.json",
+  "title": "tetinet Honkai: Star Rail modifier contract",
+  "type": "object",
+  "required": ["id", "source", "name", "description", "category", "unit", "value", "target", "activation", "calculation", "support", "provenance"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "variant": { "enum": ["previous", "enhanced"] },
+    "source": {
+      "type": "object",
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": { "enum": ["character", "trace", "eidolon", "lightCone", "relic", "ornament", "enemy", "manual"] },
+        "id": { "type": "string", "minLength": 1 },
+        "skillId": { "type": "string" },
+        "traceId": { "type": "string" },
+        "eidolonRank": { "type": "integer", "minimum": 1, "maximum": 6 },
+        "setPieces": { "type": "integer", "enum": [2, 4] }
+      },
+      "additionalProperties": false
+    },
+    "name": { "type": "string", "minLength": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "category": {
+      "enum": ["statFlat", "statPercent", "critRate", "critRateOverride", "critDamage", "damageBonus", "multiplierAddition", "breakEffect", "breakEfficiency", "defenseReduction", "defenseIgnore", "resistancePenetration", "resistanceReduction", "takenDamage", "progressiveTakenDamage", "critTakenDamage", "independentMultiplier", "toughnessDamage", "extraDamage", "dotDamage", "superBreakDamage"]
+    },
+    "stat": { "enum": ["hp", "atk", "def", "speed", "critRate", "critDamage", "effectHitRate", "effectRes", "breakEffect", "elation", "energy"] },
+    "unit": { "enum": ["flat", "percent", "ratio", "toughnessPoint"] },
+    "value": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": { "enum": ["fixed", "byLevel", "byRefinement", "perStack", "perStackByLevel", "perStackByRefinement", "perReferenceStack", "threshold", "providerStatPercentByLevel", "inputScaleByLevelPlusByLevel", "targetBasePercentCappedByProviderPercentByLevel", "linearThreshold", "missingHpScaleByLevel"] },
+        "fixed": { "type": "number" },
+        "values": { "type": "array", "minItems": 1, "items": { "type": "number" } },
+        "perStack": { "type": "number" },
+        "reference": { "enum": ["self.hp", "self.hpPercent", "self.epPercent", "self.speed", "self.atk", "self.def", "self.critRate", "self.critDamage", "self.effectHitRate", "self.effectRes", "self.breakEffect", "self.elation", "enemy.hpPercent", "enemy.weakness", "enemy.debuffCount", "enemy.count", "enemy.toughnessRemaining", "party.count", "party.sp"] },
+        "multiplierInputKey": { "type": "string", "minLength": 1 },
+        "multiplierInputLabel": { "type": "string", "minLength": 1 },
+        "multiplierWhenTrue": { "type": "number", "exclusiveMinimum": 0 },
+        "inputKey": { "type": "string", "minLength": 1 },
+        "inputLabel": { "type": "string", "minLength": 1 },
+        "providerStat": { "enum": ["hp", "hpPercent", "atk", "def", "speed", "critRate", "critDamage", "breakEffect", "effectHitRate", "elation"] },
+        "targetStat": { "enum": ["hp", "atk", "def", "speed"] },
+        "default": { "type": "number" },
+        "minimum": { "type": "number" },
+        "inputMaximum": { "type": "number" },
+        "inputStep": { "type": "number", "exclusiveMinimum": 0 },
+        "scaleValues": { "type": "array", "minItems": 1, "items": { "type": "number" } },
+        "addValues": { "type": "array", "minItems": 1, "items": { "type": "number" } },
+        "targetPercentValues": { "type": "array", "minItems": 1, "items": { "type": "number" } },
+        "capPercentValues": { "type": "array", "minItems": 1, "items": { "type": "number" } },
+        "threshold": { "type": "number" },
+        "step": { "type": "number", "exclusiveMinimum": 0 },
+        "perStep": { "type": "number" },
+        "maximum": { "type": "number" },
+        "maximumAtEidolon": { "type": "object", "required": ["rank", "value"], "properties": { "rank": { "type": "integer", "minimum": 1, "maximum": 6 }, "value": { "type": "number" } }, "additionalProperties": false },
+        "thresholds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["minimum", "value"],
+            "properties": { "minimum": { "type": "number" }, "value": { "type": "number" } },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "target": {
+      "type": "object",
+      "required": ["owner", "attackTypes", "elements"],
+      "properties": {
+        "owner": { "enum": ["self", "activeAlly", "partyAll", "enemySingle", "enemyAll", "summon", "memosprite"] },
+        "attackTypes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "enum": ["all", "normal", "enhancedNormal", "skill", "enhancedSkill", "ultimate", "talent", "followUp", "additional", "dot", "break", "superBreak", "memospriteSkill", "memospriteTalent", "elation"] }
+        },
+        "attackIds": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "elements": { "type": "array", "items": { "enum": ["Physical", "Fire", "Ice", "Thunder", "Wind", "Quantum", "Imaginary"] } }
+      },
+      "additionalProperties": false
+    },
+    "supplementalAttack": {
+      "type": "object",
+      "required": ["name", "element", "type", "scalingStat", "canCrit"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "element": { "enum": ["Physical", "Fire", "Ice", "Thunder", "Wind", "Quantum", "Imaginary"] },
+        "type": { "enum": ["additional", "followUp", "dot"] },
+        "scalingStat": { "enum": ["hp", "atk", "def"] },
+        "target": { "enum": ["single", "blast", "all", "bounce"] },
+        "canCrit": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "primaryTargetOnly": { "type": "boolean" },
+    "adjacentTargetOnly": { "type": "boolean" },
+    "activation": {
+      "type": "object",
+      "required": ["mode", "conditionText"],
+      "properties": {
+        "mode": { "enum": ["always", "toggle", "toggleThreshold", "stack", "statThreshold", "numericThreshold"] },
+        "conditionText": { "type": "string" },
+        "inputKey": { "type": "string" },
+        "inputLabel": { "type": "string" },
+        "threshold": { "type": "number" },
+        "minimum": { "type": "number" },
+        "maximum": { "type": "number" },
+        "maximumAtEidolon": { "type": "object", "required": ["rank", "value"], "properties": { "rank": { "type": "integer", "minimum": 1, "maximum": 6 }, "value": { "type": "number" } }, "additionalProperties": false },
+        "default": { "type": ["number", "boolean"] },
+        "reference": { "enum": ["self.hp", "self.hpPercent", "self.epPercent", "self.speed", "self.atk", "self.def", "self.critRate", "self.critDamage", "self.effectHitRate", "self.effectRes", "self.breakEffect", "self.elation", "enemy.hpPercent", "enemy.debuffCount", "enemy.count", "enemy.toughnessRemaining", "party.count", "party.sp"] },
+        "operator": { "enum": [">=", ">", "<=", "<", "=="] },
+        "durationTurns": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "stacking": {
+      "type": "object",
+      "required": ["rule"],
+      "properties": {
+        "group": { "type": "string" },
+        "rule": { "enum": ["add", "multiply", "max", "replace", "nonStacking"] },
+        "maximumStacks": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "calculation": {
+      "type": "object",
+      "required": ["stage", "operation"],
+      "properties": {
+        "stage": { "enum": ["baseStats", "baseDamage", "attackMultiplier", "damageBonus", "critical", "defense", "resistance", "vulnerability", "independent", "toughness", "extraDamage", "finalDamage"] },
+        "operation": { "enum": ["add", "multiply", "replace", "max"] },
+        "cap": { "type": "number" },
+        "floor": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "inputPolicy": { "enum": ["conditional", "includedInFinalStats", "manual"] },
+    "support": {
+      "type": "object",
+      "required": ["status", "verified"],
+      "properties": {
+        "status": { "enum": ["calculable", "displayOnly", "review"] },
+        "verified": { "type": "boolean" },
+        "reason": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["sourceName", "sourceUrl", "sourceFile", "gameVersion", "verifiedAt"],
+      "properties": {
+        "sourceName": { "type": "string" },
+        "sourceUrl": { "type": "string" },
+        "sourceFile": { "type": "string" },
+        "gameVersion": { "type": "string" },
+        "verifiedAt": { "type": "string", "format": "date" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -117079,7 +117079,7 @@
   "enemies": [
     {
       "id": "3001010",
-      "name": "検証用エネミー A（画像ID 3001010）",
+      "name": "カスタム敵・耐性0%",
       "level": 80,
       "resistance": 0,
       "weakness": true,
@@ -117090,7 +117090,7 @@
     },
     {
       "id": "3001020",
-      "name": "検証用エネミー B（画像ID 3001020）",
+      "name": "カスタム敵・耐性20%",
       "level": 80,
       "resistance": 20,
       "weakness": false,
@@ -117101,7 +117101,7 @@
     },
     {
       "id": "3002010",
-      "name": "検証用エネミー C（画像ID 3002010）",
+      "name": "カスタム敵・耐性40%",
       "level": 80,
       "resistance": 40,
       "weakness": false,

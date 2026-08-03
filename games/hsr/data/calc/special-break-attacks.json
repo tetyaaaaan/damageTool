@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "ruanmei-special-break-2026-07-29",
+  "description": "通常ダメージ式ではなく、氷属性弱点撃破ダメージを基準に計算する固有攻撃。",
+  "attacks": [
+    {"id":"1303031","characterId":"1303","sourceSkillId":"130303","name":"残梅・弱点撃破ダメージ","type":"break","traceKey":"ultimate","element":"Ice","target":"single","multipliers":[30,32,34,36,38,40,42.5,45,47.5,50,52,54,56,58,60],"conditionText":"残梅を付与された敵が弱点撃破状態から回復しようとした時","support":{"status":"calculable","verified":true},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceUrl":"https://github.com/Mar-7th/StarRailRes","sourceFile":"index_new/jp/character_skills.json","verifiedAt":"2026-07-29","notes":"skill130303 parameter5, levels1-15"}},
+    {"id":"1303041","characterId":"1303","sourceSkillId":"130304","name":"フラクタルの螺旋・弱点撃破ダメージ","type":"break","traceKey":"talent","element":"Ice","target":"single","multipliers":[60,66,72,78,84,90,97.5,105,112.5,120,126,132,138,144,150],"eidolon6Bonus":200,"conditionText":"味方が敵を弱点撃破した後","support":{"status":"calculable","verified":true},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceUrl":"https://github.com/Mar-7th/StarRailRes","sourceFile":"index_new/jp/character_skills.json","verifiedAt":"2026-07-29","notes":"skill130304 parameter2, levels1-15; eidolon6 adds 200 percentage points"}}
+  ]
+}

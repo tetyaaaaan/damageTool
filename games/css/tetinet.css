@@ -4355,8 +4355,8 @@ html[data-theme="light"] .genshin-tool-page :is(.genshin-reflect-inputs, .genshi
   font-weight: 800;
 }
 
-.genshin-tool-page .genshin-reflect-inputs .genshin-compact-stats input,
-.genshin-tool-page .genshin-combat-input-grid input {
+.genshin-tool-page .genshin-reflect-inputs .genshin-compact-stats input:not([type="checkbox"]):not([type="radio"]),
+.genshin-tool-page .genshin-combat-input-grid input:not([type="checkbox"]):not([type="radio"]) {
   width: 100%;
   min-height: 34px;
   padding-block: 0;

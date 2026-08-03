@@ -13,14 +13,26 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
 .hsr-equipment-layout .genshin-equipment-card { min-width: 0; }
 .hsr-equipment-subline { display: block; min-width: 0; overflow: hidden; color: var(--teti-text-muted); font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
 .hsr-set-kind { overflow: hidden; color: var(--teti-text-muted); font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
-.hsr-relic-mode-row { margin-bottom: .6rem; }
-.hsr-stat-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.hsr-check-field { display: flex; flex-direction: row; align-items: center; gap: .55rem; min-height: 3rem; }
-.hsr-check-field input { width: auto; }
-.hsr-action-value-card { margin-top: 1rem; padding: 1rem; border: 1px solid var(--teti-border); border-radius: 1rem; background: var(--teti-surface-soft); }
-.hsr-action-value-card h3 { margin: 0 0 .8rem; }
-.hsr-action-value-card p { margin: .65rem 0 0; font-size: .82rem; color: var(--teti-text-muted); }
-.hsr-action-summary { display: grid; align-content: center; gap: .2rem; }
+.page-hsr.modal-open .teti-site-header { visibility: hidden; }
+.page-hsr .genshin-selection-close { font-size: 0; line-height: 0; }
+.hsr-relic-section { display: grid; gap: .65rem; margin-top: 1rem; }
+.hsr-relic-section > h4 { margin: 0; }
+.hsr-relic-mode-row { margin: 0; }
+.hsr-relic-mode-row .genshin-field { max-width: 15rem; }
+.page-hsr .genshin-reflect-inputs .hsr-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.hsr-stat-label { display: inline-flex; align-items: center; gap: .4rem; min-width: 0; }
+.hsr-stat-label img { width: 1.15rem; height: 1.15rem; flex: 0 0 1.15rem; object-fit: contain; }
+.hsr-trace-level-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; }
+.hsr-check-field { display: grid; grid-template-columns: 1.1rem minmax(0,1fr); align-items: center; gap: .5rem; min-height: 2.75rem; }
+.hsr-check-field input[type="checkbox"] { width: 1.05rem; height: 1.05rem; margin: 0; accent-color: var(--teti-interactive); }
+.page-hsr #hsrResultPanel { scroll-margin-top: 5rem; }
+.hsr-action-value-card { display: grid; grid-template-columns: minmax(0,1fr); gap: .75rem; margin-top: 1rem; padding: .85rem; border: 1px solid var(--teti-border); border-radius: .75rem; background: var(--teti-surface-soft); }
+.hsr-action-value-card h3 { margin: 0; font-size: 1rem; }
+.hsr-action-value-card p { margin: .25rem 0 0; font-size: .75rem; color: var(--teti-text-muted); }
+.hsr-action-value-card .genshin-field { position: static; display: grid; gap: .35rem; max-width: 13rem; color: var(--teti-text); font-size: .78rem; font-weight: 800; }
+.hsr-action-value-card .genshin-field input { position: static; width: 100%; min-height: 2.5rem; padding: .5rem .7rem; color: var(--teti-text); background: var(--teti-surface); border: 1px solid var(--teti-border); border-radius: .5rem; font: inherit; text-align: right; }
+.hsr-action-value-card .genshin-field input:focus { outline: 3px solid color-mix(in srgb, var(--teti-focus) 34%, transparent); border-color: var(--teti-focus); }
+.hsr-action-summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .75rem; min-width: 0; }
 .hsr-action-summary strong { font-size: 1.15rem; color: var(--teti-interactive); }
 .hsr-enemy-trigger { display: grid; grid-template-columns: 4rem minmax(0,1fr); gap: .75rem; align-items: center; width: 100%; margin-bottom: .85rem; padding: .65rem; color: inherit; background: var(--teti-surface-soft); border: 1px solid var(--teti-border); border-radius: .85rem; text-align: left; cursor: pointer; }
 .hsr-enemy-trigger:hover { border-color: var(--teti-interactive); background: var(--teti-selected-bg); }
@@ -36,8 +48,17 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
 .hsr-selection-card-copy strong { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-height: 1.3; }
 .hsr-selection-card-copy span { font-size: .75rem; color: var(--teti-text-muted); }
 .hsr-selection-empty { grid-column: 1/-1; padding: 2rem; text-align: center; color: var(--teti-text-muted); }
-.genshin-selection-dialog[data-selection-type="enemy"] .genshin-selection-dialog-inner { height: auto; max-height: min(42rem, calc(100dvh - 2rem)); }
-.genshin-selection-dialog[data-selection-type="enemy"] .genshin-selection-list { min-height: 0; }
+.page-hsr #hsrSelectionFilters { gap: .4rem; margin-top: .55rem; }
+.page-hsr #hsrSelectionFilters[hidden] { display: none; }
+.page-hsr #hsrSelectionFilters .genshin-filter-row { min-height: 2.5rem; gap: .4rem; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; padding: 1px; scrollbar-width: thin; }
+.page-hsr #hsrSelectionFilters .genshin-filter-button,
+.page-hsr #hsrSelectionFilters .genshin-filter-toggle-all { flex: 0 0 auto; }
+.page-hsr #hsrSelectionFilters .genshin-filter-toggle-all { margin-left: auto; }
+.page-hsr .genshin-selection-dialog.is-character .genshin-selection-option { min-height: 8.25rem; }
+.page-hsr .genshin-selection-dialog.is-character .genshin-selection-option-copy > span { display: block; margin-top: .2rem; overflow: visible; color: var(--teti-text-muted); font-size: .7rem; line-height: 1.3; white-space: nowrap; }
+.page-hsr .genshin-selection-dialog.is-enemy .genshin-selection-dialog-inner { height: 100%; max-height: none; }
+.page-hsr .genshin-selection-dialog.is-enemy .genshin-selection-list { grid-template-columns: repeat(2, minmax(0, 1fr)); min-height: 0; }
+.page-hsr .genshin-selection-dialog.is-enemy .genshin-selection-option { min-height: 4.75rem; }
 .hsr-uid-character-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(12rem,1fr)); gap: .65rem; margin-top: .75rem; }
 .hsr-uid-character-card { display: grid; grid-template-columns: 4.5rem minmax(0,1fr); gap: .65rem; align-items: center; padding: .65rem; border: 1px solid var(--teti-border); border-radius: .85rem; background: var(--teti-surface); color: inherit; text-align: left; cursor: pointer; }
 .hsr-uid-character-card:hover,
@@ -51,25 +72,50 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
 .hsr-uid-detail-head div { display: grid; gap: .2rem; }
 .hsr-uid-stat-list { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .35rem .8rem; }
 .hsr-uid-stat-list div { display: flex; justify-content: space-between; gap: .5rem; }
-.hsr-party-slot { display: grid; grid-template-columns: 4.5rem minmax(0,1fr) auto; gap: .8rem; align-items: center; padding: .8rem; border: 1px solid var(--teti-border); border-radius: .9rem; }
-.hsr-party-slot img { width: 4.5rem; height: 4.5rem; object-fit: contain; border-radius: .7rem; background: var(--teti-surface-soft); }
-.hsr-party-slot-copy { min-width: 0; display: grid; gap: .25rem; }
-.hsr-party-slot-copy button { justify-self: start; }
-.hsr-condition-row { display: grid; grid-template-columns: auto minmax(0,1fr) 7rem; gap: .8rem; align-items: start; padding: .85rem; border-bottom: 1px solid var(--teti-border); }
-.hsr-condition-row p { margin: .2rem 0 0; font-size: .8rem; color: var(--teti-text-muted); }
-.hsr-condition-row input[type="number"] { width: 100%; }
+.hsr-party-equipment-row { grid-template-columns: minmax(0, 1fr); }
+.hsr-party-fields { grid-template-columns: minmax(11rem,2fr) repeat(3,minmax(6rem,1fr)); }
+.hsr-condition-card { margin-bottom: .75rem; padding: .85rem; border: 1px solid var(--teti-border); border-radius: .75rem; background: var(--teti-surface-soft); }
+.hsr-condition-card > header { padding: 0 0 .55rem; }
+.hsr-condition-card h3 { margin: .15rem 0 0; font-size: .92rem; }
+.hsr-condition-card > p { margin: 0 0 .65rem; color: var(--teti-text-muted); font-size: .8rem; }
+.hsr-condition-card > small { color: var(--teti-text-muted); }
+.hsr-condition-controls { display: grid; grid-template-columns: minmax(10rem,1fr) minmax(7rem,9rem) minmax(9rem,auto); gap: .75rem; align-items: end; }
+.hsr-condition-card > header { display: flex; justify-content: space-between; gap: .75rem; }
+.hsr-condition-card--info { border-style: dashed; }
+.hsr-condition-impact { display: grid; gap: .25rem; align-content: end; min-height: 2.75rem; padding: .45rem .65rem; border: 1px solid var(--teti-border); border-radius: .5rem; background: var(--teti-surface); }
+.hsr-condition-impact span { color: var(--teti-text-muted); font-size: .7rem; }
+.hsr-condition-impact strong { font-size: .82rem; }
+.hsr-condition-stack { min-width: 0; }
+.hsr-detail-card { margin-bottom: .65rem; }
+.hsr-detail-card p { white-space: pre-line; overflow-wrap: anywhere; }
+.hsr-trace-summary { margin: .8rem 0; padding: .85rem; border: 1px solid var(--teti-border); border-radius: .75rem; background: var(--teti-surface-soft); }
+.hsr-trace-summary h3, .hsr-trace-summary p { margin: 0; }
+.hsr-trace-summary p { margin-top: .2rem; color: var(--teti-text-muted); font-size: .75rem; }
+.hsr-trace-summary dl { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .45rem 1rem; margin: .75rem 0 0; }
+.hsr-trace-summary dl div { display: flex; justify-content: space-between; gap: .6rem; }
+.hsr-trace-summary dt { display: inline-flex; align-items: center; gap: .4rem; }
+.hsr-trace-summary dt img { width: 1rem; height: 1rem; object-fit: contain; }
+.hsr-trace-summary dd { margin: 0; font-weight: 850; }
 .hsr-result-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .65rem; }
 .hsr-result-card { padding: .85rem; border-radius: .85rem; background: var(--teti-surface-soft); }
 .hsr-result-card span { display: block; font-size: .75rem; color: var(--teti-text-muted); }
 .hsr-result-card strong { display: block; margin-top: .2rem; font-size: 1.25rem; }
+.hsr-attack-results { display: grid; gap: .65rem; }
+.hsr-attack-result { padding: .8rem; border: 1px solid var(--teti-border); border-radius: .75rem; background: var(--teti-surface-soft); }
+.hsr-attack-result header { display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; }
+.hsr-attack-result h3 { margin: 0; font-size: .95rem; overflow-wrap: anywhere; }
+.hsr-attack-result header span { flex: 0 0 auto; color: var(--teti-text-muted); font-size: .72rem; }
+.hsr-attack-result-values { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .45rem; margin-top: .6rem; }
+.hsr-attack-result-values div { min-width: 0; }
+.hsr-attack-result-values span { display: block; color: var(--teti-text-muted); font-size: .68rem; }
+.hsr-attack-result-values strong { display: block; margin-top: .1rem; font-size: 1rem; }
+.hsr-result-break { margin: .75rem 0 0; padding-top: .75rem; border-top: 1px solid var(--teti-border); }
 .hsr-result-details { margin-top: .85rem; }
 .hsr-result-details dl { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .45rem 1rem; }
 .hsr-result-details dl div { display: flex; justify-content: space-between; gap: .6rem; }
 .hsr-result-details dt { color: var(--teti-text-muted); }
 
-@media (max-width: 980px) {
-  .hsr-stat-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
-}
+@media (max-width: 980px) { .hsr-condition-controls { grid-template-columns: minmax(0,1fr) minmax(7rem,9rem); } .hsr-condition-impact { grid-column: 1 / -1; } }
 
 @media (max-width: 640px) {
   .hsr-mobile-only { display: initial; }
@@ -77,12 +123,37 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
   .hsr-selection-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .hsr-selection-card { grid-template-columns: 3.25rem minmax(0,1fr); min-height: 4.4rem; padding: .55rem; }
   .hsr-selection-card img { width: 3.25rem; height: 3.25rem; }
-  .hsr-party-slot { grid-template-columns: 3.75rem minmax(0,1fr); }
-  .hsr-party-slot > button { grid-column: 1/-1; }
+  .hsr-party-fields, .hsr-condition-controls { grid-template-columns: 1fr; }
+  .hsr-condition-impact { grid-column: auto; }
   .hsr-uid-character-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .hsr-uid-character-card { grid-template-columns: 3.25rem minmax(0,1fr); padding: .5rem; }
   .hsr-uid-character-card img { width: 3.25rem; height: 3.25rem; }
   .hsr-uid-stat-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .hsr-result-cards { grid-template-columns: 1fr; }
+  .hsr-attack-result-values { grid-template-columns: repeat(3,minmax(0,1fr)); }
   .hsr-result-details dl { grid-template-columns: 1fr; }
+  .hsr-trace-summary dl { grid-template-columns: 1fr; }
+  .page-hsr #hsrSelectionFilters { gap: .3rem; margin-top: .4rem; }
+  .page-hsr #hsrSelectionFilters .genshin-filter-row { min-height: 2.25rem; gap: .3rem; }
+  .page-hsr .genshin-selection-dialog.is-character .genshin-selection-option { min-height: 7.4rem; }
+  .page-hsr .genshin-selection-dialog.is-enemy .genshin-selection-list { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 460px) {
+  .hsr-trace-level-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hsr-attack-result-values { grid-template-columns: 1fr; }
+}
+@media (max-width: 680px) {
+  #hsrConditionTabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 4px;
+    overflow-x: hidden;
+  }
+
+  #hsrConditionTabs .genshin-condition-tab {
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+  }
 }

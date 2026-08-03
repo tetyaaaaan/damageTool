@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "sampo-complete-2026-08-01",
+  "description": "サンポ1108の風化層数、持続ダメージ被ダメージ増加、追加能力、小軌跡、星魂を構造化したデータ。",
+  "modifiers": [
+    {
+      "id": "trace:1108:110803:dot-vulnerability",
+      "source": { "kind": "trace", "id": "1108", "skillId": "110803", "traceId": "110803" },
+      "name": "必殺技 サプライズボックス・持続ダメージ被ダメージ増加",
+      "description": "必殺技を受けた敵の受ける持続ダメージを増加させる。Lv10では30%、2ターン継続。",
+      "category": "takenDamage", "unit": "percent",
+      "value": { "kind": "byLevel", "values": [20,21,22,23,24,25,26.25,27.5,28.75,30,31,32,33,34,35] },
+      "target": { "owner": "enemyAll", "attackTypes": ["dot"], "elements": [] },
+      "activation": { "mode": "toggle", "conditionText": "敵が必殺技の持続ダメージ被ダメージ増加状態", "inputKey": "sampo-ultimate-dot-vulnerability", "inputLabel": "持続ダメージ被ダメージ増加中", "default": false, "durationTurns": 2 },
+      "stacking": { "group": "sampo-ultimate-dot-vulnerability", "rule": "nonStacking" },
+      "calculation": { "stage": "vulnerability", "operation": "add" },
+      "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01", "notes": "skill110803 levels1-15, duration2" }
+    },
+    {
+      "id": "trace:1108:110804:wind-shear-stacks",
+      "source": { "kind": "trace", "id": "1108", "skillId": "110804", "traceId": "110804" },
+      "name": "天賦 風を切り裂く匕首・風化層数",
+      "description": "敵に付与されている風化の現在層数。1層ごとの倍率は選択中の天賦レベルから計算する。",
+      "category": "attackState", "unit": "stack", "value": { "kind": "perStack", "perStack": 1 },
+      "target": { "owner": "enemySingle", "attackTypes": ["dot"], "elements": ["Wind"] },
+      "activation": { "mode": "stack", "conditionText": "敵に付与されている風化の現在層数", "inputKey": "sampo-wind-shear-stacks", "inputLabel": "風化の現在層数", "minimum": 0, "maximum": 5, "default": 0, "durationTurns": 3 },
+      "stacking": { "group": "sampo-wind-shear-stacks", "rule": "nonStacking", "maximumStacks": 5 },
+      "calculation": { "stage": "attackState", "operation": "set" },
+      "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01", "notes": "skill110804 chance65%, duration3, max5; shared input drives attack hit count" }
+    },
+    {
+      "id": "trace:1108:110804:wind-shear", "source": { "kind": "trace", "id": "1108", "skillId": "110804", "traceId": "110804" },
+      "name": "天賦 風を切り裂く匕首・風化ダメージ", "description": "敵のターン開始時、風化1層ごとに風属性持続ダメージを与える。Lv10では1層52%。",
+      "category": "extraDamage", "unit": "percent", "value": { "kind": "byLevel", "values": [20,22,24,26,28,31,35,40,46,52,54.6,57.2,59.8,62.4,65] },
+      "target": { "owner": "enemySingle", "attackTypes": ["dot"], "elements": ["Wind"] }, "activation": { "mode": "always", "conditionText": "敵のターン開始時に風化が1層以上ある" },
+      "stacking": { "group": "sampo-wind-shear-damage", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "風化層数を参照する独立攻撃レコードとして計算する。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "trace:1108:110807:action-delay", "source": { "kind": "trace", "id": "1108", "skillId": "110807", "traceId": "110807" },
+      "name": "秘技 一番の輝きをあなたへ・行動遅延", "description": "ブラインド状態の敵を先制攻撃して戦闘に入ると、100%の固定確率で敵全体の行動順を25%遅延する。",
+      "category": "statPercent", "stat": "speed", "unit": "percent", "value": { "kind": "fixed", "fixed": 25 },
+      "target": { "owner": "enemyAll", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "ブラインド状態の敵を先制攻撃して戦闘開始" },
+      "stacking": { "group": "sampo-technique-delay", "rule": "nonStacking" }, "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "行動順遅延は単発ダメージ式へ直接加算しない。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "traceNode:1108:1108101:duration", "source": { "kind": "trace", "id": "1108", "traceId": "1108101" },
+      "name": "追加能力 ワナ・風化継続時間", "description": "天賦による風化の継続時間+1ターン。合計4ターン。", "category": "damageBonus", "unit": "turn", "value": { "kind": "fixed", "fixed": 1 },
+      "target": { "owner": "enemySingle", "attackTypes": ["dot"], "elements": ["Wind"] }, "activation": { "mode": "always", "conditionText": "追加能力「ワナ」を解放" },
+      "stacking": { "group": "sampo-wind-shear-duration", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "継続ターン数は単発DoTダメージへ乗算しない。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skill_trees.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "traceNode:1108:1108102:energy", "source": { "kind": "trace", "id": "1108", "traceId": "1108102" },
+      "name": "追加能力 予備プラン・必殺技EP回復", "description": "必殺技発動時、さらにEPを10回復する。", "category": "statFlat", "stat": "energy", "unit": "flat", "value": { "kind": "fixed", "fixed": 10 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "必殺技を発動" },
+      "stacking": { "group": "sampo-ultimate-energy", "rule": "nonStacking" }, "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "EP回復は単発ダメージ式へ直接加算しない。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skill_trees.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "traceNode:1108:1108103:enemy-damage", "source": { "kind": "trace", "id": "1108", "traceId": "1108103" },
+      "name": "追加能力 火に油・風化した敵の与ダメージ低下", "description": "風化状態の敵がサンポに与えるダメージ-15%。", "category": "damageBonus", "unit": "percent", "value": { "kind": "fixed", "fixed": 15 },
+      "target": { "owner": "enemySingle", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "敵が風化状態でサンポを攻撃" },
+      "stacking": { "group": "sampo-wind-shear-enemy-damage", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "敵からサンポへの与ダメージ低下であり、サンポの与ダメージ式へ加算しない。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skill_trees.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "traceStats:1108:attack", "source": { "kind": "trace", "id": "1108", "traceId": "1108201" },
+      "name": "小軌跡合計・攻撃力", "description": "攻撃力強化の合計+28%。最終ステータス入力に含めて扱う。", "category": "statPercent", "stat": "atk", "unit": "percent", "value": { "kind": "fixed", "fixed": 28 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "対象の小軌跡をすべて解放" }, "stacking": { "group": "sampo-trace-attack", "rule": "nonStacking" }, "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "includedInFinalStats", "support": { "status": "displayOnly", "verified": true, "reason": "最終攻撃力入力へ含め、二重適用を防ぐ。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skill_trees.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01", "notes": "4+4+6+6+8=28%" }
+    },
+    {
+      "id": "traceStats:1108:effect-hit", "source": { "kind": "trace", "id": "1108", "traceId": "1108202" },
+      "name": "小軌跡合計・効果命中", "description": "効果命中強化の合計+18%。最終ステータス入力に含めて扱う。", "category": "statPercent", "stat": "effectHitRate", "unit": "percent", "value": { "kind": "fixed", "fixed": 18 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "対象の小軌跡をすべて解放" }, "stacking": { "group": "sampo-trace-effect-hit", "rule": "nonStacking" }, "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "includedInFinalStats", "support": { "status": "displayOnly", "verified": true, "reason": "最終効果命中入力へ含め、二重適用を防ぐ。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skill_trees.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01", "notes": "4+6+8=18%" }
+    },
+    {
+      "id": "traceStats:1108:effect-res", "source": { "kind": "trace", "id": "1108", "traceId": "1108204" },
+      "name": "小軌跡合計・効果抵抗", "description": "効果抵抗強化の合計+10%。最終ステータス入力に含めて扱う。", "category": "statPercent", "stat": "effectRes", "unit": "percent", "value": { "kind": "fixed", "fixed": 10 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "対象の小軌跡をすべて解放" }, "stacking": { "group": "sampo-trace-effect-res", "rule": "nonStacking" }, "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "includedInFinalStats", "support": { "status": "displayOnly", "verified": true, "reason": "最終効果抵抗入力へ含め、二重適用を防ぐ。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skill_trees.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01", "notes": "4+6=10%" }
+    },
+    {
+      "id": "eidolon:1108:1:skill-hit", "source": { "kind": "eidolon", "id": "1108", "eidolonRank": 1 },
+      "name": "星魂1 値上げする愛・戦闘スキル追加ヒット", "description": "戦闘スキル発動時、追加でランダムな敵単体へ1ヒットする。合計6ヒット。", "category": "extraDamage", "unit": "count", "value": { "kind": "fixed", "fixed": 1 },
+      "target": { "owner": "enemySingle", "attackTypes": ["skill"], "elements": ["Wind"] }, "activation": { "mode": "always", "conditionText": "星魂1以上で戦闘スキルを発動" }, "stacking": { "group": "sampo-e1-skill-hit", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "星魂ランクに応じて攻撃レコードのヒット数を5から6へ切り替える。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "eidolon:1108:2:wind-shear-spread", "source": { "kind": "eidolon", "id": "1108", "eidolonRank": 2 },
+      "name": "星魂2 熱情はうつる・風化拡散", "description": "風化状態の敵が倒された時、100%の基礎確率で敵全体へ風化を1層付与する。", "category": "extraDamage", "unit": "stack", "value": { "kind": "fixed", "fixed": 1 },
+      "target": { "owner": "enemyAll", "attackTypes": ["dot"], "elements": ["Wind"] }, "activation": { "mode": "always", "conditionText": "風化状態の敵を倒した時" }, "stacking": { "group": "sampo-e2-wind-shear-spread", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "敵撃破後の状態付与であり、現在対象の単発DoTへ直接加算しない。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "eidolon:1108:3:trace-levels", "source": { "kind": "eidolon", "id": "1108", "eidolonRank": 3 }, "name": "星魂3 大儲け！・戦闘スキル／通常攻撃Lv", "description": "戦闘スキルLv+2、通常攻撃Lv+1。", "category": "damageBonus", "unit": "percent", "value": { "kind": "fixed", "fixed": 0 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "星魂3以上" }, "stacking": { "group": "sampo-e3-levels", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" },
+      "inputPolicy": "includedInFinalStats", "support": { "status": "displayOnly", "verified": true, "reason": "軌跡レベル選択後の値に含まれる。" }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "eidolon:1108:4:wind-shear-detonation", "source": { "kind": "eidolon", "id": "1108", "eidolonRank": 4 }, "name": "星魂4 愛する程恨む・風化5層起爆", "description": "戦闘スキルが風化5層以上の敵に命中した時、対象の風化が本来のダメージ8%分発生する。", "category": "extraDamage", "unit": "percent", "value": { "kind": "fixed", "fixed": 8 },
+      "target": { "owner": "enemySingle", "attackTypes": ["dot"], "elements": ["Wind"] }, "activation": { "mode": "always", "conditionText": "風化5層以上の敵へ戦闘スキルが命中" }, "stacking": { "group": "sampo-e4-wind-shear-detonation", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "現在の風化層数と天賦倍率を参照する独立起爆攻撃として計算する。" }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "eidolon:1108:5:trace-levels", "source": { "kind": "eidolon", "id": "1108", "eidolonRank": 5 }, "name": "星魂5 超大儲け！・必殺技／天賦Lv", "description": "必殺技Lv+2、天賦Lv+2。", "category": "damageBonus", "unit": "percent", "value": { "kind": "fixed", "fixed": 0 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "星魂5以上" }, "stacking": { "group": "sampo-e5-levels", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" },
+      "inputPolicy": "includedInFinalStats", "support": { "status": "displayOnly", "verified": true, "reason": "軌跡レベル選択後の値に含まれる。" }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "eidolon:1108:6:wind-shear-multiplier", "source": { "kind": "eidolon", "id": "1108", "eidolonRank": 6 }, "name": "星魂6 消費のアップグレード・風化倍率", "description": "天賦が付与した風化の1層あたりダメージ倍率+15%。", "category": "multiplierAddition", "unit": "percent", "value": { "kind": "fixed", "fixed": 15 },
+      "target": { "owner": "self", "attackTypes": ["dot"], "elements": ["Wind"] }, "activation": { "mode": "always", "conditionText": "星魂6で天賦の風化ダメージを計算" }, "stacking": { "group": "sampo-e6-wind-shear-multiplier", "rule": "nonStacking" }, "calculation": { "stage": "attackMultiplier", "operation": "add" },
+      "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01", "notes": "+15 percentage points per Wind Shear stack; E4 attack scales addition by 8%" }
+    }
+  ]
+}

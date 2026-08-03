@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "character-expansion-2026-07-29",
+  "description": "キャラクターの軌跡・星魂からIDとパラメータ位置を個別確認した追加補正。",
+  "modifiers": [
+    {
+      "id": "eidolon:1106:4:ice-resistance-reduction",
+      "source": { "kind": "eidolon", "id": "1106", "eidolonRank": 4 },
+      "name": "完全解析・氷属性耐性ダウン",
+      "description": "ペラが戦闘スキルを発動した時、敵の氷属性耐性-12%、2ターン継続。",
+      "category": "resistanceReduction", "unit": "percent", "value": { "kind": "fixed", "fixed": 12 },
+      "target": { "owner": "enemySingle", "attackTypes": ["all"], "elements": ["Ice"] },
+      "activation": { "mode": "toggle", "conditionText": "ペラの戦闘スキルによる耐性ダウン中", "inputKey": "pela-e4-ice-res-down", "inputLabel": "氷属性耐性ダウン中", "default": false, "durationTurns": 2 },
+      "stacking": { "group": "pela-e4-ice-res-down", "rule": "nonStacking" },
+      "calculation": { "stage": "resistance", "operation": "add" },
+      "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-07-29", "notes": "character 1106 eidolon 110604" }
+    },
+    {
+      "id": "eidolon:1303:1:defense-ignore",
+      "source": { "kind": "eidolon", "id": "1303", "eidolonRank": 1 },
+      "name": "神経刺繍図・防御無視",
+      "description": "ルアン・メェイの結界中、味方全体がダメージを与える時、敵の防御力を20%無視する。",
+      "category": "defenseIgnore", "unit": "percent", "value": { "kind": "fixed", "fixed": 20 },
+      "target": { "owner": "partyAll", "attackTypes": ["all"], "elements": [] },
+      "activation": { "mode": "toggle", "conditionText": "必殺技の結界展開中", "inputKey": "ruanmei-field-active", "inputLabel": "結界展開中", "default": false },
+      "stacking": { "group": "ruanmei-e1-defense-ignore", "rule": "nonStacking" },
+      "calculation": { "stage": "defense", "operation": "add", "cap": 100 },
+      "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-07-29", "notes": "character 1303 eidolon 130301" }
+    },
+    {
+      "id": "trace:1304:130403:crit-vulnerability",
+      "source": { "kind": "trace", "id": "1304", "skillId": "130403", "traceId": "130403" },
+      "name": "動揺・被会心ダメージ増加",
+      "description": "味方の攻撃が「動揺」状態の敵に命中する時、会心ダメージが軌跡レベルに応じて上昇する。",
+      "category": "critTakenDamage", "unit": "percent", "value": { "kind": "byLevel", "values": [9,9.6,10.2,10.8,11.4,12,12.75,13.5,14.25,15,15.6,16.2,16.8,17.4,18] },
+      "target": { "owner": "enemySingle", "attackTypes": ["all"], "elements": [] },
+      "activation": { "mode": "toggle", "conditionText": "敵が「動揺」状態", "inputKey": "aventurine-unnerve-active", "inputLabel": "敵が動揺状態", "default": false, "durationTurns": 3 },
+      "stacking": { "group": "aventurine-unnerve-crit", "rule": "nonStacking" },
+      "calculation": { "stage": "critical", "operation": "add" },
+      "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-07-29", "notes": "skill 130403 parameter 3, levels 1-15" }
+    },
+    {
+      "id": "eidolon:1304:2:resistance-reduction",
+      "source": { "kind": "eidolon", "id": "1304", "eidolonRank": 2 },
+      "name": "限定合理性・全属性耐性ダウン",
+      "description": "アベンチュリンが通常攻撃を行う時、ターゲットの全属性耐性-12%、3ターン継続。",
+      "category": "resistanceReduction", "unit": "percent", "value": { "kind": "fixed", "fixed": 12 },
+      "target": { "owner": "enemySingle", "attackTypes": ["all"], "elements": [] },
+      "activation": { "mode": "toggle", "conditionText": "通常攻撃による耐性ダウン中", "inputKey": "aventurine-e2-res-down", "inputLabel": "全属性耐性ダウン中", "default": false, "durationTurns": 3 },
+      "stacking": { "group": "aventurine-e2-res-down", "rule": "nonStacking" },
+      "calculation": { "stage": "resistance", "operation": "add" },
+      "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-07-29", "notes": "character 1304 eidolon 130402" }
+    },
+    {
+      "id": "eidolon:1304:6:shielded-allies-damage",
+      "source": { "kind": "eidolon", "id": "1304", "eidolonRank": 6 },
+      "name": "スタグハントゲーム・与ダメージ",
+      "description": "バリアを持つ自身以外の味方1名につき、アベンチュリンの与ダメージ+50%、最大3名。",
+      "category": "damageBonus", "unit": "percent", "value": { "kind": "perStack", "perStack": 50 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] },
+      "activation": { "mode": "stack", "conditionText": "バリアを持つ自身以外の味方がいる", "inputKey": "aventurine-shielded-allies", "inputLabel": "バリア中の味方数", "minimum": 0, "maximum": 3, "default": 0 },
+      "stacking": { "group": "aventurine-e6-shielded-allies", "rule": "add", "maximumStacks": 3 },
+      "calculation": { "stage": "damageBonus", "operation": "add" },
+      "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-07-29", "notes": "character 1304 eidolon 130406" }
+    },
+    {
+      "id": "eidolon:1217:6:healed-ally-damage",
+      "source": { "kind": "eidolon", "id": "1217", "eidolonRank": 6 },
+      "name": "苦楽を共にする仲間・与ダメージ",
+      "description": "フォフォが味方を治癒した時、その味方の与ダメージ+50%、2ターン継続。",
+      "category": "damageBonus", "unit": "percent", "value": { "kind": "fixed", "fixed": 50 },
+      "target": { "owner": "activeAlly", "attackTypes": ["all"], "elements": [] },
+      "activation": { "mode": "toggle", "conditionText": "フォフォに治癒された後", "inputKey": "huohuo-e6-heal-buff", "inputLabel": "治癒後の与ダメージ効果中", "default": false, "durationTurns": 2 },
+      "stacking": { "group": "huohuo-e6-heal-damage", "rule": "nonStacking" },
+      "calculation": { "stage": "damageBonus", "operation": "add" },
+      "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-07-29", "notes": "character 1217 eidolon 121706" }
+    },
+    {
+      "id": "eidolon:1220:1:ultimate-independent-stack",
+      "source": { "kind": "eidolon", "id": "1220", "eidolonRank": 1 },
+      "name": "極地鎮定・必殺技ダメージ",
+      "description": "飛霄の必殺技中、指定攻撃を発動するたびに本来のダメージの10%分アップ、最大5層。",
+      "category": "independentMultiplier", "unit": "percent", "value": { "kind": "perStack", "perStack": 10 },
+      "target": { "owner": "self", "attackTypes": ["ultimate"], "elements": [] },
+      "activation": { "mode": "stack", "conditionText": "必殺技中に「閃裂刃舞」または「斧貫衝天」を発動", "inputKey": "feixiao-e1-ultimate-stacks", "inputLabel": "必殺技ダメージ層数", "minimum": 0, "maximum": 5, "default": 0 },
+      "stacking": { "group": "feixiao-e1-ultimate", "rule": "add", "maximumStacks": 5 },
+      "calculation": { "stage": "independent", "operation": "add" },
+      "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-07-29", "notes": "character 1220 eidolon 122001" }
+    },
+    {
+      "id": "eidolon:1220:6:ultimate-resistance-penetration",
+      "source": { "kind": "eidolon", "id": "1220", "eidolonRank": 6 },
+      "name": "狐死首丘・必殺技耐性貫通",
+      "description": "飛霄が与える必殺技ダメージの全属性耐性貫通+20%。天賦の追加攻撃も必殺技ダメージとして扱う。",
+      "category": "resistancePenetration", "unit": "percent", "value": { "kind": "fixed", "fixed": 20 },
+      "target": { "owner": "self", "attackTypes": ["ultimate", "followUp"], "elements": [] },
+      "activation": { "mode": "always", "conditionText": "星魂6解放済み" },
+      "stacking": { "group": "feixiao-e6-ultimate-res-pen", "rule": "nonStacking" },
+      "calculation": { "stage": "resistance", "operation": "add" },
+      "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-07-29", "notes": "character 1220 eidolon 122006; follow-up classification included because the eidolon explicitly treats the talent follow-up as ultimate damage" }
+    }
+  ]
+}

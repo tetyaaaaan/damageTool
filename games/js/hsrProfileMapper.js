@@ -56,7 +56,10 @@
                 name: text(skill?.name || trace?.name),
                 type: text(skill?.type, ""),
                 level: number(tree.level),
-                maxLevel: number(skill?.params?.length || trace?.maxLevel)
+                maxLevel: number(skill?.params?.length || trace?.maxLevel),
+                description: text(skill?.description || trace?.description, ""),
+                params: skill?.params || [],
+                properties: trace?.levels?.[0]?.properties || []
             };
         });
     }
@@ -102,7 +105,8 @@
             effectHitRate: percent((props.StatusProbabilityBase || 0) + (props.StatusProbability || 0)),
             effectRes: percent((props.StatusResistanceBase || 0) + (props.StatusResistance || 0)),
             energyRegen: percent(1 + (props.SPRatioBase || 0)),
-            damageBonus: percent(damageBonus)
+            damageBonus: percent(damageBonus),
+            elation: percent((props.ElationDamageAddedRatioBase || 0) + (props.ElationDamageAddedRatio || 0))
         };
     }
 

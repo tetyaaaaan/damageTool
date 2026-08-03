@@ -1,0 +1,1350 @@
+{
+  "schemaVersion": 1,
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "ID単位で倍率・対象・参照ステータスを確認した計算データです。"
+  },
+  "description": "自動生成では表現できない攻撃だけをID単位で上書きする。",
+  "overrides": [
+    {
+      "id":"101501","characterId":"1015","name":"干将・莫耶","element":"Quantum","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130],"sourceSkillId":"101501","overrideReason":"通常攻撃の攻撃力倍率をソースに存在する全9レベルで照合。"
+    },
+    {
+      "id":"101502","characterId":"1015","name":"偽・螺旋剣","element":"Quantum","type":"skill","traceKey":"skill","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[180,198,216,234,252,270,292.5,315,337.5,360,378,396,414,432,450],"sourceSkillId":"101502","conditionText":"回路接続中のスキル与ダメージ累積は補正条件で設定","overrideReason":"単体攻撃倍率と回路接続の累積与ダメージを分離。"
+    },
+    {
+      "id":"101503","characterId":"1015","name":"無限の剣製","element":"Quantum","type":"ultimate","traceKey":"ultimate","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[600,640,680,720,760,800,850,900,950,1000,1040,1080,1120,1160,1200],"sourceSkillId":"101503","overrideReason":"必殺技の単体攻撃倍率を全15レベルで照合。"
+    },
+    {
+      "id":"101504","characterId":"1015","name":"心眼（真）","element":"Quantum","type":"followUp","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[100,110,120,130,140,150,162.5,175,187.5,200,210,220,230,240,250],"sourceSkillId":"101504","conditionText":"アーチャー以外の味方が攻撃後、チャージを1消費","overrideReason":"天賦の追加攻撃倍率を全15レベルで照合。"
+    },
+    {
+      "id":"101507","characterId":"1015","name":"千里眼","element":"Quantum","type":"additional","traceKey":"skill","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[200],"sourceSkillId":"101507","conditionText":"秘技で敵を攻撃して戦闘に入る時","overrideReason":"秘技の敵全体ダメージとチャージ獲得を分離。"
+    },
+    {
+      "id":"101408","characterId":"1014","name":"解放されし黄金の王権（統合元）","element":"Wind","type":"enhancedNormal","traceKey":"normal","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[75,90,105,120,135,150,165,180,195,210],"sourceSkillId":"101408","hidden":true,"conditionText":"敵数別の1014081～1014083へ包含","overrideReason":"ゲームデータの統合レコードは敵数別倍率へ分割済みのため、重複表示せず監査上は包含として分類。"
+    },
+    {
+      "id":"101401","characterId":"1014","name":"風王結界","element":"Wind","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"101401","overrideReason":"通常攻撃倍率を全10レベルで照合。"
+    },
+    {
+      "id":"101402","characterId":"1014","name":"風王鉄槌","element":"Wind","type":"skill","traceKey":"skill","target":"blast","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[75,82.5,90,97.5,105,112.5,121.88,131.25,140.62,150,157.5,165,172.5,180,187.5],"adjacentMultipliers":[37.5,41.25,45,48.75,52.5,56.25,60.94,65.62,70.31,75,78.75,82.5,86.25,90,93.75],"sourceSkillId":"101402","conditionText":"炉心共鳴を消費してEPを満タンにする場合、層数分の倍率を補正条件で加算","overrideReason":"主対象・隣接倍率と炉心共鳴による倍率加算を分離。"
+    },
+    {
+      "id":"101403","characterId":"1014","name":"約束された勝利の剣・全体斬撃","element":"Wind","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[140,154,168,182,196,210,227.5,245,262.5,280,294,308,322,336,350],"sourceSkillId":"101403","overrideReason":"必殺技の初撃全体ダメージを独立登録。"
+    },
+    {
+      "id":"1014031","characterId":"1014","name":"約束された勝利の剣・ランダム10ヒット","element":"Wind","type":"ultimate","traceKey":"ultimate","target":"bounce","scalingStat":"atk","hitCount":10,"canCrit":true,"multipliers":[55,60.5,66,71.5,77,82.5,89.38,96.25,103.12,110,115.5,121,126.5,132,137.5],"sourceSkillId":"101403","overrideReason":"必殺技の追加10ヒットを単発倍率とヒット数に分離。"
+    },
+    {
+      "id":"1014081","characterId":"1014","name":"解放されし黄金の王権（敵1体）","element":"Wind","type":"enhancedNormal","traceKey":"normal","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[185,222,259,296,333,370,407,444,481,518],"sourceSkillId":"101408","enemyCountExact":1,"conditionText":"敵数1","overrideReason":"基礎倍率と敵1体時の追加倍率を合算。"
+    },
+    {
+      "id":"1014082","characterId":"1014","name":"解放されし黄金の王権（敵2体）","element":"Wind","type":"enhancedNormal","traceKey":"normal","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[150,180,210,240,270,300,330,360,390,420],"sourceSkillId":"101408","enemyCountExact":2,"conditionText":"敵数2","overrideReason":"基礎倍率と敵2体時の追加倍率を合算。"
+    },
+    {
+      "id":"1014083","characterId":"1014","name":"解放されし黄金の王権（敵3体以上）","element":"Wind","type":"enhancedNormal","traceKey":"normal","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[75,90,105,120,135,150,165,180,195,210],"sourceSkillId":"101408","enemyCountMinimum":3,"conditionText":"敵数3以上","overrideReason":"敵数3以上では基礎倍率のみ。"
+    },
+    {
+      "id":"101301","characterId":"1013","name":"何見てるの？","element":"Ice","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"101301","overrideReason":"通常攻撃の攻撃力倍率を全10レベルで照合。"
+    },
+    {
+      "id":"101302","characterId":"1013","name":"一度限りの取引","element":"Ice","type":"skill","traceKey":"skill","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,55,60,65,70,75,81.25,87.5,93.75,100,105,110,115,120,125],"sourceSkillId":"101302","conditionText":"敵HP50%以上の追加与ダメージは補正条件で自動判定","overrideReason":"基礎倍率と敵HP50%以上の追加与ダメージ20%を分離。"
+    },
+    {
+      "id":"101303","characterId":"1013","name":"私がかけた魔法だよ","element":"Ice","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[120,128,136,144,152,160,170,180,190,200,208,216,224,232,240],"sourceSkillId":"101303","overrideReason":"必殺技の全体攻撃倍率を全15レベルで照合。"
+    },
+    {
+      "id":"101304","characterId":"1013","name":"やっぱり私がやる","element":"Ice","type":"followUp","traceKey":"talent","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[25,26.5,28,29.5,31,32.5,34.38,36.25,38.12,40,41.5,43,44.5,46,47.5],"sourceSkillId":"101304","conditionText":"味方の攻撃で敵HPが50%以下になった時","overrideReason":"天賦の全体追加攻撃倍率を全15レベルで照合。"
+    },
+    {
+      "id":"1013011","characterId":"1013","name":"弱みは付け込み・付加ダメージ","element":"Ice","type":"additional","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[40],"sourceSkillId":"101301","requiredEidolon":1,"enemyHpPercentMaximum":50,"conditionText":"星魂1以上かつ攻撃前の敵HP50%以下","overrideReason":"星魂1の通常攻撃時付加ダメージを独立攻撃として登録。"
+    },
+    {
+      "id":"100901","characterId":"1009","name":"スペクトル光線","element":"Fire","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"100901","overrideReason":"通常攻撃の攻撃力倍率を全10レベルで照合。"
+    },
+    {
+      "id":"100902","characterId":"1009","name":"スターフォール（5ヒット合計）","element":"Fire","type":"skill","traceKey":"skill","target":"bounce","scalingStat":"atk","hitCount":5,"canCrit":true,"multipliers":[25,27.5,30,32.5,35,37.5,40.62,43.75,46.88,50,52.5,55,57.5,60,62.5],"sourceSkillId":"100902","overrideReason":"初撃と追加4ヒットの同一単発倍率を保持し、合計5ヒットとして計算。"
+    },
+    {
+      "id":"1009021","characterId":"1009","name":"スターフォール（星魂1・6ヒット合計）","element":"Fire","type":"skill","traceKey":"skill","target":"bounce","scalingStat":"atk","hitCount":6,"canCrit":true,"multipliers":[25,27.5,30,32.5,35,37.5,40.62,43.75,46.88,50,52.5,55,57.5,60,62.5],"sourceSkillId":"100902","requiredEidolon":1,"conditionText":"星魂1以上","overrideReason":"星魂1の追加1ヒットを含む合計6ヒット版。"
+    },
+    {
+      "id":"1009011","characterId":"1009","name":"火花・燃焼","element":"Fire","type":"dot","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[25,30,35,40,45,50,55,60,65,70],"sourceSkillId":"1009101","conditionText":"追加能力「火花」で付与した燃焼の1ターン分","overrideReason":"通常攻撃倍率の50%を独立した炎属性持続ダメージとして登録。"
+    },
+    {
+      "id":"100907","characterId":"1009","name":"着想の一閃","element":"Fire","type":"additional","traceKey":"talent","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50],"sourceSkillId":"100907","conditionText":"秘技で戦闘開始","overrideReason":"秘技の開幕全体ダメージ50%。"
+    },
+    {
+      "id":"100801","characterId":"1008","name":"疾行する雷の如し","element":"Thunder","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"100801","overrideReason":"通常攻撃の第1パラメータを全10レベルで照合。"
+    },
+    {
+      "id":"100802","characterId":"1008","name":"禁錮解除","element":"Thunder","type":"skill","traceKey":"skill","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[120,132,144,156,168,180,195,210,225,240,252,264,276,288,300],"sourceSkillId":"100802","conditionText":"最大HP15%を消費（残りHPは最低1）","overrideReason":"戦闘スキルの直接ダメージ#2を全15レベルで照合。HP消費は条件表示へ分離。"
+    },
+    {
+      "id":"100803","characterId":"1008","name":"狂者の制裁","element":"Thunder","type":"ultimate","traceKey":"ultimate","target":"blast","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[192,204.8,217.6,230.4,243.2,256,272,288,304,320,332.8,345.6,358.4,371.2,384],"adjacentMultipliers":[96,102.4,108.8,115.2,121.6,128,136,144,152,160,166.4,172.8,179.2,185.6,192],"sourceSkillId":"100803","overrideReason":"必殺技の主対象#1と隣接対象#2を全15レベルで分離。"
+    },
+    {
+      "id":"100807","characterId":"1008","name":"特急ハーベスト","element":"Thunder","type":"additional","traceKey":"talent","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[80],"sourceSkillId":"100807","conditionText":"秘技で戦闘開始","overrideReason":"秘技の開幕ダメージ#1（80%）を独立登録。"
+    },
+    {
+      "id":"1008036","characterId":"1008","name":"狂者の制裁（星魂6・HP50%以下）","element":"Thunder","type":"ultimate","traceKey":"ultimate","target":"blast","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[192,204.8,217.6,230.4,243.2,256,272,288,304,320,332.8,345.6,358.4,371.2,384],"adjacentMultipliers":[192,204.8,217.6,230.4,243.2,256,272,288,304,320,332.8,345.6,358.4,371.2,384],"sourceSkillId":"100803","requiredEidolon":6,"hpPercentMaximum":50,"conditionText":"星魂6かつ現在HP50%以下","overrideReason":"星魂6で隣接倍率を主対象と同値にした必殺技。与ダメージ+20%は構造化補正で適用。"
+    },
+    {
+      "id":"100601","characterId":"1006","name":"|システム警告|","element":"Quantum","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"100601","variant":"previous","overrideReason":"強化前通常攻撃の第1パラメータを全10レベルで照合。"
+    },
+    {
+      "id":"100602","characterId":"1006","name":"変更を許可しますか？","element":"Quantum","type":"skill","traceKey":"skill","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[98,107.8,117.6,127.4,137.2,147,159.25,171.5,183.75,196,205.8,215.6,225.4,235.2,245],"sourceSkillId":"100602","variant":"previous","overrideReason":"強化前戦闘スキルの直接ダメージ#1を全15レベルで照合。耐性低下は構造化補正へ分離。"
+    },
+    {
+      "id":"100603","characterId":"1006","name":"|アカウントがBANされた|","element":"Quantum","type":"ultimate","traceKey":"ultimate","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[228,243.2,258.4,273.6,288.8,304,323,342,361,380,395.2,410.4,425.6,440.8,456],"sourceSkillId":"100603","variant":"previous","overrideReason":"強化前必殺技の単体直接ダメージ#1を全15レベルで照合。防御低下は構造化補正へ分離。"
+    },
+    {
+      "id":"100607","characterId":"1006","name":"|プロセス強制終了|","element":"Quantum","type":"additional","traceKey":"talent","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[80],"sourceSkillId":"100607","variant":"previous","conditionText":"秘技で戦闘開始","overrideReason":"強化前秘技の開幕ダメージ#1（80%）を独立登録。"
+    },
+    {
+      "id":"1100601","characterId":"1006","name":"|システム警告|","element":"Quantum","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"1100601","variant":"enhanced","overrideReason":"強化後通常攻撃の第1パラメータを全10レベルで照合。"
+    },
+    {
+      "id":"1100602","characterId":"1006","name":"変更を許可しますか？","element":"Quantum","type":"skill","traceKey":"skill","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[98,107.8,117.6,127.4,137.2,147,159.25,171.5,183.75,196,205.8,215.6,225.4,235.2,245],"sourceSkillId":"1100602","variant":"enhanced","overrideReason":"強化後戦闘スキルの直接ダメージ#1を全15レベルで照合。弱点優先仕様と耐性低下は補正へ分離。"
+    },
+    {
+      "id":"1100603","characterId":"1006","name":"|アカウントがBANされた|","element":"Quantum","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[228,243.2,258.4,273.6,288.8,304,323,342,361,380,395.2,410.4,425.6,440.8,456],"sourceSkillId":"1100603","variant":"enhanced","overrideReason":"強化後必殺技の全体直接ダメージ#1を全15レベルで照合。防御低下は構造化補正へ分離。"
+    },
+    {
+      "id":"1100607","characterId":"1006","name":"|プロセス強制終了|","element":"Quantum","type":"additional","traceKey":"talent","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[80],"sourceSkillId":"1100607","variant":"enhanced","conditionText":"秘技で戦闘開始","overrideReason":"強化後秘技の開幕ダメージ#1（80%）を独立登録。"
+    },
+    {
+      "id":"1006034","characterId":"1006","name":"バウンス攻撃・付加ダメージ","element":"Quantum","type":"additional","traceKey":"ultimate","target":"single","scalingStat":"atk","hitCount":1,"hitCountReference":"enemy.debuffCount","hitCountMaximum":5,"canCrit":true,"multipliers":[20],"sourceSkillId":"100604","requiredEidolon":4,"conditionText":"必殺技命中後、対象のデバフ数に応じて最大5回","overrideReason":"星魂4の攻撃力20%付加ダメージを敵デバフ数と最大5回へ明示的に接続。"
+    },
+    {
+      "id":"100501","characterId":"1005","name":"止まない夜の喧騒","element":"Thunder","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"100501","variant":"previous","overrideReason":"強化前通常攻撃の第1パラメータを全10レベルで照合。"
+    },
+    {
+      "id":"100502","characterId":"1005","name":"月明かりが撫でる連綿","element":"Thunder","type":"skill","traceKey":"skill","target":"blast","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[80,88,96,104,112,120,130,140,150,160,168,176,184,192,200],"adjacentMultipliers":[30,33,36,39,42,45,48.75,52.5,56.25,60,63,66,69,72,75],"sourceSkillId":"100502","variant":"previous","overrideReason":"強化前戦闘スキル。主対象#1と隣接#3を全15レベルで分離。起爆は別攻撃。"
+    },
+    {
+      "id":"1005021","characterId":"1005","name":"月明かりが撫でる連綿・持続ダメージ起爆","element":"Thunder","type":"dot","traceKey":"skill","target":"single","scalingStat":"dotBaseDamage","hitCount":1,"canCrit":false,"multipliers":[60,61.5,63,64.5,66,67.5,69.37,71.25,73.12,75,76.5,78,79.5,81,82.5],"sourceSkillId":"100502","variant":"previous","conditionText":"主対象に付与中の持続ダメージを起爆","overrideReason":"対象に付与された各持続ダメージの本来値合計に#2を乗算。専用入力を参照。"
+    },
+    {
+      "id":"100503","characterId":"1005","name":"悲劇最果ての顫音","element":"Thunder","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[48,51.2,54.4,57.6,60.8,64,68,72,76,80,83.2,86.4,89.6,92.8,96],"sourceSkillId":"100503","variant":"previous","overrideReason":"強化前必殺技の直接ダメージ#1を全15レベルで照合。感電と起爆は別攻撃。"
+    },
+    {
+      "id":"1005031","characterId":"1005","name":"悲劇最果ての顫音・感電","element":"Thunder","type":"dot","traceKey":"ultimate","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[116,126.88,137.75,148.63,159.5,175.81,197.56,224.75,257.37,290,304.14,318.27,332.41,346.55,360.69],"sourceSkillId":"100503","variant":"previous","conditionText":"カフカが付与した感電のターンダメージ","overrideReason":"強化前必殺技の感電倍率#4を全15レベルで独立計算。"
+    },
+    {
+      "id":"1005032","characterId":"1005","name":"悲劇最果ての顫音・持続ダメージ起爆","element":"Thunder","type":"dot","traceKey":"ultimate","target":"aoe","scalingStat":"dotBaseDamage","hitCount":1,"canCrit":false,"multipliers":[80,82,84,86,88,90,92.5,95,97.5,100,102,104,106,108,110],"sourceSkillId":"100503","variant":"previous","conditionText":"追加能力「苛み」解放後、対象の持続ダメージを起爆","overrideReason":"強化前必殺技#5。対象の本来の持続ダメージ合計を専用入力から参照。"
+    },
+    {
+      "id":"100504","characterId":"1005","name":"優しさもまた残酷","element":"Thunder","type":"followUp","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[42,51.8,61.6,71.4,81.2,91,103.25,115.5,127.75,140,149.8,159.6,169.4,179.2,189],"sourceSkillId":"100504","variant":"previous","conditionText":"他の味方が通常攻撃（カフカのターンごとに1回）","overrideReason":"強化前天賦追加攻撃の#1を全15レベルで照合。"
+    },
+    {
+      "id":"100507","characterId":"1005","name":"許しは慈悲に非ず・開幕ダメージ","element":"Thunder","type":"additional","traceKey":"talent","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50],"sourceSkillId":"100507","variant":"previous","conditionText":"秘技で戦闘開始","overrideReason":"強化前秘技の開幕ダメージ#3（50%）を独立登録。"
+    },
+    {
+      "id":"1100501","characterId":"1005","name":"止まない夜の喧騒","element":"Thunder","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"1100501","variant":"enhanced","overrideReason":"Ver.3.4強化後通常攻撃の第1パラメータを全10レベルで照合。"
+    },
+    {
+      "id":"1100502","characterId":"1005","name":"月明かりが撫でる連綿","element":"Thunder","type":"skill","traceKey":"skill","target":"blast","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[80,88,96,104,112,120,130,140,150,160,168,176,184,192,200],"adjacentMultipliers":[30,33,36,39,42,45,48.75,52.5,56.25,60,63,66,69,72,75],"sourceSkillId":"1100502","variant":"enhanced","overrideReason":"Ver.3.4強化後戦闘スキル。主対象#1と隣接#3を分離し、起爆は別攻撃。"
+    },
+    {
+      "id":"11005021","characterId":"1005","name":"月明かりが撫でる連綿・主対象起爆","element":"Thunder","type":"dot","traceKey":"skill","target":"single","scalingStat":"dotBaseDamage","hitCount":1,"canCrit":false,"multipliers":[60,61.5,63,64.5,66,67.5,69.37,71.25,73.12,75,76.5,78,79.5,81,82.5],"sourceSkillId":"1100502","variant":"enhanced","conditionText":"主対象に付与中の持続ダメージを起爆","overrideReason":"強化後戦闘スキル#2。主対象の本来の持続ダメージ合計を専用入力から参照。"
+    },
+    {
+      "id":"11005022","characterId":"1005","name":"月明かりが撫でる連綿・隣接対象起爆","element":"Thunder","type":"dot","traceKey":"skill","target":"adjacent","scalingStat":"dotBaseDamage","hitCount":1,"canCrit":false,"multipliers":[40,41,42,43,44,45,46.25,47.5,48.75,50,51,52,53,54,55],"sourceSkillId":"1100502","variant":"enhanced","conditionText":"隣接対象に付与中の持続ダメージを起爆","overrideReason":"強化後戦闘スキル#4。現在入力した対象の持続ダメージ合計を参照。"
+    },
+    {
+      "id":"1100503","characterId":"1005","name":"悲劇最果ての顫音","element":"Thunder","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[48,51.2,54.4,57.6,60.8,64,68,72,76,80,83.2,86.4,89.6,92.8,96],"sourceSkillId":"1100503","variant":"enhanced","overrideReason":"Ver.3.4強化後必殺技の直接ダメージ#1を全15レベルで照合。"
+    },
+    {
+      "id":"11005031","characterId":"1005","name":"悲劇最果ての顫音・感電","element":"Thunder","type":"dot","traceKey":"ultimate","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[116,126.88,137.75,148.63,159.5,175.81,197.56,224.75,257.37,290,304.14,318.27,332.41,346.55,360.69],"sourceSkillId":"1100503","variant":"enhanced","conditionText":"カフカが付与した感電のターンダメージ","overrideReason":"強化後必殺技の感電倍率#4を全15レベルで独立計算。"
+    },
+    {
+      "id":"11005032","characterId":"1005","name":"悲劇最果ての顫音・持続ダメージ起爆","element":"Thunder","type":"dot","traceKey":"ultimate","target":"aoe","scalingStat":"dotBaseDamage","hitCount":1,"canCrit":false,"multipliers":[100,102,104,106,108,110,112.5,115,117.5,120,122,124,126,128,130],"sourceSkillId":"1100503","variant":"enhanced","conditionText":"対象に付与中の全持続ダメージを起爆","overrideReason":"強化後必殺技#5。各対象の本来の持続ダメージ合計を専用入力から参照。"
+    },
+    {
+      "id":"1100504","characterId":"1005","name":"優しさもまた残酷","element":"Thunder","type":"followUp","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[42,51.8,61.6,71.4,81.2,91,103.25,115.5,127.75,140,149.8,159.6,169.4,179.2,189],"sourceSkillId":"1100504","variant":"enhanced","conditionText":"他の味方が攻撃（最大2回、カフカのターン終了時1回回復）","overrideReason":"強化後天賦追加攻撃の#1と発動回数#5を分離して照合。"
+    },
+    {
+      "id":"11005041","characterId":"1005","name":"いばら・追加攻撃による持続ダメージ起爆","element":"Thunder","type":"dot","traceKey":"talent","target":"single","scalingStat":"dotBaseDamage","hitCount":1,"canCrit":false,"multipliers":[80],"sourceSkillId":"11005103","variant":"enhanced","conditionText":"天賦の追加攻撃を行った時","overrideReason":"強化後追加能力「いばら」#1。対象の本来の持続ダメージ合計の80%。"
+    },
+    {
+      "id":"1100507","characterId":"1005","name":"許しは慈悲に非ず・開幕ダメージ","element":"Thunder","type":"additional","traceKey":"talent","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50],"sourceSkillId":"1100507","variant":"enhanced","conditionText":"秘技で戦闘開始","overrideReason":"強化後秘技の開幕ダメージ#3（50%）を独立登録。"
+    },
+    {
+      "id":"1005036","characterId":"1005","name":"悲劇最果ての顫音・感電（星魂6）","element":"Thunder","type":"dot","traceKey":"ultimate","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[272,282.88,293.75,304.63,315.5,331.81,353.56,380.75,413.37,446,460.14,474.27,488.41,502.55,516.69],"sourceSkillId":"100503","variant":"previous","requiredEidolon":6,"conditionText":"星魂6の感電","overrideReason":"強化前感電倍率#4へ星魂6の+156%を加算。"
+    },
+    {
+      "id":"11005036","characterId":"1005","name":"悲劇最果ての顫音・感電（星魂6）","element":"Thunder","type":"dot","traceKey":"ultimate","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[272,282.88,293.75,304.63,315.5,331.81,353.56,380.75,413.37,446,460.14,474.27,488.41,502.55,516.69],"sourceSkillId":"1100503","variant":"enhanced","requiredEidolon":6,"conditionText":"星魂6の感電","overrideReason":"強化後感電倍率#4へ星魂6の+156%を加算。"
+    },
+    {
+      "id":"100401","characterId":"1004","name":"重力制圧","element":"Imaginary","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"100401","variant":"previous","overrideReason":"強化前の通常攻撃。全10レベルの第1パラメータをID単位で照合。"
+    },
+    {
+      "id":"100402","characterId":"1004","name":"虚空断界","element":"Imaginary","type":"skill","traceKey":"skill","target":"bounce","scalingStat":"atk","hitCount":3,"canCrit":true,"multipliers":[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72,75.6,79.2,82.8,86.4,90],"sourceSkillId":"100402","variant":"previous","overrideReason":"強化前は初撃と追加2ヒットの計3ヒット。各ヒットの第1パラメータを全15レベルで照合。"
+    },
+    {
+      "id":"100403","characterId":"1004","name":"疑似ブラックホール","element":"Imaginary","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[90,96,102,108,114,120,127.5,135,142.5,150,156,162,168,174,180],"sourceSkillId":"100403","variant":"previous","overrideReason":"強化前必殺技の第1パラメータを全15レベルで照合。禁錮は攻撃倍率から分離。"
+    },
+    {
+      "id":"100404","characterId":"1004","name":"時空の歪み","element":"Imaginary","type":"additional","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[30,33,36,39,42,45,48.75,52.5,56.25,60,63,66,69,72,75],"sourceSkillId":"100404","variant":"previous","conditionText":"減速状態の敵に攻撃が命中","overrideReason":"強化前天賦の付加ダメージを独立攻撃として全15レベルで照合。"
+    },
+    {
+      "id":"1100401","characterId":"1004","name":"重力制圧","element":"Imaginary","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"1100401","variant":"enhanced","overrideReason":"Ver.4.2強化後の通常攻撃。全10レベルの第1パラメータを照合。"
+    },
+    {
+      "id":"1100402","characterId":"1004","name":"虚空断界","element":"Imaginary","type":"skill","traceKey":"skill","target":"bounce","scalingStat":"atk","hitCount":5,"canCrit":true,"multipliers":[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72,75.6,79.2,82.8,86.4,90],"sourceSkillId":"1100402","variant":"enhanced","overrideReason":"Ver.4.2強化後は初撃と追加4ヒットの計5ヒット。各ヒット倍率を全15レベルで照合。"
+    },
+    {
+      "id":"1100403","characterId":"1004","name":"疑似ブラックホール","element":"Imaginary","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[90,96,102,108,114,120,127.5,135,142.5,150,156,162,168,174,180],"sourceSkillId":"1100403","variant":"enhanced","overrideReason":"Ver.4.2強化後必殺技の第1パラメータを全15レベルで照合。無重力は構造化補正へ分離。"
+    },
+    {
+      "id":"1100404","characterId":"1004","name":"時空の歪み","element":"Imaginary","type":"additional","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,55,60,65,70,75,81.25,87.5,93.75,100,105,110,115,120,125],"sourceSkillId":"1100404","variant":"enhanced","conditionText":"減速状態の敵に攻撃が命中","overrideReason":"Ver.4.2強化後天賦の付加ダメージを独立攻撃として全15レベルで照合。"
+    },
+    {
+      "id":"1004011","characterId":"1004","name":"名の継承・通常攻撃付加ダメージ","element":"Imaginary","type":"additional","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[25,30,35,40,45,50,55,60,65,70],"sourceSkillId":"100401","requiredEidolon":1,"conditionText":"必殺技後の強化中（2回まで）","overrideReason":"星魂1。通常攻撃倍率の50%を全通常攻撃レベルで構造化。"
+    },
+    {
+      "id":"1004021","characterId":"1004","name":"名の継承・戦闘スキル付加ダメージ","element":"Imaginary","type":"additional","traceKey":"skill","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[28.8,31.68,34.56,37.44,40.32,43.2,46.8,50.4,54,57.6,60.48,63.36,66.24,69.12,72],"sourceSkillId":"100402","requiredEidolon":1,"conditionText":"必殺技後の強化中（2回まで）","overrideReason":"星魂1。戦闘スキル1ヒット倍率の80%を全レベルで構造化。"
+    },
+    {
+      "id":"110041021","characterId":"1004","name":"審判・通常攻撃付加ダメージ","element":"Imaginary","type":"additional","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[40,48,56,64,72,80,88,96,104,112],"sourceSkillId":"11004102","variant":"enhanced","conditionText":"通常攻撃を発動","overrideReason":"強化後追加能力「審判」。通常攻撃倍率の80%を全レベルで構造化。"
+    },
+    {
+      "id":"110041022","characterId":"1004","name":"審判・戦闘スキル付加ダメージ","element":"Imaginary","type":"additional","traceKey":"skill","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[43.2,47.52,51.84,56.16,60.48,64.8,70.2,75.6,81,86.4,90.72,95.04,99.36,103.68,108],"sourceSkillId":"11004102","variant":"enhanced","conditionText":"戦闘スキルを発動","overrideReason":"強化後追加能力「審判」。戦闘スキル1ヒット倍率の120%を全レベルで構造化。"
+    },
+    {
+      "id":"1004026","characterId":"1004","name":"虚空断界（星魂6）","element":"Imaginary","type":"skill","traceKey":"skill","target":"bounce","scalingStat":"atk","hitCount":4,"canCrit":true,"multipliers":[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72,75.6,79.2,82.8,86.4,90],"sourceSkillId":"100402","variant":"previous","requiredEidolon":6,"overrideReason":"強化前星魂6で追加1ヒット、計4ヒット。通常版とは別の選択肢として保持。"
+    },
+    {
+      "id":"11004026","characterId":"1004","name":"虚空断界（星魂6）","element":"Imaginary","type":"skill","traceKey":"skill","target":"bounce","scalingStat":"atk","hitCount":6,"canCrit":true,"multipliers":[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72,75.6,79.2,82.8,86.4,90],"sourceSkillId":"1100402","variant":"enhanced","requiredEidolon":6,"overrideReason":"強化後の5ヒットに星魂6の追加1ヒットを加えた計6ヒット。通常版とは別の選択肢として保持。"
+    },
+    {
+      "id": "110101", "characterId": "1101", "name": "疾風の弾丸", "element": "Wind", "type": "normal", "traceKey": "normal", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": true,
+      "multipliers": [50,60,70,80,90,100,110,120,130,140], "sourceSkillId": "110101",
+      "overrideReason": "通常攻撃の#1と全10レベルの第1パラメータを照合。追加能力「号令」の会心率100%は別補正。"
+    },
+    {
+      "id": "1101041", "characterId": "1101", "name": "不意打ち", "element": "Wind", "type": "followUp", "traceKey": "normal", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": true,
+      "multipliers": [40,48,56,64,72,80,88,96,104,112], "sourceSkillId": "110104", "requiredEidolon": 4,
+      "conditionText": "他の味方が風弱点の敵へ通常攻撃した後（ブローニャのターンごとに1回）",
+      "overrideReason": "星魂4。通常攻撃倍率の80%として全通常攻撃レベルを算出。"
+    },
+    {
+      "id": "130301", "characterId": "1303", "name": "幽蘭の調べ", "element": "Ice", "type": "normal", "traceKey": "normal", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": true,
+      "multipliers": [50,60,70,80,90,100,110,120,130,140], "sourceSkillId": "130301",
+      "overrideReason": "通常攻撃の#1と全10レベルの第1パラメータを照合。"
+    },
+    {
+      "id": "100101",
+      "characterId": "1001",
+      "name": "極寒の弓矢",
+      "element": "Ice",
+      "type": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "variant": "previous",
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140
+      ],
+      "sourceSkillId": "100101",
+      "overrideReason": "既存の検証済み倍率を優先"
+    },
+    {
+      "id": "100103",
+      "characterId": "1001",
+      "name": "氷刻矢雨の時",
+      "element": "Ice",
+      "type": "ultimate",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "variant": "previous",
+      "multipliers": [
+        90,
+        96,
+        102,
+        108,
+        114,
+        120,
+        127.5,
+        135,
+        142.5,
+        150,
+        156,
+        162,
+        168,
+        174,
+        180
+      ],
+      "sourceSkillId": "100103",
+      "overrideReason": "既存の検証済み倍率を優先"
+    },
+    {
+      "id": "100104",
+      "characterId": "1001",
+      "name": "少女の特権",
+      "element": "Ice",
+      "type": "followUp",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "variant": "previous",
+      "multipliers": [
+        50,
+        55,
+        60,
+        65,
+        70,
+        75,
+        81.25,
+        87.5,
+        93.75,
+        100,
+        105,
+        110,
+        115,
+        120,
+        125
+      ],
+      "sourceSkillId": "100104",
+      "overrideReason": "既存の検証済み倍率を優先"
+    },
+    {
+      "id": "100201",
+      "characterId": "1002",
+      "name": "雲騎槍術・朔風",
+      "element": "Wind",
+      "type": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140
+      ],
+      "sourceSkillId": "100201",
+      "overrideReason": "既存の検証済み倍率を優先"
+    },
+    {
+      "id": "100202",
+      "characterId": "1002",
+      "name": "雲騎槍術・疾雨",
+      "element": "Wind",
+      "type": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        130,
+        143,
+        156,
+        169,
+        182,
+        195,
+        211.25,
+        227.5,
+        243.75,
+        260,
+        273,
+        286,
+        299,
+        312,
+        325
+      ],
+      "sourceSkillId": "100202",
+      "overrideReason": "既存の検証済み倍率を優先"
+    },
+    {
+      "id": "100203",
+      "characterId": "1002",
+      "name": "洞天幻化、長夢一覚",
+      "element": "Wind",
+      "type": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        240,
+        256,
+        272,
+        288,
+        304,
+        320,
+        340,
+        360,
+        380,
+        400,
+        416,
+        432,
+        448,
+        464,
+        480
+      ],
+      "sourceSkillId": "100203",
+      "condition": {
+        "id": "target-slowed",
+        "label": "敵が減速状態",
+        "bonusMultipliers": [
+          72,
+          76.8,
+          81.6,
+          86.4,
+          91.2,
+          96,
+          102,
+          108,
+          114,
+          120,
+          124.8,
+          129.6,
+          134.4,
+          139.2,
+          144
+        ]
+      },
+      "overrideReason": "既存の検証済み倍率を優先"
+    },
+    {
+      "id": "100301",
+      "characterId": "1003",
+      "name": "武装調律",
+      "element": "Fire",
+      "type": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140
+      ],
+      "sourceSkillId": "100301",
+      "overrideReason": "既存の検証済み倍率を優先"
+    },
+    {
+      "id": "100302",
+      "characterId": "1003",
+      "name": "溶核爆裂",
+      "element": "Fire",
+      "type": "skill",
+      "target": "blast",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        162.5,
+        175,
+        187.5,
+        200,
+        210,
+        220,
+        230,
+        240,
+        250
+      ],
+      "sourceSkillId": "100302",
+      "adjacentMultipliers": [
+        40,
+        44,
+        48,
+        52,
+        56,
+        60,
+        65,
+        70,
+        75,
+        80,
+        84,
+        88,
+        92,
+        96,
+        100
+      ],
+      "overrideReason": "既存の検証済み倍率を優先"
+    },
+    {
+      "id": "100303",
+      "characterId": "1003",
+      "name": "天墜の火",
+      "element": "Fire",
+      "type": "ultimate",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        138,
+        147.2,
+        156.4,
+        165.6,
+        174.8,
+        184,
+        195.5,
+        207,
+        218.5,
+        230,
+        239.2,
+        248.4,
+        257.6,
+        266.8,
+        276
+      ],
+      "sourceSkillId": "100303",
+      "overrideReason": "既存の検証済み倍率を優先"
+    },
+    {
+      "id": "100304",
+      "characterId": "1003",
+      "name": "乗勝追撃",
+      "element": "Fire",
+      "type": "followUp",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        70,
+        77,
+        84,
+        91,
+        98,
+        105,
+        113.75,
+        122.5,
+        131.25,
+        140,
+        147,
+        154,
+        161,
+        168,
+        175
+      ],
+      "sourceSkillId": "100304",
+      "overrideReason": "既存の検証済み倍率を優先"
+    },
+    {
+      "id": "110201",
+      "characterId": "1102",
+      "name": "強襲",
+      "element": "Quantum",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "variant": "previous",
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140
+      ],
+      "sourceSkillId": "110201",
+      "overrideReason": "既存の検証済み倍率を優先"
+    },
+    {
+      "id": "110202",
+      "characterId": "1102",
+      "name": "還刃",
+      "element": "Quantum",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "variant": "previous",
+      "multipliers": [
+        110,
+        121,
+        132,
+        143,
+        154,
+        165,
+        178.75,
+        192.5,
+        206.25,
+        220,
+        231,
+        242,
+        253,
+        264,
+        275
+      ],
+      "sourceSkillId": "110202",
+      "overrideReason": "既存の検証済み倍率を優先"
+    },
+    {
+      "id": "110203",
+      "characterId": "1102",
+      "name": "乱れ蝶",
+      "element": "Quantum",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "variant": "previous",
+      "multipliers": [
+        255,
+        272,
+        289,
+        306,
+        323,
+        340,
+        361.25,
+        382.5,
+        403.75,
+        425,
+        442,
+        459,
+        476,
+        493,
+        510
+      ],
+      "sourceSkillId": "110203",
+      "overrideReason": "既存の検証済み倍率を優先"
+    },
+    {
+      "id": "1110201",
+      "characterId": "1102",
+      "name": "強襲",
+      "element": "Quantum",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "variant": "enhanced",
+      "multipliers": [50, 60, 70, 80, 90, 100, 110, 120, 130, 140],
+      "sourceSkillId": "1110201",
+      "overrideReason": "強化後通常攻撃の攻撃力倍率を全10レベルで照合。"
+    },
+    {
+      "id": "1110202",
+      "characterId": "1102",
+      "name": "還刃",
+      "element": "Quantum",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "variant": "enhanced",
+      "multipliers": [180, 198, 216, 234, 252, 270, 292.5, 315, 337.5, 360, 378, 396, 414, 432, 450],
+      "sourceSkillId": "1110202",
+      "conditionText": "敵HP50%以下で自動発動する場合も同じ倍率を使用",
+      "overrideReason": "強化後戦闘スキルの攻撃力倍率を全15レベルで照合。速度上昇と自動発動条件は倍率から分離。"
+    },
+    {
+      "id": "1110203",
+      "characterId": "1102",
+      "name": "乱れ蝶",
+      "element": "Quantum",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "variant": "enhanced",
+      "multipliers": [360, 396, 432, 468, 504, 540, 585, 630, 675, 720, 756, 792, 828, 864, 900],
+      "sourceSkillId": "1110203",
+      "overrideReason": "強化後必殺技の攻撃力倍率を全15レベルで照合。増幅状態は構造化補正へ分離。"
+    },
+    {
+      "id": "1110207",
+      "characterId": "1102",
+      "name": "幻身・先制戦闘スキル",
+      "element": "Quantum",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "critRateOverride": 100,
+      "variant": "enhanced",
+      "multipliers": [180, 198, 216, 234, 252, 270, 292.5, 315, 337.5, 360, 378, 396, 414, 432, 450],
+      "sourceSkillId": "1110207",
+      "conditionText": "秘技で先制攻撃して戦闘に入る時（必ず会心）",
+      "overrideReason": "強化後秘技は選択中の戦闘スキル倍率と同値で、ゲームデータが明記する確定会心を攻撃レコードへ保持。"
+    },
+    {
+      "id": "1102036",
+      "characterId": "1102",
+      "name": "離析・乱れ蝶付加ダメージ",
+      "element": "Quantum",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "variant": "previous",
+      "requiredEidolon": 6,
+      "multipliers": [38.25, 40.8, 43.35, 45.9, 48.45, 51, 54.1875, 57.375, 60.5625, 63.75, 66.3, 68.85, 71.4, 73.95, 76.5],
+      "sourceSkillId": "110206",
+      "conditionText": "必殺技後1ターンの乱れ蝶状態を味方が攻撃",
+      "overrideReason": "星魂6の付加ダメージを強化前必殺技倍率の15%として全レベルで構造化。"
+    },
+    {
+      "id": "11102036",
+      "characterId": "1102",
+      "name": "離析・乱れ蝶付加ダメージ",
+      "element": "Quantum",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "variant": "enhanced",
+      "requiredEidolon": 6,
+      "multipliers": [54, 59.4, 64.8, 70.2, 75.6, 81, 87.75, 94.5, 101.25, 108, 113.4, 118.8, 124.2, 129.6, 135],
+      "sourceSkillId": "110206",
+      "conditionText": "必殺技後1ターンの乱れ蝶状態を味方が攻撃",
+      "overrideReason": "星魂6の付加ダメージを強化後必殺技倍率の15%として全レベルで構造化。"
+    },
+    {
+      "id": "110301",
+      "characterId": "1103",
+      "name": "雷鳴音階",
+      "element": "Thunder",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [50, 60, 70, 80, 90, 100, 110, 120, 130, 140],
+      "sourceSkillId": "110301",
+      "overrideReason": "通常攻撃の攻撃力倍率を全10レベルで照合。"
+    },
+    {
+      "id": "110302",
+      "characterId": "1103",
+      "name": "スパーク",
+      "element": "Thunder",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "blast",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [70,77,84,91,98,105,113.75,122.5,131.25,140,147,154,161,168,175],
+      "adjacentMultipliers": [30,33,36,39,42,45,48.75,52.5,56.25,60,63,66,69,72,75],
+      "sourceSkillId": "110302",
+      "overrideReason": "戦闘スキルの主対象と隣接対象の攻撃力倍率を全15レベルで分離して照合。"
+    },
+    {
+      "id": "1103021",
+      "characterId": "1103",
+      "name": "スパーク・感電",
+      "element": "Thunder",
+      "type": "dot",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [40,44,48,52,56,62,70,80,92,104,109.2,114.4,119.6,124.8,130],
+      "sourceSkillId": "110302",
+      "conditionText": "戦闘スキルで付与した感電状態（2ターン）",
+      "overrideReason": "戦闘スキル本体から分離し、会心しない感電持続ダメージを全15レベルで照合。"
+    },
+    {
+      "id": "110303",
+      "characterId": "1103",
+      "name": "機械ブーム登場！",
+      "element": "Thunder",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [108,115.2,122.4,129.6,136.8,144,153,162,171,180,187.2,194.4,201.6,208.8,216],
+      "sourceSkillId": "110303",
+      "overrideReason": "必殺技の全体攻撃倍率を全15レベルで照合。感電延長は構造化補正へ分離。"
+    },
+    {
+      "id": "110304",
+      "characterId": "1103",
+      "name": "情熱コード",
+      "element": "Thunder",
+      "type": "talent",
+      "traceKey": "talent",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72,75.6,79.2,82.8,86.4,90],
+      "sourceSkillId": "110304",
+      "conditionText": "攻撃後、感電状態の敵全体へ発生",
+      "overrideReason": "感電状態の敵全体へ発生する天賦付加ダメージを全15レベルで照合。"
+    },
+    {
+      "id": "110307",
+      "characterId": "1103",
+      "name": "おやすみ、ベロブルグ・先制ダメージ",
+      "element": "Thunder",
+      "type": "technique",
+      "traceKey": "technique",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [50],
+      "sourceSkillId": "110307",
+      "conditionText": "秘技で敵を攻撃して戦闘に入る時",
+      "overrideReason": "秘技のランダムな敵単体への攻撃力50%ダメージを独立登録。"
+    },
+    {
+      "id": "1103071",
+      "characterId": "1103",
+      "name": "おやすみ、ベロブルグ・感電",
+      "element": "Thunder",
+      "type": "dot",
+      "traceKey": "technique",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [50],
+      "sourceSkillId": "110307",
+      "conditionText": "秘技で付与した感電状態（3ターン）",
+      "overrideReason": "秘技の敵全体への感電持続ダメージを会心しない独立攻撃として登録。"
+    },
+    {
+      "id": "1103011",
+      "characterId": "1103",
+      "name": "いつまでも鳴り響け・隣接ダメージ",
+      "element": "Thunder",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "adjacent",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "requiredEidolon": 1,
+      "multipliers": [30,36,42,48,54,60,66,72,78,84],
+      "sourceSkillId": "110301",
+      "conditionText": "星魂1以上で通常攻撃を発動",
+      "overrideReason": "星魂1の隣接対象ダメージを通常攻撃倍率の60%として全10レベルで構造化。"
+    },
+    {
+      "id": "110401",
+      "characterId": "1104",
+      "name": "一意の拳",
+      "element": "Ice",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [50,60,70,80,90,100,110,120,130,140],
+      "sourceSkillId": "110401",
+      "overrideReason": "通常攻撃の攻撃力倍率を全10レベルで照合。"
+    },
+    {
+      "id": "110402",
+      "characterId": "1104",
+      "name": "震撼の一撃",
+      "element": "Ice",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [100,110,120,130,140,150,162.5,175,187.5,200,210,220,230,240,250],
+      "sourceSkillId": "110402",
+      "overrideReason": "戦闘スキル本体の攻撃力倍率を凍結付加ダメージから分離し、全15レベルで照合。"
+    },
+    {
+      "id": "1104021",
+      "characterId": "1104",
+      "name": "震撼の一撃・凍結付加ダメージ",
+      "element": "Ice",
+      "type": "additional",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [30,33,36,39,42,45,48.75,52.5,56.25,60,63,66,69,72,75],
+      "sourceSkillId": "110402",
+      "conditionText": "戦闘スキルで付与した凍結状態の敵にターンが回る時",
+      "overrideReason": "凍結状態の敵に発生する会心しない氷属性付加ダメージを独立攻撃として全15レベルで照合。"
+    },
+    {
+      "id": "110501",
+      "characterId": "1105",
+      "name": "慈心の裏側",
+      "element": "Physical",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [50,60,70,80,90,100,110,120,130,140],
+      "sourceSkillId": "110501",
+      "overrideReason": "通常攻撃の攻撃力倍率を全10レベルで照合。"
+    },
+    {
+      "id": "110507",
+      "characterId": "1105",
+      "name": "催眠研究・先制ダメージ",
+      "element": "Physical",
+      "type": "technique",
+      "traceKey": "technique",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [80],
+      "sourceSkillId": "110507",
+      "conditionText": "秘技で敵を攻撃して戦闘に入る時",
+      "overrideReason": "秘技のランダムな敵単体への攻撃力80%物理ダメージを虚弱効果から分離。"
+    },
+    {
+      "id": "1105016",
+      "characterId": "1105",
+      "name": "医者仁心・最大HP付加ダメージ",
+      "element": "Physical",
+      "type": "additional",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "hp",
+      "hitCount": 1,
+      "canCrit": true,
+      "requiredEidolon": 6,
+      "multipliers": [40],
+      "sourceSkillId": "110506",
+      "conditionText": "星魂6以上で通常攻撃を行う時",
+      "overrideReason": "星魂6の最大HP40%参照物理付加ダメージを通常攻撃本体から分離。"
+    },
+    {
+      "id": "110601",
+      "characterId": "1106",
+      "name": "氷点狙撃",
+      "element": "Ice",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [50,60,70,80,90,100,110,120,130,140],
+      "sourceSkillId": "110601",
+      "overrideReason": "通常攻撃の攻撃力倍率を全10レベルで照合。"
+    },
+    {
+      "id": "110602",
+      "characterId": "1106",
+      "name": "低温妨害",
+      "element": "Ice",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [105,115.5,126,136.5,147,157.5,170.63,183.75,196.88,210,220.5,231,241.5,252,262.5],
+      "sourceSkillId": "110602",
+      "overrideReason": "戦闘スキル本体の攻撃力倍率をバフ解除効果から分離し、全15レベルで照合。"
+    },
+    {
+      "id": "110603",
+      "characterId": "1106",
+      "name": "領域制圧",
+      "element": "Ice",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [60,64,68,72,76,80,85,90,95,100,104,108,112,116,120],
+      "sourceSkillId": "110603",
+      "overrideReason": "必殺技の敵全体への攻撃力倍率を防御力ダウン効果から分離し、全15レベルで照合。"
+    },
+    {
+      "id": "110607",
+      "characterId": "1106",
+      "name": "先手必勝・先制ダメージ",
+      "element": "Ice",
+      "type": "technique",
+      "traceKey": "technique",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [80],
+      "sourceSkillId": "110607",
+      "conditionText": "秘技で敵を攻撃して戦闘に入る時",
+      "overrideReason": "秘技のランダムな敵単体への攻撃力80%氷属性ダメージを防御力ダウンから分離。"
+    },
+    {
+      "id": "1106016",
+      "characterId": "1106",
+      "name": "疲弱追撃・付加ダメージ",
+      "element": "Ice",
+      "type": "additional",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "requiredEidolon": 6,
+      "enemyDebuffMinimum": 1,
+      "multipliers": [40],
+      "sourceSkillId": "110606",
+      "conditionText": "星魂6以上かつ攻撃後の敵がデバフ状態",
+      "overrideReason": "星魂6の攻撃力40%参照氷属性付加ダメージを敵デバフ数条件付きの独立攻撃として登録。"
+    },
+    {
+      "id":"110701","characterId":"1107","name":"クラーラもお手伝いします","element":"Physical","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"110701","overrideReason":"通常攻撃の攻撃力倍率を全10レベルで照合。"
+    },
+    {
+      "id":"110702","characterId":"1107","name":"スヴァローグが見てる・反撃の印なし","element":"Physical","type":"skill","traceKey":"skill","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[60,66,72,78,84,90,97.5,105,112.5,120,126,132,138,144,150],"sourceSkillId":"110702","conditionText":"対象に反撃の印がない時","overrideReason":"戦闘スキルの基礎全体ダメージを反撃の印による追加倍率から分離。"
+    },
+    {
+      "id":"1107021","characterId":"1107","name":"スヴァローグが見てる・反撃の印あり","element":"Physical","type":"skill","traceKey":"skill","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[120,132,144,156,168,180,195,210,225,240,252,264,276,288,300],"sourceSkillId":"110702","conditionText":"対象に反撃の印がある時","overrideReason":"基礎倍率と反撃の印対象への同値追加倍率を合算した全15レベル版。"
+    },
+    {
+      "id":"110704","characterId":"1107","name":"家族なんだから・カウンター","element":"Physical","type":"followUp","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[80,88,96,104,112,120,130,140,150,160,168,176,184,192,200],"sourceSkillId":"110704","conditionText":"クラーラが攻撃を受けた後","overrideReason":"天賦カウンターの攻撃力倍率を全15レベルで照合。"
+    },
+    {
+      "id":"1107031","characterId":"1107","name":"命令じゃなくて約束・強化カウンター","element":"Physical","type":"followUp","traceKey":"talent","target":"blast","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[176,190.4,204.8,219.2,233.6,248,266,284,302,320,334.4,348.8,363.2,377.6,392],"adjacentMultipliers":[88,95.2,102.4,109.6,116.8,124,133,142,151,160,167.2,174.4,181.6,188.8,196],"multiplierComponents":[{"traceKey":"talent","values":[80,88,96,104,112,120,130,140,150,160,168,176,184,192,200]},{"traceKey":"ultimate","values":[96,102.4,108.8,115.2,121.6,128,136,144,152,160,166.4,172.8,179.2,185.6,192]}],"adjacentMultiplierRatio":50,"sourceSkillId":"110703","conditionText":"必殺技後の強化カウンター（通常2回、星魂6で3回）","overrideReason":"天賦カウンター倍率と必殺技の倍率加算を別々の軌跡レベルから合算し、隣接倍率を主対象の50%として構造化。"
+    },
+    {
+      "id":"110801","characterId":"1108","name":"眩い刃紋","element":"Wind","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"110801","overrideReason":"通常攻撃の攻撃力倍率を全10レベルで照合。"
+    },
+    {
+      "id":"110802","characterId":"1108","name":"反復横跳びの愛","element":"Wind","type":"skill","traceKey":"skill","target":"bounce","scalingStat":"atk","hitCount":5,"hitCountAtEidolon":{"rank":1,"value":6},"canCrit":true,"multipliers":[28,30.8,33.6,36.4,39.2,42,45.5,49,52.5,56,58.8,61.6,64.4,67.2,70],"sourceSkillId":"110802","overrideReason":"初撃と追加4ヒットの同一単発倍率を保持し、星魂1では追加1ヒットを加えて合計6ヒットにする。"
+    },
+    {
+      "id":"110803","characterId":"1108","name":"サプライズボックス","element":"Wind","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[96,102.4,108.8,115.2,121.6,128,136,144,152,160,166.4,172.8,179.2,185.6,192],"sourceSkillId":"110803","overrideReason":"必殺技の敵全体直接ダメージを持続ダメージ被ダメージ増加から分離。"
+    },
+    {
+      "id":"110804","characterId":"1108","name":"風を切り裂く匕首・風化","element":"Wind","type":"dot","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"hitCountInputKey":"sampo-wind-shear-stacks","hitCountMinimum":0,"hitCountMaximum":5,"hitCountDefault":0,"canCrit":false,"multipliers":[20,22,24,26,28,31,35,40,46,52,54.6,57.2,59.8,62.4,65],"sourceSkillId":"110804","conditionText":"補正条件で指定した風化層数分の1ターンダメージ","overrideReason":"天賦の1層あたり風化倍率を全15レベルで保持し、補正条件の0～5層をヒット数として乗算。"
+    },
+    {
+      "id":"1108044","characterId":"1108","name":"愛する程恨む・風化起爆","element":"Wind","type":"dot","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"hitCountInputKey":"sampo-wind-shear-stacks","hitCountMinimum":0,"hitCountMaximum":5,"hitCountDefault":0,"canCrit":false,"requiredEidolon":4,"modifierInputKey":"sampo-wind-shear-stacks","modifierInputMinimum":5,"multiplierAdditionScale":0.08,"multipliers":[1.6,1.76,1.92,2.08,2.24,2.48,2.8,3.2,3.68,4.16,4.368,4.576,4.784,4.992,5.2],"sourceSkillId":"110804","conditionText":"星魂4以上で風化5層以上の敵へ戦闘スキルが命中","overrideReason":"各風化層の本来ダメージ8%を独立起爆として登録。星魂6の倍率加算も8%へ縮小して適用。"
+    },
+    {
+      "id": "140701",
+      "characterId": "1407",
+      "name": "哀悼、死海の小波",
+      "element": "Quantum",
+      "type": "normal",
+      "target": "single",
+      "scalingStat": "hp",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [25, 30, 35, 40, 45, 50, 55, 60, 65, 70],
+      "sourceSkillId": "140701",
+      "overrideReason": "最大HP参照の単体通常攻撃。説明文の#1と全レベルの第1パラメータを照合。"
+    },
+    {
+      "id": "140702",
+      "characterId": "1407",
+      "name": "沈黙、幽蝶の慈しみ",
+      "element": "Quantum",
+      "type": "skill",
+      "target": "blast",
+      "scalingStat": "hp",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [25, 27.5, 30, 32.5, 35, 37.5, 40.62, 43.75, 46.88, 50, 52.5, 55, 57.5, 60, 62.5],
+      "adjacentMultipliers": [15, 16.5, 18, 19.5, 21, 22.5, 24.37, 26.25, 28.12, 30, 31.5, 33, 34.5, 36, 37.5],
+      "sourceSkillId": "140702",
+      "overrideReason": "最大HP参照の拡散攻撃。主対象#2と隣接対象#3を全レベルで分離して照合。"
+    },
+    {
+      "id": "1140701",
+      "characterId": "1407",
+      "name": "冥茫裂く爪痕",
+      "element": "Quantum",
+      "type": "memospriteSkill",
+      "target": "aoe",
+      "scalingStat": "hp",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [20, 24, 28, 32, 36, 40, 44, 48, 52, 56],
+      "sourceSkillId": "1140701",
+      "overrideReason": "キャストリス最大HP参照の記憶の精霊全体攻撃。説明文の#1を照合。"
+    },
+    {
+      "id": "1140706",
+      "characterId": "1407",
+      "name": "幽墟奪略の晦翼",
+      "element": "Quantum",
+      "type": "memospriteTalent",
+      "target": "bounce",
+      "scalingStat": "hp",
+      "hitCount": 6,
+      "canCrit": true,
+      "multipliers": [20, 24, 28, 32, 36, 40, 44, 48, 52, 56],
+      "sourceSkillId": "1140706",
+      "overrideReason": "キャストリス最大HP参照の6ヒット記憶の精霊天賦。倍率#1と回数#2を照合。"
+    },
+    {
+      "id": "110901", "characterId": "1109", "name": "おい！火の元に気をつけな", "element": "Fire", "type": "normal", "traceKey": "normal", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": true,
+      "multipliers": [50,60,70,80,90,100,110,120,130,140], "sourceSkillId": "110901", "overrideReason": "通常攻撃の攻撃力倍率を全10レベルで照合。"
+    },
+    {
+      "id": "110902", "characterId": "1109", "name": "おい！フックを覚えてるか？", "element": "Fire", "type": "skill", "traceKey": "skill", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": true,
+      "multipliers": [120,132,144,156,168,180,195,210,225,240,252,264,276,288,300], "sourceSkillId": "110902", "overrideReason": "通常戦闘スキルの直接ダメージを燃焼から分離。"
+    },
+    {
+      "id": "1109021", "characterId": "1109", "name": "おい！フックを覚えてるか？・燃焼", "element": "Fire", "type": "dot", "traceKey": "skill", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": false,
+      "multipliers": [25,27.5,30,32.5,35,38.75,43.75,50,57.5,65,68.25,71.5,74.75,78,81.25], "sourceSkillId": "110902", "conditionText": "戦闘スキルで付与した燃焼の1ターンダメージ", "overrideReason": "燃焼DoTを非会心の独立攻撃として登録。"
+    },
+    {
+      "id": "110909", "characterId": "1109", "name": "おい！フックを覚えてるか？・強化", "element": "Fire", "type": "enhancedSkill", "traceKey": "skill", "target": "blast", "scalingStat": "atk", "hitCount": 1, "canCrit": true,
+      "multipliers": [140,154,168,182,196,210,227.5,245,262.5,280,294,308,322,336,350], "adjacentMultipliers": [40,44,48,52,56,60,65,70,75,80,84,88,92,96,100], "sourceSkillId": "110909", "overrideReason": "必殺技後の強化戦闘スキルを主対象と隣接倍率に分離。"
+    },
+    {
+      "id": "110903", "characterId": "1109", "name": "ドカン！飛んでけ花火！", "element": "Fire", "type": "ultimate", "traceKey": "ultimate", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": true,
+      "multipliers": [240,256,272,288,304,320,340,360,380,400,416,432,448,464,480], "sourceSkillId": "110903", "overrideReason": "必殺技の単体直接ダメージを全15レベルで照合。"
+    },
+    {
+      "id": "110904", "characterId": "1109", "name": "はっ！火に油を注ぐ・付加ダメージ", "element": "Fire", "type": "additional", "traceKey": "talent", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": true, "modifierInputKey": "hook-enemy-burning", "modifierInputMinimum": 1,
+      "multipliers": [50,55,60,65,70,75,81.25,87.5,93.75,100,105,110,115,120,125], "sourceSkillId": "110904", "conditionText": "燃焼状態の敵を攻撃", "overrideReason": "天賦の付加ダメージを燃焼条件付き独立攻撃として登録。"
+    },
+    {
+      "id": "110907", "characterId": "1109", "name": "ほら！滅茶苦茶になってる", "element": "Fire", "type": "technique", "traceKey": "technique", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": true,
+      "multipliers": [50], "sourceSkillId": "110907", "overrideReason": "秘技の直接ダメージを燃焼から分離。"
+    },
+    {
+      "id": "1109071", "characterId": "1109", "name": "ほら！滅茶苦茶になってる・燃焼", "element": "Fire", "type": "dot", "traceKey": "technique", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": false,
+      "multipliers": [50], "sourceSkillId": "110907", "conditionText": "秘技で付与した燃焼の1ターンダメージ", "overrideReason": "秘技燃焼DoTを非会心の独立攻撃として登録。"
+    },
+    {
+      "id": "111001", "characterId": "1110", "name": "アイスクライミングテクニック", "element": "Quantum", "type": "normal", "traceKey": "normal", "target": "single", "scalingStat": "hp", "hitCount": 1, "canCrit": true,
+      "multipliers": [25,30,35,40,45,50,55,60,65,70], "sourceSkillId": "111001", "overrideReason": "通常攻撃が攻撃力ではなくリンクス自身の最大HPを参照することを全10レベルで照合。"
+    },
+    {
+      "id":"111101","characterId":"1111","name":"裂地拳","element":"Physical","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"111101","overrideReason":"通常攻撃の攻撃力倍率を全10レベルで照合。"
+    },
+    {
+      "id":"111102","characterId":"1111","name":"裂創拳・直接ダメージ","element":"Physical","type":"skill","traceKey":"skill","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[60,66,72,78,84,90,97.5,105,112.5,120,126,132,138,144,150],"sourceSkillId":"111102","overrideReason":"戦闘スキルの直接ダメージを裂創DoTから分離。"
+    },
+    {
+      "id":"1111021","characterId":"1111","name":"裂創拳・裂創","element":"Physical","type":"dot","traceKey":"skill","formulaTraceKey":"skill","target":"single","scalingStat":"enemyHp","damageFormula":"enemyHpCappedByAtk","hitCount":1,"canCrit":false,"multipliers":[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],"enemyHpPercentMultipliers":[24,24,24,24,24,24,24,24,24,24,24,24,24,24,24],"atkCapMultipliers":[130,143,156,169,182,201.5,227.5,260,299,338,354.9,371.8,388.7,405.6,422.5],"sourceSkillId":"111102","conditionText":"戦闘スキルで付与した裂創の1ターンダメージ","overrideReason":"敵最大HP24%とルカ攻撃力上限の小さい方を専用式で計算。"
+    },
+    {
+      "id":"111103","characterId":"1111","name":"勝利の一撃・直接ダメージ","element":"Physical","type":"ultimate","traceKey":"ultimate","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[198,211.2,224.4,237.6,250.8,264,280.5,297,313.5,330,343.2,356.4,369.6,382.8,396],"sourceSkillId":"111103","overrideReason":"必殺技の直接ダメージを被ダメージ増加から分離。"
+    },
+    {
+      "id":"1111081","characterId":"1111","name":"裂地砕天拳・裂地拳3段","element":"Physical","type":"enhancedNormal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":3,"canCrit":true,"multipliers":[10,12,14,16,18,20,22,24,26,28],"modifierInputKey":"luka-fighting-will-stacks","modifierInputMinimum":2,"sourceSkillId":"111108","conditionText":"闘志2層を消費して強化通常攻撃を発動","overrideReason":"強化通常攻撃の裂地拳を1段倍率×3段として砕天拳から分離。"
+    },
+    {
+      "id":"1111082","characterId":"1111","name":"裂地砕天拳・砕天拳","element":"Physical","type":"enhancedNormal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[40,48,56,64,72,80,88,96,104,112],"modifierInputKey":"luka-fighting-will-stacks","modifierInputMinimum":2,"sourceSkillId":"111108","conditionText":"闘志2層を消費して強化通常攻撃を発動","overrideReason":"強化通常攻撃の最終段を裂地拳3段から分離。"
+    },
+    {
+      "id":"111108","characterId":"1111","name":"裂地砕天拳・統合レコード","element":"Physical","type":"enhancedNormal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[70,84,98,112,126,140,154,168,182,196],"hidden":true,"sourceSkillId":"111108","overrideReason":"生成攻撃IDを確認済みとして保持するが、実画面では裂地拳3段と砕天拳を1111081/1111082へ分離して表示する。"
+    },
+    {
+      "id":"11111031","characterId":"1111","name":"闘志粉砕・追加裂地拳（期待値）","element":"Physical","type":"enhancedNormal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[15,18,21,24,27,30,33,36,39,42],"modifierInputKey":"luka-fighting-will-stacks","modifierInputMinimum":2,"sourceSkillId":"1111103","conditionText":"裂地拳3段それぞれの50%追加発動を平均1.5段として表示","overrideReason":"追加能力の独立50%判定3回を期待値1.5段として別カード化し、確定3段へ混ぜない。"
+    },
+    {
+      "id":"1111041","characterId":"1111","name":"飛び散る火花・裂創起爆","element":"Physical","type":"dot","traceKey":"talent","formulaTraceKey":"skill","target":"single","scalingStat":"enemyHp","damageFormula":"enemyHpCappedByAtk","hitCount":1,"canCrit":false,"multipliers":[68,69.7,71.4,73.1,74.8,76.5,78.63,80.75,82.87,85,86.7,88.4,90.1,91.8,93.5],"enemyHpPercentMultipliers":[24,24,24,24,24,24,24,24,24,24,24,24,24,24,24],"atkCapMultipliers":[130,143,156,169,182,201.5,227.5,260,299,338,354.9,371.8,388.7,405.6,422.5],"modifierConditions":[{"inputKey":"luka-fighting-will-stacks","minimum":2},{"inputKey":"luka-enemy-bleeding","minimum":1}],"sourceSkillId":"111104","conditionText":"闘志2層以上で裂創状態の敵へ強化通常攻撃の砕天拳が命中","overrideReason":"現在の裂創基礎ダメージへ天賦レベル別起爆割合を乗算。"
+    },
+    {
+      "id":"111107","characterId":"1111","name":"先を行く者・直接ダメージ","element":"Physical","type":"technique","traceKey":"technique","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50],"sourceSkillId":"111107","overrideReason":"秘技の直接ダメージを裂創から分離。"
+    },
+    {
+      "id":"1111071","characterId":"1111","name":"先を行く者・裂創","element":"Physical","type":"dot","traceKey":"skill","formulaTraceKey":"skill","target":"single","scalingStat":"enemyHp","damageFormula":"enemyHpCappedByAtk","hitCount":1,"canCrit":false,"multipliers":[100,100,100,100,100,100,100,100,100,100,100,100,100,100,100],"enemyHpPercentMultipliers":[24,24,24,24,24,24,24,24,24,24,24,24,24,24,24],"atkCapMultipliers":[130,143,156,169,182,201.5,227.5,260,299,338,354.9,371.8,388.7,405.6,422.5],"sourceSkillId":"111107","conditionText":"秘技で付与した戦闘スキルと同じ裂創の1ターンダメージ","overrideReason":"秘技裂創は選択中の戦闘スキルレベルを参照する独立DoT。"
+    },
+    {
+      "id":"1111061","characterId":"1111","name":"星魂6・裂地拳3段による裂創起爆","element":"Physical","type":"dot","traceKey":"talent","formulaTraceKey":"skill","target":"single","scalingStat":"enemyHp","damageFormula":"enemyHpCappedByAtk","hitCount":1,"canCrit":false,"multipliers":[24],"enemyHpPercentMultipliers":[24,24,24,24,24,24,24,24,24,24,24,24,24,24,24],"atkCapMultipliers":[130,143,156,169,182,201.5,227.5,260,299,338,354.9,371.8,388.7,405.6,422.5],"requiredEidolon":6,"modifierConditions":[{"inputKey":"luka-fighting-will-stacks","minimum":2},{"inputKey":"luka-enemy-bleeding","minimum":1}],"sourceSkillId":"111106","conditionText":"星魂6以上で強化通常攻撃の裂地拳を3段行い、砕天拳が裂創状態の敵に命中","overrideReason":"確定する裂地拳3段×裂創8%を24%の独立起爆として登録。"
+    },
+    {
+      "id":"1111062","characterId":"1111","name":"星魂6・闘志粉砕による裂創起爆（期待値）","element":"Physical","type":"dot","traceKey":"talent","formulaTraceKey":"skill","target":"single","scalingStat":"enemyHp","damageFormula":"enemyHpCappedByAtk","hitCount":1,"canCrit":false,"multipliers":[12],"enemyHpPercentMultipliers":[24,24,24,24,24,24,24,24,24,24,24,24,24,24,24],"atkCapMultipliers":[130,143,156,169,182,201.5,227.5,260,299,338,354.9,371.8,388.7,405.6,422.5],"requiredEidolon":6,"modifierConditions":[{"inputKey":"luka-fighting-will-stacks","minimum":2},{"inputKey":"luka-enemy-bleeding","minimum":1}],"sourceSkillId":"111106","conditionText":"闘志粉砕の平均1.5段×裂創8%を期待値として表示","overrideReason":"確率追加段による星魂6起爆を確定3段分から分離。"
+    },
+    {
+      "id":"111201","characterId":"1112","name":"赤字…","element":"Fire","type":"normal","tags":["followUp"],"traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"111201","overrideReason":"通常攻撃倍率を全10レベルで照合。追加能力『貸越』により追加攻撃タグも持つ。"
+    },
+    {
+      "id":"111202","characterId":"1112","name":"支払困難？・カブの攻撃","element":"Fire","type":"followUp","traceKey":"skill","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[75,82.5,90,97.5,105,112.5,121.88,131.25,140.62,150,157.5,165,172.5,180,187.5],"sourceSkillId":"111202","overrideReason":"戦闘スキルによるカブの追加攻撃倍率を負債証明の被ダメージ増加から分離。"
+    },
+    {
+      "id":"111204","characterId":"1112","name":"ピッグ・マーケット！？・カブの追加攻撃","element":"Fire","type":"followUp","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[75,82.5,90,97.5,105,112.5,121.88,131.25,140.62,150,157.5,165,172.5,180,187.5],"sourceSkillId":"111204","overrideReason":"天賦によるカブ自身の追加攻撃倍率を全15レベルで照合。"
+    },
+    {
+      "id":"111203","characterId":"1112","name":"赤字を黒字に！","element":"Fire","type":"ultimate","traceKey":"ultimate","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"hidden":true,"sourceSkillId":"111203","overrideReason":"必殺技は直接ダメージを与えず、カブの倍率・会心ダメージ・行動順を強化する状態効果として構造化。"
+    },
+    {
+      "id":"111207","characterId":"1112","name":"公的支援金","element":"Fire","type":"technique","traceKey":"technique","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[0],"hidden":true,"sourceSkillId":"111207","overrideReason":"秘技はEP・探索・報酬効果のみで直接ダメージを与えないため非表示攻撃として分類。"
+    },
+    {
+      "id":"120101","characterId":"1201","name":"門前清","element":"Quantum","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"120101","overrideReason":"通常攻撃倍率を全10レベルで照合。"
+    },
+    {
+      "id":"120108","characterId":"1201","name":"嶺上開花！","element":"Quantum","type":"enhancedNormal","traceKey":"normal","target":"blast","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[120,144,168,192,216,240,264,288,312,336],"adjacentMultipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"120108","overrideReason":"強化通常攻撃の主対象と隣接倍率を全10レベルで分離。"
+    },
+    {
+      "id":"120103","characterId":"1201","name":"幺魚暗カン？アガリ！","element":"Quantum","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[120,128,136,144,152,160,170,180,190,200,208,216,224,232,240],"sourceSkillId":"120103","overrideReason":"必殺技の全体攻撃倍率を全15レベルで照合。"
+    },
+    {
+      "id":"1201041","characterId":"1201","name":"星魂4・門前ツモ（通常攻撃）","element":"Quantum","type":"followUp","tags":["normal"],"traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"requiredEidolon":4,"modifierInputKey":"qingque-autarky-active","modifierInputMinimum":1,"sourceSkillId":"120104","conditionText":"門前ツモが発動し通常攻撃後に同量の追加攻撃を行う","overrideReason":"星魂4の24%固定確率を手動発動条件として、通常攻撃100%分の追加攻撃を独立表示。"
+    },
+    {
+      "id":"1201042","characterId":"1201","name":"星魂4・門前ツモ（強化通常攻撃）","element":"Quantum","type":"followUp","tags":["enhancedNormal"],"traceKey":"normal","target":"blast","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[120,144,168,192,216,240,264,288,312,336],"adjacentMultipliers":[50,60,70,80,90,100,110,120,130,140],"requiredEidolon":4,"modifierInputKey":"qingque-autarky-active","modifierInputMinimum":1,"sourceSkillId":"120104","conditionText":"門前ツモが発動し強化通常攻撃後に同量の追加攻撃を行う","overrideReason":"星魂4の24%固定確率を手動発動条件として、強化通常攻撃100%分の主対象・隣接追加攻撃を独立表示。"
+    },
+    {
+      "id":"120102","characterId":"1201","name":"海底撈月","element":"Quantum","type":"skill","traceKey":"skill","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"hidden":true,"sourceSkillId":"120102","overrideReason":"戦闘スキルは直接ダメージを与えず、累積与ダメージ補正として構造化。"
+    },
+    {
+      "id":"120107","characterId":"1201","name":"独奕の楽しみ","element":"Quantum","type":"technique","traceKey":"technique","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[0],"hidden":true,"sourceSkillId":"120107","overrideReason":"秘技は牌を2枚獲得する効果のみで直接ダメージを与えないため非表示攻撃として分類。"
+    },
+    {
+      "id":"120201","characterId":"1202","name":"逐客令","element":"Thunder","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"120201","overrideReason":"通常攻撃倍率を全10レベルで照合。"
+    },
+    {
+      "id":"120202","characterId":"1202","name":"祥音和韻・賜福対象の付加ダメージ","element":"Thunder","type":"additional","traceKey":"skill","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[20,22,24,26,28,30,32.5,35,37.5,40,42,44,46,48,50],"hidden":true,"sourceSkillId":"120202","support":{"status":"displayOnly","verified":true,"reason":"構造化補正 trace:1202:120202:benediction-extra-damage が賜福対象の攻撃力・会心・雷属性与ダメージを参照する独立結果カードを生成します。カタログ攻撃との二重計算を防ぐため、この重複レコードは非表示です。"},"overrideReason":"付加ダメージ倍率を全15レベルで照合済み。計算所有者を構造化付加攻撃へ一本化。"
+    },
+    {
+      "id":"120204","characterId":"1202","name":"揺れる紫電・賜福対象の付加ダメージ","element":"Thunder","type":"additional","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[30,33,36,39,42,45,48.75,52.5,56.25,60,63,66,69,72,75],"hidden":true,"sourceSkillId":"120204","support":{"status":"displayOnly","verified":true,"reason":"構造化補正 trace:1202:120204:talent-extra-damage が賜福対象の攻撃力・会心・雷属性与ダメージを参照する独立結果カードを生成します。カタログ攻撃との二重計算を防ぐため、この重複レコードは非表示です。"},"overrideReason":"天賦付加ダメージ倍率を全15レベルで照合済み。計算所有者を構造化付加攻撃へ一本化。"
+    },
+    {
+      "id":"120301","characterId":"1203","name":"黒淵の棘","element":"Imaginary","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"120301","overrideReason":"通常攻撃倍率を全10レベルで照合。"
+    },
+    {
+      "id":"120302","characterId":"1203","name":"白花の祈望","element":"Imaginary","type":"skill","traceKey":"skill","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"hidden":true,"sourceSkillId":"120302","overrideReason":"戦闘スキルは回復・デバフ解除・白花の刻獲得であり、直接ダメージを与えないため非表示攻撃として分類。"
+    },
+    {
+      "id":"120303","characterId":"1203","name":"帰葬の成就","element":"Imaginary","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[120,128,136,144,152,160,170,180,190,200,208,216,224,232,240],"sourceSkillId":"120303","overrideReason":"必殺技の全体攻撃倍率を全15レベルで照合。バフ解除と白花の刻は構造化補正で別分類。"
+    },
+    {
+      "id":"120304","characterId":"1203","name":"生命の輪廻","element":"Imaginary","type":"talent","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"hidden":true,"sourceSkillId":"120304","overrideReason":"天賦は結界展開とHP回復のみで直接ダメージを与えないため非表示攻撃として分類。"
+    },
+    {
+      "id":"120307","characterId":"1203","name":"愚者の悲哀","element":"Imaginary","type":"technique","traceKey":"technique","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[0],"hidden":true,"sourceSkillId":"120307","overrideReason":"秘技は次の戦闘開始時に結界を展開する効果のみで、直接ダメージを与えないため非表示攻撃として分類。"
+    },
+    {
+      "id":"120401","characterId":"1204","name":"電光石火","element":"Thunder","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"120401","overrideReason":"通常攻撃倍率を全10レベルで照合。"
+    },
+    {
+      "id":"120402","characterId":"1204","name":"紫霄の雷鳴","element":"Thunder","type":"skill","traceKey":"skill","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,55,60,65,70,75,81.25,87.5,93.75,100,105,110,115,120,125],"sourceSkillId":"120402","overrideReason":"戦闘スキルの全体攻撃倍率を全15レベルで照合。神君+2段は共有段数入力へ分離。"
+    },
+    {
+      "id":"120403","characterId":"1204","name":"我が身の輝き","element":"Thunder","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[120,128,136,144,152,160,170,180,190,200,208,216,224,232,240],"sourceSkillId":"120403","overrideReason":"必殺技の全体攻撃倍率を全15レベルで照合。神君+3段は共有段数入力へ分離。"
+    },
+    {
+      "id":"120404","characterId":"1204","name":"神君（星魂0・主対象25%隣接）","element":"Thunder","type":"followUp","traceKey":"talent","target":"bounce","scalingStat":"atk","hitCount":3,"hitCountInputKey":"jingyuan-lightning-lord-hits","hitCountDefault":3,"hitCountMinimum":3,"hitCountMaximum":10,"canCrit":true,"multipliers":[33,36.3,39.6,42.9,46.2,49.5,53.63,57.75,61.88,66,69.3,72.6,75.9,79.2,82.5],"adjacentMultiplierRatio":25,"maximumEidolon":0,"sourceSkillId":"120404","overrideReason":"神君を1段単位の倍率と3-10段の共有入力で計算。星魂0の隣接倍率は主対象の25%。"
+    },
+    {
+      "id":"1204041","characterId":"1204","name":"神君（星魂1以上・主対象50%隣接）","element":"Thunder","type":"followUp","traceKey":"talent","target":"bounce","scalingStat":"atk","hitCount":3,"hitCountInputKey":"jingyuan-lightning-lord-hits","hitCountDefault":3,"hitCountMinimum":3,"hitCountMaximum":10,"canCrit":true,"multipliers":[33,36.3,39.6,42.9,46.2,49.5,53.63,57.75,61.88,66,69.3,72.6,75.9,79.2,82.5],"adjacentMultiplierRatio":50,"requiredEidolon":1,"sourceSkillId":"120404","conditionText":"星魂1で隣接倍率が主対象の50%へ上昇","overrideReason":"星魂1の隣接倍率増加を主対象の50%として独立攻撃化し、表示専用星魂補正との二重適用を防止。"
+    },
+    {
+      "id":"120407","characterId":"1204","name":"摂召威霊","element":"Thunder","type":"technique","traceKey":"technique","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[0],"hidden":true,"sourceSkillId":"120407","overrideReason":"秘技は神君の初回攻撃段数+3のみで直接ダメージを与えないため非表示攻撃として分類。"
+    },
+    {
+      "id":"120501","characterId":"1205","name":"支離剣（強化前）","element":"Wind","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"variant":"previous","sourceSkillId":"120501","overrideReason":"強化前通常攻撃の攻撃力倍率を全10レベルで照合。"
+    },
+    {
+      "id":"120502","characterId":"1205","name":"地獄変（強化前）","element":"Wind","type":"skill","traceKey":"skill","target":"single","scalingStat":"hp","hitCount":1,"canCrit":false,"multipliers":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"hidden":true,"variant":"previous","sourceSkillId":"120502","overrideReason":"戦闘スキルはHP消費・自己強化・通常攻撃強化のみで直接ダメージを与えないため非表示。"
+    },
+    {
+      "id":"120503","characterId":"1205","name":"大辟万死（強化前）","element":"Wind","type":"ultimate","traceKey":"ultimate","target":"blast","scalingStat":"hp","hitCount":1,"canCrit":true,"multipliers":[60,64,68,72,76,80,85,90,95,100,104,108,112,116,120],"adjacentMultipliers":[24,25.6,27.2,28.8,30.4,32,34,36,38,40,41.6,43.2,44.8,46.4,48],"scalingTermComponents":[{"stat":"atk","values":[24,25.6,27.2,28.8,30.4,32,34,36,38,40,41.6,43.2,44.8,46.4,48]},{"stat":"hp","values":[60,64,68,72,76,80,85,90,95,100,104,108,112,116,120],"receivesMultiplierAddition":true}],"adjacentScalingTermComponents":[{"stat":"atk","values":[9.6,10.24,10.88,11.52,12.16,12.8,13.6,14.4,15.2,16,16.64,17.28,17.92,18.56,19.2]},{"stat":"hp","values":[24,25.6,27.2,28.8,30.4,32,34,36,38,40,41.6,43.2,44.8,46.4,48],"receivesMultiplierAddition":true}],"variant":"previous","sourceSkillId":"120503","conditionText":"累計HP損失割合を補正条件で0～90%入力","overrideReason":"強化前必殺技の攻撃力・最大HP・累計HP損失を主対象と隣接対象で分離。"
+    },
+    {
+      "id":"120504","characterId":"1205","name":"倏忽の恩賜（強化前）","element":"Wind","type":"followUp","traceKey":"talent","target":"aoe","scalingStat":"hp","hitCount":1,"canCrit":true,"multipliers":[55,60.5,66,71.5,77,82.5,89.38,96.25,103.12,110,115.5,121,126.5,132,137.5],"scalingTermComponents":[{"stat":"atk","values":[22,24.2,26.4,28.6,30.8,33,35.75,38.5,41.25,44,46.2,48.4,50.6,52.8,55]},{"stat":"hp","values":[55,60.5,66,71.5,77,82.5,89.38,96.25,103.12,110,115.5,121,126.5,132,137.5],"receivesMultiplierAddition":true}],"variant":"previous","sourceSkillId":"120504","conditionText":"チャージ5層（星魂6は4層）","overrideReason":"強化前天賦の攻撃力・最大HP倍率を分離し、星魂6の最大HP倍率加算先を明示。"
+    },
+    {
+      "id":"120507","characterId":"1205","name":"業途風（強化前）","element":"Wind","type":"additional","traceKey":"technique","target":"aoe","scalingStat":"hp","hitCount":1,"canCrit":true,"multipliers":[40],"variant":"previous","sourceSkillId":"120507","conditionText":"秘技で戦闘開始","overrideReason":"強化前秘技の最大HP40%全体ダメージを独立登録。"
+    },
+    {
+      "id":"120508","characterId":"1205","name":"無間剣樹（強化前）","element":"Wind","type":"enhancedNormal","traceKey":"normal","target":"blast","scalingStat":"hp","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"adjacentMultipliers":[20,24,28,32,36,40,44,48,52,56],"scalingTermComponents":[{"stat":"atk","values":[20,24,28,32,36,40,44,48,52,56]},{"stat":"hp","values":[50,60,70,80,90,100,110,120,130,140],"receivesMultiplierAddition":true}],"adjacentScalingTermComponents":[{"stat":"atk","values":[8,9.6,11.2,12.8,14.4,16,17.6,19.2,20.8,22.4]},{"stat":"hp","values":[20,24,28,32,36,40,44,48,52,56],"receivesMultiplierAddition":true}],"variant":"previous","sourceSkillId":"120508","conditionText":"地獄変状態","overrideReason":"強化前の攻撃力・最大HP倍率を主対象と隣接対象で分離。"
+    },
+    {
+      "id":"1120501","characterId":"1205","name":"支離剣（強化後）","element":"Wind","type":"normal","traceKey":"normal","target":"single","scalingStat":"hp","hitCount":1,"canCrit":true,"multipliers":[25,30,35,40,45,50,55,60,65,70],"variant":"enhanced","sourceSkillId":"1120501","overrideReason":"強化後通常攻撃の最大HP倍率を全10レベルで照合。"
+    },
+    {
+      "id":"1120502","characterId":"1205","name":"地獄変（強化後）","element":"Wind","type":"skill","traceKey":"skill","target":"single","scalingStat":"hp","hitCount":1,"canCrit":false,"multipliers":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"hidden":true,"variant":"enhanced","sourceSkillId":"1120502","overrideReason":"強化後戦闘スキルはHP消費・自己強化・挑発値上昇・通常攻撃強化のみで直接ダメージを与えないため非表示。"
+    },
+    {
+      "id":"1120503","characterId":"1205","name":"大辟万死（強化後）","element":"Wind","type":"ultimate","traceKey":"ultimate","target":"blast","scalingStat":"hp","hitCount":1,"canCrit":true,"multipliers":[90,96,102,108,114,120,127.5,135,142.5,150,156,162,168,174,180],"adjacentMultipliers":[36,38.4,40.8,43.2,45.6,48,51,54,57,60,62.4,64.8,67.2,69.6,72],"scalingTermComponents":[{"stat":"hp","values":[90,96,102,108,114,120,127.5,135,142.5,150,156,162,168,174,180],"receivesMultiplierAddition":true}],"adjacentScalingTermComponents":[{"stat":"hp","values":[36,38.4,40.8,43.2,45.6,48,51,54,57,60,62.4,64.8,67.2,69.6,72],"receivesMultiplierAddition":true}],"variant":"enhanced","sourceSkillId":"1120503","conditionText":"累計HP損失割合を補正条件で50～90%入力","overrideReason":"強化後必殺技の最大HP基礎倍率と累計HP損失倍率を主対象・隣接対象で分離。"
+    },
+    {
+      "id":"1120504","characterId":"1205","name":"倏忽の恩賜（強化後）","element":"Wind","type":"followUp","traceKey":"talent","target":"aoe","scalingStat":"hp","hitCount":1,"canCrit":true,"multipliers":[65,71.5,78,84.5,91,97.5,105.62,113.75,121.88,130,136.5,143,149.5,156,162.5],"scalingTermComponents":[{"stat":"hp","values":[65,71.5,78,84.5,91,97.5,105.62,113.75,121.88,130,136.5,143,149.5,156,162.5],"receivesMultiplierAddition":true}],"variant":"enhanced","sourceSkillId":"1120504","conditionText":"チャージ5層（星魂6は4層）","overrideReason":"強化後天賦の最大HP倍率を全15レベルで照合し、星魂6の倍率加算先を明示。"
+    },
+    {
+      "id":"1120507","characterId":"1205","name":"業途風（強化後）","element":"Wind","type":"additional","traceKey":"technique","target":"aoe","scalingStat":"hp","hitCount":1,"canCrit":true,"multipliers":[40],"variant":"enhanced","sourceSkillId":"1120507","conditionText":"秘技で戦闘開始","overrideReason":"強化後秘技の最大HP40%全体ダメージを独立登録。"
+    },
+    {
+      "id":"1120508","characterId":"1205","name":"無間剣樹（強化後）","element":"Wind","type":"enhancedNormal","traceKey":"normal","target":"blast","scalingStat":"hp","hitCount":1,"canCrit":true,"multipliers":[65,78,91,104,117,130,143,156,169,182],"adjacentMultipliers":[26,31.2,36.4,41.6,46.8,52,57.2,62.4,67.6,72.8],"scalingTermComponents":[{"stat":"hp","values":[65,78,91,104,117,130,143,156,169,182],"receivesMultiplierAddition":true}],"adjacentScalingTermComponents":[{"stat":"hp","values":[26,31.2,36.4,41.6,46.8,52,57.2,62.4,67.6,72.8],"receivesMultiplierAddition":true}],"variant":"enhanced","sourceSkillId":"1120508","conditionText":"地獄変状態","overrideReason":"強化後の主対象130%・隣接52%（Lv6）を全10レベルで照合。"
+    },
+    {
+      "id": "1140712",
+      "characterId": "1407",
+      "name": "幽墟奪略の晦翼",
+      "element": "Quantum",
+      "type": "memospriteSkill",
+      "target": "bounce",
+      "scalingStat": "hp",
+      "hitCount": 6,
+      "canCrit": true,
+      "multipliers": [20, 24, 28, 32, 36, 40, 44, 48, 52, 56],
+      "sourceSkillId": "1140712",
+      "overrideReason": "HP全消費時に発動する6ヒット版。倍率#1と回数#2を照合し、通常の精霊天賦と別IDで保持。"
+    }
+  ]
+}

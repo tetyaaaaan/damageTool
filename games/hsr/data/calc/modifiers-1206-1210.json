@@ -1,0 +1,4250 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": "games/hsr/data/calc/modifier-specs-1206-1210.json",
+  "modifiers": [
+    {
+      "id": "trace:1206:120602:sword-stance",
+      "source": {
+        "kind": "trace",
+        "id": "1206",
+        "skillId": "120602"
+      },
+      "name": "戦闘スキル「剣勢」",
+      "description": "剣勢の発動条件。倍率は攻撃一覧の「剣勢」で計算する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "additional"
+        ],
+        "elements": [],
+        "attackIds": [
+          "1206021"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "剣勢が発動",
+        "inputKey": "sushang-sword-stance-active",
+        "inputLabel": "剣勢が発動",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1206:120602:sword-stance",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "倍率は独立した攻撃レコードへ登録済み。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1206:120603:atk",
+      "source": {
+        "kind": "trace",
+        "id": "1206",
+        "skillId": "120603"
+      },
+      "name": "必殺技・攻撃力上昇",
+      "description": "必殺技発動後、攻撃力が上昇する。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          18,
+          19.2,
+          20.4,
+          21.6,
+          22.8,
+          24,
+          25.5,
+          27,
+          28.5,
+          30,
+          31.2,
+          32.4,
+          33.6,
+          34.8,
+          36
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "必殺技発動後の2ターン",
+        "inputKey": "sushang-ultimate-buff-active",
+        "inputLabel": "必殺技の強化効果中",
+        "default": false,
+        "durationTurns": 2
+      },
+      "stacking": {
+        "group": "trace:1206:120603:atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1206:120604:speed",
+      "source": {
+        "kind": "trace",
+        "id": "1206",
+        "skillId": "120604"
+      },
+      "name": "天賦「游刃若水」・速度",
+      "description": "敵が弱点撃破された時、速度が上昇する。星魂6で最大2層。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByLevel",
+        "values": [
+          15,
+          15.5,
+          16,
+          16.5,
+          17,
+          17.5,
+          18.12,
+          18.75,
+          19.38,
+          20,
+          20.5,
+          21,
+          21.5,
+          22,
+          22.5
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "conditionText": "敵が弱点撃破された後",
+        "inputKey": "sushang-speed-stacks",
+        "inputLabel": "速度上昇の層数",
+        "minimum": 0,
+        "maximum": 1,
+        "maximumAtEidolon": {
+          "rank": 6,
+          "value": 2
+        },
+        "default": 0,
+        "durationTurns": 2
+      },
+      "stacking": {
+        "group": "sushang-speed",
+        "rule": "add",
+        "maximumStacks": 2
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1206:1206101:aggro",
+      "source": {
+        "kind": "trace",
+        "id": "1206",
+        "traceId": "1206101"
+      },
+      "name": "追加能力「純真」",
+      "description": "残りHP50%以下で攻撃を受ける確率が低下する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "traceNode:1206:1206101:aggro",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "ヘイトは単発ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1206:1206102:sword-stance",
+      "source": {
+        "kind": "trace",
+        "id": "1206",
+        "traceId": "1206102"
+      },
+      "name": "追加能力「逐寇」・剣勢ダメージ",
+      "description": "剣勢を発動するたび剣勢ダメージ+2.5%、最大10層。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "perStack",
+        "perStack": 2.5
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "additional"
+        ],
+        "elements": [],
+        "attackIds": [
+          "1206021",
+          "1206031"
+        ]
+      },
+      "activation": {
+        "mode": "stack",
+        "conditionText": "剣勢を発動した回数",
+        "inputKey": "sushang-sword-stance-stacks",
+        "inputLabel": "剣勢ダメージ上昇の層数",
+        "minimum": 0,
+        "maximum": 10,
+        "default": 0
+      },
+      "stacking": {
+        "group": "sushang-sword-stance-damage",
+        "rule": "add",
+        "maximumStacks": 10
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1206:1206103:advance",
+      "source": {
+        "kind": "trace",
+        "id": "1206",
+        "traceId": "1206103"
+      },
+      "name": "追加能力「破敵」",
+      "description": "弱点撃破状態の敵がいる時、通常攻撃または戦闘スキル後に行動順を15%早める。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "traceNode:1206:1206103:advance",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "行動順短縮は単発ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1206:1:sp",
+      "source": {
+        "kind": "eidolon",
+        "id": "1206",
+        "eidolonRank": 1
+      },
+      "name": "星魂1「游刃有余」",
+      "description": "弱点撃破状態の敵への戦闘スキル後にSPを1回復する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "eidolon:1206:1:sp",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "SP回復は単発ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1206:2:reduction",
+      "source": {
+        "kind": "eidolon",
+        "id": "1206",
+        "eidolonRank": 2
+      },
+      "name": "星魂2「其の身、百煉」",
+      "description": "剣勢発動後、被ダメージ-20%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "eidolon:1206:2:reduction",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "自身の被ダメージ軽減は与ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1206:3:levels",
+      "source": {
+        "kind": "eidolon",
+        "id": "1206",
+        "eidolonRank": 3
+      },
+      "name": "星魂3「伝古剣流」",
+      "description": "必殺技Lv+2、天賦Lv+2。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "eidolon:1206:3:levels",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "軌跡レベル選択欄へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1206:4:break-effect",
+      "source": {
+        "kind": "eidolon",
+        "id": "1206",
+        "eidolonRank": 4
+      },
+      "name": "星魂4「其の心、百闢」",
+      "description": "撃破特効+40%。",
+      "category": "breakEffect",
+      "stat": "breakEffect",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 40
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "eidolon:1206:4:break-effect",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終撃破特効へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1206:5:levels",
+      "source": {
+        "kind": "eidolon",
+        "id": "1206",
+        "eidolonRank": 5
+      },
+      "name": "星魂5「太虚神意」",
+      "description": "戦闘スキルLv+2、通常攻撃Lv+1。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "eidolon:1206:5:levels",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "軌跡レベル選択欄へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1206:6:speed-stacks",
+      "source": {
+        "kind": "eidolon",
+        "id": "1206",
+        "eidolonRank": 6
+      },
+      "name": "星魂6「上善若水」",
+      "description": "天賦の速度上昇が2層まで累積し、戦闘開始時に1層獲得する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "eidolon:1206:6:speed-stacks",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "最大層数は天賦「游刃若水」の入力へ接続済み。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1206:atk",
+      "source": {
+        "kind": "trace",
+        "id": "1206",
+        "traceId": "1206201"
+      },
+      "name": "小軌跡合計・攻撃力",
+      "description": "小軌跡の攻撃力+28%。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 28
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1206:atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終攻撃力へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1206:hp",
+      "source": {
+        "kind": "trace",
+        "id": "1206",
+        "traceId": "1206202"
+      },
+      "name": "小軌跡合計・HP",
+      "description": "小軌跡のHP+18%。",
+      "category": "statPercent",
+      "stat": "hp",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 18
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1206:hp",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終HPへ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1206:def",
+      "source": {
+        "kind": "trace",
+        "id": "1206",
+        "traceId": "1206204"
+      },
+      "name": "小軌跡合計・防御力",
+      "description": "小軌跡の防御力+12.5%。",
+      "category": "statPercent",
+      "stat": "def",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 12.5
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1206:def",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終防御力へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1207:120702:party-atk",
+      "source": {
+        "kind": "trace",
+        "id": "1207",
+        "skillId": "120702"
+      },
+      "name": "戦闘スキル「鳴弦号令」・味方全体攻撃力",
+      "description": "鳴弦号令がある時、味方全体の攻撃力が上昇する。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          40,
+          44,
+          48,
+          52,
+          56,
+          60,
+          65,
+          70,
+          75,
+          80,
+          84,
+          88,
+          92,
+          96,
+          100
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "鳴弦号令が1層以上ある",
+        "inputKey": "yukong-roaring-bowstrings-active",
+        "inputLabel": "鳴弦号令の効果中",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1207:120702:party-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1207:120703:party-crit-rate",
+      "source": {
+        "kind": "trace",
+        "id": "1207",
+        "skillId": "120703"
+      },
+      "name": "必殺技・味方全体会心率",
+      "description": "鳴弦号令がある状態で必殺技を発動すると、味方全体の会心率が上昇する。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          21,
+          21.7,
+          22.4,
+          23.1,
+          23.8,
+          24.5,
+          25.37,
+          26.25,
+          27.12,
+          28,
+          28.7,
+          29.4,
+          30.1,
+          30.8,
+          31.5
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "鳴弦号令中に必殺技を発動",
+        "inputKey": "yukong-ultimate-buffs-active",
+        "inputLabel": "必殺技の会心効果中",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1207:120703:party-crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1207:120703:party-crit-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1207",
+        "skillId": "120703"
+      },
+      "name": "必殺技・味方全体会心ダメージ",
+      "description": "鳴弦号令がある状態で必殺技を発動すると、味方全体の会心ダメージが上昇する。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          39,
+          41.6,
+          44.2,
+          46.8,
+          49.4,
+          52,
+          55.25,
+          58.5,
+          61.75,
+          65,
+          67.6,
+          70.2,
+          72.8,
+          75.4,
+          78
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "鳴弦号令中に必殺技を発動",
+        "inputKey": "yukong-ultimate-buffs-active",
+        "inputLabel": "必殺技の会心効果中",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1207:120703:party-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1207:120704:talent-ready",
+      "source": {
+        "kind": "trace",
+        "id": "1207",
+        "skillId": "120704"
+      },
+      "name": "天賦「徹札矢」・付加ダメージ",
+      "description": "通常攻撃時の付加ダメージ発動条件。倍率は攻撃一覧へ登録済み。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "additional"
+        ],
+        "elements": [],
+        "attackIds": [
+          "120704"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "天賦が再発動可能",
+        "inputKey": "yukong-bowshot-ready",
+        "inputLabel": "徹札矢が発動可能",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1207:120704:talent-ready",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "倍率は独立した攻撃レコードへ登録済み。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1207:1207101:resist",
+      "source": {
+        "kind": "trace",
+        "id": "1207",
+        "traceId": "1207101"
+      },
+      "name": "追加能力「襄尺」",
+      "description": "デバフを1回抵抗する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "traceNode:1207:1207101:resist",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "デバフ抵抗回数は単発ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1207:1207102:imaginary-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1207",
+        "traceId": "1207102"
+      },
+      "name": "追加能力「遅彝」・虚数属性ダメージ",
+      "description": "御空がフィールド上にいる時、味方全体の虚数属性ダメージ+12%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 12
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [
+          "Imaginary"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "traceNode:1207:1207102:imaginary-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1207:1207103:energy",
+      "source": {
+        "kind": "trace",
+        "id": "1207",
+        "traceId": "1207103"
+      },
+      "name": "追加能力「気壮」",
+      "description": "鳴弦号令中、味方の行動後にEPを2回復する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "traceNode:1207:1207103:energy",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "EP回復は単発ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1207:1:party-speed",
+      "source": {
+        "kind": "eidolon",
+        "id": "1207",
+        "eidolonRank": 1
+      },
+      "name": "星魂1「天舟の飛将 弓枕き戦を待つ」・速度",
+      "description": "戦闘開始時、味方全体の速度+10%、2ターン継続。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "戦闘開始から2ターン以内",
+        "inputKey": "yukong-e1-speed-active",
+        "inputLabel": "星魂1の速度上昇中",
+        "default": false,
+        "durationTurns": 2
+      },
+      "stacking": {
+        "group": "eidolon:1207:1:party-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1207:2:energy",
+      "source": {
+        "kind": "eidolon",
+        "id": "1207",
+        "eidolonRank": 2
+      },
+      "name": "星魂2「青霄を駆け 蒼穹を御す」",
+      "description": "味方のEPが満タンになった時、御空のEPを回復する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "eidolon:1207:2:energy",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "EP回復は単発ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1207:3:levels",
+      "source": {
+        "kind": "eidolon",
+        "id": "1207",
+        "eidolonRank": 3
+      },
+      "name": "星魂3「断絶せぬ危弓 止まぬ飛矢」",
+      "description": "戦闘スキルLv+2、通常攻撃Lv+1。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "eidolon:1207:3:levels",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "軌跡レベル選択欄へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1207:4:self-damage",
+      "source": {
+        "kind": "eidolon",
+        "id": "1207",
+        "eidolonRank": 4
+      },
+      "name": "星魂4「百里の風拾い 九曲の鏑鳴らす」・与ダメージ",
+      "description": "鳴弦号令がある時、御空の与ダメージ+30%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 30
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "鳴弦号令がある",
+        "inputKey": "yukong-roaring-bowstrings-active",
+        "inputLabel": "鳴弦号令の効果中",
+        "default": false
+      },
+      "stacking": {
+        "group": "eidolon:1207:4:self-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1207:5:levels",
+      "source": {
+        "kind": "eidolon",
+        "id": "1207",
+        "eidolonRank": 5
+      },
+      "name": "星魂5「井儀の四矢 参連の疾羽」",
+      "description": "必殺技Lv+2、天賦Lv+2。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "eidolon:1207:5:levels",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "軌跡レベル選択欄へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1207:6:bowstrings",
+      "source": {
+        "kind": "eidolon",
+        "id": "1207",
+        "eidolonRank": 6
+      },
+      "name": "星魂6「雷の如き弓弦 激動する銑弓」",
+      "description": "必殺技発動時、先に鳴弦号令を1層獲得する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "eidolon:1207:6:bowstrings",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "同じ必殺技会心効果の発動条件を成立させる効果。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1207:imaginary",
+      "source": {
+        "kind": "trace",
+        "id": "1207",
+        "traceId": "1207201"
+      },
+      "name": "小軌跡合計・虚数属性ダメージ",
+      "description": "小軌跡の虚数属性ダメージ+22.4%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 22.4
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [
+          "Imaginary"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1207:imaginary",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終属性ダメージへ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1207:hp",
+      "source": {
+        "kind": "trace",
+        "id": "1207",
+        "traceId": "1207202"
+      },
+      "name": "小軌跡合計・HP",
+      "description": "小軌跡のHP+18%。",
+      "category": "statPercent",
+      "stat": "hp",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 18
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1207:hp",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終HPへ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1207:atk",
+      "source": {
+        "kind": "trace",
+        "id": "1207",
+        "traceId": "1207204"
+      },
+      "name": "小軌跡合計・攻撃力",
+      "description": "小軌跡の攻撃力+10%。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1207:atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終攻撃力へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1208:120802:party-hp",
+      "source": {
+        "kind": "trace",
+        "id": "1208",
+        "skillId": "120802"
+      },
+      "name": "戦闘スキル「鑑知」・味方全体最大HP",
+      "description": "窮観の陣にいる味方の最大HPを符玄の最大HP参照で加算する。",
+      "category": "statFlat",
+      "stat": "hp",
+      "unit": "flat",
+      "value": {
+        "kind": "providerStatPercentByLevel",
+        "providerStat": "hp",
+        "inputKey": "fuxuan-max-hp",
+        "inputLabel": "符玄の最大HP",
+        "default": 0,
+        "minimum": 0,
+        "inputMaximum": 30000,
+        "inputStep": 1,
+        "values": [
+          3,
+          3.3,
+          3.6,
+          3.9,
+          4.2,
+          4.5,
+          4.88,
+          5.25,
+          5.63,
+          6,
+          6.3,
+          6.6,
+          6.9,
+          7.2,
+          7.5
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "窮観の陣が起動中",
+        "inputKey": "fuxuan-matrix-active",
+        "inputLabel": "窮観の陣が起動中",
+        "default": false,
+        "durationTurns": 3
+      },
+      "stacking": {
+        "group": "trace:1208:120802:party-hp",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1208:120802:party-crit-rate",
+      "source": {
+        "kind": "trace",
+        "id": "1208",
+        "skillId": "120802"
+      },
+      "name": "戦闘スキル「鑑知」・味方全体会心率",
+      "description": "窮観の陣にいる味方の会心率が上昇する。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          6,
+          6.6,
+          7.2,
+          7.8,
+          8.4,
+          9,
+          9.75,
+          10.5,
+          11.25,
+          12,
+          12.6,
+          13.2,
+          13.8,
+          14.4,
+          15
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "窮観の陣が起動中",
+        "inputKey": "fuxuan-matrix-active",
+        "inputLabel": "窮観の陣が起動中",
+        "default": false,
+        "durationTurns": 3
+      },
+      "stacking": {
+        "group": "trace:1208:120802:party-crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1208:120804:reduction",
+      "source": {
+        "kind": "trace",
+        "id": "1208",
+        "skillId": "120804"
+      },
+      "name": "天賦「避邪」",
+      "description": "符玄が戦闘可能な時、味方全体の被ダメージを軽減する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "trace:1208:120804:reduction",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "味方が受けるダメージの軽減であり、与ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1208:1208101:energy",
+      "source": {
+        "kind": "trace",
+        "id": "1208",
+        "traceId": "1208101"
+      },
+      "name": "追加能力「太乙神数」",
+      "description": "窮観の陣の起動中に戦闘スキルを発動するとEPを20回復する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "traceNode:1208:1208101:energy",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "EP回復は単発ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1208:1208102:healing",
+      "source": {
+        "kind": "trace",
+        "id": "1208",
+        "traceId": "1208102"
+      },
+      "name": "追加能力「奇門遁甲」",
+      "description": "必殺技発動時、符玄以外の味方を回復する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "traceNode:1208:1208102:healing",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "回復量は与ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1208:1208103:resist",
+      "source": {
+        "kind": "trace",
+        "id": "1208",
+        "traceId": "1208103"
+      },
+      "name": "追加能力「六壬神課」",
+      "description": "窮観の陣の起動中、味方全体が行動制限系デバフを1回抵抗する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "traceNode:1208:1208103:resist",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "デバフ抵抗回数は単発ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1208:1:party-crit-damage",
+      "source": {
+        "kind": "eidolon",
+        "id": "1208",
+        "eidolonRank": 1
+      },
+      "name": "星魂1「司危」・味方全体会心ダメージ",
+      "description": "鑑知状態の味方の会心ダメージ+30%。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 30
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "窮観の陣が起動中",
+        "inputKey": "fuxuan-matrix-active",
+        "inputLabel": "窮観の陣が起動中",
+        "default": false
+      },
+      "stacking": {
+        "group": "eidolon:1208:1:party-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1208:2:revive",
+      "source": {
+        "kind": "eidolon",
+        "id": "1208",
+        "eidolonRank": 2
+      },
+      "name": "星魂2「柔兆」",
+      "description": "窮観の陣の起動中、味方を戦闘不能から1回復帰させる。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "eidolon:1208:2:revive",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "復帰と回復は単発ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1208:3:levels",
+      "source": {
+        "kind": "eidolon",
+        "id": "1208",
+        "eidolonRank": 3
+      },
+      "name": "星魂3「直符」",
+      "description": "戦闘スキルLv+2、天賦Lv+2。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "eidolon:1208:3:levels",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "軌跡レベル選択欄へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1208:4:energy",
+      "source": {
+        "kind": "eidolon",
+        "id": "1208",
+        "eidolonRank": 4
+      },
+      "name": "星魂4「格澤」",
+      "description": "窮観の陣にいる味方が攻撃を受けると符玄のEPを回復する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "eidolon:1208:4:energy",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "EP回復は単発ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1208:5:levels",
+      "source": {
+        "kind": "eidolon",
+        "id": "1208",
+        "eidolonRank": 5
+      },
+      "name": "星魂5「計神」",
+      "description": "必殺技Lv+2、通常攻撃Lv+1。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "eidolon:1208:5:levels",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "軌跡レベル選択欄へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1208:6:ultimate-hp-loss",
+      "source": {
+        "kind": "eidolon",
+        "id": "1208",
+        "eidolonRank": 6
+      },
+      "name": "星魂6「種陵」・必殺技累計HP損失",
+      "description": "味方全体の累計HP損失200%分を必殺技倍率へ加算。累計は符玄の最大HP120%まで。",
+      "category": "multiplierAddition",
+      "unit": "percent",
+      "value": {
+        "kind": "perStack",
+        "perStack": 2
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "elements": [],
+        "attackIds": [
+          "120803"
+        ]
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "conditionText": "窮観の陣中に味方全体が失った累計HP",
+        "inputKey": "fuxuan-e6-lost-hp-percent",
+        "inputLabel": "累計HP損失（符玄の最大HP比）",
+        "minimum": 0,
+        "maximum": 120,
+        "threshold": 0,
+        "operator": ">",
+        "default": 0
+      },
+      "stacking": {
+        "group": "fuxuan-e6-ultimate",
+        "rule": "add",
+        "maximumStacks": 120
+      },
+      "calculation": {
+        "stage": "attackMultiplier",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1208:crit-rate",
+      "source": {
+        "kind": "trace",
+        "id": "1208",
+        "traceId": "1208201"
+      },
+      "name": "小軌跡合計・会心率",
+      "description": "小軌跡の会心率+18.7%。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 18.7
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1208:crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終会心率へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1208:hp",
+      "source": {
+        "kind": "trace",
+        "id": "1208",
+        "traceId": "1208202"
+      },
+      "name": "小軌跡合計・HP",
+      "description": "小軌跡のHP+18%。",
+      "category": "statPercent",
+      "stat": "hp",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 18
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1208:hp",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終HPへ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1208:effect-res",
+      "source": {
+        "kind": "trace",
+        "id": "1208",
+        "traceId": "1208204"
+      },
+      "name": "小軌跡合計・効果抵抗",
+      "description": "小軌跡の効果抵抗+10%。",
+      "category": "statFlat",
+      "stat": "effectRes",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1208:effect-res",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終効果抵抗へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1209:120903:ultimate-crit-rate",
+      "source": {
+        "kind": "trace",
+        "id": "1209",
+        "skillId": "120903"
+      },
+      "name": "必殺技・会心率",
+      "description": "必殺技発動時、自身の会心率+60%。必殺技自身にも適用する。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "elements": [],
+        "attackIds": [
+          "120903"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "trace:1209:120903:ultimate-crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1209:120903:soulsteel-crit-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1209",
+        "skillId": "120903"
+      },
+      "name": "必殺技・智剣連心時会心ダメージ",
+      "description": "智剣連心がある状態で必殺技を発動すると会心ダメージが上昇する。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42.5,
+          45,
+          47.5,
+          50,
+          52,
+          54,
+          56,
+          58,
+          60
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "elements": [],
+        "attackIds": [
+          "120903"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "智剣連心がある状態で必殺技を発動",
+        "inputKey": "yanqing-soulsteel-active",
+        "inputLabel": "智剣連心の効果中",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1209:120903:soulsteel-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1209:120904:soulsteel-crit-rate",
+      "source": {
+        "kind": "trace",
+        "id": "1209",
+        "skillId": "120904"
+      },
+      "name": "天賦「智剣連心」・会心率",
+      "description": "智剣連心がある時、会心率が上昇する。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          15,
+          15.5,
+          16,
+          16.5,
+          17,
+          17.5,
+          18.12,
+          18.75,
+          19.38,
+          20,
+          20.5,
+          21,
+          21.5,
+          22,
+          22.5
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "智剣連心の効果中",
+        "inputKey": "yanqing-soulsteel-active",
+        "inputLabel": "智剣連心の効果中",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1209:120904:soulsteel-crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1209:120904:soulsteel-crit-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1209",
+        "skillId": "120904"
+      },
+      "name": "天賦「智剣連心」・会心ダメージ",
+      "description": "智剣連心がある時、会心ダメージが上昇する。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          15,
+          16.5,
+          18,
+          19.5,
+          21,
+          22.5,
+          24.37,
+          26.25,
+          28.12,
+          30,
+          31.5,
+          33,
+          34.5,
+          36,
+          37.5
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "智剣連心の効果中",
+        "inputKey": "yanqing-soulsteel-active",
+        "inputLabel": "智剣連心の効果中",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1209:120904:soulsteel-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1209:120904:follow-up",
+      "source": {
+        "kind": "trace",
+        "id": "1209",
+        "skillId": "120904"
+      },
+      "name": "天賦「呼影剣」・追加攻撃",
+      "description": "智剣連心中、固定確率で追加攻撃を行う。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "followUp"
+        ],
+        "elements": [],
+        "attackIds": [
+          "120904"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "追加攻撃の固定確率判定が成功",
+        "inputKey": "yanqing-followup-triggered",
+        "inputLabel": "呼影剣の追加攻撃が発動",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1209:120904:follow-up",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "倍率は独立した攻撃レコードへ登録済み。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1209:120904:frozen",
+      "source": {
+        "kind": "trace",
+        "id": "1209",
+        "skillId": "120904"
+      },
+      "name": "天賦「呼影剣」・凍結付加ダメージ",
+      "description": "彦卿が付与した凍結状態の敵が行動する時に付加ダメージを受ける。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "dot"
+        ],
+        "elements": [],
+        "attackIds": [
+          "1209041"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "敵が彦卿による凍結状態",
+        "inputKey": "enemy-frozen",
+        "inputLabel": "敵が凍結状態",
+        "default": false
+      },
+      "stacking": {
+        "group": "trace:1209:120904:frozen",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "倍率は独立した攻撃レコードへ登録済み。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1209:120907:damage",
+      "source": {
+        "kind": "trace",
+        "id": "1209",
+        "skillId": "120907"
+      },
+      "name": "秘技「御剣真訣」・与ダメージ",
+      "description": "秘技使用後、残りHP50%以上の敵への与ダメージ+30%、2ターン。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 30
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggleThreshold",
+        "conditionText": "秘技効果中かつ敵HP50%以上",
+        "inputKey": "yanqing-technique-active",
+        "inputLabel": "秘技効果中",
+        "default": false,
+        "reference": "enemy.hpPercent",
+        "operator": ">=",
+        "threshold": 50,
+        "durationTurns": 2
+      },
+      "stacking": {
+        "group": "trace:1209:120907:damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1209:1209101:additional",
+      "source": {
+        "kind": "trace",
+        "id": "1209",
+        "traceId": "1209101"
+      },
+      "name": "追加能力「頒氷」・付加ダメージ",
+      "description": "氷属性弱点の敵を攻撃後、攻撃力30%の付加ダメージ。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "additional"
+        ],
+        "elements": [],
+        "attackIds": [
+          "1209101"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "敵に氷属性弱点がある",
+        "inputKey": "enemy-ice-weakness",
+        "inputLabel": "敵に氷属性弱点がある",
+        "default": false
+      },
+      "stacking": {
+        "group": "traceNode:1209:1209101:additional",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "倍率は独立した攻撃レコードへ登録済み。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1209:1209102:effect-res",
+      "source": {
+        "kind": "trace",
+        "id": "1209",
+        "traceId": "1209102"
+      },
+      "name": "追加能力「凌霜」",
+      "description": "智剣連心中、効果抵抗+20%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "traceNode:1209:1209102:effect-res",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "効果抵抗は与ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1209:1209103:speed",
+      "source": {
+        "kind": "trace",
+        "id": "1209",
+        "traceId": "1209103"
+      },
+      "name": "追加能力「軽呂」",
+      "description": "会心発生時、速度+10%、2ターン。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "traceNode:1209:1209103:speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "速度変化は単発ダメージ式へ加算せず、行動値の複数ターン計算は未対応。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1209:1:frozen-attack",
+      "source": {
+        "kind": "eidolon",
+        "id": "1209",
+        "eidolonRank": 1
+      },
+      "name": "星魂1「素刃」・凍結付加ダメージ",
+      "description": "凍結状態の敵を攻撃時、攻撃力60%の付加ダメージ。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "additional"
+        ],
+        "elements": [],
+        "attackIds": [
+          "1209011"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "敵が凍結状態",
+        "inputKey": "enemy-frozen",
+        "inputLabel": "敵が凍結状態",
+        "default": false
+      },
+      "stacking": {
+        "group": "eidolon:1209:1:frozen-attack",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "倍率は独立した攻撃レコードへ登録済み。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1209:2:energy",
+      "source": {
+        "kind": "eidolon",
+        "id": "1209",
+        "eidolonRank": 2
+      },
+      "name": "星魂2「空明」",
+      "description": "智剣連心中、EP回復効率+10%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "eidolon:1209:2:energy",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "EP回復効率は単発ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1209:3:levels",
+      "source": {
+        "kind": "eidolon",
+        "id": "1209",
+        "eidolonRank": 3
+      },
+      "name": "星魂3「剣胎」",
+      "description": "戦闘スキルLv+2、通常攻撃Lv+1。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "eidolon:1209:3:levels",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "軌跡レベル選択欄へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1209:4:res-pen",
+      "source": {
+        "kind": "eidolon",
+        "id": "1209",
+        "eidolonRank": 4
+      },
+      "name": "星魂4「霜厲」・氷属性耐性貫通",
+      "description": "残りHP80%以上の時、氷属性耐性貫通+12%。",
+      "category": "resistancePenetration",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 12
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [
+          "Ice"
+        ]
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "彦卿の残りHP80%以上",
+        "reference": "self.hpPercent",
+        "operator": ">=",
+        "threshold": 80
+      },
+      "stacking": {
+        "group": "eidolon:1209:4:res-pen",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "resistance",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1209:5:levels",
+      "source": {
+        "kind": "eidolon",
+        "id": "1209",
+        "eidolonRank": 5
+      },
+      "name": "星魂5「武骨」",
+      "description": "必殺技Lv+2、天賦Lv+2。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "eidolon:1209:5:levels",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "軌跡レベル選択欄へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1209:6:duration",
+      "source": {
+        "kind": "eidolon",
+        "id": "1209",
+        "eidolonRank": 6
+      },
+      "name": "星魂6「自在」",
+      "description": "敵を倒した時、智剣連心または必殺技バフの継続時間+1ターン。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "eidolon:1209:6:duration",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "継続ターンだけを変更し、単発ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1209:atk",
+      "source": {
+        "kind": "trace",
+        "id": "1209",
+        "traceId": "1209201"
+      },
+      "name": "小軌跡合計・攻撃力",
+      "description": "小軌跡の攻撃力+28%。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 28
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1209:atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終攻撃力へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1209:ice",
+      "source": {
+        "kind": "trace",
+        "id": "1209",
+        "traceId": "1209202"
+      },
+      "name": "小軌跡合計・氷属性ダメージ",
+      "description": "小軌跡の氷属性ダメージ+14.4%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 14.4
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [
+          "Ice"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1209:ice",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終属性ダメージへ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1209:hp",
+      "source": {
+        "kind": "trace",
+        "id": "1209",
+        "traceId": "1209204"
+      },
+      "name": "小軌跡合計・HP",
+      "description": "小軌跡のHP+10%。",
+      "category": "statPercent",
+      "stat": "hp",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1209:hp",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終HPへ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1210:121002:burn",
+      "source": {
+        "kind": "trace",
+        "id": "1210",
+        "skillId": "121002"
+      },
+      "name": "戦闘スキル「出だし好調」・燃焼",
+      "description": "桂乃芬が付与した燃焼の発動条件。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "dot"
+        ],
+        "elements": [],
+        "attackIds": [
+          "1210021",
+          "1210031"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "敵が桂乃芬の燃焼状態",
+        "inputKey": "guinaifen-burn-active",
+        "inputLabel": "敵が桂乃芬の燃焼状態",
+        "default": false,
+        "durationTurns": 2
+      },
+      "stacking": {
+        "group": "trace:1210:121002:burn",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "倍率と必殺技誘発は独立した攻撃レコードへ登録済み。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "trace:1210:121004:firekiss",
+      "source": {
+        "kind": "trace",
+        "id": "1210",
+        "skillId": "121004"
+      },
+      "name": "天賦「火喰い」・被ダメージ増加",
+      "description": "燃焼ダメージを受けた敵の被ダメージを増加。星魂6で最大4層。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByLevel",
+        "values": [
+          4,
+          4.3,
+          4.6,
+          4.9,
+          5.2,
+          5.5,
+          5.87,
+          6.25,
+          6.63,
+          7,
+          7.3,
+          7.6,
+          7.9,
+          8.2,
+          8.5
+        ]
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "conditionText": "敵の火喰い層数",
+        "inputKey": "guinaifen-firekiss-stacks",
+        "inputLabel": "火喰いの層数",
+        "minimum": 0,
+        "maximum": 3,
+        "maximumAtEidolon": {
+          "rank": 6,
+          "value": 4
+        },
+        "default": 0,
+        "durationTurns": 3
+      },
+      "stacking": {
+        "group": "guinaifen-firekiss",
+        "rule": "add",
+        "maximumStacks": 4
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1210:1210101:normal-burn",
+      "source": {
+        "kind": "trace",
+        "id": "1210",
+        "traceId": "1210101"
+      },
+      "name": "追加能力「縁竿」・通常攻撃燃焼",
+      "description": "通常攻撃で戦闘スキルと同じ燃焼を付与する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "dot"
+        ],
+        "elements": [],
+        "attackIds": [
+          "1210011"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "通常攻撃で燃焼を付与",
+        "inputKey": "guinaifen-normal-burn-active",
+        "inputLabel": "通常攻撃の燃焼が発動",
+        "default": false
+      },
+      "stacking": {
+        "group": "traceNode:1210:1210101:normal-burn",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "倍率は独立した攻撃レコードへ登録済み。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1210:1210102:advance",
+      "source": {
+        "kind": "trace",
+        "id": "1210",
+        "traceId": "1210102"
+      },
+      "name": "追加能力「刃の輪くぐり」",
+      "description": "戦闘開始時、行動順が25%早まる。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "traceNode:1210:1210102:advance",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "戦闘開始時の行動順短縮は単発ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceNode:1210:1210103:burn-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1210",
+        "traceId": "1210103"
+      },
+      "name": "追加能力「裸足踏刀」・燃焼対象与ダメージ",
+      "description": "燃焼状態の敵に対する与ダメージ+20%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "攻撃対象が燃焼状態",
+        "inputKey": "enemy-burning",
+        "inputLabel": "敵が燃焼状態",
+        "default": false
+      },
+      "stacking": {
+        "group": "traceNode:1210:1210103:burn-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1210:1:effect-res-down",
+      "source": {
+        "kind": "eidolon",
+        "id": "1210",
+        "eidolonRank": 1
+      },
+      "name": "星魂1「逆立ち麺食い」",
+      "description": "戦闘スキル命中時、敵の効果抵抗-10%、2ターン。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "eidolon:1210:1:effect-res-down",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "効果抵抗低下はデバフ付与確率へ作用し、直接ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1210:2:burn-multiplier",
+      "source": {
+        "kind": "eidolon",
+        "id": "1210",
+        "eidolonRank": 2
+      },
+      "name": "星魂2「歯を磨きながら口笛を吹く」・燃焼倍率",
+      "description": "燃焼中の敵へ通常攻撃または戦闘スキルから付与する燃焼倍率+40%。",
+      "category": "multiplierAddition",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 40
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "dot"
+        ],
+        "elements": [],
+        "attackIds": [
+          "1210021",
+          "1210031",
+          "1210011"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "付与時に敵が燃焼状態",
+        "inputKey": "enemy-burning",
+        "inputLabel": "敵が燃焼状態",
+        "default": false
+      },
+      "stacking": {
+        "group": "eidolon:1210:2:burn-multiplier",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "attackMultiplier",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1210:3:levels",
+      "source": {
+        "kind": "eidolon",
+        "id": "1210",
+        "eidolonRank": 3
+      },
+      "name": "星魂3「胸元で岩砕き」",
+      "description": "戦闘スキルLv+2、通常攻撃Lv+1。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "eidolon:1210:3:levels",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "軌跡レベル選択欄へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1210:4:energy",
+      "source": {
+        "kind": "eidolon",
+        "id": "1210",
+        "eidolonRank": 4
+      },
+      "name": "星魂4「喉元で槍先受け止め」",
+      "description": "桂乃芬の燃焼がダメージを与えるたびEPを2回復する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "eidolon:1210:4:energy",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "EP回復は単発ダメージ式へ加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1210:5:levels",
+      "source": {
+        "kind": "eidolon",
+        "id": "1210",
+        "eidolonRank": 5
+      },
+      "name": "星魂5「剣呑み」",
+      "description": "必殺技Lv+2、天賦Lv+2。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "eidolon:1210:5:levels",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "軌跡レベル選択欄へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "eidolon:1210:6:firekiss-cap",
+      "source": {
+        "kind": "eidolon",
+        "id": "1210",
+        "eidolonRank": 6
+      },
+      "name": "星魂6「素手で銃弾つかみ」",
+      "description": "火喰いの最大層数+1。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象効果を確認"
+      },
+      "stacking": {
+        "group": "eidolon:1210:6:firekiss-cap",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "最大層数は天賦「火喰い」の入力へ接続済み。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_ranks.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1210:fire",
+      "source": {
+        "kind": "trace",
+        "id": "1210",
+        "traceId": "1210201"
+      },
+      "name": "小軌跡合計・炎属性ダメージ",
+      "description": "小軌跡の炎属性ダメージ+22.4%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 22.4
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [
+          "Fire"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1210:fire",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終属性ダメージへ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1210:break-effect",
+      "source": {
+        "kind": "trace",
+        "id": "1210",
+        "traceId": "1210202"
+      },
+      "name": "小軌跡合計・撃破特効",
+      "description": "小軌跡の撃破特効+24%。",
+      "category": "breakEffect",
+      "stat": "breakEffect",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 24
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1210:break-effect",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終撃破特効へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    },
+    {
+      "id": "traceStats:1210:effect-hit",
+      "source": {
+        "kind": "trace",
+        "id": "1210",
+        "traceId": "1210204"
+      },
+      "name": "小軌跡合計・効果命中",
+      "description": "小軌跡の効果命中+10%。",
+      "category": "statFlat",
+      "stat": "effectHitRate",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "対象の小軌跡または星魂を反映済み"
+      },
+      "stacking": {
+        "group": "traceStats:1210:effect-hit",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力する最終効果命中へ包含する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skill_trees.json",
+        "gameVersion": "snapshot-2026-07-28",
+        "verifiedAt": "2026-08-01",
+        "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      }
+    }
+  ]
+}

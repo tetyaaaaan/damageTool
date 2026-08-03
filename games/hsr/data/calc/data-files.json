@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "attackOverrides": [
+    "/games/hsr/data/attack-overrides.json",
+    "attacks-1206-1210.json"
+  ],
+  "modifiers": [
+    "modifiers.json",
+    "modifiers-archer.json",
+    "modifiers-arlan.json",
+    "modifiers-asta.json",
+    "modifiers-blade.json",
+    "modifiers-bronya-ruanmei.json",
+    "modifiers-1206-1210.json",
+    "modifiers-character-expanded.json",
+    "modifiers-clara.json",
+    "modifiers-gepard.json",
+    "modifiers-harmony-party.json",
+    "modifiers-herta.json",
+    "modifiers-hook.json",
+    "modifiers-jingyuan.json",
+    "modifiers-kafka.json",
+    "modifiers-light-cones.json",
+    "modifiers-luka.json",
+    "modifiers-luocha.json",
+    "modifiers-lynx.json",
+    "modifiers-natasha.json",
+    "modifiers-pela.json",
+    "modifiers-qingque.json",
+    "modifiers-relics-ornaments.json",
+    "modifiers-saber.json",
+    "modifiers-sampo.json",
+    "modifiers-seele.json",
+    "modifiers-serval.json",
+    "modifiers-silverwolf.json",
+    "modifiers-tingyun.json",
+    "modifiers-topaz.json",
+    "modifiers-welt.json"
+  ]
+}

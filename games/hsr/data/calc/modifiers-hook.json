@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "hook-complete-2026-08-01",
+  "description": "フック1109の燃焼条件、軌跡、追加能力、小軌跡、星魂を構造化したデータ。",
+  "modifiers": [
+    {
+      "id": "trace:1109:110902:burning-state", "source": { "kind": "trace", "id": "1109", "skillId": "110902", "traceId": "110902" },
+      "name": "戦闘スキル・敵の燃焼状態", "description": "攻撃対象が燃焼状態かを、天賦の付加ダメージと星魂6の共通条件として使用する。",
+      "category": "attackState", "unit": "boolean", "value": { "kind": "fixed", "fixed": 1 },
+      "target": { "owner": "enemySingle", "attackTypes": ["all"], "elements": [] },
+      "activation": { "mode": "toggle", "conditionText": "攻撃対象が燃焼状態", "inputKey": "hook-enemy-burning", "inputLabel": "敵が燃焼状態", "default": false, "durationTurns": 2 },
+      "stacking": { "group": "hook-enemy-burning", "rule": "nonStacking" }, "calculation": { "stage": "attackState", "operation": "set" },
+      "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "trace:1109:110902:burn-dot", "source": { "kind": "trace", "id": "1109", "skillId": "110902", "traceId": "110902" },
+      "name": "戦闘スキル・燃焼ダメージ", "description": "戦闘スキルで2ターンの燃焼を付与する。Lv10では攻撃力65%の炎属性持続ダメージ。",
+      "category": "extraDamage", "unit": "percent", "value": { "kind": "byLevel", "values": [25,27.5,30,32.5,35,38.75,43.75,50,57.5,65,68.25,71.5,74.75,78,81.25] },
+      "target": { "owner": "enemySingle", "attackTypes": ["dot"], "elements": ["Fire"] }, "activation": { "mode": "always", "conditionText": "戦闘スキルで燃焼を付与" },
+      "stacking": { "group": "hook-skill-burn", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "独立した燃焼攻撃レコードとして計算する。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "trace:1109:110903:enhanced-skill", "source": { "kind": "trace", "id": "1109", "skillId": "110903", "traceId": "110903" },
+      "name": "必殺技・次の戦闘スキルを強化", "description": "必殺技発動後、次の戦闘スキルが主対象と隣接対象へダメージを与える。",
+      "category": "extraDamage", "unit": "count", "value": { "kind": "fixed", "fixed": 1 },
+      "target": { "owner": "self", "attackTypes": ["enhancedSkill"], "elements": ["Fire"] }, "activation": { "mode": "always", "conditionText": "必殺技発動後の次の戦闘スキル" },
+      "stacking": { "group": "hook-enhanced-skill", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "強化戦闘スキルを独立攻撃レコードとして計算する。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "trace:1109:110904:additional", "source": { "kind": "trace", "id": "1109", "skillId": "110904", "traceId": "110904" },
+      "name": "天賦 はっ！火に油を注ぐ・付加ダメージ", "description": "燃焼状態の敵を攻撃すると炎属性付加ダメージを与え、EPを5回復する。Lv10では攻撃力100%。",
+      "category": "extraDamage", "unit": "percent", "value": { "kind": "byLevel", "values": [50,55,60,65,70,75,81.25,87.5,93.75,100,105,110,115,120,125] },
+      "target": { "owner": "enemySingle", "attackTypes": ["additional"], "elements": ["Fire"] }, "activation": { "mode": "always", "conditionText": "燃焼状態の敵を攻撃" },
+      "stacking": { "group": "hook-talent-additional", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "条件付き独立攻撃レコードとして計算する。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "trace:1109:110907:technique-burn", "source": { "kind": "trace", "id": "1109", "skillId": "110907", "traceId": "110907" },
+      "name": "秘技 ほら！滅茶苦茶になってる・燃焼", "description": "戦闘開始時、敵へ3ターンの攻撃力50%燃焼を付与する。",
+      "category": "extraDamage", "unit": "percent", "value": { "kind": "fixed", "fixed": 50 },
+      "target": { "owner": "enemySingle", "attackTypes": ["dot"], "elements": ["Fire"] }, "activation": { "mode": "always", "conditionText": "秘技で戦闘開始" },
+      "stacking": { "group": "hook-technique-burn", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "独立した秘技燃焼攻撃レコードとして計算する。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "traceNode:1109:1109101:heal", "source": { "kind": "trace", "id": "1109", "traceId": "1109101" },
+      "name": "追加能力 子供心・HP回復", "description": "天賦発動時、最大HP5%分のHPを回復する。", "category": "statFlat", "stat": "hp", "unit": "percent", "value": { "kind": "fixed", "fixed": 5 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "天賦発動時" }, "stacking": { "group": "hook-a1-heal", "rule": "nonStacking" }, "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "回復は与ダメージ式へ加算しない。" }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skill_trees.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "traceNode:1109:1109102:control-res", "source": { "kind": "trace", "id": "1109", "traceId": "1109102" },
+      "name": "追加能力 無邪気・行動制限抵抗", "description": "行動制限系デバフに抵抗する確率+35%。", "category": "statPercent", "stat": "effectRes", "unit": "percent", "value": { "kind": "fixed", "fixed": 35 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "追加能力を解放" }, "stacking": { "group": "hook-a2-control-res", "rule": "nonStacking" }, "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "行動制限抵抗は与ダメージ式へ加算しない。" }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skill_trees.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "traceNode:1109:1109103:advance", "source": { "kind": "trace", "id": "1109", "traceId": "1109103" },
+      "name": "追加能力 火遊び・行動順短縮／EP回復", "description": "必殺技発動後、行動順が20%早まり、EPを5回復する。", "category": "statPercent", "stat": "speed", "unit": "percent", "value": { "kind": "fixed", "fixed": 20 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "必殺技発動後" }, "stacking": { "group": "hook-a3-advance", "rule": "nonStacking" }, "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "行動順短縮とEP回復は単発与ダメージ式へ加算しない。" }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skill_trees.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "traceStats:1109:attack", "source": { "kind": "trace", "id": "1109", "traceId": "1109201" }, "name": "小軌跡合計・攻撃力", "description": "攻撃力強化の合計+22%。", "category": "statPercent", "stat": "atk", "unit": "percent", "value": { "kind": "fixed", "fixed": 22 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "対象の小軌跡をすべて解放" }, "stacking": { "group": "hook-trace-atk", "rule": "nonStacking" }, "calculation": { "stage": "baseStats", "operation": "add" }, "inputPolicy": "includedInFinalStats", "support": { "status": "displayOnly", "verified": true, "reason": "最終攻撃力入力へ含め、二重適用を防ぐ。" }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skill_trees.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "traceStats:1109:hp", "source": { "kind": "trace", "id": "1109", "traceId": "1109202" }, "name": "小軌跡合計・HP", "description": "HP強化の合計+18%。", "category": "statPercent", "stat": "hp", "unit": "percent", "value": { "kind": "fixed", "fixed": 18 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "対象の小軌跡をすべて解放" }, "stacking": { "group": "hook-trace-hp", "rule": "nonStacking" }, "calculation": { "stage": "baseStats", "operation": "add" }, "inputPolicy": "includedInFinalStats", "support": { "status": "displayOnly", "verified": true, "reason": "最終HP入力へ含め、二重適用を防ぐ。" }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skill_trees.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "traceStats:1109:crit-damage", "source": { "kind": "trace", "id": "1109", "traceId": "1109204" }, "name": "小軌跡合計・会心ダメージ", "description": "会心ダメージ強化の合計+13.3%。", "category": "statPercent", "stat": "critDamage", "unit": "percent", "value": { "kind": "fixed", "fixed": 13.3 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "対象の小軌跡をすべて解放" }, "stacking": { "group": "hook-trace-crit-damage", "rule": "nonStacking" }, "calculation": { "stage": "baseStats", "operation": "add" }, "inputPolicy": "includedInFinalStats", "support": { "status": "displayOnly", "verified": true, "reason": "最終会心ダメージ入力へ含め、二重適用を防ぐ。" }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skill_trees.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "eidolon:1109:1:enhanced-skill-damage", "source": { "kind": "eidolon", "id": "1109", "eidolonRank": 1 }, "name": "星魂1 早寝早起きは健康的・強化戦闘スキルダメージ", "description": "強化戦闘スキルの与ダメージ+20%。", "category": "damageBonus", "unit": "percent", "value": { "kind": "fixed", "fixed": 20 },
+      "target": { "owner": "self", "attackTypes": ["enhancedSkill"], "elements": ["Fire"] }, "activation": { "mode": "always", "conditionText": "星魂1以上で強化戦闘スキルを発動" }, "stacking": { "group": "hook-e1-enhanced-skill", "rule": "nonStacking" }, "calculation": { "stage": "damageBonus", "operation": "add" }, "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "eidolon:1109:2:burn-duration", "source": { "kind": "eidolon", "id": "1109", "eidolonRank": 2 }, "name": "星魂2 よく食べて成長する・燃焼継続時間", "description": "戦闘スキルが付与する燃焼の継続時間+1ターン。", "category": "extraDamage", "unit": "turn", "value": { "kind": "fixed", "fixed": 1 },
+      "target": { "owner": "enemySingle", "attackTypes": ["dot"], "elements": ["Fire"] }, "activation": { "mode": "always", "conditionText": "星魂2以上" }, "stacking": { "group": "hook-e2-burn-duration", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" }, "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "継続ターン数は単発DoTへ乗算しない。" }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "eidolon:1109:3:trace-levels", "source": { "kind": "eidolon", "id": "1109", "eidolonRank": 3 }, "name": "星魂3 好き嫌いはしない・戦闘スキル／通常攻撃Lv", "description": "戦闘スキルLv+2、通常攻撃Lv+1。", "category": "damageBonus", "unit": "percent", "value": { "kind": "fixed", "fixed": 0 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "星魂3以上" }, "stacking": { "group": "hook-e3-levels", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" }, "inputPolicy": "includedInFinalStats", "support": { "status": "displayOnly", "verified": true, "reason": "軌跡レベル選択値に含まれる。" }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "eidolon:1109:4:burn-spread", "source": { "kind": "eidolon", "id": "1109", "eidolonRank": 4 }, "name": "星魂4 うっかりしても大丈夫・燃焼拡散", "description": "天賦発動時、隣接する敵へ戦闘スキルと同じ燃焼を付与する。", "category": "extraDamage", "unit": "count", "value": { "kind": "fixed", "fixed": 1 },
+      "target": { "owner": "enemyAll", "attackTypes": ["dot"], "elements": ["Fire"] }, "activation": { "mode": "always", "conditionText": "天賦発動時" }, "stacking": { "group": "hook-e4-burn-spread", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" }, "inputPolicy": "manual", "support": { "status": "displayOnly", "verified": true, "reason": "隣接敵への状態付与であり、現在対象の単発DoTへ加算しない。" }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "eidolon:1109:5:trace-levels", "source": { "kind": "eidolon", "id": "1109", "eidolonRank": 5 }, "name": "星魂5 モグラ党は名を遺す・必殺技／天賦Lv", "description": "必殺技Lv+2、天賦Lv+2。", "category": "damageBonus", "unit": "percent", "value": { "kind": "fixed", "fixed": 0 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "always", "conditionText": "星魂5以上" }, "stacking": { "group": "hook-e5-levels", "rule": "nonStacking" }, "calculation": { "stage": "finalDamage", "operation": "add" }, "inputPolicy": "includedInFinalStats", "support": { "status": "displayOnly", "verified": true, "reason": "軌跡レベル選択値に含まれる。" }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    },
+    {
+      "id": "eidolon:1109:6:burned-damage", "source": { "kind": "eidolon", "id": "1109", "eidolonRank": 6 }, "name": "星魂6 悪い奴らはお仕置きだ・燃焼状態への与ダメージ", "description": "燃焼状態の敵に対するフックの与ダメージ+20%。", "category": "damageBonus", "unit": "percent", "value": { "kind": "fixed", "fixed": 20 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] }, "activation": { "mode": "toggle", "conditionText": "攻撃対象が燃焼状態", "inputKey": "hook-enemy-burning", "inputLabel": "敵が燃焼状態", "default": false }, "stacking": { "group": "hook-e6-burned-damage", "rule": "nonStacking" }, "calculation": { "stage": "damageBonus", "operation": "add" }, "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true }, "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01" }
+    }
+  ]
+}

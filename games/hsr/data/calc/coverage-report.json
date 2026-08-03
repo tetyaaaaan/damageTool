@@ -1,0 +1,5963 @@
+{
+  "generatedAt": "2026-08-01",
+  "definition": "Damage-affecting candidates are detected only for coverage auditing. Runtime calculation never parses descriptions.",
+  "catalog": {
+    "characters": 95,
+    "skills": 762,
+    "namedTraceNodes": 317,
+    "eidolons": 570,
+    "lightCones": 165,
+    "relicSets": 60,
+    "enemies": 3
+  },
+  "attacks": {
+    "generated": 344,
+    "reviewed": 124,
+    "additionalReviewed": 94,
+    "specialBreakReviewed": 2,
+    "pendingReview": 220,
+    "pendingIds": [
+      {
+        "id": "121101",
+        "characterId": "1211",
+        "name": "望・聞・問…蹴！"
+      },
+      {
+        "id": "121201",
+        "characterId": "1212",
+        "name": "流影穿"
+      },
+      {
+        "id": "1121201",
+        "characterId": "1212",
+        "name": "流影穿"
+      },
+      {
+        "id": "121202",
+        "characterId": "1212",
+        "name": "無罅の飛光"
+      },
+      {
+        "id": "121209",
+        "characterId": "1212",
+        "name": "寒川映月"
+      },
+      {
+        "id": "1121202",
+        "characterId": "1212",
+        "name": "無罅の飛光"
+      },
+      {
+        "id": "1121209",
+        "characterId": "1212",
+        "name": "寒川映月"
+      },
+      {
+        "id": "121203",
+        "characterId": "1212",
+        "name": "曇華生滅、夢瀉す天河"
+      },
+      {
+        "id": "1121203",
+        "characterId": "1212",
+        "name": "曇華生滅、夢瀉す天河"
+      },
+      {
+        "id": "121301",
+        "characterId": "1213",
+        "name": "水華"
+      },
+      {
+        "id": "121308",
+        "characterId": "1213",
+        "name": "瞬華"
+      },
+      {
+        "id": "121310",
+        "characterId": "1213",
+        "name": "天矢陰"
+      },
+      {
+        "id": "121312",
+        "characterId": "1213",
+        "name": "躍動せし耀鱗"
+      },
+      {
+        "id": "121303",
+        "characterId": "1213",
+        "name": "傲睨せし蒼龍、世を濯ぐ劫水"
+      },
+      {
+        "id": "121401",
+        "characterId": "1214",
+        "name": "破魔錐"
+      },
+      {
+        "id": "121402",
+        "characterId": "1214",
+        "name": "諸悪摂伏"
+      },
+      {
+        "id": "121403",
+        "characterId": "1214",
+        "name": "身を貫く天罰"
+      },
+      {
+        "id": "121404",
+        "characterId": "1214",
+        "name": "十王の聖裁、業報は常に在り"
+      },
+      {
+        "id": "121501",
+        "characterId": "1215",
+        "name": "冥兆天筆"
+      },
+      {
+        "id": "121502",
+        "characterId": "1215",
+        "name": "生滅捕縛"
+      },
+      {
+        "id": "121701",
+        "characterId": "1217",
+        "name": "令旗・風雨招来"
+      },
+      {
+        "id": "1121701",
+        "characterId": "1217",
+        "name": "令旗・風雨招来"
+      },
+      {
+        "id": "121801",
+        "characterId": "1218",
+        "name": "心火計"
+      },
+      {
+        "id": "121802",
+        "characterId": "1218",
+        "name": "燎原奔襲"
+      },
+      {
+        "id": "121803",
+        "characterId": "1218",
+        "name": "炊陣妙法、詭正相生"
+      },
+      {
+        "id": "122001",
+        "characterId": "1220",
+        "name": "閃裂"
+      },
+      {
+        "id": "122002",
+        "characterId": "1220",
+        "name": "斧貫"
+      },
+      {
+        "id": "122003",
+        "characterId": "1220",
+        "name": "大荒滅破砕"
+      },
+      {
+        "id": "122008",
+        "characterId": "1220",
+        "name": "閃裂刃舞"
+      },
+      {
+        "id": "122009",
+        "characterId": "1220",
+        "name": "斧貫衝天"
+      },
+      {
+        "id": "122004",
+        "characterId": "1220",
+        "name": "雷狩"
+      },
+      {
+        "id": "122101",
+        "characterId": "1221",
+        "name": "震天動地"
+      },
+      {
+        "id": "122102",
+        "characterId": "1221",
+        "name": "天威煌々"
+      },
+      {
+        "id": "122103",
+        "characterId": "1221",
+        "name": "天を揺るがす大地の剣"
+      },
+      {
+        "id": "122104",
+        "characterId": "1221",
+        "name": "閃熔"
+      },
+      {
+        "id": "122201",
+        "characterId": "1222",
+        "name": "供香"
+      },
+      {
+        "id": "122202",
+        "characterId": "1222",
+        "name": "彩煙"
+      },
+      {
+        "id": "122203",
+        "characterId": "1222",
+        "name": "彩雲の如く巡る霞"
+      },
+      {
+        "id": "122204",
+        "characterId": "1222",
+        "name": "紅霧より出づる煙獣"
+      },
+      {
+        "id": "122301",
+        "characterId": "1223",
+        "name": "暗器"
+      },
+      {
+        "id": "122302",
+        "characterId": "1223",
+        "name": "急襲する迅羽"
+      },
+      {
+        "id": "122303",
+        "characterId": "1223",
+        "name": "潜む刃、鋭い影"
+      },
+      {
+        "id": "122304",
+        "characterId": "1223",
+        "name": "翼を折りて鋒鋩とす"
+      },
+      {
+        "id": "122401",
+        "characterId": "1224",
+        "name": "妖魔を祓う瑠璃剣"
+      },
+      {
+        "id": "122408",
+        "characterId": "1224",
+        "name": "一に眉間、二に心臓"
+      },
+      {
+        "id": "122402",
+        "characterId": "1224",
+        "name": "師匠、お茶をどうぞ！"
+      },
+      {
+        "id": "122403",
+        "characterId": "1224",
+        "name": "蓋世の傑物、三月なのか"
+      },
+      {
+        "id": "122501",
+        "characterId": "1225",
+        "name": "燦然たる日月の尾"
+      },
+      {
+        "id": "122508",
+        "characterId": "1225",
+        "name": "緩緩たる熾炎"
+      },
+      {
+        "id": "122503",
+        "characterId": "1225",
+        "name": "極陽は遍く世を照らす"
+      },
+      {
+        "id": "130101",
+        "characterId": "1301",
+        "name": "持ち込み料"
+      },
+      {
+        "id": "130108",
+        "characterId": "1301",
+        "name": "極上の泡立ち"
+      },
+      {
+        "id": "130103",
+        "characterId": "1301",
+        "name": "シャンパン・マナー"
+      },
+      {
+        "id": "130201",
+        "characterId": "1302",
+        "name": "刹那の芬芳"
+      },
+      {
+        "id": "130202",
+        "characterId": "1302",
+        "name": "公正、ここに咲き誇る"
+      },
+      {
+        "id": "130203",
+        "characterId": "1302",
+        "name": "花園にて捧げる美の際限"
+      },
+      {
+        "id": "130214",
+        "characterId": "1302",
+        "name": "「我」が授けし至上の勲章"
+      },
+      {
+        "id": "130401",
+        "characterId": "1304",
+        "name": "ストレートべット"
+      },
+      {
+        "id": "130403",
+        "characterId": "1304",
+        "name": "ロード・オブ・ルーレット"
+      },
+      {
+        "id": "130404",
+        "characterId": "1304",
+        "name": "銃口の右には…"
+      },
+      {
+        "id": "130501",
+        "characterId": "1305",
+        "name": "知識は力なり"
+      },
+      {
+        "id": "130502",
+        "characterId": "1305",
+        "name": "産婆術"
+      },
+      {
+        "id": "130503",
+        "characterId": "1305",
+        "name": "三段階のパラドックス"
+      },
+      {
+        "id": "130504",
+        "characterId": "1305",
+        "name": "我思う、故に我あり"
+      },
+      {
+        "id": "130601",
+        "characterId": "1306",
+        "name": "独り芝居"
+      },
+      {
+        "id": "1130601",
+        "characterId": "1306",
+        "name": "独り芝居"
+      },
+      {
+        "id": "130701",
+        "characterId": "1307",
+        "name": "洞察、緘黙の黎明"
+      },
+      {
+        "id": "1130701",
+        "characterId": "1307",
+        "name": "洞察、緘黙の黎明"
+      },
+      {
+        "id": "130702",
+        "characterId": "1307",
+        "name": "失墜、偽神の黄昏"
+      },
+      {
+        "id": "1130702",
+        "characterId": "1307",
+        "name": "失墜、偽神の黄昏"
+      },
+      {
+        "id": "130703",
+        "characterId": "1307",
+        "name": "彼方の抱擁に酔いしれて"
+      },
+      {
+        "id": "1130703",
+        "characterId": "1307",
+        "name": "彼方の抱擁に酔いしれて"
+      },
+      {
+        "id": "130704",
+        "characterId": "1307",
+        "name": "果てなき運命の機織り"
+      },
+      {
+        "id": "1130704",
+        "characterId": "1307",
+        "name": "果てなき運命の機織り"
+      },
+      {
+        "id": "130801",
+        "characterId": "1308",
+        "name": "三途の枯木"
+      },
+      {
+        "id": "130802",
+        "characterId": "1308",
+        "name": "八雷渡り"
+      },
+      {
+        "id": "130803",
+        "characterId": "1308",
+        "name": "残夢染める繚乱の一太刀"
+      },
+      {
+        "id": "130901",
+        "characterId": "1309",
+        "name": "羽ばたくホワイトノイズ"
+      },
+      {
+        "id": "130903",
+        "characterId": "1309",
+        "name": "千の音で、群星にフーガを"
+      },
+      {
+        "id": "131001",
+        "characterId": "1310",
+        "name": "コマンド-フラッシュオーバー推進"
+      },
+      {
+        "id": "131008",
+        "characterId": "1310",
+        "name": "ファイアフライ-IV-底火斬撃"
+      },
+      {
+        "id": "1131001",
+        "characterId": "1310",
+        "name": "コマンド-フラッシュオーバー推進"
+      },
+      {
+        "id": "1131008",
+        "characterId": "1310",
+        "name": "ファイアフライ-IV-底火斬撃"
+      },
+      {
+        "id": "131002",
+        "characterId": "1310",
+        "name": "コマンド-天火轟撃"
+      },
+      {
+        "id": "1131002",
+        "characterId": "1310",
+        "name": "コマンド-天火轟撃"
+      },
+      {
+        "id": "131201",
+        "characterId": "1312",
+        "name": "ど…退いてくださーい！"
+      },
+      {
+        "id": "131202",
+        "characterId": "1312",
+        "name": "ル…ルームサービスです！"
+      },
+      {
+        "id": "131203",
+        "characterId": "1312",
+        "name": "ち…遅刻する！"
+      },
+      {
+        "id": "131301",
+        "characterId": "1313",
+        "name": "光を纏う告諭"
+      },
+      {
+        "id": "131401",
+        "characterId": "1314",
+        "name": "むしり取る鞭打ち"
+      },
+      {
+        "id": "131402",
+        "characterId": "1314",
+        "name": "ほしいままに呑み込む買収"
+      },
+      {
+        "id": "131403",
+        "characterId": "1314",
+        "name": "欲望の淵での地獄の契り"
+      },
+      {
+        "id": "131404",
+        "characterId": "1314",
+        "name": "富を削ぐ毒牙"
+      },
+      {
+        "id": "131501",
+        "characterId": "1315",
+        "name": "スパーズ・クラッシュ"
+      },
+      {
+        "id": "131508",
+        "characterId": "1315",
+        "name": "ファニング"
+      },
+      {
+        "id": "131503",
+        "characterId": "1315",
+        "name": "ダストデビル・ダンサー"
+      },
+      {
+        "id": "131701",
+        "characterId": "1317",
+        "name": "忍法・七転八起"
+      },
+      {
+        "id": "131718",
+        "characterId": "1317",
+        "name": "忍具・降魔の花弁"
+      },
+      {
+        "id": "131702",
+        "characterId": "1317",
+        "name": "忍切・初志貫徹"
+      },
+      {
+        "id": "132101",
+        "characterId": "1321",
+        "name": "翻弄…綻びを引き裂く記憶"
+      },
+      {
+        "id": "132102",
+        "characterId": "1321",
+        "name": "舐る…炎の舌を伸ばす背叛"
+      },
+      {
+        "id": "132103",
+        "characterId": "1321",
+        "name": "耽溺…墓場に舞い込む灰燼"
+      },
+      {
+        "id": "132104",
+        "characterId": "1321",
+        "name": "コンスタンスを恐れる者は？"
+      },
+      {
+        "id": "140101",
+        "characterId": "1401",
+        "name": "これでわかった？"
+      },
+      {
+        "id": "140102",
+        "characterId": "1401",
+        "name": "視野が狭いよ"
+      },
+      {
+        "id": "140109",
+        "characterId": "1401",
+        "name": "大胆なアイデア"
+      },
+      {
+        "id": "140103",
+        "characterId": "1401",
+        "name": "魔法だって言ったでしょ"
+      },
+      {
+        "id": "140201",
+        "characterId": "1402",
+        "name": "サイフォスの蜜"
+      },
+      {
+        "id": "140208",
+        "characterId": "1402",
+        "name": "剣先より千の口付けを"
+      },
+      {
+        "id": "140204",
+        "characterId": "1402",
+        "name": "薔薇色の指先"
+      },
+      {
+        "id": "1140201",
+        "characterId": "1402",
+        "name": "サイフォスの罠"
+      },
+      {
+        "id": "140301",
+        "characterId": "1403",
+        "name": "百発分のピラヴロス"
+      },
+      {
+        "id": "140303",
+        "characterId": "1403",
+        "name": "ここに住んでるのは誰でしょう！"
+      },
+      {
+        "id": "140304",
+        "characterId": "1403",
+        "name": "どたばたトリビー"
+      },
+      {
+        "id": "140401",
+        "characterId": "1404",
+        "name": "征途踏破の誓い"
+      },
+      {
+        "id": "140402",
+        "characterId": "1404",
+        "name": "万死に悔いなし"
+      },
+      {
+        "id": "140409",
+        "characterId": "1404",
+        "name": "王を殺め王となる"
+      },
+      {
+        "id": "140411",
+        "characterId": "1404",
+        "name": "神を殺め神となる"
+      },
+      {
+        "id": "140403",
+        "characterId": "1404",
+        "name": "天を滅す炎骨の王座"
+      },
+      {
+        "id": "140501",
+        "characterId": "1405",
+        "name": "苦痛、認識の造成"
+      },
+      {
+        "id": "140502",
+        "characterId": "1405",
+        "name": "分形、誤謬の駆逐"
+      },
+      {
+        "id": "140503",
+        "characterId": "1405",
+        "name": "化育、世界の創造"
+      },
+      {
+        "id": "140601",
+        "characterId": "1406",
+        "name": "おっと！魚は逃がさないよ"
+      },
+      {
+        "id": "140602",
+        "characterId": "1406",
+        "name": "へへっ！お宝いただき～！"
+      },
+      {
+        "id": "140603",
+        "characterId": "1406",
+        "name": "怪盗ニャンコ、参上！"
+      },
+      {
+        "id": "140604",
+        "characterId": "1406",
+        "name": "親切なドロス人"
+      },
+      {
+        "id": "1140702",
+        "characterId": "1407",
+        "name": "晦冥焼き払う息吹"
+      },
+      {
+        "id": "140801",
+        "characterId": "1408",
+        "name": "火追いの救世、必ずや果たさん"
+      },
+      {
+        "id": "140808",
+        "characterId": "1408",
+        "name": "創生・血荊の葬送"
+      },
+      {
+        "id": "140802",
+        "characterId": "1408",
+        "name": "黎明の創世、天地を開闢す"
+      },
+      {
+        "id": "140809",
+        "characterId": "1408",
+        "name": "災厄・魂命の滅却"
+      },
+      {
+        "id": "140811",
+        "characterId": "1408",
+        "name": "支柱・死星の天裁"
+      },
+      {
+        "id": "140803",
+        "characterId": "1408",
+        "name": "永劫の焼世、背負うべき未来"
+      },
+      {
+        "id": "140901",
+        "characterId": "1409",
+        "name": "雲を撫でるそよ風"
+      },
+      {
+        "id": "141001",
+        "characterId": "1410",
+        "name": "短調、止水に響く"
+      },
+      {
+        "id": "141002",
+        "characterId": "1410",
+        "name": "倍音、暗流の先の斉唱"
+      },
+      {
+        "id": "141003",
+        "characterId": "1410",
+        "name": "絶海の渦潮、呑魂の舞曲"
+      },
+      {
+        "id": "141201",
+        "characterId": "1412",
+        "name": "征け、兵は神速を尊ぶ"
+      },
+      {
+        "id": "141203",
+        "characterId": "1412",
+        "name": "世は盤上、チェックメイト"
+      },
+      {
+        "id": "141204",
+        "characterId": "1412",
+        "name": "栄光をカイザーに"
+      },
+      {
+        "id": "141301",
+        "characterId": "1413",
+        "name": "歳月はここより霞む"
+      },
+      {
+        "id": "141303",
+        "characterId": "1413",
+        "name": "眠れぬ世界に永き眠りを"
+      },
+      {
+        "id": "1141301",
+        "characterId": "1413",
+        "name": "雨のように降る記憶"
+      },
+      {
+        "id": "1141307",
+        "characterId": "1413",
+        "name": "露のように儚い夢"
+      },
+      {
+        "id": "141401",
+        "characterId": "1414",
+        "name": "悪を鎮め、生を護る"
+      },
+      {
+        "id": "141403",
+        "characterId": "1414",
+        "name": "悔いなき亢龍、天地を拓く"
+      },
+      {
+        "id": "141501",
+        "characterId": "1415",
+        "name": "さあ、希望の始まりよ！"
+      },
+      {
+        "id": "141508",
+        "characterId": "1415",
+        "name": "愛と明日へ向かって♪"
+      },
+      {
+        "id": "1141501",
+        "characterId": "1415",
+        "name": "花と矢の舞曲"
+      },
+      {
+        "id": "1141521",
+        "characterId": "1415",
+        "name": "「世負い」に捧ぐ詩"
+      },
+      {
+        "id": "1141526",
+        "characterId": "1415",
+        "name": "「真我」に捧ぐ詩"
+      },
+      {
+        "id": "150101",
+        "characterId": "1501",
+        "name": "不発だった？"
+      },
+      {
+        "id": "150108",
+        "characterId": "1501",
+        "name": "百花繚乱、ひとり勝ち！"
+      },
+      {
+        "id": "150120",
+        "characterId": "1501",
+        "name": "電波最強：アンコール！"
+      },
+      {
+        "id": "150201",
+        "characterId": "1502",
+        "name": "孔雀の矢羽根、幸いを招く嚆矢"
+      },
+      {
+        "id": "150220",
+        "characterId": "1502",
+        "name": "君に卦を贈る、天を染める銀花"
+      },
+      {
+        "id": "150401",
+        "characterId": "1504",
+        "name": "鋭き爪よ、礼儀を授けよ"
+      },
+      {
+        "id": "150402",
+        "characterId": "1504",
+        "name": "鞭と笛よ、悪獣を退けよ"
+      },
+      {
+        "id": "150403",
+        "characterId": "1504",
+        "name": "饗宴の幕、開けば閉じず"
+      },
+      {
+        "id": "150404",
+        "characterId": "1504",
+        "name": "深き怨み、牙で晴らそう"
+      },
+      {
+        "id": "150501",
+        "characterId": "1505",
+        "name": "指導・抜き打ち検査"
+      },
+      {
+        "id": "150502",
+        "characterId": "1505",
+        "name": "風紀・量刀にて裁かん"
+      },
+      {
+        "id": "150503",
+        "characterId": "1505",
+        "name": "剣歌・神鬼無赦"
+      },
+      {
+        "id": "150504",
+        "characterId": "1505",
+        "name": "青春・果てなき春の光"
+      },
+      {
+        "id": "150520",
+        "characterId": "1505",
+        "name": "薄紅・不興なれば斬る"
+      },
+      {
+        "id": "150601",
+        "characterId": "1506",
+        "name": "鉄拳制裁！"
+      },
+      {
+        "id": "150608",
+        "characterId": "1506",
+        "name": "ボーナスステージ「ウルフロードタイム」"
+      },
+      {
+        "id": "150602",
+        "characterId": "1506",
+        "name": "Shootモードオン"
+      },
+      {
+        "id": "150621",
+        "characterId": "1506",
+        "name": "崩壊級ダメージ実演"
+      },
+      {
+        "id": "150701",
+        "characterId": "1507",
+        "name": "刈り尽くす毀刃"
+      },
+      {
+        "id": "150708",
+        "characterId": "1507",
+        "name": "魂魄を断つ鋭刃"
+      },
+      {
+        "id": "150702",
+        "characterId": "1507",
+        "name": "葬り去る千刃"
+      },
+      {
+        "id": "150714",
+        "characterId": "1507",
+        "name": "千冶は一を鋳り、万劫を燼滅す"
+      },
+      {
+        "id": "150801",
+        "characterId": "1508",
+        "name": "八極拳"
+      },
+      {
+        "id": "150802",
+        "characterId": "1508",
+        "name": "宝石剣ゼルレッチ"
+      },
+      {
+        "id": "150809",
+        "characterId": "1508",
+        "name": "第二魔法の実験"
+      },
+      {
+        "id": "150803",
+        "characterId": "1508",
+        "name": "山脈震撼す明星の薪"
+      },
+      {
+        "id": "150805",
+        "characterId": "1508",
+        "name": "自在遠坂流"
+      },
+      {
+        "id": "150901",
+        "characterId": "1509",
+        "name": "気まぐれ"
+      },
+      {
+        "id": "150902",
+        "characterId": "1509",
+        "name": "王の財宝"
+      },
+      {
+        "id": "150903",
+        "characterId": "1509",
+        "name": "天地乖離す開闢の星"
+      },
+      {
+        "id": "150905",
+        "characterId": "1509",
+        "name": "「攻撃を許す」"
+      },
+      {
+        "id": "151001",
+        "characterId": "1510",
+        "name": "はじまりの航路標識を灯して"
+      },
+      {
+        "id": "151003",
+        "characterId": "1510",
+        "name": "我ら、星を追う巨人"
+      },
+      {
+        "id": "151008",
+        "characterId": "1510",
+        "name": "超光速粒子ビーム"
+      },
+      {
+        "id": "151009",
+        "characterId": "1510",
+        "name": "軌道殲滅パルス砲"
+      },
+      {
+        "id": "151022",
+        "characterId": "1510",
+        "name": "開拓が共にあらんことを"
+      },
+      {
+        "id": "800101",
+        "characterId": "8001",
+        "name": "サヨナラ安打"
+      },
+      {
+        "id": "800102",
+        "characterId": "8001",
+        "name": "安息ホームラン"
+      },
+      {
+        "id": "800103",
+        "characterId": "8001",
+        "name": "スターダストエース"
+      },
+      {
+        "id": "800108",
+        "characterId": "8001",
+        "name": "全勝・サヨナラ安打"
+      },
+      {
+        "id": "800109",
+        "characterId": "8001",
+        "name": "全勝・安息ホームラン"
+      },
+      {
+        "id": "800201",
+        "characterId": "8002",
+        "name": "サヨナラ安打"
+      },
+      {
+        "id": "800202",
+        "characterId": "8002",
+        "name": "安息ホームラン"
+      },
+      {
+        "id": "800203",
+        "characterId": "8002",
+        "name": "スターダストエース"
+      },
+      {
+        "id": "800208",
+        "characterId": "8002",
+        "name": "全勝・サヨナラ安打"
+      },
+      {
+        "id": "800209",
+        "characterId": "8002",
+        "name": "全勝・安息ホームラン"
+      },
+      {
+        "id": "800301",
+        "characterId": "8003",
+        "name": "堅氷を貫く烈火"
+      },
+      {
+        "id": "800308",
+        "characterId": "8003",
+        "name": "堅氷を貫く烈火"
+      },
+      {
+        "id": "800303",
+        "characterId": "8003",
+        "name": "陥陣無帰の炎槍"
+      },
+      {
+        "id": "800401",
+        "characterId": "8004",
+        "name": "堅氷を貫く烈火"
+      },
+      {
+        "id": "800408",
+        "characterId": "8004",
+        "name": "堅氷を貫く烈火"
+      },
+      {
+        "id": "800403",
+        "characterId": "8004",
+        "name": "陥陣無帰の炎槍"
+      },
+      {
+        "id": "800501",
+        "characterId": "8005",
+        "name": "揺らめく礼儀"
+      },
+      {
+        "id": "800502",
+        "characterId": "8005",
+        "name": "間奏曲が降らす雨"
+      },
+      {
+        "id": "800601",
+        "characterId": "8006",
+        "name": "揺らめく礼儀"
+      },
+      {
+        "id": "800602",
+        "characterId": "8006",
+        "name": "間奏曲が降らす雨"
+      },
+      {
+        "id": "800701",
+        "characterId": "8007",
+        "name": "お任せあれ！"
+      },
+      {
+        "id": "800708",
+        "characterId": "8007",
+        "name": "明日を一緒に紡ごう！"
+      },
+      {
+        "id": "800703",
+        "characterId": "8007",
+        "name": "やっちゃえミュリオン！"
+      },
+      {
+        "id": "1800701",
+        "characterId": "8007",
+        "name": "厄介な悪者さん！"
+      },
+      {
+        "id": "800801",
+        "characterId": "8008",
+        "name": "お任せあれ！"
+      },
+      {
+        "id": "800808",
+        "characterId": "8008",
+        "name": "明日を一緒に紡ごう！"
+      },
+      {
+        "id": "800803",
+        "characterId": "8008",
+        "name": "やっちゃえミュリオン！"
+      },
+      {
+        "id": "800901",
+        "characterId": "8009",
+        "name": "これぞ応援"
+      },
+      {
+        "id": "800902",
+        "characterId": "8009",
+        "name": "風が騒がしい"
+      },
+      {
+        "id": "800920",
+        "characterId": "8009",
+        "name": "愉悦って言ったの聞こえなかった？"
+      },
+      {
+        "id": "801001",
+        "characterId": "8010",
+        "name": "これぞ応援"
+      },
+      {
+        "id": "801002",
+        "characterId": "8010",
+        "name": "風が騒がしい"
+      },
+      {
+        "id": "801020",
+        "characterId": "8010",
+        "name": "愉悦って言ったの聞こえなかった？"
+      }
+    ]
+  },
+  "modifiers": {
+    "registered": 566,
+    "calculable": 218,
+    "review": 0,
+    "displayOnly": 348,
+    "candidateRecords": 973,
+    "candidateRecordsByKind": {
+      "trace": 467,
+      "traceNode": 118,
+      "eidolon": 194,
+      "lightCone": 130,
+      "ornament": 26,
+      "relic": 38
+    },
+    "sourceCoveredCandidates": 286,
+    "pendingCandidateRecords": 687,
+    "pendingCandidateRecordsByKind": {
+      "trace": 307,
+      "traceNode": 85,
+      "eidolon": 140,
+      "lightCone": 107,
+      "ornament": 19,
+      "relic": 29
+    },
+    "pendingCandidates": [
+      {
+        "kind": "trace",
+        "sourceId": "8010",
+        "recordId": "801001",
+        "sourceName": "開拓者（愉悦・女性）",
+        "recordName": "これぞ応援"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8010",
+        "recordId": "801002",
+        "sourceName": "開拓者（愉悦・女性）",
+        "recordName": "風が騒がしい"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8010",
+        "recordId": "801003",
+        "sourceName": "開拓者（愉悦・女性）",
+        "recordName": "飛べ、開拓と共に！"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "8010",
+        "recordId": "8010101",
+        "sourceName": "開拓者（愉悦・女性）",
+        "recordName": "{RUBY_B#ゆかいつうかい}愉快痛快{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "8010",
+        "recordId": "8010102",
+        "sourceName": "開拓者（愉悦・女性）",
+        "recordName": "はじけよう！"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8010",
+        "recordId": "8010:E6",
+        "sourceName": "開拓者（愉悦・女性）",
+        "recordName": "{RUBY_B#ぎんが}銀河{RUBY_E#}の{RUBY_B#でんせつ}伝説{RUBY_E#}、{RUBY_B#さんじょう}参上{RUBY_E#}！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8009",
+        "recordId": "800901",
+        "sourceName": "開拓者（愉悦・男性）",
+        "recordName": "これぞ応援"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8009",
+        "recordId": "800902",
+        "sourceName": "開拓者（愉悦・男性）",
+        "recordName": "風が騒がしい"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8009",
+        "recordId": "800903",
+        "sourceName": "開拓者（愉悦・男性）",
+        "recordName": "飛べ、開拓と共に！"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "8009",
+        "recordId": "8009101",
+        "sourceName": "開拓者（愉悦・男性）",
+        "recordName": "{RUBY_B#ゆかいつうかい}愉快痛快{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "8009",
+        "recordId": "8009102",
+        "sourceName": "開拓者（愉悦・男性）",
+        "recordName": "はじけよう！"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8009",
+        "recordId": "8009:E6",
+        "sourceName": "開拓者（愉悦・男性）",
+        "recordName": "{RUBY_B#ぎんが}銀河{RUBY_E#}の{RUBY_B#でんせつ}伝説{RUBY_E#}、{RUBY_B#さんじょう}参上{RUBY_E#}！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8008",
+        "recordId": "800801",
+        "sourceName": "開拓者（記憶・女性）",
+        "recordName": "お任せあれ！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8008",
+        "recordId": "800803",
+        "sourceName": "開拓者（記憶・女性）",
+        "recordName": "やっちゃえミュリオン！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8008",
+        "recordId": "800807",
+        "sourceName": "開拓者（記憶・女性）",
+        "recordName": "こだまする記憶"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8008",
+        "recordId": "800808",
+        "sourceName": "開拓者（記憶・女性）",
+        "recordName": "明日を一緒に紡ごう！"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8008",
+        "recordId": "8008:E1",
+        "sourceName": "開拓者（記憶・女性）",
+        "recordName": "{RUBY_B#げんざい}現在{RUBY_E#}を{RUBY_B#きろく}記録{RUBY_E#}する{RUBY_B#もの}者{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8008",
+        "recordId": "8008:E4",
+        "sourceName": "開拓者（記憶・女性）",
+        "recordName": "ミューズの{RUBY_B#あら}新{RUBY_E#}たな\n{RUBY_B#おど}踊{RUBY_E#}り{RUBY_B#て}手{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8008",
+        "recordId": "8008:E6",
+        "sourceName": "開拓者（記憶・女性）",
+        "recordName": "{RUBY_B#けいじ}啓示{RUBY_E#}の{RUBY_B#かた}語{RUBY_E#}り{RUBY_B#て}手{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8007",
+        "recordId": "800701",
+        "sourceName": "開拓者（記憶・男性）",
+        "recordName": "お任せあれ！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8007",
+        "recordId": "800703",
+        "sourceName": "開拓者（記憶・男性）",
+        "recordName": "やっちゃえミュリオン！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8007",
+        "recordId": "800707",
+        "sourceName": "開拓者（記憶・男性）",
+        "recordName": "こだまする記憶"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8007",
+        "recordId": "800708",
+        "sourceName": "開拓者（記憶・男性）",
+        "recordName": "明日を一緒に紡ごう！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8007",
+        "recordId": "1800701",
+        "sourceName": "開拓者（記憶・男性）",
+        "recordName": "厄介な悪者さん！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8007",
+        "recordId": "1800703",
+        "sourceName": "開拓者（記憶・男性）",
+        "recordName": "仲間と一緒に！"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8007",
+        "recordId": "8007:E1",
+        "sourceName": "開拓者（記憶・男性）",
+        "recordName": "{RUBY_B#げんざい}現在{RUBY_E#}を{RUBY_B#きろく}記録{RUBY_E#}する{RUBY_B#もの}者{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8007",
+        "recordId": "8007:E4",
+        "sourceName": "開拓者（記憶・男性）",
+        "recordName": "ミューズの{RUBY_B#あら}新{RUBY_E#}たな\n{RUBY_B#おど}踊{RUBY_E#}り{RUBY_B#て}手{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8007",
+        "recordId": "8007:E6",
+        "sourceName": "開拓者（記憶・男性）",
+        "recordName": "{RUBY_B#けいじ}啓示{RUBY_E#}の{RUBY_B#かた}語{RUBY_E#}り{RUBY_B#て}手{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8006",
+        "recordId": "800601",
+        "sourceName": "開拓者（調和・女性）",
+        "recordName": "揺らめく礼儀"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8006",
+        "recordId": "800602",
+        "sourceName": "開拓者（調和・女性）",
+        "recordName": "間奏曲が降らす雨"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8006",
+        "recordId": "800603",
+        "sourceName": "開拓者（調和・女性）",
+        "recordName": "賑やかなパレード"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8006",
+        "recordId": "800607",
+        "sourceName": "開拓者（調和・女性）",
+        "recordName": "即興！独奏団"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8006",
+        "recordId": "8006:E4",
+        "sourceName": "開拓者（調和・女性）",
+        "recordName": "ハトを{RUBY_B#かく}隠{RUBY_E#}す{RUBY_B#かんむり}冠{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8005",
+        "recordId": "800501",
+        "sourceName": "開拓者（調和・男性）",
+        "recordName": "揺らめく礼儀"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8005",
+        "recordId": "800502",
+        "sourceName": "開拓者（調和・男性）",
+        "recordName": "間奏曲が降らす雨"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8005",
+        "recordId": "800503",
+        "sourceName": "開拓者（調和・男性）",
+        "recordName": "賑やかなパレード"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8005",
+        "recordId": "800507",
+        "sourceName": "開拓者（調和・男性）",
+        "recordName": "即興！独奏団"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8005",
+        "recordId": "8005:E4",
+        "sourceName": "開拓者（調和・男性）",
+        "recordName": "ハトを{RUBY_B#かく}隠{RUBY_E#}す{RUBY_B#かんむり}冠{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8004",
+        "recordId": "800401",
+        "sourceName": "開拓者（存護・女性）",
+        "recordName": "堅氷を貫く烈火"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8004",
+        "recordId": "800403",
+        "sourceName": "開拓者（存護・女性）",
+        "recordName": "陥陣無帰の炎槍"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8004",
+        "recordId": "800404",
+        "sourceName": "開拓者（存護・女性）",
+        "recordName": "建創者の失われし宝"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8004",
+        "recordId": "800407",
+        "sourceName": "開拓者（存護・女性）",
+        "recordName": "守護者命令"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8004",
+        "recordId": "800408",
+        "sourceName": "開拓者（存護・女性）",
+        "recordName": "堅氷を貫く烈火"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "8004",
+        "recordId": "8004103",
+        "sourceName": "開拓者（存護・女性）",
+        "recordName": "{RUBY_B#かんが}考{RUBY_E#}えるより{RUBY_B#こうどう}行動{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8004",
+        "recordId": "8004:E1",
+        "sourceName": "開拓者（存護・女性）",
+        "recordName": "{RUBY_B#だいちしんずい}大地芯髄{RUBY_E#}の{RUBY_B#めいどう}鳴動{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8004",
+        "recordId": "8004:E2",
+        "sourceName": "開拓者（存護・女性）",
+        "recordName": "{RUBY_B#ふる}古{RUBY_E#}き{RUBY_B#かんてつ}寒鉄{RUBY_E#}の{RUBY_B#けんしゅ}堅守{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8004",
+        "recordId": "8004:E6",
+        "sourceName": "開拓者（存護・女性）",
+        "recordName": "{RUBY_B#えいせい}永世{RUBY_E#}に{RUBY_B#そび}聳{RUBY_E#}える{RUBY_B#へきるい}壁塁{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8003",
+        "recordId": "800301",
+        "sourceName": "開拓者（存護・男性）",
+        "recordName": "堅氷を貫く烈火"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8003",
+        "recordId": "800303",
+        "sourceName": "開拓者（存護・男性）",
+        "recordName": "陥陣無帰の炎槍"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8003",
+        "recordId": "800304",
+        "sourceName": "開拓者（存護・男性）",
+        "recordName": "建創者の失われし宝"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8003",
+        "recordId": "800307",
+        "sourceName": "開拓者（存護・男性）",
+        "recordName": "守護者命令"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8003",
+        "recordId": "800308",
+        "sourceName": "開拓者（存護・男性）",
+        "recordName": "堅氷を貫く烈火"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "8003",
+        "recordId": "8003103",
+        "sourceName": "開拓者（存護・男性）",
+        "recordName": "{RUBY_B#かんが}考{RUBY_E#}えるより{RUBY_B#こうどう}行動{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8003",
+        "recordId": "8003:E1",
+        "sourceName": "開拓者（存護・男性）",
+        "recordName": "{RUBY_B#だいちしんずい}大地芯髄{RUBY_E#}の{RUBY_B#めいどう}鳴動{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8003",
+        "recordId": "8003:E2",
+        "sourceName": "開拓者（存護・男性）",
+        "recordName": "{RUBY_B#ふる}古{RUBY_E#}き{RUBY_B#かんてつ}寒鉄{RUBY_E#}の{RUBY_B#けんしゅ}堅守{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8003",
+        "recordId": "8003:E6",
+        "sourceName": "開拓者（存護・男性）",
+        "recordName": "{RUBY_B#えいせい}永世{RUBY_E#}に{RUBY_B#そび}聳{RUBY_E#}える{RUBY_B#へきるい}壁塁{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8002",
+        "recordId": "800201",
+        "sourceName": "開拓者（壊滅・女性）",
+        "recordName": "サヨナラ安打"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8002",
+        "recordId": "800202",
+        "sourceName": "開拓者（壊滅・女性）",
+        "recordName": "安息ホームラン"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8002",
+        "recordId": "800203",
+        "sourceName": "開拓者（壊滅・女性）",
+        "recordName": "スターダストエース"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8002",
+        "recordId": "800204",
+        "sourceName": "開拓者（壊滅・女性）",
+        "recordName": "盗塁牽制"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8002",
+        "recordId": "800208",
+        "sourceName": "開拓者（壊滅・女性）",
+        "recordName": "全勝・サヨナラ安打"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8002",
+        "recordId": "800209",
+        "sourceName": "開拓者（壊滅・女性）",
+        "recordName": "全勝・安息ホームラン"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "8002",
+        "recordId": "8002102",
+        "sourceName": "開拓者（壊滅・女性）",
+        "recordName": "{RUBY_B#けんじん}堅靭{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "8002",
+        "recordId": "8002103",
+        "sourceName": "開拓者（壊滅・女性）",
+        "recordName": "{RUBY_B#とうし}闘志{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8002",
+        "recordId": "8002:E2",
+        "sourceName": "開拓者（壊滅・女性）",
+        "recordName": "{RUBY_B#えん}縁{RUBY_E#}の{RUBY_B#もと}下{RUBY_E#}{RUBY_B#かごう}假合{RUBY_E#}した{RUBY_B#じんしん}人身{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8002",
+        "recordId": "8002:E4",
+        "sourceName": "開拓者（壊滅・女性）",
+        "recordName": "{RUBY_B#きめつ}毀滅{RUBY_E#}の{RUBY_B#しゅんかん}瞬間{RUBY_E#}を{RUBY_B#ぎょうし}凝視{RUBY_E#}する{RUBY_B#ひとみ}瞳{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8001",
+        "recordId": "800101",
+        "sourceName": "開拓者（壊滅・男性）",
+        "recordName": "サヨナラ安打"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8001",
+        "recordId": "800102",
+        "sourceName": "開拓者（壊滅・男性）",
+        "recordName": "安息ホームラン"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8001",
+        "recordId": "800103",
+        "sourceName": "開拓者（壊滅・男性）",
+        "recordName": "スターダストエース"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8001",
+        "recordId": "800104",
+        "sourceName": "開拓者（壊滅・男性）",
+        "recordName": "盗塁牽制"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8001",
+        "recordId": "800108",
+        "sourceName": "開拓者（壊滅・男性）",
+        "recordName": "全勝・サヨナラ安打"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "8001",
+        "recordId": "800109",
+        "sourceName": "開拓者（壊滅・男性）",
+        "recordName": "全勝・安息ホームラン"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "8001",
+        "recordId": "8001102",
+        "sourceName": "開拓者（壊滅・男性）",
+        "recordName": "{RUBY_B#けんじん}堅靭{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "8001",
+        "recordId": "8001103",
+        "sourceName": "開拓者（壊滅・男性）",
+        "recordName": "{RUBY_B#とうし}闘志{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8001",
+        "recordId": "8001:E2",
+        "sourceName": "開拓者（壊滅・男性）",
+        "recordName": "{RUBY_B#えん}縁{RUBY_E#}の{RUBY_B#もと}下{RUBY_E#}{RUBY_B#かごう}假合{RUBY_E#}した{RUBY_B#じんしん}人身{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "8001",
+        "recordId": "8001:E4",
+        "sourceName": "開拓者（壊滅・男性）",
+        "recordName": "{RUBY_B#きめつ}毀滅{RUBY_E#}の{RUBY_B#しゅんかん}瞬間{RUBY_E#}を{RUBY_B#ぎょうし}凝視{RUBY_E#}する{RUBY_B#ひとみ}瞳{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1510",
+        "recordId": "151001",
+        "sourceName": "姫子・旅立ち",
+        "recordName": "はじまりの航路標識を灯して"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1510",
+        "recordId": "151002",
+        "sourceName": "姫子・旅立ち",
+        "recordName": "立ち昇る導きの狼煙"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1510",
+        "recordId": "151003",
+        "sourceName": "姫子・旅立ち",
+        "recordName": "我ら、星を追う巨人"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1510",
+        "recordId": "151004",
+        "sourceName": "姫子・旅立ち",
+        "recordName": "共に灼熱の遠征へ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1510",
+        "recordId": "151008",
+        "sourceName": "姫子・旅立ち",
+        "recordName": "超光速粒子ビーム"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1510",
+        "recordId": "151009",
+        "sourceName": "姫子・旅立ち",
+        "recordName": "軌道殲滅パルス砲"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1510",
+        "recordId": "151022",
+        "sourceName": "姫子・旅立ち",
+        "recordName": "開拓が共にあらんことを"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1510",
+        "recordId": "151025",
+        "sourceName": "姫子・旅立ち",
+        "recordName": "同行協定：裁決"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1510",
+        "recordId": "151026",
+        "sourceName": "姫子・旅立ち",
+        "recordName": "同行協定：殲滅"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1510",
+        "recordId": "1510103",
+        "sourceName": "姫子・旅立ち",
+        "recordName": "{RUBY_B#たいこ}太古{RUBY_E#}より{RUBY_B#ちんもく}沈黙{RUBY_E#}するレール"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1510",
+        "recordId": "1510:E2",
+        "sourceName": "姫子・旅立ち",
+        "recordName": "{RUBY_B#はた}旗{RUBY_E#}は{RUBY_B#お}下{RUBY_E#}ろされることなき{RUBY_B#ほ}帆{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1510",
+        "recordId": "1510:E4",
+        "sourceName": "姫子・旅立ち",
+        "recordName": "{RUBY_B#そら}空{RUBY_E#}へ{RUBY_B#の}伸{RUBY_E#}ばされる{RUBY_B#て}手{RUBY_E#}を{RUBY_B#と}取{RUBY_E#}って"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1510",
+        "recordId": "1510:E6",
+        "sourceName": "姫子・旅立ち",
+        "recordName": "{RUBY_B#ぐんせい}群星{RUBY_E#}に{RUBY_B#たど}辿{RUBY_E#}り{RUBY_B#つ}着{RUBY_E#}く{RUBY_B#ちか}誓{RUBY_E#}いを{RUBY_B#むね}胸{RUBY_E#}に"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1509",
+        "recordId": "150901",
+        "sourceName": "ギルガメッシュ",
+        "recordName": "気まぐれ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1509",
+        "recordId": "150902",
+        "sourceName": "ギルガメッシュ",
+        "recordName": "王の財宝"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1509",
+        "recordId": "150903",
+        "sourceName": "ギルガメッシュ",
+        "recordName": "天地乖離す開闢の星"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1509",
+        "recordId": "150905",
+        "sourceName": "ギルガメッシュ",
+        "recordName": "「攻撃を許す」"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1509",
+        "recordId": "150907",
+        "sourceName": "ギルガメッシュ",
+        "recordName": "天の鎖"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1509",
+        "recordId": "1509102",
+        "sourceName": "ギルガメッシュ",
+        "recordName": "{RUBY_B#ここう}孤高{RUBY_E#}の{RUBY_B#えいゆう}英雄{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1509",
+        "recordId": "1509103",
+        "sourceName": "ギルガメッシュ",
+        "recordName": "{RUBY_B#おう}王{RUBY_E#}の{RUBY_B#そうは}争覇{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1509",
+        "recordId": "1509:E1",
+        "sourceName": "ギルガメッシュ",
+        "recordName": "すべてを{RUBY_B#みとど}見届{RUBY_E#}ける{RUBY_B#もの}者{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1509",
+        "recordId": "1509:E2",
+        "sourceName": "ギルガメッシュ",
+        "recordName": "{RUBY_B#ばんぶつ}万物{RUBY_E#}に{RUBY_B#せいつう}精通{RUBY_E#}する{RUBY_B#えいち}叡智{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1509",
+        "recordId": "1509:E6",
+        "sourceName": "ギルガメッシュ",
+        "recordName": "{RUBY_B#しんゆう}親友{RUBY_E#}に{RUBY_B#きた}鍛{RUBY_E#}えられし{RUBY_B#たましい}魂{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1508",
+        "recordId": "150801",
+        "sourceName": "遠坂凛",
+        "recordName": "八極拳"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1508",
+        "recordId": "150802",
+        "sourceName": "遠坂凛",
+        "recordName": "宝石剣ゼルレッチ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1508",
+        "recordId": "150803",
+        "sourceName": "遠坂凛",
+        "recordName": "山脈震撼す明星の薪"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1508",
+        "recordId": "150804",
+        "sourceName": "遠坂凛",
+        "recordName": "宝石魔術"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1508",
+        "recordId": "150805",
+        "sourceName": "遠坂凛",
+        "recordName": "自在遠坂流"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1508",
+        "recordId": "150809",
+        "sourceName": "遠坂凛",
+        "recordName": "第二魔法の実験"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1508",
+        "recordId": "1508101",
+        "sourceName": "遠坂凛",
+        "recordName": "{RUBY_B#ゆうが}優雅{RUBY_E#}たれ"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1508",
+        "recordId": "1508:E4",
+        "sourceName": "遠坂凛",
+        "recordName": "あかいあくま・3{RUBY_B#ばい}倍{RUBY_E#}{RUBY_B#はや}速{RUBY_E#}い"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1508",
+        "recordId": "1508:E6",
+        "sourceName": "遠坂凛",
+        "recordName": "{RUBY_B#こんかい}今回{RUBY_E#}は\nヘマしなかった！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1507",
+        "recordId": "150703",
+        "sourceName": "千冶・刃",
+        "recordName": "骨は炉に、血肉は薪にす"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1507",
+        "recordId": "1507103",
+        "sourceName": "千冶・刃",
+        "recordName": "{RUBY_B#ばんさい}万淬{RUBY_E#}の{RUBY_B#こころ}心{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1507",
+        "recordId": "1507:E1",
+        "sourceName": "千冶・刃",
+        "recordName": "{RUBY_B#し}死{RUBY_E#}するまで、\nこの{RUBY_B#み}身{RUBY_E#}は{RUBY_B#な}成{RUBY_E#}らず"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1507",
+        "recordId": "1507:E4",
+        "sourceName": "千冶・刃",
+        "recordName": "{RUBY_B#いこん}遺恨{RUBY_E#}に{RUBY_B#きた}鍛{RUBY_E#}えられ、\n{RUBY_B#けんこつおの}剣骨自{RUBY_E#}ずと{RUBY_B#かたち}形{RUBY_E#}を{RUBY_B#な}成{RUBY_E#}す"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1507",
+        "recordId": "1507:E6",
+        "sourceName": "千冶・刃",
+        "recordName": "{RUBY_B#かみ}神{RUBY_E#}が{RUBY_B#うんらく}殞落{RUBY_E#}するならば、\n{RUBY_B#じゅおん}寿瘟{RUBY_E#}を{RUBY_B#う}討{RUBY_E#}つと{RUBY_B#ちか}誓{RUBY_E#}わん"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1506",
+        "recordId": "150601",
+        "sourceName": "銀狼LV.999",
+        "recordName": "鉄拳制裁！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1506",
+        "recordId": "150602",
+        "sourceName": "銀狼LV.999",
+        "recordName": "Shootモードオン"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1506",
+        "recordId": "150604",
+        "sourceName": "銀狼LV.999",
+        "recordName": "私がいればヌルゲー"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1506",
+        "recordId": "150608",
+        "sourceName": "銀狼LV.999",
+        "recordName": "ボーナスステージ「ウルフロードタイム」"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1506",
+        "recordId": "1506:E6",
+        "sourceName": "銀狼LV.999",
+        "recordName": "{RUBY_B#わたし}私{RUBY_E#}だけカンストな{RUBY_B#けん}件{RUBY_E#}！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1505",
+        "recordId": "150501",
+        "sourceName": "緋英",
+        "recordName": "指導・抜き打ち検査"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1505",
+        "recordId": "150502",
+        "sourceName": "緋英",
+        "recordName": "風紀・量刀にて裁かん"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1505",
+        "recordId": "150503",
+        "sourceName": "緋英",
+        "recordName": "剣歌・神鬼無赦"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1505",
+        "recordId": "150504",
+        "sourceName": "緋英",
+        "recordName": "青春・果てなき春の光"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1505",
+        "recordId": "150507",
+        "sourceName": "緋英",
+        "recordName": "落英・思い出も散りて"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1505",
+        "recordId": "1505101",
+        "sourceName": "緋英",
+        "recordName": "{RUBY_B#たの}楽{RUBY_E#}しむ{RUBY_B#たいしゅう}大衆{RUBY_E#}を{RUBY_B#なが}眺{RUBY_E#}めて"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1505",
+        "recordId": "1505102",
+        "sourceName": "緋英",
+        "recordName": "{RUBY_B#さば}裁{RUBY_E#}きを{RUBY_B#くだ}下{RUBY_E#}す"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1505",
+        "recordId": "1505:E1",
+        "sourceName": "緋英",
+        "recordName": "{RUBY_B#ふるさと}故郷{RUBY_E#}、\n{RUBY_B#いの}祈{RUBY_E#}りを{RUBY_B#こ}込{RUBY_E#}めた{RUBY_B#まい}舞{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1505",
+        "recordId": "1505:E2",
+        "sourceName": "緋英",
+        "recordName": "{RUBY_B#えんろ}遠路{RUBY_E#}、\n{RUBY_B#とわ}永遠{RUBY_E#}に{RUBY_B#さ}咲{RUBY_E#}きたし"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1504",
+        "recordId": "150401",
+        "sourceName": "不死途",
+        "recordName": "鋭き爪よ、礼儀を授けよ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1504",
+        "recordId": "150402",
+        "sourceName": "不死途",
+        "recordName": "鞭と笛よ、悪獣を退けよ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1504",
+        "recordId": "150403",
+        "sourceName": "不死途",
+        "recordName": "饗宴の幕、開けば閉じず"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1504",
+        "recordId": "150404",
+        "sourceName": "不死途",
+        "recordName": "深き怨み、牙で晴らそう"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1504",
+        "recordId": "150407",
+        "sourceName": "不死途",
+        "recordName": "憎き手よ、食らうがいい"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1504",
+        "recordId": "1504103",
+        "sourceName": "不死途",
+        "recordName": "{RUBY_B#おさ}長{RUBY_E#}の{RUBY_B#おおかみ}狼{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1504",
+        "recordId": "1504:E4",
+        "sourceName": "不死途",
+        "recordName": "{RUBY_B#めい}銘{RUBY_E#}じろ、\n{RUBY_B#しんじつ}真実{RUBY_E#}に{RUBY_B#そしゃく}咀嚼{RUBY_E#}は{RUBY_B#ひつよう}必要{RUBY_E#}ない"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1504",
+        "recordId": "1504:E6",
+        "sourceName": "不死途",
+        "recordName": "{RUBY_B#まくぎ}幕切{RUBY_E#}れ、\n{RUBY_B#ある}或{RUBY_E#}いは{RUBY_B#だれ}誰{RUBY_E#}もいなくなる"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1502",
+        "recordId": "150201",
+        "sourceName": "爻光",
+        "recordName": "孔雀の矢羽根、幸いを招く嚆矢"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1502",
+        "recordId": "150203",
+        "sourceName": "爻光",
+        "recordName": "霓裳に鉄の羽、六爻はすべて吉"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1502",
+        "recordId": "1502102",
+        "sourceName": "爻光",
+        "recordName": "{RUBY_B#み}満{RUBY_E#}ち{RUBY_B#た}足{RUBY_E#}りたひと{RUBY_B#とき}時{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1502",
+        "recordId": "1502:E1",
+        "sourceName": "爻光",
+        "recordName": "{RUBY_B#ぎょくお}玉落{RUBY_E#}つる{RUBY_B#ところ}処{RUBY_E#}、\n{RUBY_B#み}満{RUBY_E#}ち{RUBY_B#み}満{RUBY_E#}ちる{RUBY_B#え}笑{RUBY_E#}み"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1502",
+        "recordId": "1502:E6",
+        "sourceName": "爻光",
+        "recordName": "{RUBY_B#たぐ}手繰{RUBY_E#}り{RUBY_B#よ}寄{RUBY_E#}せる{RUBY_B#いと}糸{RUBY_E#}、\n{RUBY_B#てんせい}天星{RUBY_E#}が{RUBY_B#か}架{RUBY_E#}くる{RUBY_B#にじ}虹{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1501",
+        "recordId": "150101",
+        "sourceName": "火花",
+        "recordName": "不発だった？"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1501",
+        "recordId": "150103",
+        "sourceName": "火花",
+        "recordName": "火花で盛り上がろう！カメラは止めないで"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1501",
+        "recordId": "150107",
+        "sourceName": "火花",
+        "recordName": "収益化"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1501",
+        "recordId": "150108",
+        "sourceName": "火花",
+        "recordName": "百花繚乱、ひとり勝ち！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1501",
+        "recordId": "150109",
+        "sourceName": "火花",
+        "recordName": "インタラクティブ・トラップ"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1501",
+        "recordId": "1501101",
+        "sourceName": "火花",
+        "recordName": "スイート！{RUBY_B#ばくしょう}爆笑{RUBY_E#}ネタのサイン{RUBY_B#かい}会{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1501",
+        "recordId": "1501103",
+        "sourceName": "火花",
+        "recordName": "エキサイト！{RUBY_B#しんぎ}真偽{RUBY_E#}のパレット"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1501",
+        "recordId": "1501:E1",
+        "sourceName": "火花",
+        "recordName": "#{RUBY_B#きゅうじょうしょう}急上昇{RUBY_E#}ワード：\n{RUBY_B#かのじょ}彼女{RUBY_E#}は{RUBY_B#だれ}誰{RUBY_E#}？"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1501",
+        "recordId": "1501:E2",
+        "sourceName": "火花",
+        "recordName": "#みんなの{RUBY_B#め}目{RUBY_E#}は\n{RUBY_B#ごまか}誤魔化{RUBY_E#}せない"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1501",
+        "recordId": "1501:E6",
+        "sourceName": "火花",
+        "recordName": "#じゃーん！\n{RUBY_B#ぜっぱん}絶版{RUBY_E#}が{RUBY_B#ちか}近{RUBY_E#}い{RUBY_B#ひばな}火花{RUBY_E#}だよ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1415",
+        "recordId": "141503",
+        "sourceName": "キュレネ",
+        "recordName": "詩の「◦」と「∞」の誓約"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1415",
+        "recordId": "141504",
+        "sourceName": "キュレネ",
+        "recordName": "みんなの願いよ、歌のように集え"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1415",
+        "recordId": "1141502",
+        "sourceName": "キュレネ",
+        "recordName": "此の詩をすべての命に捧げる"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1415",
+        "recordId": "1141513",
+        "sourceName": "キュレネ",
+        "recordName": "「創世」に捧ぐ詩"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1415",
+        "recordId": "1141514",
+        "sourceName": "キュレネ",
+        "recordName": "「浪漫」に捧ぐ詩"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1415",
+        "recordId": "1141515",
+        "sourceName": "キュレネ",
+        "recordName": "「門と道」に捧ぐ詩"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1415",
+        "recordId": "1141516",
+        "sourceName": "キュレネ",
+        "recordName": "「紛争」に捧ぐ詩"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1415",
+        "recordId": "1141517",
+        "sourceName": "キュレネ",
+        "recordName": "「生と死」に捧ぐ詩"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1415",
+        "recordId": "1141518",
+        "sourceName": "キュレネ",
+        "recordName": "「理性」に捧ぐ詩"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1415",
+        "recordId": "1141520",
+        "sourceName": "キュレネ",
+        "recordName": "「詭術」に捧ぐ詩"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1415",
+        "recordId": "1141521",
+        "sourceName": "キュレネ",
+        "recordName": "「世負い」に捧ぐ詩"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1415",
+        "recordId": "1141523",
+        "sourceName": "キュレネ",
+        "recordName": "「法」に捧ぐ詩"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1415",
+        "recordId": "1141524",
+        "sourceName": "キュレネ",
+        "recordName": "「歳月」に捧ぐ詩"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1415",
+        "recordId": "1141525",
+        "sourceName": "キュレネ",
+        "recordName": "「大地」に捧ぐ詩"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1415",
+        "recordId": "1415103",
+        "sourceName": "キュレネ",
+        "recordName": "{RUBY_B#さんそう}三相{RUBY_E#}の{RUBY_B#いんが}因果{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1415",
+        "recordId": "1415:E2",
+        "sourceName": "キュレネ",
+        "recordName": "{RUBY_B#うつ}映{RUBY_E#}すは、\n{RUBY_B#あす}明日{RUBY_E#}を{RUBY_B#えが}描{RUBY_E#}く{RUBY_B#じゅうさん}十三{RUBY_E#}の{RUBY_B#かがや}輝{RUBY_E#}き"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1415",
+        "recordId": "1415:E4",
+        "sourceName": "キュレネ",
+        "recordName": "{RUBY_B#えがお}笑顔{RUBY_E#}で\n{RUBY_B#つぎ}次{RUBY_E#}のページを{RUBY_B#つづ}綴{RUBY_E#}って"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1415",
+        "recordId": "1415:E6",
+        "sourceName": "キュレネ",
+        "recordName": "{RUBY_B#きおく}記憶{RUBY_E#}、{RUBY_B#ちい}小{RUBY_E#}さなさざ{RUBY_B#なみ}波{RUBY_E#}となって♪"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1414",
+        "recordId": "141401",
+        "sourceName": "丹恒・騰荒",
+        "recordName": "悪を鎮め、生を護る"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1414",
+        "recordId": "141402",
+        "sourceName": "丹恒・騰荒",
+        "recordName": "屹立する山岳、八荒を支える大地"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1414",
+        "recordId": "141403",
+        "sourceName": "丹恒・騰荒",
+        "recordName": "悔いなき亢龍、天地を拓く"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1414",
+        "recordId": "141404",
+        "sourceName": "丹恒・騰荒",
+        "recordName": "生は尊く、万物は流転す"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1414",
+        "recordId": "1414101",
+        "sourceName": "丹恒・騰荒",
+        "recordName": "{RUBY_B#いかん}偉観{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1414",
+        "recordId": "1414103",
+        "sourceName": "丹恒・騰荒",
+        "recordName": "{RUBY_B#きつりつ}屹立{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1414",
+        "recordId": "1414:E1",
+        "sourceName": "丹恒・騰荒",
+        "recordName": "{RUBY_B#ふる}旧{RUBY_E#}き{RUBY_B#うろこ}鱗{RUBY_E#}を{RUBY_B#す}捨{RUBY_E#}てた{RUBY_B#こうりゅう}荒龍{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1414",
+        "recordId": "1414:E2",
+        "sourceName": "丹恒・騰荒",
+        "recordName": "{RUBY_B#かいたく}開拓{RUBY_E#}を{RUBY_B#みまも}見守{RUBY_E#}る{RUBY_B#じゅんしん}純真{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1414",
+        "recordId": "1414:E6",
+        "sourceName": "丹恒・騰荒",
+        "recordName": "{RUBY_B#そうもく}草木{RUBY_E#}も{RUBY_B#ちり}塵{RUBY_E#}も{RUBY_B#ゆめ}夢{RUBY_E#}に{RUBY_B#い}入{RUBY_E#}れ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1413",
+        "recordId": "141302",
+        "sourceName": "長夜月",
+        "recordName": "白昼は静かに去る"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1413",
+        "recordId": "141303",
+        "sourceName": "長夜月",
+        "recordName": "眠れぬ世界に永き眠りを"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1413",
+        "recordId": "141304",
+        "sourceName": "長夜月",
+        "recordName": "今夜、アタシと共に"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1413",
+        "recordId": "141307",
+        "sourceName": "長夜月",
+        "recordName": "冷たい雨を願って"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1413",
+        "recordId": "141309",
+        "sourceName": "長夜月",
+        "recordName": "白昼は静かに去る"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1413",
+        "recordId": "1141303",
+        "sourceName": "長夜月",
+        "recordName": "暗闇に浮かぶ孤独"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1413",
+        "recordId": "1413101",
+        "sourceName": "長夜月",
+        "recordName": "{RUBY_B#くら}暗{RUBY_E#}い{RUBY_B#よる}夜{RUBY_E#}の{RUBY_B#こどく}孤独{RUBY_E#}な{RUBY_B#つき}月{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1413",
+        "recordId": "1413103",
+        "sourceName": "長夜月",
+        "recordName": "{RUBY_B#よあ}夜明{RUBY_E#}けに{RUBY_B#ふ}降{RUBY_E#}り{RUBY_B#だ}出{RUBY_E#}す{RUBY_B#あめ}雨{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1413",
+        "recordId": "1413:E2",
+        "sourceName": "長夜月",
+        "recordName": "{RUBY_B#みみ}耳{RUBY_E#}を{RUBY_B#す}澄{RUBY_E#}まして、\n{RUBY_B#ねむ}眠{RUBY_E#}りの{RUBY_B#なか}中{RUBY_E#}のささやきに"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1413",
+        "recordId": "1413:E4",
+        "sourceName": "長夜月",
+        "recordName": "{RUBY_B#お}起{RUBY_E#}きて、\nアンタの{RUBY_B#あした}明日{RUBY_E#}が{RUBY_B#おとず}訪{RUBY_E#}れる"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1413",
+        "recordId": "1413:E6",
+        "sourceName": "長夜月",
+        "recordName": "このまま、ずっと"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1412",
+        "recordId": "141201",
+        "sourceName": "ケリュドラ",
+        "recordName": "征け、兵は神速を尊ぶ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1412",
+        "recordId": "141202",
+        "sourceName": "ケリュドラ",
+        "recordName": "名を馳せよ、歩兵も将の器"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1412",
+        "recordId": "141203",
+        "sourceName": "ケリュドラ",
+        "recordName": "世は盤上、チェックメイト"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1412",
+        "recordId": "141204",
+        "sourceName": "ケリュドラ",
+        "recordName": "栄光をカイザーに"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1412",
+        "recordId": "1412101",
+        "sourceName": "ケリュドラ",
+        "recordName": "{RUBY_B#き}来{RUBY_E#}た{RUBY_B#もの}者{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1412",
+        "recordId": "1412102",
+        "sourceName": "ケリュドラ",
+        "recordName": "{RUBY_B#み}見{RUBY_E#}た{RUBY_B#もの}者{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1412",
+        "recordId": "1412:E1",
+        "sourceName": "ケリュドラ",
+        "recordName": "{RUBY_B#すべ}全{RUBY_E#}ての{RUBY_B#おうかん}王冠{RUBY_E#}を{RUBY_B#うば}奪{RUBY_E#}え"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1412",
+        "recordId": "1412:E2",
+        "sourceName": "ケリュドラ",
+        "recordName": "{RUBY_B#ばんみん}万民{RUBY_E#}の{RUBY_B#ねが}願{RUBY_E#}いをここに"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1412",
+        "recordId": "1412:E4",
+        "sourceName": "ケリュドラ",
+        "recordName": "{RUBY_B#てんち}天地{RUBY_E#}も{RUBY_B#じんかい}人界{RUBY_E#}も{RUBY_B#あらた}改{RUBY_E#}めよう"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1412",
+        "recordId": "1412:E6",
+        "sourceName": "ケリュドラ",
+        "recordName": "{RUBY_B#われ}我{RUBY_E#}は{RUBY_B#ゆ}征{RUBY_E#}く、{RUBY_B#ほし}星{RUBY_E#}の{RUBY_B#たいかい}大海{RUBY_E#}へ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1410",
+        "recordId": "141001",
+        "sourceName": "セイレンス",
+        "recordName": "短調、止水に響く"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1410",
+        "recordId": "141002",
+        "sourceName": "セイレンス",
+        "recordName": "倍音、暗流の先の斉唱"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1410",
+        "recordId": "141003",
+        "sourceName": "セイレンス",
+        "recordName": "絶海の渦潮、呑魂の舞曲"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1410",
+        "recordId": "141004",
+        "sourceName": "セイレンス",
+        "recordName": "セイレーンの歓歌"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1410",
+        "recordId": "1410103",
+        "sourceName": "セイレンス",
+        "recordName": "{RUBY_B#しんじゅ}真珠{RUBY_E#}の{RUBY_B#きんせん}琴線{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1410",
+        "recordId": "1410:E2",
+        "sourceName": "セイレンス",
+        "recordName": "{RUBY_B#なにゆえ}何故{RUBY_E#}、\n{RUBY_B#しお}潮{RUBY_E#}はさんざめく"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1410",
+        "recordId": "1410:E4",
+        "sourceName": "セイレンス",
+        "recordName": "{RUBY_B#なにゆえ}何故{RUBY_E#}、\n{RUBY_B#とき}時{RUBY_E#}は{RUBY_B#なが}流{RUBY_E#}れるか"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1410",
+        "recordId": "1410:E6",
+        "sourceName": "セイレンス",
+        "recordName": "{RUBY_B#しず}沈{RUBY_E#}みし{RUBY_B#きみ}君{RUBY_E#}、\nいずれ{RUBY_B#ききょう}帰郷{RUBY_E#}せん"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1409",
+        "recordId": "140904",
+        "sourceName": "ヒアンシー",
+        "recordName": "世界を癒やす暁の光"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1409",
+        "recordId": "1409101",
+        "sourceName": "ヒアンシー",
+        "recordName": "{RUBY_B#ほほえ}微笑{RUBY_E#}む{RUBY_B#あんうん}暗雲{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1409",
+        "recordId": "1409:E4",
+        "sourceName": "ヒアンシー",
+        "recordName": "お{RUBY_B#ひさまいろ}日様色{RUBY_E#}の{RUBY_B#こはく}琥珀{RUBY_E#}を\nあなたに"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1409",
+        "recordId": "1409:E6",
+        "sourceName": "ヒアンシー",
+        "recordName": "{RUBY_B#てんくう}天空{RUBY_E#}よ…\n{RUBY_B#ねが}願{RUBY_E#}いを{RUBY_B#かな}叶{RUBY_E#}えたまえ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1408",
+        "recordId": "140801",
+        "sourceName": "ファイノン",
+        "recordName": "火追いの救世、必ずや果たさん"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1408",
+        "recordId": "140802",
+        "sourceName": "ファイノン",
+        "recordName": "黎明の創世、天地を開闢す"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1408",
+        "recordId": "140803",
+        "sourceName": "ファイノン",
+        "recordName": "永劫の焼世、背負うべき未来"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1408",
+        "recordId": "140804",
+        "sourceName": "ファイノン",
+        "recordName": "この身を炬火とす"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1408",
+        "recordId": "140805",
+        "sourceName": "ファイノン",
+        "recordName": "運命・この身は神なり"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1408",
+        "recordId": "140807",
+        "sourceName": "ファイノン",
+        "recordName": "終わりの始まり"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1408",
+        "recordId": "140808",
+        "sourceName": "ファイノン",
+        "recordName": "創生・血荊の葬送"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1408",
+        "recordId": "140809",
+        "sourceName": "ファイノン",
+        "recordName": "災厄・魂命の滅却"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1408",
+        "recordId": "140811",
+        "sourceName": "ファイノン",
+        "recordName": "支柱・死星の天裁"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1408",
+        "recordId": "1408102",
+        "sourceName": "ファイノン",
+        "recordName": "{RUBY_B#いくせんまん}幾千万{RUBY_E#}の{RUBY_B#ほのお}炎{RUBY_E#}を{RUBY_B#たずさ}携{RUBY_E#}えて"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1408",
+        "recordId": "1408103",
+        "sourceName": "ファイノン",
+        "recordName": "{RUBY_B#うつ}映{RUBY_E#}し{RUBY_B#だ}出{RUBY_E#}されし{RUBY_B#えいゆう}英雄{RUBY_E#}の{RUBY_B#ほんしつ}本質{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1408",
+        "recordId": "1408:E1",
+        "sourceName": "ファイノン",
+        "recordName": "{RUBY_B#ほのお}炎{RUBY_E#}と{RUBY_B#ひかり}光{RUBY_E#}、{RUBY_B#ぜん}善{RUBY_E#}と{RUBY_B#あく}悪{RUBY_E#}の{RUBY_B#けしん}化身{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1408",
+        "recordId": "1408:E2",
+        "sourceName": "ファイノン",
+        "recordName": "{RUBY_B#てん}天{RUBY_E#}と{RUBY_B#ち}地{RUBY_E#}、すべては{RUBY_B#ほうえい}泡影{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1407",
+        "recordId": "140703",
+        "sourceName": "キャストリス",
+        "recordName": "亡者の怒哮、蘇生の鐘"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1407",
+        "recordId": "1140702",
+        "sourceName": "キャストリス",
+        "recordName": "晦冥焼き払う息吹"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1407",
+        "recordId": "1140705",
+        "sourceName": "キャストリス",
+        "recordName": "静寂を揺るがす怒哮"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1407",
+        "recordId": "1407103",
+        "sourceName": "キャストリス",
+        "recordName": "{RUBY_B#すんいんとど}寸陰留{RUBY_E#}まる{RUBY_B#にしかぜ}西風{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1407",
+        "recordId": "1407:E1",
+        "sourceName": "キャストリス",
+        "recordName": "{RUBY_B#ゆきじ}雪地{RUBY_E#}の{RUBY_B#せいじょ}聖女{RUBY_E#}、\n{RUBY_B#きおく}記憶{RUBY_E#}を{RUBY_B#ひつぎ}棺{RUBY_E#}に{RUBY_B#と}閉{RUBY_E#}じ{RUBY_B#こ}込{RUBY_E#}めて"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1407",
+        "recordId": "1407:E6",
+        "sourceName": "キャストリス",
+        "recordName": "{RUBY_B#りゅうねん}流年{RUBY_E#}を{RUBY_B#ま}待{RUBY_E#}ち{RUBY_B#まゆ}繭{RUBY_E#}を{RUBY_B#やぶ}破{RUBY_E#}る"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1406",
+        "recordId": "140601",
+        "sourceName": "サフェル",
+        "recordName": "おっと！魚は逃がさないよ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1406",
+        "recordId": "140602",
+        "sourceName": "サフェル",
+        "recordName": "へへっ！お宝いただき～！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1406",
+        "recordId": "140603",
+        "sourceName": "サフェル",
+        "recordName": "怪盗ニャンコ、参上！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1406",
+        "recordId": "140604",
+        "sourceName": "サフェル",
+        "recordName": "親切なドロス人"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1406",
+        "recordId": "140607",
+        "sourceName": "サフェル",
+        "recordName": "長靴をはいた猫"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1406",
+        "recordId": "1406101",
+        "sourceName": "サフェル",
+        "recordName": "{RUBY_B#きん}金{RUBY_E#}のボテス"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1406",
+        "recordId": "1406103",
+        "sourceName": "サフェル",
+        "recordName": "{RUBY_B#よ}世{RUBY_E#}を{RUBY_B#あざむ}欺{RUBY_E#}く{RUBY_B#うそ}嘘{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1406",
+        "recordId": "1406:E1",
+        "sourceName": "サフェル",
+        "recordName": "{RUBY_B#かんさつ}観察{RUBY_E#}、\n{RUBY_B#きかい}機会{RUBY_E#}を{RUBY_B#うかが}伺{RUBY_E#}う"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1406",
+        "recordId": "1406:E4",
+        "sourceName": "サフェル",
+        "recordName": "{RUBY_B#ひみつ}秘密{RUBY_E#}、\n{RUBY_B#あら}露{RUBY_E#}わになれば{RUBY_B#けむり}煙{RUBY_E#}の{RUBY_B#ごと}如{RUBY_E#}く"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1405",
+        "recordId": "140501",
+        "sourceName": "アナイクス",
+        "recordName": "苦痛、認識の造成"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1405",
+        "recordId": "140502",
+        "sourceName": "アナイクス",
+        "recordName": "分形、誤謬の駆逐"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1405",
+        "recordId": "140503",
+        "sourceName": "アナイクス",
+        "recordName": "化育、世界の創造"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1405",
+        "recordId": "140504",
+        "sourceName": "アナイクス",
+        "recordName": "四智、三重の無上"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1405",
+        "recordId": "1405102",
+        "sourceName": "アナイクス",
+        "recordName": "{RUBY_B#ひつよう}必要{RUBY_E#}な{RUBY_B#くうはく}空白{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1405",
+        "recordId": "1405103",
+        "sourceName": "アナイクス",
+        "recordName": "{RUBY_B#ていせい}定性{RUBY_E#}の{RUBY_B#へんせん}変遷{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1405",
+        "recordId": "1405:E1",
+        "sourceName": "アナイクス",
+        "recordName": "{RUBY_B#えんぺい}掩蔽{RUBY_E#}の{RUBY_B#まじゅつし}魔術師{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1405",
+        "recordId": "1405:E2",
+        "sourceName": "アナイクス",
+        "recordName": "{RUBY_B#しじつ}史実{RUBY_E#}の{RUBY_B#しぜんじん}自然人{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1405",
+        "recordId": "1405:E4",
+        "sourceName": "アナイクス",
+        "recordName": "{RUBY_B#きょうこく}峡谷{RUBY_E#}に{RUBY_B#お}落{RUBY_E#}ちる{RUBY_B#しゃくねつ}灼熱{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1405",
+        "recordId": "1405:E6",
+        "sourceName": "アナイクス",
+        "recordName": "{RUBY_B#ばんぶつ}万物{RUBY_E#}は{RUBY_B#ばんぶつ}万物{RUBY_E#}の{RUBY_B#なか}中{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1404",
+        "recordId": "140404",
+        "sourceName": "モーディス",
+        "recordName": "血を以って血を制す"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1404",
+        "recordId": "1404103",
+        "sourceName": "モーディス",
+        "recordName": "{RUBY_B#ちぞ}血染{RUBY_E#}めの{RUBY_B#ころも}衣{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1404",
+        "recordId": "1404:E1",
+        "sourceName": "モーディス",
+        "recordName": "{RUBY_B#かんぷう}寒風{RUBY_E#}に{RUBY_B#みが}磨{RUBY_E#}かれし\n{RUBY_B#ふくつ}不屈{RUBY_E#}の{RUBY_B#せきちゅう}脊柱{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1404",
+        "recordId": "1404:E2",
+        "sourceName": "モーディス",
+        "recordName": "{RUBY_B#ふんそう}紛争{RUBY_E#}が{RUBY_B#みとど}見届{RUBY_E#}けし\n{RUBY_B#しかばね}屍{RUBY_E#}の{RUBY_B#きょき}歔欷{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1404",
+        "recordId": "1404:E4",
+        "sourceName": "モーディス",
+        "recordName": "{RUBY_B#つのぶえ}角笛{RUBY_E#}で{RUBY_B#めざ}目覚{RUBY_E#}めし\n{RUBY_B#ちんもく}沈黙{RUBY_E#}の{RUBY_B#しし}獅子{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1403",
+        "recordId": "140302",
+        "sourceName": "トリビー",
+        "recordName": "プレゼントはどこ？"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1403",
+        "recordId": "140303",
+        "sourceName": "トリビー",
+        "recordName": "ここに住んでるのは誰でしょう！"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1403",
+        "recordId": "1403101",
+        "sourceName": "トリビー",
+        "recordName": "{RUBY_B#かべ}壁{RUBY_E#}の{RUBY_B#そと}外{RUBY_E#}の{RUBY_B#こひつじ}子羊{RUBY_E#}…"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1403",
+        "recordId": "1403:E1",
+        "sourceName": "トリビー",
+        "recordName": "{RUBY_B#さとう}砂糖{RUBY_E#}を{RUBY_B#ひろ}拾{RUBY_E#}い{RUBY_B#あ}上{RUBY_E#}げる{RUBY_B#さいてん}祭典{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1403",
+        "recordId": "1403:E2",
+        "sourceName": "トリビー",
+        "recordName": "{RUBY_B#すてき}素敵{RUBY_E#}な{RUBY_B#ゆめ}夢{RUBY_E#}への{RUBY_B#あんないにん}案内人{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1403",
+        "recordId": "1403:E4",
+        "sourceName": "トリビー",
+        "recordName": "{RUBY_B#こころかよ}心通{RUBY_E#}い{RUBY_B#あ}合{RUBY_E#}う{RUBY_B#やす}安{RUBY_E#}らぎ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1402",
+        "recordId": "140201",
+        "sourceName": "アグライア",
+        "recordName": "サイフォスの蜜"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1402",
+        "recordId": "140204",
+        "sourceName": "アグライア",
+        "recordName": "薔薇色の指先"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1402",
+        "recordId": "140207",
+        "sourceName": "アグライア",
+        "recordName": "星を纏いし烈剣"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1402",
+        "recordId": "140208",
+        "sourceName": "アグライア",
+        "recordName": "剣先より千の口付けを"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1402",
+        "recordId": "1140201",
+        "sourceName": "アグライア",
+        "recordName": "サイフォスの罠"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1402",
+        "recordId": "1402101",
+        "sourceName": "アグライア",
+        "recordName": "{RUBY_B#たんけん}短見{RUBY_E#}への{RUBY_B#さば}裁{RUBY_E#}き"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1402",
+        "recordId": "1402:E2",
+        "sourceName": "アグライア",
+        "recordName": "{RUBY_B#うんめい}運命{RUBY_E#}の{RUBY_B#まぶた}瞼{RUBY_E#}を{RUBY_B#ゆ}行{RUBY_E#}く{RUBY_B#ふね}舟{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1402",
+        "recordId": "1402:E6",
+        "sourceName": "アグライア",
+        "recordName": "{RUBY_B#くうきょ}空虚{RUBY_E#}で{RUBY_B#むじょう}無常{RUBY_E#}なる{RUBY_B#きんし}金糸{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1401",
+        "recordId": "140101",
+        "sourceName": "マダム・ヘルタ",
+        "recordName": "これでわかった？"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1401",
+        "recordId": "140102",
+        "sourceName": "マダム・ヘルタ",
+        "recordName": "視野が狭いよ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1401",
+        "recordId": "140103",
+        "sourceName": "マダム・ヘルタ",
+        "recordName": "魔法だって言ったでしょ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1401",
+        "recordId": "140104",
+        "sourceName": "マダム・ヘルタ",
+        "recordName": "私がもらうね"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1401",
+        "recordId": "140107",
+        "sourceName": "マダム・ヘルタ",
+        "recordName": "面白いの見せてよ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1401",
+        "recordId": "140109",
+        "sourceName": "マダム・ヘルタ",
+        "recordName": "大胆なアイデア"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1401",
+        "recordId": "1401101",
+        "sourceName": "マダム・ヘルタ",
+        "recordName": "{RUBY_B#つめ}冷{RUBY_E#}たい{RUBY_B#しんじつ}真実{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1401",
+        "recordId": "1401102",
+        "sourceName": "マダム・ヘルタ",
+        "recordName": "{RUBY_B#きょうかい}境界{RUBY_E#}からの{RUBY_B#たよ}便{RUBY_E#}り"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1401",
+        "recordId": "1401103",
+        "sourceName": "マダム・ヘルタ",
+        "recordName": "{RUBY_B#う}飢{RUBY_E#}えた{RUBY_B#ちけい}地景{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1401",
+        "recordId": "1401:E6",
+        "sourceName": "マダム・ヘルタ",
+        "recordName": "{RUBY_B#こた}答{RUBY_E#}えは\n{RUBY_B#ゆうわく}誘惑{RUBY_E#}のように{RUBY_B#あま}甘{RUBY_E#}い"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1321",
+        "recordId": "132101",
+        "sourceName": "ダリア",
+        "recordName": "翻弄…綻びを引き裂く記憶"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1321",
+        "recordId": "132102",
+        "sourceName": "ダリア",
+        "recordName": "舐る…炎の舌を伸ばす背叛"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1321",
+        "recordId": "132103",
+        "sourceName": "ダリア",
+        "recordName": "耽溺…墓場に舞い込む灰燼"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1321",
+        "recordId": "132104",
+        "sourceName": "ダリア",
+        "recordName": "コンスタンスを恐れる者は？"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1321",
+        "recordId": "1321101",
+        "sourceName": "ダリア",
+        "recordName": "{RUBY_B#そうれい}葬礼{RUBY_E#}またひとつ"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1321",
+        "recordId": "1321:E1",
+        "sourceName": "ダリア",
+        "recordName": "{RUBY_B#さ}咲{RUBY_E#}く{RUBY_B#とき}時{RUBY_E#}を{RUBY_B#ま}待{RUBY_E#}つ{RUBY_B#つぼみ}蕾{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1321",
+        "recordId": "1321:E2",
+        "sourceName": "ダリア",
+        "recordName": "{RUBY_B#しんせい}新生{RUBY_E#}、{RUBY_B#せんれい}鮮麗{RUBY_E#}、{RUBY_B#あいれん}愛憐{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1321",
+        "recordId": "1321:E6",
+        "sourceName": "ダリア",
+        "recordName": "されど{RUBY_B#あや}危{RUBY_E#}うく{RUBY_B#うつく}美{RUBY_E#}しい"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1317",
+        "recordId": "131701",
+        "sourceName": "乱破",
+        "recordName": "忍法・七転八起"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1317",
+        "recordId": "131702",
+        "sourceName": "乱破",
+        "recordName": "忍切・初志貫徹"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1317",
+        "recordId": "131703",
+        "sourceName": "乱破",
+        "recordName": "忍道・極・愛死天流"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1317",
+        "recordId": "131718",
+        "sourceName": "乱破",
+        "recordName": "忍具・降魔の花弁"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1317",
+        "recordId": "1317103",
+        "sourceName": "乱破",
+        "recordName": "{RUBY_B#にんぽうちょう}忍法帖{RUBY_E#}・{RUBY_B#かれは}枯葉{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1317",
+        "recordId": "1317:E1",
+        "sourceName": "乱破",
+        "recordName": "{RUBY_B#トコヨ}常世{RUBY_E#}ノ{RUBY_B#ミチ}道{RUBY_E#}、\n{RUBY_B#サンズ}三途{RUBY_E#}ニ{RUBY_B#ロクモンセンナ}六文銭無{RUBY_E#}シ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1315",
+        "recordId": "131501",
+        "sourceName": "ブートヒル",
+        "recordName": "スパーズ・クラッシュ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1315",
+        "recordId": "131503",
+        "sourceName": "ブートヒル",
+        "recordName": "ダストデビル・ダンサー"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1315",
+        "recordId": "131508",
+        "sourceName": "ブートヒル",
+        "recordName": "ファニング"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1315",
+        "recordId": "1315101",
+        "sourceName": "ブートヒル",
+        "recordName": "ゴーストロード"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1315",
+        "recordId": "1315:E1",
+        "sourceName": "ブートヒル",
+        "recordName": "{RUBY_B#さじん}砂塵{RUBY_E#}の{RUBY_B#なか}中{RUBY_E#}の{RUBY_B#いっとうせい}一等星{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1315",
+        "recordId": "1315:E2",
+        "sourceName": "ブートヒル",
+        "recordName": "マイルストーン・\nマンガー"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1315",
+        "recordId": "1315:E4",
+        "sourceName": "ブートヒル",
+        "recordName": "{RUBY_B#さ}冷{RUBY_E#}めた{RUBY_B#にく}肉{RUBY_E#}の{RUBY_B#りょうりにん}料理人{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1315",
+        "recordId": "1315:E6",
+        "sourceName": "ブートヒル",
+        "recordName": "{RUBY_B#てつごうし}鉄格子{RUBY_E#}ホテルの{RUBY_B#じょうれん}常連{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1314",
+        "recordId": "131401",
+        "sourceName": "ジェイド",
+        "recordName": "むしり取る鞭打ち"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1314",
+        "recordId": "131402",
+        "sourceName": "ジェイド",
+        "recordName": "ほしいままに呑み込む買収"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1314",
+        "recordId": "131403",
+        "sourceName": "ジェイド",
+        "recordName": "欲望の淵での地獄の契り"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1314",
+        "recordId": "131404",
+        "sourceName": "ジェイド",
+        "recordName": "富を削ぐ毒牙"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1314",
+        "recordId": "131407",
+        "sourceName": "ジェイド",
+        "recordName": "ハンターの視界"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1314",
+        "recordId": "1314103",
+        "sourceName": "ジェイド",
+        "recordName": "{RUBY_B#なが}流{RUBY_E#}れ{RUBY_B#もの}物{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1314",
+        "recordId": "1314:E2",
+        "sourceName": "ジェイド",
+        "recordName": "{RUBY_B#どうとく}道徳{RUBY_E#}？\n{RUBY_B#つつし}謹{RUBY_E#}んで{RUBY_B#なついん}捺印{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1314",
+        "recordId": "1314:E4",
+        "sourceName": "ジェイド",
+        "recordName": "{RUBY_B#せいじつ}誠実{RUBY_E#}？\n{RUBY_B#けいやく}契約{RUBY_E#}に{RUBY_B#したが}従{RUBY_E#}っただけ"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1314",
+        "recordId": "1314:E6",
+        "sourceName": "ジェイド",
+        "recordName": "{RUBY_B#こうへい}公平{RUBY_E#}？\nなおも{RUBY_B#たんぽ}担保{RUBY_E#}が{RUBY_B#ひっす}必須{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1313",
+        "recordId": "131301",
+        "sourceName": "サンデー",
+        "recordName": "光を纏う告諭"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1313",
+        "recordId": "131302",
+        "sourceName": "サンデー",
+        "recordName": "紙と式典の賜物"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1313",
+        "recordId": "131303",
+        "sourceName": "サンデー",
+        "recordName": "抱擁と傷痕の賛歌"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1313",
+        "recordId": "131304",
+        "sourceName": "サンデー",
+        "recordName": "肉体の告解"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1313",
+        "recordId": "131307",
+        "sourceName": "サンデー",
+        "recordName": "栄光の秘儀"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1313",
+        "recordId": "1313:E1",
+        "sourceName": "サンデー",
+        "recordName": "{RUBY_B#せんねん}千年{RUBY_E#}の{RUBY_B#せいじゃく}静寂{RUBY_E#}の{RUBY_B#は}果{RUBY_E#}て"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1313",
+        "recordId": "1313:E2",
+        "sourceName": "サンデー",
+        "recordName": "{RUBY_B#かきん}瑕瑾{RUBY_E#}を{RUBY_B#おぎな}補{RUBY_E#}う{RUBY_B#しんこう}信仰{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1313",
+        "recordId": "1313:E6",
+        "sourceName": "サンデー",
+        "recordName": "{RUBY_B#ぐんせいけんそう}群星喧騒{RUBY_E#}の{RUBY_B#れいめい}黎明{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1310",
+        "recordId": "131001",
+        "sourceName": "ホタル",
+        "recordName": "コマンド-フラッシュオーバー推進"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1310",
+        "recordId": "131002",
+        "sourceName": "ホタル",
+        "recordName": "コマンド-天火轟撃"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1310",
+        "recordId": "131003",
+        "sourceName": "ホタル",
+        "recordName": "ファイアフライ-IV-完全燃焼"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1310",
+        "recordId": "131007",
+        "sourceName": "ホタル",
+        "recordName": "Δコマンド-焦土隕撃"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1310",
+        "recordId": "131008",
+        "sourceName": "ホタル",
+        "recordName": "ファイアフライ-IV-底火斬撃"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1310",
+        "recordId": "131009",
+        "sourceName": "ホタル",
+        "recordName": "ファイアフライ-IV-死星オーバーロード"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1310",
+        "recordId": "1131001",
+        "sourceName": "ホタル",
+        "recordName": "コマンド-フラッシュオーバー推進"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1310",
+        "recordId": "1131002",
+        "sourceName": "ホタル",
+        "recordName": "コマンド-天火轟撃"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1310",
+        "recordId": "1131003",
+        "sourceName": "ホタル",
+        "recordName": "ファイアフライ-IV-完全燃焼"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1310",
+        "recordId": "1131007",
+        "sourceName": "ホタル",
+        "recordName": "Δコマンド-焦土隕撃"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1310",
+        "recordId": "1131008",
+        "sourceName": "ホタル",
+        "recordName": "ファイアフライ-IV-底火斬撃"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1310",
+        "recordId": "1131009",
+        "sourceName": "ホタル",
+        "recordName": "ファイアフライ-IV-死星オーバーロード"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1310",
+        "recordId": "1310102",
+        "sourceName": "ホタル",
+        "recordName": "βモジュール-{RUBY_B#じこせいげんそうこう}自己制限装甲{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1310",
+        "recordId": "1310103",
+        "sourceName": "ホタル",
+        "recordName": "γモジュール-{RUBY_B#かふか}過負荷{RUBY_E#}コア"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1310",
+        "recordId": "11310101",
+        "sourceName": "ホタル",
+        "recordName": "αモジュール-アンチラグバースト"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1310",
+        "recordId": "11310102",
+        "sourceName": "ホタル",
+        "recordName": "βモジュール-{RUBY_B#じこせいげんそうこう}自己制限装甲{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1310",
+        "recordId": "11310103",
+        "sourceName": "ホタル",
+        "recordName": "γモジュール-{RUBY_B#かふか}過負荷{RUBY_E#}コア"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1310",
+        "recordId": "1310:E1",
+        "sourceName": "ホタル",
+        "recordName": "かつて{RUBY_B#あんみん}安眠{RUBY_E#}せし\n{RUBY_B#あかぞめ}赤染{RUBY_E#}の{RUBY_B#まゆ}繭{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1309",
+        "recordId": "130901",
+        "sourceName": "ロビン",
+        "recordName": "羽ばたくホワイトノイズ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1309",
+        "recordId": "130902",
+        "sourceName": "ロビン",
+        "recordName": "飛翔のアリア"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1309",
+        "recordId": "130903",
+        "sourceName": "ロビン",
+        "recordName": "千の音で、群星にフーガを"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1309",
+        "recordId": "130904",
+        "sourceName": "ロビン",
+        "recordName": "調和の純正律"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1309",
+        "recordId": "1309102",
+        "sourceName": "ロビン",
+        "recordName": "アドリブの{RUBY_B#そうしょくきょく}装飾曲{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1309",
+        "recordId": "1309:E1",
+        "sourceName": "ロビン",
+        "recordName": "{RUBY_B#ほほえ}微笑{RUBY_E#}みの{RUBY_B#くに}国{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1309",
+        "recordId": "1309:E6",
+        "sourceName": "ロビン",
+        "recordName": "{RUBY_B#つきごも}月隠{RUBY_E#}りの{RUBY_B#まよなか}真夜中{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1308",
+        "recordId": "130801",
+        "sourceName": "黄泉",
+        "recordName": "三途の枯木"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1308",
+        "recordId": "130802",
+        "sourceName": "黄泉",
+        "recordName": "八雷渡り"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1308",
+        "recordId": "130803",
+        "sourceName": "黄泉",
+        "recordName": "残夢染める繚乱の一太刀"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1308",
+        "recordId": "130804",
+        "sourceName": "黄泉",
+        "recordName": "紅葉に時雨、万里の空"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1308",
+        "recordId": "130807",
+        "sourceName": "黄泉",
+        "recordName": "四相断我"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1308",
+        "recordId": "130814",
+        "sourceName": "黄泉",
+        "recordName": "啼沢斬り"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1308",
+        "recordId": "130815",
+        "sourceName": "黄泉",
+        "recordName": "啼沢斬り"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1308",
+        "recordId": "130816",
+        "sourceName": "黄泉",
+        "recordName": "啼沢斬り"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1308",
+        "recordId": "1308103",
+        "sourceName": "黄泉",
+        "recordName": "{RUBY_B#らいしん}雷心{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1308",
+        "recordId": "1308:E1",
+        "sourceName": "黄泉",
+        "recordName": "{RUBY_B#こうてんりょうらく}高天寥落{RUBY_E#}、\n{RUBY_B#しんごん}真言{RUBY_E#}{RUBY_B#はじ}始{RUBY_E#}まる"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1308",
+        "recordId": "1308:E4",
+        "sourceName": "黄泉",
+        "recordName": "{RUBY_B#きょうちゅう}鏡中{RUBY_E#}を{RUBY_B#て}照{RUBY_E#}らす{RUBY_B#えいえん}永焔{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1308",
+        "recordId": "1308:E6",
+        "sourceName": "黄泉",
+        "recordName": "{RUBY_B#そくばく}束縛{RUBY_E#}を{RUBY_B#と}解{RUBY_E#}く{RUBY_B#わざわ}災{RUBY_E#}い"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1307",
+        "recordId": "130701",
+        "sourceName": "ブラックスワン",
+        "recordName": "洞察、緘黙の黎明"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1307",
+        "recordId": "130702",
+        "sourceName": "ブラックスワン",
+        "recordName": "失墜、偽神の黄昏"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1307",
+        "recordId": "130703",
+        "sourceName": "ブラックスワン",
+        "recordName": "彼方の抱擁に酔いしれて"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1307",
+        "recordId": "130704",
+        "sourceName": "ブラックスワン",
+        "recordName": "果てなき運命の機織り"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1307",
+        "recordId": "1130701",
+        "sourceName": "ブラックスワン",
+        "recordName": "洞察、緘黙の黎明"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1307",
+        "recordId": "1130702",
+        "sourceName": "ブラックスワン",
+        "recordName": "失墜、偽神の黄昏"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1307",
+        "recordId": "1130703",
+        "sourceName": "ブラックスワン",
+        "recordName": "彼方の抱擁に酔いしれて"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1307",
+        "recordId": "1130704",
+        "sourceName": "ブラックスワン",
+        "recordName": "果てなき運命の機織り"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1307",
+        "recordId": "1307103",
+        "sourceName": "ブラックスワン",
+        "recordName": "ロウソクの{RUBY_B#かげ}影{RUBY_E#}が{RUBY_B#しめ}示{RUBY_E#}す{RUBY_B#よちょう}予兆{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1307",
+        "recordId": "11307102",
+        "sourceName": "ブラックスワン",
+        "recordName": "チャリスの{RUBY_B#そこ}底{RUBY_E#}の{RUBY_B#てんまつ}顛末{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1307",
+        "recordId": "11307103",
+        "sourceName": "ブラックスワン",
+        "recordName": "ロウソクの{RUBY_B#かげ}影{RUBY_E#}が{RUBY_B#しめ}示{RUBY_E#}す{RUBY_B#よちょう}予兆{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1307",
+        "recordId": "1307:E1",
+        "sourceName": "ブラックスワン",
+        "recordName": "{RUBY_B#ちえ}知恵{RUBY_E#}の{RUBY_B#ななはしら}七柱{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1306",
+        "recordId": "130601",
+        "sourceName": "花火",
+        "recordName": "独り芝居"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1306",
+        "recordId": "130602",
+        "sourceName": "花火",
+        "recordName": "夢を泳ぐ魚"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1306",
+        "recordId": "130603",
+        "sourceName": "花火",
+        "recordName": "一人千役"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1306",
+        "recordId": "130604",
+        "sourceName": "花火",
+        "recordName": "叙述トリック"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1306",
+        "recordId": "1130601",
+        "sourceName": "花火",
+        "recordName": "独り芝居"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1306",
+        "recordId": "1130602",
+        "sourceName": "花火",
+        "recordName": "夢を泳ぐ魚"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1306",
+        "recordId": "1306102",
+        "sourceName": "花火",
+        "recordName": "{RUBY_B#じんぞう}人造{RUBY_E#}の{RUBY_B#はな}花{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1306",
+        "recordId": "1306103",
+        "sourceName": "花火",
+        "recordName": "{RUBY_B#やそうきょく}夜想曲{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1306",
+        "recordId": "11306101",
+        "sourceName": "花火",
+        "recordName": "{RUBY_B#さいじき}歳時記{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1306",
+        "recordId": "11306103",
+        "sourceName": "花火",
+        "recordName": "{RUBY_B#やそうきょく}夜想曲{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1306",
+        "recordId": "1306:E1",
+        "sourceName": "花火",
+        "recordName": "{RUBY_B#す}捨{RUBY_E#}て{RUBY_B#お}置{RUBY_E#}かれた{RUBY_B#ぎねん}疑念{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1306",
+        "recordId": "1306:E2",
+        "sourceName": "花火",
+        "recordName": "{RUBY_B#いわ}謂{RUBY_E#}れなき{RUBY_B#きょこう}虚構{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1306",
+        "recordId": "1306:E6",
+        "sourceName": "花火",
+        "recordName": "{RUBY_B#かさ}重{RUBY_E#}なる{RUBY_B#かいとう}解答{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1305",
+        "recordId": "130501",
+        "sourceName": "Dr.レイシオ",
+        "recordName": "知識は力なり"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1305",
+        "recordId": "130502",
+        "sourceName": "Dr.レイシオ",
+        "recordName": "産婆術"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1305",
+        "recordId": "130503",
+        "sourceName": "Dr.レイシオ",
+        "recordName": "三段階のパラドックス"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1305",
+        "recordId": "130504",
+        "sourceName": "Dr.レイシオ",
+        "recordName": "我思う、故に我あり"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1305",
+        "recordId": "1305101",
+        "sourceName": "Dr.レイシオ",
+        "recordName": "{RUBY_B#きのう}帰納{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1305",
+        "recordId": "1305103",
+        "sourceName": "Dr.レイシオ",
+        "recordName": "{RUBY_B#すいろん}推論{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1305",
+        "recordId": "1305:E2",
+        "sourceName": "Dr.レイシオ",
+        "recordName": "{RUBY_B#び}微{RUBY_E#}を{RUBY_B#あらわ}顕{RUBY_E#}にして{RUBY_B#ゆう}幽{RUBY_E#}を{RUBY_B#ひら}闡{RUBY_E#}く"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1304",
+        "recordId": "130401",
+        "sourceName": "アベンチュリン",
+        "recordName": "ストレートべット"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1304",
+        "recordId": "130402",
+        "sourceName": "アベンチュリン",
+        "recordName": "繁栄の基石"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1304",
+        "recordId": "130404",
+        "sourceName": "アベンチュリン",
+        "recordName": "銃口の右には…"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1304",
+        "recordId": "130407",
+        "sourceName": "アベンチュリン",
+        "recordName": "赤と黒の狭間で"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1304",
+        "recordId": "1304101",
+        "sourceName": "アベンチュリン",
+        "recordName": "レバレッジ"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1304",
+        "recordId": "1304103",
+        "sourceName": "アベンチュリン",
+        "recordName": "ビンゴ！"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1304",
+        "recordId": "1304:E1",
+        "sourceName": "アベンチュリン",
+        "recordName": "{RUBY_B#しゅうじん}囚人{RUBY_E#}のジレンマ"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1304",
+        "recordId": "1304:E4",
+        "sourceName": "アベンチュリン",
+        "recordName": "{RUBY_B#よき}予期{RUBY_E#}せぬ{RUBY_B#こうしゅけい}絞首刑{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1302",
+        "recordId": "130201",
+        "sourceName": "アルジェンティ",
+        "recordName": "刹那の芬芳"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1302",
+        "recordId": "130202",
+        "sourceName": "アルジェンティ",
+        "recordName": "公正、ここに咲き誇る"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1302",
+        "recordId": "130203",
+        "sourceName": "アルジェンティ",
+        "recordName": "花園にて捧げる美の際限"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1302",
+        "recordId": "130204",
+        "sourceName": "アルジェンティ",
+        "recordName": "崇高なる客体"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1302",
+        "recordId": "130207",
+        "sourceName": "アルジェンティ",
+        "recordName": "純粋で高潔なる宣言"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1302",
+        "recordId": "130214",
+        "sourceName": "アルジェンティ",
+        "recordName": "「我」が授けし至上の勲章"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1302",
+        "recordId": "1302103",
+        "sourceName": "アルジェンティ",
+        "recordName": "{RUBY_B#ゆうき}勇気{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1302",
+        "recordId": "1302:E1",
+        "sourceName": "アルジェンティ",
+        "recordName": "{RUBY_B#しんびおうこく}審美王国{RUBY_E#}の{RUBY_B#けっかん}欠陥{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1302",
+        "recordId": "1302:E2",
+        "sourceName": "アルジェンティ",
+        "recordName": "メノウの{RUBY_B#けんそん}謙遜{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1302",
+        "recordId": "1302:E6",
+        "sourceName": "アルジェンティ",
+        "recordName": "「{RUBY_B#あなた}貴女{RUBY_E#}」の{RUBY_B#かがや}輝{RUBY_E#}き"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1225",
+        "recordId": "122501",
+        "sourceName": "帰忘の流離人",
+        "recordName": "燦然たる日月の尾"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1225",
+        "recordId": "122502",
+        "sourceName": "帰忘の流離人",
+        "recordName": "義を有せば吉兆を招く"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1225",
+        "recordId": "122503",
+        "sourceName": "帰忘の流離人",
+        "recordName": "極陽は遍く世を照らす"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1225",
+        "recordId": "122507",
+        "sourceName": "帰忘の流離人",
+        "recordName": "照照たる光輝"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1225",
+        "recordId": "122508",
+        "sourceName": "帰忘の流離人",
+        "recordName": "緩緩たる熾炎"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1225",
+        "recordId": "1225102",
+        "sourceName": "帰忘の流離人",
+        "recordName": "{RUBY_B#とざん}塗山{RUBY_E#}の{RUBY_B#げんせき}玄設{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1225",
+        "recordId": "1225103",
+        "sourceName": "帰忘の流離人",
+        "recordName": "{RUBY_B#きせい}璣星{RUBY_E#}の{RUBY_B#たいそ}太素{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1225",
+        "recordId": "1225:E1",
+        "sourceName": "帰忘の流離人",
+        "recordName": "{RUBY_B#こじん}狐塵{RUBY_E#}とうに{RUBY_B#ち}散{RUBY_E#}り、{RUBY_B#くも}雲{RUBY_E#}を{RUBY_B#が}駕{RUBY_E#}とすればその{RUBY_B#き}期{RUBY_E#}あり"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1225",
+        "recordId": "1225:E6",
+        "sourceName": "帰忘の流離人",
+        "recordName": "{RUBY_B#はじ}肇{RUBY_E#}めて{RUBY_B#みらい}未来{RUBY_E#}を{RUBY_B#さと}悟{RUBY_E#}り、\n{RUBY_B#めいあん}明暗{RUBY_E#}の{RUBY_B#こうぼう}興亡{RUBY_E#}を{RUBY_B#し}知{RUBY_E#}る"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1222",
+        "recordId": "122201",
+        "sourceName": "霊砂",
+        "recordName": "供香"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1222",
+        "recordId": "122202",
+        "sourceName": "霊砂",
+        "recordName": "彩煙"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1222",
+        "recordId": "122203",
+        "sourceName": "霊砂",
+        "recordName": "彩雲の如く巡る霞"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1222",
+        "recordId": "122204",
+        "sourceName": "霊砂",
+        "recordName": "紅霧より出づる煙獣"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1222",
+        "recordId": "1222101",
+        "sourceName": "霊砂",
+        "recordName": "{RUBY_B#しゅえん}朱炎{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1222",
+        "recordId": "1222:E1",
+        "sourceName": "霊砂",
+        "recordName": "{RUBY_B#はじゃ}破邪{RUBY_E#}の{RUBY_B#かお}香{RUBY_E#}り"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1222",
+        "recordId": "1222:E2",
+        "sourceName": "霊砂",
+        "recordName": "{RUBY_B#しだ}垂{RUBY_E#}れ{RUBY_B#ぐも}雲{RUBY_E#}に{RUBY_B#べにこうろ}紅香炉{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1222",
+        "recordId": "1222:E4",
+        "sourceName": "霊砂",
+        "recordName": "{RUBY_B#とばり}帳{RUBY_E#}を{RUBY_B#な}撫{RUBY_E#}でる{RUBY_B#しゅえん}朱煙{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1222",
+        "recordId": "1222:E6",
+        "sourceName": "霊砂",
+        "recordName": "{RUBY_B#しゅんらん}春蘭{RUBY_E#}の{RUBY_B#しゅくこう}宿香{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1221",
+        "recordId": "122101",
+        "sourceName": "雲璃",
+        "recordName": "震天動地"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1221",
+        "recordId": "122102",
+        "sourceName": "雲璃",
+        "recordName": "天威煌々"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1221",
+        "recordId": "122103",
+        "sourceName": "雲璃",
+        "recordName": "天を揺るがす大地の剣"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1221",
+        "recordId": "122104",
+        "sourceName": "雲璃",
+        "recordName": "閃熔"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1221",
+        "recordId": "122107",
+        "sourceName": "雲璃",
+        "recordName": "後の先"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1221",
+        "recordId": "1221103",
+        "sourceName": "雲璃",
+        "recordName": "{RUBY_B#しんこう}真鋼{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1221",
+        "recordId": "1221:E1",
+        "sourceName": "雲璃",
+        "recordName": "{RUBY_B#むく}無垢{RUBY_E#}なる{RUBY_B#れきじん}歴刃{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1221",
+        "recordId": "1221:E2",
+        "sourceName": "雲璃",
+        "recordName": "{RUBY_B#あら}新{RUBY_E#}たに{RUBY_B#う}生{RUBY_E#}まれた{RUBY_B#ひかり}光{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1221",
+        "recordId": "1221:E6",
+        "sourceName": "雲璃",
+        "recordName": "{RUBY_B#きんしんけんたん}琴心剣胆{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1220",
+        "recordId": "122001",
+        "sourceName": "飛霄",
+        "recordName": "閃裂"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1220",
+        "recordId": "122002",
+        "sourceName": "飛霄",
+        "recordName": "斧貫"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1220",
+        "recordId": "122003",
+        "sourceName": "飛霄",
+        "recordName": "大荒滅破砕"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1220",
+        "recordId": "122004",
+        "sourceName": "飛霄",
+        "recordName": "雷狩"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1220",
+        "recordId": "122007",
+        "sourceName": "飛霄",
+        "recordName": "嵐身"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1220",
+        "recordId": "122008",
+        "sourceName": "飛霄",
+        "recordName": "閃裂刃舞"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1220",
+        "recordId": "122009",
+        "sourceName": "飛霄",
+        "recordName": "斧貫衝天"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1220",
+        "recordId": "122014",
+        "sourceName": "飛霄",
+        "recordName": "大荒滅破砕"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1220",
+        "recordId": "1220102",
+        "sourceName": "飛霄",
+        "recordName": "{RUBY_B#かいけい}解形{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1220",
+        "recordId": "1220103",
+        "sourceName": "飛霄",
+        "recordName": "{RUBY_B#しんそく}神速{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1218",
+        "recordId": "121801",
+        "sourceName": "椒丘",
+        "recordName": "心火計"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1218",
+        "recordId": "121802",
+        "sourceName": "椒丘",
+        "recordName": "燎原奔襲"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1218",
+        "recordId": "121803",
+        "sourceName": "椒丘",
+        "recordName": "炊陣妙法、詭正相生"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1218",
+        "recordId": "121804",
+        "sourceName": "椒丘",
+        "recordName": "詭正転変、至微精妙"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1218",
+        "recordId": "121807",
+        "sourceName": "椒丘",
+        "recordName": "旺火却乱"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1218",
+        "recordId": "1218102",
+        "sourceName": "椒丘",
+        "recordName": "{RUBY_B#すいじ}炊事{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1218",
+        "recordId": "1218:E1",
+        "sourceName": "椒丘",
+        "recordName": "{RUBY_B#ごみごぞう}五味五臓{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1218",
+        "recordId": "1218:E4",
+        "sourceName": "椒丘",
+        "recordName": "{RUBY_B#きけつじゅういつ}気血充溢{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1218",
+        "recordId": "1218:E6",
+        "sourceName": "椒丘",
+        "recordName": "{RUBY_B#きゅうふつきゅうへん}九沸九変{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1217",
+        "recordId": "121703",
+        "sourceName": "フォフォ",
+        "recordName": "シッポ・神鬼使役"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1217",
+        "recordId": "121707",
+        "sourceName": "フォフォ",
+        "recordName": "凶相・鬼物圧伏"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1217",
+        "recordId": "1121703",
+        "sourceName": "フォフォ",
+        "recordName": "シッポ・神鬼使役"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1217",
+        "recordId": "1121707",
+        "sourceName": "フォフォ",
+        "recordName": "凶相・鬼物圧伏"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1217",
+        "recordId": "11217102",
+        "sourceName": "フォフォ",
+        "recordName": "{RUBY_B#ていきょう}貞凶{RUBY_E#}の{RUBY_B#めい}命{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1213",
+        "recordId": "121301",
+        "sourceName": "丹恒・飲月",
+        "recordName": "水華"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1213",
+        "recordId": "121302",
+        "sourceName": "丹恒・飲月",
+        "recordName": "龍力自在"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1213",
+        "recordId": "121303",
+        "sourceName": "丹恒・飲月",
+        "recordName": "傲睨せし蒼龍、世を濯ぐ劫水"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1213",
+        "recordId": "121304",
+        "sourceName": "丹恒・飲月",
+        "recordName": "亢心"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1213",
+        "recordId": "121307",
+        "sourceName": "丹恒・飲月",
+        "recordName": "掣空、虹の如し"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1213",
+        "recordId": "121308",
+        "sourceName": "丹恒・飲月",
+        "recordName": "瞬華"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1213",
+        "recordId": "121310",
+        "sourceName": "丹恒・飲月",
+        "recordName": "天矢陰"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1213",
+        "recordId": "121312",
+        "sourceName": "丹恒・飲月",
+        "recordName": "躍動せし耀鱗"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1213",
+        "recordId": "1213103",
+        "sourceName": "丹恒・飲月",
+        "recordName": "{RUBY_B#けいちつ}啓蟄{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1213",
+        "recordId": "1213:E6",
+        "sourceName": "丹恒・飲月",
+        "recordName": "{RUBY_B#こうりゅう}黄龍{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1212",
+        "recordId": "121201",
+        "sourceName": "鏡流",
+        "recordName": "流影穿"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1212",
+        "recordId": "121202",
+        "sourceName": "鏡流",
+        "recordName": "無罅の飛光"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1212",
+        "recordId": "121203",
+        "sourceName": "鏡流",
+        "recordName": "曇華生滅、夢瀉す天河"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1212",
+        "recordId": "121204",
+        "sourceName": "鏡流",
+        "recordName": "淡月転魄"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1212",
+        "recordId": "121207",
+        "sourceName": "鏡流",
+        "recordName": "神識照らす月影"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1212",
+        "recordId": "121209",
+        "sourceName": "鏡流",
+        "recordName": "寒川映月"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1212",
+        "recordId": "1121204",
+        "sourceName": "鏡流",
+        "recordName": "淡月転魄"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1212",
+        "recordId": "1121207",
+        "sourceName": "鏡流",
+        "recordName": "神識照らす月影"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1212",
+        "recordId": "11212103",
+        "sourceName": "鏡流",
+        "recordName": "{RUBY_B#そうはく}霜魄{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1212",
+        "recordId": "1212:E1",
+        "sourceName": "鏡流",
+        "recordName": "{RUBY_B#てんかん}天関{RUBY_E#}を{RUBY_B#おか}犯{RUBY_E#}す{RUBY_B#つき}月{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1212",
+        "recordId": "1212:E4",
+        "sourceName": "鏡流",
+        "recordName": "{RUBY_B#てのひら}掌{RUBY_E#}の{RUBY_B#げっこう}月光{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1212",
+        "recordId": "1212:E6",
+        "sourceName": "鏡流",
+        "recordName": "{RUBY_B#ろうしゅく}婁宿{RUBY_E#}を{RUBY_B#むしば}蝕{RUBY_E#}む{RUBY_B#ひょうりん}氷輪{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1211",
+        "recordId": "121101",
+        "sourceName": "白露",
+        "recordName": "望・聞・問…蹴！"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1211",
+        "recordId": "1211:E4",
+        "sourceName": "白露",
+        "recordName": "{RUBY_B#がいしょういや}外傷癒{RUBY_E#}す{RUBY_B#ちゅうご}肘後{RUBY_E#}の{RUBY_B#びきゅう}備急{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1004",
+        "recordId": "11004102",
+        "sourceName": "ヴェルト",
+        "recordName": "{RUBY_B#しんぱん}審判{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1003",
+        "recordId": "1003101",
+        "sourceName": "姫子",
+        "recordName": "{RUBY_B#せいか}星火{RUBY_E#}"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1003",
+        "recordId": "1003103",
+        "sourceName": "姫子",
+        "recordName": "{RUBY_B#みちしるべ}道標{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1003",
+        "recordId": "1003:E2",
+        "sourceName": "姫子",
+        "recordName": "{RUBY_B#かいこう}邂逅{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1312",
+        "recordId": "131201",
+        "sourceName": "ミーシャ",
+        "recordName": "ど…退いてくださーい！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1312",
+        "recordId": "131202",
+        "sourceName": "ミーシャ",
+        "recordName": "ル…ルームサービスです！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1312",
+        "recordId": "131203",
+        "sourceName": "ミーシャ",
+        "recordName": "ち…遅刻する！"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1312",
+        "recordId": "1312103",
+        "sourceName": "ミーシャ",
+        "recordName": "トランスミッション"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1312",
+        "recordId": "1312:E2",
+        "sourceName": "ミーシャ",
+        "recordName": "{RUBY_B#せいしゅん}青春{RUBY_E#}の{RUBY_B#かな}悲{RUBY_E#}しい{RUBY_B#ちょうぼう}眺望{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1312",
+        "recordId": "1312:E4",
+        "sourceName": "ミーシャ",
+        "recordName": "よく{RUBY_B#し}知{RUBY_E#}る{RUBY_B#おもかげ}面影{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1312",
+        "recordId": "1312:E6",
+        "sourceName": "ミーシャ",
+        "recordName": "{RUBY_B#ひさ}久{RUBY_E#}しく{RUBY_B#わす}忘{RUBY_E#}れていた{RUBY_B#あこが}憧{RUBY_E#}れ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1301",
+        "recordId": "130101",
+        "sourceName": "ギャラガー",
+        "recordName": "持ち込み料"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1301",
+        "recordId": "130103",
+        "sourceName": "ギャラガー",
+        "recordName": "シャンパン・マナー"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1301",
+        "recordId": "130107",
+        "sourceName": "ギャラガー",
+        "recordName": "ヴィンテージ開封"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1301",
+        "recordId": "130108",
+        "sourceName": "ギャラガー",
+        "recordName": "極上の泡立ち"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1301",
+        "recordId": "1301101",
+        "sourceName": "ギャラガー",
+        "recordName": "{RUBY_B#しん}新{RUBY_E#}レシピ"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1301",
+        "recordId": "1301:E6",
+        "sourceName": "ギャラガー",
+        "recordName": "ブラッド・アンド・\nサンド"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1224",
+        "recordId": "122401",
+        "sourceName": "三月なのか",
+        "recordName": "妖魔を祓う瑠璃剣"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1224",
+        "recordId": "122402",
+        "sourceName": "三月なのか",
+        "recordName": "師匠、お茶をどうぞ！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1224",
+        "recordId": "122403",
+        "sourceName": "三月なのか",
+        "recordName": "蓋世の傑物、三月なのか"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1224",
+        "recordId": "122404",
+        "sourceName": "三月なのか",
+        "recordName": "師匠、わかりました！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1224",
+        "recordId": "122408",
+        "sourceName": "三月なのか",
+        "recordName": "一に眉間、二に心臓"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1224",
+        "recordId": "1224103",
+        "sourceName": "三月なのか",
+        "recordName": "{RUBY_B#はろう}破浪{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1224",
+        "recordId": "1224:E2",
+        "sourceName": "三月なのか",
+        "recordName": "{RUBY_B#せっぱく}雪白{RUBY_E#}の{RUBY_B#やいば}刃{RUBY_E#}は{RUBY_B#どとう}怒涛{RUBY_E#}の{RUBY_B#ごと}如{RUBY_E#}く"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1224",
+        "recordId": "1224:E6",
+        "sourceName": "三月なのか",
+        "recordName": "ウチが{RUBY_B#せかいいち}世界一{RUBY_E#}！"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1223",
+        "recordId": "122301",
+        "sourceName": "モゼ",
+        "recordName": "暗器"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1223",
+        "recordId": "122302",
+        "sourceName": "モゼ",
+        "recordName": "急襲する迅羽"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1223",
+        "recordId": "122303",
+        "sourceName": "モゼ",
+        "recordName": "潜む刃、鋭い影"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1223",
+        "recordId": "122304",
+        "sourceName": "モゼ",
+        "recordName": "翼を折りて鋒鋩とす"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1223",
+        "recordId": "122307",
+        "sourceName": "モゼ",
+        "recordName": "見えざる脅威"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1223",
+        "recordId": "1223:E1",
+        "sourceName": "モゼ",
+        "recordName": "{RUBY_B#りっし}立志{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1223",
+        "recordId": "1223:E2",
+        "sourceName": "モゼ",
+        "recordName": "{RUBY_B#ちょうばつ}懲罰{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1223",
+        "recordId": "1223:E4",
+        "sourceName": "モゼ",
+        "recordName": "{RUBY_B#おんみつ}隠密{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1223",
+        "recordId": "1223:E6",
+        "sourceName": "モゼ",
+        "recordName": "{RUBY_B#ちゅうせい}忠誠{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1215",
+        "recordId": "121501",
+        "sourceName": "寒鴉",
+        "recordName": "冥兆天筆"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1215",
+        "recordId": "121502",
+        "sourceName": "寒鴉",
+        "recordName": "生滅捕縛"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1215",
+        "recordId": "121503",
+        "sourceName": "寒鴉",
+        "recordName": "十王の勅令、遍く遵行せよ"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1215",
+        "recordId": "121504",
+        "sourceName": "寒鴉",
+        "recordName": "懲悪"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1215",
+        "recordId": "1215101",
+        "sourceName": "寒鴉",
+        "recordName": "{RUBY_B#ろくじ}録事{RUBY_E#}"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1214",
+        "recordId": "121401",
+        "sourceName": "雪衣",
+        "recordName": "破魔錐"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1214",
+        "recordId": "121402",
+        "sourceName": "雪衣",
+        "recordName": "諸悪摂伏"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1214",
+        "recordId": "121403",
+        "sourceName": "雪衣",
+        "recordName": "身を貫く天罰"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1214",
+        "recordId": "121404",
+        "sourceName": "雪衣",
+        "recordName": "十王の聖裁、業報は常に在り"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1214",
+        "recordId": "121407",
+        "sourceName": "雪衣",
+        "recordName": "斬、即決"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1214",
+        "recordId": "1214101",
+        "sourceName": "雪衣",
+        "recordName": "{RUBY_B#よちょう}予兆{RUBY_E#}の{RUBY_B#からく}絡繰{RUBY_E#}り"
+      },
+      {
+        "kind": "traceNode",
+        "sourceId": "1214",
+        "recordId": "1214102",
+        "sourceName": "雪衣",
+        "recordName": "{RUBY_B#さいほう}砕鋒{RUBY_E#}の{RUBY_B#じくうけ}軸受{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1214",
+        "recordId": "1214:E4",
+        "sourceName": "雪衣",
+        "recordName": "{RUBY_B#ごうこんた}業根断{RUBY_E#}ち"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1002",
+        "recordId": "100204",
+        "sourceName": "丹恒",
+        "recordName": "寸長寸強"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1002",
+        "recordId": "100207",
+        "sourceName": "丹恒",
+        "recordName": "破敵の矛先"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1002",
+        "recordId": "1002:E1",
+        "sourceName": "丹恒",
+        "recordName": "{RUBY_B#きょくてんきゅうじん}極天窮尽{RUBY_E#}するも\n{RUBY_B#たかぶ}昂{RUBY_E#}り{RUBY_B#たも}保{RUBY_E#}てず"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1001",
+        "recordId": "100102",
+        "sourceName": "三月なのか",
+        "recordName": "可愛いは正義"
+      },
+      {
+        "kind": "trace",
+        "sourceId": "1001",
+        "recordId": "100107",
+        "sourceName": "三月なのか",
+        "recordName": "凍る瞬間"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1001",
+        "recordId": "1001:E2",
+        "sourceName": "三月なのか",
+        "recordName": "{RUBY_B#きおく}記憶{RUBY_E#}の{RUBY_B#なか}中{RUBY_E#}のあの{RUBY_B#こ}子{RUBY_E#}"
+      },
+      {
+        "kind": "eidolon",
+        "sourceId": "1001",
+        "recordId": "1001:E4",
+        "sourceName": "三月なのか",
+        "recordName": "もう{RUBY_B#うしな}失{RUBY_E#}いたくない"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "24006",
+        "recordId": "24006",
+        "sourceName": "愉悦溢れる祝福",
+        "recordName": "開幕"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "24004",
+        "recordId": "24004",
+        "sourceName": "絶え間ない演算",
+        "recordName": "境界なき思考"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "24003",
+        "recordId": "24003",
+        "sourceName": "孤独の癒し",
+        "recordName": "混沌の霊薬"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "24001",
+        "recordId": "24001",
+        "sourceName": "星海巡航",
+        "recordName": "猟逐"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "24000",
+        "recordId": "24000",
+        "sourceName": "とある星神の殞落を記す",
+        "recordName": "火に飛び込む"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23062",
+        "recordId": "23062",
+        "sourceName": "在るがままの我",
+        "recordName": "心のままに"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23061",
+        "recordId": "23061",
+        "sourceName": "静かに瞬く小さな火",
+        "recordName": "萌芽"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23060",
+        "recordId": "23060",
+        "sourceName": "夜を照らす導きの星",
+        "recordName": "初心"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23059",
+        "recordId": "23059",
+        "sourceName": "煉獄に焼かれし新身",
+        "recordName": "鍛錬"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23058",
+        "recordId": "23058",
+        "sourceName": "再び花が咲く季節に",
+        "recordName": "空想"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23057",
+        "recordId": "23057",
+        "sourceName": "銀河シティへようこそ",
+        "recordName": "必勝"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23056",
+        "recordId": "23056",
+        "sourceName": "或る嘘の終幕",
+        "recordName": "呑噬"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23054",
+        "recordId": "23054",
+        "sourceName": "彼女が視ると決めた時",
+        "recordName": "打開"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23053",
+        "recordId": "23053",
+        "sourceName": "きらびやかな世界",
+        "recordName": "注目の的"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23052",
+        "recordId": "23052",
+        "sourceName": "愛はいま永遠に",
+        "recordName": "約束"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23051",
+        "recordId": "23051",
+        "sourceName": "万里の山河を越えて",
+        "recordName": "新たな鱗"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23050",
+        "recordId": "23050",
+        "sourceName": "彼女の炎を忘れずに",
+        "recordName": "燃える身"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23049",
+        "recordId": "23049",
+        "sourceName": "長き夜に輝く星へ",
+        "recordName": "眠れない"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23046",
+        "recordId": "23046",
+        "sourceName": "理想を焼く奈落で",
+        "recordName": "赤原猟兵"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23045",
+        "recordId": "23045",
+        "sourceName": "報われぬ戴冠",
+        "recordName": "騎士王"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23044",
+        "recordId": "23044",
+        "sourceName": "燃え盛る黎明のように",
+        "recordName": "喪失"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23043",
+        "recordId": "23043",
+        "sourceName": "風に揺蕩う虚言",
+        "recordName": "欺瞞"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23042",
+        "recordId": "23042",
+        "sourceName": "空の虹が消えぬように",
+        "recordName": "包容"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23041",
+        "recordId": "23041",
+        "sourceName": "生命、焼滅すべし",
+        "recordName": "溶錬"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23040",
+        "recordId": "23040",
+        "sourceName": "永訣よ美しくあれ",
+        "recordName": "銘刻"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23039",
+        "recordId": "23039",
+        "sourceName": "前途燃やす血の如き炎",
+        "recordName": "遠望"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23037",
+        "recordId": "23037",
+        "sourceName": "触れてはならぬ領域へ",
+        "recordName": "マインドゲーム"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23036",
+        "recordId": "23036",
+        "sourceName": "光陰を織り黄金と成す",
+        "recordName": "設立"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23035",
+        "recordId": "23035",
+        "sourceName": "長途はやがて帰途へと続く",
+        "recordName": "新生"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23033",
+        "recordId": "23033",
+        "sourceName": "忍法帖・繚乱破魔",
+        "recordName": "破邪"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23032",
+        "recordId": "23032",
+        "sourceName": "昔日の香りは今も猶",
+        "recordName": "安心"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23031",
+        "recordId": "23031",
+        "sourceName": "我が征く巡狩の道",
+        "recordName": "威風"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23030",
+        "recordId": "23030",
+        "sourceName": "夕日に舞う",
+        "recordName": "無我夢中"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23028",
+        "recordId": "23028",
+        "sourceName": "されど希望の銘は無価",
+        "recordName": "承諾"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23027",
+        "recordId": "23027",
+        "sourceName": "二度目の生に向かって",
+        "recordName": "苦難の航行"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23025",
+        "recordId": "23025",
+        "sourceName": "夢が帰り着く場所",
+        "recordName": "蛹を破り蛍は舞う"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23022",
+        "recordId": "23022",
+        "sourceName": "時間の記憶を再構築して",
+        "recordName": "結晶"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23020",
+        "recordId": "23020",
+        "sourceName": "純粋なる思惟の洗礼",
+        "recordName": "思想訓練"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23018",
+        "recordId": "23018",
+        "sourceName": "その一刻、目に焼き付けて",
+        "recordName": "騎士の巡礼"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23017",
+        "recordId": "23017",
+        "sourceName": "驚魂の夜",
+        "recordName": "全力深呼吸"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23016",
+        "recordId": "23016",
+        "sourceName": "悩んで笑って",
+        "recordName": "順番にね！"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23015",
+        "recordId": "23015",
+        "sourceName": "陽光より輝くもの",
+        "recordName": "この命に替えても"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23014",
+        "recordId": "23014",
+        "sourceName": "この身は剣なり",
+        "recordName": "この宵玉を執り"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23013",
+        "recordId": "23013",
+        "sourceName": "時節は居らず",
+        "recordName": "一日は四時あり"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23012",
+        "recordId": "23012",
+        "sourceName": "泥の如き眠り",
+        "recordName": "美しき夢"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23011",
+        "recordId": "23011",
+        "sourceName": "閉ざした瞳",
+        "recordName": "視界"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23008",
+        "recordId": "23008",
+        "sourceName": "棺のこだま",
+        "recordName": "いばら"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23005",
+        "recordId": "23005",
+        "sourceName": "勝利の刹那",
+        "recordName": "決断"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23004",
+        "recordId": "23004",
+        "sourceName": "世界の名を以て",
+        "recordName": "伝承者"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23002",
+        "recordId": "23002",
+        "sourceName": "かけがえのないもの",
+        "recordName": "家族"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23001",
+        "recordId": "23001",
+        "sourceName": "夜の帳の中で",
+        "recordName": "花と蝶"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "23000",
+        "recordId": "23000",
+        "sourceName": "銀河鉄道の夜",
+        "recordName": "流星群"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "22007",
+        "recordId": "22007",
+        "sourceName": "みんなで一緒に未来へ",
+        "recordName": "連れ立つ"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "22006",
+        "recordId": "22006",
+        "sourceName": "ピンク色の明日へ",
+        "recordName": "視線"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "22005",
+        "recordId": "22005",
+        "sourceName": "永遠の迷境ごはん",
+        "recordName": "いい匂い！"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "22004",
+        "recordId": "22004",
+        "sourceName": "宇宙一の大商い！",
+        "recordName": "互恵関係"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "22003",
+        "recordId": "22003",
+        "sourceName": "忍事録・音律狩猟",
+        "recordName": "開演！"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "22002",
+        "recordId": "22002",
+        "sourceName": "明日のための旅",
+        "recordName": "連結"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "22000",
+        "recordId": "22000",
+        "sourceName": "初めてのクエストの前に",
+        "recordName": "ナイスキャッチ"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21065",
+        "recordId": "21065",
+        "sourceName": "今日は好運",
+        "recordName": "選択"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21057",
+        "recordId": "21057",
+        "sourceName": "花は忘れない",
+        "recordName": "一蓮托生"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21055",
+        "recordId": "21055",
+        "sourceName": "明日の明日まで",
+        "recordName": "別れ"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21053",
+        "recordId": "21053",
+        "sourceName": "旅が平穏であるように",
+        "recordName": "甘い夢"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21052",
+        "recordId": "21052",
+        "sourceName": "流すなら涙より汗",
+        "recordName": "さあ鍛錬だ！"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21051",
+        "recordId": "21051",
+        "sourceName": "天才たちの「挨拶」",
+        "recordName": "おめでとう"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21050",
+        "recordId": "21050",
+        "sourceName": "瞬刻の勝機",
+        "recordName": "とどめの一撃"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21047",
+        "recordId": "21047",
+        "sourceName": "夜は影のように付き纏う",
+        "recordName": "隠伏"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21045",
+        "recordId": "21045",
+        "sourceName": "調和が沈黙した後",
+        "recordName": "静寂"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21044",
+        "recordId": "21044",
+        "sourceName": "終わりなき舞踏",
+        "recordName": "探り合い"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21043",
+        "recordId": "21043",
+        "sourceName": "二人だけのコンサート",
+        "recordName": "声援"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21042",
+        "recordId": "21042",
+        "sourceName": "心に刻まれた約束",
+        "recordName": "伝承"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21041",
+        "recordId": "21041",
+        "sourceName": "ショーの始まり",
+        "recordName": "独りの娯楽"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21040",
+        "recordId": "21040",
+        "sourceName": "銀河が陥落した日",
+        "recordName": "征服"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21039",
+        "recordId": "21039",
+        "sourceName": "運命を紡ぐ糸",
+        "recordName": "洞察"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21038",
+        "recordId": "21038",
+        "sourceName": "烈火の彼方",
+        "recordName": "爆燃"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21037",
+        "recordId": "21037",
+        "sourceName": "最後の勝者",
+        "recordName": "ベット"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21035",
+        "recordId": "21035",
+        "sourceName": "何が真か",
+        "recordName": "仮説"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21034",
+        "recordId": "21034",
+        "sourceName": "今日も平和な一日",
+        "recordName": "風雨、間もなく至る"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21033",
+        "recordId": "21033",
+        "sourceName": "逃げ場なし",
+        "recordName": "絶境"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21031",
+        "recordId": "21031",
+        "sourceName": "幽冥に帰す",
+        "recordName": "洶湧"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21030",
+        "recordId": "21030",
+        "sourceName": "これがウチだよ！",
+        "recordName": "新たな章"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21029",
+        "recordId": "21029",
+        "sourceName": "またお会いしましょう",
+        "recordName": "交わす拳、言葉の如く"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21027",
+        "recordId": "21027",
+        "sourceName": "朝食の儀式感",
+        "recordName": "持ち場に着く"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21026",
+        "recordId": "21026",
+        "sourceName": "ワン！散歩の時間！",
+        "recordName": "さっさと逃げる"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21024",
+        "recordId": "21024",
+        "sourceName": "春水に初生する",
+        "recordName": "余寒を払いのけ"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21022",
+        "recordId": "21022",
+        "sourceName": "フェルマータ",
+        "recordName": "休符"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21020",
+        "recordId": "21020",
+        "sourceName": "天才たちの休息",
+        "recordName": "それぞれの"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21019",
+        "recordId": "21019",
+        "sourceName": "青空の下で",
+        "recordName": "暖陽に麦浪"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21016",
+        "recordId": "21016",
+        "sourceName": "星間市場のトレンド",
+        "recordName": "また一巡の入れ替え"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21015",
+        "recordId": "21015",
+        "sourceName": "決意は汗のように輝く",
+        "recordName": "振り返って"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21012",
+        "recordId": "21012",
+        "sourceName": "秘密の誓い",
+        "recordName": "全身全霊"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21010",
+        "recordId": "21010",
+        "sourceName": "論剣",
+        "recordName": "それぞれの答え"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21005",
+        "recordId": "21005",
+        "sourceName": "モグラ党へようこそ",
+        "recordName": "奇妙な冒険"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21004",
+        "recordId": "21004",
+        "sourceName": "記憶の中の姿",
+        "recordName": "古い写真"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21003",
+        "recordId": "21003",
+        "sourceName": "沈黙のみ",
+        "recordName": "記録"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21002",
+        "recordId": "21002",
+        "sourceName": "余生の初日",
+        "recordName": "この一時を永遠に"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "21001",
+        "recordId": "21001",
+        "sourceName": "おやすみなさいと寝顔",
+        "recordName": "奔走者"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "20024",
+        "recordId": "20024",
+        "sourceName": "残涙",
+        "recordName": "哀悼"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "20022",
+        "recordId": "20022",
+        "sourceName": "辿る記憶",
+        "recordName": "入眠"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "20020",
+        "recordId": "20020",
+        "sourceName": "見識",
+        "recordName": "天才"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "20018",
+        "recordId": "20018",
+        "sourceName": "匿影",
+        "recordName": "機関"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "20016",
+        "recordId": "20016",
+        "sourceName": "倶歿",
+        "recordName": "レギオン"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "20011",
+        "recordId": "20011",
+        "sourceName": "淵環",
+        "recordName": "窮追"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "20009",
+        "recordId": "20009",
+        "sourceName": "楽壊",
+        "recordName": "誅討"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "20007",
+        "recordId": "20007",
+        "sourceName": "離弦",
+        "recordName": "鳴角"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "20003",
+        "recordId": "20003",
+        "sourceName": "琥珀",
+        "recordName": "停滞"
+      },
+      {
+        "kind": "lightCone",
+        "sourceId": "20000",
+        "recordId": "20000",
+        "sourceName": "矢じり",
+        "recordName": "危機"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "301",
+        "recordId": "301:2",
+        "sourceName": "宇宙封印ステーション",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "302",
+        "recordId": "302:2",
+        "sourceName": "老いぬ者の仙舟",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "303",
+        "recordId": "303:2",
+        "sourceName": "汎銀河商事会社",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "304",
+        "recordId": "304:2",
+        "sourceName": "建創者のベロブルグ",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "305",
+        "recordId": "305:2",
+        "sourceName": "天体階差機関",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "307",
+        "recordId": "307:2",
+        "sourceName": "盗賊公国タリア",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "310",
+        "recordId": "310:2",
+        "sourceName": "折れた竜骨",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "312",
+        "recordId": "312:2",
+        "sourceName": "夢の地ピノコニー",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "313",
+        "recordId": "313:2",
+        "sourceName": "荒涼の惑星ツガンニヤ",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "314",
+        "recordId": "314:2",
+        "sourceName": "顕世の出雲と高天の神国",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "316",
+        "recordId": "316:2",
+        "sourceName": "劫火と蓮灯の鋳煉宮",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "317",
+        "recordId": "317:2",
+        "sourceName": "海に沈んだルサカ",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "318",
+        "recordId": "318:2",
+        "sourceName": "奇想天外のバナダイス",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "319",
+        "recordId": "319:2",
+        "sourceName": "静謐な拾骨地",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "321",
+        "recordId": "321:2",
+        "sourceName": "夢を紡ぐ妖精の楽園",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "322",
+        "recordId": "322:2",
+        "sourceName": "酩酊の海域",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "323",
+        "recordId": "323:2",
+        "sourceName": "永遠の地オンパロス",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "327",
+        "recordId": "327:2",
+        "sourceName": "墜星の出航地",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "ornament",
+        "sourceId": "328",
+        "recordId": "328:2",
+        "sourceName": "宇宙生命科学研究院",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "102",
+        "recordId": "102:2",
+        "sourceName": "草の穂ガンマン",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "103",
+        "recordId": "103:2",
+        "sourceName": "純庭教会の聖騎士",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "104",
+        "recordId": "104:4",
+        "sourceName": "雪の密林の狩人",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "105",
+        "recordId": "105:4",
+        "sourceName": "成り上がりチャンピオン",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "109",
+        "recordId": "109:4",
+        "sourceName": "雷鳴轟くバンド",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "111",
+        "recordId": "111:2",
+        "sourceName": "流星の跡を追う怪盗",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "111",
+        "recordId": "111:4",
+        "sourceName": "流星の跡を追う怪盗",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "112",
+        "recordId": "112:4",
+        "sourceName": "荒地で盗みを働く廃土客",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "115",
+        "recordId": "115:4",
+        "sourceName": "灰燼を燃やし尽くす大公",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "116",
+        "recordId": "116:2",
+        "sourceName": "深い牢獄の囚人",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "118",
+        "recordId": "118:2",
+        "sourceName": "夢を弄ぶ時計屋",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "118",
+        "recordId": "118:4",
+        "sourceName": "夢を弄ぶ時計屋",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "119",
+        "recordId": "119:2",
+        "sourceName": "蝗害を一掃せし鉄騎",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "119",
+        "recordId": "119:4",
+        "sourceName": "蝗害を一掃せし鉄騎",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "120",
+        "recordId": "120:2",
+        "sourceName": "風雲を薙ぎ払う勇烈",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "121",
+        "recordId": "121:4",
+        "sourceName": "再び苦難の道を歩む司祭",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "122",
+        "recordId": "122:2",
+        "sourceName": "知識の海に溺れる学者",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "123",
+        "recordId": "123:2",
+        "sourceName": "凱歌を揚げる英雄",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "123",
+        "recordId": "123:4",
+        "sourceName": "凱歌を揚げる英雄",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "124",
+        "recordId": "124:4",
+        "sourceName": "亡国の悲哀を詠う詩人",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "125",
+        "recordId": "125:4",
+        "sourceName": "烈陽と雷鳴の武神",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "126",
+        "recordId": "126:2",
+        "sourceName": "荒海を越える船長",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "126",
+        "recordId": "126:4",
+        "sourceName": "荒海を越える船長",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "127",
+        "recordId": "127:2",
+        "sourceName": "天地再創の救世主",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "128",
+        "recordId": "128:4",
+        "sourceName": "星の光を隠した隠者",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "129",
+        "recordId": "129:2",
+        "sourceName": "功績輝く魔法少女",
+        "recordName": "2セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "129",
+        "recordId": "129:4",
+        "sourceName": "功績輝く魔法少女",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "130",
+        "recordId": "130:4",
+        "sourceName": "天命に従う旅の卜者",
+        "recordName": "4セット"
+      },
+      {
+        "kind": "relic",
+        "sourceId": "131",
+        "recordId": "131:2",
+        "sourceName": "星巡るナビゲーター「シケン」",
+        "recordName": "2セット"
+      }
+    ]
+  },
+  "limitations": [
+    "Candidate detection is intentionally broad and may include healing, shields, or non-damage utility that shares a stat keyword.",
+    "Coverage is matched by exact skill, trace-node, eidolon-rank, light-cone, and set-piece record ID.",
+    "The local enemy catalog contains only three verification presets and is not a complete game enemy database."
+  ]
+}

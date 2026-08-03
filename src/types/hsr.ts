@@ -14,8 +14,11 @@ export type BattleStats = {
   critRate: number;
   critDamage: number;
   breakEffect: number;
+  effectHitRate: number;
+  effectRes: number;
   energyRegen: number;
   elementalDamage: number;
+  elation: number;
 };
 
 export type CharacterBuild = {
@@ -36,8 +39,12 @@ export type CharacterBuild = {
     rarity: number;
   }>;
   traces: Array<{
+    id?: string;
     name: string;
+    type?: string;
     level: number;
+    maxLevel?: number;
+    description?: string;
   }>;
   stats: BattleStats;
 };

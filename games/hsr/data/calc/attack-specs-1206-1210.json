@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "source": "games/hsr/data/catalog.json",
+  "description": "1206〜1210のレビュー済み攻撃項。paramIndexは説明文の各ダメージ項と照合済み。",
+  "attacks": [
+    {"id":"120601","characterId":"1206","sourceSkillId":"120601","name":"雲騎剣経・月虹","element":"Physical","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","paramIndex":0,"canCrit":true},
+    {"id":"120602","characterId":"1206","sourceSkillId":"120602","name":"雲騎剣経・山傾","element":"Physical","type":"skill","traceKey":"skill","target":"single","scalingStat":"atk","paramIndex":0,"canCrit":true},
+    {"id":"1206021","characterId":"1206","sourceSkillId":"120602","name":"剣勢","element":"Physical","type":"additional","traceKey":"skill","target":"single","scalingStat":"atk","paramIndex":1,"canCrit":true,"modifierInputKey":"sushang-sword-stance-active","modifierInputMinimum":1,"modifierInputDefault":0,"conditionText":"剣勢が発動（弱点撃破中は確定、通常は33%）"},
+    {"id":"120603","characterId":"1206","sourceSkillId":"120603","name":"太虚形蘊・燭夜","element":"Physical","type":"ultimate","traceKey":"ultimate","target":"single","scalingStat":"atk","paramIndex":0,"canCrit":true},
+    {"id":"1206031","characterId":"1206","sourceSkillId":"120602","name":"剣勢・追加判定2回","element":"Physical","type":"additional","traceKey":"skill","target":"single","scalingStat":"atk","factors":[{"skillId":"120602","paramIndex":1},{"skillId":"120603","paramIndex":2}],"hitCount":2,"canCrit":true,"modifierInputKey":"sushang-ultimate-buff-active","modifierInputMinimum":1,"modifierInputDefault":0,"conditionText":"必殺技後の戦闘スキルで追加判定が2回とも発動"},
+    {"id":"120607","characterId":"1206","sourceSkillId":"120607","name":"雲騎剣経・叩陣","element":"Physical","type":"additional","traceKey":"technique","target":"aoe","scalingStat":"atk","paramIndex":0,"canCrit":true},
+
+    {"id":"120701","characterId":"1207","sourceSkillId":"120701","name":"流鏑","element":"Imaginary","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","paramIndex":0,"canCrit":true},
+    {"id":"120702","characterId":"1207","sourceSkillId":"120702","name":"天宮に鳴り響む弦","element":"Imaginary","type":"skill","traceKey":"skill","target":"single","scalingStat":"atk","constantMultiplier":0,"canCrit":false,"hidden":true},
+    {"id":"120703","characterId":"1207","sourceSkillId":"120703","name":"貫雲箭","element":"Imaginary","type":"ultimate","traceKey":"ultimate","target":"single","scalingStat":"atk","paramIndex":0,"canCrit":true},
+    {"id":"120704","characterId":"1207","sourceSkillId":"120704","name":"徹札矢・付加ダメージ","element":"Imaginary","type":"additional","traceKey":"talent","target":"single","scalingStat":"atk","paramIndex":0,"canCrit":true,"modifierInputKey":"yukong-bowshot-ready","modifierInputMinimum":1,"modifierInputDefault":0,"conditionText":"天賦の付加ダメージが発動可能"},
+    {"id":"120707","characterId":"1207","sourceSkillId":"120707","name":"風追う雲鳶","element":"Imaginary","type":"additional","traceKey":"technique","target":"single","scalingStat":"atk","constantMultiplier":0,"canCrit":false,"hidden":true},
+
+    {"id":"120801","characterId":"1208","sourceSkillId":"120801","name":"始撃歳星","element":"Quantum","type":"normal","traceKey":"normal","target":"single","scalingStat":"hp","paramIndex":0,"canCrit":true},
+    {"id":"120802","characterId":"1208","sourceSkillId":"120802","name":"太微の行棋、影示す霊台","element":"Quantum","type":"skill","traceKey":"skill","target":"single","scalingStat":"hp","constantMultiplier":0,"canCrit":false,"hidden":true},
+    {"id":"120803","characterId":"1208","sourceSkillId":"120803","name":"天律大衍、歴劫帰一","element":"Quantum","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"hp","paramIndex":0,"canCrit":true},
+    {"id":"120804","characterId":"1208","sourceSkillId":"120804","name":"乾坤清夷、一陽来復","element":"Quantum","type":"talent","traceKey":"talent","target":"single","scalingStat":"hp","constantMultiplier":0,"canCrit":false,"hidden":true},
+    {"id":"120807","characterId":"1208","sourceSkillId":"120807","name":"否泰記す四郭固","element":"Quantum","type":"additional","traceKey":"technique","target":"single","scalingStat":"hp","constantMultiplier":0,"canCrit":false,"hidden":true},
+
+    {"id":"120901","characterId":"1209","sourceSkillId":"120901","name":"寒光刺す霜鋒","element":"Ice","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","paramIndex":0,"canCrit":true},
+    {"id":"120902","characterId":"1209","sourceSkillId":"120902","name":"三尺秋水","element":"Ice","type":"skill","traceKey":"skill","target":"single","scalingStat":"atk","paramIndex":0,"canCrit":true},
+    {"id":"120903","characterId":"1209","sourceSkillId":"120903","name":"快雨に戯れる燕","element":"Ice","type":"ultimate","traceKey":"ultimate","target":"single","scalingStat":"atk","paramIndex":2,"canCrit":true},
+    {"id":"120904","characterId":"1209","sourceSkillId":"120904","name":"呼影剣・追加攻撃","element":"Ice","type":"followUp","traceKey":"talent","target":"single","scalingStat":"atk","paramIndex":3,"canCrit":true,"modifierInputKey":"yanqing-followup-triggered","modifierInputMinimum":1,"modifierInputDefault":0,"conditionText":"智剣連心中に追加攻撃の固定確率判定が成功"},
+    {"id":"1209041","characterId":"1209","sourceSkillId":"120904","name":"呼影剣・凍結付加ダメージ","element":"Ice","type":"dot","traceKey":"talent","target":"single","scalingStat":"atk","paramIndex":4,"canCrit":false,"modifierInputKey":"enemy-frozen","modifierInputMinimum":1,"modifierInputDefault":0,"conditionText":"彦卿が付与した凍結状態の敵のターン開始"},
+    {"id":"1209101","characterId":"1209","sourceSkillId":"1209101","sourceTraceId":"1209101","name":"追加能力「頒氷」・付加ダメージ","element":"Ice","type":"additional","traceKey":"talent","target":"single","scalingStat":"atk","constantMultiplier":30,"canCrit":true,"modifierInputKey":"enemy-ice-weakness","modifierInputMinimum":1,"modifierInputDefault":0,"conditionText":"攻撃対象に氷属性弱点がある"},
+    {"id":"1209011","characterId":"1209","sourceSkillId":"120901","name":"星魂1「素刃」・付加ダメージ","element":"Ice","type":"additional","traceKey":"normal","target":"single","scalingStat":"atk","constantMultiplier":60,"canCrit":true,"requiredEidolon":1,"modifierInputKey":"enemy-frozen","modifierInputMinimum":1,"modifierInputDefault":0,"conditionText":"星魂1以上かつ攻撃対象が凍結状態"},
+    {"id":"120907","characterId":"1209","sourceSkillId":"120907","name":"御剣真訣","element":"Ice","type":"additional","traceKey":"technique","target":"single","scalingStat":"atk","constantMultiplier":0,"canCrit":false,"hidden":true},
+
+    {"id":"121001","characterId":"1210","sourceSkillId":"121001","name":"喝采満場","element":"Fire","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","paramIndex":0,"canCrit":true},
+    {"id":"121002","characterId":"1210","sourceSkillId":"121002","name":"出だし好調","element":"Fire","type":"skill","traceKey":"skill","target":"blast","scalingStat":"atk","paramIndex":0,"adjacentParamIndex":1,"canCrit":true},
+    {"id":"1210021","characterId":"1210","sourceSkillId":"121002","name":"出だし好調・燃焼","element":"Fire","type":"dot","traceKey":"skill","target":"single","scalingStat":"atk","paramIndex":3,"canCrit":false,"modifierInputKey":"guinaifen-burn-active","modifierInputMinimum":1,"modifierInputDefault":0,"conditionText":"桂乃芬が付与した燃焼状態"},
+    {"id":"121003","characterId":"1210","sourceSkillId":"121003","name":"十八番を披露するね","element":"Fire","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","paramIndex":0,"canCrit":true},
+    {"id":"1210031","characterId":"1210","sourceSkillId":"121003","name":"十八番を披露するね・燃焼誘発","element":"Fire","type":"dot","traceKey":"ultimate","target":"aoe","scalingStat":"atk","factors":[{"skillId":"121002","paramIndex":3},{"skillId":"121003","paramIndex":1}],"multiplierAdditionScale":{"skillId":"121003","paramIndex":1},"canCrit":false,"modifierInputKey":"guinaifen-burn-active","modifierInputMinimum":1,"modifierInputDefault":0,"conditionText":"敵が桂乃芬の燃焼状態"},
+    {"id":"121007","characterId":"1210","sourceSkillId":"121007","name":"大道芸（4ヒット合計）","element":"Fire","type":"additional","traceKey":"technique","target":"bounce","scalingStat":"atk","paramIndex":0,"hitCountParamIndex":1,"canCrit":true},
+    {"id":"1210011","characterId":"1210","sourceSkillId":"121002","name":"縁竿・通常攻撃で付与した燃焼","element":"Fire","type":"dot","traceKey":"skill","target":"single","scalingStat":"atk","paramIndex":3,"canCrit":false,"modifierInputKey":"guinaifen-normal-burn-active","modifierInputMinimum":1,"modifierInputDefault":0,"conditionText":"追加能力「縁竿」で通常攻撃から燃焼を付与"}
+  ]
+}

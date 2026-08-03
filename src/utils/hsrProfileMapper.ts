@@ -58,8 +58,11 @@ function mapCharacter(source: unknown): CharacterBuild {
       critRate: normalizePercent(readFirst(statsSource, [["crit_rate"], ["critRate"]])),
       critDamage: normalizePercent(readFirst(statsSource, [["crit_dmg"], ["critDamage"]])),
       breakEffect: normalizePercent(readFirst(statsSource, [["break_dmg"], ["breakEffect"]])),
+      effectHitRate: normalizePercent(readFirst(statsSource, [["effect_hit_rate"], ["effectHitRate"]])),
+      effectRes: normalizePercent(readFirst(statsSource, [["effect_res"], ["effectRes"]])),
       energyRegen: normalizePercent(readFirst(statsSource, [["energy_recovery"], ["energyRegen"]])),
       elementalDamage: normalizePercent(readFirst(statsSource, [["element_dmg"], ["damage_boost"]])),
+      elation: normalizePercent(readFirst(statsSource, [["elation"], ["joy"], ["elationDamageAddedRatio"]])),
     },
   };
 }
