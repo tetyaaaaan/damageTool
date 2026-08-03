@@ -36,7 +36,7 @@ VS Code Live Server の `http://127.0.0.1:5500/` でも画面表示は確認で�
 
 UID取得を含めて確認する場合は、同一オリジンのプロキシを持つローカルサーバーを使ってください。
 
-powershellで実行する
+powershellで実行
 ```bash
 cd D:\Documents\GitHub\damageTool
 node local-server.cjs
