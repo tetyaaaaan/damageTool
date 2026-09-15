@@ -1,0 +1,1564 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "provider": "DimbreathBot/AnimeGameData",
+    "revision": "16c6291c3b3f62ce753f036718fb2011059f3882",
+    "gameVersion": "CNRELWin7.0.0_R47194594_S46814653_D47194594",
+    "capturedAt": "2026-09-16",
+    "files": [
+      "ExcelBinOutput/AvatarSkillDepotExcelConfigData.json",
+      "ExcelBinOutput/AvatarSkillExcelConfigData.json",
+      "ExcelBinOutput/AvatarExcelConfigData.json"
+    ]
+  },
+  "bySkillDepotId": {
+    "201": {
+      "skillIds": {
+        "normal": "10024",
+        "skill": "10018",
+        "burst": "10019"
+      },
+      "proudSkillGroupIds": {
+        "normal": "231",
+        "skill": "232",
+        "burst": "239"
+      }
+    },
+    "301": {
+      "skillIds": {
+        "normal": "10031",
+        "skill": "10033",
+        "burst": "10034"
+      },
+      "proudSkillGroupIds": {
+        "normal": "331",
+        "skill": "332",
+        "burst": "339"
+      }
+    },
+    "502": {
+      "skillIds": {
+        "normal": "100541",
+        "skill": "10097",
+        "burst": "10098"
+      },
+      "proudSkillGroupIds": {
+        "normal": "530",
+        "skill": "532",
+        "burst": "539"
+      }
+    },
+    "503": {
+      "skillIds": {
+        "normal": "100542",
+        "skill": "10087",
+        "burst": "10088"
+      },
+      "proudSkillGroupIds": {
+        "normal": "630",
+        "skill": "632",
+        "burst": "639"
+      }
+    },
+    "504": {
+      "skillIds": {
+        "normal": "100543",
+        "skill": "10067",
+        "burst": "10068"
+      },
+      "proudSkillGroupIds": {
+        "normal": "730",
+        "skill": "732",
+        "burst": "739"
+      }
+    },
+    "505": {
+      "skillIds": {
+        "normal": "100544",
+        "skill": "10127",
+        "burst": "10128"
+      },
+      "proudSkillGroupIds": {
+        "normal": "830",
+        "skill": "832",
+        "burst": "839"
+      }
+    },
+    "506": {
+      "skillIds": {
+        "normal": "100545",
+        "skill": "10077",
+        "burst": "10078"
+      },
+      "proudSkillGroupIds": {
+        "normal": "730",
+        "skill": "932",
+        "burst": "939"
+      }
+    },
+    "507": {
+      "skillIds": {
+        "normal": "100546",
+        "skill": "10602",
+        "burst": "10605"
+      },
+      "proudSkillGroupIds": {
+        "normal": "1030",
+        "skill": "1032",
+        "burst": "1039"
+      }
+    },
+    "508": {
+      "skillIds": {
+        "normal": "100547",
+        "skill": "10117",
+        "burst": "10118"
+      },
+      "proudSkillGroupIds": {
+        "normal": "1130",
+        "skill": "1132",
+        "burst": "1139"
+      }
+    },
+    "601": {
+      "skillIds": {
+        "normal": "10060",
+        "skill": "10061",
+        "burst": "10062"
+      },
+      "proudSkillGroupIds": {
+        "normal": "431",
+        "skill": "432",
+        "burst": "439"
+      }
+    },
+    "702": {
+      "skillIds": {
+        "normal": "100551",
+        "skill": "10097",
+        "burst": "10098"
+      },
+      "proudSkillGroupIds": {
+        "normal": "531",
+        "skill": "532",
+        "burst": "539"
+      }
+    },
+    "703": {
+      "skillIds": {
+        "normal": "100552",
+        "skill": "10087",
+        "burst": "10088"
+      },
+      "proudSkillGroupIds": {
+        "normal": "631",
+        "skill": "632",
+        "burst": "639"
+      }
+    },
+    "704": {
+      "skillIds": {
+        "normal": "100553",
+        "skill": "10067",
+        "burst": "10068"
+      },
+      "proudSkillGroupIds": {
+        "normal": "731",
+        "skill": "732",
+        "burst": "739"
+      }
+    },
+    "705": {
+      "skillIds": {
+        "normal": "100554",
+        "skill": "10127",
+        "burst": "10128"
+      },
+      "proudSkillGroupIds": {
+        "normal": "831",
+        "skill": "832",
+        "burst": "839"
+      }
+    },
+    "706": {
+      "skillIds": {
+        "normal": "100555",
+        "skill": "10077",
+        "burst": "10078"
+      },
+      "proudSkillGroupIds": {
+        "normal": "731",
+        "skill": "932",
+        "burst": "939"
+      }
+    },
+    "707": {
+      "skillIds": {
+        "normal": "100556",
+        "skill": "10602",
+        "burst": "10605"
+      },
+      "proudSkillGroupIds": {
+        "normal": "1031",
+        "skill": "1032",
+        "burst": "1039"
+      }
+    },
+    "708": {
+      "skillIds": {
+        "normal": "100557",
+        "skill": "10117",
+        "burst": "10118"
+      },
+      "proudSkillGroupIds": {
+        "normal": "1131",
+        "skill": "1132",
+        "burst": "1139"
+      }
+    },
+    "1401": {
+      "skillIds": {
+        "normal": "10070",
+        "skill": "10071",
+        "burst": "10072"
+      },
+      "proudSkillGroupIds": {
+        "normal": "1431",
+        "skill": "1432",
+        "burst": "1439"
+      }
+    },
+    "1501": {
+      "skillIds": {
+        "normal": "10073",
+        "skill": "10074",
+        "burst": "10075"
+      },
+      "proudSkillGroupIds": {
+        "normal": "1531",
+        "skill": "1532",
+        "burst": "1539"
+      }
+    },
+    "1601": {
+      "skillIds": {
+        "normal": "10160",
+        "skill": "10161",
+        "burst": "10165"
+      },
+      "proudSkillGroupIds": {
+        "normal": "1631",
+        "skill": "1632",
+        "burst": "1639"
+      }
+    },
+    "2001": {
+      "skillIds": {
+        "normal": "10201",
+        "skill": "10202",
+        "burst": "10203"
+      },
+      "proudSkillGroupIds": {
+        "normal": "2031",
+        "skill": "2032",
+        "burst": "2039"
+      }
+    },
+    "2101": {
+      "skillIds": {
+        "normal": "10041",
+        "skill": "10032",
+        "burst": "10017"
+      },
+      "proudSkillGroupIds": {
+        "normal": "2131",
+        "skill": "2132",
+        "burst": "2139"
+      }
+    },
+    "2201": {
+      "skillIds": {
+        "normal": "10221",
+        "skill": "10224",
+        "burst": "10225"
+      },
+      "proudSkillGroupIds": {
+        "normal": "2231",
+        "skill": "2232",
+        "burst": "2239"
+      }
+    },
+    "2301": {
+      "skillIds": {
+        "normal": "10231",
+        "skill": "10232",
+        "burst": "10235"
+      },
+      "proudSkillGroupIds": {
+        "normal": "2331",
+        "skill": "2332",
+        "burst": "2339"
+      }
+    },
+    "2401": {
+      "skillIds": {
+        "normal": "10241",
+        "skill": "10242",
+        "burst": "10245"
+      },
+      "proudSkillGroupIds": {
+        "normal": "2431",
+        "skill": "2432",
+        "burst": "2439"
+      }
+    },
+    "2501": {
+      "skillIds": {
+        "normal": "10381",
+        "skill": "10382",
+        "burst": "10385"
+      },
+      "proudSkillGroupIds": {
+        "normal": "2531",
+        "skill": "2532",
+        "burst": "2539"
+      }
+    },
+    "2601": {
+      "skillIds": {
+        "normal": "10261",
+        "skill": "10262",
+        "burst": "10265"
+      },
+      "proudSkillGroupIds": {
+        "normal": "2631",
+        "skill": "2632",
+        "burst": "2639"
+      }
+    },
+    "2701": {
+      "skillIds": {
+        "normal": "10271",
+        "skill": "10272",
+        "burst": "10274"
+      },
+      "proudSkillGroupIds": {
+        "normal": "2731",
+        "skill": "2732",
+        "burst": "2739"
+      }
+    },
+    "2901": {
+      "skillIds": {
+        "normal": "10291",
+        "skill": "10292",
+        "burst": "10295"
+      },
+      "proudSkillGroupIds": {
+        "normal": "2931",
+        "skill": "2932",
+        "burst": "2939"
+      }
+    },
+    "3001": {
+      "skillIds": {
+        "normal": "10301",
+        "skill": "10302",
+        "burst": "10303"
+      },
+      "proudSkillGroupIds": {
+        "normal": "3031",
+        "skill": "3032",
+        "burst": "3039"
+      }
+    },
+    "3101": {
+      "skillIds": {
+        "normal": "10311",
+        "skill": "10312",
+        "burst": "10313"
+      },
+      "proudSkillGroupIds": {
+        "normal": "3131",
+        "skill": "3132",
+        "burst": "3139"
+      }
+    },
+    "3201": {
+      "skillIds": {
+        "normal": "10321",
+        "skill": "10322",
+        "burst": "10323"
+      },
+      "proudSkillGroupIds": {
+        "normal": "3231",
+        "skill": "3232",
+        "burst": "3239"
+      }
+    },
+    "3301": {
+      "skillIds": {
+        "normal": "10331",
+        "skill": "10332",
+        "burst": "10333"
+      },
+      "proudSkillGroupIds": {
+        "normal": "3331",
+        "skill": "3332",
+        "burst": "3339"
+      }
+    },
+    "3401": {
+      "skillIds": {
+        "normal": "10341",
+        "skill": "10342",
+        "burst": "10343"
+      },
+      "proudSkillGroupIds": {
+        "normal": "3431",
+        "skill": "3432",
+        "burst": "3439"
+      }
+    },
+    "3501": {
+      "skillIds": {
+        "normal": "10351",
+        "skill": "10352",
+        "burst": "10353"
+      },
+      "proudSkillGroupIds": {
+        "normal": "3531",
+        "skill": "3532",
+        "burst": "3539"
+      }
+    },
+    "3601": {
+      "skillIds": {
+        "normal": "10401",
+        "skill": "10402",
+        "burst": "10403"
+      },
+      "proudSkillGroupIds": {
+        "normal": "3631",
+        "skill": "3632",
+        "burst": "3639"
+      }
+    },
+    "3701": {
+      "skillIds": {
+        "normal": "10371",
+        "skill": "10372",
+        "burst": "10373"
+      },
+      "proudSkillGroupIds": {
+        "normal": "3731",
+        "skill": "3732",
+        "burst": "3739"
+      }
+    },
+    "3801": {
+      "skillIds": {
+        "normal": "10386",
+        "skill": "10387",
+        "burst": "10388"
+      },
+      "proudSkillGroupIds": {
+        "normal": "3831",
+        "skill": "3832",
+        "burst": "3839"
+      }
+    },
+    "3901": {
+      "skillIds": {
+        "normal": "10391",
+        "skill": "10392",
+        "burst": "10395"
+      },
+      "proudSkillGroupIds": {
+        "normal": "3931",
+        "skill": "3932",
+        "burst": "3939"
+      }
+    },
+    "4101": {
+      "skillIds": {
+        "normal": "10411",
+        "skill": "10412",
+        "burst": "10415"
+      },
+      "proudSkillGroupIds": {
+        "normal": "4131",
+        "skill": "4132",
+        "burst": "4139"
+      }
+    },
+    "4201": {
+      "skillIds": {
+        "normal": "10421",
+        "skill": "10422",
+        "burst": "10425"
+      },
+      "proudSkillGroupIds": {
+        "normal": "4231",
+        "skill": "4232",
+        "burst": "4239"
+      }
+    },
+    "4301": {
+      "skillIds": {
+        "normal": "10431",
+        "skill": "10432",
+        "burst": "10435"
+      },
+      "proudSkillGroupIds": {
+        "normal": "4331",
+        "skill": "4332",
+        "burst": "4339"
+      }
+    },
+    "4401": {
+      "skillIds": {
+        "normal": "10441",
+        "skill": "10442",
+        "burst": "10443"
+      },
+      "proudSkillGroupIds": {
+        "normal": "4431",
+        "skill": "4432",
+        "burst": "4439"
+      }
+    },
+    "4501": {
+      "skillIds": {
+        "normal": "10451",
+        "skill": "10452",
+        "burst": "10453"
+      },
+      "proudSkillGroupIds": {
+        "normal": "4531",
+        "skill": "4532",
+        "burst": "4539"
+      }
+    },
+    "4601": {
+      "skillIds": {
+        "normal": "10461",
+        "skill": "10462",
+        "burst": "10463"
+      },
+      "proudSkillGroupIds": {
+        "normal": "4631",
+        "skill": "4632",
+        "burst": "4639"
+      }
+    },
+    "4701": {
+      "skillIds": {
+        "normal": "10471",
+        "skill": "10472",
+        "burst": "10475"
+      },
+      "proudSkillGroupIds": {
+        "normal": "4731",
+        "skill": "4732",
+        "burst": "4739"
+      }
+    },
+    "4801": {
+      "skillIds": {
+        "normal": "10481",
+        "skill": "10482",
+        "burst": "10485"
+      },
+      "proudSkillGroupIds": {
+        "normal": "4831",
+        "skill": "4832",
+        "burst": "4839"
+      }
+    },
+    "4901": {
+      "skillIds": {
+        "normal": "10491",
+        "skill": "10492",
+        "burst": "10495"
+      },
+      "proudSkillGroupIds": {
+        "normal": "4931",
+        "skill": "4932",
+        "burst": "4939"
+      }
+    },
+    "5001": {
+      "skillIds": {
+        "normal": "10501",
+        "skill": "10502",
+        "burst": "10505"
+      },
+      "proudSkillGroupIds": {
+        "normal": "5031",
+        "skill": "5032",
+        "burst": "5039"
+      }
+    },
+    "5101": {
+      "skillIds": {
+        "normal": "10511",
+        "skill": "10512",
+        "burst": "10515"
+      },
+      "proudSkillGroupIds": {
+        "normal": "5131",
+        "skill": "5132",
+        "burst": "5139"
+      }
+    },
+    "5201": {
+      "skillIds": {
+        "normal": "10521",
+        "skill": "10522",
+        "burst": "10525"
+      },
+      "proudSkillGroupIds": {
+        "normal": "5231",
+        "skill": "5232",
+        "burst": "5239"
+      }
+    },
+    "5301": {
+      "skillIds": {
+        "normal": "10531",
+        "skill": "10532",
+        "burst": "10535"
+      },
+      "proudSkillGroupIds": {
+        "normal": "5331",
+        "skill": "5332",
+        "burst": "5339"
+      }
+    },
+    "5401": {
+      "skillIds": {
+        "normal": "10541",
+        "skill": "10542",
+        "burst": "10545"
+      },
+      "proudSkillGroupIds": {
+        "normal": "5431",
+        "skill": "5432",
+        "burst": "5439"
+      }
+    },
+    "5501": {
+      "skillIds": {
+        "normal": "10551",
+        "skill": "10552",
+        "burst": "10555"
+      },
+      "proudSkillGroupIds": {
+        "normal": "5531",
+        "skill": "5532",
+        "burst": "5539"
+      }
+    },
+    "5601": {
+      "skillIds": {
+        "normal": "10561",
+        "skill": "10562",
+        "burst": "10565"
+      },
+      "proudSkillGroupIds": {
+        "normal": "5631",
+        "skill": "5632",
+        "burst": "5639"
+      }
+    },
+    "5701": {
+      "skillIds": {
+        "normal": "10571",
+        "skill": "10572",
+        "burst": "10575"
+      },
+      "proudSkillGroupIds": {
+        "normal": "5731",
+        "skill": "5732",
+        "burst": "5739"
+      }
+    },
+    "5801": {
+      "skillIds": {
+        "normal": "10581",
+        "skill": "10582",
+        "burst": "10585"
+      },
+      "proudSkillGroupIds": {
+        "normal": "5831",
+        "skill": "5832",
+        "burst": "5839"
+      }
+    },
+    "5901": {
+      "skillIds": {
+        "normal": "10591",
+        "skill": "10592",
+        "burst": "10595"
+      },
+      "proudSkillGroupIds": {
+        "normal": "5931",
+        "skill": "5932",
+        "burst": "5939"
+      }
+    },
+    "6001": {
+      "skillIds": {
+        "normal": "10606",
+        "skill": "10607",
+        "burst": "10610"
+      },
+      "proudSkillGroupIds": {
+        "normal": "6031",
+        "skill": "6032",
+        "burst": "6039"
+      }
+    },
+    "6201": {
+      "skillIds": {
+        "normal": "10621",
+        "skill": "10622",
+        "burst": "10625"
+      },
+      "proudSkillGroupIds": {
+        "normal": "6231",
+        "skill": "6232",
+        "burst": "6239"
+      }
+    },
+    "6301": {
+      "skillIds": {
+        "normal": "10631",
+        "skill": "10632",
+        "burst": "10635"
+      },
+      "proudSkillGroupIds": {
+        "normal": "6331",
+        "skill": "6332",
+        "burst": "6339"
+      }
+    },
+    "6401": {
+      "skillIds": {
+        "normal": "10641",
+        "skill": "10642",
+        "burst": "10643"
+      },
+      "proudSkillGroupIds": {
+        "normal": "6431",
+        "skill": "6432",
+        "burst": "6439"
+      }
+    },
+    "6501": {
+      "skillIds": {
+        "normal": "10651",
+        "skill": "10652",
+        "burst": "10655"
+      },
+      "proudSkillGroupIds": {
+        "normal": "6531",
+        "skill": "6532",
+        "burst": "6539"
+      }
+    },
+    "6601": {
+      "skillIds": {
+        "normal": "10661",
+        "skill": "10662",
+        "burst": "10665"
+      },
+      "proudSkillGroupIds": {
+        "normal": "6631",
+        "skill": "6632",
+        "burst": "6639"
+      }
+    },
+    "6701": {
+      "skillIds": {
+        "normal": "10671",
+        "skill": "10672",
+        "burst": "10675"
+      },
+      "proudSkillGroupIds": {
+        "normal": "6731",
+        "skill": "6732",
+        "burst": "6739"
+      }
+    },
+    "6801": {
+      "skillIds": {
+        "normal": "10681",
+        "skill": "10682",
+        "burst": "10685"
+      },
+      "proudSkillGroupIds": {
+        "normal": "6831",
+        "skill": "6832",
+        "burst": "6839"
+      }
+    },
+    "6901": {
+      "skillIds": {
+        "normal": "10691",
+        "skill": "10692",
+        "burst": "10695"
+      },
+      "proudSkillGroupIds": {
+        "normal": "6931",
+        "skill": "6932",
+        "burst": "6939"
+      }
+    },
+    "7001": {
+      "skillIds": {
+        "normal": "10701",
+        "skill": "10702",
+        "burst": "10705"
+      },
+      "proudSkillGroupIds": {
+        "normal": "7031",
+        "skill": "7032",
+        "burst": "7039"
+      }
+    },
+    "7101": {
+      "skillIds": {
+        "normal": "10711",
+        "skill": "10712",
+        "burst": "10715"
+      },
+      "proudSkillGroupIds": {
+        "normal": "7131",
+        "skill": "7132",
+        "burst": "7139"
+      }
+    },
+    "7201": {
+      "skillIds": {
+        "normal": "10721",
+        "skill": "10722",
+        "burst": "10725"
+      },
+      "proudSkillGroupIds": {
+        "normal": "7231",
+        "skill": "7232",
+        "burst": "7239"
+      }
+    },
+    "7301": {
+      "skillIds": {
+        "normal": "10731",
+        "skill": "10732",
+        "burst": "10735"
+      },
+      "proudSkillGroupIds": {
+        "normal": "7331",
+        "skill": "7332",
+        "burst": "7339"
+      }
+    },
+    "7401": {
+      "skillIds": {
+        "normal": "10741",
+        "skill": "10742",
+        "burst": "10745"
+      },
+      "proudSkillGroupIds": {
+        "normal": "7431",
+        "skill": "7432",
+        "burst": "7439"
+      }
+    },
+    "7501": {
+      "skillIds": {
+        "normal": "10751",
+        "skill": "10752",
+        "burst": "10755"
+      },
+      "proudSkillGroupIds": {
+        "normal": "7531",
+        "skill": "7532",
+        "burst": "7539"
+      }
+    },
+    "7601": {
+      "skillIds": {
+        "normal": "10761",
+        "skill": "10762",
+        "burst": "10765"
+      },
+      "proudSkillGroupIds": {
+        "normal": "7631",
+        "skill": "7632",
+        "burst": "7639"
+      }
+    },
+    "7701": {
+      "skillIds": {
+        "normal": "10771",
+        "skill": "10772",
+        "burst": "10775"
+      },
+      "proudSkillGroupIds": {
+        "normal": "7731",
+        "skill": "7732",
+        "burst": "7739"
+      }
+    },
+    "7801": {
+      "skillIds": {
+        "normal": "10781",
+        "skill": "10782",
+        "burst": "10785"
+      },
+      "proudSkillGroupIds": {
+        "normal": "7831",
+        "skill": "7832",
+        "burst": "7839"
+      }
+    },
+    "7901": {
+      "skillIds": {
+        "normal": "10791",
+        "skill": "10792",
+        "burst": "10795"
+      },
+      "proudSkillGroupIds": {
+        "normal": "7931",
+        "skill": "7932",
+        "burst": "7939"
+      }
+    },
+    "8001": {
+      "skillIds": {
+        "normal": "10801",
+        "skill": "10802",
+        "burst": "10805"
+      },
+      "proudSkillGroupIds": {
+        "normal": "8031",
+        "skill": "8032",
+        "burst": "8039"
+      }
+    },
+    "8101": {
+      "skillIds": {
+        "normal": "10811",
+        "skill": "10812",
+        "burst": "10815"
+      },
+      "proudSkillGroupIds": {
+        "normal": "8131",
+        "skill": "8132",
+        "burst": "8139"
+      }
+    },
+    "8201": {
+      "skillIds": {
+        "normal": "10821",
+        "skill": "10822",
+        "burst": "10825"
+      },
+      "proudSkillGroupIds": {
+        "normal": "8231",
+        "skill": "8232",
+        "burst": "8239"
+      }
+    },
+    "8301": {
+      "skillIds": {
+        "normal": "10831",
+        "skill": "10832",
+        "burst": "10835"
+      },
+      "proudSkillGroupIds": {
+        "normal": "8331",
+        "skill": "8332",
+        "burst": "8339"
+      }
+    },
+    "8401": {
+      "skillIds": {
+        "normal": "10841",
+        "skill": "10842",
+        "burst": "10845"
+      },
+      "proudSkillGroupIds": {
+        "normal": "8431",
+        "skill": "8432",
+        "burst": "8439"
+      }
+    },
+    "8501": {
+      "skillIds": {
+        "normal": "10851",
+        "skill": "10852",
+        "burst": "10855"
+      },
+      "proudSkillGroupIds": {
+        "normal": "8531",
+        "skill": "8532",
+        "burst": "8539"
+      }
+    },
+    "8601": {
+      "skillIds": {
+        "normal": "10861",
+        "skill": "10862",
+        "burst": "10865"
+      },
+      "proudSkillGroupIds": {
+        "normal": "8631",
+        "skill": "8632",
+        "burst": "8639"
+      }
+    },
+    "8701": {
+      "skillIds": {
+        "normal": "10871",
+        "skill": "10872",
+        "burst": "10875"
+      },
+      "proudSkillGroupIds": {
+        "normal": "8731",
+        "skill": "8732",
+        "burst": "8739"
+      }
+    },
+    "8801": {
+      "skillIds": {
+        "normal": "10881",
+        "skill": "10882",
+        "burst": "10885"
+      },
+      "proudSkillGroupIds": {
+        "normal": "8831",
+        "skill": "8832",
+        "burst": "8839"
+      }
+    },
+    "8901": {
+      "skillIds": {
+        "normal": "10891",
+        "skill": "10892",
+        "burst": "10895"
+      },
+      "proudSkillGroupIds": {
+        "normal": "8931",
+        "skill": "8932",
+        "burst": "8939"
+      }
+    },
+    "9001": {
+      "skillIds": {
+        "normal": "10901",
+        "skill": "10902",
+        "burst": "10905"
+      },
+      "proudSkillGroupIds": {
+        "normal": "9031",
+        "skill": "9032",
+        "burst": "9039"
+      }
+    },
+    "9101": {
+      "skillIds": {
+        "normal": "10911",
+        "skill": "10912",
+        "burst": "10915"
+      },
+      "proudSkillGroupIds": {
+        "normal": "9131",
+        "skill": "9132",
+        "burst": "9139"
+      }
+    },
+    "9201": {
+      "skillIds": {
+        "normal": "10921",
+        "skill": "10922",
+        "burst": "10925"
+      },
+      "proudSkillGroupIds": {
+        "normal": "9231",
+        "skill": "9232",
+        "burst": "9239"
+      }
+    },
+    "9301": {
+      "skillIds": {
+        "normal": "10931",
+        "skill": "10932",
+        "burst": "10935"
+      },
+      "proudSkillGroupIds": {
+        "normal": "9331",
+        "skill": "9332",
+        "burst": "9339"
+      }
+    },
+    "9401": {
+      "skillIds": {
+        "normal": "10941",
+        "skill": "10942",
+        "burst": "10945"
+      },
+      "proudSkillGroupIds": {
+        "normal": "9431",
+        "skill": "9432",
+        "burst": "9439"
+      }
+    },
+    "9501": {
+      "skillIds": {
+        "normal": "10951",
+        "skill": "10952",
+        "burst": "10955"
+      },
+      "proudSkillGroupIds": {
+        "normal": "9531",
+        "skill": "9532",
+        "burst": "9539"
+      }
+    },
+    "9601": {
+      "skillIds": {
+        "normal": "10961",
+        "skill": "10962",
+        "burst": "10965"
+      },
+      "proudSkillGroupIds": {
+        "normal": "9631",
+        "skill": "9632",
+        "burst": "9639"
+      }
+    },
+    "9701": {
+      "skillIds": {
+        "normal": "10971",
+        "skill": "10972",
+        "burst": "10975"
+      },
+      "proudSkillGroupIds": {
+        "normal": "9731",
+        "skill": "9732",
+        "burst": "9739"
+      }
+    },
+    "9801": {
+      "skillIds": {
+        "normal": "10981",
+        "skill": "10982",
+        "burst": "10985"
+      },
+      "proudSkillGroupIds": {
+        "normal": "9831",
+        "skill": "9832",
+        "burst": "9839"
+      }
+    },
+    "9901": {
+      "skillIds": {
+        "normal": "10991",
+        "skill": "10992",
+        "burst": "10995"
+      },
+      "proudSkillGroupIds": {
+        "normal": "9931",
+        "skill": "9932",
+        "burst": "9939"
+      }
+    },
+    "10001": {
+      "skillIds": {
+        "normal": "11001",
+        "skill": "11002",
+        "burst": "11005"
+      },
+      "proudSkillGroupIds": {
+        "normal": "10031",
+        "skill": "10032",
+        "burst": "10039"
+      }
+    },
+    "10101": {
+      "skillIds": {
+        "normal": "11011",
+        "skill": "11012",
+        "burst": "11015"
+      },
+      "proudSkillGroupIds": {
+        "normal": "10131",
+        "skill": "10132",
+        "burst": "10139"
+      }
+    },
+    "10201": {
+      "skillIds": {
+        "normal": "30000",
+        "skill": "30002",
+        "burst": "30007"
+      },
+      "proudSkillGroupIds": {
+        "normal": "10231",
+        "skill": "10232",
+        "burst": "10239"
+      }
+    },
+    "10301": {
+      "skillIds": {
+        "normal": "11031",
+        "skill": "11032",
+        "burst": "11035"
+      },
+      "proudSkillGroupIds": {
+        "normal": "10331",
+        "skill": "10332",
+        "burst": "10339"
+      }
+    },
+    "10401": {
+      "skillIds": {
+        "normal": "11041",
+        "skill": "11042",
+        "burst": "11045"
+      },
+      "proudSkillGroupIds": {
+        "normal": "10431",
+        "skill": "10432",
+        "burst": "10439"
+      }
+    },
+    "10501": {
+      "skillIds": {
+        "normal": "30501",
+        "skill": "30502",
+        "burst": "30505"
+      },
+      "proudSkillGroupIds": {
+        "normal": "10531",
+        "skill": "10532",
+        "burst": "10539"
+      }
+    },
+    "10601": {
+      "skillIds": {
+        "normal": "11061",
+        "skill": "11062",
+        "burst": "11065"
+      },
+      "proudSkillGroupIds": {
+        "normal": "10631",
+        "skill": "10632",
+        "burst": "10639"
+      }
+    },
+    "10701": {
+      "skillIds": {
+        "normal": "11071",
+        "skill": "11072",
+        "burst": "11075"
+      },
+      "proudSkillGroupIds": {
+        "normal": "10731",
+        "skill": "10732",
+        "burst": "10739"
+      }
+    },
+    "10801": {
+      "skillIds": {
+        "normal": "11081",
+        "skill": "11082",
+        "burst": "11085"
+      },
+      "proudSkillGroupIds": {
+        "normal": "10831",
+        "skill": "10832",
+        "burst": "10839"
+      }
+    },
+    "10901": {
+      "skillIds": {
+        "normal": "11091",
+        "skill": "11092",
+        "burst": "11095"
+      },
+      "proudSkillGroupIds": {
+        "normal": "10931",
+        "skill": "10932",
+        "burst": "10939"
+      }
+    },
+    "11001": {
+      "skillIds": {
+        "normal": "11101",
+        "skill": "11102",
+        "burst": "11105"
+      },
+      "proudSkillGroupIds": {
+        "normal": "11031",
+        "skill": "11032",
+        "burst": "11039"
+      }
+    },
+    "11101": {
+      "skillIds": {
+        "normal": "11111",
+        "skill": "11112",
+        "burst": "11115"
+      },
+      "proudSkillGroupIds": {
+        "normal": "11131",
+        "skill": "11132",
+        "burst": "11139"
+      }
+    },
+    "11201": {
+      "skillIds": {
+        "normal": "11121",
+        "skill": "11122",
+        "burst": "11125"
+      },
+      "proudSkillGroupIds": {
+        "normal": "11231",
+        "skill": "11232",
+        "burst": "11239"
+      }
+    },
+    "11301": {
+      "skillIds": {
+        "normal": "11131",
+        "skill": "11132",
+        "burst": "11135"
+      },
+      "proudSkillGroupIds": {
+        "normal": "11331",
+        "skill": "11332",
+        "burst": "11339"
+      }
+    },
+    "11401": {
+      "skillIds": {
+        "normal": "11141",
+        "skill": "11142",
+        "burst": "11145"
+      },
+      "proudSkillGroupIds": {
+        "normal": "11431",
+        "skill": "11432",
+        "burst": "11439"
+      }
+    },
+    "11501": {
+      "skillIds": {
+        "normal": "11151",
+        "skill": "11152",
+        "burst": "11155"
+      },
+      "proudSkillGroupIds": {
+        "normal": "11531",
+        "skill": "11532",
+        "burst": "11539"
+      }
+    },
+    "11601": {
+      "skillIds": {
+        "normal": "11161",
+        "skill": "11162",
+        "burst": "11165"
+      },
+      "proudSkillGroupIds": {
+        "normal": "11631",
+        "skill": "11632",
+        "burst": "11639"
+      }
+    },
+    "11901": {
+      "skillIds": {
+        "normal": "11191",
+        "skill": "11192",
+        "burst": "11195"
+      },
+      "proudSkillGroupIds": {
+        "normal": "11931",
+        "skill": "11932",
+        "burst": "11939"
+      }
+    },
+    "12001": {
+      "skillIds": {
+        "normal": "11201",
+        "skill": "11202",
+        "burst": "11205"
+      },
+      "proudSkillGroupIds": {
+        "normal": "12031",
+        "skill": "12032",
+        "burst": "12039"
+      }
+    },
+    "12101": {
+      "skillIds": {
+        "normal": "11211",
+        "skill": "11212",
+        "burst": "11215"
+      },
+      "proudSkillGroupIds": {
+        "normal": "12131",
+        "skill": "12132",
+        "burst": "12139"
+      }
+    },
+    "12201": {
+      "skillIds": {
+        "normal": "11221",
+        "skill": "11222",
+        "burst": "11225"
+      },
+      "proudSkillGroupIds": {
+        "normal": "12231",
+        "skill": "12232",
+        "burst": "12239"
+      }
+    },
+    "12301": {
+      "skillIds": {
+        "normal": "11231",
+        "skill": "11232",
+        "burst": "11235"
+      },
+      "proudSkillGroupIds": {
+        "normal": "12331",
+        "skill": "12332",
+        "burst": "12339"
+      }
+    },
+    "12401": {
+      "skillIds": {
+        "normal": "11241",
+        "skill": "11242",
+        "burst": "11245"
+      },
+      "proudSkillGroupIds": {
+        "normal": "12431",
+        "skill": "12432",
+        "burst": "12439"
+      }
+    },
+    "12501": {
+      "skillIds": {
+        "normal": "11251",
+        "skill": "11252",
+        "burst": "11255"
+      },
+      "proudSkillGroupIds": {
+        "normal": "12531",
+        "skill": "12532",
+        "burst": "12539"
+      }
+    },
+    "12601": {
+      "skillIds": {
+        "normal": "11261",
+        "skill": "11262",
+        "burst": "11265"
+      },
+      "proudSkillGroupIds": {
+        "normal": "12631",
+        "skill": "12632",
+        "burst": "12639"
+      }
+    },
+    "12701": {
+      "skillIds": {
+        "normal": "11271",
+        "skill": "11272",
+        "burst": "11275"
+      },
+      "proudSkillGroupIds": {
+        "normal": "12731",
+        "skill": "12732",
+        "burst": "12739"
+      }
+    },
+    "12801": {
+      "skillIds": {
+        "normal": "11281",
+        "skill": "11282",
+        "burst": "11285"
+      },
+      "proudSkillGroupIds": {
+        "normal": "12831",
+        "skill": "12832",
+        "burst": "12839"
+      }
+    },
+    "12901": {
+      "skillIds": {
+        "normal": "11291",
+        "skill": "11292",
+        "burst": "11295"
+      },
+      "proudSkillGroupIds": {
+        "normal": "12931",
+        "skill": "12932",
+        "burst": "12939"
+      }
+    },
+    "13001": {
+      "skillIds": {
+        "normal": "11301",
+        "skill": "11302",
+        "burst": "11305"
+      },
+      "proudSkillGroupIds": {
+        "normal": "13031",
+        "skill": "13032",
+        "burst": "13039"
+      }
+    },
+    "13101": {
+      "skillIds": {
+        "normal": "11311",
+        "skill": "11312",
+        "burst": "11315"
+      },
+      "proudSkillGroupIds": {
+        "normal": "13131",
+        "skill": "13132",
+        "burst": "13139"
+      }
+    },
+    "13201": {
+      "skillIds": {
+        "normal": "11321",
+        "skill": "11322",
+        "burst": "11325"
+      },
+      "proudSkillGroupIds": {
+        "normal": "13231",
+        "skill": "13232",
+        "burst": "13239"
+      }
+    },
+    "13301": {
+      "skillIds": {
+        "normal": "11331",
+        "skill": "11332",
+        "burst": "11335"
+      },
+      "proudSkillGroupIds": {
+        "normal": "13331",
+        "skill": "13332",
+        "burst": "13339"
+      }
+    }
+  }
+}

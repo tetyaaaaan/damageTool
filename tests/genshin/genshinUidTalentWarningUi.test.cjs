@@ -8,11 +8,17 @@ const read = (relativePath) => fs.readFileSync(path.join(ROOT, relativePath), "u
 
 test("UID card labels unresolved talent levels as level 1 pending manual confirmation", () => {
     const importer = read("games/js/genshinUidImporter.js");
-    assert.match(importer, /talentOrderUnresolved:\s*"天賦ID順序を確認できないためLv1（手動確認）として扱います。"/);
+    assert.match(importer, /talentOrderUnresolved:\s*"このキャラクターの天賦ID対応データがないためLv1として表示します。反映後に手動で確認してください。"/);
     assert.match(importer, /talentMappingWarning\(character\)/);
     assert.match(importer, /genshin-uid-talent-warning/);
     assert.match(importer, /role="alert"/);
     assert.match(importer, /talentWarning \? `\<p class="genshin-uid-talent-warning"/);
+});
+
+test("resolved UID talent mappings do not render the fallback warning", () => {
+    const importer = read("games/js/genshinUidImporter.js");
+    assert.match(importer, /character\?\.provenance\?\.talentLevelMapping\?\.status === "unresolved"/);
+    assert.doesNotMatch(importer, /talentOrderUnresolved:\s*"天賦ID順序を確認できない/);
 });
 
 test("applying an unresolved UID profile emits a warning instead of a success-only notice", () => {

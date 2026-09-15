@@ -13,7 +13,7 @@
         noCharacters: "公開キャラクターが設定されていません",
         fetched: "公開プロフィールを取得しました。数値ステータスを入力欄へ反映できます。",
         appliedSuffix: "の情報を入力欄へ反映しました。必要に応じて手動で修正できます。",
-        talentOrderUnresolved: "天賦ID順序を確認できないためLv1（手動確認）として扱います。",
+        talentOrderUnresolved: "このキャラクターの天賦ID対応データがないためLv1として表示します。反映後に手動で確認してください。",
         savedUidRemoved: "このブラウザに保存したUIDを削除しました。"
     };
 

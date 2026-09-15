@@ -386,11 +386,16 @@
             status: String(value.status || "unresolved"),
             source: String(value.source || ""),
             reason: String(value.reason || ""),
+            skillDepotId: String(value.skillDepotId || ""),
             rawById: { ...(value.rawById || {}) },
+            extraByProudId: { ...(value.extraByProudId || {}) },
             mappedIds: { ...(value.mappedIds || {}) },
+            baseByGroup: { ...(value.baseByGroup || {}) },
+            extraByGroup: { ...(value.extraByGroup || {}) },
             missingIds: Array.isArray(value.missingIds) ? [...value.missingIds] : [],
             unmappedIds: Array.isArray(value.unmappedIds) ? [...value.unmappedIds] : [],
-            conflictingIds: Array.isArray(value.conflictingIds) ? [...value.conflictingIds] : []
+            conflictingIds: Array.isArray(value.conflictingIds) ? [...value.conflictingIds] : [],
+            unmappedExtraIds: Array.isArray(value.unmappedExtraIds) ? [...value.unmappedExtraIds] : []
         };
     }
 

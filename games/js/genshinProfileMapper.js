@@ -282,29 +282,46 @@
         return 1;
     }
 
-    // Local calculator datasets explicitly identify combat1/combat2/combat3
-    // as normal attack/skill/burst. UID skillLevelMap is an ID map, not an
-    // ordered tuple; unknown IDs must stay unresolved instead of being
-    // assigned by Object.values enumeration order.
+    // UID skillLevelMap is an ID map, not an ordered tuple. Numeric IDs are
+    // resolved through the character's skillDepotId; the combat keys remain
+    // supported for local fixtures and compatibility data.
     const TALENT_GROUP_BY_SKILL_ID = Object.freeze({
         combat1: "normal",
         combat2: "skill",
         combat3: "burst"
     });
 
+    const TALENT_GROUPS = Object.freeze(["normal", "skill", "burst"]);
+
     function mapTalentLevels(avatar) {
         const raw = avatar?.skillLevelMap || avatar?.avatarSkillLevelMap;
         const rawById = raw && typeof raw === "object" && !Array.isArray(raw)
             ? Object.fromEntries(Object.entries(raw).map(([id, value]) => [String(id), pickNumber(value)]))
             : {};
+        const rawExtra = avatar?.proudSkillExtraLevelMap;
+        const extraByProudId = rawExtra && typeof rawExtra === "object" && !Array.isArray(rawExtra)
+            ? Object.fromEntries(Object.entries(rawExtra).map(([id, value]) => [String(id), pickNumber(value)]))
+            : {};
         const levels = { normal: 1, skill: 1, burst: 1 };
         const mappedIds = {};
+        const baseByGroup = {};
+        const extraByGroup = { normal: 0, skill: 0, burst: 0 };
         const conflictingIds = [];
         const unmappedIds = [];
+        const skillDepotId = String(avatar?.skillDepotId || "");
+        const depotMapping = window.GenshinIdResolver?.resolveUidTalentSkillMap?.(skillDepotId);
+        const depotSkillIds = depotMapping?.skillIds || {};
+        const hasDepotMapping = TALENT_GROUPS.every((group) => {
+            const id = String(depotSkillIds[group] || "");
+            return id && id !== "0";
+        }) && new Set(TALENT_GROUPS.map((group) => String(depotSkillIds[group]))).size === 3;
+        const talentGroupBySkillId = hasDepotMapping
+            ? Object.fromEntries(TALENT_GROUPS.map((group) => [String(depotSkillIds[group]), group]))
+            : TALENT_GROUP_BY_SKILL_ID;
 
         Object.entries(rawById).forEach(([id, value]) => {
-            const normalizedId = id.trim().toLowerCase();
-            const group = TALENT_GROUP_BY_SKILL_ID[normalizedId];
+            const normalizedId = hasDepotMapping ? id.trim() : id.trim().toLowerCase();
+            const group = talentGroupBySkillId[normalizedId];
             if (!group) {
                 unmappedIds.push(id);
                 return;
@@ -315,25 +332,48 @@
                 return;
             }
             mappedIds[normalizedId] = value;
-            if (value > 0) levels[group] = value;
+            if (value > 0) baseByGroup[group] = value;
         });
 
-        const requiredIds = Object.keys(TALENT_GROUP_BY_SKILL_ID);
+        const requiredIds = hasDepotMapping
+            ? TALENT_GROUPS.map((group) => String(depotSkillIds[group]))
+            : Object.keys(TALENT_GROUP_BY_SKILL_ID);
         const missingIds = requiredIds.filter((id) => !(mappedIds[id] > 0));
         const resolved = missingIds.length === 0 && conflictingIds.length === 0;
+        if (resolved) {
+            TALENT_GROUPS.forEach((group) => {
+                const proudId = String(depotMapping?.proudSkillGroupIds?.[group] || "");
+                const extraLevel = proudId ? Math.max(0, pickNumber(extraByProudId[proudId])) : 0;
+                extraByGroup[group] = extraLevel;
+                levels[group] = baseByGroup[group] + extraLevel;
+            });
+        }
+        const mappedProudIds = hasDepotMapping
+            ? TALENT_GROUPS.map((group) => String(depotMapping?.proudSkillGroupIds?.[group] || "")).filter(Boolean)
+            : [];
+        const unmappedExtraIds = Object.keys(extraByProudId).filter((id) => !mappedProudIds.includes(id));
         return {
             levels: resolved ? levels : { normal: 1, skill: 1, burst: 1 },
             mapping: {
                 status: resolved ? "resolved" : "unresolved",
-                source: resolved ? "localTalentSourceId" : "uidSkillIdUnresolved",
+                source: resolved
+                    ? (hasDepotMapping ? "skillDepotId" : "localTalentSourceId")
+                    : "uidSkillIdUnresolved",
                 reason: resolved
-                    ? "Mapped explicit combat1/combat2/combat3 IDs; no enumeration order was used."
-                    : "UID skill IDs are not fully covered by the local combat source contract; levels default to 1 to avoid semantic misassignment.",
+                    ? (hasDepotMapping
+                        ? "Mapped numeric skill IDs through skillDepotId and applied proud-skill extra levels; no enumeration order was used."
+                        : "Mapped explicit combat1/combat2/combat3 IDs; no enumeration order was used.")
+                    : "UID skill IDs are not fully covered by the local skill-depot contract; levels default to 1 to avoid semantic misassignment.",
+                skillDepotId,
                 rawById,
+                extraByProudId,
                 mappedIds,
+                baseByGroup,
+                extraByGroup,
                 missingIds,
                 unmappedIds,
-                conflictingIds
+                conflictingIds,
+                unmappedExtraIds
             }
         };
     }

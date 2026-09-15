@@ -17,6 +17,12 @@ function createScriptSandbox() {
     };
     const sandbox = { console, Date, document };
     sandbox.window = sandbox;
+    const uidTalentMap = JSON.parse(read("games/genshin/data/uid-talent-skill-map.json"));
+    sandbox.GenshinIdResolver = {
+        resolveUidTalentSkillMap(skillDepotId) {
+            return uidTalentMap.bySkillDepotId[String(skillDepotId)] || null;
+        }
+    };
     vm.createContext(sandbox);
     return sandbox;
 }
@@ -253,23 +259,24 @@ test("final support provenance carries UID persistence flags and artifact counts
     assert.ok(source.includes("...(imported?.provenance?.artifactSetCounts || {})"));
 });
 
-test("talent order fixture maps explicit combat IDs independently of insertion order", () => {
+test("talent order fixture maps numeric UID IDs independently of insertion order", () => {
     const sandbox = createScriptSandbox();
     vm.runInContext(read("games/js/genshinProfileMapper.js"), sandbox, { filename: "genshinProfileMapper.js" });
     const mapped = sandbox.GenshinProfileMapper.mapProfileResponse({
         playerInfo: { uid: "800000000" },
         avatarInfoList: [{
-            avatarId: "10000128",
+            avatarId: "10000037",
+            skillDepotId: 3701,
             propMap: { 4001: { val: 90 } },
-            skillLevelMap: { combat3: 13, combat1: 11, combat2: 12 },
+            skillLevelMap: { "10373": 10, "10371": 11, "10372": 9 },
+            proudSkillExtraLevelMap: { "3732": 3, "3739": 3 },
             fightPropMap: {},
             equipList: []
         }]
     });
 
-    // Local talent-scaling metadata explicitly defines combat1/2/3 as
-    // normal/skill/burst. The insertion order is intentionally combat3,
-    // combat1, combat2 so Object.values-based mapping would fail this check.
+    // The insertion order is intentionally burst, normal, skill. SkillDepot
+    // metadata, rather than Object.values order, determines the three groups.
     assert.deepEqual(JSON.parse(JSON.stringify(mapped.characters[0].talents)), {
         normal: 11, skill: 12, burst: 13
     });

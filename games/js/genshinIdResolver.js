@@ -3,6 +3,7 @@
 
     const DATA_PATHS = {
         characters: "/games/genshin/data/characters.json",
+        uidTalentSkillMap: "/games/genshin/data/uid-talent-skill-map.json",
         characterTalents: "/games/genshin/data/character-talents.json",
         characterConstellations: "/games/genshin/data/character-constellations.json",
         weapons: "/games/genshin/data/weapons.json",
@@ -13,6 +14,7 @@
 
     const data = {
         characters: {},
+        uidTalentSkillMap: {},
         characterTalents: {},
         characterConstellations: {},
         weapons: {},
@@ -38,6 +40,7 @@
 
     const ready = Promise.all([
         loadJson("characters", DATA_PATHS.characters),
+        loadJson("uidTalentSkillMap", DATA_PATHS.uidTalentSkillMap),
         loadJson("characterTalents", DATA_PATHS.characterTalents),
         loadJson("characterConstellations", DATA_PATHS.characterConstellations),
         loadJson("weapons", DATA_PATHS.weapons),
@@ -62,6 +65,10 @@
 
     function resolveCharacterTalent(id) {
         return findEntry(data.characterTalents, id);
+    }
+
+    function resolveUidTalentSkillMap(skillDepotId) {
+        return findEntry(data.uidTalentSkillMap?.bySkillDepotId || {}, skillDepotId);
     }
 
     function resolveWeapon(id) {
@@ -96,6 +103,7 @@
         ready,
         resolveCharacter,
         resolveCharacterTalent,
+        resolveUidTalentSkillMap,
         resolveCharacterConstellation,
         resolveWeapon,
         resolveWeaponEffect,
