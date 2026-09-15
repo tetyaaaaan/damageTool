@@ -1,3 +1,4 @@
+.git/
 reports/
 games/genshin/data/v2/candidate-terminal-states.json
 games/genshin/data/v2/reviews/r2-behavior-spec-materialization-audit.json
