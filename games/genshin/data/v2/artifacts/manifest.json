@@ -1,0 +1,532 @@
+{
+  "schemaVersion": 2,
+  "kind": "genshinArtifactV2Manifest",
+  "generator": {
+    "name": "genshinArtifactV2Generate.cjs",
+    "version": "genshinArtifactV2Generate/1",
+    "capturedAt": "2026-08-15T00:00:00.000Z"
+  },
+  "summary": {
+    "schemaVersion": 2,
+    "sets": 63,
+    "generatedSets": 63,
+    "modifiers": 128,
+    "specs": 128,
+    "pieceModifierCounts": {
+      "onePiece": 0,
+      "twoPiece": 52,
+      "fourPiece": 76
+    },
+    "structuredModifiersMissing": [
+      "10004",
+      "10013",
+      "14004",
+      "15009",
+      "15010",
+      "15011",
+      "15012"
+    ],
+    "structuredModifierGapReview": {
+      "sets": 7,
+      "statuses": {
+        "noEffect": 0,
+        "displayOnly": 4,
+        "unstructured": 3,
+        "invalid": 0,
+        "needsReview": 0
+      },
+      "slotStatuses": {
+        "noEffect": 11,
+        "displayOnly": 4,
+        "unstructured": 6,
+        "invalid": 0,
+        "needsReview": 0
+      },
+      "valueContracts": 1,
+      "valueContractStatuses": {
+        "noEffect": 0,
+        "displayOnly": 0,
+        "unstructured": 0,
+        "invalid": 0,
+        "needsReview": 1
+      },
+      "canonical": 0,
+      "path": "gap-review.json"
+    },
+    "evidenceHierarchy": {
+      "aggregateEffectSources": 63,
+      "slotEffectSources": 189,
+      "note": "Aggregate effect records prove complete legacy documents; slot records provide field-level raw text references and are not duplicate modifiers."
+    },
+    "sourceRecords": 443,
+    "sourceKinds": {
+      "primaryDataset": 443
+    },
+    "verificationByStatus": {
+      "needsReview": 128
+    },
+    "sourceAgreementByStatus": {
+      "singleSource": 128
+    },
+    "runtimeByStatus": {
+      "candidate": 128
+    },
+    "inputPolicyByStatus": {
+      "reflected": 45,
+      "derived": 3,
+      "userToggle": 45,
+      "automatic": 19,
+      "stack": 16
+    },
+    "duplicateLegacyIdGroups": 14,
+    "duplicateLegacyIds": [
+      {
+        "id": "2pc_atk_percent",
+        "occurrences": [
+          {
+            "setId": "10001",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10001:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "10002",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10002:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15001",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15001:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15019",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15019:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15023",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15023:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15024",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15024:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15034",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15034:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15035",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15035:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15036",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15036:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15044",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15044:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15046",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15046:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15047",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15047:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15048",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15048:twoPiece:2pc_atk_percent"
+          }
+        ]
+      },
+      {
+        "id": "2pc_def_percent",
+        "occurrences": [
+          {
+            "setId": "10003",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10003:twoPiece:2pc_def_percent"
+          },
+          {
+            "setId": "15021",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15021:twoPiece:2pc_def_percent"
+          }
+        ]
+      },
+      {
+        "id": "2pc_normal_charged_damage_bonus",
+        "occurrences": [
+          {
+            "setId": "10006",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10006:twoPiece:2pc_normal_charged_damage_bonus"
+          },
+          {
+            "setId": "15031",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15031:twoPiece:2pc_normal_charged_damage_bonus"
+          }
+        ]
+      },
+      {
+        "id": "4pc_normal_charged_damage_bonus_after_skill",
+        "occurrences": [
+          {
+            "setId": "10006",
+            "slot": "fourPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10006:fourPiece:4pc_normal_charged_damage_bonus_after_skill"
+          },
+          {
+            "setId": "15016",
+            "slot": "fourPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15016:fourPiece:4pc_normal_charged_damage_bonus_after_skill"
+          }
+        ]
+      },
+      {
+        "id": "2pc_elemental_mastery",
+        "occurrences": [
+          {
+            "setId": "10007",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10007:twoPiece:2pc_elemental_mastery"
+          },
+          {
+            "setId": "15003",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15003:twoPiece:2pc_elemental_mastery"
+          },
+          {
+            "setId": "15026",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15026:twoPiece:2pc_elemental_mastery"
+          },
+          {
+            "setId": "15028",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15028:twoPiece:2pc_elemental_mastery"
+          },
+          {
+            "setId": "15041",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15041:twoPiece:2pc_elemental_mastery"
+          },
+          {
+            "setId": "15043",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15043:twoPiece:2pc_elemental_mastery"
+          }
+        ]
+      },
+      {
+        "id": "2pc_skill_damage_bonus",
+        "occurrences": [
+          {
+            "setId": "10008",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10008:twoPiece:2pc_skill_damage_bonus"
+          },
+          {
+            "setId": "15032",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15032:twoPiece:2pc_skill_damage_bonus"
+          }
+        ]
+      },
+      {
+        "id": "2pc_energy_recharge",
+        "occurrences": [
+          {
+            "setId": "10009",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10009:twoPiece:2pc_energy_recharge"
+          },
+          {
+            "setId": "10012",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10012:twoPiece:2pc_energy_recharge"
+          },
+          {
+            "setId": "15020",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15020:twoPiece:2pc_energy_recharge"
+          },
+          {
+            "setId": "15042",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15042:twoPiece:2pc_energy_recharge"
+          },
+          {
+            "setId": "15045",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15045:twoPiece:2pc_energy_recharge"
+          }
+        ]
+      },
+      {
+        "id": "2pc_cryo_damage_bonus",
+        "occurrences": [
+          {
+            "setId": "14001",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:14001:twoPiece:2pc_cryo_damage_bonus"
+          },
+          {
+            "setId": "15040",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15040:twoPiece:2pc_cryo_damage_bonus"
+          }
+        ]
+      },
+      {
+        "id": "2pc_anemo_damage_bonus",
+        "occurrences": [
+          {
+            "setId": "15002",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15002:twoPiece:2pc_anemo_damage_bonus"
+          },
+          {
+            "setId": "15027",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15027:twoPiece:2pc_anemo_damage_bonus"
+          }
+        ]
+      },
+      {
+        "id": "2pc_physical_damage_bonus",
+        "occurrences": [
+          {
+            "setId": "15008",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15008:twoPiece:2pc_physical_damage_bonus"
+          },
+          {
+            "setId": "15018",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15018:twoPiece:2pc_physical_damage_bonus"
+          }
+        ]
+      },
+      {
+        "id": "2pc_hydro_damage_bonus",
+        "occurrences": [
+          {
+            "setId": "15016",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15016:twoPiece:2pc_hydro_damage_bonus"
+          },
+          {
+            "setId": "15029",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15029:twoPiece:2pc_hydro_damage_bonus"
+          }
+        ]
+      },
+      {
+        "id": "2pc_hp_percent",
+        "occurrences": [
+          {
+            "setId": "15017",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15017:twoPiece:2pc_hp_percent"
+          },
+          {
+            "setId": "15030",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15030:twoPiece:2pc_hp_percent"
+          }
+        ]
+      },
+      {
+        "id": "2pc_outgoing_healing_bonus_indirect_damage_related",
+        "occurrences": [
+          {
+            "setId": "15022",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15022:twoPiece:2pc_outgoing_healing_bonus_indirect_damage_related"
+          },
+          {
+            "setId": "15033",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15033:twoPiece:2pc_outgoing_healing_bonus_indirect_damage_related"
+          }
+        ]
+      },
+      {
+        "id": "4pc_team_moon_reaction_damage_bonus_per_moonglow",
+        "occurrences": [
+          {
+            "setId": "15041",
+            "slot": "fourPiece",
+            "modifierIndex": 1,
+            "candidateId": "artifact:15041:fourPiece:4pc_team_moon_reaction_damage_bonus_per_moonglow"
+          },
+          {
+            "setId": "15042",
+            "slot": "fourPiece",
+            "modifierIndex": 1,
+            "candidateId": "artifact:15042:fourPiece:4pc_team_moon_reaction_damage_bonus_per_moonglow"
+          }
+        ]
+      }
+    ],
+    "registryPresent": false,
+    "registryFiles": [],
+    "registryReferences": 0,
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "legacyAudits": [
+      {
+        "id": "artifact-set-modifiers-audit-v10",
+        "path": "games/genshin/data/calc/artifact-set-modifiers-audit-v10.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "e6efc5116bf41474a1c89810019a5ca7baba445d0a10b10459da36d723703ec4"
+        },
+        "summary": {
+          "version": "v10-finalized",
+          "auditIterations": [
+            {
+              "name": "source fragment segmentation",
+              "result": "done"
+            },
+            {
+              "name": "value existence",
+              "result": "done"
+            },
+            {
+              "name": "value-role semantic",
+              "result": "done"
+            },
+            {
+              "name": "resource/stack/consume",
+              "result": "done"
+            },
+            {
+              "name": "special escape",
+              "result": "done"
+            },
+            {
+              "name": "known-complex regression",
+              "result": "done"
+            },
+            {
+              "name": "post-fix re-audit",
+              "result": "done"
+            }
+          ],
+          "remainingIssues": {
+            "artifact": 0,
+            "weapon": 0,
+            "constellation": 0
+          },
+          "manualFinalFixes": [
+            "Navia C2/C6",
+            "Heizou C6",
+            "Alhaitham C2/C4/C6",
+            "Nilou C6",
+            "Sigewinne C1/C6",
+            "Citlali C6",
+            "Farka C2/C4/C6",
+            "Skirk C6",
+            "Sandrone C2",
+            "VV artifact",
+            "12515 weapon per-stack cleanup"
+          ],
+          "note": "監査はmodifierのsourceText fragment単位で実施。全文中の別効果による誤検出を避けた。"
+        }
+      }
+    ],
+    "generatedFrom": [
+      {
+        "dataset": "artifact-sets.json",
+        "path": "games/genshin/data/artifact-sets.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "1a5c9db955bf444bf72d16699abc99a6eb4997859d67c5d9f10f36795d0d418c"
+        }
+      },
+      {
+        "dataset": "artifact-set-effects.json",
+        "path": "games/genshin/data/artifact-set-effects.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "9e29fc0973eea237ce7edf9710adfdb5d0bea74f1c9bf1cc8b1170ed4d68ae16"
+        }
+      },
+      {
+        "dataset": "calc/artifact-set-modifiers.json",
+        "path": "games/genshin/data/calc/artifact-set-modifiers.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "7e82c57cccc744db6017b97f8c66f6e340974da3a537777f7f451bea033016ee"
+        }
+      }
+    ]
+  },
+  "paths": {
+    "index": "index.json",
+    "sourceRecords": "source-records.json",
+    "specs": "spec-candidates.json",
+    "verification": "verification.json",
+    "gapReview": "gap-review.json",
+    "packages": "packages"
+  }
+}

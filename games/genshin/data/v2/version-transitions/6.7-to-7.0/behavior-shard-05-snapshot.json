@@ -1,0 +1,860 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionTransitionBehaviorShardSnapshot",
+  "generatedAt": "2026-08-26T00:00:00.000Z",
+  "claim": {
+    "transitionId": "genshin:6.7->7.0",
+    "fromGameVersion": "6.7",
+    "toGameVersion": "7.0",
+    "provider": "genshin-db",
+    "sourceFamily": "GenshinData-derived",
+    "repository": "theBowja/genshin-db",
+    "treeResolution": {
+      "method": "nonRecursiveGitTreePath",
+      "note": "Each captured path is a concrete entry under src/data/English/{talents,constellations}; no recursive tree result or fuzzy name match is used."
+    },
+    "shard": {
+      "shardId": "behavior:behaviorSpec:semanticDecisionRequired:standard:05",
+      "queuePath": "reports/genshin-evidence-task-queue.json",
+      "authoritativeCandidateCount": 100,
+      "authoritativeCandidateIds": [
+        "behavior:10000046:talent:passives-passive-1",
+        "behavior:10000046:talent:skill",
+        "behavior:10000047:constellation:constellation-1",
+        "behavior:10000047:constellation:constellation-2",
+        "behavior:10000047:constellation:constellation-3",
+        "behavior:10000047:constellation:constellation-4",
+        "behavior:10000047:constellation:constellation-5",
+        "behavior:10000047:constellation:constellation-6",
+        "behavior:10000047:talent:burst",
+        "behavior:10000047:talent:normalattack-charged",
+        "behavior:10000047:talent:normalattack-normal",
+        "behavior:10000047:talent:normalattack-plunging",
+        "behavior:10000047:talent:passives-passive-1",
+        "behavior:10000047:talent:passives-passive-2",
+        "behavior:10000047:talent:passives-passive-utility",
+        "behavior:10000047:talent:skill",
+        "behavior:10000048:constellation:constellation-1",
+        "behavior:10000048:constellation:constellation-2",
+        "behavior:10000048:constellation:constellation-3",
+        "behavior:10000048:constellation:constellation-4",
+        "behavior:10000048:constellation:constellation-5",
+        "behavior:10000048:constellation:constellation-6",
+        "behavior:10000048:talent:burst",
+        "behavior:10000048:talent:normalattack-charged",
+        "behavior:10000048:talent:normalattack-normal",
+        "behavior:10000048:talent:normalattack-plunging",
+        "behavior:10000048:talent:passives-passive-1",
+        "behavior:10000048:talent:passives-passive-2",
+        "behavior:10000048:talent:passives-passive-utility",
+        "behavior:10000048:talent:skill",
+        "behavior:10000049:constellation:constellation-1",
+        "behavior:10000049:constellation:constellation-2",
+        "behavior:10000049:constellation:constellation-3",
+        "behavior:10000049:constellation:constellation-4",
+        "behavior:10000049:constellation:constellation-5",
+        "behavior:10000049:constellation:constellation-6",
+        "behavior:10000049:talent:burst",
+        "behavior:10000049:talent:normalattack-charged",
+        "behavior:10000049:talent:normalattack-normal",
+        "behavior:10000049:talent:normalattack-plunging",
+        "behavior:10000049:talent:passives-passive-1",
+        "behavior:10000049:talent:passives-passive-2",
+        "behavior:10000049:talent:passives-passive-utility",
+        "behavior:10000049:talent:skill",
+        "behavior:10000050:constellation:constellation-1",
+        "behavior:10000050:constellation:constellation-2",
+        "behavior:10000050:constellation:constellation-3",
+        "behavior:10000050:constellation:constellation-4",
+        "behavior:10000050:constellation:constellation-5",
+        "behavior:10000050:constellation:constellation-6",
+        "behavior:10000050:talent:burst",
+        "behavior:10000050:talent:normalattack-charged",
+        "behavior:10000050:talent:normalattack-normal",
+        "behavior:10000050:talent:normalattack-plunging",
+        "behavior:10000050:talent:passives-passive-1",
+        "behavior:10000050:talent:passives-passive-2",
+        "behavior:10000050:talent:passives-passive-utility",
+        "behavior:10000050:talent:skill",
+        "behavior:10000051:constellation:constellation-1",
+        "behavior:10000051:constellation:constellation-2",
+        "behavior:10000051:constellation:constellation-3",
+        "behavior:10000051:constellation:constellation-4",
+        "behavior:10000051:constellation:constellation-5",
+        "behavior:10000051:constellation:constellation-6",
+        "behavior:10000051:talent:burst",
+        "behavior:10000051:talent:normalattack-charged",
+        "behavior:10000051:talent:normalattack-normal",
+        "behavior:10000051:talent:normalattack-plunging",
+        "behavior:10000051:talent:passives-passive-1",
+        "behavior:10000051:talent:passives-passive-2",
+        "behavior:10000051:talent:passives-passive-utility",
+        "behavior:10000051:talent:skill",
+        "behavior:10000052:constellation:constellation-1",
+        "behavior:10000052:constellation:constellation-2",
+        "behavior:10000052:constellation:constellation-3",
+        "behavior:10000052:constellation:constellation-4",
+        "behavior:10000052:constellation:constellation-5",
+        "behavior:10000052:constellation:constellation-6",
+        "behavior:10000052:talent:burst",
+        "behavior:10000052:talent:normalattack-charged",
+        "behavior:10000052:talent:normalattack-normal",
+        "behavior:10000052:talent:normalattack-plunging",
+        "behavior:10000052:talent:passives-passive-1",
+        "behavior:10000052:talent:passives-passive-2",
+        "behavior:10000052:talent:passives-passive-utility",
+        "behavior:10000052:talent:skill",
+        "behavior:10000053:constellation:constellation-1",
+        "behavior:10000053:constellation:constellation-2",
+        "behavior:10000053:constellation:constellation-3",
+        "behavior:10000053:constellation:constellation-4",
+        "behavior:10000053:constellation:constellation-5",
+        "behavior:10000053:constellation:constellation-6",
+        "behavior:10000053:talent:burst",
+        "behavior:10000053:talent:normalattack-charged",
+        "behavior:10000053:talent:normalattack-normal",
+        "behavior:10000053:talent:normalattack-plunging",
+        "behavior:10000053:talent:passives-passive-1",
+        "behavior:10000053:talent:passives-passive-2",
+        "behavior:10000053:talent:passives-passive-utility",
+        "behavior:10000053:talent:skill"
+      ],
+      "authoritativeCandidateIdsDigest": "20d016d8fde986166ad9b150de1398dd6ea360db6f91b50d6d3f4598fc30501f",
+      "authoritativeEntityIds": [
+        "10000046",
+        "10000047",
+        "10000048",
+        "10000049",
+        "10000050",
+        "10000051",
+        "10000052",
+        "10000053"
+      ],
+      "capturedNewEntityIds": [
+        "10000047",
+        "10000048",
+        "10000049",
+        "10000050",
+        "10000051",
+        "10000052",
+        "10000053"
+      ],
+      "skippedOverlapEntityIds": [
+        "10000046"
+      ],
+      "overlapPolicy": "alreadyCapturedByBehaviorShard04"
+    },
+    "versionBindings": [
+      {
+        "gameVersion": "6.7",
+        "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+        "packageVersion": "5.2.12",
+        "status": "strictlyBound",
+        "package": {
+          "gameVersion": "6.7",
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "packageVersion": "5.2.12",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+          "gitBlob": "e78cc92e75db21ea15edadbeafdf9152896d934c",
+          "rawArtifactBytes": 1619,
+          "rawArtifactSha256": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+          "name": "genshin-db",
+          "description": "Genshin Impact v6.7 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo."
+        }
+      },
+      {
+        "gameVersion": "7.0",
+        "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+        "packageVersion": "5.2.13",
+        "status": "strictlyBound",
+        "package": {
+          "gameVersion": "7.0",
+          "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+          "packageVersion": "5.2.13",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+          "gitBlob": "cfccefd470f420159b1376440e1a0f86a247030d",
+          "rawArtifactBytes": 1619,
+          "rawArtifactSha256": "3faf0b2220539a07af9260f5dd83afd0e964aa42868c9b3b73c6cb14065085c6",
+          "name": "genshin-db",
+          "description": "Genshin Impact v7.0 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo."
+        }
+      }
+    ],
+    "resolvedEntities": [
+      {
+        "entityId": "10000047",
+        "name": "Kaedehara Kazuha",
+        "nameJa": "楓原万葉",
+        "providerSlug": "kaedeharakazuha",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/kaedeharakazuha.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/kaedeharakazuha.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/kaedeharakazuha.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/kaedeharakazuha.json",
+              "gitBlob": "0010ebcfdb8d462d854e417d94cb9e91bbcae02d",
+              "rawArtifactBytes": 10799,
+              "rawArtifactSha256": "bfa2c3e92bccce92b947ddee5a9fec20d726328274a3c5736884b593d9b1562c"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/kaedeharakazuha.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/kaedeharakazuha.json",
+              "gitBlob": "5ea8946832d0e703bd50584db8527a1f5a5c0f4f",
+              "rawArtifactBytes": 10833,
+              "rawArtifactSha256": "cc382b6256f5b1bd1908090389f924a2ee75f45e2318485f9c09ebf1b46b211c"
+            },
+            "comparison": {
+              "status": "rawRecordChanged",
+              "changedFieldCount": 2,
+              "fieldDiffs": [
+                {
+                  "jsonPointer": "/passive2/description",
+                  "beforeValue": "Upon triggering a Swirl reaction, Kaedehara Kazuha will grant all party members a 0.04% Elemental DMG Bonus to the element absorbed by Swirl for every point of Elemental Mastery he has for 8s. Bonuses for different elements obtained through this method can co-exist.",
+                  "afterValue": "Upon triggering a Swirl or Stellar Swirl reaction, Kaedehara Kazuha will grant all party members a 0.04% Elemental DMG Bonus to the element absorbed by Swirl for every point of Elemental Mastery he has for 8s. Bonuses for different elements obtained through this method can co-exist.",
+                  "beforeFieldDigest": "3a7ab3c88e1148a74010a067c51aaac8038c88f98cd341abd46ad0762b01ee80",
+                  "afterFieldDigest": "faea7573821b295bd67ede0a0c47f0d14b57133867b4798ec41c7feaec53270f"
+                },
+                {
+                  "jsonPointer": "/passive2/descriptionRaw",
+                  "beforeValue": "Upon triggering a Swirl reaction, Kaedehara Kazuha will grant all party members a 0.04% Elemental DMG Bonus to the element absorbed by Swirl for every point of Elemental Mastery he has for 8s. Bonuses for different elements obtained through this method can co-exist.",
+                  "afterValue": "Upon triggering a Swirl or Stellar Swirl reaction, Kaedehara Kazuha will grant all party members a 0.04% Elemental DMG Bonus to the element absorbed by Swirl for every point of Elemental Mastery he has for 8s. Bonuses for different elements obtained through this method can co-exist.",
+                  "beforeFieldDigest": "3a7ab3c88e1148a74010a067c51aaac8038c88f98cd341abd46ad0762b01ee80",
+                  "afterFieldDigest": "faea7573821b295bd67ede0a0c47f0d14b57133867b4798ec41c7feaec53270f"
+                }
+              ]
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/kaedeharakazuha.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/kaedeharakazuha.json",
+              "gitBlob": "95c6b43354d5300b3b15c75add8b05d1fe3874b1",
+              "rawArtifactBytes": 2897,
+              "rawArtifactSha256": "3e0ceadb075ce6a83923d0e98732b88862c59ef35b76cad586a1d4e3b0e69cc3"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/kaedeharakazuha.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/kaedeharakazuha.json",
+              "gitBlob": "95c6b43354d5300b3b15c75add8b05d1fe3874b1",
+              "rawArtifactBytes": 2897,
+              "rawArtifactSha256": "3e0ceadb075ce6a83923d0e98732b88862c59ef35b76cad586a1d4e3b0e69cc3"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000048",
+        "name": "Yanfei",
+        "nameJa": "煙緋",
+        "providerSlug": "yanfei",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/yanfei.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/yanfei.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/yanfei.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/yanfei.json",
+              "gitBlob": "89d520fd13596bc20bf5eb978632196518395c3c",
+              "rawArtifactBytes": 8589,
+              "rawArtifactSha256": "318ce77baa043034ca1fa31d446258196ed31c682f22b33e338360a242fd2d87"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/yanfei.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/yanfei.json",
+              "gitBlob": "89d520fd13596bc20bf5eb978632196518395c3c",
+              "rawArtifactBytes": 8589,
+              "rawArtifactSha256": "318ce77baa043034ca1fa31d446258196ed31c682f22b33e338360a242fd2d87"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/yanfei.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/yanfei.json",
+              "gitBlob": "e9d9e57037bd4104537f3548ad2a79512318e282",
+              "rawArtifactBytes": 1901,
+              "rawArtifactSha256": "0dd744bf7fe65bbdca797fea6eb17e6cf632e56a421f6aa74bd410c6bd8128b7"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/yanfei.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/yanfei.json",
+              "gitBlob": "e9d9e57037bd4104537f3548ad2a79512318e282",
+              "rawArtifactBytes": 1901,
+              "rawArtifactSha256": "0dd744bf7fe65bbdca797fea6eb17e6cf632e56a421f6aa74bd410c6bd8128b7"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000049",
+        "name": "Yoimiya",
+        "nameJa": "宵宮",
+        "providerSlug": "yoimiya",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/yoimiya.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/yoimiya.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/yoimiya.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/yoimiya.json",
+              "gitBlob": "02c69557b21f564a1f5c37e9eb899adea298c570",
+              "rawArtifactBytes": 10449,
+              "rawArtifactSha256": "3cbdefd5215626b7cb3318a246ec19aec5b4ff2e079ec832fff00595332c13ad"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/yoimiya.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/yoimiya.json",
+              "gitBlob": "02c69557b21f564a1f5c37e9eb899adea298c570",
+              "rawArtifactBytes": 10449,
+              "rawArtifactSha256": "3cbdefd5215626b7cb3318a246ec19aec5b4ff2e079ec832fff00595332c13ad"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/yoimiya.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/yoimiya.json",
+              "gitBlob": "9445b02f6f28238632ff2a1f8b9ffb643f3d53ab",
+              "rawArtifactBytes": 2354,
+              "rawArtifactSha256": "50c8b59cf7da6b5985250615206cc6fd170d75e821e2857aa773b7faa0b6674f"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/yoimiya.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/yoimiya.json",
+              "gitBlob": "9445b02f6f28238632ff2a1f8b9ffb643f3d53ab",
+              "rawArtifactBytes": 2354,
+              "rawArtifactSha256": "50c8b59cf7da6b5985250615206cc6fd170d75e821e2857aa773b7faa0b6674f"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000050",
+        "name": "Thoma",
+        "nameJa": "トーマ",
+        "providerSlug": "thoma",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/thoma.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/thoma.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/thoma.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/thoma.json",
+              "gitBlob": "4b944cba3bf5e1a7ae55281962c4d8d11b54370d",
+              "rawArtifactBytes": 9848,
+              "rawArtifactSha256": "8da13d53f32b0c015ab45b0d06f0331be6075392c5e7057b2a672aade8c31226"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/thoma.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/thoma.json",
+              "gitBlob": "4b944cba3bf5e1a7ae55281962c4d8d11b54370d",
+              "rawArtifactBytes": 9848,
+              "rawArtifactSha256": "8da13d53f32b0c015ab45b0d06f0331be6075392c5e7057b2a672aade8c31226"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/thoma.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/thoma.json",
+              "gitBlob": "062894206bdc50a17f48361f32241668474ae430",
+              "rawArtifactBytes": 2060,
+              "rawArtifactSha256": "47638365c9eea62f64f936b08fdf260fd7aec74c5deb8e3a4ba83dae5cea4d9f"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/thoma.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/thoma.json",
+              "gitBlob": "062894206bdc50a17f48361f32241668474ae430",
+              "rawArtifactBytes": 2060,
+              "rawArtifactSha256": "47638365c9eea62f64f936b08fdf260fd7aec74c5deb8e3a4ba83dae5cea4d9f"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000051",
+        "name": "Eula",
+        "nameJa": "エウルア",
+        "providerSlug": "eula",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/eula.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/eula.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/eula.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/eula.json",
+              "gitBlob": "052787d869b815c907c530dd67c08ce77692b178",
+              "rawArtifactBytes": 9475,
+              "rawArtifactSha256": "848b3c2d6ef0712ded4822ba06747c8cbce5532826c153f48174e140d7280283"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/eula.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/eula.json",
+              "gitBlob": "052787d869b815c907c530dd67c08ce77692b178",
+              "rawArtifactBytes": 9475,
+              "rawArtifactSha256": "848b3c2d6ef0712ded4822ba06747c8cbce5532826c153f48174e140d7280283"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/eula.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/eula.json",
+              "gitBlob": "622b38ade62f32f49c96a78802c62b067ebc99a6",
+              "rawArtifactBytes": 2205,
+              "rawArtifactSha256": "c0178a8776403b80edfc4780cc266fffccd0ec64fe94b9f15d08201b017bf09d"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/eula.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/eula.json",
+              "gitBlob": "622b38ade62f32f49c96a78802c62b067ebc99a6",
+              "rawArtifactBytes": 2205,
+              "rawArtifactSha256": "c0178a8776403b80edfc4780cc266fffccd0ec64fe94b9f15d08201b017bf09d"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000052",
+        "name": "Raiden Shogun",
+        "nameJa": "雷電将軍",
+        "providerSlug": "raidenshogun",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/raidenshogun.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/raidenshogun.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/raidenshogun.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/raidenshogun.json",
+              "gitBlob": "0315144b2ae1398e36a62cac2948c1963c35c2c6",
+              "rawArtifactBytes": 11405,
+              "rawArtifactSha256": "50aadf3dc3e1f14d7d7bbd76683598d9e026a91997cc49acef4fad3a3872c971"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/raidenshogun.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/raidenshogun.json",
+              "gitBlob": "0315144b2ae1398e36a62cac2948c1963c35c2c6",
+              "rawArtifactBytes": 11405,
+              "rawArtifactSha256": "50aadf3dc3e1f14d7d7bbd76683598d9e026a91997cc49acef4fad3a3872c971"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/raidenshogun.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/raidenshogun.json",
+              "gitBlob": "3b0901e861eb6fb2a06e5cdfdb6126303c9b1c2a",
+              "rawArtifactBytes": 3034,
+              "rawArtifactSha256": "20b3dc8f03f281501bf91225141bd86ab908fd7fee5bf686f314d9abcba8670f"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/raidenshogun.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/raidenshogun.json",
+              "gitBlob": "3b0901e861eb6fb2a06e5cdfdb6126303c9b1c2a",
+              "rawArtifactBytes": 3034,
+              "rawArtifactSha256": "20b3dc8f03f281501bf91225141bd86ab908fd7fee5bf686f314d9abcba8670f"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000053",
+        "name": "Sayu",
+        "nameJa": "早柚",
+        "providerSlug": "sayu",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/sayu.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/sayu.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/sayu.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/sayu.json",
+              "gitBlob": "aaab06731f5b613aa8e1469f33facb9f600eb4e4",
+              "rawArtifactBytes": 11420,
+              "rawArtifactSha256": "d49a4d148ed180cf37ae5e1f1853d18fedc39c64cb3d697c2c9e968a5a12bb5e"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/sayu.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/sayu.json",
+              "gitBlob": "63e7c002c02f660ad64fef7041c359483e1f7ed7",
+              "rawArtifactBytes": 11454,
+              "rawArtifactSha256": "3cd94143aa27f78a8129e3f01af20c40496226b2e98d8c869dc3afd625be8a3b"
+            },
+            "comparison": {
+              "status": "rawRecordChanged",
+              "changedFieldCount": 2,
+              "fieldDiffs": [
+                {
+                  "jsonPointer": "/passive1/description",
+                  "beforeValue": "When Sayu triggers a Swirl reaction while active, she heals all your characters and nearby allies for 300 HP. She will also heal an additional 1.2 HP for every point of Elemental Mastery she has.\nThis effect can be triggered once every 2s.",
+                  "afterValue": "When Sayu triggers a Swirl or Stellar Swirl reaction while active, she heals all your characters and nearby allies for 300 HP. She will also heal an additional 1.2 HP for every point of Elemental Mastery she has.\nThis effect can be triggered once every 2s.",
+                  "beforeFieldDigest": "cbe5e8218bd7634a6cacd51ca29654350aca81dc030c8a0dcbef038dc97a0488",
+                  "afterFieldDigest": "4aa0f89870814b3be6124ff16672ba03011438fda5eb733e84139404eb1d30ca"
+                },
+                {
+                  "jsonPointer": "/passive1/descriptionRaw",
+                  "beforeValue": "When Sayu triggers a Swirl reaction while active, she heals all your characters and nearby allies for 300 HP. She will also heal an additional 1.2 HP for every point of Elemental Mastery she has.\nThis effect can be triggered once every 2s.",
+                  "afterValue": "When Sayu triggers a Swirl or Stellar Swirl reaction while active, she heals all your characters and nearby allies for 300 HP. She will also heal an additional 1.2 HP for every point of Elemental Mastery she has.\nThis effect can be triggered once every 2s.",
+                  "beforeFieldDigest": "cbe5e8218bd7634a6cacd51ca29654350aca81dc030c8a0dcbef038dc97a0488",
+                  "afterFieldDigest": "4aa0f89870814b3be6124ff16672ba03011438fda5eb733e84139404eb1d30ca"
+                }
+              ]
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/sayu.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/sayu.json",
+              "gitBlob": "bf7f79f498511f098cb06df50604e739eaa65aed",
+              "rawArtifactBytes": 3042,
+              "rawArtifactSha256": "57c6bfc38a8ef6a9e0db09f9a84db8399ecbc50707a38bd55dab1022b7076424"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/sayu.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/sayu.json",
+              "gitBlob": "a0f438388dd6436309800278c9a4144c67255ef2",
+              "rawArtifactBytes": 3106,
+              "rawArtifactSha256": "ba6914040119ce7af076b9b331e44df668ab572366a3f2c83ede9e224d4ae6d3"
+            },
+            "comparison": {
+              "status": "rawRecordChanged",
+              "changedFieldCount": 2,
+              "fieldDiffs": [
+                {
+                  "jsonPointer": "/c4/description",
+                  "beforeValue": "Sayu recovers 1.2 Energy when she triggers a Swirl reaction.\nThis effect occurs once every 2s.",
+                  "afterValue": "Sayu recovers 1.2 Energy when she triggers a Swirl or Stellar Swirl reaction while on-field.\nThis effect occurs once every 2s.",
+                  "beforeFieldDigest": "a9b7ae4d638061df75f176b0dfbdaa80a05135d1740cd1753bed70bae320406c",
+                  "afterFieldDigest": "7925a1efd20390d9208f19c6570c4a232c4e53acd4ff3a2e993317277773b8ab"
+                },
+                {
+                  "jsonPointer": "/c4/descriptionRaw",
+                  "beforeValue": "Sayu recovers 1.2 Energy when she triggers a Swirl reaction.\nThis effect occurs once every 2s.",
+                  "afterValue": "Sayu recovers 1.2 Energy when she triggers a Swirl or Stellar Swirl reaction while on-field.\nThis effect occurs once every 2s.",
+                  "beforeFieldDigest": "a9b7ae4d638061df75f176b0dfbdaa80a05135d1740cd1753bed70bae320406c",
+                  "afterFieldDigest": "7925a1efd20390d9208f19c6570c4a232c4e53acd4ff3a2e993317277773b8ab"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "travelerVariantEvidence": [],
+    "variantAmbiguities": [],
+    "coverage": {
+      "resolvedEntityIds": [
+        "10000047",
+        "10000048",
+        "10000049",
+        "10000050",
+        "10000051",
+        "10000052",
+        "10000053"
+      ],
+      "ambiguousEntityIds": [],
+      "recordKinds": [
+        "talents",
+        "constellations"
+      ],
+      "authoritativeCandidateCoverage": "entitySourceRecordsForNewEntitiesComplete",
+      "resolvedEntityRecordCoverage": "complete",
+      "travelerVariantRecordCoverage": "notApplicable",
+      "repositoryCandidateCoverage": "partial",
+      "authoritativeCandidateCount": 100,
+      "overlapEntityCount": 1,
+      "crossVariantComparisons": 0,
+      "canIssueEligibilityCertificate": false,
+      "canPromoteCanonical": false
+    }
+  },
+  "summary": {
+    "shardId": "behavior:behaviorSpec:semanticDecisionRequired:standard:05",
+    "authoritativeCandidates": 100,
+    "authoritativeEntities": 8,
+    "resolvedEntities": 7,
+    "overlapSkippedEntities": 1,
+    "ambiguousEntities": 0,
+    "resolvedRecords": 14,
+    "changedRecords": 3,
+    "changedFields": 6,
+    "sourceFamilyCount": 1,
+    "certificateEligibleClaims": 0
+  },
+  "gateEligibility": {
+    "status": "singleCorrelatedFamilyFailClosed",
+    "sourceFamilyCount": 1,
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false,
+    "reasons": [
+      "providerIndependenceInsufficient",
+      "behaviorSemanticsNotParsed",
+      "shardOverlapRetained"
+    ]
+  },
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "268c2baf936a03fc803388f4fd91377d7cf24a8cb2a126cd415375ffc358fff5"
+}

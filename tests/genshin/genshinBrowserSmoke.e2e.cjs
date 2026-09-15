@@ -151,6 +151,306 @@ async function clickAndWait(client, selector) {
 
         await waitFor(client, `document.getElementById("genshinNormalTalentLevel").getBoundingClientRect().width > 0`);
 
+        await waitFor(client, `Boolean(window.GenshinPartyState && document.getElementById("genshinPartyCharacter2"))`);
+        const clearSupportMembers = async () => {
+            await evaluate(client, `(() => {
+                [2, 3, 4].forEach((slot) => {
+                    const input = document.getElementById("genshinPartyCharacter" + slot);
+                    if (!input) return;
+                    input.value = "";
+                    input.dispatchEvent(new Event("change", { bubbles: true }));
+                });
+                return true;
+            })()`);
+            await delay(100);
+        };
+
+        const setReactionOption = async (value) => {
+            await evaluate(client, `(() => {
+                const input = document.getElementById("genshinJsonReactionOption");
+                if (!input) throw new Error("missing reaction option input");
+                input.value = ${JSON.stringify(value)};
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+                return input.value;
+            })()`);
+            await delay(100);
+        };
+
+        const runWitchProduction = async (modifierId) => evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            const applied = payload.results.flatMap((result) => result.breakdown?.appliedModifiers || []);
+            const appliedItem = applied.find((item) => item.modifier?.id === ${JSON.stringify(modifierId)});
+            const skippedItem = payload.candidateModifiers.find((item) => item.modifier?.id === ${JSON.stringify(modifierId)});
+            const partyCandidate = payload.partyModifiers.find((item) => item.modifier?.id === ${JSON.stringify(modifierId)});
+            const source = appliedItem || skippedItem || partyCandidate;
+            const key = source?.analysis?.conditionStateKey || "";
+            const request = payload.calculationRequest || {};
+            return {
+                totalExpected: payload.results.reduce((sum, result) => sum + Number(result.total?.expected ?? result.expected ?? 0), 0),
+                applied: Boolean(appliedItem),
+                appliedValue: appliedItem?.value ?? null,
+                skippedReason: skippedItem?.reason || "",
+                partyStatus: partyCandidate?.status || "",
+                partyEnabled: partyCandidate?.enabled ?? null,
+                state: request.party?.conditionStates?.[key]
+                    || request.uiState?.conditionByModifier?.[key]
+                    || request.uiState?.complexConditionByModifier?.[key]
+                    || null
+            };
+        })()`);
+
+        const directWitchCase = async ({ selection, group, modifierId, offValue, onValue, reaction }) => {
+            await clearSupportMembers();
+            await evaluate(client, selectionExpression(selection));
+            await waitFor(client, `document.getElementById("genshinCalcCharacterId").value === ${JSON.stringify(selection.characterId)}`);
+            if (reaction) await setReactionOption(reaction);
+            await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+            const selector = `[data-genshin-condition-key*="${group}"]`;
+            await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(selector)}))`);
+            const optionLabels = await evaluate(client, `([...document.querySelector(${JSON.stringify(selector)}).options]).map((option) => option.textContent)`);
+            assert.ok(optionLabels.some((label) => /未解放/.test(label)), `${modifierId} must render a locked option`);
+            assert.ok(optionLabels.some((label) => /解放済み/.test(label)), `${modifierId} must render an unlocked option`);
+
+            await evaluate(client, `(() => {
+                const input = document.querySelector(${JSON.stringify(selector)});
+                input.value = ${JSON.stringify(offValue)};
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+                return input.value;
+            })()`);
+            await delay(150);
+            const off = await runWitchProduction(modifierId);
+            if (off.applied) assert.equal(off.appliedValue, 0, `${modifierId} must resolve to zero in ${offValue} state`);
+            assert.equal(off.state?.option, offValue, `${modifierId} state must retain ${offValue}`);
+
+            let inactive = null;
+            if (onValue !== "unlocked" && optionLabels.some((label) => /解放済み（未発動/.test(label))) {
+                await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(selector)}))`);
+                await evaluate(client, `(() => {
+                    const input = document.querySelector(${JSON.stringify(selector)});
+                    input.value = "unlocked";
+                    input.dispatchEvent(new Event("change", { bubbles: true }));
+                    return input.value;
+                })()`);
+                await delay(150);
+                inactive = await runWitchProduction(modifierId);
+                if (inactive.applied) assert.equal(inactive.appliedValue, 0, `${modifierId} must resolve to zero while unlocked but inactive`);
+                assert.equal(inactive.state?.option, "unlocked", `${modifierId} state must retain unlocked`);
+                assert.equal(inactive.totalExpected, off.totalExpected, `${modifierId} unlocked inactive state must not change production damage`);
+            }
+
+            await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(selector)}))`);
+            await evaluate(client, `(() => {
+                const input = document.querySelector(${JSON.stringify(selector)});
+                input.value = ${JSON.stringify(onValue)};
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+                return input.value;
+            })()`);
+            await delay(150);
+            const on = await runWitchProduction(modifierId);
+            assert.equal(on.applied, true, `${modifierId} must be applied in ${onValue} state`);
+            assert.equal(on.state?.option, onValue, `${modifierId} state must retain ${onValue}`);
+            assert.notEqual(on.totalExpected, off.totalExpected, `${modifierId} must change production damage`);
+            return { modifierId, optionLabels, off, inactive, on };
+        };
+
+        const partyWitchCase = async ({ selection, supportCharacterId, group, modifierId, supportDef, reaction }) => {
+            await clearSupportMembers();
+            await evaluate(client, selectionExpression(selection));
+            await waitFor(client, `document.getElementById("genshinCalcCharacterId").value === ${JSON.stringify(selection.characterId)}`);
+            const selected = await evaluate(client, `(() => {
+                const member = window.GenshinPartyState.characterForId(${JSON.stringify(supportCharacterId)});
+                return window.GenshinPartyState.setPartySelection(2, "character", member);
+            })()`);
+            assert.equal(selected, true, `${modifierId} support character must be selectable`);
+            if (supportDef !== undefined) {
+                await evaluate(client, `(() => {
+                    const input = document.getElementById("genshinPartyDef2");
+                    input.value = ${JSON.stringify(String(supportDef))};
+                    input.dispatchEvent(new Event("input", { bubbles: true }));
+                    input.dispatchEvent(new Event("change", { bubbles: true }));
+                    return input.value;
+                })()`);
+            }
+            if (reaction) await setReactionOption(reaction);
+            await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+            const metadata = await evaluate(client, `(async () => {
+                const calcData = await window.GenshinCalcData.loadGenshinCalcData();
+                const context = window.GenshinCalcEngine.buildCharacterCalcContext();
+                const panel = window.GenshinCalcConditions.conditionPanelState(context, calcData);
+                const candidate = panel.partyModifiers.find((item) => item.modifier?.id === ${JSON.stringify(modifierId)});
+                if (!candidate) throw new Error("missing Witch party candidate: ${modifierId}");
+                return { key: candidate.analysis.conditionStateKey, candidateKey: candidate.key, group: candidate.modifier.conditionGroupId || "" };
+            })()`);
+            assert.equal(metadata.group, group, `${modifierId} must expose its Witch condition group`);
+            const selector = `[data-genshin-party-condition-key="${metadata.key}"]`;
+            await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(selector)}))`);
+            const optionLabels = await evaluate(client, `([...document.querySelector(${JSON.stringify(selector)}).options]).map((option) => option.textContent)`);
+            assert.ok(optionLabels.some((label) => /未解放/.test(label)), `${modifierId} party UI must render locked option`);
+            assert.ok(optionLabels.some((label) => /解放済み/.test(label)), `${modifierId} party UI must render unlocked option`);
+
+            await evaluate(client, `(() => {
+                const input = document.querySelector(${JSON.stringify(selector)});
+                input.value = "locked";
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+                return input.value;
+            })()`);
+            await delay(150);
+            const off = await runWitchProduction(modifierId);
+            assert.equal(off.applied, false, `${modifierId} must be off while locked`);
+            assert.equal(off.partyStatus, "off", `${modifierId} party candidate must be off while locked`);
+            assert.equal(off.partyEnabled, false, `${modifierId} party toggle must be off while locked`);
+            assert.equal(off.state?.option, "locked", `${modifierId} party state must retain locked`);
+
+            await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(selector)}))`);
+            await evaluate(client, `(() => {
+                const input = document.querySelector(${JSON.stringify(selector)});
+                input.value = "unlocked";
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+                return input.value;
+            })()`);
+            await delay(150);
+            const inactive = await runWitchProduction(modifierId);
+            assert.equal(inactive.applied, false, `${modifierId} must be off while unlocked but inactive`);
+            assert.equal(inactive.state?.option, "unlocked", `${modifierId} party state must retain unlocked`);
+            assert.equal(inactive.totalExpected, off.totalExpected, `${modifierId} unlocked inactive state must not change production damage`);
+
+            await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(selector)}))`);
+            await evaluate(client, `(() => {
+                const input = document.querySelector(${JSON.stringify(selector)});
+                input.value = "active";
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+                return input.value;
+            })()`);
+            await delay(150);
+            await evaluate(client, `(() => {
+                const article = document.querySelector(${JSON.stringify(selector)})?.closest("[data-party-buff]");
+                const toggle = article?.querySelector("[data-genshin-party-buff-key]");
+                if (!toggle) throw new Error("missing Witch party apply checkbox: ${modifierId}");
+                if (!toggle.checked) toggle.click();
+                return Boolean(toggle.checked);
+            })()`);
+            await delay(150);
+            const on = await runWitchProduction(modifierId);
+            assert.equal(on.applied, true, `${modifierId} must be applied after active + checkbox`);
+            assert.equal(on.partyStatus, "ready", `${modifierId} party candidate must be ready after active + checkbox`);
+            assert.equal(on.partyEnabled, true, `${modifierId} party candidate must be enabled after active + checkbox`);
+            assert.equal(on.state?.option, "active", `${modifierId} party state must retain active`);
+            assert.notEqual(on.totalExpected, off.totalExpected, `${modifierId} must change production damage`);
+            return { modifierId, optionLabels, off, inactive, on };
+        };
+
+        const witchUiProduction = {
+            razor: await directWitchCase({
+                selection: { characterName: "レザー", characterId: "10000020", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 },
+                group: "witch-razor-wolf_within_burst_atk",
+                modifierId: "t_10000020_lockedPassive_wolf_within_burst_atk",
+                offValue: "locked",
+                onValue: "unlocked"
+            }),
+            venti: await directWitchCase({
+                selection: { characterName: "ウェンティ", characterId: "10000022", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 },
+                group: "witch-venti-stormeye_swirl_damage",
+                modifierId: "t_10000022_lockedPassive_stormeye_swirl_damage",
+                offValue: "locked",
+                onValue: "active"
+            }),
+            beidou: await directWitchCase({
+                selection: { characterName: "北斗", characterId: "10000024", weaponName: "", weaponId: "", constellation: "C6", atk: 2000, def: 1000 },
+                group: "witch-revelation-beidou-c6",
+                modifierId: "c_10000024_6_lucid_active_em",
+                offValue: "locked",
+                onValue: "active",
+                reaction: "overload"
+            }),
+            fischl: await partyWitchCase({
+                selection: { characterName: "甘雨", characterId: "10000037", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 },
+                supportCharacterId: "10000031",
+                group: "witch-fischl-electrocharged",
+                modifierId: "t_10000031_lockedPassive_electrocharged_em",
+                reaction: "electroCharged"
+            }),
+            albedo: await partyWitchCase({
+                selection: { characterName: "甘雨", characterId: "10000037", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 },
+                supportCharacterId: "10000038",
+                group: "witch-albedo-solar_isotoma_damage",
+                modifierId: "t_10000038_lockedPassive_solar_isotoma_damage",
+                supportDef: 1000
+            }),
+            sucrose: await partyWitchCase({
+                selection: { characterName: "甘雨", characterId: "10000037", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 },
+                supportCharacterId: "10000043",
+                group: "witch-sucrose-small-wind-spirit",
+                modifierId: "t_10000043_lockedPassive_small_wind_spirit_damage"
+            })
+        };
+
+        const uidPartyBridge = await evaluate(client, `(() => {
+            const character = {
+                schemaVersion: 2,
+                source: "uidProfile",
+                id: "10000032",
+                level: 90,
+                constellation: 6,
+                talents: { normal: 6, skill: 9, burst: 13, alternate: 12 },
+                weapon: { id: "11501", level: 90, rank: 5, name: "Test Sword", effect: "snapshot-only" },
+                artifacts: [0, 1, 2, 3, 4].map((index) => ({ id: String(index), setId: "10007", slot: index, name: "Artifact " + index })),
+                stats: { baseHp: 12397, baseAtk: 865, baseDef: 771, hp: 30000, atk: 1800, def: 900, elementalMastery: 120, critRate: 61.7, critDamage: 142.4, energyRecharge: 133.3 },
+                provenance: { source: "uidProfile", rawCharacterId: "10000032", includesPersistentBonuses: true, additivePolicy: "externalModifiersOnly" }
+            };
+            const input = window.GenshinProfileMapper.toCalculationInput(character);
+            window.dispatchEvent(new CustomEvent("genshin:calculation-input-selected", { detail: { input, profile: { characters: [character] } } }));
+            const selected = window.GenshinPartyState.setPartySelection(2, "character", window.GenshinPartyState.characterForId("10000032"));
+            const before = window.GenshinPartyState.getSupportState().members[0];
+            const atk = document.getElementById("genshinPartyAtk2");
+            atk.value = "1900";
+            atk.dispatchEvent(new Event("input", { bubbles: true }));
+            const after = window.GenshinPartyState.getSupportState().members[0];
+            const level = document.getElementById("genshinPartyLevel2");
+            level.value = "80";
+            level.dispatchEvent(new Event("input", { bubbles: true }));
+            const afterLevelEdit = window.GenshinPartyState.getSupportState().members[0];
+            return {
+                selected,
+                importedLevel: before.level,
+                constellation: document.getElementById("genshinPartyConstellation2").value,
+                burst: document.getElementById("genshinPartyBurstTalent2").value,
+                weapon: document.getElementById("genshinPartyWeapon2").value,
+                artifactMode: document.getElementById("genshinPartyArtifactMode2").value,
+                beforeSource: before.provenance.source,
+                afterSource: after.provenance.source,
+                sourceSnapshot: after.provenance.sourceSnapshot,
+                retainedFromUid: after.provenance.retainedFromUid,
+                uidBaseAtk: before.stats.baseAtk,
+                manualLevelUsesDerivedBase: afterLevelEdit.stats.baseAtk !== before.stats.baseAtk,
+                snapshotArtifactCount: before.profileSnapshot.artifacts.length,
+                snapshotExtraTalent: before.profileSnapshot.talents.alternate,
+                snapshotCritRate: after.profileSnapshot.stats.critRate,
+                snapshotStableAfterEdits: JSON.stringify(before.profileSnapshot) === JSON.stringify(afterLevelEdit.profileSnapshot),
+                onField: after.combatState.onField,
+                buffStateCount: Object.keys(after.buffStates).length
+            };
+        })()`);
+        assert.deepEqual(uidPartyBridge, {
+            selected: true,
+            importedLevel: 90,
+            constellation: "6",
+            burst: "13",
+            weapon: "11501",
+            artifactMode: "4pc",
+            beforeSource: "uidProfile",
+            afterSource: "mixed",
+            sourceSnapshot: "uidProfile",
+            retainedFromUid: true,
+            uidBaseAtk: 865,
+            manualLevelUsesDerivedBase: true,
+            snapshotArtifactCount: 5,
+            snapshotExtraTalent: 12,
+            snapshotCritRate: 61.7,
+            snapshotStableAfterEdits: true,
+            onField: false,
+            buffStateCount: 0
+        });
+
         const layoutAudit = await evaluate(client, `(() => {
             const canvas = document.createElement("canvas");
             const context = canvas.getContext("2d");
@@ -254,7 +554,7 @@ async function clickAndWait(client, selector) {
         assert.ok(layoutAudit.talentControls.every((control) => control.fontSize === "12px"), "talent controls do not share one font size");
         assert.ok(layoutAudit.twoPieceButtons.every((button) => button.scrollWidth <= button.clientWidth), "artifact selection text is clipped in 2+2 mode");
         assert.deepEqual(layoutAudit.unitStyles.sort(), ["10px|11px|12px", "10px|12px|12px"]);
-        assert.deepEqual(layoutAudit.unitCenterOffsets, [0]);
+        assert.ok(layoutAudit.unitCenterOffsets.every((offset) => Math.abs(offset) <= 1), `unit labels are not vertically centered: ${layoutAudit.unitCenterOffsets}`);
         assert.equal(layoutAudit.numberAppearance, "textfield");
         assert.equal(layoutAudit.cardPadding, "11px");
         assert.equal(layoutAudit.cardBorderWidth, "1px");
@@ -557,6 +857,91 @@ async function clickAndWait(client, selector) {
         const stackResultLength = await evaluate(client, `document.querySelector("#genshinJsonCalcResults").innerText.trim().length`);
         assert.ok(stackResultLength > 0);
 
+        const xiaoBehaviorModifierId = "behavior-modifier:10000026:constellation-1-1:1";
+        const inspectXiaoBehavior = () => evaluate(client, `(() => {
+            const result = document.querySelector("#genshinJsonCalcResults");
+            const behavior = result.querySelector(".genshin-json-behavior-resolution");
+            const modifier = result.querySelector(${JSON.stringify(`[data-behavior-modifier-id="${xiaoBehaviorModifierId}"]`)});
+            const dedicatedInputs = document.querySelectorAll(${JSON.stringify(`[data-behavior-modifier-id="${xiaoBehaviorModifierId}"] input, [data-behavior-modifier-id="${xiaoBehaviorModifierId}"] select, [data-behavior-modifier-id="${xiaoBehaviorModifierId}"] button`)});
+            return {
+                text: result.innerText,
+                behaviorVisible: Boolean(behavior && behavior.offsetParent !== null),
+                modifierVisible: Boolean(modifier && modifier.offsetParent !== null),
+                dedicatedInputCount: dedicatedInputs.length,
+                constellation: document.getElementById("genshinReflectConstellation").value
+            };
+        })()`);
+
+        await evaluate(client, selectionExpression({
+            characterName: "魈",
+            characterId: "10000026",
+            weaponName: "",
+            weaponId: "",
+            constellation: "C0"
+        }));
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        await clickAndWait(client, "#genshinJsonCalcButtonBottom");
+        const xiaoC0 = await inspectXiaoBehavior();
+        assert.equal(xiaoC0.constellation, "C0");
+        assert.equal(xiaoC0.behaviorVisible, false, "Xiao C0 must not render the C1 behavior summary");
+        assert.equal(xiaoC0.modifierVisible, false, "Xiao C0 must not apply the C1 behavior modifier");
+        assert.equal(xiaoC0.text.includes("使用可能回数 2 → 3（+1）"), false);
+
+        await evaluate(client, `(() => {
+            const constellation = document.getElementById("genshinReflectConstellation");
+            constellation.value = "C1";
+            constellation.dispatchEvent(new Event("input", { bubbles: true }));
+            constellation.dispatchEvent(new Event("change", { bubbles: true }));
+            return constellation.value;
+        })()`);
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        await clickAndWait(client, "#genshinJsonCalcButtonBottom");
+        const xiaoC1 = await inspectXiaoBehavior();
+        assert.equal(xiaoC1.constellation, "C1");
+        assert.equal(xiaoC1.behaviorVisible, false, "the 6.7 Xiao overlay must stay inactive while 7.0 revalidation is pending");
+        assert.equal(xiaoC1.modifierVisible, false, "historical Xiao behavior must not enter the live calculation route");
+        assert.equal(xiaoC1.text.includes("使用可能回数 2 → 3（+1）"), false);
+        assert.equal(xiaoC1.dedicatedInputCount, 0, "an inactive historical overlay must not create a dedicated toggle");
+
+        await evaluate(client, `(() => {
+            const constellation = document.getElementById("genshinReflectConstellation");
+            constellation.value = "C0";
+            constellation.dispatchEvent(new Event("input", { bubbles: true }));
+            constellation.dispatchEvent(new Event("change", { bubbles: true }));
+            return constellation.value;
+        })()`);
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        await clickAndWait(client, "#genshinJsonCalcButtonBottom");
+        const xiaoBackToC0 = await inspectXiaoBehavior();
+        assert.equal(xiaoBackToC0.constellation, "C0");
+        assert.equal(xiaoBackToC0.behaviorVisible, false, "Xiao C1 behavior summary must disappear after returning to C0");
+        assert.equal(xiaoBackToC0.modifierVisible, false, "Xiao C1 behavior modifier must be removed after returning to C0");
+        assert.equal(xiaoBackToC0.text.includes("使用可能回数 2 → 3（+1）"), false);
+
+        await evaluate(client, selectionExpression({
+            characterName: "ネフェル",
+            characterId: "10000122",
+            weaponName: "",
+            weaponId: "",
+            constellation: "C0"
+        }));
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        await clickAndWait(client, "#genshinJsonCalcButtonBottom");
+        const statLabelPresentation = await evaluate(client, `(() => {
+            document.querySelectorAll("#genshinJsonCalcResults [data-result-detail-toggle]").forEach((button) => button.click());
+            const text = document.querySelector("#genshinJsonCalcResults").innerText;
+            return {
+                text,
+                resolverElementalMastery: window.GenshinUiLabels.statLabel("elementalMastery"),
+                resolverAttack: window.GenshinUiLabels.statLabel("atk")
+            };
+        })()`);
+        assert.equal(statLabelPresentation.resolverElementalMastery, "元素熟知");
+        assert.equal(statLabelPresentation.resolverAttack, "攻撃力");
+        assert.ok(statLabelPresentation.text.includes("元素熟知"), "calculation details must display 元素熟知 in Japanese");
+        assert.ok(statLabelPresentation.text.includes("攻撃力"), "calculation details must use the same resolver for 攻撃力");
+        assert.doesNotMatch(statLabelPresentation.text, /elementalMastery|Elemental Mastery/);
+
         await evaluate(client, selectionExpression({
             characterName: "白朮",
             characterId: "10000082",
@@ -576,18 +961,36 @@ async function clickAndWait(client, selector) {
             resourceInputCount: resource.count,
             complexConditionInputCount: complexCondition.count,
             stackConditionInputCount: stackConditionCount,
+            xiaoBehavior: {
+                c0: { behaviorVisible: xiaoC0.behaviorVisible, modifierVisible: xiaoC0.modifierVisible },
+                c1: { behaviorVisible: xiaoC1.behaviorVisible, modifierVisible: xiaoC1.modifierVisible, dedicatedInputCount: xiaoC1.dedicatedInputCount },
+                backToC0: { behaviorVisible: xiaoBackToC0.behaviorVisible, modifierVisible: xiaoBackToC0.modifierVisible }
+            },
+            statLabels: {
+                elementalMastery: statLabelPresentation.resolverElementalMastery,
+                atk: statLabelPresentation.resolverAttack
+            },
             resultTextLength: baizhuResult.trim().length
         }));
     } finally {
         if (client) client.socket.close();
-        browserProcess.kill();
-        await delay(200);
-        fs.rmSync(userDataDir, {
-            recursive: true,
-            force: true,
-            maxRetries: 5,
-            retryDelay: 200
-        });
+        if (browserProcess.exitCode === null) {
+            const exited = new Promise((resolve) => browserProcess.once("exit", resolve));
+            browserProcess.kill();
+            await Promise.race([exited, delay(3000)]);
+        }
+        for (let attempt = 0; attempt < 5; attempt += 1) {
+            try {
+                fs.rmSync(userDataDir, { recursive: true, force: true });
+                break;
+            } catch (error) {
+                if (attempt === 4) {
+                    console.warn(`[genshin-browser-smoke] temporary browser profile remains locked: ${userDataDir}`);
+                    break;
+                }
+                await delay(300 * (attempt + 1));
+            }
+        }
     }
 })().catch((error) => {
     console.error(error);

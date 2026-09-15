@@ -1,0 +1,137 @@
+{
+  "capturedAt": "2026-08-27T17:25:32.579Z",
+  "fieldDigest": "a1f1f299bd82b634eb178065726eb179843514e0ce3fdd8bce8cad656e051a02",
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "generatedAt": "2026-08-28T00:00:00.000Z",
+  "immutable": false,
+  "independenceGroup": "official-hoyoverse",
+  "kind": "genshinOfficialWeaponFrontierCaptureManifest",
+  "lineage": "First-party HoYoverse/HoYoLAB publication.",
+  "provider": "HoYoverse HoYoWiki",
+  "providerId": "hoyoverse-hoyowiki",
+  "requests": [
+    {
+      "body": {
+        "filters": [],
+        "menu_id": "4",
+        "page_num": 8,
+        "page_size": 30,
+        "use_es": true
+      },
+      "bytes": 18488,
+      "contentType": "application/json",
+      "etag": null,
+      "expected": {
+        "entityId": "11301",
+        "entryPageId": "1938",
+        "name": "Cool Steel"
+      },
+      "method": "POST",
+      "rawPath": "aggregate/page-08.json",
+      "requestId": "aggregate-page-08",
+      "sha256": "ea897c7066c9f6ca598f0d1feebe540a1d706cd9317bbc8d407bc4eecdddd441",
+      "statusCode": 200,
+      "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/get_entry_page_list"
+    },
+    {
+      "body": {
+        "filters": [],
+        "menu_id": "4",
+        "page_num": 5,
+        "page_size": 30,
+        "use_es": true
+      },
+      "bytes": 18674,
+      "contentType": "application/json",
+      "etag": null,
+      "expected": {
+        "entityId": "11302",
+        "entryPageId": "2052",
+        "name": "Harbinger of Dawn"
+      },
+      "method": "POST",
+      "rawPath": "aggregate/page-05.json",
+      "requestId": "aggregate-page-05",
+      "sha256": "3d17ccc81a71c9615d300bed8e5e6490eaab030b544f21179028eec174e2e90c",
+      "statusCode": 200,
+      "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/get_entry_page_list"
+    },
+    {
+      "body": {
+        "filters": [],
+        "menu_id": "4",
+        "page_num": 7,
+        "page_size": 30,
+        "use_es": true
+      },
+      "bytes": 18522,
+      "contentType": "application/json",
+      "etag": null,
+      "expected": {
+        "entityId": "11303",
+        "entryPageId": "1977",
+        "name": "Traveler's Handy Sword"
+      },
+      "method": "POST",
+      "rawPath": "aggregate/page-07.json",
+      "requestId": "aggregate-page-07",
+      "sha256": "df7c4a8febb74865d5afe677d2efd8c003cc73fcee26c8313453f2381360d34a",
+      "statusCode": 200,
+      "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/get_entry_page_list"
+    },
+    {
+      "body": null,
+      "bytes": 13290,
+      "contentType": "application/json",
+      "etag": null,
+      "expected": {
+        "entityId": "11301",
+        "entryPageId": "1938",
+        "name": "Cool Steel"
+      },
+      "method": "GET",
+      "rawPath": "entries/1938.json",
+      "requestId": "entry-1938",
+      "sha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93",
+      "statusCode": 200,
+      "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=1938&game_id=2"
+    },
+    {
+      "body": null,
+      "bytes": 13258,
+      "contentType": "application/json",
+      "etag": null,
+      "expected": {
+        "entityId": "11302",
+        "entryPageId": "2052",
+        "name": "Harbinger of Dawn"
+      },
+      "method": "GET",
+      "rawPath": "entries/2052.json",
+      "requestId": "entry-2052",
+      "sha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501",
+      "statusCode": 200,
+      "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=2052&game_id=2"
+    },
+    {
+      "body": null,
+      "bytes": 13724,
+      "contentType": "application/json",
+      "etag": null,
+      "expected": {
+        "entityId": "11303",
+        "entryPageId": "1977",
+        "name": "Traveler's Handy Sword"
+      },
+      "method": "GET",
+      "rawPath": "entries/1977.json",
+      "requestId": "entry-1977",
+      "sha256": "8d907ed55ff8d9a316426cea79e5c560a653566832de0c2d200ae0d068b2ad2f",
+      "statusCode": 200,
+      "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=1977&game_id=2"
+    }
+  ],
+  "schemaVersion": 1,
+  "sourceFamily": "official-hoyoverse",
+  "status": "complete"
+}

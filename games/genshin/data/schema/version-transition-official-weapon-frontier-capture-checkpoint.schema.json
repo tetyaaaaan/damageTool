@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-version-transition-official-weapon-frontier-capture-checkpoint.schema.json",
+  "title": "Genshin bounded official weapon frontier capture checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "generatedAt", "transitionId", "targetGameVersion", "sourceNamespace", "requestedEntityCount", "requestedEntityIds", "capturedEntityIds", "capturedAggregatePages", "status", "accessStatus", "nextTask", "gateEligibility", "fieldDigestAlgorithm", "fieldDigest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinVersionTransitionOfficialWeaponFrontierCaptureCheckpoint" },
+    "generatedAt": { "const": "2026-08-28T00:00:00.000Z" },
+    "transitionId": { "const": "genshin:6.7->7.0" },
+    "targetGameVersion": { "const": "7.0" },
+    "sourceNamespace": { "const": "hoyowiki-official-weapon-frontier-11301-11303" },
+    "requestedEntityCount": { "const": 3 },
+    "requestedEntityIds": { "const": ["11301", "11302", "11303"] },
+    "capturedEntityIds": { "type": "array", "uniqueItems": true, "items": { "enum": ["11301", "11302", "11303"] } },
+    "capturedAggregatePages": { "type": "array", "uniqueItems": true, "items": { "type": "integer", "enum": [5, 7, 8] } },
+    "status": { "enum": ["capturePending", "inProgress", "complete", "captureError"] },
+    "accessStatus": { "enum": ["notAttempted", "attempting", "capturedMutableOfficialEndpoint", "accessUnavailable"] },
+    "captures": { "type": "array", "items": { "type": "object" } },
+    "blocker": { "type": ["null", "object"] },
+    "materializedSnapshot": { "type": ["null", "object"] },
+    "nextTask": { "type": "string", "minLength": 1 },
+    "gateEligibility": { "type": "object", "required": ["status", "canIssueEligibilityCertificate", "canPromoteCanonical"], "properties": { "status": { "type": "string" }, "canIssueEligibilityCertificate": { "const": false }, "canPromoteCanonical": { "const": false } } },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

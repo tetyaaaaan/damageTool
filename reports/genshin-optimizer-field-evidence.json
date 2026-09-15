@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "audit": "genshin-optimizer-field-evidence-audit",
+  "status": "passed",
+  "generatedAt": "2026-08-16T00:00:00.000Z",
+  "input": {
+    "evidenceSha256": "11bec33fe7f22b83068991f7ab2e57370c3849d5469d3996abe807b29fe4927d",
+    "sourceRootProvided": false
+  },
+  "summary": {
+    "status": "passed",
+    "sourceRecords": 4,
+    "weaponSourceRecords": 2,
+    "artifactSourceRecords": 2,
+    "fieldRecords": 10,
+    "eligibleFields": 8,
+    "needsReviewFields": 2,
+    "supportsClaimValueFields": 8,
+    "canonicalEligibleFields": 0,
+    "canonicalEligibleCandidates": 0,
+    "gameVersionMissingSourceRecords": 4,
+    "providerIndependenceCounts": {
+      "correlated": 4
+    },
+    "independenceGroups": {
+      "GenshinData-derived": 4
+    },
+    "materializationByStatus": {
+      "notMaterialized": 4
+    },
+    "blockedReasonCounts": {
+      "externalSourceRootNotConfigured": 4,
+      "gameVersionMissing": 10,
+      "gameVersionNotExplicit": 4,
+      "independentReviewerRequired": 10,
+      "providerNotIndependent": 14
+    },
+    "fieldStatusCounts": {
+      "eligible": 8,
+      "needsReview": 2
+    },
+    "errors": 0,
+    "warnings": 0
+  },
+  "errors": [],
+  "warnings": [],
+  "methodology": {
+    "extraction": "Named TypeScript assignments/wrappers only; no arbitrary numeric-token matching.",
+    "independence": "GO gi-stats is datamine-derived and classified correlated; it cannot satisfy an independent-provider count.",
+    "gameVersion": "Repository revision and source SHA identify bytes only; no explicit Genshin gameVersion is asserted.",
+    "canonical": "Always false; this audit never changes v2 specs or runtime status."
+  }
+}

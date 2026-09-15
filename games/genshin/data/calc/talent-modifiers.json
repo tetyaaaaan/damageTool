@@ -114,10 +114,61 @@
             "applyTo": [
               "energyRecharge"
             ],
-            "value": 30.0,
+            "value": 30,
             "unit": "percent",
             "condition": "active",
             "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "lockedPassive",
+        "modifiers": [
+          {
+            "id": "t_10000020_lockedPassive_wolf_within_burst_atk",
+            "effectLabel": "魔女の課題：雷狼のダメージアップ",
+            "category": "scalingBonus",
+            "customCalculation": "scalingAdditiveBaseDamage",
+            "applyTo": [
+              "damage"
+            ],
+            "targetGroups": [
+              "burst"
+            ],
+            "reference": {
+              "stat": "atk",
+              "source": "self"
+            },
+            "ratio": 70,
+            "targetOwner": "self",
+            "unit": "percent",
+            "condition": "active",
+            "conditionOptionValue": "unlocked",
+            "conditionInput": {
+              "type": "option",
+              "default": "locked",
+              "label": "魔女の課題",
+              "help": "魔女の課題の解放状態を選択します。",
+              "options": [
+                {
+                  "value": "locked",
+                  "label": "魔女の課題：未解放"
+                },
+                {
+                  "value": "unlocked",
+                  "label": "魔女の課題：解放済み"
+                }
+              ]
+            },
+            "conditionGroupId": "witch-razor-wolf_within_burst_atk",
+            "conditionLabel": "魔女の課題解放後、雷狼のダメージに適用",
+            "calculationSupport": "custom",
+            "uidHandling": "conditional",
+            "verification": {
+              "status": "needsReview",
+              "sourceAgreement": "singleSource",
+              "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のRazor lockedPassiveと照合。独立したversion-bound provider agreementは未成立。"
+            }
           }
         ]
       }
@@ -170,6 +221,58 @@
             ],
             "condition": "active",
             "calculationSupport": "special"
+          }
+        ]
+      },
+      {
+        "sourceId": "lockedPassive",
+        "modifiers": [
+          {
+            "id": "t_10000022_lockedPassive_stormeye_swirl_damage",
+            "effectLabel": "魔導秘儀：暴風の目・拡散後のダメージアップ",
+            "category": "damageBonus",
+            "applyTo": [
+              "allDamageBonus"
+            ],
+            "valueByCondition": {
+              "locked": 0,
+              "unlocked": 0,
+              "active": 50
+            },
+            "duration": 4,
+            "targetOwner": "activeCharacter",
+            "unit": "percent",
+            "condition": "active",
+            "conditionOptionValue": "active",
+            "conditionInput": {
+              "type": "option",
+              "default": "locked",
+              "label": "魔女の課題／魔導秘儀",
+              "help": "課題の解放状態と、魔導秘儀中の発動条件を選択します。",
+              "options": [
+                {
+                  "value": "locked",
+                  "label": "魔女の課題：未解放"
+                },
+                {
+                  "value": "unlocked",
+                  "label": "解放済み（未発動／魔導秘儀なし）"
+                },
+                {
+                  "value": "active",
+                  "label": "解放済み＋魔導秘儀：暴風の目が存在し、フィールド上キャラクターが拡散または星拡散を起こした後（4秒）"
+                }
+              ]
+            },
+            "conditionGroupId": "witch-venti-stormeye_swirl_damage",
+            "conditionLabel": "暴風の目が存在し、フィールド上キャラクターが拡散または星拡散を起こした後（4秒）",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional",
+            "verification": {
+              "status": "needsReview",
+              "sourceAgreement": "singleSource",
+              "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のVenti lockedPassiveと照合。独立したversion-bound provider agreementは未成立。"
+            }
           }
         ]
       }
@@ -377,6 +480,87 @@
             "unit": "percent",
             "condition": "active",
             "calculationSupport": "toggle"
+          }
+        ]
+      }
+    ]
+  },
+  "10000031": {
+    "passives": [
+      {
+        "sourceId": "lockedPassive",
+        "modifiers": [
+          {
+            "id": "t_10000031_lockedPassive_overload_atk",
+            "effectLabel": "魔導秘儀：過負荷後の攻撃力アップ",
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "valueByCondition": {
+              "locked": 0,
+              "unlocked": 0,
+              "active": 22.5
+            },
+            "unit": "percent",
+            "condition": "active",
+            "conditionInput": {
+              "type": "option",
+              "label": "魔女の課題／魔導秘儀（過負荷）",
+              "help": "課題の解放状態と、オズがいる間に付近のチームキャラクターが過負荷を起こしたかを選択します。",
+              "options": [
+                { "value": "locked", "label": "魔女の課題：未解放" },
+                { "value": "unlocked", "label": "解放済み（未発動／魔導秘儀なし）" },
+                { "value": "active", "label": "解放済み＋魔導秘儀：過負荷後" }
+              ]
+            },
+            "conditionGroupId": "witch-fischl-overload",
+            "conditionLabel": "オズがフィールドにいる間、付近のチームキャラクターが過負荷反応を起こした後（10秒）",
+            "duration": 10,
+            "targetOwner": "activeCharacter",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional",
+            "verification": {
+              "status": "needsReview",
+              "sourceAgreement": "singleSource",
+              "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のFischl lockedPassive実装・生成係数と照合。独立したversion-bound provider agreementは未成立。"
+            }
+          },
+          {
+            "id": "t_10000031_lockedPassive_electrocharged_em",
+            "effectLabel": "魔導秘儀：感電／月感電後の元素熟知アップ",
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "valueByCondition": {
+              "locked": 0,
+              "unlocked": 0,
+              "active": 90
+            },
+            "unit": "flat",
+            "condition": "active",
+            "conditionInput": {
+              "type": "option",
+              "label": "魔女の課題／魔導秘儀（感電・月感電）",
+              "help": "課題の解放状態と、オズがいる間に付近のチームキャラクターが感電または月感電を起こしたかを選択します。",
+              "options": [
+                { "value": "locked", "label": "魔女の課題：未解放" },
+                { "value": "unlocked", "label": "解放済み（未発動／魔導秘儀なし）" },
+                { "value": "active", "label": "解放済み＋魔導秘儀：感電／月感電後" }
+              ]
+            },
+            "conditionGroupId": "witch-fischl-electrocharged",
+            "conditionLabel": "オズがフィールドにいる間、付近のチームキャラクターが感電反応または月感電反応を起こした後（10秒）",
+            "duration": 10,
+            "targetOwner": "activeCharacter",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional",
+            "verification": {
+              "status": "needsReview",
+              "sourceAgreement": "singleSource",
+              "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のFischl lockedPassive実装・生成係数と照合。独立したversion-bound provider agreementは未成立。"
+            }
           }
         ]
       }
@@ -708,8 +892,54 @@
             "value": 50.0,
             "unit": "flat",
             "condition": "active",
+            "conditionLabel": "スクロースが拡散反応または星拡散反応を起こした後（8秒）",
             "duration": 8.0,
             "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "lockedPassive",
+        "modifiers": [
+          {
+            "id": "t_10000043_lockedPassive_small_wind_spirit_damage",
+            "effectLabel": "魔導秘儀：小型風霊召喚後のダメージアップ",
+            "category": "damageBonus",
+            "applyTo": [
+              "normalAttackDamageBonus",
+              "chargedAttackDamageBonus",
+              "plungingAttackDamageBonus",
+              "skillDamageBonus",
+              "burstDamageBonus"
+            ],
+            "valueByCondition": {
+              "locked": 0,
+              "unlocked": 0,
+              "active": 5.71428
+            },
+            "unit": "percent",
+            "condition": "active",
+            "conditionInput": {
+              "type": "option",
+              "label": "魔女の課題／魔導秘儀（小型風霊）",
+              "help": "課題の解放状態と、魔導秘儀中に小型風霊を召喚したかを選択します。",
+              "options": [
+                { "value": "locked", "label": "魔女の課題：未解放" },
+                { "value": "unlocked", "label": "解放済み（未発動／魔導秘儀なし）" },
+                { "value": "active", "label": "解放済み＋魔導秘儀：小型風霊召喚後" }
+              ]
+            },
+            "conditionGroupId": "witch-sucrose-small-wind-spirit",
+            "conditionLabel": "魔導秘儀中、小型風霊を召喚した後（15秒）",
+            "duration": 15,
+            "targetOwner": "team",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional",
+            "verification": {
+              "status": "needsReview",
+              "sourceAgreement": "singleSource",
+              "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のSucrose lockedPassive実装・生成係数と照合。独立したversion-bound provider agreementは未成立。大型風霊の魔導キャラクター限定効果は対象フィルタ不足のため未実装。"
+            }
           }
         ]
       }
@@ -887,6 +1117,7 @@
             "ratio": 0.04,
             "unit": "percentPerPoint",
             "condition": "active",
+            "conditionLabel": "楓原万葉が拡散反応または星拡散反応を起こした後（8秒）",
             "duration": 8.0,
             "calculationSupport": "simple",
             "uidHandling": "conditional",
@@ -3488,40 +3719,7 @@
     "passives": [
       {
         "sourceId": "combat2",
-        "modifiers": [
-          {
-            "category": "damageBonus",
-            "applyTo": [
-              "allDamageBonus"
-            ],
-            "valueByLevel": {
-              "1": 0.18,
-              "2": 0.21,
-              "3": 0.24,
-              "4": 0.27,
-              "5": 0.3,
-              "6": 0.33,
-              "7": 0.36,
-              "8": 0.39,
-              "9": 0.42,
-              "10": 0.45,
-              "11": 0.48,
-              "12": 0.51,
-              "13": 0.54,
-              "14": 0.57,
-              "15": 0.6
-            },
-            "unit": "percent",
-            "condition": "active",
-            "calculationSupport": "toggle",
-            "valueSource": {
-              "type": "talentAttribute",
-              "section": "combat2",
-              "param": "param2",
-              "label": "元素熟知1ごとにアップする拡散反応ダメージ"
-            }
-          }
-        ]
+        "modifiers": []
       },
       {
         "sourceId": "passive2",
@@ -4854,6 +5052,68 @@
             "reference": {
               "stat": "atk",
               "source": "selfOrProvider"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "10000038": {
+    "passives": [
+      {
+        "sourceId": "lockedPassive",
+        "modifiers": [
+          {
+            "id": "t_10000038_lockedPassive_solar_isotoma_damage",
+            "effectLabel": "魔導秘儀：陽華創造後のダメージアップ",
+            "category": "scalingBonus",
+            "applyTo": [
+              "normalAttackDamageBonus",
+              "chargedAttackDamageBonus",
+              "plungingAttackDamageBonus",
+              "skillDamageBonus",
+              "burstDamageBonus"
+            ],
+            "reference": {
+              "stat": "def",
+              "source": "self"
+            },
+            "divisor": 1000,
+            "ratio": 4,
+            "maxValue": 12,
+            "duration": 20,
+            "targetOwner": "team",
+            "unit": "percent",
+            "condition": "active",
+            "conditionOptionValue": "active",
+            "conditionInput": {
+              "type": "option",
+              "default": "locked",
+              "label": "魔女の課題／魔導秘儀",
+              "help": "課題の解放状態と、魔導秘儀中の発動条件を選択します。",
+              "options": [
+                {
+                  "value": "locked",
+                  "label": "魔女の課題：未解放"
+                },
+                {
+                  "value": "unlocked",
+                  "label": "解放済み（未発動／魔導秘儀なし）"
+                },
+                {
+                  "value": "active",
+                  "label": "解放済み＋魔導秘儀：陽華を創造した後（20秒）"
+                }
+              ]
+            },
+            "conditionGroupId": "witch-albedo-solar_isotoma_damage",
+            "conditionLabel": "陽華を創造した後（20秒）",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional",
+            "verification": {
+              "status": "needsReview",
+              "sourceAgreement": "singleSource",
+              "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のAlbedo lockedPassiveと照合。独立したversion-bound provider agreementは未成立。"
             }
           }
         ]

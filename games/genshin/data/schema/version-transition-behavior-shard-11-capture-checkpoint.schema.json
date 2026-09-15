@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-version-transition-behavior-shard-11-capture-checkpoint.schema.json",
+  "title": "Genshin version transition behavior shard 11 capture checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "generatedAt", "transitionId", "shardId", "status", "authoritativeCandidateCount", "requestedEntityCount", "capturedEntityCount", "skippedOverlapEntityCount", "revisions", "materializedSnapshot", "nextTask", "gateEligibility", "overlapEvidence", "claim", "fieldDigestAlgorithm", "fieldDigest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinVersionTransitionBehaviorShardCaptureCheckpoint" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "transitionId": { "const": "genshin:6.7->7.0" },
+    "shardId": { "const": "behavior:behaviorSpec:semanticDecisionRequired:standard:11" },
+    "status": { "const": "complete" },
+    "authoritativeCandidateCount": { "const": 100 },
+    "requestedEntityCount": { "const": 9 },
+    "capturedEntityCount": { "const": 8 },
+    "skippedOverlapEntityCount": { "const": 1 },
+    "revisions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["before", "after"],
+      "properties": {
+        "before": { "$ref": "#/$defs/progress" },
+        "after": { "$ref": "#/$defs/progress" }
+      }
+    },
+    "materializedSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "fieldDigest", "entityCount", "recordCount", "changedRecordCount", "changedFieldCount"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "fieldDigest": { "$ref": "#/$defs/sha256" },
+        "entityCount": { "const": 8 },
+        "recordCount": { "const": 16 },
+        "changedRecordCount": { "type": "integer", "minimum": 0 },
+        "changedFieldCount": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "nextTask": { "type": "string", "minLength": 1 },
+    "gateEligibility": { "type": "object", "required": ["sourceFamilyCount", "canIssueEligibilityCertificate", "canPromoteCanonical"] },
+    "overlapEvidence": { "type": "array", "minItems": 1, "items": { "type": "object", "additionalProperties": false, "required": ["entityId", "previousShardId", "acquisitionPolicy"], "properties": { "entityId": { "const": "10000093" }, "previousShardId": { "const": "behavior:behaviorSpec:semanticDecisionRequired:standard:10" }, "acquisitionPolicy": { "const": "notReacquired" } } } },
+    "claim": { "type": "object", "required": ["queueShardId", "queuePath", "authoritativeCandidateIdsDigest", "authoritativeEntityIdsDigest", "requestedEntityIds", "capturedEntityIds", "skippedOverlapEntityIds", "materializedSnapshotPath", "materializedSnapshotFieldDigest", "sourceNamespace", "identityResolutionStatus", "sourceFamilyCount", "canIssueEligibilityCertificate", "canPromoteCanonical"] },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "progress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gameVersion", "revision", "status", "completedEntityIds", "completedArtifactCount"],
+      "properties": {
+        "gameVersion": { "enum": ["6.7", "7.0"] },
+        "revision": { "$ref": "#/$defs/revision" },
+        "status": { "const": "complete" },
+        "completedEntityIds": { "const": ["10000094", "10000095", "10000096", "10000097", "10000098", "10000099", "10000100", "10000101"] },
+        "completedArtifactCount": { "const": 16 }
+      }
+    }
+  }
+}

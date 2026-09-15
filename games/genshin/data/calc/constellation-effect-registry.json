@@ -20,12 +20,12 @@
   "summary": {
     "characters": 117,
     "constellationLevels": 702,
-    "effects": 744,
+    "effects": 746,
     "byVerificationStatus": {
       "mechanicOnly": 68,
-      "corroborated": 451,
-      "textVerified": 193,
-      "quarantined": 30,
+      "corroborated": 449,
+      "textVerified": 195,
+      "quarantined": 32,
       "sourceContextRequired": 2
     },
     "issues": 0
@@ -2458,7 +2458,7 @@
         },
         "6": {
           "nameJa": "北斗の祓い",
-          "effectText": "雷斫り継続中、周囲の敵の雷元素耐性-15%。",
+          "effectText": "雷斫り継続中、周囲の敵の雷元素耐性-15%。\n「魔女の啓示」を解放済みで輝映・星電導状態にある時、雷斫り継続中、近くの敵の氷元素耐性-15%、現在のフィールド上キャラクターの元素熟知+200。",
           "effects": [
             {
               "id": "c_10000024_6_1",
@@ -2482,6 +2482,66 @@
                 "externalNumericHints": [
                   "genshinOptimizer"
                 ]
+              }
+            },
+            {
+              "id": "c_10000024_6_lucid_cryo_res",
+              "category": "resistanceDebuff",
+              "targets": [
+                "cryoResistance"
+              ],
+              "condition": "active",
+              "unit": "percent",
+              "numericValues": [
+                {
+                  "field": "valueByCondition.locked",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.unlocked",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.active",
+                  "value": -15
+                }
+              ],
+              "requiresNumericValue": true,
+              "hasNumericContract": true,
+              "verificationStatus": "textVerified",
+              "evidence": {
+                "officialTextValueMatch": true,
+                "externalNumericHints": []
+              }
+            },
+            {
+              "id": "c_10000024_6_lucid_active_em",
+              "category": "statBonus",
+              "targets": [
+                "elementalMastery"
+              ],
+              "condition": "active",
+              "unit": "flat",
+              "numericValues": [
+                {
+                  "field": "valueByCondition.locked",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.unlocked",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.active",
+                  "value": 200
+                }
+              ],
+              "requiresNumericValue": true,
+              "hasNumericContract": true,
+              "verificationStatus": "textVerified",
+              "evidence": {
+                "officialTextValueMatch": true,
+                "externalNumericHints": []
               }
             }
           ],
@@ -7411,7 +7471,7 @@
         },
         "4": {
           "nameJa": "新しいサボる方法",
-          "effectText": "早柚がフィールド上で拡散反応を起こした時、元素エネルギーを1.2ポイント回復する。\nこの効果は2秒毎に1回のみ発動可能。",
+          "effectText": "早柚がフィールド上で拡散反応または星拡散反応を起こした時、元素エネルギーを1.2ポイント回復する。\nこの効果は2秒毎に1回のみ発動可能。",
           "effects": [],
           "classification": "noRegisteredCalculationEffect"
         },
@@ -13255,7 +13315,7 @@
               "targets": [
                 "atkPercent"
               ],
-              "condition": "constellationUnlocked",
+              "condition": "afterReaction",
               "unit": "percent",
               "numericValues": [
                 {
@@ -13290,7 +13350,7 @@
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "corroborated",
+              "verificationStatus": "quarantined",
               "evidence": {
                 "officialTextValueMatch": true,
                 "externalNumericHints": [
@@ -13344,7 +13404,7 @@
               "targets": [
                 "critDamage"
               ],
-              "condition": "constellationUnlocked",
+              "condition": "afterReaction",
               "unit": "percent",
               "numericValues": [
                 {
@@ -13379,7 +13439,7 @@
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "corroborated",
+              "verificationStatus": "quarantined",
               "evidence": {
                 "officialTextValueMatch": true,
                 "externalNumericHints": [
@@ -18442,7 +18502,7 @@
       "constellations": {
         "1": {
           "nameJa": "瑞枝さす",
-          "effectText": "夢見月瑞希が夢浮かみ状態にある時、3.5秒毎に近くの敵に3秒継続する「二十三夜待ち」効果を与える。二十三夜待ち効果の影響を受けている敵が風元素ダメージを受け、拡散反応を起こした時、該当効果は解除され、その拡散反応によるダメージを夢見月瑞希の元素熟知の1100%分アップする。",
+          "effectText": "夢見月瑞希が夢浮かみ状態にある時、3.5秒毎に近くの敵に3秒継続する「二十三夜待ち」効果を与える。二十三夜待ち効果の影響を受けている敵が風元素ダメージによって拡散反応または星拡散反応を起こした時、該当効果は解除され、その敵に対する今回の拡散反応または星拡散反応のダメージを、それぞれ夢見月瑞希の元素熟知の1100%分または550%分アップする。",
           "effects": [
             {
               "id": "c_10000109_1_1",
@@ -18592,7 +18652,7 @@
         },
         "6": {
           "nameJa": "煙る月",
-          "effectText": "夢見月瑞希が夢浮かみ状態にある時、付近にいるチーム内キャラクターの与える拡散反応ダメージに会心が発生する。なお会心率は30%、会心ダメージは100%に固定される。",
+          "effectText": "夢見月瑞希が夢浮かみ状態にある時、付近にいるチーム内キャラクターの与える拡散反応ダメージに会心が発生する。なお会心率は30%、会心ダメージは100%に固定される。また、これらのキャラクターが与える星拡散反応ダメージの会心率+10%、会心ダメージ+20%。",
           "effects": [
             {
               "id": "c_10000109_6_1_resolved_1",
@@ -23961,7 +24021,7 @@
       "constellations": {
         "1": {
           "nameJa": "まばゆき黄金は 遠き日の夕暮れ",
-          "effectText": "**演算**モード中、ファジオの**演算負荷**の上昇速度が50%低下し、チーム内の全キャラクターの与える星電導反応のダメージ+30%。",
+          "effectText": "**演算**モード中、ファジオの**演算負荷**の上昇速度が50%低下し、チーム内の全キャラクターの与える星輝反応ダメージ+30%。",
           "effects": [
             {
               "id": "c_10000133_1_1",
@@ -26041,6 +26101,70 @@
         "externalNumericHints": [
           "genshinOptimizer"
         ]
+      }
+    },
+    "c_10000024_6_lucid_cryo_res": {
+      "characterId": "10000024",
+      "constellation": 6,
+      "id": "c_10000024_6_lucid_cryo_res",
+      "category": "resistanceDebuff",
+      "targets": [
+        "cryoResistance"
+      ],
+      "condition": "active",
+      "unit": "percent",
+      "numericValues": [
+        {
+          "field": "valueByCondition.locked",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.unlocked",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.active",
+          "value": -15
+        }
+      ],
+      "requiresNumericValue": true,
+      "hasNumericContract": true,
+      "verificationStatus": "textVerified",
+      "evidence": {
+        "officialTextValueMatch": true,
+        "externalNumericHints": []
+      }
+    },
+    "c_10000024_6_lucid_active_em": {
+      "characterId": "10000024",
+      "constellation": 6,
+      "id": "c_10000024_6_lucid_active_em",
+      "category": "statBonus",
+      "targets": [
+        "elementalMastery"
+      ],
+      "condition": "active",
+      "unit": "flat",
+      "numericValues": [
+        {
+          "field": "valueByCondition.locked",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.unlocked",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.active",
+          "value": 200
+        }
+      ],
+      "requiresNumericValue": true,
+      "hasNumericContract": true,
+      "verificationStatus": "textVerified",
+      "evidence": {
+        "officialTextValueMatch": true,
+        "externalNumericHints": []
       }
     },
     "c_10000025_2_1": {
@@ -34117,7 +34241,7 @@
       "targets": [
         "atkPercent"
       ],
-      "condition": "constellationUnlocked",
+      "condition": "afterReaction",
       "unit": "percent",
       "numericValues": [
         {
@@ -34154,7 +34278,7 @@
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "corroborated",
+      "verificationStatus": "quarantined",
       "evidence": {
         "officialTextValueMatch": true,
         "externalNumericHints": [
@@ -34198,7 +34322,7 @@
       "targets": [
         "critDamage"
       ],
-      "condition": "constellationUnlocked",
+      "condition": "afterReaction",
       "unit": "percent",
       "numericValues": [
         {
@@ -34235,7 +34359,7 @@
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "corroborated",
+      "verificationStatus": "quarantined",
       "evidence": {
         "officialTextValueMatch": true,
         "externalNumericHints": [

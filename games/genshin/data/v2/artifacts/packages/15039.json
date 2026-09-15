@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "artifactSet",
+    "id": "15039"
+  },
+  "sourceRefs": [
+    "artifact:15039:catalog",
+    "artifact:15039:effects"
+  ],
+  "pieceSlots": {
+    "onePiece": {
+      "pieceCount": 1,
+      "sourceRefs": [
+        "artifact:15039:effect:onePiece"
+      ],
+      "modifierIds": [],
+      "specIds": []
+    },
+    "twoPiece": {
+      "pieceCount": 2,
+      "sourceRefs": [
+        "artifact:15039:effect:twoPiece"
+      ],
+      "modifierIds": [
+        "artifact:15039:twoPiece:2pc_plunging_damage_bonus"
+      ],
+      "specIds": [
+        "artifact:15039:twoPiece:2pc_plunging_damage_bonus"
+      ]
+    },
+    "fourPiece": {
+      "pieceCount": 4,
+      "sourceRefs": [
+        "artifact:15039:effect:fourPiece"
+      ],
+      "modifierIds": [
+        "artifact:15039:fourPiece:4pc_plunging_damage_stack"
+      ],
+      "specIds": [
+        "artifact:15039:fourPiece:4pc_plunging_damage_stack"
+      ]
+    }
+  },
+  "modifierIds": [
+    "artifact:15039:twoPiece:2pc_plunging_damage_bonus",
+    "artifact:15039:fourPiece:4pc_plunging_damage_stack"
+  ],
+  "specIds": [
+    "artifact:15039:twoPiece:2pc_plunging_damage_bonus",
+    "artifact:15039:fourPiece:4pc_plunging_damage_stack"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Artifact package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "gapReview": null,
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:artifactSet:15039:twoPiece:2pc_plunging_damage_bonus",
+      "genshin:v2:artifactSet:15039:fourPiece:4pc_plunging_damage_stack"
+    ],
+    "generator": "genshinArtifactV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

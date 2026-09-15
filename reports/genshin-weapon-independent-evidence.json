@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "audit": "genshin-weapon-independent-evidence-audit",
+  "status": "passed",
+  "generatedAt": "2026-08-23T00:00:00Z",
+  "input": {
+    "evidenceGenerator": "genshinWeaponIndependentEvidenceGenerate/1",
+    "evidenceGeneratedAt": "2026-08-23T00:00:00Z"
+  },
+  "summary": {
+    "records": 9,
+    "expectedRecords": 9,
+    "fieldComparisons": 145,
+    "officialGameVersionLinkedRecords": 9,
+    "independentGameVersionMissingRecords": 9,
+    "independentProviderPairs": 9,
+    "sameDataminePairs": 0,
+    "sourceAgreementFullMatches": 0,
+    "sourceAgreementPartialMatches": 16,
+    "sourceAgreementMismatches": 0,
+    "sourceAgreementNotComparable": 129,
+    "specAgreementMatches": 121,
+    "specAgreementMismatches": 24,
+    "humanJudgmentRequiredNow": 0,
+    "machineFollowUpOnly": 145,
+    "canonicalEligible": 0,
+    "verificationStatuses": {
+      "needsReview": 145
+    },
+    "blocked": true,
+    "errors": 0,
+    "warnings": 0
+  },
+  "errors": [],
+  "warnings": [],
+  "methodology": {
+    "gameVersion": "Official source versions are explicit bindings; gcsim commit/file SHA is not treated as a gameVersion.",
+    "independence": "HoYoLAB official primary and gcsim implementation are distinct providers/groups. GenshinData-derived and third-party guide/repost lineages are excluded.",
+    "comparison": "Official claims are compared to gcsim field values with rank-aware partial matching; absent official values remain notComparable.",
+    "humanReview": "All human judgment is deferred while the independent gcsim gameVersion binding is missing; semantic/value conflicts remain in deferredHumanReasons and machineFollowUpOnly covers the fail-closed gate.",
+    "canonical": "Every comparison remains needsReview and canonicalEligibility=false; this audit never promotes runtime data."
+  }
+}

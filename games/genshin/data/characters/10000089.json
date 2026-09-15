@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 2,
+  "characterId": "10000089",
+  "status": "pilot",
+  "layers": {
+    "raw": [
+      { "dataset": "characters", "pointer": "/10000089", "role": "identity" },
+      { "dataset": "characterTalents", "pointer": "/10000089", "role": "sourceText" },
+      { "dataset": "characterConstellations", "pointer": "/10000089", "role": "sourceText" }
+    ],
+    "spec": [
+      { "dataset": "talentScalings", "pointer": "/10000089", "role": "attacks" },
+      { "dataset": "behaviorPilot", "pointer": "/byCharacter/10000089", "role": "behaviorCandidates" },
+      { "dataset": "characterCoverage", "pointer": "/characters/10000089", "role": "coverageAudit" }
+    ],
+    "runtime": [
+      { "dataset": "talentModifiers", "pointer": "/10000089", "role": "modifiers" },
+      { "dataset": "constellationModifiers", "pointer": "/10000089", "role": "modifiers" }
+    ]
+  },
+  "capabilities": ["offFieldAttack", "summon", "partyResource", "stack", "hpChange", "intervalModifier"],
+  "verification": { "status": "needsReview", "notes": "Pilot reference package for party state, stacks and interval modifiers." }
+}

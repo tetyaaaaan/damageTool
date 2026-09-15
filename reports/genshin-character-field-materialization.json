@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 1,
+    "status": "passed",
+    "pilotCharacters": 8,
+    "talentGapCharacters": 25,
+    "characters": 31,
+    "candidates": 129,
+    "externalSources": 78,
+    "materializedSources": 74,
+    "pathVerifiedSources": 74,
+    "files": 297,
+    "declarations": 4219,
+    "fieldEvidence": 258,
+    "namedSymbolEvidence": 25,
+    "gameVersionVerified": 0,
+    "canonical": 0,
+    "verificationByStatus": {
+      "needsReview": 258
+    },
+    "runtimeByStatus": {
+      "blocked": 258
+    },
+    "blockedReasonCounts": {
+      "checkoutRevisionMismatchSourceCatalog": 168,
+      "externalLocatorMissing": 14,
+      "externalLocatorOutsideConfiguredRoot": 14,
+      "gameVersionNotExplicit": 258,
+      "independentReviewerRequired": 258,
+      "namedDeclarationValueExtractionNotImplemented": 258,
+      "namedSymbolNotFound": 223,
+      "sourceCatalogProjectMissing": 168,
+      "sourceCatalogRevisionMismatch": 168
+    },
+    "contract": {
+      "malformedSources": 0,
+      "malformedFields": 0,
+      "missingReferences": 0,
+      "policyViolations": 0,
+      "gameVersionViolations": 0,
+      "canonicalViolations": 0,
+      "absolutePathViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true,
+    "reproducibilityCheck": "performed"
+  },
+  "errors": [],
+  "warnings": [],
+  "malformedSources": [],
+  "malformedFields": [],
+  "missingReferences": [],
+  "policyViolations": [],
+  "gameVersionViolations": [],
+  "canonicalViolations": [],
+  "absolutePathViolations": [],
+  "generatedFromDisk": true
+}

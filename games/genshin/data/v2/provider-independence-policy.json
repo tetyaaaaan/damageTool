@@ -1,0 +1,356 @@
+{
+  "schemaVersion": 2,
+  "kind": "genshinProviderIndependencePolicy",
+  "policyVersion": "2026-08-24",
+  "statusEnum": [
+    "reusable",
+    "candidateApprovedOnly",
+    "evidenceOnlyBlocked",
+    "forbiddenCorrelated",
+    "unknown",
+    "searchExhausted"
+  ],
+  "principles": {
+    "scope": "dataset × provider pair",
+    "strictGate": [
+      "distinct provider names and independence groups",
+      "source-owned upstream-lineage evidence",
+      "immutable revision and file digest",
+      "explicit gameVersion metadata bound to the exact revision and field digest",
+      "field-level comparable claims for every Runtime field",
+      "no unresolved discrepancy, scope, condition, schema, or semantic gap",
+      "approved batch-review scope with invalidation conditions"
+    ],
+    "fieldEvidence": "Pair approval establishes only the recorded scope. Every candidate and required Runtime field still needs qualifying field evidence.",
+    "revisionIsNotGameVersion": "A revision, digest, repository tag, package semver, or capture date cannot substitute for explicit Genshin gameVersion evidence.",
+    "candidateApprovalReuse": "forbidden unless the recorded scope explicitly says reusable",
+    "claimScopedVersionTriangulation": "proposalOnly; not current policy and requires a user-approved contract change",
+    "invalidation": "Re-audit when upstream lineage, extraction path, revision scheme, release metadata, or gameVersion binding changes.",
+    "aiSelfApproval": "forbidden"
+  },
+  "automationBoundary": {
+    "machineCanComplete": [
+      "revision and file SHA verification",
+      "explicit gameVersion binding validation",
+      "provider and independence-group distinctness lookup",
+      "field coverage and value comparison",
+      "exact source pin and stale/invalidation detection",
+      "finite-frontier closure when searchExhausted metadata is complete"
+    ],
+    "sourceOrProviderWait": [
+      "immutable version manifest",
+      "upstream lineage disclosure",
+      "complete field-level source coverage",
+      "new provider release or attestation"
+    ],
+    "humanWait": [
+      "semanticDecisionRequired",
+      "candidate or batch scope approval"
+    ],
+    "consumerWait": [
+      "schemaGap",
+      "unsupported",
+      "inputMissing after provider evidence is complete",
+      "missing Runtime or UI consumer"
+    ]
+  },
+  "searchExhaustionPolicy": {
+    "requiredFields": ["searchScope", "lastSearchedAt", "providersExamined", "reopenTrigger"],
+    "meaning": "A finite documented source frontier was examined and no qualifying pair was found; this never means unstarted.",
+    "defaultReopenTrigger": "Reopen only for a new immutable provider manifest with explicit Genshin version and exact revision/digest, newly disclosed independent lineage, complete field-level coverage, or a user-approved contract change."
+  },
+  "policies": [
+    {
+      "id": "weapons:hoyowiki+genshin-db",
+      "dataset": "weapons",
+      "providerA": "HoYoverse HoYoWiki",
+      "providerB": "theBowja/genshin-db",
+      "independenceGroupA": "official-hoyoverse",
+      "independenceGroupB": "GenshinData-derived",
+      "status": "candidateApprovedOnly",
+      "blockReasons": [],
+      "upstreamLineage": {
+        "providerA": "first-party HoYoverse publication",
+        "providerB": "community GenshinData-derived structured dataset",
+        "relationship": "separate publication and revision systems"
+      },
+      "revisionAndRelease": {
+        "providerA": "immutable entry/update locator required per record",
+        "providerB": "exact Git revision and entity digest"
+      },
+      "gameVersionBinding": {
+        "providerA": "explicit version-scoped official entry or update metadata required per record",
+        "providerB": "provider package manifest bound to the exact revision and entity digest"
+      },
+      "appliesTo": "w_12516_stat_1 only; all reuse is forbidden",
+      "scope": ["w_12516_stat_1"],
+      "evidenceRefs": [
+        "games/genshin/data/v2/reviews/weapon-12516-stat.json",
+        "reports/genshin-representative-e2e-blocker-audit.md"
+      ],
+      "invalidationConditions": [
+        "genshin-db upstream lineage changes",
+        "HoYoWiki record is not version scoped",
+        "either source cannot be bound to the candidate field bytes"
+      ],
+      "searchScope": "candidate-scoped representative review",
+      "lastSearchedAt": "2026-08-24",
+      "providersExamined": ["HoYoverse HoYoWiki", "theBowja/genshin-db"],
+      "reopenTrigger": "A new candidate requires its own strict field record, version binding, comparison, and review scope."
+    },
+    {
+      "id": "weapons:hoyolab+gcsim",
+      "dataset": "weapons",
+      "providerA": "HoYoLAB official notices",
+      "providerB": "genshinsim/gcsim",
+      "independenceGroupA": "official-hoyoverse",
+      "independenceGroupB": "gcsim-implementation",
+      "status": "evidenceOnlyBlocked",
+      "blockReasons": ["gameVersionUnbound"],
+      "upstreamLineage": {
+        "providerA": "first-party HoYoverse publication",
+        "providerB": "independent simulator implementation",
+        "relationship": "distinct lineages"
+      },
+      "revisionAndRelease": {
+        "providerA": "version-scoped official notices",
+        "providerB": "release v2.44.2 and exact revision 3647a07 with implementation-file digests"
+      },
+      "gameVersionBinding": "gcsim release identifies the revision but does not bind it to a Genshin gameVersion.",
+      "appliesTo": "nine pinned weapon candidates and 145 field comparisons as evidence only",
+      "scope": ["nine pinned weapon candidates", "145 field comparisons"],
+      "evidenceRefs": [
+        "reports/genshin-weapon-independent-evidence.md",
+        "reports/genshin-weapon-gcsim-evidence.md",
+        "reports/genshin-game-version-evidence.md"
+      ],
+      "invalidationConditions": [
+        "source revision, path, SHA, release metadata, official version, or field content changes",
+        "a semantic mismatch appears"
+      ],
+      "searchScope": "release, commit, workflow, issue, discussion, deployment, and indexed provider surfaces for the pinned gcsim revision",
+      "lastSearchedAt": "2026-08-23",
+      "providersExamined": ["HoYoLAB", "genshinsim/gcsim"],
+      "reopenTrigger": "An immutable gcsim provider manifest or release artifact explicitly binds the exact revision and digest to Genshin 6.7."
+    },
+    {
+      "id": "weapons:gcsim+genshin-db",
+      "dataset": "weapons",
+      "providerA": "genshinsim/gcsim",
+      "providerB": "theBowja/genshin-db",
+      "independenceGroupA": "gcsim-implementation",
+      "independenceGroupB": "GenshinData-derived",
+      "status": "evidenceOnlyBlocked",
+      "blockReasons": ["gameVersionUnbound", "sourceMissing"],
+      "upstreamLineage": {
+        "providerA": "independent simulator implementation",
+        "providerB": "GenshinData-derived structured dataset",
+        "relationship": "separate implementation and dataset pipelines"
+      },
+      "revisionAndRelease": {
+        "providerA": "exact Git revision and implementation file digest",
+        "providerB": "exact Git revision and entity digest"
+      },
+      "gameVersionBinding": {
+        "providerA": "unavailable for the pinned revision",
+        "providerB": "strictly bound to 6.7"
+      },
+      "appliesTo": "the nine pinned weapon entities only; exact gcsim field-level records are still missing",
+      "scope": ["nine pinned weapon entities"],
+      "evidenceRefs": [
+        "games/genshin/data/v2/source-catalog.json",
+        "reports/genshin-game-version-evidence.json"
+      ],
+      "invalidationConditions": [
+        "gcsim generation lineage changes",
+        "a new exact-revision gameVersion attestation appears"
+      ],
+      "searchScope": "nine existing gcsim weapon pins",
+      "lastSearchedAt": "2026-08-23",
+      "providersExamined": ["genshinsim/gcsim", "theBowja/genshin-db"],
+      "reopenTrigger": "Materialize exact field-level gcsim claims and obtain explicit exact-revision Genshin version evidence."
+    },
+    {
+      "id": "weapons-artifacts:optimizer+genshin-db",
+      "dataset": "weaponsAndArtifacts",
+      "providerA": "Genshin Optimizer",
+      "providerB": "theBowja/genshin-db",
+      "independenceGroupA": "GenshinData-derived",
+      "independenceGroupB": "GenshinData-derived",
+      "status": "forbiddenCorrelated",
+      "blockReasons": ["providerIndependenceCorrelated", "gameVersionUnbound"],
+      "upstreamLineage": {
+        "providerA": "GenshinData-derived in the inspected evidence",
+        "providerB": "GenshinData-derived",
+        "relationship": "shared upstream evidence group"
+      },
+      "revisionAndRelease": {
+        "providerA": "inspected records are not gameVersion bound",
+        "providerB": "exact Git revision"
+      },
+      "gameVersionBinding": {
+        "providerA": "missing",
+        "providerB": "strictly bound to 6.7"
+      },
+      "appliesTo": "none for independent dual-source promotion",
+      "scope": [],
+      "evidenceRefs": [
+        "reports/genshin-optimizer-field-evidence.json"
+      ],
+      "invalidationConditions": [
+        "Optimizer publishes a demonstrably independent upstream and strict version binding"
+      ],
+      "searchScope": "four materialized Optimizer records and their documented upstream",
+      "lastSearchedAt": "2026-08-23",
+      "providersExamined": ["Genshin Optimizer", "theBowja/genshin-db"],
+      "reopenTrigger": "Optimizer publishes demonstrably independent source lineage plus strict version-bound materialized field records."
+    },
+    {
+      "id": "characters:gachabase+genshin-db",
+      "dataset": "charactersAndBehavior",
+      "providerA": "Gachabase",
+      "providerB": "theBowja/genshin-db",
+      "independenceGroupA": "gachabase-versioned-snapshots",
+      "independenceGroupB": "GenshinData-derived",
+      "status": "candidateApprovedOnly",
+      "blockReasons": [],
+      "upstreamLineage": {
+        "providerA": "versioned field snapshots and diff graph; complete extraction-stage upstream is not publicly documented in retained evidence",
+        "providerB": "GenshinData-derived structured dataset",
+        "relationship": "not proven reusable outside the reviewed Xiao record"
+      },
+      "revisionAndRelease": {
+        "providerA": "release snapshot and version delta locator",
+        "providerB": "exact Git revision and entity digest"
+      },
+      "gameVersionBinding": {
+        "providerA": "strict 6.7 binding established for the Xiao representative only",
+        "providerB": "strictly bound to 6.7"
+      },
+      "appliesTo": "Xiao C1 reviewed representative only; no dataset-wide reuse",
+      "scope": ["behavior:xiao:c1:charges"],
+      "evidenceRefs": [
+        "games/genshin/data/v2/reviews/behavior-xiao-c1-charges.json"
+      ],
+      "invalidationConditions": [
+        "Gachabase publishes auditable upstream lineage",
+        "release or extraction scheme changes"
+      ],
+      "searchScope": "candidate-scoped representative review",
+      "lastSearchedAt": "2026-08-24",
+      "providersExamined": ["Gachabase", "theBowja/genshin-db"],
+      "reopenTrigger": "Outside Xiao, require fresh field review and source-owned Gachabase lineage evidence."
+    },
+    {
+      "id": "artifacts:kqm-tcl+genshin-db",
+      "dataset": "artifacts",
+      "providerA": "KQM Theorycrafting Library",
+      "providerB": "theBowja/genshin-db",
+      "independenceGroupA": "kqm-community-theorycrafting",
+      "independenceGroupB": "GenshinData-derived",
+      "status": "evidenceOnlyBlocked",
+      "blockReasons": ["gameVersionUnbound"],
+      "upstreamLineage": {
+        "providerA": "community submissions reviewed by KQM theorycrafting editors",
+        "providerB": "GenshinData-derived structured dataset",
+        "relationship": "separate editorial and structured-dataset pipelines"
+      },
+      "revisionAndRelease": {
+        "providerA": "Git revision 3d6f2fbcfdc5be69e279b732b17f2dea2be9f597; artifacts.json blob a89e0819ba8438815568febdf5967d7f234c0aa8; SHA-256 5cbc835f48bb6b81b33d07e379de9980aa9619855754a8c5417d387e6b81164d",
+        "providerB": "Git revision 8b15995fa220c88a4d0d7ffe1e21b041d0b32588; package manifest bound to 7.0; provider-B artifact entity files remain unmaterialized in this evidence batch"
+      },
+      "gameVersionBinding": {
+        "providerA": "commit message says 7.0 data, but no provider-authored manifest or release artifact binds the artifact blob, raw digest, and normalized field digest to 7.0",
+        "providerB": "strictly bound to 7.0"
+      },
+      "appliesTo": "50 artifact two-piece stat/value comparisons as evidence only",
+      "scope": ["50 artifact two-piece EffectSpec candidates"],
+      "evidenceRefs": ["games/genshin/data/v2/external/kqm-artifact-field-evidence.json", "reports/genshin-kqm-artifact-evidence.md"],
+      "invalidationConditions": ["KQM revision or file digest changes", "KQM lineage disclosure changes", "a field comparison differs"],
+      "searchScope": "KQM TCL artifact dataset through commit 3d6f2fbcfdc5be69e279b732b17f2dea2be9f597, immutable revision history, KQM GINews 7.0 archive, GameVika, and comparison of the existing 50 two-piece candidates against the pinned genshin-db 7.0 manifest",
+      "lastSearchedAt": "2026-08-26",
+      "providersExamined": ["KQM Theorycrafting Library", "KQM GINews", "GameVika", "theBowja/genshin-db"],
+      "searchStatus": "searchExhausted",
+      "negativeResult": "All 50 existing two-piece descriptions remain byte-equivalent at the KQM 7.0-data commit, but no provider-authored artifact binds that commit, blob, raw digest, and normalized 50-field digest to Genshin 7.0; no qualifying immutable independent replacement was found in this bounded scope.",
+      "candidateCount": 50,
+      "candidateIdDigest": "dae6ced902b8209247ddff14104af11cc69b0dfb4dbee69f263d6f6ce3491ee7",
+      "evidenceFileSha256": "d6ce7aae19e296eebc8fdc2652a8f3553917796e0ffb701db1b2bf55c560ac19",
+      "reopenTrigger": "KQM publishes a provider-authored manifest or release artifact that explicitly binds the pinned revision, artifact raw digest, and normalized field digest to Genshin 7.0, or a newly independent version-bound provider supplies the same 50 candidate fields."
+    },
+    {
+      "id": "weapons:teyvatguide+genshin-db",
+      "dataset": "weapons",
+      "providerA": "BTMuli/TeyvatGuide",
+      "providerB": "theBowja/genshin-db",
+      "independenceGroupA": "teyvatguide-upstream-undisclosed",
+      "independenceGroupB": "GenshinData-derived",
+      "status": "evidenceOnlyBlocked",
+      "blockReasons": ["providerIndependenceUnknown"],
+      "upstreamLineage": {
+        "providerA": "processed JSON; TGAssistant/Snap.Metadata route is suggested but source-owned extraction lineage is incomplete",
+        "providerB": "GenshinData-derived structured dataset",
+        "relationship": "independence cannot be established from retained provider disclosures"
+      },
+      "revisionAndRelease": {
+        "providerA": "v0.11.0-beta, commit 89646817a7e9e8d14477558d4e5f70197be42204",
+        "providerB": "Git revision 1bab2cdba4d218fd5caa46b5f54e7884ee8359a2"
+      },
+      "gameVersionBinding": {
+        "providerA": "release notes explicitly identify the 6.7 resource update",
+        "providerB": "strictly bound to 6.7"
+      },
+      "appliesTo": "weapon 12516 reaction fields as correlated/unknown-lineage evidence only",
+      "scope": ["w_12516_reaction_bonus_2"],
+      "evidenceRefs": ["games/genshin/data/v2/review-pilots/weapon-12516-reaction.json"],
+      "invalidationConditions": ["TeyvatGuide revision/file/release changes", "upstream lineage disclosure changes", "field values or wording change"],
+      "searchScope": "TeyvatGuide release, weapon dataset, resource documentation, and exact weapon 12516 fields",
+      "lastSearchedAt": "2026-08-24",
+      "providersExamined": ["BTMuli/TeyvatGuide", "theBowja/genshin-db"],
+      "reopenTrigger": "TeyvatGuide publishes source-owned upstream lineage sufficient to prove independence from GenshinData-derived providers."
+    },
+    {
+      "id": "global:strict-independent-source-frontier",
+      "dataset": "weaponsArtifactsCharactersBehavior",
+      "providerA": "current primary and community provider frontier",
+      "providerB": "strict DataContract",
+      "independenceGroupA": "multiple",
+      "independenceGroupB": "contract-gate",
+      "status": "unknown",
+      "blockReasons": ["sourceMissing", "gameVersionUnbound", "providerIndependenceUnknown"],
+      "upstreamLineage": {
+        "providerA": "provider-specific; retained in the game-version-evidence substitution assessment",
+        "providerB": "repository verification policy",
+        "relationship": "no inspected alternative supplies complete, strict-version-bound, independent field values at dataset scale"
+      },
+      "revisionAndRelease": "See the retained substitution assessment and individual evidence artifacts.",
+      "gameVersionBinding": "Partial only; no dataset-wide reusable pair is strictly bound for every candidate field.",
+      "appliesTo": "historical provider substitution assessment only; it is not candidate- or claim-scoped search exhaustion",
+      "scope": [],
+      "evidenceRefs": [
+        "games/genshin/data/v2/game-version-evidence.json",
+        "reports/genshin-game-version-evidence.md"
+      ],
+      "invalidationConditions": ["a candidate-, dataset-, and claim-scoped frontier record replaces this historical assessment"],
+      "searchScope": "HoYoLAB/HoYoWiki, gcsim, KQM TCL, GameVika, TeyvatGuide, Genshin Optimizer, Dimbreath/AnimeGameData, Enka, genshin.dev, Honey Hunter, Snap Hutao, Irminsul, Genshin Wiki/MediaWiki, gridhead/gi-loadouts, and hazarsozer/genshin-calculator",
+      "lastSearchedAt": "2026-08-24",
+      "providersExamined": [
+        "HoYoLAB/HoYoWiki",
+        "gcsim",
+        "KQM",
+        "GameVika",
+        "BTMuli/TeyvatGuide",
+        "Genshin Optimizer",
+        "Dimbreath/AnimeGameData",
+        "Enka",
+        "genshin.dev",
+        "Honey Hunter",
+        "Snap Hutao",
+        "Irminsul",
+        "Genshin Wiki/MediaWiki",
+        "gridhead/gi-loadouts",
+        "hazarsozer/genshin-calculator"
+      ],
+      "reopenTrigger": "A new immutable provider manifest with explicit Genshin version and exact revision/digest, newly disclosed independent lineage, complete field-level coverage, or a user-approved contract change."
+    }
+  ]
+}

@@ -192,7 +192,11 @@ function auditExpression(width, theme) {
         const resolved = path.resolve(profile);
         const tempRoot = `${path.resolve(os.tmpdir())}${path.sep}`;
         assert.ok(resolved.startsWith(tempRoot) && path.basename(resolved).startsWith("genshin-responsive-e2e-"));
-        fs.rmSync(resolved, { recursive: true, force: true, maxRetries: 4, retryDelay: 150 });
+        try {
+            fs.rmSync(resolved, { recursive: true, force: true, maxRetries: 4, retryDelay: 150 });
+        } catch (cleanupError) {
+            process.stderr.write(`temporary browser profile cleanup skipped: ${cleanupError.code || cleanupError.message}\n`);
+        }
     }
 })().catch((error) => {
     process.stderr.write(`${error.stack || error.message}\n`);

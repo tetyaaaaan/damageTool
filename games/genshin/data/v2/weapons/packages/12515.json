@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "weapon",
+    "id": "12515"
+  },
+  "sourceRefs": [
+    "weapon:12515:catalog",
+    "weapon:12515:effect"
+  ],
+  "modifierIds": [
+    "w_12515_four_winds_damage_per_stack_v10",
+    "w_12515_magic_secret_crit_damage_per_stack_v10"
+  ],
+  "specIds": [
+    "w_12515_four_winds_damage_per_stack_v10",
+    "w_12515_magic_secret_crit_damage_per_stack_v10"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Weapon package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:weapon:12515:w_12515_four_winds_damage_per_stack_v10",
+      "genshin:v2:weapon:12515:w_12515_magic_secret_crit_damage_per_stack_v10"
+    ],
+    "generator": "genshinWeaponV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

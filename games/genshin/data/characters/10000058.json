@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 2,
+  "characterId": "10000058",
+  "status": "pilot",
+  "layers": {
+    "raw": [
+      { "dataset": "characters", "pointer": "/10000058", "role": "identity" },
+      { "dataset": "characterTalents", "pointer": "/10000058", "role": "sourceText" },
+      { "dataset": "characterConstellations", "pointer": "/10000058", "role": "sourceText" }
+    ],
+    "spec": [
+      { "dataset": "talentScalings", "pointer": "/10000058", "role": "attacks" },
+      { "dataset": "behaviorPilot", "pointer": "/byCharacter/10000058", "role": "behaviorCandidates" },
+      { "dataset": "characterCoverage", "pointer": "/characters/10000058", "role": "coverageAudit" }
+    ],
+    "runtime": [{ "dataset": "constellationModifiers", "pointer": "/10000058", "role": "modifiers" }]
+  },
+  "capabilities": ["offFieldAttack", "summon", "multiInstance", "stack", "cooldownReset", "energyRestore"],
+  "verification": { "status": "needsReview", "notes": "Pilot reference package; talent runtime modifiers are not yet registered. Summons, stacks, charges and cooldown changes require review." }
+}

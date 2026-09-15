@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinArtifactCandidateClaimEvidence",
+  "targetGameVersion": "7.0",
+  "status": "dualSourceFieldMatchStrictBlocked",
+  "sourceFamiliesDistinct": true,
+  "sources": [
+    {
+      "provider": "HoYoverse HoYoLAB",
+      "sourceFamily": "official-hoyoverse",
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-official-release-check/post-46233468-api.response",
+      "rawSha256": "bf7187d4314dbcaf7e1d76f1ed5ece09d20d866dfb86d019b75006467bf9aeef",
+      "gameVersionBinding": "The retained official post is titled as the Version 7.0 update details and contains both artifact descriptions.",
+      "immutableProviderRevision": null
+    },
+    {
+      "provider": "theBowja/genshin-db",
+      "sourceFamily": "GenshinData-derived",
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-artifacts-15047-15048/capture-manifest.json",
+      "rawSha256": "719bde1a5b2261dfaea84eaf6fb1b41706bfc0311b88bec09b7b4c5e4ca45d79",
+      "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+      "packageVersion": "5.2.13",
+      "gameVersionBinding": "The exact package manifest description states Genshin Impact v7.0.",
+      "immutableProviderRevision": true
+    }
+  ],
+  "claims": [
+    {
+      "candidateId": "artifact:15047:twoPiece:2pc_atk_percent",
+      "normalizedFields": { "pieceCount": 2, "category": "statBonus", "targets": ["atkPercent"], "value": 18, "unit": "percent", "condition": "always" },
+      "fieldDigest": "f96b5b1c6f9740da4dfb9cfb286290d1dce55356fa2306ebe052393194c78038"
+    },
+    {
+      "candidateId": "artifact:15047:fourPiece:4pc_crit_rate_after_stellar_swirl",
+      "normalizedFields": { "pieceCount": 4, "category": "critBonus", "targets": ["critRate"], "value": 16, "unit": "percent", "trigger": "stellarSwirl", "durationSeconds": 10, "targetOwner": "holder" },
+      "fieldDigest": "9ff9770510f6f031e82b66d55cbfed4a636b8a5b84c8794fb5c7ec4b19336c34"
+    },
+    {
+      "candidateId": "artifact:15047:fourPiece:4pc_stellar_swirl_damage_bonus_after_stellar_swirl",
+      "normalizedFields": { "pieceCount": 4, "category": "reactionBonus", "targets": ["stellarSwirlDamageBonus"], "value": 40, "unit": "percent", "trigger": "stellarSwirl", "durationSeconds": 10, "targetOwner": "holder" },
+      "fieldDigest": "75af6e6652c191455ca36cf004e6a8d4067050c0221f62650a6254b1896d1331"
+    },
+    {
+      "candidateId": "artifact:15048:twoPiece:2pc_atk_percent",
+      "normalizedFields": { "pieceCount": 2, "category": "statBonus", "targets": ["atkPercent"], "value": 18, "unit": "percent", "condition": "always" },
+      "fieldDigest": "f96b5b1c6f9740da4dfb9cfb286290d1dce55356fa2306ebe052393194c78038"
+    },
+    {
+      "candidateId": "artifact:15048:fourPiece:4pc_atk_after_stellar_glimmer",
+      "normalizedFields": { "pieceCount": 4, "category": "statBonus", "targets": ["atkPercent"], "value": 12, "unit": "percent", "trigger": "stellarGlimmerReactionOrDamage", "durationSeconds": 12, "targetOwner": "holder", "offField": true },
+      "fieldDigest": "563576356ad87b0ba63b6588bfe214c46fec4cb080efeaeff8bad2bdfe65f78a"
+    },
+    {
+      "candidateId": "artifact:15048:fourPiece:4pc_team_stellar_glimmer_damage_bonus",
+      "normalizedFields": { "pieceCount": 4, "category": "reactionBonus", "targets": ["stellarConductDamageBonus", "stellarSwirlDamageBonus"], "value": 50, "unit": "percent", "trigger": "stellarGlimmerReactionOrDamage", "durationSeconds": 12, "targetOwner": "team", "offField": true, "sameSetNonStacking": true },
+      "fieldDigest": "020c7351268e28a24d377e1217f23ce3465dfd6ab19d64932a845245afc55462"
+    }
+  ],
+  "gate": {
+    "fieldAgreement": "exactForAllMaterializedClaims",
+    "claimCount": 6,
+    "strictEligibleCount": 0,
+    "certificateEligibleCount": 0,
+    "canonicalPromotionEligibleCount": 0,
+    "calculationConnectedCandidateCount": 6,
+    "blockedReasons": [
+      "officialProviderRevisionNotImmutable",
+      "officialFieldDigestNotBoundToProviderRevision"
+    ],
+    "reopenTrigger": "A provider-owned immutable HoYoverse revision or signed artifact binding the retained official field text and digest to Version 7.0."
+  },
+  "safety": {
+    "policyBooleansUsedAsEvidence": false,
+    "strictVerificationGranted": false,
+    "canonicalPromotionGranted": false,
+    "stellarSwirlFormulaInferred": false
+  }
+}

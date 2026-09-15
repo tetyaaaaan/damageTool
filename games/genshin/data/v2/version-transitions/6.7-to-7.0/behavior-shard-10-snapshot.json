@@ -1,0 +1,1393 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionTransitionBehaviorShardSnapshot",
+  "generatedAt": "2026-08-26T00:00:00.000Z",
+  "claim": {
+    "transitionId": "genshin:6.7->7.0",
+    "fromGameVersion": "6.7",
+    "toGameVersion": "7.0",
+    "provider": "genshin-db",
+    "sourceFamily": "GenshinData-derived",
+    "sourceNamespace": "genshin-db-behavior-shard10",
+    "repository": "theBowja/genshin-db",
+    "treeResolution": {
+      "method": "nonRecursiveGitTreePath",
+      "resolutionEvidence": "immutableRawPathWithEmbeddedId",
+      "note": "Every concrete path is accepted only when both pinned revisions contain the expected provider name and explicit $.id."
+    },
+    "identityResolution": {
+      "authority": "data-v2-manifest:characters-catalog-and-source-text",
+      "paths": {
+        "catalog": "games/genshin/data/characters.json",
+        "talents": "games/genshin/data/character-talents.json",
+        "constellations": "games/genshin/data/character-constellations.json"
+      },
+      "fileDigests": {
+        "catalog": {
+          "sha256": "5d239863352fc896931c0c626e2de1ad60c615e4e376142daa8e2d3a7464c211",
+          "rawArtifactBytes": 13747,
+          "gitBlob": "36934a8a10b0962e5fac57bb2d36f3b424112fbf"
+        },
+        "talents": {
+          "sha256": "4263297365929e19b3ac99f9e63158d5033d66cf2b37617bdbccb2d8fb8a5e31",
+          "rawArtifactBytes": 406867,
+          "gitBlob": "e8394c171f51c4295a1d27816ca83991f46650bd"
+        },
+        "constellations": {
+          "sha256": "597d3eb254ccc9cc2fec3d3e7c9bf87fd2bdcca60e2140ffcf08778fd9a91e4e",
+          "rawArtifactBytes": 219772,
+          "gitBlob": "fcb8abf9bfe635901c7a5e25d160b1721ee605de"
+        }
+      },
+      "entities": [
+        {
+          "entityId": "10000085",
+          "nameJa": "フレミネ",
+          "catalogNameJa": "フレミネ",
+          "catalogDigest": "157475fc228b383a86330bbd1f406c5a31452ce6c758bc500b5a21a8d437d091",
+          "talentSourceDigest": "b9282826fdf9cfa1a9db316b387295cf25f5b0d5ee462b6057742702393c898b",
+          "constellationSourceDigest": "417a1c6ad3629a046cc23271c64fe111b6f818a4304193e0f0bfe878a012f159",
+          "identityStatus": "localCatalogAndSourceTextMatch"
+        },
+        {
+          "entityId": "10000086",
+          "nameJa": "リオセスリ",
+          "catalogNameJa": "リオセスリ",
+          "catalogDigest": "b4f362d065c00c4c0877511170c1d0c3a22f4ef16121f464081d69a7c5db924d",
+          "talentSourceDigest": "94d5f34f4a5e948ea0c59fd362f2e76dd821f58adc91d0bf8016ab392cb5f8c4",
+          "constellationSourceDigest": "69a6f81a10441399de5c22329473ddc45b1d86c5b5b1ebdf6ac48014ff70b733",
+          "identityStatus": "localCatalogAndSourceTextMatch"
+        },
+        {
+          "entityId": "10000087",
+          "nameJa": "ヌヴィレット",
+          "catalogNameJa": "ヌヴィレット",
+          "catalogDigest": "60029b045d2c852cf12846f8ae06b78aa1796fd2cfc9e6540b38a8bf88fe7541",
+          "talentSourceDigest": "01adac189af46b7e73ff8e782d6ab4c95832a3028e4de4385445a28ccfde0547",
+          "constellationSourceDigest": "948e1314b7f95c7e19915b5d05a1d477eec99d47214091d61f2f068a4404af98",
+          "identityStatus": "localCatalogAndSourceTextMatch"
+        },
+        {
+          "entityId": "10000088",
+          "nameJa": "シャルロット",
+          "catalogNameJa": "シャルロット",
+          "catalogDigest": "dac1b000c95fb0cefb2e937a5370adaa9e6cbaf8ec2e9d0db6ec5a4a37afaea6",
+          "talentSourceDigest": "1ee09c49b5397736737216a6321ba46817e302467e0ec9ef97c89e4cf82b582d",
+          "constellationSourceDigest": "568420863d95365c5794c789b6debc9cd0f3e72cf00f10ce521078b6a4733c63",
+          "identityStatus": "localCatalogAndSourceTextMatch"
+        },
+        {
+          "entityId": "10000089",
+          "nameJa": "フリーナ",
+          "catalogNameJa": "フリーナ",
+          "catalogDigest": "cbb1fcc1b4ae03568ccca51b84ba8b65f4d4c81f8c3ea575613db42de6675faa",
+          "talentSourceDigest": "bb639b111d973ade6889a4520aadb5a8d000f1b47d26c5ef1ae16ad2ac1cee16",
+          "constellationSourceDigest": "bb2e01f0211d2c16d1bf62c6395ca62eb9444386c3a55b260f203d7490eacb44",
+          "identityStatus": "localCatalogAndSourceTextMatch"
+        },
+        {
+          "entityId": "10000090",
+          "nameJa": "シュヴルーズ",
+          "catalogNameJa": "シュヴルーズ",
+          "catalogDigest": "17e145fe8d51a4f693fd51ca52dd51331c24f4329e46ffad42275b73e2eabf47",
+          "talentSourceDigest": "4f78829fce7dc2e004e156f10949f8127548cecdd772c921bce725e26d9da5f4",
+          "constellationSourceDigest": "badaedcd75bb4387850103d34bec552cca738061aff8eafc19a2f77602a82051",
+          "identityStatus": "localCatalogAndSourceTextMatch"
+        },
+        {
+          "entityId": "10000091",
+          "nameJa": "ナヴィア",
+          "catalogNameJa": "ナヴィア",
+          "catalogDigest": "a88f2d5001a9f357d523d6d8ee08bc8ec930d970ba95624d699ade9ff3e3d014",
+          "talentSourceDigest": "1b2f137a997768e2f4e9418aa440bc97b2333080f10b5bd553749eed6be30570",
+          "constellationSourceDigest": "da94d043129cc98a8181277bf2ca723125994d3af9e45c2c5b66bec95cd40fa0",
+          "identityStatus": "localCatalogAndSourceTextMatch"
+        },
+        {
+          "entityId": "10000092",
+          "nameJa": "閑雲",
+          "catalogNameJa": "閑雲",
+          "catalogDigest": "9c53d038163d02c42fb83591c55bb4b77d235d1b9c3be2cb950befc8636b591e",
+          "talentSourceDigest": "84bdae9f0f87bd0c50cf99003d5fcb385ec1eee25c1cc24480a938e8fa5b6d5e",
+          "constellationSourceDigest": "a91586816d03ab56337c3b13345af2c26f6fc3f42b96bba35350e26c3d16f81a",
+          "identityStatus": "localCatalogAndSourceTextMatch"
+        },
+        {
+          "entityId": "10000093",
+          "nameJa": "嘉明",
+          "catalogNameJa": "嘉明",
+          "catalogDigest": "e014d67d71b44514139b724a04bee3bf24eec436d8adcc3eaa52fbcb80d8b5ce",
+          "talentSourceDigest": "e27a7072471cc27153b65bf7ac50ae604721b5dc800ac57abc4bfbd53ebf00bf",
+          "constellationSourceDigest": "8aa3f0cc8d6d792a114bf9178b4884dfac3f2226bb28a4c0ef677b0cbddfe4f6",
+          "identityStatus": "localCatalogAndSourceTextMatch"
+        }
+      ],
+      "swappedProviderIdEvidence": [
+        {
+          "entityId": "10000092",
+          "localName": "Xianyun",
+          "providerSlug": "xianyun",
+          "providerId": 9301,
+          "reason": "provider embedded id is 9301; name is Xianyun"
+        },
+        {
+          "entityId": "10000093",
+          "localName": "Gaming",
+          "providerSlug": "gaming",
+          "providerId": 9201,
+          "reason": "provider embedded id is 9201; name is Gaming"
+        }
+      ]
+    },
+    "shard": {
+      "shardId": "behavior:behaviorSpec:semanticDecisionRequired:standard:10",
+      "queuePath": "reports/genshin-evidence-task-queue.json",
+      "authoritativeCandidateCount": 100,
+      "authoritativeCandidateIds": [
+        "behavior:10000085:talent:normalattack-normal",
+        "behavior:10000085:talent:normalattack-plunging",
+        "behavior:10000085:talent:passives-passive-1",
+        "behavior:10000085:talent:passives-passive-2",
+        "behavior:10000085:talent:passives-passive-utility",
+        "behavior:10000085:talent:skill",
+        "behavior:10000086:constellation:constellation-1",
+        "behavior:10000086:constellation:constellation-2",
+        "behavior:10000086:constellation:constellation-3",
+        "behavior:10000086:constellation:constellation-4",
+        "behavior:10000086:constellation:constellation-5",
+        "behavior:10000086:constellation:constellation-6",
+        "behavior:10000086:talent:burst",
+        "behavior:10000086:talent:normalattack-charged",
+        "behavior:10000086:talent:normalattack-normal",
+        "behavior:10000086:talent:normalattack-plunging",
+        "behavior:10000086:talent:passives-passive-1",
+        "behavior:10000086:talent:passives-passive-2",
+        "behavior:10000086:talent:passives-passive-utility",
+        "behavior:10000086:talent:skill",
+        "behavior:10000087:constellation:constellation-1",
+        "behavior:10000087:constellation:constellation-2",
+        "behavior:10000087:constellation:constellation-3",
+        "behavior:10000087:constellation:constellation-4",
+        "behavior:10000087:constellation:constellation-5",
+        "behavior:10000087:constellation:constellation-6",
+        "behavior:10000087:talent:burst",
+        "behavior:10000087:talent:normalattack-charged",
+        "behavior:10000087:talent:normalattack-normal",
+        "behavior:10000087:talent:normalattack-plunging",
+        "behavior:10000087:talent:passives-passive-1",
+        "behavior:10000087:talent:passives-passive-2",
+        "behavior:10000087:talent:passives-passive-utility",
+        "behavior:10000087:talent:skill",
+        "behavior:10000088:constellation:constellation-1",
+        "behavior:10000088:constellation:constellation-2",
+        "behavior:10000088:constellation:constellation-3",
+        "behavior:10000088:constellation:constellation-4",
+        "behavior:10000088:constellation:constellation-5",
+        "behavior:10000088:constellation:constellation-6",
+        "behavior:10000088:talent:burst",
+        "behavior:10000088:talent:normalattack-charged",
+        "behavior:10000088:talent:normalattack-normal",
+        "behavior:10000088:talent:normalattack-plunging",
+        "behavior:10000088:talent:passives-passive-1",
+        "behavior:10000088:talent:passives-passive-2",
+        "behavior:10000088:talent:passives-passive-utility",
+        "behavior:10000088:talent:skill",
+        "behavior:10000089:constellation:constellation-2",
+        "behavior:10000089:constellation:constellation-4",
+        "behavior:10000089:constellation:constellation-6",
+        "behavior:10000089:talent:burst",
+        "behavior:10000089:talent:normalattack-charged",
+        "behavior:10000089:talent:normalattack-normal",
+        "behavior:10000089:talent:passives-passive-1",
+        "behavior:10000089:talent:skill",
+        "behavior:10000090:constellation:constellation-1",
+        "behavior:10000090:constellation:constellation-2",
+        "behavior:10000090:constellation:constellation-3",
+        "behavior:10000090:constellation:constellation-4",
+        "behavior:10000090:constellation:constellation-5",
+        "behavior:10000090:constellation:constellation-6",
+        "behavior:10000090:talent:burst",
+        "behavior:10000090:talent:normalattack-charged",
+        "behavior:10000090:talent:normalattack-normal",
+        "behavior:10000090:talent:normalattack-plunging",
+        "behavior:10000090:talent:passives-passive-1",
+        "behavior:10000090:talent:passives-passive-2",
+        "behavior:10000090:talent:passives-passive-utility",
+        "behavior:10000090:talent:skill",
+        "behavior:10000091:constellation:constellation-1",
+        "behavior:10000091:constellation:constellation-2",
+        "behavior:10000091:constellation:constellation-3",
+        "behavior:10000091:constellation:constellation-4",
+        "behavior:10000091:constellation:constellation-5",
+        "behavior:10000091:constellation:constellation-6",
+        "behavior:10000091:talent:burst",
+        "behavior:10000091:talent:normalattack-charged",
+        "behavior:10000091:talent:normalattack-normal",
+        "behavior:10000091:talent:normalattack-plunging",
+        "behavior:10000091:talent:passives-passive-1",
+        "behavior:10000091:talent:passives-passive-2",
+        "behavior:10000091:talent:passives-passive-utility",
+        "behavior:10000091:talent:skill",
+        "behavior:10000092:constellation:constellation-1",
+        "behavior:10000092:constellation:constellation-2",
+        "behavior:10000092:constellation:constellation-3",
+        "behavior:10000092:constellation:constellation-4",
+        "behavior:10000092:constellation:constellation-5",
+        "behavior:10000092:constellation:constellation-6",
+        "behavior:10000092:talent:burst",
+        "behavior:10000092:talent:normalattack-charged",
+        "behavior:10000092:talent:normalattack-normal",
+        "behavior:10000092:talent:normalattack-plunging",
+        "behavior:10000092:talent:passives-passive-1",
+        "behavior:10000092:talent:passives-passive-2",
+        "behavior:10000092:talent:passives-passive-utility",
+        "behavior:10000092:talent:skill",
+        "behavior:10000093:constellation:constellation-1",
+        "behavior:10000093:constellation:constellation-2"
+      ],
+      "authoritativeCandidateIdsDigest": "650d5053f5749c3a9d71adefef7a63b2e6c3a37b9e8f671f7c64c8edbeb99682",
+      "authoritativeEntityCount": 9,
+      "authoritativeEntityIds": [
+        "10000085",
+        "10000086",
+        "10000087",
+        "10000088",
+        "10000089",
+        "10000090",
+        "10000091",
+        "10000092",
+        "10000093"
+      ],
+      "authoritativeEntityIdsDigest": "e08aa0573b7a43ce45be0a2c4d6102deac9b71e28b967891bff98d9b93ce50bb",
+      "capturedNewEntityIds": [
+        "10000085",
+        "10000086",
+        "10000087",
+        "10000088",
+        "10000089",
+        "10000090",
+        "10000091",
+        "10000092",
+        "10000093"
+      ],
+      "skippedOverlapEntityIds": [],
+      "overlapPolicy": "noneWithMaterializedBehaviorShards01To09"
+    },
+    "versionBindings": [
+      {
+        "gameVersion": "6.7",
+        "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+        "packageVersion": "5.2.12",
+        "status": "strictlyBound",
+        "package": {
+          "gameVersion": "6.7",
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "packageVersion": "5.2.12",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+          "gitBlob": "e78cc92e75db21ea15edadbeafdf9152896d934c",
+          "rawArtifactBytes": 1619,
+          "rawArtifactSha256": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+          "name": "genshin-db",
+          "description": "Genshin Impact v6.7 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo."
+        }
+      },
+      {
+        "gameVersion": "7.0",
+        "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+        "packageVersion": "5.2.13",
+        "status": "strictlyBound",
+        "package": {
+          "gameVersion": "7.0",
+          "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+          "packageVersion": "5.2.13",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+          "gitBlob": "cfccefd470f420159b1376440e1a0f86a247030d",
+          "rawArtifactBytes": 1619,
+          "rawArtifactSha256": "3faf0b2220539a07af9260f5dd83afd0e964aa42868c9b3b73c6cb14065085c6",
+          "name": "genshin-db",
+          "description": "Genshin Impact v7.0 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo."
+        }
+      }
+    ],
+    "resolvedEntities": [
+      {
+        "entityId": "10000085",
+        "name": "Freminet",
+        "nameJa": "フレミネ",
+        "providerSlug": "freminet",
+        "providerId": 8501,
+        "resolutionStatus": "resolvedUnambiguous",
+        "identityResolution": {
+          "status": "resolvedByLocalCatalogAndProviderName",
+          "localIdentityEvidenceDigest": "ae19d1eb0c07bbacf5ee9cb16d7264a4f4bf31fc7c90fac2a7cea1c278ecbe9b",
+          "providerNameMatches": true,
+          "providerEmbeddedIdMatches": true
+        },
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "resolutionEvidence": "immutableRawPathWithEmbeddedId",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/freminet.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/freminet.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/freminet.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/freminet.json",
+              "gitBlob": "fa435fe98993b9b8bb52813b9c1b5d778d67b764",
+              "rawArtifactBytes": 10145,
+              "rawArtifactSha256": "6af26d4b3a19cc0cc86b959b9eb3a703fcd3444bd5b70dcd9c93d952f022573b",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8501,
+              "embeddedName": "Freminet"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/freminet.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/freminet.json",
+              "gitBlob": "fa435fe98993b9b8bb52813b9c1b5d778d67b764",
+              "rawArtifactBytes": 10145,
+              "rawArtifactSha256": "6af26d4b3a19cc0cc86b959b9eb3a703fcd3444bd5b70dcd9c93d952f022573b",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8501,
+              "embeddedName": "Freminet"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "1fe176be40c751347bb034126c7818cdebf26a74d4df2cf8decd209349956d26",
+              "afterFieldDigest": "1fe176be40c751347bb034126c7818cdebf26a74d4df2cf8decd209349956d26",
+              "beforeArtifactSha256": "6af26d4b3a19cc0cc86b959b9eb3a703fcd3444bd5b70dcd9c93d952f022573b",
+              "afterArtifactSha256": "6af26d4b3a19cc0cc86b959b9eb3a703fcd3444bd5b70dcd9c93d952f022573b"
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/freminet.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/freminet.json",
+              "gitBlob": "2e38a19cbd13bff46075d25ee5f49c315da705a8",
+              "rawArtifactBytes": 2317,
+              "rawArtifactSha256": "3c96f4b55422397e123110b024389c008e829ebfd61bdaa4765e5e9020a28ac5",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8501,
+              "embeddedName": "Freminet"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/freminet.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/freminet.json",
+              "gitBlob": "2e38a19cbd13bff46075d25ee5f49c315da705a8",
+              "rawArtifactBytes": 2317,
+              "rawArtifactSha256": "3c96f4b55422397e123110b024389c008e829ebfd61bdaa4765e5e9020a28ac5",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8501,
+              "embeddedName": "Freminet"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "c8ff57d95ebeba3a15da8d515881950b9416fb361242f9e00134a9eddfd4ef86",
+              "afterFieldDigest": "c8ff57d95ebeba3a15da8d515881950b9416fb361242f9e00134a9eddfd4ef86",
+              "beforeArtifactSha256": "3c96f4b55422397e123110b024389c008e829ebfd61bdaa4765e5e9020a28ac5",
+              "afterArtifactSha256": "3c96f4b55422397e123110b024389c008e829ebfd61bdaa4765e5e9020a28ac5"
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000086",
+        "name": "Wriothesley",
+        "nameJa": "リオセスリ",
+        "providerSlug": "wriothesley",
+        "providerId": 8601,
+        "resolutionStatus": "resolvedUnambiguous",
+        "identityResolution": {
+          "status": "resolvedByLocalCatalogAndProviderName",
+          "localIdentityEvidenceDigest": "92af470574cff25430233b69e0ccbd4c0f0851873b1f2e0378d4d2525a8f9826",
+          "providerNameMatches": true,
+          "providerEmbeddedIdMatches": true
+        },
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "resolutionEvidence": "immutableRawPathWithEmbeddedId",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/wriothesley.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/wriothesley.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/wriothesley.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/wriothesley.json",
+              "gitBlob": "c8400320cb41d397c4cd4410ae84ae8c472351f6",
+              "rawArtifactBytes": 9518,
+              "rawArtifactSha256": "eaf1c9ebf96dfca9ae1b2f25e40df3efbb06bdaf401a8a2cf2f3175e4cb5a63f",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8601,
+              "embeddedName": "Wriothesley"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/wriothesley.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/wriothesley.json",
+              "gitBlob": "c8400320cb41d397c4cd4410ae84ae8c472351f6",
+              "rawArtifactBytes": 9518,
+              "rawArtifactSha256": "eaf1c9ebf96dfca9ae1b2f25e40df3efbb06bdaf401a8a2cf2f3175e4cb5a63f",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8601,
+              "embeddedName": "Wriothesley"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "e220b6cae3fd2d14408d41aca7a4d18de46cbc3c0c163617a315c055ff332d69",
+              "afterFieldDigest": "e220b6cae3fd2d14408d41aca7a4d18de46cbc3c0c163617a315c055ff332d69",
+              "beforeArtifactSha256": "eaf1c9ebf96dfca9ae1b2f25e40df3efbb06bdaf401a8a2cf2f3175e4cb5a63f",
+              "afterArtifactSha256": "eaf1c9ebf96dfca9ae1b2f25e40df3efbb06bdaf401a8a2cf2f3175e4cb5a63f"
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/wriothesley.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/wriothesley.json",
+              "gitBlob": "c5e7caecc3c4d189da8eca7a8f44cafada90fc30",
+              "rawArtifactBytes": 4876,
+              "rawArtifactSha256": "ac72c0e3c27ef54d208dbd8934ad417944c7512ac7558b0c5eb160389b881fd5",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8601,
+              "embeddedName": "Wriothesley"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/wriothesley.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/wriothesley.json",
+              "gitBlob": "c5e7caecc3c4d189da8eca7a8f44cafada90fc30",
+              "rawArtifactBytes": 4876,
+              "rawArtifactSha256": "ac72c0e3c27ef54d208dbd8934ad417944c7512ac7558b0c5eb160389b881fd5",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8601,
+              "embeddedName": "Wriothesley"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "40f65407cefc0322f6ef04c06690ace8b0599ee284a5ac0f8f68ac1e0362d2c4",
+              "afterFieldDigest": "40f65407cefc0322f6ef04c06690ace8b0599ee284a5ac0f8f68ac1e0362d2c4",
+              "beforeArtifactSha256": "ac72c0e3c27ef54d208dbd8934ad417944c7512ac7558b0c5eb160389b881fd5",
+              "afterArtifactSha256": "ac72c0e3c27ef54d208dbd8934ad417944c7512ac7558b0c5eb160389b881fd5"
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000087",
+        "name": "Neuvillette",
+        "nameJa": "ヌヴィレット",
+        "providerSlug": "neuvillette",
+        "providerId": 8701,
+        "resolutionStatus": "resolvedUnambiguous",
+        "identityResolution": {
+          "status": "resolvedByLocalCatalogAndProviderName",
+          "localIdentityEvidenceDigest": "86a54a667cb5f462ed71080eb2c263ef78ec94d7dc101ac3821c7fed7f2dbc39",
+          "providerNameMatches": true,
+          "providerEmbeddedIdMatches": true
+        },
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "resolutionEvidence": "immutableRawPathWithEmbeddedId",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/neuvillette.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/neuvillette.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/neuvillette.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/neuvillette.json",
+              "gitBlob": "4a00de8d0edd6659cbbb28d744c96da3856efb6f",
+              "rawArtifactBytes": 10319,
+              "rawArtifactSha256": "5c19bb5b58c2a8307841339de1f00254a09c11556e981d9f1416c091ae22a54d",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8701,
+              "embeddedName": "Neuvillette"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/neuvillette.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/neuvillette.json",
+              "gitBlob": "4a00de8d0edd6659cbbb28d744c96da3856efb6f",
+              "rawArtifactBytes": 10319,
+              "rawArtifactSha256": "5c19bb5b58c2a8307841339de1f00254a09c11556e981d9f1416c091ae22a54d",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8701,
+              "embeddedName": "Neuvillette"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "686f30285eca50c35d34ee1fbbc941cdba4a2b0c4a9804e6a7db92e9cb043e3a",
+              "afterFieldDigest": "686f30285eca50c35d34ee1fbbc941cdba4a2b0c4a9804e6a7db92e9cb043e3a",
+              "beforeArtifactSha256": "5c19bb5b58c2a8307841339de1f00254a09c11556e981d9f1416c091ae22a54d",
+              "afterArtifactSha256": "5c19bb5b58c2a8307841339de1f00254a09c11556e981d9f1416c091ae22a54d"
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/neuvillette.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/neuvillette.json",
+              "gitBlob": "fdb04e3eb584ca6c94de58b3a7a90e385e6620f7",
+              "rawArtifactBytes": 3610,
+              "rawArtifactSha256": "7dcce8d7881fd5220ffa88ca13989a1abf367bddfcf607bc2ed15b8095915960",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8701,
+              "embeddedName": "Neuvillette"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/neuvillette.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/neuvillette.json",
+              "gitBlob": "fdb04e3eb584ca6c94de58b3a7a90e385e6620f7",
+              "rawArtifactBytes": 3610,
+              "rawArtifactSha256": "7dcce8d7881fd5220ffa88ca13989a1abf367bddfcf607bc2ed15b8095915960",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8701,
+              "embeddedName": "Neuvillette"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "540ccd056633f1d942da74eb8d32aed52304e68e78992ebc17fed0986495241f",
+              "afterFieldDigest": "540ccd056633f1d942da74eb8d32aed52304e68e78992ebc17fed0986495241f",
+              "beforeArtifactSha256": "7dcce8d7881fd5220ffa88ca13989a1abf367bddfcf607bc2ed15b8095915960",
+              "afterArtifactSha256": "7dcce8d7881fd5220ffa88ca13989a1abf367bddfcf607bc2ed15b8095915960"
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000088",
+        "name": "Charlotte",
+        "nameJa": "シャルロット",
+        "providerSlug": "charlotte",
+        "providerId": 8801,
+        "resolutionStatus": "resolvedUnambiguous",
+        "identityResolution": {
+          "status": "resolvedByLocalCatalogAndProviderName",
+          "localIdentityEvidenceDigest": "3dfa15d9679f8903dd54d3bebed792668614b5878d2264ab04325204e83ffe4a",
+          "providerNameMatches": true,
+          "providerEmbeddedIdMatches": true
+        },
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "resolutionEvidence": "immutableRawPathWithEmbeddedId",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/charlotte.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/charlotte.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/charlotte.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/charlotte.json",
+              "gitBlob": "65634e1a17d256aa5f917e2c2cf3780825191234",
+              "rawArtifactBytes": 11056,
+              "rawArtifactSha256": "a68256059c7274f18c66d5b4117bde0e3da942166be76200e61c6e221aa0533c",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8801,
+              "embeddedName": "Charlotte"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/charlotte.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/charlotte.json",
+              "gitBlob": "65634e1a17d256aa5f917e2c2cf3780825191234",
+              "rawArtifactBytes": 11056,
+              "rawArtifactSha256": "a68256059c7274f18c66d5b4117bde0e3da942166be76200e61c6e221aa0533c",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8801,
+              "embeddedName": "Charlotte"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "1748982d1b6467c3ba734998c592567e6c2194910cae2e404008837162f7347e",
+              "afterFieldDigest": "1748982d1b6467c3ba734998c592567e6c2194910cae2e404008837162f7347e",
+              "beforeArtifactSha256": "a68256059c7274f18c66d5b4117bde0e3da942166be76200e61c6e221aa0533c",
+              "afterArtifactSha256": "a68256059c7274f18c66d5b4117bde0e3da942166be76200e61c6e221aa0533c"
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/charlotte.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/charlotte.json",
+              "gitBlob": "17316f9e8ccc7ada890dcbee67515f4483b55902",
+              "rawArtifactBytes": 3258,
+              "rawArtifactSha256": "7ac12ae4ebad620816a4cf668813c528e58cd4bff55e8180279c7ad4c5e21f71",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8801,
+              "embeddedName": "Charlotte"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/charlotte.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/charlotte.json",
+              "gitBlob": "17316f9e8ccc7ada890dcbee67515f4483b55902",
+              "rawArtifactBytes": 3258,
+              "rawArtifactSha256": "7ac12ae4ebad620816a4cf668813c528e58cd4bff55e8180279c7ad4c5e21f71",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8801,
+              "embeddedName": "Charlotte"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "02375198577c99a7362bd1d8609f3245f2f6bc15b935a8b3a9e13338f1ed7f40",
+              "afterFieldDigest": "02375198577c99a7362bd1d8609f3245f2f6bc15b935a8b3a9e13338f1ed7f40",
+              "beforeArtifactSha256": "7ac12ae4ebad620816a4cf668813c528e58cd4bff55e8180279c7ad4c5e21f71",
+              "afterArtifactSha256": "7ac12ae4ebad620816a4cf668813c528e58cd4bff55e8180279c7ad4c5e21f71"
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000089",
+        "name": "Furina",
+        "nameJa": "フリーナ",
+        "providerSlug": "furina",
+        "providerId": 8901,
+        "resolutionStatus": "resolvedUnambiguous",
+        "identityResolution": {
+          "status": "resolvedByLocalCatalogAndProviderName",
+          "localIdentityEvidenceDigest": "151a984c247233bd379a1dd7ba124d91eaaea4b84a0588aca71db507f646010f",
+          "providerNameMatches": true,
+          "providerEmbeddedIdMatches": true
+        },
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "resolutionEvidence": "immutableRawPathWithEmbeddedId",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/furina.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/furina.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/furina.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/furina.json",
+              "gitBlob": "aedc2808f4a73fdab229ac9a5aee18d286eee960",
+              "rawArtifactBytes": 12315,
+              "rawArtifactSha256": "a8185a173a3b77daa91f5bd05725d18392a59836a0da39bf47a722f8c83109b7",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8901,
+              "embeddedName": "Furina"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/furina.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/furina.json",
+              "gitBlob": "aedc2808f4a73fdab229ac9a5aee18d286eee960",
+              "rawArtifactBytes": 12315,
+              "rawArtifactSha256": "a8185a173a3b77daa91f5bd05725d18392a59836a0da39bf47a722f8c83109b7",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8901,
+              "embeddedName": "Furina"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "6c5af1bfecc511103c8f85c70c7c8e5e92f9f18fde2862d0ad248b1cf28e4f35",
+              "afterFieldDigest": "6c5af1bfecc511103c8f85c70c7c8e5e92f9f18fde2862d0ad248b1cf28e4f35",
+              "beforeArtifactSha256": "a8185a173a3b77daa91f5bd05725d18392a59836a0da39bf47a722f8c83109b7",
+              "afterArtifactSha256": "a8185a173a3b77daa91f5bd05725d18392a59836a0da39bf47a722f8c83109b7"
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/furina.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/furina.json",
+              "gitBlob": "e61ab2b039c0bc787001aef44d33fd19a36c25e9",
+              "rawArtifactBytes": 5089,
+              "rawArtifactSha256": "07ec89574ee4d02706ba891d22f6ecd04d0561e77350361de780e96cd211e299",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8901,
+              "embeddedName": "Furina"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/furina.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/furina.json",
+              "gitBlob": "e61ab2b039c0bc787001aef44d33fd19a36c25e9",
+              "rawArtifactBytes": 5089,
+              "rawArtifactSha256": "07ec89574ee4d02706ba891d22f6ecd04d0561e77350361de780e96cd211e299",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 8901,
+              "embeddedName": "Furina"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "8d62784e92d62df7899afc90aee02fdee8c552831dc45eaf3fcc6ed0b682eeb2",
+              "afterFieldDigest": "8d62784e92d62df7899afc90aee02fdee8c552831dc45eaf3fcc6ed0b682eeb2",
+              "beforeArtifactSha256": "07ec89574ee4d02706ba891d22f6ecd04d0561e77350361de780e96cd211e299",
+              "afterArtifactSha256": "07ec89574ee4d02706ba891d22f6ecd04d0561e77350361de780e96cd211e299"
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000090",
+        "name": "Chevreuse",
+        "nameJa": "シュヴルーズ",
+        "providerSlug": "chevreuse",
+        "providerId": 9001,
+        "resolutionStatus": "resolvedUnambiguous",
+        "identityResolution": {
+          "status": "resolvedByLocalCatalogAndProviderName",
+          "localIdentityEvidenceDigest": "690912aedce875897cb2b7378e568c71c139bcc91226f5257829b9bef5231e07",
+          "providerNameMatches": true,
+          "providerEmbeddedIdMatches": true
+        },
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "resolutionEvidence": "immutableRawPathWithEmbeddedId",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/chevreuse.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/chevreuse.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/chevreuse.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/chevreuse.json",
+              "gitBlob": "7279eca1845cffb45127f6707c235df226b19ee3",
+              "rawArtifactBytes": 10585,
+              "rawArtifactSha256": "1cc75d02cac8792ee308ad1074da001b5c320fe9675c34857883e2b4615bc82a",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9001,
+              "embeddedName": "Chevreuse"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/chevreuse.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/chevreuse.json",
+              "gitBlob": "7279eca1845cffb45127f6707c235df226b19ee3",
+              "rawArtifactBytes": 10585,
+              "rawArtifactSha256": "1cc75d02cac8792ee308ad1074da001b5c320fe9675c34857883e2b4615bc82a",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9001,
+              "embeddedName": "Chevreuse"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "755751b61ae4c6abfd4bb6e6e63e14dbaa46ad93f0d7b6b78a51cdea51647dd2",
+              "afterFieldDigest": "755751b61ae4c6abfd4bb6e6e63e14dbaa46ad93f0d7b6b78a51cdea51647dd2",
+              "beforeArtifactSha256": "1cc75d02cac8792ee308ad1074da001b5c320fe9675c34857883e2b4615bc82a",
+              "afterArtifactSha256": "1cc75d02cac8792ee308ad1074da001b5c320fe9675c34857883e2b4615bc82a"
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/chevreuse.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/chevreuse.json",
+              "gitBlob": "8c15f630832a6b8bc219a13e90c4c8ca8098f497",
+              "rawArtifactBytes": 3639,
+              "rawArtifactSha256": "d606e32b669cf6bc3384926abc8312bade80357d8bc0e435d49fe77fd5dce7e6",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9001,
+              "embeddedName": "Chevreuse"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/chevreuse.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/chevreuse.json",
+              "gitBlob": "8c15f630832a6b8bc219a13e90c4c8ca8098f497",
+              "rawArtifactBytes": 3639,
+              "rawArtifactSha256": "d606e32b669cf6bc3384926abc8312bade80357d8bc0e435d49fe77fd5dce7e6",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9001,
+              "embeddedName": "Chevreuse"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "cba33ae7ac1eef7076382cfeff049cbdcd2515531dba000bbaf8ede3606c481c",
+              "afterFieldDigest": "cba33ae7ac1eef7076382cfeff049cbdcd2515531dba000bbaf8ede3606c481c",
+              "beforeArtifactSha256": "d606e32b669cf6bc3384926abc8312bade80357d8bc0e435d49fe77fd5dce7e6",
+              "afterArtifactSha256": "d606e32b669cf6bc3384926abc8312bade80357d8bc0e435d49fe77fd5dce7e6"
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000091",
+        "name": "Navia",
+        "nameJa": "ナヴィア",
+        "providerSlug": "navia",
+        "providerId": 9101,
+        "resolutionStatus": "resolvedUnambiguous",
+        "identityResolution": {
+          "status": "resolvedByLocalCatalogAndProviderName",
+          "localIdentityEvidenceDigest": "51eed57740e6584b67b21db02d9c578da8b0c0188eaa9c5a4a5c4534e6366b1e",
+          "providerNameMatches": true,
+          "providerEmbeddedIdMatches": true
+        },
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "resolutionEvidence": "immutableRawPathWithEmbeddedId",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/navia.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/navia.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/navia.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/navia.json",
+              "gitBlob": "ac644e5129725decc5c8e7572249e919c132cf4f",
+              "rawArtifactBytes": 10928,
+              "rawArtifactSha256": "07013c6ea5e945fb15b05cc7d02e33827b7074d15db7880fbb32488235a14acc",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9101,
+              "embeddedName": "Navia"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/navia.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/navia.json",
+              "gitBlob": "ac644e5129725decc5c8e7572249e919c132cf4f",
+              "rawArtifactBytes": 10928,
+              "rawArtifactSha256": "07013c6ea5e945fb15b05cc7d02e33827b7074d15db7880fbb32488235a14acc",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9101,
+              "embeddedName": "Navia"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "fa64ca3a46fd26f7707091b7e833c9ae16853697f1ebfadb43179069861a03b4",
+              "afterFieldDigest": "fa64ca3a46fd26f7707091b7e833c9ae16853697f1ebfadb43179069861a03b4",
+              "beforeArtifactSha256": "07013c6ea5e945fb15b05cc7d02e33827b7074d15db7880fbb32488235a14acc",
+              "afterArtifactSha256": "07013c6ea5e945fb15b05cc7d02e33827b7074d15db7880fbb32488235a14acc"
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/navia.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/navia.json",
+              "gitBlob": "656dd00dd806d8fb1d31cc084ef9251044b9eb0f",
+              "rawArtifactBytes": 3630,
+              "rawArtifactSha256": "5e2f8a49ef433ce4af0de2eec7664eb1f47c2e4cd74aba0bda8f3e1307781431",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9101,
+              "embeddedName": "Navia"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/navia.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/navia.json",
+              "gitBlob": "656dd00dd806d8fb1d31cc084ef9251044b9eb0f",
+              "rawArtifactBytes": 3630,
+              "rawArtifactSha256": "5e2f8a49ef433ce4af0de2eec7664eb1f47c2e4cd74aba0bda8f3e1307781431",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9101,
+              "embeddedName": "Navia"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "5f9e3bdfb7214967d36e28c18ff993f7771b0f1e2a92e943ffc55d146e6df530",
+              "afterFieldDigest": "5f9e3bdfb7214967d36e28c18ff993f7771b0f1e2a92e943ffc55d146e6df530",
+              "beforeArtifactSha256": "5e2f8a49ef433ce4af0de2eec7664eb1f47c2e4cd74aba0bda8f3e1307781431",
+              "afterArtifactSha256": "5e2f8a49ef433ce4af0de2eec7664eb1f47c2e4cd74aba0bda8f3e1307781431"
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000092",
+        "name": "Xianyun",
+        "nameJa": "閑雲",
+        "providerSlug": "xianyun",
+        "providerId": 9301,
+        "resolutionStatus": "resolvedUnambiguous",
+        "identityResolution": {
+          "status": "resolvedByLocalCatalogAndProviderName",
+          "localIdentityEvidenceDigest": "4ffd196481c17a7ce238449331392a68916e1f07a98cdde366733abce7af54b2",
+          "providerNameMatches": true,
+          "providerEmbeddedIdMatches": true
+        },
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "resolutionEvidence": "immutableRawPathWithEmbeddedId",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/xianyun.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/xianyun.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/xianyun.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/xianyun.json",
+              "gitBlob": "0961aa3d0ee18416dff0bcbac11da6e9a04cba39",
+              "rawArtifactBytes": 11333,
+              "rawArtifactSha256": "ba7a9d3614079263d8728d2c71870890a96c3c471ac7d174aef247ec695d7f3f",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9301,
+              "embeddedName": "Xianyun"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/xianyun.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/xianyun.json",
+              "gitBlob": "0961aa3d0ee18416dff0bcbac11da6e9a04cba39",
+              "rawArtifactBytes": 11333,
+              "rawArtifactSha256": "ba7a9d3614079263d8728d2c71870890a96c3c471ac7d174aef247ec695d7f3f",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9301,
+              "embeddedName": "Xianyun"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "2a57dc7c581c887b1dc80e807c71c7230eaac6daef8ef79309f24935f26ab86a",
+              "afterFieldDigest": "2a57dc7c581c887b1dc80e807c71c7230eaac6daef8ef79309f24935f26ab86a",
+              "beforeArtifactSha256": "ba7a9d3614079263d8728d2c71870890a96c3c471ac7d174aef247ec695d7f3f",
+              "afterArtifactSha256": "ba7a9d3614079263d8728d2c71870890a96c3c471ac7d174aef247ec695d7f3f"
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/xianyun.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/xianyun.json",
+              "gitBlob": "4cc05f68003019d8da5896b5bba1946af12e3101",
+              "rawArtifactBytes": 3982,
+              "rawArtifactSha256": "a2a74c8c8e86ed4a077a14946ade823274c609da7cb32a01a97dc1634c173f4c",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9301,
+              "embeddedName": "Xianyun"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/xianyun.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/xianyun.json",
+              "gitBlob": "4cc05f68003019d8da5896b5bba1946af12e3101",
+              "rawArtifactBytes": 3982,
+              "rawArtifactSha256": "a2a74c8c8e86ed4a077a14946ade823274c609da7cb32a01a97dc1634c173f4c",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9301,
+              "embeddedName": "Xianyun"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "0ec585a37250d81b83b63c952d56da6e8a353d371d9bad9844d0c3175abf25e8",
+              "afterFieldDigest": "0ec585a37250d81b83b63c952d56da6e8a353d371d9bad9844d0c3175abf25e8",
+              "beforeArtifactSha256": "a2a74c8c8e86ed4a077a14946ade823274c609da7cb32a01a97dc1634c173f4c",
+              "afterArtifactSha256": "a2a74c8c8e86ed4a077a14946ade823274c609da7cb32a01a97dc1634c173f4c"
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000093",
+        "name": "Gaming",
+        "nameJa": "嘉明",
+        "providerSlug": "gaming",
+        "providerId": 9201,
+        "resolutionStatus": "resolvedUnambiguous",
+        "identityResolution": {
+          "status": "resolvedByLocalCatalogAndProviderName",
+          "localIdentityEvidenceDigest": "9d32b6bbd1e510058d2d23b557c2116ea381f01b77e47597a3209def26d23b6b",
+          "providerNameMatches": true,
+          "providerEmbeddedIdMatches": true
+        },
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "resolutionEvidence": "immutableRawPathWithEmbeddedId",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/gaming.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/gaming.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/gaming.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/gaming.json",
+              "gitBlob": "f04561f3d8f652b6b99d0bc7fa6edc8734c5af91",
+              "rawArtifactBytes": 9502,
+              "rawArtifactSha256": "50da4bfa2ee80e5b98ebacdfe3bd155804502ebe78a7bcdb0f0beea7e5442332",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9201,
+              "embeddedName": "Gaming"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/gaming.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/gaming.json",
+              "gitBlob": "f04561f3d8f652b6b99d0bc7fa6edc8734c5af91",
+              "rawArtifactBytes": 9502,
+              "rawArtifactSha256": "50da4bfa2ee80e5b98ebacdfe3bd155804502ebe78a7bcdb0f0beea7e5442332",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9201,
+              "embeddedName": "Gaming"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "88f163deff86f28de4b1763a19ac1c719ea22550c4946cf8d503e57848359a37",
+              "afterFieldDigest": "88f163deff86f28de4b1763a19ac1c719ea22550c4946cf8d503e57848359a37",
+              "beforeArtifactSha256": "50da4bfa2ee80e5b98ebacdfe3bd155804502ebe78a7bcdb0f0beea7e5442332",
+              "afterArtifactSha256": "50da4bfa2ee80e5b98ebacdfe3bd155804502ebe78a7bcdb0f0beea7e5442332"
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/gaming.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/gaming.json",
+              "gitBlob": "b37f572b58a84edf5d817533d447471424eb0c8c",
+              "rawArtifactBytes": 2070,
+              "rawArtifactSha256": "fcf0f7451f3ed2a39ee4462a213a6a1e042b3fe693e17f39c6f52f6d348da076",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9201,
+              "embeddedName": "Gaming"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard10/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/gaming.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/gaming.json",
+              "gitBlob": "b37f572b58a84edf5d817533d447471424eb0c8c",
+              "rawArtifactBytes": 2070,
+              "rawArtifactSha256": "fcf0f7451f3ed2a39ee4462a213a6a1e042b3fe693e17f39c6f52f6d348da076",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 9201,
+              "embeddedName": "Gaming"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "7cf8cf879d5ee38ead06e4e5058b3b77a1ccb61c2a221f29d68928034cb918b5",
+              "afterFieldDigest": "7cf8cf879d5ee38ead06e4e5058b3b77a1ccb61c2a221f29d68928034cb918b5",
+              "beforeArtifactSha256": "fcf0f7451f3ed2a39ee4462a213a6a1e042b3fe693e17f39c6f52f6d348da076",
+              "afterArtifactSha256": "fcf0f7451f3ed2a39ee4462a213a6a1e042b3fe693e17f39c6f52f6d348da076"
+            }
+          }
+        ]
+      }
+    ],
+    "travelerVariantEvidence": [],
+    "variantAmbiguities": [],
+    "travelerVariantPolicy": {
+      "status": "notApplicable",
+      "failClosedOnEncounter": true,
+      "entityIds": [
+        "10000005",
+        "10000007"
+      ],
+      "note": "No Traveler entity is in shard10; any future Traveler queue entry must remain unresolved until its variant identity is explicit."
+    },
+    "coverage": {
+      "resolvedEntityIds": [
+        "10000085",
+        "10000086",
+        "10000087",
+        "10000088",
+        "10000089",
+        "10000090",
+        "10000091",
+        "10000092",
+        "10000093"
+      ],
+      "ambiguousEntityIds": [],
+      "recordKinds": [
+        "talents",
+        "constellations"
+      ],
+      "authoritativeCandidateCoverage": "entitySourceRecordsComplete",
+      "resolvedEntityRecordCoverage": "complete",
+      "travelerVariantRecordCoverage": "notApplicable",
+      "repositoryCandidateCoverage": "partial",
+      "authoritativeCandidateCount": 100,
+      "authoritativeEntityCount": 9,
+      "resolvedEntityCount": 9,
+      "resolvedRecordCount": 18,
+      "changedRecordCount": 0,
+      "changedFieldCount": 0,
+      "overlapEntityCount": 0,
+      "crossVariantComparisons": 0,
+      "canIssueEligibilityCertificate": false,
+      "canPromoteCanonical": false
+    }
+  },
+  "summary": {
+    "shardId": "behavior:behaviorSpec:semanticDecisionRequired:standard:10",
+    "authoritativeCandidates": 100,
+    "authoritativeEntities": 9,
+    "resolvedEntities": 9,
+    "overlapSkippedEntities": 0,
+    "ambiguousEntities": 0,
+    "resolvedRecords": 18,
+    "changedRecords": 0,
+    "changedFields": 0,
+    "sourceFamilyCount": 1,
+    "certificateEligibleClaims": 0
+  },
+  "gateEligibility": {
+    "status": "singleCorrelatedFamilyFailClosed",
+    "sourceFamilyCount": 1,
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false,
+    "reasons": [
+      "providerIndependenceInsufficient",
+      "behaviorSemanticsNotParsed"
+    ]
+  },
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "f91cec61df145dbd74aa33499f0cede114d10bb5e8ff33e548f7416ea3edb663"
+}

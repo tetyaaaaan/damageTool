@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "r2-weapon-primary-field-search-shard04.schema.json",
+  "title": "Genshin r2 weapon primary-field candidate-scoped search shard 04",
+  "description": "A draft-only candidate-scoped finite evidence hold for the nine numeric weapon candidates remaining after registered shards and the w_12516 historical route. It cannot issue a certificate, promote canonical data, or mutate coordination state.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "generatedAt", "status", "lane", "transition", "policy", "scope", "inputEvidence", "frontier", "providers", "candidates", "summary", "gate", "fieldDigestAlgorithm", "fieldDigest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinR2WeaponPrimaryFieldSearchShard" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "status": { "const": "draft" },
+    "lane": { "const": "weaponPrimaryNumericCandidateScopedFrontier" },
+    "transition": { "$ref": "#/$defs/transition" },
+    "policy": { "type": "object", "additionalProperties": true },
+    "scope": { "$ref": "#/$defs/scope" },
+    "inputEvidence": { "type": "object", "additionalProperties": true, "required": ["files", "queueObservation", "officialHoYoWiki", "finiteWeaponLedger"], "properties": { "files": { "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/fileRef" } }, "queueObservation": { "type": "object" }, "officialHoYoWiki": { "type": "object" }, "finiteWeaponLedger": { "type": ["object", "null"] } } },
+    "frontier": { "$ref": "#/$defs/frontier" },
+    "providers": { "type": "array", "minItems": 2, "items": { "type": "object" } },
+    "candidates": { "type": "object", "minProperties": 9, "maxProperties": 9, "additionalProperties": { "$ref": "#/$defs/candidate" } },
+    "summary": { "type": "object" },
+    "gate": { "$ref": "#/$defs/gate" },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "fileRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "sha256"],
+      "properties": { "path": { "type": "string", "minLength": 1 }, "bytes": { "type": "integer", "minimum": 0 }, "sha256": { "$ref": "#/$defs/digest" }, "fieldDigest": { "type": ["string", "null"] } }
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["transitionId", "fromGameVersion", "targetGameVersion", "primaryProvider", "primarySourceFamily"],
+      "properties": { "transitionId": { "const": "6.7-to-7.0" }, "fromGameVersion": { "const": "6.7" }, "targetGameVersion": { "const": "7.0" }, "primaryProvider": { "const": "genshin-db" }, "primarySourceFamily": { "const": "GenshinData-derived" } }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["shardId", "candidateCount", "expectedCandidateCount", "sourceNumericCandidateCount", "consumerFreeNumericCandidateCount", "candidateIdDigest", "candidateIds"],
+      "properties": {
+        "shardId": { "const": "weapons-primary-numeric-shard04" },
+        "candidateCount": { "const": 9 },
+        "expectedCandidateCount": { "const": 9 },
+        "sourceNumericCandidateCount": { "const": 310 },
+        "consumerFreeNumericCandidateCount": { "const": 309 },
+        "candidateIdDigest": { "$ref": "#/$defs/digest" },
+        "candidateIds": { "type": "array", "minItems": 9, "maxItems": 9, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "frontier": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "policyId", "status", "exhausted", "scopeMatched", "candidateScoped", "candidateCount", "candidateIdDigest", "candidateIds", "searchScope", "lastSearchedAt", "providersExamined", "negativeResult", "reopenTrigger", "g06HoldEligible", "queueIntegration", "evidenceRefs"],
+      "properties": {
+        "id": { "const": "weapons-primary-numeric-shard04-independent-field-frontier-7.0" },
+        "policyId": { "const": "genshin-7.0-weapon-primary-numeric-shard-independent-field-frontier" },
+        "status": { "const": "searchExhausted" },
+        "exhausted": { "const": true },
+        "scopeMatched": { "const": true },
+        "candidateScoped": { "const": true },
+        "candidateCount": { "const": 9 },
+        "candidateIdDigest": { "$ref": "#/$defs/digest" },
+        "candidateIds": { "type": "array", "minItems": 9, "maxItems": 9, "uniqueItems": true, "items": { "type": "string" } },
+        "searchScope": { "type": "string", "minLength": 1 },
+        "lastSearchedAt": { "type": "string", "format": "date" },
+        "providersExamined": { "type": "array", "minItems": 2, "items": { "type": "string", "minLength": 1 } },
+        "negativeResult": { "type": "string", "minLength": 1 },
+        "reopenTrigger": { "type": "string", "minLength": 1 },
+        "g06HoldEligible": { "const": true },
+        "queueIntegration": { "type": "string", "minLength": 1 },
+        "evidenceRefs": { "type": "array", "items": { "$ref": "#/$defs/fileRef" } }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["candidateId", "entityId", "claims", "currentQueue", "disposition", "frontier", "gate", "local", "primaryComparison", "primaryRawObservation", "rawIntegrity", "providerResults", "officialRawClaims"],
+      "properties": {
+        "candidateId": { "type": "string", "minLength": 1 },
+        "entityId": { "type": ["string", "null"] },
+        "claims": { "type": "object", "required": ["activation", "refinement", "targets", "value"], "additionalProperties": { "$ref": "#/$defs/claim" } },
+        "currentQueue": { "type": ["object", "null"] },
+        "disposition": { "type": "object" },
+        "frontier": { "type": "object" },
+        "gate": { "$ref": "#/$defs/gate" },
+        "local": { "type": "object" },
+        "primaryComparison": { "type": "object" },
+        "primaryRawObservation": { "type": "object" },
+        "rawIntegrity": { "type": "object" },
+        "providerResults": { "type": "object" },
+        "officialRawClaims": { "type": "array" }
+      }
+    },
+    "claim": { "type": "object", "required": ["claimId", "field", "primaryProvider", "officialIndependentProvider", "frontier", "disposition"], "properties": { "claimId": { "type": "string", "minLength": 1 }, "field": { "type": "string", "minLength": 1 }, "primaryProvider": { "type": "object" }, "officialIndependentProvider": { "type": "object" }, "frontier": { "type": "object" }, "disposition": { "type": "object" } } },
+    "gate": { "type": "object", "required": ["strictVerified", "certificateEligible", "canonicalPromotionEligible", "semanticMappingSelected"], "properties": { "strictVerified": { "const": false }, "certificateEligible": { "const": false }, "canonicalPromotionEligible": { "const": false }, "semanticMappingSelected": { "const": false } } }
+  }
+}

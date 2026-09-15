@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "artifactSet",
+    "id": "15031"
+  },
+  "sourceRefs": [
+    "artifact:15031:catalog",
+    "artifact:15031:effects"
+  ],
+  "pieceSlots": {
+    "onePiece": {
+      "pieceCount": 1,
+      "sourceRefs": [
+        "artifact:15031:effect:onePiece"
+      ],
+      "modifierIds": [],
+      "specIds": []
+    },
+    "twoPiece": {
+      "pieceCount": 2,
+      "sourceRefs": [
+        "artifact:15031:effect:twoPiece"
+      ],
+      "modifierIds": [
+        "artifact:15031:twoPiece:2pc_normal_charged_damage_bonus"
+      ],
+      "specIds": [
+        "artifact:15031:twoPiece:2pc_normal_charged_damage_bonus"
+      ]
+    },
+    "fourPiece": {
+      "pieceCount": 4,
+      "sourceRefs": [
+        "artifact:15031:effect:fourPiece"
+      ],
+      "modifierIds": [
+        "artifact:15031:fourPiece:4pc_crit_rate_hp_change_stack"
+      ],
+      "specIds": [
+        "artifact:15031:fourPiece:4pc_crit_rate_hp_change_stack"
+      ]
+    }
+  },
+  "modifierIds": [
+    "artifact:15031:twoPiece:2pc_normal_charged_damage_bonus",
+    "artifact:15031:fourPiece:4pc_crit_rate_hp_change_stack"
+  ],
+  "specIds": [
+    "artifact:15031:twoPiece:2pc_normal_charged_damage_bonus",
+    "artifact:15031:fourPiece:4pc_crit_rate_hp_change_stack"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Artifact package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "gapReview": null,
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:artifactSet:15031:twoPiece:2pc_normal_charged_damage_bonus",
+      "genshin:v2:artifactSet:15031:fourPiece:4pc_crit_rate_hp_change_stack"
+    ],
+    "generator": "genshinArtifactV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

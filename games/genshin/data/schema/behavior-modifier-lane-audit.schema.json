@@ -1,0 +1,357 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-behavior-modifier-lane-audit.schema.json",
+  "title": "Genshin behavior-modifier lane reconciliation audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "kind",
+    "status",
+    "generatedAt",
+    "scope",
+    "policy",
+    "generatedFrom",
+    "claim",
+    "summary",
+    "gate",
+    "errors",
+    "fieldDigestAlgorithm",
+    "fieldDigest"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinBehaviorModifierLaneAudit" },
+    "status": { "enum": ["passed", "failed"] },
+    "generatedAt": { "const": "2026-08-26T00:00:00.000Z" },
+    "scope": { "$ref": "#/$defs/scope" },
+    "policy": { "$ref": "#/$defs/policy" },
+    "generatedFrom": { "$ref": "#/$defs/generatedFrom" },
+    "claim": { "$ref": "#/$defs/claim" },
+    "summary": { "$ref": "#/$defs/summary" },
+    "gate": { "$ref": "#/$defs/gate" },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["shardId", "clusterId", "dataset", "layer", "primaryBlockReason", "candidateCount"],
+      "properties": {
+        "shardId": { "const": "behavior:behaviorModifier:semanticDecisionRequired:standard:01" },
+        "clusterId": { "const": "source-unlock:behavior:behaviorModifier:semanticDecisionRequired:standard" },
+        "dataset": { "const": "behaviorPilot" },
+        "layer": { "const": "behaviorModifier" },
+        "primaryBlockReason": { "const": "semanticDecisionRequired" },
+        "candidateCount": { "const": 36 }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "valuesConditionsAndScope",
+        "semanticInference",
+        "canonicalPromotion",
+        "certificateAuthority",
+        "metadataBooleansNotEvidence",
+        "sourceAgreement",
+        "independentSourceProof",
+        "travelerVariants",
+        "queueMutation",
+        "queueInputProjection"
+      ],
+      "properties": {
+        "valuesConditionsAndScope": { "const": "observedOnlyNoInference" },
+        "semanticInference": { "const": "forbidden" },
+        "canonicalPromotion": { "const": "forbidden" },
+        "certificateAuthority": { "const": "strictRegistryOnly" },
+        "metadataBooleansNotEvidence": { "const": true },
+        "sourceAgreement": { "const": "notEstablishedFromSameFamilyRecords" },
+        "independentSourceProof": { "const": "sourceOwnedLineageAndRawDigestRequired" },
+        "travelerVariants": { "const": "separateAndFailClosed" },
+        "queueMutation": { "const": "none" },
+        "queueInputProjection": { "const": "genshinBehaviorModifierLaneAudit/queue-input-v1" }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exists", "bytes", "sha256"],
+      "properties": {
+        "exists": { "type": "boolean" },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "sha256": { "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] }
+      }
+    },
+    "fileReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "exists", "bytes", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "exists": { "type": "boolean" },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "sha256": { "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] }
+      }
+    },
+    "generatedFrom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "behaviorPilot",
+        "behaviorReviewed",
+        "authoritativeQueue",
+        "canonicalRuntime",
+        "eligibilityCertificates",
+        "deterministicAttestations",
+        "behaviorModifierSchema",
+        "behaviorSpecSchema",
+        "transitionSnapshots"
+      ],
+      "properties": {
+        "behaviorPilot": { "$ref": "#/$defs/fileReference" },
+        "behaviorReviewed": { "$ref": "#/$defs/fileReference" },
+        "authoritativeQueue": { "$ref": "#/$defs/queueReference" },
+        "canonicalRuntime": { "$ref": "#/$defs/fileReference" },
+        "eligibilityCertificates": { "$ref": "#/$defs/fileReference" },
+        "deterministicAttestations": { "$ref": "#/$defs/fileReference" },
+        "behaviorModifierSchema": { "$ref": "#/$defs/fileReference" },
+        "behaviorSpecSchema": { "$ref": "#/$defs/fileReference" },
+        "transitionSnapshots": { "type": "array", "items": { "$ref": "#/$defs/fileReference" } }
+      }
+    },
+    "queueReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "projectionVersion", "projectionFields", "candidateCount", "taskCount", "projectionDigest"],
+      "properties": {
+        "path": { "const": "reports/genshin-evidence-task-queue.json" },
+        "projectionVersion": { "const": "genshinBehaviorModifierLaneAudit/queue-input-v1" },
+        "projectionFields": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "candidateCount": { "const": 36 },
+        "taskCount": { "const": 36 },
+        "projectionDigest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lane", "candidateIds", "candidateInventoryDigest", "queueInputProjectionDigest", "queueTaskDigest", "sourceRefDigest", "candidates"],
+      "properties": {
+        "lane": { "$ref": "#/$defs/lane" },
+        "candidateIds": { "type": "array", "const": [
+          "behavior-modifier:10000026:constellation-1-1:1",
+          "behavior-modifier:10000026:constellation-6-6:1",
+          "behavior-modifier:10000026:constellation-6-6:2",
+          "behavior-modifier:10000026:passives-passive-2-base:1",
+          "behavior-modifier:10000031:burst-base:1",
+          "behavior-modifier:10000031:constellation-6-6:1",
+          "behavior-modifier:10000031:constellation-6-6:2",
+          "behavior-modifier:10000037:constellation-1-1:1",
+          "behavior-modifier:10000037:constellation-2-2:1",
+          "behavior-modifier:10000037:constellation-4-4:1",
+          "behavior-modifier:10000046:constellation-4-4:1",
+          "behavior-modifier:10000046:constellation-6-6:1",
+          "behavior-modifier:10000046:constellation-6-6:2",
+          "behavior-modifier:10000058:constellation-1-1:1",
+          "behavior-modifier:10000058:constellation-4-4:1",
+          "behavior-modifier:10000058:passives-passive-1-base:1",
+          "behavior-modifier:10000089:constellation-4-4:1",
+          "behavior-modifier:10000089:constellation-4-4:2",
+          "behavior-modifier:10000089:constellation-4-4:3",
+          "behavior-modifier:10000089:constellation-6-6:1",
+          "behavior-modifier:10000089:constellation-6-6:2",
+          "behavior-modifier:10000089:constellation-6-6:3",
+          "behavior-modifier:10000089:constellation-6-6:4",
+          "behavior-modifier:10000089:constellation-6-6:5",
+          "behavior-modifier:10000094:constellation-1-1:1",
+          "behavior-modifier:10000094:constellation-2-2:1",
+          "behavior-modifier:10000094:constellation-4-4:1",
+          "behavior-modifier:10000094:constellation-4-4:2",
+          "behavior-modifier:10000094:constellation-4-4:3",
+          "behavior-modifier:10000094:constellation-4-4:4",
+          "behavior-modifier:10000094:constellation-6-6:1",
+          "behavior-modifier:10000098:constellation-1-1:1",
+          "behavior-modifier:10000098:constellation-1-1:2",
+          "behavior-modifier:10000098:constellation-2-2:1",
+          "behavior-modifier:10000098:constellation-6-6:1",
+          "behavior-modifier:10000098:constellation-6-6:2"
+        ] },
+        "candidateInventoryDigest": { "$ref": "#/$defs/sha256" },
+        "queueInputProjectionDigest": { "$ref": "#/$defs/sha256" },
+        "queueTaskDigest": { "$ref": "#/$defs/sha256" },
+        "sourceRefDigest": { "$ref": "#/$defs/sha256" },
+        "candidates": { "type": "array", "minItems": 36, "maxItems": 36, "items": { "$ref": "#/$defs/candidate" } }
+      }
+    },
+    "lane": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["shardId", "clusterId", "dataset", "layer", "primaryBlockReason"],
+      "properties": {
+        "shardId": { "const": "behavior:behaviorModifier:semanticDecisionRequired:standard:01" },
+        "clusterId": { "const": "source-unlock:behavior:behaviorModifier:semanticDecisionRequired:standard" },
+        "dataset": { "const": "behaviorPilot" },
+        "layer": { "const": "behaviorModifier" },
+        "primaryBlockReason": { "const": "semanticDecisionRequired" }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "entityId", "inventory", "sourceBehaviorSpec", "bulkTransitionCapture", "mapping", "consumer", "sourceEvidence", "transitionSnapshots", "certificate", "attestation", "classification"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "entityId": { "type": ["string", "null"] },
+        "inventory": { "type": "object" },
+        "sourceBehaviorSpec": { "type": "object" },
+        "bulkTransitionCapture": { "type": "object" },
+        "mapping": { "type": "object" },
+        "consumer": { "type": "object" },
+        "sourceEvidence": { "$ref": "#/$defs/sourceEvidence" },
+        "transitionSnapshots": { "type": "array", "items": { "type": "object" } },
+        "certificate": { "type": "object" },
+        "attestation": { "type": "object" },
+        "classification": { "$ref": "#/$defs/classification" }
+      }
+    },
+    "sourceEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceRefs", "allResolved", "sourceRefCount", "resolvedSourceRefCount", "rawDigestVerifiedCount", "allRawDigestsVerified", "lineageEvidenceCount", "strictVersionEvidenceCount", "distinctFamilyCount", "providers", "independenceGroups", "observedGameVersions", "observedProviderIndependence", "classification", "independentFamilyCount", "sourceAgreement", "externalIndependentVersionedPairObserved", "eligibilityProof"],
+      "properties": {
+        "sourceRefs": { "type": "array", "items": { "$ref": "#/$defs/sourceRecord" } },
+        "allResolved": { "type": "boolean" },
+        "sourceRefCount": { "type": "integer", "minimum": 0 },
+        "resolvedSourceRefCount": { "type": "integer", "minimum": 0 },
+        "rawDigestVerifiedCount": { "type": "integer", "minimum": 0 },
+        "allRawDigestsVerified": { "type": "boolean" },
+        "lineageEvidenceCount": { "type": "integer", "minimum": 0 },
+        "strictVersionEvidenceCount": { "type": "integer", "minimum": 0 },
+        "distinctFamilyCount": { "type": "integer", "minimum": 0 },
+        "providers": { "type": "array", "items": { "type": "string" } },
+        "independenceGroups": { "type": "array", "items": { "type": "string" } },
+        "observedGameVersions": { "type": "array", "items": { "type": "string" } },
+        "observedProviderIndependence": { "type": "array", "items": { "type": "string" } },
+        "classification": { "enum": ["singleCorrelatedLocalSourceEvidence", "correlatedSourceEvidence", "mixedOrMissingSourceEvidence"] },
+        "independentFamilyCount": { "const": 0 },
+        "sourceAgreement": { "$ref": "#/$defs/sourceAgreement" },
+        "externalIndependentVersionedPairObserved": { "const": false },
+        "eligibilityProof": { "$ref": "#/$defs/eligibilityProof" }
+      }
+    },
+    "sourceRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "present", "kind", "provider", "independenceGroup", "providerIndependence", "gameVersion", "strictGameVersionBinding", "strictGameVersionBindingEvidence", "gameVersionEvidence", "locator", "capturedAt", "locale", "integrity", "rawTextPresent", "rawDigestRecomputed", "rawDigestMatches", "lineageEvidencePresent", "independenceEvidenceStatus"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "present": { "type": "boolean" },
+        "kind": { "type": ["string", "null"] },
+        "provider": { "type": ["string", "null"] },
+        "independenceGroup": { "type": ["string", "null"] },
+        "providerIndependence": { "type": ["string", "null"] },
+        "gameVersion": { "type": ["string", "null"] },
+        "strictGameVersionBinding": { "type": "boolean" },
+        "strictGameVersionBindingEvidence": { "type": "boolean" },
+        "gameVersionEvidence": { "type": ["object", "null"] },
+        "locator": { "type": ["object", "null"] },
+        "capturedAt": { "type": ["string", "null"] },
+        "locale": { "type": ["string", "null"] },
+        "integrity": { "type": ["object", "null"] },
+        "rawTextPresent": { "type": "boolean" },
+        "rawDigestRecomputed": { "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] },
+        "rawDigestMatches": { "type": "boolean" },
+        "lineageEvidencePresent": { "type": "boolean" },
+        "independenceEvidenceStatus": { "enum": ["missing", "metadataOnly", "sourceLineageEvidenceObserved"] }
+      }
+    },
+    "sourceAgreement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "comparedFamilies", "acceptedAsProof", "reason"],
+      "properties": {
+        "status": { "const": "notEstablished" },
+        "comparedFamilies": { "type": "integer", "minimum": 0 },
+        "acceptedAsProof": { "const": false },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "eligibilityProof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strictGameVersionBinding", "fieldLevelAgreement", "accepted", "reason"],
+      "properties": {
+        "strictGameVersionBinding": { "const": false },
+        "fieldLevelAgreement": { "const": false },
+        "accepted": { "const": false },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification", "evidenceClass", "reasons", "entityId", "travelerVariant", "transitionSnapshotCount", "historicalProofStatus", "inferencePerformed", "observedValueConditionScopeOnly", "certificateEligible", "canonicalPromotionEligible", "canonicalPromotion", "queuePrimaryBlockReason"],
+      "properties": {
+        "classification": { "enum": ["historicalCanonicalPendingRevalidation", "singleCorrelatedOrMissingEvidence"] },
+        "evidenceClass": { "type": "string", "minLength": 1 },
+        "reasons": { "type": "array", "items": { "type": "string" } },
+        "entityId": { "type": "string", "minLength": 1 },
+        "travelerVariant": { "type": "object" },
+        "transitionSnapshotCount": { "type": "integer", "minimum": 0 },
+        "historicalProofStatus": { "enum": ["absent", "historicalEmbedded"] },
+        "inferencePerformed": { "const": false },
+        "observedValueConditionScopeOnly": { "const": true },
+        "certificateEligible": { "const": false },
+        "canonicalPromotionEligible": { "const": false },
+        "canonicalPromotion": { "const": "forbidden" },
+        "queuePrimaryBlockReason": { "type": ["string", "null"] }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidates", "uniqueTargetSpecs", "sourceRefs", "sourceRefsResolved", "byClassification", "bySourceEvidenceClass", "byBulkTransitionCapture", "byMappingStatus", "byConsumerStatus", "byTravelerVariantStatus", "transitionSnapshots", "certificates", "attestations", "canonicalRuntime", "observedValueConditionScopeOnly", "inferredValueConditionScope", "canonicalPromotion", "certificateEligible", "queueTasksMissing"],
+      "properties": {
+        "candidates": { "const": 36 },
+        "uniqueTargetSpecs": { "type": "integer", "minimum": 0 },
+        "sourceRefs": { "type": "integer", "minimum": 0 },
+        "sourceRefsResolved": { "const": 36 },
+        "byClassification": { "type": "object", "required": ["historicalCanonicalPendingRevalidation", "singleCorrelatedOrMissingEvidence"], "properties": { "historicalCanonicalPendingRevalidation": { "const": 1 }, "singleCorrelatedOrMissingEvidence": { "const": 35 } } },
+        "bySourceEvidenceClass": { "type": "object" },
+        "byBulkTransitionCapture": { "type": "object" },
+        "byMappingStatus": { "type": "object" },
+        "byConsumerStatus": { "type": "object" },
+        "byTravelerVariantStatus": { "type": "object" },
+        "transitionSnapshots": { "type": "object" },
+        "certificates": { "type": "object" },
+        "attestations": { "type": "object" },
+        "canonicalRuntime": { "type": "object" },
+        "observedValueConditionScopeOnly": { "const": 36 },
+        "inferredValueConditionScope": { "const": 0 },
+        "canonicalPromotion": { "const": 0 },
+        "certificateEligible": { "const": 0 },
+        "queueTasksMissing": { "const": 0 }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "canIssueEligibilityCertificate", "canPromoteCanonical", "certificateEligible", "canonicalPromotionEligible", "reasons", "xiao", "remainingCandidates"],
+      "properties": {
+        "status": { "const": "failClosed" },
+        "canIssueEligibilityCertificate": { "const": false },
+        "canPromoteCanonical": { "const": false },
+        "certificateEligible": { "const": 0 },
+        "canonicalPromotionEligible": { "const": 0 },
+        "reasons": { "type": "array", "items": { "type": "string" } },
+        "xiao": { "type": "object" },
+        "remainingCandidates": { "type": "object" }
+      }
+    }
+  }
+}

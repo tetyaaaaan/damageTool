@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinDbArtifactCaptureManifest",
+  "provider": "theBowja/genshin-db",
+  "providerId": "thebowja-genshin-db",
+  "sourceFamily": "GenshinData-derived",
+  "independenceGroup": "GenshinData-derived",
+  "repository": "https://github.com/theBowja/genshin-db",
+  "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+  "revisionKind": "gitCommit",
+  "packageManifest": {
+    "rawPath": "package.json",
+    "upstreamPath": "package.json",
+    "bytes": 1619,
+    "sha256": "3faf0b2220539a07af9260f5dd83afd0e964aa42868c9b3b73c6cb14065085c6",
+    "gitBlobSha": "cfccefd470f420159b1376440e1a0f86a247030d",
+    "rawUrl": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+    "packageName": "genshin-db",
+    "packageVersion": "5.2.13",
+    "description": "Genshin Impact v7.0 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo.",
+    "gameVersionBinding": "Provider package description explicitly binds this exact package manifest to Genshin Impact v7.0."
+  },
+  "records": [
+    {
+      "candidateSetId": "15047",
+      "name": "Scarlet Proof",
+      "rawPath": "scarletproof.json",
+      "upstreamPath": "src/data/English/artifacts/scarletproof.json",
+      "bytes": 30059,
+      "sha256": "ae6825930e5db4f24019e765d805c55a8a5bdf7c5e3cb1c527665413c6ea8662",
+      "gitBlobSha": "1272222d7d9fa6d6bfd56450b6a3d3b613f4b41e",
+      "rawUrl": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/artifacts/scarletproof.json",
+      "contentsApiUrl": "https://api.github.com/repos/theBowja/genshin-db/contents/src/data/English/artifacts/scarletproof.json?ref=8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+      "gitBlobApiUrl": "https://api.github.com/repos/theBowja/genshin-db/git/blobs/1272222d7d9fa6d6bfd56450b6a3d3b613f4b41e",
+      "fields": {
+        "id": 15047,
+        "rarityList": [4, 5],
+        "effect2Pc": "ATK +18%.",
+        "effect4Pc": "Increases the equipping character's CRIT Rate by 16%, and their Stellar Swirl reaction dealt by 40%, for 10s after they trigger a Stellar Swirl reaction."
+      }
+    },
+    {
+      "candidateSetId": "15048",
+      "name": "Heart of the Furnace",
+      "rawPath": "heartofthefurnace.json",
+      "upstreamPath": "src/data/English/artifacts/heartofthefurnace.json",
+      "bytes": 14098,
+      "sha256": "fabaac383b0ab0c95b1ce7b44ff48971eee7c75dfa71a8f55763444225ad3ac1",
+      "gitBlobSha": "9a86b55acf46bccf0116a1efbabf7e054d742525",
+      "rawUrl": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/artifacts/heartofthefurnace.json",
+      "contentsApiUrl": "https://api.github.com/repos/theBowja/genshin-db/contents/src/data/English/artifacts/heartofthefurnace.json?ref=8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+      "gitBlobApiUrl": "https://api.github.com/repos/theBowja/genshin-db/git/blobs/9a86b55acf46bccf0116a1efbabf7e054d742525",
+      "fields": {
+        "id": 15048,
+        "rarityList": [4, 5],
+        "effect2Pc": "ATK +18%.",
+        "effect4Pc": "Increases the equipping character's ATK by 12% for 12s when they trigger a Stellar Glimmer reaction or deal Stellar Glimmer reaction DMG. Also increases Stellar Glimmer reaction DMG dealt by all nearby party members by 50%. The above effects can trigger even when the equipping character is not on the field, and he DMG bonus from multiple Artifact Sets with the same name do not stack."
+      }
+    }
+  ],
+  "verification": {
+    "rawBytes": "Downloaded exact response bytes without JSON normalization.",
+    "sha256": "SHA-256 over each retained raw file byte sequence.",
+    "gitBlobSha": "Git SHA-1 over the byte sequence prefixed by blob <byteLength>\\0; recomputed values equal the upstream Git blob identifiers.",
+    "recordIdentity": "Each record's id/name pair is taken from the retained raw record; official name mapping is compared separately.",
+    "policyBooleansAreNotEvidence": true
+  }
+}

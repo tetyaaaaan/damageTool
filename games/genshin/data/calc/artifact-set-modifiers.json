@@ -693,6 +693,8 @@
           "雷",
           "氷"
         ],
+        "reactionTargetRule": "artifactReactionRulesV1",
+        "lunarCrystallizeTargetElement": "水",
         "maxActiveElements": 1
       }
     ],
@@ -924,13 +926,7 @@
         "condition": "always",
         "calculationSupport": "simple",
         "uidHandling": "includedInUidStats",
-        "valuePerStack": 30,
-        "valueRole": "perStack",
-        "stack": {
-          "min": 0,
-          "max": 4,
-          "default": 0
-        }
+        "value": 30
       }
     ],
     "fourPiece": [
@@ -1716,12 +1712,13 @@
         "condition": "burningEnemyNearbyOrOutOfCombat",
         "calculationSupport": "stack",
         "uidHandling": "conditional",
-        "value": 50,
+        "valuePerStack": 1,
+        "valueRole": "perStack",
         "stack": {
           "type": "dynamicValue0To50",
           "min": 0,
           "max": 50,
-          "default": 50
+          "default": 0
         },
         "note": "燃焼敵の有無/戦闘状態で0〜50%に増減"
       }
@@ -1743,81 +1740,7 @@
         "uidHandling": "conditional",
         "value": 12,
         "duration": 15,
-        "relatedElementsByReaction": "includedInModifier",
-        "relatedElementMap": {
-          "蒸発": [
-            "炎",
-            "水"
-          ],
-          "溶解": [
-            "炎",
-            "氷"
-          ],
-          "過負荷": [
-            "炎",
-            "雷"
-          ],
-          "燃焼": [
-            "炎",
-            "草"
-          ],
-          "感電": [
-            "水",
-            "雷"
-          ],
-          "超電導": [
-            "氷",
-            "雷"
-          ],
-          "凍結": [
-            "水",
-            "氷"
-          ],
-          "拡散": [
-            "風",
-            "炎",
-            "水",
-            "雷",
-            "氷"
-          ],
-          "結晶": [
-            "岩",
-            "炎",
-            "水",
-            "雷",
-            "氷"
-          ],
-          "開花": [
-            "水",
-            "草"
-          ],
-          "超開花": [
-            "雷",
-            "草"
-          ],
-          "烈開花": [
-            "炎",
-            "草"
-          ],
-          "原激化": [
-            "雷",
-            "草"
-          ],
-          "超激化": [
-            "雷"
-          ],
-          "草激化": [
-            "草"
-          ],
-          "月感電": [
-            "水",
-            "雷"
-          ],
-          "月開花": [
-            "水",
-            "草"
-          ]
-        }
+        "relatedElementsByReaction": "artifactReactionRulesV1"
       },
       {
         "id": "4pc_reaction_related_element_damage_bonus_nightsoul",
@@ -1831,7 +1754,7 @@
         "uidHandling": "conditional",
         "value": 28,
         "duration": 20,
-        "relatedElementsByReaction": "sameAsBase"
+        "relatedElementsByReaction": "artifactReactionRulesV1"
       }
     ],
     "onePiece": []
@@ -2279,6 +2202,95 @@
         "calculationSupport": "toggle",
         "uidHandling": "conditional",
         "value": 16
+      }
+    ],
+    "onePiece": []
+  },
+  "15047": {
+    "twoPiece": [
+      {
+        "id": "2pc_atk_percent",
+        "category": "statBonus",
+        "applyTo": ["atkPercent"],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 18
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_crit_rate_after_stellar_swirl",
+        "category": "critBonus",
+        "applyTo": ["critRate"],
+        "unit": "percent",
+        "condition": "afterStellarSwirl",
+        "conditionGroupId": "artifact15047AfterStellarSwirl",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 16,
+        "duration": 10,
+        "sourceText": "装備者が星拡散反応を起こした後の10秒間、会心率+16%"
+      },
+      {
+        "id": "4pc_stellar_swirl_damage_bonus_after_stellar_swirl",
+        "category": "reactionBonus",
+        "applyTo": ["stellarSwirlDamageBonus"],
+        "unit": "percent",
+        "condition": "afterStellarSwirl",
+        "conditionGroupId": "artifact15047AfterStellarSwirl",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 40,
+        "duration": 10,
+        "sourceText": "装備者が星拡散反応を起こした後の10秒間、星拡散反応ダメージ+40%"
+      }
+    ],
+    "onePiece": []
+  },
+  "15048": {
+    "twoPiece": [
+      {
+        "id": "2pc_atk_percent",
+        "category": "statBonus",
+        "applyTo": ["atkPercent"],
+        "unit": "percent",
+        "condition": "always",
+        "calculationSupport": "simple",
+        "uidHandling": "includedInUidStats",
+        "value": 18
+      }
+    ],
+    "fourPiece": [
+      {
+        "id": "4pc_atk_after_stellar_glimmer",
+        "category": "statBonus",
+        "applyTo": ["atkPercent"],
+        "unit": "percent",
+        "condition": "afterStellarGlimmerReactionOrDamage",
+        "conditionGroupId": "artifact15048AfterStellarGlimmer",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 12,
+        "duration": 12,
+        "sourceText": "装備者が星反応を起こす、または星反応ダメージを与えた後の12秒間、攻撃力+12%"
+      },
+      {
+        "id": "4pc_team_stellar_glimmer_damage_bonus",
+        "category": "reactionBonus",
+        "applyTo": ["stellarConductDamageBonus", "stellarSwirlDamageBonus"],
+        "unit": "percent",
+        "condition": "afterStellarGlimmerReactionOrDamage",
+        "conditionGroupId": "artifact15048AfterStellarGlimmer",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "value": 50,
+        "duration": 12,
+        "target": "team",
+        "stackingGroup": "artifact:15048:teamStellarGlimmerDamageBonus",
+        "stackingRule": "max",
+        "sourceText": "近くにいるチーム内のすべてのキャラクターが与える星反応ダメージ+50%"
       }
     ],
     "onePiece": []

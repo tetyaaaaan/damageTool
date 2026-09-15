@@ -130,7 +130,12 @@
         const usesProviderStats = requiredProviderStats.length > 0;
         const providerContext = {
             ...context,
+            activeCharacterElement: context.characterElement
+                || calcData.characters?.[context.characterId]?.element
+                || context.party?.members?.find((item) => Number(item?.slot) === 1)?.element
+                || "",
             characterId: member.characterId,
+            characterElement: member.element || "",
             constellation: member.constellation,
             refinement: member.equipment?.refinement || 1,
             talentLevels: member.talentLevels || { normal: 10, skill: 10, burst: 10 },
@@ -145,7 +150,7 @@
         const normalized = sourceKind === "talent" && window.GenshinCalcEngine?.normalizeTalentStateModifier
             ? window.GenshinCalcEngine.normalizeTalentStateModifier(modifier, normalizeSource, calcData, providerContext, modifierIndex)
             : sourceKind === "artifact" && window.GenshinCalcEngine?.normalizeArtifactModifier
-                ? window.GenshinCalcEngine.normalizeArtifactModifier(modifier, normalizeSource)
+                ? window.GenshinCalcEngine.normalizeArtifactModifier(modifier, normalizeSource, providerContext)
                 : modifier;
         const target = inferTargetOwner(normalized, description);
         const partyModifier = {
@@ -155,6 +160,7 @@
             partySourceName: normalized?.effectLabel || sourceName,
             partyProviderName: member.nameJa || `メンバー${member.slot}`,
             partyProviderSlot: member.slot,
+            partyProviderElement: member.element || "",
             targetOwner: target.owner,
             auditDisposition: normalized?.auditDisposition === "sourceContextRequired" ? undefined : normalized?.auditDisposition,
             uidHandling: normalized?.uidHandling === "displayOnly" ? "displayOnly" : "conditional"
@@ -162,7 +168,7 @@
         const key = candidateKey(member, sourceKind, sourceId, normalized, modifierIndex);
         const toggleKey = candidateToggleKey(member, sourceKind, sourceId, partyModifier, key);
         const isAutomatic = automaticCondition(normalized);
-        const enabled = isAutomatic || member.buffStates?.[toggleKey] === true || member.buffStates?.[key] === true;
+        let enabled = isAutomatic || member.buffStates?.[toggleKey] === true || member.buffStates?.[key] === true;
         const relevant = target.owner !== "self" || target.confidence !== "default";
         const targetElement = normalizeElement(calcData.characters?.[context.characterId]?.element || context.party?.members?.find((item) => item.slot === 1)?.element);
         const requiredTargetElement = normalizeElement(partyModifier.requiredTargetElement);
@@ -195,6 +201,15 @@
             source: `party:${member.slot}:${member.characterId}:${sourceKind}:${sourceId}`,
             context
         }) || null;
+        if (partyModifier.conditionOptionValue !== undefined
+            && String(context.uiState?.conditionByModifier?.[analysis?.conditionStateKey]?.option)
+                !== String(partyModifier.conditionOptionValue)) {
+            enabled = false;
+            if (status === "ready") {
+                status = "off";
+                reason = "発動条件がOFFです。";
+            }
+        }
         if (["ready", "off"].includes(status) && analysis && !analysis.calculable) {
             status = analysis.supportStatus === "missingInput" ? "missingInput" : "displayOnly";
             reason = analysis.reason || "この補正は現在の計算方式では未対応です。";
@@ -204,9 +219,16 @@
             : null;
         if (["scalingDamageBonus", "scalingReactionBonus"].includes(analysis?.calculation) && partyModifier.reference?.stat) {
             const referenceValue = Number(providerContext.stats?.[partyModifier.reference.stat]) || 0;
-            const calculated = referenceValue / (Number(partyModifier.divisor) || 1) * (Number(partyModifier.ratio) || 0);
-            resolvedValue = Number.isFinite(Number(partyModifier.maxValue))
-                ? Math.min(calculated, Number(partyModifier.maxValue))
+            const refinement = String(providerContext.refinement || 1);
+            const ratio = Number(partyModifier.ratioByRefinement?.[refinement]
+                ?? partyModifier.ratioByRefinement?.["1"]
+                ?? partyModifier.ratio) || 0;
+            const maxValue = Number(partyModifier.maxValueByRefinement?.[refinement]
+                ?? partyModifier.maxValueByRefinement?.["1"]
+                ?? partyModifier.maxValue);
+            const calculated = referenceValue / (Number(partyModifier.divisor) || 1) * ratio;
+            resolvedValue = Number.isFinite(maxValue)
+                ? Math.min(calculated, maxValue)
                 : calculated;
         } else if (analysis?.calculation === "scalingAdditiveBaseDamage" && partyModifier.reference?.stat) {
             resolvedValue = (Number(providerContext.stats?.[partyModifier.reference.stat]) || 0)
@@ -339,7 +361,8 @@
                     }));
                 });
             }
-            const artifactMode = member.equipment?.artifactSetMode === "2pc2pc" ? "2pc2pc" : "4pc";
+            const artifactModeValue = String(member.equipment?.artifactSetMode || "none");
+            const artifactMode = ["4pc", "2pc2pc", "2pc", "none"].includes(artifactModeValue) ? artifactModeValue : "none";
             (member.equipment?.artifactSetIds || []).forEach((setId, index) => {
                 const artifact = calcData.artifactSetModifiers?.[setId];
                 const addArtifactCandidates = (pieceCount, modifiers) => {
@@ -353,7 +376,7 @@
                         }));
                     });
                 };
-                addArtifactCandidates(2, artifact?.twoPiece || []);
+                if (artifactMode !== "none") addArtifactCandidates(2, artifact?.twoPiece || []);
                 if (artifactMode === "4pc" && index === 0) addArtifactCandidates(4, artifact?.fourPiece || []);
             });
         });

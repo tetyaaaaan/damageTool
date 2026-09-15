@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-version-transition-affected-entity-snapshot.schema.json",
+  "title": "Genshin version transition affected entity snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "generatedAt", "claim", "summary", "gateEligibility", "fieldDigestAlgorithm", "fieldDigest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinVersionTransitionAffectedEntitySnapshot" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "claim": {
+      "type": "object",
+      "required": ["transitionId", "provider", "sourceFamily", "versionBindings", "records", "coverage"],
+      "properties": {
+        "versionBindings": { "type": "array", "minItems": 2 },
+        "records": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["entityId", "recordKind", "before", "after", "comparison"],
+            "properties": {
+              "entityId": { "type": "string" },
+              "recordKind": { "type": "string" },
+              "before": { "type": "object" },
+              "after": { "type": "object" },
+              "comparison": { "type": "object" }
+            }
+          }
+        },
+        "coverage": {
+          "type": "object",
+          "required": ["officialAffectedEntityCoverage", "repositoryCandidateCoverage", "canSatisfyCompleteEntityDiff", "canIssueEligibilityCertificate"],
+          "properties": {
+            "officialAffectedEntityCoverage": { "enum": ["partial", "complete"] },
+            "repositoryCandidateCoverage": { "enum": ["partial", "complete"] },
+            "canSatisfyCompleteEntityDiff": { "const": false },
+            "canIssueEligibilityCertificate": { "const": false }
+          }
+        }
+      }
+    },
+    "summary": { "type": "object" },
+    "gateEligibility": {
+      "type": "object",
+      "required": ["status", "canSatisfyCompleteEntityDiff", "canIssueEligibilityCertificate", "canPromoteCanonical"],
+      "properties": {
+        "status": { "const": "providerDiffOnlyFailClosed" },
+        "canSatisfyCompleteEntityDiff": { "const": false },
+        "canIssueEligibilityCertificate": { "const": false },
+        "canPromoteCanonical": { "const": false }
+      }
+    },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

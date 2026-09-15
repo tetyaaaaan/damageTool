@@ -1,0 +1,553 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionTransitionPartialDiscovery",
+  "generatedAt": "2026-08-25T00:00:00.000Z",
+  "generatedFrom": {
+    "upstreamVersionHead": {
+      "path": "games/genshin/data/v2/upstream-version-head.json",
+      "sha256": "252d591f84051a3fd08a5c736509af3002764453d00da94cc9f9a6caa0ee1d87"
+    },
+    "officialChangeIndex": {
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/official-change-index.json",
+      "sha256": "6d5c00b430ce6eb2820f97dae9bc41b6e3ebd3d535a59ab22ae0595fd1c51f81"
+    },
+    "weaponReactionPilot": {
+      "path": "games/genshin/data/v2/review-pilots/weapon-12516-reaction.json",
+      "sha256": "e7f922c96bc5aa41973f5a917303d786accdc9b3e4e5a88e064b60c9457eb069"
+    },
+    "targetDatasetEvidence": {
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/target-dataset-evidence.json",
+      "sha256": "a73ee8243eeb3db0bb18c49e10248912e5f1ad3f4d6b478e19aad245e969746a"
+    }
+  },
+  "completeness": {
+    "targetDataset": "partial",
+    "entityCoverage": "partial",
+    "claimCoverage": "unknown",
+    "completeEntityDiffAvailable": false
+  },
+  "claim": {
+    "transitionId": "genshin:6.7->7.0",
+    "fromGameVersion": "6.7",
+    "toGameVersion": "7.0",
+    "status": "partialEvidence",
+    "candidateInventoryDigest": "1cbef4d852026accf88c3163febb8328a1b4d083dc79ad356eb4b82def4f2576",
+    "officialChangeIndexFieldDigest": "a5a7ef53e2af22b3aba7d93f0e890a1b3267d4d662acf7b9701f4ba91783f1cf",
+    "weaponReactionComparisonDigest": "d620270608f01eb59b96eb0e5cfef35b99bca485ad37d86e52ffd359c82d8650",
+    "candidateMappings": [
+      {
+        "candidateId": "behavior:10000022:constellation:constellation-1",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000022:constellation:constellation-2",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000022:constellation:constellation-3",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000022:constellation:constellation-4",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000022:constellation:constellation-5",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000022:constellation:constellation-6",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "mappingStatus": "exactCandidateMapped",
+        "claimScope": "allCandidateClaimsReacquire"
+      },
+      {
+        "candidateId": "behavior:10000022:talent:burst",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000022:talent:normalattack-charged",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000022:talent:normalattack-normal",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000022:talent:normalattack-plunging",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000022:talent:passives-passive-1",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000022:talent:passives-passive-2",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000022:talent:passives-passive-utility",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000022:talent:skill",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000039:constellation:constellation-1",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000039:constellation:constellation-2",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000039:constellation:constellation-3",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000039:constellation:constellation-4",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000039:constellation:constellation-5",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000039:constellation:constellation-6",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000039:talent:burst",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000039:talent:normalattack-charged",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000039:talent:normalattack-normal",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000039:talent:normalattack-plunging",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000039:talent:passives-passive-1",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000039:talent:passives-passive-2",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000039:talent:passives-passive-utility",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000039:talent:skill",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "exactCandidateMapped",
+        "claimScope": "allCandidateClaimsReacquire"
+      },
+      {
+        "candidateId": "behavior:10000058:constellation:constellation-1",
+        "dataset": "behaviorPilot",
+        "layer": "behaviorSpec",
+        "entityId": "10000058",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000058:constellation:constellation-4",
+        "dataset": "behaviorPilot",
+        "layer": "behaviorSpec",
+        "entityId": "10000058",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000058:talent:burst",
+        "dataset": "behaviorPilot",
+        "layer": "behaviorSpec",
+        "entityId": "10000058",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000058:talent:normalattack-normal",
+        "dataset": "behaviorPilot",
+        "layer": "behaviorSpec",
+        "entityId": "10000058",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000058:talent:passives-passive-1",
+        "dataset": "behaviorPilot",
+        "layer": "behaviorSpec",
+        "entityId": "10000058",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "mappingStatus": "structuralScopeCandidate",
+        "claimScope": "candidateIdentityPending"
+      },
+      {
+        "candidateId": "behavior:10000058:talent:skill",
+        "dataset": "behaviorPilot",
+        "layer": "behaviorSpec",
+        "entityId": "10000058",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000071:constellation:constellation-1",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000071:constellation:constellation-2",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000071:constellation:constellation-3",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000071:constellation:constellation-4",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000071:constellation:constellation-5",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000071:constellation:constellation-6",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000071:talent:burst",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000071:talent:normalattack-charged",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000071:talent:normalattack-normal",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000071:talent:normalattack-plunging",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "behavior:10000071:talent:passives-passive-1",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "mappingStatus": "structuralScopeCandidate",
+        "claimScope": "candidateIdentityPending"
+      },
+      {
+        "candidateId": "behavior:10000071:talent:passives-passive-2",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "mappingStatus": "structuralScopeCandidate",
+        "claimScope": "candidateIdentityPending"
+      },
+      {
+        "candidateId": "behavior:10000071:talent:passives-passive-utility",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "mappingStatus": "structuralScopeCandidate",
+        "claimScope": "candidateIdentityPending"
+      },
+      {
+        "candidateId": "behavior:10000071:talent:skill",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "talent-gap-spec:10000039:passive_1",
+        "dataset": "talentGap",
+        "layer": "talentGapEffectSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "talent-gap-spec:10000039:passive_2",
+        "dataset": "talentGap",
+        "layer": "talentGapEffectSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "talent-gap-spec:10000039:passive_utility",
+        "dataset": "talentGap",
+        "layer": "talentGapEffectSpec",
+        "entityId": "10000039",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "mappingStatus": "conservativeEntityInvalidation",
+        "claimScope": "unknownUntilEntityDiff"
+      },
+      {
+        "candidateId": "talent-gap-spec:10000058:passive_1",
+        "dataset": "talentGap",
+        "layer": "talentGapEffectSpec",
+        "entityId": "10000058",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "mappingStatus": "structuralScopeCandidate",
+        "claimScope": "candidateIdentityPending"
+      },
+      {
+        "candidateId": "talent-gap-spec:10000058:passive_2",
+        "dataset": "talentGap",
+        "layer": "talentGapEffectSpec",
+        "entityId": "10000058",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "mappingStatus": "structuralScopeCandidate",
+        "claimScope": "candidateIdentityPending"
+      },
+      {
+        "candidateId": "talent-gap-spec:10000058:passive_utility",
+        "dataset": "talentGap",
+        "layer": "talentGapEffectSpec",
+        "entityId": "10000058",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "mappingStatus": "structuralScopeCandidate",
+        "claimScope": "candidateIdentityPending"
+      },
+      {
+        "candidateId": "w_12516_reaction_bonus_2",
+        "dataset": "weapons",
+        "layer": "weaponEffectSpec",
+        "entityId": "12516",
+        "officialChangeId": "reaction:stellarSwirl:introduced",
+        "mappingStatus": "reactionConsumerTransition",
+        "claimScope": "targetsAndFormulaReacquire"
+      }
+    ]
+  },
+  "summary": {
+    "candidates": 55,
+    "byMappingStatus": {
+      "conservativeEntityInvalidation": 45,
+      "exactCandidateMapped": 2,
+      "structuralScopeCandidate": 7,
+      "reactionConsumerTransition": 1
+    },
+    "promotionEligible": 0
+  },
+  "gateEligibility": {
+    "status": "discoveryOnlyFailClosed",
+    "canSatisfyEntityDiff": false,
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false
+  },
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "1e768be65111e07fc598fd538d484391bce48da98db8a8ce4c8d4b38e04fe898"
+}

@@ -130,7 +130,13 @@ function buildAudit() {
         if (!value || typeof value !== "object") return;
         if (value.category) {
             const source = `${file}:${jsonPath}`;
-            const analysis = analyzer.analyzeModifier({ modifier: value, source, context: { mode: "audit" } });
+            // Capability-only fixture: intrinsic stats belong to the selected
+            // character/weapon input, not this standalone modifier's evidence.
+            // These representative numbers are never source/gameplay claims.
+            // Production missing-base behavior is tested with real empty inputs.
+            const analysis = analyzer.analyzeModifier({ modifier: value, source, context: {
+                mode: "audit", stats: { baseAtk: 1000, baseHp: 10000, baseDef: 500 }
+            } });
             const record = {
                 file,
                 jsonPath,

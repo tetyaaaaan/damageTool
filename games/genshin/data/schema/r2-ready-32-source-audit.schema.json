@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "r2-ready-32-source-audit.schema.json",
+  "title": "Genshin r2 bounded audit for the 32 ready weapon/artifact candidates",
+  "description": "Draft-only candidate audit. It records reusable raw observations, runtime-input route corrections, and finite source holds without changing the authoritative queue, registry, Runtime, canonical data, or HSR data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "kind",
+    "policyId",
+    "targetGameVersion",
+    "status",
+    "draftOnly",
+    "generatedAt",
+    "generator",
+    "scope",
+    "evidence",
+    "sourceBundles",
+    "records",
+    "summary",
+    "policy",
+    "gate",
+    "validation",
+    "fieldDigestAlgorithm",
+    "fieldDigest"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinR2Ready32SourceAudit" },
+    "policyId": { "const": "genshin-goal-2026-08-28-r2" },
+    "targetGameVersion": { "const": "7.0" },
+    "status": { "const": "draft" },
+    "draftOnly": { "const": true },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "generator": { "$ref": "#/$defs/generator" },
+    "scope": { "$ref": "#/$defs/scope" },
+    "evidence": { "$ref": "#/$defs/evidence" },
+    "sourceBundles": {
+      "type": "object",
+      "additionalProperties": { "type": "object" }
+    },
+    "records": {
+      "type": "object",
+      "minProperties": 32,
+      "maxProperties": 32,
+      "additionalProperties": { "$ref": "#/$defs/record" }
+    },
+    "summary": { "$ref": "#/$defs/summary" },
+    "policy": {
+      "type": "object",
+      "required": [
+        "sourceSelection",
+        "numericComparison",
+        "semanticInference",
+        "absentRawData",
+        "runtimeInputCorrection",
+        "g06DraftBoundary",
+        "certificate",
+        "canonicalPromotion",
+        "queueMutation"
+      ],
+      "additionalProperties": { "type": "string" }
+    },
+    "gate": { "$ref": "#/$defs/gate" },
+    "validation": { "$ref": "#/$defs/validation" },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "generator": {
+      "type": "object",
+      "required": ["name", "version", "actorId"],
+      "properties": {
+        "name": { "const": "genshinR2Ready32SourceAudit.cjs" },
+        "version": { "type": "string", "minLength": 1 },
+        "actorId": { "const": "luna_worker" }
+      },
+      "additionalProperties": false
+    },
+    "stringList": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "candidateCount",
+        "candidateIdDigest",
+        "candidateIds",
+        "weaponCandidateIds",
+        "artifactCandidateIds",
+        "selection"
+      ],
+      "properties": {
+        "candidateCount": { "const": 32 },
+        "candidateIdDigest": { "$ref": "#/$defs/digest" },
+        "candidateIds": {
+          "allOf": [
+            { "$ref": "#/$defs/stringList" },
+            { "minItems": 32, "maxItems": 32 }
+          ]
+        },
+        "weaponCandidateIds": {
+          "allOf": [
+            { "$ref": "#/$defs/stringList" },
+            { "minItems": 28, "maxItems": 28 }
+          ]
+        },
+        "artifactCandidateIds": {
+          "allOf": [
+            { "$ref": "#/$defs/stringList" },
+            { "minItems": 4, "maxItems": 4 }
+          ]
+        },
+        "selection": {
+          "type": "object",
+          "required": ["selector", "queuePath", "queueSha256", "queueTaskDigestByCandidate", "noQueueMutation"],
+          "properties": {
+            "selector": { "type": "string", "minLength": 1 },
+            "queuePath": { "type": "string", "minLength": 1 },
+            "queueSha256": { "$ref": "#/$defs/digest" },
+            "queueTaskDigestByCandidate": { "type": "object", "minProperties": 32 },
+            "coverageInventoryCandidateCount": { "type": "integer", "minimum": 0 },
+            "coverageInventoryFieldDigest": { "$ref": "#/$defs/digest" },
+            "noQueueMutation": { "const": true }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "inputRef": {
+      "type": "object",
+      "required": ["path", "bytes", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "sha256": { "$ref": "#/$defs/digest" }
+      },
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["inputRefs", "weaponPrimaryComparison", "artifactFiniteProviderInspection", "routeEvidence"],
+      "properties": {
+        "inputRefs": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/$defs/inputRef" }
+        },
+        "weaponPrimaryComparison": { "type": "object" },
+        "artifactFiniteProviderInspection": { "type": "object" },
+        "routeEvidence": { "type": "object" }
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "candidateCount",
+        "weaponCandidateCount",
+        "artifactCandidateCount",
+        "sourceRawPresentWeaponCandidateCount",
+        "sourceMissingWeaponCandidateCount",
+        "numericObservationCandidateCount",
+        "numericUniqueMatchCandidateCount",
+        "numericAmbiguousCandidateCount",
+        "runtimeUserStateRouteConfirmedCandidateCount",
+        "staleInputClassificationCandidateCount",
+        "artifactCandidateScopedG06DraftCount",
+        "strictEligible",
+        "certificateEligible",
+        "canonicalPromotionEligible",
+        "queueChanged"
+      ],
+      "properties": {
+        "candidateCount": { "const": 32 },
+        "weaponCandidateCount": { "const": 28 },
+        "artifactCandidateCount": { "const": 4 },
+        "sourceRawPresentWeaponCandidateCount": { "const": 15 },
+        "sourceMissingWeaponCandidateCount": { "const": 13 },
+        "numericObservationCandidateCount": { "const": 6 },
+        "numericUniqueMatchCandidateCount": { "const": 5 },
+        "numericAmbiguousCandidateCount": { "const": 1 },
+        "runtimeUserStateRouteConfirmedCandidateCount": { "const": 16 },
+        "staleInputClassificationCandidateCount": { "const": 16 },
+        "artifactCandidateScopedG06DraftCount": { "const": 4 },
+        "strictEligible": { "const": 0 },
+        "certificateEligible": { "const": 0 },
+        "canonicalPromotionEligible": { "const": 0 },
+        "queueChanged": { "const": false }
+      },
+      "additionalProperties": true
+    },
+    "gate": {
+      "type": "object",
+      "required": ["strictEligible", "certificateEligible", "canonicalPromotionEligible", "verificationGranted", "runtimeChanged", "queueChanged", "reason"],
+      "properties": {
+        "strictEligible": { "const": 0 },
+        "certificateEligible": { "const": 0 },
+        "canonicalPromotionEligible": { "const": 0 },
+        "verificationGranted": { "const": false },
+        "runtimeChanged": { "const": false },
+        "queueChanged": { "const": false },
+        "reason": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "validation": {
+      "type": "object",
+      "required": ["valid", "reasons"],
+      "properties": {
+        "valid": { "const": true },
+        "reasons": { "type": "array", "maxItems": 0 }
+      },
+      "additionalProperties": false
+    },
+    "record": {
+      "type": "object",
+      "required": ["candidateId", "dataset", "layer", "entity", "claims", "source", "sourceDisposition", "calculation", "work", "gate"],
+      "properties": {
+        "candidateId": { "type": "string", "minLength": 1 },
+        "dataset": { "enum": ["weapons", "artifacts"] },
+        "layer": { "type": "string", "minLength": 1 },
+        "entity": { "type": "object" },
+        "claims": { "type": "object" },
+        "source": { "type": "object" },
+        "sourceDisposition": { "type": "object" },
+        "calculation": { "type": "object" },
+        "work": { "type": "object" },
+        "gate": { "type": "object" }
+      },
+      "additionalProperties": true
+    }
+  }
+}

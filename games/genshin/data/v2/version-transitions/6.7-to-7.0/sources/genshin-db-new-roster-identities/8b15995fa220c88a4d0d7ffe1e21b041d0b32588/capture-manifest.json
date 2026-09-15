@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinDbNewRosterIdentityCapture",
+  "status": "capturedIdentityRecordsFailClosed",
+  "strict": false,
+  "canonical": false,
+  "transitionId": "genshin:6.7->7.0",
+  "targetGameVersion": "7.0",
+  "provider": {
+    "name": "theBowja/genshin-db",
+    "sourceFamily": "GenshinData-derived",
+    "repository": "https://github.com/theBowja/genshin-db",
+    "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+    "revisionUrl": "https://github.com/theBowja/genshin-db/commit/8b15995fa220c88a4d0d7ffe1e21b041d0b32588"
+  },
+  "package": {
+    "gameVersion": "7.0",
+    "packageVersion": "5.2.13",
+    "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+    "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+    "rawArtifactBytes": 1619,
+    "rawArtifactSha256": "3faf0b2220539a07af9260f5dd83afd0e964aa42868c9b3b73c6cb14065085c6",
+    "gitBlob": "cfccefd470f420159b1376440e1a0f86a247030d",
+    "description": "Genshin Impact v7.0 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo."
+  },
+  "records": [
+    {
+      "rosterName": "Alyosha",
+      "providerSlug": "alyosha",
+      "providerPath": "src/data/English/characters/alyosha.json",
+      "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/characters/alyosha.json",
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-new-roster-identities/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/characters/alyosha.json",
+      "rawArtifactBytes": 3197,
+      "rawArtifactSha256": "b7e1edc5aa047a0a7b2057e4ecc77f0ba2a6b4754be7e76fa78c6479491c71c2",
+      "gitBlob": "dc2ca8a7c61521ecf460e20e9f7e325419a7189a",
+      "embeddedIdentity": {
+        "idPath": "$.id",
+        "id": 10000148,
+        "namePath": "$.name",
+        "name": "Alyosha",
+        "elementPath": "$.elementText",
+        "element": "Electro",
+        "weaponPath": "$.weaponText",
+        "weapon": "Polearm",
+        "rarityPath": "$.rarity",
+        "rarity": 4
+      },
+      "identityResolution": {
+        "providerEmbeddedFullId": true,
+        "candidateLocalEntityId": 10000148,
+        "localEntityIdProven": false,
+        "status": "providerEmbeddedIdMatchesCandidateButOfficialPostPublishesNoLocalId"
+      },
+      "typedCalculationAvailability": {
+        "available": [
+          "display identity",
+          "element",
+          "weapon",
+          "rarity",
+          "ascension material cost records"
+        ],
+        "unavailable": [
+          "base stats",
+          "level-by-level stat growth",
+          "ascension stat values",
+          "normal/skill/burst numeric scaling tables",
+          "typed runtime talent mechanics"
+        ]
+      }
+    },
+    {
+      "rosterName": "Odette",
+      "providerSlug": "odette",
+      "providerPath": "src/data/English/characters/odette.json",
+      "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/characters/odette.json",
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-new-roster-identities/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/characters/odette.json",
+      "rawArtifactBytes": 3152,
+      "rawArtifactSha256": "9dba9233c9999cc2f4b555a619fbbe49ffbe3db884becd23c5a303f8986a8103",
+      "gitBlob": "f65da027e942d46052cacd8e649b238e265db472",
+      "embeddedIdentity": {
+        "idPath": "$.id",
+        "id": 10000150,
+        "namePath": "$.name",
+        "name": "Odette",
+        "elementPath": "$.elementText",
+        "element": "Cryo",
+        "weaponPath": "$.weaponText",
+        "weapon": "Sword",
+        "rarityPath": "$.rarity",
+        "rarity": 5
+      },
+      "identityResolution": {
+        "providerEmbeddedFullId": true,
+        "candidateLocalEntityId": 10000150,
+        "localEntityIdProven": false,
+        "status": "providerEmbeddedIdMatchesCandidateButOfficialPostPublishesNoLocalId"
+      },
+      "typedCalculationAvailability": {
+        "available": [
+          "display identity",
+          "element",
+          "weapon",
+          "rarity",
+          "ascension material cost records"
+        ],
+        "unavailable": [
+          "base stats",
+          "level-by-level stat growth",
+          "ascension stat values",
+          "normal/skill/burst numeric scaling tables",
+          "typed runtime talent mechanics"
+        ]
+      }
+    }
+  ],
+  "travelerCryo": {
+    "providerSlug": "travelercryo",
+    "characterRecordStatus": "notPresentAtPinnedRevision",
+    "expectedPath": "src/data/English/characters/travelercryo.json",
+    "expectedUrl": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/characters/travelercryo.json",
+    "httpStatus": 404,
+    "directoryTreePath": "src/data/English/characters",
+    "directoryTreeSha": "6d5b6fa202692fdab6a2f973b4fa21a05c8ae615",
+    "treeUrl": "https://api.github.com/repos/theBowja/genshin-db/git/trees/6d5b6fa202692fdab6a2f973b4fa21a05c8ae615",
+    "relatedConstellationRecord": {
+      "path": "src/data/English/constellations/travelercryo.json",
+      "status": "existsButNotACharacterIdentityRecord"
+    },
+    "captureDecision": "notCapturedBecauseNoExactEnglishCharacterRecordExists"
+  },
+  "officialPostCrossCheck": {
+    "provider": "Genshin Impact Official / HoYoLAB",
+    "postId": "46233468",
+    "subject": "\"Everwinter Without Mercy\" Version 7.0 Update Details",
+    "sourcePath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-official-release-check/post-46233468-api.response",
+    "sourceUrl": "https://bbs-api-os.hoyolab.com/community/post/wapi/getPostFull?post_id=46233468",
+    "rawArtifactBytes": 140000,
+    "rawArtifactSha256": "bf7187d4314dbcaf7e1d76f1ed5ece09d20d866dfb86d019b75006467bf9aeef",
+    "fieldResults": {
+      "Alyosha": {
+        "name": "confirmed",
+        "element": "confirmed",
+        "weapon": "confirmed",
+        "rarity": "confirmed",
+        "fullLocalId": "notPublished"
+      },
+      "Odette": {
+        "name": "confirmed",
+        "element": "confirmed",
+        "weapon": "confirmed",
+        "rarity": "confirmed",
+        "fullLocalId": "notPublished"
+      }
+    },
+    "evidenceSnippets": {
+      "Alyosha": [
+        "\"Swift-Striding Hound\" Alyosha (Electro) (4-Star)",
+        "Weapon: Polearm"
+      ],
+      "Odette": [
+        "\"Swirling Snow\" Odette (Cryo) (5-Star)",
+        "Weapon: Sword"
+      ]
+    },
+    "idConclusion": "The provider records contain full IDs 10000148 and 10000150, but the independent official post contains no local IDs; therefore those IDs are not independently proven and cannot make this capture strict or canonical."
+  },
+  "gate": {
+    "strictEligible": false,
+    "canonicalPromotionEligible": false,
+    "reasons": [
+      "official post confirms display identity fields but does not publish local IDs",
+      "only one correlated provider family supplies full IDs",
+      "character records do not supply typed base-stat or level-scaling fields",
+      "Traveler Cryo has no exact English character identity record at the pinned revision"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "kind": "humanReviewDecision",
+  "target": { "kind": "weapon", "id": "12516", "candidateId": "w_12516_stat_1" },
+  "decision": "approve",
+  "reviewedBy": "user:workspace-owner",
+  "reviewedAt": "2026-08-23T00:00:00.000Z",
+  "approvedScope": {
+    "valueByRefinement": { "1": 28, "2": 35, "3": 42, "4": 49, "5": 56 },
+    "target": "self.atkPercent",
+    "activation": "always",
+    "clauseBoundary": "maximum-three-stacks belongs to the Stellar Conduct/Stellar Nucleosynthesis reaction-damage clause, not the unconditional ATK clause",
+    "providerIndependence": "HoYoverse and genshin-db are approved as independent sources for w_12516_stat_1 only"
+  },
+  "constraints": {
+    "appliesOnlyToCandidate": "w_12516_stat_1",
+    "doesNotApproveOtherClaims": true,
+    "doesNotApproveOtherProviderPairUses": true,
+    "aiSelfApproval": "forbidden"
+  }
+}

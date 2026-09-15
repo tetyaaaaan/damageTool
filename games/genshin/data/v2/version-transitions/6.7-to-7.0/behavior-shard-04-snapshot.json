@@ -1,0 +1,915 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionTransitionBehaviorShardSnapshot",
+  "generatedAt": "2026-08-26T00:00:00.000Z",
+  "claim": {
+    "transitionId": "genshin:6.7->7.0",
+    "fromGameVersion": "6.7",
+    "toGameVersion": "7.0",
+    "provider": "genshin-db",
+    "sourceFamily": "GenshinData-derived",
+    "repository": "theBowja/genshin-db",
+    "treeResolution": {
+      "method": "nonRecursiveGitTreePath",
+      "note": "Each captured path is a concrete entry under src/data/English/{talents,constellations}; no recursive tree result or fuzzy name match is used."
+    },
+    "shard": {
+      "shardId": "behavior:behaviorSpec:semanticDecisionRequired:standard:04",
+      "queuePath": "reports/genshin-evidence-task-queue.json",
+      "authoritativeCandidateCount": 100,
+      "authoritativeCandidateIds": [
+        "behavior:10000036:talent:passives-passive-1",
+        "behavior:10000036:talent:passives-passive-2",
+        "behavior:10000036:talent:passives-passive-utility",
+        "behavior:10000036:talent:skill",
+        "behavior:10000037:constellation:constellation-1",
+        "behavior:10000037:constellation:constellation-4",
+        "behavior:10000037:constellation:constellation-6",
+        "behavior:10000037:talent:burst",
+        "behavior:10000037:talent:normalattack-normal",
+        "behavior:10000037:talent:passives-passive-1",
+        "behavior:10000037:talent:skill",
+        "behavior:10000038:constellation:constellation-1",
+        "behavior:10000038:constellation:constellation-2",
+        "behavior:10000038:constellation:constellation-3",
+        "behavior:10000038:constellation:constellation-4",
+        "behavior:10000038:constellation:constellation-5",
+        "behavior:10000038:constellation:constellation-6",
+        "behavior:10000038:talent:burst",
+        "behavior:10000038:talent:normalattack-charged",
+        "behavior:10000038:talent:normalattack-normal",
+        "behavior:10000038:talent:normalattack-plunging",
+        "behavior:10000038:talent:passives-passive-1",
+        "behavior:10000038:talent:passives-passive-2",
+        "behavior:10000038:talent:passives-passive-utility",
+        "behavior:10000038:talent:skill",
+        "behavior:10000041:constellation:constellation-1",
+        "behavior:10000041:constellation:constellation-2",
+        "behavior:10000041:constellation:constellation-3",
+        "behavior:10000041:constellation:constellation-4",
+        "behavior:10000041:constellation:constellation-5",
+        "behavior:10000041:constellation:constellation-6",
+        "behavior:10000041:talent:burst",
+        "behavior:10000041:talent:normalattack-charged",
+        "behavior:10000041:talent:normalattack-normal",
+        "behavior:10000041:talent:normalattack-plunging",
+        "behavior:10000041:talent:passives-passive-1",
+        "behavior:10000041:talent:passives-passive-2",
+        "behavior:10000041:talent:passives-passive-utility",
+        "behavior:10000041:talent:skill",
+        "behavior:10000041:talent:special",
+        "behavior:10000042:constellation:constellation-1",
+        "behavior:10000042:constellation:constellation-2",
+        "behavior:10000042:constellation:constellation-3",
+        "behavior:10000042:constellation:constellation-4",
+        "behavior:10000042:constellation:constellation-5",
+        "behavior:10000042:constellation:constellation-6",
+        "behavior:10000042:talent:burst",
+        "behavior:10000042:talent:normalattack-charged",
+        "behavior:10000042:talent:normalattack-normal",
+        "behavior:10000042:talent:normalattack-plunging",
+        "behavior:10000042:talent:passives-passive-1",
+        "behavior:10000042:talent:passives-passive-2",
+        "behavior:10000042:talent:passives-passive-utility",
+        "behavior:10000042:talent:skill",
+        "behavior:10000043:constellation:constellation-1",
+        "behavior:10000043:constellation:constellation-2",
+        "behavior:10000043:constellation:constellation-3",
+        "behavior:10000043:constellation:constellation-4",
+        "behavior:10000043:constellation:constellation-5",
+        "behavior:10000043:constellation:constellation-6",
+        "behavior:10000043:talent:burst",
+        "behavior:10000043:talent:normalattack-charged",
+        "behavior:10000043:talent:normalattack-normal",
+        "behavior:10000043:talent:normalattack-plunging",
+        "behavior:10000043:talent:passives-passive-1",
+        "behavior:10000043:talent:passives-passive-2",
+        "behavior:10000043:talent:passives-passive-utility",
+        "behavior:10000043:talent:skill",
+        "behavior:10000044:constellation:constellation-1",
+        "behavior:10000044:constellation:constellation-2",
+        "behavior:10000044:constellation:constellation-3",
+        "behavior:10000044:constellation:constellation-4",
+        "behavior:10000044:constellation:constellation-5",
+        "behavior:10000044:constellation:constellation-6",
+        "behavior:10000044:talent:burst",
+        "behavior:10000044:talent:normalattack-charged",
+        "behavior:10000044:talent:normalattack-normal",
+        "behavior:10000044:talent:normalattack-plunging",
+        "behavior:10000044:talent:passives-passive-1",
+        "behavior:10000044:talent:passives-passive-2",
+        "behavior:10000044:talent:passives-passive-utility",
+        "behavior:10000044:talent:skill",
+        "behavior:10000045:constellation:constellation-1",
+        "behavior:10000045:constellation:constellation-2",
+        "behavior:10000045:constellation:constellation-3",
+        "behavior:10000045:constellation:constellation-4",
+        "behavior:10000045:constellation:constellation-5",
+        "behavior:10000045:constellation:constellation-6",
+        "behavior:10000045:talent:burst",
+        "behavior:10000045:talent:normalattack-charged",
+        "behavior:10000045:talent:normalattack-normal",
+        "behavior:10000045:talent:normalattack-plunging",
+        "behavior:10000045:talent:passives-passive-1",
+        "behavior:10000045:talent:passives-passive-2",
+        "behavior:10000045:talent:passives-passive-utility",
+        "behavior:10000045:talent:skill",
+        "behavior:10000046:constellation:constellation-4",
+        "behavior:10000046:constellation:constellation-6",
+        "behavior:10000046:talent:burst",
+        "behavior:10000046:talent:normalattack-normal"
+      ],
+      "authoritativeCandidateIdsDigest": "e5a40ec8d4b794f3b87707c7657ad9c976bf371ff723baac1a633339b0f0a5dd",
+      "authoritativeEntityIds": [
+        "10000036",
+        "10000037",
+        "10000038",
+        "10000041",
+        "10000042",
+        "10000043",
+        "10000044",
+        "10000045",
+        "10000046"
+      ],
+      "capturedNewEntityIds": [
+        "10000037",
+        "10000038",
+        "10000041",
+        "10000042",
+        "10000043",
+        "10000044",
+        "10000045",
+        "10000046"
+      ],
+      "skippedOverlapEntityIds": [
+        "10000036"
+      ],
+      "overlapPolicy": "alreadyCapturedByBehaviorShard03"
+    },
+    "versionBindings": [
+      {
+        "gameVersion": "6.7",
+        "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+        "packageVersion": "5.2.12",
+        "status": "strictlyBound",
+        "package": {
+          "gameVersion": "6.7",
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "packageVersion": "5.2.12",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+          "gitBlob": "e78cc92e75db21ea15edadbeafdf9152896d934c",
+          "rawArtifactBytes": 1619,
+          "rawArtifactSha256": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+          "name": "genshin-db",
+          "description": "Genshin Impact v6.7 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo."
+        }
+      },
+      {
+        "gameVersion": "7.0",
+        "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+        "packageVersion": "5.2.13",
+        "status": "strictlyBound",
+        "package": {
+          "gameVersion": "7.0",
+          "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+          "packageVersion": "5.2.13",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+          "gitBlob": "cfccefd470f420159b1376440e1a0f86a247030d",
+          "rawArtifactBytes": 1619,
+          "rawArtifactSha256": "3faf0b2220539a07af9260f5dd83afd0e964aa42868c9b3b73c6cb14065085c6",
+          "name": "genshin-db",
+          "description": "Genshin Impact v7.0 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo."
+        }
+      }
+    ],
+    "resolvedEntities": [
+      {
+        "entityId": "10000037",
+        "name": "Ganyu",
+        "nameJa": "甘雨",
+        "providerSlug": "ganyu",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/ganyu.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/ganyu.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/ganyu.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/ganyu.json",
+              "gitBlob": "725d57edb88caf9f1a7a4a4627fd90390a980320",
+              "rawArtifactBytes": 7667,
+              "rawArtifactSha256": "054c909619d140acf24ccf164a4f8c76f514cfc860a6c45bdb0dfdae0d373dc4"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/ganyu.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/ganyu.json",
+              "gitBlob": "725d57edb88caf9f1a7a4a4627fd90390a980320",
+              "rawArtifactBytes": 7667,
+              "rawArtifactSha256": "054c909619d140acf24ccf164a4f8c76f514cfc860a6c45bdb0dfdae0d373dc4"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/ganyu.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/ganyu.json",
+              "gitBlob": "d21c83eaa0c04b6e60721f120efb8ecce093c968",
+              "rawArtifactBytes": 2378,
+              "rawArtifactSha256": "b4637f6fbe6bd0bfe4b04d344b4dc62a8addeeda0422545ab39eb34d841bdb62"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/ganyu.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/ganyu.json",
+              "gitBlob": "d21c83eaa0c04b6e60721f120efb8ecce093c968",
+              "rawArtifactBytes": 2378,
+              "rawArtifactSha256": "b4637f6fbe6bd0bfe4b04d344b4dc62a8addeeda0422545ab39eb34d841bdb62"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000038",
+        "name": "Albedo",
+        "nameJa": "アルベド",
+        "providerSlug": "albedo",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/albedo.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/albedo.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/albedo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/albedo.json",
+              "gitBlob": "bd70b2a367a2ad27642feed15647b27b531e8348",
+              "rawArtifactBytes": 8131,
+              "rawArtifactSha256": "a4661a05e7110b969023b8b970ae213598ae26a72f6e21c8dcb2f07c48e1318f"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/albedo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/albedo.json",
+              "gitBlob": "bd70b2a367a2ad27642feed15647b27b531e8348",
+              "rawArtifactBytes": 8131,
+              "rawArtifactSha256": "a4661a05e7110b969023b8b970ae213598ae26a72f6e21c8dcb2f07c48e1318f"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/albedo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/albedo.json",
+              "gitBlob": "a6926d5cfc21389eaffa565bcc1c8289142603d9",
+              "rawArtifactBytes": 2605,
+              "rawArtifactSha256": "89a5caf0dca7d02be16aef1106d0e3ed5e4b1c6cd375c1788ccadc2af6a2187a"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/albedo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/albedo.json",
+              "gitBlob": "a6926d5cfc21389eaffa565bcc1c8289142603d9",
+              "rawArtifactBytes": 2605,
+              "rawArtifactSha256": "89a5caf0dca7d02be16aef1106d0e3ed5e4b1c6cd375c1788ccadc2af6a2187a"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000041",
+        "name": "Mona",
+        "nameJa": "モナ",
+        "providerSlug": "mona",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/mona.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/mona.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/mona.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/mona.json",
+              "gitBlob": "61234e0d32e71c7def19f75e9942b7210336c3ef",
+              "rawArtifactBytes": 9817,
+              "rawArtifactSha256": "61f1699fe1eb1f6cb52599f77220ae21fb687f0cae795d51fef7b4c9d9a1a60f"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/mona.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/mona.json",
+              "gitBlob": "61234e0d32e71c7def19f75e9942b7210336c3ef",
+              "rawArtifactBytes": 9817,
+              "rawArtifactSha256": "61f1699fe1eb1f6cb52599f77220ae21fb687f0cae795d51fef7b4c9d9a1a60f"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/mona.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/mona.json",
+              "gitBlob": "2072ea94827ac55343218154c2d9d22ff33cd373",
+              "rawArtifactBytes": 2658,
+              "rawArtifactSha256": "20fbe9621bfcfea8d1d9514a889d27988a7eb1feca4d6932e302f096ad7a8d2b"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/mona.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/mona.json",
+              "gitBlob": "2072ea94827ac55343218154c2d9d22ff33cd373",
+              "rawArtifactBytes": 2658,
+              "rawArtifactSha256": "20fbe9621bfcfea8d1d9514a889d27988a7eb1feca4d6932e302f096ad7a8d2b"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000042",
+        "name": "Keqing",
+        "nameJa": "刻晴",
+        "providerSlug": "keqing",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/keqing.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/keqing.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/keqing.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/keqing.json",
+              "gitBlob": "b57c7f2070ef50ae20fd2794d4e11fb73fd2782f",
+              "rawArtifactBytes": 8561,
+              "rawArtifactSha256": "89ae2fdd659d0f4c12fb4e03cdbbb0e869be2aa4d51b4eda0e48c844b2cc54fe"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/keqing.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/keqing.json",
+              "gitBlob": "b57c7f2070ef50ae20fd2794d4e11fb73fd2782f",
+              "rawArtifactBytes": 8561,
+              "rawArtifactSha256": "89ae2fdd659d0f4c12fb4e03cdbbb0e869be2aa4d51b4eda0e48c844b2cc54fe"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/keqing.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/keqing.json",
+              "gitBlob": "dca940157e2d7b292cd42918490cb23841edcecb",
+              "rawArtifactBytes": 2433,
+              "rawArtifactSha256": "cd5b63c5b4f2bbe60a516506128b3dbd5227b80bb180ca056887de9dbe37a40f"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/keqing.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/keqing.json",
+              "gitBlob": "dca940157e2d7b292cd42918490cb23841edcecb",
+              "rawArtifactBytes": 2433,
+              "rawArtifactSha256": "cd5b63c5b4f2bbe60a516506128b3dbd5227b80bb180ca056887de9dbe37a40f"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000043",
+        "name": "Sucrose",
+        "nameJa": "スクロース",
+        "providerSlug": "sucrose",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/sucrose.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/sucrose.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/sucrose.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/sucrose.json",
+              "gitBlob": "6f00d5d18ef1e077c3651a698a4b6055caebba80",
+              "rawArtifactBytes": 7875,
+              "rawArtifactSha256": "957f3fd8ef58cf4f7ec4fd05cd782ddca85d1557ee7a16e45f835f01488faaa2"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/sucrose.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/sucrose.json",
+              "gitBlob": "ccd341e5c454443f6bfa5a3da83b2e3d9ec97245",
+              "rawArtifactBytes": 7909,
+              "rawArtifactSha256": "a941012a28d58aae57ec4be0012af58ed44a4710c44db470de6a77529d0df8d1"
+            },
+            "comparison": {
+              "status": "rawRecordChanged",
+              "changedFieldCount": 2,
+              "fieldDiffs": [
+                {
+                  "jsonPointer": "/passive1/description",
+                  "beforeValue": "When Sucrose triggers a Swirl reaction, all characters in the party with the matching element (excluding Sucrose) have their Elemental Mastery increased by 50 for 8s.",
+                  "afterValue": "When Sucrose triggers a Swirl or Stellar Swirl reaction, all characters in the party with the matching element (excluding Sucrose) have their Elemental Mastery increased by 50 for 8s.",
+                  "beforeFieldDigest": "21766af430277a07dfac33a738d8ab98179fda14730a21513f9c9c4401e2b479",
+                  "afterFieldDigest": "cf93913758380ca63fabab4c81cbb2e2a165b841f93a25558241615d30126ba4"
+                },
+                {
+                  "jsonPointer": "/passive1/descriptionRaw",
+                  "beforeValue": "When Sucrose triggers a Swirl reaction, all characters in the party with the matching element (excluding Sucrose) have their Elemental Mastery increased by 50 for 8s.",
+                  "afterValue": "When Sucrose triggers a Swirl or Stellar Swirl reaction, all characters in the party with the matching element (excluding Sucrose) have their Elemental Mastery increased by 50 for 8s.",
+                  "beforeFieldDigest": "21766af430277a07dfac33a738d8ab98179fda14730a21513f9c9c4401e2b479",
+                  "afterFieldDigest": "cf93913758380ca63fabab4c81cbb2e2a165b841f93a25558241615d30126ba4"
+                }
+              ]
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/sucrose.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/sucrose.json",
+              "gitBlob": "834b2af9e6d099dea3e5585546e734187a106fe9",
+              "rawArtifactBytes": 2141,
+              "rawArtifactSha256": "4979ffb2c129d3a7675dcbc72863703d7d348b2199fa200f1eeecac3c1107064"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/sucrose.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/sucrose.json",
+              "gitBlob": "834b2af9e6d099dea3e5585546e734187a106fe9",
+              "rawArtifactBytes": 2141,
+              "rawArtifactSha256": "4979ffb2c129d3a7675dcbc72863703d7d348b2199fa200f1eeecac3c1107064"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000044",
+        "name": "Xinyan",
+        "nameJa": "辛炎",
+        "providerSlug": "xinyan",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/xinyan.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/xinyan.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/xinyan.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/xinyan.json",
+              "gitBlob": "f27cb2462ecf1bd0a99fa60ba88c276c343c263f",
+              "rawArtifactBytes": 8344,
+              "rawArtifactSha256": "c2a99bc1ef1fff4cd3c5be041370386259d2592c22ef3e102b69a3e9c82cbeda"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/xinyan.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/xinyan.json",
+              "gitBlob": "f27cb2462ecf1bd0a99fa60ba88c276c343c263f",
+              "rawArtifactBytes": 8344,
+              "rawArtifactSha256": "c2a99bc1ef1fff4cd3c5be041370386259d2592c22ef3e102b69a3e9c82cbeda"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/xinyan.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/xinyan.json",
+              "gitBlob": "cbca18ff69e1d28668e8d2b6cff6ee073f3da67a",
+              "rawArtifactBytes": 1926,
+              "rawArtifactSha256": "6d87effe5631d10840e29725330fdf39625f77bdc234850bf13c340b18521eb3"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/xinyan.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/xinyan.json",
+              "gitBlob": "cbca18ff69e1d28668e8d2b6cff6ee073f3da67a",
+              "rawArtifactBytes": 1926,
+              "rawArtifactSha256": "6d87effe5631d10840e29725330fdf39625f77bdc234850bf13c340b18521eb3"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000045",
+        "name": "Rosaria",
+        "nameJa": "ロサリア",
+        "providerSlug": "rosaria",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/rosaria.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/rosaria.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/rosaria.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/rosaria.json",
+              "gitBlob": "3e48b537ebf8bf5eb10d0a34f5d4ad6d8265fe54",
+              "rawArtifactBytes": 7530,
+              "rawArtifactSha256": "ae8241925341ed8b01f2b8e55811f0931e350afef9173f0a7eb9ce85385196f9"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/rosaria.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/rosaria.json",
+              "gitBlob": "3e48b537ebf8bf5eb10d0a34f5d4ad6d8265fe54",
+              "rawArtifactBytes": 7530,
+              "rawArtifactSha256": "ae8241925341ed8b01f2b8e55811f0931e350afef9173f0a7eb9ce85385196f9"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/rosaria.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/rosaria.json",
+              "gitBlob": "78655794eabeace76591aead9ccd8569d5b8ebc5",
+              "rawArtifactBytes": 1796,
+              "rawArtifactSha256": "03aa614ac09b578514105217ee722c1a9ec5fd490194c4d4954ba275467fe2eb"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/rosaria.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/rosaria.json",
+              "gitBlob": "78655794eabeace76591aead9ccd8569d5b8ebc5",
+              "rawArtifactBytes": 1796,
+              "rawArtifactSha256": "03aa614ac09b578514105217ee722c1a9ec5fd490194c4d4954ba275467fe2eb"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000046",
+        "name": "Hu Tao",
+        "nameJa": "胡桃",
+        "providerSlug": "hutao",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/hutao.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/hutao.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/hutao.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/hutao.json",
+              "gitBlob": "4e172f96d3fc5c1645b501fca7b78a32c660aa2d",
+              "rawArtifactBytes": 9166,
+              "rawArtifactSha256": "11057f473ac390a2f66463b638164d1f3f4e2030dc504dd7f43b47523cfe8bd5"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/hutao.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/hutao.json",
+              "gitBlob": "4e172f96d3fc5c1645b501fca7b78a32c660aa2d",
+              "rawArtifactBytes": 9166,
+              "rawArtifactSha256": "11057f473ac390a2f66463b638164d1f3f4e2030dc504dd7f43b47523cfe8bd5"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/hutao.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/hutao.json",
+              "gitBlob": "e99b7c3839463671c6f1cd0a32f43c0f6871a9c6",
+              "rawArtifactBytes": 2863,
+              "rawArtifactSha256": "60b17b652069fc93ec5f2f16daa4f7a2c131189416c58ea00ea86b4db78da1e9"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/hutao.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/hutao.json",
+              "gitBlob": "e99b7c3839463671c6f1cd0a32f43c0f6871a9c6",
+              "rawArtifactBytes": 2863,
+              "rawArtifactSha256": "60b17b652069fc93ec5f2f16daa4f7a2c131189416c58ea00ea86b4db78da1e9"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      }
+    ],
+    "travelerVariantEvidence": [],
+    "variantAmbiguities": [],
+    "coverage": {
+      "resolvedEntityIds": [
+        "10000037",
+        "10000038",
+        "10000041",
+        "10000042",
+        "10000043",
+        "10000044",
+        "10000045",
+        "10000046"
+      ],
+      "ambiguousEntityIds": [],
+      "recordKinds": [
+        "talents",
+        "constellations"
+      ],
+      "authoritativeCandidateCoverage": "entitySourceRecordsForNewEntitiesComplete",
+      "resolvedEntityRecordCoverage": "complete",
+      "travelerVariantRecordCoverage": "notApplicable",
+      "repositoryCandidateCoverage": "partial",
+      "authoritativeCandidateCount": 100,
+      "overlapEntityCount": 1,
+      "crossVariantComparisons": 0,
+      "canIssueEligibilityCertificate": false,
+      "canPromoteCanonical": false
+    }
+  },
+  "summary": {
+    "shardId": "behavior:behaviorSpec:semanticDecisionRequired:standard:04",
+    "authoritativeCandidates": 100,
+    "authoritativeEntities": 9,
+    "resolvedEntities": 8,
+    "overlapSkippedEntities": 1,
+    "ambiguousEntities": 0,
+    "resolvedRecords": 16,
+    "changedRecords": 1,
+    "changedFields": 2,
+    "sourceFamilyCount": 1,
+    "certificateEligibleClaims": 0
+  },
+  "gateEligibility": {
+    "status": "singleCorrelatedFamilyFailClosed",
+    "sourceFamilyCount": 1,
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false,
+    "reasons": [
+      "providerIndependenceInsufficient",
+      "behaviorSemanticsNotParsed",
+      "shardOverlapRetained"
+    ]
+  },
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "7954ebf76c7aeb62697b0ffedbad15c78d2e598f54cf39244e22a613163083b6"
+}

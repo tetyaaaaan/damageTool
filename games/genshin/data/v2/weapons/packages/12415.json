@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "weapon",
+    "id": "12415"
+  },
+  "sourceRefs": [
+    "weapon:12415:catalog",
+    "weapon:12415:effect"
+  ],
+  "modifierIds": [
+    "w_12415_scaling_bonus_1",
+    "w_12415_statBonus_7d15f7d0"
+  ],
+  "specIds": [
+    "w_12415_scaling_bonus_1",
+    "w_12415_statBonus_7d15f7d0"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Weapon package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:weapon:12415:w_12415_scaling_bonus_1",
+      "genshin:v2:weapon:12415:w_12415_statBonus_7d15f7d0"
+    ],
+    "generator": "genshinWeaponV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

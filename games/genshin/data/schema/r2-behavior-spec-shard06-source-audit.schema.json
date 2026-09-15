@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "r2-behavior-spec-shard06-source-audit.schema.json",
+  "title": "Genshin r2 BehaviorSpec shard06 source audit",
+  "description": "Deterministic raw-entity readiness audit for the next exact BehaviorSpec shard; no candidate mechanic value is inferred.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schemaVersion", "kind", "status", "generatedAt", "generator", "scope", "policy", "generatedFrom", "providerSurface", "candidates", "summary", "nextAction", "gate", "fieldDigestAlgorithm", "fieldDigest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinR2BehaviorSpecShard06SourceAudit" },
+    "status": { "const": "passed" },
+    "scope": { "type": "object", "required": ["transitionId", "targetGameVersion", "layer", "shardId", "candidateCount", "candidateIds", "candidateIdDigest", "claimFields", "externalClaimFields"], "properties": { "transitionId": { "const": "genshin:6.7->7.0" }, "targetGameVersion": { "const": "7.0" }, "layer": { "const": "behaviorSpec" }, "shardId": { "const": "behavior:behaviorSpec:semanticDecisionRequired:standard:05" }, "candidateCount": { "const": 100 }, "candidateIds": { "type": "array", "minItems": 100, "maxItems": 100, "uniqueItems": true }, "candidateIdDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }, "claimFields": { "const": ["sourceText", "timing", "execution", "lifecycle", "energy", "snapshot", "runtime"] }, "externalClaimFields": { "const": ["sourceText", "timing", "execution", "lifecycle", "energy", "snapshot"] } } },
+    "providerSurface": { "type": "object", "required": ["providerCount", "providers", "candidateScopedFrontierProven", "exactCandidateFieldEvidenceCount", "independentVersionBoundFieldEvidenceCount"], "properties": { "providerCount": { "const": 9 }, "providers": { "type": "array", "minItems": 9, "maxItems": 9 }, "candidateScopedFrontierProven": { "const": false }, "exactCandidateFieldEvidenceCount": { "const": 0 }, "independentVersionBoundFieldEvidenceCount": { "const": 0 } } },
+    "candidates": { "type": "array", "minItems": 100, "maxItems": 100 },
+    "summary": { "type": "object", "required": ["candidateCount", "entityCount", "claimCount", "externalClaimCount", "internalClaimCount", "rawIntegrityVerifiedCandidateCount", "identityGapCandidateCount", "localClaimSchemaGapCandidateCount", "rawIntegrityGapCandidateCount", "exactCandidateFieldEvidenceClaimCount", "strictVerifiedCandidateCount", "certificateEligibleClaimCount", "canonicalPromotionEligibleCandidateCount"], "properties": { "candidateCount": { "const": 100 }, "claimCount": { "const": 700 }, "externalClaimCount": { "const": 600 }, "internalClaimCount": { "const": 100 }, "rawIntegrityVerifiedCandidateCount": { "const": 100 }, "identityGapCandidateCount": { "const": 0 }, "localClaimSchemaGapCandidateCount": { "const": 0 }, "rawIntegrityGapCandidateCount": { "const": 0 }, "exactCandidateFieldEvidenceClaimCount": { "const": 0 }, "strictVerifiedCandidateCount": { "const": 0 }, "certificateEligibleClaimCount": { "const": 0 }, "canonicalPromotionEligibleCandidateCount": { "const": 0 } } },
+    "gate": { "type": "object", "required": ["candidateScopedFrontierProven", "canIssueEligibilityCertificate", "canPromoteCanonical", "canDeferG06", "verificationGranted", "promotionGranted"], "properties": { "candidateScopedFrontierProven": { "const": false }, "canIssueEligibilityCertificate": { "const": false }, "canPromoteCanonical": { "const": false }, "canDeferG06": { "const": false }, "verificationGranted": { "const": false }, "promotionGranted": { "const": false } } },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}
+
+

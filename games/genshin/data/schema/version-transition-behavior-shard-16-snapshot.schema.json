@@ -1,0 +1,335 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-version-transition-behavior-shard-16-snapshot.schema.json",
+  "title": "Genshin version transition behavior shard 16 snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "generatedAt", "claim", "summary", "gateEligibility", "fieldDigestAlgorithm", "fieldDigest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinVersionTransitionBehaviorShardSnapshot" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "claim": { "$ref": "#/$defs/claim" },
+    "summary": { "$ref": "#/$defs/summary" },
+    "gateEligibility": { "$ref": "#/$defs/gateEligibility" },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "gitBlob": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gameVersion", "revision", "packageVersion", "path", "url", "gitBlob", "rawArtifactBytes", "rawArtifactSha256", "embeddedIdPath", "embeddedId", "embeddedName"],
+      "properties": {
+        "gameVersion": { "enum": ["6.7", "7.0"] },
+        "revision": { "$ref": "#/$defs/revision" },
+        "packageVersion": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" },
+        "gitBlob": { "$ref": "#/$defs/gitBlob" },
+        "rawArtifactBytes": { "type": "integer", "minimum": 1 },
+        "rawArtifactSha256": { "$ref": "#/$defs/sha256" },
+        "embeddedIdPath": { "const": "$.id" },
+        "embeddedId": { "type": "integer", "minimum": 1 },
+        "embeddedName": { "type": "string", "minLength": 1 }
+      }
+    },
+    "package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gameVersion", "revision", "packageVersion", "path", "url", "gitBlob", "rawArtifactBytes", "rawArtifactSha256", "name", "description"],
+      "properties": {
+        "gameVersion": { "enum": ["6.7", "7.0"] },
+        "revision": { "$ref": "#/$defs/revision" },
+        "packageVersion": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" },
+        "gitBlob": { "$ref": "#/$defs/gitBlob" },
+        "rawArtifactBytes": { "type": "integer", "minimum": 1 },
+        "rawArtifactSha256": { "$ref": "#/$defs/sha256" },
+        "name": { "const": "genshin-db" },
+        "description": { "type": "string", "minLength": 1 }
+      }
+    },
+    "fieldDiff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["jsonPointer", "beforeValue", "afterValue", "beforeFieldDigest", "afterFieldDigest"],
+      "properties": {
+        "jsonPointer": { "type": "string", "minLength": 1 },
+        "beforeValue": {},
+        "afterValue": {},
+        "beforeFieldDigest": { "$ref": "#/$defs/sha256" },
+        "afterFieldDigest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "changedFieldCount", "fieldDiffs", "comparisonEligible", "beforeFieldDigest", "afterFieldDigest", "beforeArtifactSha256", "afterArtifactSha256"],
+      "properties": {
+        "status": { "enum": ["rawRecordMatch", "rawRecordChanged"] },
+        "changedFieldCount": { "type": "integer", "minimum": 0 },
+        "fieldDiffs": { "type": "array", "items": { "$ref": "#/$defs/fieldDiff" } },
+        "comparisonEligible": { "const": true },
+        "beforeFieldDigest": { "$ref": "#/$defs/sha256" },
+        "afterFieldDigest": { "$ref": "#/$defs/sha256" },
+        "beforeArtifactSha256": { "$ref": "#/$defs/sha256" },
+        "afterArtifactSha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recordKind", "before", "after", "comparison"],
+      "properties": {
+        "recordKind": { "enum": ["talents", "constellations"] },
+        "before": { "$ref": "#/$defs/artifact" },
+        "after": { "$ref": "#/$defs/artifact" },
+        "comparison": { "$ref": "#/$defs/comparison" }
+      }
+    },
+    "identityResolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "localIdentityEvidenceDigest", "providerNameMatches", "providerEmbeddedIdMatches"],
+      "properties": {
+        "status": { "const": "resolvedByLocalCatalogAndProviderName" },
+        "localIdentityEvidenceDigest": { "$ref": "#/$defs/sha256" },
+        "providerNameMatches": { "const": true },
+        "providerEmbeddedIdMatches": { "const": true }
+      }
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entityId", "name", "nameJa", "providerSlug", "providerId", "resolutionStatus", "identityResolution", "treeResolution", "records"],
+      "properties": {
+        "entityId": { "enum": ["10000132", "10000133"] },
+        "name": { "type": "string", "minLength": 1 },
+        "nameJa": { "type": "string", "minLength": 1 },
+        "providerSlug": { "enum": ["prune", "sandrone"] },
+        "providerId": { "enum": [13201, 13301] },
+        "resolutionStatus": { "const": "resolvedUnambiguous" },
+        "identityResolution": { "$ref": "#/$defs/identityResolution" },
+        "treeResolution": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["method", "resolutionEvidence", "directoryPaths", "pathResolution"],
+          "properties": {
+            "method": { "const": "nonRecursiveGitTreePath" },
+            "resolutionEvidence": { "const": "immutableRawPathWithEmbeddedId" },
+            "directoryPaths": { "const": ["src/data/English/talents", "src/data/English/constellations"] },
+            "pathResolution": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["recordKind", "path"],
+                "properties": { "recordKind": { "enum": ["talents", "constellations"] }, "path": { "type": "string", "minLength": 1 } }
+              }
+            }
+          }
+        },
+        "records": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/record" } }
+      }
+    },
+    "fileDigest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256", "rawArtifactBytes", "gitBlob"],
+      "properties": { "sha256": { "$ref": "#/$defs/sha256" }, "rawArtifactBytes": { "type": "integer", "minimum": 1 }, "gitBlob": { "$ref": "#/$defs/gitBlob" } }
+    },
+    "mapperEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["values", "expectedNameJa"],
+      "properties": { "values": { "type": "array", "items": { "type": "string" } }, "expectedNameJa": { "type": "string", "minLength": 1 } }
+    },
+    "consumerMapper": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "rawArtifactBytes", "gitBlob", "status", "entries", "missingEntityIds", "identityMismatches", "policy"],
+      "properties": {
+        "path": { "const": "games/js/genshinProfileMapper.js" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "rawArtifactBytes": { "type": "integer", "minimum": 1 },
+        "gitBlob": { "$ref": "#/$defs/gitBlob" },
+        "status": { "enum": ["consumerMapperMatches", "consumerMapperPartial", "consumerMapperIdentityMismatchFailClosed"] },
+        "entries": { "type": "object", "required": ["10000132", "10000133"], "properties": { "10000132": { "$ref": "#/$defs/mapperEntry" }, "10000133": { "$ref": "#/$defs/mapperEntry" } } },
+        "missingEntityIds": { "type": "array", "items": { "enum": ["10000132", "10000133"] }, "uniqueItems": true },
+        "identityMismatches": { "type": "array", "items": { "type": "object" } },
+        "policy": { "const": "absence is reported; mismatch is fail-closed; no name is inferred from the mapper" }
+      }
+    },
+    "localIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "paths", "fileDigests", "entities", "consumerMapper", "identityMismatches", "status"],
+      "properties": {
+        "authority": { "const": "data-v2-manifest:characters-catalog-and-source-text" },
+        "paths": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["catalog", "talents", "constellations", "consumerMapper"],
+          "properties": {
+            "catalog": { "const": "games/genshin/data/characters.json" },
+            "talents": { "const": "games/genshin/data/character-talents.json" },
+            "constellations": { "const": "games/genshin/data/character-constellations.json" },
+            "consumerMapper": { "const": "games/js/genshinProfileMapper.js" }
+          }
+        },
+        "fileDigests": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["catalog", "talents", "constellations", "consumerMapper"],
+          "properties": { "catalog": { "$ref": "#/$defs/fileDigest" }, "talents": { "$ref": "#/$defs/fileDigest" }, "constellations": { "$ref": "#/$defs/fileDigest" }, "consumerMapper": { "$ref": "#/$defs/fileDigest" } }
+        },
+        "entities": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["entityId", "nameJa", "catalogNameJa", "catalogDigest", "talentSourceDigest", "constellationSourceDigest", "identityStatus"],
+            "properties": {
+              "entityId": { "enum": ["10000132", "10000133"] },
+              "nameJa": { "type": "string", "minLength": 1 },
+              "catalogNameJa": { "type": "string", "minLength": 1 },
+              "catalogDigest": { "$ref": "#/$defs/sha256" },
+              "talentSourceDigest": { "$ref": "#/$defs/sha256" },
+              "constellationSourceDigest": { "$ref": "#/$defs/sha256" },
+              "identityStatus": { "const": "localCatalogAndSourceTextMatch" }
+            }
+          }
+        },
+        "consumerMapper": { "$ref": "#/$defs/consumerMapper" },
+        "identityMismatches": { "const": [] },
+        "status": { "const": "localCatalogProviderIdentityResolved" }
+      }
+    },
+    "shard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["shardId", "queuePath", "authoritativeCandidateCount", "authoritativeCandidateIds", "authoritativeCandidateIdsDigest", "authoritativeEntityCount", "authoritativeEntityIds", "authoritativeEntityIdsDigest", "capturedNewEntityIds", "skippedOverlapEntityIds", "overlapPolicy", "overlapEvidence"],
+      "properties": {
+        "shardId": { "const": "behavior:behaviorSpec:semanticDecisionRequired:standard:16" },
+        "queuePath": { "const": "reports/genshin-evidence-task-queue.json" },
+        "authoritativeCandidateCount": { "const": 33 },
+        "authoritativeCandidateIds": { "type": "array", "minItems": 33, "maxItems": 33, "uniqueItems": true, "items": { "type": "string", "pattern": "^behavior:100\\d{5}:[^:]+:.+$" } },
+        "authoritativeCandidateIdsDigest": { "const": "9029efb1276280eea2b547008c870948424a834a57242caa3733ee55ee248e5d" },
+        "authoritativeEntityCount": { "const": 3 },
+        "authoritativeEntityIds": { "const": ["10000131", "10000132", "10000133"] },
+        "authoritativeEntityIdsDigest": { "const": "447ca314d38783f32a0090e4ca5cdff9d169f88f45dac3559e700012cb5af56c" },
+        "capturedNewEntityIds": { "const": ["10000132", "10000133"] },
+        "skippedOverlapEntityIds": { "const": ["10000131"] },
+        "overlapPolicy": { "const": "alreadyCapturedByBehaviorShard15" },
+        "overlapEvidence": {
+          "const": [{ "entityId": "10000131", "previousShardId": "behavior:behaviorSpec:semanticDecisionRequired:standard:15", "acquisitionPolicy": "notReacquired" }]
+        }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["transitionId", "fromGameVersion", "toGameVersion", "provider", "sourceFamily", "sourceNamespace", "repository", "treeResolution", "identityResolution", "shard", "versionBindings", "resolvedEntities", "travelerVariantEvidence", "variantAmbiguities", "travelerVariantPolicy", "coverage"],
+      "properties": {
+        "transitionId": { "const": "genshin:6.7->7.0" },
+        "fromGameVersion": { "const": "6.7" },
+        "toGameVersion": { "const": "7.0" },
+        "provider": { "const": "genshin-db" },
+        "sourceFamily": { "const": "GenshinData-derived" },
+        "sourceNamespace": { "const": "genshin-db-behavior-shard16" },
+        "repository": { "const": "theBowja/genshin-db" },
+        "treeResolution": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["method", "resolutionEvidence", "note"],
+          "properties": { "method": { "const": "nonRecursiveGitTreePath" }, "resolutionEvidence": { "const": "immutableRawPathWithEmbeddedId" }, "note": { "type": "string", "minLength": 1 } }
+        },
+        "identityResolution": { "$ref": "#/$defs/localIdentity" },
+        "shard": { "$ref": "#/$defs/shard" },
+        "versionBindings": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["gameVersion", "revision", "packageVersion", "status", "package"],
+            "properties": { "gameVersion": { "enum": ["6.7", "7.0"] }, "revision": { "$ref": "#/$defs/revision" }, "packageVersion": { "type": "string", "minLength": 1 }, "status": { "const": "strictlyBound" }, "package": { "$ref": "#/$defs/package" } }
+          }
+        },
+        "resolvedEntities": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/entity" } },
+        "travelerVariantEvidence": { "const": [] },
+        "variantAmbiguities": { "const": [] },
+        "travelerVariantPolicy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "failClosedOnEncounter", "entityIds", "note"],
+          "properties": { "status": { "const": "notApplicable" }, "failClosedOnEncounter": { "const": true }, "entityIds": { "const": ["10000005", "10000007"] }, "note": { "type": "string", "minLength": 1 } }
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["resolvedEntityIds", "ambiguousEntityIds", "recordKinds", "authoritativeCandidateCoverage", "resolvedEntityRecordCoverage", "travelerVariantRecordCoverage", "repositoryCandidateCoverage", "authoritativeCandidateCount", "authoritativeEntityCount", "resolvedEntityCount", "resolvedRecordCount", "changedRecordCount", "changedFieldCount", "overlapEntityCount", "crossVariantComparisons", "canIssueEligibilityCertificate", "canPromoteCanonical"],
+          "properties": {
+            "resolvedEntityIds": { "const": ["10000132", "10000133"] },
+            "ambiguousEntityIds": { "const": [] },
+            "recordKinds": { "const": ["talents", "constellations"] },
+            "authoritativeCandidateCoverage": { "const": "entitySourceRecordsComplete" },
+            "resolvedEntityRecordCoverage": { "const": "complete" },
+            "travelerVariantRecordCoverage": { "const": "notApplicable" },
+            "repositoryCandidateCoverage": { "const": "partial" },
+            "authoritativeCandidateCount": { "const": 33 },
+            "authoritativeEntityCount": { "const": 3 },
+            "resolvedEntityCount": { "const": 2 },
+            "resolvedRecordCount": { "const": 4 },
+            "changedRecordCount": { "type": "integer", "minimum": 0 },
+            "changedFieldCount": { "type": "integer", "minimum": 0 },
+            "overlapEntityCount": { "const": 1 },
+            "crossVariantComparisons": { "const": 0 },
+            "canIssueEligibilityCertificate": { "const": false },
+            "canPromoteCanonical": { "const": false }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["shardId", "authoritativeCandidates", "authoritativeEntities", "resolvedEntities", "overlapSkippedEntities", "ambiguousEntities", "resolvedRecords", "changedRecords", "changedFields", "sourceFamilyCount", "certificateEligibleClaims"],
+      "properties": {
+        "shardId": { "const": "behavior:behaviorSpec:semanticDecisionRequired:standard:16" },
+        "authoritativeCandidates": { "const": 33 },
+        "authoritativeEntities": { "const": 3 },
+        "resolvedEntities": { "const": 2 },
+        "overlapSkippedEntities": { "const": 1 },
+        "ambiguousEntities": { "const": 0 },
+        "resolvedRecords": { "const": 4 },
+        "changedRecords": { "const": 3 },
+        "changedFields": { "const": 32 },
+        "sourceFamilyCount": { "const": 1 },
+        "certificateEligibleClaims": { "const": 0 }
+      }
+    },
+    "gateEligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "sourceFamilyCount", "canIssueEligibilityCertificate", "canPromoteCanonical", "reasons"],
+      "properties": {
+        "status": { "const": "singleCorrelatedFamilyFailClosed" },
+        "sourceFamilyCount": { "const": 1 },
+        "canIssueEligibilityCertificate": { "const": false },
+        "canPromoteCanonical": { "const": false },
+        "reasons": { "const": ["providerIndependenceInsufficient", "behaviorSemanticsNotParsed"] }
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinUpstreamVersionHead",
+  "evidenceId": "hoyolab-official:post:46233468:version-head",
+  "observedGameVersion": "7.0",
+  "capturedAt": "2026-08-25T00:00:00+09:00",
+  "evidence": {
+    "kind": "officialReleaseNotes",
+    "provider": "HoYoLAB / Genshin Impact Official",
+    "providerFamily": "official-hoyoverse",
+    "postId": "46233468",
+    "url": "https://www.hoyolab.com/article/46233468",
+    "apiUrl": "https://bbs-api-os.hoyolab.com/community/post/wapi/getPostFull?post_id=46233468",
+    "rawApiResponseDigest": "9b6ba657ae41eb1601e9bf2a0f6e383feca0a88115f7f0fb41bac34ffbb74b0a",
+    "rawApiResponseBytes": 140000,
+    "claim": {
+      "gameVersion": "7.0",
+      "subject": "\"Everwinter Without Mercy\" Version 7.0 Update Details",
+      "explicitText": "Below are the details of the Version 7.0 update \"Everwinter Without Mercy\" and the update compensation.",
+      "publishedAt": "2026-08-11T15:00:03Z",
+      "releaseAt": "2026-08-12T03:00:00Z"
+    },
+    "fieldDigest": "5fe857984649c17c0c3502595c8506853981f80091f221f28f4e3bc18c024f3d"
+  },
+  "scope": "Upstream live-version discovery only. This is not field evidence and cannot promote any candidate claim.",
+  "invalidationConditions": [
+    "official post identity, subject, version text, publication time, or release schedule changes",
+    "a newer official live-version notice is published"
+  ]
+}

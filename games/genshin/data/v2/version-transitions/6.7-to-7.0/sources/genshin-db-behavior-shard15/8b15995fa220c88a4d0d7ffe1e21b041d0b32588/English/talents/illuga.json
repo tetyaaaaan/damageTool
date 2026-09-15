@@ -1,0 +1,250 @@
+{
+	"id": 12701,
+	"name": "Illuga",
+	"combat1": {
+		"name": "Oathkeeper's Spear",
+		"descriptionRaw": "<color=#FFD780FF>Normal Attack</color>\nPerforms up to 4 consecutive spear strikes.\n\n<color=#FFD780FF>Charged Attack</color>\nConsumes a certain amount of Stamina to lunge forward, dealing damage to opponents along the way.\n\n<color=#FFD780FF>Plunging Attack</color>\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
+		"description": "Normal Attack\nPerforms up to 4 consecutive spear strikes.\n\nCharged Attack\nConsumes a certain amount of Stamina to lunge forward, dealing damage to opponents along the way.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
+		"attributes": {
+			"labels": [
+				"1-Hit DMG|{param1:F1P}",
+				"2-Hit DMG|{param2:F1P}",
+				"3-Hit DMG|{param3:F1P}+{param4:F1P}",
+				"4-Hit DMG|{param5:F1P}",
+				"Charged Attack DMG|{param6:F1P}",
+				"Charged Attack Stamina Cost|{param7:F1}",
+				"Plunge DMG|{param8:F1P}",
+				"Low/High Plunge DMG|{param9:P}/{param10:P}"
+			]
+		}
+	},
+	"combat2": {
+		"name": "Dawnbearing Songbird",
+		"descriptionRaw": "Summons the trusty messenger bird, \"Aedon.\" Different effects are produced depending on whether the skill is Tapped or Held.\n\n<color=#FFD780FF>Tap</color>\nAedon dashes towards enemies in front, dealing <color=#FFE699FF>Geo DMG</color> to enemies it comes into contact with.\n\n<color=#FFD780FF>Hold</color>\nEnter aiming mode, and command Aedon to dash towards opponents being aimed at, dealing <color=#FFE699FF>Geo DMG</color> to opponents it comes into contact with.",
+		"description": "Summons the trusty messenger bird, \"Aedon.\" Different effects are produced depending on whether the skill is Tapped or Held.\n\nTap\nAedon dashes towards enemies in front, dealing Geo DMG to enemies it comes into contact with.\n\nHold\nEnter aiming mode, and command Aedon to dash towards opponents being aimed at, dealing Geo DMG to opponents it comes into contact with.",
+		"attributes": {
+			"labels": [
+				"Press DMG|{param1:P} Elemental Mastery+{param2:P} DEF",
+				"Hold DMG|{param3:P} Elemental Mastery+{param4:P} DEF",
+				"CD|{param5:F1}s"
+			]
+		}
+	},
+	"combat3": {
+		"name": "Shadowless Reflection",
+		"descriptionRaw": "Light the lamp, dealing <color=#FFE699FF>AoE Geo DMG</color>, and gain Haunted Night's Oriole-Song effect for 20s. When this effect is active, Illuga gains 21 stacks of {LINK#N11270001}<color=#FFD780FF>Nightingale's Song</color>{/LINK}. When Normal Attacks, Charged Attacks, Plunging Attacks, Elemental Skills, and Elemental Bursts of nearby active party members deal <color=#FFE699FF>Geo DMG</color> to opponents, 1 stack of Nightingale's Song is consumed to increase the DMG dealt. Increase in DMG is based on Illuga's Elemental Mastery. If DMG is inflicted by Lunar-Crystallize, DMG dealt will increase further.\nWhen <color=#FFE699FF>Geo DMG</color> dealt in this manner hits multiple opponents, multiple stacks of Nightingale's Song will be consumed, depending on how many opponents are hit.\n\nAdditionally, if there are <color=#FFE699FF>Geo Constructs</color> created by nearby party members on the battlefield while Illuga unleashes his Elemental Burst, or when nearby party members create <color=#FFE699FF>Geo Constructs</color> while Haunted Night's Oriole-Song is active, every <color=#FFE699FF>Geo Construct</color> on the battlefield will allow Illuga to gain 5 additional stacks of Nightingale's Song. Within 20s after unleashing his Elemental Burst, Illuga can gain a maximum of 15 additional stacks of Nightingale's Song this way.\n\nWhen all stacks of Nightingale's Song have been consumed, or when the state's duration ends, the Haunted Night's Oriole-Song effect will end.",
+		"description": "Light the lamp, dealing AoE Geo DMG, and gain Haunted Night's Oriole-Song effect for 20s. When this effect is active, Illuga gains 21 stacks of **Nightingale's Song**. When Normal Attacks, Charged Attacks, Plunging Attacks, Elemental Skills, and Elemental Bursts of nearby active party members deal Geo DMG to opponents, 1 stack of Nightingale's Song is consumed to increase the DMG dealt. Increase in DMG is based on Illuga's Elemental Mastery. If DMG is inflicted by Lunar-Crystallize, DMG dealt will increase further.\nWhen Geo DMG dealt in this manner hits multiple opponents, multiple stacks of Nightingale's Song will be consumed, depending on how many opponents are hit.\n\nAdditionally, if there are Geo Constructs created by nearby party members on the battlefield while Illuga unleashes his Elemental Burst, or when nearby party members create Geo Constructs while Haunted Night's Oriole-Song is active, every Geo Construct on the battlefield will allow Illuga to gain 5 additional stacks of Nightingale's Song. Within 20s after unleashing his Elemental Burst, Illuga can gain a maximum of 15 additional stacks of Nightingale's Song this way.\n\nWhen all stacks of Nightingale's Song have been consumed, or when the state's duration ends, the Haunted Night's Oriole-Song effect will end.",
+		"attributes": {
+			"labels": [
+				"Skill DMG|{param1:P} Elemental Mastery+{param2:P} DEF",
+				"Geo DMG Bonus|{param3:F1P} Elemental Mastery",
+				"Lunar-Crystallize Reaction DMG Bonus|{param4:F1P} Elemental Mastery",
+				"Nightingale's Song Stacks Gained from Elemental Burst|{param5:I}",
+				"Nightingale's Song Stacks Gained from Geo Constructs| {param6:I} Per Geo Construct",
+				"Duration|{param7:F1}s",
+				"CD|{param8:F1}s",
+				"Energy Cost|{param9:I}"
+			]
+		}
+	},
+	"passive1": {
+		"name": "Torchforger's Covenant",
+		"descriptionRaw": "After unleashing Elemental Skill <color=#FFD780FF>{LINK#S11272}Dawnbearing Songbird{/LINK}</color> or Elemental Burst <color=#FFD780FF>{LINK#S11275}Shadowless Reflection{/LINK}</color>, other nearby party members will gain the Lightkeeper's Oath effect for 20s: For <color=#FFE699FF>Geo DMG</color> dealt to opponents, CRIT Rate increases by 5% and CRIT DMG increases by 10%.\n\n<color=#FFD780FF>Moonsign: Ascendant Gleam</color> \nParty members affected by the Lightkeeper's Oath effect have their Elemental Mastery increased by 50.",
+		"description": "After unleashing Elemental Skill **Dawnbearing Songbird** or Elemental Burst **Shadowless Reflection**, other nearby party members will gain the Lightkeeper's Oath effect for 20s: For Geo DMG dealt to opponents, CRIT Rate increases by 5% and CRIT DMG increases by 10%.\n\nMoonsign: Ascendant Gleam \nParty members affected by the Lightkeeper's Oath effect have their Elemental Mastery increased by 50."
+	},
+	"passive2": {
+		"name": "Demonhunter's Dusk",
+		"descriptionRaw": "{LINK#N11270001}<color=#FFD780FF>Nightingale's Song</color>{/LINK}'s effects are enhanced: When there are 1/2/3 <color=#80C0FFFF>Hydro</color> or <color=#FFE699FF>Geo</color> characters in the party, Nightingale's Song will further increase DMG. Increase in DMG is equal to 7%/14%/24% of Illuga's Elemental Mastery. If this aforementioned DMG is inflicted by a Lunar-Crystallize reaction, increase in DMG is equal to 48%/96%/160% of Illuga's Elemental Mastery.",
+		"description": "**Nightingale's Song**'s effects are enhanced: When there are 1/2/3 Hydro or Geo characters in the party, Nightingale's Song will further increase DMG. Increase in DMG is equal to 7%/14%/24% of Illuga's Elemental Mastery. If this aforementioned DMG is inflicted by a Lunar-Crystallize reaction, increase in DMG is equal to 48%/96%/160% of Illuga's Elemental Mastery."
+	},
+	"passive3": {
+		"name": "Moonsign Benediction: Unwithering in Winter",
+		"descriptionRaw": "When Illuga is in the party, the party's <color=#FFD780FF>Moonsign</color> will increase by 1 level.",
+		"description": "When Illuga is in the party, the party's Moonsign will increase by 1 level."
+	},
+	"passive4": {
+		"name": "Night Warden's Stride",
+		"descriptionRaw": "At night (18:00 – 06:00), your party members gain the Swift Stride effect: Movement SPD increased by 10%.\nDoes not take effect in Domains, Trounce Domains, or Spiral Abyss. Swift Stride does not stack.\nAdditionally, Illuga appears to be able to decipher the whispers of the Wild Hunt...",
+		"description": "At night (18:00 – 06:00), your party members gain the Swift Stride effect: Movement SPD increased by 10%.\nDoes not take effect in Domains, Trounce Domains, or Spiral Abyss. Swift Stride does not stack.\nAdditionally, Illuga appears to be able to decipher the whispers of the Wild Hunt..."
+	},
+	"costs": {
+		"lvl2": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 12500
+			},
+			{
+				"id": 104359,
+				"name": "Teachings of Elysium",
+				"count": 3
+			},
+			{
+				"id": 112122,
+				"name": "Broken Drive Shaft",
+				"count": 6
+			}
+		],
+		"lvl3": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 17500
+			},
+			{
+				"id": 104360,
+				"name": "Guide to Elysium",
+				"count": 2
+			},
+			{
+				"id": 112123,
+				"name": "Reinforced Drive Shaft",
+				"count": 3
+			}
+		],
+		"lvl4": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 25000
+			},
+			{
+				"id": 104360,
+				"name": "Guide to Elysium",
+				"count": 4
+			},
+			{
+				"id": 112123,
+				"name": "Reinforced Drive Shaft",
+				"count": 4
+			}
+		],
+		"lvl5": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 30000
+			},
+			{
+				"id": 104360,
+				"name": "Guide to Elysium",
+				"count": 6
+			},
+			{
+				"id": 112123,
+				"name": "Reinforced Drive Shaft",
+				"count": 6
+			}
+		],
+		"lvl6": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 37500
+			},
+			{
+				"id": 104360,
+				"name": "Guide to Elysium",
+				"count": 9
+			},
+			{
+				"id": 112123,
+				"name": "Reinforced Drive Shaft",
+				"count": 9
+			}
+		],
+		"lvl7": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 120000
+			},
+			{
+				"id": 104361,
+				"name": "Philosophies of Elysium",
+				"count": 4
+			},
+			{
+				"id": 112124,
+				"name": "Precision Drive Shaft",
+				"count": 4
+			},
+			{
+				"id": 113068,
+				"name": "Eroded Horn",
+				"count": 1
+			}
+		],
+		"lvl8": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 260000
+			},
+			{
+				"id": 104361,
+				"name": "Philosophies of Elysium",
+				"count": 6
+			},
+			{
+				"id": 112124,
+				"name": "Precision Drive Shaft",
+				"count": 6
+			},
+			{
+				"id": 113068,
+				"name": "Eroded Horn",
+				"count": 1
+			}
+		],
+		"lvl9": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 450000
+			},
+			{
+				"id": 104361,
+				"name": "Philosophies of Elysium",
+				"count": 12
+			},
+			{
+				"id": 112124,
+				"name": "Precision Drive Shaft",
+				"count": 9
+			},
+			{
+				"id": 113068,
+				"name": "Eroded Horn",
+				"count": 2
+			}
+		],
+		"lvl10": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 700000
+			},
+			{
+				"id": 104361,
+				"name": "Philosophies of Elysium",
+				"count": 16
+			},
+			{
+				"id": 112124,
+				"name": "Precision Drive Shaft",
+				"count": 12
+			},
+			{
+				"id": 113068,
+				"name": "Eroded Horn",
+				"count": 2
+			},
+			{
+				"id": 104319,
+				"name": "Crown of Insight",
+				"count": 1
+			}
+		]
+	}
+}

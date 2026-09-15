@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "artifactSet",
+    "id": "15006"
+  },
+  "sourceRefs": [
+    "artifact:15006:catalog",
+    "artifact:15006:effects"
+  ],
+  "pieceSlots": {
+    "onePiece": {
+      "pieceCount": 1,
+      "sourceRefs": [
+        "artifact:15006:effect:onePiece"
+      ],
+      "modifierIds": [],
+      "specIds": []
+    },
+    "twoPiece": {
+      "pieceCount": 2,
+      "sourceRefs": [
+        "artifact:15006:effect:twoPiece"
+      ],
+      "modifierIds": [
+        "artifact:15006:twoPiece:2pc_pyro_damage_bonus"
+      ],
+      "specIds": [
+        "artifact:15006:twoPiece:2pc_pyro_damage_bonus"
+      ]
+    },
+    "fourPiece": {
+      "pieceCount": 4,
+      "sourceRefs": [
+        "artifact:15006:effect:fourPiece"
+      ],
+      "modifierIds": [
+        "artifact:15006:fourPiece:4pc_overloaded_burning_burgeon_bonus",
+        "artifact:15006:fourPiece:4pc_vaporize_melt_bonus",
+        "artifact:15006:fourPiece:4pc_pyro_damage_bonus_stack_from_skill"
+      ],
+      "specIds": [
+        "artifact:15006:fourPiece:4pc_overloaded_burning_burgeon_bonus",
+        "artifact:15006:fourPiece:4pc_vaporize_melt_bonus",
+        "artifact:15006:fourPiece:4pc_pyro_damage_bonus_stack_from_skill"
+      ]
+    }
+  },
+  "modifierIds": [
+    "artifact:15006:twoPiece:2pc_pyro_damage_bonus",
+    "artifact:15006:fourPiece:4pc_overloaded_burning_burgeon_bonus",
+    "artifact:15006:fourPiece:4pc_vaporize_melt_bonus",
+    "artifact:15006:fourPiece:4pc_pyro_damage_bonus_stack_from_skill"
+  ],
+  "specIds": [
+    "artifact:15006:twoPiece:2pc_pyro_damage_bonus",
+    "artifact:15006:fourPiece:4pc_overloaded_burning_burgeon_bonus",
+    "artifact:15006:fourPiece:4pc_vaporize_melt_bonus",
+    "artifact:15006:fourPiece:4pc_pyro_damage_bonus_stack_from_skill"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Artifact package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "gapReview": null,
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:artifactSet:15006:twoPiece:2pc_pyro_damage_bonus",
+      "genshin:v2:artifactSet:15006:fourPiece:4pc_overloaded_burning_burgeon_bonus",
+      "genshin:v2:artifactSet:15006:fourPiece:4pc_vaporize_melt_bonus",
+      "genshin:v2:artifactSet:15006:fourPiece:4pc_pyro_damage_bonus_stack_from_skill"
+    ],
+    "generator": "genshinArtifactV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

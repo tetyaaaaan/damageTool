@@ -1,0 +1,303 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-version-transition-localized-identity-bridge-snapshot.schema.json",
+  "title": "Genshin version transition localized identity bridge snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "generatedAt", "status", "claim", "summary", "gateEligibility", "fieldDigestAlgorithm", "fieldDigest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinVersionTransitionLocalizedIdentityBridge" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["identityBridgeProven", "identityBridgeUnproven"] },
+    "claim": { "$ref": "#/$defs/claim" },
+    "summary": { "$ref": "#/$defs/summary" },
+    "gateEligibility": { "$ref": "#/$defs/gate" },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "gitSha": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "fileDigest": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "rawArtifactBytes", "sha256", "gitBlob"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "rawArtifactBytes": { "type": "integer", "minimum": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "gitBlob": { "$ref": "#/$defs/gitSha" }
+      }
+    },
+    "treeEntry": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "type", "mode", "sha", "size", "url"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "type": { "enum": ["blob", "tree"] },
+        "mode": { "type": "string", "minLength": 1 },
+        "sha": { "$ref": "#/$defs/gitSha" },
+        "size": { "type": ["integer", "null"], "minimum": 0 },
+        "url": { "type": ["string", "null"], "format": "uri" }
+      }
+    },
+    "rawTreeResponse": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "url", "rawArtifactBytes", "rawArtifactSha256", "gitBlob"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" },
+        "rawArtifactBytes": { "type": "integer", "minimum": 1 },
+        "rawArtifactSha256": { "$ref": "#/$defs/sha256" },
+        "gitBlob": { "$ref": "#/$defs/gitSha" }
+      }
+    },
+    "treeStep": {
+      "type": "object", "additionalProperties": false,
+      "required": ["requestedRef", "responseUrl", "responseSha", "responseTruncated", "rawResponse", "segment", "treeSha", "entryType"],
+      "properties": {
+        "requestedRef": { "$ref": "#/$defs/revision" },
+        "responseUrl": { "type": "string", "format": "uri" },
+        "responseSha": { "$ref": "#/$defs/gitSha" },
+        "responseTruncated": { "const": false },
+        "rawResponse": { "$ref": "#/$defs/rawTreeResponse" },
+        "segment": { "type": "string", "minLength": 1 },
+        "treeSha": { "$ref": "#/$defs/gitSha" },
+        "entryType": { "const": "tree" }
+      }
+    },
+    "tree": {
+      "type": "object", "additionalProperties": false,
+      "required": ["language", "recordKind", "providerPath", "method", "recursive", "requestedRevision", "pathSegments", "finalTreeSha", "finalTreeUrl", "finalTreeTruncated", "finalResponse", "steps", "entries", "selectedEntry"],
+      "properties": {
+        "language": { "const": "Japanese" },
+        "recordKind": { "enum": ["talents", "constellations"] },
+        "providerPath": { "type": "string", "pattern": "^src/data/Japanese/(talents|constellations)/jahoda\\.json$" },
+        "method": { "const": "gitTreeApiNonRecursive" },
+        "recursive": { "const": false },
+        "requestedRevision": { "$ref": "#/$defs/revision" },
+        "pathSegments": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "string", "minLength": 1 } },
+        "finalTreeSha": { "$ref": "#/$defs/gitSha" },
+        "finalTreeUrl": { "type": "string", "format": "uri" },
+        "finalTreeTruncated": { "const": false },
+        "finalResponse": { "$ref": "#/$defs/rawTreeResponse" },
+        "steps": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/treeStep" } },
+        "entries": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/treeEntry" } },
+        "selectedEntry": { "anyOf": [{ "$ref": "#/$defs/treeEntry" }, { "type": "null" }] }
+      }
+    },
+    "treeResolution": {
+      "type": "object", "additionalProperties": false,
+      "required": ["method", "recursive", "repository", "revision", "language", "recordKinds", "trees", "fieldDigestAlgorithm", "fieldDigest"],
+      "properties": {
+        "method": { "const": "gitTreeApiNonRecursive" },
+        "recursive": { "const": false },
+        "repository": { "const": "theBowja/genshin-db" },
+        "revision": { "$ref": "#/$defs/revision" },
+        "language": { "const": "Japanese" },
+        "recordKinds": { "const": ["talents", "constellations"] },
+        "trees": {
+          "type": "object", "additionalProperties": false,
+          "required": ["talents", "constellations"],
+          "properties": {
+            "talents": { "$ref": "#/$defs/tree" },
+            "constellations": { "$ref": "#/$defs/tree" }
+          }
+        },
+        "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+        "fieldDigest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "package": {
+      "type": "object", "additionalProperties": false,
+      "required": ["gameVersion", "revision", "packageVersion", "path", "url", "gitBlob", "rawArtifactBytes", "rawArtifactSha256", "name", "version", "description", "strictGameVersionText"],
+      "properties": {
+        "gameVersion": { "enum": ["6.7", "7.0"] },
+        "revision": { "$ref": "#/$defs/revision" },
+        "packageVersion": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" },
+        "gitBlob": { "$ref": "#/$defs/gitSha" },
+        "rawArtifactBytes": { "type": "integer", "minimum": 1 },
+        "rawArtifactSha256": { "$ref": "#/$defs/sha256" },
+        "name": { "const": "genshin-db" },
+        "version": { "type": "string", "minLength": 1 },
+        "description": { "type": "string", "minLength": 1 },
+        "strictGameVersionText": { "type": "string", "pattern": "^Genshin Impact v(6\\.7|7\\.0) JSON data$" }
+      }
+    },
+    "localizedArtifact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["gameVersion", "revision", "packageVersion", "providerPath", "path", "url", "treeBlobSha", "treeBlobBytes", "gitBlob", "rawArtifactBytes", "rawArtifactSha256", "embeddedIdPath", "embeddedId", "embeddedName", "explicitLocalizedNameMatch"],
+      "properties": {
+        "gameVersion": { "enum": ["6.7", "7.0"] },
+        "revision": { "$ref": "#/$defs/revision" },
+        "packageVersion": { "type": "string", "minLength": 1 },
+        "providerPath": { "type": "string", "pattern": "^src/data/Japanese/(talents|constellations)/jahoda\\.json$" },
+        "path": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" },
+        "treeBlobSha": { "$ref": "#/$defs/gitSha" },
+        "treeBlobBytes": { "type": "integer", "minimum": 1 },
+        "gitBlob": { "$ref": "#/$defs/gitSha" },
+        "rawArtifactBytes": { "type": "integer", "minimum": 1 },
+        "rawArtifactSha256": { "$ref": "#/$defs/sha256" },
+        "embeddedIdPath": { "const": "$.id" },
+        "embeddedId": { "const": 12401 },
+        "embeddedName": { "const": "ヤフォダ" },
+        "explicitLocalizedNameMatch": { "const": true }
+      }
+    },
+    "localizedRecord": {
+      "type": "object", "additionalProperties": false,
+      "required": ["recordKind", "language", "providerPath", "status", "artifact"],
+      "properties": {
+        "recordKind": { "enum": ["talents", "constellations"] },
+        "language": { "const": "Japanese" },
+        "providerPath": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["captured", "treeEntryMissing"] },
+        "artifact": { "anyOf": [{ "$ref": "#/$defs/localizedArtifact" }, { "type": "null" }] }
+      }
+    },
+    "englishRecord": {
+      "type": "object", "additionalProperties": false,
+      "required": ["recordKind", "language", "providerPath", "localPath", "sourceEvidenceRef", "rawArtifactBytes", "rawArtifactSha256", "gitBlob", "embeddedIdPath", "embeddedId", "embeddedName", "explicitEnglishNameMatch"],
+      "properties": {
+        "recordKind": { "enum": ["talents", "constellations"] },
+        "language": { "const": "English" },
+        "providerPath": { "type": "string", "pattern": "^src/data/English/(talents|constellations)/jahoda\\.json$" },
+        "localPath": { "type": "string", "minLength": 1 },
+        "sourceEvidenceRef": { "type": "string", "minLength": 1 },
+        "rawArtifactBytes": { "type": "integer", "minimum": 1 },
+        "rawArtifactSha256": { "$ref": "#/$defs/sha256" },
+        "gitBlob": { "$ref": "#/$defs/gitSha" },
+        "embeddedIdPath": { "const": "$.id" },
+        "embeddedId": { "const": 12401 },
+        "embeddedName": { "const": "Jahoda" },
+        "explicitEnglishNameMatch": { "const": true }
+      }
+    },
+    "englishLinkage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sourceNamespace", "snapshotPath", "snapshotFieldDigest", "records"],
+      "properties": {
+        "sourceNamespace": { "const": "genshin-db-behavior-shard15" },
+        "snapshotPath": { "type": "string", "minLength": 1 },
+        "snapshotFieldDigest": { "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] },
+        "records": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/englishRecord" } }
+      }
+    },
+    "localIdentity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["authority", "identityEvidence", "noProseIdentityInference", "paths", "fileDigests", "entity", "consumerMapper", "status"],
+      "properties": {
+        "authority": { "const": "data-v2-manifest:characters-catalog-and-source-text" },
+        "identityEvidence": { "const": "catalogExplicitNameAndEntityIdCoverageOnly" },
+        "noProseIdentityInference": { "const": true },
+        "paths": { "type": "object", "additionalProperties": false, "required": ["catalog", "talents", "constellations", "consumerMapper"], "properties": { "catalog": { "type": "string" }, "talents": { "type": "string" }, "constellations": { "type": "string" }, "consumerMapper": { "type": "string" } } },
+        "fileDigests": { "type": "object", "additionalProperties": false, "required": ["catalog", "talents", "constellations", "consumerMapper"], "properties": { "catalog": { "$ref": "#/$defs/fileDigest" }, "talents": { "$ref": "#/$defs/fileDigest" }, "constellations": { "$ref": "#/$defs/fileDigest" }, "consumerMapper": { "$ref": "#/$defs/fileDigest" } } },
+        "entity": {
+          "type": "object", "additionalProperties": false,
+          "required": ["entityId", "catalogNameJa", "catalogRecordDigest", "talentEntityIdPresent", "constellationEntityIdPresent", "talentSourceDigest", "constellationSourceDigest", "talentDirectNameValues", "constellationDirectNameValues"],
+          "properties": {
+            "entityId": { "const": "10000124" },
+            "catalogNameJa": { "const": "ヤフォダ" },
+            "catalogRecordDigest": { "$ref": "#/$defs/sha256" },
+            "talentEntityIdPresent": { "const": true },
+            "constellationEntityIdPresent": { "const": true },
+            "talentSourceDigest": { "$ref": "#/$defs/sha256" },
+            "constellationSourceDigest": { "$ref": "#/$defs/sha256" },
+            "talentDirectNameValues": { "const": [] },
+            "constellationDirectNameValues": { "const": [] }
+          }
+        },
+        "consumerMapper": { "type": "object", "additionalProperties": false, "required": ["path", "observedNames", "coverage", "usedForBridge"], "properties": { "path": { "type": "string" }, "observedNames": { "type": "array", "items": { "type": "string" } }, "coverage": { "enum": ["missing", "observed"] }, "usedForBridge": { "const": false } } },
+        "status": { "const": "localCatalogNameAndSourceCoverageVerified" }
+      }
+    },
+    "revisionClaim": {
+      "type": "object", "additionalProperties": false,
+      "required": ["gameVersion", "revision", "packageVersion", "versionBinding", "treeResolution", "localizedRecords", "englishLinkage"],
+      "properties": {
+        "gameVersion": { "enum": ["6.7", "7.0"] },
+        "revision": { "$ref": "#/$defs/revision" },
+        "packageVersion": { "type": "string", "minLength": 1 },
+        "versionBinding": { "type": "object", "additionalProperties": false, "required": ["status", "package"], "properties": { "status": { "const": "strictlyBound" }, "package": { "$ref": "#/$defs/package" } } },
+        "treeResolution": { "$ref": "#/$defs/treeResolution" },
+        "localizedRecords": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/localizedRecord" } },
+        "englishLinkage": { "$ref": "#/$defs/englishLinkage" }
+      }
+    },
+    "fieldDiff": {
+      "type": "object", "additionalProperties": false,
+      "required": ["jsonPointer", "beforeValue", "afterValue", "beforeFieldDigest", "afterFieldDigest"],
+      "properties": { "jsonPointer": { "type": "string", "minLength": 1 }, "beforeValue": {}, "afterValue": {}, "beforeFieldDigest": { "$ref": "#/$defs/sha256" }, "afterFieldDigest": { "$ref": "#/$defs/sha256" } }
+    },
+    "comparison": {
+      "type": "object", "additionalProperties": false,
+      "required": ["recordKind", "status", "changedFieldCount", "fieldDiffs"],
+      "properties": {
+        "recordKind": { "enum": ["talents", "constellations"] },
+        "status": { "enum": ["rawRecordMatch", "rawRecordChanged", "notComparable"] },
+        "changedFieldCount": { "type": ["integer", "null"], "minimum": 0 },
+        "fieldDiffs": { "type": "array", "items": { "$ref": "#/$defs/fieldDiff" } },
+        "beforeFieldDigest": { "$ref": "#/$defs/sha256" },
+        "afterFieldDigest": { "$ref": "#/$defs/sha256" },
+        "beforeRawArtifactSha256": { "$ref": "#/$defs/sha256" },
+        "afterRawArtifactSha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "negativeAlias": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "sourceSnapshotPath", "sourceSnapshotFieldDigest", "entityId", "nameJa", "candidateSlug", "records"],
+      "properties": {
+        "status": { "const": "preservedNegativeAliasEvidence" },
+        "sourceSnapshotPath": { "type": "string", "minLength": 1 },
+        "sourceSnapshotFieldDigest": { "$ref": "#/$defs/sha256" },
+        "entityId": { "const": "10000124" },
+        "nameJa": { "const": "ヤフォダ" },
+        "candidateSlug": { "const": "yafoda" },
+        "records": {
+          "type": "array", "minItems": 4, "maxItems": 4,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["gameVersion", "revision", "recordKind", "slug", "status", "httpStatus", "path", "url", "rawArtifactBytes", "rawArtifactSha256", "gitBlob"],
+            "properties": {
+              "gameVersion": { "enum": ["6.7", "7.0"] }, "revision": { "$ref": "#/$defs/revision" }, "recordKind": { "enum": ["talents", "constellations"] }, "slug": { "const": "yafoda" }, "status": { "const": "notFound" }, "httpStatus": { "const": 404 }, "path": { "type": "string", "minLength": 1 }, "url": { "type": "string", "format": "uri" }, "rawArtifactBytes": { "const": 14 }, "rawArtifactSha256": { "$ref": "#/$defs/sha256" }, "gitBlob": { "$ref": "#/$defs/gitSha" }
+            }
+          }
+        }
+      }
+    },
+    "claim": {
+      "type": "object", "additionalProperties": false,
+      "required": ["transitionId", "dataset", "entity", "provider", "sourceFamily", "repository", "sourceNamespace", "localIdentity", "revisions", "comparisons", "negativeAliasEvidence", "identityBridge", "disposition"],
+      "properties": {
+        "transitionId": { "const": "genshin:6.7->7.0" }, "dataset": { "const": "characterIdentity" },
+        "entity": { "type": "object", "additionalProperties": false, "required": ["entityId", "localNameJa", "providerSlug", "providerId", "providerEnglishName"], "properties": { "entityId": { "const": "10000124" }, "localNameJa": { "const": "ヤフォダ" }, "providerSlug": { "const": "jahoda" }, "providerId": { "const": 12401 }, "providerEnglishName": { "const": "Jahoda" } } },
+        "provider": { "const": "genshin-db" }, "sourceFamily": { "const": "GenshinData-derived" }, "repository": { "const": "theBowja/genshin-db" }, "sourceNamespace": { "const": "genshin-db-localized-identity-bridge-10000124" },
+        "localIdentity": { "$ref": "#/$defs/localIdentity" },
+        "revisions": { "type": "object", "additionalProperties": false, "required": ["before", "after"], "properties": { "before": { "$ref": "#/$defs/revisionClaim" }, "after": { "$ref": "#/$defs/revisionClaim" } } },
+        "comparisons": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/comparison" } },
+        "negativeAliasEvidence": { "$ref": "#/$defs/negativeAlias" },
+        "identityBridge": {
+          "type": "object", "additionalProperties": false,
+          "required": ["status", "bindingRule", "evidenceBasis", "noTransliterationInference", "noIdArithmeticInference", "localizedRecordCount", "missingLocalizedRecordCount", "canUseForIdentityReconciliation"],
+          "properties": { "status": { "enum": ["explicitLocalizedNameBridge", "providerLocalizedPathMissing"] }, "bindingRule": { "type": "string", "minLength": 1 }, "evidenceBasis": { "const": "providerOwnedLocalizedRecordAndEnglishRecordSameExplicitId" }, "noTransliterationInference": { "const": true }, "noIdArithmeticInference": { "const": true }, "localizedRecordCount": { "type": "integer", "minimum": 0 }, "missingLocalizedRecordCount": { "type": "integer", "minimum": 0 }, "canUseForIdentityReconciliation": { "type": "boolean" } }
+        },
+        "disposition": { "type": "object", "additionalProperties": false, "required": ["status", "canIssueEligibilityCertificate", "canPromoteCanonical", "reasons"], "properties": { "status": { "enum": ["identityBridgeCapturedButCanonicalStillFailClosed", "identityBridgeUnproven"] }, "canIssueEligibilityCertificate": { "const": false }, "canPromoteCanonical": { "const": false }, "reasons": { "type": "array", "minItems": 1, "items": { "type": "string" } } }
+      }
+    },
+    "summary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["entityId", "localNameJa", "providerSlug", "providerId", "revisions", "localizedRecordCount", "expectedLocalizedRecordCount", "missingLocalizedRecordCount", "englishLinkageRecordCount", "negativeAliasEvidenceCount", "identityBridgeProven", "certificateEligibleClaims", "canonicalPromotionCount"],
+      "properties": { "entityId": { "const": "10000124" }, "localNameJa": { "const": "ヤフォダ" }, "providerSlug": { "const": "jahoda" }, "providerId": { "const": 12401 }, "revisions": { "const": 2 }, "localizedRecordCount": { "type": "integer", "minimum": 0 }, "expectedLocalizedRecordCount": { "const": 4 }, "missingLocalizedRecordCount": { "type": "integer", "minimum": 0 }, "englishLinkageRecordCount": { "const": 4 }, "negativeAliasEvidenceCount": { "const": 4 }, "identityBridgeProven": { "type": "boolean" }, "certificateEligibleClaims": { "const": 0 }, "canonicalPromotionCount": { "const": 0 } }
+    },
+    "gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "sourceFamilyCount", "canIssueEligibilityCertificate", "canPromoteCanonical", "reasons"],
+      "properties": { "status": { "const": "identityBridgeOnlyFailClosed" }, "sourceFamilyCount": { "const": 1 }, "canIssueEligibilityCertificate": { "const": false }, "canPromoteCanonical": { "const": false }, "reasons": { "type": "array", "minItems": 1, "items": { "type": "string" } } }
+    }
+  }
+}
+}

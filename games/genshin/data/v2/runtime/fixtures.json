@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 2,
+  "kind": "genshinCanonicalRuntimeFixtures",
+  "sourceRecords": {
+    "fixture:official": {
+      "id": "fixture:official",
+      "kind": "official",
+    "provider": "official-genshin",
+    "independenceGroup": "official-genshin",
+      "locator": { "dataset": "fixture-official", "record": "fixture-1" },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": "6.0",
+      "text": "fixture",
+      "integrity": { "algorithm": "sha256", "digest": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d" }
+    },
+    "fixture:independent": {
+      "id": "fixture:independent",
+      "kind": "primaryDataset",
+    "provider": "independent-calc-dataset",
+    "independenceGroup": "independent-calc-dataset",
+      "locator": { "dataset": "fixture-independent", "record": "fixture-1" },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": "6.0",
+      "text": "fixture",
+      "integrity": { "algorithm": "sha256", "digest": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d" }
+    }
+  },
+  "specs": {
+    "fixture:weapon:damage": {
+      "id": "fixture:weapon:damage",
+      "entity": { "kind": "weapon", "id": "fixture-weapon", "component": "modifier" },
+      "sourceRefs": ["fixture:official", "fixture:independent"],
+      "interpretation": { "method": "human", "author": "review-fixture", "version": "1" },
+      "destination": { "dataset": "weaponModifiers", "entityId": "fixture-weapon", "collection": "modifiers" },
+      "supersedesLegacyModifierIds": ["fixture_legacy_damage_bonus"],
+      "effect": {
+        "kind": "damageBonus",
+        "targets": ["allDamageBonus"],
+        "activation": { "condition": "always", "calculationSupport": "simple", "uidHandling": "conditional" },
+      "value": 12,
+      "unit": "percent"
+    },
+    "timing": {
+      "duration": {
+        "value": 10,
+        "unit": "seconds"
+      }
+    },
+      "verification": {
+        "status": "verified",
+        "reviewedBy": "reviewer-fixture",
+        "reviewedAt": "2026-08-15T00:00:00.000Z",
+        "reviewBinding": {
+          "algorithm": "sha256",
+          "subjectDigest": "778ef6f27af410def7eb1fef6136cd65b152ca519fc4112323d862464b57c9d0",
+          "decisionId": "fixture:fixture:weapon:damage"
+        },
+        "sourceAgreement": "agreed",
+        "machineEvidenceReady": true,
+        "canonicalEligibility": true,
+        "claims": {
+          "effect.kind": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "effect.targets": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "effect.activation.condition": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "effect.activation.calculationSupport": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "effect.activation.uidHandling": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "effect.value": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "effect.unit": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "destination": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "supersedesLegacyModifierIds": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "runtime.modifierIds": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "entity": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "interpretation": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "duration": { "status": "notApplicable", "sourceRefs": ["fixture:official"] }
+        },
+        "discrepancies": []
+      },
+      "runtime": { "status": "candidate", "modifierIds": ["fixture_runtime_damage"] }
+    }
+  },
+  "behaviorModifiers": {
+    "fixture:behavior:duration": {
+      "id": "fixture:behavior:duration",
+      "sourceRefs": ["fixture:official", "fixture:independent"],
+      "targetSpecId": "fixture:weapon:damage",
+      "path": "/timing/duration",
+      "operation": "replace",
+      "value": 12,
+      "condition": { "kind": "weapon", "stateKey": "fixture-weapon" },
+      "destination": { "dataset": "behaviorModifiers", "entityId": "fixture-weapon", "collection": "modifiers" },
+      "supersedesLegacyModifierIds": [],
+      "verification": {
+        "status": "verified",
+        "reviewedBy": "reviewer-fixture",
+        "reviewedAt": "2026-08-15T00:00:00.000Z",
+        "reviewBinding": {
+          "algorithm": "sha256",
+          "subjectDigest": "8b27956000e7e5f0ed13a829a0513d1cf0477225faa7da19e3a5e9ae6dcbe51b",
+          "decisionId": "fixture:fixture:behavior:duration"
+        },
+        "sourceAgreement": "agreed",
+        "claims": {
+          "targetSpecId": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "path": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "operation": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "value": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "condition": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "destination": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] },
+          "supersedesLegacyModifierIds": { "status": "verified", "sourceRefs": ["fixture:official", "fixture:independent"] }
+        }
+      }
+    }
+  }
+}

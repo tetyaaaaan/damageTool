@@ -268,12 +268,44 @@
         return `${source || "unknown"}:resource:${resourceId}`;
     }
 
-    function statBonusInfo(modifier) {
+    const PERCENT_BASE_STATS = Object.freeze({
+        atkPercent: "baseAtk",
+        hpPercent: "baseHp",
+        defPercent: "baseDef"
+    });
+
+    function percentBaseStat(modifier) {
+        if (modifier?.category !== "statBonus" || modifier?.unit !== "percent") return "";
+        const target = (modifier.applyTo || []).find((item) => Object.prototype.hasOwnProperty.call(PERCENT_BASE_STATS, item));
+        return target ? PERCENT_BASE_STATS[target] : "";
+    }
+
+    function missingPercentBaseStat(modifier, context = {}) {
+        const baseStat = percentBaseStat(modifier);
+        if (!baseStat) return null;
+        // An omitted calculation context is a capability query, not production input.
+        if (!Object.prototype.hasOwnProperty.call(context || {}, "stats")
+            && (!context.mode || context.mode === "audit")) return null;
+        const value = Number(context.stats?.[baseStat]);
+        if (Number.isFinite(value) && value > 0) return null;
+        const inputPath = `stats.${baseStat}`;
+        const label = { baseAtk: "基礎攻撃力", baseHp: "基礎HP", baseDef: "基礎防御力" }[baseStat];
+        return {
+            calculable: false,
+            supportStatus: "missingInput",
+            reason: `対象キャラの${label}が未入力または無効のため、現在は表示のみです。`,
+            requiredInputs: [inputPath],
+            missingInputs: [inputPath]
+        };
+    }
+
+    function statBonusInfo(modifier, context = {}) {
         if (modifier?.category !== "statBonus") {
             return { calculable: false, supportStatus: "unsupported", reason: "statBonus ではありません" };
         }
+        const missingBase = missingPercentBaseStat(modifier, context);
         const special = modifier.calculationSupport === "custom" || modifier.calculationSupport === "special";
-        if (!special) return { calculable: true, supportStatus: "supported", reason: "" };
+        if (!special) return missingBase || { calculable: true, supportStatus: "supported", reason: "" };
         if (modifier.customCalculation !== "directStatBonus") {
             return { calculable: false, supportStatus: "unsupported", reason: "custom statBonus の直接補正指定がありません" };
         }
@@ -286,7 +318,7 @@
         }
         if ((modifier.unit === "percent" && percentTargets.has(target))
             || (modifier.unit === "flat" && flatTargets.has(target))) {
-            return { calculable: true, supportStatus: "supported", reason: "" };
+            return missingBase || { calculable: true, supportStatus: "supported", reason: "" };
         }
         return { calculable: false, supportStatus: "invalidData", reason: "直接ステータス補正の対象または単位が不正です" };
     }
@@ -308,21 +340,44 @@
         const reactionTargets = new Set([
             "bloomDamageBonus", "hyperbloomDamageBonus", "burgeonDamageBonus",
             "lunarBloomDamageBonus", "lunarChargedDamageBonus", "lunarCrystallizeDamageBonus",
-            "moonReactionDamageBonus", "stellarConductDamageBonus"
+            "moonReactionDamageBonus", "stellarConductDamageBonus", "stellarSwirlDamageBonus"
         ]);
         const isCustom = modifier.calculationSupport === "custom" || modifier.calculationSupport === "special";
         if (isCustom && !modifier.customCalculation) {
             return { calculable: false, calculation: "scalingBonus", supportStatus: "unsupported", reason: "custom scalingBonus の計算方式が未指定です" };
         }
+        if (modifier.customCalculation === "excessThresholdStatPercent") {
+            const refinementKeys = ["1", "2", "3", "4", "5"];
+            const hasRefinementValues = (map) => refinementKeys.every((key) => finiteNumber(map?.[key]));
+            const valid = targets.length === 1
+                && targets[0] === "atkPercent"
+                && modifier.unit === "percent"
+                && modifier.reference?.source === "self"
+                && modifier.reference?.stat === "energyRecharge"
+                && Number(modifier.threshold) === 100
+                && hasRefinementValues(modifier.valueByRefinement)
+                && hasRefinementValues(modifier.maxValueByRefinement);
+            return {
+                calculable: valid,
+                calculation: "scalingStatBonus",
+                supportStatus: valid ? "supported" : "invalidData",
+                reason: valid ? "" : "元素チャージ効率の超過分補正に必要な構造化フィールドが不足しています"
+            };
+        }
         if (targets.length === 1 && statTargets.has(targets[0]) && hasResolvableValue(modifier) && modifier.unit === "percent") {
             return { calculable: true, calculation: "scalingStatBonus", supportStatus: "supported", reason: "" };
         }
+        const hasRefinementScaling = ["1", "2", "3", "4", "5"].every((key) =>
+            finiteNumber(modifier.ratioByRefinement?.[key])
+            && finiteNumber(modifier.maxValueByRefinement?.[key]));
         if (targets.length > 0 && targets.every((target) => damageTargets.has(target))
-            && finiteNumber(modifier.ratio) && ["percent", "percentPerPoint"].includes(modifier.unit)) {
+            && (finiteNumber(modifier.ratio) || hasRefinementScaling)
+            && ["percent", "percentPerPoint"].includes(modifier.unit)) {
             return { calculable: true, calculation: "scalingDamageBonus", supportStatus: "supported", reason: "" };
         }
         if (targets.length > 0 && targets.every((target) => reactionTargets.has(target))
-            && finiteNumber(modifier.ratio) && ["percent", "percentPerPoint"].includes(modifier.unit)) {
+            && (finiteNumber(modifier.ratio) || hasRefinementScaling)
+            && ["percent", "percentPerPoint"].includes(modifier.unit)) {
             return { calculable: true, calculation: "scalingReactionBonus", supportStatus: "supported", reason: "" };
         }
         return { calculable: false, calculation: "scalingBonus", supportStatus: "invalidData", reason: "scalingBonus の倍率・対象・単位が不足しています" };
@@ -435,12 +490,19 @@
         if (["supported", "stateInput"].includes(status)) return "";
         if (status === "missingInput") {
             if (calculation.resourceStateKey || modifier?.resource) return "RESOURCE_INPUT_REQUIRED";
+            if ((calculation.missingInputs || []).some((key) => ["stats.baseAtk", "stats.baseHp", "stats.baseDef"].includes(key))) {
+                return "BASE_STAT_INPUT_REQUIRED";
+            }
             if (modifier?.conditionInput) return "CONDITION_INPUT_REQUIRED";
             if ((calculation.missingInputs || []).includes("recordedHealing")) return "RECORDED_HEALING_INPUT_REQUIRED";
             if ((calculation.missingInputs || []).some((key) => key.startsWith("providerStats."))) return "PROVIDER_INPUT_REQUIRED";
             return "MANUAL_INPUT_REQUIRED";
         }
-        if (status === "displayOnly") return "DISPLAY_ONLY_SOURCE_TEXT";
+        if (status === "displayOnly") {
+            return modifier?.calculationSupport === "displayOnly"
+                ? "EXPLICIT_DISPLAY_ONLY"
+                : "DISPLAY_ONLY_SOURCE_TEXT";
+        }
         if (modifier?.category === "effectOverride") {
             const classification = classifyEffectOverride(modifier);
             const codes = {
@@ -508,6 +570,9 @@
         if (modifier.auditDisposition === "dedicatedFormulaDeferred") {
             return { calculable: false, calculation: "", supportStatus: "displayOnly", reason: modifier.deferredReason || "専用の攻撃・状態モデルが必要なため、誤適用を避けて表示のみにしています" };
         }
+        if (modifier.calculationSupport === "displayOnly") {
+            return { calculable: false, calculation: "", supportStatus: "displayOnly", reason: "計算結果を変更しない表示専用効果です" };
+        }
         const scalingAdditive = scalingAdditiveBaseDamageInfo(modifier, context);
         if (scalingAdditive) return scalingAdditive;
         const thresholdStatBonus = thresholdStatBonusInfo(modifier);
@@ -550,7 +615,7 @@
             };
         }
         if (modifier.category === "statBonus") {
-            const info = statBonusInfo(modifier);
+            const info = statBonusInfo(modifier, context);
             return { ...info, calculation: "statBonus" };
         }
         if (modifier.category === "scalingBonus") {
@@ -579,7 +644,8 @@
             };
         }
         if (modifier.category === "reactionCritBonus") {
-            const calculable = (finiteNumber(modifier.critRate) || finiteNumber(modifier.critDamage))
+            const calculable = (finiteNumber(modifier.critRate) || finiteNumber(modifier.critDamage)
+                || valueMapHasFiniteNumber(modifier.valueByRefinement))
                 && (modifier.applyTo || []).length > 0;
             return {
                 calculable,
@@ -732,6 +798,8 @@
         resourceStateKey,
         scalingBonusInfo,
         scalingAdditiveBaseDamageInfo,
+        percentBaseStat,
+        missingPercentBaseStat,
         statBonusInfo,
         uidStatsCoverage
     };

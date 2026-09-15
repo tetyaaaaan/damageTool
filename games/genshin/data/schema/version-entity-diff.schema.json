@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-version-entity-diff.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "claim", "fieldDigestAlgorithm", "fieldDigest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinVersionEntityDiff" },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fromGameVersion", "toGameVersion", "sourceSnapshots", "coverage"],
+      "properties": {
+        "fromGameVersion": { "type": "string", "minLength": 1 },
+        "toGameVersion": { "type": "string", "minLength": 1 },
+        "sourceSnapshots": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["gameVersion", "provider", "sourceFamily", "repository", "revision", "rawArtifactDigest", "datasetDigest", "gameVersionBinding"],
+            "properties": {
+              "gameVersion": { "type": "string", "minLength": 1 },
+              "provider": { "type": "string", "minLength": 1 },
+              "sourceFamily": { "type": "string", "minLength": 1 },
+              "repository": { "type": "string", "minLength": 1 },
+              "revision": { "type": "string", "minLength": 1 },
+              "rawArtifactDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+              "datasetDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+              "gameVersionBinding": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["status", "gameVersion", "evidenceLocator", "evidenceDigest"],
+                "properties": {
+                  "status": { "const": "strictlyBound" },
+                  "gameVersion": { "type": "string", "minLength": 1 },
+                  "evidenceLocator": { "type": "string", "minLength": 1 },
+                  "evidenceDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+                }
+              }
+            }
+          }
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "candidateInventoryDigest", "candidateCount", "changedCandidateIds", "unchangedCandidateIds", "unmappedCandidateIds"],
+          "properties": {
+            "status": { "const": "complete" },
+            "candidateInventoryDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "candidateCount": { "type": "integer", "minimum": 0 },
+            "changedCandidateIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+            "unchangedCandidateIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+            "unmappedCandidateIds": { "type": "array", "maxItems": 0, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+          }
+        }
+      }
+    },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

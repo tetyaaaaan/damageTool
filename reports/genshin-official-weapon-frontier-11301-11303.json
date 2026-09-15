@@ -1,0 +1,111 @@
+{
+  "boundedScope": {
+    "entityIds": [
+      "11301",
+      "11302",
+      "11303"
+    ],
+    "noOtherProviders": true,
+    "providersExamined": [
+      "HoYoverse HoYoWiki"
+    ]
+  },
+  "entities": [
+    {
+      "candidateClaimCount": 8,
+      "directRaw": {
+        "bytes": 13290,
+        "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+        "sha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+      },
+      "disposition": "blocked: mutable endpoint and strict 7.0 binding missing",
+      "entityId": "11301",
+      "entryPageId": "1938",
+      "identityStatus": "resolvedByLocalCatalogAndValidatedPinnedGenshinDbAid",
+      "localNameJa": "冷刃",
+      "officialName": "Cool Steel",
+      "passiveKey": "Bane of Water and Ice",
+      "passiveRawValue": [
+        "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+      ],
+      "versionReleasedRawValue": [
+        "<p>1.0</p>"
+      ]
+    },
+    {
+      "candidateClaimCount": 4,
+      "directRaw": {
+        "bytes": 13258,
+        "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+        "sha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501"
+      },
+      "disposition": "blocked: mutable endpoint and strict 7.0 binding missing",
+      "entityId": "11302",
+      "entryPageId": "2052",
+      "identityStatus": "resolvedByLocalCatalogAndValidatedPinnedGenshinDbAid",
+      "localNameJa": "黎明の神剣",
+      "officialName": "Harbinger of Dawn",
+      "passiveKey": "Vigorous",
+      "passiveRawValue": [
+        "<p>When HP is above 90%, increases CRIT Rate by <span style=\"color: rgb(55, 255, 255)\">14%/17.5%/21%/24.5%/28%</span>.</p>"
+      ],
+      "versionReleasedRawValue": [
+        "<p>1.0</p>"
+      ]
+    },
+    {
+      "candidateClaimCount": 0,
+      "directRaw": {
+        "bytes": 13724,
+        "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1977.json",
+        "sha256": "8d907ed55ff8d9a316426cea79e5c560a653566832de0c2d200ae0d068b2ad2f"
+      },
+      "disposition": "blocked: mutable endpoint and strict 7.0 binding missing",
+      "entityId": "11303",
+      "entryPageId": "1977",
+      "identityStatus": "officialEntryResolvedButLocalNumericIdUnbound",
+      "localNameJa": "旅道の剣",
+      "officialName": "Traveler's Handy Sword",
+      "passiveKey": "Journey",
+      "passiveRawValue": [
+        "<p>Each Elemental Orb or Particle collected restores <span style=\"color: rgb(55, 255, 255)\">1%/1.25%/1.5%/1.75%/2%</span> HP.</p>"
+      ],
+      "versionReleasedRawValue": [
+        "<p>1.0</p>"
+      ]
+    }
+  ],
+  "fieldDigest": "26392da667dcc589d1bfea47bd040b782aded7a12d521019b47f33b261d2c4ec",
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "findings": [
+    "HoYoWiki aggregate pages 5, 7, and 8 resolve official entry IDs 2052, 1977, and 1938 to the exact English names captured here.",
+    "All three current entry payloads expose a raw passive field and a Version Released field; raw bytes, URL, size, and SHA-256 are retained.",
+    "Version Released is release/introduction evidence only. The mutable API has no immutable revision and no explicit Genshin 7.0 binding; capture time is not gameVersion evidence.",
+    "HoYoWiki is the official-hoyoverse family. HoYoLAB notices normalize to the same family and cannot provide a second independent family in this lane.",
+    "11303 has no authoritative v2 candidate claim, so no candidate or promotion claim is invented; its numeric local ID is not silently bound to the official entry by translation inference."
+  ],
+  "gateDisposition": {
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false,
+    "providerIndependence": "notPairableWithinThisLane",
+    "reason": "The captured official API exposes exact identity and passive fields, but its mutable current endpoint has no immutable revision or explicit Genshin 7.0 binding. HoYoWiki and HoYoLAB also normalize to the same official-hoyoverse family.",
+    "sourceFamilyCount": 1,
+    "status": "officialRawAvailableButTargetVersionUnbound",
+    "strictGameVersionBinding": "missing"
+  },
+  "generatedAt": "2026-08-28T00:00:00.000Z",
+  "kind": "genshinOfficialWeaponFrontierReport",
+  "provider": {
+    "immutable": false,
+    "independenceGroup": "official-hoyoverse",
+    "lineage": "First-party HoYoverse/HoYoLAB publication.",
+    "name": "HoYoverse HoYoWiki",
+    "providerId": "hoyoverse-hoyowiki",
+    "sourceFamily": "official-hoyoverse"
+  },
+  "schemaVersion": 1,
+  "snapshotFieldDigest": "bcfe5eaf81f3bf1142963ece9c47a7ad5479ab27837d94bec1284e6ec45e74de",
+  "snapshotPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/official-weapon-frontier-11301-11303-snapshot.json",
+  "status": "officialRawCapturedTargetVersionUnbound",
+  "targetGameVersion": "7.0"
+}

@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 2,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 2,
+    "status": "passed",
+    "batch": 11,
+    "batchCharacters": 10,
+    "sourceRecords": 150,
+    "inventoryCandidates": 140,
+    "specs": 140,
+    "modifiers": 0,
+    "canonical": 0,
+    "inventoryInputCandidates": 160,
+    "explicitCandidateOperations": 100,
+    "unknownCandidateIds": 60,
+    "sourceInventoryCandidates": 160,
+    "explicitInventoryCandidates": 100,
+    "unknownInventoryCandidates": 60,
+    "inventoryExplicitCandidates": 100,
+    "inventoryUnknownCandidates": 60,
+    "verificationByStatus": {
+      "needsReview": 140
+    },
+    "runtimeByStatus": {
+      "blocked": 140
+    },
+    "sourceKinds": {
+      "primaryDataset": 150
+    },
+    "contract": {
+      "malformedSources": 0,
+      "malformedInventory": 0,
+      "malformedSpecs": 0,
+      "malformedByCharacter": 0,
+      "missingSourceRefs": 0,
+      "missingInventoryRefs": 0,
+      "inputDigestMismatches": 0,
+      "unknownFieldViolations": 0,
+      "numericInferenceViolations": 0,
+      "inventoryCandidateViolations": 0,
+      "schemaViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [],
+  "malformedSources": [],
+  "malformedInventory": [],
+  "malformedSpecs": [],
+  "malformedByCharacter": [],
+  "missingSourceRefs": [],
+  "missingInventoryRefs": [],
+  "inputDigestMismatches": [],
+  "unknownFieldViolations": [],
+  "numericInferenceViolations": [],
+  "inventoryCandidateViolations": [],
+  "schemaViolations": [],
+  "characterCoverage": [
+    {
+      "characterId": "10000123",
+      "characterName": "ドゥリン",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 18,
+      "explicitCandidateOperations": 14,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000124",
+      "characterName": "ヤフォダ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 12,
+      "explicitCandidateOperations": 4,
+      "unknownCandidateIds": 8,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000125",
+      "characterName": "コロンビーナ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 20,
+      "explicitCandidateOperations": 16,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000126",
+      "characterName": "兹白",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 14,
+      "explicitCandidateOperations": 4,
+      "unknownCandidateIds": 10,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000127",
+      "characterName": "イルーガ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 11,
+      "explicitCandidateOperations": 6,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000128",
+      "characterName": "ファルカ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 15,
+      "explicitCandidateOperations": 5,
+      "unknownCandidateIds": 10,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000129",
+      "characterName": "ロエン",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 26,
+      "explicitCandidateOperations": 22,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000130",
+      "characterName": "リンネア",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 10,
+      "explicitCandidateOperations": 5,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000131",
+      "characterName": "ニコル",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 19,
+      "explicitCandidateOperations": 14,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000132",
+      "characterName": "プルーネ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 15,
+      "explicitCandidateOperations": 10,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    }
+  ],
+  "generatedFromDisk": true
+}

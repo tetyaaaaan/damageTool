@@ -1,0 +1,279 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-character-identity-consistency-audit.schema.json",
+  "title": "Genshin character ID identity consistency audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "kind",
+    "generatedAt",
+    "status",
+    "policy",
+    "generatedFrom",
+    "mapper",
+    "records",
+    "classifications",
+    "summary",
+    "gate",
+    "errors",
+    "fieldDigestAlgorithm",
+    "fieldDigest"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinCharacterIdentityConsistencyAudit" },
+    "generatedAt": { "const": "2026-08-26T00:00:00.000Z" },
+    "status": { "enum": ["passed", "failed"] },
+    "policy": { "$ref": "#/$defs/policy" },
+    "generatedFrom": { "$ref": "#/$defs/generatedFrom" },
+    "mapper": { "$ref": "#/$defs/mapper" },
+    "records": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/record" } },
+    "classifications": { "$ref": "#/$defs/classifications" },
+    "summary": { "$ref": "#/$defs/summary" },
+    "gate": { "$ref": "#/$defs/gate" },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exists", "bytes", "sha256"],
+      "properties": {
+        "exists": { "type": "boolean" },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "sha256": { "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] }
+      }
+    },
+    "recordEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["parsed", "missing", "malformed"] },
+        "reasons": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "datasetEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "recordStatuses", "malformedIds", "reasons"],
+      "properties": {
+        "status": { "enum": ["parsed", "missing", "malformed"] },
+        "recordStatuses": { "type": "object", "additionalProperties": { "$ref": "#/$defs/recordEvidence" } },
+        "malformedIds": { "type": "array", "items": { "type": "string" } },
+        "reasons": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "datasetInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "dataset", "path", "layer", "authority", "expectedLayer", "expectedAuthority", "metadata", "integrity", "evidence"],
+      "properties": {
+        "role": { "enum": ["catalog", "sourceTextTalents", "sourceTextConstellations"] },
+        "dataset": { "type": "string", "minLength": 1 },
+        "path": { "type": ["string", "null"] },
+        "layer": { "type": ["string", "null"] },
+        "authority": { "type": ["string", "null"] },
+        "expectedLayer": { "const": "raw" },
+        "expectedAuthority": { "enum": ["catalog", "sourceText"] },
+        "metadata": { "type": ["object", "null"] },
+        "integrity": { "$ref": "#/$defs/integrity" },
+        "evidence": { "$ref": "#/$defs/datasetEvidence" }
+      }
+    },
+    "generatedFrom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifest", "datasets", "consumerMapper"],
+      "properties": {
+        "manifest": { "$ref": "#/$defs/fileReference" },
+        "datasets": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/datasetInput" } },
+        "consumerMapper": { "$ref": "#/$defs/fileReference" }
+      }
+    },
+    "fileReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "integrity"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "integrity": { "$ref": "#/$defs/integrity" }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["readOnly", "comparison", "mapperMissing", "mapperDuplicateDisagreement", "catalogSourceTextMismatch", "mapperNameMismatch", "malformedEvidence", "sourceTextIdentity", "identitySensitivePromotion", "canonicalPromotion"],
+      "properties": {
+        "readOnly": { "const": true },
+        "comparison": { "type": "string", "minLength": 1 },
+        "mapperMissing": { "type": "string", "minLength": 1 },
+        "mapperDuplicateDisagreement": { "type": "string", "minLength": 1 },
+        "catalogSourceTextMismatch": { "type": "string", "minLength": 1 },
+        "mapperNameMismatch": { "type": "string", "minLength": 1 },
+        "malformedEvidence": { "type": "string", "minLength": 1 },
+        "sourceTextIdentity": { "type": "string", "minLength": 1 },
+        "identitySensitivePromotion": { "type": "string", "minLength": 1 },
+        "canonicalPromotion": { "type": "string", "minLength": 1 }
+      }
+    },
+    "mapEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "values", "occurrenceCount", "duplicateDisagreement"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "values": { "type": "array", "items": { "type": "string" } },
+        "occurrenceCount": { "type": "integer", "minimum": 1 },
+        "duplicateDisagreement": { "type": "boolean" }
+      }
+    },
+    "mapperMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "constantName", "status", "malformedReasons", "occurrenceCount", "entries", "digest"],
+      "properties": {
+        "key": { "enum": ["ja", "fallback"] },
+        "constantName": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["parsed", "missing", "malformed"] },
+        "malformedReasons": { "type": "array", "items": { "type": "string" } },
+        "occurrenceCount": { "type": "integer", "minimum": 0 },
+        "entries": { "type": "array", "items": { "$ref": "#/$defs/mapEntry" } },
+        "digest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "mapper": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "status", "maps", "orphanIds", "malformedReasons", "sourceStatus"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["parsed", "incomplete", "malformed"] },
+        "maps": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/mapperMap" } },
+        "orphanIds": { "type": "array", "items": { "type": "string" } },
+        "malformedReasons": { "type": "array", "items": { "type": "string" } },
+        "sourceStatus": { "enum": ["parsed", "missing", "malformed"] }
+      }
+    },
+    "sourceText": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["talentsPresent", "constellationsPresent", "talentsDirectNameValues", "constellationsDirectNameValues", "talentsEvidenceStatus", "constellationsEvidenceStatus", "identityEvidence"],
+      "properties": {
+        "talentsPresent": { "type": "boolean" },
+        "constellationsPresent": { "type": "boolean" },
+        "talentsDirectNameValues": { "type": "array", "items": { "type": "string" } },
+        "constellationsDirectNameValues": { "type": "array", "items": { "type": "string" } },
+        "talentsEvidenceStatus": { "enum": ["parsed", "missing", "malformed"] },
+        "constellationsEvidenceStatus": { "enum": ["parsed", "missing", "malformed"] },
+        "identityEvidence": { "const": "entityIdCoverageAndExplicitTopLevelNameOnly" }
+      }
+    },
+    "mapperObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["present", "values", "occurrenceCount", "duplicateDisagreement", "evidenceStatus", "malformedReasons"],
+      "properties": {
+        "present": { "type": "boolean" },
+        "values": { "type": "array", "items": { "type": "string" } },
+        "occurrenceCount": { "type": "integer", "minimum": 0 },
+        "duplicateDisagreement": { "type": "boolean" },
+        "evidenceStatus": { "enum": ["parsed", "missing", "malformed"] },
+        "malformedReasons": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "catalogPresent", "catalogNameJa", "evidence", "sourceText", "sourceTextStatus", "mapper", "mapperObservedNames", "classification", "findings"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "catalogPresent": { "type": "boolean" },
+        "catalogNameJa": { "type": ["string", "null"] },
+        "evidence": { "$ref": "#/$defs/entityEvidence" },
+        "sourceText": { "$ref": "#/$defs/sourceText" },
+        "sourceTextStatus": { "enum": ["catalogAndSourceTextMatch", "catalogSourceTextMismatch"] },
+        "mapper": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["ja", "fallback"],
+          "properties": {
+            "ja": { "$ref": "#/$defs/mapperObservation" },
+            "fallback": { "$ref": "#/$defs/mapperObservation" }
+          }
+        },
+        "mapperObservedNames": { "type": "array", "items": { "type": "string" } },
+        "classification": { "enum": ["match", "mapperMissing", "mapperDuplicateDisagreement", "catalogSourceTextMismatch", "mapperNameMismatch", "malformedEvidence"] },
+        "findings": { "type": "array", "items": { "enum": ["match", "mapperMissing", "mapperDuplicateDisagreement", "catalogSourceTextMismatch", "mapperNameMismatch", "malformedEvidence"] } }
+      }
+    },
+    "entityEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalog", "sourceTextTalents", "sourceTextConstellations", "mapperSourceStatus", "malformed", "reasons"],
+      "properties": {
+        "catalog": { "$ref": "#/$defs/recordEvidence" },
+        "sourceTextTalents": { "$ref": "#/$defs/recordEvidence" },
+        "sourceTextConstellations": { "$ref": "#/$defs/recordEvidence" },
+        "mapperSourceStatus": { "enum": ["parsed", "missing", "malformed"] },
+        "malformed": { "type": "boolean" },
+        "reasons": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "classifications": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["match", "mapperMissing", "mapperDuplicateDisagreement", "catalogSourceTextMismatch", "mapperNameMismatch", "malformedEvidence"],
+      "properties": {
+        "match": { "type": "array", "items": { "type": "string" } },
+        "mapperMissing": { "type": "array", "items": { "type": "string" } },
+        "mapperDuplicateDisagreement": { "type": "array", "items": { "type": "string" } },
+        "catalogSourceTextMismatch": { "type": "array", "items": { "type": "string" } },
+        "mapperNameMismatch": { "type": "array", "items": { "type": "string" } },
+        "malformedEvidence": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalogEntityCount", "sourceTextTalentsEntityCount", "sourceTextConstellationsEntityCount", "comparedEntityCount", "mapperMapCount", "mapperEntryCounts", "classificationCounts", "matchCount", "mapperMissingCount", "mapperDuplicateDisagreementCount", "catalogSourceTextMismatchCount", "mapperNameMismatchCount", "malformedEvidenceCount", "mapperMissingIds", "mapperNameMismatchIds", "mapperDuplicateDisagreementIds", "catalogSourceTextMismatchIds", "malformedEvidenceIds", "mapperOrphanIds", "mapperMissingFromEntityId", "canonicalPromotionCount"],
+      "properties": {
+        "catalogEntityCount": { "type": "integer", "minimum": 0 },
+        "sourceTextTalentsEntityCount": { "type": "integer", "minimum": 0 },
+        "sourceTextConstellationsEntityCount": { "type": "integer", "minimum": 0 },
+        "comparedEntityCount": { "type": "integer", "minimum": 0 },
+        "mapperMapCount": { "const": 2 },
+        "mapperEntryCounts": { "type": "object", "additionalProperties": false, "required": ["ja", "fallback"], "properties": { "ja": { "type": "integer", "minimum": 0 }, "fallback": { "type": "integer", "minimum": 0 } } },
+        "classificationCounts": { "type": "object", "additionalProperties": false, "required": ["match", "mapperMissing", "mapperDuplicateDisagreement", "catalogSourceTextMismatch", "mapperNameMismatch"], "properties": { "match": { "type": "integer", "minimum": 0 }, "mapperMissing": { "type": "integer", "minimum": 0 }, "mapperDuplicateDisagreement": { "type": "integer", "minimum": 0 }, "catalogSourceTextMismatch": { "type": "integer", "minimum": 0 }, "mapperNameMismatch": { "type": "integer", "minimum": 0 } } },
+        "matchCount": { "type": "integer", "minimum": 0 },
+        "mapperMissingCount": { "type": "integer", "minimum": 0 },
+        "mapperDuplicateDisagreementCount": { "type": "integer", "minimum": 0 },
+        "catalogSourceTextMismatchCount": { "type": "integer", "minimum": 0 },
+        "mapperNameMismatchCount": { "type": "integer", "minimum": 0 },
+        "malformedEvidenceCount": { "type": "integer", "minimum": 0 },
+        "mapperMissingIds": { "type": "array", "items": { "type": "string" } },
+        "mapperNameMismatchIds": { "type": "array", "items": { "type": "string" } },
+        "mapperDuplicateDisagreementIds": { "type": "array", "items": { "type": "string" } },
+        "catalogSourceTextMismatchIds": { "type": "array", "items": { "type": "string" } },
+        "malformedEvidenceIds": { "type": "array", "items": { "type": "string" } },
+        "mapperOrphanIds": { "type": "array", "items": { "type": "string" } },
+        "mapperMissingFromEntityId": { "type": "array", "items": { "type": "string" } },
+        "canonicalPromotionCount": { "const": 0 }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identitySensitivePromotion", "consumerCoverage", "canonicalPromotion"],
+      "properties": {
+        "identitySensitivePromotion": { "type": "object", "additionalProperties": false, "required": ["status", "failClosed", "allowed", "blockingClassifications", "blockingIds"], "properties": { "status": { "enum": ["failClosed", "clear"] }, "failClosed": { "type": "boolean" }, "allowed": { "const": false }, "blockingClassifications": { "type": "array", "items": { "enum": ["mapperDuplicateDisagreement", "catalogSourceTextMismatch", "mapperNameMismatch", "malformedEvidence"] } }, "blockingIds": { "type": "array", "items": { "type": "string" } } } },
+        "consumerCoverage": { "type": "object", "additionalProperties": false, "required": ["status", "classification", "gapIds", "doesNotReclassifyAsMismatch"], "properties": { "status": { "enum": ["gap", "complete"] }, "classification": { "const": "mapperMissing" }, "gapIds": { "type": "array", "items": { "type": "string" } }, "doesNotReclassifyAsMismatch": { "const": true } } },
+        "canonicalPromotion": { "type": "object", "additionalProperties": false, "required": ["status", "eligible", "changed"], "properties": { "status": { "const": "forbidden" }, "eligible": { "const": 0 }, "changed": { "const": false } } }
+      }
+    }
+  }
+}

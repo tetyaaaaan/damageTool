@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tetinet.example/schemas/genshin/version-baseline.schema.json",
+  "title": "Genshin accepted version baseline",
+  "type": "object",
+  "required": ["schemaVersion", "kind", "generator", "snapshotId", "previousSnapshotId", "targetGameVersion", "sourceCatalogDigest", "datasets"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinAcceptedVersionBaseline" },
+    "snapshotId": { "type": "string", "pattern": "^genshin-version:" },
+    "previousSnapshotId": { "type": ["string", "null"] },
+    "generator": {
+      "type": "object",
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "const": "genshinVersionBaseline.cjs" },
+        "version": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "targetGameVersion": {
+      "type": "object",
+      "required": ["gameVersion", "status", "sources"],
+      "properties": {
+        "gameVersion": { "type": ["string", "null"] },
+        "status": { "enum": ["strictlyBound", "unbound"] },
+        "sources": { "type": "array", "items": { "type": "object" } }
+      },
+      "additionalProperties": false
+    },
+    "sourceCatalogDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "datasets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["path", "digest", "entities"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "entities": { "type": "object", "additionalProperties": { "type": "string", "pattern": "^[a-f0-9]{64}$" } }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

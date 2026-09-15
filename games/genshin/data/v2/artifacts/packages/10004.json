@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "artifactSet",
+    "id": "10004"
+  },
+  "sourceRefs": [
+    "artifact:10004:catalog",
+    "artifact:10004:effects"
+  ],
+  "pieceSlots": {
+    "onePiece": {
+      "pieceCount": 1,
+      "sourceRefs": [
+        "artifact:10004:effect:onePiece"
+      ],
+      "modifierIds": [],
+      "specIds": []
+    },
+    "twoPiece": {
+      "pieceCount": 2,
+      "sourceRefs": [
+        "artifact:10004:effect:twoPiece"
+      ],
+      "modifierIds": [],
+      "specIds": []
+    },
+    "fourPiece": {
+      "pieceCount": 4,
+      "sourceRefs": [
+        "artifact:10004:effect:fourPiece"
+      ],
+      "modifierIds": [],
+      "specIds": []
+    }
+  },
+  "modifierIds": [],
+  "specIds": [],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Artifact package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "gapReview": {
+    "setId": "10004",
+    "setNameJa": "奇跡",
+    "status": "unstructured",
+    "canonical": 0,
+    "reasons": [
+      "RAW_2PC_4PC_EFFECT_TEXT_PRESENT",
+      "STRUCTURED_MODIFIER_RECORD_MISSING",
+      "RAW_TEXT_REQUIRES_STRUCTURING_REVIEW"
+    ],
+    "sourceRefs": [
+      "artifact:10004:catalog",
+      "artifact:10004:effects",
+      "artifact:10004:effect:onePiece",
+      "artifact:10004:effect:twoPiece",
+      "artifact:10004:effect:fourPiece"
+    ],
+    "sourcePointers": [
+      {
+        "sourceId": "artifact:10004:catalog",
+        "dataset": "artifact-sets.json",
+        "record": "/10004",
+        "field": null,
+        "present": true,
+        "textDigest": "88b15a30cc21818bf096d43177e11402328cc79925390b02107b789d829a6f24"
+      },
+      {
+        "sourceId": "artifact:10004:effects",
+        "dataset": "artifact-set-effects.json",
+        "record": "/10004",
+        "field": null,
+        "present": true,
+        "textDigest": "650e51217ca88ae3cafd2e07c1b1b149095a5b708206e043f066f139e14a9ae8"
+      },
+      {
+        "sourceId": "artifact:10004:effect:onePiece",
+        "dataset": "artifact-set-effects.json",
+        "record": "/10004",
+        "field": "onePieceEffect",
+        "present": false,
+        "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "sourceId": "artifact:10004:effect:twoPiece",
+        "dataset": "artifact-set-effects.json",
+        "record": "/10004",
+        "field": "twoPieceEffect",
+        "present": true,
+        "textDigest": "52bcea7aca6f4cd0d9f00a9f53bd37bbe2099ed29d88f61d50c1a58e865538a3"
+      },
+      {
+        "sourceId": "artifact:10004:effect:fourPiece",
+        "dataset": "artifact-set-effects.json",
+        "record": "/10004",
+        "field": "fourPieceEffect",
+        "present": true,
+        "textDigest": "c55a9e88d46d7811d4e61312c51d8f30183646ac2f0c4c7cffe9a1a15503e8f4"
+      }
+    ],
+    "modifierRecord": {
+      "present": false,
+      "totalCount": 0,
+      "sourceDataset": "calc/artifact-set-modifiers.json",
+      "record": "/10004"
+    },
+    "pieceSlots": {
+      "onePiece": {
+        "pieceCount": 1,
+        "status": "noEffect",
+        "textPresent": false,
+        "modifierCount": 0,
+        "sourceRefs": [
+          "artifact:10004:effect:onePiece"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "artifact:10004:effect:onePiece",
+            "dataset": "artifact-set-effects.json",
+            "record": "/10004",
+            "field": "onePieceEffect",
+            "present": false,
+            "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "display": {
+          "status": "none",
+          "sourceRefs": [
+            "artifact:10004:effect:onePiece"
+          ]
+        },
+        "calculation": {
+          "status": "blocked",
+          "reason": "structuredModifiersMissing"
+        }
+      },
+      "twoPiece": {
+        "pieceCount": 2,
+        "status": "unstructured",
+        "textPresent": true,
+        "modifierCount": 0,
+        "sourceRefs": [
+          "artifact:10004:effect:twoPiece"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "artifact:10004:effect:twoPiece",
+            "dataset": "artifact-set-effects.json",
+            "record": "/10004",
+            "field": "twoPieceEffect",
+            "present": true,
+            "textDigest": "52bcea7aca6f4cd0d9f00a9f53bd37bbe2099ed29d88f61d50c1a58e865538a3"
+          }
+        ],
+        "display": {
+          "status": "rawText",
+          "sourceRefs": [
+            "artifact:10004:effect:twoPiece"
+          ]
+        },
+        "calculation": {
+          "status": "blocked",
+          "reason": "structuredModifiersMissing"
+        }
+      },
+      "fourPiece": {
+        "pieceCount": 4,
+        "status": "unstructured",
+        "textPresent": true,
+        "modifierCount": 0,
+        "sourceRefs": [
+          "artifact:10004:effect:fourPiece"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "artifact:10004:effect:fourPiece",
+            "dataset": "artifact-set-effects.json",
+            "record": "/10004",
+            "field": "fourPieceEffect",
+            "present": true,
+            "textDigest": "c55a9e88d46d7811d4e61312c51d8f30183646ac2f0c4c7cffe9a1a15503e8f4"
+          }
+        ],
+        "display": {
+          "status": "rawText",
+          "sourceRefs": [
+            "artifact:10004:effect:fourPiece"
+          ]
+        },
+        "calculation": {
+          "status": "blocked",
+          "reason": "structuredModifiersMissing"
+        }
+      }
+    }
+  },
+  "runtime": {
+    "status": "blocked",
+    "modifierIds": [],
+    "generator": "genshinArtifactV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing",
+      "structuredModifiersMissing"
+    ]
+  }
+}

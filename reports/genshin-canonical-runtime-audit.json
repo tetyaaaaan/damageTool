@@ -1,0 +1,457 @@
+{
+  "schemaVersion": 2,
+  "kind": "genshinCanonicalRuntimeAuditReport",
+  "generator": "genshinCanonicalRuntimeGenerate/2",
+  "status": "passed",
+  "policy": {
+    "promotion": "verified structured specs only",
+    "independentProviders": 2,
+    "independentEvidenceGroups": 2,
+    "fieldClaims": "every copied field requires an exact verified canonical dotted-path claim",
+    "gameVersion": "required and consistent on every resolved source",
+    "verification": "human mode requires independent reviewer metadata; deterministicConsensus requires strict claim certificates and machine attestations",
+    "destination": "structured allowlisted engine route required",
+    "supersedesLegacyModifierIds": "explicit array required",
+    "behavior": "dedicated browser behavior route supported; real records still require the full canonical evidence gate",
+    "textInference": "forbidden"
+  },
+  "repository": {
+    "totalCandidates": 2268,
+    "canonical": 2,
+    "excluded": 2266,
+    "categories": {
+      "weapons": {
+        "candidates": 455,
+        "canonical": 1,
+        "excluded": 454,
+        "primaryBlocks": [
+          {
+            "reason": "claim:activation:eligibilityCertificateMissing",
+            "count": 454
+          },
+          {
+            "reason": "claim:activation:status:needsReview",
+            "count": 454
+          },
+          {
+            "reason": "claim:activation:verificationAttestationMissing",
+            "count": 454
+          },
+          {
+            "reason": "claim:activation:verificationModeMissingOrInvalid",
+            "count": 454
+          },
+          {
+            "reason": "claim:area:applicabilityNotDetermined",
+            "count": 454
+          }
+        ]
+      },
+      "artifacts": {
+        "candidates": 122,
+        "canonical": 0,
+        "excluded": 122,
+        "primaryBlocks": [
+          {
+            "reason": "claim:activation:eligibilityCertificateMissing",
+            "count": 122
+          },
+          {
+            "reason": "claim:activation:status:needsReview",
+            "count": 122
+          },
+          {
+            "reason": "claim:activation:verificationAttestationMissing",
+            "count": 122
+          },
+          {
+            "reason": "claim:activation:verificationModeMissingOrInvalid",
+            "count": 122
+          },
+          {
+            "reason": "claim:automaticDetectability:eligibilityCertificateMissing",
+            "count": 122
+          }
+        ]
+      },
+      "talentGap": {
+        "candidates": 73,
+        "canonical": 0,
+        "excluded": 73,
+        "primaryBlocks": [
+          {
+            "reason": "claim:activation:eligibilityCertificateMissing",
+            "count": 73
+          },
+          {
+            "reason": "claim:activation:status:needsReview",
+            "count": 73
+          },
+          {
+            "reason": "claim:activation:verificationAttestationMissing",
+            "count": 73
+          },
+          {
+            "reason": "claim:activation:verificationModeMissingOrInvalid",
+            "count": 73
+          },
+          {
+            "reason": "claim:effectKind:eligibilityCertificateMissing",
+            "count": 73
+          }
+        ]
+      },
+      "behavior": {
+        "candidates": 92,
+        "canonical": 1,
+        "excluded": 91,
+        "primaryBlocks": [
+          {
+            "reason": "claimCoverage:runtime.destination:verifiedRequired",
+            "count": 91
+          },
+          {
+            "reason": "claimCoverage:runtime.supersedesLegacyModifierIds:verifiedRequired",
+            "count": 91
+          },
+          {
+            "reason": "destination:missing",
+            "count": 91
+          },
+          {
+            "reason": "supersedesLegacyModifierIds:missing",
+            "count": 91
+          },
+          {
+            "reason": "claims:missing",
+            "count": 90
+          }
+        ]
+      },
+      "behaviorBatch1": {
+        "candidates": 111,
+        "canonical": 0,
+        "excluded": 111,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:eligibilityCertificateMissing",
+            "count": 111
+          },
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 111
+          },
+          {
+            "reason": "claim:energy:verificationAttestationMissing",
+            "count": 111
+          },
+          {
+            "reason": "claim:energy:verificationModeMissingOrInvalid",
+            "count": 111
+          },
+          {
+            "reason": "claim:execution:eligibilityCertificateMissing",
+            "count": 111
+          }
+        ]
+      },
+      "behaviorBatch2": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:eligibilityCertificateMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationAttestationMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationModeMissingOrInvalid",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:eligibilityCertificateMissing",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch3": {
+        "candidates": 141,
+        "canonical": 0,
+        "excluded": 141,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:eligibilityCertificateMissing",
+            "count": 141
+          },
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 141
+          },
+          {
+            "reason": "claim:energy:verificationAttestationMissing",
+            "count": 141
+          },
+          {
+            "reason": "claim:energy:verificationModeMissingOrInvalid",
+            "count": 141
+          },
+          {
+            "reason": "claim:execution:eligibilityCertificateMissing",
+            "count": 141
+          }
+        ]
+      },
+      "behaviorBatch4": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:eligibilityCertificateMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationAttestationMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationModeMissingOrInvalid",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:eligibilityCertificateMissing",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch5": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:eligibilityCertificateMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationAttestationMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationModeMissingOrInvalid",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:eligibilityCertificateMissing",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch6": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:eligibilityCertificateMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationAttestationMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationModeMissingOrInvalid",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:eligibilityCertificateMissing",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch7": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:eligibilityCertificateMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationAttestationMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationModeMissingOrInvalid",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:eligibilityCertificateMissing",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch8": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:eligibilityCertificateMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationAttestationMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationModeMissingOrInvalid",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:eligibilityCertificateMissing",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch9": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:eligibilityCertificateMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationAttestationMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationModeMissingOrInvalid",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:eligibilityCertificateMissing",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch10": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:eligibilityCertificateMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationAttestationMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationModeMissingOrInvalid",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:eligibilityCertificateMissing",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch11": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:eligibilityCertificateMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationAttestationMissing",
+            "count": 140
+          },
+          {
+            "reason": "claim:energy:verificationModeMissingOrInvalid",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:eligibilityCertificateMissing",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch12": {
+        "candidates": 14,
+        "canonical": 0,
+        "excluded": 14,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:eligibilityCertificateMissing",
+            "count": 14
+          },
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 14
+          },
+          {
+            "reason": "claim:energy:verificationAttestationMissing",
+            "count": 14
+          },
+          {
+            "reason": "claim:energy:verificationModeMissingOrInvalid",
+            "count": 14
+          },
+          {
+            "reason": "claim:execution:eligibilityCertificateMissing",
+            "count": 14
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 2,
+  "kind": "genshinBehaviorV2InventoryManifest",
+  "generator": {
+    "name": "genshinBehaviorV2InventoryGenerate.cjs",
+    "version": "genshinBehaviorV2InventoryGenerate/1",
+    "capturedAt": "2026-08-15T00:00:00.000Z"
+  },
+  "summary": {
+    "schemaVersion": 2,
+    "characters": 117,
+    "pilotCharacters": 8,
+    "expansionCharacters": 109,
+    "rawTalentFields": 938,
+    "rawConstellationFields": 702,
+    "rawFields": 1640,
+    "nonEmptyTalentFields": 938,
+    "nonEmptyConstellationFields": 702,
+    "sourceSignalFields": 861,
+    "sourceRecords": 1757,
+    "extractedCandidatesBeforePilotDedup": 1823,
+    "pilotCandidatesSuppressed": 129,
+    "pilotOverlapCandidates": 76,
+    "candidates": 1694,
+    "candidateStatusCounts": {
+      "candidate": 1083,
+      "unknown": 611
+    },
+    "candidateKindCounts": {
+      "count": 671,
+      "timing": 437,
+      "icd": 332,
+      "refresh": 192,
+      "charge": 62
+    },
+    "sourceKindCounts": {
+      "primaryDataset": 1757
+    },
+    "canonical": 0,
+    "verificationByStatus": {
+      "needsReview": 1694
+    },
+    "sourceRefsResolved": true,
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "generatedFrom": [
+      {
+        "dataset": "characters.json",
+        "path": "games/genshin/data/characters.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "5d239863352fc896931c0c626e2de1ad60c615e4e376142daa8e2d3a7464c211"
+        }
+      },
+      {
+        "dataset": "character-talents.json",
+        "path": "games/genshin/data/character-talents.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "8bd06c0c9f518258487c6cd54245438fbad331c0766162522bbad40b98dd84bb"
+        }
+      },
+      {
+        "dataset": "character-constellations.json",
+        "path": "games/genshin/data/character-constellations.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "82ace4c6178941c47e3714cfe8188859825093f5e65c0b3e5dc22feb856c7197"
+        }
+      },
+      {
+        "dataset": "v2/characters/behavior-pilot.json",
+        "path": "games/genshin/data/v2/characters/behavior-pilot.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "68d99e91d24a02a34f653df5e6fd7196c141cb9d3b10571c96224c4f368b0676"
+        }
+      }
+    ]
+  },
+  "paths": {
+    "inventory": "behavior-inventory.json",
+    "audit": "behavior-inventory-audit.json"
+  }
+}

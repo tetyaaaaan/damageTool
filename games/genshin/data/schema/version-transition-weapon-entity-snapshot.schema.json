@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-version-transition-weapon-entity-snapshot.schema.json",
+  "title": "Genshin version transition weapon entity snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "generatedAt", "status", "claim", "summary", "gateEligibility", "fieldDigestAlgorithm", "fieldDigest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinVersionTransitionWeaponEntitySnapshot" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["partialProviderSnapshot", "completeProviderSnapshot"] },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["transitionId", "dataset", "provider", "sourceFamily", "repository", "queueShard", "entityIds", "before", "after", "records", "coverage", "gateDisposition"],
+      "properties": {
+        "transitionId": { "type": "string", "minLength": 1 },
+        "dataset": { "const": "weapon" },
+        "provider": { "const": "genshin-db" },
+        "sourceFamily": { "const": "GenshinData-derived" },
+        "repository": { "const": "theBowja/genshin-db" },
+        "queueShard": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["shardId", "candidateIds", "candidateCount", "entityIds", "candidateIdDigest"],
+          "properties": {
+            "shardId": { "const": "weapons:weaponEffectSpec:sourceMissing:standard:01" },
+            "candidateIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+            "candidateCount": { "type": "integer", "minimum": 1 },
+            "entityIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+            "candidateIdDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+          }
+        },
+        "entityIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "before": { "$ref": "#/$defs/revisionClaim" },
+        "after": { "$ref": "#/$defs/revisionClaim" },
+        "records": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["entityId", "nameJa", "before", "after", "comparison"],
+            "properties": {
+              "entityId": { "type": "string", "minLength": 1 },
+              "nameJa": { "type": "string", "minLength": 1 },
+              "before": { "$ref": "#/$defs/entityRecord" },
+              "after": { "$ref": "#/$defs/entityRecord" },
+              "comparison": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["rawRecordStatus", "normalizedStatus", "changedFieldCount", "fieldDiffs", "beforeNormalizedDigest", "afterNormalizedDigest"],
+                "properties": {
+                  "rawRecordStatus": { "enum": ["rawRecordMatch", "rawRecordChanged"] },
+                  "normalizedStatus": { "enum": ["normalizedRecordMatch", "normalizedRecordChanged"] },
+                  "changedFieldCount": { "type": "integer", "minimum": 0 },
+                  "fieldDiffs": { "type": "array" },
+                  "beforeNormalizedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                  "afterNormalizedDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+                }
+              }
+            }
+          }
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sourceRecordCoverage", "normalizedDiffCoverage", "entityCount", "queueCandidateCount", "repositoryWeaponCandidateCoverage", "canSatisfyCompleteEntityDiff", "canIssueEligibilityCertificate", "canPromoteCanonical"],
+          "properties": {
+            "sourceRecordCoverage": { "enum": ["partial", "complete"] },
+            "normalizedDiffCoverage": { "enum": ["partial", "complete"] },
+            "entityCount": { "type": "integer", "minimum": 0 },
+            "queueCandidateCount": { "type": "integer", "minimum": 0 },
+            "repositoryWeaponCandidateCoverage": { "enum": ["partial", "complete"] },
+            "canSatisfyCompleteEntityDiff": { "const": false },
+            "canIssueEligibilityCertificate": { "const": false },
+            "canPromoteCanonical": { "const": false }
+          }
+        },
+        "gateDisposition": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "providerIndependence", "reason"],
+          "properties": {
+            "status": { "const": "singleCorrelatedFamilyFailClosed" },
+            "providerIndependence": { "const": "correlated" },
+            "reason": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "summary": { "type": "object" },
+    "gateEligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "canIssueEligibilityCertificate", "canPromoteCanonical"],
+      "properties": {
+        "status": { "const": "singleCorrelatedFamilyFailClosed" },
+        "canIssueEligibilityCertificate": { "const": false },
+        "canPromoteCanonical": { "const": false }
+      }
+    },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  },
+  "$defs": {
+    "revisionClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gameVersion", "revision", "repository", "sourceFamily", "versionBinding", "treeResolution", "records"],
+      "properties": {
+        "gameVersion": { "type": "string", "minLength": 1 },
+        "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "repository": { "type": "string", "minLength": 1 },
+        "sourceFamily": { "type": "string", "minLength": 1 },
+        "versionBinding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "gameVersion", "evidenceArtifact", "evidenceUrl", "evidenceBlobSha", "evidenceDigest", "evidenceBytes", "providerOwnedStatement"],
+          "properties": {
+            "status": { "const": "strictlyBound" },
+            "gameVersion": { "type": "string", "minLength": 1 },
+            "evidenceArtifact": { "type": "string", "minLength": 1 },
+            "evidenceUrl": { "type": "string", "format": "uri" },
+            "evidenceBlobSha": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+            "evidenceDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "evidenceBytes": { "type": "integer", "minimum": 1 },
+            "providerOwnedStatement": { "type": "string", "minLength": 1 }
+          }
+        },
+        "treeResolution": { "type": "object" },
+        "records": { "type": "array", "minItems": 1 }
+      }
+    },
+    "entityRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entityId", "nameJa", "slugCandidates", "checkedCandidates", "selectedSlug", "artifact"],
+      "properties": {
+        "entityId": { "type": "string", "minLength": 1 },
+        "nameJa": { "type": "string", "minLength": 1 },
+        "slugCandidates": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "checkedCandidates": { "type": "array", "minItems": 1 },
+        "selectedSlug": { "type": "string", "minLength": 1 },
+        "artifact": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["gameVersion", "revision", "slug", "path", "url", "blobSha", "treeBlobBytes", "rawArtifactBytes", "rawArtifactDigest", "normalizedRecordDigest"],
+          "properties": {
+            "gameVersion": { "type": "string", "minLength": 1 },
+            "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+            "slug": { "type": "string", "minLength": 1 },
+            "path": { "type": "string", "minLength": 1 },
+            "url": { "type": "string", "format": "uri" },
+            "blobSha": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+            "treeBlobBytes": { "type": "integer", "minimum": 0 },
+            "rawArtifactBytes": { "type": "integer", "minimum": 0 },
+            "rawArtifactDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "normalizedRecordDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+          }
+        }
+      }
+    }
+  }
+}

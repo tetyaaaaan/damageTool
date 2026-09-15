@@ -1401,6 +1401,10 @@ html[data-theme="dark"] .genshin-breakdown-groups h4 {
   color: #16845f;
 }
 
+.genshin-tool-page .uid-importer__message[data-type="warning"] {
+  color: var(--teti-warning, #a86700);
+}
+
 .uid-importer__storage {
   display: flex;
   align-items: center;

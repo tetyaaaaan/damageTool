@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "r2-behavior-spec-shard03-g06-deferral.schema.json",
+  "title": "Genshin r2 behaviorSpec shard03 persisted-provider deferral draft",
+  "description": "Candidate-scoped, draft-only evidence waits for the next exact BehaviorSpec shard. This schema cannot grant verification or canonical promotion.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "kind", "policyId", "transitionId", "fromGameVersion", "targetGameVersion",
+    "status", "draftOnly", "generatedAt", "generator", "scope", "queueObservation", "frontier",
+    "evidence", "decisions", "summary", "gate", "policy", "validation", "fieldDigestAlgorithm", "fieldDigest"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinR2BehaviorSpecShard03G06Deferral" },
+    "policyId": { "const": "genshin-goal-2026-08-28-r2" },
+    "transitionId": { "const": "genshin:6.7->7.0" },
+    "fromGameVersion": { "const": "6.7" },
+    "targetGameVersion": { "const": "7.0" },
+    "status": { "const": "draft" },
+    "draftOnly": { "const": true },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "generator": {
+      "type": "object", "additionalProperties": false, "required": ["name", "version"],
+      "properties": {
+        "name": { "const": "genshinR2BehaviorSpecShard03G06Deferral.cjs" },
+        "version": { "const": "genshinR2BehaviorSpecShard03G06Deferral/1" }
+      }
+    },
+    "scope": { "$ref": "#/$defs/scope" },
+    "queueObservation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["taskCount", "candidateIdDigest", "note"],
+      "properties": {
+        "taskCount": { "const": 100 },
+        "candidateIdDigest": { "$ref": "#/$defs/digest" },
+        "note": { "type": "string", "minLength": 1 }
+      }
+    },
+    "frontier": { "$ref": "#/$defs/frontier" },
+    "evidence": {
+      "type": "object", "additionalProperties": true,
+      "required": ["sourceAudit", "providerSurface", "candidateEvidence", "candidateFieldEvidenceCandidateCount", "candidateFieldEvidenceClaimCount", "independentVersionBoundFieldEvidenceClaimCount", "rawIntegrityVerifiedCandidateCount", "rawIntegrityGapCandidateCount", "sourceRefs"],
+      "properties": {
+        "sourceAudit": { "$ref": "#/$defs/ref" },
+        "candidateEvidence": { "type": "array", "minItems": 100, "maxItems": 100 },
+        "candidateFieldEvidenceCandidateCount": { "const": 0 },
+        "candidateFieldEvidenceClaimCount": { "const": 0 },
+        "independentVersionBoundFieldEvidenceClaimCount": { "const": 0 },
+        "rawIntegrityVerifiedCandidateCount": { "const": 100 },
+        "rawIntegrityGapCandidateCount": { "const": 0 },
+        "sourceRefs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/ref" } }
+      }
+    },
+    "decisions": { "type": "array", "minItems": 100, "maxItems": 100, "items": { "$ref": "#/$defs/decision" } },
+    "summary": { "$ref": "#/$defs/summary" },
+    "gate": {
+      "type": "object", "additionalProperties": true,
+      "required": ["draftEligibleForEvidenceWait", "canIssueEligibilityCertificate", "canPromoteCanonical", "verificationGranted", "promotionGranted", "runtimeChanged", "certificateIssued", "queueChanged", "reason"],
+      "properties": {
+        "draftEligibleForEvidenceWait": { "const": true },
+        "canIssueEligibilityCertificate": { "const": false },
+        "canPromoteCanonical": { "const": false },
+        "verificationGranted": { "const": false },
+        "promotionGranted": { "const": false },
+        "runtimeChanged": { "const": false },
+        "certificateIssued": { "const": false },
+        "queueChanged": { "const": false },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "policy": { "type": "object", "additionalProperties": true },
+    "validation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["valid", "invalidDecisionCount", "decisionResults"],
+      "properties": {
+        "valid": { "const": true },
+        "invalidDecisionCount": { "const": 0 },
+        "decisionResults": { "type": "array", "minItems": 100, "maxItems": 100 }
+      }
+    },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "ref": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256"],
+      "properties": { "path": { "type": "string", "minLength": 1 }, "sha256": { "$ref": "#/$defs/digest" } }
+    },
+    "scope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["shardId", "layer", "candidateCount", "candidateIds", "candidateIdDigest", "externalClaimFields", "candidateSelection", "frontierId"],
+      "properties": {
+        "shardId": { "const": "behavior:behaviorSpec:semanticDecisionRequired:standard:03" },
+        "layer": { "const": "behaviorSpec" },
+        "candidateCount": { "const": 100 },
+        "candidateIds": { "type": "array", "minItems": 100, "maxItems": 100, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "candidateIdDigest": { "$ref": "#/$defs/digest" },
+        "externalClaimFields": { "const": ["sourceText", "timing", "execution", "lifecycle", "energy", "snapshot"] },
+        "candidateSelection": { "type": "string", "minLength": 1 },
+        "frontierId": { "const": "genshin-7.0-behavior-spec-shard03-persisted-provider-frontier" }
+      }
+    },
+    "frontier": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "status", "finite", "scopeUnit", "shardId", "transitionId", "targetGameVersion", "candidateCount", "candidateIds", "candidateIdDigest", "claimFields", "externalClaimFields", "searchScope", "lastSearchedAt", "providersExamined", "providerCount", "exactCandidateFieldEvidenceCount", "independentVersionBoundFieldEvidenceCount", "negativeResult", "unsearchedScope", "reopenTrigger", "evidenceRefs", "sourceAuditDigest", "digest"],
+      "properties": {
+        "id": { "const": "genshin-7.0-behavior-spec-shard03-persisted-provider-frontier" },
+        "status": { "const": "searchExhausted" },
+        "finite": { "const": true },
+        "scopeUnit": { "const": "candidate×claim" },
+        "shardId": { "const": "behavior:behaviorSpec:semanticDecisionRequired:standard:03" },
+        "transitionId": { "const": "genshin:6.7->7.0" },
+        "targetGameVersion": { "const": "7.0" },
+        "candidateCount": { "const": 100 },
+        "candidateIds": { "type": "array", "minItems": 100, "maxItems": 100, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "candidateIdDigest": { "$ref": "#/$defs/digest" },
+        "claimFields": { "const": ["sourceText", "timing", "execution", "lifecycle", "energy", "snapshot", "runtime"] },
+        "externalClaimFields": { "const": ["sourceText", "timing", "execution", "lifecycle", "energy", "snapshot"] },
+        "searchScope": { "type": "string", "minLength": 1 },
+        "lastSearchedAt": { "type": "string", "format": "date" },
+        "providersExamined": { "type": "array", "const": ["HoYoLAB / Genshin Impact Official", "theBowja/genshin-db", "DimbreathBot/AnimeGameData", "genshinsim/gcsim", "Gachabase", "KQM", "BTMuli/TeyvatGuide", "Yatta API", "Genshin Optimizer"] },
+        "providerCount": { "const": 9 },
+        "exactCandidateFieldEvidenceCount": { "const": 0 },
+        "independentVersionBoundFieldEvidenceCount": { "const": 0 },
+        "negativeResult": { "type": "string", "minLength": 1 },
+        "unsearchedScope": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "reopenTrigger": { "type": "string", "minLength": 1 },
+        "evidenceRefs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/ref" } },
+        "sourceAuditDigest": { "$ref": "#/$defs/digest" },
+        "digest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "fieldFinding": {
+      "type": "object", "additionalProperties": true,
+      "required": ["field", "knownStatus", "currentValue", "historicalValue", "missingEvidence", "candidateFieldValueMaterialized", "strictVerified", "certificateEligible"],
+      "properties": {
+        "field": { "type": "string", "pattern": "^claim\\.(sourceText|timing|execution|lifecycle|energy|snapshot)$" },
+        "knownStatus": { "const": "unknown" },
+        "currentValue": { "type": ["number", "string", "boolean", "object", "array", "null"] },
+        "historicalValue": { "type": "null" },
+        "missingEvidence": { "type": "string", "minLength": 1 },
+        "candidateFieldValueMaterialized": { "const": false },
+        "strictVerified": { "const": false },
+        "certificateEligible": { "const": false }
+      }
+    },
+    "decision": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "kind", "policyId", "candidateId", "targetGameVersion", "queueTaskDigest", "assessment", "fieldFindings", "search", "safety", "draftDisposition"],
+      "properties": {
+        "kind": { "const": "genshinEvidenceDeferral" },
+        "policyId": { "const": "genshin-goal-2026-08-28-r2" },
+        "candidateId": { "type": "string", "minLength": 1 },
+        "targetGameVersion": { "const": "7.0" },
+        "queueTaskDigest": { "$ref": "#/$defs/digest" },
+        "fieldFindings": { "type": "array", "minItems": 6, "maxItems": 6, "items": { "$ref": "#/$defs/fieldFinding" } },
+        "draftDisposition": {
+          "type": "object", "additionalProperties": false,
+          "required": ["status", "evidenceDeferred", "workClosed", "strictVerified", "certificateEligible", "canonicalPromotionEligible", "queueMutation"],
+          "properties": {
+            "status": { "const": "externalEvidenceWait" },
+            "evidenceDeferred": { "const": true },
+            "workClosed": { "const": false },
+            "strictVerified": { "const": false },
+            "certificateEligible": { "const": false },
+            "canonicalPromotionEligible": { "const": false },
+            "queueMutation": { "const": "none" }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object", "additionalProperties": true,
+      "required": ["candidateCount", "entityCount", "claimCount", "externalClaimCount", "internalClaimCount", "candidateScopedFrontierProvenCandidateCount", "finiteFrontierStatus", "evidenceDeferredDraftCandidateCount", "candidateFieldEvidenceCandidateCount", "candidateFieldEvidenceClaimCount", "strictVerifiedCandidateCount", "certificateEligibleClaimCount", "canonicalPromotionEligibleCandidateCount", "providerCount", "providerExactCandidateFieldHitCount", "unsearchedExternalRemainderCandidateCount", "queueMutated"],
+      "properties": {
+        "candidateCount": { "const": 100 },
+        "claimCount": { "const": 700 },
+        "externalClaimCount": { "const": 600 },
+        "internalClaimCount": { "const": 100 },
+        "candidateScopedFrontierProvenCandidateCount": { "const": 100 },
+        "finiteFrontierStatus": { "const": "searchExhaustedForPersistedProviderSurface" },
+        "evidenceDeferredDraftCandidateCount": { "const": 100 },
+        "candidateFieldEvidenceCandidateCount": { "const": 0 },
+        "candidateFieldEvidenceClaimCount": { "const": 0 },
+        "strictVerifiedCandidateCount": { "const": 0 },
+        "certificateEligibleClaimCount": { "const": 0 },
+        "canonicalPromotionEligibleCandidateCount": { "const": 0 },
+        "providerCount": { "const": 9 },
+        "providerExactCandidateFieldHitCount": { "const": 0 },
+        "unsearchedExternalRemainderCandidateCount": { "const": 100 },
+        "queueMutated": { "const": false }
+      }
+    }
+  }
+}
+
+

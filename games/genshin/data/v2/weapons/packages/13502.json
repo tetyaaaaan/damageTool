@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "weapon",
+    "id": "13502"
+  },
+  "sourceRefs": [
+    "weapon:13502:catalog",
+    "weapon:13502:effect"
+  ],
+  "modifierIds": [
+    "w_13502_crit_1",
+    "w_13502_extraDamage_6ebc9349",
+    "w_13502_extra_damage_2"
+  ],
+  "specIds": [
+    "w_13502_crit_1",
+    "w_13502_extraDamage_6ebc9349",
+    "w_13502_extra_damage_2"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Weapon package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:weapon:13502:w_13502_crit_1",
+      "genshin:v2:weapon:13502:w_13502_extraDamage_6ebc9349",
+      "genshin:v2:weapon:13502:w_13502_extra_damage_2"
+    ],
+    "generator": "genshinWeaponV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tetinet.example/schemas/genshin/canonical-runtime-contract.schema.json",
+  "title": "Genshin canonical RuntimeModifier contract",
+  "type": "object",
+  "required": ["id", "category", "applyTo", "condition", "calculationSupport", "uidHandling", "destination", "supersedesLegacyModifierIds", "provenance", "runtime"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "category": { "type": "string", "minLength": 1 },
+    "applyTo": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "condition": {},
+    "calculationSupport": { "type": "string", "minLength": 1 },
+    "uidHandling": { "type": "string", "minLength": 1 },
+    "runtimeKind": { "enum": ["behavior"] },
+    "targetSpecId": { "type": "string", "minLength": 1 },
+    "targetSpec": { "type": "object" },
+    "path": { "type": "string", "pattern": "^/(timing|execution|lifecycle|energy|elementApplication|triggers|stackRules|stateMachine|actor|enemyCountBehavior)/" },
+    "operation": { "enum": ["add", "multiply", "replace", "reset", "extend", "consume", "setMaximum", "ignoreCooldown", "refresh"] },
+    "value": {},
+    "destination": {
+      "type": "object",
+      "required": ["dataset", "entityId", "collection"],
+      "properties": {
+        "dataset": { "enum": ["weaponModifiers", "artifactSetModifiers", "talentModifiers", "constellationModifiers", "behaviorModifiers"] },
+        "entityId": { "type": "string", "minLength": 1 },
+        "collection": { "enum": ["modifiers", "twoPiece", "fourPiece", "onePiece", "passive", "constellation"] },
+        "sourceId": { "type": "string", "minLength": 1 },
+        "level": { "type": "integer", "minimum": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "dataset": { "const": "weaponModifiers" } } },
+          "then": { "properties": { "collection": { "const": "modifiers" } } }
+        },
+        {
+          "if": { "properties": { "dataset": { "const": "artifactSetModifiers" } } },
+          "then": { "properties": { "collection": { "enum": ["onePiece", "twoPiece", "fourPiece"] } } }
+        },
+        {
+          "if": { "properties": { "dataset": { "const": "talentModifiers" } } },
+          "then": {
+            "required": ["sourceId"],
+            "properties": { "collection": { "const": "passive" } }
+          }
+        },
+        {
+          "if": { "properties": { "dataset": { "const": "constellationModifiers" } } },
+          "then": {
+            "required": ["level"],
+            "properties": { "collection": { "const": "constellation" } }
+          }
+        },
+        {
+          "if": { "properties": { "dataset": { "const": "behaviorModifiers" } } },
+          "then": { "properties": { "collection": { "const": "modifiers" } } }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "supersedesLegacyModifierIds": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "provenance": {
+      "type": "object",
+      "required": ["schemaVersion", "status", "specId", "sourceRefs", "providers", "independenceGroups", "gameVersion", "verification"],
+      "properties": {
+        "schemaVersion": { "const": 2 },
+        "status": { "const": "canonical" },
+        "specId": { "type": "string", "minLength": 1 },
+        "sourceRefs": { "type": "array", "minItems": 2, "items": { "type": "string", "minLength": 1 } },
+        "providers": { "type": "array", "minItems": 2, "items": { "type": "string", "minLength": 1 } },
+        "independenceGroups": { "type": "array", "minItems": 2, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "gameVersion": { "type": "string", "minLength": 1 },
+        "verificationMode": { "enum": ["human", "deterministicConsensus"] },
+        "reviewedBy": { "type": "string", "minLength": 1 },
+        "reviewedAt": { "type": "string", "format": "date-time" },
+        "verification": {
+          "type": "object",
+          "required": ["status", "sourceAgreement", "independentSourceCount", "verificationMode", "claims", "claimProofs"],
+          "properties": {
+            "status": { "const": "verified" },
+            "sourceAgreement": { "const": "agreed" },
+            "independentSourceCount": { "type": "integer", "minimum": 2 },
+            "verificationMode": { "enum": ["human", "deterministicConsensus"] },
+            "reviewedBy": { "type": "string", "minLength": 1 },
+            "reviewedAt": { "type": "string", "format": "date-time" },
+            "claims": { "type": "object", "minProperties": 1 },
+            "claimProofs": {
+              "type": "object",
+              "minProperties": 1,
+              "additionalProperties": {
+                "type": "object",
+                "required": ["claimKind", "attestationId", "certificateId", "sourceBundleDigest", "certificateAuthority"],
+                "properties": {
+                  "claimKind": { "enum": ["externalFactual", "internalRuntimeRoute", "mappingMaterialization", "derivedDeterministic", "notApplicable"] },
+                  "attestationId": { "type": ["string", "null"] },
+                  "certificateId": { "type": ["string", "null"] },
+                  "sourceBundleDigest": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+                  "certificateAuthority": { "type": ["string", "null"] }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": { "properties": { "verificationMode": { "const": "human" } } },
+              "then": { "required": ["reviewedBy", "reviewedAt"] }
+            },
+            {
+              "if": { "properties": { "verificationMode": { "const": "deterministicConsensus" } } },
+              "then": { "not": { "anyOf": [{ "required": ["reviewedBy"] }, { "required": ["reviewedAt"] }] } }
+            }
+          ],
+          "additionalProperties": true
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "verification": { "properties": { "verificationMode": { "const": "human" } } } } },
+          "then": { "required": ["reviewedBy", "reviewedAt"] }
+        },
+        {
+          "if": { "properties": { "verification": { "properties": { "verificationMode": { "const": "deterministicConsensus" } } } } },
+          "then": { "not": { "anyOf": [{ "required": ["reviewedBy"] }, { "required": ["reviewedAt"] }] } }
+        }
+      ],
+      "additionalProperties": true
+    },
+    "runtime": {
+      "type": "object",
+      "required": ["status", "generator", "modifierIds", "destination", "supersedesLegacyModifierIds"],
+      "properties": {
+        "status": { "const": "canonical" },
+        "generator": { "type": "string", "minLength": 1 },
+        "modifierIds": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "destination": { "$ref": "#/properties/destination" },
+        "supersedesLegacyModifierIds": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      },
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "category": { "const": "behavior" } } },
+      "then": {
+        "required": ["runtimeKind", "targetSpecId", "targetSpec", "path", "operation", "value"],
+        "properties": {
+          "runtimeKind": { "const": "behavior" },
+          "applyTo": { "const": ["behavior"] },
+          "calculationSupport": { "const": "special" },
+          "uidHandling": { "const": "special" },
+          "destination": {
+            "properties": {
+              "dataset": { "const": "behaviorModifiers" },
+              "collection": { "const": "modifiers" }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": true
+}

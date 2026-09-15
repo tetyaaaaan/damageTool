@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinDeterministicConsensusAttestationRegistry",
+  "generatedBy": {
+    "name": "genshinDeterministicConsensusAttest.cjs",
+    "version": "genshinDeterministicConsensusAttest/1"
+  },
+  "authority": {
+    "eligibilityCertificates": "games/genshin/data/v2/eligibility-certificates.json",
+    "certificateGenerator": {
+      "name": "genshinClaimEligibilityCertificateGenerate.cjs",
+      "version": "genshinClaimEligibilityCertificateGenerate/1",
+      "capturedAt": "2026-08-25T00:00:00+09:00"
+    }
+  },
+  "policy": {
+    "humanReviewerMetadataForbidden": true,
+    "eligibleCertificateRequired": true,
+    "exactMatchOnly": true
+  },
+  "attestations": [],
+  "summary": {
+    "eligibleCertificates": 0,
+    "attestations": 0
+  }
+}

@@ -1,0 +1,3403 @@
+{
+  "schemaVersion": 2,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 2,
+    "status": "passed",
+    "characters": 117,
+    "canonical": 0,
+    "componentCounts": {
+      "rawTalents:present": 117,
+      "rawConstellations:present": 117,
+      "talentScalings:present": 117,
+      "talentModifiers:covered": 93,
+      "constellationModifiers:present": 117,
+      "talentModifiers:unstructured": 24
+    },
+    "byStatus": {
+      "covered": 93,
+      "unstructured": 24
+    },
+    "byClassificationStatus": {
+      "noEffect": 0,
+      "unstructured": 24,
+      "uninvestigated": 0
+    },
+    "byCoverageStatus": {
+      "complete": 93,
+      "partial": 24
+    },
+    "classificationCounts": {
+      "noEffect": 0,
+      "unstructured": 24,
+      "uninvestigated": 0
+    },
+    "missingTalentModifiers": 24,
+    "missingTalentModifierIds": [
+      "10000003",
+      "10000005",
+      "10000007",
+      "10000014",
+      "10000015",
+      "10000038",
+      "10000039",
+      "10000050",
+      "10000058",
+      "10000065",
+      "10000067",
+      "10000068",
+      "10000074",
+      "10000077",
+      "10000079",
+      "10000083",
+      "10000088",
+      "10000101",
+      "10000105",
+      "10000108",
+      "10000112",
+      "10000115",
+      "10000121",
+      "10000132"
+    ],
+    "contract": {
+      "missingCharacters": 0,
+      "unexpectedCharacters": 0,
+      "malformedCharacters": 0,
+      "malformedSources": 0,
+      "malformedSourceRecords": 0,
+      "missingSourcePointers": 0,
+      "inputDigestMismatches": 0,
+      "duplicateCharacterIds": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [],
+  "missingCharacters": [],
+  "unexpectedCharacters": [],
+  "malformedCharacters": [],
+  "malformedSources": [],
+  "malformedSourceRecords": [],
+  "missingSourcePointers": [],
+  "inputDigestMismatches": [],
+  "duplicateCharacterIds": [],
+  "generatedFromDisk": true,
+  "missingTalentModifiers": [
+    {
+      "characterId": "10000003",
+      "characterName": "ジン",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000003",
+          "path": "$/10000003",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000003",
+          "path": "$/10000003",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000003",
+          "path": "$/10000003",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000003",
+          "path": "$/10000003",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000003",
+          "path": "$/10000003",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000003",
+          "path": "$/10000003",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000003",
+            "path": "$/10000003/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000003",
+            "path": "$/10000003/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000003",
+            "path": "$/10000003/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000003/passives/0/descriptionJa",
+            "$/10000003/passives/1/descriptionJa",
+            "$/10000003/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000003/passives/0/descriptionJa",
+          "$/10000003/passives/1/descriptionJa",
+          "$/10000003/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000005",
+      "characterName": "旅人",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000005",
+          "path": "$/10000005",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000005",
+          "path": "$/10000005",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000005",
+          "path": "$/10000005",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000005",
+          "path": "$/10000005",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000005",
+          "path": "$/10000005",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000005",
+          "path": "$/10000005",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000005",
+            "path": "$/10000005/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000005",
+            "path": "$/10000005/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000005/passives/0/descriptionJa",
+            "$/10000005/passives/1/descriptionJa"
+          ],
+          "rawTextFieldCount": 2,
+          "rawFieldCount": 2,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 1,
+          "numericSignalFieldCount": 2,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000005/passives/0/descriptionJa",
+          "$/10000005/passives/1/descriptionJa"
+        ],
+        "rawTextFieldCount": 2,
+        "rawFieldCount": 2,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 1,
+        "numericSignalFieldCount": 2,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000007",
+      "characterName": "旅人",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000007",
+          "path": "$/10000007",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000007",
+          "path": "$/10000007",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000007",
+          "path": "$/10000007",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000007",
+          "path": "$/10000007",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000007",
+          "path": "$/10000007",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000007",
+          "path": "$/10000007",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000007",
+            "path": "$/10000007/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000007",
+            "path": "$/10000007/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000007/passives/0/descriptionJa",
+            "$/10000007/passives/1/descriptionJa"
+          ],
+          "rawTextFieldCount": 2,
+          "rawFieldCount": 2,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 1,
+          "numericSignalFieldCount": 2,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000007/passives/0/descriptionJa",
+          "$/10000007/passives/1/descriptionJa"
+        ],
+        "rawTextFieldCount": 2,
+        "rawFieldCount": 2,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 1,
+        "numericSignalFieldCount": 2,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000014",
+      "characterName": "バーバラ",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000014",
+          "path": "$/10000014",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000014",
+          "path": "$/10000014",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000014",
+          "path": "$/10000014",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000014",
+          "path": "$/10000014",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000014",
+          "path": "$/10000014",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000014",
+          "path": "$/10000014",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000014",
+            "path": "$/10000014/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000014",
+            "path": "$/10000014/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000014",
+            "path": "$/10000014/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000014/passives/0/descriptionJa",
+            "$/10000014/passives/1/descriptionJa",
+            "$/10000014/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000014/passives/0/descriptionJa",
+          "$/10000014/passives/1/descriptionJa",
+          "$/10000014/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000015",
+      "characterName": "ガイア",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000015",
+          "path": "$/10000015",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000015",
+          "path": "$/10000015",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000015",
+          "path": "$/10000015",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000015",
+          "path": "$/10000015",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000015",
+          "path": "$/10000015",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000015",
+          "path": "$/10000015",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000015",
+            "path": "$/10000015/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000015",
+            "path": "$/10000015/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000015",
+            "path": "$/10000015/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000015/passives/0/descriptionJa",
+            "$/10000015/passives/1/descriptionJa",
+            "$/10000015/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 2,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000015/passives/0/descriptionJa",
+          "$/10000015/passives/1/descriptionJa",
+          "$/10000015/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 2,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000038",
+      "characterName": "アルベド",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000038",
+          "path": "$/10000038",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000038",
+          "path": "$/10000038",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000038",
+          "path": "$/10000038",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000038",
+          "path": "$/10000038",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000038",
+          "path": "$/10000038",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000038",
+          "path": "$/10000038",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000038",
+            "path": "$/10000038/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000038",
+            "path": "$/10000038/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000038",
+            "path": "$/10000038/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000038/passives/0/descriptionJa",
+            "$/10000038/passives/1/descriptionJa",
+            "$/10000038/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000038/passives/0/descriptionJa",
+          "$/10000038/passives/1/descriptionJa",
+          "$/10000038/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000039",
+      "characterName": "ディオナ",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000039",
+          "path": "$/10000039",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000039",
+          "path": "$/10000039",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000039",
+          "path": "$/10000039",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000039",
+          "path": "$/10000039",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000039",
+          "path": "$/10000039",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000039",
+          "path": "$/10000039",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000039",
+            "path": "$/10000039/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000039",
+            "path": "$/10000039/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000039",
+            "path": "$/10000039/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000039/passives/0/descriptionJa",
+            "$/10000039/passives/1/descriptionJa",
+            "$/10000039/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000039/passives/0/descriptionJa",
+          "$/10000039/passives/1/descriptionJa",
+          "$/10000039/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000050",
+      "characterName": "トーマ",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000050",
+          "path": "$/10000050",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000050",
+          "path": "$/10000050",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000050",
+          "path": "$/10000050",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000050",
+          "path": "$/10000050",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000050",
+          "path": "$/10000050",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000050",
+          "path": "$/10000050",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000050",
+            "path": "$/10000050/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000050",
+            "path": "$/10000050/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000050",
+            "path": "$/10000050/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000050/passives/0/descriptionJa",
+            "$/10000050/passives/1/descriptionJa",
+            "$/10000050/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000050/passives/0/descriptionJa",
+          "$/10000050/passives/1/descriptionJa",
+          "$/10000050/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000058",
+      "characterName": "八重神子",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000058",
+          "path": "$/10000058",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000058",
+          "path": "$/10000058",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000058",
+          "path": "$/10000058",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000058",
+          "path": "$/10000058",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000058",
+          "path": "$/10000058",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000058",
+          "path": "$/10000058",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000058",
+            "path": "$/10000058/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000058",
+            "path": "$/10000058/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000058",
+            "path": "$/10000058/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000058/passives/0/descriptionJa",
+            "$/10000058/passives/1/descriptionJa",
+            "$/10000058/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000058/passives/0/descriptionJa",
+          "$/10000058/passives/1/descriptionJa",
+          "$/10000058/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000065",
+      "characterName": "久岐忍",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000065",
+          "path": "$/10000065",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000065",
+          "path": "$/10000065",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000065",
+          "path": "$/10000065",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000065",
+          "path": "$/10000065",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000065",
+          "path": "$/10000065",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000065",
+          "path": "$/10000065",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000065",
+            "path": "$/10000065/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000065",
+            "path": "$/10000065/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000065",
+            "path": "$/10000065/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000065/passives/0/descriptionJa",
+            "$/10000065/passives/1/descriptionJa",
+            "$/10000065/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000065/passives/0/descriptionJa",
+          "$/10000065/passives/1/descriptionJa",
+          "$/10000065/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000067",
+      "characterName": "コレイ",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000067",
+          "path": "$/10000067",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000067",
+          "path": "$/10000067",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000067",
+          "path": "$/10000067",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000067",
+          "path": "$/10000067",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000067",
+          "path": "$/10000067",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000067",
+          "path": "$/10000067",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000067",
+            "path": "$/10000067/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000067",
+            "path": "$/10000067/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000067",
+            "path": "$/10000067/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000067/passives/0/descriptionJa",
+            "$/10000067/passives/1/descriptionJa",
+            "$/10000067/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000067/passives/0/descriptionJa",
+          "$/10000067/passives/1/descriptionJa",
+          "$/10000067/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000068",
+      "characterName": "ドリー",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000068",
+          "path": "$/10000068",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000068",
+          "path": "$/10000068",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000068",
+          "path": "$/10000068",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000068",
+          "path": "$/10000068",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000068",
+          "path": "$/10000068",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000068",
+          "path": "$/10000068",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000068",
+            "path": "$/10000068/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000068",
+            "path": "$/10000068/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000068",
+            "path": "$/10000068/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000068/passives/0/descriptionJa",
+            "$/10000068/passives/1/descriptionJa",
+            "$/10000068/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 2,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000068/passives/0/descriptionJa",
+          "$/10000068/passives/1/descriptionJa",
+          "$/10000068/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 2,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000074",
+      "characterName": "レイラ",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000074",
+          "path": "$/10000074",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000074",
+          "path": "$/10000074",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000074",
+          "path": "$/10000074",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000074",
+          "path": "$/10000074",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000074",
+          "path": "$/10000074",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000074",
+          "path": "$/10000074",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000074",
+            "path": "$/10000074/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000074",
+            "path": "$/10000074/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000074",
+            "path": "$/10000074/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000074/passives/0/descriptionJa",
+            "$/10000074/passives/1/descriptionJa",
+            "$/10000074/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000074/passives/0/descriptionJa",
+          "$/10000074/passives/1/descriptionJa",
+          "$/10000074/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000077",
+      "characterName": "ヨォーヨ",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000077",
+          "path": "$/10000077",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000077",
+          "path": "$/10000077",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000077",
+          "path": "$/10000077",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000077",
+          "path": "$/10000077",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000077",
+          "path": "$/10000077",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000077",
+          "path": "$/10000077",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000077",
+            "path": "$/10000077/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000077",
+            "path": "$/10000077/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000077",
+            "path": "$/10000077/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000077/passives/0/descriptionJa",
+            "$/10000077/passives/1/descriptionJa",
+            "$/10000077/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 1,
+          "numericSignalFieldCount": 2,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000077/passives/0/descriptionJa",
+          "$/10000077/passives/1/descriptionJa",
+          "$/10000077/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 1,
+        "numericSignalFieldCount": 2,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000079",
+      "characterName": "ディシア",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000079",
+          "path": "$/10000079",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000079",
+          "path": "$/10000079",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000079",
+          "path": "$/10000079",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000079",
+          "path": "$/10000079",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000079",
+          "path": "$/10000079",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000079",
+          "path": "$/10000079",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000079",
+            "path": "$/10000079/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000079",
+            "path": "$/10000079/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000079",
+            "path": "$/10000079/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000079/passives/0/descriptionJa",
+            "$/10000079/passives/1/descriptionJa",
+            "$/10000079/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000079/passives/0/descriptionJa",
+          "$/10000079/passives/1/descriptionJa",
+          "$/10000079/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000083",
+      "characterName": "リネット",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000083",
+          "path": "$/10000083",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000083",
+          "path": "$/10000083",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000083",
+          "path": "$/10000083",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000083",
+          "path": "$/10000083",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000083",
+          "path": "$/10000083",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000083",
+          "path": "$/10000083",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000083",
+            "path": "$/10000083/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000083",
+            "path": "$/10000083/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000083",
+            "path": "$/10000083/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000083/passives/0/descriptionJa",
+            "$/10000083/passives/1/descriptionJa",
+            "$/10000083/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000083/passives/0/descriptionJa",
+          "$/10000083/passives/1/descriptionJa",
+          "$/10000083/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000088",
+      "characterName": "シャルロット",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000088",
+          "path": "$/10000088",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000088",
+          "path": "$/10000088",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000088",
+          "path": "$/10000088",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000088",
+          "path": "$/10000088",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000088",
+          "path": "$/10000088",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000088",
+          "path": "$/10000088",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000088",
+            "path": "$/10000088/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000088",
+            "path": "$/10000088/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000088",
+            "path": "$/10000088/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000088/passives/0/descriptionJa",
+            "$/10000088/passives/1/descriptionJa",
+            "$/10000088/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 2,
+          "numericSignalFieldCount": 2,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000088/passives/0/descriptionJa",
+          "$/10000088/passives/1/descriptionJa",
+          "$/10000088/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 2,
+        "numericSignalFieldCount": 2,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000101",
+      "characterName": "キィニチ",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000101",
+          "path": "$/10000101",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000101",
+          "path": "$/10000101",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000101",
+          "path": "$/10000101",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000101",
+          "path": "$/10000101",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000101",
+          "path": "$/10000101",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000101",
+          "path": "$/10000101",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000101",
+            "path": "$/10000101/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000101",
+            "path": "$/10000101/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000101",
+            "path": "$/10000101/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000101/passives/0/descriptionJa",
+            "$/10000101/passives/1/descriptionJa",
+            "$/10000101/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000101/passives/0/descriptionJa",
+          "$/10000101/passives/1/descriptionJa",
+          "$/10000101/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000105",
+      "characterName": "オロルン",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000105",
+          "path": "$/10000105",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000105",
+          "path": "$/10000105",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000105",
+          "path": "$/10000105",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000105",
+          "path": "$/10000105",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000105",
+          "path": "$/10000105",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000105",
+          "path": "$/10000105",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000105",
+            "path": "$/10000105/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000105",
+            "path": "$/10000105/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000105",
+            "path": "$/10000105/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000105/passives/0/descriptionJa",
+            "$/10000105/passives/1/descriptionJa",
+            "$/10000105/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000105/passives/0/descriptionJa",
+          "$/10000105/passives/1/descriptionJa",
+          "$/10000105/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000108",
+      "characterName": "藍硯",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000108",
+          "path": "$/10000108",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000108",
+          "path": "$/10000108",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000108",
+          "path": "$/10000108",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000108",
+          "path": "$/10000108",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000108",
+          "path": "$/10000108",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000108",
+          "path": "$/10000108",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000108",
+            "path": "$/10000108/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000108",
+            "path": "$/10000108/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000108",
+            "path": "$/10000108/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000108/passives/0/descriptionJa",
+            "$/10000108/passives/1/descriptionJa",
+            "$/10000108/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 2,
+          "numericSignalFieldCount": 2,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000108/passives/0/descriptionJa",
+          "$/10000108/passives/1/descriptionJa",
+          "$/10000108/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 2,
+        "numericSignalFieldCount": 2,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000112",
+      "characterName": "エスコフィエ",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000112",
+          "path": "$/10000112",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000112",
+          "path": "$/10000112",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000112",
+          "path": "$/10000112",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000112",
+          "path": "$/10000112",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000112",
+          "path": "$/10000112",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000112",
+          "path": "$/10000112",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000112",
+            "path": "$/10000112/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000112",
+            "path": "$/10000112/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000112",
+            "path": "$/10000112/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000112/passives/0/descriptionJa",
+            "$/10000112/passives/1/descriptionJa",
+            "$/10000112/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000112/passives/0/descriptionJa",
+          "$/10000112/passives/1/descriptionJa",
+          "$/10000112/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000115",
+      "characterName": "ダリア",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000115",
+          "path": "$/10000115",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000115",
+          "path": "$/10000115",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000115",
+          "path": "$/10000115",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000115",
+          "path": "$/10000115",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000115",
+          "path": "$/10000115",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000115",
+          "path": "$/10000115",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000115",
+            "path": "$/10000115/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000115",
+            "path": "$/10000115/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000115",
+            "path": "$/10000115/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000115/passives/0/descriptionJa",
+            "$/10000115/passives/1/descriptionJa",
+            "$/10000115/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000115/passives/0/descriptionJa",
+          "$/10000115/passives/1/descriptionJa",
+          "$/10000115/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000121",
+      "characterName": "アイノ",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000121",
+          "path": "$/10000121",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000121",
+          "path": "$/10000121",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000121",
+          "path": "$/10000121",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000121",
+          "path": "$/10000121",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000121",
+          "path": "$/10000121",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000121",
+          "path": "$/10000121",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000121",
+            "path": "$/10000121/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000121",
+            "path": "$/10000121/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000121",
+            "path": "$/10000121/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000121/passives/0/descriptionJa",
+            "$/10000121/passives/1/descriptionJa",
+            "$/10000121/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 2,
+          "numericSignalFieldCount": 2,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000121/passives/0/descriptionJa",
+          "$/10000121/passives/1/descriptionJa",
+          "$/10000121/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 2,
+        "numericSignalFieldCount": 2,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    },
+    {
+      "characterId": "10000132",
+      "characterName": "プルーネ",
+      "status": "unstructured",
+      "reasons": [
+        "RAW_TALENT_TEXT_PRESENT",
+        "EFFECT_LANGUAGE_PRESENT",
+        "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+        "TALENT_MODIFIER_RECORD_MISSING",
+        "NO_EFFECT_REGISTRY_EVIDENCE",
+        "NO_NEEDS_REVIEW_EVIDENCE"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "source:characters.json",
+          "dataset": "characters.json",
+          "record": "10000132",
+          "path": "$/10000132",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-talents.json",
+          "dataset": "character-talents.json",
+          "record": "10000132",
+          "path": "$/10000132",
+          "present": true
+        },
+        {
+          "sourceId": "source:character-constellations.json",
+          "dataset": "character-constellations.json",
+          "record": "10000132",
+          "path": "$/10000132",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-scalings.json",
+          "dataset": "calc/talent-scalings.json",
+          "record": "10000132",
+          "path": "$/10000132",
+          "present": true
+        },
+        {
+          "sourceId": "source:calc/talent-modifiers.json",
+          "dataset": "calc/talent-modifiers.json",
+          "record": "10000132",
+          "path": "$/10000132",
+          "present": false
+        },
+        {
+          "sourceId": "source:calc/constellation-modifiers.json",
+          "dataset": "calc/constellation-modifiers.json",
+          "record": "10000132",
+          "path": "$/10000132",
+          "present": true
+        }
+      ],
+      "classification": {
+        "schemaVersion": 1,
+        "status": "unstructured",
+        "rationaleCode": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+        "criteria": "At least one non-empty raw passive text field exists and no talent-modifiers record is present.",
+        "reasons": [
+          "RAW_TALENT_TEXT_PRESENT",
+          "EFFECT_LANGUAGE_PRESENT",
+          "EXPLICIT_NUMERIC_TOKEN_PRESENT",
+          "TALENT_MODIFIER_RECORD_MISSING",
+          "NO_EFFECT_REGISTRY_EVIDENCE",
+          "NO_NEEDS_REVIEW_EVIDENCE"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000132",
+            "path": "$/10000132/passives.0.descriptionJa",
+            "present": true,
+            "field": "passives.0.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000132",
+            "path": "$/10000132/passives.1.descriptionJa",
+            "present": true,
+            "field": "passives.1.descriptionJa"
+          },
+          {
+            "sourceId": "source:character-talents.json",
+            "dataset": "character-talents.json",
+            "record": "10000132",
+            "path": "$/10000132/passives.2.descriptionJa",
+            "present": true,
+            "field": "passives.2.descriptionJa"
+          }
+        ],
+        "unverifiedBoundaries": [
+          "Independent provider/version agreement has not been established.",
+          "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+          "No canonical runtime modifier is generated or promoted from this classification.",
+          "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+        ],
+        "evidence": {
+          "rawTextFields": [
+            "$/10000132/passives/0/descriptionJa",
+            "$/10000132/passives/1/descriptionJa",
+            "$/10000132/passives/2/descriptionJa"
+          ],
+          "rawTextFieldCount": 3,
+          "rawFieldCount": 3,
+          "explicitNoEffectFields": [],
+          "explicitNoEffectFieldCount": 0,
+          "effectSignalFieldCount": 3,
+          "numericSignalFieldCount": 3,
+          "effectRegistryKeys": [],
+          "needsReviewRecords": []
+        }
+      },
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "evidence": {
+        "rawTextFields": [
+          "$/10000132/passives/0/descriptionJa",
+          "$/10000132/passives/1/descriptionJa",
+          "$/10000132/passives/2/descriptionJa"
+        ],
+        "rawTextFieldCount": 3,
+        "rawFieldCount": 3,
+        "explicitNoEffectFields": [],
+        "explicitNoEffectFieldCount": 0,
+        "effectSignalFieldCount": 3,
+        "numericSignalFieldCount": 3,
+        "effectRegistryKeys": [],
+        "needsReviewRecords": []
+      }
+    }
+  ]
+}

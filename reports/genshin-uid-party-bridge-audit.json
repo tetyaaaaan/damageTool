@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "audit": "genshin-uid-party-bridge",
+  "generatedAt": "2026-08-16",
+  "status": "lossless-profile-snapshot-contract",
+  "scope": [
+    "games/js/genshinProfileMapper.js",
+    "games/js/genshinUidImporter.js",
+    "games/js/genshinDataContract.js",
+    "games/js/genshinPartyState.js",
+    "games/js/genshinPartyModifiers.js",
+    "games/js/genshinInputProvenance.js",
+    "games/js/genshinCalcEngine.js",
+    "games/genshin/index.html"
+  ],
+  "verdict": {
+    "uidEventToParty": "implemented_contract_path",
+    "profileSnapshotCalculationInput": true,
+    "losslessSupportMember": true,
+    "losslessSupportProjection": "profileSnapshot_plus_provider_subset",
+    "domE2eClaim": true,
+    "calculationInputVersion": 2,
+    "partyStateVersion": 2
+  },
+  "evidence": [
+    {
+      "path": "games/js/genshinProfileMapper.js:277-337",
+      "claim": "skillLevelMap is mapped by explicit local combat1/combat2/combat3 IDs; unknown IDs are unresolved and no Object.values ordering is used."
+    },
+    {
+      "path": "games/js/genshinProfileMapper.js:415-457",
+      "claim": "UID mapping contains display metadata, five artifact records, final fightProp stats, elemental detail stats, and persistent-stat provenance."
+    },
+    {
+      "path": "games/js/genshinDataContract.js:90-107",
+      "claim": "CalculationInput v2 retains characterId/level/constellation/talents/weapon/artifacts/stats plus source/importedAt/rawCharacterId and persistent-stat provenance flags."
+    },
+    {
+      "path": "games/js/genshinDataContract.js:110-177",
+      "claim": "The support projection derives artifact mode/counts, copies provider stats, retains a deep-cloned profileSnapshot, fixes support combatState, and initializes empty buffStates."
+    },
+    {
+      "path": "games/js/genshinDataContract.js:102-137,148-172,193-245",
+      "claim": "cloneProfileSnapshot preserves extra talent keys, all five artifact records, crit/ER/elemental detail stats, display metadata, and source provenance without sharing mutable references; sourceSnapshot and retainedFromUid distinguish the retained UID record from current form values."
+    },
+    {
+      "path": "games/js/genshinUidImporter.js:653-700",
+      "claim": "Apply writes the form first, then dispatches genshin:calculation-input-selected with {input, profile}."
+    },
+    {
+      "path": "games/js/genshinPartyState.js:288-307,399",
+      "claim": "PartyState caches every UID CalculationInput by characterId and imports it when a support slot selects that character; the event listener is registered during init."
+    },
+    {
+      "path": "games/js/genshinPartyState.js:148-190,250-285",
+      "claim": "Imported support fields are written to the slot and marked UID; readSupportMember uses imported final/base stats, carries a deep-cloned profileSnapshot, and computes current member source independently from slot field origins."
+    },
+    {
+      "path": "games/js/genshinPartyModifiers.js:302-359",
+      "claim": "Only enabled support slots feed talent/constellation/weapon/artifact candidates; provider calculations use member.stats, talentLevels, refinement, and artifact mode/IDs."
+    },
+    {
+      "path": "games/js/genshinInputProvenance.js:11-47",
+      "claim": "Main final-stat provenance is field-level UID/manual/mixed and always assumes persistent bonuses with externalModifiersOnly additive policy."
+    },
+    {
+      "path": "games/js/genshinCalcEngine.js:247-307",
+      "claim": "The calculation request is rebuilt from DOM values and party state; the selected CalculationInput object is not itself the calculation request."
+    },
+    {
+      "path": "games/genshin/index.html:395-415",
+      "claim": "Input provenance and profile mapper load before UID importer; DataContract, PartyState, PartyModifiers, and CalcEngine load before the user can apply a profile."
+    }
+  ],
+  "fieldMatrix": [
+    { "inputPath": "schemaVersion", "supportPath": "schemaVersion", "status": "lossless_constant", "note": "Both are 2." },
+    { "inputPath": "source", "supportPath": "provenance.source", "status": "normalized", "note": "Only uidProfile/manual are accepted; other origins become manual." },
+    { "inputPath": "characterId", "supportPath": "characterId", "status": "lossless" },
+    { "inputPath": "level", "supportPath": "level", "status": "numeric_normalized", "note": "Number conversion and PartyState 1..100 clamp apply." },
+    { "inputPath": "constellation", "supportPath": "constellation", "status": "numeric_normalized", "note": "Number conversion and PartyState 0..6 clamp apply." },
+    { "inputPath": "talents.normal|skill|burst", "supportPath": "talentLevels.normal|skill|burst", "status": "numeric_normalized" },
+    { "inputPath": "talents.<other keys>", "supportPath": "profileSnapshot.talents.*", "status": "lossless_snapshot", "note": "Provider talentLevels remains the normal/skill/burst subset; passive and alternate keys are retained in the immutable profile snapshot." },
+    { "inputPath": "weapon.id", "supportPath": "equipment.weaponId", "status": "lossless_id", "note": "Compatibility is checked again against resolver weaponType." },
+    { "inputPath": "weapon.level", "supportPath": "equipment.weaponLevel", "status": "numeric_normalized" },
+    { "inputPath": "weapon.rank", "supportPath": "equipment.refinement", "status": "numeric_normalized", "note": "UID 0..4 has already become R1..R5 in the mapper." },
+    { "inputPath": "weapon.name|type|rarity|effect", "supportPath": "profileSnapshot.weapon.*", "status": "lossless_snapshot", "note": "Resolver-derived equipment fields remain available for provider compatibility while the original UID display/effect metadata is retained in the snapshot." },
+    { "inputPath": "artifacts[].setId", "supportPath": "equipment.artifactSetIds + provenance.artifactSetCounts + profileSnapshot.artifacts[].setId", "status": "lossless_snapshot_plus_derived", "note": "Provider mode/count projection is unchanged; all five source records remain in profileSnapshot.artifacts." },
+    { "inputPath": "artifacts[].id|name|level|slot|setName|effect", "supportPath": "profileSnapshot.artifacts[]", "status": "lossless_snapshot" },
+    { "inputPath": "stats.baseHp|baseAtk|baseDef|hp|atk|def|elementalMastery", "supportPath": "stats.*", "status": "lossless_numeric_subset", "note": "These are the provider-stat fields consumed by current party modifiers." },
+    { "inputPath": "stats.critRate|critDamage|energyRecharge|elementalDamage|elementalDamageDetails", "supportPath": "profileSnapshot.stats.*", "status": "lossless_snapshot", "note": "Provider stat fields remain the current calculation subset; critical, recharge, representative elemental, and per-element detail values are retained in the snapshot." },
+    { "inputPath": "provenance.source|rawCharacterId|importedAt", "supportPath": "provenance.source|rawCharacterId|importedAt + profileSnapshot.provenance.*", "status": "lossless_normalized" },
+    { "inputPath": "provenance.includesPersistentBonuses|additivePolicy", "supportPath": "provenance.includesPersistentBonuses|additivePolicy", "status": "lossless_uid_defaulted", "note": "UID mapper flags are preserved; uidProfile defaults are true/externalModifiersOnly when absent." },
+    { "inputPath": "provenance.sourceSnapshot|retainedFromUid", "supportPath": "provenance.sourceSnapshot|retainedFromUid", "status": "lossless_provenance", "note": "Current source (manual/mixed) is distinct from the retained original UID snapshot." },
+    { "inputPath": "name|element|weaponType|rarity|constellationEffect", "supportPath": "profileSnapshot.name|element|weaponType|rarity|constellationEffect", "status": "lossless_snapshot", "note": "Mapped display metadata is retained even when resolver-derived UI fields are unavailable." },
+    { "inputPath": "combatState", "supportPath": "combatState", "status": "default_boundary", "note": "No UID field exists; support is always onField:false, hpRatio:100." },
+    { "inputPath": "buffStates", "supportPath": "buffStates", "status": "manual_boundary", "note": "No UID field exists; starts empty and is controlled by party-condition toggles." }
+  ],
+  "eventContract": {
+    "sequence": [
+      "UID search fetches profile",
+      "mapProfileResponse maps characters",
+      "Apply writes main form values and precise UID stats",
+      "Apply dispatches genshin:calculation-input-selected",
+      "PartyState.registerUidProfile caches all mapped inputs by characterId",
+      "Selecting a support character imports the cached member into that slot",
+      "buildCalculationRequestFromForm rebuilds a CalculationRequest from DOM and normalized party state"
+    ],
+    "eventType": "genshin:calculation-input-selected",
+    "eventDetail": ["input", "profile"],
+    "slotAssignment": "user_selected_support_slot",
+    "noAutomaticSlotClaim": true
+  },
+  "selectionAndDeduplication": {
+    "duplicateCharacters": "main slot wins; then the first support slot wins; later duplicate slots become empty disabled members",
+    "weaponType": "UID weapon ID is accepted only when resolver weaponType equals selected character weaponType; incompatible selection is cleared/rejected",
+    "artifactModes": ["4pc", "2pc2pc", "2pc", "none"],
+    "artifactModeSemantics": {
+      "4pc": "apply two-piece and first-set four-piece effects",
+      "2pc2pc": "apply two-piece effects for both selected sets",
+      "2pc": "apply one two-piece effect; never infer four-piece",
+      "none": "apply no artifact set effect"
+    }
+  },
+  "finalStatsProvenance": {
+    "uidStats": "fightPropMap values are final profile values and include persistent bonuses",
+    "mainForm": "genshinInputProvenance tracks each final-stat field as uid/manual and resolves uidProfile/manual/mixed",
+    "supportForm": "slot field dataset.valueOrigin is used to resolve uidProfile/manual/mixed; PartyState handleChange marks non-import input/change events manual while retaining the original UID profileSnapshot",
+    "additivePolicy": "externalModifiersOnly",
+    "knownBoundary": "The applyingImportedMember guard keeps imported writes as uid while normal slot input/change events become manual; provenance.sourceSnapshot and retainedFromUid identify the unchanged source snapshot and never rewrite it from manual values."
+  },
+  "manualCombatBoundary": {
+    "onField": "support forced false; main forced true by normalizePartyState",
+    "hpRatio": "support defaults to 100 and has no UID source or party UI control",
+    "buffStates": "empty on import; only explicit condition toggles enable party effects",
+    "partyModifierUse": "current collector consumes enabled, talent/constellation/refinement/artifact/provider-stat fields; it does not read combatState.onField or hpRatio."
+  },
+  "talentOrderPolicy": {
+    "status": "explicit_id_partial_resolved_fail_closed",
+    "rule": "Local talent scalings explicitly map combat1/combat2/combat3 to normal/skill/burst. Unknown, partial, invalid, or conflicting IDs default all three provider levels to 1 and retain rawById; insertion order is never interpreted.",
+    "fixture": "tests/genshin/genshinUidTalentOrderContract.test.cjs"
+  },
+  "verification": {
+    "test": "tests/genshin/genshinUidPartyBridgeContract.test.cjs",
+    "talentOrderTest": "tests/genshin/genshinUidTalentOrderContract.test.cjs",
+    "mode": "pure_contract_fixture_plus_edge_dom_e2e",
+    "domE2e": true,
+    "domE2eTest": "tests/genshin/genshinBrowserSmoke.e2e.cjs",
+    "command": "node --test tests/genshin/genshinUidPartyBridgeContract.test.cjs; BROWSER_EXECUTABLE=<edge> node --test tests/genshin/genshinBrowserSmoke.e2e.cjs",
+    "result": "focused bridge assertions and real Edge DOM import/edit/snapshot checks pass; talent order contract remains covered"
+  },
+  "openRisks": [
+    "profileSnapshot is display/provenance-only and is not consumed as provider stats or automatic combat/buff state.",
+    "Current manually edited provider fields can diverge from the retained UID snapshot; provenance.source and sourceSnapshot must be read together.",
+    "Authoritative numeric UID skill IDs remain unresolved until a skillDepot/inherentProudSkill mapping fixture is available; raw levels are retained and safe level-1 provider values are used."
+  ]
+}

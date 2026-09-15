@@ -7,12 +7,12 @@
     "reaction-definitions.json"
   ],
   "summary": {
-    "total": 117,
-    "reactionBonus": 114,
+    "total": 118,
+    "reactionBonus": 115,
     "reactionCritBonus": 3,
-    "resolved": 117,
+    "resolved": 118,
     "unresolved": 0,
-    "dedicatedFormulaRecords": 62
+    "dedicatedFormulaRecords": 9
   },
   "records": [
     {
@@ -84,7 +84,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -158,7 +158,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -180,8 +180,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "supported",
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -199,7 +198,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -217,7 +216,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -235,7 +234,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -253,7 +252,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -285,7 +284,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -349,7 +348,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -381,7 +380,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -419,7 +418,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -451,7 +450,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -563,7 +562,23 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000119.constellations.2[0]",
+      "id": "c_10000119_2_1",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarBloomDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarBloom"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
       ]
     },
     {
@@ -627,7 +642,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -659,7 +674,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -707,7 +722,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -723,7 +738,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -771,7 +786,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -787,7 +802,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -819,7 +834,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -851,7 +866,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -979,7 +994,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -995,7 +1010,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1043,7 +1058,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1059,7 +1074,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1077,7 +1092,23 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
+      ]
+    },
+    {
+      "file": "constellation-modifiers.json",
+      "jsonPath": "$.10000126.constellations.2[0]",
+      "id": "c_10000126_2_1",
+      "category": "reactionBonus",
+      "targets": [
+        "lunarCrystallizeDamageBonus"
+      ],
+      "resolvedReactionIds": [
+        "lunarCrystallize"
+      ],
+      "resolution": "resolved",
+      "calculationStatuses": [
+        "supported"
       ]
     },
     {
@@ -1093,7 +1124,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1124,29 +1155,14 @@
         "lunarBloom",
         "lunarCharged",
         "lunarCrystallize",
-        "stellarConduct"
+        "stellarConduct",
+        "stellarSwirl"
       ],
       "resolution": "resolved",
       "calculationStatuses": [
         "supported",
         "displayOnly",
         "dedicatedFormulaRequired"
-      ]
-    },
-    {
-      "file": "talent-modifiers.json",
-      "jsonPath": "$.10000047.passives[2].modifiers[0]",
-      "id": "",
-      "category": "reactionBonus",
-      "targets": [
-        "swirlDamageBonus"
-      ],
-      "resolvedReactionIds": [
-        "swirl"
-      ],
-      "resolution": "resolved",
-      "calculationStatuses": [
-        "supported"
       ]
     },
     {
@@ -1353,7 +1369,8 @@
         "lunarBloom",
         "lunarCharged",
         "lunarCrystallize",
-        "stellarConduct"
+        "stellarConduct",
+        "stellarSwirl"
       ],
       "resolution": "resolved",
       "calculationStatuses": [
@@ -1375,7 +1392,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1406,7 +1423,8 @@
         "lunarBloom",
         "lunarCharged",
         "lunarCrystallize",
-        "stellarConduct"
+        "stellarConduct",
+        "stellarSwirl"
       ],
       "resolution": "resolved",
       "calculationStatuses": [
@@ -1443,7 +1461,8 @@
         "lunarBloom",
         "lunarCharged",
         "lunarCrystallize",
-        "stellarConduct"
+        "stellarConduct",
+        "stellarSwirl"
       ],
       "resolution": "resolved",
       "calculationStatuses": [
@@ -1465,7 +1484,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1481,7 +1500,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1490,13 +1509,16 @@
       "id": "w_12516_reaction_bonus_2",
       "category": "reactionBonus",
       "targets": [
-        "astralConductionDamageBonus"
+        "astralConductionDamageBonus",
+        "stellarSwirlDamageBonus"
       ],
       "resolvedReactionIds": [
-        "stellarConduct"
+        "stellarConduct",
+        "stellarSwirl"
       ],
       "resolution": "resolved",
       "calculationStatuses": [
+        "supported",
         "dedicatedFormulaRequired"
       ]
     },
@@ -1515,8 +1537,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "supported",
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1534,8 +1555,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "supported",
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1569,7 +1589,6 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired",
         "supported"
       ]
     },
@@ -1604,8 +1623,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "supported",
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1623,7 +1641,6 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired",
         "supported"
       ]
     },
@@ -1642,8 +1659,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "supported",
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1661,8 +1677,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "supported",
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1680,7 +1695,6 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired",
         "supported"
       ]
     },
@@ -1699,7 +1713,6 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired",
         "supported"
       ]
     },
@@ -1731,7 +1744,8 @@
         "lunarBloom",
         "lunarCharged",
         "lunarCrystallize",
-        "stellarConduct"
+        "stellarConduct",
+        "stellarSwirl"
       ],
       "resolution": "resolved",
       "calculationStatuses": [
@@ -1755,8 +1769,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "supported",
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1774,8 +1787,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "supported",
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1809,7 +1821,6 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired",
         "supported"
       ]
     },
@@ -1826,7 +1837,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1842,7 +1853,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1858,7 +1869,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1874,7 +1885,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1890,7 +1901,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1912,8 +1923,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "supported",
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1935,8 +1945,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "supported",
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -1958,8 +1967,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "supported",
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -2013,7 +2021,6 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired",
         "supported"
       ]
     },
@@ -2045,7 +2052,8 @@
         "lunarBloom",
         "lunarCharged",
         "lunarCrystallize",
-        "stellarConduct"
+        "stellarConduct",
+        "stellarSwirl"
       ],
       "resolution": "resolved",
       "calculationStatuses": [
@@ -2082,7 +2090,8 @@
         "lunarBloom",
         "lunarCharged",
         "lunarCrystallize",
-        "stellarConduct"
+        "stellarConduct",
+        "stellarSwirl"
       ],
       "resolution": "resolved",
       "calculationStatuses": [
@@ -2119,7 +2128,8 @@
         "lunarBloom",
         "lunarCharged",
         "lunarCrystallize",
-        "stellarConduct"
+        "stellarConduct",
+        "stellarSwirl"
       ],
       "resolution": "resolved",
       "calculationStatuses": [
@@ -2141,7 +2151,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     },
     {
@@ -2157,7 +2167,7 @@
       ],
       "resolution": "resolved",
       "calculationStatuses": [
-        "dedicatedFormulaRequired"
+        "supported"
       ]
     }
   ]

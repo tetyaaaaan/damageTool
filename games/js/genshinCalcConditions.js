@@ -95,7 +95,7 @@
         witchAssignmentCompletedAndFavorEnhanced: "魔女の課題を完了し恩恵が強化されている",
         afterSkillAndWitchAssignmentCompleted: "元素スキル使用後かつ魔女の課題を完了済み",
         magicalSecretRiteActiveAfterSkill: "元素スキル使用後に魔導秘儀が有効",
-        attackingEnemyAffectedBySuperconductOrLunarSuperconduct: "超電導または月感電の影響を受けた敵を攻撃"
+        attackingEnemyAffectedBySuperconductOrLunarSuperconduct: "超電導または星電導の影響を受けた敵を攻撃"
     };
 
     const COMMON_CONDITION_LABELS = {
@@ -258,7 +258,9 @@
             const per = Number(modifier.ratio) || 0;
             const divisor = Number(modifier.divisor) || 1;
             const max = Number(modifier.maxValue);
-            const referenceLabel = STAT_LABELS[modifier.reference.stat] || "参照ステータス";
+            const referenceLabel = window.GenshinUiLabels?.statLabel?.(modifier.reference.stat)
+                || STAT_LABELS[modifier.reference.stat]
+                || "参照ステータス";
             return `${label}：${referenceLabel}${divisor}ごとに+${per}${Number.isFinite(max) ? `（最大+${max}）` : ""}`;
         }
         if (modifier.valueByRefinementPerStack || modifier.valueByRefinementPerConsumedStack) {
@@ -439,6 +441,7 @@
         lunarBloomDamageBonus: "月開花反応ダメージ",
         lunarSuperconductDamageBonus: "星電導反応ダメージ",
         astralConductionDamageBonus: "星電導反応ダメージ",
+        stellarSwirlDamageBonus: "星拡散反応ダメージ",
         moonReactionDamageBonus: "月反応ダメージ",
         reactionRelatedElementDamageBonus: "反応に関連する元素ダメージ",
         physicalResistance: "物理耐性",
@@ -484,7 +487,8 @@
         specialSkill: "特殊元素スキル",
         lunarResonance: "月籠の共鳴",
         literatureResearch: "文献調査",
-        previousDamageBonusMultiplier: "直前のダメージアップ効果"
+        previousDamageBonusMultiplier: "直前のダメージアップ効果",
+        shieldCapacity: "シールド耐久値"
     };
 
     const STAT_LABELS = {
@@ -518,7 +522,7 @@
     }
 
     function targetLabel(target) {
-        return TARGET_LABELS[target] || "対象効果";
+        return window.GenshinUiLabels?.statLabel?.(target) || TARGET_LABELS[target] || "対象効果";
     }
 
     function modifierImpactLabel(modifier) {
@@ -560,7 +564,10 @@
     function structuredImpactValue(modifier, context) {
         if (Array.isArray(modifier.scalings) && modifier.scalings.length) {
             const parts = modifier.scalings.map((scaling) => {
-                const stat = STAT_LABELS[scaling.stat] || scaling.stat || "参照値";
+                const stat = window.GenshinUiLabels?.statLabel?.(scaling.stat)
+                    || STAT_LABELS[scaling.stat]
+                    || scaling.stat
+                    || "参照値";
                 if (Number.isFinite(Number(scaling.valuePerStack))) return `${stat}${Number(scaling.valuePerStack)}% × 入力層数`;
                 if (Number.isFinite(Number(scaling.value))) return `${stat}${Number(scaling.value)}%`;
                 return "";
@@ -611,7 +618,7 @@
                 ? window.GenshinCalcEngine.normalizeTalentStateModifier(modifier, source, calcData, context, modifierIndex)
                 : modifier;
             const normalized = window.GenshinCalcEngine?.normalizeArtifactModifier
-                ? window.GenshinCalcEngine.normalizeArtifactModifier(talentNormalized, source)
+                ? window.GenshinCalcEngine.normalizeArtifactModifier(talentNormalized, source, context)
                 : talentNormalized;
             if (!normalized.syntheticAttackMode && (normalized.attackModeEncodedInScaling || normalized.attackModeConflict)) return;
             selected.push({ modifier: normalized, source, ...display });
@@ -672,6 +679,68 @@
                 .forEach((modifier) => add(modifier, `constellation:C${level}`));
         }
         return selected;
+    }
+
+    function optionValue(option) {
+        return option && typeof option === "object" ? option.value : option;
+    }
+
+    function explicitPartyOptionDefault(candidate, options) {
+        const input = candidate.modifier?.conditionInput || {};
+        const modifier = candidate.modifier || {};
+        const explicit = input.default ?? input.defaultValue ?? modifier.conditionDefault ?? modifier.defaultCondition;
+        if (explicit !== undefined && options.some((value) => String(value) === String(explicit))) {
+            return String(explicit);
+        }
+        const values = modifier.valueByCondition;
+        if (!values || typeof values !== "object") return null;
+        const neutralNames = new Set(["none", "inactive", "disabled", "off"]);
+        return options.find((value) => {
+            const rawValue = values[String(value)];
+            return neutralNames.has(String(value).toLowerCase())
+                && Object.prototype.hasOwnProperty.call(values, String(value))
+                && (rawValue === 0 || rawValue === "0");
+        }) ?? null;
+    }
+
+    function reconcilePartyConditionState(context, calcData) {
+        context.uiState ||= {};
+        context.uiState.conditionByModifier ||= {};
+        const storedStates = Object.prototype.hasOwnProperty.call(context.party || {}, "conditionStates")
+            ? context.party.conditionStates || {}
+            : window.GenshinPartyState?.getPartyConditionStates?.() || {};
+        const candidates = window.GenshinPartyModifiers?.collectPartyModifierCandidates?.(calcData, context) || [];
+        const reconciled = [];
+        candidates.forEach((candidate) => {
+            const input = candidate.modifier?.conditionInput;
+            if (input?.type !== "option" || !Array.isArray(input.options) || !input.options.length) return;
+            const key = candidate.analysis?.conditionStateKey || candidate.key;
+            if (!key) return;
+            const options = input.options.map(optionValue)
+                .filter((value) => value !== undefined && value !== null && value !== "");
+            if (!options.length) return;
+            const current = context.uiState.conditionByModifier[key] || {};
+            const stored = storedStates[key] && typeof storedStates[key] === "object" ? storedStates[key] : {};
+            const requested = stored.option ?? current.option;
+            const selected = options.find((value) => String(value) === String(requested))
+                ?? explicitPartyOptionDefault(candidate, options);
+            if (selected === null) {
+                context.uiState.conditionByModifier[key] = {
+                    ...current,
+                    option: "",
+                    enabled: false
+                };
+                reconciled.push({ key, option: null, status: "missingInput" });
+                return;
+            }
+            context.uiState.conditionByModifier[key] = {
+                ...current,
+                option: String(selected),
+                enabled: true
+            };
+            reconciled.push({ key, option: String(selected) });
+        });
+        return reconciled;
     }
 
     function conditionUiGroup(modifier, source, context) {
@@ -902,6 +971,7 @@
                 if (selected?.stack?.id) context.uiState.stackByModifier[selected.stack.id] = state.stack;
             }
         });
+        reconcilePartyConditionState(context, calcData);
         return definitions.map((definition) => ({
             ...definition,
             value: nextState[definition.key]?.[definition.type] ?? null
@@ -1419,8 +1489,8 @@
                 const policy = artifactConditionPolicy(effect.modifier, effect.source, context, calcData);
                 const normalizedControl = policy ? {
                     ...control,
-                    label: policy.label,
-                    help: policy.reason
+                    label: control.configured ? control.label : policy.label,
+                    help: control.configured ? control.help : policy.reason
                 } : control;
                 if (!section.controls.some((current) => controlIdentity(current) === controlIdentity(normalizedControl))) {
                     section.controls.push(normalizedControl);
@@ -1691,6 +1761,8 @@
         buildComplexConditionDefinitions,
         reconcileConditionState,
         reconcileComplexConditionState,
+        reconcilePartyConditionState,
+        explicitPartyOptionDefault,
         reconcileResourceState,
         evaluateModifierCondition,
         conditionPanelState,

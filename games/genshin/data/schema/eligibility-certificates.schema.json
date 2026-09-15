@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tetinet.example/schemas/genshin/eligibility-certificates.schema.json",
+  "title": "Genshin candidate-by-claim eligibility certificate registry",
+  "type": "object",
+  "required": ["schemaVersion", "kind", "generatedBy", "authority", "policy", "certificates"],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "kind": { "const": "genshinClaimEligibilityCertificateRegistry" },
+    "generatedBy": {
+      "type": "object",
+      "required": ["name", "version", "capturedAt"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "capturedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": true
+    },
+    "authority": {
+      "type": "object",
+      "required": ["sourceCatalogAudit", "sourceCatalog", "sourceFamilyRegistry", "providerPolicy"],
+      "properties": {
+        "sourceCatalogAudit": { "type": "string", "minLength": 1 },
+        "sourceCatalog": { "type": "string", "minLength": 1 },
+        "sourceFamilyRegistry": { "type": "string", "minLength": 1 },
+        "providerPolicy": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "policy": {
+      "type": "object",
+      "required": ["pairPolicyIsEvidence", "exactCandidateClaimScopeRequired", "exactSourceCatalogRecordRequired", "exactFieldDigestRequired", "strictGameVersionBindingRequired", "exactMatchOnly", "scopedMatchForbidden", "aiSelfApproval"],
+      "properties": {
+        "pairPolicyIsEvidence": { "const": false },
+        "exactCandidateClaimScopeRequired": { "const": true },
+        "exactSourceCatalogRecordRequired": { "const": true },
+        "exactFieldDigestRequired": { "const": true },
+        "strictGameVersionBindingRequired": { "const": true },
+        "exactMatchOnly": { "const": true },
+        "scopedMatchForbidden": { "const": true },
+        "aiSelfApproval": { "const": "forbidden" }
+      },
+      "additionalProperties": true
+    },
+    "certificates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/certificate" }
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "authority": {
+      "type": "object",
+      "required": ["id", "version", "sourceCatalogDigest", "sourceFamilyRegistryDigest", "providerPolicyDigest"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "sourceCatalogDigest": { "$ref": "#/$defs/sha256" },
+        "sourceFamilyRegistryDigest": { "$ref": "#/$defs/sha256" },
+        "providerPolicyDigest": { "$ref": "#/$defs/sha256" },
+        "policyDigest": { "$ref": "#/$defs/sha256" }
+      },
+      "additionalProperties": true
+    },
+    "source": {
+      "type": "object",
+      "required": ["sourceRef", "providerId", "familyId", "revision", "rawArtifactDigest", "fieldDigest", "revisionPinned", "rawArtifactDigestBound", "fieldScoped", "exactField", "fieldDigestMatches", "strictGameVersionBinding", "supportsClaimValue", "gameVersion"],
+      "properties": {
+        "sourceRef": { "type": "string", "minLength": 1 },
+        "providerId": { "type": "string", "minLength": 1 },
+        "familyId": { "type": "string", "minLength": 1 },
+        "lineageStatus": { "enum": ["declared", "correlated", "unknown"] },
+        "revision": { "type": "string", "minLength": 1 },
+        "rawArtifactDigest": { "$ref": "#/$defs/sha256" },
+        "fileDigest": { "$ref": "#/$defs/sha256" },
+        "fieldDigest": { "$ref": "#/$defs/sha256" },
+        "revisionPinned": { "const": true },
+        "rawArtifactDigestBound": { "const": true },
+        "fieldScoped": { "const": true },
+        "exactField": { "const": true },
+        "fieldDigestMatches": { "const": true },
+        "strictGameVersionBinding": { "const": true },
+        "supportsClaimValue": { "const": true },
+        "gameVersion": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "certificate": {
+      "type": "object",
+      "required": ["schemaVersion", "kind", "certificateId", "candidateId", "claimId", "field", "claimKind", "status", "verificationMode", "issuedAt", "authority", "policy", "scope", "targetGameVersion", "currentGameVersion", "versionSnapshotId", "requiredFieldCoverage", "comparison", "sources", "sourceBundleDigest", "normalization", "stale", "invalidated", "blockedReasons", "canonicalEligibility"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "kind": { "const": "genshinClaimEligibilityCertificate" },
+        "certificateId": { "type": "string", "minLength": 1 },
+        "candidateId": { "type": "string", "minLength": 1 },
+        "claimId": { "type": "string", "minLength": 1 },
+        "field": { "type": "string", "minLength": 1 },
+        "claimKind": { "const": "externalFactual" },
+        "status": { "enum": ["eligible", "blocked", "revoked"] },
+        "verificationMode": { "const": "deterministicConsensus" },
+        "issuedAt": { "type": "string", "format": "date-time" },
+        "authority": { "$ref": "#/$defs/authority" },
+        "policy": {
+          "type": "object",
+          "required": ["status", "automaticVerificationAllowed"],
+          "properties": {
+            "status": { "enum": ["reusable", "candidateScoped", "blocked"] },
+            "automaticVerificationAllowed": { "type": "boolean" }
+          },
+          "additionalProperties": true
+        },
+        "scope": {
+          "type": "object",
+          "required": ["candidateId", "claimId", "field", "valueDigest"],
+          "properties": {
+            "candidateId": { "type": "string", "minLength": 1 },
+            "claimId": { "type": "string", "minLength": 1 },
+            "field": { "type": "string", "minLength": 1 },
+            "valueDigest": { "$ref": "#/$defs/sha256" }
+          },
+          "additionalProperties": true
+        },
+        "targetGameVersion": { "type": ["string", "null"] },
+        "currentGameVersion": { "type": ["string", "null"] },
+        "versionSnapshotId": { "type": ["string", "null"] },
+        "requiredFieldCoverage": {
+          "type": "object",
+          "required": ["status", "requiredFields", "digest"],
+          "properties": {
+            "status": { "enum": ["complete", "incomplete"] },
+            "requiredFields": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+            "digest": { "$ref": "#/$defs/sha256" }
+          },
+          "additionalProperties": true
+        },
+        "comparison": {
+          "type": "object",
+          "required": ["status", "claimValueDigest", "sourceFieldDigests"],
+          "properties": {
+            "status": { "enum": ["match", "notMatch", "scopedMatch", "notComparable", "conflict"] },
+            "claimValueDigest": { "$ref": "#/$defs/sha256" },
+            "sourceFieldDigests": { "type": "object", "additionalProperties": { "$ref": "#/$defs/sha256" } }
+          },
+          "additionalProperties": true
+        },
+        "sources": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/source" } },
+        "sourceBundleDigest": { "$ref": "#/$defs/sha256" },
+        "normalization": {
+          "type": "object",
+          "required": ["id", "version", "digest"],
+          "properties": {
+            "id": { "type": "string", "minLength": 1 },
+            "version": { "type": "string", "minLength": 1 },
+            "digest": { "$ref": "#/$defs/sha256" }
+          },
+          "additionalProperties": true
+        },
+        "stale": { "type": "boolean" },
+        "invalidated": { "type": "boolean" },
+        "blockedReasons": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "canonicalEligibility": { "type": "boolean" },
+        "invalidationDigest": { "$ref": "#/$defs/sha256" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "eligible" } } },
+          "then": {
+            "properties": {
+              "targetGameVersion": { "type": "string", "minLength": 1 },
+              "requiredFieldCoverage": { "properties": { "status": { "const": "complete" } } },
+              "comparison": { "properties": { "status": { "const": "match" } } },
+              "stale": { "const": false },
+              "invalidated": { "const": false },
+              "blockedReasons": { "maxItems": 0 }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "policy": { "properties": { "status": { "const": "reusable" } } } } },
+          "then": {
+            "properties": {
+              "status": { "const": "eligible" },
+              "targetGameVersion": { "type": "string", "minLength": 1 },
+              "canonicalEligibility": { "const": true }
+            }
+          }
+        }
+      ],
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

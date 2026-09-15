@@ -16,6 +16,7 @@
 ## CalculationRequest
 
 - `schemaVersion`: 現在は `1`
+- `calculationInput`: UID由来・手入力の双方を正規化した共通 `CalculationInput v2`。互換用の上位character/weapon/talent/statsフィールドもこの値から投影する
 - キャラクター、武器、聖遺物、天賦、ステータス
 - 反応、補正条件、段階・回数などの UI 状態
 - 敵レベル、耐性、プリセット ID と表示名

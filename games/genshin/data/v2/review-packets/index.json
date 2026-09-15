@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "index": "genshin-review-evidence-packets",
+  "generator": "genshinReviewEvidencePacketGenerate/1",
+  "generatedAt": "2026-08-23T00:00:00.000Z",
+  "packetIds": [
+    "genshin:weapon:11503",
+    "genshin:weapon:15502"
+  ],
+  "files": [
+    {
+      "packetId": "genshin:weapon:11503",
+      "weaponId": "11503",
+      "path": "weapon-11503.json",
+      "recommendation": "holdForEvidence",
+      "items": 15
+    },
+    {
+      "packetId": "genshin:weapon:15502",
+      "weaponId": "15502",
+      "path": "weapon-15502.json",
+      "recommendation": "holdForEvidence",
+      "items": 11
+    }
+  ],
+  "canonicalEligibility": 0,
+  "verificationPromotions": 0
+}

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "weapon",
+    "id": "12406"
+  },
+  "sourceRefs": [
+    "weapon:12406:catalog",
+    "weapon:12406:effect"
+  ],
+  "modifierIds": [
+    "w_12406_extraDamage_228da292",
+    "w_12406_extra_damage_1"
+  ],
+  "specIds": [
+    "w_12406_extraDamage_228da292",
+    "w_12406_extra_damage_1"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Weapon package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:weapon:12406:w_12406_extraDamage_228da292",
+      "genshin:v2:weapon:12406:w_12406_extra_damage_1"
+    ],
+    "generator": "genshinWeaponV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+	"id": 12601,
+	"name": "Zibai",
+	"c1": {
+		"name": "Burst Forth With Vigor, But Enter in Silence",
+		"descriptionRaw": "After using the Elemental Skill <color=#FFD780FF>{LINK#S11262}Heaven and Earth Made Manifest{/LINK}</color>, Zibai will immediately gain 100 {LINK#N11260001}<color=#FFD780FF>Phase Shift Radiance</color>{/LINK}, and the max number of <color=#FFD780FF>Spirit Steed's Stride</color> usages per <color=#FFD780FF>Lunar Phase Shift</color> mode is increased to 5 times.\nAdditionally, each time you switch to the Lunar Phase Shift mode, the first Spirit Steed's Stride's 2nd-hit Lunar-Crystallize Reaction DMG is increased by 220%.",
+		"description": "After using the Elemental Skill **Heaven and Earth Made Manifest**, Zibai will immediately gain 100 **Phase Shift Radiance**, and the max number of Spirit Steed's Stride usages per Lunar Phase Shift mode is increased to 5 times.\nAdditionally, each time you switch to the Lunar Phase Shift mode, the first Spirit Steed's Stride's 2nd-hit Lunar-Crystallize Reaction DMG is increased by 220%."
+	},
+	"c2": {
+		"name": "At Birth Are Souls Born, and in Death Leave But Husks",
+		"descriptionRaw": "When in the {LINK#N11260001}<color=#FFD780FF>Lunar Phase Shift</color>{/LINK} mode, all nearby party members' Lunar-Crystallize Reaction DMG is increased by 30%.\n\n<color=#FFD780FF>Moonsign: Ascendant Gleam</color>: Ascension Talent <color=#FFD780FF>{LINK#P1262101}The Selenic Adeptus Descends{/LINK}</color> is enhanced: the DMG dealt by the 2nd hit of <color=#FFD780FF>Spirit Steed's Stride</color> is further increased by 550% of Zibai's DEF. You must first unlock the Ascension Talent \"The Selenic Adeptus Descends.\"",
+		"description": "When in the **Lunar Phase Shift** mode, all nearby party members' Lunar-Crystallize Reaction DMG is increased by 30%.\n\nMoonsign: Ascendant Gleam: Ascension Talent **The Selenic Adeptus Descends** is enhanced: the DMG dealt by the 2nd hit of Spirit Steed's Stride is further increased by 550% of Zibai's DEF. You must first unlock the Ascension Talent \"The Selenic Adeptus Descends.\""
+	},
+	"c3": {
+		"name": "Free From Constraints and Worldly Ties",
+		"descriptionRaw": "Increases the Level of Elemental Skill <color=#FFD780FF>{LINK#S11262}Heaven and Earth Made Manifest{/LINK}</color> by 3.\nMaximum upgrade level is 15.",
+		"description": "Increases the Level of Elemental Skill **Heaven and Earth Made Manifest** by 3.\nMaximum upgrade level is 15."
+	},
+	"c4": {
+		"name": "The Spirit Passes, Then Form Follows",
+		"descriptionRaw": "While in the {LINK#N11260001}<color=#FFD780FF>Lunar Phase Shift</color>{/LINK} mode, Zibai's Normal Attack sequence will not reset, and when <color=#FFD780FF>Spirit Steed's Stride</color> hits opponents, Zibai will gain the <color=#FFD780FF>\"Scattermoon Splendor\"</color> effect: The next time she uses Normal Attacks, the additional attack from her 4th hit will deal 250% of the original damage as Lunar-Crystallize Reaction DMG.",
+		"description": "While in the **Lunar Phase Shift** mode, Zibai's Normal Attack sequence will not reset, and when Spirit Steed's Stride hits opponents, Zibai will gain the \"Scattermoon Splendor\" effect: The next time she uses Normal Attacks, the additional attack from her 4th hit will deal 250% of the original damage as Lunar-Crystallize Reaction DMG."
+	},
+	"c5": {
+		"name": "Perceive the Worthless and Debate It Not",
+		"descriptionRaw": "Increases the Level of <color=#FFD780FF>{LINK#S11265}Tri-Sphere Eminence{/LINK}</color> by 3.\nMaximum upgrade level is 15.",
+		"description": "Increases the Level of **Tri-Sphere Eminence** by 3.\nMaximum upgrade level is 15."
+	},
+	"c6": {
+		"name": "The World, A Journey in Passing",
+		"descriptionRaw": "While Zibai is in the {LINK#N11260001}<color=#FFD780FF>Lunar Phase Shift</color>{/LINK} mode, her <color=#FFD780FF>Phase Shift Radiance</color> gain rate is increased by 50%.\nAdditionally, <color=#FFD780FF>Spirit Steed's Stride</color> will change such that it will consume all Phase Shift Radiance. This will {LINK#N11190007}<color=#FFD780FF>elevate</color>{/LINK} the DMG dealt by this instance of Spirit Steed's Stride and the Lunar-Crystallize Reaction DMG dealt by Zibai within the next 3s by 1.6% for every point consumed above 70. This effect cannot stack.",
+		"description": "While Zibai is in the **Lunar Phase Shift** mode, her Phase Shift Radiance gain rate is increased by 50%.\nAdditionally, Spirit Steed's Stride will change such that it will consume all Phase Shift Radiance. This will **elevate** the DMG dealt by this instance of Spirit Steed's Stride and the Lunar-Crystallize Reaction DMG dealt by Zibai within the next 3s by 1.6% for every point consumed above 70. This effect cannot stack."
+	}
+}

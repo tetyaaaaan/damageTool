@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-version-transition-claim-reacquisition.schema.json",
+  "title": "Genshin version transition candidate claim reacquisition queue",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "generatedAt", "generatedFrom", "claim", "summary", "gateEligibility", "fieldDigestAlgorithm", "fieldDigest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinVersionTransitionClaimReacquisitionQueue" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "generatedFrom": { "type": "object", "minProperties": 1 },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["transitionId", "fromGameVersion", "toGameVersion", "partialDiscoveryFieldDigest", "candidateInventoryDigest", "packets"],
+      "properties": {
+        "transitionId": { "type": "string" },
+        "fromGameVersion": { "type": "string" },
+        "toGameVersion": { "type": "string" },
+        "partialDiscoveryFieldDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "candidateInventoryDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "packets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["candidateId", "dataset", "layer", "entityId", "transitionLane", "officialChangeId", "claimScope", "claimSchemaStatus", "providerCaptureStatus", "claimPackets", "gateEligibility"],
+            "properties": {
+              "candidateId": { "type": "string", "minLength": 1 },
+              "dataset": { "type": "string", "minLength": 1 },
+              "layer": { "type": "string", "minLength": 1 },
+              "entityId": { "type": "string", "minLength": 1 },
+              "transitionLane": { "enum": ["exactCandidateMapped", "structuralScopeCandidate", "conservativeEntityInvalidation", "reactionConsumerTransition"] },
+              "officialChangeId": { "type": "string", "minLength": 1 },
+              "claimScope": { "type": "string", "minLength": 1 },
+              "claimSchemaStatus": { "enum": ["available", "missing"] },
+              "providerCaptureStatus": { "enum": ["targetFieldEvidenceCapturedSingleFamily", "targetDisplayRecordCapturedNoMechanicFieldEvidence"] },
+              "claimPackets": { "type": "array" },
+              "gateEligibility": { "type": "object" }
+            }
+          }
+        }
+      }
+    },
+    "summary": { "type": "object" },
+    "gateEligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "canIssueEligibilityCertificate", "canPromoteCanonical"],
+      "properties": {
+        "status": { "const": "preparationOnlyFailClosed" },
+        "canIssueEligibilityCertificate": { "const": false },
+        "canPromoteCanonical": { "const": false }
+      }
+    },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

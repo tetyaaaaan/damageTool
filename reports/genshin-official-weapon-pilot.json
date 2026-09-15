@@ -1,0 +1,651 @@
+{
+  "schemaVersion": 1,
+  "audit": "genshin-official-weapon-pilot-audit",
+  "status": "passed",
+  "promotionGate": "blocked",
+  "canonicalEligibility": 0,
+  "summary": {
+    "schemaVersion": 1,
+    "status": "passed",
+    "promotionGate": "blocked",
+    "canonicalEligibility": 0,
+    "weapons": 2,
+    "expectedWeapons": 2,
+    "officialSources": 3,
+    "explicitGameVersionSources": 3,
+    "sourceReviewNeedsReview": 3,
+    "officialClaimFields": 3,
+    "completeOfficialRefinementClaims": 0,
+    "rankOneOfficialClaims": 3,
+    "independentComparisonFields": 3,
+    "rankOneMatches": 3,
+    "blockedReasons": 6,
+    "blockedReasonCounts": {
+      "11503:canonicalGateRequiresFieldEvidence": 1,
+      "11503:officialFieldValuesMissing": 1,
+      "11503:officialRefinementTableMissing": 1,
+      "15502:canonicalGateRequiresCompleteClaim": 1,
+      "15502:officialFieldScopeOnlyRefinement1": 1,
+      "15502:officialRefinementTableMissing": 1
+    },
+    "sourceErrors": 0,
+    "recordErrors": 0,
+    "warnings": 0,
+    "errors": 0,
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "methodology": {
+    "primarySourcesOnly": true,
+    "officialVersion": "Only explicit Version text from official HoYoLAB update articles is accepted for this pilot; article IDs and short-excerpt SHA-256 bind the captured evidence.",
+    "fieldScope": "An official R1 claim does not imply R2-R5. Missing fields/refinement ranks remain blocked.",
+    "independentComparison": "gcsim is retained as a distinct implementation comparison and never supplies gameVersion.",
+    "supersession": "Existing review-gated modifiers remain untouched; no pilot record can supersede them until complete claims pass the canonical gate."
+  },
+  "officialSources": {
+    "hoyolab:article:111067": {
+      "id": "hoyolab:article:111067",
+      "role": "officialPrimary",
+      "provider": "Genshin Impact Official / HoYoLAB",
+      "providerIndependence": "primary",
+      "independenceGroup": "official-genshin-hoyolab",
+      "domain": "hoyolab.com",
+      "articleId": 111067,
+      "url": "https://www.hoyolab.com/article/111067?crawler=Googlebot",
+      "title": "The Chalk Prince and the Dragon Version 1.2 Update Details (Part 3)",
+      "publishedAt": "2020-12-22",
+      "revision": "hoyolab-article-111067",
+      "revisionKind": "hoyolabArticleId",
+      "revisionPinned": false,
+      "identityPinned": true,
+      "contentRevisionPinned": false,
+      "gameVersion": "1.2",
+      "gameVersionEvidence": {
+        "status": "explicit",
+        "kind": "releaseNotesWithExplicitGameVersion",
+        "locator": {
+          "dataset": "hoyolabArticle",
+          "record": "111067",
+          "field": "titleAndArticleBody"
+        },
+        "explicitText": "Version 1.2",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "8b39dbdbbfa08885e578f3aa30149ca7102cc2b6ebf12f98f4b878bb3b8d872f"
+        },
+        "binding": {
+          "revision": "hoyolab-article-111067",
+          "metadataDigest": "8b39dbdbbfa08885e578f3aa30149ca7102cc2b6ebf12f98f4b878bb3b8d872f",
+          "bindingPresent": true
+        }
+      },
+      "gameVersionVerified": true,
+      "sourceReviewStatus": "needsReview",
+      "immutable": false,
+      "snapshot": {
+        "captureKind": "shortOfficialExcerpt",
+        "contentAddressed": true,
+        "captureVerification": "manuallyMaterializedNeedsIndependentReview",
+        "encoding": "utf8",
+        "text": "The Chalk Prince and the Dragon Version 1.2 Update Details (Part 3)\nAmos' Bow Weapon Effect - Strong-Willed. New Description: Increases Normal and Charged Attack DMG by 12%. Normal and Charged Attack DMG increases by 8% every 0.1s for up to 5 times.",
+        "bytes": 249,
+        "sha256": "8b39dbdbbfa08885e578f3aa30149ca7102cc2b6ebf12f98f4b878bb3b8d872f"
+      },
+      "fieldScope": [
+        "w_15502_damage_1:value",
+        "w_15502_damageBonus_fc388315:value",
+        "w_15502_damageBonus_fc388315:stack"
+      ],
+      "notes": "Official patch notes explicitly provide the revised Amos' Bow R1 effect wording and values; they do not publish the full refinement table."
+    },
+    "hoyolab:article:491022": {
+      "id": "hoyolab:article:491022",
+      "role": "officialPrimary",
+      "provider": "Genshin Impact Official / HoYoLAB",
+      "providerIndependence": "primary",
+      "independenceGroup": "official-genshin-hoyolab",
+      "domain": "hoyolab.com",
+      "articleId": 491022,
+      "url": "https://www.hoyolab.com/article/491022",
+      "title": "Version 1.6 Midsummer Island Adventure New Weapon Overview Part II",
+      "publishedAt": "2021-06-27",
+      "revision": "hoyolab-article-491022",
+      "revisionKind": "hoyolabArticleId",
+      "revisionPinned": false,
+      "identityPinned": true,
+      "contentRevisionPinned": false,
+      "gameVersion": "1.6",
+      "gameVersionEvidence": {
+        "status": "explicit",
+        "kind": "releaseNotesWithExplicitGameVersion",
+        "locator": {
+          "dataset": "hoyolabArticle",
+          "record": "491022",
+          "field": "titleAndArticleBody"
+        },
+        "explicitText": "Version 1.6",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "fa77a96389a75950c59026e34ff6e18dc618748cbe056e45e40e233a62091882"
+        },
+        "binding": {
+          "revision": "hoyolab-article-491022",
+          "metadataDigest": "fa77a96389a75950c59026e34ff6e18dc618748cbe056e45e40e233a62091882",
+          "bindingPresent": true
+        }
+      },
+      "gameVersionVerified": true,
+      "sourceReviewStatus": "needsReview",
+      "immutable": false,
+      "snapshot": {
+        "captureKind": "shortOfficialExcerpt",
+        "contentAddressed": true,
+        "captureVerification": "manuallyMaterializedNeedsIndependentReview",
+        "encoding": "utf8",
+        "text": "Version 1.6 Midsummer Island Adventure New Weapon Overview Part II\nVersion 1.6 \"Midsummer! Island? Adventure Awaits!\" New Weapon Overview Part II. Today, Paimon wants to show you a brand new weapon that'll be in \"Epitome Invocation\" — Freedom-Sworn (Sword)! Let's go take a look~",
+        "bytes": 281,
+        "sha256": "fa77a96389a75950c59026e34ff6e18dc618748cbe056e45e40e233a62091882"
+      },
+      "fieldScope": [],
+      "notes": "Official overview identifies Freedom-Sworn and Version 1.6, but its indexed body has no numeric effect or refinement values."
+    },
+    "hoyolab:article:415463": {
+      "id": "hoyolab:article:415463",
+      "role": "officialPrimary",
+      "provider": "Genshin Impact Official / HoYoLAB",
+      "providerIndependence": "primary",
+      "independenceGroup": "official-genshin-hoyolab",
+      "domain": "hoyolab.com",
+      "articleId": 415463,
+      "url": "https://www.hoyolab.com/article/415463",
+      "title": "Midsummer Island Adventure Version 1.6 Update Details",
+      "publishedAt": "2021-06-07",
+      "revision": "hoyolab-article-415463",
+      "revisionKind": "hoyolabArticleId",
+      "revisionPinned": false,
+      "identityPinned": true,
+      "contentRevisionPinned": false,
+      "gameVersion": "1.6",
+      "gameVersionEvidence": {
+        "status": "explicit",
+        "kind": "releaseNotesWithExplicitGameVersion",
+        "locator": {
+          "dataset": "hoyolabArticle",
+          "record": "415463",
+          "field": "titleAndArticleBody"
+        },
+        "explicitText": "Version 1.6",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "cb92dcc94e06997c88b02fbaa3042645ba7c035af1525020ab6d926d63cf9004"
+        },
+        "binding": {
+          "revision": "hoyolab-article-415463",
+          "metadataDigest": "cb92dcc94e06997c88b02fbaa3042645ba7c035af1525020ab6d926d63cf9004",
+          "bindingPresent": true
+        }
+      },
+      "gameVersionVerified": true,
+      "sourceReviewStatus": "needsReview",
+      "immutable": false,
+      "snapshot": {
+        "captureKind": "shortOfficialExcerpt",
+        "contentAddressed": true,
+        "captureVerification": "manuallyMaterializedNeedsIndependentReview",
+        "encoding": "utf8",
+        "text": "Midsummer Island Adventure Version 1.6 Update Details\nNew Weapons: Freedom-Sworn (5-Star Sword), Mitternachts Waltz (4-Star Bow), and Dodoco Tales (4-Star Catalyst).",
+        "bytes": 165,
+        "sha256": "cb92dcc94e06997c88b02fbaa3042645ba7c035af1525020ab6d926d63cf9004"
+      },
+      "fieldScope": [],
+      "notes": "Official Version 1.6 update details corroborate the release/version and weapon identity only; no passive field values are stated."
+    }
+  },
+  "records": {
+    "11503": {
+      "weaponId": "11503",
+      "name": "Freedom-Sworn",
+      "officialSourceIds": [
+        "hoyolab:article:491022",
+        "hoyolab:article:415463"
+      ],
+      "officialGameVersions": [
+        "1.6"
+      ],
+      "independentSource": {
+        "id": "gcsim:weapon:11503",
+        "role": "independentImplementation",
+        "provider": "genshinsim/gcsim",
+        "repository": "https://github.com/genshinsim/gcsim",
+        "revision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+        "revisionKind": "gitCommit",
+        "revisionPinned": true,
+        "path": "internal/weapons/sword/freedom/freedom.go",
+        "sha256": "d734056ccf7e7e7ccf6424e576b53fb51c226b8725f7df3c4fa18635f4ef548f",
+        "gameVersion": null,
+        "gameVersionVerified": false,
+        "independenceGroup": "gcsim-implementation",
+        "sourceRecordDigest": "d734056ccf7e7e7ccf6424e576b53fb51c226b8725f7df3c4fa18635f4ef548f",
+        "sourceVersionBlockedReasons": [
+          "gameVersionMissing"
+        ]
+      },
+      "officialClaims": [],
+      "independentFields": [
+        {
+          "candidateId": "w_11503_damage_1",
+          "field": "value",
+          "status": "eligible",
+          "structuredValue": {
+            "1": 10,
+            "2": 12.5,
+            "3": 15,
+            "4": 17.5,
+            "5": 20
+          },
+          "unit": "percent",
+          "targets": [
+            "allDamageBonus"
+          ],
+          "activation": {
+            "condition": "always"
+          },
+          "locator": {
+            "lineStart": 38,
+            "lineEnd": 38,
+            "anchor": "m[attributes.DmgP] = 0.075 + float64(r)*0.025"
+          },
+          "provider": "genshinsim/gcsim",
+          "revision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+          "path": "internal/weapons/sword/freedom/freedom.go",
+          "sha256": "d734056ccf7e7e7ccf6424e576b53fb51c226b8725f7df3c4fa18635f4ef548f",
+          "gameVersion": null,
+          "gameVersionVerified": false,
+          "independenceGroup": "gcsim-implementation",
+          "canonicalEligibility": false
+        },
+        {
+          "candidateId": "w_11503_damage_3",
+          "field": "value",
+          "status": "eligible",
+          "structuredValue": {
+            "1": 16,
+            "2": 20,
+            "3": 24,
+            "4": 28,
+            "5": 32
+          },
+          "unit": "percent",
+          "targets": [
+            "normalAttackDamageBonus",
+            "chargedAttackDamageBonus",
+            "plungingAttackDamageBonus"
+          ],
+          "activation": {
+            "condition": "afterTwoSigilsConsumed",
+            "durationSeconds": 12
+          },
+          "locator": {
+            "lineStart": 48,
+            "lineEnd": 48,
+            "anchor": "uniqueVal[attributes.DmgP] = .12 + 0.04*float64(r)"
+          },
+          "provider": "genshinsim/gcsim",
+          "revision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+          "path": "internal/weapons/sword/freedom/freedom.go",
+          "sha256": "d734056ccf7e7e7ccf6424e576b53fb51c226b8725f7df3c4fa18635f4ef548f",
+          "gameVersion": null,
+          "gameVersionVerified": false,
+          "independenceGroup": "gcsim-implementation",
+          "canonicalEligibility": false
+        },
+        {
+          "candidateId": "w_11503_stat_2",
+          "field": "value",
+          "status": "eligible",
+          "structuredValue": {
+            "1": 20,
+            "2": 25,
+            "3": 30,
+            "4": 35,
+            "5": 40
+          },
+          "unit": "percent",
+          "targets": [
+            "atkPercent"
+          ],
+          "activation": {
+            "condition": "afterTwoSigilsConsumed",
+            "durationSeconds": 12,
+            "scope": "allPartyMembers"
+          },
+          "locator": {
+            "lineStart": 51,
+            "lineEnd": 51,
+            "anchor": "sharedVal[attributes.ATKP] = .15 + float64(r)*0.05"
+          },
+          "provider": "genshinsim/gcsim",
+          "revision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+          "path": "internal/weapons/sword/freedom/freedom.go",
+          "sha256": "d734056ccf7e7e7ccf6424e576b53fb51c226b8725f7df3c4fa18635f4ef548f",
+          "gameVersion": null,
+          "gameVersionVerified": false,
+          "independenceGroup": "gcsim-implementation",
+          "canonicalEligibility": false
+        }
+      ],
+      "comparisons": [],
+      "status": "blocked",
+      "canonicalEligibility": false,
+      "blockedReasons": [
+        "officialFieldValuesMissing",
+        "officialRefinementTableMissing",
+        "canonicalGateRequiresFieldEvidence"
+      ],
+      "supersession": {
+        "existingModifierIds": [
+          "w_11503_damage_1",
+          "w_11503_damage_3",
+          "w_11503_stat_2"
+        ],
+        "action": "none",
+        "reason": "Official Version 1.6 pages identify the weapon but do not state passive numeric fields."
+      }
+    },
+    "15502": {
+      "weaponId": "15502",
+      "name": "Amos' Bow",
+      "officialSourceIds": [
+        "hoyolab:article:111067"
+      ],
+      "officialGameVersions": [
+        "1.2"
+      ],
+      "independentSource": {
+        "id": "gcsim:weapon:15502",
+        "role": "independentImplementation",
+        "provider": "genshinsim/gcsim",
+        "repository": "https://github.com/genshinsim/gcsim",
+        "revision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+        "revisionKind": "gitCommit",
+        "revisionPinned": true,
+        "path": "internal/weapons/bow/amos/amos.go",
+        "sha256": "7f8f1bec88442ae8913eab4b155b4152ed298f8482dbd2468e8c777ede2b9036",
+        "gameVersion": null,
+        "gameVersionVerified": false,
+        "independenceGroup": "gcsim-implementation",
+        "sourceRecordDigest": "7f8f1bec88442ae8913eab4b155b4152ed298f8482dbd2468e8c777ede2b9036",
+        "sourceVersionBlockedReasons": [
+          "gameVersionMissing"
+        ]
+      },
+      "officialClaims": [
+        {
+          "sourceId": "hoyolab:article:111067",
+          "candidateId": "w_15502_damage_1",
+          "field": "value",
+          "structuredValue": {
+            "1": 12
+          },
+          "unit": "percent",
+          "targets": [
+            "normalAttackDamageBonus",
+            "chargedAttackDamageBonus"
+          ],
+          "activation": {
+            "condition": "always"
+          },
+          "scope": {
+            "refinementRanks": [
+              1
+            ],
+            "completeRefinementTable": false
+          },
+          "supportsClaimValue": true,
+          "notes": "R1 value explicitly printed in the official Version 1.2 description."
+        },
+        {
+          "sourceId": "hoyolab:article:111067",
+          "candidateId": "w_15502_damageBonus_fc388315",
+          "field": "value",
+          "structuredValue": {
+            "1": 8
+          },
+          "unit": "percent",
+          "targets": [
+            "normalAttackDamageBonus",
+            "chargedAttackDamageBonus"
+          ],
+          "activation": {
+            "condition": "arrowFlightTime",
+            "intervalSeconds": 0.1
+          },
+          "scope": {
+            "refinementRanks": [
+              1
+            ],
+            "completeRefinementTable": false
+          },
+          "supportsClaimValue": true,
+          "notes": "R1 value and 0.1s interval are explicit; the official article states a maximum of five occurrences."
+        },
+        {
+          "sourceId": "hoyolab:article:111067",
+          "candidateId": "w_15502_damageBonus_fc388315",
+          "field": "stack",
+          "structuredValue": {
+            "min": 0,
+            "max": 5,
+            "intervalSeconds": 0.1
+          },
+          "unit": "stack",
+          "targets": [
+            "normalAttackDamageBonus",
+            "chargedAttackDamageBonus"
+          ],
+          "activation": {
+            "condition": "arrowFlightTime",
+            "intervalSeconds": 0.1
+          },
+          "scope": {
+            "refinementRanks": [
+              1
+            ],
+            "completeRefinementTable": false
+          },
+          "supportsClaimValue": true,
+          "notes": "Stack cap and interval are explicit, but refinement-dependent values are not complete."
+        }
+      ],
+      "independentFields": [
+        {
+          "candidateId": "w_15502_damage_1",
+          "field": "value",
+          "status": "eligible",
+          "structuredValue": {
+            "1": 12,
+            "2": 15,
+            "3": 18,
+            "4": 21,
+            "5": 24
+          },
+          "unit": "percent",
+          "targets": [
+            "normalAttackDamageBonus",
+            "chargedAttackDamageBonus"
+          ],
+          "activation": {
+            "condition": "always"
+          },
+          "locator": {
+            "lineStart": 27,
+            "lineEnd": 27,
+            "anchor": "flat := 0.09 + 0.03*float64(r)"
+          },
+          "provider": "genshinsim/gcsim",
+          "revision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+          "path": "internal/weapons/bow/amos/amos.go",
+          "sha256": "7f8f1bec88442ae8913eab4b155b4152ed298f8482dbd2468e8c777ede2b9036",
+          "gameVersion": null,
+          "gameVersionVerified": false,
+          "independenceGroup": "gcsim-implementation",
+          "canonicalEligibility": false
+        },
+        {
+          "candidateId": "w_15502_damageBonus_fc388315",
+          "field": "value",
+          "status": "eligible",
+          "structuredValue": {
+            "1": 8,
+            "2": 10,
+            "3": 12,
+            "4": 14,
+            "5": 16
+          },
+          "unit": "percent",
+          "targets": [
+            "normalAttackDamageBonus",
+            "chargedAttackDamageBonus"
+          ],
+          "activation": {
+            "condition": "arrowFlightTime",
+            "intervalSeconds": 0.1
+          },
+          "locator": {
+            "lineStart": 23,
+            "lineEnd": 23,
+            "anchor": "dmgpers := 0.06 + 0.02*float64(r)"
+          },
+          "provider": "genshinsim/gcsim",
+          "revision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+          "path": "internal/weapons/bow/amos/amos.go",
+          "sha256": "7f8f1bec88442ae8913eab4b155b4152ed298f8482dbd2468e8c777ede2b9036",
+          "gameVersion": null,
+          "gameVersionVerified": false,
+          "independenceGroup": "gcsim-implementation",
+          "canonicalEligibility": false
+        },
+        {
+          "candidateId": "w_15502_damageBonus_fc388315",
+          "field": "stack",
+          "status": "eligible",
+          "structuredValue": {
+            "min": 0,
+            "max": 5,
+            "default": 0,
+            "intervalSeconds": 0.1
+          },
+          "unit": "stack",
+          "targets": [
+            "normalAttackDamageBonus",
+            "chargedAttackDamageBonus"
+          ],
+          "activation": {
+            "condition": "arrowFlightTime"
+          },
+          "locator": {
+            "lineStart": 37,
+            "lineEnd": 37,
+            "anchor": "stacks := min(int(travel/0.1), 5)"
+          },
+          "provider": "genshinsim/gcsim",
+          "revision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+          "path": "internal/weapons/bow/amos/amos.go",
+          "sha256": "7f8f1bec88442ae8913eab4b155b4152ed298f8482dbd2468e8c777ede2b9036",
+          "gameVersion": null,
+          "gameVersionVerified": false,
+          "independenceGroup": "gcsim-implementation",
+          "canonicalEligibility": false
+        }
+      ],
+      "comparisons": [
+        {
+          "candidateId": "w_15502_damage_1",
+          "field": "value",
+          "officialRefinementRanks": [
+            1
+          ],
+          "gcsimRefinementRanks": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "rankOneValueMatch": true,
+          "gcsimFieldStatus": "eligible",
+          "independentProvider": "genshinsim/gcsim",
+          "independentRevision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+          "independentSha256": "7f8f1bec88442ae8913eab4b155b4152ed298f8482dbd2468e8c777ede2b9036",
+          "notes": "Official R1 claim matches the independently extracted gcsim R1 value; remaining ranks are not established by the official article."
+        },
+        {
+          "candidateId": "w_15502_damageBonus_fc388315",
+          "field": "value",
+          "officialRefinementRanks": [
+            1
+          ],
+          "gcsimRefinementRanks": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "rankOneValueMatch": true,
+          "gcsimFieldStatus": "eligible",
+          "independentProvider": "genshinsim/gcsim",
+          "independentRevision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+          "independentSha256": "7f8f1bec88442ae8913eab4b155b4152ed298f8482dbd2468e8c777ede2b9036",
+          "notes": "Official R1 claim matches the independently extracted gcsim R1 value; remaining ranks are not established by the official article."
+        },
+        {
+          "candidateId": "w_15502_damageBonus_fc388315",
+          "field": "stack",
+          "officialRefinementRanks": [
+            1
+          ],
+          "gcsimRefinementRanks": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "rankOneValueMatch": true,
+          "gcsimFieldStatus": "eligible",
+          "independentProvider": "genshinsim/gcsim",
+          "independentRevision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+          "independentSha256": "7f8f1bec88442ae8913eab4b155b4152ed298f8482dbd2468e8c777ede2b9036",
+          "notes": "Official R1 claim matches the independently extracted gcsim R1 value; remaining ranks are not established by the official article."
+        }
+      ],
+      "status": "blocked",
+      "canonicalEligibility": false,
+      "blockedReasons": [
+        "officialRefinementTableMissing",
+        "officialFieldScopeOnlyRefinement1",
+        "canonicalGateRequiresCompleteClaim"
+      ],
+      "supersession": {
+        "existingModifierIds": [
+          "w_15502_damage_1",
+          "w_15502_damageBonus_fc388315"
+        ],
+        "action": "none",
+        "reason": "Partial official evidence cannot supersede review-gated legacy modifiers."
+      }
+    }
+  },
+  "blockedReasons": [
+    "11503:officialFieldValuesMissing",
+    "11503:officialRefinementTableMissing",
+    "11503:canonicalGateRequiresFieldEvidence",
+    "15502:officialRefinementTableMissing",
+    "15502:officialFieldScopeOnlyRefinement1",
+    "15502:canonicalGateRequiresCompleteClaim"
+  ],
+  "sourceErrors": [],
+  "recordErrors": [],
+  "errors": [],
+  "warnings": []
+}

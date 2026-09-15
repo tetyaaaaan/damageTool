@@ -1,0 +1,1624 @@
+{
+  "schemaVersion": 2,
+  "kind": "genshinArtifactV2Index",
+  "generator": {
+    "name": "genshinArtifactV2Generate.cjs",
+    "version": "genshinArtifactV2Generate/1",
+    "capturedAt": "2026-08-15T00:00:00.000Z"
+  },
+  "summary": {
+    "schemaVersion": 2,
+    "sets": 63,
+    "generatedSets": 63,
+    "modifiers": 128,
+    "specs": 128,
+    "pieceModifierCounts": {
+      "onePiece": 0,
+      "twoPiece": 52,
+      "fourPiece": 76
+    },
+    "structuredModifiersMissing": [
+      "10004",
+      "10013",
+      "14004",
+      "15009",
+      "15010",
+      "15011",
+      "15012"
+    ],
+    "structuredModifierGapReview": {
+      "sets": 7,
+      "statuses": {
+        "noEffect": 0,
+        "displayOnly": 4,
+        "unstructured": 3,
+        "invalid": 0,
+        "needsReview": 0
+      },
+      "slotStatuses": {
+        "noEffect": 11,
+        "displayOnly": 4,
+        "unstructured": 6,
+        "invalid": 0,
+        "needsReview": 0
+      },
+      "valueContracts": 1,
+      "valueContractStatuses": {
+        "noEffect": 0,
+        "displayOnly": 0,
+        "unstructured": 0,
+        "invalid": 0,
+        "needsReview": 1
+      },
+      "canonical": 0,
+      "path": "gap-review.json"
+    },
+    "evidenceHierarchy": {
+      "aggregateEffectSources": 63,
+      "slotEffectSources": 189,
+      "note": "Aggregate effect records prove complete legacy documents; slot records provide field-level raw text references and are not duplicate modifiers."
+    },
+    "sourceRecords": 443,
+    "sourceKinds": {
+      "primaryDataset": 443
+    },
+    "verificationByStatus": {
+      "needsReview": 128
+    },
+    "sourceAgreementByStatus": {
+      "singleSource": 128
+    },
+    "runtimeByStatus": {
+      "candidate": 128
+    },
+    "inputPolicyByStatus": {
+      "reflected": 45,
+      "derived": 3,
+      "userToggle": 45,
+      "automatic": 19,
+      "stack": 16
+    },
+    "duplicateLegacyIdGroups": 14,
+    "duplicateLegacyIds": [
+      {
+        "id": "2pc_atk_percent",
+        "occurrences": [
+          {
+            "setId": "10001",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10001:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "10002",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10002:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15001",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15001:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15019",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15019:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15023",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15023:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15024",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15024:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15034",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15034:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15035",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15035:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15036",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15036:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15044",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15044:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15046",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15046:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15047",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15047:twoPiece:2pc_atk_percent"
+          },
+          {
+            "setId": "15048",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15048:twoPiece:2pc_atk_percent"
+          }
+        ]
+      },
+      {
+        "id": "2pc_def_percent",
+        "occurrences": [
+          {
+            "setId": "10003",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10003:twoPiece:2pc_def_percent"
+          },
+          {
+            "setId": "15021",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15021:twoPiece:2pc_def_percent"
+          }
+        ]
+      },
+      {
+        "id": "2pc_normal_charged_damage_bonus",
+        "occurrences": [
+          {
+            "setId": "10006",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10006:twoPiece:2pc_normal_charged_damage_bonus"
+          },
+          {
+            "setId": "15031",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15031:twoPiece:2pc_normal_charged_damage_bonus"
+          }
+        ]
+      },
+      {
+        "id": "4pc_normal_charged_damage_bonus_after_skill",
+        "occurrences": [
+          {
+            "setId": "10006",
+            "slot": "fourPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10006:fourPiece:4pc_normal_charged_damage_bonus_after_skill"
+          },
+          {
+            "setId": "15016",
+            "slot": "fourPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15016:fourPiece:4pc_normal_charged_damage_bonus_after_skill"
+          }
+        ]
+      },
+      {
+        "id": "2pc_elemental_mastery",
+        "occurrences": [
+          {
+            "setId": "10007",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10007:twoPiece:2pc_elemental_mastery"
+          },
+          {
+            "setId": "15003",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15003:twoPiece:2pc_elemental_mastery"
+          },
+          {
+            "setId": "15026",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15026:twoPiece:2pc_elemental_mastery"
+          },
+          {
+            "setId": "15028",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15028:twoPiece:2pc_elemental_mastery"
+          },
+          {
+            "setId": "15041",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15041:twoPiece:2pc_elemental_mastery"
+          },
+          {
+            "setId": "15043",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15043:twoPiece:2pc_elemental_mastery"
+          }
+        ]
+      },
+      {
+        "id": "2pc_skill_damage_bonus",
+        "occurrences": [
+          {
+            "setId": "10008",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10008:twoPiece:2pc_skill_damage_bonus"
+          },
+          {
+            "setId": "15032",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15032:twoPiece:2pc_skill_damage_bonus"
+          }
+        ]
+      },
+      {
+        "id": "2pc_energy_recharge",
+        "occurrences": [
+          {
+            "setId": "10009",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10009:twoPiece:2pc_energy_recharge"
+          },
+          {
+            "setId": "10012",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:10012:twoPiece:2pc_energy_recharge"
+          },
+          {
+            "setId": "15020",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15020:twoPiece:2pc_energy_recharge"
+          },
+          {
+            "setId": "15042",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15042:twoPiece:2pc_energy_recharge"
+          },
+          {
+            "setId": "15045",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15045:twoPiece:2pc_energy_recharge"
+          }
+        ]
+      },
+      {
+        "id": "2pc_cryo_damage_bonus",
+        "occurrences": [
+          {
+            "setId": "14001",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:14001:twoPiece:2pc_cryo_damage_bonus"
+          },
+          {
+            "setId": "15040",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15040:twoPiece:2pc_cryo_damage_bonus"
+          }
+        ]
+      },
+      {
+        "id": "2pc_anemo_damage_bonus",
+        "occurrences": [
+          {
+            "setId": "15002",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15002:twoPiece:2pc_anemo_damage_bonus"
+          },
+          {
+            "setId": "15027",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15027:twoPiece:2pc_anemo_damage_bonus"
+          }
+        ]
+      },
+      {
+        "id": "2pc_physical_damage_bonus",
+        "occurrences": [
+          {
+            "setId": "15008",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15008:twoPiece:2pc_physical_damage_bonus"
+          },
+          {
+            "setId": "15018",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15018:twoPiece:2pc_physical_damage_bonus"
+          }
+        ]
+      },
+      {
+        "id": "2pc_hydro_damage_bonus",
+        "occurrences": [
+          {
+            "setId": "15016",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15016:twoPiece:2pc_hydro_damage_bonus"
+          },
+          {
+            "setId": "15029",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15029:twoPiece:2pc_hydro_damage_bonus"
+          }
+        ]
+      },
+      {
+        "id": "2pc_hp_percent",
+        "occurrences": [
+          {
+            "setId": "15017",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15017:twoPiece:2pc_hp_percent"
+          },
+          {
+            "setId": "15030",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15030:twoPiece:2pc_hp_percent"
+          }
+        ]
+      },
+      {
+        "id": "2pc_outgoing_healing_bonus_indirect_damage_related",
+        "occurrences": [
+          {
+            "setId": "15022",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15022:twoPiece:2pc_outgoing_healing_bonus_indirect_damage_related"
+          },
+          {
+            "setId": "15033",
+            "slot": "twoPiece",
+            "modifierIndex": 0,
+            "candidateId": "artifact:15033:twoPiece:2pc_outgoing_healing_bonus_indirect_damage_related"
+          }
+        ]
+      },
+      {
+        "id": "4pc_team_moon_reaction_damage_bonus_per_moonglow",
+        "occurrences": [
+          {
+            "setId": "15041",
+            "slot": "fourPiece",
+            "modifierIndex": 1,
+            "candidateId": "artifact:15041:fourPiece:4pc_team_moon_reaction_damage_bonus_per_moonglow"
+          },
+          {
+            "setId": "15042",
+            "slot": "fourPiece",
+            "modifierIndex": 1,
+            "candidateId": "artifact:15042:fourPiece:4pc_team_moon_reaction_damage_bonus_per_moonglow"
+          }
+        ]
+      }
+    ],
+    "registryPresent": false,
+    "registryFiles": [],
+    "registryReferences": 0,
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "legacyAudits": [
+      {
+        "id": "artifact-set-modifiers-audit-v10",
+        "path": "games/genshin/data/calc/artifact-set-modifiers-audit-v10.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "e6efc5116bf41474a1c89810019a5ca7baba445d0a10b10459da36d723703ec4"
+        },
+        "summary": {
+          "version": "v10-finalized",
+          "auditIterations": [
+            {
+              "name": "source fragment segmentation",
+              "result": "done"
+            },
+            {
+              "name": "value existence",
+              "result": "done"
+            },
+            {
+              "name": "value-role semantic",
+              "result": "done"
+            },
+            {
+              "name": "resource/stack/consume",
+              "result": "done"
+            },
+            {
+              "name": "special escape",
+              "result": "done"
+            },
+            {
+              "name": "known-complex regression",
+              "result": "done"
+            },
+            {
+              "name": "post-fix re-audit",
+              "result": "done"
+            }
+          ],
+          "remainingIssues": {
+            "artifact": 0,
+            "weapon": 0,
+            "constellation": 0
+          },
+          "manualFinalFixes": [
+            "Navia C2/C6",
+            "Heizou C6",
+            "Alhaitham C2/C4/C6",
+            "Nilou C6",
+            "Sigewinne C1/C6",
+            "Citlali C6",
+            "Farka C2/C4/C6",
+            "Skirk C6",
+            "Sandrone C2",
+            "VV artifact",
+            "12515 weapon per-stack cleanup"
+          ],
+          "note": "監査はmodifierのsourceText fragment単位で実施。全文中の別効果による誤検出を避けた。"
+        }
+      }
+    ],
+    "generatedFrom": [
+      {
+        "dataset": "artifact-sets.json",
+        "path": "games/genshin/data/artifact-sets.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "1a5c9db955bf444bf72d16699abc99a6eb4997859d67c5d9f10f36795d0d418c"
+        }
+      },
+      {
+        "dataset": "artifact-set-effects.json",
+        "path": "games/genshin/data/artifact-set-effects.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "9e29fc0973eea237ce7edf9710adfdb5d0bea74f1c9bf1cc8b1170ed4d68ae16"
+        }
+      },
+      {
+        "dataset": "calc/artifact-set-modifiers.json",
+        "path": "games/genshin/data/calc/artifact-set-modifiers.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "7e82c57cccc744db6017b97f8c66f6e340974da3a537777f7f451bea033016ee"
+        }
+      }
+    ]
+  },
+  "setIds": [
+    "10001",
+    "10002",
+    "10003",
+    "10004",
+    "10005",
+    "10006",
+    "10007",
+    "10008",
+    "10009",
+    "10010",
+    "10011",
+    "10012",
+    "10013",
+    "14001",
+    "14002",
+    "14003",
+    "14004",
+    "15001",
+    "15002",
+    "15003",
+    "15005",
+    "15006",
+    "15007",
+    "15008",
+    "15009",
+    "15010",
+    "15011",
+    "15012",
+    "15014",
+    "15015",
+    "15016",
+    "15017",
+    "15018",
+    "15019",
+    "15020",
+    "15021",
+    "15022",
+    "15023",
+    "15024",
+    "15025",
+    "15026",
+    "15027",
+    "15028",
+    "15029",
+    "15030",
+    "15031",
+    "15032",
+    "15033",
+    "15034",
+    "15035",
+    "15036",
+    "15037",
+    "15038",
+    "15039",
+    "15040",
+    "15041",
+    "15042",
+    "15043",
+    "15044",
+    "15045",
+    "15046",
+    "15047",
+    "15048"
+  ],
+  "modifierIds": [
+    "artifact:10001:twoPiece:2pc_atk_percent",
+    "artifact:10001:fourPiece:4pc_charged_crit_rate",
+    "artifact:10002:twoPiece:2pc_atk_percent",
+    "artifact:10002:fourPiece:4pc_damage_vs_enemy_hp_gt_50",
+    "artifact:10003:twoPiece:2pc_def_percent",
+    "artifact:10005:twoPiece:2pc_crit_rate",
+    "artifact:10005:fourPiece:4pc_crit_rate_low_hp",
+    "artifact:10006:twoPiece:2pc_normal_charged_damage_bonus",
+    "artifact:10006:fourPiece:4pc_normal_charged_damage_bonus_after_skill",
+    "artifact:10007:twoPiece:2pc_elemental_mastery",
+    "artifact:10007:fourPiece:4pc_team_elemental_mastery_after_reaction",
+    "artifact:10008:twoPiece:2pc_skill_damage_bonus",
+    "artifact:10009:twoPiece:2pc_energy_recharge",
+    "artifact:10010:twoPiece:2pc_hp_flat",
+    "artifact:10011:twoPiece:2pc_def_flat",
+    "artifact:10012:twoPiece:2pc_energy_recharge",
+    "artifact:14001:twoPiece:2pc_cryo_damage_bonus",
+    "artifact:14001:fourPiece:4pc_crit_rate_vs_cryo",
+    "artifact:14002:fourPiece:4pc_damage_vs_electro_affected_enemy",
+    "artifact:14003:fourPiece:4pc_damage_vs_pyro_affected_enemy",
+    "artifact:15001:twoPiece:2pc_atk_percent",
+    "artifact:15001:fourPiece:4pc_normal_damage_bonus_melee",
+    "artifact:15002:twoPiece:2pc_anemo_damage_bonus",
+    "artifact:15002:fourPiece:a_15002_4pc_1_v10",
+    "artifact:15002:fourPiece:a_15002_4pc_2_v10",
+    "artifact:15003:twoPiece:2pc_elemental_mastery",
+    "artifact:15003:fourPiece:4pc_charged_damage_bonus_catalyst_bow",
+    "artifact:15005:twoPiece:2pc_electro_damage_bonus",
+    "artifact:15005:fourPiece:4pc_overloaded_electrocharged_superconduct_hyperbloom_bonus",
+    "artifact:15005:fourPiece:4pc_aggravate_bonus",
+    "artifact:15005:fourPiece:4pc_lunar_charged_and_superconduct_bonus",
+    "artifact:15006:twoPiece:2pc_pyro_damage_bonus",
+    "artifact:15006:fourPiece:4pc_overloaded_burning_burgeon_bonus",
+    "artifact:15006:fourPiece:4pc_vaporize_melt_bonus",
+    "artifact:15006:fourPiece:4pc_pyro_damage_bonus_stack_from_skill",
+    "artifact:15007:twoPiece:2pc_burst_damage_bonus",
+    "artifact:15007:fourPiece:4pc_team_atk_after_burst",
+    "artifact:15008:twoPiece:2pc_physical_damage_bonus",
+    "artifact:15008:fourPiece:4pc_charged_damage_bonus_after_kill",
+    "artifact:15014:twoPiece:2pc_geo_damage_bonus",
+    "artifact:15014:fourPiece:4pc_crystallize_element_damage_bonus",
+    "artifact:15015:fourPiece:4pc_normal_charged_damage_bonus_shielded",
+    "artifact:15016:twoPiece:2pc_hydro_damage_bonus",
+    "artifact:15016:fourPiece:4pc_normal_charged_damage_bonus_after_skill",
+    "artifact:15017:twoPiece:2pc_hp_percent",
+    "artifact:15017:fourPiece:4pc_team_atk_after_skill_hit",
+    "artifact:15018:twoPiece:2pc_physical_damage_bonus",
+    "artifact:15018:fourPiece:4pc_atk_stack_after_skill_hit",
+    "artifact:15018:fourPiece:4pc_physical_2pc_doubled_at_2_stacks",
+    "artifact:15019:twoPiece:2pc_atk_percent",
+    "artifact:15019:fourPiece:4pc_normal_charged_plunging_after_skill_energy_cost",
+    "artifact:15020:twoPiece:2pc_energy_recharge",
+    "artifact:15020:fourPiece:4pc_burst_damage_bonus_from_er",
+    "artifact:15021:twoPiece:2pc_def_percent",
+    "artifact:15021:fourPiece:4pc_def_stack",
+    "artifact:15021:fourPiece:4pc_geo_damage_stack",
+    "artifact:15022:twoPiece:2pc_outgoing_healing_bonus_indirect_damage_related",
+    "artifact:15022:fourPiece:4pc_sea_dyed_foam_damage",
+    "artifact:15023:twoPiece:2pc_atk_percent",
+    "artifact:15023:fourPiece:4pc_atk_after_burst",
+    "artifact:15023:fourPiece:4pc_atk_stack_after_hp_loss",
+    "artifact:15024:twoPiece:2pc_atk_percent",
+    "artifact:15024:fourPiece:4pc_normal_attack_atk_additive_damage",
+    "artifact:15025:twoPiece:2pc_dendro_damage_bonus",
+    "artifact:15025:fourPiece:4pc_dendro_resistance_debuff",
+    "artifact:15026:twoPiece:2pc_elemental_mastery",
+    "artifact:15026:fourPiece:4pc_atk_by_same_element_teammates",
+    "artifact:15026:fourPiece:4pc_em_by_different_element_teammates",
+    "artifact:15027:twoPiece:2pc_anemo_damage_bonus",
+    "artifact:15027:fourPiece:4pc_normal_charged_plunging_damage_bonus_after_charged_hit",
+    "artifact:15028:twoPiece:2pc_elemental_mastery",
+    "artifact:15028:fourPiece:4pc_bloom_hyperbloom_burgeon_bonus",
+    "artifact:15028:fourPiece:4pc_lunar_bloom_bonus",
+    "artifact:15028:fourPiece:4pc_bloom_reaction_bonus_stack_multiplier",
+    "artifact:15029:twoPiece:2pc_hydro_damage_bonus",
+    "artifact:15029:fourPiece:4pc_atk_stack_mirrored_nymph",
+    "artifact:15029:fourPiece:4pc_hydro_damage_stack_mirrored_nymph",
+    "artifact:15030:twoPiece:2pc_hp_percent",
+    "artifact:15030:fourPiece:4pc_skill_burst_damage_bonus",
+    "artifact:15030:fourPiece:4pc_skill_burst_damage_bonus_after_damage_stack",
+    "artifact:15031:twoPiece:2pc_normal_charged_damage_bonus",
+    "artifact:15031:fourPiece:4pc_crit_rate_hp_change_stack",
+    "artifact:15032:twoPiece:2pc_skill_damage_bonus",
+    "artifact:15032:fourPiece:4pc_skill_damage_bonus",
+    "artifact:15032:fourPiece:4pc_skill_damage_bonus_off_field",
+    "artifact:15033:twoPiece:2pc_outgoing_healing_bonus_indirect_damage_related",
+    "artifact:15033:fourPiece:4pc_recorded_healing_additive_damage",
+    "artifact:15034:twoPiece:2pc_atk_percent",
+    "artifact:15034:fourPiece:4pc_geo_damage_bonus_after_skill",
+    "artifact:15034:fourPiece:4pc_geo_damage_bonus_crystallize_shield_bonus",
+    "artifact:15035:twoPiece:2pc_atk_percent",
+    "artifact:15035:fourPiece:4pc_all_damage_bonus_bond_of_life_change",
+    "artifact:15036:twoPiece:2pc_atk_percent",
+    "artifact:15036:fourPiece:4pc_all_damage_bonus_burning_condition",
+    "artifact:15037:fourPiece:4pc_reaction_related_element_damage_bonus",
+    "artifact:15037:fourPiece:4pc_reaction_related_element_damage_bonus_nightsoul",
+    "artifact:15038:twoPiece:2pc_all_damage_bonus_nightsoul_onfield",
+    "artifact:15038:fourPiece:4pc_crit_rate_after_nightsoul_point_consumed",
+    "artifact:15039:twoPiece:2pc_plunging_damage_bonus",
+    "artifact:15039:fourPiece:4pc_plunging_damage_stack",
+    "artifact:15040:twoPiece:2pc_cryo_damage_bonus",
+    "artifact:15040:fourPiece:4pc_normal_damage_bonus_energy_zero",
+    "artifact:15040:fourPiece:4pc_burst_damage_bonus_energy_zero",
+    "artifact:15041:twoPiece:2pc_elemental_mastery",
+    "artifact:15041:fourPiece:4pc_crit_rate_moon_omen",
+    "artifact:15041:fourPiece:4pc_team_moon_reaction_damage_bonus_per_moonglow",
+    "artifact:15042:twoPiece:2pc_energy_recharge",
+    "artifact:15042:fourPiece:4pc_team_elemental_mastery_moon_omen",
+    "artifact:15042:fourPiece:4pc_team_moon_reaction_damage_bonus_per_moonglow",
+    "artifact:15043:twoPiece:2pc_elemental_mastery",
+    "artifact:15043:fourPiece:4pc_moon_reaction_damage_bonus_off_field",
+    "artifact:15043:fourPiece:4pc_moon_reaction_damage_bonus_ascendant_gleam",
+    "artifact:15044:twoPiece:2pc_atk_percent",
+    "artifact:15044:fourPiece:4pc_atk_after_hit",
+    "artifact:15044:fourPiece:4pc_crit_rate_witch_assignment_completed",
+    "artifact:15045:twoPiece:2pc_energy_recharge",
+    "artifact:15045:fourPiece:4pc_team_own_element_damage_bonus_after_skill",
+    "artifact:15045:fourPiece:4pc_team_own_and_active_element_damage_bonus_magical_secret_rite",
+    "artifact:15046:twoPiece:2pc_atk_percent",
+    "artifact:15046:fourPiece:4pc_superconduct_damage_bonus",
+    "artifact:15046:fourPiece:4pc_lunar_superconduct_damage_bonus",
+    "artifact:15046:fourPiece:4pc_crit_rate_vs_superconduct_affected_enemy",
+    "artifact:15047:twoPiece:2pc_atk_percent",
+    "artifact:15047:fourPiece:4pc_crit_rate_after_stellar_swirl",
+    "artifact:15047:fourPiece:4pc_stellar_swirl_damage_bonus_after_stellar_swirl",
+    "artifact:15048:twoPiece:2pc_atk_percent",
+    "artifact:15048:fourPiece:4pc_atk_after_stellar_glimmer",
+    "artifact:15048:fourPiece:4pc_team_stellar_glimmer_damage_bonus"
+  ],
+  "legacyModifierIds": [
+    {
+      "id": "2pc_atk_percent",
+      "setId": "10001",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10001:twoPiece:2pc_atk_percent"
+    },
+    {
+      "id": "4pc_charged_crit_rate",
+      "setId": "10001",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10001:fourPiece:4pc_charged_crit_rate"
+    },
+    {
+      "id": "2pc_atk_percent",
+      "setId": "10002",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10002:twoPiece:2pc_atk_percent"
+    },
+    {
+      "id": "4pc_damage_vs_enemy_hp_gt_50",
+      "setId": "10002",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10002:fourPiece:4pc_damage_vs_enemy_hp_gt_50"
+    },
+    {
+      "id": "2pc_def_percent",
+      "setId": "10003",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10003:twoPiece:2pc_def_percent"
+    },
+    {
+      "id": "2pc_crit_rate",
+      "setId": "10005",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10005:twoPiece:2pc_crit_rate"
+    },
+    {
+      "id": "4pc_crit_rate_low_hp",
+      "setId": "10005",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10005:fourPiece:4pc_crit_rate_low_hp"
+    },
+    {
+      "id": "2pc_normal_charged_damage_bonus",
+      "setId": "10006",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10006:twoPiece:2pc_normal_charged_damage_bonus"
+    },
+    {
+      "id": "4pc_normal_charged_damage_bonus_after_skill",
+      "setId": "10006",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10006:fourPiece:4pc_normal_charged_damage_bonus_after_skill"
+    },
+    {
+      "id": "2pc_elemental_mastery",
+      "setId": "10007",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10007:twoPiece:2pc_elemental_mastery"
+    },
+    {
+      "id": "4pc_team_elemental_mastery_after_reaction",
+      "setId": "10007",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10007:fourPiece:4pc_team_elemental_mastery_after_reaction"
+    },
+    {
+      "id": "2pc_skill_damage_bonus",
+      "setId": "10008",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10008:twoPiece:2pc_skill_damage_bonus"
+    },
+    {
+      "id": "2pc_energy_recharge",
+      "setId": "10009",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10009:twoPiece:2pc_energy_recharge"
+    },
+    {
+      "id": "2pc_hp_flat",
+      "setId": "10010",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10010:twoPiece:2pc_hp_flat"
+    },
+    {
+      "id": "2pc_def_flat",
+      "setId": "10011",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10011:twoPiece:2pc_def_flat"
+    },
+    {
+      "id": "2pc_energy_recharge",
+      "setId": "10012",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:10012:twoPiece:2pc_energy_recharge"
+    },
+    {
+      "id": "2pc_cryo_damage_bonus",
+      "setId": "14001",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:14001:twoPiece:2pc_cryo_damage_bonus"
+    },
+    {
+      "id": "4pc_crit_rate_vs_cryo",
+      "setId": "14001",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:14001:fourPiece:4pc_crit_rate_vs_cryo"
+    },
+    {
+      "id": "4pc_damage_vs_electro_affected_enemy",
+      "setId": "14002",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:14002:fourPiece:4pc_damage_vs_electro_affected_enemy"
+    },
+    {
+      "id": "4pc_damage_vs_pyro_affected_enemy",
+      "setId": "14003",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:14003:fourPiece:4pc_damage_vs_pyro_affected_enemy"
+    },
+    {
+      "id": "2pc_atk_percent",
+      "setId": "15001",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15001:twoPiece:2pc_atk_percent"
+    },
+    {
+      "id": "4pc_normal_damage_bonus_melee",
+      "setId": "15001",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15001:fourPiece:4pc_normal_damage_bonus_melee"
+    },
+    {
+      "id": "2pc_anemo_damage_bonus",
+      "setId": "15002",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15002:twoPiece:2pc_anemo_damage_bonus"
+    },
+    {
+      "id": "a_15002_4pc_1_v10",
+      "setId": "15002",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15002:fourPiece:a_15002_4pc_1_v10"
+    },
+    {
+      "id": "a_15002_4pc_2_v10",
+      "setId": "15002",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15002:fourPiece:a_15002_4pc_2_v10"
+    },
+    {
+      "id": "2pc_elemental_mastery",
+      "setId": "15003",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15003:twoPiece:2pc_elemental_mastery"
+    },
+    {
+      "id": "4pc_charged_damage_bonus_catalyst_bow",
+      "setId": "15003",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15003:fourPiece:4pc_charged_damage_bonus_catalyst_bow"
+    },
+    {
+      "id": "2pc_electro_damage_bonus",
+      "setId": "15005",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15005:twoPiece:2pc_electro_damage_bonus"
+    },
+    {
+      "id": "4pc_overloaded_electrocharged_superconduct_hyperbloom_bonus",
+      "setId": "15005",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15005:fourPiece:4pc_overloaded_electrocharged_superconduct_hyperbloom_bonus"
+    },
+    {
+      "id": "4pc_aggravate_bonus",
+      "setId": "15005",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15005:fourPiece:4pc_aggravate_bonus"
+    },
+    {
+      "id": "4pc_lunar_charged_and_superconduct_bonus",
+      "setId": "15005",
+      "slot": "fourPiece",
+      "modifierIndex": 2,
+      "candidateId": "artifact:15005:fourPiece:4pc_lunar_charged_and_superconduct_bonus"
+    },
+    {
+      "id": "2pc_pyro_damage_bonus",
+      "setId": "15006",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15006:twoPiece:2pc_pyro_damage_bonus"
+    },
+    {
+      "id": "4pc_overloaded_burning_burgeon_bonus",
+      "setId": "15006",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15006:fourPiece:4pc_overloaded_burning_burgeon_bonus"
+    },
+    {
+      "id": "4pc_vaporize_melt_bonus",
+      "setId": "15006",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15006:fourPiece:4pc_vaporize_melt_bonus"
+    },
+    {
+      "id": "4pc_pyro_damage_bonus_stack_from_skill",
+      "setId": "15006",
+      "slot": "fourPiece",
+      "modifierIndex": 2,
+      "candidateId": "artifact:15006:fourPiece:4pc_pyro_damage_bonus_stack_from_skill"
+    },
+    {
+      "id": "2pc_burst_damage_bonus",
+      "setId": "15007",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15007:twoPiece:2pc_burst_damage_bonus"
+    },
+    {
+      "id": "4pc_team_atk_after_burst",
+      "setId": "15007",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15007:fourPiece:4pc_team_atk_after_burst"
+    },
+    {
+      "id": "2pc_physical_damage_bonus",
+      "setId": "15008",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15008:twoPiece:2pc_physical_damage_bonus"
+    },
+    {
+      "id": "4pc_charged_damage_bonus_after_kill",
+      "setId": "15008",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15008:fourPiece:4pc_charged_damage_bonus_after_kill"
+    },
+    {
+      "id": "2pc_geo_damage_bonus",
+      "setId": "15014",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15014:twoPiece:2pc_geo_damage_bonus"
+    },
+    {
+      "id": "4pc_crystallize_element_damage_bonus",
+      "setId": "15014",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15014:fourPiece:4pc_crystallize_element_damage_bonus"
+    },
+    {
+      "id": "4pc_normal_charged_damage_bonus_shielded",
+      "setId": "15015",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15015:fourPiece:4pc_normal_charged_damage_bonus_shielded"
+    },
+    {
+      "id": "2pc_hydro_damage_bonus",
+      "setId": "15016",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15016:twoPiece:2pc_hydro_damage_bonus"
+    },
+    {
+      "id": "4pc_normal_charged_damage_bonus_after_skill",
+      "setId": "15016",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15016:fourPiece:4pc_normal_charged_damage_bonus_after_skill"
+    },
+    {
+      "id": "2pc_hp_percent",
+      "setId": "15017",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15017:twoPiece:2pc_hp_percent"
+    },
+    {
+      "id": "4pc_team_atk_after_skill_hit",
+      "setId": "15017",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15017:fourPiece:4pc_team_atk_after_skill_hit"
+    },
+    {
+      "id": "2pc_physical_damage_bonus",
+      "setId": "15018",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15018:twoPiece:2pc_physical_damage_bonus"
+    },
+    {
+      "id": "4pc_atk_stack_after_skill_hit",
+      "setId": "15018",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15018:fourPiece:4pc_atk_stack_after_skill_hit"
+    },
+    {
+      "id": "4pc_physical_2pc_doubled_at_2_stacks",
+      "setId": "15018",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15018:fourPiece:4pc_physical_2pc_doubled_at_2_stacks"
+    },
+    {
+      "id": "2pc_atk_percent",
+      "setId": "15019",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15019:twoPiece:2pc_atk_percent"
+    },
+    {
+      "id": "4pc_normal_charged_plunging_after_skill_energy_cost",
+      "setId": "15019",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15019:fourPiece:4pc_normal_charged_plunging_after_skill_energy_cost"
+    },
+    {
+      "id": "2pc_energy_recharge",
+      "setId": "15020",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15020:twoPiece:2pc_energy_recharge"
+    },
+    {
+      "id": "4pc_burst_damage_bonus_from_er",
+      "setId": "15020",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15020:fourPiece:4pc_burst_damage_bonus_from_er"
+    },
+    {
+      "id": "2pc_def_percent",
+      "setId": "15021",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15021:twoPiece:2pc_def_percent"
+    },
+    {
+      "id": "4pc_def_stack",
+      "setId": "15021",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15021:fourPiece:4pc_def_stack"
+    },
+    {
+      "id": "4pc_geo_damage_stack",
+      "setId": "15021",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15021:fourPiece:4pc_geo_damage_stack"
+    },
+    {
+      "id": "2pc_outgoing_healing_bonus_indirect_damage_related",
+      "setId": "15022",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15022:twoPiece:2pc_outgoing_healing_bonus_indirect_damage_related"
+    },
+    {
+      "id": "4pc_sea_dyed_foam_damage",
+      "setId": "15022",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15022:fourPiece:4pc_sea_dyed_foam_damage"
+    },
+    {
+      "id": "2pc_atk_percent",
+      "setId": "15023",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15023:twoPiece:2pc_atk_percent"
+    },
+    {
+      "id": "4pc_atk_after_burst",
+      "setId": "15023",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15023:fourPiece:4pc_atk_after_burst"
+    },
+    {
+      "id": "4pc_atk_stack_after_hp_loss",
+      "setId": "15023",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15023:fourPiece:4pc_atk_stack_after_hp_loss"
+    },
+    {
+      "id": "2pc_atk_percent",
+      "setId": "15024",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15024:twoPiece:2pc_atk_percent"
+    },
+    {
+      "id": "4pc_normal_attack_atk_additive_damage",
+      "setId": "15024",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15024:fourPiece:4pc_normal_attack_atk_additive_damage"
+    },
+    {
+      "id": "2pc_dendro_damage_bonus",
+      "setId": "15025",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15025:twoPiece:2pc_dendro_damage_bonus"
+    },
+    {
+      "id": "4pc_dendro_resistance_debuff",
+      "setId": "15025",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15025:fourPiece:4pc_dendro_resistance_debuff"
+    },
+    {
+      "id": "2pc_elemental_mastery",
+      "setId": "15026",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15026:twoPiece:2pc_elemental_mastery"
+    },
+    {
+      "id": "4pc_atk_by_same_element_teammates",
+      "setId": "15026",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15026:fourPiece:4pc_atk_by_same_element_teammates"
+    },
+    {
+      "id": "4pc_em_by_different_element_teammates",
+      "setId": "15026",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15026:fourPiece:4pc_em_by_different_element_teammates"
+    },
+    {
+      "id": "2pc_anemo_damage_bonus",
+      "setId": "15027",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15027:twoPiece:2pc_anemo_damage_bonus"
+    },
+    {
+      "id": "4pc_normal_charged_plunging_damage_bonus_after_charged_hit",
+      "setId": "15027",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15027:fourPiece:4pc_normal_charged_plunging_damage_bonus_after_charged_hit"
+    },
+    {
+      "id": "2pc_elemental_mastery",
+      "setId": "15028",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15028:twoPiece:2pc_elemental_mastery"
+    },
+    {
+      "id": "4pc_bloom_hyperbloom_burgeon_bonus",
+      "setId": "15028",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15028:fourPiece:4pc_bloom_hyperbloom_burgeon_bonus"
+    },
+    {
+      "id": "4pc_lunar_bloom_bonus",
+      "setId": "15028",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15028:fourPiece:4pc_lunar_bloom_bonus"
+    },
+    {
+      "id": "4pc_bloom_reaction_bonus_stack_multiplier",
+      "setId": "15028",
+      "slot": "fourPiece",
+      "modifierIndex": 2,
+      "candidateId": "artifact:15028:fourPiece:4pc_bloom_reaction_bonus_stack_multiplier"
+    },
+    {
+      "id": "2pc_hydro_damage_bonus",
+      "setId": "15029",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15029:twoPiece:2pc_hydro_damage_bonus"
+    },
+    {
+      "id": "4pc_atk_stack_mirrored_nymph",
+      "setId": "15029",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15029:fourPiece:4pc_atk_stack_mirrored_nymph"
+    },
+    {
+      "id": "4pc_hydro_damage_stack_mirrored_nymph",
+      "setId": "15029",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15029:fourPiece:4pc_hydro_damage_stack_mirrored_nymph"
+    },
+    {
+      "id": "2pc_hp_percent",
+      "setId": "15030",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15030:twoPiece:2pc_hp_percent"
+    },
+    {
+      "id": "4pc_skill_burst_damage_bonus",
+      "setId": "15030",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15030:fourPiece:4pc_skill_burst_damage_bonus"
+    },
+    {
+      "id": "4pc_skill_burst_damage_bonus_after_damage_stack",
+      "setId": "15030",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15030:fourPiece:4pc_skill_burst_damage_bonus_after_damage_stack"
+    },
+    {
+      "id": "2pc_normal_charged_damage_bonus",
+      "setId": "15031",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15031:twoPiece:2pc_normal_charged_damage_bonus"
+    },
+    {
+      "id": "4pc_crit_rate_hp_change_stack",
+      "setId": "15031",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15031:fourPiece:4pc_crit_rate_hp_change_stack"
+    },
+    {
+      "id": "2pc_skill_damage_bonus",
+      "setId": "15032",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15032:twoPiece:2pc_skill_damage_bonus"
+    },
+    {
+      "id": "4pc_skill_damage_bonus",
+      "setId": "15032",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15032:fourPiece:4pc_skill_damage_bonus"
+    },
+    {
+      "id": "4pc_skill_damage_bonus_off_field",
+      "setId": "15032",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15032:fourPiece:4pc_skill_damage_bonus_off_field"
+    },
+    {
+      "id": "2pc_outgoing_healing_bonus_indirect_damage_related",
+      "setId": "15033",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15033:twoPiece:2pc_outgoing_healing_bonus_indirect_damage_related"
+    },
+    {
+      "id": "4pc_recorded_healing_additive_damage",
+      "setId": "15033",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15033:fourPiece:4pc_recorded_healing_additive_damage"
+    },
+    {
+      "id": "2pc_atk_percent",
+      "setId": "15034",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15034:twoPiece:2pc_atk_percent"
+    },
+    {
+      "id": "4pc_geo_damage_bonus_after_skill",
+      "setId": "15034",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15034:fourPiece:4pc_geo_damage_bonus_after_skill"
+    },
+    {
+      "id": "4pc_geo_damage_bonus_crystallize_shield_bonus",
+      "setId": "15034",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15034:fourPiece:4pc_geo_damage_bonus_crystallize_shield_bonus"
+    },
+    {
+      "id": "2pc_atk_percent",
+      "setId": "15035",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15035:twoPiece:2pc_atk_percent"
+    },
+    {
+      "id": "4pc_all_damage_bonus_bond_of_life_change",
+      "setId": "15035",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15035:fourPiece:4pc_all_damage_bonus_bond_of_life_change"
+    },
+    {
+      "id": "2pc_atk_percent",
+      "setId": "15036",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15036:twoPiece:2pc_atk_percent"
+    },
+    {
+      "id": "4pc_all_damage_bonus_burning_condition",
+      "setId": "15036",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15036:fourPiece:4pc_all_damage_bonus_burning_condition"
+    },
+    {
+      "id": "4pc_reaction_related_element_damage_bonus",
+      "setId": "15037",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15037:fourPiece:4pc_reaction_related_element_damage_bonus"
+    },
+    {
+      "id": "4pc_reaction_related_element_damage_bonus_nightsoul",
+      "setId": "15037",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15037:fourPiece:4pc_reaction_related_element_damage_bonus_nightsoul"
+    },
+    {
+      "id": "2pc_all_damage_bonus_nightsoul_onfield",
+      "setId": "15038",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15038:twoPiece:2pc_all_damage_bonus_nightsoul_onfield"
+    },
+    {
+      "id": "4pc_crit_rate_after_nightsoul_point_consumed",
+      "setId": "15038",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15038:fourPiece:4pc_crit_rate_after_nightsoul_point_consumed"
+    },
+    {
+      "id": "2pc_plunging_damage_bonus",
+      "setId": "15039",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15039:twoPiece:2pc_plunging_damage_bonus"
+    },
+    {
+      "id": "4pc_plunging_damage_stack",
+      "setId": "15039",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15039:fourPiece:4pc_plunging_damage_stack"
+    },
+    {
+      "id": "2pc_cryo_damage_bonus",
+      "setId": "15040",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15040:twoPiece:2pc_cryo_damage_bonus"
+    },
+    {
+      "id": "4pc_normal_damage_bonus_energy_zero",
+      "setId": "15040",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15040:fourPiece:4pc_normal_damage_bonus_energy_zero"
+    },
+    {
+      "id": "4pc_burst_damage_bonus_energy_zero",
+      "setId": "15040",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15040:fourPiece:4pc_burst_damage_bonus_energy_zero"
+    },
+    {
+      "id": "2pc_elemental_mastery",
+      "setId": "15041",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15041:twoPiece:2pc_elemental_mastery"
+    },
+    {
+      "id": "4pc_crit_rate_moon_omen",
+      "setId": "15041",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15041:fourPiece:4pc_crit_rate_moon_omen"
+    },
+    {
+      "id": "4pc_team_moon_reaction_damage_bonus_per_moonglow",
+      "setId": "15041",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15041:fourPiece:4pc_team_moon_reaction_damage_bonus_per_moonglow"
+    },
+    {
+      "id": "2pc_energy_recharge",
+      "setId": "15042",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15042:twoPiece:2pc_energy_recharge"
+    },
+    {
+      "id": "4pc_team_elemental_mastery_moon_omen",
+      "setId": "15042",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15042:fourPiece:4pc_team_elemental_mastery_moon_omen"
+    },
+    {
+      "id": "4pc_team_moon_reaction_damage_bonus_per_moonglow",
+      "setId": "15042",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15042:fourPiece:4pc_team_moon_reaction_damage_bonus_per_moonglow"
+    },
+    {
+      "id": "2pc_elemental_mastery",
+      "setId": "15043",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15043:twoPiece:2pc_elemental_mastery"
+    },
+    {
+      "id": "4pc_moon_reaction_damage_bonus_off_field",
+      "setId": "15043",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15043:fourPiece:4pc_moon_reaction_damage_bonus_off_field"
+    },
+    {
+      "id": "4pc_moon_reaction_damage_bonus_ascendant_gleam",
+      "setId": "15043",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15043:fourPiece:4pc_moon_reaction_damage_bonus_ascendant_gleam"
+    },
+    {
+      "id": "2pc_atk_percent",
+      "setId": "15044",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15044:twoPiece:2pc_atk_percent"
+    },
+    {
+      "id": "4pc_atk_after_hit",
+      "setId": "15044",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15044:fourPiece:4pc_atk_after_hit"
+    },
+    {
+      "id": "4pc_crit_rate_witch_assignment_completed",
+      "setId": "15044",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15044:fourPiece:4pc_crit_rate_witch_assignment_completed"
+    },
+    {
+      "id": "2pc_energy_recharge",
+      "setId": "15045",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15045:twoPiece:2pc_energy_recharge"
+    },
+    {
+      "id": "4pc_team_own_element_damage_bonus_after_skill",
+      "setId": "15045",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15045:fourPiece:4pc_team_own_element_damage_bonus_after_skill"
+    },
+    {
+      "id": "4pc_team_own_and_active_element_damage_bonus_magical_secret_rite",
+      "setId": "15045",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15045:fourPiece:4pc_team_own_and_active_element_damage_bonus_magical_secret_rite"
+    },
+    {
+      "id": "2pc_atk_percent",
+      "setId": "15046",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15046:twoPiece:2pc_atk_percent"
+    },
+    {
+      "id": "4pc_superconduct_damage_bonus",
+      "setId": "15046",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15046:fourPiece:4pc_superconduct_damage_bonus"
+    },
+    {
+      "id": "4pc_lunar_superconduct_damage_bonus",
+      "setId": "15046",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15046:fourPiece:4pc_lunar_superconduct_damage_bonus"
+    },
+    {
+      "id": "4pc_crit_rate_vs_superconduct_affected_enemy",
+      "setId": "15046",
+      "slot": "fourPiece",
+      "modifierIndex": 2,
+      "candidateId": "artifact:15046:fourPiece:4pc_crit_rate_vs_superconduct_affected_enemy"
+    },
+    {
+      "id": "2pc_atk_percent",
+      "setId": "15047",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15047:twoPiece:2pc_atk_percent"
+    },
+    {
+      "id": "4pc_crit_rate_after_stellar_swirl",
+      "setId": "15047",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15047:fourPiece:4pc_crit_rate_after_stellar_swirl"
+    },
+    {
+      "id": "4pc_stellar_swirl_damage_bonus_after_stellar_swirl",
+      "setId": "15047",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15047:fourPiece:4pc_stellar_swirl_damage_bonus_after_stellar_swirl"
+    },
+    {
+      "id": "2pc_atk_percent",
+      "setId": "15048",
+      "slot": "twoPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15048:twoPiece:2pc_atk_percent"
+    },
+    {
+      "id": "4pc_atk_after_stellar_glimmer",
+      "setId": "15048",
+      "slot": "fourPiece",
+      "modifierIndex": 0,
+      "candidateId": "artifact:15048:fourPiece:4pc_atk_after_stellar_glimmer"
+    },
+    {
+      "id": "4pc_team_stellar_glimmer_damage_bonus",
+      "setId": "15048",
+      "slot": "fourPiece",
+      "modifierIndex": 1,
+      "candidateId": "artifact:15048:fourPiece:4pc_team_stellar_glimmer_damage_bonus"
+    }
+  ],
+  "paths": {
+    "sourceRecords": "source-records.json",
+    "specs": "spec-candidates.json",
+    "verification": "verification.json",
+    "gapReview": "gap-review.json",
+    "packages": "packages"
+  }
+}

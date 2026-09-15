@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "talent-gap-lane-audit.schema.json",
+  "title": "Genshin talent-gap semantic lane reconciliation audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "kind",
+    "status",
+    "generatedAt",
+    "scope",
+    "policy",
+    "generatedFrom",
+    "claim",
+    "summary",
+    "gate",
+    "errors",
+    "fieldDigestAlgorithm",
+    "fieldDigest"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinTalentGapLaneAudit" },
+    "status": { "enum": ["passed", "failed"] },
+    "generatedAt": { "const": "2026-08-27T00:00:00.000Z" },
+    "scope": { "$ref": "#/$defs/scope" },
+    "policy": { "$ref": "#/$defs/policy" },
+    "generatedFrom": { "$ref": "#/$defs/generatedFrom" },
+    "claim": { "$ref": "#/$defs/claim" },
+    "summary": { "$ref": "#/$defs/summary" },
+    "gate": { "$ref": "#/$defs/gate" },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["shardId", "clusterId", "dataset", "layer", "primaryBlockReason", "candidateCount", "entityCount", "expectedEntityIds"],
+      "properties": {
+        "shardId": { "const": "talentGap:talentGapEffectSpec:semanticDecisionRequired:standard:01" },
+        "clusterId": { "const": "source-unlock:talentGap:talentGapEffectSpec:semanticDecisionRequired:standard" },
+        "dataset": { "const": "talentGap" },
+        "layer": { "const": "talentGapEffectSpec" },
+        "primaryBlockReason": { "const": "semanticDecisionRequired" },
+        "candidateCount": { "const": 67 },
+        "entityCount": { "const": 23 },
+        "expectedEntityIds": { "type": "array", "minItems": 23, "maxItems": 23, "items": { "type": "string" } }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "valuesConditionsAndScope",
+        "semanticInference",
+        "canonicalPromotion",
+        "certificateAuthority",
+        "metadataBooleansNotEvidence",
+        "sourceAgreement",
+        "independentSourceProof",
+        "ordinalPassiveMapping",
+        "localizedFieldBridge",
+        "travelerVariants",
+        "queueMutation",
+        "queueInputProjection"
+      ],
+      "properties": {
+        "valuesConditionsAndScope": { "const": "observedOnlyNoInference" },
+        "semanticInference": { "const": "forbidden" },
+        "canonicalPromotion": { "const": "forbidden" },
+        "certificateAuthority": { "const": "strictCandidateClaimRegistryOnly" },
+        "metadataBooleansNotEvidence": { "const": true },
+        "sourceAgreement": { "const": "candidateClaimFieldLevelIndependentAgreementRequired" },
+        "independentSourceProof": { "const": "sourceOwnedLineageRawDigestAndStrictVersionBindingRequired" },
+        "ordinalPassiveMapping": { "const": "forbiddenWithoutSourceOwnedBridge" },
+        "localizedFieldBridge": { "const": "exactLocalizedNameToSameProviderEnglishKeyBothRevisions" },
+        "travelerVariants": { "const": "separateAndFailClosed" },
+        "queueMutation": { "const": "none" },
+        "queueInputProjection": { "const": "genshinTalentGapLaneAudit/queue-input-v1" }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exists", "bytes", "sha256"],
+      "properties": {
+        "exists": { "type": "boolean" },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "sha256": { "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] }
+      }
+    },
+    "fileReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "exists", "bytes", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "exists": { "type": "boolean" },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "sha256": { "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] }
+      }
+    },
+    "queueReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "projectionVersion", "projectionFields", "candidateCount", "taskCount", "projectionDigest"],
+      "properties": {
+        "path": { "const": "reports/genshin-evidence-task-queue.json" },
+        "projectionVersion": { "const": "genshinTalentGapLaneAudit/queue-input-v1" },
+        "projectionFields": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "candidateCount": { "const": 67 },
+        "taskCount": { "const": 67 },
+        "projectionDigest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "generatedFrom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["talentGapArtifact", "characters", "characterTalents", "consumerMapper", "authoritativeQueue", "localizedFieldCapture", "transitionSnapshots"],
+      "properties": {
+        "talentGapArtifact": { "$ref": "#/$defs/fileReference" },
+        "characters": { "$ref": "#/$defs/fileReference" },
+        "characterTalents": { "$ref": "#/$defs/fileReference" },
+        "consumerMapper": { "$ref": "#/$defs/fileReference" },
+        "authoritativeQueue": { "$ref": "#/$defs/queueReference" },
+        "localizedFieldCapture": { "$ref": "#/$defs/fileReference" },
+        "transitionSnapshots": { "type": "array", "items": { "$ref": "#/$defs/fileReference" } }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lane", "candidateIds", "candidateInventoryDigest", "entityIds", "entityInventoryDigest", "queueInputProjectionDigest", "queueTaskDigest", "sourceRefDigest", "candidates"],
+      "properties": {
+        "lane": { "type": "object" },
+        "candidateIds": { "type": "array", "minItems": 67, "maxItems": 67, "items": { "type": "string" } },
+        "candidateInventoryDigest": { "$ref": "#/$defs/sha256" },
+        "entityIds": { "type": "array", "minItems": 23, "maxItems": 23, "items": { "type": "string" } },
+        "entityInventoryDigest": { "$ref": "#/$defs/sha256" },
+        "queueInputProjectionDigest": { "$ref": "#/$defs/sha256" },
+        "queueTaskDigest": { "$ref": "#/$defs/sha256" },
+        "sourceRefDigest": { "$ref": "#/$defs/sha256" },
+        "candidates": { "type": "array", "minItems": 67, "maxItems": 67, "items": { "$ref": "#/$defs/candidate" } }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "entityId", "localEvidence", "transitionEvidence", "fieldMapping", "consumerMapping", "certificate", "attestation", "canonical", "workPacket", "classification"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "entityId": { "type": "string", "minLength": 1 },
+        "localEvidence": { "type": "object" },
+        "transitionEvidence": { "type": "object" },
+        "fieldMapping": { "type": "object" },
+        "consumerMapping": { "type": "object" },
+        "certificate": { "type": "object" },
+        "attestation": { "type": "object" },
+        "canonical": { "type": "object" },
+        "workPacket": { "type": "object" },
+        "classification": { "type": "object" }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["candidates", "entities", "certificateEligible", "canonicalPromotionEligible", "canonicalPromotion", "independentFieldAgreement"],
+      "properties": {
+        "candidates": { "const": 67 },
+        "entities": { "const": 23 },
+        "certificateEligible": { "const": 0 },
+        "canonicalPromotionEligible": { "const": 0 },
+        "canonicalPromotion": { "const": 0 },
+        "independentFieldAgreement": { "const": 0 }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["status", "canIssueEligibilityCertificate", "canPromoteCanonical", "certificateEligible", "canonicalPromotionEligible", "sourceAgreement"],
+      "properties": {
+        "status": { "const": "failClosed" },
+        "canIssueEligibilityCertificate": { "const": false },
+        "canPromoteCanonical": { "const": false },
+        "certificateEligible": { "const": 0 },
+        "canonicalPromotionEligible": { "const": 0 },
+        "sourceAgreement": { "type": "object" }
+      }
+    }
+  }
+}

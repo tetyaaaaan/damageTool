@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "artifactSet",
+    "id": "15002"
+  },
+  "sourceRefs": [
+    "artifact:15002:catalog",
+    "artifact:15002:effects"
+  ],
+  "pieceSlots": {
+    "onePiece": {
+      "pieceCount": 1,
+      "sourceRefs": [
+        "artifact:15002:effect:onePiece"
+      ],
+      "modifierIds": [],
+      "specIds": []
+    },
+    "twoPiece": {
+      "pieceCount": 2,
+      "sourceRefs": [
+        "artifact:15002:effect:twoPiece"
+      ],
+      "modifierIds": [
+        "artifact:15002:twoPiece:2pc_anemo_damage_bonus"
+      ],
+      "specIds": [
+        "artifact:15002:twoPiece:2pc_anemo_damage_bonus"
+      ]
+    },
+    "fourPiece": {
+      "pieceCount": 4,
+      "sourceRefs": [
+        "artifact:15002:effect:fourPiece"
+      ],
+      "modifierIds": [
+        "artifact:15002:fourPiece:a_15002_4pc_1_v10",
+        "artifact:15002:fourPiece:a_15002_4pc_2_v10"
+      ],
+      "specIds": [
+        "artifact:15002:fourPiece:a_15002_4pc_1_v10",
+        "artifact:15002:fourPiece:a_15002_4pc_2_v10"
+      ]
+    }
+  },
+  "modifierIds": [
+    "artifact:15002:twoPiece:2pc_anemo_damage_bonus",
+    "artifact:15002:fourPiece:a_15002_4pc_1_v10",
+    "artifact:15002:fourPiece:a_15002_4pc_2_v10"
+  ],
+  "specIds": [
+    "artifact:15002:twoPiece:2pc_anemo_damage_bonus",
+    "artifact:15002:fourPiece:a_15002_4pc_1_v10",
+    "artifact:15002:fourPiece:a_15002_4pc_2_v10"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Artifact package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "gapReview": null,
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:artifactSet:15002:twoPiece:2pc_anemo_damage_bonus",
+      "genshin:v2:artifactSet:15002:fourPiece:a_15002_4pc_1_v10",
+      "genshin:v2:artifactSet:15002:fourPiece:a_15002_4pc_2_v10"
+    ],
+    "generator": "genshinArtifactV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

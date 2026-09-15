@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionTransitionBehaviorShardCaptureCheckpoint",
+  "generatedAt": "2026-08-26T00:00:00.000Z",
+  "transitionId": "genshin:6.7->7.0",
+  "shardId": "behavior:behaviorSpec:semanticDecisionRequired:standard:14",
+  "status": "blockedByIdentityAmbiguity",
+  "authoritativeCandidateCount": 100,
+  "requestedEntityCount": 8,
+  "capturedEntityCount": 6,
+  "skippedOverlapEntityCount": 1,
+  "ambiguousEntityCount": 1,
+  "revisions": {
+    "before": {
+      "gameVersion": "6.7",
+      "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+      "status": "complete",
+      "completedEntityIds": [
+        "10000116",
+        "10000119",
+        "10000120",
+        "10000121",
+        "10000122",
+        "10000123"
+      ],
+      "completedArtifactCount": 12,
+      "ambiguousEntityIds": [
+        "10000124"
+      ]
+    },
+    "after": {
+      "gameVersion": "7.0",
+      "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+      "status": "complete",
+      "completedEntityIds": [
+        "10000116",
+        "10000119",
+        "10000120",
+        "10000121",
+        "10000122",
+        "10000123"
+      ],
+      "completedArtifactCount": 12,
+      "ambiguousEntityIds": [
+        "10000124"
+      ]
+    }
+  },
+  "materializedSnapshot": {
+    "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/behavior-shard-14-snapshot.json",
+    "fieldDigest": "acb931ab7555bdeb1b2ef0bf1512d026be7a67c29e98b909a0ff41cb58e2b357",
+    "entityCount": 6,
+    "recordCount": 12,
+    "changedRecordCount": 0,
+    "changedFieldCount": 0
+  },
+  "nextTask": "Resolve provider identity for local entity 10000124 (Yafoda) against a later or independently enumerated provider source; do not capture or promote it while unresolved.",
+  "gateEligibility": {
+    "status": "singleCorrelatedFamilyFailClosed",
+    "sourceFamilyCount": 1,
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false,
+    "reasons": [
+      "providerIndependenceInsufficient",
+      "behaviorSemanticsNotParsed",
+      "providerRecordMissing"
+    ]
+  },
+  "claim": {
+    "queueShardId": "behavior:behaviorSpec:semanticDecisionRequired:standard:14",
+    "queuePath": "reports/genshin-evidence-task-queue.json",
+    "authoritativeCandidateIdsDigest": "740163f2f9cbfa906811c01fee04e98346a78e28facb18401cf3a197dc5d085c",
+    "authoritativeEntityIdsDigest": "277d773787b9a5d9c7d982565fde0b2cbe57ea4cbadc123698da336c5ddf3f39",
+    "requestedEntityIds": [
+      "10000115",
+      "10000116",
+      "10000119",
+      "10000120",
+      "10000121",
+      "10000122",
+      "10000123",
+      "10000124"
+    ],
+    "capturedEntityIds": [
+      "10000116",
+      "10000119",
+      "10000120",
+      "10000121",
+      "10000122",
+      "10000123"
+    ],
+    "skippedOverlapEntityIds": [
+      "10000115"
+    ],
+    "ambiguousEntityIds": [
+      "10000124"
+    ],
+    "materializedSnapshotPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/behavior-shard-14-snapshot.json",
+    "materializedSnapshotFieldDigest": "acb931ab7555bdeb1b2ef0bf1512d026be7a67c29e98b909a0ff41cb58e2b357",
+    "sourceNamespace": "genshin-db-behavior-shard14",
+    "identityResolutionStatus": "localCatalogProviderIdentityResolved",
+    "sourceFamilyCount": 1,
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false
+  },
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "ccb160a2f91e77c76a5d4be4be188058920112029c470e2296cf307e1b33dfc1"
+}

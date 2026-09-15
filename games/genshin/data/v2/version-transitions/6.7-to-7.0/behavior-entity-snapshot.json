@@ -1,0 +1,1442 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionTransitionBehaviorEntitySnapshot",
+  "generatedAt": "2026-08-26T00:00:00.000Z",
+  "claim": {
+    "transitionId": "genshin:6.7->7.0",
+    "fromGameVersion": "6.7",
+    "toGameVersion": "7.0",
+    "provider": "genshin-db",
+    "sourceFamily": "GenshinData-derived",
+    "repository": "theBowja/genshin-db",
+    "treeResolution": {
+      "method": "nonRecursiveGitTreePath",
+      "note": "Each path is a concrete entry under src/data/English/{talents,constellations}; no recursive tree result or fuzzy name match is used."
+    },
+    "versionBindings": [
+      {
+        "gameVersion": "6.7",
+        "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+        "packageVersion": "5.2.12",
+        "status": "strictlyBound",
+        "package": {
+          "gameVersion": "6.7",
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "packageVersion": "5.2.12",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+          "gitBlob": "e78cc92e75db21ea15edadbeafdf9152896d934c",
+          "rawArtifactBytes": 1619,
+          "rawArtifactSha256": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+          "name": "genshin-db",
+          "description": "Genshin Impact v6.7 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo."
+        }
+      },
+      {
+        "gameVersion": "7.0",
+        "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+        "packageVersion": "5.2.13",
+        "status": "strictlyBound",
+        "package": {
+          "gameVersion": "7.0",
+          "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+          "packageVersion": "5.2.13",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+          "gitBlob": "cfccefd470f420159b1376440e1a0f86a247030d",
+          "rawArtifactBytes": 1619,
+          "rawArtifactSha256": "3faf0b2220539a07af9260f5dd83afd0e964aa42868c9b3b73c6cb14065085c6",
+          "name": "genshin-db",
+          "description": "Genshin Impact v7.0 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo."
+        }
+      }
+    ],
+    "resolvedEntities": [
+      {
+        "entityId": "10000002",
+        "name": "Ayaka",
+        "nameJa": "神里綾華",
+        "providerSlug": "kamisatoayaka",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/kamisatoayaka.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/kamisatoayaka.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/kamisatoayaka.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/kamisatoayaka.json",
+              "gitBlob": "dfbede78f4be9a37c3bc09ba69270ca52863bb83",
+              "rawArtifactBytes": 7797,
+              "rawArtifactSha256": "2ae2aa09ccdb42f5920e7c0ac6b10447dc03ed5ba6dbc5c6e1ca7b624f42c9df"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/kamisatoayaka.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/kamisatoayaka.json",
+              "gitBlob": "dfbede78f4be9a37c3bc09ba69270ca52863bb83",
+              "rawArtifactBytes": 7797,
+              "rawArtifactSha256": "2ae2aa09ccdb42f5920e7c0ac6b10447dc03ed5ba6dbc5c6e1ca7b624f42c9df"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/kamisatoayaka.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/kamisatoayaka.json",
+              "gitBlob": "43cb3a52eb574dd51aafce438d020b1ee836ca88",
+              "rawArtifactBytes": 2354,
+              "rawArtifactSha256": "5b8238e5e02888f4224d6c45df90c4500e92df044b71ac40a26b918d4c97de03"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/kamisatoayaka.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/kamisatoayaka.json",
+              "gitBlob": "43cb3a52eb574dd51aafce438d020b1ee836ca88",
+              "rawArtifactBytes": 2354,
+              "rawArtifactSha256": "5b8238e5e02888f4224d6c45df90c4500e92df044b71ac40a26b918d4c97de03"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000003",
+        "name": "Jean",
+        "nameJa": "ジン",
+        "providerSlug": "jean",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/jean.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/jean.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/jean.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/jean.json",
+              "gitBlob": "3fac60ed5280b72e07af454dec20e64e8b480d8a",
+              "rawArtifactBytes": 7643,
+              "rawArtifactSha256": "49d6ca27d5fc492819d5718f240bda1be966699b5c8b07f759b2fe3323ebdcf1"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/jean.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/jean.json",
+              "gitBlob": "3fac60ed5280b72e07af454dec20e64e8b480d8a",
+              "rawArtifactBytes": 7643,
+              "rawArtifactSha256": "49d6ca27d5fc492819d5718f240bda1be966699b5c8b07f759b2fe3323ebdcf1"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/jean.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/jean.json",
+              "gitBlob": "741b8ba8d6327ba44b93db7ae6a293b50c477d92",
+              "rawArtifactBytes": 1993,
+              "rawArtifactSha256": "e0fd14022147a74d102809a2b6654a23281d8f40c92ab85157d87999709f192a"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/jean.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/jean.json",
+              "gitBlob": "741b8ba8d6327ba44b93db7ae6a293b50c477d92",
+              "rawArtifactBytes": 1993,
+              "rawArtifactSha256": "e0fd14022147a74d102809a2b6654a23281d8f40c92ab85157d87999709f192a"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000006",
+        "name": "Lisa",
+        "nameJa": "リサ",
+        "providerSlug": "lisa",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/lisa.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/lisa.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/lisa.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/lisa.json",
+              "gitBlob": "f7732780c743598e6fe09913a18cd23cf4c7ad46",
+              "rawArtifactBytes": 7324,
+              "rawArtifactSha256": "dcbb4e1ea1d1ac97ab05f2ca30c2b116962f09a9f91abdd20e9ceab3e01d0f63"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/lisa.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/lisa.json",
+              "gitBlob": "f7732780c743598e6fe09913a18cd23cf4c7ad46",
+              "rawArtifactBytes": 7324,
+              "rawArtifactSha256": "dcbb4e1ea1d1ac97ab05f2ca30c2b116962f09a9f91abdd20e9ceab3e01d0f63"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/lisa.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/lisa.json",
+              "gitBlob": "b0d5035b68fc0c88d348eaa894d815a009c52732",
+              "rawArtifactBytes": 1943,
+              "rawArtifactSha256": "5bfef9d135cf9b2fd0722345394d50d4b9b1f0a7f8c971e37eee97a8e661e0d2"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/lisa.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/lisa.json",
+              "gitBlob": "b0d5035b68fc0c88d348eaa894d815a009c52732",
+              "rawArtifactBytes": 1943,
+              "rawArtifactSha256": "5bfef9d135cf9b2fd0722345394d50d4b9b1f0a7f8c971e37eee97a8e661e0d2"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000014",
+        "name": "Barbara",
+        "nameJa": "バーバラ",
+        "providerSlug": "barbara",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/barbara.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/barbara.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/barbara.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/barbara.json",
+              "gitBlob": "56b7836780ea1c97fe614db4b0107f57089c38c6",
+              "rawArtifactBytes": 7253,
+              "rawArtifactSha256": "b62faabeab1b4c96cc2329f2a6417be93c0b7418219f281a403be35a7108236e"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/barbara.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/barbara.json",
+              "gitBlob": "56b7836780ea1c97fe614db4b0107f57089c38c6",
+              "rawArtifactBytes": 7253,
+              "rawArtifactSha256": "b62faabeab1b4c96cc2329f2a6417be93c0b7418219f281a403be35a7108236e"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/barbara.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/barbara.json",
+              "gitBlob": "69f634ab42ec99b46433096a4dc6b7517acf4f5f",
+              "rawArtifactBytes": 2151,
+              "rawArtifactSha256": "390ace3059dcfe242c8dfafdd5aae6123ceeae57cee065b40d8b8285c7e294a6"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/barbara.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/barbara.json",
+              "gitBlob": "69f634ab42ec99b46433096a4dc6b7517acf4f5f",
+              "rawArtifactBytes": 2151,
+              "rawArtifactSha256": "390ace3059dcfe242c8dfafdd5aae6123ceeae57cee065b40d8b8285c7e294a6"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000015",
+        "name": "Kaeya",
+        "nameJa": "ガイア",
+        "providerSlug": "kaeya",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/kaeya.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/kaeya.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/kaeya.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/kaeya.json",
+              "gitBlob": "ed161fe46ef15ba62a1bdf0d000e4177483697e8",
+              "rawArtifactBytes": 6253,
+              "rawArtifactSha256": "c8d3314a8a8cc89d2048ba32524cf75df1cc02e643c5be7895dc211f157355da"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/kaeya.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/kaeya.json",
+              "gitBlob": "ed161fe46ef15ba62a1bdf0d000e4177483697e8",
+              "rawArtifactBytes": 6253,
+              "rawArtifactSha256": "c8d3314a8a8cc89d2048ba32524cf75df1cc02e643c5be7895dc211f157355da"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/kaeya.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/kaeya.json",
+              "gitBlob": "2344808d4516afb47f01b99a18ed32a305d5f516",
+              "rawArtifactBytes": 2067,
+              "rawArtifactSha256": "952787fb1b6a0315954ae404f0877e451be05376bcf6adf31b5c6533935e03c3"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/kaeya.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/kaeya.json",
+              "gitBlob": "2344808d4516afb47f01b99a18ed32a305d5f516",
+              "rawArtifactBytes": 2067,
+              "rawArtifactSha256": "952787fb1b6a0315954ae404f0877e451be05376bcf6adf31b5c6533935e03c3"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000016",
+        "name": "Diluc",
+        "nameJa": "ディルック",
+        "providerSlug": "diluc",
+        "resolutionStatus": "resolvedUnambiguous",
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/diluc.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/diluc.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/diluc.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/diluc.json",
+              "gitBlob": "7cad6cef22627f8906ce72adc7fce27351f7a0bb",
+              "rawArtifactBytes": 7062,
+              "rawArtifactSha256": "b3ffce9be2d2c16e334ac391760b0e88d778bb5321ac5abe1d25067d7184d7be"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/diluc.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/diluc.json",
+              "gitBlob": "7cad6cef22627f8906ce72adc7fce27351f7a0bb",
+              "rawArtifactBytes": 7062,
+              "rawArtifactSha256": "b3ffce9be2d2c16e334ac391760b0e88d778bb5321ac5abe1d25067d7184d7be"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/diluc.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/diluc.json",
+              "gitBlob": "352298613807dae7e883aea878ff4b3b265599eb",
+              "rawArtifactBytes": 2242,
+              "rawArtifactSha256": "39634899259b336c06d251c739b0d446bf572d8c426235688748ff7446a6c7b7"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/diluc.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/diluc.json",
+              "gitBlob": "352298613807dae7e883aea878ff4b3b265599eb",
+              "rawArtifactBytes": 2242,
+              "rawArtifactSha256": "39634899259b336c06d251c739b0d446bf572d8c426235688748ff7446a6c7b7"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ]
+      }
+    ],
+    "travelerVariantEvidence": [
+      {
+        "variant": "anemo",
+        "providerSlug": "traveleranemo",
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/traveleranemo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/traveleranemo.json",
+              "gitBlob": "5872e394139a5e988500cad23d60e50abe9b3c02",
+              "rawArtifactBytes": 7209,
+              "rawArtifactSha256": "a32f3eb5f056a69ca42e8775a02f2afcee1c58116f61f95d7e7b436141b77b76"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/traveleranemo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/traveleranemo.json",
+              "gitBlob": "5872e394139a5e988500cad23d60e50abe9b3c02",
+              "rawArtifactBytes": 7209,
+              "rawArtifactSha256": "a32f3eb5f056a69ca42e8775a02f2afcee1c58116f61f95d7e7b436141b77b76"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/traveleranemo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/traveleranemo.json",
+              "gitBlob": "5cdf8d69e4ce2e551c917505c67f8dadb4d851a5",
+              "rawArtifactBytes": 1660,
+              "rawArtifactSha256": "b52544f8c35a8d394bdf98b3d097d0709a77eba931f3875aee5ba56494cccbd7"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/traveleranemo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/traveleranemo.json",
+              "gitBlob": "5cdf8d69e4ce2e551c917505c67f8dadb4d851a5",
+              "rawArtifactBytes": 1660,
+              "rawArtifactSha256": "b52544f8c35a8d394bdf98b3d097d0709a77eba931f3875aee5ba56494cccbd7"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ],
+        "comparisonPolicy": "sameVariantPathOnly",
+        "crossVariantComparison": "forbidden"
+      },
+      {
+        "variant": "geo",
+        "providerSlug": "travelergeo",
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/travelergeo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/travelergeo.json",
+              "gitBlob": "9311dddec99ad4427446887277700bbffc6d6d1b",
+              "rawArtifactBytes": 6028,
+              "rawArtifactSha256": "878d1c2a811f01cb995369b4fbdae0cc935c7aa126641baaab1aca034da8ae83"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/travelergeo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/travelergeo.json",
+              "gitBlob": "9311dddec99ad4427446887277700bbffc6d6d1b",
+              "rawArtifactBytes": 6028,
+              "rawArtifactSha256": "878d1c2a811f01cb995369b4fbdae0cc935c7aa126641baaab1aca034da8ae83"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/travelergeo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/travelergeo.json",
+              "gitBlob": "1515b4ac636642d0b2c26003d9581bc5823a6524",
+              "rawArtifactBytes": 2211,
+              "rawArtifactSha256": "c41fcf9302b13a13755c8f683bd7ce17df2ca7422acf8c65550123fef6490ade"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/travelergeo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/travelergeo.json",
+              "gitBlob": "1515b4ac636642d0b2c26003d9581bc5823a6524",
+              "rawArtifactBytes": 2211,
+              "rawArtifactSha256": "c41fcf9302b13a13755c8f683bd7ce17df2ca7422acf8c65550123fef6490ade"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ],
+        "comparisonPolicy": "sameVariantPathOnly",
+        "crossVariantComparison": "forbidden"
+      },
+      {
+        "variant": "electro",
+        "providerSlug": "travelerelectro",
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/travelerelectro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/travelerelectro.json",
+              "gitBlob": "92944caddeb91c6f8ab60c4ac2bf8572bf007c41",
+              "rawArtifactBytes": 7347,
+              "rawArtifactSha256": "090e0eca3464a95a1b62acecc49d87d27fceac0e95ec8155ff10e5f2471cd81f"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/travelerelectro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/travelerelectro.json",
+              "gitBlob": "92944caddeb91c6f8ab60c4ac2bf8572bf007c41",
+              "rawArtifactBytes": 7347,
+              "rawArtifactSha256": "090e0eca3464a95a1b62acecc49d87d27fceac0e95ec8155ff10e5f2471cd81f"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/travelerelectro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/travelerelectro.json",
+              "gitBlob": "1fc67aaa298149056c9678ed3118fe20c04b28c0",
+              "rawArtifactBytes": 2313,
+              "rawArtifactSha256": "6316fc7cfb91884d5070955e698aaf86a8b4e2b4312659da5a8095684c3a3243"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/travelerelectro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/travelerelectro.json",
+              "gitBlob": "1fc67aaa298149056c9678ed3118fe20c04b28c0",
+              "rawArtifactBytes": 2313,
+              "rawArtifactSha256": "6316fc7cfb91884d5070955e698aaf86a8b4e2b4312659da5a8095684c3a3243"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ],
+        "comparisonPolicy": "sameVariantPathOnly",
+        "crossVariantComparison": "forbidden"
+      },
+      {
+        "variant": "dendro",
+        "providerSlug": "travelerdendro",
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/travelerdendro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/travelerdendro.json",
+              "gitBlob": "cb5b5bf7f80e59e8289a9a93d4ce404191a30c04",
+              "rawArtifactBytes": 7375,
+              "rawArtifactSha256": "20237d2c82883d7a8cc074065ddac646ce1e0455e9b0498543e41d9677ed1792"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/travelerdendro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/travelerdendro.json",
+              "gitBlob": "cb5b5bf7f80e59e8289a9a93d4ce404191a30c04",
+              "rawArtifactBytes": 7375,
+              "rawArtifactSha256": "20237d2c82883d7a8cc074065ddac646ce1e0455e9b0498543e41d9677ed1792"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/travelerdendro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/travelerdendro.json",
+              "gitBlob": "5f0486efc4ee9c627386202e11e2829e33ce6682",
+              "rawArtifactBytes": 2359,
+              "rawArtifactSha256": "188003e4a5dc1c37cd2c1f3a945a3ee91b87460896b1369a772f43ac626a5d59"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/travelerdendro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/travelerdendro.json",
+              "gitBlob": "5f0486efc4ee9c627386202e11e2829e33ce6682",
+              "rawArtifactBytes": 2359,
+              "rawArtifactSha256": "188003e4a5dc1c37cd2c1f3a945a3ee91b87460896b1369a772f43ac626a5d59"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ],
+        "comparisonPolicy": "sameVariantPathOnly",
+        "crossVariantComparison": "forbidden"
+      },
+      {
+        "variant": "hydro",
+        "providerSlug": "travelerhydro",
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/travelerhydro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/travelerhydro.json",
+              "gitBlob": "eff333f22ff63fcebef4125559c5e9a864e34bb1",
+              "rawArtifactBytes": 8087,
+              "rawArtifactSha256": "aba68fb0aac19b996e292ff276eb1e48f375595edfda57ef01a3fd5adb87e43d"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/travelerhydro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/travelerhydro.json",
+              "gitBlob": "eff333f22ff63fcebef4125559c5e9a864e34bb1",
+              "rawArtifactBytes": 8087,
+              "rawArtifactSha256": "aba68fb0aac19b996e292ff276eb1e48f375595edfda57ef01a3fd5adb87e43d"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/travelerhydro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/travelerhydro.json",
+              "gitBlob": "d569928d213d82429b40001728c9d09a611697d9",
+              "rawArtifactBytes": 2797,
+              "rawArtifactSha256": "8a3f571682932c4de639c4693b490bea9d0a3f9b63310ef59b8bd04623f7747b"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/travelerhydro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/travelerhydro.json",
+              "gitBlob": "d569928d213d82429b40001728c9d09a611697d9",
+              "rawArtifactBytes": 2797,
+              "rawArtifactSha256": "8a3f571682932c4de639c4693b490bea9d0a3f9b63310ef59b8bd04623f7747b"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ],
+        "comparisonPolicy": "sameVariantPathOnly",
+        "crossVariantComparison": "forbidden"
+      },
+      {
+        "variant": "pyro",
+        "providerSlug": "travelerpyro",
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/travelerpyro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/travelerpyro.json",
+              "gitBlob": "96ae7e9ff37f81bb0a0b9be4dfbea1cd448a48bf",
+              "rawArtifactBytes": 9437,
+              "rawArtifactSha256": "d7cce9b1358d919dad1b8a5b6e29389507e3fb0102ec11c6608da5c8a30ec58f"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/travelerpyro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/travelerpyro.json",
+              "gitBlob": "96ae7e9ff37f81bb0a0b9be4dfbea1cd448a48bf",
+              "rawArtifactBytes": 9437,
+              "rawArtifactSha256": "d7cce9b1358d919dad1b8a5b6e29389507e3fb0102ec11c6608da5c8a30ec58f"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/travelerpyro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/travelerpyro.json",
+              "gitBlob": "33a3c3d93757f23badbba5459a62845d7326805c",
+              "rawArtifactBytes": 2689,
+              "rawArtifactSha256": "5b1bd69a10782c490139680489b907493a6890fdd45672c7aebdb03fe464791d"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/travelerpyro.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/travelerpyro.json",
+              "gitBlob": "33a3c3d93757f23badbba5459a62845d7326805c",
+              "rawArtifactBytes": 2689,
+              "rawArtifactSha256": "5b1bd69a10782c490139680489b907493a6890fdd45672c7aebdb03fe464791d"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": []
+            }
+          }
+        ],
+        "comparisonPolicy": "sameVariantPathOnly",
+        "crossVariantComparison": "forbidden"
+      },
+      {
+        "variant": "cryo",
+        "providerSlug": "travelercryo",
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/travelercryo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/travelercryo.json",
+              "gitBlob": "471077a78c2d9bb527cd85725ddb2c494bc4cd4d",
+              "rawArtifactBytes": 72,
+              "rawArtifactSha256": "471aa1f3abfa0bf9c03bf26d535c56ce77bce80f218d259c8919c5d279ab4d97"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/travelercryo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/travelercryo.json",
+              "gitBlob": "780f1730f86373b2944db6101a4c04267dcce333",
+              "rawArtifactBytes": 10119,
+              "rawArtifactSha256": "45698ae1cebc94fe4e7b1c4a3919e0e43532acfe2809e40874f4a36f9a89bb42"
+            },
+            "comparison": {
+              "status": "rawRecordChanged",
+              "changedFieldCount": 18,
+              "fieldDiffs": [
+                {
+                  "jsonPointer": "/combat1/attributes",
+                  "beforeValue": null,
+                  "afterValue": {
+                    "labels": [
+                      "1-Hit DMG|{param1:F1P}",
+                      "2-Hit DMG|{param2:F1P}",
+                      "3-Hit DMG|{param3:F1P}",
+                      "4-Hit DMG|{param4:F1P}",
+                      "5-Hit DMG|{param5:F1P}",
+                      "Charged Attack DMG|{param6:F1P}+{param7:F1P}",
+                      "Charged Attack Stamina Cost|{param8:F1}",
+                      "Plunge DMG|{param9:F1P}",
+                      "Low/High Plunge DMG|{param10:P}/{param11:P}"
+                    ]
+                  },
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "659d5d696c25deec25f7a877c442be7c147159253f0736132414698fdec85a39"
+                },
+                {
+                  "jsonPointer": "/combat1/description",
+                  "beforeValue": null,
+                  "afterValue": "Normal Attack\nPerforms up to 5 rapid strikes.\n\nCharged Attack\nConsumes a certain amount of Stamina to unleash 2 rapid sword strikes.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "d3b016336e76ff74f8ab58c70d0d6fc8d08838826963d297d829d4e62d084e62"
+                },
+                {
+                  "jsonPointer": "/combat1/descriptionRaw",
+                  "beforeValue": null,
+                  "afterValue": "<color=#FFD780FF>Normal Attack</color>\nPerforms up to 5 rapid strikes.\n\n<color=#FFD780FF>Charged Attack</color>\nConsumes a certain amount of Stamina to unleash 2 rapid sword strikes.\n\n<color=#FFD780FF>Plunging Attack</color>\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "5af760f09ea20a80a26ad5dfd985d1bd14c31f25b551551e2408db5ba809e059"
+                },
+                {
+                  "jsonPointer": "/combat1/name",
+                  "beforeValue": null,
+                  "afterValue": "Foreign Frostglint",
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "d8c41df93ddcd45d19a9674d67143cb068501624a1ba904fd259f994efa05b4a"
+                },
+                {
+                  "jsonPointer": "/combat2",
+                  "beforeValue": null,
+                  "afterValue": {
+                    "name": "Ice Fog Piercer",
+                    "descriptionRaw": "Stabs at the opponent with the Traveler's weapon, which releases an ice-cold fog. This deals <color=#99FFFFFF>Cryo DMG</color> to opponents up ahead and forms a Frostpierce Star next to the Traveler.\n\n<color=#FFD780FF>Frostpierce Star</color>\n· Follows your own party members around the field and periodically fires ice crystals at nearby opponents, dealing <color=#99FFFFFF>Cryo DMG</color>.\n<color=#FFD780FF>Radiance: Stellar-Conduct</color>: The Frostpierce Star will no longer fire ice crystals at opponents at intervals but will instead fire an ice crystal at opponents in a coordinated attack when the Traveler hits an opponent with a Normal Attack, Charged Attack, or Plunging Attack. This effect can trigger once every 0.2s.\n· When an opponent is hit with an ice crystal, the Traveler gains 1 stack of {LINK#N10050002}<color=#FFD780FF>Frostglow</color>{/LINK} (max 8 stacks).\n· When not in combat, <color=#FFD780FF>Frostglow</color> expires after 30s.\n\n<i>You observed the formation of frost together with Paimon.</i>",
+                    "description": "Stabs at the opponent with the Traveler's weapon, which releases an ice-cold fog. This deals Cryo DMG to opponents up ahead and forms a Frostpierce Star next to the Traveler.\n\nFrostpierce Star\n· Follows your own party members around the field and periodically fires ice crystals at nearby opponents, dealing Cryo DMG.\nRadiance: Stellar-Conduct: The Frostpierce Star will no longer fire ice crystals at opponents at intervals but will instead fire an ice crystal at opponents in a coordinated attack when the Traveler hits an opponent with a Normal Attack, Charged Attack, or Plunging Attack. This effect can trigger once every 0.2s.\n· When an opponent is hit with an ice crystal, the Traveler gains 1 stack of **Frostglow** (max 8 stacks).\n· When not in combat, Frostglow expires after 30s.",
+                    "flavorText": "You observed the formation of frost together with Paimon.",
+                    "attributes": {
+                      "labels": [
+                        "Skill DMG|{param1:F1P}",
+                        "Ice Crystal DMG|{param2:F1P}",
+                        "Frostpierce Star Duration|{param4:F1}s",
+                        "CD|{param3:F1}s"
+                      ]
+                    }
+                  },
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "7290c3db45f729c5765a572f4d803b0f9ece4e87cd31eb466354af022cfee14d"
+                },
+                {
+                  "jsonPointer": "/combat3",
+                  "beforeValue": null,
+                  "afterValue": {
+                    "name": "Frostbound Javelin",
+                    "descriptionRaw": "Generates an ice javelin with the power of Cryo, then directs it at enemies to deal multiple instances of <color=#99FFFFFF>Cryo DMG</color>.\nWhen cast, the Traveler consumes all existing stacks of <color=#FFD780FF>Frostglow</color>, which in turn increases the DMG dealt by this Elemental Burst. When 8 stacks of {LINK#N10050002}<color=#FFD780FF>Frostglow</color>{/LINK} are consumed, the number of DMG instances caused by the javelins is also increased.\n\n{LINK#N11500004}<color=#FFD780FF>Radiance: Stellar Glimmer</color>{/LINK}: DMG from the current Elemental Burst is changed to <color=#99FFFFFF>Cryo DMG</color> of the corresponding Stellar Glimmer reaction type.\n\n<i>You felt the keen edge of the icicles alongside Paimon.</i>",
+                    "description": "Generates an ice javelin with the power of Cryo, then directs it at enemies to deal multiple instances of Cryo DMG.\nWhen cast, the Traveler consumes all existing stacks of Frostglow, which in turn increases the DMG dealt by this Elemental Burst. When 8 stacks of **Frostglow** are consumed, the number of DMG instances caused by the javelins is also increased.\n\n**Radiance: Stellar Glimmer**: DMG from the current Elemental Burst is changed to Cryo DMG of the corresponding Stellar Glimmer reaction type.",
+                    "flavorText": "You felt the keen edge of the icicles alongside Paimon.",
+                    "attributes": {
+                      "labels": [
+                        "Ice Javelin DMG|{param1:F1P}/Strike",
+                        "Frostglow DMG Bonus|{param2:F1P}",
+                        "Stellar-Conduct Ice Javelin Single Strike DMG|{param8:F1P}",
+                        "Stellar-Conduct Frostglow DMG Bonus|{param9:F1P}",
+                        "Stellar Swirl Ice Javelin Single Strike DMG|{param10:F1P}",
+                        "Stellar Swirl Frostglow DMG Bonus|{param11:F1P}",
+                        "No. of Strikes in Attack|{param3:I}",
+                        "Additional Frostglow Attack Strikes at Stack Max|{param4:I}",
+                        "CD|{param6:F1}s",
+                        "Energy Cost|{param7:I}"
+                      ]
+                    }
+                  },
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "0086e9c485d5bb57ced5a8fea16e468ec2a05e728046f16c0903eba5f1903cf1"
+                },
+                {
+                  "jsonPointer": "/costs/lvl10",
+                  "beforeValue": null,
+                  "afterValue": [
+                    {
+                      "id": 202,
+                      "name": "Mora",
+                      "count": 700000
+                    },
+                    {
+                      "id": 104373,
+                      "name": "Philosophies of Glory",
+                      "count": 16
+                    },
+                    {
+                      "id": 112151,
+                      "name": "Prime Chimeric Nexus",
+                      "count": 12
+                    },
+                    {
+                      "id": 113075,
+                      "name": "Ascended Sample: Queen",
+                      "count": 2
+                    },
+                    {
+                      "id": 104319,
+                      "name": "Crown of Insight",
+                      "count": 1
+                    }
+                  ],
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "bdba074e3207432948e738a1c51b98e370b80f11406d698d97ef4e5323539817"
+                },
+                {
+                  "jsonPointer": "/costs/lvl2",
+                  "beforeValue": null,
+                  "afterValue": [
+                    {
+                      "id": 202,
+                      "name": "Mora",
+                      "count": 12500
+                    },
+                    {
+                      "id": 104365,
+                      "name": "Teachings of Charity",
+                      "count": 3
+                    },
+                    {
+                      "id": 112149,
+                      "name": "Chimeric Core",
+                      "count": 6
+                    }
+                  ],
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "79340c4a151127ddf225b34830ff073430cbd2ca876f8a269de08276aff1365f"
+                },
+                {
+                  "jsonPointer": "/costs/lvl3",
+                  "beforeValue": null,
+                  "afterValue": [
+                    {
+                      "id": 202,
+                      "name": "Mora",
+                      "count": 17500
+                    },
+                    {
+                      "id": 104369,
+                      "name": "Guide to Fortitude",
+                      "count": 2
+                    },
+                    {
+                      "id": 112150,
+                      "name": "Symbiotic Chimeric Nucleus",
+                      "count": 3
+                    }
+                  ],
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "31d53a97544ccc054e8a93bc840c1349f974896b8517429d9e6b2336860985f8"
+                },
+                {
+                  "jsonPointer": "/costs/lvl4",
+                  "beforeValue": null,
+                  "afterValue": [
+                    {
+                      "id": 202,
+                      "name": "Mora",
+                      "count": 25000
+                    },
+                    {
+                      "id": 104372,
+                      "name": "Guide to Glory",
+                      "count": 4
+                    },
+                    {
+                      "id": 112150,
+                      "name": "Symbiotic Chimeric Nucleus",
+                      "count": 4
+                    }
+                  ],
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "b4d7a7e77702686b6b8768bcf8d007260db6da6e7dc1a6194cbfc34dbde14ee7"
+                },
+                {
+                  "jsonPointer": "/costs/lvl5",
+                  "beforeValue": null,
+                  "afterValue": [
+                    {
+                      "id": 202,
+                      "name": "Mora",
+                      "count": 30000
+                    },
+                    {
+                      "id": 104366,
+                      "name": "Guide to Charity",
+                      "count": 6
+                    },
+                    {
+                      "id": 112150,
+                      "name": "Symbiotic Chimeric Nucleus",
+                      "count": 6
+                    }
+                  ],
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "c9b521be6f5e01f84434f5af169d5e1696f6f5c31b15d4b92756ac6bc9f995b8"
+                },
+                {
+                  "jsonPointer": "/costs/lvl6",
+                  "beforeValue": null,
+                  "afterValue": [
+                    {
+                      "id": 202,
+                      "name": "Mora",
+                      "count": 37500
+                    },
+                    {
+                      "id": 104369,
+                      "name": "Guide to Fortitude",
+                      "count": 9
+                    },
+                    {
+                      "id": 112150,
+                      "name": "Symbiotic Chimeric Nucleus",
+                      "count": 9
+                    }
+                  ],
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "893b667e5b651a9ebe0091031fa9adac60010ea434541039e63b91fe48607513"
+                },
+                {
+                  "jsonPointer": "/costs/lvl7",
+                  "beforeValue": null,
+                  "afterValue": [
+                    {
+                      "id": 202,
+                      "name": "Mora",
+                      "count": 120000
+                    },
+                    {
+                      "id": 104373,
+                      "name": "Philosophies of Glory",
+                      "count": 4
+                    },
+                    {
+                      "id": 112151,
+                      "name": "Prime Chimeric Nexus",
+                      "count": 4
+                    },
+                    {
+                      "id": 113075,
+                      "name": "Ascended Sample: Queen",
+                      "count": 1
+                    }
+                  ],
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "70566d6aa321af76d002a3947f02349dd4936a53588d97c4d3497819c847e45f"
+                },
+                {
+                  "jsonPointer": "/costs/lvl8",
+                  "beforeValue": null,
+                  "afterValue": [
+                    {
+                      "id": 202,
+                      "name": "Mora",
+                      "count": 260000
+                    },
+                    {
+                      "id": 104367,
+                      "name": "Philosophies of Charity",
+                      "count": 6
+                    },
+                    {
+                      "id": 112151,
+                      "name": "Prime Chimeric Nexus",
+                      "count": 6
+                    },
+                    {
+                      "id": 113075,
+                      "name": "Ascended Sample: Queen",
+                      "count": 1
+                    }
+                  ],
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "b97ef4dfc1c2ba7ca0ff1698ed49e8355029b396fa9ba1b0e84566e2c6d9be9a"
+                },
+                {
+                  "jsonPointer": "/costs/lvl9",
+                  "beforeValue": null,
+                  "afterValue": [
+                    {
+                      "id": 202,
+                      "name": "Mora",
+                      "count": 450000
+                    },
+                    {
+                      "id": 104370,
+                      "name": "Philosophies of Fortitude",
+                      "count": 12
+                    },
+                    {
+                      "id": 112151,
+                      "name": "Prime Chimeric Nexus",
+                      "count": 9
+                    },
+                    {
+                      "id": 113075,
+                      "name": "Ascended Sample: Queen",
+                      "count": 2
+                    }
+                  ],
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "6928a00842c74a936bd878a43ebdcbbc01dae849f4ccc3d9db052b8721a304de"
+                },
+                {
+                  "jsonPointer": "/passive1",
+                  "beforeValue": null,
+                  "afterValue": {
+                    "name": "Ever-Keen Frost",
+                    "descriptionRaw": "<color=#FFD780FF>Radiance: Stellar-Conduct</color>: When a <color=#FFD780FF>Frostpierce Star</color> is on the field, DMG from the Traveler's Normal Attacks, Charged Attacks, and Plunging Attacks are converted to <color=#99FFFFFF>Cryo DMG</color> that cannot be overridden by another elemental infusion, and DMG dealt is also increased by 80% of the Traveler's ATK.",
+                    "description": "Radiance: Stellar-Conduct: When a Frostpierce Star is on the field, DMG from the Traveler's Normal Attacks, Charged Attacks, and Plunging Attacks are converted to Cryo DMG that cannot be overridden by another elemental infusion, and DMG dealt is also increased by 80% of the Traveler's ATK."
+                  },
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "36164b9d5f8cdafb2b222d24db86b5c66bc68c430d2e4e3d160f18eae8b76e00"
+                },
+                {
+                  "jsonPointer": "/passive2",
+                  "beforeValue": null,
+                  "afterValue": {
+                    "name": "Lucent Ice",
+                    "descriptionRaw": "The Traveler's Elemental Mastery is increased by 8% of their ATK. Up to 160 Elemental Mastery can be gained in this way.",
+                    "description": "The Traveler's Elemental Mastery is increased by 8% of their ATK. Up to 160 Elemental Mastery can be gained in this way."
+                  },
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "768700b3f5048222c3c6a5cf6c1d8dd17520b7abee7a25c5217908046284d63a"
+                },
+                {
+                  "jsonPointer": "/passive3",
+                  "beforeValue": null,
+                  "afterValue": {
+                    "name": "Stellar Jubilee: Illusory Frostmirror",
+                    "descriptionRaw": "The Traveler will enter the {LINK#N11330003}<color=#FFD780FF>Radiance: Stellar-Conduct</color>{/LINK} state when inside a <color=#FFD780FF>Polestar Field</color>, or the <color=#FFD780FF>Radiance: Stellar Swirl</color> state for 8s after a nearby party member triggers a Stellar Swirl reaction.\nWhen a party member triggers a Superconduct or Cryo Swirl reaction, it becomes a Stellar-Conduct or Stellar Swirl reaction instead, and the Base DMG of said reaction is also increased by 0.35% for every 100 points of the Traveler's ATK. A maximum 7% increase can be obtained in this way.",
+                    "description": "The Traveler will enter the **Radiance: Stellar-Conduct** state when inside a Polestar Field, or the Radiance: Stellar Swirl state for 8s after a nearby party member triggers a Stellar Swirl reaction.\nWhen a party member triggers a Superconduct or Cryo Swirl reaction, it becomes a Stellar-Conduct or Stellar Swirl reaction instead, and the Base DMG of said reaction is also increased by 0.35% for every 100 points of the Traveler's ATK. A maximum 7% increase can be obtained in this way."
+                  },
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "24b2dd4186df55148e2b9027946bf8b3882913cc9bffefb3b0a9256bf765d0d2"
+                }
+              ]
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "status": "sourcePathMissing",
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/travelercryo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/travelercryo.json",
+              "gitBlob": null,
+              "rawArtifactBytes": null,
+              "rawArtifactSha256": null
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/travelercryo.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/travelercryo.json",
+              "gitBlob": "41f1ebd9734a1e6feb6179996da0dd98015bd5eb",
+              "rawArtifactBytes": 2944,
+              "rawArtifactSha256": "f9e33296380eb86eaddddd9e8e708f1431b4d8b77752e47d5c504c4bea305bb3"
+            },
+            "comparison": {
+              "status": "sourcePathMissing",
+              "changedFieldCount": null,
+              "fieldDiffs": [],
+              "comparisonEligible": false
+            }
+          }
+        ],
+        "comparisonPolicy": "sameVariantPathOnly",
+        "crossVariantComparison": "forbidden"
+      }
+    ],
+    "variantAmbiguities": [
+      {
+        "entityId": "10000005",
+        "name": "Traveler",
+        "nameJa": "旅人",
+        "resolutionStatus": "unresolvedVariantAmbiguity",
+        "reason": "Provider exposes multiple elemental Traveler records and the local entity ID does not encode an elemental variant.",
+        "candidateVariantCount": 7,
+        "candidateVariants": [
+          "anemo",
+          "geo",
+          "electro",
+          "dendro",
+          "hydro",
+          "pyro",
+          "cryo"
+        ],
+        "variantEvidenceRef": "claim.travelerVariantEvidence",
+        "canonicalMapping": null,
+        "canonicalPromotion": "forbiddenUntilVariantIdentityIsResolved"
+      },
+      {
+        "entityId": "10000007",
+        "name": "Traveler",
+        "nameJa": "旅人",
+        "resolutionStatus": "unresolvedVariantAmbiguity",
+        "reason": "Provider exposes multiple elemental Traveler records and the local entity ID does not encode an elemental variant.",
+        "candidateVariantCount": 7,
+        "candidateVariants": [
+          "anemo",
+          "geo",
+          "electro",
+          "dendro",
+          "hydro",
+          "pyro",
+          "cryo"
+        ],
+        "variantEvidenceRef": "claim.travelerVariantEvidence",
+        "canonicalMapping": null,
+        "canonicalPromotion": "forbiddenUntilVariantIdentityIsResolved"
+      }
+    ],
+    "coverage": {
+      "resolvedEntityIds": [
+        "10000002",
+        "10000003",
+        "10000006",
+        "10000014",
+        "10000015",
+        "10000016"
+      ],
+      "ambiguousEntityIds": [
+        "10000005",
+        "10000007"
+      ],
+      "recordKinds": [
+        "talents",
+        "constellations"
+      ],
+      "resolvedEntityRecordCoverage": "complete",
+      "travelerVariantRecordCoverage": "complete",
+      "repositoryCandidateCoverage": "partial",
+      "crossVariantComparisons": 0,
+      "canIssueEligibilityCertificate": false,
+      "canPromoteCanonical": false
+    }
+  },
+  "summary": {
+    "resolvedEntities": 6,
+    "ambiguousEntities": 2,
+    "travelerVariants": 7,
+    "resolvedRecords": 12,
+    "changedRecords": 0,
+    "changedFields": 0,
+    "sourceFamilyCount": 1,
+    "certificateEligibleClaims": 0
+  },
+  "gateEligibility": {
+    "status": "singleCorrelatedFamilyFailClosed",
+    "sourceFamilyCount": 1,
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false,
+    "reasons": [
+      "providerIndependenceInsufficient",
+      "behaviorSemanticsNotParsed",
+      "travelerVariantAmbiguity"
+    ]
+  },
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "0fc2f4e9f6c414b67371c3fe0efccd8d5bb597da6a5b21313a8f3b593df9f366"
+}

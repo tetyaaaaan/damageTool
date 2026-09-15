@@ -207,7 +207,7 @@
     }
 
     function statLabel(stat) {
-        return STAT_LABELS[stat] || stat || "参照値";
+        return window.GenshinUiLabels?.statLabel?.(stat) || STAT_LABELS[stat] || stat || "参照値";
     }
 
     function modifierValueSuffix(modifier = {}) {
@@ -218,7 +218,9 @@
     }
 
     function modifierTargetLabel(modifier = {}) {
-        const targets = (modifier.applyTo || []).map((target) => MODIFIER_TARGET_LABELS[target]).filter(Boolean);
+        const targets = (modifier.applyTo || []).map((target) => (
+            window.GenshinUiLabels?.statLabel?.(target) || MODIFIER_TARGET_LABELS[target]
+        )).filter(Boolean);
         return [...new Set(targets)].join("・");
     }
 
@@ -681,6 +683,39 @@
         </section>`;
     }
 
+    const BEHAVIOR_PATH_LABELS = {
+        "/timing/cooldown": "クールタイム",
+        "/timing/duration": "継続時間",
+        "/timing/tickInterval": "発生間隔",
+        "/timing/triggerInterval": "発動間隔",
+        "/execution/charges": "使用可能回数",
+        "/execution/hitCount": "ヒット数",
+        "/execution/maxTriggers": "最大発動回数",
+        "/execution/maxInstances": "最大同時存在数",
+        "/energy/gain": "エネルギー獲得量"
+    };
+
+    function renderBehaviorResolution(resolution) {
+        const applied = resolution?.applied || [];
+        if (!applied.length) return "";
+        const valueText = (item) => {
+            if (item.result?.mode === "delta") {
+                const delta = `${Number(item.result.delta) >= 0 ? "+" : ""}${item.result.delta}`;
+                if (item.result.baseValue !== null && item.result.baseValue !== undefined
+                    && item.result.resolvedValue !== null && item.result.resolvedValue !== undefined) {
+                    return `${item.result.baseValue} → ${item.result.resolvedValue}（${delta}）`;
+                }
+                return delta;
+            }
+            if (item.result?.mode === "factor") return `×${item.result.factor}`;
+            return String(item.result?.value ?? item.value ?? "-");
+        };
+        return `<aside class="genshin-json-behavior-resolution" aria-label="挙動変更">
+            <strong>挙動変更</strong>
+            <ul>${applied.map((item) => `<li data-behavior-modifier-id="${escapeHtml(item.id)}"><span>${escapeHtml(BEHAVIOR_PATH_LABELS[item.path] || item.path)}</span> <strong>${escapeHtml(valueText(item))}</strong></li>`).join("")}</ul>
+        </aside>`;
+    }
+
     function bindComparisonControls(wrap, payload) {
         const store = window.GenshinCalculationComparison?.store;
         if (!store) return;
@@ -731,6 +766,7 @@
             </div>
             ${renderComparisonControls()}
             ${inputNoticeHtml}
+            ${renderBehaviorResolution(payload.behaviorResolution)}
             <div class="genshin-result-tabs" role="tablist" aria-label="計算結果タブ">
                 ${renderTabButtons(grouped, activeTab)}
             </div>
@@ -823,7 +859,7 @@
         displayOnly: { label: "表示のみ", className: "is-display" }
     };
 
-    function reactionOptions(selected) {
+    function reactionOptions(selected, definitions = {}) {
         const groups = [
             ["", [["none", "反応なし"]]],
             ["増幅反応", [["melt15", "溶解 1.5　氷ダメ"], ["melt20", "溶解 2.0　炎ダメ"], ["vaporize15", "蒸発 1.5　炎ダメ"], ["vaporize20", "蒸発 2.0　水ダメ"]]],
@@ -833,6 +869,22 @@
             ["月反応", [["lunarBloom", "月開花"], ["lunarCharged", "月感電"], ["lunarCrystallize", "月結晶"]]],
             ["星反応", [["stellarConduct", "星電導"]]]
         ];
+        const known = new Set(groups.flatMap(([, options]) => options.map(([value]) => value)));
+        Object.entries(definitions || {}).forEach(([key, definition]) => {
+            if (known.has(key)) return;
+            const family = definition?.family;
+            const label = definition?.labelJa || definition?.label || key;
+            let groupLabel = family === "dedicated" && /^stellar/i.test(definition?.reactionId || key)
+                ? "星反応"
+                : family === "dedicated" ? "月反応"
+                    : family === "statusOnly" ? "状態反応"
+                        : family === "transformative" || family === "shield" ? "変化反応"
+                            : family === "additive" ? "加算反応"
+                                : family === "amplifying" ? "増幅反応" : "";
+            const group = groups.find(([name]) => name === groupLabel) || groups[0];
+            group[1].push([key, label]);
+            known.add(key);
+        });
         return groups.map(([label, options]) => {
             const html = options.map(([value, text]) => `<option value="${value}"${value === selected ? " selected" : ""}>${text}</option>`).join("");
             return label ? `<optgroup label="${label}">${html}</optgroup>` : html;
@@ -1079,6 +1131,29 @@
         return { label: "表示のみ", className: "is-display-only" };
     }
 
+    function renderPartyConditionControl(candidate, context) {
+        const conditionInput = candidate.modifier?.conditionInput;
+        if (conditionInput?.type !== "option" || !Array.isArray(conditionInput.options) || !conditionInput.options.length) return "";
+        const key = candidate.analysis?.conditionStateKey || candidate.key || "";
+        if (!key) return "";
+        const conditionState = context.uiState?.conditionByModifier?.[key]
+            || context.uiState?.complexConditionByModifier?.[key]
+            || {};
+        const options = conditionInput.options.map((option) => ({
+            value: typeof option === "object" ? option.value : option,
+            label: typeof option === "object" ? option.label : option
+        })).filter((option) => option.value !== undefined && option.value !== null && option.value !== "");
+        if (!options.length) return "";
+        const selectedValue = options.some((option) => String(option.value) === String(conditionState.option))
+            ? conditionState.option
+            : window.GenshinCalcConditions?.explicitPartyOptionDefault?.(candidate, options.map((option) => option.value)) ?? null;
+        const placeholder = selectedValue === null
+            ? `<option value="" selected>選択してください</option>`
+            : "";
+        const renderedOptions = options.map((option) => `<option value="${escapeHtml(option.value)}"${String(option.value) === String(selectedValue) ? " selected" : ""}>${escapeHtml(option.label)}</option>`).join("");
+        return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(conditionInput.label || "現在の状態")}</strong>${conditionInput.help ? `<small>${escapeHtml(conditionInput.help)}</small>` : ""}</span><select data-genshin-party-condition-key="${escapeHtml(key)}" data-genshin-party-condition-kind="option">${placeholder}${renderedOptions}</select></label>`;
+    }
+
     function renderPartyModifier(candidate, context) {
         const status = partyModifierStatus(candidate);
         const condition = window.GenshinCalcConditions?.modifierActivationCondition?.(
@@ -1105,6 +1180,7 @@
                 <div><dt>効果</dt><dd>${escapeHtml(effect)}</dd></div>
                 <div><dt>現在の反映</dt><dd>${escapeHtml(current)}</dd></div>
             </dl>
+            ${renderPartyConditionControl(candidate, context)}
             ${canToggle ? `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>この条件を適用する</strong><small>実際に発動している場合だけONにしてください。</small></span><input type="checkbox" data-genshin-party-buff-key="${escapeHtml(candidate.toggleKey || candidate.key)}"${candidate.enabled ? " checked" : ""}></label>` : ""}
             ${candidate.reason && candidate.status !== "off" ? `<p class="genshin-condition-note">${escapeHtml(candidate.reason)}</p>` : ""}
             ${candidate.description ? `<details class="genshin-condition-detail"><summary>効果説明</summary>${renderDescriptionBlock(candidate.description, "full")}</details>` : ""}
@@ -1167,14 +1243,14 @@
             : reaction.calculationStatus === "dedicatedFormulaRequired"
                 ? `${reaction.descriptionJa || reaction.label}${reaction.unsupportedReasonJa ? ` ${reaction.unsupportedReasonJa}` : ""} 現在の結果には反映されません。`
                 : reaction.descriptionJa || (reaction.enabled ? "選択した元素反応を計算へ反映します。" : "この反応自体は数値ダメージを発生させません。");
-        const reactionElementControl = reaction.reactionId === "swirl"
-            ? `<label class="genshin-reaction-control"><span>拡散する元素</span><select id="genshinJsonReactionElement">${["炎", "水", "雷", "氷"].map((element) => `<option value="${element}"${context.reactionElement === element ? " selected" : ""}>${element}元素</option>`).join("")}</select></label>`
+        const reactionElementControl = ["swirl", "stellarSwirl"].includes(reaction.reactionId)
+            ? `<label class="genshin-reaction-control"><span>${reaction.reactionId === "stellarSwirl" ? "星拡散する元素" : "拡散する元素"}</span><select id="genshinJsonReactionElement">${["炎", "水", "雷", "氷"].map((element) => `<option value="${element}"${context.reactionElement === element ? " selected" : ""}>${element}元素</option>`).join("")}</select></label>`
             : "";
         const dedicatedReactionControls = renderDedicatedReactionControls(reaction, context);
         const reactionWide = Boolean(reactionElementControl || dedicatedReactionControls);
         const reactionSelect = getElement("genshinJsonReactionOption");
         if (reactionSelect) {
-            reactionSelect.innerHTML = reactionOptions(context.reactionOptionKey || "none");
+            reactionSelect.innerHTML = reactionOptions(context.reactionOptionKey || "none", context.reactionDefinitions?.options);
             reactionSelect.value = context.reactionOptionKey || "none";
         }
         const weaponCard = cards.find((card) => card.id === "weapon");
@@ -1305,6 +1381,15 @@
         const conditionCards = getElement("genshinJsonConditionCards");
         if (conditionCards) {
             conditionCards.addEventListener("change", (event) => {
+                if (event.target?.matches?.("[data-genshin-party-condition-key]")) {
+                    window.GenshinPartyState?.setPartyConditionState?.(
+                        event.target.dataset.genshinPartyConditionKey,
+                        event.target.dataset.genshinPartyConditionKind || "option",
+                        event.target.value
+                    );
+                    handleConditionValueChange();
+                    return;
+                }
                 if (event.target?.matches?.("[data-genshin-party-buff-key]")) {
                     window.GenshinPartyState?.setBuffEnabled?.(event.target.dataset.genshinPartyBuffKey, event.target.checked);
                     handleConditionValueChange();
@@ -1355,6 +1440,7 @@
         classifyResult,
         basicAttackKind,
         buildDamageBreakdownViewModel,
+        statLabel,
         elementLabel,
         attackTypeLabel,
         renderDamageTabs,

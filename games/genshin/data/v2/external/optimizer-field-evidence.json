@@ -1,0 +1,851 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinOptimizerFieldEvidence",
+  "evidence": "genshin-optimizer-field-evidence",
+  "generator": {
+    "name": "genshinOptimizerFieldEvidenceGenerate.cjs",
+    "version": "genshinOptimizerFieldEvidenceGenerate/1",
+    "capturedAt": "2026-08-16T00:00:00.000Z"
+  },
+  "policy": {
+    "scope": "bounded weapon/artifact representative batch",
+    "extraction": "named TypeScript assignment/wrapper",
+    "tokenMatching": "forbidden",
+    "gameVersion": "nullWhenNotExplicit",
+    "revisionSemantics": "repositoryRevisionAndFileShaOnly",
+    "independence": "correlatedDatamineDerivedNotIndependent",
+    "canonicalPromotion": "forbidden"
+  },
+  "project": {
+    "project": "genshinOptimizer",
+    "provider": "frzyc/genshin-optimizer",
+    "repository": "https://github.com/frzyc/genshin-optimizer",
+    "revision": "0c9bde8f99ec1561e66aa0114668e8cdc0b8aca2",
+    "revisionKind": "gitCommit",
+    "gameVersion": null,
+    "gameVersionEvidence": {
+      "status": "missing",
+      "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+    },
+    "providerIndependence": "correlated",
+    "independenceGroup": "GenshinData-derived",
+    "independenceNote": "Genshin Optimizer gi-stats is a datamine-derived projection; this source cannot satisfy an independent-provider gate."
+  },
+  "input": {
+    "weaponSpecs": {
+      "path": "games/genshin/data/v2/weapons/spec-candidates.json",
+      "sha256": "dd6661120c349650b94f5d70fa50c846f3ac09d0f769b37af19ec65e963fb1bf"
+    },
+    "artifactSpecs": {
+      "path": "games/genshin/data/v2/artifacts/spec-candidates.json",
+      "sha256": "a8da79a30ecb50adbd0f1735f856c94378661b793a4a3c321fbf1ca04f6179a8"
+    },
+    "sourceCatalog": {
+      "path": "games/genshin/data/v2/source-catalog.json",
+      "exists": true
+    }
+  },
+  "sourceRecords": {
+    "genshinOptimizer:weapon:11503": {
+      "id": "genshinOptimizer:weapon:11503",
+      "entity": {
+        "kind": "weapon",
+        "id": "11503"
+      },
+      "provider": "frzyc/genshin-optimizer",
+      "repository": "https://github.com/frzyc/genshin-optimizer",
+      "revision": "0c9bde8f99ec1561e66aa0114668e8cdc0b8aca2",
+      "revisionKind": "gitCommit",
+      "path": "libs/gi/sheets/src/Weapons/Sword/FreedomSworn/index.tsx",
+      "sha256": "ada8d7aacdf67c69c8518fb1aa5cd2c89b9701e926e07b7ffb98d15aea464872",
+      "locator": {
+        "symbol": "FreedomSworn",
+        "lineStart": 12,
+        "lineEnd": 12
+      },
+      "gameVersion": null,
+      "gameVersionEvidence": {
+        "status": "missing",
+        "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+      },
+      "gameVersionVerified": false,
+      "providerIndependence": "correlated",
+      "independenceGroup": "GenshinData-derived",
+      "sourceMaterialization": {
+        "rootConfigured": false,
+        "materialized": false,
+        "observedType": null,
+        "observedSha256": null,
+        "observedBytes": 0,
+        "blockedReasons": [
+          "externalSourceRootNotConfigured",
+          "gameVersionNotExplicit",
+          "providerNotIndependent"
+        ]
+      },
+      "notes": "Pinned GO weapon sheet; array bindings are static, while refinementBonus.dmg_ is imported from gi-stats and remains unresolved in this pilot."
+    },
+    "genshinOptimizer:weapon:15502": {
+      "id": "genshinOptimizer:weapon:15502",
+      "entity": {
+        "kind": "weapon",
+        "id": "15502"
+      },
+      "provider": "frzyc/genshin-optimizer",
+      "repository": "https://github.com/frzyc/genshin-optimizer",
+      "revision": "0c9bde8f99ec1561e66aa0114668e8cdc0b8aca2",
+      "revisionKind": "gitCommit",
+      "path": "libs/gi/sheets/src/Weapons/Bow/AmosBow/index.tsx",
+      "sha256": "c89a3d1b529c047b0750b3fbd85ac737dc6f20f213ad0aedf4795e66ab9a1a74",
+      "locator": {
+        "symbol": "AmosBow",
+        "lineStart": 16,
+        "lineEnd": 16
+      },
+      "gameVersion": null,
+      "gameVersionEvidence": {
+        "status": "missing",
+        "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+      },
+      "gameVersionVerified": false,
+      "providerIndependence": "correlated",
+      "independenceGroup": "GenshinData-derived",
+      "sourceMaterialization": {
+        "rootConfigured": false,
+        "materialized": false,
+        "observedType": null,
+        "observedSha256": null,
+        "observedBytes": 0,
+        "blockedReasons": [
+          "externalSourceRootNotConfigured",
+          "gameVersionNotExplicit",
+          "providerNotIndependent"
+        ]
+      },
+      "notes": "Pinned GO weapon sheet; refinement arrays and lookup/stack wrappers are retained as semantic anchors."
+    },
+    "genshinOptimizer:artifact:10001": {
+      "id": "genshinOptimizer:artifact:10001",
+      "entity": {
+        "kind": "artifactSet",
+        "id": "10001"
+      },
+      "provider": "frzyc/genshin-optimizer",
+      "repository": "https://github.com/frzyc/genshin-optimizer",
+      "revision": "0c9bde8f99ec1561e66aa0114668e8cdc0b8aca2",
+      "revisionKind": "gitCommit",
+      "path": "libs/gi/sheets/src/Artifacts/ResolutionOfSojourner/index.tsx",
+      "sha256": "5103befbe34159168c63bd3d735ab20fcc9c720e97fb911bff2ad3af9030b3ed",
+      "locator": {
+        "symbol": "ResolutionOfSojourner",
+        "lineStart": 11,
+        "lineEnd": 12
+      },
+      "gameVersion": null,
+      "gameVersionEvidence": {
+        "status": "missing",
+        "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+      },
+      "gameVersionVerified": false,
+      "providerIndependence": "correlated",
+      "independenceGroup": "GenshinData-derived",
+      "sourceMaterialization": {
+        "rootConfigured": false,
+        "materialized": false,
+        "observedType": null,
+        "observedSha256": null,
+        "observedBytes": 0,
+        "blockedReasons": [
+          "externalSourceRootNotConfigured",
+          "gameVersionNotExplicit",
+          "providerNotIndependent"
+        ]
+      },
+      "notes": "Pinned GO artifact sheet; set2/set4 values are named percent() assignments."
+    },
+    "genshinOptimizer:artifact:10002": {
+      "id": "genshinOptimizer:artifact:10002",
+      "entity": {
+        "kind": "artifactSet",
+        "id": "10002"
+      },
+      "provider": "frzyc/genshin-optimizer",
+      "repository": "https://github.com/frzyc/genshin-optimizer",
+      "revision": "0c9bde8f99ec1561e66aa0114668e8cdc0b8aca2",
+      "revisionKind": "gitCommit",
+      "path": "libs/gi/sheets/src/Artifacts/BraveHeart/index.tsx",
+      "sha256": "9b298f82f6e0af2ceb9b13444136ba0cadb60a3d69a6becb202e764cac94cb32",
+      "locator": {
+        "symbol": "BraveHeart",
+        "lineStart": 12,
+        "lineEnd": 18
+      },
+      "gameVersion": null,
+      "gameVersionEvidence": {
+        "status": "missing",
+        "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+      },
+      "gameVersionVerified": false,
+      "providerIndependence": "correlated",
+      "independenceGroup": "GenshinData-derived",
+      "sourceMaterialization": {
+        "rootConfigured": false,
+        "materialized": false,
+        "observedType": null,
+        "observedSha256": null,
+        "observedBytes": 0,
+        "blockedReasons": [
+          "externalSourceRootNotConfigured",
+          "gameVersionNotExplicit",
+          "providerNotIndependent"
+        ]
+      },
+      "notes": "Pinned GO artifact sheet; set4 activation is condition-wrapped and remains separately review-gated."
+    }
+  },
+  "fields": [
+    {
+      "sourceRecordId": "genshinOptimizer:weapon:11503",
+      "candidateId": "w_11503_damage_3",
+      "field": "value",
+      "sourceField": "autoSrc",
+      "status": "eligible",
+      "structuredValue": {
+        "1": 16,
+        "2": 20,
+        "3": 24,
+        "4": 28,
+        "5": 32
+      },
+      "value": {
+        "1": 16,
+        "2": 20,
+        "3": 24,
+        "4": 28,
+        "5": 32
+      },
+      "unit": "percent",
+      "units": "percent",
+      "targets": [
+        "normalAttackDamageBonus",
+        "chargedAttackDamageBonus",
+        "plungingAttackDamageBonus"
+      ],
+      "activation": null,
+      "locator": {
+        "lineStart": 14,
+        "lineEnd": 14,
+        "anchor": "const autoSrc = [-1, 0.16, 0.2, 0.24, 0.28, 0.32]"
+      },
+      "extractionMethod": {
+        "type": "semantic-ts-assignment",
+        "namedBinding": "autoSrc",
+        "expression": "const autoSrc = [-1, 0.16, 0.2, 0.24, 0.28, 0.32]",
+        "semanticAnchors": [
+          "autoSrc",
+          "const autoSrc = [-1, 0.16, 0.2, 0.24, 0.28, 0.32]"
+        ],
+        "tokenMatchingUsed": false,
+        "note": "Named TypeScript assignment/wrapper only; arbitrary-number search is forbidden."
+      },
+      "gameVersion": null,
+      "gameVersionEvidence": {
+        "status": "missing",
+        "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+      },
+      "gameVersionVerified": false,
+      "supportsClaimValue": true,
+      "providerIndependence": "correlated",
+      "independenceGroup": "GenshinData-derived",
+      "canonicalEligibility": false,
+      "canonicalBlockedReasons": [
+        "gameVersionMissing",
+        "providerNotIndependent",
+        "independentReviewerRequired"
+      ],
+      "claimComparison": {
+        "valueMatch": true,
+        "unitMatch": true,
+        "targetMatch": true,
+        "activationMatch": false
+      },
+      "notes": "GO conditional wrapper is present at lines 27-30; candidate activation remains unchanged and requires review."
+    },
+    {
+      "sourceRecordId": "genshinOptimizer:weapon:11503",
+      "candidateId": "w_11503_stat_2",
+      "field": "value",
+      "sourceField": "atk_Src",
+      "status": "eligible",
+      "structuredValue": {
+        "1": 20,
+        "2": 25,
+        "3": 30,
+        "4": 35,
+        "5": 40
+      },
+      "value": {
+        "1": 20,
+        "2": 25,
+        "3": 30,
+        "4": 35,
+        "5": 40
+      },
+      "unit": "percent",
+      "units": "percent",
+      "targets": [
+        "atkPercent"
+      ],
+      "activation": null,
+      "locator": {
+        "lineStart": 15,
+        "lineEnd": 15,
+        "anchor": "const atk_Src = [-1, 0.2, 0.25, 0.3, 0.35, 0.4]"
+      },
+      "extractionMethod": {
+        "type": "semantic-ts-assignment",
+        "namedBinding": "atk_Src",
+        "expression": "const atk_Src = [-1, 0.2, 0.25, 0.3, 0.35, 0.4]",
+        "semanticAnchors": [
+          "atk_Src",
+          "const atk_Src = [-1, 0.2, 0.25, 0.3, 0.35, 0.4]"
+        ],
+        "tokenMatchingUsed": false,
+        "note": "Named TypeScript assignment/wrapper only; arbitrary-number search is forbidden."
+      },
+      "gameVersion": null,
+      "gameVersionEvidence": {
+        "status": "missing",
+        "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+      },
+      "gameVersionVerified": false,
+      "supportsClaimValue": true,
+      "providerIndependence": "correlated",
+      "independenceGroup": "GenshinData-derived",
+      "canonicalEligibility": false,
+      "canonicalBlockedReasons": [
+        "gameVersionMissing",
+        "providerNotIndependent",
+        "independentReviewerRequired"
+      ],
+      "claimComparison": {
+        "valueMatch": true,
+        "unitMatch": true,
+        "targetMatch": true,
+        "activationMatch": false
+      },
+      "notes": null
+    },
+    {
+      "sourceRecordId": "genshinOptimizer:weapon:11503",
+      "candidateId": "w_11503_damage_1",
+      "field": "value",
+      "sourceField": "data_gen.refinementBonus.dmg_",
+      "status": "needsReview",
+      "structuredValue": null,
+      "value": null,
+      "unit": "percent",
+      "units": "percent",
+      "targets": null,
+      "activation": null,
+      "locator": {
+        "lineStart": 16,
+        "lineEnd": 16,
+        "anchor": "const dmg_arr = data_gen.refinementBonus.dmg_"
+      },
+      "extractionMethod": {
+        "type": "semantic-ts-assignment",
+        "namedBinding": "dmg_arr",
+        "expression": "const dmg_arr = data_gen.refinementBonus.dmg_",
+        "semanticAnchors": [
+          "dmg_arr",
+          "const dmg_arr = data_gen.refinementBonus.dmg_"
+        ],
+        "tokenMatchingUsed": false,
+        "note": "Named TypeScript assignment/wrapper only; arbitrary-number search is forbidden."
+      },
+      "gameVersion": null,
+      "gameVersionEvidence": {
+        "status": "missing",
+        "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+      },
+      "gameVersionVerified": false,
+      "supportsClaimValue": false,
+      "providerIndependence": "correlated",
+      "independenceGroup": "GenshinData-derived",
+      "canonicalEligibility": false,
+      "canonicalBlockedReasons": [
+        "gameVersionMissing",
+        "providerNotIndependent",
+        "independentReviewerRequired"
+      ],
+      "claimComparison": {
+        "valueMatch": false,
+        "unitMatch": true,
+        "targetMatch": false,
+        "activationMatch": false
+      },
+      "notes": "Named imported field only; no value is guessed from unrelated tokens.",
+      "reason": "importedGiStatsDatasetNotMaterialized"
+    },
+    {
+      "sourceRecordId": "genshinOptimizer:weapon:15502",
+      "candidateId": "w_15502_damage_1",
+      "field": "value",
+      "sourceField": "autoDmgInc",
+      "status": "eligible",
+      "structuredValue": {
+        "1": 12,
+        "2": 15,
+        "3": 18,
+        "4": 21,
+        "5": 24
+      },
+      "value": {
+        "1": 12,
+        "2": 15,
+        "3": 18,
+        "4": 21,
+        "5": 24
+      },
+      "unit": "percent",
+      "units": "percent",
+      "targets": [
+        "normalAttackDamageBonus",
+        "chargedAttackDamageBonus"
+      ],
+      "activation": null,
+      "locator": {
+        "lineStart": 18,
+        "lineEnd": 18,
+        "anchor": "const autoDmgInc = [-1, 0.12, 0.15, 0.18, 0.21, 0.24]"
+      },
+      "extractionMethod": {
+        "type": "semantic-ts-assignment",
+        "namedBinding": "autoDmgInc",
+        "expression": "const autoDmgInc = [-1, 0.12, 0.15, 0.18, 0.21, 0.24]",
+        "semanticAnchors": [
+          "autoDmgInc",
+          "const autoDmgInc = [-1, 0.12, 0.15, 0.18, 0.21, 0.24]"
+        ],
+        "tokenMatchingUsed": false,
+        "note": "Named TypeScript assignment/wrapper only; arbitrary-number search is forbidden."
+      },
+      "gameVersion": null,
+      "gameVersionEvidence": {
+        "status": "missing",
+        "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+      },
+      "gameVersionVerified": false,
+      "supportsClaimValue": true,
+      "providerIndependence": "correlated",
+      "independenceGroup": "GenshinData-derived",
+      "canonicalEligibility": false,
+      "canonicalBlockedReasons": [
+        "gameVersionMissing",
+        "providerNotIndependent",
+        "independentReviewerRequired"
+      ],
+      "claimComparison": {
+        "valueMatch": true,
+        "unitMatch": true,
+        "targetMatch": true,
+        "activationMatch": false
+      },
+      "notes": null
+    },
+    {
+      "sourceRecordId": "genshinOptimizer:weapon:15502",
+      "candidateId": "w_15502_damageBonus_fc388315",
+      "field": "value",
+      "sourceField": "arrowDmgInc",
+      "status": "eligible",
+      "structuredValue": {
+        "1": 8,
+        "2": 10,
+        "3": 12,
+        "4": 14,
+        "5": 16
+      },
+      "value": {
+        "1": 8,
+        "2": 10,
+        "3": 12,
+        "4": 14,
+        "5": 16
+      },
+      "unit": "percent",
+      "units": "percent",
+      "targets": [
+        "normalAttackDamageBonus",
+        "chargedAttackDamageBonus"
+      ],
+      "activation": {
+        "condition": "arrowFlightTime",
+        "maxStacks": 5
+      },
+      "locator": {
+        "lineStart": 19,
+        "lineEnd": 19,
+        "anchor": "const arrowDmgInc = [-1, 0.08, 0.1, 0.12, 0.14, 0.16]"
+      },
+      "extractionMethod": {
+        "type": "semantic-ts-assignment",
+        "namedBinding": "arrowDmgInc",
+        "expression": "const arrowDmgInc = [-1, 0.08, 0.1, 0.12, 0.14, 0.16]",
+        "semanticAnchors": [
+          "arrowDmgInc",
+          "const arrowDmgInc = [-1, 0.08, 0.1, 0.12, 0.14, 0.16]"
+        ],
+        "tokenMatchingUsed": false,
+        "note": "Named TypeScript assignment/wrapper only; arbitrary-number search is forbidden."
+      },
+      "gameVersion": null,
+      "gameVersionEvidence": {
+        "status": "missing",
+        "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+      },
+      "gameVersionVerified": false,
+      "supportsClaimValue": true,
+      "providerIndependence": "correlated",
+      "independenceGroup": "GenshinData-derived",
+      "canonicalEligibility": false,
+      "canonicalBlockedReasons": [
+        "gameVersionMissing",
+        "providerNotIndependent",
+        "independentReviewerRequired"
+      ],
+      "claimComparison": {
+        "valueMatch": true,
+        "unitMatch": true,
+        "targetMatch": true,
+        "activationMatch": false
+      },
+      "notes": "Stack semantics are anchored by dmgInc/subscript + lookup/prod lines 29-44; stack mapping remains reviewable."
+    },
+    {
+      "sourceRecordId": "genshinOptimizer:artifact:10001",
+      "candidateId": "artifact:10001:twoPiece:2pc_atk_percent",
+      "field": "value",
+      "sourceField": "set2",
+      "status": "eligible",
+      "structuredValue": 18,
+      "value": 18,
+      "unit": "percent",
+      "units": "percent",
+      "targets": [
+        "atkPercent"
+      ],
+      "activation": {
+        "condition": "always",
+        "pieceCount": 2
+      },
+      "locator": {
+        "lineStart": 11,
+        "lineEnd": 11,
+        "anchor": "const set2 = greaterEq(input.artSet.ResolutionOfSojourner, 2, percent(0.18))"
+      },
+      "extractionMethod": {
+        "type": "semantic-ts-assignment",
+        "namedBinding": "set2",
+        "expression": "const set2 = greaterEq(input.artSet.ResolutionOfSojourner, 2, percent(0.18))",
+        "semanticAnchors": [
+          "set2",
+          "const set2 = greaterEq(input.artSet.ResolutionOfSojourner, 2, percent(0.18))"
+        ],
+        "tokenMatchingUsed": false,
+        "note": "Named TypeScript assignment/wrapper only; arbitrary-number search is forbidden."
+      },
+      "gameVersion": null,
+      "gameVersionEvidence": {
+        "status": "missing",
+        "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+      },
+      "gameVersionVerified": false,
+      "supportsClaimValue": true,
+      "providerIndependence": "correlated",
+      "independenceGroup": "GenshinData-derived",
+      "canonicalEligibility": false,
+      "canonicalBlockedReasons": [
+        "gameVersionMissing",
+        "providerNotIndependent",
+        "independentReviewerRequired"
+      ],
+      "claimComparison": {
+        "valueMatch": true,
+        "unitMatch": true,
+        "targetMatch": true,
+        "activationMatch": false
+      },
+      "notes": null
+    },
+    {
+      "sourceRecordId": "genshinOptimizer:artifact:10001",
+      "candidateId": "artifact:10001:fourPiece:4pc_charged_crit_rate",
+      "field": "value",
+      "sourceField": "set4",
+      "status": "eligible",
+      "structuredValue": 30,
+      "value": 30,
+      "unit": "percent",
+      "units": "percent",
+      "targets": [
+        "critRate"
+      ],
+      "activation": {
+        "condition": "chargedAttack",
+        "pieceCount": 4
+      },
+      "locator": {
+        "lineStart": 12,
+        "lineEnd": 12,
+        "anchor": "const set4 = greaterEq(input.artSet.ResolutionOfSojourner, 4, percent(0.3))"
+      },
+      "extractionMethod": {
+        "type": "semantic-ts-assignment",
+        "namedBinding": "set4",
+        "expression": "const set4 = greaterEq(input.artSet.ResolutionOfSojourner, 4, percent(0.3))",
+        "semanticAnchors": [
+          "set4",
+          "const set4 = greaterEq(input.artSet.ResolutionOfSojourner, 4, percent(0.3))"
+        ],
+        "tokenMatchingUsed": false,
+        "note": "Named TypeScript assignment/wrapper only; arbitrary-number search is forbidden."
+      },
+      "gameVersion": null,
+      "gameVersionEvidence": {
+        "status": "missing",
+        "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+      },
+      "gameVersionVerified": false,
+      "supportsClaimValue": true,
+      "providerIndependence": "correlated",
+      "independenceGroup": "GenshinData-derived",
+      "canonicalEligibility": false,
+      "canonicalBlockedReasons": [
+        "gameVersionMissing",
+        "providerNotIndependent",
+        "independentReviewerRequired"
+      ],
+      "claimComparison": {
+        "valueMatch": true,
+        "unitMatch": true,
+        "targetMatch": true,
+        "activationMatch": false
+      },
+      "notes": null
+    },
+    {
+      "sourceRecordId": "genshinOptimizer:artifact:10002",
+      "candidateId": "artifact:10002:twoPiece:2pc_atk_percent",
+      "field": "value",
+      "sourceField": "set2",
+      "status": "eligible",
+      "structuredValue": 18,
+      "value": 18,
+      "unit": "percent",
+      "units": "percent",
+      "targets": [
+        "atkPercent"
+      ],
+      "activation": {
+        "condition": "always",
+        "pieceCount": 2
+      },
+      "locator": {
+        "lineStart": 12,
+        "lineEnd": 12,
+        "anchor": "const set2 = greaterEq(input.artSet.BraveHeart, 2, percent(0.18))"
+      },
+      "extractionMethod": {
+        "type": "semantic-ts-assignment",
+        "namedBinding": "set2",
+        "expression": "const set2 = greaterEq(input.artSet.BraveHeart, 2, percent(0.18))",
+        "semanticAnchors": [
+          "set2",
+          "const set2 = greaterEq(input.artSet.BraveHeart, 2, percent(0.18))"
+        ],
+        "tokenMatchingUsed": false,
+        "note": "Named TypeScript assignment/wrapper only; arbitrary-number search is forbidden."
+      },
+      "gameVersion": null,
+      "gameVersionEvidence": {
+        "status": "missing",
+        "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+      },
+      "gameVersionVerified": false,
+      "supportsClaimValue": true,
+      "providerIndependence": "correlated",
+      "independenceGroup": "GenshinData-derived",
+      "canonicalEligibility": false,
+      "canonicalBlockedReasons": [
+        "gameVersionMissing",
+        "providerNotIndependent",
+        "independentReviewerRequired"
+      ],
+      "claimComparison": {
+        "valueMatch": true,
+        "unitMatch": true,
+        "targetMatch": true,
+        "activationMatch": false
+      },
+      "notes": null
+    },
+    {
+      "sourceRecordId": "genshinOptimizer:artifact:10002",
+      "candidateId": "artifact:10002:fourPiece:4pc_damage_vs_enemy_hp_gt_50",
+      "field": "value",
+      "sourceField": "set4",
+      "status": "eligible",
+      "structuredValue": 30,
+      "value": 30,
+      "unit": "percent",
+      "units": "percent",
+      "targets": [
+        "allDamageBonus"
+      ],
+      "activation": null,
+      "locator": {
+        "lineStart": 14,
+        "lineEnd": 18,
+        "anchor": "const set4 = greaterEq(\n  input.artSet.BraveHeart,\n  4,\n  equal('50', condNode, percent(0.3))\n)"
+      },
+      "extractionMethod": {
+        "type": "semantic-ts-assignment",
+        "namedBinding": "set4",
+        "expression": "const set4 = greaterEq(input.artSet.BraveHeart, 4, equal('50', condNode, percent(0.3)))",
+        "semanticAnchors": [
+          "set4",
+          "const set4 = greaterEq(input.artSet.BraveHeart, 4, equal('50', condNode, percent(0.3)))"
+        ],
+        "tokenMatchingUsed": false,
+        "note": "Named TypeScript assignment/wrapper only; arbitrary-number search is forbidden."
+      },
+      "gameVersion": null,
+      "gameVersionEvidence": {
+        "status": "missing",
+        "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+      },
+      "gameVersionVerified": false,
+      "supportsClaimValue": true,
+      "providerIndependence": "correlated",
+      "independenceGroup": "GenshinData-derived",
+      "canonicalEligibility": false,
+      "canonicalBlockedReasons": [
+        "gameVersionMissing",
+        "providerNotIndependent",
+        "independentReviewerRequired"
+      ],
+      "claimComparison": {
+        "valueMatch": true,
+        "unitMatch": true,
+        "targetMatch": true,
+        "activationMatch": false
+      },
+      "notes": "Value is named/explicit; mapping equal('50', condNode, ...) to enemyHpAtLeast50 is retained for review."
+    },
+    {
+      "sourceRecordId": "genshinOptimizer:artifact:10002",
+      "candidateId": "artifact:10002:fourPiece:4pc_damage_vs_enemy_hp_gt_50",
+      "field": "activation",
+      "sourceField": "equal('50', condNode, ...)",
+      "status": "needsReview",
+      "structuredValue": {
+        "sourceCondition": "equal('50', condNode, ...)"
+      },
+      "value": {
+        "sourceCondition": "equal('50', condNode, ...)"
+      },
+      "unit": null,
+      "units": null,
+      "targets": null,
+      "activation": null,
+      "locator": {
+        "lineStart": 17,
+        "lineEnd": 17,
+        "anchor": "equal('50', condNode, percent(0.3))"
+      },
+      "extractionMethod": {
+        "type": "semantic-ts-assignment",
+        "namedBinding": "set4",
+        "expression": "equal('50', condNode, percent(0.3))",
+        "semanticAnchors": [
+          "set4",
+          "equal('50', condNode, percent(0.3))"
+        ],
+        "tokenMatchingUsed": false,
+        "note": "Named TypeScript assignment/wrapper only; arbitrary-number search is forbidden."
+      },
+      "gameVersion": null,
+      "gameVersionEvidence": {
+        "status": "missing",
+        "note": "The pinned GO commit and source-file SHA identify repository bytes but do not declare a Genshin game patch/version."
+      },
+      "gameVersionVerified": false,
+      "supportsClaimValue": false,
+      "providerIndependence": "correlated",
+      "independenceGroup": "GenshinData-derived",
+      "canonicalEligibility": false,
+      "canonicalBlockedReasons": [
+        "gameVersionMissing",
+        "providerNotIndependent",
+        "independentReviewerRequired"
+      ],
+      "claimComparison": {
+        "valueMatch": false,
+        "unitMatch": false,
+        "targetMatch": false,
+        "activationMatch": false
+      },
+      "notes": null,
+      "reason": "activationSemanticMappingRequiresReview"
+    }
+  ],
+  "byEntity": {
+    "artifactSet:10001": [
+      "genshinOptimizer:artifact:10001"
+    ],
+    "artifactSet:10002": [
+      "genshinOptimizer:artifact:10002"
+    ],
+    "weapon:11503": [
+      "genshinOptimizer:weapon:11503"
+    ],
+    "weapon:15502": [
+      "genshinOptimizer:weapon:15502"
+    ]
+  },
+  "summary": {
+    "sourceRecords": 4,
+    "weaponSourceRecords": 2,
+    "artifactSourceRecords": 2,
+    "fieldRecords": 10,
+    "eligibleFields": 8,
+    "needsReviewFields": 2,
+    "supportsClaimValueFields": 8,
+    "canonicalEligibleFields": 0,
+    "canonicalEligibleCandidates": 0,
+    "gameVersionMissingSourceRecords": 4,
+    "providerIndependenceCounts": {
+      "correlated": 4
+    },
+    "independenceGroups": {
+      "GenshinData-derived": 4
+    },
+    "materializationByStatus": {
+      "notMaterialized": 4
+    },
+    "blockedReasonCounts": {
+      "externalSourceRootNotConfigured": 4,
+      "gameVersionMissing": 10,
+      "gameVersionNotExplicit": 4,
+      "independentReviewerRequired": 10,
+      "providerNotIndependent": 14
+    },
+    "fieldStatusCounts": {
+      "eligible": 8,
+      "needsReview": 2
+    },
+    "gameVersion": null
+  }
+}

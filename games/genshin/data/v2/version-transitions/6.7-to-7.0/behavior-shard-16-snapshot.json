@@ -1,0 +1,710 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionTransitionBehaviorShardSnapshot",
+  "generatedAt": "2026-08-26T00:00:00.000Z",
+  "claim": {
+    "transitionId": "genshin:6.7->7.0",
+    "fromGameVersion": "6.7",
+    "toGameVersion": "7.0",
+    "provider": "genshin-db",
+    "sourceFamily": "GenshinData-derived",
+    "sourceNamespace": "genshin-db-behavior-shard16",
+    "repository": "theBowja/genshin-db",
+    "treeResolution": {
+      "method": "nonRecursiveGitTreePath",
+      "resolutionEvidence": "immutableRawPathWithEmbeddedId",
+      "note": "Each concrete path is accepted only when both pinned revisions contain the expected provider name and explicit $.id."
+    },
+    "identityResolution": {
+      "authority": "data-v2-manifest:characters-catalog-and-source-text",
+      "paths": {
+        "catalog": "games/genshin/data/characters.json",
+        "talents": "games/genshin/data/character-talents.json",
+        "constellations": "games/genshin/data/character-constellations.json",
+        "consumerMapper": "games/js/genshinProfileMapper.js"
+      },
+      "fileDigests": {
+        "catalog": {
+          "sha256": "5d239863352fc896931c0c626e2de1ad60c615e4e376142daa8e2d3a7464c211",
+          "rawArtifactBytes": 13747,
+          "gitBlob": "36934a8a10b0962e5fac57bb2d36f3b424112fbf"
+        },
+        "talents": {
+          "sha256": "4263297365929e19b3ac99f9e63158d5033d66cf2b37617bdbccb2d8fb8a5e31",
+          "rawArtifactBytes": 406867,
+          "gitBlob": "e8394c171f51c4295a1d27816ca83991f46650bd"
+        },
+        "constellations": {
+          "sha256": "597d3eb254ccc9cc2fec3d3e7c9bf87fd2bdcca60e2140ffcf08778fd9a91e4e",
+          "rawArtifactBytes": 219772,
+          "gitBlob": "fcb8abf9bfe635901c7a5e25d160b1721ee605de"
+        },
+        "consumerMapper": {
+          "sha256": "43bbcb137e06053f10ae225fe1742ed9065ed75125e43804c88e8c82012e7a1b",
+          "rawArtifactBytes": 22721,
+          "gitBlob": "41545d202f8e065b97372c3f20c28caaa773b11c"
+        }
+      },
+      "entities": [
+        {
+          "entityId": "10000132",
+          "nameJa": "プルーネ",
+          "catalogNameJa": "プルーネ",
+          "catalogDigest": "2e61c01b135592df4253fc8de3d452b512e2f802978624725379c21eb5c9c53b",
+          "talentSourceDigest": "81d3b8f2566f7c4ec393bb3ad9aaf9f7ce295b760f6079c6db4cbed3074482b5",
+          "constellationSourceDigest": "c228d5b90ac7df2daca784eeb4f818ea1cb0a07333c0afbfdfb11b2db141ba66",
+          "identityStatus": "localCatalogAndSourceTextMatch"
+        },
+        {
+          "entityId": "10000133",
+          "nameJa": "サンドローネ",
+          "catalogNameJa": "サンドローネ",
+          "catalogDigest": "c7aa34c32b5e4e917fffd35dfb4213beee5bd421240d1a9b9d3683010c236369",
+          "talentSourceDigest": "9d721dba5c835567adc8ea74ee5fe4f95f415aedb7b7900ef2e90f13a28b558e",
+          "constellationSourceDigest": "2548a536cbc3a1f2323cccb9525525e3b9dc3e90727251e5e1e70cb828bfc896",
+          "identityStatus": "localCatalogAndSourceTextMatch"
+        }
+      ],
+      "consumerMapper": {
+        "path": "games/js/genshinProfileMapper.js",
+        "sha256": "43bbcb137e06053f10ae225fe1742ed9065ed75125e43804c88e8c82012e7a1b",
+        "rawArtifactBytes": 22721,
+        "gitBlob": "41545d202f8e065b97372c3f20c28caaa773b11c",
+        "status": "consumerMapperPartial",
+        "entries": {
+          "10000132": {
+            "values": [],
+            "expectedNameJa": "プルーネ"
+          },
+          "10000133": {
+            "values": [],
+            "expectedNameJa": "サンドローネ"
+          }
+        },
+        "missingEntityIds": [
+          "10000132",
+          "10000133"
+        ],
+        "identityMismatches": [],
+        "policy": "absence is reported; mismatch is fail-closed; no name is inferred from the mapper"
+      },
+      "identityMismatches": [],
+      "status": "localCatalogProviderIdentityResolved"
+    },
+    "shard": {
+      "shardId": "behavior:behaviorSpec:semanticDecisionRequired:standard:16",
+      "queuePath": "reports/genshin-evidence-task-queue.json",
+      "authoritativeCandidateCount": 33,
+      "authoritativeCandidateIds": [
+        "behavior:10000131:talent:normalattack-plunging",
+        "behavior:10000131:talent:passives-passive-1",
+        "behavior:10000131:talent:passives-passive-2",
+        "behavior:10000131:talent:passives-passive-utility",
+        "behavior:10000131:talent:skill",
+        "behavior:10000132:constellation:constellation-1",
+        "behavior:10000132:constellation:constellation-2",
+        "behavior:10000132:constellation:constellation-3",
+        "behavior:10000132:constellation:constellation-4",
+        "behavior:10000132:constellation:constellation-5",
+        "behavior:10000132:constellation:constellation-6",
+        "behavior:10000132:talent:burst",
+        "behavior:10000132:talent:normalattack-charged",
+        "behavior:10000132:talent:normalattack-normal",
+        "behavior:10000132:talent:normalattack-plunging",
+        "behavior:10000132:talent:passives-passive-1",
+        "behavior:10000132:talent:passives-passive-2",
+        "behavior:10000132:talent:passives-passive-utility",
+        "behavior:10000132:talent:skill",
+        "behavior:10000133:constellation:constellation-1",
+        "behavior:10000133:constellation:constellation-2",
+        "behavior:10000133:constellation:constellation-3",
+        "behavior:10000133:constellation:constellation-4",
+        "behavior:10000133:constellation:constellation-5",
+        "behavior:10000133:constellation:constellation-6",
+        "behavior:10000133:talent:burst",
+        "behavior:10000133:talent:normalattack-charged",
+        "behavior:10000133:talent:normalattack-normal",
+        "behavior:10000133:talent:normalattack-plunging",
+        "behavior:10000133:talent:passives-passive-1",
+        "behavior:10000133:talent:passives-passive-2",
+        "behavior:10000133:talent:passives-passive-utility",
+        "behavior:10000133:talent:skill"
+      ],
+      "authoritativeCandidateIdsDigest": "9029efb1276280eea2b547008c870948424a834a57242caa3733ee55ee248e5d",
+      "authoritativeEntityCount": 3,
+      "authoritativeEntityIds": [
+        "10000131",
+        "10000132",
+        "10000133"
+      ],
+      "authoritativeEntityIdsDigest": "447ca314d38783f32a0090e4ca5cdff9d169f88f45dac3559e700012cb5af56c",
+      "capturedNewEntityIds": [
+        "10000132",
+        "10000133"
+      ],
+      "skippedOverlapEntityIds": [
+        "10000131"
+      ],
+      "overlapPolicy": "alreadyCapturedByBehaviorShard15",
+      "overlapEvidence": [
+        {
+          "entityId": "10000131",
+          "previousShardId": "behavior:behaviorSpec:semanticDecisionRequired:standard:15",
+          "acquisitionPolicy": "notReacquired"
+        }
+      ]
+    },
+    "versionBindings": [
+      {
+        "gameVersion": "6.7",
+        "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+        "packageVersion": "5.2.12",
+        "status": "strictlyBound",
+        "package": {
+          "gameVersion": "6.7",
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "packageVersion": "5.2.12",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard16/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+          "gitBlob": "e78cc92e75db21ea15edadbeafdf9152896d934c",
+          "rawArtifactBytes": 1619,
+          "rawArtifactSha256": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+          "name": "genshin-db",
+          "description": "Genshin Impact v6.7 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo."
+        }
+      },
+      {
+        "gameVersion": "7.0",
+        "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+        "packageVersion": "5.2.13",
+        "status": "strictlyBound",
+        "package": {
+          "gameVersion": "7.0",
+          "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+          "packageVersion": "5.2.13",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard16/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+          "gitBlob": "cfccefd470f420159b1376440e1a0f86a247030d",
+          "rawArtifactBytes": 1619,
+          "rawArtifactSha256": "3faf0b2220539a07af9260f5dd83afd0e964aa42868c9b3b73c6cb14065085c6",
+          "name": "genshin-db",
+          "description": "Genshin Impact v7.0 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo."
+        }
+      }
+    ],
+    "resolvedEntities": [
+      {
+        "entityId": "10000132",
+        "name": "Prune",
+        "nameJa": "プルーネ",
+        "providerSlug": "prune",
+        "providerId": 13201,
+        "resolutionStatus": "resolvedUnambiguous",
+        "identityResolution": {
+          "status": "resolvedByLocalCatalogAndProviderName",
+          "localIdentityEvidenceDigest": "7047cd344c076c4c3ef14e533e463f8f6dc111f6959eee195f23fbdd393def3d",
+          "providerNameMatches": true,
+          "providerEmbeddedIdMatches": true
+        },
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "resolutionEvidence": "immutableRawPathWithEmbeddedId",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/prune.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/prune.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard16/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/prune.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/prune.json",
+              "gitBlob": "a3dad8d2c9d2c8bdf89f1f6e3940551f49db3db9",
+              "rawArtifactBytes": 9512,
+              "rawArtifactSha256": "ccb562c44801d9fbb55d224730d5ad83abcef1228cbd22586b2c3bf2b6b1f4f3",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 13201,
+              "embeddedName": "Prune"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard16/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/prune.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/prune.json",
+              "gitBlob": "4c97df28ef3e916e5e428a093627b9e5e625892e",
+              "rawArtifactBytes": 9630,
+              "rawArtifactSha256": "73fc107cb1cd02eb46ff6549d61043ce6b948ef97ca894b5d10c7afaeb450781",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 13201,
+              "embeddedName": "Prune"
+            },
+            "comparison": {
+              "status": "rawRecordChanged",
+              "changedFieldCount": 4,
+              "fieldDiffs": [
+                {
+                  "jsonPointer": "/combat2/description",
+                  "beforeValue": "Unleash the wind's might to defeat the evil witch and save Descartes! Prune strikes the Witchlure Bell with her Banehunter Oathhammer, dealing Anemo DMG.\nIf Prune triggers Swirl on an opponent using this attack, Ring-A-Ding-Ding! Hexhunter Chime will be changed to Clang Clang! Witch-tribution Comes! for the next 6s.\n\nClang Clang! Witch-tribution Comes!\nPrune's hammer is now enshrouded by the element involved in the previous Swirl reaction, causing **Banehunter Oathhammer** to undergo Elemental Conversion. When activated with a Press, Prune will leap up and kick the Banehunter Oathhammer forward, dealing Elemental DMG of the corresponding type to opponents in front of her.",
+                  "afterValue": "Determined to take down the \"evil\" witch and save her beloved Descartes, Prune unleashes the power of the wind! She strikes at the Witchlure Bell using her Banehunter Oathhammer, dealing Anemo DMG.\nIf Prune triggers a Swirl or Stellar Swirl reaction in the opponent with this attack, her Ring-A-Ding-Ding! Hexhunter Chime is changed to Clang Clang! Witch-tribution Comes! for the next 6s.\n\nClang Clang! Witch-tribution Comes!\nEnsconces the **Banehunter Oathhammer** in the element involved in the earlier Swirl or Stellar Swirl reaction. After tapping to unleash, Prune will launch a midair kick at the Banehunter Oathhammer, dealing DMG to opponents in front of her of the corresponding elemental type.",
+                  "beforeFieldDigest": "ce2f31cef122656859ba52ec14e1adadefaa456d215b61c388b0db7b28d4cbcd",
+                  "afterFieldDigest": "d3a47c497d9f8c0486926cb4cf5e08899668ecfee83712ca5963454bc1732fb8"
+                },
+                {
+                  "jsonPointer": "/combat2/descriptionRaw",
+                  "beforeValue": "Unleash the wind's might to defeat the evil witch and save Descartes! Prune strikes the Witchlure Bell with her Banehunter Oathhammer, dealing <color=#80FFD7FF>Anemo DMG</color>.\nIf Prune triggers Swirl on an opponent using this attack, <color=#FFD780FF>Ring-A-Ding-Ding! Hexhunter Chime</color> will be changed to <color=#FFD780FF>Clang Clang! Witch-tribution Comes!</color> for the next 6s.\n\n<color=#FFD780FF>Clang Clang! Witch-tribution Comes!</color>\nPrune's hammer is now enshrouded by the element involved in the previous Swirl reaction, causing {LINK#N11320001}<color=#FFD780FF>Banehunter Oathhammer</color>{/LINK} to undergo Elemental Conversion. When activated with a Press, Prune will leap up and kick the Banehunter Oathhammer forward, dealing Elemental DMG of the corresponding type to opponents in front of her.",
+                  "afterValue": "Determined to take down the \"evil\" witch and save her beloved Descartes, Prune unleashes the power of the wind! She strikes at the Witchlure Bell using her Banehunter Oathhammer, dealing <color=#80FFD7FF>Anemo DMG</color>.\nIf Prune triggers a Swirl or Stellar Swirl reaction in the opponent with this attack, her <color=#FFD780FF>Ring-A-Ding-Ding! Hexhunter Chime</color> is changed to <color=#FFD780FF>Clang Clang! Witch-tribution Comes!</color> for the next 6s.\n\n<color=#FFD780FF>Clang Clang! Witch-tribution Comes!</color>\nEnsconces the {LINK#N11320001}<color=#FFD780FF>Banehunter Oathhammer</color>{/LINK} in the element involved in the earlier Swirl or Stellar Swirl reaction. After tapping to unleash, Prune will launch a midair kick at the Banehunter Oathhammer, dealing DMG to opponents in front of her of the corresponding elemental type.",
+                  "beforeFieldDigest": "b31531f9f9e64a5f657d3f42cd5653a3c3fe32b429b8d16e16484d9282e2c9cb",
+                  "afterFieldDigest": "5594fbcb0e5f38ba01c64ac87d8f908a4fdc32d384c5e4c33abf33f29742e862"
+                },
+                {
+                  "jsonPointer": "/passive1/description",
+                  "beforeValue": "During the Elemental Burst **The Bell Tolls! The Hunt Is On!**, after the Witchlure Bell in Hunter-Seeker mode deals DMG to an opponent, if this DMG triggers Swirl on an opponent, it will also summon a **Banehunter Oathhammer** that will deal 150% of Prune's ATK as DMG to them, with the DMG Type matching the Elemental Conversion from the Swirl. This DMG is considered Elemental Burst DMG.",
+                  "afterValue": "During the Elemental Burst **The Bell Tolls! The Hunt Is On!**, after the Witchlure Bell in Hunter-Seeker mode deals DMG to an opponent, if this DMG triggers Swirl or Stellar Swirl in an opponent, it will also summon a **Banehunter Oathhammer** that will deal 150% of Prune's ATK as DMG to them, with the DMG Type matching the Elemental Conversion from the Swirl or Stellar Swirl. This DMG is considered Elemental Burst DMG.",
+                  "beforeFieldDigest": "173d0767e7f8f831a87754505c1a9a4949969a3733d3b1e4029227bc974e65b5",
+                  "afterFieldDigest": "295de117bbc670793138bfdbdfb8108c6f80458b9d0be3621950b1593f962851"
+                },
+                {
+                  "jsonPointer": "/passive1/descriptionRaw",
+                  "beforeValue": "During the Elemental Burst <color=#FFD780FF>{LINK#S11325}The Bell Tolls! The Hunt Is On!{/LINK}</color>, after the Witchlure Bell in Hunter-Seeker mode deals DMG to an opponent, if this DMG triggers Swirl on an opponent, it will also summon a {LINK#N11320001}<color=#FFD780FF>Banehunter Oathhammer</color>{/LINK} that will deal 150% of Prune's ATK as DMG to them, with the DMG Type matching the Elemental Conversion from the Swirl. This DMG is considered Elemental Burst DMG.",
+                  "afterValue": "During the Elemental Burst <color=#FFD780FF>{LINK#S11325}The Bell Tolls! The Hunt Is On!{/LINK}</color>, after the Witchlure Bell in Hunter-Seeker mode deals DMG to an opponent, if this DMG triggers Swirl or Stellar Swirl in an opponent, it will also summon a {LINK#N11320001}<color=#FFD780FF>Banehunter Oathhammer</color>{/LINK} that will deal 150% of Prune's ATK as DMG to them, with the DMG Type matching the Elemental Conversion from the Swirl or Stellar Swirl. This DMG is considered Elemental Burst DMG.",
+                  "beforeFieldDigest": "30cacc187389ab4e43afe81e79d822a34c5bbaec7c4dfd6ef3782fe5e8bb2580",
+                  "afterFieldDigest": "e3cab8d2ea9da578fe3fff2cfdbc1d3ee9d1154c6459cbc7594450591f00c025"
+                }
+              ],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "bb8826286a84e7987a0f6affec05f726ed298558b6b5dd99bba687a524e73602",
+              "afterFieldDigest": "a70bc5a984724fd8b1e6a1ebb6204d7076d421e611669a9566b38423c27dab03",
+              "beforeArtifactSha256": "ccb562c44801d9fbb55d224730d5ad83abcef1228cbd22586b2c3bf2b6b1f4f3",
+              "afterArtifactSha256": "73fc107cb1cd02eb46ff6549d61043ce6b948ef97ca894b5d10c7afaeb450781"
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard16/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/prune.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/prune.json",
+              "gitBlob": "03038dc1d5d0da71ff7bb51b0bd813d149e89d44",
+              "rawArtifactBytes": 3909,
+              "rawArtifactSha256": "aa9331901552391c21faf27997d0e451d7243ad1d135b1b8583a95a152e3e118",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 13201,
+              "embeddedName": "Prune"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard16/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/prune.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/prune.json",
+              "gitBlob": "03038dc1d5d0da71ff7bb51b0bd813d149e89d44",
+              "rawArtifactBytes": 3909,
+              "rawArtifactSha256": "aa9331901552391c21faf27997d0e451d7243ad1d135b1b8583a95a152e3e118",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 13201,
+              "embeddedName": "Prune"
+            },
+            "comparison": {
+              "status": "rawRecordMatch",
+              "changedFieldCount": 0,
+              "fieldDiffs": [],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "0704feced8cea28c70c519fbe8251606038b68faaca512721a65a35dc754bcc7",
+              "afterFieldDigest": "0704feced8cea28c70c519fbe8251606038b68faaca512721a65a35dc754bcc7",
+              "beforeArtifactSha256": "aa9331901552391c21faf27997d0e451d7243ad1d135b1b8583a95a152e3e118",
+              "afterArtifactSha256": "aa9331901552391c21faf27997d0e451d7243ad1d135b1b8583a95a152e3e118"
+            }
+          }
+        ]
+      },
+      {
+        "entityId": "10000133",
+        "name": "Sandrone",
+        "nameJa": "サンドローネ",
+        "providerSlug": "sandrone",
+        "providerId": 13301,
+        "resolutionStatus": "resolvedUnambiguous",
+        "identityResolution": {
+          "status": "resolvedByLocalCatalogAndProviderName",
+          "localIdentityEvidenceDigest": "0deb77d8d56c3755dc7de365c8de9a3f9e9ba0b58667e294cd758bf52d3198a1",
+          "providerNameMatches": true,
+          "providerEmbeddedIdMatches": true
+        },
+        "treeResolution": {
+          "method": "nonRecursiveGitTreePath",
+          "resolutionEvidence": "immutableRawPathWithEmbeddedId",
+          "directoryPaths": [
+            "src/data/English/talents",
+            "src/data/English/constellations"
+          ],
+          "pathResolution": [
+            {
+              "recordKind": "talents",
+              "path": "src/data/English/talents/sandrone.json"
+            },
+            {
+              "recordKind": "constellations",
+              "path": "src/data/English/constellations/sandrone.json"
+            }
+          ]
+        },
+        "records": [
+          {
+            "recordKind": "talents",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard16/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/sandrone.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/sandrone.json",
+              "gitBlob": "698818aaa0666184ad89b464018ced27d41ca9c8",
+              "rawArtifactBytes": 12897,
+              "rawArtifactSha256": "0483bdd8ab771d405079e84bf635fffff0e60ad2a92f064a891ba9610ae7ba6c",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 13301,
+              "embeddedName": "Sandrone"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard16/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/sandrone.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/sandrone.json",
+              "gitBlob": "e92f2ae09cc21e9791148464b2fb4c4cdaf58f46",
+              "rawArtifactBytes": 13589,
+              "rawArtifactSha256": "6563fd1d9e3bd9ef2392db70fa33f9c1583daa693099c588063d827dd8b869a9",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 13301,
+              "embeddedName": "Sandrone"
+            },
+            "comparison": {
+              "status": "rawRecordChanged",
+              "changedFieldCount": 20,
+              "fieldDiffs": [
+                {
+                  "jsonPointer": "/combat1/attributes/labels/6",
+                  "beforeValue": "DMG When in Power Overdrive|{param7:F1P}",
+                  "afterValue": "Charged Attack Condensed Beam Stellar Swirl DMG|{param11:F1P}",
+                  "beforeFieldDigest": "d9c7fbe11918a93ca1ab9e3c69257dfb8ce6c6419bec8d90bf336abe4471b79f",
+                  "afterFieldDigest": "2d2f9eafbdc496a43c7d3f5af4698f725b77018d0345783eaf649bd683c4a25d"
+                },
+                {
+                  "jsonPointer": "/combat1/attributes/labels/7",
+                  "beforeValue": "Plunge DMG|{param8:F1P}",
+                  "afterValue": "DMG When in Power Overdrive|{param7:F1P}",
+                  "beforeFieldDigest": "a8d374c322ccb6bf2c692188ebbb72b12a9d07d3eb46357ae614491dd000efcc",
+                  "afterFieldDigest": "d9c7fbe11918a93ca1ab9e3c69257dfb8ce6c6419bec8d90bf336abe4471b79f"
+                },
+                {
+                  "jsonPointer": "/combat1/attributes/labels/8",
+                  "beforeValue": "Low/High Plunge DMG|{param9:P}/{param10:P}",
+                  "afterValue": "Plunge DMG|{param8:F1P}",
+                  "beforeFieldDigest": "0a5b9136220133dd5af53c36f43ee7d4cbb2a053c2ea09677e8736630503b87e",
+                  "afterFieldDigest": "a8d374c322ccb6bf2c692188ebbb72b12a9d07d3eb46357ae614491dd000efcc"
+                },
+                {
+                  "jsonPointer": "/combat1/attributes/labels/9",
+                  "beforeValue": null,
+                  "afterValue": "Low/High Plunge DMG|{param9:P}/{param10:P}",
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "0a5b9136220133dd5af53c36f43ee7d4cbb2a053c2ea09677e8736630503b87e"
+                },
+                {
+                  "jsonPointer": "/combat1/description",
+                  "beforeValue": "Normal Attack\nGenerates threads that control her weapon using formulae, performing up to 3 consecutive strikes.\n\nCharged Attack\nSummons the Facilitatrice Automatisee Generaliste Interactive et Omnitache, or \"Fagio,\" and switches it to **Decoding** mode: Unleashes a sweeping fire attack on enemies in front, as well as periodically fires condensed beams, dealing AoE Cryo DMG.\nRadiance: Stellar-Conduct: The condensed beams will instead deal AoE Cryo DMG that is considered Stellar-Conduct DMG.\nWhile in Decoding mode, Fagio's **Decoding Power** will continuously increase. Firing condensed beams will also further increase its Decoding Power.\nWhen Fagio's Decoding Power reaches the maximum of 100 points, it switches to Power Overdrive mode, in which it fires at opponents with longer intervals, dealing Cryo DMG. It will be unable to switch to Decoding mode at this time.\nWhen not in Decoding mode, Fagio's Decoding Power gradually decreases. When Sandrone is off-field, she will focus on maintaining Fagio, causing its Decoding Power to decrease at 300% the original rate.\nFagio exits Power Overdrive mode when its Decoding Power has decreased to under 50.\n\nPlunging Attack\nPlunges from midair to strike the ground below, dealing DMG to opponents along their path and causing AoE DMG on landing.",
+                  "afterValue": "Normal Attack\nGenerates threads that control her weapon using formulae, performing up to 3 consecutive strikes.\n\nCharged Attack\nSummons the Facilitatrice Automatisee Generaliste Interactive et Omnitache, or \"Fagio,\" and switches it to **Decoding** mode: Unleashes a sweeping fire attack on enemies in front, as well as periodically fires condensed beams, dealing AoE Cryo DMG.\n**Radiance: Stellar Glimmer**: The condensed beams will instead deal AoE Cryo DMG that is considered the corresponding Stellar Glimmer reaction DMG.\nWhile in Decoding mode, Fagio's **Decoding Power** will continuously increase. Firing condensed beams will also further increase its Decoding Power.\nWhen Fagio's Decoding Power reaches the maximum of 100 points, it switches to Power Overdrive mode, in which it fires at opponents with longer intervals, dealing Cryo DMG. It will be unable to switch to Decoding mode at this time.\nWhen not in Decoding mode, Fagio's Decoding Power gradually decreases. When Sandrone is off-field, she will focus on maintaining Fagio, causing its Decoding Power to decrease at 300% the original rate.\nFagio exits Power Overdrive mode when its Decoding Power has decreased to under 50.\n\nPlunging Attack\nPlunges from midair to strike the ground below, dealing DMG to opponents along their path and causing AoE DMG on landing.",
+                  "beforeFieldDigest": "3f4182035f94f083a445c4ad52fe21c3b4a3f90e93de2e82f15dd9da033c0c98",
+                  "afterFieldDigest": "31b986c5bbd459eba9f571c89f27033df32fc6de0511f6ca0f0fa643e8d655f0"
+                },
+                {
+                  "jsonPointer": "/combat1/descriptionRaw",
+                  "beforeValue": "<color=#FFD780FF>Normal Attack</color>\nGenerates threads that control her weapon using formulae, performing up to 3 consecutive strikes.\n\n<color=#FFD780FF>Charged Attack</color>\nSummons the Facilitatrice Automatisee Generaliste Interactive et Omnitache, or \"<color=#FFD780FF>Fagio</color>,\" and switches it to <color=#FFD780FF>{LINK#N11330001}Decoding{/LINK}</color> mode: Unleashes a sweeping fire attack on enemies in front, as well as periodically fires condensed beams, dealing <color=#99FFFFFF>AoE Cryo DMG</color>.\n<color=#FFD780FF>Radiance: Stellar-Conduct</color>: The condensed beams will instead deal <color=#99FFFFFF>AoE Cryo DMG</color> that is considered Stellar-Conduct DMG.\nWhile in <color=#FFD780FF>Decoding</color> mode, Fagio's <color=#FFD780FF>{LINK#N11330002}Decoding Power{/LINK}</color> will continuously increase. Firing condensed beams will also further increase its Decoding Power.\nWhen Fagio's Decoding Power reaches the maximum of 100 points, it switches to <color=#FFD780FF>Power Overdrive</color> mode, in which it fires at opponents with longer intervals, dealing <color=#99FFFFFF>Cryo DMG</color>. It will be unable to switch to Decoding mode at this time.\nWhen not in <color=#FFD780FF>Decoding</color> mode, Fagio's <color=#FFD780FF>Decoding Power</color> gradually decreases. When Sandrone is off-field, she will focus on maintaining Fagio, causing its Decoding Power to decrease at 300% the original rate.\nFagio exits <color=#FFD780FF>Power Overdrive</color> mode when its <color=#FFD780FF>Decoding Power</color> has decreased to under 50.\n\n<color=#FFD780FF>Plunging Attack</color>\nPlunges from midair to strike the ground below, dealing DMG to opponents along their path and causing AoE DMG on landing.",
+                  "afterValue": "<color=#FFD780FF>Normal Attack</color>\nGenerates threads that control her weapon using formulae, performing up to 3 consecutive strikes.\n\n<color=#FFD780FF>Charged Attack</color>\nSummons the Facilitatrice Automatisee Generaliste Interactive et Omnitache, or \"<color=#FFD780FF>Fagio</color>,\" and switches it to <color=#FFD780FF>{LINK#N11330001}Decoding{/LINK}</color> mode: Unleashes a sweeping fire attack on enemies in front, as well as periodically fires condensed beams, dealing <color=#99FFFFFF>AoE Cryo DMG</color>.\n{LINK#N11500004}<color=#FFD780FF>Radiance: Stellar Glimmer</color>{/LINK}: The condensed beams will instead deal <color=#99FFFFFF>AoE Cryo DMG</color> that is considered the corresponding Stellar Glimmer reaction DMG.\nWhile in <color=#FFD780FF>Decoding</color> mode, Fagio's <color=#FFD780FF>{LINK#N11330002}Decoding Power{/LINK}</color> will continuously increase. Firing condensed beams will also further increase its Decoding Power.\nWhen Fagio's Decoding Power reaches the maximum of 100 points, it switches to <color=#FFD780FF>Power Overdrive</color> mode, in which it fires at opponents with longer intervals, dealing <color=#99FFFFFF>Cryo DMG</color>. It will be unable to switch to Decoding mode at this time.\nWhen not in <color=#FFD780FF>Decoding</color> mode, Fagio's <color=#FFD780FF>Decoding Power</color> gradually decreases. When Sandrone is off-field, she will focus on maintaining Fagio, causing its Decoding Power to decrease at 300% the original rate.\nFagio exits <color=#FFD780FF>Power Overdrive</color> mode when its <color=#FFD780FF>Decoding Power</color> has decreased to under 50.\n\n<color=#FFD780FF>Plunging Attack</color>\nPlunges from midair to strike the ground below, dealing DMG to opponents along their path and causing AoE DMG on landing.",
+                  "beforeFieldDigest": "bf7f290f839795d21f97f15ff37f41972cade6ab65ee04491bf2ea0a59ea827b",
+                  "afterFieldDigest": "dc55b652d3a00ea55c525a9d404e489e1ef2ccf6026765853b02a737a1a73a2e"
+                },
+                {
+                  "jsonPointer": "/combat2/attributes/labels/2",
+                  "beforeValue": "CD|{param3:F1}s",
+                  "afterValue": "Prism Shot Stellar Swirl DMG|{param4:F1P}",
+                  "beforeFieldDigest": "77715e0a4b2fc3b8b98c66b21aa5042b6c61a13c175a46637ccca8c736337409",
+                  "afterFieldDigest": "de033060891d9645fdc809c4d1dd02cee909a98015157d4f25985793f8a63cf6"
+                },
+                {
+                  "jsonPointer": "/combat2/attributes/labels/3",
+                  "beforeValue": null,
+                  "afterValue": "CD|{param3:F1}s",
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "77715e0a4b2fc3b8b98c66b21aa5042b6c61a13c175a46637ccca8c736337409"
+                },
+                {
+                  "jsonPointer": "/combat2/description",
+                  "beforeValue": "With her impeccable, ladylike poise, Sandrone boards the Tea Party Tactical Assault Hovermech and hovers forward for 6s. During this time, Sandrone can control the travel direction of the craft. Pressing Sprint consumes 10 Stamina and launches her into an elegant high-speed hover mode, in which she will move even faster at the cost of 15 Stamina per second.\n\nWhen Sandrone starts hovering, if there are opponents nearby, she will also summon a Prismatic Resonance Cannon and fire 2 Prism Shots at any opponents who have yet to cool down, dealing Cryo DMG.\nRadiance: Stellar-Conduct: The second Prism Shot will instead deal Cryo DMG that is considered Stellar-Conduct DMG.\n\nWhen on the Tea Party Tactical Assault Hovermech, Sandrone will also elegantly and quietly repair Fagio, causing **Decoding Power** to swiftly decrease.",
+                  "afterValue": "With her impeccable, ladylike poise, Sandrone boards the Tea Party Tactical Assault Hovermech and hovers forward for 6s. During this time, Sandrone can control the travel direction of the craft. Pressing Sprint consumes 10 Stamina and launches her into an elegant high-speed hover mode, in which she will move even faster at the cost of 15 Stamina per second.\n\nWhen Sandrone starts hovering, if there are opponents nearby, she will also summon a Prismatic Resonance Cannon and fire 2 Prism Shots at any opponents who have yet to cool down, dealing Cryo DMG.\n**Radiance: Stellar Glimmer**: The second Prism Shot will instead deal Cryo DMG that is considered the corresponding Stellar Glimmer reaction DMG.\n\nWhen on the Tea Party Tactical Assault Hovermech, Sandrone will also elegantly and quietly repair Fagio, causing **Decoding Power** to swiftly decrease.",
+                  "beforeFieldDigest": "d41fe12f168125c45f4b9c2e9a9549e0ff5bf6cfe6b1d84ba7f37f3c3a9ffe13",
+                  "afterFieldDigest": "7165ef85c5a5a0882a971459160dffd070bd67f5baca1af65d68fb5a03aeb315"
+                },
+                {
+                  "jsonPointer": "/combat2/descriptionRaw",
+                  "beforeValue": "With her impeccable, ladylike poise, Sandrone boards the <color=#FFD780FF>Tea Party Tactical Assault Hovermech</color> and hovers forward for 6s. During this time, Sandrone can control the travel direction of the craft. Pressing Sprint consumes 10 Stamina and launches her into an elegant high-speed hover mode, in which she will move even faster at the cost of 15 Stamina per second.\n\nWhen Sandrone starts hovering, if there are opponents nearby, she will also summon a Prismatic Resonance Cannon and fire 2 Prism Shots at any opponents who have yet to cool down, dealing <color=#99FFFFFF>Cryo DMG</color>.\n<color=#FFD780FF>Radiance: Stellar-Conduct</color>: The second Prism Shot will instead deal <color=#99FFFFFF>Cryo DMG</color> that is considered Stellar-Conduct DMG.\n\nWhen on the Tea Party Tactical Assault Hovermech, Sandrone will also elegantly and quietly repair Fagio, causing <color=#FFD780FF>{LINK#N11330002}Decoding Power{/LINK}</color> to swiftly decrease.",
+                  "afterValue": "With her impeccable, ladylike poise, Sandrone boards the <color=#FFD780FF>Tea Party Tactical Assault Hovermech</color> and hovers forward for 6s. During this time, Sandrone can control the travel direction of the craft. Pressing Sprint consumes 10 Stamina and launches her into an elegant high-speed hover mode, in which she will move even faster at the cost of 15 Stamina per second.\n\nWhen Sandrone starts hovering, if there are opponents nearby, she will also summon a Prismatic Resonance Cannon and fire 2 Prism Shots at any opponents who have yet to cool down, dealing <color=#99FFFFFF>Cryo DMG</color>.\n{LINK#N11500004}<color=#FFD780FF>Radiance: Stellar Glimmer</color>{/LINK}: The second Prism Shot will instead deal <color=#99FFFFFF>Cryo DMG</color> that is considered the corresponding Stellar Glimmer reaction DMG.\n\nWhen on the Tea Party Tactical Assault Hovermech, Sandrone will also elegantly and quietly repair Fagio, causing <color=#FFD780FF>{LINK#N11330002}Decoding Power{/LINK}</color> to swiftly decrease.",
+                  "beforeFieldDigest": "6a58ce367a0e8ba2120bc7eaef42871c6d81e5c43da8fb4483296ad0fe3baa03",
+                  "afterFieldDigest": "97d7418a3e4b5c996eff79b5bc81b371508a36e79e2c239acdf8d8ea4dfa915a"
+                },
+                {
+                  "jsonPointer": "/combat3/attributes/labels/3",
+                  "beforeValue": "CD|{param4:F1}s",
+                  "afterValue": "Convective Inhibition Ray Stellar Swirl DMG|{param6:F1P}",
+                  "beforeFieldDigest": "75867cf3f1b4f07e06d8d4a44deae025783527704d3c49c71660c5c4d88a76dd",
+                  "afterFieldDigest": "3de47e099af01d3b687abec34edd2b85454fc719d96729684b4f3ee8e8d733a1"
+                },
+                {
+                  "jsonPointer": "/combat3/attributes/labels/4",
+                  "beforeValue": "Energy Cost|{param5:I}",
+                  "afterValue": "CD|{param4:F1}s",
+                  "beforeFieldDigest": "9e08330eb7a3ea0d8f7cfc29dedb7952796ee5dfdb2a9928f303774624c77ef1",
+                  "afterFieldDigest": "75867cf3f1b4f07e06d8d4a44deae025783527704d3c49c71660c5c4d88a76dd"
+                },
+                {
+                  "jsonPointer": "/combat3/attributes/labels/5",
+                  "beforeValue": null,
+                  "afterValue": "Energy Cost|{param5:I}",
+                  "beforeFieldDigest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+                  "afterFieldDigest": "9e08330eb7a3ea0d8f7cfc29dedb7952796ee5dfdb2a9928f303774624c77ef1"
+                },
+                {
+                  "jsonPointer": "/combat3/description",
+                  "beforeValue": "In line with established ladylike behavior, Sandrone summons a large number of Prismatic Resonance Cannons for a frontal bombardment before firing on her foes with a Convective Inhibition Ray, dealing AoE Cryo DMG.\nRadiance: Stellar-Conduct: The Convective Inhibition Ray instead deals AoE Cryo DMG that is considered Stellar-Conduct DMG.",
+                  "afterValue": "In line with established ladylike behavior, Sandrone summons a large number of Prismatic Resonance Cannons for a frontal bombardment before firing on her foes with a Convective Inhibition Ray, dealing AoE Cryo DMG.\n**Radiance: Stellar Glimmer**: The Convective Inhibition Ray instead deals AoE Cryo DMG that is considered the corresponding Stellar Glimmer reaction DMG.",
+                  "beforeFieldDigest": "0310b84fd3de5c50f5a9d65234ca63a2f98115b86c7026be783f815ac71810ea",
+                  "afterFieldDigest": "caa68df950e8e6b61e8f61cf45137132da809d28e8e2cb9ebc748eb824193898"
+                },
+                {
+                  "jsonPointer": "/combat3/descriptionRaw",
+                  "beforeValue": "In line with established ladylike behavior, Sandrone summons a large number of Prismatic Resonance Cannons for a frontal bombardment before firing on her foes with a Convective Inhibition Ray, dealing <color=#99FFFFFF>AoE Cryo DMG</color>.\n<color=#FFD780FF>Radiance: Stellar-Conduct</color>: The Convective Inhibition Ray instead deals <color=#99FFFFFF>AoE Cryo DMG</color> that is considered Stellar-Conduct DMG.",
+                  "afterValue": "In line with established ladylike behavior, Sandrone summons a large number of Prismatic Resonance Cannons for a frontal bombardment before firing on her foes with a Convective Inhibition Ray, dealing <color=#99FFFFFF>AoE Cryo DMG</color>.\n{LINK#N11500004}<color=#FFD780FF>Radiance: Stellar Glimmer</color>{/LINK}: The Convective Inhibition Ray instead deals <color=#99FFFFFF>AoE Cryo DMG</color> that is considered the corresponding Stellar Glimmer reaction DMG.",
+                  "beforeFieldDigest": "47e715aba98930a88939a1adf5f02e69bb0f90d5ef5ece7481a8fa6fb734adaf",
+                  "afterFieldDigest": "770283e7583de4296d3d6c7c23bd59587942e39f3894d2486cc038782d5e3fdc"
+                },
+                {
+                  "jsonPointer": "/passive1/description",
+                  "beforeValue": "Radiance: Stellar-Conduct: When using the Elemental Skill **Formule Phenomenale: Differential Analysis**, if Fagio's **Decoding Power** is greater than 50, the second Prism Shot fired by Fagio at nearby opponents will deal 400% of its original DMG as Fagio's Decoding Power is decreased.\nAdditionally, for every 10 points of Decoding Power Fagio loses, it gains 1 stack of Refined Tactics for 60s (max 10 stacks). When Sandrone uses the Elemental Burst **Formule Phenomenale: Q.E.D.** while in the Radiance: Stellar-Conduct state, all stacks of Refined Tactics are cleared, causing the Convective Inhibition Ray to deal 100% + (number of stacks cleared) × 10% of its original DMG.",
+                  "afterValue": "**Radiance: Stellar Glimmer**: When using the Elemental Skill **Formule Phenomenale: Differential Analysis**, if Fagio's **Decoding Power** is greater than 50, the second Prism Shot fired by Fagio at nearby opponents will deal 400% of its original DMG as Fagio's Decoding Power is decreased.\nAdditionally, for every 10 points of Decoding Power Fagio loses, it gains 1 stack of Refined Tactics for 60s (max 10 stacks). When Sandrone uses the Elemental Burst **Formule Phenomenale: Q.E.D.** while in the Radiance: Stellar Glimmer state, all stacks of Refined Tactics are cleared, causing the Convective Inhibition Ray to deal 100% + (number of stacks cleared) × 10% of its original DMG.",
+                  "beforeFieldDigest": "a5152cfeed6b017cb3e1f84f2626953383176c8b06d62aec6530ca65cfd8aa53",
+                  "afterFieldDigest": "539f1b249df8859ebef485d928f59afd79a7259baf691bd9f352baedb784cf37"
+                },
+                {
+                  "jsonPointer": "/passive1/descriptionRaw",
+                  "beforeValue": "<color=#FFD780FF>Radiance: Stellar-Conduct</color>: When using the Elemental Skill {LINK#S11332}<color=#FFD780FF>Formule Phenomenale: Differential Analysis</color>{/LINK}, if Fagio's <color=#FFD780FF>{LINK#N11330002}Decoding Power{/LINK}</color> is greater than 50, the second Prism Shot fired by Fagio at nearby opponents will deal 400% of its original DMG as Fagio's Decoding Power is decreased.\nAdditionally, for every 10 points of <color=#FFD780FF>Decoding Power</color> Fagio loses, it gains 1 stack of <color=#FFD780FF>Refined Tactics</color> for 60s (max 10 stacks). When Sandrone uses the Elemental Burst {LINK#S11335}<color=#FFD780FF>Formule Phenomenale: Q.E.D.</color>{/LINK} while in the <color=#FFD780FF>Radiance: Stellar-Conduct</color> state, all stacks of Refined Tactics are cleared, causing the Convective Inhibition Ray to deal 100% + (number of stacks cleared) × 10% of its original DMG.",
+                  "afterValue": "{LINK#N11500004}<color=#FFD780FF>Radiance: Stellar Glimmer</color>{/LINK}: When using the Elemental Skill {LINK#S11332}<color=#FFD780FF>Formule Phenomenale: Differential Analysis</color>{/LINK}, if Fagio's <color=#FFD780FF>{LINK#N11330002}Decoding Power{/LINK}</color> is greater than 50, the second Prism Shot fired by Fagio at nearby opponents will deal 400% of its original DMG as Fagio's Decoding Power is decreased.\nAdditionally, for every 10 points of <color=#FFD780FF>Decoding Power</color> Fagio loses, it gains 1 stack of <color=#FFD780FF>Refined Tactics</color> for 60s (max 10 stacks). When Sandrone uses the Elemental Burst {LINK#S11335}<color=#FFD780FF>Formule Phenomenale: Q.E.D.</color>{/LINK} while in the <color=#FFD780FF>Radiance: Stellar Glimmer</color> state, all stacks of Refined Tactics are cleared, causing the Convective Inhibition Ray to deal 100% + (number of stacks cleared) × 10% of its original DMG.",
+                  "beforeFieldDigest": "9ea7b0b2a883b899ec0bbbb40ae280aebe8be864bf58cb516e9462bedccf9922",
+                  "afterFieldDigest": "36b0c006421ae09e536aaf59cceac0c7486e749848fd77f31fdcb8e7aea2bb7e"
+                },
+                {
+                  "jsonPointer": "/passive3/description",
+                  "beforeValue": "When party members trigger Superconduct, it will be changed to Stellar-Conduct, and party members' Base Stellar-Conduct DMG will be increased based on Sandrone's ATK: Every 100 ATK she has increases the Base Stellar-Conduct DMG by 0.7%. The maximum increase that can be gained this way is 14%.\nAdditionally, when Sandrone is within a **Polestar Field**, she will enter the Radiance: Stellar-Conduct state.",
+                  "afterValue": "Sandrone will enter the Radiance: Stellar-Conduct state when she is inside a **Polestar Field**, or the Radiance: Stellar Swirl state for 8s after a nearby party member triggers a Stellar Swirl reaction.\nWhen a party member triggers a Superconduct or Cryo Swirl reaction, it becomes a Stellar-Conduct or Stellar Swirl reaction instead, and the Base DMG of the aforementioned reaction is also increased by 0.7% for every 100 points of Sandrone's ATK. A maximum increase of 14% can be obtained in this way.",
+                  "beforeFieldDigest": "01bcf1892eae44aa65cb9efb2a61ccf61b7e8746c0b0cd51185935d891be7bdd",
+                  "afterFieldDigest": "76064aa3f7be2ff070b837b292569cf89caaae28fd51bbff30e260300a6fc4e5"
+                },
+                {
+                  "jsonPointer": "/passive3/descriptionRaw",
+                  "beforeValue": "When party members trigger Superconduct, it will be changed to Stellar-Conduct, and party members' Base Stellar-Conduct DMG will be increased based on Sandrone's ATK: Every 100 ATK she has increases the Base Stellar-Conduct DMG by 0.7%. The maximum increase that can be gained this way is 14%.\nAdditionally, when Sandrone is within a {LINK#N11330003}<color=#FFD780FF>Polestar Field</color>{/LINK}, she will enter the <color=#FFD780FF>Radiance: Stellar-Conduct</color> state.",
+                  "afterValue": "Sandrone will enter the <color=#FFD780FF>Radiance: Stellar-Conduct</color> state when she is inside a {LINK#N11330003}<color=#FFD780FF>Polestar Field</color>{/LINK}, or the <color=#FFD780FF>Radiance: Stellar Swirl</color> state for 8s after a nearby party member triggers a Stellar Swirl reaction.\nWhen a party member triggers a Superconduct or Cryo Swirl reaction, it becomes a Stellar-Conduct or Stellar Swirl reaction instead, and the Base DMG of the aforementioned reaction is also increased by 0.7% for every 100 points of Sandrone's ATK. A maximum increase of 14% can be obtained in this way.",
+                  "beforeFieldDigest": "3fbbe82e389925491c41c7ad17188b8bdbd2089a960d69eeda745769b389d352",
+                  "afterFieldDigest": "3de96db188a3f64f69d2cd3cc471190d944b011872c14ed5ab4b8f71075faa6f"
+                },
+                {
+                  "jsonPointer": "/passive3/name",
+                  "beforeValue": "Light of Rationalisme",
+                  "afterValue": "Stellar Jubilee: Light of Rationalisme",
+                  "beforeFieldDigest": "8f72473f04c19f34e5a6dd5f4d0a4b7671e4d7aabbcfc8187fe7231691df91a5",
+                  "afterFieldDigest": "5212d5ab3dee6b603f902fef5f2a38f7c633b01d39ebdf84035292bb2c61d52b"
+                }
+              ],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "ebcb42ef2810472232fb094a93ee6932c4f0e87fbb02ce0ffb59da67c67a4cd7",
+              "afterFieldDigest": "e4bb7a0dca300c2d13a529e62b88adc3677fa4f7a48785f0531332cb608a970c",
+              "beforeArtifactSha256": "0483bdd8ab771d405079e84bf635fffff0e60ad2a92f064a891ba9610ae7ba6c",
+              "afterArtifactSha256": "6563fd1d9e3bd9ef2392db70fa33f9c1583daa693099c588063d827dd8b869a9"
+            }
+          },
+          {
+            "recordKind": "constellations",
+            "before": {
+              "gameVersion": "6.7",
+              "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+              "packageVersion": "5.2.12",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard16/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/sandrone.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/sandrone.json",
+              "gitBlob": "6129e9c247e940744e212b1fced9edc9933c946f",
+              "rawArtifactBytes": 4012,
+              "rawArtifactSha256": "5efccd2053fd432fc785814a09f2fb22044d5e0e24f08f8f23a7e2178cd63de9",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 13301,
+              "embeddedName": "Sandrone"
+            },
+            "after": {
+              "gameVersion": "7.0",
+              "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+              "packageVersion": "5.2.13",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-behavior-shard16/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/sandrone.json",
+              "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/sandrone.json",
+              "gitBlob": "750c7aac016c6b620e1abfaac11f77fd0545684a",
+              "rawArtifactBytes": 4514,
+              "rawArtifactSha256": "83ca08876afd7131feead65726bb13d2fa334357fa3dd9e0eadae179418f074d",
+              "embeddedIdPath": "$.id",
+              "embeddedId": 13301,
+              "embeddedName": "Sandrone"
+            },
+            "comparison": {
+              "status": "rawRecordChanged",
+              "changedFieldCount": 8,
+              "fieldDiffs": [
+                {
+                  "jsonPointer": "/c1/description",
+                  "beforeValue": "When in **Decoding** mode, Fagio's **Decoding Power** increases at a 50% lower rate, and all party members deal 30% increased Stellar-Conduct DMG.",
+                  "afterValue": "When in **Decoding** mode, Fagio's **Decoding Power** increases at a 50% lower rate, and all party members deal 30% increased Stellar Glimmer reaction DMG.",
+                  "beforeFieldDigest": "f7c046e17db6f137aa147561bf1c0622ea8aa7d1354fb5a4a0491cee9bc52348",
+                  "afterFieldDigest": "f727eae906d19cc48ea36052a095eb295e26ff0157af6cf9fe6d993543ecdbd8"
+                },
+                {
+                  "jsonPointer": "/c1/descriptionRaw",
+                  "beforeValue": "When in <color=#FFD780FF>{LINK#N11330001}Decoding{/LINK}</color> mode, Fagio's <color=#FFD780FF>{LINK#N11330002}Decoding Power{/LINK}</color> increases at a 50% lower rate, and all party members deal 30% increased Stellar-Conduct DMG.",
+                  "afterValue": "When in <color=#FFD780FF>{LINK#N11330001}Decoding{/LINK}</color> mode, Fagio's <color=#FFD780FF>{LINK#N11330002}Decoding Power{/LINK}</color> increases at a 50% lower rate, and all party members deal 30% increased Stellar Glimmer reaction DMG.",
+                  "beforeFieldDigest": "f45d93c0e1cd754e38e8488a745ddba73f539e61265a3a7db9ea973937cdbc17",
+                  "afterFieldDigest": "d3376e840aa96c92c30fd63f7b7f8ca2dad8f5c19b2910fe4e011de7aae18a8c"
+                },
+                {
+                  "jsonPointer": "/c2/description",
+                  "beforeValue": "Radiance: Stellar-Conduct: Increases CRIT DMG from Charged Attack condensed beams by 40%. Also, each time a beam is fired, CRIT DMG dealt by all condensed beams fired during this **Decoding** mode period will be further increased by 20%. Max 3 stacks.",
+                  "afterValue": "Radiance: Stellar Glimmer: Increases CRIT DMG from Charged Attack condensed beams by 40%. Also, each time a beam is fired, CRIT DMG dealt by all condensed beams fired during this **Decoding** mode period will be further increased by 20%. Max 3 stacks.",
+                  "beforeFieldDigest": "34eade1130812552b90e683ac2f71e5d4d6536d90af14ff54055682db6606608",
+                  "afterFieldDigest": "a3c1791dbc1f46095be569a0ff89a73b7839ff18d63d4f3505caa5d35dc14e9f"
+                },
+                {
+                  "jsonPointer": "/c2/descriptionRaw",
+                  "beforeValue": "<color=#FFD780FF>Radiance: Stellar-Conduct</color>: Increases CRIT DMG from Charged Attack condensed beams by 40%. Also, each time a beam is fired, CRIT DMG dealt by all condensed beams fired during this <color=#FFD780FF>{LINK#N11330001}Decoding{/LINK}</color> mode period will be further increased by 20%. Max 3 stacks.",
+                  "afterValue": "<color=#FFD780FF>Radiance: Stellar Glimmer</color>: Increases CRIT DMG from Charged Attack condensed beams by 40%. Also, each time a beam is fired, CRIT DMG dealt by all condensed beams fired during this <color=#FFD780FF>{LINK#N11330001}Decoding{/LINK}</color> mode period will be further increased by 20%. Max 3 stacks.",
+                  "beforeFieldDigest": "7e7d03804ae225399d8abd915b22833692259d9055fb918f811c326114efd388",
+                  "afterFieldDigest": "d77068d1cac8065048e3adc70c2c12a25ce11f7494b341f9a19c53a104a30552"
+                },
+                {
+                  "jsonPointer": "/c4/description",
+                  "beforeValue": "When Sandrone deals Stellar-Conduct DMG to an opponent, she will also summon an extra Prismatic Resonance Cannon to fire off a coordinated attack which deals Cryo DMG at 125% of her ATK. This DMG is considered Stellar-Conduct DMG, and the effect can occur once every 4s.",
+                  "afterValue": "When Sandrone deals Stellar-Conduct or Stellar Swirl DMG to an opponent, she will also summon an extra Prismatic Resonance Cannon to fire off a coordinated attack which deals Cryo DMG at 125% or 187.5% of her ATK, respectively. This DMG is considered the corresponding Stellar Glimmer reaction DMG, and the effect can occur once every 4s.",
+                  "beforeFieldDigest": "c1cac3c30b1fe2c1315d43e106f1d3f28070f3fe2837a8579d8fe1ee8d819f1a",
+                  "afterFieldDigest": "f03dd873e2703820f367a176d3d79f41267ffd0db3c3870846c96d0e21ec4f24"
+                },
+                {
+                  "jsonPointer": "/c4/descriptionRaw",
+                  "beforeValue": "When Sandrone deals Stellar-Conduct DMG to an opponent, she will also summon an extra Prismatic Resonance Cannon to fire off a coordinated attack which deals <color=#99FFFFFF>Cryo DMG</color> at 125% of her ATK. This DMG is considered Stellar-Conduct DMG, and the effect can occur once every 4s.",
+                  "afterValue": "When Sandrone deals Stellar-Conduct or Stellar Swirl DMG to an opponent, she will also summon an extra Prismatic Resonance Cannon to fire off a coordinated attack which deals <color=#99FFFFFF>Cryo DMG</color> at 125% or 187.5% of her ATK, respectively. This DMG is considered the corresponding Stellar Glimmer reaction DMG, and the effect can occur once every 4s.",
+                  "beforeFieldDigest": "82c6ac1d819cc5e713e2f9cc1eaf3f79867b33bdc647ca42d0d88f0d81156f91",
+                  "afterFieldDigest": "4bd041be2a17ad8ad73ac48fd641e43d61eea7a8d1f678d5d4d4adcaa2f6d527"
+                },
+                {
+                  "jsonPointer": "/c6/description",
+                  "beforeValue": "When Fagio fires a condensed beam for the third time while in **Decoding** mode, the beam becomes a more powerful Condensed Cluster Beam that fires continuously. This beam will deal up to 4 additional instances of AoE Cryo DMG at 100% of Sandrone's ATK on top of any subsequent original beam fired.\nRadiance: Stellar-Conduct: The Condensed Cluster Beam will instead deal 4 additional instances of AoE Cryo DMG at 80% of Sandrone's ATK. This DMG is considered Stellar-Conduct DMG.\nAdditionally, all Stellar-Conduct DMG dealt by Sandrone is **elevated** by 20%.",
+                  "afterValue": "When Fagio fires a condensed beam for the third time while in **Decoding** mode, the beam becomes a more powerful Condensed Cluster Beam that fires continuously. This beam will deal up to 4 additional instances of AoE Cryo DMG at 100% of Sandrone's ATK on top of any subsequent original beam fired.\nRadiance: Stellar Glimmer: The Condensed Cluster Beam attack deals 4 additional instances of AoE Cryo DMG. The DMG dealt with this attack, which is considered the corresponding Stellar Glimmer reaction DMG, is equal to:\nRadiance: Stellar-Conduct: 80% of Sandrone's ATK.\nRadiance: Stellar Swirl: 120% of Sandrone's ATK.\nAdditionally, all Stellar Glimmer reaction DMG dealt by Sandrone is **elevated** by 20%.",
+                  "beforeFieldDigest": "488bfbcb8c3e483fbc32cd31713762ad090e7a4dd25dfb03dd76c6ca6b17c744",
+                  "afterFieldDigest": "e062ad953e9ac28fdc35c3d5e62f88d27e592bd00a6458ed4c29eb46ae8a74b9"
+                },
+                {
+                  "jsonPointer": "/c6/descriptionRaw",
+                  "beforeValue": "When Fagio fires a condensed beam for the third time while in <color=#FFD780FF>{LINK#N11330001}Decoding{/LINK}</color> mode, the beam becomes a more powerful <color=#FFD780FF>Condensed Cluster Beam</color> that fires continuously. This beam will deal up to 4 additional instances of <color=#99FFFFFF>AoE Cryo DMG</color> at 100% of Sandrone's ATK on top of any subsequent original beam fired.\n<color=#FFD780FF>Radiance: Stellar-Conduct</color>: The <color=#FFD780FF>Condensed Cluster Beam</color> will instead deal 4 additional instances of <color=#99FFFFFF>AoE Cryo DMG</color> at 80% of Sandrone's ATK. This DMG is considered Stellar-Conduct DMG.\nAdditionally, all Stellar-Conduct DMG dealt by Sandrone is {LINK#N11190007}<color=#FFD780FF>elevated</color>{/LINK} by 20%.",
+                  "afterValue": "When Fagio fires a condensed beam for the third time while in <color=#FFD780FF>{LINK#N11330001}Decoding{/LINK}</color> mode, the beam becomes a more powerful <color=#FFD780FF>Condensed Cluster Beam</color> that fires continuously. This beam will deal up to 4 additional instances of <color=#99FFFFFF>AoE Cryo DMG</color> at 100% of Sandrone's ATK on top of any subsequent original beam fired.\n<color=#FFD780FF>Radiance: Stellar Glimmer</color>: The <color=#FFD780FF>Condensed Cluster Beam</color> attack deals 4 additional instances of <color=#99FFFFFF>AoE Cryo DMG</color>. The DMG dealt with this attack, which is considered the corresponding Stellar Glimmer reaction DMG, is equal to:\n<color=#FFD780FF>Radiance: Stellar-Conduct</color>: 80% of Sandrone's ATK.\n<color=#FFD780FF>Radiance: Stellar Swirl</color>: 120% of Sandrone's ATK.\nAdditionally, all Stellar Glimmer reaction DMG dealt by Sandrone is {LINK#N11190007}<color=#FFD780FF>elevated</color>{/LINK} by 20%.",
+                  "beforeFieldDigest": "a162832eda985332d87b6bbf58b8294670a16419e0ba5228ad816f15c1533e6c",
+                  "afterFieldDigest": "4bbc34ba851df6d8252a887305f755971af1fdb350dab5e3e3c5d5f2c9324337"
+                }
+              ],
+              "comparisonEligible": true,
+              "beforeFieldDigest": "ce7510aedabc773d9eee0a415c28b39fd251761ac76e1d9243101dd312def08c",
+              "afterFieldDigest": "ec79021054558e8011d80bffb14fe8604e5624d1c3ab741b00871e9ea05c47ff",
+              "beforeArtifactSha256": "5efccd2053fd432fc785814a09f2fb22044d5e0e24f08f8f23a7e2178cd63de9",
+              "afterArtifactSha256": "83ca08876afd7131feead65726bb13d2fa334357fa3dd9e0eadae179418f074d"
+            }
+          }
+        ]
+      }
+    ],
+    "travelerVariantEvidence": [],
+    "variantAmbiguities": [],
+    "travelerVariantPolicy": {
+      "status": "notApplicable",
+      "failClosedOnEncounter": true,
+      "entityIds": [
+        "10000005",
+        "10000007"
+      ],
+      "note": "No Traveler entity is in shard16; any future Traveler queue entry must remain unresolved until its variant identity is explicit."
+    },
+    "coverage": {
+      "resolvedEntityIds": [
+        "10000132",
+        "10000133"
+      ],
+      "ambiguousEntityIds": [],
+      "recordKinds": [
+        "talents",
+        "constellations"
+      ],
+      "authoritativeCandidateCoverage": "entitySourceRecordsComplete",
+      "resolvedEntityRecordCoverage": "complete",
+      "travelerVariantRecordCoverage": "notApplicable",
+      "repositoryCandidateCoverage": "partial",
+      "authoritativeCandidateCount": 33,
+      "authoritativeEntityCount": 3,
+      "resolvedEntityCount": 2,
+      "resolvedRecordCount": 4,
+      "changedRecordCount": 3,
+      "changedFieldCount": 32,
+      "overlapEntityCount": 1,
+      "crossVariantComparisons": 0,
+      "canIssueEligibilityCertificate": false,
+      "canPromoteCanonical": false
+    }
+  },
+  "summary": {
+    "shardId": "behavior:behaviorSpec:semanticDecisionRequired:standard:16",
+    "authoritativeCandidates": 33,
+    "authoritativeEntities": 3,
+    "resolvedEntities": 2,
+    "overlapSkippedEntities": 1,
+    "ambiguousEntities": 0,
+    "resolvedRecords": 4,
+    "changedRecords": 3,
+    "changedFields": 32,
+    "sourceFamilyCount": 1,
+    "certificateEligibleClaims": 0
+  },
+  "gateEligibility": {
+    "status": "singleCorrelatedFamilyFailClosed",
+    "sourceFamilyCount": 1,
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false,
+    "reasons": [
+      "providerIndependenceInsufficient",
+      "behaviorSemanticsNotParsed"
+    ]
+  },
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "2a34c836f8cf85ab55db1f6628a4af9e784d11f3cf9a23609fcf0666e9e1bea3"
+}

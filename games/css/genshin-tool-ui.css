@@ -1366,6 +1366,13 @@ html[data-theme="dark"] .genshin-tool-page .genshin-uid-result :is(.genshin-prof
   font-size: .8rem;
 }
 
+.genshin-tool-page .genshin-uid-talent-warning {
+  margin: 0 0 6px;
+  color: var(--teti-warning, #a86700);
+  font-size: .72rem;
+  line-height: 1.45;
+}
+
 .genshin-tool-page .genshin-uid-talent-list,
 .genshin-tool-page .genshin-uid-stat-list {
   display: grid;

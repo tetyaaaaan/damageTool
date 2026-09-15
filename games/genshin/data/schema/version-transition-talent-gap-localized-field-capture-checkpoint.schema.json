@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-version-transition-talent-gap-localized-field-capture-checkpoint.schema.json",
+  "title": "Genshin v2 talent-gap localized field capture checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "generatedAt", "transitionId", "lane", "sourceNamespace", "status", "revisions", "authoritativeCandidateCount", "capturedCandidateCount", "authoritativeEntityCount", "capturedEntityCount", "expectedLocalizedRecordCount", "capturedLocalizedRecordCount", "materializedSnapshot", "sourceFamilyCount", "canIssueEligibilityCertificate", "canPromoteCanonical", "nextTask", "gateEligibility", "claim", "fieldDigestAlgorithm", "fieldDigest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinVersionTransitionTalentGapLocalizedFieldCaptureCheckpoint" },
+    "generatedAt": { "const": "2026-08-28T00:00:00.000Z" },
+    "transitionId": { "const": "genshin:6.7->7.0" },
+    "lane": { "type": "object", "required": ["clusterId", "shardId", "dataset", "layer"], "properties": { "shardId": { "const": "talentGap:talentGapEffectSpec:semanticDecisionRequired:standard:01" }, "dataset": { "const": "talentGap" }, "layer": { "const": "talentGapEffectSpec" } } },
+    "sourceNamespace": { "const": "genshin-db-talent-gap-localized-field-bridge-standard01" },
+    "status": { "enum": ["capturePending", "inProgress", "captured", "complete", "blockedByProviderEvidence", "captureError", "blockedByFieldBridge"] },
+    "revisions": { "type": "object", "required": ["before", "after"], "properties": { "before": { "$ref": "#/$defs/progress" }, "after": { "$ref": "#/$defs/progress" } } },
+    "authoritativeCandidateCount": { "const": 67 },
+    "capturedCandidateCount": { "const": 63 },
+    "authoritativeEntityCount": { "const": 23 },
+    "capturedEntityCount": { "type": "integer", "minimum": 0, "maximum": 21 },
+    "expectedLocalizedRecordCount": { "const": 42 },
+    "capturedLocalizedRecordCount": { "type": "integer", "minimum": 0, "maximum": 42 },
+    "materializedSnapshot": { "anyOf": [{ "type": "null" }, { "type": "object", "required": ["path", "status", "fieldDigest"], "properties": { "path": { "type": "string" }, "status": { "type": "string" }, "fieldDigest": { "$ref": "#/$defs/sha256" } } }] },
+    "sourceFamilyCount": { "const": 1 },
+    "canIssueEligibilityCertificate": { "const": false },
+    "canPromoteCanonical": { "const": false },
+    "nextTask": { "type": "string", "minLength": 1 },
+    "gateEligibility": { "$ref": "#/$defs/gate" },
+    "claim": { "type": "object", "additionalProperties": true, "required": ["transitionId", "lane", "sourceNamespace", "queueShardId", "authoritativeCandidateCount", "authoritativeCandidateIdsDigest", "capturedCandidateCount", "capturedCandidateIdsDigest", "authoritativeEntityIds", "capturedEntityIds", "expectedLocalizedRecordCount", "capturedLocalizedRecordCount", "reusedTreeProofPath", "reusedTreeProofFieldDigest", "reusedTreeProof", "sourceFamilyCount", "canIssueEligibilityCertificate", "canPromoteCanonical"], "properties": { "transitionId": { "const": "genshin:6.7->7.0" }, "sourceNamespace": { "const": "genshin-db-talent-gap-localized-field-bridge-standard01" }, "queueShardId": { "const": "talentGap:talentGapEffectSpec:semanticDecisionRequired:standard:01" }, "authoritativeCandidateCount": { "const": 67 }, "capturedCandidateCount": { "const": 63 }, "authoritativeCandidateIdsDigest": { "$ref": "#/$defs/sha256" }, "capturedCandidateIdsDigest": { "$ref": "#/$defs/sha256" }, "expectedLocalizedRecordCount": { "const": 42 }, "capturedLocalizedRecordCount": { "type": "integer", "minimum": 0, "maximum": 42 }, "reusedTreeProofPath": { "type": "string" }, "reusedTreeProofFieldDigest": { "$ref": "#/$defs/sha256" }, "reusedTreeProof": { "type": "object" }, "sourceFamilyCount": { "const": 1 }, "canIssueEligibilityCertificate": { "const": false }, "canPromoteCanonical": { "const": false } } },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "progress": { "type": "object", "additionalProperties": true, "required": ["gameVersion", "revision", "status", "completedEntityIds", "completedRecordCount"], "properties": { "gameVersion": { "enum": ["6.7", "7.0"] }, "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" }, "status": { "enum": ["pending", "records", "complete", "incomplete"] }, "completedEntityIds": { "type": "array", "items": { "type": "string" } }, "completedRecordCount": { "type": "integer", "minimum": 0, "maximum": 21 } } },
+    "gate": { "type": "object", "additionalProperties": true, "required": ["sourceFamilyCount", "canIssueEligibilityCertificate", "canPromoteCanonical"], "properties": { "sourceFamilyCount": { "const": 1 }, "canIssueEligibilityCertificate": { "const": false }, "canPromoteCanonical": { "const": false } } }
+  }
+}

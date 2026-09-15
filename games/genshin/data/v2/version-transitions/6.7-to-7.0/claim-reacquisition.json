@@ -1,0 +1,4912 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionTransitionClaimReacquisitionQueue",
+  "generatedAt": "2026-08-25T00:00:00.000Z",
+  "generatedFrom": {
+    "partialDiscovery": {
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/partial-discovery.json",
+      "sha256": "0960625b59e5f1e825b2c29c7ae3ac9bcb67461f26ec5482d29ac72e3d0f59d0"
+    },
+    "targetDatasetEvidence": {
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/target-dataset-evidence.json",
+      "sha256": "a73ee8243eeb3db0bb18c49e10248912e5f1ad3f4d6b478e19aad245e969746a"
+    },
+    "affectedEntitySnapshot": {
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/affected-entity-snapshot.json",
+      "sha256": "0b612948e88963fa3374c15c7e2b9457f4ba3d292732704c930649cf6ad99d41"
+    },
+    "v2:weapons:spec-candidates.json": {
+      "path": "games/genshin/data/v2/weapons/spec-candidates.json",
+      "sha256": "dd6661120c349650b94f5d70fa50c846f3ac09d0f769b37af19ec65e963fb1bf"
+    },
+    "v2:artifacts:spec-candidates.json": {
+      "path": "games/genshin/data/v2/artifacts/spec-candidates.json",
+      "sha256": "a8da79a30ecb50adbd0f1735f856c94378661b793a4a3c321fbf1ca04f6179a8"
+    },
+    "v2:characters:talent-gap-candidates.json": {
+      "path": "games/genshin/data/v2/characters/talent-gap-candidates.json",
+      "sha256": "ae3fb65fe8e2e1cc3b3bb48088601d31e4a77648f0ffd455140b29091fd2fb2a"
+    },
+    "v2:characters:behavior-pilot.json": {
+      "path": "games/genshin/data/v2/characters/behavior-pilot.json",
+      "sha256": "eadff8b9fad5aad206a8b4ea6f914b805781de6851b1e21d1e8e37c26c4b755a"
+    },
+    "v2:characters:behavior-reviewed.json": {
+      "path": "games/genshin/data/v2/characters/behavior-reviewed.json",
+      "sha256": "5a473103b7991362fda9a84c0c26bcf05de24a1692add14f2a378f8f46acdb27"
+    },
+    "v2:characters:behavior-batch-1:spec-candidates.json": {
+      "path": "games/genshin/data/v2/characters/behavior-batch-1/spec-candidates.json",
+      "sha256": "78822b4ff96ade8895b789723d534267225690d1e70770150db526b689bd8a91"
+    },
+    "v2:characters:behavior-batch-2:spec-candidates.json": {
+      "path": "games/genshin/data/v2/characters/behavior-batch-2/spec-candidates.json",
+      "sha256": "98261f0cd2424f75f8e23ec386b0d1eb229f62b27170da4c4632e2098eb20099"
+    },
+    "v2:characters:behavior-batch-3:spec-candidates.json": {
+      "path": "games/genshin/data/v2/characters/behavior-batch-3/spec-candidates.json",
+      "sha256": "1e5f04bf8f6819f945ce1c1a4957906e2ef19b8b479ccdaf3ae36ec57ec14efa"
+    },
+    "v2:characters:behavior-batch-4:spec-candidates.json": {
+      "path": "games/genshin/data/v2/characters/behavior-batch-4/spec-candidates.json",
+      "sha256": "bac54b0938f6f907737daee16c10ce69365ae663f5e9bec6df16f5b31ccbaa61"
+    },
+    "v2:characters:behavior-batch-5:spec-candidates.json": {
+      "path": "games/genshin/data/v2/characters/behavior-batch-5/spec-candidates.json",
+      "sha256": "c7920c7c0891309a42782f406ad3aad6e8520d4ca36186bb10bebb8e676cc1ed"
+    },
+    "v2:characters:behavior-batch-6:spec-candidates.json": {
+      "path": "games/genshin/data/v2/characters/behavior-batch-6/spec-candidates.json",
+      "sha256": "b4fda1e0abba96479edec7ae95e0a7eae555b1853baea2d86d1c89dc8e16c31e"
+    },
+    "v2:characters:behavior-batch-7:spec-candidates.json": {
+      "path": "games/genshin/data/v2/characters/behavior-batch-7/spec-candidates.json",
+      "sha256": "71c319f141dfbf689438ce687a23bd279bff394144dc1b76fce3ec4411bbbb06"
+    },
+    "v2:characters:behavior-batch-8:spec-candidates.json": {
+      "path": "games/genshin/data/v2/characters/behavior-batch-8/spec-candidates.json",
+      "sha256": "3006b3257b4ac207205eacd41af01b37d92fe500b647f9c7391847974b2b9c6a"
+    },
+    "v2:characters:behavior-batch-9:spec-candidates.json": {
+      "path": "games/genshin/data/v2/characters/behavior-batch-9/spec-candidates.json",
+      "sha256": "4d8f1b0580e7638d209521d0e6ef13f7668f67e6c039a1655ad129e81024a14f"
+    },
+    "v2:characters:behavior-batch-10:spec-candidates.json": {
+      "path": "games/genshin/data/v2/characters/behavior-batch-10/spec-candidates.json",
+      "sha256": "93a35e46393937f705936dc8fdf13dbc724450d4ccd8f442ee8253d2a38ed1c0"
+    },
+    "v2:characters:behavior-batch-11:spec-candidates.json": {
+      "path": "games/genshin/data/v2/characters/behavior-batch-11/spec-candidates.json",
+      "sha256": "9f9a22da7f52212fae6cf3694b293cd825b3aa7d44b6d36ba854d2b79c256954"
+    },
+    "v2:characters:behavior-batch-12:spec-candidates.json": {
+      "path": "games/genshin/data/v2/characters/behavior-batch-12/spec-candidates.json",
+      "sha256": "3a99817571f2a29576eb29c1fde0f90f7e655fc946070fef36590e0e6c67b472"
+    }
+  },
+  "claim": {
+    "transitionId": "genshin:6.7->7.0",
+    "fromGameVersion": "6.7",
+    "toGameVersion": "7.0",
+    "partialDiscoveryFieldDigest": "1e768be65111e07fc598fd538d484391bce48da98db8a8ce4c8d4b38e04fe898",
+    "candidateInventoryDigest": "1cbef4d852026accf88c3163febb8328a1b4d083dc79ad356eb4b82def4f2576",
+    "packets": [
+      {
+        "candidateId": "behavior:10000022:constellation:constellation-1",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000022:constellation:constellation-2",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000022:constellation:constellation-3",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000022:constellation:constellation-4",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000022:constellation:constellation-5",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000022:constellation:constellation-6",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "transitionLane": "exactCandidateMapped",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "claimScope": "allCandidateClaimsReacquire",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000022:talent:burst",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000022:talent:normalattack-charged",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000022:talent:normalattack-normal",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000022:talent:normalattack-plunging",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000022:talent:passives-passive-1",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000022:talent:passives-passive-2",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000022:talent:passives-passive-utility",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000022:talent:skill",
+        "dataset": "behaviorBatch2",
+        "layer": "behaviorSpec",
+        "entityId": "10000022",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000022:constellation6:res-reduction-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000022:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000039:constellation:constellation-1",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000039:constellation:constellation-2",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000039:constellation:constellation-3",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000039:constellation:constellation-4",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000039:constellation:constellation-5",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000039:constellation:constellation-6",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000039:talent:burst",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000039:talent:normalattack-charged",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000039:talent:normalattack-normal",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000039:talent:normalattack-plunging",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000039:talent:passives-passive-1",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000039:talent:passives-passive-2",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000039:talent:passives-passive-utility",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000039:talent:skill",
+        "dataset": "behaviorBatch3",
+        "layer": "behaviorSpec",
+        "entityId": "10000039",
+        "transitionLane": "exactCandidateMapped",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "allCandidateClaimsReacquire",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000039:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000058:constellation:constellation-1",
+        "dataset": "behaviorPilot",
+        "layer": "behaviorSpec",
+        "entityId": "10000058",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "missing",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "claimSchemaMissing",
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000058:constellation:constellation-4",
+        "dataset": "behaviorPilot",
+        "layer": "behaviorSpec",
+        "entityId": "10000058",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "missing",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "claimSchemaMissing",
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000058:talent:burst",
+        "dataset": "behaviorPilot",
+        "layer": "behaviorSpec",
+        "entityId": "10000058",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "missing",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "claimSchemaMissing",
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000058:talent:normalattack-normal",
+        "dataset": "behaviorPilot",
+        "layer": "behaviorSpec",
+        "entityId": "10000058",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "missing",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "claimSchemaMissing",
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000058:talent:passives-passive-1",
+        "dataset": "behaviorPilot",
+        "layer": "behaviorSpec",
+        "entityId": "10000058",
+        "transitionLane": "structuralScopeCandidate",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "claimScope": "candidateIdentityPending",
+        "claimSchemaStatus": "missing",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "claimSchemaMissing",
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000058:talent:skill",
+        "dataset": "behaviorPilot",
+        "layer": "behaviorSpec",
+        "entityId": "10000058",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "missing",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "claimSchemaMissing",
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000071:constellation:constellation-1",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:1:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000071:constellation:constellation-2",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:2:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000071:constellation:constellation-3",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:3:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000071:constellation:constellation-4",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:4:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000071:constellation:constellation-5",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:5:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000071:constellation:constellation-6",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:constellation:6:effectText"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000071:talent:burst",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:burst:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000071:talent:normalattack-charged",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:chargedDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000071:talent:normalattack-normal",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:normalDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000071:talent:normalattack-plunging",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:normalattack:plungingDescriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000071:talent:passives-passive-1",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "transitionLane": "structuralScopeCandidate",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "claimScope": "candidateIdentityPending",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-1:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000071:talent:passives-passive-2",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "transitionLane": "structuralScopeCandidate",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "claimScope": "candidateIdentityPending",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-2:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000071:talent:passives-passive-utility",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "transitionLane": "structuralScopeCandidate",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "claimScope": "candidateIdentityPending",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:passive:passive-utility:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "behavior:10000071:talent:skill",
+        "dataset": "behaviorBatch6",
+        "layer": "behaviorSpec",
+        "entityId": "10000071",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000071:passive:particle-count-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "energy",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "execution",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "lifecycle",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "source:10000071:talent:skill:descriptionJa"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "talent-gap-spec:10000039:passive_1",
+        "dataset": "talentGap",
+        "layer": "talentGapEffectSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "activation",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_1"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "effectKind",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_1"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtimeEligibility",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_1"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_1"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "targets",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_1"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_1"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "value",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_1"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "talent-gap-spec:10000039:passive_2",
+        "dataset": "talentGap",
+        "layer": "talentGapEffectSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "activation",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_2"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "effectKind",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_2"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtimeEligibility",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_2"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_2"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "targets",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_2"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_2"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "value",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_2"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "talent-gap-spec:10000039:passive_utility",
+        "dataset": "talentGap",
+        "layer": "talentGapEffectSpec",
+        "entityId": "10000039",
+        "transitionLane": "conservativeEntityInvalidation",
+        "officialChangeId": "character:10000039:skill:shield-duration-fix",
+        "claimScope": "unknownUntilEntityDiff",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "activation",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_utility"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "effectKind",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_utility"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtimeEligibility",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_utility"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_utility"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "targets",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_utility"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_utility"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "value",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000039:passive_utility"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "talent-gap-spec:10000058:passive_1",
+        "dataset": "talentGap",
+        "layer": "talentGapEffectSpec",
+        "entityId": "10000058",
+        "transitionLane": "structuralScopeCandidate",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "claimScope": "candidateIdentityPending",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "activation",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_1"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "effectKind",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_1"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtimeEligibility",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_1"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_1"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "targets",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_1"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_1"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "value",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_1"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "talent-gap-spec:10000058:passive_2",
+        "dataset": "talentGap",
+        "layer": "talentGapEffectSpec",
+        "entityId": "10000058",
+        "transitionLane": "structuralScopeCandidate",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "claimScope": "candidateIdentityPending",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "activation",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_2"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "effectKind",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_2"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtimeEligibility",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_2"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_2"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "targets",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_2"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_2"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "value",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_2"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "talent-gap-spec:10000058:passive_utility",
+        "dataset": "talentGap",
+        "layer": "talentGapEffectSpec",
+        "entityId": "10000058",
+        "transitionLane": "structuralScopeCandidate",
+        "officialChangeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "claimScope": "candidateIdentityPending",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+        "claimPackets": [
+          {
+            "claimName": "activation",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_utility"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "effectKind",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_utility"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtimeEligibility",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_utility"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "sourceText",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_utility"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "targets",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_utility"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "timing",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_utility"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "value",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "talent-gap-source:10000058:passive_utility"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetDisplayRecordCapturedNoMechanicFieldEvidence",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "mechanicFieldEvidenceMissing",
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      },
+      {
+        "candidateId": "w_12516_reaction_bonus_2",
+        "dataset": "weapons",
+        "layer": "weaponEffectSpec",
+        "entityId": "12516",
+        "transitionLane": "reactionConsumerTransition",
+        "officialChangeId": "reaction:stellarSwirl:introduced",
+        "claimScope": "targetsAndFormulaReacquire",
+        "claimSchemaStatus": "available",
+        "providerCaptureStatus": "targetFieldEvidenceCapturedSingleFamily",
+        "claimPackets": [
+          {
+            "claimName": "activation",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "area",
+            "currentStatus": "notApplicable",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "charges",
+            "currentStatus": "notApplicable",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "cooldown",
+            "currentStatus": "notApplicable",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "destination",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "duration",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "effect.activation.uidHandling",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "elementApplication",
+            "currentStatus": "notApplicable",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "energy",
+            "currentStatus": "notApplicable",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "hitCount",
+            "currentStatus": "notApplicable",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "interval",
+            "currentStatus": "notApplicable",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "maxInstances",
+            "currentStatus": "notApplicable",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "offField",
+            "currentStatus": "notApplicable",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "refinement",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "registryStructure",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "runtime.modifierIds",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "snapshot",
+            "currentStatus": "notApplicable",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "stack",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "supersedesLegacyModifierIds",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "targets",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          },
+          {
+            "claimName": "value",
+            "currentStatus": "needsReview",
+            "sourceRefs": [
+              "weapon:12516:catalog",
+              "weapon:12516:effect",
+              "weapon:12516:modifier:w_12516_reaction_bonus_2",
+              "weapon:12516:registry:transcendence_astral_conduction"
+            ],
+            "targetGameVersion": "7.0",
+            "reacquisitionStatus": "targetFieldEvidenceCapturedSingleFamily",
+            "eligibilityStatus": "blocked"
+          }
+        ],
+        "gateEligibility": {
+          "canIssueCertificate": false,
+          "canPromoteCanonical": false,
+          "reasons": [
+            "strictIndependentSourcePairMissing"
+          ]
+        }
+      }
+    ]
+  },
+  "summary": {
+    "candidates": 55,
+    "claimPackets": 357,
+    "claimSchemaMissingCandidates": 6,
+    "eligibleClaims": 0,
+    "byTransitionLane": {
+      "conservativeEntityInvalidation": 45,
+      "exactCandidateMapped": 2,
+      "structuralScopeCandidate": 7,
+      "reactionConsumerTransition": 1
+    },
+    "claimPacketsByTransitionLane": {
+      "conservativeEntityInvalidation": 280,
+      "exactCandidateMapped": 14,
+      "structuralScopeCandidate": 42,
+      "reactionConsumerTransition": 21
+    },
+    "byProviderCaptureStatus": {
+      "targetDisplayRecordCapturedNoMechanicFieldEvidence": 54,
+      "targetFieldEvidenceCapturedSingleFamily": 1
+    }
+  },
+  "gateEligibility": {
+    "status": "preparationOnlyFailClosed",
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false
+  },
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "1ba63805b1bb9f440277d3d4d59501cadc8b77af81f0e1833bc3e6ee3d0ac776"
+}

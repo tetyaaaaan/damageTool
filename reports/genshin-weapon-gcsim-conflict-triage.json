@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "audit": "genshin-weapon-gcsim-conflict-triage-audit",
+  "status": "passed",
+  "generatedAt": "2026-08-16T00:00:00.000Z",
+  "summary": {
+    "status": "passed",
+    "candidateValueConflicts": 0,
+    "semanticConflicts": 0,
+    "ancillarySourceFields": 4,
+    "unmappedSourceFields": 0,
+    "schemaGapSourceFields": 0,
+    "registryMappedSourceFields": 4,
+    "conflictItems": 0,
+    "unmappedItems": 4,
+    "byClassification": {
+      "resolvedMapping": 33,
+      "genuineConflict": 0,
+      "scopeMismatch": 0,
+      "parserLimitation": 0,
+      "registryLifecycleMapped": 4,
+      "schemaGap": 0,
+      "unmapped": 0
+    },
+    "genuineValueConflicts": 0,
+    "canonicalEligibleItems": 0,
+    "candidatesPromoted": 0,
+    "errors": 0
+  },
+  "errors": []
+}

@@ -1,0 +1,1003 @@
+{
+  "schemaVersion": 2,
+  "status": "failed",
+  "summary": {
+    "schemaVersion": 2,
+    "status": "failed",
+    "characters": 23,
+    "passiveSourceRecords": 67,
+    "effectSpecCandidates": 67,
+    "canonical": 0,
+    "byCharacterStatus": {
+      "noEffect": 0,
+      "unstructured": 23,
+      "uninvestigated": 0
+    },
+    "byVerificationStatus": {
+      "needsReview": 67
+    },
+    "byRuntimeStatus": {
+      "blocked": 67
+    },
+    "contract": {
+      "missingCharacters": 0,
+      "unexpectedCharacters": 0,
+      "malformedSources": 0,
+      "malformedSpecs": 0,
+      "malformedCharacters": 0,
+      "missingSourceRefs": 0,
+      "missingSpecRefs": 0,
+      "inputDigestMismatches": 0,
+      "unknownEffectViolations": 0,
+      "numericEffectViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [
+    "expected exactly 24 talent-gap characters, got 23"
+  ],
+  "missingCharacters": [],
+  "unexpectedCharacters": [],
+  "malformedSources": [],
+  "malformedSpecs": [],
+  "malformedCharacters": [],
+  "missingSourceRefs": [],
+  "missingSpecRefs": [],
+  "inputDigestMismatches": [],
+  "unknownEffectViolations": [],
+  "numericEffectViolations": [],
+  "characterCoverage": [
+    {
+      "characterId": "10000003",
+      "characterName": "ジン",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000003:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000003",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000003/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000003:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000003",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000003/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000003:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000003",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000003/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000005",
+      "characterName": "旅人",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 2,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000005:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000005",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000005/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000005:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000005",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000005/passives/1/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 2,
+      "specs": 2,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000007",
+      "characterName": "旅人",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 2,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000007:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000007",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000007/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000007:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000007",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000007/passives/1/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 2,
+      "specs": 2,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000014",
+      "characterName": "バーバラ",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000014:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000014",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000014/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000014:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000014",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000014/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000014:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000014",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000014/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000015",
+      "characterName": "ガイア",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000015:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000015",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000015/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000015:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000015",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000015/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000015:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000015",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000015/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000039",
+      "characterName": "ディオナ",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000039:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000039",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000039/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000039:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000039",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000039/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000039:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000039",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000039/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000050",
+      "characterName": "トーマ",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000050:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000050",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000050/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000050:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000050",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000050/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000050:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000050",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000050/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000058",
+      "characterName": "八重神子",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000058:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000058",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000058/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000058:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000058",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000058/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000058:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000058",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000058/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000065",
+      "characterName": "久岐忍",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000065:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000065",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000065/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000065:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000065",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000065/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000065:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000065",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000065/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000067",
+      "characterName": "コレイ",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000067:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000067",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000067/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000067:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000067",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000067/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000067:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000067",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000067/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000068",
+      "characterName": "ドリー",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000068:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000068",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000068/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000068:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000068",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000068/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000068:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000068",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000068/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000074",
+      "characterName": "レイラ",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000074:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000074",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000074/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000074:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000074",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000074/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000074:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000074",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000074/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000077",
+      "characterName": "ヨォーヨ",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000077:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000077",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000077/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000077:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000077",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000077/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000077:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000077",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000077/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000079",
+      "characterName": "ディシア",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000079:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000079",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000079/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000079:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000079",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000079/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000079:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000079",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000079/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000083",
+      "characterName": "リネット",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000083:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000083",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000083/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000083:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000083",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000083/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000083:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000083",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000083/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000088",
+      "characterName": "シャルロット",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000088:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000088",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000088/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000088:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000088",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000088/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000088:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000088",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000088/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000101",
+      "characterName": "キィニチ",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000101:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000101",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000101/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000101:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000101",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000101/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000101:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000101",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000101/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000105",
+      "characterName": "オロルン",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000105:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000105",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000105/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000105:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000105",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000105/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000105:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000105",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000105/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000108",
+      "characterName": "藍硯",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000108:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000108",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000108/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000108:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000108",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000108/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000108:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000108",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000108/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000112",
+      "characterName": "エスコフィエ",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000112:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000112",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000112/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000112:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000112",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000112/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000112:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000112",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000112/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000115",
+      "characterName": "ダリア",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000115:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000115",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000115/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000115:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000115",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000115/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000115:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000115",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000115/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000121",
+      "characterName": "アイノ",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000121:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000121",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000121/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000121:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000121",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000121/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000121:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000121",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000121/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000132",
+      "characterName": "プルーネ",
+      "status": "unstructured",
+      "classification": "NON_EMPTY_RAW_TEXT_WITHOUT_TALENT_MODIFIERS",
+      "rawTextFieldCount": 3,
+      "sourcePointers": [
+        {
+          "sourceId": "talent-gap-source:10000132:passive_1",
+          "dataset": "character-talents.json",
+          "record": "10000132",
+          "field": "passives.0.descriptionJa",
+          "path": "$/10000132/passives/0/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000132:passive_2",
+          "dataset": "character-talents.json",
+          "record": "10000132",
+          "field": "passives.1.descriptionJa",
+          "path": "$/10000132/passives/1/descriptionJa",
+          "present": true
+        },
+        {
+          "sourceId": "talent-gap-source:10000132:passive_utility",
+          "dataset": "character-talents.json",
+          "record": "10000132",
+          "field": "passives.2.descriptionJa",
+          "path": "$/10000132/passives/2/descriptionJa",
+          "present": true
+        }
+      ],
+      "unverifiedBoundaries": [
+        "Independent provider/version agreement has not been established.",
+        "EffectSpec values (target, trigger, value, timing, element, and stacking) remain unverified.",
+        "No canonical runtime modifier is generated or promoted from this classification.",
+        "Raw prose may describe damage, healing, resources, utility, or state changes; prose is not structured calculation data."
+      ],
+      "sourceRecords": 3,
+      "specs": 3,
+      "canonical": 0
+    }
+  ],
+  "generatedFromDisk": true
+}

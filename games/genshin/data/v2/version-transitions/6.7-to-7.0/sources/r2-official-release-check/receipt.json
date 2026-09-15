@@ -1,0 +1,103 @@
+{
+  "acquiredAt": "2026-08-28T05:24:35.708Z",
+  "apiUrl": "https://bbs-api-os.hoyolab.com/community/post/wapi/getPostFull?post_id=46233468",
+  "comparisonToRecordedHead": {
+    "bytesMatch": true,
+    "digestMatch": false,
+    "expectedBytes": 140000,
+    "expectedSha256": "9b6ba657ae41eb1601e9bf2a0f6e383feca0a88115f7f0fb41bac34ffbb74b0a",
+    "status": "discrepancyRecordedSeparately"
+  },
+  "identity": {
+    "errors": [],
+    "explicitVersionSentenceEvidence": [
+      "\"Everwinter Without Mercy\" Version 7.0 Update Details"
+    ],
+    "idEvidencePaths": [
+      "data/post/post/post_id"
+    ],
+    "postId": "46233468",
+    "providerEvidence": [
+      "Genshin Impact Official",
+      "https://hyl-static-res-prod.hoyolab.com/upload/static-resource/2022/02/23/f5a37763f0f2080c0c43cca8638af024_5295925290813405198.webp",
+      "https://fastcdn.hoyoverse.com/static-resource-v2/2024/04/10/71a62b9a993534f3db7896fc6f725ff8_4436020059642725994.webp",
+      "https://upload-os-bbs.hoyolab.com/upload/2026/08/11/0/bce0963941ee2f288f37d8153053d04c_6055301608089306545.jpeg",
+      "https://upload-os-bbs.hoyolab.com/upload/2023/06/08/143a828dedb220d44567059c1414616a_950420974614315461.png",
+      "https://fastcdn.hoyoverse.com/static-resource-v2/2025/12/16/2d4cf4a3b6a12ee521765e413d4cb578_3503345003121309833.png"
+    ],
+    "publisher": {
+      "certificationDescription": "Official Big Boss",
+      "certificationType": 1,
+      "gameName": "Genshin Impact",
+      "nickname": "Genshin Impact Official",
+      "uid": "1015537"
+    },
+    "subject": "\"Everwinter Without Mercy\" Version 7.0 Update Details",
+    "subjectEvidence": [
+      "\"Everwinter Without Mercy\" Version 7.0 Update Details"
+    ],
+    "valid": true,
+    "versionEvidence": [
+      "\"Everwinter Without Mercy\" Version 7.0 Update Details",
+      "Erläuterungen zur Aktualisierung auf Version 7.0 „Gottverlassenes Land des Schnees“",
+      "Détails de la mise à jour de version 7.0 « L'impitoyable hiver éternel »"
+    ]
+  },
+  "kind": "genshinR2OfficialReleaseCheckReceipt",
+  "note": "This bounded retrieval is a new observation. A digest/byte discrepancy from upstream-version-head is recorded and does not overwrite or promote the previous evidence.",
+  "pageUrl": "https://www.hoyolab.com/article/46233468",
+  "postId": "46233468",
+  "promotionEligible": 0,
+  "provider": "HoYoLAB / Genshin Impact Official",
+  "rawArtifact": {
+    "bytes": 140000,
+    "encoding": "exact-response-bytes",
+    "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-official-release-check/post-46233468-api.response",
+    "sha256": "bf7187d4314dbcaf7e1d76f1ed5ece09d20d866dfb86d019b75006467bf9aeef",
+    "status": "retainedWithoutNormalization"
+  },
+  "response": {
+    "bytes": 140000,
+    "contentType": "application/json",
+    "sha256": "bf7187d4314dbcaf7e1d76f1ed5ece09d20d866dfb86d019b75006467bf9aeef",
+    "status": 200
+  },
+  "roster": {
+    "records": [
+      {
+        "displayName": "\"Swirling Snow\" Odette",
+        "element": "Cryo",
+        "identityStatus": "nameOnlyNoLocalEntityId",
+        "name": "Odette",
+        "rarityStars": 5,
+        "title": "\"Swirling Snow\""
+      },
+      {
+        "displayName": "Traveler",
+        "element": "Cryo",
+        "identityStatus": "nameOnlyNoLocalEntityId",
+        "name": "Traveler",
+        "rarityStars": 5,
+        "title": null
+      },
+      {
+        "displayName": "\"Swift-Striding Hound\" Alyosha",
+        "element": "Electro",
+        "identityStatus": "nameOnlyNoLocalEntityId",
+        "name": "Alyosha",
+        "rarityStars": 4,
+        "title": "\"Swift-Striding Hound\""
+      }
+    ],
+    "sectionHeading": "II. New Characters",
+    "sourcePath": "data/post/post/structured_content",
+    "status": "explicitReleaseSectionRoster"
+  },
+  "schemaVersion": 1,
+  "sourceAvailabilityOnly": true,
+  "sourceFamily": "official-hoyoverse",
+  "sourceUrl": "https://bbs-api-os.hoyolab.com/community/post/wapi/getPostFull?post_id=46233468",
+  "status": "capturedIdentityValidatedWithDigestDiscrepancy",
+  "targetGameVersion": "7.0",
+  "upstreamHeadReplacement": "not authorized"
+}

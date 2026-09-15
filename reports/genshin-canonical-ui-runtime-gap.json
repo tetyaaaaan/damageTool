@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinCanonicalUiRuntimeGapAudit",
+  "status": "passed",
+  "scope": "repository-local synthetic fixture only",
+  "production": {
+    "canonicalRuntime": "games/genshin/data/v2/runtime/canonical-runtime.json",
+    "canonicalCount": 0,
+    "fixtureShipped": false,
+    "promotion": "fail-closed"
+  },
+  "synthetic": {
+    "rawRecords": 4,
+    "sourceRecords": 2,
+    "specs": 4,
+    "canonicalModifiers": 4,
+    "loader": {
+      "offered": 4,
+      "applied": 4,
+      "rejected": 0,
+      "superseded": 4
+    },
+    "destinations": [
+      "weaponModifiers.modifiers",
+      "artifactSetModifiers.fourPiece",
+      "talentModifiers.passive"
+    ],
+    "registryRemap": true,
+    "conditionUi": {
+      "optionDefinition": true,
+      "enabledAndDisabledStatesAffectCalculation": true
+    },
+    "collections": {
+      "weapon": true,
+      "artifact": true,
+      "activeTalent": true,
+      "partyTalent": true
+    },
+    "calculation": {
+      "canonicalModifierIdsApplied": [
+        "fixture_runtime_artifact",
+        "fixture_runtime_conditional",
+        "fixture_runtime_damage",
+        "fixture_runtime_talent"
+      ],
+      "conditionOffRemovesConditionalModifier": true,
+      "nonCritResultChanges": true
+    }
+  },
+  "verification": {
+    "test": "tests/genshin/genshinCanonicalEndToEnd.test.cjs",
+    "commands": [
+      "node --test tests/genshin/genshinCanonicalEndToEnd.test.cjs"
+    ],
+    "result": "2 passed, 0 failed",
+    "fixturePolicy": "Synthetic values are created in memory by scripts/genshinCanonicalUiRuntimeFixture.cjs; no production candidate is verified or promoted."
+  }
+}

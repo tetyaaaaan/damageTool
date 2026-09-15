@@ -1,0 +1,3115 @@
+{
+  "schemaVersion": 2,
+  "kind": "genshinBehaviorV2Batch",
+  "generator": {
+    "name": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+    "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+    "capturedAt": "2026-08-15T00:00:00.000Z"
+  },
+  "policy": {
+    "canonical": 0,
+    "runtimeConnection": "forbidden",
+    "proseParsing": "forbidden",
+    "unknownFields": "Unstated values remain unknown; this batch only inventories raw source pointers."
+  },
+  "summary": {
+    "schemaVersion": 2,
+    "batch": 12,
+    "batchCharacters": 1,
+    "inventoryCharacters": 109,
+    "sourceRecords": 15,
+    "inventoryCandidates": 14,
+    "specs": 14,
+    "modifiers": 0,
+    "canonical": 0,
+    "verificationByStatus": {
+      "needsReview": 14
+    },
+    "runtimeByStatus": {
+      "blocked": 14
+    },
+    "inventoryCandidateStatusCounts": {
+      "unknown": 8,
+      "candidate": 4
+    },
+    "inventoryCandidateKindCounts": {
+      "count": 7,
+      "icd": 2,
+      "timing": 3
+    },
+    "inventoryInputCandidates": 12,
+    "explicitCandidateOperations": 4,
+    "unknownCandidateIds": 8,
+    "sourceInventoryCandidates": 12,
+    "explicitInventoryCandidates": 4,
+    "unknownInventoryCandidates": 8,
+    "sourceRefsResolved": true,
+    "generatedFrom": [
+      {
+        "dataset": "characters.json",
+        "path": "games/genshin/data/characters.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "5d239863352fc896931c0c626e2de1ad60c615e4e376142daa8e2d3a7464c211"
+        }
+      },
+      {
+        "dataset": "character-talents.json",
+        "path": "games/genshin/data/character-talents.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "4263297365929e19b3ac99f9e63158d5033d66cf2b37617bdbccb2d8fb8a5e31"
+        }
+      },
+      {
+        "dataset": "character-constellations.json",
+        "path": "games/genshin/data/character-constellations.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "597d3eb254ccc9cc2fec3d3e7c9bf87fd2bdcca60e2140ffcf08778fd9a91e4e"
+        }
+      },
+      {
+        "dataset": "v2/characters/behavior-inventory.json",
+        "path": "games/genshin/data/v2/characters/behavior-inventory.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "8dab639cc3d2b8472fcb9c4eeb7dc98d4d618bd7729e7541fac1fbf9f0d376de"
+        }
+      }
+    ],
+    "batchIds": [
+      "10000133"
+    ],
+    "excludedPilotIds": [
+      "10000026",
+      "10000031",
+      "10000037",
+      "10000046",
+      "10000058",
+      "10000089",
+      "10000094",
+      "10000098"
+    ],
+    "sourceKinds": {
+      "primaryDataset": 15
+    }
+  },
+  "batch": 12,
+  "batchIds": [
+    "10000133"
+  ],
+  "excludedPilotIds": [
+    "10000026",
+    "10000031",
+    "10000037",
+    "10000046",
+    "10000058",
+    "10000089",
+    "10000094",
+    "10000098"
+  ],
+  "generatedFrom": [
+    {
+      "dataset": "characters.json",
+      "path": "games/genshin/data/characters.json",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "5d239863352fc896931c0c626e2de1ad60c615e4e376142daa8e2d3a7464c211"
+      }
+    },
+    {
+      "dataset": "character-talents.json",
+      "path": "games/genshin/data/character-talents.json",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "4263297365929e19b3ac99f9e63158d5033d66cf2b37617bdbccb2d8fb8a5e31"
+      }
+    },
+    {
+      "dataset": "character-constellations.json",
+      "path": "games/genshin/data/character-constellations.json",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "597d3eb254ccc9cc2fec3d3e7c9bf87fd2bdcca60e2140ffcf08778fd9a91e4e"
+      }
+    },
+    {
+      "dataset": "v2/characters/behavior-inventory.json",
+      "path": "games/genshin/data/v2/characters/behavior-inventory.json",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "8dab639cc3d2b8472fcb9c4eeb7dc98d4d618bd7729e7541fac1fbf9f0d376de"
+      }
+    }
+  ],
+  "byCharacter": {
+    "10000133": {
+      "characterId": "10000133",
+      "characterName": "サンドローネ",
+      "status": "needsReview",
+      "canonical": 0,
+      "sourceRecordIds": [
+        "source:10000133:catalog",
+        "source:10000133:constellation:1:effectText",
+        "source:10000133:constellation:2:effectText",
+        "source:10000133:constellation:3:effectText",
+        "source:10000133:constellation:4:effectText",
+        "source:10000133:constellation:5:effectText",
+        "source:10000133:constellation:6:effectText",
+        "source:10000133:talent:burst:descriptionJa",
+        "source:10000133:talent:normalattack:chargedDescriptionJa",
+        "source:10000133:talent:normalattack:normalDescriptionJa",
+        "source:10000133:talent:normalattack:plungingDescriptionJa",
+        "source:10000133:talent:passive:passive-1:descriptionJa",
+        "source:10000133:talent:passive:passive-2:descriptionJa",
+        "source:10000133:talent:passive:passive-utility:descriptionJa",
+        "source:10000133:talent:skill:descriptionJa"
+      ],
+      "inventoryCandidateIds": [
+        "behavior-inventory:batch-12:10000133:burst",
+        "behavior-inventory:batch-12:10000133:constellation-1",
+        "behavior-inventory:batch-12:10000133:constellation-2",
+        "behavior-inventory:batch-12:10000133:constellation-3",
+        "behavior-inventory:batch-12:10000133:constellation-4",
+        "behavior-inventory:batch-12:10000133:constellation-5",
+        "behavior-inventory:batch-12:10000133:constellation-6",
+        "behavior-inventory:batch-12:10000133:normalattack-charged",
+        "behavior-inventory:batch-12:10000133:normalattack-normal",
+        "behavior-inventory:batch-12:10000133:normalattack-plunging",
+        "behavior-inventory:batch-12:10000133:passives-passive-1",
+        "behavior-inventory:batch-12:10000133:passives-passive-2",
+        "behavior-inventory:batch-12:10000133:passives-passive-utility",
+        "behavior-inventory:batch-12:10000133:skill"
+      ],
+      "specIds": [
+        "behavior:10000133:constellation:constellation-1",
+        "behavior:10000133:constellation:constellation-2",
+        "behavior:10000133:constellation:constellation-3",
+        "behavior:10000133:constellation:constellation-4",
+        "behavior:10000133:constellation:constellation-5",
+        "behavior:10000133:constellation:constellation-6",
+        "behavior:10000133:talent:burst",
+        "behavior:10000133:talent:normalattack-charged",
+        "behavior:10000133:talent:normalattack-normal",
+        "behavior:10000133:talent:normalattack-plunging",
+        "behavior:10000133:talent:passives-passive-1",
+        "behavior:10000133:talent:passives-passive-2",
+        "behavior:10000133:talent:passives-passive-utility",
+        "behavior:10000133:talent:skill"
+      ],
+      "modifierIds": [],
+      "inventoryInputCandidateIds": [
+        "behavior-inventory:10000133:constellation:c2:effecttext:2:count:unknown:22e1de9e1117f4e7",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:95cd154863ac3632",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:f15dddb53094fcd2",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:icd:unknown:cd0f846a8baf3882",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:timing:unknown:01e433771fe82e53",
+        "behavior-inventory:10000133:constellation:c6:effecttext:6:count:candidate:26c83a58ebea1b50",
+        "behavior-inventory:10000133:talent:normalattack:normaldescriptionja:count:candidate:cac434a94affbb5c",
+        "behavior-inventory:10000133:talent:passives-passive-1:descriptionja:0:count:unknown:14c4a10cb7cb8c03",
+        "behavior-inventory:10000133:talent:passives-passive-1:descriptionja:0:timing:unknown:bbae1f0bba25fbd2",
+        "behavior-inventory:10000133:talent:skill:descriptionja:count:unknown:ca43acfcd4a7fd72",
+        "behavior-inventory:10000133:talent:skill:descriptionja:icd:unknown:c4f2d1579b34177b",
+        "behavior-inventory:10000133:talent:skill:descriptionja:timing:unknown:7e96b1e9d33f3362"
+      ],
+      "explicitCandidateIds": [
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:95cd154863ac3632",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:f15dddb53094fcd2",
+        "behavior-inventory:10000133:constellation:c6:effecttext:6:count:candidate:26c83a58ebea1b50",
+        "behavior-inventory:10000133:talent:normalattack:normaldescriptionja:count:candidate:cac434a94affbb5c"
+      ],
+      "unknownCandidateIds": [
+        "behavior-inventory:10000133:constellation:c2:effecttext:2:count:unknown:22e1de9e1117f4e7",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:icd:unknown:cd0f846a8baf3882",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:timing:unknown:01e433771fe82e53",
+        "behavior-inventory:10000133:talent:passives-passive-1:descriptionja:0:count:unknown:14c4a10cb7cb8c03",
+        "behavior-inventory:10000133:talent:passives-passive-1:descriptionja:0:timing:unknown:bbae1f0bba25fbd2",
+        "behavior-inventory:10000133:talent:skill:descriptionja:count:unknown:ca43acfcd4a7fd72",
+        "behavior-inventory:10000133:talent:skill:descriptionja:icd:unknown:c4f2d1579b34177b",
+        "behavior-inventory:10000133:talent:skill:descriptionja:timing:unknown:7e96b1e9d33f3362"
+      ],
+      "reasons": [
+        "FIXED_BATCH_12",
+        "PILOT_EXCLUDED",
+        "RAW_SOURCE_POINTER_ONLY",
+        "RUNTIME_CONNECTION_ZERO"
+      ]
+    }
+  },
+  "sourceRecords": {
+    "source:10000133:catalog": {
+      "id": "source:10000133:catalog",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "characters.json",
+        "record": "/10000133"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "{\"element\":\"氷\",\"nameJa\":\"サンドローネ\",\"rarity\":5,\"weaponType\":\"両手剣\"}",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "c7aa34c32b5e4e917fffd35dfb4213beee5bd421240d1a9b9d3683010c236369"
+      },
+      "structuredValue": {
+        "nameJa": "サンドローネ",
+        "element": "氷",
+        "weaponType": "両手剣",
+        "rarity": 5
+      },
+      "notes": "Character identity source for batch membership; no behavior values are inferred."
+    },
+    "source:10000133:talent:normalattack:normalDescriptionJa": {
+      "id": "source:10000133:talent:normalattack:normalDescriptionJa",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/normalAttack",
+        "field": "normalDescriptionJa"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "数式によって刃を操る糸を紡ぎ出し、最大3段の連続斬りを行う。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "e43613190ad9235a9ff58512d00f80e3b09f0068e6189e2759fcca1beae54602"
+      },
+      "structuredValue": {
+        "characterId": "10000133",
+        "component": "normalAttack.normal",
+        "field": "normalDescriptionJa"
+      },
+      "notes": "Original Japanese talent text; no behavior values are inferred in batch 12."
+    },
+    "source:10000133:talent:normalattack:chargedDescriptionJa": {
+      "id": "source:10000133:talent:normalattack:chargedDescriptionJa",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/normalAttack",
+        "field": "chargedDescriptionJa"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "多機能汎用支援型自動マシナリー「ファジオ」を召喚し、**演算**モードに切り替えて前方の敵に一定時間ごとに冷却ビームを発射する掃射攻撃を行い、氷元素範囲ダメージを与える。\n輝映・星電導：冷却ビームが星電導反応ダメージと見なされる氷元素範囲ダメージに変わる。\n演算モード中、ファジオの**演算負荷**は上昇し続ける。また、冷却ビームを発射した際、演算負荷はさらに上昇する。\n演算負荷が上限の100に達すると、ファジオは高負荷モードに切り替わり、氷元素ダメージを与える射撃の間隔が長くなり、演算モードへの切り替えができなくなる。\n演算モード以外の状態では、ファジオの演算負荷は緩やかに低下し続ける。サンドローネが待機中の場合、ファジオの整備に集中し、演算負荷の低下速度が元の300%に上がる。\n演算負荷が50未満まで低下すると、ファジオは高負荷モードを終了する。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "784f8ad311ff25a0eb3f0c73840793f1d8d495b2f80f93820911f80d17899f6a"
+      },
+      "structuredValue": {
+        "characterId": "10000133",
+        "component": "normalAttack.charged",
+        "field": "chargedDescriptionJa"
+      },
+      "notes": "Original Japanese talent text; no behavior values are inferred in batch 12."
+    },
+    "source:10000133:talent:normalattack:plungingDescriptionJa": {
+      "id": "source:10000133:talent:normalattack:plungingDescriptionJa",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/normalAttack",
+        "field": "plungingDescriptionJa"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "b83a1ad86480667ebf41b77a7cdd020218390453c25efc2e861b5eb689687cde"
+      },
+      "structuredValue": {
+        "characterId": "10000133",
+        "component": "normalAttack.plunging",
+        "field": "plungingDescriptionJa"
+      },
+      "notes": "Original Japanese talent text; no behavior values are inferred in batch 12."
+    },
+    "source:10000133:talent:skill:descriptionJa": {
+      "id": "source:10000133:talent:skill:descriptionJa",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/skill",
+        "field": "descriptionJa"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "淑女の完璧な所作でお茶会用アサルト浮遊装置に搭乗し、浮遊したまま6秒間前進する。搭乗中は浮遊の方向も操作でき、ダッシュを一回押しするとスタミナを10消費して優雅な高速浮遊モードに入り、毎秒スタミナを15ずつ消費しながらより速い速度で前進する。\n\n浮遊開始時、近くに敵がいた場合、サンドローネはさらにプリズム共振砲を1台呼び出し、凶暴な敵に向かってプリズム弾を2発発射して氷元素ダメージを与える。\n輝映・星電導：2発目のプリズム弾が星電導反応ダメージとみなされる氷元素ダメージに変化する。\n\nお茶会用アサルト浮遊装置に搭乗中、サンドローネは優雅にそして秘密裏にファジオを修理し、その**演算負荷**を素早く低下させる。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "58b67243af7b3ad20905bb6f4273c6e36c5d43b2ca3237bcf30d601df0ef872a"
+      },
+      "structuredValue": {
+        "characterId": "10000133",
+        "component": "skill",
+        "field": "descriptionJa"
+      },
+      "notes": "Original Japanese talent text; no behavior values are inferred in batch 12."
+    },
+    "source:10000133:talent:burst:descriptionJa": {
+      "id": "source:10000133:talent:burst:descriptionJa",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/burst",
+        "field": "descriptionJa"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "淑女の優雅な礼儀をもって、大量のプリズム共振砲で前方に広域砲撃を行った後、敵に負温度エネルギー光線を発射し、氷元素範囲ダメージを与える。\n輝映・星電導：負温度エネルギー光線は星電導反応ダメージとみなされる氷元素範囲ダメージを与えるようになる。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "dbac7b589ab5cc91fa3e16efc2f969fb21a9015b9cd7e30e33c0af26c4e0e101"
+      },
+      "structuredValue": {
+        "characterId": "10000133",
+        "component": "burst",
+        "field": "descriptionJa"
+      },
+      "notes": "Original Japanese talent text; no behavior values are inferred in batch 12."
+    },
+    "source:10000133:talent:passive:passive-1:descriptionJa": {
+      "id": "source:10000133:talent:passive:passive-1:descriptionJa",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/passives/0",
+        "field": "descriptionJa"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "輝映・星電導：元素スキル**事象式：自在な解析**を発動する際、ファジオの**演算負荷**が50を超えている場合、演算負荷を低下させると同時に、付近の敵に向けて発射された2発目のプリズム弾が元の400%のダメージを与える。\nまた、ファジオの演算負荷が10低下するごとに、60秒間持続する改良戦術効果を1層獲得し、この効果は最大10層まで重ね掛けできる。サンドローネが輝映・星電導状態で元素爆発**事象式：Q.E.D**を発動すると、改良戦術の全ての層をクリアし、負温度エネルギー光線によって元の100%+クリアした層数×10%のダメージを与える。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "67aa7580b769148904e3ab24a947477c7c56766c252bd388f1ce6a8408baa966"
+      },
+      "structuredValue": {
+        "characterId": "10000133",
+        "component": "passives.passive_1",
+        "field": "descriptionJa",
+        "passiveIndex": 0,
+        "passiveSourceId": "passive_1",
+        "passiveName": "悠久の演算機関"
+      },
+      "notes": "Original Japanese talent text; no behavior values are inferred in batch 12."
+    },
+    "source:10000133:talent:passive:passive-2:descriptionJa": {
+      "id": "source:10000133:talent:passive:passive-2:descriptionJa",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/passives/1",
+        "field": "descriptionJa"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "サンドローネの攻撃力に基づき、元素熟知をアップさせる。攻撃力100ごとにサンドローネの元素熟知+8、この方法でアップできる元素熟知量は最大160まで。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "966ad6c2c89bb2f5fa104e075b473825cba0b833001925b9e6775414c3f776e1"
+      },
+      "structuredValue": {
+        "characterId": "10000133",
+        "component": "passives.passive_2",
+        "field": "descriptionJa",
+        "passiveIndex": 1,
+        "passiveSourceId": "passive_2",
+        "passiveName": "淑女の礼儀作法"
+      },
+      "notes": "Original Japanese talent text; no behavior values are inferred in batch 12."
+    },
+    "source:10000133:talent:passive:passive-utility:descriptionJa": {
+      "id": "source:10000133:talent:passive:passive-utility:descriptionJa",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/passives/2",
+        "field": "descriptionJa"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "チーム内のキャラクターが超電導反応を起こすと、超電導反応は星電導反応へと変わり、サンドローネの攻撃力に基づいて、チームのキャラクターが与える星電導反応の基礎ダメージがアップする。攻撃力100につき、星電導反応の基礎ダメージ+0.7%。この方法でアップできるダメージは最大14%まで。\nまた、**極星フィールド**にいる間、サンドローネは輝映・星電導状態に入る。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "8a1e667e5c1180930f50137342a2176f06183fe3a8506a0fe8b212d7533dd44f"
+      },
+      "structuredValue": {
+        "characterId": "10000133",
+        "component": "passives.passive_utility",
+        "field": "descriptionJa",
+        "passiveIndex": 2,
+        "passiveSourceId": "passive_utility",
+        "passiveName": "星光の祝福・理論のみを光に"
+      },
+      "notes": "Original Japanese talent text; no behavior values are inferred in batch 12."
+    },
+    "source:10000133:constellation:1:effectText": {
+      "id": "source:10000133:constellation:1:effectText",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "character-constellations.json",
+        "record": "/10000133/constellations/1",
+        "field": "effectText"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "**演算**モード中、ファジオの**演算負荷**の上昇速度が50%低下し、チーム内の全キャラクターの与える星電導反応のダメージ+30%。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "fc3817b8b710a8702c9a43ae1d58be4dcb296ff127393d70ed156b44a793490c"
+      },
+      "structuredValue": {
+        "characterId": "10000133",
+        "level": 1,
+        "nameJa": "まばゆき黄金は 遠き日の夕暮れ"
+      },
+      "notes": "Original Japanese constellation text; no behavior values are inferred in batch 12."
+    },
+    "source:10000133:constellation:2:effectText": {
+      "id": "source:10000133:constellation:2:effectText",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "character-constellations.json",
+        "record": "/10000133/constellations/2",
+        "field": "effectText"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "輝映・星電導：重撃で発射した冷却ビームの会心ダメージ+40%。冷却ビームを発射するたび、その回の**演算**モード中に発射したすべての冷却ビームの与える会心ダメージがさらに20%アップする。この効果は最大3層まで重ね掛けできる。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "1138816380c1e677f746c80d985dc89dce9910f68ef17c8fcbafbf8b12ba5dc7"
+      },
+      "structuredValue": {
+        "characterId": "10000133",
+        "level": 2,
+        "nameJa": "りりしき影を鏡に 遺して巡る歳月"
+      },
+      "notes": "Original Japanese constellation text; no behavior values are inferred in batch 12."
+    },
+    "source:10000133:constellation:3:effectText": {
+      "id": "source:10000133:constellation:3:effectText",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "character-constellations.json",
+        "record": "/10000133/constellations/3",
+        "field": "effectText"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "通常攻撃**事象式：自明の演繹**のスキルLv.+3。\n最大Lv.15まで。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "47724678b1a2dae03d7276bb638ca1c3e7a669ceb97d169ab9e1f5edbc0e400f"
+      },
+      "structuredValue": {
+        "characterId": "10000133",
+        "level": 3,
+        "nameJa": "あまねく暁を愁えず 月の出を羨まず"
+      },
+      "notes": "Original Japanese constellation text; no behavior values are inferred in batch 12."
+    },
+    "source:10000133:constellation:4:effectText": {
+      "id": "source:10000133:constellation:4:effectText",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "character-constellations.json",
+        "record": "/10000133/constellations/4",
+        "field": "effectText"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "サンドローネの星電導反応ダメージが敵に命中した際、さらにプリズム共振砲を1台生成して連携攻撃を行い、敵にサンドローネの攻撃力の125%に相当する氷元素ダメージを1回与える。このダメージは星電導反応によるダメージとみなされる。この効果は4秒ごとに最大1回発動できる。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "c9f66375f85f8d53306a1f46bf93b074ad8544eac555bb9e0dd8b8c9f985d3a1"
+      },
+      "structuredValue": {
+        "characterId": "10000133",
+        "level": 4,
+        "nameJa": "ねむたき世事は数にして 昼夜を往来す"
+      },
+      "notes": "Original Japanese constellation text; no behavior values are inferred in batch 12."
+    },
+    "source:10000133:constellation:5:effectText": {
+      "id": "source:10000133:constellation:5:effectText",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "character-constellations.json",
+        "record": "/10000133/constellations/5",
+        "field": "effectText"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "元素爆発**事象式：Q.E.D**のスキルLv.+3。\n最大Lv.15まで。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "c07dcf3c87edf3955e72d1db3735ac9a06bcb1afde92e9769512a27e844bbff6"
+      },
+      "structuredValue": {
+        "characterId": "10000133",
+        "level": 5,
+        "nameJa": "ついえし万象の灰と化せど 理のみは通ず"
+      },
+      "notes": "Original Japanese constellation text; no behavior values are inferred in batch 12."
+    },
+    "source:10000133:constellation:6:effectText": {
+      "id": "source:10000133:constellation:6:effectText",
+      "kind": "primaryDataset",
+      "provider": "damageTool-local",
+      "independenceGroup": "damageTool-local-derived",
+      "providerIndependence": "correlated",
+      "locator": {
+        "dataset": "character-constellations.json",
+        "record": "/10000133/constellations/6",
+        "field": "effectText"
+      },
+      "capturedAt": "2026-08-15T00:00:00.000Z",
+      "gameVersion": null,
+      "locale": "ja-JP",
+      "text": "**演算**モード中、ファジオが3回目の冷却ビームを発射する際、より威力の強い集束型冷却ビームを発射し続けるようになり、本来後に発射される冷却ビームを基準として、サンドローネの攻撃力100%分の氷元素範囲ダメージを最大4段追加で与える。\n輝映・星電導：集束型冷却ビームがサンドローネの攻撃力80%分の氷元素範囲ダメージを最大4段追加で与えるようになる。このダメージは星電導反応によるダメージとみなされる。\nまた、サンドローネが与えるすべての星電導反応ダメージが20%**向上**する。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "d67e8ab4af6e90a33ba45443c8a4b82b898c22d0172e8d27753ffabf6e9c375e"
+      },
+      "structuredValue": {
+        "characterId": "10000133",
+        "level": 6,
+        "nameJa": "てづから水仙の夢から醒めて 薄明を掴まん"
+      },
+      "notes": "Original Japanese constellation text; no behavior values are inferred in batch 12."
+    }
+  },
+  "inventoryCandidates": {
+    "behavior-inventory:batch-12:10000133:normalattack-normal": {
+      "id": "behavior-inventory:batch-12:10000133:normalattack-normal",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "normalAttack.normal"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:normalattack:normalDescriptionJa"
+      ],
+      "status": "needsReview",
+      "unknown": true,
+      "sourcePointer": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/normalAttack",
+        "field": "normalDescriptionJa"
+      },
+      "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+    },
+    "behavior-inventory:batch-12:10000133:normalattack-charged": {
+      "id": "behavior-inventory:batch-12:10000133:normalattack-charged",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "normalAttack.charged"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:normalattack:chargedDescriptionJa"
+      ],
+      "status": "needsReview",
+      "unknown": true,
+      "sourcePointer": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/normalAttack",
+        "field": "chargedDescriptionJa"
+      },
+      "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+    },
+    "behavior-inventory:batch-12:10000133:normalattack-plunging": {
+      "id": "behavior-inventory:batch-12:10000133:normalattack-plunging",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "normalAttack.plunging"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:normalattack:plungingDescriptionJa"
+      ],
+      "status": "needsReview",
+      "unknown": true,
+      "sourcePointer": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/normalAttack",
+        "field": "plungingDescriptionJa"
+      },
+      "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+    },
+    "behavior-inventory:batch-12:10000133:skill": {
+      "id": "behavior-inventory:batch-12:10000133:skill",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "skill"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:skill:descriptionJa"
+      ],
+      "status": "needsReview",
+      "unknown": true,
+      "sourcePointer": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/skill",
+        "field": "descriptionJa"
+      },
+      "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+    },
+    "behavior-inventory:batch-12:10000133:burst": {
+      "id": "behavior-inventory:batch-12:10000133:burst",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "burst"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:burst:descriptionJa"
+      ],
+      "status": "needsReview",
+      "unknown": true,
+      "sourcePointer": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/burst",
+        "field": "descriptionJa"
+      },
+      "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+    },
+    "behavior-inventory:batch-12:10000133:passives-passive-1": {
+      "id": "behavior-inventory:batch-12:10000133:passives-passive-1",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "passives.passive_1"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:passive:passive-1:descriptionJa"
+      ],
+      "status": "needsReview",
+      "unknown": true,
+      "sourcePointer": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/passives/0",
+        "field": "descriptionJa"
+      },
+      "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+    },
+    "behavior-inventory:batch-12:10000133:passives-passive-2": {
+      "id": "behavior-inventory:batch-12:10000133:passives-passive-2",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "passives.passive_2"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:passive:passive-2:descriptionJa"
+      ],
+      "status": "needsReview",
+      "unknown": true,
+      "sourcePointer": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/passives/1",
+        "field": "descriptionJa"
+      },
+      "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+    },
+    "behavior-inventory:batch-12:10000133:passives-passive-utility": {
+      "id": "behavior-inventory:batch-12:10000133:passives-passive-utility",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "passives.passive_utility"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:passive:passive-utility:descriptionJa"
+      ],
+      "status": "needsReview",
+      "unknown": true,
+      "sourcePointer": {
+        "dataset": "character-talents.json",
+        "record": "/10000133/passives/2",
+        "field": "descriptionJa"
+      },
+      "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+    },
+    "behavior-inventory:batch-12:10000133:constellation-1": {
+      "id": "behavior-inventory:batch-12:10000133:constellation-1",
+      "entity": {
+        "kind": "constellation",
+        "id": "10000133",
+        "component": "constellation.1"
+      },
+      "sourceRefs": [
+        "source:10000133:constellation:1:effectText"
+      ],
+      "status": "needsReview",
+      "unknown": true,
+      "sourcePointer": {
+        "dataset": "character-constellations.json",
+        "record": "/10000133/constellations/1",
+        "field": "effectText"
+      },
+      "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+    },
+    "behavior-inventory:batch-12:10000133:constellation-2": {
+      "id": "behavior-inventory:batch-12:10000133:constellation-2",
+      "entity": {
+        "kind": "constellation",
+        "id": "10000133",
+        "component": "constellation.2"
+      },
+      "sourceRefs": [
+        "source:10000133:constellation:2:effectText"
+      ],
+      "status": "needsReview",
+      "unknown": true,
+      "sourcePointer": {
+        "dataset": "character-constellations.json",
+        "record": "/10000133/constellations/2",
+        "field": "effectText"
+      },
+      "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+    },
+    "behavior-inventory:batch-12:10000133:constellation-3": {
+      "id": "behavior-inventory:batch-12:10000133:constellation-3",
+      "entity": {
+        "kind": "constellation",
+        "id": "10000133",
+        "component": "constellation.3"
+      },
+      "sourceRefs": [
+        "source:10000133:constellation:3:effectText"
+      ],
+      "status": "needsReview",
+      "unknown": true,
+      "sourcePointer": {
+        "dataset": "character-constellations.json",
+        "record": "/10000133/constellations/3",
+        "field": "effectText"
+      },
+      "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+    },
+    "behavior-inventory:batch-12:10000133:constellation-4": {
+      "id": "behavior-inventory:batch-12:10000133:constellation-4",
+      "entity": {
+        "kind": "constellation",
+        "id": "10000133",
+        "component": "constellation.4"
+      },
+      "sourceRefs": [
+        "source:10000133:constellation:4:effectText"
+      ],
+      "status": "needsReview",
+      "unknown": true,
+      "sourcePointer": {
+        "dataset": "character-constellations.json",
+        "record": "/10000133/constellations/4",
+        "field": "effectText"
+      },
+      "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+    },
+    "behavior-inventory:batch-12:10000133:constellation-5": {
+      "id": "behavior-inventory:batch-12:10000133:constellation-5",
+      "entity": {
+        "kind": "constellation",
+        "id": "10000133",
+        "component": "constellation.5"
+      },
+      "sourceRefs": [
+        "source:10000133:constellation:5:effectText"
+      ],
+      "status": "needsReview",
+      "unknown": true,
+      "sourcePointer": {
+        "dataset": "character-constellations.json",
+        "record": "/10000133/constellations/5",
+        "field": "effectText"
+      },
+      "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+    },
+    "behavior-inventory:batch-12:10000133:constellation-6": {
+      "id": "behavior-inventory:batch-12:10000133:constellation-6",
+      "entity": {
+        "kind": "constellation",
+        "id": "10000133",
+        "component": "constellation.6"
+      },
+      "sourceRefs": [
+        "source:10000133:constellation:6:effectText"
+      ],
+      "status": "needsReview",
+      "unknown": true,
+      "sourcePointer": {
+        "dataset": "character-constellations.json",
+        "record": "/10000133/constellations/6",
+        "field": "effectText"
+      },
+      "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+    }
+  },
+  "specs": {
+    "behavior:10000133:talent:normalattack-normal": {
+      "id": "behavior:10000133:talent:normalattack-normal",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "normalAttack.normal"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:normalattack:normalDescriptionJa"
+      ],
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+        "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+        "notes": "Raw source pointer and inventory candidate only; no prose parsing or value inference was performed."
+      },
+      "timing": {},
+      "execution": {
+        "hitCount": {
+          "value": 3,
+          "unit": "hits",
+          "status": "explicit",
+          "sourceRefs": [
+            "source:10000133:talent:normalattack:normalDescriptionJa"
+          ],
+          "notes": "Copied from behavior-inventory candidate behavior-inventory:10000133:talent:normalattack:normaldescriptionja:count:candidate:cac434a94affbb5c; operation=set; no value inference."
+        }
+      },
+      "lifecycle": {
+        "refreshMode": "unknown",
+        "expiration": "unknown",
+        "instanceScope": "unknown"
+      },
+      "energy": {},
+      "elementApplication": {},
+      "unknownFields": [
+        "attackCount",
+        "burstCost",
+        "charges",
+        "cooldown",
+        "duration",
+        "elementApplication",
+        "energy",
+        "expiration",
+        "instanceScope",
+        "maxInstances",
+        "maxTriggers",
+        "refreshMode",
+        "snapshot",
+        "targetCount",
+        "tickInterval",
+        "triggerInterval"
+      ],
+      "verification": {
+        "status": "needsReview",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "sourceAgreement": "unknown",
+        "claims": {
+          "sourceText": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:normalDescriptionJa"
+            ],
+            "notes": "Raw source text is retained; independent review is required."
+          },
+          "timing": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:normalDescriptionJa"
+            ],
+            "notes": "Timing fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "execution": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:normalDescriptionJa"
+            ],
+            "notes": "Execution fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "lifecycle": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:normalDescriptionJa"
+            ],
+            "notes": "Refresh, expiration, and instance scope remain review-gated."
+          },
+          "energy": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:normalDescriptionJa"
+            ],
+            "notes": "Energy and burst cost remain review-gated; no prose inference was performed."
+          },
+          "snapshot": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:normalDescriptionJa"
+            ],
+            "notes": "Snapshot behavior is unknown and intentionally unmodeled."
+          },
+          "runtime": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:normalDescriptionJa"
+            ],
+            "notes": "Runtime connection is blocked until independent review and versioned source agreement."
+          }
+        },
+        "discrepancies": [
+          {
+            "code": "RAW_SOURCE_INVENTORY_ONLY",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:normalDescriptionJa"
+            ]
+          },
+          {
+            "code": "INDEPENDENT_SOURCE_REQUIRED",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:normalDescriptionJa"
+            ]
+          },
+          {
+            "code": "CANONICAL_RUNTIME_FORBIDDEN",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:normalDescriptionJa"
+            ]
+          },
+          {
+            "code": "BEHAVIOR_INVENTORY_CANDIDATE",
+            "candidateId": "behavior-inventory:10000133:talent:normalattack:normaldescriptionja:count:candidate:cac434a94affbb5c",
+            "status": "candidate",
+            "kind": "count",
+            "fieldPath": "/execution/hitCount",
+            "operation": "set",
+            "value": 3,
+            "unit": "hits",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:normalDescriptionJa"
+            ],
+            "inventorySourceRefs": [
+              "behavior-inventory:source:10000133:talent:normalattack:normaldescriptionja"
+            ],
+            "notes": "Inventory candidate retained as evidence; operation was not executed or normalized."
+          }
+        ]
+      },
+      "runtime": {
+        "status": "blocked",
+        "modifierIds": [],
+        "generator": null,
+        "blockedReasons": [
+          "verificationStatusNeedsReview",
+          "inventoryCandidateOnly",
+          "independentSourceRequired",
+          "canonicalPromotionForbidden"
+        ]
+      },
+      "inventoryCandidateId": "behavior-inventory:batch-12:10000133:normalattack-normal",
+      "inventoryCandidateIds": [
+        "behavior-inventory:10000133:talent:normalattack:normaldescriptionja:count:candidate:cac434a94affbb5c"
+      ],
+      "unknownCandidateIds": []
+    },
+    "behavior:10000133:talent:normalattack-charged": {
+      "id": "behavior:10000133:talent:normalattack-charged",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "normalAttack.charged"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:normalattack:chargedDescriptionJa"
+      ],
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+        "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+        "notes": "Raw source pointer and inventory candidate only; no prose parsing or value inference was performed."
+      },
+      "timing": {},
+      "execution": {},
+      "lifecycle": {
+        "refreshMode": "unknown",
+        "expiration": "unknown",
+        "instanceScope": "unknown"
+      },
+      "energy": {},
+      "elementApplication": {},
+      "unknownFields": [
+        "attackCount",
+        "burstCost",
+        "charges",
+        "cooldown",
+        "duration",
+        "elementApplication",
+        "energy",
+        "expiration",
+        "hitCount",
+        "instanceScope",
+        "maxInstances",
+        "maxTriggers",
+        "refreshMode",
+        "snapshot",
+        "targetCount",
+        "tickInterval",
+        "triggerInterval"
+      ],
+      "verification": {
+        "status": "needsReview",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "sourceAgreement": "unknown",
+        "claims": {
+          "sourceText": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:chargedDescriptionJa"
+            ],
+            "notes": "Raw source text is retained; independent review is required."
+          },
+          "timing": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:chargedDescriptionJa"
+            ],
+            "notes": "Timing fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "execution": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:chargedDescriptionJa"
+            ],
+            "notes": "Execution fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "lifecycle": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:chargedDescriptionJa"
+            ],
+            "notes": "Refresh, expiration, and instance scope remain review-gated."
+          },
+          "energy": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:chargedDescriptionJa"
+            ],
+            "notes": "Energy and burst cost remain review-gated; no prose inference was performed."
+          },
+          "snapshot": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:chargedDescriptionJa"
+            ],
+            "notes": "Snapshot behavior is unknown and intentionally unmodeled."
+          },
+          "runtime": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:chargedDescriptionJa"
+            ],
+            "notes": "Runtime connection is blocked until independent review and versioned source agreement."
+          }
+        },
+        "discrepancies": [
+          {
+            "code": "RAW_SOURCE_INVENTORY_ONLY",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:chargedDescriptionJa"
+            ]
+          },
+          {
+            "code": "INDEPENDENT_SOURCE_REQUIRED",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:chargedDescriptionJa"
+            ]
+          },
+          {
+            "code": "CANONICAL_RUNTIME_FORBIDDEN",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:chargedDescriptionJa"
+            ]
+          }
+        ]
+      },
+      "runtime": {
+        "status": "blocked",
+        "modifierIds": [],
+        "generator": null,
+        "blockedReasons": [
+          "verificationStatusNeedsReview",
+          "inventoryCandidateOnly",
+          "independentSourceRequired",
+          "canonicalPromotionForbidden"
+        ]
+      },
+      "inventoryCandidateId": "behavior-inventory:batch-12:10000133:normalattack-charged",
+      "inventoryCandidateIds": [],
+      "unknownCandidateIds": []
+    },
+    "behavior:10000133:talent:normalattack-plunging": {
+      "id": "behavior:10000133:talent:normalattack-plunging",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "normalAttack.plunging"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:normalattack:plungingDescriptionJa"
+      ],
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+        "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+        "notes": "Raw source pointer and inventory candidate only; no prose parsing or value inference was performed."
+      },
+      "timing": {},
+      "execution": {},
+      "lifecycle": {
+        "refreshMode": "unknown",
+        "expiration": "unknown",
+        "instanceScope": "unknown"
+      },
+      "energy": {},
+      "elementApplication": {},
+      "unknownFields": [
+        "attackCount",
+        "burstCost",
+        "charges",
+        "cooldown",
+        "duration",
+        "elementApplication",
+        "energy",
+        "expiration",
+        "hitCount",
+        "instanceScope",
+        "maxInstances",
+        "maxTriggers",
+        "refreshMode",
+        "snapshot",
+        "targetCount",
+        "tickInterval",
+        "triggerInterval"
+      ],
+      "verification": {
+        "status": "needsReview",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "sourceAgreement": "unknown",
+        "claims": {
+          "sourceText": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:plungingDescriptionJa"
+            ],
+            "notes": "Raw source text is retained; independent review is required."
+          },
+          "timing": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:plungingDescriptionJa"
+            ],
+            "notes": "Timing fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "execution": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:plungingDescriptionJa"
+            ],
+            "notes": "Execution fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "lifecycle": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:plungingDescriptionJa"
+            ],
+            "notes": "Refresh, expiration, and instance scope remain review-gated."
+          },
+          "energy": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:plungingDescriptionJa"
+            ],
+            "notes": "Energy and burst cost remain review-gated; no prose inference was performed."
+          },
+          "snapshot": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:plungingDescriptionJa"
+            ],
+            "notes": "Snapshot behavior is unknown and intentionally unmodeled."
+          },
+          "runtime": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:plungingDescriptionJa"
+            ],
+            "notes": "Runtime connection is blocked until independent review and versioned source agreement."
+          }
+        },
+        "discrepancies": [
+          {
+            "code": "RAW_SOURCE_INVENTORY_ONLY",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:plungingDescriptionJa"
+            ]
+          },
+          {
+            "code": "INDEPENDENT_SOURCE_REQUIRED",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:plungingDescriptionJa"
+            ]
+          },
+          {
+            "code": "CANONICAL_RUNTIME_FORBIDDEN",
+            "sourceRefs": [
+              "source:10000133:talent:normalattack:plungingDescriptionJa"
+            ]
+          }
+        ]
+      },
+      "runtime": {
+        "status": "blocked",
+        "modifierIds": [],
+        "generator": null,
+        "blockedReasons": [
+          "verificationStatusNeedsReview",
+          "inventoryCandidateOnly",
+          "independentSourceRequired",
+          "canonicalPromotionForbidden"
+        ]
+      },
+      "inventoryCandidateId": "behavior-inventory:batch-12:10000133:normalattack-plunging",
+      "inventoryCandidateIds": [],
+      "unknownCandidateIds": []
+    },
+    "behavior:10000133:talent:skill": {
+      "id": "behavior:10000133:talent:skill",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "skill"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:skill:descriptionJa"
+      ],
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+        "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+        "notes": "Raw source pointer and inventory candidate only; no prose parsing or value inference was performed."
+      },
+      "timing": {},
+      "execution": {},
+      "lifecycle": {
+        "refreshMode": "unknown",
+        "expiration": "unknown",
+        "instanceScope": "unknown"
+      },
+      "energy": {},
+      "elementApplication": {},
+      "unknownFields": [
+        "attackCount",
+        "burstCost",
+        "charges",
+        "cooldown",
+        "duration",
+        "elementApplication",
+        "energy",
+        "expiration",
+        "hitCount",
+        "instanceScope",
+        "maxInstances",
+        "maxTriggers",
+        "refreshMode",
+        "snapshot",
+        "targetCount",
+        "tickInterval",
+        "triggerInterval"
+      ],
+      "verification": {
+        "status": "needsReview",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "sourceAgreement": "unknown",
+        "claims": {
+          "sourceText": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:skill:descriptionJa"
+            ],
+            "notes": "Raw source text is retained; independent review is required."
+          },
+          "timing": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:skill:descriptionJa"
+            ],
+            "notes": "Timing fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "execution": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:skill:descriptionJa"
+            ],
+            "notes": "Execution fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "lifecycle": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:skill:descriptionJa"
+            ],
+            "notes": "Refresh, expiration, and instance scope remain review-gated."
+          },
+          "energy": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:skill:descriptionJa"
+            ],
+            "notes": "Energy and burst cost remain review-gated; no prose inference was performed."
+          },
+          "snapshot": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:skill:descriptionJa"
+            ],
+            "notes": "Snapshot behavior is unknown and intentionally unmodeled."
+          },
+          "runtime": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:skill:descriptionJa"
+            ],
+            "notes": "Runtime connection is blocked until independent review and versioned source agreement."
+          }
+        },
+        "discrepancies": [
+          {
+            "code": "RAW_SOURCE_INVENTORY_ONLY",
+            "sourceRefs": [
+              "source:10000133:talent:skill:descriptionJa"
+            ]
+          },
+          {
+            "code": "INDEPENDENT_SOURCE_REQUIRED",
+            "sourceRefs": [
+              "source:10000133:talent:skill:descriptionJa"
+            ]
+          },
+          {
+            "code": "CANONICAL_RUNTIME_FORBIDDEN",
+            "sourceRefs": [
+              "source:10000133:talent:skill:descriptionJa"
+            ]
+          },
+          {
+            "code": "BEHAVIOR_INVENTORY_UNKNOWN",
+            "candidateId": "behavior-inventory:10000133:talent:skill:descriptionja:count:unknown:ca43acfcd4a7fd72",
+            "status": "unknown",
+            "kind": "count",
+            "fieldPath": null,
+            "operation": null,
+            "value": null,
+            "unit": "unknown",
+            "sourceRefs": [
+              "source:10000133:talent:skill:descriptionJa"
+            ],
+            "inventorySourceRefs": [
+              "behavior-inventory:source:10000133:talent:skill:descriptionja"
+            ],
+            "notes": "Inventory candidate retained as evidence; operation was not executed or normalized."
+          },
+          {
+            "code": "BEHAVIOR_INVENTORY_UNKNOWN",
+            "candidateId": "behavior-inventory:10000133:talent:skill:descriptionja:icd:unknown:c4f2d1579b34177b",
+            "status": "unknown",
+            "kind": "icd",
+            "fieldPath": null,
+            "operation": null,
+            "value": null,
+            "unit": "unknown",
+            "sourceRefs": [
+              "source:10000133:talent:skill:descriptionJa"
+            ],
+            "inventorySourceRefs": [
+              "behavior-inventory:source:10000133:talent:skill:descriptionja"
+            ],
+            "notes": "Inventory candidate retained as evidence; operation was not executed or normalized."
+          },
+          {
+            "code": "BEHAVIOR_INVENTORY_UNKNOWN",
+            "candidateId": "behavior-inventory:10000133:talent:skill:descriptionja:timing:unknown:7e96b1e9d33f3362",
+            "status": "unknown",
+            "kind": "timing",
+            "fieldPath": null,
+            "operation": null,
+            "value": null,
+            "unit": "unknown",
+            "sourceRefs": [
+              "source:10000133:talent:skill:descriptionJa"
+            ],
+            "inventorySourceRefs": [
+              "behavior-inventory:source:10000133:talent:skill:descriptionja"
+            ],
+            "notes": "Inventory candidate retained as evidence; operation was not executed or normalized."
+          }
+        ]
+      },
+      "runtime": {
+        "status": "blocked",
+        "modifierIds": [],
+        "generator": null,
+        "blockedReasons": [
+          "verificationStatusNeedsReview",
+          "inventoryCandidateOnly",
+          "independentSourceRequired",
+          "canonicalPromotionForbidden"
+        ]
+      },
+      "inventoryCandidateId": "behavior-inventory:batch-12:10000133:skill",
+      "inventoryCandidateIds": [
+        "behavior-inventory:10000133:talent:skill:descriptionja:count:unknown:ca43acfcd4a7fd72",
+        "behavior-inventory:10000133:talent:skill:descriptionja:icd:unknown:c4f2d1579b34177b",
+        "behavior-inventory:10000133:talent:skill:descriptionja:timing:unknown:7e96b1e9d33f3362"
+      ],
+      "unknownCandidateIds": [
+        "behavior-inventory:10000133:talent:skill:descriptionja:count:unknown:ca43acfcd4a7fd72",
+        "behavior-inventory:10000133:talent:skill:descriptionja:icd:unknown:c4f2d1579b34177b",
+        "behavior-inventory:10000133:talent:skill:descriptionja:timing:unknown:7e96b1e9d33f3362"
+      ]
+    },
+    "behavior:10000133:talent:burst": {
+      "id": "behavior:10000133:talent:burst",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "burst"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:burst:descriptionJa"
+      ],
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+        "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+        "notes": "Raw source pointer and inventory candidate only; no prose parsing or value inference was performed."
+      },
+      "timing": {},
+      "execution": {},
+      "lifecycle": {
+        "refreshMode": "unknown",
+        "expiration": "unknown",
+        "instanceScope": "unknown"
+      },
+      "energy": {},
+      "elementApplication": {},
+      "unknownFields": [
+        "attackCount",
+        "burstCost",
+        "charges",
+        "cooldown",
+        "duration",
+        "elementApplication",
+        "energy",
+        "expiration",
+        "hitCount",
+        "instanceScope",
+        "maxInstances",
+        "maxTriggers",
+        "refreshMode",
+        "snapshot",
+        "targetCount",
+        "tickInterval",
+        "triggerInterval"
+      ],
+      "verification": {
+        "status": "needsReview",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "sourceAgreement": "unknown",
+        "claims": {
+          "sourceText": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:burst:descriptionJa"
+            ],
+            "notes": "Raw source text is retained; independent review is required."
+          },
+          "timing": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:burst:descriptionJa"
+            ],
+            "notes": "Timing fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "execution": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:burst:descriptionJa"
+            ],
+            "notes": "Execution fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "lifecycle": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:burst:descriptionJa"
+            ],
+            "notes": "Refresh, expiration, and instance scope remain review-gated."
+          },
+          "energy": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:burst:descriptionJa"
+            ],
+            "notes": "Energy and burst cost remain review-gated; no prose inference was performed."
+          },
+          "snapshot": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:burst:descriptionJa"
+            ],
+            "notes": "Snapshot behavior is unknown and intentionally unmodeled."
+          },
+          "runtime": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:burst:descriptionJa"
+            ],
+            "notes": "Runtime connection is blocked until independent review and versioned source agreement."
+          }
+        },
+        "discrepancies": [
+          {
+            "code": "RAW_SOURCE_INVENTORY_ONLY",
+            "sourceRefs": [
+              "source:10000133:talent:burst:descriptionJa"
+            ]
+          },
+          {
+            "code": "INDEPENDENT_SOURCE_REQUIRED",
+            "sourceRefs": [
+              "source:10000133:talent:burst:descriptionJa"
+            ]
+          },
+          {
+            "code": "CANONICAL_RUNTIME_FORBIDDEN",
+            "sourceRefs": [
+              "source:10000133:talent:burst:descriptionJa"
+            ]
+          }
+        ]
+      },
+      "runtime": {
+        "status": "blocked",
+        "modifierIds": [],
+        "generator": null,
+        "blockedReasons": [
+          "verificationStatusNeedsReview",
+          "inventoryCandidateOnly",
+          "independentSourceRequired",
+          "canonicalPromotionForbidden"
+        ]
+      },
+      "inventoryCandidateId": "behavior-inventory:batch-12:10000133:burst",
+      "inventoryCandidateIds": [],
+      "unknownCandidateIds": []
+    },
+    "behavior:10000133:talent:passives-passive-1": {
+      "id": "behavior:10000133:talent:passives-passive-1",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "passives.passive_1"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:passive:passive-1:descriptionJa"
+      ],
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+        "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+        "notes": "Raw source pointer and inventory candidate only; no prose parsing or value inference was performed."
+      },
+      "timing": {},
+      "execution": {},
+      "lifecycle": {
+        "refreshMode": "unknown",
+        "expiration": "unknown",
+        "instanceScope": "unknown"
+      },
+      "energy": {},
+      "elementApplication": {},
+      "unknownFields": [
+        "attackCount",
+        "burstCost",
+        "charges",
+        "cooldown",
+        "duration",
+        "elementApplication",
+        "energy",
+        "expiration",
+        "hitCount",
+        "instanceScope",
+        "maxInstances",
+        "maxTriggers",
+        "refreshMode",
+        "snapshot",
+        "targetCount",
+        "tickInterval",
+        "triggerInterval"
+      ],
+      "verification": {
+        "status": "needsReview",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "sourceAgreement": "unknown",
+        "claims": {
+          "sourceText": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-1:descriptionJa"
+            ],
+            "notes": "Raw source text is retained; independent review is required."
+          },
+          "timing": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-1:descriptionJa"
+            ],
+            "notes": "Timing fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "execution": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-1:descriptionJa"
+            ],
+            "notes": "Execution fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "lifecycle": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-1:descriptionJa"
+            ],
+            "notes": "Refresh, expiration, and instance scope remain review-gated."
+          },
+          "energy": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-1:descriptionJa"
+            ],
+            "notes": "Energy and burst cost remain review-gated; no prose inference was performed."
+          },
+          "snapshot": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-1:descriptionJa"
+            ],
+            "notes": "Snapshot behavior is unknown and intentionally unmodeled."
+          },
+          "runtime": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-1:descriptionJa"
+            ],
+            "notes": "Runtime connection is blocked until independent review and versioned source agreement."
+          }
+        },
+        "discrepancies": [
+          {
+            "code": "RAW_SOURCE_INVENTORY_ONLY",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-1:descriptionJa"
+            ]
+          },
+          {
+            "code": "INDEPENDENT_SOURCE_REQUIRED",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-1:descriptionJa"
+            ]
+          },
+          {
+            "code": "CANONICAL_RUNTIME_FORBIDDEN",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-1:descriptionJa"
+            ]
+          },
+          {
+            "code": "BEHAVIOR_INVENTORY_UNKNOWN",
+            "candidateId": "behavior-inventory:10000133:talent:passives-passive-1:descriptionja:0:count:unknown:14c4a10cb7cb8c03",
+            "status": "unknown",
+            "kind": "count",
+            "fieldPath": null,
+            "operation": null,
+            "value": null,
+            "unit": "unknown",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-1:descriptionJa"
+            ],
+            "inventorySourceRefs": [
+              "behavior-inventory:source:10000133:talent:passives-passive-1:descriptionja:0"
+            ],
+            "notes": "Inventory candidate retained as evidence; operation was not executed or normalized."
+          },
+          {
+            "code": "BEHAVIOR_INVENTORY_UNKNOWN",
+            "candidateId": "behavior-inventory:10000133:talent:passives-passive-1:descriptionja:0:timing:unknown:bbae1f0bba25fbd2",
+            "status": "unknown",
+            "kind": "timing",
+            "fieldPath": null,
+            "operation": null,
+            "value": null,
+            "unit": "unknown",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-1:descriptionJa"
+            ],
+            "inventorySourceRefs": [
+              "behavior-inventory:source:10000133:talent:passives-passive-1:descriptionja:0"
+            ],
+            "notes": "Inventory candidate retained as evidence; operation was not executed or normalized."
+          }
+        ]
+      },
+      "runtime": {
+        "status": "blocked",
+        "modifierIds": [],
+        "generator": null,
+        "blockedReasons": [
+          "verificationStatusNeedsReview",
+          "inventoryCandidateOnly",
+          "independentSourceRequired",
+          "canonicalPromotionForbidden"
+        ]
+      },
+      "inventoryCandidateId": "behavior-inventory:batch-12:10000133:passives-passive-1",
+      "inventoryCandidateIds": [
+        "behavior-inventory:10000133:talent:passives-passive-1:descriptionja:0:count:unknown:14c4a10cb7cb8c03",
+        "behavior-inventory:10000133:talent:passives-passive-1:descriptionja:0:timing:unknown:bbae1f0bba25fbd2"
+      ],
+      "unknownCandidateIds": [
+        "behavior-inventory:10000133:talent:passives-passive-1:descriptionja:0:count:unknown:14c4a10cb7cb8c03",
+        "behavior-inventory:10000133:talent:passives-passive-1:descriptionja:0:timing:unknown:bbae1f0bba25fbd2"
+      ]
+    },
+    "behavior:10000133:talent:passives-passive-2": {
+      "id": "behavior:10000133:talent:passives-passive-2",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "passives.passive_2"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:passive:passive-2:descriptionJa"
+      ],
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+        "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+        "notes": "Raw source pointer and inventory candidate only; no prose parsing or value inference was performed."
+      },
+      "timing": {},
+      "execution": {},
+      "lifecycle": {
+        "refreshMode": "unknown",
+        "expiration": "unknown",
+        "instanceScope": "unknown"
+      },
+      "energy": {},
+      "elementApplication": {},
+      "unknownFields": [
+        "attackCount",
+        "burstCost",
+        "charges",
+        "cooldown",
+        "duration",
+        "elementApplication",
+        "energy",
+        "expiration",
+        "hitCount",
+        "instanceScope",
+        "maxInstances",
+        "maxTriggers",
+        "refreshMode",
+        "snapshot",
+        "targetCount",
+        "tickInterval",
+        "triggerInterval"
+      ],
+      "verification": {
+        "status": "needsReview",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "sourceAgreement": "unknown",
+        "claims": {
+          "sourceText": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-2:descriptionJa"
+            ],
+            "notes": "Raw source text is retained; independent review is required."
+          },
+          "timing": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-2:descriptionJa"
+            ],
+            "notes": "Timing fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "execution": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-2:descriptionJa"
+            ],
+            "notes": "Execution fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "lifecycle": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-2:descriptionJa"
+            ],
+            "notes": "Refresh, expiration, and instance scope remain review-gated."
+          },
+          "energy": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-2:descriptionJa"
+            ],
+            "notes": "Energy and burst cost remain review-gated; no prose inference was performed."
+          },
+          "snapshot": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-2:descriptionJa"
+            ],
+            "notes": "Snapshot behavior is unknown and intentionally unmodeled."
+          },
+          "runtime": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-2:descriptionJa"
+            ],
+            "notes": "Runtime connection is blocked until independent review and versioned source agreement."
+          }
+        },
+        "discrepancies": [
+          {
+            "code": "RAW_SOURCE_INVENTORY_ONLY",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-2:descriptionJa"
+            ]
+          },
+          {
+            "code": "INDEPENDENT_SOURCE_REQUIRED",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-2:descriptionJa"
+            ]
+          },
+          {
+            "code": "CANONICAL_RUNTIME_FORBIDDEN",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-2:descriptionJa"
+            ]
+          }
+        ]
+      },
+      "runtime": {
+        "status": "blocked",
+        "modifierIds": [],
+        "generator": null,
+        "blockedReasons": [
+          "verificationStatusNeedsReview",
+          "inventoryCandidateOnly",
+          "independentSourceRequired",
+          "canonicalPromotionForbidden"
+        ]
+      },
+      "inventoryCandidateId": "behavior-inventory:batch-12:10000133:passives-passive-2",
+      "inventoryCandidateIds": [],
+      "unknownCandidateIds": []
+    },
+    "behavior:10000133:talent:passives-passive-utility": {
+      "id": "behavior:10000133:talent:passives-passive-utility",
+      "entity": {
+        "kind": "talent",
+        "id": "10000133",
+        "component": "passives.passive_utility"
+      },
+      "sourceRefs": [
+        "source:10000133:talent:passive:passive-utility:descriptionJa"
+      ],
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+        "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+        "notes": "Raw source pointer and inventory candidate only; no prose parsing or value inference was performed."
+      },
+      "timing": {},
+      "execution": {},
+      "lifecycle": {
+        "refreshMode": "unknown",
+        "expiration": "unknown",
+        "instanceScope": "unknown"
+      },
+      "energy": {},
+      "elementApplication": {},
+      "unknownFields": [
+        "attackCount",
+        "burstCost",
+        "charges",
+        "cooldown",
+        "duration",
+        "elementApplication",
+        "energy",
+        "expiration",
+        "hitCount",
+        "instanceScope",
+        "maxInstances",
+        "maxTriggers",
+        "refreshMode",
+        "snapshot",
+        "targetCount",
+        "tickInterval",
+        "triggerInterval"
+      ],
+      "verification": {
+        "status": "needsReview",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "sourceAgreement": "unknown",
+        "claims": {
+          "sourceText": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-utility:descriptionJa"
+            ],
+            "notes": "Raw source text is retained; independent review is required."
+          },
+          "timing": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-utility:descriptionJa"
+            ],
+            "notes": "Timing fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "execution": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-utility:descriptionJa"
+            ],
+            "notes": "Execution fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "lifecycle": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-utility:descriptionJa"
+            ],
+            "notes": "Refresh, expiration, and instance scope remain review-gated."
+          },
+          "energy": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-utility:descriptionJa"
+            ],
+            "notes": "Energy and burst cost remain review-gated; no prose inference was performed."
+          },
+          "snapshot": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-utility:descriptionJa"
+            ],
+            "notes": "Snapshot behavior is unknown and intentionally unmodeled."
+          },
+          "runtime": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-utility:descriptionJa"
+            ],
+            "notes": "Runtime connection is blocked until independent review and versioned source agreement."
+          }
+        },
+        "discrepancies": [
+          {
+            "code": "RAW_SOURCE_INVENTORY_ONLY",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-utility:descriptionJa"
+            ]
+          },
+          {
+            "code": "INDEPENDENT_SOURCE_REQUIRED",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-utility:descriptionJa"
+            ]
+          },
+          {
+            "code": "CANONICAL_RUNTIME_FORBIDDEN",
+            "sourceRefs": [
+              "source:10000133:talent:passive:passive-utility:descriptionJa"
+            ]
+          }
+        ]
+      },
+      "runtime": {
+        "status": "blocked",
+        "modifierIds": [],
+        "generator": null,
+        "blockedReasons": [
+          "verificationStatusNeedsReview",
+          "inventoryCandidateOnly",
+          "independentSourceRequired",
+          "canonicalPromotionForbidden"
+        ]
+      },
+      "inventoryCandidateId": "behavior-inventory:batch-12:10000133:passives-passive-utility",
+      "inventoryCandidateIds": [],
+      "unknownCandidateIds": []
+    },
+    "behavior:10000133:constellation:constellation-1": {
+      "id": "behavior:10000133:constellation:constellation-1",
+      "entity": {
+        "kind": "constellation",
+        "id": "10000133",
+        "component": "constellation.1"
+      },
+      "sourceRefs": [
+        "source:10000133:constellation:1:effectText"
+      ],
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+        "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+        "notes": "Raw source pointer and inventory candidate only; no prose parsing or value inference was performed."
+      },
+      "timing": {},
+      "execution": {},
+      "lifecycle": {
+        "refreshMode": "unknown",
+        "expiration": "unknown",
+        "instanceScope": "unknown"
+      },
+      "energy": {},
+      "elementApplication": {},
+      "unknownFields": [
+        "attackCount",
+        "burstCost",
+        "charges",
+        "cooldown",
+        "duration",
+        "elementApplication",
+        "energy",
+        "expiration",
+        "hitCount",
+        "instanceScope",
+        "maxInstances",
+        "maxTriggers",
+        "refreshMode",
+        "snapshot",
+        "targetCount",
+        "tickInterval",
+        "triggerInterval"
+      ],
+      "verification": {
+        "status": "needsReview",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "sourceAgreement": "unknown",
+        "claims": {
+          "sourceText": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:1:effectText"
+            ],
+            "notes": "Raw source text is retained; independent review is required."
+          },
+          "timing": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:1:effectText"
+            ],
+            "notes": "Timing fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "execution": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:1:effectText"
+            ],
+            "notes": "Execution fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "lifecycle": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:1:effectText"
+            ],
+            "notes": "Refresh, expiration, and instance scope remain review-gated."
+          },
+          "energy": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:1:effectText"
+            ],
+            "notes": "Energy and burst cost remain review-gated; no prose inference was performed."
+          },
+          "snapshot": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:1:effectText"
+            ],
+            "notes": "Snapshot behavior is unknown and intentionally unmodeled."
+          },
+          "runtime": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:1:effectText"
+            ],
+            "notes": "Runtime connection is blocked until independent review and versioned source agreement."
+          }
+        },
+        "discrepancies": [
+          {
+            "code": "RAW_SOURCE_INVENTORY_ONLY",
+            "sourceRefs": [
+              "source:10000133:constellation:1:effectText"
+            ]
+          },
+          {
+            "code": "INDEPENDENT_SOURCE_REQUIRED",
+            "sourceRefs": [
+              "source:10000133:constellation:1:effectText"
+            ]
+          },
+          {
+            "code": "CANONICAL_RUNTIME_FORBIDDEN",
+            "sourceRefs": [
+              "source:10000133:constellation:1:effectText"
+            ]
+          }
+        ]
+      },
+      "runtime": {
+        "status": "blocked",
+        "modifierIds": [],
+        "generator": null,
+        "blockedReasons": [
+          "verificationStatusNeedsReview",
+          "inventoryCandidateOnly",
+          "independentSourceRequired",
+          "canonicalPromotionForbidden"
+        ]
+      },
+      "inventoryCandidateId": "behavior-inventory:batch-12:10000133:constellation-1",
+      "inventoryCandidateIds": [],
+      "unknownCandidateIds": []
+    },
+    "behavior:10000133:constellation:constellation-2": {
+      "id": "behavior:10000133:constellation:constellation-2",
+      "entity": {
+        "kind": "constellation",
+        "id": "10000133",
+        "component": "constellation.2"
+      },
+      "sourceRefs": [
+        "source:10000133:constellation:2:effectText"
+      ],
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+        "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+        "notes": "Raw source pointer and inventory candidate only; no prose parsing or value inference was performed."
+      },
+      "timing": {},
+      "execution": {},
+      "lifecycle": {
+        "refreshMode": "unknown",
+        "expiration": "unknown",
+        "instanceScope": "unknown"
+      },
+      "energy": {},
+      "elementApplication": {},
+      "unknownFields": [
+        "attackCount",
+        "burstCost",
+        "charges",
+        "cooldown",
+        "duration",
+        "elementApplication",
+        "energy",
+        "expiration",
+        "hitCount",
+        "instanceScope",
+        "maxInstances",
+        "maxTriggers",
+        "refreshMode",
+        "snapshot",
+        "targetCount",
+        "tickInterval",
+        "triggerInterval"
+      ],
+      "verification": {
+        "status": "needsReview",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "sourceAgreement": "unknown",
+        "claims": {
+          "sourceText": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:2:effectText"
+            ],
+            "notes": "Raw source text is retained; independent review is required."
+          },
+          "timing": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:2:effectText"
+            ],
+            "notes": "Timing fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "execution": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:2:effectText"
+            ],
+            "notes": "Execution fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "lifecycle": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:2:effectText"
+            ],
+            "notes": "Refresh, expiration, and instance scope remain review-gated."
+          },
+          "energy": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:2:effectText"
+            ],
+            "notes": "Energy and burst cost remain review-gated; no prose inference was performed."
+          },
+          "snapshot": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:2:effectText"
+            ],
+            "notes": "Snapshot behavior is unknown and intentionally unmodeled."
+          },
+          "runtime": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:2:effectText"
+            ],
+            "notes": "Runtime connection is blocked until independent review and versioned source agreement."
+          }
+        },
+        "discrepancies": [
+          {
+            "code": "RAW_SOURCE_INVENTORY_ONLY",
+            "sourceRefs": [
+              "source:10000133:constellation:2:effectText"
+            ]
+          },
+          {
+            "code": "INDEPENDENT_SOURCE_REQUIRED",
+            "sourceRefs": [
+              "source:10000133:constellation:2:effectText"
+            ]
+          },
+          {
+            "code": "CANONICAL_RUNTIME_FORBIDDEN",
+            "sourceRefs": [
+              "source:10000133:constellation:2:effectText"
+            ]
+          },
+          {
+            "code": "BEHAVIOR_INVENTORY_UNKNOWN",
+            "candidateId": "behavior-inventory:10000133:constellation:c2:effecttext:2:count:unknown:22e1de9e1117f4e7",
+            "status": "unknown",
+            "kind": "count",
+            "fieldPath": null,
+            "operation": null,
+            "value": null,
+            "unit": "unknown",
+            "sourceRefs": [
+              "source:10000133:constellation:2:effectText"
+            ],
+            "inventorySourceRefs": [
+              "behavior-inventory:source:10000133:constellation:c2:effecttext:2"
+            ],
+            "notes": "Inventory candidate retained as evidence; operation was not executed or normalized."
+          }
+        ]
+      },
+      "runtime": {
+        "status": "blocked",
+        "modifierIds": [],
+        "generator": null,
+        "blockedReasons": [
+          "verificationStatusNeedsReview",
+          "inventoryCandidateOnly",
+          "independentSourceRequired",
+          "canonicalPromotionForbidden"
+        ]
+      },
+      "inventoryCandidateId": "behavior-inventory:batch-12:10000133:constellation-2",
+      "inventoryCandidateIds": [
+        "behavior-inventory:10000133:constellation:c2:effecttext:2:count:unknown:22e1de9e1117f4e7"
+      ],
+      "unknownCandidateIds": [
+        "behavior-inventory:10000133:constellation:c2:effecttext:2:count:unknown:22e1de9e1117f4e7"
+      ]
+    },
+    "behavior:10000133:constellation:constellation-3": {
+      "id": "behavior:10000133:constellation:constellation-3",
+      "entity": {
+        "kind": "constellation",
+        "id": "10000133",
+        "component": "constellation.3"
+      },
+      "sourceRefs": [
+        "source:10000133:constellation:3:effectText"
+      ],
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+        "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+        "notes": "Raw source pointer and inventory candidate only; no prose parsing or value inference was performed."
+      },
+      "timing": {},
+      "execution": {},
+      "lifecycle": {
+        "refreshMode": "unknown",
+        "expiration": "unknown",
+        "instanceScope": "unknown"
+      },
+      "energy": {},
+      "elementApplication": {},
+      "unknownFields": [
+        "attackCount",
+        "burstCost",
+        "charges",
+        "cooldown",
+        "duration",
+        "elementApplication",
+        "energy",
+        "expiration",
+        "hitCount",
+        "instanceScope",
+        "maxInstances",
+        "maxTriggers",
+        "refreshMode",
+        "snapshot",
+        "targetCount",
+        "tickInterval",
+        "triggerInterval"
+      ],
+      "verification": {
+        "status": "needsReview",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "sourceAgreement": "unknown",
+        "claims": {
+          "sourceText": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:3:effectText"
+            ],
+            "notes": "Raw source text is retained; independent review is required."
+          },
+          "timing": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:3:effectText"
+            ],
+            "notes": "Timing fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "execution": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:3:effectText"
+            ],
+            "notes": "Execution fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "lifecycle": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:3:effectText"
+            ],
+            "notes": "Refresh, expiration, and instance scope remain review-gated."
+          },
+          "energy": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:3:effectText"
+            ],
+            "notes": "Energy and burst cost remain review-gated; no prose inference was performed."
+          },
+          "snapshot": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:3:effectText"
+            ],
+            "notes": "Snapshot behavior is unknown and intentionally unmodeled."
+          },
+          "runtime": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:3:effectText"
+            ],
+            "notes": "Runtime connection is blocked until independent review and versioned source agreement."
+          }
+        },
+        "discrepancies": [
+          {
+            "code": "RAW_SOURCE_INVENTORY_ONLY",
+            "sourceRefs": [
+              "source:10000133:constellation:3:effectText"
+            ]
+          },
+          {
+            "code": "INDEPENDENT_SOURCE_REQUIRED",
+            "sourceRefs": [
+              "source:10000133:constellation:3:effectText"
+            ]
+          },
+          {
+            "code": "CANONICAL_RUNTIME_FORBIDDEN",
+            "sourceRefs": [
+              "source:10000133:constellation:3:effectText"
+            ]
+          }
+        ]
+      },
+      "runtime": {
+        "status": "blocked",
+        "modifierIds": [],
+        "generator": null,
+        "blockedReasons": [
+          "verificationStatusNeedsReview",
+          "inventoryCandidateOnly",
+          "independentSourceRequired",
+          "canonicalPromotionForbidden"
+        ]
+      },
+      "inventoryCandidateId": "behavior-inventory:batch-12:10000133:constellation-3",
+      "inventoryCandidateIds": [],
+      "unknownCandidateIds": []
+    },
+    "behavior:10000133:constellation:constellation-4": {
+      "id": "behavior:10000133:constellation:constellation-4",
+      "entity": {
+        "kind": "constellation",
+        "id": "10000133",
+        "component": "constellation.4"
+      },
+      "sourceRefs": [
+        "source:10000133:constellation:4:effectText"
+      ],
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+        "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+        "notes": "Raw source pointer and inventory candidate only; no prose parsing or value inference was performed."
+      },
+      "timing": {},
+      "execution": {},
+      "lifecycle": {
+        "refreshMode": "unknown",
+        "expiration": "unknown",
+        "instanceScope": "unknown"
+      },
+      "energy": {},
+      "elementApplication": {},
+      "unknownFields": [
+        "attackCount",
+        "burstCost",
+        "charges",
+        "cooldown",
+        "duration",
+        "elementApplication",
+        "energy",
+        "expiration",
+        "hitCount",
+        "instanceScope",
+        "maxInstances",
+        "maxTriggers",
+        "refreshMode",
+        "snapshot",
+        "targetCount",
+        "tickInterval",
+        "triggerInterval"
+      ],
+      "verification": {
+        "status": "needsReview",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "sourceAgreement": "unknown",
+        "claims": {
+          "sourceText": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ],
+            "notes": "Raw source text is retained; independent review is required."
+          },
+          "timing": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ],
+            "notes": "Timing fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "execution": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ],
+            "notes": "Execution fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "lifecycle": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ],
+            "notes": "Refresh, expiration, and instance scope remain review-gated."
+          },
+          "energy": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ],
+            "notes": "Energy and burst cost remain review-gated; no prose inference was performed."
+          },
+          "snapshot": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ],
+            "notes": "Snapshot behavior is unknown and intentionally unmodeled."
+          },
+          "runtime": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ],
+            "notes": "Runtime connection is blocked until independent review and versioned source agreement."
+          }
+        },
+        "discrepancies": [
+          {
+            "code": "RAW_SOURCE_INVENTORY_ONLY",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ]
+          },
+          {
+            "code": "INDEPENDENT_SOURCE_REQUIRED",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ]
+          },
+          {
+            "code": "CANONICAL_RUNTIME_FORBIDDEN",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ]
+          },
+          {
+            "code": "BEHAVIOR_INVENTORY_CANDIDATE",
+            "candidateId": "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:95cd154863ac3632",
+            "status": "candidate",
+            "kind": "count",
+            "fieldPath": "/execution/maxTriggers",
+            "operation": "setMaximum",
+            "value": 1,
+            "unit": "hits",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ],
+            "inventorySourceRefs": [
+              "behavior-inventory:source:10000133:constellation:c4:effecttext:4"
+            ],
+            "notes": "Inventory candidate retained as evidence; operation was not executed or normalized."
+          },
+          {
+            "code": "BEHAVIOR_INVENTORY_CANDIDATE",
+            "candidateId": "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:f15dddb53094fcd2",
+            "status": "candidate",
+            "kind": "count",
+            "fieldPath": "/execution/maxTriggers",
+            "operation": "set",
+            "value": 1,
+            "unit": "hits",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ],
+            "inventorySourceRefs": [
+              "behavior-inventory:source:10000133:constellation:c4:effecttext:4"
+            ],
+            "notes": "Inventory candidate retained as evidence; operation was not executed or normalized."
+          },
+          {
+            "code": "BEHAVIOR_INVENTORY_UNKNOWN",
+            "candidateId": "behavior-inventory:10000133:constellation:c4:effecttext:4:icd:unknown:cd0f846a8baf3882",
+            "status": "unknown",
+            "kind": "icd",
+            "fieldPath": null,
+            "operation": null,
+            "value": null,
+            "unit": "unknown",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ],
+            "inventorySourceRefs": [
+              "behavior-inventory:source:10000133:constellation:c4:effecttext:4"
+            ],
+            "notes": "Inventory candidate retained as evidence; operation was not executed or normalized."
+          },
+          {
+            "code": "BEHAVIOR_INVENTORY_UNKNOWN",
+            "candidateId": "behavior-inventory:10000133:constellation:c4:effecttext:4:timing:unknown:01e433771fe82e53",
+            "status": "unknown",
+            "kind": "timing",
+            "fieldPath": null,
+            "operation": null,
+            "value": null,
+            "unit": "unknown",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ],
+            "inventorySourceRefs": [
+              "behavior-inventory:source:10000133:constellation:c4:effecttext:4"
+            ],
+            "notes": "Inventory candidate retained as evidence; operation was not executed or normalized."
+          },
+          {
+            "code": "INVENTORY_OPERATION_CONFLICT",
+            "fieldPath": "/execution/maxTriggers",
+            "sourceRefs": [
+              "source:10000133:constellation:4:effectText"
+            ],
+            "inventoryCandidateIds": [
+              "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:95cd154863ac3632",
+              "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:f15dddb53094fcd2"
+            ],
+            "candidates": [
+              {
+                "code": "INVENTORY_CANDIDATE",
+                "candidateId": "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:95cd154863ac3632",
+                "status": "candidate",
+                "kind": "count",
+                "fieldPath": "/execution/maxTriggers",
+                "operation": "setMaximum",
+                "value": 1,
+                "unit": "hits",
+                "sourceRefs": [
+                  "source:10000133:constellation:4:effectText"
+                ],
+                "inventorySourceRefs": [
+                  "behavior-inventory:source:10000133:constellation:c4:effecttext:4"
+                ],
+                "notes": "Inventory candidate retained as evidence; operation was not executed or normalized."
+              },
+              {
+                "code": "INVENTORY_CANDIDATE",
+                "candidateId": "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:f15dddb53094fcd2",
+                "status": "candidate",
+                "kind": "count",
+                "fieldPath": "/execution/maxTriggers",
+                "operation": "set",
+                "value": 1,
+                "unit": "hits",
+                "sourceRefs": [
+                  "source:10000133:constellation:4:effectText"
+                ],
+                "inventorySourceRefs": [
+                  "behavior-inventory:source:10000133:constellation:c4:effecttext:4"
+                ],
+                "notes": "Inventory candidate retained as evidence; operation was not executed or normalized."
+              }
+            ]
+          }
+        ]
+      },
+      "runtime": {
+        "status": "blocked",
+        "modifierIds": [],
+        "generator": null,
+        "blockedReasons": [
+          "verificationStatusNeedsReview",
+          "inventoryCandidateOnly",
+          "independentSourceRequired",
+          "canonicalPromotionForbidden"
+        ]
+      },
+      "inventoryCandidateId": "behavior-inventory:batch-12:10000133:constellation-4",
+      "inventoryCandidateIds": [
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:95cd154863ac3632",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:f15dddb53094fcd2",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:icd:unknown:cd0f846a8baf3882",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:timing:unknown:01e433771fe82e53"
+      ],
+      "unknownCandidateIds": [
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:icd:unknown:cd0f846a8baf3882",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:timing:unknown:01e433771fe82e53"
+      ]
+    },
+    "behavior:10000133:constellation:constellation-5": {
+      "id": "behavior:10000133:constellation:constellation-5",
+      "entity": {
+        "kind": "constellation",
+        "id": "10000133",
+        "component": "constellation.5"
+      },
+      "sourceRefs": [
+        "source:10000133:constellation:5:effectText"
+      ],
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+        "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+        "notes": "Raw source pointer and inventory candidate only; no prose parsing or value inference was performed."
+      },
+      "timing": {},
+      "execution": {},
+      "lifecycle": {
+        "refreshMode": "unknown",
+        "expiration": "unknown",
+        "instanceScope": "unknown"
+      },
+      "energy": {},
+      "elementApplication": {},
+      "unknownFields": [
+        "attackCount",
+        "burstCost",
+        "charges",
+        "cooldown",
+        "duration",
+        "elementApplication",
+        "energy",
+        "expiration",
+        "hitCount",
+        "instanceScope",
+        "maxInstances",
+        "maxTriggers",
+        "refreshMode",
+        "snapshot",
+        "targetCount",
+        "tickInterval",
+        "triggerInterval"
+      ],
+      "verification": {
+        "status": "needsReview",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "sourceAgreement": "unknown",
+        "claims": {
+          "sourceText": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:5:effectText"
+            ],
+            "notes": "Raw source text is retained; independent review is required."
+          },
+          "timing": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:5:effectText"
+            ],
+            "notes": "Timing fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "execution": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:5:effectText"
+            ],
+            "notes": "Execution fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "lifecycle": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:5:effectText"
+            ],
+            "notes": "Refresh, expiration, and instance scope remain review-gated."
+          },
+          "energy": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:5:effectText"
+            ],
+            "notes": "Energy and burst cost remain review-gated; no prose inference was performed."
+          },
+          "snapshot": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:5:effectText"
+            ],
+            "notes": "Snapshot behavior is unknown and intentionally unmodeled."
+          },
+          "runtime": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:5:effectText"
+            ],
+            "notes": "Runtime connection is blocked until independent review and versioned source agreement."
+          }
+        },
+        "discrepancies": [
+          {
+            "code": "RAW_SOURCE_INVENTORY_ONLY",
+            "sourceRefs": [
+              "source:10000133:constellation:5:effectText"
+            ]
+          },
+          {
+            "code": "INDEPENDENT_SOURCE_REQUIRED",
+            "sourceRefs": [
+              "source:10000133:constellation:5:effectText"
+            ]
+          },
+          {
+            "code": "CANONICAL_RUNTIME_FORBIDDEN",
+            "sourceRefs": [
+              "source:10000133:constellation:5:effectText"
+            ]
+          }
+        ]
+      },
+      "runtime": {
+        "status": "blocked",
+        "modifierIds": [],
+        "generator": null,
+        "blockedReasons": [
+          "verificationStatusNeedsReview",
+          "inventoryCandidateOnly",
+          "independentSourceRequired",
+          "canonicalPromotionForbidden"
+        ]
+      },
+      "inventoryCandidateId": "behavior-inventory:batch-12:10000133:constellation-5",
+      "inventoryCandidateIds": [],
+      "unknownCandidateIds": []
+    },
+    "behavior:10000133:constellation:constellation-6": {
+      "id": "behavior:10000133:constellation:constellation-6",
+      "entity": {
+        "kind": "constellation",
+        "id": "10000133",
+        "component": "constellation.6"
+      },
+      "sourceRefs": [
+        "source:10000133:constellation:6:effectText"
+      ],
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+        "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+        "notes": "Raw source pointer and inventory candidate only; no prose parsing or value inference was performed."
+      },
+      "timing": {},
+      "execution": {
+        "hitCount": {
+          "value": 4,
+          "unit": "hits",
+          "status": "explicit",
+          "sourceRefs": [
+            "source:10000133:constellation:6:effectText"
+          ],
+          "notes": "Copied from behavior-inventory candidate behavior-inventory:10000133:constellation:c6:effecttext:6:count:candidate:26c83a58ebea1b50; operation=set; no value inference."
+        }
+      },
+      "lifecycle": {
+        "refreshMode": "unknown",
+        "expiration": "unknown",
+        "instanceScope": "unknown"
+      },
+      "energy": {},
+      "elementApplication": {},
+      "unknownFields": [
+        "attackCount",
+        "burstCost",
+        "charges",
+        "cooldown",
+        "duration",
+        "elementApplication",
+        "energy",
+        "expiration",
+        "instanceScope",
+        "maxInstances",
+        "maxTriggers",
+        "refreshMode",
+        "snapshot",
+        "targetCount",
+        "tickInterval",
+        "triggerInterval"
+      ],
+      "verification": {
+        "status": "needsReview",
+        "reviewedBy": null,
+        "reviewedAt": null,
+        "sourceAgreement": "unknown",
+        "claims": {
+          "sourceText": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:6:effectText"
+            ],
+            "notes": "Raw source text is retained; independent review is required."
+          },
+          "timing": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:6:effectText"
+            ],
+            "notes": "Timing fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "execution": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:6:effectText"
+            ],
+            "notes": "Execution fields are unknown unless copied from an explicit behavior-inventory candidate."
+          },
+          "lifecycle": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:6:effectText"
+            ],
+            "notes": "Refresh, expiration, and instance scope remain review-gated."
+          },
+          "energy": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:6:effectText"
+            ],
+            "notes": "Energy and burst cost remain review-gated; no prose inference was performed."
+          },
+          "snapshot": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:6:effectText"
+            ],
+            "notes": "Snapshot behavior is unknown and intentionally unmodeled."
+          },
+          "runtime": {
+            "status": "needsReview",
+            "sourceRefs": [
+              "source:10000133:constellation:6:effectText"
+            ],
+            "notes": "Runtime connection is blocked until independent review and versioned source agreement."
+          }
+        },
+        "discrepancies": [
+          {
+            "code": "RAW_SOURCE_INVENTORY_ONLY",
+            "sourceRefs": [
+              "source:10000133:constellation:6:effectText"
+            ]
+          },
+          {
+            "code": "INDEPENDENT_SOURCE_REQUIRED",
+            "sourceRefs": [
+              "source:10000133:constellation:6:effectText"
+            ]
+          },
+          {
+            "code": "CANONICAL_RUNTIME_FORBIDDEN",
+            "sourceRefs": [
+              "source:10000133:constellation:6:effectText"
+            ]
+          },
+          {
+            "code": "BEHAVIOR_INVENTORY_CANDIDATE",
+            "candidateId": "behavior-inventory:10000133:constellation:c6:effecttext:6:count:candidate:26c83a58ebea1b50",
+            "status": "candidate",
+            "kind": "count",
+            "fieldPath": "/execution/hitCount",
+            "operation": "set",
+            "value": 4,
+            "unit": "hits",
+            "sourceRefs": [
+              "source:10000133:constellation:6:effectText"
+            ],
+            "inventorySourceRefs": [
+              "behavior-inventory:source:10000133:constellation:c6:effecttext:6"
+            ],
+            "notes": "Inventory candidate retained as evidence; operation was not executed or normalized."
+          }
+        ]
+      },
+      "runtime": {
+        "status": "blocked",
+        "modifierIds": [],
+        "generator": null,
+        "blockedReasons": [
+          "verificationStatusNeedsReview",
+          "inventoryCandidateOnly",
+          "independentSourceRequired",
+          "canonicalPromotionForbidden"
+        ]
+      },
+      "inventoryCandidateId": "behavior-inventory:batch-12:10000133:constellation-6",
+      "inventoryCandidateIds": [
+        "behavior-inventory:10000133:constellation:c6:effecttext:6:count:candidate:26c83a58ebea1b50"
+      ],
+      "unknownCandidateIds": []
+    }
+  },
+  "modifiers": {}
+}

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-version-transition-weapon-entity-capture-checkpoint.schema.json",
+  "title": "Genshin weapon transition capture checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "generatedAt", "transitionId", "status", "requestedEntityCount", "requestedEntityIds", "revisions", "nextTask", "gateEligibility"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinVersionTransitionWeaponEntityCaptureCheckpoint" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "transitionId": { "const": "genshin:6.7->7.0" },
+    "status": { "enum": ["inProgress", "incompleteCheckpoint", "complete"] },
+    "requestedEntityCount": { "const": 55 },
+    "requestedEntityIds": { "type": "array", "minItems": 55, "maxItems": 55, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "queueShard": { "type": "object" },
+    "revisions": {
+      "type": "object",
+      "required": ["before", "after"],
+      "properties": {
+        "before": { "$ref": "#/$defs/revisionProgress" },
+        "after": { "$ref": "#/$defs/revisionProgress" }
+      },
+      "additionalProperties": false
+    },
+    "nextTask": { "type": "string", "minLength": 1 },
+    "blocker": { "type": "object" },
+    "materializedSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "fieldDigest", "entityCount", "normalizedRecordsChanged"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "fieldDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "entityCount": { "const": 55 },
+        "normalizedRecordsChanged": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "gateEligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canIssueEligibilityCertificate", "canPromoteCanonical"],
+      "properties": {
+        "canIssueEligibilityCertificate": { "const": false },
+        "canPromoteCanonical": { "const": false }
+      }
+    },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  },
+  "$defs": {
+    "revisionProgress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gameVersion", "revision", "status", "completedEntityIds", "completedArtifactCount"],
+      "properties": {
+        "gameVersion": { "type": "string", "minLength": 1 },
+        "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "status": { "type": "string", "minLength": 1 },
+        "completedEntityIds": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "completedArtifactCount": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

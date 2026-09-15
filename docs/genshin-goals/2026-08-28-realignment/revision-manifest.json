@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinGoalRevisionRecord",
+  "revisionId": "genshin-goal-2026-08-28-r2",
+  "recordedAt": "2026-08-28T00:45:32.895Z",
+  "author": "Sol",
+  "authority": "User explicitly approved preserving the old goal and revising the existing goal to the previously presented A-B-C design; implementation remains paused.",
+  "archivePolicy": "Keep original-goal.md, original-goal-state.json and checkpoint-before-revision.json unchanged; future revisions must create new history.",
+  "activeGoal": {
+    "threadId": "01a03256-cb5d-7fb0-a6f9-e268bcb222e6",
+    "objectiveString": "Referenced pasted text files:\n- pasted text file: C:\\Users\\teti\\.codex\\attachments\\a5346667-269a-477c-9d92-7d1a3360e2e5\\pasted-text-1.txt. Read this file before continuing.",
+    "updateMechanism": "Existing objective references an attachment file. After exact archival and self-review, that referenced body was changed into a digest-bound entrypoint to revised-goal.md. No app database mutation or goal replacement.",
+    "registeredObjectiveStringChanged": false,
+    "referencedObjectiveBodyChanged": true,
+    "entrypoint": {
+      "path": "C:/Users/teti/.codex/attachments/a5346667-269a-477c-9d92-7d1a3360e2e5/pasted-text-1.txt",
+      "bytes": 2516,
+      "sha256": "de683805ba2ac54ac56241975533ef7443cfc5f181e8b5b8842dfaa7086f7174"
+    },
+    "activeRevisionPath": "D:/Documents/GitHub/damageTool/docs/genshin-goals/2026-08-28-realignment/revised-goal.md",
+    "observedToolResponseBefore": {
+      "goal": {
+        "threadId": "01a03256-cb5d-7fb0-a6f9-e268bcb222e6",
+        "objective": "Referenced pasted text files:\n- pasted text file: C:\\Users\\teti\\.codex\\attachments\\a5346667-269a-477c-9d92-7d1a3360e2e5\\pasted-text-1.txt. Read this file before continuing.",
+        "status": "blocked",
+        "tokensUsed": 161300,
+        "timeUsedSeconds": 715,
+        "createdAt": 1787584175,
+        "updatedAt": 1787584891
+      },
+      "remainingTokens": null,
+      "completionBudgetReport": null
+    },
+    "observedToolResponseAfter": {
+      "goal": {
+        "threadId": "01a03256-cb5d-7fb0-a6f9-e268bcb222e6",
+        "objective": "Referenced pasted text files:\n- pasted text file: C:\\Users\\teti\\.codex\\attachments\\a5346667-269a-477c-9d92-7d1a3360e2e5\\pasted-text-1.txt. Read this file before continuing.",
+        "status": "blocked",
+        "tokensUsed": 161300,
+        "timeUsedSeconds": 715,
+        "createdAt": 1787584175,
+        "updatedAt": 1787584891
+      },
+      "remainingTokens": null,
+      "completionBudgetReport": null
+    },
+    "toolResponseUnchanged": true,
+    "createdNewGoal": false,
+    "markedComplete": false,
+    "resumed": false,
+    "repositoryExecutionState": "pausedByUser"
+  },
+  "originalAttachment": {
+    "path": "C:/Users/teti/.codex/attachments/a5346667-269a-477c-9d92-7d1a3360e2e5/pasted-text-1.txt",
+    "originalBytes": 23887,
+    "originalSha256": "9e27e072ef58a0a0f5a93ffd2c2155e151670b704938c4464ba2853fca7624d8",
+    "preservedAs": "original-goal.md"
+  },
+  "archivedAndRevisedFiles": {
+    "original-goal.md": {
+      "bytes": 23887,
+      "sha256": "9e27e072ef58a0a0f5a93ffd2c2155e151670b704938c4464ba2853fca7624d8"
+    },
+    "original-goal-state.json": {
+      "bytes": 776,
+      "sha256": "73d8e0e93d929714dabf519e597358478ab541be35d5e0741431734594c8ff60"
+    },
+    "checkpoint-before-revision.json": {
+      "bytes": 43230,
+      "sha256": "2280ef2f950d9a755608bea9b4fad2455a8d0d24f4ef4e598318890131f5c6a1"
+    },
+    "revised-goal.md": {
+      "bytes": 28419,
+      "sha256": "1bc4327886c141b4f69721ce018faf9bcc66c2cd5a16f51be36a346a992d8a37"
+    },
+    "revision-review.md": {
+      "bytes": 13974,
+      "sha256": "3ff9879d7387d18ddef92d56314b8dc048becade41d03b31981c917c3b187289"
+    }
+  },
+  "selfReview": {
+    "oldNumberedSections": 37,
+    "mappedOldSections": 37,
+    "revisedSections": 15,
+    "requiredTextChecks": 19,
+    "manualReview": "revision-review.md / Sol自己レビュー",
+    "result": "No unintended loss of important old requirements identified. Intentional changes: purpose/finite acceptance scope/work disposition/A-B-C order/deferred evidence/partial activation/completion/KPIs.",
+    "notAnImplementationAuditPass": true
+  },
+  "validation": {
+    "originalArchiveIntact": true,
+    "checkpointArchiveExact": true,
+    "entrypointBindsReviewedGoalDigest": true,
+    "executionStillPaused": true,
+    "protectedFilesUnchanged": true,
+    "documentWhitespace": true
+  },
+  "protectedFilesUnchanged": {
+    "games/genshin/data/v2/version-transitions/6.7-to-7.0/active-goal-resume-checkpoint.json": "2280ef2f950d9a755608bea9b4fad2455a8d0d24f4ef4e598318890131f5c6a1",
+    "reports/genshin-evidence-task-queue.json": "d2a4574ce61beceabc5b147ea1af3ddf8ab940b4ca63564bb8918916e69b1e1c",
+    "games/genshin/data/v2/eligibility-certificates.json": "3280bbe17c72f3b7fcd91dd67c827a4284bea24015ab8a26f776e839d717d8ff",
+    "scripts/genshinWeaponPrimaryFieldComparison.cjs": "c8c03de7e4200469c8123e16337cf83ebf1e1f60f3022cfe39cd13df8f4fc7a7"
+  },
+  "operationScope": {
+    "repoWrites": [
+      "docs/genshin-goals/2026-08-28-realignment/"
+    ],
+    "externalWrite": "Existing goal referenced attachment only",
+    "codeSchemaDataQueueRuntimeCertificateModified": false,
+    "checkpointModified": false,
+    "sourceAcquisition": false,
+    "candidateProcessing": false,
+    "applicationTestsRun": false,
+    "documentConsistencyChecksOnly": true,
+    "workerStarted": false,
+    "hsrModified": false,
+    "gitCommitOrPush": false,
+    "appInternalStateOrLogsModified": false
+  },
+  "nextAction": {
+    "requiresExplicitUserResume": true,
+    "phase": "A: finite acceptance scope and required integration delta",
+    "instruction": "Read revised-goal.md and revision-review.md, then current repository/checkpoint/queue. Preserve all completed results; do not automatically execute the old 381-candidate partial script or treat old queue completion rules as r2 implementation."
+  }
+}

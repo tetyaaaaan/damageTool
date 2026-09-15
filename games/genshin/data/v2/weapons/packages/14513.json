@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "weapon",
+    "id": "14513"
+  },
+  "sourceRefs": [
+    "weapon:14513:catalog",
+    "weapon:14513:effect"
+  ],
+  "modifierIds": [
+    "w_14513_damageBonus_9c4f8189",
+    "w_14513_damageBonus_f927ae7f",
+    "w_14513_damage_4",
+    "w_14513_reactionBonus_5a95da29",
+    "w_14513_reactionBonus_bbe64f46",
+    "w_14513_reaction_bonus_2",
+    "w_14513_stat_1"
+  ],
+  "specIds": [
+    "w_14513_damageBonus_9c4f8189",
+    "w_14513_damageBonus_f927ae7f",
+    "w_14513_damage_4",
+    "w_14513_reactionBonus_5a95da29",
+    "w_14513_reactionBonus_bbe64f46",
+    "w_14513_reaction_bonus_2",
+    "w_14513_stat_1"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Weapon package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:weapon:14513:w_14513_damageBonus_9c4f8189",
+      "genshin:v2:weapon:14513:w_14513_damageBonus_f927ae7f",
+      "genshin:v2:weapon:14513:w_14513_damage_4",
+      "genshin:v2:weapon:14513:w_14513_reactionBonus_5a95da29",
+      "genshin:v2:weapon:14513:w_14513_reactionBonus_bbe64f46",
+      "genshin:v2:weapon:14513:w_14513_reaction_bonus_2",
+      "genshin:v2:weapon:14513:w_14513_stat_1"
+    ],
+    "generator": "genshinWeaponV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 2,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 2,
+    "status": "passed",
+    "batch": 7,
+    "batchCharacters": 10,
+    "sourceRecords": 150,
+    "inventoryCandidates": 140,
+    "specs": 140,
+    "modifiers": 0,
+    "canonical": 0,
+    "inventoryInputCandidates": 181,
+    "explicitCandidateOperations": 122,
+    "unknownCandidateIds": 59,
+    "sourceInventoryCandidates": 181,
+    "explicitInventoryCandidates": 122,
+    "unknownInventoryCandidates": 59,
+    "verificationByStatus": {
+      "needsReview": 140
+    },
+    "runtimeByStatus": {
+      "blocked": 140
+    },
+    "sourceKinds": {
+      "primaryDataset": 150
+    },
+    "contract": {
+      "malformedSources": 0,
+      "malformedInventory": 0,
+      "malformedSpecs": 0,
+      "malformedByCharacter": 0,
+      "missingSourceRefs": 0,
+      "missingInventoryRefs": 0,
+      "inputDigestMismatches": 0,
+      "unknownFieldViolations": 0,
+      "numericInferenceViolations": 0,
+      "inventoryCandidateViolations": 0,
+      "schemaViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [],
+  "malformedSources": [],
+  "malformedInventory": [],
+  "malformedSpecs": [],
+  "malformedByCharacter": [],
+  "missingSourceRefs": [],
+  "missingInventoryRefs": [],
+  "inputDigestMismatches": [],
+  "unknownFieldViolations": [],
+  "numericInferenceViolations": [],
+  "inventoryCandidateViolations": [],
+  "schemaViolations": [],
+  "characterCoverage": [
+    {
+      "characterId": "10000078",
+      "characterName": "アルハイゼン",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 24,
+      "explicitCandidateOperations": 16,
+      "unknownCandidateIds": 8,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000079",
+      "characterName": "ディシア",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 26,
+      "explicitCandidateOperations": 22,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000080",
+      "characterName": "ミカ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 10,
+      "explicitCandidateOperations": 4,
+      "unknownCandidateIds": 6,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000081",
+      "characterName": "カーヴェ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 13,
+      "explicitCandidateOperations": 9,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000082",
+      "characterName": "白朮",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 14,
+      "explicitCandidateOperations": 9,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000083",
+      "characterName": "リネット",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 12,
+      "explicitCandidateOperations": 8,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000084",
+      "characterName": "リネ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 25,
+      "explicitCandidateOperations": 13,
+      "unknownCandidateIds": 12,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000085",
+      "characterName": "フレミネ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 20,
+      "explicitCandidateOperations": 19,
+      "unknownCandidateIds": 1,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000086",
+      "characterName": "リオセスリ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 18,
+      "explicitCandidateOperations": 11,
+      "unknownCandidateIds": 7,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000087",
+      "characterName": "ヌヴィレット",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 19,
+      "explicitCandidateOperations": 11,
+      "unknownCandidateIds": 8,
+      "modifiers": 0,
+      "canonical": 0
+    }
+  ],
+  "generatedFromDisk": true
+}

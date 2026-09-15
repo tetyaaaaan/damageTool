@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 1,
+    "status": "passed",
+    "pilotCharacters": 8,
+    "talentGapCharacters": 25,
+    "pilotBehaviorSpecs": 56,
+    "talentGapSpecs": 73,
+    "candidates": 129,
+    "externalSources": 78,
+    "evidenceMappings": 258,
+    "verificationByStatus": {
+      "needsReview": 129
+    },
+    "runtimeByStatus": {
+      "blocked": 129
+    },
+    "sourceProjects": {
+      "gcsim": 39,
+      "genshinOptimizer": 39
+    },
+    "contract": {
+      "malformedSources": 0,
+      "malformedCandidates": 0,
+      "malformedEvidence": 0,
+      "missingSourceRefs": 0,
+      "canonicalViolations": 0,
+      "gameVersionViolations": 0,
+      "tokenMatchingViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [],
+  "warnings": [],
+  "malformedSources": [],
+  "malformedCandidates": [],
+  "malformedEvidence": [],
+  "missingSourceRefs": [],
+  "canonicalViolations": [],
+  "gameVersionViolations": [],
+  "tokenMatchingViolations": [],
+  "generatedFromDisk": true
+}

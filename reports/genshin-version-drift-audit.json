@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionDriftAudit",
+  "generator": "genshinVersionBaseline/1",
+  "status": "current",
+  "canonicalGateOpen": true,
+  "acceptedSnapshotId": "genshin-version:6.7:11cd97236d0099f03ab295582531b24aa2016e2c1675c03997c61b7ad4e63f6d",
+  "acceptedSourceCatalogDigest": "e3281568020faca3bc635b1161993bbab27027fe574f6692d81f849d49509790",
+  "acceptedBaselineDigest": "2bb4f69ddba3b4b4c6a92bd8a0c0998bce2a676cc0634ac438863c0fd7b206ff",
+  "currentSnapshotId": "genshin-version:6.7:11cd97236d0099f03ab295582531b24aa2016e2c1675c03997c61b7ad4e63f6d",
+  "targetGameVersion": {
+    "gameVersion": "6.7",
+    "status": "strictlyBound",
+    "sources": [
+      {
+        "sourceId": "genshinDb",
+        "gameVersion": "6.7",
+        "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2"
+      }
+    ]
+  },
+  "changes": [],
+  "nextSteps": []
+}

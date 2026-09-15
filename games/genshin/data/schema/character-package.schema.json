@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tetinet.example/schemas/genshin/character-package.schema.json",
+  "title": "Genshin character package index",
+  "type": "object",
+  "required": ["schemaVersion", "characterId", "status", "layers", "capabilities", "verification"],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "characterId": { "type": "string", "pattern": "^[0-9]+$" },
+    "status": { "enum": ["pilot", "migrating", "canonical"] },
+    "layers": {
+      "type": "object",
+      "required": ["raw", "spec", "runtime"],
+      "properties": {
+        "raw": { "$ref": "#/$defs/references" },
+        "spec": { "$ref": "#/$defs/references" },
+        "runtime": { "$ref": "#/$defs/references" }
+      },
+      "additionalProperties": false
+    },
+    "capabilities": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "verification": {
+      "type": "object",
+      "required": ["status", "notes"],
+      "properties": {
+        "status": { "enum": ["unreviewed", "needsReview", "verified"] },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["dataset", "pointer"],
+        "properties": {
+          "dataset": { "type": "string", "minLength": 1 },
+          "pointer": { "type": "string", "pattern": "^/" },
+          "role": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

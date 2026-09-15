@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 2,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 2,
+    "status": "passed",
+    "batch": 1,
+    "batchCharacters": 8,
+    "sourceRecords": 119,
+    "inventoryCandidates": 111,
+    "sourceInventoryCandidates": 101,
+    "explicitInventoryCandidates": 69,
+    "unknownInventoryCandidates": 32,
+    "specs": 111,
+    "modifiers": 0,
+    "canonical": 0,
+    "verificationByStatus": {
+      "needsReview": 111
+    },
+    "runtimeByStatus": {
+      "blocked": 111
+    },
+    "sourceKinds": {
+      "primaryDataset": 119
+    },
+    "contract": {
+      "malformedSources": 0,
+      "malformedInventory": 0,
+      "malformedSpecs": 0,
+      "malformedByCharacter": 0,
+      "missingSourceRefs": 0,
+      "missingInventoryRefs": 0,
+      "inputDigestMismatches": 0,
+      "unknownFieldViolations": 0,
+      "numericInferenceViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [],
+  "malformedSources": [],
+  "malformedInventory": [],
+  "malformedSpecs": [],
+  "malformedByCharacter": [],
+  "missingSourceRefs": [],
+  "missingInventoryRefs": [],
+  "inputDigestMismatches": [],
+  "unknownFieldViolations": [],
+  "numericInferenceViolations": [],
+  "characterCoverage": [
+    {
+      "characterId": "10000002",
+      "characterName": "神里綾華",
+      "sourceRecords": 16,
+      "inventoryCandidates": 15,
+      "specs": 15,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000003",
+      "characterName": "ジン",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000005",
+      "characterName": "旅人",
+      "sourceRecords": 14,
+      "inventoryCandidates": 13,
+      "specs": 13,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000006",
+      "characterName": "リサ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000007",
+      "characterName": "旅人",
+      "sourceRecords": 14,
+      "inventoryCandidates": 13,
+      "specs": 13,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000014",
+      "characterName": "バーバラ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000015",
+      "characterName": "ガイア",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000016",
+      "characterName": "ディルック",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    }
+  ],
+  "generatedFromDisk": true
+}

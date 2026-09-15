@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinOfficialVersionChangeIndex",
+  "transitionId": "genshin:6.7->7.0",
+  "source": {
+    "provider": "HoYoLAB / Genshin Impact Official",
+    "sourceFamily": "official-hoyoverse",
+    "postId": "46233468",
+    "url": "https://www.hoyolab.com/article/46233468",
+    "rawDigestAlgorithm": "sha256",
+    "rawDigest": "9b6ba657ae41eb1601e9bf2a0f6e383feca0a88115f7f0fb41bac34ffbb74b0a",
+    "rawBytes": 140000
+  },
+  "claim": {
+    "gameVersion": "7.0",
+    "changes": [
+      {
+        "changeId": "reaction:stellarSwirl:introduced",
+        "entityKind": "reaction",
+        "entityId": "stellarSwirl",
+        "changeKind": "reactionIntroduced",
+        "candidateIds": [],
+        "candidateMappingStatus": "reactionConsumerMapped"
+      },
+      {
+        "changeId": "character:10000022:constellation6:res-reduction-fix",
+        "entityKind": "character",
+        "entityId": "10000022",
+        "changeKind": "behaviorBugFix",
+        "candidateIds": ["behavior:10000022:constellation:constellation-6"],
+        "candidateMappingStatus": "exactCandidateMapped"
+      },
+      {
+        "changeId": "character:10000039:skill:shield-duration-fix",
+        "entityKind": "character",
+        "entityId": "10000039",
+        "changeKind": "durationBugFix",
+        "candidateIds": ["behavior:10000039:talent:skill"],
+        "candidateMappingStatus": "exactCandidateMapped"
+      },
+      {
+        "changeId": "character:10000058:passive:stellar-conduct-trigger-fix",
+        "entityKind": "character",
+        "entityId": "10000058",
+        "changeKind": "triggerBehaviorBugFix",
+        "candidateIds": [],
+        "candidateMappingStatus": "entityMappedCandidatePending"
+      },
+      {
+        "changeId": "character:10000071:passive:particle-count-fix",
+        "entityKind": "character",
+        "entityId": "10000071",
+        "changeKind": "energyBehaviorBugFix",
+        "candidateIds": [],
+        "candidateMappingStatus": "entityMappedCandidatePending"
+      }
+    ]
+  },
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "a5a7ef53e2af22b3aba7d93f0e890a1b3267d4d662acf7b9701f4ba91783f1cf",
+  "eligibility": "officialTransitionDiscoveryOnly",
+  "note": "This index identifies affected entities and candidate reacquisition work. It does not supply complete replacement values or authorize promotion."
+}

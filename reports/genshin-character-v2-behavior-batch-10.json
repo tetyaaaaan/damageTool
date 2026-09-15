@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 2,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 2,
+    "status": "passed",
+    "batch": 10,
+    "batchCharacters": 10,
+    "sourceRecords": 150,
+    "inventoryCandidates": 140,
+    "specs": 140,
+    "modifiers": 0,
+    "canonical": 0,
+    "inventoryInputCandidates": 172,
+    "explicitCandidateOperations": 119,
+    "unknownCandidateIds": 53,
+    "sourceInventoryCandidates": 172,
+    "explicitInventoryCandidates": 119,
+    "unknownInventoryCandidates": 53,
+    "verificationByStatus": {
+      "needsReview": 140
+    },
+    "runtimeByStatus": {
+      "blocked": 140
+    },
+    "sourceKinds": {
+      "primaryDataset": 150
+    },
+    "contract": {
+      "malformedSources": 0,
+      "malformedInventory": 0,
+      "malformedSpecs": 0,
+      "malformedByCharacter": 0,
+      "missingSourceRefs": 0,
+      "missingInventoryRefs": 0,
+      "inputDigestMismatches": 0,
+      "unknownFieldViolations": 0,
+      "numericInferenceViolations": 0,
+      "inventoryCandidateViolations": 0,
+      "schemaViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [],
+  "malformedSources": [],
+  "malformedInventory": [],
+  "malformedSpecs": [],
+  "malformedByCharacter": [],
+  "missingSourceRefs": [],
+  "missingInventoryRefs": [],
+  "inputDigestMismatches": [],
+  "unknownFieldViolations": [],
+  "numericInferenceViolations": [],
+  "inventoryCandidateViolations": [],
+  "schemaViolations": [],
+  "characterCoverage": [
+    {
+      "characterId": "10000111",
+      "characterName": "ヴァレサ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 19,
+      "explicitCandidateOperations": 13,
+      "unknownCandidateIds": 6,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000112",
+      "characterName": "エスコフィエ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 20,
+      "explicitCandidateOperations": 15,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000113",
+      "characterName": "イファ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 16,
+      "explicitCandidateOperations": 10,
+      "unknownCandidateIds": 6,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000114",
+      "characterName": "スカーク",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 20,
+      "explicitCandidateOperations": 12,
+      "unknownCandidateIds": 8,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000115",
+      "characterName": "ダリア",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 12,
+      "explicitCandidateOperations": 7,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000116",
+      "characterName": "イネファ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 18,
+      "explicitCandidateOperations": 12,
+      "unknownCandidateIds": 6,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000119",
+      "characterName": "ラウマ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 26,
+      "explicitCandidateOperations": 21,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000120",
+      "characterName": "フリンズ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 12,
+      "explicitCandidateOperations": 9,
+      "unknownCandidateIds": 3,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000121",
+      "characterName": "アイノ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 13,
+      "explicitCandidateOperations": 10,
+      "unknownCandidateIds": 3,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000122",
+      "characterName": "ネフェル",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 16,
+      "explicitCandidateOperations": 10,
+      "unknownCandidateIds": 6,
+      "modifiers": 0,
+      "canonical": 0
+    }
+  ],
+  "generatedFromDisk": true
+}

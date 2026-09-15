@@ -1,0 +1,1140 @@
+{
+  "schemaVersion": 1,
+  "audit": "genshin-source-catalog-contract-audit",
+  "status": "passed",
+  "promotionGate": "blocked",
+  "canonicalEligibility": 0,
+  "methodology": {
+    "readOnly": true,
+    "revision": "A 40-hex Git commit plus file SHA-256 proves reproducible repository bytes only; it is never interpreted as gameVersion.",
+    "gameVersion": "A source must publish an explicit gameVersion and a matching primary metadata locator/digest. capturedAt, package semver, Git tag/date, branch, commit, and file path are not game-version proof.",
+    "fieldEligibility": "Only field-scoped evidence with supportsClaimValue and gameVersionVerified may satisfy the dual-source/canonical field gate.",
+    "independence": "Two providers must resolve to distinct independenceGroup values; same-provider local layers remain one group.",
+    "candidateMutation": "No candidate verification, runtime status, or claim values are changed by this audit."
+  },
+  "primaryMetadataContract": {
+    "acceptedEvidenceKinds": [
+      "gameClientManifest",
+      "providerDatasetManifest",
+      "providerReleaseArtifact",
+      "releaseNotesWithExplicitGameVersion"
+    ],
+    "requiredFields": [
+      "gameVersion",
+      "gameVersionEvidence.kind",
+      "gameVersionEvidence.locator.dataset",
+      "gameVersionEvidence.locator.record",
+      "gameVersionEvidence.integrity.algorithm",
+      "gameVersionEvidence.integrity.digest"
+    ],
+    "rejectedAsGameVersionProof": [
+      "revision",
+      "revisionKind",
+      "repository commit/date",
+      "Git tag or branch",
+      "package semver",
+      "capturedAt",
+      "entity file path",
+      "entity file SHA-256 without version metadata"
+    ],
+    "note": "A provider release note is acceptable only when it explicitly names the Genshin game version and is pinned/digested; a library release number alone is not."
+  },
+  "generatedFrom": [
+    {
+      "role": "sourceCatalog",
+      "path": "games/genshin/data/v2/source-catalog.json",
+      "exists": true,
+      "sha256": "e3281568020faca3bc635b1161993bbab27027fe574f6692d81f849d49509790",
+      "bytes": 13362
+    },
+    {
+      "role": "sourceCatalogSchema",
+      "path": "games/genshin/data/schema/source-catalog.schema.json",
+      "exists": true,
+      "sha256": "918110f8db94f8f5fc9c8c4b47f85d441dd8f2e95682187b8137d6360f534400",
+      "bytes": 5241
+    },
+    {
+      "role": "sourceRecordSchema",
+      "path": "games/genshin/data/schema/source-record.schema.json",
+      "exists": true,
+      "sha256": "6e398f4ec05270647b0a56025d35ee4cd43e27622268fd5aa4e0464e45e66a94",
+      "bytes": 2708
+    },
+    {
+      "role": "weaponSourceRecords",
+      "path": "games/genshin/data/v2/weapons/source-records.json",
+      "exists": true,
+      "sha256": "f2c3f068aec42b4e4d0efaa20a0b1c48fb73c2519e71d80648a6db8f5845923c",
+      "bytes": 1177296
+    },
+    {
+      "role": "artifactSourceRecords",
+      "path": "games/genshin/data/v2/artifacts/source-records.json",
+      "exists": true,
+      "sha256": "c28f944c1e45106da9a44c20c0864fd556e7f105e38c0b97d11ac1e63f0cc1c7",
+      "bytes": 449018
+    }
+  ],
+  "sourceCatalog": {
+    "contract": {
+      "revisionSemantics": "repositoryRevisionOnly",
+      "gameVersionSemantics": "explicitGameVersionEvidenceRequired",
+      "independenceSemantics": "distinctProviderAndIndependenceGroup",
+      "canonicalGate": "revisionAndFileDigestNeverSubstituteForGameVersion",
+      "gameVersionEvidenceKinds": [
+        "gameClientManifest",
+        "providerDatasetManifest",
+        "providerReleaseArtifact",
+        "releaseNotesWithExplicitGameVersion"
+      ]
+    },
+    "sourceStatuses": [
+      {
+        "id": "gcsim",
+        "provider": "genshinsim/gcsim",
+        "repository": "https://github.com/genshinsim/gcsim",
+        "independenceGroup": "gcsim-implementation",
+        "role": "independentRuntimeImplementation",
+        "revision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+        "revisionKind": "gitCommit",
+        "revisionPinned": true,
+        "gameVersion": null,
+        "gameVersionEvidence": null,
+        "gameVersionVerified": false,
+        "status": "blocked",
+        "blockedReasons": [
+          "gameVersion:missing",
+          "gameVersionEvidence:missing",
+          "revisionPin:notGameVersionProof"
+        ]
+      },
+      {
+        "id": "genshinDb",
+        "provider": "theBowja/genshin-db",
+        "repository": "https://github.com/theBowja/genshin-db",
+        "independenceGroup": "GenshinData-derived",
+        "role": "localizedRawAndDatamineProjection",
+        "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+        "revisionKind": "gitCommit",
+        "revisionPinned": true,
+        "gameVersion": "6.7",
+        "gameVersionEvidence": {
+          "kind": "providerDatasetManifest",
+          "gameVersion": "6.7",
+          "locator": {
+            "dataset": "theBowja/genshin-db package metadata",
+            "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+            "field": "description"
+          },
+          "explicitText": "Genshin Impact v6.7 JSON data.",
+          "integrity": {
+            "algorithm": "sha256",
+            "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+            "bytes": 1619
+          },
+          "binding": {
+            "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6"
+          }
+        },
+        "gameVersionVerified": true,
+        "status": "ready",
+        "blockedReasons": []
+      }
+    ],
+    "independence": {
+      "providerCount": 2,
+      "independenceGroupCount": 2,
+      "declaredGroups": [
+        "gcsim-implementation",
+        "GenshinData-derived"
+      ],
+      "distinctGroupsDeclared": true
+    },
+    "recordSummary": {
+      "total": 18,
+      "revisionPinned": 18,
+      "fieldScoped": 9,
+      "gameVersionVerified": 9
+    },
+    "records": [
+      {
+        "id": "gcsim:weapon:11503",
+        "source": "gcsim",
+        "path": "internal/weapons/sword/freedom/freedom.go",
+        "sha256": "d734056ccf7e7e7ccf6424e576b53fb51c226b8725f7df3c4fa18635f4ef548f",
+        "revisionPinned": true,
+        "fieldScoped": false,
+        "gameVersion": null,
+        "gameVersionEvidence": null,
+        "gameVersionVerified": false,
+        "status": "blocked",
+        "blockedReasons": [
+          "fieldScope:missing",
+          "gameVersionEvidence:missing"
+        ]
+      },
+      {
+        "id": "gcsim:weapon:11509",
+        "source": "gcsim",
+        "path": "internal/weapons/sword/mistsplitter/mistsplitter.go",
+        "sha256": "c98a2570db2b86e1727240aeed8f4c8e711332a97bd2ea4c362ee5f6ba875923",
+        "revisionPinned": true,
+        "fieldScoped": false,
+        "gameVersion": null,
+        "gameVersionEvidence": null,
+        "gameVersionVerified": false,
+        "status": "blocked",
+        "blockedReasons": [
+          "fieldScope:missing",
+          "gameVersionEvidence:missing"
+        ]
+      },
+      {
+        "id": "gcsim:weapon:11518",
+        "source": "gcsim",
+        "path": "internal/weapons/sword/athameartis/athameartis.go",
+        "sha256": "5cb1564828175529d7643333fb20f61fb9f202902c6bb666ac9a6aa866bf5281",
+        "revisionPinned": true,
+        "fieldScoped": false,
+        "gameVersion": null,
+        "gameVersionEvidence": null,
+        "gameVersionVerified": false,
+        "status": "blocked",
+        "blockedReasons": [
+          "fieldScope:missing",
+          "gameVersionEvidence:missing"
+        ]
+      },
+      {
+        "id": "gcsim:weapon:12402",
+        "source": "gcsim",
+        "path": "internal/weapons/claymore/bell/bell.go",
+        "sha256": "637e106b0f7aa3c4de84df7f432d06b1c05b013b7be2b8e8d6c7a117395093fd",
+        "revisionPinned": true,
+        "fieldScoped": false,
+        "gameVersion": null,
+        "gameVersionEvidence": null,
+        "gameVersionVerified": false,
+        "status": "blocked",
+        "blockedReasons": [
+          "fieldScope:missing",
+          "gameVersionEvidence:missing"
+        ]
+      },
+      {
+        "id": "gcsim:weapon:12430",
+        "source": "gcsim",
+        "path": "internal/weapons/claymore/fruitfulhook/fruitfulhook.go",
+        "sha256": "23237bf2a321875027319c1a744357870cd8e2d41be96a88dbe7b80cbf8bc505",
+        "revisionPinned": true,
+        "fieldScoped": false,
+        "gameVersion": null,
+        "gameVersionEvidence": null,
+        "gameVersionVerified": false,
+        "status": "blocked",
+        "blockedReasons": [
+          "fieldScope:missing",
+          "gameVersionEvidence:missing"
+        ]
+      },
+      {
+        "id": "gcsim:weapon:14402",
+        "source": "gcsim",
+        "path": "internal/weapons/catalyst/widsith/widsith.go",
+        "sha256": "865f84373655ae8d7453551c2c9b01a24df452535a663997f04506d771ac2fa8",
+        "revisionPinned": true,
+        "fieldScoped": false,
+        "gameVersion": null,
+        "gameVersionEvidence": null,
+        "gameVersionVerified": false,
+        "status": "blocked",
+        "blockedReasons": [
+          "fieldScope:missing",
+          "gameVersionEvidence:missing"
+        ]
+      },
+      {
+        "id": "gcsim:weapon:15402",
+        "source": "gcsim",
+        "path": "internal/weapons/bow/stringless/stringless.go",
+        "sha256": "6d653be7894f61a511e1a7da6bfb6e75965e8df3bfea822d7b91cd8d3f86a695",
+        "revisionPinned": true,
+        "fieldScoped": false,
+        "gameVersion": null,
+        "gameVersionEvidence": null,
+        "gameVersionVerified": false,
+        "status": "blocked",
+        "blockedReasons": [
+          "fieldScope:missing",
+          "gameVersionEvidence:missing"
+        ]
+      },
+      {
+        "id": "gcsim:weapon:15502",
+        "source": "gcsim",
+        "path": "internal/weapons/bow/amos/amos.go",
+        "sha256": "7f8f1bec88442ae8913eab4b155b4152ed298f8482dbd2468e8c777ede2b9036",
+        "revisionPinned": true,
+        "fieldScoped": false,
+        "gameVersion": null,
+        "gameVersionEvidence": null,
+        "gameVersionVerified": false,
+        "status": "blocked",
+        "blockedReasons": [
+          "fieldScope:missing",
+          "gameVersionEvidence:missing"
+        ]
+      },
+      {
+        "id": "gcsim:weapon:15516",
+        "source": "gcsim",
+        "path": "internal/weapons/bow/goldenfrostboundoath/goldenfrostboundoath.go",
+        "sha256": "03183711aaa9f0cb1fcbf9c37d0c75ed676af6c1f40cb5dc834f2d886dacc790",
+        "revisionPinned": true,
+        "fieldScoped": false,
+        "gameVersion": null,
+        "gameVersionEvidence": null,
+        "gameVersionVerified": false,
+        "status": "blocked",
+        "blockedReasons": [
+          "fieldScope:missing",
+          "gameVersionEvidence:missing"
+        ]
+      },
+      {
+        "id": "genshinDb:weapon:11503",
+        "source": "genshinDb",
+        "path": "src/data/English/weapons/freedomsworn.json",
+        "sha256": "d9b3304144ff23cfcbcc1d9635acf91459e719ba267fc11aca4bcacd80b6617b",
+        "revisionPinned": true,
+        "fieldScoped": true,
+        "gameVersion": "6.7",
+        "gameVersionEvidence": {
+          "kind": "providerDatasetManifest",
+          "gameVersion": "6.7",
+          "locator": {
+            "dataset": "theBowja/genshin-db package metadata",
+            "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+            "field": "description"
+          },
+          "explicitText": "Genshin Impact v6.7 JSON data.",
+          "integrity": {
+            "algorithm": "sha256",
+            "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+            "bytes": 1619
+          },
+          "binding": {
+            "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "sourceRecordDigest": "d9b3304144ff23cfcbcc1d9635acf91459e719ba267fc11aca4bcacd80b6617b",
+            "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6"
+          }
+        },
+        "gameVersionVerified": true,
+        "status": "ready",
+        "blockedReasons": []
+      },
+      {
+        "id": "genshinDb:weapon:11509",
+        "source": "genshinDb",
+        "path": "src/data/English/weapons/mistsplitterreforged.json",
+        "sha256": "c9910ceaeb7220e29f3cd77f5793f7114f41a4572a89386f84b83f8844cf2d6b",
+        "revisionPinned": true,
+        "fieldScoped": true,
+        "gameVersion": "6.7",
+        "gameVersionEvidence": {
+          "kind": "providerDatasetManifest",
+          "gameVersion": "6.7",
+          "locator": {
+            "dataset": "theBowja/genshin-db package metadata",
+            "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+            "field": "description"
+          },
+          "explicitText": "Genshin Impact v6.7 JSON data.",
+          "integrity": {
+            "algorithm": "sha256",
+            "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+            "bytes": 1619
+          },
+          "binding": {
+            "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "sourceRecordDigest": "c9910ceaeb7220e29f3cd77f5793f7114f41a4572a89386f84b83f8844cf2d6b",
+            "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6"
+          }
+        },
+        "gameVersionVerified": true,
+        "status": "ready",
+        "blockedReasons": []
+      },
+      {
+        "id": "genshinDb:weapon:11518",
+        "source": "genshinDb",
+        "path": "src/data/English/weapons/athameartis.json",
+        "sha256": "35d3563e35037a65f133f7576819750d203f2e6101ea5fa26ac2a1aaf2321d31",
+        "revisionPinned": true,
+        "fieldScoped": true,
+        "gameVersion": "6.7",
+        "gameVersionEvidence": {
+          "kind": "providerDatasetManifest",
+          "gameVersion": "6.7",
+          "locator": {
+            "dataset": "theBowja/genshin-db package metadata",
+            "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+            "field": "description"
+          },
+          "explicitText": "Genshin Impact v6.7 JSON data.",
+          "integrity": {
+            "algorithm": "sha256",
+            "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+            "bytes": 1619
+          },
+          "binding": {
+            "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "sourceRecordDigest": "35d3563e35037a65f133f7576819750d203f2e6101ea5fa26ac2a1aaf2321d31",
+            "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6"
+          }
+        },
+        "gameVersionVerified": true,
+        "status": "ready",
+        "blockedReasons": []
+      },
+      {
+        "id": "genshinDb:weapon:12402",
+        "source": "genshinDb",
+        "path": "src/data/English/weapons/thebell.json",
+        "sha256": "d65988672b3b29682c8e115fdc3495165d8d5ec4b49a4bdaa6eac49eab169c55",
+        "revisionPinned": true,
+        "fieldScoped": true,
+        "gameVersion": "6.7",
+        "gameVersionEvidence": {
+          "kind": "providerDatasetManifest",
+          "gameVersion": "6.7",
+          "locator": {
+            "dataset": "theBowja/genshin-db package metadata",
+            "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+            "field": "description"
+          },
+          "explicitText": "Genshin Impact v6.7 JSON data.",
+          "integrity": {
+            "algorithm": "sha256",
+            "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+            "bytes": 1619
+          },
+          "binding": {
+            "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "sourceRecordDigest": "d65988672b3b29682c8e115fdc3495165d8d5ec4b49a4bdaa6eac49eab169c55",
+            "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6"
+          }
+        },
+        "gameVersionVerified": true,
+        "status": "ready",
+        "blockedReasons": []
+      },
+      {
+        "id": "genshinDb:weapon:12430",
+        "source": "genshinDb",
+        "path": "src/data/English/weapons/fruitfulhook.json",
+        "sha256": "24b5080705f86d9fa3c169a074040637dc1d582564e5d406bd77d52f615691e7",
+        "revisionPinned": true,
+        "fieldScoped": true,
+        "gameVersion": "6.7",
+        "gameVersionEvidence": {
+          "kind": "providerDatasetManifest",
+          "gameVersion": "6.7",
+          "locator": {
+            "dataset": "theBowja/genshin-db package metadata",
+            "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+            "field": "description"
+          },
+          "explicitText": "Genshin Impact v6.7 JSON data.",
+          "integrity": {
+            "algorithm": "sha256",
+            "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+            "bytes": 1619
+          },
+          "binding": {
+            "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "sourceRecordDigest": "24b5080705f86d9fa3c169a074040637dc1d582564e5d406bd77d52f615691e7",
+            "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6"
+          }
+        },
+        "gameVersionVerified": true,
+        "status": "ready",
+        "blockedReasons": []
+      },
+      {
+        "id": "genshinDb:weapon:14402",
+        "source": "genshinDb",
+        "path": "src/data/English/weapons/thewidsith.json",
+        "sha256": "d08ee31fca313a31430546f89bbaa106aae34fbb212a6824a30ea4edc86c4dba",
+        "revisionPinned": true,
+        "fieldScoped": true,
+        "gameVersion": "6.7",
+        "gameVersionEvidence": {
+          "kind": "providerDatasetManifest",
+          "gameVersion": "6.7",
+          "locator": {
+            "dataset": "theBowja/genshin-db package metadata",
+            "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+            "field": "description"
+          },
+          "explicitText": "Genshin Impact v6.7 JSON data.",
+          "integrity": {
+            "algorithm": "sha256",
+            "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+            "bytes": 1619
+          },
+          "binding": {
+            "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "sourceRecordDigest": "d08ee31fca313a31430546f89bbaa106aae34fbb212a6824a30ea4edc86c4dba",
+            "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6"
+          }
+        },
+        "gameVersionVerified": true,
+        "status": "ready",
+        "blockedReasons": []
+      },
+      {
+        "id": "genshinDb:weapon:15402",
+        "source": "genshinDb",
+        "path": "src/data/English/weapons/thestringless.json",
+        "sha256": "2f3ce5951a09b5d508dc03924cce7369982a5b3ef488f435878d3ecc7986b89c",
+        "revisionPinned": true,
+        "fieldScoped": true,
+        "gameVersion": "6.7",
+        "gameVersionEvidence": {
+          "kind": "providerDatasetManifest",
+          "gameVersion": "6.7",
+          "locator": {
+            "dataset": "theBowja/genshin-db package metadata",
+            "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+            "field": "description"
+          },
+          "explicitText": "Genshin Impact v6.7 JSON data.",
+          "integrity": {
+            "algorithm": "sha256",
+            "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+            "bytes": 1619
+          },
+          "binding": {
+            "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "sourceRecordDigest": "2f3ce5951a09b5d508dc03924cce7369982a5b3ef488f435878d3ecc7986b89c",
+            "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6"
+          }
+        },
+        "gameVersionVerified": true,
+        "status": "ready",
+        "blockedReasons": []
+      },
+      {
+        "id": "genshinDb:weapon:15502",
+        "source": "genshinDb",
+        "path": "src/data/English/weapons/amosbow.json",
+        "sha256": "5316537e61a4bd60b506aa5e449138e2a640245523b5da5c1d35529a9ab6191c",
+        "revisionPinned": true,
+        "fieldScoped": true,
+        "gameVersion": "6.7",
+        "gameVersionEvidence": {
+          "kind": "providerDatasetManifest",
+          "gameVersion": "6.7",
+          "locator": {
+            "dataset": "theBowja/genshin-db package metadata",
+            "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+            "field": "description"
+          },
+          "explicitText": "Genshin Impact v6.7 JSON data.",
+          "integrity": {
+            "algorithm": "sha256",
+            "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+            "bytes": 1619
+          },
+          "binding": {
+            "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "sourceRecordDigest": "5316537e61a4bd60b506aa5e449138e2a640245523b5da5c1d35529a9ab6191c",
+            "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6"
+          }
+        },
+        "gameVersionVerified": true,
+        "status": "ready",
+        "blockedReasons": []
+      },
+      {
+        "id": "genshinDb:weapon:15516",
+        "source": "genshinDb",
+        "path": "src/data/English/weapons/goldenfrostboundoath.json",
+        "sha256": "dd98a587359886a81b17238f1d5fd403882b7aea6c2d722f3a49294816fa5358",
+        "revisionPinned": true,
+        "fieldScoped": true,
+        "gameVersion": "6.7",
+        "gameVersionEvidence": {
+          "kind": "providerDatasetManifest",
+          "gameVersion": "6.7",
+          "locator": {
+            "dataset": "theBowja/genshin-db package metadata",
+            "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+            "field": "description"
+          },
+          "explicitText": "Genshin Impact v6.7 JSON data.",
+          "integrity": {
+            "algorithm": "sha256",
+            "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+            "bytes": 1619
+          },
+          "binding": {
+            "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+            "sourceRecordDigest": "dd98a587359886a81b17238f1d5fd403882b7aea6c2d722f3a49294816fa5358",
+            "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6"
+          }
+        },
+        "gameVersionVerified": true,
+        "status": "ready",
+        "blockedReasons": []
+      }
+    ]
+  },
+  "localSourceRecords": {
+    "errors": [],
+    "byDataset": {
+      "weapons": {
+        "total": 894,
+        "gameVersionPresent": 0,
+        "gameVersionMissing": 894,
+        "evidencePresent": 0,
+        "providers": {
+          "damageTool-local": 875,
+          "damageTool-reviewRegistry": 19
+        },
+        "capturedAt": {
+          "2026-08-15T00:00:00.000Z": 894
+        }
+      },
+      "artifacts": {
+        "total": 427,
+        "gameVersionPresent": 0,
+        "gameVersionMissing": 427,
+        "evidencePresent": 0,
+        "providers": {
+          "damageTool-local": 427
+        },
+        "capturedAt": {
+          "2026-08-15T00:00:00.000Z": 427
+        }
+      }
+    },
+    "total": 1321,
+    "gameVersionPresent": 0,
+    "gameVersionMissing": 1321,
+    "evidencePresent": 0
+  },
+  "dualSourceAudit": {
+    "status": "passed",
+    "candidates": {
+      "weapons": 455,
+      "artifacts": 122,
+      "total": 577
+    },
+    "claims": {
+      "weapons": 9555,
+      "artifacts": 2562,
+      "total": 12117
+    },
+    "classificationCounts": {
+      "missing-version": 651,
+      "same-provider duplicate": 11466
+    },
+    "dualSourceEligibleClaims": 0,
+    "dualSourceEligibleCandidates": 0,
+    "missingVersionClaims": 12117,
+    "pinnedEntityWeaponCandidates": 9,
+    "gcsimArtifactRecordCount": 0,
+    "goEvidence": {
+      "found": false,
+      "records": [],
+      "note": "No GO/Genshin Optimizer weapon or artifact record is pinned in the current local source catalog."
+    }
+  },
+  "canonicalGate": {
+    "status": "passedFailClosed",
+    "totalCandidates": 2268,
+    "canonical": 0,
+    "excluded": 2268,
+    "policy": {
+      "promotion": "verified structured specs only",
+      "independentProviders": 2,
+      "independentEvidenceGroups": 2,
+      "fieldClaims": "every copied field requires an exact verified canonical dotted-path claim",
+      "gameVersion": "required and consistent on every resolved source",
+      "reviewer": "independent reviewer and reviewedAt required",
+      "destination": "structured allowlisted engine route required",
+      "supersedesLegacyModifierIds": "explicit array required",
+      "behavior": "dedicated browser behavior route supported; real records still require the full canonical evidence gate",
+      "textInference": "forbidden"
+    },
+    "categories": {
+      "weapons": {
+        "candidates": 455,
+        "canonical": 0,
+        "excluded": 455,
+        "primaryBlocks": [
+          {
+            "reason": "claim:activation:status:needsReview",
+            "count": 455
+          },
+          {
+            "reason": "claim:area:gameVersion:missing",
+            "count": 455
+          },
+          {
+            "reason": "claim:charges:gameVersion:missing",
+            "count": 455
+          },
+          {
+            "reason": "claim:destination:status:needsReview",
+            "count": 455
+          },
+          {
+            "reason": "claim:effect.activation.uidHandling:status:needsReview",
+            "count": 455
+          }
+        ]
+      },
+      "artifacts": {
+        "candidates": 122,
+        "canonical": 0,
+        "excluded": 122,
+        "primaryBlocks": [
+          {
+            "reason": "claim:activation:status:needsReview",
+            "count": 122
+          },
+          {
+            "reason": "claim:automaticDetectability:status:needsReview",
+            "count": 122
+          },
+          {
+            "reason": "claim:condition:status:needsReview",
+            "count": 122
+          },
+          {
+            "reason": "claim:destination:status:needsReview",
+            "count": 122
+          },
+          {
+            "reason": "claim:inputPolicy:status:needsReview",
+            "count": 122
+          }
+        ]
+      },
+      "talentGap": {
+        "candidates": 73,
+        "canonical": 0,
+        "excluded": 73,
+        "primaryBlocks": [
+          {
+            "reason": "claim:activation:status:needsReview",
+            "count": 73
+          },
+          {
+            "reason": "claim:effectKind:status:needsReview",
+            "count": 73
+          },
+          {
+            "reason": "claim:runtimeEligibility:status:needsReview",
+            "count": 73
+          },
+          {
+            "reason": "claim:sourceText:status:needsReview",
+            "count": 73
+          },
+          {
+            "reason": "claim:targets:status:needsReview",
+            "count": 73
+          }
+        ]
+      },
+      "behavior": {
+        "candidates": 92,
+        "canonical": 0,
+        "excluded": 92,
+        "primaryBlocks": [
+          {
+            "reason": "claimCoverage:runtime.destination:verifiedRequired",
+            "count": 92
+          },
+          {
+            "reason": "claimCoverage:runtime.supersedesLegacyModifierIds:verifiedRequired",
+            "count": 92
+          },
+          {
+            "reason": "claims:missing",
+            "count": 92
+          },
+          {
+            "reason": "destination:missing",
+            "count": 92
+          },
+          {
+            "reason": "review:missingOrInvalidReviewedAt",
+            "count": 92
+          }
+        ]
+      },
+      "behaviorBatch1": {
+        "candidates": 111,
+        "canonical": 0,
+        "excluded": 111,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 111
+          },
+          {
+            "reason": "claim:execution:status:needsReview",
+            "count": 111
+          },
+          {
+            "reason": "claim:lifecycle:status:needsReview",
+            "count": 111
+          },
+          {
+            "reason": "claim:runtime:status:needsReview",
+            "count": 111
+          },
+          {
+            "reason": "claim:snapshot:status:needsReview",
+            "count": 111
+          }
+        ]
+      },
+      "behaviorBatch2": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:lifecycle:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:runtime:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:snapshot:status:needsReview",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch3": {
+        "candidates": 141,
+        "canonical": 0,
+        "excluded": 141,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 141
+          },
+          {
+            "reason": "claim:execution:status:needsReview",
+            "count": 141
+          },
+          {
+            "reason": "claim:lifecycle:status:needsReview",
+            "count": 141
+          },
+          {
+            "reason": "claim:runtime:status:needsReview",
+            "count": 141
+          },
+          {
+            "reason": "claim:snapshot:status:needsReview",
+            "count": 141
+          }
+        ]
+      },
+      "behaviorBatch4": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:lifecycle:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:runtime:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:snapshot:status:needsReview",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch5": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:lifecycle:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:runtime:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:snapshot:status:needsReview",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch6": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:lifecycle:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:runtime:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:snapshot:status:needsReview",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch7": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:lifecycle:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:runtime:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:snapshot:status:needsReview",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch8": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:lifecycle:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:runtime:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:snapshot:status:needsReview",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch9": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:lifecycle:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:runtime:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:snapshot:status:needsReview",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch10": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:lifecycle:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:runtime:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:snapshot:status:needsReview",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch11": {
+        "candidates": 140,
+        "canonical": 0,
+        "excluded": 140,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:execution:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:lifecycle:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:runtime:status:needsReview",
+            "count": 140
+          },
+          {
+            "reason": "claim:snapshot:status:needsReview",
+            "count": 140
+          }
+        ]
+      },
+      "behaviorBatch12": {
+        "candidates": 14,
+        "canonical": 0,
+        "excluded": 14,
+        "primaryBlocks": [
+          {
+            "reason": "claim:energy:status:needsReview",
+            "count": 14
+          },
+          {
+            "reason": "claim:execution:status:needsReview",
+            "count": 14
+          },
+          {
+            "reason": "claim:lifecycle:status:needsReview",
+            "count": 14
+          },
+          {
+            "reason": "claim:runtime:status:needsReview",
+            "count": 14
+          },
+          {
+            "reason": "claim:snapshot:status:needsReview",
+            "count": 14
+          }
+        ]
+      }
+    }
+  },
+  "blockedReasons": [
+    "canonicalGate:canonicalEligibility:zero",
+    "dualSource:fieldGameVersion:missing:12117",
+    "dualSource:pinnedEntityFiles:gameVersionProofMissing:9",
+    "localSourceRecords:gameVersion:missing:1321",
+    "record:gcsim:weapon:11503:gameVersionEvidence:missing",
+    "record:gcsim:weapon:11509:gameVersionEvidence:missing",
+    "record:gcsim:weapon:11518:gameVersionEvidence:missing",
+    "record:gcsim:weapon:12402:gameVersionEvidence:missing",
+    "record:gcsim:weapon:12430:gameVersionEvidence:missing",
+    "record:gcsim:weapon:14402:gameVersionEvidence:missing",
+    "record:gcsim:weapon:15402:gameVersionEvidence:missing",
+    "record:gcsim:weapon:15502:gameVersionEvidence:missing",
+    "record:gcsim:weapon:15516:gameVersionEvidence:missing",
+    "source:gcsim:gameVersion:missing",
+    "source:gcsim:gameVersionEvidence:missing",
+    "source:gcsim:revisionPin:notGameVersionProof",
+    "sourceCatalog:gcsim:artifactRecords:missing",
+    "sourceCatalog:go:records:missing"
+  ],
+  "errors": []
+}

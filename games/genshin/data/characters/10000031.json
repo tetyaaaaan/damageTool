@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 2,
+  "characterId": "10000031",
+  "status": "pilot",
+  "layers": {
+    "raw": [
+      { "dataset": "characters", "pointer": "/10000031", "role": "identity" },
+      { "dataset": "characterTalents", "pointer": "/10000031", "role": "sourceText" },
+      { "dataset": "characterConstellations", "pointer": "/10000031", "role": "sourceText" }
+    ],
+    "spec": [
+      { "dataset": "talentScalings", "pointer": "/10000031", "role": "attacks" },
+      { "dataset": "behaviorPilot", "pointer": "/byCharacter/10000031", "role": "behaviorCandidates" },
+      { "dataset": "characterCoverage", "pointer": "/characters/10000031", "role": "coverageAudit" }
+    ],
+    "runtime": [{ "dataset": "constellationModifiers", "pointer": "/10000031", "role": "modifiers" }]
+  },
+  "capabilities": ["offFieldAttack", "summon", "coordinatedAttack", "durationReset"],
+  "verification": { "status": "needsReview", "notes": "Pilot reference package; talent runtime modifiers are not yet registered, and summon timing and constellation deltas require source review." }
+}

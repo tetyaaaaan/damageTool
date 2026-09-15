@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tetinet.example/schemas/genshin/verification-state.schema.json",
+  "title": "Genshin verification state contract",
+  "type": "object",
+  "required": ["state", "machineEvidenceReady", "canonicalEligibility", "claims", "selfApprovalForbidden"],
+  "properties": {
+    "state": {
+      "enum": ["rawEvidence", "machineEvidenceComplete", "humanReviewReady", "humanReviewed", "canonicalEligible", "productionCanonical"]
+    },
+    "machineEvidenceReady": { "type": "boolean" },
+    "canonicalEligibility": { "type": "boolean" },
+    "verificationMode": { "enum": ["human", "deterministicConsensus"] },
+    "selfApprovalForbidden": { "const": true },
+    "blockedReasons": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "claimKind", "machineEvidenceReady", "blockedReasons"],
+        "properties": {
+          "field": { "type": "string", "minLength": 1 },
+          "claimKind": { "enum": ["externalFactual", "internalRuntimeRoute", "mappingMaterialization", "derivedDeterministic", "notApplicable"] },
+          "machineEvidenceReady": { "type": "boolean" },
+          "blockedReasons": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "canonicalEligibility": { "const": true } } },
+      "then": {
+        "required": ["verificationMode"],
+        "properties": {
+          "machineEvidenceReady": { "const": true },
+          "state": { "enum": ["canonicalEligible", "productionCanonical"] }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "state": { "const": "humanReviewReady" } } },
+      "then": {
+        "properties": {
+          "machineEvidenceReady": { "const": true },
+          "canonicalEligibility": { "const": false }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

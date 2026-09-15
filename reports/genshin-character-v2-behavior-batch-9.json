@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 2,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 2,
+    "status": "passed",
+    "batch": 9,
+    "batchCharacters": 10,
+    "sourceRecords": 150,
+    "inventoryCandidates": 140,
+    "specs": 140,
+    "modifiers": 0,
+    "canonical": 0,
+    "inventoryInputCandidates": 196,
+    "explicitCandidateOperations": 126,
+    "unknownCandidateIds": 70,
+    "sourceInventoryCandidates": 196,
+    "explicitInventoryCandidates": 126,
+    "unknownInventoryCandidates": 70,
+    "verificationByStatus": {
+      "needsReview": 140
+    },
+    "runtimeByStatus": {
+      "blocked": 140
+    },
+    "sourceKinds": {
+      "primaryDataset": 150
+    },
+    "contract": {
+      "malformedSources": 0,
+      "malformedInventory": 0,
+      "malformedSpecs": 0,
+      "malformedByCharacter": 0,
+      "missingSourceRefs": 0,
+      "missingInventoryRefs": 0,
+      "inputDigestMismatches": 0,
+      "unknownFieldViolations": 0,
+      "numericInferenceViolations": 0,
+      "inventoryCandidateViolations": 0,
+      "schemaViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [],
+  "malformedSources": [],
+  "malformedInventory": [],
+  "malformedSpecs": [],
+  "malformedByCharacter": [],
+  "missingSourceRefs": [],
+  "missingInventoryRefs": [],
+  "inputDigestMismatches": [],
+  "unknownFieldViolations": [],
+  "numericInferenceViolations": [],
+  "inventoryCandidateViolations": [],
+  "schemaViolations": [],
+  "characterCoverage": [
+    {
+      "characterId": "10000101",
+      "characterName": "キィニチ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 22,
+      "explicitCandidateOperations": 14,
+      "unknownCandidateIds": 8,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000102",
+      "characterName": "ムアラニ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 16,
+      "explicitCandidateOperations": 6,
+      "unknownCandidateIds": 10,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000103",
+      "characterName": "シロネン",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 27,
+      "explicitCandidateOperations": 18,
+      "unknownCandidateIds": 9,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000104",
+      "characterName": "チャスカ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 18,
+      "explicitCandidateOperations": 6,
+      "unknownCandidateIds": 12,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000105",
+      "characterName": "オロルン",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 22,
+      "explicitCandidateOperations": 17,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000106",
+      "characterName": "マーヴィカ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 19,
+      "explicitCandidateOperations": 14,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000107",
+      "characterName": "シトラリ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 23,
+      "explicitCandidateOperations": 16,
+      "unknownCandidateIds": 7,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000108",
+      "characterName": "藍硯",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 11,
+      "explicitCandidateOperations": 7,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000109",
+      "characterName": "夢見月瑞希",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 12,
+      "explicitCandidateOperations": 9,
+      "unknownCandidateIds": 3,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000110",
+      "characterName": "イアンサ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 26,
+      "explicitCandidateOperations": 19,
+      "unknownCandidateIds": 7,
+      "modifiers": 0,
+      "canonical": 0
+    }
+  ],
+  "generatedFromDisk": true
+}

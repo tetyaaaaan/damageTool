@@ -1,0 +1,645 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinReviewedBehaviorRepresentative",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "constraints": {
+    "appliesOnlyToModifier": "behavior-modifier:10000026:constellation-1-1:1",
+    "providerIndependenceReuse": "forbidden",
+    "otherCandidatesRemainUnreviewed": true,
+    "aiSelfApproval": "forbidden"
+  },
+  "reviewDecision": {
+    "schemaVersion": 1,
+    "kind": "genshinBehaviorHumanReviewDecision",
+    "decision": "approve",
+    "reviewedBy": "user:workspace-owner",
+    "reviewedAt": "2026-08-24T00:00:00.000Z",
+    "target": {
+      "modifierId": "behavior-modifier:10000026:constellation-1-1:1",
+      "targetSpecId": "behavior:10000026:talent:skill",
+      "characterId": "10000026",
+      "constellation": 1
+    },
+    "approvedFacts": {
+      "baseCharges": 2,
+      "operation": "add",
+      "value": 1,
+      "resolvedCharges": 3,
+      "path": "/execution/charges"
+    },
+    "providerIndependence": {
+      "decision": "approveForThisRepresentativeOnly",
+      "groups": [
+        "gachabase-versioned-data",
+        "genshin-db"
+      ]
+    },
+    "constraints": {
+      "appliesOnlyToModifier": "behavior-modifier:10000026:constellation-1-1:1",
+      "providerIndependenceReuse": "forbidden",
+      "otherCandidatesRemainUnreviewed": true,
+      "aiSelfApproval": "forbidden"
+    }
+  },
+  "sourceRecords": {
+    "gachabase:genshin:character:10000026:skill-c1:release-6.7.0": {
+      "id": "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+      "kind": "externalPrimaryDataset",
+      "provider": "Gachabase",
+      "independenceGroup": "gachabase-versioned-data",
+      "locator": {
+        "url": "https://gi.gachabase.net/characters/10000026/xiao/release/6.6.0/45557904?lang=en",
+        "identifier": "gachabase:character:10000026:release:6.6.0:D45557904#skill-and-constellation-1"
+      },
+      "capturedAt": "2026-08-24T00:00:00.000Z",
+      "gameVersion": "6.7",
+      "gameVersionEvidence": {
+        "method": "providerVersionDeltaAttestation",
+        "fieldSnapshotLocator": "https://gi.gachabase.net/characters/10000026/xiao/release/6.6.0/45557904?lang=en",
+        "fieldSnapshotRevision": "D45557904 | R45246446",
+        "versionDeltaLocator": "https://gi.gachabase.net/diff/characters/10000026/xiao?cur=release_6.7.0_45767575&lang=en&prev=release_6.6.0_45557904",
+        "versionDeltaStatement": "No differences between the selected revisions. You are now viewing the differences between v6.6.0 Rev. 45557904 -> v6.7.0 Rev. 45767575 for Xiao (Release).",
+        "versionDeltaDigest": "f07f4fd579737755b04f08ce3356a5e6ccceace32608519d8cfc3c7e3368668f",
+        "targetRevision": "v6.7.0 Rev. 45767575",
+        "rationale": "The provider-authored 6.6 field snapshot contains both charge sentences and its reproducible 6.6-to-6.7 delta reports no changes for the complete Xiao record."
+      },
+      "locale": "en-US",
+      "text": "Starts with 2 charges.\nIncreases Lemniscatic Wind Cycling's charges by 1.",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71"
+      },
+      "strictGameVersionBinding": true
+    },
+    "genshin-db:character:10000026:talent-skill:1bab2cd": {
+      "id": "genshin-db:character:10000026:talent-skill:1bab2cd",
+      "kind": "externalPrimaryDataset",
+      "provider": "theBowja/genshin-db",
+      "independenceGroup": "GenshinData-derived",
+      "locator": {
+        "url": "https://github.com/theBowja/genshin-db/blob/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/xiao.json",
+        "identifier": "git:1bab2cdba4d218fd5caa46b5f54e7884ee8359a2:English/talents/xiao.json#/combat2/description"
+      },
+      "capturedAt": "2026-08-24T00:00:00.000Z",
+      "gameVersion": "6.7",
+      "gameVersionEvidence": {
+        "locator": "https://github.com/theBowja/genshin-db/blob/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+        "providerStatement": "Genshin Impact v6.7 JSON data"
+      },
+      "locale": "en-US",
+      "text": "Starts with 2 charges.",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "8b8949a0b50c128b1103196cd7370fc23071d330063f373140e4ec8bb8b77dec"
+      },
+      "strictGameVersionBinding": true
+    },
+    "genshin-db:character:10000026:constellation-c1:1bab2cd": {
+      "id": "genshin-db:character:10000026:constellation-c1:1bab2cd",
+      "kind": "externalPrimaryDataset",
+      "provider": "theBowja/genshin-db",
+      "independenceGroup": "GenshinData-derived",
+      "locator": {
+        "url": "https://github.com/theBowja/genshin-db/blob/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/xiao.json",
+        "identifier": "git:1bab2cdba4d218fd5caa46b5f54e7884ee8359a2:English/constellations/xiao.json#/c1/description"
+      },
+      "capturedAt": "2026-08-24T00:00:00.000Z",
+      "gameVersion": "6.7",
+      "gameVersionEvidence": {
+        "locator": "https://github.com/theBowja/genshin-db/blob/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+        "providerStatement": "Genshin Impact v6.7 JSON data"
+      },
+      "locale": "en-US",
+      "text": "Increases Lemniscatic Wind Cycling's charges by 1.",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "08d2f7672c38481a0f8a8072d5c5d05babf1ed22385b18c50d0d8113f4e813f4"
+      },
+      "strictGameVersionBinding": true
+    }
+  },
+  "behaviorSpecs": {
+    "behavior:10000026:talent:skill": {
+      "id": "behavior:10000026:talent:skill",
+      "entity": {
+        "kind": "talent",
+        "id": "10000026",
+        "component": "skill"
+      },
+      "sourceRefs": [
+        "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+        "genshin-db:character:10000026:talent-skill:1bab2cd"
+      ],
+      "timing": {},
+      "execution": {
+        "charges": {
+          "value": 2,
+          "unit": "charges",
+          "status": "explicit",
+          "sourceRefs": [
+            "source:10000026:talent:skill:descriptionJa"
+          ],
+          "notes": "Copied from the explicit available-use count."
+        }
+      },
+      "lifecycle": {
+        "refreshMode": "none",
+        "expiration": "unknown",
+        "instanceScope": "target"
+      },
+      "unknownFields": [
+        "burstCost",
+        "snapshot"
+      ],
+      "verification": {
+        "status": "verified",
+        "reviewedBy": "user:workspace-owner",
+        "reviewedAt": "2026-08-24T00:00:00.000Z",
+        "sourceAgreement": "agreed",
+        "machineEvidenceReady": true,
+        "canonicalEligibility": true,
+        "state": "canonicalEligible",
+        "claims": {
+          "baseCharges": {
+            "status": "verified",
+            "claimKind": "externalFactual",
+            "sourceRefs": [
+              "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+              "genshin-db:character:10000026:talent-skill:1bab2cd"
+            ],
+            "machineEvidence": {
+              "ready": true,
+              "evidenceRefs": [
+                "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                "genshin-db:character:10000026:talent-skill:1bab2cd"
+              ],
+              "comparison": "match",
+              "blockedReasons": []
+            },
+            "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+          }
+        },
+        "discrepancies": [],
+        "reviewBinding": {
+          "algorithm": "sha256",
+          "subjectDigest": "010809f24e44829cc27d516599efa7743b3e2256661d00aff45999ee5ee4e85f",
+          "decisionId": "games/genshin/data/v2/reviews/behavior-xiao-c1-charges.json"
+        }
+      },
+      "interpretation": {
+        "method": "deterministicParser",
+        "author": "genshinBehaviorV2Generate.cjs",
+        "version": "genshinBehaviorV2Generate/1"
+      },
+      "discrepancies": []
+    }
+  },
+  "modifiers": {
+    "behavior-modifier:10000026:constellation-1-1:1": {
+      "id": "behavior-modifier:10000026:constellation-1-1:1",
+      "sourceRefs": [
+        "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+        "genshin-db:character:10000026:talent-skill:1bab2cd",
+        "genshin-db:character:10000026:constellation-c1:1bab2cd"
+      ],
+      "targetSpecId": "behavior:10000026:talent:skill",
+      "path": "/execution/charges",
+      "operation": "add",
+      "value": 1,
+      "condition": {
+        "kind": "constellation",
+        "stateKey": "10000026:C1"
+      },
+      "verification": {
+        "status": "verified",
+        "reviewedBy": "user:workspace-owner",
+        "reviewedAt": "2026-08-24T00:00:00.000Z",
+        "sourceAgreement": "agreed",
+        "machineEvidenceReady": true,
+        "canonicalEligibility": true,
+        "state": "canonicalEligible",
+        "claims": {
+          "affectedAction": {
+            "status": "verified",
+            "claimKind": "externalFactual",
+            "sourceRefs": [
+              "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+              "genshin-db:character:10000026:constellation-c1:1bab2cd"
+            ],
+            "machineEvidence": {
+              "ready": true,
+              "evidenceRefs": [
+                "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                "genshin-db:character:10000026:constellation-c1:1bab2cd"
+              ],
+              "comparison": "match",
+              "blockedReasons": []
+            },
+            "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+          },
+          "baseCharges": {
+            "status": "verified",
+            "claimKind": "externalFactual",
+            "sourceRefs": [
+              "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+              "genshin-db:character:10000026:talent-skill:1bab2cd"
+            ],
+            "machineEvidence": {
+              "ready": true,
+              "evidenceRefs": [
+                "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                "genshin-db:character:10000026:talent-skill:1bab2cd"
+              ],
+              "comparison": "match",
+              "blockedReasons": []
+            },
+            "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+          },
+          "behaviorChange": {
+            "status": "verified",
+            "claimKind": "externalFactual",
+            "sourceRefs": [
+              "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+              "genshin-db:character:10000026:constellation-c1:1bab2cd"
+            ],
+            "machineEvidence": {
+              "ready": true,
+              "evidenceRefs": [
+                "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                "genshin-db:character:10000026:constellation-c1:1bab2cd"
+              ],
+              "comparison": "match",
+              "blockedReasons": []
+            },
+            "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+          },
+          "value": {
+            "status": "verified",
+            "claimKind": "externalFactual",
+            "sourceRefs": [
+              "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+              "genshin-db:character:10000026:constellation-c1:1bab2cd"
+            ],
+            "machineEvidence": {
+              "ready": true,
+              "evidenceRefs": [
+                "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                "genshin-db:character:10000026:constellation-c1:1bab2cd"
+              ],
+              "comparison": "match",
+              "blockedReasons": []
+            },
+            "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+          },
+          "condition": {
+            "status": "verified",
+            "claimKind": "externalFactual",
+            "sourceRefs": [
+              "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+              "genshin-db:character:10000026:constellation-c1:1bab2cd"
+            ],
+            "machineEvidence": {
+              "ready": true,
+              "evidenceRefs": [
+                "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                "genshin-db:character:10000026:constellation-c1:1bab2cd"
+              ],
+              "comparison": "match",
+              "blockedReasons": []
+            },
+            "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+          },
+          "targetSpecId": {
+            "status": "verified",
+            "claimKind": "mappingMaterialization",
+            "sourceRefs": [
+              "review:behavior-modifier:10000026:constellation-1-1:1"
+            ],
+            "machineEvidence": {
+              "ready": true,
+              "evidenceRefs": [
+                "test:genshinBehaviorRepresentativeReviewPilot"
+              ],
+              "comparison": "notRequired",
+              "codeProvenance": {
+                "deterministic": true,
+                "path": "scripts/genshinBehaviorV2Generate.cjs",
+                "locator": "behavior:10000026:talent:skill",
+                "digest": "200c4ba9601e6e27cccc8caf2fba59d5925e7cb7f52a933e65a6d44557e2f0ea"
+              },
+              "focusedTests": [
+                {
+                  "id": "genshinBehaviorRepresentativeReviewPilot",
+                  "status": "passed"
+                }
+              ],
+              "sourceInputsVerified": true,
+              "blockedReasons": []
+            },
+            "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+          },
+          "path": {
+            "status": "verified",
+            "claimKind": "mappingMaterialization",
+            "sourceRefs": [
+              "review:behavior-modifier:10000026:constellation-1-1:1"
+            ],
+            "machineEvidence": {
+              "ready": true,
+              "evidenceRefs": [
+                "test:genshinBehaviorRepresentativeReviewPilot"
+              ],
+              "comparison": "notRequired",
+              "codeProvenance": {
+                "deterministic": true,
+                "path": "scripts/genshinBehaviorV2Generate.cjs",
+                "locator": "/execution/charges",
+                "digest": "200c4ba9601e6e27cccc8caf2fba59d5925e7cb7f52a933e65a6d44557e2f0ea"
+              },
+              "focusedTests": [
+                {
+                  "id": "genshinBehaviorRepresentativeReviewPilot",
+                  "status": "passed"
+                }
+              ],
+              "sourceInputsVerified": true,
+              "blockedReasons": []
+            },
+            "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+          },
+          "operation": {
+            "status": "verified",
+            "claimKind": "mappingMaterialization",
+            "sourceRefs": [
+              "review:behavior-modifier:10000026:constellation-1-1:1"
+            ],
+            "machineEvidence": {
+              "ready": true,
+              "evidenceRefs": [
+                "test:genshinBehaviorRepresentativeReviewPilot"
+              ],
+              "comparison": "notRequired",
+              "codeProvenance": {
+                "deterministic": true,
+                "path": "scripts/genshinBehaviorV2Generate.cjs",
+                "locator": "add",
+                "digest": "200c4ba9601e6e27cccc8caf2fba59d5925e7cb7f52a933e65a6d44557e2f0ea"
+              },
+              "focusedTests": [
+                {
+                  "id": "genshinBehaviorRepresentativeReviewPilot",
+                  "status": "passed"
+                }
+              ],
+              "sourceInputsVerified": true,
+              "blockedReasons": []
+            },
+            "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+          },
+          "destination": {
+            "status": "verified",
+            "claimKind": "mappingMaterialization",
+            "sourceRefs": [
+              "review:behavior-modifier:10000026:constellation-1-1:1"
+            ],
+            "machineEvidence": {
+              "ready": true,
+              "evidenceRefs": [
+                "test:genshinBehaviorRepresentativeReviewPilot"
+              ],
+              "comparison": "notRequired",
+              "codeProvenance": {
+                "deterministic": true,
+                "path": "scripts/genshinCanonicalRuntimeGenerate.cjs",
+                "locator": "behaviorModifiers/10000026/modifiers",
+                "digest": "b8d4111e8f5c425d8f12b83390cc8501baca364e63fc3ebd651c81f6bac6406d"
+              },
+              "focusedTests": [
+                {
+                  "id": "genshinBehaviorRepresentativeReviewPilot",
+                  "status": "passed"
+                }
+              ],
+              "sourceInputsVerified": true,
+              "blockedReasons": []
+            },
+            "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+          },
+          "supersedesLegacyModifierIds": {
+            "status": "verified",
+            "claimKind": "mappingMaterialization",
+            "sourceRefs": [
+              "review:behavior-modifier:10000026:constellation-1-1:1"
+            ],
+            "machineEvidence": {
+              "ready": true,
+              "evidenceRefs": [
+                "test:genshinBehaviorRepresentativeReviewPilot"
+              ],
+              "comparison": "notRequired",
+              "codeProvenance": {
+                "deterministic": true,
+                "path": "scripts/genshinCanonicalRuntimeGenerate.cjs",
+                "locator": "explicit-empty-no-legacy-behavior-runtime",
+                "digest": "b8d4111e8f5c425d8f12b83390cc8501baca364e63fc3ebd651c81f6bac6406d"
+              },
+              "focusedTests": [
+                {
+                  "id": "genshinBehaviorRepresentativeReviewPilot",
+                  "status": "passed"
+                }
+              ],
+              "sourceInputsVerified": true,
+              "blockedReasons": []
+            },
+            "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+          },
+          "runtime.modifierIds": {
+            "status": "verified",
+            "claimKind": "internalRuntimeRoute",
+            "sourceRefs": [
+              "review:behavior-modifier:10000026:constellation-1-1:1"
+            ],
+            "machineEvidence": {
+              "ready": true,
+              "evidenceRefs": [
+                "test:genshinBehaviorRepresentativeReviewPilot"
+              ],
+              "comparison": "notRequired",
+              "codeProvenance": {
+                "deterministic": true,
+                "path": "games/js/genshinCalcData.js",
+                "locator": "behavior-modifier:10000026:constellation-1-1:1",
+                "digest": "1d16c77ce422243b9b5036b3778aa9e615f540e07049e5be98b3a24de025cc9f"
+              },
+              "focusedTests": [
+                {
+                  "id": "genshinBehaviorRepresentativeReviewPilot",
+                  "status": "passed"
+                }
+              ],
+              "blockedReasons": []
+            },
+            "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+          },
+          "calculationRoute": {
+            "status": "verified",
+            "claimKind": "internalRuntimeRoute",
+            "sourceRefs": [
+              "review:behavior-modifier:10000026:constellation-1-1:1"
+            ],
+            "machineEvidence": {
+              "ready": true,
+              "evidenceRefs": [
+                "test:genshinBehaviorRepresentativeReviewPilot"
+              ],
+              "comparison": "notRequired",
+              "codeProvenance": {
+                "deterministic": true,
+                "path": "games/js/genshinCalcEngine.js",
+                "locator": "calculateDamageRequest.behaviorResolution",
+                "digest": "f28b7d231f1b4948c20be429b82d721732cf25db606bb762a9ac002b74b51188"
+              },
+              "focusedTests": [
+                {
+                  "id": "genshinBehaviorRepresentativeReviewPilot",
+                  "status": "passed"
+                }
+              ],
+              "blockedReasons": []
+            },
+            "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+          },
+          "uiRoute": {
+            "status": "verified",
+            "claimKind": "internalRuntimeRoute",
+            "sourceRefs": [
+              "review:behavior-modifier:10000026:constellation-1-1:1"
+            ],
+            "machineEvidence": {
+              "ready": true,
+              "evidenceRefs": [
+                "test:genshinBehaviorRepresentativeReviewPilot"
+              ],
+              "comparison": "notRequired",
+              "codeProvenance": {
+                "deterministic": true,
+                "path": "games/js/genshinCalcRenderer.js",
+                "locator": "renderBehaviorResolution",
+                "digest": "cf96702581659a81e2a4704ab976e3f404c64fc23d883ebca21c3559adfc70e8"
+              },
+              "focusedTests": [
+                {
+                  "id": "genshinBehaviorRepresentativeReviewPilot",
+                  "status": "passed"
+                }
+              ],
+              "blockedReasons": []
+            },
+            "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+          }
+        },
+        "discrepancies": [],
+        "reviewBinding": {
+          "algorithm": "sha256",
+          "subjectDigest": "fd2304a27fdec86e712c95003c91aab78a0978c2bfbefda0551cc6d2c83aa564",
+          "decisionId": "games/genshin/data/v2/reviews/behavior-xiao-c1-charges.json"
+        }
+      },
+      "destination": {
+        "dataset": "behaviorModifiers",
+        "entityId": "10000026",
+        "collection": "modifiers"
+      },
+      "supersedesLegacyModifierIds": [],
+      "runtime": {
+        "status": "canonicalEligible",
+        "generator": null,
+        "modifierIds": [
+          "behavior-modifier:10000026:constellation-1-1:1"
+        ],
+        "destination": {
+          "dataset": "behaviorModifiers",
+          "entityId": "10000026",
+          "collection": "modifiers"
+        },
+        "supersedesLegacyModifierIds": [],
+        "blockedReasons": []
+      },
+      "targetSpec": {
+        "id": "behavior:10000026:talent:skill",
+        "entity": {
+          "kind": "talent",
+          "id": "10000026",
+          "component": "skill"
+        },
+        "sourceRefs": [
+          "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+          "genshin-db:character:10000026:talent-skill:1bab2cd"
+        ],
+        "timing": {},
+        "execution": {
+          "charges": {
+            "value": 2,
+            "unit": "charges",
+            "status": "explicit",
+            "sourceRefs": [
+              "source:10000026:talent:skill:descriptionJa"
+            ],
+            "notes": "Copied from the explicit available-use count."
+          }
+        },
+        "lifecycle": {
+          "refreshMode": "none",
+          "expiration": "unknown",
+          "instanceScope": "target"
+        },
+        "unknownFields": [
+          "burstCost",
+          "snapshot"
+        ],
+        "verification": {
+          "status": "verified",
+          "reviewedBy": "user:workspace-owner",
+          "reviewedAt": "2026-08-24T00:00:00.000Z",
+          "sourceAgreement": "agreed",
+          "machineEvidenceReady": true,
+          "canonicalEligibility": true,
+          "state": "canonicalEligible",
+          "claims": {
+            "baseCharges": {
+              "status": "verified",
+              "claimKind": "externalFactual",
+              "sourceRefs": [
+                "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                "genshin-db:character:10000026:talent-skill:1bab2cd"
+              ],
+              "machineEvidence": {
+                "ready": true,
+                "evidenceRefs": [
+                  "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                  "genshin-db:character:10000026:talent-skill:1bab2cd"
+                ],
+                "comparison": "match",
+                "blockedReasons": []
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate."
+            }
+          },
+          "discrepancies": [],
+          "reviewBinding": {
+            "algorithm": "sha256",
+            "subjectDigest": "010809f24e44829cc27d516599efa7743b3e2256661d00aff45999ee5ee4e85f",
+            "decisionId": "games/genshin/data/v2/reviews/behavior-xiao-c1-charges.json"
+          }
+        },
+        "interpretation": {
+          "method": "deterministicParser",
+          "author": "genshinBehaviorV2Generate.cjs",
+          "version": "genshinBehaviorV2Generate/1"
+        },
+        "discrepancies": []
+      }
+    }
+  }
+}

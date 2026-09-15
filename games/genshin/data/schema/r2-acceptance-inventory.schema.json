@@ -1,0 +1,664 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "r2-acceptance-inventory.schema.json",
+  "title": "Genshin r2 finite acceptance inventory",
+  "description": "Evidence-derived finite candidate, dataset, and 7.0 feature inventory. This schema does not authorize verification or canonical promotion.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "kind",
+    "status",
+    "generatedAt",
+    "generator",
+    "transition",
+    "policy",
+    "sourceQueue",
+    "sourceVersionBaseline",
+    "trackedDatasets",
+    "official7_0",
+    "finiteFeatureTargets",
+    "generatedFrom",
+    "scope",
+    "candidateRecords",
+    "summary",
+    "gate",
+    "errors",
+    "fieldDigestAlgorithm",
+    "fieldDigest"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinR2AcceptanceInventory" },
+    "status": { "const": "passed" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "generator": {
+      "$ref": "#/$defs/generator"
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["transitionId", "sourceGameVersion", "targetGameVersion", "targetVersionEvidence", "strictTargetDatasetAvailable", "completeEntityDiffAvailable"],
+      "properties": {
+        "transitionId": { "const": "genshin:6.7->7.0" },
+        "sourceGameVersion": { "type": ["string", "null"] },
+        "targetGameVersion": { "const": "7.0" },
+        "targetVersionEvidence": { "type": "string" },
+        "strictTargetDatasetAvailable": { "type": "boolean" },
+        "completeEntityDiffAvailable": { "type": "boolean" }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidenceOnly",
+        "noNetworkFetch",
+        "rawCaptureIsNotFieldVerification",
+        "rawCaptureIsNotCompletion",
+        "noCertificateIssuance",
+        "noCanonicalPromotion",
+        "noSearchExhaustedFromAbsence",
+        "unknownApplicabilityIsRejected",
+        "rosterMustUseLocalProof",
+        "fieldDigestAlgorithm"
+      ],
+      "properties": {
+        "evidenceOnly": { "const": true },
+        "noNetworkFetch": { "const": true },
+        "rawCaptureIsNotFieldVerification": { "const": true },
+        "rawCaptureIsNotCompletion": { "const": true },
+        "noCertificateIssuance": { "const": true },
+        "noCanonicalPromotion": { "const": true },
+        "noSearchExhaustedFromAbsence": { "const": true },
+        "unknownApplicabilityIsRejected": { "const": true },
+        "rosterMustUseLocalProof": { "const": true },
+        "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" }
+      }
+    },
+    "sourceQueue": { "$ref": "#/$defs/queueReference" },
+    "sourceVersionBaseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["snapshotId", "targetGameVersion", "sourceCatalogDigest", "trackedDatasetCount"],
+      "properties": {
+        "snapshotId": { "type": ["string", "null"] },
+        "targetGameVersion": { "type": ["object", "null"] },
+        "sourceCatalogDigest": { "$ref": "#/$defs/digestOrNull" },
+        "trackedDatasetCount": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "trackedDatasets": {
+      "type": "array",
+      "minItems": 20,
+      "items": { "$ref": "#/$defs/trackedDataset" }
+    },
+    "official7_0": { "$ref": "#/$defs/officialEvidence" },
+    "finiteFeatureTargets": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/featureTarget" }
+    },
+    "generatedFrom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authoritativeQueue", "versionBaseline", "versionBaselineGenerator", "trackedDatasets", "sourceCatalog", "official7_0"],
+      "properties": {
+        "authoritativeQueue": { "$ref": "#/$defs/queueReference" },
+        "versionBaseline": { "$ref": "#/$defs/fileReference" },
+        "versionBaselineGenerator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "version"],
+          "properties": { "path": { "type": "string" }, "version": { "type": ["string", "null"] } }
+        },
+        "trackedDatasets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "digest", "entityCount", "entityCountScope", "nestedEntityCounts"],
+            "properties": {
+              "path": { "type": "string" },
+              "digest": { "$ref": "#/$defs/digest" },
+              "entityCount": { "type": "integer", "minimum": 0 },
+              "entityCountScope": { "const": "rootObjectKeys" },
+              "nestedEntityCounts": { "$ref": "#/$defs/countMap" }
+            }
+          }
+        },
+        "sourceCatalog": { "$ref": "#/$defs/fileReference" },
+        "official7_0": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["upstreamVersionHead", "officialChangeIndex", "officialWeaponRawSnapshot", "officialCaptureManifest", "newRosterCapture", "versionTransition", "partialDiscovery"],
+          "properties": {
+            "upstreamVersionHead": { "$ref": "#/$defs/fileReference" },
+            "officialChangeIndex": { "$ref": "#/$defs/fileReference" },
+            "officialWeaponRawSnapshot": { "$ref": "#/$defs/fileReference" },
+            "officialCaptureManifest": { "$ref": "#/$defs/fileReference" },
+            "newRosterCapture": { "$ref": "#/$defs/fileReference" },
+            "versionTransition": { "$ref": "#/$defs/fileReference" },
+            "partialDiscovery": { "$ref": "#/$defs/fileReference" }
+          }
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidateCount", "candidateIds", "candidateIdDigest", "candidateScopeDigest", "identityRows", "duplicateQueueCandidateIds"],
+      "properties": {
+        "candidateCount": { "type": "integer", "minimum": 0 },
+        "candidateIds": { "type": "array", "items": { "type": "string" } },
+        "candidateIdDigest": { "$ref": "#/$defs/digest" },
+        "candidateScopeDigest": { "$ref": "#/$defs/digest" },
+        "identityRows": { "type": "array", "items": { "$ref": "#/$defs/identityRow" } },
+        "duplicateQueueCandidateIds": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "candidateRecords": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/candidateRecord" }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidateCount",
+        "queueTaskCount",
+        "mappedCandidateCount",
+        "omittedCandidateCount",
+        "duplicateCandidateCount",
+        "allCandidateIdsMapped",
+        "allCandidatesComplete",
+        "allStrictVerified",
+        "allCalculationReady",
+        "trackedDatasetCount",
+        "trackedEntityCount",
+        "officialChangeCount",
+        "officialRawEntityCount",
+        "officialRawArtifactCount",
+        "officialRawCandidateCount",
+        "featureTargetCount",
+        "featureTargetStatusCounts",
+        "candidateWorkStatusCounts",
+        "evidenceStatusCounts",
+        "calculationStatusCounts",
+        "layerCounts",
+        "datasetCounts",
+        "calculationFieldFamilyCounts",
+        "trackedEntityCountScope",
+        "trackedNestedEntityCount",
+        "strictVerifiedCandidateCount",
+        "fieldVerifiedCandidateCount",
+        "certificateEligible",
+        "canonicalPromotionEligible",
+        "searchExhaustedCandidateCount"
+      ],
+      "properties": {
+        "candidateCount": { "type": "integer", "minimum": 0 },
+        "queueTaskCount": { "type": "integer", "minimum": 0 },
+        "mappedCandidateCount": { "type": "integer", "minimum": 0 },
+        "omittedCandidateCount": { "type": "integer", "minimum": 0 },
+        "duplicateCandidateCount": { "type": "integer", "minimum": 0 },
+        "allCandidateIdsMapped": { "type": "boolean" },
+        "allCandidatesComplete": { "type": "boolean" },
+        "allStrictVerified": { "type": "boolean" },
+        "allCalculationReady": { "type": "boolean" },
+        "trackedDatasetCount": { "type": "integer", "minimum": 0 },
+        "trackedEntityCount": { "type": "integer", "minimum": 0 },
+        "officialChangeCount": { "type": "integer", "minimum": 0 },
+        "officialRawEntityCount": { "type": "integer", "minimum": 0 },
+        "officialRawArtifactCount": { "type": "integer", "minimum": 0 },
+        "officialRawCandidateCount": { "type": "integer", "minimum": 0 },
+        "featureTargetCount": { "type": "integer", "minimum": 0 },
+        "featureTargetStatusCounts": { "$ref": "#/$defs/countMap" },
+        "candidateWorkStatusCounts": { "$ref": "#/$defs/countMap" },
+        "evidenceStatusCounts": { "$ref": "#/$defs/countMap" },
+        "calculationStatusCounts": { "$ref": "#/$defs/countMap" },
+        "layerCounts": { "$ref": "#/$defs/countMap" },
+        "datasetCounts": { "$ref": "#/$defs/countMap" },
+        "calculationFieldFamilyCounts": { "$ref": "#/$defs/countMap" },
+        "trackedEntityCountScope": { "type": "string" },
+        "trackedNestedEntityCount": { "type": "integer", "minimum": 0 },
+        "strictVerifiedCandidateCount": { "const": 0 },
+        "fieldVerifiedCandidateCount": { "const": 0 },
+        "certificateEligible": { "const": 0 },
+        "canonicalPromotionEligible": { "const": 0 },
+        "searchExhaustedCandidateCount": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "gate": { "$ref": "#/$defs/gate" },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "digestOrNull": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": { "name": { "type": "string" }, "version": { "type": "string" } }
+    },
+    "countMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": { "^[A-Za-z0-9_.:-]+$": { "type": "integer", "minimum": 0 } }
+    },
+    "fileReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "exists", "bytes", "sha256", "expectedSha256"],
+      "properties": {
+        "path": { "type": ["string", "null"] },
+        "exists": { "type": "boolean" },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "sha256": { "$ref": "#/$defs/digestOrNull" },
+        "expectedSha256": { "$ref": "#/$defs/digestOrNull" }
+      }
+    },
+    "queueReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "projectionVersion", "candidateCount", "taskCount", "rawBytes", "rawSha256", "projectionDigest"],
+      "properties": {
+        "path": { "type": "string" },
+        "projectionVersion": { "const": "genshinR2AcceptanceInventory/queue-scope-v1" },
+        "candidateCount": { "type": "integer", "minimum": 0 },
+        "taskCount": { "type": "integer", "minimum": 0 },
+        "rawBytes": { "type": ["integer", "null"], "minimum": 0 },
+        "rawSha256": { "$ref": "#/$defs/digestOrNull" },
+        "projectionDigest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "identityRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidateId", "layer", "dataset", "entityId"],
+      "properties": {
+        "candidateId": { "type": "string", "minLength": 1 },
+        "layer": { "type": "string", "minLength": 1 },
+        "dataset": { "type": "string", "minLength": 1 },
+        "entityId": { "type": ["string", "null"] }
+      }
+    },
+    "trackedDataset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dataset", "path", "sourceVersion", "entityCount", "entityCountScope", "entityIds", "nestedEntityCounts", "digest", "entityDigests", "calculationFieldFamilies"],
+      "properties": {
+        "dataset": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "pattern": "^games/genshin/data/" },
+        "sourceVersion": { "type": ["string", "null"] },
+        "entityCount": { "type": "integer", "minimum": 0 },
+        "entityCountScope": { "const": "rootObjectKeys" },
+        "entityIds": { "type": "array", "items": { "type": "string" } },
+        "nestedEntityCounts": { "$ref": "#/$defs/countMap" },
+        "digest": { "$ref": "#/$defs/digest" },
+        "entityDigests": {
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": { "^.+$": { "$ref": "#/$defs/digest" } }
+        },
+        "calculationFieldFamilies": { "$ref": "#/$defs/families" }
+      }
+    },
+    "families": {
+      "type": "array",
+      "items": { "enum": ["catalog", "baseStats", "talentScaling", "constellation", "reactions", "modifiers"] },
+      "uniqueItems": true
+    },
+    "queueProgress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence", "calculation", "work"],
+      "properties": {
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "strictEligible", "strictGameVersionBinding"],
+          "properties": { "status": { "type": ["string", "null"] }, "strictEligible": { "type": "boolean" }, "strictGameVersionBinding": { "type": "boolean" } }
+        },
+        "calculation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "reportedConsumerStatus"],
+          "properties": { "status": { "type": ["string", "null"] }, "reportedConsumerStatus": { "type": ["string", "null"] } }
+        },
+        "work": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "closed", "verificationGranted", "promotionGranted", "decisionId", "deferralValidation", "nextTask"],
+          "properties": {
+            "status": { "type": ["string", "null"] },
+            "closed": { "type": "boolean" },
+            "verificationGranted": { "type": "boolean" },
+            "promotionGranted": { "type": "boolean" },
+            "decisionId": { "type": ["string", "null"] },
+            "deferralValidation": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["valid", "errors"],
+              "properties": { "valid": { "type": "boolean" }, "errors": { "type": "array", "items": { "type": "string" } } }
+            },
+            "nextTask": { "type": ["string", "null"] }
+          }
+        }
+      }
+    },
+    "candidateRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidateId", "entityId", "entityKind", "layer", "dataset", "applicability", "calculationFieldFamilies", "sourceQueueDigest", "sourceQueueRecordDigest", "sourceQueue", "queueState", "queueProgress", "evidence", "calculation", "work", "certificateEligible", "canonicalPromotionEligible", "officialRawEvidence"],
+      "properties": {
+        "candidateId": { "type": "string", "minLength": 1 },
+        "entityId": { "type": ["string", "null"] },
+        "entityKind": { "type": "string" },
+        "layer": { "type": "string" },
+        "dataset": { "type": "string" },
+        "applicability": { "const": "applicable" },
+        "calculationFieldFamilies": { "$ref": "#/$defs/families" },
+        "sourceQueueDigest": { "$ref": "#/$defs/digestOrNull" },
+        "sourceQueueRecordDigest": { "$ref": "#/$defs/digest" },
+        "sourceQueue": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "projectionVersion", "projectionDigest", "rawSha256", "identity"],
+          "properties": {
+            "path": { "type": "string" },
+            "projectionVersion": { "const": "genshinR2AcceptanceInventory/queue-scope-v1" },
+            "projectionDigest": { "$ref": "#/$defs/digest" },
+            "rawSha256": { "$ref": "#/$defs/digestOrNull" },
+            "identity": { "$ref": "#/$defs/identityRow" }
+          }
+        },
+        "queueState": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["terminalState", "primaryBlockReason", "blockReasons", "transitionLane", "mappingStatus", "consumerStatus", "searchFrontierStatus", "searchExhausted", "taskStatus", "machineEvidenceReady", "autoProcessableNow"],
+          "properties": {
+            "terminalState": { "type": ["string", "null"] },
+            "primaryBlockReason": { "type": ["string", "null"] },
+            "blockReasons": { "type": "array", "items": { "type": "string" } },
+            "transitionLane": { "type": ["string", "null"] },
+            "mappingStatus": { "type": ["string", "null"] },
+            "consumerStatus": { "type": ["string", "null"] },
+            "searchFrontierStatus": { "type": ["string", "null"] },
+            "searchExhausted": { "type": "boolean" },
+            "taskStatus": { "type": ["string", "null"] },
+            "machineEvidenceReady": { "type": "boolean" },
+            "autoProcessableNow": { "type": "boolean" }
+          }
+        },
+        "queueProgress": { "$ref": "#/$defs/queueProgress" },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "targetGameVersion", "rawCaptured", "rawOnly", "fieldVerification", "strictEligible", "strictVersionBinding", "sourceRefs", "note"],
+          "properties": {
+            "status": { "type": "string" },
+            "targetGameVersion": { "const": "7.0" },
+            "rawCaptured": { "type": "boolean" },
+            "rawOnly": { "type": "boolean" },
+            "fieldVerification": { "enum": ["verified", "notVerified"] },
+            "strictEligible": { "type": "boolean" },
+            "strictVersionBinding": { "type": "boolean" },
+            "sourceRefs": { "type": "array", "items": { "type": "string" } },
+            "note": { "type": "string" }
+          }
+        },
+        "calculation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "requiredFieldFamilies", "note"],
+          "properties": { "status": { "type": "string" }, "requiredFieldFamilies": { "$ref": "#/$defs/families" }, "note": { "type": "string" } }
+        },
+        "work": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "reason", "decisionId", "deferralValidation", "reopenTrigger"],
+          "properties": {
+            "status": { "type": "string" },
+            "reason": { "type": "string" },
+            "decisionId": { "type": ["string", "null"] },
+            "deferralValidation": { "$ref": "#/$defs/queueProgress/properties/work/properties/deferralValidation" },
+            "reopenTrigger": { "type": ["string", "null"] }
+          }
+        },
+        "certificateEligible": { "const": false },
+        "canonicalPromotionEligible": { "const": false },
+        "officialRawEvidence": { "type": "array", "items": { "type": "object" } }
+      }
+    },
+    "officialEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["targetGameVersion", "transitionId", "changeIndex", "rawSnapshot", "captureManifest", "rawArtifacts", "rawEntities", "newRosterCapture", "versionEvidence", "gate"],
+      "properties": {
+        "targetGameVersion": { "const": "7.0" },
+        "transitionId": { "const": "genshin:6.7->7.0" },
+        "changeIndex": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["reference", "fieldDigestAlgorithm", "fieldDigest", "changeCount", "changes"],
+          "properties": {
+            "reference": { "$ref": "#/$defs/fileReference" },
+            "fieldDigestAlgorithm": { "type": ["string", "null"] },
+            "fieldDigest": { "$ref": "#/$defs/digestOrNull" },
+            "changeCount": { "type": "integer", "minimum": 0 },
+            "changes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["index", "changeId", "entityKind", "entityId", "changeKind", "candidateIds", "candidateMappingStatus", "evidenceRef"],
+                "properties": {
+                  "index": { "type": "integer", "minimum": 0 },
+                  "changeId": { "type": "string" },
+                  "entityKind": { "type": ["string", "null"] },
+                  "entityId": { "type": ["string", "null"] },
+                  "changeKind": { "type": ["string", "null"] },
+                  "candidateIds": { "type": "array", "items": { "type": "string" } },
+                  "candidateMappingStatus": { "type": ["string", "null"] },
+                  "evidenceRef": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "rawSnapshot": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["reference", "kind", "fieldDigestAlgorithm", "fieldDigest", "status", "summary", "entityCount"],
+          "properties": {
+            "reference": { "$ref": "#/$defs/fileReference" },
+            "kind": { "type": ["string", "null"] },
+            "fieldDigestAlgorithm": { "type": ["string", "null"] },
+            "fieldDigest": { "$ref": "#/$defs/digestOrNull" },
+            "status": { "type": ["string", "null"] },
+            "summary": { "type": "object" },
+            "entityCount": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "captureManifest": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider", "sourceFamily", "immutable", "status"],
+          "properties": {
+            "provider": { "type": ["string", "null"] },
+            "sourceFamily": { "type": ["string", "null"] },
+            "immutable": { "type": "boolean" },
+            "status": { "type": ["string", "null"] }
+          }
+        },
+        "rawArtifacts": { "type": "array", "items": { "$ref": "#/$defs/rawArtifact" } },
+        "rawEntities": { "type": "array", "items": { "$ref": "#/$defs/rawEntity" } },
+        "newRosterCapture": { "$ref": "#/$defs/rosterCaptureEvidence" },
+        "versionEvidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["upstreamHead", "observedGameVersion", "officialPostId", "versionTransition", "partialDiscovery", "strictTargetDatasetAvailable", "completeEntityDiffAvailable"],
+          "properties": {
+            "upstreamHead": { "$ref": "#/$defs/fileReference" },
+            "observedGameVersion": { "type": ["string", "null"] },
+            "officialPostId": { "type": ["string", "null"] },
+            "versionTransition": { "$ref": "#/$defs/fileReference" },
+            "partialDiscovery": { "$ref": "#/$defs/fileReference" },
+            "strictTargetDatasetAvailable": { "const": false },
+            "completeEntityDiffAvailable": { "const": false }
+          }
+        },
+        "gate": { "$ref": "#/$defs/gate" }
+      }
+    },
+    "rawArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "kind", "entityId", "expectedSha256", "observedSha256", "bytes", "exists", "integrityStatus"],
+      "properties": {
+        "path": { "type": "string" },
+        "kind": { "type": "string" },
+        "entityId": { "type": "string" },
+        "expectedSha256": { "$ref": "#/$defs/digestOrNull" },
+        "observedSha256": { "$ref": "#/$defs/digestOrNull" },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "exists": { "type": "boolean" },
+        "integrityStatus": { "type": "string" }
+      }
+    },
+    "rawEntity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entityId", "provider", "sourceFamily", "identityStatus", "candidateIds", "observedCandidateIds", "candidateClaimCount", "parsedFieldNames", "rawArtifactPaths", "providerVersionEvidence", "status", "fieldVerification", "certificateEligible", "canonicalPromotionEligible"],
+      "properties": {
+        "entityId": { "type": "string" },
+        "provider": { "type": ["string", "null"] },
+        "sourceFamily": { "type": ["string", "null"] },
+        "identityStatus": { "type": ["string", "null"] },
+        "candidateIds": { "type": "array", "items": { "type": "string" } },
+        "observedCandidateIds": { "type": "array", "items": { "type": "string" } },
+        "candidateClaimCount": { "type": "integer", "minimum": 0 },
+        "parsedFieldNames": { "type": "array", "items": { "type": "string" } },
+        "rawArtifactPaths": { "type": "array", "items": { "type": "string" } },
+        "providerVersionEvidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "strictGameVersionBinding", "observedVersion", "targetGameVersion"],
+          "properties": {
+            "status": { "type": ["string", "null"] },
+            "strictGameVersionBinding": { "type": "string" },
+            "observedVersion": { "type": ["string", "null"] },
+            "targetGameVersion": { "const": "7.0" }
+          }
+        },
+        "status": { "const": "rawCapturedFieldVerificationPending" },
+        "fieldVerification": { "const": "notVerified" },
+        "certificateEligible": { "const": false },
+        "canonicalPromotionEligible": { "const": false }
+      }
+    },
+    "featureTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["featureId", "sourceKind", "entityKind", "entityId", "candidateIds", "missingCandidateIds", "candidateMappingStatus", "applicability", "status", "calculationFieldFamilies", "evidenceRefs", "acceptance"],
+      "properties": {
+        "featureId": { "type": "string", "minLength": 1 },
+        "sourceKind": { "type": "string" },
+        "entityKind": { "type": "string" },
+        "entityId": { "type": ["string", "null"] },
+        "candidateIds": { "type": "array", "items": { "type": "string" } },
+        "missingCandidateIds": { "type": "array", "items": { "type": "string" } },
+        "candidateMappingStatus": { "type": ["string", "null"] },
+        "applicability": { "enum": ["applicable", "notApplicable", "coveragePending"] },
+        "status": { "type": "string" },
+        "calculationFieldFamilies": { "$ref": "#/$defs/families" },
+        "evidenceRefs": { "type": "array", "items": { "type": "string" } },
+        "rawOnly": { "type": "boolean" },
+        "rosterCapture": { "$ref": "#/$defs/rosterCaptureEvidence" },
+        "coverageGap": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["reason", "reopenTrigger", "nextTask"],
+          "properties": { "reason": { "type": "string" }, "reopenTrigger": { "type": "string" }, "nextTask": { "type": "string" } }
+        },
+        "acceptance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["requiredEvidence", "requiredCalculation", "safeAction"],
+          "properties": {
+            "requiredEvidence": { "type": "array", "items": { "type": "string" } },
+            "requiredCalculation": { "type": "array", "items": { "type": "string" } },
+            "safeAction": { "type": "string" }
+          }
+        }
+      }
+    },
+    "rosterCaptureEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["captureReference", "captureValidation", "status", "targetGameVersion", "provider", "sourceFamily", "requestedRecordCount", "capturedRecordCount", "providerOnlyEntityCount", "providerOnlyEntities", "fieldVerification", "localEntityIdResolution", "typedFieldMaterialization", "strictEligible", "certificateEligible", "canonicalPromotionEligible", "calculationAccepted"],
+      "properties": {
+        "captureReference": { "$ref": "#/$defs/fileReference" },
+        "captureValidation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "valid", "reasons"],
+          "properties": {
+            "status": { "type": "string" },
+            "valid": { "type": "boolean" },
+            "reasons": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "status": { "enum": ["rawCapturedIdentityUnresolved", "coveragePending"] },
+        "targetGameVersion": { "type": ["string", "null"] },
+        "provider": { "type": ["string", "null"] },
+        "sourceFamily": { "type": ["string", "null"] },
+        "requestedRecordCount": { "type": "integer", "minimum": 0 },
+        "capturedRecordCount": { "type": "integer", "minimum": 0 },
+        "providerOnlyEntityCount": { "type": "integer", "minimum": 0 },
+        "providerOnlyEntities": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/providerOnlyRosterEntity" }
+        },
+        "fieldVerification": { "const": "notVerified" },
+        "localEntityIdResolution": { "type": "string" },
+        "typedFieldMaterialization": { "type": "string" },
+        "strictEligible": { "const": false },
+        "certificateEligible": { "const": false },
+        "canonicalPromotionEligible": { "const": false },
+        "calculationAccepted": { "const": false }
+      }
+    },
+    "providerOnlyRosterEntity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rosterName", "providerSlug", "providerEntityIds", "localEntityId", "identityStatus", "typedFieldStatus"],
+      "properties": {
+        "rosterName": { "type": ["string", "null"] },
+        "providerSlug": { "type": "string", "minLength": 1 },
+        "providerEntityIds": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "localEntityId": { "const": null },
+        "identityStatus": { "const": "unresolvedNoLocalEntityId" },
+        "typedFieldStatus": { "const": "notMaterialized" }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "canIssueEligibilityCertificate", "canPromoteCanonical", "certificateEligible", "canonicalPromotionEligible", "allCandidatesComplete", "reasons"],
+      "properties": {
+        "status": { "type": "string" },
+        "canIssueEligibilityCertificate": { "const": false },
+        "canPromoteCanonical": { "const": false },
+        "certificateEligible": { "const": 0 },
+        "canonicalPromotionEligible": { "const": 0 },
+        "allCandidatesComplete": { "const": false },
+        "reasons": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+      }
+    }
+  }
+}

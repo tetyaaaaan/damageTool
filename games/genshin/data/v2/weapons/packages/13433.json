@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "weapon",
+    "id": "13433"
+  },
+  "sourceRefs": [
+    "weapon:13433:catalog",
+    "weapon:13433:effect"
+  ],
+  "modifierIds": [
+    "w_13433_reactionBonus_45ef3fc4",
+    "w_13433_reactionBonus_acac6169",
+    "w_13433_reaction_bonus_1",
+    "w_13433_reaction_bonus_2"
+  ],
+  "specIds": [
+    "w_13433_reactionBonus_45ef3fc4",
+    "w_13433_reactionBonus_acac6169",
+    "w_13433_reaction_bonus_1",
+    "w_13433_reaction_bonus_2"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Weapon package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:weapon:13433:w_13433_reactionBonus_45ef3fc4",
+      "genshin:v2:weapon:13433:w_13433_reactionBonus_acac6169",
+      "genshin:v2:weapon:13433:w_13433_reaction_bonus_1",
+      "genshin:v2:weapon:13433:w_13433_reaction_bonus_2"
+    ],
+    "generator": "genshinWeaponV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

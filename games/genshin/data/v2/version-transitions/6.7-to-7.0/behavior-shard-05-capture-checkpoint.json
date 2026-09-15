@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionTransitionBehaviorShard05CaptureCheckpoint",
+  "generatedAt": "2026-08-26T00:00:00.000Z",
+  "transitionId": "genshin:6.7->7.0",
+  "shardId": "behavior:behaviorSpec:semanticDecisionRequired:standard:05",
+  "status": "complete",
+  "authoritativeCandidateCount": 100,
+  "authoritativeEntityCount": 8,
+  "requestedEntityCount": 8,
+  "requestedEntityIds": [
+    "10000046",
+    "10000047",
+    "10000048",
+    "10000049",
+    "10000050",
+    "10000051",
+    "10000052",
+    "10000053"
+  ],
+  "capturedEntityCount": 7,
+  "capturedEntityIds": [
+    "10000047",
+    "10000048",
+    "10000049",
+    "10000050",
+    "10000051",
+    "10000052",
+    "10000053"
+  ],
+  "skippedOverlapEntityCount": 1,
+  "skippedOverlapEntityIds": [
+    "10000046"
+  ],
+  "revisions": {
+    "before": {
+      "gameVersion": "6.7",
+      "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+      "status": "complete",
+      "completedEntityIds": [
+        "10000047",
+        "10000048",
+        "10000049",
+        "10000050",
+        "10000051",
+        "10000052",
+        "10000053"
+      ],
+      "completedArtifactCount": 14,
+      "skippedOverlapArtifactCount": 2
+    },
+    "after": {
+      "gameVersion": "7.0",
+      "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+      "status": "complete",
+      "completedEntityIds": [
+        "10000047",
+        "10000048",
+        "10000049",
+        "10000050",
+        "10000051",
+        "10000052",
+        "10000053"
+      ],
+      "completedArtifactCount": 14,
+      "skippedOverlapArtifactCount": 2
+    }
+  },
+  "materializedSnapshot": {
+    "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/behavior-shard-05-snapshot.json",
+    "fieldDigest": "268c2baf936a03fc803388f4fd91377d7cf24a8cb2a126cd415375ffc358fff5",
+    "entityCount": 7,
+    "recordCount": 14,
+    "changedRecordCount": 3,
+    "changedFieldCount": 6
+  },
+  "nextTask": "Acquire an independent strictly 7.0-bound field source and reconcile behavior semantics; do not promote from this correlated capture.",
+  "gateEligibility": {
+    "status": "singleCorrelatedFamilyFailClosed",
+    "sourceFamilyCount": 1,
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false,
+    "reasons": [
+      "providerIndependenceInsufficient",
+      "behaviorSemanticsNotParsed",
+      "shardOverlapRetained"
+    ]
+  },
+  "claim": {
+    "queueShardId": "behavior:behaviorSpec:semanticDecisionRequired:standard:05",
+    "queuePath": "reports/genshin-evidence-task-queue.json",
+    "authoritativeCandidateIdsDigest": "20d016d8fde986166ad9b150de1398dd6ea360db6f91b50d6d3f4598fc30501f",
+    "requestedEntityIds": [
+      "10000046",
+      "10000047",
+      "10000048",
+      "10000049",
+      "10000050",
+      "10000051",
+      "10000052",
+      "10000053"
+    ],
+    "capturedEntityIds": [
+      "10000047",
+      "10000048",
+      "10000049",
+      "10000050",
+      "10000051",
+      "10000052",
+      "10000053"
+    ],
+    "skippedOverlapEntityIds": [
+      "10000046"
+    ],
+    "materializedSnapshotPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/behavior-shard-05-snapshot.json",
+    "materializedSnapshotFieldDigest": "268c2baf936a03fc803388f4fd91377d7cf24a8cb2a126cd415375ffc358fff5",
+    "completedArtifactCount": 14,
+    "changedRecordCount": 3,
+    "changedFieldCount": 6,
+    "sourceFamilyCount": 1,
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false
+  },
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "a76d971a0689b3b74b81452177c5f1695c960fe8a645cf953ead3ae8a38360d7"
+}

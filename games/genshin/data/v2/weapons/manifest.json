@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 2,
+  "kind": "genshinWeaponV2Manifest",
+  "generator": {
+    "name": "genshinWeaponV2Generate.cjs",
+    "version": "genshinWeaponV2Generate/2",
+    "capturedAt": "2026-08-15T00:00:00.000Z"
+  },
+  "summary": {
+    "schemaVersion": 2,
+    "weapons": 210,
+    "modifiers": 455,
+    "sourceRecords": 930,
+    "specs": 455,
+    "registryWeapons": 33,
+    "registryGroups": 55,
+    "sourceKinds": {
+      "primaryDataset": 875,
+      "manualTranscription": 55
+    },
+    "verificationByStatus": {
+      "needsReview": 455
+    },
+    "sourceAgreementByStatus": {
+      "singleSource": 455
+    },
+    "runtimeByStatus": {
+      "candidate": 454,
+      "displayOnly": 1
+    },
+    "runtimeNamespace": "genshin:v2:weapon",
+    "runtimeRoute": {
+      "dataset": "weaponModifiers",
+      "collection": "modifiers"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "legacyAudits": [
+      {
+        "id": "weapon-modifiers-audit-v10",
+        "path": "games/genshin/data/calc/weapon-modifiers-audit-v10.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "e6efc5116bf41474a1c89810019a5ca7baba445d0a10b10459da36d723703ec4"
+        },
+        "summary": {
+          "version": "v10-finalized",
+          "auditIterations": [
+            {
+              "name": "source fragment segmentation",
+              "result": "done"
+            },
+            {
+              "name": "value existence",
+              "result": "done"
+            },
+            {
+              "name": "value-role semantic",
+              "result": "done"
+            },
+            {
+              "name": "resource/stack/consume",
+              "result": "done"
+            },
+            {
+              "name": "special escape",
+              "result": "done"
+            },
+            {
+              "name": "known-complex regression",
+              "result": "done"
+            },
+            {
+              "name": "post-fix re-audit",
+              "result": "done"
+            }
+          ],
+          "remainingIssues": {
+            "artifact": 0,
+            "weapon": 0,
+            "constellation": 0
+          },
+          "manualFinalFixes": [
+            "Navia C2/C6",
+            "Heizou C6",
+            "Alhaitham C2/C4/C6",
+            "Nilou C6",
+            "Sigewinne C1/C6",
+            "Citlali C6",
+            "Farka C2/C4/C6",
+            "Skirk C6",
+            "Sandrone C2",
+            "VV artifact",
+            "12515 weapon per-stack cleanup"
+          ],
+          "note": "監査はmodifierのsourceText fragment単位で実施。全文中の別効果による誤検出を避けた。"
+        }
+      },
+      {
+        "id": "weapon-effect-audit",
+        "path": "reports/genshin-weapon-effect-audit.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "6e4b1eb11a417b6ec6759dcfb7a05d77d44750cfb9f251e2d613eabbf9eb050b"
+        },
+        "summary": {
+          "weapons": 210,
+          "modifiers": 455,
+          "structuredWeapons": 33,
+          "structuredGroups": 55,
+          "structuredModifiers": 100,
+          "fallbackModifiers": 355,
+          "duplicateCandidateGroups": 51,
+          "byInputPolicy": {
+            "manual": 171,
+            "displayOnly": 51,
+            "stack": 69,
+            "calculate": 120,
+            "reflected": 43,
+            "sourceContext": 1
+          },
+          "byTargetOwner": {
+            "self": 435,
+            "otherPartyMembers": 6,
+            "team": 11,
+            "activeCharacter": 3
+          }
+        }
+      }
+    ],
+    "generatedFrom": [
+      {
+        "dataset": "weapons.json",
+        "path": "games/genshin/data/weapons.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "51440a4d511b958162f388cba7ad8dc907ee06ac0f214636f7c64b43700a17db"
+        }
+      },
+      {
+        "dataset": "weapon-effects.json",
+        "path": "games/genshin/data/weapon-effects.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "76ce9aa37bc1a1a2d013a76e518618260422a03adf178c19c5d72a7ec28975ea"
+        }
+      },
+      {
+        "dataset": "calc/weapon-modifiers.json",
+        "path": "games/genshin/data/calc/weapon-modifiers.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "7abce0047e3f68b33e09e286ea15be6c64693dc4e3b33e18db1f925afe363d8c"
+        }
+      },
+      {
+        "dataset": "calc/weapon-effect-registry.json",
+        "path": "games/genshin/data/calc/weapon-effect-registry.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "62d91262224ab8c327bbd29d5ff3e699a6d0998b7d16d4df604bd9db5d868450"
+        }
+      }
+    ]
+  },
+  "paths": {
+    "index": "index.json",
+    "sourceRecords": "source-records.json",
+    "specs": "spec-candidates.json",
+    "verification": "verification.json",
+    "packages": "packages"
+  }
+}

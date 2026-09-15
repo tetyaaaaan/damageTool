@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tetinet.example/schemas/genshin/source-family-registry.schema.json",
+  "title": "Genshin source-family lineage registry",
+  "type": "object",
+  "required": ["schemaVersion", "kind", "registryVersion", "capturedAt", "semantics", "families", "providers"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinSourceFamilyRegistry" },
+    "registryVersion": { "type": "string", "minLength": 1 },
+    "capturedAt": { "type": "string", "format": "date-time" },
+    "semantics": {
+      "type": "object",
+      "required": ["providerId", "familyId", "independenceGroup", "lineageStatus", "reuse"],
+      "properties": {
+        "providerId": { "type": "string", "minLength": 1 },
+        "familyId": { "type": "string", "minLength": 1 },
+        "independenceGroup": { "type": "string", "minLength": 1 },
+        "lineageStatus": { "type": "string", "minLength": 1 },
+        "reuse": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "families": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/family" }
+    },
+    "providers": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/provider" }
+    }
+  },
+  "$defs": {
+    "family": {
+      "type": "object",
+      "required": ["familyId", "rootDataset", "acquisitionMethod", "transformChain", "mirrorOf", "forkOf", "usesApi", "translationOf", "datamineRoot", "revisionSystem", "releaseSystem", "lineageEvidenceRefs", "independenceGroup", "lineageStatus", "lineage", "independenceClass"],
+      "properties": {
+        "familyId": { "type": "string", "minLength": 1 },
+        "rootDataset": {
+          "oneOf": [
+            { "type": "string", "minLength": 1 },
+            { "type": "null" }
+          ]
+        },
+        "acquisitionMethod": { "type": "string", "minLength": 1 },
+        "transformChain": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "mirrorOf": { "type": ["string", "null"] },
+        "forkOf": { "type": ["string", "null"] },
+        "usesApi": { "type": "boolean" },
+        "translationOf": { "type": ["string", "null"] },
+        "datamineRoot": { "type": ["string", "null"] },
+        "revisionSystem": { "type": "string", "minLength": 1 },
+        "releaseSystem": {
+          "oneOf": [
+            { "type": "string", "minLength": 1 },
+            { "type": "null" }
+          ]
+        },
+        "lineageEvidenceRefs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "independenceGroup": { "type": "string", "minLength": 1 },
+        "lineageStatus": { "enum": ["declared", "correlated", "unknown"] },
+        "lineage": { "type": "string", "minLength": 1 },
+        "independenceClass": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "risk": { "type": "string", "minLength": 1 },
+        "legacyGroupAliases": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      },
+      "additionalProperties": true
+    },
+    "provider": {
+      "type": "object",
+      "required": ["providerId", "familyId", "canonicalName", "aliases"],
+      "properties": {
+        "providerId": { "type": "string", "minLength": 1 },
+        "familyId": { "type": "string", "minLength": 1 },
+        "canonicalName": { "type": "string", "minLength": 1 },
+        "aliases": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

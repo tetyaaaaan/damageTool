@@ -1,6 +1,121 @@
 {
   "version": 1,
   "weapons": {
+    "11516": {
+      "groups": [
+        {
+          "id": "peak_patrol_ode_stacks",
+          "name": "栄華の歌",
+          "description": "通常攻撃または落下攻撃の命中後に得た層数に応じて、装備者の防御力と全元素ダメージを強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "stack", "stateKey": "peakPatrolOdeStacks", "label": "「栄華の歌」の層数", "min": 0, "max": 2, "default": 0, "unit": "層" },
+          "modifierIds": ["w_11516_damage_2", "w_11516_stat_1", "w_11516_damageBonus_b78b7787", "w_11516_statBonus_097433f4"],
+          "modifierOverrides": {
+            "w_11516_damageBonus_b78b7787": { "auditDisposition": "supersededByStructuredRecord" },
+            "w_11516_statBonus_097433f4": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        },
+        {
+          "id": "peak_patrol_team_buff",
+          "name": "栄華の歌・チーム強化",
+          "description": "栄華の歌を2層まで重ねた後の15秒間、装備者の防御力を基準にチーム全員の全元素ダメージを強化します。",
+          "targetOwner": "team",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "peakPatrolTeamBuffActive", "label": "栄華の歌を2層まで重ねた後（15秒間）" },
+          "modifierIds": ["w_11516_scaling_bonus_4", "w_11516_damage_3"],
+          "modifierOverrides": {
+            "w_11516_damage_3": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        }
+      ]
+    },
+    "11517": {
+      "groups": [
+        {
+          "id": "weapon11517AzurelightState",
+          "name": "蒼耀・元素スキル後",
+          "description": "元素スキル発動後12秒間の攻撃力補正と、その間に元素エネルギーが0の場合の追加攻撃力・会心ダメージを切り替えます。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": {
+            "type": "option",
+            "stateKey": "weapon11517AzurelightState",
+            "label": "元素スキル発動後の状態",
+            "options": [
+              { "value": "inactive", "label": "未発動" },
+              { "value": "active", "label": "発動中（12秒間）" },
+              { "value": "zeroEnergy", "label": "発動中・元素エネルギー0" }
+            ]
+          },
+          "modifierIds": ["w_11517_stat_1", "w_11517_damage_3", "w_11517_crit_2"]
+        }
+      ]
+    },
+    "11418": {
+      "groups": [
+        {
+          "id": "xiphosJinnWhisperPersonal",
+          "name": "ジンニーの囁き・装備者",
+          "description": "10秒ごとの発動後12秒間、装備者の元素熟知を基準に元素チャージ効率を強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "xiphosJinnWhisperActive", "label": "ジンニーの囁きが発動中（12秒間）" },
+          "modifierIds": ["w_11418_scaling_bonus_2", "w_11418_scalingBonus_cf36aef0", "w_11418_stat_1"],
+          "modifierOverrides": {
+            "w_11418_scalingBonus_cf36aef0": { "auditDisposition": "supersededByStructuredRecord" },
+            "w_11418_stat_1": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        },
+        {
+          "id": "xiphosJinnWhisperParty",
+          "name": "ジンニーの囁き・周囲のチーム",
+          "description": "同じ12秒間、装備者が得る元素チャージ効率補正の30%を周囲の他キャラクターへ付与します。",
+          "targetOwner": "otherPartyMembers",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "xiphosJinnWhisperActive", "label": "ジンニーの囁きが発動中（12秒間）" },
+          "modifierIds": ["w_11418_scaling_bonus_3"]
+        }
+      ]
+    },
+    "11424": {
+      "groups": [
+        {
+          "id": "wolfFangSkillCritStacks",
+          "name": "狼牙・元素スキル会心率",
+          "description": "元素スキルが敵に命中したことで獲得した、元素スキル会心率の層数を指定します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": {
+            "type": "stack",
+            "stateKey": "wolfFangSkillCritStacks",
+            "label": "元素スキル会心率の層数",
+            "min": 0,
+            "max": 4,
+            "default": 0,
+            "unit": "層"
+          },
+          "modifierIds": ["w_11424_critBonus_e567e99f"]
+        },
+        {
+          "id": "wolfFangBurstCritStacks",
+          "name": "狼牙・元素爆発会心率",
+          "description": "元素爆発が敵に命中したことで獲得した、元素爆発会心率の層数を指定します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": {
+            "type": "stack",
+            "stateKey": "wolfFangBurstCritStacks",
+            "label": "元素爆発会心率の層数",
+            "min": 0,
+            "max": 4,
+            "default": 0,
+            "unit": "層"
+          },
+          "modifierIds": ["w_11424_critBonus_0da1d9be"]
+        }
+      ]
+    },
     "11503": {
       "groups": [
         {
@@ -29,6 +144,15 @@
     },
     "12516": {
       "groups": [
+        {
+          "id": "key_of_ascension_unconditional_atk",
+          "name": "超越・攻撃力上昇",
+          "description": "装備者自身の攻撃力を常時アップします。",
+          "targetOwner": "self",
+          "inputPolicy": "reflected",
+          "activation": { "type": "always" },
+          "modifierIds": ["w_12516_stat_1"]
+        },
         {
           "id": "transcendence_astral_conduction",
           "name": "超越",
@@ -68,7 +192,7 @@
           "description": "放たれた矢が0.1秒飛ぶごとに通常攻撃と重撃のダメージが上昇します。",
           "targetOwner": "self",
           "inputPolicy": "calculate",
-          "activation": { "type": "stack", "stateKey": "arrowFlightTime", "label": "矢の飛翔時間", "min": 0, "max": 5, "default": 0, "unit": "段階" },
+          "activation": { "type": "stack", "stateKey": "arrowFlightTime", "label": "矢の飛翔時間", "min": 0, "max": 5, "default": 0, "unit": "段階", "intervalSeconds": 0.1 },
           "modifierIds": ["w_15502_damageBonus_fc388315"]
         }
       ]
@@ -87,10 +211,10 @@
         {
           "id": "bell_shield_generation",
           "name": "被ダメージ時のシールド生成",
-          "description": "ダメージ計算へ直接加算しない防御効果です。",
+          "description": "HP上限を参照するシールド耐久値です。ダメージ計算へ直接加算しない防御効果として表示します。",
           "targetOwner": "self",
           "inputPolicy": "displayOnly",
-          "activation": { "type": "displayOnly", "label": "表示のみ" },
+          "activation": { "type": "displayOnly", "label": "被ダメージ時に生成（表示のみ）", "durationSeconds": 10, "cooldownSeconds": 45 },
           "modifierIds": ["w_12402_extraDamage_4ff89bef"]
         }
       ]
@@ -132,6 +256,8 @@
             "type": "option",
             "stateKey": "widsithSong",
             "label": "発動した楽章",
+            "durationSeconds": 10,
+            "cooldownSeconds": 30,
             "options": [
               { "value": "none", "label": "未発動" },
               { "value": "recitative", "label": "叙唱：攻撃力" },
@@ -145,6 +271,102 @@
             "w_14402_damage_2": { "conditionOptionValue": "aria" },
             "w_14402_stat_3": { "conditionOptionValue": "interlude", "unit": "flat" }
           }
+        }
+      ]
+    },
+    "14511": {
+      "groups": [
+        {
+          "id": "floating_dreams_same_element_em",
+          "name": "千夜に浮かぶ夢・同元素",
+          "description": "装備者と同じ元素タイプの周囲のチームメンバー数に応じて、装備者の元素熟知を強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "stack", "stateKey": "floatingDreamsSameElementMembers", "label": "装備者と同じ元素の周囲メンバー数", "min": 0, "max": 3, "default": 0, "unit": "人" },
+          "modifierIds": ["w_14511_stat_1"]
+        },
+        {
+          "id": "floating_dreams_different_element_damage",
+          "name": "千夜に浮かぶ夢・異元素",
+          "description": "装備者と異なる元素タイプの周囲のチームメンバー数に応じて、装備者自身の元素ダメージを強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "stack", "stateKey": "floatingDreamsDifferentElementMembers", "label": "装備者と異なる元素の周囲メンバー数", "min": 0, "max": 3, "default": 0, "unit": "人" },
+          "modifierIds": ["w_14511_damageBonus_c65afcef", "w_14511_damage_2"],
+          "modifierOverrides": {
+            "w_14511_damage_2": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        },
+        {
+          "id": "floating_dreams_nearby_party_em",
+          "name": "千夜に浮かぶ夢・周囲メンバー",
+          "description": "装備者以外の周囲のチームメンバーへ元素熟知を付与します。装備者自身には加算しません。",
+          "targetOwner": "otherPartyMembers",
+          "inputPolicy": "displayOnly",
+          "activation": { "type": "displayOnly", "label": "装備者以外の周囲メンバーへ適用" },
+          "modifierIds": ["w_14511_stat_3"]
+        }
+      ]
+    },
+    "14519": {
+      "groups": [
+        {
+          "id": "vivid_notions_dawns_first_hue",
+          "name": "初霞の彩り",
+          "description": "落下攻撃を行う際に得る効果を、落下攻撃の会心ダメージへだけ適用します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "vividNotionsDawnsFirstHue", "label": "初霞の彩りが発動中" },
+          "modifierIds": ["w_14519_critBonus_13e1d773", "w_14519_crit_2", "w_14519_damage_3"],
+          "modifierOverrides": {
+            "w_14519_critBonus_13e1d773": { "auditDisposition": "supersededByStructuredRecord" },
+            "w_14519_damage_3": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        },
+        {
+          "id": "vivid_notions_twilight_splendor",
+          "name": "薄暮の輝き",
+          "description": "元素スキルまたは元素爆発の発動時に得る効果を、落下攻撃の会心ダメージへだけ適用します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "vividNotionsTwilightSplendor", "label": "薄暮の輝きが発動中" },
+          "modifierIds": ["w_14519_critBonus_f7391ebb", "w_14519_crit_4", "w_14519_damageBonus_65abb321", "w_14519_damage_5"],
+          "modifierOverrides": {
+            "w_14519_critBonus_f7391ebb": { "auditDisposition": "supersededByStructuredRecord" },
+            "w_14519_damageBonus_65abb321": { "auditDisposition": "supersededByStructuredRecord" },
+            "w_14519_damage_5": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        }
+      ]
+    },
+    "14518": {
+      "groups": [
+        {
+          "id": "etherlight_spindlelute_after_reaction",
+          "name": "元素反応後の元素熟知強化",
+          "description": "拡散反応または星拡散反応を起こした後、6秒間、装備者の元素熟知を強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "etherlightAfterReaction", "label": "拡散または星拡散を起こした後（6秒間）" },
+          "modifierIds": ["w_14518_statBonus_3c7c2d85"]
+        },
+        {
+          "id": "etherlight_spindlelute_after_skill_hit",
+          "name": "元素スキル命中後の元素熟知強化",
+          "description": "元素スキルが敵に命中した後、9秒間、装備者の元素熟知を強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "etherlightAfterSkillHit", "label": "元素スキルが敵に命中した後（9秒間）" },
+          "modifierIds": ["w_14518_statBonus_a61ba947"]
+        },
+        {
+          "id": "etherlight_spindlelute_after_burst_hit",
+          "name": "元素爆発命中後の元素熟知強化",
+          "description": "元素爆発が敵に命中した後、30秒間、装備者の元素熟知を強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "etherlightAfterBurstHit", "label": "元素爆発が敵に命中した後（30秒間）" },
+          "modifierIds": ["w_14518_statBonus_d9d3a378"]
         }
       ]
     },
@@ -178,11 +400,11 @@
         },
         {
           "id": "black_eclipse_self_atk",
-          "name": "装備者の攻撃力強化",
-          "description": "装備者自身へ常時適用され、現在の攻撃力入力に含まれます。",
+          "name": "白昼の刃・装備者の攻撃力強化",
+          "description": "元素爆発が敵に命中した後、3秒間、装備者の攻撃力を強化します。",
           "targetOwner": "self",
-          "inputPolicy": "reflected",
-          "activation": { "type": "always", "label": "入力値に反映済み" },
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "blackEclipseDaylightBlade", "label": "元素爆発が敵に命中した後（3秒間）" },
           "modifierIds": ["w_11518_stat_3"]
         },
         {
@@ -191,7 +413,7 @@
           "description": "装備者自身には加算しないチーム側効果です。",
           "targetOwner": "activeCharacter",
           "inputPolicy": "sourceContext",
-          "activation": { "type": "toggle", "stateKey": "blackEclipseTeamBuff", "label": "別キャラクターへのチーム効果" },
+          "activation": { "type": "toggle", "stateKey": "blackEclipseDaylightBlade", "label": "元素爆発が敵に命中した後（3秒間）" },
           "modifierIds": ["w_11518_stat_4"]
         }
       ]
@@ -211,13 +433,45 @@
           }
         },
         {
-          "id": "fruitful_hook_hit_stacks",
+          "id": "fruitful_hook_hit_buff",
           "name": "命中後の攻撃強化",
-          "description": "落下攻撃命中後の強化段階を指定します。",
+          "description": "落下攻撃が敵に命中した後、10秒間、通常攻撃・重撃・落下攻撃を強化します。",
           "targetOwner": "self",
           "inputPolicy": "calculate",
-          "activation": { "type": "stack", "stateKey": "fruitfulHookStacks", "label": "命中後の強化段階", "min": 0, "max": 3, "default": 0, "unit": "層" },
-          "modifierIds": ["w_12430_damageBonus_c7243261"]
+          "activation": { "type": "toggle", "stateKey": "fruitfulHookHitBuff", "label": "落下攻撃が敵に命中した後（10秒間）" },
+          "modifierIds": ["w_12430_damageBonus_c7243261"],
+          "modifierOverrides": {
+            "w_12430_damageBonus_c7243261": { "stack": null }
+          }
+        }
+      ]
+    },
+    "15503": {
+      "groups": [
+        {
+          "id": "elegy_farewell_song",
+          "name": "千年の大楽章・別れの歌",
+          "description": "追憶の印を4枚消費した後の12秒間、周囲のチーム全員の元素熟知と攻撃力を強化します。",
+          "targetOwner": "team",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "elegyFarewellSongActive", "label": "別れの歌が発動中（12秒間）" },
+          "modifierIds": ["w_15503_stat_2", "w_15503_stat_3"]
+        }
+      ]
+    },
+    "15507": {
+      "groups": [
+        {
+          "id": "polar_star_ashen_nightstar_stacks",
+          "name": "白夜極星",
+          "description": "通常攻撃・重撃・元素スキル・元素爆発の命中で得た現在の層数に応じて攻撃力を強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "stack", "stateKey": "polarStarAshenNightstarStacks", "label": "白夜極星の層数", "min": 0, "max": 4, "default": 0, "unit": "層" },
+          "modifierIds": ["w_15507_stat_2", "w_15507_damage_1"],
+          "modifierOverrides": {
+            "w_15507_damage_1": { "auditDisposition": "supersededByStructuredRecord" }
+          }
         }
       ]
     },
@@ -257,6 +511,272 @@
           "inputPolicy": "reflected",
           "activation": { "type": "always", "label": "入力値に反映済み" },
           "modifierIds": ["w_15516_stat_1"]
+        }
+      ]
+    },
+    "12514": {
+      "groups": [
+        {
+          "id": "dawnlight_after_skill_or_burst",
+          "name": "元素スキル・元素爆発発動後の強化",
+          "description": "元素スキルまたは元素爆発を発動した後の6秒間、会心ダメージと攻撃力を強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "dawnlightAfterSkillOrBurst", "label": "元素スキルまたは元素爆発の発動後（6秒間）" },
+          "modifierIds": ["w_12514_crit_1", "w_12514_stat_2", "w_12514_damage_3"],
+          "modifierOverrides": {
+            "w_12514_damage_3": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        }
+      ]
+    },
+    "13513": {
+      "groups": [
+        {
+          "id": "lumidouces_elegy_burning_stack",
+          "name": "燃焼関連行動後のダメージ強化",
+          "description": "燃焼反応を起こす、または燃焼状態の敵へ草元素ダメージを与えた後の8秒間、現在の層数に応じて与えるダメージを強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "stack", "stateKey": "lumidoucesElegyBurningStacks", "label": "燃焼関連行動後の効果層数", "min": 0, "max": 2, "default": 0, "unit": "層" },
+          "modifierIds": ["w_13513_damageBonus_09aed831", "w_13513_reaction_bonus_2"],
+          "modifierOverrides": {
+            "w_13513_reaction_bonus_2": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        }
+      ]
+    },
+    "13511": {
+      "groups": [
+        {
+          "id": "scarlet_sands_dream_stacks",
+          "name": "赤砂の夢",
+          "description": "元素スキルが敵に命中した後の10秒間、現在の層数に応じて元素熟知を基準とした攻撃力補正を追加します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "stack", "stateKey": "scarletSandsDreamStacks", "label": "赤砂の夢の層数", "min": 0, "max": 3, "default": 0, "unit": "層" },
+          "modifierIds": ["w_13511_statBonus_3f1f80b6", "w_13511_statBonus_f902d11b", "w_13511_scaling_bonus_1"],
+          "modifierOverrides": {
+            "w_13511_scaling_bonus_1": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        }
+      ]
+    },
+    "13515": {
+      "groups": [
+        {
+          "id": "fractured_halo_skill_or_burst_atk",
+          "name": "元素スキル・元素爆発後の攻撃力強化",
+          "description": "元素スキルまたは元素爆発を発動した後の20秒間、装備者の攻撃力を強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "fracturedHaloAfterSkillOrBurst", "label": "元素スキルまたは元素爆発の発動後（20秒間）" },
+          "modifierIds": ["w_13515_stat_1", "w_13515_statBonus_c3ad91b6"],
+          "modifierOverrides": {
+            "w_13515_statBonus_c3ad91b6": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        },
+        {
+          "id": "fractured_halo_electrifying_edict",
+          "name": "流電の聖勅",
+          "description": "シールドを生成した後の20秒間、周囲のチーム全員が起こす月感電反応のダメージを強化します。",
+          "targetOwner": "team",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "fracturedHaloElectrifyingEdict", "label": "シールド生成後の流電の聖勅（20秒間）" },
+          "modifierIds": ["w_13515_reactionBonus_e1533e72", "w_13515_reaction_bonus_2"],
+          "modifierOverrides": {
+            "w_13515_reaction_bonus_2": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        }
+      ]
+    },
+    "11519": {
+      "groups": [
+        {
+          "id": "moonlit_crescent_after_skill",
+          "name": "元素スキル後の月結晶強化",
+          "description": "元素スキルを発動した後の5秒間、装備者の月結晶反応ダメージを強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "moonlitCrescentAfterSkill", "label": "元素スキル発動後（5秒間）" },
+          "modifierIds": ["w_11519_reaction_bonus_2", "w_11519_reactionBonus_903ea413"],
+          "modifierOverrides": {
+            "w_11519_reactionBonus_903ea413": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        }
+      ]
+    },
+    "11432": {
+      "groups": [
+        {
+          "id": "boundary_expansion_shielded",
+          "name": "シールド中の通常攻撃・重撃強化",
+          "description": "シールド状態の時、通常攻撃と重撃のダメージおよび会心率を強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "boundaryExpansionShielded", "label": "シールド状態" },
+          "modifierIds": ["w_11432_crit_1", "w_11432_damageBonus_cafd35b3", "w_11432_critBonus_382b690c"],
+          "modifierOverrides": {
+            "w_11432_critBonus_382b690c": { "auditDisposition": "supersededByStructuredRecord" }
+          }
+        }
+      ]
+    },
+    "14522": {
+      "groups": [
+        {
+          "id": "crossroads_ballad_bountiful_sea_wine",
+          "name": "豊饒の海の神酒",
+          "description": "装備者が月反応を起こす、または敵に月反応ダメージを与えた後の12秒間、HP上限と月反応ダメージの会心ダメージを強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "crossroadsBalladBountifulSeaWine", "label": "豊饒の海の神酒が発動中（12秒間）" },
+          "modifierIds": ["w_14522_reactionBonus_f6439a2b", "w_14522_crit_2"]
+        }
+      ]
+    },
+    "14520": {
+      "groups": [
+        {
+          "id": "nightweaverPrayerOfFarNorth",
+          "name": "北の果ての聖言",
+          "description": "元素スキルで水元素または草元素ダメージを与えた後の4.5秒間、装備者の元素熟知を強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "nightweaverPrayerOfFarNorth", "label": "北の果ての聖言が発動中（4.5秒間）" },
+          "modifierIds": ["w_14520_stat_1"]
+        },
+        {
+          "id": "nightweaverNewMoonVerse",
+          "name": "朔月の詩",
+          "description": "付近のチーム内キャラクターが月開花反応を起こした後の10秒間、装備者の元素熟知を強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "nightweaverNewMoonVerse", "label": "朔月の詩が発動中（10秒間）" },
+          "modifierIds": ["w_14520_statBonus_f3cdffb9"]
+        },
+        {
+          "id": "nightweaverBothStates",
+          "name": "聖言と朔月の詩の同時発動",
+          "description": "北の果ての聖言と朔月の詩が同時に存在する間、周囲のチーム内キャラクターが起こす対象反応を強化します。",
+          "targetOwner": "team",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "nightweaverBothStates", "label": "北の果ての聖言と朔月の詩が同時に発動中" },
+          "modifierIds": ["w_14520_reaction_bonus_3", "w_14520_reaction_bonus_4", "w_14520_reaction_bonus_5"]
+        }
+      ]
+    },
+    "13517": {
+      "groups": [
+        {
+          "id": "disasterAndRemorseUnforgivable",
+          "name": "無赦",
+          "description": "無赦状態の3秒間、装備者の通常攻撃と重撃のダメージを強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "disasterAndRemorseUnforgivable", "label": "無赦が発動中（3秒間）" },
+          "modifierIds": ["w_13517_v3_damageBonus_1"]
+        },
+        {
+          "id": "disasterAndRemorseIrreparable",
+          "name": "無癒",
+          "description": "無癒状態の3秒間、装備者の元素スキルと元素爆発のダメージを強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "disasterAndRemorseIrreparable", "label": "無癒が発動中（3秒間）" },
+          "modifierIds": ["w_13517_v3_damageBonus_2"]
+        }
+      ]
+    },
+    "13433": {
+      "groups": [
+        {
+          "id": "prospectorShovelMoonsign",
+          "name": "採掘者のシャベル・月兆",
+          "description": "満照状態で有効になる月感電反応ダメージの追加補正を切り替えます。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": {
+            "type": "option",
+            "stateKey": "prospectorShovelMoonsign",
+            "label": "月兆状態",
+            "options": [
+              { "value": "inactive", "label": "未発動" },
+              { "value": "ascendantGleam", "label": "満照" }
+            ]
+          },
+          "modifierIds": ["w_13433_reactionBonus_45ef3fc4"]
+        }
+      ]
+    },
+    "14433": {
+      "groups": [
+        {
+          "id": "blackmarrowLanternMoonsign",
+          "name": "烏髄の孤灯・月兆",
+          "description": "満照状態で有効になる月開花反応ダメージの追加補正を切り替えます。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": {
+            "type": "option",
+            "stateKey": "blackmarrowLanternMoonsign",
+            "label": "月兆状態",
+            "options": [
+              { "value": "inactive", "label": "未発動" },
+              { "value": "ascendantGleam", "label": "満照" }
+            ]
+          },
+          "modifierIds": ["w_14433_reactionBonus_b6eb8abd"]
+        }
+      ]
+    },
+    "14431": {
+      "groups": [
+        {
+          "id": "ringOfYaxcheJadeCrown",
+          "name": "ヤシュチェの環・玉鍛の冠",
+          "description": "元素スキル発動後10秒間、装備者のHP上限を基準に通常攻撃ダメージを強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": {
+            "type": "toggle",
+            "stateKey": "ringOfYaxcheJadeCrownActive",
+            "label": "玉鍛の冠が発動中（10秒間）"
+          },
+          "modifierIds": ["w_14431_scaling_bonus_2"]
+        }
+      ]
+    },
+    "14424": {
+      "groups": [
+        {
+          "id": "sacrificialJadeOffFieldState",
+          "name": "古祠の瓏・待機状態",
+          "description": "装備者が待機状態を5秒以上継続し、出場後10秒以内の間だけHP上限と元素熟知を強化します。",
+          "targetOwner": "self",
+          "inputPolicy": "calculate",
+          "activation": {
+            "type": "toggle",
+            "stateKey": "sacrificialJadeOffFieldStateActive",
+            "label": "待機5秒後の効果が発動中（出場後10秒以内）"
+          },
+          "modifierIds": ["w_14424_stat_1", "w_14424_stat_2"]
+        }
+      ]
+    },
+    "14523": {
+      "groups": [
+        {
+          "id": "angelos_heptades_guiding_light",
+          "name": "導きの光",
+          "description": "装備者がシールドを生成した後の20秒間、装備者の攻撃力を基準にフィールド上キャラクターの与えるダメージを強化します。",
+          "targetOwner": "activeCharacter",
+          "inputPolicy": "calculate",
+          "activation": { "type": "toggle", "stateKey": "angelosHeptadesGuidingLight", "label": "シールド生成後（20秒間）" },
+          "modifierIds": ["w_14523_scaling_bonus_3", "w_14523_damage_2"],
+          "modifierOverrides": {
+            "w_14523_damage_2": { "auditDisposition": "supersededByStructuredRecord" }
+          }
         }
       ]
     }

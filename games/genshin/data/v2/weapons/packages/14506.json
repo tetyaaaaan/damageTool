@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "weapon",
+    "id": "14506"
+  },
+  "sourceRefs": [
+    "weapon:14506:catalog",
+    "weapon:14506:effect"
+  ],
+  "modifierIds": [
+    "w_14506_extraDamage_e46955e5",
+    "w_14506_v3_scalingBonus_1"
+  ],
+  "specIds": [
+    "w_14506_extraDamage_e46955e5",
+    "w_14506_v3_scalingBonus_1"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Weapon package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:weapon:14506:w_14506_extraDamage_e46955e5",
+      "genshin:v2:weapon:14506:w_14506_v3_scalingBonus_1"
+    ],
+    "generator": "genshinWeaponV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

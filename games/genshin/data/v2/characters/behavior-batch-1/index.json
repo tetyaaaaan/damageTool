@@ -1,0 +1,643 @@
+{
+  "schemaVersion": 2,
+  "kind": "genshinBehaviorV2BatchIndex",
+  "generator": {
+    "name": "genshinCharacterV2BehaviorBatch1Generate.cjs",
+    "version": "genshinCharacterV2BehaviorBatch1Generate/1",
+    "capturedAt": "2026-08-15T00:00:00.000Z"
+  },
+  "policy": {
+    "canonical": 0,
+    "runtimeConnection": "forbidden",
+    "proseParsing": "forbidden",
+    "unknownFields": "Unstated values remain unknown; this batch only inventories raw source pointers."
+  },
+  "summary": {
+    "schemaVersion": 2,
+    "batch": 1,
+    "batchCharacters": 8,
+    "inventoryCharacters": 109,
+    "sourceRecords": 119,
+    "inventoryCandidates": 111,
+    "sourceInventoryCandidates": 101,
+    "explicitInventoryCandidates": 69,
+    "unknownInventoryCandidates": 32,
+    "specs": 111,
+    "modifiers": 0,
+    "canonical": 0,
+    "verificationByStatus": {
+      "needsReview": 111
+    },
+    "runtimeByStatus": {
+      "blocked": 111
+    },
+    "sourceRefsResolved": true,
+    "generatedFrom": [
+      {
+        "dataset": "characters.json",
+        "path": "games/genshin/data/characters.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "5d239863352fc896931c0c626e2de1ad60c615e4e376142daa8e2d3a7464c211"
+        }
+      },
+      {
+        "dataset": "character-talents.json",
+        "path": "games/genshin/data/character-talents.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "4263297365929e19b3ac99f9e63158d5033d66cf2b37617bdbccb2d8fb8a5e31"
+        }
+      },
+      {
+        "dataset": "character-constellations.json",
+        "path": "games/genshin/data/character-constellations.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "597d3eb254ccc9cc2fec3d3e7c9bf87fd2bdcca60e2140ffcf08778fd9a91e4e"
+        }
+      },
+      {
+        "dataset": "v2/characters/behavior-inventory.json",
+        "path": "games/genshin/data/v2/characters/behavior-inventory.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "8dab639cc3d2b8472fcb9c4eeb7dc98d4d618bd7729e7541fac1fbf9f0d376de"
+        }
+      }
+    ],
+    "batchIds": [
+      "10000002",
+      "10000003",
+      "10000005",
+      "10000006",
+      "10000007",
+      "10000014",
+      "10000015",
+      "10000016"
+    ],
+    "excludedPilotIds": [
+      "10000026",
+      "10000031",
+      "10000037",
+      "10000046",
+      "10000058",
+      "10000089",
+      "10000094",
+      "10000098"
+    ],
+    "sourceKinds": {
+      "primaryDataset": 119
+    }
+  },
+  "batch": 1,
+  "batchIds": [
+    "10000002",
+    "10000003",
+    "10000005",
+    "10000006",
+    "10000007",
+    "10000014",
+    "10000015",
+    "10000016"
+  ],
+  "excludedPilotIds": [
+    "10000026",
+    "10000031",
+    "10000037",
+    "10000046",
+    "10000058",
+    "10000089",
+    "10000094",
+    "10000098"
+  ],
+  "generatedFrom": [
+    {
+      "dataset": "characters.json",
+      "path": "games/genshin/data/characters.json",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "5d239863352fc896931c0c626e2de1ad60c615e4e376142daa8e2d3a7464c211"
+      }
+    },
+    {
+      "dataset": "character-talents.json",
+      "path": "games/genshin/data/character-talents.json",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "4263297365929e19b3ac99f9e63158d5033d66cf2b37617bdbccb2d8fb8a5e31"
+      }
+    },
+    {
+      "dataset": "character-constellations.json",
+      "path": "games/genshin/data/character-constellations.json",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "597d3eb254ccc9cc2fec3d3e7c9bf87fd2bdcca60e2140ffcf08778fd9a91e4e"
+      }
+    },
+    {
+      "dataset": "v2/characters/behavior-inventory.json",
+      "path": "games/genshin/data/v2/characters/behavior-inventory.json",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "8dab639cc3d2b8472fcb9c4eeb7dc98d4d618bd7729e7541fac1fbf9f0d376de"
+      }
+    }
+  ],
+  "byCharacter": {
+    "10000002": {
+      "characterId": "10000002",
+      "characterName": "神里綾華",
+      "status": "needsReview",
+      "canonical": 0,
+      "sourceRecordIds": [
+        "source:10000002:catalog",
+        "source:10000002:constellation:1:effectText",
+        "source:10000002:constellation:2:effectText",
+        "source:10000002:constellation:3:effectText",
+        "source:10000002:constellation:4:effectText",
+        "source:10000002:constellation:5:effectText",
+        "source:10000002:constellation:6:effectText",
+        "source:10000002:talent:burst:descriptionJa",
+        "source:10000002:talent:normalattack:chargedDescriptionJa",
+        "source:10000002:talent:normalattack:normalDescriptionJa",
+        "source:10000002:talent:normalattack:plungingDescriptionJa",
+        "source:10000002:talent:passive:passive-1:descriptionJa",
+        "source:10000002:talent:passive:passive-2:descriptionJa",
+        "source:10000002:talent:passive:passive-utility:descriptionJa",
+        "source:10000002:talent:skill:descriptionJa",
+        "source:10000002:talent:special:descriptionJa"
+      ],
+      "inventoryCandidateIds": [
+        "behavior-inventory:batch-1:10000002:burst",
+        "behavior-inventory:batch-1:10000002:constellation-1",
+        "behavior-inventory:batch-1:10000002:constellation-2",
+        "behavior-inventory:batch-1:10000002:constellation-3",
+        "behavior-inventory:batch-1:10000002:constellation-4",
+        "behavior-inventory:batch-1:10000002:constellation-5",
+        "behavior-inventory:batch-1:10000002:constellation-6",
+        "behavior-inventory:batch-1:10000002:normalattack-charged",
+        "behavior-inventory:batch-1:10000002:normalattack-normal",
+        "behavior-inventory:batch-1:10000002:normalattack-plunging",
+        "behavior-inventory:batch-1:10000002:passives-passive-1",
+        "behavior-inventory:batch-1:10000002:passives-passive-2",
+        "behavior-inventory:batch-1:10000002:passives-passive-utility",
+        "behavior-inventory:batch-1:10000002:skill",
+        "behavior-inventory:batch-1:10000002:special"
+      ],
+      "specIds": [
+        "behavior:10000002:constellation:constellation-1",
+        "behavior:10000002:constellation:constellation-2",
+        "behavior:10000002:constellation:constellation-3",
+        "behavior:10000002:constellation:constellation-4",
+        "behavior:10000002:constellation:constellation-5",
+        "behavior:10000002:constellation:constellation-6",
+        "behavior:10000002:talent:burst",
+        "behavior:10000002:talent:normalattack-charged",
+        "behavior:10000002:talent:normalattack-normal",
+        "behavior:10000002:talent:normalattack-plunging",
+        "behavior:10000002:talent:passives-passive-1",
+        "behavior:10000002:talent:passives-passive-2",
+        "behavior:10000002:talent:passives-passive-utility",
+        "behavior:10000002:talent:skill",
+        "behavior:10000002:talent:special"
+      ],
+      "modifierIds": [],
+      "reasons": [
+        "FIXED_BATCH_1",
+        "PILOT_EXCLUDED",
+        "RAW_SOURCE_POINTER_ONLY",
+        "RUNTIME_CONNECTION_ZERO"
+      ]
+    },
+    "10000003": {
+      "characterId": "10000003",
+      "characterName": "ジン",
+      "status": "needsReview",
+      "canonical": 0,
+      "sourceRecordIds": [
+        "source:10000003:catalog",
+        "source:10000003:constellation:1:effectText",
+        "source:10000003:constellation:2:effectText",
+        "source:10000003:constellation:3:effectText",
+        "source:10000003:constellation:4:effectText",
+        "source:10000003:constellation:5:effectText",
+        "source:10000003:constellation:6:effectText",
+        "source:10000003:talent:burst:descriptionJa",
+        "source:10000003:talent:normalattack:chargedDescriptionJa",
+        "source:10000003:talent:normalattack:normalDescriptionJa",
+        "source:10000003:talent:normalattack:plungingDescriptionJa",
+        "source:10000003:talent:passive:passive-1:descriptionJa",
+        "source:10000003:talent:passive:passive-2:descriptionJa",
+        "source:10000003:talent:passive:passive-utility:descriptionJa",
+        "source:10000003:talent:skill:descriptionJa"
+      ],
+      "inventoryCandidateIds": [
+        "behavior-inventory:batch-1:10000003:burst",
+        "behavior-inventory:batch-1:10000003:constellation-1",
+        "behavior-inventory:batch-1:10000003:constellation-2",
+        "behavior-inventory:batch-1:10000003:constellation-3",
+        "behavior-inventory:batch-1:10000003:constellation-4",
+        "behavior-inventory:batch-1:10000003:constellation-5",
+        "behavior-inventory:batch-1:10000003:constellation-6",
+        "behavior-inventory:batch-1:10000003:normalattack-charged",
+        "behavior-inventory:batch-1:10000003:normalattack-normal",
+        "behavior-inventory:batch-1:10000003:normalattack-plunging",
+        "behavior-inventory:batch-1:10000003:passives-passive-1",
+        "behavior-inventory:batch-1:10000003:passives-passive-2",
+        "behavior-inventory:batch-1:10000003:passives-passive-utility",
+        "behavior-inventory:batch-1:10000003:skill"
+      ],
+      "specIds": [
+        "behavior:10000003:constellation:constellation-1",
+        "behavior:10000003:constellation:constellation-2",
+        "behavior:10000003:constellation:constellation-3",
+        "behavior:10000003:constellation:constellation-4",
+        "behavior:10000003:constellation:constellation-5",
+        "behavior:10000003:constellation:constellation-6",
+        "behavior:10000003:talent:burst",
+        "behavior:10000003:talent:normalattack-charged",
+        "behavior:10000003:talent:normalattack-normal",
+        "behavior:10000003:talent:normalattack-plunging",
+        "behavior:10000003:talent:passives-passive-1",
+        "behavior:10000003:talent:passives-passive-2",
+        "behavior:10000003:talent:passives-passive-utility",
+        "behavior:10000003:talent:skill"
+      ],
+      "modifierIds": [],
+      "reasons": [
+        "FIXED_BATCH_1",
+        "PILOT_EXCLUDED",
+        "RAW_SOURCE_POINTER_ONLY",
+        "RUNTIME_CONNECTION_ZERO"
+      ]
+    },
+    "10000005": {
+      "characterId": "10000005",
+      "characterName": "旅人",
+      "status": "needsReview",
+      "canonical": 0,
+      "sourceRecordIds": [
+        "source:10000005:catalog",
+        "source:10000005:constellation:1:effectText",
+        "source:10000005:constellation:2:effectText",
+        "source:10000005:constellation:3:effectText",
+        "source:10000005:constellation:4:effectText",
+        "source:10000005:constellation:5:effectText",
+        "source:10000005:constellation:6:effectText",
+        "source:10000005:talent:burst:descriptionJa",
+        "source:10000005:talent:normalattack:chargedDescriptionJa",
+        "source:10000005:talent:normalattack:normalDescriptionJa",
+        "source:10000005:talent:normalattack:plungingDescriptionJa",
+        "source:10000005:talent:passive:passive-1:descriptionJa",
+        "source:10000005:talent:passive:passive-2:descriptionJa",
+        "source:10000005:talent:skill:descriptionJa"
+      ],
+      "inventoryCandidateIds": [
+        "behavior-inventory:batch-1:10000005:burst",
+        "behavior-inventory:batch-1:10000005:constellation-1",
+        "behavior-inventory:batch-1:10000005:constellation-2",
+        "behavior-inventory:batch-1:10000005:constellation-3",
+        "behavior-inventory:batch-1:10000005:constellation-4",
+        "behavior-inventory:batch-1:10000005:constellation-5",
+        "behavior-inventory:batch-1:10000005:constellation-6",
+        "behavior-inventory:batch-1:10000005:normalattack-charged",
+        "behavior-inventory:batch-1:10000005:normalattack-normal",
+        "behavior-inventory:batch-1:10000005:normalattack-plunging",
+        "behavior-inventory:batch-1:10000005:passives-passive-1",
+        "behavior-inventory:batch-1:10000005:passives-passive-2",
+        "behavior-inventory:batch-1:10000005:skill"
+      ],
+      "specIds": [
+        "behavior:10000005:constellation:constellation-1",
+        "behavior:10000005:constellation:constellation-2",
+        "behavior:10000005:constellation:constellation-3",
+        "behavior:10000005:constellation:constellation-4",
+        "behavior:10000005:constellation:constellation-5",
+        "behavior:10000005:constellation:constellation-6",
+        "behavior:10000005:talent:burst",
+        "behavior:10000005:talent:normalattack-charged",
+        "behavior:10000005:talent:normalattack-normal",
+        "behavior:10000005:talent:normalattack-plunging",
+        "behavior:10000005:talent:passives-passive-1",
+        "behavior:10000005:talent:passives-passive-2",
+        "behavior:10000005:talent:skill"
+      ],
+      "modifierIds": [],
+      "reasons": [
+        "FIXED_BATCH_1",
+        "PILOT_EXCLUDED",
+        "RAW_SOURCE_POINTER_ONLY",
+        "RUNTIME_CONNECTION_ZERO"
+      ]
+    },
+    "10000006": {
+      "characterId": "10000006",
+      "characterName": "リサ",
+      "status": "needsReview",
+      "canonical": 0,
+      "sourceRecordIds": [
+        "source:10000006:catalog",
+        "source:10000006:constellation:1:effectText",
+        "source:10000006:constellation:2:effectText",
+        "source:10000006:constellation:3:effectText",
+        "source:10000006:constellation:4:effectText",
+        "source:10000006:constellation:5:effectText",
+        "source:10000006:constellation:6:effectText",
+        "source:10000006:talent:burst:descriptionJa",
+        "source:10000006:talent:normalattack:chargedDescriptionJa",
+        "source:10000006:talent:normalattack:normalDescriptionJa",
+        "source:10000006:talent:normalattack:plungingDescriptionJa",
+        "source:10000006:talent:passive:passive-1:descriptionJa",
+        "source:10000006:talent:passive:passive-2:descriptionJa",
+        "source:10000006:talent:passive:passive-utility:descriptionJa",
+        "source:10000006:talent:skill:descriptionJa"
+      ],
+      "inventoryCandidateIds": [
+        "behavior-inventory:batch-1:10000006:burst",
+        "behavior-inventory:batch-1:10000006:constellation-1",
+        "behavior-inventory:batch-1:10000006:constellation-2",
+        "behavior-inventory:batch-1:10000006:constellation-3",
+        "behavior-inventory:batch-1:10000006:constellation-4",
+        "behavior-inventory:batch-1:10000006:constellation-5",
+        "behavior-inventory:batch-1:10000006:constellation-6",
+        "behavior-inventory:batch-1:10000006:normalattack-charged",
+        "behavior-inventory:batch-1:10000006:normalattack-normal",
+        "behavior-inventory:batch-1:10000006:normalattack-plunging",
+        "behavior-inventory:batch-1:10000006:passives-passive-1",
+        "behavior-inventory:batch-1:10000006:passives-passive-2",
+        "behavior-inventory:batch-1:10000006:passives-passive-utility",
+        "behavior-inventory:batch-1:10000006:skill"
+      ],
+      "specIds": [
+        "behavior:10000006:constellation:constellation-1",
+        "behavior:10000006:constellation:constellation-2",
+        "behavior:10000006:constellation:constellation-3",
+        "behavior:10000006:constellation:constellation-4",
+        "behavior:10000006:constellation:constellation-5",
+        "behavior:10000006:constellation:constellation-6",
+        "behavior:10000006:talent:burst",
+        "behavior:10000006:talent:normalattack-charged",
+        "behavior:10000006:talent:normalattack-normal",
+        "behavior:10000006:talent:normalattack-plunging",
+        "behavior:10000006:talent:passives-passive-1",
+        "behavior:10000006:talent:passives-passive-2",
+        "behavior:10000006:talent:passives-passive-utility",
+        "behavior:10000006:talent:skill"
+      ],
+      "modifierIds": [],
+      "reasons": [
+        "FIXED_BATCH_1",
+        "PILOT_EXCLUDED",
+        "RAW_SOURCE_POINTER_ONLY",
+        "RUNTIME_CONNECTION_ZERO"
+      ]
+    },
+    "10000007": {
+      "characterId": "10000007",
+      "characterName": "旅人",
+      "status": "needsReview",
+      "canonical": 0,
+      "sourceRecordIds": [
+        "source:10000007:catalog",
+        "source:10000007:constellation:1:effectText",
+        "source:10000007:constellation:2:effectText",
+        "source:10000007:constellation:3:effectText",
+        "source:10000007:constellation:4:effectText",
+        "source:10000007:constellation:5:effectText",
+        "source:10000007:constellation:6:effectText",
+        "source:10000007:talent:burst:descriptionJa",
+        "source:10000007:talent:normalattack:chargedDescriptionJa",
+        "source:10000007:talent:normalattack:normalDescriptionJa",
+        "source:10000007:talent:normalattack:plungingDescriptionJa",
+        "source:10000007:talent:passive:passive-1:descriptionJa",
+        "source:10000007:talent:passive:passive-2:descriptionJa",
+        "source:10000007:talent:skill:descriptionJa"
+      ],
+      "inventoryCandidateIds": [
+        "behavior-inventory:batch-1:10000007:burst",
+        "behavior-inventory:batch-1:10000007:constellation-1",
+        "behavior-inventory:batch-1:10000007:constellation-2",
+        "behavior-inventory:batch-1:10000007:constellation-3",
+        "behavior-inventory:batch-1:10000007:constellation-4",
+        "behavior-inventory:batch-1:10000007:constellation-5",
+        "behavior-inventory:batch-1:10000007:constellation-6",
+        "behavior-inventory:batch-1:10000007:normalattack-charged",
+        "behavior-inventory:batch-1:10000007:normalattack-normal",
+        "behavior-inventory:batch-1:10000007:normalattack-plunging",
+        "behavior-inventory:batch-1:10000007:passives-passive-1",
+        "behavior-inventory:batch-1:10000007:passives-passive-2",
+        "behavior-inventory:batch-1:10000007:skill"
+      ],
+      "specIds": [
+        "behavior:10000007:constellation:constellation-1",
+        "behavior:10000007:constellation:constellation-2",
+        "behavior:10000007:constellation:constellation-3",
+        "behavior:10000007:constellation:constellation-4",
+        "behavior:10000007:constellation:constellation-5",
+        "behavior:10000007:constellation:constellation-6",
+        "behavior:10000007:talent:burst",
+        "behavior:10000007:talent:normalattack-charged",
+        "behavior:10000007:talent:normalattack-normal",
+        "behavior:10000007:talent:normalattack-plunging",
+        "behavior:10000007:talent:passives-passive-1",
+        "behavior:10000007:talent:passives-passive-2",
+        "behavior:10000007:talent:skill"
+      ],
+      "modifierIds": [],
+      "reasons": [
+        "FIXED_BATCH_1",
+        "PILOT_EXCLUDED",
+        "RAW_SOURCE_POINTER_ONLY",
+        "RUNTIME_CONNECTION_ZERO"
+      ]
+    },
+    "10000014": {
+      "characterId": "10000014",
+      "characterName": "バーバラ",
+      "status": "needsReview",
+      "canonical": 0,
+      "sourceRecordIds": [
+        "source:10000014:catalog",
+        "source:10000014:constellation:1:effectText",
+        "source:10000014:constellation:2:effectText",
+        "source:10000014:constellation:3:effectText",
+        "source:10000014:constellation:4:effectText",
+        "source:10000014:constellation:5:effectText",
+        "source:10000014:constellation:6:effectText",
+        "source:10000014:talent:burst:descriptionJa",
+        "source:10000014:talent:normalattack:chargedDescriptionJa",
+        "source:10000014:talent:normalattack:normalDescriptionJa",
+        "source:10000014:talent:normalattack:plungingDescriptionJa",
+        "source:10000014:talent:passive:passive-1:descriptionJa",
+        "source:10000014:talent:passive:passive-2:descriptionJa",
+        "source:10000014:talent:passive:passive-utility:descriptionJa",
+        "source:10000014:talent:skill:descriptionJa"
+      ],
+      "inventoryCandidateIds": [
+        "behavior-inventory:batch-1:10000014:burst",
+        "behavior-inventory:batch-1:10000014:constellation-1",
+        "behavior-inventory:batch-1:10000014:constellation-2",
+        "behavior-inventory:batch-1:10000014:constellation-3",
+        "behavior-inventory:batch-1:10000014:constellation-4",
+        "behavior-inventory:batch-1:10000014:constellation-5",
+        "behavior-inventory:batch-1:10000014:constellation-6",
+        "behavior-inventory:batch-1:10000014:normalattack-charged",
+        "behavior-inventory:batch-1:10000014:normalattack-normal",
+        "behavior-inventory:batch-1:10000014:normalattack-plunging",
+        "behavior-inventory:batch-1:10000014:passives-passive-1",
+        "behavior-inventory:batch-1:10000014:passives-passive-2",
+        "behavior-inventory:batch-1:10000014:passives-passive-utility",
+        "behavior-inventory:batch-1:10000014:skill"
+      ],
+      "specIds": [
+        "behavior:10000014:constellation:constellation-1",
+        "behavior:10000014:constellation:constellation-2",
+        "behavior:10000014:constellation:constellation-3",
+        "behavior:10000014:constellation:constellation-4",
+        "behavior:10000014:constellation:constellation-5",
+        "behavior:10000014:constellation:constellation-6",
+        "behavior:10000014:talent:burst",
+        "behavior:10000014:talent:normalattack-charged",
+        "behavior:10000014:talent:normalattack-normal",
+        "behavior:10000014:talent:normalattack-plunging",
+        "behavior:10000014:talent:passives-passive-1",
+        "behavior:10000014:talent:passives-passive-2",
+        "behavior:10000014:talent:passives-passive-utility",
+        "behavior:10000014:talent:skill"
+      ],
+      "modifierIds": [],
+      "reasons": [
+        "FIXED_BATCH_1",
+        "PILOT_EXCLUDED",
+        "RAW_SOURCE_POINTER_ONLY",
+        "RUNTIME_CONNECTION_ZERO"
+      ]
+    },
+    "10000015": {
+      "characterId": "10000015",
+      "characterName": "ガイア",
+      "status": "needsReview",
+      "canonical": 0,
+      "sourceRecordIds": [
+        "source:10000015:catalog",
+        "source:10000015:constellation:1:effectText",
+        "source:10000015:constellation:2:effectText",
+        "source:10000015:constellation:3:effectText",
+        "source:10000015:constellation:4:effectText",
+        "source:10000015:constellation:5:effectText",
+        "source:10000015:constellation:6:effectText",
+        "source:10000015:talent:burst:descriptionJa",
+        "source:10000015:talent:normalattack:chargedDescriptionJa",
+        "source:10000015:talent:normalattack:normalDescriptionJa",
+        "source:10000015:talent:normalattack:plungingDescriptionJa",
+        "source:10000015:talent:passive:passive-1:descriptionJa",
+        "source:10000015:talent:passive:passive-2:descriptionJa",
+        "source:10000015:talent:passive:passive-utility:descriptionJa",
+        "source:10000015:talent:skill:descriptionJa"
+      ],
+      "inventoryCandidateIds": [
+        "behavior-inventory:batch-1:10000015:burst",
+        "behavior-inventory:batch-1:10000015:constellation-1",
+        "behavior-inventory:batch-1:10000015:constellation-2",
+        "behavior-inventory:batch-1:10000015:constellation-3",
+        "behavior-inventory:batch-1:10000015:constellation-4",
+        "behavior-inventory:batch-1:10000015:constellation-5",
+        "behavior-inventory:batch-1:10000015:constellation-6",
+        "behavior-inventory:batch-1:10000015:normalattack-charged",
+        "behavior-inventory:batch-1:10000015:normalattack-normal",
+        "behavior-inventory:batch-1:10000015:normalattack-plunging",
+        "behavior-inventory:batch-1:10000015:passives-passive-1",
+        "behavior-inventory:batch-1:10000015:passives-passive-2",
+        "behavior-inventory:batch-1:10000015:passives-passive-utility",
+        "behavior-inventory:batch-1:10000015:skill"
+      ],
+      "specIds": [
+        "behavior:10000015:constellation:constellation-1",
+        "behavior:10000015:constellation:constellation-2",
+        "behavior:10000015:constellation:constellation-3",
+        "behavior:10000015:constellation:constellation-4",
+        "behavior:10000015:constellation:constellation-5",
+        "behavior:10000015:constellation:constellation-6",
+        "behavior:10000015:talent:burst",
+        "behavior:10000015:talent:normalattack-charged",
+        "behavior:10000015:talent:normalattack-normal",
+        "behavior:10000015:talent:normalattack-plunging",
+        "behavior:10000015:talent:passives-passive-1",
+        "behavior:10000015:talent:passives-passive-2",
+        "behavior:10000015:talent:passives-passive-utility",
+        "behavior:10000015:talent:skill"
+      ],
+      "modifierIds": [],
+      "reasons": [
+        "FIXED_BATCH_1",
+        "PILOT_EXCLUDED",
+        "RAW_SOURCE_POINTER_ONLY",
+        "RUNTIME_CONNECTION_ZERO"
+      ]
+    },
+    "10000016": {
+      "characterId": "10000016",
+      "characterName": "ディルック",
+      "status": "needsReview",
+      "canonical": 0,
+      "sourceRecordIds": [
+        "source:10000016:catalog",
+        "source:10000016:constellation:1:effectText",
+        "source:10000016:constellation:2:effectText",
+        "source:10000016:constellation:3:effectText",
+        "source:10000016:constellation:4:effectText",
+        "source:10000016:constellation:5:effectText",
+        "source:10000016:constellation:6:effectText",
+        "source:10000016:talent:burst:descriptionJa",
+        "source:10000016:talent:normalattack:chargedDescriptionJa",
+        "source:10000016:talent:normalattack:normalDescriptionJa",
+        "source:10000016:talent:normalattack:plungingDescriptionJa",
+        "source:10000016:talent:passive:passive-1:descriptionJa",
+        "source:10000016:talent:passive:passive-2:descriptionJa",
+        "source:10000016:talent:passive:passive-utility:descriptionJa",
+        "source:10000016:talent:skill:descriptionJa"
+      ],
+      "inventoryCandidateIds": [
+        "behavior-inventory:batch-1:10000016:burst",
+        "behavior-inventory:batch-1:10000016:constellation-1",
+        "behavior-inventory:batch-1:10000016:constellation-2",
+        "behavior-inventory:batch-1:10000016:constellation-3",
+        "behavior-inventory:batch-1:10000016:constellation-4",
+        "behavior-inventory:batch-1:10000016:constellation-5",
+        "behavior-inventory:batch-1:10000016:constellation-6",
+        "behavior-inventory:batch-1:10000016:normalattack-charged",
+        "behavior-inventory:batch-1:10000016:normalattack-normal",
+        "behavior-inventory:batch-1:10000016:normalattack-plunging",
+        "behavior-inventory:batch-1:10000016:passives-passive-1",
+        "behavior-inventory:batch-1:10000016:passives-passive-2",
+        "behavior-inventory:batch-1:10000016:passives-passive-utility",
+        "behavior-inventory:batch-1:10000016:skill"
+      ],
+      "specIds": [
+        "behavior:10000016:constellation:constellation-1",
+        "behavior:10000016:constellation:constellation-2",
+        "behavior:10000016:constellation:constellation-3",
+        "behavior:10000016:constellation:constellation-4",
+        "behavior:10000016:constellation:constellation-5",
+        "behavior:10000016:constellation:constellation-6",
+        "behavior:10000016:talent:burst",
+        "behavior:10000016:talent:normalattack-charged",
+        "behavior:10000016:talent:normalattack-normal",
+        "behavior:10000016:talent:normalattack-plunging",
+        "behavior:10000016:talent:passives-passive-1",
+        "behavior:10000016:talent:passives-passive-2",
+        "behavior:10000016:talent:passives-passive-utility",
+        "behavior:10000016:talent:skill"
+      ],
+      "modifierIds": [],
+      "reasons": [
+        "FIXED_BATCH_1",
+        "PILOT_EXCLUDED",
+        "RAW_SOURCE_POINTER_ONLY",
+        "RUNTIME_CONNECTION_ZERO"
+      ]
+    }
+  }
+}

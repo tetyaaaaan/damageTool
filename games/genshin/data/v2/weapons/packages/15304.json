@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "weapon",
+    "id": "15304"
+  },
+  "sourceRefs": [
+    "weapon:15304:catalog",
+    "weapon:15304:effect"
+  ],
+  "modifierIds": [
+    "w_15304_damageBonus_f4fa036a",
+    "w_15304_damage_1",
+    "w_15304_damage_2"
+  ],
+  "specIds": [
+    "w_15304_damageBonus_f4fa036a",
+    "w_15304_damage_1",
+    "w_15304_damage_2"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Weapon package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:weapon:15304:w_15304_damageBonus_f4fa036a",
+      "genshin:v2:weapon:15304:w_15304_damage_1",
+      "genshin:v2:weapon:15304:w_15304_damage_2"
+    ],
+    "generator": "genshinWeaponV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

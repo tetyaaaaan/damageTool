@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 2,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 2,
+    "status": "passed",
+    "batch": 12,
+    "batchCharacters": 1,
+    "sourceRecords": 15,
+    "inventoryCandidates": 14,
+    "specs": 14,
+    "modifiers": 0,
+    "canonical": 0,
+    "inventoryInputCandidates": 12,
+    "explicitCandidateOperations": 4,
+    "unknownCandidateIds": 8,
+    "sourceInventoryCandidates": 12,
+    "explicitInventoryCandidates": 4,
+    "unknownInventoryCandidates": 8,
+    "verificationByStatus": {
+      "needsReview": 14
+    },
+    "runtimeByStatus": {
+      "blocked": 14
+    },
+    "sourceKinds": {
+      "primaryDataset": 15
+    },
+    "contract": {
+      "malformedSources": 0,
+      "malformedInventory": 0,
+      "malformedSpecs": 0,
+      "malformedByCharacter": 0,
+      "missingSourceRefs": 0,
+      "missingInventoryRefs": 0,
+      "inputDigestMismatches": 0,
+      "unknownFieldViolations": 0,
+      "numericInferenceViolations": 0,
+      "inventoryCandidateViolations": 0,
+      "schemaViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [],
+  "malformedSources": [],
+  "malformedInventory": [],
+  "malformedSpecs": [],
+  "malformedByCharacter": [],
+  "missingSourceRefs": [],
+  "missingInventoryRefs": [],
+  "inputDigestMismatches": [],
+  "unknownFieldViolations": [],
+  "numericInferenceViolations": [],
+  "inventoryCandidateViolations": [],
+  "schemaViolations": [],
+  "characterCoverage": [
+    {
+      "characterId": "10000133",
+      "characterName": "サンドローネ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 12,
+      "explicitCandidateOperations": 4,
+      "unknownCandidateIds": 8,
+      "modifiers": 0,
+      "canonical": 0
+    }
+  ],
+  "generatedFromDisk": true
+}

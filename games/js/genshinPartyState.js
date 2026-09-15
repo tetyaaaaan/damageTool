@@ -9,6 +9,9 @@
     let characters = [];
     let weapons = [];
     let artifactSets = [];
+    let uidMembersByCharacterId = new Map();
+    let applyingImportedMember = false;
+    const partyConditionStateByKey = {};
 
     function clamp(value, min, max, fallback) {
         const number = Number(value);
@@ -19,6 +22,21 @@
         const raw = String(byId(id)?.value || "").trim();
         const number = Number(raw);
         return raw && Number.isFinite(number) ? number : 0;
+    }
+
+    // Keep profileSnapshot immutable at the PartyState boundary.  The data
+    // contract owns the canonical clone helper; the small fallback keeps this
+    // module safe when loaded in isolation (for example, contract tests).
+    function cloneProfileSnapshot(value) {
+        if (!value || typeof value !== "object") return null;
+        if (typeof window.GenshinDataContract?.cloneProfileSnapshot === "function") {
+            return window.GenshinDataContract.cloneProfileSnapshot(value);
+        }
+        try {
+            return JSON.parse(JSON.stringify(value));
+        } catch (_error) {
+            return null;
+        }
     }
 
     function emptySupportMember(slot) {
@@ -37,7 +55,8 @@
             equipment: { weaponId: "", weaponNameJa: "", weaponLevel: 90, weaponAscension: null, refinement: 1, artifactSetMode: "4pc", artifactSetIds: [] },
             stats: { baseHp: 0, baseAtk: 0, baseDef: 0, hp: 0, atk: 0, def: 0, elementalMastery: 0 },
             combatState: { onField: false, hpRatio: 100 },
-            buffStates: {}
+            buffStates: {},
+            provenance: { source: "manual", rawCharacterId: "" }
         };
     }
 
@@ -61,8 +80,25 @@
             equipment: { ...base.equipment, ...(member?.equipment || {}) },
             stats: { ...base.stats, ...(member?.stats || {}) },
             combatState: { ...base.combatState, ...(member?.combatState || {}), onField: false },
-            buffStates: { ...(member?.buffStates || {}) }
+            buffStates: { ...(member?.buffStates || {}) },
+            provenance: { ...base.provenance, ...(member?.provenance || {}) },
+            ...(member?.profileSnapshot ? { profileSnapshot: cloneProfileSnapshot(member.profileSnapshot) } : {})
         };
+    }
+
+    function cloneConditionStates(value) {
+        return Object.fromEntries(Object.entries(value || {})
+            .filter(([, state]) => state && typeof state === "object" && !Array.isArray(state))
+            .map(([key, state]) => [String(key), { ...state }]));
+    }
+
+    function activeConditionStates(value, members) {
+        const prefixes = (members || [])
+            .filter((member) => Number(member?.slot) > 1 && member.enabled && member.characterId)
+            .map((member) => `party:${member.slot}:${member.characterId}:`);
+        return cloneConditionStates(value && Object.fromEntries(
+            Object.entries(value).filter(([key]) => prefixes.some((prefix) => key.startsWith(prefix)))
+        ));
     }
 
     function normalizePartyState(value, mainMember = {}) {
@@ -87,7 +123,14 @@
             usedCharacterIds.add(member.characterId);
             return member;
         });
-        return { schemaVersion: 2, focusSlot: 1, maxMembers: PARTY_SIZE, resonanceStates: { ...(value?.resonanceStates || {}) }, members: [main, ...supports] };
+        return {
+            schemaVersion: 2,
+            focusSlot: 1,
+            maxMembers: PARTY_SIZE,
+            resonanceStates: { ...(value?.resonanceStates || {}) },
+            conditionStates: activeConditionStates(value?.conditionStates, supports),
+            members: [main, ...supports]
+        };
     }
 
     function characterForId(id) { return characters.find((item) => String(item.id) === String(id)) || null; }
@@ -111,7 +154,7 @@
             <input type="hidden" id="genshinPartyWeapon${slot}" value="">
           </div>
           <div class="genshin-party-artifact-row">
-            <label><span>聖遺物構成</span><select id="genshinPartyArtifactMode${slot}" disabled><option value="4pc">4セット</option><option value="2pc2pc">2＋2</option></select></label>
+            <label><span>聖遺物構成</span><select id="genshinPartyArtifactMode${slot}" disabled><option value="4pc">4セット</option><option value="2pc2pc">2＋2</option><option value="2pc">2セット</option><option value="none">セット効果なし</option></select></label>
             <button type="button" class="genshin-party-pick genshin-party-artifact-pick" id="genshinPartyArtifactOneTrigger${slot}" data-party-select="artifact" data-party-artifact-slot="one" data-party-slot="${slot}" aria-haspopup="dialog" aria-controls="genshinSelectionDialog" disabled>
               <img id="genshinPartyArtifactOneImage${slot}" src="${FALLBACK_IMAGE}" alt="" width="48" height="48"><span><small>聖遺物</small><strong id="genshinPartyArtifactOneName${slot}">聖遺物を選択</strong></span>
             </button>
@@ -150,10 +193,26 @@
         const weaponId = weapon?.id || "";
         const level = clamp(byId(`genshinPartyLevel${slot}`)?.value, 1, 100, 90);
         const weaponLevel = clamp(byId(`genshinPartyWeaponLevel${slot}`)?.value, 1, 90, 90);
-        const artifactSetMode = byId(`genshinPartyArtifactMode${slot}`)?.value === "2pc2pc" ? "2pc2pc" : "4pc";
+        const artifactModeValue = String(byId(`genshinPartyArtifactMode${slot}`)?.value || "4pc");
+        const artifactSetMode = ["4pc", "2pc2pc", "2pc", "none"].includes(artifactModeValue) ? artifactModeValue : "4pc";
         const artifactSetIds = [String(byId(`genshinPartyArtifactOne${slot}`)?.value || "")];
         if (artifactSetMode === "2pc2pc") artifactSetIds.push(String(byId(`genshinPartyArtifactTwo${slot}`)?.value || ""));
-        const base = window.GenshinBaseStats?.resolveMember?.({ characterId, weaponId, level, weaponLevel }) || {};
+        const imported = uidMembersByCharacterId.get(characterId);
+        const isUidCharacter = byId(`genshinPartyCharacter${slot}`)?.dataset?.valueOrigin === "uid";
+        const profileSnapshot = isUidCharacter ? cloneProfileSnapshot(imported?.profileSnapshot) : null;
+        const useUidBaseStats = isUidCharacter && imported?.stats
+            && byId(`genshinPartyLevel${slot}`)?.dataset?.valueOrigin === "uid"
+            && byId(`genshinPartyWeapon${slot}`)?.dataset?.valueOrigin === "uid"
+            && byId(`genshinPartyWeaponLevel${slot}`)?.dataset?.valueOrigin === "uid"
+            && level === Number(imported.level || 0)
+            && weaponId === String(imported.equipment?.weaponId || "")
+            && weaponLevel === Number(imported.equipment?.weaponLevel || 0);
+        const base = useUidBaseStats
+            ? imported.stats
+            : window.GenshinBaseStats?.resolveMember?.({ characterId, weaponId, level, weaponLevel }) || {};
+        const origins = sectionInputs(slot).map((input) => input.dataset.valueOrigin || "manual");
+        const uidOrigins = origins.filter((origin) => origin === "uid").length;
+        const provenanceSource = uidOrigins === 0 ? "manual" : uidOrigins === origins.length ? "uidProfile" : "mixed";
         return normalizeSupportMember({
             characterId, nameJa: character?.nameJa || "", element: character?.element || "", weaponType: character?.weaponType || "", level,
             constellation: byId(`genshinPartyConstellation${slot}`)?.value,
@@ -168,12 +227,31 @@
                 hp: optionalNumber(`genshinPartyHp${slot}`), atk: optionalNumber(`genshinPartyAtk${slot}`),
                 def: optionalNumber(`genshinPartyDef${slot}`), elementalMastery: optionalNumber(`genshinPartyElementalMastery${slot}`)
             },
-            buffStates: Object.fromEntries(Object.entries(buffStateByKey).filter(([key]) => key.startsWith(`party:${slot}:${characterId}:`)))
+            buffStates: Object.fromEntries(Object.entries(buffStateByKey).filter(([key]) => key.startsWith(`party:${slot}:${characterId}:`))),
+            provenance: {
+                source: provenanceSource,
+                rawCharacterId: isUidCharacter ? imported?.provenance?.rawCharacterId || characterId : characterId,
+                importedAt: isUidCharacter ? imported?.provenance?.importedAt || null : null,
+                includesPersistentBonuses: isUidCharacter ? imported?.provenance?.includesPersistentBonuses ?? true : true,
+                additivePolicy: isUidCharacter ? imported?.provenance?.additivePolicy || "externalModifiersOnly" : "externalModifiersOnly",
+                sourceSnapshot: profileSnapshot
+                    ? imported?.provenance?.sourceSnapshot || profileSnapshot.source || "uidProfile"
+                    : null,
+                retainedFromUid: Boolean(profileSnapshot && (imported?.provenance?.retainedFromUid ?? true)),
+                artifactSetCounts: isUidCharacter ? { ...(imported?.provenance?.artifactSetCounts || {}) } : {}
+            },
+            ...(profileSnapshot ? { profileSnapshot } : {})
         }, slot);
     }
 
     function getSupportState() {
-        return { schemaVersion: 2, resonanceStates: Object.fromEntries(Object.entries(buffStateByKey).filter(([key]) => key.startsWith("resonance:"))), members: SUPPORT_SLOTS.map(readSupportMember) };
+        const members = SUPPORT_SLOTS.map(readSupportMember);
+        return {
+            schemaVersion: 2,
+            resonanceStates: Object.fromEntries(Object.entries(buffStateByKey).filter(([key]) => key.startsWith("resonance:"))),
+            conditionStates: activeConditionStates(partyConditionStateByKey, members),
+            members
+        };
     }
 
     function selectedCharacterIds(exceptSlot = null) {
@@ -203,7 +281,8 @@
         const artifactTwo = artifactForId(byId(`genshinPartyArtifactTwo${slot}`)?.value);
         const selected = Boolean(character);
         const weaponSelected = Boolean(weapon);
-        const artifactMode = byId(`genshinPartyArtifactMode${slot}`)?.value === "2pc2pc" ? "2pc2pc" : "4pc";
+        const artifactModeValue = String(byId(`genshinPartyArtifactMode${slot}`)?.value || "4pc");
+        const artifactMode = ["4pc", "2pc2pc", "2pc", "none"].includes(artifactModeValue) ? artifactModeValue : "4pc";
         const characterImage = byId(`genshinPartyCharacterImage${slot}`);
         const weaponImage = byId(`genshinPartyWeaponImage${slot}`);
         characterImage.src = selected ? `/games/images/genshin/characters/${character.id}.webp` : FALLBACK_IMAGE;
@@ -229,18 +308,82 @@
         updateSummary();
     }
 
+    function writeImportedValue(id, value) {
+        const input = byId(id);
+        if (!input) return;
+        input.value = value === undefined || value === null ? "" : String(value);
+        input.dataset.valueOrigin = "uid";
+    }
+
+    function applyImportedMemberToSlot(slot, member) {
+        if (!member || String(member.characterId || "") !== String(byId(`genshinPartyCharacter${slot}`)?.value || "")) return false;
+        applyingImportedMember = true;
+        try {
+            const character = characterForId(member.characterId);
+            const weapon = weaponForId(member.equipment?.weaponId);
+            const compatibleWeaponId = character && weapon?.weaponType === character.weaponType ? weapon.id : "";
+            const setIds = (member.equipment?.artifactSetIds || []).filter((setId) => artifactForId(setId)).slice(0, 2);
+            writeImportedValue(`genshinPartyCharacter${slot}`, member.characterId);
+            writeImportedValue(`genshinPartyLevel${slot}`, member.level || 90);
+            writeImportedValue(`genshinPartyConstellation${slot}`, member.constellation || 0);
+            writeImportedValue(`genshinPartyNormalTalent${slot}`, member.talentLevels?.normal || 1);
+            writeImportedValue(`genshinPartySkillTalent${slot}`, member.talentLevels?.skill || 1);
+            writeImportedValue(`genshinPartyBurstTalent${slot}`, member.talentLevels?.burst || 1);
+            writeImportedValue(`genshinPartyWeapon${slot}`, compatibleWeaponId);
+            writeImportedValue(`genshinPartyWeaponLevel${slot}`, compatibleWeaponId ? member.equipment?.weaponLevel || 90 : 90);
+            writeImportedValue(`genshinPartyRefinement${slot}`, compatibleWeaponId ? member.equipment?.refinement || 1 : 1);
+            writeImportedValue(`genshinPartyArtifactMode${slot}`, member.equipment?.artifactSetMode || "none");
+            writeImportedValue(`genshinPartyArtifactOne${slot}`, setIds[0] || "");
+            writeImportedValue(`genshinPartyArtifactTwo${slot}`, setIds[1] || "");
+            writeImportedValue(`genshinPartyHp${slot}`, member.stats?.hp || "");
+            writeImportedValue(`genshinPartyAtk${slot}`, member.stats?.atk || "");
+            writeImportedValue(`genshinPartyDef${slot}`, member.stats?.def || "");
+            writeImportedValue(`genshinPartyElementalMastery${slot}`, member.stats?.elementalMastery || "");
+        } finally {
+            applyingImportedMember = false;
+        }
+        syncSlot(slot);
+        return true;
+    }
+
+    function registerUidProfile(detail = {}) {
+        const mapper = window.GenshinProfileMapper;
+        const contract = window.GenshinDataContract;
+        const mappedCharacters = Array.isArray(detail.profile?.characters) ? detail.profile.characters : [];
+        const calculationInputs = mappedCharacters.map((character) => mapper?.toCalculationInput?.(character)).filter(Boolean);
+        if (detail.input?.characterId && !calculationInputs.some((input) => input.characterId === detail.input.characterId)) {
+            calculationInputs.push(detail.input);
+        }
+        uidMembersByCharacterId = new Map(calculationInputs.map((input) => {
+            const member = contract?.createPartyMemberFromCalculationInput?.(input, 2);
+            return [String(input.characterId), member];
+        }).filter(([, member]) => member));
+        SUPPORT_SLOTS.forEach((slot) => {
+            const characterId = String(byId(`genshinPartyCharacter${slot}`)?.value || "");
+            if (characterId && uidMembersByCharacterId.has(characterId)) {
+                applyImportedMemberToSlot(slot, uidMembersByCharacterId.get(characterId));
+            }
+        });
+        updateSummary();
+        return uidMembersByCharacterId.size;
+    }
+
     function setPartySelection(slot, kind, item, artifactSlot = "one") {
         const numericSlot = Number(slot);
         if (!SUPPORT_SLOTS.includes(numericSlot) || (!item && kind !== "artifact")) return false;
         if (kind === "character") {
             if (selectedCharacterIds(numericSlot).includes(String(item.id))) return false;
             byId(`genshinPartyCharacter${numericSlot}`).value = item.id;
+            byId(`genshinPartyCharacter${numericSlot}`).dataset.valueOrigin = "manual";
             const currentWeapon = weaponForId(byId(`genshinPartyWeapon${numericSlot}`).value);
             if (currentWeapon && currentWeapon.weaponType !== item.weaponType) byId(`genshinPartyWeapon${numericSlot}`).value = "";
+            const imported = uidMembersByCharacterId.get(String(item.id));
+            if (imported) return applyImportedMemberToSlot(numericSlot, imported);
         } else if (kind === "weapon") {
             const character = characterForId(byId(`genshinPartyCharacter${numericSlot}`).value);
             if (!character || item.weaponType !== character.weaponType) return false;
             byId(`genshinPartyWeapon${numericSlot}`).value = item.id;
+            byId(`genshinPartyWeapon${numericSlot}`).dataset.valueOrigin = "manual";
         } else if (kind === "artifact") {
             const suffix = artifactSlot === "two" ? "Two" : "One";
             const otherSuffix = suffix === "One" ? "Two" : "One";
@@ -251,12 +394,15 @@
                 byId(`genshinPartyArtifact${otherSuffix}${numericSlot}`).value = "";
             }
             field.value = item?.id || "";
+            field.dataset.valueOrigin = "manual";
         }
         syncSlot(numericSlot);
         return true;
     }
 
     function clearSlot(slot) {
+        clearPartyConditionStates(slot);
+        sectionInputs(slot).forEach((input) => { input.dataset.valueOrigin = "manual"; });
         byId(`genshinPartyCharacter${slot}`).value = "";
         byId(`genshinPartyWeapon${slot}`).value = "";
         byId(`genshinPartyArtifactOne${slot}`).value = "";
@@ -272,6 +418,33 @@
 
     function setBuffEnabled(key, enabled) { if (key) { buffStateByKey[key] = Boolean(enabled); updateSummary(); } }
     function getBuffEnabled(key) { return Boolean(buffStateByKey[key]); }
+
+    function clearPartyConditionStates(slot) {
+        const prefix = `party:${Number(slot)}:`;
+        Object.keys(partyConditionStateByKey)
+            .filter((key) => key.startsWith(prefix))
+            .forEach((key) => delete partyConditionStateByKey[key]);
+    }
+
+    function setPartyConditionState(key, kind, value) {
+        const normalizedKey = String(key || "");
+        const normalizedKind = String(kind || "option");
+        if (!normalizedKey || normalizedKind !== "option" || value === undefined || value === null) return false;
+        partyConditionStateByKey[normalizedKey] = {
+            ...(partyConditionStateByKey[normalizedKey] || {}),
+            option: String(value)
+        };
+        return true;
+    }
+
+    function getPartyConditionState(key) {
+        const state = partyConditionStateByKey[String(key || "")];
+        return state ? { ...state } : null;
+    }
+
+    function getPartyConditionStates() {
+        return cloneConditionStates(partyConditionStateByKey);
+    }
 
     async function init() {
         if (window.GenshinIdResolver) {
@@ -293,7 +466,14 @@
             byId(`genshinPartyArtifactTwoTrigger${slot}`)?.addEventListener("click", (event) => window.GenshinSelectionModal?.openPartySelection?.("artifact", slot, event.currentTarget, "two"));
             byId(`genshinPartyCharacterImage${slot}`)?.addEventListener("error", (event) => { event.currentTarget.src = FALLBACK_IMAGE; });
             byId(`genshinPartyWeaponImage${slot}`)?.addEventListener("error", (event) => { event.currentTarget.src = FALLBACK_IMAGE; });
-            sectionInputs(slot).forEach((input) => { input.addEventListener("input", () => syncSlot(slot)); input.addEventListener("change", () => syncSlot(slot)); });
+            sectionInputs(slot).forEach((input) => {
+                const handleChange = () => {
+                    if (!applyingImportedMember) input.dataset.valueOrigin = "manual";
+                    syncSlot(slot);
+                };
+                input.addEventListener("input", handleChange);
+                input.addEventListener("change", handleChange);
+            });
             syncSlot(slot);
         });
         list?.addEventListener("click", (event) => { const button = event.target.closest("[data-party-clear]"); if (button) clearSlot(Number(button.dataset.partyClear)); });
@@ -315,9 +495,14 @@
 
     window.GenshinPartyState = {
         PARTY_SIZE, SUPPORT_SLOTS, emptySupportMember, normalizeSupportMember, normalizePartyState,
-        getSupportState, setBuffEnabled, getBuffEnabled, setPartySelection,
-        selectedCharacterIds, characterForId, weaponForId, artifactForId
+        getSupportState, setBuffEnabled, getBuffEnabled, setPartyConditionState, getPartyConditionState, getPartyConditionStates, setPartySelection,
+        selectedCharacterIds, characterForId, weaponForId, artifactForId,
+        applyImportedMemberToSlot, registerUidProfile
     };
+
+    // UID mapping may finish while the async catalog initialization above is still
+    // pending. Register immediately so the selected profile is never dropped.
+    window.addEventListener?.("genshin:calculation-input-selected", (event) => registerUidProfile(event.detail || {}));
 
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
     else init();

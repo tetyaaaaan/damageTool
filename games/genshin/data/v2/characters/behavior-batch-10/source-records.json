@@ -1,0 +1,3992 @@
+{
+  "source:10000111:catalog": {
+    "id": "source:10000111:catalog",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "characters.json",
+      "record": "/10000111"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "{\"element\":\"雷\",\"nameJa\":\"ヴァレサ\",\"rarity\":5,\"weaponType\":\"法器\"}",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "772c7a9ae5ca67612fa3f4620ee064077eb5811c8038d08652257ef250876e55"
+    },
+    "structuredValue": {
+      "nameJa": "ヴァレサ",
+      "element": "雷",
+      "weaponType": "法器",
+      "rarity": 5
+    },
+    "notes": "Character identity source for batch membership; no behavior values are inferred."
+  },
+  "source:10000111:talent:normalattack:normalDescriptionJa": {
+    "id": "source:10000111:talent:normalattack:normalDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000111/normalAttack",
+      "field": "normalDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "む…無敵のレスラーチャンピオンのように戦う！最大3段の連続攻撃を行い、雷元素ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "b226d4b8ac765ffdc21ca35a250078d830d5e37a91934ede49e4c8f9e76ea6c0"
+    },
+    "structuredValue": {
+      "characterId": "10000111",
+      "component": "normalAttack.normal",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000111:talent:normalattack:chargedDescriptionJa": {
+    "id": "source:10000111:talent:normalattack:chargedDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000111/normalAttack",
+      "field": "chargedDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "一定のスタミナを消費し、頭突きで前方の敵に衝撃をくらわせ、夜魂性質の雷元素ダメージを与え、その勢いを利用して空中に跳び上がる。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "1001425a38e092c9bc4fdd01cc9182f7e713e689deb50a4412292cbc26693dd7"
+    },
+    "structuredValue": {
+      "characterId": "10000111",
+      "component": "normalAttack.charged",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000111:talent:normalattack:plungingDescriptionJa": {
+    "id": "source:10000111:talent:normalattack:plungingDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000111/normalAttack",
+      "field": "plungingDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に夜魂性質の雷元素範囲ダメージを与える。この時、ヴァレサが戦闘状態にある、または今回の落下攻撃が敵に命中した場合、ヴァレサは夜魂値を25獲得する。この方法で夜魂値が上限に達すると、ヴァレサは「猛烈パッション」状態に入る。\n\n猛烈パッション\nこの状態の時、ヴァレサの通常攻撃、重撃、落下攻撃はそれぞれ強化される。\n\n通常攻撃\nレスラーチャンピオンのように勇敢に戦う！最大3段の強烈な攻撃を行い、より大きな雷元素ダメージを与える。\n\n重撃\n一定のスタミナを消費し、前方の敵に強烈な衝撃をくらわせ、夜魂性質のより大きな雷元素ダメージを与え、その勢いを利用して空中に跳び上がる。\n\n落下攻撃\n夜魂値を全て消費し、空中から落下して地面に衝撃を与える。経路上の敵を攻撃し、落下時に夜魂性質のより大きな雷元素範囲ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "5c7f7a7e9576e4e29a0d02354dd6ae9a6d46fade1b1cfb10bb4aef056611b85a"
+    },
+    "structuredValue": {
+      "characterId": "10000111",
+      "component": "normalAttack.plunging",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000111:talent:skill:descriptionJa": {
+    "id": "source:10000111:talent:skill:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000111/skill",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "雷の如く迅速かつ豪快な足運びで、プロレスの真髄を見せる。ヴァレサが前方へと一定距離突進し、経路上の敵に夜魂性質の雷元素ダメージを与える。\n発動後、ヴァレサは夜魂値を20獲得し、「追撃」効果を獲得する。「追撃」効果継続期間中、ヴァレサの中断耐性がアップする。さらに、通常攻撃ボタンを一回押しすると、ヴァレサは瞬時に重撃を繰り出す。なお、この重撃はスタミナを消費しない。「追撃」効果は重撃発動後に解除される。\n一回押しと長押しによって、プロレスのスタイルが変わる。\n\n一回押し\n前方へと素早く一定距離突進する。\n\n長押し\nヴァレサは夜魂の加護状態に入り、「パワフルタックル」モードに切り替わる。\n\nパワフルタックル\n継続的に夜魂値を消費する。この状態の時、ヴァレサの移動速度と中断耐性がアップし、地形の高低差を利用して遠くへ跳んだり、夜魂値を追加消費して水面と液体燃素の上を移動したりでき、また液体燃素によるダメージを無効化できる。\n\n夜魂の加護・ヴァレサ\n夜魂値が尽きると、ヴァレサの夜魂の加護状態は終了する。ヴァレサがパワフルタックルモード、または猛烈パッション状態にある時、常に夜魂の加護状態にあると見なされる。\n\n元素スキルの使用可能回数は2回。ヴァレサが猛烈パッション状態に入ると、元素スキル一回押しを1度のみ追加で使用でき、元素スキルの与えるダメージがアップする。\n\n猛烈パッション\n・猛烈パッション状態でない時、ヴァレサは落下攻撃で夜魂値を回復する。この方法で夜魂値が上限に達する、または元素爆発シャイニングヴェント！を発動した時、ヴァレサは猛烈パッション状態に入る。\n・猛烈パッション状態にある時、ヴァレサの通常攻撃、元素スキル、元素爆発はそれぞれ強化され、落下攻撃発動から短時間、特殊な元素爆発を発動できるようになる。\n・猛烈パッション状態の継続時間は最大15秒。夜魂値を消費、または戦闘状態を解除してしばらく経つと終了する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "8c0b38542ac98ccf30e905068bc24c4308478ccad8cc7b79e962ad5a1803ca21"
+    },
+    "structuredValue": {
+      "characterId": "10000111",
+      "component": "skill",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000111:talent:burst:descriptionJa": {
+    "id": "source:10000111:talent:burst:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000111/burst",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "子供向けの絵本に描かれる正義のヒーローのように空高く跳び上がり、落下の勢いを借りた強力な飛び蹴りをお見舞いし、敵に夜魂性質の雷元素範囲ダメージを与える。\n発動後、ヴァレサは夜魂値を上限まで回復し、猛烈パッション状態に入る。\n\n猛烈パッション状態にある時、ヴァレサの元素爆発は、敵に夜魂性質のより大きな雷元素範囲ダメージを与える。\n\nまた、ヴァレサが猛烈パッション状態で落下攻撃を行った後、短時間の「マキシマムドライブ」状態に入る。\n\nマキシマムドライブ\nヴァレサの中断耐性がアップする。この状態の時、ヴァレサは元素爆発のクールタイムを無視し、より少ない元素エネルギーで特殊な元素爆発「シャイニングヴェント・大火山おろし」を発動できるようになる。「シャイニングヴェント・大火山おろし」を発動すると、強力な落下攻撃・大火山サンダートルネードを繰り出し、着地時に夜魂性質の雷元素範囲ダメージを与え、マキシマムドライブ状態を終了する。このダメージは落下攻撃ダメージと見なされる。\n元素スキル発動後も、マキシマムドライブ状態は終了する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "1758762ffc55d003c828450986d8f9eeefd312d772c04f4b672483986b129cca"
+    },
+    "structuredValue": {
+      "characterId": "10000111",
+      "component": "burst",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000111:talent:passive:passive-1:descriptionJa": {
+    "id": "source:10000111:talent:passive:passive-1:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000111/passives/0",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素スキルホッピング・ナイトレインボー発動後、ヴァレサは継続時間5秒の「レインボークラッシュ」効果を獲得する。\n継続期間中、ヴァレサが落下攻撃を行うと、着地時の落下攻撃ダメージが攻撃力50%分アップする。ヴァレサが猛烈パッション状態だった場合、着地時の落下攻撃ダメージが攻撃力180%分アップするようになる。\n\n「レインボークラッシュ」効果は、着地時の衝撃が敵に命中した時、または継続時間終了時に解除される。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "057ccccf1aec8d0d2b1a38d29a4163cbce81e57f731e413f03ed1a0f99ed29e2"
+    },
+    "structuredValue": {
+      "characterId": "10000111",
+      "component": "passives.passive_1",
+      "field": "descriptionJa",
+      "passiveIndex": 0,
+      "passiveSourceId": "passive_1",
+      "passiveName": "連翔、三段跳び！"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000111:talent:passive:passive-2:descriptionJa": {
+    "id": "source:10000111:talent:passive:passive-2:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000111/passives/1",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "付近にいるチーム内キャラクターが「夜魂バースト」を起こした時、ヴァレサの攻撃力+35%、継続時間12秒。この効果は最大2層まで重ね掛けでき、継続時間は層ごとに独立してカウントされる。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "50d3f08a386dcc6f0fcb04b70135c6424b3b6fea28372b868f88ac1c3046a5cd"
+    },
+    "structuredValue": {
+      "characterId": "10000111",
+      "component": "passives.passive_2",
+      "field": "descriptionJa",
+      "passiveIndex": 1,
+      "passiveSourceId": "passive_2",
+      "passiveName": "ヒーロー、二度目の見参！"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000111:talent:passive:passive-utility:descriptionJa": {
+    "id": "source:10000111:talent:passive:passive-utility:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000111/passives/2",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "夜魂値が尽きると、ヴァレサは代わりに燃素を消費して夜魂の加護状態の「パワフルタックル」モードを維持する。\n燃素を利用できるナタのエリアにいる時、「夜魂トランス：ヴァレサ」を行える。フィールド上にいるキャラクターがダッシュ、特定の天賦による移動状態にある、または一定の高さの空中にいる時、ヴァレサに切り替えて登場すると次の効果が発動する。ヴァレサが夜魂の加護状態に入り、「パワフルタックル」モードに切り替わり、夜魂値を20獲得する。自身のチームにおいて、夜魂トランスは10秒毎に1回のみ発動可能。\nまた、燃素を利用できるナタのエリアにいる時、ヴァレサが地形の高低差を利用して遠くへ跳ぶ時、落下ダメージを受けない。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "d142a9cc0df14088816006c2b4a74ca260022a880b286d0b209707b449e62e42"
+    },
+    "structuredValue": {
+      "characterId": "10000111",
+      "component": "passives.passive_utility",
+      "field": "descriptionJa",
+      "passiveIndex": 2,
+      "passiveSourceId": "passive_utility",
+      "passiveName": "夜域の賜物・悪を焼き尽くす灯り"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000111:constellation:1:effectText": {
+    "id": "source:10000111:constellation:1:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000111/constellations/1",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "固有天賦「連翔、三段跳び！」の効果が強化される。\n特殊な落下攻撃・大火山サンダートルネードを行う時、ヴァレサは継続時間5秒の「レインボークラッシュ」を獲得する。\n「レインボークラッシュ」継続期間中、ヴァレサが猛烈パッション状態であるかに関わらず、落下攻撃を行う時、着地時の落下攻撃ダメージが攻撃力180%分アップするようになる。固有天賦「連翔、三段跳び！」を解放する必要がある。\n\nまた、ヴァレサが夜魂の加護状態での「パワフルタックル」モードにある場合、消費する夜魂値または燃素-30%。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "222516d82e0edbff649e3024f10ee36bf80ee43c0bcfd8a5a030a7a14f854e54"
+    },
+    "structuredValue": {
+      "characterId": "10000111",
+      "level": 1,
+      "nameJa": "燃え続ける情熱"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000111:constellation:2:effectText": {
+    "id": "source:10000111:constellation:2:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000111/constellations/2",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "ヴァレサが落下攻撃を行った後、猛烈パッション状態であるかに関わらず、マキシマムドライブ状態に入る。\nマキシマムドライブ状態では、ヴァレサの中断耐性がさらにアップする。\nまた、ヴァレサの着地時の落下攻撃が敵に命中した時、ヴァレサの元素エネルギーを11.5ポイント回復する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "6e9c5de53271d74451578412b0a75b8a1196fe9dd770b231dd2204bfdc2fdd13"
+    },
+    "structuredValue": {
+      "characterId": "10000111",
+      "level": 2,
+      "nameJa": "天光の極限を超えて"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000111:constellation:3:effectText": {
+    "id": "source:10000111:constellation:3:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000111/constellations/3",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発シャイニングヴェント！のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "5c57f16df21655891ccf78e3da361a4a3f1b64ea8c97804c9b518d9e48751085"
+    },
+    "structuredValue": {
+      "characterId": "10000111",
+      "level": 3,
+      "nameJa": "不撓不屈の決意"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000111:constellation:4:effectText": {
+    "id": "source:10000111:constellation:4:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000111/constellations/4",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発シャイニングヴェント！を発動時、ヴァレサの状態によって、異なる強化効果を得る。\n・猛烈パッション状態またはマキシマムドライブ状態でない場合、ヴァレサは継続時間15秒の「勇往邁進」効果を獲得し、ヴァレサの攻撃力500%分を基に、ヴァレサの着地時の落下攻撃ダメージをアップする。この方法でアップできるダメージは最大20000まで。この効果は着地時の落下攻撃ダメージが敵に命中する、または継続時間終了時に解除される。\n・猛烈パッション状態またはマキシマムドライブ状態にある場合、今回の元素爆発シャイニングヴェント！の与えるダメージ+100%。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "3332b05ee8be3b4f0466770963e133c257e0ac0196e583be4458679a5aeaec3d"
+    },
+    "structuredValue": {
+      "characterId": "10000111",
+      "level": 4,
+      "nameJa": "突き進む勇気"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000111:constellation:5:effectText": {
+    "id": "source:10000111:constellation:5:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000111/constellations/5",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "通常攻撃・バイ・ザ・ホーンズのスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "c106a2508863e5f0ad40377b9124c400e1e7caa36a78239d629e0cb46a6e1b61"
+    },
+    "structuredValue": {
+      "characterId": "10000111",
+      "level": 5,
+      "nameJa": "温かな風に揺れる想い"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000111:constellation:6:effectText": {
+    "id": "source:10000111:constellation:6:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000111/constellations/6",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "マキシマムドライブ状態に入る時、ヴァレサの元素エネルギーを30ポイント回復する。\nヴァレサの落下攻撃と元素爆発シャイニングヴェント！の会心率+10%、会心ダメージ+100%。\nまた、元素スキルホッピング・ナイトレインボーを長押しで発動する時、または「パワフルタックル」モードで元素スキルボタンを一回押しする時、ヴァレサは夜魂値を上限まで回復する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "8121aea74d06849894be5c0477edf2cd868d9cfa9c55539d07ac74ada1408e32"
+    },
+    "structuredValue": {
+      "characterId": "10000111",
+      "level": 6,
+      "nameJa": "正義のヒーローの凱旋"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000112:catalog": {
+    "id": "source:10000112:catalog",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "characters.json",
+      "record": "/10000112"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "{\"element\":\"氷\",\"nameJa\":\"エスコフィエ\",\"rarity\":5,\"weaponType\":\"長柄武器\"}",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "d8ae0d0a19cb1914e8f2216406afe36225d178a5abc46d4f5c02a187a8632d5c"
+    },
+    "structuredValue": {
+      "nameJa": "エスコフィエ",
+      "element": "氷",
+      "weaponType": "長柄武器",
+      "rarity": 5
+    },
+    "notes": "Character identity source for batch membership; no behavior values are inferred."
+  },
+  "source:10000112:talent:normalattack:normalDescriptionJa": {
+    "id": "source:10000112:talent:normalattack:normalDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000112/normalAttack",
+      "field": "normalDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "槍による最大3段の連続攻撃を行う。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "67b7e2cf31601b7e2318ddd51e88bc71627607f5ff17b7c33decc109d1c43ade"
+    },
+    "structuredValue": {
+      "characterId": "10000112",
+      "component": "normalAttack.normal",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000112:talent:normalattack:chargedDescriptionJa": {
+    "id": "source:10000112:talent:normalattack:chargedDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000112/normalAttack",
+      "field": "chargedDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "一定のスタミナを消費し、斬り上げ攻撃を発動する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "2f8791c2a2a9e0107397c2af7c399fdb7be6d0c45df01341dc554b42212a4a90"
+    },
+    "structuredValue": {
+      "characterId": "10000112",
+      "component": "normalAttack.charged",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000112:talent:normalattack:plungingDescriptionJa": {
+    "id": "source:10000112:talent:normalattack:plungingDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000112/normalAttack",
+      "field": "plungingDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "b83a1ad86480667ebf41b77a7cdd020218390453c25efc2e861b5eb689687cde"
+    },
+    "structuredValue": {
+      "characterId": "10000112",
+      "component": "normalAttack.plunging",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000112:talent:skill:descriptionJa": {
+    "id": "source:10000112:talent:skill:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000112/skill",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "「料理」の真髄を目撃せよ！一回押しと長押しによって、フォンテーヌが誇る料理の腕をそれぞれ披露する。\n\n一回押し\n「チルド」モードでマルチスペクトル調理マシナリーを起動し、周囲の敵に氷元素範囲ダメージを与える。\n\n調理マシナリー・チルドモード\nフィールド上キャラクターと共に移動し、一定時間ごとに付近の敵に向かって「フローズン・パフェ」を発射して氷元素ダメージを与える。\n\nアルケー：ウーシア\nエスコフィエが「チルド」モードで調理マシナリーを起動する際、迸発の刃を召喚してウーシアを帯びた氷元素範囲ダメージを与える。一定時間ごとに発動が可能。\n\n長押し\n**「アドリブ・クッキング」モード**でマルチスペクトル調理マシナリーを起動する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "1eab44e5d16a36d8dde16457d1f1369a900d0893f1c57f54afafe4fbac889a12"
+    },
+    "structuredValue": {
+      "characterId": "10000112",
+      "component": "skill",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000112:talent:burst:descriptionJa": {
+    "id": "source:10000112:talent:burst:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000112/burst",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "卓越した包丁さばきを披露し、氷元素範囲ダメージを与え、周囲のチーム全員のHPを回復する。回復量はエスコフィエの攻撃力によって決まる。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "9a1d5e981416909f4ea7c8c6607970e3934875eb5298be66231efa2c24cb9c26"
+    },
+    "structuredValue": {
+      "characterId": "10000112",
+      "component": "burst",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000112:talent:passive:passive-1:descriptionJa": {
+    "id": "source:10000112:talent:passive:passive-1:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000112/passives/0",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**デコ・デコパージュ**を発動した後、エスコフィエは継続時間9秒の「ヒーリング・ディッシュ」効果を獲得する。1秒ごとに、周囲のフィールド上キャラクターのHPを回復する。回復量はエスコフィエの攻撃力138.24%分に相当する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "dc4d34bdd4762c8ef7b9200c67447bf4ed11b73f287d5e5f2947cb255de6379e"
+    },
+    "structuredValue": {
+      "characterId": "10000112",
+      "component": "passives.passive_1",
+      "field": "descriptionJa",
+      "passiveIndex": 0,
+      "passiveSourceId": "passive_1",
+      "passiveName": "美食は良薬に勝る"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000112:talent:passive:passive-2:descriptionJa": {
+    "id": "source:10000112:talent:passive:passive-2:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000112/passives/1",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "チーム内に水元素または氷元素のキャラクターが1/2/3/4名いる時、エスコフィエの元素スキル**ミ・キュイ**もしくは元素爆発**デコ・デコパージュ**が敵に命中時、その敵の水元素耐性と氷元素耐性が、それぞれ-5%/10%/15%/55%、継続時間12秒。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "cca7dda565c5c69c8fa9b40c8ce2d5247012b51c10774e281b1cf6c6989c01a8"
+    },
+    "structuredValue": {
+      "characterId": "10000112",
+      "component": "passives.passive_2",
+      "field": "descriptionJa",
+      "passiveIndex": 1,
+      "passiveSourceId": "passive_2",
+      "passiveName": "シーズニングの中の閃き"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000112:talent:passive:passive-utility:descriptionJa": {
+    "id": "source:10000112:talent:passive:passive-utility:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000112/passives/2",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "長押しで元素スキル**ミ・キュイ**を発動するとき、「アドリブ・クッキング」モードでマルチスペクトル調理マシナリーを起動する。\n\n調理マシナリーのアドリブ・クッキングモード\n・フィールドに調理マシナリーを設置。調理マシナリーは元素攻撃を吸収する。吸収した元素エネルギーがMAXに達すると、エスコフィエが事前に中に仕込んだ食材が美味しい料理へと変わる。\n・新しい食材を仕入れるのには時間がかかる。エスコフィエは毎週、この方法で一定数の料理を作ることができる。料理の制作可能回数は毎週月曜日の4:00（）にリセットされる。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "389671d69c34bdbb329e160b42d55987e30db1d66e1fc8d890d7d8c803fdf0b9"
+    },
+    "structuredValue": {
+      "characterId": "10000112",
+      "component": "passives.passive_utility",
+      "field": "descriptionJa",
+      "passiveIndex": 2,
+      "passiveSourceId": "passive_utility",
+      "passiveName": "アドリブ・キュイジーヌ"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000112:constellation:1:effectText": {
+    "id": "source:10000112:constellation:1:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000112/constellations/1",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "チームにいる4名のキャラクターの元素タイプが水元素または氷元素の時、エスコフィエの元素スキル**ミ・キュイ**または元素爆発**デコ・デコパージュ**発動後の15秒間、周囲のチーム全員が氷元素ダメージを与える時の会心ダメージ+60%。\n固有天賦「シーズニングの中の閃き」を解放する必要がある。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "e846a74f6d6c61e39dc141eb8e8fa85fe52a70f890f2bf2f93387314aa877640"
+    },
+    "structuredValue": {
+      "characterId": "10000112",
+      "level": 1,
+      "nameJa": "味覚咲かす オードブルの円舞"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000112:constellation:2:effectText": {
+    "id": "source:10000112:constellation:2:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000112/constellations/2",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "エスコフィエが**「チルド」モード**で調理マシナリーを起動する時、継続時間15秒の「即席スペシャリテ」効果を獲得する。継続期間中、エスコフィエは「冷製料理」効果を5層獲得する。周囲のフィールド上キャラクター（エスコフィエを除く）の通常攻撃、重撃、落下攻撃、元素スキルまたは元素爆発が敵に氷元素ダメージを与えると、「冷製料理」を1層消費して与えるダメージをエスコフィエの攻撃力240%分アップする。\n一回の氷元素ダメージが同時に複数の敵に命中した場合、命中した敵の数に応じて「冷製料理」の層数が消費される。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "814d21506bb96a5f429f7931a53a14078eb3da97b9f6ff01f7dea05cab702492"
+    },
+    "structuredValue": {
+      "characterId": "10000112",
+      "level": 2,
+      "nameJa": "濃厚ポトフの芸術"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000112:constellation:3:effectText": {
+    "id": "source:10000112:constellation:3:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000112/constellations/3",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素スキル**ミ・キュイ**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "666267aaba8f45b63c8b118299907fe6d8ee6587460b125d042423c04cd45266"
+    },
+    "structuredValue": {
+      "characterId": "10000112",
+      "level": 3,
+      "nameJa": "魔法のキャラメリゼ"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000112:constellation:4:effectText": {
+    "id": "source:10000112:constellation:4:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000112/constellations/4",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "**ヒーリング・ディッシュ**の継続時間+6秒。継続期間中、ヒーリング・ディッシュによる回復効果が発動すると、エスコフィエの会心率に相当する確率で回復量が100%アップし、エスコフィエの元素エネルギーを2ポイント回復する。ヒーリング・ディッシュ継続期間中、この効果は最大7回まで発動可能。\n固有天賦「美食は良薬に勝る」を解放する必要がある。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "e3e8a15c8199e7b3e59d31beefacf6beb634a82fa1e0e7bb5c6ed7e0e9f8064e"
+    },
+    "structuredValue": {
+      "characterId": "10000112",
+      "level": 4,
+      "nameJa": "ローズマリーの秘伝配合"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000112:constellation:5:effectText": {
+    "id": "source:10000112:constellation:5:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000112/constellations/5",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**デコ・デコパージュ**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "35d0f43488d67260b13eb39f587557d26692cb5f411a9f7d28429cff7323af42"
+    },
+    "structuredValue": {
+      "characterId": "10000112",
+      "level": 5,
+      "nameJa": "サウザンドソース・ シンフォニー"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000112:constellation:6:effectText": {
+    "id": "source:10000112:constellation:6:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000112/constellations/6",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "**調理マシナリー・チルドモード**が強化される。\n・フィールド上にいるチーム内の自身のキャラクターの通常攻撃、重撃または落下攻撃が敵に命中すると、調理マシナリー・チルドモードは追加でスペシャル・フローズンパフェを1つ放ち、エスコフィエの攻撃力500%分の氷元素範囲ダメージを与える。このダメージは元素スキルダメージと見なされる。\nこの効果は0.5秒毎に1回のみ発動でき、調理マシナリー・チルドモード継続期間中、最大6回まで発動可能。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "ccc87a6f03ea3906576e9984fea3e4c86a0056514035f147456c1129ad75b869"
+    },
+    "structuredValue": {
+      "characterId": "10000112",
+      "level": 6,
+      "nameJa": "虹色パティスリーの茶話"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000113:catalog": {
+    "id": "source:10000113:catalog",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "characters.json",
+      "record": "/10000113"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "{\"element\":\"風\",\"nameJa\":\"イファ\",\"rarity\":4,\"weaponType\":\"法器\"}",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "8a81295bd3f365ca798354042ad3fbd6b2cb634c89dd59fd0bd799750a240c8a"
+    },
+    "structuredValue": {
+      "nameJa": "イファ",
+      "element": "風",
+      "weaponType": "法器",
+      "rarity": 4
+    },
+    "notes": "Character identity source for batch membership; no behavior values are inferred."
+  },
+  "source:10000113:talent:normalattack:normalDescriptionJa": {
+    "id": "source:10000113:talent:normalattack:normalDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000113/normalAttack",
+      "field": "normalDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "最大3段の連続攻撃を行い、風元素ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "9e8b9616eb8a5f8d5209317302e3471ea6837c2a82d888c0ee4af7d58d7ac373"
+    },
+    "structuredValue": {
+      "characterId": "10000113",
+      "component": "normalAttack.normal",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000113:talent:normalattack:chargedDescriptionJa": {
+    "id": "source:10000113:talent:normalattack:chargedDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000113/normalAttack",
+      "field": "chargedDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "一定のスタミナを消費し、前方を撃ち抜き、風元素範囲ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "2b667f9f5f887048a0cd0fbb3991eb9a7013e2237dc259ed45b8093d1657bc67"
+    },
+    "structuredValue": {
+      "characterId": "10000113",
+      "component": "normalAttack.charged",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000113:talent:normalattack:plungingDescriptionJa": {
+    "id": "source:10000113:talent:normalattack:plungingDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000113/normalAttack",
+      "field": "plungingDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "空中から落下し、地面に衝撃を与える。経路上の敵を攻撃し、落下時に風元素範囲ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "46702aa9aa11e968438faba730ad8cee3fcd7877bee81d1b36ccb4088fea8c2b"
+    },
+    "structuredValue": {
+      "characterId": "10000113",
+      "component": "normalAttack.plunging",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000113:talent:skill:descriptionJa": {
+    "id": "source:10000113:talent:skill:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000113/skill",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "お前の出番だ、きょうだい！イファがカクークを呼び出して一緒に戦う。\n発動後、イファは夜魂値を80獲得し、**夜魂の加護**状態に入る。夜魂の加護状態期間中、イファはカクークの協力によって浮遊状態になり、通常攻撃を行う時、一回押しと長押しによって異なる**「援護射撃」**を行い、チーム全員のHPを回復するアンプルショットを発射する。\n\nまた、夜魂の加護状態時、長押しして元素スキル天翔ける守護を発動すると、イファは代わりに夜魂性質の落下攻撃を行う。スキルボタンを離すと落下攻撃を中断でき、浮遊状態を維持する。落下攻撃中に着地すると、イファの夜魂の加護状態は終了する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "3e26d158b9b1b84296d1b457f5847daa1fb445ae0e0f4ed9ee4b6a7169664341"
+    },
+    "structuredValue": {
+      "characterId": "10000113",
+      "component": "skill",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000113:talent:burst:descriptionJa": {
+    "id": "source:10000113:talent:burst:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000113/burst",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "敵（まだ落ち着いていない）に向かって広域鎮静剤を1発撃つ。広域鎮静剤は命中時に爆発し、抑制風域を生成する。近くのオブジェクトと敵を引き寄せ、夜魂性質の風元素範囲ダメージを与える。\n広域鎮静剤が水元素/炎元素/氷元素/雷元素付着状態の敵に命中すると、敵に**「鎮静マーク」**効果を付与する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "1d68e248c1fac37b2ead055de3e0a2d4266c0e7c5ff9691c632db2a60d404f21"
+    },
+    "structuredValue": {
+      "characterId": "10000113",
+      "component": "burst",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000113:talent:passive:passive-1:descriptionJa": {
+    "id": "source:10000113:talent:passive:passive-1:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000113/passives/0",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "イファが夜魂の加護状態にあるとき、チーム全員の合計夜魂値を基に、夜魂値が1存在するごとに、イファは**「救命の理念」**を1獲得する。救命の理念は付近にいるチーム内キャラクターの起こす拡散、感電、月感電反応のダメージをアップさせる。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "db02463c597fffa0fe7e0fcbed8e4a25f09ad819796070c217f4c512aba4886d"
+    },
+    "structuredValue": {
+      "characterId": "10000113",
+      "component": "passives.passive_1",
+      "field": "descriptionJa",
+      "passiveIndex": 0,
+      "passiveSourceId": "passive_1",
+      "passiveName": "臨床医の大局観"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000113:talent:passive:passive-2:descriptionJa": {
+    "id": "source:10000113:talent:passive:passive-2:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000113/passives/1",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "付近にいるチーム内キャラクターが「夜魂バースト」を起こした時、イファの元素熟知+80、継続時間10秒。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "0a08f884a1b5e7921e4ac06362aa3e7704971f8b956d79a77a15d0bdf47ab44c"
+    },
+    "structuredValue": {
+      "characterId": "10000113",
+      "component": "passives.passive_2",
+      "field": "descriptionJa",
+      "passiveIndex": 1,
+      "passiveSourceId": "passive_2",
+      "passiveName": "相互救援協定"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000113:talent:passive:passive-utility:descriptionJa": {
+    "id": "source:10000113:talent:passive:passive-utility:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000113/passives/2",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "夜魂値が尽きると、イファは代わりに燃素を消費して夜魂の加護状態を維持する。\n燃素を利用できるナタのエリアにいる時、「夜魂トランス：イファ」を行える。フィールド上キャラクターが一定の高さの空中にいる時、イファに切り替えて登場すると次の効果が発動する。イファが夜魂の加護状態に入り、夜魂値を32獲得する。自身のチームにおいて、夜魂トランスは10秒毎に1回のみ発動可能。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "31b1d89c049c76d4ea0632fa24e75dc41430e2b0e429ee5b24ba8a622d86647e"
+    },
+    "structuredValue": {
+      "characterId": "10000113",
+      "component": "passives.passive_utility",
+      "field": "descriptionJa",
+      "passiveIndex": 2,
+      "passiveSourceId": "passive_utility",
+      "passiveName": "夜域の賜物・救急集中治療"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000113:constellation:1:effectText": {
+    "id": "source:10000113:constellation:1:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000113/constellations/1",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "**「援護射撃」**が敵に命中すると、イファの元素エネルギーを6ポイント回復させる。この方法での元素エネルギー回復は8秒毎に1回のみ可能。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "21dd342bc2c2183aaa72635419377966572e817983d785c571213610eea0599b"
+    },
+    "structuredValue": {
+      "characterId": "10000113",
+      "level": 1,
+      "nameJa": "蔓と知恵の霊薬"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000113:constellation:2:effectText": {
+    "id": "source:10000113:constellation:2:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000113/constellations/2",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "イファが夜魂の加護状態にある時、チーム全員の現在の夜魂値の合計が60を超えている部分を基に、その夜魂値1につき、イファは追加で**「救命の理念」**を4獲得する。\nまた、イファの「救命の理念」の所持可能上限+50。\n固有天賦**臨床医の大局観**を解放する必要がある。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "aa5e5cb3750b77c9d435bb13211d5ae96d4e0f554c922e02b298bca63b94c67c"
+    },
+    "structuredValue": {
+      "characterId": "10000113",
+      "level": 2,
+      "nameJa": "祈祷弾道の天佑"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000113:constellation:3:effectText": {
+    "id": "source:10000113:constellation:3:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000113/constellations/3",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素スキル**天翔ける守護**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "35ad409e72ab790e138be56f96ad957ac49d3d9e1ab65993758697e5ab8701fb"
+    },
+    "structuredValue": {
+      "characterId": "10000113",
+      "level": 3,
+      "nameJa": "夜との交渉"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000113:constellation:4:effectText": {
+    "id": "source:10000113:constellation:4:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000113/constellations/4",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**複合鎮静フィールド**による抑制風域の継続時間を3秒に延長する。\nまた、元素爆発複合鎮静フィールドを発動した後、イファの元素熟知+100、継続時間15秒。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "c8e928a788479509ae0259bab3cf0ff31bc63702ef30902c717d0e55dec9841b"
+    },
+    "structuredValue": {
+      "characterId": "10000113",
+      "level": 4,
+      "nameJa": "朽ちた肉体への移植"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000113:constellation:5:effectText": {
+    "id": "source:10000113:constellation:5:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000113/constellations/5",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**複合鎮静フィールド**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "e142c0739da7c3d556ca960d742e450681d0b50d1dd5287a7d8adf7805dc6e7e"
+    },
+    "structuredValue": {
+      "characterId": "10000113",
+      "level": 5,
+      "nameJa": "生命平等の誓い"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000113:constellation:6:effectText": {
+    "id": "source:10000113:constellation:6:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000113/constellations/6",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "イファが長押しして**「援護射撃」**を発動する時、50%の確率でアンプルショットを追加で1発撃ち、イファの攻撃力120%分の風元素ダメージを与える。このダメージは通常攻撃ダメージと見なされる。\nまた、戦闘状態でない時、イファが夜魂の加護状態で消費する夜魂値と燃素-20%。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "629246d77a1f31f3d9cba196488d2795a65d17eeaced6781cb2c8884b4a1eaec"
+    },
+    "structuredValue": {
+      "characterId": "10000113",
+      "level": 6,
+      "nameJa": "羽根に結んだ約束"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000114:catalog": {
+    "id": "source:10000114:catalog",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "characters.json",
+      "record": "/10000114"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "{\"element\":\"氷\",\"nameJa\":\"スカーク\",\"rarity\":5,\"weaponType\":\"片手剣\"}",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "5d248ce5aadffe0ce6c564e01bbc00772b008739301d42827bfe9521442bd04c"
+    },
+    "structuredValue": {
+      "nameJa": "スカーク",
+      "element": "氷",
+      "weaponType": "片手剣",
+      "rarity": 5
+    },
+    "notes": "Character identity source for batch membership; no behavior values are inferred."
+  },
+  "source:10000114:talent:normalattack:normalDescriptionJa": {
+    "id": "source:10000114:talent:normalattack:normalDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000114/normalAttack",
+      "field": "normalDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "最大5段の連続攻撃を行う。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "8bbfbb3e3c873347b44ebeb4eb7e5f63ab889434fe11658b7217654f0ca6d88f"
+    },
+    "structuredValue": {
+      "characterId": "10000114",
+      "component": "normalAttack.normal",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000114:talent:normalattack:chargedDescriptionJa": {
+    "id": "source:10000114:talent:normalattack:chargedDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000114/normalAttack",
+      "field": "chargedDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "一定のスタミナを消費して回転する晶槍を投げ、前方の敵にダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "33f24c33dad3902fec1de2c785b4d5b95fb2d092c3f4d5f60cddffd2bfc93b32"
+    },
+    "structuredValue": {
+      "characterId": "10000114",
+      "component": "normalAttack.charged",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000114:talent:normalattack:plungingDescriptionJa": {
+    "id": "source:10000114:talent:normalattack:plungingDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000114/normalAttack",
+      "field": "plungingDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "b83a1ad86480667ebf41b77a7cdd020218390453c25efc2e861b5eb689687cde"
+    },
+    "structuredValue": {
+      "characterId": "10000114",
+      "component": "normalAttack.plunging",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000114:talent:skill:descriptionJa": {
+    "id": "source:10000114:talent:skill:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000114/skill",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "極悪騎の戦闘スタイルを模倣し、一回押しと長押しで異なる効果を発動する。\n\n一回押し\nスカークは**蛇の狡智**を45獲得し、**七相一閃**モードに入る。\n\n長押し\nスカークは蛇の狡智を45獲得し、高速移動し続ける。この状態の時、スカークの中断耐性がアップする。\nこの間、スカークは高速移動の方向をコントロールでき、水面を移動できる。再びスキルを発動することで高速移動状態を終了できる。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "eb21ef6bb8363a25c3ce4dd7d18f0eb7004321d6049c1b0a5ac5ecd847cf7a99"
+    },
+    "structuredValue": {
+      "characterId": "10000114",
+      "component": "skill",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000114:talent:burst:descriptionJa": {
+    "id": "source:10000114:talent:burst:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000114/burst",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "スカークの元素爆発は元素エネルギーではなく、**蛇の狡智**によって発動される。\nスカークが蛇の狡智を50以上持っている時、すべての蛇の狡智を消費して元素爆発を発動すると、前方の空間を引き裂いて高速の連続斬撃を繰り出し、氷元素範囲ダメージを与える。元素爆発の発動時にスカークが持っていた蛇の狡智が50を超えていた場合、超えた蛇の狡智が1あるごとに、この時発動する元素爆発のダメージがアップする。この場合にカウントされる蛇の狡智は最大12まで。\n\nスカークが**七相一閃**モードの時、元素爆発「極悪技・滅」は「極悪技・尽」に切り替わる。\n\n極悪技・尽\n蛇の狡智を消費せずに発動できる特殊な元素爆発。\n発動後、スカークは凋落効果を獲得し、凋落効果は七相一閃モード終了まで継続する。固有天賦**理の超越**を解放後、スカークは一定範囲内の虚境の裂け目を吸収できるようになる。\n凋落効果の継続中、0.1秒ごとに、スカークの通常攻撃が敵に命中すると、その通常攻撃の与えるダメージがアップする。極悪技・尽を発動して、虚境の裂け目を吸収した時、吸収した虚境の裂け目の数によって、その通常攻撃のダメージがさらにアップする。\nこの効果は10回発動すると解除される。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "9adf20fc866ee25a5011d42e20a3d337887d575d55a953124df6ff96ba5f62b3"
+    },
+    "structuredValue": {
+      "characterId": "10000114",
+      "component": "burst",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000114:talent:passive:passive-1:descriptionJa": {
+    "id": "source:10000114:talent:passive:passive-1:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000114/passives/0",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "付近にいるチーム内キャラクターが敵に凍結、超電導、星電導、氷元素拡散または氷元素結晶反応を起こすと、敵の近くに虚境の裂け目を1つ生成する。この効果は2.5秒毎に1回のみ発動可能。スカーク自身が作った虚境の裂け目は、フィールド上に3つまで存在できる。\n\nスカークは以下の方法で、近くの一定範囲内の虚境の裂け目を吸収できる。\n・**七相一閃**モードの時、重撃が敵に命中する。\n・七相一閃モード時の特殊な元素爆発極悪技・尽を発動する。\n・元素スキル極悪技・閃を長押しして高速移動する。\n\n虚境の裂け目を1つ吸収するごとに、スカークは**蛇の狡智**を8獲得する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "da214d326db1f827df7b712df698d457fda5a9125043b36bedd0af3ae951865e"
+    },
+    "structuredValue": {
+      "characterId": "10000114",
+      "component": "passives.passive_1",
+      "field": "descriptionJa",
+      "passiveIndex": 0,
+      "passiveSourceId": "passive_1",
+      "passiveName": "理の超越"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000114:talent:passive:passive-2:descriptionJa": {
+    "id": "source:10000114:talent:passive:passive-2:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000114/passives/1",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "付近にいるチーム内の水元素キャラクターの水元素攻撃、または付近にいるチーム内の氷元素キャラクター（スカークを除く）の氷元素攻撃が敵に命中すると、スカークは20秒継続する「死川渡り」効果を1層獲得する。この効果は最大3層まで重ね掛けでき、継続時間は層ごとに独立してカウントされる。\nこの方法でスカークは、死川渡り効果をキャラクター1名につき1層獲得できる。\n「死川渡り」効果が1層/2層/3層の時、スカークの**七相一閃**モード時の通常攻撃のダメージは110%/120%/170%となり、元素爆発極悪技・滅のダメージは105%/115%/160%となる。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "970afbe1ea4ee754711131b3ae1a532161ec24d7635bd57eeb5a556fea22bd54"
+    },
+    "structuredValue": {
+      "characterId": "10000114",
+      "component": "passives.passive_2",
+      "field": "descriptionJa",
+      "passiveIndex": 1,
+      "passiveSourceId": "passive_2",
+      "passiveName": "万流帰寂"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000114:talent:passive:passive-utility:descriptionJa": {
+    "id": "source:10000114:talent:passive:passive-utility:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000114/passives/2",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "チーム全員の元素タイプが水元素または氷元素であり、かつ水元素と氷元素のキャラクターが少なくとも一人ずついる時、チーム内の自身のキャラクターの元素スキルLv.+1。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "e158b52678360b5df091e69341cea0206487d4d700014ccb87bf842303fe24fd"
+    },
+    "structuredValue": {
+      "characterId": "10000114",
+      "component": "passives.passive_utility",
+      "field": "descriptionJa",
+      "passiveIndex": 2,
+      "passiveSourceId": "passive_utility",
+      "passiveName": "武芸伝授"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000114:constellation:1:effectText": {
+    "id": "source:10000114:constellation:1:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000114/constellations/1",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "固有天賦**理の超越**の効果が強化される。虚境の裂け目を1つ吸収するたびに、晶刃を1枚召喚し、周囲の敵に対してスカークの攻撃力500%分の氷元素ダメージを与える。このダメージは重撃ダメージとみなされる。\n固有天賦「理の超越」を解放する必要がある。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "afb094ca103a017d0211bc76539213bf828d2b7eb4d310d3320adb2c92018d85"
+    },
+    "structuredValue": {
+      "characterId": "10000114",
+      "level": 1,
+      "nameJa": "悠遠"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000114:constellation:2:effectText": {
+    "id": "source:10000114:constellation:2:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000114/constellations/2",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素スキル極悪技・閃を発動すると、スカークは**蛇の狡智**を追加で10獲得する。\n元素爆発極悪技・滅の元素爆発ダメージアップ効果において、カウントされる蛇の狡智の最大値が10アップする。\nまた、スカークが**七相一閃**モードの特殊元素爆発極悪技・尽を発動後の12.5秒間、攻撃力+70%。この効果はスカークが七相一閃モードを終了すると解除される。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "92caf933ed304d2994337274700e4c6094b59f603e95d42587726ac3799d9b4c"
+    },
+    "structuredValue": {
+      "characterId": "10000114",
+      "level": 2,
+      "nameJa": "落淵"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000114:constellation:3:effectText": {
+    "id": "source:10000114:constellation:3:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000114/constellations/3",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**極悪技・滅**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "88a6bb421ef93c43d835c88f97909f25f7cbc39af4f9338d40ad907bf1e8f6de"
+    },
+    "structuredValue": {
+      "characterId": "10000114",
+      "level": 3,
+      "nameJa": "罪縁"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000114:constellation:4:effectText": {
+    "id": "source:10000114:constellation:4:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000114/constellations/4",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "固有天賦**万流帰寂**の効果が次のように強化される。「死川渡り」効果が1層/2層/3層の時、スカークの攻撃力が10%/20%/40%アップする。\n固有天賦「万流帰寂」を解放する必要がある。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "da4f65f2ee4d6315fc8bc8fe214edd406e3c6bdedf60c8481e93235ee854b11e"
+    },
+    "structuredValue": {
+      "characterId": "10000114",
+      "level": 4,
+      "nameJa": "流断"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000114:constellation:5:effectText": {
+    "id": "source:10000114:constellation:5:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000114/constellations/5",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素スキル**極悪技・閃**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "d8fba6e040e0e12491a47ea2499d208613c3fcb82b1b4d02b8eaf1a3e177c2e2"
+    },
+    "structuredValue": {
+      "characterId": "10000114",
+      "level": 5,
+      "nameJa": "祈念"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000114:constellation:6:effectText": {
+    "id": "source:10000114:constellation:6:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000114/constellations/6",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "固有天賦**理の超越**の効果によって、虚境の裂け目を1つ吸収するたびに、「極悪技・斬」効果を1層獲得する。スカークはこの効果を消費して連携攻撃を行うことができ、さらに**七相一閃**モードでの受けるダメージを軽減できる。効果の継続時間は15秒、最大3層まで。継続時間は層ごとに独立してカウントされる。\n固有天賦「理の超越」を解放する必要がある。\n\n極悪技・斬\n・元素爆発極悪技・滅を発動時、すべての極悪技・斬を消費して連携攻撃を行い、極悪技・斬1層につきスカークの攻撃力750%分の氷元素ダメージを与える。このダメージは元素爆発ダメージとみなされる。\n・スカークが七相一閃モードで通常攻撃を発動した時、3段目または5段目の攻撃が敵に命中すると、極悪技・斬を1層消費して、連携攻撃を3回行う。連携攻撃1回につき、スカークの攻撃力180%分の氷元素ダメージを与える。このダメージは通常攻撃ダメージとみなされる。\n・スカークが七相一閃モードでダメージを受けた時、極悪技・斬を1層消費し、受けるダメージ-80%、かつ周囲の敵に3回攻撃を行い、1回につきスカークの攻撃力180%分の氷元素ダメージを与える。このダメージは重撃ダメージとみなされる。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "c33b6f755edacd3f55b026ad5ca4818c0c5f9a616566c33dbe2cfa277ff95af2"
+    },
+    "structuredValue": {
+      "characterId": "10000114",
+      "level": 6,
+      "nameJa": "至源"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000115:catalog": {
+    "id": "source:10000115:catalog",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "characters.json",
+      "record": "/10000115"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "{\"element\":\"水\",\"nameJa\":\"ダリア\",\"rarity\":4,\"weaponType\":\"片手剣\"}",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "f56bc34612e9aa570ea5d984e85a9668b9b905baa5e0f9e85bbc4854d1fec974"
+    },
+    "structuredValue": {
+      "nameJa": "ダリア",
+      "element": "水",
+      "weaponType": "片手剣",
+      "rarity": 4
+    },
+    "notes": "Character identity source for batch membership; no behavior values are inferred."
+  },
+  "source:10000115:talent:normalattack:normalDescriptionJa": {
+    "id": "source:10000115:talent:normalattack:normalDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000115/normalAttack",
+      "field": "normalDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "剣による最大4段の連続攻撃を行う。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "225d99d1ca61c363a65b4a8dfbf17193500ae0f69868bb8449a95dea3406b07e"
+    },
+    "structuredValue": {
+      "characterId": "10000115",
+      "component": "normalAttack.normal",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000115:talent:normalattack:chargedDescriptionJa": {
+    "id": "source:10000115:talent:normalattack:chargedDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000115/normalAttack",
+      "field": "chargedDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "一定のスタミナを消費し、前方に斬撃を2回放つ。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "e74a8daec1f81dd0706db111e4d069a3675e48956acaa95a2f33e58ff390f983"
+    },
+    "structuredValue": {
+      "characterId": "10000115",
+      "component": "normalAttack.charged",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000115:talent:normalattack:plungingDescriptionJa": {
+    "id": "source:10000115:talent:normalattack:plungingDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000115/normalAttack",
+      "field": "plungingDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "b83a1ad86480667ebf41b77a7cdd020218390453c25efc2e861b5eb689687cde"
+    },
+    "structuredValue": {
+      "characterId": "10000115",
+      "component": "normalAttack.plunging",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000115:talent:skill:descriptionJa": {
+    "id": "source:10000115:talent:skill:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000115/skill",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "ちょっとしたいたずら！一回押しと長押しで異なる位置に霧雨の秘跡を召喚できる。\n\n一回押し\n短い祈りの後、前方に霧雨の秘跡を召喚する。\n\n長押し\nしばらく祈った後、指定した位置に霧雨の秘跡を召喚する。\n\n霧雨の秘跡\n敵やチーム内のキャラクターが霧雨の秘跡に触れると、触れた者によって異なる効果を発揮する。\n敵が霧雨の秘跡に触れると、霧雨の秘跡は爆発し、周囲の敵に水元素範囲ダメージを与える。\n付近にいるチーム内キャラクターが霧雨の秘跡に触れると、触れた者は高く跳ね上がる。\n\nダリア自身が作り出した霧雨の秘跡は、1つのみ存在可能。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "b0634020c8c3bb902bc80cb13f75c391418144b1b6240a36cbc9e63f1f9a44d2"
+    },
+    "structuredValue": {
+      "characterId": "10000115",
+      "component": "skill",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000115:talent:burst:descriptionJa": {
+    "id": "source:10000115:talent:burst:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000115/burst",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "敬虔な心と歌声で神に祈りを捧げ、周囲の敵に水元素範囲ダメージを与える。チーム内の自身のキャラクターに「西風の恵み」効果を付与し、聖眷シールドを召喚する。\n聖眷シールドのダメージ吸収量はダリアのHP上限によって決まり、水元素ダメージに対して250%の吸収効果がある。\n\n西風の恵み\n西風の恵みの継続中、聖眷シールドがダメージで破壊された時、ダリアは祝福効果を1層消費して、再び聖眷シールドを召喚できる。\n\nダリアは以下の方法で祝福効果を獲得できる。\n・チーム内の自身のフィールド上キャラクターが「西風の恵み」効果を受けている時、通常攻撃が敵に4回命中するたびに、ダリアは祝福効果を1層獲得する。\n・固有天賦「優しき風の寵愛」の効果を発動する（固有天賦「優しき風の寵愛」を解放する必要がある）。\n西風の恵みの効果継続時間中、ダリアは祝福効果を最大4層獲得できる。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "fafc08274478ca8345210769f6227a9dd1f0d6927d61fd429bcc84d3b53c1d16"
+    },
+    "structuredValue": {
+      "characterId": "10000115",
+      "component": "burst",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000115:talent:passive:passive-1:descriptionJa": {
+    "id": "source:10000115:talent:passive:passive-1:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000115/passives/0",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**純光の祈り**の「西風の恵み」効果を受けているキャラクターが敵に凍結反応を起こした時、ダリアに「祝福」効果を2層付与する。この効果は8秒毎に1回のみ発動可能。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "ef01bc259bccaf05e3f6340da5370e4c2efd88363c745a1f4151068c0b11139e"
+    },
+    "structuredValue": {
+      "characterId": "10000115",
+      "component": "passives.passive_1",
+      "field": "descriptionJa",
+      "passiveIndex": 0,
+      "passiveSourceId": "passive_1",
+      "passiveName": "優しき風の寵愛"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000115:talent:passive:passive-2:descriptionJa": {
+    "id": "source:10000115:talent:passive:passive-2:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000115/passives/1",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "チーム内にいる自身のフィールド上キャラクターが、元素爆発**純光の祈り**の「西風の恵み」効果を受けている時、その攻撃速度はダリアのHP上限を基準に増加する。HP上限1000毎に攻撃速度+0.5%。この方法でアップできる攻撃速度は最大20%まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "6f031d6fcb9d7d00040849e1869ce0666f4fa658874f65a12d7092cc5acbc35c"
+    },
+    "structuredValue": {
+      "characterId": "10000115",
+      "component": "passives.passive_2",
+      "field": "descriptionJa",
+      "passiveIndex": 1,
+      "passiveSourceId": "passive_2",
+      "passiveName": "遊び心に満ちた祈り"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000115:talent:passive:passive-utility:descriptionJa": {
+    "id": "source:10000115:talent:passive:passive-utility:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000115/passives/2",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "日中（6時から18時まで）になると、チーム内にいる自身のキャラクター全員が疾走効果を獲得し、移動速度+10%。\nこの効果は秘境、征討領域、深境螺旋では発動されない。また、疾走効果は重ね掛け不可。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "f1e08e94fc5142e9d5ddc3a2aab9dbd89f04b0ce8a4bfc1be64828291a59ba8d"
+    },
+    "structuredValue": {
+      "characterId": "10000115",
+      "component": "passives.passive_utility",
+      "field": "descriptionJa",
+      "passiveIndex": 2,
+      "passiveSourceId": "passive_utility",
+      "passiveName": "帰風の巡礼"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000115:constellation:1:effectText": {
+    "id": "source:10000115:constellation:1:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000115/constellations/1",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "ダリアが元素爆発**純光の祈り**の「祝福」効果を1層獲得するたびに、元素エネルギーを2.5回復する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "fa18eb873fbbdff14af4fb3ed33ef300e54ebc0d51bf5c82ab4bbbd504c21d98"
+    },
+    "structuredValue": {
+      "characterId": "10000115",
+      "level": 1,
+      "nameJa": "無瑕の導き"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000115:constellation:2:effectText": {
+    "id": "source:10000115:constellation:2:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000115/constellations/2",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "ダリアが元素爆発**純光の祈り**の「祝福」を消費して聖眷シールドを召喚した後、聖眷シールドに守られているキャラクターのシールド強化+25%。12秒間継続する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "f8e64d7b3cf44c11884e966f3387f67083dd66711b8e86f14cf2ba1d5a02fdb2"
+    },
+    "structuredValue": {
+      "characterId": "10000115",
+      "level": 2,
+      "nameJa": "慈愛の啓示"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000115:constellation:3:effectText": {
+    "id": "source:10000115:constellation:3:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000115/constellations/3",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**純光の祈り**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "cd9cafaab75eeeccd37b1d6c39b3a972f3604d00c88514c82f8972589efbbd59"
+    },
+    "structuredValue": {
+      "characterId": "10000115",
+      "level": 3,
+      "nameJa": "風花の奉納"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000115:constellation:4:effectText": {
+    "id": "source:10000115:constellation:4:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000115/constellations/4",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**純光の祈り**の「西風の恵み」効果の継続時間+3秒。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "019e1667a3a3eb66ff08d5d36ae6c852bb894da9779367c4b37977bc29271305"
+    },
+    "structuredValue": {
+      "characterId": "10000115",
+      "level": 4,
+      "nameJa": "人々の祈り"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000115:constellation:5:effectText": {
+    "id": "source:10000115:constellation:5:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000115/constellations/5",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素スキル**受洗の礼典**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "ba918315eff6876dc3c70f636d8c98562323c8a4964f6d1ccb3c144e0098aaef"
+    },
+    "structuredValue": {
+      "characterId": "10000115",
+      "level": 5,
+      "nameJa": "狡知の完成"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000115:constellation:6:effectText": {
+    "id": "source:10000115:constellation:6:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000115/constellations/6",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**純光の祈り**の「西風の恵み」効果を受けているフィールド上キャラクターの攻撃速度+10%。\nまた、「西風の恵み」効果を受けているフィールド上キャラクターが戦闘不能になると、以下の効果が発動する。\n・そのキャラクターが復活する。\n・そのキャラクターのHPを100%回復する。\nこの効果は15分毎に1回のみ発動可能。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "00fb741be3a5a6320d318afe436cb56fcb40552aa1f87c21557ce66c16db4e00"
+    },
+    "structuredValue": {
+      "characterId": "10000115",
+      "level": 6,
+      "nameJa": "あらゆる喜びが 君とあらんことを"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000116:catalog": {
+    "id": "source:10000116:catalog",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "characters.json",
+      "record": "/10000116"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "{\"element\":\"雷\",\"nameJa\":\"イネファ\",\"rarity\":5,\"weaponType\":\"長柄武器\"}",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "407f15d1950799d16c8904aa6af6c0a2e5fcc520fbc381d28316dd6d3f80623d"
+    },
+    "structuredValue": {
+      "nameJa": "イネファ",
+      "element": "雷",
+      "weaponType": "長柄武器",
+      "rarity": 5
+    },
+    "notes": "Character identity source for batch membership; no behavior values are inferred."
+  },
+  "source:10000116:talent:normalattack:normalDescriptionJa": {
+    "id": "source:10000116:talent:normalattack:normalDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000116/normalAttack",
+      "field": "normalDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "槍による最大4段の連続攻撃を行う。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "00d8f7a1022fbce5f77653e3646a2405674c76883c1cfff912e583aab1e4fb22"
+    },
+    "structuredValue": {
+      "characterId": "10000116",
+      "component": "normalAttack.normal",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000116:talent:normalattack:chargedDescriptionJa": {
+    "id": "source:10000116:talent:normalattack:chargedDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000116/normalAttack",
+      "field": "chargedDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "一定のスタミナを消費し、回転攻撃を発動する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "d053ff675d0c8a1c374b54a6cc6bd4799d3eb0ee8b796c2b044cf21c0cbab714"
+    },
+    "structuredValue": {
+      "characterId": "10000116",
+      "component": "normalAttack.charged",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000116:talent:normalattack:plungingDescriptionJa": {
+    "id": "source:10000116:talent:normalattack:plungingDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000116/normalAttack",
+      "field": "plungingDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "b83a1ad86480667ebf41b77a7cdd020218390453c25efc2e861b5eb689687cde"
+    },
+    "structuredValue": {
+      "characterId": "10000116",
+      "component": "normalAttack.plunging",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000116:talent:skill:descriptionJa": {
+    "id": "source:10000116:talent:skill:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000116/skill",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "イネファが強化清掃モジュールを起動し、周囲の敵に雷元素範囲ダメージを1回与える。また、オプティカルフローシールドを展開し、多機能スマート補助ユニット**「ビルギッタ」**を召喚する。\nオプティカルフローシールドのダメージ吸収量はイネファの攻撃力によって決まり、雷元素ダメージに対して250%の吸収効果を持つ。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "1f0698fddb6785d36e1c6e888de7203647e5b61c923d5ed365d1bad1d109b09c"
+    },
+    "structuredValue": {
+      "characterId": "10000116",
+      "component": "skill",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000116:talent:burst:descriptionJa": {
+    "id": "source:10000116:talent:burst:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000116/burst",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "多機能スマート補助ユニット**「ビルギッタ」**の力を借りて、ロケットパンチで敵を掃討！イネファはビルギッタを発射し、雷元素範囲ダメージを与え、ビルギッタをフィールド上に留まらせる。\n\nフィールド上にイネファ自身が召喚したビルギッタが既に存在する場合、目標の位置に新しいビルギッタを召喚し、継続時間をリセットする。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "e01afdf5049c166a7489ccb3f1265096a525b527b959156b56ce8704ec43cff2"
+    },
+    "structuredValue": {
+      "characterId": "10000116",
+      "component": "burst",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000116:talent:passive:passive-1:descriptionJa": {
+    "id": "source:10000116:talent:passive:passive-1:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000116/passives/0",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "**「ビルギッタ」**の付近に月感電反応によって発生した雷雲がある場合、ビルギッタが放電攻撃を行う時に追加で攻撃を1回行い、イネファの攻撃力の65%分の雷元素範囲ダメージを与える。このダメージは、月感電反応によるダメージと見なされる。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "859bf285f839a3cae1d6bcd2138d2fd1c1a07d911d241ab04434221b9b49c0a4"
+    },
+    "structuredValue": {
+      "characterId": "10000116",
+      "component": "passives.passive_1",
+      "field": "descriptionJa",
+      "passiveIndex": 0,
+      "passiveSourceId": "passive_1",
+      "passiveName": "オーバークロック"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000116:talent:passive:passive-2:descriptionJa": {
+    "id": "source:10000116:talent:passive:passive-2:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000116/passives/1",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**至高なる指令・全域浄化**を発動すると、チーム内の自身のキャラクター全員に「パラメータ再構築」効果を付与し、イネファの攻撃力の6%を基に、イネファとチーム内の自身のフィールド上キャラクターの元素熟知を強化する。継続時間20秒。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "54f053f76a86312be9d86696c6786e785bf75cbb353cbe6995e5ae138a1b308d"
+    },
+    "structuredValue": {
+      "characterId": "10000116",
+      "component": "passives.passive_2",
+      "field": "descriptionJa",
+      "passiveIndex": 1,
+      "passiveSourceId": "passive_2",
+      "passiveName": "再構築プロトコル"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000116:talent:passive:passive-utility:descriptionJa": {
+    "id": "source:10000116:talent:passive:passive-utility:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000116/passives/2",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "チーム内のキャラクターが感電反応を起こすと、感電反応は月感電反応へと変わり、イネファの攻撃力に基づいて、月感電反応の基礎ダメージがアップする。攻撃力100につき、基礎ダメージ+0.7%。この方法でアップできるダメージは最大14%まで。\n\nまた、イネファがチームにいる時、チームの月兆レベルが1アップする。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "42c884802b84edf95b83744bbc6481c88bd628ab3c94a301359f2dc0b01cef90"
+    },
+    "structuredValue": {
+      "characterId": "10000116",
+      "component": "passives.passive_utility",
+      "field": "descriptionJa",
+      "passiveIndex": 2,
+      "passiveSourceId": "passive_utility",
+      "passiveName": "月兆の祝福・疑似中継"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000116:constellation:1:effectText": {
+    "id": "source:10000116:constellation:1:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000116/constellations/1",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "イネファがオプティカルフローシールドを展開した時、周囲のチーム全員に20秒継続する「キャリア再結合」効果を付与し、月感電反応の与えるダメージが、イネファの攻撃力に基づいてアップする。攻撃力100につき、ダメージ+2.5%。この方法でアップできるダメージは最大50%まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "33837734fbdd0f097550be2dbb9e767eefda36cdf3a1f9aa672e964bcc65f681"
+    },
+    "structuredValue": {
+      "characterId": "10000116",
+      "level": 1,
+      "nameJa": "循環整流器"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000116:constellation:2:effectText": {
+    "id": "source:10000116:constellation:2:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000116/constellations/2",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**至高なる指令・全域浄化**が敵に命中した後、そのうちの敵1体に「懲戒訓示」状態を付与する。「懲戒訓示」状態の敵は、短時間後またはその敵が倒された時、周囲の敵にイネファの攻撃力300%分の雷元素範囲ダメージを与える。このダメージは月感電反応によるダメージと見なされる。\nまた、元素爆発至高なる指令・全域浄化を発動する時、付近のフィールド上キャラクターにもオプティカルフローシールドを付与する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "54bf76b1cddf51d6dc3d85516b09311826cee8f42126f2d75249ed787105d416"
+    },
+    "structuredValue": {
+      "characterId": "10000116",
+      "level": 2,
+      "nameJa": "補助清掃モジュール"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000116:constellation:3:effectText": {
+    "id": "source:10000116:constellation:3:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000116/constellations/3",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素スキル**洗浄モード・定常周波数**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "64e14ee8470cf10cffcd18028bb3aa8969f03cfe0557c09664c390c9d6346365"
+    },
+    "structuredValue": {
+      "characterId": "10000116",
+      "level": 3,
+      "nameJa": "上級感情エミュレーター"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000116:constellation:4:effectText": {
+    "id": "source:10000116:constellation:4:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000116/constellations/4",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "チーム内の自身のキャラクターが月感電反応を起こした時、元素エネルギーを5回復する。この効果は4秒毎に1回のみ発動可能。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "7d21204fdae204bf0f9617afc29c7e398abcf54661447e9bf4ea87a1331e5d00"
+    },
+    "structuredValue": {
+      "characterId": "10000116",
+      "level": 4,
+      "nameJa": "訓示に至らぬ道"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000116:constellation:5:effectText": {
+    "id": "source:10000116:constellation:5:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000116/constellations/5",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**至高なる指令・全域浄化**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "96bb84f7517d397fbff8a6c5169678365f6d3bd4fec66eb4527163cef873a8b1"
+    },
+    "structuredValue": {
+      "characterId": "10000116",
+      "level": 5,
+      "nameJa": "鏡像を超える夢"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000116:constellation:6:effectText": {
+    "id": "source:10000116:constellation:6:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000116/constellations/6",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "イネファが「キャリア再結合」効果の影響下にある時、付近の雷雲が敵に雷撃を与えた後、イネファはフィールド上の自身のキャラクター周囲の敵に、イネファの攻撃力135%分の雷元素範囲ダメージを与える。このダメージは月感電反応によるダメージと見なされる。上記効果は3.5秒毎に1回のみ発動可能。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "ca04c628b9d1c1af474bbf495405d8a9850e1a113ca9a027345bdcb8f4c50787"
+    },
+    "structuredValue": {
+      "characterId": "10000116",
+      "level": 6,
+      "nameJa": "貴方に捧げる暁"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000119:catalog": {
+    "id": "source:10000119:catalog",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "characters.json",
+      "record": "/10000119"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "{\"element\":\"草\",\"nameJa\":\"ラウマ\",\"rarity\":5,\"weaponType\":\"法器\"}",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "7bcac6b03b499085fe756d40a4490d356592a7f3e2eba428259bda764939411d"
+    },
+    "structuredValue": {
+      "nameJa": "ラウマ",
+      "element": "草",
+      "weaponType": "法器",
+      "rarity": 5
+    },
+    "notes": "Character identity source for batch membership; no behavior values are inferred."
+  },
+  "source:10000119:talent:normalattack:normalDescriptionJa": {
+    "id": "source:10000119:talent:normalattack:normalDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000119/normalAttack",
+      "field": "normalDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "最大3段の連続攻撃を行い、草元素ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "3e69b4033b364cb19a5f904cdf0180f97c89e22c4ae80edd42c668bec291255f"
+    },
+    "structuredValue": {
+      "characterId": "10000119",
+      "component": "normalAttack.normal",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000119:talent:normalattack:chargedDescriptionJa": {
+    "id": "source:10000119:talent:normalattack:chargedDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000119/normalAttack",
+      "field": "chargedDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "「獣霊の御使い・顕現」を発動して、ラウマは森の獣霊の御使いと化して、スタミナを消費することで、最大10秒間の疾走状態に入る。この状態の時、ラウマの中断耐性がアップし、スタミナを追加で消費して最大2段の連続ジャンプを行うことができる。\n獣霊の御使い状態が終了すると「獣霊の御使い・顕現」はクールタイムに入り、ラウマの重撃は「召霊の祈り」に変わる。「召霊の祈り」では、スタミナを消費して短い詠唱をした後、前方のエリアに草元素範囲ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "144b35b326fed975340e2fa4f8c87bb6a1b64d56b3f5e6053d37636ad1c6c661"
+    },
+    "structuredValue": {
+      "characterId": "10000119",
+      "component": "normalAttack.charged",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000119:talent:normalattack:plungingDescriptionJa": {
+    "id": "source:10000119:talent:normalattack:plungingDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000119/normalAttack",
+      "field": "plungingDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "空中から草元素の力を凝集しながら落下し、地面に衝撃を与える。経路上の敵を攻撃し、落下時に草元素範囲ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "feafc8a9145b5e7e1acfc35f585750feb21c5433ab14503c631612faa2f41db5"
+    },
+    "structuredValue": {
+      "characterId": "10000119",
+      "component": "normalAttack.plunging",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000119:talent:skill:descriptionJa": {
+    "id": "source:10000119:talent:skill:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000119/skill",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "古の祈祷歌を唱え、**霜林の聖域**を展開する。一回押し、長押しのそれぞれで異なる効果を発動する。\n\n一回押し\n狩猟の祈祷歌を唱え、草元素範囲ダメージを与える。\n\n長押し\n**草露**を持っている時のみ発動可能。すべての草露を消費して永眠の祈祷歌を唱え、草元素範囲ダメージを1回与えたのちに、月開花反応ダメージと見なされる草元素範囲ダメージを1回与える。消費した草露1滴につき、ラウマは**「詠月」**効果を1層獲得する。長押しで元素スキルを発動するたび、この方法で最大3滴の草露を消費可能。\n\nまた、ラウマの元素スキルまたは霜林の聖域の攻撃が敵に命中した時、その敵の草元素耐性と水元素耐性がダウンする。継続時間10秒。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "2e897a5fe0259a429e8c2c5a0a6cc58448bc7aeb090ff391f4b67def8275e7b8"
+    },
+    "structuredValue": {
+      "characterId": "10000119",
+      "component": "skill",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000119:talent:burst:descriptionJa": {
+    "id": "source:10000119:talent:burst:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000119/burst",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "衆生の願いを、大地を照らす月光に変える——ラウマが北の聖歌を唱えると、**「蒼の讃歌」**を18層獲得する。\nまた、ラウマが**「詠月」**を持っている状態で元素爆発を発動、または元素爆発の発動後15秒以内に「詠月」を獲得すると、「詠月」を全て消費し、消費した「詠月」1層につき6層の「蒼の讃歌」を獲得する。元素爆発の発動時及び元素爆発を発動した15秒以内に1回のみ発動可能。\n\n蒼の讃歌\n付近にいるチーム内キャラクターが開花、超開花、烈開花、月開花反応によるダメージを与える時、「蒼の讃歌」を1層消費し、与えるダメージをラウマの元素熟知に基づいてアップする。上記のダメージが同時に複数の敵に命中した場合、命中した敵の数に応じて「蒼の讃歌」が消費される。\n「蒼の讃歌」の継続時間は層ごとに独立してカウントされる。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "cd7d57b492f9c63374032c46da78e8b2519ff33dad9cca76b23d2b3dc71a7712"
+    },
+    "structuredValue": {
+      "characterId": "10000119",
+      "component": "burst",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000119:talent:passive:passive-1:descriptionJa": {
+    "id": "source:10000119:talent:passive:passive-1:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000119/passives/0",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "ラウマが元素スキル**聖言のルノ・永夜の眠り**を発動した後の20秒間、チーム内の月兆に応じて、それぞれ異なる強化効果を獲得する。異なる月兆レベルによって提供される強化効果は重ね掛けできない。\n\n月兆・初照\n付近にいるチーム内キャラクターが起こす開花、超開花、烈開花反応によるダメージに会心が発生する。なお、会心率は15%、会心ダメージは100%に固定される。この効果による会心率は、元素反応で会心を発生させる他の同種の効果と重ね掛け可能。\n\n月兆・満照\n付近にいるチーム内キャラクターが与える月開花反応ダメージの会心率+10%、会心ダメージ+20%。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "58ba63e64b90016e70781c0256fb7e374017a3dd7ede3f744e65cdaab4ed5c3e"
+    },
+    "structuredValue": {
+      "characterId": "10000119",
+      "component": "passives.passive_1",
+      "field": "descriptionJa",
+      "passiveIndex": 0,
+      "passiveSourceId": "passive_1",
+      "passiveName": "霜夜に捧ぐ光"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000119:talent:passive:passive-2:descriptionJa": {
+    "id": "source:10000119:talent:passive:passive-2:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000119/passives/1",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "ラウマの元素熟知1につき、ラウマは以下の強化効果を獲得する。\n・元素スキルの与えるダメージ+0.04%。この方法でアップできるダメージは最大32%まで。\n・重撃「獣霊の御使い・顕現」のクールタイム-0.02%。この方法で短縮できる「獣霊の御使い・顕現」のクールタイムは最大20%まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "1e452515fdbc8a33ebc643d0401dad55ea56a16e89375208080411fed1ba0071"
+    },
+    "structuredValue": {
+      "characterId": "10000119",
+      "component": "passives.passive_2",
+      "field": "descriptionJa",
+      "passiveIndex": 1,
+      "passiveSourceId": "passive_2",
+      "passiveName": "甘泉に捧ぐ禊"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000119:talent:passive:passive-utility:descriptionJa": {
+    "id": "source:10000119:talent:passive:passive-utility:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000119/passives/2",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "チーム内のキャラクターが開花反応を起こすと、開花反応は月開花反応へと変わり、ラウマの元素熟知を基準に、チーム内キャラクターの月開花反応の基礎ダメージがアップする。元素熟知1につき、月開花反応の基礎ダメージ+0.0175%。この方法でアップできるダメージは最大14%まで。\n\nまた、ラウマがチームにいる時、チームの月兆レベルが1アップする。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "8a52a1c9659c25c06cdadf8db007f58e33dbc8b92d1c41ec86149a5ba5c2a65c"
+    },
+    "structuredValue": {
+      "characterId": "10000119",
+      "component": "passives.passive_utility",
+      "field": "descriptionJa",
+      "passiveIndex": 2,
+      "passiveSourceId": "passive_utility",
+      "passiveName": "月兆の祝福・千響の恩寵"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000119:constellation:1:effectText": {
+    "id": "source:10000119:constellation:1:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000119/constellations/1",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "ラウマが元素スキル**聖言のルノ・永夜の眠り**または元素爆発**聖言のルノ・月の心**を発動すると、「生を紡ぐ糸」を獲得する。継続時間20秒。\n継続時間中、付近にいるチーム内キャラクターが月開花反応を起こした時、付近にいるフィールド上キャラクターのHPをラウマの元素熟知の500%分回復する。この効果は1.9秒毎に1回のみ発動可能。\nまた、ラウマの獣霊の御使い形態で消費するスタミナ-40%、最大継続時間+5秒。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "fcc4d219f90a5cdf15fce58f87e1fb01b575937d3043af3d5a34c9b579193a6c"
+    },
+    "structuredValue": {
+      "characterId": "10000119",
+      "level": 1,
+      "nameJa": "「唇よ歌を紡ぎて 詩を織りなせ」"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000119:constellation:2:effectText": {
+    "id": "source:10000119:constellation:2:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000119/constellations/2",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**聖言のルノ・月の心**を以下のように強化する。\n・**「蒼の讃歌」**の効果が強化される。付近にいるチーム内キャラクターが開花、超開花、烈開花反応を起こした時に与えるダメージが、ラウマの元素熟知の500%分、追加でアップする。また、付近にいるチーム内キャラクターが与える月開花反応ダメージが、ラウマの元素熟知の400%分、追加でアップする。\n\n月兆・満照：付近にいるチーム内キャラクターが与える月開花反応ダメージ+40%。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "5a26d1685d8268483a671716fef2e282435f913918094a12a735113cdc488a61"
+    },
+    "structuredValue": {
+      "characterId": "10000119",
+      "level": 2,
+      "nameJa": "「北の戒めを綴りて 伝承を語れ」"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000119:constellation:3:effectText": {
+    "id": "source:10000119:constellation:3:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000119/constellations/3",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**聖言のルノ・月の心**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "3a0eb223c9dfb24d071fdddde7586f9761094025caa683e41f75c4910de3240c"
+    },
+    "structuredValue": {
+      "characterId": "10000119",
+      "level": 3,
+      "nameJa": "「狡き狐の小径を 貪ること勿れ」"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000119:constellation:4:effectText": {
+    "id": "source:10000119:constellation:4:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000119/constellations/4",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素スキル**聖言のルノ・永夜の眠り**による**霜林の聖域**の攻撃が敵に命中すると、ラウマの元素エネルギーが4回復する。この効果は5秒毎に1回のみ発動可能。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "e0c32a10a3cc5d573079575d1017592399f22db437cf62899d491c25ee83f1c7"
+    },
+    "structuredValue": {
+      "characterId": "10000119",
+      "level": 4,
+      "nameJa": "「巨熊の力を 恋い慕うこと勿れ」"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000119:constellation:5:effectText": {
+    "id": "source:10000119:constellation:5:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000119/constellations/5",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素スキル**聖言のルノ・永夜の眠り**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "9036f1137fb45318d216262680ce22709fee6e1ded09087169ad4d52de2b26bc"
+    },
+    "structuredValue": {
+      "characterId": "10000119",
+      "level": 5,
+      "nameJa": "「真なる物を その眼に納むる時」"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000119:constellation:6:effectText": {
+    "id": "source:10000119:constellation:6:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000119/constellations/6",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "**霜林の聖域**が敵を攻撃する時、月開花反応ダメージと見なされる草元素範囲ダメージを追加で1回与える。このダメージはラウマの元素熟知の185%に基づく。また、このときラウマは**「蒼の讃歌」**を消費せず、逆に「蒼の讃歌」を2層獲得し、この方法で獲得した「蒼の讃歌」の継続時間をリセットする。\n1回の霜林の聖域の継続時間中に、この効果は最大8回発動可能。元素スキル**聖言のルノ・永夜の眠り**発動時、この方法で獲得した「蒼の讃歌」はクリアされる。\n\nまた、ラウマが「蒼の讃歌」を所持している状態で通常攻撃を行うと、「蒼の讃歌」を1層消費して、ラウマの元素熟知150%分の草元素ダメージを与える。このダメージは月開花反応によるダメージと見なされる。\n\n月兆・満照：付近にいるチーム内キャラクターの与える月開花反応によるダメージが25%**向上**する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "2e69f98a456e532f4c53dbed4586ceb0eb9e483474d60a0538bbcccc2a840159"
+    },
+    "structuredValue": {
+      "characterId": "10000119",
+      "level": 6,
+      "nameJa": "「我が血と涙を 月に捧げ奉らん」"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000120:catalog": {
+    "id": "source:10000120:catalog",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "characters.json",
+      "record": "/10000120"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "{\"element\":\"雷\",\"nameJa\":\"フリンズ\",\"rarity\":5,\"weaponType\":\"長柄武器\"}",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "832a88d1f67d5fd00e41dbf6172b614ae7a4ab43978aefccf86a8906041c3a07"
+    },
+    "structuredValue": {
+      "nameJa": "フリンズ",
+      "element": "雷",
+      "weaponType": "長柄武器",
+      "rarity": 5
+    },
+    "notes": "Character identity source for batch membership; no behavior values are inferred."
+  },
+  "source:10000120:talent:normalattack:normalDescriptionJa": {
+    "id": "source:10000120:talent:normalattack:normalDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000120/normalAttack",
+      "field": "normalDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "槍による最大5段の連続攻撃を行う。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "c93e417cc66b967567d60686b9c8de8d101a88f6b0d39e0f0da31c22dcc32299"
+    },
+    "structuredValue": {
+      "characterId": "10000120",
+      "component": "normalAttack.normal",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000120:talent:normalattack:chargedDescriptionJa": {
+    "id": "source:10000120:talent:normalattack:chargedDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000120/normalAttack",
+      "field": "chargedDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "一定のスタミナを消費し、前方へ槍投げ攻撃を行う。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "7a60608a6a7909621b691ed983537362cad8c883536ba38c9cd6cea3589fccdd"
+    },
+    "structuredValue": {
+      "characterId": "10000120",
+      "component": "normalAttack.charged",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000120:talent:normalattack:plungingDescriptionJa": {
+    "id": "source:10000120:talent:normalattack:plungingDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000120/normalAttack",
+      "field": "plungingDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "b83a1ad86480667ebf41b77a7cdd020218390453c25efc2e861b5eb689687cde"
+    },
+    "structuredValue": {
+      "characterId": "10000120",
+      "component": "normalAttack.plunging",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000120:talent:skill:descriptionJa": {
+    "id": "source:10000120:talent:skill:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000120/skill",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "ランプに宿る古の力を呼び起こし、幽炎の露顕状態に入る。このモードには下記の特性がある。\n・フリンズの通常攻撃と重撃が、元素付与によって他の元素に変化しない雷元素ダメージへと変わり、落下攻撃ができなくなる。\n・フリンズの中断耐性をアップする。\n・元素スキル古律・孤灯の秘密は、特殊な元素スキル北国の嵐槍に切り替わる。\n\n北国の嵐槍\n前方に槍陣を生成し、雷元素範囲ダメージを与える。さらにその後の6秒間、フリンズの元素爆発旧儀・夜の賓客は特殊な元素爆発**雷霆のシンフォニー**に切り替わる。\n北国の嵐槍の基本クールタイムは6秒であり、他の効果の影響を受けない。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "89d7194fa9485f8213e19ba948dd6f11620a3c90ce9e05da00c699a485bebc54"
+    },
+    "structuredValue": {
+      "characterId": "10000120",
+      "component": "skill",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000120:talent:burst:descriptionJa": {
+    "id": "source:10000120:talent:burst:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000120/burst",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "ランプに宿る真の力を解放し、雷元素範囲ダメージを与え、短時間後、さらに2回の中段攻撃と1回の最終攻撃を行う。中段攻撃と最終攻撃は月感電反応ダメージと見なされる雷元素範囲ダメージを与える。\n月兆・満照：スキルが強化される。近くに雷雲が存在する場合、追加で中段攻撃を2回行い、月感電反応ダメージと見なされる雷元素範囲ダメージを与える。\n\n特殊元素スキル北国の嵐槍発動後の6秒間、フリンズの元素爆発旧儀・夜の賓客は特殊元素爆発雷霆のシンフォニーに切り替わる。\n\n雷霆のシンフォニー\nより少ない元素エネルギーで発動できる特殊な元素爆発。月感電反応ダメージと見なされる雷元素範囲ダメージを1回与える。\n月兆・満照：スキルが強化される。近くに雷雲が存在する場合、月感電反応ダメージと見なされる雷元素範囲ダメージをさらに1回与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "1c8d516f6072caaa2a2cca89153505e4273c957ea9d17c371340a9078487bd5e"
+    },
+    "structuredValue": {
+      "characterId": "10000120",
+      "component": "burst",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000120:talent:passive:passive-1:descriptionJa": {
+    "id": "source:10000120:talent:passive:passive-1:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000120/passives/0",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "フリンズはチームの月兆に応じて、強化効果を獲得する。\n\n月兆・満照：フリンズが起こした月感電反応によるダメージ+20%。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "9c19954c053aebaabccb65fcf3e0bfe5f3625adec5900ed7a2bb3a87b877c245"
+    },
+    "structuredValue": {
+      "characterId": "10000120",
+      "component": "passives.passive_1",
+      "field": "descriptionJa",
+      "passiveIndex": 0,
+      "passiveSourceId": "passive_1",
+      "passiveName": "厳冬の響き"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000120:talent:passive:passive-2:descriptionJa": {
+    "id": "source:10000120:talent:passive:passive-2:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000120/passives/1",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "フリンズの元素熟知が、フリンズの攻撃力の8%分アップする。この方法でアップできるフリンズの元素熟知は、最大160まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "8333fe260f0b9040c5af7b254bdcbde18b4af6746fd0bb599e8395282a56dbec"
+    },
+    "structuredValue": {
+      "characterId": "10000120",
+      "component": "passives.passive_2",
+      "field": "descriptionJa",
+      "passiveIndex": 1,
+      "passiveSourceId": "passive_2",
+      "passiveName": "幽炎の囁き"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000120:talent:passive:passive-utility:descriptionJa": {
+    "id": "source:10000120:talent:passive:passive-utility:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000120/passives/2",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "チーム内のキャラクターが感電反応を起こすと、感電反応は月感電反応へと変わり、フリンズの攻撃力に基づいて、月感電反応の基礎ダメージがアップする。攻撃力100につき、基礎ダメージ+0.7%。この方法でアップできるダメージは最大14%まで。\n\nまた、フリンズがチームにいる時、チームの月兆レベルが1アップする。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "f2ca0f196e1f0d2dec6be4e3d6a21a3c5a0808e6b157fdc1e1c1b744b15c200d"
+    },
+    "structuredValue": {
+      "characterId": "10000120",
+      "component": "passives.passive_utility",
+      "field": "descriptionJa",
+      "passiveIndex": 2,
+      "passiveSourceId": "passive_utility",
+      "passiveName": "月兆の祝福・旧世の秘奥"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000120:constellation:1:effectText": {
+    "id": "source:10000120:constellation:1:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000120/constellations/1",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "特殊元素スキル北国の嵐槍の基本クールタイムを4秒に短縮する。\nまた、チーム内キャラクターが月感電反応を起こすと、フリンズの元素エネルギーを8回復する。この効果は5.5秒毎に1回のみ発動可能。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "be98fd34add4b27f002db04d9853877af4c1ff27bb7370cf461aa0bc9195a9eb"
+    },
+    "structuredValue": {
+      "characterId": "10000120",
+      "level": 1,
+      "nameJa": "雪影の幕をひらく時"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000120:constellation:2:effectText": {
+    "id": "source:10000120:constellation:2:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000120/constellations/2",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "特殊元素スキル北国の嵐槍を発動した後の6秒間、フリンズの次の通常攻撃が敵に命中すると、追加でフリンズの攻撃力50%分の雷元素範囲ダメージを与える。このダメージは月感電反応によるダメージと見なされる。\n月兆・満照：フリンズがフィールドにいる時、フリンズの元素タイプが雷元素の攻撃が敵に命中すると、その敵の雷元素耐性-25%、継続時間7秒。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "19e0c81bf9564721568ef99c728ea77a43b3587c38ab02144b1a8f1212d76b4f"
+    },
+    "structuredValue": {
+      "characterId": "10000120",
+      "level": 2,
+      "nameJa": "邪悪の壁を超える者"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000120:constellation:3:effectText": {
+    "id": "source:10000120:constellation:3:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000120/constellations/3",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**旧儀・夜の賓客**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "faee4b567a170f562ba56ff6ed6cef3586375b18182a06292b16693375c97fb4"
+    },
+    "structuredValue": {
+      "characterId": "10000120",
+      "level": 3,
+      "nameJa": "闇に訪う見知らぬ客"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000120:constellation:4:effectText": {
+    "id": "source:10000120:constellation:4:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000120/constellations/4",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "フリンズの攻撃力+20%。\nまた、固有天賦**「幽炎の囁き」**は以下のように強化される。フリンズの元素熟知が、フリンズの攻撃力の10%分アップする。この方法でアップできるフリンズの元素熟知は、最大220まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "d4bba3d54eb36c62ec765c773b8f8596bc80a171ca705944338f11517849f781"
+    },
+    "structuredValue": {
+      "characterId": "10000120",
+      "level": 4,
+      "nameJa": "咆哮する荒れ山の夜"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000120:constellation:5:effectText": {
+    "id": "source:10000120:constellation:5:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000120/constellations/5",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素スキル**古律・孤灯の秘密**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "8fe007441cd20e0ff3454e35ed7229ba82c2384c09f89ee90d153028c431eb5b"
+    },
+    "structuredValue": {
+      "characterId": "10000120",
+      "level": 5,
+      "nameJa": "俗世から遠ざかる影"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000120:constellation:6:effectText": {
+    "id": "source:10000120:constellation:6:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000120/constellations/6",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "フリンズが敵に与える月感電反応ダメージが35%**向上**する。\n月兆・満照：付近にいるチーム内キャラクターが与える月感電反応ダメージが10%向上する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "80db4bdf5650294fb327709bcf12e27043d18ce5634e90cc030fcade5459c9cb"
+    },
+    "structuredValue": {
+      "characterId": "10000120",
+      "level": 6,
+      "nameJa": "歌と死の舞踏"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000121:catalog": {
+    "id": "source:10000121:catalog",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "characters.json",
+      "record": "/10000121"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "{\"element\":\"水\",\"nameJa\":\"アイノ\",\"rarity\":4,\"weaponType\":\"両手剣\"}",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "71e12934432e3db38e665465545c0303d64fc8ac20ba423b5865428583b3d9d1"
+    },
+    "structuredValue": {
+      "nameJa": "アイノ",
+      "element": "水",
+      "weaponType": "両手剣",
+      "rarity": 4
+    },
+    "notes": "Character identity source for batch membership; no behavior values are inferred."
+  },
+  "source:10000121:talent:normalattack:normalDescriptionJa": {
+    "id": "source:10000121:talent:normalattack:normalDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000121/normalAttack",
+      "field": "normalDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "最大3段の連続攻撃を行う。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "eed267d9736778a8986871ef6cb6a1b456fb842890219bf800cd9c557982c064"
+    },
+    "structuredValue": {
+      "characterId": "10000121",
+      "component": "normalAttack.normal",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000121:talent:normalattack:chargedDescriptionJa": {
+    "id": "source:10000121:talent:normalattack:chargedDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000121/normalAttack",
+      "field": "chargedDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "継続的にスタミナを消費し、大剣を振り回して周囲の敵を攻撃する。\n重撃終了時、より強力な一撃を放つ。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "05966d9edad63331ea04179da0a83072edc3d531eea6c3e96260f84257286c24"
+    },
+    "structuredValue": {
+      "characterId": "10000121",
+      "component": "normalAttack.charged",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000121:talent:normalattack:plungingDescriptionJa": {
+    "id": "source:10000121:talent:normalattack:plungingDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000121/normalAttack",
+      "field": "plungingDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "b83a1ad86480667ebf41b77a7cdd020218390453c25efc2e861b5eb689687cde"
+    },
+    "structuredValue": {
+      "characterId": "10000121",
+      "component": "normalAttack.plunging",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000121:talent:skill:descriptionJa": {
+    "id": "source:10000121:talent:skill:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000121/skill",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "前方に「アイデアキャッチャー」を投げ、水元素ダメージを与える。アイデアキャッチャーはアイノを前方へ引き寄せ、移動終了時、アイノは周囲の敵に水元素範囲ダメージを与える。\n長押し時は攻撃方法が変わる。\n\n長押し\n照準モードに入り、「アイデアキャッチャー」の投げる方向を調整できるようになる。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "b49ac22e06b2c8087acffea9b0becbfce61804e718586403c23693ccc37ffd0b"
+    },
+    "structuredValue": {
+      "characterId": "10000121",
+      "component": "skill",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000121:talent:burst:descriptionJa": {
+    "id": "source:10000121:talent:burst:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000121/burst",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "特製スーパーお水噴射装置「落ち着いた方がいいカモ？」を投げ、びしょぬれゾーンを展開する。\n継続期間中、「落ち着いた方がいいカモ？」は一定時間ごとに近くの敵に水弾を発射し、水元素ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "f46252773d58ea1f46ad6b017fe1d3bd36eddda3fe92144ed72260297cb673fe"
+    },
+    "structuredValue": {
+      "characterId": "10000121",
+      "component": "burst",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000121:talent:passive:passive-1:descriptionJa": {
+    "id": "source:10000121:talent:passive:passive-1:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000121/passives/0",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "アイノはチームの月兆に応じて、強化効果を獲得する。\n\n月兆・満照：元素爆発**お水ひえひえ装置**が強化され、「落ち着いた方がいいカモ？」の水弾発射間隔がより短くなり、より広範囲な水元素範囲ダメージを与えるようになる。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "ed3d2c05883bd80317088424b52f0ebafe90a014ac550b05742303091705f36c"
+    },
+    "structuredValue": {
+      "characterId": "10000121",
+      "component": "passives.passive_1",
+      "field": "descriptionJa",
+      "passiveIndex": 0,
+      "passiveSourceId": "passive_1",
+      "passiveName": "効率運用プロトコル"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000121:talent:passive:passive-2:descriptionJa": {
+    "id": "source:10000121:talent:passive:passive-2:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000121/passives/1",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "アイノの元素爆発の与ダメージが、アイノの元素熟知の50%分アップする。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "03b05230ae00a86d1bc5cfa509d6be72d5a21737147d88eb9f35dec91d5afd91"
+    },
+    "structuredValue": {
+      "characterId": "10000121",
+      "component": "passives.passive_2",
+      "field": "descriptionJa",
+      "passiveIndex": 1,
+      "passiveSourceId": "passive_2",
+      "passiveName": "構造的パワーアップ"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000121:talent:passive:passive-utility:descriptionJa": {
+    "id": "source:10000121:talent:passive:passive-utility:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000121/passives/2",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "アイノがチームにいる時、チームの月兆レベルが1アップする。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "f32653ff3b71707f1b9af67d3adc59ba5191c580d3c58441575a86640c9949ec"
+    },
+    "structuredValue": {
+      "characterId": "10000121",
+      "component": "passives.passive_utility",
+      "field": "descriptionJa",
+      "passiveIndex": 2,
+      "passiveSourceId": "passive_utility",
+      "passiveName": "月兆の祝福・全力オペレーション"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000121:constellation:1:effectText": {
+    "id": "source:10000121:constellation:1:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000121/constellations/1",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "アイノが元素スキル**アイデアキャッチャー**または元素爆発**お水ひえひえ装置**を発動すると、アイノ自身と周囲のフィールド上の他のキャラクターの元素熟知+80、継続時間15秒。\n\nこの命ノ星座による元素熟知のアップ効果は重ね掛けできない。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "631f61d78818574ca4d555a576c46631952bebb4ca3bba5d40c239a73cb91f8c"
+    },
+    "structuredValue": {
+      "characterId": "10000121",
+      "level": 1,
+      "nameJa": "灰と力場のバランス理論"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000121:constellation:2:effectText": {
+    "id": "source:10000121:constellation:2:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000121/constellations/2",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**お水ひえひえ装置**のびしょぬれゾーンの継続時間中、アイノが待機中の場合、フィールドにいる自身のチーム内キャラクターの攻撃が近くの敵に命中した時、「落ち着いた方がいいカモ？」はその敵に対して追加で水弾を1発発射し、アイノの攻撃力25%と元素熟知100%を基にした水元素範囲ダメージを与える。この効果は5秒毎に1回のみ発動可能。また、与えたダメージは元素爆発ダメージと見なされる。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "7031ab4f5db118e0419434ddd5ffe3dd9cf922dee1a90ea37be6f19dfaca10ac"
+    },
+    "structuredValue": {
+      "characterId": "10000121",
+      "level": 2,
+      "nameJa": "歯車差分の進数原理"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000121:constellation:3:effectText": {
+    "id": "source:10000121:constellation:3:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000121/constellations/3",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**お水ひえひえ装置**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "bb6814786397f26c577252a6ef52ad7c7e24875929198fa08e34eed04d380682"
+    },
+    "structuredValue": {
+      "characterId": "10000121",
+      "level": 3,
+      "nameJa": "ケーキと機械のリペアアート"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000121:constellation:4:effectText": {
+    "id": "source:10000121:constellation:4:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000121/constellations/4",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素スキル**アイデアキャッチャー**が敵に命中すると、アイノの元素エネルギーが10ポイント回復する。この方法による元素エネルギーの回復は10秒毎に1回のみ可能。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "d6f324130b82b0ef08f57a83bb24f363f3ffc908cbeb3bbf127485b753519cb2"
+    },
+    "structuredValue": {
+      "characterId": "10000121",
+      "level": 4,
+      "nameJa": "バターと猫と エネルギー供給の法則"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000121:constellation:5:effectText": {
+    "id": "source:10000121:constellation:5:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000121/constellations/5",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素スキル**アイデアキャッチャー**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "7155e5127397d08d2b69f51ffa644654bed4e220e8041aa5684fe31e6b27dfb5"
+    },
+    "structuredValue": {
+      "characterId": "10000121",
+      "level": 5,
+      "nameJa": "金属と光の永久タービン"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000121:constellation:6:effectText": {
+    "id": "source:10000121:constellation:6:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000121/constellations/6",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**お水ひえひえ装置**を発動した後の15秒間、周囲のフィールド上キャラクターの感電、開花、月感電、月開花、月結晶によるダメージ+15%。\n月兆・満照：上記反応によるダメージがさらに+20%。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "a07d36197b5f7e5acd95a150afafda85102fc369daae95de5a1e719c6472fef2"
+    },
+    "structuredValue": {
+      "characterId": "10000121",
+      "level": 6,
+      "nameJa": "天才なりの構築責任"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000122:catalog": {
+    "id": "source:10000122:catalog",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "characters.json",
+      "record": "/10000122"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "{\"element\":\"草\",\"nameJa\":\"ネフェル\",\"rarity\":5,\"weaponType\":\"法器\"}",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "d2f9b7b2903a0b620987640b95fd9cc8400e40c5006df9c61d5d58ab47474bf2"
+    },
+    "structuredValue": {
+      "nameJa": "ネフェル",
+      "element": "草",
+      "weaponType": "法器",
+      "rarity": 5
+    },
+    "notes": "Character identity source for batch membership; no behavior values are inferred."
+  },
+  "source:10000122:talent:normalattack:normalDescriptionJa": {
+    "id": "source:10000122:talent:normalattack:normalDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000122/normalAttack",
+      "field": "normalDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "蛇のような鋭さと優雅な立ち振る舞いで最大4段の蹴りを繰り出し、草元素ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "e534e18215a3043b3f33cf81ae45996d055e5db8fcae8f134344cbe31b9c6833"
+    },
+    "structuredValue": {
+      "characterId": "10000122",
+      "component": "normalAttack.normal",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000122:talent:normalattack:chargedDescriptionJa": {
+    "id": "source:10000122:talent:normalattack:chargedDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000122/normalAttack",
+      "field": "chargedDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "蛇突状態に入り、スタミナを消費する代わりに最大2.5秒間高速移動する。重撃ボタンを離した時や継続時間終了時、あるいはスタミナが尽きた時、ネフェルは蛇突状態を解除する。その際、追加でスタミナを消費し、敵に草元素ダメージを与える。**「影の舞」**状態にある時、スタミナの追加消費量が減少する。\nまた、ネフェルが蛇突状態にある時、元素スキル**盤術・千夜一舞**を発動したり、ダッシュを行ったりしても、蛇突状態は解除されない。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "85b7119b2abcdc44c64ac5f49dcebe7caecd0deb922c77e8d166e71eed57780b"
+    },
+    "structuredValue": {
+      "characterId": "10000122",
+      "component": "normalAttack.charged",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000122:talent:normalattack:plungingDescriptionJa": {
+    "id": "source:10000122:talent:normalattack:plungingDescriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000122/normalAttack",
+      "field": "plungingDescriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "空中の草元素の力を凝集させながら落下し、地面に衝撃を与える。経路上の敵を攻撃し、落下時に草元素範囲ダメージを与える。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "af4e3300c858866ba3971a3d699de8192ede99c14ea86136fa1e7fc45115b001"
+    },
+    "structuredValue": {
+      "characterId": "10000122",
+      "component": "normalAttack.plunging",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000122:talent:skill:descriptionJa": {
+    "id": "source:10000122:talent:skill:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000122/skill",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "月の色を映す薄絹のように、または寒夜の砂海のように凛とした傾国の舞。ネフェルは一定距離前方に突進して草元素範囲ダメージを与え、**「影の舞」**状態に入る。\n「影の舞」状態の時、**草露**を1滴以上所持する場合、ネフェルの重撃はスタミナを消費しない特殊な重撃**「幻の戯」**に変わる。また、「影の舞」状態中、ネフェルの中断耐性がアップする。\n\n初期使用可能回数2回。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "ccbcd681d67eead4a9717416a71c3f59761a5892bc09687c937b5a500dac91e9"
+    },
+    "structuredValue": {
+      "characterId": "10000122",
+      "component": "skill",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000122:talent:burst:descriptionJa": {
+    "id": "source:10000122:talent:burst:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000122/burst",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "トートの真眼を以て、偽物の謎に「解」を捧げ、前方の敵に草元素範囲ダメージを与える。発動時、ネフェルはすべての**「偽りの帳」**を消費し、この時発動する元素爆発のダメージをアップする。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "6dfb3fa1abaf0bd72f0852a40292e15bec8412faf4984967d2f95dcb6b905be4"
+    },
+    "structuredValue": {
+      "characterId": "10000122",
+      "component": "burst",
+      "field": "descriptionJa"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000122:talent:passive:passive-1:descriptionJa": {
+    "id": "source:10000122:talent:passive:passive-1:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000122/passives/0",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "ネフェルはチームの月兆に応じて、強化効果を獲得する。\n\n月兆・満照：元素スキル**盤術・千夜一舞**を発動する時、フィールド上の草原核を「虚言の核」に変える。さらに、付近にいるチーム内キャラクターが次の15秒間、月開花反応を起こすと、本来生成する草原核と豊穣の核が虚言の核に取って代わる。虚言の核は超開花反応や烈開花反応を起こすことができず、迸ることもできない。\nネフェルは重撃または**幻の戯**を発動することで、周囲の一定範囲内にある虚言の核を吸収できる。虚言の核を1つ吸収するたびに、ネフェルは**「偽りの帳」**効果を1層獲得する。3層まで重ねられた時、または3層の継続時間がリセットされた時、ネフェルの元素熟知+100、継続時間8秒。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "a8655534ea053e3a037a6fd62d221aa691e6ac8b7e7e56ba7776bcf7b50f1738"
+    },
+    "structuredValue": {
+      "characterId": "10000122",
+      "component": "passives.passive_1",
+      "field": "descriptionJa",
+      "passiveIndex": 0,
+      "passiveSourceId": "passive_1",
+      "passiveName": "月下の賭け"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000122:talent:passive:passive-2:descriptionJa": {
+    "id": "source:10000122:talent:passive:passive-2:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000122/passives/1",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "ネフェルが**「影の舞」**状態にある時、チーム内キャラクターが月開花反応を起こした後の5秒間、ネフェルの**蛇突状態**はチームに追加で**草露**を提供する。ネフェルの元素熟知が500を超えている時、500を超えた分の数値100につき草露の効果+10%。この方法でアップできる草露の効果は最大50%まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "25969ec2ac19cb6752878d302c68de59ef11b47590a1e863fd53326e8fc43493"
+    },
+    "structuredValue": {
+      "characterId": "10000122",
+      "component": "passives.passive_2",
+      "field": "descriptionJa",
+      "passiveIndex": 1,
+      "passiveSourceId": "passive_2",
+      "passiveName": "砂塵の娘"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000122:talent:passive:passive-utility:descriptionJa": {
+    "id": "source:10000122:talent:passive:passive-utility:descriptionJa",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-talents.json",
+      "record": "/10000122/passives/2",
+      "field": "descriptionJa"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "チーム内のキャラクターが開花反応を起こすと、開花反応は月開花反応へと変わり、ネフェルの元素熟知を基準に、チーム内キャラクターの月開花反応の基礎ダメージがアップする。元素熟知1につき、月開花反応の基礎ダメージ+0.0175%。この方法でアップできるダメージは最大14%まで。\n\nまた、ネフェルがチームにいる時、チームの月兆レベルが1アップする。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "3bec0d6ac9581844d1f0d6c2bd4b8f264c49a4b1d2464d3a41be60f062360d97"
+    },
+    "structuredValue": {
+      "characterId": "10000122",
+      "component": "passives.passive_utility",
+      "field": "descriptionJa",
+      "passiveIndex": 2,
+      "passiveSourceId": "passive_utility",
+      "passiveName": "月兆の祝福・廊下の夕影"
+    },
+    "notes": "Original Japanese talent text; no behavior values are inferred in batch 10."
+  },
+  "source:10000122:constellation:1:effectText": {
+    "id": "source:10000122:constellation:1:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000122/constellations/1",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "ネフェルの**幻の戯**による月開花反応ダメージの基礎ダメージが、ネフェルの元素熟知の60%分アップする。この効果は、**「偽りの帳」**の強化効果と合わせて計算される。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "fbea62e7e06ed028dbf700b6a7734610d502a017574f632f453bf4f9bc175fe3"
+    },
+    "structuredValue": {
+      "characterId": "10000122",
+      "level": 1,
+      "nameJa": "策謀は成否の源"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000122:constellation:2:effectText": {
+    "id": "source:10000122:constellation:2:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000122/constellations/2",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "固有天賦**「月下の賭け」**の効果を強化する。**「偽りの帳」**の継続時間+5秒。さらに重ね掛け可能な上限が5層になり、**幻の戯**による与ダメージが最大で元の140%分まで上がる。ネフェルは元素スキル**盤術・千夜一舞**を発動した時、直ちに「偽りの帳」を2層獲得する。「偽りの帳」が5層まで重ねられた時、または5層の継続時間がリセットされた時、ネフェルの元素熟知は+200となる。継続時間8秒。\n固有天賦「月下の賭け」を解放する必要がある。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "fa4df74f617db13963c6f5aee5c4566f6addb5959b9e40461f4d64906442f583"
+    },
+    "structuredValue": {
+      "characterId": "10000122",
+      "level": 2,
+      "nameJa": "洞察は計略の礎"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000122:constellation:3:effectText": {
+    "id": "source:10000122:constellation:3:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000122/constellations/3",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素スキル**盤術・千夜一舞**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "7b404cfb6c3b318932c6be4cc217389e3c16d6481f6677a90060f24e5ba08d70"
+    },
+    "structuredValue": {
+      "characterId": "10000122",
+      "level": 3,
+      "nameJa": "虚実を覆う偽り"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000122:constellation:4:effectText": {
+    "id": "source:10000122:constellation:4:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000122/constellations/4",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "ネフェルがフィールド上にいる、かつ**「影の舞」**状態にある時、草露の獲得速度+25%。\nまた、ネフェルが「影の舞」状態にある時、周囲の敵の草元素耐性-20%。この効果はネフェルが「影の舞」状態でなくなった時、あるいは敵から一定距離離れた4.5秒後に解除される。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "b3e6c3bf3b65b0eb4c6d3d2ffccfabf4bd2418e6f654560eb5fef7697f1670b3"
+    },
+    "structuredValue": {
+      "characterId": "10000122",
+      "level": 4,
+      "nameJa": "藪に堕ちる幻惑"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000122:constellation:5:effectText": {
+    "id": "source:10000122:constellation:5:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000122/constellations/5",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "元素爆発**聖約・真眼の幻戯**のスキルLv.+3。\n最大Lv.15まで。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "b2a9f06ef46188bfce6df498aba1f2df541fcc6136704ba058e21f03ad5ac137"
+    },
+    "structuredValue": {
+      "characterId": "10000122",
+      "level": 5,
+      "nameJa": "勝機は刹那にあり"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  },
+  "source:10000122:constellation:6:effectText": {
+    "id": "source:10000122:constellation:6:effectText",
+    "kind": "primaryDataset",
+    "provider": "damageTool-local",
+    "independenceGroup": "damageTool-local-derived",
+    "providerIndependence": "correlated",
+    "locator": {
+      "dataset": "character-constellations.json",
+      "record": "/10000122/constellations/6",
+      "field": "effectText"
+    },
+    "capturedAt": "2026-08-15T00:00:00.000Z",
+    "gameVersion": null,
+    "locale": "ja-JP",
+    "text": "ネフェルが**幻の戯**を発動した時、自身の2段目のダメージが、ネフェルの元素熟知の85%に相当する草元素範囲ダメージに変わる。また、幻の戯の攻撃終了時、ネフェルの元素熟知の120%に相当する草元素範囲ダメージを追加で1回与える。これらのダメージはすべて、幻の戯による月開花反応ダメージと見なされる。\n\n月兆・満照\nネフェルによる月開花反応ダメージが15%**向上**する。",
+    "integrity": {
+      "algorithm": "sha256",
+      "digest": "5474378e877006f6cb9dc5b1545cdf602d9403d2e213219e3c2375b09cc7c82d"
+    },
+    "structuredValue": {
+      "characterId": "10000122",
+      "level": 6,
+      "nameJa": "必勝は逆転にあり"
+    },
+    "notes": "Original Japanese constellation text; no behavior values are inferred in batch 10."
+  }
+}

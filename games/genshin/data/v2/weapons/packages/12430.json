@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "weapon",
+    "id": "12430"
+  },
+  "sourceRefs": [
+    "weapon:12430:catalog",
+    "weapon:12430:effect"
+  ],
+  "modifierIds": [
+    "w_12430_critBonus_ef236f15",
+    "w_12430_crit_1",
+    "w_12430_damageBonus_c7243261"
+  ],
+  "specIds": [
+    "w_12430_critBonus_ef236f15",
+    "w_12430_crit_1",
+    "w_12430_damageBonus_c7243261"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Weapon package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:weapon:12430:w_12430_critBonus_ef236f15",
+      "genshin:v2:weapon:12430:w_12430_crit_1",
+      "genshin:v2:weapon:12430:w_12430_damageBonus_c7243261"
+    ],
+    "generator": "genshinWeaponV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

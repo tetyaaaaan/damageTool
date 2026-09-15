@@ -1,0 +1,948 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinR2NewRosterCapture",
+  "generatedAt": "2026-08-28T00:00:00.000Z",
+  "status": "capturedSourceRecordsFailClosed",
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "cc22c39ac8b9479a1a84e3e9f25582a4bb3423ad055cabf9d3682cde90bab423",
+  "claim": {
+    "transitionId": "genshin:6.7->7.0",
+    "dataset": "newRosterTalentAndConstellationSource",
+    "targetGameVersion": "7.0",
+    "provider": "genshin-db",
+    "sourceFamily": "GenshinData-derived",
+    "repository": "theBowja/genshin-db",
+    "sourceNamespace": "r2-new-roster",
+    "language": "Japanese",
+    "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+    "packageVersion": "5.2.13",
+    "roster": [
+      {
+        "rosterName": "Alyosha",
+        "providerSlug": "alyosha",
+        "localEntityId": null,
+        "identityStatus": "unresolvedNoLocalEntityId"
+      },
+      {
+        "rosterName": "Odette",
+        "providerSlug": "odette",
+        "localEntityId": null,
+        "identityStatus": "unresolvedNoLocalEntityId"
+      },
+      {
+        "rosterName": "Traveler",
+        "providerSlug": "travelercryo",
+        "localEntityId": null,
+        "identityStatus": "unresolvedNoLocalEntityId"
+      }
+    ],
+    "versionBinding": {
+      "status": "strictlyBound",
+      "gameVersion": "7.0",
+      "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+      "packageVersion": "5.2.13",
+      "package": {
+        "gameVersion": "7.0",
+        "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+        "packageVersion": "5.2.13",
+        "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+        "gitBlob": "cfccefd470f420159b1376440e1a0f86a247030d",
+        "rawArtifactBytes": 1619,
+        "rawArtifactSha256": "3faf0b2220539a07af9260f5dd83afd0e964aa42868c9b3b73c6cb14065085c6",
+        "name": "genshin-db",
+        "description": "Genshin Impact v7.0 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo.",
+        "version": "5.2.13",
+        "strictGameVersionText": "Genshin Impact v7.0 JSON data"
+      }
+    },
+    "treeBinding": {
+      "status": "savedGitTreeEvidence",
+      "sourcePath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-localized-identity-bridge-10000124/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/localized-tree-resolution.json",
+      "repository": "theBowja/genshin-db",
+      "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+      "language": "Japanese",
+      "recordKinds": [
+        "talents",
+        "constellations"
+      ],
+      "finalTreeSha": {
+        "talents": "81ceedddc66a40cb74fb5ea42538ceed5243962a",
+        "constellations": "8b53389637443eee0977a4756dc7f492f1b1bc6a"
+      },
+      "selectedEntryCount": 6,
+      "selectedEntries": [
+        {
+          "providerSlug": "alyosha",
+          "recordKind": "talents",
+          "path": "alyosha.json",
+          "sha": "2b53f0f352e7a9bce11519da57d1297798a41569",
+          "size": 10629,
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/Japanese/talents/alyosha.json"
+        },
+        {
+          "providerSlug": "alyosha",
+          "recordKind": "constellations",
+          "path": "alyosha.json",
+          "sha": "e57dec5dec5e49ba6716ca1ce6b29098933d16b0",
+          "size": 3269,
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/Japanese/constellations/alyosha.json"
+        },
+        {
+          "providerSlug": "odette",
+          "recordKind": "talents",
+          "path": "odette.json",
+          "sha": "63a090be8bedef85ff746ad0b75b0aa053c82fb6",
+          "size": 12164,
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/Japanese/talents/odette.json"
+        },
+        {
+          "providerSlug": "odette",
+          "recordKind": "constellations",
+          "path": "odette.json",
+          "sha": "5da0094c8b301775519af7f382cf032170d60826",
+          "size": 7195,
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/Japanese/constellations/odette.json"
+        },
+        {
+          "providerSlug": "travelercryo",
+          "recordKind": "talents",
+          "path": "travelercryo.json",
+          "sha": "b71226386b2b116c0a01ab943d288e9076bcea19",
+          "size": 10688,
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/Japanese/talents/travelercryo.json"
+        },
+        {
+          "providerSlug": "travelercryo",
+          "recordKind": "constellations",
+          "path": "travelercryo.json",
+          "sha": "1cd886a60e08ad5e1ffa1e23fe5370ea62b5e5dd",
+          "size": 3074,
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/Japanese/constellations/travelercryo.json"
+        }
+      ]
+    },
+    "records": [
+      {
+        "rosterName": "Alyosha",
+        "providerSlug": "alyosha",
+        "recordKind": "talents",
+        "language": "Japanese",
+        "status": "captured",
+        "localEntityId": null,
+        "identityStatus": "providerRecordIdentityOnly",
+        "providerPath": "src/data/Japanese/talents/alyosha.json",
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/Japanese/talents/alyosha.json",
+        "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/alyosha.json",
+        "treeBlobSha": "2b53f0f352e7a9bce11519da57d1297798a41569",
+        "treeBlobBytes": 10629,
+        "gitBlob": "2b53f0f352e7a9bce11519da57d1297798a41569",
+        "rawArtifactBytes": 10629,
+        "rawArtifactSha256": "73cf34722cb50420536ba2f2d6bd3459fdad5e25d9c0224773674b87937f785c",
+        "embeddedIdPath": "$.id",
+        "embeddedId": 14801,
+        "embeddedName": "アリョーシャ",
+        "explicitEmbeddedIdentity": true,
+        "structuredSummary": {
+          "topLevelKeys": [
+            "combat1",
+            "combat2",
+            "combat3",
+            "costs",
+            "id",
+            "name",
+            "passive1",
+            "passive2",
+            "passive3",
+            "passive4"
+          ],
+          "sections": [
+            {
+              "key": "combat1",
+              "name": "迅雷の角槍",
+              "labels": [
+                "1段ダメージ|{param1:F1P}",
+                "2段ダメージ|{param2:F1P}",
+                "3段ダメージ|{param3:F1P}+{param4:F1P}",
+                "4段ダメージ|{param5:F1P}",
+                "重撃ダメージ|{param6:F1P}",
+                "重撃スタミナ消費|{param7:F1}",
+                "落下期間のダメージ|{param8:F1P}",
+                "低空/高空落下攻撃ダメージ|{param9:F1P}/{param10:F1P}"
+              ],
+              "values": [],
+              "labelCount": 8,
+              "valueCount": 0,
+              "parameterTokenCount": 8,
+              "numericLiteralCount": 5,
+              "descriptionDigest": "3493c25b760072b9cc4a234f7cd2cfff371e40e6a3b6a90ba696813b58bade81"
+            },
+            {
+              "key": "combat2",
+              "name": "伏撃の雷鳴",
+              "labels": [
+                "一回押しダメージ|{param1:F1P}",
+                "長押しダメージ|{param2:F1P}",
+                "クールタイム|{param3:F1}秒",
+                "狩猟の印継続時間|{param4:F1}秒",
+                "狩人の照準の攻撃力アップ|{param5:F1P}",
+                "狩人の照準継続時間|{param6:F1}秒"
+              ],
+              "values": [],
+              "labelCount": 6,
+              "valueCount": 0,
+              "parameterTokenCount": 6,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "01228b4e47cb69bef06ba0c4be4fdd07b17fc868287e89030e4539b17451fcf2"
+            },
+            {
+              "key": "combat3",
+              "name": "攻守の猟犬",
+              "labels": [
+                "雷の狩場ダメージ|{param1:F1P}",
+                "トゥガリンのダメージ|{param2:F1P}",
+                "継続時間|{param3:F1}秒",
+                "クールタイム|{param4:F1}秒",
+                "元素エネルギー|{param5:I}"
+              ],
+              "values": [],
+              "labelCount": 5,
+              "valueCount": 0,
+              "parameterTokenCount": 5,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "50e7768dd06b65c0840d6f76fd86a42a72585419556c667a225c8b30fd255c55"
+            },
+            {
+              "key": "costs",
+              "name": null,
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": null
+            },
+            {
+              "key": "passive1",
+              "name": "微睡む林の目覚め",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "9518c9af580b88d89a376350b92978d24f82da9c996a88a71c7daeb3a78ada81"
+            },
+            {
+              "key": "passive2",
+              "name": "冬の麦と落ち葉に告げる別れ",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "9f2bcbfce0ce935fa41445804a3b0550397508c4567f0dc6cde733736cca516a"
+            },
+            {
+              "key": "passive3",
+              "name": "危うきに赴く星",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "0a607430692b496c2c8f148b6661a1ffcb929f868eb598a770164f79b6614bf6"
+            },
+            {
+              "key": "passive4",
+              "name": "梢からの偵察",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "83b699bec53e6aa561369deffc1c55d92527bc431ea0678708a652c4b2a349e5"
+            }
+          ],
+          "attributeSectionCount": 3,
+          "attributeLabelCount": 19,
+          "attributeValueCount": 0,
+          "parameterTokenCount": 19,
+          "numericLiteralCount": 5,
+          "extractedFrom": "provider JSON attributes.labels/attributes.values and section names; no prose-to-runtime inference"
+        }
+      },
+      {
+        "rosterName": "Alyosha",
+        "providerSlug": "alyosha",
+        "recordKind": "constellations",
+        "language": "Japanese",
+        "status": "captured",
+        "localEntityId": null,
+        "identityStatus": "providerRecordIdentityOnly",
+        "providerPath": "src/data/Japanese/constellations/alyosha.json",
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/Japanese/constellations/alyosha.json",
+        "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/alyosha.json",
+        "treeBlobSha": "e57dec5dec5e49ba6716ca1ce6b29098933d16b0",
+        "treeBlobBytes": 3269,
+        "gitBlob": "e57dec5dec5e49ba6716ca1ce6b29098933d16b0",
+        "rawArtifactBytes": 3269,
+        "rawArtifactSha256": "ce5209fe7bf03f5c6a442ae4371e7a68b04cec816adc4e920be7812602d2f2ff",
+        "embeddedIdPath": "$.id",
+        "embeddedId": 14801,
+        "embeddedName": "アリョーシャ",
+        "explicitEmbeddedIdentity": true,
+        "structuredSummary": {
+          "topLevelKeys": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5",
+            "c6",
+            "id",
+            "name"
+          ],
+          "sections": [
+            {
+              "key": "c1",
+              "name": "寒谷の轟雷",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "8c9c3e9db87686c03cb644401448ddf78e8bb6ae8762d91b9098dcedd9ee5f90"
+            },
+            {
+              "key": "c2",
+              "name": "遠吠えの合図",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "f2cde3bd6828a42cb0ac8c7ad5698855e3579b5c10e63857bf8c89e247807c2b"
+            },
+            {
+              "key": "c3",
+              "name": "仲間の呼び声",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "e574f844e94cbdee8c7779a12007310855c9fc3fa4845cc65882de96d75f9aef"
+            },
+            {
+              "key": "c4",
+              "name": "獲物の回収",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "e3b5733e7e8a33ba5adfb390d3466883f0bfe9f2d692ebb427a9203fa3afbfd2"
+            },
+            {
+              "key": "c5",
+              "name": "歌鳥の沈黙",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "6e34e530b2137b1777d8f303e4df54634fcf57ca325126ae140d89cb1e9dd9c2"
+            },
+            {
+              "key": "c6",
+              "name": "御旗の奪還",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "abdd0e0cbd48884fdbec19298f95ab24bb6d597f7253d39bb7265603e55499a0"
+            }
+          ],
+          "attributeSectionCount": 0,
+          "attributeLabelCount": 0,
+          "attributeValueCount": 0,
+          "parameterTokenCount": 0,
+          "numericLiteralCount": 0,
+          "extractedFrom": "provider JSON attributes.labels/attributes.values and section names; no prose-to-runtime inference"
+        }
+      },
+      {
+        "rosterName": "Odette",
+        "providerSlug": "odette",
+        "recordKind": "talents",
+        "language": "Japanese",
+        "status": "captured",
+        "localEntityId": null,
+        "identityStatus": "providerRecordIdentityOnly",
+        "providerPath": "src/data/Japanese/talents/odette.json",
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/Japanese/talents/odette.json",
+        "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json",
+        "treeBlobSha": "63a090be8bedef85ff746ad0b75b0aa053c82fb6",
+        "treeBlobBytes": 12164,
+        "gitBlob": "63a090be8bedef85ff746ad0b75b0aa053c82fb6",
+        "rawArtifactBytes": 12164,
+        "rawArtifactSha256": "494790e29c2d01a01d3f1323d8951096fd0c7813cf9da629172fdf8671576526",
+        "embeddedIdPath": "$.id",
+        "embeddedId": 15001,
+        "embeddedName": "オデット",
+        "explicitEmbeddedIdentity": true,
+        "structuredSummary": {
+          "topLevelKeys": [
+            "combat1",
+            "combat2",
+            "combat3",
+            "costs",
+            "id",
+            "name",
+            "passive1",
+            "passive2",
+            "passive3",
+            "passive4"
+          ],
+          "sections": [
+            {
+              "key": "combat1",
+              "name": "雪鳥のヴァリエーション",
+              "labels": [
+                "1段ダメージ|{param1:F1P}",
+                "2段ダメージ|{param2:F1P}",
+                "3段ダメージ|{param3:F1P}+{param4:F1P}",
+                "4段ダメージ|{param5:F1P}",
+                "5段ダメージ|{param6:F1P}",
+                "重撃ダメージ|{param7:F1P}",
+                "重撃スタミナ消費|{param8:F1}",
+                "落下期間のダメージ|{param9:F1P}",
+                "低空/高空落下攻撃ダメージ|{param10:P}/{param11:P}"
+              ],
+              "values": [],
+              "labelCount": 9,
+              "valueCount": 0,
+              "parameterTokenCount": 9,
+              "numericLiteralCount": 7,
+              "descriptionDigest": "c52b9cbc6a4b21e305e840b089eac8b4eae7feea8c9c1444d234284181b111ec"
+            },
+            {
+              "key": "combat2",
+              "name": "柔きファントムの夜の舞",
+              "labels": [
+                "スキルダメージ|{param1:F1P}",
+                "払暁のコーダの継続ダメージ|{param2:F1P}",
+                "払暁のコーダの星電導/星拡散ダメージ|{param3:P}/{param4:P}",
+                "プルームステップのダメージ|{param5:F1P}",
+                "プルームステップの星電導/星拡散ダメージ|{param6:P}/{param7:P}",
+                "ウィングステップのダメージ|{param8:F1P}",
+                "ウィングステップの星電導/星拡散ダメージ|{param9:P}/{param10:P}",
+                "払暁のコーダのクールタイム|{param13:F1}秒",
+                "独舞者のシルエットの継続時間|{param11:F1}秒",
+                "スキルクールタイム|{param12:F1}秒"
+              ],
+              "values": [],
+              "labelCount": 10,
+              "valueCount": 0,
+              "parameterTokenCount": 10,
+              "numericLiteralCount": 4,
+              "descriptionDigest": "f7b2d7fc0ee19d3c77897bda4d575430dbea4c4f3c68dcf5c3ae06a66b77a9a2"
+            },
+            {
+              "key": "combat3",
+              "name": "疾きブルーバードの夢",
+              "labels": [
+                "斬撃ダメージ|{param1:F1P}×3",
+                "最終斬撃ダメージ|{param2:F1P}",
+                "雪鳥の夢の星反応ダメージアップ|{param3:F1P}",
+                "雪鳥の夢の継続時間|{param4:F1}秒",
+                "独舞者のシルエットの継続時間|{param5:F1}秒",
+                "クールタイム|{param6:F1}秒",
+                "元素エネルギー|{param7:I}"
+              ],
+              "values": [],
+              "labelCount": 7,
+              "valueCount": 0,
+              "parameterTokenCount": 7,
+              "numericLiteralCount": 1,
+              "descriptionDigest": "a14cb8874e7512d494d8c013fdb533cb424e5d47a26b2d865e148eb3be6338a0"
+            },
+            {
+              "key": "costs",
+              "name": null,
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": null
+            },
+            {
+              "key": "passive1",
+              "name": "選ばれし者の祝祭",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "c9d2638acce01cbe15df7a188e4dbcfed2b9a9eb05cdfccdc7204f741b612895"
+            },
+            {
+              "key": "passive2",
+              "name": "誠実なる者の悲しき歌",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "b953e63bf584f8ce7cda3c509389a6088c2aad77aa55a332f01068fa3ac7b2f9"
+            },
+            {
+              "key": "passive3",
+              "name": "星光の祝福・銀暁の舞",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "27d6eb2df0a80fa60e3dc0c6bca1deef6e00e64d93660b7b9cb2ddd73de8a0b3"
+            },
+            {
+              "key": "passive4",
+              "name": "こだまする冬の夢",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "641165099bb15357c4aa27b574ddb880248f8a538edd5fcb9d2cfa6b9eeeacd4"
+            }
+          ],
+          "attributeSectionCount": 3,
+          "attributeLabelCount": 26,
+          "attributeValueCount": 0,
+          "parameterTokenCount": 26,
+          "numericLiteralCount": 12,
+          "extractedFrom": "provider JSON attributes.labels/attributes.values and section names; no prose-to-runtime inference"
+        }
+      },
+      {
+        "rosterName": "Odette",
+        "providerSlug": "odette",
+        "recordKind": "constellations",
+        "language": "Japanese",
+        "status": "captured",
+        "localEntityId": null,
+        "identityStatus": "providerRecordIdentityOnly",
+        "providerPath": "src/data/Japanese/constellations/odette.json",
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/Japanese/constellations/odette.json",
+        "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/odette.json",
+        "treeBlobSha": "5da0094c8b301775519af7f382cf032170d60826",
+        "treeBlobBytes": 7195,
+        "gitBlob": "5da0094c8b301775519af7f382cf032170d60826",
+        "rawArtifactBytes": 7195,
+        "rawArtifactSha256": "4a59201762269c514b16acbce2a7976d717734230a985ee8004f683386c4ade3",
+        "embeddedIdPath": "$.id",
+        "embeddedId": 15001,
+        "embeddedName": "オデット",
+        "explicitEmbeddedIdentity": true,
+        "structuredSummary": {
+          "topLevelKeys": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5",
+            "c6",
+            "id",
+            "name"
+          ],
+          "sections": [
+            {
+              "key": "c1",
+              "name": "「踊らぬ朝に彼女は 己の影を見つめる」",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "0be9bf5ae2af558b8996d099d14f0ca2db98cc876dc9aee571d2d69bfc4010fc"
+            },
+            {
+              "key": "c2",
+              "name": "「雪鳥の見ぬ夢を只 見届けたいだけで」",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "46c7fc0406404a943e358d763f422be665285fa5ff760e583a903614ee4f34b2"
+            },
+            {
+              "key": "c3",
+              "name": "「荒れ狂う風を追い ひとり高みへ昇る」",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "31af66a412ddae025a97f831cca79fdc74c174cafafcf42c7aae688e216cdd65"
+            },
+            {
+              "key": "c4",
+              "name": "「燃ゆる青空の中へ 恍惚と堕ちていく」",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "d2d1a6b47945c11ef55c5647d41ae7e646f70e093ec49b18e28fa12c6260af7e"
+            },
+            {
+              "key": "c5",
+              "name": "「見よ——塵と土の 痛みと別れる時を」",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "3a4239cfee6519dd445c12fb2e120e65b026f4b91cb8696c0af4839f0dc8549e"
+            },
+            {
+              "key": "c6",
+              "name": "「さあ手を伸ばして 永遠の空に触れて」",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "c865f149e454575316f54fcba5bc4091f0b5ed8334ad1247193d51bcb4653eab"
+            }
+          ],
+          "attributeSectionCount": 0,
+          "attributeLabelCount": 0,
+          "attributeValueCount": 0,
+          "parameterTokenCount": 0,
+          "numericLiteralCount": 0,
+          "extractedFrom": "provider JSON attributes.labels/attributes.values and section names; no prose-to-runtime inference"
+        }
+      },
+      {
+        "rosterName": "Traveler",
+        "providerSlug": "travelercryo",
+        "recordKind": "talents",
+        "language": "Japanese",
+        "status": "captured",
+        "localEntityId": null,
+        "identityStatus": "providerRecordIdentityOnly",
+        "providerPath": "src/data/Japanese/talents/travelercryo.json",
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/Japanese/talents/travelercryo.json",
+        "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/travelercryo.json",
+        "treeBlobSha": "b71226386b2b116c0a01ab943d288e9076bcea19",
+        "treeBlobBytes": 10688,
+        "gitBlob": "b71226386b2b116c0a01ab943d288e9076bcea19",
+        "rawArtifactBytes": 10688,
+        "rawArtifactSha256": "244eb713eeae59585e124b4d0f31866255416fbf90823dc17780e95ba09b33f9",
+        "embeddedIdPath": "$.id",
+        "embeddedId": 705,
+        "embeddedName": "旅人 (氷元素)",
+        "explicitEmbeddedIdentity": true,
+        "structuredSummary": {
+          "topLevelKeys": [
+            "combat1",
+            "combat2",
+            "combat3",
+            "costs",
+            "id",
+            "name",
+            "passive1",
+            "passive2",
+            "passive3"
+          ],
+          "sections": [
+            {
+              "key": "combat1",
+              "name": "異邦の寒光",
+              "labels": [
+                "1段ダメージ|{param1:F1P}",
+                "2段ダメージ|{param2:F1P}",
+                "3段ダメージ|{param3:F1P}",
+                "4段ダメージ|{param4:F1P}",
+                "5段ダメージ|{param5:F1P}",
+                "重撃ダメージ|{param6:F1P}+{param7:F1P}",
+                "重撃スタミナ消費|{param8:F1}",
+                "落下期間のダメージ|{param9:F1P}",
+                "低空/高空落下攻撃ダメージ|{param10:P}/{param11:P}"
+              ],
+              "values": [],
+              "labelCount": 9,
+              "valueCount": 0,
+              "parameterTokenCount": 9,
+              "numericLiteralCount": 7,
+              "descriptionDigest": "3cfae4c016d00a5d0ece51b69a604c7851fb57114048a8dd406116edbe47a75f"
+            },
+            {
+              "key": "combat2",
+              "name": "霧氷の剣",
+              "labels": [
+                "スキルダメージ|{param1:F1P}",
+                "氷晶ダメージ|{param2:F1P}",
+                "凛冽の寒星継続時間|{param4:F1}秒",
+                "クールタイム|{param3:F1}秒"
+              ],
+              "values": [],
+              "labelCount": 4,
+              "valueCount": 0,
+              "parameterTokenCount": 4,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "d4dd0e8b2b739bbc984b4b924472824f534e29f096490223f7bcb57bbb89daec"
+            },
+            {
+              "key": "combat3",
+              "name": "飛氷の鉾",
+              "labels": [
+                "投げ槍1回ダメージ|{param1:F1P}",
+                "寒光ダメージアップ|{param2:F1P}",
+                "星電導投げ槍1回ダメージ|{param8:F1P}",
+                "星電導寒光ダメージアップ|{param9:F1P}",
+                "星拡散投げ槍1回ダメージ|{param10:F1P}",
+                "星拡散寒光ダメージアップ|{param11:F1P}",
+                "攻撃回数|{param3:I}",
+                "最大層数の寒光による追加の攻撃回数|{param4:I}",
+                "クールタイム|{param6:F1}秒",
+                "元素エネルギー|{param7:I}"
+              ],
+              "values": [],
+              "labelCount": 10,
+              "valueCount": 0,
+              "parameterTokenCount": 10,
+              "numericLiteralCount": 5,
+              "descriptionDigest": "4f959213956015cf3f8f722218617bf2e749158c539b48cf91e681ae19a381cf"
+            },
+            {
+              "key": "costs",
+              "name": null,
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": null
+            },
+            {
+              "key": "passive1",
+              "name": "鋭き凛氷",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "57b0806f6e74156c41d0cbe8977562b9483fd416a0bb5a0c695842b360dbd8e8"
+            },
+            {
+              "key": "passive2",
+              "name": "透明なる冷氷",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "25c27a5c51678cf1461f488d03981e087968a60c942f6659ad6d7cec9f0f87a3"
+            },
+            {
+              "key": "passive3",
+              "name": "星光の祝福・変幻の氷面鏡",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "1186b7be7499b3726c4adc62c41ce5b7e8a288f866afd2b8cce303bbf3829be7"
+            }
+          ],
+          "attributeSectionCount": 3,
+          "attributeLabelCount": 23,
+          "attributeValueCount": 0,
+          "parameterTokenCount": 23,
+          "numericLiteralCount": 12,
+          "extractedFrom": "provider JSON attributes.labels/attributes.values and section names; no prose-to-runtime inference"
+        }
+      },
+      {
+        "rosterName": "Traveler",
+        "providerSlug": "travelercryo",
+        "recordKind": "constellations",
+        "language": "Japanese",
+        "status": "captured",
+        "localEntityId": null,
+        "identityStatus": "providerRecordIdentityOnly",
+        "providerPath": "src/data/Japanese/constellations/travelercryo.json",
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/Japanese/constellations/travelercryo.json",
+        "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/travelercryo.json",
+        "treeBlobSha": "1cd886a60e08ad5e1ffa1e23fe5370ea62b5e5dd",
+        "treeBlobBytes": 3074,
+        "gitBlob": "1cd886a60e08ad5e1ffa1e23fe5370ea62b5e5dd",
+        "rawArtifactBytes": 3074,
+        "rawArtifactSha256": "58bd4518e19b6d5019700c9c3e77c8a0327ecb4049d4512fb45b3cfe7fba724c",
+        "embeddedIdPath": "$.id",
+        "embeddedId": 705,
+        "embeddedName": "旅人 (氷元素)",
+        "explicitEmbeddedIdentity": true,
+        "structuredSummary": {
+          "topLevelKeys": [
+            "c1",
+            "c2",
+            "c3",
+            "c4",
+            "c5",
+            "c6",
+            "id",
+            "name"
+          ],
+          "sections": [
+            {
+              "key": "c1",
+              "name": "静まりゆく結氷",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "61c88ce9a996a6414d0f7d0bfd401ae3ea9b73411342bb3b21f52fc93e9e4746"
+            },
+            {
+              "key": "c2",
+              "name": "唸る隕氷",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "2020b2eb29f48780c885f26b1d5554bf3ae0d2128395d24506f7196a6dd40bfc"
+            },
+            {
+              "key": "c3",
+              "name": "断ちきる鋭氷",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "052a665388306d231f6ea210bf2d1dd5dbab783d8a95cafc1f73b23b738aa89f"
+            },
+            {
+              "key": "c4",
+              "name": "溶けざる堅氷",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "18b0aa40db7e30c615d6998ab58a169aac8020f5bd8e518ff040b28d001813f7"
+            },
+            {
+              "key": "c5",
+              "name": "凍てつく霧氷",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "ae0ceec1ee1321c56cc28cbb81fcbf0e454ae1add4779eb1994af972cba60b90"
+            },
+            {
+              "key": "c6",
+              "name": "殺める輝氷",
+              "labels": [],
+              "values": [],
+              "labelCount": 0,
+              "valueCount": 0,
+              "parameterTokenCount": 0,
+              "numericLiteralCount": 0,
+              "descriptionDigest": "d910c97dfe14fe1bb6806c51b621a7531ebc8dd5dd5af6a15095dc0726bc7fd7"
+            }
+          ],
+          "attributeSectionCount": 0,
+          "attributeLabelCount": 0,
+          "attributeValueCount": 0,
+          "parameterTokenCount": 0,
+          "numericLiteralCount": 0,
+          "extractedFrom": "provider JSON attributes.labels/attributes.values and section names; no prose-to-runtime inference"
+        }
+      }
+    ],
+    "coverage": {
+      "requestedRecordCount": 6,
+      "capturedRecordCount": 6,
+      "missingRecordCount": 0,
+      "rosterCount": 3,
+      "recordKinds": [
+        "talents",
+        "constellations"
+      ],
+      "providerFamilyCount": 1,
+      "sourceFamilyCount": 1,
+      "exactRawArtifactProof": true,
+      "localEntityIdResolution": "unresolved"
+    },
+    "prerequisites": {
+      "numericScaling": "provider records expose parameterized labels/values only; resolved level/scaling tables are not materialized here",
+      "localEntityId": "unresolved; provider embedded ids are not production local entity ids and no arithmetic mapping is permitted",
+      "independentProvider": "missing; all six records are from one genshin-db/GenshinData-derived family",
+      "semanticMechanics": "not parsed into runtime semantics; source capture does not issue a certificate or promote canonical data",
+      "versionComparison": "no 6.7 counterpart was requested; this is a 7.0 source-availability capture"
+    },
+    "gateEligibility": {
+      "status": "singleProviderFamilyFailClosed",
+      "sourceFamilyCount": 1,
+      "canIssueEligibilityCertificate": false,
+      "canPromoteCanonical": false,
+      "reasons": [
+        "independentProviderCorroborationMissing",
+        "localEntityIdUnresolved"
+      ]
+    }
+  },
+  "summary": {
+    "targetGameVersion": "7.0",
+    "rosterCount": 3,
+    "requestedRecords": 6,
+    "capturedRecords": 6,
+    "missingRecords": 0,
+    "sourceFamilyCount": 1,
+    "certificateEligibleClaims": 0,
+    "canonicalPromotionCount": 0
+  }
+}

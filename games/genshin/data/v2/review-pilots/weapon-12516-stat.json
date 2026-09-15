@@ -1,0 +1,758 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinRepresentativeReviewPilot",
+  "generatedAt": "2026-08-23T00:00:00.000Z",
+  "target": {
+    "kind": "weapon",
+    "id": "12516",
+    "name": "超越の鍵",
+    "candidateId": "w_12516_stat_1"
+  },
+  "sourceRecords": {
+    "official": {
+      "id": "hoyowiki:genshin:weapon:12516:stat-clause",
+      "provider": "HoYoverse HoYoWiki",
+      "independenceGroup": "official-hoyoverse",
+      "locator": "https://wiki.hoyolab.com/pc/genshin/entry/10949",
+      "identifier": "entry/10949#passive-first-clause",
+      "locale": "ja-JP",
+      "rawText": "攻撃力+28/35/42/49/56%。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac"
+      },
+      "gameVersion": "6.7",
+      "strictGameVersionBinding": true,
+      "gameVersionEvidence": {
+        "implementationVersion": "Luna VIII",
+        "officialUpdateLocator": "https://www.hoyolab.com/article_pre/18014398241022990",
+        "method": "The entry identifies Luna VIII; the provider-authored update identifies Luna VIII as Version 6.7 and names this weapon."
+      }
+    },
+    "genshinDb": {
+      "id": "genshin-db:weapon:12516:1bab2cd",
+      "provider": "theBowja/genshin-db",
+      "independenceGroup": "genshin-db",
+      "locator": "https://github.com/theBowja/genshin-db/blob/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/ateaspoonoftranscendence.json",
+      "identifier": "git:1bab2cdba4d218fd5caa46b5f54e7884ee8359a2:English/weapons/ateaspoonoftranscendence.json",
+      "locale": "en-US",
+      "rawText": "ATK is increased by 28/35/42/49/56%.",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "3e9a6f1733d174ce55c174b0996d4d5406bca386aca8ba9d9086dc2b7e3e8436"
+      },
+      "gameVersion": "6.7",
+      "strictGameVersionBinding": true,
+      "gameVersionEvidence": {
+        "locator": "https://github.com/theBowja/genshin-db/blob/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+        "providerStatement": "Genshin Impact v6.7 JSON data"
+      }
+    }
+  },
+  "claims": {
+    "value": {
+      "status": "needsReview",
+      "claimKind": "externalFactual",
+      "evidence": [
+        {
+          "sourceId": "hoyowiki:genshin:weapon:12516:stat-clause",
+          "provider": "HoYoverse HoYoWiki",
+          "independenceGroup": "official-hoyoverse",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": {
+            "1": 28,
+            "2": 35,
+            "3": 42,
+            "4": 49,
+            "5": 56
+          }
+        },
+        {
+          "sourceId": "genshin-db:weapon:12516:1bab2cd",
+          "provider": "theBowja/genshin-db",
+          "independenceGroup": "genshin-db",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": {
+            "1": 28,
+            "2": 35,
+            "3": 42,
+            "4": 49,
+            "5": 56
+          }
+        }
+      ],
+      "comparison": {
+        "status": "match",
+        "normalizedValue": {
+          "1": 28,
+          "2": 35,
+          "3": 42,
+          "4": 49,
+          "5": 56
+        }
+      },
+      "discrepancies": []
+    },
+    "refinement": {
+      "status": "needsReview",
+      "claimKind": "externalFactual",
+      "evidence": [
+        {
+          "sourceId": "hoyowiki:genshin:weapon:12516:stat-clause",
+          "provider": "HoYoverse HoYoWiki",
+          "independenceGroup": "official-hoyoverse",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": {
+            "1": 28,
+            "2": 35,
+            "3": 42,
+            "4": 49,
+            "5": 56
+          }
+        },
+        {
+          "sourceId": "genshin-db:weapon:12516:1bab2cd",
+          "provider": "theBowja/genshin-db",
+          "independenceGroup": "genshin-db",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": {
+            "1": 28,
+            "2": 35,
+            "3": 42,
+            "4": 49,
+            "5": 56
+          }
+        }
+      ],
+      "comparison": {
+        "status": "match",
+        "normalizedValue": {
+          "1": 28,
+          "2": 35,
+          "3": 42,
+          "4": 49,
+          "5": 56
+        }
+      },
+      "discrepancies": []
+    },
+    "activation": {
+      "status": "needsReview",
+      "claimKind": "externalFactual",
+      "evidence": [
+        {
+          "sourceId": "hoyowiki:genshin:weapon:12516:stat-clause",
+          "provider": "HoYoverse HoYoWiki",
+          "independenceGroup": "official-hoyoverse",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": "always"
+        },
+        {
+          "sourceId": "genshin-db:weapon:12516:1bab2cd",
+          "provider": "theBowja/genshin-db",
+          "independenceGroup": "genshin-db",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": "always"
+        }
+      ],
+      "comparison": {
+        "status": "match",
+        "normalizedValue": "always"
+      },
+      "discrepancies": []
+    },
+    "targets": {
+      "status": "needsReview",
+      "claimKind": "externalFactual",
+      "evidence": [
+        {
+          "sourceId": "hoyowiki:genshin:weapon:12516:stat-clause",
+          "provider": "HoYoverse HoYoWiki",
+          "independenceGroup": "official-hoyoverse",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": [
+            "atkPercent"
+          ]
+        },
+        {
+          "sourceId": "genshin-db:weapon:12516:1bab2cd",
+          "provider": "theBowja/genshin-db",
+          "independenceGroup": "genshin-db",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": [
+            "atkPercent"
+          ]
+        }
+      ],
+      "comparison": {
+        "status": "match",
+        "normalizedValue": [
+          "atkPercent"
+        ]
+      },
+      "discrepancies": []
+    },
+    "unit": {
+      "status": "needsReview",
+      "claimKind": "externalFactual",
+      "evidence": [
+        {
+          "sourceId": "hoyowiki:genshin:weapon:12516:stat-clause",
+          "provider": "HoYoverse HoYoWiki",
+          "independenceGroup": "official-hoyoverse",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": "percent"
+        },
+        {
+          "sourceId": "genshin-db:weapon:12516:1bab2cd",
+          "provider": "theBowja/genshin-db",
+          "independenceGroup": "genshin-db",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": "percent"
+        }
+      ],
+      "comparison": {
+        "status": "match",
+        "normalizedValue": "percent"
+      },
+      "discrepancies": []
+    },
+    "effect.activation.uidHandling": {
+      "status": "needsReview",
+      "claimKind": "internalRuntimeRoute",
+      "codeProvenance": {
+        "deterministic": true,
+        "path": "games/js/genshinDataContract.js",
+        "locator": "effect.activation.uidHandling",
+        "digest": "3f7c036526ce3b2ecd73a3c3063e8c1681f1e6628a52a4b69ec4f5b12f12ea53"
+      },
+      "focusedTests": [
+        {
+          "id": "genshinRepresentativeReviewPilot",
+          "status": "passed"
+        }
+      ],
+      "discrepancies": []
+    },
+    "destination": {
+      "status": "needsReview",
+      "claimKind": "mappingMaterialization",
+      "codeProvenance": {
+        "deterministic": true,
+        "path": "scripts/genshinWeaponV2Generate.cjs",
+        "locator": "destination",
+        "digest": "19a5d1533a976379b1e80e3f43183d07d49ba85ec437bce717f78d2c8ff945ad"
+      },
+      "focusedTests": [
+        {
+          "id": "genshinRepresentativeReviewPilot",
+          "status": "passed"
+        }
+      ],
+      "sourceInputsVerified": true,
+      "discrepancies": []
+    },
+    "supersedesLegacyModifierIds": {
+      "status": "needsReview",
+      "claimKind": "mappingMaterialization",
+      "codeProvenance": {
+        "deterministic": true,
+        "path": "scripts/genshinWeaponV2Generate.cjs",
+        "locator": "supersedesLegacyModifierIds",
+        "digest": "19a5d1533a976379b1e80e3f43183d07d49ba85ec437bce717f78d2c8ff945ad"
+      },
+      "focusedTests": [
+        {
+          "id": "genshinRepresentativeReviewPilot",
+          "status": "passed"
+        }
+      ],
+      "sourceInputsVerified": true,
+      "discrepancies": []
+    },
+    "runtime.modifierIds": {
+      "status": "needsReview",
+      "claimKind": "internalRuntimeRoute",
+      "codeProvenance": {
+        "deterministic": true,
+        "path": "games/js/genshinDataContract.js",
+        "locator": "runtime.modifierIds",
+        "digest": "3f7c036526ce3b2ecd73a3c3063e8c1681f1e6628a52a4b69ec4f5b12f12ea53"
+      },
+      "focusedTests": [
+        {
+          "id": "genshinRepresentativeReviewPilot",
+          "status": "passed"
+        }
+      ],
+      "discrepancies": []
+    },
+    "duration": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The unconditional ATK stat clause has no duration semantic.",
+      "discrepancies": []
+    },
+    "stack": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The maximum-three-stacks phrase is in the following reaction clause; this first, unconditional ATK clause has no stack semantics.",
+      "discrepancies": []
+    },
+    "cooldown": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The unconditional ATK stat clause has no cooldown semantic.",
+      "discrepancies": []
+    },
+    "interval": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The unconditional ATK stat clause has no interval semantic.",
+      "discrepancies": []
+    },
+    "offField": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The unconditional ATK stat clause has no offField semantic.",
+      "discrepancies": []
+    },
+    "hitCount": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The unconditional ATK stat clause has no hitCount semantic.",
+      "discrepancies": []
+    },
+    "charges": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The unconditional ATK stat clause has no charges semantic.",
+      "discrepancies": []
+    },
+    "maxInstances": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The unconditional ATK stat clause has no maxInstances semantic.",
+      "discrepancies": []
+    },
+    "elementApplication": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The unconditional ATK stat clause has no elementApplication semantic.",
+      "discrepancies": []
+    },
+    "energy": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The unconditional ATK stat clause has no energy semantic.",
+      "discrepancies": []
+    },
+    "snapshot": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The unconditional ATK stat clause has no snapshot semantic.",
+      "discrepancies": []
+    },
+    "area": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The unconditional ATK stat clause has no area semantic.",
+      "discrepancies": []
+    },
+    "registryStructure": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The unconditional ATK stat clause has no registryStructure semantic.",
+      "discrepancies": []
+    }
+  },
+  "assessment": {
+    "machineEvidenceReady": true,
+    "canonicalEligibility": false,
+    "claims": [
+      {
+        "field": "value",
+        "claimKind": "externalFactual",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "refinement",
+        "claimKind": "externalFactual",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "activation",
+        "claimKind": "externalFactual",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "targets",
+        "claimKind": "externalFactual",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "unit",
+        "claimKind": "externalFactual",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "effect.activation.uidHandling",
+        "claimKind": "internalRuntimeRoute",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "destination",
+        "claimKind": "mappingMaterialization",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "supersedesLegacyModifierIds",
+        "claimKind": "mappingMaterialization",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "runtime.modifierIds",
+        "claimKind": "internalRuntimeRoute",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "duration",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "stack",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "cooldown",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "interval",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "offField",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "hitCount",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "charges",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "maxInstances",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "elementApplication",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "energy",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "snapshot",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "area",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "registryStructure",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      }
+    ],
+    "blockedReasons": [],
+    "selfApprovalForbidden": true,
+    "canonicalBlockedReasons": [
+      "verificationNotComplete",
+      "verificationModeMissingOrInvalid",
+      "verificationSubjectMissing",
+      "claim:value:verificationModeMissingOrInvalid",
+      "claim:value:attestation:subjectMissing",
+      "claim:value:verificationAttestationMissing",
+      "claim:value:eligibilityCertificateMissing",
+      "claim:refinement:verificationModeMissingOrInvalid",
+      "claim:refinement:attestation:subjectMissing",
+      "claim:refinement:verificationAttestationMissing",
+      "claim:refinement:eligibilityCertificateMissing",
+      "claim:activation:verificationModeMissingOrInvalid",
+      "claim:activation:attestation:subjectMissing",
+      "claim:activation:verificationAttestationMissing",
+      "claim:activation:eligibilityCertificateMissing",
+      "claim:targets:verificationModeMissingOrInvalid",
+      "claim:targets:attestation:subjectMissing",
+      "claim:targets:verificationAttestationMissing",
+      "claim:targets:eligibilityCertificateMissing",
+      "claim:unit:verificationModeMissingOrInvalid",
+      "claim:unit:attestation:subjectMissing",
+      "claim:unit:verificationAttestationMissing",
+      "claim:unit:eligibilityCertificateMissing",
+      "claim:value:verificationIncomplete",
+      "claim:refinement:verificationIncomplete",
+      "claim:activation:verificationIncomplete",
+      "claim:targets:verificationIncomplete",
+      "claim:unit:verificationIncomplete",
+      "claim:effect.activation.uidHandling:verificationIncomplete",
+      "claim:destination:verificationIncomplete",
+      "claim:supersedesLegacyModifierIds:verificationIncomplete",
+      "claim:runtime.modifierIds:verificationIncomplete"
+    ],
+    "state": "humanReviewReady",
+    "productionCanonical": false
+  },
+  "reviewPacket": {
+    "packetId": "genshin:weapon:12516:w_12516_stat_1:review",
+    "target": {
+      "kind": "weapon",
+      "id": "12516",
+      "name": "超越の鍵",
+      "candidateId": "w_12516_stat_1"
+    },
+    "originalText": {
+      "sourceA": "攻撃力+28/35/42/49/56%。",
+      "sourceB": "ATK is increased by 28/35/42/49/56%."
+    },
+    "sourceA": {
+      "id": "hoyowiki:genshin:weapon:12516:stat-clause",
+      "provider": "HoYoverse HoYoWiki",
+      "independenceGroup": "official-hoyoverse",
+      "locator": "https://wiki.hoyolab.com/pc/genshin/entry/10949",
+      "identifier": "entry/10949#passive-first-clause",
+      "locale": "ja-JP",
+      "rawText": "攻撃力+28/35/42/49/56%。",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac"
+      },
+      "gameVersion": "6.7",
+      "strictGameVersionBinding": true,
+      "gameVersionEvidence": {
+        "implementationVersion": "Luna VIII",
+        "officialUpdateLocator": "https://www.hoyolab.com/article_pre/18014398241022990",
+        "method": "The entry identifies Luna VIII; the provider-authored update identifies Luna VIII as Version 6.7 and names this weapon."
+      }
+    },
+    "sourceB": {
+      "id": "genshin-db:weapon:12516:1bab2cd",
+      "provider": "theBowja/genshin-db",
+      "independenceGroup": "genshin-db",
+      "locator": "https://github.com/theBowja/genshin-db/blob/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/ateaspoonoftranscendence.json",
+      "identifier": "git:1bab2cdba4d218fd5caa46b5f54e7884ee8359a2:English/weapons/ateaspoonoftranscendence.json",
+      "locale": "en-US",
+      "rawText": "ATK is increased by 28/35/42/49/56%.",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "3e9a6f1733d174ce55c174b0996d4d5406bca386aca8ba9d9086dc2b7e3e8436"
+      },
+      "gameVersion": "6.7",
+      "strictGameVersionBinding": true,
+      "gameVersionEvidence": {
+        "locator": "https://github.com/theBowja/genshin-db/blob/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+        "providerStatement": "Genshin Impact v6.7 JSON data"
+      }
+    },
+    "providerIndependence": {
+      "status": "independent",
+      "groups": [
+        "official-hoyoverse",
+        "genshin-db"
+      ]
+    },
+    "targetGameVersion": "6.7",
+    "specValue": {
+      "target": "atkPercent",
+      "condition": "always",
+      "unit": "percent",
+      "valueByRefinement": {
+        "1": 28,
+        "2": 35,
+        "3": 42,
+        "4": 49,
+        "5": 56
+      }
+    },
+    "fieldComparison": [
+      {
+        "field": "target",
+        "sourceA": "攻撃力",
+        "sourceB": "ATK",
+        "spec": "atkPercent",
+        "status": "match",
+        "normalization": "locale stat-name mapping"
+      },
+      {
+        "field": "condition",
+        "sourceA": "standalone unconditional clause",
+        "sourceB": "standalone unconditional clause",
+        "spec": "always",
+        "status": "match"
+      },
+      {
+        "field": "refinement.1",
+        "sourceA": 28,
+        "sourceB": 28,
+        "spec": 28,
+        "status": "match"
+      },
+      {
+        "field": "refinement.2",
+        "sourceA": 35,
+        "sourceB": 35,
+        "spec": 35,
+        "status": "match"
+      },
+      {
+        "field": "refinement.3",
+        "sourceA": 42,
+        "sourceB": 42,
+        "spec": 42,
+        "status": "match"
+      },
+      {
+        "field": "refinement.4",
+        "sourceA": 49,
+        "sourceB": 49,
+        "spec": 49,
+        "status": "match"
+      },
+      {
+        "field": "refinement.5",
+        "sourceA": 56,
+        "sourceB": 56,
+        "spec": 56,
+        "status": "match"
+      },
+      {
+        "field": "unit",
+        "sourceA": "percent",
+        "sourceB": "percent",
+        "spec": "percent",
+        "status": "match"
+      },
+      {
+        "field": "stack",
+        "sourceA": "not in first clause",
+        "sourceB": "not in first clause",
+        "spec": "notApplicable",
+        "status": "match"
+      }
+    ],
+    "mappingCorrection": {
+      "status": "deterministic",
+      "removed": [
+        "stack",
+        "valueByRefinementPerStack",
+        "valueRole:stackedOrScalingByRefinement"
+      ],
+      "rationale": "The source sentence boundary separates the unconditional ATK clause from the later reaction clause that contains the three-stack limit."
+    },
+    "runtimeTarget": {
+      "dataset": "weaponModifiers",
+      "path": "/12516/modifiers",
+      "legacyModifierId": "w_12516_stat_1",
+      "canonicalRuntimeIdAfterApproval": "genshin:v2:weapon:12516:w_12516_stat_1",
+      "calculation": "atkPercent is selected by refinement and applied through the existing statBonus route",
+      "ui": "weapon 12516 selection plus refinement rank; no result-value toggle is introduced"
+    },
+    "unresolved": [],
+    "machineEvidenceReady": true,
+    "canonicalEligibility": false,
+    "verification": {
+      "status": "needsReview",
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "sourceAgreement": "agreed"
+    },
+    "recommendation": "approve, reject, or hold after reviewing the evidence; no automatic approval",
+    "reviewDecisionOptions": [
+      "approve",
+      "reject",
+      "hold"
+    ]
+  },
+  "generatedFrom": {
+    "specCandidates": {
+      "path": "games/genshin/data/v2/weapons/spec-candidates.json",
+      "sha256": "3bd0ae84cddc8842fed12c818f384a69cdcc7ca0dc844f63baacffc72057dc5d"
+    },
+    "weaponModifiers": {
+      "path": "games/genshin/data/calc/weapon-modifiers.json",
+      "sha256": "d0df82832161da060521209cfe1614929fe9387ee05ab7f2fdf53ce50dc143df"
+    }
+  }
+}

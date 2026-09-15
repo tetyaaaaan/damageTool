@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 2,
+  "capturedAt": "2026-08-15T00:00:00+09:00",
+  "contract": {
+    "revisionSemantics": "repositoryRevisionOnly",
+    "gameVersionSemantics": "explicitGameVersionEvidenceRequired",
+    "independenceSemantics": "distinctProviderAndIndependenceGroup",
+    "canonicalGate": "revisionAndFileDigestNeverSubstituteForGameVersion",
+    "gameVersionEvidenceKinds": [
+      "gameClientManifest",
+      "providerDatasetManifest",
+      "providerReleaseArtifact",
+      "releaseNotesWithExplicitGameVersion"
+    ]
+  },
+  "sources": {
+    "genshinDb": {
+      "provider": "theBowja/genshin-db",
+      "repository": "https://github.com/theBowja/genshin-db",
+      "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+      "revisionKind": "gitCommit",
+      "gameVersion": "6.7",
+      "gameVersionEvidence": {
+        "kind": "providerDatasetManifest",
+        "gameVersion": "6.7",
+        "locator": {
+          "dataset": "theBowja/genshin-db package metadata",
+          "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+          "field": "description"
+        },
+        "explicitText": "Genshin Impact v6.7 JSON data.",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6",
+          "bytes": 1619
+        },
+        "binding": {
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6"
+        }
+      },
+      "role": "localizedRawAndDatamineProjection",
+      "independenceGroup": "GenshinData-derived"
+    },
+    "gcsim": {
+      "provider": "genshinsim/gcsim",
+      "repository": "https://github.com/genshinsim/gcsim",
+      "revision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+      "revisionKind": "gitCommit",
+      "gameVersion": null,
+      "gameVersionEvidence": null,
+      "role": "independentRuntimeImplementation",
+      "independenceGroup": "gcsim-implementation"
+    }
+  },
+  "records": {
+    "genshinDb:weapon:11503": {
+      "source": "genshinDb",
+      "path": "src/data/English/weapons/freedomsworn.json",
+      "sha256": "d9b3304144ff23cfcbcc1d9635acf91459e719ba267fc11aca4bcacd80b6617b",
+      "field": "recordSnapshot",
+      "gameVersion": "6.7",
+      "gameVersionEvidence": {
+        "kind": "providerDatasetManifest",
+        "gameVersion": "6.7",
+        "locator": {
+          "dataset": "theBowja/genshin-db package metadata",
+          "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+          "field": "description"
+        },
+        "explicitText": "Genshin Impact v6.7 JSON data.",
+        "integrity": { "algorithm": "sha256", "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6", "bytes": 1619 },
+        "binding": { "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "sourceRecordDigest": "d9b3304144ff23cfcbcc1d9635acf91459e719ba267fc11aca4bcacd80b6617b", "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6" }
+      }
+    },
+    "genshinDb:weapon:15502": {
+      "source": "genshinDb", "path": "src/data/English/weapons/amosbow.json", "sha256": "5316537e61a4bd60b506aa5e449138e2a640245523b5da5c1d35529a9ab6191c", "field": "recordSnapshot", "gameVersion": "6.7",
+      "gameVersionEvidence": { "kind": "providerDatasetManifest", "gameVersion": "6.7", "locator": { "dataset": "theBowja/genshin-db package metadata", "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json", "field": "description" }, "explicitText": "Genshin Impact v6.7 JSON data.", "integrity": { "algorithm": "sha256", "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6", "bytes": 1619 }, "binding": { "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "sourceRecordDigest": "5316537e61a4bd60b506aa5e449138e2a640245523b5da5c1d35529a9ab6191c", "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6" } }
+    },
+    "genshinDb:weapon:12402": {
+      "source": "genshinDb", "path": "src/data/English/weapons/thebell.json", "sha256": "d65988672b3b29682c8e115fdc3495165d8d5ec4b49a4bdaa6eac49eab169c55", "field": "recordSnapshot", "gameVersion": "6.7",
+      "gameVersionEvidence": { "kind": "providerDatasetManifest", "gameVersion": "6.7", "locator": { "dataset": "theBowja/genshin-db package metadata", "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json", "field": "description" }, "explicitText": "Genshin Impact v6.7 JSON data.", "integrity": { "algorithm": "sha256", "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6", "bytes": 1619 }, "binding": { "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "sourceRecordDigest": "d65988672b3b29682c8e115fdc3495165d8d5ec4b49a4bdaa6eac49eab169c55", "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6" } }
+    },
+    "genshinDb:weapon:11509": {
+      "source": "genshinDb", "path": "src/data/English/weapons/mistsplitterreforged.json", "sha256": "c9910ceaeb7220e29f3cd77f5793f7114f41a4572a89386f84b83f8844cf2d6b", "field": "recordSnapshot", "gameVersion": "6.7",
+      "gameVersionEvidence": { "kind": "providerDatasetManifest", "gameVersion": "6.7", "locator": { "dataset": "theBowja/genshin-db package metadata", "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json", "field": "description" }, "explicitText": "Genshin Impact v6.7 JSON data.", "integrity": { "algorithm": "sha256", "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6", "bytes": 1619 }, "binding": { "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "sourceRecordDigest": "c9910ceaeb7220e29f3cd77f5793f7114f41a4572a89386f84b83f8844cf2d6b", "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6" } }
+    },
+    "genshinDb:weapon:14402": {
+      "source": "genshinDb", "path": "src/data/English/weapons/thewidsith.json", "sha256": "d08ee31fca313a31430546f89bbaa106aae34fbb212a6824a30ea4edc86c4dba", "field": "recordSnapshot", "gameVersion": "6.7",
+      "gameVersionEvidence": { "kind": "providerDatasetManifest", "gameVersion": "6.7", "locator": { "dataset": "theBowja/genshin-db package metadata", "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json", "field": "description" }, "explicitText": "Genshin Impact v6.7 JSON data.", "integrity": { "algorithm": "sha256", "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6", "bytes": 1619 }, "binding": { "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "sourceRecordDigest": "d08ee31fca313a31430546f89bbaa106aae34fbb212a6824a30ea4edc86c4dba", "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6" } }
+    },
+    "genshinDb:weapon:15402": {
+      "source": "genshinDb", "path": "src/data/English/weapons/thestringless.json", "sha256": "2f3ce5951a09b5d508dc03924cce7369982a5b3ef488f435878d3ecc7986b89c", "field": "recordSnapshot", "gameVersion": "6.7",
+      "gameVersionEvidence": { "kind": "providerDatasetManifest", "gameVersion": "6.7", "locator": { "dataset": "theBowja/genshin-db package metadata", "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json", "field": "description" }, "explicitText": "Genshin Impact v6.7 JSON data.", "integrity": { "algorithm": "sha256", "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6", "bytes": 1619 }, "binding": { "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "sourceRecordDigest": "2f3ce5951a09b5d508dc03924cce7369982a5b3ef488f435878d3ecc7986b89c", "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6" } }
+    },
+    "genshinDb:weapon:11518": {
+      "source": "genshinDb", "path": "src/data/English/weapons/athameartis.json", "sha256": "35d3563e35037a65f133f7576819750d203f2e6101ea5fa26ac2a1aaf2321d31", "field": "recordSnapshot", "gameVersion": "6.7",
+      "gameVersionEvidence": { "kind": "providerDatasetManifest", "gameVersion": "6.7", "locator": { "dataset": "theBowja/genshin-db package metadata", "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json", "field": "description" }, "explicitText": "Genshin Impact v6.7 JSON data.", "integrity": { "algorithm": "sha256", "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6", "bytes": 1619 }, "binding": { "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "sourceRecordDigest": "35d3563e35037a65f133f7576819750d203f2e6101ea5fa26ac2a1aaf2321d31", "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6" } }
+    },
+    "genshinDb:weapon:12430": {
+      "source": "genshinDb", "path": "src/data/English/weapons/fruitfulhook.json", "sha256": "24b5080705f86d9fa3c169a074040637dc1d582564e5d406bd77d52f615691e7", "field": "recordSnapshot", "gameVersion": "6.7",
+      "gameVersionEvidence": { "kind": "providerDatasetManifest", "gameVersion": "6.7", "locator": { "dataset": "theBowja/genshin-db package metadata", "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json", "field": "description" }, "explicitText": "Genshin Impact v6.7 JSON data.", "integrity": { "algorithm": "sha256", "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6", "bytes": 1619 }, "binding": { "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "sourceRecordDigest": "24b5080705f86d9fa3c169a074040637dc1d582564e5d406bd77d52f615691e7", "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6" } }
+    },
+    "genshinDb:weapon:15516": {
+      "source": "genshinDb", "path": "src/data/English/weapons/goldenfrostboundoath.json", "sha256": "dd98a587359886a81b17238f1d5fd403882b7aea6c2d722f3a49294816fa5358", "field": "recordSnapshot", "gameVersion": "6.7",
+      "gameVersionEvidence": { "kind": "providerDatasetManifest", "gameVersion": "6.7", "locator": { "dataset": "theBowja/genshin-db package metadata", "record": "package.json@1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json", "field": "description" }, "explicitText": "Genshin Impact v6.7 JSON data.", "integrity": { "algorithm": "sha256", "digest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6", "bytes": 1619 }, "binding": { "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2", "sourceRecordDigest": "dd98a587359886a81b17238f1d5fd403882b7aea6c2d722f3a49294816fa5358", "metadataDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6" } }
+    },
+    "gcsim:weapon:11503": { "source": "gcsim", "path": "internal/weapons/sword/freedom/freedom.go", "sha256": "d734056ccf7e7e7ccf6424e576b53fb51c226b8725f7df3c4fa18635f4ef548f" },
+    "gcsim:weapon:15502": { "source": "gcsim", "path": "internal/weapons/bow/amos/amos.go", "sha256": "7f8f1bec88442ae8913eab4b155b4152ed298f8482dbd2468e8c777ede2b9036" },
+    "gcsim:weapon:12402": { "source": "gcsim", "path": "internal/weapons/claymore/bell/bell.go", "sha256": "637e106b0f7aa3c4de84df7f432d06b1c05b013b7be2b8e8d6c7a117395093fd" },
+    "gcsim:weapon:11509": { "source": "gcsim", "path": "internal/weapons/sword/mistsplitter/mistsplitter.go", "sha256": "c98a2570db2b86e1727240aeed8f4c8e711332a97bd2ea4c362ee5f6ba875923" },
+    "gcsim:weapon:14402": { "source": "gcsim", "path": "internal/weapons/catalyst/widsith/widsith.go", "sha256": "865f84373655ae8d7453551c2c9b01a24df452535a663997f04506d771ac2fa8" },
+    "gcsim:weapon:15402": { "source": "gcsim", "path": "internal/weapons/bow/stringless/stringless.go", "sha256": "6d653be7894f61a511e1a7da6bfb6e75965e8df3bfea822d7b91cd8d3f86a695" },
+    "gcsim:weapon:11518": { "source": "gcsim", "path": "internal/weapons/sword/athameartis/athameartis.go", "sha256": "5cb1564828175529d7643333fb20f61fb9f202902c6bb666ac9a6aa866bf5281" },
+    "gcsim:weapon:12430": { "source": "gcsim", "path": "internal/weapons/claymore/fruitfulhook/fruitfulhook.go", "sha256": "23237bf2a321875027319c1a744357870cd8e2d41be96a88dbe7b80cbf8bc505" },
+    "gcsim:weapon:15516": { "source": "gcsim", "path": "internal/weapons/bow/goldenfrostboundoath/goldenfrostboundoath.go", "sha256": "03183711aaa9f0cb1fcbf9c37d0c75ed676af6c1f40cb5dc834f2d886dacc790" }
+  }
+}

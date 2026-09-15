@@ -1,0 +1,460 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinDbWeaponTreeResolution",
+  "gameVersion": "6.7",
+  "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+  "queueShard": "weapons:weaponEffectSpec:sourceMissing:standard:01",
+  "tree": {
+    "method": "immutableRawPathFallback",
+    "recursive": false,
+    "requestedRevision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+    "fallbackReason": "tree fetch failed 403: https://api.github.com/repos/theBowja/genshin-db/git/trees/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+    "finalTreeSha": null,
+    "finalTreeUrl": null,
+    "steps": [],
+    "entries": [
+      {
+        "path": "absolution.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "042616beda6c59c0d9cf698dabd26d2c7a3c50fe",
+        "size": 8113,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/absolution.json"
+      },
+      {
+        "path": "aquilafavonia.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "bfea4e62c8d15b57eda74a31897d5725611cafb4",
+        "size": 5573,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/aquilafavonia.json"
+      },
+      {
+        "path": "azurelight.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "fc57c861a729d8c019a41752770cff9b5292ecb5",
+        "size": 6397,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/azurelight.json"
+      },
+      {
+        "path": "blackclifflongsword.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "fad4ca5b10ff021011f0193781b79654534a704c",
+        "size": 6621,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/blackclifflongsword.json"
+      },
+      {
+        "path": "blackcliffslasher.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "0525c0a82a81c273b60166c0cacbe030505f1929",
+        "size": 6602,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/blackcliffslasher.json"
+      },
+      {
+        "path": "bloodtaintedgreatsword.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "e7ef26d09a8a347dca3a266f7eec8acba8439497",
+        "size": 3829,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/bloodtaintedgreatsword.json"
+      },
+      {
+        "path": "calamityofeshu.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "7cc5cd8b960147dce5bf910b51ffd92077d473ec",
+        "size": 7136,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/calamityofeshu.json"
+      },
+      {
+        "path": "cinnabarspindle.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "890a0d2d1353705947479e2968140ab1016332af",
+        "size": 4334,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/cinnabarspindle.json"
+      },
+      {
+        "path": "coolsteel.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "f8bccb63ab39b9972bc8178fd919546522d3c3b5",
+        "size": 3652,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/coolsteel.json"
+      },
+      {
+        "path": "darkironsword.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "d683d0d0f610c44b9f863f8ac0b34114d0598769",
+        "size": 4522,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/darkironsword.json"
+      },
+      {
+        "path": "debateclub.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "61dbf3efe315f073d21a41d484af5dca73c0df5f",
+        "size": 4206,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/debateclub.json"
+      },
+      {
+        "path": "ferrousshadow.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "9123b778512326254da1c680993a8fb2432ac0a3",
+        "size": 4466,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/ferrousshadow.json"
+      },
+      {
+        "path": "festeringdesire.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "96834b70c8534ab1fdd11ab71bf840633564385a",
+        "size": 4227,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/festeringdesire.json"
+      },
+      {
+        "path": "filletblade.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "94c73edd5f49f145065791b45f964229445212e5",
+        "size": 3705,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/filletblade.json"
+      },
+      {
+        "path": "finaleofthedeep.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "0244fab9d81d9054a61d16a757cc407611851838",
+        "size": 7687,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/finaleofthedeep.json"
+      },
+      {
+        "path": "fleuvecendreferryman.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "735a04f4359101cf5f2414dcd3a22ae6422b6841",
+        "size": 6772,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/fleuvecendreferryman.json"
+      },
+      {
+        "path": "fluteofezpitzal.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "78cb4312c654b2b84a95a8b4a92efc3719c2c3f6",
+        "size": 3259,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/fluteofezpitzal.json"
+      },
+      {
+        "path": "harangeppakufutsu.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "3512357f39910405c90673e7f0b4914068e24732",
+        "size": 9908,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/harangeppakufutsu.json"
+      },
+      {
+        "path": "harbingerofdawn.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "fc6cc8814be3e25d4fc1f603b05e6f1388a7cf72",
+        "size": 3597,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/harbingerofdawn.json"
+      },
+      {
+        "path": "ironsting.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "477a12ba9d5ac61943312c550212c0e1d9b0e330",
+        "size": 4562,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/ironsting.json"
+      },
+      {
+        "path": "kagotsurubeisshin.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "48f42b3e1edf806de29af16e2586437cf33bdce4",
+        "size": 6303,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/kagotsurubeisshin.json"
+      },
+      {
+        "path": "keyofkhajnisut.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "26115e30ce45eb531e9f2b087db6bc7efb37cda9",
+        "size": 9128,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/keyofkhajnisut.json"
+      },
+      {
+        "path": "lightbearingmoonshard.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "115d6f6c535ef1487cc6f5106133c35cfd8bd947",
+        "size": 7685,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/lightbearingmoonshard.json"
+      },
+      {
+        "path": "lightoffoliarincision.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "cdce6b848296ed3b6b7010105b07979e2ebb85f7",
+        "size": 7769,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/lightoffoliarincision.json"
+      },
+      {
+        "path": "lionsroar.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "af01657e4cfd9a3c7b1746cd25c02f21f805a292",
+        "size": 4719,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/lionsroar.json"
+      },
+      {
+        "path": "moonweaversdawn.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "037cfde8fa993bae7f0323f037d5b0dc1a8eadfd",
+        "size": 7123,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/moonweaversdawn.json"
+      },
+      {
+        "path": "peakpatrolsong.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "7c1f44606c6dbabc6330bac11f23d968037f1f76",
+        "size": 8515,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/peakpatrolsong.json"
+      },
+      {
+        "path": "primordialjadecutter.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "7ee64fdb73148e8c883bb052fde84b959e7a6db9",
+        "size": 4931,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/primordialjadecutter.json"
+      },
+      {
+        "path": "prizedisshinblade.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "2df52fb4d1c2800ee16cae1f20b97501214f8d6c",
+        "size": 1727,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/prizedisshinblade.json"
+      },
+      {
+        "path": "prizedisshinblade-01.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "c428fcf6de64383256389ba88c177287489b3013",
+        "size": 1709,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/prizedisshinblade-01.json"
+      },
+      {
+        "path": "prizedisshinblade-02.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "d24ee2de8d81b91aee8210a4e917a1be7d490a62",
+        "size": 1731,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/prizedisshinblade-02.json"
+      },
+      {
+        "path": "prototypearchaic.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "54cddd2291ec2fdf1a2199d02e21765033ed7f2e",
+        "size": 5490,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/prototypearchaic.json"
+      },
+      {
+        "path": "prototyperancour.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "a63a5bb4c148b2b43a7136c52d190e62a1ae8d6a",
+        "size": 4889,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/prototyperancour.json"
+      },
+      {
+        "path": "rainslasher.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "fe86ae9b4410842e97a255ee2b4ccb2f1e10106a",
+        "size": 4194,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/rainslasher.json"
+      },
+      {
+        "path": "royalgreatsword.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "c43bd8c6d9d3d9ea8038a34901af76f917d025bf",
+        "size": 4880,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/royalgreatsword.json"
+      },
+      {
+        "path": "royallongsword.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "342837400a3f3fa2082e237931057e14c28cc3e2",
+        "size": 4802,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/royallongsword.json"
+      },
+      {
+        "path": "sapwoodblade.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "62f95b8d30a8ecbe8402d3d92be153cda05ba046",
+        "size": 6506,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/sapwoodblade.json"
+      },
+      {
+        "path": "serenityscall.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "77e3dd67d91acd7706e915e01f81465c4d02401b",
+        "size": 5961,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/serenityscall.json"
+      },
+      {
+        "path": "serpentspine.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "ced00d112e20148978150c4cdc71b6395fc35bcf",
+        "size": 6414,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/serpentspine.json"
+      },
+      {
+        "path": "skyridergreatsword.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "bb6377cf47601f29d9c9dbef42b3e4ba4e298bb3",
+        "size": 3887,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/skyridergreatsword.json"
+      },
+      {
+        "path": "skyridersword.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "77a27b8fed312ca21969ec566484618a74911ee0",
+        "size": 3639,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/skyridersword.json"
+      },
+      {
+        "path": "skywardblade.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "e5169730676f1c16d750dcfb7dcc6d58d247f376",
+        "size": 5998,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/skywardblade.json"
+      },
+      {
+        "path": "splendoroftranquilwaters.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "3e55cffc35a13365014ead52d1d0287323208bcf",
+        "size": 5774,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/splendoroftranquilwaters.json"
+      },
+      {
+        "path": "sturdybone.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "ae97e95a8ab9ccd3a7f1d67d5c9c521b429af40e",
+        "size": 8502,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/sturdybone.json"
+      },
+      {
+        "path": "summitshaper.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "862f73ef454c1d9d8aebd48c35035b3278019ef7",
+        "size": 5829,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/summitshaper.json"
+      },
+      {
+        "path": "swordofdescension.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "3a7f786e3ced43672ca1ff851961d625e2a69fd8",
+        "size": 4795,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/swordofdescension.json"
+      },
+      {
+        "path": "swordofnarzissenkreuz.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "dd73c28e612cc3029e3de9e9476ce2ae4dd25383",
+        "size": 5368,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/swordofnarzissenkreuz.json"
+      },
+      {
+        "path": "thealleyflash.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "5836ee18253c5735d8e9e8ac6824c3d2ffd362fd",
+        "size": 5066,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/thealleyflash.json"
+      },
+      {
+        "path": "theblacksword.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "d29db1b5e337e05bd012eef61c6c28c1a0018cfc",
+        "size": 5822,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/theblacksword.json"
+      },
+      {
+        "path": "theflute.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "a762d5707eed9c499b9794ddd325284ac6d6c8a5",
+        "size": 5173,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/theflute.json"
+      },
+      {
+        "path": "toukaboushigure.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "399c0d4cf8142145e019baa0b96bd034cda6b8d9",
+        "size": 8828,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/toukaboushigure.json"
+      },
+      {
+        "path": "urakumisugiri.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "df81f215fde5c8090024d46435af85c7302c5e77",
+        "size": 10855,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/urakumisugiri.json"
+      },
+      {
+        "path": "whiteblind.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "b0980f06d562acb7fdfd36155aae955e01bfe59d",
+        "size": 6224,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/whiteblind.json"
+      },
+      {
+        "path": "wolffang.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "cc75d893bb795bef02e6ab3c0513c9dab4af8a08",
+        "size": 8610,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/wolffang.json"
+      },
+      {
+        "path": "xiphosmoonlight.json",
+        "type": "blob",
+        "mode": "100644",
+        "sha": "023bf1bb229340c9be5c41bff3d1da2a2d97afb1",
+        "size": 7881,
+        "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/xiphosmoonlight.json"
+      }
+    ]
+  },
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "56b6b5c891b8ef0f58e747d9bd959a518b9038f4ffc30f8d56815a84d00bf377"
+}

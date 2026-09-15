@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinBehaviorHumanReviewDecision",
+  "decision": "approve",
+  "reviewedBy": "user:workspace-owner",
+  "reviewedAt": "2026-08-24T00:00:00.000Z",
+  "target": {
+    "modifierId": "behavior-modifier:10000026:constellation-1-1:1",
+    "targetSpecId": "behavior:10000026:talent:skill",
+    "characterId": "10000026",
+    "constellation": 1
+  },
+  "approvedFacts": {
+    "baseCharges": 2,
+    "operation": "add",
+    "value": 1,
+    "resolvedCharges": 3,
+    "path": "/execution/charges"
+  },
+  "providerIndependence": {
+    "decision": "approveForThisRepresentativeOnly",
+    "groups": [
+      "gachabase-versioned-data",
+      "genshin-db"
+    ]
+  },
+  "constraints": {
+    "appliesOnlyToModifier": "behavior-modifier:10000026:constellation-1-1:1",
+    "providerIndependenceReuse": "forbidden",
+    "otherCandidatesRemainUnreviewed": true,
+    "aiSelfApproval": "forbidden"
+  }
+}

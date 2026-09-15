@@ -1,0 +1,376 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tetinet.example/schemas/genshin/source-catalog.schema.json",
+  "title": "Genshin external source catalog",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "capturedAt",
+    "contract",
+    "sources",
+    "records"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 2
+    },
+    "capturedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "contract": {
+      "type": "object",
+      "required": [
+        "revisionSemantics",
+        "gameVersionSemantics",
+        "independenceSemantics",
+        "canonicalGate",
+        "gameVersionEvidenceKinds"
+      ],
+      "properties": {
+        "revisionSemantics": {
+          "const": "repositoryRevisionOnly"
+        },
+        "gameVersionSemantics": {
+          "const": "explicitGameVersionEvidenceRequired"
+        },
+        "independenceSemantics": {
+          "const": "distinctProviderAndIndependenceGroup"
+        },
+        "canonicalGate": {
+          "const": "revisionAndFileDigestNeverSubstituteForGameVersion"
+        },
+        "gameVersionEvidenceKinds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "gameClientManifest",
+              "providerDatasetManifest",
+              "providerReleaseArtifact",
+              "releaseNotesWithExplicitGameVersion"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "provider",
+          "repository",
+          "revision",
+          "revisionKind",
+          "gameVersion",
+          "gameVersionEvidence",
+          "role",
+          "independenceGroup"
+        ],
+        "properties": {
+          "provider": {
+            "type": "string",
+            "minLength": 1
+          },
+          "repository": {
+            "type": "string",
+            "format": "uri"
+          },
+          "revision": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{40}$"
+          },
+          "revisionKind": {
+            "const": "gitCommit"
+          },
+          "gameVersion": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "gameVersionEvidence": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "kind",
+              "gameVersion",
+              "locator",
+              "integrity",
+              "binding"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "gameClientManifest",
+                  "providerDatasetManifest",
+                  "providerReleaseArtifact",
+                  "releaseNotesWithExplicitGameVersion"
+                ]
+              },
+              "gameVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locator": {
+                "type": "object",
+                "required": [
+                  "dataset",
+                  "record"
+                ],
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "dataset": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "field": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "integrity": {
+                "type": "object",
+                "required": [
+                  "algorithm",
+                  "digest"
+                ],
+                "properties": {
+                  "algorithm": {
+                    "const": "sha256"
+                  },
+                  "digest": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "bytes": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "additionalProperties": false
+              },
+              "notes": {
+                "type": "string"
+              },
+              "explicitText": {
+                "type": "string",
+                "minLength": 1
+              },
+              "binding": {
+                "type": "object",
+                "required": [
+                  "revision",
+                  "metadataDigest"
+                ],
+                "properties": {
+                  "revision": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{40}$"
+                  },
+                  "metadataDigest": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "sourceRecordDigest": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "independenceGroup": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "records": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "source",
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "field": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fieldPointer": {
+            "type": "string",
+            "pattern": "^/"
+          },
+          "scope": {
+            "type": "object",
+            "required": [
+              "candidateId",
+              "claimId",
+              "entityId"
+            ],
+            "properties": {
+              "candidateId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "claimId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "entityId": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          },
+          "gameVersion": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "gameVersionEvidence": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "required": [
+              "kind",
+              "gameVersion",
+              "locator",
+              "integrity",
+              "binding"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "gameClientManifest",
+                  "providerDatasetManifest",
+                  "providerReleaseArtifact",
+                  "releaseNotesWithExplicitGameVersion"
+                ]
+              },
+              "gameVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locator": {
+                "type": "object",
+                "required": [
+                  "dataset",
+                  "record"
+                ],
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "dataset": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "record": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "field": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "integrity": {
+                "type": "object",
+                "required": [
+                  "algorithm",
+                  "digest"
+                ],
+                "properties": {
+                  "algorithm": {
+                    "const": "sha256"
+                  },
+                  "digest": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "bytes": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "additionalProperties": false
+              },
+              "notes": {
+                "type": "string"
+              },
+              "explicitText": {
+                "type": "string",
+                "minLength": 1
+              },
+              "binding": {
+                "type": "object",
+                "required": [
+                  "revision",
+                  "metadataDigest"
+                ],
+                "properties": {
+                  "revision": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{40}$"
+                  },
+                  "metadataDigest": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "sourceRecordDigest": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tetinet.example/schemas/genshin/behavior-modifier.schema.json",
+  "title": "Genshin behavior modifier",
+  "type": "object",
+  "required": ["id", "sourceRefs", "targetSpecId", "path", "operation", "value", "condition", "verification"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "sourceRefs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "targetSpecId": { "type": "string", "minLength": 1 },
+    "path": { "type": "string", "pattern": "^/(timing|execution|lifecycle|energy|elementApplication|triggers|stackRules|stateMachine|actor|enemyCountBehavior)/" },
+    "operation": { "enum": ["add", "multiply", "replace", "reset", "extend", "consume", "setMaximum", "ignoreCooldown", "refresh"] },
+    "value": { "type": ["number", "string", "boolean", "null", "object"] },
+    "condition": {
+      "type": "object",
+      "required": ["kind", "stateKey"],
+      "properties": {
+        "kind": { "enum": ["always", "constellation", "talent", "weapon", "artifactSet", "stack", "combatState", "party"] },
+        "stateKey": { "type": "string", "minLength": 1 },
+        "minimum": { "type": "number" },
+        "maximum": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "verification": {
+      "type": "object",
+      "required": ["status", "reviewedBy", "reviewedAt"],
+      "properties": {
+        "status": { "enum": ["unreviewed", "needsReview", "verified", "disputed"] },
+        "verificationMode": { "enum": ["human", "deterministicConsensus"] },
+        "reviewedBy": { "type": ["string", "null"] },
+        "reviewedAt": { "type": ["string", "null"], "format": "date-time" },
+        "claimProofs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["candidateId", "claimId", "field", "verificationAttestation", "eligibilityCertificate"],
+            "properties": {
+              "candidateId": { "type": "string", "minLength": 1 },
+              "claimId": { "type": "string", "minLength": 1 },
+              "field": { "type": "string", "minLength": 1 },
+              "verificationAttestation": { "type": "object", "minProperties": 1 },
+              "eligibilityCertificate": { "type": "object", "minProperties": 1 }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "verificationMode": { "const": "human" } } },
+          "then": { "properties": { "reviewedBy": { "type": "string", "minLength": 1 }, "reviewedAt": { "type": "string", "format": "date-time" } } }
+        },
+        {
+          "if": { "properties": { "verificationMode": { "const": "deterministicConsensus" } } },
+          "then": { "properties": { "reviewedBy": { "type": "null" }, "reviewedAt": { "type": "null" } } }
+        }
+      ],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 2,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 2,
+    "status": "passed",
+    "batch": 8,
+    "batchCharacters": 10,
+    "sourceRecords": 150,
+    "inventoryCandidates": 140,
+    "specs": 140,
+    "modifiers": 0,
+    "canonical": 0,
+    "inventoryInputCandidates": 209,
+    "explicitCandidateOperations": 142,
+    "unknownCandidateIds": 67,
+    "sourceInventoryCandidates": 209,
+    "explicitInventoryCandidates": 142,
+    "unknownInventoryCandidates": 67,
+    "verificationByStatus": {
+      "needsReview": 140
+    },
+    "runtimeByStatus": {
+      "blocked": 140
+    },
+    "sourceKinds": {
+      "primaryDataset": 150
+    },
+    "contract": {
+      "malformedSources": 0,
+      "malformedInventory": 0,
+      "malformedSpecs": 0,
+      "malformedByCharacter": 0,
+      "missingSourceRefs": 0,
+      "missingInventoryRefs": 0,
+      "inputDigestMismatches": 0,
+      "unknownFieldViolations": 0,
+      "numericInferenceViolations": 0,
+      "inventoryCandidateViolations": 0,
+      "schemaViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [],
+  "malformedSources": [],
+  "malformedInventory": [],
+  "malformedSpecs": [],
+  "malformedByCharacter": [],
+  "missingSourceRefs": [],
+  "missingInventoryRefs": [],
+  "inputDigestMismatches": [],
+  "unknownFieldViolations": [],
+  "numericInferenceViolations": [],
+  "inventoryCandidateViolations": [],
+  "schemaViolations": [],
+  "characterCoverage": [
+    {
+      "characterId": "10000088",
+      "characterName": "シャルロット",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 24,
+      "explicitCandidateOperations": 17,
+      "unknownCandidateIds": 7,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000090",
+      "characterName": "シュヴルーズ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 20,
+      "explicitCandidateOperations": 13,
+      "unknownCandidateIds": 7,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000091",
+      "characterName": "ナヴィア",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 18,
+      "explicitCandidateOperations": 9,
+      "unknownCandidateIds": 9,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000092",
+      "characterName": "閑雲",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 26,
+      "explicitCandidateOperations": 18,
+      "unknownCandidateIds": 8,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000093",
+      "characterName": "嘉明",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 14,
+      "explicitCandidateOperations": 11,
+      "unknownCandidateIds": 3,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000095",
+      "characterName": "シグウィン",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 17,
+      "explicitCandidateOperations": 11,
+      "unknownCandidateIds": 6,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000096",
+      "characterName": "アルレッキーノ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 29,
+      "explicitCandidateOperations": 24,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000097",
+      "characterName": "セトス",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 20,
+      "explicitCandidateOperations": 11,
+      "unknownCandidateIds": 9,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000099",
+      "characterName": "エミリエ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 24,
+      "explicitCandidateOperations": 18,
+      "unknownCandidateIds": 6,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000100",
+      "characterName": "カチーナ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 17,
+      "explicitCandidateOperations": 10,
+      "unknownCandidateIds": 7,
+      "modifiers": 0,
+      "canonical": 0
+    }
+  ],
+  "generatedFromDisk": true
+}

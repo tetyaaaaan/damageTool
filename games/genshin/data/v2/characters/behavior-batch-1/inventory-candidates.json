@@ -1,0 +1,2111 @@
+{
+  "behavior-inventory:batch-1:10000002:normalattack-normal": {
+    "id": "behavior-inventory:batch-1:10000002:normalattack-normal",
+    "entity": {
+      "kind": "talent",
+      "id": "10000002",
+      "component": "normalAttack.normal"
+    },
+    "sourceRefs": [
+      "source:10000002:talent:normalattack:normalDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000002",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000002:normalattack-charged": {
+    "id": "behavior-inventory:batch-1:10000002:normalattack-charged",
+    "entity": {
+      "kind": "talent",
+      "id": "10000002",
+      "component": "normalAttack.charged"
+    },
+    "sourceRefs": [
+      "source:10000002:talent:normalattack:chargedDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000002",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000002:normalattack-plunging": {
+    "id": "behavior-inventory:batch-1:10000002:normalattack-plunging",
+    "entity": {
+      "kind": "talent",
+      "id": "10000002",
+      "component": "normalAttack.plunging"
+    },
+    "sourceRefs": [
+      "source:10000002:talent:normalattack:plungingDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000002",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000002:skill": {
+    "id": "behavior-inventory:batch-1:10000002:skill",
+    "entity": {
+      "kind": "talent",
+      "id": "10000002",
+      "component": "skill"
+    },
+    "sourceRefs": [
+      "source:10000002:talent:skill:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000002",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000002:burst": {
+    "id": "behavior-inventory:batch-1:10000002:burst",
+    "entity": {
+      "kind": "talent",
+      "id": "10000002",
+      "component": "burst"
+    },
+    "sourceRefs": [
+      "source:10000002:talent:burst:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000002",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000002:special": {
+    "id": "behavior-inventory:batch-1:10000002:special",
+    "entity": {
+      "kind": "talent",
+      "id": "10000002",
+      "component": "special"
+    },
+    "sourceRefs": [
+      "source:10000002:talent:special:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000002",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000002:passives-passive-1": {
+    "id": "behavior-inventory:batch-1:10000002:passives-passive-1",
+    "entity": {
+      "kind": "talent",
+      "id": "10000002",
+      "component": "passives.passive_1"
+    },
+    "sourceRefs": [
+      "source:10000002:talent:passive:passive-1:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000002",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000002:passives-passive-2": {
+    "id": "behavior-inventory:batch-1:10000002:passives-passive-2",
+    "entity": {
+      "kind": "talent",
+      "id": "10000002",
+      "component": "passives.passive_2"
+    },
+    "sourceRefs": [
+      "source:10000002:talent:passive:passive-2:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000002",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000002:passives-passive-utility": {
+    "id": "behavior-inventory:batch-1:10000002:passives-passive-utility",
+    "entity": {
+      "kind": "talent",
+      "id": "10000002",
+      "component": "passives.passive_utility"
+    },
+    "sourceRefs": [
+      "source:10000002:talent:passive:passive-utility:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000002",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000002:constellation-1": {
+    "id": "behavior-inventory:batch-1:10000002:constellation-1",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000002",
+      "component": "constellation.1"
+    },
+    "sourceRefs": [
+      "source:10000002:constellation:1:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000002/constellations/1",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000002:constellation-2": {
+    "id": "behavior-inventory:batch-1:10000002:constellation-2",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000002",
+      "component": "constellation.2"
+    },
+    "sourceRefs": [
+      "source:10000002:constellation:2:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000002/constellations/2",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000002:constellation-3": {
+    "id": "behavior-inventory:batch-1:10000002:constellation-3",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000002",
+      "component": "constellation.3"
+    },
+    "sourceRefs": [
+      "source:10000002:constellation:3:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000002/constellations/3",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000002:constellation-4": {
+    "id": "behavior-inventory:batch-1:10000002:constellation-4",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000002",
+      "component": "constellation.4"
+    },
+    "sourceRefs": [
+      "source:10000002:constellation:4:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000002/constellations/4",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000002:constellation-5": {
+    "id": "behavior-inventory:batch-1:10000002:constellation-5",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000002",
+      "component": "constellation.5"
+    },
+    "sourceRefs": [
+      "source:10000002:constellation:5:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000002/constellations/5",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000002:constellation-6": {
+    "id": "behavior-inventory:batch-1:10000002:constellation-6",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000002",
+      "component": "constellation.6"
+    },
+    "sourceRefs": [
+      "source:10000002:constellation:6:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000002/constellations/6",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000003:normalattack-normal": {
+    "id": "behavior-inventory:batch-1:10000003:normalattack-normal",
+    "entity": {
+      "kind": "talent",
+      "id": "10000003",
+      "component": "normalAttack.normal"
+    },
+    "sourceRefs": [
+      "source:10000003:talent:normalattack:normalDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000003",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000003:normalattack-charged": {
+    "id": "behavior-inventory:batch-1:10000003:normalattack-charged",
+    "entity": {
+      "kind": "talent",
+      "id": "10000003",
+      "component": "normalAttack.charged"
+    },
+    "sourceRefs": [
+      "source:10000003:talent:normalattack:chargedDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000003",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000003:normalattack-plunging": {
+    "id": "behavior-inventory:batch-1:10000003:normalattack-plunging",
+    "entity": {
+      "kind": "talent",
+      "id": "10000003",
+      "component": "normalAttack.plunging"
+    },
+    "sourceRefs": [
+      "source:10000003:talent:normalattack:plungingDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000003",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000003:skill": {
+    "id": "behavior-inventory:batch-1:10000003:skill",
+    "entity": {
+      "kind": "talent",
+      "id": "10000003",
+      "component": "skill"
+    },
+    "sourceRefs": [
+      "source:10000003:talent:skill:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000003",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000003:burst": {
+    "id": "behavior-inventory:batch-1:10000003:burst",
+    "entity": {
+      "kind": "talent",
+      "id": "10000003",
+      "component": "burst"
+    },
+    "sourceRefs": [
+      "source:10000003:talent:burst:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000003",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000003:passives-passive-1": {
+    "id": "behavior-inventory:batch-1:10000003:passives-passive-1",
+    "entity": {
+      "kind": "talent",
+      "id": "10000003",
+      "component": "passives.passive_1"
+    },
+    "sourceRefs": [
+      "source:10000003:talent:passive:passive-1:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000003",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000003:passives-passive-2": {
+    "id": "behavior-inventory:batch-1:10000003:passives-passive-2",
+    "entity": {
+      "kind": "talent",
+      "id": "10000003",
+      "component": "passives.passive_2"
+    },
+    "sourceRefs": [
+      "source:10000003:talent:passive:passive-2:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000003",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000003:passives-passive-utility": {
+    "id": "behavior-inventory:batch-1:10000003:passives-passive-utility",
+    "entity": {
+      "kind": "talent",
+      "id": "10000003",
+      "component": "passives.passive_utility"
+    },
+    "sourceRefs": [
+      "source:10000003:talent:passive:passive-utility:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000003",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000003:constellation-1": {
+    "id": "behavior-inventory:batch-1:10000003:constellation-1",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000003",
+      "component": "constellation.1"
+    },
+    "sourceRefs": [
+      "source:10000003:constellation:1:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000003/constellations/1",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000003:constellation-2": {
+    "id": "behavior-inventory:batch-1:10000003:constellation-2",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000003",
+      "component": "constellation.2"
+    },
+    "sourceRefs": [
+      "source:10000003:constellation:2:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000003/constellations/2",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000003:constellation-3": {
+    "id": "behavior-inventory:batch-1:10000003:constellation-3",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000003",
+      "component": "constellation.3"
+    },
+    "sourceRefs": [
+      "source:10000003:constellation:3:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000003/constellations/3",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000003:constellation-4": {
+    "id": "behavior-inventory:batch-1:10000003:constellation-4",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000003",
+      "component": "constellation.4"
+    },
+    "sourceRefs": [
+      "source:10000003:constellation:4:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000003/constellations/4",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000003:constellation-5": {
+    "id": "behavior-inventory:batch-1:10000003:constellation-5",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000003",
+      "component": "constellation.5"
+    },
+    "sourceRefs": [
+      "source:10000003:constellation:5:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000003/constellations/5",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000003:constellation-6": {
+    "id": "behavior-inventory:batch-1:10000003:constellation-6",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000003",
+      "component": "constellation.6"
+    },
+    "sourceRefs": [
+      "source:10000003:constellation:6:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000003/constellations/6",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000005:normalattack-normal": {
+    "id": "behavior-inventory:batch-1:10000005:normalattack-normal",
+    "entity": {
+      "kind": "talent",
+      "id": "10000005",
+      "component": "normalAttack.normal"
+    },
+    "sourceRefs": [
+      "source:10000005:talent:normalattack:normalDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000005",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000005:normalattack-charged": {
+    "id": "behavior-inventory:batch-1:10000005:normalattack-charged",
+    "entity": {
+      "kind": "talent",
+      "id": "10000005",
+      "component": "normalAttack.charged"
+    },
+    "sourceRefs": [
+      "source:10000005:talent:normalattack:chargedDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000005",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000005:normalattack-plunging": {
+    "id": "behavior-inventory:batch-1:10000005:normalattack-plunging",
+    "entity": {
+      "kind": "talent",
+      "id": "10000005",
+      "component": "normalAttack.plunging"
+    },
+    "sourceRefs": [
+      "source:10000005:talent:normalattack:plungingDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000005",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000005:skill": {
+    "id": "behavior-inventory:batch-1:10000005:skill",
+    "entity": {
+      "kind": "talent",
+      "id": "10000005",
+      "component": "skill"
+    },
+    "sourceRefs": [
+      "source:10000005:talent:skill:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000005",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000005:burst": {
+    "id": "behavior-inventory:batch-1:10000005:burst",
+    "entity": {
+      "kind": "talent",
+      "id": "10000005",
+      "component": "burst"
+    },
+    "sourceRefs": [
+      "source:10000005:talent:burst:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000005",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000005:passives-passive-1": {
+    "id": "behavior-inventory:batch-1:10000005:passives-passive-1",
+    "entity": {
+      "kind": "talent",
+      "id": "10000005",
+      "component": "passives.passive_1"
+    },
+    "sourceRefs": [
+      "source:10000005:talent:passive:passive-1:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000005",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000005:passives-passive-2": {
+    "id": "behavior-inventory:batch-1:10000005:passives-passive-2",
+    "entity": {
+      "kind": "talent",
+      "id": "10000005",
+      "component": "passives.passive_2"
+    },
+    "sourceRefs": [
+      "source:10000005:talent:passive:passive-2:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000005",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000005:constellation-1": {
+    "id": "behavior-inventory:batch-1:10000005:constellation-1",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000005",
+      "component": "constellation.1"
+    },
+    "sourceRefs": [
+      "source:10000005:constellation:1:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000005/constellations/1",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000005:constellation-2": {
+    "id": "behavior-inventory:batch-1:10000005:constellation-2",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000005",
+      "component": "constellation.2"
+    },
+    "sourceRefs": [
+      "source:10000005:constellation:2:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000005/constellations/2",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000005:constellation-3": {
+    "id": "behavior-inventory:batch-1:10000005:constellation-3",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000005",
+      "component": "constellation.3"
+    },
+    "sourceRefs": [
+      "source:10000005:constellation:3:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000005/constellations/3",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000005:constellation-4": {
+    "id": "behavior-inventory:batch-1:10000005:constellation-4",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000005",
+      "component": "constellation.4"
+    },
+    "sourceRefs": [
+      "source:10000005:constellation:4:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000005/constellations/4",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000005:constellation-5": {
+    "id": "behavior-inventory:batch-1:10000005:constellation-5",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000005",
+      "component": "constellation.5"
+    },
+    "sourceRefs": [
+      "source:10000005:constellation:5:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000005/constellations/5",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000005:constellation-6": {
+    "id": "behavior-inventory:batch-1:10000005:constellation-6",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000005",
+      "component": "constellation.6"
+    },
+    "sourceRefs": [
+      "source:10000005:constellation:6:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000005/constellations/6",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000006:normalattack-normal": {
+    "id": "behavior-inventory:batch-1:10000006:normalattack-normal",
+    "entity": {
+      "kind": "talent",
+      "id": "10000006",
+      "component": "normalAttack.normal"
+    },
+    "sourceRefs": [
+      "source:10000006:talent:normalattack:normalDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000006",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000006:normalattack-charged": {
+    "id": "behavior-inventory:batch-1:10000006:normalattack-charged",
+    "entity": {
+      "kind": "talent",
+      "id": "10000006",
+      "component": "normalAttack.charged"
+    },
+    "sourceRefs": [
+      "source:10000006:talent:normalattack:chargedDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000006",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000006:normalattack-plunging": {
+    "id": "behavior-inventory:batch-1:10000006:normalattack-plunging",
+    "entity": {
+      "kind": "talent",
+      "id": "10000006",
+      "component": "normalAttack.plunging"
+    },
+    "sourceRefs": [
+      "source:10000006:talent:normalattack:plungingDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000006",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000006:skill": {
+    "id": "behavior-inventory:batch-1:10000006:skill",
+    "entity": {
+      "kind": "talent",
+      "id": "10000006",
+      "component": "skill"
+    },
+    "sourceRefs": [
+      "source:10000006:talent:skill:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000006",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000006:burst": {
+    "id": "behavior-inventory:batch-1:10000006:burst",
+    "entity": {
+      "kind": "talent",
+      "id": "10000006",
+      "component": "burst"
+    },
+    "sourceRefs": [
+      "source:10000006:talent:burst:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000006",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000006:passives-passive-1": {
+    "id": "behavior-inventory:batch-1:10000006:passives-passive-1",
+    "entity": {
+      "kind": "talent",
+      "id": "10000006",
+      "component": "passives.passive_1"
+    },
+    "sourceRefs": [
+      "source:10000006:talent:passive:passive-1:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000006",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000006:passives-passive-2": {
+    "id": "behavior-inventory:batch-1:10000006:passives-passive-2",
+    "entity": {
+      "kind": "talent",
+      "id": "10000006",
+      "component": "passives.passive_2"
+    },
+    "sourceRefs": [
+      "source:10000006:talent:passive:passive-2:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000006",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000006:passives-passive-utility": {
+    "id": "behavior-inventory:batch-1:10000006:passives-passive-utility",
+    "entity": {
+      "kind": "talent",
+      "id": "10000006",
+      "component": "passives.passive_utility"
+    },
+    "sourceRefs": [
+      "source:10000006:talent:passive:passive-utility:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000006",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000006:constellation-1": {
+    "id": "behavior-inventory:batch-1:10000006:constellation-1",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000006",
+      "component": "constellation.1"
+    },
+    "sourceRefs": [
+      "source:10000006:constellation:1:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000006/constellations/1",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000006:constellation-2": {
+    "id": "behavior-inventory:batch-1:10000006:constellation-2",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000006",
+      "component": "constellation.2"
+    },
+    "sourceRefs": [
+      "source:10000006:constellation:2:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000006/constellations/2",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000006:constellation-3": {
+    "id": "behavior-inventory:batch-1:10000006:constellation-3",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000006",
+      "component": "constellation.3"
+    },
+    "sourceRefs": [
+      "source:10000006:constellation:3:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000006/constellations/3",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000006:constellation-4": {
+    "id": "behavior-inventory:batch-1:10000006:constellation-4",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000006",
+      "component": "constellation.4"
+    },
+    "sourceRefs": [
+      "source:10000006:constellation:4:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000006/constellations/4",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000006:constellation-5": {
+    "id": "behavior-inventory:batch-1:10000006:constellation-5",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000006",
+      "component": "constellation.5"
+    },
+    "sourceRefs": [
+      "source:10000006:constellation:5:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000006/constellations/5",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000006:constellation-6": {
+    "id": "behavior-inventory:batch-1:10000006:constellation-6",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000006",
+      "component": "constellation.6"
+    },
+    "sourceRefs": [
+      "source:10000006:constellation:6:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000006/constellations/6",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000007:normalattack-normal": {
+    "id": "behavior-inventory:batch-1:10000007:normalattack-normal",
+    "entity": {
+      "kind": "talent",
+      "id": "10000007",
+      "component": "normalAttack.normal"
+    },
+    "sourceRefs": [
+      "source:10000007:talent:normalattack:normalDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000007",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000007:normalattack-charged": {
+    "id": "behavior-inventory:batch-1:10000007:normalattack-charged",
+    "entity": {
+      "kind": "talent",
+      "id": "10000007",
+      "component": "normalAttack.charged"
+    },
+    "sourceRefs": [
+      "source:10000007:talent:normalattack:chargedDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000007",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000007:normalattack-plunging": {
+    "id": "behavior-inventory:batch-1:10000007:normalattack-plunging",
+    "entity": {
+      "kind": "talent",
+      "id": "10000007",
+      "component": "normalAttack.plunging"
+    },
+    "sourceRefs": [
+      "source:10000007:talent:normalattack:plungingDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000007",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000007:skill": {
+    "id": "behavior-inventory:batch-1:10000007:skill",
+    "entity": {
+      "kind": "talent",
+      "id": "10000007",
+      "component": "skill"
+    },
+    "sourceRefs": [
+      "source:10000007:talent:skill:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000007",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000007:burst": {
+    "id": "behavior-inventory:batch-1:10000007:burst",
+    "entity": {
+      "kind": "talent",
+      "id": "10000007",
+      "component": "burst"
+    },
+    "sourceRefs": [
+      "source:10000007:talent:burst:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000007",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000007:passives-passive-1": {
+    "id": "behavior-inventory:batch-1:10000007:passives-passive-1",
+    "entity": {
+      "kind": "talent",
+      "id": "10000007",
+      "component": "passives.passive_1"
+    },
+    "sourceRefs": [
+      "source:10000007:talent:passive:passive-1:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000007",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000007:passives-passive-2": {
+    "id": "behavior-inventory:batch-1:10000007:passives-passive-2",
+    "entity": {
+      "kind": "talent",
+      "id": "10000007",
+      "component": "passives.passive_2"
+    },
+    "sourceRefs": [
+      "source:10000007:talent:passive:passive-2:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000007",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000007:constellation-1": {
+    "id": "behavior-inventory:batch-1:10000007:constellation-1",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000007",
+      "component": "constellation.1"
+    },
+    "sourceRefs": [
+      "source:10000007:constellation:1:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000007/constellations/1",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000007:constellation-2": {
+    "id": "behavior-inventory:batch-1:10000007:constellation-2",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000007",
+      "component": "constellation.2"
+    },
+    "sourceRefs": [
+      "source:10000007:constellation:2:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000007/constellations/2",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000007:constellation-3": {
+    "id": "behavior-inventory:batch-1:10000007:constellation-3",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000007",
+      "component": "constellation.3"
+    },
+    "sourceRefs": [
+      "source:10000007:constellation:3:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000007/constellations/3",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000007:constellation-4": {
+    "id": "behavior-inventory:batch-1:10000007:constellation-4",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000007",
+      "component": "constellation.4"
+    },
+    "sourceRefs": [
+      "source:10000007:constellation:4:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000007/constellations/4",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000007:constellation-5": {
+    "id": "behavior-inventory:batch-1:10000007:constellation-5",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000007",
+      "component": "constellation.5"
+    },
+    "sourceRefs": [
+      "source:10000007:constellation:5:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000007/constellations/5",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000007:constellation-6": {
+    "id": "behavior-inventory:batch-1:10000007:constellation-6",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000007",
+      "component": "constellation.6"
+    },
+    "sourceRefs": [
+      "source:10000007:constellation:6:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000007/constellations/6",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000014:normalattack-normal": {
+    "id": "behavior-inventory:batch-1:10000014:normalattack-normal",
+    "entity": {
+      "kind": "talent",
+      "id": "10000014",
+      "component": "normalAttack.normal"
+    },
+    "sourceRefs": [
+      "source:10000014:talent:normalattack:normalDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000014",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000014:normalattack-charged": {
+    "id": "behavior-inventory:batch-1:10000014:normalattack-charged",
+    "entity": {
+      "kind": "talent",
+      "id": "10000014",
+      "component": "normalAttack.charged"
+    },
+    "sourceRefs": [
+      "source:10000014:talent:normalattack:chargedDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000014",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000014:normalattack-plunging": {
+    "id": "behavior-inventory:batch-1:10000014:normalattack-plunging",
+    "entity": {
+      "kind": "talent",
+      "id": "10000014",
+      "component": "normalAttack.plunging"
+    },
+    "sourceRefs": [
+      "source:10000014:talent:normalattack:plungingDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000014",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000014:skill": {
+    "id": "behavior-inventory:batch-1:10000014:skill",
+    "entity": {
+      "kind": "talent",
+      "id": "10000014",
+      "component": "skill"
+    },
+    "sourceRefs": [
+      "source:10000014:talent:skill:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000014",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000014:burst": {
+    "id": "behavior-inventory:batch-1:10000014:burst",
+    "entity": {
+      "kind": "talent",
+      "id": "10000014",
+      "component": "burst"
+    },
+    "sourceRefs": [
+      "source:10000014:talent:burst:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000014",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000014:passives-passive-1": {
+    "id": "behavior-inventory:batch-1:10000014:passives-passive-1",
+    "entity": {
+      "kind": "talent",
+      "id": "10000014",
+      "component": "passives.passive_1"
+    },
+    "sourceRefs": [
+      "source:10000014:talent:passive:passive-1:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000014",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000014:passives-passive-2": {
+    "id": "behavior-inventory:batch-1:10000014:passives-passive-2",
+    "entity": {
+      "kind": "talent",
+      "id": "10000014",
+      "component": "passives.passive_2"
+    },
+    "sourceRefs": [
+      "source:10000014:talent:passive:passive-2:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000014",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000014:passives-passive-utility": {
+    "id": "behavior-inventory:batch-1:10000014:passives-passive-utility",
+    "entity": {
+      "kind": "talent",
+      "id": "10000014",
+      "component": "passives.passive_utility"
+    },
+    "sourceRefs": [
+      "source:10000014:talent:passive:passive-utility:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000014",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000014:constellation-1": {
+    "id": "behavior-inventory:batch-1:10000014:constellation-1",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000014",
+      "component": "constellation.1"
+    },
+    "sourceRefs": [
+      "source:10000014:constellation:1:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000014/constellations/1",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000014:constellation-2": {
+    "id": "behavior-inventory:batch-1:10000014:constellation-2",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000014",
+      "component": "constellation.2"
+    },
+    "sourceRefs": [
+      "source:10000014:constellation:2:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000014/constellations/2",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000014:constellation-3": {
+    "id": "behavior-inventory:batch-1:10000014:constellation-3",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000014",
+      "component": "constellation.3"
+    },
+    "sourceRefs": [
+      "source:10000014:constellation:3:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000014/constellations/3",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000014:constellation-4": {
+    "id": "behavior-inventory:batch-1:10000014:constellation-4",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000014",
+      "component": "constellation.4"
+    },
+    "sourceRefs": [
+      "source:10000014:constellation:4:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000014/constellations/4",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000014:constellation-5": {
+    "id": "behavior-inventory:batch-1:10000014:constellation-5",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000014",
+      "component": "constellation.5"
+    },
+    "sourceRefs": [
+      "source:10000014:constellation:5:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000014/constellations/5",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000014:constellation-6": {
+    "id": "behavior-inventory:batch-1:10000014:constellation-6",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000014",
+      "component": "constellation.6"
+    },
+    "sourceRefs": [
+      "source:10000014:constellation:6:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000014/constellations/6",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000015:normalattack-normal": {
+    "id": "behavior-inventory:batch-1:10000015:normalattack-normal",
+    "entity": {
+      "kind": "talent",
+      "id": "10000015",
+      "component": "normalAttack.normal"
+    },
+    "sourceRefs": [
+      "source:10000015:talent:normalattack:normalDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000015",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000015:normalattack-charged": {
+    "id": "behavior-inventory:batch-1:10000015:normalattack-charged",
+    "entity": {
+      "kind": "talent",
+      "id": "10000015",
+      "component": "normalAttack.charged"
+    },
+    "sourceRefs": [
+      "source:10000015:talent:normalattack:chargedDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000015",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000015:normalattack-plunging": {
+    "id": "behavior-inventory:batch-1:10000015:normalattack-plunging",
+    "entity": {
+      "kind": "talent",
+      "id": "10000015",
+      "component": "normalAttack.plunging"
+    },
+    "sourceRefs": [
+      "source:10000015:talent:normalattack:plungingDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000015",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000015:skill": {
+    "id": "behavior-inventory:batch-1:10000015:skill",
+    "entity": {
+      "kind": "talent",
+      "id": "10000015",
+      "component": "skill"
+    },
+    "sourceRefs": [
+      "source:10000015:talent:skill:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000015",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000015:burst": {
+    "id": "behavior-inventory:batch-1:10000015:burst",
+    "entity": {
+      "kind": "talent",
+      "id": "10000015",
+      "component": "burst"
+    },
+    "sourceRefs": [
+      "source:10000015:talent:burst:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000015",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000015:passives-passive-1": {
+    "id": "behavior-inventory:batch-1:10000015:passives-passive-1",
+    "entity": {
+      "kind": "talent",
+      "id": "10000015",
+      "component": "passives.passive_1"
+    },
+    "sourceRefs": [
+      "source:10000015:talent:passive:passive-1:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000015",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000015:passives-passive-2": {
+    "id": "behavior-inventory:batch-1:10000015:passives-passive-2",
+    "entity": {
+      "kind": "talent",
+      "id": "10000015",
+      "component": "passives.passive_2"
+    },
+    "sourceRefs": [
+      "source:10000015:talent:passive:passive-2:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000015",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000015:passives-passive-utility": {
+    "id": "behavior-inventory:batch-1:10000015:passives-passive-utility",
+    "entity": {
+      "kind": "talent",
+      "id": "10000015",
+      "component": "passives.passive_utility"
+    },
+    "sourceRefs": [
+      "source:10000015:talent:passive:passive-utility:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000015",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000015:constellation-1": {
+    "id": "behavior-inventory:batch-1:10000015:constellation-1",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000015",
+      "component": "constellation.1"
+    },
+    "sourceRefs": [
+      "source:10000015:constellation:1:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000015/constellations/1",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000015:constellation-2": {
+    "id": "behavior-inventory:batch-1:10000015:constellation-2",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000015",
+      "component": "constellation.2"
+    },
+    "sourceRefs": [
+      "source:10000015:constellation:2:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000015/constellations/2",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000015:constellation-3": {
+    "id": "behavior-inventory:batch-1:10000015:constellation-3",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000015",
+      "component": "constellation.3"
+    },
+    "sourceRefs": [
+      "source:10000015:constellation:3:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000015/constellations/3",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000015:constellation-4": {
+    "id": "behavior-inventory:batch-1:10000015:constellation-4",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000015",
+      "component": "constellation.4"
+    },
+    "sourceRefs": [
+      "source:10000015:constellation:4:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000015/constellations/4",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000015:constellation-5": {
+    "id": "behavior-inventory:batch-1:10000015:constellation-5",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000015",
+      "component": "constellation.5"
+    },
+    "sourceRefs": [
+      "source:10000015:constellation:5:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000015/constellations/5",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000015:constellation-6": {
+    "id": "behavior-inventory:batch-1:10000015:constellation-6",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000015",
+      "component": "constellation.6"
+    },
+    "sourceRefs": [
+      "source:10000015:constellation:6:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000015/constellations/6",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000016:normalattack-normal": {
+    "id": "behavior-inventory:batch-1:10000016:normalattack-normal",
+    "entity": {
+      "kind": "talent",
+      "id": "10000016",
+      "component": "normalAttack.normal"
+    },
+    "sourceRefs": [
+      "source:10000016:talent:normalattack:normalDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000016",
+      "field": "normalDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000016:normalattack-charged": {
+    "id": "behavior-inventory:batch-1:10000016:normalattack-charged",
+    "entity": {
+      "kind": "talent",
+      "id": "10000016",
+      "component": "normalAttack.charged"
+    },
+    "sourceRefs": [
+      "source:10000016:talent:normalattack:chargedDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000016",
+      "field": "chargedDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000016:normalattack-plunging": {
+    "id": "behavior-inventory:batch-1:10000016:normalattack-plunging",
+    "entity": {
+      "kind": "talent",
+      "id": "10000016",
+      "component": "normalAttack.plunging"
+    },
+    "sourceRefs": [
+      "source:10000016:talent:normalattack:plungingDescriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000016",
+      "field": "plungingDescriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000016:skill": {
+    "id": "behavior-inventory:batch-1:10000016:skill",
+    "entity": {
+      "kind": "talent",
+      "id": "10000016",
+      "component": "skill"
+    },
+    "sourceRefs": [
+      "source:10000016:talent:skill:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000016",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000016:burst": {
+    "id": "behavior-inventory:batch-1:10000016:burst",
+    "entity": {
+      "kind": "talent",
+      "id": "10000016",
+      "component": "burst"
+    },
+    "sourceRefs": [
+      "source:10000016:talent:burst:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000016",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000016:passives-passive-1": {
+    "id": "behavior-inventory:batch-1:10000016:passives-passive-1",
+    "entity": {
+      "kind": "talent",
+      "id": "10000016",
+      "component": "passives.passive_1"
+    },
+    "sourceRefs": [
+      "source:10000016:talent:passive:passive-1:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000016",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000016:passives-passive-2": {
+    "id": "behavior-inventory:batch-1:10000016:passives-passive-2",
+    "entity": {
+      "kind": "talent",
+      "id": "10000016",
+      "component": "passives.passive_2"
+    },
+    "sourceRefs": [
+      "source:10000016:talent:passive:passive-2:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000016",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000016:passives-passive-utility": {
+    "id": "behavior-inventory:batch-1:10000016:passives-passive-utility",
+    "entity": {
+      "kind": "talent",
+      "id": "10000016",
+      "component": "passives.passive_utility"
+    },
+    "sourceRefs": [
+      "source:10000016:talent:passive:passive-utility:descriptionJa"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-talents.json",
+      "record": "/10000016",
+      "field": "descriptionJa"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000016:constellation-1": {
+    "id": "behavior-inventory:batch-1:10000016:constellation-1",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000016",
+      "component": "constellation.1"
+    },
+    "sourceRefs": [
+      "source:10000016:constellation:1:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000016/constellations/1",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000016:constellation-2": {
+    "id": "behavior-inventory:batch-1:10000016:constellation-2",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000016",
+      "component": "constellation.2"
+    },
+    "sourceRefs": [
+      "source:10000016:constellation:2:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000016/constellations/2",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000016:constellation-3": {
+    "id": "behavior-inventory:batch-1:10000016:constellation-3",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000016",
+      "component": "constellation.3"
+    },
+    "sourceRefs": [
+      "source:10000016:constellation:3:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000016/constellations/3",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000016:constellation-4": {
+    "id": "behavior-inventory:batch-1:10000016:constellation-4",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000016",
+      "component": "constellation.4"
+    },
+    "sourceRefs": [
+      "source:10000016:constellation:4:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000016/constellations/4",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000016:constellation-5": {
+    "id": "behavior-inventory:batch-1:10000016:constellation-5",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000016",
+      "component": "constellation.5"
+    },
+    "sourceRefs": [
+      "source:10000016:constellation:5:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000016/constellations/5",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  },
+  "behavior-inventory:batch-1:10000016:constellation-6": {
+    "id": "behavior-inventory:batch-1:10000016:constellation-6",
+    "entity": {
+      "kind": "constellation",
+      "id": "10000016",
+      "component": "constellation.6"
+    },
+    "sourceRefs": [
+      "source:10000016:constellation:6:effectText"
+    ],
+    "status": "needsReview",
+    "unknown": true,
+    "sourcePointer": {
+      "dataset": "character-constellations.json",
+      "record": "/10000016/constellations/6",
+      "field": "effectText"
+    },
+    "notes": "Inventory pointer only. Values, units, targets, and lifecycle are not inferred from source text."
+  }
+}

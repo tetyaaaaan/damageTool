@@ -1,0 +1,2316 @@
+{
+  "schemaVersion": 2,
+  "kind": "genshinCanonicalRuntime",
+  "generator": {
+    "name": "genshinCanonicalRuntimeGenerate.cjs",
+    "version": "genshinCanonicalRuntimeGenerate/2"
+  },
+  "generatedAt": "2026-08-15T00:00:00.000Z",
+  "policy": {
+    "source": "verified EffectSpec only",
+    "currentGameVersion": {
+      "gameVersion": "6.7",
+      "status": "strictlyBound",
+      "sources": [
+        {
+          "sourceId": "genshinDb",
+          "gameVersion": "6.7",
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2"
+        }
+      ]
+    },
+    "versionBaseline": {
+      "status": "current",
+      "canonicalGateOpen": true
+    },
+    "proseInference": "forbidden",
+    "loaderGate": "v2 provenance plus explicit destination and supersession"
+  },
+  "versionBinding": {
+    "gameVersion": "6.7",
+    "status": "strictlyBound",
+    "acceptedSnapshotId": "genshin-version:6.7:11cd97236d0099f03ab295582531b24aa2016e2c1675c03997c61b7ad4e63f6d",
+    "sourceCatalogDigest": "e3281568020faca3bc635b1161993bbab27027fe574f6692d81f849d49509790",
+    "baselineDigest": "2bb4f69ddba3b4b4c6a92bd8a0c0998bce2a676cc0634ac438863c0fd7b206ff"
+  },
+  "versionAvailability": {
+    "status": "inactivePendingRevalidation",
+    "activeForProduction": false,
+    "gateScope": "versionBoundCanonicalOverlayOnly",
+    "verifiedGameVersion": "6.7",
+    "observedLiveVersion": "7.0",
+    "transitionStatus": "upstreamVersionAvailable",
+    "transitionId": "genshin:6.7->7.0",
+    "transitionReopenEligible": false,
+    "reason": "Canonical records remain verified for 6.7 but require 7.0 revalidation before production use.",
+    "reopenRequirements": [
+      "strict target-version dataset and entity diff",
+      "affected candidate×claim evidence revalidation",
+      "fresh eligibility certificates and canonical Runtime regeneration",
+      "consumer and regression verification"
+    ]
+  },
+  "summary": {
+    "candidatesAudited": 2268,
+    "canonical": 2,
+    "excluded": 2266,
+    "collisions": 0,
+    "activeForProduction": 0,
+    "inactivePendingRevalidation": 2
+  },
+  "modifiers": {
+    "behavior-modifier:10000026:constellation-1-1:1": {
+      "id": "behavior-modifier:10000026:constellation-1-1:1",
+      "runtimeKind": "behavior",
+      "category": "behavior",
+      "applyTo": [
+        "behavior"
+      ],
+      "calculationSupport": "special",
+      "uidHandling": "special",
+      "destination": {
+        "collection": "modifiers",
+        "dataset": "behaviorModifiers",
+        "entityId": "10000026"
+      },
+      "supersedesLegacyModifierIds": [],
+      "targetSpecId": "behavior:10000026:talent:skill",
+      "path": "/execution/charges",
+      "operation": "add",
+      "value": 1,
+      "condition": {
+        "kind": "constellation",
+        "stateKey": "10000026:C1"
+      },
+      "targetSpec": {
+        "discrepancies": [],
+        "entity": {
+          "component": "skill",
+          "id": "10000026",
+          "kind": "talent"
+        },
+        "execution": {
+          "charges": {
+            "notes": "Copied from the explicit available-use count.",
+            "sourceRefs": [
+              "source:10000026:talent:skill:descriptionJa"
+            ],
+            "status": "explicit",
+            "unit": "charges",
+            "value": 2
+          }
+        },
+        "id": "behavior:10000026:talent:skill",
+        "interpretation": {
+          "author": "genshinBehaviorV2Generate.cjs",
+          "method": "deterministicParser",
+          "version": "genshinBehaviorV2Generate/1"
+        },
+        "lifecycle": {
+          "expiration": "unknown",
+          "instanceScope": "target",
+          "refreshMode": "none"
+        },
+        "sourceRefs": [
+          "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+          "genshin-db:character:10000026:talent-skill:1bab2cd"
+        ],
+        "timing": {},
+        "unknownFields": [
+          "burstCost",
+          "snapshot"
+        ],
+        "verification": {
+          "canonicalEligibility": true,
+          "claims": {
+            "baseCharges": {
+              "claimKind": "externalFactual",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "comparison": "match",
+                "evidenceRefs": [
+                  "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                  "genshin-db:character:10000026:talent-skill:1bab2cd"
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate.",
+              "sourceRefs": [
+                "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                "genshin-db:character:10000026:talent-skill:1bab2cd"
+              ],
+              "status": "verified"
+            }
+          },
+          "discrepancies": [],
+          "machineEvidenceReady": true,
+          "reviewBinding": {
+            "algorithm": "sha256",
+            "decisionId": "games/genshin/data/v2/reviews/behavior-xiao-c1-charges.json",
+            "subjectDigest": "010809f24e44829cc27d516599efa7743b3e2256661d00aff45999ee5ee4e85f"
+          },
+          "reviewedAt": "2026-08-24T00:00:00.000Z",
+          "reviewedBy": "user:workspace-owner",
+          "sourceAgreement": "agreed",
+          "state": "canonicalEligible",
+          "status": "verified"
+        }
+      },
+      "provenance": {
+        "schemaVersion": 2,
+        "status": "canonical",
+        "specId": "behavior-modifier:10000026:constellation-1-1:1",
+        "targetSpecId": "behavior:10000026:talent:skill",
+        "sourceRefs": [
+          "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+          "genshin-db:character:10000026:constellation-c1:1bab2cd",
+          "genshin-db:character:10000026:talent-skill:1bab2cd"
+        ],
+        "providers": [
+          "Gachabase",
+          "theBowja/genshin-db"
+        ],
+        "independenceGroups": [
+          "GenshinData-derived",
+          "gachabase-versioned-data"
+        ],
+        "gameVersion": "6.7",
+        "reviewedBy": "user:workspace-owner",
+        "reviewedAt": "2026-08-24T00:00:00.000Z",
+        "verification": {
+          "status": "verified",
+          "sourceAgreement": "agreed",
+          "verificationMode": "human",
+          "reviewedBy": "user:workspace-owner",
+          "reviewedAt": "2026-08-24T00:00:00.000Z",
+          "claims": {
+            "affectedAction": {
+              "claimKind": "externalFactual",
+              "eligibilityCertificate": {
+                "attestationId": "behavior-modifier:10000026:constellation-1-1:1:affectedAction:human:attestation",
+                "certificateId": "behavior-modifier:10000026:constellation-1-1:1:affectedAction:eligibility",
+                "claimField": "affectedAction",
+                "comparisonDigest": "8d0fad71b8087e66f9e8bb2fe33742ff2b89faa644e2a5a34b4d07dc8b545189",
+                "issuedAt": "2026-08-24T00:00:00.000Z",
+                "schemaVersion": 1,
+                "scope": {
+                  "claimField": "affectedAction",
+                  "subjectId": "behavior-modifier:10000026:constellation-1-1:1"
+                },
+                "status": "eligible",
+                "subjectId": "behavior-modifier:10000026:constellation-1-1:1",
+                "verificationMode": "human"
+              },
+              "machineEvidence": {
+                "blockedReasons": [],
+                "comparison": "match",
+                "evidenceRefs": [
+                  "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                  "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate.",
+              "sourceRefs": [
+                "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                "genshin-db:character:10000026:constellation-c1:1bab2cd"
+              ],
+              "status": "verified",
+              "verificationAttestation": {
+                "actor": {
+                  "id": "user:workspace-owner",
+                  "kind": "human"
+                },
+                "attestationId": "behavior-modifier:10000026:constellation-1-1:1:affectedAction:human:attestation",
+                "attestedAt": "2026-08-24T00:00:00.000Z",
+                "claimField": "affectedAction",
+                "comparison": {
+                  "digests": {
+                    "affectedAction": "8d0fad71b8087e66f9e8bb2fe33742ff2b89faa644e2a5a34b4d07dc8b545189"
+                  },
+                  "status": "match"
+                },
+                "decision": "approve",
+                "engine": {
+                  "name": "genshinCanonicalRuntimeGenerate.cjs",
+                  "version": "genshinCanonicalRuntimeGenerate/2"
+                },
+                "exactRevisions": [
+                  {
+                    "fileDigest": "8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "revision": "digest:8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "sourceRef": "gachabase:genshin:character:10000026:skill-c1:release-6.7.0"
+                  },
+                  {
+                    "fileDigest": "08d2f7672c38481a0f8a8072d5c5d05babf1ed22385b18c50d0d8113f4e813f4",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                  }
+                ],
+                "gameVersion": {
+                  "sourceRefs": [
+                    "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                    "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                  ],
+                  "value": "6.7"
+                },
+                "normalization": {
+                  "digest": "4e73eb3a8cd062b7c33bab3d66aeb6b5730b7fe355d5145ac7815766ba41af27",
+                  "id": "genshin-canonical-identity",
+                  "version": "1"
+                },
+                "policy": {
+                  "digest": "b5885ce8efc10d0657decb0eadf5c398a9b8e379f51269f01abf691aa00d6484",
+                  "id": "genshin-canonical-v2",
+                  "version": "1"
+                },
+                "requiredFields": [
+                  "affectedAction"
+                ],
+                "schemaVersion": 1,
+                "scopeStatus": "match",
+                "semanticStatus": "match",
+                "sourceBundle": [
+                  {
+                    "fileDigest": "8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "gachabase-versioned-data",
+                    "provider": "Gachabase",
+                    "revision": "digest:8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "sourceRef": "gachabase:genshin:character:10000026:skill-c1:release-6.7.0"
+                  },
+                  {
+                    "fileDigest": "08d2f7672c38481a0f8a8072d5c5d05babf1ed22385b18c50d0d8113f4e813f4",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "GenshinData-derived",
+                    "provider": "theBowja/genshin-db",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                  }
+                ],
+                "subjectId": "behavior-modifier:10000026:constellation-1-1:1",
+                "type": "humanReview",
+                "verificationMode": "human"
+              }
+            },
+            "baseCharges": {
+              "claimKind": "externalFactual",
+              "eligibilityCertificate": {
+                "attestationId": "behavior-modifier:10000026:constellation-1-1:1:baseCharges:human:attestation",
+                "certificateId": "behavior-modifier:10000026:constellation-1-1:1:baseCharges:eligibility",
+                "claimField": "baseCharges",
+                "comparisonDigest": "f6320b1ad6101c8ed065c0dccc330a6a55f75cb93f1849ea2d5175a8add33232",
+                "issuedAt": "2026-08-24T00:00:00.000Z",
+                "schemaVersion": 1,
+                "scope": {
+                  "claimField": "baseCharges",
+                  "subjectId": "behavior-modifier:10000026:constellation-1-1:1"
+                },
+                "status": "eligible",
+                "subjectId": "behavior-modifier:10000026:constellation-1-1:1",
+                "verificationMode": "human"
+              },
+              "machineEvidence": {
+                "blockedReasons": [],
+                "comparison": "match",
+                "evidenceRefs": [
+                  "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                  "genshin-db:character:10000026:talent-skill:1bab2cd"
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate.",
+              "sourceRefs": [
+                "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                "genshin-db:character:10000026:talent-skill:1bab2cd"
+              ],
+              "status": "verified",
+              "verificationAttestation": {
+                "actor": {
+                  "id": "user:workspace-owner",
+                  "kind": "human"
+                },
+                "attestationId": "behavior-modifier:10000026:constellation-1-1:1:baseCharges:human:attestation",
+                "attestedAt": "2026-08-24T00:00:00.000Z",
+                "claimField": "baseCharges",
+                "comparison": {
+                  "digests": {
+                    "baseCharges": "f6320b1ad6101c8ed065c0dccc330a6a55f75cb93f1849ea2d5175a8add33232"
+                  },
+                  "status": "match"
+                },
+                "decision": "approve",
+                "engine": {
+                  "name": "genshinCanonicalRuntimeGenerate.cjs",
+                  "version": "genshinCanonicalRuntimeGenerate/2"
+                },
+                "exactRevisions": [
+                  {
+                    "fileDigest": "8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "revision": "digest:8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "sourceRef": "gachabase:genshin:character:10000026:skill-c1:release-6.7.0"
+                  },
+                  {
+                    "fileDigest": "8b8949a0b50c128b1103196cd7370fc23071d330063f373140e4ec8bb8b77dec",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:character:10000026:talent-skill:1bab2cd"
+                  }
+                ],
+                "gameVersion": {
+                  "sourceRefs": [
+                    "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                    "genshin-db:character:10000026:talent-skill:1bab2cd"
+                  ],
+                  "value": "6.7"
+                },
+                "normalization": {
+                  "digest": "4e73eb3a8cd062b7c33bab3d66aeb6b5730b7fe355d5145ac7815766ba41af27",
+                  "id": "genshin-canonical-identity",
+                  "version": "1"
+                },
+                "policy": {
+                  "digest": "b5885ce8efc10d0657decb0eadf5c398a9b8e379f51269f01abf691aa00d6484",
+                  "id": "genshin-canonical-v2",
+                  "version": "1"
+                },
+                "requiredFields": [
+                  "baseCharges"
+                ],
+                "schemaVersion": 1,
+                "scopeStatus": "match",
+                "semanticStatus": "match",
+                "sourceBundle": [
+                  {
+                    "fileDigest": "8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "gachabase-versioned-data",
+                    "provider": "Gachabase",
+                    "revision": "digest:8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "sourceRef": "gachabase:genshin:character:10000026:skill-c1:release-6.7.0"
+                  },
+                  {
+                    "fileDigest": "8b8949a0b50c128b1103196cd7370fc23071d330063f373140e4ec8bb8b77dec",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "GenshinData-derived",
+                    "provider": "theBowja/genshin-db",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:character:10000026:talent-skill:1bab2cd"
+                  }
+                ],
+                "subjectId": "behavior-modifier:10000026:constellation-1-1:1",
+                "type": "humanReview",
+                "verificationMode": "human"
+              }
+            },
+            "behaviorChange": {
+              "claimKind": "externalFactual",
+              "eligibilityCertificate": {
+                "attestationId": "behavior-modifier:10000026:constellation-1-1:1:behaviorChange:human:attestation",
+                "certificateId": "behavior-modifier:10000026:constellation-1-1:1:behaviorChange:eligibility",
+                "claimField": "behaviorChange",
+                "comparisonDigest": "1a28fe58afa53d141a1b582463fd692f567073abb54499976a7cd2d14bedbd2b",
+                "issuedAt": "2026-08-24T00:00:00.000Z",
+                "schemaVersion": 1,
+                "scope": {
+                  "claimField": "behaviorChange",
+                  "subjectId": "behavior-modifier:10000026:constellation-1-1:1"
+                },
+                "status": "eligible",
+                "subjectId": "behavior-modifier:10000026:constellation-1-1:1",
+                "verificationMode": "human"
+              },
+              "machineEvidence": {
+                "blockedReasons": [],
+                "comparison": "match",
+                "evidenceRefs": [
+                  "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                  "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate.",
+              "sourceRefs": [
+                "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                "genshin-db:character:10000026:constellation-c1:1bab2cd"
+              ],
+              "status": "verified",
+              "verificationAttestation": {
+                "actor": {
+                  "id": "user:workspace-owner",
+                  "kind": "human"
+                },
+                "attestationId": "behavior-modifier:10000026:constellation-1-1:1:behaviorChange:human:attestation",
+                "attestedAt": "2026-08-24T00:00:00.000Z",
+                "claimField": "behaviorChange",
+                "comparison": {
+                  "digests": {
+                    "behaviorChange": "1a28fe58afa53d141a1b582463fd692f567073abb54499976a7cd2d14bedbd2b"
+                  },
+                  "status": "match"
+                },
+                "decision": "approve",
+                "engine": {
+                  "name": "genshinCanonicalRuntimeGenerate.cjs",
+                  "version": "genshinCanonicalRuntimeGenerate/2"
+                },
+                "exactRevisions": [
+                  {
+                    "fileDigest": "8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "revision": "digest:8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "sourceRef": "gachabase:genshin:character:10000026:skill-c1:release-6.7.0"
+                  },
+                  {
+                    "fileDigest": "08d2f7672c38481a0f8a8072d5c5d05babf1ed22385b18c50d0d8113f4e813f4",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                  }
+                ],
+                "gameVersion": {
+                  "sourceRefs": [
+                    "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                    "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                  ],
+                  "value": "6.7"
+                },
+                "normalization": {
+                  "digest": "4e73eb3a8cd062b7c33bab3d66aeb6b5730b7fe355d5145ac7815766ba41af27",
+                  "id": "genshin-canonical-identity",
+                  "version": "1"
+                },
+                "policy": {
+                  "digest": "b5885ce8efc10d0657decb0eadf5c398a9b8e379f51269f01abf691aa00d6484",
+                  "id": "genshin-canonical-v2",
+                  "version": "1"
+                },
+                "requiredFields": [
+                  "behaviorChange"
+                ],
+                "schemaVersion": 1,
+                "scopeStatus": "match",
+                "semanticStatus": "match",
+                "sourceBundle": [
+                  {
+                    "fileDigest": "8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "gachabase-versioned-data",
+                    "provider": "Gachabase",
+                    "revision": "digest:8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "sourceRef": "gachabase:genshin:character:10000026:skill-c1:release-6.7.0"
+                  },
+                  {
+                    "fileDigest": "08d2f7672c38481a0f8a8072d5c5d05babf1ed22385b18c50d0d8113f4e813f4",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "GenshinData-derived",
+                    "provider": "theBowja/genshin-db",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                  }
+                ],
+                "subjectId": "behavior-modifier:10000026:constellation-1-1:1",
+                "type": "humanReview",
+                "verificationMode": "human"
+              }
+            },
+            "calculationRoute": {
+              "claimKind": "internalRuntimeRoute",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "f28b7d231f1b4948c20be429b82d721732cf25db606bb762a9ac002b74b51188",
+                  "locator": "calculateDamageRequest.behaviorResolution",
+                  "path": "games/js/genshinCalcEngine.js"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinBehaviorRepresentativeReviewPilot"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinBehaviorRepresentativeReviewPilot",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate.",
+              "sourceRefs": [
+                "review:behavior-modifier:10000026:constellation-1-1:1"
+              ],
+              "status": "verified"
+            },
+            "condition": {
+              "claimKind": "externalFactual",
+              "eligibilityCertificate": {
+                "attestationId": "behavior-modifier:10000026:constellation-1-1:1:condition:human:attestation",
+                "certificateId": "behavior-modifier:10000026:constellation-1-1:1:condition:eligibility",
+                "claimField": "condition",
+                "comparisonDigest": "9a4f640c4d570bfce2afb184e2ed600ac4a874a14a875528ff3c8f5fabb12d29",
+                "issuedAt": "2026-08-24T00:00:00.000Z",
+                "schemaVersion": 1,
+                "scope": {
+                  "claimField": "condition",
+                  "subjectId": "behavior-modifier:10000026:constellation-1-1:1"
+                },
+                "status": "eligible",
+                "subjectId": "behavior-modifier:10000026:constellation-1-1:1",
+                "verificationMode": "human"
+              },
+              "machineEvidence": {
+                "blockedReasons": [],
+                "comparison": "match",
+                "evidenceRefs": [
+                  "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                  "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate.",
+              "sourceRefs": [
+                "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                "genshin-db:character:10000026:constellation-c1:1bab2cd"
+              ],
+              "status": "verified",
+              "verificationAttestation": {
+                "actor": {
+                  "id": "user:workspace-owner",
+                  "kind": "human"
+                },
+                "attestationId": "behavior-modifier:10000026:constellation-1-1:1:condition:human:attestation",
+                "attestedAt": "2026-08-24T00:00:00.000Z",
+                "claimField": "condition",
+                "comparison": {
+                  "digests": {
+                    "condition": "9a4f640c4d570bfce2afb184e2ed600ac4a874a14a875528ff3c8f5fabb12d29"
+                  },
+                  "status": "match"
+                },
+                "decision": "approve",
+                "engine": {
+                  "name": "genshinCanonicalRuntimeGenerate.cjs",
+                  "version": "genshinCanonicalRuntimeGenerate/2"
+                },
+                "exactRevisions": [
+                  {
+                    "fileDigest": "8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "revision": "digest:8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "sourceRef": "gachabase:genshin:character:10000026:skill-c1:release-6.7.0"
+                  },
+                  {
+                    "fileDigest": "08d2f7672c38481a0f8a8072d5c5d05babf1ed22385b18c50d0d8113f4e813f4",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                  }
+                ],
+                "gameVersion": {
+                  "sourceRefs": [
+                    "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                    "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                  ],
+                  "value": "6.7"
+                },
+                "normalization": {
+                  "digest": "4e73eb3a8cd062b7c33bab3d66aeb6b5730b7fe355d5145ac7815766ba41af27",
+                  "id": "genshin-canonical-identity",
+                  "version": "1"
+                },
+                "policy": {
+                  "digest": "b5885ce8efc10d0657decb0eadf5c398a9b8e379f51269f01abf691aa00d6484",
+                  "id": "genshin-canonical-v2",
+                  "version": "1"
+                },
+                "requiredFields": [
+                  "condition"
+                ],
+                "schemaVersion": 1,
+                "scopeStatus": "match",
+                "semanticStatus": "match",
+                "sourceBundle": [
+                  {
+                    "fileDigest": "8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "gachabase-versioned-data",
+                    "provider": "Gachabase",
+                    "revision": "digest:8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "sourceRef": "gachabase:genshin:character:10000026:skill-c1:release-6.7.0"
+                  },
+                  {
+                    "fileDigest": "08d2f7672c38481a0f8a8072d5c5d05babf1ed22385b18c50d0d8113f4e813f4",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "GenshinData-derived",
+                    "provider": "theBowja/genshin-db",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                  }
+                ],
+                "subjectId": "behavior-modifier:10000026:constellation-1-1:1",
+                "type": "humanReview",
+                "verificationMode": "human"
+              }
+            },
+            "destination": {
+              "claimKind": "mappingMaterialization",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "b8d4111e8f5c425d8f12b83390cc8501baca364e63fc3ebd651c81f6bac6406d",
+                  "locator": "behaviorModifiers/10000026/modifiers",
+                  "path": "scripts/genshinCanonicalRuntimeGenerate.cjs"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinBehaviorRepresentativeReviewPilot"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinBehaviorRepresentativeReviewPilot",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true,
+                "sourceInputsVerified": true
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate.",
+              "sourceRefs": [
+                "review:behavior-modifier:10000026:constellation-1-1:1"
+              ],
+              "status": "verified"
+            },
+            "operation": {
+              "claimKind": "mappingMaterialization",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "200c4ba9601e6e27cccc8caf2fba59d5925e7cb7f52a933e65a6d44557e2f0ea",
+                  "locator": "add",
+                  "path": "scripts/genshinBehaviorV2Generate.cjs"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinBehaviorRepresentativeReviewPilot"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinBehaviorRepresentativeReviewPilot",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true,
+                "sourceInputsVerified": true
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate.",
+              "sourceRefs": [
+                "review:behavior-modifier:10000026:constellation-1-1:1"
+              ],
+              "status": "verified"
+            },
+            "path": {
+              "claimKind": "mappingMaterialization",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "200c4ba9601e6e27cccc8caf2fba59d5925e7cb7f52a933e65a6d44557e2f0ea",
+                  "locator": "/execution/charges",
+                  "path": "scripts/genshinBehaviorV2Generate.cjs"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinBehaviorRepresentativeReviewPilot"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinBehaviorRepresentativeReviewPilot",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true,
+                "sourceInputsVerified": true
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate.",
+              "sourceRefs": [
+                "review:behavior-modifier:10000026:constellation-1-1:1"
+              ],
+              "status": "verified"
+            },
+            "runtime.modifierIds": {
+              "claimKind": "internalRuntimeRoute",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "1d16c77ce422243b9b5036b3778aa9e615f540e07049e5be98b3a24de025cc9f",
+                  "locator": "behavior-modifier:10000026:constellation-1-1:1",
+                  "path": "games/js/genshinCalcData.js"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinBehaviorRepresentativeReviewPilot"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinBehaviorRepresentativeReviewPilot",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate.",
+              "sourceRefs": [
+                "review:behavior-modifier:10000026:constellation-1-1:1"
+              ],
+              "status": "verified"
+            },
+            "supersedesLegacyModifierIds": {
+              "claimKind": "mappingMaterialization",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "b8d4111e8f5c425d8f12b83390cc8501baca364e63fc3ebd651c81f6bac6406d",
+                  "locator": "explicit-empty-no-legacy-behavior-runtime",
+                  "path": "scripts/genshinCanonicalRuntimeGenerate.cjs"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinBehaviorRepresentativeReviewPilot"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinBehaviorRepresentativeReviewPilot",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true,
+                "sourceInputsVerified": true
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate.",
+              "sourceRefs": [
+                "review:behavior-modifier:10000026:constellation-1-1:1"
+              ],
+              "status": "verified"
+            },
+            "targetSpecId": {
+              "claimKind": "mappingMaterialization",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "200c4ba9601e6e27cccc8caf2fba59d5925e7cb7f52a933e65a6d44557e2f0ea",
+                  "locator": "behavior:10000026:talent:skill",
+                  "path": "scripts/genshinBehaviorV2Generate.cjs"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinBehaviorRepresentativeReviewPilot"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinBehaviorRepresentativeReviewPilot",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true,
+                "sourceInputsVerified": true
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate.",
+              "sourceRefs": [
+                "review:behavior-modifier:10000026:constellation-1-1:1"
+              ],
+              "status": "verified"
+            },
+            "uiRoute": {
+              "claimKind": "internalRuntimeRoute",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "cf96702581659a81e2a4704ab976e3f404c64fc23d883ebca21c3559adfc70e8",
+                  "locator": "renderBehaviorResolution",
+                  "path": "games/js/genshinCalcRenderer.js"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinBehaviorRepresentativeReviewPilot"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinBehaviorRepresentativeReviewPilot",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate.",
+              "sourceRefs": [
+                "review:behavior-modifier:10000026:constellation-1-1:1"
+              ],
+              "status": "verified"
+            },
+            "value": {
+              "claimKind": "externalFactual",
+              "eligibilityCertificate": {
+                "attestationId": "behavior-modifier:10000026:constellation-1-1:1:value:human:attestation",
+                "certificateId": "behavior-modifier:10000026:constellation-1-1:1:value:eligibility",
+                "claimField": "value",
+                "comparisonDigest": "a324690f64e80795ded1cacbf83af0dd7f0b0b387e34227ede28accc40802e92",
+                "issuedAt": "2026-08-24T00:00:00.000Z",
+                "schemaVersion": 1,
+                "scope": {
+                  "claimField": "value",
+                  "subjectId": "behavior-modifier:10000026:constellation-1-1:1"
+                },
+                "status": "eligible",
+                "subjectId": "behavior-modifier:10000026:constellation-1-1:1",
+                "verificationMode": "human"
+              },
+              "machineEvidence": {
+                "blockedReasons": [],
+                "comparison": "match",
+                "evidenceRefs": [
+                  "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                  "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; this approval and provider-independence decision do not apply to any other candidate.",
+              "sourceRefs": [
+                "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                "genshin-db:character:10000026:constellation-c1:1bab2cd"
+              ],
+              "status": "verified",
+              "verificationAttestation": {
+                "actor": {
+                  "id": "user:workspace-owner",
+                  "kind": "human"
+                },
+                "attestationId": "behavior-modifier:10000026:constellation-1-1:1:value:human:attestation",
+                "attestedAt": "2026-08-24T00:00:00.000Z",
+                "claimField": "value",
+                "comparison": {
+                  "digests": {
+                    "value": "a324690f64e80795ded1cacbf83af0dd7f0b0b387e34227ede28accc40802e92"
+                  },
+                  "status": "match"
+                },
+                "decision": "approve",
+                "engine": {
+                  "name": "genshinCanonicalRuntimeGenerate.cjs",
+                  "version": "genshinCanonicalRuntimeGenerate/2"
+                },
+                "exactRevisions": [
+                  {
+                    "fileDigest": "8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "revision": "digest:8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "sourceRef": "gachabase:genshin:character:10000026:skill-c1:release-6.7.0"
+                  },
+                  {
+                    "fileDigest": "08d2f7672c38481a0f8a8072d5c5d05babf1ed22385b18c50d0d8113f4e813f4",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                  }
+                ],
+                "gameVersion": {
+                  "sourceRefs": [
+                    "gachabase:genshin:character:10000026:skill-c1:release-6.7.0",
+                    "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                  ],
+                  "value": "6.7"
+                },
+                "normalization": {
+                  "digest": "4e73eb3a8cd062b7c33bab3d66aeb6b5730b7fe355d5145ac7815766ba41af27",
+                  "id": "genshin-canonical-identity",
+                  "version": "1"
+                },
+                "policy": {
+                  "digest": "b5885ce8efc10d0657decb0eadf5c398a9b8e379f51269f01abf691aa00d6484",
+                  "id": "genshin-canonical-v2",
+                  "version": "1"
+                },
+                "requiredFields": [
+                  "value"
+                ],
+                "schemaVersion": 1,
+                "scopeStatus": "match",
+                "semanticStatus": "match",
+                "sourceBundle": [
+                  {
+                    "fileDigest": "8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "gachabase-versioned-data",
+                    "provider": "Gachabase",
+                    "revision": "digest:8f584d2007a5497d2fc7f7b876ca5b73d02a453515abfabe36e225f581695f71",
+                    "sourceRef": "gachabase:genshin:character:10000026:skill-c1:release-6.7.0"
+                  },
+                  {
+                    "fileDigest": "08d2f7672c38481a0f8a8072d5c5d05babf1ed22385b18c50d0d8113f4e813f4",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "GenshinData-derived",
+                    "provider": "theBowja/genshin-db",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:character:10000026:constellation-c1:1bab2cd"
+                  }
+                ],
+                "subjectId": "behavior-modifier:10000026:constellation-1-1:1",
+                "type": "humanReview",
+                "verificationMode": "human"
+              }
+            }
+          },
+          "claimProofs": {
+            "affectedAction": {
+              "claimKind": "externalFactual",
+              "attestationId": "behavior-modifier:10000026:constellation-1-1:1:affectedAction:human:attestation",
+              "certificateId": "behavior-modifier:10000026:constellation-1-1:1:affectedAction:eligibility",
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "baseCharges": {
+              "claimKind": "externalFactual",
+              "attestationId": "behavior-modifier:10000026:constellation-1-1:1:baseCharges:human:attestation",
+              "certificateId": "behavior-modifier:10000026:constellation-1-1:1:baseCharges:eligibility",
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "behaviorChange": {
+              "claimKind": "externalFactual",
+              "attestationId": "behavior-modifier:10000026:constellation-1-1:1:behaviorChange:human:attestation",
+              "certificateId": "behavior-modifier:10000026:constellation-1-1:1:behaviorChange:eligibility",
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "calculationRoute": {
+              "claimKind": "internalRuntimeRoute",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "condition": {
+              "claimKind": "externalFactual",
+              "attestationId": "behavior-modifier:10000026:constellation-1-1:1:condition:human:attestation",
+              "certificateId": "behavior-modifier:10000026:constellation-1-1:1:condition:eligibility",
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "destination": {
+              "claimKind": "mappingMaterialization",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "operation": {
+              "claimKind": "mappingMaterialization",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "path": {
+              "claimKind": "mappingMaterialization",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "runtime.modifierIds": {
+              "claimKind": "internalRuntimeRoute",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "supersedesLegacyModifierIds": {
+              "claimKind": "mappingMaterialization",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "targetSpecId": {
+              "claimKind": "mappingMaterialization",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "uiRoute": {
+              "claimKind": "internalRuntimeRoute",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "value": {
+              "claimKind": "externalFactual",
+              "attestationId": "behavior-modifier:10000026:constellation-1-1:1:value:human:attestation",
+              "certificateId": "behavior-modifier:10000026:constellation-1-1:1:value:eligibility",
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            }
+          },
+          "independentSourceCount": 2
+        }
+      },
+      "runtime": {
+        "status": "canonical",
+        "generator": "genshinCanonicalRuntimeGenerate/2",
+        "modifierIds": [
+          "behavior-modifier:10000026:constellation-1-1:1"
+        ],
+        "destination": {
+          "collection": "modifiers",
+          "dataset": "behaviorModifiers",
+          "entityId": "10000026"
+        },
+        "supersedesLegacyModifierIds": []
+      }
+    },
+    "genshin:v2:weapon:12516:w_12516_stat_1": {
+      "id": "genshin:v2:weapon:12516:w_12516_stat_1",
+      "category": "statBonus",
+      "applyTo": [
+        "atkPercent"
+      ],
+      "condition": "always",
+      "calculationSupport": "simple",
+      "uidHandling": "includedInUidStats",
+      "destination": {
+        "collection": "modifiers",
+        "dataset": "weaponModifiers",
+        "entityId": "12516"
+      },
+      "supersedesLegacyModifierIds": [
+        "w_12516_stat_1"
+      ],
+      "unit": "percent",
+      "value": {
+        "1": 28,
+        "2": 35,
+        "3": 42,
+        "4": 49,
+        "5": 56
+      },
+      "valueByRefinement": {
+        "1": 28,
+        "2": 35,
+        "3": 42,
+        "4": 49,
+        "5": 56
+      },
+      "provenance": {
+        "schemaVersion": 2,
+        "status": "canonical",
+        "specId": "w_12516_stat_1",
+        "sourceRefs": [
+          "genshin-db:weapon:12516:1bab2cd",
+          "hoyowiki:genshin:weapon:12516:stat-clause"
+        ],
+        "providers": [
+          "HoYoverse HoYoWiki",
+          "theBowja/genshin-db"
+        ],
+        "independenceGroups": [
+          "GenshinData-derived",
+          "official-hoyoverse"
+        ],
+        "gameVersion": "6.7",
+        "reviewedBy": "user:workspace-owner",
+        "reviewedAt": "2026-08-23T00:00:00.000Z",
+        "verification": {
+          "status": "verified",
+          "sourceAgreement": "agreed",
+          "verificationMode": "human",
+          "reviewedBy": "user:workspace-owner",
+          "reviewedAt": "2026-08-23T00:00:00.000Z",
+          "claims": {
+            "activation": {
+              "claimKind": "externalFactual",
+              "eligibilityCertificate": {
+                "attestationId": "w_12516_stat_1:activation:human:attestation",
+                "certificateId": "w_12516_stat_1:activation:eligibility",
+                "claimField": "activation",
+                "comparisonDigest": "7ad3a1c28d82fad960b3f2b59793c6f8b18a8f91caf28b619bbfd695746b90f2",
+                "issuedAt": "2026-08-23T00:00:00.000Z",
+                "schemaVersion": 1,
+                "scope": {
+                  "claimField": "activation",
+                  "subjectId": "w_12516_stat_1"
+                },
+                "status": "eligible",
+                "subjectId": "w_12516_stat_1",
+                "verificationMode": "human"
+              },
+              "machineEvidence": {
+                "blockedReasons": [],
+                "comparison": "match",
+                "evidenceRefs": [
+                  "hoyowiki:genshin:weapon:12516:stat-clause",
+                  "genshin-db:weapon:12516:1bab2cd"
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; no approval is implied for other candidates.",
+              "sourceRefs": [
+                "hoyowiki:genshin:weapon:12516:stat-clause",
+                "genshin-db:weapon:12516:1bab2cd"
+              ],
+              "status": "verified",
+              "verificationAttestation": {
+                "actor": {
+                  "id": "user:workspace-owner",
+                  "kind": "human"
+                },
+                "attestationId": "w_12516_stat_1:activation:human:attestation",
+                "attestedAt": "2026-08-23T00:00:00.000Z",
+                "claimField": "activation",
+                "comparison": {
+                  "digests": {
+                    "activation": "7ad3a1c28d82fad960b3f2b59793c6f8b18a8f91caf28b619bbfd695746b90f2"
+                  },
+                  "status": "match"
+                },
+                "decision": "approve",
+                "engine": {
+                  "name": "genshinCanonicalRuntimeGenerate.cjs",
+                  "version": "genshinCanonicalRuntimeGenerate/2"
+                },
+                "exactRevisions": [
+                  {
+                    "fileDigest": "3e9a6f1733d174ce55c174b0996d4d5406bca386aca8ba9d9086dc2b7e3e8436",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:weapon:12516:1bab2cd"
+                  },
+                  {
+                    "fileDigest": "7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "revision": "digest:7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "sourceRef": "hoyowiki:genshin:weapon:12516:stat-clause"
+                  }
+                ],
+                "gameVersion": {
+                  "sourceRefs": [
+                    "genshin-db:weapon:12516:1bab2cd",
+                    "hoyowiki:genshin:weapon:12516:stat-clause"
+                  ],
+                  "value": "6.7"
+                },
+                "normalization": {
+                  "digest": "4e73eb3a8cd062b7c33bab3d66aeb6b5730b7fe355d5145ac7815766ba41af27",
+                  "id": "genshin-canonical-identity",
+                  "version": "1"
+                },
+                "policy": {
+                  "digest": "b5885ce8efc10d0657decb0eadf5c398a9b8e379f51269f01abf691aa00d6484",
+                  "id": "genshin-canonical-v2",
+                  "version": "1"
+                },
+                "requiredFields": [
+                  "activation"
+                ],
+                "schemaVersion": 1,
+                "scopeStatus": "match",
+                "semanticStatus": "match",
+                "sourceBundle": [
+                  {
+                    "fileDigest": "3e9a6f1733d174ce55c174b0996d4d5406bca386aca8ba9d9086dc2b7e3e8436",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "GenshinData-derived",
+                    "provider": "theBowja/genshin-db",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:weapon:12516:1bab2cd"
+                  },
+                  {
+                    "fileDigest": "7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "official-hoyoverse",
+                    "provider": "HoYoverse HoYoWiki",
+                    "revision": "digest:7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "sourceRef": "hoyowiki:genshin:weapon:12516:stat-clause"
+                  }
+                ],
+                "subjectId": "w_12516_stat_1",
+                "type": "humanReview",
+                "verificationMode": "human"
+              }
+            },
+            "area": {
+              "claimKind": "notApplicable",
+              "machineEvidence": {
+                "applicabilityDetermined": true,
+                "blockedReasons": [],
+                "comparison": "notRequired",
+                "evidenceRefs": [],
+                "ready": true
+              },
+              "notes": "The unconditional ATK stat clause has no area semantic.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "notApplicable"
+            },
+            "charges": {
+              "claimKind": "notApplicable",
+              "machineEvidence": {
+                "applicabilityDetermined": true,
+                "blockedReasons": [],
+                "comparison": "notRequired",
+                "evidenceRefs": [],
+                "ready": true
+              },
+              "notes": "The unconditional ATK stat clause has no charges semantic.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "notApplicable"
+            },
+            "cooldown": {
+              "claimKind": "notApplicable",
+              "machineEvidence": {
+                "applicabilityDetermined": true,
+                "blockedReasons": [],
+                "comparison": "notRequired",
+                "evidenceRefs": [],
+                "ready": true
+              },
+              "notes": "The unconditional ATK stat clause has no cooldown semantic.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "notApplicable"
+            },
+            "destination": {
+              "claimKind": "mappingMaterialization",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "19a5d1533a976379b1e80e3f43183d07d49ba85ec437bce717f78d2c8ff945ad",
+                  "locator": "destination",
+                  "path": "scripts/genshinWeaponV2Generate.cjs"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinRepresentativeReviewPilot"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinRepresentativeReviewPilot",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true,
+                "sourceInputsVerified": true
+              },
+              "notes": "Approved by the scoped human review decision; no approval is implied for other candidates.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "verified"
+            },
+            "duration": {
+              "claimKind": "notApplicable",
+              "machineEvidence": {
+                "applicabilityDetermined": true,
+                "blockedReasons": [],
+                "comparison": "notRequired",
+                "evidenceRefs": [],
+                "ready": true
+              },
+              "notes": "The unconditional ATK stat clause has no duration semantic.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "notApplicable"
+            },
+            "effect.activation.calculationSupport": {
+              "claimKind": "mappingMaterialization",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "19a5d1533a976379b1e80e3f43183d07d49ba85ec437bce717f78d2c8ff945ad",
+                  "locator": "buildEffect.activation.calculationSupport:simple",
+                  "path": "scripts/genshinWeaponV2Generate.cjs"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinRepresentativeReviewPilot:canonicalMappingFields"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinRepresentativeReviewPilot:canonicalMappingFields",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true,
+                "sourceInputsVerified": true
+              },
+              "notes": "Exact deterministic mapping asserted by the focused canonical-mapping test.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "verified"
+            },
+            "effect.activation.uidHandling": {
+              "claimKind": "internalRuntimeRoute",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "fd93c365ec9e4723fbe3a4fad7763658076d851ff39091b5f5ebdb3844bb92ef",
+                  "locator": "effect.activation.uidHandling",
+                  "path": "games/js/genshinDataContract.js"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinRepresentativeReviewPilot"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinRepresentativeReviewPilot",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; no approval is implied for other candidates.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "verified"
+            },
+            "effect.kind": {
+              "claimKind": "mappingMaterialization",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "19a5d1533a976379b1e80e3f43183d07d49ba85ec437bce717f78d2c8ff945ad",
+                  "locator": "buildEffect.kind:statBonus",
+                  "path": "scripts/genshinWeaponV2Generate.cjs"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinRepresentativeReviewPilot:canonicalMappingFields"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinRepresentativeReviewPilot:canonicalMappingFields",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true,
+                "sourceInputsVerified": true
+              },
+              "notes": "Exact deterministic mapping asserted by the focused canonical-mapping test.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "verified"
+            },
+            "elementApplication": {
+              "claimKind": "notApplicable",
+              "machineEvidence": {
+                "applicabilityDetermined": true,
+                "blockedReasons": [],
+                "comparison": "notRequired",
+                "evidenceRefs": [],
+                "ready": true
+              },
+              "notes": "The unconditional ATK stat clause has no elementApplication semantic.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "notApplicable"
+            },
+            "energy": {
+              "claimKind": "notApplicable",
+              "machineEvidence": {
+                "applicabilityDetermined": true,
+                "blockedReasons": [],
+                "comparison": "notRequired",
+                "evidenceRefs": [],
+                "ready": true
+              },
+              "notes": "The unconditional ATK stat clause has no energy semantic.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "notApplicable"
+            },
+            "entity": {
+              "claimKind": "mappingMaterialization",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "19a5d1533a976379b1e80e3f43183d07d49ba85ec437bce717f78d2c8ff945ad",
+                  "locator": "buildSpec.entity:weapon:12516",
+                  "path": "scripts/genshinWeaponV2Generate.cjs"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinRepresentativeReviewPilot:canonicalMappingFields"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinRepresentativeReviewPilot:canonicalMappingFields",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true,
+                "sourceInputsVerified": true
+              },
+              "notes": "Exact deterministic mapping asserted by the focused canonical-mapping test.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "verified"
+            },
+            "hitCount": {
+              "claimKind": "notApplicable",
+              "machineEvidence": {
+                "applicabilityDetermined": true,
+                "blockedReasons": [],
+                "comparison": "notRequired",
+                "evidenceRefs": [],
+                "ready": true
+              },
+              "notes": "The unconditional ATK stat clause has no hitCount semantic.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "notApplicable"
+            },
+            "interpretation": {
+              "claimKind": "mappingMaterialization",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "19a5d1533a976379b1e80e3f43183d07d49ba85ec437bce717f78d2c8ff945ad",
+                  "locator": "buildSpec.interpretation:deterministicParser",
+                  "path": "scripts/genshinWeaponV2Generate.cjs"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinRepresentativeReviewPilot:canonicalMappingFields"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinRepresentativeReviewPilot:canonicalMappingFields",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true,
+                "sourceInputsVerified": true
+              },
+              "notes": "Exact deterministic mapping asserted by the focused canonical-mapping test.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "verified"
+            },
+            "interval": {
+              "claimKind": "notApplicable",
+              "machineEvidence": {
+                "applicabilityDetermined": true,
+                "blockedReasons": [],
+                "comparison": "notRequired",
+                "evidenceRefs": [],
+                "ready": true
+              },
+              "notes": "The unconditional ATK stat clause has no interval semantic.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "notApplicable"
+            },
+            "maxInstances": {
+              "claimKind": "notApplicable",
+              "machineEvidence": {
+                "applicabilityDetermined": true,
+                "blockedReasons": [],
+                "comparison": "notRequired",
+                "evidenceRefs": [],
+                "ready": true
+              },
+              "notes": "The unconditional ATK stat clause has no maxInstances semantic.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "notApplicable"
+            },
+            "offField": {
+              "claimKind": "notApplicable",
+              "machineEvidence": {
+                "applicabilityDetermined": true,
+                "blockedReasons": [],
+                "comparison": "notRequired",
+                "evidenceRefs": [],
+                "ready": true
+              },
+              "notes": "The unconditional ATK stat clause has no offField semantic.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "notApplicable"
+            },
+            "refinement": {
+              "claimKind": "externalFactual",
+              "eligibilityCertificate": {
+                "attestationId": "w_12516_stat_1:refinement:human:attestation",
+                "certificateId": "w_12516_stat_1:refinement:eligibility",
+                "claimField": "refinement",
+                "comparisonDigest": "00e7161858284907724dfd0aa30f09a0cc73a89dc585fb228e4370d76b84094b",
+                "issuedAt": "2026-08-23T00:00:00.000Z",
+                "schemaVersion": 1,
+                "scope": {
+                  "claimField": "refinement",
+                  "subjectId": "w_12516_stat_1"
+                },
+                "status": "eligible",
+                "subjectId": "w_12516_stat_1",
+                "verificationMode": "human"
+              },
+              "machineEvidence": {
+                "blockedReasons": [],
+                "comparison": "match",
+                "evidenceRefs": [
+                  "hoyowiki:genshin:weapon:12516:stat-clause",
+                  "genshin-db:weapon:12516:1bab2cd"
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; no approval is implied for other candidates.",
+              "sourceRefs": [
+                "hoyowiki:genshin:weapon:12516:stat-clause",
+                "genshin-db:weapon:12516:1bab2cd"
+              ],
+              "status": "verified",
+              "verificationAttestation": {
+                "actor": {
+                  "id": "user:workspace-owner",
+                  "kind": "human"
+                },
+                "attestationId": "w_12516_stat_1:refinement:human:attestation",
+                "attestedAt": "2026-08-23T00:00:00.000Z",
+                "claimField": "refinement",
+                "comparison": {
+                  "digests": {
+                    "refinement": "00e7161858284907724dfd0aa30f09a0cc73a89dc585fb228e4370d76b84094b"
+                  },
+                  "status": "match"
+                },
+                "decision": "approve",
+                "engine": {
+                  "name": "genshinCanonicalRuntimeGenerate.cjs",
+                  "version": "genshinCanonicalRuntimeGenerate/2"
+                },
+                "exactRevisions": [
+                  {
+                    "fileDigest": "3e9a6f1733d174ce55c174b0996d4d5406bca386aca8ba9d9086dc2b7e3e8436",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:weapon:12516:1bab2cd"
+                  },
+                  {
+                    "fileDigest": "7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "revision": "digest:7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "sourceRef": "hoyowiki:genshin:weapon:12516:stat-clause"
+                  }
+                ],
+                "gameVersion": {
+                  "sourceRefs": [
+                    "genshin-db:weapon:12516:1bab2cd",
+                    "hoyowiki:genshin:weapon:12516:stat-clause"
+                  ],
+                  "value": "6.7"
+                },
+                "normalization": {
+                  "digest": "4e73eb3a8cd062b7c33bab3d66aeb6b5730b7fe355d5145ac7815766ba41af27",
+                  "id": "genshin-canonical-identity",
+                  "version": "1"
+                },
+                "policy": {
+                  "digest": "b5885ce8efc10d0657decb0eadf5c398a9b8e379f51269f01abf691aa00d6484",
+                  "id": "genshin-canonical-v2",
+                  "version": "1"
+                },
+                "requiredFields": [
+                  "refinement"
+                ],
+                "schemaVersion": 1,
+                "scopeStatus": "match",
+                "semanticStatus": "match",
+                "sourceBundle": [
+                  {
+                    "fileDigest": "3e9a6f1733d174ce55c174b0996d4d5406bca386aca8ba9d9086dc2b7e3e8436",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "GenshinData-derived",
+                    "provider": "theBowja/genshin-db",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:weapon:12516:1bab2cd"
+                  },
+                  {
+                    "fileDigest": "7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "official-hoyoverse",
+                    "provider": "HoYoverse HoYoWiki",
+                    "revision": "digest:7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "sourceRef": "hoyowiki:genshin:weapon:12516:stat-clause"
+                  }
+                ],
+                "subjectId": "w_12516_stat_1",
+                "type": "humanReview",
+                "verificationMode": "human"
+              }
+            },
+            "registryStructure": {
+              "claimKind": "notApplicable",
+              "machineEvidence": {
+                "applicabilityDetermined": true,
+                "blockedReasons": [],
+                "comparison": "notRequired",
+                "evidenceRefs": [],
+                "ready": true
+              },
+              "notes": "The unconditional ATK stat clause has no registryStructure semantic.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "notApplicable"
+            },
+            "runtime.modifierIds": {
+              "claimKind": "internalRuntimeRoute",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "fd93c365ec9e4723fbe3a4fad7763658076d851ff39091b5f5ebdb3844bb92ef",
+                  "locator": "runtime.modifierIds",
+                  "path": "games/js/genshinDataContract.js"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinRepresentativeReviewPilot"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinRepresentativeReviewPilot",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; no approval is implied for other candidates.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "verified"
+            },
+            "snapshot": {
+              "claimKind": "notApplicable",
+              "machineEvidence": {
+                "applicabilityDetermined": true,
+                "blockedReasons": [],
+                "comparison": "notRequired",
+                "evidenceRefs": [],
+                "ready": true
+              },
+              "notes": "The unconditional ATK stat clause has no snapshot semantic.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "notApplicable"
+            },
+            "stack": {
+              "claimKind": "notApplicable",
+              "machineEvidence": {
+                "applicabilityDetermined": true,
+                "blockedReasons": [],
+                "comparison": "notRequired",
+                "evidenceRefs": [],
+                "ready": true
+              },
+              "notes": "The maximum-three-stacks phrase is in the following reaction clause; this first, unconditional ATK clause has no stack semantics.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "notApplicable"
+            },
+            "supersedesLegacyModifierIds": {
+              "claimKind": "mappingMaterialization",
+              "machineEvidence": {
+                "blockedReasons": [],
+                "codeProvenance": {
+                  "deterministic": true,
+                  "digest": "19a5d1533a976379b1e80e3f43183d07d49ba85ec437bce717f78d2c8ff945ad",
+                  "locator": "supersedesLegacyModifierIds",
+                  "path": "scripts/genshinWeaponV2Generate.cjs"
+                },
+                "comparison": "notRequired",
+                "evidenceRefs": [
+                  "test:genshinRepresentativeReviewPilot"
+                ],
+                "focusedTests": [
+                  {
+                    "id": "genshinRepresentativeReviewPilot",
+                    "status": "passed"
+                  }
+                ],
+                "ready": true,
+                "sourceInputsVerified": true
+              },
+              "notes": "Approved by the scoped human review decision; no approval is implied for other candidates.",
+              "sourceRefs": [
+                "weapon:12516:modifier:w_12516_stat_1"
+              ],
+              "status": "verified"
+            },
+            "targets": {
+              "claimKind": "externalFactual",
+              "eligibilityCertificate": {
+                "attestationId": "w_12516_stat_1:targets:human:attestation",
+                "certificateId": "w_12516_stat_1:targets:eligibility",
+                "claimField": "targets",
+                "comparisonDigest": "7a9b5478a2a7d1a54b23a28a3b8ae9b4ad1ade02b5758ee91c57b60b60c55ff8",
+                "issuedAt": "2026-08-23T00:00:00.000Z",
+                "schemaVersion": 1,
+                "scope": {
+                  "claimField": "targets",
+                  "subjectId": "w_12516_stat_1"
+                },
+                "status": "eligible",
+                "subjectId": "w_12516_stat_1",
+                "verificationMode": "human"
+              },
+              "machineEvidence": {
+                "blockedReasons": [],
+                "comparison": "match",
+                "evidenceRefs": [
+                  "hoyowiki:genshin:weapon:12516:stat-clause",
+                  "genshin-db:weapon:12516:1bab2cd"
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; no approval is implied for other candidates.",
+              "sourceRefs": [
+                "hoyowiki:genshin:weapon:12516:stat-clause",
+                "genshin-db:weapon:12516:1bab2cd"
+              ],
+              "status": "verified",
+              "verificationAttestation": {
+                "actor": {
+                  "id": "user:workspace-owner",
+                  "kind": "human"
+                },
+                "attestationId": "w_12516_stat_1:targets:human:attestation",
+                "attestedAt": "2026-08-23T00:00:00.000Z",
+                "claimField": "targets",
+                "comparison": {
+                  "digests": {
+                    "targets": "7a9b5478a2a7d1a54b23a28a3b8ae9b4ad1ade02b5758ee91c57b60b60c55ff8"
+                  },
+                  "status": "match"
+                },
+                "decision": "approve",
+                "engine": {
+                  "name": "genshinCanonicalRuntimeGenerate.cjs",
+                  "version": "genshinCanonicalRuntimeGenerate/2"
+                },
+                "exactRevisions": [
+                  {
+                    "fileDigest": "3e9a6f1733d174ce55c174b0996d4d5406bca386aca8ba9d9086dc2b7e3e8436",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:weapon:12516:1bab2cd"
+                  },
+                  {
+                    "fileDigest": "7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "revision": "digest:7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "sourceRef": "hoyowiki:genshin:weapon:12516:stat-clause"
+                  }
+                ],
+                "gameVersion": {
+                  "sourceRefs": [
+                    "genshin-db:weapon:12516:1bab2cd",
+                    "hoyowiki:genshin:weapon:12516:stat-clause"
+                  ],
+                  "value": "6.7"
+                },
+                "normalization": {
+                  "digest": "4e73eb3a8cd062b7c33bab3d66aeb6b5730b7fe355d5145ac7815766ba41af27",
+                  "id": "genshin-canonical-identity",
+                  "version": "1"
+                },
+                "policy": {
+                  "digest": "b5885ce8efc10d0657decb0eadf5c398a9b8e379f51269f01abf691aa00d6484",
+                  "id": "genshin-canonical-v2",
+                  "version": "1"
+                },
+                "requiredFields": [
+                  "targets"
+                ],
+                "schemaVersion": 1,
+                "scopeStatus": "match",
+                "semanticStatus": "match",
+                "sourceBundle": [
+                  {
+                    "fileDigest": "3e9a6f1733d174ce55c174b0996d4d5406bca386aca8ba9d9086dc2b7e3e8436",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "GenshinData-derived",
+                    "provider": "theBowja/genshin-db",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:weapon:12516:1bab2cd"
+                  },
+                  {
+                    "fileDigest": "7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "official-hoyoverse",
+                    "provider": "HoYoverse HoYoWiki",
+                    "revision": "digest:7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "sourceRef": "hoyowiki:genshin:weapon:12516:stat-clause"
+                  }
+                ],
+                "subjectId": "w_12516_stat_1",
+                "type": "humanReview",
+                "verificationMode": "human"
+              }
+            },
+            "unit": {
+              "claimKind": "externalFactual",
+              "eligibilityCertificate": {
+                "attestationId": "w_12516_stat_1:unit:human:attestation",
+                "certificateId": "w_12516_stat_1:unit:eligibility",
+                "claimField": "unit",
+                "comparisonDigest": "6c7e169f174626d5b384e4684fe2c0ad7e2828ea4889d80eca32eca624612e48",
+                "issuedAt": "2026-08-23T00:00:00.000Z",
+                "schemaVersion": 1,
+                "scope": {
+                  "claimField": "unit",
+                  "subjectId": "w_12516_stat_1"
+                },
+                "status": "eligible",
+                "subjectId": "w_12516_stat_1",
+                "verificationMode": "human"
+              },
+              "machineEvidence": {
+                "blockedReasons": [],
+                "comparison": "match",
+                "evidenceRefs": [
+                  "hoyowiki:genshin:weapon:12516:stat-clause",
+                  "genshin-db:weapon:12516:1bab2cd"
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; no approval is implied for other candidates.",
+              "sourceRefs": [
+                "hoyowiki:genshin:weapon:12516:stat-clause",
+                "genshin-db:weapon:12516:1bab2cd"
+              ],
+              "status": "verified",
+              "verificationAttestation": {
+                "actor": {
+                  "id": "user:workspace-owner",
+                  "kind": "human"
+                },
+                "attestationId": "w_12516_stat_1:unit:human:attestation",
+                "attestedAt": "2026-08-23T00:00:00.000Z",
+                "claimField": "unit",
+                "comparison": {
+                  "digests": {
+                    "unit": "6c7e169f174626d5b384e4684fe2c0ad7e2828ea4889d80eca32eca624612e48"
+                  },
+                  "status": "match"
+                },
+                "decision": "approve",
+                "engine": {
+                  "name": "genshinCanonicalRuntimeGenerate.cjs",
+                  "version": "genshinCanonicalRuntimeGenerate/2"
+                },
+                "exactRevisions": [
+                  {
+                    "fileDigest": "3e9a6f1733d174ce55c174b0996d4d5406bca386aca8ba9d9086dc2b7e3e8436",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:weapon:12516:1bab2cd"
+                  },
+                  {
+                    "fileDigest": "7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "revision": "digest:7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "sourceRef": "hoyowiki:genshin:weapon:12516:stat-clause"
+                  }
+                ],
+                "gameVersion": {
+                  "sourceRefs": [
+                    "genshin-db:weapon:12516:1bab2cd",
+                    "hoyowiki:genshin:weapon:12516:stat-clause"
+                  ],
+                  "value": "6.7"
+                },
+                "normalization": {
+                  "digest": "4e73eb3a8cd062b7c33bab3d66aeb6b5730b7fe355d5145ac7815766ba41af27",
+                  "id": "genshin-canonical-identity",
+                  "version": "1"
+                },
+                "policy": {
+                  "digest": "b5885ce8efc10d0657decb0eadf5c398a9b8e379f51269f01abf691aa00d6484",
+                  "id": "genshin-canonical-v2",
+                  "version": "1"
+                },
+                "requiredFields": [
+                  "unit"
+                ],
+                "schemaVersion": 1,
+                "scopeStatus": "match",
+                "semanticStatus": "match",
+                "sourceBundle": [
+                  {
+                    "fileDigest": "3e9a6f1733d174ce55c174b0996d4d5406bca386aca8ba9d9086dc2b7e3e8436",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "GenshinData-derived",
+                    "provider": "theBowja/genshin-db",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:weapon:12516:1bab2cd"
+                  },
+                  {
+                    "fileDigest": "7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "official-hoyoverse",
+                    "provider": "HoYoverse HoYoWiki",
+                    "revision": "digest:7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "sourceRef": "hoyowiki:genshin:weapon:12516:stat-clause"
+                  }
+                ],
+                "subjectId": "w_12516_stat_1",
+                "type": "humanReview",
+                "verificationMode": "human"
+              }
+            },
+            "value": {
+              "claimKind": "externalFactual",
+              "eligibilityCertificate": {
+                "attestationId": "w_12516_stat_1:value:human:attestation",
+                "certificateId": "w_12516_stat_1:value:eligibility",
+                "claimField": "value",
+                "comparisonDigest": "0f47cde6c64446b0460d03b0856de0711f00e9c14bb453abb206b0e5cf1b8ef1",
+                "issuedAt": "2026-08-23T00:00:00.000Z",
+                "schemaVersion": 1,
+                "scope": {
+                  "claimField": "value",
+                  "subjectId": "w_12516_stat_1"
+                },
+                "status": "eligible",
+                "subjectId": "w_12516_stat_1",
+                "verificationMode": "human"
+              },
+              "machineEvidence": {
+                "blockedReasons": [],
+                "comparison": "match",
+                "evidenceRefs": [
+                  "hoyowiki:genshin:weapon:12516:stat-clause",
+                  "genshin-db:weapon:12516:1bab2cd"
+                ],
+                "ready": true
+              },
+              "notes": "Approved by the scoped human review decision; no approval is implied for other candidates.",
+              "sourceRefs": [
+                "hoyowiki:genshin:weapon:12516:stat-clause",
+                "genshin-db:weapon:12516:1bab2cd"
+              ],
+              "status": "verified",
+              "verificationAttestation": {
+                "actor": {
+                  "id": "user:workspace-owner",
+                  "kind": "human"
+                },
+                "attestationId": "w_12516_stat_1:value:human:attestation",
+                "attestedAt": "2026-08-23T00:00:00.000Z",
+                "claimField": "value",
+                "comparison": {
+                  "digests": {
+                    "value": "0f47cde6c64446b0460d03b0856de0711f00e9c14bb453abb206b0e5cf1b8ef1"
+                  },
+                  "status": "match"
+                },
+                "decision": "approve",
+                "engine": {
+                  "name": "genshinCanonicalRuntimeGenerate.cjs",
+                  "version": "genshinCanonicalRuntimeGenerate/2"
+                },
+                "exactRevisions": [
+                  {
+                    "fileDigest": "3e9a6f1733d174ce55c174b0996d4d5406bca386aca8ba9d9086dc2b7e3e8436",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:weapon:12516:1bab2cd"
+                  },
+                  {
+                    "fileDigest": "7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "revision": "digest:7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "sourceRef": "hoyowiki:genshin:weapon:12516:stat-clause"
+                  }
+                ],
+                "gameVersion": {
+                  "sourceRefs": [
+                    "genshin-db:weapon:12516:1bab2cd",
+                    "hoyowiki:genshin:weapon:12516:stat-clause"
+                  ],
+                  "value": "6.7"
+                },
+                "normalization": {
+                  "digest": "4e73eb3a8cd062b7c33bab3d66aeb6b5730b7fe355d5145ac7815766ba41af27",
+                  "id": "genshin-canonical-identity",
+                  "version": "1"
+                },
+                "policy": {
+                  "digest": "b5885ce8efc10d0657decb0eadf5c398a9b8e379f51269f01abf691aa00d6484",
+                  "id": "genshin-canonical-v2",
+                  "version": "1"
+                },
+                "requiredFields": [
+                  "value"
+                ],
+                "schemaVersion": 1,
+                "scopeStatus": "match",
+                "semanticStatus": "match",
+                "sourceBundle": [
+                  {
+                    "fileDigest": "3e9a6f1733d174ce55c174b0996d4d5406bca386aca8ba9d9086dc2b7e3e8436",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "GenshinData-derived",
+                    "provider": "theBowja/genshin-db",
+                    "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+                    "sourceRef": "genshin-db:weapon:12516:1bab2cd"
+                  },
+                  {
+                    "fileDigest": "7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "gameVersion": "6.7",
+                    "independenceGroup": "official-hoyoverse",
+                    "provider": "HoYoverse HoYoWiki",
+                    "revision": "digest:7f8afc2837f45b954419958df32f78c4a156d77c4848605484e5e0b1bb63a5ac",
+                    "sourceRef": "hoyowiki:genshin:weapon:12516:stat-clause"
+                  }
+                ],
+                "subjectId": "w_12516_stat_1",
+                "type": "humanReview",
+                "verificationMode": "human"
+              }
+            }
+          },
+          "claimProofs": {
+            "activation": {
+              "claimKind": "externalFactual",
+              "attestationId": "w_12516_stat_1:activation:human:attestation",
+              "certificateId": "w_12516_stat_1:activation:eligibility",
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "area": {
+              "claimKind": "notApplicable",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "charges": {
+              "claimKind": "notApplicable",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "cooldown": {
+              "claimKind": "notApplicable",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "destination": {
+              "claimKind": "mappingMaterialization",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "duration": {
+              "claimKind": "notApplicable",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "effect.activation.calculationSupport": {
+              "claimKind": "mappingMaterialization",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "effect.activation.uidHandling": {
+              "claimKind": "internalRuntimeRoute",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "effect.kind": {
+              "claimKind": "mappingMaterialization",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "elementApplication": {
+              "claimKind": "notApplicable",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "energy": {
+              "claimKind": "notApplicable",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "entity": {
+              "claimKind": "mappingMaterialization",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "hitCount": {
+              "claimKind": "notApplicable",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "interpretation": {
+              "claimKind": "mappingMaterialization",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "interval": {
+              "claimKind": "notApplicable",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "maxInstances": {
+              "claimKind": "notApplicable",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "offField": {
+              "claimKind": "notApplicable",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "refinement": {
+              "claimKind": "externalFactual",
+              "attestationId": "w_12516_stat_1:refinement:human:attestation",
+              "certificateId": "w_12516_stat_1:refinement:eligibility",
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "registryStructure": {
+              "claimKind": "notApplicable",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "runtime.modifierIds": {
+              "claimKind": "internalRuntimeRoute",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "snapshot": {
+              "claimKind": "notApplicable",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "stack": {
+              "claimKind": "notApplicable",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "supersedesLegacyModifierIds": {
+              "claimKind": "mappingMaterialization",
+              "attestationId": null,
+              "certificateId": null,
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "targets": {
+              "claimKind": "externalFactual",
+              "attestationId": "w_12516_stat_1:targets:human:attestation",
+              "certificateId": "w_12516_stat_1:targets:eligibility",
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "unit": {
+              "claimKind": "externalFactual",
+              "attestationId": "w_12516_stat_1:unit:human:attestation",
+              "certificateId": "w_12516_stat_1:unit:eligibility",
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            },
+            "value": {
+              "claimKind": "externalFactual",
+              "attestationId": "w_12516_stat_1:value:human:attestation",
+              "certificateId": "w_12516_stat_1:value:eligibility",
+              "sourceBundleDigest": null,
+              "certificateAuthority": "humanReview"
+            }
+          },
+          "independentSourceCount": 2
+        },
+        "entity": {
+          "component": "modifier",
+          "id": "12516",
+          "kind": "weapon"
+        },
+        "interpretation": {
+          "author": "genshinWeaponV2Generate.cjs",
+          "method": "deterministicParser",
+          "notes": "Explicit legacy fields were copied; description text was not interpreted.",
+          "version": "genshinWeaponV2Generate/2"
+        }
+      },
+      "runtime": {
+        "status": "canonical",
+        "generator": "genshinCanonicalRuntimeGenerate/2",
+        "modifierIds": [
+          "genshin:v2:weapon:12516:w_12516_stat_1"
+        ],
+        "destination": {
+          "collection": "modifiers",
+          "dataset": "weaponModifiers",
+          "entityId": "12516"
+        },
+        "supersedesLegacyModifierIds": [
+          "w_12516_stat_1"
+        ]
+      }
+    }
+  }
+}

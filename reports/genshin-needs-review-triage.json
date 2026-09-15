@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinNeedsReviewTriageAudit",
+  "status": "passed",
+  "errors": [],
+  "summary": {
+    "claims": {
+      "total": 12122,
+      "needsReview": 5315,
+      "verified": 13,
+      "notApplicable": 6794,
+      "machineEvidenceRequired": 5315,
+      "humanReviewReady": 0,
+      "humanSemanticDecisionRequired": 0,
+      "independentPinnedButVersionBlocked": 651
+    },
+    "candidates": {
+      "total": 577,
+      "machineEvidenceBlocked": 576,
+      "humanReviewReady": 0,
+      "humanReviewed": 1,
+      "independentPinnedButVersionBlocked": 31
+    },
+    "conflictFollowup": {
+      "total": 0,
+      "byDisposition": {},
+      "humanDecisionRequiredNow": 0
+    },
+    "futureIndependentReviewRequired": 576,
+    "canonical": 1
+  }
+}

@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 2,
+  "kind": "genshinBehaviorV2BatchIndex",
+  "generator": {
+    "name": "genshinCharacterV2BehaviorBatch12Generate.cjs",
+    "version": "genshinCharacterV2BehaviorBatch12Generate/1",
+    "capturedAt": "2026-08-15T00:00:00.000Z"
+  },
+  "policy": {
+    "canonical": 0,
+    "runtimeConnection": "forbidden",
+    "proseParsing": "forbidden",
+    "unknownFields": "Unstated values remain unknown; this batch only inventories raw source pointers."
+  },
+  "summary": {
+    "schemaVersion": 2,
+    "batch": 12,
+    "batchCharacters": 1,
+    "inventoryCharacters": 109,
+    "sourceRecords": 15,
+    "inventoryCandidates": 14,
+    "specs": 14,
+    "modifiers": 0,
+    "canonical": 0,
+    "verificationByStatus": {
+      "needsReview": 14
+    },
+    "runtimeByStatus": {
+      "blocked": 14
+    },
+    "inventoryCandidateStatusCounts": {
+      "unknown": 8,
+      "candidate": 4
+    },
+    "inventoryCandidateKindCounts": {
+      "count": 7,
+      "icd": 2,
+      "timing": 3
+    },
+    "inventoryInputCandidates": 12,
+    "explicitCandidateOperations": 4,
+    "unknownCandidateIds": 8,
+    "sourceInventoryCandidates": 12,
+    "explicitInventoryCandidates": 4,
+    "unknownInventoryCandidates": 8,
+    "sourceRefsResolved": true,
+    "generatedFrom": [
+      {
+        "dataset": "characters.json",
+        "path": "games/genshin/data/characters.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "5d239863352fc896931c0c626e2de1ad60c615e4e376142daa8e2d3a7464c211"
+        }
+      },
+      {
+        "dataset": "character-talents.json",
+        "path": "games/genshin/data/character-talents.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "4263297365929e19b3ac99f9e63158d5033d66cf2b37617bdbccb2d8fb8a5e31"
+        }
+      },
+      {
+        "dataset": "character-constellations.json",
+        "path": "games/genshin/data/character-constellations.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "597d3eb254ccc9cc2fec3d3e7c9bf87fd2bdcca60e2140ffcf08778fd9a91e4e"
+        }
+      },
+      {
+        "dataset": "v2/characters/behavior-inventory.json",
+        "path": "games/genshin/data/v2/characters/behavior-inventory.json",
+        "integrity": {
+          "algorithm": "sha256",
+          "digest": "8dab639cc3d2b8472fcb9c4eeb7dc98d4d618bd7729e7541fac1fbf9f0d376de"
+        }
+      }
+    ],
+    "batchIds": [
+      "10000133"
+    ],
+    "excludedPilotIds": [
+      "10000026",
+      "10000031",
+      "10000037",
+      "10000046",
+      "10000058",
+      "10000089",
+      "10000094",
+      "10000098"
+    ],
+    "sourceKinds": {
+      "primaryDataset": 15
+    }
+  },
+  "batch": 12,
+  "batchIds": [
+    "10000133"
+  ],
+  "excludedPilotIds": [
+    "10000026",
+    "10000031",
+    "10000037",
+    "10000046",
+    "10000058",
+    "10000089",
+    "10000094",
+    "10000098"
+  ],
+  "generatedFrom": [
+    {
+      "dataset": "characters.json",
+      "path": "games/genshin/data/characters.json",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "5d239863352fc896931c0c626e2de1ad60c615e4e376142daa8e2d3a7464c211"
+      }
+    },
+    {
+      "dataset": "character-talents.json",
+      "path": "games/genshin/data/character-talents.json",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "4263297365929e19b3ac99f9e63158d5033d66cf2b37617bdbccb2d8fb8a5e31"
+      }
+    },
+    {
+      "dataset": "character-constellations.json",
+      "path": "games/genshin/data/character-constellations.json",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "597d3eb254ccc9cc2fec3d3e7c9bf87fd2bdcca60e2140ffcf08778fd9a91e4e"
+      }
+    },
+    {
+      "dataset": "v2/characters/behavior-inventory.json",
+      "path": "games/genshin/data/v2/characters/behavior-inventory.json",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "8dab639cc3d2b8472fcb9c4eeb7dc98d4d618bd7729e7541fac1fbf9f0d376de"
+      }
+    }
+  ],
+  "byCharacter": {
+    "10000133": {
+      "characterId": "10000133",
+      "characterName": "サンドローネ",
+      "status": "needsReview",
+      "canonical": 0,
+      "sourceRecordIds": [
+        "source:10000133:catalog",
+        "source:10000133:constellation:1:effectText",
+        "source:10000133:constellation:2:effectText",
+        "source:10000133:constellation:3:effectText",
+        "source:10000133:constellation:4:effectText",
+        "source:10000133:constellation:5:effectText",
+        "source:10000133:constellation:6:effectText",
+        "source:10000133:talent:burst:descriptionJa",
+        "source:10000133:talent:normalattack:chargedDescriptionJa",
+        "source:10000133:talent:normalattack:normalDescriptionJa",
+        "source:10000133:talent:normalattack:plungingDescriptionJa",
+        "source:10000133:talent:passive:passive-1:descriptionJa",
+        "source:10000133:talent:passive:passive-2:descriptionJa",
+        "source:10000133:talent:passive:passive-utility:descriptionJa",
+        "source:10000133:talent:skill:descriptionJa"
+      ],
+      "inventoryCandidateIds": [
+        "behavior-inventory:batch-12:10000133:burst",
+        "behavior-inventory:batch-12:10000133:constellation-1",
+        "behavior-inventory:batch-12:10000133:constellation-2",
+        "behavior-inventory:batch-12:10000133:constellation-3",
+        "behavior-inventory:batch-12:10000133:constellation-4",
+        "behavior-inventory:batch-12:10000133:constellation-5",
+        "behavior-inventory:batch-12:10000133:constellation-6",
+        "behavior-inventory:batch-12:10000133:normalattack-charged",
+        "behavior-inventory:batch-12:10000133:normalattack-normal",
+        "behavior-inventory:batch-12:10000133:normalattack-plunging",
+        "behavior-inventory:batch-12:10000133:passives-passive-1",
+        "behavior-inventory:batch-12:10000133:passives-passive-2",
+        "behavior-inventory:batch-12:10000133:passives-passive-utility",
+        "behavior-inventory:batch-12:10000133:skill"
+      ],
+      "specIds": [
+        "behavior:10000133:constellation:constellation-1",
+        "behavior:10000133:constellation:constellation-2",
+        "behavior:10000133:constellation:constellation-3",
+        "behavior:10000133:constellation:constellation-4",
+        "behavior:10000133:constellation:constellation-5",
+        "behavior:10000133:constellation:constellation-6",
+        "behavior:10000133:talent:burst",
+        "behavior:10000133:talent:normalattack-charged",
+        "behavior:10000133:talent:normalattack-normal",
+        "behavior:10000133:talent:normalattack-plunging",
+        "behavior:10000133:talent:passives-passive-1",
+        "behavior:10000133:talent:passives-passive-2",
+        "behavior:10000133:talent:passives-passive-utility",
+        "behavior:10000133:talent:skill"
+      ],
+      "modifierIds": [],
+      "inventoryInputCandidateIds": [
+        "behavior-inventory:10000133:constellation:c2:effecttext:2:count:unknown:22e1de9e1117f4e7",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:95cd154863ac3632",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:f15dddb53094fcd2",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:icd:unknown:cd0f846a8baf3882",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:timing:unknown:01e433771fe82e53",
+        "behavior-inventory:10000133:constellation:c6:effecttext:6:count:candidate:26c83a58ebea1b50",
+        "behavior-inventory:10000133:talent:normalattack:normaldescriptionja:count:candidate:cac434a94affbb5c",
+        "behavior-inventory:10000133:talent:passives-passive-1:descriptionja:0:count:unknown:14c4a10cb7cb8c03",
+        "behavior-inventory:10000133:talent:passives-passive-1:descriptionja:0:timing:unknown:bbae1f0bba25fbd2",
+        "behavior-inventory:10000133:talent:skill:descriptionja:count:unknown:ca43acfcd4a7fd72",
+        "behavior-inventory:10000133:talent:skill:descriptionja:icd:unknown:c4f2d1579b34177b",
+        "behavior-inventory:10000133:talent:skill:descriptionja:timing:unknown:7e96b1e9d33f3362"
+      ],
+      "explicitCandidateIds": [
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:95cd154863ac3632",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:count:candidate:f15dddb53094fcd2",
+        "behavior-inventory:10000133:constellation:c6:effecttext:6:count:candidate:26c83a58ebea1b50",
+        "behavior-inventory:10000133:talent:normalattack:normaldescriptionja:count:candidate:cac434a94affbb5c"
+      ],
+      "unknownCandidateIds": [
+        "behavior-inventory:10000133:constellation:c2:effecttext:2:count:unknown:22e1de9e1117f4e7",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:icd:unknown:cd0f846a8baf3882",
+        "behavior-inventory:10000133:constellation:c4:effecttext:4:timing:unknown:01e433771fe82e53",
+        "behavior-inventory:10000133:talent:passives-passive-1:descriptionja:0:count:unknown:14c4a10cb7cb8c03",
+        "behavior-inventory:10000133:talent:passives-passive-1:descriptionja:0:timing:unknown:bbae1f0bba25fbd2",
+        "behavior-inventory:10000133:talent:skill:descriptionja:count:unknown:ca43acfcd4a7fd72",
+        "behavior-inventory:10000133:talent:skill:descriptionja:icd:unknown:c4f2d1579b34177b",
+        "behavior-inventory:10000133:talent:skill:descriptionja:timing:unknown:7e96b1e9d33f3362"
+      ],
+      "reasons": [
+        "FIXED_BATCH_12",
+        "PILOT_EXCLUDED",
+        "RAW_SOURCE_POINTER_ONLY",
+        "RUNTIME_CONNECTION_ZERO"
+      ]
+    }
+  }
+}

@@ -244,6 +244,53 @@
         const weaponId = readText("genshinCalcWeaponId", "");
         const refinement = normalizeRefinement(readText("genshinWeaponRefinement", "R1"));
         const character = window.GenshinIdResolver?.resolveCharacter?.(characterId) || null;
+        const talentLevels = {
+            normal: readNumber("genshinNormalTalentLevel", 10),
+            skill: readNumber("genshinSkillTalentLevel", 10),
+            burst: readNumber("genshinBurstTalentLevel", 10)
+        };
+        const stats = {
+            hp: readNumber("genshinHpInput", 0),
+            baseHp: readNumber("genshinBaseHpInput", 0),
+            baseAtk: readNumber("genshinBaseAtkInput", 0),
+            atk: readNumber("genshinAtkInput", readNumber("atk", 1000)),
+            baseDef: readNumber("genshinBaseDefInput", 0),
+            def: readNumber("genshinDefInput", 0),
+            elementalMastery: readNumber("genshinElementalMasteryInput", readNumber("ele_m", 0)),
+            critRate: readNumber("genshinCritRateInput", 5),
+            critDamage: readNumber("genshinCritDamageInput", readNumber("cri_dmg", 50)),
+            energyRecharge: readNumber("genshinEnergyRechargeInput", 100),
+            elementDamageBonus: readNumber("genshinElementalDamageInput", readNumber("dmg_b", 0))
+        };
+        const inputProvenance = window.GenshinInputProvenance?.getStatsProvenance?.() || {
+            schemaVersion: 1,
+            source: "manual",
+            includesPersistentBonuses: true,
+            additivePolicy: "externalModifiersOnly"
+        };
+        const inputOrigin = inputProvenance.source === "uidProfile" ? "uidProfile" : "manual";
+        const calculationInput = window.GenshinDataContract?.createCalculationInput?.({
+            id: characterId,
+            level: readNumber("genshinReflectLevel", readNumber("lv", 90)),
+            constellation: parseConstellation(selectedConstellation),
+            talents: talentLevels,
+            weapon: weaponId ? {
+                id: weaponId,
+                level: readNumber("genshinWeaponLevel", 90),
+                rank: refinement
+            } : null,
+            artifacts: artifactSetIds.map((setId) => ({ setId })),
+            stats,
+            provenance: {
+                source: inputProvenance.source || inputOrigin,
+                includesPersistentBonuses: inputProvenance.includesPersistentBonuses,
+                additivePolicy: inputProvenance.additivePolicy
+            }
+        }, inputOrigin) || null;
+        if (calculationInput && inputProvenance.source === "mixed") {
+            calculationInput.source = "mixed";
+            calculationInput.provenance.source = "mixed";
+        }
         const party = window.GenshinPartyState?.normalizePartyState?.(
             window.GenshinPartyState.getSupportState(),
             {
@@ -253,58 +300,27 @@
                 weaponType: character?.weaponType || "",
                 level: readNumber("genshinReflectLevel", readNumber("lv", 90)),
                 constellation: parseConstellation(selectedConstellation),
-                talentLevels: {
-                    normal: readNumber("genshinNormalTalentLevel", 10),
-                    skill: readNumber("genshinSkillTalentLevel", 10),
-                    burst: readNumber("genshinBurstTalentLevel", 10)
-                },
+                talentLevels,
                 weaponId,
                 refinement,
                 artifactSetIds,
-                stats: {
-                    hp: readNumber("genshinHpInput", 0),
-                    baseHp: readNumber("genshinBaseHpInput", 0),
-                    baseAtk: readNumber("genshinBaseAtkInput", 0),
-                    atk: readNumber("genshinAtkInput", readNumber("atk", 1000)),
-                    baseDef: readNumber("genshinBaseDefInput", 0),
-                    def: readNumber("genshinDefInput", 0),
-                    elementalMastery: readNumber("genshinElementalMasteryInput", readNumber("ele_m", 0))
-                }
+                stats
             }
         ) || null;
         return {
             schemaVersion: 1,
-            characterId,
-            weaponId,
-            refinement,
+            calculationInput,
+            characterId: calculationInput?.characterId || characterId,
+            characterElement: character?.element || "",
+            weaponId: calculationInput?.weapon?.id || weaponId,
+            refinement: calculationInput?.weapon?.rank || refinement,
             artifactSetMode,
             artifactSetIds,
-            constellation: parseConstellation(selectedConstellation),
+            constellation: calculationInput?.constellation ?? parseConstellation(selectedConstellation),
             party,
-            talentLevels: {
-                normal: readNumber("genshinNormalTalentLevel", 10),
-                skill: readNumber("genshinSkillTalentLevel", 10),
-                burst: readNumber("genshinBurstTalentLevel", 10)
-            },
-            stats: {
-                hp: readNumber("genshinHpInput", 0),
-                baseHp: readNumber("genshinBaseHpInput", 0),
-                baseAtk: readNumber("genshinBaseAtkInput", 0),
-                atk: readNumber("genshinAtkInput", readNumber("atk", 1000)),
-                baseDef: readNumber("genshinBaseDefInput", 0),
-                def: readNumber("genshinDefInput", 0),
-                elementalMastery: readNumber("genshinElementalMasteryInput", readNumber("ele_m", 0)),
-                critRate: readNumber("genshinCritRateInput", 5),
-                critDamage: readNumber("genshinCritDamageInput", readNumber("cri_dmg", 50)),
-                energyRecharge: readNumber("genshinEnergyRechargeInput", 100),
-                elementDamageBonus: readNumber("genshinElementalDamageInput", readNumber("dmg_b", 0))
-            },
-            inputProvenance: window.GenshinInputProvenance?.getStatsProvenance?.() || {
-                schemaVersion: 1,
-                source: "manual",
-                includesPersistentBonuses: true,
-                additivePolicy: "externalModifiersOnly"
-            },
+            talentLevels: calculationInput?.talents || talentLevels,
+            stats: calculationInput?.stats || stats,
+            inputProvenance,
             enemy: {
                 presetId: selectedEnemy?.id || "custom",
                 nameJa: selectedEnemy?.nameJa || "カスタム",
@@ -550,7 +566,115 @@
         };
     }
 
-    function normalizeArtifactModifier(modifier, source) {
+    const ARTIFACT_REACTION_TARGET_RULES = Object.freeze({
+        vaporize: { label: "蒸発", holders: ["pyro", "hydro"], targets: ["pyro", "hydro"] },
+        melt: { label: "溶解", holders: ["pyro", "cryo"], targets: ["pyro", "cryo"] },
+        overload: { label: "過負荷", holders: ["pyro", "electro"], targets: ["pyro", "electro"] },
+        burning: { label: "燃焼", holders: ["pyro", "dendro"], targets: ["pyro", "dendro"] },
+        electroCharged: { label: "感電", holders: ["hydro", "electro"], targets: ["hydro", "electro"] },
+        superconduct: { label: "超電導", holders: ["cryo", "electro"], targets: ["cryo", "electro"] },
+        frozen: { label: "凍結", holders: ["hydro", "cryo"], targets: ["hydro", "cryo"] },
+        bloom: { label: "開花", holders: ["hydro", "dendro"], targets: ["hydro", "dendro"] },
+        hyperbloom: { label: "超開花", holders: ["electro"], targets: ["electro", "dendro"] },
+        burgeon: { label: "烈開花", holders: ["pyro"], targets: ["pyro", "dendro"] },
+        quicken: { label: "原激化", holders: ["electro", "dendro"], targets: ["electro", "dendro"] },
+        aggravate: { label: "超激化", holders: ["electro"], targets: ["electro", "dendro"] },
+        spread: { label: "草激化", holders: ["dendro"], targets: ["dendro"] },
+        swirl: { label: "拡散", holders: ["anemo"], counterpart: true },
+        crystallize: { label: "結晶", holders: ["geo"], counterpart: true },
+        lunarCharged: { label: "月感電", holders: ["hydro", "electro"], targets: ["hydro", "electro"] },
+        lunarBloom: { label: "月開花", holders: ["hydro", "dendro"], targets: ["hydro", "dendro"] },
+        lunarCrystallize: { label: "月結晶", holders: ["geo"], targets: ["geo", "hydro"] }
+    });
+    const ARTIFACT_COUNTERPART_ELEMENTS = Object.freeze(["pyro", "hydro", "electro", "cryo"]);
+    const ELEMENT_LABELS = Object.freeze({
+        pyro: "炎", hydro: "水", electro: "雷", cryo: "氷", anemo: "風", geo: "岩", dendro: "草"
+    });
+
+    function artifactHolderElement(context = {}) {
+        return normalizeResistanceElement(context.characterElement
+            || context.party?.members?.find((member) => Number(member?.slot) === 1)?.element
+            || "");
+    }
+
+    function artifactReactionOptions(holderElement, { nightsoul = true } = {}) {
+        const options = [{ value: "inactive", label: "未発動" }];
+        Object.entries(ARTIFACT_REACTION_TARGET_RULES).forEach(([reactionId, rule]) => {
+            if (!rule.holders.includes(holderElement)) return;
+            const counterparts = rule.counterpart ? ARTIFACT_COUNTERPART_ELEMENTS : [""];
+            counterparts.forEach((counterpart) => {
+                const reactionLabel = counterpart
+                    ? `${ELEMENT_LABELS[counterpart]}元素との${rule.label}`
+                    : rule.label;
+                options.push({ value: `normal|${reactionId}|${counterpart}`, label: reactionLabel });
+                if (nightsoul) {
+                    options.push({ value: `nightsoul|${reactionId}|${counterpart}`, label: `夜魂中：${reactionLabel}` });
+                }
+            });
+        });
+        return options;
+    }
+
+    function artifactReactionSelection(modifier, context, analysis) {
+        const state = context?.uiState?.conditionByModifier?.[analysis?.conditionStateKey]
+            || context?.uiState?.complexConditionByModifier?.[analysis?.conditionStateKey]
+            || {};
+        const option = String(state.option || "inactive");
+        if (option === "inactive") return { active: false, targets: [] };
+        if (modifier.artifactSetId === "15014") {
+            const [kind, element] = option.split("|");
+            if (kind === "shard" && ARTIFACT_COUNTERPART_ELEMENTS.includes(element)) {
+                return { active: true, targets: [element] };
+            }
+            if (kind === "lunarCrystallize" && element === "hydro") {
+                return { active: true, targets: ["hydro"] };
+            }
+            return { active: false, targets: [] };
+        }
+        if (modifier.artifactSetId !== "15037") return { active: false, targets: [] };
+        const [phase, reactionId, counterpart = ""] = option.split("|");
+        const rule = ARTIFACT_REACTION_TARGET_RULES[reactionId];
+        const holderElement = normalizeResistanceElement(modifier.partyProviderElement || artifactHolderElement(context));
+        if (!["normal", "nightsoul"].includes(phase) || !rule?.holders.includes(holderElement)) {
+            return { active: false, targets: [] };
+        }
+        if (rule.counterpart) {
+            if (!ARTIFACT_COUNTERPART_ELEMENTS.includes(counterpart)) return { active: false, targets: [] };
+            return { active: true, phase, reactionId, targets: [holderElement, counterpart] };
+        }
+        return { active: true, phase, reactionId, targets: [...rule.targets] };
+    }
+
+    function artifactConditionValues(options, modifier) {
+        return Object.fromEntries(options.map((option) => {
+            if (option.value === "inactive") return [option.value, 0];
+            if (modifier.artifactSetId === "15014") return [option.value, Number(modifier.value) || 0];
+            const phase = String(option.value).split("|")[0];
+            const nightsoulBonus = modifier.id === "4pc_reaction_related_element_damage_bonus_nightsoul";
+            return [option.value, nightsoulBonus ? (phase === "nightsoul" ? Number(modifier.value) || 0 : 0) : Number(modifier.value) || 0];
+        }));
+    }
+
+    function artifact15045Selection(modifier, context, analysis) {
+        if (modifier.artifactSetId !== "15045") return { active: false, targets: [] };
+        const state = context?.uiState?.conditionByModifier?.[analysis?.conditionStateKey]
+            || context?.uiState?.complexConditionByModifier?.[analysis?.conditionStateKey]
+            || {};
+        const option = String(state.option || "inactive");
+        const holderElement = normalizeResistanceElement(modifier.artifactHolderElement || modifier.partyProviderElement || "");
+        const activeElement = normalizeResistanceElement(modifier.artifactActiveCharacterElement || context?.characterElement || "");
+        if (!holderElement) return { active: false, targets: [] };
+        if (modifier.id === "4pc_team_own_element_damage_bonus_after_skill" && option === "guidance") {
+            return { active: true, targets: [holderElement] };
+        }
+        if (modifier.id === "4pc_team_own_and_active_element_damage_bonus_magical_secret_rite"
+            && option === "ode" && activeElement) {
+            return { active: true, targets: [...new Set([holderElement, activeElement])] };
+        }
+        return { active: false, targets: [] };
+    }
+
+    function normalizeArtifactModifier(modifier, source, context = {}) {
         const match = String(source || "").match(/^artifact(2|4):(.+)$/);
         if (!match) return modifier;
         const normalized = {
@@ -560,6 +684,72 @@
         };
         if (modifier.condition === "chargedAttack" && normalized.category === "critBonus") {
             normalized.applyTo = [...new Set([...(normalized.applyTo || []), "chargedAttack"] )];
+        }
+        if (normalized.artifactSetId === "15014" && normalized.id === "4pc_crystallize_element_damage_bonus") {
+            const options = [
+                { value: "inactive", label: "未発動" },
+                ...ARTIFACT_COUNTERPART_ELEMENTS.map((element) => ({
+                    value: `shard|${element}`,
+                    label: `${ELEMENT_LABELS[element]}元素の結晶片を装備者が取得`
+                })),
+                { value: "lunarCrystallize|hydro", label: "装備者が月結晶を発動（水元素）" }
+            ];
+            normalized.targetOwner = "team";
+            normalized.conditionGroupId = "artifact15014Trigger";
+            normalized.conditionInput = {
+                type: "option",
+                label: "磐岩4セットの発動状況",
+                help: "装備者が実際に取得した結晶片、または装備者が起こした月結晶を選びます。",
+                options
+            };
+            normalized.valueByCondition = artifactConditionValues(options, normalized);
+        }
+        if (normalized.artifactSetId === "15037" && [
+            "4pc_reaction_related_element_damage_bonus",
+            "4pc_reaction_related_element_damage_bonus_nightsoul"
+        ].includes(normalized.id)) {
+            const holderElement = normalizeResistanceElement(context.characterElement || artifactHolderElement(context));
+            const options = artifactReactionOptions(holderElement);
+            normalized.targetOwner = "team";
+            normalized.conditionGroupId = "artifact15037Trigger";
+            normalized.conditionInput = {
+                type: "option",
+                label: `絵巻4セット：装備者が起こした反応${holderElement ? `（装備者：${ELEMENT_LABELS[holderElement]}元素）` : ""}`,
+                help: "対象元素は装備者の元素と選択した反応から自動決定します。未登録の反応は適用しません。",
+                options
+            };
+            normalized.valueByCondition = artifactConditionValues(options, normalized);
+        }
+        if (normalized.artifactSetId === "15045" && [
+            "4pc_team_own_element_damage_bonus_after_skill",
+            "4pc_team_own_and_active_element_damage_bonus_magical_secret_rite"
+        ].includes(normalized.id)) {
+            const holderElement = normalizeResistanceElement(context.characterElement || artifactHolderElement(context));
+            const activeElement = normalizeResistanceElement(context.activeCharacterElement || context.characterElement || "");
+            const hasRequiredElements = Boolean(holderElement && activeElement);
+            const options = hasRequiredElements ? [
+                { value: "inactive", label: "未発動" },
+                { value: "guidance", label: "天光の導き（装備者の元素 +20%）" },
+                { value: "ode", label: "浮世の頌歌（装備者＋フィールド上キャラの元素 +40%）" }
+            ] : [{ value: "inactive", label: "未発動" }];
+            normalized.targetOwner = "team";
+            normalized.conditionGroupId = "artifact15045State";
+            normalized.conditionInput = {
+                type: "option",
+                label: "天からの贈り物4セットの状態",
+                help: "対象元素は装備者とフィールド上キャラの元素から自動決定します。元素を特定できない場合は適用しません。",
+                options
+            };
+            normalized.valueByCondition = Object.fromEntries(options.map((option) => [
+                option.value,
+                normalized.id === "4pc_team_own_element_damage_bonus_after_skill"
+                    ? (option.value === "guidance" ? Number(normalized.value) || 0 : 0)
+                    : (option.value === "ode" ? Number(normalized.value) || 0 : 0)
+            ]));
+            normalized.artifactHolderElement = holderElement;
+            normalized.artifactActiveCharacterElement = activeElement;
+            if (hasRequiredElements) delete normalized.auditDisposition;
+            else normalized.auditDisposition = "sourceContextRequired";
         }
         return normalized;
     }
@@ -659,6 +849,7 @@
         if (!sourceText) return false;
         return siblings.some((candidate) => candidate !== modifier
             && !/_[0-9a-f]{8}$/i.test(String(candidate?.id || ""))
+            && candidate?.auditDisposition !== "supersededByStructuredRecord"
             && candidate?.category === modifier.category
             && String(candidate?.sourceText || "") === sourceText
             && weaponValueContract(candidate) === weaponValueContract(modifier)
@@ -687,7 +878,7 @@
                 normalized.uidHandling = "displayOnly";
                 normalized.auditDisposition = normalized.auditDisposition || "displayOnlyMisclassification";
             }
-            if (group.inputPolicy === "sourceContext" || !["self", "enemy"].includes(group.targetOwner || "self")) {
+            if (group.inputPolicy === "sourceContext" || !["self", "enemy", "activeCharacter"].includes(group.targetOwner || "self")) {
                 normalized.auditDisposition = normalized.auditDisposition || "sourceContextRequired";
             }
             if (activation.type === "always") normalized.condition = "always";
@@ -828,7 +1019,8 @@
             const reactionId = context.reactionOption?.reactionId || "none";
             const targetAliases = {
                 overload: "overloadedDamageBonus",
-                stellarConduct: "astralConductionDamageBonus"
+                stellarConduct: "astralConductionDamageBonus",
+                stellarSwirl: "stellarSwirlDamageBonus"
             };
             const target = targetAliases[reactionId] || `${reactionId}DamageBonus`;
             const perStack = Number(modifier.effectiveAdditionalValuePerStack[target]) || 0;
@@ -873,7 +1065,8 @@
             const raw = modifier.valueByRefinement[String(context.refinement)] ?? modifier.valueByRefinement["1"];
             if (Array.isArray(raw)) {
                 const stack = Math.min(Math.max(resourceStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0, modifier.stack?.min ?? 0), modifier.stack?.max ?? raw.length);
-                return numericModifierValue(raw[Math.max(stack - 1, 0)] ?? 0);
+                if (stack <= 0) return 0;
+                return numericModifierValue(raw[stack - 1] ?? 0);
             }
             if (modifier.calculationSupport === "stack" && (modifier.stack || resourceStack !== null)) {
                 if (modifier.category === "extraDamage") return Number(raw) || 0;
@@ -977,7 +1170,8 @@
             )) return;
             const modifier = normalizeArtifactModifier(
                 normalizeTalentStateModifier(sourceModifier, source, calcData, context, modifierIndex),
-                source
+                source,
+                context
             );
             if (!modifier) return;
             const analysis = analyzeModifier(modifier, source, context);
@@ -1072,12 +1266,12 @@
         const effectiveStats = { ...baseStats };
         const trace = [];
         const appliedStatModifiers = new Set();
-        (collected?.applied || []).forEach((item) => {
+        const applyStatModifier = (item, valueContext = item.valueContext || context) => {
             const calculation = item.analysis?.calculation;
             if (!["statBonus", "scalingStatBonus"].includes(calculation)) return;
             const bonus = calculation === "statBonus"
-                ? resolveStatBonusValue(item.modifier, item.value, item.valueContext || context)
-                : resolveConversionBonusValue(item.modifier, item.value, item.valueContext || context);
+                ? resolveStatBonusValue(item.modifier, item.value, valueContext)
+                : resolveConversionBonusValue(item.modifier, item.value, valueContext);
             if (!bonus || !bonus.stat || !Number.isFinite(Number(bonus.value))) return;
             if (["critRate", "critDamage"].includes(bonus.stat)) return;
             effectiveStats[bonus.stat] = (Number(effectiveStats[bonus.stat]) || 0) + Number(bonus.value);
@@ -1092,7 +1286,17 @@
                 uidHandling: item.analysis?.uidHandling || "conditional",
                 provenance: item.modifier?.provenance || (item.modifier?.partySource ? "externalModifier" : "persistentModifier")
             });
-        });
+        };
+        const applied = collected?.applied || [];
+        applied
+            .filter((item) => item.modifier?.customCalculation !== "excessThresholdStatPercent")
+            .forEach((item) => applyStatModifier(item));
+        applied
+            .filter((item) => item.modifier?.customCalculation === "excessThresholdStatPercent")
+            .forEach((item) => {
+                const valueContext = item.valueContext || context;
+                applyStatModifier(item, { ...valueContext, stats: effectiveStats, effectiveStats });
+            });
         return { baseStats, effectiveStats, trace, appliedStatModifiers };
     }
 
@@ -1114,7 +1318,7 @@
         return elementMap[element] || "";
     }
 
-    function modifierAppliesToEntry(modifier, entry) {
+    function modifierAppliesToEntry(modifier, entry, context = {}, analysis = {}) {
         const applyTo = modifier.applyTo || [];
         const map = {
             normalAttack: "normalAttackDamageBonus",
@@ -1127,12 +1331,26 @@
         const elementTarget = elementBonusKey(entry.element);
         const swirlableElementTarget = applyTo.includes("swirledElementDamageBonus")
             && ["炎", "水", "雷", "氷"].includes(entry.element);
+        const artifactReactionTarget = applyTo.some((targetKey) => [
+            "correspondingElementDamageBonus",
+            "reactionRelatedElementDamageBonus"
+        ].includes(targetKey))
+            && artifactReactionSelection(modifier, context, analysis).targets
+                .includes(normalizeResistanceElement(entry.element));
+        const artifact15045Target = applyTo.some((targetKey) => [
+            "ownElementDamageBonus",
+            "ownAndActiveCharacterElementDamageBonus"
+        ].includes(targetKey))
+            && artifact15045Selection(modifier, context, analysis).targets
+                .includes(normalizeResistanceElement(entry.element));
         return applyTo.includes(target)
             || applyTo.includes(elementTarget)
             || swirlableElementTarget
+            || artifactReactionTarget
+            || artifact15045Target
             || applyTo.includes("allDamageBonus")
             || applyTo.includes("allElementDamageBonus")
-            || applyTo.includes("ownElementDamageBonus");
+            || (applyTo.includes("ownElementDamageBonus") && modifier.artifactSetId !== "15045");
     }
 
     function modifierTargetsEntry(modifier, entry) {
@@ -1206,7 +1424,10 @@
                 hp: "baseHp",
                 def: "baseDef"
             }[targetStat] : "";
-            const sourceStat = partyPercentBase || targetStat;
+            const explicitPercentTarget = applyTo.find((target) => ["atkPercent", "hpPercent", "defPercent"].includes(target));
+            const explicitPercentBase = window.GenshinModifierAnalyzer?.percentBaseStat?.(modifier)
+                || ({ atkPercent: "baseAtk", hpPercent: "baseHp", defPercent: "baseDef" }[explicitPercentTarget] || "");
+            const sourceStat = partyPercentBase || explicitPercentBase || targetStat;
             return { stat: targetStat, value: (Number(context.stats[sourceStat]) || 0) * (Number(value) || 0) / 100 };
         }
         return { stat: targetStat, value: Number(value) || 0 };
@@ -1216,7 +1437,24 @@
         const targetStat = normalizeStatTarget((modifier.applyTo || [])[0]);
         const referenceStat = modifier.reference?.stat;
         if (!targetStat || !referenceStat) return null;
-        const referenceValue = Number(context.stats[referenceStat]) || 0;
+        const referenceStats = modifier.customCalculation === "excessThresholdStatPercent"
+            ? (context.effectiveStats || context.stats || {})
+            : (context.stats || {});
+        const referenceValue = Number(referenceStats[referenceStat]) || 0;
+        if (modifier.customCalculation === "excessThresholdStatPercent") {
+            const baseAtk = Number(referenceStats.baseAtk);
+            const threshold = Number(modifier.threshold);
+            const rate = Number(value);
+            const cap = Number(modifier.maxValueByRefinement?.[String(context.refinement)]
+                ?? modifier.maxValueByRefinement?.["1"]);
+            if (!Number.isFinite(baseAtk) || baseAtk <= 0
+                || !Number.isFinite(threshold) || !Number.isFinite(rate) || !Number.isFinite(cap)) {
+                return null;
+            }
+            const excess = Math.max(0, referenceValue - threshold);
+            const percent = Math.min(excess * rate / 100, cap);
+            return { stat: targetStat, value: baseAtk * percent / 100 };
+        }
         if (modifier.customCalculation === "thresholdStatBonus") {
             const calculated = Math.floor(referenceValue / Number(modifier.divisor)) * Number(modifier.ratio);
             return {
@@ -1236,9 +1474,16 @@
         if (!referenceStat) return 0;
         const referenceValue = Number(context.stats[referenceStat]) || 0;
         const divisor = Number(modifier.divisor) || 1;
-        const calculated = referenceValue / divisor * (Number(modifier.ratio) || 0);
-        return Number.isFinite(Number(modifier.maxValue))
-            ? Math.min(calculated, Number(modifier.maxValue))
+        const refinement = String(context.refinement || 1);
+        const ratio = Number(modifier.ratioByRefinement?.[refinement]
+            ?? modifier.ratioByRefinement?.["1"]
+            ?? modifier.ratio) || 0;
+        const maxValue = Number(modifier.maxValueByRefinement?.[refinement]
+            ?? modifier.maxValueByRefinement?.["1"]
+            ?? modifier.maxValue);
+        const calculated = referenceValue / divisor * ratio;
+        return Number.isFinite(maxValue)
+            ? Math.min(calculated, maxValue)
             : calculated;
     }
 
@@ -1277,7 +1522,8 @@
         const reactionType = reaction.family || reaction.reactionType;
         const aliases = {
             overload: ["overloaded"],
-            stellarConduct: ["astralConduction", "lunarSuperconduct"]
+            stellarConduct: ["astralConduction", "lunarSuperconduct"],
+            stellarSwirl: ["stellarSwirl"]
         }[reactionId] || [];
         const reactionTargets = [
             "reactionDamageBonus",
@@ -1296,13 +1542,14 @@
     function reactionForDamageEntry(entry, context) {
         if (!entry?.directReactionId) return context.reactionOption || REACTION_OPTIONS.none;
         const definition = context.reactionDefinitions?.options?.[entry.directReactionId] || {};
+        const enabled = definition.calculationStatus === "supported";
         return {
             ...definition,
             reactionId: entry.directReactionId,
             family: "dedicated",
             reactionType: "dedicated",
             label: definition.labelJa || entry.directReactionId,
-            enabled: true
+            enabled
         };
     }
 
@@ -1407,7 +1654,7 @@
             if (modifier.category === "elementOverride" || ["statBonus", "statConversion", "scalingStatBonus"].includes(analysis?.calculation)) {
                 return;
             }
-            if (modifier.category === "damageBonus" && modifierAppliesToEntry(modifier, effectiveEntry)) {
+            if (modifier.category === "damageBonus" && modifierAppliesToEntry(modifier, effectiveEntry, context, analysis)) {
                 if (entry.directReactionId) {
                     candidates.push({ modifier, source: item.source, reason: "専用反応式では通常ダメージバフ対象外", analysis });
                     return;
@@ -1455,7 +1702,7 @@
                 const additiveValue = resolveScalingAdditiveBaseDamage(modifier, item.valueContext || context);
                 totals.additiveBaseDamage += additiveValue;
                 applied.push({ ...item, value: additiveValue });
-            } else if (analysis?.calculation === "scalingDamageBonus" && modifierAppliesToEntry(modifier, effectiveEntry)) {
+            } else if (analysis?.calculation === "scalingDamageBonus" && modifierAppliesToEntry(modifier, effectiveEntry, context, analysis)) {
                 const scalingDamageBonus = resolveScalingDamageBonus(modifier, item.valueContext || context);
                 totals.damageBonus += scalingDamageBonus;
                 applied.push({ ...item, value: scalingDamageBonus });
@@ -1481,7 +1728,7 @@
                 applied.push(item);
             } else if (modifier.category === "reactionCritBonus" && reactionCritApplies(modifier, entryReaction)) {
                 totals.reactionCritRate += Number(modifier.critRate) || 0;
-                totals.reactionCritDamage += Number(modifier.critDamage) || 0;
+                totals.reactionCritDamage += Number(modifier.critDamage) || Number(value) || 0;
                 applied.push(item);
             } else if (modifier.category === "reactionBaseDamageBonus" && reactionBaseDamageBonusApplies(modifier, entryReaction)) {
                 totals.reactionBaseDamageBonus += Number(value) || 0;
@@ -1563,6 +1810,7 @@
     }
 
     function dedicatedDirectCoefficient(reaction, context) {
+        if (reaction?.enabled !== true || reaction?.calculationStatus !== "supported") return 0;
         if (reaction.reactionId !== "stellarConduct") return Number(reaction.directCoefficient) || 1;
         const stacks = Math.min(Math.max(Number(context.manualInputs?.stellarConductStacks) || 0, 0), Number(reaction.maxFieldStacks) || 12);
         return (Number(reaction.directCoefficientBase) || 1.4) + stacks * (Number(reaction.directCoefficientPerStack) || 0.05);
@@ -1635,6 +1883,9 @@
         const scalingBaseDamage = scalingParts.reduce((sum, part) => sum + part.baseDamage, 0);
         const directReaction = reactionForDamageEntry(entry, context);
         if (entry.directReactionId) {
+            if (directReaction.enabled !== true) {
+                problems.push(directReaction.unsupportedReasonJa || `${directReaction.label || entry.directReactionId}の専用計算式が未登録です。`);
+            }
             const coefficient = dedicatedDirectCoefficient(directReaction, context);
             const emBonus = reactionEmBonusPercent("dedicated", effectiveStats(context).elementalMastery);
             const baseDamageBonus = appliedModifiers.totals.reactionBaseDamageBonus || 0;
@@ -1836,7 +2087,7 @@
                 totals.applied.push(item);
             } else if (modifier.category === "reactionCritBonus" && reactionCritApplies(modifier, reaction)) {
                 totals.critRate += Number(modifier.critRate) || 0;
-                totals.critDamage += Number(modifier.critDamage) || 0;
+                totals.critDamage += Number(modifier.critDamage) || Number(value) || 0;
                 totals.applied.push(item);
             } else if (modifier.category === "resistanceDebuff" && resistanceDebuffAppliesToEntry(modifier, reactionEntry)) {
                 totals.resistanceDebuff += Math.abs(Number(value) || 0);
@@ -2291,6 +2542,9 @@
         const reactionResult = buildStandaloneReactionResult(context, collected);
         if (reactionResult) results.push(reactionResult);
         assignStableAttackKeys(results, resolvedRequest);
+        const behaviorResolution = window.GenshinCalcData?.resolveBehaviorModifiers
+            ? window.GenshinCalcData.resolveBehaviorModifiers(calcData, context)
+            : { appliedCount: 0, applied: [], byTarget: {} };
         const inputNotices = [...new Map(collected.candidates
             .filter((item) => item.analysis?.supportStatus === "missingInput")
             .filter((item) => item.analysis?.resourceClassification !== "calculationInput")
@@ -2326,6 +2580,7 @@
             candidateModifiers: collected.candidates,
             partyModifiers: collected.partyCandidates || [],
             statTrace: context.statTrace,
+            behaviorResolution,
             inputNotices,
             resourceStateInputs: collected.candidates
                 .filter((item) => item.analysis?.resourceClassification === "calculationInput")
@@ -2389,6 +2644,8 @@
         normalizeElementOverrideModifier,
         normalizeTalentStateModifier,
         normalizeArtifactModifier,
+        artifactReactionOptions,
+        artifactReactionSelection,
         normalizeWeaponModifier,
         weaponEffectGroup,
         buildAttackModeDefinitions,

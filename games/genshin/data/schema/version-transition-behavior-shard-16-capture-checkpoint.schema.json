@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-version-transition-behavior-shard-16-capture-checkpoint.schema.json",
+  "title": "Genshin version transition behavior shard 16 capture checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "generatedAt", "transitionId", "shardId", "status", "authoritativeCandidateCount", "requestedEntityCount", "capturedEntityCount", "skippedOverlapEntityCount", "revisions", "materializedSnapshot", "nextTask", "gateEligibility", "claim", "fieldDigestAlgorithm", "fieldDigest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinVersionTransitionBehaviorShardCaptureCheckpoint" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "transitionId": { "const": "genshin:6.7->7.0" },
+    "shardId": { "const": "behavior:behaviorSpec:semanticDecisionRequired:standard:16" },
+    "status": { "const": "complete" },
+    "authoritativeCandidateCount": { "const": 33 },
+    "requestedEntityCount": { "const": 3 },
+    "capturedEntityCount": { "const": 2 },
+    "skippedOverlapEntityCount": { "const": 1 },
+    "revisions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["before", "after"],
+      "properties": { "before": { "$ref": "#/$defs/progress" }, "after": { "$ref": "#/$defs/progress" } }
+    },
+    "materializedSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "fieldDigest", "entityCount", "recordCount", "changedRecordCount", "changedFieldCount"],
+      "properties": {
+        "path": { "const": "games/genshin/data/v2/version-transitions/6.7-to-7.0/behavior-shard-16-snapshot.json" },
+        "fieldDigest": { "$ref": "#/$defs/sha256" },
+        "entityCount": { "const": 2 },
+        "recordCount": { "const": 4 },
+        "changedRecordCount": { "const": 3 },
+        "changedFieldCount": { "const": 32 }
+      }
+    },
+    "nextTask": { "type": "string", "minLength": 1 },
+    "gateEligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "sourceFamilyCount", "canIssueEligibilityCertificate", "canPromoteCanonical", "reasons"],
+      "properties": {
+        "status": { "const": "singleCorrelatedFamilyFailClosed" },
+        "sourceFamilyCount": { "const": 1 },
+        "canIssueEligibilityCertificate": { "const": false },
+        "canPromoteCanonical": { "const": false },
+        "reasons": { "const": ["providerIndependenceInsufficient", "behaviorSemanticsNotParsed"] }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["queueShardId", "queuePath", "authoritativeCandidateIdsDigest", "authoritativeEntityIdsDigest", "requestedEntityIds", "capturedEntityIds", "skippedOverlapEntityIds", "materializedSnapshotPath", "materializedSnapshotFieldDigest", "sourceNamespace", "identityResolutionStatus", "sourceFamilyCount", "canIssueEligibilityCertificate", "canPromoteCanonical"],
+      "properties": {
+        "queueShardId": { "const": "behavior:behaviorSpec:semanticDecisionRequired:standard:16" },
+        "queuePath": { "const": "reports/genshin-evidence-task-queue.json" },
+        "authoritativeCandidateIdsDigest": { "const": "9029efb1276280eea2b547008c870948424a834a57242caa3733ee55ee248e5d" },
+        "authoritativeEntityIdsDigest": { "const": "447ca314d38783f32a0090e4ca5cdff9d169f88f45dac3559e700012cb5af56c" },
+        "requestedEntityIds": { "const": ["10000131", "10000132", "10000133"] },
+        "capturedEntityIds": { "const": ["10000132", "10000133"] },
+        "skippedOverlapEntityIds": { "const": ["10000131"] },
+        "materializedSnapshotPath": { "const": "games/genshin/data/v2/version-transitions/6.7-to-7.0/behavior-shard-16-snapshot.json" },
+        "materializedSnapshotFieldDigest": { "$ref": "#/$defs/sha256" },
+        "sourceNamespace": { "const": "genshin-db-behavior-shard16" },
+        "identityResolutionStatus": { "const": "localCatalogProviderIdentityResolved" },
+        "sourceFamilyCount": { "const": 1 },
+        "canIssueEligibilityCertificate": { "const": false },
+        "canPromoteCanonical": { "const": false }
+      }
+    },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "progress": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gameVersion", "revision", "status", "completedEntityIds", "completedArtifactCount"],
+      "properties": {
+        "gameVersion": { "enum": ["6.7", "7.0"] },
+        "revision": { "$ref": "#/$defs/revision" },
+        "status": { "const": "complete" },
+        "completedEntityIds": { "const": ["10000132", "10000133"] },
+        "completedArtifactCount": { "const": 4 }
+      }
+    }
+  }
+}

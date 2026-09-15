@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tetinet.example/schemas/genshin/source-record.schema.json",
+  "title": "Genshin source record",
+  "type": "object",
+  "required": ["id", "kind", "provider", "locator", "capturedAt", "gameVersion", "text", "integrity"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "kind": { "enum": ["official", "primaryDataset", "secondaryDataset", "manualTranscription"] },
+    "provider": { "type": "string", "minLength": 1 },
+    "independenceGroup": { "type": "string", "minLength": 1 },
+    "providerIndependence": { "enum": ["independent", "correlated", "unknown"] },
+    "locator": {
+      "type": "object",
+      "required": ["dataset", "record"],
+      "properties": {
+        "url": { "type": "string" },
+        "dataset": { "type": "string", "minLength": 1 },
+        "record": { "type": "string", "minLength": 1 },
+        "field": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "capturedAt": { "type": "string", "format": "date-time" },
+    "gameVersion": { "type": ["string", "null"] },
+    "gameVersionEvidence": {
+      "type": ["object", "null"],
+      "required": ["kind", "gameVersion", "locator", "integrity"],
+      "properties": {
+        "kind": { "enum": ["gameClientManifest", "providerDatasetManifest", "providerReleaseArtifact", "releaseNotesWithExplicitGameVersion"] },
+        "gameVersion": { "type": "string", "minLength": 1 },
+        "locator": {
+          "type": "object",
+          "required": ["dataset", "record"],
+          "properties": {
+            "url": { "type": "string" },
+            "dataset": { "type": "string", "minLength": 1 },
+            "record": { "type": "string", "minLength": 1 },
+            "field": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "integrity": {
+          "type": "object",
+          "required": ["algorithm", "digest"],
+          "properties": {
+            "algorithm": { "const": "sha256" },
+            "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+          },
+          "additionalProperties": false
+        },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "locale": { "type": "string" },
+    "text": { "type": "string" },
+    "structuredValue": {},
+    "integrity": {
+      "type": "object",
+      "required": ["algorithm", "digest"],
+      "properties": {
+        "algorithm": { "const": "sha256" },
+        "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      },
+      "additionalProperties": false
+    },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false
+}

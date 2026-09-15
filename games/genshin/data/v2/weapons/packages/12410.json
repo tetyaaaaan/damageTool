@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "weapon",
+    "id": "12410"
+  },
+  "sourceRefs": [
+    "weapon:12410:catalog",
+    "weapon:12410:effect"
+  ],
+  "modifierIds": [
+    "w_12410_crit_1",
+    "w_12410_stat_2"
+  ],
+  "specIds": [
+    "w_12410_crit_1",
+    "w_12410_stat_2"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Weapon package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:weapon:12410:w_12410_crit_1",
+      "genshin:v2:weapon:12410:w_12410_stat_2"
+    ],
+    "generator": "genshinWeaponV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

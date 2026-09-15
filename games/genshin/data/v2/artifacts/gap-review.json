@@ -1,0 +1,1201 @@
+{
+  "schemaVersion": 2,
+  "kind": "genshinArtifactV2GapReview",
+  "generator": {
+    "name": "genshinArtifactV2Generate.cjs",
+    "version": "genshinArtifactV2Generate/1",
+    "capturedAt": "2026-08-15T00:00:00.000Z"
+  },
+  "policy": {
+    "canonical": 0,
+    "statuses": [
+      "noEffect",
+      "displayOnly",
+      "unstructured",
+      "invalid",
+      "needsReview"
+    ],
+    "proseParsing": "forbidden",
+    "notes": "Raw source text and pointers are retained for review. No value, target, condition, timing, or 2pc/4pc runtime effect is inferred."
+  },
+  "summary": {
+    "sets": 7,
+    "statuses": {
+      "noEffect": 0,
+      "displayOnly": 4,
+      "unstructured": 3,
+      "invalid": 0,
+      "needsReview": 0
+    },
+    "slotStatuses": {
+      "noEffect": 11,
+      "displayOnly": 4,
+      "unstructured": 6,
+      "invalid": 0,
+      "needsReview": 0
+    },
+    "valueContracts": 1,
+    "valueContractStatuses": {
+      "noEffect": 0,
+      "displayOnly": 0,
+      "unstructured": 0,
+      "invalid": 0,
+      "needsReview": 1
+    },
+    "canonical": 0
+  },
+  "structuredModifierMissing": [
+    {
+      "setId": "10004",
+      "setNameJa": "奇跡",
+      "status": "unstructured",
+      "canonical": 0,
+      "reasons": [
+        "RAW_2PC_4PC_EFFECT_TEXT_PRESENT",
+        "STRUCTURED_MODIFIER_RECORD_MISSING",
+        "RAW_TEXT_REQUIRES_STRUCTURING_REVIEW"
+      ],
+      "sourceRefs": [
+        "artifact:10004:catalog",
+        "artifact:10004:effects",
+        "artifact:10004:effect:onePiece",
+        "artifact:10004:effect:twoPiece",
+        "artifact:10004:effect:fourPiece"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "artifact:10004:catalog",
+          "dataset": "artifact-sets.json",
+          "record": "/10004",
+          "field": null,
+          "present": true,
+          "textDigest": "88b15a30cc21818bf096d43177e11402328cc79925390b02107b789d829a6f24"
+        },
+        {
+          "sourceId": "artifact:10004:effects",
+          "dataset": "artifact-set-effects.json",
+          "record": "/10004",
+          "field": null,
+          "present": true,
+          "textDigest": "650e51217ca88ae3cafd2e07c1b1b149095a5b708206e043f066f139e14a9ae8"
+        },
+        {
+          "sourceId": "artifact:10004:effect:onePiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/10004",
+          "field": "onePieceEffect",
+          "present": false,
+          "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourceId": "artifact:10004:effect:twoPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/10004",
+          "field": "twoPieceEffect",
+          "present": true,
+          "textDigest": "52bcea7aca6f4cd0d9f00a9f53bd37bbe2099ed29d88f61d50c1a58e865538a3"
+        },
+        {
+          "sourceId": "artifact:10004:effect:fourPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/10004",
+          "field": "fourPieceEffect",
+          "present": true,
+          "textDigest": "c55a9e88d46d7811d4e61312c51d8f30183646ac2f0c4c7cffe9a1a15503e8f4"
+        }
+      ],
+      "modifierRecord": {
+        "present": false,
+        "totalCount": 0,
+        "sourceDataset": "calc/artifact-set-modifiers.json",
+        "record": "/10004"
+      },
+      "pieceSlots": {
+        "onePiece": {
+          "pieceCount": 1,
+          "status": "noEffect",
+          "textPresent": false,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:10004:effect:onePiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:10004:effect:onePiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/10004",
+              "field": "onePieceEffect",
+              "present": false,
+              "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "display": {
+            "status": "none",
+            "sourceRefs": [
+              "artifact:10004:effect:onePiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        },
+        "twoPiece": {
+          "pieceCount": 2,
+          "status": "unstructured",
+          "textPresent": true,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:10004:effect:twoPiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:10004:effect:twoPiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/10004",
+              "field": "twoPieceEffect",
+              "present": true,
+              "textDigest": "52bcea7aca6f4cd0d9f00a9f53bd37bbe2099ed29d88f61d50c1a58e865538a3"
+            }
+          ],
+          "display": {
+            "status": "rawText",
+            "sourceRefs": [
+              "artifact:10004:effect:twoPiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        },
+        "fourPiece": {
+          "pieceCount": 4,
+          "status": "unstructured",
+          "textPresent": true,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:10004:effect:fourPiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:10004:effect:fourPiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/10004",
+              "field": "fourPieceEffect",
+              "present": true,
+              "textDigest": "c55a9e88d46d7811d4e61312c51d8f30183646ac2f0c4c7cffe9a1a15503e8f4"
+            }
+          ],
+          "display": {
+            "status": "rawText",
+            "sourceRefs": [
+              "artifact:10004:effect:fourPiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        }
+      }
+    },
+    {
+      "setId": "10013",
+      "setNameJa": "医者",
+      "status": "unstructured",
+      "canonical": 0,
+      "reasons": [
+        "RAW_2PC_4PC_EFFECT_TEXT_PRESENT",
+        "STRUCTURED_MODIFIER_RECORD_MISSING",
+        "RAW_TEXT_REQUIRES_STRUCTURING_REVIEW"
+      ],
+      "sourceRefs": [
+        "artifact:10013:catalog",
+        "artifact:10013:effects",
+        "artifact:10013:effect:onePiece",
+        "artifact:10013:effect:twoPiece",
+        "artifact:10013:effect:fourPiece"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "artifact:10013:catalog",
+          "dataset": "artifact-sets.json",
+          "record": "/10013",
+          "field": null,
+          "present": true,
+          "textDigest": "7ddb4a4675515ae31da9068d1a9f4f6600663352a49e510218e739fd61174559"
+        },
+        {
+          "sourceId": "artifact:10013:effects",
+          "dataset": "artifact-set-effects.json",
+          "record": "/10013",
+          "field": null,
+          "present": true,
+          "textDigest": "20919fe15c6e430ad9bcef23633da9b84c6e0773a796a4ef55ac3421a9841de5"
+        },
+        {
+          "sourceId": "artifact:10013:effect:onePiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/10013",
+          "field": "onePieceEffect",
+          "present": false,
+          "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourceId": "artifact:10013:effect:twoPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/10013",
+          "field": "twoPieceEffect",
+          "present": true,
+          "textDigest": "994f88b5897ecbb8a5a93e4e27825a28ee5a44711c9079c0780c3729fd3eb905"
+        },
+        {
+          "sourceId": "artifact:10013:effect:fourPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/10013",
+          "field": "fourPieceEffect",
+          "present": true,
+          "textDigest": "839671436090371ddb7ee92cacddd0673b6c5c0c83219ab50311c28a49b46dd7"
+        }
+      ],
+      "modifierRecord": {
+        "present": false,
+        "totalCount": 0,
+        "sourceDataset": "calc/artifact-set-modifiers.json",
+        "record": "/10013"
+      },
+      "pieceSlots": {
+        "onePiece": {
+          "pieceCount": 1,
+          "status": "noEffect",
+          "textPresent": false,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:10013:effect:onePiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:10013:effect:onePiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/10013",
+              "field": "onePieceEffect",
+              "present": false,
+              "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "display": {
+            "status": "none",
+            "sourceRefs": [
+              "artifact:10013:effect:onePiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        },
+        "twoPiece": {
+          "pieceCount": 2,
+          "status": "unstructured",
+          "textPresent": true,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:10013:effect:twoPiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:10013:effect:twoPiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/10013",
+              "field": "twoPieceEffect",
+              "present": true,
+              "textDigest": "994f88b5897ecbb8a5a93e4e27825a28ee5a44711c9079c0780c3729fd3eb905"
+            }
+          ],
+          "display": {
+            "status": "rawText",
+            "sourceRefs": [
+              "artifact:10013:effect:twoPiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        },
+        "fourPiece": {
+          "pieceCount": 4,
+          "status": "unstructured",
+          "textPresent": true,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:10013:effect:fourPiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:10013:effect:fourPiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/10013",
+              "field": "fourPieceEffect",
+              "present": true,
+              "textDigest": "839671436090371ddb7ee92cacddd0673b6c5c0c83219ab50311c28a49b46dd7"
+            }
+          ],
+          "display": {
+            "status": "rawText",
+            "sourceRefs": [
+              "artifact:10013:effect:fourPiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        }
+      }
+    },
+    {
+      "setId": "14004",
+      "setNameJa": "愛される少女",
+      "status": "unstructured",
+      "canonical": 0,
+      "reasons": [
+        "RAW_2PC_4PC_EFFECT_TEXT_PRESENT",
+        "STRUCTURED_MODIFIER_RECORD_MISSING",
+        "RAW_TEXT_REQUIRES_STRUCTURING_REVIEW"
+      ],
+      "sourceRefs": [
+        "artifact:14004:catalog",
+        "artifact:14004:effects",
+        "artifact:14004:effect:onePiece",
+        "artifact:14004:effect:twoPiece",
+        "artifact:14004:effect:fourPiece"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "artifact:14004:catalog",
+          "dataset": "artifact-sets.json",
+          "record": "/14004",
+          "field": null,
+          "present": true,
+          "textDigest": "e33d85c563ac21bfe7f7e5aea2a73753cd5f2a31125dc46efbdbdaaad33c90ca"
+        },
+        {
+          "sourceId": "artifact:14004:effects",
+          "dataset": "artifact-set-effects.json",
+          "record": "/14004",
+          "field": null,
+          "present": true,
+          "textDigest": "2d9f1b238dfb32c46a140bd08ab8618271dca8d35458e42a7c06cfd6a7ea2610"
+        },
+        {
+          "sourceId": "artifact:14004:effect:onePiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/14004",
+          "field": "onePieceEffect",
+          "present": false,
+          "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourceId": "artifact:14004:effect:twoPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/14004",
+          "field": "twoPieceEffect",
+          "present": true,
+          "textDigest": "26bf93034103f8ca31bb388be183da0cb9d11974f40cb5fe7f507d639d7f13f8"
+        },
+        {
+          "sourceId": "artifact:14004:effect:fourPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/14004",
+          "field": "fourPieceEffect",
+          "present": true,
+          "textDigest": "80e08fb9ca48eb586734a2b6ce29c82312c6400643a9f8f4a60a054f0f175e12"
+        }
+      ],
+      "modifierRecord": {
+        "present": false,
+        "totalCount": 0,
+        "sourceDataset": "calc/artifact-set-modifiers.json",
+        "record": "/14004"
+      },
+      "pieceSlots": {
+        "onePiece": {
+          "pieceCount": 1,
+          "status": "noEffect",
+          "textPresent": false,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:14004:effect:onePiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:14004:effect:onePiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/14004",
+              "field": "onePieceEffect",
+              "present": false,
+              "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "display": {
+            "status": "none",
+            "sourceRefs": [
+              "artifact:14004:effect:onePiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        },
+        "twoPiece": {
+          "pieceCount": 2,
+          "status": "unstructured",
+          "textPresent": true,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:14004:effect:twoPiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:14004:effect:twoPiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/14004",
+              "field": "twoPieceEffect",
+              "present": true,
+              "textDigest": "26bf93034103f8ca31bb388be183da0cb9d11974f40cb5fe7f507d639d7f13f8"
+            }
+          ],
+          "display": {
+            "status": "rawText",
+            "sourceRefs": [
+              "artifact:14004:effect:twoPiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        },
+        "fourPiece": {
+          "pieceCount": 4,
+          "status": "unstructured",
+          "textPresent": true,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:14004:effect:fourPiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:14004:effect:fourPiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/14004",
+              "field": "fourPieceEffect",
+              "present": true,
+              "textDigest": "80e08fb9ca48eb586734a2b6ce29c82312c6400643a9f8f4a60a054f0f175e12"
+            }
+          ],
+          "display": {
+            "status": "rawText",
+            "sourceRefs": [
+              "artifact:14004:effect:fourPiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        }
+      }
+    },
+    {
+      "setId": "15009",
+      "setNameJa": "火祭りの人",
+      "status": "displayOnly",
+      "canonical": 0,
+      "reasons": [
+        "RAW_ONE_PIECE_EFFECT_TEXT_PRESENT",
+        "EMPTY_2PC_4PC_EFFECT_FIELDS",
+        "STRUCTURED_MODIFIER_RECORD_MISSING",
+        "ONE_PIECE_ONLY_NOT_CALCULATED_BY_2PC_4PC_RUNTIME"
+      ],
+      "sourceRefs": [
+        "artifact:15009:catalog",
+        "artifact:15009:effects",
+        "artifact:15009:effect:onePiece",
+        "artifact:15009:effect:twoPiece",
+        "artifact:15009:effect:fourPiece"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "artifact:15009:catalog",
+          "dataset": "artifact-sets.json",
+          "record": "/15009",
+          "field": null,
+          "present": true,
+          "textDigest": "868df7a89b2649fa8c9dff9a8b873dca51b3db813e65094f37aad1a8b3a2f4bb"
+        },
+        {
+          "sourceId": "artifact:15009:effects",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15009",
+          "field": null,
+          "present": true,
+          "textDigest": "006089c72c50d19f5322437ec905b35cd94e4f97deacad74a8c2722384ba8cf7"
+        },
+        {
+          "sourceId": "artifact:15009:effect:onePiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15009",
+          "field": "onePieceEffect",
+          "present": true,
+          "textDigest": "3654f3dfd2f4c6762f19191c158993051d9d6c373cc5ab96f755272389d08499"
+        },
+        {
+          "sourceId": "artifact:15009:effect:twoPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15009",
+          "field": "twoPieceEffect",
+          "present": false,
+          "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourceId": "artifact:15009:effect:fourPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15009",
+          "field": "fourPieceEffect",
+          "present": false,
+          "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "modifierRecord": {
+        "present": false,
+        "totalCount": 0,
+        "sourceDataset": "calc/artifact-set-modifiers.json",
+        "record": "/15009"
+      },
+      "pieceSlots": {
+        "onePiece": {
+          "pieceCount": 1,
+          "status": "displayOnly",
+          "textPresent": true,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:15009:effect:onePiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:15009:effect:onePiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/15009",
+              "field": "onePieceEffect",
+              "present": true,
+              "textDigest": "3654f3dfd2f4c6762f19191c158993051d9d6c373cc5ab96f755272389d08499"
+            }
+          ],
+          "display": {
+            "status": "displayOnly",
+            "sourceRefs": [
+              "artifact:15009:effect:onePiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        },
+        "twoPiece": {
+          "pieceCount": 2,
+          "status": "noEffect",
+          "textPresent": false,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:15009:effect:twoPiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:15009:effect:twoPiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/15009",
+              "field": "twoPieceEffect",
+              "present": false,
+              "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "display": {
+            "status": "none",
+            "sourceRefs": [
+              "artifact:15009:effect:twoPiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        },
+        "fourPiece": {
+          "pieceCount": 4,
+          "status": "noEffect",
+          "textPresent": false,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:15009:effect:fourPiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:15009:effect:fourPiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/15009",
+              "field": "fourPieceEffect",
+              "present": false,
+              "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "display": {
+            "status": "none",
+            "sourceRefs": [
+              "artifact:15009:effect:fourPiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        }
+      }
+    },
+    {
+      "setId": "15010",
+      "setNameJa": "水祭りの人",
+      "status": "displayOnly",
+      "canonical": 0,
+      "reasons": [
+        "RAW_ONE_PIECE_EFFECT_TEXT_PRESENT",
+        "EMPTY_2PC_4PC_EFFECT_FIELDS",
+        "STRUCTURED_MODIFIER_RECORD_MISSING",
+        "ONE_PIECE_ONLY_NOT_CALCULATED_BY_2PC_4PC_RUNTIME"
+      ],
+      "sourceRefs": [
+        "artifact:15010:catalog",
+        "artifact:15010:effects",
+        "artifact:15010:effect:onePiece",
+        "artifact:15010:effect:twoPiece",
+        "artifact:15010:effect:fourPiece"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "artifact:15010:catalog",
+          "dataset": "artifact-sets.json",
+          "record": "/15010",
+          "field": null,
+          "present": true,
+          "textDigest": "e1d9ff04fb1909526f9f3ac5e8f3b52235924f1ac2aa9bcf4e966031846234f8"
+        },
+        {
+          "sourceId": "artifact:15010:effects",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15010",
+          "field": null,
+          "present": true,
+          "textDigest": "1e3a482692420d09ac797433eb5b07e6604ac09d2b615fd95ca0a6b569d925b4"
+        },
+        {
+          "sourceId": "artifact:15010:effect:onePiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15010",
+          "field": "onePieceEffect",
+          "present": true,
+          "textDigest": "16469202bb5ae579e757906d23a113e53d0e2e3ee0d7879c65abeaacf3a3e1fa"
+        },
+        {
+          "sourceId": "artifact:15010:effect:twoPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15010",
+          "field": "twoPieceEffect",
+          "present": false,
+          "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourceId": "artifact:15010:effect:fourPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15010",
+          "field": "fourPieceEffect",
+          "present": false,
+          "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "modifierRecord": {
+        "present": false,
+        "totalCount": 0,
+        "sourceDataset": "calc/artifact-set-modifiers.json",
+        "record": "/15010"
+      },
+      "pieceSlots": {
+        "onePiece": {
+          "pieceCount": 1,
+          "status": "displayOnly",
+          "textPresent": true,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:15010:effect:onePiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:15010:effect:onePiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/15010",
+              "field": "onePieceEffect",
+              "present": true,
+              "textDigest": "16469202bb5ae579e757906d23a113e53d0e2e3ee0d7879c65abeaacf3a3e1fa"
+            }
+          ],
+          "display": {
+            "status": "displayOnly",
+            "sourceRefs": [
+              "artifact:15010:effect:onePiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        },
+        "twoPiece": {
+          "pieceCount": 2,
+          "status": "noEffect",
+          "textPresent": false,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:15010:effect:twoPiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:15010:effect:twoPiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/15010",
+              "field": "twoPieceEffect",
+              "present": false,
+              "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "display": {
+            "status": "none",
+            "sourceRefs": [
+              "artifact:15010:effect:twoPiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        },
+        "fourPiece": {
+          "pieceCount": 4,
+          "status": "noEffect",
+          "textPresent": false,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:15010:effect:fourPiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:15010:effect:fourPiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/15010",
+              "field": "fourPieceEffect",
+              "present": false,
+              "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "display": {
+            "status": "none",
+            "sourceRefs": [
+              "artifact:15010:effect:fourPiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        }
+      }
+    },
+    {
+      "setId": "15011",
+      "setNameJa": "雷祭りの人",
+      "status": "displayOnly",
+      "canonical": 0,
+      "reasons": [
+        "RAW_ONE_PIECE_EFFECT_TEXT_PRESENT",
+        "EMPTY_2PC_4PC_EFFECT_FIELDS",
+        "STRUCTURED_MODIFIER_RECORD_MISSING",
+        "ONE_PIECE_ONLY_NOT_CALCULATED_BY_2PC_4PC_RUNTIME"
+      ],
+      "sourceRefs": [
+        "artifact:15011:catalog",
+        "artifact:15011:effects",
+        "artifact:15011:effect:onePiece",
+        "artifact:15011:effect:twoPiece",
+        "artifact:15011:effect:fourPiece"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "artifact:15011:catalog",
+          "dataset": "artifact-sets.json",
+          "record": "/15011",
+          "field": null,
+          "present": true,
+          "textDigest": "8093a18ec178e5562532bd48ab13e0777fd3abb33f04a7f1a1f1e86a8c515695"
+        },
+        {
+          "sourceId": "artifact:15011:effects",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15011",
+          "field": null,
+          "present": true,
+          "textDigest": "f70ad35efe8ae8ffe6e8d79d0b0c64ee68c298f667a8ba285fc44a17d5bce07b"
+        },
+        {
+          "sourceId": "artifact:15011:effect:onePiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15011",
+          "field": "onePieceEffect",
+          "present": true,
+          "textDigest": "f1469c5e9bc23282917bc049602812cfd7ffab80a6d50253c08739c64409a931"
+        },
+        {
+          "sourceId": "artifact:15011:effect:twoPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15011",
+          "field": "twoPieceEffect",
+          "present": false,
+          "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourceId": "artifact:15011:effect:fourPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15011",
+          "field": "fourPieceEffect",
+          "present": false,
+          "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "modifierRecord": {
+        "present": false,
+        "totalCount": 0,
+        "sourceDataset": "calc/artifact-set-modifiers.json",
+        "record": "/15011"
+      },
+      "pieceSlots": {
+        "onePiece": {
+          "pieceCount": 1,
+          "status": "displayOnly",
+          "textPresent": true,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:15011:effect:onePiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:15011:effect:onePiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/15011",
+              "field": "onePieceEffect",
+              "present": true,
+              "textDigest": "f1469c5e9bc23282917bc049602812cfd7ffab80a6d50253c08739c64409a931"
+            }
+          ],
+          "display": {
+            "status": "displayOnly",
+            "sourceRefs": [
+              "artifact:15011:effect:onePiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        },
+        "twoPiece": {
+          "pieceCount": 2,
+          "status": "noEffect",
+          "textPresent": false,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:15011:effect:twoPiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:15011:effect:twoPiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/15011",
+              "field": "twoPieceEffect",
+              "present": false,
+              "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "display": {
+            "status": "none",
+            "sourceRefs": [
+              "artifact:15011:effect:twoPiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        },
+        "fourPiece": {
+          "pieceCount": 4,
+          "status": "noEffect",
+          "textPresent": false,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:15011:effect:fourPiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:15011:effect:fourPiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/15011",
+              "field": "fourPieceEffect",
+              "present": false,
+              "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "display": {
+            "status": "none",
+            "sourceRefs": [
+              "artifact:15011:effect:fourPiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        }
+      }
+    },
+    {
+      "setId": "15012",
+      "setNameJa": "氷祭りの人",
+      "status": "displayOnly",
+      "canonical": 0,
+      "reasons": [
+        "RAW_ONE_PIECE_EFFECT_TEXT_PRESENT",
+        "EMPTY_2PC_4PC_EFFECT_FIELDS",
+        "STRUCTURED_MODIFIER_RECORD_MISSING",
+        "ONE_PIECE_ONLY_NOT_CALCULATED_BY_2PC_4PC_RUNTIME"
+      ],
+      "sourceRefs": [
+        "artifact:15012:catalog",
+        "artifact:15012:effects",
+        "artifact:15012:effect:onePiece",
+        "artifact:15012:effect:twoPiece",
+        "artifact:15012:effect:fourPiece"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "artifact:15012:catalog",
+          "dataset": "artifact-sets.json",
+          "record": "/15012",
+          "field": null,
+          "present": true,
+          "textDigest": "497d57663ea95e295bdfe7b20ed316a608ec6a4c2d523c09fceffcfd6a096621"
+        },
+        {
+          "sourceId": "artifact:15012:effects",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15012",
+          "field": null,
+          "present": true,
+          "textDigest": "04589b5b494605aa6a731a6fcfe765e188e8122e0954bc25b83537ae74481a21"
+        },
+        {
+          "sourceId": "artifact:15012:effect:onePiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15012",
+          "field": "onePieceEffect",
+          "present": true,
+          "textDigest": "2eb4e1c9f1b0d0c46a9c53e47892118c802c4dd8b187715bb1b497f591c346b3"
+        },
+        {
+          "sourceId": "artifact:15012:effect:twoPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15012",
+          "field": "twoPieceEffect",
+          "present": false,
+          "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "sourceId": "artifact:15012:effect:fourPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15012",
+          "field": "fourPieceEffect",
+          "present": false,
+          "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "modifierRecord": {
+        "present": false,
+        "totalCount": 0,
+        "sourceDataset": "calc/artifact-set-modifiers.json",
+        "record": "/15012"
+      },
+      "pieceSlots": {
+        "onePiece": {
+          "pieceCount": 1,
+          "status": "displayOnly",
+          "textPresent": true,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:15012:effect:onePiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:15012:effect:onePiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/15012",
+              "field": "onePieceEffect",
+              "present": true,
+              "textDigest": "2eb4e1c9f1b0d0c46a9c53e47892118c802c4dd8b187715bb1b497f591c346b3"
+            }
+          ],
+          "display": {
+            "status": "displayOnly",
+            "sourceRefs": [
+              "artifact:15012:effect:onePiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        },
+        "twoPiece": {
+          "pieceCount": 2,
+          "status": "noEffect",
+          "textPresent": false,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:15012:effect:twoPiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:15012:effect:twoPiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/15012",
+              "field": "twoPieceEffect",
+              "present": false,
+              "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "display": {
+            "status": "none",
+            "sourceRefs": [
+              "artifact:15012:effect:twoPiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        },
+        "fourPiece": {
+          "pieceCount": 4,
+          "status": "noEffect",
+          "textPresent": false,
+          "modifierCount": 0,
+          "sourceRefs": [
+            "artifact:15012:effect:fourPiece"
+          ],
+          "sourcePointers": [
+            {
+              "sourceId": "artifact:15012:effect:fourPiece",
+              "dataset": "artifact-set-effects.json",
+              "record": "/15012",
+              "field": "fourPieceEffect",
+              "present": false,
+              "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ],
+          "display": {
+            "status": "none",
+            "sourceRefs": [
+              "artifact:15012:effect:fourPiece"
+            ]
+          },
+          "calculation": {
+            "status": "blocked",
+            "reason": "structuredModifiersMissing"
+          }
+        }
+      }
+    }
+  ],
+  "valueContracts": [
+    {
+      "candidateId": "artifact:15020:fourPiece:4pc_burst_damage_bonus_from_er",
+      "setId": "15020",
+      "slot": "fourPiece",
+      "status": "needsReview",
+      "canonical": 0,
+      "value": null,
+      "explicitValueFields": [],
+      "structuredFields": [
+        "maxValue",
+        "ratio",
+        "reference"
+      ],
+      "reasons": [
+        "EXPLICIT_VALUE_FIELD_MISSING",
+        "SCALING_REFERENCE_FIELDS_PRESENT",
+        "TARGET_CONTRACT_PRESENT",
+        "NO_VALUE_INFERRED_FROM_SOURCE_TEXT_OR_RATIO"
+      ],
+      "sourceRefs": [
+        "artifact:15020:catalog",
+        "artifact:15020:effects",
+        "artifact:15020:effect:fourPiece",
+        "artifact:15020:modifier:fourPiece:0"
+      ],
+      "sourcePointers": [
+        {
+          "sourceId": "artifact:15020:catalog",
+          "dataset": "artifact-sets.json",
+          "record": "/15020",
+          "field": null,
+          "present": true,
+          "textDigest": "7dfba3a93b6d290dec7c5948c043fbbfe964de77f31b08581a98c1f8d9cc328c"
+        },
+        {
+          "sourceId": "artifact:15020:effects",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15020",
+          "field": null,
+          "present": true,
+          "textDigest": "99062e289f7b08e45f3864080245a83ca6414767988ed939c5f137f6432a4f95"
+        },
+        {
+          "sourceId": "artifact:15020:effect:fourPiece",
+          "dataset": "artifact-set-effects.json",
+          "record": "/15020",
+          "field": "fourPieceEffect",
+          "present": true,
+          "textDigest": "210573ebc92f5fb9816f4560beb233252745808d7f13f8805e783989119dd9f2"
+        },
+        {
+          "sourceId": "artifact:15020:modifier:fourPiece:0",
+          "dataset": "calc/artifact-set-modifiers.json",
+          "record": "/15020/fourPiece/0",
+          "field": "fourPiece[0]",
+          "present": true,
+          "textDigest": "21c1ea7465743f9bdf3b99a63213b3b1d120525738d50b7f3e00a473fc455bdc"
+        }
+      ],
+      "legacyModifierPath": "calc/artifact-set-modifiers.json#/15020/fourPiece/0"
+    }
+  ]
+}

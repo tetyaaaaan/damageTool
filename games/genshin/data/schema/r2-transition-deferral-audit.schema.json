@@ -1,0 +1,530 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "r2-transition-deferral-audit.schema.json",
+  "title": "Genshin r2 bounded 7.0 transition evidence-deferral audit",
+  "description": "Candidate-scoped, draft-only external evidence waits. This artifact never grants verification, certificate eligibility, canonical promotion, or Runtime activation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "kind", "policyId", "transitionId", "fromGameVersion",
+    "targetGameVersion", "status", "draftOnly", "generatedAt", "generator",
+    "scope", "queueObservation", "candidateCount", "decisions", "exclusions",
+    "evidence", "gate", "validation"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinR2TransitionDeferralAudit" },
+    "policyId": { "const": "genshin-goal-2026-08-28-r2" },
+    "transitionId": { "const": "genshin:6.7->7.0" },
+    "fromGameVersion": { "const": "6.7" },
+    "targetGameVersion": { "const": "7.0" },
+    "status": { "const": "draft" },
+    "draftOnly": { "const": true },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "generator": { "$ref": "#/$defs/generator" },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "transitionId", "frontierPolicyId", "frontierStatus", "frontierCandidateCount",
+        "selectedCandidateCount", "excludedCandidateCount", "selectedMappingStatuses",
+        "candidateIdDigest", "selectedTaskDigestDigest", "selectionDigest", "candidateIds",
+        "excludedCandidateIds", "selectionRows"
+      ],
+      "properties": {
+        "transitionId": { "const": "genshin:6.7->7.0" },
+        "frontierPolicyId": { "const": "genshin-7.0-known-impact-55-independent-field-frontier" },
+        "frontierStatus": { "const": "searchExhausted" },
+        "frontierCandidateCount": { "const": 55 },
+        "selectedCandidateCount": { "const": 47 },
+        "excludedCandidateCount": { "const": 8 },
+        "selectedMappingStatuses": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "candidateIdDigest": { "$ref": "#/$defs/digest" },
+        "selectedTaskDigestDigest": { "$ref": "#/$defs/digest" },
+        "selectionDigest": { "$ref": "#/$defs/digest" },
+        "candidateIds": { "$ref": "#/$defs/stringList" },
+        "excludedCandidateIds": { "$ref": "#/$defs/stringList" },
+        "selectionRows": {
+          "type": "array",
+          "minItems": 47,
+          "maxItems": 47,
+          "items": { "$ref": "#/$defs/selectionRow" }
+        }
+      }
+    },
+    "queueObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path", "bytes", "rawSha256", "frontierCandidateCount",
+        "selectedCandidateCount", "excludedCandidateCount", "note"
+      ],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "bytes": { "type": ["integer", "null"], "minimum": 0 },
+        "rawSha256": { "$ref": "#/$defs/digestOrNull" },
+        "frontierCandidateCount": { "const": 55 },
+        "selectedCandidateCount": { "const": 47 },
+        "excludedCandidateCount": { "const": 8 },
+        "note": { "type": "string", "minLength": 1 }
+      }
+    },
+    "candidateCount": { "const": 47 },
+    "decisions": {
+      "type": "array",
+      "minItems": 47,
+      "maxItems": 47,
+      "items": { "$ref": "#/$defs/decision" }
+    },
+    "exclusions": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": { "$ref": "#/$defs/exclusion" }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frontier", "transitionArtifacts", "candidateSourceFiles", "mappingStatusCounts",
+        "sourceSchemaMissingCandidateCount", "queueClaimCount", "fieldFindingCount",
+        "externalMechanicFieldCount", "internalMetadataFieldCount", "targetMechanicEvidenceCount",
+        "candidateClaimsWithStrictEvidenceCount", "candidateClaims"
+      ],
+      "properties": {
+        "frontier": { "$ref": "#/$defs/frontier" },
+        "transitionArtifacts": { "$ref": "#/$defs/refMap" },
+        "candidateSourceFiles": { "$ref": "#/$defs/filePairMap" },
+        "mappingStatusCounts": { "$ref": "#/$defs/countMap" },
+        "sourceSchemaMissingCandidateCount": { "type": "integer", "minimum": 0 },
+        "queueClaimCount": { "type": "integer", "minimum": 0 },
+        "fieldFindingCount": { "type": "integer", "minimum": 1 },
+        "externalMechanicFieldCount": { "type": "integer", "minimum": 1 },
+        "internalMetadataFieldCount": { "type": "integer", "minimum": 0 },
+        "targetMechanicEvidenceCount": { "const": 0 },
+        "candidateClaimsWithStrictEvidenceCount": { "const": 0 },
+        "candidateClaims": {
+          "type": "array",
+          "minItems": 47,
+          "maxItems": 47,
+          "items": { "$ref": "#/$defs/candidateEvidence" }
+        }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status", "strictEligible", "canonicalPromotionEligible", "verificationGranted",
+        "promotionGranted", "runtimeChanged", "certificateIssued", "reason"
+      ],
+      "properties": {
+        "status": { "const": "draftExternalEvidenceDeferredOnly" },
+        "strictEligible": { "const": 0 },
+        "canonicalPromotionEligible": { "const": 0 },
+        "verificationGranted": { "const": false },
+        "promotionGranted": { "const": false },
+        "runtimeChanged": { "const": false },
+        "certificateIssued": { "const": false },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["valid", "invalidDecisionCount", "decisionResults"],
+      "properties": {
+        "valid": { "const": true },
+        "invalidDecisionCount": { "const": 0 },
+        "decisionResults": {
+          "type": "array",
+          "minItems": 47,
+          "maxItems": 47,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["valid", "errors"],
+            "properties": {
+              "valid": { "const": true },
+              "errors": { "type": "array", "maxItems": 0 }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "digestOrNull": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+    "stringList": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "const": "genshinR2TransitionDeferralAudit.cjs" },
+        "version": { "type": "string", "minLength": 1 }
+      }
+    },
+    "artifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "artifactRefs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/artifactRef" }
+    },
+    "selectionRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidateId", "taskId", "dataset", "layer", "transitionLane", "mappingStatus",
+        "claimScope", "transitionClaimSchemaStatus", "deferredLaneCount", "frontierPolicyId",
+        "frontierStatus", "frontierExhausted", "frontierScopeMatched", "entityId"
+      ],
+      "properties": {
+        "candidateId": { "type": "string", "minLength": 1 },
+        "taskId": { "type": "string", "minLength": 1 },
+        "dataset": { "type": "string", "minLength": 1 },
+        "layer": { "type": "string", "minLength": 1 },
+        "transitionLane": { "type": "string", "minLength": 1 },
+        "mappingStatus": { "type": "string", "minLength": 1 },
+        "claimScope": { "type": "string", "minLength": 1 },
+        "transitionClaimSchemaStatus": { "type": "string", "minLength": 1 },
+        "deferredLaneCount": { "const": 1 },
+        "frontierPolicyId": { "const": "genshin-7.0-known-impact-55-independent-field-frontier" },
+        "frontierStatus": { "const": "searchExhausted" },
+        "frontierExhausted": { "const": true },
+        "frontierScopeMatched": { "const": true },
+        "entityId": { "type": "string", "minLength": 1 }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "policyId", "candidateId", "targetGameVersion", "queueTaskDigest", "assessment", "fieldFindings", "search", "safety"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "const": "genshinEvidenceDeferral" },
+        "policyId": { "const": "genshin-goal-2026-08-28-r2" },
+        "candidateId": { "type": "string", "minLength": 1 },
+        "targetGameVersion": { "const": "7.0" },
+        "queueTaskDigest": { "$ref": "#/$defs/digest" },
+        "assessment": { "$ref": "#/$defs/assessment" },
+        "fieldFindings": {
+          "type": "array",
+          "minItems": 6,
+          "items": { "$ref": "#/$defs/fieldFinding" }
+        },
+        "search": { "$ref": "#/$defs/search" },
+        "safety": { "$ref": "#/$defs/safety" }
+      }
+    },
+    "assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actorId", "assessedAt", "reason", "boundedScope"],
+      "properties": {
+        "actorId": { "const": "luna_worker" },
+        "assessedAt": { "type": "string", "format": "date-time" },
+        "reason": { "type": "string", "minLength": 1 },
+        "boundedScope": { "$ref": "#/$defs/boundedScope" }
+      }
+    },
+    "boundedScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidateId", "taskId", "remainingSearches", "notExecutableReasons", "artifactRefs", "deferredLaneDispositions"],
+      "properties": {
+        "candidateId": { "type": "string", "minLength": 1 },
+        "taskId": { "type": "string", "minLength": 1 },
+        "remainingSearches": { "$ref": "#/$defs/stringList" },
+        "notExecutableReasons": { "$ref": "#/$defs/stringList" },
+        "artifactRefs": { "$ref": "#/$defs/artifactRefs" },
+        "deferredLaneDispositions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": { "$ref": "#/$defs/deferredLaneDisposition" }
+        }
+      }
+    },
+    "deferredLaneDisposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "blockingReasons", "disposition", "reason", "fieldRefs", "artifactRefs"],
+      "properties": {
+        "kind": { "const": "semanticDecision" },
+        "blockingReasons": { "const": ["semanticDecisionRequired"] },
+        "disposition": { "const": "externalEvidenceWait" },
+        "reason": { "type": "string", "minLength": 1 },
+        "fieldRefs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^claim\\.(sourceText|timing|execution|lifecycle|energy|snapshot|effectKind|targets|activation|value)$"
+          }
+        },
+        "artifactRefs": { "$ref": "#/$defs/artifactRefs" }
+      }
+    },
+    "fieldFinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "knownStatus", "currentValue", "historicalValue", "missingEvidence"],
+      "properties": {
+        "field": { "pattern": "^claim\\.[A-Za-z][A-Za-z0-9]*$" },
+        "knownStatus": { "type": "string", "minLength": 1 },
+        "currentValue": {},
+        "historicalValue": { "type": "null" },
+        "missingEvidence": { "type": "string", "minLength": 1 }
+      }
+    },
+    "search": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope", "lastSearchedAt", "providersExamined", "negativeResult", "unsearchedScope", "reopenTrigger", "nextTask", "artifactRefs"],
+      "properties": {
+        "scope": { "type": "string", "minLength": 1 },
+        "lastSearchedAt": { "type": "string", "format": "date-time" },
+        "providersExamined": { "$ref": "#/$defs/stringList" },
+        "negativeResult": { "type": "string", "minLength": 1 },
+        "unsearchedScope": { "$ref": "#/$defs/stringList" },
+        "reopenTrigger": { "type": "string", "minLength": 1 },
+        "nextTask": { "type": "string", "minLength": 1 },
+        "artifactRefs": { "$ref": "#/$defs/artifactRefs" }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["impact", "action", "runtimeStatus", "artifactRefs"],
+      "properties": {
+        "impact": { "type": "string", "minLength": 1 },
+        "action": { "type": "string", "minLength": 1 },
+        "runtimeStatus": { "type": "string", "minLength": 1 },
+        "artifactRefs": { "$ref": "#/$defs/artifactRefs" }
+      }
+    },
+    "frontier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "status", "appliesTo", "searchScope", "lastSearchedAt", "providersExamined", "negativeResult", "reopenTrigger", "digest"],
+      "properties": {
+        "id": { "const": "genshin-7.0-known-impact-55-independent-field-frontier" },
+        "status": { "const": "searchExhausted" },
+        "appliesTo": { "type": "object" },
+        "searchScope": { "type": "string", "minLength": 1 },
+        "lastSearchedAt": { "type": "string", "format": "date-time" },
+        "providersExamined": { "$ref": "#/$defs/stringList" },
+        "negativeResult": { "type": "string", "minLength": 1 },
+        "reopenTrigger": { "type": "string", "minLength": 1 },
+        "digest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "refMap": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/artifactRef" }
+    },
+    "filePairMap": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["specs", "sources"],
+        "properties": {
+          "specs": { "$ref": "#/$defs/artifactRef" },
+          "sources": { "$ref": "#/$defs/artifactRef" }
+        }
+      }
+    },
+    "countMap": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": { "^.+$": { "type": "integer", "minimum": 0 } }
+    },
+    "exclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidateId", "eligibleForExternalEvidenceWait", "reasons", "mapping", "officialChange", "queueFacts"],
+      "properties": {
+        "candidateId": { "type": "string", "minLength": 1 },
+        "eligibleForExternalEvidenceWait": { "const": false },
+        "reasons": { "$ref": "#/$defs/stringList" },
+        "mapping": { "type": ["object", "null"] },
+        "officialChange": { "type": ["object", "null"] },
+        "queueFacts": { "$ref": "#/$defs/queueFacts" }
+      }
+    },
+    "queueFacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["taskId", "dataset", "layer", "transitionLane", "mappingStatus", "consumerStatus", "transitionClaimSchemaStatus", "deferredLanes", "primaryBlockReason", "blockReasons", "nextTask"],
+      "properties": {
+        "taskId": { "type": ["string", "null"] },
+        "dataset": { "type": ["string", "null"] },
+        "layer": { "type": ["string", "null"] },
+        "transitionLane": { "type": ["string", "null"] },
+        "mappingStatus": { "type": ["string", "null"] },
+        "consumerStatus": { "type": ["string", "null"] },
+        "transitionClaimSchemaStatus": { "type": ["string", "null"] },
+        "deferredLanes": { "type": "array" },
+        "primaryBlockReason": { "type": ["string", "null"] },
+        "blockReasons": { "type": "array", "items": { "type": "string" } },
+        "nextTask": { "type": ["string", "null"] }
+      }
+    },
+    "candidateEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidateId", "taskId", "dataset", "layer", "entityId", "mapping", "current", "historical", "frontier", "claimPacket", "safety"],
+      "properties": {
+        "candidateId": { "type": "string", "minLength": 1 },
+        "taskId": { "type": "string", "minLength": 1 },
+        "dataset": { "type": "string", "minLength": 1 },
+        "layer": { "type": "string", "minLength": 1 },
+        "entityId": { "type": ["string", "null"] },
+        "mapping": { "$ref": "#/$defs/mappingRecord" },
+        "current": { "$ref": "#/$defs/currentProjection" },
+        "historical": { "$ref": "#/$defs/historical" },
+        "frontier": { "$ref": "#/$defs/candidateFrontier" },
+        "claimPacket": { "$ref": "#/$defs/claimPacket" },
+        "safety": { "$ref": "#/$defs/candidateSafety" }
+      }
+    },
+    "mappingRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["partialDiscovery", "officialChange", "taskTransitionLane", "taskMappingStatus", "claimScope", "providerCaptureStatus", "claimSchemaStatus", "claimPacketStatus", "claimPacketDigest", "claimPacketCount"],
+      "properties": {
+        "partialDiscovery": { "type": "object" },
+        "officialChange": { "type": ["object", "null"] },
+        "taskTransitionLane": { "type": "string", "minLength": 1 },
+        "taskMappingStatus": { "type": "string", "minLength": 1 },
+        "claimScope": { "type": "string", "minLength": 1 },
+        "providerCaptureStatus": { "type": "string", "minLength": 1 },
+        "claimSchemaStatus": { "type": "string", "minLength": 1 },
+        "claimPacketStatus": { "enum": ["materialized", "notMaterialized"] },
+        "claimPacketDigest": { "$ref": "#/$defs/digest" },
+        "claimPacketCount": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "currentProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["specDigest", "specVerificationStatus", "sourceAgreement", "unknownFields", "sourceRecords", "sourceGameVersions", "sourceProviderIndependence", "claimValues", "claimFields", "externalClaimFields", "internalMetadataClaimFields", "sourceFilePaths"],
+      "properties": {
+        "specDigest": { "$ref": "#/$defs/digest" },
+        "specVerificationStatus": { "type": ["string", "null"] },
+        "sourceAgreement": { "type": ["string", "null"] },
+        "unknownFields": { "type": "array", "items": { "type": "string" } },
+        "sourceRecords": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/sourceRecord" } },
+        "sourceGameVersions": { "type": "array", "items": { "type": "string" } },
+        "sourceProviderIndependence": { "type": "array", "items": { "type": "string" } },
+        "claimValues": { "type": "object" },
+        "claimFields": { "$ref": "#/$defs/stringList" },
+        "externalClaimFields": { "$ref": "#/$defs/stringList" },
+        "internalMetadataClaimFields": { "type": "array", "items": { "type": "string" } },
+        "sourceFilePaths": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["specs", "sources"],
+          "properties": { "specs": { "type": "string" }, "sources": { "type": "string" } }
+        }
+      }
+    },
+    "sourceRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "provider", "independenceGroup", "providerIndependence", "capturedAt", "gameVersion", "locale", "locator", "integrityDigest", "recordDigest"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "provider": { "type": ["string", "null"] },
+        "independenceGroup": { "type": ["string", "null"] },
+        "providerIndependence": { "type": ["string", "null"] },
+        "capturedAt": { "type": ["string", "null"] },
+        "gameVersion": { "type": ["string", "null"] },
+        "locale": { "type": ["string", "null"] },
+        "locator": {},
+        "integrityDigest": { "type": ["string", "null"] },
+        "recordDigest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "historical": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "historicalValuePolicy"],
+      "properties": {
+        "status": { "const": "unavailable" },
+        "historicalValuePolicy": { "type": "string", "minLength": 1 }
+      }
+    },
+    "candidateFrontier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidateId", "taskId", "policyId", "status", "exhausted", "scopeMatched", "scopeUnit", "searchScope", "lastSearchedAt", "providersExamined", "blockingReasons", "reopenTrigger", "claimFields", "externalClaimFields", "digest"],
+      "properties": {
+        "candidateId": { "type": "string", "minLength": 1 },
+        "taskId": { "type": "string", "minLength": 1 },
+        "policyId": { "const": "genshin-7.0-known-impact-55-independent-field-frontier" },
+        "status": { "const": "searchExhausted" },
+        "exhausted": { "const": true },
+        "scopeMatched": { "const": true },
+        "scopeUnit": { "type": "string", "minLength": 1 },
+        "searchScope": { "type": "string", "minLength": 1 },
+        "lastSearchedAt": { "type": "string", "format": "date-time" },
+        "providersExamined": { "$ref": "#/$defs/stringList" },
+        "blockingReasons": { "type": "array", "items": { "type": "string" } },
+        "reopenTrigger": { "type": "string", "minLength": 1 },
+        "claimFields": { "$ref": "#/$defs/stringList" },
+        "externalClaimFields": { "$ref": "#/$defs/stringList" },
+        "digest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "claimPacket": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "providerCaptureStatus", "claimSchemaStatus", "claimPacketCount", "claims", "gateEligibility", "digest"],
+      "properties": {
+        "status": { "enum": ["materialized", "notMaterialized"] },
+        "providerCaptureStatus": { "type": "string", "minLength": 1 },
+        "claimSchemaStatus": { "type": "string", "minLength": 1 },
+        "claimPacketCount": { "type": "integer", "minimum": 0 },
+        "claims": { "type": "array", "items": { "type": "object" } },
+        "gateEligibility": { "type": ["object", "null"] },
+        "digest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "candidateSafety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["legacyOrCurrentConsumerUnchanged", "candidateActive", "certificateIssued", "canonicalPromoted"],
+      "properties": {
+        "legacyOrCurrentConsumerUnchanged": { "const": true },
+        "candidateActive": { "const": false },
+        "certificateIssued": { "const": false },
+        "canonicalPromoted": { "const": false }
+      }
+    }
+  }
+}

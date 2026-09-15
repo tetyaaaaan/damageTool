@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "artifactSet",
+    "id": "15012"
+  },
+  "sourceRefs": [
+    "artifact:15012:catalog",
+    "artifact:15012:effects"
+  ],
+  "pieceSlots": {
+    "onePiece": {
+      "pieceCount": 1,
+      "sourceRefs": [
+        "artifact:15012:effect:onePiece"
+      ],
+      "modifierIds": [],
+      "specIds": []
+    },
+    "twoPiece": {
+      "pieceCount": 2,
+      "sourceRefs": [
+        "artifact:15012:effect:twoPiece"
+      ],
+      "modifierIds": [],
+      "specIds": []
+    },
+    "fourPiece": {
+      "pieceCount": 4,
+      "sourceRefs": [
+        "artifact:15012:effect:fourPiece"
+      ],
+      "modifierIds": [],
+      "specIds": []
+    }
+  },
+  "modifierIds": [],
+  "specIds": [],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Artifact package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "gapReview": {
+    "setId": "15012",
+    "setNameJa": "氷祭りの人",
+    "status": "displayOnly",
+    "canonical": 0,
+    "reasons": [
+      "RAW_ONE_PIECE_EFFECT_TEXT_PRESENT",
+      "EMPTY_2PC_4PC_EFFECT_FIELDS",
+      "STRUCTURED_MODIFIER_RECORD_MISSING",
+      "ONE_PIECE_ONLY_NOT_CALCULATED_BY_2PC_4PC_RUNTIME"
+    ],
+    "sourceRefs": [
+      "artifact:15012:catalog",
+      "artifact:15012:effects",
+      "artifact:15012:effect:onePiece",
+      "artifact:15012:effect:twoPiece",
+      "artifact:15012:effect:fourPiece"
+    ],
+    "sourcePointers": [
+      {
+        "sourceId": "artifact:15012:catalog",
+        "dataset": "artifact-sets.json",
+        "record": "/15012",
+        "field": null,
+        "present": true,
+        "textDigest": "497d57663ea95e295bdfe7b20ed316a608ec6a4c2d523c09fceffcfd6a096621"
+      },
+      {
+        "sourceId": "artifact:15012:effects",
+        "dataset": "artifact-set-effects.json",
+        "record": "/15012",
+        "field": null,
+        "present": true,
+        "textDigest": "04589b5b494605aa6a731a6fcfe765e188e8122e0954bc25b83537ae74481a21"
+      },
+      {
+        "sourceId": "artifact:15012:effect:onePiece",
+        "dataset": "artifact-set-effects.json",
+        "record": "/15012",
+        "field": "onePieceEffect",
+        "present": true,
+        "textDigest": "2eb4e1c9f1b0d0c46a9c53e47892118c802c4dd8b187715bb1b497f591c346b3"
+      },
+      {
+        "sourceId": "artifact:15012:effect:twoPiece",
+        "dataset": "artifact-set-effects.json",
+        "record": "/15012",
+        "field": "twoPieceEffect",
+        "present": false,
+        "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "sourceId": "artifact:15012:effect:fourPiece",
+        "dataset": "artifact-set-effects.json",
+        "record": "/15012",
+        "field": "fourPieceEffect",
+        "present": false,
+        "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "modifierRecord": {
+      "present": false,
+      "totalCount": 0,
+      "sourceDataset": "calc/artifact-set-modifiers.json",
+      "record": "/15012"
+    },
+    "pieceSlots": {
+      "onePiece": {
+        "pieceCount": 1,
+        "status": "displayOnly",
+        "textPresent": true,
+        "modifierCount": 0,
+        "sourceRefs": [
+          "artifact:15012:effect:onePiece"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "artifact:15012:effect:onePiece",
+            "dataset": "artifact-set-effects.json",
+            "record": "/15012",
+            "field": "onePieceEffect",
+            "present": true,
+            "textDigest": "2eb4e1c9f1b0d0c46a9c53e47892118c802c4dd8b187715bb1b497f591c346b3"
+          }
+        ],
+        "display": {
+          "status": "displayOnly",
+          "sourceRefs": [
+            "artifact:15012:effect:onePiece"
+          ]
+        },
+        "calculation": {
+          "status": "blocked",
+          "reason": "structuredModifiersMissing"
+        }
+      },
+      "twoPiece": {
+        "pieceCount": 2,
+        "status": "noEffect",
+        "textPresent": false,
+        "modifierCount": 0,
+        "sourceRefs": [
+          "artifact:15012:effect:twoPiece"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "artifact:15012:effect:twoPiece",
+            "dataset": "artifact-set-effects.json",
+            "record": "/15012",
+            "field": "twoPieceEffect",
+            "present": false,
+            "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "display": {
+          "status": "none",
+          "sourceRefs": [
+            "artifact:15012:effect:twoPiece"
+          ]
+        },
+        "calculation": {
+          "status": "blocked",
+          "reason": "structuredModifiersMissing"
+        }
+      },
+      "fourPiece": {
+        "pieceCount": 4,
+        "status": "noEffect",
+        "textPresent": false,
+        "modifierCount": 0,
+        "sourceRefs": [
+          "artifact:15012:effect:fourPiece"
+        ],
+        "sourcePointers": [
+          {
+            "sourceId": "artifact:15012:effect:fourPiece",
+            "dataset": "artifact-set-effects.json",
+            "record": "/15012",
+            "field": "fourPieceEffect",
+            "present": false,
+            "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "display": {
+          "status": "none",
+          "sourceRefs": [
+            "artifact:15012:effect:fourPiece"
+          ]
+        },
+        "calculation": {
+          "status": "blocked",
+          "reason": "structuredModifiersMissing"
+        }
+      }
+    }
+  },
+  "runtime": {
+    "status": "blocked",
+    "modifierIds": [],
+    "generator": "genshinArtifactV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing",
+      "structuredModifiersMissing"
+    ]
+  }
+}

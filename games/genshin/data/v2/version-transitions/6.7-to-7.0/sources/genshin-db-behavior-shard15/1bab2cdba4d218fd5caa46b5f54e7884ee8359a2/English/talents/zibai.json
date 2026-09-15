@@ -1,0 +1,253 @@
+{
+	"id": 12601,
+	"name": "Zibai",
+	"combat1": {
+		"name": "Golden Blade's Petaled Touch",
+		"descriptionRaw": "<color=#FFD780FF>Normal Attack</color>\nPerforms up to 4 rapid strikes.\n\n<color=#FFD780FF>Charged Attack</color>\nConsumes a certain amount of Stamina to unleash 2 rapid sword strikes.\n\n<color=#FFD780FF>Plunging Attack</color>\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
+		"description": "Normal Attack\nPerforms up to 4 rapid strikes.\n\nCharged Attack\nConsumes a certain amount of Stamina to unleash 2 rapid sword strikes.\n\nPlunging Attack\nPlunges from mid-air to strike the ground below, damaging opponents along the path and dealing AoE DMG upon impact.",
+		"attributes": {
+			"labels": [
+				"1-Hit DMG|{param1:F1P}",
+				"2-Hit DMG|{param2:F1P}",
+				"3-Hit DMG|{param3:F1P}+{param4:F1P}",
+				"4-Hit DMG|{param5:F1P}",
+				"Charged Attack DMG|{param6:F1P}+{param7:F1P}",
+				"Charged Attack Stamina Cost|{param8:F1}",
+				"Plunge DMG|{param9:F1P}",
+				"Low/High Plunge DMG|{param10:P}/{param11:P}"
+			]
+		}
+	},
+	"combat2": {
+		"name": "Heaven and Earth Made Manifest",
+		"descriptionRaw": "Summoning a shadow of her former powers, she switches to the {LINK#N11260001}<color=#FFD780FF>Lunar Phase Shift</color>{/LINK} mode.\nIn this mode, Zibai's Normal Attacks and Charged Attacks will deal <color=#FFE699FF>Geo DMG</color> that cannot be overridden by other infusions, and she can accrue special <color=#FFD780FF>Phase Shift Radiance</color> through different methods. Zibai can consume Phase Shift Radiance to unleash the special Elemental Skill <color=#FFD780FF>Spirit Steed's Stride</color>.\n\n<color=#FFD780FF>Moonsign: Ascendant Gleam</color>\nWhile in the <color=#FFD780FF>Lunar Phase Shift</color> mode, when Zibai performs Normal Attacks, the fourth attack will deal an additional instance of <color=#FFE699FF>Geo DMG</color>, which is considered Lunar-Crystallize Reaction DMG.",
+		"description": "Summoning a shadow of her former powers, she switches to the **Lunar Phase Shift** mode.\nIn this mode, Zibai's Normal Attacks and Charged Attacks will deal Geo DMG that cannot be overridden by other infusions, and she can accrue special Phase Shift Radiance through different methods. Zibai can consume Phase Shift Radiance to unleash the special Elemental Skill Spirit Steed's Stride.\n\nMoonsign: Ascendant Gleam\nWhile in the Lunar Phase Shift mode, when Zibai performs Normal Attacks, the fourth attack will deal an additional instance of Geo DMG, which is considered Lunar-Crystallize Reaction DMG.",
+		"attributes": {
+			"labels": [
+				"Lunar Phase Shift 1-Hit DMG|{param6:F1P} DEF",
+				"Lunar Phase Shift 2-Hit DMG|{param7:F1P} DEF",
+				"Lunar Phase Shift 3-Hit DMG|{param8:F1P}+{param9:F1P} DEF",
+				"Lunar Phase Shift 4-Hit DMG|{param10:F1P} DEF",
+				"Lunar Phase Shift Charged Attack DMG|{param11:F1P}+{param12:F1P} DEF",
+				"Spirit Steed's Stride 1-Hit DMG|{param1:F1P} DEF",
+				"Spirit Steed's Stride 2-Hit DMG|{param2:F1P} DEF",
+				"Lunar Phase Shift 4-Hit Additional DMG|{param3:F1P} DEF",
+				"Lunar Phase Shift Duration|{param4:F1}s",
+				"CD|{param5:F1}s"
+			]
+		}
+	},
+	"combat3": {
+		"name": "Tri-Sphere Eminence",
+		"descriptionRaw": "Zibai operates the Jadelight Canopy, dealing two instances of <color=#FFE699FF>Geo DMG</color>, with the second damage instance being considered Lunar-Crystallize Reaction DMG.\nWhen cast, if Zibai is in the {LINK#N11260001}<color=#FFD780FF>Lunar Phase Shift</color>{/LINK}, the duration of the current Lunar Phase Shift will extend by an additional 1.7s.",
+		"description": "Zibai operates the Jadelight Canopy, dealing two instances of Geo DMG, with the second damage instance being considered Lunar-Crystallize Reaction DMG.\nWhen cast, if Zibai is in the **Lunar Phase Shift**, the duration of the current Lunar Phase Shift will extend by an additional 1.7s.",
+		"attributes": {
+			"labels": [
+				"Skill 1-Hit DMG|{param1:F1P} DEF",
+				"Skill 2-Hit DMG|{param2:F1P} DEF",
+				"CD|{param3:F1}s",
+				"Energy Cost|{param4:I}"
+			]
+		}
+	},
+	"passive1": {
+		"name": "The Selenic Adeptus Descends",
+		"descriptionRaw": "When casting the Elemental Skill <color=#FFD780FF>{LINK#S11262}Heaven and Earth Made Manifest{/LINK}</color>, or when nearby party members trigger Moondrift Harmony, Zibai gains the <color=#FFD780FF>Selenic Descent</color> effect for 4s: The DMG dealt by the 2nd hit of {LINK#N11260001}<color=#FFD780FF>Spirit Steed's Stride</color>{/LINK} is increased by 60% of Zibai's DEF.",
+		"description": "When casting the Elemental Skill **Heaven and Earth Made Manifest**, or when nearby party members trigger Moondrift Harmony, Zibai gains the Selenic Descent effect for 4s: The DMG dealt by the 2nd hit of **Spirit Steed's Stride** is increased by 60% of Zibai's DEF."
+	},
+	"passive2": {
+		"name": "Layered Peaks Pierce the Clouds",
+		"descriptionRaw": "Other <color=#FFE699FF>Geo</color> party members increase Zibai's DEF by 15% each. <color=#80C0FFFF>Hydro</color> party members increase her Elemental Mastery by 60 each.",
+		"description": "Other Geo party members increase Zibai's DEF by 15% each. Hydro party members increase her Elemental Mastery by 60 each."
+	},
+	"passive3": {
+		"name": "Moonsign Benediction: The Coursing Sun and Moon",
+		"descriptionRaw": "When a party member triggers a Hydro Crystallize reaction, it will be converted into the Lunar-Crystallize reaction, with every 100 DEF that Zibai has increasing Lunar-Crystallize's Base DMG by 0.7%, up to a maximum of 14%.\n\nAdditionally, when Zibai is in the party, the party's <color=#FFD780FF>Moonsign</color> will increase by 1 level.",
+		"description": "When a party member triggers a Hydro Crystallize reaction, it will be converted into the Lunar-Crystallize reaction, with every 100 DEF that Zibai has increasing Lunar-Crystallize's Base DMG by 0.7%, up to a maximum of 14%.\n\nAdditionally, when Zibai is in the party, the party's Moonsign will increase by 1 level."
+	},
+	"passive4": {
+		"name": "Moonlit Flower Forest",
+		"descriptionRaw": "At night (18:00 – 06:00), when not in combat, restore 1 Elemental Energy to Zibai every 2 seconds.\nThis effect does not work in Domains, Trounce Domains, or the Spiral Abyss.",
+		"description": "At night (18:00 – 06:00), when not in combat, restore 1 Elemental Energy to Zibai every 2 seconds.\nThis effect does not work in Domains, Trounce Domains, or the Spiral Abyss."
+	},
+	"costs": {
+		"lvl2": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 12500
+			},
+			{
+				"id": 104316,
+				"name": "Teachings of Gold",
+				"count": 3
+			},
+			{
+				"id": 112125,
+				"name": "Tattered Warrant",
+				"count": 6
+			}
+		],
+		"lvl3": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 17500
+			},
+			{
+				"id": 104317,
+				"name": "Guide to Gold",
+				"count": 2
+			},
+			{
+				"id": 112126,
+				"name": "Immaculate Warrant",
+				"count": 3
+			}
+		],
+		"lvl4": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 25000
+			},
+			{
+				"id": 104317,
+				"name": "Guide to Gold",
+				"count": 4
+			},
+			{
+				"id": 112126,
+				"name": "Immaculate Warrant",
+				"count": 4
+			}
+		],
+		"lvl5": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 30000
+			},
+			{
+				"id": 104317,
+				"name": "Guide to Gold",
+				"count": 6
+			},
+			{
+				"id": 112126,
+				"name": "Immaculate Warrant",
+				"count": 6
+			}
+		],
+		"lvl6": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 37500
+			},
+			{
+				"id": 104317,
+				"name": "Guide to Gold",
+				"count": 9
+			},
+			{
+				"id": 112126,
+				"name": "Immaculate Warrant",
+				"count": 9
+			}
+		],
+		"lvl7": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 120000
+			},
+			{
+				"id": 104318,
+				"name": "Philosophies of Gold",
+				"count": 4
+			},
+			{
+				"id": 112127,
+				"name": "Frost-Etched Warrant",
+				"count": 4
+			},
+			{
+				"id": 113075,
+				"name": "Ascended Sample: Queen",
+				"count": 1
+			}
+		],
+		"lvl8": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 260000
+			},
+			{
+				"id": 104318,
+				"name": "Philosophies of Gold",
+				"count": 6
+			},
+			{
+				"id": 112127,
+				"name": "Frost-Etched Warrant",
+				"count": 6
+			},
+			{
+				"id": 113075,
+				"name": "Ascended Sample: Queen",
+				"count": 1
+			}
+		],
+		"lvl9": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 450000
+			},
+			{
+				"id": 104318,
+				"name": "Philosophies of Gold",
+				"count": 12
+			},
+			{
+				"id": 112127,
+				"name": "Frost-Etched Warrant",
+				"count": 9
+			},
+			{
+				"id": 113075,
+				"name": "Ascended Sample: Queen",
+				"count": 2
+			}
+		],
+		"lvl10": [
+			{
+				"id": 202,
+				"name": "Mora",
+				"count": 700000
+			},
+			{
+				"id": 104318,
+				"name": "Philosophies of Gold",
+				"count": 16
+			},
+			{
+				"id": 112127,
+				"name": "Frost-Etched Warrant",
+				"count": 12
+			},
+			{
+				"id": 113075,
+				"name": "Ascended Sample: Queen",
+				"count": 2
+			},
+			{
+				"id": 104319,
+				"name": "Crown of Insight",
+				"count": 1
+			}
+		]
+	}
+}

@@ -32,8 +32,8 @@ function context(reactionId, elementalMastery = 0) {
 
 test("STEP35 resolves every reaction bonus target", () => {
     const audit = buildAudit();
-    assert.equal(audit.summary.reactionBonus, 115);
-    assert.equal(audit.summary.reactionCritBonus, 3);
+    assert.equal(audit.summary.reactionBonus, 114);
+    assert.equal(audit.summary.reactionCritBonus, 4);
     assert.equal(audit.summary.unresolved, 0);
 });
 

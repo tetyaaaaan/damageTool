@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionTransitionLocalizedIdentityBridgeCaptureCheckpoint",
+  "generatedAt": "2026-08-26T00:00:00.000Z",
+  "transitionId": "genshin:6.7->7.0",
+  "entityId": "10000124",
+  "localNameJa": "ヤフォダ",
+  "provider": "genshin-db",
+  "sourceNamespace": "genshin-db-localized-identity-bridge-10000124",
+  "status": "complete",
+  "revisions": {
+    "before": {
+      "gameVersion": "6.7",
+      "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+      "status": "complete",
+      "completedRecordKinds": [
+        "talents",
+        "constellations"
+      ]
+    },
+    "after": {
+      "gameVersion": "7.0",
+      "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+      "status": "complete",
+      "completedRecordKinds": [
+        "talents",
+        "constellations"
+      ]
+    }
+  },
+  "materializedArtifact": {
+    "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/identity-bridge-10000124-snapshot.json",
+    "fieldDigest": "aadf43b16dd0756935d3dce286e1d8877e745248807595ba75bf234f4ae7ce95",
+    "status": "identityBridgeProven"
+  },
+  "nextTask": "Integrate this identity bridge into candidate×claim reconciliation; keep provider independence, semantic, certificate, and canonical gates fail closed.",
+  "gateEligibility": {
+    "sourceFamilyCount": 1,
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false
+  },
+  "claim": {
+    "transitionId": "genshin:6.7->7.0",
+    "entityId": "10000124",
+    "localNameJa": "ヤフォダ",
+    "provider": "genshin-db",
+    "sourceFamily": "GenshinData-derived",
+    "sourceNamespace": "genshin-db-localized-identity-bridge-10000124",
+    "revisions": {
+      "6.7": {
+        "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+        "status": "complete",
+        "localizedRecordCount": 2,
+        "expectedLocalizedRecordCount": 2
+      },
+      "7.0": {
+        "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+        "status": "complete",
+        "localizedRecordCount": 2,
+        "expectedLocalizedRecordCount": 2
+      }
+    },
+    "materializedArtifact": {
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/identity-bridge-10000124-snapshot.json",
+      "fieldDigest": "aadf43b16dd0756935d3dce286e1d8877e745248807595ba75bf234f4ae7ce95",
+      "status": "identityBridgeProven"
+    },
+    "identityBridgeStatus": "explicitLocalizedNameBridge",
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false,
+    "blocker": null,
+    "nextTask": "Integrate this identity bridge into candidate×claim reconciliation; keep provider independence, semantic, certificate, and canonical gates fail closed."
+  },
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "4c579be054bbcf08afed808918af6119a8f9195ec24274a14d8eb025e9337a5c"
+}

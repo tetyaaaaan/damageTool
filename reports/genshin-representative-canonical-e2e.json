@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "audit": "genshin-representative-canonical-e2e",
+  "generatedAt": "2026-08-23T00:00:00.000Z",
+  "status": "passed",
+  "target": {
+    "kind": "weapon",
+    "id": "12516",
+    "candidateId": "w_12516_stat_1",
+    "modifierId": "genshin:v2:weapon:12516:w_12516_stat_1",
+    "gameVersion": "6.7"
+  },
+  "trace": {
+    "rawSource": [
+      {
+        "id": "hoyowiki:genshin:weapon:12516:stat-clause",
+        "provider": "HoYoverse HoYoWiki",
+        "independenceGroup": "official-hoyoverse",
+        "locator": {
+          "url": "https://wiki.hoyolab.com/pc/genshin/entry/10949",
+          "identifier": "entry/10949#passive-first-clause"
+        },
+        "text": "攻撃力+28/35/42/49/56%。",
+        "gameVersion": "6.7",
+        "strictGameVersionBinding": true
+      },
+      {
+        "id": "genshin-db:weapon:12516:1bab2cd",
+        "provider": "theBowja/genshin-db",
+        "independenceGroup": "GenshinData-derived",
+        "locator": {
+          "url": "https://github.com/theBowja/genshin-db/blob/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/ateaspoonoftranscendence.json",
+          "identifier": "git:1bab2cdba4d218fd5caa46b5f54e7884ee8359a2:English/weapons/ateaspoonoftranscendence.json"
+        },
+        "text": "ATK is increased by 28/35/42/49/56%.",
+        "gameVersion": "6.7",
+        "strictGameVersionBinding": true
+      }
+    ],
+    "structuredSpec": {
+      "status": "verified",
+      "reviewedBy": "user:workspace-owner",
+      "reviewedAt": "2026-08-23T00:00:00.000Z",
+      "canonicalEligibility": true,
+      "valueByRefinement": {
+        "1": 28,
+        "2": 35,
+        "3": 42,
+        "4": 49,
+        "5": 56
+      },
+      "stackAbsent": true
+    },
+    "canonicalRuntime": {
+      "present": true,
+      "availability": {
+        "status": "inactivePendingRevalidation",
+        "activeForProduction": false,
+        "gateScope": "versionBoundCanonicalOverlayOnly",
+        "verifiedGameVersion": "6.7",
+        "observedLiveVersion": "7.0",
+        "transitionStatus": "upstreamVersionAvailable",
+        "transitionId": "genshin:6.7->7.0",
+        "transitionReopenEligible": false,
+        "reason": "Canonical records remain verified for 6.7 but require 7.0 revalidation before production use.",
+        "reopenRequirements": [
+          "strict target-version dataset and entity diff",
+          "affected candidate×claim evidence revalidation",
+          "fresh eligibility certificates and canonical Runtime regeneration",
+          "consumer and regression verification"
+        ]
+      },
+      "productionLoader": {
+        "offered": 2,
+        "applied": 0,
+        "rejected": 2,
+        "superseded": 0,
+        "inactivePendingRevalidation": 2,
+        "versionAvailability": {
+          "active": false,
+          "reason": "Canonical records remain verified for 6.7 but require 7.0 revalidation before production use.",
+          "acceptedVersion": "6.7",
+          "observedLiveVersion": "7.0"
+        }
+      },
+      "historicalLoader": {
+        "offered": 2,
+        "applied": 2,
+        "rejected": 0,
+        "superseded": 1
+      },
+      "loader": {
+        "offered": 2,
+        "applied": 2,
+        "rejected": 0,
+        "superseded": 1
+      },
+      "legacyRetainedInProduction": true,
+      "legacySupersededInHistoricalFixture": true
+    },
+    "ui": {
+      "characterId": "10000016",
+      "weaponId": "12516",
+      "refinement": 5,
+      "conditionTogglePresent": false,
+      "inputStatus": "includedInInput"
+    },
+    "calculation": {
+      "results": 15,
+      "inputAtk": 2000,
+      "effectiveAtk": 2000,
+      "doubleApplied": false
+    }
+  },
+  "routeEstablished": true,
+  "errors": []
+}

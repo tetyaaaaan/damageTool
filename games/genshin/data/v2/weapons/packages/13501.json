@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "weapon",
+    "id": "13501"
+  },
+  "sourceRefs": [
+    "weapon:13501:catalog",
+    "weapon:13501:effect"
+  ],
+  "modifierIds": [
+    "w_13501_extraDamage_17c16bd9",
+    "w_13501_extraDamage_800a1eaf",
+    "w_13501_statBonus_bd150185",
+    "w_13501_stat_1",
+    "w_13501_v3_scalingBonus_2"
+  ],
+  "specIds": [
+    "w_13501_extraDamage_17c16bd9",
+    "w_13501_extraDamage_800a1eaf",
+    "w_13501_statBonus_bd150185",
+    "w_13501_stat_1",
+    "w_13501_v3_scalingBonus_2"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Weapon package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:weapon:13501:w_13501_extraDamage_17c16bd9",
+      "genshin:v2:weapon:13501:w_13501_extraDamage_800a1eaf",
+      "genshin:v2:weapon:13501:w_13501_statBonus_bd150185",
+      "genshin:v2:weapon:13501:w_13501_stat_1",
+      "genshin:v2:weapon:13501:w_13501_v3_scalingBonus_2"
+    ],
+    "generator": "genshinWeaponV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

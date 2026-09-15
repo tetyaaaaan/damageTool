@@ -153,9 +153,10 @@ test("自己攻撃力参照のadditiveBaseDamageを対象攻撃だけへ加算�
 test("明示されたcustom直接ステータス補正だけを計算へ適用する", async () => {
     const { sandbox, elements } = createCalcHarness();
     prepareInputs(elements, { characterId: "10000066", constellation: 2 });
+    setElement(elements, "genshinBaseHpInput", 10000);
     const payload = await sandbox.GenshinCalcEngine.runGenshinJsonCalc();
     const result = payload.results.find((item) => item.entry.attackType === "normalAttack");
-    assert.equal(result.breakdown.statBonus.hp, 10000);
+    assert.equal(result.breakdown.statBonus.hp, 5000);
     assert.equal(result.breakdown.appliedModifiers.some((item) => item.modifier.id === "c_10000066_2_1_resolved_2"), true);
 
     const unsafeHarness = createCalcHarness();
@@ -331,6 +332,7 @@ test("対象数・選択肢・チーム人数を補正キー単位の詳細条�
         talentModifiers: { "test-character": { passives: [{ sourceId: "combat1", modifiers: [targetModifier, optionModifier, partyModifier] }] } },
         weaponModifiers: {}, artifactSetModifiers: {}, constellationModifiers: {}, weapons: {}
     };
+    setElement(elements, "genshinBaseAtkInput", 1000);
     const key = sandbox.GenshinModifierAnalyzer.modifierStateKey(targetModifier, "talent:combat1");
     setConditionElement(elements, key, "targetCount", 2);
     const context = sandbox.GenshinCalcEngine.buildCharacterCalcContext();
@@ -344,19 +346,21 @@ test("対象数・選択肢・チーム人数を補正キー単位の詳細条�
 test("実データの対象数条件は未入力時に停止し、入力値に対応する補正を使う", async () => {
     let harness = createCalcHarness();
     prepareInputs(harness.elements, { characterId: "10000088", constellation: 2 });
+    setElement(harness.elements, "genshinBaseAtkInput", 1000);
     let payload = await harness.sandbox.GenshinCalcEngine.runGenshinJsonCalc();
     const missing = payload.candidateModifiers.find((item) => item.modifier.id === "c_10000088_2_1_resolved_1");
     assert.equal(missing.reason, "命中した敵数の入力がありません");
 
     harness = createCalcHarness();
     prepareInputs(harness.elements, { characterId: "10000088", constellation: 2 });
+    setElement(harness.elements, "genshinBaseAtkInput", 1000);
     const modifier = harness.calcData.constellationModifiers["10000088"].constellations["2"]
         .find((item) => item.id === "c_10000088_2_1_resolved_1");
     const key = harness.sandbox.GenshinModifierAnalyzer.modifierStateKey(modifier, "constellation:C2");
     setConditionElement(harness.elements, key, "targetCount", 3);
     payload = await harness.sandbox.GenshinCalcEngine.runGenshinJsonCalc();
     const normal = payload.results.find((result) => result.entry.attackType === "normalAttack");
-    assert.equal(normal.breakdown.statBonus.atk, 600);
+    assert.equal(normal.breakdown.statBonus.atk, 300);
 });
 
 test("STEP 21 builds repeated extra damage from an explicit reference attack type", async () => {

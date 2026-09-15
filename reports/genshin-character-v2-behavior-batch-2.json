@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 2,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 2,
+    "status": "passed",
+    "batch": 2,
+    "batchCharacters": 10,
+    "sourceRecords": 150,
+    "inventoryCandidates": 140,
+    "sourceInventoryCandidates": 91,
+    "explicitInventoryCandidates": 50,
+    "unknownInventoryCandidates": 41,
+    "specs": 140,
+    "modifiers": 0,
+    "canonical": 0,
+    "verificationByStatus": {
+      "needsReview": 140
+    },
+    "runtimeByStatus": {
+      "blocked": 140
+    },
+    "sourceKinds": {
+      "primaryDataset": 150
+    },
+    "contract": {
+      "malformedSources": 0,
+      "malformedInventory": 0,
+      "malformedSpecs": 0,
+      "malformedByCharacter": 0,
+      "missingSourceRefs": 0,
+      "missingInventoryRefs": 0,
+      "missingSignalRefs": 0,
+      "inputDigestMismatches": 0,
+      "unknownFieldViolations": 0,
+      "numericInferenceViolations": 0,
+      "candidateMappingViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [],
+  "malformedSources": [],
+  "malformedInventory": [],
+  "malformedSpecs": [],
+  "malformedByCharacter": [],
+  "missingSourceRefs": [],
+  "missingInventoryRefs": [],
+  "missingSignalRefs": [],
+  "inputDigestMismatches": [],
+  "unknownFieldViolations": [],
+  "numericInferenceViolations": [],
+  "candidateMappingViolations": [],
+  "characterCoverage": [
+    {
+      "characterId": "10000020",
+      "characterName": "レザー",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "inventorySignalCandidates": 15,
+      "unknownCandidates": 6,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000021",
+      "characterName": "アンバー",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "inventorySignalCandidates": 8,
+      "unknownCandidates": 5,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000022",
+      "characterName": "ウェンティ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "inventorySignalCandidates": 10,
+      "unknownCandidates": 4,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000023",
+      "characterName": "香菱",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "inventorySignalCandidates": 5,
+      "unknownCandidates": 0,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000024",
+      "characterName": "北斗",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "inventorySignalCandidates": 8,
+      "unknownCandidates": 3,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000025",
+      "characterName": "行秋",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "inventorySignalCandidates": 6,
+      "unknownCandidates": 2,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000027",
+      "characterName": "凝光",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "inventorySignalCandidates": 11,
+      "unknownCandidates": 4,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000029",
+      "characterName": "クレー",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "inventorySignalCandidates": 10,
+      "unknownCandidates": 4,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000030",
+      "characterName": "鍾離",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "inventorySignalCandidates": 7,
+      "unknownCandidates": 4,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000032",
+      "characterName": "ベネット",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "inventorySignalCandidates": 11,
+      "unknownCandidates": 9,
+      "specs": 14,
+      "modifiers": 0,
+      "canonical": 0
+    }
+  ],
+  "generatedFromDisk": true
+}

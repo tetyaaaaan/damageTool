@@ -1,0 +1,19 @@
+{
+  "kind": "genshinGoalStateBeforeRevision",
+  "capturedAt": "2026-08-28T00:42:35.701Z",
+  "tool": "get_goal",
+  "response": {
+    "goal": {
+      "threadId": "01a03256-cb5d-7fb0-a6f9-e268bcb222e6",
+      "objective": "Referenced pasted text files:\n- pasted text file: C:\\Users\\teti\\.codex\\attachments\\a5346667-269a-477c-9d92-7d1a3360e2e5\\pasted-text-1.txt. Read this file before continuing.",
+      "status": "blocked",
+      "tokensUsed": 161300,
+      "timeUsedSeconds": 715,
+      "createdAt": 1787584175,
+      "updatedAt": 1787584891
+    },
+    "remainingTokens": null,
+    "completionBudgetReport": null
+  },
+  "note": "App goal state is historical blocked; repository execution checkpoint is pausedByUser. This is the unmodified pre-revision tool response."
+}

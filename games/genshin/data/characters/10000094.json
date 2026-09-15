@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 2,
+  "characterId": "10000094",
+  "status": "pilot",
+  "layers": {
+    "raw": [
+      { "dataset": "characters", "pointer": "/10000094", "role": "identity" },
+      { "dataset": "characterTalents", "pointer": "/10000094", "role": "sourceText" },
+      { "dataset": "characterConstellations", "pointer": "/10000094", "role": "sourceText" }
+    ],
+    "spec": [
+      { "dataset": "talentScalings", "pointer": "/10000094", "role": "attacks" },
+      { "dataset": "behaviorPilot", "pointer": "/byCharacter/10000094", "role": "behaviorCandidates" },
+      { "dataset": "characterCoverage", "pointer": "/characters/10000094", "role": "coverageAudit" }
+    ],
+    "runtime": [
+      { "dataset": "talentModifiers", "pointer": "/10000094", "role": "modifiers" },
+      { "dataset": "constellationModifiers", "pointer": "/10000094", "role": "modifiers" }
+    ]
+  },
+  "capabilities": ["summon", "multiInstance", "coordinatedAttack", "dualStatScaling", "cooldownReduction"],
+  "verification": { "status": "needsReview", "notes": "Pilot reference package for placed entities, follow-up attacks and constellation timing changes." }
+}

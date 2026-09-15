@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 2,
+  "characterId": "10000026",
+  "status": "pilot",
+  "layers": {
+    "raw": [
+      { "dataset": "characters", "pointer": "/10000026", "role": "identity" },
+      { "dataset": "characterTalents", "pointer": "/10000026", "role": "sourceText" },
+      { "dataset": "characterConstellations", "pointer": "/10000026", "role": "sourceText" }
+    ],
+    "spec": [
+      { "dataset": "talentScalings", "pointer": "/10000026", "role": "attacks" },
+      { "dataset": "behaviorPilot", "pointer": "/byCharacter/10000026", "role": "behaviorCandidates" },
+      { "dataset": "characterCoverage", "pointer": "/characters/10000026", "role": "coverageAudit" }
+    ],
+    "runtime": [
+      { "dataset": "talentModifiers", "pointer": "/10000026", "role": "modifiers" },
+      { "dataset": "constellationModifiers", "pointer": "/10000026", "role": "modifiers" }
+    ]
+  },
+  "capabilities": ["plungingAttack", "continuousState", "specialAttackMode"],
+  "verification": { "status": "needsReview", "notes": "Pilot reference package; timing and state transitions are not yet canonical." }
+}

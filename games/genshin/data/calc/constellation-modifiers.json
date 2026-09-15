@@ -1307,6 +1307,76 @@
           "condition": "constellationUnlocked",
           "calculationSupport": "toggle",
           "uidHandling": "conditional"
+        },
+        {
+          "id": "c_10000024_6_lucid_cryo_res",
+          "effectLabel": "魔女の啓示：輝映・星電導中の氷元素耐性低下",
+          "category": "resistanceDebuff",
+          "applyTo": [
+            "cryoResistance"
+          ],
+          "valueByCondition": {
+            "locked": 0,
+            "unlocked": 0,
+            "active": -15
+          },
+          "unit": "percent",
+          "sourceText": "「魔女の啓示」を解放済みで輝映・星電導状態にある時、雷斫り継続中、近くの敵の氷元素耐性-15%。",
+          "condition": "active",
+          "conditionInput": {
+            "type": "option",
+            "label": "魔女の啓示／雷斫りの状態",
+            "help": "啓示の解放状態と、雷斫り継続中に輝映・星電導が有効かを選択します。",
+            "options": [
+              { "value": "locked", "label": "魔女の啓示：未解放" },
+              { "value": "unlocked", "label": "解放済み（条件未成立）" },
+              { "value": "active", "label": "解放済み＋雷斫り中＋輝映・星電導" }
+            ]
+          },
+          "conditionGroupId": "witch-revelation-beidou-c6",
+          "targetOwner": "enemy",
+          "calculationSupport": "simple",
+          "uidHandling": "conditional",
+          "verification": {
+            "status": "needsReview",
+            "sourceAgreement": "singleSource",
+            "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のBeidou C6 upgradedDescription・生成係数と照合。独立したversion-bound provider agreementは未成立。"
+          }
+        },
+        {
+          "id": "c_10000024_6_lucid_active_em",
+          "effectLabel": "魔女の啓示：輝映・星電導中の元素熟知アップ",
+          "category": "statBonus",
+          "applyTo": [
+            "elementalMastery"
+          ],
+          "valueByCondition": {
+            "locked": 0,
+            "unlocked": 0,
+            "active": 200
+          },
+          "unit": "flat",
+          "sourceText": "「魔女の啓示」を解放済みで輝映・星電導状態にある時、雷斫り継続中、現在のフィールド上キャラクターの元素熟知+200。",
+          "condition": "active",
+          "conditionInput": {
+            "type": "option",
+            "label": "魔女の啓示／雷斫りの状態",
+            "help": "啓示の解放状態と、雷斫り継続中に輝映・星電導が有効かを選択します。",
+            "options": [
+              { "value": "locked", "label": "魔女の啓示：未解放" },
+              { "value": "unlocked", "label": "解放済み（条件未成立）" },
+              { "value": "active", "label": "解放済み＋雷斫り中＋輝映・星電導" }
+            ]
+          },
+          "conditionGroupId": "witch-revelation-beidou-c6",
+          "targetOwner": "activeCharacter",
+          "calculationSupport": "simple",
+          "uidHandling": "conditional",
+          "verification": {
+            "status": "needsReview",
+            "sourceAgreement": "singleSource",
+            "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のBeidou C6 upgradedDescription・生成係数と照合。独立したversion-bound provider agreementは未成立。"
+          }
         }
       ]
     }
@@ -7090,8 +7160,9 @@
           "value": 9,
           "unit": "percent",
           "sourceText": "フレミネが敵に凍結、氷砕き、超電導、星電導反応を起こした後、攻撃力+9%、継続時間6秒、最大2重まで。この効果は0.3秒毎に1回のみ発動可能。",
-          "condition": "constellationUnlocked",
-          "calculationSupport": "toggle",
+          "condition": "afterReaction",
+          "duration": 6,
+          "calculationSupport": "stack",
           "uidHandling": "conditional",
           "stack": {
             "min": 0,
@@ -7115,7 +7186,8 @@
             "min": 0,
             "default": 0,
             "max": 2
-          }
+          },
+          "auditDisposition": "supersededByStructuredRecord"
         }
       ],
       "5": [
@@ -7143,8 +7215,9 @@
           "value": 12,
           "unit": "percent",
           "sourceText": "フレミネが敵に凍結、氷砕き、超電導、星電導反応を起こした後、会心ダメージ+12%、継続時間6秒、最大3重まで。この効果は0.3秒毎に1回のみ発動可能。",
-          "condition": "constellationUnlocked",
-          "calculationSupport": "toggle",
+          "condition": "afterReaction",
+          "duration": 6,
+          "calculationSupport": "stack",
           "uidHandling": "conditional",
           "stack": {
             "min": 0,
@@ -7168,7 +7241,8 @@
             "min": 0,
             "default": 0,
             "max": 3
-          }
+          },
+          "auditDisposition": "supersededByStructuredRecord"
         }
       ]
     }
@@ -10238,7 +10312,7 @@
           ],
           "value": 0,
           "unit": "percent",
-          "sourceText": "夢見月瑞希が夢浮かみ状態にある時、3.5秒毎に近くの敵に3秒継続する「二十三夜待ち」効果を与える。二十三夜待ち効果の影響を受けている敵が風元素ダメージを受け、拡散反応を起こした時、該当効果は解除され、その拡散反応によるダメージを夢見月瑞希の元素熟知の1100%分アップする。",
+          "sourceText": "夢見月瑞希が夢浮かみ状態にある時、3.5秒毎に近くの敵に3秒継続する「二十三夜待ち」効果を与える。二十三夜待ち効果の影響を受けている敵が風元素ダメージによって拡散反応または星拡散反応を起こした時、該当効果は解除され、その敵に対する今回の拡散反応または星拡散反応のダメージを、それぞれ夢見月瑞希の元素熟知の1100%分または550%分アップする。",
           "condition": "constellationUnlocked",
           "calculationSupport": "toggle",
           "uidHandling": "conditional"
@@ -10311,7 +10385,7 @@
           "condition": "stateActive",
           "calculationSupport": "custom",
           "uidHandling": "conditional",
-          "sourceText": "夢見月瑞希が夢浮かみ状態にある時、付近にいるチーム内キャラクターの与える拡散反応ダメージに会心が発生する。なお会心率は30%、会心ダメージは100%に固定される。",
+          "sourceText": "夢見月瑞希が夢浮かみ状態にある時、付近にいるチーム内キャラクターの与える拡散反応ダメージに会心が発生する。なお会心率は30%、会心ダメージは100%に固定される。また、これらのキャラクターが与える星拡散反応ダメージの会心率+10%、会心ダメージ+20%。",
           "critRate": 30.0,
           "critDamage": 100.0,
           "id": "c_10000109_6_1_resolved_1",
@@ -13857,10 +13931,12 @@
           ],
           "value": 30,
           "unit": "percent",
-          "sourceText": "**演算**モード中、ファジオの**演算負荷**の上昇速度が50%低下し、チーム内の全キャラクターの与える星電導反応のダメージ+30%。",
+          "sourceText": "**演算**モード中、ファジオの**演算負荷**の上昇速度が50%低下し、チーム内の全キャラクターの与える星輝反応ダメージ+30%。",
           "condition": "constellationUnlocked",
-          "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "calculationSupport": "displayOnly",
+          "uidHandling": "conditional",
+          "auditDisposition": "dedicatedFormulaDeferred",
+          "deferredReason": "星輝反応の対象範囲を通常ダメージへ漏らさず、反応別targetの現行仕様が確定するまで計算へ適用しません。"
         }
       ],
       "2": [
@@ -13974,16 +14050,18 @@
       "6": [
         {
           "id": "c_10000133_6_1",
-          "category": "damageBonus",
+          "category": "reactionBonus",
           "applyTo": [
-            "allDamageBonus"
+            "stellarConductDamageBonus"
           ],
           "value": 20,
           "unit": "percent",
-          "sourceText": "**演算**モード中、ファジオが3回目の冷却ビームを発射する際、より威力の強い集束型冷却ビームを発射し続けるようになり、本来後に発射される冷却ビームを基準として、サンドローネの攻撃力100%分の氷元素範囲ダメージを最大4段追加で与える。\n輝映・星電導：集束型冷却ビームがサンドローネの攻撃力80%分の氷元素範囲ダメージを最大4段追加で与えるようになる。このダメージは星電導反応によるダメージとみなされる。\nまた、サンドローネが与えるすべての星電導反応ダメージが20%**向上**する。",
+          "sourceText": "**演算**モード中、ファジオが3回目の冷却ビームを発射する際、より威力の強い集束型冷却ビームを発射し続けるようになり、本来後に発射される冷却ビームを基準として、サンドローネの攻撃力100%分の氷元素範囲ダメージを最大4段追加で与える。\n輝映・星輝：集束型冷却ビームが氷元素範囲ダメージを4段追加で与える。この攻撃によるダメージは対応する星輝反応ダメージとみなされ、その値は次の通り。\n輝映・星電導：サンドローネの攻撃力80%。\n輝映・星拡散：サンドローネの攻撃力120%。\nまた、サンドローネが与えるすべての星輝反応ダメージが20%**向上**する。",
           "condition": "constellationUnlocked",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "auditDisposition": "partialConsumerSupport",
+          "deferredReason": "星拡散の専用式が未確定のため、現行consumerで安全に対象化できる星電導分だけを適用します。"
         },
         {
           "id": "c_10000133_6_2",
@@ -13994,7 +14072,7 @@
           "condition": "conditional",
           "calculationSupport": "custom",
           "uidHandling": "conditional",
-          "sourceText": "**演算**モード中、ファジオが3回目の冷却ビームを発射する際、より威力の強い集束型冷却ビームを発射し続けるようになり、本来後に発射される冷却ビームを基準として、サンドローネの攻撃力100%分の氷元素範囲ダメージを最大4段追加で与える。\n輝映・星電導：集束型冷却ビームがサンドローネの攻撃力80%分の氷元素範囲ダメージを最大4段追加で与えるようになる。このダメージは星電導反応によるダメージとみなされる。\nまた、サンドローネが与えるすべての星電導反応ダメージが20%**向上**する。",
+          "sourceText": "**演算**モード中、ファジオが3回目の冷却ビームを発射する際、より威力の強い集束型冷却ビームを発射し続けるようになり、本来後に発射される冷却ビームを基準として、サンドローネの攻撃力100%分の氷元素範囲ダメージを最大4段追加で与える。\n輝映・星輝：集束型冷却ビームが氷元素範囲ダメージを4段追加で与える。この攻撃によるダメージは対応する星輝反応ダメージとみなされ、その値は次の通り。\n輝映・星電導：サンドローネの攻撃力80%。\n輝映・星拡散：サンドローネの攻撃力120%。\nまた、サンドローネが与えるすべての星輝反応ダメージが20%**向上**する。",
           "scalings": [
             {
               "stat": "atk",

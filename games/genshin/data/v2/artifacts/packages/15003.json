@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "artifactSet",
+    "id": "15003"
+  },
+  "sourceRefs": [
+    "artifact:15003:catalog",
+    "artifact:15003:effects"
+  ],
+  "pieceSlots": {
+    "onePiece": {
+      "pieceCount": 1,
+      "sourceRefs": [
+        "artifact:15003:effect:onePiece"
+      ],
+      "modifierIds": [],
+      "specIds": []
+    },
+    "twoPiece": {
+      "pieceCount": 2,
+      "sourceRefs": [
+        "artifact:15003:effect:twoPiece"
+      ],
+      "modifierIds": [
+        "artifact:15003:twoPiece:2pc_elemental_mastery"
+      ],
+      "specIds": [
+        "artifact:15003:twoPiece:2pc_elemental_mastery"
+      ]
+    },
+    "fourPiece": {
+      "pieceCount": 4,
+      "sourceRefs": [
+        "artifact:15003:effect:fourPiece"
+      ],
+      "modifierIds": [
+        "artifact:15003:fourPiece:4pc_charged_damage_bonus_catalyst_bow"
+      ],
+      "specIds": [
+        "artifact:15003:fourPiece:4pc_charged_damage_bonus_catalyst_bow"
+      ]
+    }
+  },
+  "modifierIds": [
+    "artifact:15003:twoPiece:2pc_elemental_mastery",
+    "artifact:15003:fourPiece:4pc_charged_damage_bonus_catalyst_bow"
+  ],
+  "specIds": [
+    "artifact:15003:twoPiece:2pc_elemental_mastery",
+    "artifact:15003:fourPiece:4pc_charged_damage_bonus_catalyst_bow"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Artifact package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "gapReview": null,
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:artifactSet:15003:twoPiece:2pc_elemental_mastery",
+      "genshin:v2:artifactSet:15003:fourPiece:4pc_charged_damage_bonus_catalyst_bow"
+    ],
+    "generator": "genshinArtifactV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

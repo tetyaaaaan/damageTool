@@ -1,0 +1,41 @@
+{
+  "kind": "genshinAuthoringStandardDocumentationIntegration",
+  "date": "2026-09-10",
+  "goalRevisionId": "genshin-goal-2026-08-28-r2",
+  "goalComplete": false,
+  "productionResumed": false,
+  "historicalRevisionManifestPreserved": true,
+  "beforeSha256": {
+    "revised-goal.before.md": "1bc4327886c141b4f69721ce018faf9bcc66c2cd5a16f51be36a346a992d8a37",
+    "execution-addendum.before.md": "a797d1693809f7e3103c51e7cb8ea5528861b91edc6eb0cf004ac86685b1f62a",
+    "goal-entrypoint.before.md": "de683805ba2ac54ac56241975533ef7443cfc5f181e8b5b8842dfaa7086f7174",
+    "proposed-standard.original.txt": "dab97bc9bc2b6d9862f4ac9eb8abeabce39af09ae8d731708de7351efde91e67"
+  },
+  "currentSha256": {
+    "docs/genshin-goals/2026-08-28-realignment/revised-goal.md": "54570bf9bfa6af46d854372f6675c91605037fdd2c45d9d59f5d364c5a33a089",
+    "docs/genshin-goals/2026-08-28-realignment/execution-addendum-2026-09-06.md": "2d537a5b4d3695a669551c16c7e89d43fbdf5371ec80314d28b1bc9c4b25f8e6",
+    "docs/GENSHIN_V2_DATA_AUTHORING_STANDARD.md": "82b3252694b67773cafff16dc9e00ca21059264d208e6cc78b6b8cb16862aaf1"
+  },
+  "executionUpdate20260911": {
+    "reviewFollowup": "Clarified heavy queue-test scope, existing checkpoint restart details, and focused calculation boundary coverage; no production or infrastructure changes.",
+    "beforeReviewFollowupAddendumSha256": "4443ab6d9c294e0ec4f6463c6a17c3a6200a3cbb59bbfe3e0e96e3b2da24263d",
+    "reason": "User-approved grouped synchronization, dependency-aware failure resume, and calculation fixtures; documentation-only operational update.",
+    "previousSha256": {
+      "docs/genshin-goals/2026-08-28-realignment/execution-addendum-2026-09-06.md": "09028a30133f52350281aa7603a939e77742641c240ca7288320803929427440",
+      "docs/GENSHIN_V2_DATA_AUTHORING_STANDARD.md": "a0fd7df67ecd030b507b7077a55a77bdf37f51c1f536e92b81169f0a0d7212e6"
+    },
+    "goalBodyUnchanged": true,
+    "productionResumed": false
+  },
+  "executionUpdate20260912": {
+    "reason": "User-approved first-pass priority, bounded investigation depth, shared evidence review, and reduced unchanged-production testing; internal work remains pending under G06/G13.",
+    "previousSha256": {
+      "docs/genshin-goals/2026-08-28-realignment/execution-addendum-2026-09-06.md": "8475636c7b7063bb03018cb8304020625e3a1a2fd11de01d604e25ac927e768c",
+      "docs/GENSHIN_V2_DATA_AUTHORING_STANDARD.md": "e042611109e14efccb46c26e6c1a80687028a08462a627e8c4c9ab03c2bb801d"
+    },
+    "goalBodyUnchanged": true,
+    "productionResumed": false
+  },
+  "unchangedGoalSections": ["G01", "G04", "G06", "G13"],
+  "entrypoint": "C:/Users/teti/.codex/attachments/a5346667-269a-477c-9d92-7d1a3360e2e5/pasted-text-1.txt"
+}

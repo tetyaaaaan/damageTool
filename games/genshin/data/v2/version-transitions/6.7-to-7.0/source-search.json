@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionTransitionSourceSearch",
+  "transitionId": "genshin:6.7->7.0",
+  "searchScope": "High-leverage immutable 7.0 dataset, entity-diff, field-evidence, version-manifest, and lineage artifacts for Genshin v2 population.",
+  "lastSearchedAt": "2026-08-25T18:30:00+09:00",
+  "strictTargetDatasetFound": false,
+  "searchExhausted": false,
+  "scopedFrontiers": [
+    {
+      "id": "genshin-7.0-known-impact-55-independent-field-frontier",
+      "status": "searchExhausted",
+      "appliesTo": {
+        "transitionId": "genshin:6.7->7.0",
+        "candidateCount": 55,
+        "partialDiscoveryFieldDigest": "1e768be65111e07fc598fd538d484391bce48da98db8a8ce4c8d4b38e04fe898"
+      },
+      "searchScope": "Independent, immutable, exact-7.0 field or mechanic evidence for the 55 candidates mapped from the official Venti, Diona, Yae Miko, Cyno, and Stellar Swirl changes.",
+      "lastSearchedAt": "2026-08-26T00:00:00+09:00",
+      "providersExamined": [
+        "HoYoLAB / Genshin Impact Official",
+        "HoYoWiki",
+        "theBowja/genshin-db",
+        "Gachabase",
+        "KQM / GINews",
+        "genshinsim/gcsim",
+        "BTMuli/TeyvatGuide",
+        "Yatta API",
+        "Genshin Optimizer"
+      ],
+      "negativeResult": "genshin-db 7.0 strictly binds the target version but is one correlated Fandom/GenshinData family; its four affected character display records are unchanged across 6.7/7.0 and do not prove runtime mechanic fixes. Official notices identify changes but do not supply complete replacement fields. No second independent family currently provides immutable exact-7.0 mechanic fields for the four characters or the complete 12516 claim set.",
+      "reopenTrigger": "A provider-owned immutable artifact that binds exact 7.0 revision/raw/field digests and independent lineage to the affected mechanic fields, or a new official field table/erratum with complete candidate claim coverage."
+    }
+  ],
+  "providersExamined": [
+    {
+      "provider": "HoYoLAB / Genshin Impact Official",
+      "sourceFamily": "official-hoyoverse",
+      "artifact": "https://www.hoyolab.com/article/46233468",
+      "result": "Official 7.0 live-version head is strict for version discovery, but is not a complete field dataset.",
+      "evidenceRef": "games/genshin/data/v2/upstream-version-head.json"
+    },
+    {
+      "provider": "theBowja/genshin-db",
+      "sourceFamily": "GenshinData-derived",
+      "artifact": "https://github.com/theBowja/genshin-db/commit/8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+      "result": "Exact revision package.json explicitly binds Genshin Impact v7.0 and discloses Fandom/GenshinData roots. The locally materialized 12516 record proves the two-reaction target scope and R1-R5 values, but repository candidate coverage remains partial and the lineage is correlated.",
+      "evidenceRef": "games/genshin/data/v2/version-transitions/6.7-to-7.0/target-dataset-evidence.json"
+    },
+    {
+      "provider": "DimbreathBot/AnimeGameData",
+      "sourceFamily": "GenshinData-derived",
+      "artifact": "https://github.com/DimbreathBot/AnimeGameData",
+      "result": "No independently usable 7.0 provider lineage was established; this remains correlated with the existing datamine root.",
+      "evidenceRef": "games/genshin/data/v2/provider-independence-policy.json"
+    },
+    {
+      "provider": "genshinsim/gcsim",
+      "sourceFamily": "gcsim-implementation",
+      "artifact": "https://github.com/genshinsim/gcsim/releases",
+      "result": "Repository revisions and implementation fields exist, but no release artifact explicitly binds an exact revision and field bundle to Genshin 7.0.",
+      "evidenceRef": "games/genshin/data/v2/weapons/external-evidence.json"
+    },
+    {
+      "provider": "Gachabase",
+      "sourceFamily": "Gachabase",
+      "artifact": "https://gi.gachabase.net/diff/weapons/12516/a-teaspoon-of-transcendence?branch=release&cur=release_7.0.0_47194594&lang=en&prev=release_6.7.0_46509556",
+      "result": "The immutable-looking release diff proves the 12516 scope transition, but undisclosed extraction dependencies prevent source-family reuse or full-dataset certification.",
+      "evidenceRef": "games/genshin/data/v2/review-pilots/weapon-12516-reaction.json"
+    },
+    {
+      "provider": "KQM",
+      "sourceFamily": "KQM-human-research",
+      "artifact": "https://library.keqingmains.com/",
+      "result": "Independent human research remains potentially useful, but no complete immutable 7.0 field manifest was established.",
+      "evidenceRef": "games/genshin/data/v2/external/kqm-artifact-field-evidence.json"
+    },
+    {
+      "provider": "BTMuli/TeyvatGuide",
+      "sourceFamily": "Snap.Metadata/TGAssistant/Yatta-derived",
+      "artifact": "https://github.com/BTMuli/TeyvatGuide/releases/tag/v0.11.4",
+      "result": "Exact release/commit contains dense 7.0-era weapon and artifact records, including 12516, but the provider documents Snap.Metadata and TGAssistant/Yatta inputs. No provider-owned explicit Genshin 7.0 binding or independent root lineage was established.",
+      "evidenceRef": "externalSearch:teyvatguide:v0.11.4:477fbd0de12d11f57cdb2cf7cafb239955441258"
+    },
+    {
+      "provider": "Yatta API",
+      "sourceFamily": "Yatta-derived",
+      "artifact": "https://gi.yatta.moe/api/v2/CHS/weapon/11520?vh=70F0",
+      "result": "Field records are retrievable under version hash 70F0, but no provider-owned game-version mapping or immutable release manifest binds that hash to Genshin 7.0.",
+      "evidenceRef": "externalSearch:yatta:vh-70F0"
+    },
+    {
+      "provider": "Genshin Optimizer",
+      "sourceFamily": "GenshinData-derived",
+      "artifact": "https://github.com/frzyc/genshin-optimizer/releases/tag/10.38.0",
+      "result": "7.0 reaction and equipment content is present, but repository policy records the provider as correlated with the GenshinData/datamine root and forbids counting it independently from genshin-db.",
+      "evidenceRef": "games/genshin/data/v2/provider-independence-policy.json"
+    }
+  ],
+  "negativeEvidence": [
+    "At the original search timestamp only one genshin-db candidate record was materialized. Later bulk and localized captures are tracked by the authoritative queue and capture snapshots; this historical search observation is not a current materialization count. The disclosed Fandom/GenshinData roots remain correlated.",
+    "No inspected provider supplied complete repository-candidate coverage with exact revision, raw digest, entity diff, explicit game-version binding, and independently disclosed lineage.",
+    "Official release notes establish the live version but cannot substitute for candidate field evidence.",
+    "Correlated datamine projections cannot be counted as a second independent source family."
+  ],
+  "reopenTriggers": [
+    "complete materialization and digest validation of the genshin-db 7.0 revision or another immutable 7.0 dataset",
+    "a complete official 7.0 field artifact or entity-diff source",
+    "a gcsim release manifest binding Genshin 7.0 to an exact revision and field digest",
+    "a provider-owned lineage disclosure establishing independent extraction",
+    "new candidate-scoped 7.0 field evidence"
+  ]
+}

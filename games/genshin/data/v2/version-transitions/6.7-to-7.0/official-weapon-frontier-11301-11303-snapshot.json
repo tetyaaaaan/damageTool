@@ -1,0 +1,2388 @@
+{
+  "claim": {
+    "candidateClaims": [
+      {
+        "candidateId": "w_11301_damage_1",
+        "claimId": "weapon:w_11301_damage_1:activation",
+        "disposition": {
+          "blockers": [
+            "officialEndpointMutableNoImmutableRevision",
+            "strictGameVersionBindingMissing",
+            "candidateClaimSemanticFieldMappingNotMaterialized",
+            "singleOfficialSourceFamily"
+          ],
+          "canIssueEligibilityCertificate": false,
+          "canPromoteCanonical": false,
+          "status": "blocked"
+        },
+        "entityId": "11301",
+        "field": "activation",
+        "fieldCoverage": {
+          "conditionScope": "notMaterialized",
+          "exactFieldIdentity": "passiveTextField",
+          "noNumericInference": true,
+          "noTranslationInference": true,
+          "rawTextAvailable": true,
+          "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+          "semanticComparison": "notPerformed",
+          "structuredClaimValue": "notMaterialized",
+          "targetScope": "notMaterialized"
+        },
+        "localCandidateEvidence": {
+          "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+          "source": "authoritative queue + local v2 verification",
+          "status": "legacyCandidateNeedsIndependentReview",
+          "verificationCandidateDigest": "8a21c1f81b6381e06197f36a2b260850ff1ffaba67a699a9c34268e66c72d4ce"
+        },
+        "providerField": {
+          "key": "Bane of Water and Ice",
+          "providerEntryId": "baseInfo13575",
+          "rawLocator": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "rawArtifactBytes": 13290,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+            "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+          },
+          "rawValue": [
+            "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+          ],
+          "status": "rawFieldPresent",
+          "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+        },
+        "strictGameVersionBinding": {
+          "captureTimestampIsNotVersionEvidence": true,
+          "providerReleaseField": "1.0",
+          "status": "missing",
+          "targetGameVersion": "7.0"
+        }
+      },
+      {
+        "candidateId": "w_11301_damage_1",
+        "claimId": "weapon:w_11301_damage_1:refinement",
+        "disposition": {
+          "blockers": [
+            "officialEndpointMutableNoImmutableRevision",
+            "strictGameVersionBindingMissing",
+            "candidateClaimSemanticFieldMappingNotMaterialized",
+            "singleOfficialSourceFamily"
+          ],
+          "canIssueEligibilityCertificate": false,
+          "canPromoteCanonical": false,
+          "status": "blocked"
+        },
+        "entityId": "11301",
+        "field": "refinement",
+        "fieldCoverage": {
+          "conditionScope": "notMaterialized",
+          "exactFieldIdentity": "passiveTextField",
+          "noNumericInference": true,
+          "noTranslationInference": true,
+          "rawTextAvailable": true,
+          "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+          "semanticComparison": "notPerformed",
+          "structuredClaimValue": "notMaterialized",
+          "targetScope": "notMaterialized"
+        },
+        "localCandidateEvidence": {
+          "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+          "source": "authoritative queue + local v2 verification",
+          "status": "legacyCandidateNeedsIndependentReview",
+          "verificationCandidateDigest": "8a21c1f81b6381e06197f36a2b260850ff1ffaba67a699a9c34268e66c72d4ce"
+        },
+        "providerField": {
+          "key": "Bane of Water and Ice",
+          "providerEntryId": "baseInfo13575",
+          "rawLocator": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "rawArtifactBytes": 13290,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+            "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+          },
+          "rawValue": [
+            "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+          ],
+          "status": "rawFieldPresent",
+          "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+        },
+        "strictGameVersionBinding": {
+          "captureTimestampIsNotVersionEvidence": true,
+          "providerReleaseField": "1.0",
+          "status": "missing",
+          "targetGameVersion": "7.0"
+        }
+      },
+      {
+        "candidateId": "w_11301_damage_1",
+        "claimId": "weapon:w_11301_damage_1:targets",
+        "disposition": {
+          "blockers": [
+            "officialEndpointMutableNoImmutableRevision",
+            "strictGameVersionBindingMissing",
+            "candidateClaimSemanticFieldMappingNotMaterialized",
+            "singleOfficialSourceFamily"
+          ],
+          "canIssueEligibilityCertificate": false,
+          "canPromoteCanonical": false,
+          "status": "blocked"
+        },
+        "entityId": "11301",
+        "field": "targets",
+        "fieldCoverage": {
+          "conditionScope": "notMaterialized",
+          "exactFieldIdentity": "passiveTextField",
+          "noNumericInference": true,
+          "noTranslationInference": true,
+          "rawTextAvailable": true,
+          "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+          "semanticComparison": "notPerformed",
+          "structuredClaimValue": "notMaterialized",
+          "targetScope": "notMaterialized"
+        },
+        "localCandidateEvidence": {
+          "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+          "source": "authoritative queue + local v2 verification",
+          "status": "legacyCandidateNeedsIndependentReview",
+          "verificationCandidateDigest": "8a21c1f81b6381e06197f36a2b260850ff1ffaba67a699a9c34268e66c72d4ce"
+        },
+        "providerField": {
+          "key": "Bane of Water and Ice",
+          "providerEntryId": "baseInfo13575",
+          "rawLocator": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "rawArtifactBytes": 13290,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+            "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+          },
+          "rawValue": [
+            "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+          ],
+          "status": "rawFieldPresent",
+          "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+        },
+        "strictGameVersionBinding": {
+          "captureTimestampIsNotVersionEvidence": true,
+          "providerReleaseField": "1.0",
+          "status": "missing",
+          "targetGameVersion": "7.0"
+        }
+      },
+      {
+        "candidateId": "w_11301_damage_1",
+        "claimId": "weapon:w_11301_damage_1:value",
+        "disposition": {
+          "blockers": [
+            "officialEndpointMutableNoImmutableRevision",
+            "strictGameVersionBindingMissing",
+            "candidateClaimSemanticFieldMappingNotMaterialized",
+            "singleOfficialSourceFamily"
+          ],
+          "canIssueEligibilityCertificate": false,
+          "canPromoteCanonical": false,
+          "status": "blocked"
+        },
+        "entityId": "11301",
+        "field": "value",
+        "fieldCoverage": {
+          "conditionScope": "notMaterialized",
+          "exactFieldIdentity": "passiveTextField",
+          "noNumericInference": true,
+          "noTranslationInference": true,
+          "rawTextAvailable": true,
+          "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+          "semanticComparison": "notPerformed",
+          "structuredClaimValue": "notMaterialized",
+          "targetScope": "notMaterialized"
+        },
+        "localCandidateEvidence": {
+          "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+          "source": "authoritative queue + local v2 verification",
+          "status": "legacyCandidateNeedsIndependentReview",
+          "verificationCandidateDigest": "8a21c1f81b6381e06197f36a2b260850ff1ffaba67a699a9c34268e66c72d4ce"
+        },
+        "providerField": {
+          "key": "Bane of Water and Ice",
+          "providerEntryId": "baseInfo13575",
+          "rawLocator": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "rawArtifactBytes": 13290,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+            "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+          },
+          "rawValue": [
+            "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+          ],
+          "status": "rawFieldPresent",
+          "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+        },
+        "strictGameVersionBinding": {
+          "captureTimestampIsNotVersionEvidence": true,
+          "providerReleaseField": "1.0",
+          "status": "missing",
+          "targetGameVersion": "7.0"
+        }
+      },
+      {
+        "candidateId": "w_11301_damageBonus_91cc873a",
+        "claimId": "weapon:w_11301_damageBonus_91cc873a:activation",
+        "disposition": {
+          "blockers": [
+            "officialEndpointMutableNoImmutableRevision",
+            "strictGameVersionBindingMissing",
+            "candidateClaimSemanticFieldMappingNotMaterialized",
+            "singleOfficialSourceFamily"
+          ],
+          "canIssueEligibilityCertificate": false,
+          "canPromoteCanonical": false,
+          "status": "blocked"
+        },
+        "entityId": "11301",
+        "field": "activation",
+        "fieldCoverage": {
+          "conditionScope": "notMaterialized",
+          "exactFieldIdentity": "passiveTextField",
+          "noNumericInference": true,
+          "noTranslationInference": true,
+          "rawTextAvailable": true,
+          "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+          "semanticComparison": "notPerformed",
+          "structuredClaimValue": "notMaterialized",
+          "targetScope": "notMaterialized"
+        },
+        "localCandidateEvidence": {
+          "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+          "source": "authoritative queue + local v2 verification",
+          "status": "legacyCandidateNeedsIndependentReview",
+          "verificationCandidateDigest": "c7e4cacd19131ed0deef57f05a2b2965056c3abd4998ac6fca921ee781152ce9"
+        },
+        "providerField": {
+          "key": "Bane of Water and Ice",
+          "providerEntryId": "baseInfo13575",
+          "rawLocator": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "rawArtifactBytes": 13290,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+            "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+          },
+          "rawValue": [
+            "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+          ],
+          "status": "rawFieldPresent",
+          "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+        },
+        "strictGameVersionBinding": {
+          "captureTimestampIsNotVersionEvidence": true,
+          "providerReleaseField": "1.0",
+          "status": "missing",
+          "targetGameVersion": "7.0"
+        }
+      },
+      {
+        "candidateId": "w_11301_damageBonus_91cc873a",
+        "claimId": "weapon:w_11301_damageBonus_91cc873a:refinement",
+        "disposition": {
+          "blockers": [
+            "officialEndpointMutableNoImmutableRevision",
+            "strictGameVersionBindingMissing",
+            "candidateClaimSemanticFieldMappingNotMaterialized",
+            "singleOfficialSourceFamily"
+          ],
+          "canIssueEligibilityCertificate": false,
+          "canPromoteCanonical": false,
+          "status": "blocked"
+        },
+        "entityId": "11301",
+        "field": "refinement",
+        "fieldCoverage": {
+          "conditionScope": "notMaterialized",
+          "exactFieldIdentity": "passiveTextField",
+          "noNumericInference": true,
+          "noTranslationInference": true,
+          "rawTextAvailable": true,
+          "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+          "semanticComparison": "notPerformed",
+          "structuredClaimValue": "notMaterialized",
+          "targetScope": "notMaterialized"
+        },
+        "localCandidateEvidence": {
+          "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+          "source": "authoritative queue + local v2 verification",
+          "status": "legacyCandidateNeedsIndependentReview",
+          "verificationCandidateDigest": "c7e4cacd19131ed0deef57f05a2b2965056c3abd4998ac6fca921ee781152ce9"
+        },
+        "providerField": {
+          "key": "Bane of Water and Ice",
+          "providerEntryId": "baseInfo13575",
+          "rawLocator": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "rawArtifactBytes": 13290,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+            "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+          },
+          "rawValue": [
+            "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+          ],
+          "status": "rawFieldPresent",
+          "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+        },
+        "strictGameVersionBinding": {
+          "captureTimestampIsNotVersionEvidence": true,
+          "providerReleaseField": "1.0",
+          "status": "missing",
+          "targetGameVersion": "7.0"
+        }
+      },
+      {
+        "candidateId": "w_11301_damageBonus_91cc873a",
+        "claimId": "weapon:w_11301_damageBonus_91cc873a:targets",
+        "disposition": {
+          "blockers": [
+            "officialEndpointMutableNoImmutableRevision",
+            "strictGameVersionBindingMissing",
+            "candidateClaimSemanticFieldMappingNotMaterialized",
+            "singleOfficialSourceFamily"
+          ],
+          "canIssueEligibilityCertificate": false,
+          "canPromoteCanonical": false,
+          "status": "blocked"
+        },
+        "entityId": "11301",
+        "field": "targets",
+        "fieldCoverage": {
+          "conditionScope": "notMaterialized",
+          "exactFieldIdentity": "passiveTextField",
+          "noNumericInference": true,
+          "noTranslationInference": true,
+          "rawTextAvailable": true,
+          "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+          "semanticComparison": "notPerformed",
+          "structuredClaimValue": "notMaterialized",
+          "targetScope": "notMaterialized"
+        },
+        "localCandidateEvidence": {
+          "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+          "source": "authoritative queue + local v2 verification",
+          "status": "legacyCandidateNeedsIndependentReview",
+          "verificationCandidateDigest": "c7e4cacd19131ed0deef57f05a2b2965056c3abd4998ac6fca921ee781152ce9"
+        },
+        "providerField": {
+          "key": "Bane of Water and Ice",
+          "providerEntryId": "baseInfo13575",
+          "rawLocator": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "rawArtifactBytes": 13290,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+            "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+          },
+          "rawValue": [
+            "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+          ],
+          "status": "rawFieldPresent",
+          "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+        },
+        "strictGameVersionBinding": {
+          "captureTimestampIsNotVersionEvidence": true,
+          "providerReleaseField": "1.0",
+          "status": "missing",
+          "targetGameVersion": "7.0"
+        }
+      },
+      {
+        "candidateId": "w_11301_damageBonus_91cc873a",
+        "claimId": "weapon:w_11301_damageBonus_91cc873a:value",
+        "disposition": {
+          "blockers": [
+            "officialEndpointMutableNoImmutableRevision",
+            "strictGameVersionBindingMissing",
+            "candidateClaimSemanticFieldMappingNotMaterialized",
+            "singleOfficialSourceFamily"
+          ],
+          "canIssueEligibilityCertificate": false,
+          "canPromoteCanonical": false,
+          "status": "blocked"
+        },
+        "entityId": "11301",
+        "field": "value",
+        "fieldCoverage": {
+          "conditionScope": "notMaterialized",
+          "exactFieldIdentity": "passiveTextField",
+          "noNumericInference": true,
+          "noTranslationInference": true,
+          "rawTextAvailable": true,
+          "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+          "semanticComparison": "notPerformed",
+          "structuredClaimValue": "notMaterialized",
+          "targetScope": "notMaterialized"
+        },
+        "localCandidateEvidence": {
+          "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+          "source": "authoritative queue + local v2 verification",
+          "status": "legacyCandidateNeedsIndependentReview",
+          "verificationCandidateDigest": "c7e4cacd19131ed0deef57f05a2b2965056c3abd4998ac6fca921ee781152ce9"
+        },
+        "providerField": {
+          "key": "Bane of Water and Ice",
+          "providerEntryId": "baseInfo13575",
+          "rawLocator": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "rawArtifactBytes": 13290,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+            "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+          },
+          "rawValue": [
+            "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+          ],
+          "status": "rawFieldPresent",
+          "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+        },
+        "strictGameVersionBinding": {
+          "captureTimestampIsNotVersionEvidence": true,
+          "providerReleaseField": "1.0",
+          "status": "missing",
+          "targetGameVersion": "7.0"
+        }
+      },
+      {
+        "candidateId": "w_11302_crit_1",
+        "claimId": "weapon:w_11302_crit_1:activation",
+        "disposition": {
+          "blockers": [
+            "officialEndpointMutableNoImmutableRevision",
+            "strictGameVersionBindingMissing",
+            "candidateClaimSemanticFieldMappingNotMaterialized",
+            "singleOfficialSourceFamily"
+          ],
+          "canIssueEligibilityCertificate": false,
+          "canPromoteCanonical": false,
+          "status": "blocked"
+        },
+        "entityId": "11302",
+        "field": "activation",
+        "fieldCoverage": {
+          "conditionScope": "notMaterialized",
+          "exactFieldIdentity": "passiveTextField",
+          "noNumericInference": true,
+          "noTranslationInference": true,
+          "rawTextAvailable": true,
+          "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+          "semanticComparison": "notPerformed",
+          "structuredClaimValue": "notMaterialized",
+          "targetScope": "notMaterialized"
+        },
+        "localCandidateEvidence": {
+          "localEffectRecordDigest": "ccf9d2f3587241be40262c935b8a6af288bd1570060dd3ab19c516e8610cd75c",
+          "source": "authoritative queue + local v2 verification",
+          "status": "legacyCandidateNeedsIndependentReview",
+          "verificationCandidateDigest": "637e8917ef15dbb6bc0efd6d374639d9ac0db2317901f9bb9cbc4f030b615933"
+        },
+        "providerField": {
+          "key": "Vigorous",
+          "providerEntryId": "baseInfo13638",
+          "rawLocator": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "rawArtifactBytes": 13258,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+            "rawArtifactSha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501"
+          },
+          "rawValue": [
+            "<p>When HP is above 90%, increases CRIT Rate by <span style=\"color: rgb(55, 255, 255)\">14%/17.5%/21%/24.5%/28%</span>.</p>"
+          ],
+          "status": "rawFieldPresent",
+          "valueDigest": "96173b7fc1e840535014452e0ca9dff5c7032165072106f338b0458466c1d683"
+        },
+        "strictGameVersionBinding": {
+          "captureTimestampIsNotVersionEvidence": true,
+          "providerReleaseField": "1.0",
+          "status": "missing",
+          "targetGameVersion": "7.0"
+        }
+      },
+      {
+        "candidateId": "w_11302_crit_1",
+        "claimId": "weapon:w_11302_crit_1:refinement",
+        "disposition": {
+          "blockers": [
+            "officialEndpointMutableNoImmutableRevision",
+            "strictGameVersionBindingMissing",
+            "candidateClaimSemanticFieldMappingNotMaterialized",
+            "singleOfficialSourceFamily"
+          ],
+          "canIssueEligibilityCertificate": false,
+          "canPromoteCanonical": false,
+          "status": "blocked"
+        },
+        "entityId": "11302",
+        "field": "refinement",
+        "fieldCoverage": {
+          "conditionScope": "notMaterialized",
+          "exactFieldIdentity": "passiveTextField",
+          "noNumericInference": true,
+          "noTranslationInference": true,
+          "rawTextAvailable": true,
+          "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+          "semanticComparison": "notPerformed",
+          "structuredClaimValue": "notMaterialized",
+          "targetScope": "notMaterialized"
+        },
+        "localCandidateEvidence": {
+          "localEffectRecordDigest": "ccf9d2f3587241be40262c935b8a6af288bd1570060dd3ab19c516e8610cd75c",
+          "source": "authoritative queue + local v2 verification",
+          "status": "legacyCandidateNeedsIndependentReview",
+          "verificationCandidateDigest": "637e8917ef15dbb6bc0efd6d374639d9ac0db2317901f9bb9cbc4f030b615933"
+        },
+        "providerField": {
+          "key": "Vigorous",
+          "providerEntryId": "baseInfo13638",
+          "rawLocator": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "rawArtifactBytes": 13258,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+            "rawArtifactSha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501"
+          },
+          "rawValue": [
+            "<p>When HP is above 90%, increases CRIT Rate by <span style=\"color: rgb(55, 255, 255)\">14%/17.5%/21%/24.5%/28%</span>.</p>"
+          ],
+          "status": "rawFieldPresent",
+          "valueDigest": "96173b7fc1e840535014452e0ca9dff5c7032165072106f338b0458466c1d683"
+        },
+        "strictGameVersionBinding": {
+          "captureTimestampIsNotVersionEvidence": true,
+          "providerReleaseField": "1.0",
+          "status": "missing",
+          "targetGameVersion": "7.0"
+        }
+      },
+      {
+        "candidateId": "w_11302_crit_1",
+        "claimId": "weapon:w_11302_crit_1:targets",
+        "disposition": {
+          "blockers": [
+            "officialEndpointMutableNoImmutableRevision",
+            "strictGameVersionBindingMissing",
+            "candidateClaimSemanticFieldMappingNotMaterialized",
+            "singleOfficialSourceFamily"
+          ],
+          "canIssueEligibilityCertificate": false,
+          "canPromoteCanonical": false,
+          "status": "blocked"
+        },
+        "entityId": "11302",
+        "field": "targets",
+        "fieldCoverage": {
+          "conditionScope": "notMaterialized",
+          "exactFieldIdentity": "passiveTextField",
+          "noNumericInference": true,
+          "noTranslationInference": true,
+          "rawTextAvailable": true,
+          "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+          "semanticComparison": "notPerformed",
+          "structuredClaimValue": "notMaterialized",
+          "targetScope": "notMaterialized"
+        },
+        "localCandidateEvidence": {
+          "localEffectRecordDigest": "ccf9d2f3587241be40262c935b8a6af288bd1570060dd3ab19c516e8610cd75c",
+          "source": "authoritative queue + local v2 verification",
+          "status": "legacyCandidateNeedsIndependentReview",
+          "verificationCandidateDigest": "637e8917ef15dbb6bc0efd6d374639d9ac0db2317901f9bb9cbc4f030b615933"
+        },
+        "providerField": {
+          "key": "Vigorous",
+          "providerEntryId": "baseInfo13638",
+          "rawLocator": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "rawArtifactBytes": 13258,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+            "rawArtifactSha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501"
+          },
+          "rawValue": [
+            "<p>When HP is above 90%, increases CRIT Rate by <span style=\"color: rgb(55, 255, 255)\">14%/17.5%/21%/24.5%/28%</span>.</p>"
+          ],
+          "status": "rawFieldPresent",
+          "valueDigest": "96173b7fc1e840535014452e0ca9dff5c7032165072106f338b0458466c1d683"
+        },
+        "strictGameVersionBinding": {
+          "captureTimestampIsNotVersionEvidence": true,
+          "providerReleaseField": "1.0",
+          "status": "missing",
+          "targetGameVersion": "7.0"
+        }
+      },
+      {
+        "candidateId": "w_11302_crit_1",
+        "claimId": "weapon:w_11302_crit_1:value",
+        "disposition": {
+          "blockers": [
+            "officialEndpointMutableNoImmutableRevision",
+            "strictGameVersionBindingMissing",
+            "candidateClaimSemanticFieldMappingNotMaterialized",
+            "singleOfficialSourceFamily"
+          ],
+          "canIssueEligibilityCertificate": false,
+          "canPromoteCanonical": false,
+          "status": "blocked"
+        },
+        "entityId": "11302",
+        "field": "value",
+        "fieldCoverage": {
+          "conditionScope": "notMaterialized",
+          "exactFieldIdentity": "passiveTextField",
+          "noNumericInference": true,
+          "noTranslationInference": true,
+          "rawTextAvailable": true,
+          "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+          "semanticComparison": "notPerformed",
+          "structuredClaimValue": "notMaterialized",
+          "targetScope": "notMaterialized"
+        },
+        "localCandidateEvidence": {
+          "localEffectRecordDigest": "ccf9d2f3587241be40262c935b8a6af288bd1570060dd3ab19c516e8610cd75c",
+          "source": "authoritative queue + local v2 verification",
+          "status": "legacyCandidateNeedsIndependentReview",
+          "verificationCandidateDigest": "637e8917ef15dbb6bc0efd6d374639d9ac0db2317901f9bb9cbc4f030b615933"
+        },
+        "providerField": {
+          "key": "Vigorous",
+          "providerEntryId": "baseInfo13638",
+          "rawLocator": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "rawArtifactBytes": 13258,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+            "rawArtifactSha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501"
+          },
+          "rawValue": [
+            "<p>When HP is above 90%, increases CRIT Rate by <span style=\"color: rgb(55, 255, 255)\">14%/17.5%/21%/24.5%/28%</span>.</p>"
+          ],
+          "status": "rawFieldPresent",
+          "valueDigest": "96173b7fc1e840535014452e0ca9dff5c7032165072106f338b0458466c1d683"
+        },
+        "strictGameVersionBinding": {
+          "captureTimestampIsNotVersionEvidence": true,
+          "providerReleaseField": "1.0",
+          "status": "missing",
+          "targetGameVersion": "7.0"
+        }
+      }
+    ],
+    "captureManifest": {
+      "bytes": 4206,
+      "digest": "dc786a15f596871551393423915632cbdc89ea6131f8aa109656affe4465ee70",
+      "manifest": {
+        "capturedAt": "2026-08-27T17:25:32.579Z",
+        "fieldDigest": "a1f1f299bd82b634eb178065726eb179843514e0ce3fdd8bce8cad656e051a02",
+        "fieldDigestAlgorithm": "sha256-stable-json-v1",
+        "generatedAt": "2026-08-28T00:00:00.000Z",
+        "immutable": false,
+        "independenceGroup": "official-hoyoverse",
+        "kind": "genshinOfficialWeaponFrontierCaptureManifest",
+        "lineage": "First-party HoYoverse/HoYoLAB publication.",
+        "provider": "HoYoverse HoYoWiki",
+        "providerId": "hoyoverse-hoyowiki",
+        "requests": [
+          {
+            "body": {
+              "filters": [],
+              "menu_id": "4",
+              "page_num": 8,
+              "page_size": 30,
+              "use_es": true
+            },
+            "bytes": 18488,
+            "contentType": "application/json",
+            "etag": null,
+            "expected": {
+              "entityId": "11301",
+              "entryPageId": "1938",
+              "name": "Cool Steel"
+            },
+            "method": "POST",
+            "rawPath": "aggregate/page-08.json",
+            "requestId": "aggregate-page-08",
+            "sha256": "ea897c7066c9f6ca598f0d1feebe540a1d706cd9317bbc8d407bc4eecdddd441",
+            "statusCode": 200,
+            "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/get_entry_page_list"
+          },
+          {
+            "body": {
+              "filters": [],
+              "menu_id": "4",
+              "page_num": 5,
+              "page_size": 30,
+              "use_es": true
+            },
+            "bytes": 18674,
+            "contentType": "application/json",
+            "etag": null,
+            "expected": {
+              "entityId": "11302",
+              "entryPageId": "2052",
+              "name": "Harbinger of Dawn"
+            },
+            "method": "POST",
+            "rawPath": "aggregate/page-05.json",
+            "requestId": "aggregate-page-05",
+            "sha256": "3d17ccc81a71c9615d300bed8e5e6490eaab030b544f21179028eec174e2e90c",
+            "statusCode": 200,
+            "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/get_entry_page_list"
+          },
+          {
+            "body": {
+              "filters": [],
+              "menu_id": "4",
+              "page_num": 7,
+              "page_size": 30,
+              "use_es": true
+            },
+            "bytes": 18522,
+            "contentType": "application/json",
+            "etag": null,
+            "expected": {
+              "entityId": "11303",
+              "entryPageId": "1977",
+              "name": "Traveler's Handy Sword"
+            },
+            "method": "POST",
+            "rawPath": "aggregate/page-07.json",
+            "requestId": "aggregate-page-07",
+            "sha256": "df7c4a8febb74865d5afe677d2efd8c003cc73fcee26c8313453f2381360d34a",
+            "statusCode": 200,
+            "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/get_entry_page_list"
+          },
+          {
+            "body": null,
+            "bytes": 13290,
+            "contentType": "application/json",
+            "etag": null,
+            "expected": {
+              "entityId": "11301",
+              "entryPageId": "1938",
+              "name": "Cool Steel"
+            },
+            "method": "GET",
+            "rawPath": "entries/1938.json",
+            "requestId": "entry-1938",
+            "sha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93",
+            "statusCode": 200,
+            "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=1938&game_id=2"
+          },
+          {
+            "body": null,
+            "bytes": 13258,
+            "contentType": "application/json",
+            "etag": null,
+            "expected": {
+              "entityId": "11302",
+              "entryPageId": "2052",
+              "name": "Harbinger of Dawn"
+            },
+            "method": "GET",
+            "rawPath": "entries/2052.json",
+            "requestId": "entry-2052",
+            "sha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501",
+            "statusCode": 200,
+            "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=2052&game_id=2"
+          },
+          {
+            "body": null,
+            "bytes": 13724,
+            "contentType": "application/json",
+            "etag": null,
+            "expected": {
+              "entityId": "11303",
+              "entryPageId": "1977",
+              "name": "Traveler's Handy Sword"
+            },
+            "method": "GET",
+            "rawPath": "entries/1977.json",
+            "requestId": "entry-1977",
+            "sha256": "8d907ed55ff8d9a316426cea79e5c560a653566832de0c2d200ae0d068b2ad2f",
+            "statusCode": 200,
+            "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=1977&game_id=2"
+          }
+        ],
+        "schemaVersion": 1,
+        "sourceFamily": "official-hoyoverse",
+        "status": "complete"
+      },
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/capture-manifest.json"
+    },
+    "dataset": "weapons",
+    "entities": [
+      {
+        "canIssueEligibilityCertificate": false,
+        "canPromoteCanonical": false,
+        "candidateClaims": [
+          {
+            "candidateId": "w_11301_damage_1",
+            "claimId": "weapon:w_11301_damage_1:activation",
+            "disposition": {
+              "blockers": [
+                "officialEndpointMutableNoImmutableRevision",
+                "strictGameVersionBindingMissing",
+                "candidateClaimSemanticFieldMappingNotMaterialized",
+                "singleOfficialSourceFamily"
+              ],
+              "canIssueEligibilityCertificate": false,
+              "canPromoteCanonical": false,
+              "status": "blocked"
+            },
+            "entityId": "11301",
+            "field": "activation",
+            "fieldCoverage": {
+              "conditionScope": "notMaterialized",
+              "exactFieldIdentity": "passiveTextField",
+              "noNumericInference": true,
+              "noTranslationInference": true,
+              "rawTextAvailable": true,
+              "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+              "semanticComparison": "notPerformed",
+              "structuredClaimValue": "notMaterialized",
+              "targetScope": "notMaterialized"
+            },
+            "localCandidateEvidence": {
+              "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+              "source": "authoritative queue + local v2 verification",
+              "status": "legacyCandidateNeedsIndependentReview",
+              "verificationCandidateDigest": "8a21c1f81b6381e06197f36a2b260850ff1ffaba67a699a9c34268e66c72d4ce"
+            },
+            "providerField": {
+              "key": "Bane of Water and Ice",
+              "providerEntryId": "baseInfo13575",
+              "rawLocator": {
+                "embeddedJsonPointer": "/list/5",
+                "embeddedValuePointer": "/list/5/value",
+                "outerJsonPointer": "/data/page/modules/0/components/0/data",
+                "rawArtifactBytes": 13290,
+                "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+                "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+              },
+              "rawValue": [
+                "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+              ],
+              "status": "rawFieldPresent",
+              "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+            },
+            "strictGameVersionBinding": {
+              "captureTimestampIsNotVersionEvidence": true,
+              "providerReleaseField": "1.0",
+              "status": "missing",
+              "targetGameVersion": "7.0"
+            }
+          },
+          {
+            "candidateId": "w_11301_damage_1",
+            "claimId": "weapon:w_11301_damage_1:refinement",
+            "disposition": {
+              "blockers": [
+                "officialEndpointMutableNoImmutableRevision",
+                "strictGameVersionBindingMissing",
+                "candidateClaimSemanticFieldMappingNotMaterialized",
+                "singleOfficialSourceFamily"
+              ],
+              "canIssueEligibilityCertificate": false,
+              "canPromoteCanonical": false,
+              "status": "blocked"
+            },
+            "entityId": "11301",
+            "field": "refinement",
+            "fieldCoverage": {
+              "conditionScope": "notMaterialized",
+              "exactFieldIdentity": "passiveTextField",
+              "noNumericInference": true,
+              "noTranslationInference": true,
+              "rawTextAvailable": true,
+              "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+              "semanticComparison": "notPerformed",
+              "structuredClaimValue": "notMaterialized",
+              "targetScope": "notMaterialized"
+            },
+            "localCandidateEvidence": {
+              "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+              "source": "authoritative queue + local v2 verification",
+              "status": "legacyCandidateNeedsIndependentReview",
+              "verificationCandidateDigest": "8a21c1f81b6381e06197f36a2b260850ff1ffaba67a699a9c34268e66c72d4ce"
+            },
+            "providerField": {
+              "key": "Bane of Water and Ice",
+              "providerEntryId": "baseInfo13575",
+              "rawLocator": {
+                "embeddedJsonPointer": "/list/5",
+                "embeddedValuePointer": "/list/5/value",
+                "outerJsonPointer": "/data/page/modules/0/components/0/data",
+                "rawArtifactBytes": 13290,
+                "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+                "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+              },
+              "rawValue": [
+                "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+              ],
+              "status": "rawFieldPresent",
+              "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+            },
+            "strictGameVersionBinding": {
+              "captureTimestampIsNotVersionEvidence": true,
+              "providerReleaseField": "1.0",
+              "status": "missing",
+              "targetGameVersion": "7.0"
+            }
+          },
+          {
+            "candidateId": "w_11301_damage_1",
+            "claimId": "weapon:w_11301_damage_1:targets",
+            "disposition": {
+              "blockers": [
+                "officialEndpointMutableNoImmutableRevision",
+                "strictGameVersionBindingMissing",
+                "candidateClaimSemanticFieldMappingNotMaterialized",
+                "singleOfficialSourceFamily"
+              ],
+              "canIssueEligibilityCertificate": false,
+              "canPromoteCanonical": false,
+              "status": "blocked"
+            },
+            "entityId": "11301",
+            "field": "targets",
+            "fieldCoverage": {
+              "conditionScope": "notMaterialized",
+              "exactFieldIdentity": "passiveTextField",
+              "noNumericInference": true,
+              "noTranslationInference": true,
+              "rawTextAvailable": true,
+              "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+              "semanticComparison": "notPerformed",
+              "structuredClaimValue": "notMaterialized",
+              "targetScope": "notMaterialized"
+            },
+            "localCandidateEvidence": {
+              "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+              "source": "authoritative queue + local v2 verification",
+              "status": "legacyCandidateNeedsIndependentReview",
+              "verificationCandidateDigest": "8a21c1f81b6381e06197f36a2b260850ff1ffaba67a699a9c34268e66c72d4ce"
+            },
+            "providerField": {
+              "key": "Bane of Water and Ice",
+              "providerEntryId": "baseInfo13575",
+              "rawLocator": {
+                "embeddedJsonPointer": "/list/5",
+                "embeddedValuePointer": "/list/5/value",
+                "outerJsonPointer": "/data/page/modules/0/components/0/data",
+                "rawArtifactBytes": 13290,
+                "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+                "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+              },
+              "rawValue": [
+                "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+              ],
+              "status": "rawFieldPresent",
+              "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+            },
+            "strictGameVersionBinding": {
+              "captureTimestampIsNotVersionEvidence": true,
+              "providerReleaseField": "1.0",
+              "status": "missing",
+              "targetGameVersion": "7.0"
+            }
+          },
+          {
+            "candidateId": "w_11301_damage_1",
+            "claimId": "weapon:w_11301_damage_1:value",
+            "disposition": {
+              "blockers": [
+                "officialEndpointMutableNoImmutableRevision",
+                "strictGameVersionBindingMissing",
+                "candidateClaimSemanticFieldMappingNotMaterialized",
+                "singleOfficialSourceFamily"
+              ],
+              "canIssueEligibilityCertificate": false,
+              "canPromoteCanonical": false,
+              "status": "blocked"
+            },
+            "entityId": "11301",
+            "field": "value",
+            "fieldCoverage": {
+              "conditionScope": "notMaterialized",
+              "exactFieldIdentity": "passiveTextField",
+              "noNumericInference": true,
+              "noTranslationInference": true,
+              "rawTextAvailable": true,
+              "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+              "semanticComparison": "notPerformed",
+              "structuredClaimValue": "notMaterialized",
+              "targetScope": "notMaterialized"
+            },
+            "localCandidateEvidence": {
+              "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+              "source": "authoritative queue + local v2 verification",
+              "status": "legacyCandidateNeedsIndependentReview",
+              "verificationCandidateDigest": "8a21c1f81b6381e06197f36a2b260850ff1ffaba67a699a9c34268e66c72d4ce"
+            },
+            "providerField": {
+              "key": "Bane of Water and Ice",
+              "providerEntryId": "baseInfo13575",
+              "rawLocator": {
+                "embeddedJsonPointer": "/list/5",
+                "embeddedValuePointer": "/list/5/value",
+                "outerJsonPointer": "/data/page/modules/0/components/0/data",
+                "rawArtifactBytes": 13290,
+                "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+                "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+              },
+              "rawValue": [
+                "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+              ],
+              "status": "rawFieldPresent",
+              "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+            },
+            "strictGameVersionBinding": {
+              "captureTimestampIsNotVersionEvidence": true,
+              "providerReleaseField": "1.0",
+              "status": "missing",
+              "targetGameVersion": "7.0"
+            }
+          },
+          {
+            "candidateId": "w_11301_damageBonus_91cc873a",
+            "claimId": "weapon:w_11301_damageBonus_91cc873a:activation",
+            "disposition": {
+              "blockers": [
+                "officialEndpointMutableNoImmutableRevision",
+                "strictGameVersionBindingMissing",
+                "candidateClaimSemanticFieldMappingNotMaterialized",
+                "singleOfficialSourceFamily"
+              ],
+              "canIssueEligibilityCertificate": false,
+              "canPromoteCanonical": false,
+              "status": "blocked"
+            },
+            "entityId": "11301",
+            "field": "activation",
+            "fieldCoverage": {
+              "conditionScope": "notMaterialized",
+              "exactFieldIdentity": "passiveTextField",
+              "noNumericInference": true,
+              "noTranslationInference": true,
+              "rawTextAvailable": true,
+              "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+              "semanticComparison": "notPerformed",
+              "structuredClaimValue": "notMaterialized",
+              "targetScope": "notMaterialized"
+            },
+            "localCandidateEvidence": {
+              "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+              "source": "authoritative queue + local v2 verification",
+              "status": "legacyCandidateNeedsIndependentReview",
+              "verificationCandidateDigest": "c7e4cacd19131ed0deef57f05a2b2965056c3abd4998ac6fca921ee781152ce9"
+            },
+            "providerField": {
+              "key": "Bane of Water and Ice",
+              "providerEntryId": "baseInfo13575",
+              "rawLocator": {
+                "embeddedJsonPointer": "/list/5",
+                "embeddedValuePointer": "/list/5/value",
+                "outerJsonPointer": "/data/page/modules/0/components/0/data",
+                "rawArtifactBytes": 13290,
+                "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+                "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+              },
+              "rawValue": [
+                "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+              ],
+              "status": "rawFieldPresent",
+              "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+            },
+            "strictGameVersionBinding": {
+              "captureTimestampIsNotVersionEvidence": true,
+              "providerReleaseField": "1.0",
+              "status": "missing",
+              "targetGameVersion": "7.0"
+            }
+          },
+          {
+            "candidateId": "w_11301_damageBonus_91cc873a",
+            "claimId": "weapon:w_11301_damageBonus_91cc873a:refinement",
+            "disposition": {
+              "blockers": [
+                "officialEndpointMutableNoImmutableRevision",
+                "strictGameVersionBindingMissing",
+                "candidateClaimSemanticFieldMappingNotMaterialized",
+                "singleOfficialSourceFamily"
+              ],
+              "canIssueEligibilityCertificate": false,
+              "canPromoteCanonical": false,
+              "status": "blocked"
+            },
+            "entityId": "11301",
+            "field": "refinement",
+            "fieldCoverage": {
+              "conditionScope": "notMaterialized",
+              "exactFieldIdentity": "passiveTextField",
+              "noNumericInference": true,
+              "noTranslationInference": true,
+              "rawTextAvailable": true,
+              "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+              "semanticComparison": "notPerformed",
+              "structuredClaimValue": "notMaterialized",
+              "targetScope": "notMaterialized"
+            },
+            "localCandidateEvidence": {
+              "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+              "source": "authoritative queue + local v2 verification",
+              "status": "legacyCandidateNeedsIndependentReview",
+              "verificationCandidateDigest": "c7e4cacd19131ed0deef57f05a2b2965056c3abd4998ac6fca921ee781152ce9"
+            },
+            "providerField": {
+              "key": "Bane of Water and Ice",
+              "providerEntryId": "baseInfo13575",
+              "rawLocator": {
+                "embeddedJsonPointer": "/list/5",
+                "embeddedValuePointer": "/list/5/value",
+                "outerJsonPointer": "/data/page/modules/0/components/0/data",
+                "rawArtifactBytes": 13290,
+                "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+                "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+              },
+              "rawValue": [
+                "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+              ],
+              "status": "rawFieldPresent",
+              "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+            },
+            "strictGameVersionBinding": {
+              "captureTimestampIsNotVersionEvidence": true,
+              "providerReleaseField": "1.0",
+              "status": "missing",
+              "targetGameVersion": "7.0"
+            }
+          },
+          {
+            "candidateId": "w_11301_damageBonus_91cc873a",
+            "claimId": "weapon:w_11301_damageBonus_91cc873a:targets",
+            "disposition": {
+              "blockers": [
+                "officialEndpointMutableNoImmutableRevision",
+                "strictGameVersionBindingMissing",
+                "candidateClaimSemanticFieldMappingNotMaterialized",
+                "singleOfficialSourceFamily"
+              ],
+              "canIssueEligibilityCertificate": false,
+              "canPromoteCanonical": false,
+              "status": "blocked"
+            },
+            "entityId": "11301",
+            "field": "targets",
+            "fieldCoverage": {
+              "conditionScope": "notMaterialized",
+              "exactFieldIdentity": "passiveTextField",
+              "noNumericInference": true,
+              "noTranslationInference": true,
+              "rawTextAvailable": true,
+              "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+              "semanticComparison": "notPerformed",
+              "structuredClaimValue": "notMaterialized",
+              "targetScope": "notMaterialized"
+            },
+            "localCandidateEvidence": {
+              "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+              "source": "authoritative queue + local v2 verification",
+              "status": "legacyCandidateNeedsIndependentReview",
+              "verificationCandidateDigest": "c7e4cacd19131ed0deef57f05a2b2965056c3abd4998ac6fca921ee781152ce9"
+            },
+            "providerField": {
+              "key": "Bane of Water and Ice",
+              "providerEntryId": "baseInfo13575",
+              "rawLocator": {
+                "embeddedJsonPointer": "/list/5",
+                "embeddedValuePointer": "/list/5/value",
+                "outerJsonPointer": "/data/page/modules/0/components/0/data",
+                "rawArtifactBytes": 13290,
+                "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+                "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+              },
+              "rawValue": [
+                "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+              ],
+              "status": "rawFieldPresent",
+              "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+            },
+            "strictGameVersionBinding": {
+              "captureTimestampIsNotVersionEvidence": true,
+              "providerReleaseField": "1.0",
+              "status": "missing",
+              "targetGameVersion": "7.0"
+            }
+          },
+          {
+            "candidateId": "w_11301_damageBonus_91cc873a",
+            "claimId": "weapon:w_11301_damageBonus_91cc873a:value",
+            "disposition": {
+              "blockers": [
+                "officialEndpointMutableNoImmutableRevision",
+                "strictGameVersionBindingMissing",
+                "candidateClaimSemanticFieldMappingNotMaterialized",
+                "singleOfficialSourceFamily"
+              ],
+              "canIssueEligibilityCertificate": false,
+              "canPromoteCanonical": false,
+              "status": "blocked"
+            },
+            "entityId": "11301",
+            "field": "value",
+            "fieldCoverage": {
+              "conditionScope": "notMaterialized",
+              "exactFieldIdentity": "passiveTextField",
+              "noNumericInference": true,
+              "noTranslationInference": true,
+              "rawTextAvailable": true,
+              "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+              "semanticComparison": "notPerformed",
+              "structuredClaimValue": "notMaterialized",
+              "targetScope": "notMaterialized"
+            },
+            "localCandidateEvidence": {
+              "localEffectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+              "source": "authoritative queue + local v2 verification",
+              "status": "legacyCandidateNeedsIndependentReview",
+              "verificationCandidateDigest": "c7e4cacd19131ed0deef57f05a2b2965056c3abd4998ac6fca921ee781152ce9"
+            },
+            "providerField": {
+              "key": "Bane of Water and Ice",
+              "providerEntryId": "baseInfo13575",
+              "rawLocator": {
+                "embeddedJsonPointer": "/list/5",
+                "embeddedValuePointer": "/list/5/value",
+                "outerJsonPointer": "/data/page/modules/0/components/0/data",
+                "rawArtifactBytes": 13290,
+                "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+                "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93"
+              },
+              "rawValue": [
+                "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+              ],
+              "status": "rawFieldPresent",
+              "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0"
+            },
+            "strictGameVersionBinding": {
+              "captureTimestampIsNotVersionEvidence": true,
+              "providerReleaseField": "1.0",
+              "status": "missing",
+              "targetGameVersion": "7.0"
+            }
+          }
+        ],
+        "candidateCoverage": "queueClaimsPresent",
+        "entityId": "11301",
+        "identityResolution": {
+          "existingPinnedGenshinDbAid": {
+            "bytes": 3652,
+            "embeddedId": "11301",
+            "embeddedName": "Cool Steel",
+            "gameVersion": "7.0",
+            "gitBlobSha": "f8bccb63ab39b9972bc8178fd919546522d3c3b5",
+            "packageEvidence": {
+              "bytes": 1619,
+              "description": "Genshin Impact v7.0 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo.",
+              "gitBlobSha": "cfccefd470f420159b1376440e1a0f86a247030d",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+              "sha256": "3faf0b2220539a07af9260f5dd83afd0e964aa42868c9b3b73c6cb14065085c6",
+              "status": "strictlyBound"
+            },
+            "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/weapons/coolsteel.json",
+            "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+            "sha256": "c5dbd59313afef508430f7045bba2a8af607244bf09bed219acb4443f70ea511",
+            "snapshotFieldDigest": "da3aaf98f2339c6d117aeffe2b7fb14a25296bb9b1c4e274ff651fa83c2b1b0e",
+            "snapshotPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/weapon-entity-snapshot.json",
+            "sourceFamily": "GenshinData-derived",
+            "status": "reusedValidatedPinnedRevisionAid"
+          },
+          "localCatalogNameJa": "冷刃",
+          "localCatalogPath": "games/genshin/data/weapons.json",
+          "noArithmeticalIdInference": true,
+          "noTranslationInference": true,
+          "officialAggregateName": "Cool Steel",
+          "officialEntryPageName": "Cool Steel",
+          "status": "resolvedByLocalCatalogAndValidatedPinnedGenshinDbAid"
+        },
+        "localEffectNameJa": "水と氷の破滅",
+        "localNameJa": "冷刃",
+        "parsedFields": {
+          "name": {
+            "embeddedJsonPointer": "/list/0",
+            "embeddedValuePointer": "/list/0/value",
+            "key": "Name",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo81045",
+            "rawArtifactBytes": 13290,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+            "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93",
+            "valueDigest": "71acf4dfbd6c122fce5b226399c1eb1b8bc64775194e4dc6586cbb9f7563830d",
+            "valueRaw": [
+              "Cool Steel"
+            ]
+          },
+          "passive": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "key": "Bane of Water and Ice",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo13575",
+            "rawArtifactBytes": 13290,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+            "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93",
+            "valueDigest": "83bf7f84c5c742f57680bf2a4ae51531a93bff4469a45af124f99701b73fc0a0",
+            "valueRaw": [
+              "<p>Increases DMG against opponents affected by Hydro or Cryo by <span style=\"color: rgb(55, 255, 255)\">12%/15%/18%/21%/24%</span>.</p>"
+            ]
+          },
+          "secondaryAttribute": {
+            "embeddedJsonPointer": "/list/4",
+            "embeddedValuePointer": "/list/4/value",
+            "key": "Secondary Attributes",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo44373",
+            "rawArtifactBytes": 13290,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+            "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93",
+            "valueDigest": "baefb1f7e6b68b4402fd127389441031033e5e52977307b5780427e00cf4bb7a",
+            "valueRaw": [
+              "<p>ATK Percentage</p>"
+            ]
+          },
+          "versionReleased": {
+            "embeddedJsonPointer": "/list/6",
+            "embeddedValuePointer": "/list/6/value",
+            "key": "Version Released",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo7944",
+            "rawArtifactBytes": 13290,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+            "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93",
+            "valueDigest": "9168c276e33847989af6c855ffe7285a6412f91b8debc1796b764a4174d56623",
+            "valueRaw": [
+              "<p>1.0</p>"
+            ]
+          },
+          "weaponType": {
+            "embeddedJsonPointer": "/list/3",
+            "embeddedValuePointer": "/list/3/value",
+            "key": "Type",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo16756",
+            "rawArtifactBytes": 13290,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+            "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93",
+            "valueDigest": "f913d6ad7c343c3ab6e7429b1e5b7cd0ae6d174594fd3c0c083ce353501f680d",
+            "valueRaw": [
+              "<p>Sword</p>"
+            ]
+          }
+        },
+        "provider": {
+          "englishName": "Cool Steel",
+          "entryPageId": "1938",
+          "name": "HoYoverse HoYoWiki",
+          "providerId": "hoyoverse-hoyowiki"
+        },
+        "providerVersionEvidence": {
+          "observedRawValue": [
+            "<p>1.0</p>"
+          ],
+          "observedText": "1.0",
+          "reason": "HoYoWiki Version Released is an introduction-version field; current-page capture and capture timestamp do not bind the mutable page to Genshin 7.0.",
+          "status": "releaseVersionOnly",
+          "strictGameVersionBinding": "missing",
+          "strictTargetGameVersion": "7.0"
+        },
+        "sourceEvidence": {
+          "aggregate": {
+            "entry": {
+              "entryPageId": "1938",
+              "name": "Cool Steel",
+              "providerRecord": {
+                "desc": "",
+                "display_field": {},
+                "entry_page_id": "1938",
+                "filter_values": {
+                  "weapon_property": {
+                    "key": null,
+                    "value_types": [
+                      {
+                        "enum_string": "",
+                        "icon": "",
+                        "id": "142",
+                        "mi18n_key": "filter_142",
+                        "value": "ATK Percentage"
+                      }
+                    ],
+                    "values": [
+                      "ATK Percentage"
+                    ]
+                  },
+                  "weapon_rarity": {
+                    "key": null,
+                    "value_types": [
+                      {
+                        "enum_string": "3",
+                        "icon": "",
+                        "id": "695",
+                        "mi18n_key": "filter_695",
+                        "value": "3-Star"
+                      }
+                    ],
+                    "values": [
+                      "3-Star"
+                    ]
+                  },
+                  "weapon_type": {
+                    "key": null,
+                    "value_types": [
+                      {
+                        "enum_string": "",
+                        "icon": "",
+                        "id": "403",
+                        "mi18n_key": "filter_403",
+                        "value": "Sword"
+                      }
+                    ],
+                    "values": [
+                      "Sword"
+                    ]
+                  }
+                },
+                "icon_url": "https://bbs.hoyolab.com/hoyowiki/picture/weapon/冷刃.png",
+                "name": "Cool Steel"
+              },
+              "rawArtifactBytes": 18488,
+              "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/aggregate/page-08.json",
+              "rawArtifactSha256": "ea897c7066c9f6ca598f0d1feebe540a1d706cd9317bbc8d407bc4eecdddd441",
+              "rawJsonPointer": "/data/list/26"
+            },
+            "menuId": "4",
+            "pageNumber": 8,
+            "pageSize": 30,
+            "totalObserved": "245"
+          },
+          "entry": {
+            "apiUrl": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=1938&game_id=2",
+            "pageUrl": "https://wiki.hoyolab.com/pc/genshin/entry/1938",
+            "rawArtifactBytes": 13290,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1938.json",
+            "rawArtifactSha256": "1e897cea9398146815271cc326335acbf71abc87f04bbffb075470615bec8f93",
+            "statusCode": 200
+          }
+        },
+        "sourceFamilyCount": 1
+      },
+      {
+        "canIssueEligibilityCertificate": false,
+        "canPromoteCanonical": false,
+        "candidateClaims": [
+          {
+            "candidateId": "w_11302_crit_1",
+            "claimId": "weapon:w_11302_crit_1:activation",
+            "disposition": {
+              "blockers": [
+                "officialEndpointMutableNoImmutableRevision",
+                "strictGameVersionBindingMissing",
+                "candidateClaimSemanticFieldMappingNotMaterialized",
+                "singleOfficialSourceFamily"
+              ],
+              "canIssueEligibilityCertificate": false,
+              "canPromoteCanonical": false,
+              "status": "blocked"
+            },
+            "entityId": "11302",
+            "field": "activation",
+            "fieldCoverage": {
+              "conditionScope": "notMaterialized",
+              "exactFieldIdentity": "passiveTextField",
+              "noNumericInference": true,
+              "noTranslationInference": true,
+              "rawTextAvailable": true,
+              "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+              "semanticComparison": "notPerformed",
+              "structuredClaimValue": "notMaterialized",
+              "targetScope": "notMaterialized"
+            },
+            "localCandidateEvidence": {
+              "localEffectRecordDigest": "ccf9d2f3587241be40262c935b8a6af288bd1570060dd3ab19c516e8610cd75c",
+              "source": "authoritative queue + local v2 verification",
+              "status": "legacyCandidateNeedsIndependentReview",
+              "verificationCandidateDigest": "637e8917ef15dbb6bc0efd6d374639d9ac0db2317901f9bb9cbc4f030b615933"
+            },
+            "providerField": {
+              "key": "Vigorous",
+              "providerEntryId": "baseInfo13638",
+              "rawLocator": {
+                "embeddedJsonPointer": "/list/5",
+                "embeddedValuePointer": "/list/5/value",
+                "outerJsonPointer": "/data/page/modules/0/components/0/data",
+                "rawArtifactBytes": 13258,
+                "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+                "rawArtifactSha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501"
+              },
+              "rawValue": [
+                "<p>When HP is above 90%, increases CRIT Rate by <span style=\"color: rgb(55, 255, 255)\">14%/17.5%/21%/24.5%/28%</span>.</p>"
+              ],
+              "status": "rawFieldPresent",
+              "valueDigest": "96173b7fc1e840535014452e0ca9dff5c7032165072106f338b0458466c1d683"
+            },
+            "strictGameVersionBinding": {
+              "captureTimestampIsNotVersionEvidence": true,
+              "providerReleaseField": "1.0",
+              "status": "missing",
+              "targetGameVersion": "7.0"
+            }
+          },
+          {
+            "candidateId": "w_11302_crit_1",
+            "claimId": "weapon:w_11302_crit_1:refinement",
+            "disposition": {
+              "blockers": [
+                "officialEndpointMutableNoImmutableRevision",
+                "strictGameVersionBindingMissing",
+                "candidateClaimSemanticFieldMappingNotMaterialized",
+                "singleOfficialSourceFamily"
+              ],
+              "canIssueEligibilityCertificate": false,
+              "canPromoteCanonical": false,
+              "status": "blocked"
+            },
+            "entityId": "11302",
+            "field": "refinement",
+            "fieldCoverage": {
+              "conditionScope": "notMaterialized",
+              "exactFieldIdentity": "passiveTextField",
+              "noNumericInference": true,
+              "noTranslationInference": true,
+              "rawTextAvailable": true,
+              "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+              "semanticComparison": "notPerformed",
+              "structuredClaimValue": "notMaterialized",
+              "targetScope": "notMaterialized"
+            },
+            "localCandidateEvidence": {
+              "localEffectRecordDigest": "ccf9d2f3587241be40262c935b8a6af288bd1570060dd3ab19c516e8610cd75c",
+              "source": "authoritative queue + local v2 verification",
+              "status": "legacyCandidateNeedsIndependentReview",
+              "verificationCandidateDigest": "637e8917ef15dbb6bc0efd6d374639d9ac0db2317901f9bb9cbc4f030b615933"
+            },
+            "providerField": {
+              "key": "Vigorous",
+              "providerEntryId": "baseInfo13638",
+              "rawLocator": {
+                "embeddedJsonPointer": "/list/5",
+                "embeddedValuePointer": "/list/5/value",
+                "outerJsonPointer": "/data/page/modules/0/components/0/data",
+                "rawArtifactBytes": 13258,
+                "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+                "rawArtifactSha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501"
+              },
+              "rawValue": [
+                "<p>When HP is above 90%, increases CRIT Rate by <span style=\"color: rgb(55, 255, 255)\">14%/17.5%/21%/24.5%/28%</span>.</p>"
+              ],
+              "status": "rawFieldPresent",
+              "valueDigest": "96173b7fc1e840535014452e0ca9dff5c7032165072106f338b0458466c1d683"
+            },
+            "strictGameVersionBinding": {
+              "captureTimestampIsNotVersionEvidence": true,
+              "providerReleaseField": "1.0",
+              "status": "missing",
+              "targetGameVersion": "7.0"
+            }
+          },
+          {
+            "candidateId": "w_11302_crit_1",
+            "claimId": "weapon:w_11302_crit_1:targets",
+            "disposition": {
+              "blockers": [
+                "officialEndpointMutableNoImmutableRevision",
+                "strictGameVersionBindingMissing",
+                "candidateClaimSemanticFieldMappingNotMaterialized",
+                "singleOfficialSourceFamily"
+              ],
+              "canIssueEligibilityCertificate": false,
+              "canPromoteCanonical": false,
+              "status": "blocked"
+            },
+            "entityId": "11302",
+            "field": "targets",
+            "fieldCoverage": {
+              "conditionScope": "notMaterialized",
+              "exactFieldIdentity": "passiveTextField",
+              "noNumericInference": true,
+              "noTranslationInference": true,
+              "rawTextAvailable": true,
+              "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+              "semanticComparison": "notPerformed",
+              "structuredClaimValue": "notMaterialized",
+              "targetScope": "notMaterialized"
+            },
+            "localCandidateEvidence": {
+              "localEffectRecordDigest": "ccf9d2f3587241be40262c935b8a6af288bd1570060dd3ab19c516e8610cd75c",
+              "source": "authoritative queue + local v2 verification",
+              "status": "legacyCandidateNeedsIndependentReview",
+              "verificationCandidateDigest": "637e8917ef15dbb6bc0efd6d374639d9ac0db2317901f9bb9cbc4f030b615933"
+            },
+            "providerField": {
+              "key": "Vigorous",
+              "providerEntryId": "baseInfo13638",
+              "rawLocator": {
+                "embeddedJsonPointer": "/list/5",
+                "embeddedValuePointer": "/list/5/value",
+                "outerJsonPointer": "/data/page/modules/0/components/0/data",
+                "rawArtifactBytes": 13258,
+                "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+                "rawArtifactSha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501"
+              },
+              "rawValue": [
+                "<p>When HP is above 90%, increases CRIT Rate by <span style=\"color: rgb(55, 255, 255)\">14%/17.5%/21%/24.5%/28%</span>.</p>"
+              ],
+              "status": "rawFieldPresent",
+              "valueDigest": "96173b7fc1e840535014452e0ca9dff5c7032165072106f338b0458466c1d683"
+            },
+            "strictGameVersionBinding": {
+              "captureTimestampIsNotVersionEvidence": true,
+              "providerReleaseField": "1.0",
+              "status": "missing",
+              "targetGameVersion": "7.0"
+            }
+          },
+          {
+            "candidateId": "w_11302_crit_1",
+            "claimId": "weapon:w_11302_crit_1:value",
+            "disposition": {
+              "blockers": [
+                "officialEndpointMutableNoImmutableRevision",
+                "strictGameVersionBindingMissing",
+                "candidateClaimSemanticFieldMappingNotMaterialized",
+                "singleOfficialSourceFamily"
+              ],
+              "canIssueEligibilityCertificate": false,
+              "canPromoteCanonical": false,
+              "status": "blocked"
+            },
+            "entityId": "11302",
+            "field": "value",
+            "fieldCoverage": {
+              "conditionScope": "notMaterialized",
+              "exactFieldIdentity": "passiveTextField",
+              "noNumericInference": true,
+              "noTranslationInference": true,
+              "rawTextAvailable": true,
+              "refinementScope": "rawTextContainsObservedTableButNotStructuredHere",
+              "semanticComparison": "notPerformed",
+              "structuredClaimValue": "notMaterialized",
+              "targetScope": "notMaterialized"
+            },
+            "localCandidateEvidence": {
+              "localEffectRecordDigest": "ccf9d2f3587241be40262c935b8a6af288bd1570060dd3ab19c516e8610cd75c",
+              "source": "authoritative queue + local v2 verification",
+              "status": "legacyCandidateNeedsIndependentReview",
+              "verificationCandidateDigest": "637e8917ef15dbb6bc0efd6d374639d9ac0db2317901f9bb9cbc4f030b615933"
+            },
+            "providerField": {
+              "key": "Vigorous",
+              "providerEntryId": "baseInfo13638",
+              "rawLocator": {
+                "embeddedJsonPointer": "/list/5",
+                "embeddedValuePointer": "/list/5/value",
+                "outerJsonPointer": "/data/page/modules/0/components/0/data",
+                "rawArtifactBytes": 13258,
+                "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+                "rawArtifactSha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501"
+              },
+              "rawValue": [
+                "<p>When HP is above 90%, increases CRIT Rate by <span style=\"color: rgb(55, 255, 255)\">14%/17.5%/21%/24.5%/28%</span>.</p>"
+              ],
+              "status": "rawFieldPresent",
+              "valueDigest": "96173b7fc1e840535014452e0ca9dff5c7032165072106f338b0458466c1d683"
+            },
+            "strictGameVersionBinding": {
+              "captureTimestampIsNotVersionEvidence": true,
+              "providerReleaseField": "1.0",
+              "status": "missing",
+              "targetGameVersion": "7.0"
+            }
+          }
+        ],
+        "candidateCoverage": "queueClaimsPresent",
+        "entityId": "11302",
+        "identityResolution": {
+          "existingPinnedGenshinDbAid": {
+            "bytes": 3597,
+            "embeddedId": "11302",
+            "embeddedName": "Harbinger of Dawn",
+            "gameVersion": "7.0",
+            "gitBlobSha": "fc6cc8814be3e25d4fc1f603b05e6f1388a7cf72",
+            "packageEvidence": {
+              "bytes": 1619,
+              "description": "Genshin Impact v7.0 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo.",
+              "gitBlobSha": "cfccefd470f420159b1376440e1a0f86a247030d",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+              "sha256": "3faf0b2220539a07af9260f5dd83afd0e964aa42868c9b3b73c6cb14065085c6",
+              "status": "strictlyBound"
+            },
+            "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/weapons/harbingerofdawn.json",
+            "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+            "sha256": "90ed459a7126b086708e83dfc3d0ceee63637f41fcb8ec06edf0932201b662e3",
+            "snapshotFieldDigest": "da3aaf98f2339c6d117aeffe2b7fb14a25296bb9b1c4e274ff651fa83c2b1b0e",
+            "snapshotPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/weapon-entity-snapshot.json",
+            "sourceFamily": "GenshinData-derived",
+            "status": "reusedValidatedPinnedRevisionAid"
+          },
+          "localCatalogNameJa": "黎明の神剣",
+          "localCatalogPath": "games/genshin/data/weapons.json",
+          "noArithmeticalIdInference": true,
+          "noTranslationInference": true,
+          "officialAggregateName": "Harbinger of Dawn",
+          "officialEntryPageName": "Harbinger of Dawn",
+          "status": "resolvedByLocalCatalogAndValidatedPinnedGenshinDbAid"
+        },
+        "localEffectNameJa": "奮い立てる",
+        "localNameJa": "黎明の神剣",
+        "parsedFields": {
+          "name": {
+            "embeddedJsonPointer": "/list/0",
+            "embeddedValuePointer": "/list/0/value",
+            "key": "Name",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo41559",
+            "rawArtifactBytes": 13258,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+            "rawArtifactSha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501",
+            "valueDigest": "7babb85719626f8fb8a70ff58eb3d89776c625559582db654ea85aedfb88845b",
+            "valueRaw": [
+              "Harbinger of Dawn"
+            ]
+          },
+          "passive": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "key": "Vigorous",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo13638",
+            "rawArtifactBytes": 13258,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+            "rawArtifactSha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501",
+            "valueDigest": "96173b7fc1e840535014452e0ca9dff5c7032165072106f338b0458466c1d683",
+            "valueRaw": [
+              "<p>When HP is above 90%, increases CRIT Rate by <span style=\"color: rgb(55, 255, 255)\">14%/17.5%/21%/24.5%/28%</span>.</p>"
+            ]
+          },
+          "secondaryAttribute": {
+            "embeddedJsonPointer": "/list/4",
+            "embeddedValuePointer": "/list/4/value",
+            "key": "Secondary Attributes",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo45732",
+            "rawArtifactBytes": 13258,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+            "rawArtifactSha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501",
+            "valueDigest": "72c73b5b748a0bef9168b116ef31e57f853aa46bf62abb26e4cecbb3a3dd0c60",
+            "valueRaw": [
+              "<p>CRIT DMG</p>"
+            ]
+          },
+          "versionReleased": {
+            "embeddedJsonPointer": "/list/6",
+            "embeddedValuePointer": "/list/6/value",
+            "key": "Version Released",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo47729",
+            "rawArtifactBytes": 13258,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+            "rawArtifactSha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501",
+            "valueDigest": "9168c276e33847989af6c855ffe7285a6412f91b8debc1796b764a4174d56623",
+            "valueRaw": [
+              "<p>1.0</p>"
+            ]
+          },
+          "weaponType": {
+            "embeddedJsonPointer": "/list/3",
+            "embeddedValuePointer": "/list/3/value",
+            "key": "Type",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo28603",
+            "rawArtifactBytes": 13258,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+            "rawArtifactSha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501",
+            "valueDigest": "f913d6ad7c343c3ab6e7429b1e5b7cd0ae6d174594fd3c0c083ce353501f680d",
+            "valueRaw": [
+              "<p>Sword</p>"
+            ]
+          }
+        },
+        "provider": {
+          "englishName": "Harbinger of Dawn",
+          "entryPageId": "2052",
+          "name": "HoYoverse HoYoWiki",
+          "providerId": "hoyoverse-hoyowiki"
+        },
+        "providerVersionEvidence": {
+          "observedRawValue": [
+            "<p>1.0</p>"
+          ],
+          "observedText": "1.0",
+          "reason": "HoYoWiki Version Released is an introduction-version field; current-page capture and capture timestamp do not bind the mutable page to Genshin 7.0.",
+          "status": "releaseVersionOnly",
+          "strictGameVersionBinding": "missing",
+          "strictTargetGameVersion": "7.0"
+        },
+        "sourceEvidence": {
+          "aggregate": {
+            "entry": {
+              "entryPageId": "2052",
+              "name": "Harbinger of Dawn",
+              "providerRecord": {
+                "desc": "",
+                "display_field": {},
+                "entry_page_id": "2052",
+                "filter_values": {
+                  "weapon_property": {
+                    "key": null,
+                    "value_types": [
+                      {
+                        "enum_string": "",
+                        "icon": "",
+                        "id": "188",
+                        "mi18n_key": "filter_188",
+                        "value": "CRIT DMG"
+                      }
+                    ],
+                    "values": [
+                      "CRIT DMG"
+                    ]
+                  },
+                  "weapon_rarity": {
+                    "key": null,
+                    "value_types": [
+                      {
+                        "enum_string": "3",
+                        "icon": "",
+                        "id": "695",
+                        "mi18n_key": "filter_695",
+                        "value": "3-Star"
+                      }
+                    ],
+                    "values": [
+                      "3-Star"
+                    ]
+                  },
+                  "weapon_type": {
+                    "key": null,
+                    "value_types": [
+                      {
+                        "enum_string": "",
+                        "icon": "",
+                        "id": "403",
+                        "mi18n_key": "filter_403",
+                        "value": "Sword"
+                      }
+                    ],
+                    "values": [
+                      "Sword"
+                    ]
+                  }
+                },
+                "icon_url": "https://bbs.hoyolab.com/hoyowiki/picture/weapon/黎明神剑.png",
+                "name": "Harbinger of Dawn"
+              },
+              "rawArtifactBytes": 18674,
+              "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/aggregate/page-05.json",
+              "rawArtifactSha256": "3d17ccc81a71c9615d300bed8e5e6490eaab030b544f21179028eec174e2e90c",
+              "rawJsonPointer": "/data/list/2"
+            },
+            "menuId": "4",
+            "pageNumber": 5,
+            "pageSize": 30,
+            "totalObserved": "245"
+          },
+          "entry": {
+            "apiUrl": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=2052&game_id=2",
+            "pageUrl": "https://wiki.hoyolab.com/pc/genshin/entry/2052",
+            "rawArtifactBytes": 13258,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/2052.json",
+            "rawArtifactSha256": "9ff38b127c1fbb4dab782ae5c2b2af359226a3275fb08e52dd276ef1ac8a8501",
+            "statusCode": 200
+          }
+        },
+        "sourceFamilyCount": 1
+      },
+      {
+        "canIssueEligibilityCertificate": false,
+        "canPromoteCanonical": false,
+        "candidateClaims": [],
+        "candidateCoverage": "noV2CandidateClaimForEntity",
+        "entityId": "11303",
+        "identityResolution": {
+          "existingPinnedGenshinDbAid": null,
+          "localCatalogNameJa": "旅道の剣",
+          "localCatalogPath": "games/genshin/data/weapons.json",
+          "noArithmeticalIdInference": true,
+          "noTranslationInference": true,
+          "officialAggregateName": "Traveler's Handy Sword",
+          "officialEntryPageName": "Traveler's Handy Sword",
+          "status": "officialEntryResolvedButLocalNumericIdUnbound"
+        },
+        "localEffectNameJa": "旅路",
+        "localNameJa": "旅道の剣",
+        "parsedFields": {
+          "name": {
+            "embeddedJsonPointer": "/list/0",
+            "embeddedValuePointer": "/list/0/value",
+            "key": "Name",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo72503",
+            "rawArtifactBytes": 13724,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1977.json",
+            "rawArtifactSha256": "8d907ed55ff8d9a316426cea79e5c560a653566832de0c2d200ae0d068b2ad2f",
+            "valueDigest": "53e8728d0fb1e56f540073c1b41b5bd6c73a2b99aa56d3e6ac7a44971af7bee0",
+            "valueRaw": [
+              "Traveler's Handy Sword"
+            ]
+          },
+          "passive": {
+            "embeddedJsonPointer": "/list/5",
+            "embeddedValuePointer": "/list/5/value",
+            "key": "Journey",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo52228",
+            "rawArtifactBytes": 13724,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1977.json",
+            "rawArtifactSha256": "8d907ed55ff8d9a316426cea79e5c560a653566832de0c2d200ae0d068b2ad2f",
+            "valueDigest": "4bff1842543b533e6464add07553d1c7be0277a017e4eabe3babef7c1ef1f915",
+            "valueRaw": [
+              "<p>Each Elemental Orb or Particle collected restores <span style=\"color: rgb(55, 255, 255)\">1%/1.25%/1.5%/1.75%/2%</span> HP.</p>"
+            ]
+          },
+          "secondaryAttribute": {
+            "embeddedJsonPointer": "/list/4",
+            "embeddedValuePointer": "/list/4/value",
+            "key": "Secondary Attributes",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo78921",
+            "rawArtifactBytes": 13724,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1977.json",
+            "rawArtifactSha256": "8d907ed55ff8d9a316426cea79e5c560a653566832de0c2d200ae0d068b2ad2f",
+            "valueDigest": "458e7ae9f70219c1eaec05ce3e7736ae34c87942b49384f033203919b7bc3400",
+            "valueRaw": [
+              "<p>DEF Percentage</p>"
+            ]
+          },
+          "versionReleased": {
+            "embeddedJsonPointer": "/list/7",
+            "embeddedValuePointer": "/list/7/value",
+            "key": "Version Released",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo13941",
+            "rawArtifactBytes": 13724,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1977.json",
+            "rawArtifactSha256": "8d907ed55ff8d9a316426cea79e5c560a653566832de0c2d200ae0d068b2ad2f",
+            "valueDigest": "9168c276e33847989af6c855ffe7285a6412f91b8debc1796b764a4174d56623",
+            "valueRaw": [
+              "<p>1.0</p>"
+            ]
+          },
+          "weaponType": {
+            "embeddedJsonPointer": "/list/3",
+            "embeddedValuePointer": "/list/3/value",
+            "key": "Type",
+            "outerJsonPointer": "/data/page/modules/0/components/0/data",
+            "providerEntryId": "baseInfo55000",
+            "rawArtifactBytes": 13724,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1977.json",
+            "rawArtifactSha256": "8d907ed55ff8d9a316426cea79e5c560a653566832de0c2d200ae0d068b2ad2f",
+            "valueDigest": "f913d6ad7c343c3ab6e7429b1e5b7cd0ae6d174594fd3c0c083ce353501f680d",
+            "valueRaw": [
+              "<p>Sword</p>"
+            ]
+          }
+        },
+        "provider": {
+          "englishName": "Traveler's Handy Sword",
+          "entryPageId": "1977",
+          "name": "HoYoverse HoYoWiki",
+          "providerId": "hoyoverse-hoyowiki"
+        },
+        "providerVersionEvidence": {
+          "observedRawValue": [
+            "<p>1.0</p>"
+          ],
+          "observedText": "1.0",
+          "reason": "HoYoWiki Version Released is an introduction-version field; current-page capture and capture timestamp do not bind the mutable page to Genshin 7.0.",
+          "status": "releaseVersionOnly",
+          "strictGameVersionBinding": "missing",
+          "strictTargetGameVersion": "7.0"
+        },
+        "sourceEvidence": {
+          "aggregate": {
+            "entry": {
+              "entryPageId": "1977",
+              "name": "Traveler's Handy Sword",
+              "providerRecord": {
+                "desc": "",
+                "display_field": {},
+                "entry_page_id": "1977",
+                "filter_values": {
+                  "weapon_property": {
+                    "key": null,
+                    "value_types": [
+                      {
+                        "enum_string": "",
+                        "icon": "",
+                        "id": "157",
+                        "mi18n_key": "filter_157",
+                        "value": "DEF Percentage"
+                      }
+                    ],
+                    "values": [
+                      "DEF Percentage"
+                    ]
+                  },
+                  "weapon_rarity": {
+                    "key": null,
+                    "value_types": [
+                      {
+                        "enum_string": "3",
+                        "icon": "",
+                        "id": "695",
+                        "mi18n_key": "filter_695",
+                        "value": "3-Star"
+                      }
+                    ],
+                    "values": [
+                      "3-Star"
+                    ]
+                  },
+                  "weapon_type": {
+                    "key": null,
+                    "value_types": [
+                      {
+                        "enum_string": "",
+                        "icon": "",
+                        "id": "403",
+                        "mi18n_key": "filter_403",
+                        "value": "Sword"
+                      }
+                    ],
+                    "values": [
+                      "Sword"
+                    ]
+                  }
+                },
+                "icon_url": "https://bbs.hoyolab.com/hoyowiki/picture/weapon/旅行剑.png",
+                "name": "Traveler's Handy Sword"
+              },
+              "rawArtifactBytes": 18522,
+              "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/aggregate/page-07.json",
+              "rawArtifactSha256": "df7c4a8febb74865d5afe677d2efd8c003cc73fcee26c8313453f2381360d34a",
+              "rawJsonPointer": "/data/list/17"
+            },
+            "menuId": "4",
+            "pageNumber": 7,
+            "pageSize": 30,
+            "totalObserved": "245"
+          },
+          "entry": {
+            "apiUrl": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page?entry_page_id=1977&game_id=2",
+            "pageUrl": "https://wiki.hoyolab.com/pc/genshin/entry/1977",
+            "rawArtifactBytes": 13724,
+            "rawArtifactPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/hoyowiki-official-weapon-frontier-11301-11303/entries/1977.json",
+            "rawArtifactSha256": "8d907ed55ff8d9a316426cea79e5c560a653566832de0c2d200ae0d068b2ad2f",
+            "statusCode": 200
+          }
+        },
+        "sourceFamilyCount": 1
+      }
+    ],
+    "gateDisposition": {
+      "canIssueEligibilityCertificate": false,
+      "canPromoteCanonical": false,
+      "providerIndependence": "notPairableWithinThisLane",
+      "reason": "The captured official API exposes exact identity and passive fields, but its mutable current endpoint has no immutable revision or explicit Genshin 7.0 binding. HoYoWiki and HoYoLAB also normalize to the same official-hoyoverse family.",
+      "sourceFamilyCount": 1,
+      "status": "officialRawAvailableButTargetVersionUnbound",
+      "strictGameVersionBinding": "missing"
+    },
+    "immutable": false,
+    "independenceGroup": "official-hoyoverse",
+    "lane": "officialWeaponFrontier",
+    "lineage": "First-party HoYoverse/HoYoLAB publication.",
+    "lineageStatus": "declared",
+    "localIdentity": {
+      "authority": "repository-local weapons.json and weapon-effects.json",
+      "fileDigests": {
+        "catalog": {
+          "bytes": 23082,
+          "path": "games/genshin/data/weapons.json",
+          "sha256": "51440a4d511b958162f388cba7ad8dc907ee06ac0f214636f7c64b43700a17db"
+        },
+        "effects": {
+          "bytes": 168229,
+          "path": "games/genshin/data/weapon-effects.json",
+          "sha256": "fca76d1b9a2ecd6c0fb78104d40ea6c975a1c77ed91db733ff88fdffe73a8a77"
+        },
+        "verification": {
+          "bytes": 3690192,
+          "path": "games/genshin/data/v2/weapons/verification.json",
+          "sha256": "53cba6dc934e0c3e803aa8fd3112743f6f25d28740e71a885ea10d5ff67821b7"
+        }
+      },
+      "paths": {
+        "catalog": "games/genshin/data/weapons.json",
+        "effects": "games/genshin/data/weapon-effects.json",
+        "verification": "games/genshin/data/v2/weapons/verification.json"
+      },
+      "records": [
+        {
+          "candidateRecords": [
+            {
+              "candidateId": "w_11301_damage_1",
+              "legacyCandidateDigest": "8a21c1f81b6381e06197f36a2b260850ff1ffaba67a699a9c34268e66c72d4ce",
+              "legacyRuntimeStatus": "candidate",
+              "requiredClaimFields": [
+                "activation",
+                "refinement",
+                "targets",
+                "value"
+              ],
+              "sourceAgreement": "singleSource",
+              "verificationStatus": "needsReview"
+            },
+            {
+              "candidateId": "w_11301_damageBonus_91cc873a",
+              "legacyCandidateDigest": "c7e4cacd19131ed0deef57f05a2b2965056c3abd4998ac6fca921ee781152ce9",
+              "legacyRuntimeStatus": "candidate",
+              "requiredClaimFields": [
+                "activation",
+                "refinement",
+                "targets",
+                "value"
+              ],
+              "sourceAgreement": "singleSource",
+              "verificationStatus": "needsReview"
+            }
+          ],
+          "catalogRecordDigest": "bc2e56c04648ddf2808b32d6606e2b6aabf0db2fa4ffac327697e3bf8a4f0938",
+          "effectNameJa": "水と氷の破滅",
+          "effectRecordDigest": "74551459b5160795dc820de33b8443581d3fb10210dda1738e2d626e8ae7f2d0",
+          "effectTextTemplate": "水元素または氷元素の影響を受けた敵に対するダメージ+{param1}。",
+          "entityId": "11301",
+          "existingGenshinDbProvider": {
+            "bytes": 3652,
+            "embeddedId": "11301",
+            "embeddedName": "Cool Steel",
+            "gameVersion": "7.0",
+            "gitBlobSha": "f8bccb63ab39b9972bc8178fd919546522d3c3b5",
+            "packageEvidence": {
+              "bytes": 1619,
+              "description": "Genshin Impact v7.0 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo.",
+              "gitBlobSha": "cfccefd470f420159b1376440e1a0f86a247030d",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+              "sha256": "3faf0b2220539a07af9260f5dd83afd0e964aa42868c9b3b73c6cb14065085c6",
+              "status": "strictlyBound"
+            },
+            "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/weapons/coolsteel.json",
+            "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+            "sha256": "c5dbd59313afef508430f7045bba2a8af607244bf09bed219acb4443f70ea511",
+            "snapshotFieldDigest": "da3aaf98f2339c6d117aeffe2b7fb14a25296bb9b1c4e274ff651fa83c2b1b0e",
+            "snapshotPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/weapon-entity-snapshot.json",
+            "sourceFamily": "GenshinData-derived",
+            "status": "reusedValidatedPinnedRevisionAid"
+          },
+          "identityStatus": "localCatalogAndValidatedPinnedGenshinDbAid",
+          "localNameJa": "冷刃"
+        },
+        {
+          "candidateRecords": [
+            {
+              "candidateId": "w_11302_crit_1",
+              "legacyCandidateDigest": "637e8917ef15dbb6bc0efd6d374639d9ac0db2317901f9bb9cbc4f030b615933",
+              "legacyRuntimeStatus": "candidate",
+              "requiredClaimFields": [
+                "activation",
+                "refinement",
+                "targets",
+                "value"
+              ],
+              "sourceAgreement": "singleSource",
+              "verificationStatus": "needsReview"
+            }
+          ],
+          "catalogRecordDigest": "dbf8b71d0b8ec119524b26683c2c0e0ebc43e548e832dba9fb9f7c2fb24e06e5",
+          "effectNameJa": "奮い立てる",
+          "effectRecordDigest": "ccf9d2f3587241be40262c935b8a6af288bd1570060dd3ab19c516e8610cd75c",
+          "effectTextTemplate": "HPが90%以上の時、会心率+{param1}。",
+          "entityId": "11302",
+          "existingGenshinDbProvider": {
+            "bytes": 3597,
+            "embeddedId": "11302",
+            "embeddedName": "Harbinger of Dawn",
+            "gameVersion": "7.0",
+            "gitBlobSha": "fc6cc8814be3e25d4fc1f603b05e6f1388a7cf72",
+            "packageEvidence": {
+              "bytes": 1619,
+              "description": "Genshin Impact v7.0 JSON data. Search and get results in all in-game languages! Sources from the fandom wiki and GenshinData repo.",
+              "gitBlobSha": "cfccefd470f420159b1376440e1a0f86a247030d",
+              "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+              "sha256": "3faf0b2220539a07af9260f5dd83afd0e964aa42868c9b3b73c6cb14065085c6",
+              "status": "strictlyBound"
+            },
+            "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/weapons/harbingerofdawn.json",
+            "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+            "sha256": "90ed459a7126b086708e83dfc3d0ceee63637f41fcb8ec06edf0932201b662e3",
+            "snapshotFieldDigest": "da3aaf98f2339c6d117aeffe2b7fb14a25296bb9b1c4e274ff651fa83c2b1b0e",
+            "snapshotPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/weapon-entity-snapshot.json",
+            "sourceFamily": "GenshinData-derived",
+            "status": "reusedValidatedPinnedRevisionAid"
+          },
+          "identityStatus": "localCatalogAndValidatedPinnedGenshinDbAid",
+          "localNameJa": "黎明の神剣"
+        },
+        {
+          "candidateRecords": [],
+          "catalogRecordDigest": "5abbe2b5d0d7800d948ccbd7a348baf6964a983c983610481f0a3ba555f4cf89",
+          "effectNameJa": "旅路",
+          "effectRecordDigest": "fd223fd7d5635f4caaeee986a6bd02410ddbf163745d8f5193870c2768ca99ab",
+          "effectTextTemplate": "元素オーブまたは元素粒子を獲得した時、HPを{param1}回復する。",
+          "entityId": "11303",
+          "existingGenshinDbProvider": null,
+          "identityStatus": "localNumericIdNotBoundToOfficialEnglishName",
+          "localNameJa": "旅道の剣"
+        }
+      ],
+      "status": "localIdentityAndCandidateClaimsReadOnly"
+    },
+    "notRepresentedEntities": [
+      {
+        "entityId": "11303",
+        "reason": "No authoritative v2 queue candidate claim exists for 11303; no claim is invented.",
+        "status": "noV2CandidateClaimForEntity"
+      }
+    ],
+    "provider": "HoYoverse HoYoWiki",
+    "providerId": "hoyoverse-hoyowiki",
+    "queue": {
+      "candidateCount": 3,
+      "candidateIds": [
+        "w_11301_damage_1",
+        "w_11301_damageBonus_91cc873a",
+        "w_11302_crit_1"
+      ],
+      "candidateIdsDigest": "11fcc043499a6ed7190f0427446fec7cfb5203edd3686e0a8cee196e79a72e2e",
+      "expectedShardCandidateCount": 100,
+      "path": "reports/genshin-evidence-task-queue.json",
+      "shardId": "weapons:weaponEffectSpec:sourceMissing:standard:01",
+      "status": "authoritativeQueueReadOnly"
+    },
+    "revision": {
+      "status": "mutableEndpointNoRevision",
+      "value": null
+    },
+    "scope": {
+      "candidateCount": 3,
+      "candidateIds": [
+        "w_11301_damage_1",
+        "w_11301_damageBonus_91cc873a",
+        "w_11302_crit_1"
+      ],
+      "entityCount": 3,
+      "entityIds": [
+        "11301",
+        "11302",
+        "11303"
+      ]
+    },
+    "searchScope": {
+      "accessStatus": "captured",
+      "aggregateEndpoint": {
+        "menuId": "4",
+        "method": "POST",
+        "pageSize": 30,
+        "pages": [
+          5,
+          7,
+          8
+        ],
+        "totalObserved": [
+          "245",
+          "245",
+          "245"
+        ],
+        "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/get_entry_page_list"
+      },
+      "directEndpoint": {
+        "entryPageIds": [
+          "1938",
+          "1977",
+          "2052"
+        ],
+        "method": "GET",
+        "url": "https://sg-wiki-api.hoyolab.com/hoyowiki/wapi/entry_page"
+      },
+      "exactEntityIds": [
+        "11301",
+        "11302",
+        "11303"
+      ],
+      "exhaustive": false,
+      "provider": "HoYoverse HoYoWiki",
+      "providersExamined": [
+        "HoYoverse HoYoWiki"
+      ],
+      "reopenTrigger": "immutable official 7.0-bound snapshot/release artifact or a newly disclosed independent source family",
+      "status": "boundedOfficialProviderCapture"
+    },
+    "sourceFamily": "official-hoyoverse",
+    "targetGameVersion": "7.0",
+    "transitionId": "genshin:6.7->7.0"
+  },
+  "fieldDigest": "bcfe5eaf81f3bf1142963ece9c47a7ad5479ab27837d94bec1284e6ec45e74de",
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "gateEligibility": {
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false,
+    "sourceFamilyCount": 1,
+    "status": "officialRawAvailableButTargetVersionUnbound"
+  },
+  "generatedAt": "2026-08-28T00:00:00.000Z",
+  "kind": "genshinVersionTransitionOfficialWeaponFrontierSnapshot",
+  "schemaVersion": 1,
+  "status": "officialRawCapturedTargetVersionUnbound",
+  "summary": {
+    "aggregateRawRecords": 3,
+    "candidateClaims": 12,
+    "candidateFieldClaims": 12,
+    "canonicalPromotionCount": 0,
+    "certificateEligibleClaims": 0,
+    "directRawRecords": 3,
+    "entities": 3,
+    "identityUnboundEntities": 1,
+    "noV2CandidateClaimEntities": 1,
+    "rawPassiveFields": 3,
+    "sourceFamilyCount": 1,
+    "strictTargetVersionBoundEntities": 0
+  }
+}

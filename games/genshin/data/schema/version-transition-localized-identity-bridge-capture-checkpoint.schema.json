@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-version-transition-localized-identity-bridge-capture-checkpoint.schema.json",
+  "title": "Genshin version transition localized identity bridge capture checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "generatedAt", "transitionId", "entityId", "localNameJa", "provider", "sourceNamespace", "status", "revisions", "materializedArtifact", "nextTask", "gateEligibility", "claim", "fieldDigestAlgorithm", "fieldDigest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinVersionTransitionLocalizedIdentityBridgeCaptureCheckpoint" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "transitionId": { "const": "genshin:6.7->7.0" },
+    "entityId": { "const": "10000124" },
+    "localNameJa": { "const": "ヤフォダ" },
+    "provider": { "const": "genshin-db" },
+    "sourceNamespace": { "const": "genshin-db-localized-identity-bridge-10000124" },
+    "status": { "enum": ["inProgress", "captured", "complete", "identityBridgeUnproven", "blockedByProviderEvidence", "captureError"] },
+    "revisions": {
+      "type": "object", "additionalProperties": false, "required": ["before", "after"],
+      "properties": {
+        "before": { "$ref": "#/$defs/progress" },
+        "after": { "$ref": "#/$defs/progress" }
+      }
+    },
+    "materializedArtifact": { "anyOf": [{ "$ref": "#/$defs/materialized" }, { "type": "null" }] },
+    "nextTask": { "type": "string", "minLength": 1 },
+    "gateEligibility": { "$ref": "#/$defs/gate" },
+    "claim": { "$ref": "#/$defs/claim" },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "progress": {
+      "type": "object", "additionalProperties": false,
+      "required": ["gameVersion", "revision", "status", "completedRecordKinds"],
+      "properties": { "gameVersion": { "enum": ["6.7", "7.0"] }, "revision": { "$ref": "#/$defs/revision" }, "status": { "type": "string", "minLength": 1 }, "completedRecordKinds": { "type": "array", "items": { "enum": ["talents", "constellations"] } } }
+    },
+    "materialized": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "fieldDigest", "status"],
+      "properties": { "path": { "type": "string", "minLength": 1 }, "fieldDigest": { "$ref": "#/$defs/sha256" }, "status": { "enum": ["identityBridgeProven", "identityBridgeUnproven"] } }
+    },
+    "gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sourceFamilyCount", "canIssueEligibilityCertificate", "canPromoteCanonical"],
+      "properties": { "sourceFamilyCount": { "const": 1 }, "canIssueEligibilityCertificate": { "const": false }, "canPromoteCanonical": { "const": false } }
+    },
+    "revisionStatus": {
+      "type": "object", "additionalProperties": false,
+      "required": ["revision", "status", "localizedRecordCount", "expectedLocalizedRecordCount"],
+      "properties": { "revision": { "$ref": "#/$defs/revision" }, "status": { "type": "string", "minLength": 1 }, "localizedRecordCount": { "type": "integer", "minimum": 0 }, "expectedLocalizedRecordCount": { "const": 2 } }
+    },
+    "claim": {
+      "type": "object", "additionalProperties": false,
+      "required": ["transitionId", "entityId", "localNameJa", "provider", "sourceFamily", "sourceNamespace", "revisions", "materializedArtifact", "identityBridgeStatus", "canIssueEligibilityCertificate", "canPromoteCanonical", "blocker", "nextTask"],
+      "properties": {
+        "transitionId": { "const": "genshin:6.7->7.0" }, "entityId": { "const": "10000124" }, "localNameJa": { "const": "ヤフォダ" }, "provider": { "const": "genshin-db" }, "sourceFamily": { "const": "GenshinData-derived" }, "sourceNamespace": { "const": "genshin-db-localized-identity-bridge-10000124" },
+        "revisions": { "type": "object", "additionalProperties": false, "required": ["6.7", "7.0"], "properties": { "6.7": { "$ref": "#/$defs/revisionStatus" }, "7.0": { "$ref": "#/$defs/revisionStatus" } } },
+        "materializedArtifact": { "anyOf": [{ "$ref": "#/$defs/materialized" }, { "type": "null" }] }, "identityBridgeStatus": { "enum": ["capturePending", "explicitLocalizedNameBridge", "providerLocalizedPathMissing"] }, "canIssueEligibilityCertificate": { "const": false }, "canPromoteCanonical": { "const": false }, "blocker": { "anyOf": [{ "type": "object", "additionalProperties": false, "required": ["kind", "message", "status", "url"], "properties": { "kind": { "type": "string" }, "message": { "type": "string" }, "status": { "type": ["integer", "null"] }, "url": { "type": ["string", "null"], "format": "uri" } } }, { "type": "null" }] }, "nextTask": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

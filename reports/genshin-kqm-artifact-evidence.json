@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinKqmArtifactEvidenceReport",
+  "generatedBy": "genshinKqmArtifactEvidence/1",
+  "generatedAt": "2026-08-26T00:00:00.000Z",
+  "status": "evidenceOnlyBlocked",
+  "blockedReasons": [
+    "gameVersionUnbound"
+  ],
+  "audit": {
+    "ok": true,
+    "errors": []
+  },
+  "summary": {
+    "candidateCount": 50,
+    "fieldComparisonCount": 50,
+    "sourceRecordCount": 50,
+    "fieldAgreementCount": 50,
+    "valueMatchCount": 50,
+    "unitMatchCount": 50,
+    "targetMatchCount": 50,
+    "conditionMatchCount": 50,
+    "pieceCountMatchCount": 50,
+    "activationComparableCount": 0,
+    "gameVersionBoundCount": 0,
+    "gameVersionUnboundCount": 50,
+    "canonicalEligibleCount": 0,
+    "statusCounts": {
+      "evidenceOnlyBlocked": 50
+    },
+    "blockedReasonCounts": {
+      "gameVersionUnbound": 50
+    }
+  },
+  "pairPolicy": {
+    "dataset": "artifactSetModifiers",
+    "providerA": "KQM Theorycrafting Library",
+    "providerB": "theBowja/genshin-db",
+    "independenceGroupA": "KQM-community-research",
+    "independenceGroupB": "GenshinData-derived",
+    "upstreamLineageA": "Community-submitted theorycrafting knowledge vetted by KQM theorycrafting editors; no GenshinData/HoYoWiki upstream is declared in this artifact.",
+    "upstreamLineageB": "GenshinData-derived localized raw projection (as recorded in source-catalog.json).",
+    "providerARevision": "3d6f2fbcfdc5be69e279b732b17f2dea2be9f597",
+    "providerAFile": "src/data/artifacts.json",
+    "providerAFileBlob": "a89e0819ba8438815568febdf5967d7f234c0aa8",
+    "providerAFileSha256": "5cbc835f48bb6b81b33d07e379de9980aa9619855754a8c5417d387e6b81164d",
+    "providerBRevision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+    "providerBGameVersion": "7.0",
+    "scope": "50 two-piece artifact fields; KQM-to-local normalized field comparison is materialized, while provider-B artifact files are not materialized in this artifact.",
+    "status": "evidenceOnlyBlocked",
+    "blockedReasons": [
+      "gameVersionUnbound"
+    ],
+    "invalidationConditions": [
+      "KQM revision, artifact blob, or raw-file SHA-256 changes",
+      "genshin-db revision, package-manifest version, or field digest changes",
+      "KQM or genshin-db field value/condition/scope discrepancy",
+      "KQM upstream lineage is disclosed as correlated with GenshinData/HoYoWiki",
+      "KQM exact version binding or approved contract scope changes"
+    ],
+    "reopenTrigger": "A KQM provider-authored immutable release/manifest must bind this exact commit, artifact blob, raw-file digest, and normalized field digest to Genshin 7.0, or the contract must explicitly approve a different version-binding rule. Reopen also on disclosed lineage correlation, source revision/blob/digest change, field/condition discrepancy, or scope change.",
+    "evidenceRefs": [
+      "scripts/genshinKqmArtifactEvidence.cjs",
+      "reports/genshin-kqm-artifact-evidence.md",
+      "games/genshin/data/v2/source-catalog.json"
+    ]
+  },
+  "evidenceRefs": [
+    "games/genshin/data/v2/external/kqm-artifact-field-evidence.json",
+    "reports/genshin-kqm-artifact-evidence.md"
+  ]
+}

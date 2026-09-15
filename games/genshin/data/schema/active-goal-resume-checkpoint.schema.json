@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-active-goal-resume-checkpoint.schema.json",
+  "title": "Genshin active goal resume checkpoint",
+  "type": "object",
+  "required": ["schemaVersion", "kind", "generatedAt", "goalState", "phase", "completedScope", "authoritativeQueue", "workers", "partialArtifacts", "nextTask"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinActiveGoalResumeCheckpoint" },
+    "generatedAt": { "type": "string" },
+    "goalState": {
+      "type": "object",
+      "required": ["state", "complete", "usageLimited", "genuinelyBlocked"],
+      "properties": {
+        "state": { "const": "active" },
+        "complete": { "const": false },
+        "usageLimited": { "const": true },
+        "genuinelyBlocked": { "const": false }
+      }
+    },
+    "phase": { "type": "string" },
+    "completedScope": { "type": "object" },
+    "authoritativeQueue": { "type": "object" },
+    "workers": { "type": "array", "items": { "type": "object" } },
+    "partialArtifacts": { "type": "array", "items": { "type": "object" } },
+    "nextTask": { "type": "object" }
+  }
+}

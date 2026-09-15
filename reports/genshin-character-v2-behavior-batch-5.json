@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 2,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 2,
+    "status": "passed",
+    "batch": 5,
+    "batchCharacters": 10,
+    "sourceRecords": 150,
+    "inventoryCandidates": 140,
+    "specs": 140,
+    "modifiers": 0,
+    "canonical": 0,
+    "inventoryInputCandidates": 145,
+    "inventoryCandidateStatusCounts": {
+      "candidate": 85,
+      "unknown": 60
+    },
+    "explicitCandidateOperations": 85,
+    "unknownCandidateIds": 60,
+    "sourceInventoryCandidates": 145,
+    "explicitInventoryCandidates": 85,
+    "unknownInventoryCandidates": 60,
+    "verificationByStatus": {
+      "needsReview": 140
+    },
+    "runtimeByStatus": {
+      "blocked": 140
+    },
+    "sourceKinds": {
+      "primaryDataset": 150
+    },
+    "contract": {
+      "malformedSources": 0,
+      "malformedInventory": 0,
+      "malformedSpecs": 0,
+      "malformedByCharacter": 0,
+      "missingSourceRefs": 0,
+      "missingInventoryRefs": 0,
+      "inputDigestMismatches": 0,
+      "unknownFieldViolations": 0,
+      "numericInferenceViolations": 0,
+      "inventoryCandidateViolations": 0,
+      "schemaViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [],
+  "malformedSources": [],
+  "malformedInventory": [],
+  "malformedSpecs": [],
+  "malformedByCharacter": [],
+  "missingSourceRefs": [],
+  "missingInventoryRefs": [],
+  "inputDigestMismatches": [],
+  "unknownFieldViolations": [],
+  "numericInferenceViolations": [],
+  "inventoryCandidateViolations": [],
+  "schemaViolations": [],
+  "characterCoverage": [
+    {
+      "characterId": "10000056",
+      "characterName": "九条裟羅",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 18,
+      "explicitCandidateOperations": 9,
+      "unknownCandidateIds": 9,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000057",
+      "characterName": "荒瀧一斗",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 15,
+      "explicitCandidateOperations": 8,
+      "unknownCandidateIds": 7,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000059",
+      "characterName": "鹿野院平蔵",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 17,
+      "explicitCandidateOperations": 11,
+      "unknownCandidateIds": 6,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000060",
+      "characterName": "夜蘭",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 21,
+      "explicitCandidateOperations": 11,
+      "unknownCandidateIds": 10,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000062",
+      "characterName": "アーロイ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 7,
+      "explicitCandidateOperations": 4,
+      "unknownCandidateIds": 3,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000063",
+      "characterName": "申鶴",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 13,
+      "explicitCandidateOperations": 9,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000064",
+      "characterName": "雲菫",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 11,
+      "explicitCandidateOperations": 5,
+      "unknownCandidateIds": 6,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000065",
+      "characterName": "久岐忍",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 15,
+      "explicitCandidateOperations": 11,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000066",
+      "characterName": "神里綾人",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 12,
+      "explicitCandidateOperations": 4,
+      "unknownCandidateIds": 8,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000067",
+      "characterName": "コレイ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 16,
+      "explicitCandidateOperations": 13,
+      "unknownCandidateIds": 3,
+      "modifiers": 0,
+      "canonical": 0
+    }
+  ],
+  "generatedFromDisk": true
+}

@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "audit": "genshin-uid-talent-order",
+  "generatedAt": "2026-08-16",
+  "status": "explicit-id-partial-resolved-fail-closed",
+  "verdict": {
+    "canonicalIdsResolved": true,
+    "unknownIdsUnresolved": true,
+    "objectValuesOrderUsed": false,
+    "unresolvedFallbackLevel": 1,
+    "rawMapRetained": true,
+    "domE2eClaim": false
+  },
+  "evidence": [
+    {
+      "path": "games/genshin/data/calc/talent-scalings.json",
+      "claim": "Local scaling metadata maps normalAttack/skill/burst to source talentKey combat1/combat2/combat3."
+    },
+    {
+      "path": "scripts/genshinTalentValueAudit.cjs",
+      "claim": "The local audit uses the same explicit combat1 -> normalAttack, combat2 -> skill, combat3 -> burst table."
+    },
+    {
+      "path": "games/genshin/data/character-talents.json",
+      "claim": "Resolver talent metadata has semantic groups and display text but no UID skillLevelMap ID table."
+    },
+    {
+      "path": "games/js/genshinProfileMapper.js",
+      "claim": "Only canonical combat IDs are mapped; unknown/partial/conflicting maps are unresolved and never enumerated by Object.values."
+    },
+    {
+      "path": "games/js/genshinDataContract.js",
+      "claim": "talentLevelMapping provenance is copied into CalculationInput and support-member provenance."
+    },
+    {
+      "path": "games/js/genshinPartyState.js",
+      "claim": "Support combat state remains manual-boundary data and useUidBaseStats rejects stale UID final stats after manual level/weapon edits."
+    },
+    {
+      "path": "games/js/genshinUidImporter.js",
+      "claim": "Unresolved talent mappings render an alert on the UID card and emit a warning-type message when applying the profile to calculation fields."
+    }
+  ],
+  "contract": {
+    "skillIdToTalent": {
+      "combat1": "normal",
+      "combat2": "skill",
+      "combat3": "burst"
+    },
+    "resolvedRequirements": [
+      "all three canonical IDs present",
+      "each level is a positive finite number",
+      "no conflicting case-variant IDs"
+    ],
+    "unresolvedBehavior": {
+      "talentLevels": {
+        "normal": 1,
+        "skill": 1,
+        "burst": 1
+      },
+      "rawPath": "provenance.talentLevelMapping.rawById",
+      "reasonPath": "provenance.talentLevelMapping.reason"
+    }
+  },
+  "fieldMatrix": [
+    {
+      "inputPath": "avatar.skillLevelMap|avatar.avatarSkillLevelMap.<skillId>",
+      "outputPath": "talents.normal|skill|burst",
+      "status": "explicit-id-only"
+    },
+    {
+      "inputPath": "unknown or unresolved skill IDs",
+      "outputPath": "provenance.talentLevelMapping.rawById",
+      "status": "lossless-raw-with-safe-fallback"
+    },
+    {
+      "inputPath": "provenance.talentLevelMapping",
+      "outputPath": "CalculationInput.provenance.talentLevelMapping -> PartyMember.provenance.talentLevelMapping",
+      "status": "lossless-provenance"
+    }
+  ],
+  "manualBoundary": {
+    "supportCombatState": {
+      "onField": false,
+      "hpRatio": 100,
+      "buffStates": {}
+    },
+    "uidFinalStats": "useUidBaseStats is valid only while UID-origin level/weapon/weapon-level fields still match; manual edits use resolver base stats."
+  },
+  "verification": {
+    "test": "tests/genshin/genshinUidTalentOrderContract.test.cjs",
+    "companionTest": "tests/genshin/genshinUidPartyBridgeContract.test.cjs",
+    "uiTest": "tests/genshin/genshinUidTalentWarningUi.test.cjs",
+    "mode": "pure-contract-fixture",
+    "domE2e": false,
+    "command": "node --test tests/genshin/genshinUidTalentOrderContract.test.cjs tests/genshin/genshinUidPartyBridgeContract.test.cjs tests/genshin/genshinUidTalentWarningUi.test.cjs",
+    "result": "15 passed"
+  },
+  "openRisks": [
+    "Actual UID numeric skill IDs still need an authoritative skillDepot/inherentProudSkill resolver fixture before they can be mapped semantically.",
+    "Unknown IDs intentionally produce safe level-1 provider values; raw levels remain available for a future resolver migration."
+  ]
+}

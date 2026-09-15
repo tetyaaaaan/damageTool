@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 2,
+  "entity": {
+    "kind": "artifactSet",
+    "id": "15019"
+  },
+  "sourceRefs": [
+    "artifact:15019:catalog",
+    "artifact:15019:effects"
+  ],
+  "pieceSlots": {
+    "onePiece": {
+      "pieceCount": 1,
+      "sourceRefs": [
+        "artifact:15019:effect:onePiece"
+      ],
+      "modifierIds": [],
+      "specIds": []
+    },
+    "twoPiece": {
+      "pieceCount": 2,
+      "sourceRefs": [
+        "artifact:15019:effect:twoPiece"
+      ],
+      "modifierIds": [
+        "artifact:15019:twoPiece:2pc_atk_percent"
+      ],
+      "specIds": [
+        "artifact:15019:twoPiece:2pc_atk_percent"
+      ]
+    },
+    "fourPiece": {
+      "pieceCount": 4,
+      "sourceRefs": [
+        "artifact:15019:effect:fourPiece"
+      ],
+      "modifierIds": [
+        "artifact:15019:fourPiece:4pc_normal_charged_plunging_after_skill_energy_cost"
+      ],
+      "specIds": [
+        "artifact:15019:fourPiece:4pc_normal_charged_plunging_after_skill_energy_cost"
+      ]
+    }
+  },
+  "modifierIds": [
+    "artifact:15019:twoPiece:2pc_atk_percent",
+    "artifact:15019:fourPiece:4pc_normal_charged_plunging_after_skill_energy_cost"
+  ],
+  "specIds": [
+    "artifact:15019:twoPiece:2pc_atk_percent",
+    "artifact:15019:fourPiece:4pc_normal_charged_plunging_after_skill_energy_cost"
+  ],
+  "verification": {
+    "status": "needsReview",
+    "sourceAgreement": "singleSource",
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "notes": "Artifact package remains review-gated because legacy sources have no game version or independent corroboration."
+  },
+  "gapReview": null,
+  "runtime": {
+    "status": "candidate",
+    "modifierIds": [
+      "genshin:v2:artifactSet:15019:twoPiece:2pc_atk_percent",
+      "genshin:v2:artifactSet:15019:fourPiece:4pc_normal_charged_plunging_after_skill_energy_cost"
+    ],
+    "generator": "genshinArtifactV2Generate.cjs",
+    "blockedReasons": [
+      "verificationStatusNeedsReview",
+      "sourceAgreementSingleSource",
+      "gameVersionMissing"
+    ]
+  }
+}

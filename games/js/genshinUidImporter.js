@@ -5,6 +5,7 @@
         required: "UIDを入力してください",
         numbersOnly: "UIDは数字のみで入力してください",
         tooShort: "UIDが短すぎます",
+        tooLong: "UIDが長すぎます",
         loading: "取得中...",
         search: "UID検索",
         notFound: "UIDが間違っているか、キャラクター詳細が公開されていません",
@@ -12,6 +13,7 @@
         noCharacters: "公開キャラクターが設定されていません",
         fetched: "公開プロフィールを取得しました。数値ステータスを入力欄へ反映できます。",
         appliedSuffix: "の情報を入力欄へ反映しました。必要に応じて手動で修正できます。",
+        talentOrderUnresolved: "天賦ID順序を確認できないためLv1（手動確認）として扱います。",
         savedUidRemoved: "このブラウザに保存したUIDを削除しました。"
     };
 
@@ -60,10 +62,17 @@
         messageEl.dataset.type = type || "";
     }
 
+    function talentMappingWarning(character) {
+        return character?.provenance?.talentLevelMapping?.status === "unresolved"
+            ? TEXT.talentOrderUnresolved
+            : "";
+    }
+
     function validateUid(uid) {
         if (!uid) return TEXT.required;
         if (!/^\d+$/.test(uid)) return TEXT.numbersOnly;
         if (uid.length < 8) return TEXT.tooShort;
+        if (uid.length > 10) return TEXT.tooLong;
         return "";
     }
 
@@ -441,12 +450,16 @@
         const elementIcon = ELEMENT_ICON_NAMES[character.element] ? `/games/images/genshin/elements/${ELEMENT_ICON_NAMES[character.element]}.webp` : "";
         const weaponTypeIcon = WEAPON_ICON_NAMES[character.weaponType] ? `/games/images/genshin/ui/weapon-${WEAPON_ICON_NAMES[character.weaponType]}.webp` : "";
         const talents = character.talents || { normal: 1, skill: 1, burst: 1 };
+        const talentWarning = talentMappingWarning(character);
         return `<div class="genshin-uid-profile-summary">
             <div class="genshin-uid-character-row"><img class="genshin-uid-character-image" src="${escapeHtml(characterImage)}" alt="" width="64" height="64"><div class="genshin-uid-character-copy"><strong>${escapeHtml(character.name || unsupported("キャラクター", character.id))} <span class="genshin-uid-level">Lv.${escapeHtml(character.level || "-")}</span></strong><div class="genshin-uid-tags">${elementIcon ? `<span class="genshin-uid-icon-tag genshin-uid-element-tag"><img src="${escapeHtml(elementIcon)}" alt="${escapeHtml(character.element)}"></span>` : ""}${weaponTypeIcon ? `<span class="genshin-uid-icon-tag"><img src="${escapeHtml(weaponTypeIcon)}" alt="${escapeHtml(character.weaponType)}"></span>` : ""}<span class="genshin-uid-badge genshin-uid-rarity">★${escapeHtml(character.rarity || "-")}</span><span class="genshin-uid-badge genshin-uid-constellation">C${toNumber(character.constellation)}</span></div></div><button type="button" class="genshin-uid-details-button" id="genshinUidDetailsOpen">詳細</button></div>
             <div class="genshin-uid-summary-list"><div class="genshin-uid-summary-row"><img class="genshin-uid-summary-image" src="${escapeHtml(weaponImage)}" alt=""><div class="genshin-uid-summary-copy"><strong>${escapeHtml(safeName(weapon, "武器"))}</strong><span>Lv.${escapeHtml(weapon?.level || "-")} / R${escapeHtml(weapon?.rank || 1)}</span></div></div>${renderUidArtifactRows(character.artifacts || [])}</div>
             <div class="genshin-uid-two-col"><section><h5>天賦</h5><dl class="genshin-uid-talent-list">${renderStatItem("通常攻撃", talents.normal, (value) => `Lv.${formatInteger(value)}`, undefined, "通常")}${renderStatItem("元素スキル", talents.skill, (value) => `Lv.${formatInteger(value)}`, undefined, "スキル")}${renderStatItem("元素爆発", talents.burst, (value) => `Lv.${formatInteger(value)}`, undefined, "爆発")}</dl></section><section><h5>ステータス</h5><div class="genshin-uid-summary-stats"><dl class="genshin-uid-stat-list">${renderStatItem("HP", character.stats.hp, formatInteger)}${renderStatItem("攻撃力", character.stats.atk, formatInteger)}${renderStatItem("防御力", character.stats.def, formatInteger)}${renderStatItem("元素熟知", character.stats.elementalMastery, formatInteger)}</dl><dl class="genshin-uid-stat-list">${renderStatItem("会心率", character.stats.critRate, (value) => formatDecimal(value, 2, "%"))}${renderStatItem("会心ダメージ", character.stats.critDamage, (value) => formatDecimal(value, 2, "%"))}${renderStatItem("元素チャージ効率", character.stats.energyRecharge, (value) => formatDecimal(value, 2, "%"))}${renderUidElementStats(character)}</dl></div></section></div>
             <div class="genshin-profile-actions"><button type="button" class="teti-button teti-button-primary" id="genshinApplyProfileButton">この内容を入力欄へ反映</button><span>反映後も手動で編集できます</span></div>
-        </div>`;
+        </div>`.replace(
+            '<dl class="genshin-uid-talent-list">',
+            `${talentWarning ? `<p class="genshin-uid-talent-warning" role="alert">${escapeHtml(talentWarning)}</p>` : ""}<dl class="genshin-uid-talent-list">`
+        );
     }
 
     function renderUidDetails(character, activeTab = "character") {
@@ -649,16 +662,20 @@
     }
 
     function applyCharacterToForm(character) {
+        const calculationInput = window.GenshinProfileMapper?.toCalculationInput
+            ? window.GenshinProfileMapper.toCalculationInput(character)
+            : null;
         const weapon = character.weapon || {};
         const talents = character.talents || {};
         const weaponName = safeName(weapon, "武器");
         const constellation = `C${toNumber(character.constellation)}`;
+        const talentWarning = talentMappingWarning(character);
 
         state.applyingPreciseStats = true;
         try {
             updateWeaponOption(weaponName);
-            setInputValue("genshinCalcCharacterId", character.id || "10000037", "text");
-            setInputValue("genshinCalcWeaponId", weapon.id || "15502", "text");
+            setInputValue("genshinCalcCharacterId", character.id || "", "text");
+            setInputValue("genshinCalcWeaponId", weapon.id || "", "text");
             setInputValue("genshinReflectCharacter", character.name || unsupported("キャラクター", character.id), "text");
             setInputValue("genshinReflectLevel", character.level, "integer");
             setSelectValue("genshinReflectConstellation", constellation);
@@ -686,7 +703,13 @@
 
 
         state.selectedCharacter = character;
-        setMessage(`${character.name || unsupported("キャラクター", character.id)} ${TEXT.appliedSuffix}`, "success");
+        state.selectedCalculationInput = calculationInput;
+        if (calculationInput) {
+            window.dispatchEvent(new CustomEvent("genshin:calculation-input-selected", {
+                detail: { input: calculationInput, profile: state.profile }
+            }));
+        }
+        setMessage(`${character.name || unsupported("キャラクター", character.id)} ${TEXT.appliedSuffix}${talentWarning ? ` ${talentWarning}` : ""}`, talentWarning ? "warning" : "success");
     }
 
     function selectCharacter(index) {

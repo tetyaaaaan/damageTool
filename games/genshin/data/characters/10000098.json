@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 2,
+  "characterId": "10000098",
+  "status": "pilot",
+  "layers": {
+    "raw": [
+      { "dataset": "characters", "pointer": "/10000098", "role": "identity" },
+      { "dataset": "characterTalents", "pointer": "/10000098", "role": "sourceText" },
+      { "dataset": "characterConstellations", "pointer": "/10000098", "role": "sourceText" }
+    ],
+    "spec": [
+      { "dataset": "talentScalings", "pointer": "/10000098", "role": "attacks" },
+      { "dataset": "behaviorPilot", "pointer": "/byCharacter/10000098", "role": "behaviorCandidates" },
+      { "dataset": "characterCoverage", "pointer": "/characters/10000098", "role": "coverageAudit" }
+    ],
+    "runtime": [
+      { "dataset": "talentModifiers", "pointer": "/10000098", "role": "modifiers" },
+      { "dataset": "constellationModifiers", "pointer": "/10000098", "role": "modifiers" }
+    ]
+  },
+  "capabilities": ["stack", "specialState", "lifeBond", "conditionalModifier", "elementOverride"],
+  "verification": { "status": "needsReview", "notes": "Pilot reference package for complex condition and stack handling." }
+}

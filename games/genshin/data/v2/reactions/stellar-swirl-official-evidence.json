@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinOfficialReactionEvidence",
+  "evidenceId": "hoyolab-official:post:46233468:stellar-swirl",
+  "provider": "HoYoLAB / Genshin Impact Official",
+  "sourceFamily": "official-hoyoverse",
+  "gameVersion": "7.0",
+  "strictGameVersionBinding": true,
+  "revision": {
+    "kind": "officialPostId",
+    "value": "46233468"
+  },
+  "source": {
+    "url": "https://www.hoyolab.com/article/46233468",
+    "apiUrl": "https://bbs-api-os.hoyolab.com/community/post/wapi/getPostFull?post_id=46233468",
+    "rawDigestAlgorithm": "sha256",
+    "rawDigest": "9b6ba657ae41eb1601e9bf2a0f6e383feca0a88115f7f0fb41bac34ffbb74b0a",
+    "rawBytes": 140000,
+    "locator": "Update Details > V. Elemental Reaction",
+    "materializedRawText": "New Stellar Glimmer Reaction: Stellar Swirl\nUnder certain conditions, Anemo and Cryo can trigger Stellar Swirl\nThe aforementioned DMG can trigger CRIT Hits.",
+    "materializedRawDigest": "62ccebcd7676b3102d07d4ceb2b1ba6ef5c3603dd65ccabcfc7ac87d262c9c6f",
+    "materializedRawBytes": 156,
+    "anchors": [
+      "New Stellar Glimmer Reaction: Stellar Swirl",
+      "Under certain conditions, Anemo and Cryo can trigger Stellar Swirl",
+      "The aforementioned DMG can trigger CRIT Hits."
+    ]
+  },
+  "claim": {
+    "gameVersion": "7.0",
+    "reactionId": "stellarSwirl",
+    "existence": true,
+    "triggerElements": ["Anemo", "Cryo"],
+    "canCrit": true,
+    "formulaCoefficientsDisclosed": false
+  },
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "a2f0f874b25a1ee6e3964d66ecc8c1a4e3c9b111d2615b6ad0b390ce2dbef04f",
+  "eligibility": {
+    "reactionExistence": "officialVersionBound",
+    "triggerElements": "officialVersionBound",
+    "criticalHitCapability": "officialVersionBound",
+    "formula": "blockedMissingCoefficients",
+    "candidatePromotion": false
+  },
+  "invalidationConditions": [
+    "official post identity, raw response, section text, or field claim changes",
+    "a later official correction or version transition changes the reaction semantics"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "audit": "genshin-review-evidence-packets",
+  "status": "passed",
+  "generatedAt": "2026-08-23T00:00:00.000Z",
+  "summary": {
+    "status": "passed",
+    "packets": 2,
+    "expectedPackets": 2,
+    "items": 26,
+    "weaponIds": [
+      "11503",
+      "15502"
+    ],
+    "recommendationCounts": {
+      "machineReady": 0,
+      "holdForEvidence": 26,
+      "humanDecisionRequired": 0
+    },
+    "gameVersionBoundItems": 0,
+    "fullMatches": 0,
+    "partialMatches": 3,
+    "mismatches": 0,
+    "notComparable": 23,
+    "canonicalEligibility": 0,
+    "verificationPromotions": 0,
+    "representativePilots": 1,
+    "humanReviewReadyPilots": 1,
+    "humanReviewedPilots": 1,
+    "productionCanonicalPilots": 1,
+    "errors": 0
+  },
+  "errors": [],
+  "methodology": {
+    "sourceA": "Official HoYoLAB primary source records are used only for explicit text, fields, and gameVersion metadata.",
+    "sourceB": "Pinned gcsim field evidence is treated as an independent implementation; a revision/SHA is not substituted for a gameVersion.",
+    "independence": "Local catalog, modifier, and review-registry records are excluded from independent A/B counts because they are same-series or derived context.",
+    "missing": "Any unavailable field is represented as null with blockedReason; silent inference and omission are forbidden.",
+    "recommendation": "Only machineReady, holdForEvidence, and humanDecisionRequired are permitted; approve/verified/canonical are forbidden.",
+    "promotion": "The audit never changes verification statuses and never promotes canonical runtime data."
+  }
+}

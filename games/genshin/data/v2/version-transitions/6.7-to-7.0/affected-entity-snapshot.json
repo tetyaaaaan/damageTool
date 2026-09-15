@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionTransitionAffectedEntitySnapshot",
+  "generatedAt": "2026-08-26T00:00:00.000Z",
+  "claim": {
+    "transitionId": "genshin:6.7->7.0",
+    "provider": "genshin-db",
+    "sourceFamily": "GenshinData-derived",
+    "versionBindings": [
+      {
+        "gameVersion": "6.7",
+        "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+        "status": "strictlyBound",
+        "manifestPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+        "manifestDigest": "5ded2b3bab58218da17f6a1282209e653c1ec7ecd9297b95569558a737c2e8f6"
+      },
+      {
+        "gameVersion": "7.0",
+        "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+        "status": "strictlyBound",
+        "manifestPath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/package.json",
+        "manifestDigest": "3faf0b2220539a07af9260f5dd83afd0e964aa42868c9b3b73c6cb14065085c6"
+      }
+    ],
+    "records": [
+      {
+        "entityId": "10000022",
+        "slug": "venti",
+        "recordKind": "talents",
+        "before": {
+          "gameVersion": "6.7",
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/venti.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/venti.json",
+          "rawArtifactBytes": 8194,
+          "rawArtifactDigest": "f747783fed334ca07e77b575df9677c9cb1a24b5cc78ea180c59ca64bed44076"
+        },
+        "after": {
+          "gameVersion": "7.0",
+          "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/venti.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/venti.json",
+          "rawArtifactBytes": 8194,
+          "rawArtifactDigest": "f747783fed334ca07e77b575df9677c9cb1a24b5cc78ea180c59ca64bed44076"
+        },
+        "comparison": {
+          "status": "rawRecordMatch",
+          "changedFieldCount": 0,
+          "fieldDiffs": []
+        }
+      },
+      {
+        "entityId": "10000022",
+        "slug": "venti",
+        "recordKind": "constellations",
+        "before": {
+          "gameVersion": "6.7",
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/venti.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/venti.json",
+          "rawArtifactBytes": 2250,
+          "rawArtifactDigest": "5951f1d13d8f269e5daf1ab17afe2164495ee52cd0263431e78cc06dce2f3b0d"
+        },
+        "after": {
+          "gameVersion": "7.0",
+          "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/venti.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/venti.json",
+          "rawArtifactBytes": 2250,
+          "rawArtifactDigest": "5951f1d13d8f269e5daf1ab17afe2164495ee52cd0263431e78cc06dce2f3b0d"
+        },
+        "comparison": {
+          "status": "rawRecordMatch",
+          "changedFieldCount": 0,
+          "fieldDiffs": []
+        }
+      },
+      {
+        "entityId": "10000039",
+        "slug": "diona",
+        "recordKind": "talents",
+        "before": {
+          "gameVersion": "6.7",
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/diona.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/diona.json",
+          "rawArtifactBytes": 8372,
+          "rawArtifactDigest": "3e491241224b0105068f7e7d1d09c80e352adc6091102d474fe5f3dc4ce5a6ef"
+        },
+        "after": {
+          "gameVersion": "7.0",
+          "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/diona.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/diona.json",
+          "rawArtifactBytes": 8372,
+          "rawArtifactDigest": "3e491241224b0105068f7e7d1d09c80e352adc6091102d474fe5f3dc4ce5a6ef"
+        },
+        "comparison": {
+          "status": "rawRecordMatch",
+          "changedFieldCount": 0,
+          "fieldDiffs": []
+        }
+      },
+      {
+        "entityId": "10000039",
+        "slug": "diona",
+        "recordKind": "constellations",
+        "before": {
+          "gameVersion": "6.7",
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/diona.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/diona.json",
+          "rawArtifactBytes": 2318,
+          "rawArtifactDigest": "e89210cf6883b0a886bee4f930f6f1a76b4097d5190f7fc74b7f4d18017af269"
+        },
+        "after": {
+          "gameVersion": "7.0",
+          "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/diona.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/diona.json",
+          "rawArtifactBytes": 2318,
+          "rawArtifactDigest": "e89210cf6883b0a886bee4f930f6f1a76b4097d5190f7fc74b7f4d18017af269"
+        },
+        "comparison": {
+          "status": "rawRecordMatch",
+          "changedFieldCount": 0,
+          "fieldDiffs": []
+        }
+      },
+      {
+        "entityId": "10000058",
+        "slug": "yaemiko",
+        "recordKind": "talents",
+        "before": {
+          "gameVersion": "6.7",
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/yaemiko.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/yaemiko.json",
+          "rawArtifactBytes": 9729,
+          "rawArtifactDigest": "5643ba5454b6c7ffe09db0fb5a20f961a63b602c2d13edac2a5286e528d4f70e"
+        },
+        "after": {
+          "gameVersion": "7.0",
+          "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/yaemiko.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/yaemiko.json",
+          "rawArtifactBytes": 9729,
+          "rawArtifactDigest": "5643ba5454b6c7ffe09db0fb5a20f961a63b602c2d13edac2a5286e528d4f70e"
+        },
+        "comparison": {
+          "status": "rawRecordMatch",
+          "changedFieldCount": 0,
+          "fieldDiffs": []
+        }
+      },
+      {
+        "entityId": "10000058",
+        "slug": "yaemiko",
+        "recordKind": "constellations",
+        "before": {
+          "gameVersion": "6.7",
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/yaemiko.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/yaemiko.json",
+          "rawArtifactBytes": 1984,
+          "rawArtifactDigest": "f00d3d897ba10159db0b227a57752d120f9c270eab685f413c9863d53bb222c8"
+        },
+        "after": {
+          "gameVersion": "7.0",
+          "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/yaemiko.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/yaemiko.json",
+          "rawArtifactBytes": 1984,
+          "rawArtifactDigest": "f00d3d897ba10159db0b227a57752d120f9c270eab685f413c9863d53bb222c8"
+        },
+        "comparison": {
+          "status": "rawRecordMatch",
+          "changedFieldCount": 0,
+          "fieldDiffs": []
+        }
+      },
+      {
+        "entityId": "10000071",
+        "slug": "cyno",
+        "recordKind": "talents",
+        "before": {
+          "gameVersion": "6.7",
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/talents/cyno.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/talents/cyno.json",
+          "rawArtifactBytes": 9064,
+          "rawArtifactDigest": "05c0539a4ce4150e07b73e07afda0c555897e1566456b394a027694c05b36e3d"
+        },
+        "after": {
+          "gameVersion": "7.0",
+          "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/talents/cyno.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/talents/cyno.json",
+          "rawArtifactBytes": 9064,
+          "rawArtifactDigest": "05c0539a4ce4150e07b73e07afda0c555897e1566456b394a027694c05b36e3d"
+        },
+        "comparison": {
+          "status": "rawRecordMatch",
+          "changedFieldCount": 0,
+          "fieldDiffs": []
+        }
+      },
+      {
+        "entityId": "10000071",
+        "slug": "cyno",
+        "recordKind": "constellations",
+        "before": {
+          "gameVersion": "6.7",
+          "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/English/constellations/cyno.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/constellations/cyno.json",
+          "rawArtifactBytes": 4103,
+          "rawArtifactDigest": "a4499c0712dddda4e091a9761c80d15c9c6024759e861241e1974350c39c3773"
+        },
+        "after": {
+          "gameVersion": "7.0",
+          "revision": "8b15995fa220c88a4d0d7ffe1e21b041d0b32588",
+          "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/English/constellations/cyno.json",
+          "url": "https://raw.githubusercontent.com/theBowja/genshin-db/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/src/data/English/constellations/cyno.json",
+          "rawArtifactBytes": 4103,
+          "rawArtifactDigest": "a4499c0712dddda4e091a9761c80d15c9c6024759e861241e1974350c39c3773"
+        },
+        "comparison": {
+          "status": "rawRecordMatch",
+          "changedFieldCount": 0,
+          "fieldDiffs": []
+        }
+      }
+    ],
+    "coverage": {
+      "entityIds": [
+        "10000022",
+        "10000039",
+        "10000058",
+        "10000071"
+      ],
+      "recordKinds": [
+        "talents",
+        "constellations"
+      ],
+      "officialAffectedEntityCoverage": "complete",
+      "repositoryCandidateCoverage": "partial",
+      "canSatisfyCompleteEntityDiff": false,
+      "canIssueEligibilityCertificate": false
+    }
+  },
+  "summary": {
+    "entities": 4,
+    "records": 8,
+    "changedRecords": 0,
+    "changedFields": 0,
+    "certificateEligibleClaims": 0
+  },
+  "gateEligibility": {
+    "status": "providerDiffOnlyFailClosed",
+    "canSatisfyCompleteEntityDiff": false,
+    "canIssueEligibilityCertificate": false,
+    "canPromoteCanonical": false
+  },
+  "fieldDigestAlgorithm": "sha256-stable-json-v1",
+  "fieldDigest": "5941e8953c4e81d4bf086edde92565370fffe30f2106a026e1218aeec8023a73"
+}

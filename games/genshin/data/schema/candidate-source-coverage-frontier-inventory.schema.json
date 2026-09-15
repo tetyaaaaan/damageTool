@@ -1,0 +1,336 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "candidate-source-coverage-frontier-inventory.schema.json",
+  "title": "Genshin candidate/source coverage frontier inventory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "kind",
+    "status",
+    "generatedAt",
+    "transitionId",
+    "targetGameVersion",
+    "policy",
+    "scope",
+    "generatedFrom",
+    "identityBridge",
+    "providerPrerequisites",
+    "inspectedFrontiers",
+    "sourceArtifacts",
+    "externalDescriptors",
+    "batches",
+    "nextExecutableBatches",
+    "candidateRecords",
+    "summary",
+    "gate",
+    "errors",
+    "fieldDigestAlgorithm",
+    "fieldDigest"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinCandidateSourceCoverageFrontierInventory" },
+    "status": { "enum": ["passed", "failed"] },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "transitionId": { "const": "genshin:6.7->7.0" },
+    "targetGameVersion": { "const": "7.0" },
+    "policy": { "$ref": "#/$defs/policy" },
+    "scope": { "$ref": "#/$defs/scope" },
+    "generatedFrom": { "$ref": "#/$defs/generatedFrom" },
+    "identityBridge": { "type": ["object", "null"] },
+    "providerPrerequisites": { "$ref": "#/$defs/providerPrerequisites" },
+    "inspectedFrontiers": { "type": "array", "items": { "$ref": "#/$defs/frontier" } },
+    "sourceArtifacts": { "type": "array", "items": { "$ref": "#/$defs/sourceArtifact" } },
+    "externalDescriptors": { "type": "array", "items": { "$ref": "#/$defs/externalDescriptor" } },
+    "batches": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/batch" } },
+    "nextExecutableBatches": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/batch" } },
+    "candidateRecords": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/candidate" } },
+    "summary": { "$ref": "#/$defs/summary" },
+    "gate": { "$ref": "#/$defs/gate" },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "fileReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "exists", "bytes", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "exists": { "type": "boolean" },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "sha256": { "anyOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidenceOnly",
+        "metadataBooleansNotProof",
+        "noCertificate",
+        "noCanonicalPromotion",
+        "noNetworkFetch",
+        "noSearchExhaustedFromAbsence",
+        "sourceAgreement",
+        "fieldDigestAlgorithm"
+      ],
+      "properties": {
+        "evidenceOnly": { "const": true },
+        "metadataBooleansNotProof": { "const": true },
+        "noCertificate": { "const": true },
+        "noCanonicalPromotion": { "const": true },
+        "noNetworkFetch": { "const": true },
+        "noSearchExhaustedFromAbsence": { "const": true },
+        "sourceAgreement": { "const": "notEstablishedFromSingleCorrelatedTransitionFamily" },
+        "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selectors", "candidateCount", "candidateIds", "candidateIdDigest", "queueReference", "shardDigests"],
+      "properties": {
+        "selectors": { "type": "array", "minItems": 2, "items": { "type": "string" } },
+        "candidateCount": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["behaviorSpec", "weaponEffectSpecSourceMissing", "total"],
+          "properties": {
+            "behaviorSpec": { "type": "integer", "minimum": 0 },
+            "weaponEffectSpecSourceMissing": { "type": "integer", "minimum": 0 },
+            "total": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "candidateIds": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "candidateIdDigest": { "$ref": "#/$defs/sha256" },
+        "queueReference": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "projectionVersion", "projectionDigest", "candidateCount"],
+          "properties": {
+            "path": { "const": "reports/genshin-evidence-task-queue.json" },
+            "projectionVersion": { "const": "genshinCandidateSourceCoverageFrontierInventory/queue-input-v1" },
+            "projectionDigest": { "$ref": "#/$defs/sha256" },
+            "candidateCount": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "shardDigests": { "type": "array", "items": { "type": "object", "additionalProperties": true } }
+      }
+    },
+    "generatedFrom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authoritativeQueue", "queueProjectionDigest", "providerPolicy", "sourceSearch", "sourceFrontiers", "localCandidateInputs", "sourceFamilyRegistry", "identityBridge", "externalEvidence", "transitionSnapshots"],
+      "properties": {
+        "authoritativeQueue": { "type": "object", "additionalProperties": true },
+        "queueProjectionDigest": { "$ref": "#/$defs/sha256" },
+        "providerPolicy": { "$ref": "#/$defs/fileReference" },
+        "sourceSearch": { "$ref": "#/$defs/fileReference" },
+        "sourceFrontiers": { "$ref": "#/$defs/fileReference" },
+        "localCandidateInputs": { "type": "array", "items": { "$ref": "#/$defs/fileReference" } },
+        "sourceFamilyRegistry": { "$ref": "#/$defs/fileReference" },
+        "identityBridge": { "$ref": "#/$defs/fileReference" },
+        "externalEvidence": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+        "transitionSnapshots": { "type": "array", "items": { "type": "object", "additionalProperties": true } }
+      }
+    },
+    "providerPrerequisites": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policyVersion", "sourceFamilyRegistryVersion", "strictGateObserved", "providerRows", "sourceSearch", "sourceLookupBoundary", "nextLookupTargets"],
+      "properties": {
+        "policyVersion": { "type": ["string", "null"] },
+        "sourceFamilyRegistryVersion": { "type": ["string", "null"] },
+        "strictGateObserved": { "type": "array" },
+        "providerRows": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+        "sourceSearch": { "type": "object", "additionalProperties": true },
+        "sourceLookupBoundary": { "$ref": "#/$defs/sourceLookupBoundary" },
+        "nextLookupTargets": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/lookupTarget" } }
+      }
+    },
+    "sourceLookupBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "sourceLookupExecutableNow", "providerSurfaceStatus", "providerSurfaceLookupExecutableNow", "candidateFieldSearchRequired", "candidateFieldSearchStatus", "providerSurfaceInspection", "newProviderReleaseManifestLineageTriggerObservedInPersistedInputs", "inspectedProviderCount", "inspectedProviders", "reopenTriggers", "reason", "evidenceRefs"],
+      "properties": {
+        "status": { "enum": ["lookupRequired", "unknown", "reopenOnTriggerOnly"] },
+        "sourceLookupExecutableNow": { "anyOf": [{ "type": "boolean" }, { "type": "null" }] },
+        "providerSurfaceStatus": { "enum": ["lookupRequired", "reopenOnTriggerOnly"] },
+        "providerSurfaceLookupExecutableNow": { "type": "boolean" },
+        "candidateFieldSearchRequired": { "anyOf": [{ "type": "integer", "minimum": 0 }, { "type": "null" }] },
+        "candidateFieldSearchStatus": { "enum": ["lookupRequired", "notInScope"] },
+        "providerSurfaceInspection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["ledgerComplete", "allTargetsInspected", "triggerObserved", "providerSurfaceLookupExecutableNow", "targetCoverage", "inspectedProviderCount", "inspectedProviders"],
+          "properties": {
+            "ledgerComplete": { "type": "boolean" },
+            "allTargetsInspected": { "type": "boolean" },
+            "triggerObserved": { "type": "boolean" },
+            "providerSurfaceLookupExecutableNow": { "type": "boolean" },
+            "targetCoverage": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+            "inspectedProviderCount": { "type": "integer", "minimum": 0 },
+            "inspectedProviders": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "newProviderReleaseManifestLineageTriggerObservedInPersistedInputs": { "const": false },
+        "inspectedProviderCount": { "type": "integer", "minimum": 1 },
+        "inspectedProviders": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "reopenTriggers": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "reason": { "type": "string", "minLength": 1 },
+        "evidenceRefs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "lookupTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "provider", "sourceFamily", "artifactOrUrl", "lookupClass", "candidateScope", "fieldPurpose", "unresolvedMetadata", "couldUnlockStrictGate", "currentStatus", "lookupExecutableNow", "reopenTriggerRequired", "evidenceRefs"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "provider": { "type": "string", "minLength": 1 },
+        "sourceFamily": { "type": "string", "minLength": 1 },
+        "artifactOrUrl": { "type": "string", "minLength": 1 },
+        "lookupClass": { "type": "string", "minLength": 1 },
+        "candidateScope": { "type": "string", "minLength": 1 },
+        "fieldPurpose": { "type": "string", "minLength": 1 },
+        "unresolvedMetadata": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "couldUnlockStrictGate": { "type": "boolean" },
+        "currentStatus": { "type": "string", "pattern": "^(reopenOnTriggerOnly|lookupRequired);" },
+        "lookupExecutableNow": { "anyOf": [{ "type": "boolean" }, { "type": "null" }] },
+        "reopenTriggerRequired": { "const": true },
+        "evidenceRefs": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+      }
+    },
+    "frontier": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "status", "intersectionCount", "intersectionCandidateIds", "applicable"],
+      "properties": {
+        "id": { "type": ["string", "null"] },
+        "status": { "type": ["string", "null"] },
+        "intersectionCount": { "type": "integer", "minimum": 0 },
+        "intersectionCandidateIds": { "type": "array", "items": { "type": "string" } },
+        "applicable": { "type": "boolean" }
+      }
+    },
+    "sourceArtifact": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "path", "evidenceKind", "integrityStatus", "declared", "observed", "references"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "minLength": 1 },
+        "evidenceKind": { "type": "string", "minLength": 1 },
+        "integrityStatus": { "enum": ["verified", "missing", "mismatch", "observedUnbound"] },
+        "declared": { "type": "object" },
+        "observed": { "type": "object" },
+        "references": { "type": "array", "items": { "type": "object", "additionalProperties": true } }
+      }
+    },
+    "externalDescriptor": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "candidateId", "provider", "sourceFamily", "acceptedAsProof", "proofStatus", "strictGameVersionBinding"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "candidateId": { "type": "string", "minLength": 1 },
+        "provider": { "type": "string", "minLength": 1 },
+        "sourceFamily": { "type": "string", "minLength": 1 },
+        "acceptedAsProof": { "const": false },
+        "proofStatus": { "type": "string", "minLength": 1 },
+        "strictGameVersionBinding": { "const": false }
+      }
+    },
+    "batch": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["batchId", "domain", "layer", "candidateCount", "candidateIdDigest", "candidateIds", "entityCount", "status", "sourceLookupCanExecuteNow", "sourceLookupReopenOnTriggerOnly", "fieldMaterializationCanExecuteNow", "searchExhausted", "certificateEligible", "canonicalPromotionEligible"],
+      "properties": {
+        "batchId": { "type": "string", "minLength": 1 },
+        "domain": { "type": "string", "minLength": 1 },
+        "layer": { "type": "string", "minLength": 1 },
+        "candidateCount": { "type": "integer", "minimum": 1 },
+        "candidateIdDigest": { "$ref": "#/$defs/sha256" },
+        "candidateIds": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "entityCount": { "type": "integer", "minimum": 1 },
+        "status": { "const": "sourceCoverageUnresolved" },
+        "sourceLookupStatuses": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 } },
+        "sourceLookupCanExecuteNow": { "anyOf": [{ "type": "boolean" }, { "type": "null" }] },
+        "sourceLookupReopenOnTriggerOnly": { "type": "boolean" },
+        "fieldMaterializationCanExecuteNow": { "const": false },
+        "searchExhausted": { "const": false },
+        "certificateEligible": { "const": false },
+        "canonicalPromotionEligible": { "const": false }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["candidateId", "layer", "dataset", "entityId", "recordKind", "transitionEntityEvidence", "providerCoverage", "applicableFrontiers", "sourceLookup", "gaps", "nextExecutableAction", "certificateEligible", "canonicalPromotionEligible", "searchExhausted"],
+      "properties": {
+        "candidateId": { "type": "string", "minLength": 1 },
+        "layer": { "type": "string", "minLength": 1 },
+        "dataset": { "type": "string", "minLength": 1 },
+        "entityId": { "type": "string", "minLength": 1 },
+        "recordKind": { "type": "string", "minLength": 1 },
+        "transitionEntityEvidence": { "type": "object" },
+        "providerCoverage": { "type": "object" },
+        "applicableFrontiers": { "type": "array", "items": { "type": "string" } },
+        "sourceLookup": { "$ref": "#/$defs/candidateSourceLookup" },
+        "gaps": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "nextExecutableAction": { "type": "string", "minLength": 1 },
+        "certificateEligible": { "const": false },
+        "canonicalPromotionEligible": { "const": false },
+        "searchExhausted": { "const": false }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["candidateCount", "behaviorSpec", "weaponEffectSpecSourceMissing", "candidateFieldSearchRequired", "candidateSearchExhaustedCount", "applicableExhaustedFrontierCount", "sourceLookupExecutableNow", "sourceLookupReopenOnTriggerOnly", "candidateClaimFieldMaterializationExecutableNow", "certificateEligible", "canonicalPromotion", "autoProcessableNow"],
+      "properties": {
+        "candidateCount": { "type": "integer", "minimum": 1 },
+        "behaviorSpec": { "type": "integer", "minimum": 0 },
+        "weaponEffectSpecSourceMissing": { "type": "integer", "minimum": 0 },
+        "candidateFieldSearchRequired": { "type": "integer", "minimum": 1 },
+        "candidateSearchExhaustedCount": { "const": 0 },
+        "applicableExhaustedFrontierCount": { "const": 0 },
+        "sourceLookupExecutableNow": { "anyOf": [{ "type": "boolean" }, { "type": "null" }] },
+        "sourceLookupReopenOnTriggerOnly": { "type": "boolean" },
+        "sourceLookupStatuses": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 } },
+        "candidateClaimFieldMaterializationExecutableNow": { "const": false },
+        "certificateEligible": { "const": 0 },
+        "canonicalPromotion": { "const": 0 },
+        "autoProcessableNow": { "const": 0 }
+      }
+    },
+    "candidateSourceLookup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "executableNow", "reopenOnTriggerOnly", "reason"],
+      "properties": {
+        "status": { "enum": ["lookupRequired", "reopenOnTriggerOnly", "unknown"] },
+        "executableNow": { "anyOf": [{ "type": "boolean" }, { "type": "null" }] },
+        "reopenOnTriggerOnly": { "type": "boolean" },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["status", "canIssueEligibilityCertificate", "canPromoteCanonical", "certificateEligible", "canonicalPromotionEligible", "searchExhausted"],
+      "properties": {
+        "status": { "const": "failClosed" },
+        "canIssueEligibilityCertificate": { "const": false },
+        "canPromoteCanonical": { "const": false },
+        "certificateEligible": { "const": 0 },
+        "canonicalPromotionEligible": { "const": 0 },
+        "searchExhausted": { "const": 0 }
+      }
+    }
+  }
+}

@@ -164,7 +164,7 @@ test("全JSONの入力反映済み補正を入力欄の表現範囲で監査す�
     const analyzer = loadAnalyzer();
     const expectations = {
         "artifact-set-modifiers.json": { total: 49, represented: 43, routed: 6 },
-        "weapon-modifiers.json": { total: 240, represented: 43, routed: 197 },
+            "weapon-modifiers.json": { total: 193, represented: 43, routed: 150 },
         "talent-modifiers.json": { total: 0, represented: 0, routed: 0 },
         "constellation-modifiers.json": { total: 0, represented: 0, routed: 0 }
     };
@@ -313,7 +313,11 @@ test("custom statBonusは直接補正指定のある構造だけを有効化す�
         .find((modifier) => modifier.id === "c_10000066_2_1_resolved_2");
     const misclassifiedDamage = constellations["10000023"].constellations["2"]
         .find((modifier) => modifier.category === "statBonus");
-    const directAnalysis = analyzer.analyzeModifier({ modifier: direct, source: "constellation:C2", context: { mode: "uidMode" } });
+    const directAnalysis = analyzer.analyzeModifier({
+        modifier: direct,
+        source: "constellation:C2",
+        context: { mode: "uidMode", stats: { baseHp: 12000 } }
+    });
     const damageAnalysis = analyzer.analyzeModifier({ modifier: misclassifiedDamage, source: "constellation:C2", context: { mode: "uidMode" } });
     assert.equal(directAnalysis.calculable, true);
     assert.equal(directAnalysis.calculation, "statBonus");

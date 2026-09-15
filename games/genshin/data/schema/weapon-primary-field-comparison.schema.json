@@ -1,0 +1,576 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "weapon-primary-field-comparison.schema.json",
+  "title": "Genshin bounded weapon primary-field comparison",
+  "description": "A candidate-scoped observation of local scalar or stack refinement vectors against already captured genshin-db raw columns. Numeric agreement is not semantic field identity and this artifact cannot grant verification, certificate eligibility, Runtime activation, or canonical promotion.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "kind",
+    "generatedAt",
+    "status",
+    "lane",
+    "transition",
+    "policy",
+    "scope",
+    "inputEvidence",
+    "records",
+    "summary",
+    "gate",
+    "fieldDigestAlgorithm",
+    "fieldDigest"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinWeaponPrimaryFieldComparison" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "status": { "const": "passed" },
+    "lane": { "const": "firstProviderRefinementScalarComparison" },
+    "transition": { "$ref": "#/$defs/transition" },
+    "policy": { "$ref": "#/$defs/policy" },
+    "scope": { "$ref": "#/$defs/scope" },
+    "inputEvidence": { "$ref": "#/$defs/inputEvidence" },
+    "records": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/record" }
+    },
+    "summary": { "$ref": "#/$defs/summary" },
+    "gate": { "$ref": "#/$defs/gate" },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "sha1": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "versionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gameVersion", "revision", "packageVersion", "manifestDigest", "manifestBlobSha", "manifestBytes"],
+      "properties": {
+        "gameVersion": { "type": "string", "minLength": 1 },
+        "revision": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+        "packageVersion": { "type": "string", "minLength": 1 },
+        "manifestDigest": { "$ref": "#/$defs/digest" },
+        "manifestBlobSha": { "$ref": "#/$defs/sha1" },
+        "manifestBytes": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["transitionId", "before", "after", "provider", "sourceFamily", "sourceFamilyCount", "independentProviderPairObserved"],
+      "properties": {
+        "transitionId": { "const": "6.7-to-7.0" },
+        "before": {
+          "allOf": [
+            { "$ref": "#/$defs/versionBinding" },
+            { "properties": { "gameVersion": { "const": "6.7" } } }
+          ]
+        },
+        "after": {
+          "allOf": [
+            { "$ref": "#/$defs/versionBinding" },
+            { "properties": { "gameVersion": { "const": "7.0" } } }
+          ]
+        },
+        "provider": { "const": "genshin-db" },
+        "sourceFamily": { "const": "GenshinData-derived" },
+        "sourceFamilyCount": { "const": 1 },
+        "independentProviderPairObserved": { "const": false }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "normalization", "queueSelector", "queueInputProjection",
+        "numericAgreementOnlyNotSemanticIdentity", "semanticInference",
+        "selectedSemanticMapping", "independentSourceClaim", "candidateClaimEvidence", "g06Hold", "networkFetch",
+        "eligibilityCertificate", "canonicalPromotion"
+      ],
+      "properties": {
+        "normalization": { "const": "strictDecimalExact" },
+        "queueSelector": { "const": "layer=weaponEffectSpec AND primaryBlockReason=sourceMissing AND searchFrontier.status=searchRequired" },
+        "queueInputProjection": { "const": "candidateId/layer/status/searchFrontier/localSpecRelevantRefs-v1" },
+        "numericAgreementOnlyNotSemanticIdentity": { "const": true },
+        "semanticInference": { "const": "forbidden" },
+        "selectedSemanticMapping": { "const": "forbidden" },
+        "independentSourceClaim": { "const": "not established" },
+        "candidateClaimEvidence": { "const": "materialize local claim scope and raw provider field observations; no semantic inference" },
+        "g06Hold": { "const": "forbidden until the candidate-scoped finite frontier is searchExhausted" },
+        "networkFetch": { "const": "forbidden" },
+        "eligibilityCertificate": { "const": "forbidden" },
+        "canonicalPromotion": { "const": "forbidden" }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidateCount", "expectedCandidateCount", "candidateIdDigest", "selectedQueueProjectionDigest", "queueProjection", "sourceSnapshotFiles"],
+      "properties": {
+        "candidateCount": { "const": 381 },
+        "expectedCandidateCount": { "const": 381 },
+        "candidateIdDigest": { "$ref": "#/$defs/digest" },
+        "selectedQueueProjectionDigest": { "$ref": "#/$defs/digest" },
+        "queueProjection": {
+          "type": "array",
+          "minItems": 381,
+          "maxItems": 381,
+          "items": { "$ref": "#/$defs/queueProjection" }
+        },
+        "sourceSnapshotFiles": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "queueProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidateId", "layer", "status", "searchFrontier", "localSpecRelevantRefs"],
+      "properties": {
+        "candidateId": { "type": "string", "minLength": 1 },
+        "layer": { "const": "weaponEffectSpec" },
+        "status": { "const": "blocked" },
+        "searchFrontier": { "$ref": "#/$defs/searchFrontier" },
+        "localSpecRelevantRefs": { "$ref": "#/$defs/localSpecRelevantRefs" }
+      }
+    },
+    "searchFrontier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "exhausted", "scopeMatched", "scopeUnit", "providersExamined", "blockingReasons"],
+      "properties": {
+        "status": { "const": "searchRequired" },
+        "exhausted": { "const": false },
+        "scopeMatched": { "type": ["boolean", "null"] },
+        "scopeUnit": { "type": ["string", "null"] },
+        "providersExamined": { "type": "array", "items": { "type": "string" } },
+        "blockingReasons": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "localSpecRelevantRefs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["specPath", "entityId", "sourceRefs", "effectValueByRefinementPath", "declaredUnit"],
+      "properties": {
+        "specPath": { "type": "string", "minLength": 1 },
+        "entityId": { "type": ["string", "null"] },
+        "sourceRefs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "effectValueByRefinementPath": { "const": "/effect/valueByRefinement" },
+        "declaredUnit": { "type": ["string", "null"] }
+      }
+    },
+    "fileEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "sha256", "fieldDigest"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "fieldDigest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "sourceSearchLedgers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "sha256", "fieldDigest", "ledgers"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "fieldDigest": { "$ref": "#/$defs/digest" },
+        "ledgers": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/sourceSearchLedger" }
+        }
+      }
+    },
+    "sourceSearchLedger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "status", "dataset", "layer", "candidateCount", "candidateIdDigest", "candidateIds", "searchScope", "lastSearchedAt", "providersExamined", "reopenTrigger", "evidenceRefs"],
+      "properties": {
+        "id": { "type": ["string", "null"] },
+        "status": { "type": ["string", "null"] },
+        "dataset": { "type": ["string", "null"] },
+        "layer": { "type": ["string", "null"] },
+        "candidateCount": { "type": "integer", "minimum": 0 },
+        "candidateIdDigest": { "type": ["string", "null"] },
+        "candidateIds": { "type": "array", "items": { "type": "string" } },
+        "searchScope": { "type": ["string", "null"] },
+        "lastSearchedAt": { "type": ["string", "null"] },
+        "providersExamined": { "type": "array", "items": { "type": "string" } },
+        "reopenTrigger": { "type": ["string", "null"] },
+        "evidenceRefs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "frontier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "exhausted", "scopeMatched", "scopeUnit", "providersExamined", "policyId", "disposition", "g06HoldEligible", "g06HoldReason", "sourceCoverageBatch", "finiteLedger"],
+      "properties": {
+        "status": { "type": ["string", "null"] },
+        "exhausted": { "type": ["boolean", "null"] },
+        "scopeMatched": { "type": ["boolean", "null"] },
+        "scopeUnit": { "type": ["string", "null"] },
+        "providersExamined": { "type": "array", "items": { "type": "string" } },
+        "policyId": { "type": ["string", "null"] },
+        "disposition": { "enum": ["searchRequired", "candidateScopedEvidenceDeferred"] },
+        "g06HoldEligible": { "type": "boolean" },
+        "g06HoldReason": { "type": "string", "minLength": 1 },
+        "sourceCoverageBatch": { "type": ["object", "null"] },
+        "finiteLedger": {
+          "oneOf": [
+            { "type": "array", "items": { "$ref": "#/$defs/finiteLedgerRef" } },
+            { "$ref": "#/$defs/finiteLedgerRef" }
+          ]
+        }
+      }
+    },
+    "finiteLedgerRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "status", "candidateScoped", "candidateCount", "candidateIdDigest", "lastSearchedAt", "providersExamined", "reopenTrigger", "evidenceRefs"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "minLength": 1 },
+        "candidateScoped": { "type": "boolean" },
+        "candidateCount": { "type": "integer", "minimum": 0 },
+        "candidateIdDigest": { "type": "string", "minLength": 1 },
+        "lastSearchedAt": { "type": ["string", "null"] },
+        "providersExamined": { "type": "array", "items": { "type": "string" } },
+        "reopenTrigger": { "type": ["string", "null"] },
+        "evidenceRefs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "claimEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claimId", "field", "claimKind", "claimStatus", "local", "source", "comparison", "frontier", "blockedReasons"],
+      "properties": {
+        "claimId": { "type": "string", "minLength": 1 },
+        "field": { "type": "string", "minLength": 1 },
+        "claimKind": { "enum": ["externalFactual", "internalRuntimeRoute", "mappingMaterialization", "derivedDeterministic", "notApplicable"] },
+        "claimStatus": { "type": ["string", "null"] },
+        "local": { "$ref": "#/$defs/claimLocal" },
+        "source": { "$ref": "#/$defs/claimSource" },
+        "comparison": { "$ref": "#/$defs/claimComparison" },
+        "frontier": { "$ref": "#/$defs/claimFrontier" },
+        "blockedReasons": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "claimLocal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "value", "valueDigest"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "value": {},
+        "valueDigest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "claimSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "sourceFamily", "independentProviderPairObserved", "before", "after"],
+      "properties": {
+        "provider": { "type": ["string", "null"] },
+        "sourceFamily": { "type": ["string", "null"] },
+        "independentProviderPairObserved": { "const": false },
+        "before": { "$ref": "#/$defs/sourceClaimSide" },
+        "after": { "$ref": "#/$defs/sourceClaimSide" }
+      }
+    },
+    "sourceClaimSide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "provider", "sourceFamily", "gameVersion", "revision", "artifact", "fieldDigest", "fieldPointers", "semanticMapping"],
+      "properties": {
+        "status": { "type": "string", "minLength": 1 },
+        "provider": { "type": ["string", "null"] },
+        "sourceFamily": { "type": ["string", "null"] },
+        "gameVersion": { "type": ["string", "null"] },
+        "revision": { "type": ["string", "null"] },
+        "artifact": { "$ref": "#/$defs/artifactEvidence" },
+        "fieldDigest": { "type": ["string", "null"] },
+        "fieldPointers": { "type": "array", "items": { "type": "string" } },
+        "semanticMapping": { "type": "null" }
+      }
+    },
+    "artifactEvidence": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["path", "bytes", "rawArtifactDigest", "blobSha", "normalizedRecordDigest"],
+      "properties": {
+        "path": { "type": ["string", "null"] },
+        "bytes": { "type": ["integer", "null"], "minimum": 0 },
+        "rawArtifactDigest": { "type": ["string", "null"] },
+        "blobSha": { "type": ["string", "null"] },
+        "normalizedRecordDigest": { "type": ["string", "null"] }
+      }
+    },
+    "claimComparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "rawVectorStatus", "numericMatchingColumnIndexes", "semanticIdentityEstablished", "semanticMapping", "supportsClaimValue", "before", "after"],
+      "properties": {
+        "status": { "type": "string", "minLength": 1 },
+        "rawVectorStatus": { "type": "string", "minLength": 1 },
+        "numericMatchingColumnIndexes": { "type": "array", "items": { "type": "integer", "minimum": 0 } },
+        "semanticIdentityEstablished": { "const": false },
+        "semanticMapping": { "type": "null" },
+        "supportsClaimValue": { "const": false },
+        "before": { "type": ["object", "null"] },
+        "after": { "type": ["object", "null"] }
+      }
+    },
+    "claimFrontier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "exhausted", "scopeMatched", "scopeUnit", "policyId", "disposition", "g06HoldEligible", "candidateScopedLedgerId", "finiteLedgerIds"],
+      "properties": {
+        "status": { "type": ["string", "null"] },
+        "exhausted": { "type": ["boolean", "null"] },
+        "scopeMatched": { "type": ["boolean", "null"] },
+        "scopeUnit": { "type": ["string", "null"] },
+        "policyId": { "type": ["string", "null"] },
+        "disposition": { "enum": ["searchRequired", "candidateScopedEvidenceDeferred"] },
+        "g06HoldEligible": { "type": "boolean" },
+        "candidateScopedLedgerId": { "type": ["string", "null"] },
+        "finiteLedgerIds": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "inputEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["queuePath", "specsPath", "specsSha256", "localCandidateFieldDigest", "snapshotFiles", "sourceCoverageFrontier", "sourceSearchLedgers"],
+      "properties": {
+        "queuePath": { "type": "string", "minLength": 1 },
+        "specsPath": { "type": "string", "minLength": 1 },
+        "specsSha256": { "$ref": "#/$defs/digest" },
+        "localCandidateFieldDigest": { "$ref": "#/$defs/digest" },
+        "snapshotFiles": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "object" } },
+        "sourceCoverageFrontier": { "$ref": "#/$defs/fileEvidence" },
+        "sourceSearchLedgers": { "$ref": "#/$defs/sourceSearchLedgers" }
+      }
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidateId", "layer", "entity", "queue", "frontier", "claims", "local", "source", "comparison", "gate"],
+      "properties": {
+        "candidateId": { "type": "string", "minLength": 1 },
+        "layer": { "const": "weaponEffectSpec" },
+        "entity": { "$ref": "#/$defs/entity" },
+        "queue": { "$ref": "#/$defs/queueProjection" },
+        "frontier": { "$ref": "#/$defs/frontier" },
+        "claims": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "$ref": "#/$defs/claimEvidence" }
+        },
+        "local": { "$ref": "#/$defs/local" },
+        "source": { "$ref": "#/$defs/source" },
+        "comparison": { "$ref": "#/$defs/comparison" },
+        "gate": { "$ref": "#/$defs/recordGate" }
+      }
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "prefixId", "identityStatus"],
+      "properties": {
+        "id": { "type": ["string", "null"] },
+        "prefixId": { "type": ["string", "null"] },
+        "identityStatus": { "enum": ["verified", "invalid"] }
+      }
+    },
+    "local": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "declaredUnit", "rawByRefinement", "normalizedByRefinement", "status", "fieldDigest"],
+      "properties": {
+        "path": { "const": "/effect/valueByRefinement" },
+        "declaredUnit": { "type": ["string", "null"] },
+        "rawByRefinement": { "$ref": "#/$defs/refinementMap" },
+        "normalizedByRefinement": { "type": "object", "patternProperties": { "^[1-5]$": { "oneOf": [ { "$ref": "#/$defs/normalizedScalar" }, { "$ref": "#/$defs/normalizedVector" } ] } }, "additionalProperties": false },
+        "status": { "enum": ["ok", "missing", "localvalueunsupported"] },
+        "fieldDigest": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "refinementMap": {
+      "type": "object",
+      "patternProperties": { "^[1-5]$": { "type": ["number", "string", "null", "array"], "items": { "type": ["number", "string", "null"] } } },
+      "additionalProperties": false
+    },
+    "normalizedScalar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "raw", "decimal", "unit", "canonical", "mode"],
+      "properties": {
+        "status": { "const": "ok" },
+        "raw": { "type": ["number", "string"] },
+        "decimal": { "type": "string", "minLength": 1 },
+        "unit": { "enum": ["number", "percent", "percentOfReference"] },
+        "canonical": { "type": "string", "minLength": 1 },
+        "mode": { "const": "strictDecimalExact" }
+      }
+    },
+    "normalizedVector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "raw", "mode", "representation", "elements", "length", "unit", "unitSource"],
+      "properties": {
+        "status": { "const": "ok" },
+        "raw": { "type": "array", "minItems": 1, "items": { "type": ["number", "string"] } },
+        "mode": { "const": "strictDecimalExact" },
+        "representation": { "enum": ["stackVector", "slashSeparatedVector"] },
+        "elements": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/normalizedVectorElement" } },
+        "length": { "type": "integer", "minimum": 1 },
+        "unit": { "enum": ["number", "percent", "percentOfReference"] },
+        "unitSource": { "enum": ["declared", "implicitDefault", "perElement", "trailingSuffix"] },
+        "sourceTokens": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "delimiter": { "const": "/" },
+        "trailingUnit": { "type": ["string", "null"] }
+      }
+    },
+    "normalizedVectorElement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "raw", "decimal", "unit", "canonical", "mode", "index", "sourceToken", "unitSource"],
+      "properties": {
+        "status": { "const": "ok" },
+        "raw": { "type": ["number", "string"] },
+        "decimal": { "type": "string", "minLength": 1 },
+        "unit": { "enum": ["number", "percent", "percentOfReference"] },
+        "canonical": { "type": "string", "minLength": 1 },
+        "mode": { "const": "strictDecimalExact" },
+        "index": { "type": "integer", "minimum": 0 },
+        "sourceToken": { "type": ["number", "string"] },
+        "unitSource": { "enum": ["declared", "implicitDefault", "perElement", "trailingSuffix"] }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "sourceVariantStatus", "sourceFamily", "provider", "independentProviderPairObserved", "selected", "variantCount", "sourceIntegrity"],
+      "properties": {
+        "status": { "enum": ["verified", "sourceIntegrityInvalid", "sourceVariantConflict", "missing"] },
+        "sourceVariantStatus": { "enum": ["consistent", "conflict", "missing"] },
+        "sourceFamily": { "const": "GenshinData-derived" },
+        "provider": { "const": "genshin-db" },
+        "independentProviderPairObserved": { "const": false },
+        "selected": { "type": ["object", "null"] },
+        "variantCount": { "type": "integer", "minimum": 0 },
+        "sourceIntegrity": { "type": "array", "items": { "type": "object" } }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "status", "numericAgreementOnlyNotSemanticIdentity", "semanticIdentityEstablished", "semanticMapping", "rawVersionValuesEqual", "before", "after"],
+      "properties": {
+        "mode": { "const": "strictDecimalExact" },
+        "status": { "enum": ["numericAgreementOnlyNotSemanticIdentity", "ambiguous", "mismatch", "unitMismatch", "missing", "localvalueunsupported", "rawvalueunsupported", "sourceIntegrityInvalid", "sourceVariantConflict", "entityIdentityInvalid"] },
+        "numericAgreementOnlyNotSemanticIdentity": { "const": true },
+        "semanticIdentityEstablished": { "const": false },
+        "semanticMapping": { "type": "null" },
+        "rawVersionValuesEqual": { "type": "boolean" },
+        "before": { "$ref": "#/$defs/comparisonSide" },
+        "after": { "$ref": "#/$defs/comparisonSide" }
+      }
+    },
+    "comparisonSide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "numericAgreementOnlyNotSemanticIdentity", "semanticIdentityEstablished", "numericMatchingColumnIndexes", "columnComparisons"],
+      "properties": {
+        "status": { "enum": ["numericAgreementOnlyNotSemanticIdentity", "ambiguous", "mismatch", "unitMismatch", "missing", "localvalueunsupported", "rawvalueunsupported"] },
+        "numericAgreementOnlyNotSemanticIdentity": { "type": "boolean" },
+        "semanticIdentityEstablished": { "const": false },
+        "numericMatchingColumnIndexes": { "type": "array", "items": { "type": "integer", "minimum": 0 } },
+        "columnComparisons": { "type": "array", "items": { "$ref": "#/$defs/columnComparison" } }
+      }
+    },
+    "columnComparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["columnIndex", "status", "numericEqual", "unitEqual"],
+      "properties": {
+        "columnIndex": { "type": "integer", "minimum": 0 },
+        "status": { "enum": ["numericAgreementOnlyNotSemanticIdentity", "mismatch", "unitMismatch", "rawvalueunsupported", "missing"] },
+        "numericEqual": { "type": "boolean" },
+        "unitEqual": { "type": "boolean" }
+      }
+    },
+    "recordGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["certificateEligible", "canonicalPromotionEligible", "reviewEligible", "reason"],
+      "properties": {
+        "certificateEligible": { "const": false },
+        "canonicalPromotionEligible": { "const": false },
+        "reviewEligible": { "const": false },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidates", "uniqueEntities", "statusByComparison", "statusBySource", "statusByLocalValue", "claimCount", "claimStatusCounts", "claimKindCounts", "observedNumericClaimCount", "candidateScopedG06HoldCount", "candidateScopedSearchRequiredCount", "rawVersionValuesEqual", "numericMatchObserved", "numericAgreementOnlyNotSemanticIdentity", "sourceFamilyCount", "independentProviderPairObserved", "semanticMappingsSelected", "reviewEligible", "certificateEligible", "canonicalPromotion", "allCandidatesBounded", "errors"],
+      "properties": {
+        "candidates": { "const": 381 },
+        "uniqueEntities": { "type": "integer", "minimum": 1 },
+        "statusByComparison": { "$ref": "#/$defs/countMap" },
+        "statusBySource": { "$ref": "#/$defs/countMap" },
+        "statusByLocalValue": { "$ref": "#/$defs/countMap" },
+        "claimCount": { "type": "integer", "minimum": 1 },
+        "claimStatusCounts": { "$ref": "#/$defs/countMap" },
+        "claimKindCounts": { "$ref": "#/$defs/countMap" },
+        "observedNumericClaimCount": { "type": "integer", "minimum": 0 },
+        "candidateScopedG06HoldCount": { "const": 0 },
+        "candidateScopedSearchRequiredCount": { "const": 381 },
+        "rawVersionValuesEqual": { "const": 381 },
+        "numericMatchObserved": { "const": 351 },
+        "numericAgreementOnlyNotSemanticIdentity": { "const": 351 },
+        "sourceFamilyCount": { "const": 1 },
+        "independentProviderPairObserved": { "const": 0 },
+        "semanticMappingsSelected": { "const": 0 },
+        "reviewEligible": { "const": 0 },
+        "certificateEligible": { "const": 0 },
+        "canonicalPromotion": { "const": 0 },
+        "allCandidatesBounded": { "const": true },
+        "errors": { "type": "array", "maxItems": 0 }
+      }
+    },
+    "countMap": {
+      "type": "object",
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reason", "canIssueEligibilityCertificate", "canPromoteCanonical", "canSelectSemanticMapping"],
+      "properties": {
+        "status": { "const": "failClosed" },
+        "reason": { "type": "string", "minLength": 1 },
+        "canIssueEligibilityCertificate": { "const": false },
+        "canPromoteCanonical": { "const": false },
+        "canSelectSemanticMapping": { "const": false }
+      }
+    }
+  }
+}

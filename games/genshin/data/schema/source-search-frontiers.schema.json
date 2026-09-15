@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tetin.net/schema/genshin/source-search-frontiers.schema.json",
+  "title": "Genshin candidate-scoped source search frontier registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "generatedAt", "frontiers"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinSourceSearchFrontierRegistry" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "frontiers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "appliesTo", "searchScope", "lastSearchedAt", "providersExamined", "negativeResult", "reopenTrigger", "evidenceRefs"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "status": { "const": "searchExhausted" },
+          "appliesTo": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["dataset", "layer", "candidateCount", "candidateIdDigest", "candidateIds"],
+            "properties": {
+              "dataset": { "type": "string", "minLength": 1 },
+              "layer": { "type": "string", "minLength": 1 },
+              "pieceSlot": { "type": "string", "minLength": 1 },
+              "candidateCount": { "type": "integer", "minimum": 1 },
+              "candidateIdDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+              "candidateIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+            }
+          },
+          "searchScope": { "type": "string", "minLength": 1 },
+          "lastSearchedAt": { "type": "string", "format": "date" },
+          "providersExamined": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+          "negativeResult": { "type": "string", "minLength": 1 },
+          "excludedCandidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["candidateId", "reason"],
+              "properties": {
+                "candidateId": { "type": "string", "minLength": 1 },
+                "reason": { "type": "string", "minLength": 1 }
+              }
+            }
+          },
+          "reopenTrigger": { "type": "string", "minLength": 1 },
+          "evidenceRefs": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+          "sourceAuditDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "auditDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        }
+      }
+    }
+  }
+}

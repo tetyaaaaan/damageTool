@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-version-transition.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "transitionId", "fromGameVersion", "toGameVersion", "officialHeadEvidenceValid", "strictTargetDatasetAvailable", "entityDiffAvailable", "targetDatasetEvidence", "sourceSearch", "officialChangeIndex", "partialDiscovery", "state", "stages", "productionGate", "reopenCondition"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinVersionTransition" },
+    "transitionId": { "type": "string", "minLength": 1 },
+    "fromGameVersion": { "type": ["string", "null"] },
+    "toGameVersion": { "type": ["string", "null"] },
+    "officialHeadEvidenceValid": { "type": "boolean" },
+    "strictTargetDatasetAvailable": { "type": "boolean" },
+    "entityDiffAvailable": { "type": "boolean" },
+    "targetDatasetEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact", "valid", "complete", "validationReasons", "materializedCandidateCount", "gateEligible"],
+      "properties": {
+        "artifact": { "type": "string", "minLength": 1 },
+        "valid": { "type": "boolean" },
+        "complete": { "type": "boolean" },
+        "validationReasons": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "materializedCandidateCount": { "type": "integer", "minimum": 0 },
+        "gateEligible": { "type": "boolean" }
+      }
+    },
+    "sourceSearch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact", "strictTargetDatasetFound", "searchExhausted"],
+      "properties": {
+        "artifact": { "type": "string", "minLength": 1 },
+        "strictTargetDatasetFound": { "type": "boolean" },
+        "searchExhausted": { "type": "boolean" }
+      }
+    },
+    "officialChangeIndex": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact", "valid", "validationReasons", "affectedEntityIds"],
+      "properties": {
+        "artifact": { "type": "string", "minLength": 1 },
+        "valid": { "type": "boolean" },
+        "validationReasons": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "affectedEntityIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+      }
+    },
+    "partialDiscovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact", "valid", "validationReasons", "candidateCount", "gateEligible"],
+      "properties": {
+        "artifact": { "type": "string", "minLength": 1 },
+        "valid": { "type": "boolean" },
+        "validationReasons": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "candidateCount": { "type": "integer", "minimum": 0 },
+        "gateEligible": { "const": false }
+      }
+    },
+    "state": { "enum": ["current", "officialHeadInvalid", "awaitingTargetDataset", "awaitingTargetDatasetCoverage", "awaitingEntityDiff", "revalidationInProgress"] },
+    "stages": {
+      "type": "object",
+      "required": ["officialHeadDetected", "strictTargetDataset", "entityDiff", "affectedClaimsIdentified", "claimEvidenceRevalidated", "certificatesRegenerated", "runtimeRegenerated", "consumersVerified", "gateReopened"],
+      "additionalProperties": {
+        "type": "object",
+        "required": ["status"],
+        "properties": { "status": { "enum": ["complete", "pending", "blocked", "notRequired", "conservativeComplete"] } }
+      }
+    },
+    "productionGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scope", "canonicalOverlayActive", "reopenEligible", "legacyCalculationActive", "historicalCanonical"],
+      "properties": {
+        "scope": { "const": "versionBoundCanonicalOverlayOnly" },
+        "canonicalOverlayActive": { "type": "boolean" },
+        "reopenEligible": { "type": "boolean" },
+        "legacyCalculationActive": { "const": true },
+        "historicalCanonical": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["verifiedGameVersion", "status", "retainedIds"],
+          "properties": {
+            "verifiedGameVersion": { "type": ["string", "null"] },
+            "status": { "enum": ["current", "historicalVerifiedPendingRevalidation"] },
+            "retainedIds": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true }
+          }
+        }
+      }
+    },
+    "reopenCondition": { "type": "string", "minLength": 1 }
+  }
+}

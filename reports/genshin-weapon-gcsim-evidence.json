@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "audit": "genshin-weapon-gcsim-evidence-audit",
+  "status": "passed",
+  "generatedAt": "2026-08-16T00:00:00.000Z",
+  "input": {
+    "evidence": {
+      "sourceCatalog": {
+        "path": "games/genshin/data/v2/source-catalog.json",
+        "sha256": "e3281568020faca3bc635b1161993bbab27027fe574f6692d81f849d49509790",
+        "capturedAt": "2026-08-15T00:00:00+09:00"
+      },
+      "candidateSpecs": {
+        "path": "games/genshin/data/v2/weapons/spec-candidates.json",
+        "sha256": "327348790d3446ef31e15c187f88ae1260d4b2fcdd78fc2bec1482fee5bb951e"
+      }
+    },
+    "sourceCatalogSha256": "2c6c1a099c2c89ae7163579b8690231d0f2481082889b7d770aa33c5e9021fa7",
+    "sourceRootProvided": false
+  },
+  "summary": {
+    "status": "passed",
+    "sourceRecords": 9,
+    "expectedSourceRecords": 9,
+    "fieldRecords": 145,
+    "eligibleFields": 100,
+    "eligibleButCanonicalBlocked": 100,
+    "supportsClaimValueFields": 72,
+    "candidateValueAgreements": 72,
+    "candidateValueConflicts": 0,
+    "needsReviewFields": 45,
+    "unresolvedFields": 45,
+    "ancillarySourceFields": 4,
+    "registryMappedSourceFields": 4,
+    "schemaGapSourceFields": 0,
+    "unmappedSourceFields": 0,
+    "canonicalEligibleFields": 0,
+    "canonicalEligibleCandidates": 0,
+    "gameVersionMissingSourceRecords": 9,
+    "gameVersionMissingFields": 145,
+    "portableSourceFiles": 9,
+    "absoluteSourceFiles": 0,
+    "fieldStatusCounts": {
+      "eligible": 100,
+      "needsReview": 45
+    },
+    "weaponIds": [
+      "11503",
+      "11509",
+      "11518",
+      "12402",
+      "12430",
+      "14402",
+      "15402",
+      "15502",
+      "15516"
+    ],
+    "errors": 0,
+    "warnings": 0
+  },
+  "errors": [],
+  "warnings": [],
+  "methodology": {
+    "eligible": "Field extraction is assignment/branch-backed and structurally comparable to a candidate claim; it is still blocked from canonicalization by missing gameVersion evidence.",
+    "unresolved": "needsReview fields plus source fields that do not have a safe v2 claim mapping.",
+    "canonical": "Always false; this audit never edits existing v2 specs or runtime status.",
+    "sourceLocator": "sourceFile is required to equal the provider-relative source-catalog path; extraction-time checkout roots are never serialized.",
+    "numericTokens": "A numeric-token matcher is rejected by contract and is not a canonical verification method."
+  }
+}

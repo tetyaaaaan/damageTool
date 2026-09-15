@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 2,
+  "characterId": "10000037",
+  "status": "pilot",
+  "layers": {
+    "raw": [
+      { "dataset": "characters", "pointer": "/10000037", "role": "identity" },
+      { "dataset": "characterTalents", "pointer": "/10000037", "role": "sourceText" },
+      { "dataset": "characterConstellations", "pointer": "/10000037", "role": "sourceText" }
+    ],
+    "spec": [
+      { "dataset": "talentScalings", "pointer": "/10000037", "role": "attacks" },
+      { "dataset": "behaviorPilot", "pointer": "/byCharacter/10000037", "role": "behaviorCandidates" },
+      { "dataset": "characterCoverage", "pointer": "/characters/10000037", "role": "coverageAudit" }
+    ],
+    "runtime": [
+      { "dataset": "talentModifiers", "pointer": "/10000037", "role": "modifiers" },
+      { "dataset": "constellationModifiers", "pointer": "/10000037", "role": "modifiers" }
+    ]
+  },
+  "capabilities": ["singleHit", "chargedAttackStages", "continuousAttack", "fieldEffect"],
+  "verification": { "status": "needsReview", "notes": "Pilot reference package; separates raw descriptions from attack scalings and runtime modifiers." }
+}

@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tetinet.example/schemas/genshin/behavior-spec.schema.json",
+  "title": "Genshin attack and effect behavior specification",
+  "type": "object",
+  "required": ["id", "entity", "sourceRefs", "timing", "execution", "lifecycle", "verification"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "entity": {
+      "type": "object",
+      "required": ["kind", "id", "component"],
+      "properties": {
+        "kind": { "enum": ["character", "weapon", "artifactSet", "constellation", "talent"] },
+        "id": { "type": "string", "minLength": 1 },
+        "component": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "sourceRefs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "interpretation": {
+      "type": "object",
+      "required": ["method", "author", "version"],
+      "properties": {
+        "method": { "enum": ["human", "deterministicParser", "aiAssisted"] },
+        "author": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "timing": {
+      "type": "object",
+      "properties": {
+        "cooldown": { "$ref": "#/$defs/measurement" },
+        "duration": { "$ref": "#/$defs/measurement" },
+        "tickInterval": { "$ref": "#/$defs/measurement" },
+        "triggerInterval": { "$ref": "#/$defs/measurement" },
+        "activationDelay": { "$ref": "#/$defs/measurement" }
+      },
+      "additionalProperties": false
+    },
+    "execution": {
+      "type": "object",
+      "properties": {
+        "hitCount": { "$ref": "#/$defs/measurement" },
+        "attackCount": { "$ref": "#/$defs/measurement" },
+        "maxTriggers": { "$ref": "#/$defs/measurement" },
+        "charges": { "$ref": "#/$defs/measurement" },
+        "maxInstances": { "$ref": "#/$defs/measurement" },
+        "offField": { "$ref": "#/$defs/measurement" },
+        "snapshot": { "$ref": "#/$defs/measurement" },
+        "area": { "$ref": "#/$defs/measurement" },
+        "targetCount": { "$ref": "#/$defs/measurement" },
+        "attackSpeed": { "$ref": "#/$defs/measurement" }
+      },
+      "additionalProperties": false
+    },
+    "lifecycle": {
+      "type": "object",
+      "required": ["refreshMode", "expiration"],
+      "properties": {
+        "refreshMode": { "enum": ["none", "refresh", "extend", "replace", "independent", "unknown"] },
+        "expiration": { "enum": ["duration", "triggerLimit", "consumed", "destroyed", "stateEnd", "unknown"] },
+        "instanceScope": { "enum": ["owner", "target", "summon", "stack", "party", "unknown"] },
+        "resetTargets": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      },
+      "additionalProperties": false
+    },
+    "energy": {
+      "type": "object",
+      "properties": {
+        "burstCost": { "$ref": "#/$defs/measurement" },
+        "gain": { "$ref": "#/$defs/measurement" },
+        "particleCount": { "$ref": "#/$defs/measurement" },
+        "particleElement": { "$ref": "#/$defs/measurement" }
+      },
+      "additionalProperties": false
+    },
+    "elementApplication": {
+      "type": "object",
+      "properties": {
+        "element": { "$ref": "#/$defs/measurement" },
+        "gaugeUnits": { "$ref": "#/$defs/measurement" },
+        "icdInterval": { "$ref": "#/$defs/measurement" },
+        "icdHitRule": { "$ref": "#/$defs/measurement" },
+        "icdScope": { "$ref": "#/$defs/measurement" }
+      },
+      "additionalProperties": false
+    },
+    "triggers": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/eventRule" }
+    },
+    "stackRules": {
+      "type": "object",
+      "properties": {
+        "maximum": { "$ref": "#/$defs/measurement" },
+        "acquire": { "type": "array", "items": { "$ref": "#/$defs/eventRule" } },
+        "consume": { "type": "array", "items": { "$ref": "#/$defs/eventRule" } },
+        "reset": { "type": "array", "items": { "$ref": "#/$defs/eventRule" } }
+      },
+      "additionalProperties": false
+    },
+    "stateMachine": {
+      "type": "object",
+      "required": ["states", "transitions"],
+      "properties": {
+        "initialState": { "type": ["string", "null"] },
+        "states": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["from", "to", "trigger", "sourceRefs"],
+            "properties": {
+              "from": { "type": ["string", "null"] },
+              "to": { "type": "string", "minLength": 1 },
+              "trigger": { "$ref": "#/$defs/eventRule" },
+              "sourceRefs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+              "notes": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "actor": {
+      "type": "object",
+      "required": ["kind", "identityScope"],
+      "properties": {
+        "kind": { "enum": ["owner", "summon", "construct", "coordinatedAttack", "followUp", "additionalDamage", "unknown"] },
+        "identityScope": { "enum": ["shared", "perOwner", "perInstance", "perTarget", "unknown"] },
+        "independentAttackCycle": { "$ref": "#/$defs/measurement" },
+        "placementLimit": { "$ref": "#/$defs/measurement" }
+      },
+      "additionalProperties": false
+    },
+    "enemyCountBehavior": {
+      "type": "object",
+      "required": ["mode", "sourceRefs"],
+      "properties": {
+        "mode": { "enum": ["fixed", "perTarget", "sharedCap", "chain", "areaOverlap", "unknown"] },
+        "maximumTargets": { "$ref": "#/$defs/measurement" },
+        "hitScaling": { "$ref": "#/$defs/measurement" },
+        "sourceRefs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "unknownFields": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "verification": {
+      "type": "object",
+      "required": ["status", "reviewedBy", "reviewedAt", "discrepancies"],
+      "properties": {
+        "status": { "enum": ["unreviewed", "needsReview", "verified", "disputed"] },
+        "verificationMode": { "enum": ["human", "deterministicConsensus"] },
+        "reviewedBy": { "type": ["string", "null"] },
+        "reviewedAt": { "type": ["string", "null"], "format": "date-time" },
+        "sourceAgreement": { "enum": ["singleSource", "agreed", "disputed", "unknown"] },
+        "claims": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["status", "sourceRefs"],
+            "properties": {
+              "status": { "enum": ["verified", "needsReview", "disputed", "notApplicable"] },
+              "claimKind": { "enum": ["externalFactual", "internalRuntimeRoute", "mappingMaterialization", "derivedDeterministic", "notApplicable"] },
+              "sourceRefs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+              "notes": { "type": "string" },
+              "candidateId": { "type": "string", "minLength": 1 },
+              "claimId": { "type": "string", "minLength": 1 },
+              "field": { "type": "string", "minLength": 1 },
+              "verificationAttestation": { "type": "object", "minProperties": 1 },
+              "eligibilityCertificate": { "type": "object", "minProperties": 1 },
+              "machineEvidence": { "type": "object", "minProperties": 1 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "discrepancies": { "type": "array", "items": { "type": "object" } },
+        "claimProofs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["candidateId", "claimId", "field", "verificationAttestation", "eligibilityCertificate"],
+            "properties": {
+              "candidateId": { "type": "string", "minLength": 1 },
+              "claimId": { "type": "string", "minLength": 1 },
+              "field": { "type": "string", "minLength": 1 },
+              "verificationAttestation": { "type": "object", "minProperties": 1 },
+              "eligibilityCertificate": { "type": "object", "minProperties": 1 }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "verificationMode": { "const": "human" } } },
+          "then": { "properties": { "reviewedBy": { "type": "string", "minLength": 1 }, "reviewedAt": { "type": "string", "format": "date-time" } } }
+        },
+        {
+          "if": { "properties": { "verificationMode": { "const": "deterministicConsensus" } } },
+          "then": { "properties": { "reviewedBy": { "type": "null" }, "reviewedAt": { "type": "null" } } }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "runtime": {
+      "type": "object",
+      "required": ["status", "modifierIds", "generator"],
+      "properties": {
+        "status": { "enum": ["blocked", "candidate", "canonical", "displayOnly"] },
+        "modifierIds": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "generator": { "type": ["string", "null"] },
+        "blockedReasons": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      },
+      "additionalProperties": false
+    },
+    "inventoryCandidateId": { "type": "string", "minLength": 1 },
+    "inventoryCandidateIds": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "unknownCandidateIds": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+  },
+  "$defs": {
+    "eventRule": {
+      "type": "object",
+      "required": ["event", "sourceRefs"],
+      "properties": {
+        "event": { "type": "string", "minLength": 1 },
+        "cause": { "type": ["string", "null"] },
+        "subject": { "type": ["string", "null"] },
+        "target": { "type": ["string", "null"] },
+        "amount": { "$ref": "#/$defs/measurement" },
+        "conditions": { "type": "array", "items": { "type": "object" } },
+        "sourceRefs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "measurement": {
+      "type": "object",
+      "required": ["value", "unit", "status", "sourceRefs"],
+      "properties": {
+        "value": { "type": ["number", "string", "boolean", "null"] },
+        "unit": { "enum": ["seconds", "frames", "hits", "attacks", "charges", "instances", "points", "particles", "percent", "boolean", "enum", "unknown"] },
+        "status": { "enum": ["explicit", "derived", "unknown", "notApplicable", "disputed"] },
+        "sourceRefs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

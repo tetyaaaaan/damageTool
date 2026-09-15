@@ -1,0 +1,389 @@
+1. 適用範囲と維持する原則
+今回の標準は、新規データまたは既存データのv2化作業に適用します。
+以下は変更しません。
+- Raw → Spec → Runtime
+- SourceRecordによる出典固定
+- フィールド単位の検証
+- 独立した複数ソース
+- ゲーム版の一致
+- AI解析の独立レビュー
+- 不明値を推測しない
+- 未検証データをRuntimeへ入れない
+- legacy経路をcanonicalの根拠にしない
+2. 作業完了状態
+「実装完了」という曖昧な状態を使わず、次の3段階に分けます。
+状態	完了条件	Runtime利用
+candidatePrepared	Primary取得、SourceRecord、Spec候補、unknown、blocked理由が揃っている	不可
+verificationComplete	フィールド単位の照合、版、独立性、差異処理が完了	まだ不可の場合あり
+runtimeConnected	canonical gate通過後、対応generatorからRuntimeを生成しconsumerが受理	可
+
+
+進捗報告でも、この3件数を混ぜません。
+3. JSON格納先の決定方法
+3.1 最初に確認する項目
+新しい情報を処理する際、次の順に判定します。
+1. 取得した原文・元JSON値・コード上の値か。
+2. 何を意味する情報か。
+3. 既存のどのconsumerが読むか。
+4. 現行スキーマで意味を欠落なく表現できるか。
+5. Runtimeへの既存生成経路があるか。
+6. 他のSpecとの不可分な依存関係があるか。
+「似た既存JSONがどこにあるか」は参考にはしますが、格納先決定の根拠にはしません。
+3.2 各形式の責務
+形式	標準責務
+SourceRecord	取得した事実、原文、元の構造値、provider、locator、版、digest
+talent-scalings	攻撃・回復・シールド等のレベル別数値系列で、既存consumerが対応するもの
+EffectSpec	ステータス、ダメージ、回復、シールド、リソースなどの効果候補
+BehaviorSpec	攻撃・効果の実行方法、時間軸、回数、状態、元素付着等の挙動候補
+BehaviorModifier	既存BehaviorSpecのフィールドを条件付きで変更する差分
+canonical Runtime	verified Specからgeneratorが生成する計算用データ
+legacy modifier	既存互換専用。新規v2情報の正本にはしない
+registry／audit	対応状況、差異、レビュー、証拠。ゲーム内事実の正本にはしない
+
+
+4. 正本ルール
+4.1 Rawの正本
+外部から取得した値の正本は常にSourceRecordです。
+最低限、現行スキーマが要求する次の情報を記録します。
+- id
+- kind
+- provider
+- locator
+- capturedAt
+- gameVersion
+- text
+- integrity
+[source-record.schema.json (line 6)](D:/Documents/GitHub/damageTool/games/genshin/data/schema/source-record.schema.json:6)
+構造化値が存在する場合は structuredValue に保持します。原文から推定した値をRawへ書き戻しません。
+4.2 Specの正本
+同じ意味の値をEffectSpecとBehaviorSpecの両方に重複して保持しません。
+ただし現行EffectSpecには durationSeconds、cooldownSeconds、hitCount、stack、snapshot 等が既に存在します。[effect-spec.schema.json (line 71)](D:/Documents/GitHub/damageTool/games/genshin/data/schema/effect-spec.schema.json:71)
+そのため、現段階では次のルールにします。
+- 1つの効果としてEffectSpecだけで完全に表現できる場合はEffectSpecにまとめる。
+- 独立して参照・変更される挙動はBehaviorSpecにする。
+- BehaviorModifierの変更対象になる挙動はBehaviorSpecを正本にする。
+- EffectSpecとBehaviorSpecの両方が不可欠で、両者の結合を現行契約で保証できない場合はRuntimeをblockedにする。
+- 共通の sourceRefs や同じ entity.component だけで、両Specが不可分に適用されるとは見なさない。
+これにより、Specを分割した結果、ダメージだけ適用され時間制限が消えるような部分昇格を防ぎます。
+5. 格納先決定表
+5.1 基本情報
+情報	正本	条件
+名前、元素、武器種、レアリティ	SourceRecord＋既存catalog	identity用途
+キャラクター基礎ステータス	SourceRecord＋現行base-stats経路	新しい未定義Specを作らない
+武器基礎攻撃力、副ステータス	SourceRecord＋現行weapon catalog経路	武器効果と分離
+説明文	SourceRecord	Specの自由文を正本にしない
+画像・表示名	catalog／image manifest	計算Specへ入れない
+
+
+5.2 レベル別数値
+分類は「Lvで変わるか」より先に「何の効果か」を判断します。
+情報	正本	備考
+通常・重撃・落下攻撃倍率	talent-scalings	attack groupと段を固定
+スキル・爆発の直接ダメージ倍率	talent-scalings	参照ステータスも保持
+Lv別回復量	既存talent-scalings consumerが対応する場合のみ同経路	未対応ならEffectSpec候補＋blocked
+Lv別シールド量	同上	基礎値と参照倍率を分離
+Lv別バフ量	EffectSpec	攻撃倍率として扱わない
+Lv別継続時間・CT	EffectSpecまたはBehaviorSpec	下記の時間ルールで決定
+
+
+値は次の構成要素を分離します。
+- 基礎固定値
+- 参照ステータス
+- 参照倍率
+- レベル軸
+- 精錬軸
+- stack軸
+- 条件倍率
+「倍率」という名前だけでtalent-scalingsへ入れません。
+5.3 ステータス・ダメージ効果
+情報	正本	標準判断
+ATK%、HP%、DEF%、会心等	EffectSpec	stat modifier
+元素・物理ダメージバフ	EffectSpec	target elementを明示
+通常・重撃・スキル・爆発バフ	EffectSpec	attack typeを明示
+敵防御・耐性変更	EffectSpec	enemy対象
+固定ダメージ加算	EffectSpec	damage formula種別を明示
+基礎ダメージ加算	EffectSpec	通常の与ダメージバフと分ける
+追加攻撃	EffectSpec＋必要ならBehaviorSpec	発生挙動が単純ならEffectSpec内
+追加hit	BehaviorModifier	元攻撃のhitCountを書き換える場合
+独立した追撃	BehaviorSpec＋EffectSpec候補	結合できなければblocked
+回復・シールド	EffectSpec	発生間隔や継続挙動は必要に応じてBehaviorSpec
+エネルギー増減	EffectSpec	発生周期が挙動の本体ならBehaviorSpecも検討
+
+
+「追加ダメージ」は必ず次のどれかに分類します。
+- 元の攻撃倍率を増やす
+- 基礎ダメージへ加算する
+- 与ダメージボーナスを加える
+- 独立したダメージインスタンスを発生させる
+- 元の攻撃へhitを追加する
+分類不能なら unknown とし、Runtimeへ接続しません。
+5.4 時間・回数・挙動
+情報	EffectSpecに置く条件	BehaviorSpecに置く条件
+duration	単一効果の単純な有効時間	refresh、延長、個別期限、複数状態がある
+cooldown	単一効果の単純な再発動間隔	charge、CT開始時点、reset、短縮挙動がある
+interval	単一効果の単純な周期	tickとtriggerの区別や状態遷移が必要
+hitCount	単一効果自身の明示hit数	独立した攻撃Behavior、他効果から変更される
+charges	単純な固定使用回数	回復、共有、reset、増減がある
+maxInstances	単純な固定上限	summonごとの寿命や置換規則がある
+stack	単純な最大数と効果量	取得、消費、個別期限、refreshがある
+snapshot	単純な全体yes/noで十分	対象statや取得時点を区別する必要がある
+off-field	単純な可否	actorや場上交代で状態遷移する
+area	単純な分類	対象ごとのhitや重複判定が必要
+
+
+EffectSpecだけで完全に意味を表せる範囲では、無理にBehaviorSpecへ分離しません。
+5.5 ICD・元素付着
+ICD等は原則BehaviorSpecです。
+情報	格納先
+付着元素	elementApplication.element
+gauge unit	elementApplication.gaugeUnits
+時間ICD	elementApplication.icdInterval
+hit rule	elementApplication.icdHitRule
+ICD共有範囲	elementApplication.icdScope
+
+
+次は別物として扱います。
+- ダメージの元素
+- 元素付与／元素変換
+- 元素付着
+- ICD tag
+- gauge unit
+説明文に記載がない場合、攻撃元素からICDを推測しません。
+5.6 stack
+stackは次の要素を必ず分離します。
+- 最大数
+- 1stackあたりの値
+- 取得イベント
+- 取得量
+- 消費イベント
+- 消費量
+- resetイベント
+- stackごとの個別期限か、全体期限か
+- refresh方法
+- 同一対象／所有者間で共有するか
+単純な「最大3stack、1stackごとにATK+5%」ならEffectSpec内のstackで扱えます。
+個別期限、消費、refresh、状態遷移がある場合はBehaviorSpecを正本にします。EffectSpecとの安全な結合が保証できなければRuntimeはblockedです。
+5.7 snapshot
+現行の単純な yes/no/unknown で十分なのは、効果全体が一括でsnapshotされる場合だけです。
+次の差がある場合は単純な真偽値へ縮約しません。
+- ATKのみsnapshot、会心は動的
+- 召喚時に固定
+- hit時に再取得
+- stack取得時に個別固定
+- 対象ごとに取得時点が異なる
+現行スキーマで表現できない場合は、SourceRecordとBehaviorSpecのnotes／unknownへ証拠を保持し、schemaGap でblockedにします。
+5.8 条件
+条件は次の構成に分解します。
+項目	内容
+event	skillCast、hit、reaction、swap等
+actor	発動者
+owner	効果の所有者
+target	適用対象
+state	命ノ星座、stack、戦闘状態
+threshold	HP、元素エネルギー、敵数等
+logical relation	AND、OR、排他
+frequency	毎回、一定間隔、最大回数
+lifetime	duration、消費、状態終了
+
+
+現行スキーマ・generator・consumerが解釈する形だけをcanonical候補にします。
+BehaviorModifierの命ノ星座条件は、ローダーが受理する形式に合わせます。
+{
+  "kind": "constellation",
+  "stateKey": "<characterId>:C<n>",
+  "minimum": 1
+}
+[genshinCalcData.js (line 47)](D:/Documents/GitHub/damageTool/games/js/genshinCalcData.js:47)
+AND／ORなどを現行形式で表現できない場合、自由な文字列へ畳まずRuntimeをblockedにします。
+5.9 BehaviorModifier
+BehaviorModifierは次をすべて満たす場合だけ使います。
+- 変更対象のBehaviorSpecが存在する。
+- targetSpecId が一意に解決できる。
+- 変更先が現行スキーマの対応pathに含まれる。
+- operationの意味が正確に一致する。
+- 条件を現行consumerが解釈できる。
+- 複数modifierの適用順序に依存しない、または順序が既存契約で決まっている。
+例：
+効果	BehaviorModifier
+charge+1	/execution/charges に add
+CTを1秒減らす	CT総量変更なら add -1。残りCT減算とは分ける
+残りCTを1秒減らす	現行操作で意味を保証できなければblocked
+durationを2秒延長	/timing/duration に extend
+cooldownを無視	ignoreCooldown
+hit数を2増やす	/execution/hitCount に add
+ATK+20%	BehaviorModifierではなくEffectSpec
+
+
+複数BehaviorModifierの順序が結果に影響する場合は、現行Runtimeで順序契約が確認できるまでcanonicalにしません。
+6. 単位と値の共通規約
+6.1 percentage
+既存Runtimeとの変換事故を防ぐため、各Specの値は次を明記します。
+- 値
+- 単位
+- 表示上の解釈
+- Runtime変換式
+例えば20%を 20 とするか 0.2 とするかは、対象スキーマとgeneratorごとに固定します。異なる表現を暗黙変換しません。
+Runtime生成時は、Specの単位から目的Runtime形式への変換をgeneratorが行います。
+6.2 unknown、null、0
+値	意味
+0	値が明示的にゼロ
+null	スキーマ上値なし。ただし理由をverificationへ記録
+unknown	値が存在する可能性はあるが不明
+notApplicable	その概念が対象に適用されない
+disputed	ソース間で一致しない
+
+
+空文字や欠落をunknownの代用にしません。
+6.3 秒とframe
+- 原文が秒なら秒を正本にする。
+- 実装がframeならframeを正本にする。
+- 換算値はderivedとする。
+- FPS前提をSourceRecordまたはmeasurement notesに記録する。
+- roundされた秒表示と内部frame値を完全一致と見なさない。
+7. legacyとRuntime
+7.1 legacy modifier
+新規v2作業では、legacy modifierへ手書きで事実を追加しません。
+例外は、既存互換データの明白な保守をユーザーが明示的に依頼した場合です。その場合もv2 canonical昇格とは別作業として扱います。
+7.2 形式変換と採用資格
+Specからlegacy互換形式を生成できても、それだけでは計算に採用しません。
+Runtime適用には必ず次が必要です。
+- Specがcanonical gateを通過
+- generatorが承認されたもの
+- destinationが構造化されている
+- consumerがそのcategory、condition、unitを処理できる
+- 既存modifierの置換範囲が確定している
+- 部分置換によって二重適用されない
+7.3 consumer gap
+Specは正しいがconsumerが未対応の場合は次の状態にします。
+verification: verified
+runtime.status: blocked
+blockedReasons:
+  - consumerMissing
+「verified」と「計算可能」を同義にしません。
+8. 修正版source matrix
+このmatrixは取得順です。後順位の値より第一候補を優先採用する規則ではありません。
+「確認済み範囲」は現在repoに実データ、監査、取得経路が存在する範囲です。
+データ	第一取得元	第二探索先	第三探索先	現時点の制限
+identity	version固定genshin-db	HoYoWiki	公式告知	公式ページの一括取得範囲は未確定
+キャラ基礎値	genshin-db	gcsim	公式表示	level・突破段階の一致が必要
+武器基礎値	genshin-db	gcsim	HoYoWiki	repo内の公式照合実績は限定的
+天賦倍率	genshin-db	gcsim実装値	HoYoWikiで確認可能な場合	HoYoWiki全キャラ取得可能とは見なさない
+天賦原文	genshin-db対象locale	HoYoWiki	公式紹介・更新告知	翻訳間差異を値一致に数えない
+命ノ星座原文	genshin-db	HoYoWiki	公式紹介・更新告知	Gachabase承認は既存の限定候補のみ
+武器効果	genshin-db	HoYoWiki／公式告知	gcsim	公式pair承認の再利用は禁止
+聖遺物効果	genshin-db	HoYoWiki	KQMまたはgcsim	KQMの版binding不足に注意
+duration	genshin-dbの明示原文	HoYoWikiの明示原文	gcsim実装	実装値と表示文の意味差を確認
+cooldown	genshin-dbの明示値／原文	HoYoWiki	gcsim	CT開始時点を比較
+hit数	明示原文	gcsim	KQM測定	倍率配列長は証拠にしない
+tick／trigger間隔	明示原文	gcsim	KQM	animation間隔と区別
+stack	明示原文	gcsim	KQM	最大数と取得・消費規則を別比較
+snapshot	gcsim実装・test	KQMの再現可能な検証	公式明記	単純な説明文から推測しない
+ICD	gcsim実装・test	KQM TCL	公式明記	gcsimのゲーム版bindingを別途確認
+gauge unit	gcsim	KQM	公式明記	datamine系列共有の可能性を確認
+frame／hitlag	gcsim frame資料	KQM測定	独立再現測定	genshin-dbは通常対象外
+特殊状態遷移	gcsim実装・test	KQM mechanics	公式詳細説明	コード実装だけで公式仕様と断定しない
+バージョン変更	公式更新告知	version固定genshin-db差分	gcsimのrelease/diff	commit日だけで版を決めない
+
+
+9. providerの利用区分
+Provider	日常取得	独立照合	制限
+genshin-db	広範囲の第一取得元	可	GenshinData-derived
+HoYoWiki／HoYoLAB	対象フィールドが存在する場合	有力	locator、版、取得範囲を個別確認
+gcsim	挙動系の第一または第二取得元	可	ゲーム版binding不足があり得る
+KQM TCL	mechanics補完	可	revisionと版bindingを確認
+Gachabase	既存承認scope内	限定的	lineage不明、承認の横展開不可
+Genshin Optimizer	参考・フィールド探索	genshin-db相手には不可	同じGenshinData-derived系列
+TeyvatGuide	参考・欠損探索	不可	lineage不明
+damageTool local	生成入力・比較対象	不可	外部providerではない
+
+
+10. ソース選択手順
+10.1 candidate作成
+1. matrixの第一取得元を確認する。
+2. revisionまたは取得可能なlocatorを固定する。
+3. 対象フィールドをそのままSourceRecordへ保存する。
+4. ゲーム版証拠を別に確認する。
+5. Spec候補を生成する。
+6. 欠損はunknownにする。
+7. candidatePrepared / needsReview / Runtime blocked とする。
+第一取得元が取得できた段階で、通常の候補作成作業は終了できます。
+10.2 第一取得元が使えない場合
+次を区別します。
+状態	扱い
+対象entityがない	entityMissing
+entityはあるがfieldがない	fieldMissing
+対象版がない	versionUnavailable
+ゲーム版を証明できない	gameVersionUnbound
+通信・権限・取得失敗	acquisitionBlocked
+locatorを固定できない	locatorUnstable
+provider系列が不明	providerIndependenceUnknown
+意味を構造化できない	semanticDecisionRequired
+現行スキーマで表現不能	schemaGap
+consumerが未対応	consumerMissing
+
+
+acquisitionBlocked は探索済みとは見なしません。
+第一候補の対象フィールドがない場合だけ第二候補へ進み、同様に第三候補まで確認します。
+11. canonical照合手順
+canonical対象に選ばれた候補だけ次を行います。
+1. Primaryと異なるproviderを探す。
+2. source-family registryで異なる独立系列か確認する。
+3. 両ソースの対象ゲーム版を確認する。
+4. entity、フィールド、Lv、精錬、locale、単位、条件を揃える。
+5. 元のフィールド値を比較する。
+6. 由来が共有されていないか確認する。
+7. 一致・不一致・範囲差をclaim単位で記録する。
+8. 既存provider-pair policyのscope内か確認する。
+9. scope外なら以前の承認を再利用しない。
+10. gate通過後にのみRuntime生成対象とする。
+第一取得元と第二ソースが食い違った場合、第一取得元を優先採用しません。両方を保持してdisputedにします。
+12. 探索打ち切り
+candidate作成の打ち切り
+次を満たせば終了します。
+- Primary SourceRecordがある、または欠損理由が記録済み
+- Spec候補がある
+- unknownが明示されている
+- Runtime blocked理由がある
+独立した第二ソースの発見はcandidate作成の完了条件に含めません。
+source探索の打ち切り
+次をすべて満たした場合だけ searchExhausted とします。
+- matrixの第一～第三候補を確認済み
+- 対象entityと対象fieldを明記
+- 対象ゲーム版を明記
+- 各providerの結果を記録
+- 一時的なアクセス失敗ではない
+- 再開条件を記録
+記録項目は現行ポリシーに合わせます。
+- searchScope
+- lastSearchedAt
+- providersExamined
+- reopenTrigger
+[provider-independence-policy.json (line 41)](D:/Documents/GitHub/damageTool/games/genshin/data/v2/provider-independence-policy.json:41)
+searchExhausted は「値が存在しない」という意味ではなく、「定義済みの探索範囲で適格な値を取得できなかった」という意味に限定します。
+13. Codex用の最終決定フロー
+外部データを取得
+  ↓
+SourceRecordへ無加工で保存
+  ↓
+情報の意味を分類
+  ├─ identity／基礎値 → 既存catalog・base-stat経路
+  ├─ Lv別の計算系列 → 対応済みtalent-scalings経路
+  ├─ 効果量・stat・damage → EffectSpec
+  ├─ 時間・回数・ICD・状態 → EffectSpecで完結するか確認
+  │    ├─ 完結する → EffectSpec
+  │    └─ 独立挙動／変更対象 → BehaviorSpec
+  └─ 既存Behaviorの変更 → BehaviorModifier
+  ↓
+現行スキーマで完全に表現できるか
+  ├─ できない → schemaGap / Runtime blocked
+  └─ できる
+       ↓
+既存consumerとgeneratorが対応するか
+  ├─ しない → consumerMissing / Runtime blocked
+  └─ する
+       ↓
+candidatePrepared
+       ↓
+canonical対象だけ独立ソース照合
+       ↓
+gate通過後にRuntime生成

@@ -1,0 +1,416 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "r2-work-dispositions.schema.json",
+  "title": "Genshin r2 work disposition registry (not verification evidence)",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "kind",
+    "policyId",
+    "targetGameVersion",
+    "decisions",
+    "releaseAcceptance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "kind": {
+      "const": "genshinR2WorkDispositionRegistry"
+    },
+    "policyId": {
+      "const": "genshin-goal-2026-08-28-r2"
+    },
+    "targetGameVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "note": {
+      "type": "string"
+    },
+    "decisions": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "$ref": "#/$defs/decision"
+      }
+    },
+    "releaseAcceptance": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/release"
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "artifactRefs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "policyId",
+        "candidateId",
+        "targetGameVersion",
+        "queueTaskDigest",
+        "assessment",
+        "fieldFindings",
+        "search",
+        "safety"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "const": "genshinEvidenceDeferral"
+        },
+        "policyId": {
+          "const": "genshin-goal-2026-08-28-r2"
+        },
+        "candidateId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "targetGameVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "queueTaskDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "assessment": {
+          "type": "object",
+          "required": [
+            "actorId",
+            "assessedAt",
+            "reason"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "actorId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "assessedAt": {
+              "type": "string",
+              "minLength": 1
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            },
+            "boundedScope": {
+              "description": "For a non-exhaustive frontier, a candidate/task-bound finite evidence review; validator requires this object only on that path.",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "candidateId",
+                "taskId",
+                "remainingSearches",
+                "notExecutableReasons",
+                "artifactRefs"
+              ],
+              "properties": {
+                "candidateId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "taskId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "remainingSearches": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "notExecutableReasons": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "artifactRefs": {
+                  "$ref": "#/$defs/artifactRefs"
+                },
+                "deferredLaneDispositions": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": {
+                    "$ref": "#/$defs/deferredLaneDisposition"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "fieldFindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "field",
+              "knownStatus",
+              "currentValue",
+              "historicalValue",
+              "missingEvidence"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "field": {
+                "type": "string",
+                "minLength": 1
+              },
+              "knownStatus": {
+                "type": "string",
+                "minLength": 1
+              },
+              "currentValue": {},
+              "historicalValue": {},
+              "missingEvidence": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "search": {
+          "type": "object",
+          "required": [
+            "scope",
+            "lastSearchedAt",
+            "providersExamined",
+            "negativeResult",
+            "unsearchedScope",
+            "reopenTrigger",
+            "nextTask",
+            "artifactRefs"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "scope": {
+              "type": "string",
+              "minLength": 1
+            },
+            "lastSearchedAt": {
+              "type": "string",
+              "minLength": 1
+            },
+            "providersExamined": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "negativeResult": {
+              "type": "string",
+              "minLength": 1
+            },
+            "unsearchedScope": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "reopenTrigger": {
+              "type": "string",
+              "minLength": 1
+            },
+            "nextTask": {
+              "type": "string",
+              "minLength": 1
+            },
+            "artifactRefs": {
+              "$ref": "#/$defs/artifactRefs"
+            }
+          }
+        },
+        "safety": {
+          "type": "object",
+          "required": [
+            "impact",
+            "action",
+            "runtimeStatus",
+            "artifactRefs"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "impact": {
+              "type": "string",
+              "minLength": 1
+            },
+            "action": {
+              "type": "string",
+              "minLength": 1
+            },
+            "runtimeStatus": {
+              "type": "string",
+              "minLength": 1
+            },
+            "artifactRefs": {
+              "$ref": "#/$defs/artifactRefs"
+            }
+          }
+        }
+      }
+    },
+    "release": {
+      "type": "object",
+      "required": [
+        "kind",
+        "policyId",
+        "targetGameVersion",
+        "scopeDigest",
+        "reviewerId",
+        "reviewedAt",
+        "milestones"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "genshinR2ReleaseAcceptance"
+        },
+        "policyId": {
+          "const": "genshin-goal-2026-08-28-r2"
+        },
+        "targetGameVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scopeDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "reviewerId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reviewedAt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "milestones": {
+          "type": "array",
+          "minItems": 6,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "status",
+              "artifactRefs"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "enum": [
+                  "A.finiteScope",
+                  "A.verificationIntegration",
+                  "A.versionTransition",
+                  "B.calculationCoverage",
+                  "C.regression",
+                  "C.hsrUnchanged"
+                ]
+              },
+              "status": {
+                "enum": [
+                  "pending",
+                  "passed",
+                  "failed"
+                ]
+              },
+              "artifactRefs": {
+                "$ref": "#/$defs/artifactRefs"
+              }
+            }
+          },
+          "maxItems": 6
+        }
+      }
+    },
+    "deferredLaneDisposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "blockingReasons",
+        "disposition",
+        "reason",
+        "fieldRefs",
+        "artifactRefs"
+      ],
+      "properties": {
+        "kind": {
+          "const": "semanticDecision"
+        },
+        "blockingReasons": {
+          "type": "array",
+          "const": [
+            "semanticDecisionRequired"
+          ]
+        },
+        "disposition": {
+          "const": "externalEvidenceWait"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fieldRefs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^claim\\.(sourceText|timing|execution|lifecycle|energy|snapshot|effectKind|targets|activation|value)$"
+          }
+        },
+        "artifactRefs": {
+          "$ref": "#/$defs/artifactRefs"
+        }
+      }
+    }
+  }
+}

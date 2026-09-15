@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 2,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 2,
+    "status": "passed",
+    "batch": 6,
+    "batchCharacters": 10,
+    "sourceRecords": 150,
+    "inventoryCandidates": 140,
+    "specs": 140,
+    "modifiers": 0,
+    "canonical": 0,
+    "inventoryInputCandidates": 153,
+    "explicitCandidateOperations": 86,
+    "unknownCandidateIds": 67,
+    "sourceInventoryCandidates": 153,
+    "explicitInventoryCandidates": 86,
+    "unknownInventoryCandidates": 67,
+    "inventoryExplicitCandidates": 86,
+    "inventoryUnknownCandidates": 67,
+    "verificationByStatus": {
+      "needsReview": 140
+    },
+    "runtimeByStatus": {
+      "blocked": 140
+    },
+    "sourceKinds": {
+      "primaryDataset": 150
+    },
+    "contract": {
+      "malformedSources": 0,
+      "malformedInventory": 0,
+      "malformedSpecs": 0,
+      "malformedByCharacter": 0,
+      "missingSourceRefs": 0,
+      "missingInventoryRefs": 0,
+      "inputDigestMismatches": 0,
+      "unknownFieldViolations": 0,
+      "numericInferenceViolations": 0,
+      "inventoryCandidateViolations": 0,
+      "schemaViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [],
+  "malformedSources": [],
+  "malformedInventory": [],
+  "malformedSpecs": [],
+  "malformedByCharacter": [],
+  "missingSourceRefs": [],
+  "missingInventoryRefs": [],
+  "inputDigestMismatches": [],
+  "unknownFieldViolations": [],
+  "numericInferenceViolations": [],
+  "inventoryCandidateViolations": [],
+  "schemaViolations": [],
+  "characterCoverage": [
+    {
+      "characterId": "10000068",
+      "characterName": "ドリー",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 17,
+      "explicitCandidateOperations": 8,
+      "unknownCandidateIds": 9,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000069",
+      "characterName": "ティナリ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 16,
+      "explicitCandidateOperations": 7,
+      "unknownCandidateIds": 9,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000070",
+      "characterName": "ニィロウ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 12,
+      "explicitCandidateOperations": 8,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000071",
+      "characterName": "セノ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 18,
+      "explicitCandidateOperations": 13,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000072",
+      "characterName": "キャンディス",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 14,
+      "explicitCandidateOperations": 5,
+      "unknownCandidateIds": 9,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000073",
+      "characterName": "ナヒーダ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 10,
+      "explicitCandidateOperations": 6,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000074",
+      "characterName": "レイラ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 13,
+      "explicitCandidateOperations": 4,
+      "unknownCandidateIds": 9,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000075",
+      "characterName": "放浪者",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 13,
+      "explicitCandidateOperations": 7,
+      "unknownCandidateIds": 6,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000076",
+      "characterName": "ファルザン",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 19,
+      "explicitCandidateOperations": 12,
+      "unknownCandidateIds": 7,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000077",
+      "characterName": "ヨォーヨ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 21,
+      "explicitCandidateOperations": 16,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    }
+  ],
+  "generatedFromDisk": true
+}

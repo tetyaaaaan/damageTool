@@ -5,9 +5,11 @@ const { buildAudit } = require("../../scripts/genshinModifierAudit.cjs");
 test("STEP 20 quarantines known legacy misclassifications behind structured records", () => {
     const audit = buildAudit();
     const superseded = audit.records.filter((record) => record.reasonCode === "SUPERSEDED_RECORD");
-    assert.equal(superseded.length, 41);
+    assert.equal(superseded.length, 42);
     assert.equal(superseded.every((record) => record.supportStatus === "displayOnly"), true);
-    assert.equal(audit.records.find((record) => record.id === "w_12402_extraDamage_4ff89bef").reasonCode, "DISPLAY_ONLY_MISCLASSIFICATION");
+    const bellShield = audit.records.find((record) => record.id === "w_12402_extraDamage_4ff89bef");
+    assert.equal(bellShield.category, "shieldGeneration");
+    assert.equal(bellShield.reasonCode, "EXPLICIT_DISPLAY_ONLY");
 });
 
 test("STEP 20 keeps normalized records out of the P0 correction lane", () => {

@@ -160,6 +160,18 @@ test("a party artifact set is retained and exposed as a team buff candidate", ()
     assert.equal(instructor.resolvedValue, 120);
 });
 
+test("a UID-derived lone two-piece set never activates its four-piece party effect", () => {
+    ["2pc", "none"].forEach((artifactSetMode) => {
+        const { sandbox, calcData, request } = requestWithSupport("10000037", {
+            characterId: "10000032",
+            nameJa: "ベネット",
+            equipment: { artifactSetMode, artifactSetIds: artifactSetMode === "none" ? [] : ["10007"] }
+        });
+        const result = sandbox.GenshinCalcEngine.calculateDamageRequest(request, calcData);
+        assert.equal(result.partyModifiers.some((candidate) => candidate.sourceId === "4:10007"), false);
+    });
+});
+
 test("Kazuha exposes one team buff and uses the provider's elemental mastery", () => {
     const { sandbox, calcData, request } = requestWithSupport("10000037", {
         characterId: "10000047",

@@ -129,7 +129,11 @@
         "10000105": "オロルン",
         "10000106": "マーヴィカ",
         "10000107": "シトラリ",
-        "10000108": "藍硯"
+        "10000108": "藍硯",
+        "10000112": "エスコフィエ",
+        "10000115": "ダリア",
+        "10000121": "アイノ",
+        "10000132": "プルーネ"
     };
 
     const CHARACTER_NAME_BY_AVATAR_ID = {
@@ -226,7 +230,11 @@
         "10000105": "オロルン",
         "10000106": "マーヴィカ",
         "10000107": "シトラリ",
-        "10000108": "藍硯"
+        "10000108": "藍硯",
+        "10000112": "エスコフィエ",
+        "10000115": "ダリア",
+        "10000121": "アイノ",
+        "10000132": "プルーネ"
     };
 
     function pickNumber(value, fallback = 0) {
@@ -274,13 +282,59 @@
         return 1;
     }
 
+    // Local calculator datasets explicitly identify combat1/combat2/combat3
+    // as normal attack/skill/burst. UID skillLevelMap is an ID map, not an
+    // ordered tuple; unknown IDs must stay unresolved instead of being
+    // assigned by Object.values enumeration order.
+    const TALENT_GROUP_BY_SKILL_ID = Object.freeze({
+        combat1: "normal",
+        combat2: "skill",
+        combat3: "burst"
+    });
+
     function mapTalentLevels(avatar) {
-        const raw = avatar?.skillLevelMap || avatar?.avatarSkillLevelMap || {};
-        const values = Object.values(raw).map((value) => pickNumber(value)).filter((value) => value > 0);
+        const raw = avatar?.skillLevelMap || avatar?.avatarSkillLevelMap;
+        const rawById = raw && typeof raw === "object" && !Array.isArray(raw)
+            ? Object.fromEntries(Object.entries(raw).map(([id, value]) => [String(id), pickNumber(value)]))
+            : {};
+        const levels = { normal: 1, skill: 1, burst: 1 };
+        const mappedIds = {};
+        const conflictingIds = [];
+        const unmappedIds = [];
+
+        Object.entries(rawById).forEach(([id, value]) => {
+            const normalizedId = id.trim().toLowerCase();
+            const group = TALENT_GROUP_BY_SKILL_ID[normalizedId];
+            if (!group) {
+                unmappedIds.push(id);
+                return;
+            }
+            if (Object.prototype.hasOwnProperty.call(mappedIds, normalizedId)
+                && mappedIds[normalizedId] !== value) {
+                conflictingIds.push(id);
+                return;
+            }
+            mappedIds[normalizedId] = value;
+            if (value > 0) levels[group] = value;
+        });
+
+        const requiredIds = Object.keys(TALENT_GROUP_BY_SKILL_ID);
+        const missingIds = requiredIds.filter((id) => !(mappedIds[id] > 0));
+        const resolved = missingIds.length === 0 && conflictingIds.length === 0;
         return {
-            normal: values[0] || 1,
-            skill: values[1] || 1,
-            burst: values[2] || 1
+            levels: resolved ? levels : { normal: 1, skill: 1, burst: 1 },
+            mapping: {
+                status: resolved ? "resolved" : "unresolved",
+                source: resolved ? "localTalentSourceId" : "uidSkillIdUnresolved",
+                reason: resolved
+                    ? "Mapped explicit combat1/combat2/combat3 IDs; no enumeration order was used."
+                    : "UID skill IDs are not fully covered by the local combat source contract; levels default to 1 to avoid semantic misassignment.",
+                rawById,
+                mappedIds,
+                missingIds,
+                unmappedIds,
+                conflictingIds
+            }
         };
     }
 
@@ -333,7 +387,6 @@
             item?.flat?.reliquarySetId ||
             item?.flat?.reliquarySet?.id ||
             item?.reliquary?.setId ||
-            item?.reliquary?.mainPropId ||
             ""
         );
     }
@@ -420,8 +473,11 @@
         const mappedName = resolveNameFromJson("character", avatarId, pickLocalizedName(avatar?.flat?.nameTextMap) || CHARACTER_NAME_BY_AVATAR_ID_JA[avatarId], "キャラクター");
         const characterElement = resolveCharacterElement(avatarId);
         const representativeElementDamage = elementDamageStats.byElement[characterElement] || 0;
+        const talentLevelMapping = mapTalentLevels(avatar);
 
         return {
+            schemaVersion: 2,
+            source: "uidProfile",
             id: avatarId,
             name: mappedName,
             level,
@@ -430,7 +486,7 @@
             constellationEffect: "命ノ星座効果データは未対応です。",
             weaponType: resolveTextFromJson("character", avatarId, "weaponType", pickText(avatar?.flat?.weaponType || avatar?.weaponType, "-")),
             rarity: resolveNumberFromJson("character", avatarId, "rarity", pickNumber(avatar?.flat?.rankLevel || avatar?.rankLevel)),
-            talents: mapTalentLevels(avatar),
+            talents: talentLevelMapping.levels,
             weapon: mapWeapon(avatar),
             artifacts: mapArtifacts(avatar),
             stats: {
@@ -446,6 +502,48 @@
                 energyRecharge: normalizePercent(readFightProp(avatar, FIGHT_PROPS.energyRecharge)),
                 elementalDamage: representativeElementDamage,
                 elementalDamageDetails: elementDamageStats.details
+            },
+            provenance: {
+                source: "uidProfile",
+                rawCharacterId: avatarId,
+                includesPersistentBonuses: true,
+                additivePolicy: "externalModifiersOnly",
+                talentLevelMapping: talentLevelMapping.mapping
+            }
+        };
+    }
+
+    function toCalculationInput(character) {
+        if (window.GenshinDataContract?.createCalculationInput) {
+            return window.GenshinDataContract.createCalculationInput(character, "uidProfile");
+        }
+        let profileSnapshot = null;
+        try {
+            profileSnapshot = character && typeof character === "object"
+                ? JSON.parse(JSON.stringify(character))
+                : null;
+        } catch (_error) {
+            profileSnapshot = null;
+        }
+        return {
+            schemaVersion: 2,
+            source: "uidProfile",
+            characterId: String(character?.id || ""),
+            level: Number(character?.level || 0),
+            constellation: Number(character?.constellation || 0),
+            talents: { ...(character?.talents || {}) },
+            weapon: character?.weapon ? { ...character.weapon } : null,
+            artifacts: Array.isArray(character?.artifacts) ? character.artifacts.map((item) => ({ ...item })) : [],
+            stats: { ...(character?.stats || {}) },
+            ...(profileSnapshot ? { profileSnapshot } : {}),
+            provenance: {
+                source: "uidProfile",
+                importedAt: new Date().toISOString(),
+                rawCharacterId: String(character?.provenance?.rawCharacterId || character?.id || ""),
+                includesPersistentBonuses: character?.provenance?.includesPersistentBonuses ?? true,
+                additivePolicy: character?.provenance?.additivePolicy || "externalModifiersOnly",
+                sourceSnapshot: profileSnapshot?.source || "uidProfile",
+                retainedFromUid: Boolean(profileSnapshot)
             }
         };
     }
@@ -466,6 +564,6 @@
         };
     }
 
-    window.GenshinProfileMapper = { mapProfileResponse };
+    window.GenshinProfileMapper = { mapProfileResponse, toCalculationInput };
 })();
 

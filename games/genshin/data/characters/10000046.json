@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 2,
+  "characterId": "10000046",
+  "status": "pilot",
+  "layers": {
+    "raw": [
+      { "dataset": "characters", "pointer": "/10000046", "role": "identity" },
+      { "dataset": "characterTalents", "pointer": "/10000046", "role": "sourceText" },
+      { "dataset": "characterConstellations", "pointer": "/10000046", "role": "sourceText" }
+    ],
+    "spec": [
+      { "dataset": "talentScalings", "pointer": "/10000046", "role": "attacks" },
+      { "dataset": "behaviorPilot", "pointer": "/byCharacter/10000046", "role": "behaviorCandidates" },
+      { "dataset": "characterCoverage", "pointer": "/characters/10000046", "role": "coverageAudit" }
+    ],
+    "runtime": [
+      { "dataset": "talentModifiers", "pointer": "/10000046", "role": "modifiers" },
+      { "dataset": "constellationModifiers", "pointer": "/10000046", "role": "modifiers" }
+    ]
+  },
+  "capabilities": ["hpThreshold", "hpScaling", "elementOverride", "continuousState"],
+  "verification": { "status": "needsReview", "notes": "Pilot reference package for special referenced stats and conditional state." }
+}

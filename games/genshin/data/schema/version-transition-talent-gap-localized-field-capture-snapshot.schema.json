@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "genshin-version-transition-talent-gap-localized-field-capture-snapshot.schema.json",
+  "title": "Genshin v2 talent-gap localized field bridge capture",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "kind", "generatedAt", "status", "claim", "summary", "gateEligibility", "fieldDigestAlgorithm", "fieldDigest"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "kind": { "const": "genshinVersionTransitionTalentGapLocalizedFieldCapture" },
+    "generatedAt": { "const": "2026-08-28T00:00:00.000Z" },
+    "status": { "enum": ["localizedFieldBridgeCaptured", "localizedFieldBridgeIncomplete"] },
+    "claim": { "$ref": "#/$defs/claim" },
+    "summary": { "$ref": "#/$defs/summary" },
+    "gateEligibility": { "$ref": "#/$defs/gate" },
+    "fieldDigestAlgorithm": { "const": "sha256-stable-json-v1" },
+    "fieldDigest": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "sha1": { "type": "string", "pattern": "^[a-f0-9]{40}$" },
+    "claim": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["transitionId", "lane", "provider", "sourceFamily", "repository", "sourceNamespace", "recordKind", "scope", "queue", "localIdentity", "reusedTreeProof", "versionBindings", "entities", "candidateBridges", "travelerDisposition", "bridge", "disposition"],
+      "properties": {
+        "transitionId": { "const": "genshin:6.7->7.0" },
+        "provider": { "const": "genshin-db" },
+        "sourceFamily": { "const": "GenshinData-derived" },
+        "repository": { "const": "theBowja/genshin-db" },
+        "sourceNamespace": { "const": "genshin-db-talent-gap-localized-field-bridge-standard01" },
+        "recordKind": { "const": "talents" },
+        "scope": { "$ref": "#/$defs/scope" },
+        "queue": { "type": "object" },
+        "localIdentity": { "type": "object" },
+        "reusedTreeProof": { "type": "object", "required": ["before", "after"], "properties": { "before": { "$ref": "#/$defs/treeProof" }, "after": { "$ref": "#/$defs/treeProof" } } },
+        "versionBindings": { "type": "object", "required": ["before", "after"], "properties": { "before": { "$ref": "#/$defs/versionBinding" }, "after": { "$ref": "#/$defs/versionBinding" } } },
+        "entities": { "type": "array", "minItems": 21, "maxItems": 21, "items": { "$ref": "#/$defs/entity" } },
+        "candidateBridges": { "type": "array", "minItems": 63, "maxItems": 63, "items": { "$ref": "#/$defs/bridge" } },
+        "travelerDisposition": { "type": "object", "required": ["status", "entityIds", "candidateIds", "capturedRawRecordCount"], "properties": { "status": { "const": "preservedVariantAmbiguity" }, "entityIds": { "const": ["10000005", "10000007"] }, "candidateIds": { "type": "array", "minItems": 4, "maxItems": 4 }, "capturedRawRecordCount": { "const": 0 } } },
+        "bridge": { "type": "object", "required": ["status", "localizedRecordCount", "expectedLocalizedRecordCount", "exactCandidateBridgeCount", "expectedCandidateBridgeCount", "unresolvedCandidateBridgeCount", "noOrdinalInference", "noTransliterationInference", "noSemanticInference"], "properties": { "status": { "const": "localizedFieldBridgeCaptured" }, "localizedRecordCount": { "const": 42 }, "expectedLocalizedRecordCount": { "const": 42 }, "exactCandidateBridgeCount": { "const": 63 }, "expectedCandidateBridgeCount": { "const": 63 }, "unresolvedCandidateBridgeCount": { "const": 0 }, "noOrdinalInference": { "const": true }, "noTransliterationInference": { "const": true }, "noSemanticInference": { "const": true } } },
+        "disposition": { "$ref": "#/$defs/disposition" }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["entityIds", "entityCount", "candidateIds", "candidateCount", "capturedCandidateIds", "capturedCandidateCount", "travelerEntityIds", "localizedRawRecordCount", "expectedLocalizedRawRecordCount"],
+      "properties": {
+        "entityCount": { "const": 21 },
+        "candidateCount": { "const": 67 },
+        "capturedCandidateCount": { "const": 63 },
+        "localizedRawRecordCount": { "const": 42 },
+        "expectedLocalizedRawRecordCount": { "const": 42 },
+        "entityIds": { "type": "array", "minItems": 21, "maxItems": 21 },
+        "candidateIds": { "type": "array", "minItems": 67, "maxItems": 67 },
+        "capturedCandidateIds": { "type": "array", "minItems": 63, "maxItems": 63 },
+        "travelerEntityIds": { "const": ["10000005", "10000007"] }
+      }
+    },
+    "treeProof": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["gameVersion", "revision", "repository", "language", "recordKind", "providerDirectory", "method", "recursive", "sourceSnapshotPath", "sourceSnapshotFieldDigest", "treeFieldDigest", "finalTreeSha", "entriesDigest", "selectedEntries", "selectedEntriesDigest"],
+      "properties": {
+        "gameVersion": { "enum": ["6.7", "7.0"] },
+        "revision": { "$ref": "#/$defs/sha1" },
+        "repository": { "const": "theBowja/genshin-db" },
+        "language": { "const": "Japanese" },
+        "recordKind": { "const": "talents" },
+        "providerDirectory": { "const": "src/data/Japanese/talents" },
+        "method": { "const": "reusedValidatedIdentityBridgeGitTreeProof" },
+        "recursive": { "const": false },
+        "sourceSnapshotFieldDigest": { "$ref": "#/$defs/sha256" },
+        "treeFieldDigest": { "$ref": "#/$defs/sha256" },
+        "finalTreeSha": { "$ref": "#/$defs/sha1" },
+        "entriesDigest": { "$ref": "#/$defs/sha256" },
+        "selectedEntries": { "type": "array", "minItems": 21, "maxItems": 21 },
+        "selectedEntriesDigest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "versionBinding": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["gameVersion", "revision", "packageVersion", "package", "japaneseTalentsTreeProof"],
+      "properties": { "gameVersion": { "enum": ["6.7", "7.0"] }, "revision": { "$ref": "#/$defs/sha1" }, "packageVersion": { "type": "string" }, "package": { "type": "object" }, "japaneseTalentsTreeProof": { "$ref": "#/$defs/treeProof" } }
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["entityId", "localNameJa", "providerSlug", "providerId", "providerEnglishName", "localIdentity", "revisions", "comparison"],
+      "properties": { "entityId": { "type": "string" }, "localNameJa": { "type": "string" }, "providerSlug": { "type": "string" }, "providerId": { "type": "integer" }, "providerEnglishName": { "type": "string" }, "localIdentity": { "type": "object" }, "revisions": { "type": "object" }, "comparison": { "type": "object" } }
+    },
+    "bridge": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["candidateId", "entityId", "sourceRef", "passiveIndex", "localField", "status", "safeExactMapping", "providerFieldKey", "revisions", "noOrdinalInference", "noTransliterationInference", "noSemanticInference"],
+      "properties": {
+        "candidateId": { "type": "string" },
+        "entityId": { "type": "string" },
+        "sourceRef": { "type": "string" },
+        "passiveIndex": { "type": "integer", "minimum": 0 },
+        "localField": { "type": "object" },
+        "status": { "const": "exactLocalizedNameProviderKey" },
+        "safeExactMapping": { "const": true },
+        "providerFieldKey": { "type": "string", "pattern": "^passive[0-9]+$" },
+        "revisions": { "type": "object" },
+        "noOrdinalInference": { "const": true },
+        "noTransliterationInference": { "const": true },
+        "noSemanticInference": { "const": true }
+      }
+    },
+    "disposition": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["canIssueEligibilityCertificate", "canPromoteCanonical", "sourceFamilyCount"],
+      "properties": { "canIssueEligibilityCertificate": { "const": false }, "canPromoteCanonical": { "const": false }, "sourceFamilyCount": { "const": 1 } }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["entities", "candidates", "travelerCandidates", "localizedRecords", "expectedLocalizedRecords", "missingLocalizedRecords", "exactCandidateBridges", "expectedCandidateBridges", "unresolvedCandidateBridges", "sourceFamilyCount", "certificateEligibleClaims", "canonicalPromotionCount"],
+      "properties": { "entities": { "const": 21 }, "candidates": { "const": 63 }, "travelerCandidates": { "const": 4 }, "localizedRecords": { "const": 42 }, "expectedLocalizedRecords": { "const": 42 }, "missingLocalizedRecords": { "const": 0 }, "exactCandidateBridges": { "const": 63 }, "expectedCandidateBridges": { "const": 63 }, "unresolvedCandidateBridges": { "const": 0 }, "sourceFamilyCount": { "const": 1 }, "certificateEligibleClaims": { "const": 0 }, "canonicalPromotionCount": { "const": 0 } }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["status", "sourceFamilyCount", "canIssueEligibilityCertificate", "canPromoteCanonical"],
+      "properties": { "status": { "const": "singleCorrelatedFamilyFailClosed" }, "sourceFamilyCount": { "const": 1 }, "canIssueEligibilityCertificate": { "const": false }, "canPromoteCanonical": { "const": false } }
+    }
+  }
+}

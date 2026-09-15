@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionImpactAudit",
+  "status": "transitionEvidenceMissing",
+  "transition": {
+    "fromGameVersion": "6.7",
+    "toGameVersion": "7.0",
+    "officialHeadEvidenceValid": true,
+    "strictTargetDatasetAvailable": false,
+    "entityDiffAvailable": false,
+    "targetDatasetEvidence": {
+      "artifact": "games/genshin/data/v2/version-transitions/6.7-to-7.0/target-dataset-evidence.json",
+      "valid": true,
+      "complete": false,
+      "validationReasons": [],
+      "materializedCandidateCount": 55,
+      "gateEligible": false
+    },
+    "sourceSearch": {
+      "artifact": "games/genshin/data/v2/version-transitions/6.7-to-7.0/source-search.json",
+      "strictTargetDatasetFound": false,
+      "searchExhausted": false
+    },
+    "officialChangeIndex": {
+      "artifact": "games/genshin/data/v2/version-transitions/6.7-to-7.0/official-change-index.json",
+      "valid": true,
+      "validationReasons": [],
+      "affectedEntityIds": [
+        "10000022",
+        "10000039",
+        "10000058",
+        "10000071"
+      ]
+    },
+    "partialDiscovery": {
+      "artifact": "games/genshin/data/v2/version-transitions/6.7-to-7.0/partial-discovery.json",
+      "valid": true,
+      "validationReasons": [],
+      "candidateCount": 55,
+      "gateEligible": false
+    },
+    "state": "awaitingTargetDatasetCoverage",
+    "stages": {
+      "officialHeadDetected": {
+        "status": "complete",
+        "evidenceRef": "v2/upstream-version-head.json"
+      },
+      "strictTargetDataset": {
+        "status": "pending",
+        "requiredGameVersion": "7.0"
+      },
+      "entityDiff": {
+        "status": "pending",
+        "artifact": "games/genshin/data/v2/version-transitions/6.7-to-7.0/entity-diff.json",
+        "validationReasons": [
+          "schemaVersionInvalid",
+          "kindInvalid",
+          "fieldDigestInvalid",
+          "transitionVersionMismatch",
+          "sourceSnapshotsIncomplete",
+          "sourceSnapshotMissing:6.7",
+          "sourceSnapshotMissing:7.0",
+          "coverageNotComplete",
+          "candidateInventoryDigestMismatch",
+          "candidateCountMismatch",
+          "candidateCoverageIncomplete"
+        ],
+        "candidateInventoryDigest": "1cbef4d852026accf88c3163febb8328a1b4d083dc79ad356eb4b82def4f2576"
+      },
+      "affectedClaimsIdentified": {
+        "status": "conservativeComplete",
+        "coverage": "allCandidatesFailClosed"
+      },
+      "claimEvidenceRevalidated": {
+        "status": "pending"
+      },
+      "certificatesRegenerated": {
+        "status": "pending"
+      },
+      "runtimeRegenerated": {
+        "status": "pending"
+      },
+      "consumersVerified": {
+        "status": "pending",
+        "artifact": "games/genshin/data/v2/version-transitions/6.7-to-7.0/consumer-verification.json"
+      },
+      "gateReopened": {
+        "status": "pending"
+      }
+    }
+  },
+  "productionGate": {
+    "scope": "versionBoundCanonicalOverlayOnly",
+    "canonicalOverlayActive": false,
+    "reopenEligible": false,
+    "legacyCalculationActive": true,
+    "historicalCanonical": {
+      "verifiedGameVersion": "6.7",
+      "status": "historicalVerifiedPendingRevalidation",
+      "retainedIds": [
+        "behavior-modifier:10000026:constellation-1-1:1",
+        "genshin:v2:weapon:12516:w_12516_stat_1"
+      ]
+    }
+  },
+  "impactMapping": {
+    "status": "failClosedAllCandidates",
+    "reason": "No strict target-version dataset/entity diff exists, so absence from a change list cannot prove a candidate is unchanged.",
+    "potentiallyAffectedCandidates": 2268,
+    "knownChangedCandidateIds": [
+      "behavior:10000022:constellation:constellation-1",
+      "behavior:10000022:constellation:constellation-2",
+      "behavior:10000022:constellation:constellation-3",
+      "behavior:10000022:constellation:constellation-4",
+      "behavior:10000022:constellation:constellation-5",
+      "behavior:10000022:constellation:constellation-6",
+      "behavior:10000022:talent:burst",
+      "behavior:10000022:talent:normalattack-charged",
+      "behavior:10000022:talent:normalattack-normal",
+      "behavior:10000022:talent:normalattack-plunging",
+      "behavior:10000022:talent:passives-passive-1",
+      "behavior:10000022:talent:passives-passive-2",
+      "behavior:10000022:talent:passives-passive-utility",
+      "behavior:10000022:talent:skill",
+      "behavior:10000039:constellation:constellation-1",
+      "behavior:10000039:constellation:constellation-2",
+      "behavior:10000039:constellation:constellation-3",
+      "behavior:10000039:constellation:constellation-4",
+      "behavior:10000039:constellation:constellation-5",
+      "behavior:10000039:constellation:constellation-6",
+      "behavior:10000039:talent:burst",
+      "behavior:10000039:talent:normalattack-charged",
+      "behavior:10000039:talent:normalattack-normal",
+      "behavior:10000039:talent:normalattack-plunging",
+      "behavior:10000039:talent:passives-passive-1",
+      "behavior:10000039:talent:passives-passive-2",
+      "behavior:10000039:talent:passives-passive-utility",
+      "behavior:10000039:talent:skill",
+      "behavior:10000058:constellation:constellation-1",
+      "behavior:10000058:constellation:constellation-4",
+      "behavior:10000058:talent:burst",
+      "behavior:10000058:talent:normalattack-normal",
+      "behavior:10000058:talent:passives-passive-1",
+      "behavior:10000058:talent:skill",
+      "behavior:10000071:constellation:constellation-1",
+      "behavior:10000071:constellation:constellation-2",
+      "behavior:10000071:constellation:constellation-3",
+      "behavior:10000071:constellation:constellation-4",
+      "behavior:10000071:constellation:constellation-5",
+      "behavior:10000071:constellation:constellation-6",
+      "behavior:10000071:talent:burst",
+      "behavior:10000071:talent:normalattack-charged",
+      "behavior:10000071:talent:normalattack-normal",
+      "behavior:10000071:talent:normalattack-plunging",
+      "behavior:10000071:talent:passives-passive-1",
+      "behavior:10000071:talent:passives-passive-2",
+      "behavior:10000071:talent:passives-passive-utility",
+      "behavior:10000071:talent:skill",
+      "talent-gap-spec:10000039:passive_1",
+      "talent-gap-spec:10000039:passive_2",
+      "talent-gap-spec:10000039:passive_utility",
+      "talent-gap-spec:10000058:passive_1",
+      "talent-gap-spec:10000058:passive_2",
+      "talent-gap-spec:10000058:passive_utility",
+      "w_12516_reaction_bonus_2"
+    ],
+    "unknownCoverageCandidateCount": 2213
+  },
+  "invalidation": {
+    "certificateClaimsRequiringTargetVersionRevalidation": 3105,
+    "productionCanonicalRecordsRequiringTargetVersionRevalidation": 2,
+    "automaticPromotionAllowed": false
+  },
+  "nextSteps": [
+    "Expand the validated target-version provider snapshot from candidate-scoped materialization to complete repository-candidate coverage.",
+    "Materialize the target-version raw datasets and compute entity-level diffs.",
+    "Map each changed or unmapped entity to candidate×claim IDs; unknown mappings remain invalidated.",
+    "Recompute source/raw/field digests, certificates, Runtime, consumer routes, and regression evidence before accepting a new baseline."
+  ]
+}

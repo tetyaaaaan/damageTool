@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 2,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 2,
+    "status": "passed",
+    "batch": 3,
+    "batchCharacters": 10,
+    "sourceRecords": 151,
+    "inventoryCandidates": 141,
+    "specs": 141,
+    "modifiers": 0,
+    "canonical": 0,
+    "inventoryInputCandidates": 118,
+    "inventoryCandidateStatusCounts": {
+      "unknown": 42,
+      "candidate": 76
+    },
+    "explicitCandidateOperations": 76,
+    "unknownCandidateIds": 42,
+    "sourceInventoryCandidates": 118,
+    "explicitInventoryCandidates": 76,
+    "unknownInventoryCandidates": 42,
+    "verificationByStatus": {
+      "needsReview": 141
+    },
+    "runtimeByStatus": {
+      "blocked": 141
+    },
+    "sourceKinds": {
+      "primaryDataset": 151
+    },
+    "contract": {
+      "malformedSources": 0,
+      "malformedInventory": 0,
+      "malformedSpecs": 0,
+      "malformedByCharacter": 0,
+      "missingSourceRefs": 0,
+      "missingInventoryRefs": 0,
+      "inputDigestMismatches": 0,
+      "unknownFieldViolations": 0,
+      "numericInferenceViolations": 0,
+      "inventoryCandidateViolations": 0,
+      "schemaViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [],
+  "malformedSources": [],
+  "malformedInventory": [],
+  "malformedSpecs": [],
+  "malformedByCharacter": [],
+  "missingSourceRefs": [],
+  "missingInventoryRefs": [],
+  "inputDigestMismatches": [],
+  "unknownFieldViolations": [],
+  "numericInferenceViolations": [],
+  "inventoryCandidateViolations": [],
+  "schemaViolations": [],
+  "characterCoverage": [
+    {
+      "characterId": "10000033",
+      "characterName": "タルタリヤ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 19,
+      "explicitCandidateOperations": 12,
+      "unknownCandidateIds": 7,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000034",
+      "characterName": "ノエル",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 12,
+      "explicitCandidateOperations": 8,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000035",
+      "characterName": "七七",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 8,
+      "explicitCandidateOperations": 7,
+      "unknownCandidateIds": 1,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000036",
+      "characterName": "重雲",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 11,
+      "explicitCandidateOperations": 6,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000038",
+      "characterName": "アルベド",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 11,
+      "explicitCandidateOperations": 6,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000039",
+      "characterName": "ディオナ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 7,
+      "explicitCandidateOperations": 3,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000041",
+      "characterName": "モナ",
+      "sourceRecords": 16,
+      "inventoryCandidates": 15,
+      "specs": 15,
+      "inventoryInputCandidates": 14,
+      "explicitCandidateOperations": 9,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000042",
+      "characterName": "刻晴",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 14,
+      "explicitCandidateOperations": 10,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000043",
+      "characterName": "スクロース",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 12,
+      "explicitCandidateOperations": 8,
+      "unknownCandidateIds": 4,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000044",
+      "characterName": "辛炎",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 10,
+      "explicitCandidateOperations": 7,
+      "unknownCandidateIds": 3,
+      "modifiers": 0,
+      "canonical": 0
+    }
+  ],
+  "generatedFromDisk": true
+}

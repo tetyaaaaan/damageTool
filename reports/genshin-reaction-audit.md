@@ -1,11 +1,11 @@
 # Genshin reaction modifier audit
 
-- Total: 117
-- Reaction damage bonus: 114
+- Total: 118
+- Reaction damage bonus: 115
 - Reaction critical bonus: 3
-- Resolved target scope: 117
+- Resolved target scope: 118
 - Unresolved target scope: 0
-- Dedicated-formula records: 62
+- Dedicated-formula records: 9
 
 | File | Modifier | Category | Targets | Resolved reactions | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -41,6 +41,7 @@
 | constellation-modifiers.json | c_10000109_6_1_resolved_1 | reactionCritBonus | swirlCrit | swirl | resolved |
 | constellation-modifiers.json | c_10000119_1_1 | reactionBonus | bloomDamageBonus | bloom | resolved |
 | constellation-modifiers.json | c_10000119_1_2 | reactionBonus | lunarBloomDamageBonus | lunarBloom | resolved |
+| constellation-modifiers.json | c_10000119_2_1 | reactionBonus | lunarBloomDamageBonus | lunarBloom | resolved |
 | constellation-modifiers.json | c_10000119_2_2 | reactionBonus | bloomDamageBonus | bloom | resolved |
 | constellation-modifiers.json | c_10000119_2_3 | reactionBonus | hyperbloomDamageBonus | hyperbloom | resolved |
 | constellation-modifiers.json | c_10000119_2_4 | reactionBonus | burgeonDamageBonus | burgeon | resolved |
@@ -73,9 +74,9 @@
 | constellation-modifiers.json | c_10000125_4_4 | reactionBonus | lunarChargedDamageBonus | lunarCharged | resolved |
 | constellation-modifiers.json | c_10000125_4_5 | reactionBonus | lunarBloomDamageBonus | lunarBloom | resolved |
 | constellation-modifiers.json | c_columbina_6_moon_reaction_bonus_v7 | reactionBonus | moonReactionDamageBonus | lunarBloom, lunarCharged, lunarCrystallize | resolved |
+| constellation-modifiers.json | c_10000126_2_1 | reactionBonus | lunarCrystallizeDamageBonus | lunarCrystallize | resolved |
 | constellation-modifiers.json | c_10000130_6_3 | reactionBonus | lunarCrystallizeDamageBonus | lunarCrystallize | resolved |
-| talent-modifiers.json | $.10000035.passives[0].modifiers[0] | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct | resolved |
-| talent-modifiers.json | $.10000047.passives[2].modifiers[0] | reactionBonus | swirlDamageBonus | swirl | resolved |
+| talent-modifiers.json | $.10000035.passives[0].modifiers[0] | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct, stellarSwirl | resolved |
 | talent-modifiers.json | $.10000082.passives[1].modifiers[0] | reactionBonus | bloomDamageBonus | bloom | resolved |
 | talent-modifiers.json | $.10000082.passives[1].modifiers[1] | reactionBonus | aggravateDamageBonus | aggravate | resolved |
 | talent-modifiers.json | $.10000082.passives[1].modifiers[2] | reactionBonus | bloomDamageBonus | bloom | resolved |
@@ -87,13 +88,13 @@
 | talent-modifiers.json | $.10000123.passives[0].modifiers[2] | reactionBonus | vaporizeDamageBonus | vaporize | resolved |
 | talent-modifiers.json | $.10000123.passives[0].modifiers[3] | reactionBonus | meltDamageBonus | melt | resolved |
 | talent-modifiers.json | $.10000128.passives[2].modifiers[1] | reactionBonus | swirlDamageBonus | swirl | resolved |
-| weapon-modifiers.json | w_11519_reactionBonus_903ea413 | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct | resolved |
+| weapon-modifiers.json | w_11519_reactionBonus_903ea413 | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct, stellarSwirl | resolved |
 | weapon-modifiers.json | w_11519_reaction_bonus_2 | reactionBonus | lunarCrystallizeDamageBonus | lunarCrystallize | resolved |
-| weapon-modifiers.json | w_12431_reactionBonus_22612d3e | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct | resolved |
-| weapon-modifiers.json | w_12512_reactionBonus_167ad0eb | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct | resolved |
+| weapon-modifiers.json | w_12431_reactionBonus_22612d3e | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct, stellarSwirl | resolved |
+| weapon-modifiers.json | w_12512_reactionBonus_167ad0eb | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct, stellarSwirl | resolved |
 | weapon-modifiers.json | w_12512_reaction_bonus_2 | reactionBonus | lunarCrystallizeDamageBonus | lunarCrystallize | resolved |
 | weapon-modifiers.json | w_12516_reactionBonus_d0fe6e2e | reactionBonus | lunarChargedDamageBonus | lunarCharged | resolved |
-| weapon-modifiers.json | w_12516_reaction_bonus_2 | reactionBonus | astralConductionDamageBonus | stellarConduct | resolved |
+| weapon-modifiers.json | w_12516_reaction_bonus_2 | reactionBonus | astralConductionDamageBonus, stellarSwirlDamageBonus | stellarConduct, stellarSwirl | resolved |
 | weapon-modifiers.json | w_13433_reactionBonus_45ef3fc4 | reactionBonus | electroChargedDamageBonus, lunarChargedDamageBonus | electroCharged, lunarCharged | resolved |
 | weapon-modifiers.json | w_13433_reactionBonus_acac6169 | reactionBonus | electroChargedDamageBonus, lunarChargedDamageBonus | electroCharged, lunarCharged | resolved |
 | weapon-modifiers.json | w_13433_reaction_bonus_1 | reactionBonus | electroChargedDamageBonus | electroCharged | resolved |
@@ -105,7 +106,7 @@
 | weapon-modifiers.json | w_13516_reactionBonus_d4e397ce | reactionBonus | electroChargedDamageBonus, lunarChargedDamageBonus | electroCharged, lunarCharged | resolved |
 | weapon-modifiers.json | w_13516_reaction_bonus_1 | reactionBonus | lunarChargedDamageBonus, electroChargedDamageBonus | lunarCharged, electroCharged | resolved |
 | weapon-modifiers.json | w_13516_reaction_bonus_2 | reactionBonus | lunarChargedDamageBonus, electroChargedDamageBonus | lunarCharged, electroCharged | resolved |
-| weapon-modifiers.json | w_14407_reactionBonus_7884a422 | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct | resolved |
+| weapon-modifiers.json | w_14407_reactionBonus_7884a422 | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct, stellarSwirl | resolved |
 | weapon-modifiers.json | w_14433_reactionBonus_b6eb8abd | reactionBonus | bloomDamageBonus, lunarBloomDamageBonus | bloom, lunarBloom | resolved |
 | weapon-modifiers.json | w_14433_reactionBonus_fba9df82 | reactionBonus | bloomDamageBonus, lunarBloomDamageBonus | bloom, lunarBloom | resolved |
 | weapon-modifiers.json | w_14433_reaction_bonus_1 | reactionBonus | bloomDamageBonus | bloom | resolved |
@@ -121,8 +122,8 @@
 | weapon-modifiers.json | w_14520_reaction_bonus_3 | reactionBonus | bloomDamageBonus | bloom | resolved |
 | weapon-modifiers.json | w_14520_reaction_bonus_4 | reactionBonus | hyperbloomDamageBonus, burgeonDamageBonus, bloomDamageBonus | hyperbloom, burgeon, bloom | resolved |
 | weapon-modifiers.json | w_14520_reaction_bonus_5 | reactionBonus | lunarBloomDamageBonus, bloomDamageBonus | lunarBloom, bloom | resolved |
-| weapon-modifiers.json | w_14522_reactionBonus_f6439a2b | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct | resolved |
-| weapon-modifiers.json | w_15516_reactionBonus_232c59cc | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct | resolved |
-| weapon-modifiers.json | w_15516_reactionBonus_999a052c | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct | resolved |
+| weapon-modifiers.json | w_14522_reactionBonus_f6439a2b | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct, stellarSwirl | resolved |
+| weapon-modifiers.json | w_15516_reactionBonus_232c59cc | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct, stellarSwirl | resolved |
+| weapon-modifiers.json | w_15516_reactionBonus_999a052c | reactionBonus | reactionDamageBonus | melt, vaporize, aggravate, spread, burning, swirl, superconduct, electroCharged, bloom, overload, burgeon, hyperbloom, shatter, crystallize, frozen, quicken, lunarBloom, lunarCharged, lunarCrystallize, stellarConduct, stellarSwirl | resolved |
 | weapon-modifiers.json | w_15516_reaction_bonus_3 | reactionBonus | lunarCrystallizeDamageBonus | lunarCrystallize | resolved |
 | weapon-modifiers.json | w_15516_reaction_bonus_4 | reactionBonus | lunarCrystallizeDamageBonus | lunarCrystallize | resolved |

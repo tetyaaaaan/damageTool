@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinUpstreamVersionAudit",
+  "status": "upstreamVersionAvailable",
+  "evidenceId": "hoyolab-official:post:46233468:version-head",
+  "acceptedTargetVersion": "6.7",
+  "acceptedSnapshotId": "genshin-version:6.7:11cd97236d0099f03ab295582531b24aa2016e2c1675c03997c61b7ad4e63f6d",
+  "observedLiveVersion": "7.0",
+  "evidenceValid": true,
+  "evidenceReasons": [],
+  "targetState": {
+    "gameVersion": "7.0",
+    "status": "inactive",
+    "lifecycle": "pendingRevalidation",
+    "acceptedBaselinePreserved": true
+  },
+  "repositoryVersionGateRecommendation": "closeBeforeNewPromotion",
+  "candidatePromotionAllowed": false,
+  "note": "The official release head detects upstream drift only; it is not candidate field evidence and cannot promote claims."
+}

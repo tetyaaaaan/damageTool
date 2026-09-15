@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 2,
+  "status": "passed",
+  "summary": {
+    "schemaVersion": 2,
+    "status": "passed",
+    "batch": 4,
+    "batchCharacters": 10,
+    "sourceRecords": 150,
+    "inventoryCandidates": 140,
+    "specs": 140,
+    "modifiers": 0,
+    "canonical": 0,
+    "inventoryInputCandidates": 155,
+    "explicitCandidateOperations": 103,
+    "unknownCandidateIds": 52,
+    "sourceInventoryCandidates": 155,
+    "explicitInventoryCandidates": 103,
+    "unknownInventoryCandidates": 52,
+    "verificationByStatus": {
+      "needsReview": 140
+    },
+    "runtimeByStatus": {
+      "blocked": 140
+    },
+    "sourceKinds": {
+      "primaryDataset": 150
+    },
+    "contract": {
+      "malformedSources": 0,
+      "malformedInventory": 0,
+      "malformedSpecs": 0,
+      "malformedByCharacter": 0,
+      "missingSourceRefs": 0,
+      "missingInventoryRefs": 0,
+      "inputDigestMismatches": 0,
+      "unknownFieldViolations": 0,
+      "numericInferenceViolations": 0,
+      "inventoryCandidateViolations": 0,
+      "schemaViolations": 0
+    },
+    "generatedFromDisk": true,
+    "deterministic": true
+  },
+  "errors": [],
+  "malformedSources": [],
+  "malformedInventory": [],
+  "malformedSpecs": [],
+  "malformedByCharacter": [],
+  "missingSourceRefs": [],
+  "missingInventoryRefs": [],
+  "inputDigestMismatches": [],
+  "unknownFieldViolations": [],
+  "numericInferenceViolations": [],
+  "inventoryCandidateViolations": [],
+  "schemaViolations": [],
+  "characterCoverage": [
+    {
+      "characterId": "10000045",
+      "characterName": "ロサリア",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 10,
+      "explicitCandidateOperations": 9,
+      "unknownCandidateIds": 1,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000047",
+      "characterName": "楓原万葉",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 14,
+      "explicitCandidateOperations": 9,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000048",
+      "characterName": "煙緋",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 6,
+      "explicitCandidateOperations": 3,
+      "unknownCandidateIds": 3,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000049",
+      "characterName": "宵宮",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 17,
+      "explicitCandidateOperations": 9,
+      "unknownCandidateIds": 8,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000050",
+      "characterName": "トーマ",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 20,
+      "explicitCandidateOperations": 15,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000051",
+      "characterName": "エウルア",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 16,
+      "explicitCandidateOperations": 7,
+      "unknownCandidateIds": 9,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000052",
+      "characterName": "雷電将軍",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 19,
+      "explicitCandidateOperations": 13,
+      "unknownCandidateIds": 6,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000053",
+      "characterName": "早柚",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 19,
+      "explicitCandidateOperations": 10,
+      "unknownCandidateIds": 9,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000054",
+      "characterName": "珊瑚宮心海",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 10,
+      "explicitCandidateOperations": 9,
+      "unknownCandidateIds": 1,
+      "modifiers": 0,
+      "canonical": 0
+    },
+    {
+      "characterId": "10000055",
+      "characterName": "ゴロー",
+      "sourceRecords": 15,
+      "inventoryCandidates": 14,
+      "specs": 14,
+      "inventoryInputCandidates": 24,
+      "explicitCandidateOperations": 19,
+      "unknownCandidateIds": 5,
+      "modifiers": 0,
+      "canonical": 0
+    }
+  ],
+  "generatedFromDisk": true
+}

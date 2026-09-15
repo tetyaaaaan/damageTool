@@ -1,0 +1,1047 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinWeaponReviewBatch",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "target": {
+    "kind": "weapon",
+    "id": "12516",
+    "name": "A Teaspoon of Transcendence",
+    "candidateId": "w_12516_reaction_bonus_2"
+  },
+  "sourceRecords": {
+    "official": {
+      "id": "hoyowiki:genshin:weapon:12516:reaction-clause",
+      "provider": "HoYoverse HoYoWiki",
+      "independenceGroup": "official-hoyoverse",
+      "locator": "https://wiki.hoyolab.com/pc/genshin/entry/10949",
+      "identifier": "entry/10949#passive-reaction-clause",
+      "locale": "en-US",
+      "rawText": "Additionally, each time the equipping character hits an opponent with their Charged Attack, they attain \"Transcendence\" for a short time: their Stellar-Conduct and Stellar Swirl reaction DMG is increased by 16%/20%/24%/28%/32% for 5s. This effect can stack once every 0.2s, max 3 stacks.",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "e9df9b7687cae01fabacef6321e1839b77c31fb979c7df79d4f56f47c222a1e7"
+      },
+      "gameVersion": "7.0",
+      "strictGameVersionBinding": false,
+      "gameVersionEvidence": {
+        "observedLiveVersionLocator": "https://www.hoyolab.com/article/46233468",
+        "method": "The mutable HoYoWiki entry was observed while official Version 7.0 was live. The weapon's 6.7 introduction does not prove that the currently displayed field text is the historical 6.7 text."
+      }
+    },
+    "genshinDb": {
+      "id": "genshin-db:weapon:12516:1bab2cd:reaction-clause",
+      "provider": "theBowja/genshin-db",
+      "independenceGroup": "GenshinData-derived",
+      "locator": "https://github.com/theBowja/genshin-db/blob/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/ateaspoonoftranscendence.json",
+      "identifier": "git:1bab2cdba4d218fd5caa46b5f54e7884ee8359a2:English/weapons/ateaspoonoftranscendence.json#effect",
+      "locale": "en-US",
+      "rawText": "Additionally, each time the equipping character hits an opponent with their Charged Attack, they attain \"Transcendence\" for a short time: their Stellar-Conduct DMG is increased by 16%/20%/24%/28%/32% for 5s. This effect can stack once every 0.2s, max 3 stacks.",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "d8544dd6ddac0e5a62257cb9abc578c18c43d9c98974c11f375f17ffec4bc988"
+      },
+      "gameVersion": "6.7",
+      "strictGameVersionBinding": true,
+      "gameVersionEvidence": {
+        "locator": "https://github.com/theBowja/genshin-db/blob/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+        "providerStatement": "Genshin Impact v6.7 JSON data"
+      }
+    }
+  },
+  "claims": {
+    "value": {
+      "status": "needsReview",
+      "claimKind": "externalFactual",
+      "evidence": [
+        {
+          "sourceId": "hoyowiki:genshin:weapon:12516:reaction-clause",
+          "provider": "HoYoverse HoYoWiki",
+          "independenceGroup": "official-hoyoverse",
+          "gameVersion": "7.0",
+          "gameVersionVerified": false,
+          "supportsClaimValue": true,
+          "extractedValue": {
+            "1": 16,
+            "2": 20,
+            "3": 24,
+            "4": 28,
+            "5": 32
+          }
+        },
+        {
+          "sourceId": "genshin-db:weapon:12516:1bab2cd:reaction-clause",
+          "provider": "theBowja/genshin-db",
+          "independenceGroup": "GenshinData-derived",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": {
+            "1": 16,
+            "2": 20,
+            "3": 24,
+            "4": 28,
+            "5": 32
+          }
+        }
+      ],
+      "comparison": {
+        "status": "match",
+        "normalizedValue": {
+          "1": 16,
+          "2": 20,
+          "3": 24,
+          "4": 28,
+          "5": 32
+        }
+      },
+      "discrepancies": []
+    },
+    "refinement": {
+      "status": "needsReview",
+      "claimKind": "externalFactual",
+      "evidence": [
+        {
+          "sourceId": "hoyowiki:genshin:weapon:12516:reaction-clause",
+          "provider": "HoYoverse HoYoWiki",
+          "independenceGroup": "official-hoyoverse",
+          "gameVersion": "7.0",
+          "gameVersionVerified": false,
+          "supportsClaimValue": true,
+          "extractedValue": {
+            "1": 16,
+            "2": 20,
+            "3": 24,
+            "4": 28,
+            "5": 32
+          }
+        },
+        {
+          "sourceId": "genshin-db:weapon:12516:1bab2cd:reaction-clause",
+          "provider": "theBowja/genshin-db",
+          "independenceGroup": "GenshinData-derived",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": {
+            "1": 16,
+            "2": 20,
+            "3": 24,
+            "4": 28,
+            "5": 32
+          }
+        }
+      ],
+      "comparison": {
+        "status": "match",
+        "normalizedValue": {
+          "1": 16,
+          "2": 20,
+          "3": 24,
+          "4": 28,
+          "5": 32
+        }
+      },
+      "discrepancies": []
+    },
+    "activation": {
+      "status": "needsReview",
+      "claimKind": "externalFactual",
+      "evidence": [
+        {
+          "sourceId": "hoyowiki:genshin:weapon:12516:reaction-clause",
+          "provider": "HoYoverse HoYoWiki",
+          "independenceGroup": "official-hoyoverse",
+          "gameVersion": "7.0",
+          "gameVersionVerified": false,
+          "supportsClaimValue": true,
+          "extractedValue": "afterChargedAttackHit"
+        },
+        {
+          "sourceId": "genshin-db:weapon:12516:1bab2cd:reaction-clause",
+          "provider": "theBowja/genshin-db",
+          "independenceGroup": "GenshinData-derived",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": "afterChargedAttackHit"
+        }
+      ],
+      "comparison": {
+        "status": "match",
+        "normalizedValue": "afterChargedAttackHit"
+      },
+      "discrepancies": []
+    },
+    "targets": {
+      "status": "disputed",
+      "claimKind": "externalFactual",
+      "evidence": [
+        {
+          "sourceId": "hoyowiki:genshin:weapon:12516:reaction-clause",
+          "provider": "HoYoverse HoYoWiki",
+          "independenceGroup": "official-hoyoverse",
+          "gameVersion": "7.0",
+          "gameVersionVerified": false,
+          "supportsClaimValue": true,
+          "extractedValue": [
+            "astralConductionDamageBonus",
+            "stellarSwirlDamageBonus"
+          ]
+        },
+        {
+          "sourceId": "genshin-db:weapon:12516:1bab2cd:reaction-clause",
+          "provider": "theBowja/genshin-db",
+          "independenceGroup": "GenshinData-derived",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": false,
+          "extractedValue": [
+            "astralConductionDamageBonus"
+          ]
+        }
+      ],
+      "comparison": {
+        "status": "mismatch",
+        "normalizedValue": [
+          "astralConductionDamageBonus",
+          "stellarSwirlDamageBonus"
+        ]
+      },
+      "discrepancies": [
+        {
+          "kind": "versionOrProviderCoverageDrift",
+          "field": "targets",
+          "sourceA": [
+            "astralConductionDamageBonus",
+            "stellarSwirlDamageBonus"
+          ],
+          "sourceB": [
+            "astralConductionDamageBonus"
+          ],
+          "consumerStatus": "formulaPending",
+          "resolved": false,
+          "notes": "The mutable HoYoWiki clause observed during 7.0 includes Stellar Swirl, while the pinned genshin-db 6.7 projection omits it. These are not same-version claims and cannot be reconciled as a provider-value vote."
+        }
+      ]
+    },
+    "unit": {
+      "status": "needsReview",
+      "claimKind": "externalFactual",
+      "evidence": [
+        {
+          "sourceId": "hoyowiki:genshin:weapon:12516:reaction-clause",
+          "provider": "HoYoverse HoYoWiki",
+          "independenceGroup": "official-hoyoverse",
+          "gameVersion": "7.0",
+          "gameVersionVerified": false,
+          "supportsClaimValue": true,
+          "extractedValue": "percent"
+        },
+        {
+          "sourceId": "genshin-db:weapon:12516:1bab2cd:reaction-clause",
+          "provider": "theBowja/genshin-db",
+          "independenceGroup": "GenshinData-derived",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": "percent"
+        }
+      ],
+      "comparison": {
+        "status": "match",
+        "normalizedValue": "percent"
+      },
+      "discrepancies": []
+    },
+    "duration": {
+      "status": "needsReview",
+      "claimKind": "externalFactual",
+      "evidence": [
+        {
+          "sourceId": "hoyowiki:genshin:weapon:12516:reaction-clause",
+          "provider": "HoYoverse HoYoWiki",
+          "independenceGroup": "official-hoyoverse",
+          "gameVersion": "7.0",
+          "gameVersionVerified": false,
+          "supportsClaimValue": true,
+          "extractedValue": 5
+        },
+        {
+          "sourceId": "genshin-db:weapon:12516:1bab2cd:reaction-clause",
+          "provider": "theBowja/genshin-db",
+          "independenceGroup": "GenshinData-derived",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": 5
+        }
+      ],
+      "comparison": {
+        "status": "match",
+        "normalizedValue": 5
+      },
+      "discrepancies": []
+    },
+    "stack": {
+      "status": "needsReview",
+      "claimKind": "externalFactual",
+      "evidence": [
+        {
+          "sourceId": "hoyowiki:genshin:weapon:12516:reaction-clause",
+          "provider": "HoYoverse HoYoWiki",
+          "independenceGroup": "official-hoyoverse",
+          "gameVersion": "7.0",
+          "gameVersionVerified": false,
+          "supportsClaimValue": true,
+          "extractedValue": {
+            "min": 0,
+            "default": 0,
+            "max": 3
+          }
+        },
+        {
+          "sourceId": "genshin-db:weapon:12516:1bab2cd:reaction-clause",
+          "provider": "theBowja/genshin-db",
+          "independenceGroup": "GenshinData-derived",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": {
+            "min": 0,
+            "default": 0,
+            "max": 3
+          }
+        }
+      ],
+      "comparison": {
+        "status": "match",
+        "normalizedValue": {
+          "min": 0,
+          "default": 0,
+          "max": 3
+        }
+      },
+      "discrepancies": []
+    },
+    "interval": {
+      "status": "needsReview",
+      "claimKind": "externalFactual",
+      "evidence": [
+        {
+          "sourceId": "hoyowiki:genshin:weapon:12516:reaction-clause",
+          "provider": "HoYoverse HoYoWiki",
+          "independenceGroup": "official-hoyoverse",
+          "gameVersion": "7.0",
+          "gameVersionVerified": false,
+          "supportsClaimValue": true,
+          "extractedValue": 0.2
+        },
+        {
+          "sourceId": "genshin-db:weapon:12516:1bab2cd:reaction-clause",
+          "provider": "theBowja/genshin-db",
+          "independenceGroup": "GenshinData-derived",
+          "gameVersion": "6.7",
+          "gameVersionVerified": true,
+          "supportsClaimValue": true,
+          "extractedValue": 0.2
+        }
+      ],
+      "comparison": {
+        "status": "match",
+        "normalizedValue": 0.2
+      },
+      "discrepancies": []
+    },
+    "effect.activation.uidHandling": {
+      "status": "needsReview",
+      "claimKind": "mappingMaterialization",
+      "codeProvenance": {
+        "deterministic": true,
+        "path": "scripts/genshinWeaponV2Generate.cjs",
+        "locator": "effect.activation.uidHandling:conditional",
+        "digest": "19a5d1533a976379b1e80e3f43183d07d49ba85ec437bce717f78d2c8ff945ad"
+      },
+      "focusedTests": [
+        {
+          "id": "genshinWeaponReactionReviewBatch",
+          "status": "passed"
+        }
+      ],
+      "sourceInputsVerified": true,
+      "discrepancies": []
+    },
+    "destination": {
+      "status": "needsReview",
+      "claimKind": "mappingMaterialization",
+      "codeProvenance": {
+        "deterministic": true,
+        "path": "scripts/genshinWeaponV2Generate.cjs",
+        "locator": "destination:weaponModifiers/12516/modifiers",
+        "digest": "19a5d1533a976379b1e80e3f43183d07d49ba85ec437bce717f78d2c8ff945ad"
+      },
+      "focusedTests": [
+        {
+          "id": "genshinWeaponReactionReviewBatch",
+          "status": "passed"
+        }
+      ],
+      "sourceInputsVerified": true,
+      "discrepancies": []
+    },
+    "supersedesLegacyModifierIds": {
+      "status": "needsReview",
+      "claimKind": "mappingMaterialization",
+      "codeProvenance": {
+        "deterministic": true,
+        "path": "scripts/genshinWeaponV2Generate.cjs",
+        "locator": "supersedes:w_12516_reaction_bonus_2",
+        "digest": "19a5d1533a976379b1e80e3f43183d07d49ba85ec437bce717f78d2c8ff945ad"
+      },
+      "focusedTests": [
+        {
+          "id": "genshinWeaponReactionReviewBatch",
+          "status": "passed"
+        }
+      ],
+      "sourceInputsVerified": true,
+      "discrepancies": []
+    },
+    "runtime.modifierIds": {
+      "status": "needsReview",
+      "claimKind": "mappingMaterialization",
+      "codeProvenance": {
+        "deterministic": true,
+        "path": "scripts/genshinWeaponV2Generate.cjs",
+        "locator": "runtime:w_12516_reaction_bonus_2",
+        "digest": "19a5d1533a976379b1e80e3f43183d07d49ba85ec437bce717f78d2c8ff945ad"
+      },
+      "focusedTests": [
+        {
+          "id": "genshinWeaponReactionReviewBatch",
+          "status": "passed"
+        }
+      ],
+      "sourceInputsVerified": true,
+      "discrepancies": []
+    },
+    "registryStructure": {
+      "status": "needsReview",
+      "claimKind": "mappingMaterialization",
+      "codeProvenance": {
+        "deterministic": true,
+        "path": "scripts/genshinWeaponV2Generate.cjs",
+        "locator": "registry:transcendence_astral_conduction",
+        "digest": "19a5d1533a976379b1e80e3f43183d07d49ba85ec437bce717f78d2c8ff945ad"
+      },
+      "focusedTests": [
+        {
+          "id": "genshinWeaponReactionReviewBatch",
+          "status": "passed"
+        }
+      ],
+      "sourceInputsVerified": true,
+      "discrepancies": []
+    },
+    "cooldown": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The reviewed reaction bonus has no cooldown runtime field.",
+      "discrepancies": []
+    },
+    "offField": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The reviewed reaction bonus has no offField runtime field.",
+      "discrepancies": []
+    },
+    "hitCount": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The reviewed reaction bonus has no hitCount runtime field.",
+      "discrepancies": []
+    },
+    "charges": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The reviewed reaction bonus has no charges runtime field.",
+      "discrepancies": []
+    },
+    "maxInstances": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The reviewed reaction bonus has no maxInstances runtime field.",
+      "discrepancies": []
+    },
+    "elementApplication": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The reviewed reaction bonus has no elementApplication runtime field.",
+      "discrepancies": []
+    },
+    "energy": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The reviewed reaction bonus has no energy runtime field.",
+      "discrepancies": []
+    },
+    "snapshot": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The reviewed reaction bonus has no snapshot runtime field.",
+      "discrepancies": []
+    },
+    "area": {
+      "status": "notApplicable",
+      "claimKind": "notApplicable",
+      "applicabilityDetermined": true,
+      "rationale": "The reviewed reaction bonus has no area runtime field.",
+      "discrepancies": []
+    }
+  },
+  "assessment": {
+    "machineEvidenceReady": false,
+    "canonicalEligibility": false,
+    "claims": [
+      {
+        "field": "value",
+        "claimKind": "externalFactual",
+        "machineEvidenceReady": false,
+        "blockedReasons": [
+          "strictGameVersionMissing",
+          "gameVersionConflict"
+        ]
+      },
+      {
+        "field": "refinement",
+        "claimKind": "externalFactual",
+        "machineEvidenceReady": false,
+        "blockedReasons": [
+          "strictGameVersionMissing",
+          "gameVersionConflict"
+        ]
+      },
+      {
+        "field": "activation",
+        "claimKind": "externalFactual",
+        "machineEvidenceReady": false,
+        "blockedReasons": [
+          "strictGameVersionMissing",
+          "gameVersionConflict"
+        ]
+      },
+      {
+        "field": "targets",
+        "claimKind": "externalFactual",
+        "machineEvidenceReady": false,
+        "blockedReasons": [
+          "unresolvedDiscrepancy",
+          "externalEvidenceInsufficient",
+          "providerIndependenceInsufficient",
+          "independenceGroupInsufficient",
+          "strictGameVersionMissing",
+          "fieldComparisonNotMatched"
+        ]
+      },
+      {
+        "field": "unit",
+        "claimKind": "externalFactual",
+        "machineEvidenceReady": false,
+        "blockedReasons": [
+          "strictGameVersionMissing",
+          "gameVersionConflict"
+        ]
+      },
+      {
+        "field": "duration",
+        "claimKind": "externalFactual",
+        "machineEvidenceReady": false,
+        "blockedReasons": [
+          "strictGameVersionMissing",
+          "gameVersionConflict"
+        ]
+      },
+      {
+        "field": "stack",
+        "claimKind": "externalFactual",
+        "machineEvidenceReady": false,
+        "blockedReasons": [
+          "strictGameVersionMissing",
+          "gameVersionConflict"
+        ]
+      },
+      {
+        "field": "interval",
+        "claimKind": "externalFactual",
+        "machineEvidenceReady": false,
+        "blockedReasons": [
+          "strictGameVersionMissing",
+          "gameVersionConflict"
+        ]
+      },
+      {
+        "field": "effect.activation.uidHandling",
+        "claimKind": "mappingMaterialization",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "destination",
+        "claimKind": "mappingMaterialization",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "supersedesLegacyModifierIds",
+        "claimKind": "mappingMaterialization",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "runtime.modifierIds",
+        "claimKind": "mappingMaterialization",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "registryStructure",
+        "claimKind": "mappingMaterialization",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "cooldown",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "offField",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "hitCount",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "charges",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "maxInstances",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "elementApplication",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "energy",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "snapshot",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      },
+      {
+        "field": "area",
+        "claimKind": "notApplicable",
+        "machineEvidenceReady": true,
+        "blockedReasons": []
+      }
+    ],
+    "blockedReasons": [
+      "claim:value:strictGameVersionMissing",
+      "claim:value:gameVersionConflict",
+      "claim:refinement:strictGameVersionMissing",
+      "claim:refinement:gameVersionConflict",
+      "claim:activation:strictGameVersionMissing",
+      "claim:activation:gameVersionConflict",
+      "claim:targets:unresolvedDiscrepancy",
+      "claim:targets:externalEvidenceInsufficient",
+      "claim:targets:providerIndependenceInsufficient",
+      "claim:targets:independenceGroupInsufficient",
+      "claim:targets:strictGameVersionMissing",
+      "claim:targets:fieldComparisonNotMatched",
+      "claim:unit:strictGameVersionMissing",
+      "claim:unit:gameVersionConflict",
+      "claim:duration:strictGameVersionMissing",
+      "claim:duration:gameVersionConflict",
+      "claim:stack:strictGameVersionMissing",
+      "claim:stack:gameVersionConflict",
+      "claim:interval:strictGameVersionMissing",
+      "claim:interval:gameVersionConflict",
+      "candidate:unresolvedDiscrepancy"
+    ],
+    "selfApprovalForbidden": true,
+    "canonicalBlockedReasons": [
+      "claim:value:strictGameVersionMissing",
+      "claim:value:gameVersionConflict",
+      "claim:refinement:strictGameVersionMissing",
+      "claim:refinement:gameVersionConflict",
+      "claim:activation:strictGameVersionMissing",
+      "claim:activation:gameVersionConflict",
+      "claim:targets:unresolvedDiscrepancy",
+      "claim:targets:externalEvidenceInsufficient",
+      "claim:targets:providerIndependenceInsufficient",
+      "claim:targets:independenceGroupInsufficient",
+      "claim:targets:strictGameVersionMissing",
+      "claim:targets:fieldComparisonNotMatched",
+      "claim:unit:strictGameVersionMissing",
+      "claim:unit:gameVersionConflict",
+      "claim:duration:strictGameVersionMissing",
+      "claim:duration:gameVersionConflict",
+      "claim:stack:strictGameVersionMissing",
+      "claim:stack:gameVersionConflict",
+      "claim:interval:strictGameVersionMissing",
+      "claim:interval:gameVersionConflict",
+      "candidate:unresolvedDiscrepancy",
+      "verificationNotComplete",
+      "sourceAgreementNotAgreed",
+      "verificationModeMissingOrInvalid",
+      "verificationSubjectMissing",
+      "claim:value:verificationModeMissingOrInvalid",
+      "claim:value:attestation:subjectMissing",
+      "claim:value:verificationAttestationMissing",
+      "claim:value:eligibilityCertificateMissing",
+      "claim:refinement:verificationModeMissingOrInvalid",
+      "claim:refinement:attestation:subjectMissing",
+      "claim:refinement:verificationAttestationMissing",
+      "claim:refinement:eligibilityCertificateMissing",
+      "claim:activation:verificationModeMissingOrInvalid",
+      "claim:activation:attestation:subjectMissing",
+      "claim:activation:verificationAttestationMissing",
+      "claim:activation:eligibilityCertificateMissing",
+      "claim:targets:verificationModeMissingOrInvalid",
+      "claim:targets:attestation:subjectMissing",
+      "claim:targets:verificationAttestationMissing",
+      "claim:targets:eligibilityCertificateMissing",
+      "claim:unit:verificationModeMissingOrInvalid",
+      "claim:unit:attestation:subjectMissing",
+      "claim:unit:verificationAttestationMissing",
+      "claim:unit:eligibilityCertificateMissing",
+      "claim:duration:verificationModeMissingOrInvalid",
+      "claim:duration:attestation:subjectMissing",
+      "claim:duration:verificationAttestationMissing",
+      "claim:duration:eligibilityCertificateMissing",
+      "claim:stack:verificationModeMissingOrInvalid",
+      "claim:stack:attestation:subjectMissing",
+      "claim:stack:verificationAttestationMissing",
+      "claim:stack:eligibilityCertificateMissing",
+      "claim:interval:verificationModeMissingOrInvalid",
+      "claim:interval:attestation:subjectMissing",
+      "claim:interval:verificationAttestationMissing",
+      "claim:interval:eligibilityCertificateMissing",
+      "claim:value:verificationIncomplete",
+      "claim:refinement:verificationIncomplete",
+      "claim:activation:verificationIncomplete",
+      "claim:targets:verificationIncomplete",
+      "claim:unit:verificationIncomplete",
+      "claim:duration:verificationIncomplete",
+      "claim:stack:verificationIncomplete",
+      "claim:interval:verificationIncomplete",
+      "claim:effect.activation.uidHandling:verificationIncomplete",
+      "claim:destination:verificationIncomplete",
+      "claim:supersedesLegacyModifierIds:verificationIncomplete",
+      "claim:runtime.modifierIds:verificationIncomplete",
+      "claim:registryStructure:verificationIncomplete"
+    ],
+    "state": "rawEvidence",
+    "productionCanonical": false
+  },
+  "reviewPacket": {
+    "packetId": "genshin:weapon:12516:w_12516_reaction_bonus_2:review",
+    "target": {
+      "kind": "weapon",
+      "id": "12516",
+      "candidateId": "w_12516_reaction_bonus_2"
+    },
+    "originalText": {
+      "sourceA": "Additionally, each time the equipping character hits an opponent with their Charged Attack, they attain \"Transcendence\" for a short time: their Stellar-Conduct and Stellar Swirl reaction DMG is increased by 16%/20%/24%/28%/32% for 5s. This effect can stack once every 0.2s, max 3 stacks.",
+      "sourceB": "Additionally, each time the equipping character hits an opponent with their Charged Attack, they attain \"Transcendence\" for a short time: their Stellar-Conduct DMG is increased by 16%/20%/24%/28%/32% for 5s. This effect can stack once every 0.2s, max 3 stacks."
+    },
+    "sourceA": {
+      "id": "hoyowiki:genshin:weapon:12516:reaction-clause",
+      "provider": "HoYoverse HoYoWiki",
+      "independenceGroup": "official-hoyoverse",
+      "locator": "https://wiki.hoyolab.com/pc/genshin/entry/10949",
+      "identifier": "entry/10949#passive-reaction-clause",
+      "locale": "en-US",
+      "rawText": "Additionally, each time the equipping character hits an opponent with their Charged Attack, they attain \"Transcendence\" for a short time: their Stellar-Conduct and Stellar Swirl reaction DMG is increased by 16%/20%/24%/28%/32% for 5s. This effect can stack once every 0.2s, max 3 stacks.",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "e9df9b7687cae01fabacef6321e1839b77c31fb979c7df79d4f56f47c222a1e7"
+      },
+      "gameVersion": "7.0",
+      "strictGameVersionBinding": false,
+      "gameVersionEvidence": {
+        "observedLiveVersionLocator": "https://www.hoyolab.com/article/46233468",
+        "method": "The mutable HoYoWiki entry was observed while official Version 7.0 was live. The weapon's 6.7 introduction does not prove that the currently displayed field text is the historical 6.7 text."
+      }
+    },
+    "sourceB": {
+      "id": "genshin-db:weapon:12516:1bab2cd:reaction-clause",
+      "provider": "theBowja/genshin-db",
+      "independenceGroup": "GenshinData-derived",
+      "locator": "https://github.com/theBowja/genshin-db/blob/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/src/data/English/weapons/ateaspoonoftranscendence.json",
+      "identifier": "git:1bab2cdba4d218fd5caa46b5f54e7884ee8359a2:English/weapons/ateaspoonoftranscendence.json#effect",
+      "locale": "en-US",
+      "rawText": "Additionally, each time the equipping character hits an opponent with their Charged Attack, they attain \"Transcendence\" for a short time: their Stellar-Conduct DMG is increased by 16%/20%/24%/28%/32% for 5s. This effect can stack once every 0.2s, max 3 stacks.",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "d8544dd6ddac0e5a62257cb9abc578c18c43d9c98974c11f375f17ffec4bc988"
+      },
+      "gameVersion": "6.7",
+      "strictGameVersionBinding": true,
+      "gameVersionEvidence": {
+        "locator": "https://github.com/theBowja/genshin-db/blob/1bab2cdba4d218fd5caa46b5f54e7884ee8359a2/package.json",
+        "providerStatement": "Genshin Impact v6.7 JSON data"
+      }
+    },
+    "providerIndependence": {
+      "status": "independent",
+      "groups": [
+        "official-hoyoverse",
+        "GenshinData-derived"
+      ]
+    },
+    "repositoryTargetGameVersion": "6.7",
+    "observedLiveGameVersion": "7.0",
+    "reactionFacts": {
+      "existence": {
+        "status": "officialVersionBound",
+        "gameVersion": "7.0",
+        "evidenceId": "hoyolab-official:post:46233468:stellar-swirl",
+        "fieldDigest": "a2f0f874b25a1ee6e3964d66ecc8c1a4e3c9b111d2615b6ad0b390ce2dbef04f"
+      },
+      "formula": {
+        "status": "blockedMissingCoefficients",
+        "formulaCoefficientsDisclosed": false
+      },
+      "weaponTargetScope": {
+        "status": "versionTransitionPendingCandidateEvidence",
+        "fromGameVersion": "6.7",
+        "toGameVersion": "7.0"
+      }
+    },
+    "versionTransitionEvidence": {
+      "provider": "Gachabase",
+      "providerFamily": "gachabase-versioned-data",
+      "lineageStatus": "unknown",
+      "locator": "https://gi.gachabase.net/diff/weapons/12516/a-teaspoon-of-transcendence?branch=release&cur=release_7.0.0_47194594&lang=en&prev=release_6.7.0_46509556",
+      "from": {
+        "gameVersion": "6.7.0",
+        "branch": "release",
+        "revision": "46509556",
+        "targets": [
+          "astralConductionDamageBonus"
+        ]
+      },
+      "to": {
+        "gameVersion": "7.0.0",
+        "branch": "release",
+        "revision": "47194594",
+        "targets": [
+          "astralConductionDamageBonus",
+          "stellarSwirlDamageBonus"
+        ]
+      },
+      "rawArtifactIntegrity": {
+        "algorithm": "sha256",
+        "digest": "c92d99d23320253c29773b43cd5543f1e76a1f51e88cb1b531b08e029cbb6fac",
+        "bytes": 158037
+      },
+      "fieldText": "release 6.7.0 Rev. 46509556: Stellar-Conduct DMG; release 7.0.0 Rev. 47194594: Stellar-Conduct and Stellar Swirl reaction DMG",
+      "fieldDigest": "e7e8b7447d43878cc457a05974ccebf6ac57fbda9f46924549163d78041682dd",
+      "eligibility": "driftDiscoveryOnly",
+      "blockedReasons": [
+        "providerIndependenceUnknown",
+        "providerManifestMissing"
+      ]
+    },
+    "specValue": {
+      "targets": [
+        "astralConductionDamageBonus",
+        "stellarSwirlDamageBonus"
+      ],
+      "condition": "afterChargedAttackHit",
+      "unit": "percent",
+      "valueByRefinement": {
+        "1": 16,
+        "2": 20,
+        "3": 24,
+        "4": 28,
+        "5": 32
+      },
+      "durationSeconds": 5,
+      "stack": {
+        "min": 0,
+        "default": 0,
+        "max": 3
+      },
+      "acquisitionIntervalSeconds": 0.2
+    },
+    "fieldComparison": [
+      {
+        "field": "targets",
+        "sourceA": [
+          "astralConductionDamageBonus",
+          "stellarSwirlDamageBonus"
+        ],
+        "sourceAVersion": "7.0-observed",
+        "sourceB": [
+          "astralConductionDamageBonus"
+        ],
+        "sourceBVersion": "6.7-strict",
+        "spec": [
+          "astralConductionDamageBonus",
+          "stellarSwirlDamageBonus"
+        ],
+        "status": "versionTransition",
+        "classification": "versionOrProviderCoverageDrift",
+        "normalization": "The latest scope is retained as an unpromoted 7.0 transition candidate; it is not projected backward into 6.7."
+      },
+      {
+        "field": "condition",
+        "sourceA": "Charged Attack hits an opponent",
+        "sourceB": "Charged Attack hits an opponent",
+        "spec": "afterChargedAttackHit",
+        "status": "match"
+      },
+      {
+        "field": "refinement.1",
+        "sourceA": 16,
+        "sourceB": 16,
+        "spec": 16,
+        "status": "match"
+      },
+      {
+        "field": "refinement.2",
+        "sourceA": 20,
+        "sourceB": 20,
+        "spec": 20,
+        "status": "match"
+      },
+      {
+        "field": "refinement.3",
+        "sourceA": 24,
+        "sourceB": 24,
+        "spec": 24,
+        "status": "match"
+      },
+      {
+        "field": "refinement.4",
+        "sourceA": 28,
+        "sourceB": 28,
+        "spec": 28,
+        "status": "match"
+      },
+      {
+        "field": "refinement.5",
+        "sourceA": 32,
+        "sourceB": 32,
+        "spec": 32,
+        "status": "match"
+      },
+      {
+        "field": "durationSeconds",
+        "sourceA": 5,
+        "sourceB": 5,
+        "spec": 5,
+        "status": "match"
+      },
+      {
+        "field": "stack.max",
+        "sourceA": 3,
+        "sourceB": 3,
+        "spec": 3,
+        "status": "match"
+      },
+      {
+        "field": "acquisitionIntervalSeconds",
+        "sourceA": 0.2,
+        "sourceB": 0.2,
+        "spec": 0.2,
+        "status": "match",
+        "normalization": "source-owned timing constraint; current calculator exposes manual stack selection"
+      }
+    ],
+    "scopeBoundary": {
+      "appliesOnlyToCandidate": "w_12516_reaction_bonus_2",
+      "excludedCandidateIds": [
+        "w_12516_reactionBonus_d0fe6e2e"
+      ],
+      "excludedMeaning": "The duplicate legacy modifier remains excluded; Stellar Swirl is part of this candidate's current target scope.",
+      "pairReuse": "forbiddenWithoutFreshFieldReview"
+    },
+    "runtimeTarget": {
+      "dataset": "weaponModifiers",
+      "path": "/12516/modifiers",
+      "legacyModifierId": "w_12516_reaction_bonus_2",
+      "calculation": "manual stack input selects the per-refinement reaction bonus for Stellar Conduct; Stellar Swirl remains fail-closed pending its dedicated formula",
+      "ui": "shared Transcendence stack selector, range 0..3; Stellar Swirl reaction option is display-only until formula evidence exists"
+    },
+    "unresolved": [
+      {
+        "kind": "sourceVersionOrCoverageDrift",
+        "field": "targets",
+        "owner": "sourceProvider",
+        "reason": "the 6.7 pinned dataset and mutable field text observed under official live 7.0 belong to different version states"
+      },
+      {
+        "kind": "consumerImplementationGap",
+        "field": "stellarSwirlFormula",
+        "owner": "consumer",
+        "reason": "reaction identity, modifier target, UI and element input exist; version-bound calculation formula is not evidenced"
+      }
+    ],
+    "machineEvidenceReady": false,
+    "recommendation": "hold automatic and human promotion until the source-content drift is resolved and the Stellar Swirl formula is version-bound; do not reduce the official scope to Stellar Conduct only",
+    "reviewDecisionOptions": [
+      "hold"
+    ]
+  },
+  "generatedFrom": {
+    "generator": {
+      "path": "scripts/genshinWeaponReactionReviewBatch.cjs",
+      "sha256": "782e1ff67b3ec72ed9e72ccced62b15db0cc57b4f6c6c2da11d7055f5de72b44"
+    },
+    "specCandidates": {
+      "path": "games/genshin/data/v2/weapons/spec-candidates.json",
+      "sha256": "dd6661120c349650b94f5d70fa50c846f3ac09d0f769b37af19ec65e963fb1bf"
+    },
+    "weaponModifiers": {
+      "path": "games/genshin/data/calc/weapon-modifiers.json",
+      "sha256": "d0df82832161da060521209cfe1614929fe9387ee05ab7f2fdf53ce50dc143df"
+    },
+    "weaponEffectRegistry": {
+      "path": "games/genshin/data/calc/weapon-effect-registry.json",
+      "sha256": "9ca83e5afb43906ee6822350ab17358249c8336e33a11d2b5b4f7601ddc0f325"
+    },
+    "stellarSwirlOfficialEvidence": {
+      "path": "games/genshin/data/v2/reactions/stellar-swirl-official-evidence.json",
+      "sha256": "1df72aee9462505424d24fba728383778b9a8e2e7692a68ffaeb14a002c12509"
+    }
+  }
+}
