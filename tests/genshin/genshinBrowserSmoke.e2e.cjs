@@ -739,6 +739,166 @@ async function clickAndWait(client, selector) {
         assert.equal(resetWeaponFilters.selected, 0);
         await evaluate(client, `document.querySelector("#genshinSelectionClose").click()`);
 
+        const setArtifactMode = async (value) => {
+            await evaluate(client, `(() => {
+                const input = document.getElementById("genshinArtifactSetMode");
+                input.value = ${JSON.stringify(value)};
+                input.dispatchEvent(new Event("input", { bubbles: true }));
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+                return input.value;
+            })()`);
+            await delay(100);
+        };
+
+        const chooseArtifactThroughModal = async (slot, id, name, shortName) => {
+            const triggerId = slot === "two" ? "#genshinArtifactSetTwoTrigger" : "#genshinArtifactSetOneTrigger";
+            const selectId = slot === "two" ? "#genshinArtifactSetTwo" : "#genshinArtifactSetOne";
+            await waitFor(client, `document.querySelector(${JSON.stringify(triggerId)})?.getBoundingClientRect().width > 0`);
+            await evaluate(client, `document.querySelector(${JSON.stringify(triggerId)}).click()`);
+            await waitFor(client, `document.getElementById("genshinSelectionDialog").open && document.getElementById("genshinSelectionTitle").textContent === "聖遺物セットを選択"`);
+            await evaluate(client, `(() => {
+                const input = document.getElementById("genshinSelectionSearch");
+                input.value = ${JSON.stringify(name)};
+                input.dispatchEvent(new Event("input", { bubbles: true }));
+                return input.value;
+            })()`);
+            await waitFor(client, `Boolean(document.querySelector('#genshinSelectionList [data-selection-id="${id}"]'))`);
+            await waitFor(client, `(() => {
+                const image = document.querySelector('#genshinSelectionList [data-selection-id="${id}"] img');
+                return Boolean(image && image.complete && image.naturalWidth > 0);
+            })()`);
+            const modalItem = await evaluate(client, `(() => {
+                const item = document.querySelector('#genshinSelectionList [data-selection-id="${id}"]');
+                const image = item?.querySelector("img");
+                return {
+                    id: item?.dataset.selectionId || "",
+                    name: item?.querySelector("strong")?.textContent || "",
+                    imageSrc: image?.getAttribute("src") || "",
+                    imageReady: Boolean(image && image.complete && image.naturalWidth > 0)
+                };
+            })()`);
+            assert.deepEqual(modalItem, {
+                id,
+                name,
+                imageSrc: `/games/images/genshin/artifacts/${id}.webp`,
+                imageReady: true
+            });
+            await evaluate(client, `document.querySelector('#genshinSelectionList [data-selection-id="${id}"]').click()`);
+            await waitFor(client, `document.getElementById(${JSON.stringify(selectId.slice(1))}).value === ${JSON.stringify(id)}`);
+            await waitFor(client, `(() => {
+                const trigger = document.querySelector(${JSON.stringify(triggerId)});
+                const image = trigger?.querySelector("img");
+                return Boolean(image && image.getAttribute("src") === "/games/images/genshin/artifacts/${id}.webp" && image.complete && image.naturalWidth > 0
+                    && trigger.querySelector(".genshin-artifact-selection-trigger-label")?.textContent === ${JSON.stringify(shortName || name)});
+            })()`);
+            return modalItem;
+        };
+
+        const readArtifactConditionSections = async () => evaluate(client, `([...document.querySelectorAll("#genshinJsonConditionCards [data-artifact-set]")]).map((section) => ({
+            setId: section.dataset.artifactSet,
+            pieceCount: section.dataset.artifactPiece,
+            text: section.textContent,
+            description: section.querySelector(".genshin-condition-detail-block p")?.textContent || ""
+        }))`);
+
+        const runArtifactProduction = async (setId) => evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            const applied = payload.results.flatMap((result) => result.breakdown?.appliedModifiers || []);
+            const candidates = [...(payload.candidateModifiers || []), ...(payload.partyModifiers || [])];
+            const related = [...applied, ...candidates].filter((item) => String(item.modifier?.artifactSetId || "") === ${JSON.stringify(setId)});
+            const stateEntries = Object.entries(payload.calculationRequest?.uiState?.conditionByModifier || {})
+                .filter(([key]) => key.includes(${JSON.stringify(setId)}));
+            const stellarConduct = payload.results.find((result) => result.entry?.directReactionId === "stellarConduct");
+            return {
+                totalExpected: payload.results.reduce((sum, result) => sum + Number(result.total?.expected ?? result.expected ?? 0), 0),
+                appliedIds: applied.filter((item) => String(item.modifier?.artifactSetId || "") === ${JSON.stringify(setId)}).map((item) => item.modifier.id),
+                statTraceIds: (payload.statTrace || []).filter((item) => String(item.modifierId || "").includes("4pc_")).map((item) => item.modifierId),
+                reactionBonus: stellarConduct?.breakdown?.reactionBonus ?? 0,
+                stateEntries,
+                relatedCount: related.length
+            };
+        })()`);
+
+        await clearSupportMembers();
+        await evaluate(client, selectionExpression({
+            characterName: "サンドローネ",
+            characterId: "10000133",
+            weaponName: "",
+            weaponId: "",
+            constellation: "C0",
+            atk: 2000,
+            def: 1000,
+            hp: 20000
+        }));
+        await setReactionOption("stellarConduct");
+
+        await setArtifactMode("2pc2pc");
+        await chooseArtifactThroughModal("one", "15047", "紅血の証", "紅血");
+        await chooseArtifactThroughModal("two", "10001", "旅人の心", "旅人");
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        await waitFor(client, `document.querySelector('[data-artifact-set="15047"][data-artifact-piece="2"]')`);
+        const scarletTwoPiece = await readArtifactConditionSections();
+        const scarletTwoPieceSection = scarletTwoPiece.find((section) => section.setId === "15047" && section.pieceCount === "2");
+        assert.ok(scarletTwoPieceSection?.description.includes("攻撃力+18%"), "15047 2セット説明が画面に表示される");
+
+        await setArtifactMode("4pc");
+        await chooseArtifactThroughModal("one", "15047", "紅血の証", "紅血");
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        await waitFor(client, `document.querySelector('[data-artifact-set="15047"][data-artifact-piece="4"]')`);
+        const scarletFourPiece = await readArtifactConditionSections();
+        const scarletFourPieceSection = scarletFourPiece.find((section) => section.setId === "15047" && section.pieceCount === "4");
+        assert.ok(scarletFourPieceSection?.description.includes("星拡散反応を起こした後の10秒間"), "15047 4セット説明が画面に表示される");
+        const scarletToggle = await evaluate(client, `document.querySelector('[data-artifact-set="15047"][data-artifact-piece="4"] input[data-genshin-toggle-key]')?.checked === true`);
+        assert.equal(scarletToggle, false, "15047 4セット条件は初期状態でOFF");
+        const scarletOff = await runArtifactProduction("15047");
+        await evaluate(client, `(() => {
+            const input = document.querySelector('[data-artifact-set="15047"][data-artifact-piece="4"] input[data-genshin-toggle-key]');
+            if (!input) throw new Error("missing 15047 condition toggle");
+            input.click();
+            return input.checked;
+        })()`);
+        await delay(150);
+        const scarletOn = await runArtifactProduction("15047");
+        assert.equal(scarletOn.stateEntries.some(([, state]) => state.enabled === true), true, "15047 UI入力がcondition stateへ渡る");
+        assert.equal(scarletOn.appliedIds.includes("4pc_crit_rate_after_stellar_swirl"), true, "15047 ONがproduction modifierへ渡る");
+        assert.notEqual(scarletOn.totalExpected, scarletOff.totalExpected, "15047条件ON/OFFでproduction結果が変化する");
+
+        await setArtifactMode("2pc2pc");
+        await chooseArtifactThroughModal("one", "15048", "炉炎溶錬の心", "炉炎");
+        await chooseArtifactThroughModal("two", "10001", "旅人の心", "旅人");
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        await waitFor(client, `document.querySelector('[data-artifact-set="15048"][data-artifact-piece="2"]')`);
+        const furnaceTwoPiece = await readArtifactConditionSections();
+        const furnaceTwoPieceSection = furnaceTwoPiece.find((section) => section.setId === "15048" && section.pieceCount === "2");
+        assert.ok(furnaceTwoPieceSection?.description.includes("攻撃力+18%"), "15048 2セット説明が画面に表示される");
+
+        await setArtifactMode("4pc");
+        await chooseArtifactThroughModal("one", "15048", "炉炎溶錬の心", "炉炎");
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        await waitFor(client, `document.querySelector('[data-artifact-set="15048"][data-artifact-piece="4"]')`);
+        const furnaceFourPiece = await readArtifactConditionSections();
+        const furnaceFourPieceSection = furnaceFourPiece.find((section) => section.setId === "15048" && section.pieceCount === "4");
+        assert.ok(furnaceFourPieceSection?.description.includes("星反応を起こす、または星反応ダメージを与えた後の12秒間"), "15048 4セット説明が画面に表示される");
+        await evaluate(client, `(() => {
+            const input = document.querySelector('[data-artifact-set="15048"][data-artifact-piece="4"] input[data-genshin-toggle-key]');
+            if (!input) throw new Error("missing 15048 condition toggle");
+            if (input.checked) input.click();
+        })()`);
+        await delay(150);
+        const furnaceOff = await runArtifactProduction("15048");
+        await evaluate(client, `(() => {
+            const input = document.querySelector('[data-artifact-set="15048"][data-artifact-piece="4"] input[data-genshin-toggle-key]');
+            if (!input) throw new Error("missing 15048 condition toggle");
+            input.click();
+            return input.checked;
+        })()`);
+        await delay(150);
+        const furnaceOn = await runArtifactProduction("15048");
+        assert.equal(furnaceOn.stateEntries.some(([, state]) => state.enabled === true), true, "15048 UI入力がcondition stateへ渡る");
+        assert.equal(furnaceOn.statTraceIds.includes("4pc_atk_after_stellar_glimmer"), true, "15048 ONがproduction stat modifierへ渡る");
+        assert.equal(furnaceOn.reactionBonus, 50, "15048 ONが星電導productionへ反映される");
+        assert.notEqual(furnaceOn.totalExpected, furnaceOff.totalExpected, "15048条件ON/OFFでproduction結果が変化する");
+
         await evaluate(client, selectionExpression({
             characterName: "甘雨",
             characterId: "10000037",

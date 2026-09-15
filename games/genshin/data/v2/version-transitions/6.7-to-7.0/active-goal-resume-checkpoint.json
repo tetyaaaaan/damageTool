@@ -1,5 +1,42 @@
 {
   "schemaVersion": 1,
+  "latestSevenZeroUserRouteContinuation": {
+    "completedAt": "2026-09-15T17:30:00+09:00",
+    "scope": "Continued only the unfinished Version 7.0 user-facing routes from latestNonWitchSevenZeroContinuation. Completed character/weapon batches and previously verified internal calculations were not regenerated or re-audited.",
+    "acceptedUserRoutes": [
+      "Artifact 15047 Scarlet Proof is selectable in the existing artifact modal with its local image and name; its 2pc/4pc descriptions are readable; the 4pc condition starts OFF; changing it in the DOM reaches conditionByModifier and production modifiers and changes the production result.",
+      "Artifact 15048 Heart of Furnace is selectable in the existing artifact modal with its local image and name; its 2pc/4pc descriptions are readable; its shared 4pc condition reaches conditionByModifier, holder ATK, and the supported Stellar-Conduct production consumer; OFF/ON changes the production result."
+    ],
+    "productChanges": [
+      "Added the two missing local artifact selection images at games/images/genshin/artifacts/15047.webp and 15048.webp using the repository's existing selection-image sync path.",
+      "Extended the existing browser smoke fixture only; no new fixture, helper script, schema, or cross-cutting product design was introduced."
+    ],
+    "verification": {
+      "targetedBrowser": "Passed with the unrelated pre-existing Witch block temporarily excluded only for this run: real modal selection, loaded images, readable set descriptions, condition OFF/ON, request state, applied modifier/stat trace, Stellar-Conduct bonus, and production total change.",
+      "completeBrowserSmoke": "Blocked before the new artifact block by the existing Fischl Witch assertion: t_10000031_lockedPassive_electrocharged_em was applied while locked. Reproduced twice; no unrelated Witch fix was made in this continuation.",
+      "focusedUnit": "10/10 passed across 7.0 artifact isolation, Freminet Stellar-Conduct isolation, and character Stellar-Swirl transition fixtures.",
+      "browserFixtureSyntax": "node --check passed",
+      "diffCheckPassed": true,
+      "strictVerificationGranted": false,
+      "feature7_0AcceptedGranted": false,
+      "queueRegenerated": false,
+      "hsrChanged": false
+    },
+    "artifactSha256": {
+      "tests/genshin/genshinBrowserSmoke.e2e.cjs": "08a8c902fd4cf7f707cb9dfbdf2133ce3a2b9fbdfe300ae931cb4cce7ef121c1",
+      "games/images/genshin/artifacts/15047.webp": "f135c245031657e86a14aeffaeff60d1753c78fbd4924d910808d7e3db12eed4",
+      "games/images/genshin/artifacts/15048.webp": "377798444fc1aeaf7a2f4b452b2b61f455bfe22f9a63af319c68ab1090c2db83"
+    },
+    "delegation": "Three bounded Luna lanes were assigned for characters, weapons, and artifact/Stellar-Swirl work. They reached the account usage limit; the artifact lane's already-written shared-tree changes were retained and verified, while no duplicate worker investigation was restarted.",
+    "remainingHolds": [
+      "Alyosha and Odette: current Enka metadata supplies identity, element, weapon type, icon path, promotion properties, and ProudMap IDs, but the fixed evidence set still lacks complete version-bound talent multiplier arrays needed for an existing-quality selectable calculator record.",
+      "Cryo Traveler: the available base avatar records remain element-neutral and do not provide a fixed Cryo-variant identity/talent mapping.",
+      "The 12 new Version 7.0 weapons: the fixed evidence set still lacks the complete exact ID/base-stat/R1-R5/effect field bundle required for selection and calculation without inference.",
+      "Stellar Swirl remains intentionally fail-closed and unimplemented. Fixed official evidence establishes Anemo+Cryo, delayed Cryo Vortex damage, level-up/early detonation, and crit capability, but not the dedicated numeric coefficient and level progression, ownership/stat snapshot and EM formula, crit ownership/rules, defense behavior, resistance element/timing, or element-specific branches. Ordinary Swirl formulas were not reused.",
+      "The complete browser smoke retains the separately recorded pre-existing Fischl locked-state failure; the new artifact route itself passed in isolation."
+    ],
+    "nextResume": "Do not repeat artifact 15047/15048 image acquisition or their modal-to-production verification. Resume new characters/weapons only from newly fixed complete typed evidence; resume Stellar Swirl only when its dedicated numeric formula and consumer semantics are version-bound."
+  },
   "latestNonWitchSevenZeroContinuation": {
     "completedAt": "2026-09-15T13:36:23+09:00",
     "scope": "Resumed only the executable non-Witch Version 7.0 and Stellar-reaction work from the current checkpoint. Completed weapon/artifact batches, the six-character Stellar trigger refresh, and the horizontal candidate frontier were not repeated.",
