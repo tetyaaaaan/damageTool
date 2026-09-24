@@ -301,6 +301,19 @@
         });
         [`Level`, `Constellation`, `NormalTalent`, `SkillTalent`, `BurstTalent`, `Hp`, `Atk`, `Def`, `ElementalMastery`].forEach((name) => { const input = byId(`genshinParty${name}${slot}`); if (input) input.disabled = !selected; });
         [`WeaponLevel`, `Refinement`].forEach((name) => { const input = byId(`genshinParty${name}${slot}`); if (input) input.disabled = !weaponSelected; });
+        const refinementInput = byId(`genshinPartyRefinement${slot}`);
+        const confirmedRefinements = Array.isArray(weapon?.confirmedRefinements)
+            ? new Set(weapon.confirmedRefinements.map(Number))
+            : null;
+        Array.from(refinementInput?.options || []).forEach((option, index) => {
+            const rank = Number(option.value || index + 1);
+            const enabled = !confirmedRefinements || confirmedRefinements.has(rank);
+            option.disabled = !enabled;
+            option.textContent = enabled ? `R${rank}` : `R${rank}（未確認）`;
+        });
+        if (confirmedRefinements && !confirmedRefinements.has(Number(refinementInput?.value))) {
+            refinementInput.value = String([...confirmedRefinements].sort((a, b) => a - b)[0] || 1);
+        }
         const base = window.GenshinBaseStats?.resolveMember?.({ characterId: character?.id, weaponId: weapon?.id, level: byId(`genshinPartyLevel${slot}`)?.value, weaponLevel: byId(`genshinPartyWeaponLevel${slot}`)?.value });
         byId(`genshinPartyBaseSummary${slot}`).textContent = base
             ? `基礎HP ${Math.round(base.baseHp).toLocaleString("ja-JP")}／基礎攻撃力 ${Math.round(base.baseAtk).toLocaleString("ja-JP")}／基礎防御力 ${Math.round(base.baseDef).toLocaleString("ja-JP")}`

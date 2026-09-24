@@ -176,6 +176,106 @@ async function clickAndWait(client, selector) {
             await delay(100);
         };
 
+        const provisional70 = await evaluate(client, `(async () => {
+            const data = await window.GenshinCalcData.loadGenshinCalcData();
+            const characters = window.GenshinIdResolver.listCharacters();
+            const weapons = window.GenshinIdResolver.listWeapons();
+            return {
+                characterIds: characters.filter((item) => ["10000148", "10000150"].includes(String(item.id))).map((item) => String(item.id)),
+                weaponIds: weapons.filter((item) => ["11435", "11436", "11520", "11521", "12435", "12436", "13435", "13436", "14435", "14436", "15435", "15436"].includes(String(item.id))).map((item) => String(item.id)),
+                characterImages: [data.characters?.["10000148"]?.imagePath, data.characters?.["10000150"]?.imagePath],
+                stellarStatus: data.reactionDefinitions?.options?.stellarSwirl?.calculationStatus,
+                stellarDataStatus: data.reactionDefinitions?.options?.stellarSwirl?.dataStatus,
+                canonicalGranted: data.provisionalRuntimeSummary?.canonicalEligibilityGranted
+            };
+        })()`);
+        assert.deepEqual(provisional70.characterIds.sort(), ["10000148", "10000150"]);
+        assert.equal(provisional70.weaponIds.length, 12);
+        assert.ok(provisional70.characterImages.every((value) => /\/100001(?:48|50)\.webp$/.test(value)));
+        assert.equal(provisional70.stellarStatus, "supported");
+        assert.equal(provisional70.stellarDataStatus, "provisional");
+        assert.equal(provisional70.canonicalGranted, false);
+
+        await evaluate(client, selectionExpression({
+            characterName: "アリョーシャ（検証中）",
+            characterId: "10000148",
+            weaponName: "",
+            weaponId: "",
+            constellation: "C0",
+            atk: 2000
+        }));
+        await clickAndWait(client, "#genshinConditionDialogOpen");
+        await waitFor(client, 'document.getElementById("genshinConditionDialog")?.open === true');
+        await delay(150);
+        const alyoshaConditionSelector = '#genshinConditionDialog [data-genshin-condition-key*="passive2_er_skill_burst"], #genshinConditionDialog [data-genshin-toggle-key*="passive2_er_skill_burst"]';
+        await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(alyoshaConditionSelector)}))`);
+        await evaluate(client, `(() => {
+            const toggle = document.querySelector(${JSON.stringify(alyoshaConditionSelector)});
+            toggle.checked = false;
+            toggle.dispatchEvent(new Event("change", { bubbles: true }));
+            return toggle.checked;
+        })()`);
+        await delay(150);
+        const alyoshaConditionOff = await evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            const result = payload.results.find((item) => item.entry?.group === "skill");
+            const key = Object.keys(payload.context.uiState.conditionByModifier).find((value) => value.includes("passive2_er_skill_burst"));
+            const control = document.querySelector(${JSON.stringify(alyoshaConditionSelector)});
+            return { damage: result?.nonCrit || 0, checked: control?.checked, control: control?.outerHTML || "", state: payload.context.uiState.conditionByModifier[key] || null };
+        })()`);
+        await evaluate(client, `(() => {
+            const toggle = document.querySelector(${JSON.stringify(alyoshaConditionSelector)});
+            toggle.checked = true;
+            toggle.dispatchEvent(new Event("change", { bubbles: true }));
+            return toggle.checked;
+        })()`);
+        await delay(150);
+        const alyoshaConditionOn = await evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            const result = payload.results.find((item) => item.entry?.group === "skill");
+            const key = Object.keys(payload.context.uiState.conditionByModifier).find((value) => value.includes("passive2_er_skill_burst"));
+            const control = document.querySelector(${JSON.stringify(alyoshaConditionSelector)});
+            return { damage: result?.nonCrit || 0, checked: control?.checked, control: control?.outerHTML || "", state: payload.context.uiState.conditionByModifier[key] || null };
+        })()`);
+        assert.ok(alyoshaConditionOff.damage > 0);
+        assert.equal(alyoshaConditionOff.checked, false);
+        assert.ok(alyoshaConditionOn.damage > alyoshaConditionOff.damage, JSON.stringify({ alyoshaConditionOff, alyoshaConditionOn }));
+        assert.equal(alyoshaConditionOn.checked, true);
+        await clickAndWait(client, "#genshinConditionDialogClose");
+        await clickAndWait(client, "#genshinJsonCalcButtonBottom");
+        const alyoshaResult = await evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            return {
+                calculated: payload.results.some((item) => item.entry?.group === "skill" && item.nonCrit > 0),
+                provisional: payload.displayData.characters?.["10000148"]?.dataStatus,
+                hasNotice: /検証中データ/.test(document.body.innerText)
+            };
+        })()`);
+        assert.equal(alyoshaResult.calculated, true);
+        assert.equal(alyoshaResult.provisional, "provisional");
+        assert.equal(alyoshaResult.hasNotice, true);
+
+        await setReactionOption("stellarSwirl");
+        await evaluate(client, `(() => {
+            const input = document.getElementById("genshinStellarSwirlVariant");
+            if (!input) throw new Error("missing Stellar Swirl variant input");
+            input.value = "vortex1";
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+            return true;
+        })()`);
+        const stellarResult = await evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            const result = payload.results.find((item) => item.entry?.id === "reaction_stellarSwirl");
+            return { nonCrit: result?.nonCrit || 0, variant: result?.breakdown?.reaction?.variantKey || "" };
+        })()`);
+        assert.ok(stellarResult.nonCrit > 0);
+        assert.equal(stellarResult.variant, "vortex1");
+        await setReactionOption("none");
+        await client.send("Page.reload", { ignoreCache: true });
+        await waitFor(client, "Boolean(window.GenshinCalcEngine && window.GenshinCalcConditions && window.GenshinCalcRenderer)");
+        await waitFor(client, "Boolean(window.GenshinIdResolver && window.GenshinIdResolver.listCharacters().length > 0)");
+        await waitFor(client, `document.getElementById("genshinNormalTalentLevel").getBoundingClientRect().width > 0`);
+
         const runWitchProduction = async (modifierId) => evaluate(client, `(async () => {
             const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
             const applied = payload.results.flatMap((result) => result.breakdown?.appliedModifiers || []);

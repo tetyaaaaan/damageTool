@@ -1366,6 +1366,36 @@ html[data-theme="dark"] .genshin-tool-page .genshin-uid-result :is(.genshin-prof
   font-size: .8rem;
 }
 
+.genshin-selection-provisional {
+  display: inline-flex;
+  align-self: flex-start;
+  width: fit-content;
+  margin-top: 2px;
+  padding: 1px 6px;
+  color: #7a4b00;
+  background: #fff0bd;
+  border: 1px solid #d8a934;
+  border-radius: 999px;
+  font-size: .67rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.genshin-selection-dialog.is-character .genshin-selection-provisional {
+  margin-inline: auto;
+}
+
+.genshin-json-provisional-notice {
+  margin: 8px 0 0;
+  padding: 8px 10px;
+  color: #704300;
+  background: #fff7dc;
+  border: 1px solid #ddbc5f;
+  border-radius: 8px;
+  font-size: .78rem;
+  font-weight: 700;
+}
+
 .genshin-tool-page .genshin-uid-talent-warning {
   margin: 0 0 6px;
   color: var(--teti-warning, #a86700);

@@ -1,5 +1,216 @@
 {
   "schemaVersion": 1,
+  "latestSevenZeroProvisionalRuntimeIntegration": {
+    "completedAt": "2026-09-24T00:00:00+09:00",
+    "scope": "Resumed from the existing 7.0 candidatePrepared checkpoint and completed only the non-canonical user route. Packet, 42 locators, Raw, SourceRecords, metadata, and the 14 acquired images were not reacquired or re-audited.",
+    "result": "provisionalRuntimeConnectedCanonicalFailClosed",
+    "boundary": {
+      "candidateStatus": "candidatePrepared",
+      "nonCanonical": true,
+      "canonicalEligibilityGranted": false,
+      "canonicalOverlayActive": false,
+      "uiLabelJa": "検証中",
+      "precedence": "Existing canonical/default records always win; provisional records fill missing 7.0 IDs only."
+    },
+    "runtimeConnected": {
+      "characters": [
+        "10000148 アリョーシャ",
+        "10000150 オデット"
+      ],
+      "weapons": [
+        "11435 異端を狩る熔刃",
+        "11436 導炎の源",
+        "11520 白銀の湖を舞う翼",
+        "11521 星鋒の剣",
+        "12435 シンフォニーの鋳影",
+        "12436 救済の剣",
+        "13435 氷の吐息",
+        "13436 遠望の歌",
+        "14435 諸王の対局",
+        "14436 胸中の谺",
+        "15435 千鈞懸黎",
+        "15436 霜雪の契"
+      ],
+      "reaction": "stellarSwirl",
+      "images": "2 character and 12 weapon WebP assets are used by the existing selection route.",
+      "ui": "Selection, details, provisional notice, talents, constellations, refinement restrictions, condition inputs, and calculation results are connected through the existing modal/renderer/engine paths."
+    },
+    "specialCases": {
+      "11435": "No distance interpolation. The UI exposes only packet-confirmed minimum and maximum effects and both change production output.",
+      "11521": "Only confirmed R1-R3 apply weapon effects. R4-R5 are disabled/labeled unverified and the engine skips the effect with UNVERIFIED_REFINEMENT.",
+      "stellarSwirl": "Initial Anemo / Cryo Vortex 1 / Cryo Vortex 2 variants use their dedicated coefficients and resistance elements; contributor weights, per-contributor crit, EM scaling, level table, and DEF exclusion are connected.",
+      "characterBaseStats": "Only evidence-fixed Lv1 and Lv90 checkpoints are resolved for the provisional characters; unsupported intermediate levels fail closed rather than interpolating unknown curves."
+    },
+    "intentionallyDeferred": [
+      "Canonical 7.0 Runtime promotion and Eligibility Certificates remain blocked by the already-recorded strict evidence gap.",
+      "Odette C1/C4 direct follow-up reaction attacks are displayed but are not promoted into the generic modifier route because they require a dedicated consumer.",
+      "Unknown curve/promote records prevent safe intermediate-level base-stat interpolation.",
+      "ICD, gauge, snapshot/recalculation, same-frame ordering, exact hit chronology, stack expiry/refresh, and rotation/DPS timing remain deferred because they are not required for the static single-hit route."
+    ],
+    "verification": {
+      "focusedSevenZero": "18/18 passed",
+      "conditionAndConstellationRegression": "22/22 passed",
+      "browserSmoke": "Passed in headless Edge on a fresh debug port, including actual-ID selection data, 12 weapon registrations, provisional notice, Alyosha condition OFF/ON changing the production skill result, and Stellar Swirl vortex1 calculation; the existing Witch browser suite also passed after page-state reset.",
+      "syntax": "All changed JavaScript and the browser fixture passed node --check.",
+      "diffCheckPassed": true,
+      "fullVerify": "node scripts/verifyGenshinCalc.cjs remains blocked by pre-existing golden mismatches in charlotteTargetCount, furinaOverflowFanfare, and wandererRepeatedAttack. The 7.0 focused and browser paths pass; these unrelated golden mismatches were not changed."
+    },
+    "nextResume": "Do not repeat the provisional 7.0 integration or asset/source acquisition. Resume canonical work only from strict Eligibility completion, or extend the provisional route only when currently deferred dedicated consumers or exact curve/promote evidence become available."
+  },
+  "latestSevenZeroEligibilityApprovalPreparation": {
+    "completedAt": "2026-09-19T14:35:00+09:00",
+    "scope": "Resumed after claim-level eligibility was confirmed blocked. Did not reacquire or re-audit the packet, 42 locators, Raw, SourceRecords, metadata, or images. Investigated only the repository's strict baseline, certificate, approval, transition, and canonical-overlay route.",
+    "result": "approvalPreparationCompleteEligibilityStillBlocked",
+    "sixSevenBaselineMechanism": {
+      "acceptedSnapshotId": "genshin-version:6.7:11cd97236d0099f03ab295582531b24aa2016e2c1675c03997c61b7ad4e63f6d",
+      "sourceBinding": "genshinDb revision 1bab2cdba4d218fd5caa46b5f54e7884ee8359a2",
+      "acceptanceCommand": "node scripts/genshinVersionBaseline.cjs --write-baseline --accept-drift",
+      "boundary": "Explicit baseline replacement is an operational approval after complete Runtime, consumer, UI, and regression verification; it cannot create missing source evidence. No completed cross-version promotion precedent was found."
+    },
+    "currentReadOnlyAudit": {
+      "baselineStatus": "driftDetected",
+      "currentSnapshotId": "genshin-version:6.7:65e0d77446b2184ea1aecae8fa84dc2c51ece8e8a8570334c8331061e90b7ef2",
+      "targetVerificationSnapshotId": "genshin-verification:7.0:2985bc077f119c329db6aa657b31059f7f99bff686c058f4805671a87e28a916",
+      "targetEligibleCertificates": 0,
+      "targetBlockedCertificates": 12493,
+      "targetInputCoverageComplete": false,
+      "transitionState": "awaitingTargetDatasetCoverage",
+      "canonicalOverlayActive": false
+    },
+    "formalRoute": [
+      "Register a strict, revision-pinned 7.0 target provider dataset with complete repository-candidate coverage and provider-owned version binding.",
+      "Generate complete 6.7 and 7.0 entity snapshots and entity-diff.json.",
+      "Assign repository-owned candidate and claim IDs and exact field-scoped source-catalog records.",
+      "Bind two declared independent source families per external factual field, including revisions, raw and field digests, strict 7.0 binding, and exact comparisons.",
+      "Generate candidate-by-claim Eligibility Certificates and deterministic attestations.",
+      "Generate Runtime, pass focused consumer and UI verification, write passed consumer-verification.json, and reopen version impact.",
+      "Only after all gates pass, explicitly accept the new content-addressed baseline."
+    ],
+    "approvalBoundary": {
+      "claimApprovalActionableNow": false,
+      "reason": "All captured SourceRecords remain raw-only: revisions, exact field pointers and digests, strict version binding, declared independence, and successful weapon SourceRecords are incomplete. Human approval cannot substitute for those facts.",
+      "policyDecisionActionableNow": true,
+      "decision": "A repository policy owner may approve or reject exact candidateId + claimId + field + dataset + gameVersion enforcement for candidateScoped provider-pair authorizations. This must not grant provider-wide strictReusable status or waive any evidence requirement.",
+      "unlock": "Approval permits the scoped authorization implementation and its tests only; it does not make a current 7.0 claim eligible."
+    },
+    "artifact": {
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/eligibility-approval-readiness.json",
+      "sha256": "e94331dd9c9aadeaaaba677d58cf9c6c8bd027fc450a271d7d64fb802c0a3c41",
+      "authority": "preparation-only; not a certificate, approval, baseline, or activation grant"
+    },
+    "nextConcreteStep": "Obtain or register the strict 7.0 target dataset and complete entity diff. The policy owner can independently approve the exact-scope authorization design recorded in the readiness artifact."
+  },
+  "latestExternalHandoffClaimEligibilityReview": {
+    "completedAt": "2026-09-19T14:03:10+09:00",
+    "scope": "Resumed from latestExternalHandoffCandidatePreparedIntake. The packet, checksums, 42 locator captures, raw bytes, SourceRecords, and response digests were not reacquired or re-audited. Reviewed only claim-scoped eligibility, fixed metadata already present in captured raw, image preparation, and the existing canonical gate.",
+    "eligibilityAuthority": {
+      "registry": "games/genshin/data/v2/eligibility-certificates.json",
+      "rule": "The source-catalog strict audit's candidate-by-claim Eligibility Certificate is the sole strict eligibility authority. Pair policy alone cannot issue a certificate, AI self-approval is forbidden, and existing candidateApprovedOnly decisions cannot be generalized.",
+      "currentRegistry": "currentGameVersion 6.7; eligibleCount 0; blockedCount 3105",
+      "versionTransition": "strictTargetDatasetAvailable=false, target dataset gateEligible=false, certificatesRegenerated=pending, canonicalOverlayActive=false",
+      "eligibleClaims": [],
+      "verificationCompleteGranted": false,
+      "runtimeConnectedGranted": false
+    },
+    "claimDecisions": {
+      "character:10000148": {
+        "eligible": false,
+        "resolvedCandidateMetadata": "Gachabase 7.0.53 beta exposes character_id, curve IDs 22/32/22, promotion records, depot 14801, talent IDs/level parameters, passive parameters, constellation parameters, and tooltip IDs. Existing fixed Japanese raw supplies talent/passive/C1-C6 names, descriptions, and param labels.",
+        "blockedClaims": "identity bridge, base stats, curves/promotions, talent multipliers, passive/constellation values and semantics, Spec/Modifier/Condition, catalog and Runtime",
+        "reasons": ["no exact candidate-by-claim Eligibility Certificate", "Gachabase lineage remains unknown and its Xiao-only decision is not reusable", "Genshin Center is not strict 7.0-bound or registered as an eligible independent family", "KQM mechanics evidence has no second eligible family or exact field digest"]
+      },
+      "character:10000150": {
+        "eligible": false,
+        "resolvedCandidateMetadata": "Gachabase 7.0.54 beta exposes character_id, curve IDs 21/31/21, promotion records, depot 15001, talent IDs/level parameters, passive parameters, constellation parameters, and tooltip IDs. Existing fixed Japanese raw supplies talent/passive/C1-C6 names, descriptions, and param labels.",
+        "blockedClaims": "identity bridge, base stats, curves/promotions, talent multipliers, passive/constellation values and semantics, Spec/Modifier/Condition, catalog and Runtime",
+        "reasons": ["no exact candidate-by-claim Eligibility Certificate", "Gachabase lineage remains unknown and its existing decision is not reusable", "KQM guide and KQM TCL are one family", "Genshin Center is not strict 7.0-bound or registered as an eligible independent family"]
+      },
+      "weapons:11520,11521,11436,12436,13436,14436,15436,11435,12435,13435,14435,15435": {
+        "eligible": false,
+        "resolvedCandidateMetadata": "Enka metadata resolves the supplied IDs, item types, rarities, base property keys, growth curve IDs, promotion arrays, NameTextMapHash values, and image icon paths as noncanonical candidates.",
+        "blockedClaims": "catalog identity, base/curve/promote values, Japanese effect text, R1-R5 parameters, triggers, targets, duration, stacks, energy, effect Spec/Modifier/Condition and Runtime",
+        "reasons": ["zero successful weapon SourceRecords in the supplied capture", "Honey returned 403 and WikiWiki returned 404/429 or challenge content", "no exact field/version digest", "no candidate-by-claim Eligibility Certificate"],
+        "specialCases": ["11435 remains min/max-only if those claims later qualify; no distance interpolation", "11521 has no qualified confirmed refinement rank; unconfirmed ranks must remain disabled rather than inferred"]
+      },
+      "reaction:stellarSwirl": {
+        "eligible": false,
+        "blockedClaims": "reaction coefficient, level multiplier binding, EM formula, contributor weights, crit ownership/application, DEF exclusion, resistance element/timing and dedicated static single-hit consumer",
+        "reasons": ["KQM guide and KQM overview are one family", "other formula sources lack registered source-owned independent lineage and exact claim field digests", "no reaction-scoped Eligibility Certificate", "the 7.0 canonical overlay is closed"],
+        "safety": "Ordinary Swirl was not reused and the production reaction remains formulaPending."
+      }
+    },
+    "images": {
+      "method": "Existing scripts/syncGenshinSelectionImages.py Enka metadata and enka.network asset route, applied only to the supplied IDs without changing the sync design.",
+      "charactersReady": ["10000148", "10000150"],
+      "weaponsReady": ["11520", "11521", "11436", "12436", "13436", "14436", "15436", "11435", "12435", "13435", "14435", "15435"],
+      "validation": "14/14 are valid 96x96 WebP files.",
+      "selectionConnection": "Not connected because the corresponding catalog/Runtime claims are ineligible; no uncalculable partial modal entries were added."
+    },
+    "production": {
+      "charactersConnected": [],
+      "weaponsConnected": [],
+      "reactionsConnected": [],
+      "specsOrModifiersAdded": false,
+      "generatorOrConsumerChanged": false,
+      "uiChanged": false,
+      "reason": "No claim passed the existing canonical eligibility gate. Writing new v2 facts directly into legacy production would bypass the required certificate."
+    },
+    "deferredTc": ["ICD", "gauge", "first-tick timing", "rotation hit order", "snapshot/recalculation", "same-frame multi-trigger ordering", "stack expiry/refresh automation", "DPS/rotation simulation"],
+    "verification": {
+      "imageValidation": "14/14 valid WebP at 96x96.",
+      "schemaAndRawProofTests": "8/8 passed: genshinVerificationSchemas and genshinSourceArtifactProof.",
+      "policyFocusedTests": "22/29 passed. Seven existing materialized-state failures remain: queue count 2269 vs 2272 due missing Albedo talent-gap entries, artifact count 128 vs 122, changed source-catalog gameVersion diagnostic, and stale weapon 12516 transition pilot. None references the new images or external handoff targets; no unrelated regeneration was performed.",
+      "newProductionRegression": "Not applicable because no Spec, Runtime, consumer, UI, or production calculation was changed."
+    },
+    "nextResume": "Do not repeat packet/raw/source capture or this eligibility search. Resume production only after the 7.0 target dataset/version baseline is strictly accepted and an exact candidate-by-claim certificate (or an explicitly authorized equivalent with source revision, raw/field digests, independent families, version binding and invalidation scope) exists. Images and character Japanese raw/metadata candidates are already prepared."
+  },
+  "latestExternalHandoffCandidatePreparedIntake": {
+    "completedAt": "2026-09-19T13:40:00+09:00",
+    "scope": "Ingested only the supplied candidatePrepared packet for Alyosha 10000148, Odette 10000150, the twelve Version 7.0 weapons 11520/11521/11436/12436/13436/14436/15436/11435/12435/13435/14435/15435, and Stellar Swirl. Previously completed Version 7.0 and Witch work was not regenerated or re-audited.",
+    "packet": {
+      "archive": "genshin-7.0-external-handoff-final-candidatePrepared-stellar-verified.zip",
+      "checksumVerification": "All 19 packet checksum entries matched.",
+      "externalValidation": "141/141 packet checks passed; this remains candidatePrepared and is not repository verificationComplete or runtimeConnected."
+    },
+    "rawCapture": {
+      "path": "sources/external-handoff-final-candidatePrepared-20260919",
+      "locatorCount": 42,
+      "http200": 13,
+      "httpErrors": {
+        "403": 16,
+        "404": 6,
+        "429": 7
+      },
+      "sourceRecordCount": 13,
+      "digestMismatchCount": 0,
+      "captureManifestSha256": "ef49770bef345a73f756d3e0e06579253ccfa98af3a0f03ee141dc443b93d161",
+      "sourceRecordsSha256": "343bacf69b213096bc1271e6f46d6e883f5e5a9cdefe7a6b82c193e1b948b77a",
+      "note": "HTTP error response bytes are retained in the capture manifest but are not SourceRecords. Existing fixed Japanese genshin-db character raw was referenced rather than recopied."
+    },
+    "qualificationDecision": {
+      "verificationCompleteGranted": false,
+      "runtimeConnectedGranted": false,
+      "productionChanged": false,
+      "reason": "The repository provider-pair policy has no strictReusable pair. Honey Hunter, WikiWiki, Genshin Center, Fandom, Yuhuazhe, Mobalytics, Mythras, GameWith, and Dimbreath packet providers are not qualified for reusable canonical promotion by the current source-family/provider-pair policy; Gachabase and KQM approvals are candidate/scope-bound and cannot be generalized. Raw capture does not establish source-owned lineage independence or a reusable field-level certificate."
+    },
+    "targetStatus": {
+      "characters": "Alyosha and Odette remain unregistered in catalog/base/talent/constellation/modifier/runtime data. Fixed Japanese raw can support UI text locators, but complete typed numeric evidence, curves/promote records, images, and supported Stellar/behavior consumers remain unavailable for canonical promotion.",
+      "weapons": "All twelve weapons remain absent from catalog/effects/modifiers/registry/images. The packet structures effects, including the required min/max-only design for 11435 and the unconfirmed-refinement boundary for 11521, but strict source qualification and fixed base/curve/promote/UI text evidence remain incomplete.",
+      "stellarSwirl": "The supplied full level table agrees with the existing stored table and the packet supplies a coherent dedicated formula candidate. Production remains intentionally formulaPending because coefficient/weight/crit/DEF/resistance claims lack an eligible provider-pair certificate; ordinary Swirl was not reused."
+    },
+    "verification": {
+      "captureDigestReplay": "42/42 response digests matched; 13 SourceRecords correspond to HTTP 200 captures.",
+      "focusedRepositoryTests": "8/8 passed: genshinVerificationSchemas and genshinSourceArtifactProof.",
+      "productionCalculationTests": "Not run because no canonical Runtime, consumer, UI, or generated production artifact was changed.",
+      "duplicateOrDoubleApplication": "No new modifier or consumer was promoted, so no new double-application path was introduced."
+    },
+    "deferred": [
+      "Stellar Swirl snapshot/recalculation and same-frame multi-trigger ordering remain deferred because they do not affect the current static single-hit route.",
+      "Weapon energy restoration and exact duration refresh/expiry automation remain deferred where they do not affect static single-hit damage.",
+      "Images are deferred until each entity is eligible for catalog/runtime promotion; no uncalculable partial selection route was added."
+    ],
+    "nextResume": "Do not repeat packet checksum validation, entity inventory review, formula-table comparison, or the 42-locator capture. Resume only when source-owned lineage/version evidence permits a repository-approved field-level provider pair, or when an authorized policy decision supplies a candidate-specific eligibility certificate. Then materialize repository-owned Spec/Modifier/Condition IDs and complete generator, UI, production result-change, and regression acceptance in the existing routes."
+  },
   "latestSevenZeroUserRouteContinuation": {
     "completedAt": "2026-09-15T17:30:00+09:00",
     "scope": "Continued only the unfinished Version 7.0 user-facing routes from latestNonWitchSevenZeroContinuation. Completed character/weapon batches and previously verified internal calculations were not regenerated or re-audited.",

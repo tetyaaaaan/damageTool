@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinProvisionalWeaponCandidate",
+  "candidateId": "provisional:7.0:weapons",
+  "status": "candidatePrepared",
+  "nonCanonical": true,
+  "targetGameVersion": "7.0",
+  "gameVersion": "7.0",
+  "labelJa": "検証中",
+  "statusDetails": {
+    "workflow": "candidatePrepared",
+    "support": "provisional",
+    "canonical": false,
+    "verificationComplete": false,
+    "runtimeConnected": false,
+    "uiLabelJa": "検証中",
+    "failClosedCanonical": true
+  },
+  "sourceRefs": [
+    {
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/active-goal-resume-checkpoint.json",
+      "role": "resume-checkpoint-packet-boundary"
+    },
+    {
+      "path": "external-handoff-final-candidatePrepared-20260919",
+      "role": "candidatePrepared-packet-structured-facts"
+    }
+  ],
+  "weapons": {
+    "11520": { "nameJa": "白銀の湖を舞う翼", "weaponType": "片手剣", "rarity": 5, "imagePath": "/games/images/genshin/weapons/11520.webp", "sourceRefs": ["honey-weapon-11520-live-7.0", "wikiwiki-weapon-11520-2026-09"] },
+    "11521": { "nameJa": "星鋒の剣", "weaponType": "片手剣", "rarity": 5, "imagePath": "/games/images/genshin/weapons/11521.webp", "sourceRefs": ["honey-weapon-11521-live-7.0", "wikiwiki-weapon-11521-2026-09"], "confirmedRefinements": [1, 2, 3], "disabledRefinements": [4, 5], "refinementNoteJa": "R4/R5は未確認のため計算不可（検証中）" },
+    "11436": { "nameJa": "導炎の源", "weaponType": "片手剣", "rarity": 4, "imagePath": "/games/images/genshin/weapons/11436.webp", "sourceRefs": ["honey-weapon-11436-live-7.0", "wikiwiki-weapon-11436-2026-09"] },
+    "12436": { "nameJa": "救済の剣", "weaponType": "両手剣", "rarity": 4, "imagePath": "/games/images/genshin/weapons/12436.webp", "sourceRefs": ["honey-weapon-12436-live-7.0", "wikiwiki-weapon-12436-2026-09"] },
+    "13436": { "nameJa": "遠望の歌", "weaponType": "長柄武器", "rarity": 4, "imagePath": "/games/images/genshin/weapons/13436.webp", "sourceRefs": ["honey-weapon-13436-live-7.0", "wikiwiki-weapon-13436-2026-09"] },
+    "14436": { "nameJa": "胸中の谺", "weaponType": "法器", "rarity": 4, "imagePath": "/games/images/genshin/weapons/14436.webp", "sourceRefs": ["honey-weapon-14436-live-7.0", "wikiwiki-weapon-14436-2026-09"] },
+    "15436": { "nameJa": "霜雪の契", "weaponType": "弓", "rarity": 4, "imagePath": "/games/images/genshin/weapons/15436.webp", "sourceRefs": ["honey-weapon-15436-live-7.0", "wikiwiki-weapon-15436-2026-09"] },
+    "11435": { "nameJa": "異端を狩る熔刃", "weaponType": "片手剣", "rarity": 4, "imagePath": "/games/images/genshin/weapons/11435.webp", "sourceRefs": ["honey-weapon-11435-live-7.0", "wikiwiki-weapon-11435-2026-09"], "distanceInterpolation": "deferred", "distanceNoteJa": "距離からの自動補間は未実装。既知の最小／最大効果を選択します。" },
+    "12435": { "nameJa": "シンフォニーの鋳影", "weaponType": "両手剣", "rarity": 4, "imagePath": "/games/images/genshin/weapons/12435.webp", "sourceRefs": ["honey-weapon-12435-live-7.0", "wikiwiki-weapon-12435-2026-09"], "cycleNoteJa": "10秒ごとの状態変化は単発計算では現在状態を選択します。" },
+    "13435": { "nameJa": "氷の吐息", "weaponType": "長柄武器", "rarity": 4, "imagePath": "/games/images/genshin/weapons/13435.webp", "sourceRefs": ["honey-weapon-13435-live-7.0", "wikiwiki-weapon-13435-2026-09"] },
+    "14435": { "nameJa": "諸王の対局", "weaponType": "法器", "rarity": 4, "imagePath": "/games/images/genshin/weapons/14435.webp", "sourceRefs": ["honey-weapon-14435-live-7.0", "wikiwiki-weapon-14435-2026-09"], "timingNoteJa": "継続時間延長は単発計算では表示のみ。発動中状態を選択します。" },
+    "15435": { "nameJa": "千鈞懸黎", "weaponType": "弓", "rarity": 4, "imagePath": "/games/images/genshin/weapons/15435.webp", "sourceRefs": ["honey-weapon-15435-live-7.0", "wikiwiki-weapon-15435-2026-09"], "stackNoteJa": "同元素／異元素の合計は最大3層。同元素を優先するルールは入力時に確認してください。" }
+  },
+  "baseStats": {
+    "weapons": {
+      "11520": { "levelStats": { "1": { "baseAtk": 47.54, "secondary": 4.8 }, "90": { "baseAtk": 674.33, "secondary": 22.05 } }, "secondaryStat": "critRate", "secondaryUnit": "percent", "rawMetadataStatus": "unresolved", "provisionalOnly": true },
+      "11521": { "levelStats": { "1": { "baseAtk": 45.94, "secondary": 7.2 }, "90": { "baseAtk": 608.07, "secondary": 33.08 } }, "secondaryStat": "critRate", "secondaryUnit": "percent", "rawMetadataStatus": "unresolved", "provisionalOnly": true },
+      "11436": { "levelStats": { "1": { "baseAtk": 42.4, "secondary": 36 }, "90": { "baseAtk": 509.61, "secondary": 165.38 } }, "secondaryStat": "elementalMastery", "secondaryUnit": "flat", "rawMetadataStatus": "unresolved", "provisionalOnly": true },
+      "12436": { "levelStats": { "1": { "baseAtk": 43.73, "secondary": 6 }, "90": { "baseAtk": 564.78, "secondary": 27.56 } }, "secondaryStat": "atkPercent", "secondaryUnit": "percent", "rawMetadataStatus": "unresolved", "provisionalOnly": true },
+      "13436": { "levelStats": { "1": { "baseAtk": 43.73, "secondary": 24 }, "90": { "baseAtk": 564.78, "secondary": 110.26 } }, "secondaryStat": "elementalMastery", "secondaryUnit": "flat", "rawMetadataStatus": "unresolved", "provisionalOnly": true },
+      "14436": { "levelStats": { "1": { "baseAtk": 43.73, "secondary": 6 }, "90": { "baseAtk": 564.78, "secondary": 27.56 } }, "secondaryStat": "atkPercent", "secondaryUnit": "percent", "rawMetadataStatus": "unresolved", "provisionalOnly": true },
+      "15436": { "levelStats": { "1": { "baseAtk": 42.4, "secondary": 11.26 }, "90": { "baseAtk": 509.61, "secondary": 51.73 } }, "secondaryStat": "defPercent", "secondaryUnit": "percent", "rawMetadataStatus": "unresolved", "provisionalOnly": true },
+      "11435": { "levelStats": { "1": { "baseAtk": 42.4, "secondary": 6 }, "90": { "baseAtk": 509.61, "secondary": 27.56 } }, "secondaryStat": "critRate", "secondaryUnit": "percent", "rawMetadataStatus": "unresolved", "provisionalOnly": true },
+      "12435": { "levelStats": { "1": { "baseAtk": 42.4, "secondary": 6 }, "90": { "baseAtk": 509.61, "secondary": 27.56 } }, "secondaryStat": "critRate", "secondaryUnit": "percent", "rawMetadataStatus": "unresolved", "provisionalOnly": true },
+      "13435": { "levelStats": { "1": { "baseAtk": 42.4, "secondary": 10 }, "90": { "baseAtk": 509.61, "secondary": 45.94 } }, "secondaryStat": "energyRecharge", "secondaryUnit": "percent", "rawMetadataStatus": "unresolved", "provisionalOnly": true },
+      "14435": { "levelStats": { "1": { "baseAtk": 42.4, "secondary": 6 }, "90": { "baseAtk": 509.61, "secondary": 27.56 } }, "secondaryStat": "critRate", "secondaryUnit": "percent", "rawMetadataStatus": "unresolved", "provisionalOnly": true },
+      "15435": { "levelStats": { "1": { "baseAtk": 42.4, "secondary": 6 }, "90": { "baseAtk": 509.61, "secondary": 27.56 } }, "secondaryStat": "critRate", "secondaryUnit": "percent", "rawMetadataStatus": "unresolved", "provisionalOnly": true }
+    }
+  },
+  "weaponEffects": {
+    "11520": { "effectNameJa": "雪鳥のフィナーレ", "effectTextStatus": "structured-candidate-only", "effectTextTemplate": "元素スキル命中後、ATKが層数に応じて上昇（最大3層、8秒）。3層時、星拡散の会心ダメージが上昇。エネルギー回復は検証中。", "effectParamsByRefinement": { "1": { "atkPerStack": "8%", "stellarCritDamageAt3": "50%", "energyRestore": "4" }, "2": { "atkPerStack": "10%", "stellarCritDamageAt3": "65%", "energyRestore": "4.5" }, "3": { "atkPerStack": "12%", "stellarCritDamageAt3": "80%", "energyRestore": "5" }, "4": { "atkPerStack": "14%", "stellarCritDamageAt3": "95%", "energyRestore": "5.5" }, "5": { "atkPerStack": "16%", "stellarCritDamageAt3": "110%", "energyRestore": "6" } } },
+    "11521": { "effectNameJa": "旅する者の道", "effectTextStatus": "structured-candidate-only", "effectTextTemplate": "元素共鳴した元素数に応じて旅人の会心ダメージが上昇。命中後、ATKが上昇（8秒）。エネルギー回復は検証中。R4/R5は未確認。", "effectParamsByRefinement": { "1": { "resonatedElementCritDamagePerElement": "0%", "hitAtk": "16%", "energyRestore": "3" }, "2": { "resonatedElementCritDamagePerElement": "6%", "hitAtk": "20%", "energyRestore": "3" }, "3": { "resonatedElementCritDamagePerElement": "6%", "hitAtk": "24%", "energyRestore": "5" } }, "confirmedRefinements": [1, 2, 3], "disabledRefinements": [4, 5] },
+    "11436": { "effectNameJa": "雪原に燃ゆる星火", "effectTextStatus": "structured-candidate-only", "effectTextTemplate": "元素反応後、ATKが上昇（12秒）。星拡散後、星拡散ダメージが上昇（12秒）。", "effectParamsByRefinement": { "1": { "reactionAtk": "16%", "stellarDamage": "16%" }, "2": { "reactionAtk": "20%", "stellarDamage": "20%" }, "3": { "reactionAtk": "24%", "stellarDamage": "24%" }, "4": { "reactionAtk": "28%", "stellarDamage": "28%" }, "5": { "reactionAtk": "32%", "stellarDamage": "32%" } } },
+    "12436": { "effectNameJa": "罪業の贖い", "effectTextStatus": "structured-candidate-only", "effectTextTemplate": "元素反応後、元素熟知が上昇（12秒）。星拡散後、ATKが上昇（12秒）。", "effectParamsByRefinement": { "1": { "reactionEm": "64", "stellarAtk": "16%" }, "2": { "reactionEm": "80", "stellarAtk": "20%" }, "3": { "reactionEm": "96", "stellarAtk": "24%" }, "4": { "reactionEm": "112", "stellarAtk": "28%" }, "5": { "reactionEm": "128", "stellarAtk": "32%" } } },
+    "13436": { "effectNameJa": "往日のコード", "effectTextStatus": "structured-candidate-only", "effectTextTemplate": "元素反応後、元素エネルギーを回復（検証中）。星拡散後、ATKが上昇（12秒）。", "effectParamsByRefinement": { "1": { "reactionEnergyRestore": "4", "stellarAtk": "20%" }, "2": { "reactionEnergyRestore": "5", "stellarAtk": "25%" }, "3": { "reactionEnergyRestore": "6", "stellarAtk": "30%" }, "4": { "reactionEnergyRestore": "7", "stellarAtk": "35%" }, "5": { "reactionEnergyRestore": "8", "stellarAtk": "40%" } } },
+    "14436": { "effectNameJa": "誓いの残響", "effectTextStatus": "structured-candidate-only", "effectTextTemplate": "元素反応後、元素熟知が上昇（12秒）。星拡散後、星拡散ダメージが上昇（12秒）。", "effectParamsByRefinement": { "1": { "reactionEm": "60", "stellarDamage": "16%" }, "2": { "reactionEm": "75", "stellarDamage": "20%" }, "3": { "reactionEm": "90", "stellarDamage": "24%" }, "4": { "reactionEm": "105", "stellarDamage": "28%" }, "5": { "reactionEm": "120", "stellarDamage": "32%" } } },
+    "15436": { "effectNameJa": "律法の均衡", "effectTextStatus": "structured-candidate-only", "effectTextTemplate": "元素スキル後、元素熟知が上昇（12秒）。", "effectParamsByRefinement": { "1": { "skillEm": "120" }, "2": { "skillEm": "150" }, "3": { "skillEm": "180" }, "4": { "skillEm": "210" }, "5": { "skillEm": "240" } } },
+    "11435": { "effectNameJa": "孤光の賜り物", "effectTextStatus": "structured-candidate-only", "effectTextTemplate": "元素スキル後、直前1秒の移動距離に応じてATKが上昇（14秒）。距離からの補間は検証中のため、既知の最小／最大効果を選択。", "effectParamsByRefinement": { "1": { "minAtk": "18%", "maxAtk": "36%" }, "2": { "minAtk": "22.5%", "maxAtk": "45%" }, "3": { "minAtk": "27%", "maxAtk": "54%" }, "4": { "minAtk": "31.5%", "maxAtk": "63%" }, "5": { "minAtk": "36%", "maxAtk": "72%" }, "distanceInterpolation": "deferred" } },
+    "12435": { "effectNameJa": "真昼と夜のコンツェルト", "effectTextStatus": "structured-candidate-only", "effectTextTemplate": "10秒ごとにATK／元素熟知／星拡散ダメージの状態が切り替わる。単発計算では現在状態を選択。星拡散後の対位法延長は検証中。", "effectParamsByRefinement": { "1": { "movementAtk": "18%", "movementEm": "120", "movementStellarDamage": "28%" }, "2": { "movementAtk": "22.5%", "movementEm": "150", "movementStellarDamage": "35%" }, "3": { "movementAtk": "27%", "movementEm": "180", "movementStellarDamage": "42%" }, "4": { "movementAtk": "31.5%", "movementEm": "210", "movementStellarDamage": "49%" }, "5": { "movementAtk": "36%", "movementEm": "240", "movementStellarDamage": "56%" } } },
+    "13435": { "effectNameJa": "一擲万頃", "effectTextStatus": "structured-candidate-only", "effectTextTemplate": "元素反応後、ATKが上昇（15秒）。周囲の他キャラクターの元素エネルギー回復は検証中。", "effectParamsByRefinement": { "1": { "reactionAtk": "20%", "otherPartyEnergy": "6" }, "2": { "reactionAtk": "25%", "otherPartyEnergy": "7.5" }, "3": { "reactionAtk": "30%", "otherPartyEnergy": "9" }, "4": { "reactionAtk": "35%", "otherPartyEnergy": "10.5" }, "5": { "reactionAtk": "40%", "otherPartyEnergy": "12" } } },
+    "14435": { "effectNameJa": "忘れ去られた昼夜", "effectTextStatus": "structured-candidate-only", "effectTextTemplate": "元素スキル後、ATKと元素熟知が上昇（6秒）。重撃による継続時間延長は検証中。", "effectParamsByRefinement": { "1": { "atk": "20%", "em": "100" }, "2": { "atk": "25%", "em": "125" }, "3": { "atk": "30%", "em": "150" }, "4": { "atk": "35%", "em": "175" }, "5": { "atk": "40%", "em": "200" } } },
+    "15435": { "effectNameJa": "夜を飾る灯火", "effectTextStatus": "structured-candidate-only", "effectTextTemplate": "チーム内の同元素キャラクター1名ごとに元素熟知、異元素キャラクター1名ごとにATKを上昇。合計最大3層、同元素を優先。", "effectParamsByRefinement": { "1": { "sameElementEmPerMember": "64", "differentElementAtkPerMember": "12%" }, "2": { "sameElementEmPerMember": "80", "differentElementAtkPerMember": "15%" }, "3": { "sameElementEmPerMember": "96", "differentElementAtkPerMember": "18%" }, "4": { "sameElementEmPerMember": "112", "differentElementAtkPerMember": "21%" }, "5": { "sameElementEmPerMember": "128", "differentElementAtkPerMember": "24%" } } }
+  },
+  "weaponModifiers": {
+    "11520": { "modifiers": [
+      { "id": "provisional70_w11520_atk_stack", "category": "statBonus", "applyTo": ["atkPercent"], "unit": "percent", "condition": "provisional70_w11520_stacks", "calculationSupport": "stack", "uidHandling": "conditional", "valueByRefinementPerStack": { "1": 8, "2": 10, "3": 12, "4": 14, "5": 16 }, "duration": 8, "sourceText": "検証中：元素スキル命中後のATK（1層ごと）" },
+      { "id": "provisional70_w11520_stellar_crit", "category": "critBonus", "applyTo": ["reactionCrit"], "unit": "percent", "condition": "provisional70_w11520_three_stack", "conditionOptionValue": "threeStacks", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 50, "2": 65, "3": 80, "4": 95, "5": 110 }, "duration": 8, "sourceText": "検証中：3層時の星拡散会心ダメージ" },
+      { "id": "provisional70_w11520_energy", "category": "resourceEffect", "applyTo": [], "unit": "flat", "condition": "afterSkillHit", "calculationSupport": "displayOnly", "uidHandling": "displayOnly", "valueByRefinement": { "1": 4, "2": 4.5, "3": 5, "4": 5.5, "5": 6 }, "duration": 3.5, "sourceText": "検証中：元素スキル命中後の元素エネルギー回復（単発計算には適用しない）" }
+    ] },
+    "11521": { "modifiers": [
+      { "id": "provisional70_w11521_resonance_crit", "category": "critBonus", "applyTo": ["critDamage"], "unit": "percent", "condition": "provisional70_w11521_resonated_elements", "calculationSupport": "stack", "uidHandling": "conditional", "valueByRefinementPerStack": { "1": 0, "2": 6, "3": 6 }, "stack": { "min": 0, "max": 7, "default": 0 }, "sourceText": "検証中：旅人の元素共鳴元素数ごとの会心ダメージ" },
+      { "id": "provisional70_w11521_hit_atk", "category": "statBonus", "applyTo": ["atkPercent"], "unit": "percent", "condition": "provisional70_w11521_hit_state", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 16, "2": 20, "3": 24 }, "duration": 8, "sourceText": "検証中：命中後のATK" },
+      { "id": "provisional70_w11521_energy", "category": "resourceEffect", "applyTo": [], "unit": "flat", "condition": "afterHit", "calculationSupport": "displayOnly", "uidHandling": "displayOnly", "valueByRefinement": { "1": 3, "2": 3, "3": 5 }, "duration": 5, "sourceText": "検証中：命中後の元素エネルギー回復（単発計算には適用しない）" }
+    ], "confirmedRefinements": [1, 2, 3], "disabledRefinements": [4, 5] },
+    "11436": { "modifiers": [
+      { "id": "provisional70_w11436_reaction_atk", "category": "statBonus", "applyTo": ["atkPercent"], "unit": "percent", "condition": "provisional70_w11436_reaction_state", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 16, "2": 20, "3": 24, "4": 28, "5": 32 }, "duration": 12, "sourceText": "検証中：元素反応後のATK" },
+      { "id": "provisional70_w11436_stellar_damage", "category": "reactionBonus", "applyTo": ["stellarSwirlDamageBonus"], "unit": "percent", "condition": "provisional70_w11436_stellar_state", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 16, "2": 20, "3": 24, "4": 28, "5": 32 }, "duration": 12, "sourceText": "検証中：星拡散後の星拡散ダメージ" }
+    ] },
+    "12436": { "modifiers": [
+      { "id": "provisional70_w12436_reaction_em", "category": "statBonus", "applyTo": ["elementalMastery"], "unit": "flat", "condition": "provisional70_w12436_reaction_state", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 64, "2": 80, "3": 96, "4": 112, "5": 128 }, "duration": 12, "sourceText": "検証中：元素反応後の元素熟知" },
+      { "id": "provisional70_w12436_stellar_atk", "category": "statBonus", "applyTo": ["atkPercent"], "unit": "percent", "condition": "provisional70_w12436_stellar_state", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 16, "2": 20, "3": 24, "4": 28, "5": 32 }, "duration": 12, "sourceText": "検証中：星拡散後のATK" }
+    ] },
+    "13436": { "modifiers": [
+      { "id": "provisional70_w13436_energy", "category": "resourceEffect", "applyTo": [], "unit": "flat", "condition": "afterReaction", "calculationSupport": "displayOnly", "uidHandling": "displayOnly", "valueByRefinement": { "1": 4, "2": 5, "3": 6, "4": 7, "5": 8 }, "duration": 9, "sourceText": "検証中：元素反応後の元素エネルギー回復（単発計算には適用しない）" },
+      { "id": "provisional70_w13436_stellar_atk", "category": "statBonus", "applyTo": ["atkPercent"], "unit": "percent", "condition": "provisional70_w13436_stellar_state", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 20, "2": 25, "3": 30, "4": 35, "5": 40 }, "duration": 12, "sourceText": "検証中：星拡散後のATK" }
+    ] },
+    "14436": { "modifiers": [
+      { "id": "provisional70_w14436_reaction_em", "category": "statBonus", "applyTo": ["elementalMastery"], "unit": "flat", "condition": "provisional70_w14436_reaction_state", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 60, "2": 75, "3": 90, "4": 105, "5": 120 }, "duration": 12, "sourceText": "検証中：元素反応後の元素熟知" },
+      { "id": "provisional70_w14436_stellar_damage", "category": "reactionBonus", "applyTo": ["stellarSwirlDamageBonus"], "unit": "percent", "condition": "provisional70_w14436_stellar_state", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 16, "2": 20, "3": 24, "4": 28, "5": 32 }, "duration": 12, "sourceText": "検証中：星拡散後の星拡散ダメージ" }
+    ] },
+    "15436": { "modifiers": [
+      { "id": "provisional70_w15436_skill_em", "category": "statBonus", "applyTo": ["elementalMastery"], "unit": "flat", "condition": "provisional70_w15436_skill_state", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 120, "2": 150, "3": 180, "4": 210, "5": 240 }, "duration": 12, "sourceText": "検証中：元素スキル後の元素熟知" }
+    ] },
+    "11435": { "modifiers": [
+      { "id": "provisional70_w11435_movement_atk_min", "category": "statBonus", "applyTo": ["atkPercent"], "unit": "percent", "condition": "provisional70_w11435_range", "conditionOptionValue": "min", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 18, "2": 22.5, "3": 27, "4": 31.5, "5": 36 }, "duration": 14, "sourceText": "検証中：元素スキル後の移動距離ATK・既知の最小効果。途中値の補間は未実装。" },
+      { "id": "provisional70_w11435_movement_atk_max", "category": "statBonus", "applyTo": ["atkPercent"], "unit": "percent", "condition": "provisional70_w11435_range", "conditionOptionValue": "max", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 36, "2": 45, "3": 54, "4": 63, "5": 72 }, "duration": 14, "sourceText": "検証中：元素スキル後の移動距離ATK・既知の最大効果。途中値の補間は未実装。" }
+    ] },
+    "12435": { "modifiers": [
+      { "id": "provisional70_w12435_cycle_atk", "category": "statBonus", "applyTo": ["atkPercent"], "unit": "percent", "condition": "provisional70_w12435_cycle", "conditionOptionValue": "atk", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 18, "2": 22.5, "3": 27, "4": 31.5, "5": 36 }, "duration": 10, "sourceText": "検証中：コンツェルトATK状態" },
+      { "id": "provisional70_w12435_cycle_em", "category": "statBonus", "applyTo": ["elementalMastery"], "unit": "flat", "condition": "provisional70_w12435_cycle", "conditionOptionValue": "em", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 120, "2": 150, "3": 180, "4": 210, "5": 240 }, "duration": 10, "sourceText": "検証中：コンツェルト元素熟知状態" },
+      { "id": "provisional70_w12435_cycle_stellar", "category": "reactionBonus", "applyTo": ["stellarSwirlDamageBonus"], "unit": "percent", "condition": "provisional70_w12435_cycle", "conditionOptionValue": "stellar", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 28, "2": 35, "3": 42, "4": 49, "5": 56 }, "duration": 10, "sourceText": "検証中：コンツェルト星拡散状態" },
+      { "id": "provisional70_w12435_counterpoint", "category": "resourceEffect", "applyTo": [], "unit": "flat", "condition": "afterStellar", "calculationSupport": "displayOnly", "uidHandling": "displayOnly", "value": 0, "duration": 12, "sourceText": "検証中：星拡散後の対位法（時間延長・状態連携は単発計算に適用しない）" }
+    ] },
+    "13435": { "modifiers": [
+      { "id": "provisional70_w13435_reaction_atk", "category": "statBonus", "applyTo": ["atkPercent"], "unit": "percent", "condition": "provisional70_w13435_reaction_state", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 20, "2": 25, "3": 30, "4": 35, "5": 40 }, "duration": 15, "sourceText": "検証中：元素反応後のATK" },
+      { "id": "provisional70_w13435_party_energy", "category": "resourceEffect", "applyTo": [], "unit": "flat", "condition": "afterReaction", "calculationSupport": "displayOnly", "uidHandling": "displayOnly", "valueByRefinement": { "1": 6, "2": 7.5, "3": 9, "4": 10.5, "5": 12 }, "duration": 16, "sourceText": "検証中：周囲の他キャラクターへの元素エネルギー回復（単発計算には適用しない）" }
+    ] },
+    "14435": { "modifiers": [
+      { "id": "provisional70_w14435_skill_atk", "category": "statBonus", "applyTo": ["atkPercent"], "unit": "percent", "condition": "provisional70_w14435_state", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 20, "2": 25, "3": 30, "4": 35, "5": 40 }, "duration": 6, "sourceText": "検証中：元素スキル後のATK" },
+      { "id": "provisional70_w14435_skill_em", "category": "statBonus", "applyTo": ["elementalMastery"], "unit": "flat", "condition": "provisional70_w14435_state", "calculationSupport": "toggle", "uidHandling": "conditional", "valueByRefinement": { "1": 100, "2": 125, "3": 150, "4": 175, "5": 200 }, "duration": 6, "sourceText": "検証中：元素スキル後の元素熟知" },
+      { "id": "provisional70_w14435_extend", "category": "resourceEffect", "applyTo": [], "unit": "flat", "condition": "chargedAttack", "calculationSupport": "displayOnly", "uidHandling": "displayOnly", "valueByRefinement": { "1": 6, "2": 6, "3": 6, "4": 6, "5": 6 }, "duration": 6, "sourceText": "検証中：重撃による継続時間延長（単発計算に適用しない）" }
+    ] },
+    "15435": { "modifiers": [
+      { "id": "provisional70_w15435_same_element", "category": "statBonus", "applyTo": ["elementalMastery"], "unit": "flat", "condition": "provisional70_w15435_same_count", "calculationSupport": "stack", "uidHandling": "conditional", "valueByRefinementPerStack": { "1": 64, "2": 80, "3": 96, "4": 112, "5": 128 }, "stack": { "min": 0, "max": 3, "default": 0 }, "sourceText": "検証中：同元素チームメンバー数（1層ごと）" },
+      { "id": "provisional70_w15435_different_element", "category": "statBonus", "applyTo": ["atkPercent"], "unit": "percent", "condition": "provisional70_w15435_different_count", "calculationSupport": "stack", "uidHandling": "conditional", "valueByRefinementPerStack": { "1": 12, "2": 15, "3": 18, "4": 21, "5": 24 }, "stack": { "min": 0, "max": 3, "default": 0 }, "sourceText": "検証中：異元素チームメンバー数（1層ごと）" }
+    ] }
+  },
+  "weaponEffectRegistry": {
+    "weapons": {
+      "11520": { "groups": [
+        { "id": "provisional70_w11520_stack_state", "name": "雪鳥のフィナーレ・層数", "description": "元素スキル命中後のATK層数を指定します。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "stack", "stateKey": "provisional70_w11520_stacks", "label": "雪鳥のフィナーレの層数", "min": 0, "max": 3, "default": 0, "unit": "層" }, "modifierIds": ["provisional70_w11520_atk_stack"] },
+        { "id": "provisional70_w11520_three_stack_state", "name": "雪鳥のフィナーレ・3層時", "description": "3層到達時の星拡散会心ダメージを切り替えます。層数入力と整合するよう設定してください。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "option", "stateKey": "provisional70_w11520_three_stack", "label": "3層時の星拡散会心ダメージ", "options": [{ "value": "inactive", "label": "未発動" }, { "value": "threeStacks", "label": "3層時（8秒間）" }] }, "modifierIds": ["provisional70_w11520_stellar_crit"] },
+        { "id": "provisional70_w11520_energy_display", "name": "雪鳥のフィナーレ・エネルギー回復", "description": "エネルギー回復は単発ダメージ計算へ適用せず表示のみとします。", "targetOwner": "self", "inputPolicy": "displayOnly", "activation": { "type": "displayOnly", "label": "エネルギー回復（検証中）" }, "modifierIds": ["provisional70_w11520_energy"] }
+      ] },
+      "11521": { "groups": [
+        { "id": "provisional70_w11521_resonance_state", "name": "旅する者の道・元素共鳴", "description": "旅人が元素共鳴した元素数を入力します。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "stack", "stateKey": "provisional70_w11521_resonated_elements", "label": "共鳴元素数", "min": 0, "max": 7, "default": 0, "unit": "元素" }, "modifierIds": ["provisional70_w11521_resonance_crit"] },
+        { "id": "provisional70_w11521_hit_state", "name": "旅する者の道・命中後", "description": "命中後8秒間のATK上昇を切り替えます。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "toggle", "stateKey": "provisional70_w11521_hit_state", "label": "命中後（8秒間）" }, "modifierIds": ["provisional70_w11521_hit_atk"] },
+        { "id": "provisional70_w11521_energy_display", "name": "旅する者の道・エネルギー回復", "description": "エネルギー回復は単発ダメージ計算へ適用せず表示のみとします。", "targetOwner": "self", "inputPolicy": "displayOnly", "activation": { "type": "displayOnly", "label": "エネルギー回復（検証中）" }, "modifierIds": ["provisional70_w11521_energy"] }
+      ] },
+      "11436": { "groups": [
+        { "id": "provisional70_w11436_reaction_state", "name": "雪原に燃ゆる星火・元素反応後", "description": "元素反応後12秒間のATK上昇を切り替えます。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "toggle", "stateKey": "provisional70_w11436_reaction_state", "label": "元素反応後（12秒間）" }, "modifierIds": ["provisional70_w11436_reaction_atk"] },
+        { "id": "provisional70_w11436_stellar_state", "name": "雪原に燃ゆる星火・星拡散後", "description": "星拡散後12秒間の星拡散ダメージ上昇を切り替えます。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "toggle", "stateKey": "provisional70_w11436_stellar_state", "label": "星拡散後（12秒間）" }, "modifierIds": ["provisional70_w11436_stellar_damage"] }
+      ] },
+      "12436": { "groups": [
+        { "id": "provisional70_w12436_reaction_state", "name": "罪業の贖い・元素反応後", "description": "元素反応後12秒間の元素熟知上昇を切り替えます。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "toggle", "stateKey": "provisional70_w12436_reaction_state", "label": "元素反応後（12秒間）" }, "modifierIds": ["provisional70_w12436_reaction_em"] },
+        { "id": "provisional70_w12436_stellar_state", "name": "罪業の贖い・星拡散後", "description": "星拡散後12秒間のATK上昇を切り替えます。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "toggle", "stateKey": "provisional70_w12436_stellar_state", "label": "星拡散後（12秒間）" }, "modifierIds": ["provisional70_w12436_stellar_atk"] }
+      ] },
+      "13436": { "groups": [
+        { "id": "provisional70_w13436_energy_display", "name": "往日のコード・エネルギー回復", "description": "エネルギー回復は単発ダメージ計算へ適用せず表示のみとします。", "targetOwner": "self", "inputPolicy": "displayOnly", "activation": { "type": "displayOnly", "label": "エネルギー回復（検証中）" }, "modifierIds": ["provisional70_w13436_energy"] },
+        { "id": "provisional70_w13436_stellar_state", "name": "往日のコード・星拡散後", "description": "星拡散後12秒間のATK上昇を切り替えます。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "toggle", "stateKey": "provisional70_w13436_stellar_state", "label": "星拡散後（12秒間）" }, "modifierIds": ["provisional70_w13436_stellar_atk"] }
+      ] },
+      "14436": { "groups": [
+        { "id": "provisional70_w14436_reaction_state", "name": "誓いの残響・元素反応後", "description": "元素反応後12秒間の元素熟知上昇を切り替えます。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "toggle", "stateKey": "provisional70_w14436_reaction_state", "label": "元素反応後（12秒間）" }, "modifierIds": ["provisional70_w14436_reaction_em"] },
+        { "id": "provisional70_w14436_stellar_state", "name": "誓いの残響・星拡散後", "description": "星拡散後12秒間の星拡散ダメージ上昇を切り替えます。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "toggle", "stateKey": "provisional70_w14436_stellar_state", "label": "星拡散後（12秒間）" }, "modifierIds": ["provisional70_w14436_stellar_damage"] }
+      ] },
+      "15436": { "groups": [
+        { "id": "provisional70_w15436_skill_state", "name": "律法の均衡・元素スキル後", "description": "元素スキル後12秒間の元素熟知上昇を切り替えます。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "toggle", "stateKey": "provisional70_w15436_skill_state", "label": "元素スキル後（12秒間）" }, "modifierIds": ["provisional70_w15436_skill_em"] }
+      ] },
+      "11435": { "groups": [
+        { "id": "provisional70_w11435_range", "name": "孤光の賜り物・既知範囲", "description": "距離からの補間式は未確定のため、既知の最小効果または最大効果を選択します。距離自動算出は行いません。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "option", "stateKey": "provisional70_w11435_range", "label": "移動距離効果（補間なし）", "options": [{ "value": "min", "label": "最小効果" }, { "value": "max", "label": "最大効果" }] }, "modifierIds": ["provisional70_w11435_movement_atk_min", "provisional70_w11435_movement_atk_max"]
+        }
+      ] },
+      "12435": { "groups": [
+        { "id": "provisional70_w12435_cycle", "name": "真昼と夜のコンツェルト・現在状態", "description": "単発計算に使用する10秒周期の現在状態を選択します。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "option", "stateKey": "provisional70_w12435_cycle", "label": "コンツェルトの現在状態", "options": [{ "value": "inactive", "label": "未発動" }, { "value": "atk", "label": "ATK上昇" }, { "value": "em", "label": "元素熟知上昇" }, { "value": "stellar", "label": "星拡散ダメージ上昇" }] }, "modifierIds": ["provisional70_w12435_cycle_atk", "provisional70_w12435_cycle_em", "provisional70_w12435_cycle_stellar"] },
+        { "id": "provisional70_w12435_counterpoint_display", "name": "真昼と夜のコンツェルト・対位法", "description": "星拡散後の対位法による時間延長・状態連携は単発計算では表示のみとします。", "targetOwner": "self", "inputPolicy": "displayOnly", "activation": { "type": "displayOnly", "label": "対位法（検証中）" }, "modifierIds": ["provisional70_w12435_counterpoint"] }
+      ] },
+      "13435": { "groups": [
+        { "id": "provisional70_w13435_reaction_state", "name": "一擲万頃・元素反応後", "description": "元素反応後15秒間のATK上昇を切り替えます。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "toggle", "stateKey": "provisional70_w13435_reaction_state", "label": "元素反応後（15秒間）" }, "modifierIds": ["provisional70_w13435_reaction_atk"] },
+        { "id": "provisional70_w13435_party_energy_display", "name": "一擲万頃・チームエネルギー", "description": "他キャラクターへのエネルギー回復は単発計算へ適用せず表示のみとします。", "targetOwner": "otherPartyMembers", "inputPolicy": "displayOnly", "activation": { "type": "displayOnly", "label": "チームエネルギー回復（検証中）" }, "modifierIds": ["provisional70_w13435_party_energy"] }
+      ] },
+      "14435": { "groups": [
+        { "id": "provisional70_w14435_state", "name": "忘れ去られた昼夜・元素スキル後", "description": "元素スキル後6秒間のATKと元素熟知上昇を切り替えます。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "toggle", "stateKey": "provisional70_w14435_state", "label": "元素スキル後（6秒間）" }, "modifierIds": ["provisional70_w14435_skill_atk", "provisional70_w14435_skill_em"] },
+        { "id": "provisional70_w14435_extend_display", "name": "忘れ去られた昼夜・延長", "description": "重撃による継続時間延長は単発計算へ適用せず表示のみとします。", "targetOwner": "self", "inputPolicy": "displayOnly", "activation": { "type": "displayOnly", "label": "重撃延長（検証中）" }, "modifierIds": ["provisional70_w14435_extend"] }
+      ] },
+      "15435": { "groups": [
+        { "id": "provisional70_w15435_same_count", "name": "夜を飾る灯火・同元素", "description": "同元素チームメンバー数を入力します。異元素との合計は最大3層です。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "stack", "stateKey": "provisional70_w15435_same_count", "label": "同元素メンバー数", "min": 0, "max": 3, "default": 0, "unit": "人" }, "modifierIds": ["provisional70_w15435_same_element"] },
+        { "id": "provisional70_w15435_different_count", "name": "夜を飾る灯火・異元素", "description": "異元素チームメンバー数を入力します。同元素との合計は最大3層です。", "targetOwner": "self", "inputPolicy": "calculate", "activation": { "type": "stack", "stateKey": "provisional70_w15435_different_count", "label": "異元素メンバー数", "min": 0, "max": 3, "default": 0, "unit": "人" }, "modifierIds": ["provisional70_w15435_different_element"] }
+      ] }
+    }
+  },
+  "promotionRequirements": [
+    "canonical eligibility certificate for each weapon claim",
+    "raw curve/promote metadata resolution before canonical promotion",
+    "Japanese full effect text fixation in SourceRecord",
+    "production focused regression and UI condition verification"
+  ]
+}

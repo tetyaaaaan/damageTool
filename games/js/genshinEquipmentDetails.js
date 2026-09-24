@@ -54,6 +54,7 @@
         byId("genshinEquipmentDetailsKicker").textContent = `CHARACTER / ${constellation}`;
         byId("genshinEquipmentDetailsTitle").textContent = character.nameJa;
         return `
+            ${character.dataStatus === "provisional" ? '<aside class="genshin-json-provisional-notice">検証中データです。canonical Eligibility成立前の暫定表示・計算です。</aside>' : ""}
             <details class="genshin-equipment-detail-section" open>
               <summary>天賦</summary>
               <div>${talentItems || paragraph("天賦情報は登録されていません。")}</div>
@@ -72,6 +73,23 @@
         return String(template || "武器効果は登録されていません。").replace(/\{([^}]+)\}/g, (token, key) => params?.[key] ?? token);
     }
 
+    const WEAPON_PARAM_LABELS = {
+        minAtk: "最小ATK上昇", maxAtk: "最大ATK上昇", reactionAtk: "元素反応後ATK", stellarDamage: "星拡散ダメージ",
+        atkPerStack: "1層ごとのATK", stellarCritDamageAt3: "3層時の星拡散会心ダメージ", energyRestore: "元素エネルギー回復",
+        resonatedElementCritDamagePerElement: "共鳴元素1種ごとの会心ダメージ", hitAtk: "命中後ATK", movementAtk: "ATK状態",
+        movementEm: "元素熟知状態", movementStellarDamage: "星拡散状態", reactionEm: "元素反応後元素熟知",
+        stellarAtk: "星拡散後ATK", skillAtk: "元素スキル後ATK", skillEm: "元素スキル後元素熟知",
+        sameElementEmPerMember: "同元素1名ごとの元素熟知", differentElementAtkPerMember: "異元素1名ごとのATK",
+        otherPartyEnergy: "他メンバーの元素エネルギー回復", reactionEnergyRestore: "元素反応後の元素エネルギー回復",
+        atk: "攻撃力", em: "元素熟知"
+    };
+
+    function renderWeaponParams(params) {
+        const entries = Object.entries(params || {}).filter(([, value]) => ["string", "number"].includes(typeof value));
+        if (!entries.length) return "";
+        return `<dl class="genshin-condition-facts">${entries.map(([key, value]) => `<div><dt>${escapeHtml(WEAPON_PARAM_LABELS[key] || key)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}</dl>`;
+    }
+
     function renderWeapon(id) {
         const resolver = window.GenshinIdResolver;
         const weapon = resolver.resolveWeapon(id);
@@ -79,13 +97,16 @@
         const effect = resolver.resolveWeaponEffect(id) || {};
         const refinement = byId("genshinWeaponRefinement")?.value || "R1";
         const refinementNumber = refinement.replace("R", "");
-        const description = applyEffectParams(effect.effectTextTemplate, effect.effectParamsByRefinement?.[refinementNumber]);
+        const params = effect.effectParamsByRefinement?.[refinementNumber];
+        const description = applyEffectParams(effect.effectTextTemplate, params);
 
         byId("genshinEquipmentDetailsKicker").textContent = `WEAPON / ${refinement}`;
         byId("genshinEquipmentDetailsTitle").textContent = weapon.nameJa;
-        return `<section class="genshin-equipment-detail-section is-static">
+        return `${weapon.dataStatus === "provisional" ? '<aside class="genshin-json-provisional-notice">検証中データです。canonical Eligibility成立前の暫定表示・計算です。</aside>' : ""}<section class="genshin-equipment-detail-section is-static">
             <h3>${escapeHtml(effect.effectNameJa || "武器効果")}</h3>
             <div>${paragraph(description)}</div>
+            ${renderWeaponParams(params)}
+            ${weapon.refinementNoteJa ? `<p class="genshin-condition-note">${escapeHtml(weapon.refinementNoteJa)}</p>` : ""}
           </section>`;
     }
 

@@ -1,0 +1,3529 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinProvisionalCharacterOverlay",
+  "status": "candidatePrepared",
+  "nonCanonical": true,
+  "labelJa": "検証中",
+  "targetGameVersion": "7.0",
+  "canonical": false,
+  "verificationComplete": false,
+  "runtimeConnected": false,
+  "failClosedCanonical": true,
+  "productionIdPrefix": "provisional70_",
+  "sourcePacketStage": "candidatePrepared",
+  "sourcePolicyNote": "暫定overlay。canonical eligibility、Runtime、UI登録、production consumerへの昇格は未実施。外部claim_idはproduction IDとして使用しない。",
+  "sourceRefs": {
+    "externalPacket": "genshin-7.0-external-handoff-final-candidatePrepared-stellar-verified.zip",
+    "packetEntityYaml": [
+      "entities/character-10000148.yaml",
+      "entities/character-10000150.yaml"
+    ],
+    "japaneseRaw": [
+      "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/alyosha.json",
+      "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/alyosha.json",
+      "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json",
+      "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/odette.json"
+    ],
+    "imageAssets": [
+      "games/images/genshin/characters/10000148.webp",
+      "games/images/genshin/characters/10000150.webp"
+    ]
+  },
+  "characters": [
+    {
+      "id": "provisional70_character_10000148",
+      "sourceCharacterId": "10000148",
+      "nameJa": "アリョーシャ",
+      "nameEn": "Alyosha",
+      "titleJa": "迅雷の猟犬",
+      "constellationJa": "カニス・バルゾーイ座",
+      "element": "Electro",
+      "elementJa": "雷",
+      "weaponType": "polearm",
+      "weaponTypeJa": "長柄武器",
+      "rarity": 4,
+      "imagePath": "games/images/genshin/characters/10000148.webp",
+      "selectionLabelJa": "アリョーシャ（検証中）",
+      "defaultLevel": 90,
+      "defaultTalentLevels": {
+        "normalAttack": 1,
+        "skill": 1,
+        "burst": 1
+      },
+      "defaultConstellation": 0,
+      "sourceRefs": [
+        "honey-alyosha-live-7.0",
+        "gachabase-alyosha-7.0.53",
+        "kqm-alyosha-7.0",
+        "genshin-center-alyosha-current"
+      ]
+    },
+    {
+      "id": "provisional70_character_10000150",
+      "sourceCharacterId": "10000150",
+      "nameJa": "オデット",
+      "nameEn": "Odette",
+      "titleJa": "凛風とともに舞い戻る雪",
+      "constellationJa": "雪鳥座",
+      "element": "Cryo",
+      "elementJa": "氷",
+      "weaponType": "sword",
+      "weaponTypeJa": "片手剣",
+      "rarity": 5,
+      "imagePath": "games/images/genshin/characters/10000150.webp",
+      "selectionLabelJa": "オデット（検証中）",
+      "defaultLevel": 90,
+      "defaultTalentLevels": {
+        "normalAttack": 1,
+        "skill": 1,
+        "burst": 1
+      },
+      "defaultConstellation": 0,
+      "sourceRefs": [
+        "honey-odette-live-7.0",
+        "gachabase-odette-7.0.54",
+        "kqm-odette-7.0",
+        "genshin-center-odette-current",
+        "kqm-tcl-odette-7.0"
+      ]
+    }
+  ],
+  "baseStats": {
+    "provisional70_character_10000148": {
+      "sourceCharacterId": "10000148",
+      "sourceNativeRecordStatus": "unknown",
+      "curveIds": null,
+      "promoteRecordId": null,
+      "levelRows": [
+        {
+          "level": 1,
+          "ascension": "before",
+          "hp": 2577,
+          "atk": 22.26,
+          "def": 58.94,
+          "energy_recharge_bonus_percent": 0
+        },
+        {
+          "level": 20,
+          "ascension": "after",
+          "hp": 3326,
+          "atk": 57.19,
+          "def": 151.42,
+          "energy_recharge_bonus_percent": 0
+        },
+        {
+          "level": 20,
+          "ascension": "before",
+          "hp": 4982,
+          "atk": 73.82,
+          "def": 195.45,
+          "energy_recharge_bonus_percent": 0
+        },
+        {
+          "level": 40,
+          "ascension": "after",
+          "hp": 5514,
+          "atk": 110.57,
+          "def": 292.77,
+          "energy_recharge_bonus_percent": 0
+        },
+        {
+          "level": 40,
+          "ascension": "before",
+          "hp": 6343,
+          "atk": 122.38,
+          "def": 324.05,
+          "energy_recharge_bonus_percent": 6.67
+        },
+        {
+          "level": 50,
+          "ascension": "after",
+          "hp": 7052,
+          "atk": 140.77,
+          "def": 372.74,
+          "energy_recharge_bonus_percent": 6.67
+        },
+        {
+          "level": 50,
+          "ascension": "before",
+          "hp": 7881,
+          "atk": 156.52,
+          "def": 414.45,
+          "energy_recharge_bonus_percent": 13.33
+        },
+        {
+          "level": 60,
+          "ascension": "after",
+          "hp": 8413,
+          "atk": 174.91,
+          "def": 463.14,
+          "energy_recharge_bonus_percent": 13.33
+        },
+        {
+          "level": 60,
+          "ascension": "before",
+          "hp": 9241,
+          "atk": 186.73,
+          "def": 494.43,
+          "energy_recharge_bonus_percent": 13.33
+        },
+        {
+          "level": 70,
+          "ascension": "after",
+          "hp": 9773,
+          "atk": 205.09,
+          "def": 543.05,
+          "energy_recharge_bonus_percent": 13.33
+        },
+        {
+          "level": 70,
+          "ascension": "before",
+          "hp": 10602,
+          "atk": 216.91,
+          "def": 574.34,
+          "energy_recharge_bonus_percent": 20
+        },
+        {
+          "level": 80,
+          "ascension": "after",
+          "hp": 11134,
+          "atk": 235.29,
+          "def": 623.03,
+          "energy_recharge_bonus_percent": 20
+        },
+        {
+          "level": 80,
+          "ascension": 6,
+          "hp": 11962,
+          "atk": 247.11,
+          "def": 654.31,
+          "energy_recharge_bonus_percent": 26.67
+        },
+        {
+          "level": 90,
+          "ascension": 6,
+          "hp": 11962,
+          "atk": 265.5,
+          "def": 703,
+          "energy_recharge_bonus_percent": 26.67
+        }
+      ],
+      "ascensionBonusStat": {
+        "stat": "energyRecharge",
+        "unit": "percent",
+        "valuesByAscensionPercent": [
+          0,
+          0,
+          6.67,
+          13.33,
+          13.33,
+          20,
+          26.67
+        ]
+      },
+      "sourceRefs": [
+        "honey-alyosha-live-7.0",
+        "gachabase-alyosha-7.0.53",
+        "kqm-alyosha-7.0",
+        "genshin-center-alyosha-current"
+      ]
+    },
+    "provisional70_character_10000150": {
+      "sourceCharacterId": "10000150",
+      "sourceNativeRecordStatus": "unknown",
+      "curveIds": null,
+      "promoteRecordId": null,
+      "levelRows": [
+        {
+          "level": 1,
+          "ascension": "before",
+          "hp": 2621,
+          "atk": 26.07,
+          "def": 61.27,
+          "crit_damage_bonus_percent": 0
+        },
+        {
+          "level": 20,
+          "ascension": "after",
+          "hp": 3488,
+          "atk": 67.62,
+          "def": 158.92,
+          "crit_damage_bonus_percent": 0
+        },
+        {
+          "level": 20,
+          "ascension": "before",
+          "hp": 5219,
+          "atk": 89.97,
+          "def": 211.45,
+          "crit_damage_bonus_percent": 0
+        },
+        {
+          "level": 40,
+          "ascension": "after",
+          "hp": 5834,
+          "atk": 134.62,
+          "def": 316.4,
+          "crit_damage_bonus_percent": 0
+        },
+        {
+          "level": 40,
+          "ascension": "before",
+          "hp": 6713,
+          "atk": 150.5,
+          "def": 353.73,
+          "crit_damage_bonus_percent": 9.6
+        },
+        {
+          "level": 50,
+          "ascension": "after",
+          "hp": 7533,
+          "atk": 173.16,
+          "def": 406.97,
+          "crit_damage_bonus_percent": 9.6
+        },
+        {
+          "level": 50,
+          "ascension": "before",
+          "hp": 8421,
+          "atk": 194.33,
+          "def": 456.73,
+          "crit_damage_bonus_percent": 19.2
+        },
+        {
+          "level": 60,
+          "ascension": "after",
+          "hp": 9036,
+          "atk": 217.22,
+          "def": 510.53,
+          "crit_damage_bonus_percent": 19.2
+        },
+        {
+          "level": 60,
+          "ascension": "before",
+          "hp": 9932,
+          "atk": 233.1,
+          "def": 547.85,
+          "crit_damage_bonus_percent": 19.2
+        },
+        {
+          "level": 70,
+          "ascension": "after",
+          "hp": 10547,
+          "atk": 256.19,
+          "def": 602.13,
+          "crit_damage_bonus_percent": 19.2
+        },
+        {
+          "level": 70,
+          "ascension": "before",
+          "hp": 11453,
+          "atk": 272.07,
+          "def": 639.46,
+          "crit_damage_bonus_percent": 28.8
+        },
+        {
+          "level": 80,
+          "ascension": "after",
+          "hp": 12068,
+          "atk": 295.43,
+          "def": 694.35,
+          "crit_damage_bonus_percent": 28.8
+        },
+        {
+          "level": 80,
+          "ascension": 6,
+          "hp": 12981,
+          "atk": 311.31,
+          "def": 731.68,
+          "crit_damage_bonus_percent": 38.4
+        },
+        {
+          "level": 90,
+          "ascension": 6,
+          "hp": 13903,
+          "atk": 334.85,
+          "def": 787,
+          "crit_damage_bonus_percent": 38.4
+        },
+        {
+          "level": 100,
+          "ascension": 6,
+          "hp": 13903,
+          "atk": 410.19,
+          "def": 842.94,
+          "crit_damage_bonus_percent": 38.4
+        }
+      ],
+      "ascensionBonusStat": {
+        "stat": "critDamage",
+        "unit": "percent",
+        "valuesByAscensionPercent": [
+          0,
+          0,
+          9.6,
+          19.2,
+          19.2,
+          28.8,
+          38.4
+        ]
+      },
+      "sourceRefs": [
+        "honey-odette-live-7.0",
+        "gachabase-odette-7.0.54",
+        "kqm-odette-7.0",
+        "genshin-center-odette-current",
+        "kqm-tcl-odette-7.0"
+      ]
+    }
+  },
+  "characterTalents": {
+    "provisional70_character_10000148": {
+      "sourceCharacterId": "10000148",
+      "talents": {
+        "normalAttack": {
+          "id": "provisional70_10000148_normalAttack",
+          "sourceKey": "normalAttack",
+          "nameJa": "迅雷の角槍",
+          "descriptionJa": "通常攻撃\n槍による最大4段の連続攻撃を行い、最後の一撃が命中した敵に**狩猟の印**効果を付与する。\n\n重撃\n一定のスタミナを消費して前方に突進し、経路上の敵にダメージを与える。\n\n落下攻撃\n空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+          "displayParameters": [
+            {
+              "id": "provisional70_10000148_normalAttack_param_1",
+              "labelJa": "1段ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                47.82,
+                51.71,
+                55.6,
+                61.16,
+                65.05,
+                69.5,
+                75.62,
+                81.73,
+                87.85,
+                94.52,
+                101.19,
+                107.86,
+                114.54,
+                121.21,
+                127.88
+              ]
+            },
+            {
+              "id": "provisional70_10000148_normalAttack_param_2",
+              "labelJa": "2段ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                48.16,
+                52.08,
+                56,
+                61.6,
+                65.52,
+                70,
+                76.16,
+                82.32,
+                88.48,
+                95.2,
+                101.92,
+                108.64,
+                115.36,
+                122.08,
+                128.8
+              ]
+            },
+            {
+              "id": "provisional70_10000148_normalAttack_param_3",
+              "labelJa": "3段ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                [
+                  34.23,
+                  31.82
+                ],
+                [
+                  37.01,
+                  34.41
+                ],
+                [
+                  39.8,
+                  37
+                ],
+                [
+                  43.78,
+                  40.7
+                ],
+                [
+                  46.57,
+                  43.29
+                ],
+                [
+                  49.75,
+                  46.25
+                ],
+                [
+                  54.13,
+                  50.32
+                ],
+                [
+                  58.51,
+                  54.39
+                ],
+                [
+                  62.88,
+                  58.46
+                ],
+                [
+                  67.66,
+                  62.9
+                ],
+                [
+                  72.44,
+                  67.34
+                ],
+                [
+                  77.21,
+                  71.78
+                ],
+                [
+                  81.99,
+                  76.22
+                ],
+                [
+                  86.76,
+                  80.66
+                ],
+                [
+                  91.54,
+                  85.1
+                ]
+              ]
+            },
+            {
+              "id": "provisional70_10000148_normalAttack_param_4",
+              "labelJa": "4段ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                75.85,
+                82.03,
+                88.2,
+                97.02,
+                103.19,
+                110.25,
+                119.95,
+                129.65,
+                139.36,
+                149.94,
+                160.52,
+                171.11,
+                181.69,
+                192.28,
+                202.86
+              ]
+            },
+            {
+              "id": "provisional70_10000148_normalAttack_param_5",
+              "labelJa": "重撃ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                111.03,
+                120.06,
+                129.1,
+                142.01,
+                151.05,
+                161.38,
+                175.58,
+                189.78,
+                203.98,
+                219.47,
+                234.96,
+                250.45,
+                265.95,
+                281.44,
+                296.93
+              ]
+            },
+            {
+              "id": "provisional70_10000148_normalAttack_param_6",
+              "labelJa": "重撃スタミナ消費",
+              "unit": "stamina",
+              "valuesLv1ToLv15": [
+                25,
+                25,
+                25,
+                25,
+                25,
+                25,
+                25,
+                25,
+                25,
+                25,
+                25,
+                25,
+                25,
+                25,
+                25
+              ]
+            },
+            {
+              "id": "provisional70_10000148_normalAttack_param_7",
+              "labelJa": "落下期間のダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                63.93,
+                69.14,
+                74.34,
+                81.77,
+                86.98,
+                92.93,
+                101.1,
+                109.28,
+                117.46,
+                126.38,
+                135.3,
+                144.22,
+                153.14,
+                162.06,
+                170.98
+              ]
+            },
+            {
+              "id": "provisional70_10000148_normalAttack_param_8",
+              "labelJa": "低空落下攻撃ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                127.84,
+                138.24,
+                148.65,
+                163.51,
+                173.92,
+                185.81,
+                202.16,
+                218.51,
+                234.86,
+                252.7,
+                270.54,
+                288.38,
+                306.22,
+                324.05,
+                341.89
+              ]
+            },
+            {
+              "id": "provisional70_10000148_normalAttack_param_9",
+              "labelJa": "高空落下攻撃ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                159.68,
+                172.67,
+                185.67,
+                204.24,
+                217.23,
+                232.09,
+                252.51,
+                272.93,
+                293.36,
+                315.64,
+                337.92,
+                360.2,
+                382.48,
+                404.76,
+                427.04
+              ]
+            }
+          ],
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        "skill": {
+          "id": "provisional70_10000148_skill",
+          "sourceKey": "skill",
+          "nameJa": "伏撃の雷鳴",
+          "descriptionJa": "ハンターの本能に従い、一回押しと長押しによって異なる効果を発動させ、命中した敵に**狩猟の印**効果を付与する。\n\n一回押し\n前方へ射撃し、雷元素範囲ダメージを与える。\n\n長押し\n照準状態に入り、前方の一定範囲内にいる敵を定める。この状態の時、アリョーシャの中断耐性がアップする。\n長押し終了時、定めた敵に雷元素ダメージを与える。",
+          "displayParameters": [
+            {
+              "id": "provisional70_10000148_skill_param_1",
+              "labelJa": "一回押しダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                286.72,
+                308.22,
+                329.73,
+                358.4,
+                379.9,
+                401.41,
+                430.08,
+                458.75,
+                487.42,
+                516.1,
+                544.77,
+                573.44,
+                609.28,
+                645.12,
+                680.96
+              ]
+            },
+            {
+              "id": "provisional70_10000148_skill_param_2",
+              "labelJa": "長押しダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                358.4,
+                385.28,
+                412.16,
+                448,
+                474.88,
+                501.76,
+                537.6,
+                573.44,
+                609.28,
+                645.12,
+                680.96,
+                716.8,
+                761.6,
+                806.4,
+                851.2
+              ]
+            },
+            {
+              "id": "provisional70_10000148_skill_param_3",
+              "labelJa": "クールタイム",
+              "unit": "seconds",
+              "valuesLv1ToLv15": [
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15
+              ]
+            },
+            {
+              "id": "provisional70_10000148_skill_param_4",
+              "labelJa": "狩猟の印継続時間",
+              "unit": "seconds",
+              "valuesLv1ToLv15": [
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15
+              ]
+            },
+            {
+              "id": "provisional70_10000148_skill_param_5",
+              "labelJa": "狩人の照準の攻撃力アップ",
+              "unit": "percent",
+              "valuesLv1ToLv15": [
+                11.66,
+                12.72,
+                13.78,
+                14.84,
+                15.9,
+                16.96,
+                18.02,
+                19.08,
+                20.14,
+                21.2,
+                22.47,
+                23.74,
+                25.02,
+                26.29,
+                27.56
+              ]
+            },
+            {
+              "id": "provisional70_10000148_skill_param_6",
+              "labelJa": "狩人の照準継続時間",
+              "unit": "seconds",
+              "valuesLv1ToLv15": [
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15
+              ]
+            }
+          ],
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        "burst": {
+          "id": "provisional70_10000148_burst",
+          "sourceKey": "burst",
+          "nameJa": "攻守の猟犬",
+          "descriptionJa": "信頼する仲間トゥガリンを戦場に呼び寄せ、前方エリアを一時的に雷の狩場へと変化させる。\n\n雷の狩場\n・周囲の敵を継続的に挑発し、敵の攻撃を引き付ける。\n・2秒ごとに、そこに足を踏み入れた敵に対して雷元素範囲ダメージを1回与える。\n\nトゥガリン\n・周囲に敵がいるとき、2秒ごとにいずれかの敵の近くへ素早く移動して噛みつき、雷元素ダメージを与える。\n・命中した敵が狩猟の印の効果を受けていた場合、狩猟の印を発動させる。\n・トゥガリンは狩猟の印効果を受けている敵を優先的に攻撃する。",
+          "displayParameters": [
+            {
+              "id": "provisional70_10000148_burst_param_1",
+              "labelJa": "雷の狩場ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                74.96,
+                80.58,
+                86.2,
+                93.7,
+                99.32,
+                104.94,
+                112.44,
+                119.94,
+                127.43,
+                134.93,
+                142.42,
+                149.92,
+                159.29,
+                168.66,
+                178.03
+              ]
+            },
+            {
+              "id": "provisional70_10000148_burst_param_2",
+              "labelJa": "トゥガリンのダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                50.22,
+                53.99,
+                57.76,
+                62.78,
+                66.55,
+                70.31,
+                75.33,
+                80.36,
+                85.38,
+                90.4,
+                95.42,
+                100.45,
+                106.72,
+                113,
+                119.28
+              ]
+            },
+            {
+              "id": "provisional70_10000148_burst_param_3",
+              "labelJa": "継続時間",
+              "unit": "seconds",
+              "valuesLv1ToLv15": [
+                14,
+                14,
+                14,
+                14,
+                14,
+                14,
+                14,
+                14,
+                14,
+                14,
+                14,
+                14,
+                14,
+                14,
+                14
+              ]
+            },
+            {
+              "id": "provisional70_10000148_burst_param_4",
+              "labelJa": "クールタイム",
+              "unit": "seconds",
+              "valuesLv1ToLv15": [
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18,
+                18
+              ]
+            },
+            {
+              "id": "provisional70_10000148_burst_param_5",
+              "labelJa": "元素エネルギー",
+              "unit": "energy",
+              "valuesLv1ToLv15": [
+                70,
+                70,
+                70,
+                70,
+                70,
+                70,
+                70,
+                70,
+                70,
+                70,
+                70,
+                70,
+                70,
+                70,
+                70
+              ]
+            }
+          ],
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        "passive1": {
+          "id": "provisional70_10000148_passive1",
+          "sourceKey": "passive1",
+          "nameJa": "微睡む林の目覚め",
+          "descriptionJa": "**トゥガリン**が攻撃を行う時、付近にいるチーム内フィールド上キャラクターのHPが回復する。回復量はアリョーシャの攻撃力の120%に相当する。",
+          "displayParameters": [],
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        "passive2": {
+          "id": "provisional70_10000148_passive2",
+          "sourceKey": "passive2",
+          "nameJa": "冬の麦と落ち葉に告げる別れ",
+          "descriptionJa": "アリョーシャの元素チャージ効率を基に、アリョーシャの元素スキルと元素爆発によるダメージがアップする。元素チャージ効率1%につき、上記ダメージが0.35%アップし、最大70%までアップできる。",
+          "displayParameters": [],
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        "passive3": {
+          "id": "provisional70_10000148_passive3",
+          "sourceKey": "passive3",
+          "nameJa": "危うきに赴く星",
+          "descriptionJa": "**極星フィールド**内にいる時、アリョーシャは輝映・星電導状態に入る。\n輝映・星電導：**狩猟の印**を発動した時に獲得する狩人の照準の効果により、キャラクターがフィールド上にいる時に与える星電導ダメージがさらに+20%。",
+          "displayParameters": [],
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        "passive4": {
+          "id": "provisional70_10000148_passive4",
+          "sourceKey": "passive4",
+          "nameJa": "梢からの偵察",
+          "descriptionJa": "ミニマップで周囲のスネージナヤ地域の特産の位置を表示する。",
+          "displayParameters": [],
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        }
+      },
+      "sourceRefs": [
+        "honey-alyosha-live-7.0",
+        "gachabase-alyosha-7.0.53",
+        "kqm-alyosha-7.0",
+        "genshin-center-alyosha-current"
+      ]
+    },
+    "provisional70_character_10000150": {
+      "sourceCharacterId": "10000150",
+      "talents": {
+        "normalAttack": {
+          "id": "provisional70_10000150_normalAttack",
+          "sourceKey": "normalAttack",
+          "nameJa": "雪鳥のヴァリエーション",
+          "descriptionJa": "通常攻撃\n剣による最大5段の連続攻撃を行う。\n\n重撃\n一定のスタミナを消費し、前方にまばゆい斬撃を放つ。\n\n落下攻撃\n空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+          "displayParameters": [
+            {
+              "id": "provisional70_10000150_normalAttack_param_1",
+              "labelJa": "1段ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                51.86,
+                56.08,
+                60.3,
+                66.33,
+                70.55,
+                75.37,
+                82.01,
+                88.64,
+                95.27,
+                102.51,
+                109.74,
+                116.98,
+                124.22,
+                131.45,
+                138.69
+              ]
+            },
+            {
+              "id": "provisional70_10000150_normalAttack_param_2",
+              "labelJa": "2段ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                51.51,
+                55.7,
+                59.9,
+                65.89,
+                70.08,
+                74.87,
+                81.46,
+                88.05,
+                94.64,
+                101.82,
+                109.01,
+                116.2,
+                123.39,
+                130.57,
+                137.76
+              ]
+            },
+            {
+              "id": "provisional70_10000150_normalAttack_param_3",
+              "labelJa": "3段ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                [
+                  32.61,
+                  38.28
+                ],
+                [
+                  35.27,
+                  41.39
+                ],
+                [
+                  37.92,
+                  44.51
+                ],
+                [
+                  41.71,
+                  48.96
+                ],
+                [
+                  44.37,
+                  52.08
+                ],
+                [
+                  47.4,
+                  55.64
+                ],
+                [
+                  51.57,
+                  60.53
+                ],
+                [
+                  55.74,
+                  65.43
+                ],
+                [
+                  59.91,
+                  70.33
+                ],
+                [
+                  64.46,
+                  75.67
+                ],
+                [
+                  69.01,
+                  81.01
+                ],
+                [
+                  73.56,
+                  86.35
+                ],
+                [
+                  78.12,
+                  91.69
+                ],
+                [
+                  82.67,
+                  97.03
+                ],
+                [
+                  87.22,
+                  102.37
+                ]
+              ]
+            },
+            {
+              "id": "provisional70_10000150_normalAttack_param_4",
+              "labelJa": "4段ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                74.57,
+                80.64,
+                86.71,
+                95.38,
+                101.45,
+                108.39,
+                117.93,
+                127.47,
+                137.01,
+                147.41,
+                157.82,
+                168.22,
+                178.63,
+                189.03,
+                199.44
+              ]
+            },
+            {
+              "id": "provisional70_10000150_normalAttack_param_5",
+              "labelJa": "5段ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                90.21,
+                97.56,
+                104.9,
+                115.39,
+                122.73,
+                131.12,
+                142.66,
+                154.2,
+                165.74,
+                178.33,
+                190.91,
+                203.5,
+                216.09,
+                228.68,
+                241.27
+              ]
+            },
+            {
+              "id": "provisional70_10000150_normalAttack_param_6",
+              "labelJa": "重撃ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                107.41,
+                116.16,
+                124.9,
+                137.39,
+                146.13,
+                156.13,
+                169.86,
+                183.6,
+                197.34,
+                212.33,
+                227.32,
+                242.31,
+                257.29,
+                272.28,
+                287.27
+              ]
+            },
+            {
+              "id": "provisional70_10000150_normalAttack_param_7",
+              "labelJa": "落下期間のダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                63.93,
+                69.14,
+                74.34,
+                81.77,
+                86.98,
+                92.93,
+                101.1,
+                109.28,
+                117.46,
+                126.38,
+                135.3,
+                144.22,
+                153.14,
+                162.06,
+                170.98
+              ]
+            },
+            {
+              "id": "provisional70_10000150_normalAttack_param_8",
+              "labelJa": "低空落下攻撃ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                127.84,
+                138.24,
+                148.65,
+                163.51,
+                173.92,
+                185.81,
+                202.16,
+                218.51,
+                234.86,
+                252.7,
+                270.54,
+                288.38,
+                306.22,
+                324.05,
+                341.89
+              ]
+            },
+            {
+              "id": "provisional70_10000150_normalAttack_param_9",
+              "labelJa": "高空落下攻撃ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                159.68,
+                172.67,
+                185.67,
+                204.24,
+                217.23,
+                232.09,
+                252.51,
+                272.93,
+                293.36,
+                315.64,
+                337.92,
+                360.2,
+                382.48,
+                404.76,
+                427.04
+              ]
+            },
+            {
+              "id": "provisional70_10000150_normalAttack_param_10",
+              "labelJa": "重撃スタミナ消費",
+              "unit": "stamina",
+              "valuesLv1ToLv15": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ]
+            }
+          ],
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        "skill": {
+          "id": "provisional70_10000150_skill",
+          "sourceKey": "skill",
+          "nameJa": "柔きファントムの夜の舞",
+          "descriptionJa": "緩やかなステップで氷元素範囲ダメージを与え、自身の**独舞者（ソリスト）のシルエット**を召喚する。\nフィールド上にオデット自身が召喚した独舞者のシルエットがすでに存在する場合は再召喚となり、継続時間がリセットされる。\n\n独舞者のシルエット\nプルームとウィングの2種類のステップを交互に踏み、優雅で軽やかな舞いによって一定時間ごとに付近の敵を攻撃し、氷元素範囲ダメージを与える。\nまた、元素スキル柔きファントムの夜の舞を発動した後の6秒間、オデットの元素スキル柔きファントムの夜の舞は特殊な元素スキル**柔き払暁のコーダ******に変化し、共に踊って付近の敵に継続的に氷元素範囲ダメージを与える。さらに、踊りの終了時に、星電導または星拡散反応ダメージと見なされる氷元素範囲ダメージを1回与える。",
+          "displayParameters": [
+            {
+              "id": "provisional70_10000150_skill_param_1",
+              "labelJa": "スキルダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                108.08,
+                116.19,
+                124.29,
+                135.1,
+                143.21,
+                151.31,
+                162.12,
+                172.93,
+                183.74,
+                194.54,
+                205.35,
+                216.16,
+                229.67,
+                243.18,
+                256.69
+              ]
+            },
+            {
+              "id": "provisional70_10000150_skill_param_2",
+              "labelJa": "コーダ継続ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                95.84,
+                103.03,
+                110.22,
+                119.8,
+                126.99,
+                134.18,
+                143.76,
+                153.34,
+                162.93,
+                172.51,
+                182.1,
+                191.68,
+                203.66,
+                215.64,
+                227.62
+              ]
+            },
+            {
+              "id": "provisional70_10000150_skill_param_3",
+              "labelJa": "コーダ直接星電導ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                305.76,
+                328.69,
+                351.62,
+                382.2,
+                405.13,
+                428.06,
+                458.64,
+                489.22,
+                519.79,
+                550.37,
+                580.94,
+                611.52,
+                649.74,
+                687.96,
+                726.18
+              ]
+            },
+            {
+              "id": "provisional70_10000150_skill_param_4",
+              "labelJa": "コーダ直接星拡散ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                458.64,
+                493.04,
+                527.44,
+                573.3,
+                607.7,
+                642.1,
+                687.96,
+                733.82,
+                779.69,
+                825.55,
+                871.42,
+                917.28,
+                974.61,
+                1031.94,
+                1089.27
+              ]
+            },
+            {
+              "id": "provisional70_10000150_skill_param_5",
+              "labelJa": "プルームダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                43.04,
+                46.27,
+                49.5,
+                53.8,
+                57.03,
+                60.26,
+                64.56,
+                68.86,
+                73.17,
+                77.47,
+                81.78,
+                86.08,
+                91.46,
+                96.84,
+                102.22
+              ]
+            },
+            {
+              "id": "provisional70_10000150_skill_param_6",
+              "labelJa": "プルーム直接星電導ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                27.02,
+                29.05,
+                31.08,
+                33.78,
+                35.81,
+                37.83,
+                40.54,
+                43.24,
+                45.94,
+                48.64,
+                51.35,
+                54.05,
+                57.43,
+                60.8,
+                64.18
+              ]
+            },
+            {
+              "id": "provisional70_10000150_skill_param_7",
+              "labelJa": "プルーム直接星拡散ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                40.53,
+                43.57,
+                46.61,
+                50.66,
+                53.7,
+                56.74,
+                60.79,
+                64.84,
+                68.9,
+                72.95,
+                77,
+                81.06,
+                86.12,
+                91.19,
+                96.25
+              ]
+            },
+            {
+              "id": "provisional70_10000150_skill_param_8",
+              "labelJa": "ウィングダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                51.46,
+                55.32,
+                59.18,
+                64.33,
+                68.19,
+                72.05,
+                77.2,
+                82.34,
+                87.49,
+                92.64,
+                97.78,
+                102.93,
+                109.36,
+                115.79,
+                122.23
+              ]
+            },
+            {
+              "id": "provisional70_10000150_skill_param_9",
+              "labelJa": "ウィング直接星電導ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                32.31,
+                34.74,
+                37.16,
+                40.39,
+                42.81,
+                45.24,
+                48.47,
+                51.7,
+                54.93,
+                58.16,
+                61.39,
+                64.62,
+                68.66,
+                72.7,
+                76.74
+              ]
+            },
+            {
+              "id": "provisional70_10000150_skill_param_10",
+              "labelJa": "ウィング直接星拡散ダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                48.46,
+                52.1,
+                55.73,
+                60.58,
+                64.21,
+                67.85,
+                72.7,
+                77.54,
+                82.39,
+                87.24,
+                92.08,
+                96.93,
+                102.99,
+                109.04,
+                115.1
+              ]
+            },
+            {
+              "id": "provisional70_10000150_skill_param_11",
+              "labelJa": "コーダ使用可能時間",
+              "unit": "seconds",
+              "valuesLv1ToLv15": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            },
+            {
+              "id": "provisional70_10000150_skill_param_12",
+              "labelJa": "独舞者のシルエット継続時間",
+              "unit": "seconds",
+              "valuesLv1ToLv15": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ]
+            },
+            {
+              "id": "provisional70_10000150_skill_param_13",
+              "labelJa": "クールタイム",
+              "unit": "seconds",
+              "valuesLv1ToLv15": [
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15
+              ]
+            }
+          ],
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        "burst": {
+          "id": "provisional70_10000150_burst",
+          "sourceKey": "burst",
+          "nameJa": "疾きブルーバードの夢",
+          "descriptionJa": "素早いステップを踏んで複数回の氷元素範囲ダメージを与え、自身の**独舞者のシルエット**を召喚し、雪鳥の夢効果を獲得する。雪鳥の夢：オデットが与える星反応ダメージをアップする。\nまた、元素爆発疾きブルーバードの夢を発動した後の6秒間、オデットの元素スキル柔きファントムの夜の舞は、特別な元素スキル**柔き払暁のコーダ******に変わる。\n\nすでにフィールド上にオデット自身が作り出した独舞者のシルエットが存在する場合、自身の傍に再生成し、継続時間をリセットする。",
+          "displayParameters": [
+            {
+              "id": "provisional70_10000150_burst_param_1",
+              "labelJa": "斬撃ダメージ（1hit値・3回）",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                110.18,
+                118.44,
+                126.7,
+                137.72,
+                145.98,
+                154.25,
+                165.26,
+                176.28,
+                187.3,
+                198.32,
+                209.33,
+                220.35,
+                234.12,
+                247.9,
+                261.67
+              ]
+            },
+            {
+              "id": "provisional70_10000150_burst_param_2",
+              "labelJa": "フィニッシュダメージ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                170.27,
+                183.04,
+                195.81,
+                212.84,
+                225.61,
+                238.38,
+                255.41,
+                272.44,
+                289.46,
+                306.49,
+                323.52,
+                340.54,
+                361.83,
+                383.11,
+                404.4
+              ]
+            },
+            {
+              "id": "provisional70_10000150_burst_param_3",
+              "labelJa": "雪鳥の夢・星反応ダメージアップ",
+              "unit": "percentATK",
+              "valuesLv1ToLv15": [
+                14,
+                18,
+                22,
+                26,
+                30,
+                34,
+                38,
+                42,
+                46,
+                50,
+                54,
+                58,
+                62,
+                66,
+                70
+              ]
+            },
+            {
+              "id": "provisional70_10000150_burst_param_4",
+              "labelJa": "雪鳥の夢継続時間",
+              "unit": "seconds",
+              "valuesLv1ToLv15": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ]
+            },
+            {
+              "id": "provisional70_10000150_burst_param_5",
+              "labelJa": "クールタイム",
+              "unit": "seconds",
+              "valuesLv1ToLv15": [
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15
+              ]
+            }
+          ],
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        "passive1": {
+          "id": "provisional70_10000150_passive1",
+          "sourceKey": "passive1",
+          "nameJa": "選ばれし者の祝祭",
+          "descriptionJa": "オデットが**独舞者のシルエット**を召喚すると、さらに4層の**春の華**を獲得する。",
+          "displayParameters": [],
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        "passive2": {
+          "id": "provisional70_10000150_passive2",
+          "sourceKey": "passive2",
+          "nameJa": "誠実なる者の悲しき歌",
+          "descriptionJa": "オデットの攻撃力のうち1000を超えた部分を基準に、攻撃力100につき、オデットの与える星反応ダメージに本来のダメージの1.5%分の追加ダメージが発生する。この方法による追加ダメージは最大で本来のダメージの30%まで。",
+          "displayParameters": [],
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        "passive3": {
+          "id": "provisional70_10000150_passive3",
+          "sourceKey": "passive3",
+          "nameJa": "星光の祝福・銀暁の舞",
+          "descriptionJa": "**極星フィールド**内にいる時/チーム内のキャラクターが付近で星拡散反応を起こした後の8秒間、オデットはそれぞれ輝映・星電導/輝映・星拡散状態に入る。\nチーム内のキャラクターが超電導/氷元素拡散反応を起こすと、超電導/氷元素拡散反応は星電導/星拡散反応へと変わり、オデットの攻撃力に基づいて、チームのキャラクターが与える上記反応の基礎ダメージがアップする。攻撃力100につき、上記反応の基礎ダメージ+0.7%。この方法でアップできるダメージは最大14%まで。",
+          "displayParameters": [],
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        "passive4": {
+          "id": "provisional70_10000150_passive4",
+          "sourceKey": "passive4",
+          "nameJa": "こだまする冬の夢",
+          "descriptionJa": "ミニマップで周囲のスネージナヤ地域の特産の位置を表示する。\n暇な時はダンスの練習をすると、他の効果が発動するかもしれない…",
+          "displayParameters": [],
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        }
+      },
+      "sourceRefs": [
+        "honey-odette-live-7.0",
+        "gachabase-odette-7.0.54",
+        "kqm-odette-7.0",
+        "genshin-center-odette-current",
+        "kqm-tcl-odette-7.0"
+      ]
+    }
+  },
+  "characterConstellations": {
+    "provisional70_character_10000148": {
+      "sourceCharacterId": "10000148",
+      "constellations": {
+        "c1": {
+          "id": "provisional70_10000148_c1",
+          "nameJa": "寒谷の轟雷",
+          "descriptionJa": "付近にいるチーム内キャラクターが敵に雷元素関連反応を起こした後、アリョーシャの元素エネルギーを15ポイント回復する。この効果は18秒毎に1回のみ発動可能。",
+          "descriptionRawJa": "付近にいるチーム内キャラクターが敵に<color=#FFACFFFF>雷元素関連反応</color>を起こした後、アリョーシャの元素エネルギーを15ポイント回復する。この効果は18秒毎に1回のみ発動可能。",
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        "c2": {
+          "id": "provisional70_10000148_c2",
+          "nameJa": "遠吠えの合図",
+          "descriptionJa": "元素爆発攻守の猟犬の継続時間が6秒延長される。\nまた、**トゥガリン**が敵を攻撃する前に毎回、さらに1体のターゲットに追加で**狩猟の印**を付与するようになる。この効果はすでに存在する狩猟の印を発動させることはない。",
+          "descriptionRawJa": "元素爆発<color=#FFD780FF>攻守の猟犬</color>の継続時間が6秒延長される。\nまた、{LINK#N11480002}<color=#FFD780FF>トゥガリン</color>{/LINK}が敵を攻撃する前に毎回、さらに1体のターゲットに追加で{LINK#N11480001}<color=#FFD780FF>狩猟の印</color>{/LINK}を付与するようになる。この効果はすでに存在する<color=#FFD780FF>狩猟の印</color>を発動させることはない。",
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        "c3": {
+          "id": "provisional70_10000148_c3",
+          "nameJa": "仲間の呼び声",
+          "descriptionJa": "元素スキル伏撃の雷鳴のスキルLv.+3。\n最大Lv.15まで。",
+          "descriptionRawJa": "元素スキル<color=#FFD780FF>伏撃の雷鳴</color>のスキルLv.+3。\n最大Lv.15まで。",
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        "c4": {
+          "id": "provisional70_10000148_c4",
+          "nameJa": "獲物の回収",
+          "descriptionJa": "**トゥガリン**が攻撃を行う時、さらに付近にいるチーム内でHP割合が最も低いキャラクターのHPが回復する。回復量はアリョーシャの攻撃力の60%に相当する。",
+          "descriptionRawJa": "{LINK#N11480002}<color=#FFD780FF>トゥガリン</color>{/LINK}が攻撃を行う時、さらに付近にいるチーム内でHP割合が最も低いキャラクターのHPが回復する。回復量はアリョーシャの攻撃力の60%に相当する。",
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        "c5": {
+          "id": "provisional70_10000148_c5",
+          "nameJa": "歌鳥の沈黙",
+          "descriptionJa": "元素爆発攻守の猟犬のスキルLv.+3。\n最大Lv.15まで。",
+          "descriptionRawJa": "元素爆発<color=#FFD780FF>攻守の猟犬</color>のスキルLv.+3。\n最大Lv.15まで。",
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        "c6": {
+          "id": "provisional70_10000148_c6",
+          "nameJa": "御旗の奪還",
+          "descriptionJa": "**狩猟の印**をアクティブ化した時に獲得する狩人の照準効果の重ね掛けが可能になる。この効果は最大2層まで重ね掛けでき、2層まで重ね掛けした時、さらにこの効果の影響下にあるフィールド上キャラクターの元素熟知+100。",
+          "descriptionRawJa": "{LINK#N11480001}<color=#FFD780FF>狩猟の印</color>{/LINK}をアクティブ化した時に獲得する<color=#FFD780FF>狩人の照準</color>効果の重ね掛けが可能になる。この効果は最大2層まで重ね掛けでき、2層まで重ね掛けした時、さらにこの効果の影響下にあるフィールド上キャラクターの元素熟知+100。",
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        }
+      },
+      "sourceRefs": [
+        "honey-alyosha-live-7.0",
+        "gachabase-alyosha-7.0.53",
+        "kqm-alyosha-7.0",
+        "genshin-center-alyosha-current"
+      ]
+    },
+    "provisional70_character_10000150": {
+      "sourceCharacterId": "10000150",
+      "constellations": {
+        "c1": {
+          "id": "provisional70_10000150_c1",
+          "nameJa": "「踊らぬ朝に彼女は 己の影を見つめる」",
+          "descriptionJa": "特殊な元素スキル**柔き払暁のコーダ**の発動後、踊りが終わると、オデットは周囲の敵に氷元素範囲ダメージを追加で1回与える。このダメージは下記の通りとなる。\n・輝映・星電導とみなされる、または輝映状態にない場合、オデットの攻撃力の300%に相当する星電導反応ダメージとなる。\n・輝映・星拡散とみなされる場合、オデットの攻撃力の450%に相当する星拡散反応ダメージとなる。\n\nさらに、固有天賦「選ばれし者の祝祭」が強化される。**独舞者のシルエット**を生成する時、オデットは**春の華**を追加で2層獲得し、オデットが待機中の場合、春の華をクリアする速度が毎秒2層に上昇する。",
+          "descriptionRawJa": "特殊な元素スキル{LINK#N11500002}<color=#FFD780FF>柔き払暁のコーダ</color>{/LINK}の発動後、踊りが終わると、オデットは周囲の敵に<color=#99FFFFFF>氷元素範囲ダメージ</color>を追加で1回与える。このダメージは下記の通りとなる。\n・<color=#FFD780FF>輝映・星電導</color>とみなされる、または輝映状態にない場合、オデットの攻撃力の300%に相当する星電導反応ダメージとなる。\n・<color=#FFD780FF>輝映・星拡散</color>とみなされる場合、オデットの攻撃力の450%に相当する星拡散反応ダメージとなる。\n\nさらに、固有天賦「選ばれし者の祝祭」が強化される。{LINK#N11500001}<color=#FFD780FF>独舞者のシルエット</color>{/LINK}を生成する時、オデットは{LINK#N11500003}<color=#FFD780FF>春の華</color>{/LINK}を追加で2層獲得し、オデットが待機中の場合、<color=#FFD780FF>春の華</color>をクリアする速度が毎秒2層に上昇する。",
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        "c2": {
+          "id": "provisional70_10000150_c2",
+          "nameJa": "「雪鳥の見ぬ夢を只 見届けたいだけで」",
+          "descriptionJa": "固有天賦「選ばれし者の祝祭」が強化される。**春の華**1層につき、さらにキャラクターの攻撃力が7%アップする。\nまた、**独舞者のシルエット**が存在する時、オデットが**輝映・星閃**状態の場合、独舞者のシルエット付近の敵の対応する元素耐性がさらに20%ダウンする。\n・輝映・星電導：氷元素、雷元素。\n・輝映・星拡散：氷元素、風元素。",
+          "descriptionRawJa": "固有天賦「選ばれし者の祝祭」が強化される。{LINK#N11500003}<color=#FFD780FF>春の華</color>{/LINK}1層につき、さらにキャラクターの攻撃力が7%アップする。\nまた、{LINK#N11500001}<color=#FFD780FF>独舞者のシルエット</color>{/LINK}が存在する時、オデットが{LINK#N11500004}<color=#FFD780FF>輝映・星閃</color>{/LINK}状態の場合、<color=#FFD780FF>独舞者のシルエット</color>付近の敵の対応する元素耐性がさらに20%ダウンする。\n・<color=#FFD780FF>輝映・星電導</color>：<color=#99FFFFFF>氷元素</color>、<color=#FFACFFFF>雷元素</color>。\n・<color=#FFD780FF>輝映・星拡散</color>：<color=#99FFFFFF>氷元素</color>、<color=#80FFD7FF>風元素</color>。",
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        "c3": {
+          "id": "provisional70_10000150_c3",
+          "nameJa": "「荒れ狂う風を追い ひとり高みへ昇る」",
+          "descriptionJa": "元素スキル**柔きファントムの夜の舞**のスキルLv.+3。\n最大Lv.15まで。",
+          "descriptionRawJa": "元素スキル<color=#FFD780FF>{LINK#S11502}柔きファントムの夜の舞{/LINK}</color>のスキルLv.+3。\n最大Lv.15まで。",
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        "c4": {
+          "id": "provisional70_10000150_c4",
+          "nameJa": "「燃ゆる青空の中へ 恍惚と堕ちていく」",
+          "descriptionJa": "元素爆発疾きブルーバードの夢が強化される。オデットが雪鳥の夢を獲得した時、付近にいるチーム内の他のキャラクターが与える星反応ダメージがさらにアップする。ダメージアップ量は雪鳥の夢の効果の50%分に相当する。\n\nまた、チーム内のキャラクターが敵に星反応ダメージを与えた時、オデットは敵に対して追加攻撃を1回行い、氷元素範囲ダメージを1回与える。3.5秒毎に1回のみ発動可能。詳細はそれぞれ、以下の通り。\n・ダメージが輝映・星電導とみなされる場合、または輝映状態でない場合、オデットの攻撃力の66%分の星電導反応ダメージを与える。\n・ダメージが輝映・星拡散とみなされる場合、オデットの攻撃力の99%分の星拡散反応ダメージを与える。",
+          "descriptionRawJa": "元素爆発<color=#FFD780FF>疾きブルーバードの夢</color>が強化される。オデットが<color=#FFD780FF>雪鳥の夢</color>を獲得した時、付近にいるチーム内の他のキャラクターが与える星反応ダメージがさらにアップする。ダメージアップ量は<color=#FFD780FF>雪鳥の夢</color>の効果の50%分に相当する。\n\nまた、チーム内のキャラクターが敵に星反応ダメージを与えた時、オデットは敵に対して追加攻撃を1回行い、<color=#99FFFFFF>氷元素範囲ダメージ</color>を1回与える。3.5秒毎に1回のみ発動可能。詳細はそれぞれ、以下の通り。\n・ダメージが<color=#FFD780FF>輝映・星電導</color>とみなされる場合、または輝映状態でない場合、オデットの攻撃力の66%分の星電導反応ダメージを与える。\n・ダメージが<color=#FFD780FF>輝映・星拡散</color>とみなされる場合、オデットの攻撃力の99%分の星拡散反応ダメージを与える。",
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        "c5": {
+          "id": "provisional70_10000150_c5",
+          "nameJa": "「見よ——塵と土の 痛みと別れる時を」",
+          "descriptionJa": "元素爆発**疾きブルーバードの夢**のスキルLv.+3。\n最大Lv.15まで。",
+          "descriptionRawJa": "元素爆発<color=#FFD780FF>{LINK#S11505}疾きブルーバードの夢{/LINK}</color>のスキルLv.+3。\n最大Lv.15まで。",
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        "c6": {
+          "id": "provisional70_10000150_c6",
+          "nameJa": "「さあ手を伸ばして 永遠の空に触れて」",
+          "descriptionJa": "固有天賦「選ばれし者の祝祭」が強化される。オデットが周囲のチーム全員に**春の華**を付与する時、自身の春の華は減少しなくなる。\nまた、春の華の影響下にあるキャラクターは、敵に与える星反応ダメージが25%**向上**し、オデットが敵に与える星反応ダメージが追加で20%向上する。",
+          "descriptionRawJa": "固有天賦「選ばれし者の祝祭」が強化される。オデットが周囲のチーム全員に{LINK#N11500003}<color=#FFD780FF>春の華</color>{/LINK}を付与する時、自身の春の華は減少しなくなる。\nまた、<color=#FFD780FF>春の華</color>の影響下にあるキャラクターは、敵に与える星反応ダメージが25%{LINK#N11190007}<color=#FFD780FF>向上</color>{/LINK}し、オデットが敵に与える星反応ダメージが追加で20%向上する。",
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        }
+      },
+      "sourceRefs": [
+        "honey-odette-live-7.0",
+        "gachabase-odette-7.0.54",
+        "kqm-odette-7.0",
+        "genshin-center-odette-current",
+        "kqm-tcl-odette-7.0"
+      ]
+    }
+  },
+  "talentScalings": {
+    "provisional70_character_10000148": {
+      "sourceCharacterId": "10000148",
+      "rows": [
+        {
+          "id": "provisional70_10000148_normal_attack_damage_1",
+          "labelJa": "1段ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            47.82,
+            51.71,
+            55.6,
+            61.16,
+            65.05,
+            69.5,
+            75.62,
+            81.73,
+            87.85,
+            94.52,
+            101.19,
+            107.86,
+            114.54,
+            121.21,
+            127.88
+          ],
+          "hitCount": 1,
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        {
+          "id": "provisional70_10000148_normal_attack_damage_2",
+          "labelJa": "2段ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            48.16,
+            52.08,
+            56,
+            61.6,
+            65.52,
+            70,
+            76.16,
+            82.32,
+            88.48,
+            95.2,
+            101.92,
+            108.64,
+            115.36,
+            122.08,
+            128.8
+          ],
+          "hitCount": 1,
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        {
+          "id": "provisional70_10000148_normal_attack_damage_3",
+          "labelJa": "3段ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            [
+              34.23,
+              31.82
+            ],
+            [
+              37.01,
+              34.41
+            ],
+            [
+              39.8,
+              37
+            ],
+            [
+              43.78,
+              40.7
+            ],
+            [
+              46.57,
+              43.29
+            ],
+            [
+              49.75,
+              46.25
+            ],
+            [
+              54.13,
+              50.32
+            ],
+            [
+              58.51,
+              54.39
+            ],
+            [
+              62.88,
+              58.46
+            ],
+            [
+              67.66,
+              62.9
+            ],
+            [
+              72.44,
+              67.34
+            ],
+            [
+              77.21,
+              71.78
+            ],
+            [
+              81.99,
+              76.22
+            ],
+            [
+              86.76,
+              80.66
+            ],
+            [
+              91.54,
+              85.1
+            ]
+          ],
+          "hitCount": 2,
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        {
+          "id": "provisional70_10000148_normal_attack_damage_4",
+          "labelJa": "4段ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            75.85,
+            82.03,
+            88.2,
+            97.02,
+            103.19,
+            110.25,
+            119.95,
+            129.65,
+            139.36,
+            149.94,
+            160.52,
+            171.11,
+            181.69,
+            192.28,
+            202.86
+          ],
+          "hitCount": 1,
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        {
+          "id": "provisional70_10000148_normal_attack_damage_5",
+          "labelJa": "重撃ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            111.03,
+            120.06,
+            129.1,
+            142.01,
+            151.05,
+            161.38,
+            175.58,
+            189.78,
+            203.98,
+            219.47,
+            234.96,
+            250.45,
+            265.95,
+            281.44,
+            296.93
+          ],
+          "hitCount": 1,
+          "attackType": "chargedAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        {
+          "id": "provisional70_10000148_normal_attack_damage_6",
+          "labelJa": "落下期間のダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            63.93,
+            69.14,
+            74.34,
+            81.77,
+            86.98,
+            92.93,
+            101.1,
+            109.28,
+            117.46,
+            126.38,
+            135.3,
+            144.22,
+            153.14,
+            162.06,
+            170.98
+          ],
+          "hitCount": 1,
+          "attackType": "plungingAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        {
+          "id": "provisional70_10000148_normal_attack_damage_7",
+          "labelJa": "低空落下攻撃ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            127.84,
+            138.24,
+            148.65,
+            163.51,
+            173.92,
+            185.81,
+            202.16,
+            218.51,
+            234.86,
+            252.7,
+            270.54,
+            288.38,
+            306.22,
+            324.05,
+            341.89
+          ],
+          "hitCount": 1,
+          "attackType": "plungingAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        {
+          "id": "provisional70_10000148_normal_attack_damage_8",
+          "labelJa": "高空落下攻撃ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            159.68,
+            172.67,
+            185.67,
+            204.24,
+            217.23,
+            232.09,
+            252.51,
+            272.93,
+            293.36,
+            315.64,
+            337.92,
+            360.2,
+            382.48,
+            404.76,
+            427.04
+          ],
+          "hitCount": 1,
+          "attackType": "plungingAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        {
+          "id": "provisional70_10000148_skill_damage_1",
+          "labelJa": "一回押しダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            286.72,
+            308.22,
+            329.73,
+            358.4,
+            379.9,
+            401.41,
+            430.08,
+            458.75,
+            487.42,
+            516.1,
+            544.77,
+            573.44,
+            609.28,
+            645.12,
+            680.96
+          ],
+          "hitCount": 1,
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "Electro",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        {
+          "id": "provisional70_10000148_skill_damage_2",
+          "labelJa": "長押しダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            358.4,
+            385.28,
+            412.16,
+            448,
+            474.88,
+            501.76,
+            537.6,
+            573.44,
+            609.28,
+            645.12,
+            680.96,
+            716.8,
+            761.6,
+            806.4,
+            851.2
+          ],
+          "hitCount": 1,
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "Electro",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        {
+          "id": "provisional70_10000148_burst_damage_1",
+          "labelJa": "雷の狩場ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            74.96,
+            80.58,
+            86.2,
+            93.7,
+            99.32,
+            104.94,
+            112.44,
+            119.94,
+            127.43,
+            134.93,
+            142.42,
+            149.92,
+            159.29,
+            168.66,
+            178.03
+          ],
+          "hitCount": 1,
+          "attackType": "burst",
+          "damageType": "burst",
+          "element": "Electro",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        },
+        {
+          "id": "provisional70_10000148_burst_damage_2",
+          "labelJa": "トゥガリンのダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            50.22,
+            53.99,
+            57.76,
+            62.78,
+            66.55,
+            70.31,
+            75.33,
+            80.36,
+            85.38,
+            90.4,
+            95.42,
+            100.45,
+            106.72,
+            113,
+            119.28
+          ],
+          "hitCount": 1,
+          "attackType": "burst",
+          "damageType": "burst",
+          "element": "Electro",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-alyosha-live-7.0",
+            "gachabase-alyosha-7.0.53",
+            "kqm-alyosha-7.0",
+            "genshin-center-alyosha-current"
+          ]
+        }
+      ],
+      "sourceRefs": [
+        "honey-alyosha-live-7.0",
+        "gachabase-alyosha-7.0.53",
+        "kqm-alyosha-7.0",
+        "genshin-center-alyosha-current"
+      ]
+    },
+    "provisional70_character_10000150": {
+      "sourceCharacterId": "10000150",
+      "rows": [
+        {
+          "id": "provisional70_10000150_normal_attack_damage_1",
+          "labelJa": "1段ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            51.86,
+            56.08,
+            60.3,
+            66.33,
+            70.55,
+            75.37,
+            82.01,
+            88.64,
+            95.27,
+            102.51,
+            109.74,
+            116.98,
+            124.22,
+            131.45,
+            138.69
+          ],
+          "hitCount": 1,
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        {
+          "id": "provisional70_10000150_normal_attack_damage_2",
+          "labelJa": "2段ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            51.51,
+            55.7,
+            59.9,
+            65.89,
+            70.08,
+            74.87,
+            81.46,
+            88.05,
+            94.64,
+            101.82,
+            109.01,
+            116.2,
+            123.39,
+            130.57,
+            137.76
+          ],
+          "hitCount": 1,
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        {
+          "id": "provisional70_10000150_normal_attack_damage_3",
+          "labelJa": "3段ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            [
+              32.61,
+              38.28
+            ],
+            [
+              35.27,
+              41.39
+            ],
+            [
+              37.92,
+              44.51
+            ],
+            [
+              41.71,
+              48.96
+            ],
+            [
+              44.37,
+              52.08
+            ],
+            [
+              47.4,
+              55.64
+            ],
+            [
+              51.57,
+              60.53
+            ],
+            [
+              55.74,
+              65.43
+            ],
+            [
+              59.91,
+              70.33
+            ],
+            [
+              64.46,
+              75.67
+            ],
+            [
+              69.01,
+              81.01
+            ],
+            [
+              73.56,
+              86.35
+            ],
+            [
+              78.12,
+              91.69
+            ],
+            [
+              82.67,
+              97.03
+            ],
+            [
+              87.22,
+              102.37
+            ]
+          ],
+          "hitCount": 2,
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        {
+          "id": "provisional70_10000150_normal_attack_damage_4",
+          "labelJa": "4段ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            74.57,
+            80.64,
+            86.71,
+            95.38,
+            101.45,
+            108.39,
+            117.93,
+            127.47,
+            137.01,
+            147.41,
+            157.82,
+            168.22,
+            178.63,
+            189.03,
+            199.44
+          ],
+          "hitCount": 1,
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        {
+          "id": "provisional70_10000150_normal_attack_damage_5",
+          "labelJa": "5段ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            90.21,
+            97.56,
+            104.9,
+            115.39,
+            122.73,
+            131.12,
+            142.66,
+            154.2,
+            165.74,
+            178.33,
+            190.91,
+            203.5,
+            216.09,
+            228.68,
+            241.27
+          ],
+          "hitCount": 1,
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        {
+          "id": "provisional70_10000150_normal_attack_damage_6",
+          "labelJa": "重撃ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            107.41,
+            116.16,
+            124.9,
+            137.39,
+            146.13,
+            156.13,
+            169.86,
+            183.6,
+            197.34,
+            212.33,
+            227.32,
+            242.31,
+            257.29,
+            272.28,
+            287.27
+          ],
+          "hitCount": 1,
+          "attackType": "chargedAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        {
+          "id": "provisional70_10000150_normal_attack_damage_7",
+          "labelJa": "落下期間のダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            63.93,
+            69.14,
+            74.34,
+            81.77,
+            86.98,
+            92.93,
+            101.1,
+            109.28,
+            117.46,
+            126.38,
+            135.3,
+            144.22,
+            153.14,
+            162.06,
+            170.98
+          ],
+          "hitCount": 1,
+          "attackType": "plungingAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        {
+          "id": "provisional70_10000150_normal_attack_damage_8",
+          "labelJa": "低空落下攻撃ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            127.84,
+            138.24,
+            148.65,
+            163.51,
+            173.92,
+            185.81,
+            202.16,
+            218.51,
+            234.86,
+            252.7,
+            270.54,
+            288.38,
+            306.22,
+            324.05,
+            341.89
+          ],
+          "hitCount": 1,
+          "attackType": "plungingAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        {
+          "id": "provisional70_10000150_normal_attack_damage_9",
+          "labelJa": "高空落下攻撃ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            159.68,
+            172.67,
+            185.67,
+            204.24,
+            217.23,
+            232.09,
+            252.51,
+            272.93,
+            293.36,
+            315.64,
+            337.92,
+            360.2,
+            382.48,
+            404.76,
+            427.04
+          ],
+          "hitCount": 1,
+          "attackType": "plungingAttack",
+          "damageType": "normal",
+          "element": "Physical",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        {
+          "id": "provisional70_10000150_skill_damage_1",
+          "labelJa": "スキルダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            108.08,
+            116.19,
+            124.29,
+            135.1,
+            143.21,
+            151.31,
+            162.12,
+            172.93,
+            183.74,
+            194.54,
+            205.35,
+            216.16,
+            229.67,
+            243.18,
+            256.69
+          ],
+          "hitCount": 1,
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "Cryo",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        {
+          "id": "provisional70_10000150_skill_damage_2",
+          "labelJa": "コーダ継続ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            95.84,
+            103.03,
+            110.22,
+            119.8,
+            126.99,
+            134.18,
+            143.76,
+            153.34,
+            162.93,
+            172.51,
+            182.1,
+            191.68,
+            203.66,
+            215.64,
+            227.62
+          ],
+          "hitCount": 1,
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "Cryo",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        {
+          "id": "provisional70_10000150_skill_damage_3",
+          "labelJa": "コーダ直接星電導ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            305.76,
+            328.69,
+            351.62,
+            382.2,
+            405.13,
+            428.06,
+            458.64,
+            489.22,
+            519.79,
+            550.37,
+            580.94,
+            611.52,
+            649.74,
+            687.96,
+            726.18
+          ],
+          "hitCount": 1,
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "Cryo",
+          "reaction": "stellarConduct",
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ],
+          "reactionMode": "direct"
+        },
+        {
+          "id": "provisional70_10000150_skill_damage_4",
+          "labelJa": "コーダ直接星拡散ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            458.64,
+            493.04,
+            527.44,
+            573.3,
+            607.7,
+            642.1,
+            687.96,
+            733.82,
+            779.69,
+            825.55,
+            871.42,
+            917.28,
+            974.61,
+            1031.94,
+            1089.27
+          ],
+          "hitCount": 1,
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "Cryo",
+          "reaction": "stellarSwirl",
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ],
+          "reactionMode": "direct"
+        },
+        {
+          "id": "provisional70_10000150_skill_damage_5",
+          "labelJa": "プルームダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            43.04,
+            46.27,
+            49.5,
+            53.8,
+            57.03,
+            60.26,
+            64.56,
+            68.86,
+            73.17,
+            77.47,
+            81.78,
+            86.08,
+            91.46,
+            96.84,
+            102.22
+          ],
+          "hitCount": 1,
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "Cryo",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        {
+          "id": "provisional70_10000150_skill_damage_6",
+          "labelJa": "プルーム直接星電導ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            27.02,
+            29.05,
+            31.08,
+            33.78,
+            35.81,
+            37.83,
+            40.54,
+            43.24,
+            45.94,
+            48.64,
+            51.35,
+            54.05,
+            57.43,
+            60.8,
+            64.18
+          ],
+          "hitCount": 1,
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "Cryo",
+          "reaction": "stellarConduct",
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ],
+          "reactionMode": "direct"
+        },
+        {
+          "id": "provisional70_10000150_skill_damage_7",
+          "labelJa": "プルーム直接星拡散ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            40.53,
+            43.57,
+            46.61,
+            50.66,
+            53.7,
+            56.74,
+            60.79,
+            64.84,
+            68.9,
+            72.95,
+            77,
+            81.06,
+            86.12,
+            91.19,
+            96.25
+          ],
+          "hitCount": 1,
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "Cryo",
+          "reaction": "stellarSwirl",
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ],
+          "reactionMode": "direct"
+        },
+        {
+          "id": "provisional70_10000150_skill_damage_8",
+          "labelJa": "ウィングダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            51.46,
+            55.32,
+            59.18,
+            64.33,
+            68.19,
+            72.05,
+            77.2,
+            82.34,
+            87.49,
+            92.64,
+            97.78,
+            102.93,
+            109.36,
+            115.79,
+            122.23
+          ],
+          "hitCount": 1,
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "Cryo",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        {
+          "id": "provisional70_10000150_skill_damage_9",
+          "labelJa": "ウィング直接星電導ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            32.31,
+            34.74,
+            37.16,
+            40.39,
+            42.81,
+            45.24,
+            48.47,
+            51.7,
+            54.93,
+            58.16,
+            61.39,
+            64.62,
+            68.66,
+            72.7,
+            76.74
+          ],
+          "hitCount": 1,
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "Cryo",
+          "reaction": "stellarConduct",
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ],
+          "reactionMode": "direct"
+        },
+        {
+          "id": "provisional70_10000150_skill_damage_10",
+          "labelJa": "ウィング直接星拡散ダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            48.46,
+            52.1,
+            55.73,
+            60.58,
+            64.21,
+            67.85,
+            72.7,
+            77.54,
+            82.39,
+            87.24,
+            92.08,
+            96.93,
+            102.99,
+            109.04,
+            115.1
+          ],
+          "hitCount": 1,
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "Cryo",
+          "reaction": "stellarSwirl",
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ],
+          "reactionMode": "direct"
+        },
+        {
+          "id": "provisional70_10000150_burst_damage_1",
+          "labelJa": "斬撃ダメージ（1hit値・3回）",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            110.18,
+            118.44,
+            126.7,
+            137.72,
+            145.98,
+            154.25,
+            165.26,
+            176.28,
+            187.3,
+            198.32,
+            209.33,
+            220.35,
+            234.12,
+            247.9,
+            261.67
+          ],
+          "hitCount": 3,
+          "attackType": "burst",
+          "damageType": "burst",
+          "element": "Cryo",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        },
+        {
+          "id": "provisional70_10000150_burst_damage_2",
+          "labelJa": "フィニッシュダメージ",
+          "referenceStat": "ATK",
+          "valuesPercent": [
+            170.27,
+            183.04,
+            195.81,
+            212.84,
+            225.61,
+            238.38,
+            255.41,
+            272.44,
+            289.46,
+            306.49,
+            323.52,
+            340.54,
+            361.83,
+            383.11,
+            404.4
+          ],
+          "hitCount": 1,
+          "attackType": "burst",
+          "damageType": "burst",
+          "element": "Cryo",
+          "reaction": null,
+          "safeSingleHit": true,
+          "sourceRefs": [
+            "honey-odette-live-7.0",
+            "gachabase-odette-7.0.54",
+            "kqm-odette-7.0",
+            "genshin-center-odette-current",
+            "kqm-tcl-odette-7.0"
+          ]
+        }
+      ],
+      "sourceRefs": [
+        "honey-odette-live-7.0",
+        "gachabase-odette-7.0.54",
+        "kqm-odette-7.0",
+        "genshin-center-odette-current",
+        "kqm-tcl-odette-7.0"
+      ]
+    }
+  },
+  "talentModifiers": {
+    "provisional70_10000148_modifier_passive2_er_skill_burst": {
+      "id": "provisional70_10000148_modifier_passive2_er_skill_burst",
+      "characterId": "provisional70_character_10000148",
+      "kind": "damageBonus",
+      "scope": [
+        "skill",
+        "burst"
+      ],
+      "labelJa": "元素チャージ効率による元素スキル・元素爆発ダメージアップ",
+      "formula": {
+        "sourceStat": "energyRechargePercent",
+        "coefficientPercentPer1Percent": 0.35,
+        "capPercent": 70
+      },
+      "condition": {
+        "id": "provisional70_10000148_condition_passive2_er",
+        "inputType": "toggle",
+        "defaultEnabled": true
+      },
+      "safeSingleHit": true,
+      "sourceRefs": [
+        "honey-alyosha-live-7.0",
+        "gachabase-alyosha-7.0.53",
+        "kqm-alyosha-7.0",
+        "genshin-center-alyosha-current"
+      ]
+    },
+    "provisional70_10000148_modifier_passive3_stellar_conduct": {
+      "id": "provisional70_10000148_modifier_passive3_stellar_conduct",
+      "characterId": "provisional70_character_10000148",
+      "kind": "reactionDamageBonus",
+      "scope": [
+        "stellarConduct"
+      ],
+      "labelJa": "輝映・星電導：狩人の照準",
+      "formula": {
+        "bonusPercentPerHunterPrecisionStack": 20,
+        "maxStacks": 2
+      },
+      "condition": {
+        "id": "provisional70_10000148_condition_radiance_stellar_conduct",
+        "inputType": "toggleAndStack",
+        "defaultEnabled": false,
+        "stackMin": 0,
+        "stackMax": 2
+      },
+      "safeSingleHit": true,
+      "status": "provisionalReactionConsumerRequired",
+      "sourceRefs": [
+        "honey-alyosha-live-7.0",
+        "gachabase-alyosha-7.0.53",
+        "kqm-alyosha-7.0",
+        "genshin-center-alyosha-current"
+      ]
+    },
+    "provisional70_10000150_modifier_burst_snowbird_dream": {
+      "id": "provisional70_10000150_modifier_burst_snowbird_dream",
+      "characterId": "provisional70_character_10000150",
+      "kind": "reactionDamageBonus",
+      "scope": [
+        "stellarConduct",
+        "stellarSwirl"
+      ],
+      "labelJa": "雪鳥の夢：星反応ダメージアップ",
+      "formula": {
+        "valuesByBurstTalentLevelPercent": [
+          14,
+          18,
+          22,
+          26,
+          30,
+          34,
+          38,
+          42,
+          46,
+          50,
+          54,
+          58,
+          62,
+          66,
+          70
+        ],
+        "stackMode": "flatToggle"
+      },
+      "condition": {
+        "id": "provisional70_10000150_condition_snowbird_dream",
+        "inputType": "toggle",
+        "defaultEnabled": false,
+        "durationSeconds": 20
+      },
+      "safeSingleHit": true,
+      "sourceRefs": [
+        "honey-odette-live-7.0",
+        "gachabase-odette-7.0.54",
+        "kqm-odette-7.0",
+        "genshin-center-odette-current",
+        "kqm-tcl-odette-7.0"
+      ]
+    }
+  },
+  "constellationModifiers": {
+    "provisional70_10000148_c3_skill_level": {
+      "id": "provisional70_10000148_c3_skill_level",
+      "characterId": "provisional70_character_10000148",
+      "constellation": "c3",
+      "kind": "talentLevelBonus",
+      "targetTalent": "skill",
+      "amount": 3,
+      "safeSingleHit": true
+    },
+    "provisional70_10000148_c5_burst_level": {
+      "id": "provisional70_10000148_c5_burst_level",
+      "characterId": "provisional70_character_10000148",
+      "constellation": "c5",
+      "kind": "talentLevelBonus",
+      "targetTalent": "burst",
+      "amount": 3,
+      "safeSingleHit": true
+    },
+    "provisional70_10000148_c6_em": {
+      "id": "provisional70_10000148_c6_em",
+      "characterId": "provisional70_character_10000148",
+      "constellation": "c6",
+      "kind": "statBonus",
+      "scope": [
+        "stellarConduct"
+      ],
+      "labelJa": "御旗の奪還：2層時元素熟知+100",
+      "formula": {
+        "stat": "elementalMastery",
+        "flat": 100,
+        "requiresHunterPrecisionStacks": 2
+      },
+      "condition": {
+        "id": "provisional70_10000148_condition_c6_precision",
+        "inputType": "stack",
+        "stackMin": 0,
+        "stackMax": 2,
+        "defaultValue": 0
+      },
+      "safeSingleHit": true
+    },
+    "provisional70_10000148_c6_stellar_conduct": {
+      "id": "provisional70_10000148_c6_stellar_conduct",
+      "characterId": "provisional70_character_10000148",
+      "constellation": "c6",
+      "kind": "reactionDamageBonus",
+      "scope": [
+        "stellarConduct"
+      ],
+      "labelJa": "御旗の奪還：狩人の照準2層",
+      "formula": {
+        "bonusPercentPerStack": 20,
+        "maxStacks": 2
+      },
+      "condition": {
+        "id": "provisional70_10000148_condition_c6_precision_bonus",
+        "inputType": "stack",
+        "stackMin": 0,
+        "stackMax": 2,
+        "defaultValue": 0
+      },
+      "safeSingleHit": true,
+      "status": "provisionalReactionConsumerRequired"
+    },
+    "provisional70_10000150_c1_direct_stellar": {
+      "id": "provisional70_10000150_c1_direct_stellar",
+      "characterId": "provisional70_character_10000150",
+      "constellation": "c1",
+      "kind": "directReactionDamage",
+      "scope": [
+        "stellarConduct",
+        "stellarSwirl"
+      ],
+      "labelJa": "C1：特殊コーダ終了時の追加星反応",
+      "formula": {
+        "referenceStat": "ATK",
+        "stellarConductMultiplierPercent": 300,
+        "stellarSwirlMultiplierPercent": 450
+      },
+      "condition": {
+        "id": "provisional70_10000150_condition_c1_coda_end",
+        "inputType": "toggleAndVariant",
+        "defaultEnabled": false,
+        "variantOptions": [
+          "stellarConduct",
+          "stellarSwirl"
+        ]
+      },
+      "safeSingleHit": true,
+      "status": "provisionalReactionConsumerRequired"
+    },
+    "provisional70_10000150_c2_spring_flower_atk": {
+      "id": "provisional70_10000150_c2_spring_flower_atk",
+      "characterId": "provisional70_character_10000150",
+      "constellation": "c2",
+      "kind": "statBonus",
+      "scope": [
+        "ATK"
+      ],
+      "labelJa": "C2：春の華1層ごとの攻撃力",
+      "formula": {
+        "stat": "ATKPercent",
+        "bonusPercentPerStack": 7,
+        "maxStacks": 6
+      },
+      "condition": {
+        "id": "provisional70_10000150_condition_c2_spring_flower",
+        "inputType": "stack",
+        "stackMin": 0,
+        "stackMax": 6,
+        "defaultValue": 0
+      },
+      "safeSingleHit": true
+    },
+    "provisional70_10000150_c2_resistance_shred": {
+      "id": "provisional70_10000150_c2_resistance_shred",
+      "characterId": "provisional70_character_10000150",
+      "constellation": "c2",
+      "kind": "resistanceShred",
+      "scope": [
+        "stellarConduct",
+        "stellarSwirl"
+      ],
+      "labelJa": "C2：独舞者付近の元素耐性-20%",
+      "formula": {
+        "resistanceReductionPercent": 20,
+        "variantElements": {
+          "stellarConduct": [
+            "Cryo",
+            "Electro"
+          ],
+          "stellarSwirl": [
+            "Cryo",
+            "Anemo"
+          ]
+        }
+      },
+      "condition": {
+        "id": "provisional70_10000150_condition_c2_silhouette_state",
+        "inputType": "toggle",
+        "defaultEnabled": false
+      },
+      "safeSingleHit": true,
+      "status": "provisionalReactionConsumerRequired"
+    },
+    "provisional70_10000150_c3_skill_level": {
+      "id": "provisional70_10000150_c3_skill_level",
+      "characterId": "provisional70_character_10000150",
+      "constellation": "c3",
+      "kind": "talentLevelBonus",
+      "targetTalent": "skill",
+      "amount": 3,
+      "safeSingleHit": true
+    },
+    "provisional70_10000150_c4_direct_stellar": {
+      "id": "provisional70_10000150_c4_direct_stellar",
+      "characterId": "provisional70_character_10000150",
+      "constellation": "c4",
+      "kind": "directReactionDamage",
+      "scope": [
+        "stellarConduct",
+        "stellarSwirl"
+      ],
+      "labelJa": "C4：星反応後の追加攻撃",
+      "formula": {
+        "referenceStat": "ATK",
+        "stellarConductMultiplierPercent": 66,
+        "stellarSwirlMultiplierPercent": 99
+      },
+      "condition": {
+        "id": "provisional70_10000150_condition_c4_followup",
+        "inputType": "toggleAndVariant",
+        "defaultEnabled": false,
+        "variantOptions": [
+          "stellarConduct",
+          "stellarSwirl"
+        ],
+        "cooldownSeconds": 3.5
+      },
+      "safeSingleHit": true,
+      "status": "provisionalReactionConsumerRequired"
+    },
+    "provisional70_10000150_c5_burst_level": {
+      "id": "provisional70_10000150_c5_burst_level",
+      "characterId": "provisional70_character_10000150",
+      "constellation": "c5",
+      "kind": "talentLevelBonus",
+      "targetTalent": "burst",
+      "amount": 3,
+      "safeSingleHit": true
+    },
+    "provisional70_10000150_c6_team_stellar": {
+      "id": "provisional70_10000150_c6_team_stellar",
+      "characterId": "provisional70_character_10000150",
+      "constellation": "c6",
+      "kind": "reactionDamageBonus",
+      "scope": [
+        "stellarConduct",
+        "stellarSwirl"
+      ],
+      "labelJa": "C6：春の華の影響下の星反応ダメージ",
+      "formula": {
+        "bonusPercent": 25
+      },
+      "condition": {
+        "id": "provisional70_10000150_condition_c6_team_spring_flower",
+        "inputType": "toggle",
+        "defaultEnabled": false
+      },
+      "safeSingleHit": true,
+      "status": "provisionalReactionConsumerRequired"
+    },
+    "provisional70_10000150_c6_self_stellar": {
+      "id": "provisional70_10000150_c6_self_stellar",
+      "characterId": "provisional70_character_10000150",
+      "constellation": "c6",
+      "kind": "reactionDamageBonus",
+      "scope": [
+        "stellarConduct",
+        "stellarSwirl"
+      ],
+      "labelJa": "C6：オデット自身の追加星反応ダメージ",
+      "formula": {
+        "bonusPercent": 20
+      },
+      "condition": {
+        "id": "provisional70_10000150_condition_c6_self_spring_flower",
+        "inputType": "toggle",
+        "defaultEnabled": false
+      },
+      "safeSingleHit": true,
+      "status": "provisionalReactionConsumerRequired"
+    }
+  },
+  "deferredUnknowns": [
+    "curve/promote raw field path and immutable base record",
+    "ICD/gauge",
+    "snapshot/recalculation",
+    "summon/tick ordering and total hit count",
+    "state lifecycle and stack refresh/expiry automation",
+    "canonical source eligibility and Runtime/consumer registration"
+  ]
+}

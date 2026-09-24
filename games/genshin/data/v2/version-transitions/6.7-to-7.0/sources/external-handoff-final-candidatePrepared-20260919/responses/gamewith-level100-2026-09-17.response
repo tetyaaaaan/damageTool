@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+        <script>
+    window.gtm_container_id = 'GTM-562VKQF';
+    window.dataLayer = window.dataLayer || [];
+    dataLayer.push({
+        'gaProperty': 'UA-44254420-33',
+        'ga4Property': 'G-BBDG9MHNPD',
+        'ga4PropertyJP': 'G-PHTF4DYVJD',
+        'isLoggedIn': 'not_login_user',
+        'loginUserId': '',
+        'searchGameId': '',
+        'pageType': '2',
+                    'abTest': 'B'
+            });
+</script>
+        <!-- Google Tag Manager -->
+<script>
+(function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+    var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != "dataLayer" ? "&l=" + l : "";
+    j.async = true;
+    j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+    f.parentNode.insertBefore(j, f);
+})(window, document, "script", "dataLayer", "GTM-562VKQF");
+</script>
+<!-- End Google Tag Manager -->
+    <script>
+    var PWT = {};
+
+    // script読み込み
+    var purl = window.location.href;
+    var url = '//ads.pubmatic.com/AdServer/js/pwt/156898/5256';
+    var profileVersionId = '';
+    if (purl.indexOf('pwtv=') > 0) {
+        var regexp = /pwtv=(.*?)(&|$)/g;
+        var matches = regexp.exec(purl);
+        if(matches.length >= 2 && matches[1].length > 0){
+        profileVersionId = '/'+matches[1];
+        }
+    }
+    var wtads = document.createElement('script');
+    wtads.async = true;
+    wtads.type = 'text/javascript';
+    wtads.src = url + profileVersionId + '/pwt.js';
+    var node = document.getElementsByTagName('script')[0];
+    node.parentNode.insertBefore(wtads, node);
+</script>    <script async src="//securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=26172165"></script>
+    <script>
+    window.GDS = window.GDS || {};
+    window.GDS.WalkthroughNewURL = {
+        getGameIdThreshold() {
+            return 125;
+        },
+    };
+</script>
+    <script class="js-gwad" data-params-json='{"isMobile":false,"gameId":94,"gameIdGameWith":0,"gameIdGameDB":10000,"adUnitType":"walkthrough","DFPTargetOS":"other","DFPModuleName":"genshin-impact","isIgnoreAdGameId":false}'></script>
+	<script type="text/javascript" src="https://assets.gamewith.net/js/dist/en/gamewith/ad/index.js?1780986493"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6456311939569575"
+     crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=1000">
+            <meta name="description" content="How to Reach Level 95 to 100  &amp; Characters to Prioritize in Genshin Impact. See how to reach level 95, level 100, increase character ascension limit to 100, &amp; who to level to 100!">
+            <meta name="date" content="2026-09-18T12:19:38-04:00">
+                <meta name="author" content="GameWith Genshin Strategy Team" />
+        <meta property="article:publisher" content="GameWith Genshin Strategy Team">
+    
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/img/apple-touch-icon-114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/img/apple-touch-icon-114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/img/apple-touch-icon-144.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/img/apple-touch-icon-144.png">
+        <link rel="canonical" href="https://gamewith.net/genshin-impact/article/show/70231">
+                <title>Genshin Impact | How to Reach Level 100 & Characters to Prioritize - GameWith</title>
+
+            
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="GameWith">
+    <meta property="og:description" content="How to Reach Level 95 to 100  &amp; Characters to Prioritize in Genshin Impact. See how to reach level 95, level 100, increase character ascension limit to 100, &amp; who to level to 100!" />
+<meta property="og:title" content="Genshin Impact | How to Reach Level 100 &amp; Characters to Prioritize - GameWith">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://gamewith.net/genshin-impact/article/show/70231">
+    <meta property="og:image" content="https://img.gamewith.net/article/thumbnail/rectangle/70231.png">
+        <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Genshin Impact | How to Reach Level 100 &amp; Characters to Prioritize - GameWith">
+    <meta name="twitter:url" content="https://gamewith.net/genshin-impact/article/show/70231">
+    <meta name="twitter:description" content="How to Reach Level 95 to 100  &amp; Characters to Prioritize in Genshin Impact. See how to reach level 95, level 100, increase character ascension limit to 100, &amp; who to level to 100!">
+    <meta name="twitter:image:src" content="https://img.gamewith.net/article/thumbnail/rectangle/70231.png">
+                    	<link type="text/css" rel="stylesheet" href="https://assets.gamewith.net/css/dist/gamewith_pc.css?1779849564" />
+        	<script type="text/javascript" src="https://assets.gamewith.net/js/lib/jquery-1.8.3.min.js?1748845700"></script>
+    
+    </head>
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-562VKQF"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+	<link type="text/css" rel="stylesheet" href="https://assets.gamewith.net/css/froala_style.min.css?1748845700" />
+<div class="header" id="header">
+    <div class="header-inner cf">
+        <div id="brand" class="fll">
+            <a href="https://gamewith.net/" class="brand-wrap">
+            <img class="brand" alt="GameWith - Your Source of the Latest Game Guides & News" height="32" width="142" src="https://assets.gamewith.net/img/logo-white.png?1761097480" />            </a>
+        </div>
+    </div></div>
+
+<div class="js-cookie-consent cookie-consent is-hidden cf">
+    <div class="_inner">
+        <div class="_desc">
+            <p>
+                GameWith uses cookies and IP addresses. By using our site you agree to our <a href="/privacy">privacy policy</a>.
+            </p>
+        </div>
+        <a href="javascript:void(0);">
+            <div class="_btn js-cookie-consent-btn">
+                OK
+            </div>
+        </a>
+    </div>
+</div>
+<div class="page-wrap">
+        <div class="wrapper-3">
+        <div class="left-col-wrap-3 side-col">
+            <div class="left-col-content">
+                <div class="border"></div>
+                <div class="game-header-navi">
+                    <a href="https://gamewith.net/genshin-impact/" class="_title">
+                        <div class="_icon">
+                            <img class="" width="64" height="64" alt="Genshin" src="https://img.gamewith.net/assets/images/games/icons/d230b3907e7bd3d3e1024df79167c2cc.png" />                        </div>
+                        <div class="_text">
+                                                                                                Genshin Impact Wiki Guide &amp; Tips                                                                                    </div>
+                    </a>
+                        <form action="https://gamewith.net/genshin-impact/search/results" method="get" class="search-form" accept-charset="utf-8">                <div class="search-form_input">
+            <input placeholder="Search the site" class="fs-s" name="query" value="" type="text" id="form_query" />                    </div>
+        <button class="c-searchform_btn search-form_submit">
+            <svg width="36" height="34" viewBox="0 0 36 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="-0.000976562" width="35.2" height="34" rx="2" fill="#34B792"/>
+            <path d="M22.061 20.3083L20.8592 20.2833C20.8592 20.2833 20.8418 19.9498 20.8463 19.7861C21.8918 18.643 22.5515 17.1795 22.6153 15.5859C22.7615 11.9389 19.7307 8.97125 15.8599 8.97125C11.9891 8.97125 8.72042 11.9389 8.57426 15.5859C8.4281 19.2329 11.4582 22.2012 15.3297 22.2012C17.056 22.2012 18.6629 21.6112 19.9258 20.6332C20.1044 20.6352 20.4397 20.6641 20.4397 20.6641L20.4447 21.7763L25.4665 26.6934L27.0827 25.226L22.061 20.3083ZM15.4129 20.1254C12.756 20.1254 10.6764 18.0892 10.7767 15.5859C10.877 13.0826 13.1198 11.047 15.7767 11.047C18.4336 11.047 20.5132 13.0833 20.4129 15.5859C20.3126 18.0885 18.0697 20.1254 15.4129 20.1254Z" fill="white"/>
+            </svg>
+        </button>
+    </form>                </div>
+                <div class="c-title">
+                    Main Menu
+                </div>
+                <div class="global-menu-wrap">
+                    <ul class="global-menu cf">
+                    
+                                    <li class="global-menu_item">
+                    <a href="https://gamewith.net/genshin-impact/article/show/73767">Vodyanitsa</a>                </li>
+                                                <li class="global-menu_item">
+                    <a href="https://gamewith.net/genshin-impact/article/show/76472">Vesna</a>                </li>
+                                                <li class="global-menu_item">
+                    <a href="https://gamewith.net/genshin-impact/article/show/28871">Snezhnaya</a>                </li>
+                                                <li class="global-menu_item">
+                    <a href="https://gamewith.net/genshin-impact/article/show/22333">Latest News</a>                </li>
+                                                <li class="global-menu_item">
+                    <a href="https://gamewith.net/genshin-impact/article/show/22357">Character List</a>                </li>
+                                                <li class="global-menu_item">
+                    <a href="https://gamewith.net/genshin-impact/article/show/22247">Tier List</a>                </li>
+                                                <li class="global-menu_item">
+                    <a href="https://gamewith.net/genshin-impact/article/show/22737">Redeem Code</a>                </li>
+                                                <li class="global-menu_item">
+                    <a href="https://gamewith.net/genshin-impact/article/show/30371">Banners</a>                </li>
+                                                <li class="global-menu_item">
+                    <a href="https://gamewith.net/genshin-impact/article/show/22641">All Weapons</a>                </li>
+                    
+                    <li class="global-menu_item">
+                <ul class="global-menu_pulldown-menu">
+                    <li class="global-menu_item">
+                        <a href="javascript:void(0);">
+                            <i class="pulldown-caret"></i>others
+                        </a>
+                    </li>
+                                                                        <li class="global-menu_item">
+                                <a href="https://gamewith.net/genshin-impact/article/show/22626">Specialties</a>                            </li>
+                                                                                                <li class="global-menu_item">
+                                <a href="https://gamewith.net/genshin-impact/article/show/22408">World Quests</a>                            </li>
+                                                                                                <li class="global-menu_item">
+                                <a href="https://gamewith.net/genshin-impact/article/show/30373">Mini Games</a>                            </li>
+                                                            </ul>
+            </li>
+            </ul>
+                </div>
+                <div class="c-title">
+                    Article                     Menu                </div>
+                    <div id="js-article-menu" class="c-box">
+        <div class="content-menu">
+            <div class='tips-vertical-menu_title is-m'> Event News</div>
+<div class='tips-vertical-menu_title is-s'> Latest Update</div>
+<ul><li><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/22333' >Updates & Latest News</a></li><li><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/22737' >Genshin Redeem Codes</a></li><li><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/77442' >Shadow Realm Treasure Vault</a></li><li><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/77640' >Traveler's Gun (FPS)</a></li><li><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/77445' >Shadow Wingdrop</a></li><li><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/29662' >Snezhnaya Shrine of Depths</a></li></ul>
+
+<div class='tips-vertical-menu_title is-s'> Current Banners</div>
+<ul><li><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/77291' >Odette</a></li><li><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/44461' >Arlecchino</a></li></ul>
+
+
+<div class='tips-vertical-menu_title is-m'> Character Guide</div>
+
+<div class='tips-vertical-menu_title is-s'>Characters By Rarity</div>
+<ul><li><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/24378' >5 Stars</a></li><li><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/24377' >4 Stars</a></li></ul>
+
+
+<div class='tips-vertical-menu_title is-s'> Characters By Roles</div>
+<div class="genshin_menutable">
+  <table class="tips-vertical-menu_table">
+    <tbody>
+      <tr>
+        <td align="center" colspan="4"><a href="https://gamewith.net/genshin-impact/article/show/24861">DPS</a></td>
+        <td align="center" colspan="4"><a href="https://gamewith.net/genshin-impact/article/show/24862">Support</a></td>
+        <td align="center" colspan="4"><a href="https://gamewith.net/genshin-impact/article/show/24863">Sustain</a></td>
+      </tr>
+      <tr>
+        <td align="center" colspan="6"><a href="https://gamewith.net/genshin-impact/article/show/56135">On-Field</a></td>
+        <td align="center" colspan="6"><a href="https://gamewith.net/genshin-impact/article/show/56136">Off-Field</a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div class='tips-vertical-menu_title is-s'> Characters By Element</div>
+<div class="genshin_menutable">
+  <table class="tips-vertical-menu_table">
+    
+    <tr>
+      <td> <a href="https://gamewith.net/genshin-impact/article/show/24384"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/wind.png" width="27" alt="Anemo" style="display:inline; vertical-align:middle;" />Anemo </a> 
+</td><td><a href="https://gamewith.net/genshin-impact/article/show/24385">
+            <img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/water.png" width="27" alt="Hydro" style="display:inline; vertical-align:middle;" />Hydro
+          </a></td>
+    </tr>
+
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24381">
+            <img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/fire.png" width="25" alt="Pyro" style="display:inline; vertical-align:middle;" />Pyro
+          </a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24382">
+            <img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/thunder.png" width="28" alt="Electro" style="display:inline; vertical-align:middle;" />Electro
+          </a></td>
+    </tr>
+  
+  <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/29220">
+            <img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools%2Fgenshin-impact%2Fgacha%2Fdendro_icon.png" width="30" alt="Dendro" style="display:inline; vertical-align:middle;" />Dendro
+          </a></td><td><a href="https://gamewith.net/genshin-impact/article/show/24386">
+            <img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/ice.png" width="28" alt="Cryo" style="display:inline; vertical-align:middle;" />Cryo
+          </a></td>
+    </tr>
+
+    <tr>
+      <td colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24383">
+            <img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/rock.png" width="28" alt="Geo" style="display:inline; vertical-align:middle;" />Geo
+          </a></td>
+    </tr>
+    
+  </table>
+</div>
+
+<div class='tips-vertical-menu_title is-s'>Characters By Nation</div>
+<div class="genshin_center">
+ <table class="tips-vertical-menu_table"><tr><td><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/38360' >Mondstadt</a></td><td><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/22394' >Liyue</a></td></tr><tr><td><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/24107' >Inazuma</a></td><td><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/28861' >Sumeru</a></td></tr><tr><td><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/28864' >Fontaine</a></td><td><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/28867' >Natlan</a></td></tr><tr><td><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/51921' >Nod-Krai</a></td><td><a class='tips-vertical-menu_item' href='https://gamewith.net/genshin-impact/article/show/28871' >Snezhnaya</a></td></tr></table>
+</div>
+
+<div class='tips-vertical-menu_title is-m'> 5★ Characters</div>
+<div class="genshin_menutable">
+  <table class="tips-vertical-menu_table">
+    <tr>
+      <th colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24384"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/wind.png" width="25" alt="Anemo">Anemo</a></th>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22643"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_23.png" width="30" alt="Anemo Traveler">Anemo Traveler</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/47147"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_132.png" width="30" alt="Chasca">Chasca</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22356"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_1.png" width="30" alt="Jean">Jean</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24514"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_49.png" width="30" alt="Kaedehara Kazuha">Kaedehara Kazuha</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/51916"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_81.png" width="30" alt="Mizuki">Mizuki</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24648"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_60.png" width="30" alt="Varka">Varka</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22349"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_8.png" width="30" alt="Venti">Venti</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/23288"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_31.png" width="30" alt="Wanderer">Wanderer</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/41848"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_119.png" width="25" alt="Xianyun">Xianyun</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22342"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_15.png" width="25" alt="Xiao">Xiao</a></td>
+    </tr>
+    <tr>
+      <th colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24385"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/water.png" width="25" alt="Hydro">Hydro</a></th>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22922"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_27.png" width="30" alt="Childe">Childe</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/34232"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_96.png" width="30" alt="Columbina">Columbina</a></td>
+    </tr>
+
+<tr>
+<td><a href="https://gamewith.net/genshin-impact/article/show/36031"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools%2Fgenshin-impact%2Fgacha%2Fchara_53.png" width="30" alt="Furina">Furina</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/29673"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools%2Fgenshin-impact%2Fgacha%2Fchara_77.png" width="30" alt="Hydro Traveler">Hydro Traveler</a></td>
+</tr>
+
+
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24635"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_57.png" width="30" alt="Kamisato Ayato">Ayato</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22343"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_14.png" width="30" alt="Mona">Mona</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/47148"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_126.png" width="30" alt="Mualani">Mualani</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/39683"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_108.png" width="30" alt="Neuvillette">Neuvillette</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/31554"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_90.png" width="30" alt="Nilou">Nilou</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24455"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_48.png" width="30" alt="Kokomi">Kokomi</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/40236"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_114.png" width="30" alt="Sigewinne">Sigewinne</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/33289"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_72.png" width="30" alt="Yelan">Yelan</a></td>
+    </tr>
+    <tr>
+      <th colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24383"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/rock.png" width="25" alt="Geo">Geo</a></th>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/23420"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_33.png" width="30" alt="Albedo">Albedo</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/29489"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_74.png" width="30" alt="Arataki Itto">Arataki Itto</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/39692"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_109.png" width="30" alt="Chiori">Chiori</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22642"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_24.png" width="30" alt="Geo Traveler">Geo Traveler</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/69697"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_129.png" width="30" alt="Linnea">Linnea</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/40238"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_112.png" width="30" alt="Navia">Navia</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/47145"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_131.png" width="30" alt="Xilonen">Xilonen</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22838"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_26.png" width="30" alt="Zhongli">Zhongli</a></td>
+    </tr>
+    <tr>
+      <td colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/71827"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_140.png" width="30" alt="Zibai">Zibai</a></td>
+    </tr>
+    <tr>
+      <th colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24382"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/thunder.png" width="30" alt="Electro">Electro</a></th>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/40235"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_115.png" width="30" alt="Clorinde">Clorinde</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24371"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_43.png" width="30" alt="Cyno">Cyno</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/28610"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_66.png" width="30" alt="Electro Traveler">Electro Traveler</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/69307"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_88.png" width="30" alt="Flins">Flins</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/68225"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_85.png" width="30" alt="Ineffa">Ineffa</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22335"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_22.png" width="30" alt="Keqing">Keqing</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24184"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_42.png" width="30" alt="Raiden Shogun">Raiden Shogun</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/51628"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_58.png" width="30" alt="Varesa">Varesa</a></td>
+    </tr>
+    <tr>
+      <td colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24650"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_61.png" width="30" alt="Yae Miko">Yae Miko</a></td>
+    </tr>
+    <tr>
+      <th colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/29220"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/dendro_icon.png" width="30" alt="Dendro">Dendro</a></th>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/33663"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_89.png" width="30" alt="Alhaitham">Alhaitham</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/23803"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_38.png" width="30" alt="Baizhu">Baizhu</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/29670"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_80.png" width="30" alt="Dendro Traveler">Dendro Traveler</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/41125"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_117.png" width="30" alt="Emilie">Emilie</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/47141"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_128.png" width="30" alt="Kinich">Kinich</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/69281"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_86.png" width="30" alt="Lauma">Lauma</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/33274"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_93.png" width="30" alt="Nahida">Nahida</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/69309"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_137.png" width="30" alt="Nefer">Nefer</a></td>
+    </tr>
+    <tr>
+      <td colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/33276"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_94.png" width="30" alt="Tighnari">Tighnari</a></td>
+    </tr>
+    <tr>
+      <th colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24381"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/fire.png" width="30" alt="Pyro">Pyro</a></th>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/30553"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_84.png" width="30" alt="Arlecchino">Arlecchino</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/33787"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_95.png" width="30" alt="Dehya">Dehya</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22351"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_6.png" width="30" alt="Diluc">Diluc</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/30725"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_71.png" width="30" alt="Durin">Durin</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/23791"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_36.png" width="30" alt="Hu Tao">Hu Tao</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22348"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_9.png" width="30" alt="Klee">Klee</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24369"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_45.png" width="30" alt="Lyney">Lyney</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/47149"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_133.png" width="30" alt="Mavuika">Mavuika</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/38300"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_105.png" width="30" alt="Nicole">Nicole</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/29671"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_79.png" width="30" alt="Pyro Traveler">Pyro Traveler</a></td>
+    </tr>
+    <tr>
+      <td colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24607"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_55.png" width="30" alt="Yoimiya">Yoimiya</a></td>
+    </tr>
+    <tr>
+      <th colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24386"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/ice.png" width="30" alt="Cryo">Cryo</a></th>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/29597"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_76.png" width="30" alt="Aloy">Aloy</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/47143"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_130.png" width="30" alt="Citlali">Citlali</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/54872"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_59.png" width="30" alt="Escoffier">Escoffier</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/25134"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_63.png" width="30" alt="Eula">Eula</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/23418"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_32.png" width="30" alt="Ganyu">Ganyu</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22837"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_25.png" width="30" alt="Kamisato Ayaka">Kamisato Ayaka</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/71929"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_141.png" width="30" alt="Lohen">Lohen</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22336"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_21.png" width="30" alt="Qiqi">Qiqi</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/34235"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_99.png" width="30" alt="Sandrone">Sandrone</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24520"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_50.png" width="30" alt="Shenhe">Shenhe</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/30228"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_83.png" width="30" alt="Skirk">Skirk</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/40237"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_113.png" width="30" alt="Wriothesley">Wriothesley</a></td>
+    </tr>
+  </table>
+</div>
+
+<div class='tips-vertical-menu_title is-m'> 4★ Characters</div>
+<div class="genshin_menutable">
+  <table class="tips-vertical-menu_table">
+    <tr>
+      <th colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24384"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/wind.png" width="25" alt="Anemo">Anemo</a></th>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/48313"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_135.png" width="30" alt="Ifa">Ifa</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/69308"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_138.png" width="30" alt="Jahoda">Jahoda</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/49958"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_136.png" width="30" alt="Lan Yan">Lan Yan</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24368"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_46.png" width="30" alt="Lynette">Lynette</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/73816"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_142.png" width="30" alt="Prune">Prune</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24530"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_52.png" width="30" alt="Sayu">Sayu</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/33277"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_73.png" width="30" alt="Shikanoin Heizou">Shikanoin Heizou</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22344"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_13.png" width="30" alt="Sucrose">Sucrose</a></td>
+    </tr>
+    <tr>
+      <th colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24385"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/water.png" width="30" alt="Hydro">Hydro</a></th>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/69272"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_87.png" width="30" alt="Aino">Aino</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22352"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_5.png" width="30" alt="Barbara">Barbara</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/34438"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_103.png" width="30" alt="Candace">Candace</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/44533"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_54.png" width="30" alt="Dahlia">Dahlia</a></td>
+    </tr>
+    <tr>
+      <td colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/22338"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_19.png" width="30" alt="Xingqiu">Xingqiu</a></td>
+    </tr>
+    <tr>
+      <th colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24383"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/rock.png" width="30" alt="Geo">Geo</a></th>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/28855"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_68.png" width="30" alt="Gorou">Gorou</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/69511"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_56.png" width="30" alt="Illuga">Illuga</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/47144"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_127.png" width="30" alt="Kachina">Kachina</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22340"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_17.png" width="30" alt="Ningguang">Ningguang</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22346"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_11.png" width="30" alt="Noelle">Noelle</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24116"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_41.png" width="30" alt="Yun Jin">Yun Jin</a></td>
+    </tr>
+    <tr>
+      <th colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24382"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/thunder.png" width="30" alt="Electro">Electro</a></th>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22341"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_16.png" width="30" alt="Beidou">Beidou</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/33664"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_82.png" width="30" alt="Dori">Dori</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22345"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_12.png" width="30" alt="Fischl">Fischl</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24370"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_44.png" width="30" alt="Iansan">Iansan</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/28845"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_67.png" width="30" alt="Kujou Sara">Kujou Sara</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/29488"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_75.png" width="30" alt="Kuki Shinobu">Kuki Shinobu</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22354"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_3.png" width="30" alt="Lisa">Lisa</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/47151"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_134.png" width="30" alt="Ororon">Ororon</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22350"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_7.png" width="30" alt="Razor">Razor</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/44456"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_122.png" width="30" alt="Sethos">Sethos</a></td>
+    </tr>
+    <tr>
+      <th colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/29220"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/dendro_icon.png" width="30" alt="Dendro">Dendro</a></th>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/28969"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_70.png" width="30" alt="Collei">Collei</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24664"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_62.png" width="30" alt="Kaveh">Kaveh</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/38304"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_106.png" width="30" alt="Kirara">Kirara</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/23804"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_37.png" width="30" alt="Yaoyao">Yaoyao</a></td>
+    </tr>
+    <tr>
+      <th colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24381"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/fire.png" width="30" alt="Pyro">Pyro</a></th>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22355"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_2.png" width="30" alt="Amber">Amber</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22347"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_10.png" width="30" alt="Bennett">Bennett</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/41187"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_118.png" width="30" alt="Chevreuse">Chevreuse</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/42764"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_121.png" width="30" alt="Gaming">Gaming</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24526"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_51.png" width="30" alt="Thoma">Thoma</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22339"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_18.png" width="30" alt="Xiangling">Xiangling</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22923"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_28.png" width="30" alt="Xinyan">Xinyan</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/25133"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_64.png" width="30" alt="Yanfei">Yanfei</a></td>
+    </tr>
+    <tr>
+      <th colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24386"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/ice.png" width="30" alt="Cryo">Cryo</a></th>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/39069"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_107.png" width="30" alt="Charlotte">Charlotte</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22337"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_20.png" width="30" alt="Chongyun">Chongyun</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22924"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_29.png" width="30" alt="Diona">Diona</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/40240"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_110.png" width="30" alt="Freminet">Freminet</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/22353"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_4.png" width="30" alt="Kaeya">Kaeya</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/34439"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_102.png" width="30" alt="Layla">Layla</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/34440"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_102.png" width="30" alt="Mika">Mika</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/23585"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_35.png" width="30" alt="Rosaria">Rosaria</a></td>
+    </tr>
+  </table>
+</div>
+
+<div class='tips-vertical-menu_title is-s'> Unreleased Characters</div>
+<div class="genshin_menutable">
+  <table class="tips-vertical-menu_table">
+    
+ <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/76471"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_147.png" width="30" alt="Alyosha">Alyosha</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/76473"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_149.png" width="30" alt="Danica">Danica</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/76475"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_151.png" width="30" alt="Mitya">Mitya</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/76474"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_150.png" width="30" alt="Noy">Noy</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/76476"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_146.png" width="30" alt="Odette">Odette</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/25145"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_65.png" width="30" alt="Tsaritsa">Tsaritsa</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/76469"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_145.png" width="30" alt="Valeriy">Valeriy</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/76472"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_148.png" width="30" alt="Vesna">Vesna</a></td>
+    </tr>
+    <tr>
+      <td colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/73767"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_144.png" width="30" alt="Vodyanitsa">Vodyanitsa</a></td>
+    </tr>
+  </table>
+</div>
+
+<div class='tips-vertical-menu_title is-m'> Map Guide</div>
+<div class='tips-vertical-menu_title is-s'> Mondstadt</div>
+<div class="genshin_menutable">
+  <table class="tips-vertical-menu_table">    
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22368"><img src="https://img.gamewith.net/img/a2d23cdc994675ba4dc79fa766ee289c.png" width="30" alt="Anemoculus" style="display:inline; vertical-align:middle;"><br>Anemoculus</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22387"><img src="https://img.gamewith.net/img/9f94513d586375304038a2d559f74fdd.png" width="30" alt="Shrine of Depths" style="display:inline; vertical-align:middle;"><br>Shrine of Depths</a></td>
+    </tr>  
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22502"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_133.png" width="30" alt="Calla Lily" style="display:inline; vertical-align:middle;"><br>Calla Lily</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22467"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_168.png" width="30" alt="Cecilia" style="display:inline; vertical-align:middle;"><br>Cecilia</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22462"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_173.png" width="30" alt="Dandelion Seed" style="display:inline; vertical-align:middle;"><br>Dandelion Seed</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22465"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_170.png" width="30" alt="Philanemo Mushroom" style="display:inline; vertical-align:middle;"><br>Philanemo Mushroom</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22463"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_172.png" width="30" alt="Small Lamp Grass" style="display:inline; vertical-align:middle;"><br>Small Lamp Grass</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22468"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_167.png" width="30" alt="Valberry" style="display:inline; vertical-align:middle;"><br>Valberry</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22466"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_169.png" width="30" alt="Windwheel Aster" style="display:inline; vertical-align:middle;"><br>Windwheel Aster</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22469"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_166.png" width="30" alt="Wolfhook" style="display:inline; vertical-align:middle;"><br>Wolfhook</a></td>
+    </tr>
+  </table>
+</div>
+
+<div class='tips-vertical-menu_title is-s'> Liyue</div>
+
+<div class="genshin_menutable">
+  <table class="tips-vertical-menu_table">
+    <tr>
+       <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22369"><img src="https://img.gamewith.net/img/3720708579b552dee44eadaefb72c7ff.png" width="30" alt="Geoculus" style="display:inline; vertical-align:middle;"><br>Geoculus</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22394"><img src="https://img.gamewith.net/img/f67934e0e2f8286bce5dc20dbdc88717.png" width="30" alt="Shrine of Depths" style="display:inline; vertical-align:middle;"><br>Shrine of Depths</a></td>
+    </tr>  
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22461"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_174.png" width="30" alt="Cor Lapis" style="display:inline; vertical-align:middle;"><br>Cor Lapis</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22435"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_201.png" width="30" alt="Glaze Lily" style="display:inline; vertical-align:middle;"><br>Glaze Lily</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22460"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_175.png" width="30" alt="Jueyun Chili" style="display:inline; vertical-align:middle;"><br>Jueyun Chili</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22457"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_178.png" width="30" alt="Noctilucous Jade" style="display:inline; vertical-align:middle;"><br>Noctilucous Jade</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22434"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_202.png" width="30" alt="Qingxin" style="display:inline; vertical-align:middle;"><br>Qingxin</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22459"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_176.png" width="30" alt="Silk Flower" style="display:inline; vertical-align:middle;"><br>Silk Flower</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22458"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_177.png" width="30" alt="Starconch" style="display:inline; vertical-align:middle;"><br>Starconch</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/22464"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_171.png" width="30" alt="Violetgrass" style="display:inline; vertical-align:middle;"><br>Violetgrass</a></td>
+    </tr>
+  </table>
+</div>
+
+<div class='tips-vertical-menu_title is-s'> Inazuma</div>
+
+<div class="genshin_menutable">
+  <table class="tips-vertical-menu_table">
+    <tr>
+ <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/28838"><img src="https://img.gamewith.net/img/855e00a7e431172c327374da779d0acc.png" width="30" alt="Electroculus" style="display:inline; vertical-align:middle;"><br>Electroculus</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/29112"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools%2Fgenshin-impact%2Fgacha%2Fsozai_409.png" width="30" alt="Shrine of Depths" style="display:inline; vertical-align:middle;"><br>Shrine of Depths</a></td>
+    </tr>  
+
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/29620"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_672.png" width="30" alt="Amakumo Fruit" style="display:inline; vertical-align:middle;"><br>Amakumo Fruit</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/29425"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_739.png" width="30" alt="Crystal Marrow" style="display:inline; vertical-align:middle;"><br>Crystal Marrow</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/29059"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_670.png" width="30" alt="Dendrobium" style="display:inline; vertical-align:middle;"><br>Dendrobium</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/29847"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_834.png" width="30" alt="Fluorescent Fungus" style="display:inline; vertical-align:middle;"><br>Fluorescent Fungus</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/29197"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_722.png" width="30" alt="Naku Weed" style="display:inline; vertical-align:middle;"><br>Naku Weed</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/29196"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_723.png" width="30" alt="Onikabuto" style="display:inline; vertical-align:middle;"><br>Onikabuto</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/29188"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_717.png" width="30" alt="Sakura Bloom" style="display:inline; vertical-align:middle;"><br>Sakura Bloom</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/29623"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_539.png" width="30" alt="Sango Pearl" style="display:inline; vertical-align:middle;"><br>Sango Pearl</a></td>
+    </tr>
+    <tr>
+      <td colspan="6"><a href="https://gamewith.net/genshin-impact/article/show/29008"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_656.png" width="30" alt="Sea Ganoderma" style="display:inline; vertical-align:middle;"><br>Sea Ganoderma</a></td>
+    </tr>
+  </table>
+</div>
+
+<div class='tips-vertical-menu_title is-s'> Sumeru</div>
+
+<div class="genshin_menutable">
+  <table class="tips-vertical-menu_table">
+    <tr>
+ <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/28841"><img src="https://img.gamewith.net/img/13c9207d91456fb78cd4a74fcd50fc6e.png" width="30" alt="Dendroculus" style="display:inline; vertical-align:middle;"><br>Dendroculus</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/29660"><img src="https://img.gamewith.net/img/faecc2bf263ef68fd6b2ceb0c266d9ef.png" width="30" alt="Shrine of Depths" style="display:inline; vertical-align:middle;"><br>Shrine of Depths</a></td>
+    </tr>  
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/35438"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1372.png" width="30" alt="Henna Berry" style="display:inline; vertical-align:middle;"><br>Henna Berry</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/34256"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1280.png" width="30" alt="Kalpalata Lotus" style="display:inline; vertical-align:middle;"><br>Kalpalata Lotus</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/38620"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1732.png" width="30" alt="Mourning Flower" style="display:inline; vertical-align:middle;"><br>Mourning Flower</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/34257"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1279.png" width="30" alt="Nilotpala Lotus" style="display:inline; vertical-align:middle;"><br>Nilotpala Lotus</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/34253"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1283.png" width="30" alt="Padisarah" style="display:inline; vertical-align:middle;"><br>Padisarah</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/34258"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1278.png" width="30" alt="Rukkhashava Mushroom" style="display:inline; vertical-align:middle;"><br>Rukkhashava Mushroom</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/37828"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1684.png" width="30" alt="Sand Grease Pupa" style="display:inline; vertical-align:middle;"><br>Sand Grease Pupa</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/35439"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1371.png" width="30" alt="Scarab" style="display:inline; vertical-align:middle;"><br>Scarab</a></td>
+    </tr>
+    <tr>
+      <td colspan="6"><a href="https://gamewith.net/genshin-impact/article/show/38619"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1733.png" width="30" alt="Trishiraite" style="display:inline; vertical-align:middle;"><br>Trishiraite</a></td>
+    </tr>
+  </table>
+</div>
+
+<div class='tips-vertical-menu_title is-s'> Fontaine</div>
+
+<div class="genshin_menutable">
+  <table class="tips-vertical-menu_table">
+    <tr>
+<td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/28839"><img src="https://img.gamewith.net/img/07c5c73e91c17482bf78186e670e045a.png" width="30" alt="Hydroculus" style="display:inline; vertical-align:middle;"><br>Hydroculus</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/29661"><img src="https://img.gamewith.net/img/71929f21d424252284fa682b0373e334.png" width="30" alt="Shrine of Depths" style="display:inline; vertical-align:middle;"><br>Shrine of Depths</a></td>
+
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/40701"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1779.png" width="30" alt="Beryl Conch" style="display:inline; vertical-align:middle;"><br>Beryl Conch</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/42191"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1848.png" width="30" alt="Lakelight Lily" style="display:inline; vertical-align:middle;"><br>Lakelight Lily</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/40643"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1772.png" width="30" alt="Lumidouce Bell" style="display:inline; vertical-align:middle;"><br>Lumidouce Bell</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/47808"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2028.png" width="30" alt="Quenepa Berry" style="display:inline; vertical-align:middle;"><br>Quenepa Berry</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/40642"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1773.png" width="30" alt="Rainbow Rose" style="display:inline; vertical-align:middle;"><br>Rainbow Rose</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/42302"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1849.png" width="30" alt="Spring of the First Dewdrop" style="display:inline; vertical-align:middle;"><br>Spring of the First Dewdrop</a></td>
+    </tr>
+    <tr>
+      <td colspan="6"><a href="https://gamewith.net/genshin-impact/article/show/41361"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_1835.png" width="30" alt="Subdetection Unit" style="display:inline; vertical-align:middle;"><br>Subdetection Unit</a></td>
+    </tr>
+  </table>
+</div>
+
+<div class='tips-vertical-menu_title is-s'> Natlan</div>
+
+<div class="genshin_menutable">
+  <table class="tips-vertical-menu_table">
+    <tr>
+<td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/28840"><img src="https://img.gamewith.net/img/194d6326573c9c6457f158c693cd2e04.png" width="30" alt="Pyroculus" style="display:inline; vertical-align:middle;"><br>Pyroculus</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/47866"><img src="https://img.gamewith.net/img/b5d644d830c217c0734ebbefa2af084c.png" width="30" alt="Shrine of Depths" style="display:inline; vertical-align:middle;"><br>Shrine of Depths</a></td>
+
+
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/47804"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2024.png" width="30" alt="Saurian Claw Succulent" style="display:inline; vertical-align:middle;"><br>Saurian Claw Succulent</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/47808"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2028.png" width="30" alt="Quenepa Berry" style="display:inline; vertical-align:middle;"><br>Quenepa Berry</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/47803"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2025.png" width="30" alt="Sprayfeather Gill" style="display:inline; vertical-align:middle;"><br>Sprayfeather Gill</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/47805"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2023.png" width="30" alt="Brilliant Chrysanthemum" style="display:inline; vertical-align:middle;"><br>Brilliant Chrysanthemum</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/49189"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2090.png" width="30" alt="Withering Purpurbloom" style="display:inline; vertical-align:middle;"><br>Withering Purpurbloom</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/49188"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2089.png" width="30" alt="Glowing Hornshroom" style="display:inline; vertical-align:middle;"><br>Glowing Hornshroom</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/54843"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2168.png" width="30" alt="Dracolite" style="display:inline; vertical-align:middle;"><br>Dracolite</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/54842"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2167.png" width="30" alt="Skysplit Gembloom" style="display:inline; vertical-align:middle;"><br>Skysplit Gembloom</a></td>
+    </tr>
+  </table>
+</div>
+
+<div class='tips-vertical-menu_title is-s'> Nod-Krai</div>
+
+<div class="genshin_menutable">
+  <table class="tips-vertical-menu_table">
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/69582">Lunoculus</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/69584">Shrine Of Depths</a></td>
+    </tr>  
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/70365"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2263.png" width="30" alt="Portable Bearing" style="display:inline; vertical-align:middle;"><br>Portable Bearing</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/70363"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2265.png" width="30" alt="Moonfall Silver" style="display:inline; vertical-align:middle;"><br>Moonfall Silver</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/70364"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2264.png" width="30" alt="Frostlamp Flower" style="display:inline; vertical-align:middle;"><br>Frostlamp Flower</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/72386"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2346.png" width="30" alt="Pine Amber" style="display:inline; vertical-align:middle;"><br>Pine Amber</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/72385"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2345.png" width="30" alt="Winter Icelea" style="display:inline; vertical-align:middle;"><br>Winter Icelea</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/76520"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2367.png" width="30" alt="Teardrop of the Moon" style="display:inline; vertical-align:middle;"><br>Teardrop of the Moon</a></td>
+    </tr>
+  </table>
+</div>
+
+
+<div class='tips-vertical-menu_title is-s'> Snezhnaya</div>
+<div class="genshin_menutable">
+  <table class="tips-vertical-menu_table">
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/28858">Cryoculus</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/29662">Shrine Of Depths</a></td>
+    </tr>  
+
+<!--FOR MATS
+ <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/70365"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2263.png" width="30" alt="Portable Bearing" style="display:inline; vertical-align:middle;"><br>Portable Bearing</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/70363"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2265.png" width="30" alt="Moonfall Silver" style="display:inline; vertical-align:middle;"><br>Moonfall Silver</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/70364"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2264.png" width="30" alt="Frostlamp Flower" style="display:inline; vertical-align:middle;"><br>Frostlamp Flower</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/72386"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2346.png" width="30" alt="Pine Amber" style="display:inline; vertical-align:middle;"><br>Pine Amber</a></td>
+    </tr>
+    <tr>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/72385"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2345.png" width="30" alt="Winter Icelea" style="display:inline; vertical-align:middle;"><br>Winter Icelea</a></td>
+      <td colspan="3"><a href="https://gamewith.net/genshin-impact/article/show/76520"><img src="https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/s_i_2367.png" width="30" alt="Teardrop of the Moon" style="display:inline; vertical-align:middle;"><br>Teardrop of the Moon</a></td>
+    </tr>
+-->
+
+  </table>
+</div>
+
+<div class='tips-vertical-menu_title is-m'> Weapons</div>
+<div class="genshin_menutable">
+  <table class="tips-vertical-menu_table">
+    
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24450"><img src="https://img.gamewith.net/img/7b3369027b47b6948ab212a98658f09e.png" width="30" alt="Sword">Sword</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24451"><img src="https://img.gamewith.net/img/986fdeaecca8856f5f65d866e39cb175.png" width="30" alt="Claymore">Claymore</a></td>
+    </tr>
+    <tr>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24453"><img src="https://img.gamewith.net/img/83dac1070771529c0ca83bf266b95142.png" width="30" alt="Polearm">Polearm</a></td>
+      <td><a href="https://gamewith.net/genshin-impact/article/show/24452"><img src="https://img.gamewith.net/img/40ec0fdf868419bb11cd39d7ac4f73eb.png" width="30" alt="Catalyst">Catalyst</a></td>
+    </tr>
+  
+  <tr>
+      <td colspan="2"><a href="https://gamewith.net/genshin-impact/article/show/24454"><img src="https://img.gamewith.net/img/eebba73a03de95c3d2bc56e0f8b50f78.png" width="30" alt="Bow">Bow</a></td>
+    </tr>
+  </table>
+</div>
+
+
+
+<style>
+[genshin_center]
+.genshin_center {
+  text-align: center;
+}
+
+.genshin_menutable table th {
+  text-align: left;
+  font-size: 15px;
+  padding-top: 3px;
+}
+.genshin_menutable table td {
+  text-align: left;
+  width: 50%;
+  font-size: 13px;
+}
+.genshin_menutable table img {
+  display: inline;
+  vertical-align: middle;
+  margin: 5px !important;
+}
+.genshin_menutable table a {
+  display: inline-flex;
+  align-items: center;
+}
+</style>        </div>
+    </div>
+                                        <div class="c-title">
+                        Forum                    </div>
+                                <div id="threads_widget" class="c-box">
+    <ul>
+                    <li>
+                <a href="https://gamewith.net/genshin-impact/bbs/threads/show/28" class="menu-anchor-item">
+                    Multiplayer Forum (UID Exchange)                </a>
+            </li>
+                    <li>
+                <a href="https://gamewith.net/genshin-impact/bbs/threads/show/29" class="menu-anchor-item">
+                    Friend Code Exchange Forum                </a>
+            </li>
+                    <li>
+                <a href="https://gamewith.net/genshin-impact/bbs/threads/show/57" class="menu-anchor-item">
+                    Character Builds & Weapons Forum                </a>
+            </li>
+                    <li>
+                <a href="https://gamewith.net/genshin-impact/bbs/threads/show/58" class="menu-anchor-item">
+                    Teapot Traveling Merchant Friends Exchange Forum                </a>
+            </li>
+            </ul>
+    </div>
+            </div>
+            <div class="left-col-border-wrap">
+                <div class="border"></div>
+            </div>
+            <button class="left-col-toggle js-left-col-toggle">
+                <div class="toggle-icon"></div>
+            </button>
+        </div>
+        <div class="main-right-col-wrap-3">
+            <div class="main-col-wrap-3">
+                    <div class="pankuzu-wrap">
+        <div class="pankuzu-inner js-pankuzu-inner">
+                                                            <div class="pankuzu-child js-pankuzu-child">
+                        <a href="https://gamewith.net/">
+                            <span itemprop="title" class="pankuzu-child-title">GameWith</span>
+                        </a>
+                        <span class="pankuzu-arrow"></span>
+                                </div>
+                                                                <div class="pankuzu-child js-pankuzu-child">
+                        <a href="https://gamewith.net/genshin-impact/">
+                            <span itemprop="title" class="pankuzu-child-title">Genshin Impact Wiki Guide & Tips</span>
+                        </a>
+                        <span class="pankuzu-arrow"></span>
+                                </div>
+                                                                <div class="pankuzu-child js-pankuzu-child">
+                        <a href="https://gamewith.net/genshin-impact/article/show/22375">
+                            <span itemprop="title" class="pankuzu-child-title">Beginner's Guide & Tips </span>
+                        </a>
+                        <span class="pankuzu-arrow"></span>
+                                </div>
+                                                                <div class="pankuzu-child js-pankuzu-child">
+                        <span class="pankuzu-child-title">How to Reach Level 100 & Characters to Prioritize</span>
+                                </div>
+                                    </div>
+    </div>
+
+    <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+                                                            {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "item": {
+                            "@id": "https://gamewith.net/",
+                            "name": "GameWith"
+                        }
+                    }
+                    ,                                                                {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "item": {
+                            "@id": "https://gamewith.net/genshin-impact/",
+                            "name": "Genshin Impact Wiki Guide & Tips"
+                        }
+                    }
+                    ,                                                                {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "item": {
+                            "@id": "https://gamewith.net/genshin-impact/article/show/22375",
+                            "name": "Beginner's Guide & Tips "
+                        }
+                    }
+                                                                                    ]
+    }
+    </script>
+                <div class="c-box w-for-tips-custom-style">
+                    <div class="article-hero">
+                        <h1>Genshin Impact | How to Reach Level 100 &amp; Characters to Prioritize</h1>
+                        <div class="_info">
+                            <div class="walkthrough-last-update">
+                                <span class="_text">Last Updated: <time datetime="2026-09-18T12:19-05:00">September 18, 2026 12:19 PM</time></span>
+                            </div>
+                            <button class="comment-direct js-link-to-comment">
+                                <div class="comment-count">
+                                    <i class="c-comment-icon is-pushed"></i>
+                                    <span class="comment-direct-num">0</span>
+                                </div>
+                                <div class="comment-instruction">
+                                    <span>See latest comments</span>
+                                    <i class="i-expand-down-arrow"></i>
+                                </div>
+                            </button>
+                        </div>
+                                                    <div class="article-ogimage-2-wrap">
+                                <img src="https://img.gamewith.net/article/thumbnail/rectangle/70231.png" alt="Genshin Impact | How to Reach Level 100 &amp; Characters to Prioritize - GameWith" class="article-ogimage-2">
+                            </div>
+                                            </div>
+                    <div class="article-wrap">
+                        <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://gamewith.net/genshin-impact/article/show/70231"
+    },
+        "headline": "Genshin Impact | How to Reach Level 100 &amp; Characters to Prioritize",
+                    "description": "How to Reach Level 95 to 100  &amp; Characters to Prioritize in Genshin Impact. See how to reach level 95, level 100, increase character ascension limit to 100, &amp; who to level to 100!",
+                        "articleBody": " How to Reach Level 95 to 100  &amp; Characters to Prioritize in Genshin Impact. See how to reach level 95, level 100, increase character ascension limit to 100, &amp; who to level to 100!Table of ContentsHow to Reach Level 95 and 100?How To Get Masterless FortunaPriority Characters To Level UpHow to Reach Level 95 and 100? Starting from Level 90 Use Masterless Fortuna To Raise A Character by 5 LevelsHow to Level Up1-90EXP Books, Boss Drops, Specialty, Elemental Gems90-95 Masterless Fortuna x195-100 Masterless Fortuna x2 To level a character from Level 90, you need to use Masterless Fortuna. You do not need EXP Books and other materials for this.How to Get &amp; Use Masterless Fortuna Get The Masterless Fortuna Through Gacha Pulls You can get Masterless Fortuna by pulling another 5-star that already has maxed out constellation. The extra character/constellation will automatically give a Masterless Fortuna. Used To Raise Characters Up To Lv. 100 Masterless Fortuna can be used to level up your characters up to Lv. 95 and up to Lv. 100. Note that you can only level up a character to its maximum level cap if your character is already at Level 90. Which Character to Level up to 100? &amp; Who Benefits the Most? Recommended Characters to Ascend Up to Lv. 100Highest Priority(Transformative Reaction Triggers)NahidaRaiden(Hyperbloom)IneffaFlinsLaumaYae MikoKokomi (Bloom)Kuki ShinobuHigh Priority(Transformative Reaction Characters) AlhaithamNilouCynoTighnariBarbara (Bloom)ClorindeMedium Priority(High Damage Characters &amp; Bennett)BennettNeuvilletteMavuikaSkirkMualaniArlecchinoChascaKinich Transformative Reaction Gains The Most Buffs From Level Increase Transformative Reaction such as Bloom, Hyperbloom, Burgeon, Electro-Charge etc, scales from the character&#039;s Level Multiplier (Level of the character). Because of this, characters who mainly deal damage by triggering such reactions gains the most damage increase from increasing max level. The One Dealing The Reaction Is The PrioritySimilar to all reactions, the stats of the character dealing or triggering the reaction is where the damage is calculated from so characters who has the most ownership in the reactions should be the biggest priority for maxing level over other transformative reaction characters. META Characters Are Also Good Options Increasing the max level of the character also increases their Base ATK, DEF and HP. This can increase the damage of any characters no matter which stats they scale. Bennett Is Also a Good Option Bennett&#039;s ATK buff increases based on Base ATK so increasing Bennett&#039;s Max Level will effectively increase Bennett&#039;s Base ATK. Since Bennett is a 4-star character, the base ATK increase will not be will not be significant compared to leveling the character being buffed itself. However, Bennett can be slotted in any ATK scaling team.Character Related Articles Character Tier ListsTier ListsBest Characters Tier ListBest Teams For Each CharacterMeta Team CompsAll CharactersCharacters By Rarity★5★4Characters By RolesDPS ListSupport ListSustain ListOn-Field ListOff-Field ListCharacters By ElementPyroHydroAnemoElectroDendroCryoGeoCharacters By NationMondstadtLiyueInazumaSumeru FontaineNatlanSnezhnayaNod-KraiList Of All Characters",
+    
+            
+"image": 
+        [
+                {
+            "@type": "ImageObject",
+            "url": "https://img.gamewith.net/article/thumbnail/rectangle/70231.png"
+                            ,
+                "width": 600,
+                "height": 315                    }
+                    ,
+                    {
+            "@type": "ImageObject",
+            "url": "https://img.gamewith.net/article/thumbnail/rectangle/70231.png?date=1756871074"
+                            ,
+                "width": 600,
+                "height": 315                    }
+                    ]
+    ,
+    
+    "datePublished": "2025-09-02T23:13:43-04:00",
+    "dateModified": "2026-09-18T12:19:38-04:00",
+            "author": {
+            "@type": "Person",
+            "name": "GameWith Genshin Strategy Team"
+        },
+        "publisher": {
+        "@type": "Organization",
+        "name": "GameWith",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://assets.gamewith.net/assets/img/logo.png",
+            "width": 276,
+            "height": 46
+        }
+    }
+}
+</script>
+                                <div class="new-game-announce">
+        <p class="_header">Hot Topic</p>
+        <ul class="_list">
+            
+                                                            <li class="_heading">
+                            Featured Characters                        </li>
+                                    
+            
+                                    <li class="_item">
+                        <i class="_i-notification"></i>
+                                                    <div style="line-height: 15px; font-weight: bold; font-size: 14px;">
+Flins:
+  <a href="https://gamewith.net/genshin-impact/article/show/769307" target="_blank">Best Build</a>  
+<span> / </span>
+  <a href="https://gamewith.net/genshin-impact/article/show/70117" target="_blank">Best Team</a>
+<span> / </span>
+  <a href="https://gamewith.net/genshin-impact/article/show/70120" target="_blank">Material Farming</a>
+<span> / </span>
+  <a href="https://gamewith.net/genshin-impact/article/show/70108" target="_blank">Banner</a>
+</div>                                            </li>
+                
+            
+                                    <li class="_item">
+                        <i class="_i-notification"></i>
+                                                    <div style="line-height: 15px; font-weight: bold; font-size: 14px;">
+Ineffa: 
+<a href="https://gamewith.net/genshin-impact/article/show/68225" target="_blank">Best Build</a>  
+<span> / </span>
+<a href="https://gamewith.net/genshin-impact/article/show/69273" target="_blank">Best Team</a>
+<span> / </span>
+<a href="https://gamewith.net/genshin-impact/article/show/69283" target="_blank">Gacha Banner</a>
+</div>                                            </li>
+                
+            
+                                    <li class="_item">
+                        <i class="_i-notification"></i>
+                                                    <div style="line-height: 15px; font-weight: bold; font-size: 14px;">Vesna: <a href="https://gamewith.net/genshin-impact/article/show/76472" target="_blank">Best Build</a><span> / </span><a href="https://gamewith.net/genshin-impact/article/show/77723" target="_blank">Best Team</a><span> / </span><a href="https://gamewith.net/genshin-impact/article/show/77724" target="_blank">Materials</a><span> / </span><a href="https://gamewith.net/genshin-impact/article/show/77699" target="_blank">Signature Weapon</a><span> / </span><a href="https://gamewith.net/genshin-impact/article/show/77727" target="_blank">Banner</a></div>                                            </li>
+                
+            
+                                    <li class="_item">
+                        <i class="_i-notification"></i>
+                                                    <div style="line-height: 15px; font-weight: bold; font-size: 14px;">Vodyanitsa: <a href="https://gamewith.net/genshin-impact/article/show/73767" target="_blank">Best Build</a><span> / </span><a href="https://gamewith.net/genshin-impact/article/show/77728" target="_blank">Teams</a><span> / </span><a href="https://gamewith.net/genshin-impact/article/show/77725" target="_blank">Banner</a><span> / </span><a href="https://gamewith.net/genshin-impact/article/show/77698" target="_blank">Signature Weapon</a><span> / </span><a href="https://gamewith.net/genshin-impact/article/show/77726" target="_blank">Materials</a></div>                                            </li>
+                
+            
+                                                            <li class="_heading">
+                            Recommended Articles                        </li>
+                                    
+            
+                                    <li class="_item">
+                        <i class="_i-notification"></i>
+                                                    <div style="line-height: 15px; font-weight: bold; font-size: 14px;">
+<span style="color: red;">New!</span> 7.0 Key Items: 
+<a href="https://gamewith.net/genshin-impact/article/show/28858" target="_blank">Cryoculus</a>  
+<span> / </span>
+<a href="https://gamewith.net/genshin-impact/article/show/77445" target="_blank">Shadow Wingdrop</a>
+</div>                                            </li>
+                
+            
+                                    <li class="_item">
+                        <i class="_i-notification"></i>
+                                                    <div style="line-height: 15px; font-weight: bold; font-size: 14px;">
+<span style="color: red;">New!</span> Specialties: 
+<a href="https://gamewith.net/genshin-impact/article/show/77434" target="_blank">Frostfairy Flower</a>  
+<span> / </span>
+<a href="https://gamewith.net/genshin-impact/article/show/77405" target="_blank">Flockingweed</a>
+<span> / </span>
+<a href="https://gamewith.net/genshin-impact/article/show/77435" target="_blank">Golden Fern</a>
+</div>                                            </li>
+                
+            
+                                    <li class="_item">
+                        <i class="_i-notification"></i>
+                                                    <a
+                                href="https://gamewith.net/genshin-impact/article/show/73037"
+                                class="_link gtm-ga4-walkthrough-click-event"
+                                gtm-walkthrough-name="お知らせ"
+                                gtm-walkthrough-type="Genshin Word Game: Guess Today's Character!"
+                            >Genshin Word Game: Guess Today's Character!</a>
+                                            </li>
+                
+            
+                                    <li class="_item">
+                        <i class="_i-notification"></i>
+                                                    <a
+                                href="https://gamewith.net/genshin-impact/article/show/42984?hottopic"
+                                class="_link gtm-ga4-walkthrough-click-event"
+                                gtm-walkthrough-name="お知らせ"
+                                gtm-walkthrough-type="【Tool】Character Completion Tracker!"
+                            >【Tool】Character Completion Tracker!</a>
+                                            </li>
+                
+            
+                                    <li class="_item">
+                        <i class="_i-notification"></i>
+                                                    <a
+                                href="https://gamewith.net/genshin-impact/article/show/22737"
+                                class="_link gtm-ga4-walkthrough-click-event"
+                                gtm-walkthrough-name="お知らせ"
+                                gtm-walkthrough-type="Redeem Codes for Genshin Impact!"
+                            >Redeem Codes for Genshin Impact!</a>
+                                            </li>
+                
+                    </ul>
+    </div>
+<div class="article-share-btn-wrap">
+                            <ul class="sns-btn cf">
+                                    <li class="_item">
+                        <a href="https://twitter.com/share?url=https://gamewith.net/genshin-impact/article/show/70231&amp;text=Genshin%20Impact%20%7C%20How%20to%20Reach%20Level%20100%20%26%20Characters%20to%20Prioritize%20-%20GameWith" target="_blank" class="_btn is-tw" rel="nofollow"><i class="_i"></i><span class="_text">Post</span></a>
+                    </li>
+                                    <li class="_item">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://gamewith.net/genshin-impact/article/show/70231" target="_blank" class="_btn is-fb" rel="nofollow"><i class="_i"></i><span class="_text">Share</span></a>
+                    </li>
+                                    <li class="_item">
+                        <a href="https://www.reddit.com/submit?url=https://gamewith.net/genshin-impact/article/show/70231&amp;title=Genshin%20Impact%20%7C%20How%20to%20Reach%20Level%20100%20%26%20Characters%20to%20Prioritize%20-%20GameWith" target="_blank" class="_btn is-rd" rel="nofollow"><i class="_i"></i><span class="_text">Share</span></a>
+                    </li>
+                            </ul>
+            </div>
+<hr class="article-hero-hr">
+<div id="article-body" class="">
+    <style>.genshin_center table{text-align: center;table-layout: fixed;}.genshin_team tr td:nth-child(1){text-align: center;}.genshin_team img{display: inline-block !important;vertical-align: middle;}.genshin_substitute tr td:nth-child(1){text-align: center;}.genshin_substitute tr td:nth-child(2){text-align: center;}.genshin_footer table{text-align: center;table-layout: fixed;font-weight: bolder;}.genshin_footer_enemies table{text-align: center;table-layout: fixed;font-weight: bolder;}.genshin_footer_enemies img{border-radius:10px;}.genshin_img_adjust table tr td{padding: 2px 2px !important;}.genshin_img_adjust .w-article-img{margin-bottom:2px!important;}.genshin_img_adjust table{table-layout:fixed;}</style><p> <span class='sub-info'>How to Reach Level 95 to 100  & Characters to Prioritize in Genshin Impact. See how to reach level 95, level 100, increase character ascension limit to 100, & who to level to 100!</span></p><div class="article_outline"><p><span class='bolder'>Table of Contents</span></p><ul><li><a href='#upgrade' >How to Reach Level 95 and 100?</a></li><li><a href='#how' >How To Get Masterless Fortuna</a></li><li><a href='#one' >Priority Characters To Level Up</a></li></ul></div><!-- .article_outline --><h2 id="how">How to Reach Level 95 and 100?</h2><h3> Starting from Level 90 Use Masterless Fortuna To Raise A Character by 5 Levels</h3><table><tr><th colspan="2" width="30%">How to Level Up</th></tr><tr><th width="30%">1-90</th><td width="70%">EXP Books, Boss Drops, Specialty, Elemental Gems</td></tr><tr><th width="30%">90-95</th><td width="70%"> Masterless Fortuna x1</td></tr><tr><th width="30%">95-100</th><td width="70%"> Masterless Fortuna x2</td></tr></table><p> To level a character from Level 90, you need to use Masterless Fortuna. You do not need EXP Books and other materials for this.</p><h2 id="how">How to Get & Use Masterless Fortuna</h2><h3> Get The Masterless Fortuna Through Gacha Pulls</h3><div style='width:100%;' class='w-article-img'><div class='js-lazyload-img-wrap c-thumb-placeholder' style='padding-bottom:56%'><img class='c-progressive-img' src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://img.gamewith.net/img/6ed58b185bef01a5ea52546f9cc8d0da.png' data-use-lazyload='true' alt='Genshin Impact max level cap'></div></div><noscript><img src='https://img.gamewith.net/img/6ed58b185bef01a5ea52546f9cc8d0da.png' alt='Genshin Impact max level cap' /></noscript><p> You can <span style='color:red;'>get Masterless Fortuna by pulling another 5-star that already has maxed out constellation</span>. The extra character/constellation will automatically give a Masterless Fortuna.</p><h4> Used To Raise Characters Up To Lv. 100</h4><p> Masterless Fortuna can be used to level up your characters up to Lv. 95 and up to Lv. 100. Note that <span style='color:red;'>you can only level up a character to its maximum level cap if your character is already at Level 90</span>. </p><h2 id="one">Which Character to Level up to 100? & Who Benefits the Most?</h2><h3> Recommended Characters to Ascend Up to Lv. 100</h3><table><tr><th colspan="8">Highest Priority<br>(Transformative Reaction Triggers)</th></tr><tr><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/33274' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_93.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Nahida'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_93.png' alt='Nahida' /></noscript>Nahida</a></td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/24184' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_42.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Raiden Shogun'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_42.png' alt='Raiden Shogun' /></noscript>Raiden</a><br>(Hyperbloom)</td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/68225' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_85.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Ineffa'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_85.png' alt='Ineffa' /></noscript>Ineffa</a></td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/69307' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_88.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Flins'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_88.png' alt='Flins' /></noscript>Flins</a></td></tr><tr><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/69281' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_86.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Lauma'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_86.png' alt='Lauma' /></noscript>Lauma</a></td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/24650' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_61.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Yae Miko'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_61.png' alt='Yae Miko' /></noscript>Yae Miko</a></td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/24455' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_48.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Sangonomiya Kokomi'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_48.png' alt='Sangonomiya Kokomi' /></noscript>Kokomi</a> (Bloom)</td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/29488' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_75.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Kuki Shinobu'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_75.png' alt='Kuki Shinobu' /></noscript>Kuki Shinobu</a></td></tr><tr><th colspan="8">High Priority<br>(Transformative Reaction Characters) </th></tr><tr><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/33663' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_89.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Alhaitham'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_89.png' alt='Alhaitham' /></noscript>Alhaitham</a></td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/31554' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_90.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Nilou'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_90.png' alt='Nilou' /></noscript>Nilou</a></td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/24371' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_43.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Cyno'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_43.png' alt='Cyno' /></noscript>Cyno</a></td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/33276' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_94.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Tighnari'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_94.png' alt='Tighnari' /></noscript>Tighnari</a></td></tr><tr><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/22352' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_5.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Barbara'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_5.png' alt='Barbara' /></noscript>Barbara</a> (Bloom)</td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/40235' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_115.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Clorinde'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_115.png' alt='Clorinde' /></noscript>Clorinde</a></td><td colspan="2", style="text-align:center"></td><td colspan="2", style="text-align:center"></td></tr><tr><th colspan="8">Medium Priority<br>(High Damage Characters & Bennett)</th></tr><tr><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/22347' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_10.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Bennett'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_10.png' alt='Bennett' /></noscript>Bennett</a></td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/39683' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_108.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Neuvillette'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_108.png' alt='Neuvillette' /></noscript>Neuvillette</a></td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/47149' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_133.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Mavuika'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_133.png' alt='Mavuika' /></noscript>Mavuika</a></td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/30228' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_83.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Skirk'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_83.png' alt='Skirk' /></noscript>Skirk</a></td></tr><tr><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/47148' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_126.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Mualani'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_126.png' alt='Mualani' /></noscript>Mualani</a></td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/30553' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_84.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Arlecchino'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_84.png' alt='Arlecchino' /></noscript>Arlecchino</a></td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/47147' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_132.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Chasca'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_132.png' alt='Chasca' /></noscript>Chasca</a></td><td colspan="2", style="text-align:center"><a href='https://gamewith.net/genshin-impact/article/show/47141' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_128.png' data-use-lazyload='true' width=50px height=50px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Kinich'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/chara_128.png' alt='Kinich' /></noscript>Kinich</a></td></tr></table><h3> Transformative Reaction Gains The Most Buffs From Level Increase</h3><p> Transformative Reaction such as Bloom, Hyperbloom, Burgeon, Electro-Charge etc, scales from the character's Level Multiplier (Level of the character). Because of this, characters who mainly deal damage by triggering such reactions gains the most damage increase from increasing max level.</p><h4> The One Dealing The Reaction Is The Priority</h4><p>Similar to all reactions, the stats of the character dealing or triggering the reaction is where the damage is calculated from so characters who has the most ownership in the reactions should be the biggest priority for maxing level over other transformative reaction characters.</p><h3> META Characters Are Also Good Options</h3><p> Increasing the max level of the character also increases their Base ATK, DEF and HP. This can increase the damage of any characters no matter which stats they scale.</p><h3> Bennett Is Also a Good Option</h3><p> Bennett's ATK buff increases based on Base ATK so increasing Bennett's Max Level will effectively increase Bennett's Base ATK. Since Bennett is a 4-star character, the base ATK increase will not be will not be significant compared to leveling the character being buffed itself. However, Bennett can be slotted in any ATK scaling team.</p><h2 id="footer">Character Related Articles</h2><h3> Character Tier Lists</h3><div class="genshin_footer"><table><tr><th colspan="2">Tier Lists</th></tr><tr><td colspan="2"><a href='https://gamewith.net/genshin-impact/article/show/22247' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://img.gamewith.net/article/thumbnail/rectangle/22247.png' data-use-lazyload='true' width=130px height=68.9px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Best Characters Tier List for April 2026 (Luna 5)'><noscript><img src='https://img.gamewith.net/article/thumbnail/rectangle/22247.png' alt='Best Characters Tier List for April 2026 (Luna 5)' /></noscript>Best Characters Tier List</a></td></tr><tr><td><a href='https://gamewith.net/genshin-impact/article/show/45297' >Best Teams For Each Character</a></td><td><a href='https://gamewith.net/genshin-impact/article/show/22362' >Meta Team Comps</a></td></tr></table></div><h3>All Characters</h3><div class="genshin_center"><table><tbody><tr><th colspan="12">Characters By Rarity</th></tr><tr align="center"><td colspan="6"><a href='https://gamewith.net/genshin-impact/article/show/24378' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/rare5.png' data-use-lazyload='true' width=65px height=14.3px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='★5'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/rare5.png' alt='★5' /></noscript>★5</a></td><td colspan="6"><a href='https://gamewith.net/genshin-impact/article/show/24377' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/rare4.png' data-use-lazyload='true' width=55px height=15.4px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='★4'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/rare4.png' alt='★4' /></noscript>★4</a></td></tr><tr><th colspan="12">Characters By Roles</th></tr><tr><td align="center" colspan="4"><a href='https://gamewith.net/genshin-impact/article/show/24861' >DPS List</a></td><td align="center" colspan="4"><a href='https://gamewith.net/genshin-impact/article/show/24862' >Support List</a></td><td align="center" colspan="4"><a href='https://gamewith.net/genshin-impact/article/show/24863' >Sustain List</a></td></tr><tr><td align="center" colspan="6"><a href='https://gamewith.net/genshin-impact/article/show/56135' >On-Field List</a></td><td align="center" colspan="6"><a href='https://gamewith.net/genshin-impact/article/show/56136' >Off-Field List</a></td></tr><tr><th colspan="12">Characters By Element</th></tr><tr align="center"><td colspan="3"><a href='https://gamewith.net/genshin-impact/article/show/24381' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/fire.png' data-use-lazyload='true' width=28px height=28px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Pyro'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/fire.png' alt='Pyro' /></noscript>Pyro</a></td><td colspan="3"><a href='https://gamewith.net/genshin-impact/article/show/24385' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/water.png' data-use-lazyload='true' width=28px height=28px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Hydro'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/water.png' alt='Hydro' /></noscript>Hydro</a></td><td colspan="3"><a href='https://gamewith.net/genshin-impact/article/show/24384' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/wind.png' data-use-lazyload='true' width=28px height=28px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Anemo'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/wind.png' alt='Anemo' /></noscript>Anemo</a></td><td colspan="3"><a href='https://gamewith.net/genshin-impact/article/show/24382' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/thunder.png' data-use-lazyload='true' width=28px height=28px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Electro'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/thunder.png' alt='Electro' /></noscript>Electro</a></td></tr><tr align="center" ><td colspan="4"><a href='https://gamewith.net/genshin-impact/article/show/29220' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools%2Fgenshin-impact%2Fgacha%2Fdendro_icon.png' data-use-lazyload='true' width=30px height=30px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Dendro'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools%2Fgenshin-impact%2Fgacha%2Fdendro_icon.png' alt='Dendro' /></noscript>Dendro</a></td><td colspan="4"><a href='https://gamewith.net/genshin-impact/article/show/24386' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/ice.png' data-use-lazyload='true' width=28px height=28px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Cryo'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/ice.png' alt='Cryo' /></noscript>Cryo</a></td><td colspan="4"><a href='https://gamewith.net/genshin-impact/article/show/24383' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/rock.png' data-use-lazyload='true' width=28px height=28px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Geo'><noscript><img src='https://s3.us-east-1.amazonaws.com/gamewith-en/article_tools/genshin-impact/gacha/rock.png' alt='Geo' /></noscript>Geo</a></td></tr><tr><th colspan="12">Characters By Nation</th></tr><tr align="center" ><td colspan="4"><a href='https://gamewith.net/genshin-impact/article/show/38360' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://img.gamewith.net/img/e79ec41dd2e7bc6530202c76c36a6524.jpg' data-use-lazyload='true' width=80px height=44.8px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Mondstadt'><noscript><img src='https://img.gamewith.net/img/e79ec41dd2e7bc6530202c76c36a6524.jpg' alt='Mondstadt' /></noscript>Mondstadt</a></td><td colspan="4"><a href='https://gamewith.net/genshin-impact/article/show/38361' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://img.gamewith.net/img/f4c7aecb6a9ece72ac643a6d516681ce.jpg' data-use-lazyload='true' width=80px height=44.8px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Liyue'><noscript><img src='https://img.gamewith.net/img/f4c7aecb6a9ece72ac643a6d516681ce.jpg' alt='Liyue' /></noscript>Liyue</a></td><td colspan="4"><a href='https://gamewith.net/genshin-impact/article/show/38362' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://img.gamewith.net/img/c8212c8357fe97457c4c50f06e239a32.jpg' data-use-lazyload='true' width=80px height=44.8px class='js-lazyload-fixed-size-img c-blank-img w-article-img' ><noscript><img src='https://img.gamewith.net/img/c8212c8357fe97457c4c50f06e239a32.jpg'  /></noscript>Inazuma</a></td></tr><tr align="center" ><td colspan="4"><a href='https://gamewith.net/genshin-impact/article/show/38376' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://img.gamewith.net/img/00187f727cbc4b50902b469d0a9fe1d3.jpg' data-use-lazyload='true' width=80px height=44.8px class='js-lazyload-fixed-size-img c-blank-img w-article-img' ><noscript><img src='https://img.gamewith.net/img/00187f727cbc4b50902b469d0a9fe1d3.jpg'  /></noscript>Sumeru </a></td><td colspan="4"><a href='https://gamewith.net/genshin-impact/article/show/39606' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://img.gamewith.net/img/78aa14f4b98ee95f5f854d303b5f5396.jpg' data-use-lazyload='true' width=80px height=44.8px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Fontaine'><noscript><img src='https://img.gamewith.net/img/78aa14f4b98ee95f5f854d303b5f5396.jpg' alt='Fontaine' /></noscript>Fontaine</a></td><td colspan="4"><a href='https://gamewith.net/genshin-impact/article/show/48274' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://img.gamewith.net/img/9b4cb94dba598b9edc0e37e4dd90adc8.png' data-use-lazyload='true' width=80px height=44.8px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Natlan'><noscript><img src='https://img.gamewith.net/img/9b4cb94dba598b9edc0e37e4dd90adc8.png' alt='Natlan' /></noscript>Natlan</a></td></tr><tr align="center"><td colspan="6"><a href='https://gamewith.net/genshin-impact/article/show/56245' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://img.gamewith.net/img/67fad906f376590e9939982195350022.png' data-use-lazyload='true' width=120px height=67.2px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Snezhnaya'><noscript><img src='https://img.gamewith.net/img/67fad906f376590e9939982195350022.png' alt='Snezhnaya' /></noscript>Snezhnaya</a></td><td colspan="6"><a href='https://gamewith.net/genshin-impact/article/show/69303' ><img src='https://img.gamewith.net/assets/images/common/transparent1px.png' data-original='https://img.gamewith.net/img/18bc3959c54fca66e9554a5bafd0c01b.png' data-use-lazyload='true' width=120px height=67.2px class='js-lazyload-fixed-size-img c-blank-img w-article-img' alt='Nod-Krai'><noscript><img src='https://img.gamewith.net/img/18bc3959c54fca66e9554a5bafd0c01b.png' alt='Nod-Krai' /></noscript>Nod-Krai</a></td></tr></tbody></table></div><a href='https://gamewith.net/genshin-impact/article/show/22357' class='gdb-btn--green gdb-btn w-article-btn'>List Of All Characters</a></div>
+
+<div id="js-enquete-template" style="display:none">
+    <div id="js-enquete-form-normal">
+        <div class="enquete-wrap">
+            <ul class="enquete js-enquete-choice-list">
+                <li class="enquete-item js-enquete-choice">
+                                    <div class="enquete-btn-wrap">
+                        <a href="javascript:void(null);" class="enquete-btn gdb-btn gdb-btn--green js-enquete-vote">vote</a>
+                    </div>
+                    <div class="enquete-bar">
+                        <div class="enquete-bar_result js-enquete-choice-bar_result" style="width:0%"></div>
+                        <span class="enquete-choice"><span class="enquete-selected-text js-enquete-voted" style="display: none;">voted</span></span>
+                        <span class="enquete-choice-result">
+                            <span class="enquete-choice-result_num js-enquete-choice-vote_count"></span><span class="enquete-choice-result_unit"> votes</span>
+                        </span>
+                                            </div>
+                </li>
+            </ul>
+            <div class="enquete-footer">
+                <p class="sub-info js-enquete-subject"></p>
+            </div>
+        </div>
+    </div>
+    <div id="js-enquete-form-simple">
+        <div class="enquete-wrap">
+            <ul class="enquete js-enquete-choice-list">
+                <li class="enquete-item js-enquete-choice">
+                                    <div class="enquete-btn-wrap">
+                        <a href="javascript:void(null);" class="enquete-btn gdb-btn gdb-btn--green js-enquete-vote">vote</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	function fuel_set_csrf_token(form)
+	{
+		if (document.cookie.length > 0 && typeof form != undefined)
+		{
+			var c_name = "mojolicious_csrf_token";
+			c_start = document.cookie.indexOf(c_name + "=");
+			if (c_start != -1)
+			{
+				c_start = c_start + c_name.length + 1;
+				c_end = document.cookie.indexOf(";" , c_start);
+				if (c_end == -1)
+				{
+					c_end=document.cookie.length;
+				}
+				value=unescape(document.cookie.substring(c_start, c_end));
+				if (value != "")
+				{
+					for(i=0; i<form.elements.length; i++)
+					{
+						if (form.elements[i].name == c_name)
+						{
+							form.elements[i].value = value;
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+</script>
+<script type="text/javascript">
+	function fuel_csrf_token()
+	{
+		if (document.cookie.length > 0)
+		{
+			var c_name = "mojolicious_csrf_token";
+			c_start = document.cookie.indexOf(c_name + "=");
+			if (c_start != -1)
+			{
+				c_start = c_start + c_name.length + 1;
+				c_end = document.cookie.indexOf(";" , c_start);
+				if (c_end == -1)
+				{
+					c_end=document.cookie.length;
+				}
+				return unescape(document.cookie.substring(c_start, c_end));
+			}
+		}
+		return "";
+	}
+</script>
+    <div class="js-enquete-user_game-id" data-game-id="94"></div>
+<div class="js-enquete-user_ua" data-ua="UA-44254420-33"></div>
+<script type="text/javascript">
+	function fuel_set_csrf_token(form)
+	{
+		if (document.cookie.length > 0 && typeof form != undefined)
+		{
+			var c_name = "mojolicious_csrf_token";
+			c_start = document.cookie.indexOf(c_name + "=");
+			if (c_start != -1)
+			{
+				c_start = c_start + c_name.length + 1;
+				c_end = document.cookie.indexOf(";" , c_start);
+				if (c_end == -1)
+				{
+					c_end=document.cookie.length;
+				}
+				value=unescape(document.cookie.substring(c_start, c_end));
+				if (value != "")
+				{
+					for(i=0; i<form.elements.length; i++)
+					{
+						if (form.elements[i].name == c_name)
+						{
+							form.elements[i].value = value;
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+</script>
+<script type="text/javascript">
+	function fuel_csrf_token()
+	{
+		if (document.cookie.length > 0)
+		{
+			var c_name = "mojolicious_csrf_token";
+			c_start = document.cookie.indexOf(c_name + "=");
+			if (c_start != -1)
+			{
+				c_start = c_start + c_name.length + 1;
+				c_end = document.cookie.indexOf(";" , c_start);
+				if (c_end == -1)
+				{
+					c_end=document.cookie.length;
+				}
+				return unescape(document.cookie.substring(c_start, c_end));
+			}
+		}
+		return "";
+	}
+</script>
+                        <div class="article-share-btn-wrap is-bottom">
+                                                    <ul class="sns-btn cf">
+                                    <li class="_item">
+                        <a href="https://twitter.com/share?url=https://gamewith.net/genshin-impact/article/show/70231&amp;text=Genshin%20Impact%20%7C%20How%20to%20Reach%20Level%20100%20%26%20Characters%20to%20Prioritize%20-%20GameWith" target="_blank" class="_btn is-tw" rel="nofollow"><i class="_i"></i><span class="_text">Post</span></a>
+                    </li>
+                                    <li class="_item">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://gamewith.net/genshin-impact/article/show/70231" target="_blank" class="_btn is-fb" rel="nofollow"><i class="_i"></i><span class="_text">Share</span></a>
+                    </li>
+                                    <li class="_item">
+                        <a href="https://www.reddit.com/submit?url=https://gamewith.net/genshin-impact/article/show/70231&amp;title=Genshin%20Impact%20%7C%20How%20to%20Reach%20Level%20100%20%26%20Characters%20to%20Prioritize%20-%20GameWith" target="_blank" class="_btn is-rd" rel="nofollow"><i class="_i"></i><span class="_text">Share</span></a>
+                    </li>
+                            </ul>
+                                    </div>
+                    </div>
+                                            <div class="inquiry-opinion" id="inquiry_opinion">
+<a href="javascript:void(0);" class="js-inquiry-opinion-switch inquiry-opinion-switch">Have some feedback? Click here<i class="inquiry-opinion-icon"></i></a>
+    <div class="js-inquiry-opinion-area inquiry-opinion-area">
+    <p class="bolder red-color">Your feedback will be checked by our staff and will be attended to accordingly. Please be advised that we may not reply to every individual feedback.</p>
+        <form action="https://gamewith.net/support/inquiry/opinion/done" onSubmit="fuel_set_csrf_token(this); return window.confirm('Confirm feedback?')" accept-charset="utf-8" method="post">
+<input name="game_id" value="94" type="hidden" id="form_game_id" />
+<input name="title" value="Genshin Impact | How to Reach Level 100 &amp; Characters to Prioritize" type="hidden" id="form_title" />
+<input name="url" value="https://gamewith.net/genshin-impact/article/show/70231" type="hidden" id="form_url" />                        <input name="mojolicious_csrf_token" value="d0ee0be938efec0d7adc13d4eec319ba68a076a8abf0ab4dc36c03056c00f111d7d7f65e02af4329de48f9d173ca952ff10397acf953987b9bba4ffe3467f9ec" type="hidden" id="form_mojolicious_csrf_token" />            <textarea rows="4" maxlength="1000" class="u-my-m" name="body" id="form_body"></textarea><br />
+            <input class="btn btn-accent btn--full" name="submit" value="Confirm" type="submit" id="form_submit" />        </form>    </div>
+</div>
+                                            <div class="user_data">
+        <div class="c-title">Article Written by</div>
+        <div class="user_data__contents js-lazyload-img-wrap is-center">
+            <img src="https://img.gamewith.net/assets/images/common/transparent1px.png" data-original="https://img.gamewith.net/icon/gamewith-padding.png" data-use-lazyload="true" alt="GameWith Genshin Strategy Team" class="user_data__img">
+            <div class="user_data__info">
+                                    <a href="https://x.com/Genshin_EN_GW" class="user_data__name is-link">GameWith Genshin Strategy Team</a>
+                                            </div>
+        </div>
+    </div>
+                </div>
+                <div class="c-box">
+                    <div class="c-title js-header-comment"><span class="c-title_text">Reader Comments</span></div>
+                    <form action="https://gamewith.net/genshin-impact/article/bbs/add/70231" id="bbs-form" accept-charset="utf-8" method="post"><div class="bbs-form-wrap">
+    <input type="text" placeholder="Submit" id="js-dummy-input">
+    <div id="js-real-form">
+        <dl class="form js-post-not-login-user">
+            <dt>
+                <label>Alias(Optional)</label>
+                <span class="sub-info">Max. 15 Characters</span>
+            </dt>
+            <dd><input id="js-bbs-user-name-input" class="textarea" placeholder="Anonymous" name="user_name" value="" type="text" /></dd>
+        </dl>
+        <dl class="form">
+            <dt>
+                <label>Text Field</label>
+                <span class="sub-info">Max. 300 Characters</span>
+            </dt>
+            <dd>
+                <textarea id="js-bbs_form-body" placeholder="Please fill in the required fields." rows="6" cols="8" class="js-input-hideonfocuskeyboard" name="body"></textarea>            </dd>
+        </dl>
+        <dl class="form">
+            <dt>
+                <label>Image(Optional)</label>
+            </dt>
+            <dd>
+                <input id="js-bbs_fileupload" type="file" name="file" class="sub-info">
+            </dd>
+            <div class="u-my-m" id="js-bbs_image-preview">
+                <p></p>
+                <img style="max-width: 300px;">
+                <input type="hidden" name="pre_image_path" id="js-bbs_pre-image-path">
+            </div>
+        </dl>
+        <p class="font-s">
+            <a href="https://gamewith.net/terms" target="_blank">By clicking Submit you are agreeing to the Terms of Use.</a><br>
+            <span class="red-color">
+                *Offensive, insulting or inappropriate use of forum may lead to ban/restriction.<br/>
+                To avoid griefing, you will not be able to post or report for the first %d hours upon visiting this forum for the first time.            </span>
+        </p>
+        <div class="u-my-m tac">
+            <input name="article_id" value="70231" type="hidden" id="form_article_id" />                        <input name="number" value="1" type="hidden" id="form_number" />            <input name="mojolicious_csrf_token" value="d0ee0be938efec0d7adc13d4eec319ba68a076a8abf0ab4dc36c03056c00f111d7d7f65e02af4329de48f9d173ca952ff10397acf953987b9bba4ffe3467f9ec" type="hidden" id="form_mojolicious_csrf_token" />            <button class="btn is-accent-nuri btn--full" id="bbs-form-post" name="">Submit</button>        </div>
+            <a href="javascript:void(0)" id="js-real-hidden" class="font-s">Close</a>
+    </div>
+</div>
+</form>                    <div id="bbs-posts" data-thread-id="70231" class="p-relative">
+                                                                                                    <div class="bbs-post bbs-content">
+                                <div class="bbs-post-body-block">
+                                    <p class="bbs-post-body">Looks like nobody posted here yet...</p>
+                                </div>
+                            </div>
+                                            </div>
+                    <div class="u-py-xl u-px-m">
+                        <a class="btn-accent btn--full" href="https://gamewith.net/genshin-impact/article/bbs/detail/70231" >Read on</a>
+                    </div>
+                </div>
+                <div class="c-box">
+                    <div class="c-title">Copyright Notice</div>
+                        <div class="article-copyright-wrap">
+        <p class="sub-info">© All rights reserved by miHoYo.<br>The copyrights of videos of games used in our content and other intellectual property rights belong to the provider of the game.</p>    </div>
+                </div>
+            </div>
+            <div class="right-col-wrap-3 side-col">
+                
+    <div class="c-box js-nav-tabs-wrap">
+        <div class="c-title"><span class="c-title_text">Most Popular</span></div>
+                        <ol class="article-list dfp-ad-ranking">
+                            <li class="_item">
+        <a href="https://gamewith.net/genshin-impact/article/show/38747" class="media is-fixed _inner">
+            <div class="media_left  _thumbnail">
+            <div class="c-article-thumbnail _inner js-right-column-lazyload-img-wrap">
+                <img src="https://img.gamewith.net/assets/images/common/transparent1px.png" alt="Time Trial Challenge Location & Map" data-original="https://img.gamewith.net/article/thumbnail/rectangle_s/38747.png?date=1698036912" class="c-progressive-img" data-use-lazyload="true">
+            </div>
+        </div>
+        <div class="media_body is-full _body">
+            Time Trial Challenge Location & Map        </div>
+        <span class="_number is-no1">1</span>
+    </a>
+</li>
+                                <li class="_item">
+        <a href="https://gamewith.net/genshin-impact/article/show/22368" class="media is-fixed _inner">
+            <div class="media_left  _thumbnail">
+            <div class="c-article-thumbnail _inner js-right-column-lazyload-img-wrap">
+                <img src="https://img.gamewith.net/assets/images/common/transparent1px.png" alt="Anemoculus Locations & Interactive Map" data-original="https://img.gamewith.net/article/thumbnail/rectangle_s/22368.png?date=1698038645" class="c-progressive-img" data-use-lazyload="true">
+            </div>
+        </div>
+        <div class="media_body is-full _body">
+            Anemoculus Locations & Interactive Map        </div>
+        <span class="_number is-no2">2</span>
+    </a>
+</li>
+                                <li class="_item">
+        <a href="https://gamewith.net/genshin-impact/article/show/22247" class="media is-fixed _inner">
+            <div class="media_left  _thumbnail">
+            <div class="c-article-thumbnail _inner js-right-column-lazyload-img-wrap">
+                <img src="https://img.gamewith.net/assets/images/common/transparent1px.png" alt="Best Characters Tier List (7.0 Update)" data-original="https://img.gamewith.net/article/thumbnail/rectangle/22247.png?date=1748590498" class="c-progressive-img" data-use-lazyload="true">
+            </div>
+        </div>
+        <div class="media_body is-full _body">
+            Best Characters Tier List (7.0 Update)        </div>
+        <span class="_number is-no3">3</span>
+    </a>
+</li>
+                                <li class="_item">
+        <a href="https://gamewith.net/genshin-impact/article/show/30371" class="media is-fixed _inner">
+            <div class="media_left  _thumbnail">
+            <div class="c-article-thumbnail _inner js-right-column-lazyload-img-wrap">
+                <img src="https://img.gamewith.net/assets/images/common/transparent1px.png" alt="All Banner List (September 2026) Character & Weapon Banner" data-original="https://img.gamewith.net/article/thumbnail/rectangle_s/30371.png?date=1788259016" class="c-progressive-img" data-use-lazyload="true">
+            </div>
+        </div>
+        <div class="media_body is-full _body">
+            All Banner List (September 2026) Character & Weapon Banner        </div>
+        <span class="_number is-others">4</span>
+    </a>
+</li>
+                                <li class="_item">
+        <a href="https://gamewith.net/genshin-impact/article/show/30852" class="media is-fixed _inner">
+            <div class="media_left  _thumbnail">
+            <div class="c-article-thumbnail _inner js-right-column-lazyload-img-wrap">
+                <img src="https://img.gamewith.net/assets/images/common/transparent1px.png" alt="Owe Mora, Pay Mora Daily Commission Guide & Achievement" data-original="https://img.gamewith.net/article/thumbnail/rectangle_s/30852.png?date=1698037718" class="c-progressive-img" data-use-lazyload="true">
+            </div>
+        </div>
+        <div class="media_body is-full _body">
+            Owe Mora, Pay Mora Daily Commission Guide & Achievement        </div>
+        <span class="_number is-others">5</span>
+    </a>
+</li>
+                                        </ol>
+    <a href="https://gamewith.net/genshin-impact/ranking/article" class="c-more-link">
+        <span class="_text">Read on</span>
+        <i class="_i i-nav-next"></i>
+    </a>
+                            </div>
+
+                    <div class="c-box">
+            <div class="c-title"><span class="c-title_text">Featured Titles</span></div>
+    <ul class="pickup-game-list">
+            <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/fate-grand-order/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/7f4ce9898bb486c43fb5e84e6e05b06d.png" alt="Fate/Grand Order (English)" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    Fate/Grand Order (English)                </div>
+            </a>
+            </li>
+    <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/subnautica-2/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/605f3ab24ce893a28b76c36c55786d8c.png" alt="Subnautica 2" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    Subnautica 2                </div>
+            </a>
+            </li>
+    <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/nte/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/746f1b000eae0e36876bac807256a4dd.jpg" alt="Neverness to Everness" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    Neverness to Everness                </div>
+            </a>
+            </li>
+    <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/sevenknights-rebirth/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/20e14e765551ed96ff65c49fc57628d5.png" alt="Seven Knights Rebirth" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    Seven Knights Rebirth                </div>
+            </a>
+            </li>
+    <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/genshin-impact/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/d230b3907e7bd3d3e1024df79167c2cc.png" alt="Genshin Impact" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    Genshin Impact                </div>
+            </a>
+            </li>
+    <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/lid-inferno/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/b068c54cdb3cc193f81ffb5fbf6878fe.png" alt="LET IT DIE: INFERNO" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    LET IT DIE: INFERNO                </div>
+            </a>
+            </li>
+    <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/mongil-stardive/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/b875c6be2190157be9e42f1d358be4fb.png" alt="Mongil: Star Dive" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    Mongil: Star Dive                </div>
+            </a>
+            </li>
+    <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/kj8-thegame/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/fbf504d1848dd4fdeef670f21eebb613.png" alt="Kaiju No. 8 The Game" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    Kaiju No. 8 The Game                </div>
+            </a>
+            </li>
+    <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/chaoszeronightmare/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/22d9011820262f0ebe8870c29cd84686.png" alt="Chaos Zero Nightmare" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    Chaos Zero Nightmare                </div>
+            </a>
+            </li>
+    <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/sword-of-convallaria/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/f5edf9a61aff683850c5e6486e42ce76.png" alt="Sword of Convallaria" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    Sword of Convallaria                </div>
+            </a>
+            </li>
+    <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/shadowverse-wb/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/05f62287ec315ac5ef315d66fd439899.png" alt="Shadowverse: Worlds Beyond" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    Shadowverse: Worlds Beyond                </div>
+            </a>
+            </li>
+    <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/stardewvalley/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/3fee7b3b2d2678b422689064c1ab229f.png" alt="Stardew Valley" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    Stardew Valley                </div>
+            </a>
+            </li>
+    <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/pokemon-legends-arceus/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/9e6c49d62f4c11abc9b9a9dd9bd3ac60.png" alt="Pokemon Legends Arceus" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    Pokemon Legends Arceus                </div>
+            </a>
+            </li>
+    <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/arknights/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/ba8e0e6391ba092b9856416af02720ec.png" alt="Arknights" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    Arknights                </div>
+            </a>
+            </li>
+    <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/pokemon-scarletviolet/?from=94" class="media is-border0 is-fixed u-p0 _inner">
+                <div class="media_left is-s _icon">
+                    <div class="c-icon-placeholder" style="padding-bottom: 100%;">
+                        <img src="https://img.gamewith.net/assets/images/games/icons/437a349fc2511642f639258d3e160ef4.png" alt="Pokemon Scarlet and Violet" class="c-progressive-img">
+                    </div>
+                </div>
+                <div class="media_body is-full">
+                    Pokemon Scarlet and Violet                </div>
+            </a>
+            </li>
+        <li class="pickup-game-list_item"><a class="gdb-btn--green gdb-btn" href="https://gamewith.net/walkthrough/game/index/1">View List</a></li>
+    </ul>
+    </div>
+                    <div class="c-box">
+    <div class="c-title">Hot off the Grill</div>
+        <ul class="pickup-game-list">
+                            <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/genshin-impact/article/show/76476">Genshin Impact Odette Build Guide</a>                </li>
+                            <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/subnautica-2/75774">Subnautica 2 | Biomes Location Map and Points of Interests</a>                </li>
+                            <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/sevenknights-rebirth/70603">Seven Knights Rebirth | Eileene Guide</a>                </li>
+                            <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/nte/74170">NTE | Best Character Tier List</a>                </li>
+                            <li class="pickup-game-list_item">
+                    <a href="https://gamewith.net/nte/76078">NTE | Iroi Build: Best Arcs & Team</a>                </li>
+                    </ul>
+    </div>
+                    <div class="article-banner-list">
+        <a href="https://gamewith.net/lottery-maker" target="_blank">
+            <img src="https://img.gamewith.net/service/hd/images/9c5796114f3bd3318aab228fc7633971.png" data-original="https://img.gamewith.net/service/hd/images/9c5796114f3bd3318aab228fc7633971.png" data-use-lazyload="true" alt="LotteryMaker">
+        </a>
+        <a href="https://gamewith.net/posi-maker" target="_blank">
+            <img src="https://img.gamewith.net/service/hd/images/91b48a88721ca892eb517309768ec825.png" data-original="https://img.gamewith.net/service/hd/images/91b48a88721ca892eb517309768ec825.png" data-use-lazyload="true" alt="PosiMaker">
+        </a>
+    </div>
+                                <div class="content-wrap">
+    <div id='div-gpt-ad-1389602339701-0' style='width:300px; height:250px;'>
+        <script type='text/javascript'>
+            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1389602339701-0'); });
+        </script>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="js-img-preview-popup popup-image-preview">
+    <div class="popup-image-preview_inner js-img-preview-popup-inner">
+        <div class="popup-image-preview_center js-popup-image-preview_center">
+            <img
+                src="//:0"
+                class="js-img-preview-popup-img popup-image-preview_image"
+            >
+            <a href="#" class="gdb-btn--blue gdb-btn w-article-btn popup-image-preview_link-button js-popup-image-preview_link-button" style="display: none;"></a>
+        </div>
+        <i class="popup-image-preview_close"></i>
+        <button type="button" class="popup-image-nav-button js-popup-image-nav-button prev">
+            <img src="https://img.gamewith.net/icon/arrow-white-down.svg" alt="" class="popup-image-nav-button__icon prev">
+        </button>
+        <button type="button" class="popup-image-nav-button js-popup-image-nav-button next">
+            <img src="https://img.gamewith.net/icon/arrow-white-down.svg" alt="" class="popup-image-nav-button__icon next">
+        </button>
+    </div>
+</div>
+
+        <div id="js-is-directory" data-is-directory="1" data-module-name="genshin-impact"></div>
+
+	<script type="text/javascript" src="https://assets.gamewith.net/js/dist/en/gamewith/ui/handlebarsbase.js?1748845700"></script>
+	<script type="text/javascript" src="https://assets.gamewith.net/js/dist/en/gamewith/basic.js?1748845700"></script>
+	<script type="text/javascript" src="https://assets.gamewith.net/js/dist/en/gamewith/walkthrough/base.js?1748845700"></script>
+	<script type="text/javascript" src="https://assets.gamewith.net/js/dist/en/gamewith/walkthrough/menu.js?1748845700"></script>
+	<script type="text/javascript" src="https://assets.gamewith.net/js/dist/en/gamewith/ui/pankuzu.js?1748845700"></script>
+	<script type="text/javascript" src="https://assets.gamewith.net/js/dist/en/gamewith/walkthrough/article.js?1760511188"></script>
+	<script type="text/javascript" src="https://assets.gamewith.net/js/dist/en/gamewith/walkthrough/tabs.js?1748845700"></script>
+	<script type="text/javascript" src="https://assets.gamewith.net/js/dist/en/gamewith/enquete.js?1748845700"></script>
+	<script type="text/javascript" src="https://assets.gamewith.net/js/dist/en/gamewith/enquete/user/enquete.js?1748845700"></script>
+	<script type="text/javascript" src="https://assets.gamewith.net/js/dist/en/gamewith/walkthrough/article/bbs.js?1748845700"></script>
+	<script type="text/javascript" src="https://assets.gamewith.net/js/dist/en/gamewith/ui/leftcolumn.js?1761097480"></script>
+	<script type="text/javascript" src="https://assets.gamewith.net/js/dist/en/gamewith/float_menu.js?1748845700"></script>
+	<script type="text/javascript" src="https://assets.gamewith.net/js/dist/en/gamewith/imagepreviewmodal.js?1748845700"></script>
+<div class="footer-wrap js-footer-hidden">
+    <div class="footer">
+        <ul class="footer-list cf">
+            <li class="gtm-ga4-walkthrough-imp-event" gtm-walkthrough-name="footer_imp" gtm-walkthrough-type="pc_footer_top">
+                <a href="/" rel="nofollow" class="gtm-ga4-walkthrough-click-event" gtm-walkthrough-name="footer_top_click" gtm-walkthrough-type="pc_footer_top">Top</a>
+            </li>
+            <li><a rel="nofollow" href="https://gamewith.net/help/">Help Center</a></li>
+            <li><a rel="nofollow" href="https://gamewith.co.jp/en">About Us</a></li>
+            <li><a rel="nofollow" href="https://gamewith.net/terms">Terms of Use</a></li>
+            <li><a rel="nofollow" href="https://gamewith.net/guidelines">Creation Guidelines</a></li>
+            <li><a rel="nofollow" href="https://gamewith.net/privacy">Privacy Policy</a></li>
+            <li><a rel="nofollow" href="https://gamewith.net/inform/feedback">Contact Us</a></li>
+            <li><a rel="nofollow" href="https://gamewith.jp/">GameWith(日本語)</a></li>
+
+        </ul>
+        <div class="copy-right">Copyright (C) <a class="_anchor" href="https://gamewith.co.jp/en">GameWith</a> All Rights Reserved.</div>
+    </div>
+</div>
+</body>
+</html>

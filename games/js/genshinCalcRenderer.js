@@ -745,6 +745,14 @@
         const displayData = payload.displayData || {};
         const characterName = resolveDisplayName(displayData.characters, context.characterId, "未対応キャラクター");
         const weaponName = resolveDisplayName(displayData.weapons, context.weaponId, "未対応武器");
+        const provisionalItems = [
+            displayData.characters?.[context.characterId]?.dataStatus === "provisional" ? characterName : "",
+            displayData.weapons?.[context.weaponId]?.dataStatus === "provisional" ? weaponName : "",
+            context.reactionOption?.dataStatus === "provisional" ? context.reactionOption.label : ""
+        ].filter(Boolean);
+        const provisionalNotice = provisionalItems.length
+            ? `<aside class="genshin-json-provisional-notice">検証中データを使用中：${escapeHtml(provisionalItems.join(" / "))}。canonical Eligibility成立前の暫定計算です。</aside>`
+            : "";
         const grouped = RESULT_TABS.reduce((acc, tab) => {
             acc[tab.id] = [];
             return acc;
@@ -763,6 +771,7 @@
         wrap.innerHTML = `
             <div class="genshin-json-result-head">
                 <p>計算対象: ${escapeHtml(characterName)} / ${escapeHtml(weaponName)} / 反応 ${escapeHtml(context.reactionOption.label)}</p>
+                ${provisionalNotice}
             </div>
             ${renderComparisonControls()}
             ${inputNoticeHtml}
@@ -1109,9 +1118,24 @@
     function renderDedicatedReactionControls(reaction, context) {
         if (reaction.dedicatedKind === "indirectLunar") {
             const contributors = new Map((context.manualInputs?.reactionContributors || []).map((item) => [item.slot, item]));
+            const stellarVariant = context.manualInputs?.stellarSwirlVariant || reaction.variantControl?.default || "initialAnemo";
+            const stellarOptions = (reaction.variantControl?.options || []).map((option) => {
+                const coefficient = reaction.variantCoefficients?.[option.value];
+                const suffix = Number.isFinite(Number(coefficient)) ? `（係数${Number(coefficient).toFixed(2)}）` : "";
+                return `<option value="${escapeHtml(option.value)}"${stellarVariant === option.value ? " selected" : ""}>${escapeHtml(option.label)}${suffix}</option>`;
+            }).join("");
+            const stellarVariantControl = reaction.reactionId === "stellarSwirl"
+                ? `<label class="genshin-reaction-control"><span>星拡散する元素・段階</span><select id="genshinStellarSwirlVariant">
+                    ${stellarOptions}
+                </select></label>`
+                : "";
+            const contributorHelp = reaction.reactionId === "stellarSwirl"
+                ? "参加者2～4は、この星拡散へ元素を付着・発動して寄与するキャラクターだけ入力してください。Lvまたは元素熟知を入れると参加扱いになります。"
+                : "参加者2～4は、その4秒間に対象元素を付着したキャラクターだけ入力してください。Lvまたは元素熟知を入れると参加扱いになります。";
             return `<div class="genshin-reaction-dedicated">
+                ${stellarVariantControl}
                 <p><strong>参加者1：</strong>現在のキャラクター（Lv・元素熟知・会心は上の計算入力欄を自動使用）</p>
-                <p>参加者2～4は、その4秒間に対象元素を付着したキャラクターだけ入力してください。Lvまたは元素熟知を入れると参加扱いになります。</p>
+                <p>${escapeHtml(contributorHelp)}</p>
                 <div class="genshin-reaction-contributor-grid">${[2, 3, 4].map((slot) => renderReactionContributor(slot, contributors.get(slot))).join("")}</div>
             </div>`;
         }
@@ -1243,8 +1267,8 @@
             : reaction.calculationStatus === "dedicatedFormulaRequired"
                 ? `${reaction.descriptionJa || reaction.label}${reaction.unsupportedReasonJa ? ` ${reaction.unsupportedReasonJa}` : ""} 現在の結果には反映されません。`
                 : reaction.descriptionJa || (reaction.enabled ? "選択した元素反応を計算へ反映します。" : "この反応自体は数値ダメージを発生させません。");
-        const reactionElementControl = ["swirl", "stellarSwirl"].includes(reaction.reactionId)
-            ? `<label class="genshin-reaction-control"><span>${reaction.reactionId === "stellarSwirl" ? "星拡散する元素" : "拡散する元素"}</span><select id="genshinJsonReactionElement">${["炎", "水", "雷", "氷"].map((element) => `<option value="${element}"${context.reactionElement === element ? " selected" : ""}>${element}元素</option>`).join("")}</select></label>`
+        const reactionElementControl = reaction.reactionId === "swirl"
+            ? `<label class="genshin-reaction-control"><span>拡散する元素</span><select id="genshinJsonReactionElement">${["炎", "水", "雷", "氷"].map((element) => `<option value="${element}"${context.reactionElement === element ? " selected" : ""}>${element}元素</option>`).join("")}</select></label>`
             : "";
         const dedicatedReactionControls = renderDedicatedReactionControls(reaction, context);
         const reactionWide = Boolean(reactionElementControl || dedicatedReactionControls);
@@ -1282,7 +1306,7 @@
         const panels = {
             reaction: `<section class="genshin-condition-card${reactionWide ? " is-wide" : ""}" data-condition-card="reaction">
                 ${renderSourceHeader("元素反応", "REACTION", reaction.label)}
-                <div class="genshin-condition-overview"><span class="genshin-condition-status ${reaction.family === "none" ? "is-inactive" : "is-auto"}">${reaction.family === "none" ? "反応なし" : "適用中"}</span><strong>${escapeHtml(reaction.label)}</strong></div>
+                <div class="genshin-condition-overview"><span class="genshin-condition-status ${reaction.family === "none" ? "is-inactive" : reaction.dataStatus === "provisional" ? "is-input" : "is-auto"}">${reaction.family === "none" ? "反応なし" : reaction.dataStatus === "provisional" ? "検証中" : "適用中"}</span><strong>${escapeHtml(reaction.label)}</strong></div>
                 ${reactionElementControl}
                 ${dedicatedReactionControls}
                 <p class="genshin-condition-card-empty">${escapeHtml(reactionDescription)}</p>

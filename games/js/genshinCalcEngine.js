@@ -356,7 +356,8 @@
                 },
                 resourceStates: readResourceStates(),
                 reactionContributors: readReactionContributors(),
-                stellarConductStacks: Math.min(Math.max(readNumber("genshinStellarConductStacks", 0), 0), 12)
+                stellarConductStacks: Math.min(Math.max(readNumber("genshinStellarConductStacks", 0), 0), 12),
+                stellarSwirlVariant: readText("genshinStellarSwirlVariant", "initialAnemo")
             },
             uiState: {
                 amosStack: readNumber("genshinJsonAmosStack", 0),
@@ -1005,6 +1006,11 @@
     }
 
     function resolveModifierValue(modifier, context, uiState = context.uiState || {}, analysis = {}) {
+        if (modifier.customCalculation === "cappedStatRatio") {
+            const referenceValue = Number(context.stats?.[modifier.reference?.stat]) || 0;
+            const calculated = referenceValue * (Number(modifier.ratio) || 0);
+            return Number.isFinite(Number(modifier.maxValue)) ? Math.min(calculated, Number(modifier.maxValue)) : calculated;
+        }
         if (modifier.category === "reactionBaseDamageBonus") {
             const referenceValue = Number(context.stats?.[modifier.reference?.stat]) || 0;
             const value = Math.floor(referenceValue / (Number(modifier.divisor) || 1)) * (Number(modifier.ratio) || 0);
@@ -1228,9 +1234,25 @@
 
         const weaponModifiers = calcData.weaponModifiers?.[context.weaponId]?.modifiers || [];
         const weaponDefinition = calcData.weaponEffectRegistry?.weapons?.[context.weaponId] || {};
-        weaponModifiers.forEach((modifier) => {
-            consider(normalizeWeaponModifier(modifier, weaponModifiers, weaponDefinition), `weapon:${context.weaponId}`);
-        });
+        const confirmedRefinements = calcData.weapons?.[context.weaponId]?.confirmedRefinements;
+        const refinementSupported = !Array.isArray(confirmedRefinements)
+            || confirmedRefinements.map(Number).includes(Number(context.refinement));
+        if (refinementSupported) {
+            weaponModifiers.forEach((modifier) => {
+                consider(normalizeWeaponModifier(modifier, weaponModifiers, weaponDefinition), `weapon:${context.weaponId}`);
+            });
+        } else {
+            weaponModifiers.forEach((modifier) => {
+                const normalized = normalizeWeaponModifier(modifier, weaponModifiers, weaponDefinition);
+                const analysis = analyzeModifier(normalized, `weapon:${context.weaponId}`, context);
+                addCandidate(normalized, `weapon:${context.weaponId}`, `R${context.refinement}は未確認のため武器効果を計算しません。`, {
+                    ...analysis,
+                    calculable: false,
+                    supportStatus: "unsupported",
+                    reasonCode: "UNVERIFIED_REFINEMENT"
+                });
+            });
+        }
 
         context.artifactSetIds.forEach((setId, index) => {
             const artifact = calcData.artifactSetModifiers?.[setId];
@@ -2101,7 +2123,27 @@
         return [...values].sort((a, b) => b - a).reduce((sum, value, index) => sum + value * (weights[index] ?? 0), 0);
     }
 
+    function resolveIndirectReactionVariant(reaction, context) {
+        if (reaction?.reactionId !== "stellarSwirl") return reaction;
+        const key = context.manualInputs?.stellarSwirlVariant || reaction.variantControl?.default || "initialAnemo";
+        const option = reaction.variantControl?.options?.find((item) => item.value === key);
+        const coefficient = Number(reaction.variantCoefficients?.[key]);
+        const damageElement = reaction.variantElements?.[key];
+        if (!Number.isFinite(coefficient) || !damageElement) {
+            return { ...reaction, enabled: false, unsupportedReasonJa: "星拡散の計算対象が未選択です。" };
+        }
+        return {
+            ...reaction,
+            coefficient,
+            damageElement,
+            variantKey: key,
+            variantLabelJa: option?.label || key
+        };
+    }
+
     function buildIndirectLunarResult(context, collected, reaction) {
+        reaction = resolveIndirectReactionVariant(reaction, context);
+        if (!reaction.enabled || !Number.isFinite(Number(reaction.coefficient))) return null;
         const totals = collectReactionTotals(context, collected);
         const weights = reaction.contributionWeights || [1, 0.5, 1 / 12, 1 / 12];
         const resistanceElement = resolveDamageResistanceElement({
@@ -2167,7 +2209,7 @@
         return {
             entry: {
                 id: `reaction_${reaction.reactionId}`,
-                label: `${reaction.label}ダメージ（参加者${contributors.length}人）`,
+                label: `${reaction.label}${reaction.variantLabelJa ? `・${reaction.variantLabelJa}` : ""}ダメージ（参加者${contributors.length}人）`,
                 attackType: "reaction",
                 damageType: "reaction",
                 element: reaction.damageElement,
@@ -2567,6 +2609,9 @@
         results.forEach((result) => {
             result.breakdown.skippedModifiers = result.breakdown.skippedModifiers.filter((item) => !isDiagnosticOnlyCandidate(item));
         });
+        const confirmedRefinements = calcData.weapons?.[context.weaponId]?.confirmedRefinements;
+        const unverifiedRefinement = Array.isArray(confirmedRefinements)
+            && !confirmedRefinements.map(Number).includes(Number(context.refinement));
         return {
             calculationRequest: resolvedRequest,
             context,
@@ -2575,7 +2620,11 @@
                 calculated: Boolean(reactionResult) || ["amplifying", "additive"].includes(context.reactionOption.family),
                 unsupportedReason: context.reactionOption.unsupportedReasonJa || ""
             },
-            warnings: [...filterRelevantWarnings(calcData.warnings, context), ...talentResult.warnings.map((message) => ({ level: "warn", message }))],
+            warnings: [
+                ...filterRelevantWarnings(calcData.warnings, context),
+                ...talentResult.warnings.map((message) => ({ level: "warn", message })),
+                ...(unverifiedRefinement ? [{ level: "warn", message: `${calcData.weapons?.[context.weaponId]?.nameJa || context.weaponId}のR${context.refinement}は未確認のため、武器効果を計算していません。` }] : [])
+            ],
             results,
             candidateModifiers: collected.candidates,
             partyModifiers: collected.partyCandidates || [],

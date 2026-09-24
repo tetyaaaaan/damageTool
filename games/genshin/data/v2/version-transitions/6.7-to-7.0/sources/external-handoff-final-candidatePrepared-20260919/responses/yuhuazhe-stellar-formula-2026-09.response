@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端核心优化：禁止缩放、适配安全区、宽度锁定设备宽度 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>羽化哲</title>
+    <!-- MathJax 公式渲染库 -->
+    <script id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['(', ')']],
+                displayMath: [['$$', '$$'], ['[', ']']],
+                processEscapes: true
+            },
+            chtml: {
+                scale: 1.1
+            }
+        };
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Microsoft Yahei", system-ui, -apple-system, sans-serif;
+            background-color: #0f0f0f;
+            /* 背景底图 + 渐变光晕叠加 */
+            background-image:
+                url("zhanshi/1.0.jpg"),
+                radial-gradient(circle at 10% 10%, rgba(88, 166, 255, 0.08), transparent 25%),
+                radial-gradient(circle at 90% 90%, rgba(199, 146, 234, 0.08), transparent 25%);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #cccccc;
+            line-height: 1.8;
+            /* 上下左右增加安全内边距，适配刘海屏/底部手势条 */
+            padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+            max-width: 1280px;
+            margin: 0 auto;
+            position: relative;
+            min-height: 100vh;
+        }
+        /* 全局暗遮罩，防止底图过亮看不清文字 */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.28);
+            z-index: -1;
+        }
+        /* 主标题 */
+        h1 {
+            color: #58a6ff;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(35, 134, 255, 0.6);
+            font-size: clamp(22px, 5vw, 32px);
+        }
+        /* 大板块标题 */
+        h2 {
+            color: #c792ea;
+            margin: 30px 0 16px;
+            padding-left: 10px;
+            border-left: 4px solid rgba(199, 146, 234, 0.6);
+            font-size: clamp(17px, 4vw, 20px);
+        }
+        /* 小标题 */
+        h3 {
+            color: #89ddff;
+            margin: 16px 0 8px;
+            font-size: clamp(15px, 3.5vw, 17px);
+        }
+        /* 板块容器：低透明度磨砂，底图可穿透，不会完全透明丢失可读性 */
+        .section {
+            background-color: rgba(10, 10, 10, 0.52);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: clamp(14px, 3vw, 25px);
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(16px) saturate(140%);
+            -webkit-backdrop-filter: blur(16px) saturate(140%);
+        }
+        /* 普通描述文本 */
+        .text-desc {
+            color: #d1d1d1;
+            font-size: clamp(14px, 3vw, 15px);
+            margin: 8px 0;
+            line-height: 1.7;
+        }
+        /* 公式框：半透明底色，区分正文，不遮挡底图 */
+        .formula {
+            background-color: rgba(20, 20, 20, 0.62);
+            color: #ffcb6b;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: clamp(12px, 2.8vw, 14px);
+            padding: clamp(12px, 3vw, 16px);
+            border-radius: 8px;
+            margin: 10px 0;
+            /* 横向滚动优化，隐藏丑陋默认滚动条 */
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #ffcb6b33 transparent;
+            border-left: 3px solid rgba(255, 203, 107, 0.65);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px) saturate(130%);
+            -webkit-backdrop-filter: blur(10px) saturate(130%);
+        }
+        /* 美化移动端横向滚动条 */
+        .formula::-webkit-scrollbar {
+            height: 4px;
+        }
+        .formula::-webkit-scrollbar-thumb {
+            background: rgba(255, 203, 107, 0.3);
+            border-radius: 4px;
+        }
+        .formula::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        /* MathJax公式颜色适配深色背景 */
+        .formula mjx-container[jax="CHTML"][display="true"] {
+            color: #ffcb6b !important;
+        }
+        .formula mjx-container[jax="CHTML"] {
+            color: #ffcb6b !important;
+        }
+        /* 单个跳转链接 居中 增大触摸区域 */
+        .jump-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(51, 51, 51, 0.45);
+        }
+        .jump-link a {
+            display: inline-block;
+            color: #89ddff;
+            text-decoration: none;
+            /* 上下内边距加大，手机更容易点到 */
+            padding: 10px 16px;
+            border: 1px solid rgba(137, 221, 255, 0.65);
+            border-radius: 6px;
+            font-size: clamp(13px, 3vw, 14px);
+            transition: all 0.25s ease;
+            min-width: 120px;
+        }
+        .jump-link a:active {
+            background-color: rgba(137, 221, 255, 0.2);
+            color: #ffffff;
+            border-color: #89ddff;
+        }
+        .jump-link a:hover {
+            background-color: rgba(137, 221, 255, 0.12);
+            color: #ffffff;
+            border-color: #89ddff;
+        }
+        /* 备注文本 */
+        .note {
+            color: #888;
+            font-size: clamp(12px, 2.7vw, 14px);
+            margin: 6px 0;
+            padding-left: 8px;
+            border-left: 2px solid rgba(68, 68, 68, 0.6);
+            line-height: 1.6;
+        }
+        /* 小屏手机极限适配（480px以下） */
+        @media (max-width: 480px) {
+            h1 {
+                margin-bottom: 20px;
+            }
+            h2 {
+                margin: 24px 0 12px;
+            }
+            .section {
+                border-radius: 10px;
+            }
+            .formula {
+                border-radius: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>伤害计算公式</h1>
+    <h2>声明:以下公式源于网络收集并上传,若有错误请及时反馈</h2>
+    <h2>存在部分错误以及异常显示问题还未及时修改</h2>
+    <!-- 1. 等级修正系数 -->
+    <div class="section" id="level">
+        <h2>等级修正系数</h2>
+        <div class="formula">
+            若角色为 95 级，将公式中的 1446.85 替换为 1561.46
+        </div>
+        <div class="formula">
+            若角色为 100 级，将公式中的 1446.85 替换为 1674.81
+        </div>
+        <div class="jump-link">
+            <a href="#defense">跳转至下一板块</a>
+        </div>
+    </div>
+    <!-- 2. 防御力 & 抗性 -->
+    <div class="section" id="defense">
+        <h2>防御力 & 抗性</h2>
+        <h3>通用抗性公式:</h3>
+        <div class="formula">
+            $$
+            \begin{cases}
+            1 - \dfrac{抗性}{2} & 抗性 \le 0 \\
+            1 - 抗性 & 0 < 抗性 \le 75\% \\
+            \dfrac{1}{4 + 抗性 + 1} & 抗性 \ge 75\%
+            \end{cases}
+            $$
+        </div>
+        <div class="text-desc">角色攻击敌人时的防御系数：</div>
+        <div class="formula">
+            $$
+            \dfrac{角色等级 + 100}{(角色等级 + 100) + (敌人等级 + 100) \times (1-减防) \times (1-无视防御)}
+            $$
+        </div>
+        <div class="note">(来自角色的减防不能超过 90%，无视防御不能超过 100%)</div>
+        <div class="text-desc">敌人攻击角色时的防御系数：</div>
+        <div class="formula">
+            $$
+            \dfrac{5 \times 敌人等级 + 500}{5 \times 敌人等级 + 500 + 角色防御}
+            $$
+        </div>
+        <div class="jump-link">
+            <a href="网页自动化计算/kangxingxishu.html">点击跳转自动化板块</a>
+        </div>
+    </div>
+    <!-- 3. 常规伤害 -->
+    <div class="section" id="normal">
+        <h2>常规伤害</h2>
+        <div class="formula">
+            $$
+            \begin{aligned}
+            常规伤害 = &(基础值 + 激化值 + 基础值加成) \\
+            &\times (1 + 增伤\% + 易伤\% - 减伤\%) \\
+            &\times 抗性系数 \times 防御系数 \times 暴击区 \times 蒸发融化系数
+            \end{aligned}
+            $$
+        </div>
+        <div class="note">(注: 若攻击没有出现伤害数字（例如命中护盾），则本次伤害不会计算蒸发融化系数)</div>
+        <div class="text-desc">基础值：攻击力*倍率，攻击力可以替换为其他属性（生命值，元素精通等）</div>
+        <div class="text-desc">基础值加成：描述中带有【造成的伤害提高 X】的效果</div>
+        <div class="text-desc">增伤：描述中带有【我方造成的伤害提高 X%】的效果<br>易伤：描述中带有【目标受到的伤害提高 X%】的效果<br>减伤：描述中带有【目标受到的伤害降低 X%】的效果</div>
+        <div class="text-desc">激化值：见【激化反应】章节</div>
+        <div class="text-desc">蒸发融化系数：见【增幅反应】章节</div>
+        <div class="jump-link">
+            <a href="#hyper">跳转至下一板块</a>
+        </div>
+    </div>
+    <!-- 4. 星超导 -->
+    <div class="section" id="hyper">
+        <h2>星超导</h2>
+        <div class="formula">
+            星超导基础倍率与hit数相关：<br>
+            冰元素伤害与雷元素的附着次数视为hit数，即1次附着视为1hit<br>
+            星超导基础倍率与附着次数相关，当次数为 0/1/2/3/4/5/6/7/8/9/10/11/12 时<br>
+            星超导基础倍率分别为：1.0, 1.45, 1.5, 1.54, 1.60, 1.64, 1.70, 1.75, 1.79, 1.85, 1.89, 1.95, 2.0
+        </div>
+        <div class="formula">
+            $$
+            \begin{aligned}
+            直伤基础 =& 星超导基础倍率 \times \dfrac{攻击力}{精通} \times 倍率 \times (1 + 基础提升\%) \\
+            &\times \left(1 + \dfrac{6 \times 元素精通}{元素精通 + 2000} + 星超导增伤\%\right)
+            \end{aligned}
+            $$
+        </div>
+        <div class="formula">
+            $$
+            最终直伤 = (直伤基础 + 额外提升) \times 抗性系数 \times 暴击区 \times 擢升
+            $$
+            基础提升: 木偶天赋 (14%) <br>
+            额外提升（羽毛: 七七 6 命<br>
+            注：暂未对传统增伤数值进行上传
+        </div>
+        <div class="jump-link">
+            <a href="#starspread">跳转至星扩散板块</a>
+        </div>
+    </div>
+    <!-- 5. 星扩散（更新完整版） -->
+    <div class="section" id="starspread">
+        <h2>星扩散</h2>
+        
+        <div class="text-desc">当触发星扩散反应时，反应星扩散•风和反应星扩散•冰的过程会同时进行</div>
+        <div class="text-desc"><strong>关于风涡</strong>：每次触发星扩散反应时，风涡系数会增加 1，最高为 6</div>
+        <h3>反应星扩散(风)说明</h3>
+        <div class="text-desc">反应星扩散•风的基础倍率为 0.75，每次触发星扩散反应•风的时候会立刻造成一次风元素星扩散反应伤害，且每 4.5s 引爆一次风涡(若在4.5s之前就已叠了6点系数，则立刻引爆并清零)，引爆风涡时，造成一次冰元素星扩散伤害，为附近的敌人附着 1U 冰元素，然后将风涡系数清零</div>
+        <h3>反应星扩散(风)公式</h3>
+        <div class="formula">
+            $$
+            \begin{aligned}
+            反应星扩散(风) &= 1446.85 \times 0.75 \times (1+基础提升\%) \\
+            &\quad \times \left(1 + \dfrac{6 \times 元素精通}{元素精通+2000} + 星扩散增伤\%\right) \\
+            &\quad \times 抗性系数 \times 暴击区 \times 擢升
+            \end{aligned}
+            $$
+        </div>
+        <div class="formula">
+            $$
+            最终伤害 = \dfrac{3}{5}风元素角色 + \dfrac{3}{10}其他角色 + \dfrac{1}{20}其他角色 + \dfrac{1}{20}其他角色
+            $$
+        </div>
+        <div class="note">若原本伤害最高的角色没有暴击，则有可能另一名暴击的角色成为最高<br>上述倍率顺序按照角色造成伤害量从大到小，从左到右排序</div>
+        <h3>反应星扩散(冰)倍率规则</h3>
+        <div class="text-desc">反应星扩散•冰的基础倍率会随着风涡系数的不同而变化，当风涡系数为 1~2 时，基础倍率为 2，当风涡系数为 3~6 时，基础倍率为 3</div>
+        <h3>反应星扩散(冰)公式</h3>
+        <div class="formula">
+            $$
+            \begin{aligned}
+            反应星扩散(冰) &= 1446.85 \times 基础倍率 \times (1+基础提升\%) \\
+            &\quad \times \left(1 + \dfrac{6 \times 元素精通}{元素精通+2000} + 星扩散增伤\%\right) \\
+            &\quad \times 抗性系数 \times 暴击区 \times 擢升
+            \end{aligned}
+            $$
+        </div>
+        <div class="formula">
+            $$
+            最终伤害 = \dfrac{3}{5}冰元素角色 + \dfrac{3}{10}风元素角色 + \dfrac{1}{20}其他角色 + \dfrac{1}{20}其他角色
+            $$
+        </div>
+        <div class="note">若原本伤害最高的角色没有暴击，则有可能另一名暴击的角色成为最高<br>上述倍率顺序按照角色造成伤害量从大到小，从左到右排序</div>
+        <h3>星扩散直伤公式</h3>
+        <div class="formula">
+            $$
+            \begin{aligned}
+            星扩散直伤基础 &= 1 \times 属性 \times 倍率 \times (1+基础提升\%) \\
+            &\quad \times \left(1 + \dfrac{6 \times 元素精通}{元素精通+2000} + 星扩散增伤\%\right)
+            \end{aligned}
+            $$
+        </div>
+        <div class="formula">
+            $$
+            最终直伤 = (直伤基础 + 额外提升) \times 抗性系数 \times 暴击区 \times 擢升
+            $$
+        </div>
+        <div class="jump-link">
+            <a href="#crystal">跳转至月结晶板块</a>
+        </div>
+    </div>
+    <!-- 6. 月结晶 -->
+    <div class="section" id="crystal">
+        <h2>月结晶</h2>
+        <div class="text-desc">月结晶的伤害计算和月感电一致，唯一的区别是直伤月结晶需把月感电的 3 换成 1.6，反应月结晶需把月感电的 1.8 换成 0.96</div>
+        <div class="formula">
+            $$
+            \begin{aligned}
+            直伤基础 =& 1.6 \times 属性 \times 倍率 \times (1 + 基础提升\%) \\
+            &\times \left(1 + \dfrac{6 \times 元素精通}{元素精通 + 2000} + 月结晶增伤\%\right) \\
+            最终直伤 =& (直伤基础 + 额外提升) \times 抗性系数 \times 暴击区 \times 擢升
+            \end{aligned}
+            $$
+            基础提升: 兹白天赋 (14%) 哥伦比亚天赋 (7%) 莉奈娅天赋 (14%) <br>
+            额外提升: 兹白天赋一，叶洛亚元素爆发等。
+        </div>
+        <div class="formula">
+            $$
+            \begin{aligned}
+            反应月结晶 =& 1446.85 \times 0.96 \times (1 + 基础提升\%) \\
+            &\times \left(1 + \dfrac{6 \times 元素精通}{元素精通 + 2000} + 月结晶增伤\%\right) \\
+            &\times 抗性系数 \times 暴击区 \times 擢升 \\
+            最终伤害 =& 最高角色伤害 + \dfrac{1}{2}第二高 + \dfrac{1}{12}第三高 + \dfrac{1}{12}第四高
+            \end{aligned}
+            $$
+            注：暂未对此公式进行修正，请等待二次更新
+        </div>
+        <div class="jump-link">
+            <a href="#electro">跳转至下一板块</a>
+        </div>
+    </div>
+    <!-- 7. 月感电 -->
+    <div class="section" id="electro">
+        <h2>月感电</h2>
+        <div class="text-desc">特定情况下，雷触及水时，会生成一片不可移动的雷暴云，持续 6s。雷暴云: 每 2s 攻击一次附近所有同时具有雷和水的目标，并消耗 0.4 元素量的雷和水（破盾效率极低）。触发月感电时，若附近已有雷暴云，则会刷新持续时间月感电的倍率为 1.8，基础伤害为 1446.85 × 1.8 = 2604.33</div>
+        <div class="formula">
+            $$
+            \begin{aligned}
+            反应月感电 =& 1446.85 \times 1.8 \times (1 + 基础提升\%) \\
+            &\times \left(1 + \dfrac{6 \times 元素精通}{元素精通 + 2000} + 月感电增伤\%\right) \\
+            &\times 抗性系数 \times 暴击区 \times 擢升 \\
+            最终伤害 =& 最高角色伤害 + \dfrac{1}{2}第二高 + \dfrac{1}{12}第三高 + \dfrac{1}{12}第四高
+            \end{aligned}
+            $$
+            月感电造成伤害时，所有参与反应的角色都会提供伤害值，但除伤害最高的角色外，其余角色的提供的伤害值会降低 <br>
+            若原本伤害最高的角色没有暴击，则有可能另一名暴击的角色成为最高
+        </div>
+        <div class="formula">
+            $$
+            \begin{aligned}
+            直伤月感电 =& 3 \times 属性 \times 倍率 \times (1 + 基础提升\%) \\
+            &\times \left(1 + \dfrac{6 \times 元素精通}{元素精通 + 2000} + 反应增伤\%\right) \\
+            &\times 抗性系数 \times 暴击区 \times 擢升
+            \end{aligned}
+            $$
+            某些角色可以基于攻击力，直接造成月感电伤害，通过这种方式造成的伤害无视防御力，不受益于常规增伤/减伤，但受益于元素精通，且有额外系数 3×
+        </div>
+        <div class="jump-link">
+            <a href="网页自动化计算/yuegandian.html">点击跳转自动化板块</a>
+        </div>
+    </div>
+    <!-- 8. 月绽放 -->
+    <div class="section" id="bloom">
+        <h2>月绽放</h2>
+        <div class="text-desc">特定情况下，草触及水时，会生草原核，并为队伍提供「草露」，可被特定角色消耗。草原核伤害不算月绽放，月绽放伤害只包括直伤月绽放伤害。直伤月绽放无视防御，不受益于常规增伤/减伤，但受益于元素精通</div>
+        <div class="formula">
+            $$
+            \begin{aligned}
+            直伤基础 =& 属性 \times 倍率 \times (1 + 基础提升\%) \\
+            &\times \left(1 + \dfrac{6 \times 元素精通}{元素精通 + 2000} + 月绽放增伤\%\right) \\
+            最终直伤 =& (直伤基础 + 额外提升) \times 抗性系数 \times 暴击区 \times 擢升
+            \end{aligned}
+            $$
+            基础提升: 菈乌玛天赋 (14%) 哥伦比亚天赋 (7%) 奈芙尔天赋 (14%) <br>
+            额外提升: 菈乌玛元素爆发等。
+        </div>
+        <div class="formula">
+            $$
+            \begin{aligned}
+            草原核基础 =& 1446.85 \times 反应倍率 \times \left(1 + \dfrac{16 \times 元素精通}{元素精通 + 2000} + 反应增伤\%\right) \\
+            草原核伤害 =& (草原核基础 + 额外提升) \times 抗性系数
+            \end{aligned}
+            $$
+            草原核伤害仍为绽放/烈绽放/超绽放伤害，反应倍率为: 绽放 2 | 烈绽放、超绽放 3 <br>
+            额外提升: 菈乌玛元素爆发
+        </div>
+        <div class="jump-link">
+            <a href="#intensify">跳转至下一板块</a>
+        </div>
+    </div>
+    <!-- 9. 激化反应 -->
+    <div class="section" id="intensify">
+        <h2>激化反应</h2>
+        <div class="text-desc">当雷元素触及草元素时，会按照 1:1:1 的比例互相消耗并生成原激化元素。原激化元素可以发生绽放和燃烧反应，在这些反应中的表现和草元素相同。原激化元素的持续时间: (6 + 5 × 元素量) 秒。雷和草不共存，但原激化和雷、原激化和草都可以共存当附着雷/草元素的攻击命中具有原激化的目标时，将分别引发超激化/蔓激化反应，不消耗任何元素，但为本次伤害贡献激化值（完整公式见【常规伤害】章节）</div>
+        <div class="formula">
+            $$
+            \begin{aligned}
+            超激化值 &= 1446.85 \times 1.15 \times \left(1 + \dfrac{5 \times 元素精通}{元素精通 + 2000} + 超激化提高\%\right) \\
+            蔓激化值 &= 1446.85 \times 1.25 \times \left(1 + \dfrac{5 \times 元素精通}{元素精通 + 2000} + 蔓激化提高\%\right)
+            \end{aligned}
+            $$
+        </div>
+        <div class="formula">
+            当敌人触发上述反应时，原本的 1446.85 的数值有变化: <br>
+            90 级 1202.81 | 95 级 1411.74 | 100 级 1674.81 <br>
+            105 级 1884.98 | 110 级 1963.85
+        </div>
+        <div class="jump-link">
+            <a href="#transform">跳转至下一板块</a>
+        </div>
+    </div>
+    <!-- 10. 剧变反应 -->
+    <div class="section" id="transform">
+        <h2>剧变反应</h2>
+        <div class="text-desc">剧变反应包括: 超载、超导、感电、燃烧、碎冰、扩散、绽放、超绽放、烈绽放。剧变反应造成的伤害不受益于常规增伤/易伤/减伤，且无视防御力、不能暴击</div>
+        <div class="formula">
+            $$
+            \begin{aligned}
+            剧变基础 &= 1446.85 \times 反应倍率 \times \left(1 + \dfrac{16 \times 元素精通}{元素精通 + 2000} + 反应增伤\%\right) \\
+            剧变伤害 &= (剧变基础 + 额外提升) \times 抗性系数
+            \end{aligned}
+            $$
+        </div>
+        <div class="formula">
+            反应倍率: <br>
+            扩散 0.65(每 0.25s 一次) <br>
+            燃烧 0.25 <br>
+            超载 2.75 | 碎冰 3 <br>
+            绽放 2 | 烈绽放/超绽放 3
+        </div>
+        <div class="formula">
+            触发剧变反应没有冷却，但剧变反应的伤害有冷却: <br>
+            每 0.5s 最多 1 次: 超载 <br>
+            每 0.5s 最多 2 次: 超导、碎冰、扩散、绽放、烈绽放
+        </div>
+        <div class="formula">
+            当敌人触发上述反应时，原本的 1446.85 的数值有变化: <br>
+            90 级 1202.81 | 95 级 1411.74 | 100 级 1674.81 <br>
+            105 级 1884.98 | 110 级 1963.85
+        </div>
+        <div class="jump-link">
+            <a href="#amplify">跳转至下一板块</a>
+        </div>
+    </div>
+    <!-- 11. 增幅反应 -->
+    <div class="section" id="amplify">
+        <h2>增幅反应</h2>
+        <div class="text-desc">增幅反应包括: 蒸发、融化。触发增幅反应时，会为本次伤害附加蒸发融化系数（完整公式见【常规伤害】章节）。若攻击没有出现伤害数字（例如命中护盾），则本次伤害不会计算蒸发融化系数</div>
+        <div class="formula">
+            $$
+            蒸发融化系数 = 基础系数 \times \left(1 + \dfrac{2.78 \times 元素精通}{元素精通 + 1400} + 反应增伤\%\right)
+            $$
+        </div>
+        <div class="formula">
+            基础系数: <br>
+            2.0 蒸发 火→水 <br>
+            2.0 融化 水→冰 <br>
+            1.5 蒸发 水→火 <br>
+            1.5 融化 冰→火
+        </div>
+        <div class="jump-link">
+            <a href="#crystallize">跳转至下一板块</a>
+        </div>
+    </div>
+    <!-- 12. 结晶反应 -->
+    <div class="section" id="crystallize">
+        <h2>结晶反应</h2>
+        <div class="text-desc">触发结晶反应时，会掉落对应火/水/雷/冰元素的晶片，拾取后可获得护盾。结晶护盾对其自身属性的伤害有 250% 的吸收效率</div>
+        <div class="formula">
+            $$
+            结晶盾量 = 1851.06 \times \left(1 + \dfrac{4.44 \times 元素精通}{元素精通 + 1400}\right)
+            $$
+        </div>
+        <div class="text-desc">角色具有护盾时，护盾量还会受护盾强效影响，护盾强效取决于持有护盾的角色，而非创造晶片的角色</div>
+        <div class="jump-link">
+            <a href="#level">跳转至下一板块</a>
+        </div>
+    </div>
+</body>
+</html>

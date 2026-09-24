@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinVersionTransitionEligibilityApprovalReadiness",
+  "status": "preparationCompleteApprovalNotYetActionable",
+  "transitionId": "genshin:6.7->7.0",
+  "generatedAt": "2026-09-19T14:35:00+09:00",
+  "nonAuthorityNotice": "This artifact prepares approval inputs. It is not an Eligibility Certificate, human review decision, provider-pair approval, version baseline, or production activation grant.",
+  "scope": {
+    "characters": ["10000148", "10000150"],
+    "weapons": ["11520", "11521", "11436", "12436", "13436", "14436", "15436", "11435", "12435", "13435", "14435", "15435"],
+    "reactions": ["stellarSwirl"]
+  },
+  "generatedFrom": {
+    "checkpoint": {
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/active-goal-resume-checkpoint.json",
+      "sha256": "be97f29522fd753adf24e135a07509229205346119f71445bbcb69f9d5669e83"
+    },
+    "captureManifest": {
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/external-handoff-final-candidatePrepared-20260919/capture-manifest.json",
+      "sha256": "ef49770bef345a73f756d3e0e06579253ccfa98af3a0f03ee141dc443b93d161"
+    },
+    "sourceRecords": {
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/external-handoff-final-candidatePrepared-20260919/source-records.json",
+      "sha256": "343bacf69b213096bc1271e6f46d6e883f5e5a9cdefe7a6b82c193e1b948b77a"
+    },
+    "targetDatasetEvidence": {
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/target-dataset-evidence.json",
+      "sha256": "a73ee8243eeb3db0bb18c49e10248912e5f1ad3f4d6b478e19aad245e969746a"
+    },
+    "sourceFamilyRegistry": {
+      "path": "games/genshin/data/v2/source-family-registry.json",
+      "sha256": "498ac62ca14a25489689912ed09d3f3e9ccc0b1a625b51d8ace95e42a2984ec8"
+    },
+    "providerIndependencePolicy": {
+      "path": "games/genshin/data/v2/provider-independence-policy.json",
+      "sha256": "f3ee1c088acf6e9f03efb7857696f45bb354272d2478483a5a571f3ad1b8a051"
+    },
+    "providerPairPolicy": {
+      "path": "games/genshin/data/v2/provider-pair-policy.json",
+      "sha256": "3fa1641dbd9e9109e019ab3e78560781346c303bf164e4ac5de2f407425fd055"
+    },
+    "eligibilityRegistry": {
+      "path": "games/genshin/data/v2/eligibility-certificates.json",
+      "sha256": "3280bbe17c72f3b7fcd91dd67c827a4284bea24015ab8a26f776e839d717d8ff"
+    },
+    "acceptedBaseline": {
+      "path": "games/genshin/data/v2/version-baseline.json",
+      "sha256": "d996d7ef06dff44175269c3b59ab8183576b4e5a52bbae4ff23b99c8d495207f"
+    }
+  },
+  "historicalBaselineMechanism": {
+    "acceptedGameVersion": "6.7",
+    "acceptedSnapshotId": "genshin-version:6.7:11cd97236d0099f03ab295582531b24aa2016e2c1675c03997c61b7ad4e63f6d",
+    "strictSource": {
+      "sourceId": "genshinDb",
+      "revision": "1bab2cdba4d218fd5caa46b5f54e7884ee8359a2"
+    },
+    "acceptanceOperation": "node scripts/genshinVersionBaseline.cjs --write-baseline --accept-drift",
+    "operationBoundary": "This command replaces the accepted content-addressed baseline and archives the previous snapshot. It must only be run after affected Spec, Runtime, consumer, UI, and regression validation; it is not a way to create missing evidence.",
+    "humanApprovalArtifactFound": false,
+    "historyNote": "Repository history contains multiple accepted 6.7 snapshots but no completed cross-version baseline promotion example."
+  },
+  "currentDryRun": {
+    "baseline": {
+      "acceptedSnapshotId": "genshin-version:6.7:11cd97236d0099f03ab295582531b24aa2016e2c1675c03997c61b7ad4e63f6d",
+      "currentSnapshotId": "genshin-version:6.7:65e0d77446b2184ea1aecae8fa84dc2c51ece8e8a8570334c8331061e90b7ef2",
+      "status": "driftDetected",
+      "canonicalGateOpen": false,
+      "note": "The accepted 6.7 mechanism is valid, but the current materialized tree differs. The unrelated known materialized-state discrepancies are outside this batch and were not repaired or accepted."
+    },
+    "targetVerification": {
+      "gameVersion": "7.0",
+      "snapshotId": "genshin-verification:7.0:2985bc077f119c329db6aa657b31059f7f99bff686c058f4805671a87e28a916",
+      "productionActivationGranted": false,
+      "eligibleCertificates": 0,
+      "blockedCertificates": 12493,
+      "inputCoverageComplete": false
+    },
+    "transition": {
+      "state": "awaitingTargetDatasetCoverage",
+      "strictTargetDataset": "pending",
+      "entityDiff": "pending",
+      "claimEvidenceRevalidated": "pending",
+      "certificatesRegenerated": "pending",
+      "runtimeRegenerated": "pending",
+      "consumersVerified": "pending",
+      "canonicalOverlayActive": false
+    }
+  },
+  "sourceReadiness": {
+    "capturedSourceRecordCount": 13,
+    "rawOnlyCount": 13,
+    "revisionPinnedCount": 0,
+    "fieldScopedCount": 0,
+    "fieldDigestCount": 0,
+    "providerIndependenceDeclaredCount": 0,
+    "weaponSuccessfulSourceRecordCount": 0,
+    "sourceRecordIdsByScope": {
+      "character:10000148": [
+        "handoff:20260919:gachabase-alyosha-7.0.53",
+        "handoff:20260919:kqm-alyosha-7.0",
+        "handoff:20260919:genshin-center-alyosha-current"
+      ],
+      "character:10000150": [
+        "handoff:20260919:gachabase-odette-7.0.54",
+        "handoff:20260919:kqm-odette-7.0",
+        "handoff:20260919:genshin-center-odette-current",
+        "handoff:20260919:kqm-tcl-odette-7.0"
+      ],
+      "weapons": [],
+      "reaction:stellarSwirl": [
+        "handoff:20260919:kqm-stellar-7.0",
+        "handoff:20260919:kqm-7.0-overview",
+        "handoff:20260919:gamewith-level100-2026-09-17",
+        "handoff:20260919:yuhuazhe-stellar-formula-2026-09",
+        "handoff:20260919:mythras-stellar-reactions-2026-09-04"
+      ]
+    }
+  },
+  "claimReadiness": [
+    {
+      "candidateKey": "character:10000148",
+      "repositoryCandidateId": null,
+      "claimGroups": ["identity", "baseStats", "curves", "promotions", "talentMultipliers", "passives", "constellations", "conditions"],
+      "status": "machineEvidenceIncomplete",
+      "missing": ["repository-owned candidate and claim IDs", "two strict independent source families per factual field", "source revisions", "exact field pointers", "field digests", "strict 7.0 binding", "source-catalog records", "exact comparisons"],
+      "humanApprovalReady": false
+    },
+    {
+      "candidateKey": "character:10000150",
+      "repositoryCandidateId": null,
+      "claimGroups": ["identity", "baseStats", "curves", "promotions", "talentMultipliers", "passives", "constellations", "conditions"],
+      "status": "machineEvidenceIncomplete",
+      "missing": ["repository-owned candidate and claim IDs", "two strict independent source families per factual field", "source revisions", "exact field pointers", "field digests", "strict 7.0 binding", "source-catalog records", "exact comparisons"],
+      "humanApprovalReady": false
+    },
+    {
+      "candidateKey": "weapons:7.0:12",
+      "repositoryCandidateId": null,
+      "claimGroups": ["identity", "baseStats", "curves", "promotions", "japaneseEffectText", "refinementValues", "activation", "targets", "duration", "stacks", "energy"],
+      "status": "sourceEvidenceMissing",
+      "missing": ["successful weapon SourceRecords", "repository-owned candidate and claim IDs", "two strict independent source families per factual field", "source revisions", "exact field pointers", "field digests", "strict 7.0 binding", "source-catalog records", "exact comparisons"],
+      "humanApprovalReady": false,
+      "constraints": ["11435 may later expose only separately verified minimum and maximum values; distance interpolation is forbidden", "11521 may enable only explicitly verified refinement ranks"]
+    },
+    {
+      "candidateKey": "reaction:stellarSwirl",
+      "repositoryCandidateId": null,
+      "claimGroups": ["reactionCoefficient", "levelMultiplier", "elementalMasteryBonus", "contributorWeights", "criticalRules", "defenseExclusion", "resistanceRules"],
+      "status": "machineEvidenceIncomplete",
+      "missing": ["repository-owned candidate and claim IDs", "two strict independent source families per factual field", "declared source-owned lineage", "source revisions", "exact field pointers", "field digests", "strict 7.0 binding", "source-catalog records", "exact comparisons"],
+      "humanApprovalReady": false
+    }
+  ],
+  "formalRoute": [
+    "Materialize a strict 7.0 target provider dataset with complete repository-candidate coverage, an exact provider revision, raw digests, and provider-owned version binding.",
+    "Generate complete 6.7 and 7.0 entity snapshots and entity-diff.json; unknown coverage remains fail-closed.",
+    "Assign repository-owned candidate and claim IDs and add exact field-scoped source-catalog records for the selected claims.",
+    "Bind at least two declared independent source families to each external factual field and compute exact field digests and comparisons.",
+    "Generate target-version candidate-by-claim Eligibility Certificates without writing an eligible status unless every strict input passes.",
+    "Generate deterministic attestations for eligible certificates.",
+    "Generate target-version canonical Runtime, run focused consumer/UI regressions, and write a passed consumer-verification.json with the runtime digest and commands.",
+    "Recompute version impact; canonicalOverlayActive may become true only after every transition stage is complete and Runtime is active.",
+    "Only after those checks, explicitly replace the accepted baseline with --write-baseline --accept-drift."
+  ],
+  "approvalBoundary": {
+    "claimApprovalActionableNow": false,
+    "reason": "No target claim has the machine evidence required for either deterministic consensus or an existing scoped human-review apply route. Human approval cannot manufacture missing revision, field, version, or second-source proof.",
+    "policyDecisionActionableNow": true,
+    "decisionRequested": "Approve or reject implementing candidate-by-claim scope enforcement for provider-pair authorization, so a pair authorization can be limited to an exact 7.0 candidate/claim/field set without making the provider pair reusable for unrelated claims.",
+    "filesRequiringApprovedDesignChange": [
+      "scripts/genshinClaimEligibilityCertificateGenerate.cjs",
+      "scripts/genshinVerificationStateMachine.cjs",
+      "games/genshin/data/schema/eligibility-certificates.schema.json",
+      "games/genshin/data/v2/provider-pair-policy.json"
+    ],
+    "requiredSafetyConditions": [
+      "pair selection must check exact candidateId, claimId, field, dataset, and target gameVersion",
+      "out-of-scope claims must remain blocked",
+      "candidateScoped must never imply provider-wide strictReusable",
+      "certificate and attestation must bind the same exact scope and evidence digests",
+      "AI self-approval remains forbidden",
+      "the change must not waive two-family, revision, raw/field digest, exact-match, or strict-version requirements"
+    ],
+    "unlockAfterApproval": "Only implementation and tests for exact-scope authorization are unlocked. No current 7.0 claim becomes eligible until its missing machine evidence is supplied."
+  },
+  "commands": {
+    "readOnlyTargetCertificateDryRun": "node -e \"const c=require('./scripts/genshinClaimEligibilityCertificateGenerate.cjs'); console.log(JSON.stringify(c.buildCertificates({targetGameVersion:'7.0'}).summary,null,2))\"",
+    "certificateWriteAfterInputsQualify": "node scripts/genshinClaimEligibilityCertificateGenerate.cjs",
+    "attestationWriteAfterCertificatesQualify": "node scripts/genshinDeterministicConsensusAttest.cjs",
+    "transitionAudit": "node scripts/genshinVersionImpact.cjs",
+    "baselineAudit": "node scripts/genshinVersionBaseline.cjs",
+    "baselineAcceptanceAfterAllGates": "node scripts/genshinVersionBaseline.cjs --write-baseline --accept-drift"
+  },
+  "nextConcreteStep": "Obtain or register the strict 7.0 target dataset and complete entity diff first. In parallel, the policy owner may approve the exact-scope authorization design above; that approval alone does not make any claim eligible."
+}

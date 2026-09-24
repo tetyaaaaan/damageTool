@@ -266,6 +266,14 @@
             const name = document.createElement("strong");
             name.textContent = item.nameJa;
             copy.appendChild(name);
+            if (item.dataStatus === "provisional") {
+                const provisional = document.createElement("span");
+                provisional.className = "genshin-selection-provisional";
+                provisional.textContent = item.verificationLabel || "検証中";
+                copy.appendChild(provisional);
+                button.dataset.dataStatus = "provisional";
+                button.setAttribute("aria-label", `${button.getAttribute("aria-label") || item.nameJa}、検証中データ`);
+            }
             if (state.mode === "weapon") {
                 const meta = document.createElement("span");
                 meta.textContent = `★${item.rarity}`;
@@ -338,6 +346,25 @@
     function clearWeapon() {
         setField("genshinWeaponInput", "");
         setField("genshinCalcWeaponId", "");
+        syncWeaponRefinement(null);
+    }
+
+    function syncWeaponRefinement(weapon) {
+        const select = byId("genshinWeaponRefinement");
+        if (!select) return;
+        const confirmed = Array.isArray(weapon?.confirmedRefinements)
+            ? new Set(weapon.confirmedRefinements.map(Number))
+            : null;
+        Array.from(select.options || []).forEach((option, index) => {
+            const rank = Number(String(option.value || option.textContent).match(/\d+/)?.[0] || index + 1);
+            const enabled = !confirmed || confirmed.has(rank);
+            option.disabled = !enabled;
+            option.textContent = enabled ? `R${rank}` : `R${rank}（未確認）`;
+        });
+        if (confirmed && !confirmed.has(Number(String(select.value).match(/\d+/)?.[0] || 1))) {
+            select.value = `R${[...confirmed].sort((a, b) => a - b)[0] || 1}`;
+            dispatchInput(select);
+        }
     }
 
     function syncCharacter(character, keepWeapon) {
@@ -376,6 +403,7 @@
             window.GenshinInputProvenance?.clearDerivedBaseStats?.("weapon");
             setField("genshinWeaponInput", weapon.nameJa);
             setField("genshinCalcWeaponId", weapon.id);
+            syncWeaponRefinement(weapon);
         } else {
             const artifactSet = state.artifactSets.find((item) => item.id === id);
             if (!artifactSet) return;
@@ -496,6 +524,9 @@
             const character = state.characters.find((item) => item.id === byId("genshinCalcCharacterId").value);
             syncCharacter(character, true);
         });
+        byId("genshinCalcWeaponId").addEventListener("input", () => {
+            syncWeaponRefinement(state.weapons.find((item) => item.id === byId("genshinCalcWeaponId").value) || null);
+        });
         ["one", "two"].forEach((slot) => {
             byId(artifactSelectId(slot)).addEventListener("change", () => syncArtifactTrigger(slot));
         });
@@ -517,6 +548,7 @@
             .sort((a, b) => Number(b.id) - Number(a.id));
         bindEvents();
         syncCharacter(state.characters.find((item) => item.id === byId("genshinCalcCharacterId").value), true);
+        syncWeaponRefinement(state.weapons.find((item) => item.id === byId("genshinCalcWeaponId")?.value) || null);
         syncArtifactTriggers();
     }
 

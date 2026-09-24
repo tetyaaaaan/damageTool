@@ -1,0 +1,2228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: https://ogp.me/ns# fb: https://ogp.me/ns/fb# article: https://ogp.me/ns/article#">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <script>
+    (function () {
+        // スマホブラウザの「PCサイトを見る」で送られてくる「明らかにスマホっぽくない UA」のときは
+        // ビューポートを固定幅とし、CSS メディアクエリでレスポンシブなレイアウトになるのを避けるトリック。
+        // モバイル OS でない場合も同様に固定され、ウィンドウ幅を狭めてもレイアウトが変わらない。
+        var m = /(Android|iPhone|iPad)/.exec(navigator.userAgent)
+        if (m && m[1] !== 'iPhone') return
+        var meta = document.querySelector('meta[name="viewport"]')
+        if (!meta) return
+        // SEE https://github.com/kotoken/wikiwiki/issues/2102
+        // Webkit の仕様により iOS ではブラウザ幅がモバイルサイズの時、フォントサイズが 16px 未満のフォーム入力欄に
+        // フォーカスすると強制的にズームしてしまう。
+        // これを避けるためには viewport に user-scalable=no を指定する必要があるのだが、
+        // そうすると Android では ユーザー操作によるピンチズームができなくなってしまう（iOSでは、ピンチズームに関しては
+        // user-scalable=no の指定を無視する）ので、iPhone だけ user-scalable=no を指定するようにする
+        meta.setAttribute('content', m
+            ? 'width=device-width,minimum-scale=1,initial-scale=1,user-scalable=no'
+            : 'width=980')
+    })()
+</script>
+
+    <meta name="robots" content="NOINDEX,NOFOLLOW">
+<meta name="description" content="原神 Wiki*">
+        <meta property="og:url" content="https://wikiwiki.jp/genshinwiki/%E8%BF%9A%E3%83%BB%E7%84%94%E8%9C%91%EF%BD%A3/%E9%80%8B%EF%BD%BD%E9%A9%AB%C2%80%E7%B8%BA%EF%BD%AE%E8%B2%89%E6%82%B6%EF%BD%92%E9%97%8A%E6%A7%AD%E2%89%A7%E9%84%99%EF%BD%BC" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="迚・焔蜑｣/逋ｽ驫縺ｮ貉悶ｒ闊槭≧鄙ｼ - 原神 Wiki*" />
+    <meta property="og:description" content="原神 Wiki*" />
+    <meta property="og:site_name" content="原神 Wiki*" />
+    <meta property="og:image" content="https://icon.wikiwiki.jp/symbolicon/genshinwiki/ogCustomImage/39885dca0bb7.png" />
+    <title>ページが存在しません。 - 原神 Wiki*</title>
+
+    <link rel="alternate" href="/genshinwiki/::cmd/mixirss" type="application/rss+xml" title="RSS" />
+        <link rel="icon" href="https://icon.wikiwiki.jp/symbolicon/genshinwiki/smallIcon/6cd6ce902ea1.png" />
+    <link rel="apple-touch-icon" href="https://icon.wikiwiki.jp/symbolicon/genshinwiki/appleTouchIcon/fd8657862281.png" />
+    <link rel="manifest" href="https://icon.wikiwiki.jp/symbolicon/genshinwiki/manifest.webmanifest">
+    <link rel="stylesheet" href="https://cdn.wikiwiki.jp/to/w/common/assets/dist/wikiwiki-dbc3538ca778dc7fcfbe.min.css" type="text/css">
+<link rel="stylesheet" href="https://cdn.wikiwiki.jp/to/w/common/assets/dist/skin-default-8896c2d3fdf78b1e81a0.min.css" type="text/css">
+    
+    <script type="text/javascript" src="https://cdn.wikiwiki.jp/to/w/common/assets/dist/ad-1bf004520fc167abbea6.min.js"></script>
+    <script>
+    var wi_stay = (function () {
+        var wi_data_raw = localStorage.getItem('browsingStatistics');
+        var wi_data = wi_data_raw ? (JSON.parse(wi_data_raw) || {}) : {};
+        var stay = Number(wi_data.stay);
+        if (isNaN(stay)) {
+            stay = 0;
+        }
+        return stay;
+    })();
+    var wi_data_raw = localStorage.getItem('usageStatistics');
+    var wi_data =     wi_data_raw ? (JSON.parse(wi_data_raw) || {}) : {};
+    var wi_edit =     String(wi_data.edit || 0);
+    var wi_freeze =   String(wi_data.freeze || 0);
+    var wi_comment =  String(wi_data.comment || 0);
+    var wi_group = String(wi_data.group || "N");
+    var wi_smsAuth = wi_data.smsAuth || false;
+    var wi_hasPosted = wi_data.hasPosted || false;
+    var wi_agreement = String(wi_data.agreementStatus || "false");
+    if (document.referrer.length !== 0) {
+        var wi_uri = new URL(document.referrer);
+        var wi_referer = wi_uri.hostname;
+    } else {
+        var wi_referer = "unknown";
+    }
+
+    // Chromium系判定
+    function isChromium() {
+        var ua = navigator.userAgent;
+        // Edge, Opera, Chrome, Chromium, Brave など
+        return /\b(Chrome|Chromium|Edg|OPR|Brave)\b/.test(ua) && !/Silk|UCBrowser|SamsungBrowser|CriOS|FxiOS|OPiOS|EdgiOS/.test(ua);
+    }
+
+    var wi_ismobile;
+    var wi_device;
+    if (isChromium() && navigator.userAgentData) {
+        wi_ismobile = navigator.userAgentData.mobile;
+        if (wi_ismobile) {
+            if (navigator.userAgentData.platform === "Android") {
+                wi_device = "and";
+            } else {
+                wi_device = "ios";
+            }
+        } else {
+            wi_device = "pc";
+        }
+    } else {
+        wi_ismobile = !!navigator.userAgent.match(/iPhone|Android.+Mobile/);
+        if (navigator.userAgent.match(/Android.+Mobile/)) {
+            wi_device = "and";
+        } else if (navigator.userAgent.match(/iPhone/)) {
+            wi_device = "ios";
+        } else {
+            wi_device = "pc";
+        }
+    }
+
+    var wi_isportrait = window.matchMedia("(orientation: portrait)").matches;
+    var wi_isinbound = wi_referer.includes(window.location.hostname) ? false : true;
+    var wi_random100 = Math.floor(Math.random() * (100 - 1) + 1);
+    var wi_random110 = Math.floor(Math.random() * 10) + 1;
+    var wi_isread_yet = true;
+    var wi_location_hash = location.hash || false;
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3Y8FN9EFS7"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3Y8FN9EFS7', {
+        'content_group': 'genshinwiki',
+        'user_properties': {
+            'user_group':     wi_group,
+            'user_agreement': wi_agreement,
+            'edit_count':     wi_edit,
+            'comment_count':  wi_comment,
+            'sms_auth':       String(wi_smsAuth)
+        }
+    });
+    
+</script>
+
+<script>
+    window.wikiFq = createWikiFq();
+</script>
+<script>
+    var wi_recref = recordReferrerDomain();
+</script>
+
+<script>
+const visitData_20241117 = (() => {
+const RESET_INTERVAL_MINUTES = 30;
+const now = Date.now();
+const resetIntervalMs = RESET_INTERVAL_MINUTES * 60 * 1000;
+const storageKey = "internalVisitData";
+let data = JSON.parse(localStorage.getItem(storageKey)) || { count: 0, lastVisit: now };
+if (now - data.lastVisit > resetIntervalMs) data = { count: 0, lastVisit: now };
+if (document.referrer && new URL(document.referrer).hostname === window.location.hostname) {
+data = { count: data.count + 1, lastVisit: now };
+localStorage.setItem(storageKey, JSON.stringify(data));
+}
+return data;
+})();
+
+const int_conditions = [
+wi_ismobile,
+wi_group === 'N',
+wi_agreement === 'false',
+!wi_isinbound,
+visitData_20241117.count === 1,
+];
+
+const int_conditions_pc = [
+    !wi_ismobile,
+    wi_group === 'N',
+    wi_agreement === 'false',
+    !wi_isinbound,
+    visitData_20241117.count === 1,
+];
+</script>
+<script>
+(function () {
+  const FLAG = "iminst_pc";
+  const url = new URL(location.href);
+
+  if (url.searchParams.get(FLAG) === "1") {
+    url.searchParams.delete(FLAG);
+    history.replaceState(null, "", url.toString());
+    return;
+  }
+
+  if (Array.isArray(int_conditions_pc) && int_conditions_pc.every(Boolean)) {
+    url.searchParams.set(FLAG, "1");
+    location.href = url.toString();
+  }
+})();
+</script>
+<script>
+(function(){
+  const url=new URL(location.href);
+  const f=wi_device==="ios"?"iminst_ios":wi_device==="and"?"iminst_and":null;
+  if(!f)return;
+  if(url.searchParams.get(f)==="1"){
+    url.searchParams.delete(f);
+    history.replaceState(null,"",url.toString());
+    return;
+  }
+  if(Array.isArray(int_conditions)&&int_conditions.every(Boolean)){
+    url.searchParams.set(f,"1");
+    location.href=url.toString();
+  }
+})();
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KQ52VZ3');</script>
+<!-- End Google Tag Manager -->
+
+
+<script type="text/javascript">
+    window.pbjs = window.pbjs || {};
+    window.pbjs.que = window.pbjs.que || [];
+</script>
+<script async="async" src="https://flux-cdn.com/client/ukiuki/flux_wikiwiki_AS_TM_AT.min.js"></script>
+<script>
+window.googletag = window.googletag || {};
+window.googletag.cmd = window.googletag.cmd || [];
+</script>
+<script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<script>
+
+var wi_adslot_rectangle = [[300,250],[1,1]];
+var wi_adslot = [[300,250],[1,1]];
+if (document.documentElement.clientWidth > 406) {
+  wi_adslot_rectangle = [[300,250],[336,280],[1,1]];
+  wi_adslot = [[468,60],[300,250],[1,1]];
+}
+
+window.defineSlotFlux = [];
+if (wi_ismobile && wi_isportrait) {
+  defineSlotFlux.push({"slotID": "div-gpt-ad-1563441919648-0", "sizes": [[320, 100], [320, 50]], "slotName":"WIKIWIKI_SP_OVERLAY"});
+}
+    if (wi_isinbound && wi_ismobile && wi_group == "N" && wi_agreement === "false") {
+      defineSlotFlux.push({"slotID": "div-gpt-ad-1563430750445-0", "sizes": [[300,250]], "slotName":"WIKIWIKI_SP_INBOUND"});
+    } else if (wi_isinbound && wi_group == "N" && wi_agreement === "false") {
+      defineSlotFlux.push({"slotID": "div-gpt-ad-1567409776345-0", "sizes": [[300,250]], "slotName":"WIKIWIKI_PC_INBOUND"});
+      defineSlotFlux.push({"slotID": "div-gpt-ad-1658802281376-0", "sizes": [[300,250]], "slotName":"WIKIWIKI_PC_INBOUND_RIGHT"});
+    }
+  if (wi_ismobile) {
+    defineSlotFlux.push({"slotID": "div-gpt-ad-1567408559923-0", "sizes": [[300,250]], "slotName":"WIKIWIKI_SP_SECOND"});
+  } else {
+    defineSlotFlux.push({"slotID": "div-gpt-ad-1567408559923-0", "sizes": [[300,250]], "slotName":"WIKIWIKI_PC_BOTTOM_LEFT"});
+    defineSlotFlux.push({"slotID": "div-gpt-ad-1658912377789-0", "sizes": [[300,250]], "slotName":"WIKIWIKI_PC_BOTTOM_RIGHT"});
+  }
+</script>
+<script type="text/javascript">
+if (defineSlotFlux.length) {
+    window.fluxtag = {
+        readyBids: { prebid: false, google: false },
+        failSafeTimeout: 3e3, // 3秒でフェイルセーフ発動
+        isFn: function isFn(object) {
+            var _t = 'Function';
+            var toString = Object.prototype.toString;
+            return toString.call(object) === '[object ' + _t + ']';
+        },
+        launchAdServer: function () {
+            if (!fluxtag.readyBids.prebid) {
+                return;
+            }
+            fluxtag.requestAdServer();
+        },
+        requestAdServer: function () {
+            if (!fluxtag.readyBids.google) {
+                fluxtag.readyBids.google = true;
+                googletag.cmd.push(function () {
+                    var pbjsLoaded = !!(window.pbjs && pbjs.que &&
+                        fluxtag.isFn(pbjs.que.push) &&
+                        (pbjs.libLoaded || (pbjs.setTargetingForGPTAsync &&
+                            fluxtag.isFn(pbjs.setTargetingForGPTAsync))));
+                    if (pbjsLoaded) {
+                        pbjs.que.push(function () {
+                            if (pbjs.setTargetingForGPTAsync && fluxtag.isFn(pbjs.setTargetingForGPTAsync)) {
+                                try {
+                                    Promise.resolve(pbjs.setTargetingForGPTAsync())
+                                        .catch(function () {})
+                                        .then(function () {
+                                            googletag.pubads().refresh();
+                                        });
+                                } catch (e) {
+                                    googletag.pubads().refresh();
+                                }
+                            } else {
+                                googletag.pubads().refresh();
+                            }
+                        });
+                    } else {
+                        googletag.pubads().refresh();
+                    }
+                });
+            }
+        }
+    };
+
+    setTimeout(function () {
+        fluxtag.requestAdServer();
+    }, fluxtag.failSafeTimeout);
+}
+</script>
+<script>
+googletag.cmd.push(function() {
+    if (wi_ismobile && wi_isportrait) {
+        googletag.defineSlot('/19033742/WIKIWIKI_SP_OVERLAY',[[320,100],[320,50],[1,1]],'div-gpt-ad-1563441919648-0').addService(googletag.pubads());
+    }
+    if (wi_isinbound && wi_ismobile && wi_group == "N" && wi_agreement === "false") {
+      googletag.defineSlot('/19033742/WIKIWIKI_SP_INBOUND',[[300,250]],
+        'div-gpt-ad-1563430750445-0').addService(googletag.pubads());
+    } else if (wi_isinbound && wi_group == "N" && wi_agreement === "false") {
+      googletag.defineSlot('/19033742/WIKIWIKI_PC_INBOUND',[[336,280],[300,250]],
+        'div-gpt-ad-1567409776345-0').addService(googletag.pubads());
+      googletag.defineSlot('/19033742/WIKIWIKI_PC_INBOUND_RIGHT',[[336,280],[300,250]],
+        'div-gpt-ad-1658802281376-0').addService(googletag.pubads());
+    }
+    if (wi_ismobile) {
+        googletag.defineSlot('/19033742/WIKIWIKI_SP_SECOND',[[300,250]],
+        'div-gpt-ad-1567408559923-0').addService(googletag.pubads());
+    } else {
+        googletag.defineSlot('/19033742/WIKIWIKI_PC_BOTTOM_LEFT',[[336,280],[300,250]],
+        'div-gpt-ad-1567408559923-0').addService(googletag.pubads());
+        googletag.defineSlot('/19033742/WIKIWIKI_PC_BOTTOM_RIGHT',[[336,280],[300,250]],
+        'div-gpt-ad-1658912377789-0').addService(googletag.pubads());
+    }
+    googletag.setConfig({ targeting: {
+        "gpolicy": "sunny",
+        "site": "genshinwiki"
+    } });
+    googletag.setConfig({ collapseDiv: 'ON_NO_FILL' });
+    googletag.setConfig({ singleRequest: true });
+    googletag.pubads().addEventListener('slotRenderEnded', function(event) {
+        var slot = event.slot;
+        if (document.getElementById(slot.getSlotElementId()) != null){
+            var slotElm = document.getElementById(slot.getSlotElementId());
+            if (slotElm && slotElm.className === 'overlay-ad-wrapper') {
+                var overlayRenderedEvent = document.createEvent('Event');
+                overlayRenderedEvent.initEvent('overlay-ad-rendered', true, true);
+                slotElm.dispatchEvent(overlayRenderedEvent);
+            }
+        }
+    });
+    googletag.setConfig({
+        lazyLoad: {
+            fetchMarginPercent: 50,   // 0.5画面分まできたらリクエスト
+            renderMarginPercent: 50,  // 0.5画面分まできたら描画
+            mobileScaling: 2.0        // モバイルはスクロールが早いため2倍（1.0画面分）にする
+        }
+    });
+    if (defineSlotFlux.length) {googletag.setConfig({ disableInitialLoad: true });};
+    googletag.enableServices();
+    if (defineSlotFlux.length) {
+        pbjs.que.push(function () {
+            window.pbFlux.prebidBidder();
+        });
+    }
+});
+</script>
+
+<script>
+googletag.cmd.push(function() {
+  googletag.setConfig({ targeting: {
+    "wi_agreement": String(wi_data.agreementStatus || "false"),
+    "wi_group": String(wi_data.group || "N"),
+    "wi_comment": wi_comment.length.toString(),
+    "wi_edit": wi_edit.length.toString(),
+    "wi_freeze": wi_freeze.length.toString(),
+    "wi_smsAuth": String(wi_data.smsAuth || false),
+    "wi_hasPosted": String(wi_data.hasPosted || false),
+    "wi_referer": String(wi_referer || "unknown"),
+    "wi_random110": String(wi_random110 || "0"),
+    "wi_hour": ('0' + new Date().getHours()).slice(-2)
+  } });
+});
+</script>
+
+<style>
+.pc-caption-ad-default {
+    margin-top:20px;
+    display:flex;
+    justify-content:flex-start;
+    gap: 10px 5px;
+    min-height:280px;
+    position: sticky;
+    z-index: 3;
+    top: 45px;
+}
+
+.pc-caption-ad-center{
+    margin-top:20px;
+    display:flex;
+    justify-content:center;
+    gap: 10px 5px;
+    min-height:280px;
+    position: sticky;
+    z-index: 3;
+    top: 45px;
+}
+.pc-caption-ad-mobile{
+    margin-top:20px;
+    margin-bottom:20px;
+    display:flex;
+    justify-content:center;
+    min-height:331px;
+    position: sticky;
+    z-index: 3;
+    top: 45px;
+}
+.pc-caption-ad-mobile-300x600{
+    margin-top:20px;
+    margin-bottom:20px;
+    display:flex;
+    justify-content:center;
+    min-height:331px;
+}
+.default-advertisement {
+    background-color: transparent;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'%3E%3C!--!Font Awesome Pro 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc.--%3E%3Cpath d='M16 48l0 416 544 0 0-416L16 48zM0 32l16 0 544 0 16 0 0 16 0 416 0 16-16 0L16 480 0 480l0-16L0 48 0 32zM320 280a56 56 0 1 0 112 0 56 56 0 1 0 -112 0zm56-72c22.6 0 42.8 10.4 56 26.7l0-66.7 0-8 16 0 0 8 0 112 0 64 0 8-16 0 0-8 0-18.7c-13.2 16.3-33.4 26.7-56 26.7c-39.8 0-72-32.2-72-72s32.2-72 72-72zM183.1 160l5.2 0 7.3 0 5.2 0 2.1 4.8L284.2 352l-17.4 0-20.8-48-107.8 0-20.8 48-17.4 0L181 164.8l2.1-4.8zM145 288l94 0L192 179.7 145 288z' fill='%23BBB'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25px 25px;
+}
+
+@media (max-width: 500px) {
+  .caption-flybox:has(iframe[id^="google_ads_iframe_"]) {
+    position: relative;
+    min-height: 450px;
+  }
+}
+</style>
+
+
+<script>
+googletag.cmd.push(function() {
+    const pcCaptionPaths = [
+        '/19033742/WIKIWIKI_PC_CAPTION',
+        '/19033742/WIKIWIKI_PC_CAPTION_SIDE_BY',
+        '/19033742/WIKIWIKI_PC_CAPTION_20TH',
+        '/19033742/WIKIWIKI_CAPTION_B'
+    ];
+
+    const spCaptionPaths = [
+        '/19033742/WIKIWIKI_SP_CAPTION',
+        '/19033742/WIKIWIKI_SP_CAPTION_300x600'
+    ];
+
+    googletag.pubads().addEventListener('slotRenderEnded', function(event) {
+        const slotElement = document.getElementById(event.slot.getSlotElementId());
+        const parent = slotElement?.parentNode;
+
+        if (parent && !event.isEmpty) {
+            if (pcCaptionPaths.includes(event.slot.getAdUnitPath())) {
+                parent.classList.add(parent.clientWidth < 769 ? "pc-caption-ad-center" : "pc-caption-ad-default");
+            } else if (spCaptionPaths.includes(event.slot.getAdUnitPath())) {
+                if (event.slot.getAdUnitPath() === '/19033742/WIKIWIKI_SP_CAPTION_300x600') {
+                    parent.classList.add("pc-caption-ad-mobile-300x600");
+                } else {
+                    parent.classList.add("pc-caption-ad-mobile");
+                }
+            }
+        }
+    });
+
+    googletag.pubads().addEventListener('slotOnload', function(event) {
+        const slotElement = document.getElementById(event.slot.getSlotElementId());
+        slotElement?.parentNode?.classList.remove("default-advertisement");
+    });
+});
+</script>
+
+<link rel="preload" as="script" href="https://pdn.adingo.jp/p.js">
+<link rel="preconnect" href="https://sh.adingo.jp" crossorigin="use-credentials">
+        <style>
+@media screen and (min-width: 820px) {
+  .container-wrapper {
+    min-width: 1366px;
+    max-width: 1366px;
+  }
+}
+</style>
+<style>
+  body {
+      font-family: Verdana, Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+      font-size: 12px;
+  }
+</style>
+<style>
+  @media screen and (max-width: 819px), print and (max-width: 180mm) {
+    body {
+        font-size: 13px;
+    }
+  }
+</style>
+        <script>
+        window.globalParamsContainer = {"smsAuthParams":{"actionTrollingDefenceCheck":"\/genshinwiki\/::cmd\/trolling_defence_pass","actionSubmitNumber":"\/p\/sms-auth\/code\/request","actionSubmitCode":"\/p\/sms-auth\/code\/activate","cookieName":"authkey"},"editAssistantImgSrc":{"face_smile":"https:\/\/cdn.wikiwiki.jp\/to\/w\/common\/image\/face\/smile.png?v=4","face_bigsmile":"https:\/\/cdn.wikiwiki.jp\/to\/w\/common\/image\/face\/bigsmile.png?v=4","face_huh":"https:\/\/cdn.wikiwiki.jp\/to\/w\/common\/image\/face\/huh.png?v=4","face_oh":"https:\/\/cdn.wikiwiki.jp\/to\/w\/common\/image\/face\/oh.png?v=4","face_wink":"https:\/\/cdn.wikiwiki.jp\/to\/w\/common\/image\/face\/wink.png?v=4","face_sad":"https:\/\/cdn.wikiwiki.jp\/to\/w\/common\/image\/face\/sad.png?v=4","face_worried":"https:\/\/cdn.wikiwiki.jp\/to\/w\/common\/image\/face\/worried.png?v=4","face_tear":"https:\/\/cdn.wikiwiki.jp\/to\/w\/common\/image\/face\/tear.png?v=4","face_tere":"https:\/\/cdn.wikiwiki.jp\/to\/w\/common\/image\/face\/tere.png?v=4","face_shock":"https:\/\/cdn.wikiwiki.jp\/to\/w\/common\/image\/face\/shock.png?v=4","face_heart":"https:\/\/cdn.wikiwiki.jp\/to\/w\/common\/image\/face\/heart.png?v=4","face_star":"https:\/\/cdn.wikiwiki.jp\/to\/w\/common\/image\/face\/star.gif?v=4","face_hatena":"https:\/\/cdn.wikiwiki.jp\/to\/w\/common\/image\/face\/hatena.gif?v=4","face_tip":"https:\/\/cdn.wikiwiki.jp\/to\/w\/common\/image\/face\/tip.gif?v=4"},"experimentalFeature":false};
+    </script>
+</head>
+<body class="">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQ52VZ3"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<style>
+/* 1 */
+@media (max-width: 500px) {
+    body {
+        margin-bottom: 129px !important;
+        transition: margin-bottom 0.4s ease-in-out;
+    }
+    body:has(#div-gpt-ad-1563441919648-0 iframe[height="50"]) {
+        margin-bottom: 79px !important;
+    }
+}
+
+/* 2 */
+#overlay-anchor-wrapper {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    width: 100%;
+    z-index: 99998;
+    pointer-events: none;
+    transform: translateY(100%);
+    transition: transform 0.4s ease-in-out 10s;
+}
+
+body:has(#div-gpt-ad-1563441919648-0 iframe) #overlay-anchor-wrapper {
+    transform: translateY(0);
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.6s;
+}
+
+/* 3 */
+#pc-overlay-ad-parent-container {
+    contain: layout style;
+    content-visibility: auto;
+
+    width: 100%;
+    background-color: var(--h2-background-color, #ffffff) !important;
+    padding-top: 5px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
+    pointer-events: auto;
+
+    max-height: 105px;
+    height: auto;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: visible !important;
+}
+
+#pc-overlay-ad-parent-container:has(iframe[height="50"]) {
+    max-height: 60px;
+}
+
+/* 4 */
+#pc-overlay-ad-close-button {
+    position: absolute;
+    top: -24px;
+    right: 12px;
+    width: 38px; height: 24px;
+    background-color: var(--h2-background-color, #ffffff) !important;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    cursor: pointer;
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateY(5px);
+    transition: opacity 0.6s ease-out 10s, transform 0.6s ease-out 10s;
+}
+
+body:has(#div-gpt-ad-1563441919648-0 iframe) #pc-overlay-ad-close-button {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease-out 1.8s, transform 0.6s ease-out 1.8s;
+}
+
+#pc-overlay-ad-close-button svg {
+    width: 14px; height: 14px;
+    fill: var(--h2-text-color, #666666) !important;
+}
+
+/* 5 */
+#ad-close-trigger { display: none; }
+
+#ad-close-trigger:checked ~ #overlay-anchor-wrapper {
+    transform: translateY(100%) !important;
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 1, 1), opacity 0.4s cubic-bezier(0.4, 0, 1, 1) !important;
+    pointer-events: none;
+}
+
+body:has(#ad-close-trigger:checked) {
+    margin-bottom: 0 !important;
+}
+
+/* 6 */
+.overlay-ad-container { 
+    display: flex; justify-content: center; align-items: center; 
+    min-height: 50px; position: relative; 
+}
+.overlay-ad-container::before { 
+    content: ""; position: absolute; width: 320px; height: 100%; 
+    border-radius: 4px; z-index: 0;
+    animation: quietPulse 3s infinite; 
+}
+@keyframes quietPulse { 0%, 100% { background-color: transparent; } 50% { background-color: rgba(0, 0, 0, 0.04); } }
+
+#div-gpt-ad-1563441919648-0 { position: relative; z-index: 1; display: flex; justify-content: center; width: 100%; }
+#div-gpt-ad-1563441919648-0 iframe {
+    animation: fadeInQuick 0.5s ease-in-out 0.2s both !important;
+    background: var(--h2-background-color, #ffffff);
+}
+@keyframes fadeInQuick { from { opacity: 0; } to { opacity: 1; } }
+</style>
+
+<input type="checkbox" id="ad-close-trigger">
+<div id="overlay-anchor-wrapper" class="hidden-switch-class">
+    <label for="ad-close-trigger" id="pc-overlay-ad-close-button">
+        <svg viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
+    </label>
+<div id="pc-overlay-ad-parent-container" class="hidden-switch-class">
+    <div id="pc-overlay-ad-container-hidden" class="overlay-ad-container">
+        <div id="pc-overlay-ad-container">
+            <div id='div-gpt-ad-1563441919648-0' class="overlay-ad-wrapper"></div>
+        </div>
+    </div>
+</div>
+</div>
+<noscript>
+    <div class="noscript-alert">
+        <i class="fa-solid fa-exclamation-triangle"></i>
+        ブラウザの JavaScript がオフ（ブロックまたは許可しない）に設定されているため、このページは正常に機能しません。
+    </div>
+</noscript>
+<div class="container-wrapper">
+
+    <div class="container clearfix">
+                                <div id="header" class="user-header">
+                <div style="text-align:right"><a href="/genshinwiki/" title="FrontPage" class="rel-wiki-page"><img src="https://cdn.wikiwiki.jp/to/w/genshinwiki/%E7%94%BB%E5%83%8F/::ref/%E5%8E%9F%E7%A5%9EWiki_%E3%83%AD%E3%82%B4%E9%80%8F%E9%81%8E.svg?rev=9fd53efc7bd7d73d4aa3f1cc67449d46&amp;t=20240623222118" alt="原神Wiki" title="原神Wiki" width="180" height="1"  loading="lazy"></a></div>            </div>
+                <div class="toolbox-container system-ui clearfix" id="naviframe">
+            <div class="toolbox toolbox-desktop navibar-container">
+                <div id="navigator">[ <a href="/genshinwiki/">ホーム</a> ]</div>            </div>
+            <div class="toolbox toolbox-desktop toolbar-container">
+                <div class="toolbar"><a href="/genshinwiki/::cmd/list" title="一覧" rel="nofollow"><span class="system-icon toolbar list"></span></a>
+<a href="/genshinwiki/RecentChanges" title="最終更新" rel="nofollow"><span class="system-icon toolbar recent"></span></a>
+<a href="/genshinwiki/::cmd/backup?page=%E8%BF%9A%E3%83%BB%E7%84%94%E8%9C%91%EF%BD%A3%2F%E9%80%8B%EF%BD%BD%E9%A9%AB%C2%80%E7%B8%BA%EF%BD%AE%E8%B2%89%E6%82%B6%EF%BD%92%E9%97%8A%E6%A7%AD%E2%89%A7%E9%84%99%EF%BD%BC" title="バックアップ" rel="nofollow"><span class="system-icon toolbar backup"></span></a>
+<a href="/genshinwiki/::cmd/help" title="ヘルプ" rel="nofollow"><span class="system-icon toolbar help"></span></a></div>            </div>
+            <div class="toolbox toolbox-mobile toolbar-container">
+                <div class="toolbar"><a href="/genshinwiki/" title="ホーム"><span class="system-icon toolbar top"></span></a>
+<a href="/genshinwiki/RecentChanges" title="最終更新" rel="nofollow"><span class="system-icon toolbar recent"></span></a></div>            </div>
+            <div class="toolbox toolbox-searchbar">
+                <form action="/genshinwiki/::cmd/search" method="get">
+                    <input type="search" name="word" value="" size="16" aria-label="サイト内検索" placeholder="サイト内検索">
+                    <input type="hidden" name="type" value="AND">
+                    <input type="submit" value="検索">
+                </form>
+            </div>
+        </div>
+            <div id="responsive-navigation"></div>
+    <div style="display: none;">
+        <div id="edit-menu" class="system-ui">
+            <div id="edit-menu-items">
+                <ul></ul>
+<ul><li><a href="/genshinwiki/::cmd/list" rel="nofollow"><span class='system-icon toolbar list'></span> 一覧</a></li><li><a href="/genshinwiki/RecentChanges" rel="nofollow"><span class='system-icon toolbar recent'></span> 最終更新</a></li><li><a href="/genshinwiki/::cmd/backup?page=%E8%BF%9A%E3%83%BB%E7%84%94%E8%9C%91%EF%BD%A3%2F%E9%80%8B%EF%BD%BD%E9%A9%AB%C2%80%E7%B8%BA%EF%BD%AE%E8%B2%89%E6%82%B6%EF%BD%92%E9%97%8A%E6%A7%AD%E2%89%A7%E9%84%99%EF%BD%BC" rel="nofollow"><span class='system-icon toolbar backup'></span> バックアップ</a></li></ul>
+<ul></ul>
+<ul><li><a href="/genshinwiki/::cmd/help" rel="nofollow"><span class='system-icon toolbar help'></span> ヘルプ</a></li></ul>
+
+            </div>
+        </div>
+    </div>    </div>
+
+    <div class="container">
+        <div class="clearfix">
+            <div id="breadcrumbs" class="system-ui">
+                <div id="topicpath"><a href="/genshinwiki/" title="FrontPage"><i class="fa-solid fa-home" style="margin-left: 6px; display: inline-block; min-width: 1.2em;"></i></a> &gt; 迚・焔蜑｣ &gt; 逋ｽ驫縺ｮ貉悶ｒ闊槭≧鄙ｼ</div>            </div>
+            <div id="system-icon-container" class="system-ui">
+                                <span id="share-button-root"></span>                <span id="admin-contact-root" class="single-system-icon"></span>
+                <div id="load-panel-root"></div>
+                <span id="admin-login" class="single-system-icon">
+                    
+<a class="admin-login-status" href="/genshinwiki/::cmd/admin_login?return_to=%2Fgenshinwiki%2F%E8%BF%9A%E3%83%BB%E7%84%94%E8%9C%91%EF%BD%A3%2F%E9%80%8B%EF%BD%BD%E9%A9%AB%C2%80%E7%B8%BA%EF%BD%AE%E8%B2%89%E6%82%B6%EF%BD%92%E9%97%8A%E6%A7%AD%E2%89%A7%E9%84%99%EF%BD%BC" title="未ログイン">
+    <i class="fa-solid fa-cog"></i>
+</a>
+                </span>
+            </div>
+        </div>
+        <hr />
+    </div>
+
+    <div id="contents" class="columns-container three-columns-container container clearfix has-left-column">
+
+        <div class="column-center clearfix">
+            <div id="body">
+                                                <div id="title">
+                                            <h1 class="title">ページが存在しません。</h1>
+                                                        </div>
+
+                
+<div id="inbound-ad-container">
+  <!-- /19033742/WIKIWIKI_PC_INBOUND -->
+  <div id='div-gpt-ad-1567409776345-0'></div>
+  <!-- /19033742/WIKIWIKI_PC_INBOUND_RIGHT -->
+  <div id='div-gpt-ad-1658802281376-0'></div>
+  <!-- /19033742/WIKIWIKI_SP_INBOUND -->
+  <div id='div-gpt-ad-1563430750445-0' class="hidden-switch-class"></div>
+</div>
+
+<style>
+.pc-inbound-ad-default {
+    margin-top:40px;
+    margin-bottom:40px;
+    display:flex;
+    justify-content:flex-start;
+    gap: 10px 5px;
+    min-height:280px;
+}
+.pc-inbound-ad-center{
+    margin-top:40px;
+    margin-bottom:40px;
+    display:flex;
+    justify-content:center;
+    gap: 10px 5px;
+    min-height:280px;
+    position: relative;
+}
+.pc-inbound-ad-mobile{
+    margin-top:20px;
+    margin-bottom:20px;
+    display:flex;
+    justify-content:center;
+    min-height:280px;
+}
+.pc-inbound-ad-close-button {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"%3E%3C!--! Font Awesome Pro 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc. --%3E%3Cpath class="fa-secondary" opacity=".4" d="M281.4 390.6L304 413.3 349.3 368l-22.6-22.6L237.3 256l89.4-89.4L349.3 144 304 98.7l-22.6 22.6L192 210.7l-89.4-89.4L80 98.7 34.7 144l22.6 22.6L146.7 256 57.4 345.4 34.7 368 80 413.3l22.6-22.6L192 301.3l89.4 89.4z" fill="%23888"/%3E%3C/svg%3E') no-repeat center;
+    background-size: contain;
+    cursor: pointer;
+}
+</style>
+
+<script>
+(function () {
+    const co = document.getElementById('inbound-ad-container');
+    const inboundPaths = [
+        '/19033742/WIKIWIKI_PC_INBOUND',
+        '/19033742/WIKIWIKI_PC_INBOUND_RIGHT'
+    ];
+
+    if (wi_isinbound && wi_group === "N" && wi_agreement === "false") {
+        if (wi_ismobile) {
+            co.classList.add("pc-inbound-ad-mobile","default-advertisement");
+        } else {
+            const width = co.clientWidth;
+            const adClass = width < 683 || (width >= 683 && width < 900) ? ["pc-inbound-ad-center","default-advertisement"] : ["pc-inbound-ad-default"];
+            co.classList.add(...adClass);
+
+            if (adClass.includes("pc-inbound-ad-center")) {
+                googletag.cmd.push(function() {
+                    googletag.pubads().addEventListener('slotOnload', function(event) {
+                        if (inboundPaths.includes(event.slot.getAdUnitPath())) {
+                            let closeButton = co.querySelector(".pc-inbound-ad-close-button");
+                            if (!closeButton) {
+                                closeButton = document.createElement("div");
+                                closeButton.classList.add("pc-inbound-ad-close-button");
+                                closeButton.onclick = () => co.style.display = "none";
+                                co.appendChild(closeButton);
+                            }
+                        }
+                    });
+                });
+            }
+        }
+    }
+})();
+</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8989645915312923" crossorigin="anonymous"></script>
+
+<div id="adsense-body-top-wrap" class="hidden-switch-class"
+     style="width:100%;height:100px;margin:10px 0;display:flex;justify-content:center;align-items:center;overflow:hidden; overflow-anchor:none;">
+  <ins id="adsense-body-top" class="adsbygoogle"
+       data-ad-client="ca-pub-8989645915312923"
+       data-ad-slot=""
+       data-full-width-responsive="false"></ins>
+</div>
+
+<script>
+const adsense_body_top_conditions = [
+    wi_group === 'N',
+    wi_agreement === 'false',
+    !wi_isinbound,
+];
+
+if (adsense_body_top_conditions.every(Boolean)) {
+(function(){
+  var wrap = document.getElementById('adsense-body-top-wrap');
+  var el   = document.getElementById('adsense-body-top');
+  if (!wrap || !el) return;
+
+  var wrapW = Math.floor(wrap.getBoundingClientRect().width);
+  if (wrapW < 320) { wrap.style.display='none'; return; }
+
+  var CANDIDATES = [[970,90],[728,90],[320,100],[320,50]];
+  var size = null;
+  for (var i=0;i<CANDIDATES.length;i++){ if (CANDIDATES[i][0] <= wrapW){ size = CANDIDATES[i]; break; } }
+  if (!size){ wrap.style.display='none'; return; }
+
+  var finalW = Math.min(size[0], wrapW);
+  el.style.width  = finalW + 'px';
+  el.style.height = size[1] + 'px';
+  el.setAttribute('data-ad-slot', (size[0] >= 728) ? '3530569285' : '2676668520');
+
+  (adsbygoogle = window.adsbygoogle || []).push({});
+})();
+} else {
+  document.getElementById('adsense-body-top-wrap').remove();
+}
+</script>
+                <div class="search-words small" style="display: none;">
+    <div class="small">これらのキーワードがハイライトされています：<ul class="search-words-words"></ul></div>
+    <hr class="full_hr">
+</div>
+                <div id="content">
+                                        <p>ページ： 迚・焔蜑｣/逋ｽ驫縺ｮ貉悶ｒ闊槭≧鄙ｼ は存在しません。</p>
+<a href="/genshinwiki/::cmd/edit?page=%E8%BF%9A%E3%83%BB%E7%84%94%E8%9C%91%EF%BD%A3%2F%E9%80%8B%EF%BD%BD%E9%A9%AB%C2%80%E7%B8%BA%EF%BD%AE%E8%B2%89%E6%82%B6%EF%BD%92%E9%97%8A%E6%A7%AD%E2%89%A7%E9%84%99%EF%BD%BC" rel="nofollow">迚・焔蜑｣/逋ｽ驫縺ｮ貉悶ｒ闊槭≧鄙ｼ を新規に作成する。</a>                </div>
+                <div id="main-contents-bottom">
+                    <div class="caption-flybox" >
+<div id="pc-bottom-parent-ad-container" style="min-height:250px;">
+<div id="pc-bottom-left-ad-container">
+    <!-- /19033742/WIKIWIKI_PC_BOTTOM_LEFT or /19033742/WIKIWIKI_SP_SECOND -->
+    <div id='div-gpt-ad-1567408559923-0' class="hidden-switch-class"></div>
+</div>
+<div id="pc-bottom-right-ad-container">
+    <!-- /19033742/WIKIWIKI_PC_BOTTOM_RIGHT -->
+    <div id='div-gpt-ad-1658912377789-0'></div>
+</div>
+</div>
+</div>
+
+<style>
+.pc-bottom-ad-default {
+    margin-top:120px;
+    margin-bottom:20px;
+    display:flex;
+    justify-content:flex-start;
+    gap: 10px 5px;
+}
+.pc-bottom-ad-center{
+    margin-top:120px;
+    margin-bottom:20px;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap: 10px 5px;
+}
+.pc-bottom-ad-mobile{
+    margin-top:20px;
+    margin-bottom:20px;
+    display:flex;
+    align-items: center;
+    flex-direction:column;
+    position:sticky;
+    z-index: 3;
+    top:45px;
+}
+</style>
+
+<script>
+(function() {
+    var body = document.getElementById('body');
+    var co = document.getElementById("pc-bottom-parent-ad-container");
+    var fh = 50;
+    if (!wi_ismobile && body.clientHeight < 620) {
+        co.style.marginTop = '200px';
+    }
+    if (wi_ismobile && body.clientWidth < 400){
+        co.classList.add("pc-bottom-ad-mobile");
+    } else if (co.clientWidth < 769) {
+        co.classList.add("pc-bottom-ad-center");
+    } else {
+        co.classList.add("pc-bottom-ad-default");
+    }
+}());
+</script>
+                </div>
+
+            </div>
+        </div>
+
+        
+                    <div class="column-left">
+                <div id="menubar">
+                                        <h2 id="h2_content_1_0" >お知らせ</h2>
+<div style="font-family:Tahoma, Arial, &quot;Hiragino Kaku Gothic ProN&quot;, &quot;Hiragino Sans&quot;, Meiryo, sans-serif">
+    <p><strong>現在 <span class="wikiwiki-online-not-available">-</span>人が閲覧中です</strong><br />
+<a class="anchor" name ="menu_map1"></a></p>
+<div class="accordion-container ">
+    <h2 class="accordion-header">
+        <i class="fa-solid fa-plus-square hidden-on-open"></i>
+        <i class="fa-solid fa-minus-square visible-on-open"></i>
+        メニューマップ
+    </h2>
+    <div class="accordion-content"><div style="border:1px solid black;margin:-19px 0 0 -10px;border-top:none;padding-left:12px"><p><a href="#menu_basics">基本情報</a><br />
+<a href="#menu_event">イベント</a><br />
+<a href="#menu_character">キャラクター</a><br />
+<a href="#menu_weapon">武器・聖遺物</a><br />
+<a href="#menu_strategy">攻略</a><br />
+<a href="#menu_mission">任務</a><br />
+<a href="#menu_adventure">冒険</a><br />
+<a href="#menu_contents">コンテンツ</a><br />
+<a href="#menu_craft">作成・収集要素</a><br />
+<a href="#menu_map">マップ</a><br />
+<a href="#menu_data">データ・テキスト</a><br />
+<a href="#menu_study">考察</a><br />
+<a href="#menu_information">情報</a></p>
+<hr class="full_hr" />
+<p><a href="#menu_forum">掲示板</a><br />
+<a href="#menu_management">管理・編集</a><br />
+<a href="#menu_latestcomment">最新のコメント</a></p>
+</div>
+</div>
+</div>
+<p><a class="anchor" name ="menu_basics"></a></p>
+<h2 id="h2_content_2_0" >基本情報</h2>
+<ul class="list1"><li><a href="/genshinwiki/%E6%8A%95%E7%A8%BF%E3%83%BB%E7%B7%A8%E9%9B%86%E3%82%AC%E3%82%A4%E3%83%89%E3%83%A9%E3%82%A4%E3%83%B3" title="投稿・編集ガイドライン" class="rel-wiki-page">編集ガイドライン</a></li>
+<li><a href="/genshinwiki/FAQ" title="FAQ" class="rel-wiki-page">&#128304;FAQ</a></li>
+<li><a href="/genshinwiki/%E5%88%9D%E5%BF%83%E8%80%85%E5%90%91%E3%81%91%E6%83%85%E5%A0%B1" title="初心者向け情報" class="rel-wiki-page">&#128304;初心者向け情報</a></li></ul>
+<p><a class="anchor" name ="menu_event"></a></p>
+<h2 id="h2_content_2_1" class="heading-after-first">イベント</h2>
+<div style="margin-top:4px"><h3 id="h3_content_6_0" ><a href="/genshinwiki/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" title="イベント一覧" class="rel-wiki-page">期間限定</a></h3>
+
+<ul class="list1"><li><a href="/genshinwiki/%E3%83%8A%E3%83%89%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A4#summary" title="ナド・クライ" class="rel-wiki-page">月を見上げる時</a><br />
+～2026/09/22 15:59</li>
+<li><a href="/genshinwiki/%E3%82%B9%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%8A%E3%83%A4#summary" title="スネージナヤ" class="rel-wiki-page">神に愛されぬ凍土</a><br />
+～2026/11/03 15:59</li>
+<li><a href="/genshinwiki/%E8%B1%8A%E6%9D%90%E3%81%AE%E5%A5%94%E6%B5%81" title="豊材の奔流" class="rel-wiki-page">豊材の奔流</a><br />
+～2026/09/21 04:59</li></ul>
+<h3 id="h3_content_7_0" ><a href="/genshinwiki/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" title="イベント一覧" class="rel-wiki-page">定期更新</a></h3>
+
+<ul class="list1"><li><a href="/genshinwiki/%E7%B4%80%E8%A1%8C" title="紀行" class="rel-wiki-page">遊雪紀行</a><br />
+～2026/09/21 04:59</li>
+<li><a href="/genshinwiki/%E8%85%95%E8%A9%A6%E3%81%97" title="腕試し" class="rel-wiki-page">腕試し</a><br />
+～2026/09/01 18:59</li>
+<li><a href="/genshinwiki/%E6%B7%B1%E5%A2%83%E8%9E%BA%E6%97%8B" title="深境螺旋" class="rel-wiki-page">深境螺旋</a><br />
+～2026/09/16 04:59</li>
+<li><a href="/genshinwiki/%E5%B9%BB%E6%83%B3%E3%82%B7%E3%82%A2%E3%82%BF%E3%83%BC" title="幻想シアター" class="rel-wiki-page">幻想シアター</a><br />
+～2026/10/01 04:59　</li>
+<li><a href="/genshinwiki/%E5%B9%BD%E5%A2%83%E3%81%AE%E6%BF%80%E6%88%A6" title="幽境の激戦" class="rel-wiki-page">幽境の激戦</a><br />
+～2026/09/22 04:59</li>
+<li><a href="/genshinwiki/%E9%8D%9B%E9%8C%AC%E3%81%AE%E9%81%93" title="鍛錬の道" class="rel-wiki-page">鍛錬の道</a> 第五回<br />
+～2026/11/02 04:59</li></ul>
+<h3 id="h3_content_8_0" ><a href="/genshinwiki/%E4%B8%83%E8%81%96%E5%8F%AC%E5%96%9A#event" title="七聖召喚" class="rel-wiki-page">七聖召喚</a></h3>
+
+<ul class="list1"><li><a href="/genshinwiki/%E4%B8%83%E8%81%96%E5%8F%AC%E5%96%9A#event" title="七聖召喚" class="rel-wiki-page">熱闘モード：妙策！陣形バトル</a><br />
+～2026/09/14 04:59</li></ul>
+<h3 id="h3_content_9_0" ><a href="/genshinwiki/%E6%98%9F%E3%80%85%E3%81%AE%E5%B9%BB%E5%A2%83" title="星々の幻境" class="rel-wiki-page">星々の幻境</a></h3>
+
+<ul class="list1"><li><a href="/genshinwiki/%E6%98%9F%E3%80%85%E3%81%AE%E5%B9%BB%E5%A2%83#v23f6aa4" title="星々の幻境" class="rel-wiki-page">幻燈遊記</a><br />
+～2026/09/21 04:59</li>
+<li><a href="/genshinwiki/%E6%98%9F%E3%80%85%E3%81%AE%E5%B9%BB%E5%A2%83#c84c6e05" title="星々の幻境" class="rel-wiki-page">イベント星願「幻燈が囁く舞台」</a><br />
+～2026/09/22 15:59</li>
+<li><a href="/genshinwiki/%E5%B9%BB%E5%A2%83%E5%A5%A5%E7%A7%98" title="幻境奥秘" class="rel-wiki-page">幻境奥秘・幻燈が囁く舞台</a><br />
+～2026/09/22 04:59</li>
+<li><a href="/genshinwiki/%E7%BE%8E%E3%81%97%E3%81%8D%E8%A4%92%E8%B3%9E" title="美しき褒賞" class="rel-wiki-page">美しき褒賞・温かな暁光</a><br />
+～2026/09/23 06:59</li></ul>
+<h3 id="h3_content_10_0" ><a href="/genshinwiki/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" title="イベント一覧" class="rel-wiki-page">Web</a></h3>
+
+<p><span style="font-size:10px"><span class="wikicolor" style="color:grey">現在開催中のものはありません</span></span></p>
+<h3 id="h3_content_5_0" ><a href="/genshinwiki/%E7%A5%88%E9%A1%98" title="祈願" class="rel-wiki-page">イベント祈願</a> <a class="anchor" name ="menu_gacha"></a></h3>
+<ul class="list1"><li><a href="/genshinwiki/%E7%A5%88%E9%A1%98/%E5%A4%9C%E3%81%AB%E8%A8%AA%E3%81%86%E5%AD%A4%E7%81%AF%283%E5%9B%9E%E7%9B%AE%29" title="祈願/夜に訪う孤灯(3回目)" class="rel-wiki-page">夜に訪う孤灯</a></li>
+<li><a href="/genshinwiki/%E7%A5%88%E9%A1%98/%E6%96%B0%E6%98%9F%E3%81%AE%E9%A7%86%E5%8B%95%283%E5%9B%9E%E7%9B%AE%29" title="祈願/新星の駆動(3回目)" class="rel-wiki-page">新星の駆動</a></li>
+<li><a href="/genshinwiki/%E7%A5%88%E9%A1%98/%E7%A5%9E%E9%8B%B3%E8%B3%A6%E5%BD%A2" title="祈願/神鋳賦形" class="rel-wiki-page">神鋳賦形</a><br />
+～2026/09/22 15:59</li></ul>
+<hr class="full_hr" />
+<ul class="list1"><li><a href="/genshinwiki/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7" title="イベント一覧" class="rel-wiki-page">イベント一覧</a></li></ul>
+</div>
+<p><span style="font-size:10px">〔<a href="https://wikiwiki.jp/genshinwiki/::cmd/edit?page=MenuBar&amp;id=event" rel="nofollow">イベント編集</a>〕</span></p>
+<p><a class="anchor" name ="menu_character"></a></p>
+<h2 id="h2_content_2_2" class="heading-after-first">キャラクター</h2>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><span class="wikicolor" style="color:#ff7755">&#9612;</span>炎元素</div>
+    <div class="fold-content visible-on-open"><p><strong>☆5</strong><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%8B%E3%82%B3" title="ニコ" class="rel-wiki-page">ニコ</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%89%E3%82%A5%E3%83%AA%E3%83%B3" title="ドゥリン" class="rel-wiki-page">ドゥリン</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%9E%E3%83%BC%E3%83%B4%E3%82%A3%E3%82%AB" title="マーヴィカ" class="rel-wiki-page">マーヴィカ</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%82%A2%E3%83%AB%E3%83%AC%E3%83%83%E3%82%AD%E3%83%BC%E3%83%8E" title="アルレッキーノ" class="rel-wiki-page">アルレッキーノ</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%AA%E3%83%8D" title="リネ" class="rel-wiki-page">リネ</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%87%E3%82%A3%E3%82%B7%E3%82%A2" title="ディシア" class="rel-wiki-page">ディシア</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E5%AE%B5%E5%AE%AE" title="宵宮" class="rel-wiki-page">宵宮</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E8%83%A1%E6%A1%83" title="胡桃" class="rel-wiki-page">胡桃</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%82%AF%E3%83%AC%E3%83%BC" title="クレー" class="rel-wiki-page">クレー</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%87%E3%82%A3%E3%83%AB%E3%83%83%E3%82%AF" title="ディルック" class="rel-wiki-page">ディルック</a><br />
+<strong>☆4</strong><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E5%98%89%E6%98%8E" title="嘉明" class="rel-wiki-page">嘉明</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%82%B7%E3%83%A5%E3%83%B4%E3%83%AB%E3%83%BC%E3%82%BA" title="シュヴルーズ" class="rel-wiki-page">シュヴルーズ</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%88%E3%83%BC%E3%83%9E" title="トーマ" class="rel-wiki-page">トーマ</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E7%85%99%E7%B7%8B" title="煙緋" class="rel-wiki-page">煙緋</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E8%BE%9B%E7%82%8E" title="辛炎" class="rel-wiki-page">辛炎</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%99%E3%83%8D%E3%83%83%E3%83%88" title="ベネット" class="rel-wiki-page">ベネット</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E9%A6%99%E8%8F%B1" title="香菱" class="rel-wiki-page">香菱</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%82%A2%E3%83%B3%E3%83%90%E3%83%BC" title="アンバー" class="rel-wiki-page">アンバー</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><span class="wikicolor" style="color:#279be4">&#9612;</span>水元素</div>
+    <div class="fold-content visible-on-open"><p><strong>☆5</strong><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%82%B3%E3%83%AD%E3%83%B3%E3%83%93%E3%83%BC%E3%83%8A" title="コロンビーナ" class="rel-wiki-page">コロンビーナ</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%A0%E3%82%A2%E3%83%A9%E3%83%8B" title="ムアラニ" class="rel-wiki-page">ムアラニ</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%82%B7%E3%82%B0%E3%82%A6%E3%82%A3%E3%83%B3" title="シグウィン" class="rel-wiki-page">シグウィン</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%95%E3%83%AA%E3%83%BC%E3%83%8A" title="フリーナ" class="rel-wiki-page">フリーナ</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%8C%E3%83%B4%E3%82%A3%E3%83%AC%E3%83%83%E3%83%88" title="ヌヴィレット" class="rel-wiki-page">ヌヴィレット</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%8B%E3%82%A3%E3%83%AD%E3%82%A6" title="ニィロウ" class="rel-wiki-page">ニィロウ</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E5%A4%9C%E8%98%AD" title="夜蘭" class="rel-wiki-page">夜蘭</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E7%A5%9E%E9%87%8C%E7%B6%BE%E4%BA%BA" title="神里綾人" class="rel-wiki-page">神里綾人</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E7%8F%8A%E7%91%9A%E5%AE%AE%E5%BF%83%E6%B5%B7" title="珊瑚宮心海" class="rel-wiki-page">珊瑚宮心海</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%82%BF%E3%83%AB%E3%82%BF%E3%83%AA%E3%83%A4" title="タルタリヤ" class="rel-wiki-page">タルタリヤ</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%A2%E3%83%8A" title="モナ" class="rel-wiki-page">モナ</a><br />
+<strong>☆4</strong><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%82%A2%E3%82%A4%E3%83%8E" title="アイノ" class="rel-wiki-page">アイノ</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%80%E3%83%AA%E3%82%A2" title="ダリア" class="rel-wiki-page">ダリア</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%87%E3%82%A3%E3%82%B9" title="キャンディス" class="rel-wiki-page">キャンディス</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E8%A1%8C%E7%A7%8B" title="行秋" class="rel-wiki-page">行秋</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%90%E3%83%BC%E3%83%90%E3%83%A9" title="バーバラ" class="rel-wiki-page">バーバラ</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><span class="wikicolor" style="color:#84e0f1">&#9612;</span>氷元素</div>
+    <div class="fold-content visible-on-open"><p><strong>☆5</strong><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%AA%E3%83%87%E3%83%83%E3%83%88" title="オデット" class="rel-wiki-page">オデット</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%B5%E3%83%B3%E3%83%89%E3%83%AD%E3%83%BC%E3%83%8D" title="サンドローネ" class="rel-wiki-page">サンドローネ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%83%AD%E3%83%BC%E3%82%A8%E3%83%B3" title="ローエン" class="rel-wiki-page">ローエン</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%B9%E3%82%AB%E3%83%BC%E3%82%AF" title="スカーク" class="rel-wiki-page">スカーク</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%A8%E3%82%B9%E3%82%B3%E3%83%95%E3%82%A3%E3%82%A8" title="エスコフィエ" class="rel-wiki-page">エスコフィエ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%B7%E3%83%88%E3%83%A9%E3%83%AA" title="シトラリ" class="rel-wiki-page">シトラリ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%83%AA%E3%82%AA%E3%82%BB%E3%82%B9%E3%83%AA" title="リオセスリ" class="rel-wiki-page">リオセスリ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E7%94%B3%E9%B6%B4" title="申鶴" class="rel-wiki-page">申鶴</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%A2%E3%83%BC%E3%83%AD%E3%82%A4" title="アーロイ" class="rel-wiki-page">アーロイ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E7%A5%9E%E9%87%8C%E7%B6%BE%E8%8F%AF" title="神里綾華" class="rel-wiki-page">神里綾華</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%A8%E3%82%A6%E3%83%AB%E3%82%A2" title="エウルア" class="rel-wiki-page">エウルア</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E7%94%98%E9%9B%A8" title="甘雨" class="rel-wiki-page">甘雨</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E4%B8%83%E4%B8%83" title="七七" class="rel-wiki-page">七七</a><br />
+<strong>☆4</strong><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%B7%E3%83%A3%E3%83%AB%E3%83%AD%E3%83%83%E3%83%88" title="シャルロット" class="rel-wiki-page">シャルロット</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%83%95%E3%83%AC%E3%83%9F%E3%83%8D" title="フレミネ" class="rel-wiki-page">フレミネ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%83%9F%E3%82%AB" title="ミカ" class="rel-wiki-page">ミカ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%83%AC%E3%82%A4%E3%83%A9" title="レイラ" class="rel-wiki-page">レイラ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%83%AD%E3%82%B5%E3%83%AA%E3%82%A2" title="ロサリア" class="rel-wiki-page">ロサリア</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%83%87%E3%82%A3%E3%82%AA%E3%83%8A" title="ディオナ" class="rel-wiki-page">ディオナ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E9%87%8D%E9%9B%B2" title="重雲" class="rel-wiki-page">重雲</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%AC%E3%82%A4%E3%82%A2" title="ガイア" class="rel-wiki-page">ガイア</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><span class="wikicolor" style="color:#aa4eff">&#9612;</span>雷元素</div>
+    <div class="fold-content visible-on-open"><p><strong>☆5</strong><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%83%95%E3%83%AA%E3%83%B3%E3%82%BA" title="フリンズ" class="rel-wiki-page">フリンズ</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%82%A4%E3%83%8D%E3%83%95%E3%82%A1" title="イネファ" class="rel-wiki-page">イネファ</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%83%B4%E3%82%A1%E3%83%AC%E3%82%B5" title="ヴァレサ" class="rel-wiki-page">ヴァレサ</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%82%AF%E3%83%AD%E3%83%AA%E3%83%B3%E3%83%87" title="クロリンデ" class="rel-wiki-page">クロリンデ</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%82%BB%E3%83%8E" title="セノ" class="rel-wiki-page">セノ</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E5%85%AB%E9%87%8D%E7%A5%9E%E5%AD%90" title="八重神子" class="rel-wiki-page">八重神子</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E9%9B%B7%E9%9B%BB%E5%B0%86%E8%BB%8D" title="雷電将軍" class="rel-wiki-page">雷電将軍</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E5%88%BB%E6%99%B4" title="刻晴" class="rel-wiki-page">刻晴</a><br />
+<strong>☆4</strong><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%82%A2%E3%83%AA%E3%83%A7%E3%83%BC%E3%82%B7%E3%83%A3" title="アリョーシャ" class="rel-wiki-page">アリョーシャ</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%82%A4%E3%82%A2%E3%83%B3%E3%82%B5" title="イアンサ" class="rel-wiki-page">イアンサ</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%82%AA%E3%83%AD%E3%83%AB%E3%83%B3" title="オロルン" class="rel-wiki-page">オロルン</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%82%BB%E3%83%88%E3%82%B9" title="セトス" class="rel-wiki-page">セトス</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%83%89%E3%83%AA%E3%83%BC" title="ドリー" class="rel-wiki-page">ドリー</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E4%B9%85%E5%B2%90%E5%BF%8D" title="久岐忍" class="rel-wiki-page">久岐忍</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E4%B9%9D%E6%9D%A1%E8%A3%9F%E7%BE%85" title="九条裟羅" class="rel-wiki-page">九条裟羅</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%83%95%E3%82%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%83%AB" title="フィッシュル" class="rel-wiki-page">フィッシュル</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E5%8C%97%E6%96%97" title="北斗" class="rel-wiki-page">北斗</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%83%AC%E3%82%B6%E3%83%BC" title="レザー" class="rel-wiki-page">レザー</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%83%AA%E3%82%B5" title="リサ" class="rel-wiki-page">リサ</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><span class="wikicolor" style="color:#66cc99">&#9612;</span>風元素</div>
+    <div class="fold-content visible-on-open"><p><strong>☆5</strong><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%83%95%E3%82%A1%E3%83%AB%E3%82%AB" title="ファルカ" class="rel-wiki-page">ファルカ</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E5%A4%A2%E8%A6%8B%E6%9C%88%E7%91%9E%E5%B8%8C" title="夢見月瑞希" class="rel-wiki-page">夢見月瑞希</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%83%81%E3%83%A3%E3%82%B9%E3%82%AB" title="チャスカ" class="rel-wiki-page">チャスカ</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E9%96%91%E9%9B%B2" title="閑雲" class="rel-wiki-page">閑雲</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E6%94%BE%E6%B5%AA%E8%80%85" title="放浪者" class="rel-wiki-page">放浪者</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E6%A5%93%E5%8E%9F%E4%B8%87%E8%91%89" title="楓原万葉" class="rel-wiki-page">楓原万葉</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%82%B7%E3%83%A7%E3%82%A6" title="ショウ" class="rel-wiki-page">&#39752;</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%82%A6%E3%82%A7%E3%83%B3%E3%83%86%E3%82%A3" title="ウェンティ" class="rel-wiki-page">ウェンティ</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%82%B8%E3%83%B3" title="ジン" class="rel-wiki-page">ジン</a><br />
+<strong>☆4</strong><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%83%97%E3%83%AB%E3%83%BC%E3%83%8D" title="プルーネ" class="rel-wiki-page">プルーネ</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%83%A4%E3%83%95%E3%82%A9%E3%83%80" title="ヤフォダ" class="rel-wiki-page">ヤフォダ</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%82%A4%E3%83%95%E3%82%A1" title="イファ" class="rel-wiki-page">イファ</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E8%97%8D%E7%A1%AF" title="藍硯" class="rel-wiki-page">藍硯</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%83%AA%E3%83%8D%E3%83%83%E3%83%88" title="リネット" class="rel-wiki-page">リネット</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%83%95%E3%82%A1%E3%83%AB%E3%82%B6%E3%83%B3" title="ファルザン" class="rel-wiki-page">ファルザン</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E9%B9%BF%E9%87%8E%E9%99%A2%E5%B9%B3%E8%94%B5" title="鹿野院平蔵" class="rel-wiki-page">鹿野院平蔵</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E6%97%A9%E6%9F%9A" title="早柚" class="rel-wiki-page">早柚</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%82%B9%E3%82%AF%E3%83%AD%E3%83%BC%E3%82%B9" title="スクロース" class="rel-wiki-page">スクロース</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><span class="wikicolor" style="color:#ffcc00">&#9612;</span>岩元素</div>
+    <div class="fold-content visible-on-open"><p><strong>☆5</strong><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%83%AA%E3%83%B3%E3%83%8D%E3%82%A2" title="リンネア" class="rel-wiki-page">リンネア</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E5%85%B9%E7%99%BD" title="兹白" class="rel-wiki-page">&#20857;白</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%82%B7%E3%83%AD%E3%83%8D%E3%83%B3" title="シロネン" class="rel-wiki-page">シロネン</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E5%8D%83%E7%B9%94" title="千織" class="rel-wiki-page">千織</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%83%8A%E3%83%B4%E3%82%A3%E3%82%A2" title="ナヴィア" class="rel-wiki-page">ナヴィア</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E8%8D%92%E7%80%A7%E4%B8%80%E6%96%97" title="荒瀧一斗" class="rel-wiki-page">荒瀧一斗</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%82%A2%E3%83%AB%E3%83%99%E3%83%89" title="アルベド" class="rel-wiki-page">アルベド</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E9%8D%BE%E9%9B%A2" title="鍾離" class="rel-wiki-page">鍾離</a><br />
+<strong>☆4</strong><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%82%A4%E3%83%AB%E3%83%BC%E3%82%AC" title="イルーガ" class="rel-wiki-page">イルーガ</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%82%AB%E3%83%81%E3%83%BC%E3%83%8A" title="カチーナ" class="rel-wiki-page">カチーナ</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E9%9B%B2%E8%8F%AB" title="雲菫" class="rel-wiki-page">雲菫</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%82%B4%E3%83%AD%E3%83%BC" title="ゴロー" class="rel-wiki-page">ゴロー</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%83%8E%E3%82%A8%E3%83%AB" title="ノエル" class="rel-wiki-page">ノエル</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E5%87%9D%E5%85%89" title="凝光" class="rel-wiki-page">凝光</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><span class="wikicolor" style="color:#99bb44">&#9612;</span>草元素</div>
+    <div class="fold-content visible-on-open"><p><strong>☆5</strong><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%83%8D%E3%83%95%E3%82%A7%E3%83%AB" title="ネフェル" class="rel-wiki-page">ネフェル</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%83%A9%E3%82%A6%E3%83%9E" title="ラウマ" class="rel-wiki-page">ラウマ</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%82%AD%E3%82%A3%E3%83%8B%E3%83%81" title="キィニチ" class="rel-wiki-page">キィニチ</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%82%A8%E3%83%9F%E3%83%AA%E3%82%A8" title="エミリエ" class="rel-wiki-page">エミリエ</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E7%99%BD%E6%9C%AE" title="白朮" class="rel-wiki-page">白朮</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%82%A2%E3%83%AB%E3%83%8F%E3%82%A4%E3%82%BC%E3%83%B3" title="アルハイゼン" class="rel-wiki-page">アルハイゼン</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%83%8A%E3%83%92%E3%83%BC%E3%83%80" title="ナヒーダ" class="rel-wiki-page">ナヒーダ</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%83%86%E3%82%A3%E3%83%8A%E3%83%AA" title="ティナリ" class="rel-wiki-page">ティナリ</a><br />
+<strong>☆4</strong><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E7%B6%BA%E8%89%AF%E3%80%85" title="綺良々" class="rel-wiki-page">綺良々</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%82%AB%E3%83%BC%E3%83%B4%E3%82%A7" title="カーヴェ" class="rel-wiki-page">カーヴェ</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%83%A8%E3%82%A9%E3%83%BC%E3%83%A8" title="ヨォーヨ" class="rel-wiki-page">ヨォーヨ</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%82%B3%E3%83%AC%E3%82%A4" title="コレイ" class="rel-wiki-page">コレイ</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><span class="wikicolor" style="color:#000">&#9612;</span>主人公・他</div>
+    <div class="fold-content visible-on-open"><p><strong>☆</strong><a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC" title="主人公" class="rel-wiki-page">主人公</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC/%E9%A2%A8" title="主人公/風" class="rel-wiki-page">風元素</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC/%E5%B2%A9" title="主人公/岩" class="rel-wiki-page">岩元素</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC/%E9%9B%B7" title="主人公/雷" class="rel-wiki-page">雷元素</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC/%E8%8D%89" title="主人公/草" class="rel-wiki-page">草元素</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC/%E6%B0%B4" title="主人公/水" class="rel-wiki-page">水元素</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC/%E7%82%8E" title="主人公/炎" class="rel-wiki-page">炎元素</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC/%E6%B0%B7" title="主人公/氷" class="rel-wiki-page">氷元素</a><br />
+<span class="wikicolor" style="color:#000000">&#9612;</span><a href="/genshinwiki/%E3%83%89%E3%83%BC%E3%83%AB" title="ドール" class="rel-wiki-page">ドール</a><br />
+<a href="/genshinwiki/%E3%83%91%E3%82%A4%E3%83%A2%E3%83%B3" title="パイモン" class="rel-wiki-page">パイモン</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">実装予定キャラ</div>
+    <div class="fold-content visible-on-open"><p>実装予定キャラ<br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%83%B4%E3%82%A7%E3%82%B9%E3%83%8A" title="ヴェスナ" class="rel-wiki-page">ヴェスナ</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%B4%E3%82%A9%E3%82%B8%E3%83%A3%E3%83%8B%E3%83%BC%E3%83%84%E3%82%A1" title="ヴォジャニーツァ" class="rel-wiki-page">ヴォジャニーツァ</a></p>
+</div>
+</div>
+<hr class="full_hr" />
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">★5（レアリティ別）</div>
+    <div class="fold-content visible-on-open"><p><strong>☆5</strong><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%8B%E3%82%B3" title="ニコ" class="rel-wiki-page">ニコ</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%89%E3%82%A5%E3%83%AA%E3%83%B3" title="ドゥリン" class="rel-wiki-page">ドゥリン</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%9E%E3%83%BC%E3%83%B4%E3%82%A3%E3%82%AB" title="マーヴィカ" class="rel-wiki-page">マーヴィカ</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%82%A2%E3%83%AB%E3%83%AC%E3%83%83%E3%82%AD%E3%83%BC%E3%83%8E" title="アルレッキーノ" class="rel-wiki-page">アルレッキーノ</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%AA%E3%83%8D" title="リネ" class="rel-wiki-page">リネ</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%87%E3%82%A3%E3%82%B7%E3%82%A2" title="ディシア" class="rel-wiki-page">ディシア</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E5%AE%B5%E5%AE%AE" title="宵宮" class="rel-wiki-page">宵宮</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E8%83%A1%E6%A1%83" title="胡桃" class="rel-wiki-page">胡桃</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%82%AF%E3%83%AC%E3%83%BC" title="クレー" class="rel-wiki-page">クレー</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%87%E3%82%A3%E3%83%AB%E3%83%83%E3%82%AF" title="ディルック" class="rel-wiki-page">ディルック</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%82%B3%E3%83%AD%E3%83%B3%E3%83%93%E3%83%BC%E3%83%8A" title="コロンビーナ" class="rel-wiki-page">コロンビーナ</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%A0%E3%82%A2%E3%83%A9%E3%83%8B" title="ムアラニ" class="rel-wiki-page">ムアラニ</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%82%B7%E3%82%B0%E3%82%A6%E3%82%A3%E3%83%B3" title="シグウィン" class="rel-wiki-page">シグウィン</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%95%E3%83%AA%E3%83%BC%E3%83%8A" title="フリーナ" class="rel-wiki-page">フリーナ</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%8C%E3%83%B4%E3%82%A3%E3%83%AC%E3%83%83%E3%83%88" title="ヌヴィレット" class="rel-wiki-page">ヌヴィレット</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%8B%E3%82%A3%E3%83%AD%E3%82%A6" title="ニィロウ" class="rel-wiki-page">ニィロウ</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E5%A4%9C%E8%98%AD" title="夜蘭" class="rel-wiki-page">夜蘭</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E7%A5%9E%E9%87%8C%E7%B6%BE%E4%BA%BA" title="神里綾人" class="rel-wiki-page">神里綾人</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E7%8F%8A%E7%91%9A%E5%AE%AE%E5%BF%83%E6%B5%B7" title="珊瑚宮心海" class="rel-wiki-page">珊瑚宮心海</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%82%BF%E3%83%AB%E3%82%BF%E3%83%AA%E3%83%A4" title="タルタリヤ" class="rel-wiki-page">タルタリヤ</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%A2%E3%83%8A" title="モナ" class="rel-wiki-page">モナ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%AA%E3%83%87%E3%83%83%E3%83%88" title="オデット" class="rel-wiki-page">オデット</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%B5%E3%83%B3%E3%83%89%E3%83%AD%E3%83%BC%E3%83%8D" title="サンドローネ" class="rel-wiki-page">サンドローネ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%83%AD%E3%83%BC%E3%82%A8%E3%83%B3" title="ローエン" class="rel-wiki-page">ローエン</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%B9%E3%82%AB%E3%83%BC%E3%82%AF" title="スカーク" class="rel-wiki-page">スカーク</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%A8%E3%82%B9%E3%82%B3%E3%83%95%E3%82%A3%E3%82%A8" title="エスコフィエ" class="rel-wiki-page">エスコフィエ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%B7%E3%83%88%E3%83%A9%E3%83%AA" title="シトラリ" class="rel-wiki-page">シトラリ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%83%AA%E3%82%AA%E3%82%BB%E3%82%B9%E3%83%AA" title="リオセスリ" class="rel-wiki-page">リオセスリ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E7%94%B3%E9%B6%B4" title="申鶴" class="rel-wiki-page">申鶴</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%A2%E3%83%BC%E3%83%AD%E3%82%A4" title="アーロイ" class="rel-wiki-page">アーロイ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E7%A5%9E%E9%87%8C%E7%B6%BE%E8%8F%AF" title="神里綾華" class="rel-wiki-page">神里綾華</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%A8%E3%82%A6%E3%83%AB%E3%82%A2" title="エウルア" class="rel-wiki-page">エウルア</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E7%94%98%E9%9B%A8" title="甘雨" class="rel-wiki-page">甘雨</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E4%B8%83%E4%B8%83" title="七七" class="rel-wiki-page">七七</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%83%95%E3%83%AA%E3%83%B3%E3%82%BA" title="フリンズ" class="rel-wiki-page">フリンズ</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%82%A4%E3%83%8D%E3%83%95%E3%82%A1" title="イネファ" class="rel-wiki-page">イネファ</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%83%B4%E3%82%A1%E3%83%AC%E3%82%B5" title="ヴァレサ" class="rel-wiki-page">ヴァレサ</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%82%AF%E3%83%AD%E3%83%AA%E3%83%B3%E3%83%87" title="クロリンデ" class="rel-wiki-page">クロリンデ</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%82%BB%E3%83%8E" title="セノ" class="rel-wiki-page">セノ</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E5%85%AB%E9%87%8D%E7%A5%9E%E5%AD%90" title="八重神子" class="rel-wiki-page">八重神子</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E9%9B%B7%E9%9B%BB%E5%B0%86%E8%BB%8D" title="雷電将軍" class="rel-wiki-page">雷電将軍</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E5%88%BB%E6%99%B4" title="刻晴" class="rel-wiki-page">刻晴</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%83%95%E3%82%A1%E3%83%AB%E3%82%AB" title="ファルカ" class="rel-wiki-page">ファルカ</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E5%A4%A2%E8%A6%8B%E6%9C%88%E7%91%9E%E5%B8%8C" title="夢見月瑞希" class="rel-wiki-page">夢見月瑞希</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%83%81%E3%83%A3%E3%82%B9%E3%82%AB" title="チャスカ" class="rel-wiki-page">チャスカ</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E9%96%91%E9%9B%B2" title="閑雲" class="rel-wiki-page">閑雲</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E6%94%BE%E6%B5%AA%E8%80%85" title="放浪者" class="rel-wiki-page">放浪者</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E6%A5%93%E5%8E%9F%E4%B8%87%E8%91%89" title="楓原万葉" class="rel-wiki-page">楓原万葉</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%82%B7%E3%83%A7%E3%82%A6" title="ショウ" class="rel-wiki-page">&#39752;</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%82%A6%E3%82%A7%E3%83%B3%E3%83%86%E3%82%A3" title="ウェンティ" class="rel-wiki-page">ウェンティ</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%82%B8%E3%83%B3" title="ジン" class="rel-wiki-page">ジン</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%83%AA%E3%83%B3%E3%83%8D%E3%82%A2" title="リンネア" class="rel-wiki-page">リンネア</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E5%85%B9%E7%99%BD" title="兹白" class="rel-wiki-page">&#20857;白</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%82%B7%E3%83%AD%E3%83%8D%E3%83%B3" title="シロネン" class="rel-wiki-page">シロネン</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E5%8D%83%E7%B9%94" title="千織" class="rel-wiki-page">千織</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%83%8A%E3%83%B4%E3%82%A3%E3%82%A2" title="ナヴィア" class="rel-wiki-page">ナヴィア</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E8%8D%92%E7%80%A7%E4%B8%80%E6%96%97" title="荒瀧一斗" class="rel-wiki-page">荒瀧一斗</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%82%A2%E3%83%AB%E3%83%99%E3%83%89" title="アルベド" class="rel-wiki-page">アルベド</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E9%8D%BE%E9%9B%A2" title="鍾離" class="rel-wiki-page">鍾離</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%83%8D%E3%83%95%E3%82%A7%E3%83%AB" title="ネフェル" class="rel-wiki-page">ネフェル</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%83%A9%E3%82%A6%E3%83%9E" title="ラウマ" class="rel-wiki-page">ラウマ</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%82%AD%E3%82%A3%E3%83%8B%E3%83%81" title="キィニチ" class="rel-wiki-page">キィニチ</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%82%A8%E3%83%9F%E3%83%AA%E3%82%A8" title="エミリエ" class="rel-wiki-page">エミリエ</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E7%99%BD%E6%9C%AE" title="白朮" class="rel-wiki-page">白朮</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%82%A2%E3%83%AB%E3%83%8F%E3%82%A4%E3%82%BC%E3%83%B3" title="アルハイゼン" class="rel-wiki-page">アルハイゼン</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%83%8A%E3%83%92%E3%83%BC%E3%83%80" title="ナヒーダ" class="rel-wiki-page">ナヒーダ</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%83%86%E3%82%A3%E3%83%8A%E3%83%AA" title="ティナリ" class="rel-wiki-page">ティナリ</a><br />
+<span class="wikicolor" style="color:#000000">&#9612;</span><a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC" title="主人公" class="rel-wiki-page">主人公</a><br />
+(<a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC/%E9%A2%A8" title="主人公/風" class="rel-wiki-page">風</a>/<a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC/%E5%B2%A9" title="主人公/岩" class="rel-wiki-page">岩</a>/<a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC/%E9%9B%B7" title="主人公/雷" class="rel-wiki-page">雷</a>/<a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC/%E8%8D%89" title="主人公/草" class="rel-wiki-page">草</a>/<a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC/%E6%B0%B4" title="主人公/水" class="rel-wiki-page">水</a>/<a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC/%E7%82%8E" title="主人公/炎" class="rel-wiki-page">炎</a>/<a href="/genshinwiki/%E4%B8%BB%E4%BA%BA%E5%85%AC/%E6%B0%B7" title="主人公/氷" class="rel-wiki-page">氷</a>)<br />
+<span class="wikicolor" style="color:#000000">&#9612;</span><a href="/genshinwiki/%E3%83%89%E3%83%BC%E3%83%AB" title="ドール" class="rel-wiki-page">ドール</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">★4（レアリティ別）</div>
+    <div class="fold-content visible-on-open"><p><strong>☆4</strong><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E5%98%89%E6%98%8E" title="嘉明" class="rel-wiki-page">嘉明</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%82%B7%E3%83%A5%E3%83%B4%E3%83%AB%E3%83%BC%E3%82%BA" title="シュヴルーズ" class="rel-wiki-page">シュヴルーズ</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%88%E3%83%BC%E3%83%9E" title="トーマ" class="rel-wiki-page">トーマ</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E7%85%99%E7%B7%8B" title="煙緋" class="rel-wiki-page">煙緋</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E8%BE%9B%E7%82%8E" title="辛炎" class="rel-wiki-page">辛炎</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%83%99%E3%83%8D%E3%83%83%E3%83%88" title="ベネット" class="rel-wiki-page">ベネット</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E9%A6%99%E8%8F%B1" title="香菱" class="rel-wiki-page">香菱</a><br />
+<span class="wikicolor" style="color:#ff7755">&#9612;</span><a href="/genshinwiki/%E3%82%A2%E3%83%B3%E3%83%90%E3%83%BC" title="アンバー" class="rel-wiki-page">アンバー</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%82%A2%E3%82%A4%E3%83%8E" title="アイノ" class="rel-wiki-page">アイノ</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%80%E3%83%AA%E3%82%A2" title="ダリア" class="rel-wiki-page">ダリア</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%87%E3%82%A3%E3%82%B9" title="キャンディス" class="rel-wiki-page">キャンディス</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E8%A1%8C%E7%A7%8B" title="行秋" class="rel-wiki-page">行秋</a><br />
+<span class="wikicolor" style="color:#279be4">&#9612;</span><a href="/genshinwiki/%E3%83%90%E3%83%BC%E3%83%90%E3%83%A9" title="バーバラ" class="rel-wiki-page">バーバラ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%B7%E3%83%A3%E3%83%AB%E3%83%AD%E3%83%83%E3%83%88" title="シャルロット" class="rel-wiki-page">シャルロット</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%83%95%E3%83%AC%E3%83%9F%E3%83%8D" title="フレミネ" class="rel-wiki-page">フレミネ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%83%9F%E3%82%AB" title="ミカ" class="rel-wiki-page">ミカ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%83%AC%E3%82%A4%E3%83%A9" title="レイラ" class="rel-wiki-page">レイラ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%83%AD%E3%82%B5%E3%83%AA%E3%82%A2" title="ロサリア" class="rel-wiki-page">ロサリア</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%83%87%E3%82%A3%E3%82%AA%E3%83%8A" title="ディオナ" class="rel-wiki-page">ディオナ</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E9%87%8D%E9%9B%B2" title="重雲" class="rel-wiki-page">重雲</a><br />
+<span class="wikicolor" style="color:#84e0f1">&#9612;</span><a href="/genshinwiki/%E3%82%AC%E3%82%A4%E3%82%A2" title="ガイア" class="rel-wiki-page">ガイア</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%82%A2%E3%83%AA%E3%83%A7%E3%83%BC%E3%82%B7%E3%83%A3" title="アリョーシャ" class="rel-wiki-page">アリョーシャ</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%82%A4%E3%82%A2%E3%83%B3%E3%82%B5" title="イアンサ" class="rel-wiki-page">イアンサ</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%82%AA%E3%83%AD%E3%83%AB%E3%83%B3" title="オロルン" class="rel-wiki-page">オロルン</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%82%BB%E3%83%88%E3%82%B9" title="セトス" class="rel-wiki-page">セトス</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%83%89%E3%83%AA%E3%83%BC" title="ドリー" class="rel-wiki-page">ドリー</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E4%B9%85%E5%B2%90%E5%BF%8D" title="久岐忍" class="rel-wiki-page">久岐忍</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E4%B9%9D%E6%9D%A1%E8%A3%9F%E7%BE%85" title="九条裟羅" class="rel-wiki-page">九条裟羅</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%83%95%E3%82%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%83%AB" title="フィッシュル" class="rel-wiki-page">フィッシュル</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E5%8C%97%E6%96%97" title="北斗" class="rel-wiki-page">北斗</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%83%AC%E3%82%B6%E3%83%BC" title="レザー" class="rel-wiki-page">レザー</a><br />
+<span class="wikicolor" style="color:#aa4eff">&#9612;</span><a href="/genshinwiki/%E3%83%AA%E3%82%B5" title="リサ" class="rel-wiki-page">リサ</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%83%97%E3%83%AB%E3%83%BC%E3%83%8D" title="プルーネ" class="rel-wiki-page">プルーネ</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%83%A4%E3%83%95%E3%82%A9%E3%83%80" title="ヤフォダ" class="rel-wiki-page">ヤフォダ</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%82%A4%E3%83%95%E3%82%A1" title="イファ" class="rel-wiki-page">イファ</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E8%97%8D%E7%A1%AF" title="藍硯" class="rel-wiki-page">藍硯</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%83%AA%E3%83%8D%E3%83%83%E3%83%88" title="リネット" class="rel-wiki-page">リネット</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%83%95%E3%82%A1%E3%83%AB%E3%82%B6%E3%83%B3" title="ファルザン" class="rel-wiki-page">ファルザン</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E9%B9%BF%E9%87%8E%E9%99%A2%E5%B9%B3%E8%94%B5" title="鹿野院平蔵" class="rel-wiki-page">鹿野院平蔵</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E6%97%A9%E6%9F%9A" title="早柚" class="rel-wiki-page">早柚</a><br />
+<span class="wikicolor" style="color:#66cc99">&#9612;</span><a href="/genshinwiki/%E3%82%B9%E3%82%AF%E3%83%AD%E3%83%BC%E3%82%B9" title="スクロース" class="rel-wiki-page">スクロース</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%82%A4%E3%83%AB%E3%83%BC%E3%82%AC" title="イルーガ" class="rel-wiki-page">イルーガ</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%82%AB%E3%83%81%E3%83%BC%E3%83%8A" title="カチーナ" class="rel-wiki-page">カチーナ</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E9%9B%B2%E8%8F%AB" title="雲菫" class="rel-wiki-page">雲菫</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%82%B4%E3%83%AD%E3%83%BC" title="ゴロー" class="rel-wiki-page">ゴロー</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E3%83%8E%E3%82%A8%E3%83%AB" title="ノエル" class="rel-wiki-page">ノエル</a><br />
+<span class="wikicolor" style="color:#ffcc00">&#9612;</span><a href="/genshinwiki/%E5%87%9D%E5%85%89" title="凝光" class="rel-wiki-page">凝光</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E7%B6%BA%E8%89%AF%E3%80%85" title="綺良々" class="rel-wiki-page">綺良々</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%82%AB%E3%83%BC%E3%83%B4%E3%82%A7" title="カーヴェ" class="rel-wiki-page">カーヴェ</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%83%A8%E3%82%A9%E3%83%BC%E3%83%A8" title="ヨォーヨ" class="rel-wiki-page">ヨォーヨ</a><br />
+<span class="wikicolor" style="color:#99bb44">&#9612;</span><a href="/genshinwiki/%E3%82%B3%E3%83%AC%E3%82%A4" title="コレイ" class="rel-wiki-page">コレイ</a></p>
+</div>
+</div>
+<hr class="full_hr" />
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">その他キャラ情報</div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E4%B8%80%E8%A6%A7" title="キャラクター一覧" class="rel-wiki-page">キャラクター一覧</a><br />
+<a href="/genshinwiki/%E3%82%AD%E3%83%A3%E3%83%A9%E5%A4%96%E8%A6%B3%E5%A4%89%E6%9B%B4" title="キャラ外観変更" class="rel-wiki-page">キャラ外観</a><br />
+<a href="/genshinwiki/%E5%90%84%E3%82%AD%E3%83%A3%E3%83%A9%E3%81%AE%E5%8F%8D%E5%BF%9C" title="各キャラの反応" class="rel-wiki-page">他キャラのコメント</a><br />
+<a href="/genshinwiki/%E8%AA%95%E7%94%9F%E6%97%A5" title="誕生日" class="rel-wiki-page">誕生日</a><br />
+├<a href="/genshinwiki/%E8%AA%95%E7%94%9F%E6%97%A5%E3%83%A1%E3%83%BC%E3%83%AB" title="誕生日メール" class="rel-wiki-page">誕生日メール</a><br />
+└<a href="/genshinwiki/%E8%AA%95%E7%94%9F%E6%97%A5/%E7%95%99%E5%BD%B1%E5%8F%99%E4%BD%B3%E6%9C%9F" title="誕生日/留影叙佳期" class="rel-wiki-page">留影叙佳期</a><br />
+<a href="/genshinwiki/%E3%82%AD%E3%83%A3%E3%83%A9%E8%AA%AC%E6%98%8E" title="キャラ説明" class="rel-wiki-page">キャラ説明</a><br />
+<a href="/genshinwiki/%E3%82%A2%E3%83%AB%E3%82%B1%E3%83%BC#pb13e5bc" title="アルケー" class="rel-wiki-page">アルケー</a><br />
+<a href="/genshinwiki/%E5%A4%9C%E9%AD%82%E3%83%BB%E7%AB%9C%E6%86%91%E4%BE%9D%E3%83%BB%E7%87%83%E7%B4%A0#vc796950" title="夜魂・竜憑依・燃素" class="rel-wiki-page">夜魂の加護</a><br />
+<a href="/genshinwiki/%E6%9C%88%E5%85%89%E3%81%AE%E7%A5%9D%E7%A6%8F#s411bf7d" title="月光の祝福" class="rel-wiki-page">月兆キャラクター</a><br />
+<a href="/genshinwiki/%E9%AD%94%E5%A5%B3%E3%81%AE%E8%AA%B2%E9%A1%8C#characters" title="魔女の課題" class="rel-wiki-page">魔導キャラクター</a></p>
+</div>
+</div>
+<p><a class="anchor" name ="menu_weapon"></a></p>
+<h2 id="h2_content_2_3" class="heading-after-first">武器・聖遺物</h2>
+<div class="fold-container fold-open clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E6%AD%A6%E5%99%A8" title="武器" class="rel-wiki-page">武器</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E6%AD%A6%E5%99%A8" title="武器" class="rel-wiki-page">武器概要</a><br />
+├<a href="/genshinwiki/%E7%89%87%E6%89%8B%E5%89%A3" title="片手剣" class="rel-wiki-page">片手剣</a><br />
+├<a href="/genshinwiki/%E4%B8%A1%E6%89%8B%E5%89%A3" title="両手剣" class="rel-wiki-page">両手剣</a><br />
+├<a href="/genshinwiki/%E9%95%B7%E6%9F%84%E6%AD%A6%E5%99%A8" title="長柄武器" class="rel-wiki-page">長柄武器</a><br />
+├<a href="/genshinwiki/%E6%B3%95%E5%99%A8" title="法器" class="rel-wiki-page">法器</a><br />
+└<a href="/genshinwiki/%E5%BC%93" title="弓" class="rel-wiki-page">弓</a><br />
+<a href="/genshinwiki/%E6%AD%A6%E5%99%A8/%E4%B8%80%E8%A6%A7" title="武器/一覧" class="rel-wiki-page">武器一覧</a></p>
+</div>
+</div>
+<div class="fold-container fold-open clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E8%81%96%E9%81%BA%E7%89%A9" title="聖遺物" class="rel-wiki-page">聖遺物</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E8%81%96%E9%81%BA%E7%89%A9" title="聖遺物" class="rel-wiki-page">聖遺物概要</a><br />
+├<a href="/genshinwiki/%E8%81%96%E9%81%BA%E7%89%A9/%E3%82%BB%E3%83%83%E3%83%88%E5%8A%B9%E6%9E%9C" title="聖遺物/セット効果" class="rel-wiki-page">セット効果</a><br />
+└<a href="/genshinwiki/%E5%90%88%E6%88%90#Mystic_Offering" title="合成" class="rel-wiki-page">聖遺物廻聖</a></p>
+</div>
+</div>
+<p><a class="anchor" name ="menu_strategy"></a></p>
+<h2 id="h2_content_2_4" class="heading-after-first">攻略</h2>
+<div class="fold-container fold-open clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">育成・強化</div>
+    <div class="fold-content visible-on-open"><p>育成・強化<br />
+<a href="/genshinwiki/%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E8%82%B2%E6%88%90" title="キャラクター育成" class="rel-wiki-page">キャラクター育成</a><br />
+├<a href="/genshinwiki/%E9%AD%94%E5%A5%B3%E3%81%AE%E8%AA%B2%E9%A1%8C" title="魔女の課題" class="rel-wiki-page">魔女の課題</a><br />
+└<a href="/genshinwiki/%E9%AD%94%E5%A5%B3%E3%81%AE%E8%AB%AD%E7%A4%BA" title="魔女の諭示" class="rel-wiki-page">魔女の諭示</a><br />
+<a href="/genshinwiki/%E6%AD%A6%E5%99%A8#e88024c8" title="武器" class="rel-wiki-page">武器強化</a><br />
+<a href="/genshinwiki/%E8%81%96%E9%81%BA%E7%89%A9#Reinforce" title="聖遺物" class="rel-wiki-page">聖遺物強化</a><br />
+<a href="/genshinwiki/%E7%A8%BC%E3%81%8E" title="稼ぎ" class="rel-wiki-page">モラ・素材稼ぎ</a><br />
+├<a href="/genshinwiki/%E5%9C%B0%E8%84%88%E3%81%AE%E8%8A%B1%E8%8A%BD" title="地脈の花芽" class="rel-wiki-page">地脈の花芽</a><br />
+└<a href="/genshinwiki/%E6%99%82%E9%99%90%E7%B3%BB%E3%83%BB%E5%86%8D%E7%94%9F%E5%BE%A9%E6%B4%BB%E7%B3%BB%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84/%E7%B2%BE%E9%8B%AD%E7%8B%A9%E3%82%8A" title="時限系・再生復活系コンテンツ/精鋭狩り" class="rel-wiki-page">精鋭狩り</a><br />
+<a href="/genshinwiki/%E7%B4%A0%E6%9D%90%E9%80%86%E5%BC%95%E3%81%8D" title="素材逆引き" class="rel-wiki-page">素材逆引き</a></p>
+</div>
+</div>
+<div class="fold-container fold-open clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E6%88%A6%E9%97%98%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0" title="戦闘システム" class="rel-wiki-page">戦闘システム</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E6%88%A6%E9%97%98%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0" title="戦闘システム" class="rel-wiki-page">戦闘システム</a><br />
+<a href="/genshinwiki/%E3%83%80%E3%83%A1%E3%83%BC%E3%82%B8%E8%A8%88%E7%AE%97%E5%BC%8F" title="ダメージ計算式" class="rel-wiki-page">ダメージ計算式</a><br />
+└<a href="/genshinwiki/%E3%83%80%E3%83%A1%E3%83%BC%E3%82%B8%E8%A8%88%E7%AE%97%E5%BC%8F/%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%81%AE%E3%83%90%E3%83%A9%E3%83%B3%E3%82%B9" title="ダメージ計算式/ステータスのバランス" class="rel-wiki-page">ステータス配分</a><br />
+<a href="/genshinwiki/%E5%85%83%E7%B4%A0%E5%8F%8D%E5%BF%9C%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6" title="元素反応について" class="rel-wiki-page">元素反応</a><br />
+<a href="/genshinwiki/%E5%85%83%E7%B4%A0%E9%87%8F" title="元素量" class="rel-wiki-page">元素量</a><br />
+<a href="/genshinwiki/%E5%85%83%E7%B4%A0%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6" title="元素チャージについて" class="rel-wiki-page">元素チャージ</a><br />
+<a href="/genshinwiki/%E5%85%83%E7%B4%A0%E3%82%B7%E3%83%BC%E3%83%AB%E3%83%89" title="元素シールド" class="rel-wiki-page">シールド（敵）</a><br />
+<a href="/genshinwiki/%E3%82%B7%E3%83%BC%E3%83%AB%E3%83%89" title="シールド" class="rel-wiki-page">シールド（味方）</a><br />
+<a href="/genshinwiki/%E7%89%B9%E6%80%A7%E9%80%86%E5%BC%95%E3%81%8D" title="特性逆引き" class="rel-wiki-page">攻撃の特性</a><br />
+<a href="/genshinwiki/%E6%88%A6%E9%97%98%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/%E9%9A%A0%E3%81%97%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9" title="戦闘システム/隠しステータス" class="rel-wiki-page">隠しステータス</a><br />
+各国固有のシステム<br />
+├<a href="/genshinwiki/%E3%82%A2%E3%83%AB%E3%82%B1%E3%83%BC" title="アルケー" class="rel-wiki-page">アルケー</a><br />
+├<a href="/genshinwiki/%E5%A4%9C%E9%AD%82%E3%83%BB%E7%AB%9C%E6%86%91%E4%BE%9D%E3%83%BB%E7%87%83%E7%B4%A0" title="夜魂・竜憑依・燃素" class="rel-wiki-page">夜魂・竜憑依・燃素</a><br />
+├<a href="/genshinwiki/%E6%9C%88%E5%85%89%E3%81%AE%E7%A5%9D%E7%A6%8F" title="月光の祝福" class="rel-wiki-page">月光の祝福</a><br />
+└<a href="/genshinwiki/%E3%82%B0%E3%83%A9%E3%82%A4%E3%82%A2%E3%82%A4%E3%81%AE%E7%9C%BC" title="グライアイの眼" class="rel-wiki-page">グライアイの眼</a><br />
+　└<a href="/genshinwiki/%E9%97%87%E5%9F%9F" title="闇域" class="rel-wiki-page">闇域</a></p>
+</div>
+</div>
+<div class="fold-container fold-open clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">敵情報</div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E6%95%B5%E4%B8%80%E8%A6%A7" title="敵一覧" class="rel-wiki-page">敵一覧</a><br />
+<a href="/genshinwiki/%E3%83%80%E3%83%A1%E3%83%BC%E3%82%B8%E8%A8%88%E7%AE%97%E5%BC%8F#resistance" title="ダメージ計算式" class="rel-wiki-page">敵の元素耐性</a><br />
+<a href="/genshinwiki/%E3%82%AA%E3%83%BC%E3%83%A9" title="オーラ" class="rel-wiki-page">敵のオーラ</a></p>
+</div>
+</div>
+<div class="fold-container fold-open clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E3%83%81%E3%83%BC%E3%83%A0%E7%B7%A8%E6%88%90" title="チーム編成" class="rel-wiki-page">チーム編成</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E3%83%81%E3%83%BC%E3%83%A0%E7%B7%A8%E6%88%90" title="チーム編成" class="rel-wiki-page">チーム編成</a><br />
+├<a href="/genshinwiki/%E9%AB%98%E9%9B%A3%E5%BA%A6%E7%94%A8%E3%83%81%E3%83%BC%E3%83%A0%E9%9B%86" title="高難度用チーム集" class="rel-wiki-page">高難度用チーム集</a><br />
+├<a href="/genshinwiki/%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E7%B7%A8%E6%88%90%E5%8F%B2" title="キャラクター編成史" class="rel-wiki-page">キャラクター編成史</a><br />
+└<a href="/genshinwiki/%E7%B7%A8%E6%88%90%E4%B8%80%E8%A6%A7" title="編成一覧" class="rel-wiki-page">編成一覧</a></p>
+</div>
+</div>
+<div class="fold-container fold-open clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">戦闘コンテンツ</div>
+    <div class="fold-content visible-on-open"><p>戦闘コンテンツ<br />
+├<a href="/genshinwiki/%E6%B7%B1%E5%A2%83%E8%9E%BA%E6%97%8B" title="深境螺旋" class="rel-wiki-page">深境螺旋</a><br />
+├<a href="/genshinwiki/%E5%B9%BB%E6%83%B3%E3%82%B7%E3%82%A2%E3%82%BF%E3%83%BC" title="幻想シアター" class="rel-wiki-page">幻想シアター</a><br />
+│└<a href="/genshinwiki/%E7%A9%BA%E6%83%B3%E3%81%AE%E8%BB%8C%E8%B7%A1" title="空想の軌跡" class="rel-wiki-page">空想の軌跡</a><br />
+└<a href="/genshinwiki/%E5%B9%BD%E5%A2%83%E3%81%AE%E6%BF%80%E6%88%A6" title="幽境の激戦" class="rel-wiki-page">幽境の激戦</a><br />
+<a href="/genshinwiki/%E6%BF%80%E6%88%A6%E3%81%AE%E6%97%85%E8%B7%AF" title="激戦の旅路" class="rel-wiki-page">激戦の旅路</a><br />
+<a href="/genshinwiki/%E7%94%A8%E8%AA%9E%E9%9B%86/%E6%94%BB%E7%95%A5" title="用語集/攻略" class="rel-wiki-page">攻略用語</a></p>
+</div>
+</div>
+<div class="fold-container fold-open clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E7%A5%88%E9%A1%98" title="祈願" class="rel-wiki-page">祈願</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E7%A5%88%E9%A1%98" title="祈願" class="rel-wiki-page">祈願</a><br />
+├<a href="/genshinwiki/%E7%A5%88%E9%A1%98" title="祈願" class="rel-wiki-page">イベント祈願</a><br />
+├<a href="/genshinwiki/%E7%A5%88%E9%A1%98/%E7%A5%9E%E9%8B%B3%E8%B3%A6%E5%BD%A2" title="祈願/神鋳賦形" class="rel-wiki-page">神鋳賦形</a><br />
+├<a href="/genshinwiki/%E7%A5%88%E9%A1%98/%E5%A5%94%E8%B5%B0%E4%B8%96%E9%96%93" title="祈願/奔走世間" class="rel-wiki-page">奔走世間(恒常)</a><br />
+└<a href="/genshinwiki/%E5%88%9D%E5%BF%83%E8%80%85%E5%BF%9C%E6%8F%B4%E7%A5%88%E9%A1%98" title="初心者応援祈願" class="rel-wiki-page">初心者応援祈願</a><br />
+<a href="/genshinwiki/%E7%A5%88%E9%A1%98#history" title="祈願" class="rel-wiki-page">祈願履歴</a></p>
+</div>
+</div>
+<p><a class="anchor" name ="menu_mission"></a></p>
+<h2 id="h2_content_2_5" class="heading-after-first">任務</h2>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E9%AD%94%E7%A5%9E%E4%BB%BB%E5%8B%99" title="魔神任務" class="rel-wiki-page">魔神任務</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E9%AD%94%E7%A5%9E%E4%BB%BB%E5%8B%99" title="魔神任務" class="rel-wiki-page">魔神任務</a><br />
+├<a href="/genshinwiki/%E5%BA%8F%E7%AB%A0" title="序章" class="rel-wiki-page">序章</a><br />
+├<a href="/genshinwiki/%E7%AC%AC%E4%B8%80%E7%AB%A0" title="第一章" class="rel-wiki-page">第一章</a><br />
+├<a href="/genshinwiki/%E7%AC%AC%E4%BA%8C%E7%AB%A0" title="第二章" class="rel-wiki-page">第二章</a><br />
+├<a href="/genshinwiki/%E7%AC%AC%E4%B8%89%E7%AB%A0" title="第三章" class="rel-wiki-page">第三章</a><br />
+├<a href="/genshinwiki/%E7%AC%AC%E5%9B%9B%E7%AB%A0" title="第四章" class="rel-wiki-page">第四章</a><br />
+├<a href="/genshinwiki/%E7%AC%AC%E4%BA%94%E7%AB%A0" title="第五章" class="rel-wiki-page">第五章</a><br />
+├<a href="/genshinwiki/%E7%A9%BA%E6%9C%88%E3%81%AE%E6%AD%8C" title="空月の歌" class="rel-wiki-page">空月の歌</a><br />
+├<a href="/genshinwiki/%E7%AC%AC%E4%B8%83%E7%AB%A0" title="第七章" class="rel-wiki-page">第七章</a><br />
+└<a href="/genshinwiki/%E9%96%93%E7%AB%A0" title="間章" class="rel-wiki-page">間章</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E4%B8%96%E7%95%8C%E4%BB%BB%E5%8B%99" title="世界任務" class="rel-wiki-page">世界任務</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E4%B8%96%E7%95%8C%E4%BB%BB%E5%8B%99" title="世界任務" class="rel-wiki-page">世界任務</a><br />
+├<a href="/genshinwiki/%E4%B8%96%E7%95%8C%E4%BB%BB%E5%8B%99/%E3%83%A2%E3%83%B3%E3%83%89" title="世界任務/モンド" class="rel-wiki-page">モンド</a><br />
+├<a href="/genshinwiki/%E4%B8%96%E7%95%8C%E4%BB%BB%E5%8B%99/%E7%92%83%E6%9C%88" title="世界任務/璃月" class="rel-wiki-page">璃月</a><br />
+├<a href="/genshinwiki/%E4%B8%96%E7%95%8C%E4%BB%BB%E5%8B%99/%E7%A8%B2%E5%A6%BB" title="世界任務/稲妻" class="rel-wiki-page">稲妻</a><br />
+├<a href="/genshinwiki/%E4%B8%96%E7%95%8C%E4%BB%BB%E5%8B%99/%E3%82%B9%E3%83%A1%E3%83%BC%E3%83%AB" title="世界任務/スメール" class="rel-wiki-page">スメール</a><br />
+├<a href="/genshinwiki/%E4%B8%96%E7%95%8C%E4%BB%BB%E5%8B%99/%E3%83%95%E3%82%A9%E3%83%B3%E3%83%86%E3%83%BC%E3%83%8C" title="世界任務/フォンテーヌ" class="rel-wiki-page">フォンテーヌ</a><br />
+├<a href="/genshinwiki/%E4%B8%96%E7%95%8C%E4%BB%BB%E5%8B%99/%E3%83%8A%E3%82%BF" title="世界任務/ナタ" class="rel-wiki-page">ナタ</a><br />
+├<a href="/genshinwiki/%E4%B8%96%E7%95%8C%E4%BB%BB%E5%8B%99/%E3%83%8A%E3%83%89%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A4" title="世界任務/ナド・クライ" class="rel-wiki-page">ナド・クライ</a><br />
+└<a href="/genshinwiki/%E4%B8%96%E7%95%8C%E4%BB%BB%E5%8B%99/%E3%82%B9%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%8A%E3%83%A4" title="世界任務/スネージナヤ" class="rel-wiki-page">スネージナヤ</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E4%BC%9D%E8%AA%AC%E4%BB%BB%E5%8B%99" title="伝説任務" class="rel-wiki-page">伝説任務</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E4%BC%9D%E8%AA%AC%E4%BB%BB%E5%8B%99" title="伝説任務" class="rel-wiki-page">伝説任務</a><br />
+<a href="/genshinwiki/%E4%BC%9D%E8%AA%AC%E4%BB%BB%E5%8B%99/%E3%83%87%E3%83%BC%E3%83%88%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" title="伝説任務/デートイベント" class="rel-wiki-page">デートイベント</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E4%BE%9D%E9%A0%BC%E4%BB%BB%E5%8B%99" title="依頼任務" class="rel-wiki-page">依頼任務</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E4%BE%9D%E9%A0%BC%E4%BB%BB%E5%8B%99" title="依頼任務" class="rel-wiki-page">依頼任務</a><br />
+├<a href="/genshinwiki/%E4%BE%9D%E9%A0%BC%E4%BB%BB%E5%8B%99/%E3%83%A2%E3%83%B3%E3%83%89" title="依頼任務/モンド" class="rel-wiki-page">モンド</a><br />
+├<a href="/genshinwiki/%E4%BE%9D%E9%A0%BC%E4%BB%BB%E5%8B%99/%E7%92%83%E6%9C%88" title="依頼任務/璃月" class="rel-wiki-page">璃月</a><br />
+├<a href="/genshinwiki/%E4%BE%9D%E9%A0%BC%E4%BB%BB%E5%8B%99/%E7%A8%B2%E5%A6%BB" title="依頼任務/稲妻" class="rel-wiki-page">稲妻</a><br />
+├<a href="/genshinwiki/%E4%BE%9D%E9%A0%BC%E4%BB%BB%E5%8B%99/%E3%82%B9%E3%83%A1%E3%83%BC%E3%83%AB" title="依頼任務/スメール" class="rel-wiki-page">スメール</a><br />
+├<a href="/genshinwiki/%E4%BE%9D%E9%A0%BC%E4%BB%BB%E5%8B%99/%E3%83%95%E3%82%A9%E3%83%B3%E3%83%86%E3%83%BC%E3%83%8C" title="依頼任務/フォンテーヌ" class="rel-wiki-page">フォンテーヌ</a><br />
+├<a href="/genshinwiki/%E4%BE%9D%E9%A0%BC%E4%BB%BB%E5%8B%99/%E3%83%8A%E3%82%BF" title="依頼任務/ナタ" class="rel-wiki-page">ナタ</a><br />
+├<a href="/genshinwiki/%E4%BE%9D%E9%A0%BC%E4%BB%BB%E5%8B%99/%E3%83%8A%E3%83%89%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A4" title="依頼任務/ナド・クライ" class="rel-wiki-page">ナド・クライ</a><br />
+└<a href="/genshinwiki/%E4%BE%9D%E9%A0%BC%E4%BB%BB%E5%8B%99/%E3%82%B9%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%8A%E3%83%A4" title="依頼任務/スネージナヤ" class="rel-wiki-page">スネージナヤ</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E4%BB%BB%E5%8B%99%E6%9C%AC%E6%96%87" title="任務本文" class="rel-wiki-page">旅行日誌</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E4%BB%BB%E5%8B%99%E6%9C%AC%E6%96%87" title="任務本文" class="rel-wiki-page">旅行日誌</a><br />
+├<a href="/genshinwiki/%E4%BB%BB%E5%8B%99%E6%9C%AC%E6%96%87#archonquest" title="任務本文" class="rel-wiki-page">旅行日誌</a><br />
+├<a href="/genshinwiki/%E4%BB%BB%E5%8B%99%E6%9C%AC%E6%96%87#storyquest" title="任務本文" class="rel-wiki-page">伝説任務</a><br />
+├<a href="/genshinwiki/%E4%BB%BB%E5%8B%99%E6%9C%AC%E6%96%87#event" title="任務本文" class="rel-wiki-page">イベント</a><br />
+├<a href="/genshinwiki/%E4%BB%BB%E5%8B%99%E6%9C%AC%E6%96%87#other" title="任務本文" class="rel-wiki-page">その他任務</a><br />
+├<a href="/genshinwiki/%E4%BB%BB%E5%8B%99%E6%9C%AC%E6%96%87#o6ef8778" title="任務本文" class="rel-wiki-page">PV</a><br />
+└<a href="/genshinwiki/%E4%BB%BB%E5%8B%99%E6%9C%AC%E6%96%87#eq-other" title="任務本文" class="rel-wiki-page">その他</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E8%A6%81%E7%B4%84/%E9%AD%94%E7%A5%9E%E4%BB%BB%E5%8B%99" title="ストーリー要約/魔神任務" class="rel-wiki-page">ストーリー要約</a></div>
+    <div class="fold-content visible-on-open"><p>ストーリー要約<br />
+├<a href="/genshinwiki/%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E8%A6%81%E7%B4%84/%E9%AD%94%E7%A5%9E%E4%BB%BB%E5%8B%99" title="ストーリー要約/魔神任務" class="rel-wiki-page">魔神任務</a><br />
+├<a href="/genshinwiki/%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E8%A6%81%E7%B4%84/%E4%BC%9D%E8%AA%AC%E4%BB%BB%E5%8B%99" title="ストーリー要約/伝説任務" class="rel-wiki-page">伝説任務</a><br />
+└<a href="/genshinwiki/%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AA%E3%83%BC%E8%A6%81%E7%B4%84/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88" title="ストーリー要約/イベント" class="rel-wiki-page">期間限定イベント</a></p>
+</div>
+</div>
+<ul class="list1"><li><a href="/genshinwiki/%E3%83%A9%E3%83%B3%E3%83%80%E3%83%A0%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88" title="ランダムクエスト" class="rel-wiki-page">ランダムクエスト</a></li></ul>
+<p><a class="anchor" name ="menu_adventure"></a></p>
+<h2 id="h2_content_2_6" class="heading-after-first">冒険</h2>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">世界</div>
+    <div class="fold-content visible-on-open"><p><strong>世界</strong><br />
+<a href="/genshinwiki/%E3%83%86%E3%82%A4%E3%83%AF%E3%83%83%E3%83%88" title="テイワット" class="rel-wiki-page">テイワット</a><br />
+<a href="/genshinwiki/%E5%86%92%E9%99%BA%E3%83%A9%E3%83%B3%E3%82%AF%E3%81%A8%E4%B8%96%E7%95%8C%E3%83%A9%E3%83%B3%E3%82%AF" title="冒険ランクと世界ランク" class="rel-wiki-page">冒険・世界ランク</a><br />
+<a href="/genshinwiki/%E5%A4%A9%E5%80%99" title="天候" class="rel-wiki-page">天候</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">採集・採掘</div>
+    <div class="fold-content visible-on-open"><p><strong>採集・採掘</strong><br />
+<a href="/genshinwiki/%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB%E3%83%89%E6%8E%A1%E9%9B%86" title="フィールド採集" class="rel-wiki-page">フィールド採集</a><br />
+<a href="/genshinwiki/%E6%8E%A1%E9%89%B1%E5%9C%B0%E6%A4%9C%E7%B4%A2" title="採鉱地検索" class="rel-wiki-page">採鉱地検索</a><br />
+├<a href="/genshinwiki/%E6%8E%A1%E9%89%B1%E5%9C%B0%E6%A4%9C%E7%B4%A2/%E3%83%A2%E3%83%B3%E3%83%89" title="採鉱地検索/モンド" class="rel-wiki-page">モンド</a><br />
+├<a href="/genshinwiki/%E6%8E%A1%E9%89%B1%E5%9C%B0%E6%A4%9C%E7%B4%A2/%E7%92%83%E6%9C%88" title="採鉱地検索/璃月" class="rel-wiki-page">璃月</a><br />
+├<a href="/genshinwiki/%E6%8E%A1%E9%89%B1%E5%9C%B0%E6%A4%9C%E7%B4%A2/%E7%A8%B2%E5%A6%BB" title="採鉱地検索/稲妻" class="rel-wiki-page">稲妻</a><br />
+├<a href="/genshinwiki/%E6%8E%A1%E9%89%B1%E5%9C%B0%E6%A4%9C%E7%B4%A2/%E3%82%B9%E3%83%A1%E3%83%BC%E3%83%AB" title="採鉱地検索/スメール" class="rel-wiki-page">スメール</a><br />
+├<a href="/genshinwiki/%E6%8E%A1%E9%89%B1%E5%9C%B0%E6%A4%9C%E7%B4%A2/%E3%83%95%E3%82%A9%E3%83%B3%E3%83%86%E3%83%BC%E3%83%8C" title="採鉱地検索/フォンテーヌ" class="rel-wiki-page">フォンテーヌ</a><br />
+├<a href="/genshinwiki/%E6%8E%A1%E9%89%B1%E5%9C%B0%E6%A4%9C%E7%B4%A2/%E3%83%8A%E3%82%BF" title="採鉱地検索/ナタ" class="rel-wiki-page">ナタ</a><br />
+├<a href="/genshinwiki/%E6%8E%A1%E9%89%B1%E5%9C%B0%E6%A4%9C%E7%B4%A2/%E3%83%8A%E3%83%89%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A4" title="採鉱地検索/ナド・クライ" class="rel-wiki-page">ナド・クライ</a><br />
+└<a href="/genshinwiki/%E6%8E%A1%E9%89%B1%E5%9C%B0%E6%A4%9C%E7%B4%A2/%E3%82%B9%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%8A%E3%83%A4" title="採鉱地検索/スネージナヤ" class="rel-wiki-page">スネージナヤ</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">敵情報</div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E6%95%B5%E4%B8%80%E8%A6%A7" title="敵一覧" class="rel-wiki-page">敵一覧</a><br />
+├<a href="/genshinwiki/%E6%95%B5%E4%B8%80%E8%A6%A7/%E6%99%AE%E9%80%9A%E3%82%A8%E3%83%8D%E3%83%9F%E3%83%BC" title="敵一覧/普通エネミー" class="rel-wiki-page">普通エネミー</a><br />
+├<a href="/genshinwiki/%E6%95%B5%E4%B8%80%E8%A6%A7/%E7%B2%BE%E9%8B%AD%E3%82%A8%E3%83%8D%E3%83%9F%E3%83%BC" title="敵一覧/精鋭エネミー" class="rel-wiki-page">精鋭エネミー</a><br />
+├<a href="/genshinwiki/%E6%95%B5%E4%B8%80%E8%A6%A7/BOSS" title="敵一覧/BOSS" class="rel-wiki-page">BOSS</a><br />
+├<a href="/genshinwiki/%E6%95%B5%E4%B8%80%E8%A6%A7/%E5%9C%B0%E6%96%B9%E4%BC%9D%E8%AA%AC" title="敵一覧/地方伝説" class="rel-wiki-page">地方伝説</a><br />
+└<a href="/genshinwiki/%E6%95%B5%E4%B8%80%E8%A6%A7/%E3%81%9D%E3%81%AE%E4%BB%96" title="敵一覧/その他" class="rel-wiki-page">その他</a><br />
+<a href="/genshinwiki/%E6%95%B5%E4%B8%80%E8%A6%A7%E7%94%BB%E5%83%8F" title="敵一覧画像" class="rel-wiki-page">敵画像一覧</a><br />
+<a href="/genshinwiki/%E5%85%83%E7%B4%A0%E3%82%B7%E3%83%BC%E3%83%AB%E3%83%89" title="元素シールド" class="rel-wiki-page">敵のシールド</a><br />
+<a href="/genshinwiki/%E3%82%AA%E3%83%BC%E3%83%A9" title="オーラ" class="rel-wiki-page">敵のオーラ</a><br />
+<a href="/genshinwiki/%E3%83%80%E3%83%A1%E3%83%BC%E3%82%B8%E8%A8%88%E7%AE%97%E5%BC%8F#resistance" title="ダメージ計算式" class="rel-wiki-page">敵の元素耐性</a><br />
+<a href="/genshinwiki/%E6%99%82%E9%99%90%E7%B3%BB%E3%83%BB%E5%86%8D%E7%94%9F%E5%BE%A9%E6%B4%BB%E7%B3%BB%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84/%E7%B2%BE%E9%8B%AD%E7%8B%A9%E3%82%8A" title="時限系・再生復活系コンテンツ/精鋭狩り" class="rel-wiki-page">精鋭狩り</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0" title="システム" class="rel-wiki-page">マルチプレイ</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0" title="システム" class="rel-wiki-page">マルチプレイ</a><br />
+├<a href="/genshinwiki/%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0#l13f10fe" title="システム" class="rel-wiki-page">フレンド</a><br />
+└<a href="/genshinwiki/%E3%83%95%E3%83%AC%E3%83%B3%E3%83%89%E3%83%BB%E3%83%9E%E3%83%AB%E3%83%81%E5%8B%9F%E9%9B%86%E6%9D%BF" title="フレンド・マルチ募集板" class="rel-wiki-page">ﾌﾚﾝﾄﾞ/ﾏﾙﾁ募集板</a></p>
+</div>
+</div>
+<ul class="list1"><li><a href="/genshinwiki/%E4%BB%96%E4%BA%BA%E3%81%8B%E3%82%89%E3%81%AE%E7%9C%9F%E6%B0%B7%E5%89%B5%E9%80%A0%E7%89%A9%E3%81%AE%E5%89%8A%E9%99%A4%E6%96%B9%E6%B3%95" title="他人からの真氷創造物の削除方法" class="rel-wiki-page">他人からの真氷創造物の削除方法</a></li></ul>
+<p><a class="anchor" name ="menu_contents"></a></p>
+<h2 id="h2_content_2_7" class="heading-after-first">コンテンツ</h2>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E6%99%82%E9%99%90%E7%B3%BB%E3%83%BB%E5%86%8D%E7%94%9F%E5%BE%A9%E6%B4%BB%E7%B3%BB%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84" title="時限系・再生復活系コンテンツ" class="rel-wiki-page">時限・復活系ｺﾝﾃﾝﾂ</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E6%99%82%E9%99%90%E7%B3%BB%E3%83%BB%E5%86%8D%E7%94%9F%E5%BE%A9%E6%B4%BB%E7%B3%BB%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84" title="時限系・再生復活系コンテンツ" class="rel-wiki-page">時限・復活系ｺﾝﾃﾝﾂ</a><br />
+├<a href="/genshinwiki/%E6%8E%A2%E7%B4%A2%E6%B4%BE%E9%81%A3" title="探索派遣" class="rel-wiki-page">探索派遣</a><br />
+├<a href="/genshinwiki/%E9%8D%9B%E9%80%A0" title="鍛造" class="rel-wiki-page">鍛造</a><br />
+├<a href="/genshinwiki/%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0%E8%B3%BC%E5%85%A5" title="アイテム購入" class="rel-wiki-page">アイテム購入</a><br />
+├<a href="/genshinwiki/%E9%87%A3%E3%82%8A" title="釣り" class="rel-wiki-page">釣り</a><br />
+└<a href="/genshinwiki/%E5%8F%82%E9%87%8F%E7%89%A9%E8%B3%AA%E5%A4%89%E5%8C%96%E5%99%A8" title="参量物質変化器" class="rel-wiki-page">参量物質変化器</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E5%A4%A9%E7%84%B6%E6%A8%B9%E8%84%82" title="天然樹脂" class="rel-wiki-page">天然樹脂</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E5%A4%A9%E7%84%B6%E6%A8%B9%E8%84%82" title="天然樹脂" class="rel-wiki-page">天然樹脂</a><br />
+├<a href="/genshinwiki/%E7%A7%98%E5%A2%83" title="秘境" class="rel-wiki-page">秘境</a><br />
+│└<a href="/genshinwiki/%E5%BE%81%E8%A8%8E%E9%A0%98%E5%9F%9F" title="征討領域" class="rel-wiki-page">征討領域</a><br />
+├<a href="/genshinwiki/%E6%95%B5%E4%B8%80%E8%A6%A7/BOSS" title="敵一覧/BOSS" class="rel-wiki-page">BOSS</a><br />
+└<a href="/genshinwiki/%E5%9C%B0%E8%84%88%E3%81%AE%E8%8A%B1%E8%8A%BD" title="地脈の花芽" class="rel-wiki-page">地脈の花芽</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">冒険の証</div>
+    <div class="fold-content visible-on-open"><p><strong>冒険の証</strong><br />
+├<a href="/genshinwiki/%E8%A6%8B%E8%81%9E" title="見聞" class="rel-wiki-page">見聞</a><br />
+├<a href="/genshinwiki/%E4%BE%9D%E9%A0%BC%E4%BB%BB%E5%8B%99" title="依頼任務" class="rel-wiki-page">依頼</a><br />
+├<a href="/genshinwiki/%E7%A7%98%E5%A2%83" title="秘境" class="rel-wiki-page">秘境</a><br />
+│├<a href="/genshinwiki/%E5%BE%81%E8%A8%8E%E9%A0%98%E5%9F%9F" title="征討領域" class="rel-wiki-page">征討領域</a><br />
+│└<a href="/genshinwiki/%E6%B7%B1%E5%A2%83%E8%9E%BA%E6%97%8B" title="深境螺旋" class="rel-wiki-page">深境螺旋</a><br />
+├<a href="/genshinwiki/%E6%95%B5%E4%B8%80%E8%A6%A7#z03e4857" title="敵一覧" class="rel-wiki-page">討伐</a><br />
+├<a href="/genshinwiki/%E5%86%92%E9%99%BA%E3%81%AE%E8%A8%BC%E3%81%AE%E3%82%AC%E3%82%A4%E3%83%89" title="冒険の証のガイド" class="rel-wiki-page">ガイド</a><br />
+└<a href="/genshinwiki/%E5%AF%BE%E7%AD%96" title="対策" class="rel-wiki-page">対策</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E9%83%BD%E5%B8%82%E8%A9%95%E5%88%A4" title="都市評判" class="rel-wiki-page">都市評判</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E9%83%BD%E5%B8%82%E8%A9%95%E5%88%A4" title="都市評判" class="rel-wiki-page">都市評判</a><br />
+├<a href="/genshinwiki/%E9%83%BD%E5%B8%82%E8%A9%95%E5%88%A4/%E3%83%A2%E3%83%B3%E3%83%89" title="都市評判/モンド" class="rel-wiki-page">モンド</a><br />
+├<a href="/genshinwiki/%E9%83%BD%E5%B8%82%E8%A9%95%E5%88%A4/%E7%92%83%E6%9C%88" title="都市評判/璃月" class="rel-wiki-page">璃月</a><br />
+├<a href="/genshinwiki/%E9%83%BD%E5%B8%82%E8%A9%95%E5%88%A4/%E7%A8%B2%E5%A6%BB" title="都市評判/稲妻" class="rel-wiki-page">稲妻</a><br />
+├<a href="/genshinwiki/%E9%83%BD%E5%B8%82%E8%A9%95%E5%88%A4/%E3%82%B9%E3%83%A1%E3%83%BC%E3%83%AB" title="都市評判/スメール" class="rel-wiki-page">スメール</a><br />
+├<a href="/genshinwiki/%E9%83%BD%E5%B8%82%E8%A9%95%E5%88%A4/%E3%83%95%E3%82%A9%E3%83%B3%E3%83%86%E3%83%BC%E3%83%8C" title="都市評判/フォンテーヌ" class="rel-wiki-page">フォンテーヌ</a><br />
+├<a href="/genshinwiki/%E9%83%BD%E5%B8%82%E8%A9%95%E5%88%A4/%E3%83%8A%E3%82%BF" title="都市評判/ナタ" class="rel-wiki-page">ナタ</a><br />
+└<a href="/genshinwiki/%E3%80%8C%E7%89%B9%E5%88%A5%E6%8B%9B%E9%9B%86%E8%A8%88%E7%94%BB%E3%80%8D" title="「特別招集計画」" class="rel-wiki-page">スネージナヤ</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E4%B8%83%E8%81%96%E5%8F%AC%E5%96%9A" title="七聖召喚" class="rel-wiki-page">七聖召喚(ｶｰﾄﾞｹﾞｰﾑ)</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E4%B8%83%E8%81%96%E5%8F%AC%E5%96%9A" title="七聖召喚" class="rel-wiki-page">七聖召喚</a><br />
+├<a href="/genshinwiki/%E4%B8%83%E8%81%96%E5%8F%AC%E5%96%9A/NPC%E6%88%A6%E6%94%BB%E7%95%A5/%E9%85%92%E5%A0%B4%E6%8C%91%E6%88%A6" title="七聖召喚/NPC戦攻略/酒場挑戦" class="rel-wiki-page">NPC戦攻略</a><br />
+├<a href="/genshinwiki/%E4%B8%83%E8%81%96%E5%8F%AC%E5%96%9A/%E5%AF%BE%E6%88%A6" title="七聖召喚/対戦" class="rel-wiki-page">七聖召喚/対戦</a><br />
+├<a href="/genshinwiki/%E4%B8%83%E8%81%96%E5%8F%AC%E5%96%9A/%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AB%E3%83%BC%E3%83%89" title="七聖召喚/キャラカード" class="rel-wiki-page">キャラカード</a><br />
+├<a href="/genshinwiki/%E4%B8%83%E8%81%96%E5%8F%AC%E5%96%9A/%E8%A3%85%E5%82%99%E3%82%AB%E3%83%BC%E3%83%89" title="七聖召喚/装備カード" class="rel-wiki-page">装備カード</a><br />
+├<a href="/genshinwiki/%E4%B8%83%E8%81%96%E5%8F%AC%E5%96%9A/%E6%94%AF%E6%8F%B4%E3%82%AB%E3%83%BC%E3%83%89" title="七聖召喚/支援カード" class="rel-wiki-page">支援カード</a><br />
+└<a href="/genshinwiki/%E4%B8%83%E8%81%96%E5%8F%AC%E5%96%9A/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%82%AB%E3%83%BC%E3%83%89" title="七聖召喚/イベントカード" class="rel-wiki-page">イベントカード</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E6%98%9F%E3%80%85%E3%81%AE%E5%B9%BB%E5%A2%83" title="星々の幻境" class="rel-wiki-page">星々の幻境(UGC)</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E6%98%9F%E3%80%85%E3%81%AE%E5%B9%BB%E5%A2%83" title="星々の幻境" class="rel-wiki-page">星々の幻境</a><br />
+├アイテム<br />
+│├<a href="/genshinwiki/%E6%98%9F%E3%80%85%E3%81%AE%E5%B9%BB%E5%A2%83/%E8%A1%A3%E8%A3%85" title="星々の幻境/衣装" class="rel-wiki-page">衣装</a><br />
+│├<a href="/genshinwiki/%E6%98%9F%E3%80%85%E3%81%AE%E5%B9%BB%E5%A2%83/%E3%83%A1%E3%82%A4%E3%82%AF" title="星々の幻境/メイク" class="rel-wiki-page">メイク</a><br />
+│├<a href="/genshinwiki/%E6%98%9F%E3%80%85%E3%81%AE%E5%B9%BB%E5%A2%83/%E8%A1%A8%E6%83%85%E3%83%BB%E5%8B%95%E4%BD%9C" title="星々の幻境/表情・動作" class="rel-wiki-page">表情・動作</a><br />
+│├<a href="/genshinwiki/%E6%98%9F%E3%80%85%E3%81%AE%E5%B9%BB%E5%A2%83/%E3%83%AD%E3%83%93%E3%83%BC" title="星々の幻境/ロビー" class="rel-wiki-page">ロビー</a><br />
+│└<a href="/genshinwiki/%E6%98%9F%E3%80%85%E3%81%AE%E5%B9%BB%E5%A2%83/%E3%81%9D%E3%81%AE%E4%BB%96" title="星々の幻境/その他" class="rel-wiki-page">その他</a><br />
+├攻略<br />
+│└<a href="/genshinwiki/%E6%98%9F%E3%80%85%E3%81%AE%E5%B9%BB%E5%A2%83/%E5%B9%BB%E5%A2%83%E6%94%BB%E7%95%A5%E3%83%BB%E6%83%85%E5%A0%B1%E4%BA%A4%E6%8F%9B" title="星々の幻境/幻境攻略・情報交換" class="rel-wiki-page">星々の幻境/幻境攻略・情報交換</a><br />
+└開発<br />
+　└<a href="/genshinwiki/%E6%98%9F%E3%80%85%E3%81%AE%E5%B9%BB%E5%A2%83/%E6%98%9F%E3%80%85%E3%81%AE%E7%AE%B1%E5%BA%AD" title="星々の幻境/星々の箱庭" class="rel-wiki-page">星々の箱庭</a></p>
+</div>
+</div>
+<ul class="list1"><li><a href="/genshinwiki/%E7%B4%80%E8%A1%8C" title="紀行" class="rel-wiki-page">紀行</a></li>
+<li><a href="/genshinwiki/%E3%82%B7%E3%83%A7%E3%83%83%E3%83%97" title="ショップ" class="rel-wiki-page">ショップ</a></li>
+<li><a href="/genshinwiki/%E3%83%9F%E3%83%8B%E3%82%B2%E3%83%BC%E3%83%A0" title="ミニゲーム" class="rel-wiki-page">ミニゲーム</a></li>
+<li><a href="/genshinwiki/%E3%83%97%E3%83%AD%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AB%E3%82%A2%E3%82%A4%E3%82%B3%E3%83%B3" title="プロフィールアイコン" class="rel-wiki-page">アイコン</a></li>
+<li><a href="/genshinwiki/%E3%81%AE%E3%82%93%E3%81%B3%E3%82%8A%E6%97%85%E8%A1%8C%E8%A8%98" title="のんびり旅行記" class="rel-wiki-page">のんびり旅行記</a></li></ul>
+<p><a class="anchor" name ="menu_craft"></a></p>
+<h2 id="h2_content_2_8" class="heading-after-first">作成・収集要素</h2>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">特別奉納(瞳・印等)</div>
+    <div class="fold-content visible-on-open"><p><strong>特別奉納</strong><br />
+<a href="/genshinwiki/%E5%9C%B0%E9%9C%8A%E5%A3%87" title="地霊壇" class="rel-wiki-page">地霊壇</a><br />
+<a href="/genshinwiki/%E7%A5%9E%E3%81%AE%E7%9E%B3" title="神の瞳" class="rel-wiki-page">七天神像</a><br />
+<a href="/genshinwiki/%E5%86%AC%E5%BF%8D%E3%81%B3%E3%81%AE%E6%A8%B9" title="冬忍びの樹" class="rel-wiki-page">冬忍びの樹</a><br />
+<a href="/genshinwiki/%E7%A5%9E%E6%AB%BB%E3%81%AE%E6%81%A9%E6%81%B5" title="神櫻の恩恵" class="rel-wiki-page">神櫻の恩恵</a><br />
+<a href="/genshinwiki/%E6%B5%81%E6%98%8E%E7%9F%B3%E3%81%AE%E8%A7%A6%E5%AA%92" title="流明石の触媒" class="rel-wiki-page">流明石の触媒</a><br />
+<a href="/genshinwiki/%E3%83%B4%E3%82%A1%E3%83%8A%E3%83%A9%E3%83%BC%E3%83%8A%E3%81%AE%E5%A4%A2%E3%81%AE%E6%A8%B9" title="ヴァナラーナの夢の樹" class="rel-wiki-page">ヴァナラーナの夢の樹</a><br />
+<a href="/genshinwiki/%E7%94%98%E9%9C%B2%E3%81%AE%E6%B1%A0" title="甘露の池" class="rel-wiki-page">甘露の池</a><br />
+<a href="/genshinwiki/%E3%83%AB%E3%82%AD%E3%83%8A%E3%81%AE%E6%B3%89" title="ルキナの泉" class="rel-wiki-page">ルキナの泉</a><br />
+<a href="/genshinwiki/%E7%A5%80%E7%93%8F%E5%84%80%E5%BC%8F" title="祀瓏儀式" class="rel-wiki-page">祀瓏儀式</a><br />
+<a href="/genshinwiki/%E7%81%BC%E7%9F%B3%E3%81%AE%E5%86%86%E7%9B%A4" title="灼石の円盤" class="rel-wiki-page">灼石の円盤</a><br />
+集いの場<br />
+├<a href="/genshinwiki/%E9%9B%86%E3%81%84%E3%81%AE%E5%A0%B4" title="集いの場" class="rel-wiki-page">ナド・クライ</a><br />
+└<a href="/genshinwiki/%E9%9B%86%E3%81%84%E3%81%AE%E5%A0%B4/%E3%82%B9%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%8A%E3%83%A4" title="集いの場/スネージナヤ" class="rel-wiki-page">スネージナヤ</a><br />
+<a href="/genshinwiki/%E9%9B%86%E3%81%84%E3%81%AE%E5%A0%B4" title="集いの場" class="rel-wiki-page">古月の痕跡</a><br />
+<a href="/genshinwiki/%E7%A9%BA%E3%81%AE%E7%A5%9E%E6%AE%BF%E3%83%BB%E3%83%A1%E3%83%A2%E3%83%AA%E3%83%BC%E3%82%B3%E3%82%A2" title="空の神殿・メモリーコア" class="rel-wiki-page">空の神殿･ﾒﾓﾘｰｺｱ</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E5%A1%B5%E6%AD%8C%E5%A3%BA" title="塵歌壺" class="rel-wiki-page">塵歌壺</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E5%A1%B5%E6%AD%8C%E5%A3%BA" title="塵歌壺" class="rel-wiki-page">塵歌壺</a><br />
+├<a href="/genshinwiki/%E8%AA%BF%E5%BA%A6%E5%93%81%E8%A3%BD%E4%BD%9C" title="調度品製作" class="rel-wiki-page">調度品製作</a><br />
+├<a href="/genshinwiki/%E8%AA%BF%E5%BA%A6%E5%93%81%E9%96%A2%E9%80%A3%E8%B3%BC%E5%85%A5" title="調度品関連購入" class="rel-wiki-page">調度品関連購入</a><br />
+├<a href="/genshinwiki/%E8%AA%BF%E5%BA%A6%E5%93%81%E3%82%BB%E3%83%83%E3%83%88" title="調度品セット" class="rel-wiki-page">調度品セット</a><br />
+│└<a href="/genshinwiki/%E8%AA%BF%E5%BA%A6%E5%93%81%E3%82%BB%E3%83%83%E3%83%88/%E3%82%AE%E3%83%95%E3%83%88%E3%82%BB%E3%83%83%E3%83%88" title="調度品セット/ギフトセット" class="rel-wiki-page">ギフトセット</a><br />
+└<a href="/genshinwiki/%E6%A0%BD%E5%9F%B9" title="栽培" class="rel-wiki-page">栽培</a></p>
+</div>
+</div>
+<ul class="list1"><li><a href="/genshinwiki/%E3%82%A2%E3%83%81%E3%83%BC%E3%83%96%E3%83%A1%E3%83%B3%E3%83%88" title="アチーブメント" class="rel-wiki-page">アチーブメント</a></li>
+<li><a href="/genshinwiki/%E5%90%8D%E5%88%BA%E3%81%AE%E9%A3%BE%E3%82%8A%E7%B4%8B" title="名刺の飾り紋" class="rel-wiki-page">名刺の飾り紋</a></li>
+<li><a href="/genshinwiki/%E5%90%88%E6%88%90" title="合成" class="rel-wiki-page">合成台(合成･変転･廻聖)</a></li>
+<li><a href="/genshinwiki/%E6%96%99%E7%90%86" title="料理" class="rel-wiki-page">料理</a></li></ul>
+<p><a class="anchor" name ="menu_map"></a></p>
+<h2 id="h2_content_2_9" class="heading-after-first">マップ</h2>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E3%83%A2%E3%83%B3%E3%83%89" title="モンド" class="rel-wiki-page">モンド</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E3%83%A2%E3%83%B3%E3%83%89" title="モンド" class="rel-wiki-page">モンド</a><br />
+├<a href="/genshinwiki/%E6%98%9F%E8%90%BD%E3%81%A1%E3%81%AE%E8%B0%B7" title="星落ちの谷" class="rel-wiki-page">星落ちの谷</a><br />
+│└<a href="/genshinwiki/%E3%83%A2%E3%83%B3%E3%83%89%E5%9F%8E" title="モンド城" class="rel-wiki-page">モンド城</a><br />
+├<a href="/genshinwiki/%E9%A2%A8%E5%94%B8%E3%82%8A%E3%81%AE%E4%B8%98" title="風唸りの丘" class="rel-wiki-page">風唸りの丘</a><br />
+├<a href="/genshinwiki/%E8%92%BC%E9%A2%A8%E3%81%AE%E9%AB%98%E5%9C%B0" title="蒼風の高地" class="rel-wiki-page">蒼風の高地</a><br />
+├<a href="/genshinwiki/%E6%98%8E%E5%86%A0%E5%B1%B1%E5%9C%B0" title="明冠山地" class="rel-wiki-page">明冠山地</a><br />
+├<a href="/genshinwiki/%E3%83%89%E3%83%A9%E3%82%B4%E3%83%B3%E3%82%B9%E3%83%91%E3%82%A4%E3%83%B3" title="ドラゴンスパイン" class="rel-wiki-page">ドラゴンスパイン</a><br />
+├<a href="/genshinwiki/%E9%A2%A8%E6%AD%A2%E3%81%BF%E3%81%AE%E5%B1%B1" title="風止みの山" class="rel-wiki-page">風止みの山</a><br />
+└<a href="/genshinwiki/%E7%A9%BA%E3%81%AE%E7%A5%9E%E6%AE%BF" title="空の神殿" class="rel-wiki-page">空の神殿</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E7%92%83%E6%9C%88" title="璃月" class="rel-wiki-page">璃月</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E7%92%83%E6%9C%88" title="璃月" class="rel-wiki-page">璃月</a><br />
+├<a href="/genshinwiki/%E7%A2%A7%E6%B0%B4%E3%81%AE%E5%8E%9F" title="碧水の原" class="rel-wiki-page">碧水の原</a><br />
+├<a href="/genshinwiki/%E3%82%B1%E3%82%A4%E3%82%AD%E3%83%A4" title="ケイキヤ" class="rel-wiki-page">瓊&#29859;野</a><br />
+├<a href="/genshinwiki/%E9%9B%B2%E6%9D%A5%E3%81%AE%E6%B5%B7" title="雲来の海" class="rel-wiki-page">雲来の海</a><br />
+│└<a href="/genshinwiki/%E7%92%83%E6%9C%88%E6%B8%AF" title="璃月港" class="rel-wiki-page">璃月港</a><br />
+├<a href="/genshinwiki/%E7%8F%89%E6%9E%97" title="珉林" class="rel-wiki-page">珉林</a><br />
+├<a href="/genshinwiki/%E7%92%83%E6%B2%99%E9%83%8A" title="璃沙郊" class="rel-wiki-page">璃沙郊</a><br />
+├<a href="/genshinwiki/%E5%B1%A4%E5%B2%A9%E5%B7%A8%E6%B7%B5" title="層岩巨淵" class="rel-wiki-page">層岩巨淵</a><br />
+├<a href="/genshinwiki/%E5%B1%A4%E5%B2%A9%E5%B7%A8%E6%B7%B5%E3%83%BB%E5%9C%B0%E4%B8%8B%E9%89%B1%E5%8C%BA" title="層岩巨淵・地下鉱区" class="rel-wiki-page">層岩巨淵・地下鉱区</a><br />
+├<a href="/genshinwiki/%E6%B2%88%E7%8E%89%E3%81%AE%E8%B0%B7%E3%83%BB%E4%B8%8A%E8%B0%B7" title="沈玉の谷・上谷" class="rel-wiki-page">沈玉の谷・上谷</a><br />
+├<a href="/genshinwiki/%E6%B2%88%E7%8E%89%E3%81%AE%E8%B0%B7%E3%83%BB%E5%8D%97%E5%B3%B0" title="沈玉の谷・南峰" class="rel-wiki-page">沈玉の谷・南峰</a><br />
+└<a href="/genshinwiki/%E6%9D%A5%E3%82%AD%E3%83%B3%E5%B1%B1" title="来キン山" class="rel-wiki-page">来&#27462;山</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E7%A8%B2%E5%A6%BB" title="稲妻" class="rel-wiki-page">稲妻</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E7%A8%B2%E5%A6%BB" title="稲妻" class="rel-wiki-page">稲妻</a><br />
+├<a href="/genshinwiki/%E9%B3%B4%E7%A5%9E%E5%B3%B6" title="鳴神島" class="rel-wiki-page">鳴神島</a><br />
+│└<a href="/genshinwiki/%E7%A8%B2%E5%A6%BB%E5%9F%8E" title="稲妻城" class="rel-wiki-page">稲妻城</a><br />
+├<a href="/genshinwiki/%E7%A5%9E%E7%84%A1%E5%A1%9A" title="神無塚" class="rel-wiki-page">神無塚</a><br />
+├<a href="/genshinwiki/%E3%83%A4%E3%82%B7%E3%82%AA%E3%83%AA%E5%B3%B6" title="ヤシオリ島" class="rel-wiki-page">ヤシオリ島</a><br />
+├<a href="/genshinwiki/%E3%82%BB%E3%82%A4%E3%83%A9%E3%82%A4%E5%B3%B6" title="セイライ島" class="rel-wiki-page">セイライ島</a><br />
+├<a href="/genshinwiki/%E6%B5%B7%E7%A5%87%E5%B3%B6" title="海祇島" class="rel-wiki-page">海祇島</a><br />
+├<a href="/genshinwiki/%E9%B6%B4%E8%A6%B3" title="鶴観" class="rel-wiki-page">鶴観</a><br />
+└<a href="/genshinwiki/%E6%B7%B5%E4%B8%8B%E5%AE%AE" title="淵下宮" class="rel-wiki-page">淵下宮</a><br />
+<a href="/genshinwiki/%E7%A8%B2%E5%A6%BB/%E3%82%AE%E3%83%9F%E3%83%83%E3%82%AF" title="稲妻/ギミック" class="rel-wiki-page">ギミック</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E3%82%B9%E3%83%A1%E3%83%BC%E3%83%AB" title="スメール" class="rel-wiki-page">スメール</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E3%82%B9%E3%83%A1%E3%83%BC%E3%83%AB" title="スメール" class="rel-wiki-page">スメール</a><br />
+├<a href="/genshinwiki/%E3%82%A2%E3%83%93%E3%83%87%E3%82%A3%E3%82%A2%E3%81%AE%E6%A3%AE" title="アビディアの森" class="rel-wiki-page">アビディアの森</a><br />
+│└<a href="/genshinwiki/%E3%82%B9%E3%83%A1%E3%83%BC%E3%83%AB%E3%82%B7%E3%83%86%E3%82%A3" title="スメールシティ" class="rel-wiki-page">スメールシティ</a><br />
+├<a href="/genshinwiki/%E3%83%AD%E3%83%BC%E3%82%AB%E3%83%91%E3%83%BC%E3%83%A9%E5%AF%86%E6%9E%97" title="ローカパーラ密林" class="rel-wiki-page">ローカパーラ密林</a><br />
+├<a href="/genshinwiki/%E3%82%A2%E3%83%AB%E3%83%80%E3%83%A9%E3%83%93%E6%B2%B3%E8%B0%B7" title="アルダラビ河谷" class="rel-wiki-page">アルダラビ河谷</a><br />
+├<a href="/genshinwiki/%E3%82%A2%E3%82%B7%E3%83%A3%E3%83%B4%E3%82%A1%E3%83%B3%E3%83%AC%E3%83%AB%E3%83%A0" title="アシャヴァンレルム" class="rel-wiki-page">アシャヴァンレルム</a><br />
+├<a href="/genshinwiki/%E3%83%B4%E3%82%A3%E3%82%B7%E3%83%A5%E3%83%83%E3%83%80%E8%BE%BA%E5%9C%9F" title="ヴィシュッダ辺土" class="rel-wiki-page">ヴィシュッダ辺土</a><br />
+├<a href="/genshinwiki/%E3%83%B4%E3%82%A1%E3%83%8A%E3%83%A9%E3%83%BC%E3%83%8A" title="ヴァナラーナ" class="rel-wiki-page">ヴァナラーナ</a><br />
+├<a href="/genshinwiki/%E5%A4%B1%E3%82%8F%E3%82%8C%E3%81%9F%E8%8B%97%E7%95%91" title="失われた苗畑" class="rel-wiki-page">失われた苗畑</a><br />
+├<a href="/genshinwiki/%E4%B8%8B%E9%A2%A8%E8%9D%95%E5%9C%B0" title="下風蝕地" class="rel-wiki-page">下風蝕地</a><br />
+├<a href="/genshinwiki/%E4%B8%8A%E9%A2%A8%E8%9D%95%E5%9C%B0" title="上風蝕地" class="rel-wiki-page">上風蝕地</a><br />
+├<a href="/genshinwiki/%E5%88%97%E6%9F%B1%E7%A0%82%E5%8E%9F" title="列柱砂原" class="rel-wiki-page">列柱砂原</a><br />
+├<a href="/genshinwiki/%E5%8D%83%E5%B0%8B%E3%81%AE%E7%A0%82%E6%BC%A0" title="千尋の砂漠" class="rel-wiki-page">千尋の砂漠</a><br />
+├<a href="/genshinwiki/%E8%8D%92%E7%9F%B3%E3%81%AE%E8%92%BC%E6%BC%A0" title="荒石の蒼漠" class="rel-wiki-page">荒石の蒼漠</a><br />
+└<a href="/genshinwiki/%E3%83%95%E3%82%A1%E3%83%A9%E3%82%AF%E3%82%B1%E3%83%AB%E3%83%88%E3%81%AE%E5%9C%92" title="ファラクケルトの園" class="rel-wiki-page">ファラクケルトの園</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E3%83%95%E3%82%A9%E3%83%B3%E3%83%86%E3%83%BC%E3%83%8C" title="フォンテーヌ" class="rel-wiki-page">フォンテーヌ</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E3%83%95%E3%82%A9%E3%83%B3%E3%83%86%E3%83%BC%E3%83%8C" title="フォンテーヌ" class="rel-wiki-page">フォンテーヌ</a><br />
+├<a href="/genshinwiki/%E3%83%95%E3%82%A9%E3%83%B3%E3%83%86%E3%83%BC%E3%83%8C%E5%BB%B7%E5%9C%B0%E5%8C%BA" title="フォンテーヌ廷地区" class="rel-wiki-page">フォンテーヌ廷地区</a><br />
+│└<a href="/genshinwiki/%E3%83%95%E3%82%A9%E3%83%B3%E3%83%86%E3%83%BC%E3%83%8C%E5%BB%B7" title="フォンテーヌ廷" class="rel-wiki-page">フォンテーヌ廷</a><br />
+├<a href="/genshinwiki/%E3%83%99%E3%83%AA%E3%83%AB%E5%9C%B0%E5%8C%BA" title="ベリル地区" class="rel-wiki-page">ベリル地区</a><br />
+├<a href="/genshinwiki/%E3%83%96%E3%83%AD%E3%83%BC%E5%9C%B0%E5%8C%BA" title="ブロー地区" class="rel-wiki-page">ブロー地区</a><br />
+├<a href="/genshinwiki/%E3%83%AA%E3%83%95%E3%82%A3%E3%83%BC%E5%9C%B0%E5%8C%BA" title="リフィー地区" class="rel-wiki-page">リフィー地区</a><br />
+├<a href="/genshinwiki/%E3%83%95%E3%82%A9%E3%83%B3%E3%83%86%E3%83%BC%E3%83%8C%E9%81%8B%E5%8B%95%E3%82%A8%E3%83%8D%E3%83%AB%E3%82%AE%E3%83%BC%E5%B7%A5%E5%AD%A6%E7%A7%91%E5%AD%A6%E7%A0%94%E7%A9%B6%E9%99%A2%E5%9C%B0%E5%8C%BA" title="フォンテーヌ運動エネルギー工学科学研究院地区" class="rel-wiki-page">フォンテーヌ運動エネルギー工学科学研究院地区</a><br />
+├<a href="/genshinwiki/%E3%83%A2%E3%83%AB%E3%83%86%E5%9C%B0%E5%8C%BA" title="モルテ地区" class="rel-wiki-page">モルテ地区</a><br />
+├<a href="/genshinwiki/%E3%82%A8%E3%83%AA%E3%83%8B%E3%83%A5%E3%82%B9%E5%B1%B1%E6%9E%97%E5%9C%B0%E5%8C%BA" title="エリニュス山林地区" class="rel-wiki-page">エリニュス山林地区</a><br />
+├<a href="/genshinwiki/%E3%83%8E%E3%82%B9%E3%83%88%E3%82%A4%E5%9C%B0%E5%8C%BA" title="ノストイ地区" class="rel-wiki-page">ノストイ地区</a><br />
+└<a href="/genshinwiki/%E5%BE%80%E6%97%A5%E3%81%AE%E6%B5%B7" title="往日の海" class="rel-wiki-page">往日の海</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E3%83%8A%E3%82%BF" title="ナタ" class="rel-wiki-page">ナタ</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E3%83%8A%E3%82%BF" title="ナタ" class="rel-wiki-page">ナタ</a><br />
+├<a href="/genshinwiki/%E4%B8%87%E7%81%AB%E3%81%AE%E3%81%BB%E3%81%A8%E3%81%8E" title="万火のほとぎ" class="rel-wiki-page">万火のほとぎ</a><br />
+│└<a href="/genshinwiki/%E8%81%96%E7%81%AB%E7%AB%B6%E6%8A%80%E5%A0%B4" title="聖火競技場" class="rel-wiki-page">聖火競技場</a><br />
+├<a href="/genshinwiki/%E3%83%86%E3%82%B1%E3%83%A1%E3%82%AB%E3%83%B3%E3%81%AE%E8%B0%B7" title="テケメカンの谷" class="rel-wiki-page">テケメカンの谷</a><br />
+├<a href="/genshinwiki/%E3%82%B3%E3%82%A2%E3%83%86%E3%83%9A%E3%83%83%E3%82%AF%E5%B1%B1" title="コアテペック山" class="rel-wiki-page">コアテペック山</a><br />
+├<a href="/genshinwiki/%E3%83%88%E3%83%A4%E3%83%83%E3%82%AF%E6%BA%90%E6%B3%89%E5%9C%B0" title="トヤック源泉地" class="rel-wiki-page">トヤック源泉地</a><br />
+├<a href="/genshinwiki/%E3%83%86%E3%82%B9%E3%82%AB%E3%83%86%E3%83%9A%E3%83%88%E3%83%B3%E5%B1%B1%E8%84%88" title="テスカテペトン山脈" class="rel-wiki-page">テスカテペトン山脈</a><br />
+├<a href="/genshinwiki/%E3%82%AF%E3%82%A1%E3%83%AF%E3%82%AB%E3%83%B3%E6%96%AD%E5%B4%96" title="クァワカン断崖" class="rel-wiki-page">クァワカン断崖</a><br />
+├<a href="/genshinwiki/%E3%82%AA%E3%82%B7%E3%82%AB%E3%83%BB%E3%83%8A%E3%82%BF" title="オシカ・ナタ" class="rel-wiki-page">オシカ・ナタ</a><br />
+├<a href="/genshinwiki/%E3%82%A2%E3%83%88%E3%82%AF%E3%83%91%E3%83%B3%E3%81%AE%E5%A4%A7%E5%9C%B0" title="アトクパンの大地" class="rel-wiki-page">アトクパンの大地</a><br />
+├<a href="/genshinwiki/%E5%8F%A4%E3%81%AE%E8%81%96%E5%B1%B1" title="古の聖山" class="rel-wiki-page">古の聖山</a><br />
+└<a href="/genshinwiki/%E3%81%AE%E3%81%B3%E3%81%AE%E3%81%B3%E3%83%AA%E3%82%BE%E3%83%BC%E3%83%88" title="のびのびリゾート" class="rel-wiki-page">のびのびリゾート</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E3%83%8A%E3%83%89%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A4" title="ナド・クライ" class="rel-wiki-page">ナド・クライ</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E3%83%8A%E3%83%89%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A4" title="ナド・クライ" class="rel-wiki-page">ナド・クライ</a><br />
+├<a href="/genshinwiki/%E3%83%AC%E3%83%B3%E3%83%9D%E5%B3%B6" title="レンポ島" class="rel-wiki-page">レンポ島</a><br />
+│└<a href="/genshinwiki/%E3%83%8A%E3%82%B7%E3%83%A3%E3%82%BF%E3%82%A6%E3%83%B3" title="ナシャタウン" class="rel-wiki-page">ナシャタウン</a><br />
+├<a href="/genshinwiki/%E3%83%92%E3%83%BC%E3%82%B7%E5%B3%B6" title="ヒーシ島" class="rel-wiki-page">ヒーシ島</a><br />
+├<a href="/genshinwiki/%E3%83%91%E3%83%8F%E5%B3%B6" title="パハ島" class="rel-wiki-page">パハ島</a><br />
+├<a href="/genshinwiki/%E6%B5%B7%E3%82%92%E6%9C%9B%E3%82%81%E3%81%AC%E5%B3%B0" title="海を望めぬ峰" class="rel-wiki-page">海を望めぬ峰</a><br />
+├<a href="/genshinwiki/%E6%B3%A2%E8%BF%BD%E3%81%84%E3%81%AE%E5%B3%A0" title="波追いの峠" class="rel-wiki-page">波追いの峠</a><br />
+├<a href="/genshinwiki/%E7%85%99%E9%9B%B2%E3%81%AE%E5%B1%B1" title="煙雲の山" class="rel-wiki-page">煙雲の山</a><br />
+├<a href="/genshinwiki/%E3%83%89%E3%82%A5%E3%83%8A%E3%83%8A%E3%81%AE%E6%B7%B1%E7%A9%B4" title="ドゥナナの深穴" class="rel-wiki-page">ドゥナナの深穴</a><br />
+├<a href="/genshinwiki/%E6%9C%88%E3%81%AE%E9%AB%98%E5%9C%B0" title="月の高地" class="rel-wiki-page">月の高地</a><br />
+├<a href="/genshinwiki/%E9%81%8A%E6%9C%88%E3%81%AE%E6%B5%B7" title="遊月の海" class="rel-wiki-page">遊月の海</a><br />
+└<a href="/genshinwiki/%E6%9C%88%E3%81%AE%E8%A3%8F%E5%81%B4" title="月の裏側" class="rel-wiki-page">月の裏側</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E3%82%B9%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%8A%E3%83%A4" title="スネージナヤ" class="rel-wiki-page">スネージナヤ</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E3%82%B9%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%8A%E3%83%A4" title="スネージナヤ" class="rel-wiki-page">スネージナヤ</a><br />
+├<a href="/genshinwiki/%E6%B0%B8%E7%B5%90%E3%81%AE%E5%87%8D%E5%9C%9F" title="永結の凍土" class="rel-wiki-page">永結の凍土</a><br />
+│└<a href="/genshinwiki/%E3%82%B9%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%8A%E3%83%A4%E3%83%BB%E3%82%B0%E3%83%A9%E3%83%BC%E3%83%89" title="スネージナヤ・グラード" class="rel-wiki-page">ｽﾈｰｼﾞﾅﾔ･ｸﾞﾗｰﾄﾞ</a><br />
+├<a href="/genshinwiki/%E5%8F%A4%E7%8D%A3%E3%81%AE%E6%B0%B7%E5%8E%9F" title="古獣の氷原" class="rel-wiki-page">古獣の氷原</a><br />
+├<a href="/genshinwiki/%E9%9C%9C%E3%81%A4%E3%81%8F%E5%B3%B0" title="霜つく峰" class="rel-wiki-page">霜つく峰</a><br />
+├<a href="/genshinwiki/%E7%84%94%E7%BF%BC%E3%81%AE%E8%B0%B7" title="焔翼の谷" class="rel-wiki-page">焔翼の谷</a><br />
+└<a href="/genshinwiki/%E7%99%BD%E6%A8%BA%E3%81%AE%E9%9B%AA%E8%91%AC%E5%9C%B0" title="白樺の雪葬地" class="rel-wiki-page">白樺の雪葬地</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">期間限定</div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E3%82%B7%E3%83%A0%E3%83%A9%E3%83%B3%E3%82%AB" title="シムランカ" class="rel-wiki-page">v4.8シムランカ</a><br />
+<a href="/genshinwiki/%E3%83%B4%E3%82%A7%E3%83%AB%E3%83%BC%E3%83%AA%E3%83%A4%E3%83%BB%E3%83%9F%E3%83%A9%E3%83%BC%E3%82%B8%E3%83%A5" title="ヴェルーリヤ・ミラージュ" class="rel-wiki-page">v3.8ｳﾞｪﾙｰﾘﾔ･ﾐﾗｰｼﾞｭ</a><br />
+<a href="/genshinwiki/%E9%87%91%E3%83%AA%E3%83%B3%E3%82%B4%E7%BE%A4%E5%B3%B6Ver2.8" title="金リンゴ群島Ver2.8" class="rel-wiki-page">v2.8金リンゴ群島</a><br />
+<a href="/genshinwiki/%E4%B8%89%E7%95%8C%E9%81%93%E9%A5%97%E7%A5%AD" title="三界道饗祭" class="rel-wiki-page">v2.5三界道饗祭</a><br />
+<a href="/genshinwiki/%E9%87%91%E3%83%AA%E3%83%B3%E3%82%B4%E7%BE%A4%E5%B3%B6Ver1.6" title="金リンゴ群島Ver1.6" class="rel-wiki-page">v1.6金リンゴ群島</a></p>
+</div>
+</div>
+<h2 id="h2_content_2_10" class="heading-after-first">データ・テキスト</h2>
+<p><a class="anchor" name ="menu_data"></a></p>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E3%83%90%E3%83%83%E3%82%B0" title="バッグ" class="rel-wiki-page">バッグ</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E3%83%90%E3%83%83%E3%82%B0" title="バッグ" class="rel-wiki-page">バッグ</a><br />
+├<a href="/genshinwiki/%E3%83%90%E3%83%83%E3%82%B0/%E8%81%96%E9%81%BA%E7%89%A9" title="バッグ/聖遺物" class="rel-wiki-page">聖遺物</a><br />
+├<a href="/genshinwiki/%E3%83%90%E3%83%83%E3%82%B0/%E8%82%B2%E6%88%90%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0" title="バッグ/育成アイテム" class="rel-wiki-page">育成アイテム</a><br />
+├<a href="/genshinwiki/%E3%83%90%E3%83%83%E3%82%B0/%E9%A3%9F%E3%81%B9%E7%89%A9" title="バッグ/食べ物" class="rel-wiki-page">食べ物</a><br />
+├<a href="/genshinwiki/%E3%83%90%E3%83%83%E3%82%B0/%E6%9D%90%E6%96%99" title="バッグ/材料" class="rel-wiki-page">材料</a><br />
+├<a href="/genshinwiki/%E3%83%90%E3%83%83%E3%82%B0/%E4%BE%BF%E5%88%A9%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0" title="バッグ/便利アイテム" class="rel-wiki-page">便利アイテム</a><br />
+│├<a href="/genshinwiki/%E8%8A%B1%E7%81%AB" title="花火" class="rel-wiki-page">花火</a><br />
+│└<a href="/genshinwiki/%E5%B9%BE%E5%8D%83%E3%81%AE%E3%83%A1%E3%83%AD%E3%83%87%E3%82%A3%E3%83%BC" title="幾千のメロディー" class="rel-wiki-page">幾千のメロディー</a><br />
+├<a href="/genshinwiki/%E3%83%90%E3%83%83%E3%82%B0/%E4%BB%BB%E5%8B%99" title="バッグ/任務" class="rel-wiki-page">任務</a><br />
+├<a href="/genshinwiki/%E3%83%90%E3%83%83%E3%82%B0/%E8%B2%B4%E9%87%8D%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0" title="バッグ/貴重アイテム" class="rel-wiki-page">貴重アイテム</a><br />
+└<a href="/genshinwiki/%E3%83%90%E3%83%83%E3%82%B0/%E8%AA%BF%E5%BA%A6%E5%93%81" title="バッグ/調度品" class="rel-wiki-page">調度品</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">キャラ物語</div>
+    <div class="fold-content visible-on-open"><p><strong>キャラ物語(五十音順)</strong><br />
+├<a href="/genshinwiki/%E7%89%A9%E8%AA%9E" title="物語" class="rel-wiki-page">キャラ物語(ア-カ)</a><br />
+├<a href="/genshinwiki/%E7%89%A9%E8%AA%9E_2" title="物語_2" class="rel-wiki-page">キャラ物語(サ-ナ)</a><br />
+├<a href="/genshinwiki/%E7%89%A9%E8%AA%9E_3" title="物語_3" class="rel-wiki-page">キャラ物語(ハ-マ)</a><br />
+└<a href="/genshinwiki/%E7%89%A9%E8%AA%9E_4" title="物語_4" class="rel-wiki-page">キャラ物語(ヤ-ワ)</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">その他の物語</div>
+    <div class="fold-content visible-on-open"><p><strong>その他の物語</strong><br />
+<a href="/genshinwiki/%E6%AD%A6%E5%99%A8/%E7%89%A9%E8%AA%9E" title="武器/物語" class="rel-wiki-page">武器物語</a><br />
+<a href="/genshinwiki/%E8%81%96%E9%81%BA%E7%89%A9/%E7%89%A9%E8%AA%9E" title="聖遺物/物語" class="rel-wiki-page">聖遺物物語</a><br />
+<a href="/genshinwiki/%E3%82%AD%E3%83%A3%E3%83%A9%E5%A4%96%E8%A6%B3%E5%A4%89%E6%9B%B4/%E7%89%A9%E8%AA%9E" title="キャラ外観変更/物語" class="rel-wiki-page">外観物語</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">図鑑</div>
+    <div class="fold-content visible-on-open"><p><strong>図鑑</strong><br />
+<a href="/genshinwiki/%E5%9B%B3%E9%91%91/%E7%94%9F%E7%89%A9%E8%AA%8C/%E6%95%B5%E3%81%A8%E9%AD%94%E7%89%A9" title="図鑑/生物誌/敵と魔物" class="rel-wiki-page">生物誌/敵と魔物</a><br />
+<a href="/genshinwiki/%E5%9B%B3%E9%91%91/%E7%94%9F%E7%89%A9%E8%AA%8C/%E9%87%8E%E7%94%9F%E7%94%9F%E7%89%A9" title="図鑑/生物誌/野生生物" class="rel-wiki-page">生物誌/野生生物</a><br />
+<a href="/genshinwiki/%E5%9B%B3%E9%91%91/%E5%9C%B0%E7%90%86%E8%AA%8C" title="図鑑/地理誌" class="rel-wiki-page">地理誌</a><br />
+<a href="/genshinwiki/%E6%9B%B8%E7%B1%8D" title="書籍" class="rel-wiki-page">書籍</a><br />
+<a href="/genshinwiki/%E6%9B%B8%E7%B1%8D/%E6%9C%AC%E6%96%87%201" title="書籍/本文 1" class="rel-wiki-page">書籍(本文)</a><br />
+<a href="/genshinwiki/%E5%9B%B3%E9%91%91/%E7%89%A9%E7%94%A3%E8%AA%8C" title="図鑑/物産誌" class="rel-wiki-page">物産誌</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">その他テキスト</div>
+    <div class="fold-content visible-on-open"><p><strong>その他テキスト</strong><br />
+<a href="/genshinwiki/%E6%8E%B2%E7%A4%BA%E6%9D%BF%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88" title="掲示板テキスト" class="rel-wiki-page">掲示板テキスト</a><br />
+<a href="/genshinwiki/%E9%87%A3%E3%82%8A%E5%A0%B4%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88" title="釣り場テキスト" class="rel-wiki-page">釣り場テキスト</a><br />
+<a href="/genshinwiki/%E4%BB%96%E3%81%AE%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88" title="他のテキスト" class="rel-wiki-page">他のテキスト</a><br />
+<a href="/genshinwiki/%E3%82%AF%E3%82%A4%E3%83%83%E3%82%AF%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%88%E8%AA%AC%E6%98%8E%E6%96%87" title="クイックスタート説明文" class="rel-wiki-page">クイックスタート説明文</a><br />
+<a href="/genshinwiki/%E8%AA%AC%E6%98%8E%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88" title="説明テキスト" class="rel-wiki-page">施設や敵の説明文</a><br />
+<a href="/genshinwiki/%E9%83%BD%E5%B8%82%E8%A9%95%E5%88%A4/%E4%BE%9D%E9%A0%BC%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88" title="都市評判/依頼テキスト" class="rel-wiki-page">都市評判依頼文</a><br />
+<a href="/genshinwiki/%E3%83%AD%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0Tips" title="ローディングTips" class="rel-wiki-page">ローディングTips</a><br />
+<a href="/genshinwiki/%E3%83%91%E3%82%A4%E3%83%A2%E3%83%B3%E3%81%AE%E3%82%AF%E3%82%A4%E3%82%BA%E3%82%BF%E3%82%A4%E3%83%A0%E5%95%8F%E9%A1%8C%E9%9B%86" title="パイモンのクイズタイム問題集" class="rel-wiki-page">クイズタイム問題集</a></p>
+</div>
+</div>
+<ul class="list1"><li><a href="/genshinwiki/BGM" title="BGM" class="rel-wiki-page">BGM</a></li>
+<li><a href="/genshinwiki/%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0/%E6%92%AE%E5%BD%B1" title="ゲームシステム/撮影" class="rel-wiki-page">スクリーンショット</a></li>
+<li><a href="/genshinwiki/%E5%85%A5%E6%89%8B%E4%B8%8D%E5%8F%AF%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A0" title="入手不可アイテム" class="rel-wiki-page">入手不可アイテム</a></li></ul>
+<p><a class="anchor" name ="menu_study"></a></p>
+<h2 id="h2_content_2_11" class="heading-after-first">考察</h2>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E8%80%83%E5%AF%9F%E7%B7%8F%E5%90%88" title="考察総合" class="rel-wiki-page">考察</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E8%80%83%E5%AF%9F%E7%B7%8F%E5%90%88" title="考察総合" class="rel-wiki-page">考察総合</a><br />
+<a href="/genshinwiki/%E3%83%86%E3%82%A4%E3%83%AF%E3%83%83%E3%83%88" title="テイワット" class="rel-wiki-page">七国まとめ</a><br />
+<a href="/genshinwiki/%E7%94%A8%E8%AA%9E%E9%9B%86" title="用語集" class="rel-wiki-page">用語集</a><br />
+<a href="/genshinwiki/%E5%B9%B4%E8%A1%A8" title="年表" class="rel-wiki-page">年表</a><br />
+<a href="/genshinwiki/%E3%82%AD%E3%83%A3%E3%83%A9%E3%83%BB%E4%B8%80%E6%97%8F%E3%83%BB%E5%9B%A3%E4%BD%93" title="キャラ・一族・団体" class="rel-wiki-page">キャラ・一族・団体</a><br />
+<a href="/genshinwiki/%E7%A5%9E%E3%81%AE%E7%9B%AE" title="神の目" class="rel-wiki-page">神の目</a><br />
+<a href="/genshinwiki/%E5%91%BD%E3%83%8E%E6%98%9F%E5%BA%A7" title="命ノ星座" class="rel-wiki-page">命ノ星座</a><br />
+<a href="/genshinwiki/%E6%9A%97%E5%8F%B7%E8%A7%A3%E8%AA%AD" title="暗号解読" class="rel-wiki-page">暗号解読</a><br />
+<a href="/genshinwiki/%E8%A8%80%E8%AA%9E" title="言語" class="rel-wiki-page">言語</a><br />
+└<a href="/genshinwiki/%E3%83%92%E3%83%AB%E3%83%81%E3%83%A3%E3%83%BC%E3%83%AB%E8%AA%9E" title="ヒルチャール語" class="rel-wiki-page">ヒルチャール語</a><br />
+　└<a href="/genshinwiki/%E3%83%92%E3%83%AB%E3%83%81%E3%83%A3%E3%83%BC%E3%83%AB%E8%AA%9E/%E8%B3%87%E6%96%99" title="ヒルチャール語/資料" class="rel-wiki-page">資料</a><br />
+<a href="/genshinwiki/%E6%96%99%E7%90%86%E5%85%83%E3%83%8D%E3%82%BF%E8%80%83%E5%AF%9F" title="料理元ネタ考察" class="rel-wiki-page">料理元ネタ考察</a><br />
+└<a href="/genshinwiki/%E3%83%86%E3%82%A4%E3%83%AF%E3%83%83%E3%83%88%E7%BE%8E%E9%A3%9F%E8%A8%98" title="テイワット美食記" class="rel-wiki-page">テイワット美食記</a><br />
+<a href="/genshinwiki/%E7%BF%BB%E8%A8%B3" title="翻訳" class="rel-wiki-page">翻訳</a><br />
+└<a href="/genshinwiki/%E4%B8%AD%E5%9B%BD%E8%AA%9E%E3%83%BB%E8%8B%B1%E8%AA%9E%E3%81%BE%E3%81%A8%E3%82%81" title="中国語・英語まとめ" class="rel-wiki-page">中国語・英語まとめ</a><br />
+└<a href="/genshinwiki/%E8%AA%A4%E8%A8%B3" title="誤訳" class="rel-wiki-page">誤訳</a><br />
+<a href="/genshinwiki/%E5%B4%A9%E5%A3%8A%E3%83%8D%E3%82%BF%E9%96%A2%E9%80%A3" title="崩壊ネタ関連" class="rel-wiki-page">崩壊ネタ関連</a><br />
+<a href="/genshinwiki/%E8%80%83%E5%AF%9F%E7%B7%8F%E5%90%88#studyMaterial" title="考察総合" class="rel-wiki-page">未分類考察情報</a></p>
+</div>
+</div>
+<p><a class="anchor" name ="menu_information"></a></p>
+<h2 id="h2_content_2_12" class="heading-after-first">情報</h2>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">履歴一覧</div>
+    <div class="fold-content visible-on-open"><p><strong>履歴一覧</strong><br />
+<a href="/genshinwiki/%E6%99%82%E7%B3%BB%E5%88%97%E3%83%87%E3%83%BC%E3%82%BF" title="時系列データ" class="rel-wiki-page">アップデート履歴</a><br />
+<a href="/genshinwiki/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E4%B8%80%E8%A6%A7#history" title="イベント一覧" class="rel-wiki-page">イベント履歴</a><br />
+<a href="/genshinwiki/%E7%A5%88%E9%A1%98#history" title="祈願" class="rel-wiki-page">祈願履歴</a><br />
+<a href="/genshinwiki/%E6%99%82%E7%B3%BB%E5%88%97%E3%83%87%E3%83%BC%E3%82%BF/%E5%85%AC%E5%BC%8F%E5%91%8A%E7%9F%A5%E3%83%AD%E3%82%B0" title="時系列データ/公式告知ログ" class="rel-wiki-page">公式告知ログ</a><br />
+<a href="/genshinwiki/%E3%82%AF%E3%83%AD%E3%83%8B%E3%82%AF%E3%83%AB" title="クロニクル" class="rel-wiki-page">wiki歴史等</a></p>
+</div>
+</div>
+<div class="fold-container  clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open">ゲーム外の情報</div>
+    <div class="fold-content visible-on-open"><p><strong>ゲーム外の情報</strong><br />
+<a href="/genshinwiki/%E4%BB%8A%E5%BE%8C%E3%81%AE%E5%AE%9F%E8%A3%85%E6%83%85%E5%A0%B1" title="今後の実装情報" class="rel-wiki-page">今後の実装情報</a><br />
+<a href="/genshinwiki/%E3%82%B2%E3%83%BC%E3%83%A0%E5%A4%96%E3%81%AE%E5%85%AC%E5%BC%8F%E3%82%B3%E3%83%B3%E3%83%86%E3%83%B3%E3%83%84" title="ゲーム外の公式コンテンツ" class="rel-wiki-page">ゲーム外の公式ｺﾝﾃﾝﾂ</a><br />
+<a href="/genshinwiki/%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%83%BB%E3%82%B0%E3%83%83%E3%82%BA%E6%83%85%E5%A0%B1" title="イベント・グッズ情報" class="rel-wiki-page">イベント・グッズ情報</a><br />
+<a href="/genshinwiki/%E5%8F%97%E8%B3%9E%E6%AD%B4" title="受賞歴" class="rel-wiki-page">受賞歴</a><br />
+<a href="/genshinwiki/%E5%8F%82%E5%8A%A0%E5%A3%B0%E5%84%AA%E4%B8%80%E8%A6%A7" title="参加声優一覧" class="rel-wiki-page">参加声優一覧</a><br />
+<a href="/genshinwiki/%E3%83%A1%E3%83%BC%E3%83%AB" title="メール" class="rel-wiki-page">メール・交換コード</a><br />
+<a href="/genshinwiki/%E3%83%90%E3%82%B0%E3%83%BB%E4%B8%8D%E5%85%B7%E5%90%88%E3%81%AA%E3%81%A9" title="バグ・不具合など" class="rel-wiki-page">バグ・不具合</a><br />
+<a href="/genshinwiki/HoYoverse%E9%80%9A%E8%A1%8C%E8%A8%BC" title="HoYoverse通行証" class="rel-wiki-page">HoYoverse通行証</a><br />
+<a href="/genshinwiki/%E3%83%88%E3%83%AD%E3%83%95%E3%82%A3%E3%83%BC" title="トロフィー" class="rel-wiki-page">トロフィー</a></p>
+</div>
+</div>
+<div class="fold-container fold-open clearfix">
+    <button class="fold-toggle-button hidden-on-open"><i class="fal fa-plus-square"></i></button>
+    <button class="fold-toggle-button visible-on-open"><i class="fal fa-minus-square"></i></button>
+    <div class="fold-summary hidden-on-open"><a href="/genshinwiki/%E5%A4%96%E9%83%A8%E3%83%AA%E3%83%B3%E3%82%AF" title="外部リンク" class="rel-wiki-page">外部リンク</a></div>
+    <div class="fold-content visible-on-open"><p><a href="/genshinwiki/%E5%A4%96%E9%83%A8%E3%83%AA%E3%83%B3%E3%82%AF" title="外部リンク" class="rel-wiki-page">外部リンク一覧</a><br />
+<a href="https://genshin.hoyoverse.com/ja/home" rel="nofollow">公式サイト</a><br />
+<a href="https://www.youtube.com/channel/UCAVR6Q0YgYa8xwz8rdg9Mrg" rel="nofollow">公式YouTube</a><br />
+<a href="https://www.hoyolab.com/accountCenter/postList?id=1015537" rel="nofollow">HoYoLAB</a><br />
+<a href="https://wiki.hoyolab.com/pc/genshin/aggregate/character" rel="nofollow">HoYoWiki</a><br />
+<a href="https://webstatic-sea.hoyoverse.com/app/ys-map-sea/index.html?lang=ja-jp#/map/2" rel="nofollow">テイワットマップ</a></p>
+</div>
+</div>
+<p><a class="anchor" name ="menu_forum"></a></p>
+<h2 id="h2_content_2_13" class="heading-after-first">掲示板</h2>
+<ul class="list1"><li><a href="/genshinwiki/%E9%9B%91%E8%AB%87%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="雑談掲示板" class="rel-wiki-page">雑談掲示板</a></li>
+<li><a href="/genshinwiki/%E3%83%95%E3%83%AC%E3%83%B3%E3%83%89%E3%83%BB%E3%83%9E%E3%83%AB%E3%83%81%E5%8B%9F%E9%9B%86%E6%9D%BF" title="フレンド・マルチ募集板" class="rel-wiki-page">ﾌﾚﾝﾄﾞ/ﾏﾙﾁ募集板</a></li>
+<li><a href="/genshinwiki/%E7%94%BB%E5%83%8F%E6%8E%B2%E7%A4%BA%E6%9D%BF%28%E3%83%8F%E3%82%A6%E3%82%B8%E3%83%B3%E3%82%B0%29" title="画像掲示板(ハウジング)" class="rel-wiki-page">画像/ハウジング板</a></li>
+<li><a href="/genshinwiki/%E8%87%AA%E7%94%B1%E8%A8%98%E8%BF%B0" title="自由記述" class="rel-wiki-page">ビルド紹介掲示板</a></li>
+<li><a href="/genshinwiki/%3A%E6%84%9A%E7%97%B4%E6%8E%B2%E7%A4%BA%E6%9D%BF" title=":愚痴掲示板" class="rel-wiki-page">愚痴掲示板</a></li></ul>
+<p><a class="anchor" name ="menu_management"></a></p>
+<h2 id="h2_content_2_14" class="heading-after-first">管理・編集</h2>
+<ul class="list1"><li><a href="/genshinwiki/%E7%AE%A1%E7%90%86%E9%80%A3%E7%B5%A1%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="管理連絡掲示板" class="rel-wiki-page">管理連絡掲示板</a></li>
+<li><a href="/genshinwiki/%E7%B7%A8%E9%9B%86%E6%8E%B2%E7%A4%BA%E6%9D%BF" title="編集掲示板" class="rel-wiki-page">編集掲示板</a></li>
+<li><a href="/genshinwiki/%E7%B7%A8%E9%9B%86%E7%94%A8%E3%83%9A%E3%83%BC%E3%82%B8" title="編集用ページ" class="rel-wiki-page">編集用ページ</a></li>
+<li><a href="/genshinwiki/%E7%94%BB%E5%83%8F" title="画像" class="rel-wiki-page">画像</a></li>
+<li><a href="/genshinwiki/%E7%A0%82%E5%A0%B4" title="砂場" class="rel-wiki-page">砂場</a></li>
+<li><a href="/genshinwiki/%E4%B8%8D%E8%B6%B3%E6%83%85%E5%A0%B1%E4%B8%80%E8%A6%A7" title="不足情報一覧" class="rel-wiki-page">不足情報一覧</a></li>
+<li><a href="/genshinwiki/%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E3%83%AB%E3%83%BC%E3%83%AB%E6%94%B9%E8%A8%82%E8%AD%B0%E8%AB%96" title="コメントルール改訂議論" class="rel-wiki-page">ｺﾒﾝﾄﾙｰﾙ改訂議論</a></li></ul>
+<p><span style="font-size:10px">〔<a href="https://wikiwiki.jp/genshinwiki/::cmd/edit?page=MenuBar" rel="nofollow">MENU編集</a>〕</span></p>
+<p><a class="anchor" name ="menu_latestcomment"></a></p>
+<h2 id="h2_content_2_15" class="heading-after-first">最新のコメント</h2>
+<p><a href="https://zawazawa.jp/genshinwiki/" rel="nofollow">zawazawaトップ</a></p>
+<div class="zawazawa-recent" data-zrecent-hash="51be1d26fdb243dc6b3421263062537c" data-zrecent-data="{&quot;topics&quot;:[{&quot;embeddedSites&quot;:{&quot;wikiwiki&quot;:{&quot;name&quot;:&quot;雑談/掲示板6&quot;,&quot;url&quot;:&quot;https://wikiwiki.jp/genshinwiki/雑談掲示板#f6679db0&quot;}},&quot;forumSlug&quot;:&quot;genshinwiki&quot;,&quot;forumTitle&quot;:&quot;原神wiki&quot;,&quot;lastCommentNumber&quot;:5080,&quot;lastCommentedAt&quot;:&quot;Sat, 19 Sep 2026 13:30:43 +0900&quot;,&quot;topicNumber&quot;:423,&quot;topicTitle&quot;:&quot;雑談/掲示板6&quot;,&quot;url&quot;:&quot;https://z.wikiwiki.jp/genshinwiki/topic/423&quot;},{&quot;embeddedSites&quot;:{&quot;wikiwiki&quot;:{&quot;name&quot;:&quot;雑談/ヴォジャニーツァ&quot;,&quot;url&quot;:&quot;https://wikiwiki.jp/genshinwiki/ヴォジャニーツァ#comment&quot;}},&quot;forumSlug&quot;:&quot;genshinwiki&quot;,&quot;forumTitle&quot;:&quot;原神wiki&quot;,&quot;lastCommentNumber&quot;:370,&quot;lastCommentedAt&quot;:&quot;Sat, 19 Sep 2026 13:25:02 +0900&quot;,&quot;topicNumber&quot;:422,&quot;topicTitle&quot;:&quot;雑談/ヴォジャニーツァ&quot;,&quot;url&quot;:&quot;https://z.wikiwiki.jp/genshinwiki/topic/422&quot;},{&quot;embeddedSites&quot;:{&quot;wikiwiki&quot;:{&quot;name&quot;:&quot;雑談/ヴァレサ&quot;,&quot;url&quot;:&quot;https://wikiwiki.jp/genshinwiki/%E3%83%B4%E3%82%A1%E3%83%AC%E3%82%B5#comment&quot;}},&quot;forumSlug&quot;:&quot;genshinwiki&quot;,&quot;forumTitle&quot;:&quot;原神wiki&quot;,&quot;lastCommentNumber&quot;:2106,&quot;lastCommentedAt&quot;:&quot;Sat, 19 Sep 2026 13:15:15 +0900&quot;,&quot;topicNumber&quot;:330,&quot;topicTitle&quot;:&quot;雑談/ヴァレサ&quot;,&quot;url&quot;:&quot;https://z.wikiwiki.jp/genshinwiki/topic/330&quot;},{&quot;embeddedSites&quot;:{&quot;wikiwiki&quot;:{&quot;name&quot;:&quot;雑談/ヴェスナ&quot;,&quot;url&quot;:&quot;https://wikiwiki.jp/genshinwiki/ヴェスナ#comment&quot;}},&quot;forumSlug&quot;:&quot;genshinwiki&quot;,&quot;forumTitle&quot;:&quot;原神wiki&quot;,&quot;lastCommentNumber&quot;:154,&quot;lastCommentedAt&quot;:&quot;Sat, 19 Sep 2026 13:05:39 +0900&quot;,&quot;topicNumber&quot;:421,&quot;topicTitle&quot;:&quot;雑談/ヴェスナ&quot;,&quot;url&quot;:&quot;https://z.wikiwiki.jp/genshinwiki/topic/421&quot;},{&quot;embeddedSites&quot;:{&quot;wikiwiki&quot;:{&quot;name&quot;:&quot;雑談/楓原万葉&quot;,&quot;url&quot;:&quot;https://wikiwiki.jp/genshinwiki/%E6%A5%93%E5%8E%9F%E4%B8%87%E8%91%89#ed86dc20&quot;}},&quot;forumSlug&quot;:&quot;genshinwiki&quot;,&quot;forumTitle&quot;:&quot;原神wiki&quot;,&quot;lastCommentNumber&quot;:3587,&quot;lastCommentedAt&quot;:&quot;Sat, 19 Sep 2026 12:33:57 +0900&quot;,&quot;topicNumber&quot;:81,&quot;topicTitle&quot;:&quot;雑談/楓原万葉&quot;,&quot;url&quot;:&quot;https://z.wikiwiki.jp/genshinwiki/topic/81&quot;},{&quot;embeddedSites&quot;:{&quot;wikiwiki&quot;:{&quot;name&quot;:&quot;雑談/深境螺旋&quot;,&quot;url&quot;:&quot;https://wikiwiki.jp/genshinwiki/%E6%B7%B1%E5%A2%83%E8%9E%BA%E6%97%8B#cfa76c05&quot;}},&quot;forumSlug&quot;:&quot;genshinwiki&quot;,&quot;forumTitle&quot;:&quot;原神wiki&quot;,&quot;lastCommentNumber&quot;:15463,&quot;lastCommentedAt&quot;:&quot;Sat, 19 Sep 2026 12:11:42 +0900&quot;,&quot;topicNumber&quot;:38,&quot;topicTitle&quot;:&quot;雑談/深境螺旋&quot;,&quot;url&quot;:&quot;https://z.wikiwiki.jp/genshinwiki/topic/38&quot;},{&quot;embeddedSites&quot;:{&quot;wikiwiki&quot;:{&quot;name&quot;:&quot;雑談/リオセスリ&quot;,&quot;url&quot;:&quot;https://wikiwiki.jp/genshinwiki/%E3%83%AA%E3%82%AA%E3%82%BB%E3%82%B9%E3%83%AA#comment&quot;}},&quot;forumSlug&quot;:&quot;genshinwiki&quot;,&quot;forumTitle&quot;:&quot;原神wiki&quot;,&quot;lastCommentNumber&quot;:3328,&quot;lastCommentedAt&quot;:&quot;Sat, 19 Sep 2026 11:45:33 +0900&quot;,&quot;topicNumber&quot;:230,&quot;topicTitle&quot;:&quot;雑談/リオセスリ&quot;,&quot;url&quot;:&quot;https://z.wikiwiki.jp/genshinwiki/topic/230&quot;},{&quot;embeddedSites&quot;:{&quot;wikiwiki&quot;:{&quot;name&quot;:&quot;雑談/オデット&quot;,&quot;url&quot;:&quot;https://wikiwiki.jp/genshinwiki/%E3%82%AA%E3%83%87%E3%83%83%E3%83%88#comment&quot;}},&quot;forumSlug&quot;:&quot;genshinwiki&quot;,&quot;forumTitle&quot;:&quot;原神wiki&quot;,&quot;lastCommentNumber&quot;:896,&quot;lastCommentedAt&quot;:&quot;Sat, 19 Sep 2026 08:28:48 +0900&quot;,&quot;topicNumber&quot;:413,&quot;topicTitle&quot;:&quot;雑談/オデット&quot;,&quot;url&quot;:&quot;https://z.wikiwiki.jp/genshinwiki/topic/413&quot;},{&quot;embeddedSites&quot;:{&quot;wikiwiki&quot;:{&quot;name&quot;:&quot;雑談/フリンズ&quot;,&quot;url&quot;:&quot;https://wikiwiki.jp/genshinwiki/フリンズ#comment&quot;}},&quot;forumSlug&quot;:&quot;genshinwiki&quot;,&quot;forumTitle&quot;:&quot;原神wiki&quot;,&quot;lastCommentNumber&quot;:1720,&quot;lastCommentedAt&quot;:&quot;Sat, 19 Sep 2026 08:18:00 +0900&quot;,&quot;topicNumber&quot;:363,&quot;topicTitle&quot;:&quot;雑談/フリンズ&quot;,&quot;url&quot;:&quot;https://z.wikiwiki.jp/genshinwiki/topic/363&quot;},{&quot;embeddedSites&quot;:{&quot;wikiwiki&quot;:{&quot;name&quot;:&quot;雑談/スカーク&quot;,&quot;url&quot;:&quot;https://wikiwiki.jp/genshinwiki/%E3%82%B9%E3%82%AB%E3%83%BC%E3%82%AF#comment&quot;}},&quot;forumSlug&quot;:&quot;genshinwiki&quot;,&quot;forumTitle&quot;:&quot;原神wiki&quot;,&quot;lastCommentNumber&quot;:3056,&quot;lastCommentedAt&quot;:&quot;Sat, 19 Sep 2026 07:54:10 +0900&quot;,&quot;topicNumber&quot;:346,&quot;topicTitle&quot;:&quot;雑談/スカーク&quot;,&quot;url&quot;:&quot;https://z.wikiwiki.jp/genshinwiki/topic/346&quot;}]}"></div>
+<h2 id="h2_content_2_16" class="heading-after-first">最新のコメント(wiki)</h2>
+<ul class="lsx"><li><a href="/genshinwiki/%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88/%E9%8D%9B%E9%8C%AC%E3%81%AE%E9%81%93" title="コメント/鍛錬の道" class="rel-wiki-page">コメント/鍛錬の道</a></li><li><a href="/genshinwiki/%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88/%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E8%82%B2%E6%88%90" title="コメント/キャラクター育成" class="rel-wiki-page">コメント/キャラクター育成</a></li><li><a href="/genshinwiki/%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88/%E4%B8%96%E7%95%8C%E4%BB%BB%E5%8B%99/%E3%82%B9%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%8A%E3%83%A4" title="コメント/世界任務/スネージナヤ" class="rel-wiki-page">コメント/世界任務/スネージナヤ</a></li></ul>
+<div class="recent-container" data-recent-hash="f01d385dfe8947697095b9b00abcd84e"></div>
+<div style="text-align:center">〔<a href="/genshinwiki/%E4%BA%BA%E6%B0%97100" title="人気100" class="rel-wiki-page"><strong>人気</strong></a>/<a href="/genshinwiki/%E4%BB%8A%E6%97%A5100" title="今日100" class="rel-wiki-page"><strong>今日人気</strong></a>〕〔<a href="/genshinwiki/RecentChanges" title="RecentChanges" class="rel-wiki-page"><strong>最新</strong></a>〕</div>
+<hr class="full_hr" />
+<div style="text-align:right"><span style="font-size:10px">T. <span class="wikiwiki-counter-not-available">-</span>　Y. <span class="wikiwiki-counter-not-available">-</span></span><br />
+<span style="font-size:10px"><span class="wikicolor" style="color:#663300">NOW. <span class="wikiwiki-online-not-available">-</span></span></span><br />
+<span style="font-size:10px">TOTAL. <span class="wikiwiki-counter-not-available">-</span></span></div>
+
+</div>                </div>
+                <div class="admenu-sticky">
+<!-- /19033742/WIKIWIKI_PC_MENU_STICKY -->
+<div id='div-gpt-ad-1567834179057-0'></div>
+</div>
+<script>
+if (document.documentElement.clientWidth > 805 && !wi_ismobile && wi_group === 'N' && wi_agreement === 'false' && !wi_isinbound &&
+    document.getElementById('body').clientHeight - document.getElementById('menubar').clientHeight > 1000) {
+    googletag.cmd.push(() => {
+        googletag.display(
+            googletag.defineSlot('/19033742/WIKIWIKI_PC_MENU_STICKY', [[120,600],[160,600],[1,1]], 'div-gpt-ad-1567834179057-0').addService(googletag.pubads())
+        );
+    });
+    defineSlotFlux.push({"slotID": "div-gpt-ad-1567834179057-0", "sizes": [[160,600]], "slotName":"WIKIWIKI_PC_MENU_STICKY"});
+}
+</script>
+<style>
+.admenu-sticky {
+    display: flex;
+    justify-content: center;
+    position: -webkit-sticky;
+    position: sticky;
+    margin-top: 50px;
+    top: 50px;
+    max-width: 160px;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
+
+            </div>
+            </div>
+
+    
+    <div id="footer">
+                                <div class="container">
+                <hr />
+                <p>当wikiにおいて引用されている、「原神」内の文章・画像等の著作権は、COGNOSPHERE PTE. LTD. が保有します。<br />
+引用外のコンテンツに関する権利は株式会社ウキウキに帰属します。</p>            </div>
+                <div class="container">
+            <hr />
+            <div class="footer-block clearfix">
+                <div class="footer-block-item-left" id="signature">
+                    <!-- google_ad_section_start(weight=ignore) -->
+                    レンタルWIKI by <a href="https://wikiwiki.jp/" title="無料レンタルWIKIサービス">WIKIWIKI.jp*</a>&nbsp;/&nbsp;
+                    Designed by <a href="https://wikiwiki.jp/pp/skin-design-policy" title="スキンデザインのご利用についてのお願い">Olivia</a>&nbsp;/&nbsp;
+                    <a href="https://wikiwiki.jp/pp/aboutad" title="広告について">広告について</a>&nbsp;/&nbsp;
+                    無料レンタル掲示板 <a href="https://z.wikiwiki.jp/" title="zawazawa">zawazawa</a>
+                    <!-- google_ad_section_end -->
+                </div>
+                <div class="footer-block-item-right">
+                    <div class="footer-mixirss">
+                        <div class="toolbar"><a href="/genshinwiki/::cmd/mixirss" title="最終更新のRSS" rel="nofollow"><span class="system-icon rss"></span></a></div>                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="pageload" style="display: none" data-pageload="{&quot;time&quot;:{&quot;all&quot;:{&quot;real&quot;:0.008234024047851562,&quot;cost&quot;:0.0813760757446289},&quot;body&quot;:{&quot;real&quot;:0.0006620883941650391,&quot;cost&quot;:0.0006620883941650391},&quot;menu&quot;:{&quot;real&quot;:0.07187104225158691,&quot;cost&quot;:0.07187104225158691},&quot;head&quot;:{&quot;real&quot;:0.0010600090026855469,&quot;cost&quot;:0.0010600090026855469},&quot;foot&quot;:{&quot;real&quot;:0.0002110004425048828,&quot;cost&quot;:0.0002110004425048828}},&quot;include&quot;:0,&quot;memory&quot;:1588032,&quot;io&quot;:{&quot;read&quot;:{&quot;files&quot;:0,&quot;bytes&quot;:0,&quot;locks&quot;:0},&quot;write&quot;:{&quot;files&quot;:0,&quot;bytes&quot;:0,&quot;locks&quot;:0},&quot;directory&quot;:{&quot;traversals&quot;:0,&quot;files&quot;:0},&quot;misc&quot;:46},&quot;contentSize&quot;:{&quot;all&quot;:149410,&quot;body&quot;:418},&quot;timestamp&quot;:&quot;2026-09-19 13:31:21&quot;}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/jquery.mark.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/js/fontawesome.min.js" data-auto-replace-svg="false"></script>
+<script type="text/javascript" src="https://cdn.wikiwiki.jp/to/w/common/assets/dist/wikiwiki-3a0f573feee6f9d1f58c.min.js"></script>
+    <script>
+        if (window.FontAwesome) {
+            window.FontAwesome.dom.watch();
+        } else {
+            console.warn('FontAwesome is not loaded.');
+        }
+    </script>
+<script type="text/javascript">
+    bootLazy.addJqPluginInit('.accordion-container', function() {
+        this.accordion({
+            headerSelector: '.accordion-header',
+            contentSelector: '.accordion-content',
+            openClassName: 'accordion-open'
+        });
+    });
+</script>
+<script type="text/javascript">
+    bootLazy.addJqPluginInit('.fold-container', function() {
+        this.fold({
+            buttonSelector: '.fold-toggle-button',
+            openClassName: 'fold-open'
+        });
+    });
+</script>
+    <script type="text/javascript">
+        bootLazy.addJqPluginInit('.zawazawa-recent', function() {
+            this.zrecent();
+        });
+    </script>
+    <script type="text/javascript">
+        bootLazy.addJqPluginInit('.recent-container[data-recent-hash="f01d385dfe8947697095b9b00abcd84e"]', function() {
+            this.recent({"timestamp":1789789208,"list":[{"time":1789789208,"page":"闇域","link":"/genshinwiki/%E9%97%87%E5%9F%9F"},{"time":1789765385,"page":"ヴェスナ","link":"/genshinwiki/%E3%83%B4%E3%82%A7%E3%82%B9%E3%83%8A"},{"time":1789747399,"page":"世界任務/スネージナヤ","link":"/genshinwiki/%E4%B8%96%E7%95%8C%E4%BB%BB%E5%8B%99/%E3%82%B9%E3%83%8D%E3%83%BC%E3%82%B8%E3%83%8A%E3%83%A4"},{"time":1789728672,"page":"敵/昏き魘夢の主","link":"/genshinwiki/%E6%95%B5/%E6%98%8F%E3%81%8D%E9%AD%98%E5%A4%A2%E3%81%AE%E4%B8%BB"},{"time":1789725898,"page":"敵一覧/地方伝説/ナド・クライ","link":"/genshinwiki/%E6%95%B5%E4%B8%80%E8%A6%A7/%E5%9C%B0%E6%96%B9%E4%BC%9D%E8%AA%AC/%E3%83%8A%E3%83%89%E3%83%BB%E3%82%AF%E3%83%A9%E3%82%A4"},{"time":1789716315,"page":"釣り場テキスト","link":"/genshinwiki/%E9%87%A3%E3%82%8A%E5%A0%B4%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88"},{"time":1789714354,"page":"MenuBar","link":"/genshinwiki/MenuBar"},{"time":1789714327,"page":"FrontPage/edit","link":"/genshinwiki/FrontPage/edit"},{"time":1789713627,"page":"七聖召喚/キャラカード/イファ","link":"/genshinwiki/%E4%B8%83%E8%81%96%E5%8F%AC%E5%96%9A/%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AB%E3%83%BC%E3%83%89/%E3%82%A4%E3%83%95%E3%82%A1"},{"time":1789713172,"page":"七聖召喚/キャラカード/アビスの詠唱者・紫電","link":"/genshinwiki/%E4%B8%83%E8%81%96%E5%8F%AC%E5%96%9A/%E3%82%AD%E3%83%A3%E3%83%A9%E3%82%AB%E3%83%BC%E3%83%89/%E3%82%A2%E3%83%93%E3%82%B9%E3%81%AE%E8%A9%A0%E5%94%B1%E8%80%85%E3%83%BB%E7%B4%AB%E9%9B%BB"}]});
+        });
+    </script>
+    <script>
+        bootLazy.addJqPluginInit('#responsive-navigation', function() {
+            this.responsiveNavigation({
+                menuBarSelector: '#menubar',
+                editMenuSelector: '#edit-menu',
+
+                mainContentsBottomElement: '#main-contents-bottom',
+                sidebarBottomElement: '#sidebar-bottom',
+                menuBarContainerElement: '#contents .column-left',
+                footerElement: '#footer',
+
+                overlayAdRenderedEventName: 'overlay-ad-rendered',
+                overlayAdMarginTop: 25
+            });
+        });
+    </script>
+    <script>
+        $('#share-button-root').sharePanel({
+            title: "迚・焔蜑｣\/逋ｽ驫縺ｮ貉悶ｒ闊槭≧鄙ｼ - 原神 Wiki*",
+            controlPanelUrl: "https:\/\/c.wikiwiki.jp\/wiki\/genshinwiki\/design",
+            imageUrl: "https:\/\/icon.wikiwiki.jp\/symbolicon\/genshinwiki\/ogCustomImage\/39885dca0bb7.png",
+            description: "",
+            shareUrl: "https:\/\/wikiwiki.jp\/genshinwiki\/%E8%BF%9A%E3%83%BB%E7%84%94%E8%9C%91%EF%BD%A3\/%E9%80%8B%EF%BD%BD%E9%A9%AB%C2%80%E7%B8%BA%EF%BD%AE%E8%B2%89%E6%82%B6%EF%BD%92%E9%97%8A%E6%A7%AD%E2%89%A7%E9%84%99%EF%BD%BC",
+            shortUrlRequestUrl: "\/genshinwiki\/::cmd\/short_url?mode=json&page=%E8%BF%9A%E3%83%BB%E7%84%94%E8%9C%91%EF%BD%A3%2F%E9%80%8B%EF%BD%BD%E9%A9%AB%C2%80%E7%B8%BA%EF%BD%AE%E8%B2%89%E6%82%B6%EF%BD%92%E9%97%8A%E6%A7%AD%E2%89%A7%E9%84%99%EF%BD%BC",
+            hasOgSettings: false,
+        })
+    </script>
+<script>
+    $('#admin-contact-root').adminContact({
+        logoImgUrl: "https:\/\/icon.wikiwiki.jp\/symbolicon\/genshinwiki\/appleTouchIcon\/fd8657862281.png",
+        pageTitle: "原神 Wiki*",
+        controlPanelUrl: "https:\/\/c.wikiwiki.jp\/wiki\/genshinwiki\/settings",
+        contact: "当wikiの管理は複数名で分担して行っています。\r\nご相談・お問い合わせは\r\nhttps:\/\/wikiwiki.jp\/genshinwiki\/管理連絡掲示板\r\nまでお願いいたします。",
+        helpLink: 'https://wikiwiki.jp/pp/admin_contact',
+    });
+</script>
+<script>
+$("#load-panel-root").loadpanel({
+    dataSelector: "#pageload",
+    helpLink: 'https://wikiwiki.jp/pp/page_load_panel'
+});
+</script>
+<script>
+    $('.admin-login-status').adminLoginStatus({
+        cookieName: 'login_session',
+    });
+</script>
+<script>
+    $(function() {
+        $('.search-words').searchWordHighlight({
+            paramName: 'word',
+            selector: "#content,#note",
+            limit: 10,
+            markedClassResolver: function (i) { return "word" + i; }
+        });
+    });
+</script>
+<script>$(".realtime-date").realtimeDate();</script>
+<script>
+    $("body").notificationBar();
+</script>
+<script>
+$("#contents").anchorLink({
+    url: '/genshinwiki/%E8%BF%9A%E3%83%BB%E7%84%94%E8%9C%91%EF%BD%A3/%E9%80%8B%EF%BD%BD%E9%A9%AB%C2%80%E7%B8%BA%EF%BD%AE%E8%B2%89%E6%82%B6%EF%BD%92%E9%97%8A%E6%A7%AD%E2%89%A7%E9%84%99%EF%BD%BC',
+});
+</script>
+    <script>
+        bootLazy.addJqPluginInit('.tooltip', function() {
+            this.tooltip();
+        });
+    </script>
+    <script>
+        bootLazy.addPlainScript(function() {
+            lightbox.option({
+                resizeDuration: 0
+            });
+        });
+    </script>
+<script>
+    $(function() {
+        window.bootLazy.bootOn(document);
+    });
+</script>
+<script>
+    $(document).pukiwiki();
+</script>
+
+<script>
+jQuery(function() {
+    // Cookie は名前を渡すだけ。読むのはクライアント側。
+    // サーバーで読んで本文に埋めると、レスポンスキャッシュがそれを vary していないため、
+    // 最初にキャッシュを作った人の Cookie 状態が後続の全員に配られる。
+    $('form').usageStatistics({
+        keyName: 'usageStatistics',
+        smsAuthCookieName: 'authkey',
+        hasPostedCookieName: '__posted2',
+    });
+    $(document).browsingStatistics({
+        keyName: 'browsingStatistics'
+    });
+});
+</script>
+</body>
+</html>

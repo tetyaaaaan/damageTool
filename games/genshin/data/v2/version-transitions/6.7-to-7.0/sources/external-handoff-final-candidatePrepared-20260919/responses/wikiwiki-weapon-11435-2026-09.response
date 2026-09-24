@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>アクセス確認中 - WIKIWIKI</title>
+
+  <style>
+    :root{
+      --brand:#9acd32; --bg:#f9f9f9; --fg:#333; --muted:#555;
+    }
+    *{ box-sizing:border-box }
+    body{
+      margin:0; background:var(--bg); color:var(--fg);
+      font-family:"Helvetica Neue","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
+      line-height:1.7; text-align:center; min-height:100vh;
+      display:flex; flex-direction:column;
+    }
+    header{ background:var(--brand); padding:12px 20px; text-align:left; }
+    .logo{ color:#fff; font-weight:700; font-size:28px; text-decoration:none; }
+
+    main{ flex:1; padding:40px 20px; max-width:760px; margin:0 auto; }
+    h1{ font-size:26px; margin:.4em 0 .6em; color:#444; }
+    .lead{ color:var(--muted); margin:10px auto 0; font-size:15px; }
+    @supports (text-wrap:balance){ .lead{ text-wrap:balance; } }
+    @media (min-width:720px){ .lead{ max-width:52ch; } }
+
+    .icon-wrap{ max-width:72px; margin:8px auto 16px; opacity:.95; }
+    .icon-wrap svg{ display:block; width:100%; height:auto; fill:var(--brand); }
+
+    .spinner{
+      width:44px; height:44px; margin:18px auto;
+      border:4px solid rgba(0,0,0,.08);
+      border-top-color:var(--brand);
+      border-radius:50%;
+      animation:spin 1s linear infinite;
+    }
+    @keyframes spin{ to{ transform:rotate(360deg) } }
+
+    .support{ margin-top:14px; font-size:14px; color:#444; }
+
+    @media (max-width:480px){
+      header{ padding:10px 16px; } .logo{ font-size:24px; }
+      main{ padding:30px 16px; } h1{ font-size:22px; }
+    }
+  </style>
+<meta http-equiv="refresh" content="360"></head>
+<body>
+  <div id="ww">
+    <header>
+      <a class="logo" href="https://wikiwiki.jp/">WIKIWIKI</a>
+    </header>
+
+    <main role="main" aria-labelledby="title">
+      <div class="icon-wrap" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+          <path d="M248 16c0-13.3-10.7-24-24-24S200 2.7 200 16l0 40-56 0c-35.3 0-64 28.7-64 64l0 40-24 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l24 0 0 24c0 35.3 28.7 64 64 64l160 0c35.3 0 64-28.7 64-64l0-24 24 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-24 0 0-40c0-35.3-28.7-64-64-64l-56 0 0-40zM0 448l0 32c0 17.7 14.3 32 32 32l72 0 0-40c0-13.3 10.7-24 24-24s24 10.7 24 24l0 40 48 0 0-40c0-13.3 10.7-24 24-24s24 10.7 24 24l0 40 48 0 0-40c0-13.3 10.7-24 24-24s24 10.7 24 24l0 40 72 0c17.7 0 32-14.3 32-32l0-32c0-53-43-96-96-96L96 352c-53 0-96 43-96 96zM155.3 140.7l12.7 12.7 12.7-12.7c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6l-12.7 12.7 12.7 12.7c6.2 6.2 6.2 16.4 0 22.6s-16.4 6.2-22.6 0l-12.7-12.7-12.7 12.7c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l12.7-12.7-12.7-12.7c-6.2-6.2-6.2-16.4 0-22.6s16.4-6.2 22.6 0zm112 0l12.7 12.7 12.7-12.7c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6l-12.7 12.7 12.7 12.7c6.2 6.2 6.2 16.4 0 22.6s-16.4 6.2-22.6 0l-12.7-12.7-12.7 12.7c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l12.7-12.7-12.7-12.7c-6.2-6.2-6.2-16.4 0-22.6s16.4-6.2 22.6 0z"/>
+        </svg>
+      </div>
+
+      <h1 id="title">ロボットではないことを確認しています…</h1>
+      <p class="lead">この処理は自動で行われ、完了後にページが表示されます。数秒お待ちください。</p>
+
+      <div class="spinner" aria-hidden="true"></div>
+
+      <div class="main-wrapper" role="main"><div class="main-content"><noscript><div class="h2"><span id="challenge-error-text">Enable JavaScript and cookies to continue</span></div></noscript></div></div><script>(function(){window._cf_chl_opt = {cFPWv: 'g',cH: 'a3yMle2IFOxa3fWE7UZ0vR5DDzLgDswQ.djJJEQ2u1Y-1789792282-1.2.1.1-7xogCmnEWWnmWFbSoivxsWw5G4_U7SEUk9GrTwMv4v8Lbj.MSdGTryVn3R6GJINE',cITimeS: '1789792282',cRay: 'a3d5dc449ab6739b',cTplB: '0',cTplC:1,cTplO:0,cTplV:5,cType: 'managed',cUPMDTk:"/genshinwiki/%E8%BF%9A%E3%83%BB%E7%84%94%E8%9C%91%EF%BD%A3/%E9%80%A1%EF%BD%B0%E9%81%B6%EF%BD%AF%E7%B9%A7%E5%A0%A4%E5%8F%AB%E7%B9%A7%E7%8B%97%E3%83%BB%E8%9B%BB%E3%83%BB%20%20captured_at:%20'2026-09-15?__cf_chl_tk=EiHUoh3Qm0ag9SZRmjJHd1HYDtU9LWvkeABeEC9J57Q-1789792282-1.0.1.1-tDUcTHCjoMnI1Vc_Gd6etz_YWrjwnty5VViswjTGTWs",cvId: '3',cZone: 'wikiwiki.jp',fa:"/genshinwiki/%E8%BF%9A%E3%83%BB%E7%84%94%E8%9C%91%EF%BD%A3/%E9%80%A1%EF%BD%B0%E9%81%B6%EF%BD%AF%E7%B9%A7%E5%A0%A4%E5%8F%AB%E7%B9%A7%E7%8B%97%E3%83%BB%E8%9B%BB%E3%83%BB%20%20captured_at:%20'2026-09-15?__cf_chl_f_tk=EiHUoh3Qm0ag9SZRmjJHd1HYDtU9LWvkeABeEC9J57Q-1789792282-1.0.1.1-tDUcTHCjoMnI1Vc_Gd6etz_YWrjwnty5VViswjTGTWs",md: 'BD8gfO.dMwh86802RSrw6XyHQ2I2BN.NZBUE0IlTFpY-1789792282-1.2.1.1-HgiL.AUF_.NQm4IutobW4Or0XPpUGb_F.hIKBg.rs7gi56bzNMJnX.9xNhv3XJgZqxjBFaboXvHG5gY1s1iGz6WFxL45ALK2gPlb_vjSGaMQr_m3l8Bp7ZEpB9s_mYpuF2RchU0JrF3ltpZjknfIonI3MNBfAQu192EjeJyKt_SWIlA0jlwIl.6t7k1qCbUDf90110_g604BrWAezf6bnllAoywZMvlr4jMNlL_Q4O8pLzdIYdOUmVZqX8fMk3Ah16NzN3S_6QnhdhRIp3kZZ0ZktHAib.P6vQq7VocH9nmA6_zr3yp6Z8w36TP0rtCf8QoXmdnb2PMiWkwJy4_3vrVDZNQSmk322x3DCey7Y7fCRWxXDbcHE5nliFlmjnYkizrgRCIvhs7QFwEptEmtY_U0BXmVdQ3Mg9w_FsofMukzsfbbtKNi89Vu_cpMbGIkNSK27w6h.QgPM4pY8xXR5Gqago1JL8DU0yQ4xfAf27lK43sNTOOH6zE3vJ3gIiGP5yO1LuroO4lp4Y3Vy5w6GLDu_YtIg4V06ccVi.kfbEu0Zjsf91gOo.BOgvYFvDJLn3C9HYWwNJ7P_bcwI6AihELOGkg_jRSPPJJPccNL_Y1RajZv7sa1DFNM1_wRVsAEVnxPeFM3tyFwndFy5gGasDXdzm.4X5JJBFtIREdGdwrsaMup7SjdvUeSWPIxbb_ubt.cmvU86qPk5sbOYVge7zX3bmUWY9578nNXsF8nebDxTSXSdmJhTOZ0DZPX8T_lO4yGoVTWqdphEzWHjDhAFN5opyd3nFnLI8yjRgTYebPy9ftYunsn5OLkUX8bSQ2PDNi8IqM_IFxQIlc2sXxYbWcb7gxdA6JqoauqdDR9bpRSGt2kFXktNpB6VQeSsxHF0kzPgW58U3FCHXK8074OzX8QmoJs84b6U6d2M2KpdJGJ6bFhpc0z9JJti6zyNdJQ2QMybqzWoWR6tZGy3q5ctXQ5aIlODsvslGCI36C0ONWFRT6ykDuYO6FyBY8CZU2ejEr1US4Q17ixXrmr0R2bCkAxtSSODnpaaDFx4oZVcOMq576wZbkNduYM0Gebz5jJQZuQztn7lREm4xbgihwxvogYZwIZIHkslftDVCYaX9tfzN_53RTvEX0dmXxdkHnandtxPG288wzENCCZnq7PZdPsL1ECgN9mdD47vu8nfktF0ixkd1oGskkMw9rNzU.ezL0Nd9mqPBPWJg4nXLcWObaUYqjP7ZB_7M50Hyk.fUX0I5rwsbP77PQ73rBZeVz1OG84NDKM_jl2O_d1XiTfouFoaQFZ1TeQjzVoFIr068fdahfZHI8BuEtd.slCM4sPR1.LJL1RIv2haY81qujJgA',mdrd: 'RUdoLOz_DzjLovEDlbFcbts41yMr2mZWzgTrFtCDDVY-1789792282-1.2.1.1-dIuvChy7XCPriIMAJ3Yyr3M5ORvzCbVvhrPx6yWDEhspCO_AXPU5p5WKVLffXOWUDpjsS4g1bhL3WDVUGTHBlwc9JDdQfsOLmDSslLr29KNUsfScAn5tt_7IzIHC1FqrxCdNtVrIvcDR4aa2bcEfbbHNO7HJLrwwlUwqQp6cH00rBBOIM_wXjBDX3gllr2HvTcnppa6SwSK4Ys6RACVsFHWPr5Bqx48xijhnTwgcwF87iWJuff4YW50pvksnX.TD',};var a = document.createElement('script');a.src = '/cdn-cgi/challenge-platform/h/g/orchestrate/chl_page/v1?ray=a3d5dc449ab6739b';window._cf_chl_opt.cOgUHash = location.hash === '' && location.href.indexOf('#') !== -1 ? '#' : location.hash;window._cf_chl_opt.cOgUQuery = location.search === '' && location.href.slice(0, location.href.length - window._cf_chl_opt.cOgUHash.length).indexOf('?') !== -1 ? '?' : location.search;if (window.history && window.history.replaceState) {var ogU = location.pathname + window._cf_chl_opt.cOgUQuery + window._cf_chl_opt.cOgUHash;history.replaceState(null, null,"/genshinwiki/%E8%BF%9A%E3%83%BB%E7%84%94%E8%9C%91%EF%BD%A3/%E9%80%A1%EF%BD%B0%E9%81%B6%EF%BD%AF%E7%B9%A7%E5%A0%A4%E5%8F%AB%E7%B9%A7%E7%8B%97%E3%83%BB%E8%9B%BB%E3%83%BB%20%20captured_at:%20'2026-09-15?__cf_chl_rt_tk=EiHUoh3Qm0ag9SZRmjJHd1HYDtU9LWvkeABeEC9J57Q-1789792282-1.0.1.1-tDUcTHCjoMnI1Vc_Gd6etz_YWrjwnty5VViswjTGTWs"+ window._cf_chl_opt.cOgUHash);a.onload = function() {history.replaceState(null, null, ogU);}}document.getElementsByTagName('head')[0].appendChild(a);}());</script>
+
+      <p class="support">Ray ID: <strong>a3d5dc449ab6739b</strong></p>
+    </main>
+  </div>
+</body>
+</html>

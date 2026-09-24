@@ -18,6 +18,12 @@
         reactionDefinitions: "/games/genshin/data/calc/reaction-definitions.json"
     };
 
+    const PROVISIONAL_70_PATHS = {
+        provisional70Characters: "/games/genshin/data/v2/candidates/7.0-provisional-characters.json",
+        provisional70Weapons: "/games/genshin/data/v2/candidates/7.0-provisional-weapons.json",
+        provisional70StellarSwirl: "/games/genshin/data/v2/candidates/7.0-provisional-stellar-swirl.json"
+    };
+
     const DISPLAY_DATA_PATHS = {
         characters: "/games/genshin/data/characters.json",
         weapons: "/games/genshin/data/weapons.json",
@@ -563,6 +569,253 @@
         return summary;
     }
 
+    function provisionalDocumentReady(document) {
+        const boundary = document?.statusDetails || document;
+        return document?.schemaVersion === 1
+            && document?.status === "candidatePrepared"
+            && document?.nonCanonical === true
+            && document?.targetGameVersion === "7.0"
+            && boundary?.canonical === false
+            && boundary?.verificationComplete === false
+            && boundary?.runtimeConnected === false
+            && boundary?.failClosedCanonical === true;
+    }
+
+    function levelMap(values) {
+        return Object.fromEntries((values || []).map((value, index) => [String(index + 1), Number(value) || 0]));
+    }
+
+    function normalizeProvisionalCharacterDocument(document) {
+        if (!Array.isArray(document?.characters)) return document;
+        const characterId = (value, key = "") => String(value?.sourceCharacterId || key).replace(/^provisional70_character_/, "");
+        const characters = Object.fromEntries(document.characters.map((value) => {
+            const id = characterId(value);
+            return [id, {
+                nameJa: value.nameJa,
+                element: value.elementJa || value.element,
+                weaponType: value.weaponTypeJa || value.weaponType,
+                rarity: value.rarity,
+                imagePath: value.imagePath,
+                selectionLabelJa: value.selectionLabelJa
+            }];
+        }));
+        const keyed = (values, transform) => Object.fromEntries(Object.entries(values || {}).map(([key, value]) => [
+            characterId(value, key), transform(value, characterId(value, key))
+        ]));
+        const characterTalents = keyed(document.characterTalents, (value) => {
+            const talents = value.talents || {};
+            return {
+                normalAttack: talents.normalAttack ? {
+                    nameJa: talents.normalAttack.nameJa,
+                    normalDescriptionJa: talents.normalAttack.descriptionJa,
+                    chargedDescriptionJa: talents.normalAttack.descriptionJa,
+                    plungingDescriptionJa: talents.normalAttack.descriptionJa
+                } : undefined,
+                skill: talents.skill ? { nameJa: talents.skill.nameJa, descriptionJa: talents.skill.descriptionJa } : undefined,
+                burst: talents.burst ? { nameJa: talents.burst.nameJa, descriptionJa: talents.burst.descriptionJa } : undefined,
+                passives: Object.entries(talents).filter(([key]) => /^passive\d+$/.test(key)).map(([key, passive]) => ({
+                    sourceId: key,
+                    nameJa: passive.nameJa,
+                    descriptionJa: passive.descriptionJa
+                }))
+            };
+        });
+        const talentScalings = keyed(document.talentScalings, (value) => {
+            const result = { normalAttack: { entries: [] }, skill: { entries: [] }, burst: { entries: [] } };
+            (value.rows || []).forEach((row) => {
+                const group = row.attackType === "skill" ? "skill" : row.attackType === "burst" ? "burst" : "normalAttack";
+                const rawValues = row.valuesPercent || [];
+                const componentCount = Array.isArray(rawValues[0]) ? rawValues[0].length : 1;
+                const scalings = Array.from({ length: componentCount }, (_, component) => ({
+                    stat: String(row.referenceStat || "ATK").toLowerCase(),
+                    valuesByLevel: levelMap(rawValues.map((valueAtLevel) => Array.isArray(valueAtLevel) ? valueAtLevel[component] : valueAtLevel))
+                }));
+                result[group].entries.push({
+                    id: row.id,
+                    label: row.labelJa,
+                    attackType: row.attackType,
+                    damageType: row.damageType === "normal" && row.attackType !== "normalAttack" ? row.attackType.replace("Attack", "") : row.damageType,
+                    element: ({ Physical: "physical", Electro: "雷", Cryo: "氷", Anemo: "風" })[row.element] || row.element,
+                    hitCount: componentCount > 1 ? 1 : (Number(row.hitCount) || 1),
+                    levelSource: group,
+                    scalings
+                });
+            });
+            return result;
+        });
+        const characterConstellations = keyed(document.characterConstellations, (value) => ({
+            constellations: Object.fromEntries(Object.entries(value.constellations || {}).map(([key, item]) => [
+                key.replace(/^c/, ""), { nameJa: item.nameJa, effectText: item.descriptionJa }
+            ]))
+        }));
+        const talentModifiers = {};
+        Object.values(document.talentModifiers || {}).forEach((modifier) => {
+            const id = characterId(null, modifier.characterId);
+            const converted = (() => {
+                if (modifier.kind === "damageBonus" && modifier.formula?.sourceStat === "energyRechargePercent") return {
+                    id: modifier.id,
+                    category: "damageBonus",
+                    applyTo: ["skillDamageBonus", "burstDamageBonus"],
+                    customCalculation: "cappedStatRatio",
+                    reference: { stat: "energyRecharge" },
+                    ratio: modifier.formula.coefficientPercentPer1Percent,
+                    maxValue: modifier.formula.capPercent,
+                    condition: "active",
+                    conditionLabel: modifier.labelJa,
+                    calculationSupport: "toggle"
+                };
+                if (modifier.kind === "reactionDamageBonus") {
+                    const valueByLevel = modifier.formula?.valuesByBurstTalentLevelPercent
+                        ? levelMap(modifier.formula.valuesByBurstTalentLevelPercent) : undefined;
+                    const perStack = modifier.formula?.bonusPercentPerHunterPrecisionStack;
+                    return {
+                        id: modifier.id,
+                        category: "reactionBonus",
+                        applyTo: (modifier.scope || []).map((scope) => `${scope}DamageBonus`),
+                        ...(valueByLevel ? { valueByLevel, levelSource: "burst" } : { valuePerStack: perStack }),
+                        condition: "active",
+                        conditionLabel: modifier.labelJa,
+                        conditionInput: perStack ? { type: "stack", label: modifier.labelJa, min: 0, max: modifier.formula.maxStacks || 2, unit: "層" }
+                            : undefined,
+                        calculationSupport: perStack ? "stack" : "toggle",
+                        stack: perStack ? { min: 0, max: modifier.formula.maxStacks || 2, default: 0 } : undefined
+                    };
+                }
+                return null;
+            })();
+            if (!converted) return;
+            talentModifiers[id] ||= { passives: [] };
+            talentModifiers[id].passives.push({ sourceId: modifier.id, modifiers: [converted] });
+        });
+        const constellationModifiers = {};
+        Object.values(document.constellationModifiers || {}).forEach((modifier) => {
+            const id = characterId(null, modifier.characterId);
+            const level = String(modifier.constellation || "").replace(/^c/, "");
+            let converted = null;
+            if (modifier.kind === "talentLevelBonus") converted = {
+                id: modifier.id, category: "talentLevelBonus", applyTo: [`${modifier.targetTalent}TalentLevel`],
+                value: modifier.amount, unit: "level", condition: "constellationUnlocked", calculationSupport: "simple"
+            };
+            if (modifier.kind === "statBonus") {
+                const max = modifier.formula?.maxStacks || modifier.condition?.stackMax || 0;
+                const valueByStack = modifier.formula?.flat === 100 ? { "0": 0, "1": 0, "2": 100 } : undefined;
+                converted = {
+                    id: modifier.id, category: "statBonus",
+                    applyTo: [modifier.formula?.stat === "elementalMastery" ? "elementalMastery" : "atkPercent"],
+                    ...(valueByStack ? { valueByStack } : { value: modifier.formula?.bonusPercentPerStack || 0 }),
+                    unit: valueByStack ? "flat" : "percent", condition: "active", conditionLabel: modifier.labelJa,
+                    conditionInput: { type: "stack", label: modifier.labelJa, min: 0, max, unit: "層" },
+                    calculationSupport: "stack", stack: { min: 0, max, default: 0 }
+                };
+            }
+            if (modifier.kind === "resistanceShred") converted = {
+                id: modifier.id, category: "resistanceDebuff", applyTo: ["cryoResistance", "anemoResistance"],
+                value: modifier.formula?.resistanceReductionPercent || 0, unit: "percent", condition: "active",
+                conditionLabel: modifier.labelJa, calculationSupport: "toggle"
+            };
+            if (modifier.kind === "reactionDamageBonus") {
+                const value = modifier.formula?.bonusPercent ?? modifier.formula?.bonusPercentPerStack;
+                converted = {
+                    id: modifier.id, category: "reactionBonus",
+                    applyTo: (modifier.scope || []).map((scope) => `${scope}DamageBonus`), value,
+                    unit: "percent", condition: "active", conditionLabel: modifier.labelJa,
+                    calculationSupport: "toggle"
+                };
+            }
+            if (!converted || !level) return;
+            constellationModifiers[id] ||= { constellations: {} };
+            constellationModifiers[id].constellations[level] ||= [];
+            constellationModifiers[id].constellations[level].push(converted);
+        });
+        return { ...document, characters, characterTalents, talentScalings, talentModifiers, characterConstellations, constellationModifiers };
+    }
+
+    function applyProvisional70Data(data, documents, warnings = []) {
+        const summary = { offered: 0, applied: 0, rejected: 0, skippedCanonical: 0, targets: {} };
+        const displayDatasets = new Set(["characters", "weapons", "characterTalents", "characterConstellations", "weaponEffects"]);
+        const mark = (value, document, entityId) => {
+            if (!value || typeof value !== "object" || Array.isArray(value)) return value;
+            return {
+                ...value,
+                dataStatus: "provisional",
+                verificationLabel: document.labelJa || "検証中",
+                provisionalSource: document.kind,
+                provisionalEntityId: String(entityId)
+            };
+        };
+        const mergeMissingMap = (dataset, values, document) => {
+            if (!values || typeof values !== "object" || Array.isArray(values)) return;
+            data[dataset] ||= {};
+            Object.entries(values).forEach(([entityId, value]) => {
+                summary.offered += 1;
+                if (Object.prototype.hasOwnProperty.call(data[dataset], entityId)) {
+                    summary.skippedCanonical += 1;
+                    return;
+                }
+                data[dataset][entityId] = displayDatasets.has(dataset) ? mark(value, document, entityId) : value;
+                summary.targets[`${dataset}:${entityId}`] = "provisional";
+                summary.applied += 1;
+            });
+        };
+        (documents || []).map(normalizeProvisionalCharacterDocument).forEach((document) => {
+            if (!provisionalDocumentReady(document)) {
+                summary.rejected += 1;
+                warnings.push({ level: "warn", message: `${document?.kind || "7.0 provisional document"} rejected: non-canonical candidate boundary is invalid` });
+                return;
+            }
+            [
+                "characters", "weapons", "characterTalents", "characterConstellations",
+                "talentScalings", "talentModifiers", "constellationModifiers",
+                "weaponEffects", "weaponModifiers"
+            ].forEach((dataset) => mergeMissingMap(dataset, document[dataset], document));
+            if (document.weaponEffectRegistry?.weapons) {
+                data.weaponEffectRegistry ||= {};
+                data.weaponEffectRegistry.weapons ||= {};
+                Object.entries(document.weaponEffectRegistry.weapons).forEach(([weaponId, value]) => {
+                    summary.offered += 1;
+                    if (Object.prototype.hasOwnProperty.call(data.weaponEffectRegistry.weapons, weaponId)) {
+                        summary.skippedCanonical += 1;
+                        return;
+                    }
+                    data.weaponEffectRegistry.weapons[weaponId] = value;
+                    summary.targets[`weaponEffectRegistry:${weaponId}`] = "provisional";
+                    summary.applied += 1;
+                });
+            }
+            const provisionalReactions = document.reactionDefinitions?.options || {};
+            data.reactionDefinitions ||= {};
+            data.reactionDefinitions.options ||= {};
+            Object.entries(provisionalReactions).forEach(([reactionId, value]) => {
+                summary.offered += 1;
+                const existing = data.reactionDefinitions.options[reactionId];
+                const replaceableFallback = existing?.calculationStatus === "dedicatedFormulaRequired"
+                    && existing?.dedicatedKind === "formulaPending"
+                    && existing?.standaloneDamage === false
+                    && existing?.dataStatus !== "canonical"
+                    && existing?.canonical !== true;
+                if (existing && !replaceableFallback) {
+                    summary.skippedCanonical += 1;
+                    return;
+                }
+                data.reactionDefinitions.options[reactionId] = mark(value, document, reactionId);
+                summary.targets[`reactionDefinitions:${reactionId}`] = "provisional";
+                summary.applied += 1;
+            });
+            if (document.reactionDefinitions?.characterLevelMultipliers) {
+                data.reactionDefinitions.characterLevelMultipliers ||= {};
+                Object.entries(document.reactionDefinitions.characterLevelMultipliers).forEach(([level, value]) => {
+                    if (!Object.prototype.hasOwnProperty.call(data.reactionDefinitions.characterLevelMultipliers, level)) {
+                        data.reactionDefinitions.characterLevelMultipliers[level] = value;
+                    }
+                });
+            }
+        });
+        summary.active = summary.applied > 0;
+        summary.labelJa = "検証中";
+        summary.canonicalEligibilityGranted = false;
+        return summary;
+    }
+
     function validateCalcData(data) {
         const warnings = [];
         (window.GenshinDataContract?.validateManifest(data.dataManifest) || []).forEach((message) => {
@@ -588,9 +841,14 @@
         if (cache) return cache;
         const warnings = [];
         const entries = await Promise.all(
-            Object.entries({ ...CALC_PATHS, ...DISPLAY_DATA_PATHS }).map(async ([key, path]) => [key, await fetchJson(key, path, warnings)])
+            Object.entries({ ...CALC_PATHS, ...DISPLAY_DATA_PATHS, ...PROVISIONAL_70_PATHS }).map(async ([key, path]) => [key, await fetchJson(key, path, warnings)])
         );
         const data = Object.fromEntries(entries);
+        data.provisionalRuntimeSummary = applyProvisional70Data(data, [
+            data.provisional70Characters,
+            data.provisional70Weapons,
+            data.provisional70StellarSwirl
+        ], warnings);
         data.canonicalRuntimeSummary = applyCanonicalRuntime(data, data.canonicalRuntime, warnings, data.versionBaseline, data.upstreamVersionHead);
         data.warnings = warnings.concat(validateCalcData(data));
         cache = data;
@@ -601,6 +859,7 @@
         loadGenshinCalcData,
         validateCalcData,
         applyCanonicalRuntime,
+        applyProvisional70Data,
         assessCanonicalVersionAvailability,
         canonicalTargetArray,
         behaviorConditionMatches,
