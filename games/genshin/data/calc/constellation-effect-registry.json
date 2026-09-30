@@ -20,11 +20,11 @@
   "summary": {
     "characters": 117,
     "constellationLevels": 702,
-    "effects": 749,
+    "effects": 753,
     "byVerificationStatus": {
       "mechanicOnly": 68,
-      "corroborated": 452,
-      "textVerified": 195,
+      "corroborated": 453,
+      "textVerified": 198,
       "quarantined": 32,
       "sourceContextRequired": 2
     },
@@ -1910,25 +1910,60 @@
               "id": "c_10000022_2_1",
               "category": "resistanceDebuff",
               "targets": [
-                "physicalResistance"
+                "anemoResistance"
               ],
-              "condition": "constellationUnlocked",
+              "condition": "conditional",
               "unit": "percent",
               "numericValues": [
                 {
-                  "field": "value",
+                  "field": "valueByCondition.inactive",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.afterSkill",
                   "value": -12
+                },
+                {
+                  "field": "valueByCondition.airborne",
+                  "value": -24
                 }
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "corroborated",
+              "verificationStatus": "textVerified",
               "evidence": {
                 "officialTextValueMatch": true,
-                "externalNumericHints": [
-                  "genshinOptimizer",
-                  "gcsim"
-                ]
+                "externalNumericHints": []
+              }
+            },
+            {
+              "id": "c_10000022_2_2",
+              "category": "resistanceDebuff",
+              "targets": [
+                "physicalResistance"
+              ],
+              "condition": "conditional",
+              "unit": "percent",
+              "numericValues": [
+                {
+                  "field": "valueByCondition.inactive",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.afterSkill",
+                  "value": -12
+                },
+                {
+                  "field": "valueByCondition.airborne",
+                  "value": -24
+                }
+              ],
+              "requiresNumericValue": true,
+              "hasNumericContract": true,
+              "verificationStatus": "textVerified",
+              "evidence": {
+                "officialTextValueMatch": true,
+                "externalNumericHints": []
               }
             }
           ],
@@ -1994,31 +2029,6 @@
                   "gcsim"
                 ]
               }
-            },
-            {
-              "id": "c_10000022_4_2",
-              "category": "damageBonus",
-              "targets": [
-                "allDamageBonus"
-              ],
-              "condition": "constellationUnlocked",
-              "unit": "percent",
-              "numericValues": [
-                {
-                  "field": "value",
-                  "value": 25
-                }
-              ],
-              "requiresNumericValue": true,
-              "hasNumericContract": true,
-              "verificationStatus": "corroborated",
-              "evidence": {
-                "officialTextValueMatch": true,
-                "externalNumericHints": [
-                  "genshinOptimizer",
-                  "gcsim"
-                ]
-              }
             }
           ],
           "classification": "calculationEffectsPresent"
@@ -2065,7 +2075,124 @@
               "targets": [
                 "anemoResistance"
               ],
-              "condition": "constellationUnlocked",
+              "condition": "conditional",
+              "unit": "percent",
+              "numericValues": [
+                {
+                  "field": "valueByCondition.inactive",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.anemo",
+                  "value": -20
+                },
+                {
+                  "field": "valueByCondition.pyro",
+                  "value": -20
+                },
+                {
+                  "field": "valueByCondition.hydro",
+                  "value": -20
+                },
+                {
+                  "field": "valueByCondition.electro",
+                  "value": -20
+                },
+                {
+                  "field": "valueByCondition.cryo",
+                  "value": -20
+                }
+              ],
+              "requiresNumericValue": true,
+              "hasNumericContract": true,
+              "verificationStatus": "textVerified",
+              "evidence": {
+                "officialTextValueMatch": true,
+                "externalNumericHints": []
+              }
+            },
+            {
+              "id": "c_10000022_6_pyro",
+              "category": "resistanceDebuff",
+              "targets": [
+                "pyroResistance"
+              ],
+              "condition": "conditional",
+              "unit": "percent",
+              "numericValues": [
+                {
+                  "field": "value",
+                  "value": -20
+                }
+              ],
+              "requiresNumericValue": true,
+              "hasNumericContract": true,
+              "verificationStatus": "corroborated",
+              "evidence": {
+                "officialTextValueMatch": true,
+                "externalNumericHints": [
+                  "genshinOptimizer",
+                  "gcsim"
+                ]
+              }
+            },
+            {
+              "id": "c_10000022_6_hydro",
+              "category": "resistanceDebuff",
+              "targets": [
+                "hydroResistance"
+              ],
+              "condition": "conditional",
+              "unit": "percent",
+              "numericValues": [
+                {
+                  "field": "value",
+                  "value": -20
+                }
+              ],
+              "requiresNumericValue": true,
+              "hasNumericContract": true,
+              "verificationStatus": "corroborated",
+              "evidence": {
+                "officialTextValueMatch": true,
+                "externalNumericHints": [
+                  "genshinOptimizer",
+                  "gcsim"
+                ]
+              }
+            },
+            {
+              "id": "c_10000022_6_electro",
+              "category": "resistanceDebuff",
+              "targets": [
+                "electroResistance"
+              ],
+              "condition": "conditional",
+              "unit": "percent",
+              "numericValues": [
+                {
+                  "field": "value",
+                  "value": -20
+                }
+              ],
+              "requiresNumericValue": true,
+              "hasNumericContract": true,
+              "verificationStatus": "corroborated",
+              "evidence": {
+                "officialTextValueMatch": true,
+                "externalNumericHints": [
+                  "genshinOptimizer",
+                  "gcsim"
+                ]
+              }
+            },
+            {
+              "id": "c_10000022_6_cryo",
+              "category": "resistanceDebuff",
+              "targets": [
+                "cryoResistance"
+              ],
+              "condition": "conditional",
               "unit": "percent",
               "numericValues": [
                 {
@@ -25714,25 +25841,62 @@
       "id": "c_10000022_2_1",
       "category": "resistanceDebuff",
       "targets": [
-        "physicalResistance"
+        "anemoResistance"
       ],
-      "condition": "constellationUnlocked",
+      "condition": "conditional",
       "unit": "percent",
       "numericValues": [
         {
-          "field": "value",
+          "field": "valueByCondition.inactive",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.afterSkill",
           "value": -12
+        },
+        {
+          "field": "valueByCondition.airborne",
+          "value": -24
         }
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "corroborated",
+      "verificationStatus": "textVerified",
       "evidence": {
         "officialTextValueMatch": true,
-        "externalNumericHints": [
-          "genshinOptimizer",
-          "gcsim"
-        ]
+        "externalNumericHints": []
+      }
+    },
+    "c_10000022_2_2": {
+      "characterId": "10000022",
+      "constellation": 2,
+      "id": "c_10000022_2_2",
+      "category": "resistanceDebuff",
+      "targets": [
+        "physicalResistance"
+      ],
+      "condition": "conditional",
+      "unit": "percent",
+      "numericValues": [
+        {
+          "field": "valueByCondition.inactive",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.afterSkill",
+          "value": -12
+        },
+        {
+          "field": "valueByCondition.airborne",
+          "value": -24
+        }
+      ],
+      "requiresNumericValue": true,
+      "hasNumericContract": true,
+      "verificationStatus": "textVerified",
+      "evidence": {
+        "officialTextValueMatch": true,
+        "externalNumericHints": []
       }
     },
     "c_10000022_3_1": {
@@ -25789,33 +25953,6 @@
         ]
       }
     },
-    "c_10000022_4_2": {
-      "characterId": "10000022",
-      "constellation": 4,
-      "id": "c_10000022_4_2",
-      "category": "damageBonus",
-      "targets": [
-        "allDamageBonus"
-      ],
-      "condition": "constellationUnlocked",
-      "unit": "percent",
-      "numericValues": [
-        {
-          "field": "value",
-          "value": 25
-        }
-      ],
-      "requiresNumericValue": true,
-      "hasNumericContract": true,
-      "verificationStatus": "corroborated",
-      "evidence": {
-        "officialTextValueMatch": true,
-        "externalNumericHints": [
-          "genshinOptimizer",
-          "gcsim"
-        ]
-      }
-    },
     "c_10000022_5_1": {
       "characterId": "10000022",
       "constellation": 5,
@@ -25851,7 +25988,132 @@
       "targets": [
         "anemoResistance"
       ],
-      "condition": "constellationUnlocked",
+      "condition": "conditional",
+      "unit": "percent",
+      "numericValues": [
+        {
+          "field": "valueByCondition.inactive",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.anemo",
+          "value": -20
+        },
+        {
+          "field": "valueByCondition.pyro",
+          "value": -20
+        },
+        {
+          "field": "valueByCondition.hydro",
+          "value": -20
+        },
+        {
+          "field": "valueByCondition.electro",
+          "value": -20
+        },
+        {
+          "field": "valueByCondition.cryo",
+          "value": -20
+        }
+      ],
+      "requiresNumericValue": true,
+      "hasNumericContract": true,
+      "verificationStatus": "textVerified",
+      "evidence": {
+        "officialTextValueMatch": true,
+        "externalNumericHints": []
+      }
+    },
+    "c_10000022_6_pyro": {
+      "characterId": "10000022",
+      "constellation": 6,
+      "id": "c_10000022_6_pyro",
+      "category": "resistanceDebuff",
+      "targets": [
+        "pyroResistance"
+      ],
+      "condition": "conditional",
+      "unit": "percent",
+      "numericValues": [
+        {
+          "field": "value",
+          "value": -20
+        }
+      ],
+      "requiresNumericValue": true,
+      "hasNumericContract": true,
+      "verificationStatus": "corroborated",
+      "evidence": {
+        "officialTextValueMatch": true,
+        "externalNumericHints": [
+          "genshinOptimizer",
+          "gcsim"
+        ]
+      }
+    },
+    "c_10000022_6_hydro": {
+      "characterId": "10000022",
+      "constellation": 6,
+      "id": "c_10000022_6_hydro",
+      "category": "resistanceDebuff",
+      "targets": [
+        "hydroResistance"
+      ],
+      "condition": "conditional",
+      "unit": "percent",
+      "numericValues": [
+        {
+          "field": "value",
+          "value": -20
+        }
+      ],
+      "requiresNumericValue": true,
+      "hasNumericContract": true,
+      "verificationStatus": "corroborated",
+      "evidence": {
+        "officialTextValueMatch": true,
+        "externalNumericHints": [
+          "genshinOptimizer",
+          "gcsim"
+        ]
+      }
+    },
+    "c_10000022_6_electro": {
+      "characterId": "10000022",
+      "constellation": 6,
+      "id": "c_10000022_6_electro",
+      "category": "resistanceDebuff",
+      "targets": [
+        "electroResistance"
+      ],
+      "condition": "conditional",
+      "unit": "percent",
+      "numericValues": [
+        {
+          "field": "value",
+          "value": -20
+        }
+      ],
+      "requiresNumericValue": true,
+      "hasNumericContract": true,
+      "verificationStatus": "corroborated",
+      "evidence": {
+        "officialTextValueMatch": true,
+        "externalNumericHints": [
+          "genshinOptimizer",
+          "gcsim"
+        ]
+      }
+    },
+    "c_10000022_6_cryo": {
+      "characterId": "10000022",
+      "constellation": 6,
+      "id": "c_10000022_6_cryo",
+      "category": "resistanceDebuff",
+      "targets": [
+        "cryoResistance"
+      ],
+      "condition": "conditional",
       "unit": "percent",
       "numericValues": [
         {

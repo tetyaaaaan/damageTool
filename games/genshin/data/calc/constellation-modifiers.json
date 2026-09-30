@@ -1012,12 +1012,48 @@
           "id": "c_10000022_2_1",
           "category": "resistanceDebuff",
           "applyTo": [
-            "physicalResistance"
+            "anemoResistance"
           ],
-          "value": -12,
+          "valueByCondition": {
+            "inactive": 0,
+            "afterSkill": -12,
+            "airborne": -24
+          },
           "unit": "percent",
           "sourceText": "高天の歌発動後、敵の風元素耐性と物理耐性-12%、継続時間10秒。\n高天の歌によってノックバックされた敵が着地するまで、風元素耐性と物理耐性が更に-12%。",
-          "condition": "constellationUnlocked",
+          "condition": "conditional",
+          "conditionInput": {
+            "type": "option",
+            "default": "inactive",
+            "label": "恋い焦がれるそよ風の状態",
+            "help": "高天の歌発動後か、ノックバックされた敵が着地する前かを選択します。",
+            "options": [
+              { "value": "inactive", "label": "未発動" },
+              { "value": "afterSkill", "label": "高天の歌発動後：風・物理耐性-12%" },
+              { "value": "airborne", "label": "着地前：風・物理耐性-24%" }
+            ]
+          },
+          "conditionGroupId": "venti-c2-high-sky-song-debuff",
+          "targetOwner": "enemy",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional"
+        },
+        {
+          "id": "c_10000022_2_2",
+          "category": "resistanceDebuff",
+          "applyTo": [
+            "physicalResistance"
+          ],
+          "valueByCondition": {
+            "inactive": 0,
+            "afterSkill": -12,
+            "airborne": -24
+          },
+          "unit": "percent",
+          "sourceText": "高天の歌発動後、敵の風元素耐性と物理耐性-12%、継続時間10秒。\n高天の歌によってノックバックされた敵が着地するまで、風元素耐性と物理耐性が更に-12%。",
+          "condition": "conditional",
+          "conditionGroupId": "venti-c2-high-sky-song-debuff",
+          "targetOwner": "enemy",
           "calculationSupport": "toggle",
           "uidHandling": "conditional"
         }
@@ -1050,19 +1086,6 @@
           "condition": "constellationUnlocked",
           "calculationSupport": "toggle",
           "uidHandling": "conditional"
-        },
-        {
-          "id": "c_10000022_4_2",
-          "category": "damageBonus",
-          "applyTo": [
-            "allDamageBonus"
-          ],
-          "value": 25,
-          "unit": "percent",
-          "sourceText": "ウェンティが元素オーブまたは元素粒子を獲得した時、風元素ダメージ+25%、継続時間10秒。",
-          "condition": "constellationUnlocked",
-          "calculationSupport": "toggle",
-          "uidHandling": "conditional"
         }
       ],
       "5": [
@@ -1087,10 +1110,89 @@
           "applyTo": [
             "anemoResistance"
           ],
+          "valueByCondition": {
+            "inactive": 0,
+            "anemo": -20,
+            "pyro": -20,
+            "hydro": -20,
+            "electro": -20,
+            "cryo": -20
+          },
+          "unit": "percent",
+          "sourceText": "風神の詩のダメージを受けた敵の風元素耐性-20%。\n元素変化があった場合、変化した元素の耐性も-20%。",
+          "condition": "conditional",
+          "conditionInput": {
+            "type": "option",
+            "default": "inactive",
+            "label": "抗争の暴風：暴風の目の元素変化",
+            "help": "風神の詩が命中した状態と、暴風の目に起きた元素変化を選択します。",
+            "options": [
+              { "value": "inactive", "label": "未発動" },
+              { "value": "anemo", "label": "命中済み・元素変化なし" },
+              { "value": "pyro", "label": "炎元素変化" },
+              { "value": "hydro", "label": "水元素変化" },
+              { "value": "electro", "label": "雷元素変化" },
+              { "value": "cryo", "label": "氷元素変化" }
+            ]
+          },
+          "conditionGroupId": "venti-c6-stormeye-elemental-absorption",
+          "targetOwner": "enemy",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional"
+        },
+        {
+          "id": "c_10000022_6_pyro",
+          "category": "resistanceDebuff",
+          "applyTo": ["pyroResistance"],
           "value": -20,
           "unit": "percent",
           "sourceText": "風神の詩のダメージを受けた敵の風元素耐性-20%。\n元素変化があった場合、変化した元素の耐性も-20%。",
-          "condition": "constellationUnlocked",
+          "condition": "conditional",
+          "conditionOptionValue": "pyro",
+          "conditionGroupId": "venti-c6-stormeye-elemental-absorption",
+          "targetOwner": "enemy",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional"
+        },
+        {
+          "id": "c_10000022_6_hydro",
+          "category": "resistanceDebuff",
+          "applyTo": ["hydroResistance"],
+          "value": -20,
+          "unit": "percent",
+          "sourceText": "風神の詩のダメージを受けた敵の風元素耐性-20%。\n元素変化があった場合、変化した元素の耐性も-20%。",
+          "condition": "conditional",
+          "conditionOptionValue": "hydro",
+          "conditionGroupId": "venti-c6-stormeye-elemental-absorption",
+          "targetOwner": "enemy",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional"
+        },
+        {
+          "id": "c_10000022_6_electro",
+          "category": "resistanceDebuff",
+          "applyTo": ["electroResistance"],
+          "value": -20,
+          "unit": "percent",
+          "sourceText": "風神の詩のダメージを受けた敵の風元素耐性-20%。\n元素変化があった場合、変化した元素の耐性も-20%。",
+          "condition": "conditional",
+          "conditionOptionValue": "electro",
+          "conditionGroupId": "venti-c6-stormeye-elemental-absorption",
+          "targetOwner": "enemy",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional"
+        },
+        {
+          "id": "c_10000022_6_cryo",
+          "category": "resistanceDebuff",
+          "applyTo": ["cryoResistance"],
+          "value": -20,
+          "unit": "percent",
+          "sourceText": "風神の詩のダメージを受けた敵の風元素耐性-20%。\n元素変化があった場合、変化した元素の耐性も-20%。",
+          "condition": "conditional",
+          "conditionOptionValue": "cryo",
+          "conditionGroupId": "venti-c6-stormeye-elemental-absorption",
+          "targetOwner": "enemy",
           "calculationSupport": "toggle",
           "uidHandling": "conditional"
         }
