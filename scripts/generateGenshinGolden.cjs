@@ -58,7 +58,7 @@ async function buildGoldenScenarios() {
 
     {
         const { sandbox, elements, calcData } = createScenarioHarness();
-        prepareScenarioInputs(elements, { characterId: "10000088", constellation: 2 });
+        prepareScenarioInputs(elements, { characterId: "10000088", constellation: 2, stats: { baseAtk: 2000 } });
         const modifier = calcData.constellationModifiers["10000088"].constellations["2"]
             .find((item) => item.id === "c_10000088_2_1_resolved_1");
         const key = sandbox.GenshinModifierAnalyzer.modifierStateKey(modifier, "constellation:C2");
@@ -70,7 +70,7 @@ async function buildGoldenScenarios() {
 
     {
         const { sandbox, elements, calcData } = createScenarioHarness();
-        prepareScenarioInputs(elements, { characterId: "10000089", constellation: 2 });
+        prepareScenarioInputs(elements, { characterId: "10000089", constellation: 2, stats: { baseHp: 20000 } });
         const modifier = calcData.constellationModifiers["10000089"].constellations["2"]
             .find((item) => item.id === "c_10000089_2_1_resolved_2");
         const key = sandbox.GenshinModifierAnalyzer.modifierStateKey(modifier, "constellation:C2");

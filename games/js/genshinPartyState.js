@@ -442,10 +442,14 @@
     function setPartyConditionState(key, kind, value) {
         const normalizedKey = String(key || "");
         const normalizedKind = String(kind || "option");
-        if (!normalizedKey || normalizedKind !== "option" || value === undefined || value === null) return false;
+        if (!normalizedKey || !["option", "stack", "targetCount"].includes(normalizedKind) || value === undefined || value === null) return false;
+        const normalizedValue = normalizedKind === "option"
+            ? String(value)
+            : String(value).trim() === "" ? "" : Number(value);
+        if (normalizedKind !== "option" && normalizedValue !== "" && !Number.isFinite(normalizedValue)) return false;
         partyConditionStateByKey[normalizedKey] = {
             ...(partyConditionStateByKey[normalizedKey] || {}),
-            option: String(value)
+            [normalizedKind]: normalizedValue
         };
         return true;
     }

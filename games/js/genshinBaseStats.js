@@ -49,7 +49,9 @@
                 if (boundaryIndex < 0) return Number(row.level) <= 1 ? 0 : 6;
                 return row.ascension === "after" ? boundaryIndex + 1 : boundaryIndex;
             };
-            const row = source.resolvedCheckpoints.find((item) => Number(item.level) === normalizedLevel && checkpointStage(item) === requestedStage);
+            const row = source.resolvedCheckpoints
+                .filter((item) => Number(item.level) === normalizedLevel && checkpointStage(item) === requestedStage)
+                .sort((left, right) => Number.isInteger(Number(right.ascension)) - Number.isInteger(Number(left.ascension)))[0];
             if (!row) return null;
             return {
                 characterId: String(characterId),
@@ -152,17 +154,17 @@
             || boundary?.runtimeConnected !== false || boundary?.failClosedCanonical !== true) return;
         let source = document.baseStats || {};
         if (!source.characters && Array.isArray(document.characters)) {
-            const levelOneHp = { "10000148": 1003, "10000150": 1011 };
             source = {
                 characters: Object.fromEntries(Object.entries(source).map(([key, value]) => {
                     const id = String(value?.sourceCharacterId || key).replace(/^provisional70_character_/, "");
-                    const first = (value.levelRows || [])[0] || {};
-                    const last = [...(value.levelRows || [])].reverse().find((row) => Number(row.level) === 90) || {};
                     return [id, {
-                        resolvedCheckpoints: [
-                            { level: 1, ascension: 0, hp: levelOneHp[id], atk: first.atk, def: first.def },
-                            { level: 90, ascension: 6, hp: last.hp, atk: last.atk, def: last.def }
-                        ]
+                        resolvedCheckpoints: (value.levelRows || []).map((row) => ({
+                            level: row.level,
+                            ascension: row.ascension,
+                            hp: row.hp,
+                            atk: row.atk,
+                            def: row.def
+                        }))
                     }];
                 }))
             };

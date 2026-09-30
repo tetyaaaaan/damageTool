@@ -20,10 +20,10 @@
   "summary": {
     "characters": 117,
     "constellationLevels": 702,
-    "effects": 746,
+    "effects": 749,
     "byVerificationStatus": {
       "mechanicOnly": 68,
-      "corroborated": 449,
+      "corroborated": 452,
       "textVerified": 195,
       "quarantined": 32,
       "sourceContextRequired": 2
@@ -5702,10 +5702,85 @@
           "effectText": "禁·風霊作成·七五同構弐型に元素変化が起きた時、スキル継続中チーム全員の該当元素ダメージ+20%。",
           "effects": [
             {
-              "id": "c_10000043_6_1",
+              "id": "c_10000043_6_pyro",
               "category": "damageBonus",
               "targets": [
-                "skillDamageBonus"
+                "pyroDamageBonus"
+              ],
+              "condition": "constellationUnlocked",
+              "unit": "percent",
+              "numericValues": [
+                {
+                  "field": "value",
+                  "value": 20
+                }
+              ],
+              "requiresNumericValue": true,
+              "hasNumericContract": true,
+              "verificationStatus": "corroborated",
+              "evidence": {
+                "officialTextValueMatch": true,
+                "externalNumericHints": [
+                  "genshinOptimizer",
+                  "gcsim"
+                ]
+              }
+            },
+            {
+              "id": "c_10000043_6_hydro",
+              "category": "damageBonus",
+              "targets": [
+                "hydroDamageBonus"
+              ],
+              "condition": "constellationUnlocked",
+              "unit": "percent",
+              "numericValues": [
+                {
+                  "field": "value",
+                  "value": 20
+                }
+              ],
+              "requiresNumericValue": true,
+              "hasNumericContract": true,
+              "verificationStatus": "corroborated",
+              "evidence": {
+                "officialTextValueMatch": true,
+                "externalNumericHints": [
+                  "genshinOptimizer",
+                  "gcsim"
+                ]
+              }
+            },
+            {
+              "id": "c_10000043_6_electro",
+              "category": "damageBonus",
+              "targets": [
+                "electroDamageBonus"
+              ],
+              "condition": "constellationUnlocked",
+              "unit": "percent",
+              "numericValues": [
+                {
+                  "field": "value",
+                  "value": 20
+                }
+              ],
+              "requiresNumericValue": true,
+              "hasNumericContract": true,
+              "verificationStatus": "corroborated",
+              "evidence": {
+                "officialTextValueMatch": true,
+                "externalNumericHints": [
+                  "genshinOptimizer",
+                  "gcsim"
+                ]
+              }
+            },
+            {
+              "id": "c_10000043_6_cryo",
+              "category": "damageBonus",
+              "targets": [
+                "cryoDamageBonus"
               ],
               "condition": "constellationUnlocked",
               "unit": "percent",
@@ -14261,18 +14336,18 @@
             },
             {
               "id": "c_10000089_6_3_resolved_2",
-              "category": "extraDamage",
+              "category": "scalingBonus",
               "targets": [
-                "normalAttack",
-                "chargedAttack",
-                "plungingAttack"
+                "normalAttackDamageBonus",
+                "chargedAttackDamageBonus",
+                "plungingAttackDamageBonus"
               ],
-              "condition": "onHit",
-              "unit": "",
+              "condition": "conditional",
+              "unit": "percent",
               "numericValues": [
                 {
-                  "field": "scalings.0.value",
-                  "value": 18
+                  "field": "ratio",
+                  "value": 25
                 }
               ],
               "requiresNumericValue": true,
@@ -28532,13 +28607,94 @@
         ]
       }
     },
-    "c_10000043_6_1": {
+    "c_10000043_6_pyro": {
       "characterId": "10000043",
       "constellation": 6,
-      "id": "c_10000043_6_1",
+      "id": "c_10000043_6_pyro",
       "category": "damageBonus",
       "targets": [
-        "skillDamageBonus"
+        "pyroDamageBonus"
+      ],
+      "condition": "constellationUnlocked",
+      "unit": "percent",
+      "numericValues": [
+        {
+          "field": "value",
+          "value": 20
+        }
+      ],
+      "requiresNumericValue": true,
+      "hasNumericContract": true,
+      "verificationStatus": "corroborated",
+      "evidence": {
+        "officialTextValueMatch": true,
+        "externalNumericHints": [
+          "genshinOptimizer",
+          "gcsim"
+        ]
+      }
+    },
+    "c_10000043_6_hydro": {
+      "characterId": "10000043",
+      "constellation": 6,
+      "id": "c_10000043_6_hydro",
+      "category": "damageBonus",
+      "targets": [
+        "hydroDamageBonus"
+      ],
+      "condition": "constellationUnlocked",
+      "unit": "percent",
+      "numericValues": [
+        {
+          "field": "value",
+          "value": 20
+        }
+      ],
+      "requiresNumericValue": true,
+      "hasNumericContract": true,
+      "verificationStatus": "corroborated",
+      "evidence": {
+        "officialTextValueMatch": true,
+        "externalNumericHints": [
+          "genshinOptimizer",
+          "gcsim"
+        ]
+      }
+    },
+    "c_10000043_6_electro": {
+      "characterId": "10000043",
+      "constellation": 6,
+      "id": "c_10000043_6_electro",
+      "category": "damageBonus",
+      "targets": [
+        "electroDamageBonus"
+      ],
+      "condition": "constellationUnlocked",
+      "unit": "percent",
+      "numericValues": [
+        {
+          "field": "value",
+          "value": 20
+        }
+      ],
+      "requiresNumericValue": true,
+      "hasNumericContract": true,
+      "verificationStatus": "corroborated",
+      "evidence": {
+        "officialTextValueMatch": true,
+        "externalNumericHints": [
+          "genshinOptimizer",
+          "gcsim"
+        ]
+      }
+    },
+    "c_10000043_6_cryo": {
+      "characterId": "10000043",
+      "constellation": 6,
+      "id": "c_10000043_6_cryo",
+      "category": "damageBonus",
+      "targets": [
+        "cryoDamageBonus"
       ],
       "condition": "constellationUnlocked",
       "unit": "percent",
@@ -35001,18 +35157,18 @@
       "characterId": "10000089",
       "constellation": 6,
       "id": "c_10000089_6_3_resolved_2",
-      "category": "extraDamage",
+      "category": "scalingBonus",
       "targets": [
-        "normalAttack",
-        "chargedAttack",
-        "plungingAttack"
+        "normalAttackDamageBonus",
+        "chargedAttackDamageBonus",
+        "plungingAttackDamageBonus"
       ],
-      "condition": "onHit",
-      "unit": "",
+      "condition": "conditional",
+      "unit": "percent",
       "numericValues": [
         {
-          "field": "scalings.0.value",
-          "value": 18
+          "field": "ratio",
+          "value": 25
         }
       ],
       "requiresNumericValue": true,

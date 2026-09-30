@@ -636,6 +636,7 @@
                     attackType: row.attackType,
                     damageType: row.damageType === "normal" && row.attackType !== "normalAttack" ? row.attackType.replace("Attack", "") : row.damageType,
                     element: ({ Physical: "physical", Electro: "雷", Cryo: "氷", Anemo: "風" })[row.element] || row.element,
+                    ...(row.reactionMode === "direct" && row.reaction ? { directReactionId: row.reaction } : {}),
                     hitCount: componentCount > 1 ? 1 : (Number(row.hitCount) || 1),
                     levelSource: group,
                     scalings
@@ -651,7 +652,41 @@
         const talentModifiers = {};
         Object.values(document.talentModifiers || {}).forEach((modifier) => {
             const id = characterId(null, modifier.characterId);
+            const conditionId = modifier.condition?.id || modifier.id;
+            const stackMaximum = modifier.condition?.stackMax ?? modifier.formula?.maxStacks;
+            const stackMaximumByConstellation = modifier.condition?.stackMaxByConstellation;
+            const stackContract = Number.isFinite(Number(stackMaximum)) ? {
+                conditionInput: {
+                    type: "stack",
+                    label: modifier.labelJa,
+                    min: Number(modifier.condition?.stackMin) || 0,
+                    max: Number(stackMaximum),
+                    unit: "層"
+                },
+                calculationSupport: "stack",
+                stack: {
+                    min: Number(modifier.condition?.stackMin) || 0,
+                    max: Number(stackMaximum),
+                    default: Number(modifier.condition?.defaultValue) || 0,
+                    ...(stackMaximumByConstellation ? { maxByConstellation: stackMaximumByConstellation } : {})
+                }
+            } : {};
             const converted = (() => {
+                if (modifier.kind === "statBonus" && modifier.formula?.valuesBySkillTalentLevelPercent) return {
+                    id: modifier.id,
+                    category: "statBonus",
+                    applyTo: [modifier.formula.stat === "atkPercent" ? "atkPercent" : modifier.formula.stat],
+                    valueByLevel: levelMap(modifier.formula.valuesBySkillTalentLevelPercent),
+                    valuePerStackByLevel: true,
+                    levelSource: "skill",
+                    unit: "percent",
+                    condition: "active",
+                    conditionLabel: modifier.labelJa,
+                    conditionGroupId: conditionId,
+                    shareConditionAcrossSources: true,
+                    targetOwner: modifier.targetOwner,
+                    ...stackContract
+                };
                 if (modifier.kind === "damageBonus" && modifier.formula?.sourceStat === "energyRechargePercent") return {
                     id: modifier.id,
                     category: "damageBonus",
@@ -664,28 +699,106 @@
                     conditionLabel: modifier.labelJa,
                     calculationSupport: "toggle"
                 };
+                if (modifier.kind === "originalDamageIncrease") return {
+                    id: modifier.id,
+                    category: "effectOverride",
+                    applyTo: (modifier.scope || []).map((scope) => `${scope}DamageBonus`),
+                    value: 100,
+                    unit: "percentOfOriginalDamage",
+                    customCalculation: "thresholdStatRatioPlusBase",
+                    reference: { stat: String(modifier.formula?.sourceStat || "atk").toLowerCase() },
+                    threshold: Number(modifier.formula?.threshold) || 0,
+                    divisor: Number(modifier.formula?.step) || 1,
+                    ratio: Number(modifier.formula?.bonusPercentPerStep) || 0,
+                    maxValue: Number(modifier.formula?.capPercent) || 0,
+                    condition: modifier.condition?.defaultEnabled ? "always" : "active",
+                    conditionLabel: modifier.labelJa,
+                    calculationSupport: "formula",
+                    targetOwner: modifier.targetOwner
+                };
+                if (modifier.kind === "reactionBaseDamageBonus") {
+                    const variants = modifier.condition?.inputType === "option"
+                        ? (modifier.condition.variantOptions || []).filter((value) => value !== "none")
+                        : [];
+                    const base = {
+                        category: "reactionBaseDamageBonus",
+                        reference: {
+                            stat: String(modifier.formula?.sourceStat || "atk").toLowerCase(),
+                            source: "selfOrProvider"
+                        },
+                        divisor: Number(modifier.formula?.divisor) || 1,
+                        ratio: Number(modifier.formula?.bonusPercentPerStep) || 0,
+                        maxValue: Number(modifier.formula?.capPercent) || 0,
+                        condition: "active",
+                        conditionLabel: modifier.labelJa,
+                        conditionGroupId: conditionId,
+                        shareConditionAcrossSources: true,
+                        targetOwner: modifier.targetOwner,
+                        calculationSupport: "formula"
+                    };
+                    if (!variants.length) return {
+                        ...base,
+                        id: modifier.id,
+                        applyTo: (modifier.scope || []).map((scope) => `${scope}BaseDamageBonus`)
+                    };
+                    const options = modifier.condition.variantOptions.map((value) => ({
+                        value,
+                        label: ({ none: "なし", stellarConduct: "輝映・星電導", stellarSwirl: "輝映・星拡散" })[value] || value
+                    }));
+                    return variants.map((variant) => ({
+                        ...base,
+                        id: `${modifier.id}_${variant}`,
+                        applyTo: [`${variant}BaseDamageBonus`],
+                        conditionInput: { type: "option", label: modifier.labelJa, options, default: modifier.condition.defaultValue || "none" },
+                        conditionOptionValue: variant
+                    }));
+                }
                 if (modifier.kind === "reactionDamageBonus") {
                     const valueByLevel = modifier.formula?.valuesByBurstTalentLevelPercent
                         ? levelMap(modifier.formula.valuesByBurstTalentLevelPercent) : undefined;
-                    const perStack = modifier.formula?.bonusPercentPerHunterPrecisionStack;
+                    const hunterPerStack = modifier.formula?.bonusPercentPerHunterPrecisionStack;
+                    const springFlowerPerStack = modifier.formula?.bonusPercentPerSpringFlowerStack;
+                    const perStack = hunterPerStack ?? springFlowerPerStack;
+                    const stackMax = Number(modifier.condition?.stackMax ?? modifier.formula?.maxStacks) || 0;
+                    const valueByStack = springFlowerPerStack !== undefined
+                        ? Object.fromEntries(Array.from({ length: stackMax + 1 }, (_, stack) => [String(stack), stack * (Number(springFlowerPerStack) || 0)]))
+                        : { "0": 0, "1": Number(hunterPerStack) || 0, "2": Number(hunterPerStack) || 0 };
+                    const isToggle = modifier.condition?.inputType === "toggle";
                     return {
                         id: modifier.id,
                         category: "reactionBonus",
                         applyTo: (modifier.scope || []).map((scope) => `${scope}DamageBonus`),
-                        ...(valueByLevel ? { valueByLevel, levelSource: "burst" } : { valuePerStack: perStack }),
+                        ...(valueByLevel ? { valueByLevel, levelSource: "burst" } : {
+                            valueByStack
+                        }),
                         condition: "active",
                         conditionLabel: modifier.labelJa,
-                        conditionInput: perStack ? { type: "stack", label: modifier.labelJa, min: 0, max: modifier.formula.maxStacks || 2, unit: "層" }
-                            : undefined,
-                        calculationSupport: perStack ? "stack" : "toggle",
-                        stack: perStack ? { min: 0, max: modifier.formula.maxStacks || 2, default: 0 } : undefined
+                        conditionGroupId: conditionId,
+                        shareConditionAcrossSources: true,
+                        targetOwner: modifier.targetOwner,
+                        ...(isToggle ? {
+                            conditionInput: {
+                                type: "option",
+                                label: modifier.labelJa,
+                                options: [
+                                    { value: "inactive", label: "OFF" },
+                                    { value: "active", label: "ON" }
+                                ],
+                                default: modifier.condition?.defaultEnabled ? "active" : "inactive"
+                            },
+                            conditionOptionValue: "active"
+                        } : {}),
+                        ...(perStack ? stackContract : { calculationSupport: "toggle" })
                     };
                 }
                 return null;
             })();
             if (!converted) return;
+            const convertedList = Array.isArray(converted) ? converted : [converted];
+            if (modifier.sourceTalent) convertedList.forEach((item) => { item.sourceTalent = modifier.sourceTalent; });
+            if (modifier.conditionInputActivates) convertedList.forEach((item) => { item.conditionInputActivates = true; });
             talentModifiers[id] ||= { passives: [] };
-            talentModifiers[id].passives.push({ sourceId: modifier.id, modifiers: [converted] });
+            talentModifiers[id].passives.push({ sourceId: modifier.id, modifiers: convertedList });
         });
         const constellationModifiers = {};
         Object.values(document.constellationModifiers || {}).forEach((modifier) => {
@@ -694,7 +807,8 @@
             let converted = null;
             if (modifier.kind === "talentLevelBonus") converted = {
                 id: modifier.id, category: "talentLevelBonus", applyTo: [`${modifier.targetTalent}TalentLevel`],
-                value: modifier.amount, unit: "level", condition: "constellationUnlocked", calculationSupport: "simple"
+                value: modifier.amount, unit: "level", condition: "constellationUnlocked", calculationSupport: "simple",
+                uidHandling: "includedInUidTalentLevels"
             };
             if (modifier.kind === "statBonus") {
                 const max = modifier.formula?.maxStacks || modifier.condition?.stackMax || 0;
@@ -705,6 +819,9 @@
                     ...(valueByStack ? { valueByStack } : { value: modifier.formula?.bonusPercentPerStack || 0 }),
                     unit: valueByStack ? "flat" : "percent", condition: "active", conditionLabel: modifier.labelJa,
                     conditionInput: { type: "stack", label: modifier.labelJa, min: 0, max, unit: "層" },
+                    conditionGroupId: modifier.condition?.id || modifier.id,
+                    shareConditionAcrossSources: true,
+                    targetOwner: modifier.targetOwner,
                     calculationSupport: "stack", stack: { min: 0, max, default: 0 }
                 };
             }
@@ -713,19 +830,115 @@
                 value: modifier.formula?.resistanceReductionPercent || 0, unit: "percent", condition: "active",
                 conditionLabel: modifier.labelJa, calculationSupport: "toggle"
             };
+            if (modifier.kind === "resistanceShred" && modifier.formula?.variantElements) {
+                const options = modifier.condition?.variantOptions || Object.keys(modifier.formula.variantElements);
+                converted = Object.entries(modifier.formula.variantElements).map(([variant, elements]) => ({
+                    id: `${modifier.id}_${variant}`,
+                    category: "resistanceDebuff",
+                    applyTo: (elements || []).map((element) => `${String(element).toLowerCase()}Resistance`),
+                    value: modifier.formula?.resistanceReductionPercent || 0,
+                    unit: "percent",
+                    condition: "active",
+                    conditionLabel: modifier.labelJa,
+                    conditionInput: {
+                        type: "option",
+                        label: modifier.labelJa,
+                        options: options.map((value) => ({
+                            value,
+                            label: ({ none: "なし", stellarConduct: "輝映・星電導", stellarSwirl: "輝映・星拡散" })[value] || value
+                        })),
+                        default: modifier.condition?.defaultValue || "none"
+                    },
+                    conditionOptionValue: variant,
+                    conditionGroupId: modifier.condition?.id || modifier.id,
+                    shareConditionAcrossSources: true,
+                    targetOwner: modifier.targetOwner,
+                    calculationSupport: "toggle"
+                }));
+            }
+            if (modifier.kind === "directReactionDamage") {
+                const variants = ["stellarConduct", "stellarSwirl"];
+                const options = modifier.condition?.variantOptions || variants;
+                converted = variants.map((variant) => ({
+                    id: `${modifier.id}_${variant}`,
+                    category: "extraDamage",
+                    applyTo: ["triggeredDamage"],
+                    value: Number(modifier.formula?.[`${variant}MultiplierPercent`]) || 0,
+                    unit: "percent",
+                    reference: { stat: String(modifier.formula?.referenceStat || "atk").toLowerCase() },
+                    directReactionId: variant,
+                    element: "氷",
+                    damageType: "extraDamage",
+                    sourceText: modifier.labelJa,
+                    customCalculation: "extraDamage",
+                    condition: "active",
+                    conditionLabel: modifier.labelJa,
+                    conditionInput: {
+                        type: "option",
+                        label: modifier.labelJa,
+                        options: options.map((value) => ({
+                            value,
+                            label: ({ stellarConduct: "星電導", stellarSwirl: "星拡散" })[value] || value
+                        }))
+                    },
+                    conditionOptionValue: variant,
+                    conditionGroupId: modifier.condition?.id || modifier.id,
+                    shareConditionAcrossSources: true,
+                    targetOwner: modifier.targetOwner,
+                    calculationSupport: "simple"
+                }));
+            }
             if (modifier.kind === "reactionDamageBonus") {
                 const value = modifier.formula?.bonusPercent ?? modifier.formula?.bonusPercentPerStack;
+                const valueByLevel = modifier.formula?.valuesByBurstTalentLevelPercent
+                    ? levelMap(modifier.formula.valuesByBurstTalentLevelPercent) : undefined;
+                const stackMax = Number(modifier.condition?.stackMax ?? modifier.formula?.maxStacks) || 0;
+                const isStack = modifier.condition?.inputType === "stack";
+                const isToggle = modifier.condition?.inputType === "toggle";
                 converted = {
                     id: modifier.id, category: "reactionBonus",
-                    applyTo: (modifier.scope || []).map((scope) => `${scope}DamageBonus`), value,
+                    applyTo: (modifier.scope || []).map((scope) => `${scope}DamageBonus`),
+                    ...(valueByLevel ? { valueByLevel, levelSource: "burst" }
+                        : isStack ? {
+                            valueByStack: Object.fromEntries(Array.from({ length: stackMax + 1 }, (_, stack) => [String(stack), stack > 0 ? Number(value) || 0 : 0]))
+                        } : { value: Number(value) || 0 }),
                     unit: "percent", condition: "active", conditionLabel: modifier.labelJa,
-                    calculationSupport: "toggle"
+                    conditionGroupId: modifier.condition?.id || modifier.id,
+                    shareConditionAcrossSources: true,
+                    targetOwner: modifier.targetOwner,
+                    ...(isToggle ? {
+                        conditionInput: {
+                            type: "option",
+                            label: modifier.labelJa,
+                            options: [
+                                { value: "inactive", label: "OFF" },
+                                { value: "active", label: "ON" }
+                            ],
+                            default: modifier.condition?.defaultEnabled ? "active" : "inactive"
+                        },
+                        conditionOptionValue: "active"
+                    } : {}),
+                    ...(isStack ? {
+                        conditionInput: {
+                            type: "stack", label: modifier.labelJa,
+                            min: Number(modifier.condition?.stackMin) || 0,
+                            max: stackMax,
+                            unit: "層"
+                        },
+                        calculationSupport: "stack",
+                        stack: {
+                            min: Number(modifier.condition?.stackMin) || 0,
+                            max: stackMax,
+                            default: Number(modifier.condition?.defaultValue) || 0
+                        }
+                    } : { calculationSupport: valueByLevel ? "toggle" : "simple" })
                 };
             }
             if (!converted || !level) return;
+            if (modifier.conditionInputActivates) converted.conditionInputActivates = true;
             constellationModifiers[id] ||= { constellations: {} };
             constellationModifiers[id].constellations[level] ||= [];
-            constellationModifiers[id].constellations[level].push(converted);
+            constellationModifiers[id].constellations[level].push(...(Array.isArray(converted) ? converted : [converted]));
         });
         return { ...document, characters, characterTalents, talentScalings, talentModifiers, characterConstellations, constellationModifiers };
     }

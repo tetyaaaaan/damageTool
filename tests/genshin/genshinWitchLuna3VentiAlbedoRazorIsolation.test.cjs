@@ -124,6 +124,37 @@ test("Luna III Venti Witch's Eve Rite keeps locked/inactive zero and applies onl
     }
 });
 
+test("Venti Hexerei state makes Stormeye deal 135% of its original damage", () => {
+    const calcData = loadCalcData();
+    const modifier = calcData.talentModifiers["10000022"].passives
+        .find((item) => item.sourceId === "lockedPassive").modifiers
+        .find((item) => item.id === "t_10000022_lockedPassive_stormeye_damage_multiplier");
+    assert.ok(modifier);
+    assert.equal(modifier.category, "effectOverride");
+    assert.equal(modifier.value, 135);
+    assert.equal(modifier.unit, "percentOfOriginalDamage");
+    assert.deepEqual(modifier.targetGroups, ["burst"]);
+
+    const harness = createBrowserScriptHarness([
+        "games/js/genshinModifierAnalyzer.js",
+        "games/js/genshinCalcEngine.js"
+    ]);
+    const context = directContext("10000022");
+    const active = analyzeWithOption(harness.sandbox, modifier, "talent:lockedPassive", context, "active");
+    const burst = harness.sandbox.GenshinCalcEngine.applyModifiersToDamageEntry(
+        { id: "stormeye", group: "burst", attackType: "burst", damageType: "burst", element: "風", scalings: [] },
+        context,
+        { applied: [{ modifier, analysis: active.analysis, source: "talent:lockedPassive", value: 135 }], candidates: [] }
+    );
+    assert.equal(burst.totals.finalDamageMultiplier, 1.35);
+    const skill = harness.sandbox.GenshinCalcEngine.applyModifiersToDamageEntry(
+        { id: "skill", group: "skill", attackType: "skill", damageType: "skill", element: "風", scalings: [] },
+        context,
+        { applied: [{ modifier, analysis: active.analysis, source: "talent:lockedPassive", value: 135 }], candidates: [] }
+    );
+    assert.equal(skill.totals.finalDamageMultiplier, 1);
+});
+
 test("Luna III Albedo Solar Isotoma scales party damage from provider DEF and caps at 12%", () => {
     const calcData = loadCalcData();
     const talent = calcData.characterTalents["10000038"]?.passives
@@ -215,6 +246,47 @@ test("Luna III Albedo Solar Isotoma scales party damage from provider DEF and ca
     assert.deepEqual(activeAboveCap.modifier.applyTo, modifier.applyTo);
 });
 
+test("Albedo Silver Blossom scales to 30% and applies only to Hexerei party targets", () => {
+    const calcData = loadCalcData();
+    const modifier = calcData.talentModifiers["10000038"].passives
+        .find((item) => item.sourceId === "lockedPassive").modifiers
+        .find((item) => item.id === "t_10000038_lockedPassive_silver_blossom_damage");
+    assert.ok(modifier);
+    assert.equal(modifier.ratio, 10);
+    assert.equal(modifier.maxValue, 30);
+    assert.deepEqual(modifier.partyTargetCharacterIds, ["10000020", "10000022", "10000031", "10000038", "10000043"]);
+
+    const { sandbox, elements } = createScenarioHarness();
+    prepareScenarioInputs(elements, { characterId: "10000037", stats: { atk: 1000, baseAtk: 500 } });
+    const request = sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+    request.party = {
+        schemaVersion: 1,
+        focusSlot: 1,
+        members: [
+            { slot: 1, role: "main", enabled: true, characterId: "10000037" },
+            { slot: 2, role: "support", enabled: true, characterId: "10000038", constellation: 0,
+                stats: { def: 3000 }, talentLevels: { normal: 10, skill: 10, burst: 10 }, buffStates: {} }
+        ]
+    };
+    const nonTarget = sandbox.GenshinCalcEngine.calculateDamageRequest(request, calcData);
+    const nonTargetCandidate = nonTarget.partyModifiers.find((item) => item.modifier.id === modifier.id);
+    assert.equal(nonTargetCandidate.status, "notApplicable");
+
+    prepareScenarioInputs(elements, { characterId: "10000020", stats: { atk: 1000, baseAtk: 500 } });
+    const targetRequest = sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+    targetRequest.party = JSON.parse(JSON.stringify(request.party));
+    targetRequest.party.members[0].characterId = "10000020";
+    const locked = sandbox.GenshinCalcEngine.calculateDamageRequest(targetRequest, calcData);
+    const candidate = locked.partyModifiers.find((item) => item.modifier.id === modifier.id);
+    assert.equal(candidate.status, "off");
+    targetRequest.party.conditionStates = { [candidate.analysis.conditionStateKey]: { option: "active" } };
+    targetRequest.party.members[1].buffStates[candidate.toggleKey] = true;
+    const active = sandbox.GenshinCalcEngine.calculateDamageRequest(targetRequest, calcData);
+    const activeCandidate = active.partyModifiers.find((item) => item.modifier.id === modifier.id);
+    assert.equal(activeCandidate.resolvedValue, 30);
+    assert.ok(active.results[0].expected > locked.results[0].expected);
+});
+
 test("Luna III Razor Burst enhancement uses ATK only for Wolf Within damage and does not require Secret Rite", () => {
     const calcData = loadCalcData();
     const talent = calcData.characterTalents["10000020"]?.passives
@@ -283,4 +355,45 @@ test("Luna III Razor Burst enhancement uses ATK only for Wolf Within damage and 
         assert.equal(wolfWithin.breakdown.additiveBaseDamage, expectedWolfDamage, `${option} must resolve only the expected Wolf Within bonus`);
         assert.equal(initialBurst.breakdown.additiveBaseDamage, 0, `${option} must not leak into initial burst damage`);
     }
+});
+
+test("Razor Hexerei overflow creates one 150% ATK Electro extra-damage entry", () => {
+    const calcData = loadCalcData();
+    const modifier = calcData.talentModifiers["10000020"].passives
+        .find((item) => item.sourceId === "lockedPassive").modifiers
+        .find((item) => item.id === "t_10000020_lockedPassive_overflow_lightning");
+    assert.ok(modifier);
+    assert.equal(modifier.category, "extraDamage");
+    assert.deepEqual(modifier.reference, { stat: "atk", source: "self" });
+    assert.equal(modifier.value, 150);
+    assert.equal(modifier.element, "雷");
+
+    const harness = createBrowserScriptHarness([
+        "games/js/genshinModifierAnalyzer.js",
+        "games/js/genshinCalcConditions.js",
+        "games/js/genshinCalcEngine.js"
+    ]);
+    const lockedContext = directContext("10000020", { atk: 1000 });
+    const lockedAnalysis = harness.sandbox.GenshinModifierAnalyzer.analyzeModifier({
+        modifier,
+        source: "talent:lockedPassive",
+        context: lockedContext
+    });
+    lockedContext.uiState.conditionByModifier[lockedAnalysis.conditionStateKey] = { enabled: false, option: "locked" };
+    const locked = harness.sandbox.GenshinCalcEngine.calculateDamageRequest(lockedContext, calcData);
+    assert.equal(locked.results.some((result) => result.entry.effectId === modifier.id), false);
+
+    const activeContext = directContext("10000020", { atk: 1000 });
+    const activeAnalysis = harness.sandbox.GenshinModifierAnalyzer.analyzeModifier({
+        modifier,
+        source: "talent:lockedPassive",
+        context: activeContext
+    });
+    activeContext.uiState.conditionByModifier[activeAnalysis.conditionStateKey] = { enabled: true, option: "active" };
+    activeContext.uiState.complexConditionByModifier[activeAnalysis.conditionStateKey] = { option: "active" };
+    const active = harness.sandbox.GenshinCalcEngine.calculateDamageRequest(activeContext, calcData);
+    const lightning = active.results.find((result) => result.entry.effectId === modifier.id);
+    assert.ok(lightning);
+    assert.equal(lightning.entry.element, "雷");
+    assert.equal(lightning.breakdown.scalingParts[0].baseDamage, 1500);
 });

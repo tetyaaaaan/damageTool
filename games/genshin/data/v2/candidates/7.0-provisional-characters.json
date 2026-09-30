@@ -237,95 +237,95 @@
         {
           "level": 1,
           "ascension": "before",
-          "hp": 2621,
+          "hp": 1011,
           "atk": 26.07,
           "def": 61.27,
           "crit_damage_bonus_percent": 0
         },
         {
           "level": 20,
-          "ascension": "after",
-          "hp": 3488,
+          "ascension": "before",
+          "hp": 2621,
           "atk": 67.62,
           "def": 158.92,
           "crit_damage_bonus_percent": 0
         },
         {
           "level": 20,
-          "ascension": "before",
-          "hp": 5219,
+          "ascension": "after",
+          "hp": 3488,
           "atk": 89.97,
           "def": 211.45,
           "crit_damage_bonus_percent": 0
         },
         {
           "level": 40,
-          "ascension": "after",
-          "hp": 5834,
+          "ascension": "before",
+          "hp": 5219,
           "atk": 134.62,
           "def": 316.4,
           "crit_damage_bonus_percent": 0
         },
         {
           "level": 40,
-          "ascension": "before",
-          "hp": 6713,
+          "ascension": "after",
+          "hp": 5834,
           "atk": 150.5,
           "def": 353.73,
           "crit_damage_bonus_percent": 9.6
         },
         {
           "level": 50,
-          "ascension": "after",
-          "hp": 7533,
+          "ascension": "before",
+          "hp": 6713,
           "atk": 173.16,
           "def": 406.97,
           "crit_damage_bonus_percent": 9.6
         },
         {
           "level": 50,
-          "ascension": "before",
-          "hp": 8421,
+          "ascension": "after",
+          "hp": 7533,
           "atk": 194.33,
           "def": 456.73,
           "crit_damage_bonus_percent": 19.2
         },
         {
           "level": 60,
-          "ascension": "after",
-          "hp": 9036,
+          "ascension": "before",
+          "hp": 8421,
           "atk": 217.22,
           "def": 510.53,
           "crit_damage_bonus_percent": 19.2
         },
         {
           "level": 60,
-          "ascension": "before",
-          "hp": 9932,
+          "ascension": "after",
+          "hp": 9036,
           "atk": 233.1,
           "def": 547.85,
           "crit_damage_bonus_percent": 19.2
         },
         {
           "level": 70,
-          "ascension": "after",
-          "hp": 10547,
+          "ascension": "before",
+          "hp": 9932,
           "atk": 256.19,
           "def": 602.13,
           "crit_damage_bonus_percent": 19.2
         },
         {
           "level": 70,
-          "ascension": "before",
-          "hp": 11453,
+          "ascension": "after",
+          "hp": 10547,
           "atk": 272.07,
           "def": 639.46,
           "crit_damage_bonus_percent": 28.8
         },
         {
           "level": 80,
-          "ascension": "after",
-          "hp": 12068,
+          "ascension": "before",
+          "hp": 11453,
           "atk": 295.43,
           "def": 694.35,
           "crit_damage_bonus_percent": 28.8
@@ -333,7 +333,7 @@
         {
           "level": 80,
           "ascension": 6,
-          "hp": 12981,
+          "hp": 12068,
           "atk": 311.31,
           "def": 731.68,
           "crit_damage_bonus_percent": 38.4
@@ -341,7 +341,7 @@
         {
           "level": 90,
           "ascension": 6,
-          "hp": 13903,
+          "hp": 12981,
           "atk": 334.85,
           "def": 787,
           "crit_damage_bonus_percent": 38.4
@@ -3183,6 +3183,55 @@
     }
   },
   "talentModifiers": {
+    "provisional70_10000148_modifier_hunter_precision_atk": {
+      "id": "provisional70_10000148_modifier_hunter_precision_atk",
+      "characterId": "provisional70_character_10000148",
+      "kind": "statBonus",
+      "scope": [
+        "activeCharacter"
+      ],
+      "targetOwner": "activeCharacter",
+      "sourceTalent": "combat2",
+      "labelJa": "狩人の照準：攻撃力アップ",
+      "formula": {
+        "stat": "atkPercent",
+        "valuesBySkillTalentLevelPercent": [
+          11.66,
+          12.72,
+          13.78,
+          14.84,
+          15.9,
+          16.96,
+          18.02,
+          19.08,
+          20.14,
+          21.2,
+          22.47,
+          23.74,
+          25.02,
+          26.29,
+          27.56
+        ]
+      },
+      "condition": {
+        "id": "provisional70_10000148_condition_hunter_precision",
+        "inputType": "stack",
+        "stackMin": 0,
+        "stackMax": 2,
+        "stackMaxByConstellation": {
+          "0": 1,
+          "6": 2
+        },
+        "defaultValue": 0
+      },
+      "safeSingleHit": true,
+      "sourceRefs": [
+        "honey-alyosha-live-7.0",
+        "gachabase-alyosha-7.0.53",
+        "kqm-alyosha-7.0",
+        "genshin-center-alyosha-current"
+      ]
+    },
     "provisional70_10000148_modifier_passive2_er_skill_burst": {
       "id": "provisional70_10000148_modifier_passive2_er_skill_burst",
       "characterId": "provisional70_character_10000148",
@@ -3191,6 +3240,7 @@
         "skill",
         "burst"
       ],
+      "sourceTalent": "passive2",
       "labelJa": "元素チャージ効率による元素スキル・元素爆発ダメージアップ",
       "formula": {
         "sourceStat": "energyRechargePercent",
@@ -3218,16 +3268,22 @@
         "stellarConduct"
       ],
       "labelJa": "輝映・星電導：狩人の照準",
+      "targetOwner": "activeCharacter",
+      "sourceTalent": "passive3",
       "formula": {
         "bonusPercentPerHunterPrecisionStack": 20,
         "maxStacks": 2
       },
       "condition": {
-        "id": "provisional70_10000148_condition_radiance_stellar_conduct",
-        "inputType": "toggleAndStack",
-        "defaultEnabled": false,
+        "id": "provisional70_10000148_condition_hunter_precision",
+        "inputType": "stack",
         "stackMin": 0,
-        "stackMax": 2
+        "stackMax": 2,
+        "stackMaxByConstellation": {
+          "0": 1,
+          "6": 2
+        },
+        "defaultValue": 0
       },
       "safeSingleHit": true,
       "status": "provisionalReactionConsumerRequired",
@@ -3238,6 +3294,102 @@
         "genshin-center-alyosha-current"
       ]
     },
+    "provisional70_10000150_modifier_passive1_spring_flower": {
+      "id": "provisional70_10000150_modifier_passive1_spring_flower",
+      "characterId": "provisional70_character_10000150",
+      "kind": "reactionDamageBonus",
+      "scope": [
+        "stellarConduct",
+        "stellarSwirl"
+      ],
+      "targetOwner": "self",
+      "sourceTalent": "passive1",
+      "labelJa": "選ばれし者の祝祭：春の華",
+      "formula": {
+        "bonusPercentPerSpringFlowerStack": 15,
+        "maxStacks": 6
+      },
+      "condition": {
+        "id": "provisional70_10000150_condition_spring_flower",
+        "inputType": "stack",
+        "stackMin": 0,
+        "stackMax": 6,
+        "defaultValue": 0
+      },
+      "conditionInputActivates": true,
+      "safeSingleHit": true,
+      "sourceRefs": [
+        "kqm-tcl-odette-7.0"
+      ]
+    },
+    "provisional70_10000150_modifier_passive2_stellar_glimmer": {
+      "id": "provisional70_10000150_modifier_passive2_stellar_glimmer",
+      "characterId": "provisional70_character_10000150",
+      "kind": "originalDamageIncrease",
+      "scope": [
+        "stellarConduct",
+        "stellarSwirl"
+      ],
+      "targetOwner": "self",
+      "sourceTalent": "passive2",
+      "labelJa": "誠実なる者の悲しき歌：星反応ダメージ向上",
+      "formula": {
+        "sourceStat": "ATK",
+        "threshold": 1000,
+        "step": 100,
+        "bonusPercentPerStep": 1.5,
+        "capPercent": 30
+      },
+      "condition": {
+        "id": "provisional70_10000150_condition_passive2",
+        "inputType": "toggle",
+        "defaultEnabled": true
+      },
+      "safeSingleHit": true,
+      "sourceRefs": [
+        "honey-odette-live-7.0",
+        "gachabase-odette-7.0.54",
+        "kqm-odette-7.0",
+        "genshin-center-odette-current",
+        "kqm-tcl-odette-7.0"
+      ]
+    },
+    "provisional70_10000150_modifier_passive3_stellar_base": {
+      "id": "provisional70_10000150_modifier_passive3_stellar_base",
+      "characterId": "provisional70_character_10000150",
+      "kind": "reactionBaseDamageBonus",
+      "scope": [
+        "stellarConduct",
+        "stellarSwirl"
+      ],
+      "targetOwner": "team",
+      "sourceTalent": "passive3",
+      "labelJa": "星光の祝福・銀暁の舞：星反応基礎ダメージアップ",
+      "formula": {
+        "sourceStat": "ATK",
+        "divisor": 100,
+        "bonusPercentPerStep": 0.7,
+        "capPercent": 14
+      },
+      "condition": {
+        "id": "provisional70_10000150_condition_radiance",
+        "inputType": "option",
+        "defaultValue": "none",
+        "variantOptions": [
+          "none",
+          "stellarConduct",
+          "stellarSwirl"
+        ]
+      },
+      "safeSingleHit": true,
+      "sourceRefs": [
+        "honey-odette-live-7.0",
+        "gachabase-odette-7.0.54",
+        "kqm-odette-7.0",
+        "genshin-center-odette-current",
+        "kqm-tcl-odette-7.0"
+      ]
+    },
     "provisional70_10000150_modifier_burst_snowbird_dream": {
       "id": "provisional70_10000150_modifier_burst_snowbird_dream",
       "characterId": "provisional70_character_10000150",
@@ -3246,6 +3398,8 @@
         "stellarConduct",
         "stellarSwirl"
       ],
+      "targetOwner": "self",
+      "sourceTalent": "combat3",
       "labelJa": "雪鳥の夢：星反応ダメージアップ",
       "formula": {
         "valuesByBurstTalentLevelPercent": [
@@ -3310,6 +3464,7 @@
       "scope": [
         "stellarConduct"
       ],
+      "targetOwner": "activeCharacter",
       "labelJa": "御旗の奪還：2層時元素熟知+100",
       "formula": {
         "stat": "elementalMastery",
@@ -3317,7 +3472,7 @@
         "requiresHunterPrecisionStacks": 2
       },
       "condition": {
-        "id": "provisional70_10000148_condition_c6_precision",
+        "id": "provisional70_10000148_condition_hunter_precision",
         "inputType": "stack",
         "stackMin": 0,
         "stackMax": 2,
@@ -3333,13 +3488,14 @@
       "scope": [
         "stellarConduct"
       ],
+      "targetOwner": "activeCharacter",
       "labelJa": "御旗の奪還：狩人の照準2層",
       "formula": {
         "bonusPercentPerStack": 20,
         "maxStacks": 2
       },
       "condition": {
-        "id": "provisional70_10000148_condition_c6_precision_bonus",
+        "id": "provisional70_10000148_condition_hunter_precision",
         "inputType": "stack",
         "stackMin": 0,
         "stackMax": 2,
@@ -3372,6 +3528,7 @@
           "stellarSwirl"
         ]
       },
+      "targetOwner": "self",
       "safeSingleHit": true,
       "status": "provisionalReactionConsumerRequired"
     },
@@ -3383,6 +3540,7 @@
       "scope": [
         "ATK"
       ],
+      "targetOwner": "activeCharacter",
       "labelJa": "C2：春の華1層ごとの攻撃力",
       "formula": {
         "stat": "ATKPercent",
@@ -3390,12 +3548,13 @@
         "maxStacks": 6
       },
       "condition": {
-        "id": "provisional70_10000150_condition_c2_spring_flower",
+        "id": "provisional70_10000150_condition_spring_flower",
         "inputType": "stack",
         "stackMin": 0,
         "stackMax": 6,
         "defaultValue": 0
       },
+      "conditionInputActivates": true,
       "safeSingleHit": true
     },
     "provisional70_10000150_c2_resistance_shred": {
@@ -3407,6 +3566,7 @@
         "stellarConduct",
         "stellarSwirl"
       ],
+      "targetOwner": "enemy",
       "labelJa": "C2：独舞者付近の元素耐性-20%",
       "formula": {
         "resistanceReductionPercent": 20,
@@ -3422,9 +3582,14 @@
         }
       },
       "condition": {
-        "id": "provisional70_10000150_condition_c2_silhouette_state",
-        "inputType": "toggle",
-        "defaultEnabled": false
+        "id": "provisional70_10000150_condition_radiance",
+        "inputType": "option",
+        "defaultValue": "none",
+        "variantOptions": [
+          "none",
+          "stellarConduct",
+          "stellarSwirl"
+        ]
       },
       "safeSingleHit": true,
       "status": "provisionalReactionConsumerRequired"
@@ -3463,6 +3628,45 @@
         ],
         "cooldownSeconds": 3.5
       },
+      "targetOwner": "self",
+      "safeSingleHit": true,
+      "status": "provisionalReactionConsumerRequired"
+    },
+    "provisional70_10000150_c4_snowbird_party": {
+      "id": "provisional70_10000150_c4_snowbird_party",
+      "characterId": "provisional70_character_10000150",
+      "constellation": "c4",
+      "kind": "reactionDamageBonus",
+      "scope": [
+        "stellarConduct",
+        "stellarSwirl"
+      ],
+      "targetOwner": "otherPartyMembers",
+      "labelJa": "C4：雪鳥の夢のチーム星反応ダメージアップ",
+      "formula": {
+        "valuesByBurstTalentLevelPercent": [
+          7,
+          9,
+          11,
+          13,
+          15,
+          17,
+          19,
+          21,
+          23,
+          25,
+          27,
+          29,
+          31,
+          33,
+          35
+        ]
+      },
+      "condition": {
+        "id": "provisional70_10000150_condition_snowbird_dream",
+        "inputType": "toggle",
+        "defaultEnabled": false
+      },
       "safeSingleHit": true,
       "status": "provisionalReactionConsumerRequired"
     },
@@ -3484,15 +3688,19 @@
         "stellarConduct",
         "stellarSwirl"
       ],
+      "targetOwner": "team",
       "labelJa": "C6：春の華の影響下の星反応ダメージ",
       "formula": {
         "bonusPercent": 25
       },
       "condition": {
-        "id": "provisional70_10000150_condition_c6_team_spring_flower",
-        "inputType": "toggle",
-        "defaultEnabled": false
+        "id": "provisional70_10000150_condition_spring_flower",
+        "inputType": "stack",
+        "stackMin": 0,
+        "stackMax": 6,
+        "defaultValue": 0
       },
+      "conditionInputActivates": true,
       "safeSingleHit": true,
       "status": "provisionalReactionConsumerRequired"
     },
@@ -3505,15 +3713,19 @@
         "stellarConduct",
         "stellarSwirl"
       ],
+      "targetOwner": "self",
       "labelJa": "C6：オデット自身の追加星反応ダメージ",
       "formula": {
         "bonusPercent": 20
       },
       "condition": {
-        "id": "provisional70_10000150_condition_c6_self_spring_flower",
-        "inputType": "toggle",
-        "defaultEnabled": false
+        "id": "provisional70_10000150_condition_spring_flower",
+        "inputType": "stack",
+        "stackMin": 0,
+        "stackMax": 6,
+        "defaultValue": 0
       },
+      "conditionInputActivates": true,
       "safeSingleHit": true,
       "status": "provisionalReactionConsumerRequired"
     }

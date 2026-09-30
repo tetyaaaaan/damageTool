@@ -14,8 +14,8 @@
       "id": "c_10000075_6_1_normal_1damage",
       "effectId": "c_10000075_6_1",
       "attackType": "normalAttack",
-      "nonCrit": 978.953976,
-      "crit": 1957.907952,
+      "nonCrit": 753.04152,
+      "crit": 1506.08304,
       "additiveBaseDamage": 0,
       "damageBonus": 54,
       "finalDamageMultiplier": 1
@@ -24,8 +24,8 @@
       "id": "c_10000075_6_1_normal_2damage",
       "effectId": "c_10000075_6_1",
       "attackType": "normalAttack",
-      "nonCrit": 926.269344,
-      "crit": 1852.538688,
+      "nonCrit": 712.51488,
+      "crit": 1425.02976,
       "additiveBaseDamage": 0,
       "damageBonus": 54,
       "finalDamageMultiplier": 1
@@ -60,10 +60,10 @@
       "id": "normal_1damage",
       "effectId": "",
       "attackType": "normalAttack",
-      "nonCrit": 869.001727,
-      "crit": 1738.003454,
+      "nonCrit": 860.8239,
+      "crit": 1721.6478,
       "additiveBaseDamage": 0,
-      "damageBonus": 0.95,
+      "damageBonus": 0,
       "finalDamageMultiplier": 1
     }
   },

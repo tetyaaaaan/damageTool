@@ -169,6 +169,51 @@
               "sourceAgreement": "singleSource",
               "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のRazor lockedPassiveと照合。独立したversion-bound provider agreementは未成立。"
             }
+          },
+          {
+            "id": "t_10000020_lockedPassive_overflow_lightning",
+            "effectLabel": "魔導秘儀：雷の印超過時の追加落雷",
+            "category": "extraDamage",
+            "customCalculation": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "reference": {
+              "stat": "atk",
+              "source": "self"
+            },
+            "value": 150,
+            "element": "雷",
+            "damageType": "extraDamage",
+            "targetOwner": "self",
+            "unit": "percent",
+            "condition": "active",
+            "conditionOptionValue": "active",
+            "conditionInput": {
+              "type": "option",
+              "default": "locked",
+              "label": "魔女の課題／魔導秘儀（追加落雷）",
+              "help": "課題の解放状態と、魔導秘儀中に雷の印が上限を超えたかを選択します。",
+              "options": [
+                {
+                  "value": "locked",
+                  "label": "魔女の課題：未解放"
+                },
+                {
+                  "value": "unlocked",
+                  "label": "解放済み（未発動／魔導秘儀なし）"
+                },
+                {
+                  "value": "active",
+                  "label": "解放済み＋魔導秘儀：雷狼存在中に雷の印が上限を超えた"
+                }
+              ]
+            },
+            "conditionGroupId": "witch-razor-overflow-lightning",
+            "conditionLabel": "雷狼存在中、雷の印が上限を超えた時",
+            "sourceText": "元素爆発雷牙によって呼び出された雷狼が存在する間、レザーは元素スキル鋭い爪と蒼雷によって雷の印を蓄積し、溢れた場合、雷狼は落雷を召喚して近くの敵にレザーの攻撃力の150%分の雷元素範囲ダメージを与え、レザーの元素エネルギーを7ポイント回復する。この効果は1秒毎に1回のみ発動可能。",
+            "calculationSupport": "custom",
+            "uidHandling": "conditional"
           }
         ]
       }
@@ -273,6 +318,47 @@
               "sourceAgreement": "singleSource",
               "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のVenti lockedPassiveと照合。独立したversion-bound provider agreementは未成立。"
             }
+          },
+          {
+            "id": "t_10000022_lockedPassive_stormeye_damage_multiplier",
+            "effectLabel": "魔導秘儀：暴風の目のダメージ倍率",
+            "category": "effectOverride",
+            "applyTo": [
+              "burstDamage"
+            ],
+            "targetGroups": [
+              "burst"
+            ],
+            "value": 135,
+            "unit": "percentOfOriginalDamage",
+            "targetOwner": "self",
+            "condition": "active",
+            "conditionOptionValue": "active",
+            "conditionInput": {
+              "type": "option",
+              "default": "locked",
+              "label": "魔女の課題／魔導秘儀",
+              "help": "課題の解放状態と、魔導秘儀中の発動条件を選択します。",
+              "options": [
+                {
+                  "value": "locked",
+                  "label": "魔女の課題：未解放"
+                },
+                {
+                  "value": "unlocked",
+                  "label": "解放済み（未発動／魔導秘儀なし）"
+                },
+                {
+                  "value": "active",
+                  "label": "解放済み＋魔導秘儀：暴風の目が存在し、フィールド上キャラクターが拡散または星拡散を起こした後（4秒）"
+                }
+              ]
+            },
+            "conditionGroupId": "witch-venti-stormeye_swirl_damage",
+            "conditionLabel": "暴風の目が存在し、フィールド上キャラクターが拡散または星拡散を起こした後（4秒）",
+            "sourceText": "元素爆発風神の詩によって生成された暴風の目が存在する場合、近くにいるフィールド上キャラクターが拡散または星拡散反応を起こした後の4秒間、そのキャラクターの与えるダメージが50%アップし、ウェンティ自身の暴風の目が与えるダメージも本来の135%となる。",
+            "calculationSupport": "custom",
+            "uidHandling": "conditional"
           }
         ]
       }
@@ -885,16 +971,107 @@
         "sourceId": "passive1",
         "modifiers": [
           {
+            "id": "t_10000043_passive1_swirl_em_share_pyro",
             "category": "statBonus",
             "applyTo": [
               "elementalMastery"
             ],
             "value": 50.0,
             "unit": "flat",
-            "condition": "active",
+            "condition": "always",
+            "conditionOptionValue": "pyro",
+            "conditionInputActivates": true,
+            "conditionInput": {
+              "type": "option",
+              "default": "inactive",
+              "label": "触媒置換術：拡散した元素",
+              "help": "スクロースが起こした拡散または星拡散の元素を選択します。選択した元素のチームメンバーだけに元素熟知+50を適用します。",
+              "options": [
+                { "value": "inactive", "label": "未発動" },
+                { "value": "pyro", "label": "炎元素の拡散／星拡散後" },
+                { "value": "hydro", "label": "水元素の拡散／星拡散後" },
+                { "value": "electro", "label": "雷元素の拡散／星拡散後" },
+                { "value": "cryo", "label": "氷元素の拡散／星拡散後" }
+              ]
+            },
+            "conditionGroupId": "sucrose-passive1-swirl-element",
+            "requiredTargetElement": "pyro",
             "conditionLabel": "スクロースが拡散反応または星拡散反応を起こした後（8秒）",
             "duration": 8.0,
+            "targetOwner": "otherPartyMembers",
             "calculationSupport": "toggle"
+          },
+          {
+            "id": "t_10000043_passive1_swirl_em_share_hydro",
+            "category": "statBonus",
+            "applyTo": ["elementalMastery"],
+            "value": 50,
+            "unit": "flat",
+            "condition": "always",
+            "conditionOptionValue": "hydro",
+            "conditionInputActivates": true,
+            "conditionGroupId": "sucrose-passive1-swirl-element",
+            "requiredTargetElement": "hydro",
+            "conditionLabel": "スクロースが拡散反応または星拡散反応を起こした後（8秒）",
+            "duration": 8,
+            "targetOwner": "otherPartyMembers",
+            "calculationSupport": "toggle"
+          },
+          {
+            "id": "t_10000043_passive1_swirl_em_share_electro",
+            "category": "statBonus",
+            "applyTo": ["elementalMastery"],
+            "value": 50,
+            "unit": "flat",
+            "condition": "always",
+            "conditionOptionValue": "electro",
+            "conditionInputActivates": true,
+            "conditionGroupId": "sucrose-passive1-swirl-element",
+            "requiredTargetElement": "electro",
+            "conditionLabel": "スクロースが拡散反応または星拡散反応を起こした後（8秒）",
+            "duration": 8,
+            "targetOwner": "otherPartyMembers",
+            "calculationSupport": "toggle"
+          },
+          {
+            "id": "t_10000043_passive1_swirl_em_share_cryo",
+            "category": "statBonus",
+            "applyTo": ["elementalMastery"],
+            "value": 50,
+            "unit": "flat",
+            "condition": "always",
+            "conditionOptionValue": "cryo",
+            "conditionInputActivates": true,
+            "conditionGroupId": "sucrose-passive1-swirl-element",
+            "requiredTargetElement": "cryo",
+            "conditionLabel": "スクロースが拡散反応または星拡散反応を起こした後（8秒）",
+            "duration": 8,
+            "targetOwner": "otherPartyMembers",
+            "calculationSupport": "toggle"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "id": "t_10000043_passive2_em_share",
+            "category": "scalingBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "reference": {
+              "stat": "elementalMastery",
+              "source": "self"
+            },
+            "value": 20,
+            "unit": "percent",
+            "condition": "active",
+            "conditionLabel": "風霊作成·六三〇八または禁·風霊作成·七五同構弐型が敵に命中した後（8秒）",
+            "duration": 8,
+            "targetOwner": "otherPartyMembers",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional"
           }
         ]
       },
@@ -938,8 +1115,53 @@
             "verification": {
               "status": "needsReview",
               "sourceAgreement": "singleSource",
-              "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のSucrose lockedPassive実装・生成係数と照合。独立したversion-bound provider agreementは未成立。大型風霊の魔導キャラクター限定効果は対象フィルタ不足のため未実装。"
+              "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のSucrose lockedPassive実装・生成係数と照合。独立したversion-bound provider agreementは未成立。大型風霊効果は魔導キャラクター限定の別レコードで扱う。"
             }
+          },
+          {
+            "id": "t_10000043_lockedPassive_large_wind_spirit_damage",
+            "effectLabel": "魔導秘儀：大型風霊召喚後の魔導キャラ限定ダメージアップ",
+            "category": "damageBonus",
+            "applyTo": [
+              "normalAttackDamageBonus",
+              "chargedAttackDamageBonus",
+              "plungingAttackDamageBonus",
+              "skillDamageBonus",
+              "burstDamageBonus"
+            ],
+            "valueByCondition": {
+              "locked": 0,
+              "unlocked": 0,
+              "active": 7.14285
+            },
+            "unit": "percent",
+            "condition": "active",
+            "conditionOptionValue": "active",
+            "conditionInput": {
+              "type": "option",
+              "default": "locked",
+              "label": "魔女の課題／魔導秘儀（大型風霊）",
+              "help": "課題の解放状態と、魔導秘儀中に大型風霊を召喚したかを選択します。",
+              "options": [
+                { "value": "locked", "label": "魔女の課題：未解放" },
+                { "value": "unlocked", "label": "解放済み（未発動／魔導秘儀なし）" },
+                { "value": "active", "label": "解放済み＋魔導秘儀：大型風霊召喚後" }
+              ]
+            },
+            "conditionGroupId": "witch-sucrose-large-wind-spirit",
+            "conditionLabel": "魔導秘儀中、大型風霊を召喚した後（20秒）",
+            "sourceText": "大型風霊を召喚した後の20秒間、付近にいるチーム内魔導キャラクターの通常攻撃、重撃、落下攻撃、元素スキル、元素爆発ダメージ+7.14285%。",
+            "duration": 20,
+            "targetOwner": "team",
+            "partyTargetCharacterIds": [
+              "10000020",
+              "10000022",
+              "10000031",
+              "10000038",
+              "10000043"
+            ],
+            "calculationSupport": "simple",
+            "uidHandling": "conditional"
           }
         ]
       }
@@ -2919,9 +3141,48 @@
   "10000089": {
     "passives": [
       {
+        "sourceId": "combat2",
+        "modifiers": [
+          {
+            "id": "t_10000089_combat2_salon_member_hp_count_multiplier",
+            "effectLabel": "HP50%以上のチーム人数によるサロンメンバー攻撃補正",
+            "category": "effectOverride",
+            "applyTo": [
+              "skillDamage"
+            ],
+            "targetEffect": [
+              "damage_4",
+              "damage_5",
+              "damage_6"
+            ],
+            "valueByCondition": {
+              "0": 100,
+              "1": 110,
+              "2": 120,
+              "3": 130,
+              "4": 140
+            },
+            "unit": "percentOfOriginalDamage",
+            "condition": "conditional",
+            "conditionInput": {
+              "type": "targetCount",
+              "label": "HP50%以上のチーム人数",
+              "help": "サロンメンバー攻撃時点でHPが50%以上のチームメンバー数を入力します。",
+              "min": 0,
+              "max": 4,
+              "step": 1
+            },
+            "conditionLabel": "サロンメンバー攻撃時、HP50%以上のチームメンバー人数",
+            "calculationSupport": "custom",
+            "uidHandling": "conditional"
+          }
+        ]
+      },
+      {
         "sourceId": "combat3",
         "modifiers": [
           {
+            "id": "t_10000089_combat3_fanfare_damage_bonus",
             "category": "damageBonus",
             "applyTo": [
               "allDamageBonus"
@@ -2945,7 +3206,26 @@
             },
             "unit": "percent",
             "condition": "active",
-            "calculationSupport": "toggle",
+            "calculationSupport": "stack",
+            "valueByLevelPerStack": true,
+            "dynamicInputResolved": true,
+            "stack": {
+              "min": 0,
+              "max": 300,
+              "default": 0,
+              "maxByConstellation": {
+                "0": 300,
+                "1": 400
+              }
+            },
+            "conditionInput": {
+              "type": "stack",
+              "label": "現在のテンション",
+              "help": "元素爆発中に現在獲得しているテンションを入力します。",
+              "min": 0,
+              "max": 300,
+              "step": 1
+            },
             "valueSource": {
               "type": "talentAttribute",
               "section": "combat3",
@@ -2959,14 +3239,28 @@
         "sourceId": "passive2",
         "modifiers": [
           {
-            "category": "damageBonus",
+            "id": "t_10000089_passive2_salon_member_damage_bonus",
+            "effectLabel": "止めどない円舞：HP上限によるサロンメンバー攻撃補正",
+            "category": "scalingBonus",
             "applyTo": [
-              "allDamageBonus"
+              "skillDamageBonus"
             ],
-            "value": 0.7,
+            "targetEffect": [
+              "damage_4",
+              "damage_5",
+              "damage_6"
+            ],
+            "reference": {
+              "stat": "hp",
+              "source": "self"
+            },
+            "divisor": 1000,
+            "ratio": 0.7,
+            "rounding": "floorSteps",
+            "maxValue": 28,
             "unit": "percent",
-            "condition": "active",
-            "calculationSupport": "toggle"
+            "condition": "always",
+            "calculationSupport": "simple"
           }
         ]
       }
@@ -5115,6 +5409,62 @@
               "sourceAgreement": "singleSource",
               "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のAlbedo lockedPassiveと照合。独立したversion-bound provider agreementは未成立。"
             }
+          },
+          {
+            "id": "t_10000038_lockedPassive_silver_blossom_damage",
+            "effectLabel": "魔導秘儀：銀華創造後の魔導キャラ限定ダメージアップ",
+            "category": "scalingBonus",
+            "applyTo": [
+              "normalAttackDamageBonus",
+              "chargedAttackDamageBonus",
+              "plungingAttackDamageBonus",
+              "skillDamageBonus",
+              "burstDamageBonus"
+            ],
+            "reference": {
+              "stat": "def",
+              "source": "self"
+            },
+            "divisor": 1000,
+            "ratio": 10,
+            "maxValue": 30,
+            "duration": 20,
+            "targetOwner": "team",
+            "partyTargetCharacterIds": [
+              "10000020",
+              "10000022",
+              "10000031",
+              "10000038",
+              "10000043"
+            ],
+            "unit": "percent",
+            "condition": "active",
+            "conditionOptionValue": "active",
+            "conditionInput": {
+              "type": "option",
+              "default": "locked",
+              "label": "魔女の課題／魔導秘儀（銀華）",
+              "help": "課題の解放状態と、魔導秘儀中に銀華を創造したかを選択します。",
+              "options": [
+                {
+                  "value": "locked",
+                  "label": "魔女の課題：未解放"
+                },
+                {
+                  "value": "unlocked",
+                  "label": "解放済み（未発動／魔導秘儀なし）"
+                },
+                {
+                  "value": "active",
+                  "label": "解放済み＋魔導秘儀：銀華を創造した後（20秒）"
+                }
+              ]
+            },
+            "conditionGroupId": "witch-albedo-silver-blossom-damage",
+            "conditionLabel": "銀華を創造した後（20秒）",
+            "sourceText": "銀華を創造した後の20秒間、周囲のチーム内魔導キャラクターの通常攻撃、重撃、落下攻撃、元素スキル、元素爆発ダメージが、アルベドの防御力を基準にアップする。防御力1000毎にダメージ+10%。この方法でアップできるダメージは最大30%まで。",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional"
           }
         ]
       }

@@ -276,19 +276,207 @@ async function clickAndWait(client, selector) {
         await waitFor(client, "Boolean(window.GenshinIdResolver && window.GenshinIdResolver.listCharacters().length > 0)");
         await waitFor(client, `document.getElementById("genshinNormalTalentLevel").getBoundingClientRect().width > 0`);
 
+        await clearSupportMembers();
+        await evaluate(client, selectionExpression({
+            characterName: "甘雨",
+            characterId: "10000037",
+            weaponName: "",
+            weaponId: "",
+            constellation: "C0",
+            atk: 2000,
+            def: 1000
+        }));
+        const furinaSelected = await evaluate(client, `(() => {
+            const member = window.GenshinPartyState.characterForId("10000089");
+            return window.GenshinPartyState.setPartySelection(2, "character", member);
+        })()`);
+        assert.equal(furinaSelected, true, "Furina must be selectable as a support member");
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        const furinaPartyMetadata = await evaluate(client, `(async () => {
+            const calcData = await window.GenshinCalcData.loadGenshinCalcData();
+            const context = window.GenshinCalcEngine.buildCharacterCalcContext();
+            const panel = window.GenshinCalcConditions.conditionPanelState(context, calcData);
+            const candidate = panel.partyModifiers.find((item) => item.modifier?.id === "t_10000089_combat3_fanfare_damage_bonus");
+            if (!candidate) throw new Error("missing Furina fanfare party candidate");
+            return { key: candidate.partyConditionStateKey || candidate.analysis.conditionStateKey, toggleKey: candidate.toggleKey };
+        })()`);
+        const furinaStackSelector = `[data-genshin-party-condition-key="${furinaPartyMetadata.key}"][data-genshin-party-condition-kind="stack"]`;
+        await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(furinaStackSelector)}))`);
+        const furinaBefore = await evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            return payload.results.reduce((sum, result) => sum + Number(result.total?.expected ?? result.expected ?? 0), 0);
+        })()`);
+        await evaluate(client, `(() => {
+            const input = document.querySelector(${JSON.stringify(furinaStackSelector)});
+            input.value = "300";
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+            return input.value;
+        })()`);
+        await delay(150);
+        await evaluate(client, `(() => {
+            const input = document.querySelector(${JSON.stringify(furinaStackSelector)});
+            const toggle = input?.closest("[data-party-buff]")?.querySelector("[data-genshin-party-buff-key]");
+            if (!toggle) throw new Error("missing Furina burst activation toggle");
+            if (!toggle.checked) toggle.click();
+            return toggle.checked;
+        })()`);
+        await delay(150);
+        const furinaAfter = await evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            const candidate = payload.partyModifiers.find((item) => item.modifier?.id === "t_10000089_combat3_fanfare_damage_bonus");
+            const stateKey = candidate.partyConditionStateKey || candidate.analysis.conditionStateKey;
+            const state = payload.calculationRequest.party.conditionStates[stateKey];
+            return {
+                totalExpected: payload.results.reduce((sum, result) => sum + Number(result.total?.expected ?? result.expected ?? 0), 0),
+                status: candidate.status,
+                enabled: candidate.enabled,
+                resolvedValue: candidate.resolvedValue,
+                stack: state?.stack
+            };
+        })()`);
+        assert.equal(furinaAfter.status, "ready");
+        assert.equal(furinaAfter.enabled, true);
+        assert.equal(furinaAfter.resolvedValue, 75);
+        assert.equal(furinaAfter.stack, 300);
+        assert.ok(furinaAfter.totalExpected > furinaBefore, JSON.stringify({ furinaBefore, furinaAfter }));
+
+        await clearSupportMembers();
+        const alyoshaSupportSelected = await evaluate(client, `(() => {
+            const member = window.GenshinPartyState.characterForId("10000148");
+            return window.GenshinPartyState.setPartySelection(2, "character", member);
+        })()`);
+        assert.equal(alyoshaSupportSelected, true, "Alyosha must be selectable as a support member");
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        const alyoshaPartyMetadata = await evaluate(client, `(async () => {
+            const calcData = await window.GenshinCalcData.loadGenshinCalcData();
+            const context = window.GenshinCalcEngine.buildCharacterCalcContext();
+            const panel = window.GenshinCalcConditions.conditionPanelState(context, calcData);
+            const candidate = panel.partyModifiers.find((item) => item.modifier?.id === "provisional70_10000148_modifier_hunter_precision_atk");
+            if (!candidate) throw new Error("missing Alyosha Hunter Precision party candidate");
+            return { key: candidate.partyConditionStateKey, toggleKey: candidate.toggleKey, max: candidate.modifier.conditionInput?.max };
+        })()`);
+        assert.equal(alyoshaPartyMetadata.max, 1);
+        const alyoshaStackSelector = `[data-genshin-party-condition-key="${alyoshaPartyMetadata.key}"][data-genshin-party-condition-kind="stack"]`;
+        await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(alyoshaStackSelector)}))`);
+        const alyoshaPartyBefore = await evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            return payload.results.reduce((sum, result) => sum + Number(result.total?.expected ?? result.expected ?? 0), 0);
+        })()`);
+        await evaluate(client, `(() => {
+            const input = document.querySelector(${JSON.stringify(alyoshaStackSelector)});
+            input.value = "1";
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+            return input.value;
+        })()`);
+        await delay(150);
+        await evaluate(client, `(() => {
+            const input = document.querySelector(${JSON.stringify(alyoshaStackSelector)});
+            const toggle = input?.closest("[data-party-buff]")?.querySelector("[data-genshin-party-buff-key]");
+            if (!toggle) throw new Error("missing Alyosha Hunter Precision activation toggle");
+            if (!toggle.checked) toggle.click();
+            return toggle.checked;
+        })()`);
+        await delay(150);
+        const alyoshaPartyAfter = await evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            const atk = payload.partyModifiers.find((item) => item.modifier?.id === "provisional70_10000148_modifier_hunter_precision_atk");
+            const stellar = payload.partyModifiers.find((item) => item.modifier?.id === "provisional70_10000148_modifier_passive3_stellar_conduct");
+            const state = payload.calculationRequest.party.conditionStates[atk.partyConditionStateKey];
+            return {
+                totalExpected: payload.results.reduce((sum, result) => sum + Number(result.total?.expected ?? result.expected ?? 0), 0),
+                atkStatus: atk.status,
+                atkEnabled: atk.enabled,
+                atkValue: atk.resolvedValue,
+                stellarValue: stellar.resolvedValue,
+                stack: state?.stack
+            };
+        })()`);
+        assert.equal(alyoshaPartyAfter.atkStatus, "ready");
+        assert.equal(alyoshaPartyAfter.atkEnabled, true);
+        assert.equal(alyoshaPartyAfter.atkValue, 21.2);
+        assert.equal(alyoshaPartyAfter.stellarValue, 20);
+        assert.equal(alyoshaPartyAfter.stack, 1);
+        assert.ok(alyoshaPartyAfter.totalExpected > alyoshaPartyBefore, JSON.stringify({ alyoshaPartyBefore, alyoshaPartyAfter }));
+
+        await clearSupportMembers();
+        await evaluate(client, selectionExpression({
+            characterName: "アリョーシャ（検証中）",
+            characterId: "10000148",
+            weaponName: "",
+            weaponId: "",
+            constellation: "C0",
+            atk: 2000
+        }));
+        const odetteSupportSelected = await evaluate(client, `(() => {
+            const member = window.GenshinPartyState.characterForId("10000150");
+            const selected = window.GenshinPartyState.setPartySelection(2, "character", member);
+            const constellation = document.getElementById("genshinPartyConstellation2");
+            constellation.value = "6";
+            constellation.dispatchEvent(new Event("change", { bubbles: true }));
+            return selected;
+        })()`);
+        assert.equal(odetteSupportSelected, true, "Odette must be selectable as a support member");
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        const odettePartyMetadata = await evaluate(client, `(async () => {
+            const calcData = await window.GenshinCalcData.loadGenshinCalcData();
+            const context = window.GenshinCalcEngine.buildCharacterCalcContext();
+            const panel = window.GenshinCalcConditions.conditionPanelState(context, calcData);
+            const candidate = panel.partyModifiers.find((item) => item.modifier?.id === "provisional70_10000150_c2_spring_flower_atk");
+            if (!candidate) throw new Error("missing Odette C2 Spring Flower party candidate");
+            return { key: candidate.partyConditionStateKey };
+        })()`);
+        const odetteOptionSelector = `[data-genshin-party-condition-key="${odettePartyMetadata.key}"][data-genshin-party-condition-kind="stack"]`;
+        await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(odetteOptionSelector)}))`);
+        const odetteSharedControlCount = await evaluate(client, `({
+            inputs: document.querySelectorAll(${JSON.stringify(odetteOptionSelector)}).length,
+            springToggles: document.querySelectorAll('[data-genshin-party-buff-key*="condition_spring_flower"]').length
+        })`);
+        assert.deepEqual(odetteSharedControlCount, { inputs: 1, springToggles: 0 });
+        const odettePartyBefore = await evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            return payload.results.reduce((sum, result) => sum + Number(result.total?.expected ?? result.expected ?? 0), 0);
+        })()`);
+        await evaluate(client, `(() => {
+            const input = document.querySelector(${JSON.stringify(odetteOptionSelector)});
+            input.value = "3";
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+            return input.value;
+        })()`);
+        await delay(150);
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        const odettePartyAfter = await evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            const candidate = payload.partyModifiers.find((item) => item.modifier?.id === "provisional70_10000150_c2_spring_flower_atk");
+            const state = payload.calculationRequest.party.conditionStates[candidate.partyConditionStateKey];
+            return {
+                damage: payload.results.reduce((sum, result) => sum + Number(result.total?.expected ?? result.expected ?? 0), 0),
+                status: candidate.status,
+                enabled: candidate.enabled,
+                resolvedValue: candidate.resolvedValue,
+                stack: state?.stack
+            };
+        })()`);
+        assert.ok(odettePartyBefore > 0);
+        assert.equal(odettePartyAfter.status, "ready");
+        assert.equal(odettePartyAfter.enabled, true);
+        assert.equal(odettePartyAfter.resolvedValue, 21);
+        assert.equal(odettePartyAfter.stack, 3);
+        assert.ok(odettePartyAfter.damage > odettePartyBefore, JSON.stringify({ odettePartyBefore, odettePartyAfter }));
+
         const runWitchProduction = async (modifierId) => evaluate(client, `(async () => {
             const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
             const applied = payload.results.flatMap((result) => result.breakdown?.appliedModifiers || []);
             const appliedItem = applied.find((item) => item.modifier?.id === ${JSON.stringify(modifierId)});
+            const extraDamageResult = payload.results.find((result) => result.entry?.effectId === ${JSON.stringify(modifierId)});
             const skippedItem = payload.candidateModifiers.find((item) => item.modifier?.id === ${JSON.stringify(modifierId)});
             const partyCandidate = payload.partyModifiers.find((item) => item.modifier?.id === ${JSON.stringify(modifierId)});
-            const source = appliedItem || skippedItem || partyCandidate;
+            const source = appliedItem || extraDamageResult?.entry?.sourceModifier || skippedItem || partyCandidate;
             const key = source?.analysis?.conditionStateKey || "";
             const request = payload.calculationRequest || {};
             return {
                 totalExpected: payload.results.reduce((sum, result) => sum + Number(result.total?.expected ?? result.expected ?? 0), 0),
-                applied: Boolean(appliedItem),
-                appliedValue: appliedItem?.value ?? null,
+                applied: Boolean(appliedItem || extraDamageResult),
+                appliedValue: appliedItem?.value ?? extraDamageResult?.entry?.sourceModifier?.value ?? null,
                 skippedReason: skippedItem?.reason || "",
                 partyStatus: partyCandidate?.status || "",
                 partyEnabled: partyCandidate?.enabled ?? null,
@@ -379,7 +567,7 @@ async function clickAndWait(client, selector) {
                 const panel = window.GenshinCalcConditions.conditionPanelState(context, calcData);
                 const candidate = panel.partyModifiers.find((item) => item.modifier?.id === ${JSON.stringify(modifierId)});
                 if (!candidate) throw new Error("missing Witch party candidate: ${modifierId}");
-                return { key: candidate.analysis.conditionStateKey, candidateKey: candidate.key, group: candidate.modifier.conditionGroupId || "" };
+                return { key: candidate.partyConditionStateKey || candidate.analysis.conditionStateKey, candidateKey: candidate.key, group: candidate.modifier.conditionGroupId || "" };
             })()`);
             assert.equal(metadata.group, group, `${modifierId} must expose its Witch condition group`);
             const selector = `[data-genshin-party-condition-key="${metadata.key}"]`;
@@ -447,10 +635,24 @@ async function clickAndWait(client, selector) {
                 offValue: "locked",
                 onValue: "unlocked"
             }),
+            razorOverflow: await directWitchCase({
+                selection: { characterName: "レザー", characterId: "10000020", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 },
+                group: "witch-razor-overflow-lightning",
+                modifierId: "t_10000020_lockedPassive_overflow_lightning",
+                offValue: "locked",
+                onValue: "active"
+            }),
             venti: await directWitchCase({
                 selection: { characterName: "ウェンティ", characterId: "10000022", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 },
                 group: "witch-venti-stormeye_swirl_damage",
                 modifierId: "t_10000022_lockedPassive_stormeye_swirl_damage",
+                offValue: "locked",
+                onValue: "active"
+            }),
+            ventiStormeyeMultiplier: await directWitchCase({
+                selection: { characterName: "ウェンティ", characterId: "10000022", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 },
+                group: "witch-venti-stormeye_swirl_damage",
+                modifierId: "t_10000022_lockedPassive_stormeye_damage_multiplier",
                 offValue: "locked",
                 onValue: "active"
             }),
@@ -476,11 +678,24 @@ async function clickAndWait(client, selector) {
                 modifierId: "t_10000038_lockedPassive_solar_isotoma_damage",
                 supportDef: 1000
             }),
+            albedoSilver: await partyWitchCase({
+                selection: { characterName: "レザー", characterId: "10000020", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 },
+                supportCharacterId: "10000038",
+                group: "witch-albedo-silver-blossom-damage",
+                modifierId: "t_10000038_lockedPassive_silver_blossom_damage",
+                supportDef: 3000
+            }),
             sucrose: await partyWitchCase({
                 selection: { characterName: "甘雨", characterId: "10000037", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 },
                 supportCharacterId: "10000043",
                 group: "witch-sucrose-small-wind-spirit",
                 modifierId: "t_10000043_lockedPassive_small_wind_spirit_damage"
+            }),
+            sucroseLarge: await partyWitchCase({
+                selection: { characterName: "レザー", characterId: "10000020", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 },
+                supportCharacterId: "10000043",
+                group: "witch-sucrose-large-wind-spirit",
+                modifierId: "t_10000043_lockedPassive_large_wind_spirit_damage"
             })
         };
 
@@ -1116,6 +1331,80 @@ async function clickAndWait(client, selector) {
         await clickAndWait(client, "#genshinJsonCalcButtonBottom");
         const stackResultLength = await evaluate(client, `document.querySelector("#genshinJsonCalcResults").innerText.trim().length`);
         assert.ok(stackResultLength > 0);
+
+        await evaluate(client, selectionExpression({
+            characterName: "スクロース",
+            characterId: "10000043",
+            weaponName: "",
+            weaponId: "",
+            constellation: "C6",
+            atk: 1000
+        }));
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        const sucroseAbsorptionSelector = '[data-genshin-condition-key*="sucrose-burst-elemental-absorption"][data-genshin-condition-kind="option"]';
+        await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(sucroseAbsorptionSelector)}))`);
+        const sucroseConditionCount = await evaluate(client, `document.querySelectorAll(${JSON.stringify(sucroseAbsorptionSelector)}).length`);
+        assert.equal(sucroseConditionCount, 1);
+        const sucroseBefore = await evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            return {
+                pyro: payload.results.find((item) => item.entry.id === "damage_pyro")?.nonCrit,
+                cryo: payload.results.find((item) => item.entry.id === "damage_cryo")?.nonCrit
+            };
+        })()`);
+        await evaluate(client, `(() => {
+            const input = document.querySelector(${JSON.stringify(sucroseAbsorptionSelector)});
+            input.value = "pyro";
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+        })()`);
+        const sucroseAfter = await evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            const key = Object.keys(payload.calculationRequest.uiState.conditionByModifier)
+                .find((item) => item.includes("sucrose-burst-elemental-absorption"));
+            return {
+                pyro: payload.results.find((item) => item.entry.id === "damage_pyro")?.nonCrit,
+                cryo: payload.results.find((item) => item.entry.id === "damage_cryo")?.nonCrit,
+                option: payload.calculationRequest.uiState.conditionByModifier[key]?.option,
+                labels: payload.results.filter((item) => item.entry.id.startsWith("damage_")).map((item) => item.entry.label)
+            };
+        })()`);
+        assert.equal(sucroseAfter.option, "pyro");
+        assert.ok(sucroseAfter.pyro > sucroseBefore.pyro, JSON.stringify({ sucroseBefore, sucroseAfter }));
+        assert.equal(sucroseAfter.cryo, sucroseBefore.cryo);
+        assert.deepEqual(sucroseAfter.labels, [
+            "炎元素変化・付加元素ダメージ",
+            "水元素変化・付加元素ダメージ",
+            "雷元素変化・付加元素ダメージ",
+            "氷元素変化・付加元素ダメージ"
+        ]);
+
+        await evaluate(client, selectionExpression({
+            characterName: "ノエル",
+            characterId: "10000034",
+            weaponName: "",
+            weaponId: "",
+            constellation: "C0",
+            def: 2000
+        }));
+        await evaluate(client, `(() => {
+            const reaction = document.getElementById("genshinJsonReactionOption");
+            reaction.value = "lunarCrystallize";
+            reaction.dispatchEvent(new Event("input", { bubbles: true }));
+            reaction.dispatchEvent(new Event("change", { bubbles: true }));
+        })()`);
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        await waitFor(client, `Boolean(document.getElementById("genshinReactionContributor2AdditiveBaseDamage"))`);
+        const lunarConditionText = await evaluate(client, `document.querySelector('[data-condition-card="reaction"]').innerText`);
+        assert.match(lunarConditionText, /個別の固定加算ダメージ/);
+        assert.match(lunarConditionText, /チーム共通補正は全参加者へ反映/);
+        assert.match(lunarConditionText, /主結果は月籠1個の1ヒット/);
+        await clickAndWait(client, "#genshinJsonCalcButtonBottom");
+        await clickAndWait(client, "#genshin-result-tab-reaction");
+        const lunarResultText = await evaluate(client, `document.querySelector("#genshin-result-panel-reaction").innerText`);
+        assert.match(lunarResultText, /月籠諧奏ダメージ（月籠1個・1ヒット/);
+        assert.match(lunarResultText, /参考：\s*月籠諧奏（同一対象へ月籠3個が各1ヒット）/);
+        assert.match(lunarResultText, /ターゲット分散時は対象ごと/);
 
         const xiaoBehaviorModifierId = "behavior-modifier:10000026:constellation-1-1:1";
         const inspectXiaoBehavior = () => evaluate(client, `(() => {

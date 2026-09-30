@@ -165,7 +165,7 @@ test("progression buffs use the existing party option route without applying whi
     assert.equal(active.statTrace.filter((item) => item.modifierId === fischlBuff.modifier.id).length, 1);
 });
 
-test("Sucrose small Wind Spirit uses the locked-safe team route and leaves the Hexerei-only large buff held", () => {
+test("Sucrose Wind Spirits apply the small buff to the team and the large buff only to Hexerei characters", () => {
     const talents = JSON.parse(fs.readFileSync(path.join(ROOT, "games/genshin/data/character-talents.json"), "utf8"));
     const source = talents["10000043"].passives.find((item) => item.sourceId === "lockedPassive");
     assert.match(source.descriptionJa, /小型風霊.*5\.71428%/);
@@ -193,10 +193,13 @@ test("Sucrose small Wind Spirit uses the locked-safe team route and leaves the H
 
     const locked = sandbox.GenshinCalcEngine.calculateDamageRequest(request, calcData);
     const candidate = locked.partyModifiers.find((item) => item.modifier.id === "t_10000043_lockedPassive_small_wind_spirit_damage");
+    const largeCandidate = locked.partyModifiers.find((item) => item.modifier.id === "t_10000043_lockedPassive_large_wind_spirit_damage");
     assert.ok(candidate);
+    assert.ok(largeCandidate);
     assert.notEqual(candidate.status, "ready");
+    assert.equal(largeCandidate.status, "notApplicable");
     assert.equal(calcData.talentModifiers["10000043"].passives
-        .find((item) => item.sourceId === "lockedPassive").modifiers.length, 1);
+        .find((item) => item.sourceId === "lockedPassive").modifiers.length, 2);
 
     request.party.conditionStates = { [candidate.analysis.conditionStateKey]: { option: "active" } };
     request.party.members[1].buffStates[candidate.toggleKey] = true;
@@ -206,4 +209,33 @@ test("Sucrose small Wind Spirit uses the locked-safe team route and leaves the H
     assert.equal(applied.length, 1);
     assert.equal(applied[0].value, 5.71428);
     assert.ok(active.results[0].expected > locked.results[0].expected);
+
+    prepareScenarioInputs(elements, { characterId: "10000020", stats: { atk: 1000, baseAtk: 500 } });
+    const hexereiRequest = sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+    hexereiRequest.party = {
+        schemaVersion: 1,
+        focusSlot: 1,
+        members: [
+            { slot: 1, role: "main", enabled: true, characterId: "10000020" },
+            {
+                slot: 2,
+                role: "support",
+                enabled: true,
+                characterId: "10000043",
+                constellation: 0,
+                talentLevels: { normal: 10, skill: 10, burst: 10 },
+                buffStates: {}
+            }
+        ]
+    };
+    const hexereiLocked = sandbox.GenshinCalcEngine.calculateDamageRequest(hexereiRequest, calcData);
+    const hexereiLarge = hexereiLocked.partyModifiers.find((item) => item.modifier.id === largeCandidate.modifier.id);
+    assert.equal(hexereiLarge.status, "off");
+    hexereiRequest.party.conditionStates = { [hexereiLarge.analysis.conditionStateKey]: { option: "active" } };
+    hexereiRequest.party.members[1].buffStates[hexereiLarge.toggleKey] = true;
+    const hexereiActive = sandbox.GenshinCalcEngine.calculateDamageRequest(hexereiRequest, calcData);
+    const appliedLarge = hexereiActive.results.flatMap((result) => result.breakdown.appliedModifiers)
+        .find((item) => item.modifier.id === hexereiLarge.modifier.id);
+    assert.equal(appliedLarge.value, 7.14285);
+    assert.ok(hexereiActive.results[0].expected > hexereiLocked.results[0].expected);
 });

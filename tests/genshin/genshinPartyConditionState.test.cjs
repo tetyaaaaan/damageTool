@@ -158,3 +158,63 @@ test("party option renderer emits a selected control and a change-event route", 
     assert.match(elements.genshinJsonConditionCards.innerHTML, /value="ascendantGleam" selected/);
     assert.match(elements.genshinJsonConditionCards.innerHTML, /data-genshin-party-buff-key/);
 });
+
+test("party numeric condition state is retained and rendered for Furina fanfare", () => {
+    const { sandbox, elements, calcData } = createHarness({ renderer: true });
+    setSupport(elements, "10000089");
+    const initial = sandbox.GenshinCalcEngine.calculateDamageRequest(
+        sandbox.GenshinCalcEngine.buildCalculationRequestFromForm(),
+        calcData
+    );
+    const fanfare = initial.partyModifiers.find((candidate) => candidate.modifier?.id === "t_10000089_combat3_fanfare_damage_bonus");
+    const key = fanfare.analysis.conditionStateKey;
+    assert.equal(sandbox.GenshinPartyState.setPartyConditionState(key, "stack", "300"), true);
+
+    const request = sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+    assert.deepEqual(JSON.parse(JSON.stringify(request.party.conditionStates[key])), { stack: 300 });
+    const panel = sandbox.GenshinCalcConditions.conditionPanelState(request, calcData);
+    elements.genshinJsonConditionCards = { innerHTML: "", dataset: {} };
+    sandbox.GenshinCalcRenderer.renderConditionCards(panel, request);
+
+    assert.match(elements.genshinJsonConditionCards.innerHTML, /data-genshin-party-condition-kind="stack"/);
+    assert.match(elements.genshinJsonConditionCards.innerHTML, /max="300"/);
+    assert.match(elements.genshinJsonConditionCards.innerHTML, /value="300"/);
+});
+
+test("party modifiers sharing one game condition render one input and one activation toggle", () => {
+    const { sandbox, elements, calcData } = createHarness({ renderer: true });
+    const context = sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+    const member = context.party.members.find((item) => item.slot === 2);
+    const conditionKey = "party:2:10000150:group:provisional70_10000150_condition_spring_flower";
+    const shared = {
+        member,
+        sourceKind: "character",
+        sourceName: "オデット",
+        targetLabel: "フィールド上キャラクター",
+        status: "off",
+        enabled: false,
+        automatic: false,
+        partyConditionStateKey: conditionKey,
+        toggleKey: conditionKey,
+        analysis: { conditionStateKey: conditionKey },
+        modifier: {
+            category: "reactionBonus",
+            conditionGroupId: "provisional70_10000150_condition_spring_flower",
+            conditionInput: { type: "stack", label: "春の華", min: 0, max: 6, unit: "層" }
+        }
+    };
+    const panel = {
+        cards: [],
+        partyModifiers: [
+            { ...shared, key: "spring-atk", modifier: { ...shared.modifier, id: "spring-atk" } },
+            { ...shared, key: "spring-reaction", modifier: { ...shared.modifier, id: "spring-reaction" } }
+        ]
+    };
+    context.uiState.conditionByModifier[conditionKey] = { stack: 4 };
+    elements.genshinJsonConditionCards = { innerHTML: "", dataset: {} };
+    sandbox.GenshinCalcRenderer.renderConditionCards(panel, context, calcData);
+    const html = elements.genshinJsonConditionCards.innerHTML;
+    assert.equal((html.match(/data-genshin-party-condition-key=/g) || []).length, 1);
+    assert.equal((html.match(/data-genshin-party-buff-key=/g) || []).length, 1);
+    assert.match(html, /value="4"/);
+});

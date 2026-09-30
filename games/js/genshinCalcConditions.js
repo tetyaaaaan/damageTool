@@ -713,14 +713,40 @@
         const reconciled = [];
         candidates.forEach((candidate) => {
             const input = candidate.modifier?.conditionInput;
-            if (input?.type !== "option" || !Array.isArray(input.options) || !input.options.length) return;
-            const key = candidate.analysis?.conditionStateKey || candidate.key;
+            if (!input || !["option", "stack", "targetCount"].includes(input.type)) return;
+            const analysisKey = candidate.analysis?.conditionStateKey || candidate.key;
+            const key = candidate.partyConditionStateKey || analysisKey;
             if (!key) return;
+            const current = context.uiState.conditionByModifier[key]
+                || context.uiState.conditionByModifier[analysisKey]
+                || {};
+            const storedValue = storedStates[key] || storedStates[analysisKey];
+            const stored = storedValue && typeof storedValue === "object" ? storedValue : {};
+            if (["stack", "targetCount"].includes(input.type)) {
+                const requested = stored[input.type] ?? current[input.type];
+                const hasValue = requested !== "" && requested !== null && requested !== undefined && Number.isFinite(Number(requested));
+                const min = Number.isFinite(Number(input.min)) ? Number(input.min) : Number(candidate.modifier?.stack?.min) || 0;
+                const max = Number.isFinite(Number(input.max)) ? Number(input.max) : Number(candidate.modifier?.stack?.max);
+                const value = hasValue
+                    ? Math.min(Math.max(Number(requested), min), Number.isFinite(max) ? max : Number(requested))
+                    : "";
+                context.uiState.conditionByModifier[key] = {
+                    ...current,
+                    [input.type]: value,
+                    enabled: hasValue
+                };
+                context.uiState.conditionByModifier[analysisKey] = context.uiState.conditionByModifier[key];
+                context.uiState.resolvedConditionByGroup ||= {};
+                if (candidate.modifier?.conditionGroupId) {
+                    context.uiState.resolvedConditionByGroup[candidate.modifier.conditionGroupId] = value;
+                }
+                reconciled.push({ key, [input.type]: value, ...(hasValue ? {} : { status: "missingInput" }) });
+                return;
+            }
+            if (!Array.isArray(input.options) || !input.options.length) return;
             const options = input.options.map(optionValue)
                 .filter((value) => value !== undefined && value !== null && value !== "");
             if (!options.length) return;
-            const current = context.uiState.conditionByModifier[key] || {};
-            const stored = storedStates[key] && typeof storedStates[key] === "object" ? storedStates[key] : {};
             const requested = stored.option ?? current.option;
             const selected = options.find((value) => String(value) === String(requested))
                 ?? explicitPartyOptionDefault(candidate, options);
@@ -738,6 +764,7 @@
                 option: String(selected),
                 enabled: true
             };
+            context.uiState.conditionByModifier[analysisKey] = context.uiState.conditionByModifier[key];
             reconciled.push({ key, option: String(selected) });
         });
         return reconciled;
@@ -873,7 +900,9 @@
             if (analysis.inputStatus !== "applicable") return [];
             const configured = modifier.conditionInput;
             const conditionGroupId = modifier.conditionGroupId || modifier.activation?.stateKey || modifier.effectGroupId || "";
-            const stableConditionKey = conditionGroupId
+            const stableConditionKey = conditionGroupId && modifier.shareConditionAcrossSources
+                ? `character:${context.characterId}:group:${conditionGroupId}`
+                : conditionGroupId
                 ? `${source}:group:${conditionGroupId}`
                 : analysis.conditionStateKey;
             const hasImplicitStackContract = modifier.calculationSupport === "stack"
@@ -882,9 +911,14 @@
                 || Boolean(modifier.valueByStack)
                 || Boolean(modifier.effectiveAdditionalValuePerStack)
                 || (modifier.scalings || []).some((scaling) => Number.isFinite(Number(scaling.valuePerStack)));
+            const constellationMaximum = Object.entries(modifier.stack?.maxByConstellation || {})
+                .map(([level, value]) => [Number(level), Number(value)])
+                .filter(([level, value]) => Number.isFinite(level) && Number.isFinite(value) && level <= Number(context.constellation || 0))
+                .sort((left, right) => right[0] - left[0])[0]?.[1];
+            const effectiveStackMax = constellationMaximum ?? modifier.stack?.max;
             const numericStack = hasImplicitStackContract && modifier.stack
                 && Number.isFinite(Number(modifier.stack.min))
-                && Number.isFinite(Number(modifier.stack.max));
+                && Number.isFinite(Number(effectiveStackMax));
             if (!configured && !numericStack) return [];
             const type = configured?.type || "stack";
             return [{
@@ -895,7 +929,7 @@
                 unit: configured?.unit || (type === "stack" ? "段" : ""),
                 type,
                 min: Number(configured?.min ?? modifier.stack?.min ?? 0),
-                max: Number(configured?.max ?? modifier.stack?.max ?? 0),
+                max: Number(constellationMaximum ?? configured?.max ?? effectiveStackMax ?? 0),
                 options: configured?.options || [],
                 configured: Boolean(configured),
                 source,
@@ -959,6 +993,19 @@
                 if (definition.conditionGroupId) {
                     context.uiState.resolvedConditionByGroup[definition.conditionGroupId] = state.stack;
                 }
+                if (definition.conditionGroupId && definition.modifier?.shareConditionAcrossSources) {
+                    collectSelectedModifiers(context, calcData)
+                        .filter((item) => item.modifier?.conditionGroupId === definition.conditionGroupId)
+                        .forEach((item) => {
+                            const sharedKey = analyzeModifier(item.modifier, item.source, context).conditionStateKey;
+                            context.uiState.conditionByModifier[sharedKey] = {
+                                ...(context.uiState.conditionByModifier[sharedKey] || {}),
+                                ...state,
+                                enabled: Number(state.stack) > 0
+                            };
+                            if (item.modifier.id) context.uiState.resolvedConditionByModifier[item.modifier.id] = state.stack;
+                        });
+                }
                 collectSelectedModifiers(context, calcData)
                     .filter((item) => item.source === definition.source
                         && item.modifier?.conditionInput?.type === "stack"
@@ -969,6 +1016,18 @@
                 const selected = collectSelectedModifiers(context, calcData)
                     .find(({ modifier }) => modifier.id === definition.modifierId)?.modifier;
                 if (selected?.stack?.id) context.uiState.stackByModifier[selected.stack.id] = state.stack;
+            }
+            if (definition.type === "option" && definition.conditionGroupId && definition.modifier?.shareConditionAcrossSources) {
+                collectSelectedModifiers(context, calcData)
+                    .filter((item) => item.modifier?.conditionGroupId === definition.conditionGroupId)
+                    .forEach((item) => {
+                        const sharedKey = analyzeModifier(item.modifier, item.source, context).conditionStateKey;
+                        context.uiState.conditionByModifier[sharedKey] = {
+                            ...(context.uiState.conditionByModifier[sharedKey] || {}),
+                            ...state,
+                            enabled: state.option !== undefined && state.option !== null && state.option !== ""
+                        };
+                    });
             }
         });
         reconcilePartyConditionState(context, calcData);
@@ -1353,8 +1412,8 @@
         });
     }
 
-    function talentSourceMeta(source, context, calcData) {
-        const sourceId = parseSource(source).id;
+    function talentSourceMeta(source, context, calcData, modifier = null) {
+        const sourceId = modifier?.sourceTalent || parseSource(source).id;
         const normalizedId = String(sourceId).replace(/_/g, "");
         const talents = calcData.characterTalents?.[context.characterId] || {};
         const sourceOverride = calcData.attackModeRules?.talentSourceOverrides?.[context.characterId]?.[normalizedId];
@@ -1393,7 +1452,7 @@
     function buildTalentSections(card, context, calcData) {
         const sectionMap = new Map();
         (card.effects || []).forEach((effect) => {
-            const meta = talentSourceMeta(effect.source, context, calcData);
+            const meta = talentSourceMeta(effect.source, context, calcData, effect.modifier);
             const key = effect.source;
             if (!sectionMap.has(key)) {
                 sectionMap.set(key, {

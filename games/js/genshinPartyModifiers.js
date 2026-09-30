@@ -124,6 +124,14 @@
         return ["always", "constellationUnlocked"].includes(modifier?.condition || "always");
     }
 
+    function constellationScaledMaximum(stack, constellation) {
+        const entries = Object.entries(stack?.maxByConstellation || {})
+            .map(([level, value]) => [Number(level), Number(value)])
+            .filter(([level, value]) => Number.isFinite(level) && Number.isFinite(value) && level <= Number(constellation || 0))
+            .sort((left, right) => right[0] - left[0]);
+        return entries[0]?.[1] ?? stack?.max;
+    }
+
     function buildCandidate({ calcData, context, member, sourceKind, sourceId, modifier, modifierIndex, description, sourceName }) {
         const requiredProviderStats = providerStatRequirements(modifier, description);
         const memberStats = { ...(member.stats || {}) };
@@ -152,9 +160,23 @@
             : sourceKind === "artifact" && window.GenshinCalcEngine?.normalizeArtifactModifier
                 ? window.GenshinCalcEngine.normalizeArtifactModifier(modifier, normalizeSource, providerContext)
                 : modifier;
+        const stackMaximum = constellationScaledMaximum(normalized?.stack, member.constellation);
+        const normalizedStack = normalized?.stack
+            ? { ...normalized.stack, ...(Number.isFinite(Number(stackMaximum)) ? { max: Number(stackMaximum) } : {}) }
+            : normalized?.stack;
+        const normalizedConditionInput = normalized?.conditionInput
+            ? {
+                ...normalized.conditionInput,
+                ...(normalized.conditionInput.type === "stack" && Number.isFinite(Number(stackMaximum))
+                    ? { max: Number(stackMaximum) }
+                    : {})
+            }
+            : normalized?.conditionInput;
         const target = inferTargetOwner(normalized, description);
         const partyModifier = {
             ...normalized,
+            ...(normalizedStack ? { stack: normalizedStack } : {}),
+            ...(normalizedConditionInput ? { conditionInput: normalizedConditionInput } : {}),
             partySource: true,
             partySourceKind: sourceKind,
             partySourceName: normalized?.effectLabel || sourceName,
@@ -167,11 +189,26 @@
         };
         const key = candidateKey(member, sourceKind, sourceId, normalized, modifierIndex);
         const toggleKey = candidateToggleKey(member, sourceKind, sourceId, partyModifier, key);
+        const sharedInputKind = partyModifier.conditionInput?.type;
+        const sharedInputValue = sharedInputKind
+            ? (context.party?.conditionStates?.[toggleKey]?.[sharedInputKind]
+                ?? context.uiState?.conditionByModifier?.[toggleKey]?.[sharedInputKind])
+            : undefined;
+        if (sharedInputValue !== "" && sharedInputValue !== null && sharedInputValue !== undefined) {
+            partyModifier.dynamicInputResolved = true;
+        }
         const isAutomatic = automaticCondition(normalized);
-        let enabled = isAutomatic || member.buffStates?.[toggleKey] === true || member.buffStates?.[key] === true;
+        const conditionInputActivates = partyModifier.conditionInputActivates === true
+            && (sharedInputKind === "option"
+                ? !["", "none", "inactive", "off"].includes(String(sharedInputValue ?? "").toLowerCase())
+                : Number(sharedInputValue) > 0);
+        let enabled = isAutomatic || conditionInputActivates || member.buffStates?.[toggleKey] === true || member.buffStates?.[key] === true;
         const relevant = target.owner !== "self" || target.confidence !== "default";
         const targetElement = normalizeElement(calcData.characters?.[context.characterId]?.element || context.party?.members?.find((item) => item.slot === 1)?.element);
         const requiredTargetElement = normalizeElement(partyModifier.requiredTargetElement);
+        const partyTargetCharacterIds = Array.isArray(partyModifier.partyTargetCharacterIds)
+            ? partyModifier.partyTargetCharacterIds.map(String)
+            : [];
         let status = "ready";
         let reason = "";
         if (target.owner === "self" || !relevant) {
@@ -183,6 +220,9 @@
         } else if (requiredTargetElement && requiredTargetElement !== targetElement) {
             status = "notApplicable";
             reason = `対象キャラの元素が${partyModifier.requiredTargetElement}元素ではないため適用しません。`;
+        } else if (partyTargetCharacterIds.length && !partyTargetCharacterIds.includes(String(context.characterId || ""))) {
+            status = "notApplicable";
+            reason = "対象キャラがこの効果の対象ではないため適用しません。";
         } else if (requiredProviderStats.some((stat) => !(Number(memberStats[stat]) > 0))) {
             status = "missingProviderStats";
             reason = `発動者の${requiredProviderStats.filter((stat) => !(Number(memberStats[stat]) > 0)).join("・")}が必要なため、現在は表示のみです。`;
@@ -252,6 +292,9 @@
             status,
             reason,
             analysis,
+            partyConditionStateKey: (partyModifier.conditionGroupId || partyModifier.effectGroupId)
+                ? toggleKey
+                : analysis?.conditionStateKey,
             resolvedValue,
             providerContext
         };
@@ -329,9 +372,11 @@
                 const description = talentDescription(calcData, member.characterId, sourceId);
                 (passive.modifiers || []).forEach((modifier, modifierIndex) => {
                     if (!isCurrentRecord(modifier)) return;
+                    const displaySourceId = modifier.sourceTalent || sourceId;
                     candidates.push(buildCandidate({
                         calcData, context, member, sourceKind: "talent", sourceId, modifier, modifierIndex,
-                        description, sourceName: talentName(calcData, member.characterId, sourceId)
+                        description: talentDescription(calcData, member.characterId, displaySourceId) || description,
+                        sourceName: talentName(calcData, member.characterId, displaySourceId)
                     }));
                 });
             });
@@ -400,6 +445,10 @@
         const accepted = applyStackingRules(deduplicated);
         const renderedToggleKeys = new Set();
         accepted.forEach((candidate) => {
+            if (candidate.modifier?.conditionInputActivates === true) {
+                candidate.showToggle = false;
+                return;
+            }
             if (candidate.automatic || !candidate.toggleKey) return;
             candidate.showToggle = !renderedToggleKeys.has(candidate.toggleKey);
             renderedToggleKeys.add(candidate.toggleKey);
@@ -423,6 +472,7 @@
         stackingDescriptor,
         applyStackingRules,
         targetBaseStatRequirement,
+        constellationScaledMaximum,
         collectPartyModifierCandidates,
         collectApplicablePartyModifiers
     };

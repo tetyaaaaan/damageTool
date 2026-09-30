@@ -479,7 +479,11 @@
         const meta = [view.element, view.attackType, `${view.hitCount}ヒット`].filter(Boolean).join("・");
         const detailId = `genshin-${tableId}-detail-${index}`;
         const comparison = comparisonForAttack(result.attackKey);
-        const attackHeading = `<div class="genshin-result-attack-head"><strong title="${escapeHtml(resultLabel)}">${escapeHtml(resultLabel)}</strong>${renderDetailToggle(resultLabel, detailId)}</div><small>${escapeHtml(meta)}</small>`;
+        const supplementalTotal = result.supplementalTotal;
+        const supplemental = supplementalTotal
+            ? `<small class="genshin-context-total" title="${escapeHtml(supplementalTotal.note || "")}"><strong>参考：</strong>${escapeHtml(supplementalTotal.label)}／非会心 ${formatDamageNumber(supplementalTotal.nonCrit)}・会心 ${formatDamageNumber(supplementalTotal.crit)}・期待値 ${formatDamageNumber(supplementalTotal.expected)}<br>${escapeHtml(supplementalTotal.note || "")}</small>`
+            : "";
+        const attackHeading = `<div class="genshin-result-attack-head"><strong title="${escapeHtml(resultLabel)}">${escapeHtml(resultLabel)}</strong>${renderDetailToggle(resultLabel, detailId)}</div><small>${escapeHtml(meta)}</small>${supplemental}`;
         if (result.entry.resultKind === "shield") {
             return `
                 <tr class="genshin-damage-result-row">
@@ -1110,8 +1114,9 @@
             <label><span>元素熟知</span><input id="genshinReactionContributor${slot}Em" type="number" min="0" value="${escapeHtml(value("elementalMastery"))}" placeholder="未入力"></label>
             <label><span>会心率%</span><input id="genshinReactionContributor${slot}CritRate" type="number" min="0" max="100" step="0.1" value="${escapeHtml(value("critRate"))}" placeholder="0"></label>
             <label><span>会心ダメージ%</span><input id="genshinReactionContributor${slot}CritDamage" type="number" min="0" step="0.1" value="${escapeHtml(value("critDamage"))}" placeholder="50"></label>
-            <label><span>反応ダメージ補正%</span><input id="genshinReactionContributor${slot}ReactionBonus" type="number" step="0.1" value="${escapeHtml(value("reactionBonus"))}" placeholder="0"></label>
-            <label><span>基礎ダメージ向上%</span><input id="genshinReactionContributor${slot}BaseBonus" type="number" step="0.1" value="${escapeHtml(value("baseDamageBonus"))}" placeholder="0"></label>
+            <label><span>個別の反応ダメージ補正%</span><input id="genshinReactionContributor${slot}ReactionBonus" type="number" step="0.1" value="${escapeHtml(value("reactionBonus"))}" placeholder="0"></label>
+            <label><span>個別の基礎ダメージ向上%</span><input id="genshinReactionContributor${slot}BaseBonus" type="number" step="0.1" value="${escapeHtml(value("baseDamageBonus"))}" placeholder="0"></label>
+            <label><span>個別の固定加算ダメージ</span><input id="genshinReactionContributor${slot}AdditiveBaseDamage" type="number" step="0.1" value="${escapeHtml(value("additiveBaseDamage"))}" placeholder="0"></label>
         </fieldset>`;
     }
 
@@ -1132,10 +1137,16 @@
             const contributorHelp = reaction.reactionId === "stellarSwirl"
                 ? "参加者2～4は、この星拡散へ元素を付着・発動して寄与するキャラクターだけ入力してください。Lvまたは元素熟知を入れると参加扱いになります。"
                 : "参加者2～4は、その4秒間に対象元素を付着したキャラクターだけ入力してください。Lvまたは元素熟知を入れると参加扱いになります。";
+            const modifierHelp = "参加者2～4の補正欄には、その参加者だけに付く個別分を入力してください。自動取得したチーム共通補正は全参加者へ反映されるため、ここには含めません。会心欄にも自動取得した月反応のチーム共通会心補正を重ねて入力しないでください。";
+            const harmonyHelp = reaction.reactionId === "lunarCrystallize"
+                ? "月籠諧奏は3回目の月結晶で発生し、3個の月籠が各1回攻撃します。主結果は月籠1個の1ヒットです。同じ対象へ3個とも命中した場合だけ、3ヒット参考合計を併記します。"
+                : "";
             return `<div class="genshin-reaction-dedicated">
                 ${stellarVariantControl}
                 <p><strong>参加者1：</strong>現在のキャラクター（Lv・元素熟知・会心は上の計算入力欄を自動使用）</p>
                 <p>${escapeHtml(contributorHelp)}</p>
+                <p>${escapeHtml(modifierHelp)}</p>
+                ${harmonyHelp ? `<p>${escapeHtml(harmonyHelp)}</p>` : ""}
                 <div class="genshin-reaction-contributor-grid">${[2, 3, 4].map((slot) => renderReactionContributor(slot, contributors.get(slot))).join("")}</div>
             </div>`;
         }
@@ -1157,12 +1168,19 @@
 
     function renderPartyConditionControl(candidate, context) {
         const conditionInput = candidate.modifier?.conditionInput;
-        if (conditionInput?.type !== "option" || !Array.isArray(conditionInput.options) || !conditionInput.options.length) return "";
-        const key = candidate.analysis?.conditionStateKey || candidate.key || "";
-        if (!key) return "";
+        const key = candidate.partyConditionStateKey || candidate.analysis?.conditionStateKey || candidate.key || "";
+        if (!conditionInput || !key) return "";
         const conditionState = context.uiState?.conditionByModifier?.[key]
             || context.uiState?.complexConditionByModifier?.[key]
             || {};
+        if (["stack", "targetCount"].includes(conditionInput.type)) {
+            const min = Number.isFinite(Number(conditionInput.min)) ? Number(conditionInput.min) : Number(candidate.modifier?.stack?.min) || 0;
+            const max = Number.isFinite(Number(conditionInput.max)) ? Number(conditionInput.max) : Number(candidate.modifier?.stack?.max);
+            const step = Number.isFinite(Number(conditionInput.step)) ? Number(conditionInput.step) : 1;
+            const value = Number.isFinite(Number(conditionState[conditionInput.type])) ? Number(conditionState[conditionInput.type]) : "";
+            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(conditionInput.label || "現在値")}</strong>${conditionInput.help ? `<small>${escapeHtml(conditionInput.help)}</small>` : ""}</span><input type="number" data-genshin-party-condition-key="${escapeHtml(key)}" data-genshin-party-condition-kind="${escapeHtml(conditionInput.type)}" min="${escapeHtml(min)}"${Number.isFinite(max) ? ` max="${escapeHtml(max)}"` : ""} step="${escapeHtml(step)}" value="${escapeHtml(value)}"></label>`;
+        }
+        if (conditionInput.type !== "option" || !Array.isArray(conditionInput.options) || !conditionInput.options.length) return "";
         const options = conditionInput.options.map((option) => ({
             value: typeof option === "object" ? option.value : option,
             label: typeof option === "object" ? option.label : option
@@ -1204,7 +1222,7 @@
                 <div><dt>効果</dt><dd>${escapeHtml(effect)}</dd></div>
                 <div><dt>現在の反映</dt><dd>${escapeHtml(current)}</dd></div>
             </dl>
-            ${renderPartyConditionControl(candidate, context)}
+            ${candidate.showConditionControl === false ? "" : renderPartyConditionControl(candidate, context)}
             ${canToggle ? `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>この条件を適用する</strong><small>実際に発動している場合だけONにしてください。</small></span><input type="checkbox" data-genshin-party-buff-key="${escapeHtml(candidate.toggleKey || candidate.key)}"${candidate.enabled ? " checked" : ""}></label>` : ""}
             ${candidate.reason && candidate.status !== "off" ? `<p class="genshin-condition-note">${escapeHtml(candidate.reason)}</p>` : ""}
             ${candidate.description ? `<details class="genshin-condition-detail"><summary>効果説明</summary>${renderDescriptionBlock(candidate.description, "full")}</details>` : ""}
@@ -1223,10 +1241,31 @@
         </section>` : "";
         return resonanceSection + members.map((member) => {
             const effects = partyModifiers.filter((candidate) => candidate.sourceKind !== "resonance" && candidate.member.slot === member.slot);
+            const sharedControlOwners = new Map();
+            effects.forEach((candidate) => {
+                const conditionKey = candidate.partyConditionStateKey || candidate.analysis?.conditionStateKey || "";
+                if (!conditionKey || !candidate.modifier?.conditionInput) return;
+                const toggleEligible = candidate.showToggle !== false
+                    && !candidate.automatic
+                    && ["ready", "off"].includes(candidate.status);
+                if (toggleEligible && !sharedControlOwners.has(conditionKey)) sharedControlOwners.set(conditionKey, candidate.key);
+            });
+            effects.forEach((candidate) => {
+                const conditionKey = candidate.partyConditionStateKey || candidate.analysis?.conditionStateKey || "";
+                if (conditionKey && candidate.modifier?.conditionInput && !sharedControlOwners.has(conditionKey)) {
+                    sharedControlOwners.set(conditionKey, candidate.key);
+                }
+            });
+            const renderedEffects = effects.map((candidate) => {
+                const conditionKey = candidate.partyConditionStateKey || candidate.analysis?.conditionStateKey || "";
+                if (!conditionKey || !candidate.modifier?.conditionInput) return candidate;
+                const isOwner = sharedControlOwners.get(conditionKey) === candidate.key;
+                return { ...candidate, showConditionControl: isOwner, showToggle: isOwner && candidate.showToggle !== false };
+            });
             const name = member.nameJa || calcData.characters?.[member.characterId]?.nameJa || `メンバー${member.slot}`;
             return `<section class="genshin-condition-card is-wide genshin-party-condition-card" data-condition-card="party" data-party-slot="${member.slot}">
                 <header><div><h4>${escapeHtml(name)}</h4><p>Lv.${escapeHtml(member.level)} / C${escapeHtml(member.constellation)}</p></div><span class="genshin-condition-source">MEMBER ${member.slot}</span></header>
-                ${effects.length ? effects.map((candidate) => renderPartyModifier(candidate, context)).join("") : `<p class="genshin-condition-card-empty">メインキャラへ適用できる構造化補正はありません。</p>`}
+                ${renderedEffects.length ? renderedEffects.map((candidate) => renderPartyModifier(candidate, context)).join("") : `<p class="genshin-condition-card-empty">メインキャラへ適用できる構造化補正はありません。</p>`}
             </section>`;
         }).join("");
     }

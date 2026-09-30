@@ -157,6 +157,19 @@ test("STEP38 renders contributor inputs and Stellar-Conduct field stacks in the 
     assert.match(conditionWrap.innerHTML, /参加者1：/);
     assert.match(conditionWrap.innerHTML, /genshinReactionContributor2Level/);
     assert.match(conditionWrap.innerHTML, /genshinReactionContributor4BaseBonus/);
+    assert.match(conditionWrap.innerHTML, /個別の反応ダメージ補正/);
+    assert.match(conditionWrap.innerHTML, /genshinReactionContributor4AdditiveBaseDamage/);
+    assert.match(conditionWrap.innerHTML, /チーム共通補正は全参加者へ反映/);
+
+    const lunarCrystallize = context("10000073", "lunarCrystallize");
+    lunarCrystallize.reactionOption = {
+        ...calcData.reactionDefinitions.options.lunarCrystallize,
+        label: "月結晶",
+        enabled: true
+    };
+    sandbox.GenshinCalcRenderer.renderConditionCards({ cards: [] }, lunarCrystallize);
+    assert.match(conditionWrap.innerHTML, /3回目の月結晶/);
+    assert.match(conditionWrap.innerHTML, /主結果は月籠1個の1ヒット/);
 
     const stellar = context("10000133", "stellarConduct");
     stellar.reactionOption = {

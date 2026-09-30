@@ -105,7 +105,9 @@
 
     function hasComputableEffectOverride(modifier) {
         if (modifier?.category !== "effectOverride") return false;
-        if (modifier.unit === "percentOfOriginalDamage") return finiteNumber(effectOverrideValue(modifier));
+        if (modifier.unit === "percentOfOriginalDamage") {
+            return hasResolvableValue(modifier) || finiteNumber(effectOverrideValue(modifier));
+        }
         if (modifier.unit === "percentOfOriginalEffect") {
             return modifier.targetEffect === "previousDamageBonusEffects"
                 && finiteNumber(modifier.effectMultiplierPercent ?? modifier.value);
@@ -131,6 +133,7 @@
     function classifyEffectOverride(modifier) {
         if (hasComputableEffectOverride(modifier)) return "calculable";
         if (modifier?.unit === "percentOfOriginalDamage"
+            && !hasResolvableValue(modifier)
             && !finiteNumber(modifier.value ?? modifier.effectMultiplier)) {
             return "damageOverrideMissingValue";
         }

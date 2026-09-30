@@ -207,7 +207,8 @@
                 critRate: Math.min(Math.max(readOptionalNumber(`genshinReactionContributor${slot}CritRate`) ?? 0, 0), 100),
                 critDamage: Math.max(readOptionalNumber(`genshinReactionContributor${slot}CritDamage`) ?? 50, 0),
                 reactionBonus: readOptionalNumber(`genshinReactionContributor${slot}ReactionBonus`) ?? 0,
-                baseDamageBonus: readOptionalNumber(`genshinReactionContributor${slot}BaseBonus`) ?? 0
+                baseDamageBonus: readOptionalNumber(`genshinReactionContributor${slot}BaseBonus`) ?? 0,
+                additiveBaseDamage: readOptionalNumber(`genshinReactionContributor${slot}AdditiveBaseDamage`) ?? 0
             };
         }).filter(Boolean);
     }
@@ -965,22 +966,37 @@
         const skillModeEnabled = Boolean(skillMode && attackModeIsEnabled(calcData, context, "skill"));
         groups.forEach(([group, talent]) => {
             (talent?.entries || []).forEach((entry) => {
+                if (entry.source?.format === "I") return;
                 if (group === "skill" && skillMode?.attackTypes.includes(entry.attackType) && !skillModeEnabled) return;
                 if (group === "normalAttack" && skillModeEnabled && skillMode?.attackTypes.includes(entry.attackType)) return;
-                const directReactionId = calcData.reactionDefinitions?.directReactionEntryRules?.[context.characterId]?.[group]?.[entry.id]
-                    || (/月感電/.test(entry.label || "") ? "lunarCharged"
-                        : /月開花/.test(entry.label || "") ? "lunarBloom"
-                            : /月結晶/.test(entry.label || "") ? "lunarCrystallize"
-                                : /星電導/.test(entry.label || "") ? "stellarConduct" : "");
-                const normalizedEntry = {
-                    ...entry,
-                    element: directReactionId
-                        ? calcData.reactionDefinitions?.options?.[directReactionId]?.damageElement || normalizeDamageElement(entry, characterInfo)
-                        : normalizeDamageElement(entry, characterInfo),
-                    group,
-                    directReactionId
-                };
-                entries.push(normalizeAttackModeEntry(normalizedEntry, group, calcData, context));
+                const variants = Array.isArray(entry.elementVariants) && entry.elementVariants.length
+                    ? entry.elementVariants
+                    : [null];
+                variants.forEach((variant) => {
+                    const variantEntry = variant ? {
+                        ...entry,
+                        id: `${entry.id}_${variant.id}`,
+                        label: `${variant.label || variant.element}・${entry.label}`,
+                        element: variant.element,
+                        variant: variant.id
+                    } : entry;
+                    const directReactionId = variantEntry.directReactionId
+                        || calcData.reactionDefinitions?.directReactionEntryRules?.[context.characterId]?.[group]?.[variantEntry.id]
+                        || (/月感電/.test(variantEntry.label || "") ? "lunarCharged"
+                            : /月開花/.test(variantEntry.label || "") ? "lunarBloom"
+                                : /月結晶/.test(variantEntry.label || "") ? "lunarCrystallize"
+                                    : /星電導/.test(variantEntry.label || "") ? "stellarConduct" : "");
+                    const normalizedEntry = {
+                        ...variantEntry,
+                        element: directReactionId
+                            ? calcData.reactionDefinitions?.options?.[directReactionId]?.damageElement || normalizeDamageElement(variantEntry, characterInfo)
+                            : normalizeDamageElement(variantEntry, characterInfo),
+                        group,
+                        directReactionId
+                    };
+                    delete normalizedEntry.elementVariants;
+                    entries.push(normalizeAttackModeEntry(normalizedEntry, group, calcData, context));
+                });
             });
         });
         return { entries, warnings };
@@ -1006,6 +1022,15 @@
     }
 
     function resolveModifierValue(modifier, context, uiState = context.uiState || {}, analysis = {}) {
+        if (modifier.customCalculation === "thresholdStatRatioPlusBase") {
+            const referenceValue = Number(context.stats?.[modifier.reference?.stat]) || 0;
+            const excess = Math.max(0, referenceValue - (Number(modifier.threshold) || 0));
+            const increase = Math.floor(excess / (Number(modifier.divisor) || 1)) * (Number(modifier.ratio) || 0);
+            const cappedIncrease = Number.isFinite(Number(modifier.maxValue))
+                ? Math.min(increase, Number(modifier.maxValue))
+                : increase;
+            return (Number(modifier.value) || 100) + cappedIncrease;
+        }
         if (modifier.customCalculation === "cappedStatRatio") {
             const referenceValue = Number(context.stats?.[modifier.reference?.stat]) || 0;
             const calculated = referenceValue * (Number(modifier.ratio) || 0);
@@ -1083,6 +1108,20 @@
             }
             return numericModifierValue(raw);
         }
+        if (modifier.valueByLevel && modifier.valueByLevelPerStack) {
+            const levelSource = modifier.levelSource || modifier.valueSource?.section || "skill";
+            const talentLevel = levelSource === "combat1" || levelSource === "normalAttack"
+                ? context.talentLevels.normal
+                : levelSource === "combat3" || levelSource === "burst"
+                    ? context.talentLevels.burst
+                    : context.talentLevels.skill;
+            const level = Math.min(Math.max(Math.round(talentLevel || 1), 1), 15);
+            const perStack = numericModifierValue(modifier.valueByLevel[String(level)] ?? modifier.valueByLevel["1"] ?? 0);
+            const min = Number(modifier.stack?.min) || 0;
+            const max = Number.isFinite(Number(modifier.stack?.max)) ? Number(modifier.stack.max) : (conditionStack ?? 0);
+            const stack = Math.min(Math.max(conditionStack ?? uiState.stackByModifier?.[modifier.id] ?? 0, min), max);
+            return perStack * stack;
+        }
         if (modifier.valueByLevel) {
             const levelSource = modifier.levelSource || modifier.valueSource?.section || "skill";
             const talentLevel = levelSource === "combat1" || levelSource === "normalAttack"
@@ -1091,10 +1130,19 @@
                     ? context.talentLevels.burst
                     : context.talentLevels.skill;
             const level = Math.min(Math.max(Math.round(talentLevel || 1), 1), 15);
-            return numericModifierValue(modifier.valueByLevel[String(level)] ?? modifier.valueByLevel["1"] ?? 0);
+            const levelValue = numericModifierValue(modifier.valueByLevel[String(level)] ?? modifier.valueByLevel["1"] ?? 0);
+            if (!modifier.valuePerStackByLevel) return levelValue;
+            const stack = resourceStack ?? conditionStack
+                ?? uiState.resolvedConditionByGroup?.[modifier.conditionGroupId]
+                ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
+            const min = modifier.stack?.min ?? 0;
+            const max = modifier.stack?.max ?? (Number(stack) || 0);
+            return levelValue * Math.min(Math.max(Number(stack) || 0, min), max);
         }
         if (modifier.valueByStack) {
-            const stack = resourceStack ?? conditionStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
+            const stack = resourceStack ?? conditionStack
+                ?? uiState.resolvedConditionByGroup?.[modifier.conditionGroupId]
+                ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0;
             return numericModifierValue(modifier.valueByStack[String(stack)] ?? 0);
         }
         if (modifier.valuePerStack) {
@@ -1181,6 +1229,10 @@
             );
             if (!modifier) return;
             const analysis = analyzeModifier(modifier, source, context);
+            if (!options.preconditioned && modifier.targetOwner === "otherPartyMembers") {
+                addCandidate(modifier, source, "発動者自身は対象外", analysis);
+                return;
+            }
             if (modifier.attackModeConflict) {
                 addCandidate(modifier, source, modifier.attackModeConflictReason, {
                     ...analysis,
@@ -1381,9 +1433,11 @@
             ? modifier.targetEffect
             : modifier.targetEffect ? [modifier.targetEffect] : [];
         if (targetEffects.length) {
-            return Boolean(entry.effectId && targetEffects.includes(entry.effectId));
+            const effectId = entry.effectId || entry.id || "";
+            return Boolean(effectId && targetEffects.includes(effectId));
         }
         const applyTo = modifier.applyTo || [];
+        if (entry.directReactionId && applyTo.includes(`${entry.directReactionId}DamageBonus`)) return true;
         if (entry.effectId && applyTo.includes(entry.effectId)) return true;
         if (entry.id && applyTo.includes(entry.id)) return true;
         if (applyTo.includes(`${entry.attackType}Damage`) || applyTo.includes(`${entry.damageType}Damage`)) return true;
@@ -1503,7 +1557,10 @@
         const maxValue = Number(modifier.maxValueByRefinement?.[refinement]
             ?? modifier.maxValueByRefinement?.["1"]
             ?? modifier.maxValue);
-        const calculated = referenceValue / divisor * ratio;
+        const steps = modifier.rounding === "floorSteps"
+            ? Math.floor(referenceValue / divisor)
+            : referenceValue / divisor;
+        const calculated = steps * ratio;
         return Number.isFinite(maxValue)
             ? Math.min(calculated, maxValue)
             : calculated;
@@ -1724,7 +1781,7 @@
                 const additiveValue = resolveScalingAdditiveBaseDamage(modifier, item.valueContext || context);
                 totals.additiveBaseDamage += additiveValue;
                 applied.push({ ...item, value: additiveValue });
-            } else if (analysis?.calculation === "scalingDamageBonus" && modifierAppliesToEntry(modifier, effectiveEntry, context, analysis)) {
+            } else if (analysis?.calculation === "scalingDamageBonus" && modifierTargetsEntry(modifier, effectiveEntry)) {
                 const scalingDamageBonus = resolveScalingDamageBonus(modifier, item.valueContext || context);
                 totals.damageBonus += scalingDamageBonus;
                 applied.push({ ...item, value: scalingDamageBonus });
@@ -1761,7 +1818,7 @@
                     return;
                 }
                 if (modifierTargetsEntry(modifier, effectiveEntry)) {
-                    const overrideValue = Number(window.GenshinModifierAnalyzer.effectOverrideValue(modifier));
+                    const overrideValue = Number(value ?? window.GenshinModifierAnalyzer.effectOverrideValue(modifier));
                     totals.finalDamageMultiplier *= overrideValue / 100;
                     applied.push({ ...item, value: overrideValue });
                     totals.effectOverrides.push({
@@ -1808,9 +1865,17 @@
         return 1 / (resistance / 25 + 1);
     }
 
-    function reactionLevelValue(context, tableName) {
+    function preferredCharacterLevel(context, explicitLevel = null) {
+        const requested = Number(explicitLevel);
+        if (Number.isFinite(requested) && requested > 0) return requested;
+        const canonical = Number(context.calculationInput?.level);
+        if (Number.isFinite(canonical) && canonical > 0) return canonical;
+        return Number(context.enemy?.characterLevel) || 90;
+    }
+
+    function reactionLevelValue(context, tableName, explicitLevel = null) {
         const table = context.reactionDefinitions?.[tableName] || {};
-        const level = Math.min(Math.max(Math.round(Number(context.enemy?.characterLevel) || 90), 1), 100);
+        const level = Math.min(Math.max(Math.round(preferredCharacterLevel(context, explicitLevel)), 1), 100);
         if (Number.isFinite(Number(table[String(level)]))) return Number(table[String(level)]);
         const knownLevels = Object.keys(table).map(Number).filter(Number.isFinite).sort((a, b) => a - b);
         const lower = [...knownLevels].reverse().find((value) => value <= level);
@@ -2091,26 +2156,32 @@
             critRate: 0,
             critDamage: 0,
             resistanceDebuff: 0,
+            sharedParty: { reactionBonus: 0, baseDamageBonus: 0, additiveBaseDamage: 0, critRate: 0, critDamage: 0 },
+            participantLocal: { reactionBonus: 0, baseDamageBonus: 0, additiveBaseDamage: 0, critRate: 0, critDamage: 0 },
             applied: []
+        };
+        const addScoped = (item, key, value, recordApplied = true) => {
+            const modifier = item.modifier || {};
+            const scope = modifier.targetOwner === "team"
+                ? "sharedParty"
+                : "participantLocal";
+            totals[scope][key] += Number(value) || 0;
+            totals[key] += Number(value) || 0;
+            if (recordApplied) totals.applied.push(item);
         };
         (collected.applied || []).forEach((item) => {
             const { modifier, value } = item;
             if (modifier.category === "reactionBonus" && reactionBonusApplies(modifier, reaction)) {
-                totals.reactionBonus += Number(value) || 0;
-                totals.applied.push(item);
+                addScoped(item, "reactionBonus", value);
             } else if (item.analysis?.calculation === "scalingReactionBonus" && reactionBonusApplies(modifier, reaction)) {
-                totals.reactionBonus += resolveScalingDamageBonus(modifier, item.valueContext || context);
-                totals.applied.push(item);
+                addScoped(item, "reactionBonus", resolveScalingDamageBonus(modifier, item.valueContext || context));
             } else if (item.analysis?.calculation === "scalingAdditiveBaseDamage" && reactionBonusApplies(modifier, reaction)) {
-                totals.additiveBaseDamage += resolveScalingAdditiveBaseDamage(modifier, item.valueContext || context);
-                totals.applied.push(item);
+                addScoped(item, "additiveBaseDamage", resolveScalingAdditiveBaseDamage(modifier, item.valueContext || context));
             } else if (modifier.category === "reactionBaseDamageBonus" && reactionBaseDamageBonusApplies(modifier, reaction)) {
-                totals.baseDamageBonus += Number(value) || 0;
-                totals.applied.push(item);
+                addScoped(item, "baseDamageBonus", value);
             } else if (modifier.category === "reactionCritBonus" && reactionCritApplies(modifier, reaction)) {
-                totals.critRate += Number(modifier.critRate) || 0;
-                totals.critDamage += Number(modifier.critDamage) || Number(value) || 0;
-                totals.applied.push(item);
+                addScoped(item, "critRate", Number(modifier.critRate) || 0, false);
+                addScoped(item, "critDamage", Number(modifier.critDamage) || Number(value) || 0);
             } else if (modifier.category === "resistanceDebuff" && resistanceDebuffAppliesToEntry(modifier, reactionEntry)) {
                 totals.resistanceDebuff += Math.abs(Number(value) || 0);
                 totals.applied.push(item);
@@ -2157,33 +2228,48 @@
         const current = {
             slot: 1,
             source: "currentCharacter",
-            level: context.enemy.characterLevel,
+            level: preferredCharacterLevel(context),
             elementalMastery: effectiveStats(context).elementalMastery,
             critRate: Math.min(Math.max(effectiveStats(context).critRate + totals.critRate, 0), 100),
             critDamage: Math.max(effectiveStats(context).critDamage + totals.critDamage, 0),
             reactionBonus: totals.reactionBonus,
-            baseDamageBonus: totals.baseDamageBonus
+            baseDamageBonus: totals.baseDamageBonus,
+            additiveBaseDamage: totals.additiveBaseDamage
         };
         const contributors = [current, ...(context.manualInputs?.reactionContributors || []).slice(0, 3)].map((contributor) => {
-            const levelContext = { ...context, enemy: { ...context.enemy, characterLevel: contributor.level } };
-            const levelMultiplier = reactionLevelValue(levelContext, "characterLevelMultipliers");
+            const levelMultiplier = reactionLevelValue(context, "characterLevelMultipliers", contributor.level);
             const emBonus = reactionEmBonusPercent("dedicated", contributor.elementalMastery);
-            const baseDamageBonus = totals.baseDamageBonus + (contributor.slot === 1 ? 0 : Number(contributor.baseDamageBonus) || 0);
-            const reactionBonus = contributor.slot === 1 ? totals.reactionBonus : Number(contributor.reactionBonus) || 0;
+            const isCurrent = contributor.slot === 1;
+            const baseDamageBonus = isCurrent
+                ? totals.sharedParty.baseDamageBonus + totals.participantLocal.baseDamageBonus
+                : totals.sharedParty.baseDamageBonus + (Number(contributor.baseDamageBonus) || 0);
+            const reactionBonus = isCurrent
+                ? totals.sharedParty.reactionBonus + totals.participantLocal.reactionBonus
+                : totals.sharedParty.reactionBonus + (Number(contributor.reactionBonus) || 0);
+            const additiveBaseDamage = isCurrent
+                ? totals.sharedParty.additiveBaseDamage + totals.participantLocal.additiveBaseDamage
+                : totals.sharedParty.additiveBaseDamage + (Number(contributor.additiveBaseDamage) || 0);
+            const critRate = Math.min(Math.max((Number(contributor.critRate) || 0)
+                + (isCurrent ? 0 : totals.sharedParty.critRate), 0), 100);
+            const critDamage = Math.max((Number(contributor.critDamage) || 0)
+                + (isCurrent ? 0 : totals.sharedParty.critDamage), 0);
             const preResistance = reaction.coefficient * levelMultiplier
                 * (1 + baseDamageBonus / 100)
                 * (1 + (emBonus + reactionBonus) / 100)
-                + totals.additiveBaseDamage;
+                + additiveBaseDamage;
             const nonCrit = preResistance * resMultiplier;
             return {
                 ...contributor,
+                critRate,
+                critDamage,
                 levelMultiplier,
                 elementalMasteryBonus: emBonus,
                 baseDamageBonus,
                 reactionBonus,
+                additiveBaseDamage,
                 preResistance,
                 nonCrit,
-                crit: nonCrit * (1 + contributor.critDamage / 100)
+                crit: nonCrit * (1 + critDamage / 100)
             };
         });
         const nonCrit = combineRankedContributions(contributors.map((item) => item.nonCrit), weights);
@@ -2206,10 +2292,23 @@
             { key: "enemy", label: immune ? "敵の無効判定" : "敵への補正", current: nonCrit },
             { key: "critical", label: "会心期待値", current: expected }
         ]);
+        const isLunarCrystallize = reaction.reactionId === "lunarCrystallize";
+        const sameTargetHitCount = isLunarCrystallize ? Number(reaction.sameTargetAggregateHitCount) || 3 : 1;
+        const supplementalTotal = isLunarCrystallize ? {
+            kind: "sameTargetAggregate",
+            label: reaction.sameTargetAggregateLabelJa || `同一対象への月籠諧奏${sameTargetHitCount}ヒット合計`,
+            hitCount: sameTargetHitCount,
+            nonCrit: nonCrit * sameTargetHitCount,
+            crit: crit * sameTargetHitCount,
+            expected: expected * sameTargetHitCount,
+            note: reaction.sameTargetAggregateNoteJa || "3個の月籠が同じ対象へ各1回命中した場合だけの参考合計です。ターゲット分散時は対象ごとに扱います。"
+        } : null;
         return {
             entry: {
                 id: `reaction_${reaction.reactionId}`,
-                label: `${reaction.label}${reaction.variantLabelJa ? `・${reaction.variantLabelJa}` : ""}ダメージ（参加者${contributors.length}人）`,
+                label: isLunarCrystallize
+                    ? `月籠諧奏ダメージ（月籠1個・1ヒット／参加者${contributors.length}人）`
+                    : `${reaction.label}${reaction.variantLabelJa ? `・${reaction.variantLabelJa}` : ""}ダメージ（参加者${contributors.length}人）`,
                 attackType: "reaction",
                 damageType: "reaction",
                 element: reaction.damageElement,
@@ -2222,6 +2321,7 @@
             crit,
             expected,
             total: { nonCrit, crit, expected },
+            supplementalTotal,
             breakdown: {
                 talentLevel: null,
                 hitCount: 1,
@@ -2249,7 +2349,12 @@
                     baseMultiplier: reaction.coefficient,
                     label: `${reaction.label}（元素付着）`,
                     contributors,
-                    contributionWeights: weights
+                    contributionWeights: weights,
+                    modifierScopes: {
+                        sharedParty: { ...totals.sharedParty },
+                        participantLocal: { ...totals.participantLocal }
+                    },
+                    harmony: supplementalTotal
                 },
                 appliedModifiers: totals.applied,
                 skippedModifiers: [],
@@ -2462,6 +2567,7 @@
                     attackType: modifier.damageType || "extraDamage",
                     damageType: modifier.damageType || "extraDamage",
                     element: modifier.element || "physical",
+                    directReactionId: modifier.directReactionId || "",
                     hitCount: Number(modifier.extraCount) || Number(modifier.hitCount) || 1,
                     scalings,
                     group: "extraDamage",

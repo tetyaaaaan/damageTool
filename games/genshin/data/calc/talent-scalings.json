@@ -14665,6 +14665,12 @@
           "attackType": "burst",
           "damageType": "burst",
           "element": "風",
+          "elementVariants": [
+            { "id": "pyro", "label": "炎元素変化", "element": "炎" },
+            { "id": "hydro", "label": "水元素変化", "element": "水" },
+            { "id": "electro", "label": "雷元素変化", "element": "雷" },
+            { "id": "cryo", "label": "氷元素変化", "element": "氷" }
+          ],
           "hitCount": 1,
           "levelSource": "burst",
           "source": {
@@ -37010,7 +37016,7 @@
           "label": "霊息の棘/迸発の刃のダメージ",
           "attackType": "normalAttack",
           "damageType": "normal",
-          "element": "physical",
+          "element": "水",
           "hitCount": 1,
           "levelSource": "normalAttack",
           "source": {

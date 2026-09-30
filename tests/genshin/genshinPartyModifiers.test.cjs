@@ -72,6 +72,58 @@ test("provider-stat and dynamic party effects are never applied with guessed val
     assert.ok(furinaResult.partyModifiers.some((candidate) => candidate.status === "missingInput"));
 });
 
+test("Furina burst fanfare is retained, enabled, and applied to party damage", () => {
+    const furina = requestWithSupport("10000037", {
+        characterId: "10000089",
+        nameJa: "フリーナ",
+        talentLevels: { normal: 10, skill: 10, burst: 10 }
+    });
+    const withoutInput = furina.sandbox.GenshinCalcEngine.calculateDamageRequest(furina.request, furina.calcData);
+    let fanfare = withoutInput.partyModifiers.find((candidate) => candidate.modifier.id === "t_10000089_combat3_fanfare_damage_bonus");
+    assert.equal(fanfare.status, "missingInput");
+
+    furina.request.party.conditionStates = {
+        [fanfare.analysis.conditionStateKey]: { stack: 300 }
+    };
+    const conditionOff = furina.sandbox.GenshinCalcEngine.calculateDamageRequest(furina.request, furina.calcData);
+    fanfare = conditionOff.partyModifiers.find((candidate) => candidate.modifier.id === "t_10000089_combat3_fanfare_damage_bonus");
+    assert.equal(fanfare.status, "off");
+    assert.equal(fanfare.resolvedValue, 75);
+
+    furina.request.party.members[1].buffStates[fanfare.toggleKey] = true;
+    const conditionOn = furina.sandbox.GenshinCalcEngine.calculateDamageRequest(furina.request, furina.calcData);
+    fanfare = conditionOn.partyModifiers.find((candidate) => candidate.modifier.id === "t_10000089_combat3_fanfare_damage_bonus");
+    const applied = conditionOn.results[0].breakdown.appliedModifiers
+        .filter((item) => item.partyCandidateKey === fanfare.key);
+
+    assert.equal(fanfare.status, "ready");
+    assert.equal(fanfare.enabled, true);
+    assert.equal(fanfare.resolvedValue, 75);
+    assert.ok(conditionOn.results[0].expected > conditionOff.results[0].expected);
+    assert.equal(applied.length, 1);
+    assert.equal(applied[0].value, 75);
+});
+
+test("Furina C1 raises the reusable fanfare input cap to 400", () => {
+    const furina = requestWithSupport("10000037", {
+        characterId: "10000089",
+        nameJa: "フリーナ",
+        constellation: 1,
+        talentLevels: { normal: 10, skill: 10, burst: 10 }
+    });
+    let payload = furina.sandbox.GenshinCalcEngine.calculateDamageRequest(furina.request, furina.calcData);
+    let fanfare = payload.partyModifiers.find((candidate) => candidate.modifier.id === "t_10000089_combat3_fanfare_damage_bonus");
+    furina.request.party.conditionStates = {
+        [fanfare.analysis.conditionStateKey]: { stack: 999 }
+    };
+    payload = furina.sandbox.GenshinCalcEngine.calculateDamageRequest(furina.request, furina.calcData);
+    fanfare = payload.partyModifiers.find((candidate) => candidate.modifier.id === "t_10000089_combat3_fanfare_damage_bonus");
+
+    assert.equal(fanfare.modifier.stack.max, 400);
+    assert.equal(fanfare.providerContext.uiState.conditionByModifier[fanfare.analysis.conditionStateKey].stack, 400);
+    assert.equal(fanfare.resolvedValue, 100);
+});
+
 test("provider base attack enables Bennett's party buff without using the target base attack", () => {
     const bennett = requestWithSupport("10000037", {
         characterId: "10000032",
