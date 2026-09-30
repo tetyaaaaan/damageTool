@@ -2577,6 +2577,7 @@
         {
           "id": "c_10000038_2_2",
           "category": "additiveBaseDamage",
+          "targetGroups": ["burst"],
           "applyTo": [
             "burstDamage",
             "fatalBlossomDamage"
@@ -2592,7 +2593,8 @@
             "consume": "all",
             "maxConsumed": 4
           },
-          "condition": "onBurstCast",
+          "condition": "always",
+          "trigger": "onBurstCast",
           "stack": {
             "min": 0,
             "max": 4,
@@ -2629,7 +2631,19 @@
           "value": 30,
           "unit": "percent",
           "sourceText": "陽華のエリア内にいるキャラクターの落下攻撃ダメージ+30%。",
-          "condition": "constellationUnlocked",
+          "targetOwner": "team",
+          "conditionLabel": "陽華のエリア内にいる",
+          "condition": "conditional",
+          "conditionOptionValue": "active",
+          "conditionInput": {
+            "type": "option",
+            "default": "inactive",
+            "label": "聖なる堕落：陽華のエリア",
+            "options": [
+              { "value": "inactive", "label": "エリア外" },
+              { "value": "active", "label": "陽華のエリア内" }
+            ]
+          },
           "calculationSupport": "toggle",
           "uidHandling": "conditional",
           "target": {
@@ -2665,7 +2679,19 @@
           "value": 17,
           "unit": "percent",
           "sourceText": "陽華のエリア内にいるフィールド上のキャラクターが、結晶反応で生成されたシールド状態にある時、または陽華のエリア内に月籠が存在する時、与えるダメージ+17%。",
-          "condition": "constellationUnlocked",
+          "targetOwner": "activeCharacter",
+          "conditionLabel": "陽華のエリア内：結晶シールド状態、または月籠が存在する",
+          "condition": "conditional",
+          "conditionOptionValue": "active",
+          "conditionInput": {
+            "type": "option",
+            "default": "inactive",
+            "label": "無垢なる土：陽華のエリア内の状態",
+            "options": [
+              { "value": "inactive", "label": "条件を満たさない" },
+              { "value": "active", "label": "エリア内：結晶シールド状態、または月籠が存在する" }
+            ]
+          },
           "calculationSupport": "toggle",
           "uidHandling": "conditional"
         }

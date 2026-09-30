@@ -5355,6 +5355,63 @@
   "10000038": {
     "passives": [
       {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "id": "t_10000038_passive1_transient_blossom_bonus",
+            "category": "damageBonus",
+            "applyTo": ["skillDamageBonus"],
+            "targetEffect": ["damage"],
+            "targetGroups": ["skill"],
+            "targetOwner": "self",
+            "value": 25,
+            "unit": "percent",
+            "condition": "conditional",
+            "conditionOptionValue": "belowHalf",
+            "conditionInput": {
+              "type": "option",
+              "default": "inactive",
+              "label": "白亜色の気迫：敵のHP",
+              "options": [
+                { "value": "inactive", "label": "HP50%以上" },
+                { "value": "belowHalf", "label": "HP50%未満" }
+              ]
+            },
+            "sourceText": "創生術·擬似陽華の刹那の花がHP50%未満の敵にダメージを与えた場合、ダメージ量+25%。",
+            "calculationSupport": "toggle",
+            "uidHandling": "conditional"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "id": "t_10000038_passive2_burst_em",
+            "category": "statBonus",
+            "applyTo": ["elementalMastery"],
+            "targetOwner": "team",
+            "value": 125,
+            "unit": "flat",
+            "condition": "conditional",
+            "conditionOptionValue": "active",
+            "conditionInput": {
+              "type": "option",
+              "default": "inactive",
+              "label": "ホムンクルスの天智",
+              "options": [
+                { "value": "inactive", "label": "未発動" },
+                { "value": "active", "label": "元素爆発発動後（10秒）" }
+              ]
+            },
+            "duration": 10,
+            "sourceText": "誕生式·大地の潮を発動した時、周囲のチーム全員の元素熟知を+125、継続時間10秒。",
+            "calculationSupport": "toggle",
+            "uidHandling": "conditional"
+          }
+        ]
+      },
+      {
         "sourceId": "lockedPassive",
         "modifiers": [
           {

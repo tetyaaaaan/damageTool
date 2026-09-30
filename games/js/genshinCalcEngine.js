@@ -1393,6 +1393,11 @@
     }
 
     function modifierAppliesToEntry(modifier, entry, context = {}, analysis = {}) {
+        if (Array.isArray(modifier.targetGroups) && !modifier.targetGroups.includes(entry.group)) return false;
+        const targetEffects = Array.isArray(modifier.targetEffect)
+            ? modifier.targetEffect
+            : modifier.targetEffect ? [modifier.targetEffect] : [];
+        if (targetEffects.length && !targetEffects.includes(entry.effectId || entry.id || "")) return false;
         const applyTo = modifier.applyTo || [];
         const map = {
             normalAttack: "normalAttackDamageBonus",

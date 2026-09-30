@@ -12518,6 +12518,43 @@
           ]
         },
         {
+          "id": "charged_damage",
+          "label": "重撃2段目ダメージ",
+          "attackType": "chargedAttack",
+          "damageType": "charged",
+          "element": "physical",
+          "hitCount": 1,
+          "levelSource": "normalAttack",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat1",
+            "param": "param7",
+            "format": "F1P"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 60.2,
+                "2": 65.1,
+                "3": 70,
+                "4": 77,
+                "5": 81.9,
+                "6": 87.5,
+                "7": 95.2,
+                "8": 102.9,
+                "9": 110.6,
+                "10": 119,
+                "11": 128.63,
+                "12": 139.94,
+                "13": 151.26,
+                "14": 162.58,
+                "15": 174.93
+              }
+            }
+          ]
+        },
+        {
           "id": "plunge_damage",
           "label": "落下期間のダメージ",
           "attackType": "plungingAttack",

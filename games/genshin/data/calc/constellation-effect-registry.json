@@ -4774,7 +4774,7 @@
                 "burstDamage",
                 "fatalBlossomDamage"
               ],
-              "condition": "onBurstCast",
+              "condition": "always",
               "unit": "percent",
               "numericValues": [
                 {
@@ -4834,7 +4834,7 @@
               "targets": [
                 "plungingAttackDamageBonus"
               ],
-              "condition": "constellationUnlocked",
+              "condition": "conditional",
               "unit": "percent",
               "numericValues": [
                 {
@@ -4897,7 +4897,7 @@
               "targets": [
                 "allDamageBonus"
               ],
-              "condition": "constellationUnlocked",
+              "condition": "conditional",
               "unit": "percent",
               "numericValues": [
                 {
@@ -28010,7 +28010,7 @@
         "burstDamage",
         "fatalBlossomDamage"
       ],
-      "condition": "onBurstCast",
+      "condition": "always",
       "unit": "percent",
       "numericValues": [
         {
@@ -28060,7 +28060,7 @@
       "targets": [
         "plungingAttackDamageBonus"
       ],
-      "condition": "constellationUnlocked",
+      "condition": "conditional",
       "unit": "percent",
       "numericValues": [
         {
@@ -28113,7 +28113,7 @@
       "targets": [
         "allDamageBonus"
       ],
-      "condition": "constellationUnlocked",
+      "condition": "conditional",
       "unit": "percent",
       "numericValues": [
         {

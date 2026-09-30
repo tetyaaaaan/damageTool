@@ -2467,7 +2467,25 @@
         "value": 30,
         "unit": "percent",
         "sourceText": "陽華のエリア内にいるキャラクターの落下攻撃ダメージ+30%。",
-        "condition": "constellationUnlocked",
+        "targetOwner": "team",
+        "conditionLabel": "陽華のエリア内にいる",
+        "condition": "conditional",
+        "conditionOptionValue": "active",
+        "conditionInput": {
+          "type": "option",
+          "default": "inactive",
+          "label": "聖なる堕落：陽華のエリア",
+          "options": [
+            {
+              "value": "inactive",
+              "label": "エリア外"
+            },
+            {
+              "value": "active",
+              "label": "陽華のエリア内"
+            }
+          ]
+        },
         "calculationSupport": "toggle",
         "uidHandling": "conditional",
         "target": {
@@ -2483,7 +2501,7 @@
         "targets": [
           "plungingAttackDamageBonus"
         ],
-        "condition": "constellationUnlocked",
+        "condition": "conditional",
         "unit": "percent",
         "numericValues": [
           {

@@ -699,6 +699,61 @@ async function clickAndWait(client, selector) {
             })
         };
 
+        await clearSupportMembers();
+        await evaluate(client, selectionExpression({ characterName: "アルベド", characterId: "10000038", weaponName: "", weaponId: "", constellation: "C2", atk: 1000, def: 2000 }));
+        await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+        const albedoHpSelector = '[data-genshin-condition-key="talent:passive1:t_10000038_passive1_transient_blossom_bonus"]';
+        const albedoResourceSelector = '[data-genshin-resource-key="character:10000038:resource:fatalReckoning"]';
+        await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(albedoHpSelector)}) && document.querySelector(${JSON.stringify(albedoResourceSelector)}))`);
+        const albedoDamage = async () => evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            const find = (id) => payload.results.find((item) => item.entry.id === id);
+            return {
+                blossom: find("damage").nonCrit,
+                placement: find("skilldamage").nonCrit,
+                burst: find("burstdamage").nonCrit,
+                burstAddition: find("burstdamage").breakdown.additiveBaseDamage,
+                fatalAddition: find("damage_2").breakdown.additiveBaseDamage,
+                chargedHits: payload.results.filter((item) => item.entry.attackType === "chargedAttack").map((item) => ({
+                    param: item.entry.source.param,
+                    multiplier: item.breakdown.scalingParts[0].talentMultiplier,
+                    damage: item.nonCrit
+                })),
+                c2Reasons: payload.candidateModifiers.filter((item) => item.modifier?.id?.startsWith("c_10000038_2")).map((item) => item.reason),
+                resource: payload.calculationRequest.manualInputs.resourceStates,
+                hpState: payload.calculationRequest.uiState.conditionByModifier["talent:passive1:t_10000038_passive1_transient_blossom_bonus"]?.option
+            };
+        })()`);
+        await evaluate(client, `(() => {
+            const hp = document.querySelector(${JSON.stringify(albedoHpSelector)});
+            hp.value = "inactive";
+            hp.dispatchEvent(new Event("change", { bubbles: true }));
+            const count = document.querySelector(${JSON.stringify(albedoResourceSelector)});
+            count.value = "0";
+            count.dispatchEvent(new Event("input", { bubbles: true }));
+            count.dispatchEvent(new Event("change", { bubbles: true }));
+        })()`);
+        const albedoBefore = await albedoDamage();
+        await evaluate(client, `(() => {
+            const hp = document.querySelector(${JSON.stringify(albedoHpSelector)});
+            hp.value = "belowHalf";
+            hp.dispatchEvent(new Event("change", { bubbles: true }));
+            const count = document.querySelector(${JSON.stringify(albedoResourceSelector)});
+            count.value = "4";
+            count.dispatchEvent(new Event("input", { bubbles: true }));
+            count.dispatchEvent(new Event("change", { bubbles: true }));
+        })()`);
+        const albedoAfter = await albedoDamage();
+        assert.deepEqual(albedoAfter.chargedHits.map((item) => item.param), ["param6", "param7"]);
+        assert.deepEqual(albedoAfter.chargedHits.map((item) => item.multiplier), [93.5, 119]);
+        assert.ok(albedoAfter.chargedHits.every((item) => item.damage > 0));
+        assert.ok(albedoAfter.blossom > albedoBefore.blossom);
+        assert.equal(albedoAfter.placement, albedoBefore.placement);
+        assert.ok(albedoAfter.burst > albedoBefore.burst, JSON.stringify({ albedoBefore, albedoAfter }));
+        assert.equal(albedoAfter.burstAddition, 2400);
+        assert.equal(albedoAfter.fatalAddition, 2400);
+        assert.equal(albedoAfter.hpState, "belowHalf");
+
         const uidPartyBridge = await evaluate(client, `(() => {
             const character = {
                 schemaVersion: 2,
