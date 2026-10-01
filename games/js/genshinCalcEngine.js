@@ -1022,6 +1022,18 @@
     }
 
     function resolveModifierValue(modifier, context, uiState = context.uiState || {}, analysis = {}) {
+        const required = modifier.requiredCondition;
+        if (required) {
+            const key = modifier.partySource
+                ? `party:${modifier.partyProviderSlot}:${context.characterId}:group:${required.conditionGroupId}`
+                : `${required.source}:group:${required.conditionGroupId}`;
+            if (String(uiState.conditionByModifier?.[key]?.option) !== String(required.option)) return 0;
+            if (modifier.partySource) {
+                const member = context.party?.members?.find((item) => Number(item.slot) === Number(modifier.partyProviderSlot));
+                const candidateKey = `party:${modifier.partyProviderSlot}:${context.characterId}:${required.source}:${required.modifierId}`;
+                if (member?.buffStates?.[key] !== true && member?.buffStates?.[candidateKey] !== true) return 0;
+            }
+        }
         if (modifier.customCalculation === "thresholdStatRatioPlusBase") {
             const referenceValue = Number(context.stats?.[modifier.reference?.stat]) || 0;
             const excess = Math.max(0, referenceValue - (Number(modifier.threshold) || 0));
@@ -2546,7 +2558,9 @@
                 if (!modifier.reference?.stat && !(modifier.scalings || []).length && baseAttackType) {
                     const rate = (Number(value) || 0) / 100;
                     return talentEntries
-                        .filter((entry) => entry.attackType === baseAttackType)
+                        .filter((entry) => entry.attackType === baseAttackType
+                            && (!Array.isArray(modifier.referenceEntryIds)
+                                || modifier.referenceEntryIds.includes(entry.id)))
                         .map((entry, index) => ({
                             ...entry,
                             id: `${modifier.id || `extra_${source}`}_${entry.id || index}`,

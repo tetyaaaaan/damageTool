@@ -1863,7 +1863,7 @@
           "applyTo": [
             "normalAttack"
           ],
-          "element": null,
+          "element": "physical",
           "scalings": [
             {
               "stat": "atk",
@@ -1872,37 +1872,63 @@
             }
           ],
           "trigger": "constellationUnlocked",
-          "calculationSupport": "custom",
+          "calculationSupport": "simple",
           "uidHandling": "conditional",
-          "condition": "constellationUnlocked",
+          "condition": "active",
           "sourceText": "オズが戦場にいない時も、鴉の目を通してフィッシュルを守る。フィッシュルが敵に通常攻撃する時、オズは鴉の目を通して攻撃し、攻撃力22%分のダメージを与える。",
           "id": "c_10000031_1_1_resolved_2",
           "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "customHandlingRequired": false,
+          "damageType": "normalAttack",
+          "conditionInput": {
+            "type": "option",
+            "label": "オズの状態",
+            "help": "現在のオズの存在状態を選択します。反応追撃・共同攻撃は条件を満たして発生する1ヒットの値です。攻撃周期や自動発動は計算しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "追加攻撃を計算しない"
+              },
+              {
+                "value": "absent",
+                "label": "オズ不在（C1通常攻撃追撃）"
+              },
+              {
+                "value": "present",
+                "label": "オズ存在（反応追撃／C6共同攻撃）"
+              }
+            ]
+          },
+          "conditionGroupId": "fischl-oz-state",
+          "shareConditionAcrossSources": true,
+          "conditionOptionValue": "absent",
+          "targetOwner": "self",
+          "label": "幽邃な鴉の目（オズ不在・通常攻撃追撃1ヒット）"
         }
       ],
       "2": [
         {
-          "category": "extraDamage",
+          "category": "additiveBaseDamage",
           "applyTo": [
-            "triggeredDamage"
+            "skill"
           ],
-          "element": null,
-          "scalings": [
-            {
-              "stat": "atk",
-              "value": 200.0,
-              "unit": "percent"
-            }
-          ],
-          "trigger": "constellationUnlocked",
           "calculationSupport": "custom",
           "uidHandling": "conditional",
           "condition": "constellationUnlocked",
           "sourceText": "夜巡りの翼発動時、攻撃力200%分の追加ダメージを与える、さらに影響範囲+50%。",
           "id": "c_10000031_2_1_resolved_2",
           "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "customHandlingRequired": true,
+          "targetEffect": "damage_2",
+          "reference": {
+            "stat": "atk",
+            "source": "self"
+          },
+          "ratio": 200,
+          "unit": "percent",
+          "customCalculation": "scalingAdditiveBaseDamage",
+          "targetOwner": "self",
+          "effectLabel": "聖裁の羽根：召喚ダメージに攻撃力200%加算"
         }
       ],
       "3": [
@@ -1935,13 +1961,16 @@
             }
           ],
           "trigger": "constellationUnlocked",
-          "calculationSupport": "custom",
+          "calculationSupport": "simple",
           "uidHandling": "conditional",
           "condition": "constellationUnlocked",
           "sourceText": "夜の幻現発動時、周囲の敵に攻撃力222%分の雷元素ダメージを与える。\nスキル終了時、フィッシュルのHPを20%回復する。",
           "id": "c_10000031_4_1_resolved_2",
           "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "customHandlingRequired": false,
+          "damageType": "burst",
+          "targetOwner": "self",
+          "label": "皇女綺譚集（元素爆発発動・1ヒット）"
         }
       ],
       "5": [
@@ -1990,13 +2019,134 @@
             }
           ],
           "trigger": "constellationUnlocked",
-          "calculationSupport": "custom",
+          "calculationSupport": "simple",
           "uidHandling": "conditional",
-          "condition": "constellationUnlocked",
+          "condition": "active",
           "sourceText": "オズの存在時間+2秒。オズは出場している自身のキャラクターと共に攻撃し、攻撃力30%分の雷元素ダメージを与える。",
           "id": "c_10000031_6_1_resolved_2",
           "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "customHandlingRequired": false,
+          "damageType": "skill",
+          "conditionInput": {
+            "type": "option",
+            "label": "オズの状態",
+            "help": "現在のオズの存在状態を選択します。反応追撃・共同攻撃は条件を満たして発生する1ヒットの値です。攻撃周期や自動発動は計算しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "追加攻撃を計算しない"
+              },
+              {
+                "value": "absent",
+                "label": "オズ不在（C1通常攻撃追撃）"
+              },
+              {
+                "value": "present",
+                "label": "オズ存在（反応追撃／C6共同攻撃）"
+              }
+            ]
+          },
+          "conditionGroupId": "fischl-oz-state",
+          "shareConditionAcrossSources": true,
+          "conditionOptionValue": "present",
+          "targetOwner": "self",
+          "label": "永夜の禽（オズ共同攻撃・1ヒット）"
+        },
+        {
+          "id": "c_10000031_6_witch_atk_amplification",
+          "category": "statBonus",
+          "applyTo": [
+            "atkPercent"
+          ],
+          "valueByCondition": {
+            "inactive": 0,
+            "active": 22.5
+          },
+          "unit": "percent",
+          "condition": "active",
+          "conditionInput": {
+            "type": "option",
+            "label": "C6共同攻撃後の魔女バフ増幅",
+            "help": "オズがC6共同攻撃を行った後10秒間の状態を指定します。成立中の魔女バフだけを100%増幅します。共同攻撃倍率30%は変更せず、時間経過による失効は計算しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "C6増幅なし"
+              },
+              {
+                "value": "active",
+                "label": "C6共同攻撃後（10秒以内）"
+              }
+            ]
+          },
+          "conditionGroupId": "fischl-c6-witch-amplification",
+          "shareConditionAcrossSources": true,
+          "conditionOptionValue": "active",
+          "conditionInputActivates": true,
+          "requiredCondition": {
+            "source": "talent:lockedPassive",
+            "conditionGroupId": "witch-fischl-overload",
+            "option": "active",
+            "modifierId": "t_10000031_lockedPassive_overload_atk"
+          },
+          "targetOwner": "activeCharacter",
+          "calculationSupport": "simple",
+          "uidHandling": "conditional",
+          "duration": 10,
+          "effectLabel": "C6：過負荷の攻撃力バフを100%増幅",
+          "sourceText": "オズがC6共同攻撃を行った後10秒間、「魔女の夜の儀式」由来の攻撃力上昇・元素熟知上昇効果がさらに100%増加する。",
+          "verification": {
+            "status": "needsReview",
+            "notes": "2026-10-01 user external confirmation accepted for CurrentCalc: 22.5%→45%, 90→180; C6 coordinated damage remains 30%. Not canonical promotion."
+          }
+        },
+        {
+          "id": "c_10000031_6_witch_em_amplification",
+          "category": "statBonus",
+          "applyTo": [
+            "elementalMastery"
+          ],
+          "valueByCondition": {
+            "inactive": 0,
+            "active": 90
+          },
+          "unit": "flat",
+          "condition": "active",
+          "conditionInput": {
+            "type": "option",
+            "label": "C6共同攻撃後の魔女バフ増幅",
+            "help": "オズがC6共同攻撃を行った後10秒間の状態を指定します。成立中の魔女バフだけを100%増幅します。共同攻撃倍率30%は変更せず、時間経過による失効は計算しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "C6増幅なし"
+              },
+              {
+                "value": "active",
+                "label": "C6共同攻撃後（10秒以内）"
+              }
+            ]
+          },
+          "conditionGroupId": "fischl-c6-witch-amplification",
+          "shareConditionAcrossSources": true,
+          "conditionOptionValue": "active",
+          "conditionInputActivates": true,
+          "requiredCondition": {
+            "source": "talent:lockedPassive",
+            "conditionGroupId": "witch-fischl-electrocharged",
+            "option": "active",
+            "modifierId": "t_10000031_lockedPassive_electrocharged_em"
+          },
+          "targetOwner": "activeCharacter",
+          "calculationSupport": "simple",
+          "uidHandling": "conditional",
+          "duration": 10,
+          "effectLabel": "C6：感電・月感電の熟知バフを100%増幅",
+          "sourceText": "オズがC6共同攻撃を行った後10秒間、「魔女の夜の儀式」由来の攻撃力上昇・元素熟知上昇効果がさらに100%増加する。",
+          "verification": {
+            "status": "needsReview",
+            "notes": "2026-10-01 user external confirmation accepted for CurrentCalc: 22.5%→45%, 90→180; C6 coordinated damage remains 30%. Not canonical promotion."
+          }
         }
       ]
     }

@@ -69,8 +69,9 @@ test("Fischl Witch's Homework exposes locked-safe progression states and exact t
 
     const uiContext = context();
     const panel = harness.sandbox.GenshinCalcConditions.conditionPanelState(uiContext, calcData);
-    assert.equal(panel.complexConditionInputs.length, 2);
-    assert.ok(panel.complexConditionInputs.every((input) => input.value === "locked"));
+    const witchInputs = panel.complexConditionInputs.filter((input) => input.conditionGroupId?.startsWith("witch-fischl-"));
+    assert.equal(witchInputs.length, 2);
+    assert.ok(witchInputs.every((input) => input.value === "locked"));
     const talentCard = panel.cards.find((card) => card.id === "talent");
     assert.equal(talentCard.effects.filter((effect) => effect.modifier?.id?.startsWith("t_10000031_lockedPassive_")).length, 2);
 });

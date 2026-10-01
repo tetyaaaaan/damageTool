@@ -1602,6 +1602,7 @@
         const complexByKey = new Map(complexConditionInputs.map((input) => [input.key, input]));
         const resourceByKey = new Map(resourceInputs.map((input) => [input.key, input]));
         const dedicatedOwners = new Set();
+        const sharedConditionOwners = new Set();
 
         collectSelectedModifiers(context, calcData).forEach((item) => {
             const cardId = cardIdForSource(item.source);
@@ -1617,7 +1618,9 @@
             const sourceInfo = parseSource(item.source);
             const artifactPolicy = artifactConditionPolicy(item.modifier, item.source, context, calcData);
             const conditionGroupId = item.modifier.conditionGroupId || item.modifier.activation?.stateKey || item.modifier.effectGroupId || "";
-            const conditionKey = conditionGroupId
+            const conditionKey = conditionGroupId && item.modifier.shareConditionAcrossSources
+                ? `character:${context.characterId}:group:${conditionGroupId}`
+                : conditionGroupId
                 ? `${item.source}:group:${conditionGroupId}`
                 : analysis.conditionStateKey;
             const conditionState = conditionStateByModifier[conditionKey]
@@ -1631,7 +1634,10 @@
             } else if (sourceInfo.type === "artifact4" && sourceInfo.id === "15006" && item.modifier.condition === "afterSkill") {
                 controls.push({ type: "crimsonWitchStack", value: context.uiState.crimsonWitchStack, min: 0, max: 3, label: "元素スキル使用後の強化段階" });
             } else if (complex) {
-                controls.push({ type: "complex", ...complex });
+                if (!item.modifier.shareConditionAcrossSources || !sharedConditionOwners.has(conditionKey)) {
+                    controls.push({ type: "complex", ...complex });
+                    if (item.modifier.shareConditionAcrossSources) sharedConditionOwners.add(conditionKey);
+                }
             } else if (resource && isResourceInput) {
                 controls.push({ type: "resource", ...resource });
             } else if (analysis.requiresConditionEvaluation

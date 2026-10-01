@@ -20,11 +20,11 @@
   "summary": {
     "characters": 117,
     "constellationLevels": 702,
-    "effects": 753,
+    "effects": 755,
     "byVerificationStatus": {
       "mechanicOnly": 68,
       "corroborated": 453,
-      "textVerified": 198,
+      "textVerified": 200,
       "quarantined": 32,
       "sourceContextRequired": 2
     },
@@ -3500,7 +3500,7 @@
               "targets": [
                 "normalAttack"
               ],
-              "condition": "constellationUnlocked",
+              "condition": "active",
               "unit": "",
               "numericValues": [
                 {
@@ -3525,15 +3525,15 @@
           "effects": [
             {
               "id": "c_10000031_2_1_resolved_2",
-              "category": "extraDamage",
+              "category": "additiveBaseDamage",
               "targets": [
-                "triggeredDamage"
+                "skill"
               ],
               "condition": "constellationUnlocked",
-              "unit": "",
+              "unit": "percent",
               "numericValues": [
                 {
-                  "field": "scalings.0.value",
+                  "field": "ratio",
                   "value": 200
                 }
               ],
@@ -3674,12 +3674,64 @@
               "targets": [
                 "triggeredDamage"
               ],
-              "condition": "constellationUnlocked",
+              "condition": "active",
               "unit": "",
               "numericValues": [
                 {
                   "field": "scalings.0.value",
                   "value": 30
+                }
+              ],
+              "requiresNumericValue": true,
+              "hasNumericContract": true,
+              "verificationStatus": "textVerified",
+              "evidence": {
+                "officialTextValueMatch": true,
+                "externalNumericHints": []
+              }
+            },
+            {
+              "id": "c_10000031_6_witch_atk_amplification",
+              "category": "statBonus",
+              "targets": [
+                "atkPercent"
+              ],
+              "condition": "active",
+              "unit": "percent",
+              "numericValues": [
+                {
+                  "field": "valueByCondition.inactive",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.active",
+                  "value": 22.5
+                }
+              ],
+              "requiresNumericValue": true,
+              "hasNumericContract": true,
+              "verificationStatus": "textVerified",
+              "evidence": {
+                "officialTextValueMatch": true,
+                "externalNumericHints": []
+              }
+            },
+            {
+              "id": "c_10000031_6_witch_em_amplification",
+              "category": "statBonus",
+              "targets": [
+                "elementalMastery"
+              ],
+              "condition": "active",
+              "unit": "flat",
+              "numericValues": [
+                {
+                  "field": "valueByCondition.inactive",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.active",
+                  "value": 90
                 }
               ],
               "requiresNumericValue": true,
@@ -27070,7 +27122,7 @@
       "targets": [
         "normalAttack"
       ],
-      "condition": "constellationUnlocked",
+      "condition": "active",
       "unit": "",
       "numericValues": [
         {
@@ -27090,15 +27142,15 @@
       "characterId": "10000031",
       "constellation": 2,
       "id": "c_10000031_2_1_resolved_2",
-      "category": "extraDamage",
+      "category": "additiveBaseDamage",
       "targets": [
-        "triggeredDamage"
+        "skill"
       ],
       "condition": "constellationUnlocked",
-      "unit": "",
+      "unit": "percent",
       "numericValues": [
         {
-          "field": "scalings.0.value",
+          "field": "ratio",
           "value": 200
         }
       ],
@@ -27221,12 +27273,68 @@
       "targets": [
         "triggeredDamage"
       ],
-      "condition": "constellationUnlocked",
+      "condition": "active",
       "unit": "",
       "numericValues": [
         {
           "field": "scalings.0.value",
           "value": 30
+        }
+      ],
+      "requiresNumericValue": true,
+      "hasNumericContract": true,
+      "verificationStatus": "textVerified",
+      "evidence": {
+        "officialTextValueMatch": true,
+        "externalNumericHints": []
+      }
+    },
+    "c_10000031_6_witch_atk_amplification": {
+      "characterId": "10000031",
+      "constellation": 6,
+      "id": "c_10000031_6_witch_atk_amplification",
+      "category": "statBonus",
+      "targets": [
+        "atkPercent"
+      ],
+      "condition": "active",
+      "unit": "percent",
+      "numericValues": [
+        {
+          "field": "valueByCondition.inactive",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.active",
+          "value": 22.5
+        }
+      ],
+      "requiresNumericValue": true,
+      "hasNumericContract": true,
+      "verificationStatus": "textVerified",
+      "evidence": {
+        "officialTextValueMatch": true,
+        "externalNumericHints": []
+      }
+    },
+    "c_10000031_6_witch_em_amplification": {
+      "characterId": "10000031",
+      "constellation": 6,
+      "id": "c_10000031_6_witch_em_amplification",
+      "category": "statBonus",
+      "targets": [
+        "elementalMastery"
+      ],
+      "condition": "active",
+      "unit": "flat",
+      "numericValues": [
+        {
+          "field": "valueByCondition.inactive",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.active",
+          "value": 90
         }
       ],
       "requiresNumericValue": true,

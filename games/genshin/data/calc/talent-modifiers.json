@@ -595,9 +595,18 @@
               "label": "魔女の課題／魔導秘儀（過負荷）",
               "help": "課題の解放状態と、オズがいる間に付近のチームキャラクターが過負荷を起こしたかを選択します。",
               "options": [
-                { "value": "locked", "label": "魔女の課題：未解放" },
-                { "value": "unlocked", "label": "解放済み（未発動／魔導秘儀なし）" },
-                { "value": "active", "label": "解放済み＋魔導秘儀：過負荷後" }
+                {
+                  "value": "locked",
+                  "label": "魔女の課題：未解放"
+                },
+                {
+                  "value": "unlocked",
+                  "label": "解放済み（未発動／魔導秘儀なし）"
+                },
+                {
+                  "value": "active",
+                  "label": "解放済み＋魔導秘儀：過負荷後"
+                }
               ]
             },
             "conditionGroupId": "witch-fischl-overload",
@@ -631,9 +640,18 @@
               "label": "魔女の課題／魔導秘儀（感電・月感電）",
               "help": "課題の解放状態と、オズがいる間に付近のチームキャラクターが感電または月感電を起こしたかを選択します。",
               "options": [
-                { "value": "locked", "label": "魔女の課題：未解放" },
-                { "value": "unlocked", "label": "解放済み（未発動／魔導秘儀なし）" },
-                { "value": "active", "label": "解放済み＋魔導秘儀：感電／月感電後" }
+                {
+                  "value": "locked",
+                  "label": "魔女の課題：未解放"
+                },
+                {
+                  "value": "unlocked",
+                  "label": "解放済み（未発動／魔導秘儀なし）"
+                },
+                {
+                  "value": "active",
+                  "label": "解放済み＋魔導秘儀：感電／月感電後"
+                }
               ]
             },
             "conditionGroupId": "witch-fischl-electrocharged",
@@ -647,6 +665,98 @@
               "sourceAgreement": "singleSource",
               "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のFischl lockedPassive実装・生成係数と照合。独立したversion-bound provider agreementは未成立。"
             }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "id": "t_10000031_passive1_thundering_retribution",
+            "effectLabel": "星喰いの鴉：フルチャージ射撃がオズに命中",
+            "label": "星喰いの鴉（フルチャージ射撃命中・1ヒット）",
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "referenceAttackType": "chargedAttack",
+            "referenceEntryIds": [
+              "fully_charged_aimed_shot"
+            ],
+            "value": 152.7,
+            "unit": "percent",
+            "element": "雷",
+            "condition": "active",
+            "conditionInput": {
+              "type": "option",
+              "label": "フルチャージ射撃のオズ命中",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "命中していない"
+                },
+                {
+                  "value": "active",
+                  "label": "オズに命中（聖裁の雷1ヒット）"
+                }
+              ]
+            },
+            "conditionGroupId": "fischl-charged-hit-oz",
+            "conditionOptionValue": "active",
+            "targetOwner": "self",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional",
+            "sourceText": "フィッシュルのチャージした狙い撃ち射撃がオズに命中すると、オズは周囲の敵に聖裁の雷を放ち、射撃ダメージ152.7%分の雷元素範囲ダメージを与える。"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "id": "t_10000031_passive2_undone_be_thy_sin",
+            "effectLabel": "断罪の雷影：雷関連反応の追撃",
+            "label": "断罪の雷影（雷関連反応・1ヒット）",
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "damageType": "skill",
+            "element": "雷",
+            "scalings": [
+              {
+                "stat": "atk",
+                "value": 80,
+                "unit": "percent"
+              }
+            ],
+            "condition": "active",
+            "conditionInput": {
+              "type": "option",
+              "label": "オズの状態",
+              "help": "現在のオズの存在状態を選択します。反応追撃・共同攻撃は条件を満たして発生する1ヒットの値です。攻撃周期や自動発動は計算しません。",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "追加攻撃を計算しない"
+                },
+                {
+                  "value": "absent",
+                  "label": "オズ不在（C1通常攻撃追撃）"
+                },
+                {
+                  "value": "present",
+                  "label": "オズ存在（反応追撃／C6共同攻撃）"
+                }
+              ]
+            },
+            "conditionGroupId": "fischl-oz-state",
+            "shareConditionAcrossSources": true,
+            "conditionOptionValue": "present",
+            "targetOwner": "self",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional",
+            "sourceText": "オズがフィールドにいる時、出場している自身のキャラクターの敵への攻撃が雷元素の関連反応を起こすと、敵に聖裁の雷を下し、フィッシュルの攻撃力80%分の雷元素ダメージを与える。"
           }
         ]
       }

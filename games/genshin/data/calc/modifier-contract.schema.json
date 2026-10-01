@@ -5,6 +5,8 @@
   "type": "object",
   "required": ["id", "category", "applyTo", "condition", "calculationSupport", "uidHandling"],
   "properties": {
+    "requiredCondition": { "type": "object", "required": ["source", "conditionGroupId", "option", "modifierId"], "properties": { "source": { "type": "string" }, "conditionGroupId": { "type": "string" }, "option": { "type": "string" }, "modifierId": { "type": "string" } }, "description": "A prerequisite condition for this effect value; party prerequisites stay scoped to the provider and require its base effect toggle." },
+    "referenceEntryIds": { "type": "array", "items": { "type": "string" }, "description": "Limit reference-attack extra damage to these source entry IDs." },
     "id": { "type": "string", "minLength": 1 },
     "category": { "type": "string", "minLength": 1 },
     "applyTo": { "type": "array", "items": { "type": "string", "minLength": 1 } },

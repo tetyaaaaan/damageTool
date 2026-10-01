@@ -541,7 +541,7 @@ async function clickAndWait(client, selector) {
             return { modifierId, optionLabels, off, inactive, on };
         };
 
-        const partyWitchCase = async ({ selection, supportCharacterId, group, modifierId, supportDef, reaction }) => {
+        const partyWitchCase = async ({ selection, supportCharacterId, group, modifierId, supportDef, supportAtk, reaction }) => {
             await clearSupportMembers();
             await evaluate(client, selectionExpression(selection));
             await waitFor(client, `document.getElementById("genshinCalcCharacterId").value === ${JSON.stringify(selection.characterId)}`);
@@ -554,6 +554,15 @@ async function clickAndWait(client, selector) {
                 await evaluate(client, `(() => {
                     const input = document.getElementById("genshinPartyDef2");
                     input.value = ${JSON.stringify(String(supportDef))};
+                    input.dispatchEvent(new Event("input", { bubbles: true }));
+                    input.dispatchEvent(new Event("change", { bubbles: true }));
+                    return input.value;
+                })()`);
+            }
+            if (supportAtk !== undefined) {
+                await evaluate(client, `(() => {
+                    const input = document.getElementById("genshinPartyAtk2");
+                    input.value = ${JSON.stringify(String(supportAtk))};
                     input.dispatchEvent(new Event("input", { bubbles: true }));
                     input.dispatchEvent(new Event("change", { bubbles: true }));
                     return input.value;
@@ -627,6 +636,124 @@ async function clickAndWait(client, selector) {
             return { modifierId, optionLabels, off, inactive, on };
         };
 
+        const fischlC6PartyAmplification = async () => {
+            const selection = { characterName: "甘雨", characterId: "10000037", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 };
+            const ampKey = "party:2:10000031:group:fischl-c6-witch-amplification";
+            const atkId = "c_10000031_6_witch_atk_amplification";
+            const emId = "c_10000031_6_witch_em_amplification";
+            const atkBaseId = "t_10000031_lockedPassive_overload_atk";
+            const emBaseId = "t_10000031_lockedPassive_electrocharged_em";
+            await clearSupportMembers();
+            await evaluate(client, selectionExpression(selection));
+            const selected = await evaluate(client, `(() => {
+                const member = window.GenshinPartyState.characterForId("10000031");
+                const result = window.GenshinPartyState.setPartySelection(2, "character", member);
+                const constellation = document.getElementById("genshinPartyConstellation2");
+                constellation.value = "6";
+                constellation.dispatchEvent(new Event("change", { bubbles: true }));
+                return result;
+            })()`);
+            assert.equal(selected, true, "Fischl must be selectable as a C6 party support");
+            await setReactionOption("electroCharged");
+            await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+            const selectors = {
+                amp: `[data-genshin-party-condition-key="${ampKey}"]`,
+                atk: '[data-genshin-party-condition-key="party:2:10000031:group:witch-fischl-overload"]',
+                em: '[data-genshin-party-condition-key="party:2:10000031:group:witch-fischl-electrocharged"]'
+            };
+            const metadata = await evaluate(client, `(async () => {
+                const panel = window.GenshinCalcConditions.conditionPanelState(
+                    window.GenshinCalcEngine.buildCharacterCalcContext(),
+                    await window.GenshinCalcData.loadGenshinCalcData()
+                );
+                return [${JSON.stringify([atkId, emId, atkBaseId, emBaseId])}].flat().map((id) => {
+                    const candidate = panel.partyModifiers.find((item) => item.modifier?.id === id);
+                    return candidate ? { id, key: candidate.partyConditionStateKey } : { id };
+                });
+            })()`);
+            assert.ok(metadata.every((item) => item.key), `Fischl party C6 Witch candidates must be present: ${JSON.stringify(metadata)}`);
+            const ampCandidates = metadata.filter((item) => item.id === atkId || item.id === emId);
+            assert.ok(ampCandidates.every((item) => item.key === ampKey), "Fischl party ATK and EM amplification must share the C6 group key");
+            assert.equal(await evaluate(client, `document.querySelectorAll(${JSON.stringify(selectors.amp)}).length`), 1,
+                "Fischl party C6 ATK and EM amplification must render one shared condition control");
+            for (const selector of Object.values(selectors)) await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(selector)}))`);
+            const snapshot = async () => evaluate(client, `(async () => {
+                const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+                const restored = window.GenshinCalcEngine.calculateDamageRequest(payload.calculationRequest, await window.GenshinCalcData.loadGenshinCalcData());
+                const summarize = (result) => ({
+                    id: result.entry?.id,
+                    effectId: result.entry?.effectId || "",
+                    attackType: result.entry?.attackType,
+                    expected: result.expected,
+                    multiplier: result.breakdown?.scalingParts?.[0]?.talentMultiplier ?? null
+                });
+                return {
+                    results: payload.results.map(summarize),
+                    replay: restored.results.map(summarize),
+                    stats: payload.context.effectiveStats || payload.context.stats,
+                    states: payload.calculationRequest.party.conditionStates
+                };
+            })()`);
+            const assertReplay = (value, label) => assert.deepEqual(value.replay, value.results, `${label} party saved request must reproduce production results`);
+            const setPartyOption = async (selector, value) => {
+                await evaluate(client, `(() => {
+                    const input = document.querySelector(${JSON.stringify(selector)});
+                    input.value = ${JSON.stringify(value)};
+                    input.dispatchEvent(new Event("change", { bubbles: true }));
+                    return input.value;
+                })()`);
+                await delay(150);
+            };
+            const setBaseToggle = async (id, enabled) => {
+                const conditionKey = metadata.find((item) => item.id === id).key;
+                const selector = `[data-genshin-party-condition-key="${conditionKey}"]`;
+                await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(selector)}))`);
+                await evaluate(client, `(() => {
+                    const condition = document.querySelector(${JSON.stringify(selector)});
+                    const input = condition?.closest("[data-party-buff]")?.querySelector("[data-genshin-party-buff-key]");
+                    if (!input) throw new Error("missing Fischl base Witch party apply checkbox for " + ${JSON.stringify(id)});
+                    if (input.checked !== ${JSON.stringify(enabled)}) input.click();
+                    return input.checked;
+                })()`);
+                await delay(150);
+            };
+            await setPartyOption(selectors.atk, "locked");
+            await setPartyOption(selectors.em, "locked");
+            await setPartyOption(selectors.amp, "inactive");
+            await setBaseToggle(atkBaseId, false);
+            await setBaseToggle(emBaseId, false);
+            const off = await snapshot();
+            await setPartyOption(selectors.atk, "active");
+            await setPartyOption(selectors.em, "active");
+            await setBaseToggle(atkBaseId, true);
+            await setBaseToggle(emBaseId, true);
+            await setPartyOption(selectors.amp, "inactive");
+            const baseOn = await snapshot();
+            await setPartyOption(selectors.amp, "active");
+            const amplified = await snapshot();
+            const reaction = (value) => value.results.find((item) => item.attackType === "reaction")?.expected;
+            const mainAttack = (value) => value.results.find((item) => item.attackType === "normalAttack")?.expected;
+            assert.equal(amplified.states?.[ampKey]?.option, "active", "Fischl C6 party amplification option must be saved");
+            assert.ok(reaction(baseOn) > reaction(off), "party Fischl base Witch EM must raise Ganyu's Electro-Charged damage");
+            assert.ok(reaction(amplified) > reaction(baseOn), "party Fischl C6 must amplify Witch EM and further raise Electro-Charged damage");
+            assert.ok(mainAttack(baseOn) > mainAttack(off), "party Fischl base Witch ATK must increase the recipient's normal attack damage");
+            assert.ok(mainAttack(amplified) > mainAttack(baseOn), "party Fischl C6 must amplify Witch ATK and further increase normal attack damage");
+            assertReplay(off, "Fischl party Witch buffs off");
+            assertReplay(baseOn, "Fischl party base Witch buffs on");
+            assertReplay(amplified, "Fischl party C6 amplified Witch buffs on");
+            await setPartyOption(selectors.atk, "unlocked");
+            await setPartyOption(selectors.em, "unlocked");
+            await setBaseToggle(atkBaseId, false);
+            await setBaseToggle(emBaseId, false);
+            const ampWithoutBase = await snapshot();
+            assert.equal(ampWithoutBase.stats.atk, off.stats.atk, "Fischl party C6 amplification must not apply without the base Witch ATK option");
+            assert.equal(ampWithoutBase.stats.elementalMastery, off.stats.elementalMastery, "Fischl party C6 amplification must not apply without the base Witch EM option");
+            assert.equal(reaction(ampWithoutBase), reaction(off), "Fischl party C6 amplification must not change damage without base Witch effects");
+            assert.equal(mainAttack(ampWithoutBase), mainAttack(off), "Fischl party C6 amplification must not change attack damage without base Witch effects");
+            assertReplay(ampWithoutBase, "Fischl party C6 amplification without base Witch effects");
+            return { offDamage: { reaction: reaction(off), mainAttack: mainAttack(off) }, baseDamage: { reaction: reaction(baseOn), mainAttack: mainAttack(baseOn) }, amplifiedDamage: { reaction: reaction(amplified), mainAttack: mainAttack(amplified) }, savedOption: amplified.states?.[ampKey]?.option };
+        };
+
         const witchUiProduction = {
             razor: await directWitchCase({
                 selection: { characterName: "レザー", characterId: "10000020", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 },
@@ -671,6 +798,14 @@ async function clickAndWait(client, selector) {
                 modifierId: "t_10000031_lockedPassive_electrocharged_em",
                 reaction: "electroCharged"
             }),
+            fischlAtk: await partyWitchCase({
+                selection: { characterName: "甘雨", characterId: "10000037", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 },
+                supportCharacterId: "10000031",
+                group: "witch-fischl-overload",
+                modifierId: "t_10000031_lockedPassive_overload_atk",
+                supportAtk: 1800
+            }),
+            fischlC6Amplification: await fischlC6PartyAmplification(),
             albedo: await partyWitchCase({
                 selection: { characterName: "甘雨", characterId: "10000037", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 },
                 supportCharacterId: "10000038",
@@ -697,6 +832,228 @@ async function clickAndWait(client, selector) {
                 group: "witch-sucrose-large-wind-spirit",
                 modifierId: "t_10000043_lockedPassive_large_wind_spirit_damage"
             })
+        };
+
+        const setMainOption = async (key, value) => {
+            const selector = `[data-genshin-condition-key="${key}"]`;
+            try {
+                await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(selector)}))`, 2500);
+            } catch (error) {
+                const diagnostics = await evaluate(client, `({
+                    selectedCharacter: document.getElementById("genshinCalcCharacterId")?.value || "",
+                    visibleConditions: [...document.querySelectorAll("[data-genshin-condition-key]")].map((item) => ({ key: item.dataset.genshinConditionKey, value: item.value, kind: item.dataset.genshinConditionKind })),
+                    conditionCards: [...document.querySelectorAll("[data-condition-card]")].map((item) => item.dataset.conditionCard)
+                })`);
+                throw new Error(`${error.message}; requested ${key}; DOM ${JSON.stringify(diagnostics)}`);
+            }
+            await evaluate(client, `(() => {
+                const input = document.querySelector(${JSON.stringify(selector)});
+                input.value = ${JSON.stringify(value)};
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+                return input.value;
+            })()`);
+            await delay(150);
+        };
+        const fischlPayload = async () => evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            const restored = window.GenshinCalcEngine.calculateDamageRequest(
+                payload.calculationRequest,
+                await window.GenshinCalcData.loadGenshinCalcData()
+            );
+            const summarize = (result) => ({
+                id: result.entry?.id,
+                effectId: result.entry?.effectId || "",
+                attackType: result.entry?.attackType,
+                damageType: result.entry?.damageType,
+                element: result.entry?.element,
+                param: result.entry?.source?.param || "",
+                multiplier: result.breakdown?.scalingParts?.[0]?.talentMultiplier ?? null,
+                nonCrit: result.nonCrit,
+                expected: result.expected,
+                additiveBaseDamage: result.breakdown?.additiveBaseDamage || 0,
+                appliedModifierIds: (result.breakdown?.appliedModifiers || []).map((item) => item.modifier?.id).filter(Boolean)
+            });
+            return {
+                request: payload.calculationRequest,
+                results: payload.results.map(summarize),
+                restoredResults: restored.results.map(summarize),
+                effectiveStats: payload.context.effectiveStats || payload.context.stats,
+                baseAtk: payload.context.stats.baseAtk,
+                appliedIds: [...new Set(payload.results.flatMap((result) => result.breakdown?.appliedModifiers || []).map((item) => item.modifier?.id).filter(Boolean))]
+            };
+        })()`);
+        const assertFischlReplay = (snapshot, label) => {
+            assert.deepEqual(snapshot.restoredResults, snapshot.results, `${label} saved calculation request must reproduce production results`);
+        };
+        const fischlA1 = async () => {
+            await clearSupportMembers();
+            await evaluate(client, selectionExpression({ characterName: "フィッシュル", characterId: "10000031", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 }));
+            await evaluate(client, `(() => {
+                const input = document.getElementById("genshinBaseAtkInput");
+                input.value = "500";
+                input.dispatchEvent(new Event("input", { bubbles: true }));
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+                return input.value;
+            })()`);
+            await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+            const key = "talent:passive1:group:fischl-charged-hit-oz";
+            await setMainOption(key, "inactive");
+            const off = await fischlPayload();
+            const offCharged = off.results.find((item) => item.id === "fully_charged_aimed_shot");
+            const offA1 = off.results.filter((item) => item.effectId === "t_10000031_passive1_thundering_retribution");
+            assert.equal(offA1.length, 0, "Fischl A1 must not add a hit while Oz was not hit");
+            await setMainOption(key, "active");
+            const on = await fischlPayload();
+            const onCharged = on.results.find((item) => item.id === "fully_charged_aimed_shot");
+            const onA1 = on.results.filter((item) => item.effectId === "t_10000031_passive1_thundering_retribution");
+            assert.equal(onA1.length, 1, "Fischl A1 must add exactly one derived fully charged shot hit");
+            assert.equal(onA1[0].attackType, "chargedAttack");
+            assert.equal(onA1[0].param, "param7", "Fischl A1 must derive from the fully charged aimed shot entry");
+            assert.ok(onA1[0].nonCrit > 0);
+            assert.equal(onCharged.nonCrit, offCharged.nonCrit, "Fischl A1 must leave the original fully charged shot unchanged");
+            assert.ok(!on.results.some((item) => item.effectId === "t_10000031_passive1_thundering_retribution" && item.id !== onA1[0].id), "Fischl A1 must not clone an uncharged aimed shot");
+            assertFischlReplay(off, "Fischl A1 inactive");
+            assertFischlReplay(on, "Fischl A1 active");
+            return { offA1Count: offA1.length, onA1: onA1[0], originalShotStable: onCharged.nonCrit === offCharged.nonCrit };
+        };
+        const fischlConstellationDamage = async () => {
+            await clearSupportMembers();
+            await evaluate(client, selectionExpression({ characterName: "フィッシュル", characterId: "10000031", weaponName: "", weaponId: "", constellation: "C1", atk: 2000, def: 1000 }));
+            await evaluate(client, `(() => {
+                const input = document.getElementById("genshinBaseAtkInput");
+                input.value = "500";
+                input.dispatchEvent(new Event("input", { bubbles: true }));
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+                return input.value;
+            })()`);
+            await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+            const ozKey = "character:10000031:group:fischl-oz-state";
+            const sharedOzSelector = `[data-genshin-condition-key="${ozKey}"]`;
+            const sharedOzControlCount = await evaluate(client, `document.querySelectorAll(${JSON.stringify(sharedOzSelector)}).length`);
+            assert.equal(sharedOzControlCount, 1, "Fischl Oz state shared by A4, C1 and C6 must render one UI control");
+            await setMainOption(ozKey, "inactive");
+            const neutral = await fischlPayload();
+            assert.equal(neutral.results.some((item) => item.effectId === "c_10000031_1_1_resolved_2"), false);
+            await setMainOption(ozKey, "absent");
+            const c1 = await fischlPayload();
+            const c1Hits = c1.results.filter((item) => item.effectId === "c_10000031_1_1_resolved_2");
+            assert.equal(c1Hits.length, 1, "Fischl C1 must add one Oz hit while Oz is absent");
+            assert.equal(c1Hits[0].attackType, "normalAttack");
+            assert.equal(c1Hits[0].element, "physical");
+            assert.ok(c1Hits[0].nonCrit > 0);
+            assertFischlReplay(neutral, "Fischl C1 neutral");
+            assertFischlReplay(c1, "Fischl C1 Oz absent");
+
+            await evaluate(client, selectionExpression({ characterName: "フィッシュル", characterId: "10000031", weaponName: "", weaponId: "", constellation: "C6", atk: 2000, def: 1000 }));
+            await evaluate(client, `(() => {
+                const input = document.getElementById("genshinBaseAtkInput");
+                input.value = "500";
+                input.dispatchEvent(new Event("input", { bubbles: true }));
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+                return input.value;
+            })()`);
+            await setReactionOption("electroCharged");
+            await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+            const c2ToggleSelector = '[data-genshin-toggle-key="constellation:C2:c_10000031_2_1_resolved_2"]';
+            await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(c2ToggleSelector)}))`);
+            await evaluate(client, `(() => {
+                const input = document.querySelector(${JSON.stringify(c2ToggleSelector)});
+                if (!input.checked) input.click();
+                return input.checked;
+            })()`);
+            const c4ToggleSelector = '[data-genshin-toggle-key="constellation:C4:c_10000031_4_1_resolved_2"]';
+            await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(c4ToggleSelector)}))`);
+            await evaluate(client, `(() => {
+                const input = document.querySelector(${JSON.stringify(c4ToggleSelector)});
+                if (!input.checked) input.click();
+                return input.checked;
+            })()`);
+            await delay(150);
+            await setMainOption(ozKey, "present");
+            const present = await fischlPayload();
+            const a4Hits = present.results.filter((item) => item.effectId === "t_10000031_passive2_undone_be_thy_sin");
+            const c6Hits = present.results.filter((item) => item.effectId === "c_10000031_6_1_resolved_2");
+            const c2 = present.results.find((item) => item.id === "damage_2");
+            const c4 = present.results.find((item) => item.effectId === "c_10000031_4_1_resolved_2");
+            assert.equal(a4Hits.length, 1, "Fischl A4 must add one Oz-present reaction hit");
+            assert.equal(c6Hits.length, 1, "Fischl C6 must add one Oz-present coordinated hit");
+            assert.equal(present.results.some((item) => item.effectId === "c_10000031_1_1_resolved_2"), false, "Fischl C1 hit must remain absent while Oz is present");
+            assert.ok(a4Hits[0].nonCrit > 0 && c6Hits[0].nonCrit > 0);
+            assert.ok(c2, "Fischl C2 must target the existing Oz summon damage entry");
+            assert.ok(c2.appliedModifierIds.includes("c_10000031_2_1_resolved_2"), "Fischl C2 must be applied to the Oz summon damage entry");
+            assert.equal(c2.additiveBaseDamage, 4000, "Fischl C2 adds 200% of 2000 ATK to the Oz summon hit");
+            assert.ok(c4, "Fischl C4 burst-triggered hit must be present");
+            assert.equal(c4.attackType, "burst", "Fischl C4 additional damage must retain burst attack type");
+            assert.equal(c4.multiplier, 222, "Fischl C4 additional damage must use its 222% ATK scaling");
+            assert.ok(c4.nonCrit > 0);
+            assertFischlReplay(present, "Fischl C6 Oz present");
+
+            const witchKeys = [
+                "talent:lockedPassive:group:witch-fischl-overload",
+                "talent:lockedPassive:group:witch-fischl-electrocharged"
+            ];
+            const witchOff = await fischlPayload();
+            await setMainOption(witchKeys[0], "active");
+            await setMainOption(witchKeys[1], "active");
+            const ampKey = "character:10000031:group:fischl-c6-witch-amplification";
+            const ampSelector = `[data-genshin-condition-key="${ampKey}"]`;
+            assert.equal(await evaluate(client, `document.querySelectorAll(${JSON.stringify(ampSelector)}).length`), 1,
+                "Fischl C6 Witch amplification must use one shared control for ATK and EM");
+            await setMainOption(ampKey, "inactive");
+            const witchBaseOn = await fischlPayload();
+            const witchAmpKey = ampKey;
+            const baseAtk = witchBaseOn.baseAtk;
+            assert.ok(witchBaseOn.effectiveStats.atk - witchOff.effectiveStats.atk > 0, "Fischl Witch overload state must increase her own ATK");
+            assert.ok(witchBaseOn.effectiveStats.elementalMastery - witchOff.effectiveStats.elementalMastery > 0, "Fischl Witch Electro-Charged state must increase her own EM");
+            assert.ok(Math.abs((witchBaseOn.effectiveStats.atk - witchOff.effectiveStats.atk) - baseAtk * 0.225) < 1e-6,
+                "Fischl base Witch ATK buff must be 22.5% of base ATK");
+            assert.equal(witchBaseOn.effectiveStats.elementalMastery - witchOff.effectiveStats.elementalMastery, 90,
+                "Fischl base Witch EM buff must be 90");
+            await setMainOption(witchAmpKey, "active");
+            const witchOn = await fischlPayload();
+            assert.ok(Math.abs((witchOn.effectiveStats.atk - witchOff.effectiveStats.atk) - baseAtk * 0.45) < 1e-6,
+                "Fischl C6 must double the Witch ATK buff to 45% of base ATK");
+            assert.equal(witchOn.effectiveStats.elementalMastery - witchOff.effectiveStats.elementalMastery, 180,
+                "Fischl C6 must double the Witch EM buff to 180");
+            const reactionResult = (snapshot) => snapshot.results.find((item) => item.attackType === "reaction");
+            assert.ok(reactionResult(witchOff)?.expected > 0, "Electro-Charged damage must be present before Fischl Witch buffs");
+            assert.ok(reactionResult(witchBaseOn)?.expected > reactionResult(witchOff).expected, "Fischl Witch EM state must increase Electro-Charged damage");
+            assert.ok(reactionResult(witchOn)?.expected > reactionResult(witchBaseOn).expected, "Fischl C6 amplified Witch EM must increase Electro-Charged damage");
+            assert.ok(witchOn.results.find((item) => item.id === "damage")?.expected > witchOff.results.find((item) => item.id === "damage")?.expected, "Fischl Witch ATK state must increase her skill damage");
+            assert.ok(witchOn.results.find((item) => item.id === "damage")?.expected > witchBaseOn.results.find((item) => item.id === "damage")?.expected, "Fischl C6 amplified Witch ATK must increase her skill damage");
+            const baseC6Hit = witchBaseOn.results.find((item) => item.effectId === "c_10000031_6_1_resolved_2");
+            const amplifiedC6Hit = witchOn.results.find((item) => item.effectId === "c_10000031_6_1_resolved_2");
+            assert.equal(baseC6Hit?.multiplier, 30, "Fischl C6 Witch amplification must not change the C6 hit coefficient");
+            assert.equal(amplifiedC6Hit?.multiplier, 30, "Fischl C6 Witch amplification must leave the C6 hit coefficient at 30%");
+            assert.ok(amplifiedC6Hit.expected > baseC6Hit.expected, "Fischl C6 hit damage must increase from the amplified stats");
+            await setMainOption(witchAmpKey, "inactive");
+            const witchAmpOff = await fischlPayload();
+            assert.equal(witchAmpOff.effectiveStats.atk, witchBaseOn.effectiveStats.atk, "disabling C6 amplification must restore base Witch ATK");
+            assert.equal(witchAmpOff.effectiveStats.elementalMastery, witchBaseOn.effectiveStats.elementalMastery, "disabling C6 amplification must restore base Witch EM");
+            await setMainOption(witchKeys[0], "unlocked");
+            await setMainOption(witchKeys[1], "unlocked");
+            await setMainOption(witchAmpKey, "active");
+            const ampWithoutBase = await fischlPayload();
+            assert.equal(ampWithoutBase.effectiveStats.atk, witchOff.effectiveStats.atk, "C6 amplification must not apply without the base Witch ATK effect");
+            assert.equal(ampWithoutBase.effectiveStats.elementalMastery, witchOff.effectiveStats.elementalMastery, "C6 amplification must not apply without the base Witch EM effect");
+            assertFischlReplay(witchOff, "Fischl Witch buffs inactive");
+            assertFischlReplay(witchBaseOn, "Fischl Witch buffs active, C6 amplification inactive");
+            assertFischlReplay(witchOn, "Fischl Witch buffs active");
+            assertFischlReplay(witchAmpOff, "Fischl C6 amplification returned inactive");
+            assertFischlReplay(ampWithoutBase, "Fischl C6 amplification without base Witch effects");
+            return {
+                neutralResultCount: neutral.results.length,
+                c1Hit: c1Hits[0],
+                a4Hit: a4Hits[0],
+                c2Addition: c2.additiveBaseDamage,
+                c4Hit: c4,
+                c6Hit: c6Hits[0],
+                witch: { atkBefore: witchOff.effectiveStats.atk, atkBase: witchBaseOn.effectiveStats.atk, atkAfter: witchOn.effectiveStats.atk, emBefore: witchOff.effectiveStats.elementalMastery, emBase: witchBaseOn.effectiveStats.elementalMastery, emAfter: witchOn.effectiveStats.elementalMastery, electroChargedBefore: reactionResult(witchOff).expected, electroChargedBase: reactionResult(witchBaseOn).expected, electroChargedAfter: reactionResult(witchOn).expected, c6Multiplier: amplifiedC6Hit.multiplier, c6DamageBase: baseC6Hit.expected, c6DamageAmplified: amplifiedC6Hit.expected }
+            };
+        };
+        const fischlCurrentCalc = {
+            a1: await fischlA1(),
+            constellationDamage: await fischlConstellationDamage()
         };
 
         await clearSupportMembers();
@@ -1570,6 +1927,12 @@ async function clickAndWait(client, selector) {
                 c1: { behaviorVisible: xiaoC1.behaviorVisible, modifierVisible: xiaoC1.modifierVisible, dedicatedInputCount: xiaoC1.dedicatedInputCount },
                 backToC0: { behaviorVisible: xiaoBackToC0.behaviorVisible, modifierVisible: xiaoBackToC0.modifierVisible }
             },
+            witchUiProduction: {
+                fischlEm: witchUiProduction.fischl.on,
+                fischlAtk: witchUiProduction.fischlAtk.on,
+                fischlC6Amplification: witchUiProduction.fischlC6Amplification
+            },
+            fischlCurrentCalc,
             statLabels: {
                 elementalMastery: statLabelPresentation.resolverElementalMastery,
                 atk: statLabelPresentation.resolverAttack

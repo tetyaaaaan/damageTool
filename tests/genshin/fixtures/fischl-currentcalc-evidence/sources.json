@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "characterId": "10000031",
+  "purpose": "CurrentCalc supplemental source comparison only",
+  "canonicalPromoted": false,
+  "sources": [
+    {
+      "provider": "Genshin Optimizer",
+      "revision": "180a0a1015cb725c7570cd828eb086749960df98",
+      "url": "https://raw.githubusercontent.com/frzyc/genshin-optimizer/180a0a1015cb725c7570cd828eb086749960df98/libs/gi/sheets/src/Characters/Fischl/index.tsx",
+      "artifact": "optimizer-fischl.tsx",
+      "capturedAt": "2026-09-30T14:05:44.888439+00:00",
+      "gameVersion": null,
+      "versionQualification": "Repository revision only; not a game-version proof or canonical promotion. Supplemental interpretation of existing saved Fischl text.",
+      "scope": [
+        "A1 charged scaling",
+        "C2 summon additive coefficient",
+        "C1/C4/C6 damage categories"
+      ],
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "ef44b18bf65e08ac3b04c73ad82b9e00ea18c99f245fc4b3497b49c48c0c7b0e",
+        "bytes": 13703
+      }
+    },
+    {
+      "provider": "gcsim",
+      "revision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+      "url": "https://raw.githubusercontent.com/genshinsim/gcsim/3647a07a7cc3004bc1e79d9bb5f7444de20dceaa/internal/characters/fischl/skill.go",
+      "artifact": "gcsim-skill.go",
+      "capturedAt": "2026-09-30T14:05:45.151381+00:00",
+      "gameVersion": null,
+      "versionQualification": "Repository revision only; not a game-version proof or canonical promotion. Supplemental interpretation of existing saved Fischl text.",
+      "scope": [
+        "C2 same summon hit +200% ATK"
+      ],
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "654f4a57a418bc1926a791133717b7a1984079844db6e87422f496feeccca069",
+        "bytes": 6087
+      }
+    }
+  ],
+  "unresolvedFindings": [],
+  "userConfirmedSpecifications": [
+    {
+      "confirmedAt": "2026-10-01",
+      "scope": "7.0 CurrentCalc",
+      "source": "Direct user external-confirmation message in this task",
+      "effect": "After an Oz C6 coordinated attack, for 10 seconds Witch ATK and EM buffs increase by an additional 100%.",
+      "currentCalc": {
+        "manualCondition": "fischl-c6-witch-amplification",
+        "requiresOriginalBuff": true,
+        "atkPercent": {
+          "base": 22.5,
+          "amplified": 45
+        },
+        "elementalMastery": {
+          "base": 90,
+          "amplified": 180
+        },
+        "coordinatedAttackAtkPercent": 30
+      },
+      "excluded": "Automatic expiry and elapsed-time state transitions are FutureDPS.",
+      "canonicalPromoted": false
+    }
+  ]
+}
