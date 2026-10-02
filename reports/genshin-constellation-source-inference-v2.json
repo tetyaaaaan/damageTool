@@ -1126,7 +1126,7 @@
         "applyTo": [
           "normalAttack"
         ],
-        "condition": "conditional",
+        "condition": "active",
         "calculationSupport": "custom",
         "uidHandling": "conditional",
         "sourceText": "攻撃を受けた後の10秒間、北斗の通常攻撃に追加で20%の雷元素ダメージが付与される。",
@@ -1140,12 +1140,30 @@
         "unit": "percent",
         "base": "normalAttackDamage",
         "element": "雷",
-        "damageType": "normal",
+        "damageType": "extraDamage",
         "reference": {
           "stat": "atk",
           "source": "self"
         },
-        "customCalculation": "extraDamage"
+        "customCalculation": "extraDamage",
+        "conditionGroupId": "beidou-after-hit",
+        "conditionOptionValue": "active",
+        "conditionInput": {
+          "type": "option",
+          "label": "C4：被撃後の通常攻撃追撃",
+          "help": "攻撃を受けた後10秒間に発生する追撃1ヒットです。元の通常攻撃へ加算しません。",
+          "options": [
+            {
+              "value": "inactive",
+              "label": "追撃なし"
+            },
+            {
+              "value": "active",
+              "label": "被撃後（10秒以内）"
+            }
+          ]
+        },
+        "targetOwner": "self"
       },
       "registry": {
         "verificationStatus": "corroborated",
@@ -1153,7 +1171,7 @@
         "targets": [
           "normalAttack"
         ],
-        "condition": "conditional",
+        "condition": "active",
         "unit": "percent",
         "numericValues": [
           {

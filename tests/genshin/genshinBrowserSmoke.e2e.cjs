@@ -1056,6 +1056,274 @@ async function clickAndWait(client, selector) {
             constellationDamage: await fischlConstellationDamage()
         };
 
+        const beidouPayload = async () => evaluate(client, `(async () => {
+            const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+            const restored = window.GenshinCalcEngine.calculateDamageRequest(
+                payload.calculationRequest,
+                await window.GenshinCalcData.loadGenshinCalcData()
+            );
+            const summarize = (result) => ({
+                id: result.entry?.id,
+                effectId: result.entry?.effectId || "",
+                attackType: result.entry?.attackType,
+                damageType: result.entry?.damageType,
+                element: result.entry?.element,
+                multiplier: result.breakdown?.scalingParts?.[0]?.talentMultiplier ?? null,
+                damageBonus: result.breakdown?.damageBonus ?? null,
+                nonCrit: result.nonCrit,
+                expected: result.expected,
+                additiveBaseDamage: result.breakdown?.additiveBaseDamage || 0,
+                resistance: result.breakdown?.resistance ?? null,
+                resistanceMultiplier: result.breakdown?.resistanceMultiplier ?? null
+            });
+            return {
+                request: payload.calculationRequest,
+                results: payload.results.map(summarize),
+                restoredResults: restored.results.map(summarize),
+                stats: payload.context.effectiveStats || payload.context.stats,
+                baseAtk: payload.context.stats.baseAtk,
+                partyModifiers: (payload.partyModifiers || []).map((item) => ({ id: item.modifier?.id, status: item.status, enabled: item.enabled, resolvedValue: item.resolvedValue }))
+            };
+        })()`);
+        const assertBeidouReplay = (snapshot, label) => {
+            assert.deepEqual(snapshot.restoredResults, snapshot.results, `${label} saved request must reproduce production results`);
+        };
+        const setMainStack = async (key, value) => {
+            const selector = `[data-genshin-condition-key="${key}"]`;
+            await waitFor(client, `Boolean(document.querySelector(${JSON.stringify(selector)}))`);
+            await evaluate(client, `(() => {
+                const input = document.querySelector(${JSON.stringify(selector)});
+                input.value = ${JSON.stringify(String(value))};
+                input.dispatchEvent(new Event("input", { bubbles: true }));
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+                return input.value;
+            })()`);
+            await delay(150);
+        };
+        const beidouSelfCurrentCalc = async () => {
+            await clearSupportMembers();
+            await evaluate(client, selectionExpression({ characterName: "北斗", characterId: "10000024", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 }));
+            await setReactionOption("electroCharged");
+            await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+            const passiveKey = "talent:passive2:group:beidou-max-counter-buff";
+            const counterKey = "talent:combat2:group:beidou-counter";
+            await setMainOption(passiveKey, "inactive");
+            await setMainStack(counterKey, 0);
+            const passiveOff = await beidouPayload();
+            await setMainOption(passiveKey, "active");
+            const passiveOn = await beidouPayload();
+            const selectByType = (snapshot, type) => snapshot.results.filter((item) => item.attackType === type && !item.effectId);
+            for (const type of ["normalAttack", "chargedAttack"]) {
+                const before = selectByType(passiveOff, type);
+                const after = selectByType(passiveOn, type);
+                assert.ok(before.length && before.length === after.length, `Beidou passive 2 must preserve ${type} entries`);
+                for (const item of after) {
+                    const old = before.find((candidate) => candidate.id === item.id);
+                    assert.ok(old, `Beidou passive 2 must preserve ${type} result ${item.id}`);
+                    assert.equal(item.damageBonus - old.damageBonus, 15, `Beidou passive 2 must add 15% to ${type} result ${item.id}`);
+                    assert.ok(item.expected > old.expected, `Beidou passive 2 must increase ${type} result ${item.id}`);
+                }
+            }
+            for (const type of ["skill", "burst"]) {
+                assert.deepEqual(selectByType(passiveOn, type), selectByType(passiveOff, type), `Beidou passive 2 must not change ${type} damage`);
+            }
+            const passiveState = passiveOn.request.uiState.conditionByModifier?.[passiveKey]
+                || passiveOn.request.uiState.complexConditionByModifier?.[passiveKey];
+            assert.equal(passiveState?.option, "active", "Beidou passive 2 option must be saved in the request");
+            assertBeidouReplay(passiveOff, "Beidou passive 2 inactive");
+            assertBeidouReplay(passiveOn, "Beidou passive 2 active");
+
+            await setMainStack(counterKey, 1);
+            const counterOne = await beidouPayload();
+            await setMainStack(counterKey, 2);
+            const counterTwo = await beidouPayload();
+            const skillAt = (snapshot) => snapshot.results.find((item) => item.id === "damage");
+            const counterOneState = counterOne.request.uiState.conditionByModifier?.[counterKey] || counterOne.request.uiState.complexConditionByModifier?.[counterKey];
+            const counterTwoState = counterTwo.request.uiState.conditionByModifier?.[counterKey] || counterTwo.request.uiState.complexConditionByModifier?.[counterKey];
+            assert.equal(counterOneState?.stack, 1,
+                "Beidou one-count counter state must be saved");
+            assert.equal(counterTwoState?.stack, 2,
+                "Beidou two-count perfect-counter state must be saved");
+            assert.ok(skillAt(counterOne) && skillAt(counterTwo), "Beidou skill result must be present for the counter stack check");
+            const perCounterAdditive = counterOne.stats.atk * 2.88;
+            assert.ok(Math.abs(skillAt(counterOne).additiveBaseDamage - skillAt(passiveOn).additiveBaseDamage - perCounterAdditive) < 1e-6,
+                "Beidou counter stack 1 must add 288% of base ATK to only the skill entry");
+            assert.ok(Math.abs(skillAt(counterTwo).additiveBaseDamage - skillAt(counterOne).additiveBaseDamage - perCounterAdditive) < 1e-6,
+                "Beidou counter stack 2 must add another 288% of base ATK");
+            assert.deepEqual(selectByType(counterTwo, "normalAttack"), selectByType(counterOne, "normalAttack"));
+            assert.deepEqual(selectByType(counterTwo, "burst"), selectByType(counterOne, "burst"));
+            assertBeidouReplay(counterOne, "Beidou counter stack 1");
+            assertBeidouReplay(counterTwo, "Beidou counter stack 2");
+
+            await evaluate(client, selectionExpression({ characterName: "北斗", characterId: "10000024", weaponName: "", weaponId: "", constellation: "C4", atk: 2000, def: 1000 }));
+            await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+            const c4Key = "constellation:C4:group:beidou-after-hit";
+            await setMainOption(passiveKey, "inactive");
+            await setMainOption(c4Key, "inactive");
+            const c4Off = await beidouPayload();
+            await setMainOption(c4Key, "active");
+            const c4On = await beidouPayload();
+            const optionState = (snapshot, key) => snapshot.request.uiState.conditionByModifier?.[key]
+                || snapshot.request.uiState.complexConditionByModifier?.[key];
+            assert.equal(optionState(c4Off, passiveKey)?.option, "inactive", "Beidou C4 baseline must start with passive 2 inactive");
+            assert.equal(optionState(c4On, passiveKey)?.option, "inactive", "Beidou C4 alone must retain passive 2 inactive");
+            const c4Id = "c_10000024_4_1";
+            const c4Hits = c4On.results.filter((item) => item.effectId.startsWith(c4Id));
+            assert.ok(c4Hits.length > 0, "Beidou C4 must add its after-hit extra damage to normal attacks");
+            assert.ok(c4Hits.every((item) => item.attackType === "extraDamage" && item.damageType === "extraDamage" && /^(雷|electro)$/i.test(item.element)),
+                `Beidou C4 extra damage must be an Electro extraDamage entry: ${JSON.stringify(c4Hits.map((item) => ({ id: item.id, effectId: item.effectId, attackType: item.attackType, damageType: item.damageType, element: item.element })))}`);
+            assert.ok(c4Hits.every((item) => item.nonCrit > 0));
+            const originalNormal = (snapshot) => snapshot.results.filter((item) => item.attackType === "normalAttack" && !item.effectId);
+            assert.deepEqual(originalNormal(c4On), originalNormal(c4Off), "Beidou C4 must leave original normal hits unchanged");
+            for (const type of ["skill", "burst"]) assert.deepEqual(selectByType(c4On, type), selectByType(c4Off, type), `Beidou C4 extra hit must not alter ${type} damage`);
+            await setMainOption(passiveKey, "active");
+            const c4WithPassive2 = await beidouPayload();
+            assert.equal(optionState(c4WithPassive2, passiveKey)?.option, "active", "Beidou passive 2 must be active in the C4 interaction comparison");
+            assert.deepEqual(c4WithPassive2.results.filter((item) => item.effectId.startsWith(c4Id)), c4Hits,
+                "Beidou passive 2 normal bonus must not increase the C4 extraDamage proc");
+            const passive2Normal = originalNormal(c4WithPassive2);
+            assert.equal(passive2Normal.length, originalNormal(c4On).length);
+            for (const item of passive2Normal) {
+                const old = originalNormal(c4On).find((candidate) => candidate.id === item.id);
+                assert.equal(item.damageBonus - old.damageBonus, 15, `Beidou passive 2 must add 15% to original normal hit ${item.id}`);
+                assert.ok(item.expected > old.expected, `Beidou passive 2 must increase original normal hit ${item.id}`);
+            }
+            assertBeidouReplay(c4Off, "Beidou C4 after-hit inactive");
+            assertBeidouReplay(c4On, "Beidou C4 after-hit active");
+            assertBeidouReplay(c4WithPassive2, "Beidou C4 extraDamage isolated from passive 2");
+
+            await evaluate(client, selectionExpression({ characterName: "北斗", characterId: "10000024", weaponName: "", weaponId: "", constellation: "C6", atk: 2000, def: 1000 }));
+            await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+            const c6Key = "constellation:C6:group:witch-revelation-beidou-c6";
+            const c6Selector = `[data-genshin-condition-key="${c6Key}"]`;
+            assert.equal(await evaluate(client, `document.querySelectorAll(${JSON.stringify(c6Selector)}).length`), 1,
+                "Beidou C6 and Witch conditions must share one state control");
+            await setMainOption(c6Key, "unlocked");
+            const c6Off = await beidouPayload();
+            await setMainOption(c6Key, "burst");
+            const c6Burst = await beidouPayload();
+            await setMainOption(c6Key, "active");
+            const c6Witch = await beidouPayload();
+            const electroSkill = (snapshot) => snapshot.results.find((item) => item.id === "damage" && /^(雷|electro)$/i.test(item.element));
+            assert.ok(Number.isFinite(electroSkill(c6Off)?.resistance), "Beidou Electro skill must expose its baseline enemy resistance");
+            assert.equal(electroSkill(c6Burst)?.resistance, electroSkill(c6Off)?.resistance - 15,
+                "ordinary Beidou C6 burst state must lower enemy Electro resistance by 15 points");
+            assert.equal(electroSkill(c6Witch)?.resistance, electroSkill(c6Burst)?.resistance,
+                "Witch-active Beidou C6 must retain the ordinary Electro resistance reduction");
+            assert.equal(c6Witch.stats.elementalMastery - c6Burst.stats.elementalMastery, 200,
+                "Witch-active Beidou C6 must grant 200 EM to the active Beidou");
+            const reaction = (snapshot) => snapshot.results.find((item) => item.attackType === "reaction")?.expected;
+            if (reaction(c6Burst) !== undefined && reaction(c6Burst) > 0) {
+                assert.ok(reaction(c6Witch) > reaction(c6Burst), "Beidou C6 Witch EM must increase her Electro-Charged damage");
+            }
+            const c6State = (snapshot) => snapshot.request.uiState.conditionByModifier?.[c6Key]
+                || snapshot.request.uiState.complexConditionByModifier?.[c6Key];
+            assert.equal(c6State(c6Off)?.option, "unlocked");
+            assert.equal(c6State(c6Burst)?.option, "burst");
+            assert.equal(c6State(c6Witch)?.option, "active");
+            assertBeidouReplay(c6Off, "Beidou C6 condition inactive");
+            assertBeidouReplay(c6Burst, "Beidou C6 burst state");
+            assertBeidouReplay(c6Witch, "Beidou C6 Witch active");
+            return {
+                passive2: { normalBefore: selectByType(passiveOff, "normalAttack")[0]?.expected, normalAfter: selectByType(passiveOn, "normalAttack")[0]?.expected, chargedBefore: selectByType(passiveOff, "chargedAttack")[0]?.expected, chargedAfter: selectByType(passiveOn, "chargedAttack")[0]?.expected },
+                counterAdditive: [skillAt(passiveOn).additiveBaseDamage, skillAt(counterOne).additiveBaseDamage, skillAt(counterTwo).additiveBaseDamage],
+                c4ExtraHitCount: c4Hits.length,
+                c6: { electroResistanceBurst: electroSkill(c6Burst)?.resistance, electroResistanceWitch: electroSkill(c6Witch)?.resistance, emBurst: c6Burst.stats.elementalMastery, emWitch: c6Witch.stats.elementalMastery }
+            };
+        };
+        const beidouPartyC6Witch = async () => {
+            await clearSupportMembers();
+            const selection = { characterName: "甘雨", characterId: "10000037", weaponName: "", weaponId: "", constellation: "C0", atk: 2000, def: 1000 };
+            await evaluate(client, selectionExpression(selection));
+            const selected = await evaluate(client, `(() => {
+                const member = window.GenshinPartyState.characterForId("10000024");
+                const result = window.GenshinPartyState.setPartySelection(2, "character", member);
+                const constellation = document.getElementById("genshinPartyConstellation2");
+                constellation.value = "6";
+                constellation.dispatchEvent(new Event("change", { bubbles: true }));
+                return result;
+            })()`);
+            assert.equal(selected, true, "Beidou must be selectable as a C6 party support");
+            await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
+            const key = "party:2:10000024:group:witch-revelation-beidou-c6";
+            const selector = `[data-genshin-party-condition-key="${key}"]`;
+            assert.equal(await evaluate(client, `document.querySelectorAll(${JSON.stringify(selector)}).length`), 1,
+                "Beidou party Electro/Cryo/EM C6 conditions must share one control");
+            const snapshot = async () => evaluate(client, `(async () => {
+                const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
+                const restored = window.GenshinCalcEngine.calculateDamageRequest(payload.calculationRequest, await window.GenshinCalcData.loadGenshinCalcData());
+                const summarize = (result) => ({
+                    id: result.entry?.id,
+                    effectId: result.entry?.effectId || "",
+                    attackType: result.entry?.attackType,
+                    damageType: result.entry?.damageType,
+                    element: result.entry?.element,
+                    expected: result.expected,
+                    resistance: result.breakdown?.resistance ?? null,
+                    resistanceMultiplier: result.breakdown?.resistanceMultiplier ?? null
+                });
+                return {
+                    results: payload.results.map(summarize),
+                    replay: restored.results.map(summarize),
+                    stats: payload.context.effectiveStats || payload.context.stats,
+                    states: payload.calculationRequest.party.conditionStates,
+                    candidates: payload.partyModifiers.filter((item) => ["c_10000024_6_1", "c_10000024_6_lucid_cryo_res", "c_10000024_6_lucid_active_em"].includes(item.modifier?.id)).map((item) => ({ id: item.modifier.id, status: item.status, enabled: item.enabled, value: item.resolvedValue }))
+                };
+            })()`);
+            const setState = async (value) => {
+                await evaluate(client, `(() => {
+                    const input = document.querySelector(${JSON.stringify(selector)});
+                    input.value = ${JSON.stringify(value)};
+                    input.dispatchEvent(new Event("change", { bubbles: true }));
+                    return input.value;
+                })()`);
+                await delay(150);
+            };
+            await setState("locked");
+            const off = await snapshot();
+            await setState("burst");
+            const burst = await snapshot();
+            await setState("active");
+            const active = await snapshot();
+            const getResult = (data, type) => data.results.find((item) => item.attackType === type && !item.effectId);
+            const getCryoCharged = (data) => data.results.filter((item) => item.attackType === "chargedAttack" && item.element === "氷" && !item.effectId);
+            const getCryoBurst = (data) => data.results.find((item) => item.attackType === "burst" && item.element === "氷" && !item.effectId);
+            const getCandidate = (data, id) => data.candidates.find((item) => item.id === id);
+            assert.equal(burst.states?.[key]?.option, "burst", "Beidou party request must preserve ordinary burst state");
+            assert.equal(active.states?.[key]?.option, "active", "Beidou party request must preserve Witch-active state");
+            assert.equal(getCandidate(burst, "c_10000024_6_1")?.value, -15, "ordinary party Beidou C6 must expose its Electro resistance debuff");
+            assert.equal(getCandidate(burst, "c_10000024_6_lucid_cryo_res")?.value, 0, "ordinary party Beidou C6 must not lower Cryo resistance");
+            assert.equal(getCandidate(active, "c_10000024_6_1")?.value, -15, "Witch-active party Beidou C6 must retain the Electro resistance debuff");
+            assert.equal(getCandidate(active, "c_10000024_6_lucid_cryo_res")?.value, -15, "Witch-active party Beidou C6 must lower Cryo resistance");
+            assert.equal(getCandidate(active, "c_10000024_6_lucid_active_em")?.value, 200, "Witch-active party Beidou C6 must grant 200 EM to the active character");
+            assert.equal(active.stats.elementalMastery - burst.stats.elementalMastery, 200);
+            assert.deepEqual(getCryoCharged(burst), getCryoCharged(off),
+                "ordinary Beidou C6 Electro shred must not change Ganyu's Cryo charged attack");
+            assert.equal(getCryoBurst(burst)?.expected, getCryoBurst(off)?.expected,
+                "ordinary Beidou C6 Electro shred must not change Ganyu's Cryo burst");
+            const chargedBurst = getCryoCharged(burst);
+            const chargedActive = getCryoCharged(active);
+            assert.equal(chargedActive.length, chargedBurst.length, "Witch-active Beidou C6 must preserve Ganyu's Cryo charged hit set");
+            assert.ok(chargedActive.every((item) => item.expected > chargedBurst.find((candidate) => candidate.id === item.id)?.expected),
+                `Witch-active Beidou C6 Cryo shred must increase Ganyu's Cryo charged attack: ${JSON.stringify({
+                    cryoChargedBurst: chargedBurst.map((item) => ({ id: item.id, expected: item.expected, resistance: item.resistance })),
+                    cryoChargedActive: chargedActive.map((item) => ({ id: item.id, expected: item.expected, resistance: item.resistance })),
+                    candidates: active.candidates
+                })}`);
+            assert.ok(getCryoBurst(active)?.expected > getCryoBurst(burst)?.expected,
+                "Witch-active Beidou C6 Cryo shred must increase Ganyu's Cryo burst");
+            assert.equal(getResult(active, "normalAttack")?.expected, getResult(burst, "normalAttack")?.expected,
+                "Witch-active Beidou C6 Cryo shred must not change Ganyu's physical normal attack");
+            for (const [state, label] of [[off, "inactive"], [burst, "burst"], [active, "Witch active"]]) {
+                assert.deepEqual(state.replay, state.results, `Beidou party C6 ${label} saved request must reproduce production results`);
+            }
+            return { cryoCharged: { off: getCryoCharged(off).map((item) => item.expected), burst: chargedBurst.map((item) => item.expected), active: chargedActive.map((item) => item.expected) }, cryoBurst: { off: getCryoBurst(off)?.expected, burst: getCryoBurst(burst)?.expected, active: getCryoBurst(active)?.expected }, normal: { burst: getResult(burst, "normalAttack")?.expected, active: getResult(active, "normalAttack")?.expected }, em: { burst: burst.stats.elementalMastery, active: active.stats.elementalMastery } };
+        };
+        const beidouCurrentCalc = {
+            self: await beidouSelfCurrentCalc(),
+            partyC6Witch: await beidouPartyC6Witch()
+        };
+
         await clearSupportMembers();
         await evaluate(client, selectionExpression({ characterName: "アルベド", characterId: "10000038", weaponName: "", weaponId: "", constellation: "C2", atk: 1000, def: 2000 }));
         await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
@@ -1933,6 +2201,7 @@ async function clickAndWait(client, selector) {
                 fischlC6Amplification: witchUiProduction.fischlC6Amplification
             },
             fischlCurrentCalc,
+            beidouCurrentCalc,
             statLabels: {
                 elementalMastery: statLabelPresentation.resolverElementalMastery,
                 atk: statLabelPresentation.resolverAttack

@@ -390,10 +390,16 @@
         "sourceId": "combat2",
         "modifiers": [
           {
-            "category": "damageBonus",
+            "id": "t_10000024_combat2_counter",
+            "category": "additiveBaseDamage",
             "applyTo": [
-              "allDamageBonus"
+              "skill"
             ],
+            "targetEffect": "damage",
+            "reference": {
+              "stat": "atk",
+              "source": "self"
+            },
             "valueByLevel": {
               "1": 160.0,
               "2": 172.0,
@@ -411,15 +417,71 @@
               "14": 360.0,
               "15": 380.0
             },
+            "valuePerStackByLevel": true,
+            "levelSource": "skill",
             "unit": "percent",
-            "condition": "active",
-            "calculationSupport": "toggle",
+            "condition": "counterStacks",
+            "calculationSupport": "stack",
+            "uidHandling": "conditional",
+            "conditionGroupId": "beidou-counter",
+            "stack": {
+              "min": 0,
+              "max": 2,
+              "default": 0
+            },
+            "conditionInput": {
+              "type": "stack",
+              "label": "浪追いの反撃段階",
+              "min": 0,
+              "max": 2,
+              "help": "0：短押し／被撃なし、1：被撃1回、2：被撃2回／完全なる霊光の反撃。現在の1ヒットだけを計算します。"
+            },
+            "targetOwner": "self",
+            "effectLabel": "浪追い：被撃段階の基礎ダメージ加算",
             "valueSource": {
               "type": "talentAttribute",
               "section": "combat2",
               "param": "param4",
               "label": "被撃時ダメージアップ"
-            }
+            },
+            "sourceText": "スキル期間中に受けた攻撃の回数により、与えるダメージを最大2回までアップさせる。"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "id": "t_10000024_passive2_damage",
+            "category": "damageBonus",
+            "applyTo": [
+              "normalAttackDamageBonus",
+              "chargedAttackDamageBonus"
+            ],
+            "value": 15,
+            "unit": "percent",
+            "condition": "active",
+            "conditionInput": {
+              "type": "option",
+              "label": "最大反撃後の通常・重撃強化",
+              "help": "最大ダメージの浪追い発動後10秒間の状態です。現在の浪追いの反撃段階とは別に指定します。攻撃速度・重撃時間は計算しません。",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "強化なし"
+                },
+                {
+                  "value": "active",
+                  "label": "最大反撃後（10秒以内）"
+                }
+              ]
+            },
+            "conditionGroupId": "beidou-max-counter-buff",
+            "conditionOptionValue": "active",
+            "targetOwner": "self",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional",
+            "sourceText": "最大ダメージアップ効果のある浪追いを発動した後の10秒間、通常攻撃と重撃の攻撃速度+15%、攻撃ダメージ+15%。重撃に必要な時間が大幅に減少する。"
           }
         ]
       }

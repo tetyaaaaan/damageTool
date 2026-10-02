@@ -23,8 +23,8 @@
     "effects": 755,
     "byVerificationStatus": {
       "mechanicOnly": 68,
-      "corroborated": 453,
-      "textVerified": 200,
+      "corroborated": 452,
+      "textVerified": 201,
       "quarantined": 32,
       "sourceContextRequired": 2
     },
@@ -2530,7 +2530,7 @@
               "targets": [
                 "normalAttack"
               ],
-              "condition": "conditional",
+              "condition": "active",
               "unit": "percent",
               "numericValues": [
                 {
@@ -2593,22 +2593,32 @@
               "targets": [
                 "electroResistance"
               ],
-              "condition": "constellationUnlocked",
+              "condition": "active",
               "unit": "percent",
               "numericValues": [
                 {
-                  "field": "value",
+                  "field": "valueByCondition.locked",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.unlocked",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.burst",
+                  "value": -15
+                },
+                {
+                  "field": "valueByCondition.active",
                   "value": -15
                 }
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "corroborated",
+              "verificationStatus": "textVerified",
               "evidence": {
                 "officialTextValueMatch": true,
-                "externalNumericHints": [
-                  "genshinOptimizer"
-                ]
+                "externalNumericHints": []
               }
             },
             {
@@ -2631,6 +2641,10 @@
                 {
                   "field": "valueByCondition.active",
                   "value": -15
+                },
+                {
+                  "field": "valueByCondition.burst",
+                  "value": 0
                 }
               ],
               "requiresNumericValue": true,
@@ -2661,6 +2675,10 @@
                 {
                   "field": "valueByCondition.active",
                   "value": 200
+                },
+                {
+                  "field": "valueByCondition.burst",
+                  "value": 0
                 }
               ],
               "requiresNumericValue": true,
@@ -26421,7 +26439,7 @@
       "targets": [
         "normalAttack"
       ],
-      "condition": "conditional",
+      "condition": "active",
       "unit": "percent",
       "numericValues": [
         {
@@ -26474,22 +26492,32 @@
       "targets": [
         "electroResistance"
       ],
-      "condition": "constellationUnlocked",
+      "condition": "active",
       "unit": "percent",
       "numericValues": [
         {
-          "field": "value",
+          "field": "valueByCondition.locked",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.unlocked",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.burst",
+          "value": -15
+        },
+        {
+          "field": "valueByCondition.active",
           "value": -15
         }
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "corroborated",
+      "verificationStatus": "textVerified",
       "evidence": {
         "officialTextValueMatch": true,
-        "externalNumericHints": [
-          "genshinOptimizer"
-        ]
+        "externalNumericHints": []
       }
     },
     "c_10000024_6_lucid_cryo_res": {
@@ -26514,6 +26542,10 @@
         {
           "field": "valueByCondition.active",
           "value": -15
+        },
+        {
+          "field": "valueByCondition.burst",
+          "value": 0
         }
       ],
       "requiresNumericValue": true,
@@ -26546,6 +26578,10 @@
         {
           "field": "valueByCondition.active",
           "value": 200
+        },
+        {
+          "field": "valueByCondition.burst",
+          "value": 0
         }
       ],
       "requiresNumericValue": true,

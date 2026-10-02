@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "characterId": "10000024",
+  "purpose": "CurrentCalc supplemental skill equation and C4 damage-type comparison only",
+  "canonicalPromoted": false,
+  "sources": [
+    {
+      "provider": "Genshin Optimizer",
+      "revision": "180a0a1015cb725c7570cd828eb086749960df98",
+      "url": "https://raw.githubusercontent.com/frzyc/genshin-optimizer/180a0a1015cb725c7570cd828eb086749960df98/libs/gi/sheets/src/Characters/Beidou/index.tsx",
+      "artifact": "optimizer-beidou.tsx",
+      "capturedAt": "2026-10-02T03:12:07.602655+00:00",
+      "gameVersion": null,
+      "versionQualification": "Fixed repository revision only. Supplemental interpretation of existing saved Beidou param3/param4; not canonical game-version proof.",
+      "scope": [
+        "Skill base + param4 × counter 0..2",
+        "C4 untyped Electro 20% ATK; normal attack is its trigger, not damage category"
+      ],
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "6c3bd81ffb199a4a7a995d395bc48d61a9dd35e72fdbdb788f5d840764965ba9",
+        "bytes": 12755
+      }
+    },
+    {
+      "provider": "gcsim",
+      "revision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+      "url": "https://raw.githubusercontent.com/genshinsim/gcsim/3647a07a7cc3004bc1e79d9bb5f7444de20dceaa/internal/characters/beidou/skill.go",
+      "artifact": "gcsim-skill.go",
+      "capturedAt": "2026-10-02T03:12:07.685336+00:00",
+      "gameVersion": null,
+      "versionQualification": "Fixed repository revision only. Supplemental interpretation of existing saved Beidou param3/param4; not canonical game-version proof.",
+      "scope": "Skill damage = ATK × (param3 + param4 × clamped counter 0..2) / 100",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "65c08e81af17039b5a5e311a6eb433fea0175e4acd54207c376ad9b162de36f4",
+        "bytes": 2917
+      }
+    },
+    {
+      "provider": "gcsim",
+      "revision": "3647a07a7cc3004bc1e79d9bb5f7444de20dceaa",
+      "url": "https://raw.githubusercontent.com/genshinsim/gcsim/3647a07a7cc3004bc1e79d9bb5f7444de20dceaa/internal/characters/beidou/cons.go",
+      "artifact": "gcsim-cons.go",
+      "capturedAt": "2026-10-02T03:22:16.089810+00:00",
+      "gameVersion": null,
+      "versionQualification": "Fixed repository revision only, not canonical game-version proof. Supplemental interpretation of existing C4 source text.",
+      "scope": "C4 AttackTagNone, Electro, Mult0.2",
+      "integrity": {
+        "algorithm": "sha256",
+        "digest": "4c2726cd3d4756b61d6fc63315267666dac7ef0b9f800c3137bd8aad91947a26",
+        "bytes": 1723
+      }
+    }
+  ]
+}

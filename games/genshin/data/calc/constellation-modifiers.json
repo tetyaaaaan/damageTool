@@ -1358,7 +1358,7 @@
           "applyTo": [
             "normalAttack"
           ],
-          "condition": "conditional",
+          "condition": "active",
           "calculationSupport": "custom",
           "uidHandling": "conditional",
           "sourceText": "攻撃を受けた後の10秒間、北斗の通常攻撃に追加で20%の雷元素ダメージが付与される。",
@@ -1372,13 +1372,30 @@
           "unit": "percent",
           "base": "normalAttackDamage",
           "element": "雷",
-          "damageType": "normal",
+          "damageType": "extraDamage",
           "reference": {
             "stat": "atk",
             "source": "self"
           },
           "customCalculation": "extraDamage",
-          "element": "雷"
+          "conditionGroupId": "beidou-after-hit",
+          "conditionOptionValue": "active",
+          "conditionInput": {
+            "type": "option",
+            "label": "C4：被撃後の通常攻撃追撃",
+            "help": "攻撃を受けた後10秒間に発生する追撃1ヒットです。元の通常攻撃へ加算しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "追撃なし"
+              },
+              {
+                "value": "active",
+                "label": "被撃後（10秒以内）"
+              }
+            ]
+          },
+          "targetOwner": "self"
         }
       ],
       "5": [
@@ -1403,12 +1420,44 @@
           "applyTo": [
             "electroResistance"
           ],
-          "value": -15,
           "unit": "percent",
           "sourceText": "雷斫り継続中、周囲の敵の雷元素耐性-15%。",
-          "condition": "constellationUnlocked",
+          "condition": "active",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "conditionGroupId": "witch-revelation-beidou-c6",
+          "conditionInput": {
+            "type": "option",
+            "label": "雷斫り／魔女の啓示の状態",
+            "help": "通常C6の雷耐性低下は雷斫り中に適用します。魔女強化は啓示解放・輝映・星電導・雷斫りの全条件が成立した状態だけに適用します。",
+            "options": [
+              {
+                "value": "locked",
+                "label": "魔女の啓示未解放・雷斫りなし"
+              },
+              {
+                "value": "unlocked",
+                "label": "解放済み・雷斫りなし"
+              },
+              {
+                "value": "burst",
+                "label": "雷斫り中（魔女強化条件なし）"
+              },
+              {
+                "value": "active",
+                "label": "解放済み＋雷斫り中＋輝映・星電導"
+              }
+            ]
+          },
+          "conditionInputActivates": true,
+          "valueByCondition": {
+            "locked": 0,
+            "unlocked": 0,
+            "burst": -15,
+            "active": -15
+          },
+          "targetOwner": "enemy",
+          "effectLabel": "雷斫り中：雷元素耐性低下"
         },
         {
           "id": "c_10000024_6_lucid_cryo_res",
@@ -1420,19 +1469,33 @@
           "valueByCondition": {
             "locked": 0,
             "unlocked": 0,
-            "active": -15
+            "active": -15,
+            "burst": 0
           },
           "unit": "percent",
           "sourceText": "「魔女の啓示」を解放済みで輝映・星電導状態にある時、雷斫り継続中、近くの敵の氷元素耐性-15%。",
           "condition": "active",
           "conditionInput": {
             "type": "option",
-            "label": "魔女の啓示／雷斫りの状態",
-            "help": "啓示の解放状態と、雷斫り継続中に輝映・星電導が有効かを選択します。",
+            "label": "雷斫り／魔女の啓示の状態",
+            "help": "通常C6の雷耐性低下は雷斫り中に適用します。魔女強化は啓示解放・輝映・星電導・雷斫りの全条件が成立した状態だけに適用します。",
             "options": [
-              { "value": "locked", "label": "魔女の啓示：未解放" },
-              { "value": "unlocked", "label": "解放済み（条件未成立）" },
-              { "value": "active", "label": "解放済み＋雷斫り中＋輝映・星電導" }
+              {
+                "value": "locked",
+                "label": "魔女の啓示未解放・雷斫りなし"
+              },
+              {
+                "value": "unlocked",
+                "label": "解放済み・雷斫りなし"
+              },
+              {
+                "value": "burst",
+                "label": "雷斫り中（魔女強化条件なし）"
+              },
+              {
+                "value": "active",
+                "label": "解放済み＋雷斫り中＋輝映・星電導"
+              }
             ]
           },
           "conditionGroupId": "witch-revelation-beidou-c6",
@@ -1443,7 +1506,8 @@
             "status": "needsReview",
             "sourceAgreement": "singleSource",
             "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のBeidou C6 upgradedDescription・生成係数と照合。独立したversion-bound provider agreementは未成立。"
-          }
+          },
+          "conditionInputActivates": true
         },
         {
           "id": "c_10000024_6_lucid_active_em",
@@ -1455,19 +1519,33 @@
           "valueByCondition": {
             "locked": 0,
             "unlocked": 0,
-            "active": 200
+            "active": 200,
+            "burst": 0
           },
           "unit": "flat",
           "sourceText": "「魔女の啓示」を解放済みで輝映・星電導状態にある時、雷斫り継続中、現在のフィールド上キャラクターの元素熟知+200。",
           "condition": "active",
           "conditionInput": {
             "type": "option",
-            "label": "魔女の啓示／雷斫りの状態",
-            "help": "啓示の解放状態と、雷斫り継続中に輝映・星電導が有効かを選択します。",
+            "label": "雷斫り／魔女の啓示の状態",
+            "help": "通常C6の雷耐性低下は雷斫り中に適用します。魔女強化は啓示解放・輝映・星電導・雷斫りの全条件が成立した状態だけに適用します。",
             "options": [
-              { "value": "locked", "label": "魔女の啓示：未解放" },
-              { "value": "unlocked", "label": "解放済み（条件未成立）" },
-              { "value": "active", "label": "解放済み＋雷斫り中＋輝映・星電導" }
+              {
+                "value": "locked",
+                "label": "魔女の啓示未解放・雷斫りなし"
+              },
+              {
+                "value": "unlocked",
+                "label": "解放済み・雷斫りなし"
+              },
+              {
+                "value": "burst",
+                "label": "雷斫り中（魔女強化条件なし）"
+              },
+              {
+                "value": "active",
+                "label": "解放済み＋雷斫り中＋輝映・星電導"
+              }
             ]
           },
           "conditionGroupId": "witch-revelation-beidou-c6",
@@ -1478,7 +1556,8 @@
             "status": "needsReview",
             "sourceAgreement": "singleSource",
             "notes": "固定したGenshin Optimizer revision 180a0a1015cb725c7570cd828eb086749960df98のBeidou C6 upgradedDescription・生成係数と照合。独立したversion-bound provider agreementは未成立。"
-          }
+          },
+          "conditionInputActivates": true
         }
       ]
     }
