@@ -295,15 +295,17 @@ test("Nicole C2 shares one activation across the team attack buff and correspond
     const { sandbox, calcData, request } = requestWithSupport("10000037", {
         characterId: "10000131",
         nameJa: "ニコル",
-        constellation: 2
+        constellation: 2,
+        stats: { atk: 2000 }
     }, { baseAtk: 500, atk: 2000 });
     const before = sandbox.GenshinCalcEngine.calculateDamageRequest(request, calcData);
-    const blessing = before.partyModifiers.filter((candidate) => candidate.modifier.conditionGroupId === "character:10000131:skill:blessing");
+    const blessing = before.partyModifiers.filter((candidate) => candidate.modifier.conditionGroupId === "nicole-guidance");
 
-    assert.equal(blessing.length, 2);
+    assert.equal(blessing.length, 4);
     assert.equal(new Set(blessing.map((candidate) => candidate.toggleKey)).size, 1);
     assert.ok(blessing.every((candidate) => candidate.status === "off"));
 
+    request.party.conditionStates = { [blessing[0].partyConditionStateKey]: { option: "guidance" } };
     request.party.members[1].buffStates[blessing[0].toggleKey] = true;
     const after = sandbox.GenshinCalcEngine.calculateDamageRequest(request, calcData);
     const elemental = after.results.find((result) => result.entry.element === "氷");

@@ -1324,6 +1324,195 @@ async function clickAndWait(client, selector) {
             partyC6Witch: await beidouPartyC6Witch()
         };
 
+
+        const nicoleCurrentCalc = await (async () => {
+            const ids = { c1: "c_10000131_1_1", c4: "c_nicole_4_guidance_blessing_atk_add_v7", c6: "c_10000131_6_1", projection: "t_10000131_combat3_projection" };
+            const select = async (selector, value, enabled = false) => {
+                await waitFor(client, "Boolean(document.querySelector(" + JSON.stringify(selector) + "))");
+                await evaluate(client, "(() => { const el=document.querySelector(" + JSON.stringify(selector) + "); el.value=" + JSON.stringify(value) + "; el.dispatchEvent(new Event('change',{bubbles:true})); const toggle=el.closest('[data-party-buff]')?.querySelector('[data-genshin-party-buff-key]'); if(toggle && toggle.checked !== " + JSON.stringify(enabled) + ") toggle.click(); return true; })()");
+                await delay(150);
+            };
+            const mainOption = (group, value) => select('[data-genshin-condition-key*="' + group + '"]', value);
+            const capture = () => evaluate(client, "(async()=>{const p=await window.GenshinCalcEngine.runGenshinJsonCalc();const d=await window.GenshinCalcData.loadGenshinCalcData();const r=window.GenshinCalcEngine.calculateDamageRequest(p.calculationRequest,d);const f=x=>({id:x.entry?.id||'',effectId:x.entry?.effectId||'',attackType:x.entry?.attackType||'',damageType:x.entry?.damageType||'',element:x.entry?.element||'',canReact:x.entry?.canReact??null,reactionId:x.breakdown?.reaction?.reactionId||'',expected:x.expected,resistance:x.breakdown?.resistance??null,additive:x.breakdown?.additiveBaseDamage??0,defIgnore:x.breakdown?.defenseIgnore??0,statValue:x.breakdown?.scalingParts?.[0]?.statValue??null,multiplier:x.breakdown?.scalingParts?.[0]?.talentMultiplier??null,});return{results:p.results.map(f),replay:r.results.map(f),ui:p.calculationRequest.uiState?.conditionByModifier||{},party:p.calculationRequest.party||{},stats:p.context?.effectiveStats||p.context?.stats||{}};})()");
+            const assertReplay = (s,label) => assert.deepEqual(s.replay,s.results,label+" request replay");
+            const effect = (s,id) => s.results.filter(x=>x.effectId===id||x.effectId.startsWith(id));
+            const normal = s => s.results.find(x=>x.attackType==="normalAttack"&&!x.effectId);
+            const byId = (s,id) => s.results.find(x=>x.id===id||x.effectId===id);
+            await clearSupportMembers();
+            await evaluate(client,selectionExpression({characterName:"ニコル",characterId:"10000131",constellation:"C0",atk:2000}));
+            await clickAndWait(client,"#genshinJsonPrepareConditionsButton");
+            await mainOption("nicole-projection","active");
+            await mainOption("nicole-hexerei","inactive");
+            const selfProjectionAtkOff=await capture();
+            await mainOption("nicole-hexerei","active");
+            const selfProjectionAtkOn=await capture();
+            assert.equal(effect(selfProjectionAtkOff,ids.projection).length,1);
+            assert.equal(effect(selfProjectionAtkOn,ids.projection).length,1);
+            assert.equal(effect(selfProjectionAtkOff,ids.projection)[0].additive,0);
+            assert.equal(effect(selfProjectionAtkOn,ids.projection)[0].additive-effect(selfProjectionAtkOff,ids.projection)[0].additive,6000,"Nicole's Hexerei projection must add 300% of her 2000 ATK to the normal shadow hit");
+            for(const [state,label] of [[selfProjectionAtkOff,"inactive"],[selfProjectionAtkOn,"active"]]) assertReplay(state,"Nicole self Hexerei projection ATK "+label);
+
+            await evaluate(client,selectionExpression({characterName:"ニコル",characterId:"10000131",constellation:"C1",atk:2000}));
+            await clickAndWait(client,"#genshinJsonPrepareConditionsButton");
+            await mainOption("nicole-projection","active");
+            await mainOption("nicole-hexerei","inactive");
+            await mainOption("nicole-c1-projection","inactive");
+            const selfC1Off=await capture();
+            assert.equal(effect(selfC1Off,ids.c1)[0]?.expected??0,0);
+            await mainOption("nicole-hexerei","active");
+            await mainOption("nicole-c1-projection","active");
+            const selfC1On=await capture();
+            const selfHit=effect(selfC1On,ids.c1);
+            assert.equal(selfHit.length,1);
+            assert.deepEqual([selfHit[0].attackType,selfHit[0].damageType,selfHit[0].element,selfHit[0].canReact,selfHit[0].reactionId,selfHit[0].statValue,selfHit[0].multiplier],["extraDamage","extraDamage","炎",false,"none",2000,600]);
+            assert.equal(Object.entries(selfC1On.ui).find(([k])=>k.includes("nicole-c1-projection"))?.[1]?.option,"active");
+            assert.equal(selfHit[0].additive,0,"Nicole C1 remains a 600% hit and receives no Hexerei projection ATK");
+            assert.equal(effect(selfC1On,ids.projection)[0]?.additive-effect(selfC1Off,ids.projection)[0]?.additive,6000,"Hexerei projection ATK applies only to Nicole's normal shadow");
+            for (const id of ["damage", "skilldamage", "burstdamage"]) assert.equal(byId(selfC1On,id)?.expected,byId(selfC1Off,id)?.expected,"Nicole C1 extra hit must not buff the original " + id + " entry");
+            assertReplay(selfC1Off,"Nicole self C1 off"); assertReplay(selfC1On,"Nicole self C1 on");
+
+            await evaluate(client,selectionExpression({characterName:"ニコル",characterId:"10000131",constellation:"C0",atk:5000}));
+            await clickAndWait(client,"#genshinJsonPrepareConditionsButton");
+            await mainOption("nicole-hexerei","inactive");
+            await mainOption("nicole-projection","inactive");
+            await mainOption("nicole-guidance","inactive");
+            const blessingOff=await capture();
+            await mainOption("nicole-guidance","grace");
+            const blessingGrace=await capture();
+            await mainOption("nicole-guidance","guidance");
+            const blessingGuidance=await capture();
+            assert.equal(blessingOff.stats.atk,5000);
+            assert.equal(blessingGrace.stats.atk,5600,"Lv.10 ATK scaling must cap 15% of 5000 at 600");
+            assert.equal(blessingGuidance.stats.atk,5900,"Guidance adds the separate A1 +300 ATK");
+            for(const [state,label] of [[blessingOff,"inactive"],[blessingGrace,"grace"],[blessingGuidance,"guidance"]]) assertReplay(state,"Nicole C0 blessing "+label);
+
+            await evaluate(client,selectionExpression({characterName:"ニコル",characterId:"10000131",constellation:"C2",atk:2000}));
+            await clickAndWait(client,"#genshinJsonPrepareConditionsButton");
+            await mainOption("nicole-hexerei","inactive");
+            await mainOption("nicole-projection","inactive");
+            await mainOption("nicole-guidance","inactive");
+            const c2Off=await capture();
+            await mainOption("nicole-guidance","grace");
+            const c2Grace=await capture();
+            await mainOption("nicole-guidance","guidance");
+            const c2Guidance=await capture();
+            assert.deepEqual([c2Off.stats.atk,c2Grace.stats.atk,c2Guidance.stats.atk],[2000,2600,2900]);
+            assert.equal(byId(c2Grace,"skilldamage")?.resistance,10,"C2 Grace must not lower resistance");
+            assert.equal(byId(c2Guidance,"skilldamage")?.resistance,-15,"C2 Guidance lowers matching Pyro resistance by 25%");
+            for(const [state,label] of [[c2Off,"inactive"],[c2Grace,"grace"],[c2Guidance,"guidance"]]) assertReplay(state,"Nicole C2 "+label);
+
+            await evaluate(client,selectionExpression({characterName:"ニコル",characterId:"10000131",constellation:"C6",atk:2000}));
+            await clickAndWait(client,"#genshinJsonPrepareConditionsButton");
+            await mainOption("nicole-hexerei","inactive");
+            await mainOption("nicole-projection","inactive");
+            await mainOption("nicole-guidance","inactive");
+            const selfC6Off=await capture();
+            assert.equal(normal(selfC6Off)?.defIgnore,0);
+            await mainOption("nicole-guidance","grace");
+            const selfC6Grace=await capture();
+            assert.equal(normal(selfC6Grace)?.defIgnore,0,"Nicole C6 must stay off in Grace");
+            await mainOption("nicole-guidance","guidance");
+            const selfC6On=await capture();
+            assert.equal(normal(selfC6On)?.defIgnore,40,"Nicole C6 applies only in Guidance");
+            assert.ok(normal(selfC6On)?.expected>normal(selfC6Grace)?.expected,"Nicole C6 Guidance must increase self damage");
+            for(const [state,label] of [[selfC6Off,"inactive"],[selfC6Grace,"grace"],[selfC6On,"guidance"]]) assertReplay(state,"Nicole self C6 "+label);
+
+            await evaluate(client,selectionExpression({characterName:"ニコル",characterId:"10000131",constellation:"C0",atk:2000}));
+            await clickAndWait(client,"#genshinJsonPrepareConditionsButton");
+            await mainOption("nicole-guidance","inactive");
+            await mainOption("nicole-projection","inactive");
+            await mainOption("nicole-hexerei","inactive");
+            const qOff=await capture();
+            await mainOption("nicole-projection","active");
+            const qBase=await capture();
+            await mainOption("nicole-hexerei","active");
+            const qOn=await capture();
+            const qHit=effect(qOn,ids.projection);
+            assert.equal(qHit.length,1,"Nicole Burst projection must be one independent hit");
+            assert.deepEqual([qHit[0].attackType,qHit[0].damageType,qHit[0].element,qHit[0].canReact,qHit[0].reactionId,qHit[0].statValue,qHit[0].multiplier],["extraDamage","extraDamage","炎",false,"none",2000,180]);
+            assert.equal(effect(qBase,ids.projection)[0]?.additive,0);
+            assert.equal(qHit[0].additive,6000,"Nicole's Hexerei projection ATK must increase her active Burst shadow");
+            assert.ok(qHit[0].expected>effect(qBase,ids.projection)[0].expected,"Nicole's Hexerei option must increase projection damage");
+            for(const id of ["damage","skilldamage","burstdamage"]) assert.equal(byId(qOn,id)?.expected,byId(qOff,id)?.expected,"Nicole Burst projection must not alter the original "+id+" entry");
+            assertReplay(qOff,"Nicole Burst projection inactive"); assertReplay(qOn,"Nicole Burst projection active");
+
+            await clearSupportMembers();
+            await evaluate(client,selectionExpression({characterName:"甘雨",characterId:"10000037",constellation:"C0",atk:2500,def:1000}));
+            const selected=await evaluate(client,"(()=>{const ok=window.GenshinPartyState.setPartySelection(2,'character',window.GenshinPartyState.characterForId('10000131'));const c=document.getElementById('genshinPartyConstellation2');c.value='6';c.dispatchEvent(new Event('change',{bubbles:true}));const a=document.getElementById('genshinPartyAtk2');a.value='2000';a.dispatchEvent(new Event('input',{bubbles:true}));a.dispatchEvent(new Event('change',{bubbles:true}));return ok;})()");
+            assert.equal(selected,true);
+            await clickAndWait(client,"#genshinJsonPrepareConditionsButton");
+            const meta=await evaluate(client,"(async()=>{const p=window.GenshinCalcConditions.conditionPanelState(window.GenshinCalcEngine.buildCharacterCalcContext(),await window.GenshinCalcData.loadGenshinCalcData());return "+JSON.stringify([ids.c1,ids.c4,ids.c6])+".map(id=>{const x=p.partyModifiers.find(y=>y.modifier?.id===id);return x?{id,key:x.partyConditionStateKey||x.analysis?.conditionStateKey,group:x.modifier.conditionGroupId||''}:{id};});})()");
+            assert.ok(meta.every(x=>x.key),"Nicole party C1/C4/C6 conditions must render: "+JSON.stringify(meta));
+            assert.deepEqual(meta.map(x=>x.group),["nicole-c1-projection","nicole-pathfinder-blessing","nicole-guidance"]);
+            const key=id=>meta.find(x=>x.id===id).key;
+            const partyOption=(id,value,on=false)=>select('[data-genshin-party-condition-key="'+key(id)+'"]',value,on);
+            await partyOption(ids.c1,"inactive"); await partyOption(ids.c4,"inactive"); await partyOption(ids.c6,"inactive");
+            const partyC1Off=await capture();
+            assert.equal(effect(partyC1Off,ids.c1)[0]?.expected??0,0);
+            await partyOption(ids.c1,"active");
+            const partyC1On=await capture();
+            const projected=effect(partyC1On,ids.c1);
+            assert.equal(projected.length,1);
+            assert.deepEqual([projected[0].attackType,projected[0].damageType,projected[0].element,projected[0].canReact,projected[0].reactionId,projected[0].statValue,projected[0].multiplier],["extraDamage","extraDamage","氷",false,"none",2500,600]);
+            assert.equal(partyC1On.party.members.find(x=>x.characterId==="10000131")?.constellation,6);
+            assertReplay(partyC1Off,"Nicole party C1 off"); assertReplay(partyC1On,"Nicole party C1 on");
+
+            await partyOption(ids.c1,"inactive");
+            const partyC4Off=await capture();
+            await partyOption(ids.c4,"active",true);
+            const partyC4On=await capture();
+            const skill=s=>s.results.find(x=>x.id==="skilldamage");
+            assert.ok(skill(partyC4Off)&&skill(partyC4On));
+            assert.equal(skill(partyC4On).additive-skill(partyC4Off).additive,1400,"Nicole C4 must add 70% of provider ATK to Ganyu's skill hit");
+            assert.equal(effect(partyC4On,ids.c4).length,0);
+            assert.equal(partyC4On.party.conditionStates[key(ids.c4)]?.option,"active");
+            assertReplay(partyC4Off,"Nicole party C4 off"); assertReplay(partyC4On,"Nicole party C4 on");
+
+            await partyOption(ids.c4,"inactive"); await partyOption(ids.c6,"inactive");
+            const partyC6Off=await capture();
+            await partyOption(ids.c6,"grace",true);
+            const partyC6Grace=await capture();
+            assert.equal(normal(partyC6Grace)?.defIgnore,0,"Nicole party C6 must stay off in Grace");
+            await partyOption(ids.c6,"guidance",true);
+            const partyC6On=await capture();
+            assert.equal(normal(partyC6On)?.defIgnore,40,"Nicole party C6 applies only in Guidance");
+            assert.ok(normal(partyC6On)?.expected>normal(partyC6Grace)?.expected,"Nicole party C6 Guidance must increase Ganyu damage");
+            assert.equal(partyC6On.party.conditionStates[key(ids.c6)]?.option,"guidance");
+            for(const [state,label] of [[partyC6Off,"inactive"],[partyC6Grace,"grace"],[partyC6On,"guidance"]]) assertReplay(state,"Nicole party C6 "+label);
+            const projectionAtkId="t_10000131_hexerei_projection_atk";
+            const partyModifierKey=async(id)=>evaluate(client,"(async()=>{const p=window.GenshinCalcConditions.conditionPanelState(window.GenshinCalcEngine.buildCharacterCalcContext(),await window.GenshinCalcData.loadGenshinCalcData());const x=p.partyModifiers.find(y=>y.modifier?.id==="+JSON.stringify(id)+");return x?.partyConditionStateKey||x?.analysis?.conditionStateKey||null;})()");
+            const partyModifierOption=(id,value,on=false)=>partyModifierKey(id).then(key=>{assert.ok(key,"Nicole party modifier condition must render: "+id);return select('[data-genshin-party-condition-key="'+key+'"]',value,on);});
+            await clearSupportMembers();
+            await evaluate(client,selectionExpression({characterName:"スクロース",characterId:"10000043",constellation:"C0",atk:2500,def:1000}));
+            const sucroseNicoleSelected=await evaluate(client,"(()=>{const ok=window.GenshinPartyState.setPartySelection(2,'character',window.GenshinPartyState.characterForId('10000131'));const c=document.getElementById('genshinPartyConstellation2');c.value='1';c.dispatchEvent(new Event('change',{bubbles:true}));const a=document.getElementById('genshinPartyAtk2');a.value='2000';a.dispatchEvent(new Event('input',{bubbles:true}));a.dispatchEvent(new Event('change',{bubbles:true}));return ok;})()");
+            assert.equal(sucroseNicoleSelected,true);
+            await clickAndWait(client,"#genshinJsonPrepareConditionsButton");
+            await partyModifierOption(ids.projection,"active");
+            await partyModifierOption(projectionAtkId,"inactive");
+            await partyModifierOption(ids.c1,"active");
+            const sucroseProjectionAtkOff=await capture();
+            await partyModifierOption(projectionAtkId,"active",true);
+            const sucroseProjectionAtkOn=await capture();
+            assert.equal(effect(sucroseProjectionAtkOff,ids.projection).length,1);
+            assert.equal(effect(sucroseProjectionAtkOn,ids.projection).length,1);
+            assert.equal(effect(sucroseProjectionAtkOff,ids.projection)[0].additive,0);
+            assert.equal(effect(sucroseProjectionAtkOn,ids.projection)[0].additive-effect(sucroseProjectionAtkOff,ids.projection)[0].additive,6000,"Nicole adds 300% of her 2000 provider ATK to Sucrose's normal shadow");
+            assert.equal(effect(sucroseProjectionAtkOn,ids.c1)[0]?.additive,0,"Nicole Hexerei ATK must not apply to her C1 shadow");
+            assertReplay(sucroseProjectionAtkOff,"Nicole Hexerei ATK on Sucrose inactive"); assertReplay(sucroseProjectionAtkOn,"Nicole Hexerei ATK on Sucrose active");
+
+            await evaluate(client,selectionExpression({characterName:"甘雨",characterId:"10000037",constellation:"C0",atk:2500,def:1000}));
+            await clickAndWait(client,"#genshinJsonPrepareConditionsButton");
+            const ganyuProjectionAtkOn=await capture();
+            assert.equal(effect(ganyuProjectionAtkOn,ids.projection).length,1,"Ganyu's result retains the projection shadow entry");
+            assert.equal(effect(ganyuProjectionAtkOn,ids.projection)[0].additive,0,"Nicole Hexerei projection ATK must not affect Ganyu's projection shadow");
+            assert.equal(ganyuProjectionAtkOn.party.conditionStates[await partyModifierKey(projectionAtkId)]?.option,"active","Nicole Hexerei option must persist while changing the active character");
+            const ganyuC1Projection=effect(ganyuProjectionAtkOn,ids.c1);
+            assert.equal(ganyuC1Projection.length,1);
+            assert.equal(ganyuC1Projection[0].additive,0,"Nicole Hexerei projection ATK must not affect Ganyu's separate C1 shadow");
+            assertReplay(sucroseProjectionAtkOff,"Nicole Hexerei ATK Sucrose baseline"); assertReplay(ganyuProjectionAtkOn,"Nicole Hexerei ATK on Ganyu with retained active option and C1");
+            return { selfC1:selfHit[0],selfProjectionAtk:{inactive:effect(selfProjectionAtkOff,ids.projection)[0].additive,active:effect(selfProjectionAtkOn,ids.projection)[0].additive},blessingCap:{inactive:blessingOff.stats.atk,grace:blessingGrace.stats.atk,guidance:blessingGuidance.stats.atk},c2:{inactive:c2Off.stats.atk,grace:c2Grace.stats.atk,guidance:c2Guidance.stats.atk,resistance:{grace:byId(c2Grace,"skilldamage")?.resistance,guidance:byId(c2Guidance,"skilldamage")?.resistance}},selfC6:{grace:normal(selfC6Grace)?.expected,guidance:normal(selfC6On)?.expected,defIgnore:normal(selfC6On)?.defIgnore},burstProjection:qHit[0],partyC1:projected[0],partyC4:{off:skill(partyC4Off)?.additive,on:skill(partyC4On)?.additive},partyC6:{grace:normal(partyC6Grace)?.expected,guidance:normal(partyC6On)?.expected,defIgnore:normal(partyC6On)?.defIgnore},projectionAtkParty:{sucrose:effect(sucroseProjectionAtkOn,ids.projection)[0]?.additive??0,ganyuC1:ganyuC1Projection[0].additive} };
+        })();
+
         await clearSupportMembers();
         await evaluate(client, selectionExpression({ characterName: "アルベド", characterId: "10000038", weaponName: "", weaponId: "", constellation: "C2", atk: 1000, def: 2000 }));
         await clickAndWait(client, "#genshinJsonPrepareConditionsButton");
@@ -2202,6 +2391,7 @@ async function clickAndWait(client, selector) {
             },
             fischlCurrentCalc,
             beidouCurrentCalc,
+            nicoleCurrentCalc,
             statLabels: {
                 elementalMastery: statLabelPresentation.resolverElementalMastery,
                 atk: statLabelPresentation.resolverAttack

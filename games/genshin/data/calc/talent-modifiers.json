@@ -5409,21 +5409,21 @@
         "sourceId": "combat2",
         "modifiers": [
           {
-            "category": "statBonus",
+            "category": "scalingBonus",
             "applyTo": [
               "atkPercent"
             ],
             "valueByLevel": {
               "1": 8.25,
-              "2": 9.0,
+              "2": 9,
               "3": 9.75,
               "4": 10.5,
               "5": 11.25,
-              "6": 12.0,
+              "6": 12,
               "7": 12.75,
               "8": 13.5,
               "9": 14.25,
-              "10": 15.0,
+              "10": 15,
               "11": 15.9,
               "12": 16.8,
               "13": 17.7,
@@ -5431,14 +5431,72 @@
               "15": 19.5
             },
             "unit": "percent",
-            "condition": "active",
+            "condition": "blessingState",
             "calculationSupport": "toggle",
             "valueSource": {
               "type": "talentAttribute",
               "section": "combat2",
               "param": "param5",
               "label": "虚己の恵みによる攻撃力上昇率"
-            }
+            },
+            "conditionGroupId": "nicole-guidance",
+            "shareConditionAcrossSources": true,
+            "conditionInput": {
+              "type": "option",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "未発動"
+                },
+                {
+                  "value": "grace",
+                  "label": "虚己の恵み"
+                },
+                {
+                  "value": "guidance",
+                  "label": "聖祝の導き（自己昇格含む）"
+                }
+              ],
+              "default": "inactive",
+              "label": "ニコ：虚己の恵み／聖祝の導き",
+              "help": "スキル本体は入力されたニコのATKを参照します。聖祝はA1とニコ自身のA4昇格を同じ状態として扱います。"
+            },
+            "conditionInputActivates": true,
+            "uidHandling": "conditional",
+            "id": "t_10000131_combat2_blessing_ratio",
+            "reference": {
+              "stat": "atk",
+              "source": "self"
+            },
+            "levelSource": "skill",
+            "maxValueByLevel": {
+              "1": 330,
+              "2": 360,
+              "3": 390,
+              "4": 420,
+              "5": 450,
+              "6": 480,
+              "7": 510,
+              "8": 540,
+              "9": 570,
+              "10": 600,
+              "11": 636,
+              "12": 672,
+              "13": 708,
+              "14": 744,
+              "15": 780
+            },
+            "maxValueSource": {
+              "type": "talentAttribute",
+              "section": "combat2",
+              "param": "param6",
+              "label": "虚己の恵みによる攻撃力アップの上限"
+            },
+            "targetOwner": "team",
+            "conditionOptionValues": [
+              "grace",
+              "guidance"
+            ]
           },
           {
             "category": "statBonus",
@@ -5446,21 +5504,21 @@
               "atkPercent"
             ],
             "valueByLevel": {
-              "1": 330.0,
-              "2": 360.0,
-              "3": 390.0,
-              "4": 420.0,
-              "5": 450.0,
-              "6": 480.0,
-              "7": 510.0,
-              "8": 540.0,
-              "9": 570.0,
-              "10": 600.0,
-              "11": 636.0,
-              "12": 672.0,
-              "13": 708.0,
-              "14": 744.0,
-              "15": 780.0
+              "1": 330,
+              "2": 360,
+              "3": 390,
+              "4": 420,
+              "5": 450,
+              "6": 480,
+              "7": 510,
+              "8": 540,
+              "9": 570,
+              "10": 600,
+              "11": 636,
+              "12": 672,
+              "13": 708,
+              "14": 744,
+              "15": 780
             },
             "unit": "flat",
             "condition": "active",
@@ -5471,6 +5529,173 @@
               "param": "param6",
               "label": "虚己の恵みによる攻撃力アップの上限"
             }
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "condition": "blessingState",
+            "conditionGroupId": "nicole-guidance",
+            "shareConditionAcrossSources": true,
+            "conditionInput": {
+              "type": "option",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "未発動"
+                },
+                {
+                  "value": "grace",
+                  "label": "虚己の恵み"
+                },
+                {
+                  "value": "guidance",
+                  "label": "聖祝の導き（自己昇格含む）"
+                }
+              ],
+              "default": "inactive",
+              "label": "ニコ：虚己の恵み／聖祝の導き",
+              "help": "スキル本体は入力されたニコのATKを参照します。聖祝はA1とニコ自身のA4昇格を同じ状態として扱います。"
+            },
+            "conditionInputActivates": true,
+            "calculationSupport": "toggle",
+            "uidHandling": "conditional",
+            "id": "t_10000131_passive1_guidance_atk",
+            "category": "statBonus",
+            "applyTo": [
+              "atkFlat"
+            ],
+            "unit": "flat",
+            "valueByCondition": {
+              "inactive": 0,
+              "grace": 0,
+              "guidance": 300
+            },
+            "targetOwner": "team",
+            "sourceText": "聖祝の導きへの昇格時、追加で攻撃力+300。自己A4昇格も同じ状態。"
+          }
+        ]
+      },
+      {
+        "sourceId": "combat3",
+        "modifiers": [
+          {
+            "id": "t_10000131_combat3_projection",
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "damageType": "extraDamage",
+            "element": "ownElement",
+            "canReact": false,
+            "valueByLevel": {
+              "1": 99,
+              "2": 108,
+              "3": 117,
+              "4": 126,
+              "5": 135,
+              "6": 144,
+              "7": 153,
+              "8": 162,
+              "9": 171,
+              "10": 180,
+              "11": 190.8,
+              "12": 201.6,
+              "13": 212.4,
+              "14": 223.2,
+              "15": 234
+            },
+            "levelSource": "burst",
+            "unit": "percent",
+            "condition": "projectionState",
+            "conditionGroupId": "nicole-projection",
+            "conditionInput": {
+              "type": "option",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "未発動"
+                },
+                {
+                  "value": "active",
+                  "label": "ミステリウムの影発動"
+                }
+              ],
+              "default": "inactive",
+              "label": "ミステリウムの影",
+              "help": "出場キャラクターのATK・元素で計算する独立1ヒット。スキル／爆発バフと元素反応は適用しません。"
+            },
+            "conditionOptionValue": "active",
+            "conditionInputActivates": true,
+            "targetOwner": "activeCharacter",
+            "calculationSupport": "toggle",
+            "uidHandling": "conditional",
+            "sourceText": "発動者の攻撃力を参照し、その元素タイプに対応するミステリウムの影のダメージを与える。元素反応は行わない。",
+            "valueSource": {
+              "type": "talentAttribute",
+              "section": "combat3",
+              "param": "param2"
+            },
+            "reference": {
+              "stat": "atk",
+              "source": "activeCharacter"
+            },
+            "label": "ミステリウムの影（1ヒット）"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive3",
+        "modifiers": [
+          {
+            "id": "t_10000131_hexerei_projection_atk",
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "targetEffect": [
+              "t_10000131_combat3_projection"
+            ],
+            "value": 300,
+            "unit": "percent",
+            "reference": {
+              "stat": "atk",
+              "source": "self"
+            },
+            "targetOwner": "activeCharacter",
+            "partyTargetCharacterIds": [
+              "10000020",
+              "10000022",
+              "10000031",
+              "10000038",
+              "10000043",
+              "10000131"
+            ],
+            "condition": "hexereiActive",
+            "conditionGroupId": "nicole-hexerei",
+            "conditionOptionValue": "active",
+            "conditionInputActivates": true,
+            "conditionInput": {
+              "type": "option",
+              "default": "inactive",
+              "label": "ニコ：魔導秘儀",
+              "help": "魔導キャラクターの通常のミステリウムの影だけに、入力されたニコのATK300%を加算します。C1合性は対象外です。",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "魔導秘儀OFF"
+                },
+                {
+                  "value": "active",
+                  "label": "魔導秘儀ON"
+                }
+              ]
+            },
+            "calculationSupport": "toggle",
+            "uidHandling": "conditional",
+            "sourceText": "魔導秘儀が有効な時、魔導キャラクターが発生させた通常のミステリウムの影にニコの攻撃力300%分を加算する。非魔導キャラクターとC1合性には適用しない。"
           }
         ]
       }

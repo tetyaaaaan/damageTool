@@ -14067,7 +14067,7 @@
           "applyTo": [
             "triggeredDamage"
           ],
-          "element": null,
+          "element": "ownElement",
           "scalings": [
             {
               "stat": "atk",
@@ -14075,11 +14075,32 @@
               "unit": "percent"
             }
           ],
-          "condition": "conditional",
+          "condition": "triggeredProjection",
           "calculationSupport": "custom",
           "sourceText": "チーム内にいる自身のフィールド上キャラクターの攻撃が敵に命中した時、追加で特殊な「ミステリウムの影・合性」を発動して敵に攻撃し、そのキャラクターの元素タイプに対応する元素範囲ダメージを与える。ダメージ量は攻撃を命中させたキャラクターの攻撃力の600%分となり、そのキャラクターによるダメージと見なされる。\nこの効果は6秒毎に1回のみ発動可能。",
           "uidHandling": "conditional",
-          "customHandlingRequired": true
+          "customHandlingRequired": true,
+          "damageType": "extraDamage",
+          "targetOwner": "activeCharacter",
+          "conditionGroupId": "nicole-c1-projection",
+          "conditionOptionValue": "active",
+          "conditionInputActivates": true,
+          "conditionInput": {
+            "type": "option",
+            "label": "C1：ミステリウムの影・合性",
+            "help": "フィールド上キャラクターの攻撃命中で発生する独立追撃1ヒットです。倍率・元素・ダメージは現在のフィールド上キャラクターを参照します。6秒制限は計算しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "未発動"
+              },
+              {
+                "value": "active",
+                "label": "発動中（現在の1ヒット）"
+              }
+            ]
+          },
+          "canReact": false
         }
       ],
       "2": [
@@ -14088,36 +14109,96 @@
           "applyTo": [
             "atkFlat"
           ],
-          "value": 300,
           "unit": "flat",
-          "condition": "constellationUnlocked",
-          "calculationSupport": "custom",
+          "condition": "blessingState",
+          "calculationSupport": "toggle",
           "uidHandling": "conditional",
           "sourceText": "元素スキル**聖言黙示・顕れぬ光**の効果が強化される。**虚己の恵み**は追加で攻撃力を300アップさせ（この効果による攻撃力アップは上限には含まれない）、**聖祝の導き**はキャラクターの元素タイプに基づき、周囲の敵の対応する元素耐性を25%ダウンさせる。同じ元素タイプの元素耐性ダウン効果は重ね掛けできない。\nまた、ニコが元素スキル聖言黙示・顕れぬ光を発動した時、周囲のフィールド上のキャラクターにも熾光の護りを付与する。",
           "id": "c_10000131_2_1_resolved_2",
           "customCalculation": "directStatBonus",
           "resolvedFromCategory": "special",
           "targetOwner": "activeCharacter",
-          "condition": "active",
-          "conditionGroupId": "character:10000131:skill:blessing",
-          "calculationSupport": "toggle"
+          "conditionGroupId": "nicole-guidance",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {
+            "type": "option",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "未発動"
+              },
+              {
+                "value": "grace",
+                "label": "虚己の恵み"
+              },
+              {
+                "value": "guidance",
+                "label": "聖祝の導き（自己昇格含む）"
+              }
+            ],
+            "default": "inactive",
+            "label": "ニコ：虚己の恵み／聖祝の導き",
+            "help": "スキル本体は入力されたニコのATKを参照します。聖祝はA1とニコ自身のA4昇格を同じ状態として扱います。"
+          },
+          "conditionInputActivates": true,
+          "valueByCondition": {
+            "inactive": 0,
+            "grace": 300,
+            "guidance": 300
+          }
         },
         {
           "category": "resistanceDebuff",
           "applyTo": [
             "correspondingElementResistance"
           ],
-          "value": -25,
           "unit": "percent",
-          "condition": "active",
-          "conditionGroupId": "character:10000131:skill:blessing",
+          "condition": "blessingState",
+          "conditionGroupId": "nicole-guidance",
           "calculationSupport": "toggle",
           "uidHandling": "conditional",
           "sourceText": "元素スキル**聖言黙示・顕れぬ光**の効果が強化される。**虚己の恵み**は追加で攻撃力を300アップさせ（この効果による攻撃力アップは上限には含まれない）、**聖祝の導き**はキャラクターの元素タイプに基づき、周囲の敵の対応する元素耐性を25%ダウンさせる。同じ元素タイプの元素耐性ダウン効果は重ね掛けできない。\nまた、ニコが元素スキル聖言黙示・顕れぬ光を発動した時、周囲のフィールド上のキャラクターにも熾光の護りを付与する。",
           "id": "c_10000131_2_1_resolved_3",
           "resolvedFromCategory": "special",
           "targetOwner": "enemy",
-          "relatedElements": ["炎", "水", "雷", "氷", "風", "岩", "草"]
+          "relatedElements": [
+            "炎",
+            "水",
+            "雷",
+            "氷",
+            "風",
+            "岩",
+            "草"
+          ],
+          "shareConditionAcrossSources": true,
+          "conditionInput": {
+            "type": "option",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "未発動"
+              },
+              {
+                "value": "grace",
+                "label": "虚己の恵み"
+              },
+              {
+                "value": "guidance",
+                "label": "聖祝の導き（自己昇格含む）"
+              }
+            ],
+            "default": "inactive",
+            "label": "ニコ：虚己の恵み／聖祝の導き",
+            "help": "スキル本体は入力されたニコのATKを参照します。聖祝はA1とニコ自身のA4昇格を同じ状態として扱います。"
+          },
+          "conditionInputActivates": true,
+          "valueByCondition": {
+            "inactive": 0,
+            "grace": 0,
+            "guidance": -25
+          },
+          "stackingGroup": "nicole-guidance-resistance",
+          "stackingRule": "max"
         }
       ],
       "3": [
@@ -14150,7 +14231,7 @@
           "unit": "percent",
           "reference": {
             "stat": "atk",
-            "source": "provider",
+            "source": "self",
             "providerCharacterId": "10000131"
           },
           "condition": "guidanceBlessing",
@@ -14159,7 +14240,26 @@
           "calculationSupport": "custom",
           "customHandlingRequired": true,
           "uidHandling": "conditional",
-          "sourceText": "付近にいるチーム内キャラクターの**虚己の恵み**が**聖祝の導き**に昇格した時、ニコはそのキャラクターに「導きの加護」効果を付与する。継続時間20秒。この効果は、各キャラクター16秒毎に1回のみ獲得可能。\n「導きの加護」を持つキャラクターの通常攻撃、重撃、落下攻撃、元素スキル、元素爆発が与えるダメージは、ニコの攻撃力の70%分アップする。この効果は8回発動時、または継続時間終了時に解除される。\n同時に複数の敵に命中した場合は、命中した敵の数に応じて発動回数を消費する。チーム内に「導きの加護」を持つキャラクターが複数人いる場合、それぞれの発動回数は独立してカウントされる。"
+          "sourceText": "付近にいるチーム内キャラクターの**虚己の恵み**が**聖祝の導き**に昇格した時、ニコはそのキャラクターに「導きの加護」効果を付与する。継続時間20秒。この効果は、各キャラクター16秒毎に1回のみ獲得可能。\n「導きの加護」を持つキャラクターの通常攻撃、重撃、落下攻撃、元素スキル、元素爆発が与えるダメージは、ニコの攻撃力の70%分アップする。この効果は8回発動時、または継続時間終了時に解除される。\n同時に複数の敵に命中した場合は、命中した敵の数に応じて発動回数を消費する。チーム内に「導きの加護」を持つキャラクターが複数人いる場合、それぞれの発動回数は独立してカウントされる。",
+          "targetOwner": "team",
+          "conditionGroupId": "nicole-pathfinder-blessing",
+          "conditionOptionValue": "active",
+          "conditionInputActivates": true,
+          "conditionInput": {
+            "type": "option",
+            "label": "C4：導きの加護",
+            "help": "聖祝の導きへの昇格後に導きの加護を持つキャラクターの通常・重撃・落下・スキル・爆発へ、ニコの攻撃力70%を加算します。残り回数・時間は計算しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "未発動"
+              },
+              {
+                "value": "active",
+                "label": "発動中（現在の1ヒット）"
+              }
+            ]
+          }
         }
       ],
       "5": [
@@ -14184,12 +14284,40 @@
           "applyTo": [
             "enemyDefense"
           ],
-          "value": 40,
           "unit": "percent",
           "sourceText": "ニコが持っている**虚己の恵み**が**聖祝の導き**に昇格した時、付近にいるチーム内のキャラクター全員の持っている虚己の恵みが、同時に聖祝の導きに昇格する。また、昇格した聖祝の導きが虚己の恵みに戻らなくなる。\nまた、聖祝の導きを持つキャラクターは、敵の防御力を40%無視してダメージを与える。",
-          "condition": "constellationUnlocked",
+          "condition": "blessingState",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "targetOwner": "activeCharacter",
+          "conditionGroupId": "nicole-guidance",
+          "conditionInputActivates": true,
+          "conditionInput": {
+            "type": "option",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "未発動"
+              },
+              {
+                "value": "grace",
+                "label": "虚己の恵み"
+              },
+              {
+                "value": "guidance",
+                "label": "聖祝の導き（自己昇格含む）"
+              }
+            ],
+            "default": "inactive",
+            "label": "ニコ：虚己の恵み／聖祝の導き",
+            "help": "スキル本体は入力されたニコのATKを参照します。聖祝はA1とニコ自身のA4昇格を同じ状態として扱います。"
+          },
+          "shareConditionAcrossSources": true,
+          "valueByCondition": {
+            "inactive": 0,
+            "grace": 0,
+            "guidance": 40
+          }
         }
       ]
     }

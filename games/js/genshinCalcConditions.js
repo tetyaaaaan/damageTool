@@ -1240,10 +1240,13 @@
         const state = context.uiState.conditionByModifier?.[key];
         if (state) {
             if (state.stack > 0) setModifierStack(context, modifier, state.stack);
-            const optionMatches = modifier.conditionOptionValue === undefined
-                || String(state.option) === String(modifier.conditionOptionValue);
+            const optionMatches = Array.isArray(modifier.conditionOptionValues)
+                ? modifier.conditionOptionValues.map(String).includes(String(state.option))
+                : modifier.conditionOptionValue === undefined
+                    || String(state.option) === String(modifier.conditionOptionValue);
             return { enabled: Boolean(state.enabled) && optionMatches, stack: state.stack, option: state.option };
         }
+        if (Array.isArray(modifier.conditionOptionValues)) return { enabled: false, reason: "詳細条件の入力がありません" };
         return evaluateLegacyModifierCondition({ modifier, source, context, calcData });
     }
 

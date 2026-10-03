@@ -966,7 +966,7 @@
         const skillModeEnabled = Boolean(skillMode && attackModeIsEnabled(calcData, context, "skill"));
         groups.forEach(([group, talent]) => {
             (talent?.entries || []).forEach((entry) => {
-                if (entry.source?.format === "I") return;
+                if (entry.source?.format === "I" || entry.replacedByModifierId) return;
                 if (group === "skill" && skillMode?.attackTypes.includes(entry.attackType) && !skillModeEnabled) return;
                 if (group === "normalAttack" && skillModeEnabled && skillMode?.attackTypes.includes(entry.attackType)) return;
                 const variants = Array.isArray(entry.elementVariants) && entry.elementVariants.length
@@ -1556,9 +1556,11 @@
             };
         }
         const calculated = referenceValue * (Number(value) || 0) / 100;
+        const level = String(getTalentLevel(context, { levelSource: modifier.levelSource || "skill" }));
+        const cap = modifier.maxValueByLevel?.[level] ?? modifier.maxValue;
         return {
             stat: targetStat,
-            value: Number.isFinite(Number(modifier.maxValue)) ? Math.min(calculated, Number(modifier.maxValue)) : calculated
+            value: Number.isFinite(Number(cap)) ? Math.min(calculated, Number(cap)) : calculated
         };
     }
 
@@ -1636,6 +1638,7 @@
     }
 
     function reactionForDamageEntry(entry, context) {
+        if (entry.canReact === false) return REACTION_OPTIONS.none;
         if (!entry?.directReactionId) return context.reactionOption || REACTION_OPTIONS.none;
         const definition = context.reactionDefinitions?.options?.[entry.directReactionId] || {};
         const enabled = definition.calculationStatus === "supported";
@@ -1790,7 +1793,7 @@
                 }
             } else if (analysis?.calculation === "additiveBaseDamage" && modifierTargetsEntry(modifier, effectiveEntry)) {
                 const additiveValue = modifier.reference
-                    ? resolveReferencedValue(modifier, value, context)
+                    ? resolveReferencedValue(modifier, value, item.valueContext || context)
                     : Number(value) || 0;
                 totals.additiveBaseDamage += additiveValue;
                 applied.push({ ...item, value: additiveValue });
@@ -2074,7 +2077,7 @@
                 }
             };
         }
-        const reaction = reactionAttackAdjustment(context, appliedModifiers.totals.reactionBonus);
+        const reaction = reactionAttackAdjustment(entry.canReact === false ? { ...context, reactionOption: REACTION_OPTIONS.none } : context, appliedModifiers.totals.reactionBonus);
         const baseDamage = problems.length ? 0 : scalingBaseDamage
             + (appliedModifiers.totals.additiveBaseDamage || 0)
             + reaction.additiveBaseDamage;
@@ -2587,6 +2590,7 @@
                     damageType: modifier.damageType || "extraDamage",
                     element: modifier.element || "physical",
                     directReactionId: modifier.directReactionId || "",
+                    canReact: modifier.canReact,
                     hitCount: Number(modifier.extraCount) || Number(modifier.hitCount) || 1,
                     scalings,
                     group: "extraDamage",
@@ -2701,7 +2705,10 @@
         context.baseStats = statResolution.baseStats;
         context.effectiveStats = statResolution.effectiveStats;
         context.statTrace = statResolution.trace;
-        const extraEntries = buildExtraDamageEntries(collected, talentResult.entries, context);
+        const extraEntries = buildExtraDamageEntries(collected, talentResult.entries, context)
+            .map((entry) => entry.element === "ownElement"
+                ? { ...entry, element: normalizeDamageElement(entry, calcData.characters?.[context.characterId] || {}) }
+                : entry);
         const results = [...talentResult.entries, ...extraEntries].map((entry) => {
             const entryModifiers = applyModifiersToDamageEntry(entry, context, collected);
             return calculateDamage(entry, context, entryModifiers);

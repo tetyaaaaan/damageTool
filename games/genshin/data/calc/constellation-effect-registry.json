@@ -23,8 +23,8 @@
     "effects": 755,
     "byVerificationStatus": {
       "mechanicOnly": 68,
-      "corroborated": 452,
-      "textVerified": 201,
+      "corroborated": 449,
+      "textVerified": 204,
       "quarantined": 32,
       "sourceContextRequired": 2
     },
@@ -23888,7 +23888,7 @@
               "targets": [
                 "triggeredDamage"
               ],
-              "condition": "conditional",
+              "condition": "triggeredProjection",
               "unit": "",
               "numericValues": [
                 {
@@ -23917,23 +23917,28 @@
               "targets": [
                 "atkFlat"
               ],
-              "condition": "active",
+              "condition": "blessingState",
               "unit": "flat",
               "numericValues": [
                 {
-                  "field": "value",
+                  "field": "valueByCondition.inactive",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.grace",
+                  "value": 300
+                },
+                {
+                  "field": "valueByCondition.guidance",
                   "value": 300
                 }
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "corroborated",
+              "verificationStatus": "textVerified",
               "evidence": {
                 "officialTextValueMatch": true,
-                "externalNumericHints": [
-                  "genshinOptimizer",
-                  "gcsim"
-                ]
+                "externalNumericHints": []
               }
             },
             {
@@ -23942,23 +23947,28 @@
               "targets": [
                 "correspondingElementResistance"
               ],
-              "condition": "active",
+              "condition": "blessingState",
               "unit": "percent",
               "numericValues": [
                 {
-                  "field": "value",
+                  "field": "valueByCondition.inactive",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.grace",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.guidance",
                   "value": -25
                 }
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "corroborated",
+              "verificationStatus": "textVerified",
               "evidence": {
                 "officialTextValueMatch": true,
-                "externalNumericHints": [
-                  "genshinOptimizer",
-                  "gcsim"
-                ]
+                "externalNumericHints": []
               }
             }
           ],
@@ -24072,23 +24082,28 @@
               "targets": [
                 "enemyDefense"
               ],
-              "condition": "constellationUnlocked",
+              "condition": "blessingState",
               "unit": "percent",
               "numericValues": [
                 {
-                  "field": "value",
+                  "field": "valueByCondition.inactive",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.grace",
+                  "value": 0
+                },
+                {
+                  "field": "valueByCondition.guidance",
                   "value": 40
                 }
               ],
               "requiresNumericValue": true,
               "hasNumericContract": true,
-              "verificationStatus": "corroborated",
+              "verificationStatus": "textVerified",
               "evidence": {
                 "officialTextValueMatch": true,
-                "externalNumericHints": [
-                  "genshinOptimizer",
-                  "gcsim"
-                ]
+                "externalNumericHints": []
               }
             }
           ],
@@ -43321,7 +43336,7 @@
       "targets": [
         "triggeredDamage"
       ],
-      "condition": "conditional",
+      "condition": "triggeredProjection",
       "unit": "",
       "numericValues": [
         {
@@ -43345,23 +43360,28 @@
       "targets": [
         "atkFlat"
       ],
-      "condition": "active",
+      "condition": "blessingState",
       "unit": "flat",
       "numericValues": [
         {
-          "field": "value",
+          "field": "valueByCondition.inactive",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.grace",
+          "value": 300
+        },
+        {
+          "field": "valueByCondition.guidance",
           "value": 300
         }
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "corroborated",
+      "verificationStatus": "textVerified",
       "evidence": {
         "officialTextValueMatch": true,
-        "externalNumericHints": [
-          "genshinOptimizer",
-          "gcsim"
-        ]
+        "externalNumericHints": []
       }
     },
     "c_10000131_2_1_resolved_3": {
@@ -43372,23 +43392,28 @@
       "targets": [
         "correspondingElementResistance"
       ],
-      "condition": "active",
+      "condition": "blessingState",
       "unit": "percent",
       "numericValues": [
         {
-          "field": "value",
+          "field": "valueByCondition.inactive",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.grace",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.guidance",
           "value": -25
         }
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "corroborated",
+      "verificationStatus": "textVerified",
       "evidence": {
         "officialTextValueMatch": true,
-        "externalNumericHints": [
-          "genshinOptimizer",
-          "gcsim"
-        ]
+        "externalNumericHints": []
       }
     },
     "c_10000131_3_1": {
@@ -43482,23 +43507,28 @@
       "targets": [
         "enemyDefense"
       ],
-      "condition": "constellationUnlocked",
+      "condition": "blessingState",
       "unit": "percent",
       "numericValues": [
         {
-          "field": "value",
+          "field": "valueByCondition.inactive",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.grace",
+          "value": 0
+        },
+        {
+          "field": "valueByCondition.guidance",
           "value": 40
         }
       ],
       "requiresNumericValue": true,
       "hasNumericContract": true,
-      "verificationStatus": "corroborated",
+      "verificationStatus": "textVerified",
       "evidence": {
         "officialTextValueMatch": true,
-        "externalNumericHints": [
-          "genshinOptimizer",
-          "gcsim"
-        ]
+        "externalNumericHints": []
       }
     },
     "c_10000132_2_1_resolved_2": {
