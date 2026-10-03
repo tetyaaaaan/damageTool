@@ -121,7 +121,7 @@ test("異端を狩る熔刃は距離補間なしの最小／最大選択でATK�
     assert.equal(values.max, 360);
     assert.ok(values.max > values.min);
     assert.equal(candidate.weapons["11435"].distanceInterpolation, "deferred");
-    assert.match(candidate.weapons["11435"].distanceNoteJa, /自動補間/);
+    assert.match(candidate.weapons["11435"].distanceNoteJa, /中間距離は仕様確認中/);
 });
 
 test("星鋒の剣はR1-R3のみ計算し、未確認R4/R5はmodifierを適用せず警告候補にする", () => {
@@ -134,6 +134,7 @@ test("星鋒の剣はR1-R3のみ計算し、未確認R4/R5はmodifierを適用�
     installCandidate(calcData);
 
     const confirmed = context({ weaponId: "11521", refinement: 3 });
+    confirmed.characterId = "10000005";
     confirmed.uiState.conditionByModifier[weaponConditionKey(sandbox, "11521")] = {
         enabled: true,
         stack: 1,

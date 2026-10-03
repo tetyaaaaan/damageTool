@@ -1010,6 +1010,46 @@
         return Number(value) || 0;
     }
 
+    function applySharedWeaponStackLimits(calcData, context) {
+        context.uiState ||= {};
+        context.uiState.conditionByModifier ||= {};
+        context.uiState.complexConditionByModifier ||= {};
+        const modifiers = calcData.weaponModifiers?.[context.weaponId]?.modifiers || [];
+        const weaponDefinition = calcData.weaponEffectRegistry?.weapons?.[context.weaponId] || {};
+        const normalized = modifiers.map((modifier) => normalizeWeaponModifier(modifier, modifiers, weaponDefinition));
+        const limits = new Map();
+        normalized.forEach((modifier) => {
+            const limit = modifier.activation?.sharedStackLimit || modifier.sharedStackLimit;
+            if (!limit || !Array.isArray(limit.groupIds) || !Number.isFinite(Number(limit.max))) return;
+            limits.set(`${limit.groupIds.join("|")}:${Number(limit.max)}`, limit);
+        });
+        limits.forEach((limit) => {
+            let remaining = Math.max(0, Number(limit.max));
+            limit.groupIds.forEach((groupId) => {
+                const modifier = normalized.find((candidate) => candidate.conditionGroupId === groupId);
+                if (!modifier) return;
+                const source = `weapon:${context.weaponId}`;
+                const key = analyzeModifier(modifier, source, context).conditionStateKey;
+                const state = context.uiState.conditionByModifier[key]
+                    || context.uiState.complexConditionByModifier[key]
+                    || {};
+                const groupValue = context.uiState.resolvedConditionByGroup?.[groupId];
+                const requested = Number(state.stack ?? groupValue ?? context.uiState.stackByModifier?.[modifier.id] ?? 0);
+                const stack = Math.floor(Math.min(Math.max(Number.isFinite(requested) ? requested : 0, Number(modifier.stack?.min) || 0), Number(modifier.stack?.max) || Number(limit.max), remaining));
+                remaining = Math.max(0, remaining - stack);
+                const resolved = { ...state, stack, enabled: stack > 0 };
+                context.uiState.conditionByModifier[key] = resolved;
+                context.uiState.complexConditionByModifier[key] = { ...context.uiState.complexConditionByModifier[key], stack };
+                context.uiState.resolvedConditionByGroup ||= {};
+                context.uiState.resolvedConditionByGroup[groupId] = stack;
+                context.uiState.resolvedConditionByModifier ||= {};
+                context.uiState.resolvedConditionByModifier[modifier.id] = stack;
+                context.uiState.stackByModifier ||= {};
+                context.uiState.stackByModifier[modifier.id] = stack;
+            });
+        });
+    }
+
     function consumedResourceStack(modifier, context, analysis = {}) {
         const current = Number(context.manualInputs?.resourceStates?.[analysis.resourceStateKey]);
         if (!Number.isFinite(current)) return null;
@@ -1111,7 +1151,8 @@
                 if (stack <= 0) return 0;
                 return numericModifierValue(raw[stack - 1] ?? 0);
             }
-            if (modifier.calculationSupport === "stack" && (modifier.stack || resourceStack !== null)) {
+            if (modifier.calculationSupport === "stack" && (modifier.stack || resourceStack !== null)
+                && !Number.isFinite(Number(modifier.minimumConditionStack))) {
                 if (modifier.category === "extraDamage") return Number(raw) || 0;
                 const min = modifier.stack?.min ?? 0;
                 const max = modifier.stack?.max ?? modifier.resource?.maxConsumed ?? resourceStack ?? 0;
@@ -1215,6 +1256,7 @@
     }
 
     function collectActiveModifiers(calcData, context) {
+        applySharedWeaponStackLimits(calcData, context);
         const applied = [];
         const candidates = [];
         const activeEffectGroups = new Set();
@@ -1665,6 +1707,7 @@
         const applyTo = modifier.applyTo || [];
         if (!applyTo.length) return false;
         return applyTo.includes("reactionCrit")
+            || (applyTo.includes("stellarReactions") && String(reaction.reactionId || "").startsWith("stellar"))
             || applyTo.includes(`${reaction.reactionId}Crit`)
             || applyTo.includes(`${reaction.family || reaction.reactionType}ReactionCrit`);
     }
@@ -1825,7 +1868,11 @@
             } else if (modifier.category === "reactionBonus" && reactionBonusApplies(modifier, entryReaction)) {
                 totals.reactionBonus += Number(value) || 0;
                 applied.push(item);
-            } else if (modifier.category === "reactionCritBonus" && reactionCritApplies(modifier, entryReaction)) {
+            } else if (modifier.category === "reactionCritBonus"
+                && (!modifier.applyTo?.includes("stellarReactions")
+                    || String(effectiveEntry.directReactionId || "").startsWith("stellar")
+                    || (effectiveEntry.group === "reaction" && String(entryReaction.reactionId || "").startsWith("stellar")))
+                && reactionCritApplies(modifier, entryReaction)) {
                 totals.reactionCritRate += Number(modifier.critRate) || 0;
                 totals.reactionCritDamage += Number(modifier.critDamage) || Number(value) || 0;
                 applied.push(item);

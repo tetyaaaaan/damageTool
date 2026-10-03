@@ -297,6 +297,8 @@ async function main() {
             const stellarThreeReaction = stellarThree.results.find((item) => item.reaction === "stellarSwirl");
             assert.ok(stellarZeroReaction && stellarThreeReaction, "11520 displays Stellar Swirl reaction results");
             assert.ok(stellarThreeReaction.crit > stellarZeroReaction.crit, "11520 3-stack crit improves Stellar reaction crit damage");
+            assert.ok(stellarThreeReaction.crit / stellarThreeReaction.nonCrit > stellarZeroReaction.crit / stellarZeroReaction.nonCrit,
+                "11520 raises the Stellar crit multiplier independently of its ATK stacks");
             const ordinaryWithThree = stellarThree.results.find((item) => item.group === "normalAttack");
             const ordinaryWithZero = stellarZero.results.find((item) => item.group === "normalAttack");
             assert.ok(Math.abs(ordinaryWithThree.crit / ordinaryWithThree.nonCrit - ordinaryWithZero.crit / ordinaryWithZero.nonCrit) < 1e-9,
@@ -305,12 +307,18 @@ async function main() {
             // 11521: enabled hit buff applies to Traveler, while a non-Traveler stays unchanged.
             const hitSelector = '#genshinConditionDialog [data-genshin-toggle-key*="provisional70_w11521_hit_state"]';
             await setup({ characterId: "10000005", weaponId: "11521" });
+            await changeControl(hitSelector, undefined, { checked: false });
+            const travelerOff = await calculate();
+            await setup({ characterId: "10000005", weaponId: "11521" });
             await changeControl(hitSelector, undefined, { checked: true });
             const traveler = await calculate();
             await setup({ characterId: "10000002", weaponId: "11521" });
             await changeControl(hitSelector, undefined, { checked: true });
             const nonTraveler = await calculate();
             await assertBaseAndReplay(traveler, "11521 Traveler owner gate");
+            assert.ok(traveler.results[0].expected > travelerOff.results[0].expected,
+                "11521 hit condition increases the same Traveler attack damage");
+            assert.notEqual(traveler.text, travelerOff.text, "11521 Traveler toggle updates rendered damage");
             assert.ok(traveler.effectiveAtk > nonTraveler.effectiveAtk, "11521 enabled hit ATK applies to Traveler");
             assert.deepEqual(nonTraveler.results, (await (async () => {
                 await setup({ characterId: "10000002", weaponId: "11521" });

@@ -934,7 +934,8 @@
                 configured: Boolean(configured),
                 source,
                 modifier,
-                conditionGroupId
+                conditionGroupId,
+                sharedStackLimit: modifier.activation?.sharedStackLimit || modifier.sharedStackLimit || null
             }];
         });
         return definitions.filter((definition, index) => {
@@ -970,6 +971,25 @@
             if (definition.type !== "option" && Number.isFinite(numericValue)) {
                 nextState[definition.key][definition.type] = Math.min(Math.max(numericValue, definition.min), definition.max);
             }
+        });
+        // Allocate a shared pool in declared groupIds order so the first group keeps priority.
+        const sharedLimits = new Map();
+        definitions.forEach((definition) => {
+            const limit = definition.sharedStackLimit;
+            if (!limit || !Array.isArray(limit.groupIds) || !Number.isFinite(Number(limit.max))) return;
+            const signature = `${limit.groupIds.join("|")}:${Number(limit.max)}`;
+            if (!sharedLimits.has(signature)) sharedLimits.set(signature, limit);
+        });
+        sharedLimits.forEach((limit) => {
+            let remaining = Math.max(0, Number(limit.max));
+            limit.groupIds.forEach((groupId) => {
+                const definition = definitions.find((item) => item.conditionGroupId === groupId);
+                if (!definition || definition.type !== "stack" || !nextState[definition.key]) return;
+                const state = nextState[definition.key];
+                const value = Math.floor(Math.min(Math.max(Number(state.stack) || 0, definition.min), definition.max, remaining));
+                state.stack = value;
+                remaining = Math.max(0, remaining - value);
+            });
         });
         activeComplexDefinitions = definitions;
         complexStateByKey = nextState;
@@ -1229,6 +1249,13 @@
     }
 
     function evaluateModifierCondition({ modifier, source, context, calcData }) {
+        if (Array.isArray(modifier.requiredCharacterIds)) {
+            const canonicalId = (value) => String(value || "").split("_")[0];
+            const allowed = modifier.requiredCharacterIds.map(canonicalId);
+            if (!allowed.includes(canonicalId(context.characterId))) {
+                return { enabled: false, derived: true, reason: "この効果を所持するキャラクター専用です。" };
+            }
+        }
         if (modifier.requiredTargetElement) {
             const normalizeElement = (value) => ({ "炎": "pyro", pyro: "pyro", "水": "hydro", hydro: "hydro", "風": "anemo", anemo: "anemo", "雷": "electro", electro: "electro", "草": "dendro", dendro: "dendro", "氷": "cryo", cryo: "cryo", "岩": "geo", geo: "geo" })[String(value || "").trim().toLowerCase()] || String(value || "").trim().toLowerCase();
             const currentElement = normalizeElement(calcData.characters?.[context.characterId]?.element);
@@ -1240,11 +1267,20 @@
         const state = context.uiState.conditionByModifier?.[key];
         if (state) {
             if (state.stack > 0) setModifierStack(context, modifier, state.stack);
+            const minimum = Number(modifier.minimumConditionStack);
+            if (Number.isFinite(minimum)
+                && (!Number.isFinite(Number(state.stack)) || Number(state.stack) < minimum)) {
+                return { enabled: false, stack: state.stack, reason: `必要な段階は${minimum}以上です。` };
+            }
             const optionMatches = Array.isArray(modifier.conditionOptionValues)
                 ? modifier.conditionOptionValues.map(String).includes(String(state.option))
                 : modifier.conditionOptionValue === undefined
                     || String(state.option) === String(modifier.conditionOptionValue);
             return { enabled: Boolean(state.enabled) && optionMatches, stack: state.stack, option: state.option };
+        }
+        const minimum = Number(modifier.minimumConditionStack);
+        if (Number.isFinite(minimum)) {
+            return { enabled: false, reason: `必要な段階は${minimum}以上です。` };
         }
         if (Array.isArray(modifier.conditionOptionValues)) return { enabled: false, reason: "詳細条件の入力がありません" };
         return evaluateLegacyModifierCondition({ modifier, source, context, calcData });

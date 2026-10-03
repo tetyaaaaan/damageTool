@@ -84,7 +84,7 @@
     function resolveWeapon(weaponId, level = 90, ascension = null) {
         const source = data.weapons?.[String(weaponId)];
         if (!source) return null;
-        if (source.levelStats && typeof source.levelStats === "object") {
+        if (!source.curveIds?.["4"] && source.levelStats && typeof source.levelStats === "object") {
             const weaponLevel = Math.min(clampLevel(level), 90);
             const row = source.levelStats[String(weaponLevel)];
             if (!row || !Number.isFinite(Number(row.baseAtk))) return null;
@@ -104,7 +104,8 @@
             weaponId: String(weaponId),
             level: weaponLevel,
             ascension: stage,
-            weaponBaseAtk: base * curveValue(source.curveIds?.["4"], weaponLevel) + (Number(stages[stage]) || 0)
+            weaponBaseAtk: base * curveValue(source.curveIds?.["4"], weaponLevel) + (Number(stages[stage]) || 0),
+            ...(source.dataStatus === "provisional" ? { dataStatus: "provisional" } : {})
         };
     }
 
