@@ -1720,6 +1720,10 @@
     }
 
     function critBonusApplies(modifier, entry) {
+        if (modifier.artifactSetId === "15047" && modifier.id === "4pc_crit_rate_after_stellar_swirl"
+            && (entry.directReactionId || entry.attackType === "reaction")) {
+            return entry.directReactionId === "stellarSwirl";
+        }
         const attackTargets = {
             normalAttackCritRate: "normalAttackDamageBonus",
             normalAttackCritDamage: "normalAttackDamageBonus",
@@ -2212,6 +2216,7 @@
     function collectReactionTotals(context, collected) {
         const reaction = context.reactionOption || REACTION_OPTIONS.none;
         const reactionEntry = {
+            directReactionId: reaction.reactionId,
             attackType: "reaction",
             damageType: "reaction",
             element: reaction.damageElement || "physical"
@@ -2246,6 +2251,13 @@
                 addScoped(item, "additiveBaseDamage", resolveScalingAdditiveBaseDamage(modifier, item.valueContext || context));
             } else if (modifier.category === "reactionBaseDamageBonus" && reactionBaseDamageBonusApplies(modifier, reaction)) {
                 addScoped(item, "baseDamageBonus", value);
+            } else if (reaction.reactionId === "stellarSwirl" && reaction.canCrit === true
+                && modifier.artifactSetId === "15047"
+                && modifier.id === "4pc_crit_rate_after_stellar_swirl"
+                && modifier.category === "critBonus" && critBonusKind(modifier) === "critRate"
+                && critBonusApplies(modifier, reactionEntry)) {
+                // Scarlet Proof's wearer CRIT Rate also applies to its critical Stellar Swirl route.
+                addScoped(item, "critRate", value);
             } else if (modifier.category === "reactionCritBonus" && reactionCritApplies(modifier, reaction)) {
                 addScoped(item, "critRate", Number(modifier.critRate) || 0, false);
                 addScoped(item, "critDamage", Number(modifier.critDamage) || Number(value) || 0);

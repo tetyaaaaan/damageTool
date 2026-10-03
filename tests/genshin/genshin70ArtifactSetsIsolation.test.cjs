@@ -271,3 +271,46 @@ test("15048 support artifact reaches the existing party team lane and keeps one 
     assert.equal(unrelated.totals.reactionBonus, 0);
     assert.equal(unrelated.applied.some((item) => item.partyCandidateKey === onCandidate.key), false);
 });
+
+
+test("15047 live Stellar Swirl gains wearer CRIT Rate only on its critical reaction route and replays", () => {
+    const { sandbox, calcData, request } = mainRequest("15047");
+    calcData.reactionDefinitions.options.stellarSwirl = require("../../games/genshin/data/v2/candidates/7.0-provisional-stellar-swirl.json").reactionDefinitions.options.stellarSwirl;
+    const engine = sandbox.GenshinCalcEngine;
+    request.reactionOptionKey = "stellarSwirl";
+    request.manualInputs.stellarSwirlVariant = "initialAnemo";
+    const calculate = () => engine.calculateDamageRequest(request, calcData);
+    const reaction = (payload) => payload.results.find((result) => result.entry.id === "reaction_stellarSwirl");
+    setArtifactCondition(sandbox, calcData, request, "15047", false);
+    const off = calculate();
+    assert.equal(reaction(off).breakdown.critRate, 50);
+    setArtifactCondition(sandbox, calcData, request, "15047", true);
+    const on = calculate();
+    assert.equal(reaction(on).breakdown.critRate, 66);
+    assert.equal(reaction(on).breakdown.reactionBonus, 40);
+    assert.ok(reaction(on).expected > reaction(off).expected);
+    const normal = (payload) => payload.results.find((result) => result.entry.attackType === "normalAttack");
+    assert.equal(normal(off).breakdown.critRate, 50);
+    assert.equal(normal(on).breakdown.critRate, 66);
+    const snapshot = engine.createCalculationSnapshot(request, on);
+    const replay = engine.calculateDamageRequest(JSON.parse(JSON.stringify(snapshot.request)), calcData);
+    assert.equal(JSON.stringify(replay.results), JSON.stringify(on.results));
+    for (const reactionId of ["stellarConduct", "lunarCrystallize", "lunarCharged", "vaporize15"]) {
+        request.reactionOptionKey = reactionId;
+        setArtifactCondition(sandbox, calcData, request, "15047", false);
+        const before = calculate();
+        setArtifactCondition(sandbox, calcData, request, "15047", true);
+        const after = calculate();
+        const reactionResults = after.results.filter((result) => result.entry.attackType === "reaction" || result.entry.directReactionId === reactionId);
+        if (reactionId === "vaporize15") {
+            const isolated = applyReaction(sandbox, calcData, after.context, "vaporize");
+            assert.equal(isolated.totals.critRateBonus, 0);
+        } else assert.ok(reactionResults.length, reactionId);
+        for (const result of reactionResults) {
+            const baseline = before.results.find((item) => item.entry.id === result.entry.id);
+            assert.equal(result.breakdown.critRate, baseline.breakdown.critRate, reactionId);
+            assert.equal(result.expected, baseline.expected, reactionId);
+            assert.equal((result.breakdown.appliedModifiers || []).some((item) => item.modifier?.id === IDS[15047].crit), false, reactionId);
+        }
+    }
+});

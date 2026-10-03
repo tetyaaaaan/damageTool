@@ -163,7 +163,7 @@ test("戦闘中だけ成立する武器効果を入力反映済みから手動�
 test("全JSONの入力反映済み補正を入力欄の表現範囲で監査する", () => {
     const analyzer = loadAnalyzer();
     const expectations = {
-        "artifact-set-modifiers.json": { total: 49, represented: 43, routed: 6 },
+        "artifact-set-modifiers.json": { total: 51, represented: 45, routed: 6 },
             "weapon-modifiers.json": { total: 193, represented: 43, routed: 150 },
         "talent-modifiers.json": { total: 0, represented: 0, routed: 0 },
         "constellation-modifiers.json": { total: 0, represented: 0, routed: 0 }
@@ -181,6 +181,16 @@ test("全JSONの入力反映済み補正を入力欄の表現範囲で監査す�
             }
             Object.values(value).forEach(visit);
         };
+        if (file === "artifact-set-modifiers.json") {
+            for (const setId of ["15047", "15048"]) {
+                const additions = data[setId].twoPiece.filter((record) => record.uidHandling === "includedInUidStats");
+                assert.equal(additions.length, 1, setId);
+                assert.equal(additions[0].id, "2pc_atk_percent");
+                assert.deepEqual(additions[0].applyTo, ["atkPercent"]);
+                assert.equal(additions[0].value, 18);
+                assert.equal(analyzer.uidStatsCoverage(additions[0]).represented, true);
+            }
+        }
         visit(data);
         assert.deepEqual(summary, expected, file);
     });
