@@ -1712,13 +1712,33 @@
             },
             "unit": "percent",
             "condition": "active",
-            "calculationSupport": "toggle",
+            "calculationSupport": "stack",
             "valueSource": {
               "type": "talentAttribute",
               "section": "combat2",
               "param": "param4",
               "label": "元素爆発ダメージアップ"
-            }
+            },
+            "id": "raiden_eye_burst_bonus",
+            "targetOwner": "team",
+            "levelSource": "skill",
+            "uidHandling": "conditional",
+            "stack": {
+              "min": 0,
+              "max": 100,
+              "default": 0
+            },
+            "conditionInput": {
+              "type": "stack",
+              "label": "受け手の元素爆発エネルギーコスト",
+              "help": "実際にバフを受けるキャラクターの爆発コストを入力します。雷電自身は90。提供者のコストは使用しません。",
+              "unit": "エネルギー",
+              "min": 0,
+              "max": 100,
+              "step": 1
+            },
+            "valueByLevelPerStack": true,
+            "dynamicInputResolved": true
           }
         ]
       },
@@ -1736,7 +1756,142 @@
             "unit": "element",
             "condition": "afterHit",
             "calculationSupport": "toggle",
-            "overwrite": true
+            "overwrite": true,
+            "uidHandling": "displayOnly",
+            "targetOwner": "self",
+            "sourceText": "夢想の一心の雷元素は独立した元素爆発攻撃entryに定義済み。通常状態の物理攻撃は元素変換しない。"
+          },
+          {
+            "id": "raiden_resolve_initial",
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "burstDamageBonus"
+            ],
+            "targetEffect": [
+              "damage_2"
+            ],
+            "targetGroups": [
+              "burst"
+            ],
+            "valueByLevel": {
+              "1": 3.888,
+              "2": 4.1796,
+              "3": 4.4712,
+              "4": 4.86,
+              "5": 5.1516,
+              "6": 5.4432,
+              "7": 5.832,
+              "8": 6.2208,
+              "9": 6.6096,
+              "10": 6.9984,
+              "11": 7.3872,
+              "12": 7.776,
+              "13": 8.262,
+              "14": 8.748,
+              "15": 9.234
+            },
+            "levelSource": "burst",
+            "reference": {
+              "stat": "atk",
+              "source": "self"
+            },
+            "unit": "percent",
+            "condition": "resolveStacks",
+            "calculationSupport": "stack",
+            "uidHandling": "conditional",
+            "targetOwner": "self",
+            "conditionGroupId": "raidenResolve",
+            "stack": {
+              "min": 0,
+              "max": 60,
+              "default": 0
+            },
+            "conditionInput": {
+              "type": "stack",
+              "label": "現在の願力",
+              "help": "現在の願力を0～60で入力します。自動獲得・消費は行いません。",
+              "min": 0,
+              "max": 60,
+              "step": 1
+            },
+            "valueSource": {
+              "section": "combat3",
+              "param": "param2",
+              "rawPath": "games/genshin/data/calc/sources/raiden-currentcalc-talents.response.json"
+            },
+            "valueByLevelPerStack": true,
+            "dynamicInputResolved": true
+          },
+          {
+            "id": "raiden_resolve_state",
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "burstDamageBonus"
+            ],
+            "targetEffect": [
+              "normal_1damage_2",
+              "normal_2damage_2",
+              "normal_3damage_2",
+              "normal_4damage_2",
+              "normal_5damage_2",
+              "chargeddamage_2",
+              "plunge_damage_2",
+              "low_plungedamage_2",
+              "high_plungedamage_2",
+              "normal_4damage_2_second",
+              "chargeddamage_2_second"
+            ],
+            "targetGroups": [
+              "burst"
+            ],
+            "valueByLevel": {
+              "1": 0.7262,
+              "2": 0.7806,
+              "3": 0.8351,
+              "4": 0.9077,
+              "5": 0.9622,
+              "6": 1.0166,
+              "7": 1.0892,
+              "8": 1.1619,
+              "9": 1.2345,
+              "10": 1.3071,
+              "11": 1.3797,
+              "12": 1.4523,
+              "13": 1.5431,
+              "14": 1.6339,
+              "15": 1.7246
+            },
+            "levelSource": "burst",
+            "reference": {
+              "stat": "atk",
+              "source": "self"
+            },
+            "unit": "percent",
+            "condition": "resolveStacks",
+            "calculationSupport": "stack",
+            "uidHandling": "conditional",
+            "targetOwner": "self",
+            "conditionGroupId": "raidenResolve",
+            "stack": {
+              "min": 0,
+              "max": 60,
+              "default": 0
+            },
+            "conditionInput": {
+              "type": "stack",
+              "label": "現在の願力",
+              "help": "現在の願力を0～60で入力します。自動獲得・消費は行いません。",
+              "min": 0,
+              "max": 60,
+              "step": 1
+            },
+            "valueSource": {
+              "section": "combat3",
+              "param": "param3",
+              "rawPath": "games/genshin/data/calc/sources/raiden-currentcalc-talents.response.json"
+            },
+            "valueByLevelPerStack": true,
+            "dynamicInputResolved": true
           }
         ]
       },
@@ -1744,14 +1899,22 @@
         "sourceId": "passive2",
         "modifiers": [
           {
-            "category": "damageBonus",
+            "category": "scalingBonus",
             "applyTo": [
               "electroDamageBonus"
             ],
-            "value": 0.4,
             "unit": "percent",
             "condition": "active",
-            "calculationSupport": "toggle"
+            "calculationSupport": "simple",
+            "id": "raiden_excess_er_electro_bonus",
+            "reference": {
+              "source": "self",
+              "stat": "energyRecharge"
+            },
+            "threshold": 100,
+            "ratio": 0.4,
+            "uidHandling": "conditional",
+            "targetOwner": "self"
           }
         ]
       }

@@ -1609,7 +1609,9 @@
     function resolveScalingDamageBonus(modifier, context) {
         const referenceStat = modifier.reference?.stat;
         if (!referenceStat) return 0;
-        const referenceValue = Number(context.stats[referenceStat]) || 0;
+        const referenceValue = modifier.threshold === undefined
+            ? Number(context.stats[referenceStat]) || 0
+            : Math.max(0, (Number(context.stats[referenceStat]) || 0) - (Number(modifier.threshold) || 0));
         const divisor = Number(modifier.divisor) || 1;
         const refinement = String(context.refinement || 1);
         const ratio = Number(modifier.ratioByRefinement?.[refinement]

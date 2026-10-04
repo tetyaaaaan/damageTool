@@ -1,0 +1,6 @@
+{
+  "url": "https://genshin-db-api.vercel.app/api/v5/talents?query=raidenshogun&resultLanguage=English",
+  "scope": "Raiden CurrentCalc only: missing hit components and Resolve coefficients",
+  "rawPath": "games/genshin/data/calc/sources/raiden-currentcalc-talents.response.json",
+  "sha256": "36a778dbb2e0c4f164b333929060ab7d22f8151565f52ed2b822455e7149f0ff"
+}

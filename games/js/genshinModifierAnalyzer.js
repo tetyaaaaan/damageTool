@@ -338,7 +338,7 @@
         const damageTargets = new Set([
             "allDamageBonus", "allElementDamageBonus", "normalAttackDamageBonus",
             "chargedAttackDamageBonus", "plungingAttackDamageBonus", "skillDamageBonus", "burstDamageBonus",
-            "swirledElementDamageBonus"
+            "swirledElementDamageBonus", "electroDamageBonus"
         ]);
         const reactionTargets = new Set([
             "bloomDamageBonus", "hyperbloomDamageBonus", "burgeonDamageBonus",

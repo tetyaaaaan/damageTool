@@ -211,7 +211,8 @@
             : [];
         let status = "ready";
         let reason = "";
-        if (target.owner === "self" || !relevant) {
+        if (target.owner === "self" || !relevant
+            || (target.owner === "otherPartyMembers" && String(member.characterId) === String(context.characterId))) {
             status = "selfOnly";
             reason = "発動者自身だけが対象のため、メインキャラへは適用しません。";
         } else if (!targetAppliesToMain(target.owner)) {
