@@ -9149,8 +9149,8 @@
           "applyTo": [
             "triggeredDamage"
           ],
-          "condition": "conditional",
-          "calculationSupport": "custom",
+          "condition": "afterNightVigilNormalElectroHit",
+          "calculationSupport": "toggle",
           "uidHandling": "conditional",
           "sourceText": "夜狩の巡回の夜巡り状態継続期間中、クロリンデの通常攻撃による雷元素ダメージが敵に命中した時、敵の近くに夜巡りの影を召喚して連携攻撃を2回行い、それぞれクロリンデの攻撃力30%に相当する雷元素ダメージを与える。\nこの効果は1.2秒毎に1回のみ発動でき、この方法によるダメージは通常攻撃ダメージと見なされる。",
           "target": {
@@ -9164,11 +9164,17 @@
           "scalings": [
             {
               "stat": "atk",
-              "value": 30.0,
+              "value": 30,
               "unit": "percent"
             }
           ],
-          "customHandlingRequired": true
+          "customHandlingRequired": false,
+          "element": "雷",
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "hitCount": 2,
+          "conditionLabel": "夜巡り状態の通常雷攻撃命中後：夜巡りの影2ヒット",
+          "targetOwner": "self"
         }
       ],
       "2": [
@@ -9191,7 +9197,10 @@
             "min": 0,
             "default": 0,
             "max": 3
-          }
+          },
+          "auditDisposition": "supersededByStructuredRecord",
+          "resolvedByModifierId": "clorinde_dark_shattering_flame",
+          "deferredReason": "共有する夜を裂く紫焔entryがC2で30%・上限2700へ切り替わります。別加算しません。"
         }
       ],
       "3": [
@@ -9214,14 +9223,34 @@
           "id": "c_10000098_4_1",
           "category": "damageBonus",
           "applyTo": [
-            "allDamageBonus"
+            "burstDamageBonus"
           ],
-          "value": 2,
           "unit": "percent",
           "sourceText": "消えゆく残光が敵にダメージを与える時、クロリンデの命の契約パーセンテージを基に以下の通りダメージがアップする。命の契約1%につき、消えゆく残光のダメージ+2%。この方法でアップできる消えゆく残光ダメージは最大200%まで。",
-          "condition": "constellationUnlocked",
-          "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "condition": "currentBondOfLife",
+          "calculationSupport": "stack",
+          "uidHandling": "conditional",
+          "targetGroups": [
+            "burst"
+          ],
+          "conditionGroupId": "clorindeBondOfLife",
+          "stack": {
+            "min": 0,
+            "max": 200,
+            "default": 0
+          },
+          "conditionInput": {
+            "type": "stack",
+            "label": "命の契約（最大HPに対する割合）",
+            "help": "元素爆発のダメージ時点の割合を入力します。1%につき爆発ダメージ+2%、最大+200%。",
+            "unit": "%",
+            "min": 0,
+            "max": 200,
+            "step": 0.1
+          },
+          "targetOwner": "self",
+          "value": 2,
+          "maxValue": 200
         }
       ],
       "5": [
@@ -9249,14 +9278,12 @@
           "value": 10,
           "unit": "percent",
           "sourceText": "夜狩の巡回発動後の12秒間、クロリンデの会心率+10%、会心ダメージ+70%。\nまた、夜巡り状態継続期間中、特定の状況で「明燭の影」が現れて追撃を行い、クロリンデの攻撃力200%分の雷元素ダメージを与える。この方法によるダメージは通常攻撃ダメージと見なされる。\n明燭の影は以下の状況で現れる。\n·クロリンデが攻撃に当たる直前。\n·クロリンデが穿夜·契約を繰り出した時。\nこの2つの方法による明燭の影の召喚は、1秒毎に1回のみ可能。夜巡り状態継続期間中は、明燭の影を最大6回召喚できる。\nまた、夜巡り状態継続期間中、クロリンデの受けるダメージ-80%、中断耐性がアップする。この効果は夜巡り状態終了時、あるいは明燭の影を6回召喚した1秒後に解除される。",
-          "condition": "constellationUnlocked",
+          "condition": "afterNightVigilActivation",
           "calculationSupport": "toggle",
           "uidHandling": "conditional",
-          "stack": {
-            "min": 0,
-            "default": 0,
-            "max": 6
-          }
+          "conditionGroupId": "clorindeC6AfterSkill",
+          "conditionLabel": "夜狩の巡回発動後：会心率+10%／会心ダメージ+70%",
+          "targetOwner": "self"
         },
         {
           "id": "c_10000098_6_2",
@@ -9267,14 +9294,12 @@
           "value": 70,
           "unit": "percent",
           "sourceText": "夜狩の巡回発動後の12秒間、クロリンデの会心率+10%、会心ダメージ+70%。\nまた、夜巡り状態継続期間中、特定の状況で「明燭の影」が現れて追撃を行い、クロリンデの攻撃力200%分の雷元素ダメージを与える。この方法によるダメージは通常攻撃ダメージと見なされる。\n明燭の影は以下の状況で現れる。\n·クロリンデが攻撃に当たる直前。\n·クロリンデが穿夜·契約を繰り出した時。\nこの2つの方法による明燭の影の召喚は、1秒毎に1回のみ可能。夜巡り状態継続期間中は、明燭の影を最大6回召喚できる。\nまた、夜巡り状態継続期間中、クロリンデの受けるダメージ-80%、中断耐性がアップする。この効果は夜巡り状態終了時、あるいは明燭の影を6回召喚した1秒後に解除される。",
-          "condition": "constellationUnlocked",
+          "condition": "afterNightVigilActivation",
           "calculationSupport": "toggle",
           "uidHandling": "conditional",
-          "stack": {
-            "min": 0,
-            "default": 0,
-            "max": 6
-          }
+          "conditionGroupId": "clorindeC6AfterSkill",
+          "conditionLabel": "夜狩の巡回発動後：会心率+10%／会心ダメージ+70%",
+          "targetOwner": "self"
         },
         {
           "id": "c_10000098_6_4",
@@ -9282,8 +9307,8 @@
           "applyTo": [
             "triggeredDamage"
           ],
-          "condition": "conditional",
-          "calculationSupport": "custom",
+          "condition": "glimbrightShadeTriggered",
+          "calculationSupport": "toggle",
           "uidHandling": "conditional",
           "sourceText": "夜狩の巡回発動後の12秒間、クロリンデの会心率+10%、会心ダメージ+70%。\nまた、夜巡り状態継続期間中、特定の状況で「明燭の影」が現れて追撃を行い、クロリンデの攻撃力200%分の雷元素ダメージを与える。この方法によるダメージは通常攻撃ダメージと見なされる。\n明燭の影は以下の状況で現れる。\n·クロリンデが攻撃に当たる直前。\n·クロリンデが穿夜·契約を繰り出した時。\nこの2つの方法による明燭の影の召喚は、1秒毎に1回のみ可能。夜巡り状態継続期間中は、明燭の影を最大6回召喚できる。\nまた、夜巡り状態継続期間中、クロリンデの受けるダメージ-80%、中断耐性がアップする。この効果は夜巡り状態終了時、あるいは明燭の影を6回召喚した1秒後に解除される。",
           "target": {
@@ -9296,21 +9321,22 @@
           "scalings": [
             {
               "stat": "atk",
-              "value": 200.0,
+              "value": 200,
               "unit": "percent"
             }
           ],
-          "customHandlingRequired": true,
-          "stack": {
-            "min": 0,
-            "default": 0,
-            "max": 6
-          }
+          "customHandlingRequired": false,
+          "element": "雷",
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "hitCount": 1,
+          "conditionLabel": "夜巡り中：明燭の影の追撃が発動する",
+          "targetOwner": "self"
         },
         {
           "id": "c_10000098_6_5",
-          "auditDisposition": "dedicatedFormulaDeferred",
-          "deferredReason": "明燭の影は攻撃力200%の独立追撃であり、通常攻撃ダメージバフではなく追加攻撃entryが必要です。",
+          "auditDisposition": "supersededByStructuredRecord",
+          "deferredReason": "攻撃力200%の明燭の影を独立entryで計算します。元攻撃へ加算しません。",
           "category": "scalingBonus",
           "applyTo": [
             "normalAttackDamageBonus"
@@ -9324,13 +9350,14 @@
           "sourceText": "夜狩の巡回発動後の12秒間、クロリンデの会心率+10%、会心ダメージ+70%。\nまた、夜巡り状態継続期間中、特定の状況で「明燭の影」が現れて追撃を行い、クロリンデの攻撃力200%分の雷元素ダメージを与える。この方法によるダメージは通常攻撃ダメージと見なされる。\n明燭の影は以下の状況で現れる。\n·クロリンデが攻撃に当たる直前。\n·クロリンデが穿夜·契約を繰り出した時。\nこの2つの方法による明燭の影の召喚は、1秒毎に1回のみ可能。夜巡り状態継続期間中は、明燭の影を最大6回召喚できる。\nまた、夜巡り状態継続期間中、クロリンデの受けるダメージ-80%、中断耐性がアップする。この効果は夜巡り状態終了時、あるいは明燭の影を6回召喚した1秒後に解除される。",
           "uidHandling": "conditional",
           "customHandlingRequired": true,
-          "ratio": 200.0,
+          "ratio": 200,
           "unit": "percent",
           "stack": {
             "min": 0,
             "default": 0,
             "max": 6
-          }
+          },
+          "resolvedByModifierId": "c_10000098_6_4"
         }
       ]
     }

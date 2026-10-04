@@ -275,7 +275,9 @@
         if (modifier.calculationSupport === "stack" && Number.isFinite(Number(modifier.value))) {
             const perStack = Number(modifier.value);
             const maxStack = Number(modifier.stack?.max);
-            const maxValue = Number.isFinite(maxStack) ? perStack * maxStack : null;
+            const uncappedMax = Number.isFinite(maxStack) ? perStack * maxStack : null;
+            const maxValue = modifier.category === "damageBonus" && Number.isFinite(Number(modifier.maxValue))
+                ? Math.min(uncappedMax, Number(modifier.maxValue)) : uncappedMax;
             return `${label}：+${perStack}%／層${maxValue === null ? "" : `（最大+${maxValue}%）`}`;
         }
         const value = structuredImpactValue(modifier, context);

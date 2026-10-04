@@ -557,7 +557,15 @@
             talentResolution: registryRecord.resolution,
             talentResolutionReason: registryRecord.reasonJa
         } : modifier;
-        const optionNormalized = normalizeExclusiveTalentOptions(registered, sourceId, calcData, context);
+        const constellationNormalized = { ...registered };
+        for (const field of ["value", "maxValue"]) {
+            const selected = Object.entries(registered[`${field}ByConstellation`] || {})
+                .map(([level, value]) => [Number(level), value])
+                .filter(([level]) => level <= Number(context.constellation || 0))
+                .sort((left, right) => right[0] - left[0])[0];
+            if (selected) constellationNormalized[field] = selected[1];
+        }
+        const optionNormalized = normalizeExclusiveTalentOptions(constellationNormalized, sourceId, calcData, context);
         const normalized = normalizeElementOverrideModifier(optionNormalized, source, calcData, context);
         if (!String(source).startsWith("talent:")) return normalized;
         if (!["combat2", "combat3"].includes(sourceId)) return normalized;
@@ -968,7 +976,9 @@
             (talent?.entries || []).forEach((entry) => {
                 if (entry.source?.format === "I" || entry.replacedByModifierId) return;
                 if (group === "skill" && skillMode?.attackTypes.includes(entry.attackType) && !skillModeEnabled) return;
-                if (group === "normalAttack" && skillModeEnabled && skillMode?.attackTypes.includes(entry.attackType)) return;
+                if (group === "normalAttack" && skillModeEnabled
+                    && (skillMode?.attackTypes.includes(entry.attackType)
+                        || calcData.attackModeRules?.characters?.[context.characterId]?.skill?.disabledAttackTypes?.includes(entry.attackType))) return;
                 const variants = Array.isArray(entry.elementVariants) && entry.elementVariants.length
                     ? entry.elementVariants
                     : [null];
@@ -1122,7 +1132,9 @@
             const min = modifier.stack?.min ?? 0;
             const max = modifier.stack?.max ?? modifier.resource?.maxConsumed ?? resourceStack ?? 0;
             const stack = Math.min(Math.max(resourceStack ?? conditionStack ?? uiState.stackByModifier?.[modifier.id] ?? uiState.stack ?? modifier.stack?.default ?? 0, min), max);
-            return numericModifierValue(modifier.value) * stack;
+            const calculated = numericModifierValue(modifier.value) * stack;
+            return modifier.category === "damageBonus" && Number.isFinite(Number(modifier.maxValue))
+                ? Math.min(calculated, Number(modifier.maxValue)) : calculated;
         }
         if (modifier.value !== undefined) return numericModifierValue(modifier.value);
         if (modifier.valueByRefinementPerStack) {
@@ -1487,6 +1499,7 @@
     }
 
     function modifierTargetsEntry(modifier, entry) {
+        if (Array.isArray(modifier.targetElements) && !modifier.targetElements.includes(entry.element)) return false;
         if (Array.isArray(modifier.targetGroups) && !modifier.targetGroups.includes(entry.group)) return false;
         const targetEffects = Array.isArray(modifier.targetEffect)
             ? modifier.targetEffect
@@ -1515,12 +1528,15 @@
         if (modifier.reference?.source === "provider") {
             return Number(context.manualInputs?.providerStats?.[referenceStat]) || 0;
         }
-        return Number(context.stats[referenceStat]) || 0;
+        const referenceStats = modifier.reference?.includeAppliedStatBonuses
+            ? effectiveStats(context) : context.stats;
+        return Number(referenceStats[referenceStat]) || 0;
     }
 
     function resolveReferencedValue(modifier, value, context) {
         const referenceValue = resolveReferenceBase(modifier, context);
-        return referenceValue * (Number(value) || 0) / 100;
+        const calculated = referenceValue * (Number(value) || 0) / 100;
+        return Number.isFinite(Number(modifier.maxValue)) ? Math.min(calculated, Number(modifier.maxValue)) : calculated;
     }
 
     function normalizeStatTarget(target) {
@@ -2647,7 +2663,7 @@
                     id: modifier.id || `extra_${source}`,
                     effectId: modifier.id || "",
                     label,
-                    attackType: modifier.damageType || "extraDamage",
+                    attackType: modifier.attackType || modifier.damageType || "extraDamage",
                     damageType: modifier.damageType || "extraDamage",
                     element: modifier.element || "physical",
                     directReactionId: modifier.directReactionId || "",

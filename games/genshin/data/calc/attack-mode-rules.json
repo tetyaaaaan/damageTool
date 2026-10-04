@@ -32,6 +32,15 @@
           "normalAttack": "skill"
         }
       }
+    },
+    "10000098": {
+      "skill": {
+        "nameJa": "夜巡り",
+        "disabledAttackTypes": ["chargedAttack"],
+        "damageTypeByAttackType": {
+          "normalAttack": "normal"
+        }
+      }
     }
   }
 }

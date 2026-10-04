@@ -41352,6 +41352,44 @@
           ]
         },
         {
+          "id": "normal_3damage_second",
+          "label": "3段ダメージ・2ヒット目",
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "physical",
+          "hitCount": 1,
+          "levelSource": "normalAttack",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat1",
+            "param": "param4",
+            "format": "F1P",
+            "rawPath": "games/genshin/data/calc/sources/clorinde-currentcalc-talents.response.json"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 34.185,
+                "2": 36.9675,
+                "3": 39.75,
+                "4": 43.725,
+                "5": 46.5075,
+                "6": 49.6875,
+                "7": 54.06,
+                "8": 58.4325,
+                "9": 62.805,
+                "10": 67.575,
+                "11": 72.345,
+                "12": 77.115,
+                "13": 81.885,
+                "14": 86.655,
+                "15": 91.425
+              }
+            }
+          ]
+        },
+        {
           "id": "normal_4damage",
           "label": "4段ダメージ",
           "attackType": "normalAttack",
@@ -41364,6 +41402,82 @@
             "talentKey": "combat1",
             "param": "param5",
             "format": "F1P"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 23.134,
+                "2": 25.017,
+                "3": 26.9,
+                "4": 29.59,
+                "5": 31.473,
+                "6": 33.625,
+                "7": 36.584,
+                "8": 39.543,
+                "9": 42.502,
+                "10": 45.73,
+                "11": 48.958,
+                "12": 52.186,
+                "13": 55.414,
+                "14": 58.642,
+                "15": 61.87
+              }
+            }
+          ]
+        },
+        {
+          "id": "normal_4damage_second",
+          "label": "4段ダメージ・2ヒット目",
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "physical",
+          "hitCount": 1,
+          "levelSource": "normalAttack",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat1",
+            "param": "param6",
+            "format": "F1P",
+            "rawPath": "games/genshin/data/calc/sources/clorinde-currentcalc-talents.response.json"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 23.134,
+                "2": 25.017,
+                "3": 26.9,
+                "4": 29.59,
+                "5": 31.473,
+                "6": 33.625,
+                "7": 36.584,
+                "8": 39.543,
+                "9": 42.502,
+                "10": 45.73,
+                "11": 48.958,
+                "12": 52.186,
+                "13": 55.414,
+                "14": 58.642,
+                "15": 61.87
+              }
+            }
+          ]
+        },
+        {
+          "id": "normal_4damage_third",
+          "label": "4段ダメージ・3ヒット目",
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "physical",
+          "hitCount": 1,
+          "levelSource": "normalAttack",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat1",
+            "param": "param7",
+            "format": "F1P",
+            "rawPath": "games/genshin/data/calc/sources/clorinde-currentcalc-talents.response.json"
           },
           "scalings": [
             {
@@ -41445,7 +41559,7 @@
               "valuesByLevel": {
                 "1": 128.14,
                 "2": 138.57,
-                "3": 149.0,
+                "3": 149,
                 "4": 163.9,
                 "5": 174.33,
                 "6": 186.25,
@@ -41581,9 +41695,9 @@
       "entries": [
         {
           "id": "damage",
-          "label": "駆猟ダメージ",
-          "attackType": "skill",
-          "damageType": "skill",
+          "label": "駆猟：命の契約100%以上",
+          "attackType": "normalAttack",
+          "damageType": "normal",
           "element": "雷",
           "hitCount": 1,
           "levelSource": "skill",
@@ -41617,12 +41731,50 @@
           ]
         },
         {
-          "id": "damage_2",
-          "label": "穿夜のダメージ",
-          "attackType": "skill",
-          "damageType": "skill",
+          "id": "damage_bol_below_100",
+          "label": "駆猟：命の契約100%未満",
+          "attackType": "normalAttack",
+          "damageType": "normal",
           "element": "雷",
-          "hitCount": 3,
+          "hitCount": 1,
+          "levelSource": "skill",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat2",
+            "param": "param2",
+            "format": "F1P",
+            "rawPath": "games/genshin/data/calc/sources/clorinde-currentcalc-talents.response.json"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 38.786,
+                "2": 41.943,
+                "3": 45.1,
+                "4": 49.61,
+                "5": 52.767,
+                "6": 56.375,
+                "7": 61.336,
+                "8": 66.297,
+                "9": 71.258,
+                "10": 76.67,
+                "11": 82.082,
+                "12": 87.494,
+                "13": 92.906,
+                "14": 98.318,
+                "15": 103.73
+              }
+            }
+          ]
+        },
+        {
+          "id": "damage_2",
+          "label": "穿夜：命の契約0%",
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "雷",
+          "hitCount": 1,
           "levelSource": "skill",
           "source": {
             "oss": "genshin-db",
@@ -41654,6 +41806,82 @@
           ]
         },
         {
+          "id": "damage_2_bol_below_100",
+          "label": "穿夜：命の契約0%超～100%未満",
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "雷",
+          "hitCount": 1,
+          "levelSource": "skill",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat2",
+            "param": "param5",
+            "format": "F1P",
+            "rawPath": "games/genshin/data/calc/sources/clorinde-currentcalc-talents.response.json"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 43.9632,
+                "2": 47.5416,
+                "3": 51.12,
+                "4": 56.232,
+                "5": 59.8104,
+                "6": 63.9,
+                "7": 69.5232,
+                "8": 75.1464,
+                "9": 80.7696,
+                "10": 86.904,
+                "11": 93.0384,
+                "12": 99.1728,
+                "13": 105.3072,
+                "14": 111.4416,
+                "15": 117.576
+              }
+            }
+          ]
+        },
+        {
+          "id": "damage_2_pact",
+          "label": "穿夜・契約：命の契約100%以上",
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "雷",
+          "hitCount": 3,
+          "levelSource": "skill",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat2",
+            "param": "param7",
+            "format": "F1P",
+            "rawPath": "games/genshin/data/calc/sources/clorinde-currentcalc-talents.response.json"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 25.112,
+                "2": 27.156,
+                "3": 29.2,
+                "4": 32.12,
+                "5": 34.164,
+                "6": 36.5,
+                "7": 39.712,
+                "8": 42.924,
+                "9": 46.136,
+                "10": 49.64,
+                "11": 53.144,
+                "12": 56.648,
+                "13": 60.152,
+                "14": 63.656,
+                "15": 67.16
+              }
+            }
+          ]
+        },
+        {
           "id": "damage_3",
           "label": "迸発の刃のダメージ",
           "attackType": "skill",
@@ -41674,7 +41902,7 @@
                 "1": 43.2,
                 "2": 46.44,
                 "3": 49.68,
-                "4": 54.0,
+                "4": 54,
                 "5": 57.24,
                 "6": 60.48,
                 "7": 64.8,
@@ -41696,7 +41924,7 @@
       "entries": [
         {
           "id": "skilldamage",
-          "label": "スキルダメージ",
+          "label": "消えゆく残光（1ヒット／5ヒット合計）",
           "attackType": "burst",
           "damageType": "burst",
           "element": "雷",

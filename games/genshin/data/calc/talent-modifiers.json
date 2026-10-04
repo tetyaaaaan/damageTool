@@ -3951,7 +3951,59 @@
             "unit": "element",
             "condition": "afterHit",
             "calculationSupport": "toggle",
-            "overwrite": true
+            "overwrite": true,
+            "uidHandling": "displayOnly",
+            "sourceText": "夜巡り状態は専用の駆猟・穿夜entryで計算します。通常状態の物理攻撃へ元素変換を適用しません。"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "id": "clorinde_dark_shattering_flame",
+            "category": "additiveBaseDamage",
+            "applyTo": [
+              "normalAttackDamageBonus",
+              "burstDamageBonus"
+            ],
+            "targetElements": [
+              "雷"
+            ],
+            "value": 20,
+            "valueByConstellation": {
+              "2": 30
+            },
+            "maxValue": 1800,
+            "maxValueByConstellation": {
+              "2": 2700
+            },
+            "reference": {
+              "source": "self",
+              "stat": "atk",
+              "includeAppliedStatBonuses": true
+            },
+            "unit": "percent",
+            "condition": "afterElectroReaction",
+            "conditionGroupId": "clorindeElectroReactionStacks",
+            "calculationSupport": "stack",
+            "stack": {
+              "min": 0,
+              "max": 3,
+              "default": 0
+            },
+            "conditionInput": {
+              "type": "stack",
+              "label": "夜を裂く紫焔：雷関連反応後の層数",
+              "help": "クロリンデの現在ATKを参照します。C0/C1は20%×層数・最大1800、C2以降は30%×層数・最大2700。同じ層数を使用します。",
+              "unit": "層",
+              "min": 0,
+              "max": 3,
+              "step": 1
+            },
+            "targetOwner": "self",
+            "uidHandling": "conditional",
+            "sourceText": "After a nearby party member triggers an Electro-related reaction against an opponent, Electro DMG dealt by Clorinde's Normal Attacks and Last Lightfall will be increased by 20% of Clorinde's ATK for 15s. Max 3 stacks. Each stack is counted independently. The Maximum DMG increase achievable this way for the above attacks is 1,800."
           }
         ]
       },
@@ -3963,10 +4015,29 @@
             "applyTo": [
               "critRate"
             ],
-            "value": 10.0,
+            "value": 10,
             "unit": "percent",
-            "condition": "active",
-            "calculationSupport": "toggle"
+            "condition": "afterBondOfLifeChange",
+            "calculationSupport": "stack",
+            "id": "clorinde_lawful_remuneration",
+            "conditionGroupId": "clorindeLawfulRemunerationStacks",
+            "stack": {
+              "min": 0,
+              "max": 2,
+              "default": 0
+            },
+            "conditionInput": {
+              "type": "stack",
+              "label": "命の契約変動後の会心率層数",
+              "help": "命の契約100%以上で増減した後の現在層数を入力します。1層10%、最大2層。",
+              "unit": "%",
+              "min": 0,
+              "max": 2,
+              "step": 1
+            },
+            "targetOwner": "self",
+            "uidHandling": "conditional",
+            "sourceText": "If Clorinde's Bond of Life is equal to or greater than 100% of her Max HP, her CRIT Rate will increase by 10% for 15s whenever her Bond of Life value increases or decreases. Max 2 stacks. Each stack is counted independently.\nAdditionally, Hunter's Vigil's Night Vigil state is buffed: While it is active, the percent of healing converted to Bond of Life increases to 100%."
           }
         ]
       }
