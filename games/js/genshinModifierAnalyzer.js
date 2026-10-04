@@ -330,11 +330,14 @@
         if (modifier?.category !== "scalingBonus") {
             return { calculable: false, calculation: "", supportStatus: "unsupported", reason: "scalingBonus ではありません" };
         }
-        if (modifier.reference?.source !== "self" || !modifier.reference?.stat) {
+        const explicitProviderReference = modifier.inputPolicy === "calculate"
+            && modifier.reference?.source === "selfOrProvider"
+            && ["team", "otherPartyMembers"].includes(modifier.targetOwner);
+        if ((modifier.reference?.source !== "self" && !explicitProviderReference) || !modifier.reference?.stat) {
             return { calculable: false, calculation: "scalingBonus", supportStatus: "invalidData", reason: "参照ステータスが不足しています" };
         }
         const targets = modifier.applyTo || [];
-        const statTargets = new Set(["atkPercent", "hpPercent", "defPercent", "elementalMastery", "energyRecharge"]);
+        const statTargets = new Set(["atkFlat", "atkPercent", "hpPercent", "defPercent", "elementalMastery", "energyRecharge"]);
         const damageTargets = new Set([
             "allDamageBonus", "allElementDamageBonus", "normalAttackDamageBonus",
             "chargedAttackDamageBonus", "plungingAttackDamageBonus", "skillDamageBonus", "burstDamageBonus",

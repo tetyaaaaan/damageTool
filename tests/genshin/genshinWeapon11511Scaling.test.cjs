@@ -56,9 +56,9 @@ function context(refinement, stack) {
         },
         uiState: {
             stackByModifier: { [MODIFIER_ID]: stack },
-            conditionByModifier: {},
+            conditionByModifier: { ["weapon:11511:group:grandHymnStacks"]: { stack, enabled: true } },
             toggleByModifier: {},
-            complexConditionByModifier: {}
+            complexConditionByModifier: { ["weapon:11511:group:grandHymnStacks"]: { stack } }
         },
         mode: "uidMode"
     };
@@ -98,7 +98,8 @@ test("聖顕の鍵の壮大な詩篇は精錬値別・層別のHP参照倍率を
             const effectiveStats = sandbox.GenshinCalcEngine
                 .buildEffectiveStats(calcContext, collected)
                 .effectiveStats;
-            assert.equal(effectiveStats.elementalMastery, 100000 * expectedPercent / 100);
+            const expectedEm = 100000 * expectedPercent / 100 + (stack === 3 ? 100000 * (refinement === 1 ? 0.2 : 0.4) / 100 : 0);
+            assert.ok(Math.abs(effectiveStats.elementalMastery - expectedEm) < 1e-7);
         }
     }
 });

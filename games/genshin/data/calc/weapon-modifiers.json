@@ -2044,7 +2044,18 @@
           "3": 0.18,
           "4": 0.21,
           "5": 0.24
-        }
+        },
+        "conditionGroupId": "grandHymnStacks",
+        "conditionInput": {
+          "type": "stack",
+          "label": "壮大な詩篇の層数",
+          "min": 0,
+          "max": 3,
+          "unit": "層"
+        },
+        "conditionInputActivates": true,
+        "targetOwner": "self",
+        "inputPolicy": "calculate"
       },
       {
         "id": "w_11511_scaling_bonus_3",
@@ -2054,21 +2065,42 @@
         ],
         "unit": "percent",
         "condition": "always",
-        "calculationSupport": "custom",
-        "uidHandling": "special",
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
         "sourceText": "3層まで重ねた時、または3層の継続時間がリセットされた時、装備したキャラクターのHP上限の0.2%を基準に、周囲にいるチーム全員の元素熟知がアップする、継続時間20秒",
-        "value": 20,
         "duration": 20,
         "reference": {
           "stat": "hp",
-          "source": "self"
+          "source": "selfOrProvider"
         },
-        "customHandlingRequired": true,
         "stack": {
           "min": 0,
           "default": 0,
           "max": 3
-        }
+        },
+        "conditionGroupId": "grandHymnStacks",
+        "conditionInput": {
+          "type": "stack",
+          "label": "壮大な詩篇の層数",
+          "min": 0,
+          "max": 3,
+          "unit": "層"
+        },
+        "conditionInputActivates": true,
+        "targetOwner": "team",
+        "minimumConditionStack": 3,
+        "valueByRefinement": {
+          "1": 0.2,
+          "2": 0.25,
+          "3": 0.3,
+          "4": 0.35,
+          "5": 0.4
+        },
+        "valueSource": {
+          "type": "weaponEffectParam",
+          "param": "param3"
+        },
+        "inputPolicy": "calculate"
       },
       {
         "id": "w_11511_stat_1",
@@ -3682,20 +3714,50 @@
         "id": "w_12415_scaling_bonus_1",
         "category": "scalingBonus",
         "applyTo": [
-          "atkPercent"
+          "atkFlat"
         ],
         "unit": "percent",
-        "condition": "always",
-        "calculationSupport": "custom",
-        "uidHandling": "special",
+        "condition": "active",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
         "sourceText": "装備したキャラクターの元素熟知の24%を基準に該当キャラクターの攻撃力がアップし、アップする攻撃力の30%を基準に周囲にいるチーム内の他キャラクターの攻撃力がアップする、継続時間12秒",
-        "value": 30,
         "duration": 12,
         "reference": {
           "stat": "elementalMastery",
-          "source": "self"
+          "source": "self",
+          "allowZero": true
         },
-        "customHandlingRequired": true
+        "conditionGroupId": "providerEmAtkTransfer",
+        "conditionInput": {
+          "type": "option",
+          "label": "元素熟知由来ATK補正の有効状態",
+          "help": "現在有効な12秒の補正を指定します。参照する元素熟知は装備者の入力値です。時間・他の変換補正の自動追跡は行いません。",
+          "options": [
+            {
+              "value": "inactive",
+              "label": "条件OFF"
+            },
+            {
+              "value": "active",
+              "label": "補正有効"
+            }
+          ]
+        },
+        "conditionOptionValue": "active",
+        "conditionInputActivates": true,
+        "targetOwner": "self",
+        "valueByRefinement": {
+          "1": 24,
+          "2": 30,
+          "3": 36,
+          "4": 42,
+          "5": 48
+        },
+        "valueSource": {
+          "type": "weaponEffectParam",
+          "param": "param1"
+        },
+        "inputPolicy": "calculate"
       },
       {
         "category": "statBonus",
@@ -3715,7 +3777,60 @@
         },
         "duration": 12,
         "id": "w_12415_statBonus_7d15f7d0",
-        "sourceText": "装備したキャラクターの元素熟知の24%を基準に該当キャラクターの攻撃力がアップし、アップする攻撃力の30%を基準に周囲にいるチーム内の他キャラクターの攻撃力がアップする、継続時間12秒"
+        "sourceText": "装備したキャラクターの元素熟知の24%を基準に該当キャラクターの攻撃力がアップし、アップする攻撃力の30%を基準に周囲にいるチーム内の他キャラクターの攻撃力がアップする、継続時間12秒",
+        "auditDisposition": "supersededByStructuredRecord",
+        "resolvedByModifierId": "w_12415_scaling_bonus_1"
+      },
+      {
+        "id": "w_12415_provider_atk_transfer",
+        "category": "scalingBonus",
+        "applyTo": [
+          "atkFlat"
+        ],
+        "unit": "percent",
+        "condition": "active",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "sourceText": "装備したキャラクターの元素熟知の24%を基準に該当キャラクターの攻撃力がアップし、アップする攻撃力の30%を基準に周囲にいるチーム内の他キャラクターの攻撃力がアップする、継続時間12秒",
+        "duration": 12,
+        "reference": {
+          "stat": "elementalMastery",
+          "source": "selfOrProvider",
+          "allowZero": true
+        },
+        "conditionGroupId": "providerEmAtkTransfer",
+        "conditionInput": {
+          "type": "option",
+          "label": "元素熟知由来ATK補正の有効状態",
+          "help": "現在有効な12秒の補正を指定します。参照する元素熟知は装備者の入力値です。時間・他の変換補正の自動追跡は行いません。",
+          "options": [
+            {
+              "value": "inactive",
+              "label": "条件OFF"
+            },
+            {
+              "value": "active",
+              "label": "補正有効"
+            }
+          ]
+        },
+        "conditionOptionValue": "active",
+        "conditionInputActivates": true,
+        "targetOwner": "otherPartyMembers",
+        "valueByRefinement": {
+          "1": 24,
+          "2": 30,
+          "3": 36,
+          "4": 42,
+          "5": 48
+        },
+        "valueSource": {
+          "type": "weaponEffectParam",
+          "param": "param1"
+        },
+        "transferRatio": 0.3,
+        "effectLabel": "砂上の楼閣：装備者ATK増加量の30%転送",
+        "inputPolicy": "calculate"
       }
     ]
   },
@@ -7615,20 +7730,50 @@
         "id": "w_14416_scaling_bonus_1",
         "category": "scalingBonus",
         "applyTo": [
-          "atkPercent"
+          "atkFlat"
         ],
         "unit": "percent",
-        "condition": "always",
-        "calculationSupport": "custom",
-        "uidHandling": "special",
+        "condition": "active",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
         "sourceText": "装備したキャラクターの元素熟知の24%を基準に該当キャラクターの攻撃力がアップし、アップする攻撃力の30%を基準に周囲にいるチーム内の他キャラクターの攻撃力がアップする、継続時間12秒",
-        "value": 30,
         "duration": 12,
         "reference": {
           "stat": "elementalMastery",
-          "source": "self"
+          "source": "self",
+          "allowZero": true
         },
-        "customHandlingRequired": true
+        "conditionGroupId": "providerEmAtkTransfer",
+        "conditionInput": {
+          "type": "option",
+          "label": "元素熟知由来ATK補正の有効状態",
+          "help": "現在有効な12秒の補正を指定します。参照する元素熟知は装備者の入力値です。時間・他の変換補正の自動追跡は行いません。",
+          "options": [
+            {
+              "value": "inactive",
+              "label": "条件OFF"
+            },
+            {
+              "value": "active",
+              "label": "補正有効"
+            }
+          ]
+        },
+        "conditionOptionValue": "active",
+        "conditionInputActivates": true,
+        "targetOwner": "self",
+        "valueByRefinement": {
+          "1": 24,
+          "2": 30,
+          "3": 36,
+          "4": 42,
+          "5": 48
+        },
+        "valueSource": {
+          "type": "weaponEffectParam",
+          "param": "param1"
+        },
+        "inputPolicy": "calculate"
       },
       {
         "category": "statBonus",
@@ -7648,7 +7793,60 @@
         },
         "duration": 12,
         "id": "w_14416_statBonus_7c529294",
-        "sourceText": "装備したキャラクターの元素熟知の24%を基準に該当キャラクターの攻撃力がアップし、アップする攻撃力の30%を基準に周囲にいるチーム内の他キャラクターの攻撃力がアップする、継続時間12秒"
+        "sourceText": "装備したキャラクターの元素熟知の24%を基準に該当キャラクターの攻撃力がアップし、アップする攻撃力の30%を基準に周囲にいるチーム内の他キャラクターの攻撃力がアップする、継続時間12秒",
+        "auditDisposition": "supersededByStructuredRecord",
+        "resolvedByModifierId": "w_14416_scaling_bonus_1"
+      },
+      {
+        "id": "w_14416_provider_atk_transfer",
+        "category": "scalingBonus",
+        "applyTo": [
+          "atkFlat"
+        ],
+        "unit": "percent",
+        "condition": "active",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "sourceText": "装備したキャラクターの元素熟知の24%を基準に該当キャラクターの攻撃力がアップし、アップする攻撃力の30%を基準に周囲にいるチーム内の他キャラクターの攻撃力がアップする、継続時間12秒",
+        "duration": 12,
+        "reference": {
+          "stat": "elementalMastery",
+          "source": "selfOrProvider",
+          "allowZero": true
+        },
+        "conditionGroupId": "providerEmAtkTransfer",
+        "conditionInput": {
+          "type": "option",
+          "label": "元素熟知由来ATK補正の有効状態",
+          "help": "現在有効な12秒の補正を指定します。参照する元素熟知は装備者の入力値です。時間・他の変換補正の自動追跡は行いません。",
+          "options": [
+            {
+              "value": "inactive",
+              "label": "条件OFF"
+            },
+            {
+              "value": "active",
+              "label": "補正有効"
+            }
+          ]
+        },
+        "conditionOptionValue": "active",
+        "conditionInputActivates": true,
+        "targetOwner": "otherPartyMembers",
+        "valueByRefinement": {
+          "1": 24,
+          "2": 30,
+          "3": 36,
+          "4": 42,
+          "5": 48
+        },
+        "valueSource": {
+          "type": "weaponEffectParam",
+          "param": "param1"
+        },
+        "transferRatio": 0.3,
+        "effectLabel": "林野の星：装備者ATK増加量の30%転送",
+        "inputPolicy": "calculate"
       }
     ]
   },

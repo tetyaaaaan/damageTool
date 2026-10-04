@@ -209,6 +209,12 @@
         const partyTargetCharacterIds = Array.isArray(partyModifier.partyTargetCharacterIds)
             ? partyModifier.partyTargetCharacterIds.map(String)
             : [];
+        const missingProviderStats = requiredProviderStats.filter((stat) => {
+            const raw = memberStats[stat];
+            const value = Number(raw);
+            const allowsZero = normalized.reference?.allowZero === true && normalized.reference.stat === stat;
+            return raw === undefined || raw === null || raw === "" || !Number.isFinite(value) || (allowsZero ? value < 0 : value <= 0);
+        });
         let status = "ready";
         let reason = "";
         if (target.owner === "self" || !relevant
@@ -224,9 +230,9 @@
         } else if (partyTargetCharacterIds.length && !partyTargetCharacterIds.includes(String(context.characterId || ""))) {
             status = "notApplicable";
             reason = "対象キャラがこの効果の対象ではないため適用しません。";
-        } else if (requiredProviderStats.some((stat) => !(Number(memberStats[stat]) > 0))) {
+        } else if (missingProviderStats.length > 0) {
             status = "missingProviderStats";
-            reason = `発動者の${requiredProviderStats.filter((stat) => !(Number(memberStats[stat]) > 0)).join("・")}が必要なため、現在は表示のみです。`;
+            reason = `発動者の${missingProviderStats.join("・")}が必要なため、現在は表示のみです。`;
         } else if (descriptionNeedsDynamicInput(description, partyModifier)) {
             status = "missingInput";
             reason = "効果量を決める段階・ポイント・人数の入力が必要なため、現在は表示のみです。";
@@ -254,6 +260,11 @@
                 status = "off";
                 reason = "発動条件がOFFです。";
             }
+        }
+        if (Number.isFinite(Number(partyModifier.minimumConditionStack))
+            && (Number(optionState?.stack) || 0) < Number(partyModifier.minimumConditionStack)) {
+            enabled = false;
+            if (status === "ready") { status = "off"; reason = "必要な層数に達していません。"; }
         }
         if (["ready", "off"].includes(status) && analysis && !analysis.calculable) {
             status = analysis.supportStatus === "missingInput" ? "missingInput" : "displayOnly";

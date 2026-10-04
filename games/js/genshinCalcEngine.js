@@ -793,13 +793,13 @@
         const sourceText = String(modifier?.sourceText || "");
         const descriptionKey = sourceText || modifier?.id || "unknown";
         const firstClause = sourceText.split(/[、。]/)[0] || "武器効果";
-        const targetOwner = /装備者(?:自身)?を除|他のキャラクター|他キャラクター/.test(sourceText)
+        const targetOwner = modifier.targetOwner || (/装備者(?:自身)?を除|他のキャラクター|他キャラクター/.test(sourceText)
             ? "activeCharacter"
             : /チーム全員|チーム内(?:の)?(?:全ての)?キャラクター|チームメンバー|周囲のキャラクター全員/.test(sourceText)
                 ? "team"
                 : /敵の(?:元素|物理|全元素)?耐性|敵の防御|敵が受けるダメージ/.test(sourceText)
                     ? "enemy"
-                    : "self";
+                    : "self");
         const dynamicCondition = /(?:時|後|間|毎|状態|以下|以上|につき|層|影響を受け|付着|命中|消費|解除|獲得|存在する場合)/.test(sourceText);
         const normalized = {
             ...modifier,
@@ -810,13 +810,16 @@
             conditionLabel: modifier.conditionLabel || (dynamicCondition ? firstClause.slice(0, 48) : ""),
             conditionLabelKind: modifier.conditionLabel ? "explicit" : "generated"
         };
-        if (targetOwner !== "self") normalized.auditDisposition = "sourceContextRequired";
+        if (targetOwner !== "self" && modifier.inputPolicy !== "calculate" && !normalized.auditDisposition) normalized.auditDisposition = "sourceContextRequired";
         return normalized;
     }
 
     function duplicateWeaponRecord(modifier, siblings) {
         const signature = (candidate) => JSON.stringify({
             category: candidate.category,
+            targetOwner: candidate.targetOwner,
+            reference: candidate.reference,
+            transferRatio: candidate.transferRatio,
             applyTo: [...(candidate.applyTo || [])].sort(),
             unit: candidate.unit,
             condition: candidate.condition,
@@ -1642,7 +1645,8 @@
                 value: Number.isFinite(Number(modifier.maxValue)) ? Math.min(calculated, Number(modifier.maxValue)) : calculated
             };
         }
-        const calculated = referenceValue * (Number(value) || 0) / 100;
+        const providerBonus = referenceValue * (Number(value) || 0) / 100;
+        const calculated = providerBonus * (Number(modifier.transferRatio ?? 1));
         const level = String(getTalentLevel(context, { levelSource: modifier.levelSource || "skill" }));
         const cap = modifier.maxValueByLevel?.[level] ?? modifier.maxValue;
         return {
