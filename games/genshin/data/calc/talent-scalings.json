@@ -40447,6 +40447,43 @@
           ]
         },
         {
+          "id": "normal_4damage_2",
+          "label": "4段ダメージ（2ヒット目）",
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "physical",
+          "hitCount": 1,
+          "levelSource": "normalAttack",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat1",
+            "param": "param4",
+            "format": "F1P"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 37.1451,
+                "2": 40.1686,
+                "3": 43.192,
+                "4": 47.5112,
+                "5": 50.5346,
+                "6": 53.99,
+                "7": 58.7411,
+                "8": 63.4922,
+                "9": 68.2434,
+                "10": 73.4264,
+                "11": 78.6094,
+                "12": 83.7925,
+                "13": 88.9755,
+                "14": 94.1586,
+                "15": 99.3416
+              }
+            }
+          ]
+        },
+        {
           "id": "normal_5damage",
           "label": "5段ダメージ",
           "attackType": "normalAttack",

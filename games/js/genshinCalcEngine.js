@@ -565,6 +565,18 @@
                 .sort((left, right) => right[0] - left[0])[0];
             if (selected) constellationNormalized[field] = selected[1];
         }
+        const levelOffsets = registered.valueByLevelOffsetByConstellation;
+        if (levelOffsets && registered.valueByLevel) {
+            const selectedOffset = Object.entries(levelOffsets)
+                .map(([level, value]) => [Number(level), Number(value)])
+                .filter(([level, value]) => level <= Number(context.constellation || 0) && Number.isFinite(value))
+                .sort((left, right) => right[0] - left[0])[0]?.[1] || 0;
+            if (selectedOffset) {
+                constellationNormalized.valueByLevel = Object.fromEntries(
+                    Object.entries(registered.valueByLevel).map(([level, value]) => [level, Number(value) + selectedOffset])
+                );
+            }
+        }
         const optionNormalized = normalizeExclusiveTalentOptions(constellationNormalized, sourceId, calcData, context);
         const normalized = normalizeElementOverrideModifier(optionNormalized, source, calcData, context);
         if (!String(source).startsWith("talent:")) return normalized;
@@ -1185,7 +1197,8 @@
             const min = Number(modifier.stack?.min) || 0;
             const max = Number.isFinite(Number(modifier.stack?.max)) ? Number(modifier.stack.max) : (conditionStack ?? 0);
             const stack = Math.min(Math.max(conditionStack ?? uiState.stackByModifier?.[modifier.id] ?? 0, min), max);
-            return perStack * stack;
+            const stackDivisor = Number(modifier.valuePerStackDivisor) || 1;
+            return perStack * stack / stackDivisor;
         }
         if (modifier.valueByLevel) {
             const levelSource = modifier.levelSource || modifier.valueSource?.section || "skill";

@@ -3830,30 +3830,65 @@
         "sourceId": "combat1",
         "modifiers": [
           {
-            "category": "damageBonus",
+            "id": "arlecchino_masque_blood_debt_normal_bonus",
+            "category": "additiveBaseDamage",
             "applyTo": [
-              "allDamageBonus"
+              "normalAttackDamageBonus"
             ],
+            "targetGroups": [
+              "normalAttack"
+            ],
+            "reference": {
+              "source": "self",
+              "stat": "atk",
+              "includeAppliedStatBonuses": true
+            },
             "valueByLevel": {
               "1": 120.4,
               "2": 130.2,
-              "3": 140.0,
-              "4": 154.0,
+              "3": 140,
+              "4": 154,
               "5": 163.8,
-              "6": 175.0,
+              "6": 175,
               "7": 190.4,
               "8": 205.8,
               "9": 221.2,
-              "10": 238.0,
+              "10": 238,
               "11": 254.8,
               "12": 271.6,
               "13": 288.4,
               "14": 305.2,
-              "15": 322.0
+              "15": 322
             },
+            "valueByLevelPerStack": true,
+            "valuePerStackDivisor": 100,
+            "valueByLevelOffsetByConstellation": {
+              "1": 100
+            },
+            "levelSource": "combat1",
             "unit": "percent",
-            "condition": "active",
-            "calculationSupport": "toggle",
+            "condition": "stateActive",
+            "conditionGroupId": "arlecchinoBondOfLife",
+            "shareConditionAcrossSources": true,
+            "minimumConditionStack": 30,
+            "stack": {
+              "min": 0,
+              "max": 200,
+              "default": 0
+            },
+            "conditionInput": {
+              "type": "stack",
+              "label": "現在の命の契約",
+              "help": "現在の命の契約を最大HPに対する割合で入力します（最大HP 100% = 命の契約100）。この値は赤死の宴とC6加算で共有します。30%以上で赤死の宴状態の攻撃を炎元素化します。",
+              "unit": "%",
+              "min": 0,
+              "max": 200,
+              "step": 0.1
+            },
+            "targetOwner": "self",
+            "uidHandling": "conditional",
+            "calculationSupport": "simple",
+            "sourceText": "赤死の宴状態: 現在の「命の契約」割合を参照し、通常攻撃にアルレッキーノの攻撃力×命の契約割合×赤死の宴ダメージアップ率を加算する。C1以上は赤死の宴ダメージアップ率へ100 percentage pointsを加算する。",
             "valueSource": {
               "type": "talentAttribute",
               "section": "combat1",
@@ -3870,10 +3905,27 @@
             ],
             "value": "炎",
             "unit": "element",
-            "condition": "afterHit",
-            "duration": 5.0,
+            "condition": "stateActive",
             "calculationSupport": "toggle",
-            "overwrite": true
+            "overwrite": true,
+            "conditionGroupId": "arlecchinoBondOfLife",
+            "shareConditionAcrossSources": true,
+            "minimumConditionStack": 30,
+            "stack": {
+              "min": 0,
+              "max": 200,
+              "default": 0
+            },
+            "conditionInput": {
+              "type": "stack",
+              "label": "現在の命の契約",
+              "help": "現在の命の契約を最大HPに対する割合で入力します（最大HP 100% = 命の契約100）。この値は赤死の宴とC6加算で共有します。30%以上で赤死の宴状態の攻撃を炎元素化します。",
+              "unit": "%",
+              "min": 0,
+              "max": 200,
+              "step": 0.1
+            },
+            "sourceText": "「命の契約」が最大HPの30%以上の時、通常攻撃・重撃・落下攻撃を炎元素へ変化させる。"
           }
         ]
       },
@@ -3885,7 +3937,7 @@
             "applyTo": [
               "pyroDamageBonus"
             ],
-            "value": 40.0,
+            "value": 40,
             "unit": "percent",
             "condition": "active",
             "calculationSupport": "toggle"
