@@ -53293,6 +53293,44 @@
           ]
         },
         {
+          "id": "normal_3damage_2",
+          "label": "3段ダメージ・2ヒット目",
+          "attackType": "normalAttack",
+          "damageType": "normal",
+          "element": "physical",
+          "hitCount": 1,
+          "levelSource": "normalAttack",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat1",
+            "param": "param4",
+            "format": "F1P",
+            "currentCalcSource": "sources/durin-currentcalc-talents.source.json"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 29.1617,
+                "2": 31.5354,
+                "3": 33.909,
+                "4": 37.2999,
+                "5": 39.6735,
+                "6": 42.3863,
+                "7": 46.1162,
+                "8": 49.8462,
+                "9": 53.5762,
+                "10": 57.6453,
+                "11": 61.7144,
+                "12": 65.7835,
+                "13": 69.8525,
+                "14": 73.9216,
+                "15": 77.9907
+              }
+            }
+          ]
+        },
+        {
           "id": "normal_4damage",
           "label": "4段ダメージ",
           "attackType": "normalAttack",
@@ -53504,7 +53542,7 @@
                 "1": 105.6,
                 "2": 113.52,
                 "3": 121.44,
-                "4": 132.0,
+                "4": 132,
                 "5": 139.92,
                 "6": 147.84,
                 "7": 158.4,
@@ -53517,6 +53555,21 @@
                 "14": 237.6,
                 "15": 250.8
               }
+            }
+          ],
+          "conditionSelectors": [
+            {
+              "groupId": "durinEssentialTransmutationForm",
+              "values": [
+                "inactive",
+                "white",
+                "whiteVaporize",
+                "whiteMelt",
+                "whiteBurning",
+                "whiteOverload",
+                "whiteSwirl",
+                "whiteCrystallize"
+              ]
             }
           ]
         },
@@ -53554,6 +53607,127 @@
                 "14": 162.54,
                 "15": 171.57
               }
+            }
+          ],
+          "conditionSelectors": [
+            {
+              "groupId": "durinEssentialTransmutationForm",
+              "values": [
+                "inactive",
+                "dark",
+                "darkVaporize",
+                "darkMelt",
+                "darkBurning",
+                "darkOverload",
+                "darkSwirl",
+                "darkCrystallize"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "damage_2_2",
+          "label": "黒蝕スキル・2ヒット目",
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "炎",
+          "hitCount": 1,
+          "levelSource": "skill",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat2",
+            "param": "param3",
+            "format": "F1P",
+            "currentCalcSource": "sources/durin-currentcalc-talents.source.json"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 53.2,
+                "2": 57.19,
+                "3": 61.18,
+                "4": 66.5,
+                "5": 70.49,
+                "6": 74.48,
+                "7": 79.8,
+                "8": 85.12,
+                "9": 90.44,
+                "10": 95.76,
+                "11": 101.08,
+                "12": 106.4,
+                "13": 113.05,
+                "14": 119.7,
+                "15": 126.35
+              }
+            }
+          ],
+          "conditionSelectors": [
+            {
+              "groupId": "durinEssentialTransmutationForm",
+              "values": [
+                "inactive",
+                "dark",
+                "darkVaporize",
+                "darkMelt",
+                "darkBurning",
+                "darkOverload",
+                "darkSwirl",
+                "darkCrystallize"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "damage_2_3",
+          "label": "黒蝕スキル・3ヒット目",
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "炎",
+          "hitCount": 1,
+          "levelSource": "skill",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat2",
+            "param": "param4",
+            "format": "F1P",
+            "currentCalcSource": "sources/durin-currentcalc-talents.source.json"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 64.64,
+                "2": 69.488,
+                "3": 74.336,
+                "4": 80.8,
+                "5": 85.648,
+                "6": 90.496,
+                "7": 96.96,
+                "8": 103.424,
+                "9": 109.888,
+                "10": 116.352,
+                "11": 122.816,
+                "12": 129.28,
+                "13": 137.36,
+                "14": 145.44,
+                "15": 153.52
+              }
+            }
+          ],
+          "conditionSelectors": [
+            {
+              "groupId": "durinEssentialTransmutationForm",
+              "values": [
+                "inactive",
+                "dark",
+                "darkVaporize",
+                "darkMelt",
+                "darkBurning",
+                "darkOverload",
+                "darkSwirl",
+                "darkCrystallize"
+              ]
             }
           ]
         }
@@ -53596,6 +53770,127 @@
                 "15": 282.53
               }
             }
+          ],
+          "conditionSelectors": [
+            {
+              "groupId": "durinEssentialTransmutationForm",
+              "values": [
+                "inactive",
+                "white",
+                "whiteVaporize",
+                "whiteMelt",
+                "whiteBurning",
+                "whiteOverload",
+                "whiteSwirl",
+                "whiteCrystallize"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "damage_3_2",
+          "label": "白焔爆発初撃・2ヒット目",
+          "attackType": "burst",
+          "damageType": "burst",
+          "element": "炎",
+          "hitCount": 1,
+          "levelSource": "burst",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat3",
+            "param": "param2",
+            "format": "F1P",
+            "currentCalcSource": "sources/durin-currentcalc-talents.source.json"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 96.4,
+                "2": 103.63,
+                "3": 110.86,
+                "4": 120.5,
+                "5": 127.73,
+                "6": 134.96,
+                "7": 144.6,
+                "8": 154.24,
+                "9": 163.88,
+                "10": 173.52,
+                "11": 183.16,
+                "12": 192.8,
+                "13": 204.85,
+                "14": 216.9,
+                "15": 228.95
+              }
+            }
+          ],
+          "conditionSelectors": [
+            {
+              "groupId": "durinEssentialTransmutationForm",
+              "values": [
+                "inactive",
+                "white",
+                "whiteVaporize",
+                "whiteMelt",
+                "whiteBurning",
+                "whiteOverload",
+                "whiteSwirl",
+                "whiteCrystallize"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "damage_3_3",
+          "label": "白焔爆発初撃・3ヒット目",
+          "attackType": "burst",
+          "damageType": "burst",
+          "element": "炎",
+          "hitCount": 1,
+          "levelSource": "burst",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat3",
+            "param": "param3",
+            "format": "F1P",
+            "currentCalcSource": "sources/durin-currentcalc-talents.source.json"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 111.84,
+                "2": 120.228,
+                "3": 128.616,
+                "4": 139.8,
+                "5": 148.188,
+                "6": 156.576,
+                "7": 167.76,
+                "8": 178.944,
+                "9": 190.128,
+                "10": 201.312,
+                "11": 212.496,
+                "12": 223.68,
+                "13": 237.66,
+                "14": 251.64,
+                "15": 265.62
+              }
+            }
+          ],
+          "conditionSelectors": [
+            {
+              "groupId": "durinEssentialTransmutationForm",
+              "values": [
+                "inactive",
+                "white",
+                "whiteVaporize",
+                "whiteMelt",
+                "whiteBurning",
+                "whiteOverload",
+                "whiteSwirl",
+                "whiteCrystallize"
+              ]
+            }
           ]
         },
         {
@@ -53632,6 +53927,127 @@
                 "14": 282.24,
                 "15": 297.92
               }
+            }
+          ],
+          "conditionSelectors": [
+            {
+              "groupId": "durinEssentialTransmutationForm",
+              "values": [
+                "inactive",
+                "dark",
+                "darkVaporize",
+                "darkMelt",
+                "darkBurning",
+                "darkOverload",
+                "darkSwirl",
+                "darkCrystallize"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "damage_4_2",
+          "label": "黒蝕爆発初撃・2ヒット目",
+          "attackType": "burst",
+          "damageType": "burst",
+          "element": "炎",
+          "hitCount": 1,
+          "levelSource": "burst",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat3",
+            "param": "param5",
+            "format": "F1P",
+            "currentCalcSource": "sources/durin-currentcalc-talents.source.json"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 101.76,
+                "2": 109.392,
+                "3": 117.024,
+                "4": 127.2,
+                "5": 134.832,
+                "6": 142.464,
+                "7": 152.64,
+                "8": 162.816,
+                "9": 172.992,
+                "10": 183.168,
+                "11": 193.344,
+                "12": 203.52,
+                "13": 216.24,
+                "14": 228.96,
+                "15": 241.68
+              }
+            }
+          ],
+          "conditionSelectors": [
+            {
+              "groupId": "durinEssentialTransmutationForm",
+              "values": [
+                "inactive",
+                "dark",
+                "darkVaporize",
+                "darkMelt",
+                "darkBurning",
+                "darkOverload",
+                "darkSwirl",
+                "darkCrystallize"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "damage_4_3",
+          "label": "黒蝕爆発初撃・3ヒット目",
+          "attackType": "burst",
+          "damageType": "burst",
+          "element": "炎",
+          "hitCount": 1,
+          "levelSource": "burst",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat3",
+            "param": "param6",
+            "format": "F1P",
+            "currentCalcSource": "sources/durin-currentcalc-talents.source.json"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 111.84,
+                "2": 120.228,
+                "3": 128.616,
+                "4": 139.8,
+                "5": 148.188,
+                "6": 156.576,
+                "7": 167.76,
+                "8": 178.944,
+                "9": 190.128,
+                "10": 201.312,
+                "11": 212.496,
+                "12": 223.68,
+                "13": 237.66,
+                "14": 251.64,
+                "15": 265.62
+              }
+            }
+          ],
+          "conditionSelectors": [
+            {
+              "groupId": "durinEssentialTransmutationForm",
+              "values": [
+                "inactive",
+                "dark",
+                "darkVaporize",
+                "darkMelt",
+                "darkBurning",
+                "darkOverload",
+                "darkSwirl",
+                "darkCrystallize"
+              ]
             }
           ]
         },
@@ -53670,6 +54086,21 @@
                 "15": 224.77
               }
             }
+          ],
+          "conditionSelectors": [
+            {
+              "groupId": "durinEssentialTransmutationForm",
+              "values": [
+                "inactive",
+                "white",
+                "whiteVaporize",
+                "whiteMelt",
+                "whiteBurning",
+                "whiteOverload",
+                "whiteSwirl",
+                "whiteCrystallize"
+              ]
+            }
           ]
         },
         {
@@ -53706,6 +54137,21 @@
                 "14": 292.14,
                 "15": 308.37
               }
+            }
+          ],
+          "conditionSelectors": [
+            {
+              "groupId": "durinEssentialTransmutationForm",
+              "values": [
+                "inactive",
+                "dark",
+                "darkVaporize",
+                "darkMelt",
+                "darkBurning",
+                "darkOverload",
+                "darkSwirl",
+                "darkCrystallize"
+              ]
             }
           ]
         }

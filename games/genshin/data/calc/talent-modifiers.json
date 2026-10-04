@@ -5120,44 +5120,714 @@
             "applyTo": [
               "allResistance"
             ],
-            "value": -20.0,
+            "value": -20,
             "unit": "percent",
             "condition": "active",
-            "duration": 6.0,
-            "calculationSupport": "toggle"
+            "duration": 6,
+            "calculationSupport": "toggle",
+            "auditDisposition": "supersededByStructuredRecord",
+            "resolvedByModifierId": "durin_white_pyro_resistance"
           },
           {
             "category": "reactionBonus",
             "applyTo": [
               "overloadedDamageBonus"
             ],
-            "value": 20.0,
+            "value": 20,
             "unit": "percent",
             "condition": "active",
-            "duration": 6.0,
-            "calculationSupport": "toggle"
+            "duration": 6,
+            "calculationSupport": "toggle",
+            "auditDisposition": "supersededByStructuredRecord",
+            "resolvedByModifierId": "durin_white_pyro_resistance"
           },
           {
             "category": "reactionBonus",
             "applyTo": [
               "vaporizeDamageBonus"
             ],
-            "value": 40.0,
+            "value": 40,
             "unit": "percent",
             "condition": "active",
-            "duration": 6.0,
-            "calculationSupport": "toggle"
+            "duration": 6,
+            "calculationSupport": "toggle",
+            "targetOwner": "self",
+            "targetElements": [
+              "炎"
+            ],
+            "conditionGroupId": "durinEssentialTransmutationForm",
+            "conditionInput": {
+              "type": "option",
+              "label": "ドゥリンの爆発形態・直近の反応",
+              "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "条件OFF（両形態の基礎値を表示）"
+                },
+                {
+                  "value": "white",
+                  "label": "白焔の龍（反応条件なし）"
+                },
+                {
+                  "value": "dark",
+                  "label": "黒蝕の龍（反応条件なし）"
+                },
+                {
+                  "value": "whiteVaporize",
+                  "label": "白焔：蒸発"
+                },
+                {
+                  "value": "whiteMelt",
+                  "label": "白焔：溶解"
+                },
+                {
+                  "value": "whiteBurning",
+                  "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+                },
+                {
+                  "value": "whiteOverload",
+                  "label": "白焔：過負荷"
+                },
+                {
+                  "value": "whiteSwirl",
+                  "label": "白焔：炎元素拡散"
+                },
+                {
+                  "value": "whiteCrystallize",
+                  "label": "白焔：炎元素結晶"
+                },
+                {
+                  "value": "darkVaporize",
+                  "label": "黒蝕：蒸発"
+                },
+                {
+                  "value": "darkMelt",
+                  "label": "黒蝕：溶解"
+                },
+                {
+                  "value": "darkBurning",
+                  "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+                },
+                {
+                  "value": "darkOverload",
+                  "label": "黒蝕：過負荷"
+                },
+                {
+                  "value": "darkSwirl",
+                  "label": "黒蝕：炎元素拡散"
+                },
+                {
+                  "value": "darkCrystallize",
+                  "label": "黒蝕：炎元素結晶"
+                }
+              ]
+            },
+            "shareConditionAcrossSources": true,
+            "uidHandling": "conditional",
+            "conditionInputActivates": true,
+            "id": "durin_dark_vaporize_bonus",
+            "conditionOptionValues": [
+              "dark",
+              "darkVaporize",
+              "darkMelt",
+              "darkBurning",
+              "darkOverload",
+              "darkSwirl",
+              "darkCrystallize"
+            ],
+            "sourceText": "Durin will trigger different buffs depending on the form that his power manifests as when he unleashes his Elemental Burst. When that form is:\n\nDragon of White Flame\nAfter nearby party members trigger Burning, Overloaded, Pyro Swirl, or Pyro Crystallize reactions on an opponent, or deal Pyro DMG or Dendro DMG to an opponent affected by Burning, that opponent's Pyro RES, and the RES for the corresponding Element involved in the reaction, are decreased by 20% for 6s.\n\nDragon of Dark Decay\nDurin's Vaporize DMG is increased by 40% and his Melt DMG is increased by 40%."
           },
           {
             "category": "reactionBonus",
             "applyTo": [
               "meltDamageBonus"
             ],
-            "value": 40.0,
+            "value": 40,
             "unit": "percent",
             "condition": "active",
-            "duration": 6.0,
-            "calculationSupport": "toggle"
+            "duration": 6,
+            "calculationSupport": "toggle",
+            "targetOwner": "self",
+            "targetElements": [
+              "炎"
+            ],
+            "conditionGroupId": "durinEssentialTransmutationForm",
+            "conditionInput": {
+              "type": "option",
+              "label": "ドゥリンの爆発形態・直近の反応",
+              "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "条件OFF（両形態の基礎値を表示）"
+                },
+                {
+                  "value": "white",
+                  "label": "白焔の龍（反応条件なし）"
+                },
+                {
+                  "value": "dark",
+                  "label": "黒蝕の龍（反応条件なし）"
+                },
+                {
+                  "value": "whiteVaporize",
+                  "label": "白焔：蒸発"
+                },
+                {
+                  "value": "whiteMelt",
+                  "label": "白焔：溶解"
+                },
+                {
+                  "value": "whiteBurning",
+                  "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+                },
+                {
+                  "value": "whiteOverload",
+                  "label": "白焔：過負荷"
+                },
+                {
+                  "value": "whiteSwirl",
+                  "label": "白焔：炎元素拡散"
+                },
+                {
+                  "value": "whiteCrystallize",
+                  "label": "白焔：炎元素結晶"
+                },
+                {
+                  "value": "darkVaporize",
+                  "label": "黒蝕：蒸発"
+                },
+                {
+                  "value": "darkMelt",
+                  "label": "黒蝕：溶解"
+                },
+                {
+                  "value": "darkBurning",
+                  "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+                },
+                {
+                  "value": "darkOverload",
+                  "label": "黒蝕：過負荷"
+                },
+                {
+                  "value": "darkSwirl",
+                  "label": "黒蝕：炎元素拡散"
+                },
+                {
+                  "value": "darkCrystallize",
+                  "label": "黒蝕：炎元素結晶"
+                }
+              ]
+            },
+            "shareConditionAcrossSources": true,
+            "uidHandling": "conditional",
+            "conditionInputActivates": true,
+            "id": "durin_dark_melt_bonus",
+            "conditionOptionValues": [
+              "dark",
+              "darkVaporize",
+              "darkMelt",
+              "darkBurning",
+              "darkOverload",
+              "darkSwirl",
+              "darkCrystallize"
+            ],
+            "sourceText": "Durin will trigger different buffs depending on the form that his power manifests as when he unleashes his Elemental Burst. When that form is:\n\nDragon of White Flame\nAfter nearby party members trigger Burning, Overloaded, Pyro Swirl, or Pyro Crystallize reactions on an opponent, or deal Pyro DMG or Dendro DMG to an opponent affected by Burning, that opponent's Pyro RES, and the RES for the corresponding Element involved in the reaction, are decreased by 20% for 6s.\n\nDragon of Dark Decay\nDurin's Vaporize DMG is increased by 40% and his Melt DMG is increased by 40%."
+          },
+          {
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "uidHandling": "conditional",
+            "conditionGroupId": "durinEssentialTransmutationForm",
+            "shareConditionAcrossSources": true,
+            "conditionInput": {
+              "type": "option",
+              "label": "ドゥリンの爆発形態・直近の反応",
+              "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "条件OFF（両形態の基礎値を表示）"
+                },
+                {
+                  "value": "white",
+                  "label": "白焔の龍（反応条件なし）"
+                },
+                {
+                  "value": "dark",
+                  "label": "黒蝕の龍（反応条件なし）"
+                },
+                {
+                  "value": "whiteVaporize",
+                  "label": "白焔：蒸発"
+                },
+                {
+                  "value": "whiteMelt",
+                  "label": "白焔：溶解"
+                },
+                {
+                  "value": "whiteBurning",
+                  "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+                },
+                {
+                  "value": "whiteOverload",
+                  "label": "白焔：過負荷"
+                },
+                {
+                  "value": "whiteSwirl",
+                  "label": "白焔：炎元素拡散"
+                },
+                {
+                  "value": "whiteCrystallize",
+                  "label": "白焔：炎元素結晶"
+                },
+                {
+                  "value": "darkVaporize",
+                  "label": "黒蝕：蒸発"
+                },
+                {
+                  "value": "darkMelt",
+                  "label": "黒蝕：溶解"
+                },
+                {
+                  "value": "darkBurning",
+                  "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+                },
+                {
+                  "value": "darkOverload",
+                  "label": "黒蝕：過負荷"
+                },
+                {
+                  "value": "darkSwirl",
+                  "label": "黒蝕：炎元素拡散"
+                },
+                {
+                  "value": "darkCrystallize",
+                  "label": "黒蝕：炎元素結晶"
+                }
+              ]
+            },
+            "conditionInputActivates": true,
+            "id": "durin_white_pyro_resistance",
+            "category": "resistanceDebuff",
+            "applyTo": [
+              "pyroResistance"
+            ],
+            "value": -20,
+            "unit": "percent",
+            "targetOwner": "enemy",
+            "conditionOptionValues": [
+              "whiteBurning",
+              "whiteOverload",
+              "whiteSwirl",
+              "whiteCrystallize"
+            ],
+            "duration": 6,
+            "sourceText": "Durin will trigger different buffs depending on the form that his power manifests as when he unleashes his Elemental Burst. When that form is:\n\nDragon of White Flame\nAfter nearby party members trigger Burning, Overloaded, Pyro Swirl, or Pyro Crystallize reactions on an opponent, or deal Pyro DMG or Dendro DMG to an opponent affected by Burning, that opponent's Pyro RES, and the RES for the corresponding Element involved in the reaction, are decreased by 20% for 6s.\n\nDragon of Dark Decay\nDurin's Vaporize DMG is increased by 40% and his Melt DMG is increased by 40%."
+          },
+          {
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "uidHandling": "conditional",
+            "conditionGroupId": "durinEssentialTransmutationForm",
+            "shareConditionAcrossSources": true,
+            "conditionInput": {
+              "type": "option",
+              "label": "ドゥリンの爆発形態・直近の反応",
+              "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "条件OFF（両形態の基礎値を表示）"
+                },
+                {
+                  "value": "white",
+                  "label": "白焔の龍（反応条件なし）"
+                },
+                {
+                  "value": "dark",
+                  "label": "黒蝕の龍（反応条件なし）"
+                },
+                {
+                  "value": "whiteVaporize",
+                  "label": "白焔：蒸発"
+                },
+                {
+                  "value": "whiteMelt",
+                  "label": "白焔：溶解"
+                },
+                {
+                  "value": "whiteBurning",
+                  "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+                },
+                {
+                  "value": "whiteOverload",
+                  "label": "白焔：過負荷"
+                },
+                {
+                  "value": "whiteSwirl",
+                  "label": "白焔：炎元素拡散"
+                },
+                {
+                  "value": "whiteCrystallize",
+                  "label": "白焔：炎元素結晶"
+                },
+                {
+                  "value": "darkVaporize",
+                  "label": "黒蝕：蒸発"
+                },
+                {
+                  "value": "darkMelt",
+                  "label": "黒蝕：溶解"
+                },
+                {
+                  "value": "darkBurning",
+                  "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+                },
+                {
+                  "value": "darkOverload",
+                  "label": "黒蝕：過負荷"
+                },
+                {
+                  "value": "darkSwirl",
+                  "label": "黒蝕：炎元素拡散"
+                },
+                {
+                  "value": "darkCrystallize",
+                  "label": "黒蝕：炎元素結晶"
+                }
+              ]
+            },
+            "conditionInputActivates": true,
+            "id": "durin_white_dendro_resistance",
+            "category": "resistanceDebuff",
+            "applyTo": [
+              "dendroResistance"
+            ],
+            "value": -20,
+            "unit": "percent",
+            "targetOwner": "enemy",
+            "conditionOptionValues": [
+              "whiteBurning"
+            ],
+            "duration": 6,
+            "sourceText": "Durin will trigger different buffs depending on the form that his power manifests as when he unleashes his Elemental Burst. When that form is:\n\nDragon of White Flame\nAfter nearby party members trigger Burning, Overloaded, Pyro Swirl, or Pyro Crystallize reactions on an opponent, or deal Pyro DMG or Dendro DMG to an opponent affected by Burning, that opponent's Pyro RES, and the RES for the corresponding Element involved in the reaction, are decreased by 20% for 6s.\n\nDragon of Dark Decay\nDurin's Vaporize DMG is increased by 40% and his Melt DMG is increased by 40%."
+          },
+          {
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "uidHandling": "conditional",
+            "conditionGroupId": "durinEssentialTransmutationForm",
+            "shareConditionAcrossSources": true,
+            "conditionInput": {
+              "type": "option",
+              "label": "ドゥリンの爆発形態・直近の反応",
+              "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "条件OFF（両形態の基礎値を表示）"
+                },
+                {
+                  "value": "white",
+                  "label": "白焔の龍（反応条件なし）"
+                },
+                {
+                  "value": "dark",
+                  "label": "黒蝕の龍（反応条件なし）"
+                },
+                {
+                  "value": "whiteVaporize",
+                  "label": "白焔：蒸発"
+                },
+                {
+                  "value": "whiteMelt",
+                  "label": "白焔：溶解"
+                },
+                {
+                  "value": "whiteBurning",
+                  "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+                },
+                {
+                  "value": "whiteOverload",
+                  "label": "白焔：過負荷"
+                },
+                {
+                  "value": "whiteSwirl",
+                  "label": "白焔：炎元素拡散"
+                },
+                {
+                  "value": "whiteCrystallize",
+                  "label": "白焔：炎元素結晶"
+                },
+                {
+                  "value": "darkVaporize",
+                  "label": "黒蝕：蒸発"
+                },
+                {
+                  "value": "darkMelt",
+                  "label": "黒蝕：溶解"
+                },
+                {
+                  "value": "darkBurning",
+                  "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+                },
+                {
+                  "value": "darkOverload",
+                  "label": "黒蝕：過負荷"
+                },
+                {
+                  "value": "darkSwirl",
+                  "label": "黒蝕：炎元素拡散"
+                },
+                {
+                  "value": "darkCrystallize",
+                  "label": "黒蝕：炎元素結晶"
+                }
+              ]
+            },
+            "conditionInputActivates": true,
+            "id": "durin_white_electro_resistance",
+            "category": "resistanceDebuff",
+            "applyTo": [
+              "electroResistance"
+            ],
+            "value": -20,
+            "unit": "percent",
+            "targetOwner": "enemy",
+            "conditionOptionValues": [
+              "whiteOverload"
+            ],
+            "duration": 6,
+            "sourceText": "Durin will trigger different buffs depending on the form that his power manifests as when he unleashes his Elemental Burst. When that form is:\n\nDragon of White Flame\nAfter nearby party members trigger Burning, Overloaded, Pyro Swirl, or Pyro Crystallize reactions on an opponent, or deal Pyro DMG or Dendro DMG to an opponent affected by Burning, that opponent's Pyro RES, and the RES for the corresponding Element involved in the reaction, are decreased by 20% for 6s.\n\nDragon of Dark Decay\nDurin's Vaporize DMG is increased by 40% and his Melt DMG is increased by 40%."
+          },
+          {
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "uidHandling": "conditional",
+            "conditionGroupId": "durinEssentialTransmutationForm",
+            "shareConditionAcrossSources": true,
+            "conditionInput": {
+              "type": "option",
+              "label": "ドゥリンの爆発形態・直近の反応",
+              "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "条件OFF（両形態の基礎値を表示）"
+                },
+                {
+                  "value": "white",
+                  "label": "白焔の龍（反応条件なし）"
+                },
+                {
+                  "value": "dark",
+                  "label": "黒蝕の龍（反応条件なし）"
+                },
+                {
+                  "value": "whiteVaporize",
+                  "label": "白焔：蒸発"
+                },
+                {
+                  "value": "whiteMelt",
+                  "label": "白焔：溶解"
+                },
+                {
+                  "value": "whiteBurning",
+                  "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+                },
+                {
+                  "value": "whiteOverload",
+                  "label": "白焔：過負荷"
+                },
+                {
+                  "value": "whiteSwirl",
+                  "label": "白焔：炎元素拡散"
+                },
+                {
+                  "value": "whiteCrystallize",
+                  "label": "白焔：炎元素結晶"
+                },
+                {
+                  "value": "darkVaporize",
+                  "label": "黒蝕：蒸発"
+                },
+                {
+                  "value": "darkMelt",
+                  "label": "黒蝕：溶解"
+                },
+                {
+                  "value": "darkBurning",
+                  "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+                },
+                {
+                  "value": "darkOverload",
+                  "label": "黒蝕：過負荷"
+                },
+                {
+                  "value": "darkSwirl",
+                  "label": "黒蝕：炎元素拡散"
+                },
+                {
+                  "value": "darkCrystallize",
+                  "label": "黒蝕：炎元素結晶"
+                }
+              ]
+            },
+            "conditionInputActivates": true,
+            "id": "durin_white_anemo_resistance",
+            "category": "resistanceDebuff",
+            "applyTo": [
+              "anemoResistance"
+            ],
+            "value": -20,
+            "unit": "percent",
+            "targetOwner": "enemy",
+            "conditionOptionValues": [
+              "whiteSwirl"
+            ],
+            "duration": 6,
+            "sourceText": "Durin will trigger different buffs depending on the form that his power manifests as when he unleashes his Elemental Burst. When that form is:\n\nDragon of White Flame\nAfter nearby party members trigger Burning, Overloaded, Pyro Swirl, or Pyro Crystallize reactions on an opponent, or deal Pyro DMG or Dendro DMG to an opponent affected by Burning, that opponent's Pyro RES, and the RES for the corresponding Element involved in the reaction, are decreased by 20% for 6s.\n\nDragon of Dark Decay\nDurin's Vaporize DMG is increased by 40% and his Melt DMG is increased by 40%."
+          },
+          {
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "uidHandling": "conditional",
+            "conditionGroupId": "durinEssentialTransmutationForm",
+            "shareConditionAcrossSources": true,
+            "conditionInput": {
+              "type": "option",
+              "label": "ドゥリンの爆発形態・直近の反応",
+              "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "条件OFF（両形態の基礎値を表示）"
+                },
+                {
+                  "value": "white",
+                  "label": "白焔の龍（反応条件なし）"
+                },
+                {
+                  "value": "dark",
+                  "label": "黒蝕の龍（反応条件なし）"
+                },
+                {
+                  "value": "whiteVaporize",
+                  "label": "白焔：蒸発"
+                },
+                {
+                  "value": "whiteMelt",
+                  "label": "白焔：溶解"
+                },
+                {
+                  "value": "whiteBurning",
+                  "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+                },
+                {
+                  "value": "whiteOverload",
+                  "label": "白焔：過負荷"
+                },
+                {
+                  "value": "whiteSwirl",
+                  "label": "白焔：炎元素拡散"
+                },
+                {
+                  "value": "whiteCrystallize",
+                  "label": "白焔：炎元素結晶"
+                },
+                {
+                  "value": "darkVaporize",
+                  "label": "黒蝕：蒸発"
+                },
+                {
+                  "value": "darkMelt",
+                  "label": "黒蝕：溶解"
+                },
+                {
+                  "value": "darkBurning",
+                  "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+                },
+                {
+                  "value": "darkOverload",
+                  "label": "黒蝕：過負荷"
+                },
+                {
+                  "value": "darkSwirl",
+                  "label": "黒蝕：炎元素拡散"
+                },
+                {
+                  "value": "darkCrystallize",
+                  "label": "黒蝕：炎元素結晶"
+                }
+              ]
+            },
+            "conditionInputActivates": true,
+            "id": "durin_white_geo_resistance",
+            "category": "resistanceDebuff",
+            "applyTo": [
+              "geoResistance"
+            ],
+            "value": -20,
+            "unit": "percent",
+            "targetOwner": "enemy",
+            "conditionOptionValues": [
+              "whiteCrystallize"
+            ],
+            "duration": 6,
+            "sourceText": "Durin will trigger different buffs depending on the form that his power manifests as when he unleashes his Elemental Burst. When that form is:\n\nDragon of White Flame\nAfter nearby party members trigger Burning, Overloaded, Pyro Swirl, or Pyro Crystallize reactions on an opponent, or deal Pyro DMG or Dendro DMG to an opponent affected by Burning, that opponent's Pyro RES, and the RES for the corresponding Element involved in the reaction, are decreased by 20% for 6s.\n\nDragon of Dark Decay\nDurin's Vaporize DMG is increased by 40% and his Melt DMG is increased by 40%."
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "condition": "active",
+            "calculationSupport": "toggle",
+            "uidHandling": "conditional",
+            "conditionGroupId": "durinPrimordialFusion",
+            "shareConditionAcrossSources": true,
+            "conditionInput": {
+              "type": "stack",
+              "label": "原初融合の残り層数",
+              "unit": "層",
+              "min": 0,
+              "max": 10,
+              "help": "この1ヒット直前の残り層数を入力します。自動消費は行いません。"
+            },
+            "conditionInputActivates": true,
+            "stack": {
+              "min": 0,
+              "max": 10,
+              "default": 0
+            },
+            "minimumConditionStack": 1,
+            "id": "durin_primordial_fusion_talent_base",
+            "category": "effectOverride",
+            "applyTo": [
+              "burstDamageBonus"
+            ],
+            "targetEffect": [
+              "damage_5",
+              "damage_6"
+            ],
+            "targetOwner": "self",
+            "unit": "percentOfOriginalDamage",
+            "value": 100,
+            "customCalculation": "cappedStatRatio",
+            "reference": {
+              "stat": "atk",
+              "source": "self",
+              "includeAppliedStatBonuses": true
+            },
+            "baseValue": 100,
+            "ratio": 0.03,
+            "maxValue": 175,
+            "multiplierTarget": "talentBaseDamage",
+            "sourceText": "After unleashing an Elemental Burst, Durin gains the Primordial Fusion of Forms effect for 20s: Durin gains 10 stacks of Primordial Fusion. When a periodic attack from Dragon of White Flame or Dragon of Dark Decay deals DMG, 1 stack of Primordial Fusion will be consumed to increase the DMG dealt by 3% of the original DMG for every 100 ATK. A maximum of 75% additional DMG can be dealt this way. When a single attack from Dragon of White Flame or Dragon of Dark Decay hits multiple opponents, only one stack of Primordial Fusion is consumed.\nPrimordial Fusion stacks are reset when the Elemental Burst is unleashed again.",
+            "verificationNotes": "CurrentCalc external confirmation: multiply only talent base; C1 additive base is applied afterward."
           }
         ]
       }

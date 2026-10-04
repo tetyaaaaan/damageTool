@@ -12814,8 +12814,8 @@
           "category": "resourceEffect",
           "resource": {
             "nameJa": "輪廻啓発",
-            "gain": 20.0,
-            "consume": 1.0
+            "gain": 20,
+            "consume": 1
           },
           "effect": "resourceGainConsumeOrLimitChange",
           "targetEffect": "seeSourceText",
@@ -12825,7 +12825,122 @@
           "sourceText": "元素爆発を発動した後、ドゥリンが発動した元素爆発を基に、異なる効果を発動する。\n・純白の法則・変転する光：周囲のチーム全員（ドゥリンを除く）が「輪廻啓発」を20層獲得する。継続時間20秒。「輪廻啓発」を持つフィールド上キャラクターの通常攻撃、重撃、落下攻撃、元素スキルまたは元素爆発がダメージを与える時、「輪廻啓発」を1層消費し、そのダメージをドゥリンの攻撃力の60%分アップする。「輪廻啓発」の発動回数は、付与されたキャラクターごとに計算される。\n・漆黒の法則・燻る星：ドゥリンが「輪廻啓発」を20層獲得し、継続時間20秒。ドゥリンが元素爆発ダメージを与える時、「輪廻啓発」を2層消費し、そのダメージをドゥリンの攻撃力の150%分アップする。\n\n元素爆発の発動時、「輪廻啓発」の層数がリセットされる。",
           "id": "c_10000123_1_1_resolved_1",
           "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "customHandlingRequired": true,
+          "auditDisposition": "supersededByStructuredRecord",
+          "resolvedByModifierId": "durin_c1_dark_additive"
+        },
+        {
+          "condition": "active",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional",
+          "conditionGroupId": "durinC1Epiphany",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {
+            "type": "stack",
+            "label": "輪廻啓発の残り層数",
+            "unit": "層",
+            "min": 0,
+            "max": 20,
+            "help": "この1ヒット直前の残り層数を入力します。自動消費は行いません。"
+          },
+          "conditionInputActivates": true,
+          "stack": {
+            "min": 0,
+            "max": 20,
+            "default": 0
+          },
+          "minimumConditionStack": 1,
+          "category": "additiveBaseDamage",
+          "applyTo": [
+            "allDamageBonus"
+          ],
+          "unit": "percent",
+          "sourceText": "元素爆発を発動した後、ドゥリンが発動した元素爆発を基に、異なる効果を発動する。\n・純白の法則・変転する光：周囲のチーム全員（ドゥリンを除く）が「輪廻啓発」を20層獲得する。継続時間20秒。「輪廻啓発」を持つフィールド上キャラクターの通常攻撃、重撃、落下攻撃、元素スキルまたは元素爆発がダメージを与える時、「輪廻啓発」を1層消費し、そのダメージをドゥリンの攻撃力の60%分アップする。「輪廻啓発」の発動回数は、付与されたキャラクターごとに計算される。\n・漆黒の法則・燻る星：ドゥリンが「輪廻啓発」を20層獲得し、継続時間20秒。ドゥリンが元素爆発ダメージを与える時、「輪廻啓発」を2層消費し、そのダメージをドゥリンの攻撃力の150%分アップする。\n\n元素爆発の発動時、「輪廻啓発」の層数がリセットされる。",
+          "id": "durin_c1_white_additive",
+          "value": 60,
+          "targetOwner": "otherPartyMembers",
+          "targetGroups": [
+            "normalAttack",
+            "skill",
+            "burst"
+          ],
+          "reference": {
+            "stat": "atk",
+            "source": "provider"
+          },
+          "requiredCondition": {
+            "source": "character:10000123",
+            "conditionGroupId": "durinEssentialTransmutationForm",
+            "options": [
+              "white",
+              "whiteVaporize",
+              "whiteMelt",
+              "whiteBurning",
+              "whiteOverload",
+              "whiteSwirl",
+              "whiteCrystallize"
+            ],
+            "allowConditionInputActivation": true
+          }
+        },
+        {
+          "condition": "active",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional",
+          "conditionGroupId": "durinC1Epiphany",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {
+            "type": "stack",
+            "label": "輪廻啓発の残り層数",
+            "unit": "層",
+            "min": 0,
+            "max": 20,
+            "help": "この1ヒット直前の残り層数を入力します。自動消費は行いません。"
+          },
+          "conditionInputActivates": true,
+          "stack": {
+            "min": 0,
+            "max": 20,
+            "default": 0
+          },
+          "minimumConditionStack": 2,
+          "category": "additiveBaseDamage",
+          "applyTo": [
+            "allDamageBonus"
+          ],
+          "unit": "percent",
+          "sourceText": "元素爆発を発動した後、ドゥリンが発動した元素爆発を基に、異なる効果を発動する。\n・純白の法則・変転する光：周囲のチーム全員（ドゥリンを除く）が「輪廻啓発」を20層獲得する。継続時間20秒。「輪廻啓発」を持つフィールド上キャラクターの通常攻撃、重撃、落下攻撃、元素スキルまたは元素爆発がダメージを与える時、「輪廻啓発」を1層消費し、そのダメージをドゥリンの攻撃力の60%分アップする。「輪廻啓発」の発動回数は、付与されたキャラクターごとに計算される。\n・漆黒の法則・燻る星：ドゥリンが「輪廻啓発」を20層獲得し、継続時間20秒。ドゥリンが元素爆発ダメージを与える時、「輪廻啓発」を2層消費し、そのダメージをドゥリンの攻撃力の150%分アップする。\n\n元素爆発の発動時、「輪廻啓発」の層数がリセットされる。",
+          "id": "durin_c1_dark_additive",
+          "value": 150,
+          "targetOwner": "self",
+          "targetGroups": [
+            "burst"
+          ],
+          "targetEffect": [
+            "damage_4",
+            "damage_4_2",
+            "damage_4_3",
+            "damage_6"
+          ],
+          "reference": {
+            "stat": "atk",
+            "source": "self",
+            "includeAppliedStatBonuses": true
+          },
+          "requiredCondition": {
+            "source": "character:10000123",
+            "conditionGroupId": "durinEssentialTransmutationForm",
+            "options": [
+              "dark",
+              "darkVaporize",
+              "darkMelt",
+              "darkBurning",
+              "darkOverload",
+              "darkSwirl",
+              "darkCrystallize"
+            ],
+            "allowConditionInputActivation": true
+          }
         }
       ],
       "2": [
@@ -12840,7 +12955,9 @@
           "sourceText": "ドゥリンが元素爆発を発動した後の20秒間、付近にいるチーム内キャラクターが敵に蒸発、溶解、燃焼、過負荷、炎元素拡散、炎元素結晶反応を起こした後、または燃焼状態の敵に炎元素ダメージや草元素ダメージを与えた時、周囲のチーム全員の炎元素ダメージと反応に関与した対応する元素のダメージ+50%、継続時間6秒。",
           "condition": "constellationUnlocked",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "auditDisposition": "supersededByStructuredRecord",
+          "resolvedByModifierId": "durin_c2_pyro_bonus"
         },
         {
           "id": "c_10000123_2_2",
@@ -12853,7 +12970,9 @@
           "sourceText": "ドゥリンが元素爆発を発動した後の20秒間、付近にいるチーム内キャラクターが敵に蒸発、溶解、燃焼、過負荷、炎元素拡散、炎元素結晶反応を起こした後、または燃焼状態の敵に炎元素ダメージや草元素ダメージを与えた時、周囲のチーム全員の炎元素ダメージと反応に関与した対応する元素のダメージ+50%、継続時間6秒。",
           "condition": "constellationUnlocked",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "auditDisposition": "supersededByStructuredRecord",
+          "resolvedByModifierId": "durin_c2_pyro_bonus"
         },
         {
           "id": "c_10000123_2_3",
@@ -12866,7 +12985,9 @@
           "sourceText": "ドゥリンが元素爆発を発動した後の20秒間、付近にいるチーム内キャラクターが敵に蒸発、溶解、燃焼、過負荷、炎元素拡散、炎元素結晶反応を起こした後、または燃焼状態の敵に炎元素ダメージや草元素ダメージを与えた時、周囲のチーム全員の炎元素ダメージと反応に関与した対応する元素のダメージ+50%、継続時間6秒。",
           "condition": "constellationUnlocked",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "auditDisposition": "supersededByStructuredRecord",
+          "resolvedByModifierId": "durin_c2_pyro_bonus"
         },
         {
           "id": "c_10000123_2_4",
@@ -12879,7 +13000,9 @@
           "sourceText": "ドゥリンが元素爆発を発動した後の20秒間、付近にいるチーム内キャラクターが敵に蒸発、溶解、燃焼、過負荷、炎元素拡散、炎元素結晶反応を起こした後、または燃焼状態の敵に炎元素ダメージや草元素ダメージを与えた時、周囲のチーム全員の炎元素ダメージと反応に関与した対応する元素のダメージ+50%、継続時間6秒。",
           "condition": "constellationUnlocked",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "auditDisposition": "supersededByStructuredRecord",
+          "resolvedByModifierId": "durin_c2_pyro_bonus"
         },
         {
           "id": "c_10000123_2_5",
@@ -12892,7 +13015,9 @@
           "sourceText": "ドゥリンが元素爆発を発動した後の20秒間、付近にいるチーム内キャラクターが敵に蒸発、溶解、燃焼、過負荷、炎元素拡散、炎元素結晶反応を起こした後、または燃焼状態の敵に炎元素ダメージや草元素ダメージを与えた時、周囲のチーム全員の炎元素ダメージと反応に関与した対応する元素のダメージ+50%、継続時間6秒。",
           "condition": "constellationUnlocked",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "auditDisposition": "supersededByStructuredRecord",
+          "resolvedByModifierId": "durin_c2_pyro_bonus"
         },
         {
           "id": "c_10000123_2_6",
@@ -12905,7 +13030,642 @@
           "sourceText": "ドゥリンが元素爆発を発動した後の20秒間、付近にいるチーム内キャラクターが敵に蒸発、溶解、燃焼、過負荷、炎元素拡散、炎元素結晶反応を起こした後、または燃焼状態の敵に炎元素ダメージや草元素ダメージを与えた時、周囲のチーム全員の炎元素ダメージと反応に関与した対応する元素のダメージ+50%、継続時間6秒。",
           "condition": "constellationUnlocked",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "auditDisposition": "supersededByStructuredRecord",
+          "resolvedByModifierId": "durin_c2_pyro_bonus"
+        },
+        {
+          "condition": "active",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional",
+          "conditionGroupId": "durinEssentialTransmutationForm",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {
+            "type": "option",
+            "label": "ドゥリンの爆発形態・直近の反応",
+            "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "条件OFF（両形態の基礎値を表示）"
+              },
+              {
+                "value": "white",
+                "label": "白焔の龍（反応条件なし）"
+              },
+              {
+                "value": "dark",
+                "label": "黒蝕の龍（反応条件なし）"
+              },
+              {
+                "value": "whiteVaporize",
+                "label": "白焔：蒸発"
+              },
+              {
+                "value": "whiteMelt",
+                "label": "白焔：溶解"
+              },
+              {
+                "value": "whiteBurning",
+                "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "whiteOverload",
+                "label": "白焔：過負荷"
+              },
+              {
+                "value": "whiteSwirl",
+                "label": "白焔：炎元素拡散"
+              },
+              {
+                "value": "whiteCrystallize",
+                "label": "白焔：炎元素結晶"
+              },
+              {
+                "value": "darkVaporize",
+                "label": "黒蝕：蒸発"
+              },
+              {
+                "value": "darkMelt",
+                "label": "黒蝕：溶解"
+              },
+              {
+                "value": "darkBurning",
+                "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "darkOverload",
+                "label": "黒蝕：過負荷"
+              },
+              {
+                "value": "darkSwirl",
+                "label": "黒蝕：炎元素拡散"
+              },
+              {
+                "value": "darkCrystallize",
+                "label": "黒蝕：炎元素結晶"
+              }
+            ]
+          },
+          "conditionInputActivates": true,
+          "id": "durin_c2_pyro_bonus",
+          "category": "damageBonus",
+          "applyTo": [
+            "pyroDamageBonus"
+          ],
+          "value": 50,
+          "unit": "percent",
+          "targetOwner": "team",
+          "conditionOptionValues": [
+            "whiteVaporize",
+            "darkVaporize",
+            "whiteMelt",
+            "darkMelt",
+            "whiteBurning",
+            "darkBurning",
+            "whiteOverload",
+            "darkOverload",
+            "whiteSwirl",
+            "darkSwirl",
+            "whiteCrystallize",
+            "darkCrystallize"
+          ],
+          "duration": 6,
+          "sourceText": "ドゥリンが元素爆発を発動した後の20秒間、付近にいるチーム内キャラクターが敵に蒸発、溶解、燃焼、過負荷、炎元素拡散、炎元素結晶反応を起こした後、または燃焼状態の敵に炎元素ダメージや草元素ダメージを与えた時、周囲のチーム全員の炎元素ダメージと反応に関与した対応する元素のダメージ+50%、継続時間6秒。"
+        },
+        {
+          "condition": "active",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional",
+          "conditionGroupId": "durinEssentialTransmutationForm",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {
+            "type": "option",
+            "label": "ドゥリンの爆発形態・直近の反応",
+            "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "条件OFF（両形態の基礎値を表示）"
+              },
+              {
+                "value": "white",
+                "label": "白焔の龍（反応条件なし）"
+              },
+              {
+                "value": "dark",
+                "label": "黒蝕の龍（反応条件なし）"
+              },
+              {
+                "value": "whiteVaporize",
+                "label": "白焔：蒸発"
+              },
+              {
+                "value": "whiteMelt",
+                "label": "白焔：溶解"
+              },
+              {
+                "value": "whiteBurning",
+                "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "whiteOverload",
+                "label": "白焔：過負荷"
+              },
+              {
+                "value": "whiteSwirl",
+                "label": "白焔：炎元素拡散"
+              },
+              {
+                "value": "whiteCrystallize",
+                "label": "白焔：炎元素結晶"
+              },
+              {
+                "value": "darkVaporize",
+                "label": "黒蝕：蒸発"
+              },
+              {
+                "value": "darkMelt",
+                "label": "黒蝕：溶解"
+              },
+              {
+                "value": "darkBurning",
+                "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "darkOverload",
+                "label": "黒蝕：過負荷"
+              },
+              {
+                "value": "darkSwirl",
+                "label": "黒蝕：炎元素拡散"
+              },
+              {
+                "value": "darkCrystallize",
+                "label": "黒蝕：炎元素結晶"
+              }
+            ]
+          },
+          "conditionInputActivates": true,
+          "id": "durin_c2_hydro_bonus",
+          "category": "damageBonus",
+          "applyTo": [
+            "hydroDamageBonus"
+          ],
+          "value": 50,
+          "unit": "percent",
+          "targetOwner": "team",
+          "conditionOptionValues": [
+            "whiteVaporize",
+            "darkVaporize"
+          ],
+          "duration": 6,
+          "sourceText": "ドゥリンが元素爆発を発動した後の20秒間、付近にいるチーム内キャラクターが敵に蒸発、溶解、燃焼、過負荷、炎元素拡散、炎元素結晶反応を起こした後、または燃焼状態の敵に炎元素ダメージや草元素ダメージを与えた時、周囲のチーム全員の炎元素ダメージと反応に関与した対応する元素のダメージ+50%、継続時間6秒。"
+        },
+        {
+          "condition": "active",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional",
+          "conditionGroupId": "durinEssentialTransmutationForm",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {
+            "type": "option",
+            "label": "ドゥリンの爆発形態・直近の反応",
+            "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "条件OFF（両形態の基礎値を表示）"
+              },
+              {
+                "value": "white",
+                "label": "白焔の龍（反応条件なし）"
+              },
+              {
+                "value": "dark",
+                "label": "黒蝕の龍（反応条件なし）"
+              },
+              {
+                "value": "whiteVaporize",
+                "label": "白焔：蒸発"
+              },
+              {
+                "value": "whiteMelt",
+                "label": "白焔：溶解"
+              },
+              {
+                "value": "whiteBurning",
+                "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "whiteOverload",
+                "label": "白焔：過負荷"
+              },
+              {
+                "value": "whiteSwirl",
+                "label": "白焔：炎元素拡散"
+              },
+              {
+                "value": "whiteCrystallize",
+                "label": "白焔：炎元素結晶"
+              },
+              {
+                "value": "darkVaporize",
+                "label": "黒蝕：蒸発"
+              },
+              {
+                "value": "darkMelt",
+                "label": "黒蝕：溶解"
+              },
+              {
+                "value": "darkBurning",
+                "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "darkOverload",
+                "label": "黒蝕：過負荷"
+              },
+              {
+                "value": "darkSwirl",
+                "label": "黒蝕：炎元素拡散"
+              },
+              {
+                "value": "darkCrystallize",
+                "label": "黒蝕：炎元素結晶"
+              }
+            ]
+          },
+          "conditionInputActivates": true,
+          "id": "durin_c2_cryo_bonus",
+          "category": "damageBonus",
+          "applyTo": [
+            "cryoDamageBonus"
+          ],
+          "value": 50,
+          "unit": "percent",
+          "targetOwner": "team",
+          "conditionOptionValues": [
+            "whiteMelt",
+            "darkMelt"
+          ],
+          "duration": 6,
+          "sourceText": "ドゥリンが元素爆発を発動した後の20秒間、付近にいるチーム内キャラクターが敵に蒸発、溶解、燃焼、過負荷、炎元素拡散、炎元素結晶反応を起こした後、または燃焼状態の敵に炎元素ダメージや草元素ダメージを与えた時、周囲のチーム全員の炎元素ダメージと反応に関与した対応する元素のダメージ+50%、継続時間6秒。"
+        },
+        {
+          "condition": "active",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional",
+          "conditionGroupId": "durinEssentialTransmutationForm",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {
+            "type": "option",
+            "label": "ドゥリンの爆発形態・直近の反応",
+            "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "条件OFF（両形態の基礎値を表示）"
+              },
+              {
+                "value": "white",
+                "label": "白焔の龍（反応条件なし）"
+              },
+              {
+                "value": "dark",
+                "label": "黒蝕の龍（反応条件なし）"
+              },
+              {
+                "value": "whiteVaporize",
+                "label": "白焔：蒸発"
+              },
+              {
+                "value": "whiteMelt",
+                "label": "白焔：溶解"
+              },
+              {
+                "value": "whiteBurning",
+                "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "whiteOverload",
+                "label": "白焔：過負荷"
+              },
+              {
+                "value": "whiteSwirl",
+                "label": "白焔：炎元素拡散"
+              },
+              {
+                "value": "whiteCrystallize",
+                "label": "白焔：炎元素結晶"
+              },
+              {
+                "value": "darkVaporize",
+                "label": "黒蝕：蒸発"
+              },
+              {
+                "value": "darkMelt",
+                "label": "黒蝕：溶解"
+              },
+              {
+                "value": "darkBurning",
+                "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "darkOverload",
+                "label": "黒蝕：過負荷"
+              },
+              {
+                "value": "darkSwirl",
+                "label": "黒蝕：炎元素拡散"
+              },
+              {
+                "value": "darkCrystallize",
+                "label": "黒蝕：炎元素結晶"
+              }
+            ]
+          },
+          "conditionInputActivates": true,
+          "id": "durin_c2_dendro_bonus",
+          "category": "damageBonus",
+          "applyTo": [
+            "dendroDamageBonus"
+          ],
+          "value": 50,
+          "unit": "percent",
+          "targetOwner": "team",
+          "conditionOptionValues": [
+            "whiteBurning",
+            "darkBurning"
+          ],
+          "duration": 6,
+          "sourceText": "ドゥリンが元素爆発を発動した後の20秒間、付近にいるチーム内キャラクターが敵に蒸発、溶解、燃焼、過負荷、炎元素拡散、炎元素結晶反応を起こした後、または燃焼状態の敵に炎元素ダメージや草元素ダメージを与えた時、周囲のチーム全員の炎元素ダメージと反応に関与した対応する元素のダメージ+50%、継続時間6秒。"
+        },
+        {
+          "condition": "active",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional",
+          "conditionGroupId": "durinEssentialTransmutationForm",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {
+            "type": "option",
+            "label": "ドゥリンの爆発形態・直近の反応",
+            "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "条件OFF（両形態の基礎値を表示）"
+              },
+              {
+                "value": "white",
+                "label": "白焔の龍（反応条件なし）"
+              },
+              {
+                "value": "dark",
+                "label": "黒蝕の龍（反応条件なし）"
+              },
+              {
+                "value": "whiteVaporize",
+                "label": "白焔：蒸発"
+              },
+              {
+                "value": "whiteMelt",
+                "label": "白焔：溶解"
+              },
+              {
+                "value": "whiteBurning",
+                "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "whiteOverload",
+                "label": "白焔：過負荷"
+              },
+              {
+                "value": "whiteSwirl",
+                "label": "白焔：炎元素拡散"
+              },
+              {
+                "value": "whiteCrystallize",
+                "label": "白焔：炎元素結晶"
+              },
+              {
+                "value": "darkVaporize",
+                "label": "黒蝕：蒸発"
+              },
+              {
+                "value": "darkMelt",
+                "label": "黒蝕：溶解"
+              },
+              {
+                "value": "darkBurning",
+                "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "darkOverload",
+                "label": "黒蝕：過負荷"
+              },
+              {
+                "value": "darkSwirl",
+                "label": "黒蝕：炎元素拡散"
+              },
+              {
+                "value": "darkCrystallize",
+                "label": "黒蝕：炎元素結晶"
+              }
+            ]
+          },
+          "conditionInputActivates": true,
+          "id": "durin_c2_electro_bonus",
+          "category": "damageBonus",
+          "applyTo": [
+            "electroDamageBonus"
+          ],
+          "value": 50,
+          "unit": "percent",
+          "targetOwner": "team",
+          "conditionOptionValues": [
+            "whiteOverload",
+            "darkOverload"
+          ],
+          "duration": 6,
+          "sourceText": "ドゥリンが元素爆発を発動した後の20秒間、付近にいるチーム内キャラクターが敵に蒸発、溶解、燃焼、過負荷、炎元素拡散、炎元素結晶反応を起こした後、または燃焼状態の敵に炎元素ダメージや草元素ダメージを与えた時、周囲のチーム全員の炎元素ダメージと反応に関与した対応する元素のダメージ+50%、継続時間6秒。"
+        },
+        {
+          "condition": "active",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional",
+          "conditionGroupId": "durinEssentialTransmutationForm",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {
+            "type": "option",
+            "label": "ドゥリンの爆発形態・直近の反応",
+            "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "条件OFF（両形態の基礎値を表示）"
+              },
+              {
+                "value": "white",
+                "label": "白焔の龍（反応条件なし）"
+              },
+              {
+                "value": "dark",
+                "label": "黒蝕の龍（反応条件なし）"
+              },
+              {
+                "value": "whiteVaporize",
+                "label": "白焔：蒸発"
+              },
+              {
+                "value": "whiteMelt",
+                "label": "白焔：溶解"
+              },
+              {
+                "value": "whiteBurning",
+                "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "whiteOverload",
+                "label": "白焔：過負荷"
+              },
+              {
+                "value": "whiteSwirl",
+                "label": "白焔：炎元素拡散"
+              },
+              {
+                "value": "whiteCrystallize",
+                "label": "白焔：炎元素結晶"
+              },
+              {
+                "value": "darkVaporize",
+                "label": "黒蝕：蒸発"
+              },
+              {
+                "value": "darkMelt",
+                "label": "黒蝕：溶解"
+              },
+              {
+                "value": "darkBurning",
+                "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "darkOverload",
+                "label": "黒蝕：過負荷"
+              },
+              {
+                "value": "darkSwirl",
+                "label": "黒蝕：炎元素拡散"
+              },
+              {
+                "value": "darkCrystallize",
+                "label": "黒蝕：炎元素結晶"
+              }
+            ]
+          },
+          "conditionInputActivates": true,
+          "id": "durin_c2_anemo_bonus",
+          "category": "damageBonus",
+          "applyTo": [
+            "anemoDamageBonus"
+          ],
+          "value": 50,
+          "unit": "percent",
+          "targetOwner": "team",
+          "conditionOptionValues": [
+            "whiteSwirl",
+            "darkSwirl"
+          ],
+          "duration": 6,
+          "sourceText": "ドゥリンが元素爆発を発動した後の20秒間、付近にいるチーム内キャラクターが敵に蒸発、溶解、燃焼、過負荷、炎元素拡散、炎元素結晶反応を起こした後、または燃焼状態の敵に炎元素ダメージや草元素ダメージを与えた時、周囲のチーム全員の炎元素ダメージと反応に関与した対応する元素のダメージ+50%、継続時間6秒。"
+        },
+        {
+          "condition": "active",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional",
+          "conditionGroupId": "durinEssentialTransmutationForm",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {
+            "type": "option",
+            "label": "ドゥリンの爆発形態・直近の反応",
+            "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "条件OFF（両形態の基礎値を表示）"
+              },
+              {
+                "value": "white",
+                "label": "白焔の龍（反応条件なし）"
+              },
+              {
+                "value": "dark",
+                "label": "黒蝕の龍（反応条件なし）"
+              },
+              {
+                "value": "whiteVaporize",
+                "label": "白焔：蒸発"
+              },
+              {
+                "value": "whiteMelt",
+                "label": "白焔：溶解"
+              },
+              {
+                "value": "whiteBurning",
+                "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "whiteOverload",
+                "label": "白焔：過負荷"
+              },
+              {
+                "value": "whiteSwirl",
+                "label": "白焔：炎元素拡散"
+              },
+              {
+                "value": "whiteCrystallize",
+                "label": "白焔：炎元素結晶"
+              },
+              {
+                "value": "darkVaporize",
+                "label": "黒蝕：蒸発"
+              },
+              {
+                "value": "darkMelt",
+                "label": "黒蝕：溶解"
+              },
+              {
+                "value": "darkBurning",
+                "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "darkOverload",
+                "label": "黒蝕：過負荷"
+              },
+              {
+                "value": "darkSwirl",
+                "label": "黒蝕：炎元素拡散"
+              },
+              {
+                "value": "darkCrystallize",
+                "label": "黒蝕：炎元素結晶"
+              }
+            ]
+          },
+          "conditionInputActivates": true,
+          "id": "durin_c2_geo_bonus",
+          "category": "damageBonus",
+          "applyTo": [
+            "geoDamageBonus"
+          ],
+          "value": 50,
+          "unit": "percent",
+          "targetOwner": "team",
+          "conditionOptionValues": [
+            "whiteCrystallize",
+            "darkCrystallize"
+          ],
+          "duration": 6,
+          "sourceText": "ドゥリンが元素爆発を発動した後の20秒間、付近にいるチーム内キャラクターが敵に蒸発、溶解、燃焼、過負荷、炎元素拡散、炎元素結晶反応を起こした後、または燃焼状態の敵に炎元素ダメージや草元素ダメージを与えた時、周囲のチーム全員の炎元素ダメージと反応に関与した対応する元素のダメージ+50%、継続時間6秒。"
         }
       ],
       "3": [
@@ -12935,7 +13695,11 @@
           "sourceText": "ドゥリンの元素爆発ダメージ+40%。また、命ノ星座**「赤土の逆理」**の「輪廻啓発」消費効果発動時、30%の確率で「輪廻啓発」を消費しない。",
           "condition": "constellationUnlocked",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "targetOwner": "self",
+          "targetGroups": [
+            "burst"
+          ]
         }
       ],
       "5": [
@@ -12956,19 +13720,6 @@
       "6": [
         {
           "id": "c_10000123_6_1",
-          "category": "defenseDebuff",
-          "applyTo": [
-            "enemyDefense"
-          ],
-          "value": -30,
-          "unit": "percent",
-          "sourceText": "ドゥリンの元素爆発ダメージは敵の防御力30%を無視する。\nまた、ドゥリンの元素爆発純白の法則・変転する光と漆黒の法則・燻る星が強化される。\n・元素爆発純白の法則・変転する光と「白焔の龍」が敵に命中すると、その敵の防御力-30%、継続時間6秒。\n・元素爆発漆黒の法則・燻る星と「黒蝕の龍」の与えるダメージが追加で敵の防御力40%を無視する。",
-          "condition": "constellationUnlocked",
-          "calculationSupport": "toggle",
-          "uidHandling": "conditional"
-        },
-        {
-          "id": "c_10000123_6_2",
           "category": "defenseIgnore",
           "applyTo": [
             "enemyDefense"
@@ -12978,7 +13729,58 @@
           "sourceText": "ドゥリンの元素爆発ダメージは敵の防御力30%を無視する。\nまた、ドゥリンの元素爆発純白の法則・変転する光と漆黒の法則・燻る星が強化される。\n・元素爆発純白の法則・変転する光と「白焔の龍」が敵に命中すると、その敵の防御力-30%、継続時間6秒。\n・元素爆発漆黒の法則・燻る星と「黒蝕の龍」の与えるダメージが追加で敵の防御力40%を無視する。",
           "condition": "constellationUnlocked",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "targetOwner": "self",
+          "targetGroups": [
+            "burst"
+          ]
+        },
+        {
+          "id": "c_10000123_6_2",
+          "category": "defenseDebuff",
+          "applyTo": [
+            "enemyDefense"
+          ],
+          "value": -30,
+          "unit": "percent",
+          "sourceText": "ドゥリンの元素爆発ダメージは敵の防御力30%を無視する。\nまた、ドゥリンの元素爆発純白の法則・変転する光と漆黒の法則・燻る星が強化される。\n・元素爆発純白の法則・変転する光と「白焔の龍」が敵に命中すると、その敵の防御力-30%、継続時間6秒。\n・元素爆発漆黒の法則・燻る星と「黒蝕の龍」の与えるダメージが追加で敵の防御力40%を無視する。",
+          "condition": "active",
+          "calculationSupport": "toggle",
+          "uidHandling": "conditional",
+          "targetOwner": "enemy",
+          "conditionGroupId": "durinWhiteDragonHit",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {
+            "type": "option",
+            "label": "白焔爆発・白焔の龍が敵に命中",
+            "help": "現在の敵に白焔形態の対象攻撃が命中した状態を手動指定します。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "未成立"
+              },
+              {
+                "value": "active",
+                "label": "命中後（防御力-30%）"
+              }
+            ]
+          },
+          "conditionOptionValue": "active",
+          "conditionInputActivates": true,
+          "requiredCondition": {
+            "source": "character:10000123",
+            "conditionGroupId": "durinEssentialTransmutationForm",
+            "options": [
+              "white",
+              "whiteVaporize",
+              "whiteMelt",
+              "whiteBurning",
+              "whiteOverload",
+              "whiteSwirl",
+              "whiteCrystallize"
+            ],
+            "allowConditionInputActivation": true
+          }
         },
         {
           "id": "c_10000123_6_3",
@@ -12989,9 +13791,98 @@
           "value": 40,
           "unit": "percent",
           "sourceText": "ドゥリンの元素爆発ダメージは敵の防御力30%を無視する。\nまた、ドゥリンの元素爆発純白の法則・変転する光と漆黒の法則・燻る星が強化される。\n・元素爆発純白の法則・変転する光と「白焔の龍」が敵に命中すると、その敵の防御力-30%、継続時間6秒。\n・元素爆発漆黒の法則・燻る星と「黒蝕の龍」の与えるダメージが追加で敵の防御力40%を無視する。",
-          "condition": "constellationUnlocked",
+          "condition": "active",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "conditionGroupId": "durinEssentialTransmutationForm",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {
+            "type": "option",
+            "label": "ドゥリンの爆発形態・直近の反応",
+            "help": "現在の龍の形態と成立した反応条件を手動指定します。C2解放時は爆発後20秒以内に反応が成立し、6秒の補正が継続中の状態を選びます。時間は自動追跡しません。",
+            "options": [
+              {
+                "value": "inactive",
+                "label": "条件OFF（両形態の基礎値を表示）"
+              },
+              {
+                "value": "white",
+                "label": "白焔の龍（反応条件なし）"
+              },
+              {
+                "value": "dark",
+                "label": "黒蝕の龍（反応条件なし）"
+              },
+              {
+                "value": "whiteVaporize",
+                "label": "白焔：蒸発"
+              },
+              {
+                "value": "whiteMelt",
+                "label": "白焔：溶解"
+              },
+              {
+                "value": "whiteBurning",
+                "label": "白焔：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "whiteOverload",
+                "label": "白焔：過負荷"
+              },
+              {
+                "value": "whiteSwirl",
+                "label": "白焔：炎元素拡散"
+              },
+              {
+                "value": "whiteCrystallize",
+                "label": "白焔：炎元素結晶"
+              },
+              {
+                "value": "darkVaporize",
+                "label": "黒蝕：蒸発"
+              },
+              {
+                "value": "darkMelt",
+                "label": "黒蝕：溶解"
+              },
+              {
+                "value": "darkBurning",
+                "label": "黒蝕：燃焼・燃焼状態への炎/草攻撃"
+              },
+              {
+                "value": "darkOverload",
+                "label": "黒蝕：過負荷"
+              },
+              {
+                "value": "darkSwirl",
+                "label": "黒蝕：炎元素拡散"
+              },
+              {
+                "value": "darkCrystallize",
+                "label": "黒蝕：炎元素結晶"
+              }
+            ]
+          },
+          "conditionInputActivates": true,
+          "targetOwner": "self",
+          "targetGroups": [
+            "burst"
+          ],
+          "targetEffect": [
+            "damage_4",
+            "damage_4_2",
+            "damage_4_3",
+            "damage_6"
+          ],
+          "conditionOptionValues": [
+            "dark",
+            "darkVaporize",
+            "darkMelt",
+            "darkBurning",
+            "darkOverload",
+            "darkSwirl",
+            "darkCrystallize"
+          ]
         },
         {
           "id": "c_10000123_6_4",
@@ -13005,7 +13896,9 @@
           "calculationSupport": "custom",
           "uidHandling": "conditional",
           "sourceText": "ドゥリンの元素爆発ダメージは敵の防御力30%を無視する。\nまた、ドゥリンの元素爆発純白の法則・変転する光と漆黒の法則・燻る星が強化される。\n・元素爆発純白の法則・変転する光と「白焔の龍」が敵に命中すると、その敵の防御力-30%、継続時間6秒。\n・元素爆発漆黒の法則・燻る星と「黒蝕の龍」の与えるダメージが追加で敵の防御力40%を無視する。",
-          "customHandlingRequired": true
+          "customHandlingRequired": true,
+          "auditDisposition": "supersededByStructuredRecord",
+          "resolvedByModifierId": "c_10000123_6_3"
         }
       ]
     }

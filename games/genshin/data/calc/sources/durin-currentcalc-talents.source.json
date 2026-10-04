@@ -1,0 +1,12 @@
+{
+  "sourceUrl": "https://genshin-db-api.vercel.app/api/v5/talents?query=durin&resultLanguage=English",
+  "capturedAt": "2026-10-04",
+  "characterId": "10000123",
+  "providerResponseId": 12301,
+  "providerVersionMetadata": "6.2",
+  "target": "existing 7.0-compatible CurrentCalc path",
+  "rawFile": "durin-currentcalc-talents.response.json",
+  "sha256": "08a177b6e36f9c2ea5c0d391910e14d986cc64a5a63f473aaf3bbd1d130d6391",
+  "validation": "All 14 existing damage entries at Lv1-15 match captured parameters within 0.00011 percentage points. Missing hit parameters are copied independently from labeled arrays.",
+  "confirmedCalculationOrder": "User external confirmation: dragon talent base times A4 multiplier, then C1 ATK150% additive base; normal downstream damage modifiers apply to their sum."
+}

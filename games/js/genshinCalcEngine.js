@@ -987,6 +987,11 @@
         groups.forEach(([group, talent]) => {
             (talent?.entries || []).forEach((entry) => {
                 if (entry.source?.format === "I" || entry.replacedByModifierId) return;
+                if (Array.isArray(entry.conditionSelectors) && entry.conditionSelectors.some((selector) => {
+                    const key = `character:${context.characterId}:group:${selector.groupId}`;
+                    const selected = context.uiState?.conditionByModifier?.[key]?.option;
+                    return selected && selected !== "inactive" && !selector.values.map(String).includes(String(selected));
+                })) return;
                 if (group === "skill" && skillMode?.attackTypes.includes(entry.attackType) && !skillModeEnabled) return;
                 if (group === "normalAttack" && skillModeEnabled
                     && (skillMode?.attackTypes.includes(entry.attackType)
@@ -1089,12 +1094,22 @@
             const key = modifier.partySource
                 ? `party:${modifier.partyProviderSlot}:${context.characterId}:group:${required.conditionGroupId}`
                 : `${required.source}:group:${required.conditionGroupId}`;
-            if (String(uiState.conditionByModifier?.[key]?.option) !== String(required.option)) return 0;
+            const requiredState = context.party?.conditionStates?.[key] || uiState.conditionByModifier?.[key];
+            const allowedOptions = Array.isArray(required.options) ? required.options.map(String) : [String(required.option)];
+            if (!allowedOptions.includes(String(requiredState?.option))) return 0;
             if (modifier.partySource) {
                 const member = context.party?.members?.find((item) => Number(item.slot) === Number(modifier.partyProviderSlot));
                 const candidateKey = `party:${modifier.partyProviderSlot}:${context.characterId}:${required.source}:${required.modifierId}`;
-                if (member?.buffStates?.[key] !== true && member?.buffStates?.[candidateKey] !== true) return 0;
+                const inputActivated = required.allowConditionInputActivation === true
+                    && requiredState?.enabled !== false
+                    && !["", "none", "inactive", "off"].includes(String(requiredState?.option || ""));
+                if (!inputActivated && member?.buffStates?.[key] !== true && member?.buffStates?.[candidateKey] !== true) return 0;
             }
+        }
+        if (Number.isFinite(Number(modifier.minimumConditionStack))) {
+            const state = context.party?.conditionStates?.[analysis.conditionStateKey]
+                || uiState.conditionByModifier?.[analysis.conditionStateKey];
+            if ((Number(state?.stack) || 0) < Number(modifier.minimumConditionStack)) return 0;
         }
         if (modifier.customCalculation === "thresholdStatRatioPlusBase") {
             const referenceValue = Number(context.stats?.[modifier.reference?.stat]) || 0;
@@ -1106,8 +1121,9 @@
             return (Number(modifier.value) || 100) + cappedIncrease;
         }
         if (modifier.customCalculation === "cappedStatRatio") {
-            const referenceValue = Number(context.stats?.[modifier.reference?.stat]) || 0;
-            const calculated = referenceValue * (Number(modifier.ratio) || 0);
+            const referenceStats = modifier.reference?.includeAppliedStatBonuses ? effectiveStats(context) : context.stats;
+            const referenceValue = Number(referenceStats?.[modifier.reference?.stat]) || 0;
+            const calculated = (Number(modifier.baseValue) || 0) + referenceValue * (Number(modifier.ratio) || 0);
             return Number.isFinite(Number(modifier.maxValue)) ? Math.min(calculated, Number(modifier.maxValue)) : calculated;
         }
         if (modifier.category === "reactionBaseDamageBonus") {
@@ -1792,6 +1808,7 @@
             reactionAdditiveBaseDamage: 0,
             additiveBaseDamage: 0,
             finalDamageMultiplier: 1,
+            baseTalentDamageMultiplier: 1,
             effectOverrides: [],
             elementOverride: ""
         };
@@ -1900,7 +1917,8 @@
             } else if (modifier.category === "defenseIgnore" && defenseModifierAppliesToEntry(modifier, effectiveEntry)) {
                 totals.defenseIgnore += Math.abs(Number(value) || 0);
                 applied.push(item);
-            } else if (modifier.category === "reactionBonus" && reactionBonusApplies(modifier, entryReaction)) {
+            } else if (modifier.category === "reactionBonus" && reactionBonusApplies(modifier, entryReaction)
+                && (!Array.isArray(modifier.targetElements) || modifier.targetElements.includes(effectiveEntry.element))) {
                 totals.reactionBonus += Number(value) || 0;
                 applied.push(item);
             } else if (modifier.category === "reactionCritBonus"
@@ -1920,12 +1938,18 @@
                     return;
                 }
                 if (modifierTargetsEntry(modifier, effectiveEntry)) {
-                    const overrideValue = Number(value ?? window.GenshinModifierAnalyzer.effectOverrideValue(modifier));
-                    totals.finalDamageMultiplier *= overrideValue / 100;
+                    const resolvedValue = modifier.reference?.includeAppliedStatBonuses
+                        ? resolveModifierValue(modifier, item.valueContext || context, context.uiState, analysis) : value;
+                    const overrideValue = Number(resolvedValue ?? window.GenshinModifierAnalyzer.effectOverrideValue(modifier));
+                    if (modifier.multiplierTarget === "talentBaseDamage") {
+                        totals.baseTalentDamageMultiplier *= overrideValue / 100;
+                    } else {
+                        totals.finalDamageMultiplier *= overrideValue / 100;
+                    }
                     applied.push({ ...item, value: overrideValue });
                     totals.effectOverrides.push({
                         id: modifier.id || "",
-                        kind: "damageMultiplier",
+                        kind: modifier.multiplierTarget === "talentBaseDamage" ? "talentBaseDamageMultiplier" : "damageMultiplier",
                         multiplier: overrideValue / 100,
                         source: item.source
                     });
@@ -2160,7 +2184,9 @@
             };
         }
         const reaction = reactionAttackAdjustment(entry.canReact === false ? { ...context, reactionOption: REACTION_OPTIONS.none } : context, appliedModifiers.totals.reactionBonus);
-        const baseDamage = problems.length ? 0 : scalingBaseDamage
+        const baseTalentDamageMultiplier = appliedModifiers.totals.baseTalentDamageMultiplier || 1;
+        const scaledTalentBaseDamage = scalingBaseDamage * baseTalentDamageMultiplier;
+        const baseDamage = problems.length ? 0 : scaledTalentBaseDamage
             + (appliedModifiers.totals.additiveBaseDamage || 0)
             + reaction.additiveBaseDamage;
         const damageBonusMultiplier = 1 + appliedModifiers.totals.damageBonus / 100;
@@ -2188,6 +2214,8 @@
         const specialDamage = reactedDamage * appliedModifiers.totals.finalDamageMultiplier;
         const damageInfluence = buildDamageInfluence([
             { key: "base", label: "基礎ダメージ", current: scalingBaseDamage },
+            ...(baseTalentDamageMultiplier !== 1
+                ? [{ key: "talentMultiplier", label: "天賦基礎ダメージ倍率", current: scaledTalentBaseDamage }] : []),
             { key: "additive", label: "加算ダメージ", current: baseDamage },
             { key: "buff", label: "ダメージバフ", current: buffedDamage },
             { key: "reaction", label: "元素反応", current: reactedDamage },
@@ -2217,6 +2245,7 @@
                 reactionAdditiveBaseDamage: reaction.additiveBaseDamage,
                 reactionBonus: appliedModifiers.totals.reactionBonus,
                 finalDamageMultiplier: appliedModifiers.totals.finalDamageMultiplier,
+                baseTalentDamageMultiplier,
                 effectOverrides: appliedModifiers.totals.effectOverrides,
                 damageInfluence,
                 critRate,

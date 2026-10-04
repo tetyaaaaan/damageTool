@@ -242,9 +242,13 @@
             source: `party:${member.slot}:${member.characterId}:${sourceKind}:${sourceId}`,
             context
         }) || null;
-        if (partyModifier.conditionOptionValue !== undefined
-            && String(context.uiState?.conditionByModifier?.[analysis?.conditionStateKey]?.option)
-                !== String(partyModifier.conditionOptionValue)) {
+        const optionState = context.party?.conditionStates?.[toggleKey]
+            || context.uiState?.conditionByModifier?.[analysis?.conditionStateKey];
+        const optionMatches = Array.isArray(partyModifier.conditionOptionValues)
+            ? partyModifier.conditionOptionValues.map(String).includes(String(optionState?.option))
+            : partyModifier.conditionOptionValue === undefined
+                || String(optionState?.option) === String(partyModifier.conditionOptionValue);
+        if (!optionMatches) {
             enabled = false;
             if (status === "ready") {
                 status = "off";
