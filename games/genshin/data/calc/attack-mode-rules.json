@@ -33,6 +33,18 @@
         }
       }
     },
+    "10000075": {
+      "skill": {
+        "nameJa": "児姿優風",
+        "disabledAttackTypes": [
+          "plungingAttack"
+        ],
+        "damageTypeByAttackType": {
+          "normalAttack": "normal",
+          "chargedAttack": "charged"
+        }
+      }
+    },
     "10000098": {
       "skill": {
         "nameJa": "夜巡り",

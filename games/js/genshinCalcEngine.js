@@ -1327,6 +1327,10 @@
             );
             if (!modifier) return;
             const analysis = analyzeModifier(modifier, source, context);
+            if (modifier.requiredAttackMode && !attackModeIsEnabled(calcData, context, modifier.requiredAttackMode)) {
+                addCandidate(modifier, source, "必要な攻撃状態がOFF", analysis);
+                return;
+            }
             if (!options.preconditioned && modifier.targetOwner === "otherPartyMembers") {
                 addCandidate(modifier, source, "発動者自身は対象外", analysis);
                 return;
@@ -2063,7 +2067,10 @@
             return [];
         }
         return scalings.map((scaling) => {
-            const talentMultiplier = Number(scaling?.valuesByLevel?.[String(talentLevel)]);
+            const stateMultiplier = scaling.talentDamageMultiplier;
+            const stateLevel = stateMultiplier ? getTalentLevel(context, { levelSource: stateMultiplier.levelSource }) : 0;
+            const stateRate = stateMultiplier ? Number(stateMultiplier.valuesByLevel?.[String(stateLevel)]) / 100 : 1;
+            const talentMultiplier = Number(scaling?.valuesByLevel?.[String(talentLevel)]) * stateRate;
             const effective = effectiveStats(context);
             const rawStatValue = scaling?.stat === "fixedDamage" ? 1 : Number(effective[scaling?.stat]);
             const statValue = rawStatValue;

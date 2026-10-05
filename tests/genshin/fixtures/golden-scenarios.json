@@ -11,23 +11,43 @@
   },
   "wandererRepeatedAttack": [
     {
-      "id": "c_10000075_6_1_normal_1damage",
+      "id": "c_10000075_6_1_wind_normal_1damage",
       "effectId": "c_10000075_6_1",
       "attackType": "normalAttack",
-      "nonCrit": 753.04152,
-      "crit": 1506.08304,
+      "nonCrit": 1127.50853,
+      "crit": 2255.017061,
       "additiveBaseDamage": 0,
-      "damageBonus": 54,
+      "damageBonus": 50,
       "finalDamageMultiplier": 1
     },
     {
-      "id": "c_10000075_6_1_normal_2damage",
+      "id": "c_10000075_6_1_wind_normal_2damage",
       "effectId": "c_10000075_6_1",
       "attackType": "normalAttack",
-      "nonCrit": 712.51488,
-      "crit": 1425.02976,
+      "nonCrit": 1066.829098,
+      "crit": 2133.658195,
       "additiveBaseDamage": 0,
-      "damageBonus": 54,
+      "damageBonus": 50,
+      "finalDamageMultiplier": 1
+    },
+    {
+      "id": "c_10000075_6_1_wind_normal_3damage",
+      "effectId": "c_10000075_6_1",
+      "attackType": "normalAttack",
+      "nonCrit": 781.776878,
+      "crit": 1563.553757,
+      "additiveBaseDamage": 0,
+      "damageBonus": 50,
+      "finalDamageMultiplier": 1
+    },
+    {
+      "id": "c_10000075_6_1_wind_normal_3damage_2",
+      "effectId": "c_10000075_6_1",
+      "attackType": "normalAttack",
+      "nonCrit": 781.776878,
+      "crit": 1563.553757,
+      "additiveBaseDamage": 0,
+      "damageBonus": 50,
       "finalDamageMultiplier": 1
     }
   ],

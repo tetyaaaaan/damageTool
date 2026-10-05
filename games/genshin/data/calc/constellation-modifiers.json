@@ -6496,7 +6496,9 @@
             }
           ],
           "targetEffect": "固有天賦「夢跡一風」の風の矢",
-          "customHandlingRequired": true
+          "customHandlingRequired": true,
+          "auditDisposition": "supersededByStructuredRecord",
+          "resolvedBy": "wanderer_descent_arrows"
         }
       ],
       "2": [
@@ -6504,14 +6506,35 @@
           "id": "c_10000075_2_1",
           "category": "damageBonus",
           "applyTo": [
-            "allDamageBonus"
+            "burstDamageBonus"
           ],
           "value": 4,
           "unit": "percent",
           "sourceText": "児姿優風状態時、空居力の上限値と現在の空居力の差が1あるごとに狂言·式楽伍番の与えるダメージが4%アップする。\nこの方法でアップできる狂言·式楽伍番のダメージは最大200%までとなる。",
-          "condition": "constellationUnlocked",
-          "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "condition": "currentKuugoryokuDifference",
+          "calculationSupport": "stack",
+          "uidHandling": "conditional",
+          "targetGroups": [
+            "burst"
+          ],
+          "targetOwner": "self",
+          "maxValue": 200,
+          "conditionGroupId": "wandererKuugoryokuDifference",
+          "requiredAttackMode": "skill",
+          "stack": {
+            "min": 0,
+            "max": 100000,
+            "default": 0
+          },
+          "conditionInput": {
+            "type": "stack",
+            "label": "空居力の最大値との差",
+            "unit": "ポイント",
+            "min": 0,
+            "max": 100000,
+            "step": 0.1,
+            "help": "爆発発動時の最大値−現在値。1ポイントにつき爆発+4%、最大+200%。時間経過は手動入力。"
+          }
         }
       ],
       "3": [
@@ -6556,7 +6579,7 @@
           "unit": "percent",
           "base": "referencedDamage",
           "condition": "conditional",
-          "calculationSupport": "custom",
+          "calculationSupport": "toggle",
           "sourceText": "児姿優風状態時、放浪者が自ら発動した空居·不生断が敵に命中すると、下記の効果を発動する。\n·命中した位置に空居·不生断を追加で1回発動し、本来の40%分のダメージを与える。このダメージは通常攻撃ダメージとみなされる。\n·放浪者の空居力が40ポイント未満の時、空居力を4ポイント回復する。この方法による空居力の回復は、0.2秒毎に1回のみ可能。また、1回の児姿優風の継続時間中に最大5回まで発動可能。",
           "uidHandling": "conditional",
           "target": {
@@ -6565,12 +6588,20 @@
               "通常攻撃"
             ]
           },
-          "customHandlingRequired": true,
-          "stack": {
-            "min": 0,
-            "default": 0,
-            "max": 5
-          }
+          "requiredAttackMode": "skill",
+          "referenceEntryIds": [
+            "wind_normal_1damage",
+            "wind_normal_2damage",
+            "wind_normal_3damage",
+            "wind_normal_3damage_2"
+          ],
+          "element": "風",
+          "damageType": "normal",
+          "attackType": "normalAttack",
+          "targetOwner": "self",
+          "conditionGroupId": "wandererC6Followup",
+          "conditionLabel": "児姿優風中のC6追加攻撃",
+          "effectLabel": "言祝：空居・不生断40%追撃"
         }
       ]
     }

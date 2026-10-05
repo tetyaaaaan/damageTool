@@ -368,9 +368,9 @@ test("STEP 21 builds repeated extra damage from an explicit reference attack typ
     prepareInputs(elements, { characterId: "10000075", constellation: 6 });
     const payload = await sandbox.GenshinCalcEngine.runGenshinJsonCalc();
     const repeatedAttacks = payload.results.filter((result) => result.entry.effectId === "c_10000075_6_1");
-    assert.ok(repeatedAttacks.length > 0);
+    assert.equal(repeatedAttacks.length, 4);
     assert.equal(repeatedAttacks.every((result) => result.entry.attackType === "normalAttack"), true);
-    const source = payload.results.find((result) => result.entry.id === "normal_1damage");
+    const source = payload.results.find((result) => result.entry.id === "wind_normal_1damage");
     const repeated = repeatedAttacks.find((result) => result.entry.id.endsWith("normal_1damage"));
     assert.ok(source && repeated);
     assert.equal(Math.round(repeated.breakdown.scalingParts[0].talentMultiplier * 1000), Math.round(source.breakdown.scalingParts[0].talentMultiplier * 400));

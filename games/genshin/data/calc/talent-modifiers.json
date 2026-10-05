@@ -3070,7 +3070,8 @@
               "triggeredDamage"
             ],
             "condition": "active",
-            "calculationSupport": "special"
+            "calculationSupport": "special",
+            "attackModeEncodedInScaling": true
           }
         ]
       },
@@ -3082,20 +3083,62 @@
             "applyTo": [
               "atkPercent"
             ],
-            "value": 30.0,
+            "value": 30,
             "unit": "percent",
             "condition": "afterHit",
-            "calculationSupport": "toggle"
+            "calculationSupport": "toggle",
+            "targetOwner": "self",
+            "requiredAttackMode": "skill",
+            "conditionGroupId": "wandererA1Pyro",
+            "conditionLabel": "拾玉得花：炎元素接触"
           },
           {
             "category": "critBonus",
             "applyTo": [
               "critRate"
             ],
-            "value": 20.0,
+            "value": 20,
             "unit": "percent",
             "condition": "afterHit",
-            "calculationSupport": "toggle"
+            "calculationSupport": "toggle",
+            "targetOwner": "self",
+            "requiredAttackMode": "skill",
+            "conditionGroupId": "wandererA1Cryo",
+            "conditionLabel": "拾玉得花：氷元素接触"
+          }
+        ]
+      },
+      {
+        "sourceId": "passive2",
+        "modifiers": [
+          {
+            "id": "wanderer_descent_arrows",
+            "reference": {
+              "stat": "atk",
+              "source": "self"
+            },
+            "category": "extraDamage",
+            "applyTo": [
+              "triggeredDamage"
+            ],
+            "condition": "descentDash",
+            "calculationSupport": "toggle",
+            "uidHandling": "conditional",
+            "targetOwner": "self",
+            "element": "風",
+            "damageType": "extraDamage",
+            "attackType": "extraDamage",
+            "hitCount": 4,
+            "value": 35,
+            "valueByConstellation": {
+              "1": 60
+            },
+            "unit": "percent",
+            "conditionGroupId": "wandererDescentArrows",
+            "conditionLabel": "傾落を消費する空中ダッシュ",
+            "effectLabel": "夢跡一風：風の矢（4本）",
+            "requiredAttackMode": "skill",
+            "sourceText": "児姿優風状態時、放浪者の空居·不生断または空居·風刀界が敵に命中すると、16%の確率で「傾落」効果を獲得できる。「傾落」効果：放浪者は現在の児姿優風状態で空中ダッシュをすると空居力を消費せず、代わりに傾落効果を解除する。また同時に風の矢を4本放ち、それぞれ攻撃力の35%に相当する風元素ダメージを与える。\n空居·不生断および空居·風刀界で傾落効果が発動しなかった場合、次回の発動確率+12%。発動判定は0.1秒毎に1回のみ行われる。\n児姿優風状態時、放浪者の空居・不生断および空居・風刀界の攻撃速度+10%。\nまた、固有天賦「夢跡一風」により発射された風の矢は追加で攻撃力25%のダメージを与えられる。固有天賦「夢跡一風」を解放する必要がある。"
           }
         ]
       }

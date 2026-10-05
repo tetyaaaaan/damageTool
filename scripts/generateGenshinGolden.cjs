@@ -36,12 +36,19 @@ async function buildGoldenScenarios() {
     }
 
     {
-        const { sandbox, elements } = createScenarioHarness();
+        const { sandbox, elements, calcData } = createScenarioHarness();
         prepareScenarioInputs(elements, { characterId: "10000075", constellation: 6 });
-        const payload = await sandbox.GenshinCalcEngine.runGenshinJsonCalc();
+        const request = sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+        Object.assign(request.uiState.conditionByModifier, {
+            "talent:combat2:group:talent-state:10000075:combat2": { enabled: true },
+            "constellation:C6:group:wandererC6Followup": { enabled: true },
+            "talent:passive1:group:wandererA1Pyro": { enabled: false },
+            "talent:passive1:group:wandererA1Cryo": { enabled: false },
+            "talent:passive2:group:wandererDescentArrows": { enabled: false }
+        });
+        const payload = sandbox.GenshinCalcEngine.calculateDamageRequest(request, calcData);
         golden.wandererRepeatedAttack = payload.results
             .filter((result) => result.entry.effectId === "c_10000075_6_1")
-            .slice(0, 2)
             .map(resultSummary);
     }
 
