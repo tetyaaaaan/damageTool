@@ -69,6 +69,9 @@
         updateSummary(preset);
     }
 
+    let resolveReady;
+    const ready = new Promise((resolve) => { resolveReady = resolve; });
+
     async function initialize() {
         const select = getElement("genshinEnemyPresetSelect");
         const elemental = getElement("genshinEnemyElementalResistanceInput");
@@ -113,11 +116,13 @@
         }));
         applySelection({ restoreCustom: false });
         previousSelection = select.value;
+        resolveReady();
     }
 
     document.addEventListener("DOMContentLoaded", initialize);
 
     window.GenshinEnemySelector = {
+        ready,
         CUSTOM_ID,
         applySelection,
         getSelectedEnemy() {

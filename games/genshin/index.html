@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="/games/css/style.css?v=20260722-1">
   <link rel="stylesheet" href="/games/css/menu.css">
   <link rel="stylesheet" href="/games/css/tetinet.css?v=20260816-1">
-  <link rel="stylesheet" href="/games/css/genshin-tool-ui.css?v=20260816-1">
+  <link rel="stylesheet" href="/games/css/genshin-tool-ui.css?v=20261005-1">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/games/images/icon/te_maru.ico">
   <script src="/games/js/windowLoading.js"></script>
@@ -339,6 +339,12 @@
                 <button type="button" class="teti-button teti-button-secondary" id="genshinConditionDialogOpen" aria-haspopup="dialog" aria-controls="genshinConditionDialog">補正条件を確認・設定</button>
               </div>
               <button type="button" class="genshin-condition-reload" id="genshinJsonPrepareConditionsButton"><span aria-hidden="true">↻</span>補正条件を再読み込み</button>
+              <div class="genshin-currentcalc-storage">
+                <button type="button" class="teti-button" id="genshinCurrentCalcExport">JSON保存</button>
+                <button type="button" class="teti-button" id="genshinCurrentCalcImport">JSON読込</button>
+                <input type="file" id="genshinCurrentCalcFile" accept=".json,application/json" hidden>
+                <p id="genshinCurrentCalcStateMessage" role="status" aria-live="polite"></p>
+              </div>
               <div class="genshin-json-actions genshin-json-actions-bottom">
                 <button type="button" class="teti-button teti-button-primary" id="genshinJsonCalcButtonBottom" data-genshin-calc-path="structured">ダメージ計算を実行</button>
               </div>
@@ -397,7 +403,7 @@
         <script src="/games/js/genshinIdResolver.js?v=20260916-1"></script>
         <script src="/games/js/genshinBaseStats.js?v=20260726-1"></script>
         <script src="/games/js/genshinProfileMapper.js?v=20260916-1"></script>
-        <script src="/games/js/genshinSelectionModal.js?v=20260726-3"></script>
+        <script src="/games/js/genshinSelectionModal.js?v=20261005-1"></script>
         <script src="/games/js/genshinEquipmentDetails.js?v=20260721"></script>
         <script src="/games/js/genshinCalculatorPresentation.js?v=20260720-2"></script>
         <script src="/games/js/uidStorage.js"></script>
@@ -405,15 +411,16 @@
         <script src="/games/js/genshinDataContract.js?v=20260916-1"></script>
         <script src="/games/js/genshinCalcData.js?v=20260816-1"></script>
         <script src="/games/js/genshinUiLabels.js?v=20260824-1"></script>
-        <script src="/games/js/genshinEnemySelector.js?v=20260726-3"></script>
-    <script src="/games/js/genshinPartyState.js?v=20260816-2"></script>
+        <script src="/games/js/genshinEnemySelector.js?v=20261005-1"></script>
+    <script src="/games/js/genshinPartyState.js?v=20261005-1"></script>
         <script src="/games/js/genshinModifierAnalyzer.js?v=20260726-1"></script>
         <script src="/games/js/genshinCalcConditions.js?v=20260824-1"></script>
         <script src="/games/js/genshinElementalResonance.js?v=20260726-1"></script>
         <script src="/games/js/genshinPartyModifiers.js?v=20260816-2"></script>
         <script src="/games/js/genshinCalcEngine.js?v=20260726-4"></script>
         <script src="/games/js/genshinCalculationComparison.js?v=20260722-1"></script>
-        <script src="/games/js/genshinCalcRenderer.js?v=20260824-1"></script>
+        <script src="/games/js/genshinCalcRenderer.js?v=20261005-1"></script>
+        <script src="/games/js/genshinCurrentCalcState.js?v=20261005-1"></script>
       </div>
     </main>
 

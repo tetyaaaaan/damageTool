@@ -3227,3 +3227,7 @@ html[data-theme="dark"] .genshin-tool-page {
     grid-template-columns: 70px minmax(0, 1fr);
   }
 }
+
+.genshin-currentcalc-storage { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.genshin-currentcalc-storage > p { flex-basis: 100%; margin: 0; font-size: .85rem; }
+.genshin-currentcalc-storage > p:empty { display: none; }

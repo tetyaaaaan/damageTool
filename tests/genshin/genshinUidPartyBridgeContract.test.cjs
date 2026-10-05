@@ -246,7 +246,7 @@ test("weapon compatibility is an explicit type check, not an ID or name guess", 
 
 test("support slot edits switch UID provenance to manual outside the import transaction", () => {
     const source = read("games/js/genshinPartyState.js");
-    assert.match(source, /const handleChange = \(\) => \{\s*if \(!applyingImportedMember\) input\.dataset\.valueOrigin = "manual";/);
+    assert.match(source, /const handleChange = \(\) => \{\s*if \(!applyingImportedMember\)\s*\{?\s*input\.dataset\.valueOrigin = "manual";/);
     assert.match(source, /input\.addEventListener\("input", handleChange\)/);
     assert.match(source, /input\.addEventListener\("change", handleChange\)/);
 });

@@ -486,7 +486,7 @@
         const attackHeading = `<div class="genshin-result-attack-head"><strong title="${escapeHtml(resultLabel)}">${escapeHtml(resultLabel)}</strong>${renderDetailToggle(resultLabel, detailId)}</div><small>${escapeHtml(meta)}</small>${supplemental}`;
         if (result.entry.resultKind === "shield") {
             return `
-                <tr class="genshin-damage-result-row">
+                <tr class="genshin-damage-result-row" data-attack-key="${escapeHtml(result.attackKey)}">
                     <th scope="row">${attackHeading}</th>
                     <td data-label="基礎シールド量">${formatDamageNumber(result.nonCrit)}</td>
                     <td data-label="会心">-</td>
@@ -498,7 +498,7 @@
             ? `<small class="genshin-hit-total">全ヒット期待値 ${formatDamageNumber(result.total.expected)}</small>`
             : "";
         return `
-            <tr class="genshin-damage-result-row">
+            <tr class="genshin-damage-result-row" data-attack-key="${escapeHtml(result.attackKey)}">
                 <th scope="row">${attackHeading}${hitTotal}</th>
                 <td data-label="非会心"><span class="genshin-result-value">${formatDamageNumber(result.nonCrit)}</span>${renderComparisonDelta(comparison?.nonCrit)}</td>
                 <td class="is-critical" data-label="会心"><span class="genshin-result-value">${formatDamageNumber(result.crit)}</span>${renderComparisonDelta(comparison?.crit)}</td>
@@ -1390,6 +1390,7 @@
     }
 
     async function handlePrepareConditionsClick() {
+        if (window.GenshinCurrentCalcState?.isApplying()) return;
         const calcData = await window.GenshinCalcData.loadGenshinCalcData();
         const context = window.GenshinCalcEngine.buildCharacterCalcContext();
         window.GenshinCalcEngine.hydrateReactionContext(context, calcData);
@@ -1413,7 +1414,7 @@
             .filter(Boolean);
     }
 
-    async function handleJsonCalcClick() {
+    async function handleJsonCalcClick(event) {
         const buttons = getCalcButtons();
         buttons.forEach((button) => { button.disabled = true; });
         try {
@@ -1424,9 +1425,12 @@
             renderDamageTabs(payload);
             setCalculationDirty(false);
             scrollToCalcResults();
+            window.GenshinCurrentCalcState?.persist();
+            return payload;
         } catch (error) {
             console.error("[genshin-json-calc] failed", error);
             renderWarnings([{ message: `ダメージ計算に失敗しました: ${error.message}` }]);
+            if (event?.throwOnError) throw error;
         } finally {
             buttons.forEach((button) => { button.disabled = false; });
         }
@@ -1499,6 +1503,8 @@
     document.addEventListener("DOMContentLoaded", initializeGenshinCalcRenderer);
 
     window.GenshinCalcRenderer = {
+        prepareConditions: handlePrepareConditionsClick,
+        calculate: handleJsonCalcClick,
         RESULT_TABS,
         classifyResult,
         basicAttackKind,

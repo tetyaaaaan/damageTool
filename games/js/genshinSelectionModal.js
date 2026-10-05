@@ -532,6 +532,9 @@
         });
     }
 
+    let resolveReady;
+    const ready = new Promise((resolve) => { resolveReady = resolve; });
+
     async function init() {
         if (!window.GenshinIdResolver) return;
         await window.GenshinIdResolver.ready;
@@ -550,6 +553,7 @@
         syncCharacter(state.characters.find((item) => item.id === byId("genshinCalcCharacterId").value), true);
         syncWeaponRefinement(state.weapons.find((item) => item.id === byId("genshinCalcWeaponId")?.value) || null);
         syncArtifactTriggers();
+        resolveReady();
     }
 
     function openPartySelection(mode, slot, trigger, artifactSlot = "one") {
@@ -558,7 +562,7 @@
         openDialog(mode, trigger, artifactSlot, "party", numericSlot);
     }
 
-    window.GenshinSelectionModal = { openPartySelection };
+    window.GenshinSelectionModal = { openPartySelection, ready };
 
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
     else init();

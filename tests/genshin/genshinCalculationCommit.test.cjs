@@ -7,7 +7,7 @@ const { repositoryRoot } = require("./helpers/browserScriptHarness.cjs");
 const rendererSource = fs.readFileSync(path.join(repositoryRoot, "games/js/genshinCalcRenderer.js"), "utf8");
 
 function functionBody(name, nextDeclaration) {
-    const pattern = new RegExp(`async function ${name}\\(\\) \\{([\\s\\S]*?)\\n    \\}\\n\\n    ${nextDeclaration}`);
+    const pattern = new RegExp(`async function ${name}\\([^)]*\\) \\{([\\s\\S]*?)\\n    \\}\\n\\n    ${nextDeclaration}`);
     return rendererSource.match(pattern)?.[1] || "";
 }
 
