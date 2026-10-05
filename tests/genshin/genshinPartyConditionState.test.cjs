@@ -250,7 +250,7 @@ test("party resistance-debuff labels show enemy without changing candidates, sta
         const key = candidate.key.replace(/[.*+?^$()|[\]\\]/g, "\\$&");
         const row = elements.genshinJsonConditionCards.innerHTML.match(new RegExp('data-party-buff="' + key + '"[\\s\\S]*?</article>'))?.[0];
         assert.ok(row, "actual debuff candidate rendered");
-        assert.match(row, /<dt>対象<\/dt><dd>敵<\/dd>/);
+        assert.match(row, /<dt>受け手<\/dt><dd>敵<\/dd>/);
         assert.equal(JSON.stringify(request), saved);
         const after = sandbox.GenshinCalcEngine.calculateDamageRequest(JSON.parse(saved), calcData);
         assert.equal(JSON.stringify(after.results), JSON.stringify(before.results));

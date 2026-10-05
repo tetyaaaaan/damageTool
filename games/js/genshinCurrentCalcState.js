@@ -12,6 +12,13 @@
         const element = byId("genshinCurrentCalcStateMessage");
         if (element) { element.textContent = text; element.setAttribute("role", error ? "alert" : "status"); }
     }
+    function importErrorMessage(error) {
+        if (error?.code === "INVALID_JSON") return "JSON形式を読み取れません。ファイルの内容を確認してください。";
+        if (error?.code === "UNSUPPORTED_SAVE") return "対応していない計算状態ファイルです。原神の計算画面から保存したJSONを選んでください。";
+        if (error?.code === "UNKNOWN_ID") return "ファイル内に現在利用できないIDがあります。最新のJSONを保存し直してください。";
+        if (error?.message === "計算状態ファイルが大きすぎます。") return "計算状態ファイルが大きすぎます。2MB以下のJSONを選んでください。";
+        return "計算状態を読み込めませんでした。ファイルを確認してもう一度お試しください。";
+    }
     function storage() { try { return window.localStorage; } catch (_) { return null; } }
     function selectionState() {
         return {
@@ -24,7 +31,7 @@
         return { schemaVersion: SCHEMA_VERSION, game: "genshin", state: { request: clone(Object.fromEntries(REQUEST_FIELDS.filter((key) => request[key] !== undefined).map((key) => [key, request[key]]))), selection: clone(selection) } };
     }
     function validate(value, data) {
-        const fail = () => { throw new Error("このファイルは対応する原神の計算状態ではありません。"); };
+        const fail = (code = "UNSUPPORTED_SAVE") => { const error = new Error("このファイルは対応する原神の計算状態ではありません。"); error.code = code; throw error; };
         if (!value || value.schemaVersion !== SCHEMA_VERSION || value.game !== "genshin" || !value.state || !value.state.request) fail();
         const walk = (item, depth = 0) => {
             if (depth > 30) fail();
@@ -48,16 +55,18 @@
         const checkEquipment = (characterId, weaponId, artifacts) => {
             const c = characterId ? data.characters?.[characterId] : null;
             const w = weaponId ? data.weapons?.[weaponId] : null;
-            if ((characterId && !c) || (weaponId && (!w || !c || w.weaponType !== c.weaponType))) fail();
-            if (!Array.isArray(artifacts) || artifacts.some((id) => !data.artifactSets?.[id])) fail();
+            if ((characterId && !c) || (weaponId && !w)) fail("UNKNOWN_ID");
+            if (weaponId && (!c || w.weaponType !== c.weaponType)) fail();
+            if (!Array.isArray(artifacts)) fail();
+            if (artifacts.some((id) => !data.artifactSets?.[id])) fail("UNKNOWN_ID");
         };
         checkEquipment(r.characterId, r.weaponId, r.artifactSetIds);
         if (r.characterId && (!r.calculationInput || !number(r.calculationInput.level, 1, 100))) fail();
         if (r.weaponId && !number(r.calculationInput?.weapon?.level, 1, 90)) fail();
         if (r.characterId && (r.calculationInput.characterId !== r.characterId || (r.calculationInput.weapon?.id || "") !== r.weaponId)) fail();
         if (!["none", "4pc", "2pc2pc", "2pc"].includes(r.artifactSetMode)) fail();
-        if (r.reactionOptionKey !== "none" && !data.reactionDefinitions?.options?.[r.reactionOptionKey]) fail();
-        if (r.enemy.presetId !== "custom" && !(data.enemies?.presets || []).some((p) => String(p.id) === String(r.enemy.presetId))) fail();
+        if (r.reactionOptionKey !== "none" && !data.reactionDefinitions?.options?.[r.reactionOptionKey]) fail("UNKNOWN_ID");
+        if (r.enemy.presetId !== "custom" && !(data.enemies?.presets || []).some((p) => String(p.id) === String(r.enemy.presetId))) fail("UNKNOWN_ID");
         if (r.party) {
             if (r.party.schemaVersion !== 2 || !Array.isArray(r.party.members) || !record(r.party.conditionStates) || !record(r.party.resonanceStates)) fail();
             const ids = new Set(), slots = new Set();
@@ -74,7 +83,10 @@
     function serialize(state = createState()) { return JSON.stringify(state, null, 2); }
     function parse(text, data) {
         if (typeof text !== "string" || text.length > 2000000) throw new Error("計算状態ファイルを読み込めません。");
-        return validate(JSON.parse(text), data);
+        let value;
+        try { value = JSON.parse(text); }
+        catch (cause) { const error = new Error(cause.message); error.code = "INVALID_JSON"; error.cause = cause; throw error; }
+        return validate(value, data);
     }
     function setField(id, value, emit = true) {
         const element = byId(id);
@@ -190,7 +202,7 @@
             const file = event.target.files?.[0];
             if (!file) return;
             try { if (file.size > 2000000) throw new Error("計算状態ファイルが大きすぎます。"); await importText(await file.text()); }
-            catch (error) { message("読み込みに失敗しました。" + error.message, true); }
+            catch (error) { console.error("[genshin-current-calc-state] import failed", error); message(importErrorMessage(error), true); }
             finally { event.target.value = ""; }
         });
         window.addEventListener("pagehide", persist);

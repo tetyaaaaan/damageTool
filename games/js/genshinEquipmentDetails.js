@@ -54,7 +54,7 @@
         byId("genshinEquipmentDetailsKicker").textContent = `CHARACTER / ${constellation}`;
         byId("genshinEquipmentDetailsTitle").textContent = character.nameJa;
         return `
-            ${character.dataStatus === "provisional" ? '<aside class="genshin-json-provisional-notice">検証中データです。canonical Eligibility成立前の暫定表示・計算です。</aside>' : ""}
+            ${character.dataStatus === "provisional" ? '<aside class="genshin-json-provisional-notice">参考データのステータス・効果を表示しています。</aside>' : ""}
             <details class="genshin-equipment-detail-section" open>
               <summary>天賦</summary>
               <div>${talentItems || paragraph("天賦情報は登録されていません。")}</div>
@@ -102,7 +102,7 @@
 
         byId("genshinEquipmentDetailsKicker").textContent = `WEAPON / ${refinement}`;
         byId("genshinEquipmentDetailsTitle").textContent = weapon.nameJa;
-        return `${weapon.dataStatus === "provisional" ? '<aside class="genshin-json-provisional-notice">検証中データです。canonical Eligibility成立前の暫定表示・計算です。</aside>' : ""}<section class="genshin-equipment-detail-section is-static">
+        return `${weapon.dataStatus === "provisional" ? '<aside class="genshin-json-provisional-notice">参考データのステータス・効果を表示しています。</aside>' : ""}<section class="genshin-equipment-detail-section is-static">
             <h3>${escapeHtml(effect.effectNameJa || "武器効果")}</h3>
             <div>${paragraph(description)}</div>
             ${renderWeaponParams(params)}

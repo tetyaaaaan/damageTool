@@ -246,7 +246,12 @@
         return "効果固有の発動条件を満たす";
     }
 
-    function modifierEffectSummary(modifier, context) {
+    function formatDisplayNumber(value) {
+        const number = Number(value);
+        return Number.isFinite(number) ? String(Number(number.toPrecision(12))) : String(value);
+    }
+
+    function modifierEffectSummary(modifier, context, displayState = {}) {
         if (modifier.display?.effectSummary) return modifier.display.effectSummary;
         if (modifier.effectSummary) return modifier.effectSummary;
         const targets = modifierTargetLabels(modifier);
@@ -254,6 +259,18 @@
         const label = targetCategories.has(modifier.category) && targets.length
             ? targets.join("・")
             : modifierImpactLabel(modifier);
+        if (modifier.valueByLevelPerStack && modifier.valueByLevel && modifier.calculationSupport === "stack" && modifier.category === "damageBonus") {
+            const level = context.talentLevels?.[modifier.valueSource?.section === "combat3" ? "burst" : "skill"] || 1;
+            const coefficient = Number(modifier.valueByLevel[String(level)] ?? modifier.valueByLevel["1"]);
+            const maximum = Object.entries(modifier.stack?.maxByConstellation || {})
+                .filter(([constellation]) => Number(constellation) <= Number(context.constellation || 0))
+                .sort((a, b) => Number(b[0]) - Number(a[0]))[0]?.[1] ?? modifier.stack?.max;
+            const stack = Number(displayState.stack ?? context.uiState?.resolvedConditionByModifier?.[modifier.id]
+                ?? context.uiState?.resolvedConditionByGroup?.[modifier.conditionGroupId] ?? modifier.stack?.default ?? 0);
+            const total = displayState.resolvedValue ?? coefficient * stack;
+            const unitLabel = modifier.conditionInput?.label?.replace(/^現在の/, "") || "入力値";
+            return `${label}：1${unitLabel}につき+${formatDisplayNumber(coefficient)}%／現在の合計+${formatDisplayNumber(total)}%／上限${maximum}${unitLabel}で+${formatDisplayNumber(coefficient * Number(maximum))}%`;
+        }
         if (modifier.customCalculation === "thresholdStatBonus" && modifier.reference?.stat) {
             const per = Number(modifier.ratio) || 0;
             const divisor = Number(modifier.divisor) || 1;
@@ -261,7 +278,7 @@
             const referenceLabel = window.GenshinUiLabels?.statLabel?.(modifier.reference.stat)
                 || STAT_LABELS[modifier.reference.stat]
                 || "参照ステータス";
-            return `${label}：${referenceLabel}${divisor}ごとに+${per}${Number.isFinite(max) ? `（最大+${max}）` : ""}`;
+            return `${label}：${referenceLabel}${formatDisplayNumber(divisor)}ごとに+${formatDisplayNumber(per)}${Number.isFinite(max) ? `（最大+${formatDisplayNumber(max)}）` : ""}`;
         }
         if (modifier.valueByRefinementPerStack || modifier.valueByRefinementPerConsumedStack) {
             const values = modifier.valueByRefinementPerStack || modifier.valueByRefinementPerConsumedStack;
@@ -269,7 +286,7 @@
             const maxStack = Number(modifier.stack?.max);
             if (Number.isFinite(perStack)) {
                 const maxValue = Number.isFinite(maxStack) ? perStack * maxStack : null;
-                return `${label}：+${perStack}%／層${maxValue === null ? "" : `（最大+${maxValue}%）`}`;
+                return `${label}：+${formatDisplayNumber(perStack)}%／層${maxValue === null ? "" : `（最大+${formatDisplayNumber(maxValue)}%）`}`;
             }
         }
         if (modifier.calculationSupport === "stack" && Number.isFinite(Number(modifier.value))) {
@@ -278,7 +295,7 @@
             const uncappedMax = Number.isFinite(maxStack) ? perStack * maxStack : null;
             const maxValue = modifier.category === "damageBonus" && Number.isFinite(Number(modifier.maxValue))
                 ? Math.min(uncappedMax, Number(modifier.maxValue)) : uncappedMax;
-            return `${label}：+${perStack}%／層${maxValue === null ? "" : `（最大+${maxValue}%）`}`;
+            return `${label}：+${formatDisplayNumber(perStack)}%／層${maxValue === null ? "" : `（最大+${formatDisplayNumber(maxValue)}%）`}`;
         }
         const value = structuredImpactValue(modifier, context);
         return value ? `${label}：${value}` : label;
@@ -545,7 +562,7 @@
         }
         const targets = modifierTargetLabels(modifier);
         const targetText = targets.length ? targets.join("・") : "対象ダメージ";
-        if (modifier.category === "extraDamage") return `${targetText}の追加ダメージ`;
+        if (modifier.category === "extraDamage") return ["追加ダメージ", "対象ダメージ"].includes(targetText) ? "追加攻撃" : `${targetText}の追加ダメージ`;
         if (modifier.category === "critBonus" || modifier.category === "reactionCritBonus") return `${targetText}の会心補正`;
         if (modifier.category === "damageBonus" || modifier.category === "reactionBonus") return `${targetText}のダメージ補正`;
         if (modifier.category === "defenseDebuff") return "敵の防御力低下";
@@ -930,6 +947,7 @@
                 help: configured?.help || (type === "option" ? "適用する状態を選択します。" : "この効果の現在の段階・回数を入力します。"),
                 unit: configured?.unit || (type === "stack" ? "段" : ""),
                 type,
+                step: configured?.step ?? 1,
                 min: Number(configured?.min ?? modifier.stack?.min ?? 0),
                 max: Number(constellationMaximum ?? configured?.max ?? effectiveStackMax ?? 0),
                 options: configured?.options || [],
@@ -1335,9 +1353,15 @@
             const ratio = Number(modifier.ratio) || 0;
             const calculated = Math.floor(referenceValue / divisor) * ratio;
             const value = Number.isFinite(Number(modifier.maxValue)) ? Math.min(calculated, Number(modifier.maxValue)) : calculated;
-            return `${value >= 0 ? "+" : ""}${value}${modifier.unit === "percent" ? "%" : ""}`;
+            return `${value >= 0 ? "+" : ""}${formatDisplayNumber(value)}${modifier.unit === "percent" ? "%" : ""}`;
         }
         let value = modifier.value;
+        if (modifier.valueByLevelPerStack && modifier.valueByLevel && modifier.calculationSupport === "stack" && modifier.category === "damageBonus") {
+            const level = context.talentLevels?.[modifier.valueSource?.section === "combat3" ? "burst" : "skill"] || 1;
+            const stackValue = activeStack ?? 0;
+            const coefficient = Number(modifier.valueByLevel[String(level)] ?? modifier.valueByLevel["1"]);
+            return `+${formatDisplayNumber(coefficient * stackValue)}%`;
+        }
         if (modifier.valueByRefinement) {
             value = modifier.valueByRefinement[String(context.refinement)] ?? modifier.valueByRefinement["1"];
         }
@@ -1347,14 +1371,14 @@
         }
         if (modifier.valueByCondition && modifier.conditionInput?.type === "option") {
             const values = [...new Set(Object.values(modifier.valueByCondition).map(Number).filter(Number.isFinite))];
-            return values.map((item) => `${item >= 0 ? "+" : ""}${item}${modifier.unit === "percent" ? "%" : ""}`).join(" / ");
+            return values.map((item) => `${item >= 0 ? "+" : ""}${formatDisplayNumber(item)}${modifier.unit === "percent" ? "%" : ""}`).join(" / ");
         }
         if (value === undefined || Array.isArray(value)) return "";
         const numericValue = Number(value);
         if (!Number.isFinite(numericValue)) return String(value);
-        if (activeStack !== null) return `${numericValue}% × ${activeStack}段 = ${numericValue * activeStack}%`;
+        if (activeStack !== null) return `${formatDisplayNumber(numericValue)}% × ${activeStack}段 = ${formatDisplayNumber(numericValue * activeStack)}%`;
         const suffix = ["percent", "percentPerPoint"].includes(modifier.unit) || modifier.valueByRefinement ? "%" : "";
-        return `${numericValue >= 0 ? "+" : ""}${numericValue}${suffix}`;
+        return `${numericValue >= 0 ? "+" : ""}${formatDisplayNumber(numericValue)}${suffix}`;
     }
 
     function cardSubtitle(cardId, context, calcData) {
@@ -1433,7 +1457,7 @@
                 if (!section.controls.some((current) => controlIdentity(current) === controlIdentity(control))) {
                     section.controls.push({
                         ...control,
-                        label: control.type === "toggle" ? `${impactLabel}を適用` : control.label,
+                        label: control.type === "toggle" ? `C${level}${effect.modifier.category === "extraDamage" ? "追加攻撃" : effect.modifier.category === "critBonus" ? "会心補正" : categoryLabel(effect.modifier.category)}を適用` : control.label,
                         help: control.type === "toggle" ? "この星座効果が発動している場合に有効にします。" : control.help
                     });
                 }
@@ -1739,6 +1763,7 @@
                 effectSummary: modifierEffectSummary(item.modifier, context),
                 controls,
                 modifier: item.modifier,
+                selectedOption: complex?.type === "option" ? complex.value : conditionState.option,
                 source: item.source,
                 constellationLevel: sourceInfo.type === "constellation" ? Number(sourceInfo.id.replace(/^C/, "")) : 0
             });
@@ -1821,6 +1846,7 @@
 
         return {
             controlState: conditionControlState(),
+            displayData: { characters: calcData.characters, talentScalings: calcData.talentScalings },
             resourceInputs,
             complexConditionInputs,
             dedicatedReferenceInputs,
@@ -1877,6 +1903,7 @@
         conditionLabelForKey,
         targetLabel,
         modifierActivationCondition,
+        formatDisplayNumber,
         modifierEffectSummary
     };
 })();

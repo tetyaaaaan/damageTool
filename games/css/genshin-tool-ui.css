@@ -2953,6 +2953,19 @@ html[data-theme="dark"] .genshin-tool-page {
   align-items: center;
 }
 
+@media (max-width: 680px) {
+  .genshin-tool-page .genshin-condition-card.is-wide .genshin-condition-control,
+  .genshin-tool-page .genshin-condition-card.is-wide .genshin-party-effect .genshin-condition-control {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .genshin-tool-page .genshin-condition-control-copy,
+  .genshin-tool-page .genshin-condition-input-unit {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
 .genshin-party-member label {
   display: grid;
   gap: 4px;

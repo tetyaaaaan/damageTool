@@ -58,6 +58,18 @@ test("invalid state files reject before application and do not mutate their call
     }
     assert.throws(() => api.parse('{"schemaVersion":1,"game":"genshin","state":{"request":{},"__proto__":{}}}', f.calcData));
 });
+test("state import classifies malformed JSON, unsupported saves and unavailable IDs for concise UI messages", () => {
+    const f = fixture("10000006", "14506");
+    const api = f.sandbox.GenshinCurrentCalcState;
+    const valid = plain(api.createState(f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm(), {}));
+    assert.throws(() => api.parse("{", f.calcData), (error) => error.code === "INVALID_JSON");
+
+    const unsupported = plain(valid); unsupported.schemaVersion = 99;
+    assert.throws(() => api.parse(JSON.stringify(unsupported), f.calcData), (error) => error.code === "UNSUPPORTED_SAVE");
+
+    const unknownCharacter = plain(valid); unknownCharacter.state.request.characterId = "99999999";
+    assert.throws(() => api.parse(JSON.stringify(unknownCharacter), f.calcData), (error) => error.code === "UNKNOWN_ID");
+});
 test("provider stats, shared party conditions and participant-local inputs survive the same serializer", () => {
     const f = fixture("10000052");
     const request = f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
