@@ -1217,7 +1217,7 @@
                 <span class="genshin-condition-status ${status.className}">${status.label}</span>
             </div>
             <dl class="genshin-condition-facts">
-                <div><dt>対象</dt><dd>${escapeHtml(candidate.targetLabel)}</dd></div>
+                <div><dt>対象</dt><dd>${escapeHtml(["resistanceDebuff", "defenseDebuff"].includes(candidate.modifier.category) ? "敵" : candidate.targetLabel)}</dd></div>
                 <div><dt>発動条件</dt><dd>${escapeHtml(condition)}</dd></div>
                 <div><dt>効果</dt><dd>${escapeHtml(effect)}</dd></div>
                 <div><dt>現在の反映</dt><dd>${escapeHtml(current)}</dd></div>

@@ -218,3 +218,42 @@ test("party modifiers sharing one game condition render one input and one activa
     assert.equal((html.match(/data-genshin-party-buff-key=/g) || []).length, 1);
     assert.match(html, /value="4"/);
 });
+
+
+test("party resistance-debuff labels show enemy without changing candidates, state or real damage", () => {
+    for (const provider of ["10000107", "10000123"]) {
+        const { sandbox, elements, calcData } = createHarness({ renderer: true });
+        prepareScenarioInputs(elements, { characterId: "10000016", stats: { atk: 2000 } });
+        setSupport(elements, provider);
+        let request = sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+        const off = sandbox.GenshinCalcEngine.calculateDamageRequest(request, calcData);
+        const candidate = off.partyModifiers.find((item) => item.modifier.category === "resistanceDebuff"
+            && (provider === "10000107" || item.modifier.id === "durin_white_pyro_resistance"));
+        assert.ok(candidate);
+        if (provider === "10000107") {
+            assert.equal(candidate.targetOwner, "team", "existing Runtime ownership stays unchanged");
+            sandbox.GenshinPartyState.setBuffEnabled(candidate.toggleKey || candidate.key, true);
+        } else {
+            sandbox.GenshinPartyState.setPartyConditionState(candidate.toggleKey, "option", "whiteOverload");
+        }
+        request = sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+        const before = sandbox.GenshinCalcEngine.calculateDamageRequest(request, calcData);
+        const hit = before.results.find((item) => item.entry.element === "炎");
+        assert.ok(hit);
+        const offHit = off.results.find((item) => item.entry.id === hit.entry.id);
+        assert.equal(hit.breakdown.resistance, offHit.breakdown.resistance - 20);
+        assert.ok(hit.expected > offHit.expected);
+        const panel = sandbox.GenshinCalcConditions.conditionPanelState(request, calcData);
+        elements.genshinJsonConditionCards = { innerHTML: "", dataset: {} };
+        const saved = JSON.stringify(request);
+        sandbox.GenshinCalcRenderer.renderConditionCards(panel, request);
+        const key = candidate.key.replace(/[.*+?^$()|[\]\\]/g, "\\$&");
+        const row = elements.genshinJsonConditionCards.innerHTML.match(new RegExp('data-party-buff="' + key + '"[\\s\\S]*?</article>'))?.[0];
+        assert.ok(row, "actual debuff candidate rendered");
+        assert.match(row, /<dt>対象<\/dt><dd>敵<\/dd>/);
+        assert.equal(JSON.stringify(request), saved);
+        const after = sandbox.GenshinCalcEngine.calculateDamageRequest(JSON.parse(saved), calcData);
+        assert.equal(JSON.stringify(after.results), JSON.stringify(before.results));
+        assert.equal(after.partyModifiers.find((item) => item.key === candidate.key).targetOwner, candidate.targetOwner);
+    }
+});
