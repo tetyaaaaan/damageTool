@@ -286,6 +286,10 @@
             const maxStack = Number(modifier.stack?.max);
             if (Number.isFinite(perStack)) {
                 const maxValue = Number.isFinite(maxStack) ? perStack * maxStack : null;
+                if (modifier.unit === "flat") {
+                    const inputUnit = modifier.conditionInput?.unit || "入力値";
+                    return `${label}：1${inputUnit}につき+${formatDisplayNumber(perStack)}${maxValue === null ? "" : `（最大+${formatDisplayNumber(maxValue)}）`}`;
+                }
                 return `${label}：+${formatDisplayNumber(perStack)}%／層${maxValue === null ? "" : `（最大+${formatDisplayNumber(maxValue)}%）`}`;
             }
         }
@@ -1376,6 +1380,15 @@
         if (value === undefined || Array.isArray(value)) return "";
         const numericValue = Number(value);
         if (!Number.isFinite(numericValue)) return String(value);
+        if (Number.isFinite(Number(modifier.minimumConditionStack))) {
+            const minimum = Number(modifier.minimumConditionStack);
+            const current = (activeStack ?? 0) >= minimum ? numericValue : 0;
+            return `${minimum}層成立時+${formatDisplayNumber(numericValue)}%／現在+${formatDisplayNumber(current)}%`;
+        }
+        if (activeStack !== null && modifier.unit === "flat" && modifier.valueByRefinementPerStack) {
+            const effectiveStack = Math.min(Math.max(activeStack, 0), Number(modifier.stack?.max) || activeStack);
+            return `+${formatDisplayNumber(numericValue * effectiveStack)}（入力${formatDisplayNumber(activeStack)}${modifier.conditionInput?.unit || ""}から算出）`;
+        }
         if (activeStack !== null) return `${formatDisplayNumber(numericValue)}% × ${activeStack}段 = ${formatDisplayNumber(numericValue * activeStack)}%`;
         const suffix = ["percent", "percentPerPoint"].includes(modifier.unit) || modifier.valueByRefinement ? "%" : "";
         return `${numericValue >= 0 ? "+" : ""}${formatDisplayNumber(numericValue)}${suffix}`;

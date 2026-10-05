@@ -1108,10 +1108,34 @@
         "applyTo": [
           "atkFlat"
         ],
-        "unit": "percentOfReference",
-        "condition": "always",
-        "calculationSupport": "simple",
-        "uidHandling": "includedInUidStats",
+        "unit": "flat",
+        "condition": "clearedBondHpInput",
+        "conditionGroupId": "finale11425ClearedBondHp",
+        "conditionInput": {
+          "type": "stack",
+          "label": "解除した命の契約量",
+          "help": "最大HPの割合ではなく、今回解除したHP量を入力します。攻撃力増加はこの値に精錬別の割合を掛け、最大値で制限します。",
+          "min": 0,
+          "max": 1000000000,
+          "step": 0.01,
+          "unit": "HP"
+        },
+        "conditionInputActivates": true,
+        "calculationSupport": "stack",
+        "uidHandling": "conditional",
+        "inputPolicy": "calculate",
+        "stack": {
+          "min": 0,
+          "max": 6250,
+          "default": 0
+        },
+        "valueByRefinementPerStack": {
+          "1": 0.024,
+          "2": 0.03,
+          "3": 0.036,
+          "4": 0.042,
+          "5": 0.048
+        },
         "valueByRefinement": {
           "1": 2.4,
           "2": 3,
@@ -1120,7 +1144,6 @@
           "5": 4.8
         },
         "id": "w_11425_statBonus_ff739aa5",
-        "auditDisposition": "sourceContextRequired",
         "sourceText": "命の契約がクリアされた時、クリア時の数値の2.4%を基に攻撃力がアップする"
       },
       {
@@ -11880,15 +11903,30 @@
     "modifiers": [
       {
         "id": "w_15513_crit_1",
-        "auditDisposition": "sourceContextRequired",
         "category": "critBonus",
         "applyTo": [
           "burstCritRate"
         ],
         "unit": "percent",
-        "condition": "always",
+        "condition": "existingHPstack",
+        "conditionGroupId": "existingHPstack",
+        "effectGroupId": "whiteRainExistingHPstack",
+        "effectLabel": "療護",
+        "conditionInput": {
+          "type": "stack",
+          "label": "療護の層数",
+          "min": 0,
+          "max": 3,
+          "unit": "層"
+        },
+        "conditionInputActivates": true,
+        "minimumConditionStack": 3,
+        "targetGroups": [
+          "burst"
+        ],
+        "inputPolicy": "calculate",
         "calculationSupport": "simple",
-        "uidHandling": "includedInUidStats",
+        "uidHandling": "conditional",
         "sourceText": "その他、療護が3層の時、元素爆発の会心率+28%、この効果は療護が3層未満になった4秒後に解除される",
         "valueByRefinement": {
           "1": 28,
@@ -11904,9 +11942,21 @@
           "hpPercent"
         ],
         "unit": "percent",
-        "condition": "always",
+        "condition": "existingHPstack",
+        "conditionGroupId": "existingHPstack",
+        "effectGroupId": "whiteRainExistingHPstack",
+        "effectLabel": "療護",
+        "conditionInput": {
+          "type": "stack",
+          "label": "療護の層数",
+          "min": 0,
+          "max": 3,
+          "unit": "層"
+        },
+        "conditionInputActivates": true,
+        "inputPolicy": "calculate",
         "calculationSupport": "stack",
-        "uidHandling": "includedInUidStats",
+        "uidHandling": "conditional",
         "valueByRefinement": {
           "1": [
             12,

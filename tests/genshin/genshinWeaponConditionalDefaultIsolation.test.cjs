@@ -9,7 +9,6 @@ const {
 
 const affectedByWeapon = new Map([
     ["11305", ["w_11305_extraDamage_7347a245"]],
-    ["11425", ["w_11425_statBonus_ff739aa5"]],
     ["11428", ["w_11428_extraDamage_ac4f2d59", "w_11428_extra_damage_1"]],
     ["11501", ["w_11501_extra_damage_2"]],
     ["11502", ["w_11502_extra_damage_2"]],
@@ -29,7 +28,6 @@ const affectedByWeapon = new Map([
     ["15418", ["w_15418_extra_damage_1"]],
     ["15424", ["w_15424_extra_damage_1"]],
     ["15432", ["w_15432_extraDamage_367a328c"]],
-    ["15513", ["w_15513_crit_1"]],
     ["15515", ["w_15515_damage_1"]],
 ]);
 
@@ -76,7 +74,8 @@ test("未入力の発動条件・相互排他状態・参照量をproductionへ�
         assert.ok(candidates.every((item) => item.analysis.reasonCode === "SOURCE_CONTEXT_REQUIRED"), weaponId);
         audited += affectedIds.length;
     }
-    assert.equal(audited, 27);
+    // 11425 / 15513 now have explicit CurrentCalc inputs, covered by their dedicated suite.
+    assert.equal(audited, 25);
 });
 
 test("鉾槍は通常攻撃命中後だけを明示的に有効化し、精錬倍率と10秒制限を保持する", () => {
@@ -194,6 +193,10 @@ test("配列型stack補正は0層を無効化し、1層・3層を精錬別に実
                 calcContext.stats.baseHp = 10000;
                 calcContext.stats.baseDef = 500;
                 calcContext.uiState.stackByModifier[modifierId] = stack;
+                if (weaponId === "15513") {
+                    calcContext.uiState.complexConditionByModifier["weapon:15513:group:existingHPstack"] = { stack };
+                    sandbox.GenshinCalcConditions.conditionPanelState(calcContext, calcData);
+                }
                 const collected = sandbox.GenshinCalcEngine.collectActiveModifiers(calcData, calcContext);
                 const applied = collected.applied.find((item) => item.modifier.id === modifierId);
                 assert.equal(applied?.value ?? 0, expected[refinement][index],

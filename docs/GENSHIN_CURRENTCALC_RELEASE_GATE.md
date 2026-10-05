@@ -56,7 +56,8 @@ $gateNames = @(
     'DurinCurrentCalcCompleteness',
     'WandererCurrentCalcCompleteness',
     'ReleasePolish',
-    'WolfGravestoneCurrentCalc'
+    'WolfGravestoneCurrentCalc',
+    'WhiteRainFinaleCurrentCalc'
 )
 $gateFiles = $gateNames | ForEach-Object { "tests/genshin/genshin$_.test.cjs" }
 node --test @gateFiles
