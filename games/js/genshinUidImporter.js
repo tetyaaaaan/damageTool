@@ -623,18 +623,24 @@
         const num = Number(value);
         if (!Number.isFinite(num)) return;
         if (mode === "preciseInteger" || mode === "preciseDecimal") {
-            input.value = mode === "preciseInteger"
-                ? String(Math.round(num))
-                : String(Math.round(num * 100) / 100);
+            input.value = formatStatInputValue(num, mode);
             input.dataset.preciseValue = String(num);
         } else {
             delete input.dataset.preciseValue;
-            input.value = mode === "integer" ? String(Math.round(num)) : String(Math.round(num * 100) / 100);
+            input.value = formatStatInputValue(num, mode);
         }
         input.dispatchEvent(new Event("input", { bubbles: true }));
         if (mode === "preciseInteger" || mode === "preciseDecimal") {
             input.dataset.valueOrigin = "uid";
         }
+    }
+
+    function formatStatInputValue(value, mode = "decimal") {
+        const num = Number(value);
+        if (!Number.isFinite(num)) return "";
+        return mode === "integer" || mode === "preciseInteger"
+            ? String(Math.round(num))
+            : String(Math.round(num * 100) / 100);
     }
 
     function setSelectValue(id, value) {
@@ -827,4 +833,5 @@
     }
 
     document.addEventListener("DOMContentLoaded", initializeUidImporter);
+    window.GenshinUidImporter = { formatStatInputValue };
 })();

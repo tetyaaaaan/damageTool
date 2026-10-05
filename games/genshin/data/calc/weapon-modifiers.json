@@ -4446,10 +4446,30 @@
           "atkPercent"
         ],
         "unit": "percent",
-        "condition": "always",
-        "calculationSupport": "simple",
-        "uidHandling": "includedInUidStats",
+        "condition": "active",
+        "calculationSupport": "toggle",
+        "uidHandling": "conditional",
+        "inputPolicy": "calculate",
         "sourceText": "HPが30%以下の敵に命中すると、チーム全員の攻撃力+40%、継続時間12秒",
+        "conditionGroupId": "wolfGravestoneLowHpTeamAtk",
+        "targetOwner": "team",
+        "conditionInput": {
+          "type": "option",
+          "label": "狼の末路の効果発動中",
+          "help": "HPが30%以下の敵に命中した後、12秒間の攻撃力補正を指定します。",
+          "options": [
+            {
+              "value": "inactive",
+              "label": "OFF"
+            },
+            {
+              "value": "active",
+              "label": "ON"
+            }
+          ]
+        },
+        "conditionOptionValue": "active",
+        "conditionInputActivates": true,
         "valueByRefinement": {
           "1": 40,
           "2": 50,

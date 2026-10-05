@@ -96,6 +96,26 @@
         if (element.dataset) delete element.dataset.preciseValue;
         if (emit) { element.dispatchEvent(new Event("input", { bubbles: true })); element.dispatchEvent(new Event("change", { bubbles: true })); }
     }
+    const INTEGER_DISPLAY_STATS = new Set(["hp", "atk", "def", "elementalMastery"]);
+    function setRestoredStat(id, value, key, provenance) {
+        const element = byId(id);
+        if (!element) return;
+        const exact = Number(value);
+        const formatter = window.GenshinUidImporter?.formatStatInputValue;
+        const display = provenance === "uid" && formatter
+            ? formatter(exact, INTEGER_DISPLAY_STATS.has(key) ? "integer" : "decimal")
+            : String(exact);
+        element.value = display;
+        if (element.dataset) {
+            element.dataset.preciseValue = String(exact);
+            if (!element.dataset.currentCalcPrecisionListener) {
+                element.addEventListener("input", (event) => {
+                    if (!applying && event.isTrusted) delete event.currentTarget.dataset.preciseValue;
+                });
+                element.dataset.currentCalcPrecisionListener = "true";
+            }
+        }
+    }
     function restoreSelection(selection) {
         const find = (selector, key, value) => [...document.querySelectorAll(selector)].find((element) => element.dataset[key] === value);
         find("[data-json-tab]", "jsonTab", selection.resultTab)?.click();
@@ -121,8 +141,9 @@
             setField("genshinArtifactSetTwo", r.artifactSetIds[1] || "");
             await window.GenshinPartyState.restoreSupportState(r.party || {});
             Object.entries(STAT_FIELDS).forEach(([key, id]) => {
-                setField(id, r.stats[key], false);
-                window.GenshinInputProvenance?.markById(id, r.inputProvenance?.fields?.[key] || "manual");
+                const provenance = r.inputProvenance?.fields?.[key] || "manual";
+                setRestoredStat(id, r.stats[key], key, provenance);
+                window.GenshinInputProvenance?.markById(id, provenance);
             });
             Object.entries(UI_FIELDS).forEach(([key, id]) => setField(id, r.uiState[key], false));
             ["C1", "C2", "C4", "C6"].forEach((key) => setField("genshinJsonEnableConstellation" + key, r.uiState.constellationConditions?.[key] || false, false));

@@ -7,6 +7,13 @@ const vm = require("node:vm");
 const { createScenarioHarness, prepareScenarioInputs } = require("./helpers/calcScenarioHarness.cjs");
 const root = path.resolve(__dirname, "../..");
 
+test("public state controls offer automatic restoration without developer JSON actions", () => {
+    const html = fs.readFileSync(path.join(root, "games/genshin/index.html"), "utf8");
+    assert.doesNotMatch(html, /id="genshinCurrentCalc(?:Export|Import|File)"/);
+    assert.match(html, /id="genshinCurrentCalcStateMessage"/);
+    assert.match(html, /前回入力.*自動保存/);
+});
+
 function fixture(characterId = "10000096", constellation = 6) {
     const harness = createScenarioHarness();
     prepareScenarioInputs(harness.elements, { characterId, constellation });

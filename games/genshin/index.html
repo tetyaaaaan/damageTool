@@ -73,7 +73,7 @@
             <div>
               <p class="genshin-kicker">Genshin Impact</p>
               <h1>原神 ダメージ計算ツール</h1>
-              <p>現在のステータスと条件を指定して、各ヒットの単発ダメージを計算します。入力状態は再読込後に復元でき、JSONでも保存・読込できます。</p>
+              <p>現在のステータスと条件を指定して、各ヒットの単発ダメージを計算します。前回の入力状態はページ再読込後に自動復元されます。</p>
             </div>
           </div>
           <div class="genshin-hero-actions">
@@ -340,9 +340,7 @@
               </div>
               <button type="button" class="genshin-condition-reload" id="genshinJsonPrepareConditionsButton"><span aria-hidden="true">↻</span>補正条件を再読み込み</button>
               <div class="genshin-currentcalc-storage">
-                <button type="button" class="teti-button" id="genshinCurrentCalcExport">JSON保存</button>
-                <button type="button" class="teti-button" id="genshinCurrentCalcImport">JSON読込</button>
-                <input type="file" id="genshinCurrentCalcFile" accept=".json,application/json" hidden>
+                <p>前回入力はこのブラウザに自動保存され、ページ再読込後に復元されます。</p>
                 <p id="genshinCurrentCalcStateMessage" role="status" aria-live="polite"></p>
               </div>
               <div class="genshin-json-actions genshin-json-actions-bottom">
@@ -407,7 +405,7 @@
         <script src="/games/js/genshinEquipmentDetails.js?v=20261005-2"></script>
         <script src="/games/js/genshinCalculatorPresentation.js?v=20260720-2"></script>
         <script src="/games/js/uidStorage.js"></script>
-        <script src="/games/js/genshinUidImporter.js?v=20260916-1"></script>
+        <script src="/games/js/genshinUidImporter.js?v=20261005-3"></script>
         <script src="/games/js/genshinDataContract.js?v=20260916-1"></script>
         <script src="/games/js/genshinCalcData.js?v=20260816-1"></script>
         <script src="/games/js/genshinUiLabels.js?v=20260824-1"></script>
@@ -420,7 +418,7 @@
         <script src="/games/js/genshinCalcEngine.js?v=20260726-4"></script>
         <script src="/games/js/genshinCalculationComparison.js?v=20260722-1"></script>
         <script src="/games/js/genshinCalcRenderer.js?v=20261005-2"></script>
-        <script src="/games/js/genshinCurrentCalcState.js?v=20261005-2"></script>
+        <script src="/games/js/genshinCurrentCalcState.js?v=20261005-3"></script>
       </div>
     </main>
 

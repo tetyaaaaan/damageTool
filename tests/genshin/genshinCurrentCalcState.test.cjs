@@ -8,7 +8,7 @@ const { createScenarioHarness, prepareScenarioInputs, setElement, setConditionEl
 const plain = (value) => JSON.parse(JSON.stringify(value));
 function fixture(id = "10000052", weaponId = "") {
     const f = createScenarioHarness();
-    for (const file of ["genshinDataContract.js", "genshinCurrentCalcState.js"]) vm.runInContext(fs.readFileSync(path.resolve(__dirname, "../../games/js", file), "utf8"), f.sandbox);
+    for (const file of ["genshinDataContract.js", "genshinUidImporter.js", "genshinCurrentCalcState.js"]) vm.runInContext(fs.readFileSync(path.resolve(__dirname, "../../games/js", file), "utf8"), f.sandbox);
     vm.runInContext(fs.readFileSync(path.resolve(__dirname, "../../games/js/genshinCalcData.js"), "utf8"), f.sandbox);
     const candidate = (name) => JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../games/genshin/data/v2/candidates", name), "utf8"));
     f.sandbox.GenshinCalcData.applyProvisional70Data(f.calcData, [candidate("7.0-provisional-characters.json"), candidate("7.0-provisional-weapons.json"), candidate("7.0-provisional-stellar-swirl.json")], []);
@@ -35,6 +35,60 @@ test("shared state JSON reproduces exact requests and real damage for numeric ch
         assert.equal("results" in read.state, false);
         assert.deepEqual(plain(engine.calculateDamageRequest(read.state.request, f.calcData).results), plain(engine.calculateDamageRequest(request, f.calcData).results));
     }
+});
+test("reloading fractional stats keeps UID-style display rounding and exact calculation precision", async () => {
+    const f = fixture("10000052");
+    f.sandbox.GenshinCalcData.loadGenshinCalcData = async () => f.calcData;
+    f.sandbox.Event = class { constructor(type, options) { this.type = type; this.bubbles = options?.bubbles; } };
+    f.sandbox.document.querySelector = () => null;
+    for (const element of Object.values(f.elements)) {
+        element.dataset ||= {};
+        element.addEventListener = (type, listener) => { if (type === "input") element.oninput = listener; };
+        element.dispatchEvent = (event) => { if (event.type === "input") element.oninput?.({ currentTarget: element }); };
+    }
+    f.sandbox.GenshinPartyState = { restoreSupportState: async () => {} };
+    f.sandbox.GenshinCalcConditions.conditionPanelState = () => ({});
+    let restoredRequest;
+    f.sandbox.GenshinCalcRenderer = {
+        renderConditionCards() {},
+        calculate: async () => {
+            restoredRequest = f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+            return f.sandbox.GenshinCalcEngine.calculateDamageRequest(restoredRequest, f.calcData);
+        }
+    };
+    const engine = f.sandbox.GenshinCalcEngine;
+    const request = engine.buildCalculationRequestFromForm();
+    Object.assign(request.stats, {
+        hp: 40000.49, baseHp: 12345.6789, baseAtk: 715.2345, atk: 2000.49,
+        baseDef: 876.5432, def: 1000.49, elementalMastery: 300.49, critRate: 65.6789,
+        critDamage: 175.4321, energyRecharge: 128.7654, elementDamageBonus: 46.789
+    });
+    request.calculationInput.stats = plain(request.stats);
+    Object.keys(request.stats).forEach((key) => { request.inputProvenance.fields[key] = "uid"; });
+    const api = f.sandbox.GenshinCurrentCalcState;
+    const saved = api.createState(request, {});
+    const expected = engine.calculateDamageRequest(request, f.calcData);
+    await api.importText(api.serialize(saved));
+    assert.deepEqual(plain(restoredRequest.stats), plain(request.stats));
+    const damageRows = (result) => result.results.map(({ attackKey, nonCrit, crit, expected: average }) => ({ attackKey, nonCrit, crit, average }));
+    assert.deepEqual(damageRows(engine.calculateDamageRequest(restoredRequest, f.calcData)), damageRows(expected));
+    assert.equal(f.elements.genshinHpInput.value, "40000");
+    assert.equal(f.elements.genshinAtkInput.value, "2000");
+    assert.equal(f.elements.genshinCritRateInput.value, "65.68");
+    assert.equal(f.elements.genshinBaseAtkInput.value, "715.23");
+    assert.equal(f.elements.genshinHpInput.dataset.preciseValue, "40000.49");
+    f.elements.genshinHpInput.oninput({ currentTarget: f.elements.genshinHpInput, isTrusted: true });
+    assert.equal(f.elements.genshinHpInput.dataset.preciseValue, undefined);
+
+    request.stats.hp = 33.5;
+    request.calculationInput.stats.hp = 33.5;
+    request.inputProvenance.fields.hp = "manual";
+    f.elements.genshinHpInput.value = "33.5";
+    const manualDisplayBefore = f.elements.genshinHpInput.value;
+    await api.importText(api.serialize(api.createState(request, {})));
+    assert.equal(manualDisplayBefore, "33.5");
+    assert.equal(f.elements.genshinHpInput.value, manualDisplayBefore);
+    assert.equal(f.elements.genshinHpInput.dataset.preciseValue, "33.5");
 });
 test("invalid state files reject before application and do not mutate their caller", () => {
     const f = fixture("10000006", "14506");
