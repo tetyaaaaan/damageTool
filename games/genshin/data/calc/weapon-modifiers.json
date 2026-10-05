@@ -8682,21 +8682,35 @@
       },
       {
         "id": "w_14506_v3_scalingBonus_1",
-        "category": "scalingBonus",
+        "category": "additiveBaseDamage",
         "applyTo": [
           "normalAttackDamageBonus"
         ],
-        "condition": "specialCondition",
+        "condition": "always",
         "calculationSupport": "custom",
-        "uidHandling": "special",
+        "uidHandling": "conditional",
         "sourceText": "この武器を装備したキャラクターのHP上限の1%分、通常攻撃ダメージがアップする",
-        "value": 1,
         "unit": "percent",
         "reference": {
           "stat": "hp",
-          "source": "self"
+          "source": "self",
+          "includeAppliedStatBonuses": true
         },
-        "customHandlingRequired": true
+        "valueByRefinement": {
+          "1": 1,
+          "2": 1.5,
+          "3": 2,
+          "4": 2.5,
+          "5": 3
+        },
+        "targetOwner": "self",
+        "inputPolicy": "calculate",
+        "effectLabel": "白夜皓月：通常攻撃HP加算",
+        "valueSource": {
+          "type": "weaponEffectParam",
+          "param": "param2",
+          "label": "装備者のHP上限に対する加算率"
+        }
       }
     ]
   },
