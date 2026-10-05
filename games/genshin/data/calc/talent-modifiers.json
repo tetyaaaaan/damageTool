@@ -6703,6 +6703,42 @@
   "10000133": {
     "passives": [
       {
+        "sourceId": "passive1",
+        "modifiers": [
+          {
+            "id": "t_10000133_a1_prism",
+            "conditionInput": {"type":"option","label":"スキル発動時の演算負荷","options":[{"value":"inactive","label":"50以下・非星輝"},{"value":"above50","label":"50超・星輝状態"}]},
+            "conditionOptionValue": "above50",
+            "category": "effectOverride",
+            "applyTo": ["stellarConductDamageBonus", "stellarSwirlDamageBonus"],
+            "targetGroups": ["skill"],
+            "targetEffect": ["damage_3", "skill_prism_swirl"],
+            "value": 400,
+            "unit": "percentOfOriginalDamage",
+            "condition": "active",
+            "conditionLabel": "A1：演算負荷50超でスキル発動",
+            "calculationSupport": "toggle",
+            "sourceText": "輝映・星輝状態で演算負荷50超：スキルの2発目のプリズム弾が元のダメージの400%を与える。"
+          },
+          {
+            "id": "t_10000133_a1_tactics",
+            "category": "effectOverride",
+            "applyTo": ["stellarConductDamageBonus", "stellarSwirlDamageBonus"],
+            "targetGroups": ["burst"],
+            "targetEffect": ["damage_6", "burst_ray_swirl"],
+            "valueByStack": {"0":100,"1":110,"2":120,"3":130,"4":140,"5":150,"6":160,"7":170,"8":180,"9":190,"10":200},
+            "unit": "percentOfOriginalDamage",
+            "condition": "active",
+            "conditionLabel": "A1：爆発で消費する精錬戦術",
+            "conditionInput": {"type":"stack","label":"精錬戦術","min":0,"max":10,"unit":"層"},
+            "conditionInputActivates": true,
+            "stack": {"min":0,"max":10,"default":0},
+            "calculationSupport": "stack",
+            "sourceText": "輝映・星輝状態の爆発光線：元のダメージの100%＋消費した精錬戦術層数×10%、最大10層。"
+          }
+        ]
+      },
+      {
         "sourceId": "passive2",
         "modifiers": [
           {
@@ -6715,6 +6751,7 @@
             "divisor": 100,
             "maxValue": 160,
             "customCalculation": "thresholdStatBonus",
+            "rounding": "continuous",
             "unit": "flat",
             "reference": {
               "stat": "atk",

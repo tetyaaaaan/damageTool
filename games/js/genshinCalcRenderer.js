@@ -257,13 +257,19 @@
         const numericValue = Number(item.value);
         const trace = modifierStage(item) === "base" ? resolvedStatTrace(item, statTrace) : null;
         const rawValue = Number.isFinite(numericValue)
-            ? `${numericValue >= 0 ? "+" : ""}${formatDecimal(numericValue)}${modifierValueSuffix(modifier)}`
+            ? modifier.displayAsMultiplier && modifier.unit === "percentOfOriginalDamage"
+                ? `×${formatDecimal(numericValue / 100, 4)}`
+                : `${numericValue >= 0 ? "+" : ""}${formatDecimal(numericValue)}${modifierValueSuffix(modifier)}`
             : "";
         const value = trace
-            ? `${Number(trace.value) >= 0 ? "+" : ""}${formatNumber(trace.value)}${rawValue ? `（${rawValue}）` : ""}`
-            : rawValue;
+            ? trace.referenceStat
+                ? `${Number(trace.value) >= 0 ? "+" : ""}${formatDecimal(trace.value)} ／ ${statLabel(trace.referenceStat)}${Number(trace.referenceValue).toLocaleString("ja-JP", { maximumFractionDigits: 4 })} × ${Number(trace.coefficient).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}${Number.isFinite(Number(trace.maxValue)) ? ` / 上限${Number(trace.maxValue).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}` : ""}`
+                : `${Number(trace.value) >= 0 ? "+" : ""}${formatNumber(trace.value)}${rawValue ? `（${rawValue}）` : ""}`
+            : modifier.category === "reactionBaseDamageBonus" && modifier.rounding === "continuous"
+                ? `+${Number(item.value).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}% ／ ${statLabel(modifier.reference?.stat)}${Number(item.valueContext?.stats?.[modifier.reference?.stat] || 0).toLocaleString("ja-JP", { maximumFractionDigits: 4 })} × ${Number(modifier.ratio / modifier.divisor).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}% / 上限${modifier.maxValue}%`
+                : rawValue;
         return {
-            label: [source, effect].filter(Boolean).join("・"),
+            label: [source, source.endsWith(`・${effect}`) ? "" : effect].filter(Boolean).join("・"),
             value,
             stage: modifierStage(item)
         };
@@ -419,6 +425,9 @@
         if (view.special.finalDamageMultiplier !== 1) specialRows.push({ label: "最終ダメージ補正", value: `×${formatDecimal(view.special.finalDamageMultiplier, 4)}` });
         if (view.special.effectOverrides.length) specialRows.push({ label: "特殊効果", value: `${view.special.effectOverrides.length}件` });
         const contributorHtml = view.reaction ? renderReactionContributors(view.reaction.contributors) : "";
+        const statRows = (result.breakdown?.statTrace || []).some((trace) => trace.stat === "elementalMastery" && trace.referenceStat)
+            ? [{ label: "元素熟知（補正後）", value: formatNumber(result.breakdown?.inputStats?.elementalMastery) }]
+            : [];
         return `
             <div class="genshin-json-breakdown">
                 <h5 class="genshin-breakdown-title">計算の流れ</h5>
@@ -429,6 +438,7 @@
                     <span>${escapeHtml(view.hitCount)}ヒット</span>
                 </div>
                 <div class="genshin-breakdown-flow">
+                    ${renderFriendlyBreakdownSection("計算時ステータス", statRows)}
                     ${renderFriendlyBreakdownSection("1. 基礎ダメージ", scalingRows, renderAppliedEffects(view.base.effects))}
                     ${renderFriendlyBreakdownSection("2. ダメージバフ", buffRows, renderAppliedEffects(view.buffs.effects))}
                     ${view.reaction ? renderFriendlyBreakdownSection("3. 元素反応", reactionRows, contributorHtml + renderAppliedEffects(view.reaction.effects)) : ""}

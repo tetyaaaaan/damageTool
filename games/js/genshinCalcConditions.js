@@ -255,7 +255,7 @@
         if (modifier.display?.effectSummary) return modifier.display.effectSummary;
         if (modifier.effectSummary) return modifier.effectSummary;
         const targets = modifierTargetLabels(modifier);
-        const targetCategories = new Set(["damageBonus", "reactionBonus", "reactionCritBonus", "critBonus", "statBonus"]);
+        const targetCategories = new Set(["damageBonus", "reactionBonus", "reactionBaseDamageBonus", "reactionCritBonus", "critBonus", "statBonus"]);
         const label = targetCategories.has(modifier.category) && targets.length
             ? targets.join("・")
             : modifierImpactLabel(modifier);
@@ -465,6 +465,9 @@
         lunarSuperconductDamageBonus: "星電導反応ダメージ",
         astralConductionDamageBonus: "星電導反応ダメージ",
         stellarSwirlDamageBonus: "星拡散反応ダメージ",
+        stellarConductDamageBonus: "星電導反応ダメージ",
+        stellarConductBaseDamageBonus: "星電導反応の基礎ダメージ",
+        stellarSwirlBaseDamageBonus: "星拡散反応の基礎ダメージ",
         moonReactionDamageBonus: "月反応ダメージ",
         reactionRelatedElementDamageBonus: "反応に関連する元素ダメージ",
         physicalResistance: "物理耐性",
@@ -1355,11 +1358,22 @@
             const referenceValue = Number(context.stats?.[modifier.reference.stat]) || 0;
             const divisor = Number(modifier.divisor) || 1;
             const ratio = Number(modifier.ratio) || 0;
-            const calculated = Math.floor(referenceValue / divisor) * ratio;
+            const units = referenceValue / divisor;
+            const calculated = (modifier.rounding === "continuous" ? units : Math.floor(units)) * ratio;
             const value = Number.isFinite(Number(modifier.maxValue)) ? Math.min(calculated, Number(modifier.maxValue)) : calculated;
             return `${value >= 0 ? "+" : ""}${formatDisplayNumber(value)}${modifier.unit === "percent" ? "%" : ""}`;
         }
+        if (modifier.category === "reactionBaseDamageBonus" && modifier.reference?.stat) {
+            const referenceValue = Number(context.stats?.[modifier.reference.stat]) || 0;
+            const units = referenceValue / (Number(modifier.divisor) || 1);
+            const calculated = (modifier.rounding === "continuous" ? units : Math.floor(units)) * Number(modifier.ratio);
+            const value = Number.isFinite(Number(modifier.maxValue)) ? Math.min(calculated, Number(modifier.maxValue)) : calculated;
+            return `+${formatDisplayNumber(value, 4)}%（${formatDisplayNumber(referenceValue)} × ${formatDisplayNumber(Number(modifier.ratio) / Number(modifier.divisor), 4)}%、上限${formatDisplayNumber(modifier.maxValue)}%）`;
+        }
         let value = modifier.value;
+        if (modifier.displayAsMultiplier && modifier.unit === "percentOfOriginalDamage") {
+            return `×${formatDisplayNumber(Number(value) / 100)}`;
+        }
         if (modifier.valueByLevelPerStack && modifier.valueByLevel && modifier.calculationSupport === "stack" && modifier.category === "damageBonus") {
             const level = context.talentLevels?.[modifier.valueSource?.section === "combat3" ? "burst" : "skill"] || 1;
             const stackValue = activeStack ?? 0;
@@ -1374,6 +1388,12 @@
             value = values[String(context.refinement)] ?? values["1"];
         }
         if (modifier.valueByCondition && modifier.conditionInput?.type === "option") {
+            if (modifier.displaySelectedConditionValue && modifier.conditionGroupId) {
+                const key = `character:${context.characterId}:group:${modifier.conditionGroupId}`;
+                const option = context.uiState?.conditionByModifier?.[key]?.option;
+                const current = Number(modifier.valueByCondition[String(option)]) || 0;
+                return `+${formatDisplayNumber(current)}${modifier.unit === "percent" ? "%" : ""}`;
+            }
             const values = [...new Set(Object.values(modifier.valueByCondition).map(Number).filter(Number.isFinite))];
             return values.map((item) => `${item >= 0 ? "+" : ""}${formatDisplayNumber(item)}${modifier.unit === "percent" ? "%" : ""}`).join(" / ");
         }
@@ -1522,7 +1542,7 @@
             order: 10 + passiveIndex,
             typeLabel: normalizedId.startsWith("passive") ? `固有天賦${passiveIndex + 1}` : "天賦",
             nameJa: passive.nameJa || "天賦効果",
-            description: normalizeConditionDescription(passive.descriptionJa || ""),
+            description: normalizeConditionDescription(modifier?.effectDescription || passive.descriptionJa || ""),
             descriptionKind: "full"
         };
     }
@@ -1687,7 +1707,7 @@
             if (!cardId) return;
             const analysis = analyzeModifier(item.modifier, item.source, context);
             if (analysis.reasonCode === "SUPERSEDED_RECORD") return;
-            const isRelevantCategory = USER_TOGGLE_CATEGORIES.has(item.modifier.category);
+            const isRelevantCategory = USER_TOGGLE_CATEGORIES.has(item.modifier.category) || item.modifier.showInConditions === true;
             const isResourceInput = analysis.resourceClassification === "calculationInput";
             if (!isRelevantCategory && !isResourceInput) return;
             if (!["applicable", "includedInInput", "displayOnly"].includes(analysis.inputStatus)) return;

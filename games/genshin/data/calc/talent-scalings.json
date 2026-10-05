@@ -59654,7 +59654,7 @@
           "label": "重撃掃射ダメージ",
           "attackType": "chargedAttack",
           "damageType": "charged",
-          "element": "physical",
+          "element": "氷",
           "hitCount": 1,
           "levelSource": "normalAttack",
           "source": {
@@ -59667,21 +59667,21 @@
             {
               "stat": "atk",
               "valuesByLevel": {
-                "1": 43.0,
+                "1": 43,
                 "2": 46.5,
-                "3": 50.0,
-                "4": 55.0,
+                "3": 50,
+                "4": 55,
                 "5": 58.5,
                 "6": 62.5,
-                "7": 68.0,
+                "7": 68,
                 "8": 73.5,
-                "9": 79.0,
-                "10": 85.0,
-                "11": 91.0,
-                "12": 97.0,
-                "13": 103.0,
-                "14": 109.0,
-                "15": 115.0
+                "9": 79,
+                "10": 85,
+                "11": 91,
+                "12": 97,
+                "13": 103,
+                "14": 109,
+                "15": 115
               }
             }
           ]
@@ -59691,7 +59691,7 @@
           "label": "重撃冷却ビームダメージ",
           "attackType": "chargedAttack",
           "damageType": "charged",
-          "element": "physical",
+          "element": "氷",
           "hitCount": 1,
           "levelSource": "normalAttack",
           "source": {
@@ -59743,7 +59743,7 @@
               "valuesByLevel": {
                 "1": 81.7,
                 "2": 88.35,
-                "3": 95.0,
+                "3": 95,
                 "4": 104.5,
                 "5": 111.15,
                 "6": 118.75,
@@ -59765,7 +59765,7 @@
           "label": "高負荷モード時ダメージ",
           "attackType": "normalAttack",
           "damageType": "normal",
-          "element": "physical",
+          "element": "氷",
           "hitCount": 1,
           "levelSource": "normalAttack",
           "source": {
@@ -59778,21 +59778,21 @@
             {
               "stat": "atk",
               "valuesByLevel": {
-                "1": 43.0,
+                "1": 43,
                 "2": 46.5,
-                "3": 50.0,
-                "4": 55.0,
+                "3": 50,
+                "4": 55,
                 "5": 58.5,
                 "6": 62.5,
-                "7": 68.0,
+                "7": 68,
                 "8": 73.5,
-                "9": 79.0,
-                "10": 85.0,
-                "11": 91.0,
-                "12": 97.0,
-                "13": 103.0,
-                "14": 109.0,
-                "15": 115.0
+                "9": 79,
+                "10": 85,
+                "11": 91,
+                "12": 97,
+                "13": 103,
+                "14": 109,
+                "15": 115
               }
             }
           ]
@@ -59909,6 +59909,45 @@
             }
           ],
           "variant": "high"
+        },
+        {
+          "id": "charged_beam_swirl",
+          "label": "冷却ビーム星拡散ダメージ",
+          "attackType": "chargedAttack",
+          "damageType": "charged",
+          "element": "氷",
+          "hitCount": 1,
+          "levelSource": "normalAttack",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat1",
+            "param": "param11",
+            "format": "F1P",
+            "verificationNotes": "User external confirmation, 2026-10-05, Genshin 7.0."
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 122.55,
+                "2": 132.53,
+                "3": 142.5,
+                "4": 156.75,
+                "5": 166.73,
+                "6": 178.13,
+                "7": 193.8,
+                "8": 209.48,
+                "9": 225.15,
+                "10": 242.25,
+                "11": 259.35,
+                "12": 276.45,
+                "13": 293.55,
+                "14": 310.65,
+                "15": 327.75
+              }
+            }
+          ],
+          "directReactionId": "stellarSwirl"
         }
       ]
     },
@@ -59916,7 +59955,44 @@
       "entries": [
         {
           "id": "damage_2",
-          "label": "プリズム弾ダメージ",
+          "label": "プリズム弾（1発目）",
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "氷",
+          "hitCount": 1,
+          "levelSource": "skill",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat2",
+            "param": "param1",
+            "format": "F1P"
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 32.4,
+                "2": 34.83,
+                "3": 37.26,
+                "4": 40.5,
+                "5": 42.93,
+                "6": 45.36,
+                "7": 48.6,
+                "8": 51.84,
+                "9": 55.08,
+                "10": 58.32,
+                "11": 61.56,
+                "12": 64.8,
+                "13": 68.85,
+                "14": 72.9,
+                "15": 76.95
+              }
+            }
+          ]
+        },
+        {
+          "id": "damage_2_second",
+          "label": "プリズム弾（2発目・非星反応）",
           "attackType": "skill",
           "damageType": "skill",
           "element": "氷",
@@ -59953,7 +60029,7 @@
         },
         {
           "id": "damage_3",
-          "label": "プリズム弾星電導ダメージ",
+          "label": "プリズム弾（2発目・星電導）",
           "attackType": "skill",
           "damageType": "skill",
           "element": "氷",
@@ -59972,7 +60048,7 @@
                 "1": 21.6,
                 "2": 23.22,
                 "3": 24.84,
-                "4": 27.0,
+                "4": 27,
                 "5": 28.62,
                 "6": 30.24,
                 "7": 32.4,
@@ -59987,6 +60063,45 @@
               }
             }
           ]
+        },
+        {
+          "id": "skill_prism_swirl",
+          "label": "プリズム弾（2発目・星拡散）",
+          "attackType": "skill",
+          "damageType": "skill",
+          "element": "氷",
+          "hitCount": 1,
+          "levelSource": "skill",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat2",
+            "param": "param4",
+            "format": "F1P",
+            "verificationNotes": "User external confirmation, 2026-10-05, Genshin 7.0."
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 32.4,
+                "2": 34.83,
+                "3": 37.26,
+                "4": 40.5,
+                "5": 42.93,
+                "6": 45.36,
+                "7": 48.6,
+                "8": 51.84,
+                "9": 55.08,
+                "10": 58.32,
+                "11": 61.56,
+                "12": 64.8,
+                "13": 68.85,
+                "14": 72.9,
+                "15": 76.95
+              }
+            }
+          ],
+          "directReactionId": "stellarSwirl"
         }
       ]
     },
@@ -60027,7 +60142,8 @@
                 "15": 209.513
               }
             }
-          ]
+          ],
+          "independentHits": true
         },
         {
           "id": "damage_5",
@@ -60102,6 +60218,45 @@
               }
             }
           ]
+        },
+        {
+          "id": "burst_ray_swirl",
+          "label": "エネルギー光線星拡散ダメージ",
+          "attackType": "burst",
+          "damageType": "burst",
+          "element": "氷",
+          "hitCount": 1,
+          "levelSource": "burst",
+          "source": {
+            "oss": "genshin-db",
+            "talentKey": "combat3",
+            "param": "param6",
+            "format": "F1P",
+            "verificationNotes": "User external confirmation, 2026-10-05, Genshin 7.0."
+          },
+          "scalings": [
+            {
+              "stat": "atk",
+              "valuesByLevel": {
+                "1": 330.8,
+                "2": 355.61,
+                "3": 380.42,
+                "4": 413.5,
+                "5": 438.31,
+                "6": 463.12,
+                "7": 496.2,
+                "8": 529.28,
+                "9": 562.36,
+                "10": 595.44,
+                "11": 628.52,
+                "12": 661.6,
+                "13": 702.95,
+                "14": 744.3,
+                "15": 785.65
+              }
+            }
+          ],
+          "directReactionId": "stellarSwirl"
         }
       ]
     }

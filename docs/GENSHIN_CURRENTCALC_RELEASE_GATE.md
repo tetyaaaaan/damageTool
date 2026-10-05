@@ -57,7 +57,8 @@ $gateNames = @(
     'WandererCurrentCalcCompleteness',
     'ReleasePolish',
     'WolfGravestoneCurrentCalc',
-    'WhiteRainFinaleCurrentCalc'
+    'WhiteRainFinaleCurrentCalc',
+    'SandroneCurrentCalc'
 )
 $gateFiles = $gateNames | ForEach-Object { "tests/genshin/genshin$_.test.cjs" }
 node --test @gateFiles
@@ -68,7 +69,7 @@ if ($LASTEXITCODE -ne 0) { throw 'CurrentCalc focused Release Gate failed' }
 | --- | --- |
 | engine・入力・敵条件 | CalcIntegration、CalculationRequestEnemy、CalculationCommit、InputProvenanceAndResonance、StatBonusBaseInput |
 | party・条件・対象分離 | PartyModifiers、PartyConditionState、ComparisonAndPartyState、ConstellationUi、ProviderWeaponTransferCurrentCalc、各Isolation |
-| Site Ready完全性 | Furina〜WandererのCurrentCalcCompleteness、NicoleCurrentCalcConnections、EverlastingMoonglowCurrentCalc |
+| Site Ready完全性 | Furina〜WandererのCurrentCalcCompleteness、NicoleCurrentCalcConnections、EverlastingMoonglowCurrentCalc、SandroneCurrentCalc |
 | 7.0暫定経路 | 70Provisional系、70Weapon系、70ArtifactSetsIsolation |
 | 特殊反応・Golden | LunarCrystallizeGolden、GoldenScenarios、ReactionOptionsUi、ArtifactReactionTargets |
 | 保存復元・公開UI | CurrentCalcState、ReleasePolish、UidPartyBridgeContract |
@@ -85,6 +86,7 @@ node tests/genshin/genshin70ArtifactCurrentCalc.e2e.cjs
 node tests/genshin/genshinArlecchinoCurrentCalc.e2e.cjs
 node tests/genshin/genshinDurinCurrentCalc.e2e.cjs
 node tests/genshin/genshinRaidenCurrentCalc.e2e.cjs
+node tests/genshin/genshinSandroneCurrentCalc.e2e.cjs
 ```
 
 各コマンドの終了コード0を個別に確認する。基準点で確認済みの実ブラウザ受入項目も維持する：

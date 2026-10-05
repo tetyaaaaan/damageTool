@@ -1025,7 +1025,16 @@
                         directReactionId
                     };
                     delete normalizedEntry.elementVariants;
-                    entries.push(normalizeAttackModeEntry(normalizedEntry, group, calcData, context));
+                    const hitCount = normalizedEntry.independentHits ? Number(normalizedEntry.hitCount) || 1 : 1;
+                    for (let hit = 0; hit < hitCount; hit += 1) {
+                        entries.push(normalizeAttackModeEntry(hitCount > 1 ? {
+                            ...normalizedEntry,
+                            id: `${normalizedEntry.id}_hit${hit + 1}`,
+                            effectId: normalizedEntry.effectId || normalizedEntry.id,
+                            label: `${normalizedEntry.label}（${hit + 1}ヒット目）`,
+                            hitCount: 1
+                        } : normalizedEntry, group, calcData, context));
+                    }
                 });
             });
         });
@@ -1131,7 +1140,8 @@
         }
         if (modifier.category === "reactionBaseDamageBonus") {
             const referenceValue = Number(context.stats?.[modifier.reference?.stat]) || 0;
-            const value = Math.floor(referenceValue / (Number(modifier.divisor) || 1)) * (Number(modifier.ratio) || 0);
+            const units = referenceValue / (Number(modifier.divisor) || 1);
+            const value = (modifier.rounding === "continuous" ? units : Math.floor(units)) * (Number(modifier.ratio) || 0);
             return Number.isFinite(Number(modifier.maxValue)) ? Math.min(value, Number(modifier.maxValue)) : value;
         }
         const resourceStack = consumedResourceStack(modifier, context, analysis);
@@ -1459,6 +1469,12 @@
                 value: Number(bonus.value),
                 baseValue: Number(baseStats[bonus.stat]) || 0,
                 effectiveValue: Number(effectiveStats[bonus.stat]) || 0,
+                ...(item.modifier?.rounding === "continuous" ? {
+                    referenceStat: item.modifier.reference?.stat,
+                    referenceValue: Number(valueContext.stats?.[item.modifier.reference?.stat]) || 0,
+                    coefficient: Number(item.modifier.ratio) / Number(item.modifier.divisor),
+                    maxValue: item.modifier.maxValue
+                } : {}),
                 uidHandling: item.analysis?.uidHandling || "conditional",
                 provenance: item.modifier?.provenance || (item.modifier?.partySource ? "externalModifier" : "persistentModifier")
             });
@@ -1535,6 +1551,7 @@
     }
 
     function modifierTargetsEntry(modifier, entry) {
+        if (modifier.reactionTargetsOnly && !entry.directReactionId) return false;
         if (Array.isArray(modifier.targetElements) && !modifier.targetElements.includes(entry.element)) return false;
         if (Array.isArray(modifier.targetGroups) && !modifier.targetGroups.includes(entry.group)) return false;
         const targetEffects = Array.isArray(modifier.targetEffect)
@@ -1643,7 +1660,8 @@
             return { stat: targetStat, value: baseAtk * percent / 100 };
         }
         if (modifier.customCalculation === "thresholdStatBonus") {
-            const calculated = Math.floor(referenceValue / Number(modifier.divisor)) * Number(modifier.ratio);
+            const units = referenceValue / Number(modifier.divisor);
+            const calculated = (modifier.rounding === "continuous" ? units : Math.floor(units)) * Number(modifier.ratio);
             return {
                 stat: targetStat,
                 value: Number.isFinite(Number(modifier.maxValue)) ? Math.min(calculated, Number(modifier.maxValue)) : calculated
@@ -1775,6 +1793,9 @@
     }
 
     function critBonusApplies(modifier, entry) {
+        if (Array.isArray(modifier.targetGroups) && !modifier.targetGroups.includes(entry.group)) return false;
+        if (Array.isArray(modifier.targetElements) && !modifier.targetElements.includes(entry.element)) return false;
+        if (modifier.targetEffect && !modifierTargetsEntry(modifier, entry)) return false;
         if (modifier.artifactSetId === "15047" && modifier.id === "4pc_crit_rate_after_stellar_swirl"
             && (entry.directReactionId || entry.attackType === "reaction")) {
             return entry.directReactionId === "stellarSwirl";
@@ -2322,6 +2343,12 @@
                 addScoped(item, "additiveBaseDamage", resolveScalingAdditiveBaseDamage(modifier, item.valueContext || context));
             } else if (modifier.category === "reactionBaseDamageBonus" && reactionBaseDamageBonusApplies(modifier, reaction)) {
                 addScoped(item, "baseDamageBonus", value);
+            } else if (modifier.reactionTargetsOnly && item.analysis?.calculation === "effectOverride"
+                && window.GenshinModifierAnalyzer.effectOverrideKind(modifier) === "damageMultiplier"
+                && modifierTargetsEntry(modifier, reactionEntry)) {
+                const scope = modifier.targetOwner === "team" ? "sharedParty" : "participantLocal";
+                totals[scope].finalDamageMultiplier = (totals[scope].finalDamageMultiplier || 1) * Number(value) / 100;
+                totals.applied.push(item);
             } else if (reaction.reactionId === "stellarSwirl" && reaction.canCrit === true
                 && modifier.artifactSetId === "15047"
                 && modifier.id === "4pc_crit_rate_after_stellar_swirl"
@@ -2403,10 +2430,12 @@
                 + (isCurrent ? 0 : totals.sharedParty.critRate), 0), 100);
             const critDamage = Math.max((Number(contributor.critDamage) || 0)
                 + (isCurrent ? 0 : totals.sharedParty.critDamage), 0);
-            const preResistance = reaction.coefficient * levelMultiplier
+            const finalDamageMultiplier = (totals.sharedParty.finalDamageMultiplier || 1)
+                * (isCurrent ? totals.participantLocal.finalDamageMultiplier || 1 : 1);
+            const preResistance = (reaction.coefficient * levelMultiplier
                 * (1 + baseDamageBonus / 100)
                 * (1 + (emBonus + reactionBonus) / 100)
-                + additiveBaseDamage;
+                + additiveBaseDamage) * finalDamageMultiplier;
             const nonCrit = preResistance * resMultiplier;
             return {
                 ...contributor,
@@ -2417,6 +2446,7 @@
                 baseDamageBonus,
                 reactionBonus,
                 additiveBaseDamage,
+                ...(finalDamageMultiplier !== 1 ? { finalDamageMultiplier } : {}),
                 preResistance,
                 nonCrit,
                 crit: nonCrit * (1 + critDamage / 100)
@@ -2712,7 +2742,7 @@
                         stat: modifier.reference?.stat || "atk",
                         valuesByLevel: valueAsLevelMap(value)
                     }];
-                return [{
+                const extraEntry = {
                     id: modifier.id || `extra_${source}`,
                     effectId: modifier.id || "",
                     label,
@@ -2725,7 +2755,15 @@
                     scalings,
                     group: "extraDamage",
                     sourceModifier: item
-                }];
+                };
+                return modifier.independentHits
+                    ? Array.from({ length: extraEntry.hitCount }, (_, hit) => ({
+                        ...extraEntry,
+                        id: `${extraEntry.id}_hit${hit + 1}`,
+                        label: `${extraEntry.label}（${hit + 1}ヒット目）`,
+                        hitCount: 1
+                    }))
+                    : [extraEntry];
             });
     }
 
