@@ -22,11 +22,15 @@
   <nav class="teti-breadcrumb" aria-label="パンくず"><a href="/">ホーム</a><a href="/guides/">使い方ガイド</a><span>原神ダメージ計算</span></nav>
   <section class="teti-page-header"><div><p class="teti-page-kicker">Genshin Guide</p><h1>原神ダメージ計算ツールの使い方</h1><p>キャラクターの選択から計算結果の確認まで、基本的な操作手順を説明します。</p></div></section>
   <div class="info-content">
-    <section class="teti-panel teti-detail-card"><p class="info-meta">STEP 1</p><h2>UID検索</h2><p>原神ダメージ計算ツール上部のUID入力欄にゲーム内UIDを入力し、「UID検索」を押します。ゲーム内プロフィールで公開しているキャラクター情報が読み込まれます。</p></section>
-    <section class="teti-panel teti-detail-card"><p class="info-meta">STEP 2</p><h2>キャラクターを選択</h2><p>検索結果に表示された公開キャラクターの中から、ダメージを計算したいキャラクターを選択します。</p></section>
+    <section class="teti-panel teti-detail-card"><h2>現在状態を指定する単発ダメージ計算</h2><p>通常・重撃・落下、元素スキル・元素爆発、独立追撃の各ヒットを計算します。パーティのバフ・敵へのデバフ、敵の防御・耐性、元素反応・星反応・月結晶も指定できます。命の契約、願力、Fanfare（テンション）、層数などは、計算したい時点の状態を手動で入力してください。</p><p>複数ヒットは各攻撃の結果を区別して確認してください。月結晶は1月籠1ヒットと、同一対象に3発命中した場合の諧奏合計を区別します。現在の計算機能は専用Release Gateで検証済みです。</p></section>
+    <section class="teti-panel teti-detail-card"><p class="info-meta">STEP 1</p><h2>UID検索（任意）</h2><p>UIDを入力して「UID検索」を押すと、ゲーム内プロフィールで公開しているキャラクター情報を読み込めます。UID検索を使わず、キャラクターやステータスを手動で指定することもできます。</p></section>
+    <section class="teti-panel teti-detail-card"><p class="info-meta">STEP 2</p><h2>キャラクターを選択</h2><p>計算対象のキャラクターを選択します。UID検索を使う場合は、検索結果の公開キャラクターから選択できます。</p></section>
     <section class="teti-panel teti-detail-card"><p class="info-meta">STEP 3</p><h2>ステータスを反映</h2><p>選択したキャラクターのレベル、武器、ステータスなどを計算画面へ反映します。反映後の数値は必要に応じて手動で調整できます。</p></section>
     <section class="teti-panel teti-detail-card"><p class="info-meta">STEP 4</p><h2>補正を読み込む</h2><p>キャラクター、武器、聖遺物、命ノ星座などに応じた補正内容を確認します。条件付き効果は、実際に発動させる条件に合わせて選択してください。</p></section>
     <section class="teti-panel teti-detail-card"><p class="info-meta">STEP 5</p><h2>計算を実行</h2><p>敵レベル、耐性、元素反応などの条件を確認して計算を実行します。表示された会心なし・会心あり・期待値と、各補正の内訳を確認してください。</p></section>
+    <section class="teti-panel teti-detail-card"><h2>入力状態の保存と読込</h2><p>入力状態は同じブラウザのページ再読込後に復元されます。「JSON保存」で計算状態をファイルとして取得し、「JSON読込」で戻せます。保存するのは計算結果そのものではなく、同じ結果を再計算するための入力状態です。</p><p>壊れたJSONや対応していない保存形式は、現在の状態を変更せずに拒否します。ブラウザの保存データを消すと再読込復元はできなくなるため、残したい状態はJSONでも保存してください。</p></section>
+    <section class="teti-panel teti-detail-card"><h2>将来のDPS・rotation機能との境界</h2><p>ICD、元素付着タイミング、tick間隔、rotation、自動スタック増減・状態遷移、snapshotの時間追跡、効果時間・CTの自動シミュレーションは将来のDPS機能で扱います。現在状態を指定する単発計算とは別の機能範囲です。</p></section>
+    <section class="teti-panel teti-detail-card" id="known-limitation"><h2>異端を狩る熔刃の距離条件</h2><p>異端を狩る熔刃（11435）は最小・最大状態に対応しています。中間距離の対応式は仕様確認中のため、現在は最小・最大状態のみ選択可能です。推測による距離補間は行っていません。この武器の中間距離条件だけを個別の制限として扱います。</p></section>
     <section class="teti-panel teti-detail-card"><h2>計算を始める</h2><p><a class="teti-button teti-button-primary" href="/games/genshin/">原神ダメージ計算ツールを開く</a></p></section>
   </div>
 </div></main>

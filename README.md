@@ -2,6 +2,8 @@
 
 原神と崩壊スターレイルのダメージを確認するための静的Webツールです。
 
+原神のCurrentCalcは、現在状態を明示入力する単発ダメージ計算です。対応範囲、保存機能、既知の制限は[利用ガイド](guides/genshin/index.html)、公開判定に使うテスト集合と実行手順は[CurrentCalc Release Gate](docs/GENSHIN_CURRENTCALC_RELEASE_GATE.md)を参照してください。
+
 ## 開発メモ
 
 - Cloudflare Workers と Workers Assets で運用します。
@@ -18,6 +20,8 @@
 ## テスト
 
 原神JSON計算の単体・統合テストはNode.js標準テストランナーで実行します。
+
+以下は旧データ監査も含む全体テストです。CurrentCalcの公開判定には上記Release Gateのfocused suiteを使用し、canonical/provenance監査の残件と分離します。監査レポートやGolden値の再生成は公開判定の必須手順ではありません。
 
 ```bash
 node --test "tests/genshin/*.test.cjs"
