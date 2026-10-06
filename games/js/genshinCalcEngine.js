@@ -990,9 +990,12 @@
         groups.forEach(([group, talent]) => {
             (talent?.entries || []).forEach((entry) => {
                 if (entry.source?.format === "I" || entry.replacedByModifierId) return;
+                if (Number(entry.minimumConstellation || 0) > Number(context.constellation || 0)) return;
+                if (entry.requiredAttackMode && !attackModeIsEnabled(calcData, context, entry.requiredAttackMode)) return;
                 if (Array.isArray(entry.conditionSelectors) && entry.conditionSelectors.some((selector) => {
                     const key = `character:${context.characterId}:group:${selector.groupId}`;
-                    const selected = context.uiState?.conditionByModifier?.[key]?.option;
+                    const selected = context.uiState?.conditionByModifier?.[key]?.option ?? selector.defaultValue;
+                    if (selector.defaultValue !== undefined) return !selector.values.map(String).includes(String(selected));
                     return selected && selected !== "inactive" && !selector.values.map(String).includes(String(selected));
                 })) return;
                 if (group === "skill" && skillMode?.attackTypes.includes(entry.attackType) && !skillModeEnabled) return;
@@ -1019,7 +1022,9 @@
                     const normalizedEntry = {
                         ...variantEntry,
                         element: directReactionId
-                            ? calcData.reactionDefinitions?.options?.[directReactionId]?.damageElement || normalizeDamageElement(variantEntry, characterInfo)
+                            ? variantEntry.directReactionId && (variantEntry.damageElement || variantEntry.element)
+                                || calcData.reactionDefinitions?.options?.[directReactionId]?.damageElement
+                                || normalizeDamageElement(variantEntry, characterInfo)
                             : normalizeDamageElement(variantEntry, characterInfo),
                         group,
                         directReactionId
@@ -1122,6 +1127,18 @@
             const state = context.party?.conditionStates?.[analysis.conditionStateKey]
                 || uiState.conditionByModifier?.[analysis.conditionStateKey];
             if ((Number(state?.stack) || 0) < Number(modifier.minimumConditionStack)) return 0;
+        }
+        if (modifier.partyElementCount) {
+            const rule = modifier.partyElementCount;
+            const members = (context.party?.members || []).filter((member) => member.enabled !== false && member.characterId);
+            const roster = members.length ? members : [{ characterId: context.characterId, element: context.characterInfo?.element }];
+            const count = roster.filter((member) => {
+                const element = member.element || "";
+                const matching = (rule.elements || []).includes(element);
+                return rule.matching === false ? !matching : matching;
+            }).length;
+            const upgraded = Object.entries(modifier.valueByConstellation || {}).filter(([level]) => Number(context.constellation) >= Number(level)).sort((a, b) => Number(b[0]) - Number(a[0]))[0];
+            return Math.min(count, 4) * Number(upgraded ? upgraded[1] : modifier.value || 0);
         }
         if (modifier.customCalculation === "thresholdStatRatioPlusBase") {
             const referenceValue = Number(context.stats?.[modifier.reference?.stat]) || 0;
@@ -1760,6 +1777,8 @@
         return {
             ...definition,
             reactionId: entry.directReactionId,
+            // Reaction classification does not override an attack's source-defined damage element.
+            damageElement: entry.damageElement || entry.element || definition.damageElement,
             family: "dedicated",
             reactionType: "dedicated",
             label: definition.labelJa || entry.directReactionId,
@@ -2126,6 +2145,9 @@
         const effectiveEntry = appliedModifiers.entry || entry;
         const talentLevel = Math.min(Math.max(Math.round(getTalentLevel(context, entry)), 1), 15);
         const problems = [];
+        if (entry.calculationStatus === "externalConfirmationRequired" || entry.damageType === "unknown") {
+            problems.push(entry.pendingReasonJa || "ダメージ分類は外部確認待ちのため、計算値を表示できません。");
+        }
         const scalingParts = calculateScalingParts(entry, context, appliedModifiers, talentLevel, problems);
         const scalingBaseDamage = scalingParts.reduce((sum, part) => sum + part.baseDamage, 0);
         const directReaction = reactionForDamageEntry(entry, context);
@@ -2133,12 +2155,14 @@
             if (directReaction.enabled !== true) {
                 problems.push(directReaction.unsupportedReasonJa || `${directReaction.label || entry.directReactionId}の専用計算式が未登録です。`);
             }
+            const baseTalentDamageMultiplier = appliedModifiers.totals.baseTalentDamageMultiplier || 1;
+            const scaledTalentBaseDamage = scalingBaseDamage * baseTalentDamageMultiplier;
             const coefficient = dedicatedDirectCoefficient(directReaction, context);
             const emBonus = reactionEmBonusPercent("dedicated", effectiveStats(context).elementalMastery);
             const baseDamageBonus = appliedModifiers.totals.reactionBaseDamageBonus || 0;
             const reactionBonus = appliedModifiers.totals.reactionBonus || 0;
             const baseDamage = problems.length ? 0
-                : scalingBaseDamage * coefficient
+                : scaledTalentBaseDamage * coefficient
                     * (1 + baseDamageBonus / 100)
                     * (1 + (emBonus + reactionBonus) / 100)
                     + (appliedModifiers.totals.additiveBaseDamage || 0)
@@ -2152,7 +2176,7 @@
             const critDamage = context.stats.critDamage + (appliedModifiers.totals.critDamageBonus || 0) + (appliedModifiers.totals.reactionCritDamage || 0);
             const crit = nonCrit * (1 + critDamage / 100);
             const expected = nonCrit * (1 + Math.min(Math.max(critRate, 0), 100) / 100 * critDamage / 100);
-            const directCoefficientDamage = scalingBaseDamage * coefficient;
+            const directCoefficientDamage = scaledTalentBaseDamage * coefficient;
             const directBaseBonusDamage = directCoefficientDamage * (1 + baseDamageBonus / 100);
             const directReactionDamage = directBaseBonusDamage * (1 + (emBonus + reactionBonus) / 100)
                 + (appliedModifiers.totals.additiveBaseDamage || 0);
@@ -2184,6 +2208,7 @@
                     reactionBonus,
                     reactionAdditiveBaseDamage: appliedModifiers.totals.reactionAdditiveBaseDamage,
                     finalDamageMultiplier: appliedModifiers.totals.finalDamageMultiplier,
+                    baseTalentDamageMultiplier,
                     effectOverrides: appliedModifiers.totals.effectOverrides,
                     damageInfluence,
                     critRate,
@@ -2753,6 +2778,8 @@
                     element: modifier.element || "physical",
                     directReactionId: modifier.directReactionId || "",
                     canReact: modifier.canReact,
+                    ...(modifier.calculationStatus ? { calculationStatus: modifier.calculationStatus } : {}),
+                    ...(modifier.pendingReasonJa ? { pendingReasonJa: modifier.pendingReasonJa } : {}),
                     hitCount: Number(modifier.extraCount) || Number(modifier.hitCount) || 1,
                     scalings,
                     group: "extraDamage",
@@ -2779,6 +2806,7 @@
         }
         return (warnings || []).filter((warning) => {
             const message = warning.message || "";
+            if (warning.characterId) return String(warning.characterId) === String(context.characterId);
             if (warning.level === "error" || message.includes("読み込みに失敗")) return true;
             if (message.includes(`talentModifiers.${context.characterId}`)) return true;
             if (message.includes(`constellationModifiers.${context.characterId}`)) return true;
@@ -2865,6 +2893,11 @@
     function calculateDamageRequest(calculationRequest, calcData) {
         const context = cloneCalculationValue(calculationRequest);
         hydrateReactionContext(context, calcData);
+        if (context.party?.members) {
+            context.party.members = context.party.members.map((member) => ({
+                ...member, element: calcData.characters?.[member.characterId]?.element || member.element
+            }));
+        }
         window.GenshinCalcConditions.reconcileConditionState(context, calcData);
         window.GenshinCalcConditions.reconcileResourceState(context, calcData);
         window.GenshinCalcConditions.reconcileComplexConditionState(context, calcData);

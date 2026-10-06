@@ -118,3 +118,9 @@ node tests/genshin/genshinLinearProviderCurrentCalc.e2e.cjs
 `11435 異端を狩る熔刃` は最小・最大状態対応済み。中間距離→ATK補正式だけ外部仕様待ちで、推測補間は実装しない。この独立制限はRelease blockerにしない。
 
 ユーザー向け説明は[利用ガイド](../guides/genshin/index.html)、改善内容は[更新履歴](../updates/index.html)。公開版番号は新設せず、開発側ではRCのcommitで識別する。HTMLの `?v=` は資産キャッシュ更新用で、ゲーム仕様versionや公開版番号ではない。
+
+## Vesna CurrentCalc implementation checkpoint
+
+ヴェスナの確定実装はcheckpointとして保持し、CurrentCalc Site Readyとは判定しない。`VesnaCurrentCalc`専用テストと`genshinVesnaCurrentCalc.e2e.cjs`は確定部分・保留表示・reloadを検証する。
+
+未確定3件は`externalSpecPending`：C6転位150%のDMG Bonus分類、風羽のDMG Bonus分類、星光の祝福のATK端数処理。GO候補はそれぞれ内部`elemental`ノード、`skill`、連続比例`min(ATK × 0.007 / 100, 0.14)`だが、仕様確定としてRuntimeへ導入しない。未確定hitの数値を出さず、星光の祝福の未確定式も適用しない。詳細は[7.1限定一覧](GENSHIN_71_CURRENTCALC_INVENTORY.md)。この保留と後続キャラの独立検証を分離する。

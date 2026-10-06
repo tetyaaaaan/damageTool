@@ -24,6 +24,8 @@
         provisional70StellarSwirl: "/games/genshin/data/v2/candidates/7.0-provisional-stellar-swirl.json"
     };
 
+    const PROVISIONAL_71_PATH = "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vesna-currentcalc.json";
+
     const DISPLAY_DATA_PATHS = {
         characters: "/games/genshin/data/characters.json",
         weapons: "/games/genshin/data/weapons.json",
@@ -569,12 +571,12 @@
         return summary;
     }
 
-    function provisionalDocumentReady(document) {
+    function provisionalDocumentReady(document, targetVersion = "7.0") {
         const boundary = document?.statusDetails || document;
         return document?.schemaVersion === 1
             && document?.status === "candidatePrepared"
             && document?.nonCanonical === true
-            && document?.targetGameVersion === "7.0"
+            && document?.targetGameVersion === targetVersion
             && boundary?.canonical === false
             && boundary?.verificationComplete === false
             && boundary?.runtimeConnected === false
@@ -943,7 +945,7 @@
         return { ...document, characters, characterTalents, talentScalings, talentModifiers, characterConstellations, constellationModifiers };
     }
 
-    function applyProvisional70Data(data, documents, warnings = []) {
+    function applyProvisional70Data(data, documents, warnings = [], targetVersion = "7.0") {
         const summary = { offered: 0, applied: 0, rejected: 0, skippedCanonical: 0, targets: {} };
         const displayDatasets = new Set(["characters", "weapons", "characterTalents", "characterConstellations", "weaponEffects"]);
         const mark = (value, document, entityId) => {
@@ -971,7 +973,7 @@
             });
         };
         (documents || []).map(normalizeProvisionalCharacterDocument).forEach((document) => {
-            if (!provisionalDocumentReady(document)) {
+            if (!provisionalDocumentReady(document, targetVersion)) {
                 summary.rejected += 1;
                 warnings.push({ level: "warn", message: `${document?.kind || "7.0 provisional document"} rejected: non-canonical candidate boundary is invalid` });
                 return;
@@ -981,6 +983,13 @@
                 "talentScalings", "talentModifiers", "constellationModifiers",
                 "weaponEffects", "weaponModifiers"
             ].forEach((dataset) => mergeMissingMap(dataset, document[dataset], document));
+            if (targetVersion === "7.1") {
+                data.attackModeRules ||= {};
+                data.attackModeRules.characters ||= {};
+                Object.entries(document.attackModeRules?.characters || {}).forEach(([id, rule]) => {
+                    if (!Object.hasOwn(data.attackModeRules.characters, id)) data.attackModeRules.characters[id] = rule;
+                });
+            }
             if (document.weaponEffectRegistry?.weapons) {
                 data.weaponEffectRegistry ||= {};
                 data.weaponEffectRegistry.weapons ||= {};
@@ -1029,6 +1038,19 @@
         return summary;
     }
 
+    function applyProvisional71Data(data, documents, warnings = []) {
+        const summary = applyProvisional70Data(data, documents, warnings, "7.1");
+        (documents || []).filter((document) => provisionalDocumentReady(document, "7.1")).forEach((document) => {
+            Object.entries(document.characters || {}).forEach(([characterId, character]) => {
+                if (document.deferredUnknowns?.length) warnings.push({
+                    level: "warn", characterId,
+                    message: `${character.nameJa || "このキャラクター"}は一部効果の仕様確認中です。未確定効果を含む完全なダメージは未対応です。`
+                });
+            });
+        });
+        return summary;
+    }
+
     function validateCalcData(data) {
         const warnings = [];
         (window.GenshinDataContract?.validateManifest(data.dataManifest) || []).forEach((message) => {
@@ -1054,7 +1076,7 @@
         if (cache) return cache;
         const warnings = [];
         const entries = await Promise.all(
-            Object.entries({ ...CALC_PATHS, ...DISPLAY_DATA_PATHS, ...PROVISIONAL_70_PATHS }).map(async ([key, path]) => [key, await fetchJson(key, path, warnings)])
+            Object.entries({ ...CALC_PATHS, ...DISPLAY_DATA_PATHS, ...PROVISIONAL_70_PATHS, provisional71Characters: PROVISIONAL_71_PATH }).map(async ([key, path]) => [key, await fetchJson(key, path, warnings)])
         );
         const data = Object.fromEntries(entries);
         data.provisionalRuntimeSummary = applyProvisional70Data(data, [
@@ -1062,6 +1084,7 @@
             data.provisional70Weapons,
             data.provisional70StellarSwirl
         ], warnings);
+        data.provisional71RuntimeSummary = applyProvisional71Data(data, [data.provisional71Characters], warnings);
         data.canonicalRuntimeSummary = applyCanonicalRuntime(data, data.canonicalRuntime, warnings, data.versionBaseline, data.upstreamVersionHead);
         data.warnings = warnings.concat(validateCalcData(data));
         cache = data;
@@ -1073,6 +1096,7 @@
         validateCalcData,
         applyCanonicalRuntime,
         applyProvisional70Data,
+        applyProvisional71Data,
         assessCanonicalVersionAvailability,
         canonicalTargetArray,
         behaviorConditionMatches,

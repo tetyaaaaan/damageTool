@@ -13,7 +13,8 @@
     };
     const PROVISIONAL_PATHS = [
         "/games/genshin/data/v2/candidates/7.0-provisional-characters.json",
-        "/games/genshin/data/v2/candidates/7.0-provisional-weapons.json"
+        "/games/genshin/data/v2/candidates/7.0-provisional-weapons.json",
+        "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vesna-currentcalc.json"
     ];
 
     const data = {
@@ -49,7 +50,7 @@
             const document = await response.json();
             const boundary = document?.statusDetails || document;
             if (document?.schemaVersion !== 1 || document?.status !== "candidatePrepared"
-                || document?.nonCanonical !== true || document?.targetGameVersion !== "7.0"
+                || document?.nonCanonical !== true || !["7.0", "7.1"].includes(document?.targetGameVersion)
                 || boundary?.canonical !== false || boundary?.verificationComplete !== false
                 || boundary?.runtimeConnected !== false || boundary?.failClosedCanonical !== true) return;
             if (Array.isArray(document.characters)) {

@@ -94,7 +94,7 @@
         if (source?.startsWith("artifact2:")) return "聖遺物2セット効果";
         if (source?.startsWith("constellation:")) return "命ノ星座効果";
         if (source?.startsWith("talent:")) return "天賦効果";
-        return source || "効果";
+        return "効果";
     }
 
     function reasonLabel(reason) {
@@ -112,7 +112,7 @@
         const value = Number(item.value);
         const suffix = modifierValueSuffix(modifier);
         const valueText = Number.isFinite(value) ? `（${value >= 0 ? "+" : ""}${formatDecimal(value)}${suffix}）` : "";
-        const effectLabel = modifier.effectLabel ? ` / ${modifier.effectLabel}` : "";
+        const effectLabel = modifier.effectLabel ? ` / ${userFacingLabel(modifier.effectLabel, "補正効果")}` : "";
         const sourceText = modifier.sourceText ? `: ${modifier.sourceText}` : "";
         const reason = item.reason ? ` / ${reasonLabel(item.reason)}` : "";
         const resourceLabels = {
@@ -121,7 +121,7 @@
             unsupported: "未対応"
         };
         const classification = item.analysis?.resourceClassification
-            ? ` [${resourceLabels[item.analysis.resourceClassification] || item.analysis.resourceClassification}]`
+            ? ` [${resourceLabels[item.analysis.resourceClassification] || "補正効果"}]`
             : "";
         return `${sourceLabel(item.source)}${effectLabel}${classification} ${valueText}${sourceText}${reason}`;
     }
@@ -146,6 +146,24 @@
         geo: "岩",
         dendro: "草",
         ownElement: "固有元素"
+    };
+
+    const ELEMENT_ALIASES = {
+        Physical: "physical", Pyro: "pyro", Hydro: "hydro", Electro: "electro",
+        Cryo: "cryo", Anemo: "anemo", Geo: "geo", Dendro: "dendro",
+        physical: "physical", pyro: "pyro", hydro: "hydro", electro: "electro",
+        cryo: "cryo", anemo: "anemo", geo: "geo", dendro: "dendro",
+        物理: "physical", 炎: "pyro", 水: "hydro", 雷: "electro",
+        氷: "cryo", 風: "anemo", 岩: "geo", 草: "dendro", 固有元素: "ownElement"
+    };
+    const REACTION_LABELS = {
+        stellarSwirl: "星拡散",
+        stellarConduct: "星電導"
+    };
+    const STAT_ALIASES = {
+        HP: "hp", Atk: "atk", ATK: "atk", Def: "def", DEF: "def",
+        ElementalMastery: "elementalMastery", EnergyRecharge: "energyRecharge",
+        CritRate: "critRate", CritDamage: "critDamage"
     };
 
     const ATTACK_TYPE_LABELS = {
@@ -194,20 +212,36 @@
         skillDamageBonus: "元素スキルダメージ", burstDamageBonus: "元素爆発ダメージ"
     };
 
+    function userFacingLabel(value, fallback) {
+        const label = String(value || "").trim();
+        return !label || /^[A-Za-z0-9][A-Za-z0-9_:.-]*$/.test(label) ? fallback : label;
+    }
+
     function elementLabel(element) {
-        return ELEMENT_LABELS[element] || element || "-";
+        const key = ELEMENT_ALIASES[element] || element;
+        return ELEMENT_LABELS[key] || (key ? "元素" : "-");
+    }
+
+    function reactionLabel(reaction = {}) {
+        const idLabel = REACTION_LABELS[reaction.reactionId];
+        if (idLabel) return idLabel;
+        const raw = String(reaction.label || "").trim();
+        if (!raw || raw === reaction.reactionId || /^[A-Za-z][A-Za-z0-9_-]*$/.test(raw)) return "元素反応";
+        return raw;
     }
 
     function attackTypeLabel(entry = {}) {
         if (entry.resultKind === "shield") return "シールド";
+        if (entry.damageType === "unknown") return "分類未確定";
         return ATTACK_TYPE_LABELS[entry.attackType]
             || ATTACK_TYPE_LABELS[entry.damageType]
-            || entry.damageType
+            || ({ normal: "通常攻撃", charged: "重撃", plunging: "落下攻撃", chargedAttack: "重撃", plungingAttack: "落下攻撃" }[entry.damageType])
             || "その他";
     }
 
     function statLabel(stat) {
-        return window.GenshinUiLabels?.statLabel?.(stat) || STAT_LABELS[stat] || stat || "参照値";
+        const canonical = STAT_ALIASES[stat] || stat;
+        return window.GenshinUiLabels?.statLabel?.(canonical) || STAT_LABELS[canonical] || "参照値";
     }
 
     function modifierValueSuffix(modifier = {}) {
@@ -219,7 +253,9 @@
 
     function modifierTargetLabel(modifier = {}) {
         const targets = (modifier.applyTo || []).map((target) => (
-            window.GenshinUiLabels?.statLabel?.(target) || MODIFIER_TARGET_LABELS[target]
+            window.GenshinUiLabels?.statLabel?.(STAT_ALIASES[target] || target)
+                || MODIFIER_TARGET_LABELS[target]
+                || "ステータス"
         )).filter(Boolean);
         return [...new Set(targets)].join("・");
     }
@@ -253,7 +289,7 @@
         const modifier = item.modifier || {};
         const category = MODIFIER_CATEGORY_LABELS[modifier.category] || "補正効果";
         const source = appliedSourceLabel(item);
-        const effect = modifierTargetLabel(modifier) || modifier.effectLabel || category;
+        const effect = modifierTargetLabel(modifier) || userFacingLabel(modifier.effectLabel, category);
         const numericValue = Number(item.value);
         const trace = modifierStage(item) === "base" ? resolvedStatTrace(item, statTrace) : null;
         const rawValue = Number.isFinite(numericValue)
@@ -315,7 +351,7 @@
                 effects: effectsByStage.buff || []
             },
             reaction: reactionEnabled ? {
-                label: reaction.label || "元素反応",
+                label: reactionLabel(reaction),
                 multiplier: numberOr(reaction.baseMultiplier, 1),
                 elementalMasteryBonus: numberOr(reaction.elementalMasteryBonus),
                 reactionBonus: numberOr(breakdown.reactionBonus),
@@ -350,8 +386,10 @@
                 value: numberOr(item.contribution ?? item.value)
             })),
             debug: {
-                attackType: result.entry?.attackType || "-",
-                damageType: result.entry?.damageType || "-",
+                attackType: attackTypeLabel(result.entry || {}),
+                damageType: result.entry?.damageType === "unknown" ? "分類未確定" : ATTACK_TYPE_LABELS[result.entry?.damageType]
+                    || ({ normal: "通常攻撃", charged: "重撃", plunging: "落下攻撃", chargedAttack: "重撃", plungingAttack: "落下攻撃" }[result.entry?.damageType])
+                    || "その他",
                 skippedModifiers: breakdown.skippedModifiers || [],
                 problems: result.problems || []
             }
@@ -484,7 +522,8 @@
 
     function renderResultRows(result, index, tableId) {
         const modeName = result.entry.attackMode?.nameJa;
-        const resultLabel = modeName ? `${modeName}・${result.entry.label}` : result.entry.label;
+        const attackLabel = userFacingLabel(result.entry.label, attackTypeLabel(result.entry));
+        const resultLabel = modeName ? `${modeName}・${attackLabel}` : attackLabel;
         const view = buildDamageBreakdownViewModel(result);
         const meta = [view.element, view.attackType, `${view.hitCount}ヒット`].filter(Boolean).join("・");
         const detailId = `genshin-${tableId}-detail-${index}`;
@@ -503,6 +542,10 @@
                     <td data-label="期待値">-</td>
                 </tr>
                 <tr class="genshin-damage-detail-row" id="${escapeHtml(detailId)}" hidden><td colspan="4">${renderBreakdown(result)}</td></tr>`;
+        }
+        if (result.entry.calculationStatus === "externalConfirmationRequired" || result.entry.damageType === "unknown") {
+            const reason = result.entry.pendingReasonJa || "ダメージ分類は外部確認待ちです。";
+            return `<tr class="genshin-damage-result-row" data-attack-key="${escapeHtml(result.attackKey)}"><th scope="row">${attackHeading}<small>${escapeHtml(reason)}</small></th><td colspan="3">外部確認待ち</td></tr>`;
         }
         const hitTotal = view.hitCount > 1
             ? `<small class="genshin-hit-total">全ヒット期待値 ${formatDamageNumber(result.total.expected)}</small>`

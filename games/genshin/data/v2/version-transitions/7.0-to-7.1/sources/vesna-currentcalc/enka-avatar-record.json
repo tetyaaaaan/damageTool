@@ -1,0 +1,88 @@
+{
+  "Element": "Wind",
+  "Consts": [
+    "/ui/UI_Talent_S_Vesna_01.png",
+    "/ui/UI_Talent_S_Vesna_02.png",
+    "/ui/UI_Talent_U_Vesna_01.png",
+    "/ui/UI_Talent_S_Vesna_03.png",
+    "/ui/UI_Talent_U_Vesna_02.png",
+    "/ui/UI_Talent_S_Vesna_04.png"
+  ],
+  "SkillOrder": [
+    11431,
+    11432,
+    11435
+  ],
+  "Skills": {
+    "11431": "/ui/Skill_A_01.png",
+    "11432": "/ui/Skill_S_Vesna_01.png",
+    "11435": "/ui/Skill_E_Vesna_01.png"
+  },
+  "ProudMap": {
+    "11431": 14331,
+    "11432": 14332,
+    "11435": 14339
+  },
+  "NameTextMapHash": 3992521194,
+  "SideIconName": "/ui/UI_AvatarIcon_Side_Vesna.png",
+  "QualityType": "QUALITY_ORANGE",
+  "WeaponType": "WEAPON_SWORD_ONE_HAND",
+  "Costumes": {},
+  "BaseProps": {
+    "1": 1032.4456,
+    "4": 27.5576,
+    "7": 56.8385,
+    "20": 0.05,
+    "22": 0.5,
+    "28": 0
+  },
+  "PropGrowCurves": {
+    "1": 105,
+    "4": 205,
+    "7": 105
+  },
+  "PromoteProps": [
+    {
+      "1": 0,
+      "4": 0,
+      "7": 0,
+      "20": 0
+    },
+    {
+      "1": 885.2287,
+      "4": 23.626425,
+      "7": 48.735,
+      "20": 0
+    },
+    {
+      "1": 1514.207,
+      "4": 40.41362,
+      "7": 83.3625,
+      "20": 0.048
+    },
+    {
+      "1": 2352.8447,
+      "4": 62.796547,
+      "7": 129.5325,
+      "20": 0.096
+    },
+    {
+      "1": 2981.823,
+      "4": 79.58374,
+      "7": 164.16,
+      "20": 0.096
+    },
+    {
+      "1": 3610.8013,
+      "4": 96.37094,
+      "7": 198.7875,
+      "20": 0.144
+    },
+    {
+      "1": 4239.78,
+      "4": 113.158134,
+      "7": 233.415,
+      "20": 0.192
+    }
+  ]
+}

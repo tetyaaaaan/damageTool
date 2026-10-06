@@ -81,3 +81,45 @@ test("Nilou C6 passes the actual fractional critical bonus to the display", () =
     assert.ok(effects.some((effect) => effect.value.startsWith("+60")));
     assert.ok(!effects.some((effect) => effect.value.includes("（+0")));
 });
+
+test("display labels normalize title-cased elements and known lunar reactions", () => {
+    const renderer = loadRenderer();
+
+    assert.equal(renderer.elementLabel("Anemo"), "風");
+    assert.equal(renderer.elementLabel("anemo"), "風");
+    assert.equal(renderer.elementLabel("Cryo"), "氷");
+    assert.equal(renderer.elementLabel("氷"), "氷");
+    assert.equal(renderer.elementLabel("風"), "風");
+    assert.equal(renderer.buildDamageBreakdownViewModel({
+        entry: { element: "Anemo" },
+        breakdown: { reaction: { reactionId: "stellarSwirl", label: "stellarSwirl", baseMultiplier: 1 } }
+    }).reaction.label, "星拡散");
+    assert.equal(renderer.buildDamageBreakdownViewModel({
+        entry: { element: "Cryo" },
+        breakdown: { reaction: { reactionId: "stellarConduct", label: "stellarConduct", baseMultiplier: 1 } }
+    }).reaction.label, "星電導");
+});
+
+test("unknown internal IDs use Japanese display fallbacks", () => {
+    const renderer = loadRenderer();
+    const view = renderer.buildDamageBreakdownViewModel({
+        entry: { element: "unknownElement", attackType: "unregisteredAttack", damageType: "unknownDamage" },
+        breakdown: {
+            scalingParts: [{ stat: "unregisteredStat", statValue: 100, talentMultiplier: 100, baseDamage: 100 }],
+            reaction: { reactionId: "stellarSwirl", label: "unregisteredReaction", baseMultiplier: 2, elementalMasteryBonus: 1 },
+            appliedModifiers: [{
+                source: "unregisteredSource", value: 1,
+                modifier: { category: "newCategory", applyTo: ["unregisteredTarget"] }
+            }]
+        }
+    });
+
+    assert.equal(view.element, "元素");
+    assert.equal(view.attackType, "その他");
+    assert.equal(view.debug.attackType, "その他");
+    assert.equal(view.debug.damageType, "その他");
+    assert.equal(view.base.scalingParts[0].stat, "参照値");
+    assert.equal(view.reaction.label, "星拡散");
+    assert.match(view.base.effects[0]?.label || view.special.effects[0]?.label || "", /ステータス/);
+    assert.doesNotMatch(JSON.stringify(view), /unregistered(?:Element|Attack|Damage|Stat|Reaction|Target|Category|Source)/);
+});

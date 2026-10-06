@@ -1,0 +1,50 @@
+{
+  "gameVersion": "7.1",
+  "characterId": "10000143",
+  "capturedAt": "2026-10-06T01:17:47.289Z",
+  "sources": [
+    {
+      "path": "japanese-characters.json",
+      "url": "https://genshin-db-api.vercel.app/api/v5/characters?query=Vesna&resultLanguage=Japanese",
+      "gameVersion": "7.1",
+      "sha256": "7f640baed2583ba60813ed8d64a895afec91290f960345c13ea1006c67499c1b"
+    },
+    {
+      "path": "japanese-talents.json",
+      "url": "https://genshin-db-api.vercel.app/api/v5/talents?query=Vesna&resultLanguage=Japanese",
+      "gameVersion": "7.1",
+      "sha256": "7f3601b9e7671602b36e926dc2e87e46ae76a1db1e3ff7199832032e4502320a"
+    },
+    {
+      "path": "japanese-constellations.json",
+      "url": "https://genshin-db-api.vercel.app/api/v5/constellations?query=Vesna&resultLanguage=Japanese",
+      "gameVersion": "7.1",
+      "sha256": "9c9688af812c7216be7c340f1f844a5d7abfccabb31507a525499faa08dd8571"
+    },
+    {
+      "path": "english-characters.json",
+      "url": "https://genshin-db-api.vercel.app/api/v5/characters?query=Vesna&resultLanguage=English",
+      "gameVersion": "7.1",
+      "sha256": "e0a476beac2fb36d6481d34b31dff7839b28767c2658aa7b8e17d2f77f2231dd"
+    },
+    {
+      "path": "english-talents.json",
+      "url": "https://genshin-db-api.vercel.app/api/v5/talents?query=Vesna&resultLanguage=English",
+      "gameVersion": "7.1",
+      "sha256": "1d427ceb9fb038379b6d0580df2010fc1b008536e0725ec0ff244d304c8d9cbd"
+    },
+    {
+      "path": "english-constellations.json",
+      "url": "https://genshin-db-api.vercel.app/api/v5/constellations?query=Vesna&resultLanguage=English",
+      "gameVersion": "7.1",
+      "sha256": "b4d262e3f183afd44352740cea62d8551d08239314d2667e2c776270c3e77fc7"
+    },
+    {
+      "path": "enka-avatar-record.json",
+      "url": "https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/gi/avatars.json",
+      "locator": "10000143",
+      "kind": "selectedRecordUnmodifiedValues",
+      "upstreamResponseSha256": "d399a75241d1206553f3e2cb860d513faa01ccfb3a98d944d35f9e5ffc27c56b"
+    }
+  ]
+}

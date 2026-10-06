@@ -156,6 +156,28 @@ test("Sandrone Stellar Swirl talent base entries preserve all user-confirmed Lv.
     }
 });
 
+test("Sandrone Stellar Swirl talent hits keep their Cryo damage element for resistance and snapshots", () => {
+    for (const id of ["charged_beam_swirl", "skill_prism_swirl", "burst_ray_swirl"]) {
+        const calculate = ({ cryo = 10, anemo = 80 } = {}) => {
+            const f = ownFixture({ critRate: 0, critDamage: 0 });
+            f.request.enemy.resistance.base.byElement = { cryo, anemo };
+            const payload = f.calculate();
+            return { f, payload, row: result(payload, id) };
+        };
+
+        const baseline = calculate();
+        assert.equal(baseline.row.entry.element, "氷", `${id} retains its source-defined Cryo element`);
+        assert.equal(baseline.row.entry.directReactionId, "stellarSwirl", `${id} retains its Stellar Swirl classification`);
+
+        const anemoChanged = calculate({ cryo: 10, anemo: 10 });
+        near(anemoChanged.row.expected, baseline.row.expected, `${id} ignores Anemo resistance changes`);
+
+        const cryoChanged = calculate({ cryo: 80, anemo: 80 });
+        near(cryoChanged.row.expected, baseline.row.expected * ((1 / 4.2) / 0.9), `${id} uses Cryo resistance`);
+        replay(cryoChanged.f, cryoChanged.payload);
+    }
+});
+
 test("Sandrone A4 EM scaling is continuous from current ATK and capped", () => {
     for (const [atk, expected] of [[1850, 148], [1866, 149.28], [1950, 156], [2200, 160]]) {
         const f = fixture({ atk });
@@ -495,6 +517,22 @@ test("Sandrone C6 emits four independent Cryo or Stellar cluster hits at their o
         }
         replay(f, payload);
     }
+});
+
+test("Stellar Swirl classification accepts different source-defined attack elements without changing its standalone variant", () => {
+    const f = ownFixture();
+    const talent = f.calcData.talentScalings[SANDRONE].normalAttack;
+    // Contract fixture: a future attack can share the reaction class while dealing Anemo damage.
+    const source = talent.entries.find(entry => entry.id === "charged_beam_swirl");
+    talent.entries = [...talent.entries, { ...source, id: "contract_anemo_swirl", element: "風" }];
+    f.request.enemy.resistance.base.byElement = { cryo: 10, anemo: 80 };
+    const payload = f.calculate();
+    assert.equal(result(payload, "charged_beam_swirl").entry.element, "氷");
+    assert.equal(result(payload, "contract_anemo_swirl").entry.element, "風");
+    assert.equal(result(payload, "contract_anemo_swirl").entry.directReactionId, "stellarSwirl");
+    near(result(payload, "contract_anemo_swirl").breakdown.resistance, 80);
+    near(result(payload, "charged_beam_swirl").breakdown.resistance, 10);
+    replay(f, payload);
 });
 
 test("Sandrone known ordinary attack hits retain elements and independent burst bombardment", () => {

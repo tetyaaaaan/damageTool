@@ -224,6 +224,33 @@ async function main() {
             await replay(payload);
         }
 
+        const elementChecks = await evaluate(client, `(async () => {
+            const data = await window.GenshinCalcData.loadGenshinCalcData();
+            const request = JSON.parse(JSON.stringify(window.__sandroneCurrentPayload.calculationRequest));
+            const calculateWithResistance = (cryo, anemo) => {
+                request.enemy.resistance.base.byElement = { cryo, anemo };
+                return window.GenshinCalcEngine.calculateDamageRequest(request, data);
+            };
+            const baseline = calculateWithResistance(10, 80);
+            const windChanged = calculateWithResistance(10, 10);
+            const iceChanged = calculateWithResistance(80, 80);
+            return ['charged_beam_swirl', 'skill_prism_swirl', 'burst_ray_swirl'].map(id => {
+                const row = baseline.results.find(result => result.entry.id === id);
+                return { id, element: row.entry.element, reaction: row.entry.directReactionId,
+                    label: window.GenshinCalcRenderer.elementLabel(row.entry.element),
+                    damage: row.total.expected,
+                    windChanged: windChanged.results.find(result => result.entry.id === id).total.expected,
+                    iceChanged: iceChanged.results.find(result => result.entry.id === id).total.expected };
+            });
+        })()`);
+        for (const check of elementChecks) {
+            assert.equal(check.element, "氷", `${check.id} preserves source-defined Cryo damage`);
+            assert.equal(check.reaction, "stellarSwirl", `${check.id} keeps its reaction classification`);
+            assert.equal(check.label, "氷", "user-facing element label is localized");
+            near(check.windChanged, check.damage, `${check.id} ignores Anemo RES`);
+            assert.ok(check.iceChanged < check.damage, `${check.id} uses Cryo RES`);
+        }
+
         // The C2 option selects 0–3 stacks; option 0 is the base +40% and option 3 adds +60% more.
         await setAtk(1850);
         await setControl(c2Key, "inactive");

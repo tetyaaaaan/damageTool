@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "targetGameVersion": "7.1",
+  "status": "externalSpecPending",
+  "sourceUrl": "https://raw.githubusercontent.com/frzyc/genshin-optimizer/7d55317/libs/gi/sheets/src/Characters/Vesna/index.tsx",
+  "sourceRevision": "7d55317",
+  "sha256": "fb851de579029f9c89acb8679afb14ee6a3904f574368fb464e20f2e1cd5ffbb",
+  "acceptance": "Single external implementation, not independently confirmed game mechanics",
+  "candidates": [
+    {
+      "effect": "C6 Transpose 150%",
+      "goNode": "elemental",
+      "tetinetDamageType": "unknown",
+      "note": "GO internal category is not a confirmed game category"
+    },
+    {
+      "effect": "Wind Pinion",
+      "goNode": "skill",
+      "tetinetDamageType": "unknown"
+    },
+    {
+      "effect": "Stellar Jubilee blessing",
+      "goFormula": "min(ATK * 0.007 / 100, 0.14)",
+      "boundaryCandidates": {
+        "1050": 0.0735,
+        "1099": 0.07693
+      },
+      "runtimeApplied": false
+    }
+  ]
+}

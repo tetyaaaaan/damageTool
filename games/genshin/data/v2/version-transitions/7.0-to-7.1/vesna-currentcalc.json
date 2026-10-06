@@ -1,0 +1,2577 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinProvisional71CurrentCalcCandidate",
+  "candidateId": "provisional:7.1:character:10000143",
+  "status": "candidatePrepared",
+  "nonCanonical": true,
+  "targetGameVersion": "7.1",
+  "canonical": false,
+  "verificationComplete": false,
+  "runtimeConnected": false,
+  "failClosedCanonical": true,
+  "labelJa": "検証中（暫定計算）",
+  "characterId": "10000143",
+  "characters": {
+    "10000143": {
+      "nameJa": "ヴェスナ",
+      "element": "風",
+      "weaponType": "片手剣",
+      "rarity": 5,
+      "currentCalcStatus": "partialExternalConfirmationRequired",
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+      ]
+    }
+  },
+  "talentScalings": {
+    "10000143": {
+      "normalAttack": {
+        "entries": [
+          {
+            "id": "provisional71_10000143_normal_1",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "1段ダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 40.42,
+                  "2": 43.71,
+                  "3": 47.0,
+                  "4": 51.7,
+                  "5": 54.99,
+                  "6": 58.75,
+                  "7": 63.92,
+                  "8": 69.09,
+                  "9": 74.26,
+                  "10": 79.9,
+                  "11": 85.54,
+                  "12": 91.18,
+                  "13": 96.82,
+                  "14": 102.46,
+                  "15": 108.1
+                }
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_normal_2",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "2段ダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 48.676,
+                  "2": 52.638,
+                  "3": 56.6,
+                  "4": 62.26,
+                  "5": 66.222,
+                  "6": 70.75,
+                  "7": 76.976,
+                  "8": 83.202,
+                  "9": 89.428,
+                  "10": 96.22,
+                  "11": 103.012,
+                  "12": 109.804,
+                  "13": 116.596,
+                  "14": 123.388,
+                  "15": 130.18
+                }
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_normal_3a",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "3段ダメージ（1hit目）",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 28.079,
+                  "2": 30.3645,
+                  "3": 32.65,
+                  "4": 35.915,
+                  "5": 38.2005,
+                  "6": 40.8125,
+                  "7": 44.404,
+                  "8": 47.9955,
+                  "9": 51.587,
+                  "10": 55.505,
+                  "11": 59.423,
+                  "12": 63.341,
+                  "13": 67.259,
+                  "14": 71.177,
+                  "15": 75.095
+                }
+              }
+            ],
+            "source": {
+              "section": "combat1",
+              "param": "param3"
+            }
+          },
+          {
+            "id": "provisional71_10000143_normal_3b",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "3段ダメージ（2hit目）",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 28.079,
+                  "2": 30.3645,
+                  "3": 32.65,
+                  "4": 35.915,
+                  "5": 38.2005,
+                  "6": 40.8125,
+                  "7": 44.404,
+                  "8": 47.9955,
+                  "9": 51.587,
+                  "10": 55.505,
+                  "11": 59.423,
+                  "12": 63.341,
+                  "13": 67.259,
+                  "14": 71.177,
+                  "15": 75.095
+                }
+              }
+            ],
+            "source": {
+              "section": "combat1",
+              "param": "param3"
+            }
+          },
+          {
+            "id": "provisional71_10000143_normal_4",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "4段ダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 59.168,
+                  "2": 63.984,
+                  "3": 68.8,
+                  "4": 75.68,
+                  "5": 80.496,
+                  "6": 86.0,
+                  "7": 93.568,
+                  "8": 101.136,
+                  "9": 108.704,
+                  "10": 116.96,
+                  "11": 125.216,
+                  "12": 133.472,
+                  "13": 141.728,
+                  "14": 149.984,
+                  "15": 158.24
+                }
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_normal_5",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "5段ダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 62.436,
+                  "2": 67.518,
+                  "3": 72.6,
+                  "4": 79.86,
+                  "5": 84.942,
+                  "6": 90.75,
+                  "7": 98.736,
+                  "8": 106.722,
+                  "9": 114.708,
+                  "10": 123.42,
+                  "11": 132.132,
+                  "12": 140.844,
+                  "13": 149.556,
+                  "14": 158.268,
+                  "15": 166.98
+                }
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_normal_6",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "6段ダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 72.24,
+                  "2": 78.12,
+                  "3": 84.0,
+                  "4": 92.4,
+                  "5": 98.28,
+                  "6": 105.0,
+                  "7": 114.24,
+                  "8": 123.48,
+                  "9": 132.72,
+                  "10": 142.8,
+                  "11": 152.88,
+                  "12": 162.96,
+                  "13": 173.04,
+                  "14": 183.12,
+                  "15": 193.2
+                }
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_charged",
+            "hitCount": 1,
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "physical",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "重撃ダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 133.042,
+                  "2": 143.871,
+                  "3": 154.7,
+                  "4": 170.17,
+                  "5": 180.999,
+                  "6": 193.375,
+                  "7": 210.392,
+                  "8": 227.409,
+                  "9": 244.426,
+                  "10": 262.99,
+                  "11": 281.554,
+                  "12": 300.118,
+                  "13": 318.682,
+                  "14": 337.246,
+                  "15": 355.81
+                }
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_plunge_fall",
+            "hitCount": 1,
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "physical",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "落下期間のダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 63.9324,
+                  "2": 69.1362,
+                  "3": 74.34,
+                  "4": 81.774,
+                  "5": 86.9778,
+                  "6": 92.925,
+                  "7": 101.1024,
+                  "8": 109.2798,
+                  "9": 117.4572,
+                  "10": 126.378,
+                  "11": 135.2988,
+                  "12": 144.2196,
+                  "13": 153.1404,
+                  "14": 162.0612,
+                  "15": 170.982
+                }
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_plunge_low",
+            "hitCount": 1,
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "physical",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "低空落下攻撃ダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 127.8377,
+                  "2": 138.2431,
+                  "3": 148.6485,
+                  "4": 163.5134,
+                  "5": 173.9187,
+                  "6": 185.8106,
+                  "7": 202.162,
+                  "8": 218.5133,
+                  "9": 234.8646,
+                  "10": 252.7025,
+                  "11": 270.5403,
+                  "12": 288.3781,
+                  "13": 306.2159,
+                  "14": 324.0537,
+                  "15": 341.8915
+                }
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_plunge_high",
+            "hitCount": 1,
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "physical",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "高空落下攻撃ダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 159.6762,
+                  "2": 172.6731,
+                  "3": 185.67,
+                  "4": 204.237,
+                  "5": 217.2339,
+                  "6": 232.0875,
+                  "7": 252.5112,
+                  "8": 272.9349,
+                  "9": 293.3586,
+                  "10": 315.639,
+                  "11": 337.9194,
+                  "12": 360.1998,
+                  "13": 382.4802,
+                  "14": 404.7606,
+                  "15": 427.041
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "skill": {
+        "entries": [
+          {
+            "id": "provisional71_10000143_skill_initial",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "スキル発動ダメージ",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 40.0,
+                  "2": 43.0,
+                  "3": 46.0,
+                  "4": 50.0,
+                  "5": 53.0,
+                  "6": 56.0,
+                  "7": 60.0,
+                  "8": 64.0,
+                  "9": 68.0,
+                  "10": 72.0,
+                  "11": 76.0,
+                  "12": 80.0,
+                  "13": 85.0,
+                  "14": 90.0,
+                  "15": 95.0
+                }
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_windborne_rank1",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "飛翔の剣 ランク1",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 40.0,
+                  "2": 43.0,
+                  "3": 46.0,
+                  "4": 50.0,
+                  "5": 53.0,
+                  "6": 56.0,
+                  "7": 60.0,
+                  "8": 64.0,
+                  "9": 68.0,
+                  "10": 72.0,
+                  "11": 76.0,
+                  "12": 80.0,
+                  "13": 85.0,
+                  "14": 90.0,
+                  "15": 95.0
+                }
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_windborne_rank2",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "飛翔の剣 ランク2",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 60.0,
+                  "2": 64.5,
+                  "3": 69.0,
+                  "4": 75.0,
+                  "5": 79.5,
+                  "6": 84.0,
+                  "7": 90.0,
+                  "8": 96.0,
+                  "9": 102.0,
+                  "10": 108.0,
+                  "11": 114.0,
+                  "12": 120.0,
+                  "13": 127.5,
+                  "14": 135.0,
+                  "15": 142.5
+                }
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_spirit_blade_rank2",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "飛翔の剣 ランク2 霊剣",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 112.0,
+                  "2": 120.4,
+                  "3": 128.8,
+                  "4": 140.0,
+                  "5": 148.4,
+                  "6": 156.8,
+                  "7": 168.0,
+                  "8": 179.2,
+                  "9": 190.4,
+                  "10": 201.6,
+                  "11": 212.8,
+                  "12": 224.0,
+                  "13": 238.0,
+                  "14": 252.0,
+                  "15": 266.0
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_spirit_blade_rank2_stellarSwirl",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "reaction",
+            "element": "風",
+            "reaction": "stellarSwirl",
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "輝映時 飛翔の剣ランク2 霊剣・星拡散",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 112.0,
+                  "2": 120.4,
+                  "3": 128.8,
+                  "4": 140.0,
+                  "5": 148.4,
+                  "6": 156.8,
+                  "7": 168.0,
+                  "8": 179.2,
+                  "9": 190.4,
+                  "10": 201.6,
+                  "11": 212.8,
+                  "12": 224.0,
+                  "13": 238.0,
+                  "14": 252.0,
+                  "15": 266.0
+                }
+              }
+            ],
+            "directReactionId": "stellarSwirl",
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_spirit_blade_rank3_1",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "飛翔の剣 ランク3 霊剣 1/4",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 44.8,
+                  "2": 48.16,
+                  "3": 51.52,
+                  "4": 56.0,
+                  "5": 59.36,
+                  "6": 62.72,
+                  "7": 67.2,
+                  "8": 71.68,
+                  "9": 76.16,
+                  "10": 80.64,
+                  "11": 85.12,
+                  "12": 89.6,
+                  "13": 95.2,
+                  "14": 100.8,
+                  "15": 106.4
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_spirit_blade_rank3_stellarSwirl_1",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "reaction",
+            "element": "風",
+            "reaction": "stellarSwirl",
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "輝映時 飛翔の剣ランク3 霊剣 1/4・星拡散",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 44.8,
+                  "2": 48.16,
+                  "3": 51.52,
+                  "4": 56.0,
+                  "5": 59.36,
+                  "6": 62.72,
+                  "7": 67.2,
+                  "8": 71.68,
+                  "9": 76.16,
+                  "10": 80.64,
+                  "11": 85.12,
+                  "12": 89.6,
+                  "13": 95.2,
+                  "14": 100.8,
+                  "15": 106.4
+                }
+              }
+            ],
+            "directReactionId": "stellarSwirl",
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_spirit_blade_rank3_2",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "飛翔の剣 ランク3 霊剣 2/4",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 44.8,
+                  "2": 48.16,
+                  "3": 51.52,
+                  "4": 56.0,
+                  "5": 59.36,
+                  "6": 62.72,
+                  "7": 67.2,
+                  "8": 71.68,
+                  "9": 76.16,
+                  "10": 80.64,
+                  "11": 85.12,
+                  "12": 89.6,
+                  "13": 95.2,
+                  "14": 100.8,
+                  "15": 106.4
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_spirit_blade_rank3_stellarSwirl_2",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "reaction",
+            "element": "風",
+            "reaction": "stellarSwirl",
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "輝映時 飛翔の剣ランク3 霊剣 2/4・星拡散",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 44.8,
+                  "2": 48.16,
+                  "3": 51.52,
+                  "4": 56.0,
+                  "5": 59.36,
+                  "6": 62.72,
+                  "7": 67.2,
+                  "8": 71.68,
+                  "9": 76.16,
+                  "10": 80.64,
+                  "11": 85.12,
+                  "12": 89.6,
+                  "13": 95.2,
+                  "14": 100.8,
+                  "15": 106.4
+                }
+              }
+            ],
+            "directReactionId": "stellarSwirl",
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_spirit_blade_rank3_3",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "飛翔の剣 ランク3 霊剣 3/4",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 44.8,
+                  "2": 48.16,
+                  "3": 51.52,
+                  "4": 56.0,
+                  "5": 59.36,
+                  "6": 62.72,
+                  "7": 67.2,
+                  "8": 71.68,
+                  "9": 76.16,
+                  "10": 80.64,
+                  "11": 85.12,
+                  "12": 89.6,
+                  "13": 95.2,
+                  "14": 100.8,
+                  "15": 106.4
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_spirit_blade_rank3_stellarSwirl_3",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "reaction",
+            "element": "風",
+            "reaction": "stellarSwirl",
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "輝映時 飛翔の剣ランク3 霊剣 3/4・星拡散",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 44.8,
+                  "2": 48.16,
+                  "3": 51.52,
+                  "4": 56.0,
+                  "5": 59.36,
+                  "6": 62.72,
+                  "7": 67.2,
+                  "8": 71.68,
+                  "9": 76.16,
+                  "10": 80.64,
+                  "11": 85.12,
+                  "12": 89.6,
+                  "13": 95.2,
+                  "14": 100.8,
+                  "15": 106.4
+                }
+              }
+            ],
+            "directReactionId": "stellarSwirl",
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_spirit_blade_rank3_4",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "飛翔の剣 ランク3 霊剣 4/4",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 44.8,
+                  "2": 48.16,
+                  "3": 51.52,
+                  "4": 56.0,
+                  "5": 59.36,
+                  "6": 62.72,
+                  "7": 67.2,
+                  "8": 71.68,
+                  "9": 76.16,
+                  "10": 80.64,
+                  "11": 85.12,
+                  "12": 89.6,
+                  "13": 95.2,
+                  "14": 100.8,
+                  "15": 106.4
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_spirit_blade_rank3_stellarSwirl_4",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "reaction",
+            "element": "風",
+            "reaction": "stellarSwirl",
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "輝映時 飛翔の剣ランク3 霊剣 4/4・星拡散",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 44.8,
+                  "2": 48.16,
+                  "3": 51.52,
+                  "4": 56.0,
+                  "5": 59.36,
+                  "6": 62.72,
+                  "7": 67.2,
+                  "8": 71.68,
+                  "9": 76.16,
+                  "10": 80.64,
+                  "11": 85.12,
+                  "12": 89.6,
+                  "13": 95.2,
+                  "14": 100.8,
+                  "15": 106.4
+                }
+              }
+            ],
+            "directReactionId": "stellarSwirl",
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_spirit_blade_rank3_final",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "飛翔の剣 ランク3 霊剣 最終攻撃",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 156.8,
+                  "2": 168.56,
+                  "3": 180.32,
+                  "4": 196.0,
+                  "5": 207.76,
+                  "6": 219.52,
+                  "7": 235.2,
+                  "8": 250.88,
+                  "9": 266.56,
+                  "10": 282.24,
+                  "11": 297.92,
+                  "12": 313.6,
+                  "13": 333.2,
+                  "14": 352.8,
+                  "15": 372.4
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_spirit_blade_rank3_final_stellarSwirl",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "reaction",
+            "element": "風",
+            "reaction": "stellarSwirl",
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "輝映時 飛翔の剣ランク3 霊剣 最終攻撃・星拡散",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 156.8,
+                  "2": 168.56,
+                  "3": 180.32,
+                  "4": 196.0,
+                  "5": 207.76,
+                  "6": 219.52,
+                  "7": 235.2,
+                  "8": 250.88,
+                  "9": 266.56,
+                  "10": 282.24,
+                  "11": 297.92,
+                  "12": 313.6,
+                  "13": 333.2,
+                  "14": 352.8,
+                  "15": 372.4
+                }
+              }
+            ],
+            "directReactionId": "stellarSwirl",
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_skill_wind_pinion_unknown",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "unknown",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "exclusionReason": "damageType/scale interpretation awaits external confirmation",
+            "calculationStatus": "externalConfirmationRequired",
+            "label": "風羽ダメージ（確認待ち）",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 10.4,
+                  "2": 11.18,
+                  "3": 11.96,
+                  "4": 13.0,
+                  "5": 13.78,
+                  "6": 14.56,
+                  "7": 15.6,
+                  "8": 16.64,
+                  "9": 17.68,
+                  "10": 18.72,
+                  "11": 19.76,
+                  "12": 20.8,
+                  "13": 22.1,
+                  "14": 23.4,
+                  "15": 24.7
+                }
+              }
+            ],
+            "pendingReasonJa": "風羽のダメージ分類は外部確認待ちです。",
+            "requiredAttackMode": "skill"
+          },
+          {
+            "id": "provisional71_10000143_normal_1_armed_for_action",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "1段ダメージ（風巡りの臨戦）",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 40.42,
+                  "2": 43.71,
+                  "3": 47.0,
+                  "4": 51.7,
+                  "5": 54.99,
+                  "6": 58.75,
+                  "7": 63.92,
+                  "8": 69.09,
+                  "9": 74.26,
+                  "10": 79.9,
+                  "11": 85.54,
+                  "12": 91.18,
+                  "13": 96.82,
+                  "14": 102.46,
+                  "15": 108.1
+                }
+              }
+            ],
+            "sourceMode": "Armed for Action"
+          },
+          {
+            "id": "provisional71_10000143_normal_2_armed_for_action",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "2段ダメージ（風巡りの臨戦）",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 48.676,
+                  "2": 52.638,
+                  "3": 56.6,
+                  "4": 62.26,
+                  "5": 66.222,
+                  "6": 70.75,
+                  "7": 76.976,
+                  "8": 83.202,
+                  "9": 89.428,
+                  "10": 96.22,
+                  "11": 103.012,
+                  "12": 109.804,
+                  "13": 116.596,
+                  "14": 123.388,
+                  "15": 130.18
+                }
+              }
+            ],
+            "sourceMode": "Armed for Action"
+          },
+          {
+            "id": "provisional71_10000143_normal_3a_armed_for_action",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "3段ダメージ（1hit目）（風巡りの臨戦）",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 28.079,
+                  "2": 30.3645,
+                  "3": 32.65,
+                  "4": 35.915,
+                  "5": 38.2005,
+                  "6": 40.8125,
+                  "7": 44.404,
+                  "8": 47.9955,
+                  "9": 51.587,
+                  "10": 55.505,
+                  "11": 59.423,
+                  "12": 63.341,
+                  "13": 67.259,
+                  "14": 71.177,
+                  "15": 75.095
+                }
+              }
+            ],
+            "sourceMode": "Armed for Action",
+            "source": {
+              "section": "combat1",
+              "param": "param3"
+            }
+          },
+          {
+            "id": "provisional71_10000143_normal_3b_armed_for_action",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "3段ダメージ（2hit目）（風巡りの臨戦）",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 28.079,
+                  "2": 30.3645,
+                  "3": 32.65,
+                  "4": 35.915,
+                  "5": 38.2005,
+                  "6": 40.8125,
+                  "7": 44.404,
+                  "8": 47.9955,
+                  "9": 51.587,
+                  "10": 55.505,
+                  "11": 59.423,
+                  "12": 63.341,
+                  "13": 67.259,
+                  "14": 71.177,
+                  "15": 75.095
+                }
+              }
+            ],
+            "sourceMode": "Armed for Action",
+            "source": {
+              "section": "combat1",
+              "param": "param3"
+            }
+          },
+          {
+            "id": "provisional71_10000143_normal_4_armed_for_action",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "4段ダメージ（風巡りの臨戦）",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 59.168,
+                  "2": 63.984,
+                  "3": 68.8,
+                  "4": 75.68,
+                  "5": 80.496,
+                  "6": 86.0,
+                  "7": 93.568,
+                  "8": 101.136,
+                  "9": 108.704,
+                  "10": 116.96,
+                  "11": 125.216,
+                  "12": 133.472,
+                  "13": 141.728,
+                  "14": 149.984,
+                  "15": 158.24
+                }
+              }
+            ],
+            "sourceMode": "Armed for Action"
+          },
+          {
+            "id": "provisional71_10000143_normal_5_armed_for_action",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "5段ダメージ（風巡りの臨戦）",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 62.436,
+                  "2": 67.518,
+                  "3": 72.6,
+                  "4": 79.86,
+                  "5": 84.942,
+                  "6": 90.75,
+                  "7": 98.736,
+                  "8": 106.722,
+                  "9": 114.708,
+                  "10": 123.42,
+                  "11": 132.132,
+                  "12": 140.844,
+                  "13": 149.556,
+                  "14": 158.268,
+                  "15": 166.98
+                }
+              }
+            ],
+            "sourceMode": "Armed for Action"
+          },
+          {
+            "id": "provisional71_10000143_normal_6_armed_for_action",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "6段ダメージ（風巡りの臨戦）",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 72.24,
+                  "2": 78.12,
+                  "3": 84.0,
+                  "4": 92.4,
+                  "5": 98.28,
+                  "6": 105.0,
+                  "7": 114.24,
+                  "8": 123.48,
+                  "9": 132.72,
+                  "10": 142.8,
+                  "11": 152.88,
+                  "12": 162.96,
+                  "13": 173.04,
+                  "14": 183.12,
+                  "15": 193.2
+                }
+              }
+            ],
+            "sourceMode": "Armed for Action"
+          },
+          {
+            "id": "provisional71_10000143_charged_armed_for_action",
+            "hitCount": 1,
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "重撃ダメージ（風巡りの臨戦）",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 133.042,
+                  "2": 143.871,
+                  "3": 154.7,
+                  "4": 170.17,
+                  "5": 180.999,
+                  "6": 193.375,
+                  "7": 210.392,
+                  "8": 227.409,
+                  "9": 244.426,
+                  "10": 262.99,
+                  "11": 281.554,
+                  "12": 300.118,
+                  "13": 318.682,
+                  "14": 337.246,
+                  "15": 355.81
+                }
+              }
+            ],
+            "sourceMode": "Armed for Action"
+          },
+          {
+            "id": "provisional71_10000143_plunge_fall_armed_for_action",
+            "hitCount": 1,
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "落下期間のダメージ（風巡りの臨戦）",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 63.9324,
+                  "2": 69.1362,
+                  "3": 74.34,
+                  "4": 81.774,
+                  "5": 86.9778,
+                  "6": 92.925,
+                  "7": 101.1024,
+                  "8": 109.2798,
+                  "9": 117.4572,
+                  "10": 126.378,
+                  "11": 135.2988,
+                  "12": 144.2196,
+                  "13": 153.1404,
+                  "14": 162.0612,
+                  "15": 170.982
+                }
+              }
+            ],
+            "sourceMode": "Armed for Action"
+          },
+          {
+            "id": "provisional71_10000143_plunge_low_armed_for_action",
+            "hitCount": 1,
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "低空落下攻撃ダメージ（風巡りの臨戦）",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 127.8377,
+                  "2": 138.2431,
+                  "3": 148.6485,
+                  "4": 163.5134,
+                  "5": 173.9187,
+                  "6": 185.8106,
+                  "7": 202.162,
+                  "8": 218.5133,
+                  "9": 234.8646,
+                  "10": 252.7025,
+                  "11": 270.5403,
+                  "12": 288.3781,
+                  "13": 306.2159,
+                  "14": 324.0537,
+                  "15": 341.8915
+                }
+              }
+            ],
+            "sourceMode": "Armed for Action"
+          },
+          {
+            "id": "provisional71_10000143_plunge_high_armed_for_action",
+            "hitCount": 1,
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "高空落下攻撃ダメージ（風巡りの臨戦）",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 159.6762,
+                  "2": 172.6731,
+                  "3": 185.67,
+                  "4": 204.237,
+                  "5": 217.2339,
+                  "6": 232.0875,
+                  "7": 252.5112,
+                  "8": 272.9349,
+                  "9": 293.3586,
+                  "10": 315.639,
+                  "11": 337.9194,
+                  "12": 360.1998,
+                  "13": 382.4802,
+                  "14": 404.7606,
+                  "15": 427.041
+                }
+              }
+            ],
+            "sourceMode": "Armed for Action"
+          },
+          {
+            "id": "provisional71_10000143_c6_transpose_150_unknown",
+            "label": "飛翔の剣・転位",
+            "attackType": "extraDamage",
+            "damageType": "unknown",
+            "element": "風",
+            "minimumConstellation": 6,
+            "hitCount": 1,
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 150,
+                  "2": 150,
+                  "3": 150,
+                  "4": 150,
+                  "5": 150,
+                  "6": 150,
+                  "7": 150,
+                  "8": 150,
+                  "9": 150,
+                  "10": 150,
+                  "11": 150,
+                  "12": 150,
+                  "13": 150,
+                  "14": 150,
+                  "15": 150
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_transpose",
+                "values": [
+                  "active"
+                ],
+                "defaultValue": "none"
+              }
+            ],
+            "calculationStatus": "externalConfirmationRequired",
+            "pendingReasonJa": "飛翔の剣・転位のダメージ分類は外部確認待ちです。"
+          },
+          {
+            "id": "provisional71_10000143_c6_spirit_blade_200",
+            "label": "飛翔の剣・霊剣",
+            "attackType": "extraDamage",
+            "damageType": "skill",
+            "element": "風",
+            "minimumConstellation": 6,
+            "hitCount": 1,
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 200,
+                  "2": 200,
+                  "3": 200,
+                  "4": 200,
+                  "5": 200,
+                  "6": 200,
+                  "7": 200,
+                  "8": 200,
+                  "9": 200,
+                  "10": 200,
+                  "11": 200,
+                  "12": 200,
+                  "13": 200,
+                  "14": 200,
+                  "15": 200
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_transpose",
+                "values": [
+                  "active"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_c6_spirit_blade_200_stellarSwirl",
+            "label": "飛翔の剣・霊剣（星拡散）",
+            "attackType": "extraDamage",
+            "damageType": "reaction",
+            "element": "風",
+            "minimumConstellation": 6,
+            "hitCount": 1,
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 200,
+                  "2": 200,
+                  "3": 200,
+                  "4": 200,
+                  "5": 200,
+                  "6": 200,
+                  "7": 200,
+                  "8": 200,
+                  "9": 200,
+                  "10": 200,
+                  "11": 200,
+                  "12": 200,
+                  "13": 200,
+                  "14": 200,
+                  "15": 200
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_transpose",
+                "values": [
+                  "active"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ],
+            "directReactionId": "stellarSwirl"
+          },
+          {
+            "id": "provisional71_10000143_c6_wind_pinion_unknown",
+            "label": "転位に伴う風羽",
+            "attackType": "extraDamage",
+            "damageType": "unknown",
+            "element": "風",
+            "minimumConstellation": 6,
+            "hitCount": 1,
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 10.4,
+                  "2": 11.18,
+                  "3": 11.959999999999999,
+                  "4": 13.0,
+                  "5": 13.780000000000001,
+                  "6": 14.56,
+                  "7": 15.6,
+                  "8": 16.64,
+                  "9": 17.68,
+                  "10": 18.72,
+                  "11": 19.759999999999998,
+                  "12": 20.8,
+                  "13": 22.1,
+                  "14": 23.400000000000002,
+                  "15": 24.7
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_transpose",
+                "values": [
+                  "active"
+                ],
+                "defaultValue": "none"
+              }
+            ],
+            "calculationStatus": "externalConfirmationRequired",
+            "pendingReasonJa": "転位に伴う風羽のダメージ分類は外部確認待ちです。",
+            "requiredAttackMode": "skill"
+          }
+        ]
+      },
+      "burst": {
+        "entries": [
+          {
+            "id": "provisional71_10000143_burst_spirit_blade",
+            "hitCount": 1,
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "風",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "霊剣ダメージ",
+            "levelSource": "burst",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 263.2,
+                  "2": 282.94,
+                  "3": 302.68,
+                  "4": 329.0,
+                  "5": 348.74,
+                  "6": 368.48,
+                  "7": 394.8,
+                  "8": 421.12,
+                  "9": 447.44,
+                  "10": 473.76,
+                  "11": 500.08,
+                  "12": 526.4,
+                  "13": 559.3,
+                  "14": 592.2,
+                  "15": 625.1
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000143_burst_spirit_blade_stellarSwirl",
+            "hitCount": 1,
+            "attackType": "burst",
+            "damageType": "reaction",
+            "element": "風",
+            "reaction": "stellarSwirl",
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+            ],
+            "label": "輝映時 霊剣・星拡散",
+            "levelSource": "burst",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 263.2,
+                  "2": 282.94,
+                  "3": 302.68,
+                  "4": 329.0,
+                  "5": 348.74,
+                  "6": 368.48,
+                  "7": 394.8,
+                  "8": 421.12,
+                  "9": 447.44,
+                  "10": 473.76,
+                  "11": 500.08,
+                  "12": 526.4,
+                  "13": 559.3,
+                  "14": 592.2,
+                  "15": 625.1
+                }
+              }
+            ],
+            "directReactionId": "stellarSwirl",
+            "conditionSelectors": [
+              {
+                "groupId": "vesna_radiance",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "talentModifiers": {
+    "10000143": {
+      "passives": [
+        {
+          "sourceId": "passive1",
+          "modifiers": [
+            {
+              "condition": "active",
+              "calculationSupport": "stack",
+              "uidHandling": "conditional",
+              "targetOwner": "self",
+              "id": "provisional71_10000143_a1_disciplinary_action_blade_bonus",
+              "category": "effectOverride",
+              "applyTo": [
+                "skillDamageBonus",
+                "burstDamageBonus"
+              ],
+              "targetEffect": [
+                "provisional71_10000143_skill_spirit_blade_rank2",
+                "provisional71_10000143_skill_spirit_blade_rank2_stellarSwirl",
+                "provisional71_10000143_skill_spirit_blade_rank3_1",
+                "provisional71_10000143_skill_spirit_blade_rank3_stellarSwirl_1",
+                "provisional71_10000143_skill_spirit_blade_rank3_2",
+                "provisional71_10000143_skill_spirit_blade_rank3_stellarSwirl_2",
+                "provisional71_10000143_skill_spirit_blade_rank3_3",
+                "provisional71_10000143_skill_spirit_blade_rank3_stellarSwirl_3",
+                "provisional71_10000143_skill_spirit_blade_rank3_4",
+                "provisional71_10000143_skill_spirit_blade_rank3_stellarSwirl_4",
+                "provisional71_10000143_skill_spirit_blade_rank3_final",
+                "provisional71_10000143_skill_spirit_blade_rank3_final_stellarSwirl",
+                "provisional71_10000143_c6_spirit_blade_200",
+                "provisional71_10000143_c6_spirit_blade_200_stellarSwirl",
+                "provisional71_10000143_burst_spirit_blade",
+                "provisional71_10000143_burst_spirit_blade_stellarSwirl"
+              ],
+              "multiplierTarget": "talentBaseDamage",
+              "unit": "percentOfOriginalDamage",
+              "valueByStack": {
+                "0": 100,
+                "1": 110,
+                "2": 120,
+                "3": 130,
+                "4": 140,
+                "5": 150,
+                "6": 160
+              },
+              "conditionGroupId": "vesna_disciplinary",
+              "shareConditionAcrossSources": true,
+              "conditionInput": {
+                "type": "stack",
+                "label": "粛正の層数",
+                "min": 0,
+                "max": 6,
+                "unit": "層"
+              },
+              "stack": {
+                "min": 0,
+                "max": 6,
+                "default": 0
+              },
+              "conditionLabel": "粛正の層数"
+            }
+          ]
+        },
+        {
+          "sourceId": "passive2",
+          "modifiers": [
+            {
+              "condition": "active",
+              "calculationSupport": "simple",
+              "uidHandling": "conditional",
+              "targetOwner": "self",
+              "id": "provisional71_10000143_a4_atk_per_cryo_anemo",
+              "category": "statBonus",
+              "applyTo": [
+                "atkPercent"
+              ],
+              "value": 6,
+              "valueByConstellation": {
+                "4": 18
+              },
+              "unit": "percent",
+              "partyElementCount": {
+                "elements": [
+                  "氷",
+                  "風"
+                ],
+                "matching": true
+              },
+              "conditionGroupId": "vesna_radiance",
+              "shareConditionAcrossSources": true,
+              "conditionInput": {
+                "type": "option",
+                "label": "輝映・星拡散",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "OFF"
+                  },
+                  {
+                    "value": "stellarSwirl",
+                    "label": "ON"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "stellarSwirl",
+              "conditionLabel": "輝映・星拡散"
+            },
+            {
+              "condition": "active",
+              "calculationSupport": "simple",
+              "uidHandling": "conditional",
+              "targetOwner": "self",
+              "id": "provisional71_10000143_a4_em_other_elements",
+              "category": "statBonus",
+              "applyTo": [
+                "elementalMastery"
+              ],
+              "value": 25,
+              "valueByConstellation": {
+                "4": 75
+              },
+              "unit": "flat",
+              "partyElementCount": {
+                "elements": [
+                  "氷",
+                  "風"
+                ],
+                "matching": false
+              },
+              "conditionGroupId": "vesna_radiance",
+              "shareConditionAcrossSources": true,
+              "conditionInput": {
+                "type": "option",
+                "label": "輝映・星拡散",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "OFF"
+                  },
+                  {
+                    "value": "stellarSwirl",
+                    "label": "ON"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "stellarSwirl",
+              "conditionLabel": "輝映・星拡散"
+            }
+          ]
+        },
+        {
+          "sourceId": "passive3",
+          "modifiers": [
+            {
+              "condition": "active",
+              "calculationSupport": "simple",
+              "uidHandling": "conditional",
+              "targetOwner": "self",
+              "id": "provisional71_10000143_radiance_state",
+              "category": "statBonus",
+              "applyTo": [
+                "atkPercent"
+              ],
+              "value": 0,
+              "conditionGroupId": "vesna_radiance",
+              "shareConditionAcrossSources": true,
+              "conditionInput": {
+                "type": "option",
+                "label": "輝映・星拡散",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "OFF"
+                  },
+                  {
+                    "value": "stellarSwirl",
+                    "label": "ON"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionLabel": "輝映・星拡散"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "characterConstellations": {
+    "10000143": {
+      "constellations": {
+        "1": {
+          "nameJa": "冬を見送る盛宴",
+          "effectText": "**風巡りの臨戦**モード中、ヴェスナは最高ランクの**飛翔の剣**を3回ではなく、最大4回まで発動できるようになる。また、風巡りの臨戦モードに入った後、初めて最高ランクの飛翔の剣を発動する時、**「剣気」**を消費しない。\nさらに、ヴェスナが風巡りの臨戦モード中に与える星拡散反応ダメージ+20%。"
+        },
+        "2": {
+          "nameJa": "春を迎える輪舞",
+          "effectText": "固有天賦**「儀典『春の行列』」**が強化され、ヴェスナが**風巡りの臨戦**モードに入った時、最大層数の「粛正」を獲得する。最大層数の「粛正」を持っている時、ヴェスナの攻撃力+40%。\n上記の効果は固有天賦「儀典『春の行列』」を解放する必要がある。"
+        },
+        "3": {
+          "nameJa": "かがり火の進物",
+          "effectText": "元素スキル**操典「勝利への道筋」**のスキルLv.+3。\n最大Lv.15まで。"
+        },
+        "4": {
+          "nameJa": "先人たちの栄光",
+          "effectText": "固有天賦**「法典『冬の凱旋』」**が強化され、攻撃力アップと元素熟知アップの効果が本来の3倍になる。"
+        },
+        "5": {
+          "nameJa": "貴き血筋の責務",
+          "effectText": "元素爆発**女皇陛下に敬礼を**のスキルLv.+3。\n最大Lv.15まで。"
+        },
+        "6": {
+          "nameJa": "揺るぎなき忠誠",
+          "effectText": "最高ランクの**飛翔の剣**の発動後5秒以内に、ヴェスナは通常攻撃または元素スキルを一回押しすることで、風の精一族の秘伝である飛翔の剣・変を発動し、ヴェスナの攻撃力150%分の風元素ダメージを与え、**霊剣**を呼び出し、さらにヴェスナの攻撃力200%分の風元素ダメージを追加で与える。ヴェスナが**風巡りの臨戦**モードに入っている場合、風羽を追加で呼び出して敵に追加攻撃を行う。\nまた、ヴェスナが与える星拡散反応ダメージが20%**向上**する。"
+        }
+      }
+    }
+  },
+  "constellationModifiers": {
+    "10000143": {
+      "constellations": {
+        "1": [
+          {
+            "condition": "always",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional",
+            "targetOwner": "self",
+            "id": "provisional71_10000143_c1_stellarSwirl_bonus",
+            "category": "reactionBonus",
+            "applyTo": [
+              "stellarSwirlDamageBonus"
+            ],
+            "value": 20,
+            "unit": "percent",
+            "requiredAttackMode": "skill"
+          }
+        ],
+        "2": [
+          {
+            "condition": "active",
+            "calculationSupport": "stack",
+            "uidHandling": "conditional",
+            "targetOwner": "self",
+            "id": "provisional71_10000143_c2_atk_bonus_at_max_stack",
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "unit": "percent",
+            "valueByStack": {
+              "0": 0,
+              "1": 0,
+              "2": 0,
+              "3": 0,
+              "4": 0,
+              "5": 0,
+              "6": 40
+            },
+            "conditionGroupId": "vesna_disciplinary",
+            "shareConditionAcrossSources": true,
+            "conditionInput": {
+              "type": "stack",
+              "label": "粛正の層数",
+              "min": 0,
+              "max": 6,
+              "unit": "層"
+            },
+            "stack": {
+              "min": 0,
+              "max": 6,
+              "default": 0
+            },
+            "conditionLabel": "粛正の層数"
+          }
+        ],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [
+          {
+            "condition": "always",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional",
+            "targetOwner": "self",
+            "id": "provisional71_10000143_c6_stellarSwirl_elevated",
+            "category": "effectOverride",
+            "applyTo": [
+              "stellarSwirlDamageBonus"
+            ],
+            "value": 120,
+            "unit": "percentOfOriginalDamage",
+            "reactionTargetsOnly": true
+          },
+          {
+            "condition": "active",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional",
+            "targetOwner": "self",
+            "id": "provisional71_10000143_transpose_state",
+            "category": "statBonus",
+            "applyTo": [
+              "atkPercent"
+            ],
+            "value": 0,
+            "conditionGroupId": "vesna_transpose",
+            "shareConditionAcrossSources": true,
+            "conditionInput": {
+              "type": "option",
+              "label": "飛翔の剣・転位 発動状態",
+              "options": [
+                {
+                  "value": "none",
+                  "label": "OFF"
+                },
+                {
+                  "value": "active",
+                  "label": "ON"
+                }
+              ],
+              "default": "none"
+            },
+            "conditionLabel": "飛翔の剣・転位 発動状態"
+          }
+        ]
+      }
+    }
+  },
+  "deferredUnknowns": [
+    {
+      "id": "provisional71_10000143_unknown_wind_pinion",
+      "excludedFromDamageCalculation": true,
+      "damageType": "unknown",
+      "labelJa": "風羽のダメージ",
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+      ],
+      "calculationStatus": "externalConfirmationRequired",
+      "specStatus": "externalSpecPending"
+    },
+    {
+      "id": "provisional71_10000143_unknown_c6_transpose_150",
+      "excludedFromDamageCalculation": true,
+      "damageType": "unknown",
+      "labelJa": "C6 飛翔の剣・変 150% ATK",
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+      ],
+      "calculationStatus": "externalConfirmationRequired",
+      "specStatus": "externalSpecPending"
+    },
+    {
+      "id": "provisional71_10000143_deferred_stellarSwirl_atk_bonus",
+      "nonCalculatingRecord": true,
+      "labelJa": "星拡散 基礎ダメージ+0.7%/100 ATK 最大14%",
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+      ],
+      "calculationStatus": "deferredUnknown",
+      "unknown": "100 ATK threshold accumulation or step behavior",
+      "specStatus": "externalSpecPending"
+    }
+  ],
+  "attackModeRules": {
+    "characters": {
+      "10000143": {
+        "skill": {
+          "nameJa": "風巡りの臨戦",
+          "damageTypeByAttackType": {
+            "normalAttack": "normal",
+            "chargedAttack": "charged",
+            "plungingAttack": "plunging"
+          }
+        }
+      }
+    }
+  },
+  "sourceRefs": [
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-talents.json",
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json",
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-constellations.json",
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-characters.json",
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/english-characters.json",
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+  ],
+  "runtimeHooksRequired": [],
+  "baseStats": {
+    "characters": {
+      "10000143": {
+        "baseProps": {
+          "1": 1032.4456,
+          "4": 27.5576,
+          "7": 56.8385,
+          "20": 0.05,
+          "22": 0.5,
+          "28": 0
+        },
+        "curveIds": {
+          "1": 105,
+          "4": 205,
+          "7": 105
+        },
+        "promoteProps": [
+          {
+            "1": 0,
+            "4": 0,
+            "7": 0,
+            "20": 0
+          },
+          {
+            "1": 885.2287,
+            "4": 23.626425,
+            "7": 48.735,
+            "20": 0
+          },
+          {
+            "1": 1514.207,
+            "4": 40.41362,
+            "7": 83.3625,
+            "20": 0.048
+          },
+          {
+            "1": 2352.8447,
+            "4": 62.796547,
+            "7": 129.5325,
+            "20": 0.096
+          },
+          {
+            "1": 2981.823,
+            "4": 79.58374,
+            "7": 164.16,
+            "20": 0.096
+          },
+          {
+            "1": 3610.8013,
+            "4": 96.37094,
+            "7": 198.7875,
+            "20": 0.144
+          },
+          {
+            "1": 4239.78,
+            "4": 113.158134,
+            "7": 233.415,
+            "20": 0.192
+          }
+        ]
+      }
+    }
+  },
+  "characterTalents": {
+    "10000143": {
+      "normalAttack": {
+        "nameJa": "風巡りの剣舞",
+        "normalDescriptionJa": "通常攻撃\n最大6段の連続攻撃を行う。\n\n重撃\n一定のスタミナを消費し、前方の敵を踏みつけて攻撃する。\n\n落下攻撃\n空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。"
+      },
+      "skill": {
+        "nameJa": "操典「勝利への道筋」",
+        "descriptionJa": "風の精一族に伝わる霊剣を呼び出し、風元素範囲ダメージを与え、**風巡りの臨戦**モードに切り替わり、**「剣気」**を2層獲得する。\n\n風巡りの臨戦\nヴェスナが通常攻撃・重撃・落下攻撃を行う際、元素付与によって他の元素に変化しない風元素ダメージに変わり、風羽を呼び出して敵に追加攻撃を行い、追加の風元素ダメージを与える。風羽を呼び出すたびに、ヴェスナの「剣気」が一定量回復する。\nヴェスナは「剣気」を消費し、特殊元素スキル**飛翔の剣**を発動して敵に風元素ダメージを与えることができる。\n「風巡りの臨戦」モードの継続期間中、特殊元素スキル飛翔の剣を発動するたびに「飛翔の剣」のランクが上がり、より大きな風元素ダメージを与えるようになる。飛翔の剣の初期ランクはランク1で、最大ランク3まで上がる。ランクが上がった飛翔の剣を発動する際、さらに**霊剣**を呼び出し、敵に風元素ダメージを与える。\n継続時間終了時、または最高ランクの飛翔の剣を3回発動した後、ヴェスナはこのモードを終了し、すべての剣気がクリアされる。\nさらに、このモード中、ヴェスナの中断耐性がアップする。\n輝映・星拡散：霊剣は星拡散反応ダメージとみなされる風元素ダメージを与えるようになる。"
+      },
+      "burst": {
+        "nameJa": "女皇陛下に敬礼を",
+        "descriptionJa": "数多くの**霊剣**を呼び出し、風元素範囲ダメージを与え、**「剣気」**を1層獲得する。",
+        "energyCost": 60
+      },
+      "passives": [
+        {
+          "sourceId": "passive1",
+          "nameJa": "儀典「春の行列」",
+          "descriptionJa": "ヴェスナが特殊元素スキル**飛翔の剣**を発動または元素爆発**女皇陛下に敬礼を**発動後、「粛正」を1層獲得する、継続時間20秒、最大6層まで重ね掛けでき、継続時間は層ごとに独立してカウントされる。\n「粛正」を持っている時、ヴェスナが呼び出した**霊剣**は本来の100%+「粛正」の層数×10%分のダメージを与える。元素スキル操典「勝利への道筋」を発動または退場時、「粛正」はクリアされる。"
+        },
+        {
+          "sourceId": "passive2",
+          "nameJa": "法典「冬の凱旋」",
+          "descriptionJa": "輝映・星拡散：チーム内キャラクターの元素タイプに応じて、ヴェスナは対応する効果を獲得する。\n・氷元素または風元素のキャラクター1人につき、ヴェスナの攻撃力+6%。\n・上記以外の元素タイプのキャラクター1人につき、ヴェスナの元素熟知+25。"
+        },
+        {
+          "sourceId": "passive3",
+          "nameJa": "星光の祝福・花舞うプロローグ",
+          "descriptionJa": "チーム内のキャラクターが氷元素拡散反応を起こすと、氷元素拡散反応は星拡散反応へと変わり、ヴェスナの攻撃力に基づいて、チームのキャラクターが与える星拡散反応の基礎ダメージがアップする。攻撃力100につき、星拡散反応の基礎ダメージ+0.7%。この方法でアップできるダメージは最大14%まで。\nチーム内のキャラクターが付近で星拡散反応を起こした後の8秒間、ヴェスナは輝映・星拡散状態に入る。"
+        },
+        {
+          "sourceId": "passive4",
+          "nameJa": "宝石の巡遊",
+          "descriptionJa": "非戦闘状態の時、ヴェスナはダッシュまたはジャンプを長押しすると「巡遊」状態に入る。\n\n巡遊\n継続的にスタミナを消費し、浮遊状態を維持する。ダッシュまたはジャンプの一回押しで高度を上昇させる際は、追加でスタミナを消費する。ジャンプ長押しで巡遊状態に入る場合を含め、一度の巡遊中に高度を上昇できるのは最大三回まで。\n\nまた、スネージナヤ地域（ナド・クライを除く）において、非戦闘状態の時にチームのフィールド上キャラクターが空中にいる場合、ヴェスナに切り替えると、ヴェスナは直接巡遊状態に入り、スタミナを50回復する。この効果は10秒ごとに1回のみ発動できる。また、この効果は秘境、征討領域、深境螺旋では発動しない。"
+        }
+      ]
+    }
+  },
+  "currentCalcClassification": {
+    "supported": [
+      "normal independent hits",
+      "skill ranks",
+      "Spirit Blades and Radiance variants",
+      "burst",
+      "A1 stacks",
+      "A4/C4 party composition",
+      "C1 reaction bonus",
+      "C2 maximum stacks",
+      "C6 Spirit Blade",
+      "C6 Elevation"
+    ],
+    "externalConfirmationRequired": [
+      "Wind Pinion DMG type",
+      "C6 Transpose 150% DMG type",
+      "ATK blessing continuous vs stepwise"
+    ],
+    "currentCalcNotApplicable": [
+      "C3/C5 final talent level input",
+      "exploration passive"
+    ],
+    "futureDPS": [
+      "durations",
+      "Sword Essence acquisition and consumption",
+      "automatic rank progression and mode exit",
+      "C1 use limit",
+      "C2 automatic stack acquisition"
+    ]
+  },
+  "currentCalcStatus": "implementationCheckpoint",
+  "externalSpecPending": true
+}
