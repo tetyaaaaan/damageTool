@@ -1110,7 +1110,9 @@
 
     function resolveModifierValue(modifier, context, uiState = context.uiState || {}, analysis = {}) {
         const required = modifier.requiredCondition;
-        if (required) {
+        // Descriptive constellation/state metadata is not a linked condition input.
+        // Only an explicit group can be looked up in the provider's saved state.
+        if (required?.conditionGroupId) {
             const key = modifier.partySource
                 ? `party:${modifier.partyProviderSlot}:${context.characterId}:group:${required.conditionGroupId}`
                 : `${required.source}:group:${required.conditionGroupId}`;

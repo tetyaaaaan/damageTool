@@ -165,3 +165,28 @@
 検証結果：batch2専用12テスト成功、focused54ファイル367テスト成功、ページ構成6テスト成功、Golden一致。batch2 E2Eでは3本の現在状態・R1/R5・実ダメージ・reload、15437本人/party受け手とprovider精錬、武器切替、11437保留表示を確認した。既存11522/11438・14524・provider転送のE2Eも成功。確認範囲で新規P0/P1/P2の残存なし。
 
 共通Runtimeの追加は、精錬別の編成人数係数、空の元素情報のデータ補完、星反応カテゴリだけのreactionBonus（通常entryには非適用）、対象を確定した明示的partyグループの接続。旧グループのsourceContext安全境界は維持し、新しいparty接続は明示的なopt-inだけで利用する。
+
+## 7.1聖遺物inventoryとStellar互換性
+
+保存inventoryを基準に **7.1新規聖遺物なし** と整理する。新規セットデータは追加しない。根拠は [保存済みinventory](../games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json) の `targetGameVersion: 7.1`、`datasets.artifacts.filter: version === 7.1`、`records: []`。取得時刻は2026-10-06T01:22:35.851Z、元応答のSHA-256は `36b10bc733d219e9d35a3da1448638aa504a0d8bc6cda5e81b5ee9d702f9d4df`。
+
+この記録は「保存されたversion絞込み結果が0件」の根拠である。聖遺物API応答全体のrawは保存されておらず、hashをローカルrawから再検算することはできない。既存聖遺物manifestのgameVersionもnullであり、それ自体を7.1不追加の独立証拠にはしない。
+
+### 確定済み経路の互換性
+
+| 対象 | 結果 |
+|---|---|
+| 紅血の証15047 | サンドローネの氷側・ヴェスナの風側の星拡散をreaction classificationで認識。共通条件で会心率+16%と星拡散+40%が併存。通常会心率+16%は既存仕様として維持し、星拡散+40%は通常Talent非会心ダメージへ漏らさない |
+| 炉炎溶錬の心15048 | provider装備者から星電導/星拡散へparty +50%。recipientの元素・HPやprovider ATKには依存せず、複数装備時は既存maxルールで1回適用 |
+| RES/DEF | 直撃星拡散の氷/風、通常反応の風初撃/氷渦を別々のRESで検証。Stellar反応はDEF除外、通常Talentは敵LvによるDEF処理を維持 |
+| 補正bucket | 通常Elemental/Common DMG Bonusは直撃Stellarへ入れない。provider由来Base Reaction DMG、reactionBonus、会心、Additive Base DMG、Elevationは独立維持 |
+| 独立hit | サンドローネの確定C4/C6星反応hitを独立維持。本人C6は通常計算後×1.20、他partyへ非転送。C2会心は冷却ビームだけ |
+| ヴォジャニーツァ | 確定HP入力のA4加算はprovider HPを参照し、Talent/星拡散の対象切替・capを維持。C6はparty星拡散へ×1.25、星電導には非適用。通常反応の複数参加者にもteam契約で独立倍率を適用 |
+
+発見したP1はヴォジャニーツァC6のparty倍率値が0になる問題1件。説明用 `requiredCondition`（凸/状態メタデータ）を、存在しない条件グループ入力として再検査していた。値解決では明示された `conditionGroupId` だけをリンク条件として参照するよう最小修正した。既存の凸ゲート、共有条件ON/OFF、明示的リンク条件は維持する。推測式・元素分類の変更なし。
+
+ヴェスナ3件、ヴォジャニーツァA4端数1件、14524の3件、11437の1件はexternalSpecPendingのまま。今回の互換性確認でSite Readyへ昇格しない。端数が未確定なA4値やunknown entryの推測ダメージは表示しない。
+
+専用 `71StellarCompatibility` は8テスト。実ブラウザでは15047を付けた氷/風の確定星拡散、15048 +50%、ヴォジャニーツァprovider C6 OFF/ONと×1.25、条件・実ダメージのreload一致、結果の内部enum非露出を確認する。
+
+検証結果：focused Gate55ファイル・375テスト全成功、Golden一致、ページ構成6テスト成功。新規互換性E2Eと既存ヴォジャニーツァ・7.1武器batch2・provider転送武器E2Eが成功。今回のP1原因1系統は修正済み、P0/P1/P2残存0。新しい計算仕様のexternalSpecPendingなし。既存のキャラ/武器pendingは維持する。

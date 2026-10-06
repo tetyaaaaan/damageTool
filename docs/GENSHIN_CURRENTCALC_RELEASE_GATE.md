@@ -65,7 +65,8 @@ $gateNames = @(
     'VodyanitsaCurrentCalc',
     '71WeaponCurrentCalc',
     '71HymnCurrentCalc',
-    '71WeaponBatch2CurrentCalc'
+    '71WeaponBatch2CurrentCalc',
+    '71StellarCompatibility'
 )
 $gateFiles = $gateNames | ForEach-Object { "tests/genshin/genshin$_.test.cjs" }
 node --test @gateFiles
@@ -100,6 +101,7 @@ node tests/genshin/genshinVodyanitsaCurrentCalc.e2e.cjs
 node tests/genshin/genshin71WeaponCurrentCalc.e2e.cjs
 node tests/genshin/genshin71HymnCurrentCalc.e2e.cjs
 node tests/genshin/genshin71WeaponBatch2CurrentCalc.e2e.cjs
+node tests/genshin/genshin71StellarCompatibility.e2e.cjs
 ```
 
 各コマンドの終了コード0を個別に確認する。基準点で確認済みの実ブラウザ受入項目も維持する：
@@ -168,3 +170,11 @@ node tests/genshin/genshin71WeaponBatch2CurrentCalc.e2e.cjs
 今回の6本に限る横断回帰は、displayOnlyを明示された外部確認待ちだけに限定し、全精錬値、対象、状態の共有と保存復元を確認する。checkpointのテスト成功は未確定仕様の解消ではない。旧武器全件・canonical監査へは展開しない。
 
 2026-10-06のbatch2検証：focused Gate54ファイル・367テスト全成功、ページ構成6テスト成功（計373）、Golden一致。batch2専用12テストはfocused集合に含む。実ブラウザE2Eはbatch2、11522/11438、14524、既存provider転送武器の4本が成功。確認範囲の最終P0/P1/P2は0件。武器6本の外部仕様待ちは14524の3点と11437の1点のみで、両武器をSite Readyとは判定しない。
+
+## 7.1聖遺物・Stellar互換性checkpoint
+
+`71StellarCompatibility` の8テストは、15047の氷/風両側星拡散、15048のparty/maxルール、直撃/通常反応の元素別RES、StellarのDEF除外、通常TalentのDEF維持、補正bucket分離、独立hit、provider/recipient、会心対象、Elevation、A4対象切替、Request再計算を固定する。既存の7.1キャラpendingは推測せず維持する。
+
+発見したparty値解決のP1を最小修正。説明用凸/状態メタデータを存在しないリンク条件として再検査しない。C6 providerの星拡散×1.25とC2反応会心+60を確認し、条件OFF・未到達凸・通常ダメージ・星電導への漏れを防ぐ。明示的なリンク条件の既存処理は変更しない。
+
+2026-10-06検証：focused Gate55ファイル・375テスト全成功、Golden一致、ページ構成6テスト成功。新規互換性E2Eは15047氷/風、15048、ヴォジャニーツァparty C6とreloadを確認。既存ヴォジャニーツァ、7.1武器batch2、provider転送武器E2Eも成功。修正後の確認範囲でP0/P1/P2残存0、新しい数値仕様pendingなし。保存inventory上の7.1新規聖遺物0件と証拠範囲は[7.1限定一覧](GENSHIN_71_CURRENTCALC_INVENTORY.md)に記録する。
