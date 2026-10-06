@@ -74,6 +74,8 @@
     }
 
     const WEAPON_PARAM_LABELS = {
+        healingBonus: "与える治療効果", hpPerStack: "1層あたりのHP上限増加",
+        atkPer1000Hp: "超過HP1000あたりのATK増加（式は確認中）", atkCap: "原文のATK上限（層との関係は確認中）",
         loyaltyCritDamage: "忠誠の風の会心ダメージ", rebellionStellarSwirlDamage: "叛逆の風の星拡散ダメージ",
         energyRestoreLimit: "4秒あたりの回復上限", emPerStack: "1層あたりの元素熟知",
         minAtk: "最小ATK上昇", maxAtk: "最大ATK上昇", reactionAtk: "元素反応後ATK", stellarDamage: "星拡散ダメージ",

@@ -63,7 +63,8 @@ $gateNames = @(
     'LinearProviderCurrentCalc',
     'VesnaCurrentCalc',
     'VodyanitsaCurrentCalc',
-    '71WeaponCurrentCalc'
+    '71WeaponCurrentCalc',
+    '71HymnCurrentCalc'
 )
 $gateFiles = $gateNames | ForEach-Object { "tests/genshin/genshin$_.test.cjs" }
 node --test @gateFiles
@@ -96,6 +97,7 @@ node tests/genshin/genshinLinearProviderCurrentCalc.e2e.cjs
 node tests/genshin/genshinVesnaCurrentCalc.e2e.cjs
 node tests/genshin/genshinVodyanitsaCurrentCalc.e2e.cjs
 node tests/genshin/genshin71WeaponCurrentCalc.e2e.cjs
+node tests/genshin/genshin71HymnCurrentCalc.e2e.cjs
 ```
 
 各コマンドの終了コード0を個別に確認する。基準点で確認済みの実ブラウザ受入項目も維持する：
@@ -144,3 +146,13 @@ node tests/genshin/genshin71WeaponCurrentCalc.e2e.cjs
 蝶の羽化11522・銀灯11438は7.1暫定経路でCurrentCalc Site Ready。`71WeaponCurrentCalc`は保存versionとR1〜R5値、全Lv/突破前後の標準curve、副stat精度、自己/party隔離、星拡散分類、会心可能な独立反応の装備者補正、層数、武器変更とRequest再計算を確認する。専用E2Eは実際の武器選択、現在状態入力、実ダメージ、R1/R5、reload一致を確認する。時間経過と発動順の自動再現はFutureDPSへ分離する。
 
 今回のfocused suite349テストとページ構成6テスト、計355テスト成功。Golden一致。武器専用回帰8テストはこの集合に含まれる。外部仕様待ちは今回の2本にはなく、既存キャラcheckpointの保留を解消したとは扱わない。
+
+## Hymn CurrentCalc implementation checkpoint
+
+旋流の讃美歌14524は確定部分のcheckpointであり、CurrentCalc Site Readyではない。自己HPの現在0～3層と凍結／星拡散後の増幅を一つの状態選択で指定する。増幅はHP増加量の1.75倍であり、星反応へのreactionBonusやElevationではない。常時治療効果は単発ダメージ計算の非該当、個別層の取得・失効・発動時点追跡はFutureDPS。
+
+装備者HP由来の出場キャラATK効果は、HP端数の段階/連続、上限の各層/合計、自己HP補正前後の参照時点が保存原文だけでは未確定。未確定式を適用せず、本人またはpartyがこの武器を装備すると部分計算の注意を表示する。recipient HPや固定ATKで代用しない。詳細は[7.1限定一覧](GENSHIN_71_CURRENTCALC_INVENTORY.md)。
+
+`71HymnCurrentCalc`は全Lvと突破前後、R1～R5・全状態、心海/ヌヴィレットのHP参照ダメージ、party受け手隔離、未確定ATKの非適用、武器変更、Request再計算を検証する。専用ブラウザE2Eは実武器選択・共有状態・R1/R5・実ダメージ・保留表示・reload・武器切替を確認する。checkpointテスト成功を仕様確定とは扱わない。
+
+2026-10-06のPhase 1検証：focused suite355テスト（今回の専用6テストを含む）とページ構成6テスト、計361テスト成功。Golden一致。旋流の讃美歌および既存11522/11438の実ブラウザE2E成功。確認範囲で新規P0/P1/P2なし。party ATKの未確定3点は引き続きexternalSpecPendingであり、武器全体のSite Ready判定は保留する。

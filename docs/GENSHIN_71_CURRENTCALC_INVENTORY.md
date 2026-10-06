@@ -88,7 +88,7 @@
 | ID | 保存名称 | 武器種 | レアリティ | 現在の状態 |
 |---|---|---|---|---|
 | 11522 | 蝶の羽化 | 片手剣 | ★5 | structured・loader・UI・reload・Request・damage接続済み、CurrentCalc Site Ready |
-| 14524 | 旋流の讃美歌 | 法器 | ★5 | rawのみ。HP40000超過参照の端数・party参照を次batchで確認 |
+| 14524 | 旋流の讃美歌 | 法器 | ★5 | structured・loader・自己HP・UI・reload・Request・damage接続済み。party ATKはexternalSpecPending付きcheckpoint、Site Ready保留 |
 | 11437 | 新たなる枝 | 片手剣 | ★4 | rawのみ。層数・輝映による効果置換を次batchで確認 |
 | 14437 | 雪に沈む心 | 法器 | ★4 | rawのみ。party元素人数と輝映切替を次batchで確認 |
 | 15437 | 風に遊ぶ弦 | 弓 | ★4 | rawのみ。常時ERと発動中party星反応補正を次batchで接続 |
@@ -105,3 +105,29 @@
 - 実ダメージに影響するexternalSpecPendingは今回の2本にはない。専用武器アイコンURLは未配信のため、選択UIでは既存の代替画像を利用する。
 
 ヴェスナの外部確認待ち3件とヴォジャニーツァA4端数処理1件は維持。今回の武器確認から独立した強い新根拠は得ておらず、Site Readyへ変更しない。
+
+## 旋流の讃美歌14524・Phase 1 checkpoint
+
+保存原文は`inventory-selected-records.json`の14524、version 7.1、効果「深き眠りのロンド」。確定部分は`weapon14524-currentcalc.json`から暫定ローダーへ接続する。通常catalog/canonicalへの昇格は行わない。
+
+| 分類 | CurrentCalcでの扱い |
+|---|---|
+| 常時基礎値 | ATK44.3358・HP副stat14.4%のLv1値。聖顕の鍵11511と同じBaseProps、既存curve 1304/2301・5★突破加算でLv1～90を取得。線形補間なし |
+| 自己HP | 治療後の現在0～3層。1層R1～R5でHP +4/5/6/7/8%。基礎HPを用いる通常のHP割合補正 |
+| 現在の増幅状態 | 凍結／星拡散後のHP増加量をさらに75%増幅。層数と増幅を一つの状態選択にまとめ、R1・3層で12%→21%、R5・3層で24%→42% |
+| party ATK | 原文は装備者HP40,000超過分の1000ごと、R1～R5 +0.4/0.5/0.6/0.7/0.8%、上限8/10/12/14/16%、反応後は増加量75%増幅。演算の未確定部分があるため非適用・部分計算の注意を表示 |
+| reaction分類 | 凍結／星拡散は発動状態の条件。damageElement固定、reactionBonus、通常DMG Bonus、Additive Base DMG、Crit、Elevationへの置換はしない |
+| CurrentCalc非該当 | 常時の与える治療効果R1～R5 +4/5/6/7/8% |
+| FutureDPS | 治療/反応の自動検知、個別層の取得・失効、10秒/5秒の時間管理、発動時点・snapshotの時間追跡 |
+
+### externalSpecPending：HP由来party ATKの演算
+
+現在実装は未適用。対象versionは7.1で、保存原文には上記係数・上限・出場キャラ対象があるが、以下を一意に決められない。
+
+- 超過HPを1000で割る際の段階切り捨てか連続比例か。
+- 上限が層ごとのATK効果に対するものか、複数層合計に対するものか。
+- 参照する装備者HPが自己HP効果適用前か適用後か（発動時点の時間追跡は別途FutureDPS）。
+
+独立したmechanics根拠または実測が必要。HP39,999/40,000/40,999/41,000/41,500/50,500およびcap付近で判別し、recipientのHPは固定する。原文値をrecipient HPの式や固定値で代用しない。未確定式によるATK・ダメージを表示しない。
+
+専用回帰はR1～R5と全7状態、HP参照攻撃を持つ法器キャラ2人、party受け手2人、全Lv/突破境界、Request再計算、武器切替を確認する。実ブラウザでは条件操作・R1/R5・実ダメージ・保留表示・reload一致を確認する。残り★4の3本はrawのみの状態を維持する。

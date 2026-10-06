@@ -1180,6 +1180,11 @@
             const maxStack = modifier.stack?.max ?? (Number(stack) || 0);
             return perStack * Math.min(Math.max(Number(stack) || 0, modifier.stack?.min ?? 0), maxStack);
         }
+        if (modifier.valueByRefinementByCondition) {
+            const values = modifier.valueByRefinementByCondition[String(context.refinement)] || modifier.valueByRefinementByCondition["1"];
+            const kind = modifier.conditionInput?.type || "option";
+            return numericModifierValue(values?.[String(conditionState[kind])] ?? 0);
+        }
         if (modifier.valueByCondition) {
             const conditionKind = modifier.conditionInput?.type || "option";
             const conditionValue = conditionState[conditionKind];
@@ -2845,6 +2850,8 @@
         return (warnings || []).filter((warning) => {
             const message = warning.message || "";
             if (warning.characterId) return String(warning.characterId) === String(context.characterId);
+            if (warning.weaponId) return String(warning.weaponId) === String(context.weaponId)
+                || (context.party?.members || []).some((member) => member.enabled !== false && String(member.equipment?.weaponId) === String(warning.weaponId));
             if (warning.level === "error" || message.includes("読み込みに失敗")) return true;
             if (message.includes(`talentModifiers.${context.characterId}`)) return true;
             if (message.includes(`constellationModifiers.${context.characterId}`)) return true;

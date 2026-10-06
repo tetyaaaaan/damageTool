@@ -1,0 +1,331 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinProvisional71CurrentCalcCandidate",
+  "candidateId": "provisional:7.1:weapon:14524",
+  "status": "candidatePrepared",
+  "nonCanonical": true,
+  "targetGameVersion": "7.1",
+  "canonical": false,
+  "verificationComplete": false,
+  "runtimeConnected": false,
+  "failClosedCanonical": true,
+  "labelJa": "暫定計算",
+  "sourceRefs": [
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
+  ],
+  "weapons": {
+    "14524": {
+      "nameJa": "旋流の讃美歌",
+      "weaponType": "法器",
+      "rarity": 5,
+      "imagePath": "/games/images/genshin/ui/weapon-catalyst.webp",
+      "gameVersion": "7.1",
+      "currentCalcStatus": "implementationCheckpoint",
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
+      ]
+    }
+  },
+  "baseStats": {
+    "weapons": {
+      "14524": {
+        "baseProps": {
+          "3": 0.144,
+          "4": 44.3358
+        },
+        "curveIds": {
+          "3": 2301,
+          "4": 1304
+        },
+        "basePromote": [
+          0,
+          31.1,
+          62.2,
+          93.4,
+          124.5,
+          155.6,
+          186.7
+        ],
+        "growthReferenceWeaponId": "11511",
+        "secondaryStat": "hpPercent",
+        "secondaryPropId": "3",
+        "secondaryUnit": "percent",
+        "growthBasis": "Exact same rarity and stored Level1 ATK/HP BaseProps as11511; reuse existing standard curves and ascension additions.",
+        "sourceRefs": [
+          "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json",
+          "games/genshin/data/base-stats.json"
+        ]
+      }
+    }
+  },
+  "weaponEffects": {
+    "14524": {
+      "effectNameJa": "深き眠りのロンド",
+      "effectTextTemplate": "与える治療効果+{healingBonus}。\n治療を行う時、装備者は「真実を告げる蜜酒」効果を獲得し、HP上限+{hpPerStack}。さらに、装備者のHP上限が40000を超えている時、その上限が1000超えるごとにチーム内の自身のフィールド上キャラクターの攻撃力+{atkPer1000Hp}。この方法で最大{atkCap}までアップできる。この効果は継続時間10秒、最大3層まで重ね掛け可能。\n付近にいるチーム内キャラクターが凍結反応または星拡散反応を起こした後の5秒間、上記の効果によるHP上限と攻撃力アップの効果が追加で75%アップする。\n装備者が待機中でも、上記の効果を発動できる。",
+      "effectParamsByRefinement": {
+        "1": {
+          "healingBonus": "4%",
+          "hpPerStack": "4%",
+          "atkPer1000Hp": "0.4%",
+          "atkCap": "8%"
+        },
+        "2": {
+          "healingBonus": "5%",
+          "hpPerStack": "5%",
+          "atkPer1000Hp": "0.5%",
+          "atkCap": "10%"
+        },
+        "3": {
+          "healingBonus": "6%",
+          "hpPerStack": "6%",
+          "atkPer1000Hp": "0.6%",
+          "atkCap": "12%"
+        },
+        "4": {
+          "healingBonus": "7%",
+          "hpPerStack": "7%",
+          "atkPer1000Hp": "0.7%",
+          "atkCap": "14%"
+        },
+        "5": {
+          "healingBonus": "8%",
+          "hpPerStack": "8%",
+          "atkPer1000Hp": "0.8%",
+          "atkCap": "16%"
+        }
+      },
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
+      ]
+    }
+  },
+  "weaponModifiers": {
+    "14524": {
+      "modifiers": [
+        {
+          "id": "provisional71_w14524_hp",
+          "effectLabel": "真実を告げる蜜酒・自己HP",
+          "category": "statBonus",
+          "applyTo": [
+            "hpPercent"
+          ],
+          "unit": "percent",
+          "condition": "provisional71_w14524_mead_state",
+          "conditionOptionValues": [
+            "one",
+            "two",
+            "three",
+            "boostedOne",
+            "boostedTwo",
+            "boostedThree"
+          ],
+          "conditionInputActivates": true,
+          "calculationSupport": "simple",
+          "uidHandling": "conditional",
+          "targetOwner": "self",
+          "valueByCondition": {
+            "inactive": 0,
+            "one": 4,
+            "two": 8,
+            "three": 12,
+            "boostedOne": 7,
+            "boostedTwo": 14,
+            "boostedThree": 21
+          },
+          "valueByRefinementByCondition": {
+            "1": {
+              "inactive": 0,
+              "one": 4,
+              "two": 8,
+              "three": 12,
+              "boostedOne": 7,
+              "boostedTwo": 14,
+              "boostedThree": 21
+            },
+            "2": {
+              "inactive": 0,
+              "one": 5,
+              "two": 10,
+              "three": 15,
+              "boostedOne": 8.75,
+              "boostedTwo": 17.5,
+              "boostedThree": 26.25
+            },
+            "3": {
+              "inactive": 0,
+              "one": 6,
+              "two": 12,
+              "three": 18,
+              "boostedOne": 10.5,
+              "boostedTwo": 21,
+              "boostedThree": 31.5
+            },
+            "4": {
+              "inactive": 0,
+              "one": 7,
+              "two": 14,
+              "three": 21,
+              "boostedOne": 12.25,
+              "boostedTwo": 24.5,
+              "boostedThree": 36.75
+            },
+            "5": {
+              "inactive": 0,
+              "one": 8,
+              "two": 16,
+              "three": 24,
+              "boostedOne": 14,
+              "boostedTwo": 28,
+              "boostedThree": 42
+            }
+          },
+          "sourceText": "現在有効な蜜酒の層数と凍結／星拡散後の増幅状態による自己HP上限増加",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
+          ]
+        },
+        {
+          "id": "provisional71_w14524_atk_pending",
+          "effectLabel": "真実を告げる蜜酒・出場キャラATK（仕様確認中）",
+          "category": "scalingBonus",
+          "applyTo": [
+            "atkPercent"
+          ],
+          "unit": "percent",
+          "condition": "provisional71_w14524_mead_state",
+          "targetOwner": "activeCharacter",
+          "reference": {
+            "stat": "hp",
+            "source": "self"
+          },
+          "calculationSupport": "displayOnly",
+          "uidHandling": "displayOnly",
+          "customCalculation": "externalSpecPending",
+          "effectSummary": "装備者HP由来の出場キャラATK補正は、端数処理・層数と上限・HP参照時点の仕様確認中です。計算には適用しません。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
+          ]
+        }
+      ]
+    }
+  },
+  "weaponEffectRegistry": {
+    "weapons": {
+      "14524": {
+        "groups": [
+          {
+            "id": "provisional71_w14524_mead_state",
+            "name": "真実を告げる蜜酒の現在状態",
+            "description": "治療後の現在の層数と、凍結／星拡散後の75%増幅状態をまとめて指定します。自己HP増加のみ反映し、ATK部分は仕様確認中です。",
+            "targetOwner": "self",
+            "inputPolicy": "calculate",
+            "activation": {
+              "type": "option",
+              "stateKey": "provisional71_w14524_mead_state",
+              "label": "真実を告げる蜜酒の現在状態",
+              "default": "inactive",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "未発動"
+                },
+                {
+                  "value": "one",
+                  "label": "1層・通常増加"
+                },
+                {
+                  "value": "two",
+                  "label": "2層・通常増加"
+                },
+                {
+                  "value": "three",
+                  "label": "3層・通常増加"
+                },
+                {
+                  "value": "boostedOne",
+                  "label": "1層・凍結／星拡散後の増幅中"
+                },
+                {
+                  "value": "boostedTwo",
+                  "label": "2層・凍結／星拡散後の増幅中"
+                },
+                {
+                  "value": "boostedThree",
+                  "label": "3層・凍結／星拡散後の増幅中"
+                }
+              ]
+            },
+            "modifierIds": [
+              "provisional71_w14524_hp"
+            ]
+          },
+          {
+            "id": "provisional71_w14524_atk_spec_pending",
+            "name": "HP由来ATK補正の仕様確認",
+            "description": "表示ダメージは確定済み効果のみを使用しています。装備者のHPを参照するparty ATK部分は未適用です。",
+            "targetOwner": "activeCharacter",
+            "inputPolicy": "displayOnly",
+            "activation": {
+              "type": "displayOnly",
+              "label": "ATK補正の仕様確認中"
+            },
+            "modifierIds": [
+              "provisional71_w14524_atk_pending"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "currentCalcClassification": {
+    "14524": {
+      "status": "implementationCheckpoint",
+      "siteReady": false,
+      "supported": [
+        "基礎ATKとHP副statの標準成長",
+        "治療後の自己HP上限0〜3層",
+        "凍結／星拡散後のHP増加量75%増幅"
+      ],
+      "currentCalcNotApplicable": [
+        "常時の与える治療効果"
+      ],
+      "futureDPS": [
+        "自動治療検知・取得・失効",
+        "10秒/5秒の時間管理",
+        "発動時点と個別層のsnapshot時間追跡"
+      ],
+      "externalSpecPending": [
+        "party ATKのHP端数・層数/cap・HP参照時点"
+      ]
+    }
+  },
+  "deferredUnknowns": [
+    {
+      "weaponId": "14524",
+      "effectId": "provisional71_w14524_atk_pending",
+      "labelJa": "装備者HP由来の出場キャラATK",
+      "status": "externalSpecPending",
+      "unknowns": [
+        "HP1000単位のstepwise/continuous",
+        "ATK上限が各層か合計か",
+        "自己HP buff適用前/適用後の参照時点"
+      ],
+      "rawCoefficientByRefinement": {
+        "1": 0.4,
+        "2": 0.5,
+        "3": 0.6,
+        "4": 0.7,
+        "5": 0.8
+      },
+      "rawCapByRefinement": {
+        "1": 8,
+        "2": 10,
+        "3": 12,
+        "4": 14,
+        "5": 16
+      },
+      "sourceRef": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json",
+      "note": "75%増幅はHP/ATKの増加量を強化する状態であり、reactionBonusやElevationではない。ATKをrecipient HPで代用せず、未確定式はRuntimeへ適用しない。"
+    }
+  ]
+}
