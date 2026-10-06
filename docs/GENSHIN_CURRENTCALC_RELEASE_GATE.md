@@ -178,3 +178,11 @@ node tests/genshin/genshin71StellarCompatibility.e2e.cjs
 発見したparty値解決のP1を最小修正。説明用凸/状態メタデータを存在しないリンク条件として再検査しない。C6 providerの星拡散×1.25とC2反応会心+60を確認し、条件OFF・未到達凸・通常ダメージ・星電導への漏れを防ぐ。明示的なリンク条件の既存処理は変更しない。
 
 2026-10-06検証：focused Gate55ファイル・375テスト全成功、Golden一致、ページ構成6テスト成功。新規互換性E2Eは15047氷/風、15048、ヴォジャニーツァparty C6とreloadを確認。既存ヴォジャニーツァ、7.1武器batch2、provider転送武器E2Eも成功。修正後の確認範囲でP0/P1/P2残存0、新しい数値仕様pendingなし。保存inventory上の7.1新規聖遺物0件と証拠範囲は[7.1限定一覧](GENSHIN_71_CURRENTCALC_INVENTORY.md)に記録する。
+
+## 7.1既知pendingの最終証拠確認
+
+基準`58d57ff`から既知8件だけを再確認した。独立根拠が演算全体を確定するには不足しており、解消0件・externalSpecPending 8件を維持する。14524のKQM最大ATK42%は端点の補強として記録し、中間HP・層数別・HP参照時点の確定には使わない。7.1新規聖遺物0件は外部更新情報とinventoryで補強した。詳細な8件の結論・根拠・全対象の状態表は[7.1限定一覧の最終確認](GENSHIN_71_CURRENTCALC_INVENTORY.md#既知externalspecpending-8件の最終確認2026-10-06)を参照。
+
+今回の変更は文書のみ。Runtime・UI・保存契約の変更なし。2026-10-06再実行：focused Gate55ファイル・375テスト成功、Golden一致、ページ構成6テスト成功（Goldenとページ構成の別実行は計7テスト成功）。代表実ブラウザE2E `genshin71StellarCompatibility.e2e.cjs` 成功：15047氷/風星拡散、15048 party +50%、ヴォジャニーツァparty C6 ×1.25、reload一致、内部enum非露出。前回の4本成功と今回の代表1本再実行を区別する。
+
+判定は「確定範囲はRelease Ready、既知externalSpecPendingは明示的に非計算」。ヴェスナ・ヴォジャニーツァ・14524・11437はcheckpointであり、Site Readyへ昇格しない。確認範囲で新規P0/P1/P2は0件。FutureDPSと旧canonical/provenance監査の範囲は変更しない。

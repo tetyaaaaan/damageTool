@@ -190,3 +190,52 @@
 専用 `71StellarCompatibility` は8テスト。実ブラウザでは15047を付けた氷/風の確定星拡散、15048 +50%、ヴォジャニーツァprovider C6 OFF/ONと×1.25、条件・実ダメージのreload一致、結果の内部enum非露出を確認する。
 
 検証結果：focused Gate55ファイル・375テスト全成功、Golden一致、ページ構成6テスト成功。新規互換性E2Eと既存ヴォジャニーツァ・7.1武器batch2・provider転送武器E2Eが成功。今回のP1原因1系統は修正済み、P0/P1/P2残存0。新しい計算仕様のexternalSpecPendingなし。既存のキャラ/武器pendingは維持する。
+
+## 既知externalSpecPending 8件の最終確認（2026-10-06）
+
+基準checkpointは`58d57ff`。今回の調査は次の8件と聖遺物inventoryの証拠補強だけに限定した。追加の独立実測・mechanics根拠で演算を確定できた項目は0件。Runtime、条件キー、計算式は変更しない。確定範囲はRelease Ready、既知externalSpecPendingは明示的に非計算とする。checkpoint専用テストの成功を仕様確定とは扱わない。
+
+| # | 未確定事項 | 確認できた根拠・結論 | 維持する境界／必要な判別 |
+|---|---|---|---|
+| 1 | ヴェスナC6転位150%のDMG Bonus分類 | 保存GO実装は内部`elemental`ノード。KQM TCLの原文転記は風元素の独立hitを示すが、Normal/Skill Bonus比較はない。externalSpecPending | unknown維持。Normal、Skill、otherへ仮分類せず、推測ダメージを表示しない。Normal/Skill限定Bonusを個別に変えた実測が必要 |
+| 2 | ヴェスナ風羽のDMG Bonus分類 | GOのSkill分類は候補。KQMの倍率表所属・原文だけでは独立した分類検証にならない。externalSpecPending | 倍率・元素・発生条件を保持し、未確定hitは非計算。Skill/Normal限定Bonusの比較が必要 |
+| 3 | ヴェスナ星光の祝福のATK端数 | GOは`min(ATK × 0.007 / 100, 0.14)`。原文の100単位表現に対する境界実測は得られず、externalSpecPending | 未確定補正は適用しない。ATK1000/1050/1099/1100で判別。連続候補は7/7.35/7.693/7.7%、cap14% |
+| 4 | ヴォジャニーツァA4の超過HP端数 | GOは連続候補。KQMは加算位置とcapを補強するが、1000HP未満の扱いは確認できない。externalSpecPending | 既存の候補共通値のみ計算する境界を維持。HP50,500では水/氷1400対1470、星拡散2600対2730。40,999/41,000/41,500/49,999も判別点 |
+| 5 | 14524 party ATKのHP端数 | 保存7.1原文は1000HP単位。KQMのHP60,000での端点は両候補が一致し、端数を判別できない。externalSpecPending | party ATKは非適用。40,999/41,000/41,500/50,500でprovider HPだけを変える比較が必要 |
+| 6 | 14524 party ATKの層数・上限 | KQM Quick GuideはR1・HP60,000で最大ATK42%と記載。`3 × 8% × 1.75`と整合し、増幅後の全体上限14%という候補とは不一致。ただし中間HP・層数別の式までは示さない。externalSpecPending | 端点42%だけを補強事実として保持し、各層cap／合計capのRuntime式には昇格しない。低HPと0/1/2/3層の組合せが必要 |
+| 7 | 14524 provider HP参照時点 | 保存原文と上記端点から、自己HP補正前後を判別できる固定条件の比較は得られない。externalSpecPending | recipient HPで代用しない。基礎HP・外部HP補正を固定し、武器自己HP効果前後を分離した検証が必要。再帰的再計算は導入しない |
+| 8 | 11437 星反応補正の層数依存 | 公式HoYoWikiの7.1原文・R1～R5は8/10/12/14/16%を確認できるが、固定／層数倍の判別根拠は得られない。externalSpecPending | 確定ATK/EMだけ計算し、星反応補正は非適用。1/2/3層でATK・EM・RES等を固定した星反応比較が必要 |
+
+### 外部根拠と採否
+
+- [KQM Vesna TCL](https://library.keqingmains.com/characters/anemo/vesna)：原文・倍率の参照。ページ自身が検証結果未収録と明示しており、攻撃分類・端数処理の独立検証としては採用しない。
+- 保存GO候補は[external-spec-candidates.json](../games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/external-spec-candidates.json)、ヴォジャニーツァは既存`vodyanitsa-currentcalc` source記録を参照。GO単独の実装分類をゲーム仕様へ昇格しない。別サイトの同じデータ転記も独立mechanics根拠には数えない。
+- [KQM Vodyanitsa Quick Guide](https://keqingmains.com/q/vodyanitsa-quickguide/)：Version 7.1。A4の加算位置・capと14524の最大42%端点を補強。A4端数や14524中間層・HP参照時点を確定する資料としては不足。
+- [公式HoYoWiki・新たなる枝](https://wiki.hoyolab.com/pc/genshin/entry/11730?lang=en-us)：7.1の原文・精錬値を確認。曖昧な層数関係を数値配列だけで補完しない。
+- HoneyHunterの14524 `ver=7_0_51`にはHP5%／ATK0.25%／8秒があり、保存7.1の4%／0.4%／10秒と異なる。旧beta値は7.1式の確定根拠から除外する。
+
+### 7.1新規聖遺物0件の証拠補強
+
+[提供元のApp Store更新履歴](https://apps.apple.com/cy/app/genshin-impact-6th-anniversary/id1517783697)は7.1の追加内容に聖遺物を挙げず、7.0には新規聖遺物の項目がある。ただし短い更新履歴の不記載だけを完全性証拠にはしない。[Icy Veinsの7.1 overview](https://www.icy-veins.com/genshin-impact/patch-overview)は7.1に新規聖遺物がないことを明示する。これらを保存されたversion絞込み0件の補強として記録し、**7.1新規聖遺物なし**を維持する。API応答全体rawが未保存という制約は解消した扱いにしない。
+
+### 7.1全対象の最終状態
+
+| 対象 | 最終分類 | 数値に影響する保留／確認範囲 |
+|---|---|---|
+| サンドローネ | CurrentCalc Site Ready | 7.1聖遺物・Stellar互換性も確認済み |
+| ヴェスナ | checkpoint / externalSpecPending | 転位150%、風羽の分類と星光の祝福端数の3件 |
+| ヴォジャニーツァ | checkpoint / externalSpecPending | A4端数1件。確定済み加算位置・Song・party契約は維持 |
+| 11522 蝶の羽化 | CurrentCalc Site Ready | 確定範囲の保留なし |
+| 11438 銀灯 | CurrentCalc Site Ready | 確定範囲の保留なし |
+| 14524 旋流の讃美歌 | checkpoint / externalSpecPending | party ATK端数・層数cap・HP参照時点の3件 |
+| 11437 新たなる枝 | checkpoint / externalSpecPending | 星反応補正の層数依存1件 |
+| 14437 雪に沈む心 | CurrentCalc Site Ready | 確定範囲の保留なし |
+| 15437 風に遊ぶ弦 | CurrentCalc Site Ready | 確定範囲の保留なし |
+| 7.1新規聖遺物 | 該当なし（0件） | 保存inventoryと外部情報で補強。新データ追加なし |
+| 紅血の証15047・炉炎溶錬の心15048 | CurrentCalc Site Ready | 7.1確定キャラ経路・氷/風星拡散・party/max互換性 |
+| Stellar Conduct／星電導 | CurrentCalc Site Ready | 確定reaction経路・RES・対象隔離 |
+| Stellar Swirl／星拡散 | CurrentCalc Site Ready | 氷/風のdamageElement、通常反応／直撃、会心・DEF除外 |
+| Stellar Vortex・確定C4/C6独立Stellar hit | CurrentCalc Site Ready | 確定倍率・元素・独立hit・Elevation。上記unknown hitは含めない |
+| 時間推移・ICD・付着時刻・rotation・自動状態取得/失効 | FutureDPS only | CurrentCalcのSite Ready条件には含めない |
+
+未確定8件の安全境界は維持し、今回のRuntime修正は0件。新規P0/P1/P2は確認範囲で0件。再検証結果はRelease Gate文書へ記録する。
