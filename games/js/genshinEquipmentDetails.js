@@ -74,6 +74,8 @@
     }
 
     const WEAPON_PARAM_LABELS = {
+        loyaltyCritDamage: "忠誠の風の会心ダメージ", rebellionStellarSwirlDamage: "叛逆の風の星拡散ダメージ",
+        energyRestoreLimit: "4秒あたりの回復上限", emPerStack: "1層あたりの元素熟知",
         minAtk: "最小ATK上昇", maxAtk: "最大ATK上昇", reactionAtk: "元素反応後ATK", stellarDamage: "星拡散ダメージ",
         atkPerStack: "1層ごとのATK", stellarCritDamageAt3: "3層時の星拡散会心ダメージ", energyRestore: "元素エネルギー回復",
         resonatedElementCritDamagePerElement: "共鳴元素1種ごとの会心ダメージ", hitAtk: "命中後ATK", movementAtk: "ATK状態",

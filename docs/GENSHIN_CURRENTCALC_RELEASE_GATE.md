@@ -62,7 +62,8 @@ $gateNames = @(
     'ResolvedModifierDisplay',
     'LinearProviderCurrentCalc',
     'VesnaCurrentCalc',
-    'VodyanitsaCurrentCalc'
+    'VodyanitsaCurrentCalc',
+    '71WeaponCurrentCalc'
 )
 $gateFiles = $gateNames | ForEach-Object { "tests/genshin/genshin$_.test.cjs" }
 node --test @gateFiles
@@ -94,6 +95,7 @@ node tests/genshin/genshinSandroneCurrentCalc.e2e.cjs
 node tests/genshin/genshinLinearProviderCurrentCalc.e2e.cjs
 node tests/genshin/genshinVesnaCurrentCalc.e2e.cjs
 node tests/genshin/genshinVodyanitsaCurrentCalc.e2e.cjs
+node tests/genshin/genshin71WeaponCurrentCalc.e2e.cjs
 ```
 
 各コマンドの終了コード0を個別に確認する。基準点で確認済みの実ブラウザ受入項目も維持する：
@@ -136,3 +138,9 @@ node tests/genshin/genshinVodyanitsaCurrentCalc.e2e.cjs
 外部仕様待ちはA4「十二弦の涙唄」のHP端数処理1件。段階/連続候補が一致するHPでは共通値だけ計算し、異なる場合は対象結果を保留表示する。HP50,500の候補値は水/氷1400対1470、星拡散2600対2730。GO連続式は候補として保存し、独立した実測またはmechanics根拠が得られるまで仕様確定しない。詳細と比較点は[7.1限定一覧](GENSHIN_71_CURRENTCALC_INVENTORY.md)。
 
 2026-10-06のcheckpoint検証：focused suite（Vesna/Vodyanitsa専用テストを含む）341テスト、ページ構成6テスト、計347テスト成功。Golden一致。ヴォジャニーツァ専用実ブラウザE2EはC4/C1、悠久の歌の倍率、A4共通値と端数保留、reload・Request再計算を成功確認。party provider HP参照・受け手隔離は専用Runtime回帰で確認。
+
+## 7.1武器 batch1
+
+蝶の羽化11522・銀灯11438は7.1暫定経路でCurrentCalc Site Ready。`71WeaponCurrentCalc`は保存versionとR1〜R5値、全Lv/突破前後の標準curve、副stat精度、自己/party隔離、星拡散分類、会心可能な独立反応の装備者補正、層数、武器変更とRequest再計算を確認する。専用E2Eは実際の武器選択、現在状態入力、実ダメージ、R1/R5、reload一致を確認する。時間経過と発動順の自動再現はFutureDPSへ分離する。
+
+今回のfocused suite349テストとページ構成6テスト、計355テスト成功。Golden一致。武器専用回帰8テストはこの集合に含まれる。外部仕様待ちは今回の2本にはなく、既存キャラcheckpointの保留を解消したとは扱わない。

@@ -20,12 +20,12 @@
 |---|---|---|---|
 | キャラ | 10000143 | ヴェスナ | 確定部分を7.1暫定Runtime・条件UIへ接続。数値に影響する外部確認待ちを分離、Site Ready保留 |
 | キャラ | 10000140 | ヴォジャニーツァ | 確定倍率・条件・party・A4加算位置・悠久の歌の爆発倍率を7.1暫定Runtimeへ接続。A4のHP端数処理だけ外部確認待ち、Site Ready保留 |
-| 武器 | 11522 | 蝶の羽化 | 保存一覧のみ、今回未実装 |
+| 武器 | 11522 | 蝶の羽化 | 7.1暫定経路でCurrentCalc Site Ready |
 | 武器 | 14524 | 旋流の讃美歌 | 保存一覧のみ、今回未実装 |
 | 武器 | 11437 | 新たなる枝 | 保存一覧のみ、今回未実装 |
 | 武器 | 14437 | 雪に沈む心 | 保存一覧のみ、今回未実装 |
 | 武器 | 15437 | 風に遊ぶ弦 | 保存一覧のみ、今回未実装 |
-| 武器 | 11438 | 銀灯 | 保存一覧のみ、今回未実装 |
+| 武器 | 11438 | 銀灯 | 7.1暫定経路でCurrentCalc Site Ready |
 | 聖遺物 | — | 新規対象未確認 | APIの7.1フィルタは0件。公式更新全文の確認が必要 |
 | 反応 | — | 新規種別未確認 | 星拡散は既存7.0経路。新種別は未確認 |
 
@@ -80,3 +80,28 @@
 悠久の歌の爆発は、ユーザーが確認したGOとPrydwenの説明の一致を受け、special multiplierとして接続済み。外部仕様待ちはA4端数処理1件のみ。確定部分は **Vodyanitsa CurrentCalc implementation checkpoint** として保存し、Site Readyとは表記しない。
 
 原文: [KQM TCL](https://library.keqingmains.com/characters/hydro/vodyanitsa)。TCLのmechanics findings未収録という注記を踏まえ、原文掲載とゲーム実測検証を同一視しない。
+
+## 7.1武器inventory再確認・batch1
+
+基準checkpointはヴェスナ`a9d1e8a`、ヴォジャニーツァ`ff0a96f`。保存済み`inventory-selected-records.json`のweapons recordsと各`version: "7.1"`を再照合し、以下6件を対象として確認した。これは保存APIのversion-bound inventoryであり、公式告知から全6件の名称を独立確認したという意味ではない。
+
+| ID | 保存名称 | 武器種 | レアリティ | 現在の状態 |
+|---|---|---|---|---|
+| 11522 | 蝶の羽化 | 片手剣 | ★5 | structured・loader・UI・reload・Request・damage接続済み、CurrentCalc Site Ready |
+| 14524 | 旋流の讃美歌 | 法器 | ★5 | rawのみ。HP40000超過参照の端数・party参照を次batchで確認 |
+| 11437 | 新たなる枝 | 片手剣 | ★4 | rawのみ。層数・輝映による効果置換を次batchで確認 |
+| 14437 | 雪に沈む心 | 法器 | ★4 | rawのみ。party元素人数と輝映切替を次batchで確認 |
+| 15437 | 風に遊ぶ弦 | 弓 | ★4 | rawのみ。常時ERと発動中party星反応補正を次batchで接続 |
+| 11438 | 銀灯 | 片手剣 | ★4 | structured・loader・UI・reload・Request・damage接続済み、CurrentCalc Site Ready |
+
+再確認時点では全6件とも通常catalog・modifier・base statsのIDレコードと7.1 loaderへの接続がなかった。今回の確定データは`weapons-currentcalc-batch1.json`から暫定ローダー・ID解決・基礎値へ接続する。canonicalへ昇格せず、既存レコードを置換しない。
+
+### 対応範囲
+
+- 蝶の羽化：忠誠の風の現在発動状態で自己会心ダメージR1〜R5 +56/72/88/104/120%。叛逆の風は本人の星拡散reactionBonus +36/45/54/63/72%。風/氷のダメージ元素で判定せず反応分類を見る。現在有効な二つの状態を独立指定し、party受け手へ転送しない。
+- 銀灯：現在有効な0〜2層で自己EM。1層あたりR1〜R5 +52/65/78/91/104。通常のTalent基礎値・damageBonusへ置き換えず、EMを使う反応計算へ反映。
+- Lv1〜90の基礎ATK・副statは、保存Lv1値と同じレアリティ・BasePropsを持つ既存武器の標準curveと突破加算を再利用。蝶の羽化は霧切の廻光11509（ATK47.537、会心ダメージ0.096）、銀灯は笛の剣11402（ATK42.401、ATK割合0.09）。単純補間は行わず、全Lvと突破前後を検証。副statは既存の最終ステータス入力契約に含め、Runtimeで二重加算しない。
+- 豊穣の風のエネルギー回復はCurrentCalc非該当。効果の取得順・発動間隔・失効・退場リセット・個別層の時間推移はFutureDPS。これらを単発計算の未対応として数えない。
+- 実ダメージに影響するexternalSpecPendingは今回の2本にはない。専用武器アイコンURLは未配信のため、選択UIでは既存の代替画像を利用する。
+
+ヴェスナの外部確認待ち3件とヴォジャニーツァA4端数処理1件は維持。今回の武器確認から独立した強い新根拠は得ておらず、Site Readyへ変更しない。

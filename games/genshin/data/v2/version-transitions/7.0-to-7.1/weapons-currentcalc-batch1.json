@@ -1,0 +1,380 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinProvisional71CurrentCalcCandidate",
+  "candidateId": "provisional:7.1:weapons:batch1",
+  "status": "candidatePrepared",
+  "nonCanonical": true,
+  "targetGameVersion": "7.1",
+  "canonical": false,
+  "verificationComplete": false,
+  "runtimeConnected": false,
+  "failClosedCanonical": true,
+  "labelJa": "暫定計算",
+  "sourceRefs": [
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
+  ],
+  "weapons": {
+    "11438": {
+      "nameJa": "銀灯",
+      "weaponType": "片手剣",
+      "rarity": 4,
+      "imagePath": "/games/images/genshin/ui/weapon-sword.webp",
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
+      ],
+      "gameVersion": "7.1"
+    },
+    "11522": {
+      "nameJa": "蝶の羽化",
+      "weaponType": "片手剣",
+      "rarity": 5,
+      "imagePath": "/games/images/genshin/ui/weapon-sword.webp",
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
+      ],
+      "gameVersion": "7.1"
+    }
+  },
+  "baseStats": {
+    "weapons": {
+      "11438": {
+        "baseProps": {
+          "4": 42.401,
+          "6": 0.09
+        },
+        "curveIds": {
+          "4": 1201,
+          "6": 2201
+        },
+        "basePromote": [
+          0,
+          25.9,
+          51.9,
+          77.8,
+          103.7,
+          129.7,
+          155.6
+        ],
+        "growthReferenceWeaponId": "11402",
+        "secondaryStat": "atkPercent",
+        "secondaryPropId": "6",
+        "secondaryUnit": "percent",
+        "growthBasis": "Same rarity, exact Level1 base ATK and secondary base value as the stored standard weapon; reuse its existing curves and ascension additions without interpolation.",
+        "sourceRefs": [
+          "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json",
+          "games/genshin/data/base-stats.json"
+        ]
+      },
+      "11522": {
+        "baseProps": {
+          "4": 47.537,
+          "22": 0.096
+        },
+        "curveIds": {
+          "4": 1302,
+          "22": 2301
+        },
+        "basePromote": [
+          0,
+          31.1,
+          62.2,
+          93.4,
+          124.5,
+          155.6,
+          186.7
+        ],
+        "growthReferenceWeaponId": "11509",
+        "secondaryStat": "critDamage",
+        "secondaryPropId": "22",
+        "secondaryUnit": "percent",
+        "growthBasis": "Same rarity, exact Level1 base ATK and secondary base value as the stored standard weapon; reuse its existing curves and ascension additions without interpolation.",
+        "sourceRefs": [
+          "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json",
+          "games/genshin/data/base-stats.json"
+        ]
+      }
+    }
+  },
+  "weaponEffects": {
+    "11438": {
+      "effectNameJa": "水上にたなびく霞",
+      "effectTextTemplate": "元素スキル発動後の12秒間、元素熟知+{emPerStack}。この効果は最大2層まで重ね掛けでき、継続時間は層ごとに独立してカウントされる。",
+      "effectDescriptionsByRefinement": {
+        "1": "元素スキル発動後の12秒間、元素熟知+52。この効果は最大2層まで重ね掛けでき、継続時間は層ごとに独立してカウントされる。",
+        "2": "元素スキル発動後の12秒間、元素熟知+65。この効果は最大2層まで重ね掛けでき、継続時間は層ごとに独立してカウントされる。",
+        "3": "元素スキル発動後の12秒間、元素熟知+78。この効果は最大2層まで重ね掛けでき、継続時間は層ごとに独立してカウントされる。",
+        "4": "元素スキル発動後の12秒間、元素熟知+91。この効果は最大2層まで重ね掛けでき、継続時間は層ごとに独立してカウントされる。",
+        "5": "元素スキル発動後の12秒間、元素熟知+104。この効果は最大2層まで重ね掛けでき、継続時間は層ごとに独立してカウントされる。"
+      },
+      "effectParamsByRefinement": {
+        "1": {
+          "emPerStack": "52"
+        },
+        "2": {
+          "emPerStack": "65"
+        },
+        "3": {
+          "emPerStack": "78"
+        },
+        "4": {
+          "emPerStack": "91"
+        },
+        "5": {
+          "emPerStack": "104"
+        }
+      },
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
+      ]
+    },
+    "11522": {
+      "effectNameJa": "繭を破りし自由の舞",
+      "effectTextTemplate": "装備者が元素スキルまたは元素爆発を発動するたびに、以下の順番に従い、次の三つの効果のうち一つを獲得する。\n忠誠の風：装備者の会心ダメージ+{loyaltyCritDamage}、継続時間10秒。\n叛逆の風：装備者が起こした星拡散反応ダメージ+{rebellionStellarSwirlDamage}、継続時間10秒。\n豊穣の風：装備者の元素エネルギーを{energyRestore}回復する。この方法による元素エネルギーの回復は4秒ごとに最大{energyRestoreLimit}まで。\n装備者が退場する時、上記の効果をクリアし、順番をリセットする。",
+      "effectDescriptionsByRefinement": {
+        "1": "装備者が元素スキルまたは元素爆発を発動するたびに、以下の順番に従い、次の三つの効果のうち一つを獲得する。\n忠誠の風：装備者の会心ダメージ+56%、継続時間10秒。\n叛逆の風：装備者が起こした星拡散反応ダメージ+36%、継続時間10秒。\n豊穣の風：装備者の元素エネルギーを5回復する。この方法による元素エネルギーの回復は4秒ごとに最大5まで。\n装備者が退場する時、上記の効果をクリアし、順番をリセットする。",
+        "2": "装備者が元素スキルまたは元素爆発を発動するたびに、以下の順番に従い、次の三つの効果のうち一つを獲得する。\n忠誠の風：装備者の会心ダメージ+72%、継続時間10秒。\n叛逆の風：装備者が起こした星拡散反応ダメージ+45%、継続時間10秒。\n豊穣の風：装備者の元素エネルギーを5.5回復する。この方法による元素エネルギーの回復は4秒ごとに最大5.5まで。\n装備者が退場する時、上記の効果をクリアし、順番をリセットする。",
+        "3": "装備者が元素スキルまたは元素爆発を発動するたびに、以下の順番に従い、次の三つの効果のうち一つを獲得する。\n忠誠の風：装備者の会心ダメージ+88%、継続時間10秒。\n叛逆の風：装備者が起こした星拡散反応ダメージ+54%、継続時間10秒。\n豊穣の風：装備者の元素エネルギーを6回復する。この方法による元素エネルギーの回復は4秒ごとに最大6まで。\n装備者が退場する時、上記の効果をクリアし、順番をリセットする。",
+        "4": "装備者が元素スキルまたは元素爆発を発動するたびに、以下の順番に従い、次の三つの効果のうち一つを獲得する。\n忠誠の風：装備者の会心ダメージ+104%、継続時間10秒。\n叛逆の風：装備者が起こした星拡散反応ダメージ+63%、継続時間10秒。\n豊穣の風：装備者の元素エネルギーを6.5回復する。この方法による元素エネルギーの回復は4秒ごとに最大6.5まで。\n装備者が退場する時、上記の効果をクリアし、順番をリセットする。",
+        "5": "装備者が元素スキルまたは元素爆発を発動するたびに、以下の順番に従い、次の三つの効果のうち一つを獲得する。\n忠誠の風：装備者の会心ダメージ+120%、継続時間10秒。\n叛逆の風：装備者が起こした星拡散反応ダメージ+72%、継続時間10秒。\n豊穣の風：装備者の元素エネルギーを7回復する。この方法による元素エネルギーの回復は4秒ごとに最大7まで。\n装備者が退場する時、上記の効果をクリアし、順番をリセットする。"
+      },
+      "effectParamsByRefinement": {
+        "1": {
+          "loyaltyCritDamage": "56%",
+          "rebellionStellarSwirlDamage": "36%",
+          "energyRestore": "5",
+          "energyRestoreLimit": "5"
+        },
+        "2": {
+          "loyaltyCritDamage": "72%",
+          "rebellionStellarSwirlDamage": "45%",
+          "energyRestore": "5.5",
+          "energyRestoreLimit": "5.5"
+        },
+        "3": {
+          "loyaltyCritDamage": "88%",
+          "rebellionStellarSwirlDamage": "54%",
+          "energyRestore": "6",
+          "energyRestoreLimit": "6"
+        },
+        "4": {
+          "loyaltyCritDamage": "104%",
+          "rebellionStellarSwirlDamage": "63%",
+          "energyRestore": "6.5",
+          "energyRestoreLimit": "6.5"
+        },
+        "5": {
+          "loyaltyCritDamage": "120%",
+          "rebellionStellarSwirlDamage": "72%",
+          "energyRestore": "7",
+          "energyRestoreLimit": "7"
+        }
+      },
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
+      ]
+    }
+  },
+  "weaponModifiers": {
+    "11438": {
+      "modifiers": [
+        {
+          "id": "provisional71_w11438_mist",
+          "effectLabel": "水上にたなびく霞",
+          "category": "statBonus",
+          "applyTo": [
+            "elementalMastery"
+          ],
+          "unit": "flat",
+          "condition": "provisional71_w11438_mist_state",
+          "calculationSupport": "stack",
+          "uidHandling": "conditional",
+          "targetOwner": "self",
+          "valueByRefinementPerStack": {
+            "1": 52,
+            "2": 65,
+            "3": 78,
+            "4": 91,
+            "5": 104
+          },
+          "sourceText": "水上にたなびく霞",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
+          ]
+        }
+      ]
+    },
+    "11522": {
+      "modifiers": [
+        {
+          "id": "provisional71_w11522_loyalty",
+          "conditionOptionValue": "active",
+          "conditionInputActivates": true,
+          "effectLabel": "忠誠の風",
+          "category": "critBonus",
+          "applyTo": [
+            "critDamage"
+          ],
+          "unit": "percent",
+          "condition": "provisional71_w11522_loyalty_state",
+          "calculationSupport": "simple",
+          "uidHandling": "conditional",
+          "targetOwner": "self",
+          "valueByRefinement": {
+            "1": 56,
+            "2": 72,
+            "3": 88,
+            "4": 104,
+            "5": 120
+          },
+          "includeStandaloneReactionCrit": true,
+          "sourceText": "忠誠の風",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
+          ]
+        },
+        {
+          "id": "provisional71_w11522_rebellion",
+          "conditionOptionValue": "active",
+          "conditionInputActivates": true,
+          "effectLabel": "叛逆の風",
+          "category": "reactionBonus",
+          "applyTo": [
+            "stellarSwirlDamageBonus"
+          ],
+          "unit": "percent",
+          "condition": "provisional71_w11522_rebellion_state",
+          "calculationSupport": "simple",
+          "uidHandling": "conditional",
+          "targetOwner": "self",
+          "valueByRefinement": {
+            "1": 36,
+            "2": 45,
+            "3": 54,
+            "4": 63,
+            "5": 72
+          },
+          "sourceText": "叛逆の風",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
+          ]
+        }
+      ]
+    }
+  },
+  "weaponEffectRegistry": {
+    "weapons": {
+      "11438": {
+        "groups": [
+          {
+            "id": "provisional71_w11438_mist_state",
+            "name": "水上にたなびく霞",
+            "description": "元素スキル発動後の現在有効な層数を指定します。層の時間経過は自動計算しません。",
+            "targetOwner": "self",
+            "inputPolicy": "calculate",
+            "activation": {
+              "type": "stack",
+              "stateKey": "provisional71_w11438_mist_state",
+              "label": "現在の層数",
+              "min": 0,
+              "max": 2,
+              "default": 0,
+              "unit": "層"
+            },
+            "modifierIds": [
+              "provisional71_w11438_mist"
+            ]
+          }
+        ]
+      },
+      "11522": {
+        "groups": [
+          {
+            "id": "provisional71_w11522_loyalty_state",
+            "name": "忠誠の風",
+            "description": "現在この効果が有効な場合だけONにします。効果の取得順と時間経過は自動計算しません。",
+            "targetOwner": "self",
+            "inputPolicy": "calculate",
+            "activation": {
+              "type": "option",
+              "stateKey": "provisional71_w11522_loyalty_state",
+              "label": "忠誠の風発動中",
+              "default": "inactive",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "未発動"
+                },
+                {
+                  "value": "active",
+                  "label": "発動中"
+                }
+              ]
+            },
+            "modifierIds": [
+              "provisional71_w11522_loyalty"
+            ]
+          },
+          {
+            "id": "provisional71_w11522_rebellion_state",
+            "name": "叛逆の風",
+            "description": "現在この効果が有効な場合だけONにします。効果の取得順と時間経過は自動計算しません。",
+            "targetOwner": "self",
+            "inputPolicy": "calculate",
+            "activation": {
+              "type": "option",
+              "stateKey": "provisional71_w11522_rebellion_state",
+              "label": "叛逆の風発動中",
+              "default": "inactive",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "未発動"
+                },
+                {
+                  "value": "active",
+                  "label": "発動中"
+                }
+              ]
+            },
+            "modifierIds": [
+              "provisional71_w11522_rebellion"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "currentCalcClassification": {
+    "11438": {
+      "status": "Site Ready",
+      "supported": [
+        "元素スキル後の現在0～2層による自己元素熟知"
+      ],
+      "currentCalcNotApplicable": [],
+      "futureDPS": [
+        "12秒の個別層失効",
+        "自動取得と更新"
+      ],
+      "externalSpecPending": [],
+      "siteReady": true
+    },
+    "11522": {
+      "status": "Site Ready",
+      "supported": [
+        "忠誠の風の自己会心ダメージ",
+        "叛逆の風の自己星拡散reactionBonus"
+      ],
+      "currentCalcNotApplicable": [
+        "豊穣の風の元素エネルギー回復"
+      ],
+      "futureDPS": [
+        "スキル/爆発による取得順",
+        "10秒失効",
+        "退場時のクリアと順番リセット",
+        "回復の4秒制限"
+      ],
+      "externalSpecPending": [],
+      "siteReady": true
+    }
+  }
+}

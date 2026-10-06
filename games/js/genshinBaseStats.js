@@ -6,7 +6,8 @@
         "/games/genshin/data/v2/candidates/7.0-provisional-characters.json",
         "/games/genshin/data/v2/candidates/7.0-provisional-weapons.json",
         "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vesna-currentcalc.json",
-        "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vodyanitsa-currentcalc.json"
+        "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vodyanitsa-currentcalc.json",
+        "/games/genshin/data/v2/version-transitions/7.0-to-7.1/weapons-currentcalc-batch1.json"
     ];
     const ASCENSION_LEVELS = [20, 40, 50, 60, 70, 80];
     let data = { curves: {}, characters: {}, weapons: {}, maxLevel: 100 };
@@ -107,6 +108,10 @@
             level: weaponLevel,
             ascension: stage,
             weaponBaseAtk: base * curveValue(source.curveIds?.["4"], weaponLevel) + (Number(stages[stage]) || 0),
+            ...(source.secondaryPropId ? {
+                weaponSecondaryStat: source.secondaryStat,
+                weaponSecondaryValue: Number(source.baseProps?.[source.secondaryPropId]) * curveValue(source.curveIds?.[source.secondaryPropId], weaponLevel) * (source.secondaryUnit === "percent" ? 100 : 1)
+            } : {}),
             ...(source.dataStatus === "provisional" ? { dataStatus: "provisional" } : {})
         };
     }

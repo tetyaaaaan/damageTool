@@ -2411,6 +2411,10 @@
                 && critBonusApplies(modifier, reactionEntry)) {
                 // Scarlet Proof's wearer CRIT Rate also applies to its critical Stellar Swirl route.
                 addScoped(item, "critRate", value);
+            } else if (modifier.category === "critBonus" && modifier.includeStandaloneReactionCrit === true
+                && (reaction.canCrit === true || (reaction.canCrit !== false && reaction.dedicatedKind === "indirectLunar"))
+                && critBonusApplies(modifier, reactionEntry)) {
+                addScoped(item, critBonusKind(modifier) === "critRate" ? "critRate" : "critDamage", value);
             } else if (modifier.category === "reactionCritBonus" && reactionCritApplies(modifier, reaction)) {
                 addScoped(item, "critRate", Number(modifier.critRate) || 0, false);
                 addScoped(item, "critDamage", Number(modifier.critDamage) || Number(value) || 0);

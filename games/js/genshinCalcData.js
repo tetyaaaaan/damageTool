@@ -26,7 +26,8 @@
 
     const PROVISIONAL_71_PATHS = {
         provisional71Vesna: "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vesna-currentcalc.json",
-        provisional71Vodyanitsa: "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vodyanitsa-currentcalc.json"
+        provisional71Vodyanitsa: "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vodyanitsa-currentcalc.json",
+        provisional71WeaponsBatch1: "/games/genshin/data/v2/version-transitions/7.0-to-7.1/weapons-currentcalc-batch1.json"
     };
 
     const DISPLAY_DATA_PATHS = {
@@ -1087,7 +1088,7 @@
             data.provisional70Weapons,
             data.provisional70StellarSwirl
         ], warnings);
-        data.provisional71RuntimeSummary = applyProvisional71Data(data, [data.provisional71Vesna, data.provisional71Vodyanitsa], warnings);
+        data.provisional71RuntimeSummary = applyProvisional71Data(data, [data.provisional71Vesna, data.provisional71Vodyanitsa, data.provisional71WeaponsBatch1], warnings);
         data.canonicalRuntimeSummary = applyCanonicalRuntime(data, data.canonicalRuntime, warnings, data.versionBaseline, data.upstreamVersionHead);
         data.warnings = warnings.concat(validateCalcData(data));
         cache = data;
