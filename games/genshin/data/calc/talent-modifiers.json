@@ -3310,6 +3310,7 @@
         "modifiers": [
           {
             "category": "damageBonus",
+            "targetOwner": "self",
             "applyTo": [
               "dendroDamageBonus"
             ],
@@ -3324,37 +3325,67 @@
         "sourceId": "passive2",
         "modifiers": [
           {
-            "category": "reactionBonus",
-            "applyTo": [
-              "bloomDamageBonus"
-            ],
-            "value": 2.0,
+            "id": "t_10000082_a4_bloom",
+            "category": "scalingBonus",
+            "applyTo": ["burningDamageBonus", "bloomDamageBonus", "hyperbloomDamageBonus", "burgeonDamageBonus"],
+            "reference": { "stat": "hp", "source": "self" },
+            "divisor": 1000,
+            "ratio": 2,
+            "maxValue": 100,
+            "rounding": "continuous",
+            "targetOwner": "team",
+            "conditionGroupId": "baizhu_verdant_favor",
+            "shareConditionAcrossSources": true,
+            "conditionLabel": "木運の歳（無隙シールドによる治療後）",
+            "effectLabel": "木運の歳・燃焼/開花系",
             "unit": "percent",
             "condition": "active",
             "duration": 6.0,
-            "calculationSupport": "toggle"
+            "calculationSupport": "formula",
+            "uidHandling": "conditional",
+            "inputPolicy": "calculate"
           },
           {
-            "category": "reactionBonus",
-            "applyTo": [
-              "aggravateDamageBonus"
-            ],
-            "value": 0.8,
+            "id": "t_10000082_a4_quicken",
+            "category": "scalingBonus",
+            "applyTo": ["aggravateDamageBonus", "spreadDamageBonus"],
+            "reference": { "stat": "hp", "source": "self" },
+            "divisor": 1000,
+            "ratio": 0.8,
+            "maxValue": 40,
+            "rounding": "continuous",
+            "targetOwner": "team",
+            "conditionGroupId": "baizhu_verdant_favor",
+            "shareConditionAcrossSources": true,
+            "conditionLabel": "木運の歳（無隙シールドによる治療後）",
+            "effectLabel": "木運の歳・超激化/草激化",
             "unit": "percent",
             "condition": "active",
             "duration": 6.0,
-            "calculationSupport": "toggle"
+            "calculationSupport": "formula",
+            "uidHandling": "conditional",
+            "inputPolicy": "calculate"
           },
           {
-            "category": "reactionBonus",
-            "applyTo": [
-              "bloomDamageBonus"
-            ],
-            "value": 0.7,
+            "id": "t_10000082_a4_lunar_bloom",
+            "category": "scalingBonus",
+            "applyTo": ["lunarBloomDamageBonus"],
+            "reference": { "stat": "hp", "source": "self" },
+            "divisor": 1000,
+            "ratio": 0.7,
+            "maxValue": 35,
+            "rounding": "continuous",
+            "targetOwner": "team",
+            "conditionGroupId": "baizhu_verdant_favor",
+            "shareConditionAcrossSources": true,
+            "conditionLabel": "木運の歳（無隙シールドによる治療後）",
+            "effectLabel": "木運の歳・月開花",
             "unit": "percent",
             "condition": "active",
             "duration": 6.0,
-            "calculationSupport": "toggle"
+            "calculationSupport": "formula",
+            "uidHandling": "conditional",
+            "inputPolicy": "calculate"
           },
           {
             "category": "additiveBaseDamage",

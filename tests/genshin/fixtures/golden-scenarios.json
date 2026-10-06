@@ -90,7 +90,7 @@
   "baizhuExtraDamage": {
     "id": "c_10000082_2_1_resolved_1",
     "effectId": "c_10000082_2_1_resolved_1",
-    "attackType": "extraDamage",
+    "attackType": "skill",
     "nonCrit": 3375,
     "crit": 6750,
     "additiveBaseDamage": 0,

@@ -1862,7 +1862,9 @@
                     } else {
                         totals.statBonus[statBonus.stat] = (totals.statBonus[statBonus.stat] || 0) + statBonus.value;
                     }
-                    applied.push(item);
+                    applied.push(["critRate", "critDamage"].includes(statBonus.stat)
+                        ? { ...item, value: statBonus.value }
+                        : item);
                 } else {
                     candidates.push({ modifier, source: item.source, reason: "対象entry外" });
                 }

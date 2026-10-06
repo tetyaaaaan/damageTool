@@ -344,7 +344,8 @@
             "swirledElementDamageBonus", "electroDamageBonus"
         ]);
         const reactionTargets = new Set([
-            "bloomDamageBonus", "hyperbloomDamageBonus", "burgeonDamageBonus",
+            "burningDamageBonus", "bloomDamageBonus", "hyperbloomDamageBonus", "burgeonDamageBonus",
+            "aggravateDamageBonus", "spreadDamageBonus",
             "lunarBloomDamageBonus", "lunarChargedDamageBonus", "lunarCrystallizeDamageBonus",
             "moonReactionDamageBonus", "stellarConductDamageBonus", "stellarSwirlDamageBonus"
         ]);

@@ -58,7 +58,9 @@ $gateNames = @(
     'ReleasePolish',
     'WolfGravestoneCurrentCalc',
     'WhiteRainFinaleCurrentCalc',
-    'SandroneCurrentCalc'
+    'SandroneCurrentCalc',
+    'ResolvedModifierDisplay',
+    'LinearProviderCurrentCalc'
 )
 $gateFiles = $gateNames | ForEach-Object { "tests/genshin/genshin$_.test.cjs" }
 node --test @gateFiles
@@ -87,6 +89,7 @@ node tests/genshin/genshinArlecchinoCurrentCalc.e2e.cjs
 node tests/genshin/genshinDurinCurrentCalc.e2e.cjs
 node tests/genshin/genshinRaidenCurrentCalc.e2e.cjs
 node tests/genshin/genshinSandroneCurrentCalc.e2e.cjs
+node tests/genshin/genshinLinearProviderCurrentCalc.e2e.cjs
 ```
 
 各コマンドの終了コード0を個別に確認する。基準点で確認済みの実ブラウザ受入項目も維持する：

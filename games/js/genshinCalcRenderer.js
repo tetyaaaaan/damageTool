@@ -227,9 +227,9 @@
     function modifierStage(item) {
         const calculation = item.analysis?.calculation;
         const category = item.modifier?.category;
+        if (["critBonus", "reactionCritBonus"].includes(category)) return "critical";
         if (["statBonus", "scalingStatBonus"].includes(calculation) || category === "statBonus") return "base";
         if (["damageBonus", "scalingDamageBonus"].includes(calculation) || category === "damageBonus") return "buff";
-        if (["critBonus", "reactionCritBonus"].includes(category)) return "critical";
         if (["resistanceDebuff", "defenseDebuff", "defenseIgnore"].includes(category)) return "enemy";
         if (["reactionBonus", "reactionBaseDamageBonus"].includes(category)) return "reaction";
         return "special";
@@ -264,7 +264,7 @@
         const value = trace
             ? trace.referenceStat
                 ? `${Number(trace.value) >= 0 ? "+" : ""}${formatDecimal(trace.value)} ／ ${statLabel(trace.referenceStat)}${Number(trace.referenceValue).toLocaleString("ja-JP", { maximumFractionDigits: 4 })} × ${Number(trace.coefficient).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}${Number.isFinite(Number(trace.maxValue)) ? ` / 上限${Number(trace.maxValue).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}` : ""}`
-                : `${Number(trace.value) >= 0 ? "+" : ""}${formatNumber(trace.value)}${rawValue ? `（${rawValue}）` : ""}`
+                : `${Number(trace.value) >= 0 ? "+" : ""}${formatNumber(trace.value)}`
             : modifier.category === "reactionBaseDamageBonus" && modifier.rounding === "continuous"
                 ? `+${Number(item.value).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}% ／ ${statLabel(modifier.reference?.stat)}${Number(item.valueContext?.stats?.[modifier.reference?.stat] || 0).toLocaleString("ja-JP", { maximumFractionDigits: 4 })} × ${Number(modifier.ratio / modifier.divisor).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}% / 上限${modifier.maxValue}%`
                 : rawValue;

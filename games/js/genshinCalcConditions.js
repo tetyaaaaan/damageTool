@@ -460,6 +460,7 @@
         vaporizeDamageBonus: "蒸発反応ダメージ",
         meltDamageBonus: "溶解反応ダメージ",
         aggravateDamageBonus: "超激化反応ダメージ",
+        spreadDamageBonus: "草激化反応ダメージ",
         lunarChargedDamageBonus: "月感電反応ダメージ",
         lunarBloomDamageBonus: "月開花反応ダメージ",
         lunarSuperconductDamageBonus: "星電導反応ダメージ",
