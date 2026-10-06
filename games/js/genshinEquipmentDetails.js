@@ -74,6 +74,11 @@
     }
 
     const WEAPON_PARAM_LABELS = {
+        growthAtk: "繁茂1層の攻撃力", growthEm: "繁茂1層の元素熟知",
+        radiantGrowthAtk: "輝映時の繁茂1層の攻撃力", radiantGrowthStar: "輝映時の星反応補正（層数との関係は確認中）",
+        pactCryoEm: "氷元素1人あたりの元素熟知", pactElectroAtk: "雷元素1人あたりの攻撃力",
+        radiantPactEm: "輝映時の氷・雷元素1人あたりの元素熟知", radiantPactStar: "輝映時の氷・雷元素1人あたりの星反応補正",
+        hymnEr: "常時の元素チャージ効率", venomStar: "蛇舌の猛毒による星反応補正",
         healingBonus: "与える治療効果", hpPerStack: "1層あたりのHP上限増加",
         atkPer1000Hp: "超過HP1000あたりのATK増加（式は確認中）", atkCap: "原文のATK上限（層との関係は確認中）",
         loyaltyCritDamage: "忠誠の風の会心ダメージ", rebellionStellarSwirlDamage: "叛逆の風の星拡散ダメージ",

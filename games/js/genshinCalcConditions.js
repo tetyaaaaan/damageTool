@@ -470,6 +470,7 @@
         astralConductionDamageBonus: "星電導反応ダメージ",
         stellarSwirlDamageBonus: "星拡散反応ダメージ",
         stellarConductDamageBonus: "星電導反応ダメージ",
+        stellarReactions: "星反応ダメージ",
         stellarConductBaseDamageBonus: "星電導反応の基礎ダメージ",
         stellarSwirlBaseDamageBonus: "星拡散反応の基礎ダメージ",
         moonReactionDamageBonus: "月反応ダメージ",

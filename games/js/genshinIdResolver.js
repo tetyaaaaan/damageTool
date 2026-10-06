@@ -17,7 +17,8 @@
         "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vesna-currentcalc.json",
         "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vodyanitsa-currentcalc.json",
         "/games/genshin/data/v2/version-transitions/7.0-to-7.1/weapons-currentcalc-batch1.json",
-        "/games/genshin/data/v2/version-transitions/7.0-to-7.1/weapon14524-currentcalc.json"
+        "/games/genshin/data/v2/version-transitions/7.0-to-7.1/weapon14524-currentcalc.json",
+        "/games/genshin/data/v2/version-transitions/7.0-to-7.1/weapons-currentcalc-batch2.json"
     ];
 
     const data = {

@@ -28,7 +28,8 @@
         provisional71Vesna: "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vesna-currentcalc.json",
         provisional71Vodyanitsa: "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vodyanitsa-currentcalc.json",
         provisional71WeaponsBatch1: "/games/genshin/data/v2/version-transitions/7.0-to-7.1/weapons-currentcalc-batch1.json",
-        provisional71Weapon14524: "/games/genshin/data/v2/version-transitions/7.0-to-7.1/weapon14524-currentcalc.json"
+        provisional71Weapon14524: "/games/genshin/data/v2/version-transitions/7.0-to-7.1/weapon14524-currentcalc.json",
+        provisional71WeaponsBatch2: "/games/genshin/data/v2/version-transitions/7.0-to-7.1/weapons-currentcalc-batch2.json"
     };
 
     const DISPLAY_DATA_PATHS = {
@@ -1055,7 +1056,7 @@
             Object.entries(document.weapons || {}).forEach(([weaponId, weapon]) => {
                 if (document.deferredUnknowns?.some((item) => String(item.weaponId) === weaponId)) warnings.push({
                     level: "warn", weaponId,
-                    message: `${weapon.nameJa || "この武器"}のHP由来ATK補正は仕様確認中です。表示ダメージには確定済み効果のみ反映し、ATK部分は適用していません。`
+                    message: weapon.pendingResultMessageJa || `${weapon.nameJa || "この武器"}のHP由来ATK補正は仕様確認中です。表示ダメージには確定済み効果のみ反映し、ATK部分は適用していません。`
                 });
             });
         });
@@ -1095,7 +1096,7 @@
             data.provisional70Weapons,
             data.provisional70StellarSwirl
         ], warnings);
-        data.provisional71RuntimeSummary = applyProvisional71Data(data, [data.provisional71Vesna, data.provisional71Vodyanitsa, data.provisional71WeaponsBatch1, data.provisional71Weapon14524], warnings);
+        data.provisional71RuntimeSummary = applyProvisional71Data(data, [data.provisional71Vesna, data.provisional71Vodyanitsa, data.provisional71WeaponsBatch1, data.provisional71Weapon14524, data.provisional71WeaponsBatch2], warnings);
         data.canonicalRuntimeSummary = applyCanonicalRuntime(data, data.canonicalRuntime, warnings, data.versionBaseline, data.upstreamVersionHead);
         data.warnings = warnings.concat(validateCalcData(data));
         cache = data;

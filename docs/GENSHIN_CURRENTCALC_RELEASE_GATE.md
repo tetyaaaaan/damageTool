@@ -64,7 +64,8 @@ $gateNames = @(
     'VesnaCurrentCalc',
     'VodyanitsaCurrentCalc',
     '71WeaponCurrentCalc',
-    '71HymnCurrentCalc'
+    '71HymnCurrentCalc',
+    '71WeaponBatch2CurrentCalc'
 )
 $gateFiles = $gateNames | ForEach-Object { "tests/genshin/genshin$_.test.cjs" }
 node --test @gateFiles
@@ -98,6 +99,7 @@ node tests/genshin/genshinVesnaCurrentCalc.e2e.cjs
 node tests/genshin/genshinVodyanitsaCurrentCalc.e2e.cjs
 node tests/genshin/genshin71WeaponCurrentCalc.e2e.cjs
 node tests/genshin/genshin71HymnCurrentCalc.e2e.cjs
+node tests/genshin/genshin71WeaponBatch2CurrentCalc.e2e.cjs
 ```
 
 各コマンドの終了コード0を個別に確認する。基準点で確認済みの実ブラウザ受入項目も維持する：
@@ -156,3 +158,13 @@ node tests/genshin/genshin71HymnCurrentCalc.e2e.cjs
 `71HymnCurrentCalc`は全Lvと突破前後、R1～R5・全状態、心海/ヌヴィレットのHP参照ダメージ、party受け手隔離、未確定ATKの非適用、武器変更、Request再計算を検証する。専用ブラウザE2Eは実武器選択・共有状態・R1/R5・実ダメージ・保留表示・reload・武器切替を確認する。checkpointテスト成功を仕様確定とは扱わない。
 
 2026-10-06のPhase 1検証：focused suite355テスト（今回の専用6テストを含む）とページ構成6テスト、計361テスト成功。Golden一致。旋流の讃美歌および既存11522/11438の実ブラウザE2E成功。確認範囲で新規P0/P1/P2なし。party ATKの未確定3点は引き続きexternalSpecPendingであり、武器全体のSite Ready判定は保留する。
+
+## 7.1武器 batch2・6本の限定横断確認
+
+雪に沈む心14437・風に遊ぶ弦15437は7.1暫定経路でCurrentCalc Site Ready。新たなる枝11437は確定ATK/EM・状態切替のcheckpointであり、星反応補正が固定値か層数倍かという外部確認待ち1件を残す。未確定の星反応補正は計算へ入れず、本人またはpartyに装備されている場合は部分計算の注意を表示する。14524の保留3件には変更を加えない。
+
+`71WeaponBatch2CurrentCalc`は3本の全Lv/突破・副stat・R1～R5、共有状態、通常/輝映の効果置換、装備者を含む実編成人数、星反応分類とダメージ元素の分離、自己/party隔離、provider精錬参照、通常攻撃への漏れ防止、Request再計算、武器変更を検証する。常時ERは最終入力に含める既存契約で扱い、Runtimeで二重加算しない。専用E2Eは実際のキャラ/武器/party選択から条件操作・R1/R5・実ダメージ・reload・武器切替まで確認する。
+
+今回の6本に限る横断回帰は、displayOnlyを明示された外部確認待ちだけに限定し、全精錬値、対象、状態の共有と保存復元を確認する。checkpointのテスト成功は未確定仕様の解消ではない。旧武器全件・canonical監査へは展開しない。
+
+2026-10-06のbatch2検証：focused Gate54ファイル・367テスト全成功、ページ構成6テスト成功（計373）、Golden一致。batch2専用12テストはfocused集合に含む。実ブラウザE2Eはbatch2、11522/11438、14524、既存provider転送武器の4本が成功。確認範囲の最終P0/P1/P2は0件。武器6本の外部仕様待ちは14524の3点と11437の1点のみで、両武器をSite Readyとは判定しない。

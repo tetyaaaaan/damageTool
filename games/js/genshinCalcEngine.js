@@ -903,7 +903,10 @@
                 normalized.uidHandling = "displayOnly";
                 normalized.auditDisposition = normalized.auditDisposition || "displayOnlyMisclassification";
             }
-            if (group.inputPolicy === "sourceContext" || !["self", "enemy", "activeCharacter"].includes(group.targetOwner || "self")) {
+            const resolvedPartyTarget = group.inputPolicy === "calculate" && group.partyTargetingResolved === true
+                && ["team", "otherPartyMembers"].includes(group.targetOwner);
+            if (group.inputPolicy === "sourceContext"
+                || (!resolvedPartyTarget && !["self", "enemy", "activeCharacter"].includes(group.targetOwner || "self"))) {
                 normalized.auditDisposition = normalized.auditDisposition || "sourceContextRequired";
             }
             if (activation.type === "always") normalized.condition = "always";
@@ -1131,14 +1134,16 @@
         if (modifier.partyElementCount) {
             const rule = modifier.partyElementCount;
             const members = (context.party?.members || []).filter((member) => member.enabled !== false && member.characterId);
-            const roster = members.length ? members : [{ characterId: context.characterId, element: context.characterInfo?.element }];
+            const roster = members.length ? members : [{ characterId: context.characterId, element: context.characterElement || context.characterInfo?.element }];
             const count = roster.filter((member) => {
                 const element = member.element || "";
                 const matching = (rule.elements || []).includes(element);
                 return rule.matching === false ? !matching : matching;
             }).length;
             const upgraded = Object.entries(modifier.valueByConstellation || {}).filter(([level]) => Number(context.constellation) >= Number(level)).sort((a, b) => Number(b[0]) - Number(a[0]))[0];
-            return Math.min(count, 4) * Number(upgraded ? upgraded[1] : modifier.value || 0);
+            const perMember = upgraded ? upgraded[1]
+                : modifier.valueByRefinement?.[String(context.refinement)] ?? modifier.valueByRefinement?.["1"] ?? modifier.value ?? 0;
+            return Math.min(count, 4) * Number(perMember);
         }
         if (modifier.customCalculation === "thresholdStatRatioPlusBase") {
             const referenceValue = Number(context.stats?.[modifier.reference?.stat]) || 0;
@@ -1785,6 +1790,7 @@
         if (["lunarBloom", "lunarCharged", "lunarCrystallize"].includes(reactionId)) {
             reactionTargets.push("moonReactionDamageBonus");
         }
+        if (String(reactionId).startsWith("stellar")) reactionTargets.push("stellarReactions");
         return reactionTargets.some((target) => applyTo.includes(target));
     }
 
@@ -1998,6 +2004,8 @@
                 totals.defenseIgnore += Math.abs(Number(value) || 0);
                 applied.push(item);
             } else if (modifier.category === "reactionBonus" && reactionBonusApplies(modifier, entryReaction)
+                && (!modifier.applyTo?.includes("stellarReactions") || effectiveEntry.group === "reaction"
+                    || String(effectiveEntry.directReactionId || "").startsWith("stellar"))
                 && (!Array.isArray(modifier.targetElements) || modifier.targetElements.includes(effectiveEntry.element))) {
                 totals.reactionBonus += Number(value) || 0;
                 applied.push(item);
@@ -2938,6 +2946,7 @@
     function calculateDamageRequest(calculationRequest, calcData) {
         const context = cloneCalculationValue(calculationRequest);
         hydrateReactionContext(context, calcData);
+        context.characterElement ||= calcData.characters?.[context.characterId]?.element || "";
         if (context.party?.members) {
             context.party.members = context.party.members.map((member) => ({
                 ...member, element: calcData.characters?.[member.characterId]?.element || member.element

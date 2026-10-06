@@ -206,6 +206,7 @@
         elementalMastery: "元素熟知", energyRecharge: "元素チャージ効率",
         critRate: "会心率", critDamage: "会心ダメージ",
         allDamageBonus: "与えるダメージ", allElementDamageBonus: "全元素ダメージ",
+        stellarReactions: "星反応ダメージ",
         swirledElementDamageBonus: "拡散した元素ダメージ",
         ownElementDamageBonus: "固有元素ダメージ", normalAttackDamageBonus: "通常攻撃ダメージ",
         chargedAttackDamageBonus: "重撃ダメージ", plungingAttackDamageBonus: "落下攻撃ダメージ",
