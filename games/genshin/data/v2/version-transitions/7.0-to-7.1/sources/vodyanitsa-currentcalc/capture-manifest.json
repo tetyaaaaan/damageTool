@@ -1,0 +1,73 @@
+{
+  "characterId": "10000140",
+  "gameVersion": "7.1",
+  "sources": [
+    {
+      "gameVersion": "7.1",
+      "url": "https://genshin-db-api.vercel.app/api/v5/talents?query=Vodyanitsa&resultLanguage=Japanese",
+      "path": "japanese-talents.json",
+      "sha256": "318d0471407b5e4f7302dca501e0da67399d9ef33e2dc92d7493530fa3c6bba6"
+    },
+    {
+      "gameVersion": "7.1",
+      "url": "https://genshin-db-api.vercel.app/api/v5/talents?query=Vodyanitsa&resultLanguage=English",
+      "path": "english-talents.json",
+      "sha256": "bb402eaf4d8f36726a0bfa4de283cb2511886ec5bcdbf6afad8b7fca9f180238"
+    },
+    {
+      "gameVersion": "7.1",
+      "url": "https://genshin-db-api.vercel.app/api/v5/constellations?query=Vodyanitsa&resultLanguage=Japanese",
+      "path": "japanese-constellations.json",
+      "sha256": "9d319043cb9f55e4459f64fe17549fd3d94d801f80b10e93f1b861284824e9b3"
+    },
+    {
+      "gameVersion": "7.1",
+      "url": "https://genshin-db-api.vercel.app/api/v5/constellations?query=Vodyanitsa&resultLanguage=English",
+      "path": "english-constellations.json",
+      "sha256": "bab1a7824536593a3249cb97aff1ca3291d6b52f09680151605e159e7f46277a"
+    },
+    {
+      "gameVersion": "7.1",
+      "url": "https://genshin-db-api.vercel.app/api/v5/characters?query=Vodyanitsa&resultLanguage=Japanese",
+      "path": "japanese-characters.json",
+      "sha256": "a024e3ad1e48e7e818a75b8f8032058bace22c05dfe23c01e7833994d5d8898e"
+    },
+    {
+      "gameVersion": "7.1",
+      "url": "https://genshin-db-api.vercel.app/api/v5/characters?query=Vodyanitsa&resultLanguage=English",
+      "path": "english-characters.json",
+      "sha256": "a7cd0dc4dc18045ff1dd03e33dacdd45de5af0244e47601052d4f3663e98d732"
+    },
+    {
+      "locator": "10000140",
+      "kind": "selectedRecordUnmodifiedValues",
+      "path": "enka-avatar-record.json",
+      "upstreamResponseSha256": "d399a75241d1206553f3e2cb860d513faa01ccfb3a98d944d35f9e5ffc27c56b",
+      "url": "https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/gi/avatars.json",
+      "sha256": "4b7521f2845b61e8464c2e221e60c966741f21ce3d61af59135b8531de664575"
+    },
+    {
+      "revision": "7d553170cf076e656937a3df2228d474b1a3798d",
+      "role": "implementation_reference_not_game_spec",
+      "sha256": "fb2f957298d3830d44712cf5f831dd215ac371a9cecb30811164fc8b41bd62ab",
+      "path": "go-sheet-index.tsx",
+      "provider": "Genshin Optimizer",
+      "url": "https://github.com/frzyc/genshin-optimizer/blob/7d553170cf076e656937a3df2228d474b1a3798d/libs/gi/sheets/src/Characters/Vodyanitsa/index.tsx"
+    },
+    {
+      "path": "kqm-library.html",
+      "url": "https://library.keqingmains.com/characters/hydro/vodyanitsa",
+      "sha256": "f3c58f7e53b54a3d15f9d874891a9118e339393df13c4188558cdceca85e2349",
+      "role": "talent_text_reference_not_independent_mechanics_verification",
+      "gameVersion": "7.1"
+    },
+    {
+      "path": "kqm-quickguide.html",
+      "url": "https://keqingmains.com/q/vodyanitsa-quickguide/",
+      "sha256": "ee8f35ea258c7365d7732b3daf0c8219bd9dbdd06ecd89c304e258e115abc06f",
+      "role": "talent_text_reference_not_independent_mechanics_verification",
+      "gameVersion": "7.1"
+    }
+  ],
+  "capturedAt": "2026-10-06T02:18:00Z"
+}

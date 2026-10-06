@@ -1498,7 +1498,7 @@
         };
         const applied = collected?.applied || [];
         applied
-            .filter((item) => item.modifier?.customCalculation !== "excessThresholdStatPercent")
+            .filter((item) => !["excessThresholdStatPercent", "postStatReference"].includes(item.modifier?.customCalculation))
             .forEach((item) => applyStatModifier(item));
         applied
             .filter((item) => item.modifier?.customCalculation === "excessThresholdStatPercent")
@@ -1506,6 +1506,11 @@
                 const valueContext = item.valueContext || context;
                 applyStatModifier(item, { ...valueContext, stats: effectiveStats, effectiveStats });
             });
+        applied.filter((item) => item.modifier?.customCalculation === "postStatReference").forEach((item) => {
+            const valueContext = item.valueContext || context;
+            // Party references already contain provider-local conditional stats.
+            applyStatModifier(item, item.modifier.partySource ? valueContext : { ...valueContext, stats: effectiveStats, effectiveStats });
+        });
         return { baseStats, effectiveStats, trace, appliedStatModifiers };
     }
 
@@ -1568,6 +1573,7 @@
     }
 
     function modifierTargetsEntry(modifier, entry) {
+        if (modifier.excludeDirectReactions && entry.directReactionId) return false;
         if (modifier.reactionTargetsOnly && !entry.directReactionId) return false;
         if (Array.isArray(modifier.targetElements) && !modifier.targetElements.includes(entry.element)) return false;
         if (Array.isArray(modifier.targetGroups) && !modifier.targetGroups.includes(entry.group)) return false;
@@ -1720,6 +1726,14 @@
     function resolveScalingAdditiveBaseDamage(modifier, context) {
         const referenceValue = resolveReferenceBase(modifier, context);
         const ratio = Number(modifier.ratio ?? modifier.value) || 0;
+        if (modifier.rounding === "externalSpecPending") {
+            const units = Math.max(0, referenceValue - Number(modifier.threshold || 0)) / Number(modifier.divisor);
+            const cap = Number(modifier.maxValue);
+            const stepwise = Math.min(Math.floor(units) * ratio, cap);
+            const continuous = Math.min(units * ratio, cap);
+            // Only a value shared by both candidates is safe to display.
+            return Math.abs(stepwise - continuous) < 1e-9 ? continuous : null;
+        }
         const calculated = referenceValue * ratio / 100;
         return Number.isFinite(Number(modifier.maxValue))
             ? Math.min(calculated, Number(modifier.maxValue))
@@ -1812,6 +1826,7 @@
     }
 
     function critBonusApplies(modifier, entry) {
+        if (modifier.excludeDirectReactions === true && entry.directReactionId) return false;
         if (Array.isArray(modifier.targetGroups) && !modifier.targetGroups.includes(entry.group)) return false;
         if (Array.isArray(modifier.targetElements) && !modifier.targetElements.includes(entry.element)) return false;
         if (modifier.targetEffect && !modifierTargetsEntry(modifier, entry)) return false;
@@ -1857,6 +1872,7 @@
             additiveBaseDamage: 0,
             finalDamageMultiplier: 1,
             baseTalentDamageMultiplier: 1,
+            pendingReasons: [],
             effectOverrides: [],
             elementOverride: ""
         };
@@ -1868,7 +1884,8 @@
                 applied.push(item);
             } else if (["statBonus", "statConversion", "scalingStatBonus"].includes(analysis?.calculation)) {
                 const statBonus = analysis.calculation === "statBonus"
-                    ? resolveStatBonusValue(modifier, value, context)
+                    ? resolveStatBonusValue(modifier, value, modifier.customCalculation === "postStatReference"
+                        ? (modifier.partySource ? item.valueContext || context : { ...context, stats: effectiveStats(context) }) : context)
                     : resolveConversionBonusValue(modifier, value, context);
                 if (statBonus) {
                     if (["critRate", "critDamage"].includes(statBonus.stat) && !critBonusApplies(modifier, entry)) {
@@ -1944,6 +1961,10 @@
                 applied.push({ ...item, value: additiveValue });
             } else if (analysis?.calculation === "scalingAdditiveBaseDamage" && modifierTargetsEntry(modifier, effectiveEntry)) {
                 const additiveValue = resolveScalingAdditiveBaseDamage(modifier, item.valueContext || context);
+                if (additiveValue === null) {
+                    totals.pendingReasons.push(modifier.pendingReasonJa || "基礎ダメージ加算の端数処理は外部確認待ちです。");
+                    return;
+                }
                 totals.additiveBaseDamage += additiveValue;
                 applied.push({ ...item, value: additiveValue });
             } else if (analysis?.calculation === "scalingDamageBonus" && modifierTargetsEntry(modifier, effectiveEntry)) {
@@ -1956,6 +1977,10 @@
                 applied.push({ ...item, value: scalingReactionBonus });
             } else if (analysis?.calculation === "scalingAdditiveBaseDamage" && reactionBonusApplies(modifier, entryReaction)) {
                 const reactionAdditive = resolveScalingAdditiveBaseDamage(modifier, item.valueContext || context);
+                if (reactionAdditive === null) {
+                    totals.pendingReasons.push(modifier.pendingReasonJa || "反応基礎ダメージ加算の端数処理は外部確認待ちです。");
+                    return;
+                }
                 totals.reactionAdditiveBaseDamage += reactionAdditive;
                 applied.push({ ...item, value: reactionAdditive });
             } else if (modifier.category === "resistanceDebuff" && resistanceDebuffAppliesToEntry(modifier, effectiveEntry)) {
@@ -2144,7 +2169,7 @@
     function calculateDamage(entry, context, appliedModifiers) {
         const effectiveEntry = appliedModifiers.entry || entry;
         const talentLevel = Math.min(Math.max(Math.round(getTalentLevel(context, entry)), 1), 15);
-        const problems = [];
+        const problems = [...(appliedModifiers.totals.pendingReasons || [])];
         if (entry.calculationStatus === "externalConfirmationRequired" || entry.damageType === "unknown") {
             problems.push(entry.pendingReasonJa || "ダメージ分類は外部確認待ちのため、計算値を表示できません。");
         }
@@ -2345,6 +2370,7 @@
             baseDamageBonus: 0,
             additiveBaseDamage: 0,
             critRate: 0,
+            pendingReasons: [],
             critDamage: 0,
             resistanceDebuff: 0,
             sharedParty: { reactionBonus: 0, baseDamageBonus: 0, additiveBaseDamage: 0, critRate: 0, critDamage: 0 },
@@ -2353,7 +2379,7 @@
         };
         const addScoped = (item, key, value, recordApplied = true) => {
             const modifier = item.modifier || {};
-            const scope = modifier.targetOwner === "team"
+            const scope = modifier.targetOwner === "team" && modifier.participantScope !== "recipientLocal"
                 ? "sharedParty"
                 : "participantLocal";
             totals[scope][key] += Number(value) || 0;
@@ -2367,7 +2393,9 @@
             } else if (item.analysis?.calculation === "scalingReactionBonus" && reactionBonusApplies(modifier, reaction)) {
                 addScoped(item, "reactionBonus", resolveScalingDamageBonus(modifier, item.valueContext || context));
             } else if (item.analysis?.calculation === "scalingAdditiveBaseDamage" && reactionBonusApplies(modifier, reaction)) {
-                addScoped(item, "additiveBaseDamage", resolveScalingAdditiveBaseDamage(modifier, item.valueContext || context));
+                const additive = resolveScalingAdditiveBaseDamage(modifier, item.valueContext || context);
+                if (additive === null) totals.pendingReasons.push(modifier.pendingReasonJa || "反応基礎ダメージ加算の端数処理は外部確認待ちです。");
+                else addScoped(item, "additiveBaseDamage", additive);
             } else if (modifier.category === "reactionBaseDamageBonus" && reactionBaseDamageBonusApplies(modifier, reaction)) {
                 addScoped(item, "baseDamageBonus", value);
             } else if (modifier.reactionTargetsOnly && item.analysis?.calculation === "effectOverride"
@@ -2421,6 +2449,12 @@
         if (!reaction.enabled || !Number.isFinite(Number(reaction.coefficient))) return null;
         const totals = collectReactionTotals(context, collected);
         const weights = reaction.contributionWeights || [1, 0.5, 1 / 12, 1 / 12];
+        if (totals.pendingReasons.length) return {
+            entry: { id: `reaction_${reaction.reactionId}`, label: reaction.label || "星反応", attackType: "reaction", damageType: "reaction", directReactionId: reaction.reactionId, calculationStatus: "externalConfirmationRequired" },
+            problems: totals.pendingReasons, nonCrit: 0, crit: 0, expected: 0,
+            total: { nonCrit: 0, crit: 0, expected: 0 },
+            breakdown: { scalingParts: [], damageInfluence: [], statBonus: {}, appliedModifiers: totals.applied, skippedModifiers: [] }
+        };
         const resistanceElement = resolveDamageResistanceElement({
             attackType: "reaction",
             damageType: "reaction",
@@ -3025,6 +3059,7 @@
         resistanceMultiplier,
         runGenshinJsonCalc,
         resolveModifierValue,
+        resolveScalingAdditiveBaseDamage,
         normalizeElementOverrideModifier,
         normalizeTalentStateModifier,
         normalizeArtifactModifier,

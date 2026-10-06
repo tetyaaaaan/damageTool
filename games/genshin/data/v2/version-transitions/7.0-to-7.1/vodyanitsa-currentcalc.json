@@ -1,0 +1,1481 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinProvisional71CurrentCalcCandidate",
+  "candidateId": "provisional:7.1:character:10000140",
+  "status": "candidatePrepared",
+  "nonCanonical": true,
+  "targetGameVersion": "7.1",
+  "canonical": false,
+  "verificationComplete": false,
+  "runtimeConnected": false,
+  "failClosedCanonical": true,
+  "labelJa": "検証中（暫定計算）",
+  "characterId": "10000140",
+  "currentCalcSpecDecisions": {
+    "acceptedAt": "2026-10-06",
+    "a4Operation": {
+      "status": "confirmed",
+      "operation": "additiveBaseDamage",
+      "basis": "User-confirmed KQM Quick Guide comparison with Shenhe Icy Quill; recipient DMG Bonus and CRIT apply after the base addition.",
+      "sourceRef": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"
+    },
+    "songBurstOperation": {
+      "status": "confirmed",
+      "operation": "talentBaseMultiplier",
+      "basis": "User-confirmed agreement between GO implementation and Prydwen explanation. Use saved combat3.param2; do not add to ordinary Burst DMG Bonus.",
+      "implementationReference": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+    },
+    "a4HpRounding": {
+      "status": "externalSpecPending",
+      "candidate": "GO uses continuous excess-HP scaling without floor, capped at 3500/6500; independent boundary measurement or mechanics evidence is still required.",
+      "implementationReference": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+    }
+  },
+  "characters": {
+    "10000140": {
+      "currentCalcStatus": "implementationCheckpoint",
+      "rarity": 5,
+      "constellationJa": "ザラターヤ・ルイープカ座",
+      "weaponType": "法器",
+      "nameJa": "ヴォジャニーツァ",
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+      ],
+      "titleJa": "水底に響く歌声",
+      "element": "水"
+    }
+  },
+  "talentScalings": {
+    "10000140": {
+      "skill": {
+        "entries": [
+          {
+            "id": "provisional71_10000140_skill_initial",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "水",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "label": "スキル発動ダメージ",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "valuesByLevel": {
+                  "1": 3.272,
+                  "2": 3.5174,
+                  "3": 3.7628,
+                  "4": 4.09,
+                  "5": 4.3354,
+                  "6": 4.5808,
+                  "7": 4.908,
+                  "8": 5.2352,
+                  "9": 5.5624,
+                  "10": 5.8896,
+                  "11": 6.2168,
+                  "12": 6.544,
+                  "13": 6.953,
+                  "14": 7.362,
+                  "15": 7.771
+                },
+                "stat": "hp"
+              }
+            ],
+            "source": {
+              "section": "combat2",
+              "param": "param1"
+            }
+          },
+          {
+            "id": "provisional71_10000140_skill_horn",
+            "hitCount": 1,
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "水",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "label": "春を呼ぶ角笛のダメージ",
+            "levelSource": "skill",
+            "scalings": [
+              {
+                "valuesByLevel": {
+                  "1": 3.272,
+                  "2": 3.5174,
+                  "3": 3.7628000000000004,
+                  "4": 4.09,
+                  "5": 4.3354,
+                  "6": 4.5808,
+                  "7": 4.9079999999999995,
+                  "8": 5.2352,
+                  "9": 5.5624,
+                  "10": 5.8896,
+                  "11": 6.2168,
+                  "12": 6.544,
+                  "13": 6.952999999999999,
+                  "14": 7.362,
+                  "15": 7.771
+                },
+                "stat": "hp"
+              }
+            ],
+            "source": {
+              "section": "combat2",
+              "param": "param4"
+            }
+          }
+        ]
+      },
+      "normalAttack": {
+        "entries": [
+          {
+            "id": "provisional71_10000140_normal_1",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "水",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "label": "1段ダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "valuesByLevel": {
+                  "1": 43.3848,
+                  "2": 46.6387,
+                  "3": 49.8925,
+                  "4": 54.231,
+                  "5": 57.4849,
+                  "6": 60.7387,
+                  "7": 65.0772,
+                  "8": 69.4157,
+                  "9": 73.7542,
+                  "10": 78.0926,
+                  "11": 82.4311,
+                  "12": 86.7696,
+                  "13": 92.1927,
+                  "14": 97.6158,
+                  "15": 103.0389
+                },
+                "stat": "atk"
+              }
+            ],
+            "source": {
+              "section": "combat1",
+              "param": "param1"
+            }
+          },
+          {
+            "id": "provisional71_10000140_normal_2",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "水",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "label": "2段ダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "valuesByLevel": {
+                  "1": 40.232,
+                  "2": 43.2494,
+                  "3": 46.2668,
+                  "4": 50.29,
+                  "5": 53.3074,
+                  "6": 56.3248,
+                  "7": 60.348,
+                  "8": 64.3712,
+                  "9": 68.3944,
+                  "10": 72.4176,
+                  "11": 76.4408,
+                  "12": 80.464,
+                  "13": 85.493,
+                  "14": 90.522,
+                  "15": 95.551
+                },
+                "stat": "atk"
+              }
+            ],
+            "source": {
+              "section": "combat1",
+              "param": "param2"
+            }
+          },
+          {
+            "id": "provisional71_10000140_normal_3",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "水",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "label": "3段ダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "valuesByLevel": {
+                  "1": 49.3016,
+                  "2": 52.9992,
+                  "3": 56.6968,
+                  "4": 61.627,
+                  "5": 65.3246,
+                  "6": 69.0222,
+                  "7": 73.9524,
+                  "8": 78.8826,
+                  "9": 83.8127,
+                  "10": 88.7429,
+                  "11": 93.673,
+                  "12": 98.6032,
+                  "13": 104.7659,
+                  "14": 110.9286,
+                  "15": 117.0913
+                },
+                "stat": "atk"
+              }
+            ],
+            "source": {
+              "section": "combat1",
+              "param": "param3"
+            }
+          },
+          {
+            "id": "provisional71_10000140_normal_4",
+            "hitCount": 1,
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "水",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "label": "4段ダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "valuesByLevel": {
+                  "1": 65.5632,
+                  "2": 70.4804,
+                  "3": 75.3977,
+                  "4": 81.954,
+                  "5": 86.8712,
+                  "6": 91.7885,
+                  "7": 98.3448,
+                  "8": 104.9011,
+                  "9": 111.4574,
+                  "10": 118.0138,
+                  "11": 124.5701,
+                  "12": 131.1264,
+                  "13": 139.3218,
+                  "14": 147.5172,
+                  "15": 155.7126
+                },
+                "stat": "atk"
+              }
+            ],
+            "source": {
+              "section": "combat1",
+              "param": "param4"
+            }
+          },
+          {
+            "id": "provisional71_10000140_charged",
+            "hitCount": 1,
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "水",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "label": "重撃ダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "valuesByLevel": {
+                  "1": 123.76,
+                  "2": 133.042,
+                  "3": 142.324,
+                  "4": 154.7,
+                  "5": 163.982,
+                  "6": 173.264,
+                  "7": 185.64,
+                  "8": 198.016,
+                  "9": 210.392,
+                  "10": 222.768,
+                  "11": 235.144,
+                  "12": 247.52,
+                  "13": 262.99,
+                  "14": 278.46,
+                  "15": 293.93
+                },
+                "stat": "atk"
+              }
+            ],
+            "source": {
+              "section": "combat1",
+              "param": "param5"
+            }
+          },
+          {
+            "id": "provisional71_10000140_plunging_travel",
+            "hitCount": 1,
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "水",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "label": "落下期間のダメージ",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "valuesByLevel": {
+                  "1": 56.8288,
+                  "2": 61.4544,
+                  "3": 66.08,
+                  "4": 72.688,
+                  "5": 77.3136,
+                  "6": 82.6,
+                  "7": 89.8688,
+                  "8": 97.1376,
+                  "9": 104.4064,
+                  "10": 112.336,
+                  "11": 120.2656,
+                  "12": 128.1952,
+                  "13": 136.1248,
+                  "14": 144.0544,
+                  "15": 151.984
+                },
+                "stat": "atk"
+              }
+            ],
+            "source": {
+              "section": "combat1",
+              "param": "param7"
+            }
+          },
+          {
+            "id": "provisional71_10000140_plunging_low",
+            "hitCount": 1,
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "水",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "label": "低空落下攻撃",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "valuesByLevel": {
+                  "1": 113.63350000000001,
+                  "2": 122.8828,
+                  "3": 132.132,
+                  "4": 145.3452,
+                  "5": 154.5944,
+                  "6": 165.16500000000002,
+                  "7": 179.6995,
+                  "8": 194.234,
+                  "9": 208.76860000000002,
+                  "10": 224.62439999999998,
+                  "11": 240.48020000000002,
+                  "12": 256.3361,
+                  "13": 272.19190000000003,
+                  "14": 288.0478,
+                  "15": 303.9036
+                },
+                "stat": "atk"
+              }
+            ],
+            "source": {
+              "section": "combat1",
+              "param": "param8"
+            }
+          },
+          {
+            "id": "provisional71_10000140_plunging_high",
+            "hitCount": 1,
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "水",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "label": "高空落下攻撃",
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "valuesByLevel": {
+                  "1": 141.93439999999998,
+                  "2": 153.4872,
+                  "3": 165.04000000000002,
+                  "4": 181.54399999999998,
+                  "5": 193.0968,
+                  "6": 206.3,
+                  "7": 224.4544,
+                  "8": 242.6088,
+                  "9": 260.76320000000004,
+                  "10": 280.56800000000004,
+                  "11": 300.37280000000004,
+                  "12": 320.17760000000004,
+                  "13": 339.98240000000004,
+                  "14": 359.78720000000004,
+                  "15": 379.59200000000004
+                },
+                "stat": "atk"
+              }
+            ],
+            "source": {
+              "section": "combat1",
+              "param": "param9"
+            }
+          }
+        ]
+      },
+      "burst": {
+        "entries": [
+          {
+            "id": "provisional71_10000140_burst_initial",
+            "hitCount": 1,
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "水",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "label": "元素爆発ダメージ",
+            "levelSource": "burst",
+            "scalings": [
+              {
+                "valuesByLevel": {
+                  "1": 45.6768,
+                  "2": 49.1026,
+                  "3": 52.5283,
+                  "4": 57.096,
+                  "5": 60.5218,
+                  "6": 63.9475,
+                  "7": 68.5152,
+                  "8": 73.0829,
+                  "9": 77.6506,
+                  "10": 82.2182,
+                  "11": 86.7859,
+                  "12": 91.3536,
+                  "13": 97.0632,
+                  "14": 102.7728,
+                  "15": 108.4824
+                },
+                "stat": "hp"
+              }
+            ],
+            "source": {
+              "section": "combat3",
+              "param": "param1"
+            },
+            "conditionSelectors": [
+              {
+                "groupId": "vodyanitsa_song_state",
+                "values": [
+                  "inactive"
+                ],
+                "defaultValue": "inactive"
+              }
+            ]
+          },
+          {
+            "id": "provisional71_10000140_burst_song",
+            "hitCount": 1,
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "水",
+            "reaction": null,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "label": "悠久の歌状態：元素爆発",
+            "levelSource": "burst",
+            "scalings": [
+              {
+                "valuesByLevel": {
+                  "1": 45.6768,
+                  "2": 49.1026,
+                  "3": 52.5283,
+                  "4": 57.096,
+                  "5": 60.5218,
+                  "6": 63.9475,
+                  "7": 68.5152,
+                  "8": 73.0829,
+                  "9": 77.6506,
+                  "10": 82.2182,
+                  "11": 86.7859,
+                  "12": 91.3536,
+                  "13": 97.0632,
+                  "14": 102.7728,
+                  "15": 108.4824
+                },
+                "stat": "hp"
+              }
+            ],
+            "source": {
+              "section": "combat3",
+              "param": "param1"
+            },
+            "conditionSelectors": [
+              {
+                "groupId": "vodyanitsa_song_state",
+                "values": [
+                  "active"
+                ],
+                "defaultValue": "inactive"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "talentModifiers": {
+    "10000140": {
+      "passives": [
+        {
+          "sourceId": "combat2",
+          "modifiers": [
+            {
+              "id": "provisional71_10000140_skill_hydro_cryo_res_shred",
+              "category": "resistanceDebuff",
+              "applyTo": [
+                "hydroResistance",
+                "cryoResistance"
+              ],
+              "targetOwner": "enemy",
+              "unit": "percent",
+              "condition": "afterHit",
+              "uidHandling": "conditional",
+              "calculationSupport": "simple",
+              "levelSource": "skill",
+              "valueByLevel": {
+                "1": 16.5,
+                "2": 18.0,
+                "3": 19.5,
+                "4": 21.0,
+                "5": 22.5,
+                "6": 24.0,
+                "7": 25.5,
+                "8": 27.0,
+                "9": 28.499999999999996,
+                "10": 30.0,
+                "11": 31.8,
+                "12": 33.6,
+                "13": 35.4,
+                "14": 37.2,
+                "15": 39.0
+              },
+              "conditionGroupId": "vodyanitsa_skill_hit",
+              "shareConditionAcrossSources": true,
+              "conditionInputActivates": true,
+              "conditionOptionValue": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "スキル／春を呼ぶ角笛が命中",
+                "default": "inactive",
+                "options": [
+                  {
+                    "value": "inactive",
+                    "label": "OFF"
+                  },
+                  {
+                    "value": "active",
+                    "label": "ON"
+                  }
+                ]
+              },
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+              ]
+            }
+          ]
+        },
+        {
+          "modifiers": [
+            {
+              "targetOwner": "enemy",
+              "category": "resistanceDebuff",
+              "value": 35,
+              "requiredCondition": {
+                "manualOption": "meteorstormGeneratedOrDetonated",
+                "ascensionMinimum": 1
+              },
+              "durationSeconds": 6,
+              "id": "provisional71_10000140_a1_anemo_res_shred",
+              "applyTo": [
+                "anemoResistance"
+              ],
+              "calculationSupport": "simple",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+              ],
+              "unit": "percent",
+              "conditionInput": {
+                "default": "inactive",
+                "type": "option",
+                "options": [
+                  {
+                    "value": "inactive",
+                    "label": "OFF"
+                  },
+                  {
+                    "value": "active",
+                    "label": "ON"
+                  }
+                ],
+                "label": "流星の嵐 生成/起爆"
+              },
+              "uidHandling": "conditional",
+              "condition": "active",
+              "conditionGroupId": "vodyanitsa_a1_meteorstorm",
+              "conditionInputActivates": true,
+              "conditionOptionValue": "active",
+              "shareConditionAcrossSources": true
+            }
+          ],
+          "sourceId": "passive1"
+        },
+        {
+          "modifiers": [
+            {
+              "id": "provisional71_10000140_a4_lead_talent",
+              "effectLabel": "十二弦の涙唄：Lead Vocal（水・氷基礎ダメージ加算）",
+              "category": "scalingBonus",
+              "customCalculation": "scalingAdditiveBaseDamage",
+              "reference": { "stat": "hp", "source": "self", "includeAppliedStatBonuses": true, "includeProviderConditionalStats": true },
+              "threshold": 40000, "divisor": 1000, "ratio": 140, "maxValue": 3500,
+              "rounding": "externalSpecPending",
+              "pendingReasonJa": "十二弦の涙唄のHP端数処理は仕様確認中です。このHPでは計算値を表示できません。",
+              "applyTo": ["normalAttack", "chargedAttack", "plungingAttack", "skill", "burst"],
+              "targetElements": ["水", "氷"], "excludeDirectReactions": true,
+              "targetOwner": "team", "recipientRole": "activeCharacter", "participantScope": "recipientLocal",
+              "condition": "afterSkill", "conditionGroupId": "vodyanitsa_a4_state", "conditionOptionValue": "leadTalent",
+              "shareConditionAcrossSources": true, "conditionInputActivates": true,
+              "uidHandling": "conditional", "calculationSupport": "special",
+              "conditionInput": { "type": "option", "label": "十二弦の涙唄：対象の現在状態", "default": "inactive", "options": [
+                { "value": "inactive", "label": "OFF" },
+                { "value": "leadTalent", "label": "フィールド上：Lead Vocal（水・氷）" },
+                { "value": "chorusTalent", "label": "控え／他の近くのメンバー：Chorus（水・氷）" },
+                { "value": "leadSwirl", "label": "フィールド上・流星の嵐：Lead Vocal（星拡散）" },
+                { "value": "chorusSwirl", "label": "控え／他の近くのメンバー・流星の嵐：Chorus（星拡散）" }
+              ] },
+              "sourceRefs": ["games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"]
+            },
+            {
+              "id": "provisional71_10000140_a4_chorus_talent",
+              "effectLabel": "十二弦の涙唄：Chorus（水・氷基礎ダメージ加算）",
+              "category": "scalingBonus", "customCalculation": "scalingAdditiveBaseDamage",
+              "reference": { "stat": "hp", "source": "self", "includeAppliedStatBonuses": true, "includeProviderConditionalStats": true },
+              "threshold": 40000, "divisor": 1000, "ratio": 140, "maxValue": 3500,
+              "rounding": "externalSpecPending",
+              "pendingReasonJa": "十二弦の涙唄のHP端数処理は仕様確認中です。このHPでは計算値を表示できません。",
+              "applyTo": ["normalAttack", "chargedAttack", "plungingAttack", "skill", "burst"],
+              "targetElements": ["水", "氷"], "excludeDirectReactions": true,
+              "targetOwner": "team", "recipientRole": "offFieldOrOtherNearby", "participantScope": "recipientLocal",
+              "condition": "afterSkill", "conditionGroupId": "vodyanitsa_a4_state", "conditionOptionValue": "chorusTalent",
+              "shareConditionAcrossSources": true, "conditionInputActivates": true,
+              "uidHandling": "conditional", "calculationSupport": "special",
+              "conditionInput": { "type": "option", "label": "十二弦の涙唄：対象の現在状態", "default": "inactive", "options": [
+                { "value": "inactive", "label": "OFF" }, { "value": "leadTalent", "label": "フィールド上：Lead Vocal（水・氷）" },
+                { "value": "chorusTalent", "label": "控え／他の近くのメンバー：Chorus（水・氷）" },
+                { "value": "leadSwirl", "label": "フィールド上・流星の嵐：Lead Vocal（星拡散）" },
+                { "value": "chorusSwirl", "label": "控え／他の近くのメンバー・流星の嵐：Chorus（星拡散）" }
+              ] },
+              "sourceRefs": ["games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"]
+            },
+            {
+              "id": "provisional71_10000140_a4_lead_swirl",
+              "effectLabel": "十二弦の涙唄：Lead Vocal（星拡散基礎ダメージ加算）",
+              "category": "scalingBonus", "customCalculation": "scalingAdditiveBaseDamage",
+              "reference": { "stat": "hp", "source": "self", "includeAppliedStatBonuses": true, "includeProviderConditionalStats": true },
+              "threshold": 40000, "divisor": 1000, "ratio": 260, "maxValue": 6500,
+              "rounding": "externalSpecPending",
+              "pendingReasonJa": "十二弦の涙唄のHP端数処理は仕様確認中です。このHPでは計算値を表示できません。",
+              "applyTo": ["stellarSwirlDamageBonus"], "reactionTargetsOnly": true,
+              "targetOwner": "team", "recipientRole": "activeCharacter", "participantScope": "recipientLocal",
+              "condition": "afterSkill", "conditionGroupId": "vodyanitsa_a4_state", "conditionOptionValue": "leadSwirl",
+              "shareConditionAcrossSources": true, "conditionInputActivates": true,
+              "uidHandling": "conditional", "calculationSupport": "special",
+              "conditionInput": { "type": "option", "label": "十二弦の涙唄：対象の現在状態", "default": "inactive", "options": [
+                { "value": "inactive", "label": "OFF" }, { "value": "leadTalent", "label": "フィールド上：Lead Vocal（水・氷）" },
+                { "value": "chorusTalent", "label": "控え／他の近くのメンバー：Chorus（水・氷）" },
+                { "value": "leadSwirl", "label": "フィールド上・流星の嵐：Lead Vocal（星拡散）" },
+                { "value": "chorusSwirl", "label": "控え／他の近くのメンバー・流星の嵐：Chorus（星拡散）" }
+              ] },
+              "sourceRefs": ["games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"]
+            },
+            {
+              "id": "provisional71_10000140_a4_chorus_swirl",
+              "effectLabel": "十二弦の涙唄：Chorus（星拡散基礎ダメージ加算）",
+              "category": "scalingBonus", "customCalculation": "scalingAdditiveBaseDamage",
+              "reference": { "stat": "hp", "source": "self", "includeAppliedStatBonuses": true, "includeProviderConditionalStats": true },
+              "threshold": 40000, "divisor": 1000, "ratio": 260, "maxValue": 6500,
+              "rounding": "externalSpecPending",
+              "pendingReasonJa": "十二弦の涙唄のHP端数処理は仕様確認中です。このHPでは計算値を表示できません。",
+              "applyTo": ["stellarSwirlDamageBonus"], "reactionTargetsOnly": true,
+              "targetOwner": "team", "recipientRole": "offFieldOrOtherNearby", "participantScope": "recipientLocal",
+              "condition": "afterSkill", "conditionGroupId": "vodyanitsa_a4_state", "conditionOptionValue": "chorusSwirl",
+              "shareConditionAcrossSources": true, "conditionInputActivates": true,
+              "uidHandling": "conditional", "calculationSupport": "special",
+              "conditionInput": { "type": "option", "label": "十二弦の涙唄：対象の現在状態", "default": "inactive", "options": [
+                { "value": "inactive", "label": "OFF" }, { "value": "leadTalent", "label": "フィールド上：Lead Vocal（水・氷）" },
+                { "value": "chorusTalent", "label": "控え／他の近くのメンバー：Chorus（水・氷）" },
+                { "value": "leadSwirl", "label": "フィールド上・流星の嵐：Lead Vocal（星拡散）" },
+                { "value": "chorusSwirl", "label": "控え／他の近くのメンバー・流星の嵐：Chorus（星拡散）" }
+              ] },
+              "sourceRefs": ["games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"]
+            }
+          ],
+          "sourceId": "passive2"
+        },
+        {
+          "sourceId": "combat3",
+          "modifiers": [{
+            "id": "provisional71_10000140_burst_song_multiplier", "effectLabel": "悠久の歌：爆発天賦基礎倍率",
+            "category": "effectOverride", "unit": "percentOfOriginalDamage", "multiplierTarget": "talentBaseDamage",
+            "targetEffect": ["provisional71_10000140_burst_song"], "applyTo": ["burst"], "targetOwner": "self",
+            "levelSource": "burst", "valueByLevel": { "1":148, "2":151.6, "3":155.2, "4":160, "5":163.6, "6":167.2, "7":172, "8":176.8, "9":181.6, "10":186.4, "11":191.2, "12":196, "13":202, "14":208, "15":214 },
+            "condition": "afterSkill", "conditionGroupId": "vodyanitsa_song_state", "conditionOptionValue": "active",
+            "shareConditionAcrossSources": true, "conditionInputActivates": true,
+            "uidHandling": "conditional", "calculationSupport": "special",
+            "conditionInput": { "type": "option", "label": "悠久の歌", "default": "inactive", "options": [{ "value":"inactive", "label":"OFF" }, { "value":"active", "label":"ON" }] },
+            "sourceRefs": ["games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json", "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"]
+          }]
+        },
+        {
+          "modifiers": [],
+          "sourceId": "passive3"
+        },
+        {
+          "modifiers": [],
+          "sourceId": "passive4"
+        }
+      ]
+    }
+  },
+  "constellationModifiers": {
+    "10000140": {
+      "constellations": {
+        "1": [
+          {
+            "condition": "active",
+            "calculationSupport": "simple",
+            "uidHandling": "conditional",
+            "targetOwner": "team",
+            "id": "provisional71_10000140_c1_team_atk_from_hp",
+            "category": "statBonus",
+            "applyTo": [
+              "atkFlat"
+            ],
+            "value": 0.8,
+            "unit": "percentOfReference",
+            "conditionGroupId": "vodyanitsa_c1_heal",
+            "shareConditionAcrossSources": true,
+            "conditionInput": {
+              "default": "inactive",
+              "type": "option",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "OFF"
+                },
+                {
+                  "value": "active",
+                  "label": "ON"
+                }
+              ],
+              "label": "悠久の歌の回復発動"
+            },
+            "conditionOptionValue": "active",
+            "durationSeconds": 5,
+            "conditionLabel": "回復発動（手動）",
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "reference": {
+              "stat": "hp",
+              "source": "selfOrProvider",
+              "includeAppliedStatBonuses": true,
+              "includeProviderConditionalStats": true
+            },
+            "customCalculation": "postStatReference",
+            "conditionInputActivates": true
+          }
+        ],
+        "2": [
+          {
+            "targetOwner": "activeCharacter",
+            "requiredCondition": {
+              "minimumConstellation": 2,
+              "trigger": "springHornHit"
+            },
+            "category": "critBonus",
+            "value": 50,
+            "conditionInput": {
+              "type": "option",
+              "label": "黒と白のデュエット",
+              "default": "inactive",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "OFF"
+                },
+                {
+                  "value": "voice",
+                  "label": "水・氷ダメージ補正"
+                },
+                {
+                  "value": "meteorstorm",
+                  "label": "流星の嵐：星拡散補正"
+                }
+              ]
+            },
+            "durationSeconds": 5,
+            "id": "provisional71_10000140_c2_hydro_cryo_critdmg",
+            "applyTo": [
+              "critDamage"
+            ],
+            "calculationSupport": "simple",
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "unit": "percent",
+            "conditionOptionValue": "voice",
+            "uidHandling": "conditional",
+            "condition": "active",
+            "shareConditionAcrossSources": true,
+            "conditionGroupId": "vodyanitsa_c2_variant",
+            "conditionInputActivates": true,
+            "targetElements": [
+              "水",
+              "氷"
+            ],
+            "excludeDirectReactions": true,
+            "targetOwnerByConstellation": {
+              "6": "team"
+            }
+          },
+          {
+            "targetOwner": "activeCharacter",
+            "category": "reactionCritBonus",
+            "value": 60,
+            "requiredCondition": {
+              "minimumConstellation": 2,
+              "trigger": "springHornHit"
+            },
+            "durationSeconds": 5,
+            "id": "provisional71_10000140_c2_stellarswirl_critdmg",
+            "applyTo": [
+              "stellarSwirlCrit"
+            ],
+            "calculationSupport": "simple",
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "unit": "percent",
+            "conditionOptionValue": "meteorstorm",
+            "uidHandling": "conditional",
+            "condition": "active",
+            "shareConditionAcrossSources": true,
+            "conditionGroupId": "vodyanitsa_c2_variant",
+            "conditionInputActivates": true,
+            "critDamage": 60,
+            "conditionInput": {
+              "type": "option",
+              "label": "黒と白のデュエット",
+              "default": "inactive",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "OFF"
+                },
+                {
+                  "value": "voice",
+                  "label": "水・氷ダメージ補正"
+                },
+                {
+                  "value": "meteorstorm",
+                  "label": "流星の嵐：星拡散補正"
+                }
+              ]
+            },
+            "targetOwnerByConstellation": {
+              "6": "team"
+            }
+          }
+        ],
+        "3": [],
+        "4": [
+          {
+            "valueByStack": {
+              "3": 60,
+              "0": 0,
+              "2": 40,
+              "1": 20
+            },
+            "targetOwner": "self",
+            "category": "statBonus",
+            "stack": {
+              "default": 0,
+              "max": 3,
+              "min": 0
+            },
+            "conditionInput": {
+              "max": 3,
+              "type": "stack",
+              "min": 0,
+              "label": "C4: 40%以上治療発動スタック",
+              "unit": "層"
+            },
+            "durationSeconds": 6,
+            "id": "provisional71_10000140_c4_hp_percent",
+            "applyTo": [
+              "hpPercent"
+            ],
+            "calculationSupport": "stack",
+            "unit": "percent",
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "uidHandling": "conditional",
+            "condition": "active",
+            "shareConditionAcrossSources": true,
+            "conditionGroupId": "vodyanitsa_c4_state",
+            "conditionInputActivates": true
+          }
+        ],
+        "5": [],
+        "6": [
+          {
+            "id": "provisional71_10000140_c6_hydro_cryo_damage",
+            "applyTo": [
+              "hydroDamageBonus",
+              "cryoDamageBonus"
+            ],
+            "uidHandling": "conditional",
+            "calculationSupport": "simple",
+            "condition": "active",
+            "requiredCondition": {
+              "minimumConstellation": 6,
+              "state": "songOfAges"
+            },
+            "unit": "percent",
+            "targetOwner": "team",
+            "value": 60,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "category": "damageBonus",
+            "conditionGroupId": "vodyanitsa_song_state",
+            "shareConditionAcrossSources": true,
+            "conditionInputActivates": true,
+            "conditionInput": {
+              "type": "option",
+              "label": "悠久の歌",
+              "default": "inactive",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "OFF"
+                },
+                {
+                  "value": "active",
+                  "label": "ON"
+                }
+              ]
+            },
+            "conditionOptionValue": "active"
+          },
+          {
+            "id": "provisional71_10000140_c6_stellarswirl_increase",
+            "applyTo": [
+              "stellarSwirlDamageBonus"
+            ],
+            "uidHandling": "conditional",
+            "calculationSupport": "special",
+            "condition": "active",
+            "requiredCondition": {
+              "minimumConstellation": 6,
+              "state": "songOfAges"
+            },
+            "unit": "percentOfOriginalDamage",
+            "targetOwner": "team",
+            "value": 125,
+            "sourceRefs": [
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+              "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+            ],
+            "category": "effectOverride",
+            "conditionGroupId": "vodyanitsa_song_state",
+            "shareConditionAcrossSources": true,
+            "conditionInputActivates": true,
+            "conditionInput": {
+              "type": "option",
+              "label": "悠久の歌",
+              "default": "inactive",
+              "options": [
+                {
+                  "value": "inactive",
+                  "label": "OFF"
+                },
+                {
+                  "value": "active",
+                  "label": "ON"
+                }
+              ]
+            },
+            "conditionOptionValue": "active",
+            "reactionTargetsOnly": true
+          }
+        ]
+      }
+    }
+  },
+  "deferredUnknowns": [
+    {
+      "unresolved": [
+        "HP40000超過分の端数処理（連続比例か1000刻み切り捨てか）"
+      ],
+      "calculationStatus": "externalConfirmationRequired",
+      "specStatus": "externalSpecPending",
+      "id": "provisional71_10000140_a4_hp_bonus_formula",
+      "rawText": "Additive Base DMGとしての演算位置・対象切替・上限は確定。GOの連続比例は候補根拠として保持し、端数処理だけ未確定。両候補が一致するHP入力では共通値のみ適用し、それ以外は対象ダメージを保留する。",
+      "excludedFromDamageCalculation": true,
+      "labelJa": "A4: メロディ/コーラスによるHP参照ダメージ増加",
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-library.html",
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"
+      ],
+      "boundaryCandidates": [
+        {
+          "maxHp": 40999,
+          "stepwise": {
+            "hydroCryo": 0,
+            "stellarSwirl": 0
+          },
+          "continuous": {
+            "hydroCryo": 139.86,
+            "stellarSwirl": 259.74
+          }
+        },
+        {
+          "maxHp": 41000,
+          "stepwise": {
+            "hydroCryo": 140,
+            "stellarSwirl": 260
+          },
+          "continuous": {
+            "hydroCryo": 140,
+            "stellarSwirl": 260
+          }
+        },
+        {
+          "maxHp": 41500,
+          "stepwise": {
+            "hydroCryo": 140,
+            "stellarSwirl": 260
+          },
+          "continuous": {
+            "hydroCryo": 210,
+            "stellarSwirl": 390
+          }
+        },
+        {
+          "maxHp": 50500,
+          "stepwise": {
+            "hydroCryo": 1400,
+            "stellarSwirl": 2600
+          },
+          "continuous": {
+            "hydroCryo": 1470,
+            "stellarSwirl": 2730
+          }
+        },
+        {
+          "maxHp": 64999,
+          "stepwise": {
+            "hydroCryo": 3360,
+            "stellarSwirl": 6240
+          },
+          "continuous": {
+            "hydroCryo": 3499.8599999999997,
+            "stellarSwirl": 6499.74
+          }
+        },
+        {
+          "maxHp": 65000,
+          "stepwise": {
+            "hydroCryo": 3500,
+            "stellarSwirl": 6500
+          },
+          "continuous": {
+            "hydroCryo": 3500,
+            "stellarSwirl": 6500
+          }
+        }
+      ]
+    }
+  ],
+  "sourceRefs": [
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx",
+    "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-library.html"
+  ],
+  "runtimeHooksRequired": [],
+  "baseStats": {
+    "characters": {
+      "10000140": {
+        "promoteProps": [
+          {
+            "4": 0.0,
+            "3": 0.0,
+            "1": 0.0,
+            "7": 0.0
+          },
+          {
+            "4": 7.18371,
+            "3": 0.0,
+            "1": 989.0367,
+            "7": 32.319
+          },
+          {
+            "4": 12.287925,
+            "3": 0.072,
+            "1": 1691.7733,
+            "7": 55.2825
+          },
+          {
+            "4": 19.093546,
+            "3": 0.144,
+            "1": 2628.7554,
+            "7": 85.9005
+          },
+          {
+            "4": 24.19776,
+            "3": 0.144,
+            "1": 3331.492,
+            "7": 108.864
+          },
+          {
+            "4": 29.301975,
+            "3": 0.216,
+            "1": 4034.2285,
+            "7": 131.8275
+          },
+          {
+            "4": 34.40619,
+            "3": 0.288,
+            "1": 4736.9653,
+            "7": 154.791
+          }
+        ],
+        "baseProps": {
+          "22": 0.5,
+          "1": 1153.5172,
+          "28": 0.0,
+          "7": 37.6929,
+          "4": 8.379,
+          "20": 0.05
+        },
+        "curveIds": {
+          "4": 205,
+          "7": 105,
+          "1": 105
+        }
+      }
+    }
+  },
+  "characterTalents": {
+    "10000140": {
+      "skill": {
+        "energyCost": null,
+        "nameJa": "流れる朝のレチタティーヴォ",
+        "descriptionJa": "水の精としての本来の姿を現し、水元素範囲ダメージを与える。また、「悠久の歌」効果を獲得し、効果の継続期間中、ヴォジャニーツァは古の春を呼ぶ角笛を呼び出し、一定時間ごとに素早く敵の近くに移動させて攻撃を行い、水元素ダメージを与える。\n上記二種類のダメージが命中した時、敵の水元素耐性と氷元素耐性をダウンさせる。また、「悠久の歌」効果の継続期間中、チーム内のフィールド上にいる自身のキャラクターの中断耐性を高め、一定時間ごとにそのキャラクターのHPを回復する。回復量はヴォジャニーツァのHP上限に基づく。",
+        "durationSeconds": 16
+      },
+      "passives": [
+        {
+          "nameJa": "最後の詩詠者",
+          "descriptionJa": "元素スキル流れる朝のレチタティーヴォ発動時、フィールド上の星の嵐を「流星の嵐」へ変化させる。また、付近にいるチーム内キャラクターが**悠久の歌**効果の継続期間中に星拡散反応を起こすと、星の嵐の代わりに流星の嵐を生成する。\n流星の嵐を生成または起爆させた時、付近の敵の風元素耐性-35%、継続時間6秒。\nさらに、悠久の歌の継続期間中、付近にいるチーム内キャラクターが輝映・星拡散状態に入った時、輝映・星拡散の継続時間が4秒延長される。",
+          "sourceId": "passive1"
+        },
+        {
+          "nameJa": "十二弦の涙唄",
+          "descriptionJa": "元素スキル流れる朝のレチタティーヴォ発動時、ヴォジャニーツァは25層の**「メロディ」**と10層の**「コーラス」**を獲得する。\n上記の2種類の効果はそれぞれ継続時間30秒、元素スキル発動時に層数が更新される。",
+          "sourceId": "passive2"
+        },
+        {
+          "nameJa": "氷湖を巡る余韻",
+          "descriptionJa": "非戦闘状態の時、元素スキルを長押しすると、ヴォジャニーツァは水の精としての本来の姿を現し、スタミナを消費する代わりに、最大10秒間の遊泳を行う。水の精であるため、水面の移動も可能。再び元素スキルを発動する、継続時間が終了する、あるいはスタミナが尽きた時、ヴォジャニーツァは水の精の姿を解除する。\nまた、ヴォジャニーツァの泳ぐ速度がアップし、スタミナの消費量も増える。",
+          "sourceId": "passive3"
+        },
+        {
+          "nameJa": "無弦の誘い歌",
+          "descriptionJa": "ヴォジャニーツァはコロレフスキー劇団のプリマドンナとして、楽器を演奏する代わりに、自らの歌声を披露する。",
+          "sourceId": "passive4"
+        }
+      ],
+      "normalAttack": {
+        "nameJa": "水色のアリア",
+        "normalDescriptionJa": "通常攻撃\n古の水の精の歌を歌うことで、最大4段の連続攻撃を行い、水元素ダメージを与える。\n\n重撃\n一定のスタミナを消費し、前方に水の珠を投げ、水元素ダメージを与える。\n\n落下攻撃\n空中から落下し、地面に衝撃を与える。経路上の敵を攻撃し、落下時に水元素範囲ダメージを与える。"
+      },
+      "burst": {
+        "energyCost": 60,
+        "nameJa": "共に沈みゆくコーダ",
+        "descriptionJa": "聴く者を破滅へ導く水の精の歌を歌い、水元素範囲ダメージを与える。\n**「悠久の歌」**効果を受けている場合、与えるダメージがさらにアップする。"
+      }
+    }
+  },
+  "currentCalcClassification": {
+    "supported": [
+      "通常4段・重撃・落下の独立hit",
+      "スキル発動・春を呼ぶ角笛",
+      "通常状態の爆発",
+      "悠久の歌の保存Lv別Talent基礎倍率乗算",
+      "A4のAdditive Base DMGとLead/Chorus・旋風の排他的対象切替（HP端数は保留）",
+      "スキルLv別水/氷RES低下",
+      "A1風RES低下の手動状態",
+      "C1現在providerHP由来partyATK",
+      "C2排他的水/氷会心と星拡散会心",
+      "C4現在HP層数",
+      "C6水/氷DMG Bonusと星拡散Elevation"
+    ],
+    "externalConfirmationRequired": [
+      "A4メロディ/コーラスのHP端数処理"
+    ],
+    "currentCalcNotApplicable": [
+      "C3/C5は最終天賦Lvを入力、二重加算しない",
+      "探索・楽器効果",
+      "回復量・中断耐性"
+    ],
+    "futureDPS": [
+      "自動生成/起爆・状態移行・効果時間",
+      "メロディ/コーラス自動消費・回復間隔",
+      "C4回復対象HP自動判定・独立層失効",
+      "輝映時間延長"
+    ]
+  },
+  "currentCalcStatus": "implementationCheckpoint",
+  "siteReady": false,
+  "externalSpecPending": true,
+  "characterConstellations": {
+    "10000140": {
+      "1": {
+        "nameJa": "脚光に咲く水の花",
+        "effectText": "ヴォジャニーツァが**悠久の歌**の治療効果を発動した際、付近にいるチーム全員の攻撃力がヴォジャニーツァのHP上限の0.8%分アップする、継続時間5秒。"
+      },
+      "2": {
+        "nameJa": "風雪を穿つこだま",
+        "effectText": "元素スキル流れる朝のレチタティーヴォの春を呼ぶ角笛が敵を攻撃した時、ヴォジャニーツァは「黒と白のデュエット」効果を獲得し、チーム内のフィールド上キャラクターが与える水元素ダメージと氷元素ダメージの会心ダメージ+50%、継続時間5秒。\nフィールド上に流星の嵐が存在する、または流星の嵐の起爆後5秒以内である場合、代わりにチーム内のフィールド上キャラクターが与える星拡散反応ダメージの会心ダメージ+60%、継続時間5秒。\nさらに、元素スキル流れる朝のレチタティーヴォが強化され、**悠久の歌**効果の継続時間+9秒。"
+      },
+      "3": {
+        "nameJa": "歌声が響く春の朝",
+        "effectText": "元素スキル**流れる朝のレチタティーヴォ**のスキルLv.+3。\n最大Lv.15まで。"
+      },
+      "4": {
+        "nameJa": "岸辺を漂う波の声",
+        "effectText": "ヴォジャニーツァが**悠久の歌**の治療効果を発動した際、治療されるキャラクターのHPに基づき、それぞれ以下のような効果を発動する。\n・治療されるキャラクターのHPが40%未満の場合、HP回復量+50%。\n・治療されるキャラクターのHPが40%以上の場合、ヴォジャニーツァのHP上限+20%、継続時間6秒。この効果は最大3層まで重ね掛けでき、継続時間は層ごとに独立してカウントされる。"
+      },
+      "5": {
+        "nameJa": "湖水に沈む唄い手",
+        "effectText": "元素爆発**共に沈みゆくコーダ**のスキルLv.+3。\n最大Lv.15まで。"
+      },
+      "6": {
+        "nameJa": "永遠に続く祝い歌",
+        "effectText": "命ノ星座「風雪を穿つこだま」の効果が強化され、「黒と白のデュエット」が付近にいるチーム内の全てのキャラクターに対して有効となる。\nさらに、**悠久の歌**効果の継続期間中、付近にいるチームのキャラクター全員が与える星拡散反応のダメージが25%**向上**し、与える水元素ダメージと氷元素ダメージ+60%。"
+      }
+    }
+  },
+  "attackModeRules": {
+    "characters": {
+      "10000140": {
+        "skill": {
+          "nameJa": "流れる朝のレチタティーヴォ",
+          "damageTypeByAttackType": {
+            "chargedAttack": "charged",
+            "normalAttack": "normal",
+            "plungingAttack": "plunging"
+          }
+        }
+      }
+    }
+  }
+}

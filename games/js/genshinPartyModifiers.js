@@ -132,9 +132,50 @@
         return entries[0]?.[1] ?? stack?.max;
     }
 
+    // Opt-in provider references resolve conditional stats locally, without recipient buffs or party recursion.
+    function providerConditionalStats(calcData, context, member) {
+        const engine = window.GenshinCalcEngine;
+        if (!engine?.collectActiveModifiers || !engine?.buildEffectiveStats) return member.stats || {};
+        const uiState = { conditionByModifier: {}, checkboxByModifier: {}, stackByModifier: {}, toggleByModifier: {} };
+        const prefix = `party:${member.slot}:${member.characterId}:group:`;
+        const groupKeys = new Set([
+            ...Object.keys(context.party?.conditionStates || {}),
+            ...Object.keys(member.buffStates || {})
+        ]);
+        groupKeys.forEach((key) => {
+            if (!key.startsWith(prefix)) return;
+            const ownKey = `character:${member.characterId}:group:${key.slice(prefix.length)}`;
+            const state = context.party?.conditionStates?.[key];
+            if (state) uiState.conditionByModifier[ownKey] = { ...state };
+            if (Object.hasOwn(member.buffStates || {}, key)) uiState.checkboxByModifier[ownKey] = member.buffStates[key] === true;
+        });
+        const providerContext = {
+            ...context, characterId: member.characterId, characterInfo: calcData.characters?.[member.characterId] || {},
+            characterElement: member.element || calcData.characters?.[member.characterId]?.element || '',
+            constellation: member.constellation, talentLevels: member.talentLevels,
+            weaponId: member.equipment?.weaponId || '', refinement: member.equipment?.refinement || 1,
+            artifactSetIds: member.equipment?.artifactSetIds || [], artifactSetMode: member.equipment?.artifactSetMode || 'none',
+            stats: { ...(member.stats || {}) }, effectiveStats: undefined,
+            party: { members: [] }, uiState,
+            manualInputs: { ...context.manualInputs, providerStats: { ...(member.stats || {}) } }
+        };
+        const localModifiers = Object.entries(calcData.constellationModifiers?.[member.characterId]?.constellations || {})
+            .flatMap(([level, modifiers]) => Number(level) <= Number(member.constellation || 0)
+                ? modifiers.map((modifier) => ({ modifier, source: `constellation:C${level}` })) : []);
+        localModifiers.forEach(({ modifier, source }) => {
+            const state = uiState.conditionByModifier[`character:${member.characterId}:group:${modifier.conditionGroupId}`];
+            if (!state) return;
+            const key = window.GenshinModifierAnalyzer.modifierStateKey(modifier, source);
+            uiState.conditionByModifier[key] = { ...state, enabled: state.enabled ?? (Number(state.stack) > 0 || (state.option !== undefined && state.option !== 'inactive')) };
+        });
+        const collected = engine.collectActiveModifiers(calcData, providerContext);
+        return engine.buildEffectiveStats(providerContext, collected).effectiveStats;
+    }
+
     function buildCandidate({ calcData, context, member, sourceKind, sourceId, modifier, modifierIndex, description, sourceName }) {
         const requiredProviderStats = providerStatRequirements(modifier, description);
-        const memberStats = { ...(member.stats || {}) };
+        const memberStats = { ...(modifier.reference?.includeProviderConditionalStats
+            ? providerConditionalStats(calcData, context, member) : member.stats || {}) };
         const usesProviderStats = requiredProviderStats.length > 0;
         const providerContext = {
             ...context,
@@ -148,6 +189,7 @@
             refinement: member.equipment?.refinement || 1,
             talentLevels: member.talentLevels || { normal: 10, skill: 10, burst: 10 },
             stats: usesProviderStats ? { ...context.stats, ...memberStats } : context.stats,
+            effectiveStats: undefined,
             manualInputs: { ...(context.manualInputs || {}), providerStats: memberStats }
         };
         const normalizeSource = sourceKind === "talent"
@@ -172,7 +214,10 @@
                     : {})
             }
             : normalized?.conditionInput;
-        const target = inferTargetOwner(normalized, description);
+        const ownerOverride = Object.entries(normalized?.targetOwnerByConstellation || {})
+            .filter(([level]) => Number(level) <= Number(member.constellation || 0))
+            .sort(([left], [right]) => Number(right) - Number(left))[0]?.[1];
+        const target = inferTargetOwner(ownerOverride ? { ...normalized, targetOwner: ownerOverride } : normalized, description);
         const partyModifier = {
             ...normalized,
             ...(normalizedStack ? { stack: normalizedStack } : {}),
@@ -287,8 +332,7 @@
                 ? Math.min(calculated, maxValue)
                 : calculated;
         } else if (analysis?.calculation === "scalingAdditiveBaseDamage" && partyModifier.reference?.stat) {
-            resolvedValue = (Number(providerContext.stats?.[partyModifier.reference.stat]) || 0)
-                * (Number(partyModifier.ratio ?? partyModifier.value) || 0) / 100;
+            resolvedValue = window.GenshinCalcEngine.resolveScalingAdditiveBaseDamage(partyModifier, providerContext);
         }
         return {
             key,

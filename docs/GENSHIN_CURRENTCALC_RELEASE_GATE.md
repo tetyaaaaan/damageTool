@@ -60,7 +60,9 @@ $gateNames = @(
     'WhiteRainFinaleCurrentCalc',
     'SandroneCurrentCalc',
     'ResolvedModifierDisplay',
-    'LinearProviderCurrentCalc'
+    'LinearProviderCurrentCalc',
+    'VesnaCurrentCalc',
+    'VodyanitsaCurrentCalc'
 )
 $gateFiles = $gateNames | ForEach-Object { "tests/genshin/genshin$_.test.cjs" }
 node --test @gateFiles
@@ -90,6 +92,8 @@ node tests/genshin/genshinDurinCurrentCalc.e2e.cjs
 node tests/genshin/genshinRaidenCurrentCalc.e2e.cjs
 node tests/genshin/genshinSandroneCurrentCalc.e2e.cjs
 node tests/genshin/genshinLinearProviderCurrentCalc.e2e.cjs
+node tests/genshin/genshinVesnaCurrentCalc.e2e.cjs
+node tests/genshin/genshinVodyanitsaCurrentCalc.e2e.cjs
 ```
 
 各コマンドの終了コード0を個別に確認する。基準点で確認済みの実ブラウザ受入項目も維持する：
@@ -124,3 +128,11 @@ node tests/genshin/genshinLinearProviderCurrentCalc.e2e.cjs
 ヴェスナの確定実装はcheckpointとして保持し、CurrentCalc Site Readyとは判定しない。`VesnaCurrentCalc`専用テストと`genshinVesnaCurrentCalc.e2e.cjs`は確定部分・保留表示・reloadを検証する。
 
 未確定3件は`externalSpecPending`：C6転位150%のDMG Bonus分類、風羽のDMG Bonus分類、星光の祝福のATK端数処理。GO候補はそれぞれ内部`elemental`ノード、`skill`、連続比例`min(ATK × 0.007 / 100, 0.14)`だが、仕様確定としてRuntimeへ導入しない。未確定hitの数値を出さず、星光の祝福の未確定式も適用しない。詳細は[7.1限定一覧](GENSHIN_71_CURRENTCALC_INVENTORY.md)。この保留と後続キャラの独立検証を分離する。
+
+## Vodyanitsa CurrentCalc implementation checkpoint
+
+ヴォジャニーツァは確定部分のcheckpointであり、CurrentCalc Site Readyではない。`VodyanitsaCurrentCalc`は保存倍率、provider C4反映後HP、party対象、共有条件、A4の基礎側加算、悠久の歌の独立Talent倍率、Request再計算を検証する。専用E2Eは実入力から結果、HP端数の保留表示、reload一致を確認する。checkpoint専用テストの成功を、未確定仕様の解消とは扱わない。
+
+外部仕様待ちはA4「十二弦の涙唄」のHP端数処理1件。段階/連続候補が一致するHPでは共通値だけ計算し、異なる場合は対象結果を保留表示する。HP50,500の候補値は水/氷1400対1470、星拡散2600対2730。GO連続式は候補として保存し、独立した実測またはmechanics根拠が得られるまで仕様確定しない。詳細と比較点は[7.1限定一覧](GENSHIN_71_CURRENTCALC_INVENTORY.md)。
+
+2026-10-06のcheckpoint検証：focused suite（Vesna/Vodyanitsa専用テストを含む）341テスト、ページ構成6テスト、計347テスト成功。Golden一致。ヴォジャニーツァ専用実ブラウザE2EはC4/C1、悠久の歌の倍率、A4共通値と端数保留、reload・Request再計算を成功確認。party provider HP参照・受け手隔離は専用Runtime回帰で確認。

@@ -24,7 +24,10 @@
         provisional70StellarSwirl: "/games/genshin/data/v2/candidates/7.0-provisional-stellar-swirl.json"
     };
 
-    const PROVISIONAL_71_PATH = "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vesna-currentcalc.json";
+    const PROVISIONAL_71_PATHS = {
+        provisional71Vesna: "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vesna-currentcalc.json",
+        provisional71Vodyanitsa: "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vodyanitsa-currentcalc.json"
+    };
 
     const DISPLAY_DATA_PATHS = {
         characters: "/games/genshin/data/characters.json",
@@ -1076,7 +1079,7 @@
         if (cache) return cache;
         const warnings = [];
         const entries = await Promise.all(
-            Object.entries({ ...CALC_PATHS, ...DISPLAY_DATA_PATHS, ...PROVISIONAL_70_PATHS, provisional71Characters: PROVISIONAL_71_PATH }).map(async ([key, path]) => [key, await fetchJson(key, path, warnings)])
+            Object.entries({ ...CALC_PATHS, ...DISPLAY_DATA_PATHS, ...PROVISIONAL_70_PATHS, ...PROVISIONAL_71_PATHS }).map(async ([key, path]) => [key, await fetchJson(key, path, warnings)])
         );
         const data = Object.fromEntries(entries);
         data.provisionalRuntimeSummary = applyProvisional70Data(data, [
@@ -1084,7 +1087,7 @@
             data.provisional70Weapons,
             data.provisional70StellarSwirl
         ], warnings);
-        data.provisional71RuntimeSummary = applyProvisional71Data(data, [data.provisional71Characters], warnings);
+        data.provisional71RuntimeSummary = applyProvisional71Data(data, [data.provisional71Vesna, data.provisional71Vodyanitsa], warnings);
         data.canonicalRuntimeSummary = applyCanonicalRuntime(data, data.canonicalRuntime, warnings, data.versionBaseline, data.upstreamVersionHead);
         data.warnings = warnings.concat(validateCalcData(data));
         cache = data;

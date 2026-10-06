@@ -254,6 +254,9 @@
     function modifierEffectSummary(modifier, context, displayState = {}) {
         if (modifier.display?.effectSummary) return modifier.display.effectSummary;
         if (modifier.effectSummary) return modifier.effectSummary;
+        if (modifier.customCalculation === "scalingAdditiveBaseDamage" && modifier.rounding === "externalSpecPending") {
+            return `基礎ダメージ加算：提供者の最大HP${formatDisplayNumber(modifier.threshold)}超過分${formatDisplayNumber(modifier.divisor)}につき+${formatDisplayNumber(modifier.ratio)}、上限${formatDisplayNumber(modifier.maxValue)}（端数処理は仕様確認中）`;
+        }
         const targets = modifierTargetLabels(modifier);
         const targetCategories = new Set(["damageBonus", "reactionBonus", "reactionBaseDamageBonus", "reactionCritBonus", "critBonus", "statBonus"]);
         const label = targetCategories.has(modifier.category) && targets.length
