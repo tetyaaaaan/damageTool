@@ -427,7 +427,7 @@
             sets.get(key).count += 1;
         });
         return [...sets.values()].filter((set) => set.count >= 2).sort((a, b) => b.count - a.count).map((set) => {
-            const image = set.imageId ? `/games/images/genshin/artifacts/${encodeURIComponent(set.imageId)}.webp` : "/games/images/genshin/fallback.webp";
+            const image = (artifacts || []).find((artifact) => String(artifact.setId || artifact.id || "") === String(set.imageId))?.imagePath || "/games/images/genshin/fallback.webp";
             return `<div class="genshin-uid-summary-row genshin-uid-artifact-row"><img class="genshin-uid-summary-image genshin-uid-artifact-image" src="${escapeHtml(image)}" alt=""><div class="genshin-uid-summary-copy"><strong>${escapeHtml(set.name)}</strong><span>${Math.min(set.count, 4)}セット</span></div></div>`;
         }).join("") || `<div class="genshin-uid-summary-row genshin-uid-artifact-row"><img class="genshin-uid-summary-image genshin-uid-artifact-image" src="/games/images/genshin/fallback.webp" alt=""><div class="genshin-uid-summary-copy"><strong>聖遺物セット未取得</strong></div></div>`;
     }
@@ -445,8 +445,8 @@
 
     function renderUidSummary(character) {
         const weapon = character.weapon || null;
-        const characterImage = `/games/images/genshin/characters/${encodeURIComponent(character.id)}.webp`;
-        const weaponImage = weapon?.id ? `/games/images/genshin/weapons/${encodeURIComponent(weapon.id)}.webp` : "/games/images/genshin/fallback.webp";
+        const characterImage = character.imagePath || "/games/images/genshin/fallback.webp";
+        const weaponImage = weapon?.imagePath || "/games/images/genshin/fallback.webp";
         const elementIcon = ELEMENT_ICON_NAMES[character.element] ? `/games/images/genshin/elements/${ELEMENT_ICON_NAMES[character.element]}.webp` : "";
         const weaponTypeIcon = WEAPON_ICON_NAMES[character.weaponType] ? `/games/images/genshin/ui/weapon-${WEAPON_ICON_NAMES[character.weaponType]}.webp` : "";
         const talents = character.talents || { normal: 1, skill: 1, burst: 1 };
@@ -518,8 +518,8 @@
         const artifactSetType = summarizeArtifactSetType(character.artifacts || []);
         const constellation = `C${toNumber(character.constellation)}`;
         const talents = character.talents || { normal: 1, skill: 1, burst: 1 };
-        const characterImage = `/games/images/genshin/characters/${encodeURIComponent(character.id)}.webp`;
-        const weaponImage = weapon?.id ? `/games/images/genshin/weapons/${encodeURIComponent(weapon.id)}.webp` : "/games/images/genshin/fallback.webp";
+        const characterImage = character.imagePath || "/games/images/genshin/fallback.webp";
+        const weaponImage = weapon?.imagePath || "/games/images/genshin/fallback.webp";
         const elementIcon = ELEMENT_ICON_NAMES[character.element]
             ? `/games/images/genshin/elements/${ELEMENT_ICON_NAMES[character.element]}.webp`
             : "";

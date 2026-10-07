@@ -222,14 +222,16 @@ async function main() {
         await openConditions();
         await evaluate(client,'document.querySelector("[data-condition-tab=weapon]").click()');
         const label=await evaluate(client,'document.getElementById("genshinConditionDialog").innerText');
-        assert.match(label,/仕様確認中/);
+        assert.match(label,/攻撃力増加/);
         const states=[["one",4],["two",8],["three",12],["boostedOne",7],["boostedTwo",14],["boostedThree",21]];
         for(const [state,percent]of states){
             await setState(key,"option",state);await closeConditions();const p=await calculate();
             near(p.context.effectiveStats.hp,off.context.effectiveStats.hp+off.calculationRequest.stats.baseHp*percent/100);
-            near(p.context.effectiveStats.atk,off.context.effectiveStats.atk);
+            const stack=state.includes("Three")||state==="three"?3:state.includes("Two")||state==="two"?2:1;
+            const boost=state.startsWith("boosted")?1.75:1;
+            near(p.context.effectiveStats.atk,off.context.effectiveStats.atk+off.calculationRequest.stats.baseAtk*Math.min(Math.max(0,p.context.effectiveStats.hp-40000)/1000*.4,8)*stack*boost/100);
             for(const r of hpRows)assert.ok(entry(p,r.entry.id).expected>r.expected);
-            assert.ok(p.warnings.some(w=>w.weaponId==="14524"&&/仕様確認中/.test(w.message)));
+            assert.ok(p.warnings.some(w=>w.weaponId==="14524"&&/暫定仕様/.test(w.message)));
             await replay();await openConditions();
         }
         await closeConditions();const on=await calculate();await reload(on);
@@ -250,7 +252,7 @@ async function main() {
         const text=await evaluate(client,'document.body.innerText');
         assert.doesNotMatch(text,/provisional71_w|stellarSwirl|hpPerStack|atkPer1000Hp/,"no internal keys in user UI");
         assert.equal(await evaluate(client,'Boolean(document.getElementById("genshinCurrentCalcExportButton"))'),false);
-        progress("PASS Hymn confirmed HP states, R1/R5, HP talent damage, ATK pending disclosure, OFF/switch isolation, reload and Request replay");
+        progress("PASS Hymn provisional HP/ATK states, R1/R5, real damage, concise notice, OFF/switch isolation, reload and Request replay");
     } finally {
         try { client?.socket.close(); } catch {}
         if (browser && !browser.killed) {

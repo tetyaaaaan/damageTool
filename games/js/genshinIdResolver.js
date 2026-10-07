@@ -13,6 +13,7 @@
     };
     const PROVISIONAL_PATHS = [
         "/games/genshin/data/v2/candidates/7.0-provisional-characters.json",
+        "/games/genshin/data/v2/candidates/7.0-provisional-traveler-cryo.json",
         "/games/genshin/data/v2/candidates/7.0-provisional-weapons.json",
         "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vesna-currentcalc.json",
         "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vodyanitsa-currentcalc.json",
@@ -86,6 +87,18 @@
                     }
                 ]));
             }
+            const directCharacters = document.directcharacters || document.directCharacters || document.charactersById;
+            if (directCharacters && typeof directCharacters === "object" && !Array.isArray(directCharacters)) {
+                Object.entries(directCharacters).forEach(([id, value]) => {
+                    if (!Object.prototype.hasOwnProperty.call(data.characters, id)) {
+                        data.characters[id] = {
+                            ...value,
+                            dataStatus: "provisional",
+                            verificationLabel: document.labelJa || "検証中"
+                        };
+                    }
+                });
+            }
             ["characters", "characterTalents", "characterConstellations", "weapons", "weaponEffects"].forEach((key) => {
                 Object.entries(document[key] || {}).forEach(([id, value]) => {
                     if (!Object.prototype.hasOwnProperty.call(data[key], id)) {
@@ -147,6 +160,29 @@
         return findEntry(data.artifactSets, id);
     }
 
+    function imagePathFor(kind, id) {
+        const normalizedId = normalizeId(id);
+        if (!normalizedId) return "";
+        const collections = {
+            character: data.characters,
+            weapon: data.weapons,
+            artifactSet: data.artifactSets
+        };
+        const folders = { character: "characters", weapon: "weapons", artifactSet: "artifacts" };
+        const entry = findEntry(collections[kind] || {}, normalizedId);
+        const mappedPath = typeof entry?.imagePath === "string" ? entry.imagePath.trim() : "";
+        if (mappedPath) {
+            const localPath = mappedPath.replace(/^\/?games\/images\/genshin\//, "/games/images/genshin/");
+            if (localPath.startsWith("/games/images/genshin/")) return localPath;
+        }
+        const folder = folders[kind];
+        return folder ? `/games/images/genshin/${folder}/${encodeURIComponent(normalizedId)}.webp` : "";
+    }
+
+    function resolveCharacterImagePath(id) { return imagePathFor("character", id); }
+    function resolveWeaponImagePath(id) { return imagePathFor("weapon", id); }
+    function resolveArtifactSetImagePath(id) { return imagePathFor("artifactSet", id); }
+
     function resolveArtifactSetEffect(id) {
         return findEntry(data.artifactSetEffects, id);
     }
@@ -173,6 +209,9 @@
         resolveWeaponEffect,
         resolveArtifactSet,
         resolveArtifactSetEffect,
+        resolveCharacterImagePath,
+        resolveWeaponImagePath,
+        resolveArtifactSetImagePath,
         listCharacters,
         listWeapons,
         listArtifactSets

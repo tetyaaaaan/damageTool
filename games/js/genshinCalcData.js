@@ -19,6 +19,7 @@
     };
 
     const PROVISIONAL_70_PATHS = {
+        provisional70TravelerCryo: "/games/genshin/data/v2/candidates/7.0-provisional-traveler-cryo.json",
         provisional70Characters: "/games/genshin/data/v2/candidates/7.0-provisional-characters.json",
         provisional70Weapons: "/games/genshin/data/v2/candidates/7.0-provisional-weapons.json",
         provisional70StellarSwirl: "/games/genshin/data/v2/candidates/7.0-provisional-stellar-swirl.json"
@@ -154,6 +155,7 @@
             "value",
             "valueByRefinement",
             "valueByRefinementPerStack",
+            "valueByRefinementByCondition",
             "valueByStack",
             "valueByLevel",
             "valuePerStack",
@@ -989,7 +991,13 @@
                 "talentScalings", "talentModifiers", "constellationModifiers",
                 "weaponEffects", "weaponModifiers"
             ].forEach((dataset) => mergeMissingMap(dataset, document[dataset], document));
-            if (targetVersion === "7.1") {
+            if (targetVersion === "7.0" && Object.keys(document.provisionalCurrentCalcSpecs || {}).length) {
+                Object.keys(document.characters || {}).forEach((characterId) => warnings.push({
+                    level: "info", kind: "provisional", characterId,
+                    message: "このキャラクターの一部効果は暫定仕様で計算しています。"
+                }));
+            }
+            if (document.attackModeRules?.characters) {
                 data.attackModeRules ||= {};
                 data.attackModeRules.characters ||= {};
                 Object.entries(document.attackModeRules?.characters || {}).forEach(([id, rule]) => {
@@ -1048,12 +1056,20 @@
         const summary = applyProvisional70Data(data, documents, warnings, "7.1");
         (documents || []).filter((document) => provisionalDocumentReady(document, "7.1")).forEach((document) => {
             Object.entries(document.characters || {}).forEach(([characterId, character]) => {
+                if (Object.keys(document.provisionalCurrentCalcSpecs || {}).length) warnings.push({
+                    level: "info", kind: "provisional", characterId,
+                    message: "このキャラクターの一部効果は暫定仕様で計算しています。"
+                });
                 if (document.deferredUnknowns?.length) warnings.push({
                     level: "warn", characterId,
                     message: `${character.nameJa || "このキャラクター"}は一部効果の仕様確認中です。未確定効果を含む完全なダメージは未対応です。`
                 });
             });
             Object.entries(document.weapons || {}).forEach(([weaponId, weapon]) => {
+                if (weapon.currentCalcSpec?.status === "provisional") warnings.push({
+                    level: "info", kind: "provisional", weaponId,
+                    message: "この武器効果の一部は暫定仕様で計算しています。"
+                });
                 if (document.deferredUnknowns?.some((item) => String(item.weaponId) === weaponId)) warnings.push({
                     level: "warn", weaponId,
                     message: weapon.pendingResultMessageJa || `${weapon.nameJa || "この武器"}のHP由来ATK補正は仕様確認中です。表示ダメージには確定済み効果のみ反映し、ATK部分は適用していません。`
@@ -1092,6 +1108,7 @@
         );
         const data = Object.fromEntries(entries);
         data.provisionalRuntimeSummary = applyProvisional70Data(data, [
+            data.provisional70TravelerCryo,
             data.provisional70Characters,
             data.provisional70Weapons,
             data.provisional70StellarSwirl

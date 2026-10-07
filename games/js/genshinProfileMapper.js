@@ -421,6 +421,27 @@
         return pickText(entry?.[key], fallback);
     }
 
+    function resolveImagePath(kind, id) {
+        const resolver = window.GenshinIdResolver;
+        const method = {
+            character: "resolveCharacterImagePath",
+            weapon: "resolveWeaponImagePath",
+            artifactSet: "resolveArtifactSetImagePath"
+        }[kind];
+        return method && typeof resolver?.[method] === "function" ? pickText(resolver[method](id), "") : "";
+    }
+
+    function resolveUidCharacterId(avatarId, skillDepotId) {
+        const resolver = window.GenshinIdResolver;
+        const rawId = String(avatarId || "");
+        const depotId = String(skillDepotId || "");
+        if (!rawId || !depotId || typeof resolver?.listCharacters !== "function") return rawId;
+        const alias = resolver.listCharacters().find((entry) =>
+            String(entry?.rawCharacterId || "") === rawId && String(entry?.skillDepotId || "") === depotId
+        );
+        return String(alias?.id || rawId);
+    }
+
     function readArtifactSetId(item) {
         return String(
             item?.flat?.setId ||
@@ -472,6 +493,7 @@
         const id = String(weapon.itemId || "-");
         return {
             id,
+            imagePath: resolveImagePath("weapon", id),
             name: resolveNameFromJson("weapon", id, pickFlatName(weapon.flat, ""), "武器"),
             level: pickNumber(weapon.weapon?.level),
             // Enka-compatible profile responses expose weapon affix ranks as 0..4,
@@ -497,6 +519,7 @@
                 return {
                     id,
                     setId,
+                    imagePath: resolveImagePath("artifactSet", setId),
                     name: pickFlatName(item.flat, setName || unsupportedName("聖遺物", id)),
                     level: pickNumber(item.reliquary?.level),
                     slot: pickText(EQUIP_TYPE_NAMES[item.flat?.equipType] || item.flat?.equipType, "-"),
@@ -508,7 +531,9 @@
 
     function mapCharacter(avatar) {
         const elementDamageStats = mapElementDamageStats(avatar);
-        const avatarId = String(avatar?.avatarId || "-");
+        const rawAvatarId = String(avatar?.avatarId || "-");
+        const skillDepotId = String(avatar?.skillDepotId || "");
+        const avatarId = resolveUidCharacterId(rawAvatarId, skillDepotId);
         const level = readPropMapValue(avatar, 4001);
         const mappedName = resolveNameFromJson("character", avatarId, pickLocalizedName(avatar?.flat?.nameTextMap) || CHARACTER_NAME_BY_AVATAR_ID_JA[avatarId], "キャラクター");
         const characterElement = resolveCharacterElement(avatarId);
@@ -519,6 +544,7 @@
             schemaVersion: 2,
             source: "uidProfile",
             id: avatarId,
+            imagePath: resolveImagePath("character", rawAvatarId),
             name: mappedName,
             level,
             element: characterElement,
@@ -545,7 +571,7 @@
             },
             provenance: {
                 source: "uidProfile",
-                rawCharacterId: avatarId,
+                rawCharacterId: rawAvatarId,
                 includesPersistentBonuses: true,
                 additivePolicy: "externalModifiersOnly",
                 talentLevelMapping: talentLevelMapping.mapping

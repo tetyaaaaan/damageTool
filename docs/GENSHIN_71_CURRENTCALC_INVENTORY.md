@@ -1,5 +1,7 @@
 # 7.1 CurrentCalc 限定棚卸し
 
+現在の実用判定は[実用CurrentCalc公開判定](GENSHIN_PRACTICAL_CURRENTCALC_STATUS.md)を参照。既知8項目は根拠付き暫定仕様として実計算へ接続する方針へ変更した。以下のexternalSpecPending記録は以前の判断履歴であり、現在の非計算状態を示すものではない。
+
 基準HEAD: `0594d21`。全件監査・canonical昇格を行わず、既知正常系を維持する。
 
 ## 根拠と保存資料

@@ -267,10 +267,10 @@ async function main() {
         await input("genshinHpInput",50500);
         const pending=await calculate();
         const pendingRow=entry(pending,ordinary.entry.id);
-        assert.equal(pendingRow.expected,0,"divergent A4 rounding has no guessed damage");
-        assert.ok(pendingRow.problems.some(problem=>/端数処理/.test(problem)),"A4 explains the unresolved rounding");
+        assert.ok(pendingRow.expected>ordinary.expected,"continuous A4 raises real damage at intermediate HP");
+        assert.equal(pendingRow.breakdown.additiveBaseDamage,1470,"provisional continuous A4 at HP50500");
         const pendingText=await evaluate(client,'document.body.innerText');
-        assert.match(pendingText,/端数処理|仕様確認中/,"pending A4 has a user-facing explanation");
+        assert.match(pendingText,/暫定仕様/,"provisional A4 has a concise user-facing explanation");
         assert.doesNotMatch(pendingText,/externalConfirmationRequired|deferredUnknown/,"internal pending enums stay hidden");
         await replay();
         const ownSnapshot=resultSignature(pending);
@@ -289,8 +289,34 @@ async function main() {
         assert.deepEqual(resultSignature(ownReload),ownSnapshot,"reload preserves actual and pending damage");
         await replay();
         assert.equal(ownReload.context.effectiveStats.hp,50500,"reload restores provider HP");
-        assert.ok(ownReload.results.some(row=>row.problems?.some(problem=>/端数処理/.test(problem))),"reload keeps A4 pending");
-        progress("PASS Vodyanitsa C4/C1, confirmed Song multiplier, A4 additive/pending isolation, reload and Request replay; party transfer covered by dedicated Runtime tests");
+        assert.equal(entry(ownReload,ordinary.entry.id).breakdown.additiveBaseDamage,1470,"reload keeps continuous A4");
+        await evaluate(client,'document.querySelector("[data-selection-target=genshinWeaponInput]").click()');
+        await waitFor(client,'Boolean(document.querySelector("[data-selection-id=\\"14524\\"]"))');
+        await evaluate(client,'document.querySelector("[data-selection-id=\\"14524\\"]").click()');
+        await input("genshinWeaponRefinement","R1");await input("genshinHpInput",50500);
+        await openConditions();await evaluate(client,'document.querySelector("[data-condition-tab=weapon]").click()');
+        const hymnKey="weapon:14524:group:provisional71_w14524_mead_state";
+        await setState(hymnKey,"option","inactive");await evaluate(client,'document.getElementById("genshinConditionDialog").close()');
+        const hymnOff=await calculate();
+        await openConditions();await setState(hymnKey,"option","boostedThree");await evaluate(client,'document.getElementById("genshinConditionDialog").close()');
+        const hymnOn=await calculate();
+        assert.ok(hymnOn.context.effectiveStats.atk>hymnOff.context.effectiveStats.atk,"Hymn major party ATK effect is applied to the on-fielder");
+        const rankPercent=Math.min((hymnOn.context.effectiveStats.hp-40000)/1000*.4,8)*3*1.75;
+        const atkTransfer=hymnOn.statTrace.find(t=>t.modifierId==="provisional71_w14524_atk_pending");
+        assert.ok(atkTransfer);assert.ok(Math.abs(atkTransfer.value-hymnOff.calculationRequest.stats.baseAtk*rankPercent/100)<1e-7,"Hymn transfer is separate from C1 HP-derived ATK");
+        const atkTrace=hymnOn.statTrace.filter(t=>t.stat==="atk").reduce((sum,t)=>sum+t.value,0);
+        assert.ok(Math.abs(hymnOn.context.effectiveStats.atk-hymnOn.calculationRequest.stats.atk-atkTrace)<1e-7);
+        const combined=entry(hymnOn,ordinary.entry.id);
+        assert.equal(combined.problems.length,0);assert.ok(combined.expected>0);
+        assert.ok(Math.abs(combined.breakdown.additiveBaseDamage-Math.min(Math.max(0,hymnOn.context.effectiveStats.hp-40000)/1000*140,3500))<1e-7);
+        const visible=await evaluate(client,'document.body.innerText');
+        assert.doesNotMatch(visible,/weaponModifiers\.|provisional71_|stellarSwirl|externalSpecPending|data\/v2\//);
+        assert.match(visible,/暫定仕様/);
+        await replay();const combinedSignature=resultSignature(hymnOn);
+        await evaluate(client,'location.reload()');await waitFor(client,'document.getElementById("genshinCalcWeaponId")?.value==="14524"');
+        await evaluate(client,'(()=>{const original=window.GenshinCalcEngine.runGenshinJsonCalc.bind(window.GenshinCalcEngine);window.GenshinCalcEngine.runGenshinJsonCalc=async(...args)=>{const p=await original(...args);window.__vodyanitsaCurrentPayload=p;return p;};})()');
+        const combinedReload=await calculate();assert.deepEqual(resultSignature(combinedReload),combinedSignature);await replay();
+        progress("PASS Vodyanitsa + Hymn major provisional effects, continuous A4, premod party ATK, UI key isolation, reload and Request replay");
     } finally {
         try { client?.socket.close(); } catch {}
         if (browser && !browser.killed) {

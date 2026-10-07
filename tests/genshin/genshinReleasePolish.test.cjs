@@ -14,6 +14,27 @@ test("public state controls offer automatic restoration without developer JSON a
     assert.match(html, /前回入力.*自動保存/);
 });
 
+test("public provisional notes are compact and never expose diagnostic keys", () => {
+    const { sandbox, elements } = fixture();
+    const classes = new Set();
+    const wrap = elements.genshinJsonCalcWarnings = {
+        innerHTML: "", hidden: false,
+        classList: { toggle(name, on) { if (on) classes.add(name); else classes.delete(name); } }
+    };
+    sandbox.GenshinCalcRenderer.renderWarnings([
+        { level: "warn", message: "weaponModifiers.14524.provisional71_w14524_atk_pending" },
+        { level: "warn", message: "/games/genshin/data/weapon-effects.json" },
+        { level: "warn", message: "stellarSwirl / cryo" },
+        { level: "info", message: "この武器効果の一部は暫定仕様で計算しています。" },
+        { level: "info", message: "この武器効果の一部は暫定仕様で計算しています。" }
+    ]);
+    assert.equal(wrap.hidden, false);
+    assert.ok(classes.has("is-provisional"));
+    assert.equal((wrap.innerHTML.match(/<li>/g) || []).length, 1);
+    assert.match(wrap.innerHTML, /暫定仕様/);
+    assert.doesNotMatch(wrap.innerHTML, /weaponModifiers|provisional71|\.json|stellarSwirl|cryo/);
+});
+
 function fixture(characterId = "10000096", constellation = 6) {
     const harness = createScenarioHarness();
     prepareScenarioInputs(harness.elements, { characterId, constellation });

@@ -1,5 +1,9 @@
 # 原神CurrentCalc Release Gate
 
+## 現在の実用公開判定
+
+`c71b63b`の完成判定は再オープンした。[実用CurrentCalc公開判定](GENSHIN_PRACTICAL_CURRENTCALC_STATUS.md)を最新方針とする。以下の旧checkpoint記録は履歴であり、主要効果を未計算にした対象の公開完了を意味しない。
+
 ## 公開判定の範囲
 
 Release Candidate基準点は `6f177be`（2026-10-05）。専用focused suiteは44ファイル・282テスト成功、Golden一致、Release blocker 0、代表ブラウザフローのP0/P1/P2は0として確認済み。件数はこの基準点の実績であり、将来の合否条件にはしない。
@@ -66,9 +70,14 @@ $gateNames = @(
     '71WeaponCurrentCalc',
     '71HymnCurrentCalc',
     '71WeaponBatch2CurrentCalc',
-    '71StellarCompatibility'
+    '71StellarCompatibility',
+    'UidAssetPaths',
+    'TravelerCryoCurrentCalc'
 )
 $gateFiles = $gateNames | ForEach-Object { "tests/genshin/genshin$_.test.cjs" }
+foreach ($gateFile in $gateFiles) {
+    if (-not (Test-Path -LiteralPath $gateFile)) { throw "Release Gate file missing: $gateFile" }
+}
 node --test @gateFiles
 if ($LASTEXITCODE -ne 0) { throw 'CurrentCalc focused Release Gate failed' }
 ```
@@ -100,6 +109,8 @@ node tests/genshin/genshinVesnaCurrentCalc.e2e.cjs
 node tests/genshin/genshinVodyanitsaCurrentCalc.e2e.cjs
 node tests/genshin/genshin71WeaponCurrentCalc.e2e.cjs
 node tests/genshin/genshin71HymnCurrentCalc.e2e.cjs
+node tests/genshin/genshinUidAssetPaths.e2e.cjs
+node tests/genshin/genshinCryoTravelerCurrentCalc.e2e.cjs
 node tests/genshin/genshin71WeaponBatch2CurrentCalc.e2e.cjs
 node tests/genshin/genshin71StellarCompatibility.e2e.cjs
 ```

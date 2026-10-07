@@ -9,7 +9,7 @@
   "verificationComplete": false,
   "runtimeConnected": false,
   "failClosedCanonical": true,
-  "labelJa": "暫定計算",
+  "labelJa": "暫定仕様",
   "sourceRefs": [
     "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
   ],
@@ -18,12 +18,25 @@
       "nameJa": "旋流の讃美歌",
       "weaponType": "法器",
       "rarity": 5,
-      "imagePath": "/games/images/genshin/ui/weapon-catalyst.webp",
+      "imagePath": "games/images/genshin/weapons/14524.webp",
       "gameVersion": "7.1",
       "currentCalcStatus": "implementationCheckpoint",
       "sourceRefs": [
         "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
-      ]
+      ],
+      "currentCalcSpec": {
+        "status": "provisional",
+        "targetGameVersion": "7.1",
+        "confidence": "implementationAndMechanicsSupported",
+        "sourceRevision": "7d55317",
+        "sourceSha256": "21657b11ddbab3a0513d523d1b98df5acb3f029af13ad0329866cd3bb2194556",
+        "sourceRefs": [
+          "https://github.com/frzyc/genshin-optimizer/blob/7d55317/libs/gi/sheets/src/Weapons/Catalyst/HymnOfTheMaelstrom/index.tsx",
+          "https://keqingmains.com/q/vodyanitsa-quickguide/"
+        ],
+        "formula": "stacks * min(max(providerPremodHP - 40000, 0) / 1000 * rankRate, rankCap) * amplification",
+        "referenceContract": "Provider current HP after this weapon conditional HP contribution (GO premod.hp includes premod.hp_). Apply HP once, then calculate ATK; no recursive conversion."
+      }
     }
   },
   "baseStats": {
@@ -186,8 +199,8 @@
         },
         {
           "id": "provisional71_w14524_atk_pending",
-          "effectLabel": "真実を告げる蜜酒・出場キャラATK（仕様確認中）",
-          "category": "scalingBonus",
+          "effectLabel": "真実を告げる蜜酒・出場キャラ攻撃力",
+          "category": "statBonus",
           "applyTo": [
             "atkPercent"
           ],
@@ -196,15 +209,128 @@
           "targetOwner": "activeCharacter",
           "reference": {
             "stat": "hp",
-            "source": "self"
+            "source": "self",
+            "includeAppliedStatBonuses": true,
+            "includeProviderConditionalStats": true
           },
-          "calculationSupport": "displayOnly",
-          "uidHandling": "displayOnly",
-          "customCalculation": "externalSpecPending",
-          "effectSummary": "装備者HP由来の出場キャラATK補正は、端数処理・層数と上限・HP参照時点の仕様確認中です。計算には適用しません。",
+          "calculationSupport": "special",
+          "uidHandling": "conditional",
+          "customCalculation": "thresholdReferencePercent",
           "sourceRefs": [
             "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
-          ]
+          ],
+          "threshold": 40000,
+          "divisor": 1000,
+          "percentBaseOwner": "recipient",
+          "currentCalcSpec": {
+            "status": "provisional",
+            "targetGameVersion": "7.1",
+            "confidence": "implementationAndMechanicsSupported",
+            "sourceRevision": "7d55317",
+            "sourceSha256": "21657b11ddbab3a0513d523d1b98df5acb3f029af13ad0329866cd3bb2194556",
+            "sourceRefs": [
+              "https://github.com/frzyc/genshin-optimizer/blob/7d55317/libs/gi/sheets/src/Weapons/Catalyst/HymnOfTheMaelstrom/index.tsx",
+              "https://keqingmains.com/q/vodyanitsa-quickguide/"
+            ],
+            "formula": "stacks * min(max(providerPremodHP - 40000, 0) / 1000 * rankRate, rankCap) * amplification",
+            "referenceContract": "Provider current HP after this weapon conditional HP contribution (GO premod.hp includes premod.hp_). Apply HP once, then calculate ATK; no recursive conversion."
+          },
+          "valueByRefinementByCondition": {
+            "1": {
+              "inactive": 0,
+              "one": 0.4,
+              "two": 0.8,
+              "three": 1.2000000000000002,
+              "boostedOne": 0.7000000000000001,
+              "boostedTwo": 1.4000000000000001,
+              "boostedThree": 2.1000000000000005
+            },
+            "2": {
+              "inactive": 0,
+              "one": 0.5,
+              "two": 1,
+              "three": 1.5,
+              "boostedOne": 0.875,
+              "boostedTwo": 1.75,
+              "boostedThree": 2.625
+            },
+            "3": {
+              "inactive": 0,
+              "one": 0.6,
+              "two": 1.2,
+              "three": 1.7999999999999998,
+              "boostedOne": 1.05,
+              "boostedTwo": 2.1,
+              "boostedThree": 3.1499999999999995
+            },
+            "4": {
+              "inactive": 0,
+              "one": 0.7,
+              "two": 1.4,
+              "three": 2.0999999999999996,
+              "boostedOne": 1.2249999999999999,
+              "boostedTwo": 2.4499999999999997,
+              "boostedThree": 3.6749999999999994
+            },
+            "5": {
+              "inactive": 0,
+              "one": 0.8,
+              "two": 1.6,
+              "three": 2.4000000000000004,
+              "boostedOne": 1.4000000000000001,
+              "boostedTwo": 2.8000000000000003,
+              "boostedThree": 4.200000000000001
+            }
+          },
+          "maxValueByRefinementByCondition": {
+            "1": {
+              "inactive": 0,
+              "one": 8,
+              "two": 16,
+              "three": 24,
+              "boostedOne": 14,
+              "boostedTwo": 28,
+              "boostedThree": 42
+            },
+            "2": {
+              "inactive": 0,
+              "one": 10,
+              "two": 20,
+              "three": 30,
+              "boostedOne": 17.5,
+              "boostedTwo": 35,
+              "boostedThree": 52.5
+            },
+            "3": {
+              "inactive": 0,
+              "one": 12,
+              "two": 24,
+              "three": 36,
+              "boostedOne": 21,
+              "boostedTwo": 42,
+              "boostedThree": 63
+            },
+            "4": {
+              "inactive": 0,
+              "one": 14,
+              "two": 28,
+              "three": 42,
+              "boostedOne": 24.5,
+              "boostedTwo": 49,
+              "boostedThree": 73.5
+            },
+            "5": {
+              "inactive": 0,
+              "one": 16,
+              "two": 32,
+              "three": 48,
+              "boostedOne": 28,
+              "boostedTwo": 56,
+              "boostedThree": 84
+            }
+          },
+          "conditionInputActivates": true,
+          "effectSummary": "武器効果を反映した装備者の最大HP40,000超過分から、出場キャラの攻撃力増加を計算。現在の層数と凍結／星拡散後の増幅を反映します。"
         }
       ]
     }
@@ -216,7 +342,7 @@
           {
             "id": "provisional71_w14524_mead_state",
             "name": "真実を告げる蜜酒の現在状態",
-            "description": "治療後の現在の層数と、凍結／星拡散後の75%増幅状態をまとめて指定します。自己HP増加のみ反映し、ATK部分は仕様確認中です。",
+            "description": "治療後の現在の層数と凍結／星拡散後の増幅状態。自己HP増加と出場キャラ攻撃力増加に同じ状態を使用します。",
             "targetOwner": "self",
             "inputPolicy": "calculate",
             "activation": {
@@ -256,22 +382,14 @@
               ]
             },
             "modifierIds": [
-              "provisional71_w14524_hp"
-            ]
-          },
-          {
-            "id": "provisional71_w14524_atk_spec_pending",
-            "name": "HP由来ATK補正の仕様確認",
-            "description": "表示ダメージは確定済み効果のみを使用しています。装備者のHPを参照するparty ATK部分は未適用です。",
-            "targetOwner": "activeCharacter",
-            "inputPolicy": "displayOnly",
-            "activation": {
-              "type": "displayOnly",
-              "label": "ATK補正の仕様確認中"
-            },
-            "modifierIds": [
+              "provisional71_w14524_hp",
               "provisional71_w14524_atk_pending"
-            ]
+            ],
+            "modifierOverrides": {
+              "provisional71_w14524_atk_pending": {
+                "targetOwner": "activeCharacter"
+              }
+            }
           }
         ]
       }
@@ -279,7 +397,7 @@
   },
   "currentCalcClassification": {
     "14524": {
-      "status": "implementationCheckpoint",
+      "status": "provisionalCalculable",
       "siteReady": false,
       "supported": [
         "基礎ATKとHP副statの標準成長",
@@ -294,12 +412,31 @@
         "10秒/5秒の時間管理",
         "発動時点と個別層のsnapshot時間追跡"
       ],
-      "externalSpecPending": [
-        "party ATKのHP端数・層数/cap・HP参照時点"
-      ]
+      "externalSpecPending": []
     }
   },
-  "deferredUnknowns": [
+  "deferredUnknowns": [],
+  "provisionalCurrentCalcSpecs": {
+    "partyATK": {
+      "status": "provisional",
+      "targetGameVersion": "7.1",
+      "confidence": "implementationAndMechanicsSupported",
+      "sourceRevision": "7d55317",
+      "sourceSha256": "21657b11ddbab3a0513d523d1b98df5acb3f029af13ad0329866cd3bb2194556",
+      "sourceRefs": [
+        "https://github.com/frzyc/genshin-optimizer/blob/7d55317/libs/gi/sheets/src/Weapons/Catalyst/HymnOfTheMaelstrom/index.tsx",
+        "https://keqingmains.com/q/vodyanitsa-quickguide/"
+      ],
+      "formula": "stacks * min(max(providerPremodHP - 40000, 0) / 1000 * rankRate, rankCap) * amplification",
+      "referenceContract": "Provider current HP after this weapon conditional HP contribution (GO premod.hp includes premod.hp_). Apply HP once, then calculate ATK; no recursive conversion.",
+      "referenceEvidence": {
+        "sourceUrl": "https://github.com/frzyc/genshin-optimizer/blob/7d553170cf076e656937a3df2228d474b1a3798d/libs/gi/wr/src/formula.ts",
+        "sourcePath": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/weapon-currentcalc-provisional/go-formula.ts",
+        "sha256": "30570800ea3d1626cb9305a5dc61bc570eaa6617fa1fed3a607b94b5d2449e2e"
+      }
+    }
+  },
+  "resolvedProvisionalUnknowns": [
     {
       "weaponId": "14524",
       "effectId": "provisional71_w14524_atk_pending",
@@ -327,5 +464,7 @@
       "sourceRef": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json",
       "note": "75%増幅はHP/ATKの増加量を強化する状態であり、reactionBonusやElevationではない。ATKをrecipient HPで代用せず、未確定式はRuntimeへ適用しない。"
     }
-  ]
+  ],
+  "practicalCurrentCalcStatus": "provisionalCalculable",
+  "siteReady": false
 }

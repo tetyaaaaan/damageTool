@@ -18,7 +18,7 @@
       "nameJa": "銀灯",
       "weaponType": "片手剣",
       "rarity": 4,
-      "imagePath": "/games/images/genshin/ui/weapon-sword.webp",
+      "imagePath": "games/images/genshin/weapons/11438.webp",
       "sourceRefs": [
         "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
       ],
@@ -28,7 +28,7 @@
       "nameJa": "蝶の羽化",
       "weaponType": "片手剣",
       "rarity": 5,
-      "imagePath": "/games/images/genshin/ui/weapon-sword.webp",
+      "imagePath": "games/images/genshin/weapons/11522.webp",
       "sourceRefs": [
         "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
       ],

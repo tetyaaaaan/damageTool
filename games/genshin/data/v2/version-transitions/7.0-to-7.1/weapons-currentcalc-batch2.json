@@ -18,19 +18,29 @@
       "nameJa": "新たなる枝",
       "weaponType": "片手剣",
       "rarity": 4,
-      "imagePath": "/games/images/genshin/ui/weapon-sword.webp",
+      "imagePath": "games/images/genshin/weapons/11437.webp",
       "gameVersion": "7.1",
       "currentCalcStatus": "implementationCheckpoint",
       "sourceRefs": [
         "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
       ],
-      "pendingResultMessageJa": "新たなる枝の星反応補正と層数の関係は仕様確認中です。表示ダメージは確定済み効果のみ反映し、この星反応補正は適用していません。"
+      "currentCalcSpec": {
+        "status": "provisional",
+        "targetGameVersion": "7.1",
+        "confidence": "implementationSupported",
+        "sourceRevision": "7d55317",
+        "sourceSha256": "ab1f8fd32fb68aa07857dea3c5cebab1888f5302d4e18c60431f322b020e3e7d",
+        "sourceRefs": [
+          "https://github.com/frzyc/genshin-optimizer/blob/7d55317/libs/gi/sheets/src/Weapons/Sword/NewBough/index.tsx"
+        ],
+        "formula": "currentStacks * rankBonus"
+      }
     },
     "14437": {
       "nameJa": "雪に沈む心",
       "weaponType": "法器",
       "rarity": 4,
-      "imagePath": "/games/images/genshin/ui/weapon-catalyst.webp",
+      "imagePath": "games/images/genshin/weapons/14437.webp",
       "gameVersion": "7.1",
       "currentCalcStatus": "Site Ready",
       "sourceRefs": [
@@ -41,7 +51,7 @@
       "nameJa": "風に遊ぶ弦",
       "weaponType": "弓",
       "rarity": 4,
-      "imagePath": "/games/images/genshin/ui/weapon-bow.webp",
+      "imagePath": "games/images/genshin/weapons/15437.webp",
       "gameVersion": "7.1",
       "currentCalcStatus": "Site Ready",
       "sourceRefs": [
@@ -415,16 +425,16 @@
         },
         {
           "id": "provisional71_w11437_growth_star_pending",
-          "effectLabel": "輝映・星閃の星反応補正（仕様確認中）",
+          "effectLabel": "輝映・星閃の星反応補正",
           "category": "reactionBonus",
           "applyTo": [
             "stellarReactions"
           ],
           "unit": "percent",
           "targetOwner": "self",
-          "calculationSupport": "displayOnly",
-          "uidHandling": "displayOnly",
-          "sourceText": "輝映・星閃の星反応補正（仕様確認中）",
+          "calculationSupport": "special",
+          "uidHandling": "conditional",
+          "sourceText": "輝映・星閃の現在の繁茂層数による星反応補正",
           "sourceRefs": [
             "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/inventory-selected-records.json"
           ],
@@ -434,7 +444,45 @@
             "radiant2",
             "radiant3"
           ],
-          "customCalculation": "externalSpecPending"
+          "currentCalcSpec": {
+            "status": "provisional",
+            "targetGameVersion": "7.1",
+            "confidence": "implementationSupported",
+            "sourceRevision": "7d55317",
+            "sourceSha256": "ab1f8fd32fb68aa07857dea3c5cebab1888f5302d4e18c60431f322b020e3e7d",
+            "sourceRefs": [
+              "https://github.com/frzyc/genshin-optimizer/blob/7d55317/libs/gi/sheets/src/Weapons/Sword/NewBough/index.tsx"
+            ],
+            "formula": "currentStacks * rankBonus"
+          },
+          "valueByRefinementByCondition": {
+            "1": {
+              "radiant1": 8,
+              "radiant2": 16,
+              "radiant3": 24
+            },
+            "2": {
+              "radiant1": 10,
+              "radiant2": 20,
+              "radiant3": 30
+            },
+            "3": {
+              "radiant1": 12,
+              "radiant2": 24,
+              "radiant3": 36
+            },
+            "4": {
+              "radiant1": 14,
+              "radiant2": 28,
+              "radiant3": 42
+            },
+            "5": {
+              "radiant1": 16,
+              "radiant2": 32,
+              "radiant3": 48
+            }
+          },
+          "conditionInputActivates": true
         }
       ]
     },
@@ -634,7 +682,7 @@
           {
             "id": "provisional71_w11437_growth_state",
             "name": "繁茂",
-            "description": "スキル発動後に獲得した現在の層数と輝映状態を選択します。輝映中は通常の元素熟知増加を適用しません。星反応補正の層数との関係は仕様確認中のため未適用です。",
+            "description": "元素スキル後の現在の繁茂層数と輝映状態。輝映中は攻撃力と星反応補正に同じ層数を使用します。",
             "targetOwner": "self",
             "inputPolicy": "calculate",
             "activation": {
@@ -675,20 +723,7 @@
             },
             "modifierIds": [
               "provisional71_w11437_growth_atk",
-              "provisional71_w11437_growth_em"
-            ]
-          },
-          {
-            "id": "provisional71_w11437_star_pending",
-            "name": "星反応補正の仕様確認",
-            "description": "星反応補正が固定値か層数倍かは仕様確認中です。表示ダメージにこの補正は含めていません。",
-            "targetOwner": "self",
-            "inputPolicy": "displayOnly",
-            "activation": {
-              "type": "displayOnly",
-              "label": "仕様確認中"
-            },
-            "modifierIds": [
+              "provisional71_w11437_growth_em",
               "provisional71_w11437_growth_star_pending"
             ]
           }
@@ -730,8 +765,8 @@
       "15437": {
         "groups": [
           {
-          "id": "provisional71_w15437_hymn_state",
-          "partyTargetingResolved": true,
+            "id": "provisional71_w15437_hymn_state",
+            "partyTargetingResolved": true,
             "name": "純潔なる者の聖歌／蛇舌の猛毒",
             "description": "3層到達後は聖歌を消費した発動中状態を選びます。本人を含むチームの星反応だけに適用します。",
             "targetOwner": "team",
@@ -783,7 +818,7 @@
   },
   "currentCalcClassification": {
     "11437": {
-      "status": "implementationCheckpoint",
+      "status": "provisionalCalculable",
       "siteReady": false,
       "supported": [
         "基礎値/副stat全Lvと突破",
@@ -796,9 +831,7 @@
         "1秒発動制限",
         "個別層6秒の取得/失効"
       ],
-      "externalSpecPending": [
-        "星反応補正と繁茂層数の関係"
-      ]
+      "externalSpecPending": []
     },
     "14437": {
       "status": "Site Ready",
@@ -833,7 +866,8 @@
       "externalSpecPending": []
     }
   },
-  "deferredUnknowns": [
+  "deferredUnknowns": [],
+  "resolvedProvisionalUnknowns": [
     {
       "weaponId": "11437",
       "effectId": "provisional71_w11437_growth_star_pending",

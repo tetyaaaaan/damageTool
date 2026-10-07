@@ -41,7 +41,7 @@ test("Vodyanitsa Song multiplies Burst talent base at every level and keeps ordi
  const off=row(f.calc(),"burst_initial");
  own(f,"vodyanitsa_song_state","active");
  const on=row(f.calc(),"burst_song"); near(on.nonCrit,off.nonCrit*1.864); near(on.breakdown.damageBonus,80);
- assert.equal(DOC.deferredUnknowns.length,1); assert.equal(DOC.siteReady,false);
+ assert.equal(DOC.deferredUnknowns.length,0); assert.equal(DOC.provisionalCurrentCalcSpecs.a4FractionalHP.status,"provisional");
 });
 test("Vodyanitsa C2/C6 isolate ordinary elements and independently elevate Stellar Swirl by 1.25",()=>{
  const f=fixture();
@@ -52,7 +52,7 @@ test("Vodyanitsa C2/C6 isolate ordinary elements and independently elevate Stell
  own(f,"vodyanitsa_c2_variant","inactive");own(f,"vodyanitsa_song_state","active");const song=f.calc(),starOn=make(song,"風","stellarSwirl");near(starOn.mods.finalDamageMultiplier,1.25);near(starOn.result.expected,starOff.result.expected*1.25);near(make(song,"風","stellarConduct").mods.finalDamageMultiplier,1);near(make(song,"炎").mods.damageBonus,0);
 });
 
-test("A4 adds agreed HP base damage before recipient DMG Bonus, CRIT, DEF and RES, with fractional HP held", () => {
+test("A4 provisionally adds continuous HP base damage before recipient DMG Bonus, CRIT, DEF and RES", () => {
  const f=fixture(ID,0); own(f,"vodyanitsa_a4_state","leadTalent");
  for (const [hp,expected] of [[39999,0],[40000,0],[41000,140],[50000,1400],[65000,3500],[66000,3500]]) {
   f.request.stats.hp=hp; const p=f.calc(),r=row(p,"normal_1");
@@ -64,7 +64,7 @@ test("A4 adds agreed HP base damage before recipient DMG Bonus, CRIT, DEF and RE
  near(after.nonCrit,before.nonCrit*1.5); near(after.crit,after.nonCrit*2);
  for (const hp of [40999,41500,50500,64999]) {
   f.request.stats.hp=hp; const p=f.calc(),r=row(p,"normal_1");
-  assert.match(r.problems.join(" "),/端数処理/); near(r.expected,0);
+  assert.equal(r.problems.length,0); near(r.breakdown.additiveBaseDamage,(hp-40000)/1000*140); assert.ok(r.expected>0);
   assert.equal(probe(f,p,"炎").result.problems.length,0); replay(f,p);
  }
 });
@@ -84,7 +84,7 @@ test("A4 Lead Vocal and Chorus are exclusive current recipient states; Vortex sw
  }
  own(f,"vodyanitsa_a4_state","leadSwirl"); f.request.stats.hp=65000;
  near(probe(f,f.calc(),"風","stellarSwirl").mods.totals.additiveBaseDamage,6500);
- f.request.stats.hp=50500; assert.match(probe(f,f.calc(),"風","stellarSwirl").result.problems.join(" "),/端数処理/);
+ f.request.stats.hp=50500; near(probe(f,f.calc(),"風","stellarSwirl").mods.totals.additiveBaseDamage,2730);
 });
 
 test("A4 party uses only provider C4-adjusted HP for its base addition and survives Request replay", () => {
@@ -93,10 +93,10 @@ test("A4 party uses only provider C4-adjusted HP for its base addition and survi
  const first=p.results.find(r=>r.entry.element==="水"&&!r.entry.directReactionId); assert.ok(first); near(first.breakdown.additiveBaseDamage,1400);
  f.request.stats.hp=10000; p=f.calc(); near(p.results.find(r=>r.entry.id===first.entry.id).breakdown.additiveBaseDamage,1400);
  party(f,"vodyanitsa_c4_state",3,"stack"); p=f.calc(); near(p.results.find(r=>r.entry.id===first.entry.id).breakdown.additiveBaseDamage,2240); replay(f,p);
- f.request.party.members[1].stats.hp=50500; p=f.calc(); assert.match(p.results.find(r=>r.entry.id===first.entry.id).problems.join(" "),/端数処理/);
+ f.request.party.members[1].stats.hp=50500; p=f.calc(); near(p.results.find(r=>r.entry.id===first.entry.id).breakdown.additiveBaseDamage,2310); replay(f,p);
 });
 
-test("A4 Stellar Swirl reaches the standalone reaction and holds ambiguous HP without copying Lead Vocal to additional participants", () => {
+test("A4 Stellar Swirl uses continuous HP without copying Lead Vocal to additional participants", () => {
  const f=fixture(ID,0); setElement(f.elements,"genshinJsonReactionOption","stellarSwirl");
  own(f,"vodyanitsa_a4_state","leadSwirl"); f.request.stats.hp=50000;
  let p=f.calc(),r=p.results.find(x=>x.entry.id==="reaction_stellarSwirl"); assert.ok(r);
@@ -110,5 +110,5 @@ test("A4 Stellar Swirl reaches the standalone reaction and holds ambiguous HP wi
  near(r.breakdown.reaction.modifierScopes.participantLocal.additiveBaseDamage,2600);
  replay(f,p);
  f.request.stats.hp=50500; p=f.calc(); r=p.results.find(x=>x.entry.id==="reaction_stellarSwirl");
- assert.match(r.problems.join(" "),/端数処理/); near(r.expected,0); replay(f,p);
+ assert.equal(r.problems.length,0); near(r.breakdown.reaction.contributors[0].additiveBaseDamage,2730); assert.ok(r.expected>0); replay(f,p);
 });

@@ -68,10 +68,18 @@
     function renderWarnings(warnings) {
         const wrap = getElement("genshinJsonCalcWarnings");
         if (!wrap) return;
-        const visibleWarnings = (warnings || []).slice(0, 8);
+        const visibleWarnings = [...new Set((warnings || []).map((warning) => {
+            const message = warning.userMessage || warning.message || String(warning);
+            // Diagnostics retain their detailed keys in the payload/console, never in public copy.
+            if (/(?:Modifiers\.|weaponEffectRegistry|canonicalRuntime|\/games\/|\.json|provisional\d|calculationSupport|uidHandling|sourceContext|\b\d{8}\b|(?:anemo|cryo|stellarSwirl|stellarConduct)\b)/.test(message)) {
+                return warning.level === "error" ? "一部の計算データを読み込めませんでした。ページを再読み込みしてください。" : "";
+            }
+            return message;
+        }).filter(Boolean))].slice(0, 4);
         wrap.hidden = !visibleWarnings.length;
+        wrap.classList.toggle("is-provisional", visibleWarnings.length > 0 && visibleWarnings.every((message) => message.includes("暫定仕様")));
         wrap.innerHTML = visibleWarnings.length
-            ? `<strong>警告</strong><ul>${visibleWarnings.map((warning) => `<li>${escapeHtml(warning.message || warning)}</li>`).join("")}</ul>`
+            ? `<ul>${visibleWarnings.map((message) => `<li>${escapeHtml(message)}</li>`).join("")}</ul>`
             : "";
     }
 

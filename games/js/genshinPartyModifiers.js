@@ -162,6 +162,12 @@
         const localModifiers = Object.entries(calcData.constellationModifiers?.[member.characterId]?.constellations || {})
             .flatMap(([level, modifiers]) => Number(level) <= Number(member.constellation || 0)
                 ? modifiers.map((modifier) => ({ modifier, source: `constellation:C${level}` })) : []);
+        const weaponId = member.equipment?.weaponId || "";
+        const weaponModifiers = calcData.weaponModifiers?.[weaponId]?.modifiers || [];
+        weaponModifiers.forEach((modifier) => localModifiers.push({
+            modifier: engine.normalizeWeaponModifier(modifier, weaponModifiers, calcData.weaponEffectRegistry?.weapons?.[weaponId] || {}),
+            source: `weapon:${weaponId}`
+        }));
         localModifiers.forEach(({ modifier, source }) => {
             const state = uiState.conditionByModifier[`character:${member.characterId}:group:${modifier.conditionGroupId}`];
             if (!state) return;

@@ -3,6 +3,7 @@
 
     const DATA_PATH = "/games/genshin/data/base-stats.json";
     const PROVISIONAL_PATHS = [
+        "/games/genshin/data/v2/candidates/7.0-provisional-traveler-cryo.json",
         "/games/genshin/data/v2/candidates/7.0-provisional-characters.json",
         "/games/genshin/data/v2/candidates/7.0-provisional-weapons.json",
         "/games/genshin/data/v2/version-transitions/7.0-to-7.1/vesna-currentcalc.json",

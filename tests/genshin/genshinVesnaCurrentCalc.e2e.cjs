@@ -224,10 +224,10 @@ async function main() {
         ];
         for (const id of pendingIds) {
             const row = entry(active, id);
-            assert.equal(row.entry.damageType, "unknown", `${id} retains unknown damage classification`);
-            assert.equal(row.entry.calculationStatus, "externalConfirmationRequired", `${id} remains externally unconfirmed`);
-            assert.equal(row.total?.expected ?? row.expected, 0, `${id} does not show a guessed numeric damage value`);
-            assert.ok(row.problems?.length || row.entry.problems?.length, `${id} explains why calculation is deferred`);
+            assert.equal(row.entry.damageType, id.includes("transpose")?"other":"skill", `${id} uses provisional classification`);
+            assert.equal(row.entry.currentCalcSpec.status,"provisional");
+            assert.ok((row.total?.expected ?? row.expected)>0, `${id} is usable for calculation`);
+            assert.equal(row.problems.length,0);
         }
         const pendingText = await evaluate(client, `(() => {
             const wrap=document.getElementById("genshinJsonCalcResults");
@@ -237,7 +237,7 @@ async function main() {
                 return wrap?.querySelector('[data-json-panel="'+id+'"]')?.innerText || "";
             }).join("\\n");
         })()`);
-        assert.match(pendingText, /外部確認待ち|確認待ち|分類未確定/, "unknown damage entries are presented as pending");
+        assert.doesNotMatch(pendingText, /分類未確定/, "provisional damage entries are calculated");
         assert.match(pendingText, /風羽/, "the pending Wind Pinion entries are visible by name");
         assert.match(pendingText, /飛翔の剣・変|転位/, "the pending 150% transpose entry is visible by name");
         const pendingRows = await evaluate(client, `Array.from(document.querySelectorAll(".genshin-damage-result-row"))
@@ -245,15 +245,14 @@ async function main() {
             .map(row => ({ text: row.innerText, cells: row.children.length, numeric: Boolean(row.querySelector(".genshin-result-value")) }))`);
         assert.ok(pendingRows.length >= 2, "Wind Pinion and transpose pending rows are rendered in result tables");
         for (const row of pendingRows) {
-            assert.match(row.text, /外部確認待ち|確認待ち|分類未確定/, "pending row explains the deferred classification");
-            assert.equal(row.cells, 2, "pending row replaces numeric damage cells with one status cell");
-            assert.equal(row.numeric, false, "pending row contains no rendered damage number");
+            assert.doesNotMatch(row.text, /分類未確定/, "provisional row has damage");
+            assert.equal(row.numeric, true, "provisional row contains rendered damage");
         }
         assert.doesNotMatch(pendingText, /externalConfirmationRequired|deferredUnknown|damageType\s*[:=]\s*unknown/,
             "internal status enum values are not shown to users");
         const deferredText = await evaluate(client, 'document.body.innerText');
-        assert.match(deferredText, /外部確認待ち|保留|未確認/,
-            "the deferred blessing or unknown damage has a user-facing explanation");
+        assert.match(deferredText, /暫定仕様/,
+            "provisional specifications have a short explanation");
         const provisionalNotice = await evaluate(client, 'document.querySelector(".genshin-json-provisional-notice")?.innerText || ""');
         assert.match(provisionalNotice, /参考データを使用中|確認中/, "the unverified candidate state is explained in the result banner");
         assert.doesNotMatch(deferredText, /deferredUnknown|externalConfirmationRequired/,
@@ -293,7 +292,7 @@ async function main() {
         await replay();
         assert.ok(await evaluate(client, 'document.getElementById("genshinJsonCalcResults")?.innerText.trim().length > 0'),
             "ordinary user-facing results remain visible");
-        progress("PASS Vesna: actual C6/A1/mode UI state reaches CalculationRequest; C6 follow-up and pending unknowns render safely; internal enums stay hidden; reload and snapshot replay preserve damage");
+        progress("PASS Vesna: C6/A1/mode UI reaches CalculationRequest; provisional Pinion/Transpose calculate; internal enums stay hidden; reload and snapshot replay preserve damage");
     } finally {
         try { client?.socket.close(); } catch {}
         if (browser && !browser.killed) {

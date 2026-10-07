@@ -893,7 +893,7 @@
                 effectGroupOrder: (weaponDefinition.groups || []).indexOf(group),
                 effectLabel: group.name,
                 effectDescription: group.description || "",
-                targetOwner: group.targetOwner || "self",
+                targetOwner: override.targetOwner || group.targetOwner || "self",
                 inputPolicy: group.inputPolicy || "calculate",
                 activation
             };
@@ -997,7 +997,7 @@
                 if (entry.requiredAttackMode && !attackModeIsEnabled(calcData, context, entry.requiredAttackMode)) return;
                 if (Array.isArray(entry.conditionSelectors) && entry.conditionSelectors.some((selector) => {
                     const key = `character:${context.characterId}:group:${selector.groupId}`;
-                    const selected = context.uiState?.conditionByModifier?.[key]?.option ?? selector.defaultValue;
+                    const selected = context.uiState?.conditionByModifier?.[key]?.[selector.type === "stack" ? "stack" : "option"] ?? selector.defaultValue;
                     if (selector.defaultValue !== undefined) return !selector.values.map(String).includes(String(selected));
                     return selected && selected !== "inactive" && !selector.values.map(String).includes(String(selected));
                 })) return;
@@ -1170,6 +1170,14 @@
         }
         const resourceStack = consumedResourceStack(modifier, context, analysis);
         const conditionState = uiState.conditionByModifier?.[analysis.conditionStateKey] || {};
+        if (modifier.customCalculation === "thresholdReferencePercent") {
+            const refinement = String(context.refinement || 1);
+            const option = String(conditionState.option || "inactive");
+            const rate = Number(modifier.valueByRefinementByCondition?.[refinement]?.[option]) || 0;
+            const cap = Number(modifier.maxValueByRefinementByCondition?.[refinement]?.[option]) || 0;
+            const reference = Number(context.stats?.[modifier.reference?.stat]) || 0;
+            return Math.min(Math.max(0, reference - Number(modifier.threshold || 0)) / Number(modifier.divisor || 1) * rate, cap);
+        }
         const conditionStack = modifier.conditionInput?.type === "stack" && Number.isFinite(Number(conditionState.stack))
             ? Number(conditionState.stack)
             : null;
@@ -1485,7 +1493,8 @@
             const calculation = item.analysis?.calculation;
             if (!["statBonus", "scalingStatBonus"].includes(calculation)) return;
             const bonus = calculation === "statBonus"
-                ? resolveStatBonusValue(item.modifier, item.value, valueContext)
+                ? resolveStatBonusValue(item.modifier, item.value, item.modifier.percentBaseOwner === "recipient" && item.modifier.partySource
+                    ? { ...valueContext, stats: context.stats } : valueContext)
                 : resolveConversionBonusValue(item.modifier, item.value, valueContext);
             if (!bonus || !bonus.stat || !Number.isFinite(Number(bonus.value))) return;
             if (["critRate", "critDamage"].includes(bonus.stat)) return;
@@ -1509,9 +1518,18 @@
             });
         };
         const applied = collected?.applied || [];
+        const needsAppliedReference = (item) => item.modifier.customCalculation === "thresholdReferencePercent"
+            && item.modifier.reference?.includeAppliedStatBonuses === true;
         applied
-            .filter((item) => !["excessThresholdStatPercent", "postStatReference"].includes(item.modifier?.customCalculation))
+            .filter((item) => !["excessThresholdStatPercent", "postStatReference"].includes(item.modifier?.customCalculation)
+                && !needsAppliedReference(item))
             .forEach((item) => applyStatModifier(item));
+        applied.filter(needsAppliedReference).forEach((item) => {
+            const valueContext = item.modifier.partySource ? item.valueContext || context
+                : { ...context, stats: effectiveStats, effectiveStats };
+            item.value = resolveModifierValue(item.modifier, valueContext, context.uiState, item.analysis);
+            applyStatModifier(item, valueContext);
+        });
         applied
             .filter((item) => item.modifier?.customCalculation === "excessThresholdStatPercent")
             .forEach((item) => {
@@ -1738,6 +1756,11 @@
     function resolveScalingAdditiveBaseDamage(modifier, context) {
         const referenceValue = resolveReferenceBase(modifier, context);
         const ratio = Number(modifier.ratio ?? modifier.value) || 0;
+        if (modifier.rounding === "continuous" && Number(modifier.divisor) > 0) {
+            const units = Math.max(0, referenceValue - Number(modifier.threshold || 0)) / Number(modifier.divisor);
+            const calculated = units * ratio;
+            return Number.isFinite(Number(modifier.maxValue)) ? Math.min(calculated, Number(modifier.maxValue)) : calculated;
+        }
         if (modifier.rounding === "externalSpecPending") {
             const units = Math.max(0, referenceValue - Number(modifier.threshold || 0)) / Number(modifier.divisor);
             const cap = Number(modifier.maxValue);
@@ -2964,6 +2987,16 @@
         context.baseStats = statResolution.baseStats;
         context.effectiveStats = statResolution.effectiveStats;
         context.statTrace = statResolution.trace;
+        // Explicit current-stat reaction references are resolved after stat buffs, once.
+        // Party providers have already supplied their own stat context; never replace it
+        // with the recipient's effective stats.
+        collected.applied.forEach((item) => {
+            if (item.modifier.category !== "reactionBaseDamageBonus"
+                || !item.modifier.reference?.includeProviderConditionalStats
+                || item.modifier.partySource) return;
+            item.valueContext = { ...context, stats: context.effectiveStats };
+            item.value = resolveModifierValue(item.modifier, item.valueContext, context.uiState, item.analysis);
+        });
         const extraEntries = buildExtraDamageEntries(collected, talentResult.entries, context)
             .map((entry) => entry.element === "ownElement"
                 ? { ...entry, element: normalizeDamageElement(entry, calcData.characters?.[context.characterId] || {}) }

@@ -9,7 +9,7 @@
   "verificationComplete": false,
   "runtimeConnected": false,
   "failClosedCanonical": true,
-  "labelJa": "検証中（暫定計算）",
+  "labelJa": "暫定仕様",
   "characterId": "10000140",
   "currentCalcSpecDecisions": {
     "acceptedAt": "2026-10-06",
@@ -49,7 +49,8 @@
         "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
       ],
       "titleJa": "水底に響く歌声",
-      "element": "水"
+      "element": "水",
+      "imagePath": "games/images/genshin/characters/10000140.webp"
     }
   },
   "talentScalings": {
@@ -659,20 +660,20 @@
               "levelSource": "skill",
               "valueByLevel": {
                 "1": 16.5,
-                "2": 18.0,
+                "2": 18,
                 "3": 19.5,
-                "4": 21.0,
+                "4": 21,
                 "5": 22.5,
-                "6": 24.0,
+                "6": 24,
                 "7": 25.5,
-                "8": 27.0,
+                "8": 27,
                 "9": 28.499999999999996,
-                "10": 30.0,
+                "10": 30,
                 "11": 31.8,
                 "12": 33.6,
                 "13": 35.4,
                 "14": 37.2,
-                "15": 39.0
+                "15": 39
               },
               "conditionGroupId": "vodyanitsa_skill_hit",
               "shareConditionAcrossSources": true,
@@ -765,105 +766,370 @@
               "effectLabel": "十二弦の涙唄：Lead Vocal（水・氷基礎ダメージ加算）",
               "category": "scalingBonus",
               "customCalculation": "scalingAdditiveBaseDamage",
-              "reference": { "stat": "hp", "source": "self", "includeAppliedStatBonuses": true, "includeProviderConditionalStats": true },
-              "threshold": 40000, "divisor": 1000, "ratio": 140, "maxValue": 3500,
-              "rounding": "externalSpecPending",
-              "pendingReasonJa": "十二弦の涙唄のHP端数処理は仕様確認中です。このHPでは計算値を表示できません。",
-              "applyTo": ["normalAttack", "chargedAttack", "plungingAttack", "skill", "burst"],
-              "targetElements": ["水", "氷"], "excludeDirectReactions": true,
-              "targetOwner": "team", "recipientRole": "activeCharacter", "participantScope": "recipientLocal",
-              "condition": "afterSkill", "conditionGroupId": "vodyanitsa_a4_state", "conditionOptionValue": "leadTalent",
-              "shareConditionAcrossSources": true, "conditionInputActivates": true,
-              "uidHandling": "conditional", "calculationSupport": "special",
-              "conditionInput": { "type": "option", "label": "十二弦の涙唄：対象の現在状態", "default": "inactive", "options": [
-                { "value": "inactive", "label": "OFF" },
-                { "value": "leadTalent", "label": "フィールド上：Lead Vocal（水・氷）" },
-                { "value": "chorusTalent", "label": "控え／他の近くのメンバー：Chorus（水・氷）" },
-                { "value": "leadSwirl", "label": "フィールド上・流星の嵐：Lead Vocal（星拡散）" },
-                { "value": "chorusSwirl", "label": "控え／他の近くのメンバー・流星の嵐：Chorus（星拡散）" }
-              ] },
-              "sourceRefs": ["games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"]
+              "reference": {
+                "stat": "hp",
+                "source": "self",
+                "includeAppliedStatBonuses": true,
+                "includeProviderConditionalStats": true
+              },
+              "threshold": 40000,
+              "divisor": 1000,
+              "ratio": 140,
+              "maxValue": 3500,
+              "rounding": "continuous",
+              "applyTo": [
+                "normalAttack",
+                "chargedAttack",
+                "plungingAttack",
+                "skill",
+                "burst"
+              ],
+              "targetElements": [
+                "水",
+                "氷"
+              ],
+              "excludeDirectReactions": true,
+              "targetOwner": "team",
+              "recipientRole": "activeCharacter",
+              "participantScope": "recipientLocal",
+              "condition": "afterSkill",
+              "conditionGroupId": "vodyanitsa_a4_state",
+              "conditionOptionValue": "leadTalent",
+              "shareConditionAcrossSources": true,
+              "conditionInputActivates": true,
+              "uidHandling": "conditional",
+              "calculationSupport": "special",
+              "conditionInput": {
+                "type": "option",
+                "label": "十二弦の涙唄：対象の現在状態",
+                "default": "inactive",
+                "options": [
+                  {
+                    "value": "inactive",
+                    "label": "OFF"
+                  },
+                  {
+                    "value": "leadTalent",
+                    "label": "フィールド上：Lead Vocal（水・氷）"
+                  },
+                  {
+                    "value": "chorusTalent",
+                    "label": "控え／他の近くのメンバー：Chorus（水・氷）"
+                  },
+                  {
+                    "value": "leadSwirl",
+                    "label": "フィールド上・流星の嵐：Lead Vocal（星拡散）"
+                  },
+                  {
+                    "value": "chorusSwirl",
+                    "label": "控え／他の近くのメンバー・流星の嵐：Chorus（星拡散）"
+                  }
+                ]
+              },
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"
+              ],
+              "currentCalcSpec": {
+                "status": "provisional",
+                "confidence": "implementationSupported",
+                "targetGameVersion": "7.1",
+                "formula": "min(max(providerMaxHP - 40000, 0) / 1000 * ratio, cap)",
+                "sourceRefs": [
+                  "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx",
+                  "https://keqingmains.com/q/vodyanitsa-quickguide/"
+                ],
+                "acceptance": "CurrentCalc provisional policy: GO continuous implementation; KQM additive-base position and caps; no conflicting current-version mechanics found."
+              }
             },
             {
               "id": "provisional71_10000140_a4_chorus_talent",
               "effectLabel": "十二弦の涙唄：Chorus（水・氷基礎ダメージ加算）",
-              "category": "scalingBonus", "customCalculation": "scalingAdditiveBaseDamage",
-              "reference": { "stat": "hp", "source": "self", "includeAppliedStatBonuses": true, "includeProviderConditionalStats": true },
-              "threshold": 40000, "divisor": 1000, "ratio": 140, "maxValue": 3500,
-              "rounding": "externalSpecPending",
-              "pendingReasonJa": "十二弦の涙唄のHP端数処理は仕様確認中です。このHPでは計算値を表示できません。",
-              "applyTo": ["normalAttack", "chargedAttack", "plungingAttack", "skill", "burst"],
-              "targetElements": ["水", "氷"], "excludeDirectReactions": true,
-              "targetOwner": "team", "recipientRole": "offFieldOrOtherNearby", "participantScope": "recipientLocal",
-              "condition": "afterSkill", "conditionGroupId": "vodyanitsa_a4_state", "conditionOptionValue": "chorusTalent",
-              "shareConditionAcrossSources": true, "conditionInputActivates": true,
-              "uidHandling": "conditional", "calculationSupport": "special",
-              "conditionInput": { "type": "option", "label": "十二弦の涙唄：対象の現在状態", "default": "inactive", "options": [
-                { "value": "inactive", "label": "OFF" }, { "value": "leadTalent", "label": "フィールド上：Lead Vocal（水・氷）" },
-                { "value": "chorusTalent", "label": "控え／他の近くのメンバー：Chorus（水・氷）" },
-                { "value": "leadSwirl", "label": "フィールド上・流星の嵐：Lead Vocal（星拡散）" },
-                { "value": "chorusSwirl", "label": "控え／他の近くのメンバー・流星の嵐：Chorus（星拡散）" }
-              ] },
-              "sourceRefs": ["games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"]
+              "category": "scalingBonus",
+              "customCalculation": "scalingAdditiveBaseDamage",
+              "reference": {
+                "stat": "hp",
+                "source": "self",
+                "includeAppliedStatBonuses": true,
+                "includeProviderConditionalStats": true
+              },
+              "threshold": 40000,
+              "divisor": 1000,
+              "ratio": 140,
+              "maxValue": 3500,
+              "rounding": "continuous",
+              "applyTo": [
+                "normalAttack",
+                "chargedAttack",
+                "plungingAttack",
+                "skill",
+                "burst"
+              ],
+              "targetElements": [
+                "水",
+                "氷"
+              ],
+              "excludeDirectReactions": true,
+              "targetOwner": "team",
+              "recipientRole": "offFieldOrOtherNearby",
+              "participantScope": "recipientLocal",
+              "condition": "afterSkill",
+              "conditionGroupId": "vodyanitsa_a4_state",
+              "conditionOptionValue": "chorusTalent",
+              "shareConditionAcrossSources": true,
+              "conditionInputActivates": true,
+              "uidHandling": "conditional",
+              "calculationSupport": "special",
+              "conditionInput": {
+                "type": "option",
+                "label": "十二弦の涙唄：対象の現在状態",
+                "default": "inactive",
+                "options": [
+                  {
+                    "value": "inactive",
+                    "label": "OFF"
+                  },
+                  {
+                    "value": "leadTalent",
+                    "label": "フィールド上：Lead Vocal（水・氷）"
+                  },
+                  {
+                    "value": "chorusTalent",
+                    "label": "控え／他の近くのメンバー：Chorus（水・氷）"
+                  },
+                  {
+                    "value": "leadSwirl",
+                    "label": "フィールド上・流星の嵐：Lead Vocal（星拡散）"
+                  },
+                  {
+                    "value": "chorusSwirl",
+                    "label": "控え／他の近くのメンバー・流星の嵐：Chorus（星拡散）"
+                  }
+                ]
+              },
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"
+              ],
+              "currentCalcSpec": {
+                "status": "provisional",
+                "confidence": "implementationSupported",
+                "targetGameVersion": "7.1",
+                "formula": "min(max(providerMaxHP - 40000, 0) / 1000 * ratio, cap)",
+                "sourceRefs": [
+                  "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx",
+                  "https://keqingmains.com/q/vodyanitsa-quickguide/"
+                ],
+                "acceptance": "CurrentCalc provisional policy: GO continuous implementation; KQM additive-base position and caps; no conflicting current-version mechanics found."
+              }
             },
             {
               "id": "provisional71_10000140_a4_lead_swirl",
               "effectLabel": "十二弦の涙唄：Lead Vocal（星拡散基礎ダメージ加算）",
-              "category": "scalingBonus", "customCalculation": "scalingAdditiveBaseDamage",
-              "reference": { "stat": "hp", "source": "self", "includeAppliedStatBonuses": true, "includeProviderConditionalStats": true },
-              "threshold": 40000, "divisor": 1000, "ratio": 260, "maxValue": 6500,
-              "rounding": "externalSpecPending",
-              "pendingReasonJa": "十二弦の涙唄のHP端数処理は仕様確認中です。このHPでは計算値を表示できません。",
-              "applyTo": ["stellarSwirlDamageBonus"], "reactionTargetsOnly": true,
-              "targetOwner": "team", "recipientRole": "activeCharacter", "participantScope": "recipientLocal",
-              "condition": "afterSkill", "conditionGroupId": "vodyanitsa_a4_state", "conditionOptionValue": "leadSwirl",
-              "shareConditionAcrossSources": true, "conditionInputActivates": true,
-              "uidHandling": "conditional", "calculationSupport": "special",
-              "conditionInput": { "type": "option", "label": "十二弦の涙唄：対象の現在状態", "default": "inactive", "options": [
-                { "value": "inactive", "label": "OFF" }, { "value": "leadTalent", "label": "フィールド上：Lead Vocal（水・氷）" },
-                { "value": "chorusTalent", "label": "控え／他の近くのメンバー：Chorus（水・氷）" },
-                { "value": "leadSwirl", "label": "フィールド上・流星の嵐：Lead Vocal（星拡散）" },
-                { "value": "chorusSwirl", "label": "控え／他の近くのメンバー・流星の嵐：Chorus（星拡散）" }
-              ] },
-              "sourceRefs": ["games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"]
+              "category": "scalingBonus",
+              "customCalculation": "scalingAdditiveBaseDamage",
+              "reference": {
+                "stat": "hp",
+                "source": "self",
+                "includeAppliedStatBonuses": true,
+                "includeProviderConditionalStats": true
+              },
+              "threshold": 40000,
+              "divisor": 1000,
+              "ratio": 260,
+              "maxValue": 6500,
+              "rounding": "continuous",
+              "applyTo": [
+                "stellarSwirlDamageBonus"
+              ],
+              "reactionTargetsOnly": true,
+              "targetOwner": "team",
+              "recipientRole": "activeCharacter",
+              "participantScope": "recipientLocal",
+              "condition": "afterSkill",
+              "conditionGroupId": "vodyanitsa_a4_state",
+              "conditionOptionValue": "leadSwirl",
+              "shareConditionAcrossSources": true,
+              "conditionInputActivates": true,
+              "uidHandling": "conditional",
+              "calculationSupport": "special",
+              "conditionInput": {
+                "type": "option",
+                "label": "十二弦の涙唄：対象の現在状態",
+                "default": "inactive",
+                "options": [
+                  {
+                    "value": "inactive",
+                    "label": "OFF"
+                  },
+                  {
+                    "value": "leadTalent",
+                    "label": "フィールド上：Lead Vocal（水・氷）"
+                  },
+                  {
+                    "value": "chorusTalent",
+                    "label": "控え／他の近くのメンバー：Chorus（水・氷）"
+                  },
+                  {
+                    "value": "leadSwirl",
+                    "label": "フィールド上・流星の嵐：Lead Vocal（星拡散）"
+                  },
+                  {
+                    "value": "chorusSwirl",
+                    "label": "控え／他の近くのメンバー・流星の嵐：Chorus（星拡散）"
+                  }
+                ]
+              },
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"
+              ],
+              "currentCalcSpec": {
+                "status": "provisional",
+                "confidence": "implementationSupported",
+                "targetGameVersion": "7.1",
+                "formula": "min(max(providerMaxHP - 40000, 0) / 1000 * ratio, cap)",
+                "sourceRefs": [
+                  "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx",
+                  "https://keqingmains.com/q/vodyanitsa-quickguide/"
+                ],
+                "acceptance": "CurrentCalc provisional policy: GO continuous implementation; KQM additive-base position and caps; no conflicting current-version mechanics found."
+              }
             },
             {
               "id": "provisional71_10000140_a4_chorus_swirl",
               "effectLabel": "十二弦の涙唄：Chorus（星拡散基礎ダメージ加算）",
-              "category": "scalingBonus", "customCalculation": "scalingAdditiveBaseDamage",
-              "reference": { "stat": "hp", "source": "self", "includeAppliedStatBonuses": true, "includeProviderConditionalStats": true },
-              "threshold": 40000, "divisor": 1000, "ratio": 260, "maxValue": 6500,
-              "rounding": "externalSpecPending",
-              "pendingReasonJa": "十二弦の涙唄のHP端数処理は仕様確認中です。このHPでは計算値を表示できません。",
-              "applyTo": ["stellarSwirlDamageBonus"], "reactionTargetsOnly": true,
-              "targetOwner": "team", "recipientRole": "offFieldOrOtherNearby", "participantScope": "recipientLocal",
-              "condition": "afterSkill", "conditionGroupId": "vodyanitsa_a4_state", "conditionOptionValue": "chorusSwirl",
-              "shareConditionAcrossSources": true, "conditionInputActivates": true,
-              "uidHandling": "conditional", "calculationSupport": "special",
-              "conditionInput": { "type": "option", "label": "十二弦の涙唄：対象の現在状態", "default": "inactive", "options": [
-                { "value": "inactive", "label": "OFF" }, { "value": "leadTalent", "label": "フィールド上：Lead Vocal（水・氷）" },
-                { "value": "chorusTalent", "label": "控え／他の近くのメンバー：Chorus（水・氷）" },
-                { "value": "leadSwirl", "label": "フィールド上・流星の嵐：Lead Vocal（星拡散）" },
-                { "value": "chorusSwirl", "label": "控え／他の近くのメンバー・流星の嵐：Chorus（星拡散）" }
-              ] },
-              "sourceRefs": ["games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"]
+              "category": "scalingBonus",
+              "customCalculation": "scalingAdditiveBaseDamage",
+              "reference": {
+                "stat": "hp",
+                "source": "self",
+                "includeAppliedStatBonuses": true,
+                "includeProviderConditionalStats": true
+              },
+              "threshold": 40000,
+              "divisor": 1000,
+              "ratio": 260,
+              "maxValue": 6500,
+              "rounding": "continuous",
+              "applyTo": [
+                "stellarSwirlDamageBonus"
+              ],
+              "reactionTargetsOnly": true,
+              "targetOwner": "team",
+              "recipientRole": "offFieldOrOtherNearby",
+              "participantScope": "recipientLocal",
+              "condition": "afterSkill",
+              "conditionGroupId": "vodyanitsa_a4_state",
+              "conditionOptionValue": "chorusSwirl",
+              "shareConditionAcrossSources": true,
+              "conditionInputActivates": true,
+              "uidHandling": "conditional",
+              "calculationSupport": "special",
+              "conditionInput": {
+                "type": "option",
+                "label": "十二弦の涙唄：対象の現在状態",
+                "default": "inactive",
+                "options": [
+                  {
+                    "value": "inactive",
+                    "label": "OFF"
+                  },
+                  {
+                    "value": "leadTalent",
+                    "label": "フィールド上：Lead Vocal（水・氷）"
+                  },
+                  {
+                    "value": "chorusTalent",
+                    "label": "控え／他の近くのメンバー：Chorus（水・氷）"
+                  },
+                  {
+                    "value": "leadSwirl",
+                    "label": "フィールド上・流星の嵐：Lead Vocal（星拡散）"
+                  },
+                  {
+                    "value": "chorusSwirl",
+                    "label": "控え／他の近くのメンバー・流星の嵐：Chorus（星拡散）"
+                  }
+                ]
+              },
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"
+              ],
+              "currentCalcSpec": {
+                "status": "provisional",
+                "confidence": "implementationSupported",
+                "targetGameVersion": "7.1",
+                "formula": "min(max(providerMaxHP - 40000, 0) / 1000 * ratio, cap)",
+                "sourceRefs": [
+                  "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx",
+                  "https://keqingmains.com/q/vodyanitsa-quickguide/"
+                ],
+                "acceptance": "CurrentCalc provisional policy: GO continuous implementation; KQM additive-base position and caps; no conflicting current-version mechanics found."
+              }
             }
           ],
           "sourceId": "passive2"
         },
         {
           "sourceId": "combat3",
-          "modifiers": [{
-            "id": "provisional71_10000140_burst_song_multiplier", "effectLabel": "悠久の歌：爆発天賦基礎倍率",
-            "category": "effectOverride", "unit": "percentOfOriginalDamage", "multiplierTarget": "talentBaseDamage",
-            "targetEffect": ["provisional71_10000140_burst_song"], "applyTo": ["burst"], "targetOwner": "self",
-            "levelSource": "burst", "valueByLevel": { "1":148, "2":151.6, "3":155.2, "4":160, "5":163.6, "6":167.2, "7":172, "8":176.8, "9":181.6, "10":186.4, "11":191.2, "12":196, "13":202, "14":208, "15":214 },
-            "condition": "afterSkill", "conditionGroupId": "vodyanitsa_song_state", "conditionOptionValue": "active",
-            "shareConditionAcrossSources": true, "conditionInputActivates": true,
-            "uidHandling": "conditional", "calculationSupport": "special",
-            "conditionInput": { "type": "option", "label": "悠久の歌", "default": "inactive", "options": [{ "value":"inactive", "label":"OFF" }, { "value":"active", "label":"ON" }] },
-            "sourceRefs": ["games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json", "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"]
-          }]
+          "modifiers": [
+            {
+              "id": "provisional71_10000140_burst_song_multiplier",
+              "effectLabel": "悠久の歌：爆発天賦基礎倍率",
+              "category": "effectOverride",
+              "unit": "percentOfOriginalDamage",
+              "multiplierTarget": "talentBaseDamage",
+              "targetEffect": [
+                "provisional71_10000140_burst_song"
+              ],
+              "applyTo": [
+                "burst"
+              ],
+              "targetOwner": "self",
+              "levelSource": "burst",
+              "valueByLevel": {
+                "1": 148,
+                "2": 151.6,
+                "3": 155.2,
+                "4": 160,
+                "5": 163.6,
+                "6": 167.2,
+                "7": 172,
+                "8": 176.8,
+                "9": 181.6,
+                "10": 186.4,
+                "11": 191.2,
+                "12": 196,
+                "13": 202,
+                "14": 208,
+                "15": 214
+              },
+              "condition": "afterSkill",
+              "conditionGroupId": "vodyanitsa_song_state",
+              "conditionOptionValue": "active",
+              "shareConditionAcrossSources": true,
+              "conditionInputActivates": true,
+              "uidHandling": "conditional",
+              "calculationSupport": "special",
+              "conditionInput": {
+                "type": "option",
+                "label": "悠久の歌",
+                "default": "inactive",
+                "options": [
+                  {
+                    "value": "inactive",
+                    "label": "OFF"
+                  },
+                  {
+                    "value": "active",
+                    "label": "ON"
+                  }
+                ]
+              },
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx"
+              ]
+            }
+          ]
         },
         {
           "modifiers": [],
@@ -1052,10 +1318,10 @@
         "4": [
           {
             "valueByStack": {
-              "3": 60,
               "0": 0,
+              "1": 20,
               "2": 40,
-              "1": 20
+              "3": 60
             },
             "targetOwner": "self",
             "category": "statBonus",
@@ -1195,99 +1461,7 @@
       }
     }
   },
-  "deferredUnknowns": [
-    {
-      "unresolved": [
-        "HP40000超過分の端数処理（連続比例か1000刻み切り捨てか）"
-      ],
-      "calculationStatus": "externalConfirmationRequired",
-      "specStatus": "externalSpecPending",
-      "id": "provisional71_10000140_a4_hp_bonus_formula",
-      "rawText": "Additive Base DMGとしての演算位置・対象切替・上限は確定。GOの連続比例は候補根拠として保持し、端数処理だけ未確定。両候補が一致するHP入力では共通値のみ適用し、それ以外は対象ダメージを保留する。",
-      "excludedFromDamageCalculation": true,
-      "labelJa": "A4: メロディ/コーラスによるHP参照ダメージ増加",
-      "sourceRefs": [
-        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
-        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
-        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-constellations.json",
-        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-constellations.json",
-        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-characters.json",
-        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-characters.json",
-        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json",
-        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx",
-        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-library.html",
-        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/kqm-quickguide.html"
-      ],
-      "boundaryCandidates": [
-        {
-          "maxHp": 40999,
-          "stepwise": {
-            "hydroCryo": 0,
-            "stellarSwirl": 0
-          },
-          "continuous": {
-            "hydroCryo": 139.86,
-            "stellarSwirl": 259.74
-          }
-        },
-        {
-          "maxHp": 41000,
-          "stepwise": {
-            "hydroCryo": 140,
-            "stellarSwirl": 260
-          },
-          "continuous": {
-            "hydroCryo": 140,
-            "stellarSwirl": 260
-          }
-        },
-        {
-          "maxHp": 41500,
-          "stepwise": {
-            "hydroCryo": 140,
-            "stellarSwirl": 260
-          },
-          "continuous": {
-            "hydroCryo": 210,
-            "stellarSwirl": 390
-          }
-        },
-        {
-          "maxHp": 50500,
-          "stepwise": {
-            "hydroCryo": 1400,
-            "stellarSwirl": 2600
-          },
-          "continuous": {
-            "hydroCryo": 1470,
-            "stellarSwirl": 2730
-          }
-        },
-        {
-          "maxHp": 64999,
-          "stepwise": {
-            "hydroCryo": 3360,
-            "stellarSwirl": 6240
-          },
-          "continuous": {
-            "hydroCryo": 3499.8599999999997,
-            "stellarSwirl": 6499.74
-          }
-        },
-        {
-          "maxHp": 65000,
-          "stepwise": {
-            "hydroCryo": 3500,
-            "stellarSwirl": 6500
-          },
-          "continuous": {
-            "hydroCryo": 3500,
-            "stellarSwirl": 6500
-          }
-        }
-      ]
-    }
-  ],
+  "deferredUnknowns": [],
   "sourceRefs": [
     "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json",
     "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/english-talents.json",
@@ -1305,60 +1479,60 @@
       "10000140": {
         "promoteProps": [
           {
-            "4": 0.0,
-            "3": 0.0,
-            "1": 0.0,
-            "7": 0.0
+            "1": 0,
+            "3": 0,
+            "4": 0,
+            "7": 0
           },
           {
-            "4": 7.18371,
-            "3": 0.0,
             "1": 989.0367,
+            "3": 0,
+            "4": 7.18371,
             "7": 32.319
           },
           {
-            "4": 12.287925,
-            "3": 0.072,
             "1": 1691.7733,
+            "3": 0.072,
+            "4": 12.287925,
             "7": 55.2825
           },
           {
-            "4": 19.093546,
-            "3": 0.144,
             "1": 2628.7554,
+            "3": 0.144,
+            "4": 19.093546,
             "7": 85.9005
           },
           {
-            "4": 24.19776,
-            "3": 0.144,
             "1": 3331.492,
+            "3": 0.144,
+            "4": 24.19776,
             "7": 108.864
           },
           {
-            "4": 29.301975,
-            "3": 0.216,
             "1": 4034.2285,
+            "3": 0.216,
+            "4": 29.301975,
             "7": 131.8275
           },
           {
-            "4": 34.40619,
-            "3": 0.288,
             "1": 4736.9653,
+            "3": 0.288,
+            "4": 34.40619,
             "7": 154.791
           }
         ],
         "baseProps": {
-          "22": 0.5,
           "1": 1153.5172,
-          "28": 0.0,
-          "7": 37.6929,
           "4": 8.379,
-          "20": 0.05
+          "7": 37.6929,
+          "20": 0.05,
+          "22": 0.5,
+          "28": 0
         },
         "curveIds": {
+          "1": 105,
           "4": 205,
-          "7": 105,
-          "1": 105
+          "7": 105
         }
       }
     }
@@ -1435,7 +1609,7 @@
   },
   "currentCalcStatus": "implementationCheckpoint",
   "siteReady": false,
-  "externalSpecPending": true,
+  "externalSpecPending": false,
   "characterConstellations": {
     "10000140": {
       "1": {
@@ -1477,5 +1651,19 @@
         }
       }
     }
-  }
+  },
+  "provisionalCurrentCalcSpecs": {
+    "a4FractionalHP": {
+      "status": "provisional",
+      "confidence": "implementationSupported",
+      "targetGameVersion": "7.1",
+      "formula": "min(max(providerMaxHP - 40000, 0) / 1000 * ratio, cap)",
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/go-sheet-index.tsx",
+        "https://keqingmains.com/q/vodyanitsa-quickguide/"
+      ],
+      "acceptance": "CurrentCalc provisional policy: GO continuous implementation; KQM additive-base position and caps; no conflicting current-version mechanics found."
+    }
+  },
+  "practicalCurrentCalcStatus": "provisionalCalculable"
 }

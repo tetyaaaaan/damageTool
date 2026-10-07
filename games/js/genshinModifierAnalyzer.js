@@ -62,6 +62,7 @@
             || valueMapHasFiniteNumber(modifier?.valueByLevel)
             || valueMapHasFiniteNumber(modifier?.valueByStack)
             || valueMapHasFiniteNumber(modifier?.valueByCondition)
+            || Object.values(modifier?.valueByRefinementByCondition || {}).some(valueMapHasFiniteNumber)
             || finiteNumber(modifier?.valuePerStack)
             || finiteNumber(modifier?.valuePerGeneratedStack)
             || finiteNumber(modifier?.valuePerConsumedStack)

@@ -16,16 +16,16 @@ function fixture(refinement=1,characterId="10000054"){
 function select(f,option){const panel=f.conditions.conditionPanelState(f.request,f.calcData);const definitions=panel.complexConditionInputs.filter(d=>d.conditionGroupId===GROUP);assert.equal(definitions.length,1,"one shared current game state");f.request.uiState.complexConditionByModifier[definitions[0].key]={option};f.conditions.conditionPanelState(f.request,f.calcData);}
 function near(a,b){assert.ok(Math.abs(a-b)<1e-8,`${a} != ${b}`);}
 function replay(f,p){const q=f.engine.calculateDamageRequest(JSON.parse(JSON.stringify(p.calculationRequest)),f.calcData);assert.deepEqual(JSON.parse(JSON.stringify(q.results)),JSON.parse(JSON.stringify(p.results)));}
-test("14524 source classification retains R1-R5, amplification is a stat effect and only ATK is specification-pending",()=>{
+test("14524 source classification retains R1-R5 and GO provisional ATK provenance",()=>{
  const raw=inventory.datasets.weapons.records.find(w=>String(w.id)===ID);
  assert.equal(raw.version,"7.1");assert.equal(candidate.weapons[ID].nameJa,raw.name);assert.equal(candidate.currentCalcClassification[ID].siteReady,false);
  for(let r=1;r<=5;r++){near(candidate.weaponModifiers[ID].modifiers[0].valueByRefinementByCondition[r].three,parseFloat(raw["r"+r].values[1])*3);near(candidate.weaponModifiers[ID].modifiers[0].valueByRefinementByCondition[r].boostedThree,parseFloat(raw["r"+r].values[1])*3*1.75);}
- assert.equal(candidate.deferredUnknowns.length,1);assert.equal(candidate.deferredUnknowns[0].unknowns.length,3);
+ assert.equal(candidate.deferredUnknowns.length,0);assert.equal(candidate.weapons[ID].currentCalcSpec.status,"provisional");assert.match(candidate.weapons[ID].currentCalcSpec.referenceContract,/after this weapon/);
  assert.ok(!candidate.weaponModifiers[ID].modifiers.some(m=>["reactionBonus","damageBonus","reactionBaseDamageBonus","extraDamage","effectOverride"].includes(m.category)));
 });
 test("14524 HP changes continuously using final input plus baseHP stat bonus at all refinements and declared states",()=>{
  for(let r=1;r<=5;r++)for(const [option,stack,boost]of [["inactive",0,1],["one",1,1],["two",2,1],["three",3,1],["boostedOne",1,1.75],["boostedTwo",2,1.75],["boostedThree",3,1.75]]){
-  const f=fixture(r);select(f,option);const p=f.calc();near(p.context.effectiveStats.hp,50500+10000*(3+r)*stack*boost/100);near(p.context.effectiveStats.atk,1500);replay(f,p);
+  const f=fixture(r);select(f,option);const p=f.calc();const hp=50500+10000*(3+r)*stack*boost/100;near(p.context.effectiveStats.hp,hp);near(p.context.effectiveStats.atk,1500+700*Math.min((hp-40000)/1000*(3+r)/10,6+2*r)*stack*boost/100);replay(f,p);
  }
 });
 test("confirmed HP buff changes HP talent damage for two catalyst wearers without adding damage/reaction bonuses",()=>{
@@ -33,15 +33,15 @@ test("confirmed HP buff changes HP talent damage for two catalyst wearers withou
   for(const row of hpRows){const boosted=after.results.find(x=>x.entry.id===row.entry.id);assert.ok(boosted.expected>row.expected);near(boosted.breakdown.damageBonus,row.breakdown.damageBonus);near(boosted.breakdown.reactionBonus,row.breakdown.reactionBonus);}replay(f,after);
  }
 });
-test("ambiguous ATK threshold, intermediate and cap HP inputs never receive a guessed ATK or party transfer",()=>{
+test("provisional ATK uses continuous HP after its own HP buff once, per-stack caps and provider ownership",()=>{
  const f=fixture();select(f,"boostedThree");
- for(const hp of [39999,40000,40999,41000,41500,50500,59999,60000,61000,79999,80000,81000]){f.request.stats.hp=hp;const p=f.calc();near(p.context.effectiveStats.atk,1500);assert.ok(p.warnings.some(w=>w.weaponId===ID&&/仕様確認中/.test(w.message)));assert.ok(!p.statTrace.some(x=>x.modifierId==="provisional71_w14524_atk_pending"));replay(f,p);}
+ for(const hp of [37899,37900,37901,39999,40000,40999,41000,41500,50500,59999,60000,61000,79999,80000,81000]){f.request.stats.hp=hp;const p=f.calc();const providerHp=hp+2100;near(p.context.effectiveStats.hp,providerHp);near(p.context.effectiveStats.atk,1500+700*Math.min(Math.max(0,providerHp-40000)/1000*.4,8)*3*1.75/100);assert.ok(p.warnings.some(w=>w.weaponId===ID&&/暫定仕様/.test(w.message)));replay(f,p);}
  for(const recipient of ["10000025","10000052"]){
   const f=fixture(5,recipient);
   f.request.characterId=recipient;f.request.weaponId="";f.request.party={schemaVersion:2,focusSlot:1,conditionStates:{},members:[{slot:1,enabled:true,role:"main",characterId:recipient,stats:{...f.request.stats},equipment:{weaponId:""}},{slot:2,enabled:true,role:"support",characterId:"10000054",stats:{hp:50500,baseHp:10000,atk:1000,baseAtk:500},equipment:{weaponId:ID,refinement:5},buffStates:{}}]};
   const key=`party:2:10000054:group:${GROUP}`;f.request.party.conditionStates[key]={enabled:true,option:"boostedThree"};f.request.party.members[1].buffStates[key]=true;
   f.conditions.conditionPanelState(f.request,f.calcData);
-  const before=f.calc();f.request.party.members[1].stats.hp=80000;const after=f.calc();near(after.context.effectiveStats.hp,before.context.effectiveStats.hp);near(after.context.effectiveStats.atk,before.context.effectiveStats.atk);const damage=p=>JSON.parse(JSON.stringify(p.results.map(x=>[x.entry.id,x.nonCrit,x.crit,x.expected])));assert.deepEqual(damage(after),damage(before));assert.ok(after.warnings.some(w=>w.weaponId===ID));replay(f,after);
+  const before=f.calc();near(before.context.effectiveStats.atk,1500+700*14.7*.8*3*1.75/100);f.request.stats.hp=9999;const recipientChanged=f.calc();near(recipientChanged.context.effectiveStats.atk,before.context.effectiveStats.atk);f.request.party.members[1].stats.hp=80000;const after=f.calc();near(after.context.effectiveStats.atk,1500+700*16*3*1.75/100);assert.ok(after.context.effectiveStats.atk>before.context.effectiveStats.atk);assert.ok(after.results.some((r,i)=>r.expected>before.results[i].expected));replay(f,after);
  }
 });
 test("switching weapons removes Hymn HP and its partial-result warning despite saved old state",()=>{

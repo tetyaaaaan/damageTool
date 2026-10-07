@@ -332,7 +332,7 @@ test("Vesna C6 Spirit Blade is a separate 200% hit; elevation affects only her S
     replay(f, payload);
 });
 
-test("Vesna unconfirmed Wind Pinion and C6 150% Transpose are excluded and displayed as pending", () => {
+test("Vesna provisional Pinion uses Skill Bonus while independent Transpose excludes Normal/Skill Bonus", () => {
     const f = fixture({ constellation: 6 });
     setOption(f, "transpose", "active");
     const payload = f.calculate();
@@ -340,33 +340,57 @@ test("Vesna unconfirmed Wind Pinion and C6 150% Transpose are excluded and displ
     for (const id of pendingIds) {
         const row = payload.results.find((item) => item.entry.id === id);
         assert.ok(row, `pending result row missing: ${id}`);
-        assert.equal(row.entry.damageType, "unknown");
-        assert.equal(row.entry.calculationStatus, "externalConfirmationRequired");
-        assert.equal(row.expected, 0);
-        assert.ok(row.problems?.length || row.entry.problems?.length, `${id} should explain why it cannot be calculated`);
+        assert.equal(row.entry.damageType, id.includes("transpose") ? "other" : "skill");
+        assert.equal(row.entry.currentCalcSpec.status,"provisional");
+        assert.ok(row.expected>0);
+        assert.equal(row.problems.length,0);
     }
-    assert.equal(DOC.deferredUnknowns.find((item) => item.id === ENTRY("unknown_c6_transpose_150")).damageType, "unknown");
-    assert.equal(DOC.deferredUnknowns.find((item) => item.id === ENTRY("unknown_wind_pinion")).damageType, "unknown");
+    assert.equal(DOC.deferredUnknowns.length,0);
     const initial = result(payload, ENTRY("skill_initial"));
     const rendererPath = path.resolve(__dirname, "../../games/js/genshinCalcRenderer.js");
     vm.runInContext(fs.readFileSync(rendererPath, "utf8"), f.sandbox, { filename: "genshinCalcRenderer.js" });
     const pending = payload.results.find((item) => item.entry.id === ENTRY("skill_wind_pinion_unknown"));
     const html = f.sandbox.GenshinCalcRenderer.renderDamageBreakdown(pending);
-    assert.match(html, /外部確認待ち/);
-    assert.doesNotMatch(html, /通常攻撃ダメージバフ|元素スキルダメージバフ/);
+    assert.doesNotMatch(html, /外部確認待ち/);
+    f.calcData.weaponModifiers["probe"]={modifiers:[{id:"normal",category:"damageBonus",applyTo:["normalAttackDamageBonus"],value:50,unit:"percent",condition:"always",calculationSupport:"simple",uidHandling:"conditional"},{id:"skill",category:"damageBonus",applyTo:["skillDamageBonus"],value:80,unit:"percent",condition:"always",calculationSupport:"simple",uidHandling:"conditional"}]};
+    f.request.weaponId="probe";const boosted=f.calculate();
+    near(result(boosted,ENTRY("skill_wind_pinion_unknown")).expected,pending.expected*1.8);
+    near(result(boosted,ENTRY("c6_transpose_150_unknown")).expected,result(payload,ENTRY("c6_transpose_150_unknown")).expected);
     assert.equal(initial.entry.damageType, "skill");
     replay(f, payload);
 });
 
-test("Vesna deferred Stellar Swirl ATK blessing remains a non-calculating record", () => {
+test("Vesna provisional Stellar blessing is continuous, capped, provider-owned and reaction-limited", () => {
     const f = fixture({ atk: 3000 });
+    // Isolate the reference boundaries from the separately-tested party-element ATK buff.
+    f.calcData.talentModifiers[VESNA] = JSON.parse(JSON.stringify(f.calcData.talentModifiers[VESNA]));
+    f.calcData.talentModifiers[VESNA].passives.forEach((passive) => {
+        passive.modifiers = passive.modifiers.filter((modifier) => modifier.id !== A4_ATK);
+    });
     setOption(f, "radiance", "stellarSwirl");
     const payload = f.calculate();
     const row = result(payload, ENTRY("skill_spirit_blade_rank2_stellarSwirl"));
     assert.equal(row.breakdown.baseTalentDamageMultiplier, 1);
-    const deferred = DOC.deferredUnknowns.find((item) => item.id === ENTRY("deferred_stellarSwirl_atk_bonus"));
-    assert.equal(deferred.calculationStatus, "deferredUnknown");
-    assert.equal(deferred.nonCalculatingRecord, true);
-    assert.equal(row.breakdown.baseTalentDamageMultiplier, 1, "unverified continuous/floor ATK interpretation is not applied");
+    for(const atk of [1000,1050,1099,1100,1999,2000,2100]){
+        f.request.stats.atk=atk;const p=f.calculate();
+        const hit=result(p,ENTRY("skill_spirit_blade_rank2_stellarSwirl"));
+        near(hit.breakdown.reactionBaseDamageBonus,Math.min(atk/100*.7,14));
+        near(result(p,ENTRY("skill_initial")).breakdown.reactionBaseDamageBonus || 0,0);replay(f,p);
+    }
+    replay(f, payload);
+});
+
+test("Vesna current-ATK blessing includes applied self ATK without using recipient stats", () => {
+    const f = fixture({ atk: 1000, baseAtk: 500 });
+    setOption(f, "radiance", "stellarSwirl");
+    f.calcData.weaponModifiers.probe = { modifiers: [{
+        id: "self_atk", category: "statBonus", applyTo: ["atkPercent"], value: 20,
+        unit: "percent", condition: "always", calculationSupport: "simple", uidHandling: "conditional"
+    }] };
+    f.request.weaponId = "probe";
+    const payload = f.calculate();
+    // A4's self Anemo member contributes another 6% of the 500 base ATK.
+    near(payload.context.effectiveStats.atk, 1130);
+    near(result(payload, ENTRY("skill_spirit_blade_rank2_stellarSwirl")).breakdown.reactionBaseDamageBonus, 7.91);
     replay(f, payload);
 });

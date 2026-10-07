@@ -180,11 +180,11 @@ test("Stellar base bonus and beam-only CRIT preserve provider ownership and sepa
     f.request.party.members[1].buffStates[candidate.toggleKey] = true;
     f.request.party.members[1].stats.atk = 1866;
     for (const reaction of ["stellarConduct", "stellarSwirl"]) {
-        near(probe(f, "風", reaction).totals.reactionBaseDamageBonus, 13.062);
+        near(probe(f, "風", reaction).totals.reactionBaseDamageBonus, 13.062 + (reaction === "stellarSwirl" ? 14 : 0));
         near(probe(f, "風", reaction).totals.reactionBonus, 0);
     }
     f.request.stats.atk = 9000;
-    near(probe(f, "氷", "stellarSwirl").totals.reactionBaseDamageBonus, 13.062);
+    near(probe(f, "氷", "stellarSwirl").totals.reactionBaseDamageBonus, 13.062 + 14);
     near(probe(f, "氷").totals.reactionBaseDamageBonus, 0);
     const s = fixture(S, 2);
     state(s, "constellation:C2:group:sandrone_c2_beams", { option: "3" });

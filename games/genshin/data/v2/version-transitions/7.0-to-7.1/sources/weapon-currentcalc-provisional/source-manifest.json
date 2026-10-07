@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "targetGameVersion": "7.1",
+  "provider": "Genshin Optimizer",
+  "repository": "https://github.com/frzyc/genshin-optimizer",
+  "revision": "7d553170cf076e656937a3df2228d474b1a3798d",
+  "purpose": "Pinned external implementation snapshots for provisional CurrentCalc interpretation. These source files are implementation candidates, not authoritative game-mechanics evidence.",
+  "sources": [
+    {
+      "path": "go-formula.ts",
+      "url": "https://raw.githubusercontent.com/frzyc/genshin-optimizer/7d553170cf076e656937a3df2228d474b1a3798d/libs/gi/wr/src/formula.ts",
+      "sha256": "30570800ea3d1626cb9305a5dc61bc570eaa6617fa1fed3a607b94b5d2449e2e",
+      "role": "premod-hp-includes-weapon-hp-percent-reference"
+    },
+    {
+      "gitBlobSha": "26d971e96115eb80c4b9c9ee414e754ba2466a7e",
+      "path": "hymn-of-the-maelstrom.tsx",
+      "url": "https://raw.githubusercontent.com/frzyc/genshin-optimizer/7d55317/libs/gi/sheets/src/Weapons/Catalyst/HymnOfTheMaelstrom/index.tsx",
+      "sha256": "21657b11ddbab3a0513d523d1b98df5acb3f029af13ad0329866cd3bb2194556",
+      "role": "implementation-candidate-not-game-spec"
+    },
+    {
+      "gitBlobSha": "29d86191ef5186472f23de7c79c4f57691087334",
+      "path": "new-bough.tsx",
+      "url": "https://raw.githubusercontent.com/frzyc/genshin-optimizer/7d55317/libs/gi/sheets/src/Weapons/Sword/NewBough/index.tsx",
+      "sha256": "ab1f8fd32fb68aa07857dea3c5cebab1888f5302d4e18c60431f322b020e3e7d",
+      "role": "implementation-candidate-not-game-spec"
+    }
+  ]
+}

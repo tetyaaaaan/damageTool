@@ -1,0 +1,5248 @@
+{
+  "schemaVersion": 1,
+  "kind": "genshinProvisionalCharacterOverlay",
+  "status": "candidatePrepared",
+  "nonCanonical": true,
+  "labelJa": "暫定仕様",
+  "targetGameVersion": "7.0",
+  "canonical": false,
+  "verificationComplete": false,
+  "runtimeConnected": false,
+  "failClosedCanonical": true,
+  "sourcePacketStage": "candidatePrepared",
+  "sourcePolicyNote": "Cryo Traveler alias overlay. Candidate CurrentCalc data only; no canonical eligibility, automatic timing/state simulation, or production promotion is implied.",
+  "sourceRefs": {
+    "primaryJapaneseRaw": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/travelercryo.json",
+    "primaryJapaneseConstellations": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/travelercryo.json",
+    "independentCurrentTables": "https://library.keqingmains.com/characters/cryo/traveler-cryo",
+    "independentLevelTables": "https://gamewith.net/genshin-impact/article/show/29672",
+    "pinnedCurrentCalcLocal": "games/genshin/data/v2/candidates/sources/traveler-cryo-currentcalc/cryo.tsx",
+    "pinnedCurrentCalcManifest": "games/genshin/data/v2/candidates/sources/traveler-cryo-currentcalc/source-manifest.json",
+    "pinnedCurrentCalcReference": "https://github.com/frzyc/genshin-optimizer/blob/7d553170cf076e656937a3df2228d474b1a3798d/libs/gi/sheets/src/Characters/TravelerCryoF/cryo.tsx",
+    "pinnedCurrentCalcReferenceSha256": "9b4ff998659d6c878e7a249f2a63f78bf4ebd09000b304e30e53494558cc88ed",
+    "skillDepotMap": "games/genshin/data/uid-talent-skill-map.json",
+    "legacyBaseStats": "games/genshin/data/base-stats.json"
+  },
+  "evidenceNotes": [
+    "The local fixed Japanese raw snapshot identifies the Cryo kit as travelercryo, id 705; the UID skill depot map also maps depot 705 to normal/skill/burst IDs 100554/10127/10128.",
+    "The fixed 6.7-to-7.0 snapshot predates the current KQM description of Foreign Permafrost, including Icepoint and Freezing Ice. Those mechanics are sourced provisionally from the current KQM table; the saved raw snapshot does not provide a competing description.",
+    "KQM provides independent current talent tables through level 13; GameWith provides level 1 through 15 tables. Damage rows below use the GameWith level progression and KQM attack/effect semantics; saved raw is retained as primary localized text and identity evidence.",
+    "Aether and Lumine charged attacks have distinct second-hit multipliers; the alias records preserve those values separately.",
+    "The pinned Genshin Optimizer TravelerCryoF sheet models A4 from premode ATK with a 160 EM cap, the two ordinary charged hit formulas, the locked-passive 140% ATK charged increment, Stellar blessing base damage, C2 EM, and C6 reaction bonuses for other party members. It does not establish the newer Foreign Permafrost description.",
+    "Foreign Permafrost resonance bonuses, C2's manual 60/120 EM choice, and C6's other-party-member reaction bonus are provisionally encoded from current KQM. Freezing Ice is represented as the ordinary charged hits with +140% ATK additive base damage on each hit, excluding A1's +80% increment, consistent with the pinned GO locked-passive charged path. The calculator does not simulate stack acquisition/consumption, duration, cooldown, trigger timing, off-field triggers, or a future rotation.",
+    "Normal and plunge talent rows reuse the existing precise Traveler sword multiplier curves where they match the Cryo Traveler KQM level-9 table; Cryo Traveler-specific charged second-hit values remain separate by protagonist.",
+    "Persistent resonance stats are marked includedInUidStats to avoid adding them on top of final UID stats. A4 uses a self ATK reference and the pinned GO 160 EM cap; final-stat inputs already contain this persistent passive, so the candidate marks it as reflected to prevent duplicate EM."
+  ],
+  "manualCurrentCalcContract": {
+    "frostglow": {
+      "min": 0,
+      "max": 8,
+      "default": 0,
+      "meaning": "寒光 consumed by burst; selects the burst bonus and whether the extra javelin hits are present"
+    },
+    "specialChargedAttack": {
+      "min": 0,
+      "max": 3,
+      "default": 0,
+      "meaning": "At 3 Icepoint, the next charged attack is represented as its two ordinary charged hit rows, each with +140% ATK additive base damage; no A1 +80% applies.",
+      "interpretation": "KQM states +140% ATK and GO pinned sheet models two charged hits as ordinary charged multipliers plus locked-passive charged-damage increment; this is a provisional implementation-backed interpretation."
+    },
+    "stellarMode": {
+      "values": [
+        "none",
+        "stellarConduct",
+        "stellarSwirl"
+      ],
+      "default": "none",
+      "meaning": "manually selected Stellar state for direct Stellar damage routing"
+    },
+    "scope": "Independent-hit CurrentCalc only. Does not simulate stack acquisition/consumption, duration, cooldown, 0.2-second trigger timing, off-field triggers, or future-DPS rotation."
+  },
+  "provisionalCurrentCalcSpecs": {
+    "10000005_cryo": "provisionalCryoTravelerCurrentCalc",
+    "10000007_cryo": "provisionalCryoTravelerCurrentCalc"
+  },
+  "characters": {
+    "10000005_cryo": {
+      "nameJa": "旅人",
+      "element": "氷",
+      "weaponType": "片手剣",
+      "rarity": 5,
+      "imagePath": "games/images/genshin/characters/10000005.webp",
+      "rawCharacterId": "10000005",
+      "skillDepotId": 505,
+      "travelerVariant": "aether"
+    },
+    "10000007_cryo": {
+      "nameJa": "旅人",
+      "element": "氷",
+      "weaponType": "片手剣",
+      "rarity": 5,
+      "imagePath": "games/images/genshin/characters/10000007.webp",
+      "rawCharacterId": "10000007",
+      "skillDepotId": 705,
+      "travelerVariant": "lumine"
+    }
+  },
+  "characterTalents": {
+    "10000005_cryo": {
+      "normalAttack": {
+        "nameJa": "異邦の寒光",
+        "normalDescriptionJa": "剣による最大5段の連続攻撃を行う。",
+        "chargedDescriptionJa": "一定のスタミナを消費し、前方に斬撃を2回放つ。",
+        "plungingDescriptionJa": "空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。"
+      },
+      "skill": {
+        "nameJa": "霧氷の剣",
+        "descriptionJa": "氷霧を放ち氷元素ダメージを与え、凛冽の寒星を発生させる。氷晶命中で寒光を1層獲得し、最大8層。輝映・星電導中は通常・重撃・落下命中に連動して氷晶を発射する。"
+      },
+      "burst": {
+        "nameJa": "飛氷の鉾",
+        "descriptionJa": "氷の投げ槍で複数回攻撃し、寒光を全消費してダメージを上げる。8層消費時は攻撃回数が増える。輝映・星閃中は対応する星反応ダメージとして扱う。"
+      },
+      "passives": [
+        {
+          "sourceId": "passive_1",
+          "nameJa": "鋭き凛氷",
+          "descriptionJa": "輝映・星電導中、通常・重撃・落下攻撃を氷元素に変え、ATKの80%分の基礎ダメージを加算する。"
+        },
+        {
+          "sourceId": "passive_2",
+          "nameJa": "透明なる冷氷",
+          "descriptionJa": "元素熟知をATKの8%分上げる。最大160。"
+        },
+        {
+          "sourceId": "passive_3",
+          "nameJa": "星光の祝福・変幻の氷面鏡",
+          "descriptionJa": "極星フィールドや星拡散を条件に星電導/星拡散状態へ入り、超電導/氷元素拡散を対応する星反応へ変換する。ATK100につき反応基礎ダメージ0.35%、最大7%。"
+        },
+        {
+          "sourceId": "passive_4",
+          "nameJa": "異郷の永久凍土",
+          "descriptionJa": "共鳴元素に応じてステータスを上げる。星電導/星拡散のダメージで氷点を獲得し、3層で次の重撃が特殊重撃に変化する。保存rawとの版差があるため暫定。"
+        }
+      ]
+    },
+    "10000007_cryo": {
+      "normalAttack": {
+        "nameJa": "異邦の寒光",
+        "normalDescriptionJa": "剣による最大5段の連続攻撃を行う。",
+        "chargedDescriptionJa": "一定のスタミナを消費し、前方に斬撃を2回放つ。",
+        "plungingDescriptionJa": "空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。"
+      },
+      "skill": {
+        "nameJa": "霧氷の剣",
+        "descriptionJa": "氷霧を放ち氷元素ダメージを与え、凛冽の寒星を発生させる。氷晶命中で寒光を1層獲得し、最大8層。輝映・星電導中は通常・重撃・落下命中に連動して氷晶を発射する。"
+      },
+      "burst": {
+        "nameJa": "飛氷の鉾",
+        "descriptionJa": "氷の投げ槍で複数回攻撃し、寒光を全消費してダメージを上げる。8層消費時は攻撃回数が増える。輝映・星閃中は対応する星反応ダメージとして扱う。"
+      },
+      "passives": [
+        {
+          "sourceId": "passive_1",
+          "nameJa": "鋭き凛氷",
+          "descriptionJa": "輝映・星電導中、通常・重撃・落下攻撃を氷元素に変え、ATKの80%分の基礎ダメージを加算する。"
+        },
+        {
+          "sourceId": "passive_2",
+          "nameJa": "透明なる冷氷",
+          "descriptionJa": "元素熟知をATKの8%分上げる。最大160。"
+        },
+        {
+          "sourceId": "passive_3",
+          "nameJa": "星光の祝福・変幻の氷面鏡",
+          "descriptionJa": "極星フィールドや星拡散を条件に星電導/星拡散状態へ入り、超電導/氷元素拡散を対応する星反応へ変換する。ATK100につき反応基礎ダメージ0.35%、最大7%。"
+        },
+        {
+          "sourceId": "passive_4",
+          "nameJa": "異郷の永久凍土",
+          "descriptionJa": "共鳴元素に応じてステータスを上げる。星電導/星拡散のダメージで氷点を獲得し、3層で次の重撃が特殊重撃に変化する。保存rawとの版差があるため暫定。"
+        }
+      ]
+    }
+  },
+  "baseStats": {
+    "characters": {
+      "10000005_cryo": {
+        "sourceCharacterId": "10000005",
+        "sourceNativeRecordStatus": "copiedLegacyBaseStats",
+        "curveIds": {
+          "1": 104,
+          "4": 204,
+          "7": 104
+        },
+        "promoteRecordId": null,
+        "baseProps": {
+          "1": 911.791,
+          "4": 17.808,
+          "7": 57.225,
+          "20": 0.05,
+          "22": 0.5,
+          "28": 0
+        },
+        "promoteProps": [
+          {
+            "1": 0,
+            "4": 0,
+            "6": 0,
+            "7": 0
+          },
+          {
+            "1": 681.15454,
+            "4": 13.3038,
+            "6": 0,
+            "7": 42.75
+          },
+          {
+            "1": 1165.1328,
+            "4": 22.7565,
+            "6": 0.06,
+            "7": 73.125
+          },
+          {
+            "1": 1810.4371,
+            "4": 35.3601,
+            "6": 0.12,
+            "7": 113.625
+          },
+          {
+            "1": 2294.4153,
+            "4": 44.8128,
+            "6": 0.12,
+            "7": 144
+          },
+          {
+            "1": 2778.3936,
+            "4": 54.2655,
+            "6": 0.18,
+            "7": 174.375
+          },
+          {
+            "1": 3262.3718,
+            "4": 63.7182,
+            "6": 0.24,
+            "7": 204.75
+          }
+        ]
+      },
+      "10000007_cryo": {
+        "sourceCharacterId": "10000007",
+        "sourceNativeRecordStatus": "copiedLegacyBaseStats",
+        "curveIds": {
+          "1": 104,
+          "4": 204,
+          "7": 104
+        },
+        "promoteRecordId": null,
+        "baseProps": {
+          "1": 911.791,
+          "4": 17.808,
+          "7": 57.225,
+          "20": 0.05,
+          "22": 0.5,
+          "28": 0
+        },
+        "promoteProps": [
+          {
+            "1": 0,
+            "4": 0,
+            "6": 0,
+            "7": 0
+          },
+          {
+            "1": 681.15454,
+            "4": 13.3038,
+            "6": 0,
+            "7": 42.75
+          },
+          {
+            "1": 1165.1328,
+            "4": 22.7565,
+            "6": 0.06,
+            "7": 73.125
+          },
+          {
+            "1": 1810.4371,
+            "4": 35.3601,
+            "6": 0.12,
+            "7": 113.625
+          },
+          {
+            "1": 2294.4153,
+            "4": 44.8128,
+            "6": 0.12,
+            "7": 144
+          },
+          {
+            "1": 2778.3936,
+            "4": 54.2655,
+            "6": 0.18,
+            "7": 174.375
+          },
+          {
+            "1": 3262.3718,
+            "4": 63.7182,
+            "6": 0.24,
+            "7": 204.75
+          }
+        ]
+      }
+    }
+  },
+  "talentScalings": {
+    "10000005_cryo": {
+      "normalAttack": {
+        "entries": [
+          {
+            "id": "cryo_n1",
+            "label": "1段ダメージ",
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 44.462,
+                  "2": 48.081,
+                  "3": 51.7,
+                  "4": 56.87,
+                  "5": 60.489,
+                  "6": 64.625,
+                  "7": 70.312,
+                  "8": 75.999,
+                  "9": 81.686,
+                  "10": 87.89,
+                  "11": 94.094,
+                  "12": 100.298,
+                  "13": 106.502,
+                  "14": 112.706,
+                  "15": 118.91
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_n2",
+            "label": "2段ダメージ",
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 43.43,
+                  "2": 46.965,
+                  "3": 50.5,
+                  "4": 55.55,
+                  "5": 59.085,
+                  "6": 63.125,
+                  "7": 68.68,
+                  "8": 74.235,
+                  "9": 79.79,
+                  "10": 85.85,
+                  "11": 91.91,
+                  "12": 97.97,
+                  "13": 104.03,
+                  "14": 110.09,
+                  "15": 116.15
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_n3",
+            "label": "3段ダメージ",
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 52.976,
+                  "2": 57.288,
+                  "3": 61.6,
+                  "4": 67.76,
+                  "5": 72.072,
+                  "6": 77,
+                  "7": 83.776,
+                  "8": 90.552,
+                  "9": 97.328,
+                  "10": 104.72,
+                  "11": 112.112,
+                  "12": 119.504,
+                  "13": 126.896,
+                  "14": 134.288,
+                  "15": 141.68
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_n4",
+            "label": "4段ダメージ",
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 58.308,
+                  "2": 63.054,
+                  "3": 67.8,
+                  "4": 74.58,
+                  "5": 79.326,
+                  "6": 84.75,
+                  "7": 92.208,
+                  "8": 99.666,
+                  "9": 107.124,
+                  "10": 115.26,
+                  "11": 123.396,
+                  "12": 131.532,
+                  "13": 139.668,
+                  "14": 147.804,
+                  "15": 155.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_n5",
+            "label": "5段ダメージ",
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 70.778,
+                  "2": 76.539,
+                  "3": 82.3,
+                  "4": 90.53,
+                  "5": 96.291,
+                  "6": 102.875,
+                  "7": 111.928,
+                  "8": 120.981,
+                  "9": 130.034,
+                  "10": 139.91,
+                  "11": 149.786,
+                  "12": 159.662,
+                  "13": 169.538,
+                  "14": 179.414,
+                  "15": 189.29
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_ca_first",
+            "label": "重撃1段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.9,
+                  "2": 60.45,
+                  "3": 65,
+                  "4": 71.5,
+                  "5": 76.05,
+                  "6": 81.25,
+                  "7": 88.4,
+                  "8": 95.55,
+                  "9": 102.7,
+                  "10": 110.5,
+                  "11": 118.3,
+                  "12": 126.1,
+                  "13": 133.9,
+                  "14": 141.7,
+                  "15": 149.5
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000005_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "0",
+                  "1",
+                  "2"
+                ],
+                "defaultValue": "0"
+              }
+            ]
+          },
+          {
+            "id": "cryo_ca_second",
+            "label": "重撃2段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 60.7,
+                  "2": 65.7,
+                  "3": 70.6,
+                  "4": 77.7,
+                  "5": 82.6,
+                  "6": 88.3,
+                  "7": 96,
+                  "8": 103.8,
+                  "9": 111.6,
+                  "10": 120,
+                  "11": 128.5,
+                  "12": 137,
+                  "13": 145.4,
+                  "14": 153.9,
+                  "15": 162.4
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000005_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "0",
+                  "1",
+                  "2"
+                ],
+                "defaultValue": "0"
+              }
+            ]
+          },
+          {
+            "id": "cryo_plunge",
+            "label": "落下期間のダメージ",
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 63.9324,
+                  "2": 69.1362,
+                  "3": 74.34,
+                  "4": 81.774,
+                  "5": 86.9778,
+                  "6": 92.925,
+                  "7": 101.1024,
+                  "8": 109.2798,
+                  "9": 117.4572,
+                  "10": 126.378,
+                  "11": 135.2988,
+                  "12": 144.2196,
+                  "13": 153.1404,
+                  "14": 162.0612,
+                  "15": 170.982
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_plunge_low",
+            "label": "低空落下攻撃ダメージ",
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 127.8377,
+                  "2": 138.2431,
+                  "3": 148.6485,
+                  "4": 163.5134,
+                  "5": 173.9187,
+                  "6": 185.8106,
+                  "7": 202.162,
+                  "8": 218.5133,
+                  "9": 234.8646,
+                  "10": 252.7025,
+                  "11": 270.5403,
+                  "12": 288.3781,
+                  "13": 306.2159,
+                  "14": 324.0537,
+                  "15": 341.8915
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_plunge_high",
+            "label": "高空落下攻撃ダメージ",
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 159.6762,
+                  "2": 172.6731,
+                  "3": 185.67,
+                  "4": 204.237,
+                  "5": 217.2339,
+                  "6": 232.0875,
+                  "7": 252.5112,
+                  "8": 272.9349,
+                  "9": 293.3586,
+                  "10": 315.639,
+                  "11": 337.9194,
+                  "12": 360.1998,
+                  "13": 382.4802,
+                  "14": 404.7606,
+                  "15": 427.041
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_ca_first_freezingIce_none",
+            "label": "凍結の氷・重撃1段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 195.9,
+                  "2": 200.45,
+                  "3": 205,
+                  "4": 211.5,
+                  "5": 216.05,
+                  "6": 221.25,
+                  "7": 228.4,
+                  "8": 235.55,
+                  "9": 242.7,
+                  "10": 250.5,
+                  "11": 258.3,
+                  "12": 266.1,
+                  "13": 273.9,
+                  "14": 281.7,
+                  "15": 289.5
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000005_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "3"
+                ],
+                "defaultValue": "0"
+              }
+            ]
+          },
+          {
+            "id": "cryo_ca_first_freezingIce_stellarConduct",
+            "label": "星電導・凍結の氷・重撃1段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 195.9,
+                  "2": 200.45,
+                  "3": 205,
+                  "4": 211.5,
+                  "5": 216.05,
+                  "6": 221.25,
+                  "7": 228.4,
+                  "8": 235.55,
+                  "9": 242.7,
+                  "10": 250.5,
+                  "11": 258.3,
+                  "12": 266.1,
+                  "13": 273.9,
+                  "14": 281.7,
+                  "15": 289.5
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarConduct"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000005_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "3"
+                ],
+                "defaultValue": "0"
+              }
+            ],
+            "directReactionId": "stellarConduct",
+            "damageElement": "氷"
+          },
+          {
+            "id": "cryo_ca_first_freezingIce_stellarSwirl",
+            "label": "星拡散・凍結の氷・重撃1段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 195.9,
+                  "2": 200.45,
+                  "3": 205,
+                  "4": 211.5,
+                  "5": 216.05,
+                  "6": 221.25,
+                  "7": 228.4,
+                  "8": 235.55,
+                  "9": 242.7,
+                  "10": 250.5,
+                  "11": 258.3,
+                  "12": 266.1,
+                  "13": 273.9,
+                  "14": 281.7,
+                  "15": 289.5
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000005_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "3"
+                ],
+                "defaultValue": "0"
+              }
+            ],
+            "directReactionId": "stellarSwirl",
+            "damageElement": "氷"
+          },
+          {
+            "id": "cryo_ca_second_freezingIce_none",
+            "label": "凍結の氷・重撃2段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 200.7,
+                  "2": 205.7,
+                  "3": 210.6,
+                  "4": 217.7,
+                  "5": 222.6,
+                  "6": 228.3,
+                  "7": 236,
+                  "8": 243.8,
+                  "9": 251.6,
+                  "10": 260,
+                  "11": 268.5,
+                  "12": 277,
+                  "13": 285.4,
+                  "14": 293.9,
+                  "15": 302.4
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000005_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "3"
+                ],
+                "defaultValue": "0"
+              }
+            ]
+          },
+          {
+            "id": "cryo_ca_second_freezingIce_stellarConduct",
+            "label": "星電導・凍結の氷・重撃2段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 200.7,
+                  "2": 205.7,
+                  "3": 210.6,
+                  "4": 217.7,
+                  "5": 222.6,
+                  "6": 228.3,
+                  "7": 236,
+                  "8": 243.8,
+                  "9": 251.6,
+                  "10": 260,
+                  "11": 268.5,
+                  "12": 277,
+                  "13": 285.4,
+                  "14": 293.9,
+                  "15": 302.4
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarConduct"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000005_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "3"
+                ],
+                "defaultValue": "0"
+              }
+            ],
+            "directReactionId": "stellarConduct",
+            "damageElement": "氷"
+          },
+          {
+            "id": "cryo_ca_second_freezingIce_stellarSwirl",
+            "label": "星拡散・凍結の氷・重撃2段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 200.7,
+                  "2": 205.7,
+                  "3": 210.6,
+                  "4": 217.7,
+                  "5": 222.6,
+                  "6": 228.3,
+                  "7": 236,
+                  "8": 243.8,
+                  "9": 251.6,
+                  "10": 260,
+                  "11": 268.5,
+                  "12": 277,
+                  "13": 285.4,
+                  "14": 293.9,
+                  "15": 302.4
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000005_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "3"
+                ],
+                "defaultValue": "0"
+              }
+            ],
+            "directReactionId": "stellarSwirl",
+            "damageElement": "氷"
+          }
+        ],
+        "skill": {
+          "entries": [
+            {
+              "id": "cryo_skill_hit",
+              "label": "スキルダメージ",
+              "attackType": "skill",
+              "damageType": "skill",
+              "element": "氷",
+              "hitCount": 1,
+              "levelSource": "skill",
+              "scalings": [
+                {
+                  "stat": "atk",
+                  "valuesByLevel": {
+                    "1": 91.7,
+                    "2": 98.6,
+                    "3": 105.4,
+                    "4": 114.6,
+                    "5": 121.5,
+                    "6": 128.4,
+                    "7": 137.5,
+                    "8": 146.7,
+                    "9": 155.9,
+                    "10": 165,
+                    "11": 174.2,
+                    "12": 183.4,
+                    "13": 194.8,
+                    "14": 206.3,
+                    "15": 217.7
+                  }
+                }
+              ]
+            },
+            {
+              "id": "cryo_skill_crystal",
+              "label": "氷晶ダメージ",
+              "attackType": "skill",
+              "damageType": "skill",
+              "element": "氷",
+              "hitCount": 1,
+              "levelSource": "skill",
+              "scalings": [
+                {
+                  "stat": "atk",
+                  "valuesByLevel": {
+                    "1": 21.4,
+                    "2": 23,
+                    "3": 24.6,
+                    "4": 26.7,
+                    "5": 28.3,
+                    "6": 30,
+                    "7": 32.1,
+                    "8": 34.2,
+                    "9": 36.4,
+                    "10": 38.5,
+                    "11": 40.6,
+                    "12": 42.8,
+                    "13": 45.5,
+                    "14": 48.1,
+                    "15": 50.8
+                  }
+                }
+              ]
+            },
+            {
+              "id": "cryo_stellar_conduct_hit",
+              "label": "星電導氷晶ダメージ",
+              "attackType": "skill",
+              "damageType": "extra",
+              "element": "氷",
+              "hitCount": 1,
+              "levelSource": "skill",
+              "directReactionId": "stellarConduct",
+              "scalings": [
+                {
+                  "stat": "atk",
+                  "valuesByLevel": {
+                    "1": 36.75,
+                    "2": 39.51,
+                    "3": 42.27,
+                    "4": 45.94,
+                    "5": 48.7,
+                    "6": 51.46,
+                    "7": 55.13,
+                    "8": 58.81,
+                    "9": 62.48,
+                    "10": 66.16,
+                    "11": 69.83,
+                    "12": 73.51,
+                    "13": 78.1,
+                    "14": 82.7,
+                    "15": 87.29
+                  }
+                }
+              ]
+            },
+            {
+              "id": "cryo_stellar_swirl_hit",
+              "label": "星拡散氷晶ダメージ",
+              "attackType": "skill",
+              "damageType": "extra",
+              "element": "氷",
+              "hitCount": 1,
+              "levelSource": "skill",
+              "directReactionId": "stellarSwirl",
+              "scalings": [
+                {
+                  "stat": "atk",
+                  "valuesByLevel": {
+                    "1": 55.13,
+                    "2": 59.27,
+                    "3": 63.4,
+                    "4": 68.91,
+                    "5": 73.05,
+                    "6": 77.18,
+                    "7": 82.7,
+                    "8": 88.21,
+                    "9": 93.72,
+                    "10": 99.24,
+                    "11": 104.75,
+                    "12": 110.26,
+                    "13": 117.15,
+                    "14": 124.04,
+                    "15": 130.94
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "burst": {
+          "entries": [
+            {
+              "id": "cryo_burst_javelin",
+              "label": "投げ槍1回ダメージ",
+              "attackType": "burst",
+              "damageType": "burst",
+              "element": "氷",
+              "hitCount": 3,
+              "levelSource": "burst",
+              "scalings": [
+                {
+                  "stat": "atk",
+                  "valuesByLevel": {
+                    "1": 55.13,
+                    "2": 59.27,
+                    "3": 63.4,
+                    "4": 68.91,
+                    "5": 73.05,
+                    "6": 77.18,
+                    "7": 82.7,
+                    "8": 88.21,
+                    "9": 93.72,
+                    "10": 99.24,
+                    "11": 104.75,
+                    "12": 110.26,
+                    "13": 117.15,
+                    "14": 124.04,
+                    "15": 130.94
+                  }
+                }
+              ]
+            },
+            {
+              "id": "cryo_burst_stellar_conduct",
+              "label": "星電導投げ槍1回ダメージ",
+              "attackType": "burst",
+              "damageType": "burst",
+              "element": "氷",
+              "hitCount": 3,
+              "levelSource": "burst",
+              "directReactionId": "stellarConduct",
+              "scalings": [
+                {
+                  "stat": "atk",
+                  "valuesByLevel": {
+                    "1": 36.75,
+                    "2": 39.51,
+                    "3": 42.27,
+                    "4": 45.94,
+                    "5": 48.7,
+                    "6": 51.46,
+                    "7": 55.13,
+                    "8": 58.81,
+                    "9": 62.48,
+                    "10": 66.16,
+                    "11": 69.83,
+                    "12": 73.51,
+                    "13": 78.1,
+                    "14": 82.7,
+                    "15": 87.29
+                  }
+                }
+              ]
+            },
+            {
+              "id": "cryo_burst_stellar_swirl",
+              "label": "星拡散投げ槍1回ダメージ",
+              "attackType": "burst",
+              "damageType": "burst",
+              "element": "氷",
+              "hitCount": 3,
+              "levelSource": "burst",
+              "directReactionId": "stellarSwirl",
+              "scalings": [
+                {
+                  "stat": "atk",
+                  "valuesByLevel": {
+                    "1": 55.13,
+                    "2": 59.27,
+                    "3": 63.4,
+                    "4": 68.91,
+                    "5": 73.05,
+                    "6": 77.18,
+                    "7": 82.7,
+                    "8": 88.21,
+                    "9": 93.72,
+                    "10": 99.24,
+                    "11": 104.75,
+                    "12": 110.26,
+                    "13": 117.15,
+                    "14": 124.04,
+                    "15": 130.94
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "skill": {
+        "entries": [
+          {
+            "id": "10000005_cryo_skill",
+            "label": "スキルダメージ",
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "skill",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 91.7,
+                  "2": 98.6,
+                  "3": 105.4,
+                  "4": 114.6,
+                  "5": 121.5,
+                  "6": 128.4,
+                  "7": 137.5,
+                  "8": 146.7,
+                  "9": 155.9,
+                  "10": 165,
+                  "11": 174.2,
+                  "12": 183.4,
+                  "13": 194.8,
+                  "14": 206.3,
+                  "15": 217.7
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "10000005_cryo_crystal",
+            "label": "氷晶ダメージ",
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "skill",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 21.4,
+                  "2": 23,
+                  "3": 24.6,
+                  "4": 26.7,
+                  "5": 28.3,
+                  "6": 30,
+                  "7": 32.1,
+                  "8": 34.2,
+                  "9": 36.4,
+                  "10": 38.5,
+                  "11": 40.6,
+                  "12": 42.8,
+                  "13": 45.5,
+                  "14": 48.1,
+                  "15": 50.8
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          }
+        ]
+      },
+      "burst": {
+        "entries": [
+          {
+            "id": "10000005_cryo_burst",
+            "label": "投げ槍1回ダメージ",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 3,
+            "levelSource": "burst",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "10000005_cryo_burst_conduct",
+            "label": "星電導投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 3,
+            "levelSource": "burst",
+            "independentHits": true,
+            "directReactionId": "stellarConduct",
+            "damageElement": "氷",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 36.75,
+                  "2": 39.51,
+                  "3": 42.27,
+                  "4": 45.94,
+                  "5": 48.7,
+                  "6": 51.46,
+                  "7": 55.13,
+                  "8": 58.81,
+                  "9": 62.48,
+                  "10": 66.16,
+                  "11": 69.83,
+                  "12": 73.51,
+                  "13": 78.1,
+                  "14": 82.7,
+                  "15": 87.29
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarConduct"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "10000005_cryo_burst_swirl",
+            "label": "星拡散投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 3,
+            "levelSource": "burst",
+            "independentHits": true,
+            "directReactionId": "stellarSwirl",
+            "damageElement": "氷",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "10000005_cryo_burst_stack8_extra1",
+            "label": "寒光8層時・追加投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "burst",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:frostglow",
+                "type": "stack",
+                "values": [
+                  "8"
+                ],
+                "defaultValue": "0"
+              },
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "10000005_cryo_burst_stack8_extra2",
+            "label": "寒光8層時・追加投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "burst",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:frostglow",
+                "type": "stack",
+                "values": [
+                  "8"
+                ],
+                "defaultValue": "0"
+              },
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "10000005_cryo_burst_stack8_extra1_stellarConduct",
+            "label": "寒光8層時・追加投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "burst",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:frostglow",
+                "type": "stack",
+                "values": [
+                  "8"
+                ],
+                "defaultValue": "0"
+              },
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarConduct"
+                ],
+                "defaultValue": "none"
+              }
+            ],
+            "directReactionId": "stellarConduct"
+          },
+          {
+            "id": "10000005_cryo_burst_stack8_extra2_stellarConduct",
+            "label": "寒光8層時・追加投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "burst",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:frostglow",
+                "type": "stack",
+                "values": [
+                  "8"
+                ],
+                "defaultValue": "0"
+              },
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarConduct"
+                ],
+                "defaultValue": "none"
+              }
+            ],
+            "directReactionId": "stellarConduct"
+          },
+          {
+            "id": "10000005_cryo_burst_stack8_extra1_stellarSwirl",
+            "label": "寒光8層時・追加投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "burst",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:frostglow",
+                "type": "stack",
+                "values": [
+                  "8"
+                ],
+                "defaultValue": "0"
+              },
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ],
+            "directReactionId": "stellarSwirl"
+          },
+          {
+            "id": "10000005_cryo_burst_stack8_extra2_stellarSwirl",
+            "label": "寒光8層時・追加投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "burst",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000005_cryo:frostglow",
+                "type": "stack",
+                "values": [
+                  "8"
+                ],
+                "defaultValue": "0"
+              },
+              {
+                "groupId": "10000005_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ],
+            "directReactionId": "stellarSwirl"
+          }
+        ]
+      }
+    },
+    "10000007_cryo": {
+      "normalAttack": {
+        "entries": [
+          {
+            "id": "cryo_n1",
+            "label": "1段ダメージ",
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 44.462,
+                  "2": 48.081,
+                  "3": 51.7,
+                  "4": 56.87,
+                  "5": 60.489,
+                  "6": 64.625,
+                  "7": 70.312,
+                  "8": 75.999,
+                  "9": 81.686,
+                  "10": 87.89,
+                  "11": 94.094,
+                  "12": 100.298,
+                  "13": 106.502,
+                  "14": 112.706,
+                  "15": 118.91
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_n2",
+            "label": "2段ダメージ",
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 43.43,
+                  "2": 46.965,
+                  "3": 50.5,
+                  "4": 55.55,
+                  "5": 59.085,
+                  "6": 63.125,
+                  "7": 68.68,
+                  "8": 74.235,
+                  "9": 79.79,
+                  "10": 85.85,
+                  "11": 91.91,
+                  "12": 97.97,
+                  "13": 104.03,
+                  "14": 110.09,
+                  "15": 116.15
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_n3",
+            "label": "3段ダメージ",
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 52.976,
+                  "2": 57.288,
+                  "3": 61.6,
+                  "4": 67.76,
+                  "5": 72.072,
+                  "6": 77,
+                  "7": 83.776,
+                  "8": 90.552,
+                  "9": 97.328,
+                  "10": 104.72,
+                  "11": 112.112,
+                  "12": 119.504,
+                  "13": 126.896,
+                  "14": 134.288,
+                  "15": 141.68
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_n4",
+            "label": "4段ダメージ",
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 58.308,
+                  "2": 63.054,
+                  "3": 67.8,
+                  "4": 74.58,
+                  "5": 79.326,
+                  "6": 84.75,
+                  "7": 92.208,
+                  "8": 99.666,
+                  "9": 107.124,
+                  "10": 115.26,
+                  "11": 123.396,
+                  "12": 131.532,
+                  "13": 139.668,
+                  "14": 147.804,
+                  "15": 155.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_n5",
+            "label": "5段ダメージ",
+            "attackType": "normalAttack",
+            "damageType": "normal",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 70.778,
+                  "2": 76.539,
+                  "3": 82.3,
+                  "4": 90.53,
+                  "5": 96.291,
+                  "6": 102.875,
+                  "7": 111.928,
+                  "8": 120.981,
+                  "9": 130.034,
+                  "10": 139.91,
+                  "11": 149.786,
+                  "12": 159.662,
+                  "13": 169.538,
+                  "14": 179.414,
+                  "15": 189.29
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_ca_first",
+            "label": "重撃1段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.9,
+                  "2": 60.45,
+                  "3": 65,
+                  "4": 71.5,
+                  "5": 76.05,
+                  "6": 81.25,
+                  "7": 88.4,
+                  "8": 95.55,
+                  "9": 102.7,
+                  "10": 110.5,
+                  "11": 118.3,
+                  "12": 126.1,
+                  "13": 133.9,
+                  "14": 141.7,
+                  "15": 149.5
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000007_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "0",
+                  "1",
+                  "2"
+                ],
+                "defaultValue": "0"
+              }
+            ]
+          },
+          {
+            "id": "cryo_ca_second",
+            "label": "重撃2段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 72.2,
+                  "2": 78.1,
+                  "3": 84,
+                  "4": 92.4,
+                  "5": 98.3,
+                  "6": 105,
+                  "7": 114.2,
+                  "8": 123.5,
+                  "9": 132.7,
+                  "10": 142.8,
+                  "11": 152.9,
+                  "12": 163,
+                  "13": 173,
+                  "14": 183.1,
+                  "15": 193.2
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000007_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "0",
+                  "1",
+                  "2"
+                ],
+                "defaultValue": "0"
+              }
+            ]
+          },
+          {
+            "id": "cryo_plunge",
+            "label": "落下期間のダメージ",
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 63.9324,
+                  "2": 69.1362,
+                  "3": 74.34,
+                  "4": 81.774,
+                  "5": 86.9778,
+                  "6": 92.925,
+                  "7": 101.1024,
+                  "8": 109.2798,
+                  "9": 117.4572,
+                  "10": 126.378,
+                  "11": 135.2988,
+                  "12": 144.2196,
+                  "13": 153.1404,
+                  "14": 162.0612,
+                  "15": 170.982
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_plunge_low",
+            "label": "低空落下攻撃ダメージ",
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 127.8377,
+                  "2": 138.2431,
+                  "3": 148.6485,
+                  "4": 163.5134,
+                  "5": 173.9187,
+                  "6": 185.8106,
+                  "7": 202.162,
+                  "8": 218.5133,
+                  "9": 234.8646,
+                  "10": 252.7025,
+                  "11": 270.5403,
+                  "12": 288.3781,
+                  "13": 306.2159,
+                  "14": 324.0537,
+                  "15": 341.8915
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_plunge_high",
+            "label": "高空落下攻撃ダメージ",
+            "attackType": "plungingAttack",
+            "damageType": "plunging",
+            "element": "physical",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 159.6762,
+                  "2": 172.6731,
+                  "3": 185.67,
+                  "4": 204.237,
+                  "5": 217.2339,
+                  "6": 232.0875,
+                  "7": 252.5112,
+                  "8": 272.9349,
+                  "9": 293.3586,
+                  "10": 315.639,
+                  "11": 337.9194,
+                  "12": 360.1998,
+                  "13": 382.4802,
+                  "14": 404.7606,
+                  "15": 427.041
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "cryo_ca_first_freezingIce_none",
+            "label": "凍結の氷・重撃1段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 195.9,
+                  "2": 200.45,
+                  "3": 205,
+                  "4": 211.5,
+                  "5": 216.05,
+                  "6": 221.25,
+                  "7": 228.4,
+                  "8": 235.55,
+                  "9": 242.7,
+                  "10": 250.5,
+                  "11": 258.3,
+                  "12": 266.1,
+                  "13": 273.9,
+                  "14": 281.7,
+                  "15": 289.5
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000007_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "3"
+                ],
+                "defaultValue": "0"
+              }
+            ]
+          },
+          {
+            "id": "cryo_ca_first_freezingIce_stellarConduct",
+            "label": "星電導・凍結の氷・重撃1段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 195.9,
+                  "2": 200.45,
+                  "3": 205,
+                  "4": 211.5,
+                  "5": 216.05,
+                  "6": 221.25,
+                  "7": 228.4,
+                  "8": 235.55,
+                  "9": 242.7,
+                  "10": 250.5,
+                  "11": 258.3,
+                  "12": 266.1,
+                  "13": 273.9,
+                  "14": 281.7,
+                  "15": 289.5
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarConduct"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000007_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "3"
+                ],
+                "defaultValue": "0"
+              }
+            ],
+            "directReactionId": "stellarConduct",
+            "damageElement": "氷"
+          },
+          {
+            "id": "cryo_ca_first_freezingIce_stellarSwirl",
+            "label": "星拡散・凍結の氷・重撃1段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 195.9,
+                  "2": 200.45,
+                  "3": 205,
+                  "4": 211.5,
+                  "5": 216.05,
+                  "6": 221.25,
+                  "7": 228.4,
+                  "8": 235.55,
+                  "9": 242.7,
+                  "10": 250.5,
+                  "11": 258.3,
+                  "12": 266.1,
+                  "13": 273.9,
+                  "14": 281.7,
+                  "15": 289.5
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000007_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "3"
+                ],
+                "defaultValue": "0"
+              }
+            ],
+            "directReactionId": "stellarSwirl",
+            "damageElement": "氷"
+          },
+          {
+            "id": "cryo_ca_second_freezingIce_none",
+            "label": "凍結の氷・重撃2段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 212.2,
+                  "2": 218.1,
+                  "3": 224,
+                  "4": 232.4,
+                  "5": 238.3,
+                  "6": 245,
+                  "7": 254.2,
+                  "8": 263.5,
+                  "9": 272.7,
+                  "10": 282.8,
+                  "11": 292.9,
+                  "12": 303,
+                  "13": 313,
+                  "14": 323.1,
+                  "15": 333.2
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000007_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "3"
+                ],
+                "defaultValue": "0"
+              }
+            ]
+          },
+          {
+            "id": "cryo_ca_second_freezingIce_stellarConduct",
+            "label": "星電導・凍結の氷・重撃2段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 212.2,
+                  "2": 218.1,
+                  "3": 224,
+                  "4": 232.4,
+                  "5": 238.3,
+                  "6": 245,
+                  "7": 254.2,
+                  "8": 263.5,
+                  "9": 272.7,
+                  "10": 282.8,
+                  "11": 292.9,
+                  "12": 303,
+                  "13": 313,
+                  "14": 323.1,
+                  "15": 333.2
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarConduct"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000007_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "3"
+                ],
+                "defaultValue": "0"
+              }
+            ],
+            "directReactionId": "stellarConduct",
+            "damageElement": "氷"
+          },
+          {
+            "id": "cryo_ca_second_freezingIce_stellarSwirl",
+            "label": "星拡散・凍結の氷・重撃2段目",
+            "attackType": "chargedAttack",
+            "damageType": "charged",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "normalAttack",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 212.2,
+                  "2": 218.1,
+                  "3": 224,
+                  "4": 232.4,
+                  "5": 238.3,
+                  "6": 245,
+                  "7": 254.2,
+                  "8": 263.5,
+                  "9": 272.7,
+                  "10": 282.8,
+                  "11": 292.9,
+                  "12": 303,
+                  "13": 313,
+                  "14": 323.1,
+                  "15": 333.2
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              },
+              {
+                "groupId": "10000007_cryo:icepoint",
+                "type": "stack",
+                "values": [
+                  "3"
+                ],
+                "defaultValue": "0"
+              }
+            ],
+            "directReactionId": "stellarSwirl",
+            "damageElement": "氷"
+          }
+        ],
+        "skill": {
+          "entries": [
+            {
+              "id": "cryo_skill_hit",
+              "label": "スキルダメージ",
+              "attackType": "skill",
+              "damageType": "skill",
+              "element": "氷",
+              "hitCount": 1,
+              "levelSource": "skill",
+              "scalings": [
+                {
+                  "stat": "atk",
+                  "valuesByLevel": {
+                    "1": 91.7,
+                    "2": 98.6,
+                    "3": 105.4,
+                    "4": 114.6,
+                    "5": 121.5,
+                    "6": 128.4,
+                    "7": 137.5,
+                    "8": 146.7,
+                    "9": 155.9,
+                    "10": 165,
+                    "11": 174.2,
+                    "12": 183.4,
+                    "13": 194.8,
+                    "14": 206.3,
+                    "15": 217.7
+                  }
+                }
+              ]
+            },
+            {
+              "id": "cryo_skill_crystal",
+              "label": "氷晶ダメージ",
+              "attackType": "skill",
+              "damageType": "skill",
+              "element": "氷",
+              "hitCount": 1,
+              "levelSource": "skill",
+              "scalings": [
+                {
+                  "stat": "atk",
+                  "valuesByLevel": {
+                    "1": 21.4,
+                    "2": 23,
+                    "3": 24.6,
+                    "4": 26.7,
+                    "5": 28.3,
+                    "6": 30,
+                    "7": 32.1,
+                    "8": 34.2,
+                    "9": 36.4,
+                    "10": 38.5,
+                    "11": 40.6,
+                    "12": 42.8,
+                    "13": 45.5,
+                    "14": 48.1,
+                    "15": 50.8
+                  }
+                }
+              ]
+            },
+            {
+              "id": "cryo_stellar_conduct_hit",
+              "label": "星電導氷晶ダメージ",
+              "attackType": "skill",
+              "damageType": "extra",
+              "element": "氷",
+              "hitCount": 1,
+              "levelSource": "skill",
+              "directReactionId": "stellarConduct",
+              "scalings": [
+                {
+                  "stat": "atk",
+                  "valuesByLevel": {
+                    "1": 36.75,
+                    "2": 39.51,
+                    "3": 42.27,
+                    "4": 45.94,
+                    "5": 48.7,
+                    "6": 51.46,
+                    "7": 55.13,
+                    "8": 58.81,
+                    "9": 62.48,
+                    "10": 66.16,
+                    "11": 69.83,
+                    "12": 73.51,
+                    "13": 78.1,
+                    "14": 82.7,
+                    "15": 87.29
+                  }
+                }
+              ]
+            },
+            {
+              "id": "cryo_stellar_swirl_hit",
+              "label": "星拡散氷晶ダメージ",
+              "attackType": "skill",
+              "damageType": "extra",
+              "element": "氷",
+              "hitCount": 1,
+              "levelSource": "skill",
+              "directReactionId": "stellarSwirl",
+              "scalings": [
+                {
+                  "stat": "atk",
+                  "valuesByLevel": {
+                    "1": 55.13,
+                    "2": 59.27,
+                    "3": 63.4,
+                    "4": 68.91,
+                    "5": 73.05,
+                    "6": 77.18,
+                    "7": 82.7,
+                    "8": 88.21,
+                    "9": 93.72,
+                    "10": 99.24,
+                    "11": 104.75,
+                    "12": 110.26,
+                    "13": 117.15,
+                    "14": 124.04,
+                    "15": 130.94
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "burst": {
+          "entries": [
+            {
+              "id": "cryo_burst_javelin",
+              "label": "投げ槍1回ダメージ",
+              "attackType": "burst",
+              "damageType": "burst",
+              "element": "氷",
+              "hitCount": 3,
+              "levelSource": "burst",
+              "scalings": [
+                {
+                  "stat": "atk",
+                  "valuesByLevel": {
+                    "1": 55.13,
+                    "2": 59.27,
+                    "3": 63.4,
+                    "4": 68.91,
+                    "5": 73.05,
+                    "6": 77.18,
+                    "7": 82.7,
+                    "8": 88.21,
+                    "9": 93.72,
+                    "10": 99.24,
+                    "11": 104.75,
+                    "12": 110.26,
+                    "13": 117.15,
+                    "14": 124.04,
+                    "15": 130.94
+                  }
+                }
+              ]
+            },
+            {
+              "id": "cryo_burst_stellar_conduct",
+              "label": "星電導投げ槍1回ダメージ",
+              "attackType": "burst",
+              "damageType": "burst",
+              "element": "氷",
+              "hitCount": 3,
+              "levelSource": "burst",
+              "directReactionId": "stellarConduct",
+              "scalings": [
+                {
+                  "stat": "atk",
+                  "valuesByLevel": {
+                    "1": 36.75,
+                    "2": 39.51,
+                    "3": 42.27,
+                    "4": 45.94,
+                    "5": 48.7,
+                    "6": 51.46,
+                    "7": 55.13,
+                    "8": 58.81,
+                    "9": 62.48,
+                    "10": 66.16,
+                    "11": 69.83,
+                    "12": 73.51,
+                    "13": 78.1,
+                    "14": 82.7,
+                    "15": 87.29
+                  }
+                }
+              ]
+            },
+            {
+              "id": "cryo_burst_stellar_swirl",
+              "label": "星拡散投げ槍1回ダメージ",
+              "attackType": "burst",
+              "damageType": "burst",
+              "element": "氷",
+              "hitCount": 3,
+              "levelSource": "burst",
+              "directReactionId": "stellarSwirl",
+              "scalings": [
+                {
+                  "stat": "atk",
+                  "valuesByLevel": {
+                    "1": 55.13,
+                    "2": 59.27,
+                    "3": 63.4,
+                    "4": 68.91,
+                    "5": 73.05,
+                    "6": 77.18,
+                    "7": 82.7,
+                    "8": 88.21,
+                    "9": 93.72,
+                    "10": 99.24,
+                    "11": 104.75,
+                    "12": 110.26,
+                    "13": 117.15,
+                    "14": 124.04,
+                    "15": 130.94
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "skill": {
+        "entries": [
+          {
+            "id": "10000007_cryo_skill",
+            "label": "スキルダメージ",
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "skill",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 91.7,
+                  "2": 98.6,
+                  "3": 105.4,
+                  "4": 114.6,
+                  "5": 121.5,
+                  "6": 128.4,
+                  "7": 137.5,
+                  "8": 146.7,
+                  "9": 155.9,
+                  "10": 165,
+                  "11": 174.2,
+                  "12": 183.4,
+                  "13": 194.8,
+                  "14": 206.3,
+                  "15": 217.7
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "10000007_cryo_crystal",
+            "label": "氷晶ダメージ",
+            "attackType": "skill",
+            "damageType": "skill",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "skill",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 21.4,
+                  "2": 23,
+                  "3": 24.6,
+                  "4": 26.7,
+                  "5": 28.3,
+                  "6": 30,
+                  "7": 32.1,
+                  "8": 34.2,
+                  "9": 36.4,
+                  "10": 38.5,
+                  "11": 40.6,
+                  "12": 42.8,
+                  "13": 45.5,
+                  "14": 48.1,
+                  "15": 50.8
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none",
+                  "stellarConduct",
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          }
+        ]
+      },
+      "burst": {
+        "entries": [
+          {
+            "id": "10000007_cryo_burst",
+            "label": "投げ槍1回ダメージ",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 3,
+            "levelSource": "burst",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "10000007_cryo_burst_conduct",
+            "label": "星電導投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 3,
+            "levelSource": "burst",
+            "independentHits": true,
+            "directReactionId": "stellarConduct",
+            "damageElement": "氷",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 36.75,
+                  "2": 39.51,
+                  "3": 42.27,
+                  "4": 45.94,
+                  "5": 48.7,
+                  "6": 51.46,
+                  "7": 55.13,
+                  "8": 58.81,
+                  "9": 62.48,
+                  "10": 66.16,
+                  "11": 69.83,
+                  "12": 73.51,
+                  "13": 78.1,
+                  "14": 82.7,
+                  "15": 87.29
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarConduct"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "10000007_cryo_burst_swirl",
+            "label": "星拡散投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 3,
+            "levelSource": "burst",
+            "independentHits": true,
+            "directReactionId": "stellarSwirl",
+            "damageElement": "氷",
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "10000007_cryo_burst_stack8_extra1",
+            "label": "寒光8層時・追加投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "burst",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:frostglow",
+                "type": "stack",
+                "values": [
+                  "8"
+                ],
+                "defaultValue": "0"
+              },
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "10000007_cryo_burst_stack8_extra2",
+            "label": "寒光8層時・追加投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "burst",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:frostglow",
+                "type": "stack",
+                "values": [
+                  "8"
+                ],
+                "defaultValue": "0"
+              },
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "none"
+                ],
+                "defaultValue": "none"
+              }
+            ]
+          },
+          {
+            "id": "10000007_cryo_burst_stack8_extra1_stellarConduct",
+            "label": "寒光8層時・追加投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "burst",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:frostglow",
+                "type": "stack",
+                "values": [
+                  "8"
+                ],
+                "defaultValue": "0"
+              },
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarConduct"
+                ],
+                "defaultValue": "none"
+              }
+            ],
+            "directReactionId": "stellarConduct"
+          },
+          {
+            "id": "10000007_cryo_burst_stack8_extra2_stellarConduct",
+            "label": "寒光8層時・追加投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "burst",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:frostglow",
+                "type": "stack",
+                "values": [
+                  "8"
+                ],
+                "defaultValue": "0"
+              },
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarConduct"
+                ],
+                "defaultValue": "none"
+              }
+            ],
+            "directReactionId": "stellarConduct"
+          },
+          {
+            "id": "10000007_cryo_burst_stack8_extra1_stellarSwirl",
+            "label": "寒光8層時・追加投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "burst",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:frostglow",
+                "type": "stack",
+                "values": [
+                  "8"
+                ],
+                "defaultValue": "0"
+              },
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ],
+            "directReactionId": "stellarSwirl"
+          },
+          {
+            "id": "10000007_cryo_burst_stack8_extra2_stellarSwirl",
+            "label": "寒光8層時・追加投げ槍",
+            "attackType": "burst",
+            "damageType": "burst",
+            "element": "氷",
+            "hitCount": 1,
+            "levelSource": "burst",
+            "independentHits": true,
+            "scalings": [
+              {
+                "stat": "atk",
+                "valuesByLevel": {
+                  "1": 55.13,
+                  "2": 59.27,
+                  "3": 63.4,
+                  "4": 68.91,
+                  "5": 73.05,
+                  "6": 77.18,
+                  "7": 82.7,
+                  "8": 88.21,
+                  "9": 93.72,
+                  "10": 99.24,
+                  "11": 104.75,
+                  "12": 110.26,
+                  "13": 117.15,
+                  "14": 124.04,
+                  "15": 130.94
+                }
+              }
+            ],
+            "conditionSelectors": [
+              {
+                "groupId": "10000007_cryo:frostglow",
+                "type": "stack",
+                "values": [
+                  "8"
+                ],
+                "defaultValue": "0"
+              },
+              {
+                "groupId": "10000007_cryo:stellar",
+                "type": "option",
+                "values": [
+                  "stellarSwirl"
+                ],
+                "defaultValue": "none"
+              }
+            ],
+            "directReactionId": "stellarSwirl"
+          }
+        ]
+      }
+    }
+  },
+  "talentModifiers": {
+    "10000005_cryo": {
+      "passives": [
+        {
+          "sourceId": "passive1",
+          "modifiers": [
+            {
+              "id": "10000005_cryo_a1_infusion",
+              "category": "elementOverride",
+              "applyTo": [
+                "normalAttack",
+                "chargedAttack",
+                "plungingAttack"
+              ],
+              "targetGroups": [
+                "normalAttack"
+              ],
+              "targetEffect": [
+                "cryo_n1",
+                "cryo_n2",
+                "cryo_n3",
+                "cryo_n4",
+                "cryo_n5",
+                "cryo_ca_first",
+                "cryo_ca_second",
+                "cryo_plunge",
+                "cryo_plunge_low",
+                "cryo_plunge_high"
+              ],
+              "value": "氷",
+              "unit": "element",
+              "overwrite": true,
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "輝映状態",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "stellarConduct",
+                    "label": "輝映・星電導"
+                  },
+                  {
+                    "value": "stellarSwirl",
+                    "label": "輝映・星拡散"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "stellarConduct",
+              "conditionGroupId": "10000005_cryo:stellar",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000005_cryo_a1_additive",
+              "category": "additiveBaseDamage",
+              "applyTo": [
+                "normalAttack",
+                "chargedAttack",
+                "plungingAttack"
+              ],
+              "targetGroups": [
+                "normalAttack"
+              ],
+              "targetEffect": [
+                "cryo_n1",
+                "cryo_n2",
+                "cryo_n3",
+                "cryo_n4",
+                "cryo_n5",
+                "cryo_ca_first",
+                "cryo_ca_second",
+                "cryo_plunge",
+                "cryo_plunge_low",
+                "cryo_plunge_high"
+              ],
+              "value": 80,
+              "reference": {
+                "stat": "atk",
+                "source": "self"
+              },
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "輝映状態",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "stellarConduct",
+                    "label": "輝映・星電導"
+                  },
+                  {
+                    "value": "stellarSwirl",
+                    "label": "輝映・星拡散"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "stellarConduct",
+              "conditionGroupId": "10000005_cryo:stellar",
+              "conditionInputActivates": true,
+              "calculationSupport": "simple",
+              "shareConditionAcrossSources": true
+            }
+          ]
+        },
+        {
+          "sourceId": "frostglow",
+          "modifiers": [
+            {
+              "id": "10000005_cryo_burst_frostglow_base",
+              "category": "additiveBaseDamage",
+              "applyTo": [
+                "burst"
+              ],
+              "targetEffect": [
+                "10000005_cryo_burst",
+                "10000005_cryo_burst_stack8_extra1",
+                "10000005_cryo_burst_stack8_extra2"
+              ],
+              "reference": {
+                "stat": "atk",
+                "source": "self"
+              },
+              "unit": "percent",
+              "valueByLevel": {
+                "1": 2.76,
+                "2": 2.96,
+                "3": 3.17,
+                "4": 3.45,
+                "5": 3.65,
+                "6": 3.86,
+                "7": 4.13,
+                "8": 4.41,
+                "9": 4.69,
+                "10": 4.96,
+                "11": 5.24,
+                "12": 5.51,
+                "13": 5.86,
+                "14": 6.2,
+                "15": 6.55
+              },
+              "valueByLevelPerStack": true,
+              "levelSource": "burst",
+              "condition": "active",
+              "conditionInput": {
+                "type": "stack",
+                "label": "寒光",
+                "min": 0,
+                "max": 8,
+                "unit": "層"
+              },
+              "conditionGroupId": "10000005_cryo:frostglow",
+              "calculationSupport": "stack",
+              "stack": {
+                "min": 0,
+                "max": 8,
+                "default": 0
+              },
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000005_cryo_burst_frostglow_conduct",
+              "category": "additiveBaseDamage",
+              "applyTo": [
+                "burst"
+              ],
+              "targetEffect": [
+                "10000005_cryo_burst_conduct",
+                "10000005_cryo_burst_stack8_extra1_stellarConduct",
+                "10000005_cryo_burst_stack8_extra2_stellarConduct"
+              ],
+              "reference": {
+                "stat": "atk",
+                "source": "self"
+              },
+              "unit": "percent",
+              "valueByLevel": {
+                "1": 1.84,
+                "2": 1.98,
+                "3": 2.11,
+                "4": 2.3,
+                "5": 2.44,
+                "6": 2.57,
+                "7": 2.76,
+                "8": 2.94,
+                "9": 3.12,
+                "10": 3.31,
+                "11": 3.49,
+                "12": 3.68,
+                "13": 3.91,
+                "14": 4.13,
+                "15": 4.36
+              },
+              "valueByLevelPerStack": true,
+              "levelSource": "burst",
+              "condition": "active",
+              "conditionInput": {
+                "type": "stack",
+                "label": "寒光",
+                "min": 0,
+                "max": 8,
+                "unit": "層"
+              },
+              "conditionGroupId": "10000005_cryo:frostglow",
+              "calculationSupport": "stack",
+              "stack": {
+                "min": 0,
+                "max": 8,
+                "default": 0
+              },
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000005_cryo_burst_frostglow_swirl",
+              "category": "additiveBaseDamage",
+              "applyTo": [
+                "burst"
+              ],
+              "targetEffect": [
+                "10000005_cryo_burst_swirl",
+                "10000005_cryo_burst_stack8_extra1_stellarSwirl",
+                "10000005_cryo_burst_stack8_extra2_stellarSwirl"
+              ],
+              "reference": {
+                "stat": "atk",
+                "source": "self"
+              },
+              "unit": "percent",
+              "valueByLevel": {
+                "1": 2.76,
+                "2": 2.96,
+                "3": 3.17,
+                "4": 3.45,
+                "5": 3.65,
+                "6": 3.86,
+                "7": 4.13,
+                "8": 4.41,
+                "9": 4.69,
+                "10": 4.96,
+                "11": 5.24,
+                "12": 5.51,
+                "13": 5.86,
+                "14": 6.2,
+                "15": 6.55
+              },
+              "valueByLevelPerStack": true,
+              "levelSource": "burst",
+              "condition": "active",
+              "conditionInput": {
+                "type": "stack",
+                "label": "寒光",
+                "min": 0,
+                "max": 8,
+                "unit": "層"
+              },
+              "conditionGroupId": "10000005_cryo:frostglow",
+              "calculationSupport": "stack",
+              "stack": {
+                "min": 0,
+                "max": 8,
+                "default": 0
+              },
+              "shareConditionAcrossSources": true
+            }
+          ]
+        },
+        {
+          "sourceId": "passive2",
+          "modifiers": [
+            {
+              "id": "10000005_cryo_a4",
+              "category": "scalingBonus",
+              "applyTo": [
+                "elementalMastery"
+              ],
+              "customCalculation": "postStatReference",
+              "reference": {
+                "stat": "atk",
+                "source": "self",
+                "includeAppliedStatBonuses": true
+              },
+              "condition": "always",
+              "calculationSupport": "formula",
+              "value": 8,
+              "unit": "percent",
+              "maxValue": 160,
+              "inputPolicy": "reflected",
+              "uidHandling": "includedInUidStats"
+            }
+          ]
+        },
+        {
+          "sourceId": "passive3",
+          "modifiers": [
+            {
+              "id": "10000005_cryo_stellar",
+              "category": "reactionBaseDamageBonus",
+              "applyTo": [
+                "stellarConductBaseDamageBonus",
+                "stellarSwirlBaseDamageBonus"
+              ],
+              "reference": {
+                "stat": "atk",
+                "includeProviderConditionalStats": true
+              },
+              "divisor": 100,
+              "ratio": 0.35,
+              "maxValue": 7,
+              "rounding": "continuous",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "星反応状態",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "stellarConduct",
+                    "label": "輝映・星電導"
+                  },
+                  {
+                    "value": "stellarSwirl",
+                    "label": "輝映・星拡散"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionGroupId": "10000005_cryo:stellar",
+              "conditionInputActivates": true,
+              "calculationSupport": "formula",
+              "shareConditionAcrossSources": true
+            }
+          ]
+        },
+        {
+          "sourceId": "passive4",
+          "modifiers": [
+            {
+              "id": "10000005_cryo_icepoint_input",
+              "category": "statBonus",
+              "applyTo": [
+                "elementalMastery"
+              ],
+              "valueByStack": {
+                "0": 0,
+                "1": 0,
+                "2": 0,
+                "3": 0
+              },
+              "unit": "flat",
+              "condition": "active",
+              "conditionInput": {
+                "type": "stack",
+                "label": "氷点",
+                "min": 0,
+                "max": 3,
+                "unit": "層"
+              },
+              "conditionGroupId": "10000005_cryo:icepoint",
+              "calculationSupport": "stack",
+              "stack": {
+                "min": 0,
+                "max": 3,
+                "default": 0
+              },
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000005_cryo_foreign_permafrost_resonance_atk",
+              "category": "statBonus",
+              "applyTo": [
+                "atkPercent"
+              ],
+              "value": 20,
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Pyro",
+              "conditionGroupId": "10000005_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            }
+          ]
+        },
+        {
+          "sourceId": "passive4_resonance",
+          "modifiers": [
+            {
+              "id": "10000005_cryo_res_anemo",
+              "category": "statBonus",
+              "applyTo": [
+                "critRate"
+              ],
+              "value": 10,
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Anemo",
+              "conditionGroupId": "10000005_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000005_cryo_res_geo",
+              "category": "statBonus",
+              "applyTo": [
+                "defPercent"
+              ],
+              "value": 20,
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Geo",
+              "conditionGroupId": "10000005_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000005_cryo_res_electro",
+              "category": "statBonus",
+              "applyTo": [
+                "energyRecharge"
+              ],
+              "value": 20,
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Electro",
+              "conditionGroupId": "10000005_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000005_cryo_res_dendro",
+              "category": "statBonus",
+              "applyTo": [
+                "elementalMastery"
+              ],
+              "value": 60,
+              "unit": "flat",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Dendro",
+              "conditionGroupId": "10000005_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000005_cryo_res_hydro",
+              "category": "statBonus",
+              "applyTo": [
+                "hpPercent"
+              ],
+              "value": 20,
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Hydro",
+              "conditionGroupId": "10000005_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000005_cryo_res_pyro",
+              "category": "statBonus",
+              "applyTo": [
+                "atkPercent"
+              ],
+              "value": 20,
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Pyro",
+              "conditionGroupId": "10000005_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000005_cryo_res_cryo",
+              "category": "statBonus",
+              "applyTo": [
+                "critDamage"
+              ],
+              "value": 20,
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Cryo",
+              "conditionGroupId": "10000005_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            }
+          ]
+        }
+      ]
+    },
+    "10000007_cryo": {
+      "passives": [
+        {
+          "sourceId": "passive1",
+          "modifiers": [
+            {
+              "id": "10000007_cryo_a1_infusion",
+              "category": "elementOverride",
+              "applyTo": [
+                "normalAttack",
+                "chargedAttack",
+                "plungingAttack"
+              ],
+              "targetGroups": [
+                "normalAttack"
+              ],
+              "targetEffect": [
+                "cryo_n1",
+                "cryo_n2",
+                "cryo_n3",
+                "cryo_n4",
+                "cryo_n5",
+                "cryo_ca_first",
+                "cryo_ca_second",
+                "cryo_plunge",
+                "cryo_plunge_low",
+                "cryo_plunge_high"
+              ],
+              "value": "氷",
+              "unit": "element",
+              "overwrite": true,
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "輝映状態",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "stellarConduct",
+                    "label": "輝映・星電導"
+                  },
+                  {
+                    "value": "stellarSwirl",
+                    "label": "輝映・星拡散"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "stellarConduct",
+              "conditionGroupId": "10000007_cryo:stellar",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000007_cryo_a1_additive",
+              "category": "additiveBaseDamage",
+              "applyTo": [
+                "normalAttack",
+                "chargedAttack",
+                "plungingAttack"
+              ],
+              "targetGroups": [
+                "normalAttack"
+              ],
+              "targetEffect": [
+                "cryo_n1",
+                "cryo_n2",
+                "cryo_n3",
+                "cryo_n4",
+                "cryo_n5",
+                "cryo_ca_first",
+                "cryo_ca_second",
+                "cryo_plunge",
+                "cryo_plunge_low",
+                "cryo_plunge_high"
+              ],
+              "value": 80,
+              "reference": {
+                "stat": "atk",
+                "source": "self"
+              },
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "輝映状態",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "stellarConduct",
+                    "label": "輝映・星電導"
+                  },
+                  {
+                    "value": "stellarSwirl",
+                    "label": "輝映・星拡散"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "stellarConduct",
+              "conditionGroupId": "10000007_cryo:stellar",
+              "conditionInputActivates": true,
+              "calculationSupport": "simple",
+              "shareConditionAcrossSources": true
+            }
+          ]
+        },
+        {
+          "sourceId": "frostglow",
+          "modifiers": [
+            {
+              "id": "10000007_cryo_burst_frostglow_base",
+              "category": "additiveBaseDamage",
+              "applyTo": [
+                "burst"
+              ],
+              "targetEffect": [
+                "10000007_cryo_burst",
+                "10000007_cryo_burst_stack8_extra1",
+                "10000007_cryo_burst_stack8_extra2"
+              ],
+              "reference": {
+                "stat": "atk",
+                "source": "self"
+              },
+              "unit": "percent",
+              "valueByLevel": {
+                "1": 2.76,
+                "2": 2.96,
+                "3": 3.17,
+                "4": 3.45,
+                "5": 3.65,
+                "6": 3.86,
+                "7": 4.13,
+                "8": 4.41,
+                "9": 4.69,
+                "10": 4.96,
+                "11": 5.24,
+                "12": 5.51,
+                "13": 5.86,
+                "14": 6.2,
+                "15": 6.55
+              },
+              "valueByLevelPerStack": true,
+              "levelSource": "burst",
+              "condition": "active",
+              "conditionInput": {
+                "type": "stack",
+                "label": "寒光",
+                "min": 0,
+                "max": 8,
+                "unit": "層"
+              },
+              "conditionGroupId": "10000007_cryo:frostglow",
+              "calculationSupport": "stack",
+              "stack": {
+                "min": 0,
+                "max": 8,
+                "default": 0
+              },
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000007_cryo_burst_frostglow_conduct",
+              "category": "additiveBaseDamage",
+              "applyTo": [
+                "burst"
+              ],
+              "targetEffect": [
+                "10000007_cryo_burst_conduct",
+                "10000007_cryo_burst_stack8_extra1_stellarConduct",
+                "10000007_cryo_burst_stack8_extra2_stellarConduct"
+              ],
+              "reference": {
+                "stat": "atk",
+                "source": "self"
+              },
+              "unit": "percent",
+              "valueByLevel": {
+                "1": 1.84,
+                "2": 1.98,
+                "3": 2.11,
+                "4": 2.3,
+                "5": 2.44,
+                "6": 2.57,
+                "7": 2.76,
+                "8": 2.94,
+                "9": 3.12,
+                "10": 3.31,
+                "11": 3.49,
+                "12": 3.68,
+                "13": 3.91,
+                "14": 4.13,
+                "15": 4.36
+              },
+              "valueByLevelPerStack": true,
+              "levelSource": "burst",
+              "condition": "active",
+              "conditionInput": {
+                "type": "stack",
+                "label": "寒光",
+                "min": 0,
+                "max": 8,
+                "unit": "層"
+              },
+              "conditionGroupId": "10000007_cryo:frostglow",
+              "calculationSupport": "stack",
+              "stack": {
+                "min": 0,
+                "max": 8,
+                "default": 0
+              },
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000007_cryo_burst_frostglow_swirl",
+              "category": "additiveBaseDamage",
+              "applyTo": [
+                "burst"
+              ],
+              "targetEffect": [
+                "10000007_cryo_burst_swirl",
+                "10000007_cryo_burst_stack8_extra1_stellarSwirl",
+                "10000007_cryo_burst_stack8_extra2_stellarSwirl"
+              ],
+              "reference": {
+                "stat": "atk",
+                "source": "self"
+              },
+              "unit": "percent",
+              "valueByLevel": {
+                "1": 2.76,
+                "2": 2.96,
+                "3": 3.17,
+                "4": 3.45,
+                "5": 3.65,
+                "6": 3.86,
+                "7": 4.13,
+                "8": 4.41,
+                "9": 4.69,
+                "10": 4.96,
+                "11": 5.24,
+                "12": 5.51,
+                "13": 5.86,
+                "14": 6.2,
+                "15": 6.55
+              },
+              "valueByLevelPerStack": true,
+              "levelSource": "burst",
+              "condition": "active",
+              "conditionInput": {
+                "type": "stack",
+                "label": "寒光",
+                "min": 0,
+                "max": 8,
+                "unit": "層"
+              },
+              "conditionGroupId": "10000007_cryo:frostglow",
+              "calculationSupport": "stack",
+              "stack": {
+                "min": 0,
+                "max": 8,
+                "default": 0
+              },
+              "shareConditionAcrossSources": true
+            }
+          ]
+        },
+        {
+          "sourceId": "passive2",
+          "modifiers": [
+            {
+              "id": "10000007_cryo_a4",
+              "category": "scalingBonus",
+              "applyTo": [
+                "elementalMastery"
+              ],
+              "customCalculation": "postStatReference",
+              "reference": {
+                "stat": "atk",
+                "source": "self",
+                "includeAppliedStatBonuses": true
+              },
+              "condition": "always",
+              "calculationSupport": "formula",
+              "value": 8,
+              "unit": "percent",
+              "maxValue": 160,
+              "inputPolicy": "reflected",
+              "uidHandling": "includedInUidStats"
+            }
+          ]
+        },
+        {
+          "sourceId": "passive3",
+          "modifiers": [
+            {
+              "id": "10000007_cryo_stellar",
+              "category": "reactionBaseDamageBonus",
+              "applyTo": [
+                "stellarConductBaseDamageBonus",
+                "stellarSwirlBaseDamageBonus"
+              ],
+              "reference": {
+                "stat": "atk",
+                "includeProviderConditionalStats": true
+              },
+              "divisor": 100,
+              "ratio": 0.35,
+              "maxValue": 7,
+              "rounding": "continuous",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "星反応状態",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "stellarConduct",
+                    "label": "輝映・星電導"
+                  },
+                  {
+                    "value": "stellarSwirl",
+                    "label": "輝映・星拡散"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionGroupId": "10000007_cryo:stellar",
+              "conditionInputActivates": true,
+              "calculationSupport": "formula",
+              "shareConditionAcrossSources": true
+            }
+          ]
+        },
+        {
+          "sourceId": "passive4",
+          "modifiers": [
+            {
+              "id": "10000007_cryo_icepoint_input",
+              "category": "statBonus",
+              "applyTo": [
+                "elementalMastery"
+              ],
+              "valueByStack": {
+                "0": 0,
+                "1": 0,
+                "2": 0,
+                "3": 0
+              },
+              "unit": "flat",
+              "condition": "active",
+              "conditionInput": {
+                "type": "stack",
+                "label": "氷点",
+                "min": 0,
+                "max": 3,
+                "unit": "層"
+              },
+              "conditionGroupId": "10000007_cryo:icepoint",
+              "calculationSupport": "stack",
+              "stack": {
+                "min": 0,
+                "max": 3,
+                "default": 0
+              },
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000007_cryo_foreign_permafrost_resonance_atk",
+              "category": "statBonus",
+              "applyTo": [
+                "atkPercent"
+              ],
+              "value": 20,
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Pyro",
+              "conditionGroupId": "10000007_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            }
+          ]
+        },
+        {
+          "sourceId": "passive4_resonance",
+          "modifiers": [
+            {
+              "id": "10000007_cryo_res_anemo",
+              "category": "statBonus",
+              "applyTo": [
+                "critRate"
+              ],
+              "value": 10,
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Anemo",
+              "conditionGroupId": "10000007_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000007_cryo_res_geo",
+              "category": "statBonus",
+              "applyTo": [
+                "defPercent"
+              ],
+              "value": 20,
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Geo",
+              "conditionGroupId": "10000007_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000007_cryo_res_electro",
+              "category": "statBonus",
+              "applyTo": [
+                "energyRecharge"
+              ],
+              "value": 20,
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Electro",
+              "conditionGroupId": "10000007_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000007_cryo_res_dendro",
+              "category": "statBonus",
+              "applyTo": [
+                "elementalMastery"
+              ],
+              "value": 60,
+              "unit": "flat",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Dendro",
+              "conditionGroupId": "10000007_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000007_cryo_res_hydro",
+              "category": "statBonus",
+              "applyTo": [
+                "hpPercent"
+              ],
+              "value": 20,
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Hydro",
+              "conditionGroupId": "10000007_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000007_cryo_res_pyro",
+              "category": "statBonus",
+              "applyTo": [
+                "atkPercent"
+              ],
+              "value": 20,
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Pyro",
+              "conditionGroupId": "10000007_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            },
+            {
+              "id": "10000007_cryo_res_cryo",
+              "category": "statBonus",
+              "applyTo": [
+                "critDamage"
+              ],
+              "value": 20,
+              "unit": "percent",
+              "condition": "active",
+              "conditionInput": {
+                "type": "option",
+                "label": "共鳴元素",
+                "options": [
+                  {
+                    "value": "none",
+                    "label": "なし"
+                  },
+                  {
+                    "value": "Anemo",
+                    "label": "風"
+                  },
+                  {
+                    "value": "Geo",
+                    "label": "岩"
+                  },
+                  {
+                    "value": "Electro",
+                    "label": "雷"
+                  },
+                  {
+                    "value": "Dendro",
+                    "label": "草"
+                  },
+                  {
+                    "value": "Hydro",
+                    "label": "水"
+                  },
+                  {
+                    "value": "Pyro",
+                    "label": "炎"
+                  },
+                  {
+                    "value": "Cryo",
+                    "label": "氷"
+                  }
+                ],
+                "default": "none"
+              },
+              "conditionOptionValue": "Cryo",
+              "conditionGroupId": "10000007_cryo:resonance",
+              "conditionInputActivates": true,
+              "calculationSupport": "toggle",
+              "uidHandling": "includedInUidStats",
+              "shareConditionAcrossSources": true
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "constellationModifiers": {
+    "10000005_cryo": {
+      "constellations": {
+        "2": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "valueByCondition": {
+              "normal": 60,
+              "enhanced": 120
+            },
+            "unit": "flat",
+            "targetOwner": "activeCharacter",
+            "condition": "active",
+            "conditionInput": {
+              "type": "option",
+              "label": "星反応強化",
+              "options": [
+                {
+                  "value": "off",
+                  "label": "なし"
+                },
+                {
+                  "value": "normal",
+                  "label": "氷晶命中後"
+                },
+                {
+                  "value": "enhanced",
+                  "label": "星反応後"
+                }
+              ],
+              "default": "off"
+            },
+            "conditionGroupId": "10000005_cryo:c2em",
+            "conditionInputActivates": true,
+            "calculationSupport": "toggle",
+            "id": "10000005_cryo_c2_em",
+            "shareConditionAcrossSources": true
+          }
+        ],
+        "3": [
+          {
+            "id": "10000005_cryo_c3",
+            "category": "talentLevelBonus",
+            "applyTo": [
+              "burstTalentLevel"
+            ],
+            "value": 3,
+            "unit": "level",
+            "condition": "constellationUnlocked",
+            "calculationSupport": "simple",
+            "uidHandling": "includedInUidTalentLevels"
+          }
+        ],
+        "5": [
+          {
+            "id": "10000005_cryo_c5",
+            "category": "talentLevelBonus",
+            "applyTo": [
+              "skillTalentLevel"
+            ],
+            "value": 3,
+            "unit": "level",
+            "condition": "constellationUnlocked",
+            "calculationSupport": "simple",
+            "uidHandling": "includedInUidTalentLevels"
+          }
+        ],
+        "6": [
+          {
+            "id": "10000005_cryo_c6_stellar_party",
+            "category": "reactionBonus",
+            "applyTo": [
+              "stellarConductDamageBonus",
+              "stellarSwirlDamageBonus"
+            ],
+            "value": 5,
+            "unit": "percent",
+            "targetOwner": "otherPartyMembers",
+            "condition": "active",
+            "conditionInput": {
+              "type": "stack",
+              "label": "爆発で消費した寒光",
+              "min": 0,
+              "max": 8,
+              "unit": "層"
+            },
+            "conditionGroupId": "10000005_cryo:frostglow",
+            "calculationSupport": "stack",
+            "stack": {
+              "min": 0,
+              "max": 8,
+              "default": 0
+            },
+            "uidHandling": "conditional",
+            "shareConditionAcrossSources": true
+          }
+        ]
+      }
+    },
+    "10000007_cryo": {
+      "constellations": {
+        "2": [
+          {
+            "category": "statBonus",
+            "applyTo": [
+              "elementalMastery"
+            ],
+            "valueByCondition": {
+              "normal": 60,
+              "enhanced": 120
+            },
+            "unit": "flat",
+            "targetOwner": "activeCharacter",
+            "condition": "active",
+            "conditionInput": {
+              "type": "option",
+              "label": "星反応強化",
+              "options": [
+                {
+                  "value": "off",
+                  "label": "なし"
+                },
+                {
+                  "value": "normal",
+                  "label": "氷晶命中後"
+                },
+                {
+                  "value": "enhanced",
+                  "label": "星反応後"
+                }
+              ],
+              "default": "off"
+            },
+            "conditionGroupId": "10000007_cryo:c2em",
+            "conditionInputActivates": true,
+            "calculationSupport": "toggle",
+            "id": "10000007_cryo_c2_em",
+            "shareConditionAcrossSources": true
+          }
+        ],
+        "3": [
+          {
+            "id": "10000007_cryo_c3",
+            "category": "talentLevelBonus",
+            "applyTo": [
+              "burstTalentLevel"
+            ],
+            "value": 3,
+            "unit": "level",
+            "condition": "constellationUnlocked",
+            "calculationSupport": "simple",
+            "uidHandling": "includedInUidTalentLevels"
+          }
+        ],
+        "5": [
+          {
+            "id": "10000007_cryo_c5",
+            "category": "talentLevelBonus",
+            "applyTo": [
+              "skillTalentLevel"
+            ],
+            "value": 3,
+            "unit": "level",
+            "condition": "constellationUnlocked",
+            "calculationSupport": "simple",
+            "uidHandling": "includedInUidTalentLevels"
+          }
+        ],
+        "6": [
+          {
+            "id": "10000007_cryo_c6_stellar_party",
+            "category": "reactionBonus",
+            "applyTo": [
+              "stellarConductDamageBonus",
+              "stellarSwirlDamageBonus"
+            ],
+            "value": 5,
+            "unit": "percent",
+            "targetOwner": "otherPartyMembers",
+            "condition": "active",
+            "conditionInput": {
+              "type": "stack",
+              "label": "爆発で消費した寒光",
+              "min": 0,
+              "max": 8,
+              "unit": "層"
+            },
+            "conditionGroupId": "10000007_cryo:frostglow",
+            "calculationSupport": "stack",
+            "stack": {
+              "min": 0,
+              "max": 8,
+              "default": 0
+            },
+            "uidHandling": "conditional",
+            "shareConditionAcrossSources": true
+          }
+        ]
+      }
+    }
+  },
+  "characterConstellations": {
+    "10000005_cryo": {
+      "constellations": {
+        "1": {
+          "nameJa": "静まりゆく結氷",
+          "effectText": "星反応ダメージを与えた時、元素エネルギーを5回復。0.5秒毎。"
+        },
+        "2": {
+          "nameJa": "唸る隕氷",
+          "effectText": "氷晶命中後、現在フィールド上キャラクターの元素熟知+60、5秒。対象が星反応を起こすか星反応ダメージを与えると+120に強化。"
+        },
+        "3": {
+          "nameJa": "断ちきる鋭氷",
+          "effectText": "元素爆発Lv.+3。"
+        },
+        "4": {
+          "nameJa": "溶けざる堅氷",
+          "effectText": "凛冽の寒星の存在時間+25%。"
+        },
+        "5": {
+          "nameJa": "凍てつく霧氷",
+          "effectText": "元素スキルLv.+3。"
+        },
+        "6": {
+          "nameJa": "殺める輝氷",
+          "effectText": "元素爆発で寒光を消費するごとに他のチームメンバーの星反応ダメージ+5%、最大40%、15秒。"
+        }
+      }
+    },
+    "10000007_cryo": {
+      "constellations": {
+        "1": {
+          "nameJa": "静まりゆく結氷",
+          "effectText": "星反応ダメージを与えた時、元素エネルギーを5回復。0.5秒毎。"
+        },
+        "2": {
+          "nameJa": "唸る隕氷",
+          "effectText": "氷晶命中後、現在フィールド上キャラクターの元素熟知+60、5秒。対象が星反応を起こすか星反応ダメージを与えると+120に強化。"
+        },
+        "3": {
+          "nameJa": "断ちきる鋭氷",
+          "effectText": "元素爆発Lv.+3。"
+        },
+        "4": {
+          "nameJa": "溶けざる堅氷",
+          "effectText": "凛冽の寒星の存在時間+25%。"
+        },
+        "5": {
+          "nameJa": "凍てつく霧氷",
+          "effectText": "元素スキルLv.+3。"
+        },
+        "6": {
+          "nameJa": "殺める輝氷",
+          "effectText": "元素爆発で寒光を消費するごとに他のチームメンバーの星反応ダメージ+5%、最大40%、15秒。"
+        }
+      }
+    }
+  },
+  "currentCalcStatus": "provisionalCalculable"
+}

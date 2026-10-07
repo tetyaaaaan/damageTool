@@ -256,9 +256,11 @@ async function main() {
         await openConditions();await setState(growth,"option","radiant3");await closeConditions();const radiant=await calculate();
         near(radiant.context.effectiveStats.elementalMastery,off.context.effectiveStats.elementalMastery);
         near(radiant.context.effectiveStats.atk,off.context.effectiveStats.atk+off.calculationRequest.stats.baseAtk*.18);
-        assert.ok(radiant.warnings.some(w=>w.weaponId==="11437"&&/仕様確認中/.test(w.message)));
+        assert.ok(radiant.warnings.some(w=>w.weaponId==="11437"&&/暫定仕様/.test(w.message)));
+        near(star(radiant).breakdown.reactionBonus,24);
         await replay();await reload(radiant);await input("genshinWeaponRefinement","R5");const refined=await calculate();
         near(refined.context.effectiveStats.atk,off.context.effectiveStats.atk+off.calculationRequest.stats.baseAtk*.36);
+        near(star(refined).breakdown.reactionBonus,48);
         await details();await replay();await reload(refined);
         await checkConditionText("weapon");
 
@@ -304,7 +306,7 @@ async function main() {
         await replay();await reload(switched);
         const text=await evaluate(client,'document.body.innerText');
         assert.doesNotMatch(text,/provisional71_w|stellarSwirl|growthAtk|pactCryoEm|venomStar|\banemo\b|\bcryo\b/);
-        progress("PASS batch2 real weapon/party selection, replacement states, composition, wearer/team Star bonus, R1/R5, damage, pending notice, switch isolation, reload and Request replay");
+        progress("PASS batch2 real weapon/party selection, replacement states, composition, wearer/team Star bonus, R1/R5, provisional calculation, switch isolation, reload and Request replay");
     } finally {
         try { client?.socket.close(); } catch {}
         if (browser && !browser.killed) {

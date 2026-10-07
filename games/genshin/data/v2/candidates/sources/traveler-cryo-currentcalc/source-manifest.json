@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "candidateId": "provisional:traveler-cryo:genshin-optimizer-7d55317",
+  "targetGameVersionContext": "GO implementation candidate for 7.0 Stellar mechanics; the pinned code revision is not itself proof of in-game version applicability.",
+  "character": "Traveler (Cryo)",
+  "variants": [
+    "TravelerCryoF",
+    "TravelerCryoM"
+  ],
+  "provider": "Genshin Optimizer",
+  "repository": "https://github.com/frzyc/genshin-optimizer",
+  "revision": "7d553170cf076e656937a3df2228d474b1a3798d",
+  "sourcePath": "libs/gi/sheets/src/Characters/TravelerCryoF/cryo.tsx",
+  "sourceUrl": "https://raw.githubusercontent.com/frzyc/genshin-optimizer/7d553170cf076e656937a3df2228d474b1a3798d/libs/gi/sheets/src/Characters/TravelerCryoF/cryo.tsx",
+  "gitBlobSha": "93d479b63faac2c77fccc8351cdb5e0c6834a340",
+  "sha256": "9b4ff998659d6c878e7a249f2a63f78bf4ebd09000b304e30e53494558cc88ed",
+  "role": "external-implementation-candidate-not-authoritative-game-spec",
+  "notes": [
+    "Cryo Traveler Cryo F and M entrypoints both use this shared sheet.",
+    "Implementation candidate only; formulas and stat references reflect this GO revision, not independent game mechanics proof."
+  ],
+  "mechanicsReferences": [
+    {
+      "role": "independent later-mechanics reference; version applicability must be checked before using as target-version evidence.",
+      "provider": "KeqingMains Library",
+      "url": "https://library.keqingmains.com/characters/cryo/traveler-cryo"
+    }
+  ]
+}

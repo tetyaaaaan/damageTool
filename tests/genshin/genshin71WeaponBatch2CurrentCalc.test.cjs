@@ -50,8 +50,8 @@ test("batch2 identities and all refinement fields retain the stored 7.1 source",
         for (let r = 1; r <= 5; r++) assert.deepEqual(Object.values(batch.weaponEffects[id].effectParamsByRefinement[r]), raw["r" + r].values);
         assert.ok(!batch.weaponModifiers[id].modifiers.some(m => ["damageBonus", "reactionBaseDamageBonus", "reactionCritBonus", "extraDamage", "effectOverride"].includes(m.category)));
     }
-    assert.equal(batch.deferredUnknowns.length, 1); assert.equal(batch.deferredUnknowns[0].weaponId, "11437");
-    for (let r = 1; r <= 5; r++) near(batch.deferredUnknowns[0].rawCoefficientByRefinement[r], parseFloat(inventory.datasets.weapons.records.find(w => String(w.id) === "11437")["r" + r].values[3]));
+    assert.equal(batch.deferredUnknowns.length, 0); assert.equal(batch.weapons["11437"].currentCalcSpec.status,"provisional");
+    for (let r = 1; r <= 5; r++) near(batch.resolvedProvisionalUnknowns[0].rawCoefficientByRefinement[r], parseFloat(inventory.datasets.weapons.records.find(w => String(w.id) === "11437")["r" + r].values[3]));
     assert.equal(batch.currentCalcClassification["11437"].siteReady, false);
 });
 
@@ -80,8 +80,8 @@ test("11437 R1-R5 shares current stacks/state, replaces ordinary EM and retains 
             near(p.context.effectiveStats.atk, 2000 + 1000 * (mode === "ordinary" ? 3 + r : 4.5 + r * 1.5) * n / 100);
             near(p.context.effectiveStats.elementalMastery, mode === "ordinary" ? (15 + r * 5) * n : 0);
             assert.ok(p.results[0].nonCrit > off.results[0].nonCrit);
-            assert.ok(p.warnings.some(w => w.weaponId === "11437" && /星反応.*仕様確認中/.test(w.message)));
-            for (const reaction of ["stellarConduct", "stellarSwirl"]) near(probe(f, p, reaction).totals.reactionBonus, 0);
+            assert.ok(p.warnings.some(w => w.weaponId === "11437" && /暫定仕様/.test(w.message)));
+            for (const reaction of ["stellarConduct", "stellarSwirl"]) near(probe(f, p, reaction).totals.reactionBonus, mode==="radiant"?(6+2*r)*n:0);
             replay(f, p);
         }
         select(f, "growth_state", "inactive"); near(f.calc().context.effectiveStats.atk, 2000);

@@ -3404,10 +3404,30 @@ body.tool-page .teti-main > .teti-container > .box {
   padding-left: 2px;
 }
 
+.genshin-tool-page .genshin-json-calc-warnings.is-provisional {
+  padding: 6px 10px;
+  color: var(--teti-text-muted);
+  background: transparent;
+  border: 0;
+  font-size: 0.85rem;
+}
+
+.genshin-tool-page .genshin-json-calc-warnings.is-provisional ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 html[data-theme="dark"] .genshin-tool-page .genshin-json-calc-warnings {
   color: #ffe7a6;
   background: #2a230f;
   border-color: #67531c;
+}
+
+html[data-theme="dark"] .genshin-tool-page .genshin-json-calc-warnings.is-provisional {
+  color: var(--teti-text-muted);
+  background: transparent;
+  border: 0;
 }
 
 .genshin-tool-page .genshin-json-calc-results {

@@ -38,6 +38,19 @@
     const state = { mode: "character", owner: "main", partySlot: null, characters: [], weapons: [], artifactSets: [], artifactSlot: "one", character: null, filters: new Set(), returnFocus: null };
     const byId = (id) => document.getElementById(id);
 
+    function itemImagePath(kind, item) {
+        const mappedPath = typeof item?.imagePath === "string" ? item.imagePath.trim() : "";
+        if (/^\/?games\/images\/genshin\//.test(mappedPath)) return `/${mappedPath.replace(/^\/+/, "")}`;
+        if (mappedPath.startsWith("/games/images/genshin/")) return mappedPath;
+        const method = {
+            character: "resolveCharacterImagePath",
+            weapon: "resolveWeaponImagePath",
+            artifact: "resolveArtifactSetImagePath"
+        }[kind];
+        const imageId = kind === "character" ? item?.rawCharacterId || item?.id : item?.id;
+        return window.GenshinIdResolver?.[method]?.(imageId) || SELECTION_IMAGE_FALLBACK;
+    }
+
     function normalizeSearchText(value) {
         return String(value || "")
             .normalize("NFKC")
@@ -221,9 +234,8 @@
                 button.setAttribute("aria-pressed", "true");
             }
             const image = document.createElement("img");
-            const imageKind = state.mode === "character" ? "characters" : state.mode === "weapon" ? "weapons" : "artifacts";
             image.className = "genshin-selection-option-image";
-            image.src = `${SELECTION_IMAGE_ROOT}/${imageKind}/${item.id}.webp`;
+            image.src = itemImagePath(state.mode, item);
             image.alt = "";
             image.width = 48;
             image.height = 48;
@@ -314,7 +326,7 @@
         if (selected) {
             const image = document.createElement("img");
             image.className = "genshin-artifact-selection-trigger-image";
-            image.src = `${SELECTION_IMAGE_ROOT}/artifacts/${selected.id}.webp`;
+            image.src = itemImagePath("artifact", selected);
             image.alt = "";
             image.width = 26;
             image.height = 26;
