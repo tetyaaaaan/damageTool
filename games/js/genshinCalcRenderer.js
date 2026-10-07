@@ -1498,9 +1498,18 @@
         return [...groups.values()];
     }
 
+    function renderConfirmedMechanics(mechanics) {
+        if (mechanics?.provenance !== 'user-confirmed-facts' || mechanics.isOriginalText !== false) return '';
+        const renderItems = items => '<ul>' + (items || []).map(item=>'<li>' + escapeHtml(typeof item === 'string' ? item : item.text) + (typeof item === 'object' ? renderItems(item.items) : '') + '</li>').join('') + '</ul>';
+        return '<div class="genshin-effect-original"><h6>確認済みの効果内容（原文ではありません）</h6>'
+            + (mechanics.sections || []).map(section=>'<h6>' + escapeHtml(section.name) + '</h6>' + renderItems(section.items)).join('')
+            + '<p class="genshin-condition-note">参照：' + (mechanics.references || []).map(reference=>reference.url?.startsWith('https://') ? '<a href="' + escapeHtml(reference.url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(reference.title) + '</a>' : escapeHtml(reference.title)).join('／') + '</p></div>';
+    }
+
     function renderPartyEffectGroup(effects, context, calcData) {
         const candidate = effects[0], kind = candidate.sourceKind;
         const description = partyEffectDescription(candidate, calcData);
+        const mechanics = kind === 'talent' ? calcData.originalEffectTexts?.characters?.[candidate.member?.characterId]?.talents?.[candidate.sourceId]?.confirmedMechanics : null;
         const parts = String(candidate.sourceId).split(':');
         const talent = kind === 'talent' ? window.GenshinCalcConditions?.talentSourceMeta?.('talent:' + candidate.sourceId, candidate.providerContext, calcData, candidate.modifier) : null;
         const title = kind === 'weapon' ? calcData.weaponEffects?.[candidate.sourceId]?.effectNameJa || calcData.weapons?.[candidate.sourceId]?.nameJa
@@ -1524,7 +1533,7 @@
         return '<article class="genshin-condition-effect genshin-party-effect" data-party-buff="' + escapeHtml(candidate.key) + '">'
             + '<div class="genshin-condition-effect-head"><h5>' + escapeEffectLabel(title || candidate.sourceName) + '</h5><span class="genshin-condition-status ' + status.className + '">' + status.label + '</span></div>'
             + '<p class="genshin-party-target">提供者：' + escapeHtml(meaning.provider) + ' ／ 受け手：' + escapeHtml(recipients.join('・')) + '</p>'
-            + renderSectionDetail(description?.originalText || '',description?.descriptionKind || 'summary','',Object.keys(facts).length ? facts : null) + '</article>';
+            + renderSectionDetail(description?.originalText || '',description?.descriptionKind || 'summary','',Object.keys(facts).length ? facts : null) + renderConfirmedMechanics(mechanics) + '</article>';
     }
 
     function renderPartyCurrentControls(effects, context) {

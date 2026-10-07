@@ -201,3 +201,19 @@ test('provider aggregation uses additive buckets, accepted stats and multiplier 
  const evaluation={...off.evaluation,collected:{...off.evaluation.collected,applied:factors}};
  assert.equal(renderer.providerImpactRows(effects,evaluation).find(row=>row.label==='独立倍率').value,1.5);
 });
+
+
+test('user-confirmed Melody and Chorus mechanics remain separate from saved game originals',async()=>{
+ const f=await fixture('10000025',''),request=f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+ const record=f.calcData.originalEffectTexts.characters['10000140'].talents.passive2;
+ assert.equal(record.confirmedMechanics.isOriginalText,false);
+ assert.match(record.originalRaw,/LINK#N11400001/);assert.doesNotMatch(record.originalText,/超過1,000ごとに/);
+ const text=f.sandbox.GenshinIdResolver.describeEffect({data:f.calcData,kind:'talent',id:'10000140',sourceId:'passive2'});
+ assert.doesNotMatch(text.originalText,/超過1,000ごとに/);
+ request.party={conditionStates:{},members:[{slot:2,enabled:true,level:90,characterId:'10000140',constellation:0,talentLevels:{normal:10,skill:10,burst:10},stats:{hp:50500,baseHp:15000,atk:2000,baseAtk:900},equipment:{weaponId:'',artifactSetIds:[]},buffStates:{}}]};
+ const html=panel(f,request).html;
+ assert.match(html,/確認済みの効果内容（原文ではありません）/);
+ const checkItems=items=>items.forEach(item=>{assert.ok(html.includes(typeof item === 'string'?item:item.text));if(typeof item === 'object')checkItems(item.items);});
+ for(const section of record.confirmedMechanics.sections) {assert.ok(html.includes(section.name));checkItems(section.items);}
+ assert.match(html,/href="https:\/\/gamewith.jp\/genshin\/article\/show\/565491"/);
+});

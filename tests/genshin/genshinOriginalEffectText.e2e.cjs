@@ -199,6 +199,7 @@ async function main() {
             await evaluate(client,'(()=>{const e=document.querySelector('+JSON.stringify(selector)+');e.value='+JSON.stringify(String(value))+';e.dispatchEvent(new Event("change",{bubbles:true}));})()');await delay(200);
         };
 
+        assert.match(text,/確認済みの効果内容（原文ではありません）/);assert.match(text,/メロディ/);assert.match(text,/コーラス/);assert.match(text,/星拡散側 \+260/);
         assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=phase]").value'),'unused');
         assert.equal(await evaluate(client,'document.querySelector("[data-vody-advanced]")===null'),true);
         // The compact selection writes the existing skill/heals fields, preserving the Runtime contract.
