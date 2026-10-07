@@ -431,7 +431,7 @@
         skillHit: { label: 'スキル発動時の攻撃が敵に命中', options: [['no','いいえ'],['yes','はい']] },
         hornHit: { label: '角笛の攻撃が敵に命中', options: [['no','いいえ'],['yes','はい']] },
         freezeSwirl: { label: '凍結／星拡散を起こした後5秒以内', options: [['no','いいえ'],['yes','はい']] },
-        meteor: { label: '流星嵐の現在状態', options: [['none','発生していない／効果終了'],['generated','存在中（生成から6秒以内）'],['present','存在中（生成から6秒超）'],['recent','起爆後5秒以内'],['late','起爆後5～6秒']] },
+        meteor: { label: '流星の嵐と支援の状態', options: [['none','流星の嵐なし／起爆後6秒超（水・氷支援）'],['generated','存在中・生成6秒以内（星拡散支援＋風耐性低下）'],['present','存在中・生成6秒超（星拡散支援）'],['recent','起爆後5秒以内（星拡散支援＋風耐性低下）'],['late','起爆後5～6秒（水・氷支援＋風耐性低下）']] },
         recipient: { label: '計算するキャラの配置', options: [['active','フィールド上'],['offField','待機中']] }
     });
     function vodyActionKey(member, field) { return `party:${member.slot}:10000140:actions:${field}`; }

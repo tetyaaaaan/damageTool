@@ -171,9 +171,25 @@
             || original?.originalText || "";
         return {
             originalText: cleanOriginalText(originalText),
+            relatedEffects: resolveRelatedEffectTexts(original?.relatedEffects, originalText),
             calculationSummary: originalText ? "" : cleanOriginalText(calculationSummary),
             descriptionKind: originalText ? (original?.isExcerpt ? "originalExcerpt" : "original") : "summary"
         };
+    }
+
+    // Parent excerpts are source-backed ranges, never generated descriptions.
+    function resolveRelatedEffectTexts(effects, parentText) {
+        return (effects || []).map(effect => {
+            let text = effect.originalText || '';
+            const range = effect.originalFromParent;
+            if (range && parentText) {
+                const start = parentText.indexOf(range.start);
+                const end = range.end ? parentText.indexOf(range.end,start) : parentText.length;
+                if (start >= 0 && end >= start) text = parentText.slice(start,end + (range.end ? range.end.length : 0));
+            }
+            return {...effect,originalText:cleanOriginalText(text),descriptionKind:text ? (range ? 'originalExcerpt' : effect.descriptionKind || 'original') : 'missing',
+                relatedEffects:resolveRelatedEffectTexts(effect.relatedEffects,text)};
+        });
     }
 
     function substituteEffectParams(template, params) {

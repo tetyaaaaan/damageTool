@@ -223,7 +223,7 @@ async function main() {
         await action('skillHit','yes');await action('freezeSwirl','yes');
         text=await conditionText('party');
         assert.match(text,/現在の状態/);assert.match(text,/2回目の回復後/);
-        assert.match(text,/真実を告げる蜜酒\s*2層/);
+        assert.match(text,/算出過程/);
         assert.equal(await evaluate(client,'Array.from(document.querySelectorAll("[data-condition-panel=party] .genshin-provider-impact .genshin-runtime-impact")).some(e=>e.textContent.includes("今回の攻撃には非適用"))'),false);
         assert.ok(await evaluate(client,'Array.from(document.querySelectorAll("[data-condition-panel=party] .genshin-runtime-impact")).some(e=>e.textContent.includes("攻撃力 +"))'));
         assert.doesNotMatch(text,/\{[a-zA-Z]\w*\}|provisional71|weaponModifiers\.|Lead Vocal|Chorus/);
@@ -297,6 +297,12 @@ async function main() {
             assert.equal(await evaluate(client,'document.querySelectorAll("#genshin-party-member-panel-2 .genshin-party-effect .genshin-effect-values").length'),0);
             return expected;
         };
+        await action('meteor','late');
+        let supportText=await evaluate(client,'document.querySelector(".genshin-current-support").innerText');
+        assert.match(supportText,/水・氷基礎ダメージ加算\s*有効/);assert.match(supportText,/星拡散基礎ダメージ加算\s*無効/);assert.match(supportText,/敵の風元素耐性-35%\s*有効/);
+        await action('meteor','present');
+        supportText=await evaluate(client,'document.querySelector(".genshin-current-support").innerText');
+        assert.match(supportText,/星拡散基礎ダメージ加算\s*有効/);assert.match(supportText,/敵の風元素耐性-35%\s*無効/);
         await action('meteor','generated');
         const meteorValues=await evaluate(client,'document.querySelector("#genshin-party-member-panel-2 .genshin-provider-impact").innerText');
         assert.match(meteorValues,/敵の風元素耐性\s*-35%/);

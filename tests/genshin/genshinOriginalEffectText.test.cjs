@@ -108,7 +108,7 @@ test('provider descriptions expand rank templates without leaking raw tokens; ac
  assert.doesNotMatch(primary,/data-genshin-vody-action="(?:skill|heals|skillHit|hornHit)"/);
  assert.match(primary,/data-genshin-vody-action="qualifyingHeals"/);
  assert.match(html,/<details[^>]*data-vody-advanced="2"[^>]*><summary>詳細設定/);
- assert.match(visible,/計算対象の現在位置|流星の嵐の現在状態|C1：有効／C4：0層/);
+ assert.match(visible,/計算対象の現在位置|流星の嵐と支援の状態|C1：有効／C4：0層/);
  assert.doesNotMatch(html,/data-genshin-party-condition-key="[^"]*:group:(vodyanitsa_|provisional71_w14524)/);
  assert.match(visible,/与える治療効果\+8%/);
  const resLabels=state.partyModifiers.filter(c=>c.sourceKind==='talent' && c.sourceId==='combat2').flatMap(c=>c.runtimeRows.map(row=>row.label));
@@ -226,4 +226,24 @@ test('user-confirmed Melody and Chorus mechanics remain separate from saved game
  for (const name of ['悠久の歌','春を呼ぶ角笛','流星の嵐','メロディ','コーラス']) assert.ok(html.includes('関連効果</span> ' + name));
  assert.match(html,/固有天賦1|固有天賦2|元素スキル/);
  assert.ok(record.confirmedMechanics.sections.length,'private evidence is retained');
+});
+
+
+test('related effect resolver uses exact parent excerpts and keeps missing linked details distinct',async()=>{
+ const f=await fixture('10000025','');
+ const raw=f.calcData.originalEffectTexts.characters['10000140'].talents;
+ const skill=f.sandbox.GenshinIdResolver.describeEffect({data:f.calcData,kind:'talent',id:'10000140',sourceId:'combat2'});
+ for(const effect of skill.relatedEffects) {assert.equal(effect.classification,'B');assert.equal(effect.descriptionKind,'originalExcerpt');assert.ok(raw.combat2.originalText.includes(effect.originalText));}
+ assert.match(skill.relatedEffects[0].originalText,/中断耐性|HPを回復/);
+ const a4=f.sandbox.GenshinIdResolver.describeEffect({data:f.calcData,kind:'talent',id:'10000140',sourceId:'passive2'});
+ assert.ok(a4.relatedEffects.every(effect=>effect.classification==='D'&&!effect.originalText));
+ const request=f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+ const actions={skill:'active',heals:'1',skillHit:'yes',hornHit:'yes',meteor:'late',recipient:'active'};
+ request.party={conditionStates:Object.fromEntries(Object.entries(actions).map(([key,option])=>['party:2:10000140:actions:'+key,{option}])),members:[{slot:2,enabled:true,characterId:'10000140',constellation:1,talentLevels:{normal:10,skill:10,burst:10},stats:{hp:50500,baseHp:15000,atk:2000,baseAtk:900},equipment:{weaponId:'',refinement:1,artifactSetIds:[]},buffStates:{}}]};
+ const support=()=>panel(f,request).html.split('<section class="genshin-current-support">')[1].split('</section>')[0].replace(/<[^>]*>/g,'');
+ assert.match(support(),/水・氷基礎ダメージ加算有効/);assert.match(support(),/星拡散基礎ダメージ加算無効/);assert.match(support(),/敵の風元素耐性-35%有効/);
+ request.party.conditionStates['party:2:10000140:actions:meteor']={option:'present'};
+ assert.match(support(),/水・氷基礎ダメージ加算無効/);assert.match(support(),/星拡散基礎ダメージ加算有効/);assert.match(support(),/敵の風元素耐性-35%無効/);
+ const html=panel(f,request).html;assert.match(html,/算出過程/);assert.match(html,/50,500 × 0.008 → 攻撃力 \+404/);
+ const skillCard=html.split('関連効果</span> 悠久の歌')[0].split('<article').at(-1);assert.doesNotMatch(skillCard,/genshin-value-facts/);
 });

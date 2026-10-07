@@ -3291,3 +3291,9 @@ html[data-theme="dark"] .genshin-tool-page {
 .genshin-effect-type { font-size: .75rem; color: var(--teti-muted); font-weight: 500; }
 .genshin-related-effect { margin: 12px 0 0 12px; padding-left: 12px; border-left: 2px solid var(--teti-border); }
 .genshin-related-effect > h6 { margin: 0 0 6px; }
+
+.genshin-current-support { margin: 8px 0 14px; padding: 10px; background: var(--teti-surface-soft); border-radius: 6px; }
+.genshin-current-support h6 { margin: 0 0 6px; }
+.genshin-current-support ul { margin: 0; padding: 0; list-style: none; }
+.genshin-current-support li { display: flex; justify-content: space-between; gap: 12px; font-size: .78rem; padding: 3px 0; }
+.genshin-current-support strong { flex-shrink: 0; }

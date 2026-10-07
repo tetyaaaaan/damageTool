@@ -18,13 +18,18 @@
           "relatedEffects": [
             {
               "nameJa": "悠久の歌",
-              "descriptionKind": "missing",
-              "sourceRefs": []
+              "classification": "B",
+              "originalFromParent": {
+                "start": "また、「悠久の歌」効果の継続期間中、チーム内"
+              }
             },
             {
               "nameJa": "春を呼ぶ角笛",
-              "descriptionKind": "missing",
-              "sourceRefs": []
+              "classification": "B",
+              "originalFromParent": {
+                "start": "ヴォジャニーツァは古の春を呼ぶ角笛",
+                "end": "水元素ダメージを与える。"
+              }
             }
           ]
         },
@@ -38,8 +43,11 @@
           "relatedEffects": [
             {
               "nameJa": "流星の嵐",
-              "descriptionKind": "missing",
-              "sourceRefs": []
+              "classification": "B",
+              "originalFromParent": {
+                "start": "元素スキル",
+                "end": "継続時間6秒。"
+              }
             }
           ]
         },
@@ -94,12 +102,14 @@
             {
               "nameJa": "メロディ",
               "descriptionKind": "missing",
-              "sourceRefs": []
+              "classification": "D",
+              "linkedTooltipId": "N11400001"
             },
             {
               "nameJa": "コーラス",
               "descriptionKind": "missing",
-              "sourceRefs": []
+              "classification": "D",
+              "linkedTooltipId": "N11400002"
             }
           ]
         },

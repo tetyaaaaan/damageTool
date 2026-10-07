@@ -1321,7 +1321,15 @@
                 mainInputs.push(renderInput('freezeSwirl', spec.label, spec.options, state.freezeSwirl));
             }
             mainInputs.push(renderInput('recipient', '計算対象の現在位置', api.VODY_ACTION_FIELDS.recipient.options, state.recipient, 'フィールド上／待機中で受ける支援効果が変わります。'));
-            mainInputs.push(renderInput('meteor', '流星の嵐の現在状態', api.VODY_ACTION_FIELDS.meteor.options, state.meteor, '生成・起爆の状況によって支援効果が変わります。'));
+            const activeTalent = sourceId => effects.filter(effect => effect.sourceKind === 'talent' && effect.sourceId === sourceId && effect.enabled && effect.status === 'ready');
+            const a4 = activeTalent('passive2');
+            const support = [
+                ['水・氷基礎ダメージ加算', a4.some(effect => !effect.modifier.reactionTargetsOnly)],
+                ['星拡散基礎ダメージ加算', a4.some(effect => effect.modifier.reactionTargetsOnly)],
+                ['敵の風元素耐性-35%', activeTalent('passive1').some(effect => effect.modifier.category === 'resistanceDebuff')]
+            ];
+            mainInputs.push(renderInput('meteor', api.VODY_ACTION_FIELDS.meteor.label, api.VODY_ACTION_FIELDS.meteor.options, state.meteor, '生成／起爆後の風耐性低下は6秒間。起爆後5～6秒は水・氷加算に戻り、風耐性低下だけが残ります。')
+                + '<section class="genshin-current-support"><h6>現在の支援効果</h6><ul>' + support.map(([label,active]) => '<li><span>' + escapeHtml(label) + '</span><strong>' + (active ? '有効' : '無効') + '</strong></li>').join('') + '</ul></section>');
             advanced.push(renderInput('skillHit', 'スキル初撃が敵に命中した', api.VODY_ACTION_FIELDS.skillHit.options, state.skillHit));
             advanced.push(renderInput('hornHit', '角笛が敵に命中した', api.VODY_ACTION_FIELDS.hornHit.options, state.hornHit));
             if (Number(member.constellation) >= 4 && Number(state.heals) > 0) {
@@ -1518,14 +1526,14 @@
     }
 
     function renderRelatedEffects(effects) {
-        return (effects || []).map(effect => '<section class="genshin-related-effect"><h6><span class="genshin-effect-type">関連効果</span> ' + escapeHtml(effect.nameJa) + '</h6>'
+        return (effects || []).filter(effect => effect.classification !== 'C').map(effect => '<section class="genshin-related-effect"><h6><span class="genshin-effect-type">関連効果</span> ' + escapeHtml(effect.nameJa) + '</h6>'
             + (effect.originalText ? renderSectionDetail(effect.originalText,effect.descriptionKind || 'missing','') : '<p class="genshin-condition-note">原文未取得</p>') + renderRelatedEffects(effect.relatedEffects) + '</section>').join('');
     }
 
-    function renderPartyEffectGroup(effects, context, calcData) {
+    function renderPartyEffectGroup(effects, context, calcData, evaluation) {
         const candidate = effects[0], kind = candidate.sourceKind;
         const description = partyEffectDescription(candidate, calcData);
-        const originalRecord = kind === 'talent' ? calcData.originalEffectTexts?.characters?.[candidate.member?.characterId]?.talents?.[candidate.sourceId] : null;
+        const relatedEffects = description?.relatedEffects || [];
         const constellationId = String(candidate.sourceId).replace(/^C/i, '');
         const constellationRecord = calcData.characterConstellations?.[candidate.member?.characterId];
         const constellations = constellationRecord?.constellations || constellationRecord;
@@ -1541,19 +1549,23 @@
         const meaning = partyEffectMeaning(candidate, context, calcData);
         const recipients = [...new Set(effects.map(item => partyEffectMeaning(item,context,calcData).target))];
         const facts = {};
-        if (kind === 'weapon') facts['精錬ランク'] = 'R' + (candidate.providerContext?.refinement || 1);
-        if (String(candidate.member?.characterId) === '10000140') {
-            const groups = context.party?.conditionStates || {}, prefix = 'party:' + candidate.member.slot + ':10000140:group:';
-            if (kind === 'weapon' && candidate.sourceId === '14524') {
-                const option = groups[prefix + 'provisional71_w14524_mead_state']?.option;
-                facts['真実を告げる蜜酒'] = (({one:1,two:2,three:3,boostedOne:1,boostedTwo:2,boostedThree:3})[option] || 0) + '層';
-            }
+        // Facts are useful as details only when native trace links operands to a result.
+        for (const item of evaluation?.collected.applied || []) {
+            if (!effects.some(effect => effect.source === item.source && effect.modifier.id === item.modifier.id)) continue;
+            const trace = evaluation.trace.find(trace => trace.source === item.source && trace.modifierId === item.modifier.id);
+            if (!trace) continue;
+            const referenceStat = trace.referenceStat || item.modifier.reference?.stat;
+            const referenceValue = trace.referenceValue ?? item.valueContext?.stats?.[referenceStat];
+            const coefficient = trace.coefficient ?? (item.modifier.unit === 'percentOfReference' ? Number(item.value) / 100 : null);
+            if (!Number.isFinite(referenceValue) || !Number.isFinite(coefficient)) continue;
+            const display = value => Number(value).toLocaleString('ja-JP',{maximumFractionDigits:6});
+            facts['算出過程'] = statLabel(referenceStat) + ' ' + display(referenceValue) + ' × ' + display(coefficient) + ' → ' + statLabel(trace.stat) + ' +' + display(trace.value);
+            if (Number.isFinite(Number(trace.maxValue))) facts['上限'] = display(trace.maxValue);
         }
-        effects.forEach(item => { const stat = item.modifier.reference?.stat; const value = item.providerContext?.stats?.[stat]; if (stat && Number.isFinite(Number(value))) facts['参照' + statLabel(stat)] = Number(value).toLocaleString('ja-JP', {maximumFractionDigits:4}); });
         return '<article class="genshin-condition-effect genshin-party-effect" data-party-buff="' + escapeHtml(candidate.key) + '">'
             + '<div class="genshin-condition-effect-head"><h5>' + '<span class="genshin-effect-type">' + escapeHtml(typeLabel) + '</span> ' + escapeEffectLabel(title || candidate.sourceName) + '</h5><span class="genshin-condition-status ' + status.className + '">' + status.label + '</span></div>'
             + '<p class="genshin-party-target">提供者：' + escapeHtml(meaning.provider) + ' ／ 受け手：' + escapeHtml(recipients.join('・')) + '</p>'
-            + renderSectionDetail(description?.originalText || '',description?.descriptionKind || 'summary','',Object.keys(facts).length ? facts : null) + renderRelatedEffects(originalRecord?.relatedEffects) + '</article>';
+            + renderSectionDetail(description?.originalText || '',description?.descriptionKind || 'summary','',Object.keys(facts).length ? facts : null) + renderRelatedEffects(relatedEffects) + '</article>';
     }
 
     function renderPartyCurrentControls(effects, context) {
@@ -1579,7 +1591,7 @@
             const effects = partyModifiers.filter(candidate => candidate.sourceKind !== 'resonance' && candidate.member.slot === member.slot);
             const sources = [{kind:'character',label:'キャラクター'}, {kind:'weapon',label:'武器'}, {kind:'artifact',label:'聖遺物'}].map(source => {
                 const groups = partyEffectGroups(effects.filter(candidate => source.kind === 'character' ? ['talent','constellation'].includes(candidate.sourceKind) : candidate.sourceKind === source.kind));
-                return groups.length ? '<section class="genshin-party-source-group" data-party-effect-source="' + source.kind + '"><h6>' + source.label + '</h6>' + groups.map(group => renderPartyEffectGroup(group,context,calcData)).join('') + '</section>' : '';
+                return groups.length ? '<section class="genshin-party-source-group" data-party-effect-source="' + source.kind + '"><h6>' + source.label + '</h6>' + groups.map(group => renderPartyEffectGroup(group,context,calcData,providerEvaluation)).join('') + '</section>' : '';
             }).join('');
             const actions = renderVodyProviderActions(member,context,effects);
             const controls = renderPartyCurrentControls(effects,context);
@@ -1591,7 +1603,7 @@
         }).join('');
         const resonance = partyModifiers.filter(candidate => candidate.sourceKind === 'resonance');
         return '<p class="genshin-party-target">計算対象：' + escapeHtml(calcData.characters?.[context.characterId]?.nameJa || '現在のキャラクター') + '</p>' + (members.length ? '<div class="genshin-party-layout"><nav class="genshin-party-member-list" role="tablist" aria-label="効果を確認するメンバー">' + navigation + '</nav><div class="genshin-party-member-content">' + panels + '</div></div>' : '<p class="genshin-condition-note">パーティ設定でサポートメンバーを選択してください。</p>')
-            + (resonance.length ? '<section class="genshin-party-resonance"><h5>チームの元素共鳴</h5>' + partyEffectGroups(resonance).map(group => renderPartyEffectGroup(group,context,calcData)).join('') + '</section>' : '');
+            + (resonance.length ? '<section class="genshin-party-resonance"><h5>チームの元素共鳴</h5>' + partyEffectGroups(resonance).map(group => renderPartyEffectGroup(group,context,calcData,providerEvaluation)).join('') + '</section>' : '');
     }
 
     function selectPartyMember(key) {
