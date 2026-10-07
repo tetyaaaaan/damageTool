@@ -1,0 +1,285 @@
+{
+  "capturedAt": "2026-10-07T16:06:29.564Z",
+  "role": "display_text_only_not_runtime_spec",
+  "captures": [
+    {
+      "path": "japanese-linked-tooltips-go.json",
+      "provider": "Genshin Optimizer",
+      "role": "display_text_only_not_runtime_spec",
+      "url": "https://api.github.com/repos/frzyc/genshin-optimizer/git/blobs/5c171a297de190a5cf46cd3e99b2d9df14dfb2e4",
+      "upstreamPath": "libs/gi/dm-localization/assets/locales/ja/tooltips_gen.json",
+      "gitBlobSha": "5c171a297de190a5cf46cd3e99b2d9df14dfb2e4",
+      "upstreamSha256": "d260ee40d3b483100cbf59c95d169c78eb68a9c553f97f1073ad65dd20b74544",
+      "selection": [
+        "/11430001",
+        "/11430002",
+        "/11430003",
+        "/11430004",
+        "/11480001",
+        "/11480002",
+        "/11500001",
+        "/11500002",
+        "/11500003",
+        "/11500004",
+        "/10050002",
+        "/11330003",
+        "/11120002"
+      ],
+      "selectionKind": "unmodified_selected_records",
+      "license": "MIT",
+      "licensePath": "../vodyanitsa-currentcalc/genshin-optimizer-LICENSE.txt",
+      "sha256": "f8fd4b11a6174c0fb2869c77a94b8a8065fa375e85bfab515bdec0d7fac0d238"
+    }
+  ],
+  "parentSources": [
+    {
+      "characterId": "10000005_cryo",
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/travelercryo.json",
+      "sha256": "244eb713eeae59585e124b4d0f31866255416fbf90823dc17780e95ba09b33f9"
+    },
+    {
+      "characterId": "10000007_cryo",
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/travelercryo.json",
+      "sha256": "244eb713eeae59585e124b4d0f31866255416fbf90823dc17780e95ba09b33f9"
+    },
+    {
+      "characterId": "10000112",
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/escoffier.json",
+      "sha256": "c08232306c239b5b0bc063668d497c315bbe49af57ccb1c5c01d92fe26249a9d"
+    },
+    {
+      "characterId": "10000143",
+      "path": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json",
+      "sha256": "7f3601b9e7671602b36e926dc2e87e46ae76a1db1e3ff7199832032e4502320a"
+    },
+    {
+      "characterId": "10000148",
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/alyosha.json",
+      "sha256": "73cf34722cb50420536ba2f2d6bd3459fdad5e25d9c0224773674b87937f785c"
+    },
+    {
+      "characterId": "10000150",
+      "path": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json",
+      "sha256": "494790e29c2d01a01d3f1323d8951096fd0c7813cf9da629172fdf8671576526"
+    }
+  ],
+  "placements": [
+    {
+      "characterId": "10000005_cryo",
+      "talent": "combat2",
+      "tooltipId": "10050002",
+      "nameJa": "寒光",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/travelercryo.json"
+    },
+    {
+      "characterId": "10000005_cryo",
+      "talent": "combat3",
+      "tooltipId": "10050002",
+      "nameJa": "寒光",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/travelercryo.json"
+    },
+    {
+      "characterId": "10000005_cryo",
+      "talent": "combat3",
+      "tooltipId": "11500004",
+      "nameJa": "輝映・星閃",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/travelercryo.json"
+    },
+    {
+      "characterId": "10000005_cryo",
+      "talent": "passive3",
+      "tooltipId": "11330003",
+      "nameJa": "極星フィールド",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/travelercryo.json"
+    },
+    {
+      "characterId": "10000007_cryo",
+      "talent": "combat2",
+      "tooltipId": "10050002",
+      "nameJa": "寒光",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/travelercryo.json"
+    },
+    {
+      "characterId": "10000007_cryo",
+      "talent": "combat3",
+      "tooltipId": "10050002",
+      "nameJa": "寒光",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/travelercryo.json"
+    },
+    {
+      "characterId": "10000007_cryo",
+      "talent": "combat3",
+      "tooltipId": "11500004",
+      "nameJa": "輝映・星閃",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/travelercryo.json"
+    },
+    {
+      "characterId": "10000007_cryo",
+      "talent": "passive3",
+      "tooltipId": "11330003",
+      "nameJa": "極星フィールド",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/travelercryo.json"
+    },
+    {
+      "characterId": "10000112",
+      "talent": "combat2",
+      "tooltipId": "11120002",
+      "nameJa": "「アドリブ・クッキング」モード",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/escoffier.json"
+    },
+    {
+      "characterId": "10000143",
+      "talent": "combat2",
+      "tooltipId": "11430001",
+      "nameJa": "風巡りの臨戦",
+      "parentSource": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json"
+    },
+    {
+      "characterId": "10000143",
+      "talent": "combat2",
+      "tooltipId": "11430002",
+      "nameJa": "剣気",
+      "parentSource": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json"
+    },
+    {
+      "characterId": "10000143",
+      "talent": "combat2",
+      "tooltipId": "11430003",
+      "nameJa": "飛翔の剣",
+      "parentSource": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json"
+    },
+    {
+      "characterId": "10000143",
+      "talent": "combat2",
+      "tooltipId": "11430004",
+      "nameJa": "霊剣",
+      "parentSource": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json"
+    },
+    {
+      "characterId": "10000143",
+      "talent": "combat3",
+      "tooltipId": "11430004",
+      "nameJa": "霊剣",
+      "parentSource": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json"
+    },
+    {
+      "characterId": "10000143",
+      "talent": "combat3",
+      "tooltipId": "11430002",
+      "nameJa": "剣気",
+      "parentSource": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json"
+    },
+    {
+      "characterId": "10000143",
+      "talent": "passive1",
+      "tooltipId": "11430003",
+      "nameJa": "飛翔の剣",
+      "parentSource": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json"
+    },
+    {
+      "characterId": "10000143",
+      "talent": "passive1",
+      "tooltipId": "11430004",
+      "nameJa": "霊剣",
+      "parentSource": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json"
+    },
+    {
+      "characterId": "10000148",
+      "talent": "combat1",
+      "tooltipId": "11480001",
+      "nameJa": "狩猟の印",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/alyosha.json"
+    },
+    {
+      "characterId": "10000148",
+      "talent": "combat2",
+      "tooltipId": "11480001",
+      "nameJa": "狩猟の印",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/alyosha.json"
+    },
+    {
+      "characterId": "10000148",
+      "talent": "passive1",
+      "tooltipId": "11480002",
+      "nameJa": "トゥガリン",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/alyosha.json"
+    },
+    {
+      "characterId": "10000148",
+      "talent": "passive3",
+      "tooltipId": "11330003",
+      "nameJa": "極星フィールド",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/alyosha.json"
+    },
+    {
+      "characterId": "10000148",
+      "talent": "passive3",
+      "tooltipId": "11480001",
+      "nameJa": "狩猟の印",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/alyosha.json"
+    },
+    {
+      "characterId": "10000150",
+      "talent": "combat2",
+      "tooltipId": "11500001",
+      "nameJa": "独舞者のシルエット",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json"
+    },
+    {
+      "characterId": "10000150",
+      "talent": "combat2",
+      "tooltipId": "11500002",
+      "nameJa": "柔き払暁のコーダ",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json"
+    },
+    {
+      "characterId": "10000150",
+      "talent": "combat2",
+      "tooltipId": "11500004",
+      "nameJa": "輝映・星閃",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json"
+    },
+    {
+      "characterId": "10000150",
+      "talent": "combat3",
+      "tooltipId": "11500001",
+      "nameJa": "独舞者のシルエット",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json"
+    },
+    {
+      "characterId": "10000150",
+      "talent": "combat3",
+      "tooltipId": "11500002",
+      "nameJa": "柔き払暁のコーダ",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json"
+    },
+    {
+      "characterId": "10000150",
+      "talent": "combat3",
+      "tooltipId": "11500004",
+      "nameJa": "輝映・星閃",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json"
+    },
+    {
+      "characterId": "10000150",
+      "talent": "passive1",
+      "tooltipId": "11500001",
+      "nameJa": "独舞者のシルエット",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json"
+    },
+    {
+      "characterId": "10000150",
+      "talent": "passive1",
+      "tooltipId": "11500003",
+      "nameJa": "春の華",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json"
+    },
+    {
+      "characterId": "10000150",
+      "talent": "passive3",
+      "tooltipId": "11330003",
+      "nameJa": "極星フィールド",
+      "parentSource": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json"
+    }
+  ]
+}

@@ -3,6 +3,31 @@
   "locale": "ja-JP",
   "purpose": "Display-only original effect text; never used for modifier inference or calculation.",
   "characters": {
+    "10000112": {
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/escoffier.json"
+      ],
+      "talents": {
+        "combat2": {
+          "originalText": "「料理」の真髄を目撃せよ！一回押しと長押しによって、フォンテーヌが誇る料理の腕をそれぞれ披露する。\n\n一回押し\n「チルド」モードでマルチスペクトル調理マシナリーを起動し、周囲の敵に氷元素範囲ダメージを与える。\n\n調理マシナリー・チルドモード\nフィールド上キャラクターと共に移動し、一定時間ごとに付近の敵に向かって「フローズン・パフェ」を発射して氷元素ダメージを与える。\n\nアルケー：ウーシア\nエスコフィエが「チルド」モードで調理マシナリーを起動する際、迸発の刃を召喚してウーシアを帯びた氷元素範囲ダメージを与える。一定時間ごとに発動が可能。\n\n長押し\n**「アドリブ・クッキング」モード**でマルチスペクトル調理マシナリーを起動する。",
+          "originalRaw": "「料理」の真髄を目撃せよ！一回押しと長押しによって、フォンテーヌが誇る料理の腕をそれぞれ披露する。\n\n<color=#FFD780FF>一回押し</color>\n「チルド」モードでマルチスペクトル調理マシナリーを起動し、周囲の敵に<color=#99FFFFFF>氷元素範囲ダメージ</color>を与える。\n\n<color=#FFD780FF>調理マシナリー・チルドモード</color>\nフィールド上キャラクターと共に移動し、一定時間ごとに付近の敵に向かって「フローズン・パフェ」を発射して<color=#99FFFFFF>氷元素ダメージ</color>を与える。\n\n<color=#FFD780FF>アルケー：ウーシア</color>\nエスコフィエが「チルド」モードで調理マシナリーを起動する際、迸発の刃を召喚してウーシアを帯びた<color=#99FFFFFF>氷元素範囲ダメージ</color>を与える。一定時間ごとに発動が可能。\n\n<color=#FFD780FF>長押し</color>\n{LINK#N11120002}<color=#FFD780FF>「アドリブ・クッキング」モード</color>{/LINK}でマルチスペクトル調理マシナリーを起動する。",
+          "relatedEffects": [
+            {
+              "nameJa": "「アドリブ・クッキング」モード",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11120002",
+              "originalRaw": "<strong>調理マシナリーのアドリブ・クッキングモード</strong>\n・フィールドに調理マシナリーを設置。調理マシナリーは元素攻撃を吸収する。吸収した元素エネルギーがMAXに達すると、エスコフィエが事前に中に仕込んだ食材が美味しい料理へと変わる。\n・新しい食材を仕入れるのには時間がかかる。エスコフィエは毎週、この方法で一定数の料理を作ることができる。料理の制作可能回数は毎週月曜日の4:00にリセットされる。",
+              "originalText": "調理マシナリーのアドリブ・クッキングモード\n・フィールドに調理マシナリーを設置。調理マシナリーは元素攻撃を吸収する。吸収した元素エネルギーがMAXに達すると、エスコフィエが事前に中に仕込んだ食材が美味しい料理へと変わる。\n・新しい食材を仕入れるのには時間がかかる。エスコフィエは毎週、この方法で一定数の料理を作ることができる。料理の制作可能回数は毎週月曜日の4:00にリセットされる。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11120002"
+              ]
+            }
+          ]
+        }
+      }
+    },
     "10000140": {
       "sourceRefs": [
         "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-talents.json"
@@ -128,6 +153,503 @@
         "passive4": {
           "originalText": "ヴォジャニーツァはコロレフスキー劇団のプリマドンナとして、楽器を演奏する代わりに、自らの歌声を披露する。",
           "originalRaw": "ヴォジャニーツァはコロレフスキー劇団のプリマドンナとして、楽器を演奏する代わりに、自らの歌声を披露する。"
+        }
+      }
+    },
+    "10000143": {
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json"
+      ],
+      "talents": {
+        "combat2": {
+          "originalText": "風の精一族に伝わる霊剣を呼び出し、風元素範囲ダメージを与え、**風巡りの臨戦**モードに切り替わり、**「剣気」**を2層獲得する。\n\n風巡りの臨戦\nヴェスナが通常攻撃・重撃・落下攻撃を行う際、元素付与によって他の元素に変化しない風元素ダメージに変わり、風羽を呼び出して敵に追加攻撃を行い、追加の風元素ダメージを与える。風羽を呼び出すたびに、ヴェスナの「剣気」が一定量回復する。\nヴェスナは「剣気」を消費し、特殊元素スキル**飛翔の剣**を発動して敵に風元素ダメージを与えることができる。\n「風巡りの臨戦」モードの継続期間中、特殊元素スキル飛翔の剣を発動するたびに「飛翔の剣」のランクが上がり、より大きな風元素ダメージを与えるようになる。飛翔の剣の初期ランクはランク1で、最大ランク3まで上がる。ランクが上がった飛翔の剣を発動する際、さらに**霊剣**を呼び出し、敵に風元素ダメージを与える。\n継続時間終了時、または最高ランクの飛翔の剣を3回発動した後、ヴェスナはこのモードを終了し、すべての剣気がクリアされる。\nさらに、このモード中、ヴェスナの中断耐性がアップする。\n輝映・星拡散：霊剣は星拡散反応ダメージとみなされる風元素ダメージを与えるようになる。",
+          "originalRaw": "風の精一族に伝わる霊剣を呼び出し、<color=#80FFD7FF>風元素範囲ダメージ</color>を与え、<color=#FFD780FF>{LINK#N11430001}風巡りの臨戦{/LINK}</color>モードに切り替わり、<color=#FFD780FF>{LINK#N11430002}「剣気」{/LINK}</color>を2層獲得する。\n\n<color=#FFD780FF>風巡りの臨戦</color>\nヴェスナが通常攻撃・重撃・落下攻撃を行う際、元素付与によって他の元素に変化しない<color=#80FFD7FF>風元素ダメージ</color>に変わり、風羽を呼び出して敵に追加攻撃を行い、追加の<color=#80FFD7FF>風元素ダメージ</color>を与える。風羽を呼び出すたびに、ヴェスナの<color=#FFD780FF>「剣気」</color>が一定量回復する。\nヴェスナは<color=#FFD780FF>「剣気」</color>を消費し、特殊元素スキル<color=#FFD780FF>{LINK#N11430003}飛翔の剣{/LINK}</color>を発動して敵に<color=#80FFD7FF>風元素ダメージ</color>を与えることができる。\n<color=#FFD780FF>「風巡りの臨戦」</color>モードの継続期間中、特殊元素スキル<color=#FFD780FF>飛翔の剣</color>を発動するたびに「飛翔の剣」のランクが上がり、より大きな<color=#80FFD7FF>風元素ダメージ</color>を与えるようになる。<color=#FFD780FF>飛翔の剣</color>の初期ランクはランク1で、最大ランク3まで上がる。ランクが上がった<color=#FFD780FF>飛翔の剣</color>を発動する際、さらに<color=#FFD780FF>{LINK#N11430004}霊剣{/LINK}</color>を呼び出し、敵に<color=#80FFD7FF>風元素ダメージ</color>を与える。\n継続時間終了時、または最高ランクの<color=#FFD780FF>飛翔の剣</color>を3回発動した後、ヴェスナはこのモードを終了し、すべての<color=#FFD780FF>剣気</color>がクリアされる。\nさらに、このモード中、ヴェスナの中断耐性がアップする。\n<color=#FFD780FF>輝映・星拡散</color>：<color=#FFD780FF>霊剣</color>は星拡散反応ダメージとみなされる<color=#80FFD7FF>風元素ダメージ</color>を与えるようになる。",
+          "relatedEffects": [
+            {
+              "nameJa": "風巡りの臨戦",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11430001",
+              "originalRaw": "元素スキル<strong>操典「勝利への道筋」</strong>を発動後、ヴェスナはこのモードに切り替わる。このモードは最大15秒間継続し、以下の性質を持つ。\n・ヴェスナの中断耐性がアップする。\n・ヴェスナが通常攻撃、重撃、落下攻撃を行う時、元素付与によって他の元素に変化しない<anemo>風元素ダメージ</anemo>を与えるようになり、さらに風羽を呼び出して敵に追加攻撃を行い、追加の<anemo>風元素ダメージ</anemo>を与える。風羽を呼び出すたびに、ヴェスナの<strong>剣気</strong>が一定量回復する。\n・ヴェスナは<strong>剣気</strong>を消費して、特殊な元素スキル<strong>飛翔の剣</strong>を発動し、敵に<anemo>風元素ダメージ</anemo>を与えることができる。\n・継続時間が終了した時、または最高ランクの<strong>飛翔の剣</strong>を3回発動した後、ヴェスナはこのモードを終了し、すべての<strong>剣気</strong>がクリアされる。",
+              "originalText": "元素スキル操典「勝利への道筋」を発動後、ヴェスナはこのモードに切り替わる。このモードは最大15秒間継続し、以下の性質を持つ。\n・ヴェスナの中断耐性がアップする。\n・ヴェスナが通常攻撃、重撃、落下攻撃を行う時、元素付与によって他の元素に変化しない風元素ダメージを与えるようになり、さらに風羽を呼び出して敵に追加攻撃を行い、追加の風元素ダメージを与える。風羽を呼び出すたびに、ヴェスナの剣気が一定量回復する。\n・ヴェスナは剣気を消費して、特殊な元素スキル飛翔の剣を発動し、敵に風元素ダメージを与えることができる。\n・継続時間が終了した時、または最高ランクの飛翔の剣を3回発動した後、ヴェスナはこのモードを終了し、すべての剣気がクリアされる。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11430001"
+              ]
+            },
+            {
+              "nameJa": "剣気",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11430002",
+              "originalRaw": "<strong>風巡りの臨戦</strong>モードで特殊元素スキル<strong>飛翔の剣</strong>を発動するためのエネルギー。\nヴェスナは以下の方法によって剣気を蓄積できる。\n・<strong>風巡りの臨戦</strong>モードで、通常攻撃、重撃、落下攻撃を行う、または命ノ星座<strong>「揺るぎなき忠誠」</strong>の<strong>飛翔の剣・変</strong>を発動する。\n・元素スキル<strong>操典「勝利への道筋」</strong>を発動する。\n・元素爆発<strong>女皇陛下に敬礼を</strong>を発動する。",
+              "originalText": "風巡りの臨戦モードで特殊元素スキル飛翔の剣を発動するためのエネルギー。\nヴェスナは以下の方法によって剣気を蓄積できる。\n・風巡りの臨戦モードで、通常攻撃、重撃、落下攻撃を行う、または命ノ星座「揺るぎなき忠誠」の飛翔の剣・変を発動する。\n・元素スキル操典「勝利への道筋」を発動する。\n・元素爆発女皇陛下に敬礼をを発動する。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11430002"
+              ]
+            },
+            {
+              "nameJa": "飛翔の剣",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11430003",
+              "originalRaw": "<strong>風巡りの臨戦</strong>モード中、ヴェスナは<strong>剣気</strong>を消費することで、この特殊元素スキルを発動し、<anemo>風元素ダメージ</anemo>を与える。\n<strong>「風巡りの臨戦」</strong>モードの継続期間中、特殊元素スキル<strong>飛翔の剣</strong>を発動するたびに「飛翔の剣」のランクが上がる。<strong>飛翔の剣</strong>の初期ランクはランク1で、最大ランク3まで上がる。\nランクが上がった<strong>飛翔の剣</strong>を発動する際、さらに<strong>霊剣</strong>を呼び出し、敵に<anemo>風元素ダメージ</anemo>を与える。",
+              "originalText": "風巡りの臨戦モード中、ヴェスナは剣気を消費することで、この特殊元素スキルを発動し、風元素ダメージを与える。\n「風巡りの臨戦」モードの継続期間中、特殊元素スキル飛翔の剣を発動するたびに「飛翔の剣」のランクが上がる。飛翔の剣の初期ランクはランク1で、最大ランク3まで上がる。\nランクが上がった飛翔の剣を発動する際、さらに霊剣を呼び出し、敵に風元素ダメージを与える。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11430003"
+              ]
+            },
+            {
+              "nameJa": "霊剣",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11430004",
+              "originalRaw": "ヴェスナによって呼び出される霊体武器。ヴェスナと連携して敵を攻撃し、<anemo>風元素ダメージ</anemo>を与える。\nヴェスナは以下の方法で霊剣を呼び出すことができる。\n・ランクが上がった特殊元素スキル<strong>飛翔の剣</strong>を発動する。\n・元素爆発<strong>女皇陛下に敬礼を</strong>を発動する。\n・命ノ星座<strong>「揺るぎなき忠誠」</strong>の<strong>飛翔の剣・変</strong>を発動する。\n<br/>\n<strong>輝映・星拡散</strong>：<strong>霊剣</strong>は星拡散反応ダメージとみなされる<anemo>風元素ダメージ</anemo>を与えるようになる。",
+              "originalText": "ヴェスナによって呼び出される霊体武器。ヴェスナと連携して敵を攻撃し、風元素ダメージを与える。\nヴェスナは以下の方法で霊剣を呼び出すことができる。\n・ランクが上がった特殊元素スキル飛翔の剣を発動する。\n・元素爆発女皇陛下に敬礼をを発動する。\n・命ノ星座「揺るぎなき忠誠」の飛翔の剣・変を発動する。\n\n\n輝映・星拡散：霊剣は星拡散反応ダメージとみなされる風元素ダメージを与えるようになる。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11430004"
+              ]
+            }
+          ]
+        },
+        "combat3": {
+          "originalText": "数多くの**霊剣**を呼び出し、風元素範囲ダメージを与え、**「剣気」**を1層獲得する。",
+          "originalRaw": "数多くの<color=#FFD780FF>{LINK#N11430004}霊剣{/LINK}</color>を呼び出し、<color=#80FFD7FF>風元素範囲ダメージ</color>を与え、<color=#FFD780FF>{LINK#N11430002}「剣気」{/LINK}</color>を1層獲得する。",
+          "relatedEffects": [
+            {
+              "nameJa": "霊剣",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11430004",
+              "originalRaw": "ヴェスナによって呼び出される霊体武器。ヴェスナと連携して敵を攻撃し、<anemo>風元素ダメージ</anemo>を与える。\nヴェスナは以下の方法で霊剣を呼び出すことができる。\n・ランクが上がった特殊元素スキル<strong>飛翔の剣</strong>を発動する。\n・元素爆発<strong>女皇陛下に敬礼を</strong>を発動する。\n・命ノ星座<strong>「揺るぎなき忠誠」</strong>の<strong>飛翔の剣・変</strong>を発動する。\n<br/>\n<strong>輝映・星拡散</strong>：<strong>霊剣</strong>は星拡散反応ダメージとみなされる<anemo>風元素ダメージ</anemo>を与えるようになる。",
+              "originalText": "ヴェスナによって呼び出される霊体武器。ヴェスナと連携して敵を攻撃し、風元素ダメージを与える。\nヴェスナは以下の方法で霊剣を呼び出すことができる。\n・ランクが上がった特殊元素スキル飛翔の剣を発動する。\n・元素爆発女皇陛下に敬礼をを発動する。\n・命ノ星座「揺るぎなき忠誠」の飛翔の剣・変を発動する。\n\n\n輝映・星拡散：霊剣は星拡散反応ダメージとみなされる風元素ダメージを与えるようになる。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11430004"
+              ]
+            },
+            {
+              "nameJa": "剣気",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11430002",
+              "originalRaw": "<strong>風巡りの臨戦</strong>モードで特殊元素スキル<strong>飛翔の剣</strong>を発動するためのエネルギー。\nヴェスナは以下の方法によって剣気を蓄積できる。\n・<strong>風巡りの臨戦</strong>モードで、通常攻撃、重撃、落下攻撃を行う、または命ノ星座<strong>「揺るぎなき忠誠」</strong>の<strong>飛翔の剣・変</strong>を発動する。\n・元素スキル<strong>操典「勝利への道筋」</strong>を発動する。\n・元素爆発<strong>女皇陛下に敬礼を</strong>を発動する。",
+              "originalText": "風巡りの臨戦モードで特殊元素スキル飛翔の剣を発動するためのエネルギー。\nヴェスナは以下の方法によって剣気を蓄積できる。\n・風巡りの臨戦モードで、通常攻撃、重撃、落下攻撃を行う、または命ノ星座「揺るぎなき忠誠」の飛翔の剣・変を発動する。\n・元素スキル操典「勝利への道筋」を発動する。\n・元素爆発女皇陛下に敬礼をを発動する。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11430002"
+              ]
+            }
+          ]
+        },
+        "passive1": {
+          "originalText": "ヴェスナが特殊元素スキル**飛翔の剣**を発動または元素爆発**女皇陛下に敬礼を**発動後、「粛正」を1層獲得する、継続時間20秒、最大6層まで重ね掛けでき、継続時間は層ごとに独立してカウントされる。\n「粛正」を持っている時、ヴェスナが呼び出した**霊剣**は本来の100%+「粛正」の層数×10%分のダメージを与える。元素スキル操典「勝利への道筋」を発動または退場時、「粛正」はクリアされる。",
+          "originalRaw": "ヴェスナが特殊元素スキル<color=#FFD780FF>{LINK#N11430003}飛翔の剣{/LINK}</color>を発動または元素爆発<color=#FFD780FF>{LINK#S11435}女皇陛下に敬礼を{/LINK}</color>発動後、<color=#FFD780FF>「粛正」</color>を1層獲得する、継続時間20秒、最大6層まで重ね掛けでき、継続時間は層ごとに独立してカウントされる。\n<color=#FFD780FF>「粛正」</color>を持っている時、ヴェスナが呼び出した<color=#FFD780FF>{LINK#N11430004}霊剣{/LINK}</color>は本来の100%+「粛正」の層数×10%分のダメージを与える。元素スキル<color=#FFD780FF>操典「勝利への道筋」</color>を発動または退場時、<color=#FFD780FF>「粛正」</color>はクリアされる。",
+          "relatedEffects": [
+            {
+              "nameJa": "飛翔の剣",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11430003",
+              "originalRaw": "<strong>風巡りの臨戦</strong>モード中、ヴェスナは<strong>剣気</strong>を消費することで、この特殊元素スキルを発動し、<anemo>風元素ダメージ</anemo>を与える。\n<strong>「風巡りの臨戦」</strong>モードの継続期間中、特殊元素スキル<strong>飛翔の剣</strong>を発動するたびに「飛翔の剣」のランクが上がる。<strong>飛翔の剣</strong>の初期ランクはランク1で、最大ランク3まで上がる。\nランクが上がった<strong>飛翔の剣</strong>を発動する際、さらに<strong>霊剣</strong>を呼び出し、敵に<anemo>風元素ダメージ</anemo>を与える。",
+              "originalText": "風巡りの臨戦モード中、ヴェスナは剣気を消費することで、この特殊元素スキルを発動し、風元素ダメージを与える。\n「風巡りの臨戦」モードの継続期間中、特殊元素スキル飛翔の剣を発動するたびに「飛翔の剣」のランクが上がる。飛翔の剣の初期ランクはランク1で、最大ランク3まで上がる。\nランクが上がった飛翔の剣を発動する際、さらに霊剣を呼び出し、敵に風元素ダメージを与える。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11430003"
+              ]
+            },
+            {
+              "nameJa": "霊剣",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11430004",
+              "originalRaw": "ヴェスナによって呼び出される霊体武器。ヴェスナと連携して敵を攻撃し、<anemo>風元素ダメージ</anemo>を与える。\nヴェスナは以下の方法で霊剣を呼び出すことができる。\n・ランクが上がった特殊元素スキル<strong>飛翔の剣</strong>を発動する。\n・元素爆発<strong>女皇陛下に敬礼を</strong>を発動する。\n・命ノ星座<strong>「揺るぎなき忠誠」</strong>の<strong>飛翔の剣・変</strong>を発動する。\n<br/>\n<strong>輝映・星拡散</strong>：<strong>霊剣</strong>は星拡散反応ダメージとみなされる<anemo>風元素ダメージ</anemo>を与えるようになる。",
+              "originalText": "ヴェスナによって呼び出される霊体武器。ヴェスナと連携して敵を攻撃し、風元素ダメージを与える。\nヴェスナは以下の方法で霊剣を呼び出すことができる。\n・ランクが上がった特殊元素スキル飛翔の剣を発動する。\n・元素爆発女皇陛下に敬礼をを発動する。\n・命ノ星座「揺るぎなき忠誠」の飛翔の剣・変を発動する。\n\n\n輝映・星拡散：霊剣は星拡散反応ダメージとみなされる風元素ダメージを与えるようになる。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11430004"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "10000148": {
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/alyosha.json"
+      ],
+      "talents": {
+        "combat1": {
+          "originalText": "通常攻撃\n槍による最大4段の連続攻撃を行い、最後の一撃が命中した敵に**狩猟の印**効果を付与する。\n\n重撃\n一定のスタミナを消費して前方に突進し、経路上の敵にダメージを与える。\n\n落下攻撃\n空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+          "originalRaw": "<color=#FFD780FF>通常攻撃</color>\n槍による最大4段の連続攻撃を行い、最後の一撃が命中した敵に{LINK#N11480001}<color=#FFD780FF>狩猟の印</color>{/LINK}効果を付与する。\n\n<color=#FFD780FF>重撃</color>\n一定のスタミナを消費して前方に突進し、経路上の敵にダメージを与える。\n\n<color=#FFD780FF>落下攻撃</color>\n空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+          "relatedEffects": [
+            {
+              "nameJa": "狩猟の印",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11480001",
+              "originalRaw": "アリョーシャが敵に付与する特殊効果。\nすでに<strong>狩猟の印</strong>の影響下にある敵に再び同効果を付与した場合、代わりに<strong>狩猟の印</strong>が発動する。それによって狩猟の印はクリアされ、周囲のチーム全員が<strong>狩人の照準</strong>効果を獲得する。狩人の照準効果：フィールド上にいる時、攻撃力がアップする。",
+              "originalText": "アリョーシャが敵に付与する特殊効果。\nすでに狩猟の印の影響下にある敵に再び同効果を付与した場合、代わりに狩猟の印が発動する。それによって狩猟の印はクリアされ、周囲のチーム全員が狩人の照準効果を獲得する。狩人の照準効果：フィールド上にいる時、攻撃力がアップする。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11480001"
+              ]
+            }
+          ]
+        },
+        "combat2": {
+          "originalText": "ハンターの本能に従い、一回押しと長押しによって異なる効果を発動させ、命中した敵に**狩猟の印**効果を付与する。\n\n一回押し\n前方へ射撃し、雷元素範囲ダメージを与える。\n\n長押し\n照準状態に入り、前方の一定範囲内にいる敵を定める。この状態の時、アリョーシャの中断耐性がアップする。\n長押し終了時、定めた敵に雷元素ダメージを与える。",
+          "originalRaw": "ハンターの本能に従い、一回押しと長押しによって異なる効果を発動させ、命中した敵に{LINK#N11480001}<color=#FFD780FF>狩猟の印</color>{/LINK}効果を付与する。\n\n<color=#FFD780FF>一回押し</color>\n前方へ射撃し、<color=#FFACFFFF>雷元素範囲ダメージ</color>を与える。\n\n<color=#FFD780FF>長押し</color>\n照準状態に入り、前方の一定範囲内にいる敵を定める。この状態の時、アリョーシャの中断耐性がアップする。\n長押し終了時、定めた敵に<color=#FFACFFFF>雷元素ダメージ</color>を与える。\n\n<i>ハンターはかつて、自ら槍の切っ先へと手を伸ばすような無謀さを持っていた——血の教訓を乗り越えて初めて、厳しい雪原で生き延びる術を悟ったのだ。</i>",
+          "relatedEffects": [
+            {
+              "nameJa": "狩猟の印",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11480001",
+              "originalRaw": "アリョーシャが敵に付与する特殊効果。\nすでに<strong>狩猟の印</strong>の影響下にある敵に再び同効果を付与した場合、代わりに<strong>狩猟の印</strong>が発動する。それによって狩猟の印はクリアされ、周囲のチーム全員が<strong>狩人の照準</strong>効果を獲得する。狩人の照準効果：フィールド上にいる時、攻撃力がアップする。",
+              "originalText": "アリョーシャが敵に付与する特殊効果。\nすでに狩猟の印の影響下にある敵に再び同効果を付与した場合、代わりに狩猟の印が発動する。それによって狩猟の印はクリアされ、周囲のチーム全員が狩人の照準効果を獲得する。狩人の照準効果：フィールド上にいる時、攻撃力がアップする。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11480001"
+              ]
+            }
+          ]
+        },
+        "passive1": {
+          "originalText": "**トゥガリン**が攻撃を行う時、付近にいるチーム内フィールド上キャラクターのHPが回復する。回復量はアリョーシャの攻撃力の120%に相当する。",
+          "originalRaw": "{LINK#N11480002}<color=#FFD780FF>トゥガリン</color>{/LINK}が攻撃を行う時、付近にいるチーム内フィールド上キャラクターのHPが回復する。回復量はアリョーシャの攻撃力の120%に相当する。",
+          "relatedEffects": [
+            {
+              "nameJa": "トゥガリン",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11480002",
+              "originalRaw": "アリョーシャが深く信頼する猟犬の仲間。元素爆発<strong>攻守の猟犬</strong>を発動することでフィールド上に呼び出すことができる。一定時間ごとに、敵1体の付近へ素早く移動し、その敵に噛みつき攻撃を行い、すでに存在する<strong>狩猟の印</strong>を発動する。",
+              "originalText": "アリョーシャが深く信頼する猟犬の仲間。元素爆発攻守の猟犬を発動することでフィールド上に呼び出すことができる。一定時間ごとに、敵1体の付近へ素早く移動し、その敵に噛みつき攻撃を行い、すでに存在する狩猟の印を発動する。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11480002"
+              ]
+            }
+          ]
+        },
+        "passive3": {
+          "originalText": "**極星フィールド**内にいる時、アリョーシャは輝映・星電導状態に入る。\n輝映・星電導：**狩猟の印**を発動した時に獲得する狩人の照準の効果により、キャラクターがフィールド上にいる時に与える星電導ダメージがさらに+20%。",
+          "originalRaw": "{LINK#N11330003}<color=#FFD780FF>極星フィールド</color>{/LINK}内にいる時、アリョーシャは<color=#FFD780FF>輝映・星電導</color>状態に入る。\n<color=#FFD780FF>輝映・星電導</color>：{LINK#N11480001}<color=#FFD780FF>狩猟の印</color>{/LINK}を発動した時に獲得する<color=#FFD780FF>狩人の照準</color>の効果により、キャラクターがフィールド上にいる時に与える星電導ダメージがさらに+20%。",
+          "relatedEffects": [
+            {
+              "nameJa": "極星フィールド",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11330003",
+              "originalRaw": "星電導反応を発動すると、近くのエリアがしばらくの間<strong>極星フィールド</strong>に変化する。極星フィールド内にいる間、特定のキャラクターは<strong>輝映・星電導</strong>状態に入り、各スキルはそれぞれに対応する強化効果を得る。",
+              "originalText": "星電導反応を発動すると、近くのエリアがしばらくの間極星フィールドに変化する。極星フィールド内にいる間、特定のキャラクターは輝映・星電導状態に入り、各スキルはそれぞれに対応する強化効果を得る。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11330003"
+              ]
+            },
+            {
+              "nameJa": "狩猟の印",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11480001",
+              "originalRaw": "アリョーシャが敵に付与する特殊効果。\nすでに<strong>狩猟の印</strong>の影響下にある敵に再び同効果を付与した場合、代わりに<strong>狩猟の印</strong>が発動する。それによって狩猟の印はクリアされ、周囲のチーム全員が<strong>狩人の照準</strong>効果を獲得する。狩人の照準効果：フィールド上にいる時、攻撃力がアップする。",
+              "originalText": "アリョーシャが敵に付与する特殊効果。\nすでに狩猟の印の影響下にある敵に再び同効果を付与した場合、代わりに狩猟の印が発動する。それによって狩猟の印はクリアされ、周囲のチーム全員が狩人の照準効果を獲得する。狩人の照準効果：フィールド上にいる時、攻撃力がアップする。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11480001"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "10000150": {
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json"
+      ],
+      "talents": {
+        "combat2": {
+          "originalText": "緩やかなステップで氷元素範囲ダメージを与え、自身の**独舞者（ソリスト）のシルエット**を召喚する。\nフィールド上にオデット自身が召喚した独舞者のシルエットがすでに存在する場合は再召喚となり、継続時間がリセットされる。\n\n独舞者のシルエット\nプルームとウィングの2種類のステップを交互に踏み、優雅で軽やかな舞いによって一定時間ごとに付近の敵を攻撃し、氷元素範囲ダメージを与える。\nまた、元素スキル柔きファントムの夜の舞を発動した後の6秒間、オデットの元素スキル柔きファントムの夜の舞は特殊な元素スキル**柔き払暁のコーダ******に変化し、共に踊って付近の敵に継続的に氷元素範囲ダメージを与える。さらに、踊りの終了時に、星電導または星拡散反応ダメージと見なされる氷元素範囲ダメージを1回与える。",
+          "originalRaw": "緩やかなステップで<color=#99FFFFFF>氷元素範囲ダメージ</color>を与え、自身の{LINK#N11500001}<color=#FFD780FF>独舞者（ソリスト）のシルエット</color>{/LINK}を召喚する。\nフィールド上にオデット自身が召喚した<color=#FFD780FF>独舞者のシルエット</color>がすでに存在する場合は再召喚となり、継続時間がリセットされる。\n\n<color=#FFD780FF>独舞者のシルエット</color>\n<color=#FFD780FF>プルーム</color>と<color=#FFD780FF>ウィング</color>の2種類のステップを交互に踏み、優雅で軽やかな舞いによって一定時間ごとに付近の敵を攻撃し、<color=#99FFFFFF>氷元素範囲ダメージ</color>を与える。\nまた、元素スキル<color=#FFD780FF>柔きファントムの夜の舞</color>を発動した後の6秒間、オデットの元素スキル<color=#FFD780FF>柔きファントムの夜の舞</color>は特殊な元素スキル{LINK#N11500002}<color=#FFD780FF>柔き払暁のコーダ</color>{/LINK}{LINK#N11500004}{/LINK}に変化し、共に踊って付近の敵に継続的に<color=#99FFFFFF>氷元素範囲ダメージ</color>を与える。さらに、踊りの終了時に、星電導または星拡散反応ダメージと見なされる<color=#99FFFFFF>氷元素範囲ダメージ</color>を1回与える。",
+          "relatedEffects": [
+            {
+              "nameJa": "独舞者のシルエット",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11500001",
+              "originalRaw": "オデットと共に舞う心象の倒影。元素スキルまたは元素爆発を発動することでフィールド上に召喚できる。\n<strong>プルーム</strong>と<strong>ウィング</strong>の2種類のステップを交互に踏み、優雅で軽やかな舞いによって一定時間ごとに付近の敵を攻撃し、<cryo>氷元素範囲ダメージ</cryo>を与える。\nオデット自身が創造した<strong>独舞者のシルエット</strong>は1つのみ存在可能。\n<br/>\nまた、周囲にオデット自身が召喚した<strong>独舞者のシルエット</strong>が存在する時、オデットの元素スキル<strong>柔きファントムの夜の舞</strong>は特殊な元素スキル<strong>柔き払暁のコーダ</strong>に変化する。",
+              "originalText": "オデットと共に舞う心象の倒影。元素スキルまたは元素爆発を発動することでフィールド上に召喚できる。\nプルームとウィングの2種類のステップを交互に踏み、優雅で軽やかな舞いによって一定時間ごとに付近の敵を攻撃し、氷元素範囲ダメージを与える。\nオデット自身が創造した独舞者のシルエットは1つのみ存在可能。\n\n\nまた、周囲にオデット自身が召喚した独舞者のシルエットが存在する時、オデットの元素スキル柔きファントムの夜の舞は特殊な元素スキル柔き払暁のコーダに変化する。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11500001"
+              ]
+            },
+            {
+              "nameJa": "柔き払暁のコーダ",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11500002",
+              "originalRaw": "オデットの特殊な元素スキル。周囲の敵に持続的に<cryo>氷元素範囲ダメージ</cryo>を与え、踊りが終わると、星電導反応ダメージと見なされる<cryo>氷元素範囲ダメージ</cryo>を1回与える。踊りの間、オデットはステップの方向をコントロールできる。\n<strong>輝映・星閃</strong>：踊りの終了時、代わりに対応する星反応ダメージと見なされる<cryo>氷元素範囲ダメージ</cryo>を1回与える。\n<br/>\nさらに、特殊な元素スキル<strong>柔き払暁のコーダ</strong>を発動した後、<strong>独舞者のシルエット</strong>の残り継続時間内にオデットが<strong>輝映・星閃</strong>状態にある場合、<strong>独舞者のシルエット</strong>の2種類のステップは、対応する星反応ダメージと見なされる<cryo>氷元素範囲ダメージ</cryo>を追加で与える。",
+              "originalText": "オデットの特殊な元素スキル。周囲の敵に持続的に氷元素範囲ダメージを与え、踊りが終わると、星電導反応ダメージと見なされる氷元素範囲ダメージを1回与える。踊りの間、オデットはステップの方向をコントロールできる。\n輝映・星閃：踊りの終了時、代わりに対応する星反応ダメージと見なされる氷元素範囲ダメージを1回与える。\n\n\nさらに、特殊な元素スキル柔き払暁のコーダを発動した後、独舞者のシルエットの残り継続時間内にオデットが輝映・星閃状態にある場合、独舞者のシルエットの2種類のステップは、対応する星反応ダメージと見なされる氷元素範囲ダメージを追加で与える。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11500002"
+              ]
+            },
+            {
+              "nameJa": "輝映・星閃",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11500004",
+              "originalRaw": "<strong>輝映・星電導</strong>と<strong>輝映・星拡散</strong>を<strong>輝映・星閃</strong>状態と総称する。\nキャラクターはどちらか1種類の輝映状態からしか影響を受けられず、優先的に<strong>輝映・星電導</strong>の影響を受ける。",
+              "originalText": "輝映・星電導と輝映・星拡散を輝映・星閃状態と総称する。\nキャラクターはどちらか1種類の輝映状態からしか影響を受けられず、優先的に輝映・星電導の影響を受ける。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11500004"
+              ]
+            }
+          ]
+        },
+        "combat3": {
+          "originalText": "素早いステップを踏んで複数回の氷元素範囲ダメージを与え、自身の**独舞者のシルエット**を召喚し、雪鳥の夢効果を獲得する。雪鳥の夢：オデットが与える星反応ダメージをアップする。\nまた、元素爆発疾きブルーバードの夢を発動した後の6秒間、オデットの元素スキル柔きファントムの夜の舞は、特別な元素スキル**柔き払暁のコーダ******に変わる。\n\nすでにフィールド上にオデット自身が作り出した独舞者のシルエットが存在する場合、自身の傍に再生成し、継続時間をリセットする。",
+          "originalRaw": "素早いステップを踏んで複数回の<color=#99FFFFFF>氷元素範囲ダメージ</color>を与え、自身の{LINK#N11500001}<color=#FFD780FF>独舞者のシルエット</color>{/LINK}を召喚し、<color=#FFD780FF>雪鳥の夢</color>効果を獲得する。雪鳥の夢：オデットが与える星反応ダメージをアップする。\nまた、元素爆発<color=#FFD780FF>疾きブルーバードの夢</color>を発動した後の6秒間、オデットの元素スキル<color=#FFD780FF>柔きファントムの夜の舞</color>は、特別な元素スキル{LINK#N11500002}<color=#FFD780FF>柔き払暁のコーダ</color>{/LINK}{LINK#N11500004}{/LINK}に変わる。\n\nすでにフィールド上にオデット自身が作り出した独舞者のシルエットが存在する場合、自身の傍に再生成し、継続時間をリセットする。",
+          "relatedEffects": [
+            {
+              "nameJa": "独舞者のシルエット",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11500001",
+              "originalRaw": "オデットと共に舞う心象の倒影。元素スキルまたは元素爆発を発動することでフィールド上に召喚できる。\n<strong>プルーム</strong>と<strong>ウィング</strong>の2種類のステップを交互に踏み、優雅で軽やかな舞いによって一定時間ごとに付近の敵を攻撃し、<cryo>氷元素範囲ダメージ</cryo>を与える。\nオデット自身が創造した<strong>独舞者のシルエット</strong>は1つのみ存在可能。\n<br/>\nまた、周囲にオデット自身が召喚した<strong>独舞者のシルエット</strong>が存在する時、オデットの元素スキル<strong>柔きファントムの夜の舞</strong>は特殊な元素スキル<strong>柔き払暁のコーダ</strong>に変化する。",
+              "originalText": "オデットと共に舞う心象の倒影。元素スキルまたは元素爆発を発動することでフィールド上に召喚できる。\nプルームとウィングの2種類のステップを交互に踏み、優雅で軽やかな舞いによって一定時間ごとに付近の敵を攻撃し、氷元素範囲ダメージを与える。\nオデット自身が創造した独舞者のシルエットは1つのみ存在可能。\n\n\nまた、周囲にオデット自身が召喚した独舞者のシルエットが存在する時、オデットの元素スキル柔きファントムの夜の舞は特殊な元素スキル柔き払暁のコーダに変化する。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11500001"
+              ]
+            },
+            {
+              "nameJa": "柔き払暁のコーダ",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11500002",
+              "originalRaw": "オデットの特殊な元素スキル。周囲の敵に持続的に<cryo>氷元素範囲ダメージ</cryo>を与え、踊りが終わると、星電導反応ダメージと見なされる<cryo>氷元素範囲ダメージ</cryo>を1回与える。踊りの間、オデットはステップの方向をコントロールできる。\n<strong>輝映・星閃</strong>：踊りの終了時、代わりに対応する星反応ダメージと見なされる<cryo>氷元素範囲ダメージ</cryo>を1回与える。\n<br/>\nさらに、特殊な元素スキル<strong>柔き払暁のコーダ</strong>を発動した後、<strong>独舞者のシルエット</strong>の残り継続時間内にオデットが<strong>輝映・星閃</strong>状態にある場合、<strong>独舞者のシルエット</strong>の2種類のステップは、対応する星反応ダメージと見なされる<cryo>氷元素範囲ダメージ</cryo>を追加で与える。",
+              "originalText": "オデットの特殊な元素スキル。周囲の敵に持続的に氷元素範囲ダメージを与え、踊りが終わると、星電導反応ダメージと見なされる氷元素範囲ダメージを1回与える。踊りの間、オデットはステップの方向をコントロールできる。\n輝映・星閃：踊りの終了時、代わりに対応する星反応ダメージと見なされる氷元素範囲ダメージを1回与える。\n\n\nさらに、特殊な元素スキル柔き払暁のコーダを発動した後、独舞者のシルエットの残り継続時間内にオデットが輝映・星閃状態にある場合、独舞者のシルエットの2種類のステップは、対応する星反応ダメージと見なされる氷元素範囲ダメージを追加で与える。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11500002"
+              ]
+            },
+            {
+              "nameJa": "輝映・星閃",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11500004",
+              "originalRaw": "<strong>輝映・星電導</strong>と<strong>輝映・星拡散</strong>を<strong>輝映・星閃</strong>状態と総称する。\nキャラクターはどちらか1種類の輝映状態からしか影響を受けられず、優先的に<strong>輝映・星電導</strong>の影響を受ける。",
+              "originalText": "輝映・星電導と輝映・星拡散を輝映・星閃状態と総称する。\nキャラクターはどちらか1種類の輝映状態からしか影響を受けられず、優先的に輝映・星電導の影響を受ける。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11500004"
+              ]
+            }
+          ]
+        },
+        "passive1": {
+          "originalText": "オデットが**独舞者のシルエット**を召喚すると、さらに4層の**春の華**を獲得する。",
+          "originalRaw": "オデットが{LINK#N11500001}<color=#FFD780FF>独舞者のシルエット</color>{/LINK}を召喚すると、さらに4層の{LINK#N11500003}<color=#FFD780FF>春の華</color>{/LINK}を獲得する。",
+          "relatedEffects": [
+            {
+              "nameJa": "独舞者のシルエット",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11500001",
+              "originalRaw": "オデットと共に舞う心象の倒影。元素スキルまたは元素爆発を発動することでフィールド上に召喚できる。\n<strong>プルーム</strong>と<strong>ウィング</strong>の2種類のステップを交互に踏み、優雅で軽やかな舞いによって一定時間ごとに付近の敵を攻撃し、<cryo>氷元素範囲ダメージ</cryo>を与える。\nオデット自身が創造した<strong>独舞者のシルエット</strong>は1つのみ存在可能。\n<br/>\nまた、周囲にオデット自身が召喚した<strong>独舞者のシルエット</strong>が存在する時、オデットの元素スキル<strong>柔きファントムの夜の舞</strong>は特殊な元素スキル<strong>柔き払暁のコーダ</strong>に変化する。",
+              "originalText": "オデットと共に舞う心象の倒影。元素スキルまたは元素爆発を発動することでフィールド上に召喚できる。\nプルームとウィングの2種類のステップを交互に踏み、優雅で軽やかな舞いによって一定時間ごとに付近の敵を攻撃し、氷元素範囲ダメージを与える。\nオデット自身が創造した独舞者のシルエットは1つのみ存在可能。\n\n\nまた、周囲にオデット自身が召喚した独舞者のシルエットが存在する時、オデットの元素スキル柔きファントムの夜の舞は特殊な元素スキル柔き払暁のコーダに変化する。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11500001"
+              ]
+            },
+            {
+              "nameJa": "春の華",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11500003",
+              "originalRaw": "固有天賦「選ばれし者の祝祭」を解放後、オデットが<strong>独舞者のシルエット</strong>を召喚した際に獲得できる特殊効果。\n<strong>春の華</strong>1層につき、キャラクターが与える星反応ダメージ+15%。この効果は<strong>独舞者のシルエット</strong>が退場するか、<strong>独舞者のシルエット</strong>を再召喚するまで持続する。\nオデットが待機中の場合、オデットは毎秒1層の<strong>春の華</strong>をクリアし、付近にいるチーム内の他のキャラクターに対応する層数の<strong>春の華</strong>を獲得させる。",
+              "originalText": "固有天賦「選ばれし者の祝祭」を解放後、オデットが独舞者のシルエットを召喚した際に獲得できる特殊効果。\n春の華1層につき、キャラクターが与える星反応ダメージ+15%。この効果は独舞者のシルエットが退場するか、独舞者のシルエットを再召喚するまで持続する。\nオデットが待機中の場合、オデットは毎秒1層の春の華をクリアし、付近にいるチーム内の他のキャラクターに対応する層数の春の華を獲得させる。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11500003"
+              ]
+            }
+          ]
+        },
+        "passive3": {
+          "originalText": "**極星フィールド**内にいる時/チーム内のキャラクターが付近で星拡散反応を起こした後の8秒間、オデットはそれぞれ輝映・星電導/輝映・星拡散状態に入る。\nチーム内のキャラクターが超電導/氷元素拡散反応を起こすと、超電導/氷元素拡散反応は星電導/星拡散反応へと変わり、オデットの攻撃力に基づいて、チームのキャラクターが与える上記反応の基礎ダメージがアップする。攻撃力100につき、上記反応の基礎ダメージ+0.7%。この方法でアップできるダメージは最大14%まで。",
+          "originalRaw": "{LINK#N11330003}<color=#FFD780FF>極星フィールド</color>{/LINK}内にいる時/チーム内のキャラクターが付近で星拡散反応を起こした後の8秒間、オデットはそれぞれ<color=#FFD780FF>輝映・星電導</color>/<color=#FFD780FF>輝映・星拡散</color>状態に入る。\nチーム内のキャラクターが超電導/氷元素拡散反応を起こすと、超電導/氷元素拡散反応は星電導/星拡散反応へと変わり、オデットの攻撃力に基づいて、チームのキャラクターが与える上記反応の基礎ダメージがアップする。攻撃力100につき、上記反応の基礎ダメージ+0.7%。この方法でアップできるダメージは最大14%まで。",
+          "relatedEffects": [
+            {
+              "nameJa": "極星フィールド",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11330003",
+              "originalRaw": "星電導反応を発動すると、近くのエリアがしばらくの間<strong>極星フィールド</strong>に変化する。極星フィールド内にいる間、特定のキャラクターは<strong>輝映・星電導</strong>状態に入り、各スキルはそれぞれに対応する強化効果を得る。",
+              "originalText": "星電導反応を発動すると、近くのエリアがしばらくの間極星フィールドに変化する。極星フィールド内にいる間、特定のキャラクターは輝映・星電導状態に入り、各スキルはそれぞれに対応する強化効果を得る。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11330003"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "10000005_cryo": {
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/travelercryo.json"
+      ],
+      "talents": {
+        "combat2": {
+          "originalText": "武器を振るって前方に突きを繰り出し、極寒の氷霧を放って前方に氷元素ダメージを与えて自身の周囲に凛冽の寒星を発生させる。\n\n凛冽の寒星\n・チーム内の自身のキャラクターと共に移動し、一定時間ごとに氷晶を発射して周囲の敵を攻撃し、氷元素ダメージを与える。\n輝映・星電導：凛冽の寒星は一定時間ごとに氷晶を発射しなくなる代わりに、旅人の通常攻撃、重撃、または落下攻撃が敵に命中した時、氷晶を1つ発射して敵に追加攻撃を行う。0.2秒毎に1回のみ発動できる。\n・氷晶が敵に命中すると、旅人は**寒光**を1層蓄積する。この効果は最大8層まで蓄積できる。\n・戦闘状態でない時、30秒後に寒光はクリアされる。",
+          "originalRaw": "武器を振るって前方に突きを繰り出し、極寒の氷霧を放って前方に<color=#99FFFFFF>氷元素ダメージ</color>を与えて自身の周囲に凛冽の寒星を発生させる。\n\n<color=#FFD780FF>凛冽の寒星</color>\n・チーム内の自身のキャラクターと共に移動し、一定時間ごとに氷晶を発射して周囲の敵を攻撃し、<color=#99FFFFFF>氷元素ダメージ</color>を与える。\n<color=#FFD780FF>輝映・星電導</color>：凛冽の寒星は一定時間ごとに氷晶を発射しなくなる代わりに、旅人の通常攻撃、重撃、または落下攻撃が敵に命中した時、氷晶を1つ発射して敵に追加攻撃を行う。0.2秒毎に1回のみ発動できる。\n・氷晶が敵に命中すると、旅人は{LINK#N10050002}<color=#FFD780FF>寒光</color>{/LINK}を1層蓄積する。この効果は最大8層まで蓄積できる。\n・戦闘状態でない時、30秒後に<color=#FFD780FF>寒光</color>はクリアされる。\n\n<i>パイモンと一緒に、凍った霧氷を眺めた。</i>",
+          "relatedEffects": [
+            {
+              "nameJa": "寒光",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N10050002",
+              "originalRaw": "旅人が発生させた<strong>凛冽の寒星</strong>が発射した氷晶が敵に命中した時、または天賦<strong>異邦の積氷</strong>を開放した状態で<strong>重撃・凝結</strong>を行った後、受けられる特殊効果。この効果は最大8層まで重ね掛け可能。\n元素爆発<strong>飛氷の鉾</strong>を発動する時、旅人は<strong>寒光</strong>の層数をすべて消費し、今回の元素爆発によるダメージをアップさせる。消費した層数が8層の場合、さらに今回の元素爆発によるダメージの段数もアップする。",
+              "originalText": "旅人が発生させた凛冽の寒星が発射した氷晶が敵に命中した時、または天賦異邦の積氷を開放した状態で重撃・凝結を行った後、受けられる特殊効果。この効果は最大8層まで重ね掛け可能。\n元素爆発飛氷の鉾を発動する時、旅人は寒光の層数をすべて消費し、今回の元素爆発によるダメージをアップさせる。消費した層数が8層の場合、さらに今回の元素爆発によるダメージの段数もアップする。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/10050002"
+              ]
+            }
+          ]
+        },
+        "combat3": {
+          "originalText": "氷元素の力で投げ槍を作り、敵に投げつけて複数回の氷元素ダメージを与える。\n発動時、旅人は**寒光**の層数をすべて消費し、その回の元素爆発によるダメージをアップさせる。8層の寒光を消費した場合、投げ槍が与えるダメージの回数もアップする。\n\n**輝映・星閃**：その回の元素爆発が、対応する星反応ダメージと見なされる氷元素ダメージを与えるようになる。",
+          "originalRaw": "氷元素の力で投げ槍を作り、敵に投げつけて複数回の<color=#99FFFFFF>氷元素ダメージ</color>を与える。\n発動時、旅人は{LINK#N10050002}<color=#FFD780FF>寒光</color>{/LINK}の層数をすべて消費し、その回の元素爆発によるダメージをアップさせる。8層の<color=#FFD780FF>寒光</color>を消費した場合、投げ槍が与えるダメージの回数もアップする。\n\n{LINK#N11500004}<color=#FFD780FF>輝映・星閃</color>{/LINK}：その回の元素爆発が、対応する星反応ダメージと見なされる<color=#99FFFFFF>氷元素ダメージ</color>を与えるようになる。\n\n<i>パイモンと一緒に、氷柱の鋭さを感じた。</i>",
+          "relatedEffects": [
+            {
+              "nameJa": "寒光",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N10050002",
+              "originalRaw": "旅人が発生させた<strong>凛冽の寒星</strong>が発射した氷晶が敵に命中した時、または天賦<strong>異邦の積氷</strong>を開放した状態で<strong>重撃・凝結</strong>を行った後、受けられる特殊効果。この効果は最大8層まで重ね掛け可能。\n元素爆発<strong>飛氷の鉾</strong>を発動する時、旅人は<strong>寒光</strong>の層数をすべて消費し、今回の元素爆発によるダメージをアップさせる。消費した層数が8層の場合、さらに今回の元素爆発によるダメージの段数もアップする。",
+              "originalText": "旅人が発生させた凛冽の寒星が発射した氷晶が敵に命中した時、または天賦異邦の積氷を開放した状態で重撃・凝結を行った後、受けられる特殊効果。この効果は最大8層まで重ね掛け可能。\n元素爆発飛氷の鉾を発動する時、旅人は寒光の層数をすべて消費し、今回の元素爆発によるダメージをアップさせる。消費した層数が8層の場合、さらに今回の元素爆発によるダメージの段数もアップする。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/10050002"
+              ]
+            },
+            {
+              "nameJa": "輝映・星閃",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11500004",
+              "originalRaw": "<strong>輝映・星電導</strong>と<strong>輝映・星拡散</strong>を<strong>輝映・星閃</strong>状態と総称する。\nキャラクターはどちらか1種類の輝映状態からしか影響を受けられず、優先的に<strong>輝映・星電導</strong>の影響を受ける。",
+              "originalText": "輝映・星電導と輝映・星拡散を輝映・星閃状態と総称する。\nキャラクターはどちらか1種類の輝映状態からしか影響を受けられず、優先的に輝映・星電導の影響を受ける。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11500004"
+              ]
+            }
+          ]
+        },
+        "passive3": {
+          "originalText": "**極星フィールド**内にいる時/チーム内のキャラクターが付近で星拡散反応を起こした後の8秒間、旅人はそれぞれ輝映・星電導/輝映・星拡散状態に入る。\nチーム内のキャラクターが超電導/氷元素拡散反応を起こすと、超電導/氷元素拡散反応は星電導/星拡散反応へと変わり、旅人の攻撃力に基づいて、チームのキャラクターが与える上記反応の基礎ダメージがアップする。攻撃力100につき、上記反応の基礎ダメージ+0.35%。この方法でアップできるダメージは最大7%まで。",
+          "originalRaw": "{LINK#N11330003}<color=#FFD780FF>極星フィールド</color>{/LINK}内にいる時/チーム内のキャラクターが付近で星拡散反応を起こした後の8秒間、旅人はそれぞれ<color=#FFD780FF>輝映・星電導</color>/<color=#FFD780FF>輝映・星拡散</color>状態に入る。\nチーム内のキャラクターが超電導/氷元素拡散反応を起こすと、超電導/氷元素拡散反応は星電導/星拡散反応へと変わり、旅人の攻撃力に基づいて、チームのキャラクターが与える上記反応の基礎ダメージがアップする。攻撃力100につき、上記反応の基礎ダメージ+0.35%。この方法でアップできるダメージは最大7%まで。",
+          "relatedEffects": [
+            {
+              "nameJa": "極星フィールド",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11330003",
+              "originalRaw": "星電導反応を発動すると、近くのエリアがしばらくの間<strong>極星フィールド</strong>に変化する。極星フィールド内にいる間、特定のキャラクターは<strong>輝映・星電導</strong>状態に入り、各スキルはそれぞれに対応する強化効果を得る。",
+              "originalText": "星電導反応を発動すると、近くのエリアがしばらくの間極星フィールドに変化する。極星フィールド内にいる間、特定のキャラクターは輝映・星電導状態に入り、各スキルはそれぞれに対応する強化効果を得る。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11330003"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "10000007_cryo": {
+      "sourceRefs": [
+        "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/travelercryo.json"
+      ],
+      "talents": {
+        "combat2": {
+          "originalText": "武器を振るって前方に突きを繰り出し、極寒の氷霧を放って前方に氷元素ダメージを与えて自身の周囲に凛冽の寒星を発生させる。\n\n凛冽の寒星\n・チーム内の自身のキャラクターと共に移動し、一定時間ごとに氷晶を発射して周囲の敵を攻撃し、氷元素ダメージを与える。\n輝映・星電導：凛冽の寒星は一定時間ごとに氷晶を発射しなくなる代わりに、旅人の通常攻撃、重撃、または落下攻撃が敵に命中した時、氷晶を1つ発射して敵に追加攻撃を行う。0.2秒毎に1回のみ発動できる。\n・氷晶が敵に命中すると、旅人は**寒光**を1層蓄積する。この効果は最大8層まで蓄積できる。\n・戦闘状態でない時、30秒後に寒光はクリアされる。",
+          "originalRaw": "武器を振るって前方に突きを繰り出し、極寒の氷霧を放って前方に<color=#99FFFFFF>氷元素ダメージ</color>を与えて自身の周囲に凛冽の寒星を発生させる。\n\n<color=#FFD780FF>凛冽の寒星</color>\n・チーム内の自身のキャラクターと共に移動し、一定時間ごとに氷晶を発射して周囲の敵を攻撃し、<color=#99FFFFFF>氷元素ダメージ</color>を与える。\n<color=#FFD780FF>輝映・星電導</color>：凛冽の寒星は一定時間ごとに氷晶を発射しなくなる代わりに、旅人の通常攻撃、重撃、または落下攻撃が敵に命中した時、氷晶を1つ発射して敵に追加攻撃を行う。0.2秒毎に1回のみ発動できる。\n・氷晶が敵に命中すると、旅人は{LINK#N10050002}<color=#FFD780FF>寒光</color>{/LINK}を1層蓄積する。この効果は最大8層まで蓄積できる。\n・戦闘状態でない時、30秒後に<color=#FFD780FF>寒光</color>はクリアされる。\n\n<i>パイモンと一緒に、凍った霧氷を眺めた。</i>",
+          "relatedEffects": [
+            {
+              "nameJa": "寒光",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N10050002",
+              "originalRaw": "旅人が発生させた<strong>凛冽の寒星</strong>が発射した氷晶が敵に命中した時、または天賦<strong>異邦の積氷</strong>を開放した状態で<strong>重撃・凝結</strong>を行った後、受けられる特殊効果。この効果は最大8層まで重ね掛け可能。\n元素爆発<strong>飛氷の鉾</strong>を発動する時、旅人は<strong>寒光</strong>の層数をすべて消費し、今回の元素爆発によるダメージをアップさせる。消費した層数が8層の場合、さらに今回の元素爆発によるダメージの段数もアップする。",
+              "originalText": "旅人が発生させた凛冽の寒星が発射した氷晶が敵に命中した時、または天賦異邦の積氷を開放した状態で重撃・凝結を行った後、受けられる特殊効果。この効果は最大8層まで重ね掛け可能。\n元素爆発飛氷の鉾を発動する時、旅人は寒光の層数をすべて消費し、今回の元素爆発によるダメージをアップさせる。消費した層数が8層の場合、さらに今回の元素爆発によるダメージの段数もアップする。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/10050002"
+              ]
+            }
+          ]
+        },
+        "combat3": {
+          "originalText": "氷元素の力で投げ槍を作り、敵に投げつけて複数回の氷元素ダメージを与える。\n発動時、旅人は**寒光**の層数をすべて消費し、その回の元素爆発によるダメージをアップさせる。8層の寒光を消費した場合、投げ槍が与えるダメージの回数もアップする。\n\n**輝映・星閃**：その回の元素爆発が、対応する星反応ダメージと見なされる氷元素ダメージを与えるようになる。",
+          "originalRaw": "氷元素の力で投げ槍を作り、敵に投げつけて複数回の<color=#99FFFFFF>氷元素ダメージ</color>を与える。\n発動時、旅人は{LINK#N10050002}<color=#FFD780FF>寒光</color>{/LINK}の層数をすべて消費し、その回の元素爆発によるダメージをアップさせる。8層の<color=#FFD780FF>寒光</color>を消費した場合、投げ槍が与えるダメージの回数もアップする。\n\n{LINK#N11500004}<color=#FFD780FF>輝映・星閃</color>{/LINK}：その回の元素爆発が、対応する星反応ダメージと見なされる<color=#99FFFFFF>氷元素ダメージ</color>を与えるようになる。\n\n<i>パイモンと一緒に、氷柱の鋭さを感じた。</i>",
+          "relatedEffects": [
+            {
+              "nameJa": "寒光",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N10050002",
+              "originalRaw": "旅人が発生させた<strong>凛冽の寒星</strong>が発射した氷晶が敵に命中した時、または天賦<strong>異邦の積氷</strong>を開放した状態で<strong>重撃・凝結</strong>を行った後、受けられる特殊効果。この効果は最大8層まで重ね掛け可能。\n元素爆発<strong>飛氷の鉾</strong>を発動する時、旅人は<strong>寒光</strong>の層数をすべて消費し、今回の元素爆発によるダメージをアップさせる。消費した層数が8層の場合、さらに今回の元素爆発によるダメージの段数もアップする。",
+              "originalText": "旅人が発生させた凛冽の寒星が発射した氷晶が敵に命中した時、または天賦異邦の積氷を開放した状態で重撃・凝結を行った後、受けられる特殊効果。この効果は最大8層まで重ね掛け可能。\n元素爆発飛氷の鉾を発動する時、旅人は寒光の層数をすべて消費し、今回の元素爆発によるダメージをアップさせる。消費した層数が8層の場合、さらに今回の元素爆発によるダメージの段数もアップする。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/10050002"
+              ]
+            },
+            {
+              "nameJa": "輝映・星閃",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11500004",
+              "originalRaw": "<strong>輝映・星電導</strong>と<strong>輝映・星拡散</strong>を<strong>輝映・星閃</strong>状態と総称する。\nキャラクターはどちらか1種類の輝映状態からしか影響を受けられず、優先的に<strong>輝映・星電導</strong>の影響を受ける。",
+              "originalText": "輝映・星電導と輝映・星拡散を輝映・星閃状態と総称する。\nキャラクターはどちらか1種類の輝映状態からしか影響を受けられず、優先的に輝映・星電導の影響を受ける。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11500004"
+              ]
+            }
+          ]
+        },
+        "passive3": {
+          "originalText": "**極星フィールド**内にいる時/チーム内のキャラクターが付近で星拡散反応を起こした後の8秒間、旅人はそれぞれ輝映・星電導/輝映・星拡散状態に入る。\nチーム内のキャラクターが超電導/氷元素拡散反応を起こすと、超電導/氷元素拡散反応は星電導/星拡散反応へと変わり、旅人の攻撃力に基づいて、チームのキャラクターが与える上記反応の基礎ダメージがアップする。攻撃力100につき、上記反応の基礎ダメージ+0.35%。この方法でアップできるダメージは最大7%まで。",
+          "originalRaw": "{LINK#N11330003}<color=#FFD780FF>極星フィールド</color>{/LINK}内にいる時/チーム内のキャラクターが付近で星拡散反応を起こした後の8秒間、旅人はそれぞれ<color=#FFD780FF>輝映・星電導</color>/<color=#FFD780FF>輝映・星拡散</color>状態に入る。\nチーム内のキャラクターが超電導/氷元素拡散反応を起こすと、超電導/氷元素拡散反応は星電導/星拡散反応へと変わり、旅人の攻撃力に基づいて、チームのキャラクターが与える上記反応の基礎ダメージがアップする。攻撃力100につき、上記反応の基礎ダメージ+0.35%。この方法でアップできるダメージは最大7%まで。",
+          "relatedEffects": [
+            {
+              "nameJa": "極星フィールド",
+              "classification": "D",
+              "acquisitionStatus": "captured",
+              "descriptionKind": "original",
+              "linkedTooltipId": "N11330003",
+              "originalRaw": "星電導反応を発動すると、近くのエリアがしばらくの間<strong>極星フィールド</strong>に変化する。極星フィールド内にいる間、特定のキャラクターは<strong>輝映・星電導</strong>状態に入り、各スキルはそれぞれに対応する強化効果を得る。",
+              "originalText": "星電導反応を発動すると、近くのエリアがしばらくの間極星フィールドに変化する。極星フィールド内にいる間、特定のキャラクターは輝映・星電導状態に入り、各スキルはそれぞれに対応する強化効果を得る。",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five/japanese-linked-tooltips-go.json#/records/11330003"
+              ]
+            }
+          ]
         }
       }
     }

@@ -71,3 +71,7 @@ provider集約は「現在提供中の補正」であり、選択中の攻撃が
 Genshin Optimizerの日本語char_Vodyanitsa_gen.jsonはpassive2からtooltips_genの11400001/11400002を参照する。別テーブルtooltips_gen.jsonの固定git blob 5c171a297de190a5cf46cd3e99b2d9df14dfb2e4にメロディ／コーラスの全文が存在した。2件の未変更selected recordをjapanese-linked-tooltips-go.jsonへ保存し、source pointers・upstream hash・MITライセンスをcapture-manifestへ追加した。descriptionの全番号付き段落を順番に連結し、表示タグだけ除去してoriginalTextへ接続した。独自要約や補正値の推定はしない。本文取得は表示専用で、外部計算実装をゲーム仕様の新しい確定根拠には使用しない。
 
 他キャラのNリンクは依然「詳細説明の存在と親本文を確認すべき候補」。リンクがあるだけでD、独立レコードがないだけでCと判定しない。通常のSリンクは保存済みのトップレベル天賦参照と分離する。
+
+### 指定5キャラの別テーブル接続
+
+2026-10-08、ヴェスナ・アリョーシャ・オデット・氷旅人（空／蛍）・エスコフィエの既出Nリンク候補だけを同じ固定日本語tooltip blobで照合した。全13種類に独立した日本語本文が存在したため、B/Cへの推定分類ではなく別テーブル接続として原文全文を保存した。親本文が一部を説明していても、別本文の存在とは区別する。named-effect-originals-fiveのcapture-manifestに親rawのハッシュ・接続箇所を記録し、選択レコードの全番号付き段落をoriginalTextへ接続した。表示タグ以外の内容は変更せず、Runtime・補正UI・既存rawは変更しない。

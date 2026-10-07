@@ -261,3 +261,37 @@ test('related effect resolver uses exact parent excerpts and keeps missing linke
  const html=panel(f,request).html;assert.match(html,/算出過程/);assert.match(html,/50,500 × 0.008 → 攻撃力 \+404/);
  const skillCard=html.split('関連効果</span> 悠久の歌')[0].split('<article').at(-1);assert.doesNotMatch(skillCard,/genshin-value-facts/);
 });
+
+
+test("five scoped characters resolve separate Japanese tooltip originals from their exact captured records", async () => {
+    const f = await fixture();
+    const base = "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/named-effect-originals-five";
+    const capture = JSON.parse(fs.readFileSync(path.join(root, base, "japanese-linked-tooltips-go.json"), "utf8"));
+    const manifest = JSON.parse(fs.readFileSync(path.join(root, base, "capture-manifest.json"), "utf8"));
+    const expected = {
+        "10000143": ["11430001", "11430002", "11430003", "11430004"],
+        "10000148": ["11480001", "11480002", "11330003"],
+        "10000150": ["11500001", "11500002", "11500003", "11500004", "11330003"],
+        "10000005_cryo": ["10050002", "11500004", "11330003"],
+        "10000007_cryo": ["10050002", "11500004", "11330003"],
+        "10000112": ["11120002"]
+    };
+    for (const id of ["10000005", "10000007"]) assert.equal(f.calcData.originalEffectTexts.characters[id], undefined, "Cryo originals must not replace other Traveler elements");
+    for (const [id, ids] of Object.entries(expected)) {
+        const seen = new Set();
+        for (const placement of manifest.placements.filter(row => row.characterId === id)) {
+            const effect = f.sandbox.GenshinIdResolver.describeEffect({data:f.calcData, kind:"talent", id, sourceId:placement.talent});
+            const child = effect.relatedEffects.find(row => row.linkedTooltipId === "N" + placement.tooltipId);
+            const record = capture.records[placement.tooltipId];
+            const raw = Object.keys(record.description).sort((a,b) => Number(a)-Number(b)).map(key => record.description[key]).join("\n");
+            assert.ok(child, id + ":" + placement.tooltipId);
+            assert.equal(child.originalRaw, raw);
+            assert.equal(child.originalText, raw.replace(/<br\s*\/?\s*>/gi,"\n").replace(/<[^>]+>/g,"").trim());
+            assert.equal(child.descriptionKind, "original");
+            assert.equal(child.acquisitionStatus, "captured");
+            assert.doesNotMatch(child.originalText, /原文未取得|<[^>]+>/);
+            seen.add(placement.tooltipId);
+        }
+        assert.deepEqual([...seen].sort(), ids.sort());
+    }
+});
