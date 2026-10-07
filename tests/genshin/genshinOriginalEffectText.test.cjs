@@ -168,6 +168,36 @@ test('party view groups each provider by source and keeps shared major condition
  assert.equal(weaponCards.length,1,'one weapon effect card contains all its modifiers');
  const card=html.slice(html.indexOf(weaponCards[0])).split('</article>')[0];
  assert.ok(!/data-genshin-party-(condition|buff)-key/.test(card),'inputs belong in current state');
- assert.ok(card.indexOf('効果説明')<card.indexOf('計算への反映'));
+ assert.doesNotMatch(card,/計算への反映/);
+ assert.ok(html.indexOf('genshin-provider-impact')<html.indexOf('genshin-party-effect-list'));
  assert.ok(card.includes(f.calcData.originalEffectTexts.weapons['14524'].originalTextByRefinement['5']));
+});
+
+
+test('provider aggregation uses additive buckets, accepted stats and multiplier products without attack-list expansion',async()=>{
+ const f=await fixture('10000025',''), engine=f.sandbox.GenshinCalcEngine, renderer=f.sandbox.GenshinCalcRenderer;
+ const request=engine.buildCalculationRequestFromForm();
+ const actions={skill:'active',heals:'1',skillHit:'yes',hornHit:'yes',meteor:'none',recipient:'active'};
+ request.party={conditionStates:Object.fromEntries(Object.entries(actions).map(([key,option])=>['party:2:10000140:actions:'+key,{option}])),members:[{slot:2,enabled:true,level:90,characterId:'10000140',constellation:1,talentLevels:{normal:10,skill:10,burst:10},stats:{hp:50500,baseHp:15000,atk:2000,baseAtk:900},buffStates:{},equipment:{weaponId:'',refinement:1,artifactSetIds:[]}}]};
+ const resolve=()=>{const {state,html}=panel(f,request);const evaluation=renderer.createImpactEvaluation(request,f.calcData);const attack=evaluation.payload.results.find(r=>r.entry.damageType==='burst');return {html,evaluation:renderer.createImpactEvaluation(request,f.calcData,attack.attackKey),effects:state.partyModifiers.filter(effect=>effect.member.slot===2),attack};};
+ for(const recipient of ['active','offField']) {
+  request.party.conditionStates['party:2:10000140:actions:recipient']={option:recipient};
+  const {html,effects,evaluation,attack}=resolve(), rows=renderer.providerImpactRows(effects,evaluation);
+  const base=rows.filter(row=>row.label==='水・氷元素攻撃の基礎ダメージ加算');assert.equal(base.length,1);assert.equal(base[0].value,1470);assert.equal(base[0].value,attack.breakdown.additiveBaseDamage);
+  assert.equal(rows.find(row=>row.label==='攻撃力'&&row.unit==='flat').value,404);
+  assert.equal(rows.find(row=>row.label==='星拡散基礎ダメージ加算').value,0);
+  assert.doesNotMatch(rows.map(renderer.impactRowText).join(' / '),/(?:通常攻撃|重撃|落下攻撃) \+0/);
+  assert.ok(html.indexOf('現在の状態')<html.indexOf('genshin-provider-impact'));assert.ok(html.indexOf('genshin-provider-impact')<html.indexOf('genshin-party-effect-list'));
+  const replay=engine.calculateDamageRequest(JSON.parse(JSON.stringify(evaluation.payload.calculationRequest)),f.calcData);assert.deepEqual(replay.results.map(r=>r.expected),evaluation.payload.results.map(r=>r.expected));
+ }
+ request.party.conditionStates['party:2:10000140:actions:skill']={option:'inactive'};
+ const off=resolve(), rows=renderer.providerImpactRows(off.effects,off.evaluation);
+ assert.equal(rows.filter(row=>/基礎ダメージ加算/.test(row.label)).length,2);
+ assert.ok(rows.filter(row=>/基礎ダメージ加算/.test(row.label)).every(row=>row.value===0&&row.reason==='条件未成立'));
+ // Two accepted independent factors share one bucket; Runtime multiplies them.
+ const source='party:2:10000140:test:factor';
+ const factors=[120,125].map((value,index)=>({modifier:{id:'factor'+index,category:'effectOverride',applyTo:['burst'],unit:'percent',value,multiplierTarget:'finalDamage'},source,value,analysis:{calculation:'effectOverride',supportStatus:'supported'}}));
+ const effects=factors.map(item=>({...item,status:'ready',enabled:true,member:{slot:2}}));
+ const evaluation={...off.evaluation,collected:{...off.evaluation.collected,applied:factors}};
+ assert.equal(renderer.providerImpactRows(effects,evaluation).find(row=>row.label==='独立倍率').value,1.5);
 });

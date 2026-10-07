@@ -250,7 +250,7 @@ async function main() {
         assert.equal(await evaluate(client,'document.querySelectorAll("[data-party-member-panel]:not([hidden])").length'),1);
         assert.equal(await evaluate(client,'document.querySelectorAll("#genshin-party-member-panel-2 [data-party-effect-source]").length'),3);
         assert.doesNotMatch(text,/計算根拠|効果別の計算への反映/);
-        const resistanceLabels=await evaluate(client,'[...document.querySelectorAll("#genshin-party-member-panel-2 [data-party-effect-source=character] .genshin-party-effect")][0].querySelector(".genshin-effect-values").innerText');
+        const resistanceLabels=await evaluate(client,'document.querySelector("#genshin-party-member-panel-2 .genshin-provider-impact").innerText');
         assert.match(resistanceLabels,/敵の水元素耐性/);assert.match(resistanceLabels,/敵の氷元素耐性/);
         const beforeSwitch=await evaluate(client,'(async()=>JSON.stringify((await window.GenshinCalcEngine.runGenshinJsonCalc()).results.map(r=>[r.attackKey,r.expected])))()');
         await evaluate(client,'document.getElementById("genshin-party-member-tab-3").click()');
@@ -281,6 +281,24 @@ async function main() {
         assert.equal(await evaluate(client,'document.querySelectorAll("[data-party-member-panel]:not([hidden])").length'),1);
         assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=phase]").value'),'2');
         progress('PASS four-person party, per-member/source hierarchy, switch isolation, desktop/mobile and reload');
+        // A real Hydro recipient exercises the additive bucket instead of unrelated attack zeros.
+        await closeDialogs();await chooseCharacter('10000025');await conditionText('party');await action('phase','1');await action('meteor','none');
+        const selectedBurst=async()=>{
+            await closeDialogs();await evaluate(client,'window.__effectPayload=null;if(!window.__bucketHook){const run=window.GenshinCalcEngine.runGenshinJsonCalc;window.GenshinCalcEngine.runGenshinJsonCalc=async(...args)=>{const p=await run(...args);window.__effectPayload=p;return p};window.__bucketHook=true;}document.getElementById("genshinJsonCalcButtonBottom").click()');
+            await waitFor(client,'Boolean(window.__effectPayload)&&!document.getElementById("genshinJsonCalcButtonBottom").disabled');
+            const expected=await evaluate(client,'(()=>{const r=window.__effectPayload.results.find(r=>r.entry.damageType==="burst");document.querySelector("[data-json-tab=burst]").click();document.querySelector("[data-attack-key="+CSS.escape(r.attackKey)+"] [data-result-detail-toggle]").click();return {base:r.breakdown.additiveBaseDamage,key:r.attackKey,damage:r.expected};})()');
+            const text=await conditionText('party');
+            const items=await evaluate(client,'[...document.querySelectorAll("#genshin-party-member-panel-2 .genshin-provider-impact .genshin-runtime-impact")].map(e=>({label:e.querySelector("span").textContent,value:e.querySelector("strong").textContent,reason:e.querySelector("small")?.textContent||""}))');
+            const base=items.filter(row=>row.label==="水・氷元素攻撃の基礎ダメージ加算");assert.equal(base.length,1);assert.ok(Math.abs(Number(base[0].value.replace("+",""))-expected.base)<1e-8);assert.ok(expected.base>0);
+            assert.doesNotMatch(items.map(row=>row.label+" "+row.value).join(" / "),/(?:通常攻撃|重撃|落下攻撃) \+0/);
+            assert.equal(await evaluate(client,'document.querySelectorAll("#genshin-party-member-panel-2 .genshin-party-effect .genshin-effect-values").length'),0);
+            return expected;
+        };
+        const lead=await selectedBurst();await action('recipient','offField');const chorus=await selectedBurst();assert.equal(chorus.base,lead.base);
+        await closeDialogs();await evaluate(client,'window.GenshinCurrentCalcState.persist()');await client.send('Page.reload');await waitFor(client,'Boolean(window.GenshinPartyState&&window.GenshinCalcRenderer)');await delay(500);
+        const restored=await selectedBurst();assert.equal(restored.base,chorus.base);assert.equal(restored.damage,chorus.damage);
+        progress('PASS provider aggregate matches Hydro damage, Lead/Chorus, no attack-zero expansion and reload');
+
 
         await evaluate(client,'window.__effectPayload=null;const again=window.GenshinCalcEngine.runGenshinJsonCalc;window.GenshinCalcEngine.runGenshinJsonCalc=async(...args)=>{const p=await again(...args);window.__effectPayload=p;return p};');
 

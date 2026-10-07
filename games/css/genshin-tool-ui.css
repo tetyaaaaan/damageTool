@@ -3282,3 +3282,7 @@ html[data-theme="dark"] .genshin-tool-page {
   .genshin-party-current-state .genshin-condition-control-copy small { font-size:.72rem; line-height:1.4; }
   .genshin-party-current-state .genshin-condition-control select { width:100%; min-width:0; font-size:.8125rem; }
 }
+
+.genshin-provider-impact { margin:16px 0; padding:12px; border:1px solid var(--teti-border); border-radius:8px; background:var(--teti-surface-soft); }
+.genshin-provider-impact h5 { margin:0 0 8px; }
+.genshin-provider-impact ul { list-style:none; margin:0; padding:0; }

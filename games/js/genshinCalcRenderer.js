@@ -1038,7 +1038,7 @@
         evaluationContext.appliedStatModifiers = stats.appliedStatModifiers;
         const selected = payload.results.find(result => result.attackKey === attackKey)
             || payload.results.find(result => result.entry?.damageType !== 'unknown');
-        const entry = selected?.entry;
+        const entry = selected?.entry ? engine.applyModifiersToDamageEntry(selected.entry, evaluationContext, collected).entry : null;
         const baseline = entry ? engine.applyModifiersToDamageEntry(entry, evaluationContext, { applied: [], candidates: [] }).totals : {};
         return { payload, context: evaluationContext, collected, trace: stats.trace, entry, baseline, cache: new Map() };
     }
@@ -1051,9 +1051,11 @@
         const identity = item => item.modifier?.id === modifier.id && item.source === source && targetSignature(item.modifier) === signature;
         const key = source + ':' + modifier.id + ':' + signature;
         if (evaluation?.cache.has(key)) return evaluation.cache.get(key);
-        const targets = modifier.applyTo?.length ? modifier.applyTo : [''];
+        const additive = ['additiveBaseDamage','scalingAdditiveBaseDamage'].includes(modifier.customCalculation || effect.analysis?.calculation) || modifier.category === 'additiveBaseDamage';
+        const targets = additive ? [''] : modifier.applyTo?.length ? modifier.applyTo : [''];
         const category = modifier.category;
         const labelFor = target => {
+            if (additive) return baseAdditionLabel(modifier);
             const label = window.GenshinCalcConditions?.targetLabel?.(target) || '補正';
             if (category === 'reactionBaseDamageBonus') return label.replace(/(?:ダメージ)?(?:補正)?$/, '') + '基礎ダメージ';
             if (category === 'resistanceDebuff') return '敵の' + label.replace(/低下$/, '');
@@ -1391,6 +1393,94 @@
         return { provider, target, attacks };
     }
 
+    function baseAdditionLabel(modifier) {
+        if (modifier.reactionTargetsOnly || (modifier.applyTo || []).some(target => /stellarSwirl/.test(target))) return '星拡散基礎ダメージ加算';
+        const elements = (modifier.targetElements || []).join('・');
+        return (elements ? elements + '元素攻撃の' : '') + '基礎ダメージ加算';
+    }
+
+    // Definitions describe only real modifier outputs. Values come from accepted Runtime items,
+    // not from summing previously rendered rows or interpreting attack target lists as bonuses.
+    function providerBucketDefinitions(effect) {
+        const modifier = effect.modifier || {}, calculation = effect.analysis?.calculation || modifier.customCalculation;
+        const targets = modifier.applyTo || [];
+        const label = target => window.GenshinCalcConditions.targetLabel(target) || '補正';
+        if (['additiveBaseDamage','scalingAdditiveBaseDamage'].includes(calculation) || modifier.category === 'additiveBaseDamage') {
+            const bucket = modifier.reactionTargetsOnly ? 'reactionAdditiveBaseDamage' : 'additiveBaseDamage';
+            return [{key:bucket + ':' + baseAdditionLabel(modifier),bucket,label:baseAdditionLabel(modifier),unit:'flat'}];
+        }
+        if (['statBonus','statConversion','scalingStatBonus'].includes(calculation)) {
+            return targets.map(target => {
+                const percent = calculation === 'statBonus' && modifier.unit === 'percent' && /Percent$/.test(target);
+                const stat = target.replace(/(?:Percent|Flat)$/, '');
+                const crit = stat === 'critRate' || stat === 'critDamage';
+                return {key:'stat:' + stat + ':' + (percent ? 'percent' : 'flat'),bucket:crit ? stat + 'Bonus' : 'stat',stat,target,label:stat === 'hp' ? 'HP上限' : label(target),unit:crit || percent ? 'percent' : 'flat',statPercent:percent};
+            });
+        }
+        if (modifier.category === 'reactionCritBonus') return [{key:'reactionCritRate',bucket:'reactionCritRate',label:'反応の会心率',unit:'percent'}, {key:'reactionCritDamage',bucket:'reactionCritDamage',label:'反応の会心ダメージ',unit:'percent'}].filter(row=>row.bucket === 'reactionCritDamage' || Number(modifier.critRate));
+        const bucket = ({damageBonus:'damageBonus',reactionBonus:'reactionBonus',reactionBaseDamageBonus:'reactionBaseDamageBonus',resistanceDebuff:'resistanceDebuff',defenseDebuff:'defenseDebuff',defenseIgnore:'defenseIgnore',critBonus:targets.some(target=>/Rate/.test(target))?'critRateBonus':'critDamageBonus',effectOverride:modifier.multiplierTarget === 'talentBaseDamage'?'baseTalentDamageMultiplier':'finalDamageMultiplier'})[modifier.category]
+            || (calculation === 'scalingDamageBonus' ? 'damageBonus' : calculation === 'scalingReactionBonus' ? 'reactionBonus' : '');
+        if (!bucket || (calculation === 'effectOverride' && modifier.unit === 'percentOfOriginalEffect')) return [];
+        const multiplier = bucket.endsWith('Multiplier');
+        if (modifier.category === 'resistanceDebuff') return targets.map(target=>({key:bucket+':'+target,bucket,target,label:'敵の'+label(target).replace(/低下$/,''),unit:'percent'}));
+        const bucketLabel = {defenseDebuff:'敵の防御力低下',defenseIgnore:'防御無視',critRateBonus:'会心率',critDamageBonus:'会心ダメージ',baseTalentDamageMultiplier:'天賦基礎ダメージ倍率',finalDamageMultiplier:'独立倍率'}[bucket];
+        const targetLabel = targets.map(label).join('・') || '補正';
+        return [{key:bucket + ':' + (bucketLabel ? '' : [...targets].sort().join(',')),bucket,
+            label:bucketLabel || (modifier.category === 'reactionBaseDamageBonus' ? targetLabel.replace(/(?:ダメージ)?(?:補正)?$/, '')+'基礎ダメージ' : targetLabel),unit:multiplier?'multiplier':'percent'}];
+    }
+
+    function providerImpactRows(effects, evaluation) {
+        if (!evaluation) return [{label:'補正',value:null,reason:'現在値を算出できません',state:'unavailable'}];
+        const groups = new Map(), engine = window.GenshinCalcEngine;
+        effects.filter(effect=>!['duplicate','selfOnly'].includes(effect.status)).forEach(effect => {
+            providerBucketDefinitions(effect).forEach(definition => {
+                if (!groups.has(definition.key)) groups.set(definition.key,{...definition,effects:[]});
+                groups.get(definition.key).effects.push(effect);
+            });
+        });
+        const matches = (item,effect) => item.source === effect.source && item.modifier.id === effect.modifier.id;
+        const rows = [];
+        for (const group of groups.values()) {
+            const accepted = evaluation.collected.applied.filter(item=>group.effects.some(effect=>matches(item,effect)));
+            const row = {label:group.label,unit:group.unit,value:null,reason:'',state:'active'};
+            if (!accepted.length) {
+                const allOff = group.effects.every(effect=>effect.status === 'off');
+                const alternate = allOff && group.effects.some(effect=>effect.modifier.conditionGroupId && effects.some(other=>other.modifier.conditionGroupId === effect.modifier.conditionGroupId && other.enabled && other.status === 'ready'));
+                row.value = allOff ? (group.unit === 'multiplier'?1:0) : null;
+                row.reason = alternate ? '現在は非適用' : allOff ? '条件未成立' : group.effects.some(effect=>['missing','missingProviderStats','missingInput'].includes(effect.status)) ? '現在値を算出できません（入力不足）' : '計算対象外';
+                row.state = alternate?'notApplicable':allOff?'conditionOff':'unavailable';rows.push(row);continue;
+            }
+            if (group.bucket === 'stat') {
+                const traced = evaluation.trace.filter(trace=>trace.stat === group.stat && accepted.some(item=>trace.source === item.source && trace.modifierId === item.modifier.id));
+                row.value = group.statPercent ? accepted.reduce((total,item)=>total + Number(item.value || 0),0) : traced.reduce((total,trace)=>total + trace.value,0);
+                if (!group.statPercent && !traced.length) {row.value=null;row.reason='現在値を算出できません';row.state='unavailable';}
+            } else if (evaluation.entry && evaluation.entry.damageType !== 'unknown') {
+                // Keep target scoping for real elemental/RES buckets, but never split an additive
+                // modifier's attack applicability into multiple evaluated contributions.
+                const scoped = accepted.map(item=>({...item,modifier:{...item.modifier,...(group.target?{applyTo:[group.target]}:{})}}));
+                const overrides = evaluation.collected.applied.filter(item=>item.analysis?.calculation === 'effectOverride' && item.modifier.unit === 'percentOfOriginalEffect' && accepted.some(value=>value.source === item.source));
+                const result = engine.applyModifiersToDamageEntry(evaluation.entry,evaluation.context,{applied:[...scoped,...overrides],candidates:[]});
+                if (result.totals.pendingReasons.length) {row.reason='現在値を算出できません';row.state='unavailable';}
+                else if (!result.applied.some(item=>accepted.some(value=>matches(item,value)))) {
+                    row.value=group.unit==='multiplier'?1:0;row.reason='今回の攻撃には非適用';row.state='notApplicable';
+                } else row.value=group.unit==='multiplier'?result.totals[group.bucket]:result.totals[group.bucket]-evaluation.baseline[group.bucket];
+            } else {row.reason='現在値を算出できません';row.state='unavailable';}
+            if (row.value === 0 && !row.reason) row.reason='計算結果が0';
+            if (row.value !== null && !Number.isFinite(row.value)) {row.value=null;row.reason='現在値を算出できません';row.state='unavailable';}
+            rows.push(row);
+        }
+        // Unavailable/independent attack modifiers stay distinguishable from valid zero values.
+        effects.filter(effect=>!providerBucketDefinitions(effect).length && !['duplicate','selfOnly'].includes(effect.status)).forEach(effect=> {
+            (effect.runtimeRows || []).forEach(row=> {if (row.value === null) rows.push(row);});
+        });
+        return rows;
+    }
+
+    function renderProviderImpact(effects, context, evaluation) {
+        const rows = providerImpactRows(effects,evaluation);
+        return '<section class="genshin-provider-impact"><h5>計算への反映</h5><ul>' + (rows.length ? renderRuntimeImpact({runtimeRows:rows}) : '<li class="genshin-condition-note">現在の計算対象へ提供する補正はありません。</li>') + '</ul></section>';
+    }
+
     function partyEffectDescription(candidate, calcData) {
         const parts = String(candidate.sourceId).split(':');
         return window.GenshinIdResolver?.describeEffect?.({data:calcData, kind:candidate.sourceKind,
@@ -1430,11 +1520,11 @@
                 facts['真実を告げる蜜酒'] = (({one:1,two:2,three:3,boostedOne:1,boostedTwo:2,boostedThree:3})[option] || 0) + '層';
             }
         }
-        effects.forEach(item => { const stat = item.modifier.reference?.stat; const value = item.providerContext?.stats?.[stat]; if (stat && Number.isFinite(Number(value))) facts['参照' + window.GenshinCalcConditions.targetLabel(stat)] = Number(value).toLocaleString('ja-JP', {maximumFractionDigits:4}); });
+        effects.forEach(item => { const stat = item.modifier.reference?.stat; const value = item.providerContext?.stats?.[stat]; if (stat && Number.isFinite(Number(value))) facts['参照' + statLabel(stat)] = Number(value).toLocaleString('ja-JP', {maximumFractionDigits:4}); });
         return '<article class="genshin-condition-effect genshin-party-effect" data-party-buff="' + escapeHtml(candidate.key) + '">'
             + '<div class="genshin-condition-effect-head"><h5>' + escapeEffectLabel(title || candidate.sourceName) + '</h5><span class="genshin-condition-status ' + status.className + '">' + status.label + '</span></div>'
             + '<p class="genshin-party-target">提供者：' + escapeHtml(meaning.provider) + ' ／ 受け手：' + escapeHtml(recipients.join('・')) + '</p>'
-            + renderSectionDetail(description?.originalText || '',description?.descriptionKind || 'summary',effects.map(renderRuntimeImpact).join(''),Object.keys(facts).length ? facts : null) + '</article>';
+            + renderSectionDetail(description?.originalText || '',description?.descriptionKind || 'summary','',Object.keys(facts).length ? facts : null) + '</article>';
     }
 
     function renderPartyCurrentControls(effects, context) {
@@ -1450,7 +1540,7 @@
         }).join('');
     }
 
-    function renderPartyPanel(partyModifiers, context, calcData) {
+    function renderPartyPanel(partyModifiers, context, calcData, providerEvaluation) {
         const members = (context.party?.members || []).filter(member => member.slot > 1 && member.enabled);
         const memberKey = member => String(member.slot) + ':' + member.characterId;
         if (!members.some(member => memberKey(member) === selectedPartyMember)) selectedPartyMember = members.length ? memberKey(members[0]) : '';
@@ -1467,7 +1557,8 @@
             return '<section class="genshin-condition-card genshin-party-condition-card" role="tabpanel" id="genshin-party-member-panel-' + member.slot + '" aria-labelledby="genshin-party-member-tab-' + member.slot + '" data-party-slot="' + member.slot + '" data-party-member-panel="' + escapeHtml(memberKey(member)) + '"' + (memberKey(member) === selectedPartyMember ? '' : ' hidden') + '>'
                 + '<header><div><h4>' + escapeHtml(memberName(member)) + '</h4><p>Lv.' + escapeHtml(member.level) + ' / C' + escapeHtml(member.constellation) + '</p></div></header>'
                 + '<section class="genshin-party-current-state"><h5>現在の状態</h5>' + actions + controls + (!actions && !controls ? '<p class="genshin-condition-note">追加の手動条件はありません。</p>' : '') + '</section>'
-                + '<section class="genshin-party-effect-list"><h5>効果一覧</h5>' + (sources || '<p class="genshin-condition-note">現在の計算対象へ提供する効果はありません。</p>') + '</section></section>';
+                + renderProviderImpact(effects, context, providerEvaluation)
+                + '<section class="genshin-party-effect-list"><h5>効果説明</h5>' + (sources || '<p class="genshin-condition-note">現在の計算対象へ提供する効果はありません。</p>') + '</section></section>';
         }).join('');
         const resonance = partyModifiers.filter(candidate => candidate.sourceKind === 'resonance');
         return '<p class="genshin-party-target">計算対象：' + escapeHtml(calcData.characters?.[context.characterId]?.nameJa || '現在のキャラクター') + '</p>' + (members.length ? '<div class="genshin-party-layout"><nav class="genshin-party-member-list" role="tablist" aria-label="効果を確認するメンバー">' + navigation + '</nav><div class="genshin-party-member-content">' + panels + '</div></div>' : '<p class="genshin-condition-note">パーティ設定でサポートメンバーを選択してください。</p>')
@@ -1587,7 +1678,7 @@
                 ${dedicatedReactionControls}
                 <p class="genshin-condition-card-empty">${escapeHtml(reactionDescription)}</p>
             </section>`,
-            party: renderPartyPanel(partyModifiers, context, calcData || panelState.displayData || {}),
+            party: renderPartyPanel(partyModifiers, context, calcData || panelState.displayData || {}, evaluation),
             weapon: `<section class="genshin-condition-card${weaponWide ? " is-wide" : ""}" data-condition-card="weapon">
                 ${renderSourceHeader("武器補正", "WEAPON", weaponCard?.subtitle || "")}
                 ${context.weaponId === "11435" ? `<p class="genshin-condition-note">中間距離の対応式は仕様確認中のため、現在は最小/最大状態のみ選択可能です。</p>` : ""}
@@ -1818,7 +1909,7 @@
         renderDamageTabs,
         renderDamageBreakdown: renderBreakdown,
         renderConditionCards,
-        createImpactEvaluation, modifierImpactRows, impactRowText,
+        createImpactEvaluation, modifierImpactRows, providerImpactRows, impactRowText,
         renderWarnings,
         scrollToCalcResults
     };
