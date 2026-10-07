@@ -3115,6 +3115,11 @@
         runGenshinJsonCalc,
         resolveModifierValue,
         resolveScalingAdditiveBaseDamage,
+        // Display adapters reuse the same value resolvers without attack applicability.
+        resolveReferencedValue,
+        resolveScalingDamageBonus,
+        resolveStatBonusValue,
+        resolveConversionBonusValue,
         normalizeElementOverrideModifier,
         normalizeTalentStateModifier,
         normalizeArtifactModifier,

@@ -1454,17 +1454,36 @@
                 const traced = evaluation.trace.filter(trace=>trace.stat === group.stat && accepted.some(item=>trace.source === item.source && trace.modifierId === item.modifier.id));
                 row.value = group.statPercent ? accepted.reduce((total,item)=>total + Number(item.value || 0),0) : traced.reduce((total,trace)=>total + trace.value,0);
                 if (!group.statPercent && !traced.length) {row.value=null;row.reason='現在値を算出できません';row.state='unavailable';}
-            } else if (evaluation.entry && evaluation.entry.damageType !== 'unknown') {
-                // Keep target scoping for real elemental/RES buckets, but never split an additive
-                // modifier's attack applicability into multiple evaluated contributions.
-                const scoped = accepted.map(item=>({...item,modifier:{...item.modifier,...(group.target?{applyTo:[group.target]}:{})}}));
-                const overrides = evaluation.collected.applied.filter(item=>item.analysis?.calculation === 'effectOverride' && item.modifier.unit === 'percentOfOriginalEffect' && accepted.some(value=>value.source === item.source));
-                const result = engine.applyModifiersToDamageEntry(evaluation.entry,evaluation.context,{applied:[...scoped,...overrides],candidates:[]});
-                if (result.totals.pendingReasons.length) {row.reason='現在値を算出できません';row.state='unavailable';}
-                else if (!result.applied.some(item=>accepted.some(value=>matches(item,value)))) {
-                    row.value=group.unit==='multiplier'?1:0;row.reason='今回の攻撃には非適用';row.state='notApplicable';
-                } else row.value=group.unit==='multiplier'?result.totals[group.bucket]:result.totals[group.bucket]-evaluation.baseline[group.bucket];
-            } else {row.reason='現在値を算出できません';row.state='unavailable';}
+            } else {
+                // Accepted provider effects describe availability, not this attack's usage.
+                // Resolve amounts with the engine's existing functions and provider context.
+                const values = accepted.map(item => {
+                    const modifier = item.modifier, calculation = item.analysis?.calculation;
+                    const context = item.valueContext || evaluation.context;
+                    if (calculation === 'scalingAdditiveBaseDamage') return engine.resolveScalingAdditiveBaseDamage(modifier,context);
+                    if (calculation === 'additiveBaseDamage') return modifier.reference ? engine.resolveReferencedValue(modifier,item.value,context) : Number(item.value);
+                    if (['scalingDamageBonus','scalingReactionBonus'].includes(calculation)) return engine.resolveScalingDamageBonus(modifier,context);
+                    if (['statBonus','statConversion','scalingStatBonus'].includes(calculation)) {
+                        const scoped = {...modifier,applyTo:[group.target]};
+                        const resolved = calculation === 'statBonus' ? engine.resolveStatBonusValue(scoped,item.value,context) : engine.resolveConversionBonusValue(scoped,item.value,context);
+                        return resolved?.value ?? null;
+                    }
+                    if (modifier.category === 'reactionCritBonus') return group.bucket === 'reactionCritRate' ? Number(modifier.critRate || 0) : Number(modifier.critDamage || item.value || 0);
+                    if (group.unit === 'multiplier') {
+                        const value = modifier.reference?.includeAppliedStatBonuses ? engine.resolveModifierValue(modifier,context,evaluation.context.uiState,item.analysis) : item.value;
+                        return Number(value ?? window.GenshinModifierAnalyzer.effectOverrideValue(modifier)) / 100;
+                    }
+                    let value = Number(item.value || 0);
+                    if (modifier.category === 'damageBonus') {
+                        value *= evaluation.collected.applied.filter(override => override.source === item.source && override.analysis?.calculation === 'effectOverride' && window.GenshinModifierAnalyzer.effectOverrideKind(override.modifier) === 'effectValueMultiplier')
+                            .reduce((factor,override) => factor * (1 + Number(window.GenshinModifierAnalyzer.effectOverrideValue(override.modifier)) / 100),1);
+                    }
+                    return ['resistanceDebuff','defenseDebuff','defenseIgnore'].includes(group.bucket) ? Math.abs(value) : value;
+                });
+                row.value = values.some(value => value === null || !Number.isFinite(value)) ? null
+                    : group.unit === 'multiplier' ? values.reduce((factor,value)=>factor*value,1) : values.reduce((total,value)=>total+value,0);
+                if (row.value === null) {row.reason='現在値を算出できません';row.state='unavailable';}
+            }
             if (row.value === 0 && !row.reason) row.reason='計算結果が0';
             if (row.value !== null && !Number.isFinite(row.value)) {row.value=null;row.reason='現在値を算出できません';row.state='unavailable';}
             rows.push(row);
@@ -1498,24 +1517,25 @@
         return [...groups.values()];
     }
 
-    function renderConfirmedMechanics(mechanics) {
-        if (mechanics?.provenance !== 'user-confirmed-facts' || mechanics.isOriginalText !== false) return '';
-        const renderItems = items => '<ul>' + (items || []).map(item=>'<li>' + escapeHtml(typeof item === 'string' ? item : item.text) + (typeof item === 'object' ? renderItems(item.items) : '') + '</li>').join('') + '</ul>';
-        return '<div class="genshin-effect-original"><h6>確認済みの効果内容（原文ではありません）</h6>'
-            + (mechanics.sections || []).map(section=>'<h6>' + escapeHtml(section.name) + '</h6>' + renderItems(section.items)).join('')
-            + '<p class="genshin-condition-note">参照：' + (mechanics.references || []).map(reference=>reference.url?.startsWith('https://') ? '<a href="' + escapeHtml(reference.url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(reference.title) + '</a>' : escapeHtml(reference.title)).join('／') + '</p></div>';
+    function renderRelatedEffects(effects) {
+        return (effects || []).map(effect => '<section class="genshin-related-effect"><h6><span class="genshin-effect-type">関連効果</span> ' + escapeHtml(effect.nameJa) + '</h6>'
+            + (effect.originalText ? renderSectionDetail(effect.originalText,effect.descriptionKind || 'missing','') : '<p class="genshin-condition-note">原文未取得</p>') + renderRelatedEffects(effect.relatedEffects) + '</section>').join('');
     }
 
     function renderPartyEffectGroup(effects, context, calcData) {
         const candidate = effects[0], kind = candidate.sourceKind;
         const description = partyEffectDescription(candidate, calcData);
-        const mechanics = kind === 'talent' ? calcData.originalEffectTexts?.characters?.[candidate.member?.characterId]?.talents?.[candidate.sourceId]?.confirmedMechanics : null;
+        const originalRecord = kind === 'talent' ? calcData.originalEffectTexts?.characters?.[candidate.member?.characterId]?.talents?.[candidate.sourceId] : null;
+        const constellationId = String(candidate.sourceId).replace(/^C/i, '');
+        const constellationRecord = calcData.characterConstellations?.[candidate.member?.characterId];
+        const constellations = constellationRecord?.constellations || constellationRecord;
         const parts = String(candidate.sourceId).split(':');
         const talent = kind === 'talent' ? window.GenshinCalcConditions?.talentSourceMeta?.('talent:' + candidate.sourceId, candidate.providerContext, calcData, candidate.modifier) : null;
         const title = kind === 'weapon' ? calcData.weaponEffects?.[candidate.sourceId]?.effectNameJa || calcData.weapons?.[candidate.sourceId]?.nameJa
             : kind === 'artifact' ? (calcData.artifactSets?.[parts[1]]?.nameJa || candidate.sourceName) + ' ' + parts[0] + 'セット効果'
                 : kind === 'talent' ? talent?.nameJa
-                    : kind === 'constellation' ? calcData.characterConstellations?.[candidate.member?.characterId]?.constellations?.[candidate.sourceId]?.nameJa : candidate.sourceName;
+                    : kind === 'constellation' ? constellations?.[constellationId]?.nameJa : candidate.sourceName;
+        const typeLabel = kind === 'talent' ? talent?.typeLabel : kind === 'constellation' ? '命ノ星座 C' + constellationId : kind === 'weapon' ? '武器効果' : kind === 'artifact' ? '聖遺物' + parts[0] + 'セット' : 'チーム効果';
         const status = effects.some(item => item.enabled && item.status === 'ready') ? {label:'発動中',className:'is-auto'}
             : effects.every(item => item.status === 'off') ? {label:'条件未成立',className:'is-inactive'} : partyModifierStatus(candidate);
         const meaning = partyEffectMeaning(candidate, context, calcData);
@@ -1531,9 +1551,9 @@
         }
         effects.forEach(item => { const stat = item.modifier.reference?.stat; const value = item.providerContext?.stats?.[stat]; if (stat && Number.isFinite(Number(value))) facts['参照' + statLabel(stat)] = Number(value).toLocaleString('ja-JP', {maximumFractionDigits:4}); });
         return '<article class="genshin-condition-effect genshin-party-effect" data-party-buff="' + escapeHtml(candidate.key) + '">'
-            + '<div class="genshin-condition-effect-head"><h5>' + escapeEffectLabel(title || candidate.sourceName) + '</h5><span class="genshin-condition-status ' + status.className + '">' + status.label + '</span></div>'
+            + '<div class="genshin-condition-effect-head"><h5>' + '<span class="genshin-effect-type">' + escapeHtml(typeLabel) + '</span> ' + escapeEffectLabel(title || candidate.sourceName) + '</h5><span class="genshin-condition-status ' + status.className + '">' + status.label + '</span></div>'
             + '<p class="genshin-party-target">提供者：' + escapeHtml(meaning.provider) + ' ／ 受け手：' + escapeHtml(recipients.join('・')) + '</p>'
-            + renderSectionDetail(description?.originalText || '',description?.descriptionKind || 'summary','',Object.keys(facts).length ? facts : null) + renderConfirmedMechanics(mechanics) + '</article>';
+            + renderSectionDetail(description?.originalText || '',description?.descriptionKind || 'summary','',Object.keys(facts).length ? facts : null) + renderRelatedEffects(originalRecord?.relatedEffects) + '</article>';
     }
 
     function renderPartyCurrentControls(effects, context) {
@@ -1716,7 +1736,8 @@
             other: flatCards.reduce((sum,card)=>sum+card.effects.reduce((count,effect)=>count+(effect.controls?.length||0),0),0)
         };
         if (!conditionTabChosen) activeConditionTab = ['artifact','weapon','talent','party'].find(key=>manualCounts[key]>0) || 'reaction';
-        wrap.innerHTML = (evaluation?.entry ? `<p class="genshin-condition-note">表示対象：${escapeHtml(evaluation.entry.label || "選択中の攻撃")}。結果の攻撃詳細を選ぶと、その攻撃への適用を表示します。</p>` : "") + CONDITION_TABS.map((tab) => `<div class="genshin-condition-tab-panel" id="genshin-condition-panel-${tab.id}" role="tabpanel" aria-labelledby="genshin-condition-tab-${tab.id}" data-condition-panel="${tab.id}"${tab.id === activeConditionTab ? "" : " hidden"}>${panels[tab.id]}</div>`).join("");
+        const attackNote = evaluation?.entry ? `<p class="genshin-condition-note">表示対象：${escapeHtml(evaluation.entry.label || "選択中の攻撃")}。結果の攻撃詳細を選ぶと、その攻撃への適用を表示します。</p>` : "";
+        wrap.innerHTML = CONDITION_TABS.map((tab) => `<div class="genshin-condition-tab-panel" id="genshin-condition-panel-${tab.id}" role="tabpanel" aria-labelledby="genshin-condition-tab-${tab.id}" data-condition-panel="${tab.id}"${tab.id === activeConditionTab ? "" : " hidden"}>${tab.id === "party" ? "" : attackNote}${panels[tab.id]}</div>`).join("");
         const tabs = getElement("genshinConditionTabs");
         if (tabs) {
             tabs.innerHTML = CONDITION_TABS.map((tab) => `<button type="button" class="genshin-condition-tab${tab.id === activeConditionTab ? " is-active" : ""}" id="genshin-condition-tab-${tab.id}" role="tab" aria-selected="${tab.id === activeConditionTab}" tabindex="${tab.id === activeConditionTab ? "0" : "-1"}" aria-controls="genshin-condition-panel-${tab.id}" data-condition-tab="${tab.id}">${escapeHtml(tab.label)}${manualCounts[tab.id] ? `（条件${manualCounts[tab.id]}）` : ""}</button>`).join("");

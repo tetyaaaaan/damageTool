@@ -120,6 +120,7 @@ test('provider descriptions expand rank templates without leaking raw tokens; ac
  assert.equal(resRows.find(row=>row.label==='敵の水元素耐性').value,30);assert.equal(resRows.find(row=>row.label==='敵の氷元素耐性').value,0);
  const c1=state.partyModifiers.find(c=>c.modifier.id.includes('c1') && c.modifier.category==='statBonus');
  assert.ok(c1);assert.equal(c1.runtimeRows[0].unit,'flat');assert.equal(c1.runtimeRows[0].value,413.6);
+ assert.match(visible,/命ノ星座 C1.*脚光に咲く水の花/);
  assert.match(visible,/攻撃力 \+413.6/); assert.match(visible,/攻撃力 \+9.36%/);
 });
 
@@ -184,12 +185,21 @@ test('provider aggregation uses additive buckets, accepted stats and multiplier 
   request.party.conditionStates['party:2:10000140:actions:recipient']={option:recipient};
   const {html,effects,evaluation,attack}=resolve(), rows=renderer.providerImpactRows(effects,evaluation);
   const base=rows.filter(row=>row.label==='水・氷元素攻撃の基礎ダメージ加算');assert.equal(base.length,1);assert.equal(base[0].value,1470);assert.equal(base[0].value,attack.breakdown.additiveBaseDamage);
+  assert.equal(rows.find(row=>row.label==='敵の水元素耐性').value,30);assert.equal(rows.find(row=>row.label==='敵の氷元素耐性').value,30);
+  const physical=evaluation.payload.results.find(r=>r.entry.element==='physical');
+  const physicalRows=renderer.providerImpactRows(effects,renderer.createImpactEvaluation(request,f.calcData,physical.attackKey));
+  assert.equal(JSON.stringify(physicalRows),JSON.stringify(rows),'provider amounts do not depend on the selected attack');
+  assert.ok(!rows.some(row=>row.reason==='今回の攻撃には非適用'));
   assert.equal(rows.find(row=>row.label==='攻撃力'&&row.unit==='flat').value,404);
   assert.equal(rows.find(row=>row.label==='星拡散基礎ダメージ加算').value,0);
   assert.doesNotMatch(rows.map(renderer.impactRowText).join(' / '),/(?:通常攻撃|重撃|落下攻撃) \+0/);
   assert.ok(html.indexOf('現在の状態')<html.indexOf('genshin-provider-impact'));assert.ok(html.indexOf('genshin-provider-impact')<html.indexOf('genshin-party-effect-list'));
   const replay=engine.calculateDamageRequest(JSON.parse(JSON.stringify(evaluation.payload.calculationRequest)),f.calcData);assert.deepEqual(replay.results.map(r=>r.expected),evaluation.payload.results.map(r=>r.expected));
  }
+ request.party.conditionStates['party:2:10000140:actions:meteor']={option:'generated'};
+ const meteor=resolve(), meteorRows=renderer.providerImpactRows(meteor.effects,meteor.evaluation);
+ assert.equal(meteorRows.find(row=>row.label==='敵の風元素耐性').value,35);
+ assert.equal(meteorRows.find(row=>row.label==='星拡散基礎ダメージ加算').value,2730);
  request.party.conditionStates['party:2:10000140:actions:skill']={option:'inactive'};
  const off=resolve(), rows=renderer.providerImpactRows(off.effects,off.evaluation);
  assert.equal(rows.filter(row=>/基礎ダメージ加算/.test(row.label)).length,2);
@@ -212,8 +222,8 @@ test('user-confirmed Melody and Chorus mechanics remain separate from saved game
  assert.doesNotMatch(text.originalText,/超過1,000ごとに/);
  request.party={conditionStates:{},members:[{slot:2,enabled:true,level:90,characterId:'10000140',constellation:0,talentLevels:{normal:10,skill:10,burst:10},stats:{hp:50500,baseHp:15000,atk:2000,baseAtk:900},equipment:{weaponId:'',artifactSetIds:[]},buffStates:{}}]};
  const html=panel(f,request).html;
- assert.match(html,/確認済みの効果内容（原文ではありません）/);
- const checkItems=items=>items.forEach(item=>{assert.ok(html.includes(typeof item === 'string'?item:item.text));if(typeof item === 'object')checkItems(item.items);});
- for(const section of record.confirmedMechanics.sections) {assert.ok(html.includes(section.name));checkItems(section.items);}
- assert.match(html,/href="https:\/\/gamewith.jp\/genshin\/article\/show\/565491"/);
+ assert.doesNotMatch(html,/確認済みの効果内容|href="https:\/\/gamewith/);
+ for (const name of ['悠久の歌','春を呼ぶ角笛','流星の嵐','メロディ','コーラス']) assert.ok(html.includes('関連効果</span> ' + name));
+ assert.match(html,/固有天賦1|固有天賦2|元素スキル/);
+ assert.ok(record.confirmedMechanics.sections.length,'private evidence is retained');
 });

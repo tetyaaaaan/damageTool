@@ -199,7 +199,7 @@ async function main() {
             await evaluate(client,'(()=>{const e=document.querySelector('+JSON.stringify(selector)+');e.value='+JSON.stringify(String(value))+';e.dispatchEvent(new Event("change",{bubbles:true}));})()');await delay(200);
         };
 
-        assert.match(text,/確認済みの効果内容（原文ではありません）/);assert.match(text,/メロディ/);assert.match(text,/コーラス/);assert.match(text,/星拡散側 \+260/);
+        assert.doesNotMatch(text,/確認済みの効果内容|参照：GameWith/);assert.match(text,/関連効果/);assert.match(text,/メロディ/);assert.match(text,/コーラス/);assert.match(text,/原文未取得/);
         assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=phase]").value'),'unused');
         assert.equal(await evaluate(client,'document.querySelector("[data-vody-advanced]")===null'),true);
         // The compact selection writes the existing skill/heals fields, preserving the Runtime contract.
@@ -224,7 +224,7 @@ async function main() {
         text=await conditionText('party');
         assert.match(text,/現在の状態/);assert.match(text,/2回目の回復後/);
         assert.match(text,/真実を告げる蜜酒\s*2層/);
-        assert.ok(await evaluate(client,'Array.from(document.querySelectorAll("[data-condition-panel=party] [data-impact-state=notApplicable]")).some(e=>e.textContent.includes("今回の攻撃には非適用"))'));
+        assert.equal(await evaluate(client,'Array.from(document.querySelectorAll("[data-condition-panel=party] .genshin-provider-impact .genshin-runtime-impact")).some(e=>e.textContent.includes("今回の攻撃には非適用"))'),false);
         assert.ok(await evaluate(client,'Array.from(document.querySelectorAll("[data-condition-panel=party] .genshin-runtime-impact")).some(e=>e.textContent.includes("攻撃力 +"))'));
         assert.doesNotMatch(text,/\{[a-zA-Z]\w*\}|provisional71|weaponModifiers\.|Lead Vocal|Chorus/);
         await closeDialogs();await evaluate(client,'window.__effectPayload=null;document.getElementById("genshinJsonCalcButtonBottom").click()');
@@ -291,10 +291,16 @@ async function main() {
             const text=await conditionText('party');
             const items=await evaluate(client,'[...document.querySelectorAll("#genshin-party-member-panel-2 .genshin-provider-impact .genshin-runtime-impact")].map(e=>({label:e.querySelector("span").textContent,value:e.querySelector("strong").textContent,reason:e.querySelector("small")?.textContent||""}))');
             const base=items.filter(row=>row.label==="水・氷元素攻撃の基礎ダメージ加算");assert.equal(base.length,1);assert.ok(Math.abs(Number(base[0].value.replace("+",""))-expected.base)<1e-8);assert.ok(expected.base>0);
+            for (const label of ["敵の水元素耐性","敵の氷元素耐性"]) assert.equal(items.find(row=>row.label===label).value,"-30%");
+            assert.ok(!items.some(row=>row.reason==="今回の攻撃には非適用"));
             assert.doesNotMatch(items.map(row=>row.label+" "+row.value).join(" / "),/(?:通常攻撃|重撃|落下攻撃) \+0/);
             assert.equal(await evaluate(client,'document.querySelectorAll("#genshin-party-member-panel-2 .genshin-party-effect .genshin-effect-values").length'),0);
             return expected;
         };
+        await action('meteor','generated');
+        const meteorValues=await evaluate(client,'document.querySelector("#genshin-party-member-panel-2 .genshin-provider-impact").innerText');
+        assert.match(meteorValues,/敵の風元素耐性\s*-35%/);
+        await action('meteor','none');
         const lead=await selectedBurst();await action('recipient','offField');const chorus=await selectedBurst();assert.equal(chorus.base,lead.base);
         await closeDialogs();await evaluate(client,'window.GenshinCurrentCalcState.persist()');await client.send('Page.reload');await waitFor(client,'Boolean(window.GenshinPartyState&&window.GenshinCalcRenderer)');await delay(500);
         const restored=await selectedBurst();assert.equal(restored.base,chorus.base);assert.equal(restored.damage,chorus.damage);
