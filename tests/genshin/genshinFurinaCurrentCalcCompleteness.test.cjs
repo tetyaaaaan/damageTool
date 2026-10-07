@@ -103,13 +103,14 @@ test("固有天賦2は最大HP1000刻み・上限28%でサロンメンバーだ�
 
 test("C6は共通18%とプネウマ追加25%を別効果として対象攻撃だけへ加算する", async () => {
     const common = createHarness({ constellation: 6, hp: 40000 });
+    setConditionElement(common.elements, "character:10000089:group:furinaC6CenterOfAttention", "option", "ousia");
     const commonPayload = await common.sandbox.GenshinCalcEngine.runGenshinJsonCalc();
     assert.equal(findResult(commonPayload, "normal_1damage").breakdown.additiveBaseDamage, 7200);
 
     const pneuma = createHarness({ constellation: 6, hp: 40000 });
     const pneumaModifier = pneuma.calcData.constellationModifiers["10000089"].constellations["6"]
         .find((modifier) => modifier.id === "c_10000089_6_3_resolved_2");
-    const pneumaKey = pneuma.sandbox.GenshinModifierAnalyzer.modifierStateKey(pneumaModifier, "constellation:C6");
+    const pneumaKey = "character:10000089:group:furinaC6CenterOfAttention";
     setConditionElement(pneuma.elements, pneumaKey, "option", "pneuma");
     const pneumaPayload = await pneuma.sandbox.GenshinCalcEngine.runGenshinJsonCalc();
     const normal = findResult(pneumaPayload, "normal_1damage");

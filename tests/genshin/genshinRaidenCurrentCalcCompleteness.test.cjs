@@ -67,7 +67,7 @@ test("Raiden C2 ignores DEF only for initial and Musou Isshin Burst entries", ()
 test("Raiden C4 excludes Raiden herself and adds 30 percent of each recipient base ATK", () => {
     const own=fixture({constellation:4});const ownP=calculate(own);assert.equal(ownP.context.effectiveStats.atk,2000);
     const f=fixture({characterId:"10000016"});support(f);let p=calculate(f);const c=p.partyModifiers.find(c=>c.modifier.id==="c_10000052_4_1");assert.ok(c);assert.equal(c.enabled,false);
-    f.request.party.members[1].buffStates[c.toggleKey]=true;p=calculate(f);assert.equal(p.context.effectiveStats.atk,2300);
+    f.request.party.members[1].buffStates[c.toggleKey]=true;f.request.party.conditionStates[c.partyConditionStateKey]={enabled:true,option:"active"};p=calculate(f);assert.equal(p.context.effectiveStats.atk,2300);
     assert.ok(result(p,"normal_1damage").expected > result(calculate(fixture({characterId:"10000016"})),"normal_1damage").expected);
     const replay=f.engine.calculateDamageRequest(JSON.parse(JSON.stringify(f.engine.createCalculationSnapshot(f.request,p).request)),f.calcData);
     assert.equal(JSON.stringify(replay.results),JSON.stringify(p.results));

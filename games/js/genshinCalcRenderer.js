@@ -1052,10 +1052,11 @@
         const key = source + ':' + modifier.id + ':' + signature;
         if (evaluation?.cache.has(key)) return evaluation.cache.get(key);
         const additive = ['additiveBaseDamage','scalingAdditiveBaseDamage'].includes(modifier.customCalculation || effect.analysis?.calculation) || modifier.category === 'additiveBaseDamage';
-        const targets = additive ? [''] : modifier.applyTo?.length ? modifier.applyTo : [''];
+        const targets = additive || modifier.category === 'reactionCritBonus' ? [''] : modifier.applyTo?.length ? modifier.applyTo : [''];
         const category = modifier.category;
         const labelFor = target => {
             if (additive) return baseAdditionLabel(modifier);
+            if (category === 'reactionCritBonus') return modifier.critMode === 'fixed' ? '反応の会心（固定）' : '反応の会心補正';
             const label = window.GenshinCalcConditions?.targetLabel?.(target) || '補正';
             if (category === 'reactionBaseDamageBonus') return label.replace(/(?:ダメージ)?(?:補正)?$/, '') + '基礎ダメージ';
             if (category === 'resistanceDebuff') return '敵の' + label.replace(/低下$/, '');
@@ -1116,8 +1117,8 @@
                     bucket = /(?:Rate|rate)/.test(target) ? 'critRateBonus' : 'critDamageBonus';
                     row.unit = 'percent'; row.value = totals[bucket] - baseline[bucket];
                 } else if (category === 'reactionCritBonus') {
-                    if (Number(modifier.critRate)) rows.push({ ...row, label: '反応の会心率', unit:'percent', value:totals.reactionCritRate });
-                    row.label = '反応の会心ダメージ'; row.unit = 'percent'; row.value = totals.reactionCritDamage;
+                    if (Number(modifier.critRate)) rows.push({ ...row, label: modifier.critMode === 'fixed' ? '反応の会心率（固定）' : '反応の会心率', unit:modifier.critMode === 'fixed' ? 'fixedPercent' : 'percent', value:totals.reactionCritRate });
+                    row.label = modifier.critMode === 'fixed' ? '反応の会心ダメージ（固定）' : '反応の会心ダメージ'; row.unit = modifier.critMode === 'fixed' ? 'fixedPercent' : 'percent'; row.value = totals.reactionCritDamage;
                 } else if (multiplier) {
                     row.value = modifier.multiplierTarget === 'talentBaseDamage' ? totals.baseTalentDamageMultiplier : totals.finalDamageMultiplier;
                 } else if (bucket) {
@@ -1139,7 +1140,7 @@
         if (row.value === null) return row.label + '：' + row.reason;
         const value = Number(Number(row.value).toPrecision(12));
         const sign = /敵の.*(?:耐性|低下)/.test(row.label) ? '-' : '+';
-        return row.label + ' ' + (row.unit === 'multiplier' ? '×' + value : sign + value + (row.unit === 'percent' ? '%' : '')) + (row.reason ? '　' + row.reason : '');
+        return row.label + ' ' + (row.unit === 'multiplier' ? '×' + value : row.unit === 'fixedPercent' ? value + '%' : sign + value + (row.unit === 'percent' ? '%' : '')) + (row.reason ? '　' + row.reason : '');
     }
     function renderRuntimeImpact(effect) {
         return (effect.runtimeRows || [{label:effect.displayTarget || '補正',value:null,reason:'現在値を算出できません'}]).map(row => {
@@ -1417,7 +1418,7 @@
                 return {key:'stat:' + stat + ':' + (percent ? 'percent' : 'flat'),bucket:crit ? stat + 'Bonus' : 'stat',stat,target,label:stat === 'hp' ? 'HP上限' : label(target),unit:crit || percent ? 'percent' : 'flat',statPercent:percent};
             });
         }
-        if (modifier.category === 'reactionCritBonus') return [{key:'reactionCritRate',bucket:'reactionCritRate',label:'反応の会心率',unit:'percent'}, {key:'reactionCritDamage',bucket:'reactionCritDamage',label:'反応の会心ダメージ',unit:'percent'}].filter(row=>row.bucket === 'reactionCritDamage' || Number(modifier.critRate));
+        if (modifier.category === 'reactionCritBonus') return [{key:'reactionCritRate:'+ (modifier.critMode || 'bonus'),bucket:'reactionCritRate',label:modifier.critMode === 'fixed'?'反応の会心率（固定）':'反応の会心率',unit:modifier.critMode === 'fixed'?'fixedPercent':'percent'}, {key:'reactionCritDamage:'+ (modifier.critMode || 'bonus'),bucket:'reactionCritDamage',label:modifier.critMode === 'fixed'?'反応の会心ダメージ（固定）':'反応の会心ダメージ',unit:modifier.critMode === 'fixed'?'fixedPercent':'percent'}].filter(row=>row.bucket === 'reactionCritDamage' || Number(modifier.critRate));
         const bucket = ({damageBonus:'damageBonus',reactionBonus:'reactionBonus',reactionBaseDamageBonus:'reactionBaseDamageBonus',resistanceDebuff:'resistanceDebuff',defenseDebuff:'defenseDebuff',defenseIgnore:'defenseIgnore',critBonus:targets.some(target=>/Rate/.test(target))?'critRateBonus':'critDamageBonus',effectOverride:modifier.multiplierTarget === 'talentBaseDamage'?'baseTalentDamageMultiplier':'finalDamageMultiplier'})[modifier.category]
             || (calculation === 'scalingDamageBonus' ? 'damageBonus' : calculation === 'scalingReactionBonus' ? 'reactionBonus' : '');
         if (!bucket || (calculation === 'effectOverride' && modifier.unit === 'percentOfOriginalEffect')) return [];

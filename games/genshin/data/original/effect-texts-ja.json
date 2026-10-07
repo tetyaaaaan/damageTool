@@ -3,6 +3,128 @@
   "locale": "ja-JP",
   "purpose": "Display-only original effect text; never used for modifier inference or calculation.",
   "characters": {
+      "10000119": {
+        "talents": {
+          "passive1": {
+            "originalText": "ラウマが元素スキル**聖言のルノ・永夜の眠り**を発動した後の20秒間、チーム内の月兆に応じて、それぞれ異なる強化効果を獲得する。異なる月兆レベルによって提供される強化効果は重ね掛けできない。\n\n月兆・初照\n付近にいるチーム内キャラクターが起こす開花、超開花、烈開花反応によるダメージに会心が発生する。なお、会心率は15%、会心ダメージは100%に固定される。この効果による会心率は、元素反応で会心を発生させる他の同種の効果と重ね掛け可能。\n\n月兆・満照\n付近にいるチーム内キャラクターが与える月開花反応ダメージの会心率+10%、会心ダメージ+20%。",
+            "sourceRefs": [
+              "games/genshin/data/character-talents.json#/10000119/passives/0/descriptionJa"
+            ],
+            "provenance": {
+              "verification": "userConfirmedExternalCrossCheck",
+              "baselineHead": "3346ade",
+              "textPreserved": true
+            }
+          }
+        },
+        "constellations": {
+          "6": {
+            "originalText": "**霜林の聖域**が敵を攻撃する時、月開花反応ダメージと見なされる草元素範囲ダメージを追加で1回与える。このダメージはラウマの元素熟知の185%に基づく。また、このときラウマは**「蒼の讃歌」**を消費せず、逆に「蒼の讃歌」を2層獲得し、この方法で獲得した「蒼の讃歌」の継続時間をリセットする。\n1回の霜林の聖域の継続時間中に、この効果は最大8回発動可能。元素スキル**聖言のルノ・永夜の眠り**発動時、この方法で獲得した「蒼の讃歌」はクリアされる。\n\nまた、ラウマが「蒼の讃歌」を所持している状態で通常攻撃を行うと、「蒼の讃歌」を1層消費して、ラウマの元素熟知150%分の草元素ダメージを与える。このダメージは月開花反応によるダメージと見なされる。\n\n月兆・満照：付近にいるチーム内キャラクターの与える月開花反応によるダメージが25%**向上**する。",
+            "sourceRefs": [
+              "games/genshin/data/character-constellations.json#/10000119/constellations/6/effectText"
+            ],
+            "provenance": {
+              "verification": "userConfirmedExternalCrossCheck",
+              "baselineHead": "3346ade",
+              "textPreserved": true
+            }
+          }
+        }
+      },
+      "10000070": {
+        "talents": {},
+        "constellations": {
+          "2": {
+            "originalText": "「金盃の豊穣」状態のキャラクターが敵に水元素ダメージを与えた後、その敵の水元素耐性-35%、継続時間10秒。敵に開花反応、または月開花反応によるダメージを与えた後、その敵の草元素耐性-35%、継続時間10秒。\n固有天賦「落花廻旋の庭」を解放する必要がある。",
+            "sourceRefs": [
+              "games/genshin/data/character-constellations.json#/10000070/constellations/2/effectText"
+            ],
+            "provenance": {
+              "verification": "userConfirmedExternalCrossCheck",
+              "baselineHead": "3346ade",
+              "textPreserved": true
+            }
+          },
+          "6": {
+            "originalText": "HP上限1000ごとにニィロウの会心率+0.6%、会心ダメージ+1.2%。\nこの方法でアップできる会心率は最大30%、会心ダメージは最大60%となる。",
+            "sourceRefs": [
+              "games/genshin/data/character-constellations.json#/10000070/constellations/6/effectText"
+            ],
+            "provenance": {
+              "verification": "userConfirmedExternalCrossCheck",
+              "baselineHead": "3346ade",
+              "textPreserved": true
+            }
+          }
+        }
+      },
+      "10000089": {
+        "talents": {
+          "combat3": {
+            "originalText": "歓喜の意を集めて水飛沫の舞台を構築し、フリーナのHP上限を基とした水元素範囲ダメージを与える。また、周囲のチーム全員が「もろびとこぞりて」状態に入る。本状態時、キャラクターの現在HPが増減する時、HP上限からみた増減率を基に、フリーナは1%につき1ポイントの「テンション」を獲得する。\nそして、フリーナの所持する「テンション」を基に、周囲のチーム全員の与えるダメージおよび受ける治療効果をアップする。\n継続時間終了時、フリーナの所持する「テンション」はクリアされる。",
+            "sourceRefs": [
+              "games/genshin/data/character-talents.json#/10000089/burst/descriptionJa"
+            ],
+            "provenance": {
+              "verification": "userConfirmedExternalCrossCheck",
+              "baselineHead": "3346ade",
+              "textPreserved": true
+            }
+          }
+        },
+        "constellations": {
+          "6": {
+            "originalText": "「サロン·ソリティア」発動時、フリーナは「万民のまなざし」効果を獲得する。継続時間10秒。\n継続時間中、フリーナの通常攻撃、重撃および落下攻撃ダメージは、元素付与によって他の元素に変化しない水元素ダメージへと変わる。そして、フリーナ自身のHP上限の18%分、与えるダメージがアップする。\n継続時間中、フリーナの通常攻撃（「アルケー：聖俗の座客」の攻撃を含まない）や重撃、着地時の落下攻撃が敵に命中すると、命中時のアルケー属性を基に、異なる効果を発動する。0.1秒毎に発動可能。\n\nアルケー：ウーシア\n1秒毎に、周囲のチーム全員のHPをフリーナのHP上限の4%分回復する。継続時間2.9秒。再び発動すると、継続時間が延長される。\nアルケー：プネウマ\n今回の通常攻撃（「アルケー：聖俗の座客」の攻撃を含まない）、重撃、着地時の落下攻撃によるダメージを、さらにフリーナのHP上限の25%分アップさせる。それの攻撃が敵に命中した時、周囲のチームは全員、現在HPの1%分のHPを消費する。\n\n「万民のまなざし」継続期間中、上記効果は最大6回発動可能。この効果は発動回数が6回に達したとき、または継続時間終了時に解除される。",
+            "sourceRefs": [
+              "games/genshin/data/character-constellations.json#/10000089/constellations/6/effectText"
+            ],
+            "provenance": {
+              "verification": "userConfirmedExternalCrossCheck",
+              "baselineHead": "3346ade",
+              "textPreserved": true
+            }
+          }
+        }
+      },
+      "10000052": {
+        "talents": {
+          "passive2": {
+            "originalText": "元素チャージ効率が100%を超えている場合、超えた分1%につき、雷電将軍は下記の効果を獲得する。\n·夢想の一心状態で提供する元素エネルギー回復+0.6%。\n·雷元素ダメージ+0.4%。",
+            "sourceRefs": [
+              "games/genshin/data/character-talents.json#/10000052/passives/1/descriptionJa"
+            ],
+            "provenance": {
+              "verification": "userConfirmedExternalCrossCheck",
+              "baselineHead": "3346ade",
+              "textPreserved": true
+            }
+          }
+        },
+        "constellations": {
+          "2": {
+            "originalText": "奥義·夢想真説の夢想の一太刀と夢想の一心状態下の雷電将軍による攻撃は敵の防御力60%を無視する。",
+            "sourceRefs": [
+              "games/genshin/data/character-constellations.json#/10000052/constellations/2/effectText"
+            ],
+            "provenance": {
+              "verification": "userConfirmedExternalCrossCheck",
+              "baselineHead": "3346ade",
+              "textPreserved": true
+            }
+          },
+          "4": {
+            "originalText": "奥義·夢想真説による夢想の一心状態終了後、周囲のチーム全員（雷電将軍自身を除く）の攻撃力+30%、持続時間10秒。",
+            "sourceRefs": [
+              "games/genshin/data/character-constellations.json#/10000052/constellations/4/effectText"
+            ],
+            "provenance": {
+              "verification": "userConfirmedExternalCrossCheck",
+              "baselineHead": "3346ade",
+              "textPreserved": true
+            }
+          }
+        }
+      },
     "10000112": {
       "sourceRefs": [
         "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/escoffier.json"

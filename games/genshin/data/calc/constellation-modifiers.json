@@ -4286,11 +4286,15 @@
           "value": 30,
           "unit": "percent",
           "sourceText": "奥義·夢想真説による夢想の一心状態終了後、周囲のチーム全員（雷電将軍自身を除く）の攻撃力+30%、持続時間10秒。",
-          "condition": "afterMusouIsshinEnds",
+          "condition": "stateActive",
           "calculationSupport": "toggle",
           "uidHandling": "conditional",
           "targetOwner": "otherPartyMembers",
-          "conditionGroupId": "raidenC4AfterBurst"
+          "conditionGroupId": "raidenC4AfterBurst",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {"type": "option", "label": "夢想の一心終了後10秒以内", "default": "inactive", "options": [{"value": "inactive", "label": "いいえ"}, {"value": "active", "label": "はい"}]},
+          "conditionOptionValues": ["active"],
+          "conditionInputActivates": true
         }
       ],
       "5": [
@@ -5914,9 +5918,15 @@
           "value": -35,
           "unit": "percent",
           "sourceText": "「金盃の豊穣」状態のキャラクターが敵に水元素ダメージを与えた後、その敵の水元素耐性-35%、継続時間10秒。敵に開花反応、または月開花反応によるダメージを与えた後、その敵の草元素耐性-35%、継続時間10秒。\n固有天賦「落花廻旋の庭」を解放する必要がある。",
-          "condition": "constellationUnlocked",
+          "condition": "stateActive",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "conditionGroupId": "nilouC2HydroHit",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {"type": "option", "label": "金盃の豊穣状態で敵に水元素ダメージを与えた", "default": "inactive", "options": [{"value": "inactive", "label": "いいえ"}, {"value": "active", "label": "はい"}]},
+          "conditionOptionValues": ["active"],
+          "conditionInputActivates": true,
+          "targetOwner": "enemy"
         },
         {
           "id": "c_10000070_2_2",
@@ -5927,9 +5937,15 @@
           "value": -35,
           "unit": "percent",
           "sourceText": "「金盃の豊穣」状態のキャラクターが敵に水元素ダメージを与えた後、その敵の水元素耐性-35%、継続時間10秒。敵に開花反応、または月開花反応によるダメージを与えた後、その敵の草元素耐性-35%、継続時間10秒。\n固有天賦「落花廻旋の庭」を解放する必要がある。",
-          "condition": "constellationUnlocked",
+          "condition": "stateActive",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "conditionGroupId": "nilouC2BloomHit",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {"type": "option", "label": "敵に開花または月開花ダメージを与えた", "default": "inactive", "options": [{"value": "inactive", "label": "いいえ"}, {"value": "active", "label": "はい"}]},
+          "conditionOptionValues": ["active"],
+          "conditionInputActivates": true,
+          "targetOwner": "enemy"
         },
         {
           "id": "c_10000070_2_3",
@@ -5942,7 +5958,8 @@
           "sourceText": "「金盃の豊穣」状態のキャラクターが敵に水元素ダメージを与えた後、その敵の水元素耐性-35%、継続時間10秒。敵に開花反応、または月開花反応によるダメージを与えた後、その敵の草元素耐性-35%、継続時間10秒。\n固有天賦「落花廻旋の庭」を解放する必要がある。",
           "condition": "constellationUnlocked",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "auditDisposition": "supersededByStructuredRecord"
         },
         {
           "id": "c_10000070_2_4",
@@ -5955,7 +5972,8 @@
           "sourceText": "「金盃の豊穣」状態のキャラクターが敵に水元素ダメージを与えた後、その敵の水元素耐性-35%、継続時間10秒。敵に開花反応、または月開花反応によるダメージを与えた後、その敵の草元素耐性-35%、継続時間10秒。\n固有天賦「落花廻旋の庭」を解放する必要がある。",
           "condition": "constellationUnlocked",
           "calculationSupport": "toggle",
-          "uidHandling": "conditional"
+          "uidHandling": "conditional",
+          "auditDisposition": "supersededByStructuredRecord"
         }
       ],
       "3": [
@@ -6028,12 +6046,14 @@
             "max": "seeSourceText",
             "default": 0
           },
-          "maxValue": 30,
           "reference": {
             "stat": "hp",
             "source": "self",
             "per": 1000
-          }
+          },
+          "conditionGroupId": "nilouC6Crit",
+          "shareConditionAcrossSources": true,
+          "conditionLabel": "霜絶の弦歌"
         },
         {
           "id": "c_10000070_6_2",
@@ -6059,12 +6079,14 @@
             "max": "seeSourceText",
             "default": 0
           },
-          "maxValue": 60,
           "reference": {
             "stat": "hp",
             "source": "self",
             "per": 1000
-          }
+          },
+          "conditionGroupId": "nilouC6Crit",
+          "shareConditionAcrossSources": true,
+          "conditionLabel": "霜絶の弦歌"
         }
       ]
     }
@@ -8191,7 +8213,7 @@
             "stat": "hp",
             "source": "self"
           },
-          "condition": "conditional",
+          "condition": "stateActive",
           "calculationSupport": "custom",
           "sourceText": "「サロン·ソリティア」発動時、フリーナは「万民のまなざし」効果を獲得する。継続時間10秒。\n継続時間中、フリーナの通常攻撃、重撃および落下攻撃ダメージは、元素付与によって他の元素に変化しない水元素ダメージへと変わる。そして、フリーナ自身のHP上限の18%分、与えるダメージがアップする。\n継続時間中、フリーナの通常攻撃（「アルケー：聖俗の座客」の攻撃を含まない）や重撃、着地時の落下攻撃が敵に命中すると、命中時のアルケー属性を基に、異なる効果を発動する。0.1秒毎に発動可能。\n\nアルケー：ウーシア\n1秒毎に、周囲のチーム全員のHPをフリーナのHP上限の4%分回復する。継続時間2.9秒。再び発動すると、継続時間が延長される。\nアルケー：プネウマ\n今回の通常攻撃（「アルケー：聖俗の座客」の攻撃を含まない）、重撃、着地時の落下攻撃によるダメージを、さらにフリーナのHP上限の25%分アップさせる。それの攻撃が敵に命中した時、周囲のチームは全員、現在HPの1%分のHPを消費する。\n\n「万民のまなざし」継続期間中、上記効果は最大6回発動可能。この効果は発動回数が6回に達したとき、または継続時間終了時に解除される。",
           "uidHandling": "conditional",
@@ -8202,7 +8224,12 @@
             "min": 0,
             "default": 0,
             "max": 6
-          }
+          },
+          "conditionGroupId": "furinaC6CenterOfAttention",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {"type": "option", "label": "万民のまなざし", "default": "inactive", "options": [{"value": "inactive", "label": "未発動"}, {"value": "ousia", "label": "ウーシア"}, {"value": "pneuma", "label": "プネウマ"}]},
+          "conditionOptionValues": ["ousia", "pneuma"],
+          "conditionInputActivates": true
         },
         {
           "id": "c_10000089_6_2",
@@ -8215,7 +8242,7 @@
           "value": "水",
           "unit": "element",
           "overwrite": true,
-          "condition": "conditional",
+          "condition": "stateActive",
           "calculationSupport": "toggle",
           "sourceText": "「サロン·ソリティア」発動時、フリーナは「万民のまなざし」効果を獲得する。継続時間10秒。\n継続時間中、フリーナの通常攻撃、重撃および落下攻撃ダメージは、元素付与によって他の元素に変化しない水元素ダメージへと変わる。そして、フリーナ自身のHP上限の18%分、与えるダメージがアップする。\n継続時間中、フリーナの通常攻撃（「アルケー：聖俗の座客」の攻撃を含まない）や重撃、着地時の落下攻撃が敵に命中すると、命中時のアルケー属性を基に、異なる効果を発動する。0.1秒毎に発動可能。\n\nアルケー：ウーシア\n1秒毎に、周囲のチーム全員のHPをフリーナのHP上限の4%分回復する。継続時間2.9秒。再び発動すると、継続時間が延長される。\nアルケー：プネウマ\n今回の通常攻撃（「アルケー：聖俗の座客」の攻撃を含まない）、重撃、着地時の落下攻撃によるダメージを、さらにフリーナのHP上限の25%分アップさせる。それの攻撃が敵に命中した時、周囲のチームは全員、現在HPの1%分のHPを消費する。\n\n「万民のまなざし」継続期間中、上記効果は最大6回発動可能。この効果は発動回数が6回に達したとき、または継続時間終了時に解除される。",
           "uidHandling": "conditional",
@@ -8223,7 +8250,12 @@
             "min": 0,
             "default": 0,
             "max": 6
-          }
+          },
+          "conditionGroupId": "furinaC6CenterOfAttention",
+          "shareConditionAcrossSources": true,
+          "conditionInput": {"type": "option", "label": "万民のまなざし", "default": "inactive", "options": [{"value": "inactive", "label": "未発動"}, {"value": "ousia", "label": "ウーシア"}, {"value": "pneuma", "label": "プネウマ"}]},
+          "conditionOptionValues": ["ousia", "pneuma"],
+          "conditionInputActivates": true
         },
         {
           "category": "scalingBonus",
@@ -8241,28 +8273,17 @@
           "unit": "percent",
           "calculationSupport": "custom",
           "uidHandling": "conditional",
-          "condition": "conditional",
+          "condition": "stateActive",
           "conditionOptionValue": "pneuma",
-          "conditionInput": {
-            "type": "option",
-            "default": "inactive",
-            "label": "万民のまなざし：命中時のアルケー",
-            "help": "今回の通常攻撃、重撃、または着地時の落下攻撃にプネウマ追加ダメージを適用するか選択します。",
-            "options": [
-              {
-                "value": "inactive",
-                "label": "プネウマ追加なし"
-              },
-              {
-                "value": "pneuma",
-                "label": "プネウマ：HP上限25%を追加"
-              }
-            ]
-          },
+          "conditionInput": {"type": "option", "label": "万民のまなざし", "default": "inactive", "options": [{"value": "inactive", "label": "未発動"}, {"value": "ousia", "label": "ウーシア"}, {"value": "pneuma", "label": "プネウマ"}]},
           "sourceText": "「サロン·ソリティア」発動時、フリーナは「万民のまなざし」効果を獲得する。継続時間10秒。\n継続時間中、フリーナの通常攻撃、重撃および落下攻撃ダメージは、元素付与によって他の元素に変化しない水元素ダメージへと変わる。そして、フリーナ自身のHP上限の18%分、与えるダメージがアップする。\n継続時間中、フリーナの通常攻撃（「アルケー：聖俗の座客」の攻撃を含まない）や重撃、着地時の落下攻撃が敵に命中すると、命中時のアルケー属性を基に、異なる効果を発動する。0.1秒毎に発動可能。\n\nアルケー：ウーシア\n1秒毎に、周囲のチーム全員のHPをフリーナのHP上限の4%分回復する。継続時間2.9秒。再び発動すると、継続時間が延長される。\nアルケー：プネウマ\n今回の通常攻撃（「アルケー：聖俗の座客」の攻撃を含まない）、重撃、着地時の落下攻撃によるダメージを、さらにフリーナのHP上限の25%分アップさせる。それの攻撃が敵に命中した時、周囲のチームは全員、現在HPの1%分のHPを消費する。\n\n「万民のまなざし」継続期間中、上記効果は最大6回発動可能。この効果は発動回数が6回に達したとき、または継続時間終了時に解除される。",
           "id": "c_10000089_6_3_resolved_2",
           "resolvedFromCategory": "special",
-          "customHandlingRequired": true
+          "customHandlingRequired": true,
+          "conditionGroupId": "furinaC6CenterOfAttention",
+          "shareConditionAcrossSources": true,
+          "conditionOptionValues": ["pneuma"],
+          "conditionInputActivates": true
         }
       ]
     }
@@ -12259,7 +12280,8 @@
         {
           "category": "resourceEffect",
           "resource": {
-            "nameJa": "sourceTextResource",
+            "id": "sourceTextResource",
+            "nameJa": "蒼の讃歌",
             "gain": 2.0,
             "consume": 1.0
           },

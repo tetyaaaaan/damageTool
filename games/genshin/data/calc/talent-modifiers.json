@@ -4935,6 +4935,96 @@
       {
         "sourceId": "passive1",
         "modifiers": [
+            {
+              "id": "t_10000119_a1_initial",
+          "characterId": "10000119",
+              "category": "reactionCritBonus",
+              "applyTo": [
+                "bloomCrit",
+                "hyperbloomCrit",
+                "burgeonCrit"
+              ],
+              "critRate": 15,
+              "critDamage": 100,
+              "critMode": "fixed",
+              "value": 100,
+              "unit": "percent",
+              "duration": 20,
+              "calculationSupport": "toggle",
+              "uidHandling": "conditional",
+              "targetOwner": "team",
+              "effectLabel": "霜夜に捧ぐ光・月兆・初照",
+              "condition": "stateActive",
+              "conditionGroupId": "laumaA1Moonsign",
+              "shareConditionAcrossSources": true,
+              "conditionInput": {
+                "type": "option",
+                "label": "元素スキル使用後の月兆状態",
+                "default": "inactive",
+                "options": [
+                  {
+                    "value": "inactive",
+                    "label": "未発動"
+                  },
+                  {
+                    "value": "initial",
+                    "label": "月兆・初照"
+                  },
+                  {
+                    "value": "full",
+                    "label": "月兆・満照"
+                  }
+                ]
+              },
+              "conditionOptionValues": [
+                "initial"
+              ],
+              "conditionInputActivates": true
+            },
+            {
+              "id": "t_10000119_a1_full",
+          "characterId": "10000119",
+              "category": "reactionCritBonus",
+              "applyTo": [
+                "lunarBloomCrit"
+              ],
+              "critRate": 10,
+              "critDamage": 20,
+              "critMode": "bonus",
+              "value": 20,
+              "unit": "percent",
+              "duration": 20,
+              "calculationSupport": "toggle",
+              "uidHandling": "conditional",
+              "targetOwner": "team",
+              "effectLabel": "霜夜に捧ぐ光・月兆・満照",
+              "condition": "stateActive",
+              "conditionGroupId": "laumaA1Moonsign",
+              "shareConditionAcrossSources": true,
+              "conditionInput": {
+                "type": "option",
+                "label": "元素スキル使用後の月兆状態",
+                "default": "inactive",
+                "options": [
+                  {
+                    "value": "inactive",
+                    "label": "未発動"
+                  },
+                  {
+                    "value": "initial",
+                    "label": "月兆・初照"
+                  },
+                  {
+                    "value": "full",
+                    "label": "月兆・満照"
+                  }
+                ]
+              },
+              "conditionOptionValues": [
+                "full"
+              ],
+              "conditionInputActivates": true
+            },
           {
             "category": "critBonus",
             "applyTo": [
@@ -4944,7 +5034,8 @@
             "unit": "percent",
             "condition": "afterTalentUse",
             "duration": 20.0,
-            "calculationSupport": "toggle"
+            "calculationSupport": "toggle",
+            "auditDisposition": "supersededByStructuredRecord"
           },
           {
             "category": "critBonus",
@@ -4955,7 +5046,8 @@
             "unit": "percent",
             "condition": "afterTalentUse",
             "duration": 20.0,
-            "calculationSupport": "toggle"
+            "calculationSupport": "toggle",
+            "auditDisposition": "supersededByStructuredRecord"
           },
           {
             "category": "reactionBonus",
@@ -4966,7 +5058,8 @@
             "unit": "percent",
             "condition": "afterTalentUse",
             "duration": 20.0,
-            "calculationSupport": "toggle"
+            "calculationSupport": "toggle",
+            "auditDisposition": "supersededByStructuredRecord"
           }
         ]
       },
