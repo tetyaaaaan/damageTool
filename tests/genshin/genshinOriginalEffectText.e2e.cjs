@@ -202,19 +202,16 @@ async function main() {
         assert.doesNotMatch(text,/確認済みの効果内容|参照：GameWith/);assert.match(text,/関連効果/);assert.match(text,/メロディ/);assert.match(text,/コーラス/);
         const related=await evaluate(client,'Array.from(document.querySelectorAll("#genshin-party-member-panel-2 .genshin-related-effect")).map(e=>({name:e.querySelector("h6").innerText,text:e.innerText}))');
         for(const name of ['メロディ','コーラス']) {const effect=related.find(effect=>effect.name.includes(name));assert.ok(effect);assert.doesNotMatch(effect.text,/原文未取得|<hydro>|<cryo>/);}
-        assert.ok(!related.some(effect=>effect.name.includes('春を呼ぶ角笛')));
+        assert.ok(!related.some(effect=>['春を呼ぶ角笛','悠久の歌','流星の嵐'].some(name=>effect.name.includes(name))));
 
-        assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=phase]").value'),'unused');
+        assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=support]").value'),'unused');
         assert.equal(await evaluate(client,'document.querySelector("[data-vody-advanced]")===null'),true);
-        // The compact selection writes the existing skill/heals fields, preserving the Runtime contract.
-        for(const phase of ['unused','0','1','3']) {
-            await action('phase',phase);
-            const check=await evaluate(client,'(async()=>{const p=await window.GenshinCalcEngine.runGenshinJsonCalc();const r=JSON.parse(JSON.stringify(p.calculationRequest));Object.keys(r.party.conditionStates).filter(k=>k.includes(":actions:")).forEach(k=>delete r.party.conditionStates[k]);const d=await window.GenshinCalcData.loadGenshinCalcData();const old=window.GenshinCalcEngine.calculateDamageRequest(r,d);const states=p.context.party.conditionStates;return {same:JSON.stringify(old.results.map(x=>[x.entry.id,x.nonCrit,x.crit,x.expected]))===JSON.stringify(p.results.map(x=>[x.entry.id,x.nonCrit,x.crit,x.expected])),difference:old.results.map((x,i)=>({id:x.entry.id,old:x.expected,new:p.results[i]?.expected})).filter(x=>x.old!==x.new),c1:states["party:2:10000140:group:vodyanitsa_c1_heal"].option,mead:states["party:2:10000140:group:provisional71_w14524_mead_state"].option,phase:document.querySelector("[data-genshin-vody-action=phase]").value,hits:Array.from(document.querySelectorAll("[data-genshin-vody-action=skillHit],[data-genshin-vody-action=hornHit]")).map(e=>e.value),collapsed:!document.querySelector("[data-vody-advanced]")?.open,mainInputs:document.querySelector(".genshin-provider-actions").querySelectorAll(":scope > label select").length}})()');
-            assert.equal(check.same,true,JSON.stringify({phase,difference:check.difference}));assert.equal(check.phase,phase);
-            assert.equal(check.c1,['1','3'].includes(phase)?'active':'inactive');
-            assert.equal(check.mead,phase==='1'?'one':phase==='3'?'three':'inactive');
-            assert.ok(check.mainInputs<=5);assert.equal(check.collapsed,true);
-            if(phase!=='unused')assert.deepEqual(check.hits,['yes','yes']);
+        // Three support choices reuse the existing skill/meteor fields.
+        for(const support of ['unused','hydroCryo','stellar']) {
+            await action('support',support);
+            const check=await evaluate(client,'(async()=>{const p=await window.GenshinCalcEngine.runGenshinJsonCalc();const r=JSON.parse(JSON.stringify(p.calculationRequest));Object.keys(r.party.conditionStates).filter(k=>k.includes(":actions:")).forEach(k=>delete r.party.conditionStates[k]);const d=await window.GenshinCalcData.loadGenshinCalcData();const old=window.GenshinCalcEngine.calculateDamageRequest(r,d);return {same:JSON.stringify(old.results.map(x=>[x.entry.id,x.nonCrit,x.crit,x.expected]))===JSON.stringify(p.results.map(x=>[x.entry.id,x.nonCrit,x.crit,x.expected])),support:document.querySelector("[data-genshin-vody-action=support]").value,hits:Array.from(document.querySelectorAll("[data-genshin-vody-action=skillHit],[data-genshin-vody-action=hornHit]")).map(e=>e.value),mainInputs:document.querySelector(".genshin-provider-actions").querySelectorAll(":scope > label select").length}})()');
+            assert.equal(check.same,true);assert.equal(check.support,support);assert.ok(check.mainInputs<=2);
+            if(support!=='unused')assert.deepEqual(check.hits,['yes','yes']);
         }
         await evaluate(client,'document.querySelector("[data-vody-advanced]").open=true');
         await action('skillHit','no');await action('hornHit','no');
@@ -222,11 +219,10 @@ async function main() {
         const miss=await evaluate(client,'(async()=>{const p=await window.GenshinCalcEngine.runGenshinJsonCalc();return p.context.party.conditionStates["party:2:10000140:group:vodyanitsa_skill_hit"].option})()');
         assert.equal(miss,'inactive');
         assert.match(await evaluate(client,'document.querySelector("[data-vody-advanced] summary").textContent'),/2項目変更中/);
-        assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=qualifyingHeals]").closest("details")===null'),true);
-        await action('phase','2');await action('qualifyingHeals','2');
+        await action('support','hydroCryo');await action('heals','2');assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=qualifyingHeals]").closest("details")!==null'),true);await action('qualifyingHeals','2');
         await action('skillHit','yes');await action('freezeSwirl','yes');
         text=await conditionText('party');
-        assert.match(text,/現在の状態/);assert.match(text,/2回目の回復後/);
+        assert.match(text,/現在の状態/);assert.match(text,/現在有効な回復回数/);
         assert.match(text,/算出過程/);
         assert.equal(await evaluate(client,'Array.from(document.querySelectorAll("[data-condition-panel=party] .genshin-provider-impact .genshin-runtime-impact")).some(e=>e.textContent.includes("今回の攻撃には非適用"))'),false);
         assert.ok(await evaluate(client,'Array.from(document.querySelectorAll("[data-condition-panel=party] .genshin-runtime-impact")).some(e=>e.textContent.includes("攻撃力 +"))'));
@@ -240,7 +236,7 @@ async function main() {
         await waitFor(client,'document.getElementById("genshinJsonCalcButtonBottom")?.getBoundingClientRect().width>0');
         await delay(500);
         text=await conditionText('party');
-        assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=phase]").value'),'2');
+        assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=support]").value'),'hydroCryo');
         await closeDialogs();
         const afterReload=await evaluate(client,'(async()=>JSON.stringify((await window.GenshinCalcEngine.runGenshinJsonCalc()).results))()');
         assert.equal(afterReload,beforeReload);
@@ -284,10 +280,10 @@ async function main() {
         await closeDialogs();await evaluate(client,'window.GenshinCurrentCalcState.persist()');await client.send('Page.reload');await waitFor(client,'Boolean(window.GenshinPartyState&&window.GenshinCalcRenderer)');await delay(500);
         await conditionText('party');assert.equal(await evaluate(client,'document.querySelectorAll("[data-party-member-tab]").length'),3);
         assert.equal(await evaluate(client,'document.querySelectorAll("[data-party-member-panel]:not([hidden])").length'),1);
-        assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=phase]").value'),'2');
+        assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=support]").value'),'hydroCryo');
         progress('PASS four-person party, per-member/source hierarchy, switch isolation, desktop/mobile and reload');
         // A real Hydro recipient exercises the additive bucket instead of unrelated attack zeros.
-        await closeDialogs();await chooseCharacter('10000025');await conditionText('party');await action('phase','1');await action('meteor','none');
+        await closeDialogs();await chooseCharacter('10000025');await conditionText('party');await action('support','hydroCryo');await action('heals','1');
         const selectedBurst=async()=>{
             await closeDialogs();await evaluate(client,'window.__effectPayload=null;if(!window.__bucketHook){const run=window.GenshinCalcEngine.runGenshinJsonCalc;window.GenshinCalcEngine.runGenshinJsonCalc=async(...args)=>{const p=await run(...args);window.__effectPayload=p;return p};window.__bucketHook=true;}document.getElementById("genshinJsonCalcButtonBottom").click()');
             await waitFor(client,'Boolean(window.__effectPayload)&&!document.getElementById("genshinJsonCalcButtonBottom").disabled');
@@ -301,16 +297,23 @@ async function main() {
             assert.equal(await evaluate(client,'document.querySelectorAll("#genshin-party-member-panel-2 .genshin-party-effect .genshin-effect-values").length'),0);
             return expected;
         };
-        await action('meteor','late');
-        let supportText=await evaluate(client,'document.querySelector(".genshin-current-support").innerText');
-        assert.match(supportText,/水・氷基礎ダメージ加算\s*有効/);assert.match(supportText,/星拡散基礎ダメージ加算\s*無効/);assert.match(supportText,/敵の風元素耐性-35%\s*有効/);
-        await action('meteor','present');
-        supportText=await evaluate(client,'document.querySelector(".genshin-current-support").innerText');
-        assert.match(supportText,/星拡散基礎ダメージ加算\s*有効/);assert.match(supportText,/敵の風元素耐性-35%\s*無効/);
-        await action('meteor','generated');
-        const meteorValues=await evaluate(client,'document.querySelector("#genshin-party-member-panel-2 .genshin-provider-impact").innerText');
-        assert.match(meteorValues,/敵の風元素耐性\s*-35%/);
-        await action('meteor','none');
+        await closeDialogs();await evaluate(client,'document.getElementById("genshinPartyDialogOpen").click()');await input('genshinPartyConstellation2',0);await input('genshinPartySkillTalent2',10);await conditionText('party');
+        await client.send('Emulation.setDeviceMetricsOverride',{width:375,height:900,deviceScaleFactor:1,mobile:false});
+        for(const support of ['hydroCryo','stellar']) {
+            await action('support',support);
+            const labels=await evaluate(client,'[...document.querySelectorAll("#genshin-party-member-panel-2 .genshin-provider-impact .genshin-runtime-impact")].map(e=>e.innerText.replace(/\\s+/g," "))');
+            for(const element of ['水','氷']) {const rows=labels.filter(text=>text.startsWith("敵の"+element+"元素耐性"));assert.equal(rows.length,1);assert.match(rows[0],/-30%/);}
+            assert.equal(labels.some(text=>text.includes('敵の風元素耐性 -35%')),support==='stellar');
+            assert.equal(labels.some(text=>text.startsWith('水・氷元素攻撃の基礎ダメージ加算 +')),support==='hydroCryo');
+            assert.equal(labels.some(text=>text.startsWith('星拡散基礎ダメージ加算 +')),support==='stellar');
+            assert.doesNotMatch(labels.join(' / '),/[-+]0(?:%|\s|$)|今回の攻撃には非適用|算出できません/);
+            assert.equal(await evaluate(client,'document.querySelector(".genshin-current-support")===null'),true);
+            assert.equal(await evaluate(client,'(()=>{const e=document.querySelector(".genshin-condition-dialog-body");return e.scrollWidth>e.clientWidth+1})()'),false);
+            assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=meteor]")===null'),true);
+        }
+        const shot=await client.send('Page.captureScreenshot',{format:'png'});const screenshot=path.join(os.tmpdir(),'genshin-vody-three-'+process.pid+'-375.png');fs.writeFileSync(screenshot,Buffer.from(shot.data,'base64'));progress('SCREENSHOT '+screenshot);
+        await client.send('Emulation.clearDeviceMetricsOverride');
+        await action('support','hydroCryo');
         const lead=await selectedBurst();await action('recipient','offField');const chorus=await selectedBurst();assert.equal(chorus.base,lead.base);
         await closeDialogs();await evaluate(client,'window.GenshinCurrentCalcState.persist()');await client.send('Page.reload');await waitFor(client,'Boolean(window.GenshinPartyState&&window.GenshinCalcRenderer)');await delay(500);
         const restored=await selectedBurst();assert.equal(restored.base,chorus.base);assert.equal(restored.damage,chorus.damage);

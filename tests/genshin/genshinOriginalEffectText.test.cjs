@@ -101,12 +101,12 @@ test('provider descriptions expand rank templates without leaking raw tokens; ac
  r.party={conditionStates:{['party:2:10000140:actions:skill']:{option:'active'},['party:2:10000140:actions:heals']:{option:'1'},['party:2:10000140:actions:skillHit']:{option:'yes'}},members:[{slot:2,enabled:true,characterId:'10000140',constellation:6,talentLevels:{normal:10,skill:10,burst:10},stats:{hp:50500,baseHp:15000,atk:2000,baseAtk:900},buffStates:{},equipment:{weaponId:'14524',refinement:5,artifactSetIds:[]}}]};
  const {html,state}=panel(f,r),visible=html.replace(/<[^>]*>/g,'');
  assert.deepEqual(visible.match(/.{0,50}(?:\{[a-zA-Z]\w*\}|provisional71|weaponModifiers\.|Lead Vocal|Chorus).{0,70}/g)||[],[]);
- assert.match(visible,/元素スキルと現在の状況|1回目の回復後/);
- assert.match(html,/data-genshin-vody-action="phase"/);
+ assert.match(visible,/支援状態|水・氷支援/);
+ assert.match(html,/data-genshin-vody-action="support"/);
  const primary=html.split('<div class="genshin-provider-actions">')[1].split('<details')[0];
- assert.equal((primary.match(/data-genshin-vody-action=/g)||[]).length,5);
+ assert.equal((primary.match(/data-genshin-vody-action=/g)||[]).length,2);
  assert.doesNotMatch(primary,/data-genshin-vody-action="(?:skill|heals|skillHit|hornHit)"/);
- assert.match(primary,/data-genshin-vody-action="qualifyingHeals"/);
+ assert.doesNotMatch(primary,/data-genshin-vody-action="qualifyingHeals"/);
  assert.match(html,/<details[^>]*data-vody-advanced="2"[^>]*><summary>詳細設定/);
  assert.match(visible,/計算対象の現在位置|流星の嵐と支援の状態|C1：有効／C4：0層/);
  assert.doesNotMatch(html,/data-genshin-party-condition-key="[^"]*:group:(vodyanitsa_|provisional71_w14524)/);
@@ -186,12 +186,15 @@ test('provider aggregation uses additive buckets, accepted stats and multiplier 
   const {html,effects,evaluation,attack}=resolve(), rows=renderer.providerImpactRows(effects,evaluation);
   const base=rows.filter(row=>row.label==='水・氷元素攻撃の基礎ダメージ加算');assert.equal(base.length,1);assert.equal(base[0].value,1470);assert.equal(base[0].value,attack.breakdown.additiveBaseDamage);
   assert.equal(rows.find(row=>row.label==='敵の水元素耐性').value,30);assert.equal(rows.find(row=>row.label==='敵の氷元素耐性').value,30);
+  const res=attack.breakdown.appliedModifiers.filter(item=>item.modifier.category==='resistanceDebuff');
+  assert.equal(res.length,1,'both hit triggers share one RES modifier');assert.equal(Math.abs(Number(res[0].value)),30);
+  assert.equal(rows.filter(row=>row.label==='敵の水元素耐性').length,1);assert.equal(rows.filter(row=>row.label==='敵の氷元素耐性').length,1);
   const physical=evaluation.payload.results.find(r=>r.entry.element==='physical');
   const physicalRows=renderer.providerImpactRows(effects,renderer.createImpactEvaluation(request,f.calcData,physical.attackKey));
   assert.equal(JSON.stringify(physicalRows),JSON.stringify(rows),'provider amounts do not depend on the selected attack');
   assert.ok(!rows.some(row=>row.reason==='今回の攻撃には非適用'));
   assert.equal(rows.find(row=>row.label==='攻撃力'&&row.unit==='flat').value,404);
-  assert.equal(rows.find(row=>row.label==='星拡散基礎ダメージ加算').value,0);
+  assert.ok(!rows.some(row=>row.label==='星拡散基礎ダメージ加算'));
   assert.doesNotMatch(rows.map(renderer.impactRowText).join(' / '),/(?:通常攻撃|重撃|落下攻撃) \+0/);
   assert.ok(html.indexOf('現在の状態')<html.indexOf('genshin-provider-impact'));assert.ok(html.indexOf('genshin-provider-impact')<html.indexOf('genshin-party-effect-list'));
   const replay=engine.calculateDamageRequest(JSON.parse(JSON.stringify(evaluation.payload.calculationRequest)),f.calcData);assert.deepEqual(replay.results.map(r=>r.expected),evaluation.payload.results.map(r=>r.expected));
@@ -202,8 +205,7 @@ test('provider aggregation uses additive buckets, accepted stats and multiplier 
  assert.equal(meteorRows.find(row=>row.label==='星拡散基礎ダメージ加算').value,2730);
  request.party.conditionStates['party:2:10000140:actions:skill']={option:'inactive'};
  const off=resolve(), rows=renderer.providerImpactRows(off.effects,off.evaluation);
- assert.equal(rows.filter(row=>/基礎ダメージ加算/.test(row.label)).length,2);
- assert.ok(rows.filter(row=>/基礎ダメージ加算/.test(row.label)).every(row=>row.value===0&&row.reason==='条件未成立'));
+ assert.equal(rows.length,0);
  // Two accepted independent factors share one bucket; Runtime multiplies them.
  const source='party:2:10000140:test:factor';
  const factors=[120,125].map((value,index)=>({modifier:{id:'factor'+index,category:'effectOverride',applyTo:['burst'],unit:'percent',value,multiplierTarget:'finalDamage'},source,value,analysis:{calculation:'effectOverride',supportStatus:'supported'}}));
@@ -223,20 +225,17 @@ test('user-confirmed Melody and Chorus mechanics remain separate from saved game
  request.party={conditionStates:{},members:[{slot:2,enabled:true,level:90,characterId:'10000140',constellation:0,talentLevels:{normal:10,skill:10,burst:10},stats:{hp:50500,baseHp:15000,atk:2000,baseAtk:900},equipment:{weaponId:'',artifactSetIds:[]},buffStates:{}}]};
  const html=panel(f,request).html;
  assert.doesNotMatch(html,/確認済みの効果内容|href="https:\/\/gamewith/);
- for (const name of ['悠久の歌','流星の嵐','メロディ','コーラス']) assert.ok(html.includes('関連効果</span> ' + name));
+ for (const name of ['メロディ','コーラス']) assert.ok(html.includes('関連効果</span> ' + name));
  assert.doesNotMatch(html,/関連効果<\/span> (?:古の)?春を呼ぶ角笛/);
  assert.match(html,/固有天賦1|固有天賦2|元素スキル/);
  assert.ok(record.confirmedMechanics.sections.length,'private evidence is retained');
 });
 
 
-test('related effect resolver uses exact parent excerpts and keeps missing linked details distinct',async()=>{
+test('related effect resolver exposes only standalone full originals and active provider values',async()=>{
  const f=await fixture('10000025','');
- const raw=f.calcData.originalEffectTexts.characters['10000140'].talents;
  const skill=f.sandbox.GenshinIdResolver.describeEffect({data:f.calcData,kind:'talent',id:'10000140',sourceId:'combat2'});
- for(const effect of skill.relatedEffects.filter(effect=>effect.classification==='B')) {assert.equal(effect.descriptionKind,'originalExcerpt');assert.ok(raw.combat2.originalText.includes(effect.originalText));}
- const horn=skill.relatedEffects.find(effect=>effect.nameJa==='古の春を呼ぶ角笛');assert.equal(horn.classification,'C');assert.equal(horn.originalText,'');
- assert.match(skill.relatedEffects[0].originalText,/中断耐性|HPを回復/);
+ assert.equal(skill.relatedEffects.length,0);
  const a4=f.sandbox.GenshinIdResolver.describeEffect({data:f.calcData,kind:'talent',id:'10000140',sourceId:'passive2'});
  const sourcePath='games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/';
  const linked=JSON.parse(fs.readFileSync(path.join(root,sourcePath+'japanese-linked-tooltips-go.json'),'utf8'));
@@ -254,12 +253,12 @@ test('related effect resolver uses exact parent excerpts and keeps missing linke
  const request=f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
  const actions={skill:'active',heals:'1',skillHit:'yes',hornHit:'yes',meteor:'late',recipient:'active'};
  request.party={conditionStates:Object.fromEntries(Object.entries(actions).map(([key,option])=>['party:2:10000140:actions:'+key,{option}])),members:[{slot:2,enabled:true,characterId:'10000140',constellation:1,talentLevels:{normal:10,skill:10,burst:10},stats:{hp:50500,baseHp:15000,atk:2000,baseAtk:900},equipment:{weaponId:'',refinement:1,artifactSetIds:[]},buffStates:{}}]};
- const support=()=>panel(f,request).html.split('<section class="genshin-current-support">')[1].split('</section>')[0].replace(/<[^>]*>/g,'');
- assert.match(support(),/水・氷基礎ダメージ加算有効/);assert.match(support(),/星拡散基礎ダメージ加算無効/);assert.match(support(),/敵の風元素耐性-35%有効/);
- request.party.conditionStates['party:2:10000140:actions:meteor']={option:'present'};
- assert.match(support(),/水・氷基礎ダメージ加算無効/);assert.match(support(),/星拡散基礎ダメージ加算有効/);assert.match(support(),/敵の風元素耐性-35%無効/);
- const html=panel(f,request).html;assert.match(html,/算出過程/);assert.match(html,/50,500 × 0.008 → 攻撃力 \+404/);
- const skillCard=html.split('関連効果</span> 悠久の歌')[0].split('<article').at(-1);assert.doesNotMatch(skillCard,/genshin-value-facts/);
+ const html=panel(f,request).html;
+ assert.doesNotMatch(html,/現在の支援効果|原文抜粋|data-genshin-vody-action="meteor"|関連効果<\/span> (?:悠久の歌|流星の嵐|古の春を呼ぶ角笛)/);
+ assert.match(html,/data-genshin-vody-action="support"/);
+ assert.match(html,/50,500 × 0.008 → 攻撃力 \+404/);
+ assert.doesNotMatch(html,/参照ステータス：HP上限/);
+
 });
 
 

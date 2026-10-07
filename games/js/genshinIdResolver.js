@@ -177,19 +177,14 @@
         };
     }
 
-    // Parent excerpts are source-backed ranges, never generated descriptions.
-    function resolveRelatedEffectTexts(effects, parentText) {
-        return (effects || []).map(effect => {
-            let text = effect.originalText || '';
-            const range = effect.originalFromParent;
-            if (range && parentText) {
-                const start = parentText.indexOf(range.start);
-                const end = range.end ? parentText.indexOf(range.end,start) : parentText.length;
-                if (start >= 0 && end >= start) text = parentText.slice(start,end + (range.end ? range.end.length : 0));
-            }
-            return {...effect,originalText:cleanOriginalText(text),descriptionKind:text ? (range ? 'originalExcerpt' : effect.descriptionKind || 'original') : 'missing',
-                relatedEffects:resolveRelatedEffectTexts(effect.relatedEffects,text)};
-        });
+    // Only independently saved full originals become related-effect cards.
+    function resolveRelatedEffectTexts(effects) {
+        return (effects || []).filter(effect => effect.originalText && !effect.originalFromParent
+            && !effect.isExcerpt && !['B','C'].includes(effect.classification)
+            && effect.descriptionKind === 'original').map(effect => ({
+                ...effect, originalText: cleanOriginalText(effect.originalText), descriptionKind: 'original',
+                relatedEffects: resolveRelatedEffectTexts(effect.relatedEffects)
+            }));
     }
 
     function substituteEffectParams(template, params) {

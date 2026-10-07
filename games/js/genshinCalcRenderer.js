@@ -1172,8 +1172,8 @@
     }
 
     function renderSectionDetail(description, descriptionKind, impacts, facts = null) {
-        const original = ['original','originalExcerpt'].includes(descriptionKind) && description;
-        return '<div class="genshin-effect-original"><h6>効果説明' + (descriptionKind === 'originalExcerpt' ? '（原文抜粋）' : '') + '</h6>'
+        const original = descriptionKind === 'original' && description;
+        return '<div class="genshin-effect-original"><h6>効果説明</h6>'
             + (original ? '<p class="genshin-original-text">' + escapeHtml(description) + '</p>' : '<p class="genshin-condition-note">原文未取得</p>')
             + '</div>' + (impacts ? '<div class="genshin-effect-values"><h6>計算への反映</h6><ul>' + impacts + '</ul></div>' : '')
             + (facts && typeof facts === 'object' ? '<details class="genshin-condition-detail genshin-value-facts"><summary>詳細</summary><dl>' + Object.entries(facts).map(([label,value]) => '<div><dt>' + escapeHtml(label) + '</dt><dd>' + escapeHtml(value) + '</dd></div>').join('') + '</dl></details>' : '');
@@ -1309,38 +1309,30 @@
         const api = window.GenshinPartyModifiers;
         const state = api.vodyProviderActions(context, member);
         const used = state.skill === 'active';
-        const phase = used ? state.heals : 'unused';
-        const renderInput = (field, label, options, value, help = '') =>
-            `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(label)}</strong>${help ? `<small>${escapeHtml(help)}</small>` : ''}</span><select data-genshin-vody-action="${field}" data-genshin-provider-slot="${member.slot}">${options.map(([key, text]) => `<option value="${key}"${value === key ? ' selected' : ''}>${escapeEffectLabel(text)}</option>`).join('')}</select></label>`;
-        const phaseOptions = [['unused','未使用'],['0','発動直後'],['1','1回目の回復後'],['2','2回目の回復後'],['3','3回目以降']];
-        const mainInputs = [renderInput('phase', '元素スキル使用後の状態', phaseOptions, phase)];
+        const support = !used ? 'unused' : ['generated','present','recent'].includes(state.meteor) ? 'stellar' : 'hydroCryo';
+        const renderInput = (field, label, options, value) =>
+            `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(label)}</strong></span><select data-genshin-vody-action="${field}" data-genshin-provider-slot="${member.slot}">${options.map(([key, text]) => `<option value="${key}"${value === key ? ' selected' : ''}>${escapeEffectLabel(text)}</option>`).join('')}</select></label>`;
+        const mainInputs = [renderInput('support', '支援状態', [['unused','未使用'],['hydroCryo','水・氷支援'],['stellar','星拡散支援']], support)];
         const advanced = [];
         if (used) {
-            if (String(member.equipment?.weaponId) === '14524' && Number(state.heals) > 0) {
-                const spec = api.VODY_ACTION_FIELDS.freezeSwirl;
-                mainInputs.push(renderInput('freezeSwirl', spec.label, spec.options, state.freezeSwirl));
-            }
-            mainInputs.push(renderInput('recipient', '計算対象の現在位置', api.VODY_ACTION_FIELDS.recipient.options, state.recipient, 'フィールド上／待機中で受ける支援効果が変わります。'));
-            const activeTalent = sourceId => effects.filter(effect => effect.sourceKind === 'talent' && effect.sourceId === sourceId && effect.enabled && effect.status === 'ready');
-            const a4 = activeTalent('passive2');
-            const support = [
-                ['水・氷基礎ダメージ加算', a4.some(effect => !effect.modifier.reactionTargetsOnly)],
-                ['星拡散基礎ダメージ加算', a4.some(effect => effect.modifier.reactionTargetsOnly)],
-                ['敵の風元素耐性-35%', activeTalent('passive1').some(effect => effect.modifier.category === 'resistanceDebuff')]
-            ];
-            mainInputs.push(renderInput('meteor', api.VODY_ACTION_FIELDS.meteor.label, api.VODY_ACTION_FIELDS.meteor.options, state.meteor, '生成／起爆後の風耐性低下は6秒間。起爆後5～6秒は水・氷加算に戻り、風耐性低下だけが残ります。')
-                + '<section class="genshin-current-support"><h6>現在の支援効果</h6><ul>' + support.map(([label,active]) => '<li><span>' + escapeHtml(label) + '</span><strong>' + (active ? '有効' : '無効') + '</strong></li>').join('') + '</ul></section>');
+            mainInputs.push(renderInput('recipient', '計算対象の現在位置', api.VODY_ACTION_FIELDS.recipient.options, state.recipient));
             advanced.push(renderInput('skillHit', 'スキル初撃が敵に命中した', api.VODY_ACTION_FIELDS.skillHit.options, state.skillHit));
             advanced.push(renderInput('hornHit', '角笛が敵に命中した', api.VODY_ACTION_FIELDS.hornHit.options, state.hornHit));
+            if (String(member.equipment?.weaponId) === '14524' || Number(member.constellation) >= 1) {
+                advanced.push(renderInput('heals', '現在有効な回復回数', [['0','0回'],['1','1回'],['2','2回'],['3','3回以上']], state.heals));
+            }
+            if (String(member.equipment?.weaponId) === '14524' && Number(state.heals) > 0) {
+                advanced.push(renderInput('freezeSwirl', '凍結／星拡散後の武器効果', api.VODY_ACTION_FIELDS.freezeSwirl.options, state.freezeSwirl));
+            }
             if (Number(member.constellation) >= 4 && Number(state.heals) > 0) {
                 const options = api.VODY_ACTION_FIELDS.qualifyingHeals.options.filter(([key]) => Number(key) <= Number(state.heals));
-                mainInputs.push(renderInput('qualifyingHeals', 'HP40%以上のキャラを回復した回数', options, state.qualifyingHeals, 'C4のHP増加は各回復時のHP条件によります。回復回数だけでは確定しないため、初期値は0回です。'));
+                advanced.push(renderInput('qualifyingHeals', 'HP40%以上のキャラを回復した回数', options, state.qualifyingHeals));
             }
         }
         const advancedOpen = getElement('genshinJsonConditionCards')?.querySelector?.(`[data-vody-advanced="${member.slot}"]`)?.open;
         const advancedSection = advanced.length ? `<details class="genshin-condition-detail" data-vody-advanced="${member.slot}"${advancedOpen ? ' open' : ''}><summary>詳細設定${[state.skillHit, state.hornHit].filter(value => value !== "yes").length ? `　${[state.skillHit, state.hornHit].filter(value => value !== "yes").length}項目変更中` : ""}</summary><p>敵に対して使用する通常の状況では命中を「はい」にします。外した場合などに変更してください。</p>${advanced.join('')}</details>` : '';
         return '<div class="genshin-provider-actions">' + mainInputs.join('')
-            + '<p class="genshin-condition-note">現在も効果が有効な状態を選択してください。時間経過は自動計算しません。</p>' + advancedSection + '</div>';
+            + advancedSection + '</div>';
     }
     function isVodyDerivedCandidate(candidate) {
         return String(candidate.member?.characterId)==='10000140' && (String(candidate.modifier?.conditionGroupId||'').startsWith('vodyanitsa_') || candidate.modifier?.conditionGroupId==='provisional71_w14524_mead_state');
@@ -1438,7 +1430,7 @@
     }
 
     function providerImpactRows(effects, evaluation) {
-        if (!evaluation) return [{label:'補正',value:null,reason:'現在値を算出できません',state:'unavailable'}];
+        if (!evaluation) return [];
         const groups = new Map(), engine = window.GenshinCalcEngine;
         effects.filter(effect=>!['duplicate','selfOnly'].includes(effect.status)).forEach(effect => {
             providerBucketDefinitions(effect).forEach(definition => {
@@ -1500,7 +1492,8 @@
         effects.filter(effect=>!providerBucketDefinitions(effect).length && !['duplicate','selfOnly'].includes(effect.status)).forEach(effect=> {
             (effect.runtimeRows || []).forEach(row=> {if (row.value === null) rows.push(row);});
         });
-        return rows;
+        return rows.filter(row => row.state === "active" && Number.isFinite(row.value)
+            && row.value !== 0 && !(row.unit === "multiplier" && row.value === 1));
     }
 
     function renderProviderImpact(effects, context, evaluation) {
@@ -1526,7 +1519,7 @@
     }
 
     function renderRelatedEffects(effects) {
-        return (effects || []).filter(effect => effect.classification !== 'C').map(effect => '<section class="genshin-related-effect"><h6><span class="genshin-effect-type">関連効果</span> ' + escapeHtml(effect.nameJa) + '</h6>'
+        return (effects || []).filter(effect => effect.originalText && effect.descriptionKind === 'original' && !effect.originalFromParent && !['B','C'].includes(effect.classification)).map(effect => '<section class="genshin-related-effect"><h6><span class="genshin-effect-type">関連効果</span> ' + escapeHtml(effect.nameJa) + '</h6>'
             + (effect.originalText ? renderSectionDetail(effect.originalText,effect.descriptionKind || 'missing','') : '<p class="genshin-condition-note">原文未取得</p>') + renderRelatedEffects(effect.relatedEffects) + '</section>').join('');
     }
 
@@ -1857,7 +1850,15 @@
                     if (member) {
                         const api = window.GenshinPartyModifiers, state = api.vodyProviderActions(request,member);
                         const field = event.target.dataset.genshinVodyAction;
-                        if (field === 'phase') {
+                        if (field === 'support') {
+                            const used = event.target.value !== 'unused';
+                            if (used && state.skill !== 'active') {
+                                state.skillHit = 'yes'; state.hornHit = 'yes';
+                            }
+                            state.skill = used ? 'active' : 'inactive';
+                            state.meteor = event.target.value === 'stellar' ? 'generated' : 'none';
+                            if (!used) { state.heals = '0'; state.qualifyingHeals = '0'; }
+                        } else if (field === 'phase') {
                             const used = event.target.value !== 'unused';
                             // Normal combat defaults apply on entering the used state; retain later exceptions.
                             if (used && state.skill !== 'active') {
@@ -1870,6 +1871,7 @@
                         } else {
                             state[field] = event.target.value;
                         }
+                        state.qualifyingHeals = String(Math.min(Number(state.qualifyingHeals), Number(state.heals)));
                         for (const [field,value] of Object.entries(state)) window.GenshinPartyState.setPartyConditionState(api.vodyActionKey(member,field),'option',value);
                     }
                     handleConditionValueChange(); return;
