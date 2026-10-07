@@ -3244,3 +3244,41 @@ html[data-theme="dark"] .genshin-tool-page {
 .genshin-currentcalc-storage { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .genshin-currentcalc-storage > p { flex-basis: 100%; margin: 0; font-size: .85rem; }
 .genshin-currentcalc-storage > p:empty { display: none; }
+
+/* One provider at a time; original text and resolved numbers remain separate. */
+.genshin-party-layout { display:grid; grid-template-columns:160px minmax(0,1fr); gap:16px; align-items:start; }
+.genshin-party-member-list { display:grid; gap:6px; position:sticky; top:0; }
+.genshin-party-member-tab { display:grid; gap:4px; min-width:0; padding:10px; text-align:left; color:var(--teti-text); background:var(--teti-surface-soft); border:1px solid var(--teti-border); border-radius:8px; font:inherit; cursor:pointer; overflow-wrap:anywhere; }
+.genshin-party-member-tab[aria-selected="true"] { border-color:var(--teti-interactive); background:color-mix(in srgb,var(--teti-interactive) 8%,var(--teti-surface)); }
+.genshin-party-member-tab span,.genshin-party-member-tab small { font-size:.75rem; color:var(--teti-muted); }
+.genshin-party-member-content,.genshin-party-member-content > section { min-width:0; }
+.genshin-party-member-content [data-party-member-panel][hidden] { display:none; }
+.genshin-party-current-state { padding:12px 0; border-bottom:1px solid var(--teti-border); }
+.genshin-party-current-state h5,.genshin-party-effect-list > h5 { margin:8px 0 12px; }
+.genshin-party-source-group > h6 { margin:16px 0 8px; font-size:.8rem; color:var(--teti-muted); }
+.genshin-tool-page .genshin-party-effect { margin:10px 0; padding:12px; border:1px solid var(--teti-border); border-radius:8px; background:var(--teti-surface); }
+.genshin-party-target { margin:6px 0; font-size:.75rem; color:var(--teti-muted); }
+.genshin-effect-original,.genshin-effect-values { margin-top:12px; }
+.genshin-effect-original h6,.genshin-effect-values h6 { margin:0 0 6px; font-size:.78rem; }
+.genshin-original-text { margin:0; max-height:14rem; overflow:auto; white-space:pre-wrap; overflow-wrap:anywhere; line-height:1.6; font-size:.8125rem; scrollbar-width:thin; }
+.genshin-effect-values ul { list-style:none; margin:0; padding:0; }
+.genshin-runtime-impact { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,auto); gap:4px 12px; padding:7px 0; border-bottom:1px solid var(--teti-border); font-size:.8125rem; overflow-wrap:anywhere; }
+.genshin-runtime-impact strong { text-align:right; font-variant-numeric:tabular-nums; }
+.genshin-runtime-impact small { grid-column:1 / -1; color:var(--teti-muted); text-align:right; }
+.genshin-value-facts { margin-top:8px; font-size:.75rem; }
+.genshin-value-facts dl { margin:6px 0; }
+.genshin-value-facts dl > div { display:flex; flex-wrap:wrap; justify-content:space-between; gap:6px; }
+.genshin-value-facts dd { margin:0; font-variant-numeric:tabular-nums; }
+.genshin-party-resonance { margin-top:18px; border-top:1px solid var(--teti-border); }
+@media (max-width:680px) {
+  .genshin-party-layout { grid-template-columns:minmax(0,1fr); }
+  .genshin-party-member-list { position:static; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); }
+  .genshin-runtime-impact { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+}
+
+@media (min-width:681px) {
+  .genshin-tool-page .genshin-party-current-state .genshin-condition-control { display:grid; grid-template-columns:minmax(0,1fr) 170px; align-items:center; gap:12px; margin:9px 0; }
+  .genshin-party-current-state .genshin-condition-control-copy strong { font-size:.8125rem; }
+  .genshin-party-current-state .genshin-condition-control-copy small { font-size:.72rem; line-height:1.4; }
+  .genshin-party-current-state .genshin-condition-control select { width:100%; min-width:0; font-size:.8125rem; }
+}

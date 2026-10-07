@@ -18,6 +18,7 @@
     ];
     let activeConditionTab = "reaction";
     let conditionTabChosen = false;
+    let selectedPartyMember = "";
     let calculationDirty = false;
 
     function getElement(id) {
@@ -1045,8 +1046,10 @@
     function modifierImpactRows(effect, evaluation) {
         const modifier = effect.modifier || {};
         const source = effect.source || '';
-        const identity = item => item.modifier?.id === modifier.id && item.source === source;
-        const key = source + ':' + modifier.id;
+        const targetSignature = value => JSON.stringify([value.applyTo || [], value.targetEffect || [], value.targetGroups || []]);
+        const signature = targetSignature(modifier);
+        const identity = item => item.modifier?.id === modifier.id && item.source === source && targetSignature(item.modifier) === signature;
+        const key = source + ':' + modifier.id + ':' + signature;
         if (evaluation?.cache.has(key)) return evaluation.cache.get(key);
         const targets = modifier.applyTo?.length ? modifier.applyTo : [''];
         const category = modifier.category;
@@ -1061,7 +1064,8 @@
             return label;
         };
         const active = evaluation?.collected.applied.find(identity);
-        const candidate = evaluation?.collected.candidates.find(identity);
+        const partyCandidate = evaluation?.collected.partyCandidates?.find(identity);
+        const candidate = evaluation?.collected.candidates.find(identity) || (partyCandidate && { ...partyCandidate, reason: partyCandidate.status === 'off' ? '条件OFF' : partyCandidate.reason });
         const analysis = active?.analysis || candidate?.analysis || effect.analysis;
         const trace = evaluation?.trace.find(item => item.modifierId === modifier.id && item.source === source);
         let unavailable = '';
@@ -1096,7 +1100,7 @@
                 if (result.totals.pendingReasons.length) {
                     row.reason = '現在値を算出できません（仕様確認が必要）'; row.state = 'unavailable'; rows.push(row); continue;
                 }
-                if (!result.applied.some(identity)) {
+                if (!result.applied.some(item => item.modifier?.id === modifier.id && item.source === source)) {
                     row.value = multiplier ? 1 : 0; row.reason = '今回の攻撃には非適用'; row.state = 'notApplicable'; rows.push(row); continue;
                 }
                 const totals = result.totals, baseline = evaluation.baseline;
@@ -1136,29 +1140,16 @@
         return row.label + ' ' + (row.unit === 'multiplier' ? '×' + value : sign + value + (row.unit === 'percent' ? '%' : '')) + (row.reason ? '　' + row.reason : '');
     }
     function renderRuntimeImpact(effect) {
-        return (effect.runtimeRows || [{ label:effect.displayTarget || '補正', value:null, reason:'現在値を算出できません' }])
-            .map(row => `<li class="genshin-runtime-impact" data-impact-state="${escapeHtml(row.state || 'unavailable')}">${escapeEffectLabel(impactRowText(row))}</li>`).join('');
+        return (effect.runtimeRows || [{label:effect.displayTarget || '補正',value:null,reason:'現在値を算出できません'}]).map(row => {
+            const value = row.value === null ? row.reason : impactRowText({...row,reason:''}).slice(row.label.length).trim();
+            return '<li class="genshin-runtime-impact" data-impact-state="' + escapeHtml(row.state || 'unavailable') + '"><span>' + escapeEffectLabel(row.label) + '</span> <strong>' + escapeHtml(value) + '</strong>' + (row.value !== null && row.reason ? '<small>　' + escapeHtml(row.reason) + '</small>' : '') + '</li>';
+        }).join('');
     }
 
     function renderConditionEffect(effect) {
         const status = CONDITION_STATUS[effect.status] || CONDITION_STATUS.auto;
-        const detail = effect.description
-            ? `<details class="genshin-condition-detail"><summary>${["original","originalExcerpt"].includes(effect.descriptionKind) ? "効果説明" : "計算根拠"}</summary>${renderDescriptionBlock(effect.description, effect.descriptionKind)}</details>`
-            : "";
-        return `<article class="genshin-condition-effect">
-            <div class="genshin-condition-effect-head">
-                <h5>${escapeEffectLabel(effect.name)}</h5>
-                <span class="genshin-condition-status ${status.className}">${status.label}</span>
-            </div>
-            <dl class="genshin-condition-facts">
-                <div><dt>発動条件</dt><dd>${escapeEffectLabel(effect.activationCondition || "常時")}</dd></div>
-
-            </dl>
-            <p class="genshin-condition-impact">計算への反映：<strong>${escapeEffectLabel((effect.runtimeRows || []).map(impactRowText).join("／") || "現在値を算出できません")}</strong></p>
-            ${effect.statusReason && effect.status === "missing" ? `<p class="genshin-condition-missing">${escapeHtml(effect.statusReason)}</p>` : ""}
-            ${effect.controls.map(renderCardControl).join("")}
-            ${detail}
-        </article>`;
+        return '<article class="genshin-condition-effect"><div class="genshin-condition-effect-head"><h5>' + escapeEffectLabel(effect.name) + '</h5><span class="genshin-condition-status ' + status.className + '">' + status.label + '</span></div>'
+            + effect.controls.map(renderCardControl).join('') + renderSectionDetail(effect.description,effect.descriptionKind,renderRuntimeImpact(effect)) + '</article>';
     }
 
     function renderSectionFacts(section) {
@@ -1178,12 +1169,12 @@
         return `<div class="genshin-constellation-controls"><h6>${escapeHtml(heading)}</h6>${controls.map(renderCardControl).join("")}</div>`;
     }
 
-    function renderSectionDetail(description, descriptionKind, impacts, basis = '') {
-        const isOriginal = ['original','originalExcerpt'].includes(descriptionKind);
-        const original = isOriginal && description ? `<details class="genshin-condition-detail"><summary>効果説明</summary>${renderDescriptionBlock(description, descriptionKind)}</details>` : '';
-        const explanation = !isOriginal ? description : '';
-        const reasoning = explanation || basis ? `<details class="genshin-condition-detail"><summary>計算根拠</summary>${explanation ? renderDescriptionBlock(explanation, 'summary') : ''}${basis ? `<p>${escapeEffectLabel(basis)}</p>` : ''}</details>` : '';
-        return original + (impacts ? `<div class="genshin-condition-detail-block genshin-constellation-impacts"><h6>計算への反映</h6><ul>${impacts}</ul></div>` : '') + reasoning;
+    function renderSectionDetail(description, descriptionKind, impacts, facts = null) {
+        const original = ['original','originalExcerpt'].includes(descriptionKind) && description;
+        return '<div class="genshin-effect-original"><h6>効果説明' + (descriptionKind === 'originalExcerpt' ? '（原文抜粋）' : '') + '</h6>'
+            + (original ? '<p class="genshin-original-text">' + escapeHtml(description) + '</p>' : '<p class="genshin-condition-note">原文未取得</p>')
+            + '</div>' + (impacts ? '<div class="genshin-effect-values"><h6>計算への反映</h6><ul>' + impacts + '</ul></div>' : '')
+            + (facts && typeof facts === 'object' ? '<details class="genshin-condition-detail genshin-value-facts"><summary>詳細</summary><dl>' + Object.entries(facts).map(([label,value]) => '<div><dt>' + escapeHtml(label) + '</dt><dd>' + escapeHtml(value) + '</dd></div>').join('') + '</dl></details>' : '');
     }
 
     function renderConstellationImpact(effect) { return renderRuntimeImpact(effect); }
@@ -1191,7 +1182,7 @@
     function renderConstellationSection(section) {
         const status = CONDITION_STATUS[section.status] || CONDITION_STATUS.auto;
         const controls = renderSectionControls(section, "条件入力");
-        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderConstellationImpact).join(""), section.effects.map(effect => effect.effectSummary).filter(Boolean).join("／"));
+        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderConstellationImpact).join(""));
         return `<article class="genshin-constellation-section" data-constellation-level="C${escapeHtml(section.level)}">
             <header class="genshin-constellation-head">
                 <div><strong>C${escapeHtml(section.level)}</strong><h5>${escapeHtml(section.nameJa)}</h5></div>
@@ -1206,7 +1197,7 @@
     function renderTalentSection(section) {
         const status = CONDITION_STATUS[section.status] || CONDITION_STATUS.auto;
         const controls = renderSectionControls(section, "状態・条件");
-        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderConstellationImpact).join(""), section.effects.map(effect => effect.effectSummary).filter(Boolean).join("／"));
+        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderConstellationImpact).join(""));
         return `<article class="genshin-constellation-section genshin-talent-section" data-talent-source="${escapeHtml(section.key)}">
             <header class="genshin-constellation-head">
                 <div><strong>${escapeHtml(section.typeLabel)}</strong><h5>${escapeHtml(section.nameJa)}</h5></div>
@@ -1223,7 +1214,7 @@
     function renderArtifactSection(section) {
         const status = CONDITION_STATUS[section.status] || CONDITION_STATUS.auto;
         const controls = renderSectionControls(section, "条件・段階");
-        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderArtifactImpact).join(""), section.effects.map(effect => effect.effectSummary).filter(Boolean).join("／"));
+        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderArtifactImpact).join(""));
         return `<article class="genshin-constellation-section genshin-artifact-section" data-artifact-set="${escapeHtml(section.setId)}" data-artifact-piece="${escapeHtml(section.pieceCount)}">
             <header class="genshin-constellation-head">
                 <div><strong>${escapeHtml(section.pieceCount)}セット効果</strong><h5>${escapeHtml(section.nameJa)}</h5></div>
@@ -1240,7 +1231,7 @@
     function renderWeaponSection(section) {
         const status = CONDITION_STATUS[section.status] || CONDITION_STATUS.auto;
         const controls = renderSectionControls(section, "発動状態");
-        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderWeaponImpact).join(""), `現在の精錬ランク R${section.refinement || 1} を使用。` + section.effects.map(effect => effect.effectSummary).filter(Boolean).join("／"));
+        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderWeaponImpact).join(""), {'精錬ランク':'R' + (section.refinement || 1)});
         return `<article class="genshin-constellation-section genshin-weapon-section" data-weapon-effect-group="${escapeHtml(section.id)}">
             <header class="genshin-constellation-head">
                 <div><strong>武器効果</strong><h5>${escapeHtml(section.name)}</h5></div>
@@ -1336,18 +1327,10 @@
                 mainInputs.push(renderInput('qualifyingHeals', 'HP40%以上のキャラを回復した回数', options, state.qualifyingHeals, 'C4のHP増加は各回復時のHP条件によります。回復回数だけでは確定しないため、初期値は0回です。'));
             }
         }
-        const prefix = `party:${member.slot}:10000140:group:`;
-        const groups = context.party?.conditionStates || {};
-        const hp = effects.find(item => item.modifier?.reference?.includeProviderConditionalStats)?.providerContext?.stats?.hp ?? member.stats?.hp;
-        const mead = groups[prefix + 'provisional71_w14524_mead_state']?.option || 'inactive';
-        const stack = ({ one:1, two:2, three:3, boostedOne:1, boostedTwo:2, boostedThree:3 })[mead] || 0;
-        const c1 = groups[prefix + 'vodyanitsa_c1_heal']?.option === 'active' && Number(member.constellation) >= 1;
-        const c4 = Number(member.constellation) >= 4 ? Number(groups[prefix + 'vodyanitsa_c4_state']?.stack) || 0 : 0;
-        const hpDetail = `<details class="genshin-condition-detail"><summary>計算への反映（現在の状態）</summary><p>ヴォジャニーツァHP上限：${formatNumber(member.stats?.hp)} → ${formatNumber(hp)}${String(member.equipment?.weaponId) === '14524' ? `／真実を告げる蜜酒：${stack}層` : ''}</p><p>C1：${c1 ? '有効' : '未適用'}／C4：${c4}層</p></details><details class="genshin-condition-detail"><summary>計算根拠</summary><p>HP上限を更新した後に、C1・十二弦の涙唄・武器の攻撃力補正を計算します。</p></details>`;
         const advancedOpen = getElement('genshinJsonConditionCards')?.querySelector?.(`[data-vody-advanced="${member.slot}"]`)?.open;
         const advancedSection = advanced.length ? `<details class="genshin-condition-detail" data-vody-advanced="${member.slot}"${advancedOpen ? ' open' : ''}><summary>詳細設定${[state.skillHit, state.hornHit].filter(value => value !== "yes").length ? `　${[state.skillHit, state.hornHit].filter(value => value !== "yes").length}項目変更中` : ""}</summary><p>敵に対して使用する通常の状況では命中を「はい」にします。外した場合などに変更してください。</p>${advanced.join('')}</details>` : '';
-        return '<div class="genshin-provider-actions"><h5>元素スキルと現在の状況</h5>' + mainInputs.join('')
-            + '<p class="genshin-condition-note">現在も効果が有効な状態を選択してください。時間経過は自動計算しません。</p>' + advancedSection + hpDetail + '</div>';
+        return '<div class="genshin-provider-actions">' + mainInputs.join('')
+            + '<p class="genshin-condition-note">現在も効果が有効な状態を選択してください。時間経過は自動計算しません。</p>' + advancedSection + '</div>';
     }
     function isVodyDerivedCandidate(candidate) {
         return String(candidate.member?.characterId)==='10000140' && (String(candidate.modifier?.conditionGroupId||'').startsWith('vodyanitsa_') || candidate.modifier?.conditionGroupId==='provisional71_w14524_mead_state');
@@ -1408,100 +1391,116 @@
         return { provider, target, attacks };
     }
 
-    function renderPartyModifier(candidate, context, calcData) {
-        const artifactSource = String(candidate.sourceId).split(":");
-        const description = window.GenshinIdResolver?.describeEffect?.({
-            data: calcData, kind: candidate.sourceKind,
-            id: candidate.sourceKind === "weapon" ? candidate.sourceId : candidate.sourceKind === "artifact" ? artifactSource[1] : candidate.member?.characterId,
-            sourceId: candidate.sourceId, pieceCount: artifactSource[0], refinement: candidate.providerContext?.refinement || 1
+    function partyEffectDescription(candidate, calcData) {
+        const parts = String(candidate.sourceId).split(':');
+        return window.GenshinIdResolver?.describeEffect?.({data:calcData, kind:candidate.sourceKind,
+            id:candidate.sourceKind === 'weapon' ? candidate.sourceId : candidate.sourceKind === 'artifact' ? parts[1] : candidate.member?.characterId,
+            sourceId:candidate.sourceId, pieceCount:parts[0], refinement:candidate.providerContext?.refinement || 1});
+    }
+
+    function partyEffectGroups(effects) {
+        const groups = new Map();
+        effects.forEach(candidate => {
+            const key = candidate.sourceKind + ':' + candidate.sourceId;
+            if (!groups.has(key)) groups.set(key, []);
+            groups.get(key).push(candidate);
         });
-        const status = partyModifierStatus(candidate);
-        const condition = window.GenshinCalcConditions?.modifierActivationCondition?.(
-            { ...candidate.modifier, sourceText: description?.originalText || description?.calculationSummary || "" }, [], null, candidate.sourceName, description?.originalText || description?.calculationSummary || ""
-        ) || candidate.modifier.conditionLabel || "常時";
-        const displayModifier = Number.isFinite(Number(candidate.resolvedValue))
-            ? { ...candidate.modifier, value: Number(candidate.resolvedValue), valueByLevel: candidate.modifier.valueByLevelPerStack ? candidate.modifier.valueByLevel : undefined }
-            : candidate.modifier;
-        const displayedValue = candidate.modifier.unit === 'percentOfReference'
-            ? Number(candidate.providerContext?.stats?.[candidate.modifier.reference?.stat || 'hp']) * Number(candidate.resolvedValue) / 100
-            : Number(candidate.resolvedValue);
-        const resolvedSummary = isVodyDerivedCandidate(candidate) && Number.isFinite(displayedValue)
-            && ['statBonus','additiveBaseDamage','resistanceDebuff','critBonus','reactionCritBonus'].includes(candidate.modifier.category)
-            ? `${(candidate.modifier.applyTo || []).map(target=>window.GenshinCalcConditions.targetLabel(target)).join('・') || '基礎ダメージ加算'}：${candidate.modifier.category === 'resistanceDebuff' ? '-' : '+'}${Number(displayedValue.toPrecision(12))}${candidate.modifier.unit === 'percent' ? '%' : ''}`
-            : '';
-        const effect = resolvedSummary || candidate.effectLabel || window.GenshinCalcConditions?.modifierEffectSummary?.(displayModifier, candidate.providerContext || context, { resolvedValue: candidate.resolvedValue })
-            || candidate.modifier.effectLabel
-            || "補正効果";
-        const canToggle = candidate.showToggle !== false && !candidate.automatic && ["ready", "off"].includes(candidate.status);
+        return [...groups.values()];
+    }
+
+    function renderPartyEffectGroup(effects, context, calcData) {
+        const candidate = effects[0], kind = candidate.sourceKind;
+        const description = partyEffectDescription(candidate, calcData);
+        const parts = String(candidate.sourceId).split(':');
+        const talent = kind === 'talent' ? window.GenshinCalcConditions?.talentSourceMeta?.('talent:' + candidate.sourceId, candidate.providerContext, calcData, candidate.modifier) : null;
+        const title = kind === 'weapon' ? calcData.weaponEffects?.[candidate.sourceId]?.effectNameJa || calcData.weapons?.[candidate.sourceId]?.nameJa
+            : kind === 'artifact' ? (calcData.artifactSets?.[parts[1]]?.nameJa || candidate.sourceName) + ' ' + parts[0] + 'セット効果'
+                : kind === 'talent' ? talent?.nameJa
+                    : kind === 'constellation' ? calcData.characterConstellations?.[candidate.member?.characterId]?.constellations?.[candidate.sourceId]?.nameJa : candidate.sourceName;
+        const status = effects.some(item => item.enabled && item.status === 'ready') ? {label:'発動中',className:'is-auto'}
+            : effects.every(item => item.status === 'off') ? {label:'条件未成立',className:'is-inactive'} : partyModifierStatus(candidate);
         const meaning = partyEffectMeaning(candidate, context, calcData);
-        return `<article class="genshin-condition-effect genshin-party-effect" data-party-buff="${escapeHtml(candidate.key)}">
-            <div class="genshin-condition-effect-head">
-                <h5>${escapeEffectLabel(candidate.sourceName)}</h5>
-                <span class="genshin-condition-status ${status.className}">${status.label}</span>
-            </div>
-            <dl class="genshin-condition-facts">
-                <div><dt>提供者</dt><dd>${escapeHtml(meaning.provider)}</dd></div>
-                <div><dt>受け手</dt><dd>${escapeHtml(meaning.target)}</dd></div>
-                <div><dt>対象攻撃・効果</dt><dd>${escapeEffectLabel(meaning.attacks)}</dd></div>
-                <div><dt>発動条件</dt><dd>${escapeEffectLabel(condition)}</dd></div>
+        const recipients = [...new Set(effects.map(item => partyEffectMeaning(item,context,calcData).target))];
+        const facts = {};
+        if (kind === 'weapon') facts['精錬ランク'] = 'R' + (candidate.providerContext?.refinement || 1);
+        if (String(candidate.member?.characterId) === '10000140') {
+            const groups = context.party?.conditionStates || {}, prefix = 'party:' + candidate.member.slot + ':10000140:group:';
+            if (kind === 'weapon' && candidate.sourceId === '14524') {
+                const option = groups[prefix + 'provisional71_w14524_mead_state']?.option;
+                facts['真実を告げる蜜酒'] = (({one:1,two:2,three:3,boostedOne:1,boostedTwo:2,boostedThree:3})[option] || 0) + '層';
+            }
+        }
+        effects.forEach(item => { const stat = item.modifier.reference?.stat; const value = item.providerContext?.stats?.[stat]; if (stat && Number.isFinite(Number(value))) facts['参照' + window.GenshinCalcConditions.targetLabel(stat)] = Number(value).toLocaleString('ja-JP', {maximumFractionDigits:4}); });
+        return '<article class="genshin-condition-effect genshin-party-effect" data-party-buff="' + escapeHtml(candidate.key) + '">'
+            + '<div class="genshin-condition-effect-head"><h5>' + escapeEffectLabel(title || candidate.sourceName) + '</h5><span class="genshin-condition-status ' + status.className + '">' + status.label + '</span></div>'
+            + '<p class="genshin-party-target">提供者：' + escapeHtml(meaning.provider) + ' ／ 受け手：' + escapeHtml(recipients.join('・')) + '</p>'
+            + renderSectionDetail(description?.originalText || '',description?.descriptionKind || 'summary',effects.map(renderRuntimeImpact).join(''),Object.keys(facts).length ? facts : null) + '</article>';
+    }
 
-
-            </dl>
-            ${candidate.showConditionControl === false ? "" : renderPartyConditionControl(candidate, context)}
-            ${canToggle ? `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>この条件を適用する</strong><small>実際に発動している場合だけONにしてください。</small></span><input type="checkbox" data-genshin-party-buff-key="${escapeHtml(candidate.toggleKey || candidate.key)}"${candidate.enabled ? " checked" : ""}></label>` : ""}
-            ${candidate.reason && candidate.status !== "off" ? `<p class="genshin-condition-note">${escapeHtml(candidate.reason)}</p>` : ""}
-            ${renderSectionDetail(candidate.showOriginalText === false ? "" : description?.originalText || description?.calculationSummary || "", description?.descriptionKind || "summary", renderRuntimeImpact(candidate), effect)}
-        </article>`;
+    function renderPartyCurrentControls(effects, context) {
+        const seen = new Set();
+        return effects.map(candidate => {
+            if (isVodyDerivedCandidate(candidate) || candidate.automatic) return '';
+            const key = candidate.partyConditionStateKey || candidate.toggleKey || candidate.key;
+            if (seen.has(key)) return ''; seen.add(key);
+            const control = renderPartyConditionControl(candidate,context);
+            const toggle = candidate.showToggle !== false && ['ready','off'].includes(candidate.status)
+                ? '<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>' + escapeEffectLabel(candidate.sourceName) + '</strong><small>効果が発動中の場合にON</small></span><input type="checkbox" data-genshin-party-buff-key="' + escapeHtml(candidate.toggleKey || candidate.key) + '"' + (candidate.enabled ? ' checked' : '') + '></label>' : '';
+            return control || toggle ? '<div class="genshin-party-state-control">' + control + toggle + '</div>' : '';
+        }).join('');
     }
 
     function renderPartyPanel(partyModifiers, context, calcData) {
-        const members = (context.party?.members || []).filter((member) => member.slot > 1 && member.enabled);
-        const resonanceEffects = partyModifiers.filter((candidate) => candidate.sourceKind === "resonance");
-        if (!members.length && !resonanceEffects.length) {
-            return `<section class="genshin-condition-card" data-condition-card="party"><header><div><h4>パーティ補正</h4><p>パーティ設定でサポートメンバーを選択してください。</p></div><span class="genshin-condition-source">PARTY</span></header><p class="genshin-condition-card-empty">サポートメンバーは未設定です。</p></section>`;
-        }
-        const resonanceSection = resonanceEffects.length ? `<section class="genshin-condition-card is-wide genshin-party-condition-card genshin-resonance-card" data-condition-card="party">
-            <header><div><h4>元素共鳴</h4><p>現在の4人編成から自動判定します。</p></div><span class="genshin-condition-source">RESONANCE</span></header>
-            ${resonanceEffects.map((candidate) => renderPartyModifier(candidate, context, calcData)).join("")}
-        </section>` : "";
-        return resonanceSection + members.map((member) => {
-            const effects = partyModifiers.filter((candidate) => candidate.sourceKind !== "resonance" && candidate.member.slot === member.slot);
-            const sharedControlOwners = new Map();
-            effects.forEach((candidate) => {
-                const conditionKey = candidate.partyConditionStateKey || candidate.analysis?.conditionStateKey || "";
-                if (!conditionKey || !candidate.modifier?.conditionInput) return;
-                const toggleEligible = candidate.showToggle !== false
-                    && !candidate.automatic
-                    && ["ready", "off"].includes(candidate.status);
-                if (toggleEligible && !sharedControlOwners.has(conditionKey)) sharedControlOwners.set(conditionKey, candidate.key);
-            });
-            effects.forEach((candidate) => {
-                const conditionKey = candidate.partyConditionStateKey || candidate.analysis?.conditionStateKey || "";
-                if (conditionKey && candidate.modifier?.conditionInput && !sharedControlOwners.has(conditionKey)) {
-                    sharedControlOwners.set(conditionKey, candidate.key);
-                }
-            });
-            const originalOwners = new Set();
-            const renderedEffects = effects.map((item) => {
-                const originalKey = `${item.sourceKind}:${item.sourceId}`;
-                const candidate = { ...item, showOriginalText: !originalOwners.has(originalKey) };
-                if (isVodyDerivedCandidate(candidate)) {
-                    candidate.showConditionControl = false; candidate.showToggle = false;
-                    originalOwners.add(originalKey); return candidate;
-                }
-                originalOwners.add(originalKey);
-                const conditionKey = candidate.partyConditionStateKey || candidate.analysis?.conditionStateKey || "";
-                if (!conditionKey || !candidate.modifier?.conditionInput) return candidate;
-                const isOwner = sharedControlOwners.get(conditionKey) === candidate.key;
-                return { ...candidate, showConditionControl: isOwner, showToggle: isOwner && candidate.showToggle !== false };
-            });
-            const name = member.nameJa || calcData.characters?.[member.characterId]?.nameJa || `メンバー${member.slot}`;
-            return `<section class="genshin-condition-card is-wide genshin-party-condition-card" data-condition-card="party" data-party-slot="${member.slot}">
-                <header><div><h4>${escapeHtml(name)}</h4><p>Lv.${escapeHtml(member.level)} / C${escapeHtml(member.constellation)}</p></div><span class="genshin-condition-source">MEMBER ${member.slot}</span></header>
-                ${renderVodyProviderActions(member, context, effects)}
-                ${renderedEffects.length ? (String(member.characterId) === "10000140" ? `<details class="genshin-condition-detail"><summary>効果別の計算への反映・効果説明</summary>${renderedEffects.filter(candidate => isVodyDerivedCandidate(candidate) || candidate.automatic).map(candidate => renderPartyModifier(candidate, context, calcData)).join("")}</details>` + renderedEffects.filter(candidate => !isVodyDerivedCandidate(candidate) && !candidate.automatic).map(candidate => renderPartyModifier(candidate, context, calcData)).join("") : renderedEffects.map(candidate => renderPartyModifier(candidate, context, calcData)).join("")) : `<p class="genshin-condition-card-empty">メインキャラへ適用できる補正はありません。</p>`}
-            </section>`;
-        }).join("");
+        const members = (context.party?.members || []).filter(member => member.slot > 1 && member.enabled);
+        const memberKey = member => String(member.slot) + ':' + member.characterId;
+        if (!members.some(member => memberKey(member) === selectedPartyMember)) selectedPartyMember = members.length ? memberKey(members[0]) : '';
+        const memberName = member => member.nameJa || calcData.characters?.[member.characterId]?.nameJa || 'メンバー' + member.slot;
+        const navigation = members.map(member => '<button type="button" class="genshin-party-member-tab" role="tab" id="genshin-party-member-tab-' + member.slot + '" aria-controls="genshin-party-member-panel-' + member.slot + '" data-party-member-tab="' + escapeHtml(memberKey(member)) + '" aria-selected="' + (memberKey(member) === selectedPartyMember) + '" tabindex="' + (memberKey(member) === selectedPartyMember ? '0' : '-1') + '"><strong>' + escapeHtml(memberName(member)) + '</strong><span>Lv.' + escapeHtml(member.level) + ' / C' + escapeHtml(member.constellation) + '</span><small data-party-member-status="' + member.slot + '"></small></button>').join('');
+        const panels = members.map(member => {
+            const effects = partyModifiers.filter(candidate => candidate.sourceKind !== 'resonance' && candidate.member.slot === member.slot);
+            const sources = [{kind:'character',label:'キャラクター'}, {kind:'weapon',label:'武器'}, {kind:'artifact',label:'聖遺物'}].map(source => {
+                const groups = partyEffectGroups(effects.filter(candidate => source.kind === 'character' ? ['talent','constellation'].includes(candidate.sourceKind) : candidate.sourceKind === source.kind));
+                return groups.length ? '<section class="genshin-party-source-group" data-party-effect-source="' + source.kind + '"><h6>' + source.label + '</h6>' + groups.map(group => renderPartyEffectGroup(group,context,calcData)).join('') + '</section>' : '';
+            }).join('');
+            const actions = renderVodyProviderActions(member,context,effects);
+            const controls = renderPartyCurrentControls(effects,context);
+            return '<section class="genshin-condition-card genshin-party-condition-card" role="tabpanel" id="genshin-party-member-panel-' + member.slot + '" aria-labelledby="genshin-party-member-tab-' + member.slot + '" data-party-slot="' + member.slot + '" data-party-member-panel="' + escapeHtml(memberKey(member)) + '"' + (memberKey(member) === selectedPartyMember ? '' : ' hidden') + '>'
+                + '<header><div><h4>' + escapeHtml(memberName(member)) + '</h4><p>Lv.' + escapeHtml(member.level) + ' / C' + escapeHtml(member.constellation) + '</p></div></header>'
+                + '<section class="genshin-party-current-state"><h5>現在の状態</h5>' + actions + controls + (!actions && !controls ? '<p class="genshin-condition-note">追加の手動条件はありません。</p>' : '') + '</section>'
+                + '<section class="genshin-party-effect-list"><h5>効果一覧</h5>' + (sources || '<p class="genshin-condition-note">現在の計算対象へ提供する効果はありません。</p>') + '</section></section>';
+        }).join('');
+        const resonance = partyModifiers.filter(candidate => candidate.sourceKind === 'resonance');
+        return '<p class="genshin-party-target">計算対象：' + escapeHtml(calcData.characters?.[context.characterId]?.nameJa || '現在のキャラクター') + '</p>' + (members.length ? '<div class="genshin-party-layout"><nav class="genshin-party-member-list" role="tablist" aria-label="効果を確認するメンバー">' + navigation + '</nav><div class="genshin-party-member-content">' + panels + '</div></div>' : '<p class="genshin-condition-note">パーティ設定でサポートメンバーを選択してください。</p>')
+            + (resonance.length ? '<section class="genshin-party-resonance"><h5>チームの元素共鳴</h5>' + partyEffectGroups(resonance).map(group => renderPartyEffectGroup(group,context,calcData)).join('') + '</section>' : '');
+    }
+
+    function selectPartyMember(key) {
+        selectedPartyMember = key;
+        document.querySelectorAll('[data-party-member-panel]').forEach(panel => { panel.hidden = panel.dataset.partyMemberPanel !== key; });
+        document.querySelectorAll('[data-party-member-tab]').forEach(button => {
+            const selected = button.dataset.partyMemberTab === key;
+            button.setAttribute('aria-selected',String(selected));button.tabIndex = selected ? 0 : -1;
+        });
+    }
+
+    function inputSettingCounts(scope) {
+        const inputs = scope.querySelectorAll('[data-genshin-condition-key], [data-genshin-toggle-key], [data-genshin-resource-key], [data-genshin-party-condition-key], [data-genshin-party-buff-key], [data-genshin-vody-action]');
+        const missing = [...inputs].filter(input => input.type !== 'checkbox' && (input.value === '' || input.validity?.valid === false)).length;
+        return {total:inputs.length,missing};
+    }
+
+    function refreshConditionSettingLabels(wrap) {
+        wrap.querySelectorAll('[data-party-member-panel]').forEach(panel => {
+            const counts = inputSettingCounts(panel.querySelector('.genshin-party-current-state'));
+            const label = wrap.querySelector('[data-party-member-status="' + panel.dataset.partySlot + '"]');
+            if (label) label.textContent = counts.missing ? '要設定' + counts.missing : '設定済み';
+        });
+        document.querySelectorAll('[data-condition-tab]').forEach(button => {
+            const panel = wrap.querySelector('[data-condition-panel="' + button.dataset.conditionTab + '"]');
+            if (!panel) return;
+            const counts = inputSettingCounts(panel), name = CONDITION_TABS.find(tab => tab.id === button.dataset.conditionTab)?.label || '';
+            button.textContent = name + (counts.missing ? '（要設定' + counts.missing + '）' : counts.total ? '（設定済み' + counts.total + '）' : '');
+        });
     }
 
     function renderConditionCards(panelState, context, calcData) {
@@ -1588,7 +1587,7 @@
                 ${dedicatedReactionControls}
                 <p class="genshin-condition-card-empty">${escapeHtml(reactionDescription)}</p>
             </section>`,
-            party: renderPartyPanel(partyModifiers, context, panelState.displayData || {}),
+            party: renderPartyPanel(partyModifiers, context, calcData || panelState.displayData || {}),
             weapon: `<section class="genshin-condition-card${weaponWide ? " is-wide" : ""}" data-condition-card="weapon">
                 ${renderSourceHeader("武器補正", "WEAPON", weaponCard?.subtitle || "")}
                 ${context.weaponId === "11435" ? `<p class="genshin-condition-note">中間距離の対応式は仕様確認中のため、現在は最小/最大状態のみ選択可能です。</p>` : ""}
@@ -1622,6 +1621,7 @@
         if (tabs) {
             tabs.innerHTML = CONDITION_TABS.map((tab) => `<button type="button" class="genshin-condition-tab${tab.id === activeConditionTab ? " is-active" : ""}" id="genshin-condition-tab-${tab.id}" role="tab" aria-selected="${tab.id === activeConditionTab}" tabindex="${tab.id === activeConditionTab ? "0" : "-1"}" aria-controls="genshin-condition-panel-${tab.id}" data-condition-tab="${tab.id}">${escapeHtml(tab.label)}${manualCounts[tab.id] ? `（条件${manualCounts[tab.id]}）` : ""}</button>`).join("");
         }
+        if (wrap.querySelectorAll) refreshConditionSettingLabels(wrap);
     }
 
     function selectConditionTab(tabId) {
@@ -1704,6 +1704,19 @@
         }
         const conditionCards = getElement("genshinJsonConditionCards");
         if (conditionCards) {
+            conditionCards.addEventListener('input', () => refreshConditionSettingLabels(conditionCards));
+            conditionCards.addEventListener('click',event => {
+                const button = event.target.closest?.('[data-party-member-tab]');
+                if (button) selectPartyMember(button.dataset.partyMemberTab);
+            });
+            conditionCards.addEventListener('keydown',event => {
+                const button = event.target.closest?.('[data-party-member-tab]');
+                if (!button || !['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(event.key)) return;
+                event.preventDefault();
+                const buttons = [...conditionCards.querySelectorAll('[data-party-member-tab]')], index = buttons.indexOf(button);
+                const next = event.key === 'Home' ? 0 : event.key === 'End' ? buttons.length - 1 : (index + (['ArrowRight','ArrowDown'].includes(event.key) ? 1 : -1) + buttons.length) % buttons.length;
+                selectPartyMember(buttons[next].dataset.partyMemberTab);buttons[next].focus();
+            });
             conditionCards.addEventListener("change", (event) => {
                 if (event.target?.matches?.("[data-genshin-vody-action]")) {
                     const request = window.GenshinCalcEngine.buildCalculationRequestFromForm();

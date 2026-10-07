@@ -156,7 +156,7 @@ async function main() {
         const hymn=raw.weapons['14524'].originalTextByRefinement['5'];
         assert.ok(normalize(await details('weapon')).includes(normalize(hymn)));
         let text=await conditionText('weapon');assert.ok(normalize(text).includes(normalize(hymn)));
-        assert.match(text,/計算への反映/);assert.match(text,/現在の精錬ランク R5/);
+        assert.match(text,/計算への反映/);assert.match(text,/精錬ランク[\s\S]*R5/);
         assert.equal(text.split('与える治療効果+8%').length-1,1);
         progress('PASS weapon detail and Hymn modifier whole original once plus Runtime impacts');
         for(const id of ['15047','15048']){
@@ -172,7 +172,7 @@ async function main() {
                     const impacts=await evaluate(client,'Array.from(document.querySelectorAll("[data-condition-panel=artifact] .genshin-runtime-impact")).map(e=>e.textContent).join("\\n")');
                     assert.match(impacts,enabled?/攻撃力 \+12%/:/攻撃力 \+0%　条件未成立/);
                 }
-                assert.match(await evaluate(client,'document.querySelector("[data-condition-tab=artifact]").textContent'),/条件/);
+                assert.match(await evaluate(client,'document.querySelector("[data-condition-tab=artifact]").textContent'),/設定済み|要設定/);
             }
         }
         progress('PASS both Japanese artifact originals');
@@ -221,8 +221,8 @@ async function main() {
         await action('phase','2');await action('qualifyingHeals','2');
         await action('skillHit','yes');await action('freezeSwirl','yes');
         text=await conditionText('party');
-        assert.match(text,/元素スキルと現在の状況/);assert.match(text,/2回目の回復後/);
-        assert.match(text,/真実を告げる蜜酒：2層/);
+        assert.match(text,/現在の状態/);assert.match(text,/2回目の回復後/);
+        assert.match(text,/真実を告げる蜜酒\s*2層/);
         assert.ok(await evaluate(client,'Array.from(document.querySelectorAll("[data-condition-panel=party] [data-impact-state=notApplicable]")).some(e=>e.textContent.includes("今回の攻撃には非適用"))'));
         assert.ok(await evaluate(client,'Array.from(document.querySelectorAll("[data-condition-panel=party] .genshin-runtime-impact")).some(e=>e.textContent.includes("攻撃力 +"))'));
         assert.doesNotMatch(text,/\{[a-zA-Z]\w*\}|provisional71|weaponModifiers\.|Lead Vocal|Chorus/);
@@ -240,6 +240,48 @@ async function main() {
         const afterReload=await evaluate(client,'(async()=>JSON.stringify((await window.GenshinCalcEngine.runGenshinJsonCalc()).results))()');
         assert.equal(afterReload,beforeReload);
         progress('PASS provider actions, derived HP/conditions, token-free originals, actual damage and reload');
+        // Four-person party: three provider panels share one member selector and one visible detail.
+        await closeDialogs();await evaluate(client,'document.getElementById("genshinPartyDialogOpen").click()');
+        await select('#genshinPartyArtifactOneTrigger2','15048');
+        await select('#genshinPartyCharacterTrigger3','10000089');
+        await select('#genshinPartyCharacterTrigger4','10000032');
+        text=await conditionText('party');
+        assert.equal(await evaluate(client,'document.querySelectorAll("[data-party-member-tab]").length'),3);
+        assert.equal(await evaluate(client,'document.querySelectorAll("[data-party-member-panel]:not([hidden])").length'),1);
+        assert.equal(await evaluate(client,'document.querySelectorAll("#genshin-party-member-panel-2 [data-party-effect-source]").length'),3);
+        assert.doesNotMatch(text,/計算根拠|効果別の計算への反映/);
+        const resistanceLabels=await evaluate(client,'[...document.querySelectorAll("#genshin-party-member-panel-2 [data-party-effect-source=character] .genshin-party-effect")][0].querySelector(".genshin-effect-values").innerText');
+        assert.match(resistanceLabels,/敵の水元素耐性/);assert.match(resistanceLabels,/敵の氷元素耐性/);
+        const beforeSwitch=await evaluate(client,'(async()=>JSON.stringify((await window.GenshinCalcEngine.runGenshinJsonCalc()).results.map(r=>[r.attackKey,r.expected])))()');
+        await evaluate(client,'document.getElementById("genshin-party-member-tab-3").click()');
+        assert.equal(await evaluate(client,'document.querySelector("[data-party-member-panel]:not([hidden])").dataset.partySlot'),'3');
+        const status=await evaluate(client,'({member:document.getElementById("genshin-party-member-tab-3").querySelector("small").textContent,tab:document.querySelector("[data-condition-tab=party]").textContent,missing:Array.from(document.querySelectorAll("#genshin-party-member-panel-3 .genshin-party-current-state input, #genshin-party-member-panel-3 .genshin-party-current-state select")).filter(e=>e.type!=="checkbox"&&e.value==="").length})');
+        if(status.missing) {assert.match(status.member,/要設定/);assert.match(status.tab,/要設定/);}
+        await evaluate(client,'(()=>{const e=document.querySelector("#genshin-party-member-panel-3 .genshin-party-current-state input[type=number]");if(!e)throw new Error("Fanfare numeric input missing");window.__numericBefore=e.value;e.value="";e.dispatchEvent(new Event("input",{bubbles:true}));})()');
+        assert.match(await evaluate(client,'document.getElementById("genshin-party-member-tab-3").querySelector("small").textContent'),/要設定1/);
+        assert.match(await evaluate(client,'document.querySelector("[data-condition-tab=party]").textContent'),/要設定1/);
+        await evaluate(client,'(()=>{const e=document.querySelector("#genshin-party-member-panel-3 .genshin-party-current-state input[type=number]");e.value=window.__numericBefore;e.dispatchEvent(new Event("input",{bubbles:true}));})()');
+        await evaluate(client,'document.querySelector("[data-party-member-tab][aria-selected=true]").dispatchEvent(new KeyboardEvent("keydown",{key:"Home",bubbles:true}))');
+        assert.equal(await evaluate(client,'document.querySelector("[data-party-member-panel]:not([hidden])").dataset.partySlot'),'2');
+        assert.equal(await evaluate(client,'(async()=>JSON.stringify((await window.GenshinCalcEngine.runGenshinJsonCalc()).results.map(r=>[r.attackKey,r.expected])))()'),beforeSwitch);
+        for(const width of [1280,375]) {
+            await client.send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});await delay(200);
+            await evaluate(client,'document.querySelector(".genshin-condition-dialog-body").scrollTop=0');
+            const geometry=await evaluate(client,'(()=>{const d=document.querySelector(".genshin-condition-dialog-body"),p=document.querySelector("[data-party-member-panel]:not([hidden])");return {overflow:d.scrollWidth>d.clientWidth+1,visible:p.getBoundingClientRect().width>0}})()');
+            assert.equal(geometry.overflow,false,'modal overflow at '+width);assert.equal(geometry.visible,true);
+            const shot=await client.send('Page.captureScreenshot',{format:'png'});
+            const file=path.join(os.tmpdir(),'genshin-party-modal-'+process.pid+'-'+width+'.png');fs.writeFileSync(file,Buffer.from(shot.data,'base64'));progress('SCREENSHOT '+file);
+        }
+        await client.send('Emulation.setDeviceMetricsOverride',{width:1280,height:900,deviceScaleFactor:1,mobile:false});await delay(100);
+        await evaluate(client,'document.querySelector("[data-party-member-panel]:not([hidden]) .genshin-party-effect-list").scrollIntoView({block:"start"})');
+        const effectShot=await client.send('Page.captureScreenshot',{format:"png"});const effectFile=path.join(os.tmpdir(),'genshin-party-modal-'+process.pid+'-effects.png');fs.writeFileSync(effectFile,Buffer.from(effectShot.data,'base64'));progress('SCREENSHOT '+effectFile);
+        await client.send('Emulation.clearDeviceMetricsOverride');
+        await closeDialogs();await evaluate(client,'window.GenshinCurrentCalcState.persist()');await client.send('Page.reload');await waitFor(client,'Boolean(window.GenshinPartyState&&window.GenshinCalcRenderer)');await delay(500);
+        await conditionText('party');assert.equal(await evaluate(client,'document.querySelectorAll("[data-party-member-tab]").length'),3);
+        assert.equal(await evaluate(client,'document.querySelectorAll("[data-party-member-panel]:not([hidden])").length'),1);
+        assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=phase]").value'),'2');
+        progress('PASS four-person party, per-member/source hierarchy, switch isolation, desktop/mobile and reload');
+
         await evaluate(client,'window.__effectPayload=null;const again=window.GenshinCalcEngine.runGenshinJsonCalc;window.GenshinCalcEngine.runGenshinJsonCalc=async(...args)=>{const p=await again(...args);window.__effectPayload=p;return p};');
 
         await closeDialogs();await evaluate(client,'window.__effectPayload=null;document.getElementById("genshinJsonCalcButtonBottom").click()');
