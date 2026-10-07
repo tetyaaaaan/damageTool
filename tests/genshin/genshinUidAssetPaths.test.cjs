@@ -98,7 +98,7 @@ test("7.1 numeric talents use saved character mappings and add proud levels once
     const order = readJson("games/genshin/data/character-release-order.json").order;
     assert.equal(new Set(order).size, order.length);
     assert.ok(sandbox.GenshinIdResolver.listCharacters().every(character => order.includes(character.id)));
-    assert.deepEqual(order.slice(-6), ["10000148", "10000150", "10000143", "10000140", "10000005_cryo", "10000007_cryo"]);
+    assert.deepEqual(order.slice(0, 4), ["10000140", "10000143", "10000150", "10000148"]);
 });
 
 test("all character selectors share explicit implementation order independent of inventory input order", async () => {

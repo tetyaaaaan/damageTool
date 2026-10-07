@@ -183,7 +183,7 @@ async function main() {
         await waitFor(client, 'document.querySelectorAll(".genshin-uid-character-image").length === 1');
         await waitFor(client, 'document.querySelector(".genshin-uid-character-image")?.complete === true');
         await waitFor(client, 'document.getElementById("genshinUidMessage")?.dataset.type === "success"');
-        assert.deepEqual(await evaluate(client, '[...document.getElementById("genshinProfileCharacterSelect").options].map(option=>Number(option.value))'), [3, 7, 2, 6, 1, 0, 4, 5], "UID character list follows the shared implementation order");
+        assert.deepEqual(await evaluate(client, '[...document.getElementById("genshinProfileCharacterSelect").options].map(option=>Number(option.value))'), [0, 1, 2, 6, 3, 7, 4, 5], "UID character list follows the shared implementation order");
 
         const cases = [
             { index: 0, id: "10000140", name: "ヴォジャニーツァ", character: "10000140", weapon: "14524", artifact: "15047" },
@@ -253,7 +253,7 @@ async function main() {
                 await evaluate(client, 'document.getElementById("genshinReflectCharacter").click()');
                 await waitFor(client, 'document.getElementById("genshinSelectionDialog").open');
                 const ordered = await evaluate(client, '[...document.querySelectorAll("#genshinSelectionList [data-selection-id]")].map(e=>e.dataset.selectionId)');
-                assert.deepEqual(ordered.slice(-6), ["10000148","10000150","10000143","10000140","10000005_cryo","10000007_cryo"]);
+                assert.deepEqual(ordered.slice(0, 4), ["10000140","10000143","10000150","10000148"]);
                 assert.deepEqual(ordered, await evaluate(client, 'window.GenshinIdResolver.listCharacters().map(character=>character.id)'), "main modal uses the shared inventory order after reload");
                 assert.doesNotMatch(await evaluate(client, 'document.getElementById("genshinSelectionList").innerText'), /検証中|暫定仕様/);
                 await evaluate(client, 'document.querySelector(\'#genshinSelectionList [data-selection-id="10000143"]\').click()');

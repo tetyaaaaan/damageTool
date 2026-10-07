@@ -2,6 +2,10 @@
   "orderKind": "implementation",
   "source": "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master/ExcelBinOutput/AvatarCodexExcelConfigData.json",
   "order": [
+    "10000140",
+    "10000143",
+    "10000150",
+    "10000148",
     "10000133",
     "10000129",
     "10000131",
@@ -119,10 +123,6 @@
     "10000021",
     "10000005",
     "10000007",
-    "10000148",
-    "10000150",
-    "10000143",
-    "10000140",
     "10000005_cryo",
     "10000007_cryo"
   ]
