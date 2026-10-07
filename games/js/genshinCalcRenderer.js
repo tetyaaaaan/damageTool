@@ -1004,16 +1004,19 @@
     }
 
     const DESCRIPTION_KIND_LABELS = {
-        full: "全文",
-        excerpt: "抜粋",
-        summary: "要約",
-        generated: "自動説明"
+        original: "原文",
+        originalExcerpt: "原文抜粋",
+        full: "TETINETによる説明",
+        excerpt: "TETINETによる説明",
+        summary: "TETINETによる説明",
+        generated: "TETINETによる説明"
     };
 
     function renderDescriptionBlock(description, descriptionKind = "summary") {
         if (!description) return "";
         const kindLabel = DESCRIPTION_KIND_LABELS[descriptionKind] || DESCRIPTION_KIND_LABELS.summary;
-        return `<div class="genshin-condition-detail-block"><h6>効果説明 <span class="genshin-description-kind">${escapeHtml(kindLabel)}</span></h6><p>${escapeHtml(description)}</p></div>`;
+        const heading = ["original", "originalExcerpt"].includes(descriptionKind) ? "効果説明" : "TETINETによる説明";
+        return `<div class="genshin-condition-detail-block"><h6>${heading}${heading === "効果説明" ? ` <span class="genshin-description-kind">${escapeHtml(kindLabel)}</span>` : ""}</h6><p>${escapeHtml(description)}</p></div>`;
     }
 
     function renderConditionEffect(effect) {
@@ -1075,11 +1078,12 @@
     }
 
     function renderSectionDetail(description, descriptionKind, impacts) {
+        const isOriginal = ["original", "originalExcerpt"].includes(descriptionKind);
         if (!description && !impacts) return "";
         return `<details class="genshin-condition-detail">
-            <summary>効果説明</summary>
-            ${renderDescriptionBlock(description, descriptionKind)}
-            ${impacts ? `<div class="genshin-condition-detail-block genshin-constellation-impacts"><h6>計算への反映</h6><ul>${impacts}</ul></div>` : ""}
+            <summary>${isOriginal ? "効果説明" : "計算への反映"}</summary>
+            ${isOriginal ? renderDescriptionBlock(description, descriptionKind) : ""}
+            <div class="genshin-condition-detail-block genshin-constellation-impacts"><h6>計算への反映</h6>${!isOriginal ? renderDescriptionBlock(description, "summary") : ""}${impacts ? `<ul>${impacts}</ul>` : ""}</div>
         </details>`;
     }
 
@@ -1145,8 +1149,10 @@
     }
 
     function renderWeaponImpact(effect) {
+        const owners = { self: "装備者自身", team: "チーム全員", activeCharacter: "フィールド上のキャラクター", otherPartyMembers: "装備者以外のチームメンバー", enemy: "敵" };
+        const owner = owners[effect.modifier?.targetOwner || "self"] || "対象キャラクター";
         return `<li class="genshin-constellation-impact-row">
-            <div><strong>${escapeHtml(effect.displayTarget || effect.name)}</strong>${effect.target ? `<small>対象：${escapeHtml(effect.target)}</small>` : ""}</div>
+            <div><strong>${escapeHtml(owner)}・${escapeHtml(effect.displayTarget || effect.name)}</strong>${effect.target ? `<small>対象：${escapeHtml(effect.target)}</small>` : ""}</div>
             ${effect.impact ? `<span>${escapeHtml(effect.impact)}</span>` : ""}
             ${effect.statusReason && effect.status === "missing" ? `<p class="genshin-condition-missing">${escapeHtml(effect.statusReason)}</p>` : ""}
         </li>`;
@@ -1154,12 +1160,11 @@
 
     function renderWeaponSection(section) {
         const status = CONDITION_STATUS[section.status] || CONDITION_STATUS.auto;
-        const ownerLabels = { self: "装備者", team: "チーム", activeCharacter: "フィールド上キャラ", otherPartyMembers: "装備者以外の近くにいるチームメンバー全員", enemy: "敵" };
         const controls = renderSectionControls(section, "発動状態");
-        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderWeaponImpact).join(""));
+        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderWeaponImpact).join("") + `<li>現在の精錬ランク R${escapeHtml(section.refinement || 1)} を使用</li>`);
         return `<article class="genshin-constellation-section genshin-weapon-section" data-weapon-effect-group="${escapeHtml(section.id)}">
             <header class="genshin-constellation-head">
-                <div><strong>${escapeHtml(ownerLabels[section.targetOwner] || section.targetOwner)}</strong><h5>${escapeHtml(section.name)}</h5></div>
+                <div><strong>武器効果</strong><h5>${escapeHtml(section.name)}</h5></div>
                 <span class="genshin-condition-status ${status.className}">${status.label}</span>
             </header>
             ${renderSectionFacts(section)}
@@ -1283,6 +1288,12 @@
     }
 
     function renderPartyModifier(candidate, context, calcData) {
+        const artifactSource = String(candidate.sourceId).split(":");
+        const description = window.GenshinIdResolver?.describeEffect?.({
+            data: calcData, kind: candidate.sourceKind,
+            id: candidate.sourceKind === "weapon" ? candidate.sourceId : candidate.sourceKind === "artifact" ? artifactSource[1] : candidate.member?.characterId,
+            sourceId: candidate.sourceId, pieceCount: artifactSource[0], refinement: candidate.providerContext?.refinement || 1
+        });
         const status = partyModifierStatus(candidate);
         const condition = window.GenshinCalcConditions?.modifierActivationCondition?.(
             candidate.modifier, [], null, candidate.sourceName, candidate.description
@@ -1314,7 +1325,7 @@
             ${candidate.showConditionControl === false ? "" : renderPartyConditionControl(candidate, context)}
             ${canToggle ? `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>この条件を適用する</strong><small>実際に発動している場合だけONにしてください。</small></span><input type="checkbox" data-genshin-party-buff-key="${escapeHtml(candidate.toggleKey || candidate.key)}"${candidate.enabled ? " checked" : ""}></label>` : ""}
             ${candidate.reason && candidate.status !== "off" ? `<p class="genshin-condition-note">${escapeHtml(candidate.reason)}</p>` : ""}
-            ${candidate.description ? `<details class="genshin-condition-detail"><summary>効果説明</summary>${renderDescriptionBlock(candidate.description, "full")}</details>` : ""}
+            ${renderSectionDetail(candidate.showOriginalText === false ? "" : description?.originalText || description?.calculationSummary || "", description?.descriptionKind || "summary", `<li>${escapeHtml(current)}</li>`)}
         </article>`;
     }
 
@@ -1345,7 +1356,11 @@
                     sharedControlOwners.set(conditionKey, candidate.key);
                 }
             });
-            const renderedEffects = effects.map((candidate) => {
+            const originalOwners = new Set();
+            const renderedEffects = effects.map((item) => {
+                const originalKey = `${item.sourceKind}:${item.sourceId}`;
+                const candidate = { ...item, showOriginalText: !originalOwners.has(originalKey) };
+                originalOwners.add(originalKey);
                 const conditionKey = candidate.partyConditionStateKey || candidate.analysis?.conditionStateKey || "";
                 if (!conditionKey || !candidate.modifier?.conditionInput) return candidate;
                 const isOwner = sharedControlOwners.get(conditionKey) === candidate.key;

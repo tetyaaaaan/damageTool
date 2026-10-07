@@ -34,6 +34,8 @@
     };
 
     const DISPLAY_DATA_PATHS = {
+        originalEffectTexts: "/games/genshin/data/original/effect-texts-ja.json",
+        characterConstellations: "/games/genshin/data/character-constellations.json",
         characters: "/games/genshin/data/characters.json",
         weapons: "/games/genshin/data/weapons.json",
         artifactSets: "/games/genshin/data/artifact-sets.json",

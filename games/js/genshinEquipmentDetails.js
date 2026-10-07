@@ -18,9 +18,9 @@
         return `<p>${escapeHtml(value || "説明は登録されていません。")}</p>`;
     }
 
-    function talentItem(title, level, description) {
+    function talentItem(title, level, text) {
         const levelText = level ? `<span>Lv.${escapeHtml(level)}</span>` : "";
-        return `<article class="genshin-equipment-detail-item"><h4>${escapeHtml(title)}${levelText}</h4>${paragraph(description)}</article>`;
+        return `<article class="genshin-equipment-detail-item"><h4>${escapeHtml(title)}${levelText}</h4>${paragraph(text.originalText || text.calculationSummary)}<small>${text.originalText ? "原文" : "TETINETによる説明"}</small></article>`;
     }
 
     function renderCharacter(id) {
@@ -34,21 +34,17 @@
         const normalLevel = byId("genshinNormalTalentLevel")?.value;
         const skillLevel = byId("genshinSkillTalentLevel")?.value;
         const burstLevel = byId("genshinBurstTalentLevel")?.value;
-        const normalDescription = [
-            talents.normalAttack?.normalDescriptionJa,
-            talents.normalAttack?.chargedDescriptionJa,
-            talents.normalAttack?.plungingDescriptionJa
-        ].filter(Boolean).join("\n\n");
         const talentItems = [
-            talents.normalAttack && talentItem(talents.normalAttack.nameJa || "通常攻撃", normalLevel, normalDescription),
-            talents.skill && talentItem(talents.skill.nameJa || "元素スキル", skillLevel, talents.skill.descriptionJa),
-            talents.burst && talentItem(talents.burst.nameJa || "元素爆発", burstLevel, talents.burst.descriptionJa),
-            talents.special && talentItem(talents.special.nameJa || "特殊天賦", "", talents.special.descriptionJa)
+            talents.normalAttack && talentItem(talents.normalAttack.nameJa || "通常攻撃", normalLevel, resolver.describeEffect({ kind: "talent", id, sourceId: "combat1" })),
+            talents.skill && talentItem(talents.skill.nameJa || "元素スキル", skillLevel, resolver.describeEffect({ kind: "talent", id, sourceId: "combat2" })),
+            talents.burst && talentItem(talents.burst.nameJa || "元素爆発", burstLevel, resolver.describeEffect({ kind: "talent", id, sourceId: "combat3" })),
+            talents.special && talentItem(talents.special.nameJa || "特殊天賦", "", resolver.describeEffect({ kind: "talent", id, sourceId: "special" }))
         ].filter(Boolean).join("");
-        const passiveItems = (talents.passives || []).map((passive) => talentItem(passive.nameJa, "", passive.descriptionJa)).join("");
+        const passiveItems = (talents.passives || []).map((passive, index) => talentItem(passive.nameJa, "", resolver.describeEffect({ kind: "talent", id, sourceId: passive.sourceId || `passive${index + 1}` }))).join("");
         const constellationItems = Object.entries(constellationData).map(([level, item]) => {
             const unlocked = Number(level) <= constellationNumber;
-            return `<article class="genshin-equipment-detail-item${unlocked ? " is-unlocked" : ""}"><h4><span>C${escapeHtml(level)}</span>${escapeHtml(item.nameJa)}</h4>${paragraph(item.effectText)}</article>`;
+            const text = resolver.describeEffect({ kind: "constellation", id, sourceId: level });
+            return `<article class="genshin-equipment-detail-item${unlocked ? " is-unlocked" : ""}"><h4><span>C${escapeHtml(level)}</span>${escapeHtml(item.nameJa)}</h4>${paragraph(text.originalText || text.calculationSummary)}<small>${text.originalText ? "原文" : "TETINETによる説明"}</small></article>`;
         }).join("");
 
         byId("genshinEquipmentDetailsKicker").textContent = `CHARACTER / ${constellation}`;
@@ -66,10 +62,6 @@
               <summary>命ノ星座 <span>現在 ${escapeHtml(constellation)}</span></summary>
               <div>${constellationItems || paragraph("命ノ星座情報は登録されていません。")}</div>
             </details>`;
-    }
-
-    function applyEffectParams(template, params) {
-        return String(template || "武器効果は登録されていません。").replace(/\{([^}]+)\}/g, (token, key) => params?.[key] ?? token);
     }
 
     const WEAPON_PARAM_LABELS = {
@@ -106,13 +98,14 @@
         const refinement = byId("genshinWeaponRefinement")?.value || "R1";
         const refinementNumber = refinement.replace("R", "");
         const params = effect.effectParamsByRefinement?.[refinementNumber];
-        const description = applyEffectParams(effect.effectTextTemplate, params);
+        const text = resolver.describeEffect({ kind: "weapon", id, refinement: refinementNumber });
+        const description = text.originalText || text.calculationSummary;
 
         byId("genshinEquipmentDetailsKicker").textContent = `WEAPON / ${refinement}`;
         byId("genshinEquipmentDetailsTitle").textContent = weapon.nameJa;
         return `<section class="genshin-equipment-detail-section is-static">
             <h3>${escapeHtml(effect.effectNameJa || "武器効果")}</h3>
-            <div>${paragraph(description)}</div>
+            <div><h4>${text.originalText ? "効果説明（原文）" : "TETINETによる説明"}</h4>${paragraph(description)}</div>
             ${renderWeaponParams(params)}
             ${weapon.refinementNoteJa ? `<p class="genshin-condition-note">${escapeHtml(weapon.refinementNoteJa)}</p>` : ""}
           </section>`;

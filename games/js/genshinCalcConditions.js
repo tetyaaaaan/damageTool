@@ -1460,6 +1460,18 @@
         return [control.help, ...new Set(messages)].filter(Boolean).join(" ");
     }
 
+    function effectTextMeta(calcData, kind, id, options = {}, fallback = "") {
+        const text = window.GenshinIdResolver?.describeEffect?.({ data: calcData, kind, id, ...options });
+        const originalText = text?.originalText || "";
+        const calculationSummary = originalText ? "" : text?.calculationSummary || fallback || "";
+        return {
+            originalText,
+            calculationSummary,
+            description: originalText || calculationSummary,
+            descriptionKind: originalText ? text.descriptionKind : "summary"
+        };
+    }
+
     function buildConstellationSections(card, context, calcData) {
         const sectionMap = new Map();
         const registryLevels = calcData.constellationEffectRegistry?.characters?.[context.characterId]?.constellations || {};
@@ -1472,8 +1484,7 @@
                     level,
                     label: `C${level}`,
                     nameJa: registryLevel.nameJa || "星座効果",
-                    description: normalizeConditionDescription(plainConstellationText(registryLevel.effectText || effect.description || "")),
-                    descriptionKind: "full",
+                    ...effectTextMeta(calcData, "constellation", context.characterId, { sourceId: level }, plainConstellationText(registryLevel.effectText || effect.description || "")),
                     impactLabels: [],
                     controls: [],
                     effects: []
@@ -1525,18 +1536,17 @@
                 order: sourceOverride.order ?? 4,
                 typeLabel: sourceOverride.typeLabel || "天賦",
                 nameJa: sourceOverride.nameJa || "天賦効果",
-                description: normalizeConditionDescription(sourceOverride.description || ""),
-                descriptionKind: "summary"
+                ...effectTextMeta(calcData, "talent", context.characterId, { sourceId: normalizedId }, sourceOverride.description)
             };
         }
         if (normalizedId === "combat1") {
-            return { order: 1, typeLabel: "通常攻撃", nameJa: talents.normalAttack?.nameJa || "通常攻撃", description: normalizeConditionDescription(talents.normalAttack?.normalDescriptionJa || ""), descriptionKind: "full" };
+            return { order: 1, typeLabel: "通常攻撃", nameJa: talents.normalAttack?.nameJa || "通常攻撃", ...effectTextMeta(calcData, "talent", context.characterId, { sourceId: normalizedId }, talents.normalAttack?.normalDescriptionJa) };
         }
         if (normalizedId === "combat2") {
-            return { order: 2, typeLabel: "元素スキル", nameJa: talents.skill?.nameJa || "元素スキル", description: normalizeConditionDescription(talents.skill?.descriptionJa || ""), descriptionKind: "full" };
+            return { order: 2, typeLabel: "元素スキル", nameJa: talents.skill?.nameJa || "元素スキル", ...effectTextMeta(calcData, "talent", context.characterId, { sourceId: normalizedId }, talents.skill?.descriptionJa) };
         }
         if (normalizedId === "combat3") {
-            return { order: 3, typeLabel: "元素爆発", nameJa: talents.burst?.nameJa || "元素爆発", description: normalizeConditionDescription(talents.burst?.descriptionJa || ""), descriptionKind: "full" };
+            return { order: 3, typeLabel: "元素爆発", nameJa: talents.burst?.nameJa || "元素爆発", ...effectTextMeta(calcData, "talent", context.characterId, { sourceId: normalizedId }, talents.burst?.descriptionJa) };
         }
         const passives = talents.passives || [];
         const exactPassive = passives.find((item) => String(item.sourceId || "").replace(/_/g, "") === normalizedId);
@@ -1547,8 +1557,7 @@
             order: 10 + passiveIndex,
             typeLabel: normalizedId.startsWith("passive") ? `固有天賦${passiveIndex + 1}` : "天賦",
             nameJa: passive.nameJa || "天賦効果",
-            description: normalizeConditionDescription(modifier?.effectDescription || passive.descriptionJa || ""),
-            descriptionKind: "full"
+            ...effectTextMeta(calcData, "talent", context.characterId, { sourceId: normalizedId }, passive.descriptionJa || modifier?.effectDescription)
         };
     }
 
@@ -1634,8 +1643,7 @@
                     pieceCount,
                     order: (setOrder.get(String(setId)) ?? 99) * 10 + pieceCount,
                     nameJa: calcData.artifactSets?.[setId]?.nameJa || `聖遺物ID ${setId}`,
-                    description: normalizeConditionDescription(pieceCount === 4 ? effectText.fourPieceEffect || "" : effectText.twoPieceEffect || ""),
-                    descriptionKind: "full",
+                    ...effectTextMeta(calcData, "artifact", setId, { pieceCount }, pieceCount === 4 ? effectText.fourPieceEffect : effectText.twoPieceEffect),
                     controls: [],
                     effects: []
                 });
@@ -1665,17 +1673,17 @@
         });
     }
 
-    function buildWeaponSections(card) {
+    function buildWeaponSections(card, context, calcData) {
         const sections = new Map();
         (card.effects || []).forEach((effect) => {
-            const groupId = effect.modifier.effectGroupId || effect.id;
+            const groupId = String(context.weaponId);
             if (!sections.has(groupId)) {
                 sections.set(groupId, {
                     id: groupId,
-                    name: effect.modifier.effectLabel || effect.name,
+                    name: calcData.weaponEffects?.[context.weaponId]?.effectNameJa || effect.name,
                     order: Number(effect.modifier.effectGroupOrder) || 0,
-                    description: normalizeConditionDescription(effect.modifier.effectDescription || effect.description || ""),
-                    descriptionKind: effect.modifier.sourceText ? "full" : "summary",
+                    ...effectTextMeta(calcData, "weapon", context.weaponId, { refinement: context.refinement || 1 }),
+                    refinement: context.refinement || 1,
                     targetOwner: effect.modifier.targetOwner || "self",
                     controls: [],
                     effects: []
@@ -1784,9 +1792,7 @@
                     ? Number(context.uiState.crimsonWitchStack) || 0
                     : null;
             const sourceDescription = item.modifier.sourceText || item.sourceDescription || `${categoryLabel(item.modifier.category)}を計算に反映します。`;
-            const descriptionKind = item.modifier.sourceText
-                ? "full"
-                : item.sourceDescription ? "summary" : "generated";
+            const descriptionKind = "summary";
             cards.find((card) => card.id === cardId).effects.push({
                 id: item.modifier.id || analysis.key,
                 name: `${sourceInfo.type === "constellation" ? `${sourceInfo.id} ` : ""}${item.modifier.effectLabel || item.sourceName || categoryLabel(item.modifier.category)}`,
@@ -1810,7 +1816,7 @@
         cardById.constellation.sections = buildConstellationSections(cardById.constellation, context, calcData);
         cardById.talent.sections = buildTalentSections(cardById.talent, context, calcData);
         cardById.artifact.sections = buildArtifactSections(cardById.artifact, context, calcData);
-        cardById.weapon.sections = buildWeaponSections(cardById.weapon);
+        cardById.weapon.sections = buildWeaponSections(cardById.weapon, context, calcData);
 
         cards.forEach((card) => {
             const priority = { auto: 0, reflected: 1, notApplicable: 2, userInput: 3, missing: 4, displayOnly: 5 };
@@ -1884,7 +1890,7 @@
 
         return {
             controlState: conditionControlState(),
-            displayData: { characters: calcData.characters, talentScalings: calcData.talentScalings },
+            displayData: { characters: calcData.characters, talentScalings: calcData.talentScalings, originalEffectTexts: calcData.originalEffectTexts, characterTalents: calcData.characterTalents, characterConstellations: calcData.characterConstellations, weaponEffects: calcData.weaponEffects, artifactSetEffects: calcData.artifactSetEffects },
             resourceInputs,
             complexConditionInputs,
             dedicatedReferenceInputs,

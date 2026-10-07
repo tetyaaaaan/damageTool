@@ -2,6 +2,7 @@
     "use strict";
 
     const DATA_PATHS = {
+        originalEffectTexts: "/games/genshin/data/original/effect-texts-ja.json",
         characters: "/games/genshin/data/characters.json",
         characterOrder: "/games/genshin/data/character-release-order.json",
         uidTalentSkillMap: "/games/genshin/data/uid-talent-skill-map.json",
@@ -24,6 +25,7 @@
     ];
 
     const data = {
+        originalEffectTexts: {},
         characters: {},
         characterOrder: {},
         uidTalentSkillMap: {},
@@ -119,6 +121,7 @@
 
     const ready = Promise.all([
         loadJson("characters", DATA_PATHS.characters),
+        loadJson("originalEffectTexts", DATA_PATHS.originalEffectTexts),
         loadJson("characterOrder", DATA_PATHS.characterOrder),
         loadJson("uidTalentSkillMap", DATA_PATHS.uidTalentSkillMap),
         loadJson("characterTalents", DATA_PATHS.characterTalents),
@@ -133,6 +136,52 @@
         const normalizedId = normalizeId(id);
         if (!normalizedId) return null;
         return collection[normalizedId] || null;
+    }
+
+
+    // Display provenance is explicit. Modifier sourceText/labels are not original-text evidence.
+    function describeEffect({ data: collection = data, kind, id, sourceId, pieceCount, refinement = 1 } = {}) {
+        const originals = collection.originalEffectTexts || {};
+        let original = null;
+        let calculationSummary = "";
+        if (kind === "weapon") {
+            original = originals.weapons?.[id];
+            const effect = collection.weaponEffects?.[id] || {};
+            calculationSummary = substituteEffectParams(effect.effectTextTemplate, effect.effectParamsByRefinement?.[String(refinement)]);
+        } else if (kind === "artifact") {
+            original = originals.artifacts?.[id]?.[Number(pieceCount) === 4 ? "fourPiece" : "twoPiece"];
+            const effect = collection.artifactSetEffects?.[id] || {};
+            calculationSummary = Number(pieceCount) === 4 ? effect.fourPieceEffect : effect.twoPieceEffect;
+        } else if (kind === "talent") {
+            const key = String(sourceId || "").replace(/_/g, "");
+            original = originals.characters?.[id]?.talents?.[key];
+            const talents = collection.characterTalents?.[id] || {};
+            const item = ({ combat1: talents.normalAttack, combat2: talents.skill, combat3: talents.burst, special: talents.special })[key]
+                || (talents.passives || []).find((passive) => String(passive.sourceId || "").replace(/_/g, "") === key)
+                || (/^passive\d+$/.test(key) ? talents.passives?.[Number(key.match(/\d+/)[0]) - 1] : null);
+            calculationSummary = key === "combat1"
+                ? [...new Set([item?.normalDescriptionJa, item?.chargedDescriptionJa, item?.plungingDescriptionJa].filter(Boolean))].join("\n\n")
+                : item?.descriptionJa || "";
+        } else if (kind === "constellation") {
+            original = originals.characters?.[id]?.constellations?.[String(sourceId).replace(/^C/, "")];
+            calculationSummary = collection.characterConstellations?.[id]?.constellations?.[String(sourceId).replace(/^C/, "")]?.effectText || "";
+        }
+        const originalText = original?.originalTextByRefinement?.[String(refinement)]
+            || substituteEffectParams(original?.originalTextTemplate, original?.originalParamsByRefinement?.[String(refinement)])
+            || original?.originalText || "";
+        return {
+            originalText: cleanOriginalText(originalText),
+            calculationSummary: originalText ? "" : cleanOriginalText(calculationSummary),
+            descriptionKind: originalText ? (original?.isExcerpt ? "originalExcerpt" : "original") : "summary"
+        };
+    }
+
+    function substituteEffectParams(template, params) {
+        return String(template || "").replace(/\{([^}]+)\}/g, (token, key) => params?.[key] ?? token);
+    }
+
+    function cleanOriginalText(text) {
+        return String(text || "").replace(/\*\*/g, "").trim();
     }
 
     function resolveCharacter(id) {
@@ -216,6 +265,7 @@
 
     window.GenshinIdResolver = {
         ready,
+        describeEffect,
         resolveCharacter,
         resolveCharacterTalent,
         resolveUidTalentSkillMap,
