@@ -164,6 +164,16 @@ async function main() {
             text=await conditionText('artifact');
             assert.ok(normalize(text).includes(normalize(raw.artifacts[id].fourPiece.originalText)));
             assert.match(text,/計算への反映/);
+            if(id==='15048') {
+                const selector='[data-condition-panel="artifact"] input[data-genshin-toggle-key*="artifact15048AfterStellarGlimmer"]';
+                assert.equal(await evaluate(client,'document.querySelector('+JSON.stringify(selector)+').closest("details")===null'),true);
+                for(const enabled of [false,true]) {
+                    await evaluate(client,'(()=>{const e=document.querySelector('+JSON.stringify(selector)+');e.checked='+enabled+';e.dispatchEvent(new Event("change",{bubbles:true}));})()');await delay(200);
+                    const impacts=await evaluate(client,'Array.from(document.querySelectorAll("[data-condition-panel=artifact] .genshin-runtime-impact")).map(e=>e.textContent).join("\\n")');
+                    assert.match(impacts,enabled?/攻撃力 \+12%/:/攻撃力 \+0%　条件未成立/);
+                }
+                assert.match(await evaluate(client,'document.querySelector("[data-condition-tab=artifact]").textContent'),/条件/);
+            }
         }
         progress('PASS both Japanese artifact originals');
         await closeDialogs();await chooseCharacter('10000003');await chooseWeapon('11511');await input('genshinWeaponRefinement','R5');
@@ -198,7 +208,7 @@ async function main() {
             assert.equal(check.same,true,JSON.stringify({phase,difference:check.difference}));assert.equal(check.phase,phase);
             assert.equal(check.c1,['1','3'].includes(phase)?'active':'inactive');
             assert.equal(check.mead,phase==='1'?'one':phase==='3'?'three':'inactive');
-            assert.ok(check.mainInputs<=4);assert.equal(check.collapsed,true);
+            assert.ok(check.mainInputs<=5);assert.equal(check.collapsed,true);
             if(phase!=='unused')assert.deepEqual(check.hits,['yes','yes']);
         }
         await evaluate(client,'document.querySelector("[data-vody-advanced]").open=true');
@@ -206,11 +216,15 @@ async function main() {
         assert.equal(await evaluate(client,'document.querySelector("[data-vody-advanced]").open'),true);
         const miss=await evaluate(client,'(async()=>{const p=await window.GenshinCalcEngine.runGenshinJsonCalc();return p.context.party.conditionStates["party:2:10000140:group:vodyanitsa_skill_hit"].option})()');
         assert.equal(miss,'inactive');
+        assert.match(await evaluate(client,'document.querySelector("[data-vody-advanced] summary").textContent'),/2項目変更中/);
+        assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=qualifyingHeals]").closest("details")===null'),true);
         await action('phase','2');await action('qualifyingHeals','2');
         await action('skillHit','yes');await action('freezeSwirl','yes');
         text=await conditionText('party');
         assert.match(text,/元素スキルと現在の状況/);assert.match(text,/2回目の回復後/);
         assert.match(text,/真実を告げる蜜酒：2層/);
+        assert.ok(await evaluate(client,'Array.from(document.querySelectorAll("[data-condition-panel=party] [data-impact-state=notApplicable]")).some(e=>e.textContent.includes("今回の攻撃には非適用"))'));
+        assert.ok(await evaluate(client,'Array.from(document.querySelectorAll("[data-condition-panel=party] .genshin-runtime-impact")).some(e=>e.textContent.includes("攻撃力 +"))'));
         assert.doesNotMatch(text,/\{[a-zA-Z]\w*\}|provisional71|weaponModifiers\.|Lead Vocal|Chorus/);
         await closeDialogs();await evaluate(client,'window.__effectPayload=null;document.getElementById("genshinJsonCalcButtonBottom").click()');
         await waitFor(client,'Boolean(window.__effectPayload)&&!document.getElementById("genshinJsonCalcButtonBottom").disabled');

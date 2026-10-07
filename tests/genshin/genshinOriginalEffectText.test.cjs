@@ -4,7 +4,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
-const { createScenarioHarness, prepareScenarioInputs } = require("./helpers/calcScenarioHarness.cjs");
+const { createScenarioHarness, prepareScenarioInputs, setConditionElement } = require("./helpers/calcScenarioHarness.cjs");
 const root = path.resolve(__dirname, "../..");
 
 async function fixture(characterId = "10000140", weaponId = "14524") {
@@ -26,7 +26,7 @@ async function fixture(characterId = "10000140", weaponId = "14524") {
 function panel(f, request) {
     const context = request || f.sandbox.GenshinCalcEngine.buildCharacterCalcContext();
     const state = f.sandbox.GenshinCalcConditions.conditionPanelState(context, f.calcData);
-    f.sandbox.GenshinCalcRenderer.renderConditionCards(state, context);
+    f.sandbox.GenshinCalcRenderer.renderConditionCards(state, context, f.calcData);
     return { state, html: f.elements.genshinJsonConditionCards.innerHTML };
 }
 
@@ -99,16 +99,46 @@ test("party provider displays the complete weapon original at its own refinement
 test('provider descriptions expand rank templates without leaking raw tokens; actions replace result controls',async()=>{
  const f=await fixture('10000025',''); const r=f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
  r.party={conditionStates:{['party:2:10000140:actions:skill']:{option:'active'},['party:2:10000140:actions:heals']:{option:'1'}},members:[{slot:2,enabled:true,characterId:'10000140',constellation:6,talentLevels:{normal:10,skill:10,burst:10},stats:{hp:50500,baseHp:15000,atk:2000,baseAtk:900},buffStates:{},equipment:{weaponId:'14524',refinement:5,artifactSetIds:[]}}]};
- const {html}=panel(f,r),visible=html.replace(/<[^>]*>/g,'');
+ const {html,state}=panel(f,r),visible=html.replace(/<[^>]*>/g,'');
  assert.deepEqual(visible.match(/.{0,50}(?:\{[a-zA-Z]\w*\}|provisional71|weaponModifiers\.|Lead Vocal|Chorus).{0,70}/g)||[],[]);
  assert.match(visible,/元素スキルと現在の状況|1回目の回復後/); assert.match(visible,/HP上限：50,500 → 51,700/);
  assert.match(html,/data-genshin-vody-action="phase"/);
  const primary=html.split('<div class="genshin-provider-actions">')[1].split('<details')[0];
- assert.equal((primary.match(/data-genshin-vody-action=/g)||[]).length,4);
- assert.doesNotMatch(primary,/data-genshin-vody-action="(?:skill|heals|skillHit|hornHit|qualifyingHeals)"/);
+ assert.equal((primary.match(/data-genshin-vody-action=/g)||[]).length,5);
+ assert.doesNotMatch(primary,/data-genshin-vody-action="(?:skill|heals|skillHit|hornHit)"/);
+ assert.match(primary,/data-genshin-vody-action="qualifyingHeals"/);
  assert.match(html,/<details[^>]*data-vody-advanced="2"[^>]*><summary>詳細設定/);
  assert.match(visible,/計算対象の現在位置|流星の嵐の現在状態|C1：有効／C4：0層/);
  assert.doesNotMatch(html,/data-genshin-party-condition-key="[^"]*:group:(vodyanitsa_|provisional71_w14524)/);
  assert.match(visible,/与える治療効果\+8%/);
+ const c1=state.partyModifiers.find(c=>c.modifier.id.includes('c1') && c.modifier.category==='statBonus');
+ assert.ok(c1);assert.equal(c1.runtimeRows[0].unit,'flat');assert.equal(c1.runtimeRows[0].value,413.6);
  assert.match(visible,/攻撃力：\+413.6/); assert.match(visible,/攻撃力：\+9.36%/);
+});
+
+
+test('Runtime impact model distinguishes resolved values, attack exclusion, condition OFF and unavailable effects', async () => {
+ const f=await fixture('10000003','11511'), engine=f.sandbox.GenshinCalcEngine, renderer=f.sandbox.GenshinCalcRenderer;
+ // A supported Burst-only modifier exercises the shared adapter without changing production data.
+ f.calcData.weaponModifiers['11511'].modifiers.push({id:'display_burst_probe',category:'damageBonus',applyTo:['burstDamageBonus'],unit:'percent',value:25,condition:'always',calculationSupport:'simple',uidHandling:'conditional'});
+ const request=engine.buildCalculationRequestFromForm();request.artifactSetIds=['15048'];request.artifactSetMode='4pc';
+ const initial=panel(f,request), artifact=initial.state.cards.find(c=>c.id==='artifact').effects.find(e=>e.modifier.id==='4pc_atk_after_stellar_glimmer');
+ request.uiState.conditionByModifier={...request.uiState.conditionByModifier,[artifact.controls[0].key]:{enabled:false}};
+ const off=renderer.modifierImpactRows(artifact,renderer.createImpactEvaluation(request,f.calcData))[0];
+ assert.equal(off.value,0);assert.equal(off.reason,'条件未成立');
+ request.uiState.conditionByModifier={...request.uiState.conditionByModifier,[artifact.controls[0].key]:{enabled:true}};
+ setConditionElement(f.elements,artifact.controls[0].key,'toggle',true);f.elements['condition:'+artifact.controls[0].key+':toggle'].checked=true;
+ const on=panel(f,request), atk=on.state.cards.find(c=>c.id==='artifact').effects.find(e=>e.modifier.id===artifact.modifier.id);
+ const evaluation=renderer.createImpactEvaluation(request,f.calcData), rows=renderer.modifierImpactRows(atk,evaluation);
+ assert.equal(rows[0].value,12,JSON.stringify({controls:artifact.controls,state:request.uiState,rows,applied:evaluation.collected.applied.filter(i=>i.source.includes('15048')).map(i=>({id:i.modifier.id,source:i.source,value:i.value}))}));assert.equal(rows[0].unit,'percent');
+ const probe=on.state.cards.find(c=>c.id==='weapon').effects.find(e=>e.modifier.id==='display_burst_probe');
+ const excluded=renderer.modifierImpactRows(probe,evaluation)[0];assert.equal(excluded.value,0);assert.equal(excluded.reason,'今回の攻撃には非適用');
+ const burst=evaluation.payload.results.find(r=>r.entry.damageType==='burst');assert.ok(burst);
+ assert.equal(renderer.modifierImpactRows(probe,renderer.createImpactEvaluation(request,f.calcData,burst.attackKey))[0].value,25);
+ const statItem=evaluation.collected.applied.find(i=>i.modifier.id===artifact.modifier.id);
+ const zeroEvaluation={...evaluation,cache:new Map(),collected:{...evaluation.collected,applied:evaluation.collected.applied.map(i=>i===statItem?{...i,value:0}:i)}};
+ const zero=renderer.modifierImpactRows(atk,zeroEvaluation)[0];assert.equal(zero.value,0);assert.equal(zero.reason,'計算結果が0');
+ const unavailable=renderer.modifierImpactRows({source:'weapon:missing',modifier:{id:'unsupported',category:'damageBonus',applyTo:['burstDamageBonus'],unit:'percent'},analysis:{supportStatus:'unsupported'}},evaluation)[0];
+ assert.equal(unavailable.value,null);assert.match(renderer.impactRowText(unavailable),/未対応／計算対象外/);assert.doesNotMatch(renderer.impactRowText(unavailable),/\+0/);
+ assert.match(on.html,/計算根拠/);assert.match(on.html,/攻撃力 \+12%/);
 });
