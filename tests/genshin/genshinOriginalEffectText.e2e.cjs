@@ -188,10 +188,28 @@ async function main() {
             await waitFor(client,'Boolean(document.querySelector('+JSON.stringify(selector)+'))');
             await evaluate(client,'(()=>{const e=document.querySelector('+JSON.stringify(selector)+');e.value='+JSON.stringify(String(value))+';e.dispatchEvent(new Event("change",{bubbles:true}));})()');await delay(200);
         };
-        await action('skill','active');await action('heals','2');await action('qualifyingHeals','2');
+
+        assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=phase]").value'),'unused');
+        assert.equal(await evaluate(client,'document.querySelector("[data-vody-advanced]")===null'),true);
+        // The compact selection writes the existing skill/heals fields, preserving the Runtime contract.
+        for(const phase of ['unused','0','1','3']) {
+            await action('phase',phase);
+            const check=await evaluate(client,'(async()=>{const p=await window.GenshinCalcEngine.runGenshinJsonCalc();const r=JSON.parse(JSON.stringify(p.calculationRequest));Object.keys(r.party.conditionStates).filter(k=>k.includes(":actions:")).forEach(k=>delete r.party.conditionStates[k]);const d=await window.GenshinCalcData.loadGenshinCalcData();const old=window.GenshinCalcEngine.calculateDamageRequest(r,d);const states=p.context.party.conditionStates;return {same:JSON.stringify(old.results.map(x=>[x.entry.id,x.nonCrit,x.crit,x.expected]))===JSON.stringify(p.results.map(x=>[x.entry.id,x.nonCrit,x.crit,x.expected])),difference:old.results.map((x,i)=>({id:x.entry.id,old:x.expected,new:p.results[i]?.expected})).filter(x=>x.old!==x.new),c1:states["party:2:10000140:group:vodyanitsa_c1_heal"].option,mead:states["party:2:10000140:group:provisional71_w14524_mead_state"].option,phase:document.querySelector("[data-genshin-vody-action=phase]").value,hits:Array.from(document.querySelectorAll("[data-genshin-vody-action=skillHit],[data-genshin-vody-action=hornHit]")).map(e=>e.value),collapsed:!document.querySelector("[data-vody-advanced]")?.open,mainInputs:document.querySelector(".genshin-provider-actions").querySelectorAll(":scope > label select").length}})()');
+            assert.equal(check.same,true,JSON.stringify({phase,difference:check.difference}));assert.equal(check.phase,phase);
+            assert.equal(check.c1,['1','3'].includes(phase)?'active':'inactive');
+            assert.equal(check.mead,phase==='1'?'one':phase==='3'?'three':'inactive');
+            assert.ok(check.mainInputs<=4);assert.equal(check.collapsed,true);
+            if(phase!=='unused')assert.deepEqual(check.hits,['yes','yes']);
+        }
+        await evaluate(client,'document.querySelector("[data-vody-advanced]").open=true');
+        await action('skillHit','no');await action('hornHit','no');
+        assert.equal(await evaluate(client,'document.querySelector("[data-vody-advanced]").open'),true);
+        const miss=await evaluate(client,'(async()=>{const p=await window.GenshinCalcEngine.runGenshinJsonCalc();return p.context.party.conditionStates["party:2:10000140:group:vodyanitsa_skill_hit"].option})()');
+        assert.equal(miss,'inactive');
+        await action('phase','2');await action('qualifyingHeals','2');
         await action('skillHit','yes');await action('freezeSwirl','yes');
         text=await conditionText('party');
-        assert.match(text,/元素スキルと現在の状況/);assert.match(text,/回復2回後/);
+        assert.match(text,/元素スキルと現在の状況/);assert.match(text,/2回目の回復後/);
         assert.match(text,/真実を告げる蜜酒：2層/);
         assert.doesNotMatch(text,/\{[a-zA-Z]\w*\}|provisional71|weaponModifiers\.|Lead Vocal|Chorus/);
         await closeDialogs();await evaluate(client,'window.__effectPayload=null;document.getElementById("genshinJsonCalcButtonBottom").click()');
@@ -203,7 +221,7 @@ async function main() {
         await waitFor(client,'document.getElementById("genshinJsonCalcButtonBottom")?.getBoundingClientRect().width>0');
         await delay(500);
         text=await conditionText('party');
-        assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=heals]").value'),'2');
+        assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=phase]").value'),'2');
         await closeDialogs();
         const afterReload=await evaluate(client,'(async()=>JSON.stringify((await window.GenshinCalcEngine.runGenshinJsonCalc()).results))()');
         assert.equal(afterReload,beforeReload);

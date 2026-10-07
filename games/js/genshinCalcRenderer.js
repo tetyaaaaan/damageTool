@@ -1239,22 +1239,41 @@
 
     function renderVodyProviderActions(member, context, effects) {
         if (String(member.characterId) !== '10000140') return '';
-        const api = window.GenshinPartyModifiers, state = api.vodyProviderActions(context,member);
-        const fields = ['skill'];
-        if (state.skill === 'active') {
-            fields.push('heals','skillHit','hornHit','meteor','recipient');
-            if (Number(member.constellation)>=4 && Number(state.heals)>0) fields.push('qualifyingHeals');
-            if (String(member.equipment?.weaponId)==='14524' && Number(state.heals)>0) fields.push('freezeSwirl');
+        const api = window.GenshinPartyModifiers;
+        const state = api.vodyProviderActions(context, member);
+        const used = state.skill === 'active';
+        const phase = used ? state.heals : 'unused';
+        const renderInput = (field, label, options, value, help = '') =>
+            `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(label)}</strong>${help ? `<small>${escapeHtml(help)}</small>` : ''}</span><select data-genshin-vody-action="${field}" data-genshin-provider-slot="${member.slot}">${options.map(([key, text]) => `<option value="${key}"${value === key ? ' selected' : ''}>${escapeEffectLabel(text)}</option>`).join('')}</select></label>`;
+        const phaseOptions = [['unused','未使用'],['0','発動直後'],['1','1回目の回復後'],['2','2回目の回復後'],['3','3回目以降']];
+        const mainInputs = [renderInput('phase', '元素スキル使用後の状態', phaseOptions, phase)];
+        const advanced = [];
+        if (used) {
+            if (String(member.equipment?.weaponId) === '14524' && Number(state.heals) > 0) {
+                const spec = api.VODY_ACTION_FIELDS.freezeSwirl;
+                mainInputs.push(renderInput('freezeSwirl', spec.label, spec.options, state.freezeSwirl));
+            }
+            mainInputs.push(renderInput('recipient', '計算対象の現在位置', api.VODY_ACTION_FIELDS.recipient.options, state.recipient, 'フィールド上／待機中で受ける支援効果が変わります。'));
+            mainInputs.push(renderInput('meteor', '流星の嵐の現在状態', api.VODY_ACTION_FIELDS.meteor.options, state.meteor, '生成・起爆の状況によって支援効果が変わります。'));
+            advanced.push(renderInput('skillHit', 'スキル初撃が敵に命中した', api.VODY_ACTION_FIELDS.skillHit.options, state.skillHit));
+            advanced.push(renderInput('hornHit', '角笛が敵に命中した', api.VODY_ACTION_FIELDS.hornHit.options, state.hornHit));
+            if (Number(member.constellation) >= 4 && Number(state.heals) > 0) {
+                const options = api.VODY_ACTION_FIELDS.qualifyingHeals.options.filter(([key]) => Number(key) <= Number(state.heals));
+                advanced.push(renderInput('qualifyingHeals', 'HP40%以上のキャラを回復した回数', options, state.qualifyingHeals, 'C4のHP増加は各回復時のHP条件によります。回復回数だけでは確定しないため、初期値は0回です。'));
+            }
         }
-        const hp = effects.find(item=>item.modifier?.reference?.includeProviderConditionalStats)?.providerContext?.stats?.hp ?? member.stats?.hp;
-        const mead = context.party?.conditionStates?.[`party:${member.slot}:10000140:group:provisional71_w14524_mead_state`]?.option || 'inactive';
-        const stack = ({one:1,two:2,three:3,boostedOne:1,boostedTwo:2,boostedThree:3})[mead] || 0;
-        const hpDetail = `<details class="genshin-condition-detail"><summary>計算への反映（現在の状態）</summary><p>HP上限：${formatNumber(member.stats?.hp)} → ${formatNumber(hp)}${String(member.equipment?.weaponId)==='14524' ? `／真実を告げる蜜酒：${stack}層` : ''}</p><p>HP上限を更新した後に、C1・十二弦の涙唄・武器の攻撃力補正を計算します。</p></details>`;
-        return '<div class="genshin-provider-actions"><h5>元素スキルと現在の状況</h5>'+fields.map(field=>{
-            const spec=api.VODY_ACTION_FIELDS[field];
-            const options=spec.options.filter(([key])=>field!=='qualifyingHeals'||Number(key)<=Number(state.heals));
-            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(spec.label)}</strong></span><select data-genshin-vody-action="${field}" data-genshin-provider-slot="${member.slot}">${options.map(([key,label])=>`<option value="${key}"${state[field]===key?' selected':''}>${escapeEffectLabel(label)}</option>`).join('')}</select></label>`;
-        }).join('')+'<p class="genshin-condition-note">現在も効果が有効な回復を選択してください。時間経過は自動計算しません。命中・反応の有無は個別に設定します。</p>'+hpDetail+'</div>';
+        const prefix = `party:${member.slot}:10000140:group:`;
+        const groups = context.party?.conditionStates || {};
+        const hp = effects.find(item => item.modifier?.reference?.includeProviderConditionalStats)?.providerContext?.stats?.hp ?? member.stats?.hp;
+        const mead = groups[prefix + 'provisional71_w14524_mead_state']?.option || 'inactive';
+        const stack = ({ one:1, two:2, three:3, boostedOne:1, boostedTwo:2, boostedThree:3 })[mead] || 0;
+        const c1 = groups[prefix + 'vodyanitsa_c1_heal']?.option === 'active' && Number(member.constellation) >= 1;
+        const c4 = Number(member.constellation) >= 4 ? Number(groups[prefix + 'vodyanitsa_c4_state']?.stack) || 0 : 0;
+        const hpDetail = `<details class="genshin-condition-detail"><summary>計算への反映（現在の状態）</summary><p>ヴォジャニーツァHP上限：${formatNumber(member.stats?.hp)} → ${formatNumber(hp)}${String(member.equipment?.weaponId) === '14524' ? `／真実を告げる蜜酒：${stack}層` : ''}</p><p>C1：${c1 ? '有効' : '未適用'}／C4：${c4}層</p><p>HP上限を更新した後に、C1・十二弦の涙唄・武器の攻撃力補正を計算します。</p></details>`;
+        const advancedOpen = getElement('genshinJsonConditionCards')?.querySelector?.(`[data-vody-advanced="${member.slot}"]`)?.open;
+        const advancedSection = advanced.length ? `<details class="genshin-condition-detail" data-vody-advanced="${member.slot}"${advancedOpen ? ' open' : ''}><summary>詳細設定（命中・回復時のHP）</summary><p>敵に対して使用する通常の状況では命中を「はい」にします。外した場合などに変更してください。</p>${advanced.join('')}</details>` : '';
+        return '<div class="genshin-provider-actions"><h5>元素スキルと現在の状況</h5>' + mainInputs.join('')
+            + '<p class="genshin-condition-note">現在も効果が有効な状態を選択してください。時間経過は自動計算しません。</p>' + advancedSection + hpDetail + '</div>';
     }
     function isVodyDerivedCandidate(candidate) {
         return String(candidate.member?.characterId)==='10000140' && (String(candidate.modifier?.conditionGroupId||'').startsWith('vodyanitsa_') || candidate.modifier?.conditionGroupId==='provisional71_w14524_mead_state');
@@ -1409,7 +1428,7 @@
             return `<section class="genshin-condition-card is-wide genshin-party-condition-card" data-condition-card="party" data-party-slot="${member.slot}">
                 <header><div><h4>${escapeHtml(name)}</h4><p>Lv.${escapeHtml(member.level)} / C${escapeHtml(member.constellation)}</p></div><span class="genshin-condition-source">MEMBER ${member.slot}</span></header>
                 ${renderVodyProviderActions(member, context, effects)}
-                ${renderedEffects.length ? renderedEffects.map((candidate) => renderPartyModifier(candidate, context, calcData)).join("") : `<p class="genshin-condition-card-empty">メインキャラへ適用できる補正はありません。</p>`}
+                ${renderedEffects.length ? (String(member.characterId) === "10000140" ? `<details class="genshin-condition-detail"><summary>効果別の計算への反映・効果説明</summary>${renderedEffects.map(candidate => renderPartyModifier(candidate, context, calcData)).join("")}</details>` : renderedEffects.map(candidate => renderPartyModifier(candidate, context, calcData)).join("")) : `<p class="genshin-condition-card-empty">メインキャラへ適用できる補正はありません。</p>`}
             </section>`;
         }).join("");
     }
@@ -1606,7 +1625,20 @@
                     const member = request.party?.members?.find(item=>Number(item.slot)===Number(event.target.dataset.genshinProviderSlot));
                     if (member) {
                         const api = window.GenshinPartyModifiers, state = api.vodyProviderActions(request,member);
-                        state[event.target.dataset.genshinVodyAction] = event.target.value;
+                        const field = event.target.dataset.genshinVodyAction;
+                        if (field === 'phase') {
+                            const used = event.target.value !== 'unused';
+                            // Normal combat defaults apply on entering the used state; retain later exceptions.
+                            if (used && state.skill !== 'active') {
+                                state.skillHit = 'yes';
+                                state.hornHit = 'yes';
+                            }
+                            state.skill = used ? 'active' : 'inactive';
+                            state.heals = used ? event.target.value : '0';
+                            state.qualifyingHeals = String(Math.min(Number(state.qualifyingHeals), Number(state.heals)));
+                        } else {
+                            state[field] = event.target.value;
+                        }
                         for (const [field,value] of Object.entries(state)) window.GenshinPartyState.setPartyConditionState(api.vodyActionKey(member,field),'option',value);
                     }
                     handleConditionValueChange(); return;

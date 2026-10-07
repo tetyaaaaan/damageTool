@@ -101,8 +101,13 @@ test('provider descriptions expand rank templates without leaking raw tokens; ac
  r.party={conditionStates:{['party:2:10000140:actions:skill']:{option:'active'},['party:2:10000140:actions:heals']:{option:'1'}},members:[{slot:2,enabled:true,characterId:'10000140',constellation:6,talentLevels:{normal:10,skill:10,burst:10},stats:{hp:50500,baseHp:15000,atk:2000,baseAtk:900},buffStates:{},equipment:{weaponId:'14524',refinement:5,artifactSetIds:[]}}]};
  const {html}=panel(f,r),visible=html.replace(/<[^>]*>/g,'');
  assert.deepEqual(visible.match(/.{0,50}(?:\{[a-zA-Z]\w*\}|provisional71|weaponModifiers\.|Lead Vocal|Chorus).{0,70}/g)||[],[]);
- assert.match(visible,/元素スキルと現在の状況|回復1回後/); assert.match(visible,/HP上限：50,500 → 51,700/);
- assert.match(html,/data-genshin-vody-action="skill"/);
+ assert.match(visible,/元素スキルと現在の状況|1回目の回復後/); assert.match(visible,/HP上限：50,500 → 51,700/);
+ assert.match(html,/data-genshin-vody-action="phase"/);
+ const primary=html.split('<div class="genshin-provider-actions">')[1].split('<details')[0];
+ assert.equal((primary.match(/data-genshin-vody-action=/g)||[]).length,4);
+ assert.doesNotMatch(primary,/data-genshin-vody-action="(?:skill|heals|skillHit|hornHit|qualifyingHeals)"/);
+ assert.match(html,/<details[^>]*data-vody-advanced="2"[^>]*><summary>詳細設定/);
+ assert.match(visible,/計算対象の現在位置|流星の嵐の現在状態|C1：有効／C4：0層/);
  assert.doesNotMatch(html,/data-genshin-party-condition-key="[^"]*:group:(vodyanitsa_|provisional71_w14524)/);
  assert.match(visible,/与える治療効果\+8%/);
  assert.match(visible,/攻撃力：\+413.6/); assert.match(visible,/攻撃力：\+9.36%/);
