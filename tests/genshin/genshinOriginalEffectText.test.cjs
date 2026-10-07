@@ -223,7 +223,8 @@ test('user-confirmed Melody and Chorus mechanics remain separate from saved game
  request.party={conditionStates:{},members:[{slot:2,enabled:true,level:90,characterId:'10000140',constellation:0,talentLevels:{normal:10,skill:10,burst:10},stats:{hp:50500,baseHp:15000,atk:2000,baseAtk:900},equipment:{weaponId:'',artifactSetIds:[]},buffStates:{}}]};
  const html=panel(f,request).html;
  assert.doesNotMatch(html,/確認済みの効果内容|href="https:\/\/gamewith/);
- for (const name of ['悠久の歌','春を呼ぶ角笛','流星の嵐','メロディ','コーラス']) assert.ok(html.includes('関連効果</span> ' + name));
+ for (const name of ['悠久の歌','流星の嵐','メロディ','コーラス']) assert.ok(html.includes('関連効果</span> ' + name));
+ assert.doesNotMatch(html,/関連効果<\/span> (?:古の)?春を呼ぶ角笛/);
  assert.match(html,/固有天賦1|固有天賦2|元素スキル/);
  assert.ok(record.confirmedMechanics.sections.length,'private evidence is retained');
 });
@@ -233,10 +234,23 @@ test('related effect resolver uses exact parent excerpts and keeps missing linke
  const f=await fixture('10000025','');
  const raw=f.calcData.originalEffectTexts.characters['10000140'].talents;
  const skill=f.sandbox.GenshinIdResolver.describeEffect({data:f.calcData,kind:'talent',id:'10000140',sourceId:'combat2'});
- for(const effect of skill.relatedEffects) {assert.equal(effect.classification,'B');assert.equal(effect.descriptionKind,'originalExcerpt');assert.ok(raw.combat2.originalText.includes(effect.originalText));}
+ for(const effect of skill.relatedEffects.filter(effect=>effect.classification==='B')) {assert.equal(effect.descriptionKind,'originalExcerpt');assert.ok(raw.combat2.originalText.includes(effect.originalText));}
+ const horn=skill.relatedEffects.find(effect=>effect.nameJa==='古の春を呼ぶ角笛');assert.equal(horn.classification,'C');assert.equal(horn.originalText,'');
  assert.match(skill.relatedEffects[0].originalText,/中断耐性|HPを回復/);
  const a4=f.sandbox.GenshinIdResolver.describeEffect({data:f.calcData,kind:'talent',id:'10000140',sourceId:'passive2'});
- assert.ok(a4.relatedEffects.every(effect=>effect.classification==='D'&&!effect.originalText));
+ const sourcePath='games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/';
+ const linked=JSON.parse(fs.readFileSync(path.join(root,sourcePath+'japanese-linked-tooltips-go.json'),'utf8'));
+ for(const effect of a4.relatedEffects) {
+  assert.equal(effect.classification,'D');assert.equal(effect.acquisitionStatus,'captured');assert.equal(effect.descriptionKind,'original');
+  const record=linked.records[effect.linkedTooltipId.replace(/^N/,'')];
+  const expected=Object.keys(record.description).sort((a,b)=>Number(a)-Number(b)).map(key=>record.description[key]).join('\n').replace(/<[^>]+>/g,'');
+  assert.equal(effect.originalText,expected);assert.ok(effect.sourceRefs.length);assert.doesNotMatch(effect.originalText,/<[^>]+>|原文未取得/);
+ }
+ assert.match(a4.relatedEffects.find(effect=>effect.nameJa==='メロディ').originalText,/6500[\s\S]*3500/);
+ const saved=JSON.parse(fs.readFileSync(path.join(root,sourcePath+'japanese-talents.json'),'utf8'));
+ assert.deepEqual(Object.keys(saved.passive2),['name','descriptionRaw','description']);
+ assert.ok(saved.passive2.descriptionRaw.endsWith('元素スキル発動時に層数が更新される。'));
+
  const request=f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
  const actions={skill:'active',heals:'1',skillHit:'yes',hornHit:'yes',meteor:'late',recipient:'active'};
  request.party={conditionStates:Object.fromEntries(Object.entries(actions).map(([key,option])=>['party:2:10000140:actions:'+key,{option}])),members:[{slot:2,enabled:true,characterId:'10000140',constellation:1,talentLevels:{normal:10,skill:10,burst:10},stats:{hp:50500,baseHp:15000,atk:2000,baseAtk:900},equipment:{weaponId:'',refinement:1,artifactSetIds:[]},buffStates:{}}]};

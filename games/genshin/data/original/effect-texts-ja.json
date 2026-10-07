@@ -24,12 +24,8 @@
               }
             },
             {
-              "nameJa": "春を呼ぶ角笛",
-              "classification": "B",
-              "originalFromParent": {
-                "start": "ヴォジャニーツァは古の春を呼ぶ角笛",
-                "end": "水元素ダメージを与える。"
-              }
+              "nameJa": "古の春を呼ぶ角笛",
+              "classification": "C"
             }
           ]
         },
@@ -101,15 +97,27 @@
           "relatedEffects": [
             {
               "nameJa": "メロディ",
-              "descriptionKind": "missing",
+              "descriptionKind": "original",
               "classification": "D",
-              "linkedTooltipId": "N11400001"
+              "linkedTooltipId": "N11400001",
+              "originalRaw": "チーム内の自身のフィールド上キャラクターの通常攻撃、重撃、落下攻撃、元素スキルまたは元素爆発が<hydro>水元素ダメージ</hydro>または<cryo>氷元素ダメージ</cryo>を与える時、「メロディ」を1層消費し、与えるダメージをアップさせる。フィールド上に流星の嵐が存在している、または流星の嵐の起爆後5秒以内である場合、キャラクターが星拡散反応ダメージを与える時のみ上記の効果が発動する。\nヴォジャニーツァのHP上限が40000を超えている時、その上限が1000超えるごとに上記の効果における星拡散反応ダメージ+260、<hydro>水元素ダメージ</hydro>と<cryo>氷元素ダメージ</cryo>+140。この方法でアップできる星拡散反応ダメージは最大6500まで、<hydro>水元素ダメージ</hydro>と<cryo>氷元素ダメージ</cryo>は最大3500まで。",
+              "originalText": "チーム内の自身のフィールド上キャラクターの通常攻撃、重撃、落下攻撃、元素スキルまたは元素爆発が水元素ダメージまたは氷元素ダメージを与える時、「メロディ」を1層消費し、与えるダメージをアップさせる。フィールド上に流星の嵐が存在している、または流星の嵐の起爆後5秒以内である場合、キャラクターが星拡散反応ダメージを与える時のみ上記の効果が発動する。\nヴォジャニーツァのHP上限が40000を超えている時、その上限が1000超えるごとに上記の効果における星拡散反応ダメージ+260、水元素ダメージと氷元素ダメージ+140。この方法でアップできる星拡散反応ダメージは最大6500まで、水元素ダメージと氷元素ダメージは最大3500まで。",
+              "acquisitionStatus": "captured",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-linked-tooltips-go.json#/records/11400001"
+              ]
             },
             {
               "nameJa": "コーラス",
-              "descriptionKind": "missing",
+              "descriptionKind": "original",
               "classification": "D",
-              "linkedTooltipId": "N11400002"
+              "linkedTooltipId": "N11400002",
+              "originalRaw": "チーム内の待機キャラクター、または付近にいるチーム内の他のキャラクター（チーム内のフィールド上のキャラクターを除く）によって発動される。効果は「メロディ」と同じ。",
+              "originalText": "チーム内の待機キャラクター、または付近にいるチーム内の他のキャラクター（チーム内のフィールド上のキャラクターを除く）によって発動される。効果は「メロディ」と同じ。",
+              "acquisitionStatus": "captured",
+              "sourceRefs": [
+                "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/japanese-linked-tooltips-go.json#/records/11400002"
+              ]
             }
           ]
         },

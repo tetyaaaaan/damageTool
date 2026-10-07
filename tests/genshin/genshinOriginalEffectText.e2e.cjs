@@ -199,7 +199,11 @@ async function main() {
             await evaluate(client,'(()=>{const e=document.querySelector('+JSON.stringify(selector)+');e.value='+JSON.stringify(String(value))+';e.dispatchEvent(new Event("change",{bubbles:true}));})()');await delay(200);
         };
 
-        assert.doesNotMatch(text,/確認済みの効果内容|参照：GameWith/);assert.match(text,/関連効果/);assert.match(text,/メロディ/);assert.match(text,/コーラス/);assert.match(text,/原文未取得/);
+        assert.doesNotMatch(text,/確認済みの効果内容|参照：GameWith/);assert.match(text,/関連効果/);assert.match(text,/メロディ/);assert.match(text,/コーラス/);
+        const related=await evaluate(client,'Array.from(document.querySelectorAll("#genshin-party-member-panel-2 .genshin-related-effect")).map(e=>({name:e.querySelector("h6").innerText,text:e.innerText}))');
+        for(const name of ['メロディ','コーラス']) {const effect=related.find(effect=>effect.name.includes(name));assert.ok(effect);assert.doesNotMatch(effect.text,/原文未取得|<hydro>|<cryo>/);}
+        assert.ok(!related.some(effect=>effect.name.includes('春を呼ぶ角笛')));
+
         assert.equal(await evaluate(client,'document.querySelector("[data-genshin-vody-action=phase]").value'),'unused');
         assert.equal(await evaluate(client,'document.querySelector("[data-vody-advanced]")===null'),true);
         // The compact selection writes the existing skill/heals fields, preserving the Runtime contract.
