@@ -309,9 +309,10 @@
         const conflictingIds = [];
         const unmappedIds = [];
         const skillDepotId = String(avatar?.skillDepotId || "");
-        const depotMapping = window.GenshinIdResolver?.resolveUidTalentSkillMap?.(skillDepotId);
+        const depotMapping = window.GenshinIdResolver?.resolveUidTalentSkillMap?.(skillDepotId, String(avatar?.avatarId || ""));
         const depotSkillIds = depotMapping?.skillIds || {};
-        const hasDepotMapping = TALENT_GROUPS.every((group) => {
+        const hasCombatKeys = Object.keys(TALENT_GROUP_BY_SKILL_ID).every((id) => rawById[id] > 0);
+        const hasDepotMapping = !hasCombatKeys && TALENT_GROUPS.every((group) => {
             const id = String(depotSkillIds[group] || "");
             return id && id !== "0";
         }) && new Set(TALENT_GROUPS.map((group) => String(depotSkillIds[group]))).size === 3;

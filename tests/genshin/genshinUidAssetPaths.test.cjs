@@ -85,3 +85,18 @@ test("UID importer consumes mapped image paths instead of constructing item URLs
     assert.match(importer, /\.find\(\(artifact\).*?\)\?\.imagePath \|\|/);
     assert.doesNotMatch(importer, /\/games\/images\/genshin\/(?:characters|weapons|artifacts)\/\$\{encodeURIComponent\(/);
 });
+
+test("7.1 numeric talents use saved character mappings and add proud levels once", async () => {
+    const sandbox = await createResolverHarness();
+    const mapped = sandbox.GenshinProfileMapper.mapProfileResponse({ avatarInfoList: [{
+        avatarId: "10000140", skillDepotId: 14001,
+        skillLevelMap: { "11405": 7, "11401": 9, "11402": 8 },
+        proudSkillExtraLevelMap: { "14039": 3 }, equipList: [], fightPropMap: {}
+    }] }).characters[0];
+    assert.deepEqual(JSON.parse(JSON.stringify(mapped.talents)), { normal: 9, skill: 8, burst: 10 });
+    assert.equal(mapped.provenance.talentLevelMapping.status, "resolved");
+    const order = readJson("games/genshin/data/character-release-order.json").order;
+    assert.equal(new Set(order).size, order.length);
+    assert.ok(sandbox.GenshinIdResolver.listCharacters().every(character => order.includes(character.id)));
+    assert.deepEqual(order.slice(-6), ["10000148", "10000150", "10000143", "10000140", "10000005_cryo", "10000007_cryo"]);
+});

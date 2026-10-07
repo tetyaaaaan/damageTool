@@ -6,9 +6,9 @@ const test = require("node:test");
 const ROOT = path.resolve(__dirname, "../..");
 const read = (relativePath) => fs.readFileSync(path.join(ROOT, relativePath), "utf8");
 
-test("UID card labels unresolved talent levels as level 1 pending manual confirmation", () => {
+test("UID card asks for manual talents instead of presenting an assumed level 1", () => {
     const importer = read("games/js/genshinUidImporter.js");
-    assert.match(importer, /talentOrderUnresolved:\s*"このキャラクターの天賦ID対応データがないためLv1として表示します。反映後に手動で確認してください。"/);
+    assert.match(importer, /talentOrderUnresolved:\s*"天賦Lvを取得できませんでした。手動で設定してください。"/);
     assert.match(importer, /talentMappingWarning\(character\)/);
     assert.match(importer, /genshin-uid-talent-warning/);
     assert.match(importer, /role="alert"/);

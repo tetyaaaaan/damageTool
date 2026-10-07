@@ -11,6 +11,18 @@
       "ExcelBinOutput/AvatarExcelConfigData.json"
     ]
   },
+  "byCharacterId": {
+    "10000140": {
+      "skillIds": { "normal": "11401", "skill": "11402", "burst": "11405" },
+      "proudSkillGroupIds": { "normal": "14031", "skill": "14032", "burst": "14039" },
+      "sourcePath": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vodyanitsa-currentcalc/enka-avatar-record.json"
+    },
+    "10000143": {
+      "skillIds": { "normal": "11431", "skill": "11432", "burst": "11435" },
+      "proudSkillGroupIds": { "normal": "14331", "skill": "14332", "burst": "14339" },
+      "sourcePath": "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/enka-avatar-record.json"
+    }
+  },
   "bySkillDepotId": {
     "201": {
       "skillIds": {

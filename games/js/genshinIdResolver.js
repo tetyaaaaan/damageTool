@@ -144,8 +144,9 @@
         return findEntry(data.characterTalents, id);
     }
 
-    function resolveUidTalentSkillMap(skillDepotId) {
-        return findEntry(data.uidTalentSkillMap?.bySkillDepotId || {}, skillDepotId);
+    function resolveUidTalentSkillMap(skillDepotId, characterId) {
+        return findEntry(data.uidTalentSkillMap?.byCharacterId || {}, characterId)
+            || findEntry(data.uidTalentSkillMap?.bySkillDepotId || {}, skillDepotId);
     }
 
     function resolveWeapon(id) {

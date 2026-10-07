@@ -13,7 +13,7 @@
         noCharacters: "公開キャラクターが設定されていません",
         fetched: "公開プロフィールを取得しました。数値ステータスを入力欄へ反映できます。",
         appliedSuffix: "の情報を入力欄へ反映しました。必要に応じて手動で修正できます。",
-        talentOrderUnresolved: "このキャラクターの天賦ID対応データがないためLv1として表示します。反映後に手動で確認してください。",
+        talentOrderUnresolved: "天賦Lvを取得できませんでした。手動で設定してください。",
         savedUidRemoved: "このブラウザに保存したUIDを削除しました。"
     };
 
@@ -449,7 +449,7 @@
         const weaponImage = weapon?.imagePath || "/games/images/genshin/fallback.webp";
         const elementIcon = ELEMENT_ICON_NAMES[character.element] ? `/games/images/genshin/elements/${ELEMENT_ICON_NAMES[character.element]}.webp` : "";
         const weaponTypeIcon = WEAPON_ICON_NAMES[character.weaponType] ? `/games/images/genshin/ui/weapon-${WEAPON_ICON_NAMES[character.weaponType]}.webp` : "";
-        const talents = character.talents || { normal: 1, skill: 1, burst: 1 };
+        const talents = talentMappingWarning(character) ? { normal: "未取得", skill: "未取得", burst: "未取得" } : character.talents || { normal: 1, skill: 1, burst: 1 };
         const talentWarning = talentMappingWarning(character);
         return `<div class="genshin-uid-profile-summary">
             <div class="genshin-uid-character-row"><img class="genshin-uid-character-image" src="${escapeHtml(characterImage)}" alt="" width="64" height="64"><div class="genshin-uid-character-copy"><strong>${escapeHtml(character.name || unsupported("キャラクター", character.id))} <span class="genshin-uid-level">Lv.${escapeHtml(character.level || "-")}</span></strong><div class="genshin-uid-tags">${elementIcon ? `<span class="genshin-uid-icon-tag genshin-uid-element-tag"><img src="${escapeHtml(elementIcon)}" alt="${escapeHtml(character.element)}"></span>` : ""}${weaponTypeIcon ? `<span class="genshin-uid-icon-tag"><img src="${escapeHtml(weaponTypeIcon)}" alt="${escapeHtml(character.weaponType)}"></span>` : ""}<span class="genshin-uid-badge genshin-uid-rarity">★${escapeHtml(character.rarity || "-")}</span><span class="genshin-uid-badge genshin-uid-constellation">C${toNumber(character.constellation)}</span></div></div><button type="button" class="genshin-uid-details-button" id="genshinUidDetailsOpen">詳細</button></div>
@@ -517,7 +517,7 @@
         const artifactSummary = summarizeArtifactSets(character.artifacts || []);
         const artifactSetType = summarizeArtifactSetType(character.artifacts || []);
         const constellation = `C${toNumber(character.constellation)}`;
-        const talents = character.talents || { normal: 1, skill: 1, burst: 1 };
+        const talents = talentMappingWarning(character) ? { normal: "未取得", skill: "未取得", burst: "未取得" } : character.talents || { normal: 1, skill: 1, burst: 1 };
         const characterImage = character.imagePath || "/games/images/genshin/fallback.webp";
         const weaponImage = weapon?.imagePath || "/games/images/genshin/fallback.webp";
         const elementIcon = ELEMENT_ICON_NAMES[character.element]
@@ -691,6 +691,12 @@
             setInputValue("genshinNormalTalentLevel", talents.normal, "integer");
             setInputValue("genshinSkillTalentLevel", talents.skill, "integer");
             setInputValue("genshinBurstTalentLevel", talents.burst, "integer");
+            if (talentWarning) {
+                ["Normal", "Skill", "Burst"].forEach((kind) => {
+                    const field = getElement(`genshin${kind}TalentLevel`);
+                    if (field) { field.value = ""; delete field.dataset.preciseValue; field.dispatchEvent(new Event("input", { bubbles: true })); }
+                });
+            }
             applyArtifactSetsToForm(character.artifacts || []);
             setInputValue("genshinHpInput", character.stats.hp, "preciseInteger");
             setInputValue("genshinBaseHpInput", character.stats.baseHp, "preciseDecimal");

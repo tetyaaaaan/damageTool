@@ -54,7 +54,6 @@
         byId("genshinEquipmentDetailsKicker").textContent = `CHARACTER / ${constellation}`;
         byId("genshinEquipmentDetailsTitle").textContent = character.nameJa;
         return `
-            ${character.dataStatus === "provisional" ? '<aside class="genshin-json-provisional-notice">参考データのステータス・効果を表示しています。</aside>' : ""}
             <details class="genshin-equipment-detail-section" open>
               <summary>天賦</summary>
               <div>${talentItems || paragraph("天賦情報は登録されていません。")}</div>
@@ -75,7 +74,7 @@
 
     const WEAPON_PARAM_LABELS = {
         growthAtk: "繁茂1層の攻撃力", growthEm: "繁茂1層の元素熟知",
-        radiantGrowthAtk: "輝映時の繁茂1層の攻撃力", radiantGrowthStar: "輝映時の星反応補正（層数との関係は確認中）",
+        radiantGrowthAtk: "輝映時の繁茂1層の攻撃力", radiantGrowthStar: "輝映時の繁茂1層の星反応補正",
         pactCryoEm: "氷元素1人あたりの元素熟知", pactElectroAtk: "雷元素1人あたりの攻撃力",
         radiantPactEm: "輝映時の氷・雷元素1人あたりの元素熟知", radiantPactStar: "輝映時の氷・雷元素1人あたりの星反応補正",
         hymnEr: "常時の元素チャージ効率", venomStar: "蛇舌の猛毒による星反応補正",
@@ -111,7 +110,7 @@
 
         byId("genshinEquipmentDetailsKicker").textContent = `WEAPON / ${refinement}`;
         byId("genshinEquipmentDetailsTitle").textContent = weapon.nameJa;
-        return `${weapon.dataStatus === "provisional" ? '<aside class="genshin-json-provisional-notice">参考データのステータス・効果を表示しています。</aside>' : ""}<section class="genshin-equipment-detail-section is-static">
+        return `<section class="genshin-equipment-detail-section is-static">
             <h3>${escapeHtml(effect.effectNameJa || "武器効果")}</h3>
             <div>${paragraph(description)}</div>
             ${renderWeaponParams(params)}

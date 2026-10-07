@@ -225,7 +225,7 @@
     }
 
     function buildCalculationRequestFromForm() {
-        const artifactSetMode = readText("genshinArtifactSetMode", "");
+        const artifactSetMode = readText("genshinArtifactSetMode", "") || "none";
         const artifactSetOne = readText("genshinArtifactSetOne", "");
         const artifactSetTwo = readText("genshinArtifactSetTwo", "");
         const artifactSetIds = [];

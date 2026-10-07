@@ -251,10 +251,10 @@ async function main() {
         assert.doesNotMatch(pendingText, /externalConfirmationRequired|deferredUnknown|damageType\s*[:=]\s*unknown/,
             "internal status enum values are not shown to users");
         const deferredText = await evaluate(client, 'document.body.innerText');
-        assert.match(deferredText, /暫定仕様/,
-            "provisional specifications have a short explanation");
+        assert.doesNotMatch(deferredText, /暫定仕様|検証中/,
+            `calculable effects do not show development status labels: ${deferredText.match(/.{0,50}(?:暫定仕様|検証中).{0,50}/g)}`);
         const provisionalNotice = await evaluate(client, 'document.querySelector(".genshin-json-provisional-notice")?.innerText || ""');
-        assert.match(provisionalNotice, /参考データを使用中|確認中/, "the unverified candidate state is explained in the result banner");
+        assert.equal(provisionalNotice, "", "calculable effects do not show a development status banner");
         assert.doesNotMatch(deferredText, /deferredUnknown|externalConfirmationRequired/,
             "internal enum values do not leak into the page");
 

@@ -104,7 +104,7 @@
                 if (bOrder === undefined) return -1;
                 return aOrder - bOrder;
             }
-            return Number(b.id) - Number(a.id);
+            return 0;
         });
     }
 
@@ -278,14 +278,6 @@
             const name = document.createElement("strong");
             name.textContent = item.nameJa;
             copy.appendChild(name);
-            if (item.dataStatus === "provisional") {
-                const provisional = document.createElement("span");
-                provisional.className = "genshin-selection-provisional";
-                provisional.textContent = item.verificationLabel || "検証中";
-                copy.appendChild(provisional);
-                button.dataset.dataStatus = "provisional";
-                button.setAttribute("aria-label", `${button.getAttribute("aria-label") || item.nameJa}、検証中データ`);
-            }
             if (state.mode === "weapon") {
                 const meta = document.createElement("span");
                 meta.textContent = `★${item.rarity}`;
@@ -405,6 +397,9 @@
             const character = state.characters.find((item) => item.id === id);
             if (!character) return;
             const changed = byId("genshinCalcCharacterId").value !== character.id;
+            if (changed) {
+                ["Normal", "Skill", "Burst"].forEach((kind) => setField(`genshin${kind}TalentLevel`, "10"));
+            }
             if (changed) window.GenshinInputProvenance?.clearDerivedBaseStats?.("character");
             setField("genshinReflectCharacter", character.nameJa);
             setField("genshinCalcCharacterId", character.id);

@@ -14,7 +14,7 @@ test("public state controls offer automatic restoration without developer JSON a
     assert.match(html, /前回入力.*自動保存/);
 });
 
-test("public provisional notes are compact and never expose diagnostic keys", () => {
+test("calculable provisional status and diagnostic keys remain internal", () => {
     const { sandbox, elements } = fixture();
     const classes = new Set();
     const wrap = elements.genshinJsonCalcWarnings = {
@@ -28,10 +28,9 @@ test("public provisional notes are compact and never expose diagnostic keys", ()
         { level: "info", message: "この武器効果の一部は暫定仕様で計算しています。" },
         { level: "info", message: "この武器効果の一部は暫定仕様で計算しています。" }
     ]);
-    assert.equal(wrap.hidden, false);
-    assert.ok(classes.has("is-provisional"));
-    assert.equal((wrap.innerHTML.match(/<li>/g) || []).length, 1);
-    assert.match(wrap.innerHTML, /暫定仕様/);
+    assert.equal(wrap.hidden, true);
+    assert.ok(!classes.has("is-provisional"));
+    assert.equal(wrap.innerHTML, "");
     assert.doesNotMatch(wrap.innerHTML, /weaponModifiers|provisional71|\.json|stellarSwirl|cryo/);
 });
 

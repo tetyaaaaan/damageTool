@@ -45,13 +45,14 @@ const profileFixture = {
     playerInfo: { uid: "800000000", nickname: "Image fixture", level: 60, worldLevel: 8 },
     ttl: 0,
     avatarInfoList: [
-        avatar("10000140", "", "14524", "15047", 1),
-        avatar("10000143", "", "11522", "15048", 2),
+        { ...avatar("10000140", "14001", "14524", "15047", 1), skillLevelMap: { "11401": 9, "11402": 8, "11405": 7 }, proudSkillExtraLevelMap: { "14039": 3 } },
+        { ...avatar("10000143", "14301", "11522", "15048", 2), skillLevelMap: { "11431": 10, "11432": 10, "11435": 10 } },
         avatar("10000150", "", "11520", "15042", 3),
         avatar("10000148", "", "11436", "15042", 4),
         avatar("10000005", "505", "11501", "15042", 5),
         avatar("10000007", "705", "11502", "15042", 6),
-        avatar("10000150", "", "11437", "15047", 7)
+        avatar("10000150", "", "11437", "15047", 7),
+        { ...avatar("10000148", "", "11436", "15042", 8), skillLevelMap: { unmappedNormal: 9, unmappedSkill: 8, unmappedBurst: 7 } }
     ]
 };
 
@@ -168,6 +169,7 @@ async function main() {
             } catch (error) { console.error("UID fixture interception failed", error); }
         });
         await waitFor(client, "Boolean(window.GenshinIdResolver && window.GenshinProfileMapper && window.GenshinProfileApi)");
+        await evaluate(client, 'window.GenshinCurrentCalcState.ready.then(()=>true)');
         await waitFor(client, 'document.getElementById("genshinUidSearchButton")?.getBoundingClientRect().width > 0');
         await evaluate(client, `(() => {
             const run=window.GenshinCalcEngine.runGenshinJsonCalc.bind(window.GenshinCalcEngine);
@@ -220,6 +222,33 @@ async function main() {
             })()`);
             assert.equal(calculation.characterId, item.id, `${item.name} calculation uses selected UID identity`);
             assert.ok(calculation.results.length > 0 && calculation.results.some((value) => value > 0), `${item.name} produces a nonzero calculated hit`);
+            if (item.index === 0) {
+                const levels = await evaluate(client, 'window.__uidAssetCalcPayload.calculationRequest.talentLevels');
+                assert.deepEqual(levels, { normal: 9, skill: 8, burst: 10 });
+                assert.equal(await evaluate(client, 'document.getElementById("genshinBurstTalentLevel").value'), "10");
+                assert.doesNotMatch(await evaluate(client, 'document.getElementById("genshinCharacterDetail").innerText'), /Lv1として|天賦Lvを取得できません/);
+                const baseHit = await evaluate(client, 'window.__uidAssetCalcPayload.results.find(r=>r.entry.attackType==="burst").expected');
+                await evaluate(client, '(() => {const field=document.getElementById("genshinBurstTalentLevel");field.value="11";field.dispatchEvent(new Event("input",{bubbles:true}));document.getElementById("genshinJsonCalcButtonBottom").click()})()');
+                await waitFor(client, 'window.__uidAssetCalcPayload.calculationRequest.talentLevels.burst===11');
+                assert.ok(await evaluate(client, `window.__uidAssetCalcPayload.results.find(r=>r.entry.attackType==="burst").expected>${baseHit}`));
+                await evaluate(client, 'window.GenshinCurrentCalcState.persist()');
+                const stored = await evaluate(client, 'JSON.parse(localStorage.getItem(window.GenshinCurrentCalcState.STORAGE_KEY))?.state.request');
+                assert.equal(stored?.talentLevels.burst, 11);
+                await client.send("Page.reload", { ignoreCache: true });
+                await waitFor(client, 'Boolean(window.GenshinCurrentCalcState)');
+                await evaluate(client, 'window.GenshinCurrentCalcState.ready.then(()=>true)');
+                assert.equal(await evaluate(client, 'document.getElementById("genshinBurstTalentLevel").value'), "11");
+                await evaluate(client, 'document.getElementById("genshinReflectCharacter").click()');
+                await waitFor(client, 'document.getElementById("genshinSelectionDialog").open');
+                const ordered = await evaluate(client, '[...document.querySelectorAll("#genshinSelectionList [data-selection-id]")].map(e=>e.dataset.selectionId)');
+                assert.deepEqual(ordered.slice(-6), ["10000148","10000150","10000143","10000140","10000005_cryo","10000007_cryo"]);
+                assert.doesNotMatch(await evaluate(client, 'document.getElementById("genshinSelectionList").innerText'), /検証中|暫定仕様/);
+                await evaluate(client, 'document.querySelector(\'#genshinSelectionList [data-selection-id="10000143"]\').click()');
+                assert.equal(await evaluate(client, 'document.getElementById("genshinBurstTalentLevel").value'), "10", "character change clears the previous talent level");
+                await evaluate(client, `(() => {const input=document.getElementById("genshinUidInput");input.value="800000000";document.getElementById("genshinUidSearchButton").click()})()`);
+                await waitFor(client, 'document.getElementById("genshinUidMessage").dataset.type==="success"');
+                await evaluate(client, `(() => {const run=window.GenshinCalcEngine.runGenshinJsonCalc.bind(window.GenshinCalcEngine);window.GenshinCalcEngine.runGenshinJsonCalc=async(...args)=>{const payload=await run(...args);window.__uidAssetCalcPayload=payload;return payload;}})()`);
+            }
             if (item.id.endsWith("_cryo")) {
                 await evaluate(client, 'document.getElementById("genshinReflectCharacter").click()');
                 await waitFor(client, 'document.getElementById("genshinSelectionDialog")?.open === true');
@@ -240,6 +269,13 @@ async function main() {
         }))()`);
         assert.equal(applied.charId, "10000150");
         assert.equal(applied.weaponId, "11437");
+        await evaluate(client, '(() => {const select=document.getElementById("genshinProfileCharacterSelect");select.value="7";select.dispatchEvent(new Event("change",{bubbles:true}));document.getElementById("genshinApplyProfileButton").click();window.__uidAssetCalcPayload=null;document.getElementById("genshinJsonCalcButtonBottom").click();})()');
+        assert.equal(await evaluate(client, 'document.getElementById("genshinBurstTalentLevel").value'), "", "unknown UID talent IDs require manual input");
+        assert.equal(await evaluate(client, 'window.__uidAssetCalcPayload'), null, "unknown talents do not silently calculate at level 1");
+        assert.match(await evaluate(client, 'document.getElementById("genshinUidMessage").innerText'), /天賦Lvを取得できませんでした。手動で設定してください/);
+        await evaluate(client, '(() => {["Normal","Skill","Burst"].forEach((kind,index)=>{const field=document.getElementById(`genshin${kind}TalentLevel`);field.value=String(9-index);field.dispatchEvent(new Event("input",{bubbles:true}));});document.getElementById("genshinJsonCalcButtonBottom").click();})()');
+        await waitFor(client, "Boolean(window.__uidAssetCalcPayload)");
+        assert.deepEqual(await evaluate(client, "window.__uidAssetCalcPayload.calculationRequest.talentLevels"), { normal: 9, skill: 8, burst: 7 });
         console.log("[genshin-uid-assets-e2e] PASS UID fixture -> resolver paths -> browser-loaded 7.0/7.1 images -> selected calculator identity");
     } finally {
         try { client?.socket.close(); } catch {}

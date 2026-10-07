@@ -270,7 +270,7 @@ async function main() {
         assert.ok(pendingRow.expected>ordinary.expected,"continuous A4 raises real damage at intermediate HP");
         assert.equal(pendingRow.breakdown.additiveBaseDamage,1470,"provisional continuous A4 at HP50500");
         const pendingText=await evaluate(client,'document.body.innerText');
-        assert.match(pendingText,/暫定仕様/,"provisional A4 has a concise user-facing explanation");
+        assert.doesNotMatch(pendingText,/暫定仕様/,"calculable A4 status stays internal");
         assert.doesNotMatch(pendingText,/externalConfirmationRequired|deferredUnknown/,"internal pending enums stay hidden");
         await replay();
         const ownSnapshot=resultSignature(pending);
@@ -311,7 +311,7 @@ async function main() {
         assert.ok(Math.abs(combined.breakdown.additiveBaseDamage-Math.min(Math.max(0,hymnOn.context.effectiveStats.hp-40000)/1000*140,3500))<1e-7);
         const visible=await evaluate(client,'document.body.innerText');
         assert.doesNotMatch(visible,/weaponModifiers\.|provisional71_|stellarSwirl|externalSpecPending|data\/v2\//);
-        assert.match(visible,/暫定仕様/);
+        assert.doesNotMatch(visible,/暫定仕様/);
         await replay();const combinedSignature=resultSignature(hymnOn);
         await evaluate(client,'location.reload()');await waitFor(client,'document.getElementById("genshinCalcWeaponId")?.value==="14524"');
         await evaluate(client,'(()=>{const original=window.GenshinCalcEngine.runGenshinJsonCalc.bind(window.GenshinCalcEngine);window.GenshinCalcEngine.runGenshinJsonCalc=async(...args)=>{const p=await original(...args);window.__vodyanitsaCurrentPayload=p;return p;};})()');

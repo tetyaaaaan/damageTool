@@ -70,6 +70,7 @@
         if (!wrap) return;
         const visibleWarnings = [...new Set((warnings || []).map((warning) => {
             const message = warning.userMessage || warning.message || String(warning);
+            if (warning.kind === "provisional" || message.includes("暫定仕様")) return "";
             // Diagnostics retain their detailed keys in the payload/console, never in public copy.
             if (/(?:Modifiers\.|weaponEffectRegistry|canonicalRuntime|\/games\/|\.json|provisional\d|calculationSupport|uidHandling|sourceContext|\b\d{8}\b|(?:anemo|cryo|stellarSwirl|stellarConduct)\b)/.test(message)) {
                 return warning.level === "error" ? "一部の計算データを読み込めませんでした。ページを再読み込みしてください。" : "";
@@ -811,13 +812,8 @@
         const displayData = payload.displayData || {};
         const characterName = resolveDisplayName(displayData.characters, context.characterId, "未対応キャラクター");
         const weaponName = resolveDisplayName(displayData.weapons, context.weaponId, "未対応武器");
-        const provisionalItems = [
-            displayData.characters?.[context.characterId]?.dataStatus === "provisional" ? characterName : "",
-            displayData.weapons?.[context.weaponId]?.dataStatus === "provisional" ? weaponName : "",
-            context.reactionOption?.dataStatus === "provisional" ? context.reactionOption.label : ""
-        ].filter(Boolean);
-        const provisionalNotice = provisionalItems.length
-            ? `<aside class="genshin-json-provisional-notice">参考データを使用中：${escapeHtml(provisionalItems.join(" / "))}。${context.weaponId === "11435" ? "中間距離の対応式は仕様確認中のため、現在は最小/最大状態のみ選択可能です。" : "選択した条件での計算結果を表示しています。"}</aside>`
+        const provisionalNotice = context.weaponId === "11435"
+            ? `<aside class="genshin-json-provisional-notice">中間距離の対応式は仕様確認中のため、現在は最小/最大状態のみ選択可能です。</aside>`
             : "";
         const grouped = RESULT_TABS.reduce((acc, tab) => {
             acc[tab.id] = [];
@@ -948,7 +944,7 @@
         Object.entries(definitions || {}).forEach(([key, definition]) => {
             if (known.has(key)) return;
             const family = definition?.family;
-            const label = definition?.labelJa || definition?.label || key;
+            const label = reactionLabel({ reactionId: definition?.reactionId || key, label: definition?.labelJa || definition?.label });
             let groupLabel = family === "dedicated" && /^stellar/i.test(definition?.reactionId || key)
                 ? "星反応"
                 : family === "dedicated" ? "月反応"
@@ -1393,7 +1389,7 @@
                 return control.type !== "toggle" && (control.value === null || control.value === undefined || control.value === "");
             }).length, 0)
             + partyModifiers.filter((candidate) => ["ambiguous", "missingProviderStats", "missingInput"].includes(candidate.status)).length;
-        const reaction = context.reactionOption || { reactionId: "none", label: "反応なし", enabled: false, baseMultiplier: 1 };
+        const reaction = { ...(context.reactionOption || { reactionId: "none", enabled: false, baseMultiplier: 1 }), label: reactionLabel(context.reactionOption) };
         const reactionDescription = reaction.family === "none"
             ? "反応なしを選択中です。元素反応ダメージは計算しません。"
             : reaction.calculationStatus === "dedicatedFormulaRequired"
@@ -1438,7 +1434,7 @@
         const panels = {
             reaction: `<section class="genshin-condition-card${reactionWide ? " is-wide" : ""}" data-condition-card="reaction">
                 ${renderSourceHeader("元素反応", "REACTION", reaction.label)}
-                <div class="genshin-condition-overview"><span class="genshin-condition-status ${reaction.family === "none" ? "is-inactive" : reaction.dataStatus === "provisional" ? "is-input" : "is-auto"}">${reaction.family === "none" ? "反応なし" : reaction.dataStatus === "provisional" ? "検証中" : "適用中"}</span><strong>${escapeHtml(reaction.label)}</strong></div>
+                <div class="genshin-condition-overview"><span class="genshin-condition-status ${reaction.family === "none" ? "is-inactive" : "is-auto"}">${reaction.family === "none" ? "反応なし" : "適用中"}</span><strong>${escapeHtml(reaction.label)}</strong></div>
                 ${reactionElementControl}
                 ${dedicatedReactionControls}
                 <p class="genshin-condition-card-empty">${escapeHtml(reactionDescription)}</p>
@@ -1513,6 +1509,13 @@
         const buttons = getCalcButtons();
         buttons.forEach((button) => { button.disabled = true; });
         try {
+            for (const kind of ["Normal", "Skill", "Burst"]) {
+                const field = getElement(`genshin${kind}TalentLevel`);
+                if (field && (!field.value || !Number.isInteger(Number(field.value)) || Number(field.value) < 1 || Number(field.value) > 15)) {
+                    field.focus?.();
+                    throw new Error("天賦Lvを取得できませんでした。手動で設定してください（Lv1～15）。");
+                }
+            }
             await handlePrepareConditionsClick();
             const payload = await window.GenshinCalcEngine.runGenshinJsonCalc();
             window.GenshinCalculationComparison?.store?.record?.(payload.snapshot);
