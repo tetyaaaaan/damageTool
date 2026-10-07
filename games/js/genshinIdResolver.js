@@ -177,7 +177,9 @@
     }
 
     function substituteEffectParams(template, params) {
-        return String(template || "").replace(/\{([^}]+)\}/g, (token, key) => params?.[key] ?? token);
+        const text = String(template || "").replace(/\{([^}]+)\}/g, (token, key) => params?.[key] ?? token);
+        // A partially expanded source is not suitable for user-facing text.
+        return /\{[^}]+\}/.test(text) ? "" : text;
     }
 
     function cleanOriginalText(text) {

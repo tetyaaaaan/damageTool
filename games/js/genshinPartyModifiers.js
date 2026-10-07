@@ -283,7 +283,7 @@
             reason = "対象キャラがこの効果の対象ではないため適用しません。";
         } else if (missingProviderStats.length > 0) {
             status = "missingProviderStats";
-            reason = `発動者の${missingProviderStats.join("・")}が必要なため、現在は表示のみです。`;
+            reason = `発動者の${missingProviderStats.map(stat => ({ hp:"HP上限", baseHp:"基礎HP", atk:"攻撃力", baseAtk:"基礎攻撃力", def:"防御力", elementalMastery:"元素熟知", energyRecharge:"元素チャージ効率" })[stat] || "参照ステータス").join("・")}が必要なため、現在は表示のみです。`;
         } else if (descriptionNeedsDynamicInput(description, partyModifier)) {
             status = "missingInput";
             reason = "効果量を決める段階・ポイント・人数の入力が必要なため、現在は表示のみです。";
@@ -424,6 +424,69 @@
         return accepted;
     }
 
+    const VODY_ACTION_FIELDS = Object.freeze({
+        skill: { label: '元素スキル', options: [['inactive','未使用'],['active','使用済み']] },
+        heals: { label: '現在の経過状態', options: [['0','発動直後'],['1','回復1回後'],['2','回復2回後'],['3','回復3回以上']] },
+        qualifyingHeals: { label: 'HP40%以上のキャラを回復した回数', options: [['0','0回'],['1','1回'],['2','2回'],['3','3回以上']] },
+        skillHit: { label: 'スキル発動時の攻撃が敵に命中', options: [['no','いいえ'],['yes','はい']] },
+        hornHit: { label: '角笛の攻撃が敵に命中', options: [['no','いいえ'],['yes','はい']] },
+        freezeSwirl: { label: '凍結／星拡散を起こした後5秒以内', options: [['no','いいえ'],['yes','はい']] },
+        meteor: { label: '流星嵐の現在状態', options: [['none','発生していない／効果終了'],['generated','存在中（生成から6秒以内）'],['present','存在中（生成から6秒超）'],['recent','起爆後5秒以内'],['late','起爆後5～6秒']] },
+        recipient: { label: '計算するキャラの配置', options: [['active','フィールド上'],['offField','待機中']] }
+    });
+    function vodyActionKey(member, field) { return `party:${member.slot}:10000140:actions:${field}`; }
+    function vodyProviderActions(context, member) {
+        const states = context.party?.conditionStates || {};
+        const group = name => states[`party:${member.slot}:10000140:group:${name}`] || {};
+        const mead = String(group('provisional71_w14524_mead_state').option || 'inactive');
+        const count = ({ one:1,two:2,three:3,boostedOne:1,boostedTwo:2,boostedThree:3 })[mead] || 0;
+        const c4 = Math.min(3,Math.max(0,Number(group('vodyanitsa_c4_state').stack)||0));
+        const healed = Math.max(count,c4,group('vodyanitsa_c1_heal').option === 'active' ? 1:0);
+        const a4 = String(group('vodyanitsa_a4_state').option || 'inactive');
+        const legacy = {
+            skill: group('vodyanitsa_song_state').option === 'active' || healed || a4 !== 'inactive' || group('vodyanitsa_skill_hit').option === 'active' ? 'active':'inactive',
+            heals:String(healed), qualifyingHeals:String(c4),
+            skillHit: group('vodyanitsa_skill_hit').option === 'active' ? 'yes':'no',
+            hornHit: ['voice','meteorstorm'].includes(group('vodyanitsa_c2_variant').option) ? 'yes':'no',
+            freezeSwirl: mead.startsWith('boosted') ? 'yes':'no',
+            meteor: a4.endsWith('Swirl') || group('vodyanitsa_c2_variant').option === 'meteorstorm' ? 'recent' : group('vodyanitsa_a1_meteorstorm').option === 'active' ? 'late':'none',
+            recipient: a4.startsWith('chorus') ? 'offField':'active'
+        };
+        const result = {};
+        for (const [field, spec] of Object.entries(VODY_ACTION_FIELDS)) {
+            const value = String(states[vodyActionKey(member,field)]?.option ?? legacy[field]);
+            result[field] = spec.options.some(([key])=>key===value) ? value : spec.options[0][0];
+        }
+        result.qualifyingHeals = String(Math.min(Number(result.heals),Number(result.qualifyingHeals)));
+        return result;
+    }
+    function deriveVodyProviderConditions(context, member) {
+        if (String(member.characterId) !== '10000140') return;
+        const states = context.party.conditionStates || {};
+        // Older saved requests retain their explicit conditions until the user edits an action.
+        if (!Object.keys(VODY_ACTION_FIELDS).some(field=>Object.hasOwn(states,vodyActionKey(member,field)))) return;
+        const a = vodyProviderActions(context,member), used = a.skill === 'active';
+        const heals = used ? Number(a.heals) : 0;
+        const storm = used && ['generated','present','recent'].includes(a.meteor);
+        const set = (group,value,kind='option') => {
+            const key = `party:${member.slot}:10000140:group:${group}`;
+            const enabled = kind === 'stack' ? value>0 : value !== 'inactive';
+            states[key] = { [kind]:value, enabled };
+            member.buffStates ||= {}; member.buffStates[key] = enabled;
+        };
+        context.party.conditionStates = states;
+        set('vodyanitsa_song_state',used?'active':'inactive');
+        set('vodyanitsa_skill_hit',used && (a.skillHit==='yes'||a.hornHit==='yes')?'active':'inactive');
+        set('vodyanitsa_a1_meteorstorm',used && ['generated','recent','late'].includes(a.meteor)?'active':'inactive');
+        set('vodyanitsa_a4_state',used ? (a.recipient==='active'?'lead':'chorus')+(storm?'Swirl':'Talent'):'inactive');
+        set('vodyanitsa_c1_heal',heals>0?'active':'inactive');
+        set('vodyanitsa_c2_variant',used && a.hornHit==='yes' ? (storm?'meteorstorm':'voice'):'inactive');
+        set('vodyanitsa_c4_state',Math.min(heals,Number(a.qualifyingHeals)),'stack');
+        const meadOptions = a.freezeSwirl === 'yes'
+            ? ['inactive','boostedOne','boostedTwo','boostedThree'] : ['inactive','one','two','three'];
+        set('provisional71_w14524_mead_state',meadOptions[heals]);
+    }
+
     function collectPartyModifierCandidates(calcData, context) {
         const candidates = [];
         const isCurrentRecord = (modifier) => ![
@@ -432,6 +495,7 @@
         ].includes(modifier?.auditDisposition);
         const members = (context.party?.members || []).filter((member) => member.slot > 1 && member.enabled && member.characterId);
         members.forEach((member) => {
+            deriveVodyProviderConditions(context, member);
             const passives = calcData.talentModifiers?.[member.characterId]?.passives || [];
             passives.forEach((passive) => {
                 const sourceId = passive.sourceId || "unknown";
@@ -529,6 +593,7 @@
 
     window.GenshinPartyModifiers = {
         PARTY_TARGET_RULES,
+        VODY_ACTION_FIELDS, vodyActionKey, vodyProviderActions, deriveVodyProviderConditions,
         inferTargetOwner,
         targetAppliesToMain,
         candidateKey,

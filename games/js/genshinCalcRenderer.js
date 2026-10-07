@@ -45,6 +45,11 @@
             .replace(/'/g, "&#39;");
     }
 
+    // Generated labels only: originals and internal attribute values retain their original text.
+    function escapeEffectLabel(value) {
+        return escapeHtml(String(value ?? "").replace(/Lead Vocal/g, "メロディ").replace(/Chorus/g, "コーラス"));
+    }
+
     function formatNumber(value) {
         const num = Number(value);
         return Number.isFinite(num) ? Math.round(num).toLocaleString("ja-JP") : "-";
@@ -412,7 +417,7 @@
 
     function renderAppliedEffects(effects) {
         if (!effects.length) return "";
-        return `<ul class="genshin-breakdown-effects">${effects.map((effect) => `<li><span>${escapeHtml(effect.label)}</span>${effect.value ? `<strong>${escapeHtml(effect.value)}</strong>` : ""}</li>`).join("")}</ul>`;
+        return `<ul class="genshin-breakdown-effects">${effects.map((effect) => `<li><span>${escapeEffectLabel(effect.label)}</span>${effect.value ? `<strong>${escapeHtml(effect.value)}</strong>` : ""}</li>`).join("")}</ul>`;
     }
 
     function renderFriendlyBreakdownSection(title, rows, extra = "") {
@@ -912,7 +917,7 @@
                     const value = typeof option === "object" ? option.value : option;
                     const label = typeof option === "object" ? option.label : option;
                     const selected = String(input.value) === String(value) ? " selected" : "";
-                    return `<option value="${escapeHtml(value)}"${selected}>${escapeHtml(label)}</option>`;
+                    return `<option value="${escapeHtml(value)}"${selected}>${escapeEffectLabel(label)}</option>`;
                 }).join("");
                 return `<span class="genshin-condition-line"><span>${escapeHtml(input.label)}</span><select data-genshin-condition-key="${escapeHtml(input.key)}" data-genshin-condition-kind="option">${options}</select></span>`;
             }
@@ -964,15 +969,15 @@
 
     function renderCardControl(control) {
         if (control.type === "toggle") {
-            return `<label class="genshin-condition-toggle"><input type="checkbox" data-genshin-toggle-key="${escapeHtml(control.key)}"${control.checked ? " checked" : ""}> <span class="genshin-condition-control-copy"><strong>${escapeHtml(control.label)}</strong>${control.help ? `<small>${escapeHtml(control.help)}</small>` : ""}</span></label>`;
+            return `<label class="genshin-condition-toggle"><input type="checkbox" data-genshin-toggle-key="${escapeHtml(control.key)}"${control.checked ? " checked" : ""}> <span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(control.label)}</strong>${control.help ? `<small>${escapeEffectLabel(control.help)}</small>` : ""}</span></label>`;
         }
         if (control.type === "amosStack") {
             const options = Array.from({ length: 6 }, (_, value) => `<option value="${value}"${Number(control.value) === value ? " selected" : ""}>${value === 0 ? "追加なし / 0段" : `${value}段${value === 5 ? "（最大）" : ""}`}</option>`).join("");
-            return `<label class="genshin-condition-control"><span>${escapeHtml(control.label)}</span><select id="genshinJsonAmosStack">${options}</select></label>`;
+            return `<label class="genshin-condition-control"><span>${escapeEffectLabel(control.label)}</span><select id="genshinJsonAmosStack">${options}</select></label>`;
         }
         if (control.type === "crimsonWitchStack") {
             const options = Array.from({ length: 4 }, (_, value) => `<option value="${value}"${Number(control.value) === value ? " selected" : ""}>${value}段</option>`).join("");
-            return `<label class="genshin-condition-control"><span>${escapeHtml(control.label)}</span><select id="genshinJsonCrimsonWitchStack">${options}</select></label>`;
+            return `<label class="genshin-condition-control"><span>${escapeEffectLabel(control.label)}</span><select id="genshinJsonCrimsonWitchStack">${options}</select></label>`;
         }
         if (control.type === "stack" && Number.isFinite(Number(control.max)) && Number(control.max) <= 20) {
             const min = Number.isFinite(Number(control.min)) ? Number(control.min) : 0;
@@ -983,24 +988,24 @@
                 const label = value === 0 ? "未発動（0層）" : `${value}層`;
                 return `<option value="${value}"${current === value ? " selected" : ""}>${label}</option>`;
             }).join("");
-            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(control.label)}</strong>${control.help ? `<small>${escapeHtml(control.help)}</small>` : ""}</span><select data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="stack">${options}</select></label>`;
+            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(control.label)}</strong>${control.help ? `<small>${escapeEffectLabel(control.help)}</small>` : ""}</span><select data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="stack">${options}</select></label>`;
         }
         if (control.options?.length) {
             const options = control.options.map((option) => {
                 const value = typeof option === "object" ? option.value : option;
                 const label = typeof option === "object" ? option.label : option;
-                return `<option value="${escapeHtml(value)}"${String(control.value) === String(value) ? " selected" : ""}>${escapeHtml(label)}</option>`;
+                return `<option value="${escapeHtml(value)}"${String(control.value) === String(value) ? " selected" : ""}>${escapeEffectLabel(label)}</option>`;
             }).join("");
-            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(control.label)}</strong>${control.help ? `<small>${escapeHtml(control.help)}</small>` : ""}</span><select data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="option">${options}</select></label>`;
+            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(control.label)}</strong>${control.help ? `<small>${escapeEffectLabel(control.help)}</small>` : ""}</span><select data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="option">${options}</select></label>`;
         }
         if (control.type === "resource") {
             const max = control.max === null ? "" : ` max="${escapeHtml(control.max)}"`;
-            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(control.label)}</strong>${control.help ? `<small>${escapeHtml(control.help)}</small>` : ""}</span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-genshin-resource-key="${escapeHtml(control.key)}" min="${escapeHtml(control.min)}"${max} step="1" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力">${control.unit ? `<em>${escapeHtml(control.unit)}</em>` : ""}</span></label>`;
+            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(control.label)}</strong>${control.help ? `<small>${escapeEffectLabel(control.help)}</small>` : ""}</span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-genshin-resource-key="${escapeHtml(control.key)}" min="${escapeHtml(control.min)}"${max} step="1" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力">${control.unit ? `<em>${escapeHtml(control.unit)}</em>` : ""}</span></label>`;
         }
         if (control.type === "dedicated") {
-            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(control.label)}</strong>${control.help ? `<small>${escapeHtml(control.help)}</small>` : ""}</span><input type="number" class="input_num" id="${escapeHtml(control.id)}" min="0" step="1" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力"></label>`;
+            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(control.label)}</strong>${control.help ? `<small>${escapeEffectLabel(control.help)}</small>` : ""}</span><input type="number" class="input_num" id="${escapeHtml(control.id)}" min="0" step="1" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力"></label>`;
         }
-        return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(control.label)}</strong>${control.help ? `<small>${escapeHtml(control.help)}</small>` : ""}</span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="${escapeHtml(control.type)}" min="${escapeHtml(control.min)}" max="${escapeHtml(control.max)}" step="${escapeHtml(control.step ?? 1)}" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力">${control.unit ? `<em>${escapeHtml(control.unit)}</em>` : ""}</span></label>`;
+        return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(control.label)}</strong>${control.help ? `<small>${escapeEffectLabel(control.help)}</small>` : ""}</span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="${escapeHtml(control.type)}" min="${escapeHtml(control.min)}" max="${escapeHtml(control.max)}" step="${escapeHtml(control.step ?? 1)}" value="${control.value === null ? "" : escapeHtml(control.value)}" placeholder="未入力">${control.unit ? `<em>${escapeHtml(control.unit)}</em>` : ""}</span></label>`;
     }
 
     const DESCRIPTION_KIND_LABELS = {
@@ -1026,11 +1031,11 @@
             : "";
         return `<article class="genshin-condition-effect">
             <div class="genshin-condition-effect-head">
-                <h5>${escapeHtml(effect.name)}</h5>
+                <h5>${escapeEffectLabel(effect.name)}</h5>
                 <span class="genshin-condition-status ${status.className}">${status.label}</span>
             </div>
             <dl class="genshin-condition-facts">
-                <div><dt>発動条件</dt><dd>${escapeHtml(effect.activationCondition || "常時")}</dd></div>
+                <div><dt>発動条件</dt><dd>${escapeEffectLabel(effect.activationCondition || "常時")}</dd></div>
                 <div><dt>効果</dt><dd>${escapeHtml(effect.effectSummary || effect.name)}</dd></div>
             </dl>
             <p class="genshin-condition-impact">現在の反映：<strong>${escapeHtml(currentReflectionLabel(effect))}</strong></p>
@@ -1059,8 +1064,8 @@
         const current = section.effects.filter((effect) => currentReflectionLabel(effect) !== "未適用")
             .map((effect) => `${effect.displayTarget || effect.name}：${currentReflectionLabel(effect)}`);
         return `<dl class="genshin-condition-facts">
-            <div><dt>発動条件</dt><dd>${escapeHtml(conditions.join("／") || "常時")}</dd></div>
-            <div><dt>効果</dt><dd>${escapeHtml(effects.join("／") || section.impactLabels?.join("／") || "計算へ補正を適用")}</dd></div>
+            <div><dt>発動条件</dt><dd>${escapeEffectLabel(conditions.join("／") || "常時")}</dd></div>
+            <div><dt>効果</dt><dd>${escapeEffectLabel(effects.join("／") || section.impactLabels?.join("／") || "計算へ補正を適用")}</dd></div>
             ${current.length ? `<div><dt>現在の反映</dt><dd>${escapeHtml(current.join("／"))}</dd></div>` : ""}
         </dl>`;
     }
@@ -1089,7 +1094,7 @@
 
     function renderConstellationImpact(effect) {
         return `<li class="genshin-constellation-impact-row">
-            <div><strong>${escapeHtml(effect.name)}</strong>${effect.target ? `<small>対象：${escapeHtml(effect.target)}</small>` : ""}</div>
+            <div><strong>${escapeEffectLabel(effect.name)}</strong>${effect.target ? `<small>対象：${escapeEffectLabel(effect.target)}</small>` : ""}</div>
             ${effect.impact ? `<span>${escapeHtml(effect.impact)}</span>` : ""}
             ${effect.statusReason && effect.status === "missing" ? `<p class="genshin-condition-missing">${escapeHtml(effect.statusReason)}</p>` : ""}
         </li>`;
@@ -1127,7 +1132,7 @@
 
     function renderArtifactImpact(effect) {
         return `<li class="genshin-constellation-impact-row">
-            <div><strong>${escapeHtml(effect.name)}</strong>${effect.target ? `<small>対象：${escapeHtml(effect.target)}</small>` : ""}</div>
+            <div><strong>${escapeEffectLabel(effect.name)}</strong>${effect.target ? `<small>対象：${escapeEffectLabel(effect.target)}</small>` : ""}</div>
             ${effect.impact ? `<span>${escapeHtml(effect.impact)}</span>` : ""}
             ${effect.statusReason ? `<p class="genshin-condition-note">${escapeHtml(effect.statusReason)}</p>` : ""}
         </li>`;
@@ -1152,7 +1157,7 @@
         const owners = { self: "装備者自身", team: "チーム全員", activeCharacter: "フィールド上のキャラクター", otherPartyMembers: "装備者以外のチームメンバー", enemy: "敵" };
         const owner = owners[effect.modifier?.targetOwner || "self"] || "対象キャラクター";
         return `<li class="genshin-constellation-impact-row">
-            <div><strong>${escapeHtml(owner)}・${escapeHtml(effect.displayTarget || effect.name)}</strong>${effect.target ? `<small>対象：${escapeHtml(effect.target)}</small>` : ""}</div>
+            <div><strong>${escapeHtml(owner)}・${escapeEffectLabel(effect.displayTarget || effect.name)}</strong>${effect.target ? `<small>対象：${escapeEffectLabel(effect.target)}</small>` : ""}</div>
             ${effect.impact ? `<span>${escapeHtml(effect.impact)}</span>` : ""}
             ${effect.statusReason && effect.status === "missing" ? `<p class="genshin-condition-missing">${escapeHtml(effect.statusReason)}</p>` : ""}
         </li>`;
@@ -1193,7 +1198,7 @@
             const stellarOptions = (reaction.variantControl?.options || []).map((option) => {
                 const coefficient = reaction.variantCoefficients?.[option.value];
                 const suffix = Number.isFinite(Number(coefficient)) ? `（係数${Number(coefficient).toFixed(2)}）` : "";
-                return `<option value="${escapeHtml(option.value)}"${stellarVariant === option.value ? " selected" : ""}>${escapeHtml(option.label)}${suffix}</option>`;
+                return `<option value="${escapeHtml(option.value)}"${stellarVariant === option.value ? " selected" : ""}>${escapeEffectLabel(option.label)}${suffix}</option>`;
             }).join("");
             const stellarVariantControl = reaction.reactionId === "stellarSwirl"
                 ? `<label class="genshin-reaction-control"><span>星拡散する元素・段階</span><select id="genshinStellarSwirlVariant">
@@ -1232,6 +1237,29 @@
         return { label: "表示のみ", className: "is-display-only" };
     }
 
+    function renderVodyProviderActions(member, context, effects) {
+        if (String(member.characterId) !== '10000140') return '';
+        const api = window.GenshinPartyModifiers, state = api.vodyProviderActions(context,member);
+        const fields = ['skill'];
+        if (state.skill === 'active') {
+            fields.push('heals','skillHit','hornHit','meteor','recipient');
+            if (Number(member.constellation)>=4 && Number(state.heals)>0) fields.push('qualifyingHeals');
+            if (String(member.equipment?.weaponId)==='14524' && Number(state.heals)>0) fields.push('freezeSwirl');
+        }
+        const hp = effects.find(item=>item.modifier?.reference?.includeProviderConditionalStats)?.providerContext?.stats?.hp ?? member.stats?.hp;
+        const mead = context.party?.conditionStates?.[`party:${member.slot}:10000140:group:provisional71_w14524_mead_state`]?.option || 'inactive';
+        const stack = ({one:1,two:2,three:3,boostedOne:1,boostedTwo:2,boostedThree:3})[mead] || 0;
+        const hpDetail = `<details class="genshin-condition-detail"><summary>計算への反映（現在の状態）</summary><p>HP上限：${formatNumber(member.stats?.hp)} → ${formatNumber(hp)}${String(member.equipment?.weaponId)==='14524' ? `／真実を告げる蜜酒：${stack}層` : ''}</p><p>HP上限を更新した後に、C1・十二弦の涙唄・武器の攻撃力補正を計算します。</p></details>`;
+        return '<div class="genshin-provider-actions"><h5>元素スキルと現在の状況</h5>'+fields.map(field=>{
+            const spec=api.VODY_ACTION_FIELDS[field];
+            const options=spec.options.filter(([key])=>field!=='qualifyingHeals'||Number(key)<=Number(state.heals));
+            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(spec.label)}</strong></span><select data-genshin-vody-action="${field}" data-genshin-provider-slot="${member.slot}">${options.map(([key,label])=>`<option value="${key}"${state[field]===key?' selected':''}>${escapeEffectLabel(label)}</option>`).join('')}</select></label>`;
+        }).join('')+'<p class="genshin-condition-note">現在も効果が有効な回復を選択してください。時間経過は自動計算しません。命中・反応の有無は個別に設定します。</p>'+hpDetail+'</div>';
+    }
+    function isVodyDerivedCandidate(candidate) {
+        return String(candidate.member?.characterId)==='10000140' && (String(candidate.modifier?.conditionGroupId||'').startsWith('vodyanitsa_') || candidate.modifier?.conditionGroupId==='provisional71_w14524_mead_state');
+    }
+
     function renderPartyConditionControl(candidate, context) {
         const conditionInput = candidate.modifier?.conditionInput;
         const key = candidate.partyConditionStateKey || candidate.analysis?.conditionStateKey || candidate.key || "";
@@ -1244,7 +1272,7 @@
             const max = Number.isFinite(Number(conditionInput.max)) ? Number(conditionInput.max) : Number(candidate.modifier?.stack?.max);
             const step = Number.isFinite(Number(conditionInput.step)) ? Number(conditionInput.step) : 1;
             const value = Number.isFinite(Number(conditionState[conditionInput.type])) ? Number(conditionState[conditionInput.type]) : "";
-            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(conditionInput.label || "現在値")}</strong>${conditionInput.help ? `<small>${escapeHtml(conditionInput.help)}</small>` : ""}</span><input type="number" data-genshin-party-condition-key="${escapeHtml(key)}" data-genshin-party-condition-kind="${escapeHtml(conditionInput.type)}" min="${escapeHtml(min)}"${Number.isFinite(max) ? ` max="${escapeHtml(max)}"` : ""} step="${escapeHtml(step)}" value="${escapeHtml(value)}"></label>`;
+            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(conditionInput.label || "現在値")}</strong>${conditionInput.help ? `<small>${escapeEffectLabel(conditionInput.help)}</small>` : ""}</span><input type="number" data-genshin-party-condition-key="${escapeHtml(key)}" data-genshin-party-condition-kind="${escapeHtml(conditionInput.type)}" min="${escapeHtml(min)}"${Number.isFinite(max) ? ` max="${escapeHtml(max)}"` : ""} step="${escapeHtml(step)}" value="${escapeHtml(value)}"></label>`;
         }
         if (conditionInput.type !== "option" || !Array.isArray(conditionInput.options) || !conditionInput.options.length) return "";
         const options = conditionInput.options.map((option) => ({
@@ -1258,8 +1286,8 @@
         const placeholder = selectedValue === null
             ? `<option value="" selected>選択してください</option>`
             : "";
-        const renderedOptions = options.map((option) => `<option value="${escapeHtml(option.value)}"${String(option.value) === String(selectedValue) ? " selected" : ""}>${escapeHtml(option.label)}</option>`).join("");
-        return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeHtml(conditionInput.label || "現在の状態")}</strong>${conditionInput.help ? `<small>${escapeHtml(conditionInput.help)}</small>` : ""}</span><select data-genshin-party-condition-key="${escapeHtml(key)}" data-genshin-party-condition-kind="option">${placeholder}${renderedOptions}</select></label>`;
+        const renderedOptions = options.map((option) => `<option value="${escapeHtml(option.value)}"${String(option.value) === String(selectedValue) ? " selected" : ""}>${escapeEffectLabel(option.label)}</option>`).join("");
+        return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(conditionInput.label || "現在の状態")}</strong>${conditionInput.help ? `<small>${escapeEffectLabel(conditionInput.help)}</small>` : ""}</span><select data-genshin-party-condition-key="${escapeHtml(key)}" data-genshin-party-condition-kind="option">${placeholder}${renderedOptions}</select></label>`;
     }
 
     function partyEffectMeaning(candidate, context, calcData) {
@@ -1296,14 +1324,21 @@
         });
         const status = partyModifierStatus(candidate);
         const condition = window.GenshinCalcConditions?.modifierActivationCondition?.(
-            candidate.modifier, [], null, candidate.sourceName, candidate.description
+            { ...candidate.modifier, sourceText: description?.originalText || description?.calculationSummary || "" }, [], null, candidate.sourceName, description?.originalText || description?.calculationSummary || ""
         ) || candidate.modifier.conditionLabel || "常時";
         const displayModifier = Number.isFinite(Number(candidate.resolvedValue))
             ? { ...candidate.modifier, value: Number(candidate.resolvedValue), valueByLevel: candidate.modifier.valueByLevelPerStack ? candidate.modifier.valueByLevel : undefined }
             : candidate.modifier;
-        const effect = candidate.effectLabel || window.GenshinCalcConditions?.modifierEffectSummary?.(displayModifier, candidate.providerContext || context, { resolvedValue: candidate.resolvedValue })
+        const displayedValue = candidate.modifier.unit === 'percentOfReference'
+            ? Number(candidate.providerContext?.stats?.[candidate.modifier.reference?.stat || 'hp']) * Number(candidate.resolvedValue) / 100
+            : Number(candidate.resolvedValue);
+        const resolvedSummary = isVodyDerivedCandidate(candidate) && Number.isFinite(displayedValue)
+            && ['statBonus','additiveBaseDamage','resistanceDebuff','critBonus','reactionCritBonus'].includes(candidate.modifier.category)
+            ? `${(candidate.modifier.applyTo || []).map(target=>window.GenshinCalcConditions.targetLabel(target)).join('・') || '基礎ダメージ加算'}：${candidate.modifier.category === 'resistanceDebuff' ? '-' : '+'}${Number(displayedValue.toPrecision(12))}${candidate.modifier.unit === 'percent' ? '%' : ''}`
+            : '';
+        const effect = resolvedSummary || candidate.effectLabel || window.GenshinCalcConditions?.modifierEffectSummary?.(displayModifier, candidate.providerContext || context, { resolvedValue: candidate.resolvedValue })
             || candidate.modifier.effectLabel
-            || candidate.modifier.category;
+            || "補正効果";
         const canToggle = candidate.showToggle !== false && !candidate.automatic && ["ready", "off"].includes(candidate.status);
         const current = candidate.status === "ready" && candidate.enabled
             ? effect
@@ -1311,21 +1346,21 @@
         const meaning = partyEffectMeaning(candidate, context, calcData);
         return `<article class="genshin-condition-effect genshin-party-effect" data-party-buff="${escapeHtml(candidate.key)}">
             <div class="genshin-condition-effect-head">
-                <h5>${escapeHtml(candidate.sourceName)}</h5>
+                <h5>${escapeEffectLabel(candidate.sourceName)}</h5>
                 <span class="genshin-condition-status ${status.className}">${status.label}</span>
             </div>
             <dl class="genshin-condition-facts">
                 <div><dt>提供者</dt><dd>${escapeHtml(meaning.provider)}</dd></div>
                 <div><dt>受け手</dt><dd>${escapeHtml(meaning.target)}</dd></div>
-                <div><dt>対象攻撃・効果</dt><dd>${escapeHtml(meaning.attacks)}</dd></div>
-                <div><dt>発動条件</dt><dd>${escapeHtml(condition)}</dd></div>
-                <div><dt>効果</dt><dd>${escapeHtml(effect)}</dd></div>
-                <div><dt>現在の反映</dt><dd>${escapeHtml(current)}</dd></div>
+                <div><dt>対象攻撃・効果</dt><dd>${escapeEffectLabel(meaning.attacks)}</dd></div>
+                <div><dt>発動条件</dt><dd>${escapeEffectLabel(condition)}</dd></div>
+                <div><dt>効果</dt><dd>${escapeEffectLabel(effect)}</dd></div>
+                <div><dt>現在の反映</dt><dd>${escapeEffectLabel(current)}</dd></div>
             </dl>
             ${candidate.showConditionControl === false ? "" : renderPartyConditionControl(candidate, context)}
             ${canToggle ? `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>この条件を適用する</strong><small>実際に発動している場合だけONにしてください。</small></span><input type="checkbox" data-genshin-party-buff-key="${escapeHtml(candidate.toggleKey || candidate.key)}"${candidate.enabled ? " checked" : ""}></label>` : ""}
             ${candidate.reason && candidate.status !== "off" ? `<p class="genshin-condition-note">${escapeHtml(candidate.reason)}</p>` : ""}
-            ${renderSectionDetail(candidate.showOriginalText === false ? "" : description?.originalText || description?.calculationSummary || "", description?.descriptionKind || "summary", `<li>${escapeHtml(current)}</li>`)}
+            ${renderSectionDetail(candidate.showOriginalText === false ? "" : description?.originalText || description?.calculationSummary || "", description?.descriptionKind || "summary", `<li>${escapeEffectLabel(current)}</li>`)}
         </article>`;
     }
 
@@ -1360,6 +1395,10 @@
             const renderedEffects = effects.map((item) => {
                 const originalKey = `${item.sourceKind}:${item.sourceId}`;
                 const candidate = { ...item, showOriginalText: !originalOwners.has(originalKey) };
+                if (isVodyDerivedCandidate(candidate)) {
+                    candidate.showConditionControl = false; candidate.showToggle = false;
+                    originalOwners.add(originalKey); return candidate;
+                }
                 originalOwners.add(originalKey);
                 const conditionKey = candidate.partyConditionStateKey || candidate.analysis?.conditionStateKey || "";
                 if (!conditionKey || !candidate.modifier?.conditionInput) return candidate;
@@ -1369,6 +1408,7 @@
             const name = member.nameJa || calcData.characters?.[member.characterId]?.nameJa || `メンバー${member.slot}`;
             return `<section class="genshin-condition-card is-wide genshin-party-condition-card" data-condition-card="party" data-party-slot="${member.slot}">
                 <header><div><h4>${escapeHtml(name)}</h4><p>Lv.${escapeHtml(member.level)} / C${escapeHtml(member.constellation)}</p></div><span class="genshin-condition-source">MEMBER ${member.slot}</span></header>
+                ${renderVodyProviderActions(member, context, effects)}
                 ${renderedEffects.length ? renderedEffects.map((candidate) => renderPartyModifier(candidate, context, calcData)).join("") : `<p class="genshin-condition-card-empty">メインキャラへ適用できる補正はありません。</p>`}
             </section>`;
         }).join("");
@@ -1561,6 +1601,16 @@
         const conditionCards = getElement("genshinJsonConditionCards");
         if (conditionCards) {
             conditionCards.addEventListener("change", (event) => {
+                if (event.target?.matches?.("[data-genshin-vody-action]")) {
+                    const request = window.GenshinCalcEngine.buildCalculationRequestFromForm();
+                    const member = request.party?.members?.find(item=>Number(item.slot)===Number(event.target.dataset.genshinProviderSlot));
+                    if (member) {
+                        const api = window.GenshinPartyModifiers, state = api.vodyProviderActions(request,member);
+                        state[event.target.dataset.genshinVodyAction] = event.target.value;
+                        for (const [field,value] of Object.entries(state)) window.GenshinPartyState.setPartyConditionState(api.vodyActionKey(member,field),'option',value);
+                    }
+                    handleConditionValueChange(); return;
+                }
                 if (event.target?.matches?.("[data-genshin-party-condition-key]")) {
                     window.GenshinPartyState?.setPartyConditionState?.(
                         event.target.dataset.genshinPartyConditionKey,

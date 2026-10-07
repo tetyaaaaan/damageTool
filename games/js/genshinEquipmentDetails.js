@@ -85,9 +85,9 @@
     };
 
     function renderWeaponParams(params) {
-        const entries = Object.entries(params || {}).filter(([, value]) => ["string", "number"].includes(typeof value));
+        const entries = Object.entries(params || {}).filter(([key, value]) => WEAPON_PARAM_LABELS[key] && ["string", "number"].includes(typeof value));
         if (!entries.length) return "";
-        return `<dl class="genshin-condition-facts">${entries.map(([key, value]) => `<div><dt>${escapeHtml(WEAPON_PARAM_LABELS[key] || key)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}</dl>`;
+        return `<dl class="genshin-condition-facts">${entries.map(([key, value]) => `<div><dt>${escapeHtml(WEAPON_PARAM_LABELS[key])}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}</dl>`;
     }
 
     function renderWeapon(id) {

@@ -112,3 +112,31 @@ test("A4 Stellar Swirl uses continuous HP without copying Lead Vocal to addition
  f.request.stats.hp=50500; p=f.calc(); r=p.results.find(x=>x.entry.id==="reaction_stellarSwirl");
  assert.equal(r.problems.length,0); near(r.breakdown.reaction.contributors[0].additiveBaseDamage,2730); assert.ok(r.expected>0); replay(f,p);
 });
+
+function action(f, values) { for (const [field,value] of Object.entries(values)) f.request.party.conditionStates[`party:2:${ID}:actions:${field}`]={option:String(value)}; }
+function hymn(f) {
+ const scope={window:{},console}; vm.createContext(scope);
+ for (const name of ['genshinDataContract','genshinCalcData']) vm.runInContext(fs.readFileSync(path.resolve(__dirname,`../../games/js/${name}.js`),'utf8'),scope);
+ scope.window.GenshinCalcData.applyProvisional71Data(f.calcData,[JSON.parse(fs.readFileSync(path.join(base,'weapon14524-currentcalc.json'),'utf8'))]);
+ f.request.party.members[1].equipment={weaponId:'14524',refinement:1,artifactSetIds:[]};
+}
+test('provider game actions derive skill, healing, C1/C4 and mead; separate hits and reactions remain explicit',()=>{
+ const f=fixture('10000025'); provider(f); hymn(f);
+ const group=(p,name)=>p.context.party.conditionStates[`party:2:${ID}:group:${name}`];
+ action(f,{skill:'inactive',heals:3,qualifyingHeals:3,freezeSwirl:'yes',hornHit:'yes'});
+ let p=f.calc(); assert.equal(group(p,'vodyanitsa_c1_heal').option,'inactive'); assert.equal(group(p,'provisional71_w14524_mead_state').option,'inactive'); assert.equal(group(p,'vodyanitsa_skill_hit').option,'inactive');
+ action(f,{skill:'active',heals:0,qualifyingHeals:0,freezeSwirl:'no',hornHit:'no'});
+ p=f.calc(); assert.equal(group(p,'vodyanitsa_song_state').option,'active'); assert.equal(group(p,'vodyanitsa_a4_state').option,'leadTalent'); assert.equal(group(p,'vodyanitsa_skill_hit').option,'inactive');
+ for(const heals of [1,3]) {
+  action(f,{heals,qualifyingHeals:heals}); p=f.calc();
+  const hp=40000+10000*(.2+.04)*heals;
+  near(trace(p,'c1_team_atk_from_hp').value,hp*.008);
+  assert.equal(group(p,'vodyanitsa_c4_state').stack,heals);
+  assert.equal(group(p,'provisional71_w14524_mead_state').option,heals===1?'one':'three'); replay(f,p);
+ }
+ action(f,{freezeSwirl:'yes',qualifyingHeals:0}); p=f.calc();
+ assert.equal(group(p,'provisional71_w14524_mead_state').option,'boostedThree'); near(trace(p,'c1_team_atk_from_hp').value,(40000+10000*.04*3*1.75)*.008);
+ action(f,{freezeSwirl:'no',hornHit:'yes',meteor:'recent',recipient:'offField'}); p=f.calc();
+ assert.equal(group(p,'vodyanitsa_a4_state').option,'chorusSwirl'); assert.equal(group(p,'vodyanitsa_c2_variant').option,'meteorstorm');
+ action(f,{meteor:'late'}); p=f.calc(); assert.equal(group(p,'vodyanitsa_a4_state').option,'chorusTalent'); assert.equal(group(p,'vodyanitsa_a1_meteorstorm').option,'active'); replay(f,p);
+});
