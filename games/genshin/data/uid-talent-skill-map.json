@@ -12,6 +12,20 @@
     ]
   },
   "byCharacterId": {
+    "10000148": {
+      "skillIds": { "normal": "11481", "skill": "11482", "burst": "11485" },
+      "skillDepotId": "14801",
+      "uidEvidence": { "endpoint": "/games/api/genshin-profile", "capturedAt": "2026-10-07", "proudSkillExtraLevelMap": null },
+      "sourcePath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/external-handoff-final-candidatePrepared-20260919/responses/gachabase-alyosha-7.0.53.response",
+      "sourceSections": { "normal": "talent-11481", "skill": "talent-11482", "burst": "talent-11485" }
+    },
+    "10000150": {
+      "skillIds": { "normal": "11501", "skill": "11502", "burst": "11505" },
+      "skillDepotId": "15001",
+      "uidEvidence": { "endpoint": "/games/api/genshin-profile", "capturedAt": "2026-10-07", "proudSkillExtraLevelMap": null },
+      "sourcePath": "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/external-handoff-final-candidatePrepared-20260919/responses/gachabase-odette-7.0.54.response",
+      "sourceSections": { "normal": "talent-11501", "skill": "talent-11502", "burst": "talent-11505" }
+    },
     "10000140": {
       "skillIds": { "normal": "11401", "skill": "11402", "burst": "11405" },
       "proudSkillGroupIds": { "normal": "14031", "skill": "14032", "burst": "14039" },

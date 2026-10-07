@@ -3,6 +3,7 @@
 
     const DATA_PATHS = {
         characters: "/games/genshin/data/characters.json",
+        characterOrder: "/games/genshin/data/character-release-order.json",
         uidTalentSkillMap: "/games/genshin/data/uid-talent-skill-map.json",
         characterTalents: "/games/genshin/data/character-talents.json",
         characterConstellations: "/games/genshin/data/character-constellations.json",
@@ -24,6 +25,7 @@
 
     const data = {
         characters: {},
+        characterOrder: {},
         uidTalentSkillMap: {},
         characterTalents: {},
         characterConstellations: {},
@@ -117,6 +119,7 @@
 
     const ready = Promise.all([
         loadJson("characters", DATA_PATHS.characters),
+        loadJson("characterOrder", DATA_PATHS.characterOrder),
         loadJson("uidTalentSkillMap", DATA_PATHS.uidTalentSkillMap),
         loadJson("characterTalents", DATA_PATHS.characterTalents),
         loadJson("characterConstellations", DATA_PATHS.characterConstellations),
@@ -193,7 +196,18 @@
     }
 
     function listCharacters() {
-        return Object.entries(data.characters).map(([id, entry]) => ({ id, ...entry }));
+        return sortCharacters(Object.entries(data.characters).map(([id, entry]) => ({ id, ...entry })));
+    }
+
+    function compareCharacters(left, right) {
+        const order = data.characterOrder.order || [];
+        const leftRank = order.indexOf(normalizeId(left.id));
+        const rightRank = order.indexOf(normalizeId(right.id));
+        return (leftRank < 0 ? Infinity : leftRank) - (rightRank < 0 ? Infinity : rightRank) || 0;
+    }
+
+    function sortCharacters(characters) {
+        return [...characters].sort(compareCharacters);
     }
 
     function listWeapons() {
@@ -214,6 +228,8 @@
         resolveWeaponImagePath,
         resolveArtifactSetImagePath,
         listCharacters,
+        compareCharacters,
+        sortCharacters,
         listWeapons,
         listArtifactSets
     };

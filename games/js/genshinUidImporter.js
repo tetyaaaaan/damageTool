@@ -260,9 +260,10 @@
         const select = getElement("genshinProfileCharacterSelect");
         if (!wrap || !select) return;
         select.innerHTML = "";
-        characters.forEach((character, index) => {
+        const ordered = window.GenshinIdResolver.sortCharacters(characters.map((character, index) => ({ ...character, profileIndex: index })));
+        ordered.forEach((character) => {
             const option = document.createElement("option");
-            option.value = String(index);
+            option.value = String(character.profileIndex);
             option.textContent = `${character.name || unsupported("キャラクター", character.id)} Lv.${character.level || "-"}`;
             select.appendChild(option);
         });
@@ -756,7 +757,7 @@
                 setMessage(TEXT.noCharacters, "error");
                 return;
             }
-            selectCharacter(0);
+            selectCharacter(Number(getElement("genshinProfileCharacterSelect").value));
             const saved = window.TetinetUidStorage?.save("genshin", uid);
             const clearButton = getElement("genshinUidClearSavedButton");
             if (saved && clearButton) clearButton.hidden = false;

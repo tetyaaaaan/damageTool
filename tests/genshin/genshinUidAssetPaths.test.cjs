@@ -100,3 +100,15 @@ test("7.1 numeric talents use saved character mappings and add proud levels once
     assert.ok(sandbox.GenshinIdResolver.listCharacters().every(character => order.includes(character.id)));
     assert.deepEqual(order.slice(-6), ["10000148", "10000150", "10000143", "10000140", "10000005_cryo", "10000007_cryo"]);
 });
+
+test("all character selectors share explicit implementation order independent of inventory input order", async () => {
+    const sandbox = await createResolverHarness();
+    const resolver = sandbox.GenshinIdResolver;
+    const order = readJson("games/genshin/data/character-release-order.json").order;
+    const characters = Array.from(resolver.listCharacters());
+    const ids = characters.map(character => character.id);
+    assert.deepEqual(ids, order.filter(id => ids.includes(id)));
+    assert.deepEqual(Array.from(resolver.sortCharacters([...characters].reverse()), character => character.id), ids);
+    const travelers = resolver.sortCharacters(characters.filter(character => character.id.startsWith("10000005") || character.id.startsWith("10000007")));
+    assert.deepEqual(Array.from(travelers, character => character.id), ["10000005", "10000007", "10000005_cryo", "10000007_cryo"]);
+});

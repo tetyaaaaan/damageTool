@@ -47,8 +47,8 @@ const profileFixture = {
     avatarInfoList: [
         { ...avatar("10000140", "14001", "14524", "15047", 1), skillLevelMap: { "11401": 9, "11402": 8, "11405": 7 }, proudSkillExtraLevelMap: { "14039": 3 } },
         { ...avatar("10000143", "14301", "11522", "15048", 2), skillLevelMap: { "11431": 10, "11432": 10, "11435": 10 } },
-        avatar("10000150", "", "11520", "15042", 3),
-        avatar("10000148", "", "11436", "15042", 4),
+        { ...avatar("10000150", "15001", "11520", "15042", 3), skillLevelMap: { "11501": 1, "11502": 8, "11505": 6 }, proudSkillExtraLevelMap: null },
+        { ...avatar("10000148", "14801", "11436", "15042", 4), skillLevelMap: { "11481": 1, "11482": 1, "11485": 1 }, proudSkillExtraLevelMap: null },
         avatar("10000005", "505", "11501", "15042", 5),
         avatar("10000007", "705", "11502", "15042", 6),
         avatar("10000150", "", "11437", "15047", 7),
@@ -183,6 +183,7 @@ async function main() {
         await waitFor(client, 'document.querySelectorAll(".genshin-uid-character-image").length === 1');
         await waitFor(client, 'document.querySelector(".genshin-uid-character-image")?.complete === true');
         await waitFor(client, 'document.getElementById("genshinUidMessage")?.dataset.type === "success"');
+        assert.deepEqual(await evaluate(client, '[...document.getElementById("genshinProfileCharacterSelect").options].map(option=>Number(option.value))'), [3, 7, 2, 6, 1, 0, 4, 5], "UID character list follows the shared implementation order");
 
         const cases = [
             { index: 0, id: "10000140", name: "ヴォジャニーツァ", character: "10000140", weapon: "14524", artifact: "15047" },
@@ -222,6 +223,17 @@ async function main() {
             })()`);
             assert.equal(calculation.characterId, item.id, `${item.name} calculation uses selected UID identity`);
             assert.ok(calculation.results.length > 0 && calculation.results.some((value) => value > 0), `${item.name} produces a nonzero calculated hit`);
+            if (item.index === 2 || item.index === 3) {
+                const expectedLevels = item.index === 2 ? { normal: 1, skill: 8, burst: 6 } : { normal: 1, skill: 1, burst: 1 };
+                assert.deepEqual(await evaluate(client, "window.__uidAssetCalcPayload.calculationRequest.talentLevels"), expectedLevels);
+                assert.deepEqual(await evaluate(client, 'Object.fromEntries(["Normal","Skill","Burst"].map(kind=>[kind.toLowerCase(),Number(document.getElementById(`genshin${kind}TalentLevel`).value)]))'), expectedLevels);
+                assert.doesNotMatch(await evaluate(client, 'document.getElementById("genshinCharacterDetail").innerText'), /天賦Lvを取得できません|Lv1として/);
+                const hit = await evaluate(client, '(() => {const row=window.__uidAssetCalcPayload.results.find(result=>result.entry.attackType==="skill");return {id:row.entry.id,expected:row.expected};})()');
+                const nextLevel = expectedLevels.skill + 1;
+                await evaluate(client, `(() => {const field=document.getElementById("genshinSkillTalentLevel");field.value="${nextLevel}";field.dispatchEvent(new Event("input",{bubbles:true}));document.getElementById("genshinJsonCalcButtonBottom").click();})()`);
+                await waitFor(client, `window.__uidAssetCalcPayload.calculationRequest.talentLevels.skill===${nextLevel}`);
+                assert.ok(await evaluate(client, `window.__uidAssetCalcPayload.results.find(result=>result.entry.id===${JSON.stringify(hit.id)}).expected>${hit.expected}`), `${item.name} selected talent array increases actual damage`);
+            }
             if (item.index === 0) {
                 const levels = await evaluate(client, 'window.__uidAssetCalcPayload.calculationRequest.talentLevels');
                 assert.deepEqual(levels, { normal: 9, skill: 8, burst: 10 });
@@ -242,9 +254,15 @@ async function main() {
                 await waitFor(client, 'document.getElementById("genshinSelectionDialog").open');
                 const ordered = await evaluate(client, '[...document.querySelectorAll("#genshinSelectionList [data-selection-id]")].map(e=>e.dataset.selectionId)');
                 assert.deepEqual(ordered.slice(-6), ["10000148","10000150","10000143","10000140","10000005_cryo","10000007_cryo"]);
+                assert.deepEqual(ordered, await evaluate(client, 'window.GenshinIdResolver.listCharacters().map(character=>character.id)'), "main modal uses the shared inventory order after reload");
                 assert.doesNotMatch(await evaluate(client, 'document.getElementById("genshinSelectionList").innerText'), /検証中|暫定仕様/);
                 await evaluate(client, 'document.querySelector(\'#genshinSelectionList [data-selection-id="10000143"]\').click()');
                 assert.equal(await evaluate(client, 'document.getElementById("genshinBurstTalentLevel").value'), "10", "character change clears the previous talent level");
+                await evaluate(client, 'document.getElementById("genshinPartyCharacterTrigger2").click()');
+                await waitFor(client, 'document.getElementById("genshinSelectionDialog").open');
+                const excluded = await evaluate(client, 'window.GenshinPartyState.selectedCharacterIds(2)');
+                assert.deepEqual(await evaluate(client, '[...document.querySelectorAll("#genshinSelectionList [data-selection-id]")].map(element=>element.dataset.selectionId)'), ordered.filter(id=>!excluded.includes(id)), "party/provider picker preserves the shared order while filtering selected characters");
+                await evaluate(client, 'document.getElementById("genshinSelectionDialog").close()');
                 await evaluate(client, `(() => {const input=document.getElementById("genshinUidInput");input.value="800000000";document.getElementById("genshinUidSearchButton").click()})()`);
                 await waitFor(client, 'document.getElementById("genshinUidMessage").dataset.type==="success"');
                 await evaluate(client, `(() => {const run=window.GenshinCalcEngine.runGenshinJsonCalc.bind(window.GenshinCalcEngine);window.GenshinCalcEngine.runGenshinJsonCalc=async(...args)=>{const payload=await run(...args);window.__uidAssetCalcPayload=payload;return payload;}})()`);

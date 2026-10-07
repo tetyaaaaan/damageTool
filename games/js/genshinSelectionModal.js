@@ -6,7 +6,6 @@
     const WEAPON_RARITIES = [5, 4, 3, 2, 1];
     const SELECTION_IMAGE_ROOT = "/games/images/genshin";
     const SELECTION_IMAGE_FALLBACK = `${SELECTION_IMAGE_ROOT}/fallback.webp`;
-    const CHARACTER_RELEASE_ORDER_PATH = "/games/genshin/data/character-release-order.json";
     const ELEMENT_ICON_NAMES = {
         "炎": "pyro",
         "水": "hydro",
@@ -80,32 +79,6 @@
     function hasSelectedFilter(group) {
         const prefix = `${group}:`;
         return [...state.filters].some((key) => key.startsWith(prefix));
-    }
-
-    async function loadCharacterReleaseOrder() {
-        try {
-            const response = await fetch(CHARACTER_RELEASE_ORDER_PATH, { cache: "no-cache" });
-            if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
-            const data = await response.json();
-            if (!Array.isArray(data.order)) throw new Error("order is not an array");
-            return new Map(data.order.map((id, index) => [String(id), index]));
-        } catch (error) {
-            console.warn("Genshin character release order load failed", error);
-            return new Map();
-        }
-    }
-
-    function sortCharactersByReleaseOrder(characters, releaseOrder) {
-        return characters.sort((a, b) => {
-            const aOrder = releaseOrder.get(a.id);
-            const bOrder = releaseOrder.get(b.id);
-            if (aOrder !== undefined || bOrder !== undefined) {
-                if (aOrder === undefined) return 1;
-                if (bOrder === undefined) return -1;
-                return aOrder - bOrder;
-            }
-            return 0;
-        });
     }
 
     function updateBulkFilterButton() {
@@ -545,8 +518,7 @@
     async function init() {
         if (!window.GenshinIdResolver) return;
         await window.GenshinIdResolver.ready;
-        const releaseOrder = await loadCharacterReleaseOrder();
-        state.characters = sortCharactersByReleaseOrder(window.GenshinIdResolver.listCharacters(), releaseOrder);
+        state.characters = window.GenshinIdResolver.listCharacters();
         state.weapons = window.GenshinIdResolver.listWeapons()
             .filter((item) => item.selectable !== false)
             .sort((a, b) => b.rarity - a.rarity || a.nameJa.localeCompare(b.nameJa, "ja"));

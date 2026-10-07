@@ -68,20 +68,19 @@ test("character filters use local colored element icons without visible row labe
     assert.match(css, /html\[data-theme="dark"\] \.genshin-filter-button--element img \{[^}]*background: transparent;/s);
 });
 
-test("character selection uses an explicit newest-first release order", () => {
+test("character selection consumes the shared implementation order covering existing characters", () => {
     const characters = readJson("games/genshin/data/characters.json");
     const releaseOrderData = readJson("games/genshin/data/character-release-order.json");
     const modal = read("games/js/genshinSelectionModal.js");
     const orderedIds = releaseOrderData.order;
 
-    assert.equal(orderedIds.length, Object.keys(characters).length);
     assert.equal(new Set(orderedIds).size, orderedIds.length);
-    assert.deepEqual(new Set(orderedIds), new Set(Object.keys(characters)));
+    assert.ok(Object.keys(characters).every(id => orderedIds.includes(id)));
     assert.equal(orderedIds.indexOf("10000129") < orderedIds.indexOf("10000130"), true,
         "release order must not fall back to descending character IDs");
     assert.equal(orderedIds.indexOf("10000062") > 0, true, "Aloy must not be the first character");
-    assert.match(modal, /CHARACTER_RELEASE_ORDER_PATH/);
-    assert.match(modal, /sortCharactersByReleaseOrder/);
+    assert.match(modal, /state.characters = window.GenshinIdResolver.listCharacters\(\)/);
+    assert.doesNotMatch(modal, /sortCharactersByReleaseOrder|CHARACTER_RELEASE_ORDER_PATH/);
     assert.doesNotMatch(modal, /listCharacters\(\)\.sort\(\(a, b\) => a\.nameJa\.localeCompare/);
 });
 

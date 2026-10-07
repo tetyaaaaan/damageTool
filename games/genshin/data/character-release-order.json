@@ -1,4 +1,5 @@
 {
+  "orderKind": "implementation",
   "source": "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master/ExcelBinOutput/AvatarCodexExcelConfigData.json",
   "order": [
     "10000133",
