@@ -296,3 +296,36 @@ test("five scoped characters resolve separate Japanese tooltip originals from th
         assert.deepEqual([...seen].sort(), ids.sort());
     }
 });
+
+test("third batch saved Japanese originals reach named modal sections without summaries or duplicates", async () => {
+    const cases = [["10000143", "passive2"], ["10000150", "passive1"], ["10000148", "passive2"], ["10000031", "passive2"], ["10000038", "passive2"]];
+    for (const [id, sourceId] of cases) {
+        const f = await fixture(id, "");
+        f.elements.genshinReflectConstellation.value = "C6";
+        const {state, html} = panel(f);
+        const original = f.calcData.originalEffectTexts.characters[id];
+        const text = f.sandbox.GenshinIdResolver.describeEffect({data:f.calcData,kind:"talent",id,sourceId});
+        assert.equal(text.descriptionKind, "original");
+        assert.equal(text.calculationSummary, "");
+        assert.ok(text.originalText.length > 20);
+        const sections = state.cards.find(card => card.id === "talent").sections;
+        const representative = sections.find(section => section.description === text.originalText);
+        assert.ok(representative, id + ":" + sections.map(section => section.key).join(","));
+        assert.equal(representative.description, text.originalText);
+        assert.match(representative.typeLabel, /固有天賦/);
+        assert.equal((html.match(new RegExp('data-talent-source="' + representative.key + '"', 'g')) || []).length, 1);
+        const constellationSections = state.cards.find(card => card.id === "constellation")?.sections || [];
+        assert.ok(constellationSections.length, id);
+        for (const section of constellationSections) {
+            assert.equal(section.nameJa, original.constellations[section.level].nameJa);
+            assert.equal(section.descriptionKind, "original");
+            assert.equal(section.description, f.sandbox.GenshinIdResolver.describeEffect({data:f.calcData,kind:"constellation",id,sourceId:section.level}).originalText);
+        }
+        assert.doesNotMatch(html, /原文抜粋|>星座効果</);
+        const relatedNames = sections.flatMap(section => section.relatedEffects || []).map(effect => effect.nameJa);
+        assert.equal(new Set(relatedNames).size, relatedNames.length);
+        for (const section of sections) for (const effect of section.relatedEffects || []) {
+            assert.match(html, new RegExp('関連効果</span> ' + effect.nameJa.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+        }
+    }
+});

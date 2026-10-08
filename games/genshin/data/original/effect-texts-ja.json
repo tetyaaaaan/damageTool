@@ -3,6 +3,318 @@
   "locale": "ja-JP",
   "purpose": "Display-only original effect text; never used for modifier inference or calculation.",
   "characters": {
+    "10000031": {
+      "talents": {
+        "combat1": {
+          "nameJa": "罪滅ぼしの矢",
+          "originalText": "通常攻撃\n最大5段の連続射撃を行う。\n\n重撃\nダメージがより高く、より精確な狙い撃ちを発動する。\n照準時、皇女の命令に従い、幽夜浄土の雷精霊が矢に憑依する。断罪の雷に満ちた矢は敵に高い雷元素ダメージを与える。\n\n落下攻撃\n空中から矢の雨を放ち、凄まじいスピードで落下し地面に衝撃を与え、落下時に範囲ダメージを与える。",
+          "originalRaw": "<color=#FFD780FF>通常攻撃</color>\n最大5段の連続射撃を行う。\n\n<color=#FFD780FF>重撃</color>\nダメージがより高く、より精確な<color=#FFD780FF>狙い撃ち</color>を発動する。\n照準時、皇女の命令に従い、幽夜浄土の雷精霊が矢に憑依する。断罪の雷に満ちた矢は敵に高い<color=#FFACFFFF>雷元素ダメージ</color>を与える。\n\n<color=#FFD780FF>落下攻撃</color>\n空中から矢の雨を放ち、凄まじいスピードで落下し地面に衝撃を与え、落下時に範囲ダメージを与える。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/fischl.json#/combat1"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "combat2": {
+          "nameJa": "夜巡りの翼",
+          "originalText": "オズを召喚する。暗影と雷電によって構成された鴉が降臨する時、狭範囲に雷元素ダメージを与える。\nオズが存在する時、雷の魔弾を発射し、付近の敵を自動で攻撃する。\n\n長押しでスキルの発動位置を調整可能。\nオズが存在する間に再び一回押すとオズを自身の傍に呼び寄せる。",
+          "originalRaw": "オズを召喚する。暗影と雷電によって構成された鴉が降臨する時、狭範囲に<color=#FFACFFFF>雷元素ダメージ</color>を与える。\nオズが存在する時、<color=#FFACFFFF>雷の魔弾</color>を発射し、付近の敵を自動で攻撃する。\n\n長押しでスキルの発動位置を調整可能。\nオズが存在する間に再び一回押すとオズを自身の傍に呼び寄せる。\n\n<i>「皇女であるわたくしの時間は高いわよ。あなたたちのような者に使うなんて…オズ、わたくしの代わりに永夜を切り裂く断罪の雷を見せてあげなさい。</i>\n<i>——『フィッシュル皇女物語·4巻·「さようなら、マダムワールド」』</i>",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/fischl.json#/combat2"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "combat3": {
+          "nameJa": "夜の幻現",
+          "originalText": "オズを召喚し、純粋なる夜色の翼を広げてフィッシュルを守る。\n継続期間中、下記の効果が発動する。\n·フィッシュルはオズ形態で高速移動する。\n·付近の敵に落雷で攻撃し、雷元素ダメージを与える。落雷によるダメージは同じ敵に1回のみ有効。\n·効果終了時、オズは戦場に留まり、皇女の敵を攻撃する。発動前にオズがすでに戦場に存在してる場合は、オズの継続時間がリセットされる。",
+          "originalRaw": "オズを召喚し、純粋なる夜色の翼を広げてフィッシュルを守る。\n継続期間中、下記の効果が発動する。\n·フィッシュルはオズ形態で高速移動する。\n·付近の敵に落雷で攻撃し、<color=#FFACFFFF>雷元素ダメージ</color>を与える。落雷によるダメージは同じ敵に1回のみ有効。\n·効果終了時、オズは戦場に留まり、皇女の敵を攻撃する。発動前にオズがすでに戦場に存在してる場合は、オズの継続時間がリセットされる。\n\n<i>…呪いがかかった断罪の血を追ってきた獣の中で、千の世界の滅びを目にした鴉の王だけが、彼女の崇高さを理解した。そして彼は夜を織り成す翼を広げ、高貴なる皇女を永遠に守ると誓った。</i>\n<i>——『フィッシュル皇女物語·1巻·「末日解体概要」』</i>",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/fischl.json#/combat3"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "passive1": {
+          "nameJa": "星喰いの鴉",
+          "originalText": "フィッシュルのチャージした狙い撃ち射撃がオズに命中すると、オズは周囲の敵に聖裁の雷を放ち、射撃ダメージ152.7%分の雷元素範囲ダメージを与える。",
+          "originalRaw": "フィッシュルのチャージした狙い撃ち射撃がオズに命中すると、オズは周囲の敵に聖裁の雷を放ち、射撃ダメージ152.7%分の<color=#FFACFFFF>雷元素範囲ダメージ</color>を与える。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/fischl.json#/passive1"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "passive2": {
+          "nameJa": "断罪の雷影",
+          "originalText": "オズがフィールドにいる時、出場している自身のキャラクターの敵への攻撃が雷元素の関連反応を起こすと、敵に聖裁の雷を下し、フィッシュルの攻撃力80%分の雷元素ダメージを与える。",
+          "originalRaw": "オズがフィールドにいる時、出場している自身のキャラクターの敵への攻撃が<color=#FFACFFFF>雷元素の関連反応</color>を起こすと、敵に聖裁の雷を下し、フィッシュルの攻撃力80%分の<color=#FFACFFFF>雷元素ダメージ</color>を与える。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/fischl.json#/passive2"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "passive3": {
+          "nameJa": "吾の裏庭",
+          "originalText": "モンドの探索任務の所要時間-25%。",
+          "originalRaw": "モンドの探索任務の所要時間-25%。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/fischl.json#/passive3"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        }
+      },
+      "constellations": {
+        "1": {
+          "nameJa": "幽邃な鴉の目",
+          "originalText": "オズが戦場にいない時も、鴉の目を通してフィッシュルを守る。フィッシュルが敵に通常攻撃する時、オズは鴉の目を通して攻撃し、攻撃力22%分のダメージを与える。",
+          "sourceRefs": [
+            "games/genshin/data/character-constellations.json#/10000031/constellations/1/effectText"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "2": {
+          "nameJa": "聖裁の羽根",
+          "originalText": "夜巡りの翼発動時、攻撃力200%分の追加ダメージを与える、さらに影響範囲+50%。",
+          "sourceRefs": [
+            "games/genshin/data/character-constellations.json#/10000031/constellations/2/effectText"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "3": {
+          "nameJa": "黒き翼",
+          "originalText": "夜巡りの翼のスキルLv.+3。\n最大Lv.15まで。",
+          "sourceRefs": [
+            "games/genshin/data/character-constellations.json#/10000031/constellations/3/effectText"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "4": {
+          "nameJa": "皇女綺譚集",
+          "originalText": "夜の幻現発動時、周囲の敵に攻撃力222%分の雷元素ダメージを与える。\nスキル終了時、フィッシュルのHPを20%回復する。",
+          "sourceRefs": [
+            "games/genshin/data/character-constellations.json#/10000031/constellations/4/effectText"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "5": {
+          "nameJa": "夜の黙示録",
+          "originalText": "夜の幻現のスキルLv.+3。\n最大Lv.15まで。",
+          "sourceRefs": [
+            "games/genshin/data/character-constellations.json#/10000031/constellations/5/effectText"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "6": {
+          "nameJa": "永夜の禽",
+          "originalText": "オズの存在時間+2秒。オズは出場している自身のキャラクターと共に攻撃し、攻撃力30%分の雷元素ダメージを与える。",
+          "sourceRefs": [
+            "games/genshin/data/character-constellations.json#/10000031/constellations/6/effectText"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        }
+      }
+    },
+    "10000038": {
+      "talents": {
+        "combat1": {
+          "nameJa": "西風剣術・白",
+          "originalText": "通常攻撃\n剣による最大5段の連続攻撃を行う。\n\n重撃\n一定のスタミナを消費し、前方に斬撃を2回放つ。\n\n落下攻撃\n空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+          "originalRaw": "<color=#FFD780FF>通常攻撃</color>\n剣による最大5段の連続攻撃を行う。\n\n<color=#FFD780FF>重撃</color>\n一定のスタミナを消費し、前方に斬撃を2回放つ。\n\n<color=#FFD780FF>落下攻撃</color>\n空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/albedo.json#/combat1"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "combat2": {
+          "nameJa": "創生術·擬似陽華",
+          "originalText": "陽華を錬成し、岩元素範囲ダメージを与える。\n\n陽華\n陽華は以下の特性を持つ。\n・陽華を中心とするエリア内にいる敵がダメージを受けた時、陽華は刹那の花を生成し、敵に岩元素範囲ダメージを与える。ダメージ量はアルベドの防御力によって決まる。\n・刹那の花は2秒毎に1回のみ生成できる。\n・キャラクターが陽華の上にいる時、陽華は岩元素の力を凝結し、キャラクターを一定の高さまで持ち上げる晶台を生成する。晶台は1つのみ存在可能。\n・アルベド自身が創造した陽華は1つのみ存在可能。また、陽華は岩元素創造物とみなされる。\n\n長押し\nスキルの発動位置を調整できる。",
+          "originalRaw": "陽華を錬成し、<color=#FFE699FF>岩元素範囲ダメージ</color>を与える。\n\n<color=#FFD780FF>陽華</color>\n陽華は以下の特性を持つ。\n・陽華を中心とするエリア内にいる敵がダメージを受けた時、陽華は刹那の花を生成し、敵に<color=#FFE699FF>岩元素範囲ダメージ</color>を与える。ダメージ量はアルベドの防御力によって決まる。\n・刹那の花は2秒毎に1回のみ生成できる。\n・キャラクターが陽華の上にいる時、陽華は岩元素の力を凝結し、キャラクターを一定の高さまで持ち上げる晶台を生成する。晶台は1つのみ存在可能。\n・アルベド自身が創造した陽華は1つのみ存在可能。また、陽華は<color=#FFE699FF>岩元素創造物</color>とみなされる。\n\n<color=#FFD780FF>長押し</color>\nスキルの発動位置を調整できる。\n\n<i>この岩の花には奇妙な習性がある。大地から生まれ、天高く登り太陽になることを望む。それは、錬金術の目指す物と一致している。</i>",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/albedo.json#/combat2"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "combat3": {
+          "nameJa": "誕生式·大地の潮",
+          "originalText": "アルベドの指示の下、岩晶が激しく爆発しアルベドの前方に岩元素範囲ダメージを与える。\nフィールド上にアルベド自身が創造した陽華が存在している場合、陽華のエリア内に7本の生滅の花を生成し、岩元素範囲ダメージを与える。\n\n爆発と生滅の花によるダメージによって刹那の花が作られることはない。",
+          "originalRaw": "アルベドの指示の下、岩晶が激しく爆発しアルベドの前方に<color=#FFE699FF>岩元素範囲ダメージ</color>を与える。\nフィールド上にアルベド自身が創造した陽華が存在している場合、陽華のエリア内に7本の生滅の花を生成し、<color=#FFE699FF>岩元素範囲ダメージ</color>を与える。\n\n爆発と生滅の花によるダメージによって刹那の花が作られることはない。\n\n<i>白亜色の王子の命令の下、大地の創造物たちは激しく鼓動する。</i>",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/albedo.json#/combat3"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "passive1": {
+          "nameJa": "白亜色の気迫",
+          "originalText": "創生術·擬似陽華の刹那の花がHP50%未満の敵にダメージを与えた場合、ダメージ量+25%。",
+          "originalRaw": "<color=#FFD780FF>創生術·擬似陽華</color>の刹那の花がHP50%未満の敵にダメージを与えた場合、ダメージ量+25%。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/albedo.json#/passive1"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "passive2": {
+          "nameJa": "ホムンクルスの天智",
+          "originalText": "誕生式·大地の潮を発動した時、周囲のチーム全員の元素熟知を+125、継続時間10秒。",
+          "originalRaw": "<color=#FFD780FF>誕生式·大地の潮</color>を発動した時、周囲のチーム全員の元素熟知を+125、継続時間10秒。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/albedo.json#/passive2"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "passive3": {
+          "nameJa": "天才の気付き",
+          "originalText": "武器突破素材を合成する時、10%の確率でアイテムを2倍獲得する。",
+          "originalRaw": "武器突破素材を合成する時、10%の確率でアイテムを2倍獲得する。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/genshin-db-talent-gap-localized-field-bridge-standard01/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/albedo.json#/passive3"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        }
+      },
+      "constellations": {
+        "1": {
+          "nameJa": "エデンの花",
+          "originalText": "アルベドの創生術·擬似陽華の刹那の花が放たれた時、アルベド自身の元素エネルギーが1.2回復する。",
+          "sourceRefs": [
+            "games/genshin/data/character-constellations.json#/10000038/constellations/1/effectText"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "2": {
+          "nameJa": "顕生の宇宙",
+          "originalText": "創生術·擬似陽華の刹那の花が放たれた時、アルベドに生滅カウントを付与する。継続時間30秒。\n·誕生式·大地の潮を発動する時、全ての生滅カウントを取り除く。取り除かれた数によって、誕生式·大地の潮の爆発ダメージと生滅の花のダメージがアップする。\n·生滅カウント1つにつき、アルベドの防御力30%分のダメージがアップする。\n生滅カウントは最大4重まで。",
+          "sourceRefs": [
+            "games/genshin/data/character-constellations.json#/10000038/constellations/2/effectText"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "3": {
+          "nameJa": "太陽の華",
+          "originalText": "創生術·擬似陽華のスキルLv.+3。\n最大Lv.15まで。",
+          "sourceRefs": [
+            "games/genshin/data/character-constellations.json#/10000038/constellations/3/effectText"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "4": {
+          "nameJa": "聖なる堕落",
+          "originalText": "陽華のエリア内にいるキャラクターの落下攻撃ダメージ+30%。",
+          "sourceRefs": [
+            "games/genshin/data/character-constellations.json#/10000038/constellations/4/effectText"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "5": {
+          "nameJa": "太古の潮",
+          "originalText": "誕生式·大地の潮のスキルLv.+3。\n最大Lv.15まで。",
+          "sourceRefs": [
+            "games/genshin/data/character-constellations.json#/10000038/constellations/5/effectText"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "6": {
+          "nameJa": "無垢なる土",
+          "originalText": "陽華のエリア内にいるフィールド上のキャラクターが、結晶反応で生成されたシールド状態にある時、または陽華のエリア内に月籠が存在する時、与えるダメージ+17%。",
+          "sourceRefs": [
+            "games/genshin/data/character-constellations.json#/10000038/constellations/6/effectText"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        }
+      }
+    },
     "10000024": {
       "talents": {
         "passive2": {
@@ -513,6 +825,138 @@
               ]
             }
           ]
+        },
+        "combat1": {
+          "nameJa": "風巡りの剣舞",
+          "originalText": "通常攻撃\n最大6段の連続攻撃を行う。\n\n重撃\n一定のスタミナを消費し、前方の敵を踏みつけて攻撃する。\n\n落下攻撃\n空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+          "originalRaw": "<color=#FFD780FF>通常攻撃</color>\n最大6段の連続攻撃を行う。\n\n<color=#FFD780FF>重撃</color>\n一定のスタミナを消費し、前方の敵を踏みつけて攻撃する。\n\n<color=#FFD780FF>落下攻撃</color>\n空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json#/combat1"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "passive2": {
+          "nameJa": "法典「冬の凱旋」",
+          "originalText": "輝映・星拡散：チーム内キャラクターの元素タイプに応じて、ヴェスナは対応する効果を獲得する。\n・氷元素または風元素のキャラクター1人につき、ヴェスナの攻撃力+6%。\n・上記以外の元素タイプのキャラクター1人につき、ヴェスナの元素熟知+25。",
+          "originalRaw": "<color=#FFD780FF>輝映・星拡散</color>：チーム内キャラクターの元素タイプに応じて、ヴェスナは対応する効果を獲得する。\n・<color=#99FFFFFF>氷元素</color>または<color=#80FFD7FF>風元素</color>のキャラクター1人につき、ヴェスナの攻撃力+6%。\n・上記以外の元素タイプのキャラクター1人につき、ヴェスナの元素熟知+25。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json#/passive2"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "passive3": {
+          "nameJa": "星光の祝福・花舞うプロローグ",
+          "originalText": "チーム内のキャラクターが氷元素拡散反応を起こすと、氷元素拡散反応は星拡散反応へと変わり、ヴェスナの攻撃力に基づいて、チームのキャラクターが与える星拡散反応の基礎ダメージがアップする。攻撃力100につき、星拡散反応の基礎ダメージ+0.7%。この方法でアップできるダメージは最大14%まで。\nチーム内のキャラクターが付近で星拡散反応を起こした後の8秒間、ヴェスナは輝映・星拡散状態に入る。",
+          "originalRaw": "チーム内のキャラクターが氷元素拡散反応を起こすと、氷元素拡散反応は星拡散反応へと変わり、ヴェスナの攻撃力に基づいて、チームのキャラクターが与える星拡散反応の基礎ダメージがアップする。攻撃力100につき、星拡散反応の基礎ダメージ+0.7%。この方法でアップできるダメージは最大14%まで。\nチーム内のキャラクターが付近で星拡散反応を起こした後の8秒間、ヴェスナは<color=#FFD780FF>輝映・星拡散</color>状態に入る。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json#/passive3"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "passive4": {
+          "nameJa": "宝石の巡遊",
+          "originalText": "非戦闘状態の時、ヴェスナはダッシュまたはジャンプを長押しすると「巡遊」状態に入る。\n\n巡遊\n継続的にスタミナを消費し、浮遊状態を維持する。ダッシュまたはジャンプの一回押しで高度を上昇させる際は、追加でスタミナを消費する。ジャンプ長押しで巡遊状態に入る場合を含め、一度の巡遊中に高度を上昇できるのは最大三回まで。\n\nまた、スネージナヤ地域（ナド・クライを除く）において、非戦闘状態の時にチームのフィールド上キャラクターが空中にいる場合、ヴェスナに切り替えると、ヴェスナは直接巡遊状態に入り、スタミナを50回復する。この効果は10秒ごとに1回のみ発動できる。また、この効果は秘境、征討領域、深境螺旋では発動しない。",
+          "originalRaw": "非戦闘状態の時、ヴェスナはダッシュまたはジャンプを長押しすると<color=#FFD780FF>「巡遊」</color>状態に入る。\n\n<color=#FFD780FF>巡遊</color>\n継続的にスタミナを消費し、浮遊状態を維持する。ダッシュまたはジャンプの一回押しで高度を上昇させる際は、追加でスタミナを消費する。ジャンプ長押しで<color=#FFD780FF>巡遊</color>状態に入る場合を含め、一度の<color=#FFD780FF>巡遊</color>中に高度を上昇できるのは最大三回まで。\n\nまた、スネージナヤ地域（ナド・クライを除く）において、非戦闘状態の時にチームのフィールド上キャラクターが空中にいる場合、ヴェスナに切り替えると、ヴェスナは直接<color=#FFD780FF>巡遊</color>状態に入り、スタミナを50回復する。この効果は10秒ごとに1回のみ発動できる。また、この効果は秘境、征討領域、深境螺旋では発動しない。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-talents.json#/passive4"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        }
+      },
+      "constellations": {
+        "1": {
+          "nameJa": "冬を見送る盛宴",
+          "originalText": "**風巡りの臨戦**モード中、ヴェスナは最高ランクの**飛翔の剣**を3回ではなく、最大4回まで発動できるようになる。また、風巡りの臨戦モードに入った後、初めて最高ランクの飛翔の剣を発動する時、**「剣気」**を消費しない。\nさらに、ヴェスナが風巡りの臨戦モード中に与える星拡散反応ダメージ+20%。",
+          "originalRaw": "<color=#FFD780FF>{LINK#N11430001}風巡りの臨戦{/LINK}</color>モード中、ヴェスナは最高ランクの<color=#FFD780FF>{LINK#N11430003}飛翔の剣{/LINK}</color>を3回ではなく、最大4回まで発動できるようになる。また、<color=#FFD780FF>風巡りの臨戦</color>モードに入った後、初めて最高ランクの<color=#FFD780FF>飛翔の剣</color>を発動する時、<color=#FFD780FF>{LINK#N11430002}「剣気」{/LINK}</color>を消費しない。\nさらに、ヴェスナが<color=#FFD780FF>風巡りの臨戦</color>モード中に与える星拡散反応ダメージ+20%。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json#/c1"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "2": {
+          "nameJa": "春を迎える輪舞",
+          "originalText": "固有天賦**「儀典『春の行列』」**が強化され、ヴェスナが**風巡りの臨戦**モードに入った時、最大層数の「粛正」を獲得する。最大層数の「粛正」を持っている時、ヴェスナの攻撃力+40%。\n上記の効果は固有天賦「儀典『春の行列』」を解放する必要がある。",
+          "originalRaw": "固有天賦<color=#FFD780FF>{LINK#P1432101}「儀典『春の行列』」{/LINK}</color>が強化され、ヴェスナが<color=#FFD780FF>{LINK#N11430001}風巡りの臨戦{/LINK}</color>モードに入った時、最大層数の<color=#FFD780FF>「粛正」</color>を獲得する。最大層数の<color=#FFD780FF>「粛正」</color>を持っている時、ヴェスナの攻撃力+40%。\n上記の効果は固有天賦「儀典『春の行列』」を解放する必要がある。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json#/c2"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "3": {
+          "nameJa": "かがり火の進物",
+          "originalText": "元素スキル**操典「勝利への道筋」**のスキルLv.+3。\n最大Lv.15まで。",
+          "originalRaw": "元素スキル<color=#FFD780FF>{LINK#S11432}操典「勝利への道筋」{/LINK}</color>のスキルLv.+3。\n最大Lv.15まで。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json#/c3"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "4": {
+          "nameJa": "先人たちの栄光",
+          "originalText": "固有天賦**「法典『冬の凱旋』」**が強化され、攻撃力アップと元素熟知アップの効果が本来の3倍になる。",
+          "originalRaw": "固有天賦<color=#FFD780FF>{LINK#P1432201}「法典『冬の凱旋』」{/LINK}</color>が強化され、攻撃力アップと元素熟知アップの効果が本来の3倍になる。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json#/c4"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "5": {
+          "nameJa": "貴き血筋の責務",
+          "originalText": "元素爆発**女皇陛下に敬礼を**のスキルLv.+3。\n最大Lv.15まで。",
+          "originalRaw": "元素爆発<color=#FFD780FF>{LINK#S11435}女皇陛下に敬礼を{/LINK}</color>のスキルLv.+3。\n最大Lv.15まで。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json#/c5"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "6": {
+          "nameJa": "揺るぎなき忠誠",
+          "originalText": "最高ランクの**飛翔の剣**の発動後5秒以内に、ヴェスナは通常攻撃または元素スキルを一回押しすることで、風の精一族の秘伝である飛翔の剣・変を発動し、ヴェスナの攻撃力150%分の風元素ダメージを与え、**霊剣**を呼び出し、さらにヴェスナの攻撃力200%分の風元素ダメージを追加で与える。ヴェスナが**風巡りの臨戦**モードに入っている場合、風羽を追加で呼び出して敵に追加攻撃を行う。\nまた、ヴェスナが与える星拡散反応ダメージが20%**向上**する。",
+          "originalRaw": "最高ランクの<color=#FFD780FF>{LINK#N11430003}飛翔の剣{/LINK}</color>の発動後5秒以内に、ヴェスナは通常攻撃または元素スキルを一回押しすることで、風の精一族の秘伝である<color=#FFD780FF>飛翔の剣・変</color>を発動し、ヴェスナの攻撃力150%分の<color=#80FFD7FF>風元素ダメージ</color>を与え、<color=#FFD780FF>{LINK#N11430004}霊剣{/LINK}</color>を呼び出し、さらにヴェスナの攻撃力200%分の<color=#80FFD7FF>風元素ダメージ</color>を追加で与える。ヴェスナが<color=#FFD780FF>{LINK#N11430001}風巡りの臨戦{/LINK}</color>モードに入っている場合、風羽を追加で呼び出して敵に追加攻撃を行う。\nまた、ヴェスナが与える星拡散反応ダメージが20%{LINK#N11190007}<color=#FFD780FF>向上</color>{/LINK}する。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/7.0-to-7.1/sources/vesna-currentcalc/japanese-constellations.json#/c6"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
         }
       }
     },
@@ -604,6 +1048,125 @@
               ]
             }
           ]
+        },
+        "combat3": {
+          "nameJa": "攻守の猟犬",
+          "originalText": "信頼する仲間トゥガリンを戦場に呼び寄せ、前方エリアを一時的に雷の狩場へと変化させる。\n\n雷の狩場\n・周囲の敵を継続的に挑発し、敵の攻撃を引き付ける。\n・2秒ごとに、そこに足を踏み入れた敵に対して雷元素範囲ダメージを1回与える。\n\nトゥガリン\n・周囲に敵がいるとき、2秒ごとにいずれかの敵の近くへ素早く移動して噛みつき、雷元素ダメージを与える。\n・命中した敵が狩猟の印の効果を受けていた場合、狩猟の印を発動させる。\n・トゥガリンは狩猟の印効果を受けている敵を優先的に攻撃する。",
+          "originalRaw": "信頼する仲間<color=#FFD780FF>トゥガリン</color>を戦場に呼び寄せ、前方エリアを一時的に<color=#FFD780FF>雷の狩場</color>へと変化させる。\n\n<color=#FFD780FF>雷の狩場</color>\n・周囲の敵を継続的に挑発し、敵の攻撃を引き付ける。\n・2秒ごとに、そこに足を踏み入れた敵に対して<color=#FFACFFFF>雷元素範囲ダメージ</color>を1回与える。\n\n<color=#FFD780FF>トゥガリン</color>\n・周囲に敵がいるとき、2秒ごとにいずれかの敵の近くへ素早く移動して噛みつき、<color=#FFD780FF>雷元素ダメージ</color>を与える。\n・命中した敵が<color=#FFD780FF>狩猟の印</color>の効果を受けていた場合、<color=#FFD780FF>狩猟の印</color>を発動させる。\n・トゥガリンは<color=#FFD780FF>狩猟の印</color>効果を受けている敵を優先的に攻撃する。\n\n<i>待つことだな。焦りが消えるまで待っていれば、アカハラチドリが白樺林を越えて、向こうから撃たれに来る。</i>",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/alyosha.json#/combat3"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "passive2": {
+          "nameJa": "冬の麦と落ち葉に告げる別れ",
+          "originalText": "アリョーシャの元素チャージ効率を基に、アリョーシャの元素スキルと元素爆発によるダメージがアップする。元素チャージ効率1%につき、上記ダメージが0.35%アップし、最大70%までアップできる。",
+          "originalRaw": "アリョーシャの元素チャージ効率を基に、アリョーシャの元素スキルと元素爆発によるダメージがアップする。元素チャージ効率1%につき、上記ダメージが0.35%アップし、最大70%までアップできる。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/alyosha.json#/passive2"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "passive4": {
+          "nameJa": "梢からの偵察",
+          "originalText": "ミニマップで周囲のスネージナヤ地域の特産の位置を表示する。",
+          "originalRaw": "ミニマップで周囲の<color=#FFD780FF>スネージナヤ地域の特産</color>の位置を表示する。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/alyosha.json#/passive4"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        }
+      },
+      "constellations": {
+        "1": {
+          "nameJa": "寒谷の轟雷",
+          "originalText": "付近にいるチーム内キャラクターが敵に雷元素関連反応を起こした後、アリョーシャの元素エネルギーを15ポイント回復する。この効果は18秒毎に1回のみ発動可能。",
+          "originalRaw": "付近にいるチーム内キャラクターが敵に<color=#FFACFFFF>雷元素関連反応</color>を起こした後、アリョーシャの元素エネルギーを15ポイント回復する。この効果は18秒毎に1回のみ発動可能。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/alyosha.json#/c1"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "2": {
+          "nameJa": "遠吠えの合図",
+          "originalText": "元素爆発攻守の猟犬の継続時間が6秒延長される。\nまた、**トゥガリン**が敵を攻撃する前に毎回、さらに1体のターゲットに追加で**狩猟の印**を付与するようになる。この効果はすでに存在する狩猟の印を発動させることはない。",
+          "originalRaw": "元素爆発<color=#FFD780FF>攻守の猟犬</color>の継続時間が6秒延長される。\nまた、{LINK#N11480002}<color=#FFD780FF>トゥガリン</color>{/LINK}が敵を攻撃する前に毎回、さらに1体のターゲットに追加で{LINK#N11480001}<color=#FFD780FF>狩猟の印</color>{/LINK}を付与するようになる。この効果はすでに存在する<color=#FFD780FF>狩猟の印</color>を発動させることはない。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/alyosha.json#/c2"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "3": {
+          "nameJa": "仲間の呼び声",
+          "originalText": "元素スキル伏撃の雷鳴のスキルLv.+3。\n最大Lv.15まで。",
+          "originalRaw": "元素スキル<color=#FFD780FF>伏撃の雷鳴</color>のスキルLv.+3。\n最大Lv.15まで。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/alyosha.json#/c3"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "4": {
+          "nameJa": "獲物の回収",
+          "originalText": "**トゥガリン**が攻撃を行う時、さらに付近にいるチーム内でHP割合が最も低いキャラクターのHPが回復する。回復量はアリョーシャの攻撃力の60%に相当する。",
+          "originalRaw": "{LINK#N11480002}<color=#FFD780FF>トゥガリン</color>{/LINK}が攻撃を行う時、さらに付近にいるチーム内でHP割合が最も低いキャラクターのHPが回復する。回復量はアリョーシャの攻撃力の60%に相当する。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/alyosha.json#/c4"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "5": {
+          "nameJa": "歌鳥の沈黙",
+          "originalText": "元素爆発攻守の猟犬のスキルLv.+3。\n最大Lv.15まで。",
+          "originalRaw": "元素爆発<color=#FFD780FF>攻守の猟犬</color>のスキルLv.+3。\n最大Lv.15まで。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/alyosha.json#/c5"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "6": {
+          "nameJa": "御旗の奪還",
+          "originalText": "**狩猟の印**をアクティブ化した時に獲得する狩人の照準効果の重ね掛けが可能になる。この効果は最大2層まで重ね掛けでき、2層まで重ね掛けした時、さらにこの効果の影響下にあるフィールド上キャラクターの元素熟知+100。",
+          "originalRaw": "{LINK#N11480001}<color=#FFD780FF>狩猟の印</color>{/LINK}をアクティブ化した時に獲得する<color=#FFD780FF>狩人の照準</color>効果の重ね掛けが可能になる。この効果は最大2層まで重ね掛けでき、2層まで重ね掛けした時、さらにこの効果の影響下にあるフィールド上キャラクターの元素熟知+100。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/alyosha.json#/c6"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
         }
       }
     },
@@ -743,6 +1306,125 @@
               ]
             }
           ]
+        },
+        "combat1": {
+          "nameJa": "雪鳥のヴァリエーション",
+          "originalText": "通常攻撃\n剣による最大5段の連続攻撃を行う。\n\n重撃\n一定のスタミナを消費し、前方にまばゆい斬撃を放つ。\n\n落下攻撃\n空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+          "originalRaw": "<color=#FFD780FF>通常攻撃</color>\n剣による最大5段の連続攻撃を行う。\n\n<color=#FFD780FF>重撃</color>\n一定のスタミナを消費し、前方にまばゆい斬撃を放つ。\n\n<color=#FFD780FF>落下攻撃</color>\n空中から落下し地面に衝撃を与える。経路上の敵を攻撃し、落下時に範囲ダメージを与える。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json#/combat1"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "passive2": {
+          "nameJa": "誠実なる者の悲しき歌",
+          "originalText": "オデットの攻撃力のうち1000を超えた部分を基準に、攻撃力100につき、オデットの与える星反応ダメージに本来のダメージの1.5%分の追加ダメージが発生する。この方法による追加ダメージは最大で本来のダメージの30%まで。",
+          "originalRaw": "オデットの攻撃力のうち1000を超えた部分を基準に、攻撃力100につき、オデットの与える星反応ダメージに本来のダメージの1.5%分の追加ダメージが発生する。この方法による追加ダメージは最大で本来のダメージの30%まで。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json#/passive2"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "passive4": {
+          "nameJa": "こだまする冬の夢",
+          "originalText": "ミニマップで周囲のスネージナヤ地域の特産の位置を表示する。\n暇な時はダンスの練習をすると、他の効果が発動するかもしれない…",
+          "originalRaw": "ミニマップで周囲の<color=#FFD780FF>スネージナヤ地域の特産</color>の位置を表示する。\n暇な時はダンスの練習をすると、他の効果が発動するかもしれない…",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/talents/odette.json#/passive4"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        }
+      },
+      "constellations": {
+        "1": {
+          "nameJa": "「踊らぬ朝に彼女は 己の影を見つめる」",
+          "originalText": "特殊な元素スキル**柔き払暁のコーダ**の発動後、踊りが終わると、オデットは周囲の敵に氷元素範囲ダメージを追加で1回与える。このダメージは下記の通りとなる。\n・輝映・星電導とみなされる、または輝映状態にない場合、オデットの攻撃力の300%に相当する星電導反応ダメージとなる。\n・輝映・星拡散とみなされる場合、オデットの攻撃力の450%に相当する星拡散反応ダメージとなる。\n\nさらに、固有天賦「選ばれし者の祝祭」が強化される。**独舞者のシルエット**を生成する時、オデットは**春の華**を追加で2層獲得し、オデットが待機中の場合、春の華をクリアする速度が毎秒2層に上昇する。",
+          "originalRaw": "特殊な元素スキル{LINK#N11500002}<color=#FFD780FF>柔き払暁のコーダ</color>{/LINK}の発動後、踊りが終わると、オデットは周囲の敵に<color=#99FFFFFF>氷元素範囲ダメージ</color>を追加で1回与える。このダメージは下記の通りとなる。\n・<color=#FFD780FF>輝映・星電導</color>とみなされる、または輝映状態にない場合、オデットの攻撃力の300%に相当する星電導反応ダメージとなる。\n・<color=#FFD780FF>輝映・星拡散</color>とみなされる場合、オデットの攻撃力の450%に相当する星拡散反応ダメージとなる。\n\nさらに、固有天賦「選ばれし者の祝祭」が強化される。{LINK#N11500001}<color=#FFD780FF>独舞者のシルエット</color>{/LINK}を生成する時、オデットは{LINK#N11500003}<color=#FFD780FF>春の華</color>{/LINK}を追加で2層獲得し、オデットが待機中の場合、<color=#FFD780FF>春の華</color>をクリアする速度が毎秒2層に上昇する。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/odette.json#/c1"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "2": {
+          "nameJa": "「雪鳥の見ぬ夢を只 見届けたいだけで」",
+          "originalText": "固有天賦「選ばれし者の祝祭」が強化される。**春の華**1層につき、さらにキャラクターの攻撃力が7%アップする。\nまた、**独舞者のシルエット**が存在する時、オデットが**輝映・星閃**状態の場合、独舞者のシルエット付近の敵の対応する元素耐性がさらに20%ダウンする。\n・輝映・星電導：氷元素、雷元素。\n・輝映・星拡散：氷元素、風元素。",
+          "originalRaw": "固有天賦「選ばれし者の祝祭」が強化される。{LINK#N11500003}<color=#FFD780FF>春の華</color>{/LINK}1層につき、さらにキャラクターの攻撃力が7%アップする。\nまた、{LINK#N11500001}<color=#FFD780FF>独舞者のシルエット</color>{/LINK}が存在する時、オデットが{LINK#N11500004}<color=#FFD780FF>輝映・星閃</color>{/LINK}状態の場合、<color=#FFD780FF>独舞者のシルエット</color>付近の敵の対応する元素耐性がさらに20%ダウンする。\n・<color=#FFD780FF>輝映・星電導</color>：<color=#99FFFFFF>氷元素</color>、<color=#FFACFFFF>雷元素</color>。\n・<color=#FFD780FF>輝映・星拡散</color>：<color=#99FFFFFF>氷元素</color>、<color=#80FFD7FF>風元素</color>。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/odette.json#/c2"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "3": {
+          "nameJa": "「荒れ狂う風を追い ひとり高みへ昇る」",
+          "originalText": "元素スキル**柔きファントムの夜の舞**のスキルLv.+3。\n最大Lv.15まで。",
+          "originalRaw": "元素スキル<color=#FFD780FF>{LINK#S11502}柔きファントムの夜の舞{/LINK}</color>のスキルLv.+3。\n最大Lv.15まで。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/odette.json#/c3"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "4": {
+          "nameJa": "「燃ゆる青空の中へ 恍惚と堕ちていく」",
+          "originalText": "元素爆発疾きブルーバードの夢が強化される。オデットが雪鳥の夢を獲得した時、付近にいるチーム内の他のキャラクターが与える星反応ダメージがさらにアップする。ダメージアップ量は雪鳥の夢の効果の50%分に相当する。\n\nまた、チーム内のキャラクターが敵に星反応ダメージを与えた時、オデットは敵に対して追加攻撃を1回行い、氷元素範囲ダメージを1回与える。3.5秒毎に1回のみ発動可能。詳細はそれぞれ、以下の通り。\n・ダメージが輝映・星電導とみなされる場合、または輝映状態でない場合、オデットの攻撃力の66%分の星電導反応ダメージを与える。\n・ダメージが輝映・星拡散とみなされる場合、オデットの攻撃力の99%分の星拡散反応ダメージを与える。",
+          "originalRaw": "元素爆発<color=#FFD780FF>疾きブルーバードの夢</color>が強化される。オデットが<color=#FFD780FF>雪鳥の夢</color>を獲得した時、付近にいるチーム内の他のキャラクターが与える星反応ダメージがさらにアップする。ダメージアップ量は<color=#FFD780FF>雪鳥の夢</color>の効果の50%分に相当する。\n\nまた、チーム内のキャラクターが敵に星反応ダメージを与えた時、オデットは敵に対して追加攻撃を1回行い、<color=#99FFFFFF>氷元素範囲ダメージ</color>を1回与える。3.5秒毎に1回のみ発動可能。詳細はそれぞれ、以下の通り。\n・ダメージが<color=#FFD780FF>輝映・星電導</color>とみなされる場合、または輝映状態でない場合、オデットの攻撃力の66%分の星電導反応ダメージを与える。\n・ダメージが<color=#FFD780FF>輝映・星拡散</color>とみなされる場合、オデットの攻撃力の99%分の星拡散反応ダメージを与える。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/odette.json#/c4"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "5": {
+          "nameJa": "「見よ——塵と土の 痛みと別れる時を」",
+          "originalText": "元素爆発**疾きブルーバードの夢**のスキルLv.+3。\n最大Lv.15まで。",
+          "originalRaw": "元素爆発<color=#FFD780FF>{LINK#S11505}疾きブルーバードの夢{/LINK}</color>のスキルLv.+3。\n最大Lv.15まで。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/odette.json#/c5"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
+        },
+        "6": {
+          "nameJa": "「さあ手を伸ばして 永遠の空に触れて」",
+          "originalText": "固有天賦「選ばれし者の祝祭」が強化される。オデットが周囲のチーム全員に**春の華**を付与する時、自身の春の華は減少しなくなる。\nまた、春の華の影響下にあるキャラクターは、敵に与える星反応ダメージが25%**向上**し、オデットが敵に与える星反応ダメージが追加で20%向上する。",
+          "originalRaw": "固有天賦「選ばれし者の祝祭」が強化される。オデットが周囲のチーム全員に{LINK#N11500003}<color=#FFD780FF>春の華</color>{/LINK}を付与する時、自身の春の華は減少しなくなる。\nまた、<color=#FFD780FF>春の華</color>の影響下にあるキャラクターは、敵に与える星反応ダメージが25%{LINK#N11190007}<color=#FFD780FF>向上</color>{/LINK}し、オデットが敵に与える星反応ダメージが追加で20%向上する。",
+          "sourceRefs": [
+            "games/genshin/data/v2/version-transitions/6.7-to-7.0/sources/r2-new-roster/8b15995fa220c88a4d0d7ffe1e21b041d0b32588/Japanese/constellations/odette.json#/c6"
+          ],
+          "provenance": {
+            "verification": "savedJapaneseSourceText",
+            "baselineHead": "068ff86",
+            "textPreserved": true
+          }
         }
       }
     },

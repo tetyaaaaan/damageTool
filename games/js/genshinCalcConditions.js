@@ -1466,6 +1466,7 @@
         const calculationSummary = originalText ? "" : text?.calculationSummary || fallback || "";
         return {
             originalText,
+            relatedEffects: text?.relatedEffects || [],
             calculationSummary,
             description: originalText || calculationSummary,
             descriptionKind: originalText ? text.descriptionKind : "summary"
@@ -1483,7 +1484,9 @@
                 sectionMap.set(level, {
                     level,
                     label: `C${level}`,
-                    nameJa: registryLevel.nameJa || "星座効果",
+                    nameJa: calcData.originalEffectTexts?.characters?.[context.characterId]?.constellations?.[String(level)]?.nameJa
+                        || calcData.characterConstellations?.[context.characterId]?.constellations?.[String(level)]?.nameJa
+                        || registryLevel.nameJa || "星座効果",
                     ...effectTextMeta(calcData, "constellation", context.characterId, { sourceId: level }, plainConstellationText(registryLevel.effectText || effect.description || "")),
                     impactLabels: [],
                     controls: [],

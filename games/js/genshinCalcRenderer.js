@@ -1209,6 +1209,7 @@
             ${renderSectionFacts(section)}
             ${controls}
             ${detail}
+            ${renderRelatedEffects(section.relatedEffects)}
         </article>`;
     }
 
@@ -1639,6 +1640,15 @@
         const selectedKey = document.querySelector?.('[data-result-detail-toggle][aria-expanded="true"]')?.closest?.('[data-attack-key]')?.dataset.attackKey || '';
         const evaluation = createImpactEvaluation(context, calcData, selectedKey);
         cards.flatMap(card => [...(card.effects || []), ...(card.sections || []).flatMap(section => section.effects || [])]).forEach(effect => { effect.runtimeRows = modifierImpactRows(effect, evaluation); });
+        const seenRelatedOriginals = new Set();
+        (cards.find(card => card.id === 'talent')?.sections || []).forEach(section => {
+            section.relatedEffects = (section.relatedEffects || []).filter(effect => {
+                const key = effect.linkedTooltipId || effect.nameJa + ':' + effect.originalText;
+                if (seenRelatedOriginals.has(key)) return false;
+                seenRelatedOriginals.add(key);
+                return true;
+            });
+        });
         cards.filter(card => ['talent','constellation'].includes(card.id)).flatMap(card => card.sections || []).forEach(section => {
             section.runtimeRows = providerImpactRows(section.effects, evaluation);
             section.effects.filter(effect => effect.modifier?.category === 'extraDamage').forEach(effect => {
