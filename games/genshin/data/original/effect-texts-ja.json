@@ -3,6 +3,123 @@
   "locale": "ja-JP",
   "purpose": "Display-only original effect text; never used for modifier inference or calculation.",
   "characters": {
+    "10000024": {
+      "talents": {
+        "passive2": {
+          "originalText": "最大ダメージアップ効果のある浪追いを発動した後の10秒間、下記の効果が発動される。\n·通常攻撃と重撃の攻撃速度+15%、攻撃ダメージ+15%。\n·重撃に必要な時間が大幅に減少する。",
+          "sourceRefs": [
+            "games/genshin/data/character-talents.json#/10000024/passives/1/descriptionJa"
+          ],
+          "provenance": {
+            "verification": "userConfirmedExternalCrossCheck",
+            "baselineHead": "bd83d13",
+            "textPreserved": true
+          }
+        },
+        "combat2": {
+          "originalText": "心配することはない。彼女や彼女の仲間に手を出す者がいた場合、彼女は雷と大剣で十倍返しにする。\n\n一回押し\n雷の力を凝集させ、前方に大剣を振り、雷元素ダメージを与える。\n\n長押し\n武器をシールドとして使う、ダメージ吸収量は北斗のHP上限によって決まる。\n元素スキルボタンを離す、またはスキル継続時間終了時、大剣を振り回して攻撃を行い、雷元素ダメージを与える。スキル期間中に受けた攻撃の回数により、与えるダメージを最大2回までアップさせる。\nシールドには下記の効果がある。\n·雷元素ダメージに対して250%の吸収効果がある。\n·スキル発動時、北斗に雷元素付着効果を付与する。",
+          "sourceRefs": [
+            "games/genshin/data/character-talents.json#/10000024/skill/descriptionJa"
+          ],
+          "provenance": {
+            "verification": "userConfirmedExternalCrossCheck",
+            "baselineHead": "bd83d13",
+            "textPreserved": true
+          }
+        }
+      }
+    },
+    "10000043": {
+      "talents": {
+        "passive1": {
+          "originalText": "スクロースが拡散反応または星拡散反応を起こした時、該当元素のチームメンバー全員（スクロース自身を除く）の元素熟知+50、継続時間8秒。",
+          "sourceRefs": [
+            "games/genshin/data/character-talents.json#/10000043/passives/0/descriptionJa"
+          ],
+          "provenance": {
+            "verification": "userConfirmedExternalCrossCheck",
+            "baselineHead": "bd83d13",
+            "textPreserved": true
+          }
+        },
+        "passive2": {
+          "originalText": "風霊作成·六三〇八又は禁·風霊作成·七五同構弐型が敵に命中した時、スクロースの元素熟知の20%を基準に、チーム全員（スクロース自身を除く）の元素熟知を強化する、継続時間8秒。",
+          "sourceRefs": [
+            "games/genshin/data/character-talents.json#/10000043/passives/1/descriptionJa"
+          ],
+          "provenance": {
+            "verification": "userConfirmedExternalCrossCheck",
+            "baselineHead": "bd83d13",
+            "textPreserved": true
+          }
+        }
+      }
+    },
+    "10000082": {
+      "talents": {
+        "passive2": {
+          "originalText": "無隙シールドの治療効果を受けたキャラクターは、「木運の歳」の効果を得られる。白朮のHP上限のうち50000以下の部分をもとに、1000毎に該当キャラクターが起こした燃焼、開花、超開花、烈開花反応によるダメージ+2%、超激化、草激化反応によるダメージアップ効果+0.8%、月開花反応によるダメージ+0.7%。継続時間6秒。",
+          "sourceRefs": [
+            "games/genshin/data/character-talents.json#/10000082/passives/1/descriptionJa"
+          ],
+          "provenance": {
+            "verification": "userConfirmedExternalCrossCheck",
+            "baselineHead": "bd83d13",
+            "textPreserved": true
+          }
+        }
+      }
+    },
+    "10000133": {
+      "talents": {
+        "passive1": {
+          "originalText": "輝映・星電導：元素スキル**事象式：自在な解析**を発動する際、ファジオの**演算負荷**が50を超えている場合、演算負荷を低下させると同時に、付近の敵に向けて発射された2発目のプリズム弾が元の400%のダメージを与える。\nまた、ファジオの演算負荷が10低下するごとに、60秒間持続する改良戦術効果を1層獲得し、この効果は最大10層まで重ね掛けできる。サンドローネが輝映・星電導状態で元素爆発**事象式：Q.E.D**を発動すると、改良戦術の全ての層をクリアし、負温度エネルギー光線によって元の100%+クリアした層数×10%のダメージを与える。",
+          "sourceRefs": [
+            "games/genshin/data/character-talents.json#/10000133/passives/0/descriptionJa"
+          ],
+          "provenance": {
+            "verification": "userConfirmedExternalCrossCheck",
+            "baselineHead": "bd83d13",
+            "textPreserved": true
+          }
+        },
+        "passive2": {
+          "originalText": "サンドローネの攻撃力に基づき、元素熟知をアップさせる。攻撃力100ごとにサンドローネの元素熟知+8、この方法でアップできる元素熟知量は最大160まで。",
+          "sourceRefs": [
+            "games/genshin/data/character-talents.json#/10000133/passives/1/descriptionJa"
+          ],
+          "provenance": {
+            "verification": "userConfirmedExternalCrossCheck",
+            "baselineHead": "bd83d13",
+            "textPreserved": true
+          }
+        },
+        "passive3": {
+          "originalText": "チーム内のキャラクターが超電導反応を起こすと、超電導反応は星電導反応へと変わり、サンドローネの攻撃力に基づいて、チームのキャラクターが与える星電導反応の基礎ダメージがアップする。攻撃力100につき、星電導反応の基礎ダメージ+0.7%。この方法でアップできるダメージは最大14%まで。\nまた、**極星フィールド**にいる間、サンドローネは輝映・星電導状態に入る。",
+          "sourceRefs": [
+            "games/genshin/data/character-talents.json#/10000133/passives/2/descriptionJa"
+          ],
+          "provenance": {
+            "verification": "userConfirmedExternalCrossCheck",
+            "baselineHead": "bd83d13",
+            "textPreserved": true
+          }
+        }
+      },
+      "constellations": {
+        "6": {
+          "originalText": "**演算**モード中、ファジオが3回目の冷却ビームを発射する際、より威力の強い集束型冷却ビームを発射し続けるようになり、本来後に発射される冷却ビームを基準として、サンドローネの攻撃力100%分の氷元素範囲ダメージを最大4段追加で与える。\n輝映・星輝：集束型冷却ビームが氷元素範囲ダメージを4段追加で与える。この攻撃によるダメージは対応する星輝反応ダメージとみなされ、その値は次の通り。\n輝映・星電導：サンドローネの攻撃力80%。\n輝映・星拡散：サンドローネの攻撃力120%。\nまた、サンドローネが与えるすべての星輝反応ダメージが20%**向上**する。",
+          "sourceRefs": [
+            "games/genshin/data/character-constellations.json#/10000133/constellations/6/effectText"
+          ],
+          "provenance": {
+            "verification": "userConfirmedExternalCrossCheck",
+            "baselineHead": "bd83d13",
+            "textPreserved": true
+          }
+        }
+      }
+    },
       "10000119": {
         "talents": {
           "passive1": {

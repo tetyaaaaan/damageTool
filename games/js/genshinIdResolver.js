@@ -159,6 +159,9 @@
             const item = ({ combat1: talents.normalAttack, combat2: talents.skill, combat3: talents.burst, special: talents.special })[key]
                 || (talents.passives || []).find((passive) => String(passive.sourceId || "").replace(/_/g, "") === key)
                 || (/^passive\d+$/.test(key) ? talents.passives?.[Number(key.match(/\d+/)[0]) - 1] : null);
+            if (!original && item && (talents.passives || []).includes(item)) {
+                original = originals.characters?.[id]?.talents?.[`passive${talents.passives.indexOf(item) + 1}`];
+            }
             calculationSummary = key === "combat1"
                 ? [...new Set([item?.normalDescriptionJa, item?.chargedDescriptionJa, item?.plungingDescriptionJa].filter(Boolean))].join("\n\n")
                 : item?.descriptionJa || "";

@@ -15826,9 +15826,9 @@
         {
           "id": "c_10000133_6_1",
           "category": "effectOverride",
-          "effectLabel": "C6 Elevation（星反応ダメージ×1.20）",
+          "effectLabel": "自身の星反応ダメージ向上（C6）",
           "displayAsMultiplier": true,
-          "conditionLabel": "C6：Elevation発動中",
+          "conditionLabel": "自身の星反応ダメージ向上（C6）",
           "targetOwner": "self",
           "reactionTargetsOnly": true,
           "applyTo": [

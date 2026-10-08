@@ -1185,7 +1185,7 @@
     function renderConstellationSection(section) {
         const status = CONDITION_STATUS[section.status] || CONDITION_STATUS.auto;
         const controls = renderSectionControls(section, "条件入力");
-        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderConstellationImpact).join(""));
+        const detail = renderSectionDetail(section.description, section.descriptionKind, renderRuntimeImpact({runtimeRows:section.runtimeRows}));
         return `<article class="genshin-constellation-section" data-constellation-level="C${escapeHtml(section.level)}">
             <header class="genshin-constellation-head">
                 <div><strong>C${escapeHtml(section.level)}</strong><h5>${escapeHtml(section.nameJa)}</h5></div>
@@ -1200,7 +1200,7 @@
     function renderTalentSection(section) {
         const status = CONDITION_STATUS[section.status] || CONDITION_STATUS.auto;
         const controls = renderSectionControls(section, "状態・条件");
-        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderConstellationImpact).join(""));
+        const detail = renderSectionDetail(section.description, section.descriptionKind, renderRuntimeImpact({runtimeRows:section.runtimeRows}));
         return `<article class="genshin-constellation-section genshin-talent-section" data-talent-source="${escapeHtml(section.key)}">
             <header class="genshin-constellation-head">
                 <div><strong>${escapeHtml(section.typeLabel)}</strong><h5>${escapeHtml(section.nameJa)}</h5></div>
@@ -1234,7 +1234,7 @@
     function renderWeaponSection(section) {
         const status = CONDITION_STATUS[section.status] || CONDITION_STATUS.auto;
         const controls = renderSectionControls(section, "発動状態");
-        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderWeaponImpact).join(""), {'精錬ランク':'R' + (section.refinement || 1)});
+        const detail = renderSectionDetail(section.description, section.descriptionKind, section.effects.map(renderWeaponImpact).join(""));
         return `<article class="genshin-constellation-section genshin-weapon-section" data-weapon-effect-group="${escapeHtml(section.id)}">
             <header class="genshin-constellation-head">
                 <div><strong>武器効果</strong><h5>${escapeHtml(section.name)}</h5></div>
@@ -1424,10 +1424,13 @@
         if (!bucket || (calculation === 'effectOverride' && modifier.unit === 'percentOfOriginalEffect')) return [];
         const multiplier = bucket.endsWith('Multiplier');
         if (modifier.category === 'resistanceDebuff') return targets.map(target=>({key:bucket+':'+target,bucket,target,label:'敵の'+label(target).replace(/低下$/,''),unit:'percent'}));
-        const bucketLabel = {defenseDebuff:'敵の防御力低下',defenseIgnore:'防御無視',critRateBonus:'会心率',critDamageBonus:'会心ダメージ',baseTalentDamageMultiplier:'天賦基礎ダメージ倍率',finalDamageMultiplier:'独立倍率'}[bucket];
-        const targetLabel = targets.map(label).join('・') || '補正';
+        const bucketLabel = modifier.reactionTargetsOnly && bucket === 'finalDamageMultiplier' ? '星反応ダメージ向上（独立倍率）' : {defenseDebuff:'敵の防御力低下',defenseIgnore:'防御無視',critRateBonus:'会心率',critDamageBonus:'会心ダメージ',baseTalentDamageMultiplier:'天賦基礎ダメージ倍率',finalDamageMultiplier:'独立倍率'}[bucket];
+        const targetLabel = targets.map(target => {
+            const name = label(target);
+            return bucket === 'damageBonus' && /^(通常攻撃|重撃|落下攻撃|元素スキル|元素爆発)$/.test(name) ? name + 'ダメージ' : name;
+        }).join('・') || '補正';
         return [{key:bucket + ':' + (bucketLabel ? '' : [...targets].sort().join(',')),bucket,
-            label:bucketLabel || (modifier.category === 'reactionBaseDamageBonus' ? targetLabel.replace(/(?:ダメージ)?(?:補正)?$/, '')+'基礎ダメージ' : targetLabel),unit:multiplier?'multiplier':'percent'}];
+            label:bucketLabel || (modifier.category === 'reactionBaseDamageBonus' ? targetLabel.replace(/(?:基礎)?(?:ダメージ)?(?:補正)?$/, '')+'基礎ダメージ' : targetLabel),unit:multiplier?'multiplier':'percent'}];
     }
 
     function providerImpactRows(effects, evaluation) {
@@ -1565,12 +1568,12 @@
     function renderPartyCurrentControls(effects, context) {
         const seen = new Set();
         return effects.map(candidate => {
-            if (isVodyDerivedCandidate(candidate) || candidate.automatic) return '';
+            if (isVodyDerivedCandidate(candidate) || (candidate.automatic && !candidate.modifier?.conditionInput)) return '';
             const key = candidate.partyConditionStateKey || candidate.toggleKey || candidate.key;
             if (seen.has(key)) return ''; seen.add(key);
             const control = renderPartyConditionControl(candidate,context);
             const toggle = candidate.showToggle !== false && ['ready','off'].includes(candidate.status)
-                ? '<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>' + escapeEffectLabel(candidate.sourceName) + '</strong><small>効果が発動中の場合にON</small></span><input type="checkbox" data-genshin-party-buff-key="' + escapeHtml(candidate.toggleKey || candidate.key) + '"' + (candidate.enabled ? ' checked' : '') + '></label>' : '';
+                ? '<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>' + escapeEffectLabel(candidate.modifier?.conditionLabel || candidate.sourceName) + '</strong><small>効果が発動中の場合にON</small></span><input type="checkbox" data-genshin-party-buff-key="' + escapeHtml(candidate.toggleKey || candidate.key) + '"' + (candidate.enabled ? ' checked' : '') + '></label>' : '';
             return control || toggle ? '<div class="genshin-party-state-control">' + control + toggle + '</div>' : '';
         }).join('');
     }
@@ -1636,6 +1639,14 @@
         const selectedKey = document.querySelector?.('[data-result-detail-toggle][aria-expanded="true"]')?.closest?.('[data-attack-key]')?.dataset.attackKey || '';
         const evaluation = createImpactEvaluation(context, calcData, selectedKey);
         cards.flatMap(card => [...(card.effects || []), ...(card.sections || []).flatMap(section => section.effects || [])]).forEach(effect => { effect.runtimeRows = modifierImpactRows(effect, evaluation); });
+        cards.filter(card => ['talent','constellation'].includes(card.id)).flatMap(card => card.sections || []).forEach(section => {
+            section.runtimeRows = providerImpactRows(section.effects, evaluation);
+            section.effects.filter(effect => effect.modifier?.category === 'extraDamage').forEach(effect => {
+                if (evaluation?.collected.applied.some(item => item.modifier.id === effect.modifier.id && item.source === effect.source)) {
+                    section.runtimeRows.push({label:effect.modifier.effectLabel || effect.modifier.label || '独立追加攻撃',value:null,reason:'独立攻撃（ダメージ一覧に表示）'});
+                }
+            });
+        });
         (panelState.partyModifiers || []).forEach(candidate => { candidate.runtimeRows = modifierImpactRows(candidate, evaluation); });
         const flatCards = cards.filter((card) => !["weapon", "artifact", "talent", "constellation"].includes(card.id));
         const artifactSections = cards.find((card) => card.id === "artifact")?.sections || [];

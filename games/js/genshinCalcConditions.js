@@ -1506,7 +1506,7 @@
                 if (!section.controls.some((current) => controlIdentity(current) === controlIdentity(control))) {
                     section.controls.push({
                         ...control,
-                        label: control.type === "toggle" ? `C${level}${effect.modifier.category === "extraDamage" ? "追加攻撃" : effect.modifier.category === "critBonus" ? "会心補正" : categoryLabel(effect.modifier.category)}を適用` : control.label,
+                        label: control.type === "toggle" ? effect.modifier.conditionLabel || `C${level}${effect.modifier.category === "extraDamage" ? "追加攻撃" : effect.modifier.category === "critBonus" ? "会心補正" : categoryLabel(effect.modifier.category)}を適用` : control.label,
                         help: control.type === "toggle" ? "この星座効果が発動している場合に有効にします。" : control.help
                     });
                 }

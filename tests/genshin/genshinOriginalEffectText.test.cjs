@@ -52,7 +52,9 @@ test("Hymn and Key sections display the full original once with Runtime impacts 
         assert.equal(sections[0].description, f.sandbox.GenshinIdResolver.describeEffect({ data: f.calcData, kind: "weapon", id: weaponId, refinement: 5 }).originalText);
         assert.ok(sections[0].effects.length >= 2);
         assert.match(html, /計算への反映/);
-        assert.match(html, /精錬ランク[\s\S]*R5/);
+        assert.match(html, /R5/);
+        const weaponCard = html.split('class="genshin-constellation-section genshin-weapon-section"')[1].split("</article>")[0];
+        assert.doesNotMatch(weaponCard, /genshin-value-facts/);
         assert.doesNotMatch(html, />全文<|>要約<|>自動説明</);
         assert.ok(!sections[0].description.includes("現在有効な蜜酒の層数"));
     }

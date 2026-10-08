@@ -1182,6 +1182,19 @@
             "condition": "always",
             "conditionOptionValue": "hydro",
             "conditionInputActivates": true,
+            "conditionInput": {
+              "type": "option",
+              "default": "inactive",
+              "label": "触媒置換術：拡散した元素",
+              "help": "スクロースが起こした拡散または星拡散の元素を選択します。選択した元素のチームメンバーだけに元素熟知+50を適用します。",
+              "options": [
+                { "value": "inactive", "label": "未発動" },
+                { "value": "pyro", "label": "炎元素の拡散／星拡散後" },
+                { "value": "hydro", "label": "水元素の拡散／星拡散後" },
+                { "value": "electro", "label": "雷元素の拡散／星拡散後" },
+                { "value": "cryo", "label": "氷元素の拡散／星拡散後" }
+              ]
+            },
             "conditionGroupId": "sucrose-passive1-swirl-element",
             "requiredTargetElement": "hydro",
             "conditionLabel": "スクロースが拡散反応または星拡散反応を起こした後（8秒）",
@@ -1198,6 +1211,19 @@
             "condition": "always",
             "conditionOptionValue": "electro",
             "conditionInputActivates": true,
+            "conditionInput": {
+              "type": "option",
+              "default": "inactive",
+              "label": "触媒置換術：拡散した元素",
+              "help": "スクロースが起こした拡散または星拡散の元素を選択します。選択した元素のチームメンバーだけに元素熟知+50を適用します。",
+              "options": [
+                { "value": "inactive", "label": "未発動" },
+                { "value": "pyro", "label": "炎元素の拡散／星拡散後" },
+                { "value": "hydro", "label": "水元素の拡散／星拡散後" },
+                { "value": "electro", "label": "雷元素の拡散／星拡散後" },
+                { "value": "cryo", "label": "氷元素の拡散／星拡散後" }
+              ]
+            },
             "conditionGroupId": "sucrose-passive1-swirl-element",
             "requiredTargetElement": "electro",
             "conditionLabel": "スクロースが拡散反応または星拡散反応を起こした後（8秒）",
@@ -1214,6 +1240,19 @@
             "condition": "always",
             "conditionOptionValue": "cryo",
             "conditionInputActivates": true,
+            "conditionInput": {
+              "type": "option",
+              "default": "inactive",
+              "label": "触媒置換術：拡散した元素",
+              "help": "スクロースが起こした拡散または星拡散の元素を選択します。選択した元素のチームメンバーだけに元素熟知+50を適用します。",
+              "options": [
+                { "value": "inactive", "label": "未発動" },
+                { "value": "pyro", "label": "炎元素の拡散／星拡散後" },
+                { "value": "hydro", "label": "水元素の拡散／星拡散後" },
+                { "value": "electro", "label": "雷元素の拡散／星拡散後" },
+                { "value": "cryo", "label": "氷元素の拡散／星拡散後" }
+              ]
+            },
             "conditionGroupId": "sucrose-passive1-swirl-element",
             "requiredTargetElement": "cryo",
             "conditionLabel": "スクロースが拡散反応または星拡散反応を起こした後（8秒）",
