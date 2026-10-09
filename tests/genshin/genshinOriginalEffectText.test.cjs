@@ -277,7 +277,7 @@ test("five scoped characters resolve separate Japanese tooltip originals from th
         "10000007_cryo": ["10050002", "11500004", "11330003"],
         "10000112": ["11120002"]
     };
-    for (const id of ["10000005", "10000007"]) assert.equal(f.calcData.originalEffectTexts.characters[id], undefined, "Cryo originals must not replace other Traveler elements");
+    for (const id of ["10000005", "10000007"]) assert.notEqual(f.calcData.originalEffectTexts.characters[id]?.talents?.combat2?.nameJa, "霧氷の剣", "Cryo originals must not replace other Traveler elements");
     for (const [id, ids] of Object.entries(expected)) {
         const seen = new Set();
         for (const placement of manifest.placements.filter(row => row.characterId === id)) {
@@ -328,4 +328,36 @@ test("third batch saved Japanese originals reach named modal sections without su
             assert.match(html, new RegExp('関連効果</span> ' + effect.nameJa.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
         }
     }
+});
+
+
+test("selectable stages reach the existing per-modifier condition keys and stay off until selected", async () => {
+    for (const [weaponId, setId] of [["14408", ""], ["", "15021"]]) {
+        const f = await fixture("10000140", weaponId);
+        let request = f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+        if (setId) { request.artifactSetIds = [setId]; request.artifactSetMode = "4pc"; }
+        const cardId = setId ? "artifact" : "weapon";
+        const initial = panel(f, request);
+        const section = initial.state.cards.find(card => card.id === cardId).sections.find(section => section.controls.some(control => control.type === "stack"));
+        const control = section.controls.find(control => control.type === "stack");
+        assert.equal(control.value, 0);
+        assert.match(initial.html, /data-genshin-stack-activation=/);
+        request.uiState.complexConditionByModifier[control.key] = { stack: control.max };
+        const active = panel(f, request);
+        const effect = active.state.cards.find(card => card.id === cardId).effects.find(effect => effect.modifier.id === control.modifierId);
+        const evaluated = f.sandbox.GenshinCalcConditions.evaluateModifierCondition({ modifier: effect.modifier, source: effect.source, context: request, calcData: f.calcData });
+        assert.equal(evaluated.enabled, true);
+        assert.equal(evaluated.stack, control.max);
+        const value = f.sandbox.GenshinCalcEngine.resolveModifierValue(effect.modifier, request, request.uiState);
+        assert.ok(value > 0, "selected stage must reach Runtime, not just the visible selector");
+        request.uiState.complexConditionByModifier[control.key] = { stack: 0 };
+        panel(f, request);
+        assert.equal(f.sandbox.GenshinCalcConditions.evaluateModifierCondition({ modifier: effect.modifier, source: effect.source, context: request, calcData: f.calcData }).enabled, false);
+    }
+});
+
+test("saved utility-passive aliases and artifact originals are resolved without summary inference", async () => {
+const f=await fixture(); const resolver=f.sandbox.GenshinIdResolver;
+for(const [id,sourceId] of [["10000095","passive3"],["10000119","passive3"],["10000005_cryo","frostglow"]]) { const text=resolver.describeEffect({data:f.calcData,kind:"talent",id,sourceId}); assert.equal(text.descriptionKind,"original");assert.ok(text.originalText.length>20);assert.equal(text.calculationSummary,""); }
+const artifact=resolver.describeEffect({data:f.calcData,kind:"artifact",id:"15021",pieceCount:4});assert.equal(artifact.descriptionKind,"original"); assert.equal(artifact.originalText,f.calcData.artifactSetEffects["15021"].fourPieceEffect);
 });

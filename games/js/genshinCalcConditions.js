@@ -964,6 +964,12 @@
                 max: Number(constellationMaximum ?? configured?.max ?? effectiveStackMax ?? 0),
                 options: configured?.options || [],
                 configured: Boolean(configured),
+                activationDefaultMax: type === "stack" && Number(effectiveStackMax) > 1 && Number(effectiveStackMax) <= 20
+                    && !["人", "HP", "%"].includes(configured?.unit)
+                    && !/Count|Teammates/i.test(modifier.condition + " " + (modifier.stack?.type || ""))
+                    && (Boolean(configured) || /(?:層|重|段階|強化効果)/.test(
+                        modifier.sourceText + " " + (calcData.weaponEffects?.[context.weaponId]?.effectTextTemplate || "")
+                        + " " + (calcData.artifactSetEffects?.[parseSource(source).id]?.fourPieceEffect || ""))),
                 source,
                 modifier,
                 conditionGroupId,
@@ -1037,6 +1043,16 @@
                         ? state.option !== undefined && state.option !== null && state.option !== ""
                         : Number.isFinite(Number(state[definition.type]))
             };
+            // Generated effect groups may differ from the analyzer's per-modifier key.
+            // Publish the UI state to both aliases so the existing condition evaluator sees it.
+            collectSelectedModifiers(context, calcData)
+                .filter(item => item.modifier.id === definition.modifierId
+                    || (item.source === definition.source && definition.conditionGroupId
+                        && (item.modifier.conditionGroupId || item.modifier.activation?.stateKey || item.modifier.effectGroupId) === definition.conditionGroupId))
+                .forEach(item => {
+                    const key = analyzeModifier(item.modifier, item.source, context).conditionStateKey;
+                    context.uiState.conditionByModifier[key] = { ...context.uiState.conditionByModifier[definition.key] };
+                });
             if (definition.type === "stack" && definition.modifierId) {
                 context.uiState.stackByModifier[definition.modifierId] = state.stack;
                 context.uiState.resolvedConditionByModifier ||= {};
@@ -1531,7 +1547,8 @@
 
     function talentSourceMeta(source, context, calcData, modifier = null) {
         const sourceId = modifier?.sourceTalent || parseSource(source).id;
-        const normalizedId = String(sourceId).replace(/_/g, "");
+        const requestedId = String(sourceId).replace(/_/g, "");
+        const normalizedId = calcData.originalEffectTexts?.characters?.[context.characterId]?.talentSourceAliases?.[requestedId] || requestedId;
         const talents = calcData.characterTalents?.[context.characterId] || {};
         const sourceOverride = calcData.attackModeRules?.talentSourceOverrides?.[context.characterId]?.[normalizedId];
         if (sourceOverride) {
@@ -1568,7 +1585,9 @@
         const sectionMap = new Map();
         (card.effects || []).forEach((effect) => {
             const meta = talentSourceMeta(effect.source, context, calcData, effect.modifier);
-            const key = effect.source;
+            const sourceId = String(effect.modifier?.sourceTalent || parseSource(effect.source).id).replace(/_/g, "");
+            const displaySource = calcData.originalEffectTexts?.characters?.[context.characterId]?.talentSourceAliases?.[sourceId];
+            const key = displaySource ? `talent:${displaySource}` : effect.source;
             if (!sectionMap.has(key)) {
                 sectionMap.set(key, {
                     key,

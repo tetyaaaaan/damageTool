@@ -969,6 +969,11 @@
         }).join("");
     }
 
+    function renderStackActivation(key, value, max, scope = "self") {
+        // Explicit activation supplies the default stage without enabling an untouched effect.
+        return '<label class="genshin-condition-control"><span>効果発動中</span><input type="checkbox" data-genshin-stack-activation="' + escapeHtml(key) + '" data-stack-scope="' + scope + '" data-stack-max="' + escapeHtml(max) + '"' + (Number(value) > 0 ? ' checked' : '') + '></label>';
+    }
+
     function renderCardControl(control) {
         if (control.type === "toggle") {
             return `<label class="genshin-condition-toggle"><input type="checkbox" data-genshin-toggle-key="${escapeHtml(control.key)}"${control.checked ? " checked" : ""}> <span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(control.label)}</strong>${control.help ? `<small>${escapeEffectLabel(control.help)}</small>` : ""}</span></label>`;
@@ -990,7 +995,9 @@
                 const label = value === 0 ? "未発動（0層）" : `${value}層`;
                 return `<option value="${value}"${current === value ? " selected" : ""}>${label}</option>`;
             }).join("");
-            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(control.label)}</strong>${control.help ? `<small>${escapeEffectLabel(control.help)}</small>` : ""}</span><select data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="stack">${options}</select></label>`;
+            const activation = min === 0 && control.activationDefaultMax
+                ? renderStackActivation(control.key, current, max) : "";
+            return activation + `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(control.label)}</strong>${control.help ? `<small>${escapeEffectLabel(control.help)}</small>` : ""}</span><select data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="stack">${options}</select></label>`;
         }
         if (control.options?.length) {
             const options = control.options.map((option) => {
@@ -1352,7 +1359,10 @@
             const max = Number.isFinite(Number(conditionInput.max)) ? Number(conditionInput.max) : Number(candidate.modifier?.stack?.max);
             const step = Number.isFinite(Number(conditionInput.step)) ? Number(conditionInput.step) : 1;
             const value = Number.isFinite(Number(conditionState[conditionInput.type])) ? Number(conditionState[conditionInput.type]) : "";
-            return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(conditionInput.label || "現在値")}</strong>${conditionInput.help ? `<small>${escapeEffectLabel(conditionInput.help)}</small>` : ""}</span><input type="number" data-genshin-party-condition-key="${escapeHtml(key)}" data-genshin-party-condition-kind="${escapeHtml(conditionInput.type)}" min="${escapeHtml(min)}"${Number.isFinite(max) ? ` max="${escapeHtml(max)}"` : ""} step="${escapeHtml(step)}" value="${escapeHtml(value)}"></label>`;
+            const activation = conditionInput.type === "stack" && min === 0 && max > 1 && max <= 20
+                && !["人", "HP", "%"].includes(conditionInput.unit)
+                ? renderStackActivation(key, value, max, "party") : "";
+            return activation + `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(conditionInput.label || "現在値")}</strong>${conditionInput.help ? `<small>${escapeEffectLabel(conditionInput.help)}</small>` : ""}</span><input type="number" data-genshin-party-condition-key="${escapeHtml(key)}" data-genshin-party-condition-kind="${escapeHtml(conditionInput.type)}" min="${escapeHtml(min)}"${Number.isFinite(max) ? ` max="${escapeHtml(max)}"` : ""} step="${escapeHtml(step)}" value="${escapeHtml(value)}"></label>`;
         }
         if (conditionInput.type !== "option" || !Array.isArray(conditionInput.options) || !conditionInput.options.length) return "";
         const options = conditionInput.options.map((option) => ({
@@ -1866,6 +1876,19 @@
                 selectPartyMember(buttons[next].dataset.partyMemberTab);buttons[next].focus();
             });
             conditionCards.addEventListener("change", (event) => {
+                if (event.target?.matches?.("[data-genshin-stack-activation]")) {
+                    const key = event.target.dataset.genshinStackActivation;
+                    const party = event.target.dataset.stackScope === "party";
+                    const selector = party ? '[data-genshin-party-condition-key]' : '[data-genshin-condition-key]';
+                    const input = [...conditionCards.querySelectorAll(selector)].find(input =>
+                        (party ? input.dataset.genshinPartyConditionKey : input.dataset.genshinConditionKey) === key);
+                    if (input) {
+                        input.value = event.target.checked ? event.target.dataset.stackMax : "0";
+                        if (party) window.GenshinPartyState?.setPartyConditionState?.(key, "stack", input.value);
+                        handleConditionValueChange();
+                    }
+                    return;
+                }
                 if (event.target?.matches?.("[data-genshin-vody-action]")) {
                     const request = window.GenshinCalcEngine.buildCalculationRequestFromForm();
                     const member = request.party?.members?.find(item=>Number(item.slot)===Number(event.target.dataset.genshinProviderSlot));
