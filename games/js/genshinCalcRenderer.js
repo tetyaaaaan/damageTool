@@ -1547,7 +1547,7 @@
         const constellations = constellationRecord?.constellations || constellationRecord;
         const parts = String(candidate.sourceId).split(':');
         const talent = kind === 'talent' ? window.GenshinCalcConditions?.talentSourceMeta?.('talent:' + candidate.sourceId, candidate.providerContext, calcData, candidate.modifier) : null;
-        const title = kind === 'weapon' ? calcData.weaponEffects?.[candidate.sourceId]?.effectNameJa || calcData.weapons?.[candidate.sourceId]?.nameJa
+        const title = kind === 'weapon' ? description?.nameJa || calcData.weaponEffects?.[candidate.sourceId]?.effectNameJa || calcData.weapons?.[candidate.sourceId]?.nameJa
             : kind === 'artifact' ? (calcData.artifactSets?.[parts[1]]?.nameJa || candidate.sourceName) + ' ' + parts[0] + 'セット効果'
                 : kind === 'talent' ? talent?.nameJa
                     : kind === 'constellation' ? constellations?.[constellationId]?.nameJa : candidate.sourceName;

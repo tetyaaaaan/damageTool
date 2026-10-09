@@ -175,6 +175,9 @@
             || substituteEffectParams(original?.originalTextTemplate, original?.originalParamsByRefinement?.[String(refinement)])
             || original?.originalText || "";
         return {
+            nameJa: original?.nameJa || "",
+            previousDisplayName: original?.provenance?.replacesDisplayName || "",
+            inputLabelAliases: original?.inputLabelAliases || {},
             originalText: cleanOriginalText(originalText),
             relatedEffects: resolveRelatedEffectTexts(original?.relatedEffects, originalText),
             calculationSummary: originalText ? "" : cleanOriginalText(calculationSummary),
@@ -211,7 +214,12 @@
     }
 
     function resolveCharacterTalent(id) {
-        return findEntry(data.characterTalents, id);
+        const talents = findEntry(data.characterTalents, id);
+        if (!talents) return talents;
+        return { ...talents, passives: (talents.passives || []).map((passive, index) => {
+            const original = describeEffect({ kind: "talent", id, sourceId: passive.sourceId || `passive${index + 1}` });
+            return { ...passive, nameJa: original.nameJa || passive.nameJa };
+        }) };
     }
 
     function resolveUidTalentSkillMap(skillDepotId, characterId) {

@@ -361,3 +361,35 @@ const f=await fixture(); const resolver=f.sandbox.GenshinIdResolver;
 for(const [id,sourceId] of [["10000095","passive3"],["10000119","passive3"],["10000005_cryo","frostglow"]]) { const text=resolver.describeEffect({data:f.calcData,kind:"talent",id,sourceId}); assert.equal(text.descriptionKind,"original");assert.ok(text.originalText.length>20);assert.equal(text.calculationSummary,""); }
 const artifact=resolver.describeEffect({data:f.calcData,kind:"artifact",id:"15021",pieceCount:4});assert.equal(artifact.descriptionKind,"original"); assert.equal(artifact.originalText,f.calcData.artifactSetEffects["15021"].fourPieceEffect);
 });
+
+
+test("externally reviewed D originals preserve full refinement texts and formal Cryo Traveler name", async () => {
+ const f=await fixture(); const resolver=f.sandbox.GenshinIdResolver;
+ const ids=['11435','11436','11437','11438','11520','11521','11522','12435','12436','13435','13436','14435','14436','14437','15435','15436','15437'];
+ for(const id of ids) for(let refinement=1;refinement<=5;refinement++) {
+  const saved=f.calcData.originalEffectTexts.weapons[id];
+  const text=resolver.describeEffect({data:f.calcData,kind:'weapon',id,refinement});
+  assert.equal(text.nameJa,saved.nameJa,id); assert.equal(text.descriptionKind,'original');
+  assert.equal(text.originalText,saved.originalTextByRefinement[String(refinement)]);
+  assert.ok(text.originalText.length>20,id); assert.doesNotMatch(text.originalText,/\{[a-zA-Z]+\}|検証中|暫定/);
+  assert.equal(saved.provenance.verification,'userExternallyVerifiedJapaneseOriginal');
+ }
+ for(const id of ['10000005_cryo','10000007_cryo']) {
+  const f=await fixture(id,''); f.elements.genshinReflectConstellation.value='C6';
+  const text=f.sandbox.GenshinIdResolver.describeEffect({data:f.calcData,kind:'talent',id,sourceId:'passive4'});
+  assert.equal(text.nameJa,'異邦の積氷'); assert.match(text.originalText,/氷の刃/);assert.match(text.originalText,/最大3層/);
+  const {state,html}=panel(f); assert.doesNotMatch(html,/異郷の永久凍土/);
+  assert.ok(state.cards.find(c=>c.id==='talent').sections.some(s=>s.nameJa==='異邦の積氷'&&s.description===text.originalText));
+ }
+});
+
+test("D weapon stage controls match Japanese original limits without replacing composition derivation", async()=>{
+ for(const [id,max] of [['11438',2],['11437',3],['11520',3],['15437',3]]) {
+  const f=await fixture('10000140',id); const {state}=panel(f);
+  const controls=state.cards.find(c=>c.id==='weapon').sections.flatMap(s=>s.controls);
+  const stages=controls.filter(c=>c.type==='stack');
+  if(!stages.length) { const options=controls.flatMap(c=>c.options||[]); assert.ok(options.some(o=>o.label.includes('3層')),id); assert.ok(options.some(o=>/未発動|なし/.test(o.label)),id); continue; }
+  assert.ok(stages.some(c=>c.max===max),id+JSON.stringify(stages));
+  for(const c of stages) {assert.equal(c.min,0);assert.equal(c.value,0);}
+ }
+});

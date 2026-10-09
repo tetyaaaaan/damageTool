@@ -308,8 +308,8 @@
         return value ? `${label}：${value}` : label;
     }
 
-    function sourceAwareActivationCondition(effect, sourceName, sourceDescription = "") {
-        const current = String(effect.activationCondition || "");
+    function sourceAwareActivationCondition(effect, sourceName, sourceDescription = "", previousDisplayName = "") {
+        const current = previousDisplayName ? String(effect.activationCondition || "").split(previousDisplayName).join(sourceName) : String(effect.activationCondition || "");
         if (!/(?:指定されたHP条件|対象の攻撃|対象の天賦|効果固有の発動条件|固有状態の発動中|武器固有の発動条件)/.test(current)) return current;
         if (effect.modifier?.condition === "hpCondition") {
             const hpLabel = hpConditionLabelFromText(effect.modifier.sourceText || sourceDescription, effect.modifier);
@@ -1481,6 +1481,9 @@
         const originalText = text?.originalText || "";
         const calculationSummary = originalText ? "" : text?.calculationSummary || fallback || "";
         return {
+            ...(text?.nameJa ? { nameJa: text.nameJa } : {}),
+            previousDisplayName: text?.previousDisplayName || "",
+            inputLabelAliases: text?.inputLabelAliases || {},
             originalText,
             relatedEffects: text?.relatedEffects || [],
             calculationSummary,
@@ -1611,7 +1614,7 @@
                 impact: effect.modifier?.syntheticAttackMode
                     ? `${modifierTargetLabels(effect.modifier).join("・")}を${effect.modifier.value}元素の専用倍率へ変更`
                     : effect.impact || structuredImpactValue(effect.modifier, context),
-                activationCondition: sourceAwareActivationCondition(effect, meta.nameJa, meta.description)
+                activationCondition: sourceAwareActivationCondition(effect, meta.nameJa, meta.description, meta.previousDisplayName)
             });
             effect.controls.forEach((control) => {
                 if (section.controls.some((current) => controlIdentity(current) === controlIdentity(control))) return;
@@ -1621,7 +1624,7 @@
                         ? effect.modifier?.condition === "hpCondition"
                             ? `${effect.activationCondition.replace(/の?時$/, "")}として計算する`
                             : `${effect.modifier?.attackModeStateName || meta.nameJa}を発動する`
-                        : control.label,
+                        : meta.inputLabelAliases?.[control.label] || control.label,
                     help: control.type === "toggle"
                         ? effect.modifier?.condition === "hpCondition"
                             ? "現在のHPがこの条件を満たしている場合に有効にします。"
@@ -1702,7 +1705,7 @@
             if (!sections.has(groupId)) {
                 sections.set(groupId, {
                     id: groupId,
-                    name: calcData.weaponEffects?.[context.weaponId]?.effectNameJa || effect.name,
+                    name: calcData.originalEffectTexts?.weapons?.[context.weaponId]?.nameJa || calcData.weaponEffects?.[context.weaponId]?.effectNameJa || effect.name,
                     order: Number(effect.modifier.effectGroupOrder) || 0,
                     ...effectTextMeta(calcData, "weapon", context.weaponId, { refinement: context.refinement || 1 }),
                     refinement: context.refinement || 1,

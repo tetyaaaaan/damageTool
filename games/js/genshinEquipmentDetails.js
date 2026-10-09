@@ -104,7 +104,7 @@
         byId("genshinEquipmentDetailsKicker").textContent = `WEAPON / ${refinement}`;
         byId("genshinEquipmentDetailsTitle").textContent = weapon.nameJa;
         return `<section class="genshin-equipment-detail-section is-static">
-            <h3>${escapeHtml(effect.effectNameJa || "武器効果")}</h3>
+            <h3>${escapeHtml(text.nameJa || effect.effectNameJa || "武器効果")}</h3>
             <div><h4>${text.originalText ? "効果説明（原文）" : "TETINETによる説明"}</h4>${paragraph(description)}</div>
             ${renderWeaponParams(params)}
             ${weapon.refinementNoteJa ? `<p class="genshin-condition-note">${escapeHtml(weapon.refinementNoteJa)}</p>` : ""}
