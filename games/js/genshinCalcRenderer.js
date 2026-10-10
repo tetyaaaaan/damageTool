@@ -1627,29 +1627,21 @@
         refreshConditionSettingLabels(getElement('genshinJsonConditionCards'));
     }
 
-    // Group by the game state that causes the effect, never by rendered controls,
-    // attack targets, modifier count or interaction history. Runtime owns activation.
+    // Count selectable activation causes, not output buckets or derived modifiers.
+    // Runtime decides whether the selected cause can actually provide an effect.
     function activeEffectGroupCounts(effects, evaluation) {
-        if (!evaluation) return {active:0,total:null,groups:[],reason:'evaluationUnavailable'};
         const groups = new Map();
+        if (!evaluation) return {active:0,groups:[]};
         for (const effect of effects) {
             const m = effect.modifier || {};
             const analysis = effect.analysis || window.GenshinModifierAnalyzer.analyzeModifier({modifier:m,source:effect.source,context:evaluation.context});
             if (['duplicate','selfOnly','displayOnly','notApplicable'].includes(effect.status)
                 || (!analysis.calculable && analysis.supportStatus !== 'missingInput' && analysis.inputStatus !== 'includedInInput')) continue;
-            const enriched = {...effect,analysis};
-            const definitions = providerBucketDefinitions(enriched).filter(row=>!['attackSpeed','normalAttackSpeed','chargedAttackSpeed','shieldStrength','healingBonus','incomingHealingBonus'].includes(row.stat || row.target));
+            const definitions = providerBucketDefinitions({...effect,analysis}).filter(row=>!['attackSpeed','normalAttackSpeed','chargedAttackSpeed','shieldStrength','healingBonus','incomingHealingBonus'].includes(row.stat || row.target));
             if (!definitions.length && !['extraDamage','elementOverride'].includes(m.category)) continue;
-            const accepted = evaluation.collected.applied.filter(item=>item.source === effect.source && item.modifier.id === m.id);
-            const rejected = evaluation.collected.candidates.find(item=>item.source === effect.source && item.modifier.id === m.id);
-            // Setup restrictions and records Runtime has rejected are not potential effects.
-            if (!accepted.length && rejected && rejected.reason !== '条件OFF'
-                && analysis.inputStatus !== 'includedInInput' && analysis.supportStatus !== 'missingInput'
-                && !['必要な攻撃状態がOFF'].includes(rejected.reason)) continue;
             const origin = effect.member ? 'party:' + effect.member.slot + ':' + effect.member.characterId : 'character:' + evaluation.context.characterId;
             let state = m.conditionGroupId || m.activation?.stateKey || m.effectGroupId;
             let source = m.shareConditionAcrossSources ? origin : effect.source;
-            // Existing derived provider states share causes across talent/weapon outputs.
             const derivedCause = isVodyDerivedCandidate(effect) ? {
                 vodyanitsa_song_state:'support',vodyanitsa_skill_hit:'support',vodyanitsa_a1_meteorstorm:'support',
                 vodyanitsa_a4_state:'support',vodyanitsa_c2_variant:'support',
@@ -1658,31 +1650,32 @@
             if (derivedCause) {source=origin;state='derived:' + derivedCause;}
             const sharedStacks=m.activation?.sharedStackLimit || m.sharedStackLimit;
             if (sharedStacks) state='sharedStacks:' + [...(sharedStacks.groupIds || [])].sort().join(',');
-            const cause = state || (['active','manualToggle'].includes(analysis.condition) ? analysis.conditionStateKey : analysis.condition) || m.condition || 'always';
+            const cause = state || (['active','manualToggle'].includes(analysis.condition) ? analysis.conditionStateKey : analysis.condition) || m.condition;
             const key = source + ':' + cause;
-            if (!groups.has(key)) groups.set(key,{key,active:false,certain:false,effects:[]});
-            const group=groups.get(key);group.effects.push(enriched);
-            const rows=providerImpactRows([enriched],evaluation);
-            const reflected = analysis.inputStatus === 'includedInInput' && effect.status === 'reflected';
-            group.active ||= rows.length>0 || reflected || (accepted.length>0 && ['extraDamage','elementOverride'].includes(m.category));
-            // Arbitrary cross-state prerequisites are not a proof of a simultaneous maximum.
-            // Keep an honest count-only display rather than inventing a denominator.
-            const uncertain = analysis.supportStatus === 'missingInput' || ['missingInput','missingProviderStats'].includes(effect.status)
-                || (!derivedCause && (m.requiredAttackMode || m.requiredCondition || m.requiredConditions || m.conditionCombination || analysis.condition === 'hpCondition'
-                    || (analysis.requiresConditionEvaluation && !['always','constellationUnlocked'].includes(analysis.condition) && !state && !(effect.controls || []).length && !effect.automatic)));
-            // One independently available output proves that its shared state can be active.
-            group.certain ||= !uncertain;
+            if (!groups.has(key)) groups.set(key,{key,active:false,selectable:false,effects:[]});
+            const group=groups.get(key);group.effects.push(effect);
+            // Use the same availability contract as the current-state input renderer.
+            if (derivedCause) {
+                const actions=window.GenshinPartyModifiers.vodyProviderActions(evaluation.context,effect.member);
+                group.selectable ||= derivedCause === 'support' || (actions.skill === 'active' && (
+                    derivedCause === 'heals' && (Number(effect.member.constellation)>=1 || String(effect.member.equipment?.weaponId)==='14524')
+                    || derivedCause === 'qualifyingHeals' && Number(effect.member.constellation)>=4 && Number(actions.heals)>0));
+            } else if (effect.member) {
+                group.selectable ||= !(effect.automatic && !m.conditionInput) && (
+                    Boolean(renderPartyConditionControl(effect,evaluation.context))
+                    || effect.showToggle !== false && ['ready','off'].includes(effect.status));
+            } else {
+                group.selectable ||= (effect.controls || []).some(control=>
+                    ['toggle','option','stack','number','resource','amosStack','crimsonWitchStack','complex'].includes(control.type));
+            }
+            const accepted=evaluation.collected.applied.some(item=>item.source===effect.source && item.modifier.id===m.id);
+            group.active ||= accepted || (analysis.inputStatus==='includedInInput' && effect.status==='reflected' && analysis.requiresConditionEvaluation);
         }
-        const values=[...groups.values()].filter(group=>group.active || !group.effects.every(effect=>
-            ['sameElementTeammates','differentElementTeammates'].includes(effect.modifier.stack?.type)));
-        // If every eligible group is already active, their simultaneous maximum is proven by Runtime itself.
-        const maximumKnown = values.every(group=>group.certain) || values.every(group=>group.active);
-        return {active:values.filter(group=>group.active).length,total:maximumKnown?values.length:null,
-            groups:values,reason:maximumKnown?'':'simultaneousMaximumUnproven'};
+        const values=[...groups.values()].filter(group=>group.selectable);
+        return {active:values.filter(group=>group.active).length,groups:values};
     }
     function activeEffectCountLabel(counts) {
-        if (!counts || !counts.groups.length) return '';
-        return counts.total === null ? '有効 ' + counts.active + '件' : '有効 ' + counts.active + '/' + counts.total;
+        return '有効 ' + (counts?.active || 0) + '件';
     }
     function refreshConditionSettingLabels(wrap) {
         wrap.querySelectorAll('[data-party-member-panel]').forEach(panel => {
@@ -1764,6 +1757,7 @@
             }).length, 0)
             + partyModifiers.filter((candidate) => ["ambiguous", "missingProviderStats", "missingInput"].includes(candidate.status)).length;
         const reaction = { ...(context.reactionOption || { reactionId: "none", enabled: false, baseMultiplier: 1 }), label: reactionLabel(context.reactionOption) };
+        activeEffectCounts.reaction = {active: evaluation?.payload?.reactionState?.calculated ? 1 : 0, groups:[]};
         const reactionDescription = reaction.family === "none"
             ? "反応なしを選択中です。元素反応ダメージは計算しません。"
             : reaction.calculationStatus === "dedicatedFormulaRequired"

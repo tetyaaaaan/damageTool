@@ -426,35 +426,43 @@ test('condition controls retain binary segments and one zero-to-max stage select
 });
 
 
-test('active effect groups count Runtime state, shared/exclusive causes and automatic effects without interaction history',async()=>{
+test('active condition groups exclude automatic effects and count shared causes without interaction history',async()=>{
  const f=await fixture('10000006','14408'),api=f.sandbox.GenshinCalcRenderer,engine=f.sandbox.GenshinCalcEngine;
  const r=engine.buildCharacterCalcContext();let {state}=panel(f,r);let counts=api.getActiveEffectCounts().weapon;
- assert.equal(counts.active,0);assert.equal(counts.total,1);
+ assert.equal(counts.active,0);assert.equal(counts.groups.length,1);
  const control=state.cards.find(c=>c.id==='weapon').sections[0].controls.find(c=>c.type==='stack');
  for(const stack of [1,3,0,2]) {
   r.uiState.complexConditionByModifier[control.key]={stack};panel(f,r);
-  counts=api.getActiveEffectCounts().weapon;assert.equal(counts.active,stack>0?1:0);assert.equal(counts.total,1);
+  counts=api.getActiveEffectCounts().weapon;assert.equal(counts.active,stack>0?1:0);assert.equal(counts.groups.length,1);
  }
  const initial=engine.calculateDamageRequest(r,f.calcData);
  const saved=JSON.parse(JSON.stringify(initial.calculationRequest));panel(f,saved);
  assert.equal(api.getActiveEffectCounts().weapon.active,1);
  assert.deepEqual(JSON.parse(JSON.stringify(engine.calculateDamageRequest(saved,f.calcData).results)),JSON.parse(JSON.stringify(initial.results)));
  const auto=await fixture('10000031','15435');const ar=auto.sandbox.GenshinCalcEngine.buildCharacterCalcContext();
- panel(auto,ar);assert.equal(auto.sandbox.GenshinCalcRenderer.getActiveEffectCounts().weapon.total,0);
+ panel(auto,ar);assert.equal(auto.sandbox.GenshinCalcRenderer.getActiveEffectCounts().weapon.groups.length,0);
  ar.party={members:[{slot:2,enabled:true,characterId:'10000052',element:'雷',talentLevels:{normal:10,skill:10,burst:10},equipment:{artifactSetIds:[]},buffStates:{}}]};
- panel(auto,ar);assert.equal(auto.sandbox.GenshinCalcRenderer.getActiveEffectCounts().weapon.active,1);assert.equal(auto.sandbox.GenshinCalcRenderer.getActiveEffectCounts().weapon.total,1);
+ panel(auto,ar);assert.equal(auto.sandbox.GenshinCalcRenderer.getActiveEffectCounts().weapon.active,0);assert.equal(auto.sandbox.GenshinCalcRenderer.getActiveEffectCounts().weapon.groups.length,0);
  // One exclusive state with multiple outputs is one group, independent of the selected attack.
  const source='talent:passive1';const modifiers=['initial','full'].map((option,i)=>({id:option,category:'damageBonus',applyTo:['burst'],value:20+i,unit:'percent',condition:'active',uidHandling:'conditional',conditionGroupId:'moon',conditionOptionValues:[option]}));
- const effects=modifiers.map(modifier=>({modifier,source,controls:[]}));
+ const effects=modifiers.map(modifier=>({modifier,source,controls:[{type:"option",key:"moon"}]}));
  const evaluation={context:r,collected:{applied:[{modifier:modifiers[1],source,value:21,analysis:{calculation:'damageBonus'}}],candidates:[]},trace:[]};
- counts=api.activeEffectGroupCounts(effects,evaluation);assert.equal(counts.active,1);assert.equal(counts.total,1);
+ counts=api.activeEffectGroupCounts(effects,evaluation);assert.equal(counts.active,1);assert.equal(counts.groups.length,1);
+ assert.equal(api.activeEffectCountLabel(counts),'有効 1件');
+ const independent=effects.map((effect,i)=>({...effect,modifier:{...effect.modifier,conditionGroupId:'trigger'+i}}));
+ evaluation.collected.applied=independent.map(effect=>({source,modifier:effect.modifier,value:20}));
+ assert.equal(api.activeEffectGroupCounts(independent,evaluation).active,2);
+ assert.equal(api.activeEffectGroupCounts(independent.map(effect=>({...effect,controls:[]})),evaluation).active,0);
+ // A selected input rejected by Runtime prerequisites must not count as active.
+ evaluation.collected.candidates=independent.map(effect=>({source,modifier:effect.modifier,reason:'必要な攻撃状態がOFF'}));
  evaluation.collected.applied=[];assert.equal(api.activeEffectGroupCounts(effects,evaluation).active,0);
  const uncertain={...effects[0],modifier:{...modifiers[0],conditionGroupId:'',condition:'hpCondition'}};
- assert.equal(api.activeEffectGroupCounts([uncertain],evaluation).total,null);
+ assert.equal(api.activeEffectCountLabel(), '有効 0件');
+ assert.equal(api.activeEffectCountLabel({active:3}), '有効 3件');
  assert.equal(api.activeEffectCountLabel(api.activeEffectGroupCounts([uncertain],evaluation)),'有効 0件');
 });
 
-test('Lauma exclusive states and Vody derived support use one active group, with setup-dependent maxima',async()=>{
+test('Lauma exclusive states and Vody derived support use one selectable activation group',async()=>{
  const f=await fixture('10000119','');const api=f.sandbox.GenshinCalcRenderer,r=f.sandbox.GenshinCalcEngine.buildCharacterCalcContext();
  const {state}=panel(f,r);const control=state.cards.find(c=>c.id==='talent').sections.flatMap(s=>s.controls).find(c=>c.label==='元素スキル使用後の月兆状態');
  for(const option of ['inactive','initial','full','inactive']) {
@@ -471,7 +479,9 @@ test('Lauma exclusive states and Vody derived support use one active group, with
   vr.party.conditionStates[party.vodyActionKey(member,'meteor')]={option:meteor};
   vr.party.conditionStates[party.vodyActionKey(member,'skillHit')]={option:'yes'};
   panel(v,vr);const count=v.sandbox.GenshinCalcRenderer.getActiveEffectCounts()['party:2'];
-  assert.equal(count.active,active);assert.equal(count.total,1);
+  assert.equal(count.active,active);assert.equal(count.groups.length,1);
  }
- member.constellation=1;panel(v,vr);assert.equal(v.sandbox.GenshinCalcRenderer.getActiveEffectCounts()['party:2'].total,2);
+ member.constellation=1;panel(v,vr);assert.equal(v.sandbox.GenshinCalcRenderer.getActiveEffectCounts()['party:2'].active,1);
+ vr.party.conditionStates[party.vodyActionKey(member,'heals')]={option:'1'};
+ panel(v,vr);assert.equal(v.sandbox.GenshinCalcRenderer.getActiveEffectCounts()['party:2'].active,2);
 });
