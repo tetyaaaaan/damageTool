@@ -393,3 +393,23 @@ test("D weapon stage controls match Japanese original limits without replacing c
   for(const c of stages) {assert.equal(c.min,0);assert.equal(c.value,0);}
  }
 });
+
+
+test('elemental resonance cards resolve full originals without using Runtime summaries',async()=>{
+ const f=await fixture('10000140',''); const saved=JSON.parse(fs.readFileSync(path.join(root,'games/genshin/data/original/elemental-resonance-ja-source.json'),'utf8'));
+ const text=f.sandbox.GenshinIdResolver.describeEffect({data:f.calcData,kind:'resonance',id:'hydro'});
+ assert.equal(text.originalText,saved.raw.SoothingWater.desc);assert.equal(text.descriptionKind,'original');
+ const r=f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+ r.party={members:[{slot:1,enabled:true,characterId:'10000140',element:'水'},{slot:2,enabled:true,characterId:'10000089',element:'水',stats:{hp:30000,baseHp:15000,atk:1000,baseAtk:800},equipment:{artifactSetIds:[]},talentLevels:{normal:10,skill:10,burst:10},buffStates:{}}]};
+ const {html}=panel(f,r);assert.match(html,/治療の水/); assert.ok(html.includes(saved.raw.SoothingWater.desc));
+});
+
+test('composition weapon has no manual stages and fixed EM is displayed without percent',async()=>{
+ const f=await fixture('10000031','15435');const r=f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+ r.party={members:[{slot:2,enabled:true,characterId:'10000052',element:'雷',talentLevels:{normal:10,skill:10,burst:10},equipment:{artifactSetIds:[]},buffStates:{}}]};
+ const {state,html}=panel(f,r);const card=state.cards.find(c=>c.id==='weapon');
+ assert.equal(card.sections.flatMap(s=>s.controls).length,0);
+ const rows=card.sections.flatMap(s=>s.effects).flatMap(e=>e.runtimeRows);
+ assert.ok(rows.some(row=>row.label==='元素熟知'&&row.unit==='flat'&&row.value===64));
+ assert.doesNotMatch(html,/\+64%/);
+});

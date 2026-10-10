@@ -1093,7 +1093,7 @@
             const label = labelFor(target);
             const stat = ['statBonus','statConversion','scalingStatBonus'].includes(analysis?.calculation);
             const multiplier = category === 'effectOverride';
-            const percent = !multiplier && (modifier.unit === 'percent' || /Bonus|Debuff|Ignore/.test(category));
+            const percent = !multiplier && modifier.unit !== 'flat' && (modifier.unit === 'percent' || /Bonus|Debuff|Ignore/.test(category));
             let unit = multiplier ? 'multiplier' : percent ? 'percent' : 'flat';
             if ((stat && (['statConversion','scalingStatBonus'].includes(analysis?.calculation) || modifier.unit === 'percentOfReference')) || ['additiveBaseDamage','scalingAdditiveBaseDamage'].includes(analysis?.calculation)) unit = 'flat';
             const row = { label, unit, value: null, reason: unavailable, state: unavailable ? 'unavailable' : off ? 'conditionOff' : 'active' };
@@ -1519,7 +1519,7 @@
     function partyEffectDescription(candidate, calcData) {
         const parts = String(candidate.sourceId).split(':');
         return window.GenshinIdResolver?.describeEffect?.({data:calcData, kind:candidate.sourceKind,
-            id:candidate.sourceKind === 'weapon' ? candidate.sourceId : candidate.sourceKind === 'artifact' ? parts[1] : candidate.member?.characterId,
+            id:['weapon','resonance'].includes(candidate.sourceKind) ? candidate.sourceId : candidate.sourceKind === 'artifact' ? parts[1] : candidate.member?.characterId,
             sourceId:candidate.sourceId, pieceCount:parts[0], refinement:candidate.providerContext?.refinement || 1});
     }
 
@@ -1547,7 +1547,7 @@
         const constellations = constellationRecord?.constellations || constellationRecord;
         const parts = String(candidate.sourceId).split(':');
         const talent = kind === 'talent' ? window.GenshinCalcConditions?.talentSourceMeta?.('talent:' + candidate.sourceId, candidate.providerContext, calcData, candidate.modifier) : null;
-        const title = kind === 'weapon' ? description?.nameJa || calcData.weaponEffects?.[candidate.sourceId]?.effectNameJa || calcData.weapons?.[candidate.sourceId]?.nameJa
+        const title = kind === 'resonance' ? description?.nameJa || candidate.sourceName : kind === 'weapon' ? description?.nameJa || calcData.weaponEffects?.[candidate.sourceId]?.effectNameJa || calcData.weapons?.[candidate.sourceId]?.nameJa
             : kind === 'artifact' ? (calcData.artifactSets?.[parts[1]]?.nameJa || candidate.sourceName) + ' ' + parts[0] + 'セット効果'
                 : kind === 'talent' ? talent?.nameJa
                     : kind === 'constellation' ? constellations?.[constellationId]?.nameJa : candidate.sourceName;

@@ -129,86 +129,31 @@ test("11520 applies 0-3 ATK stacks and R1/R5 crit damage only to Stellar reactio
     }
 });
 
-test("15435 clamps same and different element counts to three, preserving same-element priority through replay", () => {
+test("15435 derives counts from party composition, ignores saved manual stacks and replays", () => {
     const { sandbox, calcData, request } = fixture({ weaponId: "15435" });
     const panel = sandbox.GenshinCalcConditions.conditionPanelState(request, calcData);
-    assert.equal(panel.complexConditionInputs.filter((input) => input.conditionGroupId?.startsWith("provisional70_w15435_")).length, 2);
-    const sameKey = setComplexStack(request, panel, "provisional70_w15435_same_count", 2);
-    const differentKey = setComplexStack(request, panel, "provisional70_w15435_different_count", 3);
-
-    const cases = [
-        { same: 3, different: 3, resolved: [3, 0] },
-        { same: 0, different: 3, resolved: [0, 3] },
-        { same: 2, different: 3, resolved: [2, 1] },
-        { same: 1.5, different: 3, resolved: [1, 2] },
-        { same: 0, different: 0, resolved: [0, 0] }
-    ];
-    const results = cases.map(({ same, different, resolved }) => {
-        const input = JSON.parse(JSON.stringify(request));
-        input.uiState.complexConditionByModifier[sameKey] = { stack: same };
-        input.uiState.complexConditionByModifier[differentKey] = { stack: different };
-        const payload = sandbox.GenshinCalcEngine.calculateDamageRequest(input, calcData);
-        assert.deepEqual([
-            payload.context.uiState.conditionByModifier[sameKey].stack,
-            payload.context.uiState.conditionByModifier[differentKey].stack
-        ], resolved);
-        return payload;
-    });
-    assert.equal(results[0].context.effectiveStats.elementalMastery, 292);
-    assert.equal(results[0].context.effectiveStats.atk, 2000);
-    assert.equal(results[1].context.effectiveStats.elementalMastery, 100);
-    assert.equal(results[1].context.effectiveStats.atk, 2360);
-    assert.equal(results[2].context.effectiveStats.elementalMastery, 228);
-    assert.equal(results[2].context.effectiveStats.atk, 2120);
-    assert.equal(results[3].context.effectiveStats.elementalMastery, 164);
-    assert.equal(results[3].context.effectiveStats.atk, 2240);
-    assert.equal(results[4].context.effectiveStats.elementalMastery, 100);
-    assert.equal(results[4].context.effectiveStats.atk, 2000);
-    const explicitSamePriority = JSON.parse(JSON.stringify(request));
-    explicitSamePriority.uiState.complexConditionByModifier[sameKey] = { stack: 3 };
-    explicitSamePriority.uiState.complexConditionByModifier[differentKey] = { stack: 0 };
-    const explicitSameResult = sandbox.GenshinCalcEngine.calculateDamageRequest(explicitSamePriority, calcData);
-    assert.deepEqual(results[0].results.map((result) => result.expected), explicitSameResult.results.map((result) => result.expected));
-
-    const snapshot = sandbox.GenshinCalcEngine.createCalculationSnapshot(results[2].calculationRequest, results[2], {
-        createdAt: "2026-10-03T00:00:00.000Z", dataVersion: "test-data"
-    });
-    const replay = sandbox.GenshinCalcEngine.calculateDamageRequest(JSON.parse(JSON.stringify(snapshot)).request, calcData);
-    assert.equal(replay.context.uiState.conditionByModifier[sameKey].stack, 2);
-    assert.equal(replay.context.uiState.conditionByModifier[differentKey].stack, 1);
-
-    const rankFive = JSON.parse(JSON.stringify(request));
-    rankFive.refinement = 5;
-    rankFive.uiState.complexConditionByModifier[sameKey] = { stack: 3 };
-    rankFive.uiState.complexConditionByModifier[differentKey] = { stack: 3 };
-    const r5 = sandbox.GenshinCalcEngine.calculateDamageRequest(rankFive, calcData);
-    assert.equal(r5.context.effectiveStats.elementalMastery, 484);
-    assert.equal(r5.context.effectiveStats.atk, 2000);
-    const r5DifferentOnly = JSON.parse(JSON.stringify(rankFive));
-    r5DifferentOnly.uiState.complexConditionByModifier[sameKey] = { stack: 0 };
-    const r5DifferentResult = sandbox.GenshinCalcEngine.calculateDamageRequest(r5DifferentOnly, calcData);
-    assert.equal(r5DifferentResult.context.effectiveStats.atk, 2720);
-});
-
-test("15435 direct modifier collection enforces the shared cap without a condition panel", () => {
-    const { sandbox, calcData } = fixture({ weaponId: "15435" });
-    const context = {
-        characterId: "10000037", weaponId: "15435", refinement: 1, constellation: 0,
-        artifactSetMode: "", artifactSetIds: [], talentLevels: { normal: 10, skill: 10, burst: 10 },
-        stats: { hp: 20000, baseHp: 1000, baseAtk: 1000, atk: 2000, baseDef: 500, def: 1000, elementalMastery: 100 },
-        enemy: { resistanceDebuff: 0, defenseDebuff: 0, defenseIgnore: 0 },
-        manualInputs: { recordedHealing: null, providerStats: {}, resourceStates: {} },
-        uiState: { conditionByModifier: {}, complexConditionByModifier: {}, stackByModifier: {} }
-    };
-    const keys = sandbox.GenshinCalcConditions.conditionPanelState(context, calcData).complexConditionInputs;
-    const same = keys.find((item) => item.conditionGroupId === "provisional70_w15435_same_count");
-    const different = keys.find((item) => item.conditionGroupId === "provisional70_w15435_different_count");
-    context.uiState.conditionByModifier[same.key] = { enabled: true, stack: 2 };
-    context.uiState.conditionByModifier[different.key] = { enabled: true, stack: 3 };
-    const collected = sandbox.GenshinCalcEngine.collectActiveModifiers(calcData, context);
-    assert.equal(context.uiState.conditionByModifier[same.key].stack, 2);
-    assert.equal(context.uiState.conditionByModifier[different.key].stack, 1);
-    assert.equal(collected.applied.find((item) => item.modifier.id === "provisional70_w15435_different_element").value, 12);
+    assert.equal(panel.complexConditionInputs.filter(input => input.conditionGroupId?.startsWith("provisional70_w15435_")).length, 0);
+    const sameKey = "weapon:15435:group:provisional70_w15435_same_count";
+    const differentKey = "weapon:15435:group:provisional70_w15435_different_count";
+    request.uiState.conditionByModifier[sameKey] = { enabled: true, stack: 3 };
+    request.uiState.conditionByModifier[differentKey] = { enabled: true, stack: 3 };
+    request.party = { members: [
+        { slot: 1, characterId: request.characterId, element: "cryo", enabled: true },
+        { slot: 2, characterId: "10000015", element: "cryo", enabled: true },
+        { slot: 3, characterId: "10000014", element: "hydro", enabled: true },
+        { slot: 4, characterId: "10000036", element: "cryo", enabled: true }
+    ], conditionStates: {} };
+    const result = sandbox.GenshinCalcEngine.calculateDamageRequest(request, calcData);
+    assert.equal(result.context.uiState.conditionByModifier[sameKey].stack, 2);
+    assert.equal(result.context.uiState.conditionByModifier[differentKey].stack, 1);
+    assert.equal(result.context.effectiveStats.elementalMastery, 228);
+    assert.equal(result.context.effectiveStats.atk, 2120);
+    const replay = sandbox.GenshinCalcEngine.calculateDamageRequest(JSON.parse(JSON.stringify(result.calculationRequest)), calcData);
+    assert.deepEqual(result.results.map(r => r.expected), replay.results.map(r => r.expected));
+    request.party.members = [];
+    const empty = sandbox.GenshinCalcEngine.calculateDamageRequest(request, calcData);
+    assert.equal(empty.context.effectiveStats.elementalMastery, 100);
+    assert.equal(empty.context.effectiveStats.atk, 2000);
 });
 
 test("11521 owner filtering accepts Traveler variants and rejects other characters", () => {

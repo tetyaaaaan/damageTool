@@ -922,6 +922,7 @@
                 normalized.calculationSupport = "stack";
                 normalized.conditionGroupId = activation.stateKey || group.id;
                 normalized.stack = {
+                    ...normalized.stack,
                     min: Number(activation.min) || 0,
                     max: Number(activation.max) || 0,
                     default: Number(activation.default) || 0
@@ -1081,7 +1082,17 @@
                     || context.uiState.complexConditionByModifier[key]
                     || {};
                 const groupValue = context.uiState.resolvedConditionByGroup?.[groupId];
-                const requested = Number(state.stack ?? groupValue ?? context.uiState.stackByModifier?.[modifier.id] ?? 0);
+                const compositionType = modifier.stack?.type;
+                const ownerElement = context.element || calcData.characters?.[context.characterId]?.element;
+                const compositionCount = ["sameElementTeammates", "differentElementTeammates"].includes(compositionType)
+                    ? (context.party?.members || []).filter((member) => {
+                        if (member.enabled === false || !member.characterId || String(member.characterId) === String(context.characterId)) return false;
+                        const element = member.element || calcData.characters?.[member.characterId]?.element;
+                        if (!element || !ownerElement) return false;
+                        return compositionType === "sameElementTeammates" ? element === ownerElement : element !== ownerElement;
+                    }).length
+                    : null;
+                const requested = Number(compositionCount ?? state.stack ?? groupValue ?? context.uiState.stackByModifier?.[modifier.id] ?? 0);
                 const stack = Math.floor(Math.min(Math.max(Number.isFinite(requested) ? requested : 0, Number(modifier.stack?.min) || 0), Number(modifier.stack?.max) || Number(limit.max), remaining));
                 remaining = Math.max(0, remaining - stack);
                 const resolved = { ...state, stack, enabled: stack > 0 };

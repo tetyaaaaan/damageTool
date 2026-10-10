@@ -144,7 +144,9 @@
         const originals = collection.originalEffectTexts || {};
         let original = null;
         let calculationSummary = "";
-        if (kind === "weapon") {
+        if (kind === "resonance") {
+            original = originals.resonances?.[id];
+        } else if (kind === "weapon") {
             original = originals.weapons?.[id];
             const effect = collection.weaponEffects?.[id] || {};
             calculationSummary = substituteEffectParams(effect.effectTextTemplate, effect.effectParamsByRefinement?.[String(refinement)]);

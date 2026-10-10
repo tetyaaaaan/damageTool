@@ -926,6 +926,7 @@
         const definitions = collectSelectedModifiers(context, calcData).flatMap(({ modifier, source }) => {
             if (modifier.resource) return [];
             if (modifier.condition === "arrowFlightTime") return [];
+            if (["sameElementTeammates", "differentElementTeammates"].includes(modifier.stack?.type)) return [];
             if (source === "artifact4:15006" && modifier.condition === "afterSkill") return [];
             const analysis = analyzeModifier(modifier, source, context);
             if (analysis.inputStatus !== "applicable") return [];
@@ -1778,6 +1779,7 @@
                 controls.push({ type: "resource", ...resource });
             } else if (analysis.requiresConditionEvaluation
                 && analysis.condition !== "always"
+                && !["sameElementTeammates", "differentElementTeammates"].includes(item.modifier.stack?.type)
                 && analysis.calculable
                 && !["derived", "automatic", "reflected"].includes(artifactPolicy?.policy)) {
                 controls.push({

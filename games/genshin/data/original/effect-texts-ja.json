@@ -27692,5 +27692,63 @@
         "originalText": "装備者が星反応を起こす、または星反応ダメージを与えた後の12秒間、攻撃力+12%、近くにいるチーム内のすべてのキャラクターが与える星反応ダメージ+50%。装備したキャラクターが待機している場合にも効果を発動できる。同じ名前の聖遺物セットによるダメージアップ効果は重ね掛けできない。"
       }
     }
+  },
+  "resonances": {
+    "pyro": {
+      "nameJa": "熱誠の炎",
+      "originalText": "氷元素付着の効果継続時間-40%。攻撃力+25%。",
+      "sourceRefs": [
+        "games/genshin/data/original/elemental-resonance-ja-source.json#/raw/FerventFlames"
+      ]
+    },
+    "hydro": {
+      "nameJa": "治療の水",
+      "originalText": "炎元素付着の効果継続時間-40%。HP上限+25%。",
+      "sourceRefs": [
+        "games/genshin/data/original/elemental-resonance-ja-source.json#/raw/SoothingWater"
+      ]
+    },
+    "cryo": {
+      "nameJa": "粉砕の氷",
+      "originalText": "雷元素付着の継続時間-40%。氷元素付着または凍結状態の敵を攻撃する時、会心率+15%。",
+      "sourceRefs": [
+        "games/genshin/data/original/elemental-resonance-ja-source.json#/raw/ShatteringIce"
+      ]
+    },
+    "electro": {
+      "nameJa": "強権の雷",
+      "originalText": "水元素付着の継続時間-40%。超電導、星電導、過負荷、感電、月感電、原激化、超激化または超開花反応を起こした時、100%の確率で雷元素粒子を1つ生成する、クールタイム5秒。",
+      "sourceRefs": [
+        "games/genshin/data/original/elemental-resonance-ja-source.json#/raw/HighVoltage"
+      ]
+    },
+    "anemo": {
+      "nameJa": "迅速の風",
+      "originalText": "スタミナ消費-15%、移動速度+10%、スキルのクールタイム-5%。",
+      "sourceRefs": [
+        "games/genshin/data/original/elemental-resonance-ja-source.json#/raw/ImpetuousWinds"
+      ]
+    },
+    "geo": {
+      "nameJa": "不動の岩",
+      "originalText": "シールド強化+15%。また、キャラクターがシールド状態の時、或いは近くに月結晶反応を起こす月籠がある場合、以下の効果を得る：与えるダメージ+15%。敵にダメージを与えた時、敵の岩元素耐性-20%、継続時間15秒。",
+      "sourceRefs": [
+        "games/genshin/data/original/elemental-resonance-ja-source.json#/raw/EnduringRock"
+      ]
+    },
+    "dendro": {
+      "nameJa": "蔓生の草",
+      "originalText": "元素熟知+50。燃焼、原激化、開花、または月開花反応を起こした後、周囲チーム全員の元素熟知+30、継続時間6秒。超激化、草激化、超開花、または烈開花反応を起こした後、周囲チーム全員の元素熟知+20、継続時間6秒。上記効果の継続時間は各効果毎に独立している。",
+      "sourceRefs": [
+        "games/genshin/data/original/elemental-resonance-ja-source.json#/raw/SprawlingGreenery"
+      ]
+    },
+    "protective": {
+      "nameJa": "交錯の護り",
+      "originalText": "全元素耐性+15%、物理耐性+15%。",
+      "sourceRefs": [
+        "games/genshin/data/original/elemental-resonance-ja-source.json#/raw/ProtectiveCanopy"
+      ]
+    }
   }
 }
