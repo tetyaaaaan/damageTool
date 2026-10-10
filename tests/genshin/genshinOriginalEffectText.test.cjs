@@ -341,7 +341,8 @@ test("selectable stages reach the existing per-modifier condition keys and stay 
         const section = initial.state.cards.find(card => card.id === cardId).sections.find(section => section.controls.some(control => control.type === "stack"));
         const control = section.controls.find(control => control.type === "stack");
         assert.equal(control.value, 0);
-        assert.match(initial.html, /data-genshin-stack-activation=/);
+        assert.doesNotMatch(initial.html, /data-genshin-stack-activation=/);
+        assert.match(initial.html, /発動（[0-9]+層・最大）/);
         request.uiState.complexConditionByModifier[control.key] = { stack: control.max };
         const active = panel(f, request);
         const effect = active.state.cards.find(card => card.id === cardId).effects.find(effect => effect.modifier.id === control.modifierId);
@@ -412,4 +413,18 @@ test('composition weapon has no manual stages and fixed EM is displayed without 
  const rows=card.sections.flatMap(s=>s.effects).flatMap(e=>e.runtimeRows);
  assert.ok(rows.some(row=>row.label==='元素熟知'&&row.unit==='flat'&&row.value===64));
  assert.doesNotMatch(html,/\+64%/);
+});
+
+test('condition controls use binary segments and one zero-to-max stage selector; progress requires explicit edits',async()=>{
+ const f=await fixture('10000006','14408'), api=f.sandbox.GenshinCalcRenderer;
+ const binary=api.renderCardControl({type:'toggle',key:'example',checked:false,label:'効果発動中'});
+ assert.match(binary,/aria-pressed="true">未発動/);assert.match(binary,/data-condition-binary="true"/);
+ const stage=api.renderCardControl({type:'stack',key:'weapon:14408:group:stacks',min:0,max:3,value:1,activationDefaultMax:true,label:'現在の効果段階'});
+ assert.equal((stage.match(/<select /g)||[]).length,1);assert.equal((stage.match(/<option /g)||[]).length,4);
+ assert.match(stage,/<option value="1" selected>1層/);assert.match(stage,/発動（3層・最大）/);assert.doesNotMatch(stage,/checkbox/);
+ const input={dataset:{genshinConditionKey:'example'},value:'0',disabled:false,hidden:false,validity:{valid:true},matches:()=>true};
+ const scope={querySelectorAll:()=>[input,input]};
+ assert.equal(api.inputSettingCounts(scope).total,1);assert.equal(api.inputSettingCounts(scope).configured,0);
+ api.restoreConditionEdits(['10000006:example']);assert.equal(api.inputSettingCounts(scope).configured,1);
+ input.value='';assert.equal(api.inputSettingCounts(scope).configured,0);
 });

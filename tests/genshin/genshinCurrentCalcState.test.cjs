@@ -139,3 +139,13 @@ test("provider stats, shared party conditions and participant-local inputs survi
     const duplicate = plain(state); duplicate.state.request.party.members[1].characterId = "10000052";
     assert.throws(() => api.parse(JSON.stringify(duplicate), f.calcData));
 });
+
+test('condition interaction progress roundtrips separately from Request and accepts old saves',()=>{
+ const f=fixture(), api=f.sandbox.GenshinCurrentCalcState;
+ f.sandbox.GenshinCalcRenderer={getConditionEdits:()=>['10000052:example']};
+ const saved=api.createState(f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm(),{});assert.deepEqual(plain(saved.state.conditionEdits),['10000052:example']);
+ assert.equal('conditionEdits' in saved.state.request,false);
+ assert.deepEqual(plain(api.parse(api.serialize(saved),f.calcData).state.conditionEdits),['10000052:example']);
+ delete saved.state.conditionEdits;
+ assert.deepEqual(plain(api.parse(api.serialize(saved),f.calcData).state.conditionEdits),[]);
+});

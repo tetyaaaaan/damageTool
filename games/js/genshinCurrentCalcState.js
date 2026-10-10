@@ -28,7 +28,7 @@
         };
     }
     function createState(request = window.GenshinCalcEngine.buildCalculationRequestFromForm(), selection = selectionState()) {
-        return { schemaVersion: SCHEMA_VERSION, game: "genshin", state: { request: clone(Object.fromEntries(REQUEST_FIELDS.filter((key) => request[key] !== undefined).map((key) => [key, request[key]]))), selection: clone(selection) } };
+        return { schemaVersion: SCHEMA_VERSION, game: "genshin", state: { request: clone(Object.fromEntries(REQUEST_FIELDS.filter((key) => request[key] !== undefined).map((key) => [key, request[key]]))), selection: clone(selection), conditionEdits: window.GenshinCalcRenderer?.getConditionEdits?.() || [] } };
     }
     function validate(value, data) {
         const fail = (code = "UNSUPPORTED_SAVE") => { const error = new Error("このファイルは対応する原神の計算状態ではありません。"); error.code = code; throw error; };
@@ -78,7 +78,9 @@
             });
             if (r.party.members.find((m) => m.slot === 1)?.characterId !== r.characterId) fail();
         }
-        return createState(r, value.state.selection || { resultTab: "basic", basicTab: "normal", attackKey: "" });
+        const validated = createState(r, value.state.selection || { resultTab: "basic", basicTab: "normal", attackKey: "" });
+        validated.state.conditionEdits = Array.isArray(value.state.conditionEdits) ? value.state.conditionEdits.filter(key=>typeof key==='string') : [];
+        return validated;
     }
     function serialize(state = createState()) { return JSON.stringify(state, null, 2); }
     function parse(text, data) {
@@ -125,6 +127,7 @@
     }
     async function applyValidated(saved, data) {
         const r = saved.state.request;
+        window.GenshinCalcRenderer?.restoreConditionEdits?.(saved.state.conditionEdits);
         applying = true;
         try {
             setField("genshinReflectCharacter", data.characters[r.characterId]?.nameJa || "");

@@ -3297,3 +3297,10 @@ html[data-theme="dark"] .genshin-tool-page {
 .genshin-current-support ul { margin: 0; padding: 0; list-style: none; }
 .genshin-current-support li { display: flex; justify-content: space-between; gap: 12px; font-size: .78rem; padding: 3px 0; }
 .genshin-current-support strong { flex-shrink: 0; }
+
+.genshin-condition-segments {display:flex;flex-wrap:wrap;gap:4px;min-width:0;}
+.genshin-condition-segments button {min-height:42px;min-width:72px;padding:8px 12px;border:1px solid var(--teti-interactive);border-radius:8px;background:var(--teti-surface,white);color:var(--teti-interactive);font:inherit;cursor:pointer;}
+.genshin-condition-segments button[aria-pressed="true"] {background:var(--teti-interactive);color:var(--teti-on-brand,white);font-weight:700;}
+.genshin-condition-segments button:focus-visible {outline:2px solid var(--teti-interactive);outline-offset:3px;}
+.genshin-condition-progress {display:inline-block;font-size:.85rem;font-weight:500;color:var(--teti-text-muted);}
+@media(max-width:480px){.genshin-condition-segments{width:100%;}.genshin-condition-segments button{flex:1;}.genshin-condition-progress{max-width:100%;}}

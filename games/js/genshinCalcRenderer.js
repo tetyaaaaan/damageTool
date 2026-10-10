@@ -969,14 +969,32 @@
         }).join("");
     }
 
-    function renderStackActivation(key, value, max, scope = "self") {
-        // Explicit activation supplies the default stage without enabling an untouched effect.
-        return '<label class="genshin-condition-control"><span>効果発動中</span><input type="checkbox" data-genshin-stack-activation="' + escapeHtml(key) + '" data-stack-scope="' + scope + '" data-stack-max="' + escapeHtml(max) + '"' + (Number(value) > 0 ? ' checked' : '') + '></label>';
+    let conditionEdits = new Set();
+    function conditionInputKey(input) {
+        const key = input.dataset.genshinConditionKey || input.dataset.genshinToggleKey || input.dataset.genshinResourceKey
+            || input.dataset.genshinPartyConditionKey || input.dataset.genshinPartyBuffKey
+            || (input.dataset.genshinVodyAction ? 'party:' + input.dataset.genshinProviderSlot + ':vody:' + input.dataset.genshinVodyAction : input.id);
+        return key ? (getElement('genshinCalcCharacterId')?.value || '') + ':' + key : '';
+    }
+    function recordConditionEdit(input) {
+        const key = conditionInputKey(input);
+        if (key && input.value !== '' && input.validity?.valid !== false) conditionEdits.add(key);
+    }
+    function renderBinaryCondition(key, checked, label, attribute = 'data-genshin-toggle-key', help = '') {
+        return '<div class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>' + escapeEffectLabel(label) + '</strong>'
+            + (help ? '<small>' + escapeEffectLabel(help) + '</small>' : '') + '</span><div class="genshin-condition-segments" role="group" aria-label="' + escapeEffectLabel(label) + '">'
+            + '<input hidden type="checkbox" ' + attribute + '="' + escapeHtml(key) + '"' + (checked ? ' checked' : '') + '>'
+            + [false,true].map(value => '<button type="button" data-condition-binary="' + value + '" aria-pressed="' + (checked === value) + '">' + (/命中/.test(label) ? (value ? '命中後' : '命中前') : /使用後/.test(label) ? (value ? '使用後' : '未使用') : (value ? '発動中' : '未発動')) + '</button>').join('') + '</div></div>';
+    }
+    function stackOptions(min, max, current, activationDefaultMax) {
+        return Array.from({length:max-min+1},(_,index)=>{const value=min+index;
+                return '<option value="' + value + '"' + (Number(current)===value?' selected':'') + '>' + (value===0?(activationDefaultMax?'未発動（0層）':'0層'):activationDefaultMax && value===max ? '発動（'+value+'層・最大）' : value+'層') + '</option>';
+            }).join('');
     }
 
     function renderCardControl(control) {
         if (control.type === "toggle") {
-            return `<label class="genshin-condition-toggle"><input type="checkbox" data-genshin-toggle-key="${escapeHtml(control.key)}"${control.checked ? " checked" : ""}> <span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(control.label)}</strong>${control.help ? `<small>${escapeEffectLabel(control.help)}</small>` : ""}</span></label>`;
+            return renderBinaryCondition(control.key, Boolean(control.checked), control.label, 'data-genshin-toggle-key', control.help);
         }
         if (control.type === "amosStack") {
             const options = Array.from({ length: 6 }, (_, value) => `<option value="${value}"${Number(control.value) === value ? " selected" : ""}>${value === 0 ? "追加なし / 0段" : `${value}段${value === 5 ? "（最大）" : ""}`}</option>`).join("");
@@ -990,14 +1008,8 @@
             const min = Number.isFinite(Number(control.min)) ? Number(control.min) : 0;
             const max = Number(control.max);
             const current = Number.isFinite(Number(control.value)) ? Number(control.value) : min;
-            const options = Array.from({ length: max - min + 1 }, (_, index) => {
-                const value = min + index;
-                const label = value === 0 ? "未発動（0層）" : `${value}層`;
-                return `<option value="${value}"${current === value ? " selected" : ""}>${label}</option>`;
-            }).join("");
-            const activation = min === 0 && control.activationDefaultMax
-                ? renderStackActivation(control.key, current, max) : "";
-            return activation + `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(control.label)}</strong>${control.help ? `<small>${escapeEffectLabel(control.help)}</small>` : ""}</span><select data-genshin-condition-key="${escapeHtml(control.key)}" data-genshin-condition-kind="stack">${options}</select></label>`;
+            const options = stackOptions(min,max,current,min === 0 && control.activationDefaultMax);
+            return '<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>' + escapeEffectLabel(control.label) + '</strong>' + (control.help ? '<small>' + escapeEffectLabel(control.help) + '</small>' : '') + '</span><select data-stack-max="' + max + '" data-genshin-condition-key="' + escapeHtml(control.key) + '" data-genshin-condition-kind="stack">' + options + '</select></label>';
         }
         if (control.options?.length) {
             const options = control.options.map((option) => {
@@ -1172,7 +1184,7 @@
         const conditionLabels = new Set(section.effects.map((effect) => effect.activationCondition).filter(Boolean));
         const controls = section.controls.map((control) => {
             if (!conditionLabels.has(control.label)) return control;
-            if (control.type === "toggle") return { ...control, label: "この条件を適用する" };
+            if (control.type === "toggle") return control;
             if (control.type === "option") return { ...control, label: "現在の状態" };
             return { ...control, label: "現在の値" };
         });
@@ -1359,10 +1371,11 @@
             const max = Number.isFinite(Number(conditionInput.max)) ? Number(conditionInput.max) : Number(candidate.modifier?.stack?.max);
             const step = Number.isFinite(Number(conditionInput.step)) ? Number(conditionInput.step) : 1;
             const value = Number.isFinite(Number(conditionState[conditionInput.type])) ? Number(conditionState[conditionInput.type]) : "";
-            const activation = conditionInput.type === "stack" && min === 0 && max > 1 && max <= 20
-                && !["人", "HP", "%"].includes(conditionInput.unit)
-                ? renderStackActivation(key, value, max, "party") : "";
-            return activation + `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${escapeEffectLabel(conditionInput.label || "現在値")}</strong>${conditionInput.help ? `<small>${escapeEffectLabel(conditionInput.help)}</small>` : ""}</span><input type="number" data-genshin-party-condition-key="${escapeHtml(key)}" data-genshin-party-condition-kind="${escapeHtml(conditionInput.type)}" min="${escapeHtml(min)}"${Number.isFinite(max) ? ` max="${escapeHtml(max)}"` : ""} step="${escapeHtml(step)}" value="${escapeHtml(value)}"></label>`;
+            const attributes = ' data-genshin-party-condition-key="' + escapeHtml(key) + '" data-genshin-party-condition-kind="' + escapeHtml(conditionInput.type) + '"';
+            const input = conditionInput.type === 'stack' && min === 0 && max > 1 && max <= 20 && !['人','HP','%'].includes(conditionInput.unit)
+                ? '<select data-stack-max="' + max + '"' + attributes + '>' + stackOptions(min,max,value,true) + '</select>'
+                : '<input type="number"' + attributes + ' min="' + min + '" max="' + max + '" step="' + step + '" value="' + escapeHtml(value) + '">';
+            return '<label class="genshin-condition-control"><span>' + escapeEffectLabel(conditionInput.label || '現在の効果段階') + '</span>' + input + '</label>';
         }
         if (conditionInput.type !== "option" || !Array.isArray(conditionInput.options) || !conditionInput.options.length) return "";
         const options = conditionInput.options.map((option) => ({
@@ -1584,7 +1597,7 @@
             if (seen.has(key)) return ''; seen.add(key);
             const control = renderPartyConditionControl(candidate,context);
             const toggle = candidate.showToggle !== false && ['ready','off'].includes(candidate.status)
-                ? '<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>' + escapeEffectLabel(candidate.modifier?.conditionLabel || candidate.sourceName) + '</strong><small>効果が発動中の場合にON</small></span><input type="checkbox" data-genshin-party-buff-key="' + escapeHtml(candidate.toggleKey || candidate.key) + '"' + (candidate.enabled ? ' checked' : '') + '></label>' : '';
+                ? renderBinaryCondition(candidate.toggleKey || candidate.key, Boolean(candidate.enabled), candidate.modifier?.conditionLabel || candidate.sourceName, 'data-genshin-party-buff-key') : '';
             return control || toggle ? '<div class="genshin-party-state-control">' + control + toggle + '</div>' : '';
         }).join('');
     }
@@ -1621,25 +1634,33 @@
             const selected = button.dataset.partyMemberTab === key;
             button.setAttribute('aria-selected',String(selected));button.tabIndex = selected ? 0 : -1;
         });
+        refreshConditionSettingLabels(getElement('genshinJsonConditionCards'));
     }
 
     function inputSettingCounts(scope) {
-        const inputs = scope.querySelectorAll('[data-genshin-condition-key], [data-genshin-toggle-key], [data-genshin-resource-key], [data-genshin-party-condition-key], [data-genshin-party-buff-key], [data-genshin-vody-action]');
-        const missing = [...inputs].filter(input => input.type !== 'checkbox' && (input.value === '' || input.validity?.valid === false)).length;
-        return {total:inputs.length,missing};
+        if (!scope) return {total:0,configured:0,missing:0};
+        const inputs = [...scope.querySelectorAll('input,select')].filter(input => !input.disabled && conditionInputKey(input) && (!input.hidden || input.matches('[data-genshin-toggle-key], [data-genshin-party-buff-key]')));
+        const unique = [...new Map(inputs.map(input=>[conditionInputKey(input),input])).values()];
+        const configured = unique.filter(input=>conditionEdits.has(conditionInputKey(input)) && input.value !== '' && input.validity?.valid !== false).length;
+        return {total:unique.length,configured,missing:unique.length-configured};
     }
-
     function refreshConditionSettingLabels(wrap) {
         wrap.querySelectorAll('[data-party-member-panel]').forEach(panel => {
             const counts = inputSettingCounts(panel.querySelector('.genshin-party-current-state'));
             const label = wrap.querySelector('[data-party-member-status="' + panel.dataset.partySlot + '"]');
-            if (label) label.textContent = counts.missing ? '要設定' + counts.missing : '設定済み';
+            if (label) label.textContent = counts.total ? counts.configured + ' / ' + counts.total + ' 設定' : '';
         });
         document.querySelectorAll('[data-condition-tab]').forEach(button => {
             const panel = wrap.querySelector('[data-condition-panel="' + button.dataset.conditionTab + '"]');
+            button.textContent = CONDITION_TABS.find(tab=>tab.id===button.dataset.conditionTab)?.label || '';
             if (!panel) return;
-            const counts = inputSettingCounts(panel), name = CONDITION_TABS.find(tab => tab.id === button.dataset.conditionTab)?.label || '';
-            button.textContent = name + (counts.missing ? '（要設定' + counts.missing + '）' : counts.total ? '（設定済み' + counts.total + '）' : '');
+            const scope = button.dataset.conditionTab === 'party' ? panel.querySelector('[data-party-member-panel]:not([hidden]) .genshin-party-current-state') : panel;
+            const counts = inputSettingCounts(scope), heading = panel.querySelector('h4');
+            let progress = panel.querySelector('[data-condition-progress]');
+            if (!progress) { progress=document.createElement('span'); progress.dataset.conditionProgress=''; progress.className='genshin-condition-progress';
+                if (button.dataset.conditionTab !== 'party' && heading) heading.append(progress); else panel.prepend(progress); }
+            progress.textContent = counts.total ? (button.dataset.conditionTab === 'party' ? 'パーティ補正　' : '　') + counts.configured + ' / ' + counts.total + ' 設定' : '';
+            progress.hidden = counts.total === 0;
         });
     }
 
@@ -1777,7 +1798,7 @@
         wrap.innerHTML = CONDITION_TABS.map((tab) => `<div class="genshin-condition-tab-panel" id="genshin-condition-panel-${tab.id}" role="tabpanel" aria-labelledby="genshin-condition-tab-${tab.id}" data-condition-panel="${tab.id}"${tab.id === activeConditionTab ? "" : " hidden"}>${tab.id === "party" ? "" : attackNote}${panels[tab.id]}</div>`).join("");
         const tabs = getElement("genshinConditionTabs");
         if (tabs) {
-            tabs.innerHTML = CONDITION_TABS.map((tab) => `<button type="button" class="genshin-condition-tab${tab.id === activeConditionTab ? " is-active" : ""}" id="genshin-condition-tab-${tab.id}" role="tab" aria-selected="${tab.id === activeConditionTab}" tabindex="${tab.id === activeConditionTab ? "0" : "-1"}" aria-controls="genshin-condition-panel-${tab.id}" data-condition-tab="${tab.id}">${escapeHtml(tab.label)}${manualCounts[tab.id] ? `（条件${manualCounts[tab.id]}）` : ""}</button>`).join("");
+            tabs.innerHTML = CONDITION_TABS.map((tab) => `<button type="button" class="genshin-condition-tab${tab.id === activeConditionTab ? " is-active" : ""}" id="genshin-condition-tab-${tab.id}" role="tab" aria-selected="${tab.id === activeConditionTab}" tabindex="${tab.id === activeConditionTab ? "0" : "-1"}" aria-controls="genshin-condition-panel-${tab.id}" data-condition-tab="${tab.id}">${escapeHtml(tab.label)}</button>`).join("");
         }
         if (wrap.querySelectorAll) refreshConditionSettingLabels(wrap);
     }
@@ -1875,7 +1896,15 @@
                 const next = event.key === 'Home' ? 0 : event.key === 'End' ? buttons.length - 1 : (index + (['ArrowRight','ArrowDown'].includes(event.key) ? 1 : -1) + buttons.length) % buttons.length;
                 selectPartyMember(buttons[next].dataset.partyMemberTab);buttons[next].focus();
             });
+            conditionCards.addEventListener('click', event => {
+                const button = event.target.closest('[data-condition-binary]'); if (!button) return;
+                const input = button.parentElement.querySelector('input');
+                input.checked = button.dataset.conditionBinary === 'true'; recordConditionEdit(input);
+                input.dispatchEvent(new Event('change', {bubbles:true}));
+            });
             conditionCards.addEventListener("change", (event) => {
+                if (event.target.value === 'activate' && event.target.dataset.stackMax) event.target.value = event.target.dataset.stackMax;
+                if (!window.GenshinCurrentCalcState?.isApplying()) recordConditionEdit(event.target);
                 if (event.target?.matches?.("[data-genshin-stack-activation]")) {
                     const key = event.target.dataset.genshinStackActivation;
                     const party = event.target.dataset.stackScope === "party";
@@ -1986,6 +2015,9 @@
     document.addEventListener("DOMContentLoaded", initializeGenshinCalcRenderer);
 
     window.GenshinCalcRenderer = {
+        getConditionEdits: () => [...conditionEdits],
+        restoreConditionEdits: values => { conditionEdits = new Set(Array.isArray(values) ? values.filter(value=>typeof value==='string') : []); },
+        inputSettingCounts, renderCardControl,
         prepareConditions: handlePrepareConditionsClick,
         calculate: handleJsonCalcClick,
         RESULT_TABS,
