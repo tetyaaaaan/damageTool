@@ -3304,3 +3304,12 @@ html[data-theme="dark"] .genshin-tool-page {
 .genshin-condition-segments button:focus-visible {outline:2px solid var(--teti-interactive);outline-offset:3px;}
 .genshin-condition-progress {display:inline-block;font-size:.85rem;font-weight:500;color:var(--teti-text-muted);}
 @media(max-width:480px){.genshin-condition-segments{width:100%;}.genshin-condition-segments button{flex:1;}.genshin-condition-progress{max-width:100%;}}
+
+/* Keep all four members visible; equipment occupies its own row below the portrait. */
+.genshin-party-preview { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px; margin-bottom:10px; }
+.genshin-party-preview-member { min-width:0; display:flex; flex-direction:column; align-items:center; gap:4px; padding:6px 3px; background:var(--teti-surface-soft); border:1px solid var(--teti-border); border-radius:8px; }
+.genshin-party-preview-character { width:clamp(40px,12vw,72px); height:clamp(40px,12vw,72px); object-fit:contain; }
+.genshin-party-preview-equipment { display:flex; justify-content:center; gap:2px; }
+.genshin-party-preview-icon { width:clamp(18px,5vw,26px); height:clamp(18px,5vw,26px); object-fit:contain; border-radius:4px; background:var(--teti-surface); }
+.genshin-party-preview-member strong { font-size:.75rem; text-align:center; overflow-wrap:anywhere; line-height:1.3; }
+.genshin-party-preview-member small { font-size:.65rem; color:var(--teti-muted); text-align:center; }

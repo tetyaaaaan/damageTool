@@ -346,7 +346,44 @@
         return values.filter(Boolean);
     }
 
+    function partyPreviewItems(members) {
+        const resolver = window.GenshinIdResolver;
+        return members.map(member => {
+            const equipment = member.equipment || {};
+            const enabled = Boolean(member.characterId && member.enabled !== false);
+            const mode = equipment.artifactSetMode || 'none';
+            const ids = mode === 'none' ? [] : [...new Set((equipment.artifactSetIds || []).filter(Boolean))].slice(0,mode === '2pc2pc' ? 2 : 1);
+            const image = (kind,id,name) => ({name,src:id ? resolver?.[kind]?.(id) || FALLBACK_IMAGE : FALLBACK_IMAGE});
+            return {
+                slot:member.slot, name:enabled ? member.nameJa || characterForId(member.characterId)?.nameJa || 'キャラクター' : '未設定',
+                meta:enabled ? [member.element, 'C' + Number(member.constellation || 0)].filter(Boolean).join(' / ') : '',
+                character:image('resolveCharacterImagePath',enabled ? member.characterId : '',member.nameJa || 'キャラクター未設定'),
+                weapon:image('resolveWeaponImagePath',enabled ? equipment.weaponId : '',equipment.weaponNameJa || resolver?.resolveWeapon?.(equipment.weaponId)?.nameJa || '武器未装備'),
+                artifacts:enabled && ids.length ? ids.map(id=>image('resolveArtifactSetImagePath',id,resolver?.resolveArtifactSet?.(id)?.nameJa || artifactForId(id)?.nameJa || '聖遺物')) : [image('resolveArtifactSetImagePath','','聖遺物未装備')]
+            };
+        });
+    }
+
+    function updatePartyPreview() {
+        const preview=byId('genshinPartyPreview');
+        if (!preview) return;
+        const character=characterForId(byId('genshinCalcCharacterId')?.value);
+        const main={slot:1,enabled:Boolean(character),characterId:character?.id,nameJa:character?.nameJa,element:character?.element,
+            constellation:String(byId('genshinReflectConstellation')?.value || '').replace(/^C/,''),
+            equipment:{weaponId:byId('genshinCalcWeaponId')?.value,artifactSetMode:byId('genshinArtifactSetMode')?.value,
+                artifactSetIds:[byId('genshinArtifactSetOne')?.value,byId('genshinArtifactSetTwo')?.value]}};
+        const escape=value=>String(value ?? '').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+        const icon=(item,css)=>'<img class="'+css+'" src="'+escape(item.src)+'" alt="'+escape(item.name)+'" title="'+escape(item.name)+'" width="32" height="32">';
+        preview.innerHTML=partyPreviewItems([main,...SUPPORT_SLOTS.map(readSupportMember)]).map(item=>
+            '<div class="genshin-party-preview-member" data-party-preview-slot="'+item.slot+'">'
+            +icon({...item.character,name:item.name},'genshin-party-preview-character')
+            +'<div class="genshin-party-preview-equipment">'+icon(item.weapon,'genshin-party-preview-icon')+item.artifacts.map(artifact=>icon(artifact,'genshin-party-preview-icon')).join('')+'</div>'
+            +'<strong>'+escape(item.name)+'</strong><small>'+escape(item.meta)+'</small></div>').join('');
+        preview.querySelectorAll('img').forEach(img=>img.addEventListener('error',()=>{img.src=FALLBACK_IMAGE;},{once:true}));
+    }
+
     function updateSummary() {
+        updatePartyPreview();
         const selected = SUPPORT_SLOTS.map(readSupportMember).filter((member) => member.enabled);
         const mainCharacter = characterForId(String(byId("genshinCalcCharacterId")?.value || ""));
         const activeResonances = window.GenshinElementalResonance?.detectActiveResonances?.({ members: [mainCharacter ? { enabled: true, characterId: mainCharacter.id, element: mainCharacter.element } : null, ...selected].filter(Boolean) }) || [];
@@ -588,6 +625,8 @@
         byId("genshinCalcCharacterId")?.addEventListener("input", () => {
             SUPPORT_SLOTS.forEach((slot) => { if (byId(`genshinPartyCharacter${slot}`)?.value === byId("genshinCalcCharacterId")?.value) clearSlot(slot); else syncSlot(slot); });
         });
+        document.addEventListener("input", event => { if (["genshinCalcCharacterId","genshinCalcWeaponId","genshinReflectConstellation","genshinArtifactSetMode","genshinArtifactSetOne","genshinArtifactSetTwo"].includes(event.target?.id)) updatePartyPreview(); });
+        document.addEventListener("change", event => { if (["genshinCalcCharacterId","genshinCalcWeaponId","genshinReflectConstellation","genshinArtifactSetMode","genshinArtifactSetOne","genshinArtifactSetTwo"].includes(event.target?.id)) updatePartyPreview(); });
         const dialog = byId("genshinPartyDialog");
         byId("genshinPartyDialogOpen")?.addEventListener("click", () => dialog?.showModal());
         byId("genshinPartyDialogClose")?.addEventListener("click", closeDialog);
@@ -605,7 +644,7 @@
     }
 
     window.GenshinPartyState = {
-        PARTY_SIZE, SUPPORT_SLOTS, emptySupportMember, normalizeSupportMember, normalizePartyState,
+        PARTY_SIZE, SUPPORT_SLOTS, partyPreviewItems, emptySupportMember, normalizeSupportMember, normalizePartyState,
         getSupportState, setBuffEnabled, getBuffEnabled, setPartyConditionState, getPartyConditionState, getPartyConditionStates, setPartySelection,
         selectedCharacterIds, characterForId, weaponForId, artifactForId,
         applyImportedMemberToSlot, registerUidProfile, restoreSupportState, ready

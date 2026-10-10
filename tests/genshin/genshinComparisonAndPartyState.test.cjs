@@ -135,3 +135,18 @@ test("comparison and party controls are present without nesting member cards on 
     assert.match(css, /\.genshin-comparison-delta\.is-up/);
     assert.match(css, /@media \(max-width: 420px\)[\s\S]*\.genshin-party-equipment-row/);
 });
+
+test("party preview uses current equipment only and the shared image resolver", () => {
+ const {sandbox}=createBrowserScriptHarness(["games/js/genshinPartyState.js"]);
+ sandbox.GenshinIdResolver={resolveCharacterImagePath:id=>'/character/'+id,resolveWeaponImagePath:id=>'/weapon/'+id,resolveArtifactSetImagePath:id=>'/artifact/'+id,resolveArtifactSet:id=>({nameJa:'セット'+id})};
+ const member={slot:2,characterId:'c',nameJa:'名前',constellation:2,element:'水',equipment:{weaponId:'w',artifactSetMode:'4pc',artifactSetIds:['a','stale']}};
+ const items=()=>sandbox.GenshinPartyState.partyPreviewItems([member])[0];
+ assert.equal(items().character.src,'/character/c');assert.equal(items().weapon.src,'/weapon/w');
+ assert.deepEqual(Array.from(items().artifacts,a=>a.src),['/artifact/a']);
+ member.equipment.artifactSetMode='2pc2pc';member.equipment.artifactSetIds=['a','b'];
+ assert.deepEqual(Array.from(items().artifacts,a=>a.src),['/artifact/a','/artifact/b']);
+ member.equipment.weaponId='new';assert.equal(items().weapon.src,'/weapon/new');
+ member.equipment.artifactSetMode='none';assert.match(items().artifacts[0].src,/fallback/);
+ member.enabled=false;assert.match(items().character.src,/fallback/);assert.match(items().weapon.src,/fallback/);assert.match(items().artifacts[0].src,/fallback/);
+ assert.equal(JSON.stringify(sandbox.GenshinPartyState.partyPreviewItems(JSON.parse(JSON.stringify([member])))),JSON.stringify(sandbox.GenshinPartyState.partyPreviewItems([member])));
+});
