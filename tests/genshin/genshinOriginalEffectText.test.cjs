@@ -415,16 +415,63 @@ test('composition weapon has no manual stages and fixed EM is displayed without 
  assert.doesNotMatch(html,/\+64%/);
 });
 
-test('condition controls use binary segments and one zero-to-max stage selector; progress requires explicit edits',async()=>{
+test('condition controls retain binary segments and one zero-to-max stage selector',async()=>{
  const f=await fixture('10000006','14408'), api=f.sandbox.GenshinCalcRenderer;
  const binary=api.renderCardControl({type:'toggle',key:'example',checked:false,label:'効果発動中'});
  assert.match(binary,/aria-pressed="true">未発動/);assert.match(binary,/data-condition-binary="true"/);
  const stage=api.renderCardControl({type:'stack',key:'weapon:14408:group:stacks',min:0,max:3,value:1,activationDefaultMax:true,label:'現在の効果段階'});
  assert.equal((stage.match(/<select /g)||[]).length,1);assert.equal((stage.match(/<option /g)||[]).length,4);
  assert.match(stage,/<option value="1" selected>1層/);assert.match(stage,/発動（3層・最大）/);assert.doesNotMatch(stage,/checkbox/);
- const input={dataset:{genshinConditionKey:'example'},value:'0',disabled:false,hidden:false,validity:{valid:true},matches:()=>true};
- const scope={querySelectorAll:()=>[input,input]};
- assert.equal(api.inputSettingCounts(scope).total,1);assert.equal(api.inputSettingCounts(scope).configured,0);
- api.restoreConditionEdits(['10000006:example']);assert.equal(api.inputSettingCounts(scope).configured,1);
- input.value='';assert.equal(api.inputSettingCounts(scope).configured,0);
+
+});
+
+
+test('active effect groups count Runtime state, shared/exclusive causes and automatic effects without interaction history',async()=>{
+ const f=await fixture('10000006','14408'),api=f.sandbox.GenshinCalcRenderer,engine=f.sandbox.GenshinCalcEngine;
+ const r=engine.buildCharacterCalcContext();let {state}=panel(f,r);let counts=api.getActiveEffectCounts().weapon;
+ assert.equal(counts.active,0);assert.equal(counts.total,1);
+ const control=state.cards.find(c=>c.id==='weapon').sections[0].controls.find(c=>c.type==='stack');
+ for(const stack of [1,3,0,2]) {
+  r.uiState.complexConditionByModifier[control.key]={stack};panel(f,r);
+  counts=api.getActiveEffectCounts().weapon;assert.equal(counts.active,stack>0?1:0);assert.equal(counts.total,1);
+ }
+ const initial=engine.calculateDamageRequest(r,f.calcData);
+ const saved=JSON.parse(JSON.stringify(initial.calculationRequest));panel(f,saved);
+ assert.equal(api.getActiveEffectCounts().weapon.active,1);
+ assert.deepEqual(JSON.parse(JSON.stringify(engine.calculateDamageRequest(saved,f.calcData).results)),JSON.parse(JSON.stringify(initial.results)));
+ const auto=await fixture('10000031','15435');const ar=auto.sandbox.GenshinCalcEngine.buildCharacterCalcContext();
+ panel(auto,ar);assert.equal(auto.sandbox.GenshinCalcRenderer.getActiveEffectCounts().weapon.total,0);
+ ar.party={members:[{slot:2,enabled:true,characterId:'10000052',element:'雷',talentLevels:{normal:10,skill:10,burst:10},equipment:{artifactSetIds:[]},buffStates:{}}]};
+ panel(auto,ar);assert.equal(auto.sandbox.GenshinCalcRenderer.getActiveEffectCounts().weapon.active,1);assert.equal(auto.sandbox.GenshinCalcRenderer.getActiveEffectCounts().weapon.total,1);
+ // One exclusive state with multiple outputs is one group, independent of the selected attack.
+ const source='talent:passive1';const modifiers=['initial','full'].map((option,i)=>({id:option,category:'damageBonus',applyTo:['burst'],value:20+i,unit:'percent',condition:'active',uidHandling:'conditional',conditionGroupId:'moon',conditionOptionValues:[option]}));
+ const effects=modifiers.map(modifier=>({modifier,source,controls:[]}));
+ const evaluation={context:r,collected:{applied:[{modifier:modifiers[1],source,value:21,analysis:{calculation:'damageBonus'}}],candidates:[]},trace:[]};
+ counts=api.activeEffectGroupCounts(effects,evaluation);assert.equal(counts.active,1);assert.equal(counts.total,1);
+ evaluation.collected.applied=[];assert.equal(api.activeEffectGroupCounts(effects,evaluation).active,0);
+ const uncertain={...effects[0],modifier:{...modifiers[0],conditionGroupId:'',condition:'hpCondition'}};
+ assert.equal(api.activeEffectGroupCounts([uncertain],evaluation).total,null);
+ assert.equal(api.activeEffectCountLabel(api.activeEffectGroupCounts([uncertain],evaluation)),'有効 0件');
+});
+
+test('Lauma exclusive states and Vody derived support use one active group, with setup-dependent maxima',async()=>{
+ const f=await fixture('10000119','');const api=f.sandbox.GenshinCalcRenderer,r=f.sandbox.GenshinCalcEngine.buildCharacterCalcContext();
+ const {state}=panel(f,r);const control=state.cards.find(c=>c.id==='talent').sections.flatMap(s=>s.controls).find(c=>c.label==='元素スキル使用後の月兆状態');
+ for(const option of ['inactive','initial','full','inactive']) {
+  r.uiState.complexConditionByModifier[control.key]={option};panel(f,r);
+  const group=api.getActiveEffectCounts().talent.groups.find(g=>g.effects.some(e=>e.modifier.conditionGroupId==='laumaA1Moonsign'));
+  assert.equal(group.active,option!=='inactive');
+ }
+ const v=await fixture('10000031','');const vr=v.sandbox.GenshinCalcEngine.buildCharacterCalcContext();
+ const member={slot:2,enabled:true,characterId:'10000140',constellation:0,element:'水',stats:{hp:50500,baseHp:15000,atk:1000,baseAtk:800},talentLevels:{normal:10,skill:10,burst:10},equipment:{artifactSetIds:[]},buffStates:{}};
+ vr.party={members:[member],conditionStates:{}};
+ const party=v.sandbox.GenshinPartyModifiers;
+ for(const [skill,meteor,active] of [['inactive','none',0],['active','none',1],['active','recent',1]]) {
+  vr.party.conditionStates[party.vodyActionKey(member,'skill')]={option:skill};
+  vr.party.conditionStates[party.vodyActionKey(member,'meteor')]={option:meteor};
+  vr.party.conditionStates[party.vodyActionKey(member,'skillHit')]={option:'yes'};
+  panel(v,vr);const count=v.sandbox.GenshinCalcRenderer.getActiveEffectCounts()['party:2'];
+  assert.equal(count.active,active);assert.equal(count.total,1);
+ }
+ member.constellation=1;panel(v,vr);assert.equal(v.sandbox.GenshinCalcRenderer.getActiveEffectCounts()['party:2'].total,2);
 });

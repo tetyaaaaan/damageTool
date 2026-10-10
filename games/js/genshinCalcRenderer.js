@@ -969,17 +969,7 @@
         }).join("");
     }
 
-    let conditionEdits = new Set();
-    function conditionInputKey(input) {
-        const key = input.dataset.genshinConditionKey || input.dataset.genshinToggleKey || input.dataset.genshinResourceKey
-            || input.dataset.genshinPartyConditionKey || input.dataset.genshinPartyBuffKey
-            || (input.dataset.genshinVodyAction ? 'party:' + input.dataset.genshinProviderSlot + ':vody:' + input.dataset.genshinVodyAction : input.id);
-        return key ? (getElement('genshinCalcCharacterId')?.value || '') + ':' + key : '';
-    }
-    function recordConditionEdit(input) {
-        const key = conditionInputKey(input);
-        if (key && input.value !== '' && input.validity?.valid !== false) conditionEdits.add(key);
-    }
+    let activeEffectCounts = {};
     function renderBinaryCondition(key, checked, label, attribute = 'data-genshin-toggle-key', help = '') {
         return '<div class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>' + escapeEffectLabel(label) + '</strong>'
             + (help ? '<small>' + escapeEffectLabel(help) + '</small>' : '') + '</span><div class="genshin-condition-segments" role="group" aria-label="' + escapeEffectLabel(label) + '">'
@@ -1637,30 +1627,81 @@
         refreshConditionSettingLabels(getElement('genshinJsonConditionCards'));
     }
 
-    function inputSettingCounts(scope) {
-        if (!scope) return {total:0,configured:0,missing:0};
-        const inputs = [...scope.querySelectorAll('input,select')].filter(input => !input.disabled && conditionInputKey(input) && (!input.hidden || input.matches('[data-genshin-toggle-key], [data-genshin-party-buff-key]')));
-        const unique = [...new Map(inputs.map(input=>[conditionInputKey(input),input])).values()];
-        const configured = unique.filter(input=>conditionEdits.has(conditionInputKey(input)) && input.value !== '' && input.validity?.valid !== false).length;
-        return {total:unique.length,configured,missing:unique.length-configured};
+    // Group by the game state that causes the effect, never by rendered controls,
+    // attack targets, modifier count or interaction history. Runtime owns activation.
+    function activeEffectGroupCounts(effects, evaluation) {
+        if (!evaluation) return {active:0,total:null,groups:[],reason:'evaluationUnavailable'};
+        const groups = new Map();
+        for (const effect of effects) {
+            const m = effect.modifier || {};
+            const analysis = effect.analysis || window.GenshinModifierAnalyzer.analyzeModifier({modifier:m,source:effect.source,context:evaluation.context});
+            if (['duplicate','selfOnly','displayOnly','notApplicable'].includes(effect.status)
+                || (!analysis.calculable && analysis.supportStatus !== 'missingInput' && analysis.inputStatus !== 'includedInInput')) continue;
+            const enriched = {...effect,analysis};
+            const definitions = providerBucketDefinitions(enriched).filter(row=>!['attackSpeed','normalAttackSpeed','chargedAttackSpeed','shieldStrength','healingBonus','incomingHealingBonus'].includes(row.stat || row.target));
+            if (!definitions.length && !['extraDamage','elementOverride'].includes(m.category)) continue;
+            const accepted = evaluation.collected.applied.filter(item=>item.source === effect.source && item.modifier.id === m.id);
+            const rejected = evaluation.collected.candidates.find(item=>item.source === effect.source && item.modifier.id === m.id);
+            // Setup restrictions and records Runtime has rejected are not potential effects.
+            if (!accepted.length && rejected && rejected.reason !== '条件OFF'
+                && analysis.inputStatus !== 'includedInInput' && analysis.supportStatus !== 'missingInput'
+                && !['必要な攻撃状態がOFF'].includes(rejected.reason)) continue;
+            const origin = effect.member ? 'party:' + effect.member.slot + ':' + effect.member.characterId : 'character:' + evaluation.context.characterId;
+            let state = m.conditionGroupId || m.activation?.stateKey || m.effectGroupId;
+            let source = m.shareConditionAcrossSources ? origin : effect.source;
+            // Existing derived provider states share causes across talent/weapon outputs.
+            const derivedCause = isVodyDerivedCandidate(effect) ? {
+                vodyanitsa_song_state:'support',vodyanitsa_skill_hit:'support',vodyanitsa_a1_meteorstorm:'support',
+                vodyanitsa_a4_state:'support',vodyanitsa_c2_variant:'support',
+                vodyanitsa_c1_heal:'heals',provisional71_w14524_mead_state:'heals',vodyanitsa_c4_state:'qualifyingHeals'
+            }[state] : '';
+            if (derivedCause) {source=origin;state='derived:' + derivedCause;}
+            const sharedStacks=m.activation?.sharedStackLimit || m.sharedStackLimit;
+            if (sharedStacks) state='sharedStacks:' + [...(sharedStacks.groupIds || [])].sort().join(',');
+            const cause = state || (['active','manualToggle'].includes(analysis.condition) ? analysis.conditionStateKey : analysis.condition) || m.condition || 'always';
+            const key = source + ':' + cause;
+            if (!groups.has(key)) groups.set(key,{key,active:false,certain:false,effects:[]});
+            const group=groups.get(key);group.effects.push(enriched);
+            const rows=providerImpactRows([enriched],evaluation);
+            const reflected = analysis.inputStatus === 'includedInInput' && effect.status === 'reflected';
+            group.active ||= rows.length>0 || reflected || (accepted.length>0 && ['extraDamage','elementOverride'].includes(m.category));
+            // Arbitrary cross-state prerequisites are not a proof of a simultaneous maximum.
+            // Keep an honest count-only display rather than inventing a denominator.
+            const uncertain = analysis.supportStatus === 'missingInput' || ['missingInput','missingProviderStats'].includes(effect.status)
+                || (!derivedCause && (m.requiredAttackMode || m.requiredCondition || m.requiredConditions || m.conditionCombination || analysis.condition === 'hpCondition'
+                    || (analysis.requiresConditionEvaluation && !['always','constellationUnlocked'].includes(analysis.condition) && !state && !(effect.controls || []).length && !effect.automatic)));
+            // One independently available output proves that its shared state can be active.
+            group.certain ||= !uncertain;
+        }
+        const values=[...groups.values()].filter(group=>group.active || !group.effects.every(effect=>
+            ['sameElementTeammates','differentElementTeammates'].includes(effect.modifier.stack?.type)));
+        // If every eligible group is already active, their simultaneous maximum is proven by Runtime itself.
+        const maximumKnown = values.every(group=>group.certain) || values.every(group=>group.active);
+        return {active:values.filter(group=>group.active).length,total:maximumKnown?values.length:null,
+            groups:values,reason:maximumKnown?'':'simultaneousMaximumUnproven'};
+    }
+    function activeEffectCountLabel(counts) {
+        if (!counts || !counts.groups.length) return '';
+        return counts.total === null ? '有効 ' + counts.active + '件' : '有効 ' + counts.active + '/' + counts.total;
     }
     function refreshConditionSettingLabels(wrap) {
         wrap.querySelectorAll('[data-party-member-panel]').forEach(panel => {
-            const counts = inputSettingCounts(panel.querySelector('.genshin-party-current-state'));
+            const counts = activeEffectCounts['party:' + panel.dataset.partySlot];
             const label = wrap.querySelector('[data-party-member-status="' + panel.dataset.partySlot + '"]');
-            if (label) label.textContent = counts.total ? counts.configured + ' / ' + counts.total + ' 設定' : '';
+            if (label) label.textContent = activeEffectCountLabel(counts);
         });
         document.querySelectorAll('[data-condition-tab]').forEach(button => {
             const panel = wrap.querySelector('[data-condition-panel="' + button.dataset.conditionTab + '"]');
             button.textContent = CONDITION_TABS.find(tab=>tab.id===button.dataset.conditionTab)?.label || '';
             if (!panel) return;
-            const scope = button.dataset.conditionTab === 'party' ? panel.querySelector('[data-party-member-panel]:not([hidden]) .genshin-party-current-state') : panel;
-            const counts = inputSettingCounts(scope), heading = panel.querySelector('h4');
+            const selected = panel.querySelector('[data-party-member-panel]:not([hidden])');
+            const counts = activeEffectCounts[button.dataset.conditionTab === 'party' ? 'party:' + selected?.dataset.partySlot : button.dataset.conditionTab], heading = panel.querySelector('h4');
             let progress = panel.querySelector('[data-condition-progress]');
             if (!progress) { progress=document.createElement('span'); progress.dataset.conditionProgress=''; progress.className='genshin-condition-progress';
                 if (button.dataset.conditionTab !== 'party' && heading) heading.append(progress); else panel.prepend(progress); }
-            progress.textContent = counts.total ? (button.dataset.conditionTab === 'party' ? 'パーティ補正　' : '　') + counts.configured + ' / ' + counts.total + ' 設定' : '';
-            progress.hidden = counts.total === 0;
+            const label = activeEffectCountLabel(counts);
+            progress.textContent = label ? (button.dataset.conditionTab === 'party' ? 'パーティ補正　' : '　') + label : '';
+            progress.hidden = !label;
         });
     }
 
@@ -1695,6 +1736,13 @@
         const talentSections = cards.find((card) => card.id === "talent")?.sections || [];
         const constellationSections = cards.find((card) => card.id === "constellation")?.sections || [];
         const partyModifiers = panelState.partyModifiers || [];
+        activeEffectCounts = Object.fromEntries([
+            ['weapon',weaponSections.flatMap(section=>section.effects)],
+            ['artifact',artifactSections.flatMap(section=>section.effects)],
+            ['talent',[...talentSections,...constellationSections].flatMap(section=>section.effects)],
+            ['other',flatCards.flatMap(card=>card.effects)],
+            ...(context.party?.members || []).filter(member=>member.slot>1 && member.enabled).map(member=>['party:' + member.slot,partyModifiers.filter(effect=>effect.member?.slot===member.slot)])
+        ].map(([key,effects])=>[key,activeEffectGroupCounts(effects,evaluation)]));
         const conditionCount = flatCards.flatMap((card) => card.effects).filter((effect) => effect.status === "userInput").length
             + weaponSections.reduce((count, section) => count + section.controls.length, 0)
             + artifactSections.reduce((count, section) => count + section.controls.length, 0)
@@ -1899,12 +1947,11 @@
             conditionCards.addEventListener('click', event => {
                 const button = event.target.closest('[data-condition-binary]'); if (!button) return;
                 const input = button.parentElement.querySelector('input');
-                input.checked = button.dataset.conditionBinary === 'true'; recordConditionEdit(input);
+                input.checked = button.dataset.conditionBinary === 'true';
                 input.dispatchEvent(new Event('change', {bubbles:true}));
             });
             conditionCards.addEventListener("change", (event) => {
                 if (event.target.value === 'activate' && event.target.dataset.stackMax) event.target.value = event.target.dataset.stackMax;
-                if (!window.GenshinCurrentCalcState?.isApplying()) recordConditionEdit(event.target);
                 if (event.target?.matches?.("[data-genshin-stack-activation]")) {
                     const key = event.target.dataset.genshinStackActivation;
                     const party = event.target.dataset.stackScope === "party";
@@ -2015,9 +2062,8 @@
     document.addEventListener("DOMContentLoaded", initializeGenshinCalcRenderer);
 
     window.GenshinCalcRenderer = {
-        getConditionEdits: () => [...conditionEdits],
-        restoreConditionEdits: values => { conditionEdits = new Set(Array.isArray(values) ? values.filter(value=>typeof value==='string') : []); },
-        inputSettingCounts, renderCardControl,
+        activeEffectGroupCounts, activeEffectCountLabel,
+        getActiveEffectCounts: () => activeEffectCounts, renderCardControl,
         prepareConditions: handlePrepareConditionsClick,
         calculate: handleJsonCalcClick,
         RESULT_TABS,

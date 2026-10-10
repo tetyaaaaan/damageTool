@@ -140,12 +140,11 @@ test("provider stats, shared party conditions and participant-local inputs survi
     assert.throws(() => api.parse(JSON.stringify(duplicate), f.calcData));
 });
 
-test('condition interaction progress roundtrips separately from Request and accepts old saves',()=>{
- const f=fixture(), api=f.sandbox.GenshinCurrentCalcState;
- f.sandbox.GenshinCalcRenderer={getConditionEdits:()=>['10000052:example']};
- const saved=api.createState(f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm(),{});assert.deepEqual(plain(saved.state.conditionEdits),['10000052:example']);
- assert.equal('conditionEdits' in saved.state.request,false);
- assert.deepEqual(plain(api.parse(api.serialize(saved),f.calcData).state.conditionEdits),['10000052:example']);
- delete saved.state.conditionEdits;
- assert.deepEqual(plain(api.parse(api.serialize(saved),f.calcData).state.conditionEdits),[]);
+test('old interaction metadata is ignored while saved Request remains unchanged',()=>{
+ const f=fixture(),api=f.sandbox.GenshinCurrentCalcState;
+ const saved=api.createState(f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm(),{});
+ const request=plain(saved.state.request);saved.state.conditionEdits=['10000052:example'];
+ const restored=api.parse(api.serialize(saved),f.calcData);
+ assert.deepEqual(plain(restored.state.request),request);
+ assert.equal('conditionEdits' in restored.state,false);
 });
