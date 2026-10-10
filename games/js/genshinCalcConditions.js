@@ -1958,7 +1958,17 @@
         };
     }
 
+    function resetManualState() {
+        activeConditionDefinitions = [];
+        conditionStateByModifier = {};
+        activeResourceDefinitions = [];
+        resourceStateByKey = {};
+        activeComplexDefinitions = [];
+        complexStateByKey = {};
+    }
+
     window.GenshinCalcConditions = {
+        resetManualState,
         buildConditionDefinitions,
         buildResourceInputDefinitions,
         buildComplexConditionDefinitions,

@@ -3313,3 +3313,14 @@ html[data-theme="dark"] .genshin-tool-page {
 .genshin-party-preview-icon { width:clamp(18px,5vw,26px); height:clamp(18px,5vw,26px); object-fit:contain; border-radius:4px; background:var(--teti-surface); }
 .genshin-party-preview-member strong { font-size:.75rem; text-align:center; overflow-wrap:anywhere; line-height:1.3; }
 .genshin-party-preview-member small { font-size:.65rem; color:var(--teti-muted); text-align:center; }
+
+.genshin-reset-menu { position: relative; margin: 4px 0; }
+.genshin-reset-menu > summary { cursor: pointer; padding: 8px 14px; border: 1px solid var(--teti-interactive); border-radius: 8px; color: var(--teti-interactive); font-weight: 600; }
+.genshin-reset-options { display: grid; gap: 4px; margin-top: 6px; }
+.genshin-reset-options button { min-height: 44px; padding: 8px 14px; background: var(--teti-surface, Canvas); color: inherit; border: 1px solid var(--teti-border, ButtonBorder); border-radius: 6px; text-align: left; cursor: pointer; }
+.genshin-reset-dialog { width: min(420px, calc(100vw - 32px)); box-sizing: border-box; padding: 24px; border: 1px solid var(--teti-border, ButtonBorder); border-radius: 14px; background: var(--teti-surface, Canvas); color: var(--teti-text, CanvasText); }
+.genshin-reset-dialog::backdrop { background: rgb(0 0 0 / 45%); }
+.genshin-reset-dialog h2 { margin-top: 0; font-size: 1.2rem; }
+.genshin-reset-dialog p { line-height: 1.7; }
+.genshin-reset-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.genshin-reset-menu summary:focus-visible, .genshin-reset-options button:focus-visible { outline: 2px solid var(--teti-interactive); outline-offset: 3px; }

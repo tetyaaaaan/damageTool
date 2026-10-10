@@ -2055,7 +2055,15 @@
 
     document.addEventListener("DOMContentLoaded", initializeGenshinCalcRenderer);
 
+    function clearResults() {
+        const results = getElement("genshinJsonCalcResults");
+        if (results) { results.innerHTML = ""; results.hidden = true; }
+        renderWarnings([]);
+        setCalculationDirty(false);
+    }
+
     window.GenshinCalcRenderer = {
+        clearResults,
         activeEffectGroupCounts, activeEffectCountLabel,
         getActiveEffectCounts: () => activeEffectCounts, renderCardControl,
         prepareConditions: handlePrepareConditionsClick,

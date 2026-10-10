@@ -148,3 +148,87 @@ test('old interaction metadata is ignored while saved Request remains unchanged'
  assert.deepEqual(plain(restored.state.request),request);
  assert.equal('conditionEdits' in restored.state,false);
 });
+
+
+test("scoped resets preserve builds, clear party conditions, and leave their input snapshots untouched", () => {
+    const f = fixture("10000052");
+    const api = f.sandbox.GenshinCurrentCalcState;
+    const defaults = plain(api.createState(f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm(), {}));
+    defaults.state.request.uiState.toggleByModifier = {};
+    defaults.state.request.uiState.complexConditionByModifier = {};
+    defaults.state.request.manualInputs.resourceStates = {};
+    defaults.state.request.party = { schemaVersion: 2, members: [{ slot: 1, characterId: "10000052", buffStates: {} }], conditionStates: {}, resonanceStates: {} };
+    const current = plain(defaults);
+    current.state.request.uiState.toggleByModifier.test = true;
+    current.state.request.uiState.complexConditionByModifier.stack = { stack: 2 };
+    current.state.request.party.members.push({ slot: 2, characterId: "10000089", weaponId: "11511", artifactSetIds: ["15007"], stats: { hp: 42000 }, buffStates: { burst: true } });
+    current.state.request.party.conditionStates.test = { enabled: true };
+    current.state.request.party.resonanceStates.test = true;
+    current.state.request.enemy.defenseReduction = 30;
+    const before = plain(current);
+    const conditions = plain(api.buildResetState("conditions", current, defaults));
+    assert.deepEqual(conditions.state.request.stats, current.state.request.stats);
+    assert.deepEqual(conditions.state.request.calculationInput, current.state.request.calculationInput);
+    assert.deepEqual(conditions.state.request.party.members[1], { ...current.state.request.party.members[1], buffStates: {} });
+    assert.deepEqual(conditions.state.request.party.conditionStates, {});
+    assert.deepEqual(conditions.state.request.uiState, defaults.state.request.uiState);
+    assert.equal(conditions.state.request.enemy.defenseReduction, defaults.state.request.enemy.defenseReduction);
+    const party = plain(api.buildResetState("party", current, defaults));
+    assert.equal(party.state.request.party.members.length, 1);
+    assert.deepEqual(party.state.request.party.members[0], current.state.request.party.members[0]);
+    assert.deepEqual(party.state.request.uiState, current.state.request.uiState);
+    assert.deepEqual(plain(api.buildResetState("all", current, defaults)), defaults);
+    assert.deepEqual(current, before);
+    assert.throws(() => api.buildResetState("invalid", current, defaults));
+});
+
+test("condition reset forgets cached stages and recovers definition defaults, with unchanged base stats", () => {
+    const f = fixture("10000006", "14408");
+    setElement(f.elements, "genshinBaseAtkInput", 800);
+    const engine = f.sandbox.GenshinCalcEngine, conditions = f.sandbox.GenshinCalcConditions;
+    let context = engine.buildCalculationRequestFromForm();
+    let panel = conditions.conditionPanelState(context, f.calcData);
+    const input = panel.complexConditionInputs.find(item => item.source === "weapon:14408");
+    assert.ok(input);
+    context.uiState.complexConditionByModifier[input.key] = { stack: 3 };
+    conditions.conditionPanelState(context, f.calcData);
+    const oldDamage = engine.calculateDamageRequest(context, f.calcData).results[0].nonCrit;
+    conditions.resetManualState();
+    context = engine.buildCalculationRequestFromForm();
+    context.uiState.toggleByModifier = {};
+    context.uiState.complexConditionByModifier = {};
+    panel = conditions.conditionPanelState(context, f.calcData);
+    assert.equal(panel.complexConditionInputs.find(item => item.key === input.key).value, 0);
+    assert.equal(context.stats.atk, 2000);
+    const resetDamage = engine.calculateDamageRequest(context, f.calcData).results[0].nonCrit;
+    assert.ok(resetDamage < oldDamage);
+    const api = f.sandbox.GenshinCurrentCalcState;
+    const reloaded = api.parse(api.serialize(api.createState(context, {})), f.calcData);
+    assert.equal(engine.calculateDamageRequest(reloaded.state.request, f.calcData).results[0].nonCrit, resetDamage);
+});
+
+
+test("applying an empty initial snapshot clears old damage without deleting independent storage", async () => {
+    const f = fixture("10000052");
+    f.sandbox.GenshinCalcData.loadGenshinCalcData = async () => f.calcData;
+    f.sandbox.Event = class { constructor(type) { this.type = type; } };
+    f.sandbox.document.querySelector = () => null;
+    for (const element of Object.values(f.elements)) {
+        element.dataset ||= {};
+        element.addEventListener = () => {};
+        element.dispatchEvent = () => {};
+    }
+    let cleared = 0, calculated = 0;
+    const independent = { preset: "retained", uid: "retained", otherMode: "retained" };
+    f.sandbox.localStorage = { removeItem() { throw Error("unexpected removal"); }, clear() { throw Error("unexpected clearing"); }, getItem(key) { return independent[key]; } };
+    f.sandbox.GenshinPartyState = { restoreSupportState: async () => {} };
+    f.sandbox.GenshinCalcRenderer = { renderConditionCards() {}, clearResults() { cleared++; }, async calculate() { calculated++; } };
+    const api = f.sandbox.GenshinCurrentCalcState;
+    const state = plain(api.createState(f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm(), {}));
+    Object.assign(state.state.request, { characterId: "", characterElement: "", calculationInput: null, party: null, constellation: 0 });
+    await api.importText(api.serialize(state));
+    assert.equal(cleared, 1);
+    assert.equal(calculated, 0);
+    assert.equal(f.elements.genshinCalcCharacterId.value, "");
+    assert.deepEqual(independent, { preset: "retained", uid: "retained", otherMode: "retained" });
+});

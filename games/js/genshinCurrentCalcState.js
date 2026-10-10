@@ -5,7 +5,7 @@
     const REQUEST_FIELDS = ["schemaVersion", "calculationInput", "characterId", "characterElement", "weaponId", "refinement", "artifactSetMode", "artifactSetIds", "constellation", "party", "talentLevels", "stats", "inputProvenance", "enemy", "mode", "reactionOptionKey", "reactionOption", "reactionElement", "manualInputs", "uiState"];
     const STAT_FIELDS = { hp: "genshinHpInput", baseHp: "genshinBaseHpInput", baseAtk: "genshinBaseAtkInput", atk: "genshinAtkInput", baseDef: "genshinBaseDefInput", def: "genshinDefInput", elementalMastery: "genshinElementalMasteryInput", critRate: "genshinCritRateInput", critDamage: "genshinCritDamageInput", energyRecharge: "genshinEnergyRechargeInput", elementDamageBonus: "genshinElementalDamageInput" };
     const UI_FIELDS = { amosStack: "genshinJsonAmosStack", crimsonWitchStack: "genshinJsonCrimsonWitchStack", enableCharacterCondition: "genshinJsonEnableCharacterCondition", enableLowHpCondition: "genshinJsonEnableLowHpCondition", enableWeaponLowHpCondition: "genshinJsonEnableWeaponLowHpCondition" };
-    let applying = false, initialized = false, editedBeforeReady = false, timer;
+    let applying = false, initialized = false, editedBeforeReady = false, timer, initialState;
     const clone = (value) => JSON.parse(JSON.stringify(value));
     const byId = (id) => document.getElementById(id);
     function message(text, error = false) {
@@ -124,7 +124,7 @@
         const row = find("[data-attack-key]", "attackKey", selection.attackKey);
         row?.querySelector('[data-result-detail-toggle][aria-expanded="false"]')?.click();
     }
-    async function applyValidated(saved, data) {
+    async function applyValidated(saved, data, resetConditions = false) {
         const r = saved.state.request;
         applying = true;
         try {
@@ -159,12 +159,13 @@
             setField("genshinJsonReactionOption", r.reactionOptionKey);
             setField("genshinJsonReactionElement", r.reactionElement);
             window.GenshinCalcEngine.hydrateReactionContext(r, data);
+            if (resetConditions) window.GenshinCalcConditions.resetManualState();
             const panel = window.GenshinCalcConditions.conditionPanelState(r, data);
             window.GenshinCalcRenderer.renderConditionCards(panel, r);
             setField("genshinJsonRecordedHealing", r.manualInputs.recordedHealing, false);
             Object.entries({ hp: "Hp", atk: "Atk", def: "Def", elementalMastery: "ElementalMastery" }).forEach(([key, suffix]) => setField("genshinJsonProvider" + suffix, r.manualInputs.providerStats?.[key], false));
             document.querySelectorAll("[data-genshin-resource-key]").forEach((element) => { element.value = String(r.manualInputs.resourceStates?.[element.dataset.genshinResourceKey] ?? ""); });
-            document.querySelectorAll("[data-genshin-toggle-key]").forEach((element) => { element.checked = r.uiState.toggleByModifier[element.dataset.genshinToggleKey] === true; });
+            document.querySelectorAll("[data-genshin-toggle-key]").forEach((element) => { if (!resetConditions || Object.hasOwn(r.uiState.toggleByModifier, element.dataset.genshinToggleKey)) element.checked = r.uiState.toggleByModifier[element.dataset.genshinToggleKey] === true; });
             document.querySelectorAll("[data-genshin-condition-key]").forEach((element) => {
                 const state = r.uiState.complexConditionByModifier[element.dataset.genshinConditionKey];
                 if (state) element.value = String(state[element.dataset.genshinConditionKind || "option"] ?? "");
@@ -177,9 +178,73 @@
             setField("genshinStellarSwirlVariant", r.manualInputs.stellarSwirlVariant, false);
         } finally { applying = false; }
         const payload = r.characterId ? await window.GenshinCalcRenderer.calculate({ throwOnError: true }) : null;
+        if (!r.characterId) window.GenshinCalcRenderer.clearResults?.();
         restoreSelection(saved.state.selection);
         persist();
         return payload;
+    }
+    // Reset only the current calculation snapshot; profile registries and presets are independent.
+    function buildResetState(kind, current, defaults) {
+        if (!["conditions", "party", "all"].includes(kind)) throw new Error("リセット対象が正しくありません。");
+        if (kind === "all") return clone(defaults);
+        const saved = clone(current), r = saved.state.request, base = defaults.state.request;
+        if (kind === "party") {
+            r.party = clone(base.party);
+            const main = current.state.request.party?.members?.find((member) => member.slot === 1);
+            if (main && r.party) r.party.members = [clone(main), ...r.party.members.filter((member) => member.slot !== 1)];
+        } else {
+            r.uiState = clone(base.uiState);
+            r.manualInputs = clone(base.manualInputs);
+            r.reactionOptionKey = base.reactionOptionKey;
+            r.reactionOption = clone(base.reactionOption);
+            r.reactionElement = base.reactionElement;
+            r.enemy.resistance.manualDebuff = clone(base.enemy.resistance.manualDebuff);
+            r.enemy.defenseReduction = base.enemy.defenseReduction;
+            r.enemy.defenseIgnore = base.enemy.defenseIgnore;
+            if (r.party) {
+                r.party.conditionStates = {};
+                r.party.resonanceStates = {};
+                r.party.members.forEach((member) => { member.buffStates = {}; });
+            }
+        }
+        return saved;
+    }
+    async function reset(kind) {
+        if (applying || !initialState) throw new Error("入力の準備が完了してからお試しください。");
+        clearTimeout(timer);
+        const previous = createState();
+        const saved = validate(buildResetState(kind, previous, initialState), window.GenshinCurrentCalcState.data);
+        try {
+            const payload = await applyValidated(saved, window.GenshinCurrentCalcState.data, kind !== "party");
+            message({ conditions: "補正条件を初期状態へ戻しました。", party: "パーティを初期状態へ戻しました。計算対象は保持しています。", all: "現在の計算入力を初期状態へ戻しました。" }[kind]);
+            return payload;
+        } catch (error) { await applyValidated(previous, window.GenshinCurrentCalcState.data, true); throw error; }
+    }
+    function bindResetControls() {
+        const menu = byId("genshinResetMenu"), dialog = byId("genshinResetDialog");
+        let pending = null;
+        const run = async (kind) => {
+            menu.open = false;
+            const buttons = document.querySelectorAll("[data-currentcalc-reset], #genshinResetConfirm");
+            buttons.forEach((button) => { button.disabled = true; });
+            try { await reset(kind); }
+            catch (error) { console.error("[genshin-current-calc-reset]", error); message("リセットできませんでした。現在の入力は保持されています。", true); }
+            finally { buttons.forEach((button) => { button.disabled = false; }); }
+        };
+        document.querySelectorAll("[data-currentcalc-reset]").forEach((button) => button.addEventListener("click", () => {
+            const kind = button.dataset.currentcalcReset;
+            if (kind === "conditions") return run(kind);
+            pending = kind;
+            byId("genshinResetDialogTitle").textContent = kind === "party" ? "パーティをリセットしますか？" : "全入力をリセットしますか？";
+            byId("genshinResetDialogDescription").textContent = kind === "party"
+                ? "サポート3枠と編成の補正条件を初期化します。現在の計算対象・装備・ステータス、保存したキャラクターの育成・装備、UID取得データは保持します。"
+                : "現在のキャラクター・装備・ステータス・編成・補正条件・敵条件を初期化します。別途保存したプリセット、UID取得データ、他の計算モードのデータは削除しません。";
+            menu.open = false;
+            dialog.showModal();
+        }));
+        byId("genshinResetCancel")?.addEventListener("click", () => dialog.close());
+        byId("genshinResetConfirm")?.addEventListener("click", () => { const kind = pending; dialog.close(); if (kind) run(kind); });
+        dialog?.addEventListener("close", () => { pending = null; });
     }
     async function importText(text) {
         if (applying) throw new Error("状態の読み込み中です。完了後にお試しください。");
@@ -213,11 +278,13 @@
     });
 
     async function init() {
+        initialState = createState();
         await Promise.all([window.GenshinIdResolver?.ready, window.GenshinBaseStats?.ready, window.GenshinSelectionModal?.ready, window.GenshinEnemySelector?.ready, window.GenshinPartyState?.ready]);
         const data = await window.GenshinCalcData.loadGenshinCalcData();
         window.GenshinCurrentCalcState.data = data;
         await window.GenshinCalcRenderer.prepareConditions();
         initialized = true;
+        bindResetControls();
         byId("genshinCurrentCalcExport")?.addEventListener("click", () => exportFile().catch((error) => message(error.message, true)));
         byId("genshinCurrentCalcImport")?.addEventListener("click", () => byId("genshinCurrentCalcFile").click());
         byId("genshinCurrentCalcFile")?.addEventListener("change", async (event) => {
@@ -231,7 +298,7 @@
         const text = storage()?.getItem(STORAGE_KEY);
         if (text && !editedBeforeReady) { try { await applyValidated(parse(text, data), data); message("前回の計算状態を復元しました。"); } catch (_) { message("保存状態を復元できませんでした。新しい入力で計算できます。", true); } }
     }
-    window.GenshinCurrentCalcState = { SCHEMA_VERSION, STORAGE_KEY, createState, validate, serialize, parse, importText, exportFile, persist, isApplying: () => applying, ready: null };
+    window.GenshinCurrentCalcState = { SCHEMA_VERSION, STORAGE_KEY, createState, validate, serialize, parse, importText, exportFile, persist, buildResetState, reset, isApplying: () => applying, ready: null };
     let resolveReady;
     window.GenshinCurrentCalcState.ready = new Promise((resolve) => { resolveReady = resolve; });
     document.addEventListener("DOMContentLoaded", () => init().catch((error) => message("状態保存を開始できませんでした。" + error.message, true)).finally(resolveReady));
