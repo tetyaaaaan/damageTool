@@ -1617,6 +1617,16 @@
             + (resonance.length ? '<section class="genshin-party-resonance"><h5>チームの元素共鳴</h5>' + partyEffectGroups(resonance).map(group => renderPartyEffectGroup(group,context,calcData,providerEvaluation)).join('') + '</section>' : '');
     }
 
+    function syncInlinePartyConditions() {
+        const wrap = getElement('genshinJsonConditionCards'), host = getElement('genshinPartyInlineConditions');
+        if (!wrap || !host || getElement('genshinConditionDialog')?.open) return;
+        host.appendChild(wrap);
+        const slot = window.GenshinPartyState?.getSelectedSlot?.() || 1;
+        selectConditionTab(slot === 1 ? 'talent' : 'party');
+        const button = [...wrap.querySelectorAll('[data-party-member-tab]')].find(button=>Number(button.id.split('-').pop()) === slot);
+        if(button) selectPartyMember(button.dataset.partyMemberTab);
+        wrap.hidden = slot === 1 ? !getElement('genshinCalcCharacterId')?.value : !getElement('genshinPartyCharacter'+slot)?.value;
+    }
     function selectPartyMember(key) {
         selectedPartyMember = key;
         document.querySelectorAll('[data-party-member-panel]').forEach(panel => { panel.hidden = panel.dataset.partyMemberPanel !== key; });
@@ -1843,6 +1853,7 @@
             tabs.innerHTML = CONDITION_TABS.map((tab) => `<button type="button" class="genshin-condition-tab${tab.id === activeConditionTab ? " is-active" : ""}" id="genshin-condition-tab-${tab.id}" role="tab" aria-selected="${tab.id === activeConditionTab}" tabindex="${tab.id === activeConditionTab ? "0" : "-1"}" aria-controls="genshin-condition-panel-${tab.id}" data-condition-tab="${tab.id}">${escapeHtml(tab.label)}</button>`).join("");
         }
         if (wrap.querySelectorAll) refreshConditionSettingLabels(wrap);
+        syncInlinePartyConditions();
     }
 
     function selectConditionTab(tabId) {
@@ -2018,7 +2029,7 @@
             button.disabled = true;
             try {
                 await handlePrepareConditionsClick();
-                if (conditionDialog && !conditionDialog.open) conditionDialog.showModal();
+                if (conditionDialog && !conditionDialog.open) { getElement('genshinConditionCardsHome').appendChild(getElement('genshinJsonConditionCards')); getElement('genshinJsonConditionCards').hidden = false; conditionDialog.showModal(); }
             } catch (error) {
                 console.error("[genshin-condition-dialog] failed", error);
                 renderWarnings([{ message: `補正条件の読み込みに失敗しました: ${error.message}` }]);
@@ -2026,6 +2037,9 @@
                 button.disabled = false;
             }
         });
+        conditionDialog?.addEventListener('close',syncInlinePartyConditions);
+        window.addEventListener('genshin:party-slot-selected',()=>{ syncInlinePartyConditions(); });
+        window.addEventListener('genshin:party-equipment-changed',handleConditionValueChange);
         getElement("genshinConditionDialogClose")?.addEventListener("click", () => conditionDialog?.close());
         getElement("genshinConditionTabs")?.addEventListener("click", (event) => {
             const button = event.target.closest?.("[data-condition-tab]");

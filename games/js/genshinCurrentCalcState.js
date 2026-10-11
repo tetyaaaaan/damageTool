@@ -27,8 +27,8 @@
             attackKey: document.querySelector('[data-result-detail-toggle][aria-expanded="true"]')?.closest("[data-attack-key]")?.dataset.attackKey || ""
         };
     }
-    function createState(request = window.GenshinCalcEngine.buildCalculationRequestFromForm(), selection = selectionState()) {
-        return { schemaVersion: SCHEMA_VERSION, game: "genshin", state: { request: clone(Object.fromEntries(REQUEST_FIELDS.filter((key) => request[key] !== undefined).map((key) => [key, request[key]]))), selection: clone(selection) } };
+    function createState(request = window.GenshinCalcEngine.buildCalculationRequestFromForm(), selection = selectionState(), displayOrigins = window.GenshinPartyState?.getDisplayOrigins?.() || {}) {
+        return { schemaVersion: SCHEMA_VERSION, game: "genshin", state: { request: clone(Object.fromEntries(REQUEST_FIELDS.filter((key) => request[key] !== undefined).map((key) => [key, request[key]]))), selection: clone(selection), displayOrigins: clone(displayOrigins) } };
     }
     function validate(value, data) {
         const fail = (code = "UNSUPPORTED_SAVE") => { const error = new Error("このファイルは対応する原神の計算状態ではありません。"); error.code = code; throw error; };
@@ -78,7 +78,7 @@
             });
             if (r.party.members.find((m) => m.slot === 1)?.characterId !== r.characterId) fail();
         }
-        const validated = createState(r, value.state.selection || { resultTab: "basic", basicTab: "normal", attackKey: "" });
+        const validated = createState(r, value.state.selection || { resultTab: "basic", basicTab: "normal", attackKey: "" }, value.state.displayOrigins?.uidMainCharacterId === r.characterId ? { uidMainCharacterId: r.characterId } : {});
         return validated;
     }
     function serialize(state = createState()) { return JSON.stringify(state, null, 2); }
@@ -141,6 +141,7 @@
             setField("genshinArtifactSetOne", r.artifactSetIds[0] || "");
             setField("genshinArtifactSetTwo", r.artifactSetIds[1] || "");
             await window.GenshinPartyState.restoreSupportState(r.party || {});
+            window.GenshinPartyState.restoreDisplayOrigins?.(saved.state.displayOrigins || {});
             Object.entries(STAT_FIELDS).forEach(([key, id]) => {
                 const provenance = r.inputProvenance?.fields?.[key] || "manual";
                 setRestoredStat(id, r.stats[key], key, provenance);

@@ -119,12 +119,14 @@ test("inactive party modifiers do not change damage", () => {
     );
 });
 
-test("comparison and party controls are present without nesting member cards on the page", () => {
+test("party editing reuses inline member controls and the existing condition panels", () => {
     const html = read("games/genshin/index.html");
     const renderer = read("games/js/genshinCalcRenderer.js");
     const css = read("games/css/genshin-tool-ui.css");
 
-    assert.match(html, /id="genshinPartyDialogOpen"/);
+    assert.match(html, /id="genshinPartyEditor"/);
+    assert.match(html, /id="genshinPartyInlineConditions"/);
+    assert.doesNotMatch(html, /id="genshinPartyDialogOpen"/);
     assert.match(html, /id="genshinPartyMemberList"/);
     assert.match(read("games/js/genshinPartyState.js"), /id="genshinPartyCharacter\$\{slot\}"/);
     assert.match(read("games/js/genshinPartyState.js"), /id="genshinPartyWeapon\$\{slot\}"/);
@@ -149,4 +151,25 @@ test("party preview uses current equipment only and the shared image resolver", 
  member.equipment.artifactSetMode='none';assert.match(items().artifacts[0].src,/fallback/);
  member.enabled=false;assert.match(items().character.src,/fallback/);assert.match(items().weapon.src,/fallback/);assert.match(items().artifacts[0].src,/fallback/);
  assert.equal(JSON.stringify(sandbox.GenshinPartyState.partyPreviewItems(JSON.parse(JSON.stringify([member])))),JSON.stringify(sandbox.GenshinPartyState.partyPreviewItems([member])));
+});
+
+ test("UID marks require explicit retained import provenance", () => {
+ const {sandbox}=createBrowserScriptHarness(["games/js/genshinPartyState.js"]);
+ const api=sandbox.GenshinPartyState;
+ assert.equal(api.isUidPreviewMember({characterId:"c"}),false);
+ assert.equal(api.isUidPreviewMember({characterId:"c",provenance:{retainedFromUid:true}}),true);
+ assert.equal(api.isUidPreviewMember({characterId:"c",provenance:{retainedFromUid:false}}),false);
+ assert.equal(api.isUidPreviewMember({characterId:"",provenance:{retainedFromUid:true}}),false);
+ });
+
+test("main UID display provenance is set by actual import selection, not a registered profile", () => {
+ const {sandbox}=createBrowserScriptHarness([], {genshinCalcCharacterId:{value:"c"}});
+ const events={}; sandbox.addEventListener=(name,callback)=>{events[name]=callback;};
+ require("node:vm").runInContext(read("games/js/genshinPartyState.js"),sandbox);
+ const api=sandbox.GenshinPartyState; api.registerUidProfile({input:{characterId:"c"}});
+ assert.deepEqual(JSON.parse(JSON.stringify(api.getDisplayOrigins())),{});
+ events["genshin:calculation-input-selected"]({detail:{input:{characterId:"c"}}});
+ assert.equal(api.getDisplayOrigins().uidMainCharacterId,"c");
+ api.restoreDisplayOrigins({uidMainCharacterId:"different"});
+ assert.deepEqual(JSON.parse(JSON.stringify(api.getDisplayOrigins())),{});
 });

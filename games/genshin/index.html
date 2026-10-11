@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="/games/css/style.css?v=20260722-1">
   <link rel="stylesheet" href="/games/css/menu.css">
   <link rel="stylesheet" href="/games/css/tetinet.css?v=20260816-1">
-  <link rel="stylesheet" href="/games/css/genshin-tool-ui.css?v=20261011-reset-1">
+  <link rel="stylesheet" href="/games/css/genshin-tool-ui.css?v=20261011-party-edit-1">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/games/images/icon/te_maru.ico">
   <script src="/games/js/windowLoading.js"></script>
@@ -285,14 +285,16 @@
                   <p>メインキャラを支援する残り3人を設定します。</p>
                 </div>
                 <div class="genshin-party-preview" id="genshinPartyPreview" aria-label="現在のパーティと装備"></div>
-                <div class="genshin-party-launcher">
-                  <div>
-                    <strong>サポートメンバー</strong>
-                    <span id="genshinPartySummary">サポートメンバーは未設定です。</span>
+                <div id="genshinPartyEditor" class="genshin-party-editor">
+                  <div id="genshinPartyMainEdit" class="genshin-party-main-edit">
+                    <button type="button" class="teti-button teti-button-secondary" data-party-main-edit="character">キャラ変更</button>
+                    <button type="button" class="teti-button teti-button-secondary" data-party-main-edit="weapon">武器変更</button>
+                    <button type="button" class="teti-button teti-button-secondary" data-party-main-edit="artifact">聖遺物変更</button>
                   </div>
-                  <button type="button" class="teti-button teti-button-secondary" id="genshinPartyDialogOpen" aria-haspopup="dialog" aria-controls="genshinPartyDialog">メンバーを設定</button>
+                  <div id="genshinPartyMemberList" class="genshin-party-inline-members"></div>
+                  <div id="genshinPartyInlineConditions"></div>
                 </div>
-                <p class="genshin-party-note">メンバーを設定すると、適用可能な効果を補正条件の「パーティ」タブで選べます。</p>
+                <span id="genshinPartySummary" hidden></span>
               </section>
               <section class="genshin-input-step" aria-labelledby="genshinCombatStepTitle">
                 <div class="genshin-input-step-head">
@@ -418,7 +420,7 @@
         <script src="/games/js/genshinIdResolver.js?v=20261008-related-1"></script>
         <script src="/games/js/genshinBaseStats.js?v=20261006-2"></script>
         <script src="/games/js/genshinProfileMapper.js?v=20260916-1"></script>
-        <script src="/games/js/genshinSelectionModal.js?v=20261005-1"></script>
+        <script src="/games/js/genshinSelectionModal.js?v=20261011-party-edit-1"></script>
         <script src="/games/js/genshinEquipmentDetails.js?v=20261007-provider-actions-1"></script>
         <script src="/games/js/genshinCalculatorPresentation.js?v=20260720-2"></script>
         <script src="/games/js/uidStorage.js"></script>
@@ -427,15 +429,15 @@
         <script src="/games/js/genshinCalcData.js?v=20261007-effecttext-1"></script>
         <script src="/games/js/genshinUiLabels.js?v=20260824-1"></script>
         <script src="/games/js/genshinEnemySelector.js?v=20261005-1"></script>
-    <script src="/games/js/genshinPartyState.js?v=20261005-1"></script>
+    <script src="/games/js/genshinPartyState.js?v=20261011-party-edit-1"></script>
         <script src="/games/js/genshinModifierAnalyzer.js?v=20260726-1"></script>
         <script src="/games/js/genshinCalcConditions.js?v=20261011-reset-1"></script>
         <script src="/games/js/genshinElementalResonance.js?v=20260726-1"></script>
         <script src="/games/js/genshinPartyModifiers.js?v=20261008-support-1"></script>
         <script src="/games/js/genshinCalcEngine.js?v=20261008-provider-values-1"></script>
         <script src="/games/js/genshinCalculationComparison.js?v=20260722-1"></script>
-        <script src="/games/js/genshinCalcRenderer.js?v=20261011-reset-1"></script>
-        <script src="/games/js/genshinCurrentCalcState.js?v=20261011-reset-1"></script>
+        <script src="/games/js/genshinCalcRenderer.js?v=20261011-party-edit-1"></script>
+        <script src="/games/js/genshinCurrentCalcState.js?v=20261011-party-edit-1"></script>
       </div>
     </main>
 
@@ -498,27 +500,8 @@
           <button type="button" class="genshin-modal-close genshin-selection-close" id="genshinConditionDialogClose" aria-label="補正条件を閉じる">×</button>
         </header>
         <nav class="genshin-condition-tabs" id="genshinConditionTabs" role="tablist" aria-label="補正条件カテゴリ"></nav>
-        <div class="genshin-modal-scroll-region genshin-equipment-details-body genshin-condition-dialog-body">
+        <div class="genshin-modal-scroll-region genshin-equipment-details-body genshin-condition-dialog-body" id="genshinConditionCardsHome">
           <div id="genshinJsonConditionCards" class="genshin-condition-cards" aria-live="polite"></div>
-        </div>
-      </div>
-    </dialog>
-
-    <dialog class="genshin-modal genshin-modal--party genshin-equipment-details-dialog genshin-party-dialog" id="genshinPartyDialog" aria-labelledby="genshinPartyDialogTitle">
-      <div class="genshin-modal-shell genshin-equipment-details-dialog-inner">
-        <header class="genshin-modal-head genshin-equipment-details-head">
-          <div>
-            <p class="genshin-kicker">PARTY</p>
-            <h2 id="genshinPartyDialogTitle">パーティメンバー</h2>
-          </div>
-          <button type="button" class="genshin-modal-close genshin-selection-close" id="genshinPartyDialogClose" aria-label="パーティ設定を閉じる">×</button>
-        </header>
-        <div class="genshin-equipment-details-body genshin-party-dialog-body">
-          <p class="genshin-party-dialog-help">計算対象は現在選択中のメインキャラです。UIDで取得済みのキャラを残り3枠で選ぶと、レベル・凸・天賦・武器・聖遺物セット・参照ステータスを自動反映します。戦闘中の発動状態は自動でONになりません。</p>
-          <div class="genshin-modal-scroll-region genshin-party-member-list" id="genshinPartyMemberList"></div>
-          <div class="genshin-party-dialog-actions">
-            <button type="button" class="teti-button teti-button-primary" id="genshinPartyDialogDone">設定を完了</button>
-          </div>
         </div>
       </div>
     </dialog>

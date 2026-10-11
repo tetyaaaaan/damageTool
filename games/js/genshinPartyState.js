@@ -11,6 +11,7 @@
     let artifactSets = [];
     let uidMembersByCharacterId = new Map();
     let applyingImportedMember = false;
+    let selectedSlot = 1, uidMainCharacterId = "";
     const partyConditionStateByKey = {};
     const restoredMemberBySlot = new Map();
     let resolveReady;
@@ -147,10 +148,10 @@
         section.className = "genshin-party-member";
         section.dataset.partySlot = String(slot);
         section.innerHTML = `
-          <div class="genshin-party-member-head"><h3 id="genshinPartySlot${slot}Title">メンバー${slot}</h3><button type="button" class="genshin-party-clear" data-party-clear="${slot}">解除</button></div>
+          <div class="genshin-party-member-head"><span id="genshinPartySlot${slot}Title" class="genshin-party-slot-role">サポート</span><button type="button" class="genshin-party-clear" data-party-clear="${slot}">解除</button></div>
           <div class="genshin-party-equipment-row">
             <button type="button" class="genshin-party-pick" id="genshinPartyCharacterTrigger${slot}" data-party-select="character" data-party-slot="${slot}" aria-haspopup="dialog" aria-controls="genshinSelectionDialog">
-              <img id="genshinPartyCharacterImage${slot}" src="${FALLBACK_IMAGE}" alt="" width="56" height="56"><span><small>キャラクター</small><strong id="genshinPartyCharacterName${slot}">選択する</strong></span>
+              <img id="genshinPartyCharacterImage${slot}" src="${FALLBACK_IMAGE}" alt="" width="56" height="56" hidden><span>キャラ変更<strong id="genshinPartyCharacterName${slot}" hidden>選択する</strong></span>
             </button>
             <input type="hidden" id="genshinPartyCharacter${slot}" value="">
             <button type="button" class="genshin-party-pick" id="genshinPartyWeaponTrigger${slot}" data-party-select="weapon" data-party-slot="${slot}" aria-haspopup="dialog" aria-controls="genshinSelectionDialog" disabled>
@@ -346,6 +347,18 @@
         return values.filter(Boolean);
     }
 
+    function isUidPreviewMember(member) {
+        return Boolean(member.characterId && member.provenance?.retainedFromUid === true);
+    }
+    function getDisplayOrigins() { return uidMainCharacterId && uidMainCharacterId === byId('genshinCalcCharacterId')?.value ? { uidMainCharacterId } : {}; }
+    function restoreDisplayOrigins(value) { uidMainCharacterId = value?.uidMainCharacterId === byId('genshinCalcCharacterId')?.value ? value.uidMainCharacterId : ''; updatePartyPreview(); }
+    function selectSlot(slot) {
+        selectedSlot = [1,2,3,4].includes(Number(slot)) ? Number(slot) : 1;
+        document.querySelectorAll('[data-party-preview-slot]').forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.partyPreviewSlot) === selectedSlot)));
+        SUPPORT_SLOTS.forEach(value => { const section = byId('genshinPartyCharacter'+value)?.closest('.genshin-party-member'); if(section) section.hidden = value !== selectedSlot; });
+        if(byId('genshinPartyMainEdit')) byId('genshinPartyMainEdit').hidden = selectedSlot !== 1;
+        window.dispatchEvent(new CustomEvent('genshin:party-slot-selected',{detail:{slot:selectedSlot}}));
+    }
     function partyPreviewItems(members) {
         const resolver = window.GenshinIdResolver;
         return members.map(member => {
@@ -355,6 +368,7 @@
             const ids = mode === 'none' ? [] : [...new Set((equipment.artifactSetIds || []).filter(Boolean))].slice(0,mode === '2pc2pc' ? 2 : 1);
             const image = (kind,id,name) => ({name,src:id ? resolver?.[kind]?.(id) || FALLBACK_IMAGE : FALLBACK_IMAGE});
             return {
+                uid: isUidPreviewMember(member),
                 slot:member.slot, name:enabled ? member.nameJa || characterForId(member.characterId)?.nameJa || 'キャラクター' : '未設定',
                 meta:enabled ? [member.element, 'C' + Number(member.constellation || 0)].filter(Boolean).join(' / ') : '',
                 character:image('resolveCharacterImagePath',enabled ? member.characterId : '',member.nameJa || 'キャラクター未設定'),
@@ -368,17 +382,17 @@
         const preview=byId('genshinPartyPreview');
         if (!preview) return;
         const character=characterForId(byId('genshinCalcCharacterId')?.value);
-        const main={slot:1,enabled:Boolean(character),characterId:character?.id,nameJa:character?.nameJa,element:character?.element,
+        const main={slot:1,provenance:{retainedFromUid:uidMainCharacterId === character?.id},enabled:Boolean(character),characterId:character?.id,nameJa:character?.nameJa,element:character?.element,
             constellation:String(byId('genshinReflectConstellation')?.value || '').replace(/^C/,''),
             equipment:{weaponId:byId('genshinCalcWeaponId')?.value,artifactSetMode:byId('genshinArtifactSetMode')?.value,
                 artifactSetIds:[byId('genshinArtifactSetOne')?.value,byId('genshinArtifactSetTwo')?.value]}};
         const escape=value=>String(value ?? '').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
         const icon=(item,css)=>'<img class="'+css+'" src="'+escape(item.src)+'" alt="'+escape(item.name)+'" title="'+escape(item.name)+'" width="32" height="32">';
         preview.innerHTML=partyPreviewItems([main,...SUPPORT_SLOTS.map(readSupportMember)]).map(item=>
-            '<div class="genshin-party-preview-member" data-party-preview-slot="'+item.slot+'">'
-            +icon({...item.character,name:item.name},'genshin-party-preview-character')
+            '<button type="button" class="genshin-party-preview-member" aria-pressed="'+(item.slot===selectedSlot)+'" aria-label="'+escape((item.slot===1?'計算対象':'サポート'+item.slot)+'：'+item.name+(item.uid?'、UIDから取得':''))+'" data-party-preview-slot="'+item.slot+'">'
+            +(item.uid?'<span class="genshin-party-uid-mark" title="UIDから取得">UID</span>':'')+icon({...item.character,name:item.name},'genshin-party-preview-character')
             +'<div class="genshin-party-preview-equipment">'+icon(item.weapon,'genshin-party-preview-icon')+item.artifacts.map(artifact=>icon(artifact,'genshin-party-preview-icon')).join('')+'</div>'
-            +'<strong>'+escape(item.name)+'</strong><small>'+escape(item.meta)+'</small></div>').join('');
+            +'<strong>'+escape(item.name)+'</strong><small>'+escape(item.meta)+'</small></button>').join('');
         preview.querySelectorAll('img').forEach(img=>img.addEventListener('error',()=>{img.src=FALLBACK_IMAGE;},{once:true}));
     }
 
@@ -442,6 +456,7 @@
             ? `基礎HP ${Math.round(base.baseHp).toLocaleString("ja-JP")}／基礎攻撃力 ${Math.round(base.baseAtk).toLocaleString("ja-JP")}／基礎防御力 ${Math.round(base.baseDef).toLocaleString("ja-JP")}`
             : selected ? "基礎値データを取得できません。" : "キャラと武器を選ぶと基礎値を自動取得します。";
         updateSummary();
+        window.dispatchEvent(new CustomEvent("genshin:party-equipment-changed"));
     }
 
     function writeImportedValue(id, value) {
@@ -623,6 +638,7 @@
         });
         list?.addEventListener("click", (event) => { const button = event.target.closest("[data-party-clear]"); if (button) clearSlot(Number(button.dataset.partyClear)); });
         byId("genshinCalcCharacterId")?.addEventListener("input", () => {
+            uidMainCharacterId = "";
             SUPPORT_SLOTS.forEach((slot) => { if (byId(`genshinPartyCharacter${slot}`)?.value === byId("genshinCalcCharacterId")?.value) clearSlot(slot); else syncSlot(slot); });
         });
         document.addEventListener("input", event => { if (["genshinCalcCharacterId","genshinCalcWeaponId","genshinReflectConstellation","genshinArtifactSetMode","genshinArtifactSetOne","genshinArtifactSetTwo"].includes(event.target?.id)) updatePartyPreview(); });
@@ -633,6 +649,9 @@
         byId("genshinPartyDialogDone")?.addEventListener("click", closeDialog);
         dialog?.addEventListener("click", (event) => { if (event.target === dialog) closeDialog(); });
         updateSummary();
+        byId('genshinPartyPreview')?.addEventListener('click',event=>{const button=event.target.closest('[data-party-preview-slot]');if(button)selectSlot(button.dataset.partyPreviewSlot);});
+        document.querySelectorAll('[data-party-main-edit]').forEach(button=>button.addEventListener('click',()=>window.GenshinSelectionModal.openSelection(button.dataset.partyMainEdit,button)));
+        selectSlot(selectedSlot);
         initialized = true;
         pendingRestores.splice(0).forEach((restore) => restore());
         resolveReady(window.GenshinPartyState);
@@ -644,7 +663,7 @@
     }
 
     window.GenshinPartyState = {
-        PARTY_SIZE, SUPPORT_SLOTS, partyPreviewItems, emptySupportMember, normalizeSupportMember, normalizePartyState,
+        PARTY_SIZE, SUPPORT_SLOTS, partyPreviewItems, isUidPreviewMember, getDisplayOrigins, restoreDisplayOrigins, getSelectedSlot:()=>selectedSlot, selectSlot, emptySupportMember, normalizeSupportMember, normalizePartyState,
         getSupportState, setBuffEnabled, getBuffEnabled, setPartyConditionState, getPartyConditionState, getPartyConditionStates, setPartySelection,
         selectedCharacterIds, characterForId, weaponForId, artifactForId,
         applyImportedMemberToSlot, registerUidProfile, restoreSupportState, ready
@@ -652,7 +671,7 @@
 
     // UID mapping may finish while the async catalog initialization above is still
     // pending. Register immediately so the selected profile is never dropped.
-    window.addEventListener?.("genshin:calculation-input-selected", (event) => registerUidProfile(event.detail || {}));
+    window.addEventListener?.("genshin:calculation-input-selected", (event) => { registerUidProfile(event.detail || {}); uidMainCharacterId = String(event.detail?.input?.characterId || ""); updatePartyPreview(); });
 
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
     else init();

@@ -232,3 +232,14 @@ test("applying an empty initial snapshot clears old damage without deleting inde
     assert.equal(f.elements.genshinCalcCharacterId.value, "");
     assert.deepEqual(independent, { preset: "retained", uid: "retained", otherMode: "retained" });
 });
+
+test("party UID display origin is optional, sanitized and separate from calculation request", () => {
+ const f=fixture(); const api=f.sandbox.GenshinCurrentCalcState; const request=f.sandbox.GenshinCalcEngine.buildCalculationRequestFromForm();
+ const state=api.createState(request,{}, {uidMainCharacterId:request.characterId});
+ assert.equal(api.parse(api.serialize(state),f.calcData).state.displayOrigins.uidMainCharacterId,request.characterId);
+ assert.deepEqual(plain(state.state.request),plain(request));
+ state.state.displayOrigins.uidMainCharacterId="other";
+ assert.deepEqual(plain(api.parse(api.serialize(state),f.calcData).state.displayOrigins),{});
+ delete state.state.displayOrigins;
+ assert.deepEqual(plain(api.parse(api.serialize(state),f.calcData).state.displayOrigins),{});
+});
