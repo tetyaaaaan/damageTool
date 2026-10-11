@@ -119,14 +119,15 @@ test("inactive party modifiers do not change damage", () => {
     );
 });
 
-test("party editing reuses inline member controls and the existing condition panels", () => {
+test("party overview opens the support-only modal without inline editing", () => {
     const html = read("games/genshin/index.html");
     const renderer = read("games/js/genshinCalcRenderer.js");
     const css = read("games/css/genshin-tool-ui.css");
 
-    assert.match(html, /id="genshinPartyEditor"/);
-    assert.match(html, /id="genshinPartyInlineConditions"/);
-    assert.doesNotMatch(html, /id="genshinPartyDialogOpen"/);
+    assert.match(html, /id="genshinPartyDialogOpen"/);
+    assert.match(html, /id="genshinPartyDialog"/);
+    assert.doesNotMatch(html, /genshinPartyEditor|genshinPartyInlineConditions|data-party-main-edit/);
+    assert.doesNotMatch(renderer, /syncInlinePartyConditions|party-slot-selected/);
     assert.match(html, /id="genshinPartyMemberList"/);
     assert.match(read("games/js/genshinPartyState.js"), /id="genshinPartyCharacter\$\{slot\}"/);
     assert.match(read("games/js/genshinPartyState.js"), /id="genshinPartyWeapon\$\{slot\}"/);

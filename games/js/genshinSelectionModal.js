@@ -541,7 +541,7 @@
         openDialog(mode, trigger, artifactSlot, "party", numericSlot);
     }
 
-    window.GenshinSelectionModal = { openPartySelection, openSelection: (mode,trigger) => openDialog(mode,trigger), ready };
+    window.GenshinSelectionModal = { openPartySelection, ready };
 
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
     else init();
