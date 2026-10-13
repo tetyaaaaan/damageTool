@@ -3336,4 +3336,3 @@ html[data-theme="dark"] .genshin-tool-page {
 
 .genshin-selection-group-heading { grid-column:1 / -1;margin:10px 0 2px;font-size:.95rem;color:var(--teti-text); }
 .genshin-selection-option--uid { position:relative; }
-.genshin-selection-uid-mark { position:absolute;top:4px;right:4px;padding:1px 4px;font-size:.6rem;border-radius:3px;background:var(--teti-interactive);color:var(--teti-on-brand,white); }

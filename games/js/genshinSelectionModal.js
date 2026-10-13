@@ -284,12 +284,7 @@
             }
             if (group.uid) {
                 button.classList.add("genshin-selection-option--uid");
-                const mark = document.createElement("span");
-                mark.className = "genshin-selection-uid-mark";
-                mark.textContent = "UID";
-                mark.title = "UIDから取得";
                 button.setAttribute("aria-label", button.getAttribute("aria-label") + "、UIDから取得");
-                button.appendChild(mark);
             }
             list.appendChild(button);
         });
