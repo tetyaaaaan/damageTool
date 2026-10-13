@@ -11,6 +11,7 @@
     let artifactSets = [];
     let uidMembersByCharacterId = new Map();
     let registeredUidProfile = null;
+    let uidInventoryUid = "", hasUidInventory = false;
     let applyingImportedMember = false;
     let uidMainCharacterId = "";
     const partyConditionStateByKey = {};
@@ -320,9 +321,7 @@
                 byId(`genshinPartyCharacter${slot}`).dataset.valueOrigin = characterOrigin;
                 // Reuse the UID importer registry contract to preserve exact
                 // provider base stats and profile provenance when present.
-                if (member.provenance?.source === "uidProfile") {
-                    uidMembersByCharacterId.set(String(member.characterId), member);
-                }
+                rememberRestoredUidMember(member);
                 restoredMemberBySlot.set(slot, normalizeSupportMember(member, slot));
                 syncSlot(slot);
                 Object.entries(member.buffStates || {}).forEach(([key, enabled]) => { buffStateByKey[key] = Boolean(enabled); });
@@ -512,7 +511,7 @@
     function saveUidInventory() {
         try {
             const members = [...uidMembersByCharacterId.values()].filter(reusableUidMember);
-            window.localStorage?.setItem(UID_INVENTORY_STORAGE_KEY, JSON.stringify({ schemaVersion: 1, members }));
+            window.localStorage?.setItem(UID_INVENTORY_STORAGE_KEY, JSON.stringify({ schemaVersion: 1, uid: uidInventoryUid, members }));
         } catch (_) { /* The live imported roster remains usable when storage is unavailable. */ }
     }
 
@@ -520,16 +519,31 @@
         try {
             const saved = JSON.parse(window.localStorage?.getItem(UID_INVENTORY_STORAGE_KEY) || "null");
             if (saved?.schemaVersion !== 1 || !Array.isArray(saved.members) || saved.members.length > 200) return;
+            uidInventoryUid = /^\d{8,10}$/.test(saved.uid || "") ? saved.uid : "";
             saved.members.filter(reusableUidMember).forEach(member => {
                 const character = characterForId(member.characterId), weapon = weaponForId(member.equipment.weaponId);
                 if (!character || (member.equipment.weaponId && (!weapon || weapon.weaponType !== character.weaponType))) return;
                 if (!uidMembersByCharacterId.has(member.characterId)) uidMembersByCharacterId.set(member.characterId, normalizeSupportMember(member, 2));
             });
+            hasUidInventory = uidMembersByCharacterId.size > 0;
+            if (!hasUidInventory) uidInventoryUid = "";
         } catch (_) { /* Invalid or older optional caches do not affect saved calculation inputs. */ }
+    }
+
+    function rememberRestoredUidMember(member) {
+        // Mixed form edits are not a new UID build: reuse only the retained original snapshot.
+        if (hasUidInventory || !isUidPreviewMember(member) || member.profileSnapshot?.source !== "uidProfile") return;
+        const input = window.GenshinDataContract?.createCalculationInput?.(member.profileSnapshot, "uidProfile");
+        const original = window.GenshinDataContract?.createPartyMemberFromCalculationInput?.(input, 2);
+        if (!reusableUidMember(original) || original.characterId !== member.characterId) return;
+        uidMembersByCharacterId.set(original.characterId, original);
+        saveUidInventory();
     }
 
     function populateUidInventory(detail = {}) {
         registeredUidProfile = detail.profile || null;
+        uidInventoryUid = /^\d{8,10}$/.test(detail.profile?.player?.uid || "") ? detail.profile.player.uid : "";
+        hasUidInventory = true;
         const mapper = window.GenshinProfileMapper;
         const contract = window.GenshinDataContract;
         const mappedCharacters = Array.isArray(detail.profile?.characters) ? detail.profile.characters : [];
@@ -701,7 +715,7 @@
     }
 
     window.GenshinPartyState = {
-        PARTY_SIZE, SUPPORT_SLOTS, partyPreviewItems, isUidPreviewMember, getUidCharacterIds, restoreUidInventory, getDisplayOrigins, restoreDisplayOrigins, emptySupportMember, normalizeSupportMember, normalizePartyState,
+        PARTY_SIZE, SUPPORT_SLOTS, partyPreviewItems, isUidPreviewMember, getUidCharacterIds, restoreUidInventory, rememberRestoredUidMember, getDisplayOrigins, restoreDisplayOrigins, emptySupportMember, normalizeSupportMember, normalizePartyState,
         getSupportState, setBuffEnabled, getBuffEnabled, setPartyConditionState, getPartyConditionState, getPartyConditionStates, setPartySelection,
         selectedCharacterIds, characterForId, weaponForId, artifactForId,
         applyImportedMemberToSlot, registerUidProfile, restoreSupportState, ready

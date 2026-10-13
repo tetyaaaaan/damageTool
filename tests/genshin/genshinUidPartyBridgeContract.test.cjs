@@ -347,3 +347,32 @@ test("full fetched inventory persists unselected builds and restores without fet
  values.set(key,"{broken");assert.deepEqual(Array.from((await inventorySandbox(storage)).GenshinPartyState.getUidCharacterIds()),[]);
  values.set(key,JSON.stringify({...cached,schemaVersion:999}));assert.deepEqual(Array.from((await inventorySandbox(storage)).GenshinPartyState.getUidCharacterIds()),[]);
 });
+
+test("legacy mixed UID party builds restore original candidate data without replacing manual edits", async () => {
+ const values=new Map(),storage={getItem:key=>values.get(key)||null,setItem:(key,value)=>values.set(key,value)};
+ const sandbox=await inventorySandbox(storage);
+ const record={...UID_CHARACTER_FIXTURE,id:"10000089",artifacts:[]};
+ const input=sandbox.GenshinDataContract.createCalculationInput(record,"uidProfile");
+ const member=sandbox.GenshinDataContract.createPartyMemberFromCalculationInput(input,2);
+ member.provenance.source="mixed";member.stats.atk=9999;
+ sandbox.GenshinPartyState.rememberRestoredUidMember(member);
+ assert.deepEqual(Array.from(sandbox.GenshinPartyState.getUidCharacterIds()),["10000089"]);
+ assert.equal(member.stats.atk,9999);
+ assert.equal(JSON.parse([...values.values()][0]).members[0].stats.atk,3456.89);
+ assert.deepEqual(Array.from((await inventorySandbox(storage)).GenshinPartyState.getUidCharacterIds()),["10000089"]);
+});
+
+test("a fresh UID roster replaces the prior UID and is not extended by old selected builds", async () => {
+ const values=new Map(),storage={getItem:key=>values.get(key)||null,setItem:(key,value)=>values.set(key,value)};
+ const sandbox=await inventorySandbox(storage);
+ sandbox.GenshinProfileMapper={toCalculationInput:r=>sandbox.GenshinDataContract.createCalculationInput(r,"uidProfile")};
+ const a={...UID_CHARACTER_FIXTURE,id:"10000089",artifacts:[]},b={...UID_CHARACTER_FIXTURE,id:"10000042",artifacts:[]};
+ sandbox.GenshinPartyState.registerUidProfile({profile:{player:{uid:"802454312"},characters:[a]}});
+ sandbox.GenshinPartyState.registerUidProfile({profile:{player:{uid:"800000001"},characters:[b]}});
+ const old=sandbox.GenshinDataContract.createPartyMemberFromCalculationInput(sandbox.GenshinProfileMapper.toCalculationInput(a),2);
+ sandbox.GenshinPartyState.rememberRestoredUidMember(old);
+ assert.deepEqual(Array.from(sandbox.GenshinPartyState.getUidCharacterIds()),["10000042"]);
+ assert.equal(JSON.parse([...values.values()][0]).uid,"800000001");
+ b.stats={...b.stats,atk:4321};sandbox.GenshinPartyState.registerUidProfile({profile:{player:{uid:"800000001"},characters:[b]}});
+ assert.equal(JSON.parse([...values.values()][0]).members[0].stats.atk,4321);
+});
