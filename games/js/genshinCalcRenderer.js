@@ -67,6 +67,11 @@
         return Number.isFinite(num) ? num.toFixed(digits) : "-";
     }
 
+    function formatOperand(value) {
+        const number = Number(value);
+        return Number.isFinite(number) ? number.toLocaleString("ja-JP", { maximumFractionDigits: 4 }) : "-";
+    }
+
     function numberOr(value, fallback = 0) {
         const number = Number(value);
         return Number.isFinite(number) ? number : fallback;
@@ -302,6 +307,13 @@
             && (modifier.id ? trace.modifierId === modifier.id : true));
     }
 
+    function providerCoefficientStat(modifier) {
+        if (!modifier.partySource || modifier.partySourceKind !== "talent" || modifier.unit !== "percent"
+            || modifier.percentBaseOwner === "recipient") return "";
+        const target = (modifier.applyTo || [])[0]?.replace(/(?:Percent|Flat)$/, "");
+        return ({ atk: "baseAtk", hp: "baseHp", def: "baseDef" })[target] || "";
+    }
+
     function modifierDisplayItem(item, statTrace = []) {
         const modifier = item.modifier || {};
         const category = MODIFIER_CATEGORY_LABELS[modifier.category] || "補正効果";
@@ -317,7 +329,9 @@
         const value = trace
             ? trace.referenceStat
                 ? `${Number(trace.value) >= 0 ? "+" : ""}${formatDecimal(trace.value)} ／ ${statLabel(trace.referenceStat)}${Number(trace.referenceValue).toLocaleString("ja-JP", { maximumFractionDigits: 4 })} × ${Number(trace.coefficient).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}${Number.isFinite(Number(trace.maxValue)) ? ` / 上限${Number(trace.maxValue).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}` : ""}`
-                : `${Number(trace.value) >= 0 ? "+" : ""}${formatNumber(trace.value)}`
+                : providerCoefficientStat(modifier) && Number.isFinite(Number(item.valueContext?.stats?.[providerCoefficientStat(modifier)]))
+                    ? `${userFacingLabel(modifier.partyProviderName, "提供者")}の${({baseAtk:"基礎攻撃力",baseHp:"基礎HP",baseDef:"基礎防御力"})[providerCoefficientStat(modifier)]} ${formatOperand(item.valueContext.stats[providerCoefficientStat(modifier)])} × 係数 ${formatDecimal(numericValue)}% → ${statLabel(trace.stat)} +${formatOperand(trace.value)}`
+                    : `${Number(trace.value) >= 0 ? "+" : ""}${formatNumber(trace.value)}`
             : modifier.category === "reactionBaseDamageBonus" && modifier.rounding === "continuous"
                 ? `+${Number(item.value).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}% ／ ${statLabel(modifier.reference?.stat)}${Number(item.valueContext?.stats?.[modifier.reference?.stat] || 0).toLocaleString("ja-JP", { maximumFractionDigits: 4 })} × ${Number(modifier.ratio / modifier.divisor).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}% / 上限${modifier.maxValue}%`
                 : rawValue;
@@ -397,6 +411,9 @@
                 effectOverrides,
                 effects: effectsByStage.special || []
             },
+            calculationSteps: breakdown.calculationSteps || [],
+            final: { nonCrit: result.nonCrit, crit: result.crit, expected: result.expected },
+            valid: !(result.problems || []).length,
             influence: (breakdown.damageInfluence || []).map((item) => ({
                 key: item.key || "other",
                 label: item.label || "その他",
@@ -419,7 +436,7 @@
 
     function renderAppliedEffects(effects) {
         if (!effects.length) return "";
-        return `<ul class="genshin-breakdown-effects">${effects.map((effect) => `<li><span>${escapeEffectLabel(effect.label)}</span>${effect.value ? `<strong>${escapeHtml(effect.value)}</strong>` : ""}</li>`).join("")}</ul>`;
+        return `<ul class="genshin-breakdown-effects">${effects.map((effect) => `<li${/[→／]/.test(effect.value || "") ? ' class="is-reference-calculation"' : ""}><span>${escapeEffectLabel(effect.label)}</span>${effect.value ? `<strong>${escapeHtml(effect.value)}</strong>` : ""}</li>`).join("")}</ul>`;
     }
 
     function renderFriendlyBreakdownSection(title, rows, extra = "") {
@@ -450,13 +467,13 @@
             label: part.stat,
             value: part.fixed
                 ? formatDamageNumber(part.baseDamage)
-                : `${formatNumber(part.statValue)} × ${formatDecimal(part.talentMultiplier)}% = ${formatDamageNumber(part.baseDamage)}`
+                : `${formatOperand(part.statValue)} × ${formatOperand(part.talentMultiplier)}% = ${formatOperand(part.baseDamage)}`
         }));
-        scalingRows.push({ label: "基礎ダメージ合計", value: formatDamageNumber(view.base.baseDamage) });
-        const buffRows = [{
+        scalingRows.push({ label: "基礎ダメージ合計", value: formatOperand(view.base.baseDamage) });
+        const buffRows = view.buffs.damageBonus ? [{
             label: "ダメージバフ合計",
             value: `${view.buffs.damageBonus > 0 ? "+" : ""}${formatDecimal(view.buffs.damageBonus)}%`
-        }];
+        }] : [];
         const reactionRows = view.reaction ? [
             { label: "元素反応", value: view.reaction.label },
             { label: "反応倍率", value: `×${formatDecimal(view.reaction.multiplier, 2)}` }
@@ -483,6 +500,35 @@
         const statRows = (result.breakdown?.statTrace || []).some((trace) => trace.stat === "elementalMastery" && trace.referenceStat)
             ? [{ label: "元素熟知（補正後）", value: formatNumber(result.breakdown?.inputStats?.elementalMastery) }]
             : [];
+        const stepSections = view.calculationSteps.map((step, index) => {
+            const rows = [];
+            if (step.multiplier !== undefined) rows.push({ label: "適用倍率", value: `×${formatDecimal(step.multiplier, 4)}` });
+            if (step.addition !== undefined) rows.push({ label: "加算量", value: `+${formatOperand(step.addition)}` });
+            if (step.value !== undefined) rows.push({ label: "この段階のダメージ", value: formatOperand(step.value) });
+            if (step.stage === "reaction" && view.calculationSteps.findIndex(item => item.stage === "reaction") === index) {
+                if (view.reaction) rows.unshift({ label: "元素反応", value: view.reaction.label });
+                if (view.reaction?.elementalMasteryBonus) rows.push({ label: "元素熟知による補正", value: `+${formatDecimal(view.reaction.elementalMasteryBonus)}%` });
+                if (view.reaction?.reactionBonus) rows.push({ label: "反応ダメージ補正", value: `+${formatDecimal(view.reaction.reactionBonus)}%` });
+            }
+            if (step.label === "敵の耐性") rows.unshift({ label: `敵の${view.element}耐性`, value: view.enemy.immunity ? "無効" : `${formatDecimal(view.enemy.resistance)}%` });
+            if (step.label === "敵の防御") {
+                if (view.enemy.defenseReduction) rows.unshift({ label: "防御デバフ", value: `${formatDecimal(view.enemy.defenseReduction)}%` });
+                if (view.enemy.defenseIgnore) rows.unshift({ label: "防御無視", value: `${formatDecimal(view.enemy.defenseIgnore)}%` });
+            }
+            const firstStage = view.calculationSteps.findIndex(item => item.stage === step.stage) === index;
+            const effects = firstStage && step.stage !== "base" ? (view[step.stage === "buff" ? "buffs" : step.stage]?.effects || []) : [];
+            return renderFriendlyBreakdownSection(`${index + 2}. ${step.label}`, rows, renderAppliedEffects(effects));
+        }).join("");
+        const finalRows = view.valid ? [
+            { label: "非会心", value: formatDamageNumber(view.final.nonCrit) },
+            { label: "会心", value: formatDamageNumber(view.final.crit) },
+            { label: "期待値", value: formatDamageNumber(view.final.expected) }
+        ] : [];
+        const runtimeFlow = view.calculationSteps.length ?
+            renderFriendlyBreakdownSection("計算時ステータス", statRows)
+            + renderFriendlyBreakdownSection("1. 基礎ダメージ", scalingRows, renderAppliedEffects(view.base.effects))
+            + stepSections
+            + renderFriendlyBreakdownSection("会心・最終ダメージ（1ヒット）", criticalRows.concat(finalRows), renderAppliedEffects(view.critical.effects)) : "";
         return `
             <div class="genshin-json-breakdown">
                 <h5 class="genshin-breakdown-title">計算の流れ</h5>
@@ -493,6 +539,7 @@
                     <span>${escapeHtml(view.hitCount)}ヒット</span>
                 </div>
                 <div class="genshin-breakdown-flow">
+                    ${runtimeFlow || `
                     ${renderFriendlyBreakdownSection("計算時ステータス", statRows)}
                     ${renderFriendlyBreakdownSection("1. 基礎ダメージ", scalingRows, renderAppliedEffects(view.base.effects))}
                     ${renderFriendlyBreakdownSection("2. ダメージバフ", buffRows, renderAppliedEffects(view.buffs.effects))}
@@ -500,6 +547,8 @@
                     ${renderFriendlyBreakdownSection(view.reaction ? "4. 敵への補正" : "3. 敵への補正", enemyRows, renderAppliedEffects(view.enemy.effects))}
                     ${renderFriendlyBreakdownSection(view.reaction ? "5. 会心" : "4. 会心", criticalRows, renderAppliedEffects(view.critical.effects))}
                     ${view.special.visible || view.special.effects.length ? renderFriendlyBreakdownSection(view.reaction ? "6. 特殊補正" : "5. 特殊補正", specialRows, renderAppliedEffects(view.special.effects)) : ""}
+                    ${renderFriendlyBreakdownSection("最終ダメージ（1ヒット）", finalRows)}
+                    `}
                 </div>
                 ${renderDamageInfluence(view.influence)}
                 <details class="genshin-json-debug-details">
@@ -1148,8 +1197,9 @@
     function impactRowText(row) {
         if (row.value === null) return row.label + '：' + row.reason;
         const value = Number(Number(row.value).toPrecision(12));
+        const displayValue = value.toLocaleString("ja-JP", { maximumFractionDigits: 4 });
         const sign = /敵の.*(?:耐性|低下)/.test(row.label) ? '-' : '+';
-        return row.label + ' ' + (row.unit === 'multiplier' ? '×' + value : row.unit === 'fixedPercent' ? value + '%' : sign + value + (row.unit === 'percent' ? '%' : '')) + (row.reason ? '　' + row.reason : '');
+        return row.label + ' ' + (row.unit === 'multiplier' ? '×' + displayValue : row.unit === 'fixedPercent' ? displayValue + '%' : sign + displayValue + (row.unit === 'percent' ? '%' : '')) + (row.reason ? '　' + row.reason : '');
     }
     function renderRuntimeImpact(effect) {
         return (effect.runtimeRows || [{label:effect.displayTarget || '補正',value:null,reason:'現在値を算出できません'}]).map(row => {
@@ -1426,7 +1476,7 @@
         }
         if (['statBonus','statConversion','scalingStatBonus'].includes(calculation)) {
             return targets.map(target => {
-                const percent = calculation === 'statBonus' && modifier.unit === 'percent' && /Percent$/.test(target);
+                const percent = calculation === 'statBonus' && modifier.unit === 'percent' && /Percent$/.test(target) && !providerCoefficientStat(modifier);
                 const stat = target.replace(/(?:Percent|Flat)$/, '');
                 const crit = stat === 'critRate' || stat === 'critDamage';
                 return {key:'stat:' + stat + ':' + (percent ? 'percent' : 'flat'),bucket:crit ? stat + 'Bonus' : 'stat',stat,target,label:stat === 'hp' ? 'HP上限' : label(target),unit:crit || percent ? 'percent' : 'flat',statPercent:percent};
@@ -1469,7 +1519,7 @@
                 row.state = alternate?'notApplicable':allOff?'conditionOff':'unavailable';rows.push(row);continue;
             }
             if (group.bucket === 'stat') {
-                const traced = evaluation.trace.filter(trace=>trace.stat === group.stat && accepted.some(item=>trace.source === item.source && trace.modifierId === item.modifier.id));
+                const traced = evaluation.trace.filter(trace=>trace.stat === group.stat && accepted.some(item=>trace.source === item.source && (trace.modifierId || "") === (item.modifier.id || "")));
                 row.value = group.statPercent ? accepted.reduce((total,item)=>total + Number(item.value || 0),0) : traced.reduce((total,trace)=>total + trace.value,0);
                 if (!group.statPercent && !traced.length) {row.value=null;row.reason='現在値を算出できません';row.state='unavailable';}
             } else {
@@ -1563,7 +1613,7 @@
         // Facts are useful as details only when native trace links operands to a result.
         for (const item of evaluation?.collected.applied || []) {
             if (!effects.some(effect => effect.source === item.source && effect.modifier.id === item.modifier.id)) continue;
-            const trace = evaluation.trace.find(trace => trace.source === item.source && trace.modifierId === item.modifier.id);
+            const trace = evaluation.trace.find(trace => trace.source === item.source && (trace.modifierId || "") === (item.modifier.id || ""));
             if (!trace) continue;
             const referenceStat = trace.referenceStat || item.modifier.reference?.stat;
             const referenceValue = trace.referenceValue ?? item.valueContext?.stats?.[referenceStat];

@@ -2245,7 +2245,8 @@
             const effectiveResistance = resolveEffectiveResistance(context.enemy, resistanceElement, appliedModifiers.totals.resistanceDebuff);
             const immune = enemyIsImmune(context.enemy, resistanceElement);
             const resMultiplier = immune ? 0 : resistanceMultiplier(effectiveResistance);
-            const nonCrit = baseDamage * resMultiplier * appliedModifiers.totals.finalDamageMultiplier;
+            const damageAfterResistance = baseDamage * resMultiplier;
+            const nonCrit = damageAfterResistance * appliedModifiers.totals.finalDamageMultiplier;
             const critRate = context.stats.critRate + (appliedModifiers.totals.critRateBonus || 0) + (appliedModifiers.totals.reactionCritRate || 0);
             const critDamage = context.stats.critDamage + (appliedModifiers.totals.critDamageBonus || 0) + (appliedModifiers.totals.reactionCritDamage || 0);
             const crit = nonCrit * (1 + critDamage / 100);
@@ -2279,6 +2280,17 @@
                     statBonus: appliedModifiers.totals.statBonus,
                     additiveBaseDamage: appliedModifiers.totals.additiveBaseDamage,
                     reactionBaseDamageBonus: baseDamageBonus,
+                    baseTalentDamageMultiplier,
+                    calculationSteps: problems.length ? [] : [
+                        ...(baseTalentDamageMultiplier !== 1 ? [{ stage: "base", label: "天賦基礎ダメージ倍率", multiplier: baseTalentDamageMultiplier, value: scaledTalentBaseDamage }] : []),
+                        { stage: "reaction", label: "専用反応の基礎係数", multiplier: coefficient, value: directCoefficientDamage },
+                        ...(baseDamageBonus ? [{ stage: "reaction", label: "反応基礎ダメージ補正", multiplier: 1 + baseDamageBonus / 100, value: directBaseBonusDamage }] : []),
+                        ...(appliedModifiers.totals.additiveBaseDamage ? [{ stage: "reaction", label: "基礎ダメージ加算", addition: appliedModifiers.totals.additiveBaseDamage }] : []),
+                        ...(appliedModifiers.totals.reactionAdditiveBaseDamage ? [{ stage: "reaction", label: "反応基礎ダメージ加算", addition: appliedModifiers.totals.reactionAdditiveBaseDamage }] : []),
+                        ...((emBonus || reactionBonus || appliedModifiers.totals.additiveBaseDamage || appliedModifiers.totals.reactionAdditiveBaseDamage) ? [{ stage: "reaction", label: "反応補正・基礎加算後", value: baseDamage }] : []),
+                        { stage: "enemy", label: "敵の耐性", multiplier: resMultiplier, value: damageAfterResistance },
+                        ...(appliedModifiers.totals.finalDamageMultiplier !== 1 ? [{ stage: "special", label: "独立倍率", multiplier: appliedModifiers.totals.finalDamageMultiplier, value: nonCrit }] : [])
+                    ],
                     reactionBonus,
                     reactionAdditiveBaseDamage: appliedModifiers.totals.reactionAdditiveBaseDamage,
                     finalDamageMultiplier: appliedModifiers.totals.finalDamageMultiplier,
@@ -2337,7 +2349,11 @@
         const effectiveResistance = resolveEffectiveResistance(context.enemy, resistanceElement, appliedModifiers.totals.resistanceDebuff);
         const immune = enemyIsImmune(context.enemy, resistanceElement);
         const resMultiplier = immune ? 0 : resistanceMultiplier(effectiveResistance);
-        const nonCrit = baseDamage * damageBonusMultiplier * defMultiplier * resMultiplier * reaction.multiplier * appliedModifiers.totals.finalDamageMultiplier;
+        const damageAfterBuff = baseDamage * damageBonusMultiplier;
+        const damageAfterDefense = damageAfterBuff * defMultiplier;
+        const damageAfterResistance = damageAfterDefense * resMultiplier;
+        const damageAfterReaction = damageAfterResistance * reaction.multiplier;
+        const nonCrit = damageAfterReaction * appliedModifiers.totals.finalDamageMultiplier;
         const critRate = context.stats.critRate + (appliedModifiers.totals.critRateBonus || 0);
         const critDamage = context.stats.critDamage + (appliedModifiers.totals.critDamageBonus || 0);
         const crit = nonCrit * (1 + critDamage / 100);
@@ -2376,6 +2392,17 @@
                 statBonus: appliedModifiers.totals.statBonus,
                 additiveBaseDamage: appliedModifiers.totals.additiveBaseDamage,
                 reactionAdditiveBaseDamage: reaction.additiveBaseDamage,
+                calculationSteps: problems.length ? [] : [
+                    ...(baseTalentDamageMultiplier !== 1 ? [{ stage: "base", label: "天賦基礎ダメージ倍率", multiplier: baseTalentDamageMultiplier, value: scaledTalentBaseDamage }] : []),
+                    ...(appliedModifiers.totals.additiveBaseDamage ? [{ stage: "base", label: "基礎ダメージ加算", addition: appliedModifiers.totals.additiveBaseDamage }] : []),
+                    ...(reaction.additiveBaseDamage ? [{ stage: "base", label: "加算反応の基礎ダメージ", addition: reaction.additiveBaseDamage }] : []),
+                    ...((appliedModifiers.totals.additiveBaseDamage || reaction.additiveBaseDamage) ? [{ stage: "base", label: "加算後の基礎ダメージ", value: baseDamage }] : []),
+                    ...(damageBonusMultiplier !== 1 ? [{ stage: "buff", label: "ダメージバフ", multiplier: damageBonusMultiplier, value: damageAfterBuff }] : []),
+                    { stage: "enemy", label: "敵の防御", multiplier: defMultiplier, value: damageAfterDefense },
+                    { stage: "enemy", label: "敵の耐性", multiplier: resMultiplier, value: damageAfterResistance },
+                    ...(reaction.multiplier !== 1 ? [{ stage: "reaction", label: "反応補正", multiplier: reaction.multiplier, value: damageAfterReaction }] : []),
+                    ...(appliedModifiers.totals.finalDamageMultiplier !== 1 ? [{ stage: "special", label: "独立倍率", multiplier: appliedModifiers.totals.finalDamageMultiplier, value: nonCrit }] : [])
+                ],
                 reactionBonus: appliedModifiers.totals.reactionBonus,
                 finalDamageMultiplier: appliedModifiers.totals.finalDamageMultiplier,
                 baseTalentDamageMultiplier,

@@ -3708,6 +3708,17 @@ html[data-theme="dark"] .genshin-tool-page .genshin-json-calc-warnings.is-provis
   white-space: nowrap;
 }
 
+.genshin-tool-page .genshin-breakdown-effects li.is-reference-calculation {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.genshin-tool-page .genshin-breakdown-effects li.is-reference-calculation strong {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .genshin-tool-page .genshin-json-debug-details {
   margin-top: 8px;
   padding-top: 8px;

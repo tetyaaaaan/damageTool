@@ -9,10 +9,10 @@ const { createScenarioHarness, prepareScenarioInputs } = require("./helpers/calc
 
 const repositoryRoot = path.resolve(__dirname, "..", "..");
 
-function loadRenderer() {
+function loadRenderer(window = {}) {
     const sandbox = {
         document: { addEventListener() {} },
-        window: {}
+        window
     };
     vm.createContext(sandbox);
     const rendererPath = path.join(repositoryRoot, "games/js/genshinCalcRenderer.js");
@@ -122,4 +122,30 @@ test("unknown internal IDs use Japanese display fallbacks", () => {
     assert.equal(view.reaction.label, "星拡散");
     assert.match(view.base.effects[0]?.label || view.special.effects[0]?.label || "", /ステータス/);
     assert.doesNotMatch(JSON.stringify(view), /unregistered(?:Element|Attack|Damage|Stat|Reaction|Target|Category|Source)/);
+});
+
+
+test("provider talent coefficient displays resolved flat attack, not recipient ATK percent", () => {
+    const renderer = loadRenderer({GenshinCalcConditions:{targetLabel:()=>"攻撃力"}});
+    const modifier = {category:"statBonus",applyTo:["atkPercent"],unit:"percent",partySource:true,partySourceKind:"talent",partyProviderName:"ベネット"};
+    const item = {source:"party",modifier,value:100.8,analysis:{calculation:"statBonus"},valueContext:{stats:{baseAtk:800}}};
+    const trace = {source:"party",modifierId:"",stat:"atk",value:806.4};
+    const effects = [{source:"party",modifier,analysis:item.analysis,status:"ready"}];
+    const rows = renderer.providerImpactRows(effects,{collected:{applied:[item]},trace:[trace]});
+    assert.equal(rows[0].unit,"flat");
+    assert.equal(rows[0].value,806.4);
+    const view=renderer.buildDamageBreakdownViewModel({entry:{},breakdown:{appliedModifiers:[item],statTrace:[trace]}});
+    assert.match(view.base.effects[0].value,/基礎攻撃力 800.*100.80%.*806.4/);
+});
+
+test("existing detail uses Runtime steps without deriving intermediate damage", () => {
+    const renderer=loadRenderer();
+    const result={entry:{element:"氷",attackType:"skill"},nonCrit:123,crit:246,expected:184.5,problems:[],breakdown:{
+        scalingParts:[{stat:"hp",statValue:50000,talentMultiplier:2,baseDamage:1000}],
+        calculationSteps:[{stage:"base",label:"基礎ダメージ加算",addition:900},{stage:"base",label:"加算後の基礎ダメージ",value:1900},{stage:"special",label:"独立倍率",multiplier:1.2,value:123}],critRate:50,critDamage:100
+    }};
+    const before=JSON.stringify(result),html=renderer.renderDamageBreakdown(result);
+    assert.match(html,/基礎ダメージ加算/); assert.match(html,/1,900/); assert.match(html,/×1.2000/);
+    assert.match(html,/123/); assert.match(html,/246/); assert.doesNotMatch(html,/ダメージバフ合計/);
+    assert.equal(JSON.stringify(result),before);
 });

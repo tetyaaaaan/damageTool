@@ -192,7 +192,7 @@ test("party stat bonuses use Japanese source names and stay in the base-damage s
     const buffSection = html.slice(html.indexOf("2. ダメージバフ"), html.indexOf("3. 敵への補正"));
 
     assert.match(baseSection, /ベネット・素晴らしい旅・攻撃力/);
-    assert.match(baseSection, /\+806（\+100\.80%）/);
+    assert.match(baseSection, /\+806/);
     assert.match(baseSection, /ベネット・旧貴族のしつけ 4セット効果・攻撃力/);
     assert.doesNotMatch(buffSection, /ベネット|旧貴族|party:2:/);
     assert.match(buffSection, /武器効果・通常攻撃ダメージ/);
