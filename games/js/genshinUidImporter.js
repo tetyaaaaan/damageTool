@@ -757,6 +757,7 @@
                 setMessage(TEXT.noCharacters, "error");
                 return;
             }
+            window.dispatchEvent(new CustomEvent("genshin:uid-profile-retrieved", { detail: { profile } }));
             selectCharacter(Number(getElement("genshinProfileCharacterSelect").value));
             const saved = window.TetinetUidStorage?.save("genshin", uid);
             const clearButton = getElement("genshinUidClearSavedButton");

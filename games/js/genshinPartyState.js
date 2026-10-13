@@ -354,7 +354,7 @@
     function getUidCharacterIds() {
         const profile = window.GenshinUidImporter?.getRetrievedProfile?.();
         if (profile && profile !== registeredUidProfile) populateUidInventory({ profile });
-        return [...uidMembersByCharacterId.entries()].filter(([, member]) => isUidPreviewMember(member)).map(([id]) => id);
+        return [...uidMembersByCharacterId.entries()].filter(([, member]) => reusableUidMember(member)).map(([id]) => id);
     }
     function getDisplayOrigins() { return uidMainCharacterId && uidMainCharacterId === byId('genshinCalcCharacterId')?.value ? { uidMainCharacterId } : {}; }
     function restoreDisplayOrigins(value) { uidMainCharacterId = value?.uidMainCharacterId === byId('genshinCalcCharacterId')?.value ? value.uidMainCharacterId : ''; updatePartyPreview(); }
@@ -495,6 +495,39 @@
         return true;
     }
 
+    const UID_INVENTORY_STORAGE_KEY = "tetinet.genshin.uidPartyInventory.v1";
+
+    function reusableUidMember(member) {
+        const number = (value, min, max) => typeof value === "number" && Number.isFinite(value) && value >= min && value <= max;
+        return Boolean(member?.characterId && member.provenance?.source === "uidProfile"
+            && isUidPreviewMember(member) && member.profileSnapshot?.source === "uidProfile"
+            && number(member.level, 1, 100) && number(member.constellation, 0, 6)
+            && ["normal", "skill", "burst"].every(key => number(member.talentLevels?.[key], 1, 15))
+            && ["baseHp", "baseAtk", "baseDef", "hp", "atk", "def", "elementalMastery"].every(key => number(member.stats?.[key], 0, 1e12))
+            && member.stats.hp > 0 && typeof member.equipment?.weaponId === "string"
+            && number(member.equipment.weaponLevel, 1, 90) && number(member.equipment.refinement, 1, 5)
+            && Array.isArray(member.equipment.artifactSetIds));
+    }
+
+    function saveUidInventory() {
+        try {
+            const members = [...uidMembersByCharacterId.values()].filter(reusableUidMember);
+            window.localStorage?.setItem(UID_INVENTORY_STORAGE_KEY, JSON.stringify({ schemaVersion: 1, members }));
+        } catch (_) { /* The live imported roster remains usable when storage is unavailable. */ }
+    }
+
+    function restoreUidInventory() {
+        try {
+            const saved = JSON.parse(window.localStorage?.getItem(UID_INVENTORY_STORAGE_KEY) || "null");
+            if (saved?.schemaVersion !== 1 || !Array.isArray(saved.members) || saved.members.length > 200) return;
+            saved.members.filter(reusableUidMember).forEach(member => {
+                const character = characterForId(member.characterId), weapon = weaponForId(member.equipment.weaponId);
+                if (!character || (member.equipment.weaponId && (!weapon || weapon.weaponType !== character.weaponType))) return;
+                if (!uidMembersByCharacterId.has(member.characterId)) uidMembersByCharacterId.set(member.characterId, normalizeSupportMember(member, 2));
+            });
+        } catch (_) { /* Invalid or older optional caches do not affect saved calculation inputs. */ }
+    }
+
     function populateUidInventory(detail = {}) {
         registeredUidProfile = detail.profile || null;
         const mapper = window.GenshinProfileMapper;
@@ -507,7 +540,8 @@
         uidMembersByCharacterId = new Map(calculationInputs.map((input) => {
             const member = contract?.createPartyMemberFromCalculationInput?.(input, 2);
             return [String(input.characterId), member];
-        }).filter(([, member]) => member));
+        }).filter(([, member]) => reusableUidMember(member)));
+        saveUidInventory();
     }
 
     function registerUidProfile(detail = {}) {
@@ -533,7 +567,7 @@
             const currentWeapon = weaponForId(byId(`genshinPartyWeapon${numericSlot}`).value);
             if (currentWeapon && currentWeapon.weaponType !== item.weaponType) byId(`genshinPartyWeapon${numericSlot}`).value = "";
             const imported = uidMembersByCharacterId.get(String(item.id));
-            if (imported) return applyImportedMemberToSlot(numericSlot, imported);
+            if (reusableUidMember(imported)) return applyImportedMemberToSlot(numericSlot, imported);
         } else if (kind === "weapon") {
             const character = characterForId(byId(`genshinPartyCharacter${numericSlot}`).value);
             if (!character || item.weaponType !== character.weaponType) return false;
@@ -616,6 +650,7 @@
                 return Boolean(effect?.twoPieceEffect || effect?.fourPieceEffect);
             });
         }
+        restoreUidInventory();
         const list = byId("genshinPartyMemberList");
         if (!list) return;
         SUPPORT_SLOTS.forEach((slot) => list?.appendChild(renderSlot(slot)));
@@ -666,7 +701,7 @@
     }
 
     window.GenshinPartyState = {
-        PARTY_SIZE, SUPPORT_SLOTS, partyPreviewItems, isUidPreviewMember, getUidCharacterIds, getDisplayOrigins, restoreDisplayOrigins, emptySupportMember, normalizeSupportMember, normalizePartyState,
+        PARTY_SIZE, SUPPORT_SLOTS, partyPreviewItems, isUidPreviewMember, getUidCharacterIds, restoreUidInventory, getDisplayOrigins, restoreDisplayOrigins, emptySupportMember, normalizeSupportMember, normalizePartyState,
         getSupportState, setBuffEnabled, getBuffEnabled, setPartyConditionState, getPartyConditionState, getPartyConditionStates, setPartySelection,
         selectedCharacterIds, characterForId, weaponForId, artifactForId,
         applyImportedMemberToSlot, registerUidProfile, restoreSupportState, ready
@@ -674,6 +709,7 @@
 
     // UID mapping may finish while the async catalog initialization above is still
     // pending. Register immediately so the selected profile is never dropped.
+    window.addEventListener?.("genshin:uid-profile-retrieved", event => populateUidInventory(event.detail || {}));
     window.addEventListener?.("genshin:calculation-input-selected", (event) => { registerUidProfile(event.detail || {}); uidMainCharacterId = String(event.detail?.input?.characterId || ""); updatePartyPreview(); });
 
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);

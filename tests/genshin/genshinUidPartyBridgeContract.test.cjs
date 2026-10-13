@@ -316,3 +316,34 @@ test("successful fetched roster is available before applying a main character wi
  assert.deepEqual(Array.from(sandbox.GenshinPartyState.getUidCharacterIds()),[input.characterId]);
  assert.deepEqual(JSON.parse(JSON.stringify(sandbox.GenshinPartyState.getDisplayOrigins())),{});
 });
+
+async function inventorySandbox(storage) {
+ const sandbox=createScriptSandbox();
+ sandbox.localStorage=storage;
+ sandbox.document.readyState="complete";
+ sandbox.GenshinIdResolver={ready:Promise.resolve(),listCharacters:()=>[{id:"10000089",weaponType:"片手剣"},{id:"10000042",weaponType:"片手剣"}],listWeapons:()=>[{id:"11509",weaponType:"片手剣"}],listArtifactSets:()=>[]};
+ vm.runInContext(read("games/js/genshinDataContract.js"),sandbox);
+ vm.runInContext(read("games/js/genshinPartyState.js"),sandbox);
+ await new Promise(resolve=>setImmediate(resolve));
+ return sandbox;
+}
+
+test("full fetched inventory persists unselected builds and restores without fetching or mixing manual records", async () => {
+ const values=new Map();const storage={getItem:key=>values.get(key)||null,setItem:(key,value)=>values.set(key,value)};
+ const first=await inventorySandbox(storage);
+ const records=["10000089","10000042"].map(id=>({...UID_CHARACTER_FIXTURE,id,provenance:{...UID_CHARACTER_FIXTURE.provenance,rawCharacterId:id},artifacts:[]}));
+ first.GenshinProfileMapper={toCalculationInput:record=>first.GenshinDataContract.createCalculationInput(record,"uidProfile")};
+ first.GenshinPartyState.registerUidProfile({profile:{characters:records}});
+ const [key,body]=[...values.entries()][0];const cached=JSON.parse(body);
+ assert.equal(cached.members.length,2);
+ assert.equal(cached.members[1].equipment.weaponId,"11509");
+ assert.equal(cached.members[1].stats.atk,3456.89);
+ const reload=await inventorySandbox(storage);
+ assert.deepEqual(Array.from(reload.GenshinPartyState.getUidCharacterIds()),["10000089","10000042"]);
+ cached.members[0].provenance.source="manual"; delete cached.members[1].stats;
+ values.set(key,JSON.stringify(cached));
+ const partial=await inventorySandbox(storage);
+ assert.deepEqual(Array.from(partial.GenshinPartyState.getUidCharacterIds()),[]);
+ values.set(key,"{broken");assert.deepEqual(Array.from((await inventorySandbox(storage)).GenshinPartyState.getUidCharacterIds()),[]);
+ values.set(key,JSON.stringify({...cached,schemaVersion:999}));assert.deepEqual(Array.from((await inventorySandbox(storage)).GenshinPartyState.getUidCharacterIds()),[]);
+});
