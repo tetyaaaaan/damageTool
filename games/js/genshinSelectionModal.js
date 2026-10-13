@@ -177,6 +177,14 @@
         });
     }
 
+    function characterSelectionGroups(items, uidIds = []) {
+        const ids = new Set(uidIds.map(String));
+        const imported = items.filter(item => ids.has(String(item.id)));
+        return imported.length
+            ? [{ label: "UIDから取得", uid: true, items: imported }, { label: "その他のキャラクター", uid: false, items: items.filter(item => !ids.has(String(item.id))) }].filter(group => group.items.length)
+            : [{ label: "", uid: false, items }];
+    }
+
     function renderList() {
         const list = byId("genshinSelectionList");
         const items = visibleItems();
@@ -191,7 +199,17 @@
             list.appendChild(empty);
             return;
         }
-        items.forEach((item) => {
+        const groups = state.mode === "character" && state.owner === "party"
+            ? characterSelectionGroups(items, window.GenshinPartyState?.getUidCharacterIds?.() || [])
+            : [{ label: "", uid: false, items }];
+        groups.forEach(group => {
+            if (group.label) {
+                const heading = document.createElement("h3");
+                heading.className = "genshin-selection-group-heading";
+                heading.textContent = group.label;
+                list.appendChild(heading);
+            }
+        group.items.forEach((item) => {
             const button = document.createElement("button");
             button.type = "button";
             button.className = "genshin-selection-option";
@@ -264,7 +282,17 @@
                 check.setAttribute("aria-hidden", "true");
                 button.appendChild(check);
             }
+            if (group.uid) {
+                button.classList.add("genshin-selection-option--uid");
+                const mark = document.createElement("span");
+                mark.className = "genshin-selection-uid-mark";
+                mark.textContent = "UID";
+                mark.title = "UIDから取得";
+                button.setAttribute("aria-label", button.getAttribute("aria-label") + "、UIDから取得");
+                button.appendChild(mark);
+            }
             list.appendChild(button);
+        });
         });
     }
 
@@ -541,7 +569,7 @@
         openDialog(mode, trigger, artifactSlot, "party", numericSlot);
     }
 
-    window.GenshinSelectionModal = { openPartySelection, ready };
+    window.GenshinSelectionModal = { openPartySelection, characterSelectionGroups, ready };
 
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
     else init();

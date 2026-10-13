@@ -840,5 +840,5 @@
     }
 
     document.addEventListener("DOMContentLoaded", initializeUidImporter);
-    window.GenshinUidImporter = { formatStatInputValue };
+    window.GenshinUidImporter = { formatStatInputValue, getRetrievedProfile: () => state.profile };
 })();

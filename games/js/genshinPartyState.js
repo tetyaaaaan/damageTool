@@ -10,6 +10,7 @@
     let weapons = [];
     let artifactSets = [];
     let uidMembersByCharacterId = new Map();
+    let registeredUidProfile = null;
     let applyingImportedMember = false;
     let uidMainCharacterId = "";
     const partyConditionStateByKey = {};
@@ -350,6 +351,11 @@
     function isUidPreviewMember(member) {
         return Boolean(member.characterId && member.provenance?.retainedFromUid === true);
     }
+    function getUidCharacterIds() {
+        const profile = window.GenshinUidImporter?.getRetrievedProfile?.();
+        if (profile && profile !== registeredUidProfile) populateUidInventory({ profile });
+        return [...uidMembersByCharacterId.entries()].filter(([, member]) => isUidPreviewMember(member)).map(([id]) => id);
+    }
     function getDisplayOrigins() { return uidMainCharacterId && uidMainCharacterId === byId('genshinCalcCharacterId')?.value ? { uidMainCharacterId } : {}; }
     function restoreDisplayOrigins(value) { uidMainCharacterId = value?.uidMainCharacterId === byId('genshinCalcCharacterId')?.value ? value.uidMainCharacterId : ''; updatePartyPreview(); }
     function partyPreviewItems(members) {
@@ -489,7 +495,8 @@
         return true;
     }
 
-    function registerUidProfile(detail = {}) {
+    function populateUidInventory(detail = {}) {
+        registeredUidProfile = detail.profile || null;
         const mapper = window.GenshinProfileMapper;
         const contract = window.GenshinDataContract;
         const mappedCharacters = Array.isArray(detail.profile?.characters) ? detail.profile.characters : [];
@@ -501,6 +508,10 @@
             const member = contract?.createPartyMemberFromCalculationInput?.(input, 2);
             return [String(input.characterId), member];
         }).filter(([, member]) => member));
+    }
+
+    function registerUidProfile(detail = {}) {
+        populateUidInventory(detail);
         SUPPORT_SLOTS.forEach((slot) => {
             const characterId = String(byId(`genshinPartyCharacter${slot}`)?.value || "");
             if (characterId && uidMembersByCharacterId.has(characterId)) {
@@ -655,7 +666,7 @@
     }
 
     window.GenshinPartyState = {
-        PARTY_SIZE, SUPPORT_SLOTS, partyPreviewItems, isUidPreviewMember, getDisplayOrigins, restoreDisplayOrigins, emptySupportMember, normalizeSupportMember, normalizePartyState,
+        PARTY_SIZE, SUPPORT_SLOTS, partyPreviewItems, isUidPreviewMember, getUidCharacterIds, getDisplayOrigins, restoreDisplayOrigins, emptySupportMember, normalizeSupportMember, normalizePartyState,
         getSupportState, setBuffEnabled, getBuffEnabled, setPartyConditionState, getPartyConditionState, getPartyConditionStates, setPartySelection,
         selectedCharacterIds, characterForId, weaponForId, artifactForId,
         applyImportedMemberToSlot, registerUidProfile, restoreSupportState, ready

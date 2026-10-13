@@ -282,3 +282,37 @@ test("talent order fixture maps numeric UID IDs independently of insertion order
     });
     assert.equal(mapped.characters[0].provenance.talentLevelMapping.status, "resolved");
 });
+
+test("selection UID inventory reuses imported snapshots and excludes unknown origin", () => {
+ const sandbox=loadContractAndPartyState();
+ const input=sandbox.GenshinDataContract.createCalculationInput(UID_CHARACTER_FIXTURE,"uidProfile");
+ sandbox.GenshinPartyState.registerUidProfile({input});
+ assert.deepEqual(Array.from(sandbox.GenshinPartyState.getUidCharacterIds()),[input.characterId]);
+ sandbox.GenshinPartyState.registerUidProfile({input:{characterId:"unknown"}});
+ assert.deepEqual(Array.from(sandbox.GenshinPartyState.getUidCharacterIds()),[]);
+});
+
+test("party selection groups filtered candidates once while preserving their shared order", () => {
+ const sandbox=createScriptSandbox();
+ vm.runInContext(read("games/js/genshinSelectionModal.js"),sandbox);
+ const group=sandbox.GenshinSelectionModal.characterSelectionGroups;
+ const items=[{id:"new"},{id:"uid2"},{id:"old"},{id:"uid1"}];
+ const plain=value=>JSON.parse(JSON.stringify(value));
+ const groups=plain(group(items,["uid1","uid2","uid2"]));
+ assert.deepEqual(groups.map(g=>g.items.map(i=>i.id)),[["uid2","uid1"],["new","old"]]);
+ assert.deepEqual(groups.map(g=>g.label),["UIDから取得","その他のキャラクター"]);
+ assert.deepEqual(plain(group(items,[])).map(g=>g.label),[""]);
+ assert.deepEqual(plain(group(items.filter(i=>i.id==="uid1"),["uid1","uid2"])).map(g=>g.items.map(i=>i.id)),[["uid1"]]);
+ assert.deepEqual(plain(group(items.filter(i=>i.id==="old"),["uid1","uid2"])).map(g=>g.label),[""]);
+});
+
+test("successful fetched roster is available before applying a main character without another fetch", () => {
+ const sandbox=loadContractAndPartyState();
+ const input=sandbox.GenshinDataContract.createCalculationInput(UID_CHARACTER_FIXTURE,"uidProfile");
+ const profile={characters:[UID_CHARACTER_FIXTURE]};
+ sandbox.GenshinUidImporter={getRetrievedProfile:()=>profile};
+ sandbox.GenshinProfileMapper={toCalculationInput:()=>input};
+ assert.deepEqual(Array.from(sandbox.GenshinPartyState.getUidCharacterIds()),[input.characterId]);
+ assert.deepEqual(Array.from(sandbox.GenshinPartyState.getUidCharacterIds()),[input.characterId]);
+ assert.deepEqual(JSON.parse(JSON.stringify(sandbox.GenshinPartyState.getDisplayOrigins())),{});
+});
