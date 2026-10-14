@@ -1332,16 +1332,27 @@
         </article>`;
     }
 
-    function renderReactionContributor(slot, contributor) {
-        const value = (key) => contributor?.[key] ?? "";
-        return `<fieldset class="genshin-reaction-contributor"><legend>参加者${slot}（任意）</legend>
-            <label><span>Lv</span><input id="genshinReactionContributor${slot}Level" type="number" min="1" max="100" value="${escapeHtml(value("level"))}" placeholder="未入力"></label>
-            <label><span>元素熟知</span><input id="genshinReactionContributor${slot}Em" type="number" min="0" value="${escapeHtml(value("elementalMastery"))}" placeholder="未入力"></label>
-            <label><span>会心率%</span><input id="genshinReactionContributor${slot}CritRate" type="number" min="0" max="100" step="0.1" value="${escapeHtml(value("critRate"))}" placeholder="0"></label>
-            <label><span>会心ダメージ%</span><input id="genshinReactionContributor${slot}CritDamage" type="number" min="0" step="0.1" value="${escapeHtml(value("critDamage"))}" placeholder="50"></label>
-            <label><span>個別の反応ダメージ補正%</span><input id="genshinReactionContributor${slot}ReactionBonus" type="number" step="0.1" value="${escapeHtml(value("reactionBonus"))}" placeholder="0"></label>
-            <label><span>個別の基礎ダメージ向上%</span><input id="genshinReactionContributor${slot}BaseBonus" type="number" step="0.1" value="${escapeHtml(value("baseDamageBonus"))}" placeholder="0"></label>
-            <label><span>個別の固定加算ダメージ</span><input id="genshinReactionContributor${slot}AdditiveBaseDamage" type="number" step="0.1" value="${escapeHtml(value("additiveBaseDamage"))}" placeholder="0"></label>
+    function renderReactionContributor(slot, contributor, context) {
+        const mode = contributor?.mode || (contributor ? "manual" : "none");
+        const selected = mode === "party" ? `party:${contributor.partySlot}:${contributor.characterId}` : mode;
+        const members = (context.party?.members || []).filter(m=>Number(m.slot)>1 && m.enabled !== false && m.characterId);
+        const used = new Set((context.manualInputs?.reactionContributors || []).filter(c=>c.slot!==slot && c.mode==="party").map(c=>String(c.characterId)));
+        const member = members.find(m=>`party:${m.slot}:${m.characterId}`===selected);
+        const values = mode === "party" ? contributor.overrides || {} : contributor || {};
+        const fields = {Level:["Lv","level"],Em:["元素熟知","elementalMastery"],CritRate:["会心率%","critRate"],CritDamage:["会心ダメージ%","critDamage"],ReactionBonus:["個別の反応ダメージ補正%","reactionBonus"],BaseBonus:["個別の基礎ダメージ向上%","baseDamageBonus"],AdditiveBaseDamage:["個別の固定加算ダメージ","additiveBaseDamage"]};
+        const input = ([suffix,[label,key]]) => `<label><span>${escapeHtml(label)}</span><input id="genshinReactionContributor${slot}${suffix}" type="number" step="any" min="${['ReactionBonus','BaseBonus','AdditiveBaseDamage'].includes(suffix)?'-1000000':'0'}" value="${escapeHtml(values[key] ?? '')}" placeholder="${mode==='party' ? '上書きなし' : '未入力'}"></label>`;
+        const missing = mode === "party" && member ? ["elementalMastery","critRate","critDamage"].filter(key=>member.stats?.[key]===null || member.stats?.[key]===undefined) : [];
+        const required = Object.entries(fields).filter(([,v])=>missing.includes(v[1]));
+        const optional = Object.entries(fields).filter(([,v])=>!missing.includes(v[1]));
+        const preview = member ? `Lv ${member.level} ／ 元素熟知 ${member.stats?.elementalMastery == null ? '未取得' : formatOperand(member.stats.elementalMastery)} ／ 会心率 ${member.stats?.critRate == null ? '未取得' : formatOperand(member.stats.critRate)+'%'} ／ 会心ダメージ ${member.stats?.critDamage == null ? '未取得' : formatOperand(member.stats.critDamage)+'%'}` : '';
+        return `<fieldset class="genshin-reaction-contributor"><legend>参加者${slot}${member ? '：'+escapeHtml(member.nameJa || context.displayData?.characters?.[member.characterId]?.nameJa || 'パーティメンバー') : ''}</legend>
+            <label class="genshin-participant-choice"><span>参加者の選択</span><select id="genshinReactionContributor${slot}Mode" data-reaction-participant-mode="${slot}" data-previous-mode="${escapeHtml(selected)}">
+            <option value="none"${selected==='none'?' selected':''}>不参加</option>
+            ${members.map(m=>{const value=`party:${m.slot}:${m.characterId}`;return `<option value="${value}"${selected===value?' selected':''}${used.has(String(m.characterId))?' disabled':''}>パーティ：${escapeHtml(m.nameJa || 'サポート'+(m.slot-1))}</option>`}).join('')}
+            ${mode==='party'&&!member?`<option value="${escapeHtml(selected)}" selected disabled>参照先が編成から外れています</option>`:''}
+            <option value="manual"${selected==='manual'?' selected':''}>手動設定</option></select></label>
+            ${mode==='party'?`<p>現在のパーティ設定値を参照（戦闘中の個別バフは未評価）</p>${member?`<details><summary>参照値を確認</summary><p>${escapeHtml(preview)}</p></details>`:''}${required.length?`<div class="genshin-participant-missing"><p>未取得の値を入力してください。</p>${required.map(input).join('')}</div>`:''}<details><summary>個別上書き・個別反応補正</summary>${optional.map(input).join('')}</details>`
+                : `<div${mode==='none'?' hidden':''}>${Object.entries(fields).map(input).join('')}</div>`}
         </fieldset>`;
     }
 
@@ -1360,8 +1371,8 @@
                 </select></label>`
                 : "";
             const contributorHelp = reaction.reactionId === "stellarSwirl"
-                ? "参加者2～4は、この星拡散へ元素を付着・発動して寄与するキャラクターだけ入力してください。Lvまたは元素熟知を入れると参加扱いになります。"
-                : "参加者2～4は、その4秒間に対象元素を付着したキャラクターだけ入力してください。Lvまたは元素熟知を入れると参加扱いになります。";
+                ? "参加者2～4は、この星拡散へ元素を付着・発動して寄与するキャラクターだけ入力してください。参加方式で参加者を選択してください。"
+                : "参加者2～4は、その4秒間に対象元素を付着したキャラクターだけ入力してください。参加方式で参加者を選択してください。";
             const modifierHelp = "参加者2～4の補正欄には、その参加者だけに付く個別分を入力してください。自動取得したチーム共通補正は全参加者へ反映されるため、ここには含めません。会心欄にも自動取得した月反応のチーム共通会心補正を重ねて入力しないでください。";
             const harmonyHelp = reaction.reactionId === "lunarCrystallize"
                 ? "月籠諧奏は3回目の月結晶で発生し、3個の月籠が各1回攻撃します。主結果は月籠1個の1ヒットです。同じ対象へ3個とも命中した場合だけ、3ヒット参考合計を併記します。"
@@ -1372,7 +1383,7 @@
                 <p>${escapeHtml(contributorHelp)}</p>
                 <p>${escapeHtml(modifierHelp)}</p>
                 ${harmonyHelp ? `<p>${escapeHtml(harmonyHelp)}</p>` : ""}
-                <div class="genshin-reaction-contributor-grid">${[2, 3, 4].map((slot) => renderReactionContributor(slot, contributors.get(slot))).join("")}</div>
+                <div class="genshin-reaction-contributor-grid">${[2, 3, 4].map((slot) => renderReactionContributor(slot, contributors.get(slot), context)).join("")}</div>
             </div>`;
         }
         if (reaction.reactionId === "stellarConduct") {
@@ -2021,6 +2032,13 @@
                 input.dispatchEvent(new Event('change', {bubbles:true}));
             });
             conditionCards.addEventListener("change", (event) => {
+                if (event.target?.matches?.("[data-reaction-participant-mode]")) {
+                    const slot=event.target.dataset.reactionParticipantMode;
+                    if (event.target.value.startsWith("party:") && event.target.value !== event.target.dataset.previousMode) {
+                        conditionCards.querySelectorAll(`[id^="genshinReactionContributor${slot}"]`).forEach(input=>{if(input.tagName==='INPUT') input.value='';});
+                    }
+                    handlePrepareConditionsClick(); return;
+                }
                 if (event.target.value === 'activate' && event.target.dataset.stackMax) event.target.value = event.target.dataset.stackMax;
                 if (event.target?.matches?.("[data-genshin-stack-activation]")) {
                     const key = event.target.dataset.genshinStackActivation;

@@ -501,6 +501,7 @@
             provenance: {
                 source,
                 importedAt: source === "uidProfile" ? new Date().toISOString() : null,
+                ...(character?.provenance?.criticalStatsAvailable ? {criticalStatsAvailable:{...character.provenance.criticalStatsAvailable}} : {}),
                 rawCharacterId: String(character?.provenance?.rawCharacterId || character?.id || ""),
                 includesPersistentBonuses: character?.provenance?.includesPersistentBonuses ?? (source === "uidProfile"),
                 additivePolicy: character?.provenance?.additivePolicy || (source === "uidProfile" ? "externalModifiersOnly" : null),
@@ -562,7 +563,9 @@
                 hp: Number(input?.stats?.hp || 0),
                 atk: Number(input?.stats?.atk || 0),
                 def: Number(input?.stats?.def || 0),
-                elementalMastery: Number(input?.stats?.elementalMastery || 0)
+                elementalMastery: Number(input?.stats?.elementalMastery || 0),
+                critRate: input?.provenance?.criticalStatsAvailable?.critRate !== false && Number.isFinite(input?.stats?.critRate) ? input.stats.critRate : null,
+                critDamage: input?.provenance?.criticalStatsAvailable?.critDamage !== false && Number.isFinite(input?.stats?.critDamage) ? input.stats.critDamage : null
             },
             // Non-calculation profile data is immutable from the projection's
             // point of view.  Current form edits continue to update the fields

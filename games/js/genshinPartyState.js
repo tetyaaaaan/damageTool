@@ -61,7 +61,7 @@
             constellation: 0,
             talentLevels: { normal: 10, skill: 10, burst: 10 },
             equipment: { weaponId: "", weaponNameJa: "", weaponLevel: 90, weaponAscension: null, refinement: 1, artifactSetMode: "4pc", artifactSetIds: [] },
-            stats: { baseHp: 0, baseAtk: 0, baseDef: 0, hp: 0, atk: 0, def: 0, elementalMastery: 0 },
+            stats: { baseHp: 0, baseAtk: 0, baseDef: 0, hp: 0, atk: 0, def: 0, elementalMastery: 0, critRate: null, critDamage: null },
             combatState: { onField: false, hpRatio: 100 },
             buffStates: {},
             provenance: { source: "manual", rawCharacterId: "" }
@@ -188,6 +188,8 @@
             <label><span>攻撃力</span><input type="number" id="genshinPartyAtk${slot}" min="0" placeholder="必要な効果のみ" disabled></label>
             <label><span>防御力</span><input type="number" id="genshinPartyDef${slot}" min="0" placeholder="必要な効果のみ" disabled></label>
             <label><span>元素熟知</span><input type="number" id="genshinPartyElementalMastery${slot}" min="0" placeholder="必要な効果のみ" disabled></label>
+            <label><span>会心率%</span><input type="number" id="genshinPartyCritRate${slot}" min="0" max="100" step="any" placeholder="未取得" disabled></label>
+            <label><span>会心ダメージ%</span><input type="number" id="genshinPartyCritDamage${slot}" min="0" step="any" placeholder="未取得" disabled></label>
           </div></details>`;
         return section;
     }
@@ -233,7 +235,9 @@
             stats: {
                 baseHp: Number(base.baseHp) || 0, baseAtk: Number(base.baseAtk) || 0, baseDef: Number(base.baseDef) || 0,
                 hp: optionalNumber(`genshinPartyHp${slot}`), atk: optionalNumber(`genshinPartyAtk${slot}`),
-                def: optionalNumber(`genshinPartyDef${slot}`), elementalMastery: optionalNumber(`genshinPartyElementalMastery${slot}`)
+                def: optionalNumber(`genshinPartyDef${slot}`), elementalMastery: optionalNumber(`genshinPartyElementalMastery${slot}`),
+                critRate: Boolean(byId(`genshinPartyCritRate${slot}`)?.value) ? optionalNumber(`genshinPartyCritRate${slot}`) : null,
+                critDamage: Boolean(byId(`genshinPartyCritDamage${slot}`)?.value) ? optionalNumber(`genshinPartyCritDamage${slot}`) : null
             },
             buffStates: Object.fromEntries(Object.entries(buffStateByKey).filter(([key]) => key.startsWith(`party:${slot}:${characterId}:`))),
             provenance: {
@@ -309,7 +313,9 @@
                     [`genshinPartyHp${slot}`, member.stats?.hp],
                     [`genshinPartyAtk${slot}`, member.stats?.atk],
                     [`genshinPartyDef${slot}`, member.stats?.def],
-                    [`genshinPartyElementalMastery${slot}`, member.stats?.elementalMastery]
+                    [`genshinPartyElementalMastery${slot}`, member.stats?.elementalMastery],
+                    [`genshinPartyCritRate${slot}`, member.stats?.critRate],
+                    [`genshinPartyCritDamage${slot}`, member.stats?.critDamage]
                 ];
                 fields.forEach(([id, fieldValue]) => {
                     const input = byId(id);
@@ -434,7 +440,7 @@
             image.src = artifact ? `/games/images/genshin/artifacts/${artifact.id}.webp` : FALLBACK_IMAGE;
             byId(`genshinPartyArtifact${name}Name${slot}`).textContent = artifact?.shortNameJa || artifact?.nameJa || "聖遺物を選択";
         });
-        [`Level`, `Constellation`, `NormalTalent`, `SkillTalent`, `BurstTalent`, `Hp`, `Atk`, `Def`, `ElementalMastery`].forEach((name) => { const input = byId(`genshinParty${name}${slot}`); if (input) input.disabled = !selected; });
+        [`Level`, `Constellation`, `NormalTalent`, `SkillTalent`, `BurstTalent`, `Hp`, `Atk`, `Def`, `ElementalMastery`, `CritRate`, `CritDamage`].forEach((name) => { const input = byId(`genshinParty${name}${slot}`); if (input) input.disabled = !selected; });
         [`WeaponLevel`, `Refinement`].forEach((name) => { const input = byId(`genshinParty${name}${slot}`); if (input) input.disabled = !weaponSelected; });
         const refinementInput = byId(`genshinPartyRefinement${slot}`);
         const confirmedRefinements = Array.isArray(weapon?.confirmedRefinements)
@@ -486,7 +492,9 @@
             writeImportedValue(`genshinPartyHp${slot}`, member.stats?.hp || "");
             writeImportedValue(`genshinPartyAtk${slot}`, member.stats?.atk || "");
             writeImportedValue(`genshinPartyDef${slot}`, member.stats?.def || "");
-            writeImportedValue(`genshinPartyElementalMastery${slot}`, member.stats?.elementalMastery || "");
+            writeImportedValue(`genshinPartyElementalMastery${slot}`, member.stats?.elementalMastery ?? "");
+            writeImportedValue(`genshinPartyCritRate${slot}`, member.stats?.critRate ?? "");
+            writeImportedValue(`genshinPartyCritDamage${slot}`, member.stats?.critDamage ?? "");
         } finally {
             applyingImportedMember = false;
         }
@@ -599,8 +607,17 @@
             field.value = item?.id || "";
             field.dataset.valueOrigin = "manual";
         }
+        if (kind === "weapon" || kind === "artifact") invalidateImportedCrit(numericSlot);
+        if (kind === "character") for (const suffix of ["CritRate", "CritDamage"]) { const field=byId(`genshinParty${suffix}${numericSlot}`); if(field) field.value=""; }
         syncSlot(numericSlot);
         return true;
+    }
+
+    function invalidateImportedCrit(slot) {
+        for (const suffix of ["CritRate", "CritDamage"]) {
+            const field = byId(`genshinParty${suffix}${slot}`);
+            if (field?.dataset.valueOrigin === "uid") { field.value = ""; field.dataset.valueOrigin = "manual"; }
+        }
     }
 
     function clearSlot(slot) {
@@ -678,6 +695,7 @@
             sectionInputs(slot).forEach((input) => {
                 const handleChange = () => {
                     if (!applyingImportedMember) {
+                        if (/Party(?:Level|Weapon|Refinement|Artifact)/.test(input.id)) invalidateImportedCrit(slot);
                         input.dataset.valueOrigin = "manual";
                         restoredMemberBySlot.delete(slot);
                     }

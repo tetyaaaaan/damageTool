@@ -67,6 +67,16 @@
         if (!["none", "4pc", "2pc2pc", "2pc"].includes(r.artifactSetMode)) fail();
         if (r.reactionOptionKey !== "none" && !data.reactionDefinitions?.options?.[r.reactionOptionKey]) fail("UNKNOWN_ID");
         if (r.enemy.presetId !== "custom" && !(data.enemies?.presets || []).some((p) => String(p.id) === String(r.enemy.presetId))) fail("UNKNOWN_ID");
+        if (r.manualInputs.reactionContributors !== undefined) {
+            if (!Array.isArray(r.manualInputs.reactionContributors)) fail();
+            const slots = new Set();
+            r.manualInputs.reactionContributors.forEach(c => {
+                if (!record(c) || !number(c.slot,2,4) || slots.has(c.slot)) fail(); slots.add(c.slot);
+                if (c.mode && !["none","manual","party"].includes(c.mode)) fail();
+                if (c.mode === "party" && (!number(c.partySlot,2,4) || typeof c.characterId !== "string" || !data.characters?.[c.characterId] || !record(c.overrides || {}))) fail();
+                if (c.mode === "party" && Object.entries(c.overrides || {}).some(([key,v])=>!["level","elementalMastery","critRate","critDamage","reactionBonus","baseDamageBonus","additiveBaseDamage"].includes(key) || !number(v,-1e12,1e12))) fail();
+            });
+        }
         if (r.party) {
             if (r.party.schemaVersion !== 2 || !Array.isArray(r.party.members) || !record(r.party.conditionStates) || !record(r.party.resonanceStates)) fail();
             const ids = new Set(), slots = new Set();
@@ -161,6 +171,7 @@
             setField("genshinJsonReactionElement", r.reactionElement);
             window.GenshinCalcEngine.hydrateReactionContext(r, data);
             if (resetConditions) window.GenshinCalcConditions.resetManualState();
+            window.GenshinCalcEngine.setReactionContributorDraft(r.manualInputs.reactionContributors || []);
             const panel = window.GenshinCalcConditions.conditionPanelState(r, data);
             window.GenshinCalcRenderer.renderConditionCards(panel, r);
             setField("genshinJsonRecordedHealing", r.manualInputs.recordedHealing, false);
@@ -173,7 +184,7 @@
             });
             [2, 3, 4].forEach((slot) => {
                 const c = r.manualInputs.reactionContributors?.find((item) => item.slot === slot) || {};
-                Object.entries({ Level: "level", Em: "elementalMastery", CritRate: "critRate", CritDamage: "critDamage", ReactionBonus: "reactionBonus", BaseBonus: "baseDamageBonus", AdditiveBaseDamage: "additiveBaseDamage" }).forEach(([suffix, key]) => setField("genshinReactionContributor" + slot + suffix, c[key], false));
+                Object.entries({ Level: "level", Em: "elementalMastery", CritRate: "critRate", CritDamage: "critDamage", ReactionBonus: "reactionBonus", BaseBonus: "baseDamageBonus", AdditiveBaseDamage: "additiveBaseDamage" }).forEach(([suffix, key]) => setField("genshinReactionContributor" + slot + suffix, (c.mode === "party" ? c.overrides?.[key] : c[key]), false));
             });
             setField("genshinStellarConductStacks", r.manualInputs.stellarConductStacks, false);
             setField("genshinStellarSwirlVariant", r.manualInputs.stellarSwirlVariant, false);

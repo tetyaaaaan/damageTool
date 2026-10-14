@@ -195,22 +195,47 @@
         return states;
     }
 
+    let reactionContributorDraft = [];
+    function setReactionContributorDraft(records) { reactionContributorDraft = cloneCalculationValue(records || []); }
     function readReactionContributors() {
-        return [2, 3, 4].map((slot) => {
-            const level = readOptionalNumber(`genshinReactionContributor${slot}Level`);
-            const elementalMastery = readOptionalNumber(`genshinReactionContributor${slot}Em`);
-            if (level === null && elementalMastery === null) return null;
-            return {
-                slot,
-                level: Math.min(Math.max(Math.round(level ?? 90), 1), 100),
-                elementalMastery: Math.max(elementalMastery ?? 0, 0),
-                critRate: Math.min(Math.max(readOptionalNumber(`genshinReactionContributor${slot}CritRate`) ?? 0, 0), 100),
-                critDamage: Math.max(readOptionalNumber(`genshinReactionContributor${slot}CritDamage`) ?? 50, 0),
-                reactionBonus: readOptionalNumber(`genshinReactionContributor${slot}ReactionBonus`) ?? 0,
-                baseDamageBonus: readOptionalNumber(`genshinReactionContributor${slot}BaseBonus`) ?? 0,
-                additiveBaseDamage: readOptionalNumber(`genshinReactionContributor${slot}AdditiveBaseDamage`) ?? 0
-            };
+        if (!document.getElementById("genshinReactionContributor2Mode") && !document.getElementById("genshinReactionContributor2Level")) return cloneCalculationValue(reactionContributorDraft);
+        const fields = {Level:"level",Em:"elementalMastery",CritRate:"critRate",CritDamage:"critDamage",ReactionBonus:"reactionBonus",BaseBonus:"baseDamageBonus",AdditiveBaseDamage:"additiveBaseDamage"};
+        const records = [2,3,4].map(slot => {
+            const selected = document.getElementById(`genshinReactionContributor${slot}Mode`)?.value;
+            const values = Object.fromEntries(Object.entries(fields).map(([suffix,key])=>[key,readOptionalNumber(`genshinReactionContributor${slot}${suffix}`)]));
+            if (selected?.startsWith("party:")) {
+                const [,partySlot,characterId] = selected.split(":");
+                return {slot,mode:"party",partySlot:Number(partySlot),characterId,overrides:Object.fromEntries(Object.entries(values).filter(([,v])=>v!==null))};
+            }
+            if (selected === "none") return {slot,mode:"none",...values};
+            if (selected === "manual") return {slot,mode:"manual",...values,reactionBonus:values.reactionBonus ?? 0,baseDamageBonus:values.baseDamageBonus ?? 0,additiveBaseDamage:values.additiveBaseDamage ?? 0};
+            if (values.level === null && values.elementalMastery === null && !selected) return null;
+            return {slot,...(selected ? {mode:"manual"}:{}),level:Math.min(Math.max(Math.round(values.level ?? 90),1),100),elementalMastery:Math.max(values.elementalMastery ?? 0,0),critRate:Math.min(Math.max(values.critRate ?? 0,0),100),critDamage:Math.max(values.critDamage ?? 50,0),reactionBonus:values.reactionBonus ?? 0,baseDamageBonus:values.baseDamageBonus ?? 0,additiveBaseDamage:values.additiveBaseDamage ?? 0};
         }).filter(Boolean);
+        setReactionContributorDraft(records);
+        return records;
+    }
+
+    function resolveReactionContributors(context) {
+        const contributors = [], problems = [], seen = new Set([String(context.characterId)]);
+        for (const record of (context.manualInputs?.reactionContributors || []).slice(0,3)) {
+            if (record.mode === "none") continue;
+            if (record.mode !== "party") {
+                if (record.mode === "manual" && ["level","elementalMastery","critRate","critDamage"].some(key=>record[key]===null || record[key]===undefined)) problems.push(`参加者${record.slot}のLv・元素熟知・会心値を入力してください。`);
+                else contributors.push({...record});
+                continue;
+            }
+            const member = context.party?.members?.find(m=>m.enabled !== false && Number(m.slot)===Number(record.partySlot) && String(m.characterId)===String(record.characterId) && Number(m.slot)!==1);
+            if (!member) { problems.push(`参加者${record.slot}の参照先が編成から外れています。選び直してください。`); continue; }
+            if (seen.has(String(member.characterId))) { problems.push(`参加者${record.slot}は他の参加者と同じキャラクターです。`); continue; }
+            seen.add(String(member.characterId));
+            const values = {level:member.level,elementalMastery:member.stats?.elementalMastery,critRate:member.stats?.critRate,critDamage:member.stats?.critDamage,reactionBonus:0,baseDamageBonus:0,additiveBaseDamage:0};
+            Object.keys(values).forEach(key => { if (Object.hasOwn(record.overrides || {},key)) values[key]=record.overrides[key]; });
+            const missing = ["level","elementalMastery","critRate","critDamage"].filter(key=>values[key]===null || values[key]===undefined || !Number.isFinite(Number(values[key])));
+            if (missing.length) { problems.push(`参加者${record.slot}の${missing.map(k=>({level:"Lv",elementalMastery:"元素熟知",critRate:"会心率",critDamage:"会心ダメージ"})[k]).join("・")}が未取得です。入力してください。`); continue; }
+            contributors.push({slot:record.slot,characterId:member.characterId,partySlot:member.slot,source:"partyCurrent",statSource:member.provenance?.source || "manual",combatStatsEvaluated:false,...values});
+        }
+        return {contributors,problems};
     }
 
     function parseConstellation(value) {
@@ -2528,6 +2553,8 @@
         reaction = resolveIndirectReactionVariant(reaction, context);
         if (!reaction.enabled || !Number.isFinite(Number(reaction.coefficient))) return null;
         const totals = collectReactionTotals(context, collected);
+        const participants = resolveReactionContributors(context);
+        totals.pendingReasons.push(...participants.problems);
         const weights = reaction.contributionWeights || [1, 0.5, 1 / 12, 1 / 12];
         if (totals.pendingReasons.length) return {
             entry: { id: `reaction_${reaction.reactionId}`, label: reaction.label || "星反応", attackType: "reaction", damageType: "reaction", directReactionId: reaction.reactionId, calculationStatus: "externalConfirmationRequired" },
@@ -2554,7 +2581,7 @@
             baseDamageBonus: totals.baseDamageBonus,
             additiveBaseDamage: totals.additiveBaseDamage
         };
-        const contributors = [current, ...(context.manualInputs?.reactionContributors || []).slice(0, 3)].map((contributor) => {
+        const contributors = [current, ...participants.contributors].map((contributor) => {
             const levelMultiplier = reactionLevelValue(context, "characterLevelMultipliers", contributor.level);
             const emBonus = reactionEmBonusPercent("dedicated", contributor.elementalMastery);
             const isCurrent = contributor.slot === 1;
@@ -3123,6 +3150,7 @@
 
     window.GenshinCalcEngine = {
         REACTION_OPTIONS,
+        resolveReactionContributors, setReactionContributorDraft,
         buildCalculationRequestFromForm,
         buildCharacterCalcContext,
         calculateDamageRequest,

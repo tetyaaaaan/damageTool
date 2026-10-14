@@ -5151,3 +5151,11 @@ html[data-theme="dark"] .genshin-filter-button--element img { background: transp
     padding-inline: 12px;
   }
 }
+
+.genshin-tool-page .genshin-reaction-contributor select { width:100%; min-height:38px; }
+.genshin-tool-page .genshin-reaction-contributor details { grid-column:1 / -1; min-width:0; }
+.genshin-tool-page .genshin-reaction-contributor > p,
+.genshin-tool-page .genshin-participant-missing { grid-column:1 / -1; font-size:.75rem; }
+.genshin-tool-page .genshin-reaction-contributor [hidden] { display:none; }
+
+.genshin-tool-page .genshin-reaction-contributor .genshin-participant-choice { grid-template-columns:minmax(0,1fr); }

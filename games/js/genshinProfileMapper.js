@@ -572,6 +572,10 @@
             },
             provenance: {
                 source: "uidProfile",
+                criticalStatsAvailable: Object.fromEntries(["critRate","critDamage"].map(key=>{
+                    const value=avatar?.fightPropMap?.[String(FIGHT_PROPS[key])];
+                    return [key,value !== undefined && value !== null && value !== "" && Number.isFinite(Number(value))];
+                })),
                 rawCharacterId: rawAvatarId,
                 includesPersistentBonuses: true,
                 additivePolicy: "externalModifiersOnly",

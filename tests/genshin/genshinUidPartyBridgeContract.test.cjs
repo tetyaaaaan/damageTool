@@ -137,7 +137,9 @@ test("CalculationInput v2 -> support keeps provider subset and a lossless profil
         hp: 23456.78,
         atk: 3456.89,
         def: 1234.56,
-        elementalMastery: 321
+        elementalMastery: 321,
+        critRate: 44.4,
+        critDamage: 155.5
     });
     assert.deepEqual(JSON.parse(JSON.stringify(member.provenance)), {
         source: "uidProfile",
@@ -161,8 +163,8 @@ test("CalculationInput v2 -> support keeps provider subset and a lossless profil
     assert.equal(member.element, undefined);
     assert.equal(member.weaponType, undefined);
     assert.equal(member.equipment.weaponNameJa, undefined);
-    assert.equal(member.stats.critRate, undefined);
-    assert.equal(member.stats.critDamage, undefined);
+    assert.equal(member.stats.critRate, 44.4);
+    assert.equal(member.stats.critDamage, 155.5);
     assert.equal(member.stats.energyRecharge, undefined);
     assert.equal(member.stats.elementalDamage, undefined);
     assert.equal(member.provenance.includesPersistentBonuses, true);
@@ -187,7 +189,7 @@ test("manual provider edits retain the original UID snapshot without changing co
     const manuallyEdited = {
         ...member,
         level: 90,
-        stats: { ...member.stats, hp: 99999 },
+        stats: { ...member.stats, hp: 99999, critRate: 12.3 },
         provenance: { ...member.provenance, source: "mixed", sourceSnapshot: "uidProfile", retainedFromUid: true }
     };
     const normalized = loadContractAndPartyState().GenshinPartyState.normalizeSupportMember(manuallyEdited, 2);
@@ -195,6 +197,8 @@ test("manual provider edits retain the original UID snapshot without changing co
     assert.equal(normalized.provenance.sourceSnapshot, "uidProfile");
     assert.equal(normalized.provenance.retainedFromUid, true);
     assert.equal(normalized.stats.hp, 99999);
+    assert.equal(normalized.stats.critRate, 12.3);
+    assert.equal(normalized.profileSnapshot.stats.critRate, 44.4);
     assert.equal(normalized.profileSnapshot.stats.hp, 23456.78);
     assert.equal(normalized.combatState.onField, false);
     assert.equal(normalized.combatState.hpRatio, 100);
@@ -246,7 +250,7 @@ test("weapon compatibility is an explicit type check, not an ID or name guess", 
 
 test("support slot edits switch UID provenance to manual outside the import transaction", () => {
     const source = read("games/js/genshinPartyState.js");
-    assert.match(source, /const handleChange = \(\) => \{\s*if \(!applyingImportedMember\)\s*\{?\s*input\.dataset\.valueOrigin = "manual";/);
+    assert.match(source, /const handleChange = \(\) => \{\s*if \(!applyingImportedMember\)\s*\{?[\s\S]*?input\.dataset\.valueOrigin = "manual";/);
     assert.match(source, /input\.addEventListener\("input", handleChange\)/);
     assert.match(source, /input\.addEventListener\("change", handleChange\)/);
 });
@@ -375,4 +379,12 @@ test("a fresh UID roster replaces the prior UID and is not extended by old selec
  assert.equal(JSON.parse([...values.values()][0]).uid,"800000001");
  b.stats={...b.stats,atk:4321};sandbox.GenshinPartyState.registerUidProfile({profile:{player:{uid:"800000001"},characters:[b]}});
  assert.equal(JSON.parse([...values.values()][0]).members[0].stats.atk,4321);
+});
+
+
+test("missing imported critical stats remain unknown despite legacy zero fallback", () => {
+    const api=loadContractAndPartyState().GenshinDataContract;
+    const input=api.createCalculationInput({...UID_CHARACTER_FIXTURE,stats:{...UID_CHARACTER_FIXTURE.stats,critRate:0,critDamage:0},provenance:{...UID_CHARACTER_FIXTURE.provenance,criticalStatsAvailable:{critRate:false,critDamage:false}}},"uidProfile");
+    const member=api.createPartyMemberFromCalculationInput(input,2);
+    assert.equal(member.stats.critRate,null);assert.equal(member.stats.critDamage,null);
 });
