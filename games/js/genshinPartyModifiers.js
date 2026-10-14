@@ -185,7 +185,7 @@
         const usesProviderStats = requiredProviderStats.length > 0;
         const providerContext = {
             ...context,
-            activeCharacterElement: context.characterElement
+            activeCharacterElement: context.activeCharacterElement || context.characterElement
                 || calcData.characters?.[context.characterId]?.element
                 || context.party?.members?.find((item) => Number(item?.slot) === 1)?.element
                 || "",
@@ -272,6 +272,8 @@
             || (target.owner === "otherPartyMembers" && String(member.characterId) === String(context.characterId))) {
             status = "selfOnly";
             reason = "発動者自身だけが対象のため、メインキャラへは適用しません。";
+        } else if (context.reactionParticipantEvaluation && target.owner === "activeCharacter" && !context.reactionRecipientOnField) {
+            status = "notApplicable"; reason = "フィールド上のキャラクターだけが対象です。";
         } else if (!targetAppliesToMain(target.owner)) {
             status = "ambiguous";
             reason = "対象を安全に特定できないため、計算へは適用しません。";
@@ -487,13 +489,93 @@
         set('provisional71_w14524_mead_state',meadOptions[heals]);
     }
 
+    // Reuse the ordinary recipient collector, with the original party/provider slots intact.
+    function createReactionRecipientContext(calcData, context, member, baseOverrides = {}) {
+        const recipient = JSON.parse(JSON.stringify(context));
+        const originalUi = recipient.uiState || {};
+        const main = recipient.party.members.find(item => Number(item.slot) === 1);
+        if (main) {
+            Object.assign(main, { characterId: context.characterId, level: context.characterLevel,
+                constellation: context.constellation, talentLevels: context.talentLevels,
+                stats: { ...context.stats }, equipment: { weaponId: context.weaponId, refinement: context.refinement,
+                    artifactSetIds: context.artifactSetIds, artifactSetMode: context.artifactSetMode } });
+        }
+        recipient.reactionRecipientOnField = member.combatState?.onField === true;
+        recipient.activeCharacterElement = context.activeCharacterElement || context.characterElement;
+        recipient.reactionParticipantEvaluation = true;
+        recipient.party.conditionStates ||= {};
+        recipient.uiState = { conditionByModifier: {}, checkboxByModifier: {}, stackByModifier: {}, toggleByModifier: {},
+            enableCharacterCondition: false, enableWeaponLowHpCondition: false, enableConstellation: Number(member.constellation) > 0 };
+        const records = provider => {
+            const result = [];
+            (calcData.talentModifiers?.[provider.characterId]?.passives || []).forEach(passive =>
+                (passive.modifiers || []).forEach((modifier, index) => result.push({ modifier, index, kind:'talent', id:passive.sourceId, source:`talent:${passive.sourceId}` })));
+            Object.entries(calcData.constellationModifiers?.[provider.characterId]?.constellations || {}).forEach(([level, modifiers]) => {
+                if (Number(level) <= Number(provider.constellation || 0)) modifiers.forEach((modifier,index) => result.push({ modifier,index,kind:'constellation',id:level,source:`constellation:C${level}` }));
+            });
+            const weaponId = provider.equipment?.weaponId || '';
+            (calcData.weaponModifiers?.[weaponId]?.modifiers || []).forEach((modifier,index) => result.push({modifier,index,kind:'weapon',id:weaponId,source:`weapon:${weaponId}`}));
+            (provider.equipment?.artifactSetIds || []).forEach((id,index) => {
+                [2,4].forEach(pieces => {
+                    if (pieces === 4 && (index !== 0 || provider.equipment?.artifactSetMode !== '4pc')) return;
+                    (calcData.artifactSetModifiers?.[id]?.[pieces === 2 ? 'twoPiece':'fourPiece'] || []).forEach((modifier,index) => result.push({modifier,index,kind:'artifact',id:`${pieces}:${id}`,source:`artifact${pieces}:${id}`}));
+                });
+            });
+            return result;
+        };
+        if (main) records(main).forEach(({modifier,index,kind,id,source}) => {
+            const localKey = window.GenshinModifierAnalyzer.modifierStateKey(modifier, source);
+            const groupKey = `character:${main.characterId}:group:${modifier.conditionGroupId}`;
+            const state = originalUi.conditionByModifier?.[localKey] || originalUi.conditionByModifier?.[groupKey];
+            const key = candidateToggleKey(main,kind,id,modifier,candidateKey(main,kind,id,modifier,index));
+            // A main provider's original condition state remains the authority.
+            const enabled = state ? state.enabled : window.GenshinCalcConditions.evaluateModifierCondition({modifier,source,context,calcData}).enabled;
+            main.buffStates ||= {}; main.buffStates[key] = Boolean(enabled);
+            if (state) recipient.party.conditionStates[key] = { ...state };
+        });
+        recipient.party.members.forEach(provider => {
+            if (String(provider.characterId) === '10000140') {
+                const actions = vodyProviderActions(recipient,provider);
+                Object.entries(actions).forEach(([field,value]) => {
+                    recipient.party.conditionStates[vodyActionKey(provider,field)] = {option: field === 'recipient' ? (recipient.reactionRecipientOnField ? 'active':'offField') : value};
+                });
+                deriveVodyProviderConditions(recipient,provider);
+            }
+        });
+        const own = recipient.party.members.find(item => Number(item.slot) === Number(member.slot));
+        records(own).forEach(({modifier,index,kind,id,source}) => {
+            const key = candidateToggleKey(own,kind,id,modifier,candidateKey(own,kind,id,modifier,index));
+            const state = recipient.party.conditionStates[key];
+            if (!state && !Object.hasOwn(own.buffStates || {},key) && automaticCondition(modifier)) return;
+            const enabled = state?.enabled ?? own.buffStates?.[key] ?? false;
+            const resolved = { ...(state || {}), enabled: state?.enabled ?? (modifier.conditionInputActivates
+                ? (state?.option !== undefined ? !['inactive','none','off',''].includes(state.option) : Number(state?.stack) > 0) : enabled) };
+            recipient.uiState.conditionByModifier[window.GenshinModifierAnalyzer.modifierStateKey(modifier,source)] = resolved;
+            if (modifier.conditionGroupId) recipient.uiState.conditionByModifier[`character:${own.characterId}:group:${modifier.conditionGroupId}`] = resolved;
+        });
+        Object.assign(recipient, { characterId: member.characterId, characterInfo: calcData.characters?.[member.characterId] || {},
+            characterElement: member.element || calcData.characters?.[member.characterId]?.element || '',
+            characterLevel: baseOverrides.level ?? member.level, constellation: member.constellation || 0,
+            talentLevels: member.talentLevels || {}, weaponId: member.equipment?.weaponId || '',
+            refinement: member.equipment?.refinement || 1, artifactSetIds: member.equipment?.artifactSetIds || [],
+            artifactSetMode: member.equipment?.artifactSetMode || 'none',
+            stats: { ...member.stats }, effectiveStats: undefined, baseStats: undefined, statTrace: undefined,
+            inputProvenance: { ...(member.provenance || {}), includesPersistentBonuses: true } });
+        ['elementalMastery','critRate','critDamage'].forEach(key => {
+            if (Object.hasOwn(baseOverrides,key)) recipient.stats[key] = baseOverrides[key];
+        });
+        recipient.manualInputs = { ...recipient.manualInputs, providerStats: { ...recipient.stats }, reactionContributors: [] };
+        return recipient;
+    }
+
     function collectPartyModifierCandidates(calcData, context) {
         const candidates = [];
         const isCurrentRecord = (modifier) => ![
             "supersededByStructuredRecord",
             "supersededDuplicate"
         ].includes(modifier?.auditDisposition);
-        const members = (context.party?.members || []).filter((member) => member.slot > 1 && member.enabled && member.characterId);
+        const members = (context.party?.members || []).filter((member) => (member.slot > 1 || context.reactionParticipantEvaluation) && member.enabled && member.characterId
+            && (!context.reactionParticipantEvaluation || String(member.characterId) !== String(context.characterId)));
         members.forEach((member) => {
             deriveVodyProviderConditions(context, member);
             const passives = calcData.talentModifiers?.[member.characterId]?.passives || [];
@@ -604,6 +686,7 @@
         applyStackingRules,
         targetBaseStatRequirement,
         constellationScaledMaximum,
+        createReactionRecipientContext,
         collectPartyModifierCandidates,
         collectApplicablePartyModifiers
     };

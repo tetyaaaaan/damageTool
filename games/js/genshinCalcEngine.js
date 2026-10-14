@@ -216,7 +216,7 @@
         return records;
     }
 
-    function resolveReactionContributors(context) {
+    function resolveReactionContributors(context, calcData) {
         const contributors = [], problems = [], seen = new Set([String(context.characterId)]);
         for (const record of (context.manualInputs?.reactionContributors || []).slice(0,3)) {
             if (record.mode === "none") continue;
@@ -233,7 +233,14 @@
             Object.keys(values).forEach(key => { if (Object.hasOwn(record.overrides || {},key)) values[key]=record.overrides[key]; });
             const missing = ["level","elementalMastery","critRate","critDamage"].filter(key=>values[key]===null || values[key]===undefined || !Number.isFinite(Number(values[key])));
             if (missing.length) { problems.push(`参加者${record.slot}の${missing.map(k=>({level:"Lv",elementalMastery:"元素熟知",critRate:"会心率",critDamage:"会心ダメージ"})[k]).join("・")}が未取得です。入力してください。`); continue; }
-            contributors.push({slot:record.slot,characterId:member.characterId,partySlot:member.slot,source:"partyCurrent",statSource:member.provenance?.source || "manual",combatStatsEvaluated:false,...values});
+            const contributor = {slot:record.slot,characterId:member.characterId,partySlot:member.slot,source:"partyCurrent",statSource:member.provenance?.source || "manual",combatStatsEvaluated:false,...values};
+            if (calcData && window.GenshinPartyModifiers?.createReactionRecipientContext) {
+                const evaluation = evaluateReactionParticipant(calcData, context, member, record.overrides || {});
+                problems.push(...evaluation.problems.map(reason => `参加者${record.slot}：${reason}`));
+                Object.assign(contributor, evaluation.values, { combatStatsEvaluated: true, modifierScopes: evaluation.scopes,
+                    appliedSources: evaluation.sources, statTrace: evaluation.statTrace });
+            }
+            contributors.push(contributor);
         }
         return {contributors,problems};
     }
@@ -1410,6 +1417,7 @@
             );
             if (!modifier) return;
             const analysis = analyzeModifier(modifier, source, context);
+            if (context.reactionParticipantEvaluation && modifier.targetOwner === 'activeCharacter' && !context.reactionRecipientOnField) return;
             if (modifier.requiredAttackMode && !attackModeIsEnabled(calcData, context, modifier.requiredAttackMode)) {
                 addCandidate(modifier, source, "必要な攻撃状態がOFF", analysis);
                 return;
@@ -2527,6 +2535,64 @@
         return totals;
     }
 
+    function evaluateReactionParticipant(calcData, context, member, overrides) {
+        const recipient = window.GenshinPartyModifiers.createReactionRecipientContext(calcData, context, member, overrides);
+        hydrateReactionContext(recipient, calcData);
+        recipient.reactionOption = resolveIndirectReactionVariant(recipient.reactionOption, recipient);
+        window.GenshinCalcConditions.reconcilePartyConditionState(recipient, calcData);
+        const collected = collectActiveModifiers(calcData, recipient);
+        // Include wearer-local effects in the same existing non-stackable/max rules.
+        const stackingCandidates = collected.applied.map(item => {
+            const partyCandidate = collected.partyCandidates.find(candidate => candidate.key === item.partyCandidateKey);
+            if (partyCandidate) return { ...partyCandidate, appliedItem: item };
+            const [kind,id] = item.source.split(':');
+            return { modifier:item.modifier, description:item.modifier.sourceText || '', resolvedValue:item.value,
+                sourceKind:kind.startsWith('artifact') ? 'artifact' : kind,
+                sourceId:kind.startsWith('artifact') ? `${kind.slice(8)}:${id}` : id, appliedItem:item };
+        });
+        collected.applied = window.GenshinPartyModifiers.applyStackingRules(stackingCandidates).map(candidate => candidate.appliedItem);
+        const statResolution = buildEffectiveStats(recipient, collected);
+        recipient.effectiveStats = statResolution.effectiveStats;
+        resolveCurrentStatReactionReferences(recipient, collected);
+        // Ordinary CR/CD (including general stat conversions) use the existing attack
+        // target resolver with a reaction entry. Reaction-only CR/CD remains in its own bucket.
+        const reactionEntry = { attackType: 'reaction', damageType: 'reaction', group:'reaction',
+            directReactionId: recipient.reactionOption.reactionId, element: recipient.reactionOption.damageElement };
+        const ordinaryCrit = applyModifiersToDamageEntry(reactionEntry,recipient,{ ...collected,
+            applied: collected.applied.filter(item => item.modifier.category === 'critBonus'
+                || ['statBonus','scalingStatBonus'].includes(item.analysis?.calculation)) });
+        const totals = collectReactionTotals(recipient,{ ...collected,
+            applied: collected.applied.filter(item => item.modifier.category !== 'critBonus') });
+        // Overrides retain Stage 1 semantics: status inputs precede combat buffs;
+        // reaction inputs replace only the participant-local bucket, never the shared bucket.
+        const local = { ...totals.participantLocal };
+        ['reactionBonus','baseDamageBonus','additiveBaseDamage'].forEach(key => {
+            if (Object.hasOwn(overrides,key)) local[key] = overrides[key];
+        });
+        const shared = totals.sharedParty;
+        const values = {
+            elementalMastery: recipient.effectiveStats.elementalMastery,
+            critRate: Math.min(100,Math.max(0,Number(recipient.stats.critRate) + ordinaryCrit.totals.critRateBonus + totals.critRate)),
+            critDamage: Math.max(0,Number(recipient.stats.critDamage) + ordinaryCrit.totals.critDamageBonus + totals.critDamage),
+            reactionBonus: shared.reactionBonus + local.reactionBonus,
+            baseDamageBonus: shared.baseDamageBonus + local.baseDamageBonus,
+            additiveBaseDamage: shared.additiveBaseDamage + local.additiveBaseDamage,
+            finalDamageMultiplier: (shared.finalDamageMultiplier || 1) * (local.finalDamageMultiplier || 1)
+        };
+        const sources = [...new Set([...statResolution.trace.map(item => item.modifierId), ...totals.applied.map(item => item.modifier.id), ...ordinaryCrit.applied.map(item => item.modifier.id)])];
+        return { values, scopes: {sharedParty:shared, participantLocal:local, manualOverrides:{...overrides}},
+            sources, statTrace:statResolution.trace, problems:totals.pendingReasons };
+    }
+
+    function resolveCurrentStatReactionReferences(context, collected) {
+        collected.applied.forEach(item => {
+            if (item.modifier.category !== 'reactionBaseDamageBonus'
+                || !item.modifier.reference?.includeProviderConditionalStats || item.modifier.partySource) return;
+            item.valueContext = { ...context, stats: context.effectiveStats };
+            item.value = resolveModifierValue(item.modifier,item.valueContext,context.uiState,item.analysis);
+        });
+    }
+
     function combineRankedContributions(values, weights) {
         return [...values].sort((a, b) => b - a).reduce((sum, value, index) => sum + value * (weights[index] ?? 0), 0);
     }
@@ -2549,11 +2615,11 @@
         };
     }
 
-    function buildIndirectLunarResult(context, collected, reaction) {
+    function buildIndirectLunarResult(context, collected, reaction, calcData) {
         reaction = resolveIndirectReactionVariant(reaction, context);
         if (!reaction.enabled || !Number.isFinite(Number(reaction.coefficient))) return null;
         const totals = collectReactionTotals(context, collected);
-        const participants = resolveReactionContributors(context);
+        const participants = resolveReactionContributors(context, calcData);
         totals.pendingReasons.push(...participants.problems);
         const weights = reaction.contributionWeights || [1, 0.5, 1 / 12, 1 / 12];
         if (totals.pendingReasons.length) return {
@@ -2585,20 +2651,21 @@
             const levelMultiplier = reactionLevelValue(context, "characterLevelMultipliers", contributor.level);
             const emBonus = reactionEmBonusPercent("dedicated", contributor.elementalMastery);
             const isCurrent = contributor.slot === 1;
-            const baseDamageBonus = isCurrent
+            const evaluated = contributor.combatStatsEvaluated === true;
+            const baseDamageBonus = evaluated ? contributor.baseDamageBonus : isCurrent
                 ? totals.sharedParty.baseDamageBonus + totals.participantLocal.baseDamageBonus
                 : totals.sharedParty.baseDamageBonus + (Number(contributor.baseDamageBonus) || 0);
-            const reactionBonus = isCurrent
+            const reactionBonus = evaluated ? contributor.reactionBonus : isCurrent
                 ? totals.sharedParty.reactionBonus + totals.participantLocal.reactionBonus
                 : totals.sharedParty.reactionBonus + (Number(contributor.reactionBonus) || 0);
-            const additiveBaseDamage = isCurrent
+            const additiveBaseDamage = evaluated ? contributor.additiveBaseDamage : isCurrent
                 ? totals.sharedParty.additiveBaseDamage + totals.participantLocal.additiveBaseDamage
                 : totals.sharedParty.additiveBaseDamage + (Number(contributor.additiveBaseDamage) || 0);
             const critRate = Math.min(Math.max((Number(contributor.critRate) || 0)
-                + (isCurrent ? 0 : totals.sharedParty.critRate), 0), 100);
+                + (isCurrent || evaluated ? 0 : totals.sharedParty.critRate), 0), 100);
             const critDamage = Math.max((Number(contributor.critDamage) || 0)
-                + (isCurrent ? 0 : totals.sharedParty.critDamage), 0);
-            const finalDamageMultiplier = (totals.sharedParty.finalDamageMultiplier || 1)
+                + (isCurrent || evaluated ? 0 : totals.sharedParty.critDamage), 0);
+            const finalDamageMultiplier = evaluated ? contributor.finalDamageMultiplier : (totals.sharedParty.finalDamageMultiplier || 1)
                 * (isCurrent ? totals.participantLocal.finalDamageMultiplier || 1 : 1);
             const preResistance = (reaction.coefficient * levelMultiplier
                 * (1 + baseDamageBonus / 100)
@@ -2719,13 +2786,13 @@
         };
     }
 
-    function buildStandaloneReactionResult(context, collected) {
+    function buildStandaloneReactionResult(context, collected, calcData) {
         const reaction = context.reactionOption || REACTION_OPTIONS.none;
         const family = reaction.family || reaction.reactionType || "none";
         if (!reaction.enabled) return null;
         if (family === "dedicated") {
             return reaction.dedicatedKind === "indirectLunar" && reaction.standaloneDamage
-                ? buildIndirectLunarResult(context, collected, reaction)
+                ? buildIndirectLunarResult(context, collected, reaction, calcData)
                 : null;
         }
         if (!["transformative", "shield"].includes(family)) return null;
@@ -3055,13 +3122,7 @@
         // Explicit current-stat reaction references are resolved after stat buffs, once.
         // Party providers have already supplied their own stat context; never replace it
         // with the recipient's effective stats.
-        collected.applied.forEach((item) => {
-            if (item.modifier.category !== "reactionBaseDamageBonus"
-                || !item.modifier.reference?.includeProviderConditionalStats
-                || item.modifier.partySource) return;
-            item.valueContext = { ...context, stats: context.effectiveStats };
-            item.value = resolveModifierValue(item.modifier, item.valueContext, context.uiState, item.analysis);
-        });
+        resolveCurrentStatReactionReferences(context, collected);
         const extraEntries = buildExtraDamageEntries(collected, talentResult.entries, context)
             .map((entry) => entry.element === "ownElement"
                 ? { ...entry, element: normalizeDamageElement(entry, calcData.characters?.[context.characterId] || {}) }
@@ -3070,7 +3131,7 @@
             const entryModifiers = applyModifiersToDamageEntry(entry, context, collected);
             return calculateDamage(entry, context, entryModifiers);
         });
-        const reactionResult = buildStandaloneReactionResult(context, collected);
+        const reactionResult = buildStandaloneReactionResult(context, collected, calcData);
         if (reactionResult) results.push(reactionResult);
         assignStableAttackKeys(results, resolvedRequest);
         const behaviorResolution = window.GenshinCalcData?.resolveBehaviorModifiers

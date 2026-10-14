@@ -1332,7 +1332,7 @@
         </article>`;
     }
 
-    function renderReactionContributor(slot, contributor, context) {
+    function renderReactionContributor(slot, contributor, context, evaluated) {
         const mode = contributor?.mode || (contributor ? "manual" : "none");
         const selected = mode === "party" ? `party:${contributor.partySlot}:${contributor.characterId}` : mode;
         const members = (context.party?.members || []).filter(m=>Number(m.slot)>1 && m.enabled !== false && m.characterId);
@@ -1344,20 +1344,28 @@
         const missing = mode === "party" && member ? ["elementalMastery","critRate","critDamage"].filter(key=>member.stats?.[key]===null || member.stats?.[key]===undefined) : [];
         const required = Object.entries(fields).filter(([,v])=>missing.includes(v[1]));
         const optional = Object.entries(fields).filter(([,v])=>!missing.includes(v[1]));
-        const preview = member ? `Lv ${member.level} ／ 元素熟知 ${member.stats?.elementalMastery == null ? '未取得' : formatOperand(member.stats.elementalMastery)} ／ 会心率 ${member.stats?.critRate == null ? '未取得' : formatOperand(member.stats.critRate)+'%'} ／ 会心ダメージ ${member.stats?.critDamage == null ? '未取得' : formatOperand(member.stats.critDamage)+'%'}` : '';
+        const reference = evaluated || member?.stats || {};
+        const automaticBonuses = evaluated?.combatStatsEvaluated ? [
+            evaluated.reactionBonus ? `反応ダメージ補正 ${formatOperand(evaluated.reactionBonus)}%` : '',
+            evaluated.baseDamageBonus ? `基礎ダメージ補正 ${formatOperand(evaluated.baseDamageBonus)}%` : '',
+            evaluated.additiveBaseDamage ? `固定加算 ${formatOperand(evaluated.additiveBaseDamage)}` : '',
+            evaluated.finalDamageMultiplier !== 1 ? `独立倍率 ×${formatOperand(evaluated.finalDamageMultiplier)}` : ''
+        ].filter(Boolean).join(' ／ ') : '';
+        const preview = member ? `Lv ${evaluated?.level ?? member.level} ／ ${evaluated?.combatStatsEvaluated ? '実効元素熟知' : '元素熟知'} ${reference.elementalMastery == null ? '未取得' : formatOperand(reference.elementalMastery)} ／ ${evaluated?.combatStatsEvaluated ? '実効会心率' : '会心率'} ${reference.critRate == null ? '未取得' : formatOperand(reference.critRate)+'%'} ／ ${evaluated?.combatStatsEvaluated ? '実効会心ダメージ' : '会心ダメージ'} ${reference.critDamage == null ? '未取得' : formatOperand(reference.critDamage)+'%'}` : '';
         return `<fieldset class="genshin-reaction-contributor"><legend>参加者${slot}${member ? '：'+escapeHtml(member.nameJa || context.displayData?.characters?.[member.characterId]?.nameJa || 'パーティメンバー') : ''}</legend>
             <label class="genshin-participant-choice"><span>参加者の選択</span><select id="genshinReactionContributor${slot}Mode" data-reaction-participant-mode="${slot}" data-previous-mode="${escapeHtml(selected)}">
             <option value="none"${selected==='none'?' selected':''}>不参加</option>
             ${members.map(m=>{const value=`party:${m.slot}:${m.characterId}`;return `<option value="${value}"${selected===value?' selected':''}${used.has(String(m.characterId))?' disabled':''}>パーティ：${escapeHtml(m.nameJa || 'サポート'+(m.slot-1))}</option>`}).join('')}
             ${mode==='party'&&!member?`<option value="${escapeHtml(selected)}" selected disabled>参照先が編成から外れています</option>`:''}
             <option value="manual"${selected==='manual'?' selected':''}>手動設定</option></select></label>
-            ${mode==='party'?`<p>現在のパーティ設定値を参照（戦闘中の個別バフは未評価）</p>${member?`<details><summary>参照値を確認</summary><p>${escapeHtml(preview)}</p></details>`:''}${required.length?`<div class="genshin-participant-missing"><p>未取得の値を入力してください。</p>${required.map(input).join('')}</div>`:''}<details><summary>個別上書き・個別反応補正</summary>${optional.map(input).join('')}</details>`
+            ${mode==='party'?`<p>現在のパーティ設定値と戦闘中補正を参照</p>${member?`<details><summary>参照値を確認</summary><p>${escapeHtml(preview)}</p>${automaticBonuses ? `<p>${escapeHtml(automaticBonuses)}</p>` : ''}</details>`:''}${required.length?`<div class="genshin-participant-missing"><p>未取得の値を入力してください。</p>${required.map(input).join('')}</div>`:''}<details><summary>個別上書き・個別反応補正</summary><p>能力値は戦闘中補正前の入力値を置き換えます。反応補正は本人固有分を置き換え、チーム共通分は一度だけ加わります。</p>${optional.map(input).join('')}</details>`
                 : `<div${mode==='none'?' hidden':''}>${Object.entries(fields).map(input).join('')}</div>`}
         </fieldset>`;
     }
 
-    function renderDedicatedReactionControls(reaction, context) {
+    function renderDedicatedReactionControls(reaction, context, calcData) {
         if (reaction.dedicatedKind === "indirectLunar") {
+            const evaluated = new Map((window.GenshinCalcEngine?.resolveReactionContributors(context,calcData)?.contributors || []).map(item => [item.slot,item]));
             const contributors = new Map((context.manualInputs?.reactionContributors || []).map((item) => [item.slot, item]));
             const stellarVariant = context.manualInputs?.stellarSwirlVariant || reaction.variantControl?.default || "initialAnemo";
             const stellarOptions = (reaction.variantControl?.options || []).map((option) => {
@@ -1383,7 +1391,7 @@
                 <p>${escapeHtml(contributorHelp)}</p>
                 <p>${escapeHtml(modifierHelp)}</p>
                 ${harmonyHelp ? `<p>${escapeHtml(harmonyHelp)}</p>` : ""}
-                <div class="genshin-reaction-contributor-grid">${[2, 3, 4].map((slot) => renderReactionContributor(slot, contributors.get(slot), context)).join("")}</div>
+                <div class="genshin-reaction-contributor-grid">${[2, 3, 4].map((slot) => renderReactionContributor(slot, contributors.get(slot), context, evaluated.get(slot))).join("")}</div>
             </div>`;
         }
         if (reaction.reactionId === "stellarConduct") {
@@ -1853,7 +1861,7 @@
         const reactionElementControl = reaction.reactionId === "swirl"
             ? `<label class="genshin-reaction-control"><span>拡散する元素</span><select id="genshinJsonReactionElement">${["炎", "水", "雷", "氷"].map((element) => `<option value="${element}"${context.reactionElement === element ? " selected" : ""}>${element}元素</option>`).join("")}</select></label>`
             : "";
-        const dedicatedReactionControls = renderDedicatedReactionControls(reaction, context);
+        const dedicatedReactionControls = renderDedicatedReactionControls(reaction, context, calcData);
         const reactionWide = Boolean(reactionElementControl || dedicatedReactionControls);
         const reactionSelect = getElement("genshinJsonReactionOption");
         if (reactionSelect) {
