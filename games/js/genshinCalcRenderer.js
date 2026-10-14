@@ -67,9 +67,13 @@
         return Number.isFinite(num) ? num.toFixed(digits) : "-";
     }
 
-    function formatOperand(value) {
+    function formatOperand(value, digits = 2, comparison) {
         const number = Number(value);
-        return Number.isFinite(number) ? number.toLocaleString("ja-JP", { maximumFractionDigits: 4 }) : "-";
+        if (!Number.isFinite(number)) return "-";
+        // Retain small effects and visibly distinguish adjacent Runtime results.
+        while (digits < 12 && ((number !== 0 && Number(number.toFixed(digits)) === 0)
+            || (Number.isFinite(comparison) && number !== comparison && number.toFixed(digits) === comparison.toFixed(digits)))) digits += 1;
+        return number.toLocaleString("ja-JP", { maximumFractionDigits: digits });
     }
 
     function numberOr(value, fallback = 0) {
@@ -221,6 +225,8 @@
     };
 
     const MODIFIER_TARGET_LABELS = {
+        stellarConductBaseDamageBonus: "星電導基礎ダメージ",
+        stellarSwirlBaseDamageBonus: "星拡散基礎ダメージ",
         atk: "攻撃力", atkFlat: "攻撃力", atkPercent: "攻撃力",
         hp: "HP", hpFlat: "HP", hpPercent: "HP",
         def: "防御力", defFlat: "防御力", defPercent: "防御力",
@@ -298,7 +304,7 @@
         if (modifier.partySource) {
             return [modifier.partyProviderName, modifier.partySourceName].filter(Boolean).join("・") || "パーティ補正";
         }
-        return sourceLabel(item.source);
+        return userFacingLabel(modifier.effectLabel, sourceLabel(item.source));
     }
 
     function resolvedStatTrace(item, statTrace = []) {
@@ -323,22 +329,23 @@
         const trace = modifierStage(item) === "base" ? resolvedStatTrace(item, statTrace) : null;
         const rawValue = Number.isFinite(numericValue)
             ? modifier.displayAsMultiplier && modifier.unit === "percentOfOriginalDamage"
-                ? `×${formatDecimal(numericValue / 100, 4)}`
-                : `${numericValue >= 0 ? "+" : ""}${formatDecimal(numericValue)}${modifierValueSuffix(modifier)}`
+                ? `×${formatOperand(numericValue / 100, 4)}`
+                : `${numericValue >= 0 ? "+" : ""}${formatOperand(numericValue)}${modifierValueSuffix(modifier)}`
             : "";
         const value = trace
             ? trace.referenceStat
-                ? `${Number(trace.value) >= 0 ? "+" : ""}${formatDecimal(trace.value)} ／ ${statLabel(trace.referenceStat)}${Number(trace.referenceValue).toLocaleString("ja-JP", { maximumFractionDigits: 4 })} × ${Number(trace.coefficient).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}${Number.isFinite(Number(trace.maxValue)) ? ` / 上限${Number(trace.maxValue).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}` : ""}`
+                ? `${Number(trace.value) >= 0 ? "+" : ""}${formatOperand(trace.value)} ／ ${statLabel(trace.referenceStat)}${formatOperand(trace.referenceValue)} × ${formatOperand(trace.coefficient, 4)}${Number.isFinite(Number(trace.maxValue)) ? ` / 上限${Number(trace.maxValue).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}` : ""}`
                 : providerCoefficientStat(modifier) && Number.isFinite(Number(item.valueContext?.stats?.[providerCoefficientStat(modifier)]))
                     ? `${userFacingLabel(modifier.partyProviderName, "提供者")}の${({baseAtk:"基礎攻撃力",baseHp:"基礎HP",baseDef:"基礎防御力"})[providerCoefficientStat(modifier)]} ${formatOperand(item.valueContext.stats[providerCoefficientStat(modifier)])} × 係数 ${formatDecimal(numericValue)}% → ${statLabel(trace.stat)} +${formatOperand(trace.value)}`
-                    : `${Number(trace.value) >= 0 ? "+" : ""}${formatNumber(trace.value)}`
+                    : `${Number(trace.value) >= 0 ? "+" : ""}${formatOperand(trace.value)}`
             : modifier.category === "reactionBaseDamageBonus" && modifier.rounding === "continuous"
-                ? `+${Number(item.value).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}% ／ ${statLabel(modifier.reference?.stat)}${Number(item.valueContext?.stats?.[modifier.reference?.stat] || 0).toLocaleString("ja-JP", { maximumFractionDigits: 4 })} × ${Number(modifier.ratio / modifier.divisor).toLocaleString("ja-JP", { maximumFractionDigits: 4 })}% / 上限${modifier.maxValue}%`
+                ? `+${formatOperand(item.value)}% ／ ${statLabel(modifier.reference?.stat)}${formatOperand(item.valueContext?.stats?.[modifier.reference?.stat] || 0)} × ${formatOperand(modifier.ratio / modifier.divisor, 4)}% / 上限${modifier.maxValue}%`
                 : rawValue;
         return {
             label: [source, source.endsWith(`・${effect}`) ? "" : effect].filter(Boolean).join("・"),
             value,
-            stage: modifierStage(item)
+            stage: modifierStage(item),
+            baseReactionBonus: modifier.category === "reactionBaseDamageBonus"
         };
     }
 
@@ -382,6 +389,7 @@
                 effects: effectsByStage.buff || []
             },
             reaction: reactionEnabled ? {
+                damageClassification: Boolean(result.entry?.directReactionId && ["stellarConduct", "stellarSwirl"].includes(result.entry.directReactionId)),
                 label: reactionLabel(reaction),
                 multiplier: numberOr(reaction.baseMultiplier, 1),
                 elementalMasteryBonus: numberOr(reaction.elementalMasteryBonus),
@@ -498,37 +506,53 @@
         if (view.special.effectOverrides.length) specialRows.push({ label: "特殊効果", value: `${view.special.effectOverrides.length}件` });
         const contributorHtml = view.reaction ? renderReactionContributors(view.reaction.contributors) : "";
         const statRows = (result.breakdown?.statTrace || []).some((trace) => trace.stat === "elementalMastery" && trace.referenceStat)
-            ? [{ label: "元素熟知（補正後）", value: formatNumber(result.breakdown?.inputStats?.elementalMastery) }]
+            ? [{ label: "元素熟知（補正後）", value: formatOperand(result.breakdown?.inputStats?.elementalMastery) }]
             : [];
+        const reactionKind = view.reaction?.damageClassification ? "ダメージ分類" : "元素反応";
+        const reactionName = view.reaction?.label + (view.reaction?.damageClassification ? "扱い" : "");
+        const compactSection = (title, value, body, effects = []) => `<section class="genshin-flow-stage"><h5><span>${escapeHtml(title)}</span>${value ? `<strong>${escapeHtml(value)}</strong>` : ""}</h5>${body}${renderAppliedEffects(effects)}</section>`;
+        const baseFormula = view.base.scalingParts.map(part => `<p class="genshin-flow-formula">${escapeHtml(part.fixed ? "固定基礎ダメージ" : `${part.stat} ${formatOperand(part.statValue)} × ${formatOperand(part.talentMultiplier)}%`)}${view.base.scalingParts.length > 1 ? ` → ${escapeHtml(formatOperand(part.baseDamage))}` : ""}</p>`).join("");
         const stepSections = view.calculationSteps.map((step, index) => {
             const rows = [];
-            if (step.multiplier !== undefined) rows.push({ label: "適用倍率", value: `×${formatDecimal(step.multiplier, 4)}` });
-            if (step.addition !== undefined) rows.push({ label: "加算量", value: `+${formatOperand(step.addition)}` });
-            if (step.value !== undefined) rows.push({ label: "この段階のダメージ", value: formatOperand(step.value) });
-            if (step.stage === "reaction" && view.calculationSteps.findIndex(item => item.stage === "reaction") === index) {
-                if (view.reaction) rows.unshift({ label: "元素反応", value: view.reaction.label });
-                if (view.reaction?.elementalMasteryBonus) rows.push({ label: "元素熟知による補正", value: `+${formatDecimal(view.reaction.elementalMasteryBonus)}%` });
-                if (view.reaction?.reactionBonus) rows.push({ label: "反応ダメージ補正", value: `+${formatDecimal(view.reaction.reactionBonus)}%` });
-            }
-            if (step.label === "敵の耐性") rows.unshift({ label: `敵の${view.element}耐性`, value: view.enemy.immunity ? "無効" : `${formatDecimal(view.enemy.resistance)}%` });
-            if (step.label === "敵の防御") {
-                if (view.enemy.defenseReduction) rows.unshift({ label: "防御デバフ", value: `${formatDecimal(view.enemy.defenseReduction)}%` });
-                if (view.enemy.defenseIgnore) rows.unshift({ label: "防御無視", value: `${formatDecimal(view.enemy.defenseIgnore)}%` });
-            }
             const firstStage = view.calculationSteps.findIndex(item => item.stage === step.stage) === index;
-            const effects = firstStage && step.stage !== "base" ? (view[step.stage === "buff" ? "buffs" : step.stage]?.effects || []) : [];
-            return renderFriendlyBreakdownSection(`${index + 2}. ${step.label}`, rows, renderAppliedEffects(effects));
+            if (step.stage === "reaction" && firstStage) {
+                if (view.reaction) rows.push({label:reactionKind,value:reactionName});
+                if (view.reaction?.elementalMasteryBonus) rows.push({label:"元素熟知による補正",value:`+${formatOperand(view.reaction.elementalMasteryBonus)}%`});
+                if (view.reaction?.reactionBonus) rows.push({label:"反応ダメージ補正",value:`+${formatOperand(view.reaction.reactionBonus)}%`});
+            }
+            if (step.label === "敵の耐性") rows.push({label:`敵の${view.element}耐性`,value:view.enemy.immunity ? "無効" : `${formatOperand(view.enemy.resistance)}%`});
+            if (step.label === "敵の防御") {
+                if (view.enemy.defenseReduction) rows.push({label:"防御デバフ",value:`${formatOperand(view.enemy.defenseReduction)}%`});
+                if (view.enemy.defenseIgnore) rows.push({label:"防御無視",value:`${formatOperand(view.enemy.defenseIgnore)}%`});
+            }
+            const previous = index ? view.calculationSteps[index - 1].value : view.base.baseDamage;
+            const value = step.value !== undefined ? formatOperand(step.value, 2, previous)
+                : step.addition !== undefined ? `+${formatOperand(step.addition)}` : "";
+            const formula = step.multiplier !== undefined ? `<p class="genshin-flow-formula">×${escapeHtml(formatOperand(step.multiplier,4))}</p>` : "";
+            const effects = step.stage === "reaction"
+                ? (view.reaction?.effects || []).filter(effect => effect.baseReactionBonus
+                    ? step.label === "反応基礎ダメージ補正"
+                    : (view.calculationSteps.some(item => item.label === "反応補正・基礎加算後") ? step.label === "反応補正・基礎加算後" : firstStage))
+                : firstStage && step.stage !== "base" ? (view[step.stage === "buff" ? "buffs" : step.stage]?.effects || []) : [];
+            return compactSection(`${index + 2}. ${step.label}`,value,formula + (rows.length ? renderBreakdownRows(rows) : ""),effects);
         }).join("");
         const finalRows = view.valid ? [
-            { label: "非会心", value: formatDamageNumber(view.final.nonCrit) },
-            { label: "会心", value: formatDamageNumber(view.final.crit) },
-            { label: "期待値", value: formatDamageNumber(view.final.expected) }
+            { label: "非会心", value: formatOperand(view.final.nonCrit) },
+            { label: "会心", value: formatOperand(view.final.crit) },
+            { label: "期待値", value: formatOperand(view.final.expected) }
         ] : [];
         const runtimeFlow = view.calculationSteps.length ?
             renderFriendlyBreakdownSection("計算時ステータス", statRows)
-            + renderFriendlyBreakdownSection("1. 基礎ダメージ", scalingRows, renderAppliedEffects(view.base.effects))
+            + compactSection("1. 基礎ダメージ",formatOperand(view.base.baseDamage),baseFormula,view.base.effects)
             + stepSections
-            + renderFriendlyBreakdownSection("会心・最終ダメージ（1ヒット）", criticalRows.concat(finalRows), renderAppliedEffects(view.critical.effects)) : "";
+            + compactSection("会心・最終ダメージ（1ヒット）","",renderBreakdownRows([
+                {label:"会心率 / 会心ダメージ",value:`${formatOperand(view.critical.rate)}% / ${formatOperand(view.critical.damage)}%`}
+            ].concat(finalRows)),view.critical.effects) : "";
+        const preciseRows = [
+            ...view.base.scalingParts.map(part=>({label:part.stat,value:`${part.statValue} × ${part.talentMultiplier}% → ${part.baseDamage}`})),
+            ...view.calculationSteps.map(step=>({label:step.label,value:[step.multiplier !== undefined ? `倍率 ${step.multiplier}` : "",step.addition !== undefined ? `加算 ${step.addition}` : "",step.value !== undefined ? String(step.value) : ""].filter(Boolean).join(" / ")})),
+            ...(view.valid ? [{label:"非会心 / 会心 / 期待値",value:`${view.final.nonCrit} / ${view.final.crit} / ${view.final.expected}`}] : [])
+        ];
         return `
             <div class="genshin-json-breakdown">
                 <h5 class="genshin-breakdown-title">計算の流れ</h5>
@@ -557,6 +581,8 @@
                         { label: "内部攻撃種別", value: view.debug.attackType },
                         { label: "内部ダメージ種別", value: view.debug.damageType }
                     ])}
+                    <h5>高精度値</h5>
+                    ${renderBreakdownRows(preciseRows)}
                     <h5>今回適用されなかった効果</h5>
                     <ul>${renderModifierList(view.debug.skippedModifiers, "該当なし")}</ul>
                     ${view.debug.problems.length ? `<h5>データ上の注意</h5><ul>${view.debug.problems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : ""}

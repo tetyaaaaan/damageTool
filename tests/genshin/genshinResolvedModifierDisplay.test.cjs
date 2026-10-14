@@ -145,7 +145,23 @@ test("existing detail uses Runtime steps without deriving intermediate damage", 
         calculationSteps:[{stage:"base",label:"基礎ダメージ加算",addition:900},{stage:"base",label:"加算後の基礎ダメージ",value:1900},{stage:"special",label:"独立倍率",multiplier:1.2,value:123}],critRate:50,critDamage:100
     }};
     const before=JSON.stringify(result),html=renderer.renderDamageBreakdown(result);
-    assert.match(html,/基礎ダメージ加算/); assert.match(html,/1,900/); assert.match(html,/×1.2000/);
+    assert.match(html,/基礎ダメージ加算/); assert.match(html,/1,900/); assert.match(html,/×1.2/);
     assert.match(html,/123/); assert.match(html,/246/); assert.doesNotMatch(html,/ダメージバフ合計/);
     assert.equal(JSON.stringify(result),before);
+});
+
+
+test("compact flow distinguishes stellar talent classification and retains precise debug values", () => {
+    const renderer=loadRenderer();
+    for(const reaction of ["stellarConduct","stellarSwirl"]) {
+        const row={entry:{element:"氷",directReactionId:reaction},nonCrit:12.345678,crit:20,expected:14,problems:[],breakdown:{
+            scalingParts:[{stat:"atk",statValue:2025.9914,talentMultiplier:209.48,baseDamage:4244.0468}],
+            reaction:{reactionId:reaction,label:reaction},calculationSteps:[{stage:"reaction",label:"専用反応の基礎係数",multiplier:1.2345,value:12.345678}]
+        }};
+        const html=renderer.renderDamageBreakdown(row),main=html.split('<details class="genshin-json-debug-details">')[0];
+        assert.match(main,/ダメージ分類/);assert.match(main,/扱い/);assert.doesNotMatch(main,/この段階のダメージ/);
+        assert.match(main,/2,025.99/);assert.match(main,/4,244.05/);assert.match(html,/12.345678/);
+    }
+    const tiny={entry:{},nonCrit:1,crit:1,expected:1,breakdown:{scalingParts:[],calculationSteps:[{stage:"base",label:"基礎ダメージ加算",addition:0.00003}]}};
+    assert.match(renderer.renderDamageBreakdown(tiny),/0.00003/);
 });

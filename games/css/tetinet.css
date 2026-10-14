@@ -3640,23 +3640,36 @@ html[data-theme="dark"] .genshin-tool-page .genshin-json-calc-warnings.is-provis
 
 .genshin-tool-page .genshin-breakdown-flow {
   display: grid;
-  gap: 10px;
+  gap: 4px;
 }
 
 .genshin-tool-page .genshin-breakdown-flow section {
-  padding: 10px;
-  background: var(--teti-surface);
-  border: 1px solid var(--teti-border);
-  border-radius: var(--teti-radius-sm);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--teti-border);
 }
 
 .genshin-tool-page .genshin-breakdown-flow h5 {
-  margin: 0 0 9px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 0 0 3px;
   color: var(--teti-text);
   font-size: 0.78rem;
   font-weight: 900;
 }
 
+.genshin-tool-page .genshin-flow-formula {
+  margin: 2px 0;
+  color: var(--teti-muted);
+  font-size: 0.74rem;
+  overflow-wrap: anywhere;
+}
+
+.genshin-tool-page .genshin-json-breakdown .genshin-breakdown-flow dl { gap: 3px; }
+.genshin-tool-page .genshin-json-breakdown .genshin-breakdown-flow dl div { padding-bottom: 0; border: 0; }
+.genshin-tool-page .genshin-breakdown-flow .genshin-breakdown-effects { margin-top: 4px; gap: 3px; }
 .genshin-tool-page .genshin-json-breakdown dl {
   display: grid;
   gap: 6px;
