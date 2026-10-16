@@ -26,5 +26,5 @@ test("each main tool card has one destination for both card and visual action", 
         assert.match(body,/class="teti-button teti-button-primary"/);
         assert.doesNotMatch(body, /<(?:a|button)\b/);
     }
-    assert.match(home,/href="#calculators">計算ツールを選ぶ/);
+    assert.doesNotMatch(home,/計算ツールを選ぶ/);
 });

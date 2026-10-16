@@ -5166,7 +5166,7 @@ html[data-theme="dark"] .genshin-filter-button--element img { background: transp
 .teti-home-tools .teti-card-body p { flex: 1; margin: 0; }
 .teti-home-tools .teti-button { white-space: normal; text-align: center; }
 .teti-home-related { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-#calculators { scroll-margin-top: 88px; }
+.teti-home-page .teti-hero-content > p:last-child { margin-bottom: 0; }
 @media (max-width: 1000px) {
   .teti-home-related { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

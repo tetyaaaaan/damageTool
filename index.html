@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/games/css/tetinet.css?v=20261017-home-1">
+  <link rel="stylesheet" href="/games/css/tetinet.css?v=20261017-chrome-1">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/games/images/icon/tetinet-32x32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="/games/images/icon/tetinet-48x48.png">
@@ -19,24 +19,22 @@
      crossorigin="anonymous"></script>
   <script src="/games/js/theme.js?v=20260720-2"></script>
 </head>
-<body class="tetinet-page">
-  <header class="teti-site-header">
-    <div class="teti-container teti-header-inner">
-      <a class="teti-brand" href="/" aria-label="tetinet ホーム">
-        <img src="/games/images/logo/tetinet_icon_purple_orange.webp" alt="" width="40" height="40">
-        <span>tetinet</span>
-      </a>
-      <nav class="teti-nav" aria-label="メインナビゲーション">
+<body class="tetinet-page teti-home-page">
+  <!-- site-chrome:header:start -->
+<header class="teti-site-header">
+  <div class="teti-container teti-header-inner">
+    <a class="teti-brand" href="/" aria-label="tetinet ホーム">
+      <img src="/games/images/logo/tetinet_icon_purple_orange.webp" alt="" width="40" height="40"><span>tetinet</span>
+    </a>
+    <nav class="teti-nav" id="tetiMainNavigation" aria-label="メインナビゲーション">
         <a href="/" aria-current="page">ホーム</a>
-        <a href="#calculators">計算ツール</a>
+        <a href="/games/">計算ツール</a>
         <a href="/about/">このサイトについて</a>
-      </nav>
-      <button class="teti-theme-toggle" type="button" data-theme-toggle aria-label="テーマを切り替える">
-        <span class="theme-moon" aria-hidden="true">moon</span>
-        <span class="theme-sun" aria-hidden="true">sun</span>
-      </button>
-    </div>
-  </header>
+    </nav>
+    <button class="teti-theme-toggle" type="button" data-theme-toggle aria-label="テーマを切り替える"><span class="theme-moon" aria-hidden="true">☾</span><span class="theme-sun" aria-hidden="true">☀</span></button>
+  </div>
+</header>
+<!-- site-chrome:header:end -->
 
   <main class="teti-main">
     <section class="teti-hero">
@@ -46,9 +44,7 @@
           <h1>tetinet</h1>
         </div>
         <p>原神と崩壊：スターレイルのダメージ計算ツール。キャラクター・装備・戦闘条件を変えて、ダメージの違いを確認できます。</p>
-        <div class="teti-actions">
-          <a class="teti-button teti-button-primary" href="#calculators">計算ツールを選ぶ <span aria-hidden="true">→</span></a>
-        </div>
+
       </div>
     </section>
 
@@ -91,44 +87,22 @@
     </section>
   </main>
 
-  <footer class="teti-site-footer">
-    <div class="teti-container">
-      <div class="teti-footer-grid">
-        <div class="teti-footer-col">
-          <div class="teti-footer-brand">
-            <img src="/games/images/logo/tetinet_icon_white.webp" alt="" width="34" height="34">
-            <span>tetinet</span>
-          </div>
-          <p>ゲーム・ツール・個人制作物をまとめるサイト。</p>
-          <div class="teti-social-links">
-            <a href="https://x.com/tetinet_jp" target="_blank" rel="noopener noreferrer" aria-label="Xでtetinet_jpを開く">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 10.6 22 2h-1.7l-6.4 7.4L8.9 2H3l7.7 11.2L3 22h1.7l6.8-7.9 5.5 7.9h5.9l-8.2-11.4Zm-2.4 2.8-.8-1.1L5.4 3.3h2.7l4.9 7.2.8 1.1 6.4 9.2h-2.7l-5.2-7.4Z"/></svg>
-            </a>
-          </div>
-        </div>
-        <div class="teti-footer-col">
-          <h3>コンテンツ</h3>
-          <a href="/">ホーム</a>
-          <a href="/games/">計算ツール一覧</a>
-          <a href="/about/">このサイトについて</a>
-        </div>
-        <div class="teti-footer-col">
-          <h3>サポート</h3>
-          <a href="/guides/">使い方ガイド</a>
-          <a href="/updates/">更新履歴</a>
-          <a href="/faq/">よくある質問</a>
-          <a href="/contact/">お問い合わせ</a>
-        </div>
-        <div class="teti-footer-col">
-          <h3>その他</h3>
-          <a href="/terms/">利用条件・免責事項</a>
-          <a href="/privacy/">プライバシーポリシー</a>
-          <a href="/links/">参考リンク</a>
-          <a href="/sitemap/">サイトマップ</a>
-        </div>
+  <!-- site-chrome:footer:start -->
+<footer class="teti-site-footer">
+  <div class="teti-container">
+    <div class="teti-footer-grid">
+      <div class="teti-footer-col">
+        <div class="teti-footer-brand"><img src="/games/images/logo/tetinet_icon_white.webp" alt="" width="34" height="34"><span>tetinet</span></div>
+        <p>ゲーム・ツール・個人制作物をまとめるサイト。</p>
+        <div class="teti-social-links"><a href="https://x.com/tetinet_jp" target="_blank" rel="noopener noreferrer" aria-label="Xでtetinet_jpを開く"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 10.6 22 2h-1.7l-6.4 7.4L8.9 2H3l7.7 11.2L3 22h1.7l6.8-7.9 5.5 7.9h5.9l-8.2-11.4Zm-2.4 2.8-.8-1.1L5.4 3.3h2.7l4.9 7.2.8 1.1 6.4 9.2h-2.7l-5.2-7.4Z"/></svg></a></div>
       </div>
-      <div class="teti-footer-bottom">© 2026 tetinet. All rights reserved.</div>
+      <div class="teti-footer-col"><h3>コンテンツ</h3><a href="/">ホーム</a><a href="/games/">計算ツール</a><a href="/about/">このサイトについて</a></div>
+      <div class="teti-footer-col"><h3>サポート</h3><a href="/guides/">使い方ガイド</a><a href="/updates/">更新履歴</a><a href="/faq/">よくある質問</a><a href="/contact/">お問い合わせ</a></div>
+      <div class="teti-footer-col"><h3>その他</h3><a href="/terms/">利用条件・免責事項</a><a href="/privacy/">プライバシーポリシー</a><a href="/links/">参考リンク</a><a href="/sitemap/">サイトマップ</a></div>
     </div>
-  </footer>
+    <div class="teti-footer-bottom">© 2026 tetinet. All rights reserved.</div>
+  </div>
+</footer>
+<!-- site-chrome:footer:end -->
 </body>
 </html>

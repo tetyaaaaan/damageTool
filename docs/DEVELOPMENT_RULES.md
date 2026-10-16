@@ -63,3 +63,10 @@
 - ページタイトルや説明文に「予定」「精度は悪い」など未完成に見える表現を使いません。
 - 計算対象外の仕様がある場合は、免責や注意書きとして丁寧に記載します。
 - 外部ゲーム名を扱う場合は、非公式ファンツールであることを明記します。
+
+## 共通ヘッダー・フッター
+
+- サイト共通の文言・ロゴ・リンク・HTML構造は `scripts/lib/siteChrome.cjs` で管理します。ホーム固有の概要文や各ページのパンくずは対象外です。
+- 変更後は `node scripts/syncSiteChrome.cjs` で対象HTMLを同期し、生成差分も一緒にcommitします。`site-chrome` コメント内を直接編集しません。
+- `node scripts/syncSiteChrome.cjs --check` と `node --test tests/seo/site-chrome.test.cjs` で同期漏れを検出します。Wranglerの配信前ビルドでも同期します。
+- 生成済みHTMLを配信するため、表示時の追加JS取得や相対URL解決に依存しません。メニューとテーマ操作は既存 `theme.js` を使用します。

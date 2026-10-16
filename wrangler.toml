@@ -10,3 +10,7 @@ routes = [
 directory = "."
 binding = "ASSETS"
 run_worker_first = true
+
+# Keep committed static shells synchronized before deployment.
+[build]
+command = "node scripts/syncSiteChrome.cjs"
