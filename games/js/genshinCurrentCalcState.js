@@ -235,6 +235,7 @@
     function bindResetControls() {
         const menu = byId("genshinResetMenu"), dialog = byId("genshinResetDialog");
         let pending = null;
+        const returnFocus = menu.querySelector("summary");
         const run = async (kind) => {
             menu.open = false;
             const buttons = document.querySelectorAll("[data-currentcalc-reset], #genshinResetConfirm");
@@ -245,18 +246,21 @@
         };
         document.querySelectorAll("[data-currentcalc-reset]").forEach((button) => button.addEventListener("click", () => {
             const kind = button.dataset.currentcalcReset;
-            if (kind === "conditions") return run(kind);
             pending = kind;
-            byId("genshinResetDialogTitle").textContent = kind === "party" ? "パーティをリセットしますか？" : "全入力をリセットしますか？";
-            byId("genshinResetDialogDescription").textContent = kind === "party"
+            byId("genshinResetDialogTitle").textContent = { conditions: "補正条件をリセットしますか？", party: "パーティをリセットしますか？", all: "全入力をリセットしますか？" }[kind];
+            byId("genshinResetDialogDescription").textContent = kind === "conditions"
+                ? "現在の反応・パーティ・装備・天賦に紐づく手動補正条件を初期状態へ戻します。キャラクター・装備・ステータス・編成は保持します。"
+                : kind === "party"
                 ? "サポート3枠と編成の補正条件を初期化します。現在の計算対象・装備・ステータス、保存したキャラクターの育成・装備、UID取得データは保持します。"
                 : "現在のキャラクター・装備・ステータス・編成・補正条件・敵条件を初期化します。別途保存したプリセット、UID取得データ、他の計算モードのデータは削除しません。";
             menu.open = false;
             dialog.showModal();
+            byId("genshinResetCancel").focus();
         }));
+        byId("genshinResetClose")?.addEventListener("click", () => dialog.close());
         byId("genshinResetCancel")?.addEventListener("click", () => dialog.close());
         byId("genshinResetConfirm")?.addEventListener("click", () => { const kind = pending; dialog.close(); if (kind) run(kind); });
-        dialog?.addEventListener("close", () => { pending = null; });
+        dialog?.addEventListener("close", () => { pending = null; returnFocus?.focus(); });
     }
     async function importText(text) {
         if (applying) throw new Error("状態の読み込み中です。完了後にお試しください。");

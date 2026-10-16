@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="/games/css/style.css?v=20260722-1">
   <link rel="stylesheet" href="/games/css/menu.css">
   <link rel="stylesheet" href="/games/css/tetinet.css?v=20261014-participants-1">
-  <link rel="stylesheet" href="/games/css/genshin-tool-ui.css?v=20261014-uid-badge-1">
+  <link rel="stylesheet" href="/games/css/genshin-tool-ui.css?v=20261017-reset-1">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/games/images/icon/te_maru.ico">
   <script src="/games/js/windowLoading.js"></script>
@@ -355,7 +355,10 @@
           </div>
 
           <dialog id="genshinResetDialog" class="genshin-reset-dialog" aria-labelledby="genshinResetDialogTitle" aria-describedby="genshinResetDialogDescription">
-            <h2 id="genshinResetDialogTitle">入力をリセットしますか？</h2>
+            <div class="genshin-reset-heading">
+              <h2 id="genshinResetDialogTitle">入力をリセットしますか？</h2>
+              <button type="button" id="genshinResetClose" class="genshin-reset-close" aria-label="リセット確認を閉じる">×</button>
+            </div>
             <p id="genshinResetDialogDescription"></p>
             <div class="genshin-reset-actions">
               <button type="button" id="genshinResetCancel" class="teti-button teti-button-secondary" autofocus>キャンセル</button>
@@ -431,7 +434,7 @@
         <script src="/games/js/genshinCalcEngine.js?v=20261014-participants-2"></script>
         <script src="/games/js/genshinCalculationComparison.js?v=20260722-1"></script>
         <script src="/games/js/genshinCalcRenderer.js?v=20261014-participants-2"></script>
-        <script src="/games/js/genshinCurrentCalcState.js?v=20261014-participants-1"></script>
+        <script src="/games/js/genshinCurrentCalcState.js?v=20261017-reset-1"></script>
       </div>
     </main>
 

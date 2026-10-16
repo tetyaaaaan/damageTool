@@ -5159,3 +5159,17 @@ html[data-theme="dark"] .genshin-filter-button--element img { background: transp
 .genshin-tool-page .genshin-reaction-contributor [hidden] { display:none; }
 
 .genshin-tool-page .genshin-reaction-contributor .genshin-participant-choice { grid-template-columns:minmax(0,1fr); }
+
+/* Homepage information layout; existing colors, media and typography are retained. */
+.teti-home-tools { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.teti-home-tools .teti-card-body { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.teti-home-tools .teti-card-body p { flex: 1; margin: 0; }
+.teti-home-tools .teti-button { white-space: normal; text-align: center; }
+.teti-home-related { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+#calculators { scroll-margin-top: 88px; }
+@media (max-width: 1000px) {
+  .teti-home-related { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .teti-home-tools, .teti-home-related { grid-template-columns: minmax(0, 1fr); }
+}
