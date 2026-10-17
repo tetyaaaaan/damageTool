@@ -66,7 +66,4 @@
 
 ## 共通ヘッダー・フッター
 
-- サイト共通の文言・ロゴ・リンク・HTML構造は `scripts/lib/siteChrome.cjs` で管理します。ホーム固有の概要文や各ページのパンくずは対象外です。
-- 変更後は `node scripts/syncSiteChrome.cjs` で対象HTMLを同期し、生成差分も一緒にcommitします。`site-chrome` コメント内を直接編集しません。
-- `node scripts/syncSiteChrome.cjs --check` と `node --test tests/seo/site-chrome.test.cjs` で同期漏れを検出します。Wranglerの配信前ビルドでも同期します。
-- 生成済みHTMLを配信するため、表示時の追加JS取得や相対URL解決に依存しません。メニューとテーマ操作は既存 `theme.js` を使用します。
+管理元、同期コマンド、配信前処理、確認手順、ページ固有UIとの境界は、[AGENTS.md の共通ヘッダー・フッターの開発ルール](../AGENTS.md)を参照してください。

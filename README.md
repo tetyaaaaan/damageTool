@@ -6,6 +6,7 @@
 
 ## 開発メモ
 
+- 共通ヘッダー・フッターを含むリポジトリの開発指示は [AGENTS.md](AGENTS.md) を参照してください。
 - Cloudflare Workers と Workers Assets で運用します。
 - 公開ルートは `https://tetinet.com/` とし、静的ファイルは `/` 配下を正とします。
 - HSRのUID取得APIは `worker.js` の `/games/api/hsr-profile` で処理します。

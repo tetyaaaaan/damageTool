@@ -14,6 +14,15 @@
 - Use `docs/HSR_CALC_DATA_SOURCES.md` only for HSR calculation-data work.
 - Do not preload dated plans, reports, goal history, or broad repository maps. Open them only when the current task depends on them.
 
+## 共通ヘッダー・フッターの開発ルール
+
+- サイト共通のヘッダー・フッターは `scripts/lib/siteChrome.cjs` を正とします。共通ロゴ、ブランド名、文言、ナビゲーション、リンク、著作権表記、HTML構造はこの共通定義を編集します。
+- 各ページの生成済みHTMLにある `site-chrome:header` / `site-chrome:footer` コメントで囲まれた部分は直接修正しません。共通UIのコピー実装も増やしません。
+- 共通定義を変更したら `node scripts/syncSiteChrome.cjs` で対象HTMLへ反映し、生成差分が意図した共通部分だけであることを確認して、共通定義と一緒にcommitします。
+- 同期後は `node scripts/syncSiteChrome.cjs --check` と `node --test tests/seo/site-chrome.test.cjs` で生成結果の整合性を確認します。`--check` は書き換えを行わず、同期漏れがあれば失敗します。
+- 配信前の同期は `wrangler.toml` の `[build].command` から同じ `node scripts/syncSiteChrome.cjs` を実行します。生成済み静的HTMLを配信し、ブラウザでの追加取得には依存させません。
+- パンくず、ページ固有の概要、計算入力、ページ固有操作は各ページ側で管理し、共通部分との境界を維持します。メニュー・テーマ操作は既存の `games/js/theme.js` を再利用します。
+
 ## Verification
 
 - Start with the smallest meaningful check for the changed behavior. Run focused tests for affected code or data; use `node scripts/verifyGenshinCalc.cjs` when shared Genshin calculation behavior, generated data, or final integration warrants the full check.

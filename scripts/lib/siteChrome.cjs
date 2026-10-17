@@ -1,6 +1,8 @@
 "use strict";
 
-// Site-wide copy, destinations, and shell markup are authored only here.
+// Single source for shared header/footer logos, brand, copy, navigation, links, copyright, and markup.
+// Page-specific breadcrumbs, introductions, calculator inputs, and actions stay in each page.
+// Synchronization and verification rules: AGENTS.md.
 const site = {
     brand: "tetinet",
     description: "ゲーム・ツール・個人制作物をまとめるサイト。",
