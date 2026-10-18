@@ -1380,3 +1380,34 @@ test("image manifest reports every catalog card image as available", () => {
     }
     assert.deepEqual(manifest.missing, []);
 });
+
+
+test("Pearl's unenhanced DEF Basic ATK matches independently calculated single-target references", () => {
+    const attack = attacks.find(item => item.id === '150301');
+    const master = readJson('games/hsr/data/catalog.json').characters.find(item => item.id === '1503').skills.find(item => item.id === '150301');
+    assert.equal(attack.scalingStat, 'def');
+    assert.equal(attack.element, 'Ice');
+    assert.equal(attack.target, 'single');
+    assert.equal(attack.support.status, 'calculable');
+    attack.multipliers.forEach((value, index) => assert.ok(Math.abs(value - master.params[index][0] * 100) < 1e-9));
+    // Independent formula: DEF * MV * (100 / 200) * (1 - RES) * 0.9 * (1 + DMG Boost).
+    for (const [level, def, res, bonus, rate, expected] of [
+        [6, 3000, 20, 0, 50, [972, 1944, 1458]],
+        [6, 4000, 20, 0, 50, [1296, 2592, 1944]],
+        [6, 3000, 0, 0, 50, [1215, 2430, 1822.5]],
+        [6, 3000, 20, 50, 50, [1458, 2916, 2187]],
+        [6, 3000, 20, 0, 0, [972, 1944, 972]],
+        [1, 3000, 20, 0, 50, [486, 972, 729]]
+    ]) {
+        const input = request({ ...attack, multiplier: attack.multipliers[level - 1] });
+        Object.assign(input.character.stats, { atk: 0, def, damageBonus: bonus, critRate: rate });
+        input.enemy.resistance = res;
+        const result = engine.calculate(input);
+        [result.nonCrit, result.crit, result.expected].forEach((value, index) => assert.ok(Math.abs(value - expected[index]) < 1e-9));
+        assert.equal(result.breakdown.referenceValue, def);
+        assert.equal(result.breakdown.multiplierPercent, attack.multipliers[level - 1]);
+        assert.equal(result.breakdown.defense, 0.5);
+        assert.equal(result.breakdown.toughness, 0.9);
+    }
+    assert.deepEqual(attacks.filter(item => item.characterId === '1503' && item.support?.status === 'calculable').map(item => item.id), ['150301']);
+});

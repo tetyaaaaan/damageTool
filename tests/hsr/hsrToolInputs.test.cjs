@@ -357,3 +357,32 @@ test('Cyrene manual zone effect validates source, displays only actual True fact
     assert.equal(app.calculate()[0].breakdown.damageFormula, 'statMultiplier');
     assert.doesNotMatch(app.node('hsrResults').innerHTML, /参照元ダメージ（補正適用後）/);
 });
+
+
+test("Pearl calculates only her registered DEF Basic ATK and explains other skills are excluded", async () => {
+    const app = await tool();
+    app.state.data.characters = JSON.parse(read('games/hsr/data/catalog.json')).characters;
+    app.state.characterId = '1503';
+    app.state.data.attacks = JSON.parse(read('games/hsr/data/attack-overrides.json')).overrides.filter(item => item.characterId === '1503');
+    app.node('hsrEnemyLevel').value = '80';
+    app.node('hsrEnemyResistance').value = '20';
+    app.node('hsrToughnessState').value = 'active';
+    app.node('hsrStat-critRate').value = '50';
+    app.node('hsrStat-critDamage').value = '100';
+    for (const value of ['0', '', '-1', 'invalid']) {
+        app.node('hsrStat-def').value = value;
+        assert.equal(app.calculate().length, 0);
+        assert.match(app.node('hsrWarnings').innerHTML, /防御力/);
+    }
+    app.node('hsrStat-def').value = '3000';
+    const results = app.calculate();
+    assert.equal(results.length, 1);
+    assert.ok(Math.abs(results[0].nonCrit - 972) < 1e-9);
+    assert.equal(results[0].breakdown.referenceValue, 3000);
+    assert.match(app.node('hsrWarnings').innerHTML, /強化通常攻撃・愉悦スキル.*計算対象外/);
+    assert.match(app.node('hsrResults').innerHTML, /data-support-status="calculable"/);
+    assert.match(app.node('hsrResults').innerHTML, /防御力参照 × 攻撃倍率/);
+    assert.match(app.node('hsrResults').innerHTML, /3,000 × 90%/);
+    app.node('hsrNormalTrace').value = '1';
+    assert.ok(Math.abs(app.calculate()[0].nonCrit - 486) < 1e-9);
+});

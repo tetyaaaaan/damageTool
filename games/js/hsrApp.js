@@ -717,6 +717,7 @@
       renderResults([], null, [], unavailableAttacks);
       return;
     }
+    warnings.push(...attacks.map((attack) => attack.calculationNote).filter(Boolean));
     const reviewAttackCount = attacks.filter((attack) => attack.support?.status !== "calculable" || !attack.support?.verified).length;
     if (reviewAttackCount) warnings.push(`このキャラクターの攻撃データ${reviewAttackCount}件は確認中です。計算結果は参考値として表示します。`);
     const baseStats = selectedBaseStats();
