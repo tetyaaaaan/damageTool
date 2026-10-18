@@ -92,10 +92,22 @@
         });
     }
 
+    function unsupportedAttackReason(attack = {}) {
+        if (attack.support?.status === "displayOnly") return attack.support.reason || "この攻撃は表示のみのため、ダメージを計算しません。";
+        const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
+        if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
+        if (attack.damageFormula && !["statMultiplier", "enemyHpCappedByAtk"].includes(attack.damageFormula)) return "このダメージ計算方式は未対応です。通常式では計算しません。";
+        const types = ["normal", "enhancedNormal", "skill", "enhancedSkill", "ultimate", "talent", "followUp", "additional", "dot", "memospriteSkill", "memospriteTalent", "assist"];
+        if ([attack.type, attack.attackType].some((type) => type && !types.includes(type))) return "この攻撃種別の専用計算は未対応です。通常式では計算しません。";
+        return "";
+    }
+
     function calculate(input) {
         const character = input?.character || {};
         const enemy = input?.enemy || {};
         const attack = input?.attack || {};
+        const unsupportedReason = unsupportedAttackReason(attack);
+        if (unsupportedReason) return { supported: false, reason: unsupportedReason };
         const stats = character.stats || {};
         const modifiers = (input?.modifiers || []).map(normalizeModifier);
         modifiers.forEach((item) => {
@@ -275,5 +287,5 @@
         return { supported: true, value, base, toughnessDamage, effectiveToughnessDamage, breakEffect, breakEfficiency, superBreakBonus, defense, resistance, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
     }
 
-    window.HsrCalcEngine = Object.freeze({ calculate, calculateBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });
+    window.HsrCalcEngine = Object.freeze({ unsupportedAttackReason, calculate, calculateBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });
 })();

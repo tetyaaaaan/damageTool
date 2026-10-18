@@ -247,3 +247,41 @@ test("light-cone details use the selected refinement before calculation", async 
         assert.ok(app.node("hsrDetailsBody").innerHTML.includes(`<p>${rank * 10}</p>`));
     }
 });
+
+test("six Elation attacks and mixed True/Elation records are unavailable while ordinary attacks remain", async () => {
+    const app = await tool();
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    const generated = JSON.parse(read("games/hsr/data/attacks.generated.json"));
+    const overrides = JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides;
+    const attacks = new Map(generated.attacks.map((attack) => [attack.id, { ...attack, support: attack.support || generated.support }]));
+    overrides.forEach((override) => attacks.set(override.id, { ...attacks.get(override.id), ...override }));
+    app.state.data.characters = catalog.characters;
+    app.state.data.attacks = [...attacks.values()];
+    for (const stat of ["hp", "atk", "def"]) app.node(`hsrStat-${stat}`).value = "1000";
+    for (const id of ["150120", "150220", "150520", "150621", "800920", "801020", "140603", "150504"]) {
+        const blocked = attacks.get(id);
+        app.state.characterId = blocked.characterId;
+        const results = app.calculate();
+        assert.ok(results.some((result) => result.attack.name === attacks.get(`${blocked.characterId}01`)?.name), `normal attack remains for ${id}`);
+        assert.ok(!results.some((result) => result.attack.name === blocked.name), id);
+        assert.match(app.node("hsrResults").innerHTML, /表示のみ・計算不可/);
+        assert.ok(app.node("hsrResults").innerHTML.includes(blocked.support.reason), id);
+    }
+});
+
+test("dedicated Break attacks keep their supported UI route", async () => {
+    const app = await tool();
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    app.state.data.characters.push(catalog.characters.find((item) => item.id === "1303"));
+    app.state.characterId = "1303";
+    app.state.data.attacks[0].characterId = "1303";
+    app.state.data.specialBreakAttacks = JSON.parse(read("games/hsr/data/calc/special-break-attacks.json")).attacks;
+    app.node("hsrStat-atk").value = "1000";
+    app.node("hsrWeakness").value = "true";
+    app.calculate();
+    const html = app.node("hsrResults").innerHTML;
+    assert.ok(html.includes("残梅・弱点撃破ダメージ"));
+    assert.ok(html.includes("フラクタルの螺旋・弱点撃破ダメージ"));
+    assert.ok(!html.includes("表示のみ・計算不可"));
+    assert.match(html, /撃破ダメージ<\/span><strong>/);
+});

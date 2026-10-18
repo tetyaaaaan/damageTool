@@ -211,3 +211,24 @@ test("returned breakdown factors reproduce single-hit and critical totals", () =
     assert.equal(dot.breakdown.expectedCritMultiplier, 1);
     assert.equal(dot.nonCrit, dot.crit);
 });
+
+test("unsupported damage kinds and formulas never fall through to ordinary damage", () => {
+    const calc = engine();
+    const attacks = [
+        { type: "elation" }, { attackType: "elation" }, { scalingStat: "elation" },
+        { type: "normal", scalingTerms: [{ stat: "atk", multiplier: 100 }, { stat: "elation", multiplier: 20 }] },
+        { type: "trueDamage" }, { damageFormula: "trueDamage" }, { damageFormula: "futureFormula" }, { type: "futureDamage" },
+        { support: { status: "displayOnly", reason: "Mixed damage is not separated" } }
+    ];
+    for (const attack of attacks) {
+        const input = baseInput(); input.attack = { ...input.attack, ...attack };
+        const result = calc.calculate(input);
+        assert.equal(result.supported, false);
+        assert.ok(result.reason);
+        assert.ok(!("nonCrit" in result) && !("crit" in result) && !("expected" in result));
+    }
+    for (const type of ["normal", "dot"]) {
+        const input = baseInput(); input.attack.type = type; input.attack.canCrit = type !== "dot";
+        assert.equal(calc.calculate(input).nonCrit, 500);
+    }
+});

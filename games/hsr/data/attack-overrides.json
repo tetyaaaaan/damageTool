@@ -1345,6 +1345,9 @@
       "multipliers": [20, 24, 28, 32, 36, 40, 44, 48, 52, 56],
       "sourceSkillId": "1140712",
       "overrideReason": "HP全消費時に発動する6ヒット版。倍率#1と回数#2を照合し、通常の精霊天賦と別IDで保持。"
-    }
+    },
+
+    {"id":"140603","support":{"status":"displayOnly","verified":false,"reason":"通常ダメージと確定ダメージを含む必殺技です。内訳を安全に分離できないため、合計ダメージは計算しません。"}},
+    {"id":"150504","support":{"status":"displayOnly","verified":false,"reason":"通常ダメージと条件付き愉悦ダメージを含む天賦です。内訳を安全に分離できないため、合計ダメージは計算しません。"}}
   ]
 }

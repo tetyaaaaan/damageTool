@@ -78,6 +78,9 @@ test("HSR runtime uses the ID-based JSON catalog without CSV references", async 
     assert.ok(data.attackCoverage.calculable >= 10);
     assert.ok(data.attackCoverage.review > data.attackCoverage.calculable);
     assert.ok(data.attacks.every((item) => item.support && typeof item.support.verified === "boolean"));
+    for (const id of ["150120", "150220", "150520", "150621", "800920", "801020", "140603", "150504"]) {
+        assert.equal(data.attacks.find((attack) => attack.id === id).support.status, "displayOnly", id);
+    }
     assert.ok(data.characters.every((item) => item.skills.length && item.traces.length && item.eidolons.length === 6));
     assert.ok(data.lightCones.every((item) => item.effect && item.effect.paramsByRank.length === 5));
     assert.ok(data.characters.every((item) => /^\d+$/.test(item.id)));
@@ -325,4 +328,17 @@ test("HSR profile API implementations use Enka without a MiHoMo runtime dependen
     const client = read("games/js/hsrProfileApi.js");
     assert.match(client, /enka\.network\/api\/hsr\/uid/);
     assert.doesNotMatch(client, /api\.mihomo\.me|sr_info_parsed/);
+});
+
+test("future generated Elation attacks retain display-only support without writing repository files", () => {
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    const character = catalog.characters.find((item) => item.id === "1501");
+    const skill = character.skills.find((item) => item.type === "ElationDamage");
+    const writes = new Map();
+    const fakeFs = { existsSync: () => false, readFileSync: () => JSON.stringify({ characters: [{ ...character, id: "9999", skills: [{ ...skill, id: "999920" }] }] }), writeFileSync: (file, value) => writes.set(path.basename(file), JSON.parse(value)) };
+    vm.runInNewContext(read("scripts/generateHsrAttacks.cjs"), { __dirname: path.join(root, "scripts"), require: (name) => name === "node:fs" ? fakeFs : require(name), console: { log() {} } });
+    const attack = writes.get("attacks.generated.json").attacks[0];
+    assert.equal(attack.id, "999920");
+    assert.equal(attack.support.status, "displayOnly");
+    assert.match(attack.support.reason, /愉悦/);
 });

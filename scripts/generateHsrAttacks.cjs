@@ -82,7 +82,8 @@ function generateAttack(character, skill) {
     sourceSkillId: String(skill.id),
     displayOrder: rule.order,
     generatedFrom: "catalog.json:characters[].skills",
-    calculationScope: "description-primary-term"
+    calculationScope: "description-primary-term",
+    ...(skill.type === "ElationDamage" ? { support: { status: "displayOnly", verified: false, reason: "愉悦ダメージの専用計算は未対応です。通常式では計算しません。" } } : {})
   };
 }
 

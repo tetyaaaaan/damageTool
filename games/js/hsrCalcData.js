@@ -30,7 +30,7 @@
         const overrideDataFiles = await Promise.all(overrideResponses.map((response) => response.json()));
         const structuredModifierDataFiles = await Promise.all(structuredModifierResponses.map((response) => response.json()));
         const generatedSupport = generatedData.support || { status: "review", verified: false };
-        const generated = (generatedData.attacks || []).map((attack) => ({ ...attack, support: generatedSupport }));
+        const generated = (generatedData.attacks || []).map((attack) => ({ ...attack, support: attack.support || generatedSupport }));
         const overrides = overrideDataFiles.flatMap((data) => (data.overrides || []).map((override) => ({ ...override, support: override.support || data.support || { status: "calculable", verified: true } })));
         const attacksById = new Map(generated.map((attack) => [String(attack.id), attack]));
         overrides.forEach((override) => attacksById.set(String(override.id), { ...attacksById.get(String(override.id)), ...override }));

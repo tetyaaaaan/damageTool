@@ -582,7 +582,9 @@
   }
 
   function attackSupport(attack) {
-    if (attack.support?.status === "displayOnly") return { status: "displayOnly", label: "表示のみ・計算不可" };
+    if (attack.support?.status === "displayOnly") return { status: "displayOnly", label: "表示のみ・計算不可", reason: attack.support.reason };
+    const reason = attack.type === "break" ? "" : window.HsrCalcEngine.unsupportedAttackReason(attack);
+    if (reason) return { status: "displayOnly", label: "表示のみ・計算不可", reason };
     if (attack.support?.status === "calculable" && attack.support.verified === true) return { status: "calculable", label: "計算対応・確認済み扱い" };
     return { status: "review", label: "確認中・参考値" };
   }
@@ -637,7 +639,7 @@
 
   function renderResults(results, breakResult, specialBreakResults = [], unavailableAttacks = []) {
     const attackCards = results.map(({ result, adjacent, attack }) => `<article class="hsr-attack-result"><header><h3>${esc(result.attack.name)}</h3><span>${esc(ATTACK_LABELS[attack.type] || attack.type)} ${esc(attack.traceLevelLabel || `Lv${attack.traceLevel}`)}・${esc(TARGET_LABELS[result.attack.target] || result.attack.target)}</span></header>${supportBadge(attack)}${adjacent ? "<h4>主対象</h4>" : ""}${damageValues(result)}${adjacent ? `<h4>隣接対象</h4>${damageValues(adjacent)}` : ""}</article>`).join("");
-    const unavailableCards = unavailableAttacks.map((attack) => `<article class="hsr-attack-result">${supportBadge(attack)}<h3>${esc(attack.name)}</h3><p>${esc(attack.support?.reason || "この攻撃は表示のみのため、ダメージを計算しません。")}</p></article>`).join("");
+    const unavailableCards = unavailableAttacks.map((attack) => `<article class="hsr-attack-result">${supportBadge(attack)}<h3>${esc(attack.name)}</h3><p>${esc(attackSupport(attack).reason || "この攻撃は表示のみのため、ダメージを計算しません。")}</p></article>`).join("");
     const specialBreakCards = specialBreakResults.map(({ attack, result }) => `<article class="hsr-attack-result"><header><h3>${esc(attack.name)}</h3><span>弱点撃破 Lv${attack.traceLevel}・${esc(TARGET_LABELS[attack.target] || attack.target)}</span></header>${supportBadge(attack)}${result.supported ? `<div class="hsr-attack-result-values hsr-attack-result-values--single"><div><span>撃破ダメージ</span><strong>${fmt(result.value)}</strong></div></div>` : `<p>計算不可：${esc(result.reason)}</p>`}</article>`).join("");
     const breakdown = results.map(({ result, adjacent, attack }) => `<article class="hsr-attack-result"><h3>${esc(result.attack.name)}</h3>${supportBadge(attack)}${damageBreakdown(result, "主対象")}${adjacent ? damageBreakdown(adjacent, "隣接対象") : ""}</article>`).join("");
     const specialBreakBreakdown = specialBreakResults.filter(({ result }) => result.supported).map(({ attack, result: b }) => `<article class="hsr-attack-result"><h3>${esc(attack.name)}</h3>${supportBadge(attack)}<dl>${[["撃破基礎値", b.base], ["属性・攻撃倍率", b.multiplier], ["撃破特効倍率", b.effect], ["防御倍率", b.defense], ["耐性倍率", b.resistance], ["靭性量倍率", b.toughnessScale], ["被ダメージ倍率", b.vulnerability], ["撃破ダメージ", b.value]].map(([label, value]) => `<div><dt>${label}</dt><dd>${detailNumber(value)}</dd></div>`).join("")}</dl></article>`).join("");
@@ -685,8 +687,9 @@
     if (cone() || relic() || relicSecond() || ornament()) warnings.push("常時効果は入力ステータスを使用し、条件付き効果は補正条件で選択した項目だけを適用します。");
     if (!character()) { renderWarnings(warnings); return; }
     const available = availableAttacks();
-    const unavailableAttacks = available.filter((attack) => attackSupport(attack).status === "displayOnly").concat((state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status === "displayOnly"));
-    const attacks = available.filter((attack) => attackSupport(attack).status !== "displayOnly").map(resolvedAttack).concat(supplementalAttacks());
+    const supplemental = supplementalAttacks();
+    const unavailableAttacks = supplemental.filter((attack) => attackSupport(attack).status === "displayOnly").concat(available.filter((attack) => attackSupport(attack).status === "displayOnly").concat((state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status === "displayOnly")));
+    const attacks = available.filter((attack) => attackSupport(attack).status !== "displayOnly").map(resolvedAttack).concat(supplemental.filter((attack) => attackSupport(attack).status !== "displayOnly"));
     if (!attacks.length) {
       renderWarnings(["このキャラクターには現在計算できる攻撃データがありません。"]);
       renderResults([], null, [], unavailableAttacks);

@@ -8599,7 +8599,12 @@
       "sourceSkillId": "150120",
       "displayOrder": 70,
       "generatedFrom": "catalog.json:characters[].skills",
-      "calculationScope": "description-primary-term"
+      "calculationScope": "description-primary-term",
+      "support": {
+        "status": "displayOnly",
+        "verified": false,
+        "reason": "愉悦ダメージの専用計算は未対応です。通常式では計算しません。"
+      }
     },
     {
       "id": "150201",
@@ -8660,7 +8665,12 @@
       "sourceSkillId": "150220",
       "displayOrder": 70,
       "generatedFrom": "catalog.json:characters[].skills",
-      "calculationScope": "description-primary-term"
+      "calculationScope": "description-primary-term",
+      "support": {
+        "status": "displayOnly",
+        "verified": false,
+        "reason": "愉悦ダメージの専用計算は未対応です。通常式では計算しません。"
+      }
     },
     {
       "id": "150401",
@@ -8947,7 +8957,12 @@
       "sourceSkillId": "150520",
       "displayOrder": 70,
       "generatedFrom": "catalog.json:characters[].skills",
-      "calculationScope": "description-primary-term"
+      "calculationScope": "description-primary-term",
+      "support": {
+        "status": "displayOnly",
+        "verified": false,
+        "reason": "愉悦ダメージの専用計算は未対応です。通常式では計算しません。"
+      }
     },
     {
       "id": "150601",
@@ -9069,7 +9084,12 @@
       "sourceSkillId": "150621",
       "displayOrder": 70,
       "generatedFrom": "catalog.json:characters[].skills",
-      "calculationScope": "description-primary-term"
+      "calculationScope": "description-primary-term",
+      "support": {
+        "status": "displayOnly",
+        "verified": false,
+        "reason": "愉悦ダメージの専用計算は未対応です。通常式では計算しません。"
+      }
     },
     {
       "id": "150701",
@@ -10558,7 +10578,12 @@
       "sourceSkillId": "800920",
       "displayOrder": 70,
       "generatedFrom": "catalog.json:characters[].skills",
-      "calculationScope": "description-primary-term"
+      "calculationScope": "description-primary-term",
+      "support": {
+        "status": "displayOnly",
+        "verified": false,
+        "reason": "愉悦ダメージの専用計算は未対応です。通常式では計算しません。"
+      }
     },
     {
       "id": "801001",
@@ -10652,7 +10677,12 @@
       "sourceSkillId": "801020",
       "displayOrder": 70,
       "generatedFrom": "catalog.json:characters[].skills",
-      "calculationScope": "description-primary-term"
+      "calculationScope": "description-primary-term",
+      "support": {
+        "status": "displayOnly",
+        "verified": false,
+        "reason": "愉悦ダメージの専用計算は未対応です。通常式では計算しません。"
+      }
     }
   ]
 }
