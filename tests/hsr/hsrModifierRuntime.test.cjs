@@ -233,3 +233,37 @@ test("relic and ornament thresholds, stacks, and attack scopes remain structured
   assert.equal(runtime.applicableToAttack(rutilant, { attackType: "skill" }), true);
   assert.equal(runtime.applicableToAttack(rutilant, { attackType: "ultimate" }), false);
 });
+
+
+test('Summer Robin Fever resolves one party DEF-ignore effect and agrees with independent defense fractions', () => {
+  const id = 'trace:1512:151204:fever-defense-ignore';
+  const context = {characterId:'1503',partyIds:['1512'],partyEidolons:{'1512':0},traceLevelFor:()=>10};
+  const engine = calcEngine();
+  for (const [active,vibes,reduction,ignore,expected] of [
+    [false,50,0,0,972], [true,1,0,15.5,1053.658536585366],
+    [true,12,0,21,1086.0335195530726], [true,30,0,30,1143.529411764706],
+    [true,50,0,40,1215], [true,50,20,40,1388.5714285714287],
+    [true,50,80,40,1944]
+  ]) {
+    const item = candidate(id, context, {'robin-summeretto-fever':active,'robin-summeretto-vibes':vibes});
+    assert.equal(item.providerId,'1512');
+    assert.equal(item.enabled,active);
+    assert.equal(item.inputWarnings.length,0);
+    const input={character:{level:80,stats:{def:3000,critRate:50,critDamage:100}},enemy:{level:80,resistance:20,toughnessActive:true,defenseReduction:reduction},attack:{type:'normal',element:'Ice',scalingStat:'def',multiplier:90,hitCount:1},modifiers:[item]};
+    const result=engine.calculate(input);
+    assert.ok(Math.abs(result.nonCrit-expected)<1e-9);
+    assert.ok(Math.abs(result.crit-expected*2)<1e-9);
+    assert.ok(Math.abs(result.expected-expected*1.5)<1e-9);
+    assert.equal(result.breakdown.defenseIgnorePercent,ignore);
+    assert.equal(result.applied.length,active?1:0);
+    assert.equal(result.breakdown.takenDamage,0,'sprite vulnerability must not be included');
+  }
+  for (const vibes of [undefined,NaN,0,-1,51,1.5]) {
+    const item=candidate(id,context,{'robin-summeretto-fever':true,'robin-summeretto-vibes':vibes});
+    assert.equal(item.applicable,false);assert.ok(item.inputWarnings.length);
+  }
+  assert.ok(candidate(id,{...context,partyEidolons:{'1512':2}},{'robin-summeretto-fever':true,'robin-summeretto-vibes':50}).inputWarnings.length);
+  assert.ok(candidate(id,{...context,traceLevelFor:()=>11},{'robin-summeretto-fever':true,'robin-summeretto-vibes':50}).inputWarnings.length);
+  assert.equal(candidate(id,{characterId:'1503'}),undefined);
+  assert.equal(candidate(id,{...context,traceLevelFor:()=>1},{'robin-summeretto-fever':true,'robin-summeretto-vibes':50}).value,35);
+});

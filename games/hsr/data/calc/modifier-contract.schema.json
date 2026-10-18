@@ -41,6 +41,7 @@
         "multiplierWhenTrue": { "type": "number", "exclusiveMinimum": 0 },
         "inputKey": { "type": "string", "minLength": 1 },
         "inputLabel": { "type": "string", "minLength": 1 },
+        "inputUnit": { "type": "string" },
         "providerStat": { "enum": ["hp", "hpPercent", "atk", "def", "speed", "critRate", "critDamage", "breakEffect", "effectHitRate", "elation"] },
         "targetStat": { "enum": ["hp", "atk", "def", "speed"] },
         "default": { "type": "number" },
@@ -66,6 +67,18 @@
             "additionalProperties": false
           }
         }
+      },
+      "additionalProperties": false
+    },
+    "inputValidation": {
+      "type": "object",
+      "required": ["maximumEidolon", "levelMaximum", "minimum", "maximum", "integer"],
+      "properties": {
+        "maximumEidolon": { "type": "integer", "minimum": 0, "maximum": 6 },
+        "levelMaximum": { "type": "integer", "minimum": 1, "maximum": 15 },
+        "minimum": { "type": "number" },
+        "maximum": { "type": "number" },
+        "integer": { "type": "boolean" }
       },
       "additionalProperties": false
     },

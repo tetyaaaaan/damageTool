@@ -236,6 +236,16 @@
       const calculable = supportStatus === "calculable" && record.inputPolicy !== "includedInFinalStats";
       const value = resolveValue(record, context, inputs, selection);
       const enabled = calculable && activation.active;
+      const inputWarnings = [];
+      const validation = record.inputValidation;
+      if (enabled && validation) {
+        const raw = inputs[record.value?.inputKey];
+        if (!Number.isFinite(raw) || raw < validation.minimum || raw > validation.maximum || (validation.integer && !Number.isInteger(raw))) inputWarnings.push(`${record.value.inputLabel}に${validation.minimum}～${validation.maximum}の整数を入力してください。`);
+        const eidolon = selection.providerId === String(context.characterId) ? context.eidolon : context.partyEidolons?.[selection.providerId];
+        if (number(eidolon) > validation.maximumEidolon) inputWarnings.push(`${record.name}は支援者の星魂0のみ計算対応です。`);
+        const level = typeof context.traceLevelFor === "function" ? context.traceLevelFor(record.source) : undefined;
+        if (!Number.isInteger(level) || level < 1 || level > validation.levelMaximum) inputWarnings.push(`${record.name}の天賦Lvに1～${validation.levelMaximum}の整数を入力してください。`);
+      }
       return [{
         id: record.id,
         tab: selection.tab,
@@ -250,6 +260,8 @@
         unit: record.unit,
         value,
         enabled,
+        applicable: inputWarnings.length === 0,
+        inputWarnings,
         automatic: activation.automatic,
         activation: { ...record.activation, ...activation },
         providerId: selection.providerId || null,
@@ -269,6 +281,7 @@
             : number(inputs[record.value.inputKey], record.value.default || 0),
           providerId: selection.providerId || null,
           providerStat: record.value.providerStat || null,
+          unit: record.value.inputUnit,
           minimum: record.value.minimum,
           maximum: record.value.inputMaximum,
           step: record.value.inputStep || 1
@@ -285,7 +298,7 @@
         calculable,
         displayOnly: !calculable,
         effectLabel: `${value}${record.unit === "percent" ? "%" : ""}`,
-        reason: calculable ? "" : (record.support?.reason || "計算反映前の確認が必要です。")
+        reason: inputWarnings.length ? inputWarnings.join(" ") : calculable ? "" : (record.support?.reason || "計算反映前の確認が必要です。")
       }];
     });
   }

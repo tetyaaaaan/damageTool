@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "modifiers": [
+    {
+      "id": "trace:1512:151204:fever-defense-ignore",
+      "source": {
+        "kind": "trace",
+        "id": "1512",
+        "skillId": "151204"
+      },
+      "name": "フィーバー領域・味方全体の防御無視",
+      "description": "星魂0のみ。天賦Lv10は15%＋現在のバイブス×0.5%。ベシー展開中にバイブス12以上で全3体が揃いフィーバー開始。開始後の現在値は1～50、0で終了。精霊由来の被ダメージ増加等は含めません。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "inputScaleByLevelPlusByLevel",
+        "inputKey": "robin-summeretto-vibes",
+        "inputLabel": "現在のバイブス（星魂0・1～50）",
+        "inputUnit": "個",
+        "default": 0,
+        "minimum": 1,
+        "inputMaximum": 50,
+        "inputStep": 1,
+        "scaleValues": [
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50
+        ],
+        "addValues": [
+          10.0,
+          10.5,
+          11.0,
+          11.5,
+          12.0,
+          12.5,
+          13.13,
+          13.75,
+          14.37,
+          15.0
+        ]
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10,
+        "minimum": 1,
+        "maximum": 50,
+        "integer": true
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "全3体の精霊が展開されたフィーバー領域内。単発計算時点でフィーバーが継続中",
+        "inputKey": "robin-summeretto-fever",
+        "inputLabel": "フィーバー領域の支援を適用",
+        "default": false
+      },
+      "stacking": {
+        "group": "robin-summeretto-fever-defense-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceFile": "index_new/jp/character_skills.json:151204.params[][7,8]; memosprite talent Vibes consumption",
+        "gameVersion": "4.5 release",
+        "verifiedAt": "2026-10-18",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/tree/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp",
+        "notes": "Fever condition and Vibes consumption: https://www.prydwen.gg/star-rail/characters/robin-summeretto; E0 Talent Lv1..10; current Fever Vibes 1..50; no vulnerability or other buffs"
+      }
+    }
+  ]
+}

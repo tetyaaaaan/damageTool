@@ -415,3 +415,26 @@ for (const [cid, id, stat, value, label, multiplier] of [['1512','151201','hp','
         assert.equal(app.state.data.attacks.length, 1, 'no unsupported skills are implicitly registered');
     });
 }
+
+
+test('Summer Robin Fever party input stops invalid Vibes and reports DEF ignore without other buffs', async () => {
+  const app=await tool();
+  app.state.data.characters=JSON.parse(read('games/hsr/data/catalog.json')).characters;
+  app.state.characterId='1503';
+  app.state.data.attacks=JSON.parse(read('games/hsr/data/attack-overrides.json')).overrides.filter(item=>item.id==='150301');
+  app.state.data.structuredModifiers=JSON.parse(read('games/hsr/data/calc/modifiers-robin-summeretto.json')).modifiers;
+  app.state.party[0]={characterId:'1512',eidolon:0,level:10};
+  app.node('hsrStat-def').value='3000';app.node('hsrStat-critRate').value='50';app.node('hsrStat-critDamage').value='100';
+  app.node('hsrEnemyLevel').value='80';app.node('hsrEnemyResistance').value='20';app.node('hsrToughnessState').value='active';
+  assert.ok(Math.abs(app.calculate()[0].nonCrit-972)<1e-9);
+  app.state.modifierInputs['robin-summeretto-fever']=true;
+  assert.equal(app.calculate().length,0);assert.match(app.node('hsrWarnings').innerHTML,/バイブス/);
+  app.state.modifierInputs['robin-summeretto-vibes']=50;
+  assert.ok(Math.abs(app.calculate()[0].nonCrit-1215)<1e-9);
+  assert.match(app.node('hsrResults').innerHTML,/0%／40%/);
+  assert.match(app.node('hsrResults').innerHTML,/×0.625/);
+  app.state.party[0].eidolon=1;assert.equal(app.calculate().length,0);assert.match(app.node('hsrWarnings').innerHTML,/星魂0/);
+  app.state.party[0].eidolon=0;app.state.party[0].level=0;assert.equal(app.calculate().length,0);
+  app.state.party[0].level=10;app.state.modifierInputs['robin-summeretto-fever']=false;
+  assert.ok(Math.abs(app.calculate()[0].nonCrit-972)<1e-9);
+});

@@ -5,6 +5,7 @@
     "attacks-1206-1210.json"
   ],
   "modifiers": [
+    "modifiers-robin-summeretto.json",
     "modifiers.json",
     "modifiers-archer.json",
     "modifiers-arlan.json",
