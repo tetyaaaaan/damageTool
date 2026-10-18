@@ -660,6 +660,10 @@
       terms.filter((term) => num(term.multiplier) !== 0).forEach((term) => requiredStats.add(term.stat));
       if (attack.damageFormula === "enemyHpCappedByAtk") requiredStats.add("atk");
       modifiers(attack).filter((item) => item.enabled && item.applicable).forEach((item) => {
+        if (item.id === "trace:1202:120202:benediction-atk") {
+          const provider = state.party.find((member) => member.characterId === item.providerId);
+          if (provider && (!Number.isInteger(provider.level) || provider.level < 1 || provider.level > 15)) warnings.add("停雲の軌跡Lvに1～15の整数を入力してください。");
+        }
         const providerStat = item.valueInput?.providerStat;
         if (["hp", "atk", "def"].includes(providerStat) && !(Number.isFinite(item.valueInput.value) && item.valueInput.value > 0)) warnings.add(`${item.name}が参照する${labels[providerStat]}に、発動者の最終値（0より大きい数値）を入力してください。`);
         const stat = item.category === "statPercent" ? item.stat : item.requiredBaseStat;

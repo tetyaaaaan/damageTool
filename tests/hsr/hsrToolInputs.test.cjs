@@ -213,3 +213,24 @@ test("Guinaifen's display-only Burn condition can select its separately calculat
     app.node("hsrConditionDialog").handlers.change({ target: { dataset: { structuredToggle: "guinaifen-burn-active" }, checked: false } });
     assert.equal(app.calculate().length, 2);
 });
+
+
+test("active Tingyun Benediction refuses a missing or invalid provider trace level", async () => {
+    const app = await tool();
+    app.node("hsrStat-atk").value = "1000";
+    app.state.party[0] = { characterId: "1202", atk: 4000, level: 0 };
+    app.state.modifierInputs["tingyun-benediction"] = true;
+    for (const level of [0, -1, 16, 1.5]) {
+        app.state.party[0].level = level;
+        assert.equal(app.calculate().length, 0, `invalid provider level ${level}`);
+        assert.match(app.node("hsrWarnings").innerHTML, /停雲.*軌跡Lv/);
+        assert.ok(!app.node("hsrResults").innerHTML.includes("hsr-attack-result"));
+    }
+    for (const [level, baseDamage] of [[1, 1125], [10, 1250]]) {
+        app.state.party[0].level = level;
+        assert.equal(app.calculate()[0].breakdown.baseDamage, baseDamage);
+    }
+    app.state.party[0].level = 0;
+    app.state.modifierInputs["tingyun-benediction"] = false;
+    assert.equal(app.calculate()[0].breakdown.baseDamage, 1000, "inactive support must not block the main attack");
+});
