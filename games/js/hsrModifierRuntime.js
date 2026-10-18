@@ -246,6 +246,7 @@
         sourceName: selection.sourceName,
         category: record.category,
         stat: record.stat || null,
+        requiredBaseStat: record.value?.kind === "targetBasePercentCappedByProviderPercentByLevel" ? record.value.targetStat || "atk" : null,
         unit: record.unit,
         value,
         enabled,

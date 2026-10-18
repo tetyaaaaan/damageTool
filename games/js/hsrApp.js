@@ -32,11 +32,13 @@
   const PARTY_TARGET_LABELS = { allySingle: "味方単体", activeAlly: "指定した味方", partyAll: "味方全体", enemySingle: "敵単体", enemyAll: "敵全体", self: "発動者自身", summon: "召喚物", memosprite: "記憶の精霊" };
   const displayTarget = (value) => PARTY_TARGET_LABELS[value] || TARGET_LABELS[value] || value;
 
+  const DEFAULT_STATS = { hp: 0, hpPercent: 100, atk: 0, def: 0, speed: 100, critRate: 5, critDamage: 50, breakEffect: 0, effectHitRate: 0, effectRes: 0, energyRegen: 100, damageBonus: 0, dotBaseDamage: 0, elation: 0 };
+
   const state = {
     data: null,
     characterId: "", coneId: "", relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "",
     level: 80, eidolon: 0, enhancementState: "enhanced", coneLevel: 80, coneRank: 1, partySp: 3, traceLevels: { normal: 6, skill: 10, ultimate: 10, talent: 10 }, source: "manual",
-    stats: { hp: 0, hpPercent: 100, atk: 0, def: 0, speed: 100, critRate: 5, critDamage: 50, breakEffect: 0, effectHitRate: 0, effectRes: 0, energyRegen: 100, damageBonus: 0, dotBaseDamage: 0, elation: 0 },
+    stats: { ...DEFAULT_STATS },
     party: Array.from({ length: 3 }, () => ({ characterId: "", eidolon: 0, level: 10, atk: 0, critDamage: 50, breakEffect: 0, lightConeId: "", coneRank: 1, relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "" })),
     enemyId: "3001020",
     enemy: { level: 80, maxHp: 100000, resistance: 20, weakness: false, toughnessActive: true, maxToughness: 30, hpPercent: 100, count: 1, debuffCount: 0, defenseReduction: 0, defenseIgnore: 0, resistancePenetration: 0, takenDamage: 0 },
@@ -116,13 +118,13 @@
   }
 
   function writeStats() {
-    Object.entries(state.stats).forEach(([key, value]) => { const input = $("hsrStat-" + key); if (input) input.value = String(Math.round(num(value) * 1000) / 1000); });
+    Object.entries(state.stats).forEach(([key, value]) => { const input = $("hsrStat-" + key); if (input) input.value = value === null || !Number.isFinite(Number(value)) ? "" : String(Math.round(Number(value) * 1000) / 1000); });
     $("hsrLevel").value = state.level; $("hsrConeLevel").value = state.coneLevel; renderActionValue();
   }
 
   function collectInputs() {
-    document.querySelectorAll("[data-stat]").forEach((input) => { state.stats[input.dataset.stat] = num(input.value); });
-    state.level = num($("hsrLevel").value, 80); state.eidolon = num($("hsrEidolon").value); state.enhancementState = $("hsrEnhancementState")?.value || "enhanced"; state.coneLevel = num($("hsrConeLevel").value, 80); state.coneRank = num($("hsrConeRank").value, 1); state.partySp = Math.min(7, Math.max(0, Math.floor(num($("hsrPartySp")?.value, 3)))); state.traceLevels = { normal: num($("hsrNormalTrace").value, 6), skill: num($("hsrSkillTrace").value, 10), ultimate: num($("hsrUltimateTrace").value, 10), talent: num($("hsrTalentTrace").value, 10) };
+    document.querySelectorAll("[data-stat]").forEach((input) => { state.stats[input.dataset.stat] = input.value.trim() === "" ? NaN : Number(input.value); });
+    state.level = Number($("hsrLevel").value); state.eidolon = num($("hsrEidolon").value); state.enhancementState = $("hsrEnhancementState")?.value || "enhanced"; state.coneLevel = Number($("hsrConeLevel").value); state.coneRank = num($("hsrConeRank").value, 1); state.partySp = Math.min(7, Math.max(0, Math.floor(num($("hsrPartySp")?.value, 3)))); state.traceLevels = { normal: num($("hsrNormalTrace").value, 6), skill: num($("hsrSkillTrace").value, 10), ultimate: num($("hsrUltimateTrace").value, 10), talent: num($("hsrTalentTrace").value, 10) };
     state.enemy = { level: num($("hsrEnemyLevel").value, 80), maxHp: Math.max(0, num($("hsrEnemyMaxHp").value, 100000)), resistance: num($("hsrEnemyResistance").value), weakness: $("hsrWeakness").value === "true",
       toughnessActive: $("hsrToughnessState").value === "active", maxToughness: num($("hsrMaxToughness").value, 30), hpPercent: Math.min(100, Math.max(0, num($("hsrEnemyHpPercent").value, 100))), count: Math.min(5, Math.max(1, Math.floor(num($("hsrEnemyCount").value, 1)))), debuffCount: Math.max(0, num($("hsrEnemyDebuffCount").value)), defenseReduction: num($("hsrEnemyDefenseReduction").value),
       defenseIgnore: num($("hsrEnemyDefenseIgnore").value), resistancePenetration: num($("hsrEnemyResistancePenetration").value), takenDamage: num($("hsrEnemyTakenDamage").value) };
@@ -276,6 +278,18 @@
     "その他": { title: "その他の補正", source: "OTHER", subtitle: "敵条件と手動補正を確認" }
   };
 
+  function selectedBaseStats() {
+    const selectedCharacter = character(); const selectedCone = cone();
+    if (!selectedCharacter || state.level !== 80 || (selectedCone && state.coneLevel !== 80)) return {};
+    const base = {};
+    ["hp", "atk", "def", "speed"].forEach((stat) => {
+      const characterValue = selectedCharacter.base?.[stat];
+      const coneValue = stat === "speed" || !selectedCone ? 0 : selectedCone.base?.[stat];
+      if (characterValue != null && coneValue != null && Number.isFinite(Number(characterValue)) && Number.isFinite(Number(coneValue))) base[stat] = Number(characterValue) + Number(coneValue);
+    });
+    return base;
+  }
+
   function structuredModifierContext() {
     const partyIds = state.party.map((member) => member.characterId).filter(Boolean);
     const sourceNameFor = (kind, id) => {
@@ -303,7 +317,7 @@
       partyIds,
       partyEidolons: Object.fromEntries(state.party.filter((member) => member.characterId).map((member) => [String(member.characterId), num(member.eidolon, 0)])),
       partyStats: Object.fromEntries(state.party.filter((member) => member.characterId).map((member) => [String(member.characterId), { atk: num(member.atk), critDamage: num(member.critDamage, 50), breakEffect: num(member.breakEffect) }])),
-      baseStats: { hp: num(character()?.base?.hp), atk: num(character()?.base?.atk), def: num(character()?.base?.def), speed: num(character()?.base?.speed) },
+      baseStats: selectedBaseStats(),
       partyEquipment: state.party.filter((member) => member.characterId).map((member) => ({
         characterId: member.characterId,
         lightConeId: member.lightConeId,
@@ -569,6 +583,31 @@
       <section data-result-panel="modifiers" hidden class="hsr-result-details hsr-attack-results">${modifierAudit}${specialBreakAudit}</section>`;
   }
 
+  function calculationInputWarnings(attacks, baseStats) {
+    const warnings = new Set();
+    const labels = { hp: "HP", atk: "攻撃力", def: "防御力", speed: "速度", critRate: "会心率", critDamage: "会心ダメージ", damageBonus: "属性ダメージ", breakEffect: "撃破特効", effectHitRate: "効果命中", effectRes: "効果抵抗", energyRegen: "EP回復効率", hpPercent: "現在HP割合", dotBaseDamage: "対象の持続ダメージ", elation: "愉悦度" };
+    const requiredStats = new Set();
+    if (!Number.isInteger(state.level) || state.level < 1 || state.level > 80) warnings.add("キャラクターのレベルに1～80の整数を入力してください。");
+    if (cone() && (!Number.isInteger(state.coneLevel) || state.coneLevel < 1 || state.coneLevel > 80)) warnings.add("光円錐のレベルに1～80の整数を入力してください。");
+    attacks.forEach((attack) => {
+      const terms = [...(attack.scalingTerms?.length ? attack.scalingTerms : [{ stat: attack.scalingStat || "atk", multiplier: attack.multiplier }]), ...(attack.adjacentScalingTerms || [])];
+      terms.filter((term) => num(term.multiplier) !== 0).forEach((term) => requiredStats.add(term.stat));
+      if (attack.damageFormula === "enemyHpCappedByAtk") requiredStats.add("atk");
+      modifiers(attack).filter((item) => item.enabled && item.applicable).forEach((item) => {
+        const providerStat = item.valueInput?.providerStat;
+        if (["hp", "atk", "def"].includes(providerStat) && !(Number.isFinite(item.valueInput.value) && item.valueInput.value > 0)) warnings.add(`${item.name}が参照する${labels[providerStat]}に、発動者の最終値（0より大きい数値）を入力してください。`);
+        const stat = item.category === "statPercent" ? item.stat : item.requiredBaseStat;
+        if (stat && !(Number.isFinite(baseStats[stat]) && baseStats[stat] > 0)) warnings.add(`${item.name}に必要な基礎${labels[stat] || stat}を取得できません。キャラ・光円錐のLv80基礎値が必要です。この補正を外すか、レベル・装備を確認してください。`);
+      });
+    });
+    Object.entries(state.stats).forEach(([stat, value]) => {
+      if (["hp", "atk", "def"].includes(stat)) {
+        if (requiredStats.has(stat) && !(Number.isFinite(value) && value > 0)) warnings.add(`攻撃が参照する${labels[stat]}に、装備・軌跡の常時効果を含む最終値（0より大きい数値）を入力してください。`);
+      } else if (!Number.isFinite(value)) warnings.add(`${labels[stat] || stat}に数値を入力してください。補正がない場合は0を入力してください。`);
+    });
+    return [...warnings];
+  }
+
   function calculate() {
     collectInputs(); const warnings = [];
     renderAttacks();
@@ -579,14 +618,14 @@
     if (!attacks.length) { renderWarnings(["このキャラクターには現在計算できる攻撃データがありません。"]); return; }
     const reviewAttackCount = attacks.filter((attack) => attack.support?.status !== "calculable" || !attack.support?.verified).length;
     if (reviewAttackCount) warnings.push(`このキャラクターの攻撃データ${reviewAttackCount}件は自動抽出後の確認中です。計算結果は参考値として表示します。`);
-    const selectedCharacter = character();
-    const selectedCone = cone();
-    const baseStats = state.level === 80 && (!selectedCone || state.coneLevel === 80) ? {
-      hp: num(selectedCharacter?.base?.hp) + num(selectedCone?.base?.hp),
-      atk: num(selectedCharacter?.base?.atk) + num(selectedCone?.base?.atk),
-      def: num(selectedCharacter?.base?.def) + num(selectedCone?.base?.def),
-      speed: num(selectedCharacter?.base?.speed)
-    } : {};
+    const baseStats = selectedBaseStats();
+    const inputWarnings = calculationInputWarnings(attacks, baseStats);
+    if (inputWarnings.length) {
+      renderWarnings(warnings.concat(inputWarnings));
+      $("hsrResults").innerHTML = '<p class="genshin-help">入力内容を確認して、ダメージ計算を実行してください。</p>';
+      $("hsrDirtyNotice").hidden = false;
+      return;
+    }
     const baseRequest = { character: { level: state.level, stats: state.stats, baseStats }, enemy: state.enemy };
     const results = attacks.map((selected) => {
       const request = { ...baseRequest, attack: selected, modifiers: modifiers(selected) };
@@ -709,7 +748,11 @@
     const profileSets = profile.relicSets || []; const tunnels = profileSets.filter((set) => num(set.id) < 300); const planar = profileSets.find((set) => num(set.id) >= 300); state.relicId = find("relicSets", tunnels[0]?.id)?.id || ""; state.relicSecondId = find("relicSets", tunnels[1]?.id)?.id || ""; state.relicMode = state.relicSecondId ? "2+2" : "4pc"; state.ornamentId = find("relicSets", planar?.id)?.id || "";
     state.level = num(profile.level, 80); state.eidolon = num(profile.eidolon); state.coneLevel = num(profile.lightCone?.level, 80); state.coneRank = num(profile.lightCone?.rank, 1);
     const trace = (type, fallback) => num(profile.traces?.find((item) => item.type === type)?.level, fallback); state.traceLevels = { normal: trace("Normal", 6), skill: trace("BPSkill", 10), ultimate: trace("Ultra", 10), talent: trace("Talent", 10) };
-    Object.keys(state.stats).forEach((key) => { if (Number.isFinite(Number(profile.stats?.[key]))) state.stats[key] = Number(profile.stats[key]); });
+    state.stats = { ...DEFAULT_STATS, hp: null, atk: null, def: null };
+    Object.keys(state.stats).forEach((key) => {
+      const value = profile.stats?.[key];
+      if (value != null && value !== "" && Number.isFinite(Number(value))) state.stats[key] = Number(value);
+    });
     state.source = "api"; writeStats(); renderStaticInputs(); renderBuild(); markDirty("api");
   }
 
