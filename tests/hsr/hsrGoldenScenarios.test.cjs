@@ -1367,7 +1367,16 @@ test("representative party values stay pinned to reviewed skill IDs and Lv10 par
 
 test("image manifest reports every catalog card image as available", () => {
     const manifest = readJson("games/hsr/data/image-manifest.json");
-    assert.equal(manifest.expected, 323);
-    assert.equal(manifest.available, 323);
+    const catalog = readJson("games/hsr/data/catalog.json");
+    const images = ["characters", "lightCones", "relicSets", "enemies"].flatMap((key) => catalog[key].map((item) => item.image));
+    assert.equal(new Set(images).size, images.length);
+    assert.equal(manifest.expected, images.length);
+    assert.equal(manifest.available, images.length);
+    for (const image of images) {
+        const bytes = fs.readFileSync(path.join(root, image.replace(/^\/+/, "")));
+        assert.ok(bytes.length > 12, image);
+        assert.equal(bytes.toString("ascii", 0, 4), "RIFF", image);
+        assert.equal(bytes.toString("ascii", 8, 12), "WEBP", image);
+    }
     assert.deepEqual(manifest.missing, []);
 });

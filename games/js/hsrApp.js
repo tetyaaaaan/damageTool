@@ -37,8 +37,9 @@
   const state = {
     data: null,
     characterId: "", coneId: "", relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "",
-    level: 80, eidolon: 0, enhancementState: "enhanced", coneLevel: 80, coneRank: 1, partySp: 3, traceLevels: { normal: 6, skill: 10, ultimate: 10, talent: 10 }, source: "manual",
+    level: 80, eidolon: 0, enhancementState: "enhanced", coneLevel: 80, coneRank: 1, partySp: 3, traceLevels: { normal: 6, skill: 10, ultimate: 10, talent: 10, elation: 10 }, source: "manual",
     stats: { ...DEFAULT_STATS },
+    elationInputs: { context: "ahaInstant", punchline: NaN, merrymake: 0 },
     party: Array.from({ length: 3 }, () => ({ characterId: "", eidolon: 0, level: 10, atk: 0, critDamage: 50, breakEffect: 0, lightConeId: "", coneRank: 1, relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "" })),
     enemyId: "3001020",
     enemy: { level: 80, maxHp: 100000, resistance: 20, weakness: false, toughnessActive: true, maxToughness: 30, hpPercent: 100, count: 1, debuffCount: 0, defenseReduction: 0, defenseIgnore: 0, resistancePenetration: 0, takenDamage: 0 },
@@ -84,6 +85,7 @@
     fillRange("hsrSkillTrace", 1, 15, state.traceLevels.skill, (value) => `スキル Lv${value}`);
     fillRange("hsrUltimateTrace", 1, 15, state.traceLevels.ultimate, (value) => `必殺技 Lv${value}`);
     fillRange("hsrTalentTrace", 1, 15, state.traceLevels.talent, (value) => `天賦 Lv${value}`);
+    fillRange("hsrElationTrace", 1, 10, state.traceLevels.elation, (value) => `愉悦 Lv${value}`);
     $("hsrEnemySelect").innerHTML = state.data.enemies.map((item) => `<option value="${item.id}">${esc(item.name)}</option>`).join("") + '<option value="custom">カスタム</option>';
   }
 
@@ -108,6 +110,7 @@
     $("hsrOrnamentDetailsButton").disabled = !ornamentSet;
     $("hsrRelicMode").value = state.relicMode; $("hsrRelicSecondCard").hidden = state.relicMode !== "2+2";
     $("hsrElationField").hidden = char?.path !== "Elation";
+    $("hsrElationSettings").hidden = char?.id !== "1505";
     $("hsrEnhancementField").hidden = !["1004", "1005", "1006", "1102", "1205"].includes(char?.id);
     $("hsrEnhancementState").value = state.enhancementState;
     $("hsrDotBaseDamageField").hidden = char?.id !== "1005";
@@ -125,6 +128,8 @@
   function collectInputs() {
     document.querySelectorAll("[data-stat]").forEach((input) => { state.stats[input.dataset.stat] = input.value.trim() === "" ? NaN : Number(input.value); });
     state.level = Number($("hsrLevel").value); state.eidolon = num($("hsrEidolon").value); state.enhancementState = $("hsrEnhancementState")?.value || "enhanced"; state.coneLevel = Number($("hsrConeLevel").value); state.coneRank = num($("hsrConeRank").value, 1); state.partySp = Math.min(7, Math.max(0, Math.floor(num($("hsrPartySp")?.value, 3)))); state.traceLevels = { normal: num($("hsrNormalTrace").value, 6), skill: num($("hsrSkillTrace").value, 10), ultimate: num($("hsrUltimateTrace").value, 10), talent: num($("hsrTalentTrace").value, 10) };
+    state.traceLevels.elation = Number($("hsrElationTrace").value);
+    state.elationInputs = { context: "ahaInstant", punchline: $("hsrPunchline").value.trim() === "" ? NaN : Number($("hsrPunchline").value), merrymake: $("hsrMerrymake").value.trim() === "" ? NaN : Number($("hsrMerrymake").value) };
     state.enemy = { level: num($("hsrEnemyLevel").value, 80), maxHp: Math.max(0, num($("hsrEnemyMaxHp").value, 100000)), resistance: num($("hsrEnemyResistance").value), weakness: $("hsrWeakness").value === "true",
       toughnessActive: $("hsrToughnessState").value === "active", maxToughness: num($("hsrMaxToughness").value, 30), hpPercent: Math.min(100, Math.max(0, num($("hsrEnemyHpPercent").value, 100))), count: Math.min(5, Math.max(1, Math.floor(num($("hsrEnemyCount").value, 1)))), debuffCount: Math.max(0, num($("hsrEnemyDebuffCount").value)), defenseReduction: num($("hsrEnemyDefenseReduction").value),
       defenseIgnore: num($("hsrEnemyDefenseIgnore").value), resistancePenetration: num($("hsrEnemyResistancePenetration").value), takenDamage: num($("hsrEnemyTakenDamage").value) };
@@ -583,6 +588,7 @@
 
   function attackSupport(attack) {
     if (attack.support?.status === "displayOnly") return { status: "displayOnly", label: "表示のみ・計算不可", reason: attack.support.reason };
+    if (attack.damageFormula === "elation" && (state.level !== 80 || state.eidolon !== 0)) return { status: "displayOnly", label: "表示のみ・計算不可", reason: "この愉悦攻撃はLv80・星魂0のアッハタイム中のみ計算対応です。" };
     const reason = attack.type === "break" ? "" : window.HsrCalcEngine.unsupportedAttackReason(attack);
     if (reason) return { status: "displayOnly", label: "表示のみ・計算不可", reason };
     if (attack.support?.status === "calculable" && attack.support.verified === true) return { status: "calculable", label: "計算対応・確認済み扱い" };
@@ -605,19 +611,25 @@
   function damageBreakdown(result, targetLabel) {
     const b = result.breakdown;
     const row = (label, value) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`;
-    const scaling = b.damageFormula === "enemyHpCappedByAtk"
+    const isElation = b.damageFormula === "elation";
+    const scaling = isElation
+      ? row("Lv80の愉悦基礎値 × 攻撃倍率", `${detailNumber(b.levelBase)} × ${detailNumber(b.multiplierPercent)}%`)
+        + row("愉悦度", `${detailNumber(b.elationPercent)}%／×${detailNumber(b.elationMultiplier)}`)
+        + row("爆笑ネタ（攻撃時点）", `${detailNumber(b.punchline)}／×${detailNumber(b.punchlineMultiplier)}`)
+        + row("上笑", `${detailNumber(b.merrymakePercent)}%／×${detailNumber(b.merrymakeMultiplier)}`)
+      : b.damageFormula === "enemyHpCappedByAtk"
       ? row("敵HP参照・攻撃力上限適用後", detailNumber(b.cappedEnemyHpDamage)) + row("敵HP割合／攻撃力上限", `${detailNumber(b.enemyHpPercent)}%／${detailNumber(b.atkCapPercent)}%`) + row("攻撃倍率", `${detailNumber(b.multiplierPercent)}%`)
       : b.scalingTerms.map((term) => row(`${SCALING_LABELS[term.stat] || term.stat}参照 × 攻撃倍率`, `${detailNumber(term.referenceValue)} × ${detailNumber(term.multiplierPercent)}%`)).join("");
     const hits = result.attack.hitCount;
     const hitFactors = b.vulnerabilityFactors.length && b.vulnerabilityFactors.every((value) => value === b.vulnerabilityFactors[0])
       ? `<dl class="hsr-hit-factors">${row("被ダメージ倍率（各ヒット）", `×${detailNumber(b.vulnerabilityFactors[0])}`)}</dl>`
       : `<details class="hsr-hit-factors"><summary>被ダメージ倍率（ヒット順）</summary><p>${b.vulnerabilityFactors.map((value) => `×${detailNumber(value)}`).join(" → ") || "ヒットなし"}</p></details>`;
-    return `<section class="hsr-target-breakdown"><h4>${esc(targetLabel)}</h4><dl>${scaling}${b.flatDamage ? row("固定加算", detailNumber(b.flatDamage)) : ""}
+    return `<section class="hsr-target-breakdown"><h4>${esc(targetLabel)}</h4>${isElation ? '<p class="hsr-formula-note">アッハタイム中・敵1体あたりの1回分です。爆笑の褒美への変換や全敵の合計は計算しません。</p>' : ""}<dl>${scaling}${b.flatDamage ? row("固定加算", detailNumber(b.flatDamage)) : ""}
       ${row("基礎ダメージ（1ヒット）", detailNumber(b.baseDamage))}${row("ヒット数", hits)}
-      ${row("与ダメージ補正", `${detailNumber(b.damageBonus)}%／×${detailNumber(b.damageBonusMultiplier)}`)}
+      ${isElation ? row("通常の与ダメージ補正", "適用対象外（×1）") : row("与ダメージ補正", `${detailNumber(b.damageBonus)}%／×${detailNumber(b.damageBonusMultiplier)}`)}
       ${row("防御倍率", `×${detailNumber(b.defense)}`)}${row("耐性倍率", `×${detailNumber(b.resistance)}`)}
       ${row(b.toughness === 0.9 ? "靭性倍率（靭性あり）" : "靭性倍率（弱点撃破中）", `×${detailNumber(b.toughness)}`)}
-      ${row("独立倍率", `×${detailNumber(b.independentMultiplier)}`)}${row("共通倍率（被ダメージ補正を除く）", `×${detailNumber(b.commonWithoutVulnerability)}`)}
+      ${isElation ? "" : row("独立倍率", `×${detailNumber(b.independentMultiplier)}`)}${row("共通倍率（被ダメージ補正を除く）", `×${detailNumber(b.commonWithoutVulnerability)}`)}
       ${row("被ダメージ増加（共通分）", `${detailNumber(b.takenDamage)}%`)}${row("被ダメージ倍率合計", detailNumber(b.vulnerabilityFactorSum))}
       ${result.attack.canCrit ? row("会心率", `${detailNumber(b.critRatePercent)}%`) + row("会心ダメージ／会心被ダメージ補正", `${detailNumber(b.critDamagePercent)}%／${detailNumber(b.critTakenDamage)}%`) + row("会心倍率", `×${detailNumber(b.critMultiplier)}`) + row("期待値の会心倍率", `×${detailNumber(b.expectedCritMultiplier)}`) : ""}</dl>
       ${hitFactors}<p class="hsr-formula-note">${result.attack.canCrit ? "非会心合計" : "ダメージ合計"}＝基礎ダメージ（1ヒット）×共通倍率×被ダメージ倍率合計</p>
@@ -657,7 +669,9 @@
     const requiredStats = new Set();
     if (!Number.isInteger(state.level) || state.level < 1 || state.level > 80) warnings.add("キャラクターのレベルに1～80の整数を入力してください。");
     if (cone() && (!Number.isInteger(state.coneLevel) || state.coneLevel < 1 || state.coneLevel > 80)) warnings.add("光円錐のレベルに1～80の整数を入力してください。");
+    if (attacks.some((attack) => attack.damageFormula === "elation") && (!Number.isInteger(state.traceLevels.elation) || state.traceLevels.elation < 1 || state.traceLevels.elation > 10)) warnings.add("星魂0の愉悦スキルLvに1～10の整数を選択してください。");
     attacks.forEach((attack) => {
+      if (attack.damageFormula === "elation") window.HsrCalcEngine.elationInputWarnings({ character: { level: state.level, eidolon: state.eidolon, stats: state.stats }, attack, elation: state.elationInputs }).forEach((warning) => warnings.add(warning));
       const terms = [...(attack.scalingTerms?.length ? attack.scalingTerms : [{ stat: attack.scalingStat || "atk", multiplier: attack.multiplier }]), ...(attack.adjacentScalingTerms || [])];
       terms.filter((term) => num(term.multiplier) !== 0).forEach((term) => requiredStats.add(term.stat));
       if (attack.damageFormula === "enemyHpCappedByAtk") requiredStats.add("atk");
@@ -705,7 +719,7 @@
       $("hsrDirtyNotice").hidden = false;
       return;
     }
-    const baseRequest = { character: { level: state.level, stats: state.stats, baseStats }, enemy: state.enemy };
+    const baseRequest = { character: { level: state.level, eidolon: state.eidolon, stats: state.stats, baseStats }, enemy: state.enemy, elation: state.elationInputs };
     const results = attacks.map((selected) => {
       const request = { ...baseRequest, attack: selected, modifiers: modifiers(selected) };
       const result = window.HsrCalcEngine.calculate(request);
@@ -745,6 +759,7 @@
   }
 
   function skillLevel(skill) {
+    if (skill.type === "ElationDamage" && character()?.id === "1505") return Number($("hsrElationTrace").value) || 10;
     if (skill.type === "Normal") return state.traceLevels.normal;
     if (skill.type === "BPSkill") return state.traceLevels.skill;
     if (skill.type === "Ultra") return state.traceLevels.ultimate;

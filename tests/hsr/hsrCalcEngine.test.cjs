@@ -232,3 +232,78 @@ test("unsupported damage kinds and formulas never fall through to ordinary damag
         assert.equal(calc.calculate(input).nonCrit, 500);
     }
 });
+
+function elationInput() {
+    const input = baseInput();
+    const generated = JSON.parse(fs.readFileSync(path.join(root, "games/hsr/data/attacks.generated.json"), "utf8")).attacks.find((item) => item.id === "150520");
+    const override = JSON.parse(fs.readFileSync(path.join(root, "games/hsr/data/attack-overrides.json"), "utf8")).overrides.find((item) => item.id === "150520");
+    input.attack = { ...generated, ...override, multiplier: 110, traceLevel: 10 };
+    input.character.eidolon = 0;
+    input.character.stats = { ...input.character.stats, elation: 50, critRate: 0 };
+    input.enemy = { ...input.enemy, resistance: 20, toughnessActive: true };
+    input.elation = { context: "ahaInstant", punchline: 20, merrymake: 0 };
+    return input;
+}
+
+test("Evanescia Elation agrees with independently calculated Lv80 reference values", () => {
+    // Fandom Elation_DMG: Lv80=7535.1070, (1+E), 1+5P/(P+240), (1+M).
+    // StarRailRes dbe8cdf, skill150520 Lv10 params[1]=1.1. Expected numbers use rational arithmetic.
+    const cases = [
+        [{}, {}, {}, 6197.335695692308, 12394.671391384616, 6197.335695692308],
+        [{ elation: 100 }, {}, {}, 8263.114260923077, 16526.228521846155, 8263.114260923077],
+        [{}, { punchline: 60 }, {}, 8951.707116, 17903.414232, 8951.707116],
+        [{ critRate: 50 }, {}, {}, 6197.335695692308, 12394.671391384616, 9296.003543538462],
+        [{ critRate: 50 }, {}, { level: 90, defenseReduction: 30, resistancePenetration: 40, toughnessActive: false }, 11671.065340286832, 23342.130680573664, 17506.598010430247],
+        [{ critRate: 50 }, { merrymake: 25 }, {}, 7746.669619615384, 15493.339239230769, 11620.004429423077]
+    ];
+    for (const [stats, values, enemy, nonCrit, crit, expected] of cases) {
+        const input = elationInput();
+        Object.assign(input.character.stats, stats); Object.assign(input.elation, values); Object.assign(input.enemy, enemy);
+        const result = engine().calculate(input);
+        for (const [key, value] of Object.entries({ nonCrit, crit, expected })) assert.ok(Math.abs(result[key] - value) < 1e-8, `${key}: ${result[key]} versus ${value}`);
+        assert.equal(result.breakdown.baseDamage, 8288.6177);
+        assert.ok(Math.abs(result.breakdown.baseDamage * result.breakdown.commonWithoutVulnerability * result.breakdown.vulnerabilityFactorSum - result.nonCrit) < 1e-8);
+    }
+});
+
+test("Elation excludes ATK and ordinary damage boosts and never substitutes Certified Banger", () => {
+    const input = elationInput(); const calc = engine(); const baseline = calc.calculate(input).nonCrit;
+    input.character.stats.atk = 999999; input.character.stats.damageBonus = 200;
+    input.elation.certifiedBanger = 1000;
+    input.modifiers = [{ id: "ordinary", category: "damageBonus", value: 200 }, { id: "normal-independent", category: "independentMultiplier", value: 100 }];
+    const result = calc.calculate(input);
+    assert.equal(result.nonCrit, baseline);
+    assert.equal(result.applied.length, 0);
+    assert.match(result.skipped.find((item) => item.id === "ordinary").reason, /通常の与ダメージ/);
+    input.elation.context = "certifiedBanger";
+    assert.equal(calc.calculate(input).supported, false);
+});
+
+test("Elation refuses missing inputs and unverified contexts without rejecting valid zero values", () => {
+    const calc = engine();
+    for (const value of [NaN, -1, 1.5, Infinity]) { const input = elationInput(); input.elation.punchline = value; assert.equal(calc.calculate(input).supported, false); }
+    for (const key of ["elation", "critRate", "critDamage"]) { const input = elationInput(); input.character.stats[key] = NaN; assert.equal(calc.calculate(input).supported, false); }
+    for (const change of [(i) => i.character.level = 79, (i) => i.character.eidolon = 1, (i) => i.elation.merrymake = NaN, (i) => i.attack.multiplier = NaN, (i) => i.attack.traceLevel = 11]) {
+        const input = elationInput(); change(input); assert.equal(calc.calculate(input).supported, false);
+    }
+    const input = elationInput(); input.elation.punchline = 0; input.elation.merrymake = 0; input.character.stats.elation = 0;
+    assert.ok(calc.calculate(input).nonCrit > 0);
+});
+
+test("Elation reuses scoped critical, defense, resistance and vulnerability modifiers", () => {
+    const input = elationInput(); input.character.stats.critRate = 50;
+    input.modifiers = [
+        { id: "elation", category: "elation", value: 20 },
+        { id: "crit", category: "critDamage", value: 30 },
+        { id: "def", category: "defenseReduction", value: 30 },
+        { id: "res", category: "resistancePenetration", value: 10 },
+        { id: "vuln", category: "takenDamage", value: 20 },
+        { id: "skill-only", category: "takenDamage", value: 99, target: { attackTypes: ["skill"] } }
+    ];
+    const result = engine().calculate(input);
+    assert.ok(Math.abs(result.nonCrit - 11155.204252246154) < 1e-8);
+    assert.ok(Math.abs(result.crit - 25656.969780166153) < 1e-8);
+    assert.ok(Math.abs(result.expected - 18406.087016206155) < 1e-8);
+    assert.equal(result.applied.length, 5);
+    assert.equal(result.skipped.find((item) => item.id === "skill-only").applicable, false);
+});

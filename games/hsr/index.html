@@ -116,6 +116,16 @@
                 </div></div>
               </section>
 
+              <section class="genshin-input-step" id="hsrElationSettings" hidden aria-labelledby="hsrElationTitle">
+                <div class="genshin-input-step-head"><h4 id="hsrElationTitle">愉悦スキルの計算条件</h4><p>緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。</p></div>
+                <div class="genshin-form-grid">
+                  <label class="genshin-field">愉悦スキルLv<select id="hsrElationTrace" aria-label="愉悦スキルレベル"></select></label>
+                  <label class="genshin-field">攻撃時点の爆笑ネタ<input id="hsrPunchline" type="number" min="0" step="1" aria-describedby="hsrPunchlineHelp"></label>
+                  <label class="genshin-field">上笑（%）<input id="hsrMerrymake" type="number" min="0" step="0.1" value="0"></label>
+                </div>
+                <p class="genshin-help" id="hsrPunchlineHelp">Lv80・星魂0・アッハタイム中の敵1体あたり1回分です。爆笑ネタと爆笑の褒美は別の値です。この攻撃では攻撃時点の爆笑ネタだけを使い、攻撃後の爆笑の褒美+5は加算しません。上笑がない場合は0を入力してください。通常の与ダメージ補正は適用しません。</p>
+              </section>
+
               <section class="genshin-input-step" aria-labelledby="hsrPartyStepTitle"><div class="genshin-input-step-head"><h4 id="hsrPartyStepTitle">パーティ</h4><p>メインキャラを支援する残り3人を設定します。</p></div><div class="genshin-party-launcher"><div><strong>サポートメンバー</strong><span id="hsrPartySummary">サポートメンバーは未設定です。</span></div><button type="button" class="teti-button teti-button-secondary" id="hsrPartyDialogOpen" aria-haspopup="dialog" aria-controls="hsrPartyDialog">メンバーを設定</button></div><p class="genshin-party-note">メンバーを設定すると、適用可能な効果を補正条件の「パーティ」タブで選べます。</p></section>
 
               <section class="genshin-input-step" aria-labelledby="hsrCombatStepTitle">

@@ -248,7 +248,7 @@ test("light-cone details use the selected refinement before calculation", async 
     }
 });
 
-test("six Elation attacks and mixed True/Elation records are unavailable while ordinary attacks remain", async () => {
+test("unimplemented Elation attacks and mixed True/Elation records are unavailable while ordinary attacks remain", async () => {
     const app = await tool();
     const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
     const generated = JSON.parse(read("games/hsr/data/attacks.generated.json"));
@@ -258,7 +258,8 @@ test("six Elation attacks and mixed True/Elation records are unavailable while o
     app.state.data.characters = catalog.characters;
     app.state.data.attacks = [...attacks.values()];
     for (const stat of ["hp", "atk", "def"]) app.node(`hsrStat-${stat}`).value = "1000";
-    for (const id of ["150120", "150220", "150520", "150621", "800920", "801020", "140603", "150504"]) {
+    app.node("hsrPunchline").value = "20";
+    for (const id of ["150120", "150220", "150621", "800920", "801020", "140603", "150504"]) {
         const blocked = attacks.get(id);
         app.state.characterId = blocked.characterId;
         const results = app.calculate();
@@ -284,4 +285,32 @@ test("dedicated Break attacks keep their supported UI route", async () => {
     assert.ok(html.includes("フラクタルの螺旋・弱点撃破ダメージ"));
     assert.ok(!html.includes("表示のみ・計算不可"));
     assert.match(html, /撃破ダメージ<\/span><strong>/);
+});
+
+test("representative Elation inputs stop incomplete calculation and render actual dedicated factors", async () => {
+    const app = await tool();
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    const generated = JSON.parse(read("games/hsr/data/attacks.generated.json"));
+    const override = JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.find((item) => item.id === "150520");
+    app.state.data.characters = catalog.characters;
+    app.state.data.attacks = generated.attacks.filter((item) => ["150501", "150520"].includes(item.id)).map((item) => ({ ...item, support: item.support || generated.support, ...(item.id === "150520" ? override : {}) }));
+    app.state.characterId = "1505";
+    app.node("hsrStat-atk").value = "3000";
+    app.node("hsrStat-elation").value = "50";
+    app.node("hsrStat-critRate").value = "50";
+    app.node("hsrStat-critDamage").value = "100";
+    assert.equal(app.calculate().length, 0);
+    assert.match(app.node("hsrWarnings").innerHTML, /爆笑ネタ/);
+    app.node("hsrPunchline").value = "20";
+    const result = app.calculate().find((item) => item.breakdown.damageFormula === "elation");
+    assert.ok(Math.abs(result.nonCrit - 6197.335695692308) < 1e-8);
+    assert.match(app.node("hsrResults").innerHTML, /Lv80の愉悦基礎値/);
+    assert.match(app.node("hsrResults").innerHTML, /通常の与ダメージ補正<\/dt><dd>適用対象外/);
+    app.node("hsrSkillTrace").value = "1";
+    assert.ok(Math.abs(app.calculate().find((item) => item.breakdown.damageFormula === "elation").nonCrit - result.nonCrit) < 1e-8, "ordinary Skill level must not change Elation");
+    app.node("hsrElationTrace").value = "1";
+    assert.ok(Math.abs(app.calculate().find((item) => item.breakdown.damageFormula === "elation").nonCrit - result.nonCrit / 2) < 1e-8);
+    app.node("hsrEidolon").value = "1";
+    assert.equal(app.calculate().length, 1, "ordinary attack remains outside verified E0 scope");
+    assert.match(app.node("hsrResults").innerHTML, /Lv80・星魂0のアッハタイム中のみ/);
 });

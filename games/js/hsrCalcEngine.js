@@ -92,8 +92,35 @@
         });
     }
 
+    // Published Elation level table; do not derive this from rounded Break coefficients.
+    // https://honkai-star-rail.fandom.com/wiki/Elation_DMG
+    const ELATION_LEVEL_BASE = Object.freeze({ 80: 7535.1070 });
+
+    function supportedElationAttack(attack) {
+        return attack.id === "150520" && attack.damageFormula === "elation" && attack.type === "elation"
+            && attack.elationContext === "ahaInstant" && attack.target === "aoe" && attack.hitCount === 1;
+    }
+
+    function elationInputWarnings(input = {}) {
+        const character = input.character || {};
+        const stats = character.stats || {};
+        const values = input.elation || {};
+        const warnings = [];
+        if (!ELATION_LEVEL_BASE[character.level] || (character.eidolon ?? 0) !== 0) warnings.push("この愉悦攻撃はLv80・星魂0のみ計算対応です。");
+        if (values.context !== "ahaInstant") warnings.push("この愉悦攻撃はアッハタイム中のみ計算対応です。爆笑の褒美を参照する攻撃は対象外です。");
+        if (!Number.isInteger(values.punchline) || values.punchline < 0) warnings.push("攻撃時点の爆笑ネタに0以上の整数を入力してください。");
+        if (!Number.isFinite(values.merrymake) || values.merrymake < 0) warnings.push("上笑に0以上の数値を入力してください。補正なしは0です。");
+        for (const [key, label] of [["elation", "愉悦度"], ["critRate", "会心率"], ["critDamage", "会心ダメージ"]]) {
+            if (!Number.isFinite(stats[key]) || stats[key] < 0) warnings.push(`${label}に0以上の最終値を入力してください。`);
+        }
+        if (!Number.isInteger(input.attack?.traceLevel) || input.attack.traceLevel < 1 || input.attack.traceLevel > 10) warnings.push("星魂0の愉悦スキルLvに1～10の整数を選択してください。");
+        if (!Number.isFinite(input.attack?.multiplier) || input.attack.multiplier < 0) warnings.push("愉悦スキルの倍率を取得できません。");
+        return warnings;
+    }
+
     function unsupportedAttackReason(attack = {}) {
         if (attack.support?.status === "displayOnly") return attack.support.reason || "この攻撃は表示のみのため、ダメージを計算しません。";
+        if (supportedElationAttack(attack)) return "";
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
         if (attack.damageFormula && !["statMultiplier", "enemyHpCappedByAtk"].includes(attack.damageFormula)) return "このダメージ計算方式は未対応です。通常式では計算しません。";
@@ -108,6 +135,7 @@
         const attack = input?.attack || {};
         const unsupportedReason = unsupportedAttackReason(attack);
         if (unsupportedReason) return { supported: false, reason: unsupportedReason };
+        if (supportedElationAttack(attack)) return calculateElation(input);
         const stats = character.stats || {};
         const modifiers = (input?.modifiers || []).map(normalizeModifier);
         modifiers.forEach((item) => {
@@ -209,6 +237,64 @@
         };
     }
 
+    function calculateElation(input) {
+        const warnings = elationInputWarnings(input);
+        if (warnings.length) return { supported: false, reason: warnings.join(" ") };
+        const { character, enemy = {}, attack, elation: values } = input;
+        const stats = character.stats;
+        const modifiers = (input.modifiers || []).map(normalizeModifier);
+        const allowed = ["elation", "critRate", "critRateOverride", "critDamage", "critTakenDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage"];
+        modifiers.forEach((item) => {
+            if (!item.enabled || !item.applicable) return;
+            if (!item.calculable || (item.support?.status && item.support.status !== "calculable") || !modifierAppliesToAttack(item, attack)) {
+                item.applicable = false;
+                item.reason = item.support?.reason || "この愉悦攻撃は補正の対象外です";
+            } else if (!allowed.includes(item.category)) {
+                item.applicable = false;
+                item.reason = ["damageBonus", "dotDamage"].includes(item.category) ? "通常の与ダメージ補正は愉悦ダメージに適用しません" : "この愉悦攻撃では適用しない補正です";
+            }
+        });
+        enforceStackingRules(modifiers);
+        const applied = modifiers.filter((item) => item.enabled && item.applicable);
+        const skipped = modifiers.filter((item) => !item.enabled || !item.applicable);
+        const sum = (category) => applied.filter((item) => item.category === category).reduce((total, item) => total + item.value, 0);
+        const levelBase = ELATION_LEVEL_BASE[character.level];
+        const baseDamage = levelBase * attack.multiplier / 100;
+        const elationPercent = stats.elation + sum("elation");
+        const elationMultiplier = 1 + elationPercent / 100;
+        const punchlineMultiplier = 1 + 5 * values.punchline / (values.punchline + 240);
+        const merrymakeMultiplier = 1 + values.merrymake / 100;
+        const defense = defenseMultiplier(character.level, enemy.level, number(enemy.defenseReduction) + sum("defenseReduction"), number(enemy.defenseIgnore) + sum("defenseIgnore"));
+        const resistance = resistanceMultiplier(number(enemy.resistance) - number(enemy.resistancePenetration) - sum("resistanceReduction") - sum("resistancePenetration"));
+        const toughness = enemy.toughnessActive ? 0.9 : 1;
+        const takenDamage = number(enemy.takenDamage) + sum("takenDamage");
+        const vulnerability = 1 + takenDamage / 100;
+        const commonWithoutVulnerability = elationMultiplier * punchlineMultiplier * merrymakeMultiplier * defense * resistance * toughness;
+        const commonMultiplier = commonWithoutVulnerability * vulnerability;
+        const nonCrit = baseDamage * commonMultiplier;
+        const critRate = clamp(Math.max(stats.critRate + sum("critRate"), ...applied.filter((item) => item.category === "critRateOverride").map((item) => item.value)), 0, 100);
+        const critDamage = stats.critDamage + sum("critDamage");
+        const critTakenDamage = sum("critTakenDamage");
+        const critMultiplier = 1 + (critDamage + critTakenDamage) / 100;
+        const expectedCritMultiplier = 1 + critRate / 100 * (critMultiplier - 1);
+        const crit = nonCrit * critMultiplier;
+        const expected = nonCrit * expectedCritMultiplier;
+        return {
+            attack: { name: attack.name, hitCount: 1, target: attack.target, canCrit: true, scalingStat: "elation" },
+            nonCrit, crit, expected, perHit: { nonCrit, crit, expected }, applied, skipped,
+            breakdown: {
+                damageFormula: "elation", levelBase, referenceValue: levelBase, multiplierPercent: attack.multiplier,
+                multiplierAddition: 0, scalingTerms: [], flatDamage: 0, baseDamage,
+                elationPercent, elationMultiplier, punchline: values.punchline, punchlineMultiplier,
+                merrymakePercent: values.merrymake, merrymakeMultiplier,
+                damageBonus: 0, damageBonusMultiplier: 1, independentMultiplier: 1,
+                defense, resistance, weakness: 1, toughness, takenDamage, vulnerabilityFactors: [vulnerability],
+                progressiveVulnerability: [], vulnerabilityFactorSum: vulnerability, commonWithoutVulnerability, commonMultiplier,
+                critMultiplier, expectedCritMultiplier, critRatePercent: critRate, critDamagePercent: critDamage, critTakenDamage
+            }
+        };
+    }
+
     function calculateBreak(input) {
         const character = input?.character || {};
         const enemy = input?.enemy || {};
@@ -287,5 +373,5 @@
         return { supported: true, value, base, toughnessDamage, effectiveToughnessDamage, breakEffect, breakEfficiency, superBreakBonus, defense, resistance, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
     }
 
-    window.HsrCalcEngine = Object.freeze({ unsupportedAttackReason, calculate, calculateBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });
+    window.HsrCalcEngine = Object.freeze({ elationInputWarnings, unsupportedAttackReason, calculate, calculateBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });
 })();
