@@ -386,3 +386,32 @@ test("Pearl calculates only her registered DEF Basic ATK and explains other skil
     app.node('hsrNormalTrace').value = '1';
     assert.ok(Math.abs(app.calculate()[0].nonCrit - 486) < 1e-9);
 });
+
+
+for (const [cid, id, stat, value, label, multiplier] of [['1512','151201','hp','6000','HP',50], ['1513','151301','atk','3000','攻撃力',100]]) {
+    test(cid + ' summer form displays only its Basic ATK and stops missing reference inputs', async () => {
+        const app = await tool();
+        app.state.data.characters = JSON.parse(read('games/hsr/data/catalog.json')).characters;
+        app.state.characterId = cid;
+        app.state.data.attacks = JSON.parse(read('games/hsr/data/attack-overrides.json')).overrides.filter(item => item.characterId === cid);
+        app.node('hsrEnemyLevel').value = '80';
+        app.node('hsrEnemyResistance').value = '20';
+        app.node('hsrToughnessState').value = 'active';
+        app.node('hsrStat-critRate').value = '50';
+        app.node('hsrStat-critDamage').value = '100';
+        for (const invalid of ['0', '', '-1', 'invalid']) {
+            app.node('hsrStat-' + stat).value = invalid;
+            assert.equal(app.calculate().length, 0);
+            assert.ok(app.node('hsrWarnings').innerHTML.includes(label));
+        }
+        app.node('hsrStat-' + stat).value = value;
+        const result = app.calculate()[0];
+        assert.ok(Math.abs(result.nonCrit - 1080) < 1e-9);
+        assert.equal(result.breakdown.referenceValue, Number(value));
+        assert.equal(result.breakdown.multiplierPercent, multiplier);
+        assert.match(app.node('hsrResults').innerHTML, /data-support-status="calculable"/);
+        assert.ok(app.node('hsrResults').innerHTML.includes(label + '参照 × 攻撃倍率'));
+        assert.match(app.node('hsrWarnings').innerHTML, /のみ計算対応.*計算対象外/);
+        assert.equal(app.state.data.attacks.length, 1, 'no unsupported skills are implicitly registered');
+    });
+}

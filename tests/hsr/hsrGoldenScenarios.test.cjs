@@ -1411,3 +1411,36 @@ test("Pearl's unenhanced DEF Basic ATK matches independently calculated single-t
     }
     assert.deepEqual(attacks.filter(item => item.characterId === '1503' && item.support?.status === 'calculable').map(item => item.id), ['150301']);
 });
+
+
+for (const [id, stat, element, base, increased] of [['151201', 'hp', 'Wind', 6000, 8000], ['151301', 'atk', 'Quantum', 3000, 4000]]) {
+    test(id + ' summer-form Basic ATK matches independent HP/ATK references without special damage', () => {
+        const attack = attacks.find(item => item.id === id);
+        const master = readJson('games/hsr/data/catalog.json').characters.find(item => item.id === attack.characterId).skills.find(item => item.id === id);
+        assert.equal(attack.scalingStat, stat);
+        assert.equal(attack.element, element);
+        assert.equal(attack.type, 'normal');
+        assert.equal(attack.support.status, 'calculable');
+        attack.multipliers.forEach((value, index) => assert.ok(Math.abs(value - master.params[index][0] * 100) < 1e-9));
+        // Lv6: HP6000*0.5 or ATK3000*1, then DEF0.5*RES0.8*toughness0.9.
+        for (const [level, reference, res, bonus, expected] of [
+            [6, base, 20, 0, [1080,2160,1620]],
+            [6, increased, 20, 0, [1440,2880,2160]],
+            [6, base, 0, 0, [1350,2700,2025]],
+            [6, base, 20, 50, [1620,3240,2430]],
+            [1, base, 20, 0, [540,1080,810]]
+        ]) {
+            const input = request({ ...attack, multiplier: attack.multipliers[level - 1] });
+            Object.assign(input.character.stats, { hp: 0, atk: 0, [stat]: reference, damageBonus: bonus });
+            input.character.eidolon = 0;
+            input.enemy.resistance = res;
+            const result = engine.calculate(input);
+            [result.nonCrit, result.crit, result.expected].forEach((value, i) => assert.ok(Math.abs(value - expected[i]) < 1e-9));
+            assert.equal(result.breakdown.referenceValue, reference);
+            assert.equal(result.breakdown.defense, 0.5);
+            assert.equal(result.breakdown.resistance, 1 - res / 100);
+            assert.equal(result.breakdown.toughness, 0.9);
+        }
+        assert.deepEqual(attacks.filter(item => item.characterId === attack.characterId).map(item => item.id), [id]);
+    });
+}
