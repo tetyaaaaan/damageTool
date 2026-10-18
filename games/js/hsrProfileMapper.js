@@ -85,27 +85,38 @@
     function calculateStats(character, characterData, lightCone, relicSets, catalog) {
         const props = collectProperties(character, characterData, lightCone, relicSets, catalog);
         const coneProps = character.equipment?._flat?.props || [];
-        const coneBase = (type) => number(coneProps.find((item) => item?.type === type)?.value);
+        const finiteValue = (value) => value !== undefined && value !== null && value !== "" && Number.isFinite(Number(value)) ? Number(value) : undefined;
+        const coneBase = (type) => character.equipment ? finiteValue(coneProps.find((item) => item?.type === type)?.value) : 0;
+        const base = (stat, type) => {
+            const own = finiteValue(characterData?.base?.[stat]); const cone = coneBase(type);
+            return own === undefined || cone === undefined ? undefined : own + cone;
+        };
         const exactLevel = number(character.level) === 80;
-        const hpBase = number(characterData?.base?.hp) + coneBase("BaseHP");
-        const atkBase = number(characterData?.base?.atk) + coneBase("BaseAttack");
-        const defBase = number(characterData?.base?.def) + coneBase("BaseDefence");
-        const damageTypes = ["PhysicalAddedRatio", "FireAddedRatio", "IceAddedRatio", "ThunderAddedRatio", "WindAddedRatio", "QuantumAddedRatio", "ImaginaryAddedRatio"];
-        const damageBonus = Math.max(0, ...damageTypes.map((type) => props[type] || 0));
+        const hpBase = base("hp", "BaseHP");
+        const atkBase = base("atk", "BaseAttack");
+        const defBase = base("def", "BaseDefence");
+        const elements = { "物理": "Physical", "炎": "Fire", "氷": "Ice", "雷": "Thunder", "風": "Wind", "量子": "Quantum", "虚数": "Imaginary" };
+        const element = characterData?.element || elements[characterData?.elementName];
+        const damageBonus = element ? (props[`${element}AddedRatio`] || 0) + (props.AllDamageTypeAddedRatio || 0) : undefined;
+        const rank = finiteValue(character.equipment?.rank);
+        const incomplete = !characterData || (character.equipment && (!lightCone || !Number.isInteger(rank) || rank < 1 || rank > 5))
+            || (character.relicList || []).some((relic) => !Array.isArray(relic?._flat?.props));
+        if (incomplete) return {};
+
         return {
             // The local catalog currently records exact character bases at Lv.80.
             // Lower-level HP/ATK/DEF are intentionally left unset instead of interpolated.
-            hp: exactLevel ? hpBase * (1 + (props.HPAddedRatio || 0)) + (props.HPDelta || 0) : undefined,
-            atk: exactLevel ? atkBase * (1 + (props.AttackAddedRatio || 0)) + (props.AttackDelta || 0) : undefined,
-            def: exactLevel ? defBase * (1 + (props.DefenceAddedRatio || 0)) + (props.DefenceDelta || 0) : undefined,
-            speed: number(characterData?.base?.speed) * (1 + (props.SpeedAddedRatio || 0)) + (props.SpeedDelta || 0),
+            hp: exactLevel && Number.isFinite(hpBase) ? hpBase * (1 + (props.HPAddedRatio || 0)) + (props.HPDelta || 0) : undefined,
+            atk: exactLevel && Number.isFinite(atkBase) ? atkBase * (1 + (props.AttackAddedRatio || 0)) + (props.AttackDelta || 0) : undefined,
+            def: exactLevel && Number.isFinite(defBase) ? defBase * (1 + (props.DefenceAddedRatio || 0)) + (props.DefenceDelta || 0) : undefined,
+            speed: Number.isFinite(finiteValue(characterData?.base?.speed)) ? number(characterData.base.speed) * (1 + (props.SpeedAddedRatio || 0)) + (props.SpeedDelta || 0) : undefined,
             critRate: percent(0.05 + (props.CriticalChanceBase || 0) + (props.CriticalChance || 0)),
             critDamage: percent(0.5 + (props.CriticalDamageBase || 0) + (props.CriticalDamage || 0)),
             breakEffect: percent((props.BreakDamageAddedRatioBase || 0) + (props.BreakDamageAddedRatio || 0)),
             effectHitRate: percent((props.StatusProbabilityBase || 0) + (props.StatusProbability || 0)),
             effectRes: percent((props.StatusResistanceBase || 0) + (props.StatusResistance || 0)),
             energyRegen: percent(1 + (props.SPRatioBase || 0)),
-            damageBonus: percent(damageBonus),
+            damageBonus: Number.isFinite(damageBonus) ? percent(damageBonus) : undefined,
             elation: percent((props.ElationDamageAddedRatioBase || 0) + (props.ElationDamageAddedRatio || 0))
         };
     }
@@ -120,7 +131,7 @@
             id: coneId,
             name: text(lightConeData?.name),
             level: number(character.equipment.level),
-            rank: Math.max(1, number(character.equipment.rank, 1)),
+            rank: Number.isInteger(character.equipment.rank) && character.equipment.rank >= 1 && character.equipment.rank <= 5 ? character.equipment.rank : undefined,
             image: lightConeData?.image || ""
         } : null;
         const relics = (character.relicList || []).map((relic) => {

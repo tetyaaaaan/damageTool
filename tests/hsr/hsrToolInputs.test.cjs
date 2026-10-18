@@ -62,7 +62,7 @@ test("manual final stats require only used HP/ATK/DEF and preserve legitimate ze
 
 test("UID missing stats cannot retain a previous character's final stats", async () => {
     const app = await tool();
-    app.window.HsrTool.applyProfileCharacter({ id: "sample", level: 80, stats: { hp: 5000, atk: 2000, def: 900 } });
+    app.window.HsrTool.applyProfileCharacter({ id: "sample", level: 80, traces: [{ type: "Normal", level: 6 }], stats: { ...app.state.stats, hp: 5000, atk: 2000, def: 900 } });
     assert.equal(app.calculate()[0].breakdown.baseDamage, 2000);
     const mapperWindow = {};
     vm.runInNewContext(read("games/js/hsrProfileMapper.js"), { window: mapperWindow });
@@ -71,6 +71,7 @@ test("UID missing stats cannot retain a previous character's final stats", async
     assert.equal(app.node("hsrStat-atk").value, "");
     assert.equal(app.calculate().length, 0);
     app.node("hsrStat-atk").value = "1500";
+    app.node("hsrNormalTrace").value = "6";
     assert.equal(app.calculate()[0].breakdown.baseDamage, 1500, "lower-level final stats remain manually usable without base-dependent buffs");
 });
 
@@ -437,4 +438,24 @@ test('Summer Robin Fever party input stops invalid Vibes and reports DEF ignore 
   app.state.party[0].eidolon=0;app.state.party[0].level=0;assert.equal(app.calculate().length,0);
   app.state.party[0].level=10;app.state.modifierInputs['robin-summeretto-fever']=false;
   assert.ok(Math.abs(app.calculate()[0].nonCrit-972)<1e-9);
+});
+
+
+test('UID import preserves precision, refuses missing crit/trace data and clears an unknown character', async () => {
+    const app=await tool();
+    const profile={id:'sample',level:80,eidolon:0,lightCone:{id:'cone',level:60,rank:2},traces:[{type:'Normal',level:6}],stats:{...app.state.stats,hp:5000,atk:1234.567891,def:900}};
+    app.window.HsrTool.applyProfileCharacter(profile);
+    assert.equal(app.state.coneId,'cone');assert.equal(app.node('hsrConeLevel').value,60);
+    assert.equal(app.node('hsrStat-atk').value,'1234.567891');
+    assert.ok(Math.abs(app.calculate()[0].breakdown.referenceValue-1234.567891)<1e-9);
+    const missingRank=structuredClone(profile);delete missingRank.lightCone.rank;app.window.HsrTool.applyProfileCharacter(missingRank);assert.equal(app.calculate().length,0);assert.match(app.node('hsrWarnings').innerHTML,/重畳ランク/);
+    const missing=structuredClone(profile);delete missing.stats.critRate;missing.traces=[];
+    app.window.HsrTool.applyProfileCharacter(missing);
+    assert.equal(app.node('hsrStat-critRate').value,'');assert.equal(app.node('hsrNormalTrace').value,'');
+    assert.equal(app.calculate().length,0);assert.match(app.node('hsrWarnings').innerHTML,/会心率/);
+    app.node('hsrStat-critRate').value='0';assert.equal(app.calculate().length,0,'missing trace must not become max level');
+    app.node('hsrNormalTrace').value='6';assert.equal(app.calculate().length,1);
+    app.window.HsrTool.applyProfileCharacter({...profile,id:'not-in-catalog'});
+    assert.equal(app.state.characterId,'');assert.equal(app.calculate().length,0);
+    assert.doesNotMatch(app.node('hsrResults').innerHTML,/hsr-attack-result/);
 });

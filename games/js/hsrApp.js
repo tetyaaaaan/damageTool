@@ -75,7 +75,7 @@
   function setImage(id, src, alt) { const image = $(id); image.src = imageUrl(src); image.alt = alt || ""; image.onerror = fixImage; }
 
   function fillRange(id, start, end, selected, label) {
-    $(id).innerHTML = Array.from({ length: end - start + 1 }, (_, index) => start + index)
+    $(id).innerHTML = (!Number.isFinite(selected) ? '<option value="" selected>未取得・要入力</option>' : "") + Array.from({ length: end - start + 1 }, (_, index) => start + index)
       .map((value) => `<option value="${value}"${value === selected ? " selected" : ""}>${esc(label(value))}</option>`).join("");
   }
 
@@ -123,13 +123,13 @@
   }
 
   function writeStats() {
-    Object.entries(state.stats).forEach(([key, value]) => { const input = $("hsrStat-" + key); if (input) input.value = value === null || !Number.isFinite(Number(value)) ? "" : String(Math.round(Number(value) * 1000) / 1000); });
+    Object.entries(state.stats).forEach(([key, value]) => { const input = $("hsrStat-" + key); if (input) input.value = value === null || !Number.isFinite(Number(value)) ? "" : String(state.source === "api" ? Number(value) : Math.round(Number(value) * 1000) / 1000); });
     $("hsrLevel").value = state.level; $("hsrConeLevel").value = state.coneLevel; renderActionValue();
   }
 
   function collectInputs() {
     document.querySelectorAll("[data-stat]").forEach((input) => { state.stats[input.dataset.stat] = input.value.trim() === "" ? NaN : Number(input.value); });
-    state.level = Number($("hsrLevel").value); state.eidolon = num($("hsrEidolon").value); state.enhancementState = $("hsrEnhancementState")?.value || "enhanced"; state.coneLevel = Number($("hsrConeLevel").value); state.coneRank = num($("hsrConeRank").value, 1); state.partySp = Math.min(7, Math.max(0, Math.floor(num($("hsrPartySp")?.value, 3)))); state.traceLevels = { normal: num($("hsrNormalTrace").value, 6), skill: num($("hsrSkillTrace").value, 10), ultimate: num($("hsrUltimateTrace").value, 10), talent: num($("hsrTalentTrace").value, 10) };
+    state.level = Number($("hsrLevel").value); state.eidolon = num($("hsrEidolon").value); state.enhancementState = $("hsrEnhancementState")?.value || "enhanced"; state.coneLevel = Number($("hsrConeLevel").value); state.coneRank = num($("hsrConeRank").value, 1); state.partySp = Math.min(7, Math.max(0, Math.floor(num($("hsrPartySp")?.value, 3)))); state.traceLevels = { normal: Number($("hsrNormalTrace").value), skill: Number($("hsrSkillTrace").value), ultimate: Number($("hsrUltimateTrace").value), talent: Number($("hsrTalentTrace").value) };
     state.traceLevels.elation = Number($("hsrElationTrace").value);
     state.trueDamageInputs = { active: state.characterId === "1415" && $("hsrTrueDamageActive").value === "true", sourceKind: $("hsrTrueDamageSourceKind").value, originalDamage: $("hsrOriginalDamage").value.trim() === "" ? NaN : Number($("hsrOriginalDamage").value) };
     if (state.trueDamageInputs.active) state.traceLevels.skill = Number($("hsrSkillTrace").value);
@@ -677,8 +677,10 @@
     const requiredStats = new Set();
     if (!Number.isInteger(state.level) || state.level < 1 || state.level > 80) warnings.add("キャラクターのレベルに1～80の整数を入力してください。");
     if (cone() && (!Number.isInteger(state.coneLevel) || state.coneLevel < 1 || state.coneLevel > 80)) warnings.add("光円錐のレベルに1～80の整数を入力してください。");
+    if (cone() && (!Number.isInteger(state.coneRank) || state.coneRank < 1 || state.coneRank > 5)) warnings.add("光円錐の重畳ランクに1～5を選択してください。");
     if (attacks.some((attack) => attack.damageFormula === "elation") && (!Number.isInteger(state.traceLevels.elation) || state.traceLevels.elation < 1 || state.traceLevels.elation > 10)) warnings.add("星魂0の愉悦スキルLvに1～10の整数を選択してください。");
     attacks.forEach((attack) => {
+      if (Object.hasOwn(state.traceLevels, attack.traceKey) && (!Number.isInteger(state.traceLevels[attack.traceKey]) || state.traceLevels[attack.traceKey] < 1 || state.traceLevels[attack.traceKey] > (["normal", "elation"].includes(attack.traceKey) ? 10 : 15))) warnings.add(`${ATTACK_LABELS[attack.traceKey] || attack.traceKey}のレベルを確認して選択してください。`);
       if (attack.damageFormula === "elation") window.HsrCalcEngine.elationInputWarnings({ character: { level: state.level, eidolon: state.eidolon, stats: state.stats }, attack, elation: state.elationInputs }).forEach((warning) => warnings.add(warning));
       const terms = [...(attack.scalingTerms?.length ? attack.scalingTerms : [{ stat: attack.scalingStat || "atk", multiplier: attack.multiplier }]), ...(attack.adjacentScalingTerms || [])];
       terms.filter((term) => num(term.multiplier) !== 0).forEach((term) => requiredStats.add(term.stat));
@@ -708,7 +710,7 @@
     renderAttacks();
     if (!character()) warnings.push("キャラクターを選択してください。");
     if (cone() || relic() || relicSecond() || ornament()) warnings.push("常時効果は入力ステータスを使用し、条件付き効果は補正条件で選択した項目だけを適用します。");
-    if (!character()) { renderWarnings(warnings); return; }
+    if (!character()) { renderWarnings(warnings); $("hsrResults").innerHTML = '<p class="genshin-help">計算可能なキャラクターを選択してください。</p>'; return; }
     const available = availableAttacks();
     const supplemental = state.trueDamageInputs.active ? [] : supplementalAttacks();
     const unavailableAttacks = supplemental.filter((attack) => attackSupport(attack).status === "displayOnly").concat(available.filter((attack) => attackSupport(attack).status === "displayOnly").concat((state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status === "displayOnly")));
@@ -848,12 +850,12 @@
   }
 
   function applyProfileCharacter(profile) {
-    const char = find("characters", String(profile.id)); if (char) state.characterId = char.id;
+    const char = find("characters", String(profile.id)); state.characterId = char?.id || "";
     const lightCone = find("lightCones", String(profile.lightCone?.id || "")); state.coneId = lightCone?.id || "";
     const profileSets = profile.relicSets || []; const tunnels = profileSets.filter((set) => num(set.id) < 300); const planar = profileSets.find((set) => num(set.id) >= 300); state.relicId = find("relicSets", tunnels[0]?.id)?.id || ""; state.relicSecondId = find("relicSets", tunnels[1]?.id)?.id || ""; state.relicMode = state.relicSecondId ? "2+2" : "4pc"; state.ornamentId = find("relicSets", planar?.id)?.id || "";
-    state.level = num(profile.level, 80); state.eidolon = num(profile.eidolon); state.coneLevel = num(profile.lightCone?.level, 80); state.coneRank = num(profile.lightCone?.rank, 1);
-    const trace = (type, fallback) => num(profile.traces?.find((item) => item.type === type)?.level, fallback); state.traceLevels = { normal: trace("Normal", 6), skill: trace("BPSkill", 10), ultimate: trace("Ultra", 10), talent: trace("Talent", 10) };
-    state.stats = { ...DEFAULT_STATS, hp: null, atk: null, def: null };
+    state.level = num(profile.level, 80); state.eidolon = num(profile.eidolon); state.coneLevel = num(profile.lightCone?.level, 80); state.coneRank = profile.lightCone ? Number(profile.lightCone.rank) : 1;
+    const trace = (type) => { const value = profile.traces?.find((item) => item.type === type)?.level; return Number.isFinite(value) && value > 0 ? value : NaN; }; state.traceLevels = { normal: trace("Normal"), skill: trace("BPSkill"), ultimate: trace("Ultra"), talent: trace("Talent"), elation: trace("ElationDamage") };
+    state.stats = Object.fromEntries(Object.keys(DEFAULT_STATS).map((key) => [key, ["hpPercent", "dotBaseDamage"].includes(key) ? DEFAULT_STATS[key] : null]));
     Object.keys(state.stats).forEach((key) => {
       const value = profile.stats?.[key];
       if (value != null && value !== "" && Number.isFinite(Number(value))) state.stats[key] = Number(value);

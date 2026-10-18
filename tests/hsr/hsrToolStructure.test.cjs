@@ -346,3 +346,26 @@ test("future generated Elation attacks retain display-only support without writi
     assert.equal(attack.support.status, "displayOnly");
     assert.match(attack.support.reason, /愉悦/);
 });
+
+
+test('UID reconstruction independently matches two elemental profiles and leaves unavailable bases unset', () => {
+    const window={};vm.runInNewContext(read('games/js/hsrProfileMapper.js'),{window});
+    const catalog={characters:['Fire','Wind'].map(element=>({id:element,element,base:{hp:1000,atk:500,def:400,speed:100},skills:[],traces:[{id:'point',levels:[{properties:[{type:'CriticalChanceBase',value:0.04}]}]}]})),lightCones:[{id:'cone',effect:{propertiesByRank:[[{type:'CriticalDamageBase',value:0.1}],[{type:'CriticalDamageBase',value:0.2},{type:'AllDamageTypeAddedRatio',value:0.15}]]}}],relicSets:[{id:'124',effects:[{pieces:2,properties:[{type:'AttackAddedRatio',value:0.12}]}]}]};
+    const make=(avatarId,coneLevel,rank,bases)=>({avatarId,level:80,promotion:6,rank:0,equipment:{tid:'cone',level:coneLevel,promotion:coneLevel===80?6:4,rank,_flat:{props:['BaseHP','BaseAttack','BaseDefence'].map((type,i)=>({type,value:bases[i]}))}},skillTreeList:[{pointId:'point',level:1}],relicList:[{_flat:{setID:124,props:[{type:'HPAddedRatio',value:0.1},{type:'HPDelta',value:100},{type:'AttackAddedRatio',value:0.2}]}},{_flat:{setID:124,props:[{type:'FireAddedRatio',value:0.388},{type:'WindAddedRatio',value:0.12},{type:'CriticalDamage',value:0.1},{type:'SpeedDelta',value:5}]}}]});
+    const first=make('Fire',80,2,[100,200,100]);const second=make('Wind',60,1,[80,150,90]);
+    const map=character=>window.HsrProfileMapper.mapProfileResponse({detailInfo:{avatarDetailList:[character]}},catalog).characters[0];
+    // Independent sums: (character + actual cone base) * (1 + relic/set %) + flat.
+    for(const [raw,expected] of [[first,{hp:1310,atk:924,def:500,speed:105,critRate:9,critDamage:80,damageBonus:53.8}],[second,{hp:1288,atk:858,def:490,speed:105,critRate:9,critDamage:70,damageBonus:12}]]) {
+        const mapped=map(raw);
+        for(const [key,value] of Object.entries(expected))assert.ok(Math.abs(mapped.stats[key]-value)<1e-9,key);
+        assert.equal(mapped.lightCone.level,raw.equipment.level);assert.equal(mapped.lightCone.rank,raw.equipment.rank);
+        assert.equal(mapped.level,80);assert.equal(mapped.relicSets[0].pieces,2);
+    }
+    const missing=structuredClone(first);missing.equipment._flat.props=missing.equipment._flat.props.filter(x=>x.type!=='BaseAttack');
+    assert.equal(map(missing).stats.atk,undefined);assert.equal(map(missing).stats.hp,1310);
+    const missingRank=structuredClone(first);delete missingRank.equipment.rank;assert.equal(map(missingRank).lightCone.rank,undefined);assert.equal(map(missingRank).stats.atk,undefined);
+    const lower=structuredClone(first);lower.level=70;lower.promotion=5;assert.equal(map(lower).stats.hp,undefined);
+    const noFlat=structuredClone(first);delete noFlat.relicList[0]._flat;assert.equal(map(noFlat).stats.critRate,undefined);
+    const noCone=structuredClone(first);delete noCone.equipment;assert.ok(Math.abs(map(noCone).stats.atk-660)<1e-9,'unequipped is a valid zero cone base');
+    const unknown=structuredClone(first);unknown.avatarId='unknown';assert.equal(map(unknown).stats.atk,undefined);
+});
