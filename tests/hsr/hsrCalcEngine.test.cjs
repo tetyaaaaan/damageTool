@@ -59,6 +59,42 @@ test("enemy-HP damage caps use the smaller of enemy max HP and effective ATK lim
 test("HSR resistance and defense multipliers have explicit boundary behavior", () => {
     const calc = engine(); assert.equal(calc.resistanceMultiplier(-20), 1.2); assert.ok(calc.resistanceMultiplier(90) < calc.resistanceMultiplier(20)); assert.equal(calc.defenseMultiplier(80, 80, 50, 50), 1); assert.ok(calc.defenseMultiplier(80, 80, 100, 0) > calc.defenseMultiplier(80, 80, 0, 0));
 });
+// HSR RES formula: KQM SRL damage-formula; effective RES bounds: Prydwen damage-formula.
+test("HSR resistance stays linear across 75% and clamps effective RES bounds", () => {
+    const calc = engine();
+    for (const [resistance, expected] of [[0, 1], [20, 0.8], [74, 0.26], [75, 0.25], [80, 0.2], [-20, 1.2], [-100, 2], [-120, 2], [90, 0.1], [120, 0.1]]) {
+        assert.ok(Math.abs(calc.resistanceMultiplier(resistance) - expected) < 1e-12, `RES ${resistance}%`);
+    }
+});
+
+test("HSR damage subtracts manual PEN and applicable RES modifiers before clamping", () => {
+    const calc = engine();
+    for (const [baseResistance, expectedResistance] of [[80, 0.67], [20, 1.27], [120, 0.27], [-80, 2]]) {
+        const input = baseInput();
+        input.enemy.resistance = baseResistance;
+        input.enemy.resistancePenetration = 15;
+        input.attack.element = "Ice";
+        input.modifiers = [
+            { id: "res-down", category: "resistanceReduction", value: 12, enabled: true, target: { elements: ["Ice"] } },
+            { id: "res-pen", category: "resistancePenetration", value: 20, enabled: true },
+            { id: "off", category: "resistanceReduction", value: 99, enabled: false },
+            { id: "wrong-element", category: "resistanceReduction", value: 99, enabled: true, target: { elements: ["Fire"] } }
+        ];
+        const result = calc.calculate(input);
+        assert.ok(Math.abs(result.breakdown.resistance - expectedResistance) < 1e-12);
+        assert.ok(Math.abs(result.nonCrit - 500 * expectedResistance) < 1e-9);
+        assert.equal(result.applied.length, 2);
+        assert.equal(result.skipped.length, 2);
+        const common = { character: input.character, enemy: input.enemy, modifiers: input.modifiers, breakBaseDamage: { 80: 3767.5533 } };
+        const broken = calc.calculateBreak({ ...common, element: "Ice" });
+        const superBreak = calc.calculateSuperBreak({ ...common, attack: { type: "skill", element: "Ice", toughnessDamage: 30 } });
+        assert.equal(broken.supported, true);
+        assert.equal(superBreak.supported, true);
+        assert.ok(Math.abs(broken.resistance - expectedResistance) < 1e-12);
+        assert.ok(Math.abs(superBreak.resistance - expectedResistance) < 1e-12);
+    }
+});
+
 test("HSR action-value helper is isolated from damage calculation", () => {
     const result = engine().actionSummary(134, 150); assert.equal(result.actions, 2); assert.ok(result.actionValue > 0);
 });

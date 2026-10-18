@@ -191,6 +191,15 @@ test("expanded character conditions preserve stack, element, and attack scopes",
   const pela = candidate("eidolon:1106:4:ice-resistance-reduction", { characterId: "1407", partyIds: ["1106"], partyEidolons: { "1106": 4 } }, { "pela-e4-ice-res-down": true });
   assert.equal(runtime.applicableToAttack(pela, { attackType: "skill", element: "Ice" }), true);
   assert.equal(runtime.applicableToAttack(pela, { attackType: "skill", element: "Quantum" }), false);
+  const result = calcEngine().calculate({
+    character: { level: 80, stats: { atk: 1000 } },
+    enemy: { level: 80, resistance: 80, resistancePenetration: 15 },
+    attack: { type: "skill", element: "Ice", multiplier: 100 },
+    modifiers: [pela]
+  });
+  assert.ok(Math.abs(result.breakdown.resistance - 0.47) < 1e-12);
+  assert.ok(Math.abs(result.nonCrit - 235) < 1e-9);
+  assert.equal(result.applied[0].id, pela.id);
   const feixiao = candidate("eidolon:1220:1:ultimate-independent-stack", { characterId: "1220", eidolon: 1 }, { "feixiao-e1-ultimate-stacks": 5 });
   assert.equal(feixiao.value, 50);
   assert.equal(runtime.applicableToAttack(feixiao, { attackType: "ultimate" }), true);

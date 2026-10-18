@@ -5,12 +5,10 @@
     const number = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 
     function resistanceMultiplier(resistancePercent) {
-        const resistance = number(resistancePercent) / 100;
-        // Star Rail keeps the full benefit below 0% RES (unlike Genshin's
-        // halved negative-resistance branch).
-        if (resistance < 0) return 1 - resistance;
-        if (resistance < 0.75) return 1 - resistance;
-        return 1 / (1 + resistance * 4);
+        // HSR uses 1 - effective RES after RES reduction and RES PEN, with no 75% branch.
+        // https://srl.keqingmains.com/combat-mechanics/damage/damage-formula
+        // Effective RES bounds (-100% to 90%): https://www.prydwen.gg/star-rail/guides/damage-formula
+        return 1 - clamp(number(resistancePercent), -100, 90) / 100;
     }
 
     function defenseMultiplier(characterLevel, enemyLevel, defenseReduction, defenseIgnore) {
@@ -227,7 +225,7 @@
         const effect = 1 + (number(character.stats?.breakEffect) + breakEffectBonus) / 100;
         const defenseReduction = number(enemy.defenseReduction) + applied.filter((item) => item.category === "defenseReduction").reduce((sum, item) => sum + item.value, 0);
         const defenseIgnore = number(enemy.defenseIgnore) + applied.filter((item) => item.category === "defenseIgnore").reduce((sum, item) => sum + item.value, 0);
-        const resistancePenetration = number(enemy.resistancePenetration) + applied.filter((item) => item.category === "resistancePenetration").reduce((sum, item) => sum + item.value, 0);
+        const resistancePenetration = number(enemy.resistancePenetration) + applied.filter((item) => ["resistancePenetration", "resistanceReduction"].includes(item.category)).reduce((sum, item) => sum + item.value, 0);
         const takenDamage = number(enemy.takenDamage) + applied.filter((item) => item.category === "takenDamage").reduce((sum, item) => sum + item.value, 0);
         const defense = defenseMultiplier(character.level, enemy.level, defenseReduction, defenseIgnore);
         const resistance = resistanceMultiplier(number(enemy.resistance) - resistancePenetration);
