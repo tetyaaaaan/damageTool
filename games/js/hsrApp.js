@@ -75,7 +75,7 @@
   function setImage(id, src, alt) { const image = $(id); image.src = imageUrl(src); image.alt = alt || ""; image.onerror = fixImage; }
 
   function fillRange(id, start, end, selected, label) {
-    $(id).innerHTML = (!Number.isFinite(selected) ? '<option value="" selected>未取得・要入力</option>' : "") + Array.from({ length: end - start + 1 }, (_, index) => start + index)
+    $(id).innerHTML = (!Number.isInteger(selected) || selected < start || selected > end ? '<option value="" selected>未取得・要入力</option>' : "") + Array.from({ length: end - start + 1 }, (_, index) => start + index)
       .map((value) => `<option value="${value}"${value === selected ? " selected" : ""}>${esc(label(value))}</option>`).join("");
   }
 
@@ -290,7 +290,7 @@
 
   function selectedBaseStats() {
     const selectedCharacter = character(); const selectedCone = cone();
-    if (!selectedCharacter || state.level !== 80 || (selectedCone && state.coneLevel !== 80)) return {};
+    if ((state.coneId && !selectedCone) || !selectedCharacter || state.level !== 80 || (selectedCone && state.coneLevel !== 80)) return {};
     const base = {};
     ["hp", "atk", "def", "speed"].forEach((stat) => {
       const characterValue = selectedCharacter.base?.[stat];
@@ -763,7 +763,49 @@
     $("hsrActionSummary").innerHTML = `<strong>${result.actionValue.toFixed(2)} AV</strong><span>基準内の行動回数: ${result.actions}</span>`;
   }
 
-  function markDirty(origin = "manual") { if (!state.initialized) return; if (origin !== "api" && state.source === "api") { state.source = "api-edited"; $("hsrInputProvenance").textContent = "UID取得値を手動変更"; } $("hsrDirtyNotice").hidden = false; renderActionValue(); }
+  function savedFields() {
+    return [...document.querySelectorAll(".hsr-build-fieldset input,.hsr-build-fieldset select"), $("hsrActionWindow")].filter((input) => input?.id);
+  }
+
+  function saveInputs() {
+    if (!state.initialized || !window.HsrCalcState) return;
+    collectInputs();
+    const fields = Object.fromEntries(savedFields().map((input) => [input.id, String(input.value)]));
+    const snapshot = { ...state, party: state.party.map((member) => ({ ...member })) };
+    if ($("hsrPartyDialog").open) $("hsrPartyRows").querySelectorAll("[data-party-field]").forEach((input) => {
+      const member = snapshot.party[num(input.dataset.slot)]; const field = input.dataset.partyField;
+      if (member && Object.hasOwn(member, field)) member[field] = typeof member[field] === "number" ? (input.value.trim() === "" ? NaN : Number(input.value)) : input.value;
+    });
+    let ok = false; try { ok = window.HsrCalcState.save(window.localStorage, window.HsrCalcState.create(snapshot, fields)); } catch (_) {}
+    $("hsrSaveStatus").textContent = ok ? "入力条件をこのブラウザに自動保存しました。" : "入力条件を保存できません。現在の画面では計算を続けられます。";
+  }
+
+  function restoreInputs() {
+    if (!window.HsrCalcState) return false;
+    let loaded;
+    try { loaded = window.HsrCalcState.load(window.localStorage); } catch (_) { loaded = { error: true }; }
+    if (!loaded.value) { if (loaded.error) $("hsrSaveStatus").textContent = "保存条件を読み込めません。現在の入力で利用できます。"; return false; }
+    const restored = window.HsrCalcState.restore(loaded.value, state, state.data, savedFields().map((input) => input.id));
+    if (!restored) { $("hsrSaveStatus").textContent = "保存条件の形式に対応していません。初期状態で表示しています。"; return false; }
+    Object.assign(state, restored.state);
+    renderStaticInputs(); writeStats();
+    const controls = { hsrEnemySelect: state.enemyId, hsrPartySp: state.partySp, hsrPunchline: state.elationInputs.punchline, hsrMerrymake: state.elationInputs.merrymake, hsrTrueDamageActive: String(state.trueDamageInputs.active), hsrTrueDamageSourceKind: state.trueDamageInputs.sourceKind, hsrOriginalDamage: state.trueDamageInputs.originalDamage };
+    const enemyControls = { level: "hsrEnemyLevel", maxHp: "hsrEnemyMaxHp", resistance: "hsrEnemyResistance", maxToughness: "hsrMaxToughness", hpPercent: "hsrEnemyHpPercent", count: "hsrEnemyCount", debuffCount: "hsrEnemyDebuffCount", defenseReduction: "hsrEnemyDefenseReduction", defenseIgnore: "hsrEnemyDefenseIgnore", resistancePenetration: "hsrEnemyResistancePenetration", takenDamage: "hsrEnemyTakenDamage" };
+    Object.entries(enemyControls).forEach(([key, id]) => { controls[id] = state.enemy[key]; });
+    controls.hsrWeakness = String(state.enemy.weakness); controls.hsrToughnessState = state.enemy.toughnessActive ? "active" : "broken";
+    Object.entries(controls).forEach(([id, value]) => { $(id).value = typeof value === "number" && !Number.isFinite(value) ? "" : String(value); });
+    savedFields().forEach((input) => {
+      if (input.id === "hsrEnemySelect" || !Object.hasOwn(restored.fields, input.id)) return;
+      const value = restored.fields[input.id];
+      if (input.tagName === "SELECT" && ![...input.options].some((option) => option.value === value)) return;
+      input.value = value;
+    });
+    collectInputs(); renderBuild(); updateConditionSummary(); renderActionValue();
+    $("hsrSaveStatus").textContent = restored.missing.length ? "保存条件を復元しました。現在利用できないIDがあります。選択内容を確認してください。" : "保存条件を復元しました。";
+    return true;
+  }
+
+  function markDirty(origin = "manual") { if (!state.initialized) return; if (origin !== "api" && state.source === "api") { state.source = "api-edited"; $("hsrInputProvenance").textContent = "UID取得値を手動変更"; } $("hsrDirtyNotice").hidden = false; renderActionValue(); saveInputs(); }
 
   function detailArticle(title, description, params = []) {
     if (!description) return "";
@@ -864,6 +906,10 @@
   }
 
   function bind() {
+    $("hsrClearSavedInputs").addEventListener("click", () => {
+      let ok = false; try { ok = window.HsrCalcState.clear(window.localStorage); } catch (_) {}
+      $("hsrSaveStatus").textContent = ok ? "保存条件を削除しました。次回の入力変更から自動保存します。" : "保存条件を削除できませんでした。";
+    });
     const triggers = { hsrCharacterTrigger: "character", hsrCharacterName: "character", hsrConeTrigger: "cone", hsrConeName: "cone", hsrRelicTrigger: "relic", hsrRelicName: "relic", hsrRelicSecondTrigger: "relicSecond", hsrRelicSecondName: "relicSecond", hsrOrnamentTrigger: "ornament", hsrOrnamentName: "ornament", hsrEnemyTrigger: "enemy" };
     Object.entries(triggers).forEach(([id, type]) => $(id).addEventListener("click", () => openSelection(type)));
     $("hsrSelectionSearch").addEventListener("input", () => { $("hsrSelectionSearchClear").disabled = !$("hsrSelectionSearch").value; renderSelectionList(); });
@@ -876,9 +922,10 @@
     $("hsrPartyDialogApply").addEventListener("click", () => { collectParty(); closeDialog($("hsrPartyDialog")); });
     $("hsrPartyRows").addEventListener("click", (event) => {
       const clear = event.target.closest("[data-party-clear]");
-      if (clear) { state.party[num(clear.dataset.partyClear)] = { characterId: "", eidolon: 0, level: 10, atk: 0, critDamage: 50, breakEffect: 0, lightConeId: "", coneRank: 1, relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "" }; renderPartyDialog(); return; }
+      if (clear) { state.party[num(clear.dataset.partyClear)] = { characterId: "", eidolon: 0, level: 10, atk: 0, critDamage: 50, breakEffect: 0, lightConeId: "", coneRank: 1, relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "" }; renderPartyDialog(); renderPartySummary(); updateConditionSummary(); markDirty(); return; }
       const button = event.target.closest("[data-party-select]"); if (button) { collectParty(); openSelection("party", num(button.dataset.partySelect)); }
     });
+    $("hsrPartyRows").addEventListener("input", (event) => { if (event.target.matches("[data-party-field]")) markDirty(); });
     $("hsrPartyRows").addEventListener("change", (event) => {
       if (event.target.matches("[data-party-field]")) collectParty();
     });
@@ -902,6 +949,11 @@
         if (providerId === String(state.characterId)) { state.stats[stat] = num(event.target.value); writeStats(); }
         else { const member = state.party.find((entry) => String(entry.characterId) === providerId); if (member) member[stat] = num(event.target.value); }
         updateConditionSummary(); markDirty(); return;
+      }
+      if (event.target.dataset.conditionValue) {
+        const item = state.conditions.find((condition) => condition.id === event.target.dataset.conditionValue);
+        if (item) { item.value = num(event.target.value); markDirty(); }
+        return;
       }
       if (!event.target.dataset.structuredInput) return;
       state.modifierInputs[event.target.dataset.structuredInput] = num(event.target.value);
@@ -968,7 +1020,7 @@
     $("hsrEnemySelect").addEventListener("change", (event) => applyEnemy(event.target.value));
     $("hsrCalculateButton").addEventListener("click", calculate);
     $("hsrResults").addEventListener("click", (event) => { const button = event.target.closest("[data-result-tab]"); if (button) switchResultTab(button.dataset.resultTab); });
-    $("hsrActionWindow").addEventListener("input", renderActionValue);
+    $("hsrActionWindow").addEventListener("input", markDirty);
     document.querySelectorAll(".hsr-build-fieldset input,.hsr-build-fieldset select").forEach((input) => input.addEventListener("input", markDirty));
     document.querySelectorAll("dialog").forEach((dialog) => dialog.addEventListener("click", (event) => { if (event.target === dialog) closeDialog(dialog); }));
   }
@@ -976,7 +1028,8 @@
   async function initialize() {
     try {
       state.data = await window.HsrCalcData.load(); renderStaticInputs(); bind(); applyEnemy(state.enemyId); writeStats(); renderBuild(); updateConditionSummary();
-      state.initialized = true; $("hsrDirtyNotice").hidden = true;
+      const restored = restoreInputs();
+      state.initialized = true; $("hsrDirtyNotice").hidden = !restored;
     } catch (error) {
       $("hsrWarnings").hidden = false; $("hsrWarnings").textContent = "計算データを読み込めませんでした。ページを再読み込みしてください。"; console.error(error);
     }

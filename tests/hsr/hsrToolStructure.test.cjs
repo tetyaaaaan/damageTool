@@ -9,7 +9,7 @@ const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 
 test("HSR page loads the data, engine, tool, and UID importer in dependency order", () => {
     const html = read("games/hsr/index.html");
-    const paths = ["hsrProfileApi.js", "hsrProfileMapper.js", "uidStorage.js", "hsrCalcData.js", "hsrCalcEngine.js", "hsrApp.js", "hsrUidImporter.js"];
+    const paths = ["hsrProfileApi.js", "hsrProfileMapper.js", "uidStorage.js", "hsrCalcData.js", "hsrCalcEngine.js", "hsrCalcState.js", "hsrApp.js", "hsrUidImporter.js"];
     paths.reduce((previous, name) => {
         const index = html.indexOf(name);
         assert.ok(index > previous, `${name} must follow its dependency`);

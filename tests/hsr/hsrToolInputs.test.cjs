@@ -6,9 +6,12 @@ const vm = require("node:vm");
 const root = path.resolve(__dirname, "../..");
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 
-async function tool() {
+async function tool(savedStorage) {
+    const storage = savedStorage || new Map();
     const nodes = new Map();
     const html = read("games/hsr/index.html");
+    const buildHtml = html.slice(html.indexOf("hsr-build-fieldset"), html.indexOf('id="hsrConditionTitle"'));
+    const formIds = [...buildHtml.matchAll(/<(?:input|select)[^>]*id="([^"]+)"/g)].map((match) => match[1]);
     const statKeys = [...html.matchAll(/data-stat="([^"]+)"/g)].map((match) => match[1]);
     function node(id) {
         if (!nodes.has(id)) {
@@ -24,7 +27,7 @@ async function tool() {
     }
     let initialize;
     const document = { body: { classList: { add() {} } }, getElementById: node, addEventListener: (_, callback) => { initialize = callback; },
-        querySelectorAll: (selector) => selector === "[data-stat]" ? statKeys.map((key) => node(`hsrStat-${key}`)) : [] };
+        querySelectorAll: (selector) => selector === "[data-stat]" ? statKeys.map((key) => node(`hsrStat-${key}`)) : selector === ".hsr-build-fieldset input,.hsr-build-fieldset select" ? formIds.map(node) : [] };
     const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
     const data = { characters: [
         { id: "sample", name: "Sample", element: "Ice", skills: [], base: { hp: 1000, atk: 500, def: 400, speed: 100 } },
@@ -32,19 +35,20 @@ async function tool() {
     ], lightCones: [{ id: "cone", name: "Cone", base: { hp: 100, atk: 200, def: 100 } }], relicSets: [], enemies: [],
         structuredModifiers: JSON.parse(read("games/hsr/data/calc/modifiers-tingyun.json")).modifiers,
         attacks: [{ id: "sample-normal", characterId: "sample", name: "Sample attack", type: "normal", element: "Ice", traceKey: "normal", multipliers: [100], scalingStat: "atk", support: { status: "calculable", verified: true } }], breakBaseDamage: { 80: 3767.5533 } };
-    const window = { HsrCalcData: { load: async () => data }, HsrModifierRuntime: require("../../games/js/hsrModifierRuntime.js") };
+    const window = { localStorage: { getItem: (key) => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, value), removeItem: (key) => storage.delete(key) }, HsrCalcData: { load: async () => data }, HsrModifierRuntime: require("../../games/js/hsrModifierRuntime.js") };
     const context = { window, document, console, requestAnimationFrame: (callback) => callback() };
     vm.createContext(context);
     vm.runInContext(read("games/js/hsrCalcEngine.js"), context);
     const results = [];
     const engine = window.HsrCalcEngine;
     window.HsrCalcEngine = { ...engine, calculate(input) { const result = engine.calculate(input); results.push(result); return result; } };
+    vm.runInContext(read("games/js/hsrCalcState.js"), context);
     vm.runInContext(read("games/js/hsrApp.js"), context);
     await initialize();
     const state = window.HsrTool.getState();
-    state.characterId = "sample";
+    if (!savedStorage) state.characterId = "sample";
     function calculate() { results.length = 0; node("hsrCalculateButton").handlers.click(); return results; }
-    return { window, state, node, calculate };
+    return { window, state, node, calculate, storage };
 }
 
 test("manual final stats require only used HP/ATK/DEF and preserve legitimate zero bonuses", async () => {
@@ -458,4 +462,55 @@ test('UID import preserves precision, refuses missing crit/trace data and clears
     app.window.HsrTool.applyProfileCharacter({...profile,id:'not-in-catalog'});
     assert.equal(app.state.characterId,'');assert.equal(app.calculate().length,0);
     assert.doesNotMatch(app.node('hsrResults').innerHTML,/hsr-attack-result/);
+});
+
+
+test('HSR autosave restores inputs, party, equipment and conditions without storing results or UID data', async () => {
+    const app=await tool();const key=app.window.HsrCalcState.KEY;
+    assert.equal(app.storage.size,0,'initialization must not overwrite storage');
+    app.storage.set('tetinet:hsr:lastUid:v1','100000001');
+    app.state.coneId='cone';app.state.relicId='removed-relic';app.state.party[0]={...app.state.party[0],characterId:'1202',level:8,atk:2345.678901};
+    app.state.modifierInputs['tingyun-benediction']=true;
+    app.state.conditions[0].enabled=true;app.state.conditions[0].value=30.5;
+    app.node('hsrStat-atk').value='1234.567891';app.node('hsrStat-hp').value='';app.node('hsrStat-critRate').value='0';
+    app.node('hsrNormalTrace').value='4';app.node('hsrEidolon').value='2';app.node('hsrConeRank').value='3';app.node('hsrEnemyResistance').value='-20.25';
+    app.node('hsrStat-atk').handlers.input();
+    const raw=app.storage.get(key);const save=JSON.parse(raw);
+    assert.equal(save.schemaVersion,1);assert.equal(save.game,'hsr');assert.equal('data' in save.state,false);assert.equal('results' in save,false);assert.equal(raw.includes('100000001'),false);
+    const restored=await tool(app.storage);
+    assert.equal(app.storage.get(key),raw,'restoring must not save initial/partially restored state');
+    assert.equal(restored.state.characterId,'sample');assert.equal(restored.state.coneId,'cone');assert.equal(restored.state.relicId,'removed-relic','unknown IDs are not substituted');
+    assert.equal(restored.node('hsrStat-atk').value,'1234.567891');assert.equal(restored.node('hsrStat-hp').value,'');assert.equal(restored.node('hsrStat-critRate').value,'0');
+    assert.equal(restored.state.traceLevels.normal,4);assert.equal(restored.state.eidolon,2);assert.equal(restored.state.coneRank,3);assert.equal(restored.state.enemy.resistance,-20.25);
+    assert.equal(restored.state.party[0].atk,2345.678901);assert.equal(restored.state.modifierInputs['tingyun-benediction'],true);assert.equal(restored.state.conditions[0].value,30.5);
+    assert.equal(restored.node('hsrDirtyNotice').hidden,false);assert.doesNotMatch(restored.node('hsrResults').innerHTML,/hsr-attack-result/);
+    assert.equal(restored.calculate().length,3, 'normal and Tingyun supplemental attacks are regenerated');
+    restored.state.coneId='removed-cone';assert.equal(restored.calculate().length,0,'missing cone IDs cannot supply a guessed base for percentage buffs');assert.match(restored.node('hsrWarnings').innerHTML,/基礎攻撃力/);
+    restored.node('hsrClearSavedInputs').handlers.click();assert.equal(app.storage.has(key),false);assert.equal(app.storage.get('tetinet:hsr:lastUid:v1'),'100000001');
+});
+
+test('HSR special damage and UID-edited inputs survive a reload with exact decimals', async () => {
+    const app=await tool();
+    app.window.HsrTool.applyProfileCharacter({id:'sample',level:80,traces:[{type:'Normal',level:6}],stats:{...app.state.stats,hp:5000,atk:1234.567891,def:900}});
+    app.node('hsrStat-atk').value='2000.1234567';app.node('hsrStat-atk').handlers.input();
+    app.node('hsrPunchline').value='0';app.node('hsrMerrymake').value='12.345678';app.node('hsrElationTrace').value='3';
+    app.node('hsrTrueDamageActive').value='true';app.node('hsrTrueDamageSourceKind').value='finalNonTrueDamage';app.node('hsrOriginalDamage').value='1080.123456';app.node('hsrOriginalDamage').handlers.input();
+    const restored=await tool(app.storage);
+    assert.equal(restored.state.source,'api-edited');assert.equal(restored.node('hsrStat-atk').value,'2000.1234567');
+    assert.equal(restored.node('hsrPunchline').value,'0');assert.equal(restored.state.elationInputs.merrymake,12.345678);assert.equal(restored.state.traceLevels.elation,3);
+    assert.equal(restored.node('hsrOriginalDamage').value,'1080.123456');assert.equal(restored.node('hsrTrueDamageSourceKind').value,'finalNonTrueDamage');
+    assert.equal(restored.calculate().length,1);
+});
+
+test('HSR saved state tolerates malformed/old data, partial records and unavailable storage', async () => {
+    const module=require('../../games/js/hsrCalcState.js');
+    for(const raw of ['{broken',JSON.stringify({schemaVersion:0,game:'hsr',state:{}}),JSON.stringify({schemaVersion:1,game:'genshin',state:{}})]) {
+        const storage=new Map([[module.KEY,raw]]);const app=await tool(storage);assert.equal(storage.get(module.KEY),raw);assert.equal(app.state.characterId,'');
+    }
+    const app=await tool();const value=module.create(app.state,{'hsrStat-atk':'1000','hsrUidInput':'secret'});value.state.stats.atk='invalid';value.state.stats.critRate=0;value.state.enemy.resistance=33;
+    const restored=module.restore(value,app.state,app.state.data,['hsrStat-atk']);
+    assert.equal(restored.state.stats.critRate,0);assert.equal(restored.state.enemy.resistance,33);assert.equal(restored.state.stats.atk,app.state.stats.atk);assert.equal('hsrUidInput' in restored.fields,false);
+    const denied={getItem(){throw Error('blocked')},setItem(){throw Error('quota')},removeItem(){throw Error('blocked')}};
+    assert.equal(module.load(denied).error,true);assert.equal(module.save(denied,value),false);assert.equal(module.clear(denied),false);
+    Object.defineProperty(app.window,'localStorage',{get(){throw Error('blocked')}});app.node('hsrStat-atk').value='1000';assert.doesNotThrow(()=>app.node('hsrStat-atk').handlers.input());assert.equal(app.calculate().length,1);
 });

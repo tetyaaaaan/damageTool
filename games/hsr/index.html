@@ -154,6 +154,7 @@
           <aside class="genshin-panel genshin-result-panel" id="hsrResultPanel" aria-label="計算結果">
             <div class="genshin-panel-head"><div><p class="genshin-kicker">計算結果</p><h2>結果</h2></div></div>
             <div id="hsrResultSelectionSummary" class="genshin-result-selection-summary"><div><span>キャラ・光円錐</span><strong id="hsrResultBuildSummary">未選択</strong></div><div><span>敵情報</span><strong id="hsrResultAttackSummary">未選択</strong></div></div>
+            <p class="genshin-help"><span id="hsrSaveStatus" role="status">入力条件はこのブラウザに自動保存されます。</span> <button type="button" class="teti-button teti-button-secondary" id="hsrClearSavedInputs">保存条件を削除</button></p>
             <p id="hsrDirtyNotice" class="genshin-calculation-dirty-notice" role="status" aria-live="polite" hidden>入力内容が変更されています。ダメージ計算を実行して結果を更新してください。</p>
             <div id="hsrWarnings" class="genshin-json-calc-warnings" hidden></div><div id="hsrResults" class="genshin-json-calc-results"><p class="genshin-help">条件を設定して計算してください。</p></div>
             <section class="hsr-action-value-card" aria-labelledby="hsrActionValueTitle"><div><h3 id="hsrActionValueTitle">速度・基礎行動値</h3><p>速度のみから算出する目安です。行動順短縮・再行動・途中の速度変化は含みません。</p></div><label class="genshin-field">基準行動値<input id="hsrActionWindow" type="number" min="1" value="150"></label><div id="hsrActionSummary" class="hsr-action-summary"></div></section>
@@ -174,7 +175,7 @@
 
     <dialog class="genshin-modal genshin-equipment-details-dialog genshin-uid-details-dialog" id="hsrUidDetailsDialog" aria-labelledby="hsrUidDetailsTitle"><div class="genshin-modal-shell genshin-equipment-details-dialog-inner"><header class="genshin-modal-head genshin-equipment-details-head"><div><p class="genshin-kicker">UID DETAIL</p><h2 id="hsrUidDetailsTitle">キャラクター詳細</h2></div><button type="button" class="genshin-modal-close genshin-selection-close" id="hsrUidDetailsClose" aria-label="詳細を閉じる">×</button></header><nav class="genshin-uid-details-tabs" id="hsrUidDetailsTabs" aria-label="UID詳細カテゴリ"></nav><div class="genshin-modal-scroll-region genshin-equipment-details-body" id="hsrUidDetailsBody"></div></div></dialog>
 
-    <script src="/games/js/hsrProfileApi.js"></script><script src="/games/js/hsrProfileMapper.js?v=20260728-5"></script><script src="/games/js/uidStorage.js"></script><script src="/games/js/hsrCalcData.js?v=20260801-9"></script><script src="/games/js/hsrModifierRuntime.js?v=20260801-3"></script><script src="/games/js/hsrCalcEngine.js?v=20260801-3"></script><script src="/games/js/hsrApp.js?v=20260801-10"></script><script src="/games/js/hsrUidImporter.js?v=20260728-5"></script>
+    <script src="/games/js/hsrProfileApi.js"></script><script src="/games/js/hsrProfileMapper.js?v=20260728-5"></script><script src="/games/js/uidStorage.js"></script><script src="/games/js/hsrCalcData.js?v=20260801-9"></script><script src="/games/js/hsrModifierRuntime.js?v=20260801-3"></script><script src="/games/js/hsrCalcEngine.js?v=20260801-3"></script><script src="/games/js/hsrCalcState.js?v=20261018-1"></script><script src="/games/js/hsrApp.js?v=20261018-1"></script><script src="/games/js/hsrUidImporter.js?v=20260728-5"></script>
 
     <!-- site-chrome:footer:start -->
 <footer class="teti-site-footer">
