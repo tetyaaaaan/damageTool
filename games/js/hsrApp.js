@@ -27,7 +27,7 @@
   const num = (value, fallback = 0) => Number.isFinite(Number(value)) ? Number(value) : fallback;
   const fmt = (value) => Math.round(num(value)).toLocaleString("ja-JP");
   const esc = (value) => String(value ?? "").replace(/[&<>'"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[char]));
-  const ATTACK_LABELS = { all: "すべての攻撃", normal: "通常攻撃", enhancedNormal: "強化通常攻撃", skill: "戦闘スキル", enhancedSkill: "強化戦闘スキル", ultimate: "必殺技", talent: "天賦", followUp: "追加攻撃", additional: "付加ダメージ", dot: "持続ダメージ", technique: "秘技", break: "弱点撃破", superBreak: "超撃破", memospriteSkill: "記憶の精霊スキル", memospriteTalent: "記憶の精霊天賦", elation: "愉悦スキル", assist: "支援スキル" };
+  const ATTACK_LABELS = { all: "すべての攻撃", normal: "通常攻撃", enhancedNormal: "強化通常攻撃", skill: "戦闘スキル", enhancedSkill: "強化戦闘スキル", ultimate: "必殺技", talent: "天賦", followUp: "追加攻撃", additional: "付加ダメージ", dot: "持続ダメージ", technique: "秘技", break: "弱点撃破", superBreak: "超撃破", memospriteSkill: "記憶の精霊スキル", memospriteTalent: "記憶の精霊天賦", elation: "愉悦スキル", trueDamage: "追加確定ダメージ", assist: "支援スキル" };
   const TARGET_LABELS = { single: "単体", blast: "拡散", aoe: "全体", bounce: "バウンド", adjacent: "隣接対象" };
   const PARTY_TARGET_LABELS = { allySingle: "味方単体", activeAlly: "指定した味方", partyAll: "味方全体", enemySingle: "敵単体", enemyAll: "敵全体", self: "発動者自身", summon: "召喚物", memosprite: "記憶の精霊" };
   const displayTarget = (value) => PARTY_TARGET_LABELS[value] || TARGET_LABELS[value] || value;
@@ -39,6 +39,7 @@
     characterId: "", coneId: "", relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "",
     level: 80, eidolon: 0, enhancementState: "enhanced", coneLevel: 80, coneRank: 1, partySp: 3, traceLevels: { normal: 6, skill: 10, ultimate: 10, talent: 10, elation: 10 }, source: "manual",
     stats: { ...DEFAULT_STATS },
+    trueDamageInputs: { active: false, sourceKind: "", originalDamage: NaN },
     elationInputs: { context: "ahaInstant", punchline: NaN, merrymake: 0 },
     party: Array.from({ length: 3 }, () => ({ characterId: "", eidolon: 0, level: 10, atk: 0, critDamage: 50, breakEffect: 0, lightConeId: "", coneRank: 1, relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "" })),
     enemyId: "3001020",
@@ -110,6 +111,7 @@
     $("hsrOrnamentDetailsButton").disabled = !ornamentSet;
     $("hsrRelicMode").value = state.relicMode; $("hsrRelicSecondCard").hidden = state.relicMode !== "2+2";
     $("hsrElationField").hidden = char?.path !== "Elation";
+    $("hsrTrueDamageSettings").hidden = char?.id !== "1415";
     $("hsrElationSettings").hidden = char?.id !== "1505";
     $("hsrEnhancementField").hidden = !["1004", "1005", "1006", "1102", "1205"].includes(char?.id);
     $("hsrEnhancementState").value = state.enhancementState;
@@ -129,6 +131,8 @@
     document.querySelectorAll("[data-stat]").forEach((input) => { state.stats[input.dataset.stat] = input.value.trim() === "" ? NaN : Number(input.value); });
     state.level = Number($("hsrLevel").value); state.eidolon = num($("hsrEidolon").value); state.enhancementState = $("hsrEnhancementState")?.value || "enhanced"; state.coneLevel = Number($("hsrConeLevel").value); state.coneRank = num($("hsrConeRank").value, 1); state.partySp = Math.min(7, Math.max(0, Math.floor(num($("hsrPartySp")?.value, 3)))); state.traceLevels = { normal: num($("hsrNormalTrace").value, 6), skill: num($("hsrSkillTrace").value, 10), ultimate: num($("hsrUltimateTrace").value, 10), talent: num($("hsrTalentTrace").value, 10) };
     state.traceLevels.elation = Number($("hsrElationTrace").value);
+    state.trueDamageInputs = { active: state.characterId === "1415" && $("hsrTrueDamageActive").value === "true", sourceKind: $("hsrTrueDamageSourceKind").value, originalDamage: $("hsrOriginalDamage").value.trim() === "" ? NaN : Number($("hsrOriginalDamage").value) };
+    if (state.trueDamageInputs.active) state.traceLevels.skill = Number($("hsrSkillTrace").value);
     state.elationInputs = { context: "ahaInstant", punchline: $("hsrPunchline").value.trim() === "" ? NaN : Number($("hsrPunchline").value), merrymake: $("hsrMerrymake").value.trim() === "" ? NaN : Number($("hsrMerrymake").value) };
     state.enemy = { level: num($("hsrEnemyLevel").value, 80), maxHp: Math.max(0, num($("hsrEnemyMaxHp").value, 100000)), resistance: num($("hsrEnemyResistance").value), weakness: $("hsrWeakness").value === "true",
       toughnessActive: $("hsrToughnessState").value === "active", maxToughness: num($("hsrMaxToughness").value, 30), hpPercent: Math.min(100, Math.max(0, num($("hsrEnemyHpPercent").value, 100))), count: Math.min(5, Math.max(1, Math.floor(num($("hsrEnemyCount").value, 1)))), debuffCount: Math.max(0, num($("hsrEnemyDebuffCount").value)), defenseReduction: num($("hsrEnemyDefenseReduction").value),
@@ -138,6 +142,7 @@
   function availableAttacks() {
     return state.data.attacks.filter((item) => item.characterId === state.characterId
       && !item.hidden
+      && (item.id === "1415021" ? state.trueDamageInputs.active : !state.trueDamageInputs.active)
       && (!item.requiredEidolon || state.eidolon >= item.requiredEidolon)
       && (item.maximumEidolon === undefined || state.eidolon <= item.maximumEidolon)
       && (item.hpPercentMaximum === undefined || state.stats.hpPercent <= item.hpPercentMaximum)
@@ -554,7 +559,7 @@
     const multiplierAdditionScale = Array.isArray(selected.multiplierAdditionScaleValues)
       ? num(selected.multiplierAdditionScaleValues[Math.min(selected.multiplierAdditionScaleValues.length - 1, index)], 1)
       : num(selected.multiplierAdditionScale, 1);
-    return { ...selected, hitCount: referencedHits, hitCountReference: selected.hitCountReference || selected.hitCountInputKey || "", attackType: selected.type, element: character()?.element || "", multiplier, adjacentMultiplier, scalingTerms, adjacentScalingTerms, enemyHpPercent, atkCapPercent, multiplierAdditionScale, traceLevel: level, traceLevelLabel };
+    return { ...selected, hitCount: referencedHits, hitCountReference: selected.hitCountReference || selected.hitCountInputKey || "", attackType: selected.type, element: selected.damageFormula === "trueDamage" ? "None" : character()?.element || "", multiplier, adjacentMultiplier, scalingTerms, adjacentScalingTerms, enemyHpPercent, atkCapPercent, multiplierAdditionScale, traceLevel: level, traceLevelLabel };
   }
 
   function supplementalAttacks() {
@@ -587,6 +592,7 @@
   }
 
   function attackSupport(attack) {
+    if (attack.damageFormula === "trueDamage" && state.eidolon !== 0) return { status: "displayOnly", label: "表示のみ・計算不可", reason: "キュレネの領域の確定ダメージは星魂0のみ計算対応です。" };
     if (attack.support?.status === "displayOnly") return { status: "displayOnly", label: "表示のみ・計算不可", reason: attack.support.reason };
     if (attack.damageFormula === "elation" && (state.level !== 80 || state.eidolon !== 0)) return { status: "displayOnly", label: "表示のみ・計算不可", reason: "この愉悦攻撃はLv80・星魂0のアッハタイム中のみ計算対応です。" };
     const reason = attack.type === "break" ? "" : window.HsrCalcEngine.unsupportedAttackReason(attack);
@@ -601,8 +607,8 @@
   }
 
   function damageValues(result) {
-    const values = result.attack.canCrit ? [["非会心", result.nonCrit], ["会心", result.crit], ["期待値", result.expected]] : [["ダメージ", result.nonCrit]];
-    return `<div class="hsr-attack-result-values${result.attack.canCrit ? "" : " hsr-attack-result-values--single"}">${values.map(([label, value]) => `<div><span>${label}（合計）</span><strong>${fmt(value)}</strong></div>`).join("")}</div>`;
+    const values = result.attack.canCrit ? [["非会心", result.nonCrit], ["会心", result.crit], ["期待値", result.expected]] : [[result.breakdown.damageFormula === "trueDamage" ? "追加確定ダメージ" : "ダメージ", result.nonCrit]];
+    return `<div class="hsr-attack-result-values${result.attack.canCrit ? "" : " hsr-attack-result-values--single"}">${values.map(([label, value]) => `<div><span>${label}（${result.breakdown.damageFormula === "trueDamage" ? "1回分" : "合計"}）</span><strong>${fmt(value)}</strong></div>`).join("")}</div>`;
   }
 
   const detailNumber = (value) => Number(value).toLocaleString("ja-JP", { maximumFractionDigits: 6 });
@@ -610,6 +616,7 @@
 
   function damageBreakdown(result, targetLabel) {
     const b = result.breakdown;
+    if (b.damageFormula === "trueDamage") return `<section class="hsr-target-breakdown"><h4>敵1体・追加確定ダメージ1回分</h4><dl><div><dt>参照元ダメージ（補正適用後）</dt><dd>${detailNumber(b.originalDamage)}</dd></div><div><dt>確定ダメージ倍率</dt><dd>${detailNumber(b.multiplierPercent)}%</dd></div><div><dt>追加確定ダメージ</dt><dd>${detailNumber(result.nonCrit)}</dd></div><div><dt>適用条件</dt><dd>${esc(b.condition)}</dd></div></dl><p>元ダメージ × 確定ダメージ倍率。会心・防御・耐性・与ダメージ・靭性等は再適用しません。元ダメージとの合算は行いません。</p>${damageValues(result)}</section>`;
     const row = (label, value) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`;
     const isElation = b.damageFormula === "elation";
     const scaling = isElation
@@ -664,6 +671,7 @@
   }
 
   function calculationInputWarnings(attacks, baseStats) {
+    if (attacks.length && attacks.every((attack) => attack.damageFormula === "trueDamage")) return attacks.flatMap((attack) => window.HsrCalcEngine.trueDamageInputWarnings({ character: { eidolon: state.eidolon }, attack, trueDamage: state.trueDamageInputs }));
     const warnings = new Set();
     const labels = { hp: "HP", atk: "攻撃力", def: "防御力", speed: "速度", critRate: "会心率", critDamage: "会心ダメージ", damageBonus: "属性ダメージ", breakEffect: "撃破特効", effectHitRate: "効果命中", effectRes: "効果抵抗", energyRegen: "EP回復効率", hpPercent: "現在HP割合", dotBaseDamage: "対象の持続ダメージ", elation: "愉悦度" };
     const requiredStats = new Set();
@@ -701,7 +709,7 @@
     if (cone() || relic() || relicSecond() || ornament()) warnings.push("常時効果は入力ステータスを使用し、条件付き効果は補正条件で選択した項目だけを適用します。");
     if (!character()) { renderWarnings(warnings); return; }
     const available = availableAttacks();
-    const supplemental = supplementalAttacks();
+    const supplemental = state.trueDamageInputs.active ? [] : supplementalAttacks();
     const unavailableAttacks = supplemental.filter((attack) => attackSupport(attack).status === "displayOnly").concat(available.filter((attack) => attackSupport(attack).status === "displayOnly").concat((state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status === "displayOnly")));
     const attacks = available.filter((attack) => attackSupport(attack).status !== "displayOnly").map(resolvedAttack).concat(supplemental.filter((attack) => attackSupport(attack).status !== "displayOnly"));
     if (!attacks.length) {
@@ -719,7 +727,7 @@
       $("hsrDirtyNotice").hidden = false;
       return;
     }
-    const baseRequest = { character: { level: state.level, eidolon: state.eidolon, stats: state.stats, baseStats }, enemy: state.enemy, elation: state.elationInputs };
+    const baseRequest = { character: { level: state.level, eidolon: state.eidolon, stats: state.stats, baseStats }, enemy: state.enemy, elation: state.elationInputs, trueDamage: state.trueDamageInputs };
     const results = attacks.map((selected) => {
       const request = { ...baseRequest, attack: selected, modifiers: modifiers(selected) };
       const result = window.HsrCalcEngine.calculate(request);
@@ -728,8 +736,8 @@
       return { attack: selected, result, adjacent };
     });
     const breakAttack = { attackType: "break", type: "break", element: character().element };
-    const breakResult = window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: character().element, modifiers: modifiers(breakAttack), breakBaseDamage: state.data.breakBaseDamage });
-    const specialBreakResults = (state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status !== "displayOnly").map((attack) => {
+    const breakResult = state.trueDamageInputs.active ? null : window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: character().element, modifiers: modifiers(breakAttack), breakBaseDamage: state.data.breakBaseDamage });
+    const specialBreakResults = (state.trueDamageInputs.active ? [] : state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status !== "displayOnly").map((attack) => {
       const level = num(state.traceLevels[attack.traceKey], 10); const index = Math.max(0, Math.min(attack.multipliers.length - 1, level - 1));
       const multiplier = num(attack.multipliers[index]) + (state.eidolon >= 6 ? num(attack.eidolon6Bonus) : 0);
       const resolved = { ...attack, traceLevel: level, multiplier, attackType: "break" };

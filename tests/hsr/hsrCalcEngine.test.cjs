@@ -307,3 +307,55 @@ test("Elation reuses scoped critical, defense, resistance and vulnerability modi
     assert.equal(result.applied.length, 5);
     assert.equal(result.skipped.find((item) => item.id === "skill-only").applicable, false);
 });
+
+function cyreneTrueInput(level = 10, originalDamage = 1080) {
+    const attack = JSON.parse(fs.readFileSync(path.join(root, 'games/hsr/data/attack-overrides.json'), 'utf8')).overrides.find(item => item.id === '1415021');
+    return { ...baseInput(), character: { ...baseInput().character, eidolon: 0 }, attack: { ...attack, traceLevel: level, multiplier: attack.multipliers[level - 1] }, trueDamage: { active: true, sourceKind: 'finalNonTrueDamage', originalDamage } };
+}
+
+test('Cyrene zone True DMG matches independent final-damage percentages without any second multiplier', () => {
+    const calc = engine();
+    const sourceInput = baseInput(); sourceInput.character.stats.atk = 3000; sourceInput.enemy.resistance = 20; sourceInput.enemy.toughnessActive = true;
+    const original = calc.calculate(sourceInput);
+    assert.ok(Math.abs(original.nonCrit - 1080) < 1e-9); // 3000 * 0.5 DEF * 0.8 RES * 0.9 toughness
+    assert.ok(Math.abs(calc.calculate(cyreneTrueInput(10, original.nonCrit)).nonCrit - 259.2) < 1e-9);
+    assert.ok(Math.abs(original.nonCrit - 1080) < 1e-9, 'the original result remains unchanged');
+    const master = JSON.parse(fs.readFileSync(path.join(root, 'games/hsr/data/catalog.json'), 'utf8')).characters.find(item => item.id === '1415').skills.find(item => item.id === '141502');
+    for (const [level, original, expected] of [[10,1080,259.2], [10,2160,518.4], [1,1080,129.6], [7,1080,210.6], [10,0,0]]) {
+        const input = cyreneTrueInput(level, original);
+        assert.ok(Math.abs(input.attack.multiplier - master.params[level - 1][0] * 100) < 1e-9);
+        const result = calc.calculate(input);
+        assert.ok(Math.abs(result.nonCrit - expected) < 1e-9);
+        assert.equal(result.attack.canCrit, false);
+        assert.equal('crit' in result, false);
+        assert.equal('defense' in result.breakdown, false);
+        input.character.stats = { atk: 99999, damageBonus: 500, critRate: 100, critDamage: 999 };
+        input.enemy = { level: 95, resistance: 80, toughnessActive: true, takenDamage: 100, defenseReduction: 70 };
+        input.modifiers = ['damageBonus','independentMultiplier','critDamage','defenseReduction','resistancePenetration','takenDamage','multiplierAddition'].map(category => ({category,value:100}));
+        const modified = calc.calculate(input);
+        assert.equal(modified.nonCrit, result.nonCrit, 'source already includes mitigation and buffs');
+        assert.equal(modified.applied.length, 0);
+        assert.equal(modified.skipped.length, 7);
+    }
+});
+
+test('True DMG refuses inactive fields, missing sources, recursive sources and unverified scope', () => {
+    for (const mutate of [
+        input => { input.trueDamage.active = false; },
+        input => { input.trueDamage.originalDamage = NaN; },
+        input => { input.trueDamage.originalDamage = -1; },
+        input => { input.trueDamage.originalDamage = Infinity; },
+        input => { input.trueDamage.sourceKind = 'trueDamage'; },
+        input => { input.trueDamage.sourceKind = ''; },
+        input => { input.character.eidolon = 2; },
+        input => { input.attack.traceLevel = 11; },
+        input => { input.attack.multiplier = 99; },
+        input => { input.attack.id = 'future-true-effect'; }
+    ]) {
+        const input = cyreneTrueInput(); mutate(input);
+        const result = engine().calculate(input);
+        assert.equal(result.supported, false);
+        assert.ok(result.reason);
+        assert.equal('nonCrit' in result, false);
+    }
+});

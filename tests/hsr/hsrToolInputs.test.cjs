@@ -314,3 +314,46 @@ test("representative Elation inputs stop incomplete calculation and render actua
     assert.equal(app.calculate().length, 1, "ordinary attack remains outside verified E0 scope");
     assert.match(app.node("hsrResults").innerHTML, /Lv80・星魂0のアッハタイム中のみ/);
 });
+
+
+test('Cyrene manual zone effect validates source, displays only actual True factors and restores ordinary calculation when OFF', async () => {
+    const app = await tool();
+    const catalog = JSON.parse(read('games/hsr/data/catalog.json'));
+    const effect = JSON.parse(read('games/hsr/data/attack-overrides.json')).overrides.find(item => item.id === '1415021');
+    app.state.data.characters = catalog.characters;
+    app.state.characterId = '1415';
+    app.state.data.attacks = [{ ...app.state.data.attacks[0], characterId: '1415', scalingStat: 'hp' }, effect];
+    app.node('hsrTrueDamageActive').value = 'true';
+    assert.equal(app.calculate().length, 0);
+    assert.match(app.node('hsrWarnings').innerHTML, /元ダメージ/);
+    app.node('hsrTrueDamageSourceKind').value = 'finalNonTrueDamage';
+    app.node('hsrOriginalDamage').value = '1080';
+    assert.ok(Math.abs(app.calculate()[0].nonCrit - 259.2) < 1e-9);
+    app.node('hsrStat-critRate').value = '';
+    assert.ok(Math.abs(app.calculate()[0].nonCrit - 259.2) < 1e-9, 'unused stats do not block True damage');
+    app.node('hsrStat-critRate').value = '5';
+    const html = app.node('hsrResults').innerHTML;
+    assert.match(html, /参照元ダメージ（補正適用後）/);
+    assert.match(html, /確定ダメージ倍率/);
+    assert.match(html, /追加確定ダメージ/);
+    assert.doesNotMatch(html, /<dt>防御倍率|<dt>耐性倍率|<dt>会心倍率|<dt>靭性倍率/);
+    app.node('hsrSkillTrace').value = '1';
+    assert.ok(Math.abs(app.calculate()[0].nonCrit - 129.6) < 1e-9);
+    for (const value of ['', '0', '11', '1.5']) {
+        app.node('hsrSkillTrace').value = value;
+        assert.equal(app.calculate().length, 0);
+    }
+    app.node('hsrSkillTrace').value = '10';
+    app.node('hsrTrueDamageSourceKind').value = 'trueDamage';
+    assert.equal(app.calculate().length, 0);
+    app.node('hsrTrueDamageSourceKind').value = 'finalNonTrueDamage';
+    app.node('hsrEidolon').value = '2';
+    assert.equal(app.calculate().length, 0);
+    assert.match(app.node('hsrResults').innerHTML, /星魂0のみ/);
+    app.node('hsrEidolon').value = '0';
+    app.node('hsrTrueDamageActive').value = 'false';
+    app.node('hsrStat-hp').value = '4000';
+    app.node('hsrOriginalDamage').value = '';
+    assert.equal(app.calculate()[0].breakdown.damageFormula, 'statMultiplier');
+    assert.doesNotMatch(app.node('hsrResults').innerHTML, /参照元ダメージ（補正適用後）/);
+});

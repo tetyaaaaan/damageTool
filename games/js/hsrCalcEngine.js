@@ -118,9 +118,45 @@
         return warnings;
     }
 
+    // Scoped to one final, non-True damage instance; no automatic result chaining.
+    function supportedTrueAttack(attack) {
+        return attack.id === "1415021" && attack.damageFormula === "trueDamage"
+            && attack.type === "trueDamage" && attack.sourceSkillId === "141502"
+            && attack.target === "single" && attack.hitCount === 1;
+    }
+
+    function trueDamageInputWarnings(input = {}) {
+        const values = input.trueDamage || {};
+        const warnings = [];
+        if ((input.character?.eidolon ?? 0) !== 0) warnings.push("キュレネの領域の確定ダメージは星魂0のみ計算対応です。");
+        if (values.active !== true) warnings.push("領域が有効でキュレネが生存している場合のみ計算できます。");
+        if (values.sourceKind !== "finalNonTrueDamage") warnings.push("参照元には追加確定ダメージを含まない、味方が敵1体へ与えた補正適用後のダメージ1回分を指定してください。");
+        if (!Number.isFinite(values.originalDamage) || values.originalDamage < 0) warnings.push("元ダメージに0以上の数値を入力してください。");
+        const level = input.attack?.traceLevel;
+        if (!Number.isInteger(level) || level < 1 || level > 10) warnings.push("星魂0の戦闘スキルLvに1～10の整数を選択してください。");
+        const expected = input.attack?.multipliers?.[level - 1];
+        if (!Number.isFinite(expected) || !Number.isFinite(input.attack?.multiplier) || Math.abs(input.attack.multiplier - expected) > 1e-9) warnings.push("領域の確定ダメージ倍率を確認できません。");
+        return warnings;
+    }
+
+    function calculateTrueDamage(input) {
+        const warnings = trueDamageInputWarnings(input);
+        if (warnings.length) return { supported: false, reason: warnings.join(" ") };
+        const originalDamage = input.trueDamage.originalDamage;
+        const multiplierPercent = input.attack.multiplier;
+        const value = originalDamage * (multiplierPercent / 100);
+        return {
+            attack: { name: input.attack.name, hitCount: 1, target: "single", canCrit: false },
+            nonCrit: value,
+            breakdown: { damageFormula: "trueDamage", originalDamage, multiplierPercent, condition: "領域有効・キュレネ生存／確定ダメージを含まない元ダメージ1回分" },
+            applied: [],
+            skipped: (input.modifiers || []).map(normalizeModifier).map((item) => ({ ...item, applicable: false, reason: "確定ダメージへ補正を再適用しません。元ダメージに含まれる補正は保持します。" }))
+        };
+    }
+
     function unsupportedAttackReason(attack = {}) {
         if (attack.support?.status === "displayOnly") return attack.support.reason || "この攻撃は表示のみのため、ダメージを計算しません。";
-        if (supportedElationAttack(attack)) return "";
+        if (supportedElationAttack(attack) || supportedTrueAttack(attack)) return "";
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
         if (attack.damageFormula && !["statMultiplier", "enemyHpCappedByAtk"].includes(attack.damageFormula)) return "このダメージ計算方式は未対応です。通常式では計算しません。";
@@ -136,6 +172,7 @@
         const unsupportedReason = unsupportedAttackReason(attack);
         if (unsupportedReason) return { supported: false, reason: unsupportedReason };
         if (supportedElationAttack(attack)) return calculateElation(input);
+        if (supportedTrueAttack(attack)) return calculateTrueDamage(input);
         const stats = character.stats || {};
         const modifiers = (input?.modifiers || []).map(normalizeModifier);
         modifiers.forEach((item) => {
@@ -373,5 +410,5 @@
         return { supported: true, value, base, toughnessDamage, effectiveToughnessDamage, breakEffect, breakEfficiency, superBreakBonus, defense, resistance, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
     }
 
-    window.HsrCalcEngine = Object.freeze({ elationInputWarnings, unsupportedAttackReason, calculate, calculateBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });
+    window.HsrCalcEngine = Object.freeze({ trueDamageInputWarnings, elationInputWarnings, unsupportedAttackReason, calculate, calculateBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });
 })();

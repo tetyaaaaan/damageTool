@@ -116,6 +116,15 @@
                 </div></div>
               </section>
 
+              <section class="genshin-input-step" id="hsrTrueDamageSettings" hidden aria-labelledby="hsrTrueDamageTitle">
+                <div class="genshin-input-step-head"><h4 id="hsrTrueDamageTitle">キュレネの領域・追加確定ダメージ</h4><p>星魂0・戦闘スキルLv1～10。領域が有効でキュレネが生存している場合の、敵1体への1回分です。</p></div>
+                <label class="genshin-field">領域効果（キュレネ生存時）<select id="hsrTrueDamageActive"><option value="false">OFF：通常の攻撃を計算</option><option value="true">ON：追加確定ダメージのみ計算</option></select></label>
+                <div class="genshin-form-grid">
+                  <label class="genshin-field">元ダメージの種類<select id="hsrTrueDamageSourceKind"><option value="">選択してください</option><option value="finalNonTrueDamage">補正適用後の通常ダメージ1回分（確定ダメージを除く）</option><option value="trueDamage">確定ダメージ（計算対象外）</option></select></label>
+                  <label class="genshin-field">元ダメージ<input id="hsrOriginalDamage" type="number" min="0" step="any" placeholder="例：1080"></label>
+                </div>
+                <p class="genshin-help">味方が敵1体に与えた、会心・防御・耐性等の適用後の値を入力してください。追加確定ダメージ、複数回・複数対象の合計を含めません。自動記録・合算・再帰発動は行いません。倍率は上の戦闘スキルLvを参照します。</p>
+              </section>
               <section class="genshin-input-step" id="hsrElationSettings" hidden aria-labelledby="hsrElationTitle">
                 <div class="genshin-input-step-head"><h4 id="hsrElationTitle">愉悦スキルの計算条件</h4><p>緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。</p></div>
                 <div class="genshin-form-grid">
