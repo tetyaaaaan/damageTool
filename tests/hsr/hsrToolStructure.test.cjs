@@ -85,7 +85,7 @@ test("HSR runtime uses the ID-based JSON catalog without CSV references", async 
     assert.ok(data.sources.some((item) => item.license.includes("AGPL-3.0")));
 });
 
-test("HSR attack data is generated, overrideable, and the page calculates every listed attack", () => {
+test("HSR attack data is generated, overrideable, and the page separates calculable listed attacks", () => {
     const manifest = JSON.parse(read("games/hsr/data/attacks.json"));
     const generated = JSON.parse(read("games/hsr/data/attacks.generated.json"));
     const overrides = JSON.parse(read("games/hsr/data/attack-overrides.json"));
@@ -107,17 +107,18 @@ test("HSR attack data is generated, overrideable, and the page calculates every 
     assert.doesNotMatch(html, /id="hsrAttackSelect"|id="hsrManualMultiplier"|敵・攻撃設定/);
     assert.match(source, /function availableAttacks\(\)/);
     assert.match(source, /\(!item\.variant \|\| item\.variant === state\.enhancementState\)/);
-    assert.match(source, /availableAttacks\(\)\.map\(resolvedAttack\)/);
+    assert.match(source, /const available = availableAttacks\(\)/);
+    assert.match(source, /status !== "displayOnly"\)\.map\(resolvedAttack\)/);
     assert.match(source, /selected\.multiplierComponents/);
     assert.match(source, /adjacentMultiplierRatio/);
     assert.match(source, /const adjacentAttack = selected\.adjacentMultiplier/);
     assert.match(source, /modifiers\(adjacentAttack\)/);
-    assert.match(source, /隣接対象・適用/);
+    assert.match(source, /modifierAudit\(adjacent, "隣接対象"\)/);
     assert.match(source, /traceLevelLabel/);
     assert.match(html, /id="hsrEnhancementState"/);
     assert.match(read("games/js/hsrCalcData.js"), /dataFiles\.modifiers/);
     assert.match(read("games/hsr/data/calc/data-files.json"), /modifiers-welt\.json/);
-    assert.match(source, /自動抽出後の確認中です。計算結果は参考値として表示します/);
+    assert.match(source, /件は確認中です。計算結果は参考値として表示します/);
 });
 
 test("HSR enemy controls use selects for mutually exclusive states and never oversized checkboxes", () => {

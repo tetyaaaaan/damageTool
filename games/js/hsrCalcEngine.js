@@ -163,7 +163,8 @@
         const weakness = 1;
         const toughness = enemy.toughnessActive ? 0.9 : 1;
         const independentMultiplier = applied.filter((item) => item.category === "independentMultiplier").reduce((product, item) => product * (1 + item.value / 100), 1);
-        const commonWithoutVulnerability = (1 + damageBonus / 100) * defense * resistance * weakness * toughness * independentMultiplier;
+        const damageBonusMultiplier = 1 + damageBonus / 100;
+        const commonWithoutVulnerability = damageBonusMultiplier * defense * resistance * weakness * toughness * independentMultiplier;
         const progressiveVulnerability = applied.filter((item) => item.category === "progressiveTakenDamage");
         const vulnerabilityFactors = Array.from({ length: hitCount }, (_, hitIndex) => 1 + (takenDamage + progressiveVulnerability.reduce((sum, item) => sum + item.value * Math.min(hitIndex, number(item.stacking?.maximumStacks, 1)), 0)) / 100);
         const vulnerabilityFactorSum = vulnerabilityFactors.reduce((sum, value) => sum + value, 0);
@@ -175,18 +176,20 @@
         const critTakenDamage = applied.filter((item) => item.category === "critTakenDamage").reduce((sum, item) => sum + item.value, 0);
         const critMultiplier = canCrit ? 1 + (number(effectiveStats.critDamage) + critTakenDamage) / 100 : 1;
         const critPerHit = canCrit ? nonCritPerHit * critMultiplier : nonCritPerHit;
-        const expectedPerHit = canCrit ? nonCritPerHit * (1 + critRate * (critMultiplier - 1)) : nonCritPerHit;
+        const expectedCritMultiplier = canCrit ? 1 + critRate * (critMultiplier - 1) : 1;
+        const expectedPerHit = nonCritPerHit * expectedCritMultiplier;
 
         return {
             attack: { name: attack.name || "手動攻撃", hitCount, target: attack.target || "single", canCrit, scalingStat },
             nonCrit: nonCritTotal,
             crit: nonCritTotal * critMultiplier,
-            expected: nonCritTotal * (canCrit ? 1 + critRate * (critMultiplier - 1) : 1),
+            expected: nonCritTotal * expectedCritMultiplier,
             perHit: { nonCrit: nonCritPerHit, crit: critPerHit, expected: expectedPerHit },
             breakdown: {
                 referenceValue, multiplierPercent: scalingTerms.reduce((sum, term) => sum + term.multiplierPercent, 0), multiplierAddition, scalingTerms, flatDamage,
                 damageFormula: attack.damageFormula || "statMultiplier", enemyHpPercent: number(attack.enemyHpPercent), atkCapPercent: number(attack.atkCapPercent), cappedEnemyHpDamage,
                 damageBonus, takenDamage, progressiveVulnerability: progressiveVulnerability.map((item) => ({ id: item.id, perHit: item.value, maximumStacks: number(item.stacking?.maximumStacks, 1) })), vulnerabilityFactors, defense, resistance, weakness, toughness,
+                damageBonusMultiplier, commonWithoutVulnerability, vulnerabilityFactorSum, critMultiplier, expectedCritMultiplier,
                 baseDamage, commonMultiplier, independentMultiplier, critRatePercent: critRate * 100, critDamagePercent: number(effectiveStats.critDamage), critTakenDamage
             },
             applied,
@@ -231,7 +234,7 @@
         const resistance = resistanceMultiplier(number(enemy.resistance) - resistancePenetration);
         const toughnessScale = 0.5 + Math.max(0, number(enemy.maxToughness, 30)) / 120;
         const vulnerability = 1 + takenDamage / 100;
-        return { supported: true, value: base * multiplier * effect * defense * resistance * toughnessScale * vulnerability, base, multiplier, effect, defense, resistance, toughnessScale, vulnerability, applied };
+        return { supported: true, value: base * multiplier * effect * defense * resistance * toughnessScale * vulnerability, base, multiplier, effect, defense, resistance, toughnessScale, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
     }
 
     function calculateSuperBreak(input) {

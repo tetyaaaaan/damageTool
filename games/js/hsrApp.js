@@ -505,7 +505,7 @@
       const supplementalApplies = !attack.sourceModifierId || !item.supplementalAttack || item.id === attack.sourceModifierId;
       const primaryTargetApplies = !item.primaryTargetOnly || attack.target !== "adjacent";
       const adjacentTargetApplies = !item.adjacentTargetOnly || attack.target === "adjacent";
-      return { ...item, applicable: item.enabled && attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies && item.applicable !== false, reason: !item.enabled ? "発動条件を満たしていません" : !supplementalApplies ? "別の付加ダメージに属する補正です" : !primaryTargetApplies ? "隣接対象はこの補正の対象外です" : !adjacentTargetApplies ? "主対象はこの補正の対象外です" : attackApplies ? "" : "この攻撃種別・属性は対象外です" };
+      return { ...item, applicable: item.enabled && attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies && item.applicable !== false, reason: !item.enabled ? "発動条件を満たしていません" : !supplementalApplies ? "別の付加ダメージに属する補正です" : !primaryTargetApplies ? "隣接対象はこの補正の対象外です" : !adjacentTargetApplies ? "主対象はこの補正の対象外です" : attackApplies ? item.reason || "" : "この攻撃種別・属性は対象外です" };
     });
   }
 
@@ -551,6 +551,7 @@
       return {
         id: `supplemental:${item.id}`,
         sourceModifierId: item.id,
+        support: item.support,
         name: item.supplementalAttack.name,
         type: item.supplementalAttack.type,
         attackType: item.supplementalAttack.type,
@@ -571,16 +572,72 @@
     $("hsrWarnings").innerHTML = warnings.length ? `<ul>${warnings.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>` : "";
   }
 
-  function renderResults(results, breakResult, specialBreakResults = []) {
-    const attackCards = results.map(({ result, adjacent, attack }) => `<article class="hsr-attack-result"><header><h3>${esc(result.attack.name)}</h3><span>${esc(ATTACK_LABELS[attack.type] || attack.type)} ${esc(attack.traceLevelLabel || `Lv${attack.traceLevel}`)}・${esc(TARGET_LABELS[result.attack.target] || result.attack.target)}</span></header><div class="hsr-attack-result-values"><div><span>非会心</span><strong>${fmt(result.nonCrit)}</strong></div><div><span>会心</span><strong>${fmt(result.crit)}</strong></div><div><span>期待値</span><strong>${fmt(result.expected)}</strong></div></div>${adjacent ? `<p>隣接対象：非会心 ${fmt(adjacent.nonCrit)}／会心 ${fmt(adjacent.crit)}／期待値 ${fmt(adjacent.expected)}</p>` : ""}</article>`).join("");
-    const specialBreakCards = specialBreakResults.map(({ attack, result }) => `<article class="hsr-attack-result"><header><h3>${esc(attack.name)}</h3><span>弱点撃破 Lv${attack.traceLevel}・${esc(TARGET_LABELS[attack.target] || attack.target)}</span></header>${result.supported ? `<div class="hsr-attack-result-values"><div><span>撃破ダメージ</span><strong>${fmt(result.value)}</strong></div><div><span>氷撃破倍率</span><strong>${attack.multiplier}%</strong></div></div>` : `<p>${esc(result.reason)}</p>`}</article>`).join("");
-    const breakdown = results.map(({ result, attack }) => `<article class="hsr-attack-result"><header><h3>${esc(result.attack.name)}</h3><span>${esc(attack.scalingStat.toUpperCase())}参照</span></header><dl><div><dt>倍率</dt><dd>${result.breakdown.multiplierPercent}%</dd></div><div><dt>基礎ダメージ</dt><dd>${fmt(result.breakdown.baseDamage)}</dd></div><div><dt>防御補正</dt><dd>${result.breakdown.defense.toFixed(4)}</dd></div><div><dt>耐性補正</dt><dd>${result.breakdown.resistance.toFixed(4)}</dd></div><div><dt>靭性補正</dt><dd>${result.breakdown.toughness.toFixed(2)}</dd></div></dl></article>`).join("");
-    const modifierAudit = results.map(({ attack, result, adjacent }) => `<article class="hsr-attack-result"><header><h3>${esc(result.attack.name)}</h3><span>${esc(ATTACK_LABELS[attack.type] || attack.type)}</span></header><h4>主対象・適用</h4><ul>${result.applied.length ? result.applied.map((item) => `<li><strong>${esc(item.name)}</strong> ${item.value}${item.unit === "percent" ? "%" : ""}<br><small>出典：${esc(item.source)}／条件：${esc(item.conditionText || "常時")}／計算段階：${esc(item.calculation?.stage || item.category)}</small></li>`).join("") : "<li>なし</li>"}</ul>${adjacent ? `<h4>隣接対象・適用</h4><ul>${adjacent.applied.length ? adjacent.applied.map((item) => `<li><strong>${esc(item.name)}</strong> ${item.value}${item.unit === "percent" ? "%" : ""}<br><small>出典：${esc(item.source)}／条件：${esc(item.conditionText || "常時")}／計算段階：${esc(item.calculation?.stage || item.category)}</small></li>`).join("") : "<li>なし</li>"}</ul>` : ""}<h4>主対象・対象外／未発動</h4><ul>${result.skipped.length ? result.skipped.map((item) => `<li><strong>${esc(item.name)}</strong>：${esc(item.reason || "条件が無効")}</li>`).join("") : "<li>なし</li>"}</ul></article>`).join("");
-    const specialBreakAudit = specialBreakResults.map(({ attack, result }) => `<article class="hsr-attack-result"><header><h3>${esc(attack.name)}</h3><span>弱点撃破</span></header><h4>適用</h4><ul>${result.applied?.length ? result.applied.map((item) => `<li><strong>${esc(item.name)}</strong> ${item.value}${item.unit === "percent" ? "%" : ""}</li>`).join("") : "<li>なし</li>"}</ul></article>`).join("");
-    $("hsrResults").innerHTML = `<div class="genshin-result-tabs" role="tablist"><button type="button" data-result-tab="damage" aria-selected="true">ダメージ</button><button type="button" data-result-tab="breakdown">計算内訳</button><button type="button" data-result-tab="modifiers">補正</button></div>
-      <section data-result-panel="damage"><div class="hsr-attack-results">${attackCards}${specialBreakCards}</div><p class="hsr-result-break"><strong>弱点撃破：</strong>${breakResult.supported ? fmt(breakResult.value) : esc(breakResult.reason)}</p></section>
-      <section data-result-panel="breakdown" hidden class="hsr-result-details hsr-attack-results">${breakdown}</section>
-      <section data-result-panel="modifiers" hidden class="hsr-result-details hsr-attack-results">${modifierAudit}${specialBreakAudit}</section>`;
+  function attackSupport(attack) {
+    if (attack.support?.status === "displayOnly") return { status: "displayOnly", label: "表示のみ・計算不可" };
+    if (attack.support?.status === "calculable" && attack.support.verified === true) return { status: "calculable", label: "計算対応・確認済み扱い" };
+    return { status: "review", label: "確認中・参考値" };
+  }
+
+  function supportBadge(attack) {
+    const support = attackSupport(attack);
+    return `<p class="hsr-support-status" data-support-status="${support.status}">${esc(support.label)}</p>`;
+  }
+
+  function damageValues(result) {
+    const values = result.attack.canCrit ? [["非会心", result.nonCrit], ["会心", result.crit], ["期待値", result.expected]] : [["ダメージ", result.nonCrit]];
+    return `<div class="hsr-attack-result-values${result.attack.canCrit ? "" : " hsr-attack-result-values--single"}">${values.map(([label, value]) => `<div><span>${label}（合計）</span><strong>${fmt(value)}</strong></div>`).join("")}</div>`;
+  }
+
+  const detailNumber = (value) => Number(value).toLocaleString("ja-JP", { maximumFractionDigits: 6 });
+  const SCALING_LABELS = { atk: "攻撃力", hp: "HP", def: "防御力", dotBaseDamage: "対象の持続ダメージ", elation: "愉悦度" };
+
+  function damageBreakdown(result, targetLabel) {
+    const b = result.breakdown;
+    const row = (label, value) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`;
+    const scaling = b.damageFormula === "enemyHpCappedByAtk"
+      ? row("敵HP参照・攻撃力上限適用後", detailNumber(b.cappedEnemyHpDamage)) + row("敵HP割合／攻撃力上限", `${detailNumber(b.enemyHpPercent)}%／${detailNumber(b.atkCapPercent)}%`) + row("攻撃倍率", `${detailNumber(b.multiplierPercent)}%`)
+      : b.scalingTerms.map((term) => row(`${SCALING_LABELS[term.stat] || term.stat}参照 × 攻撃倍率`, `${detailNumber(term.referenceValue)} × ${detailNumber(term.multiplierPercent)}%`)).join("");
+    const hits = result.attack.hitCount;
+    const hitFactors = b.vulnerabilityFactors.length && b.vulnerabilityFactors.every((value) => value === b.vulnerabilityFactors[0])
+      ? `<dl class="hsr-hit-factors">${row("被ダメージ倍率（各ヒット）", `×${detailNumber(b.vulnerabilityFactors[0])}`)}</dl>`
+      : `<details class="hsr-hit-factors"><summary>被ダメージ倍率（ヒット順）</summary><p>${b.vulnerabilityFactors.map((value) => `×${detailNumber(value)}`).join(" → ") || "ヒットなし"}</p></details>`;
+    return `<section class="hsr-target-breakdown"><h4>${esc(targetLabel)}</h4><dl>${scaling}${b.flatDamage ? row("固定加算", detailNumber(b.flatDamage)) : ""}
+      ${row("基礎ダメージ（1ヒット）", detailNumber(b.baseDamage))}${row("ヒット数", hits)}
+      ${row("与ダメージ補正", `${detailNumber(b.damageBonus)}%／×${detailNumber(b.damageBonusMultiplier)}`)}
+      ${row("防御倍率", `×${detailNumber(b.defense)}`)}${row("耐性倍率", `×${detailNumber(b.resistance)}`)}
+      ${row(b.toughness === 0.9 ? "靭性倍率（靭性あり）" : "靭性倍率（弱点撃破中）", `×${detailNumber(b.toughness)}`)}
+      ${row("独立倍率", `×${detailNumber(b.independentMultiplier)}`)}${row("共通倍率（被ダメージ補正を除く）", `×${detailNumber(b.commonWithoutVulnerability)}`)}
+      ${row("被ダメージ増加（共通分）", `${detailNumber(b.takenDamage)}%`)}${row("被ダメージ倍率合計", detailNumber(b.vulnerabilityFactorSum))}
+      ${result.attack.canCrit ? row("会心率", `${detailNumber(b.critRatePercent)}%`) + row("会心ダメージ／会心被ダメージ補正", `${detailNumber(b.critDamagePercent)}%／${detailNumber(b.critTakenDamage)}%`) + row("会心倍率", `×${detailNumber(b.critMultiplier)}`) + row("期待値の会心倍率", `×${detailNumber(b.expectedCritMultiplier)}`) : ""}</dl>
+      ${hitFactors}<p class="hsr-formula-note">${result.attack.canCrit ? "非会心合計" : "ダメージ合計"}＝基礎ダメージ（1ヒット）×共通倍率×被ダメージ倍率合計</p>
+      ${hits > 1 ? `<p class="hsr-formula-note">同じ基礎ダメージを${hits}ヒット分集計します。1ヒット平均：${detailNumber(result.perHit.nonCrit)}${result.attack.target === "bounce" ? "。命中先の分配は再現しません。" : ""}</p>` : ""}${damageValues(result)}</section>`;
+  }
+
+  function modifierAudit(result, targetLabel) {
+    const list = (items, applied) => `<ul>${items.length ? items.map((item) => `<li><strong>${esc(item.name)}</strong>：${applied ? `${item.value}${item.unit === "percent" ? "%" : ""}<br><small>出典：${esc(item.source)}／条件：${esc(item.conditionText || "常時")}／計算段階：${esc(item.calculation?.stage || item.category)}</small>` : esc(item.reason || "条件未成立・計算対象外")}</li>`).join("") : "<li>なし</li>"}</ul>`;
+    return `<h4>${esc(targetLabel)}・適用された補正</h4>${list(result.applied, true)}<h4>${esc(targetLabel)}・条件未成立／対象外</h4>${list(result.skipped, false)}`;
+  }
+
+  function excludedConditions() {
+    const items = allConditions().filter((item) => item.displayOnly);
+    const included = items.filter((item) => item.inputPolicy === "includedInFinalStats");
+    const unsupported = items.filter((item) => item.inputPolicy !== "includedInFinalStats");
+    const group = (title, entries, includedInStats) => entries.length ? `<h4>${title}</h4><ul>${entries.map((item) => `<li><strong>${esc(item.name)}</strong>：${includedInStats ? "入力された最終ステータスに含める常時効果のため、再加算しません。" : esc(item.reason || "計算データ未対応のため、計算には含めません。")}</li>`).join("")}</ul>` : "";
+    return items.length ? `<details class="hsr-excluded-conditions"><summary>計算に追加しない補正（${items.length}件）</summary>${group("入力済みの常時効果・再加算なし", included, true)}${group("データ未対応・表示のみ（計算対象外）", unsupported, false)}</details>` : "";
+  }
+
+  function renderResults(results, breakResult, specialBreakResults = [], unavailableAttacks = []) {
+    const attackCards = results.map(({ result, adjacent, attack }) => `<article class="hsr-attack-result"><header><h3>${esc(result.attack.name)}</h3><span>${esc(ATTACK_LABELS[attack.type] || attack.type)} ${esc(attack.traceLevelLabel || `Lv${attack.traceLevel}`)}・${esc(TARGET_LABELS[result.attack.target] || result.attack.target)}</span></header>${supportBadge(attack)}${adjacent ? "<h4>主対象</h4>" : ""}${damageValues(result)}${adjacent ? `<h4>隣接対象</h4>${damageValues(adjacent)}` : ""}</article>`).join("");
+    const unavailableCards = unavailableAttacks.map((attack) => `<article class="hsr-attack-result">${supportBadge(attack)}<h3>${esc(attack.name)}</h3><p>${esc(attack.support?.reason || "この攻撃は表示のみのため、ダメージを計算しません。")}</p></article>`).join("");
+    const specialBreakCards = specialBreakResults.map(({ attack, result }) => `<article class="hsr-attack-result"><header><h3>${esc(attack.name)}</h3><span>弱点撃破 Lv${attack.traceLevel}・${esc(TARGET_LABELS[attack.target] || attack.target)}</span></header>${supportBadge(attack)}${result.supported ? `<div class="hsr-attack-result-values hsr-attack-result-values--single"><div><span>撃破ダメージ</span><strong>${fmt(result.value)}</strong></div></div>` : `<p>計算不可：${esc(result.reason)}</p>`}</article>`).join("");
+    const breakdown = results.map(({ result, adjacent, attack }) => `<article class="hsr-attack-result"><h3>${esc(result.attack.name)}</h3>${supportBadge(attack)}${damageBreakdown(result, "主対象")}${adjacent ? damageBreakdown(adjacent, "隣接対象") : ""}</article>`).join("");
+    const specialBreakBreakdown = specialBreakResults.filter(({ result }) => result.supported).map(({ attack, result: b }) => `<article class="hsr-attack-result"><h3>${esc(attack.name)}</h3>${supportBadge(attack)}<dl>${[["撃破基礎値", b.base], ["属性・攻撃倍率", b.multiplier], ["撃破特効倍率", b.effect], ["防御倍率", b.defense], ["耐性倍率", b.resistance], ["靭性量倍率", b.toughnessScale], ["被ダメージ倍率", b.vulnerability], ["撃破ダメージ", b.value]].map(([label, value]) => `<div><dt>${label}</dt><dd>${detailNumber(value)}</dd></div>`).join("")}</dl></article>`).join("");
+    const audits = results.map(({ attack, result, adjacent }) => `<article class="hsr-attack-result"><h3>${esc(result.attack.name)}</h3>${modifierAudit(result, "主対象")}${adjacent ? modifierAudit(adjacent, "隣接対象") : ""}</article>`).join("");
+    const specialBreakAudit = specialBreakResults.filter(({ result }) => result.supported).map(({ attack, result }) => `<article class="hsr-attack-result"><h3>${esc(attack.name)}</h3>${modifierAudit(result, "弱点撃破")}</article>`).join("");
+    $("hsrResults").innerHTML = `<p class="hsr-support-note">「確認済み扱い」は攻撃データの登録状態です。全条件での計算精度を保証するものではありません。確認中の結果は参考値です。</p><div class="genshin-result-tabs" role="tablist"><button type="button" class="genshin-result-tab" role="tab" data-result-tab="damage" aria-selected="true">ダメージ</button><button type="button" class="genshin-result-tab" role="tab" data-result-tab="breakdown">計算内訳</button><button type="button" class="genshin-result-tab" role="tab" data-result-tab="modifiers">補正</button></div>
+      <section data-result-panel="damage"><div class="hsr-attack-results">${attackCards}${specialBreakCards}${unavailableCards}</div>${breakResult ? `<p class="hsr-result-break"><strong>弱点撃破：</strong>${breakResult.supported ? fmt(breakResult.value) : `計算不可：${esc(breakResult.reason)}`}</p>` : ""}</section>
+      <section data-result-panel="breakdown" hidden class="hsr-result-details hsr-attack-results"><p class="hsr-formula-note">表示値は丸めています。多段攻撃の結果はヒット合計です。</p>${breakdown}${specialBreakBreakdown}</section>
+      <section data-result-panel="modifiers" hidden class="hsr-result-details hsr-attack-results">${excludedConditions()}${audits}${specialBreakAudit}</section>`;
   }
 
   function calculationInputWarnings(attacks, baseStats) {
@@ -614,10 +671,16 @@
     if (!character()) warnings.push("キャラクターを選択してください。");
     if (cone() || relic() || relicSecond() || ornament()) warnings.push("常時効果は入力ステータスを使用し、条件付き効果は補正条件で選択した項目だけを適用します。");
     if (!character()) { renderWarnings(warnings); return; }
-    const attacks = availableAttacks().map(resolvedAttack).concat(supplementalAttacks());
-    if (!attacks.length) { renderWarnings(["このキャラクターには現在計算できる攻撃データがありません。"]); return; }
+    const available = availableAttacks();
+    const unavailableAttacks = available.filter((attack) => attackSupport(attack).status === "displayOnly").concat((state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status === "displayOnly"));
+    const attacks = available.filter((attack) => attackSupport(attack).status !== "displayOnly").map(resolvedAttack).concat(supplementalAttacks());
+    if (!attacks.length) {
+      renderWarnings(["このキャラクターには現在計算できる攻撃データがありません。"]);
+      renderResults([], null, [], unavailableAttacks);
+      return;
+    }
     const reviewAttackCount = attacks.filter((attack) => attack.support?.status !== "calculable" || !attack.support?.verified).length;
-    if (reviewAttackCount) warnings.push(`このキャラクターの攻撃データ${reviewAttackCount}件は自動抽出後の確認中です。計算結果は参考値として表示します。`);
+    if (reviewAttackCount) warnings.push(`このキャラクターの攻撃データ${reviewAttackCount}件は確認中です。計算結果は参考値として表示します。`);
     const baseStats = selectedBaseStats();
     const inputWarnings = calculationInputWarnings(attacks, baseStats);
     if (inputWarnings.length) {
@@ -636,14 +699,14 @@
     });
     const breakAttack = { attackType: "break", type: "break", element: character().element };
     const breakResult = window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: character().element, modifiers: modifiers(breakAttack), breakBaseDamage: state.data.breakBaseDamage });
-    const specialBreakResults = (state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId).map((attack) => {
+    const specialBreakResults = (state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status !== "displayOnly").map((attack) => {
       const level = num(state.traceLevels[attack.traceKey], 10); const index = Math.max(0, Math.min(attack.multipliers.length - 1, level - 1));
       const multiplier = num(attack.multipliers[index]) + (state.eidolon >= 6 ? num(attack.eidolon6Bonus) : 0);
       const resolved = { ...attack, traceLevel: level, multiplier, attackType: "break" };
       const result = window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: attack.element, multiplier: multiplier / 100, modifiers: modifiers(resolved), breakBaseDamage: state.data.breakBaseDamage });
       return { attack: resolved, result };
     });
-    renderWarnings(warnings); renderResults(results, breakResult, specialBreakResults); $("hsrDirtyNotice").hidden = true;
+    renderWarnings(warnings); renderResults(results, breakResult, specialBreakResults, unavailableAttacks); $("hsrDirtyNotice").hidden = true;
     requestAnimationFrame(() => $("hsrResults")?.scrollIntoView({ behavior: "smooth", block: "start" }));
   }
 

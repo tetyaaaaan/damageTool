@@ -189,3 +189,25 @@ test("progressive vulnerability follows hit order and primary-target scope", () 
     const adjacent = engine().calculate({ ...baseInput(), attack: { type: "followUp", attackType: "followUp", element: "Thunder", target: "adjacent", multiplier: 100, hitCount: 5 }, modifiers: [progressive] });
     assert.deepEqual(adjacent.applied, []);
 });
+
+
+test("returned breakdown factors reproduce single-hit and critical totals", () => {
+    const input = baseInput();
+    input.character.stats.damageBonus = 50;
+    input.enemy.resistance = 20;
+    input.enemy.toughnessActive = true;
+    input.enemy.takenDamage = 20;
+    input.modifiers = [{ category: "independentMultiplier", value: 30, enabled: true }];
+    const result = engine().calculate(input);
+    const b = result.breakdown;
+    assert.equal(b.damageBonusMultiplier, 1.5);
+    assert.ok(Math.abs(result.nonCrit - 842.4) < 1e-9);
+    assert.ok(Math.abs(b.baseDamage * b.commonWithoutVulnerability * b.vulnerabilityFactorSum - result.nonCrit) < 1e-9);
+    assert.equal(result.crit, result.nonCrit * b.critMultiplier);
+    assert.equal(result.expected, result.nonCrit * b.expectedCritMultiplier);
+    input.attack.canCrit = false;
+    const dot = engine().calculate(input);
+    assert.equal(dot.breakdown.critMultiplier, 1);
+    assert.equal(dot.breakdown.expectedCritMultiplier, 1);
+    assert.equal(dot.nonCrit, dot.crit);
+});
