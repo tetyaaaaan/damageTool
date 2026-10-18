@@ -385,7 +385,14 @@
     return { type: "手動補正", name: item.name };
   }
 
+  function isAttackSelectionCondition(item) {
+    return item.displayOnly && item.inputPolicy !== "includedInFinalStats" && item.activation?.mode === "toggle" && Boolean(item.activation.inputKey)
+      && (state.data?.attacks || []).some((attack) => attack.characterId === state.characterId && !attack.hidden
+        && attack.support?.status !== "displayOnly" && attack.modifierInputKey === item.activation.inputKey);
+  }
+
   function conditionStatus(items) {
+    if (items.some(isAttackSelectionCondition)) return items.some((item) => isAttackSelectionCondition(item) && item.activation.active) ? { label: "計算対象", className: "is-auto" } : { label: "対象外", className: "is-inactive" };
     if (items.every((item) => item.displayOnly)) return items.some((item) => item.inputPolicy === "includedInFinalStats") ? { label: "反映済み", className: "is-reflected" } : { label: "表示のみ", className: "is-display" };
     if (items.some((item) => item.enabled)) return items.every((item) => item.automatic || !item.enabled) ? { label: "自動反映", className: "is-auto" } : { label: "適用中", className: "is-auto" };
     if (items.some((item) => item.activation?.mode === "toggleThreshold")) return items.some((item) => item.activation?.toggled) ? { label: "条件未達", className: "is-inactive" } : { label: "条件OFF", className: "is-inactive" };
@@ -410,6 +417,7 @@
   }
 
   function currentConditionReflection(item) {
+    if (isAttackSelectionCondition(item)) return item.activation.active ? "独立した攻撃結果を表示" : "独立した攻撃は計算対象外";
     if (item.inputPolicy === "includedInFinalStats") return "入力欄のステータスへ反映済み";
     if (item.displayOnly) return "未適用（表示のみ）";
     if (!item.enabled && ["statThreshold", "numericThreshold"].includes(item.activation?.mode)) return item.unit === "percent" ? "0%（条件未達）" : "未適用（条件未達）";
@@ -421,7 +429,8 @@
   function renderConditionControls(items) {
     const rendered = new Set(); const controls = [];
     items.forEach((item) => {
-      if (item.displayOnly) return;
+      const attackSelection = isAttackSelectionCondition(item);
+      if (item.displayOnly && !attackSelection) return;
       if (!item.structured && !rendered.has(`manual:${item.id}`)) {
         rendered.add(`manual:${item.id}`);
         controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-condition-enabled="${esc(item.id)}"${item.enabled ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>この条件を適用する</strong><small>入力した補正を計算へ加える場合だけONにしてください。</small></span></label><label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>効果量</strong><small>${esc(item.description)}</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-condition-value="${esc(item.id)}" value="${item.value}" step="0.1"><em>%</em></span></label>`);
@@ -430,7 +439,7 @@
       const activation = item.activation || {};
       if (["toggle", "toggleThreshold"].includes(activation.mode) && activation.inputKey && !rendered.has(`toggle:${activation.inputKey}`)) {
         rendered.add(`toggle:${activation.inputKey}`);
-        controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(activation.inputKey)}"${item.enabled ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>この条件を適用する</strong><small>実際に「${esc(item.conditionText || "発動条件")}」を満たす場合だけONにしてください。</small></span></label>`);
+        controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(activation.inputKey)}"${(attackSelection ? activation.active : item.enabled) ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${attackSelection ? "この攻撃を計算対象に含める" : "この条件を適用する"}</strong><small>実際に「${esc(item.conditionText || "発動条件")}」を満たす場合だけONにしてください。</small></span></label>`);
       }
       if (activation.mode === "stack" && activation.inputKey && !rendered.has(`stack:${activation.inputKey}`)) {
         rendered.add(`stack:${activation.inputKey}`); const max = item.stackMax || 1;
@@ -461,7 +470,7 @@
   function renderConditionGroup(items) {
     const title = conditionSourceTitle(items[0]); const status = conditionStatus(items);
     const conditions = [...new Set(items.map(conditionRequirement))].join("／");
-    const effects = items.map((item) => `${item.name}：${item.effectLabel || item.reason || item.description}`).join("／");
+    const effects = items.map((item) => `${item.name}：${isAttackSelectionCondition(item) ? "独立した攻撃の表示条件" : item.effectLabel || item.reason || item.description}`).join("／");
     const reflected = items.map((item) => `${item.name}：${currentConditionReflection(item)}`).join("／");
     const targets = [...new Set(items.map((item) => `${displayTarget(item.appliesTo || item.target?.owner || "self")}（${(item.target?.attackTypes || ["all"]).map((type) => ATTACK_LABELS[type] || type).join("・")}）`))].join("／");
     const descriptions = [...new Set(items.map((item) => item.description).filter(Boolean))].join("\n");
@@ -619,7 +628,7 @@
   }
 
   function excludedConditions() {
-    const items = allConditions().filter((item) => item.displayOnly);
+    const items = allConditions().filter((item) => item.displayOnly && !isAttackSelectionCondition(item));
     const included = items.filter((item) => item.inputPolicy === "includedInFinalStats");
     const unsupported = items.filter((item) => item.inputPolicy !== "includedInFinalStats");
     const group = (title, entries, includedInStats) => entries.length ? `<h4>${title}</h4><ul>${entries.map((item) => `<li><strong>${esc(item.name)}</strong>：${includedInStats ? "入力された最終ステータスに含める常時効果のため、再加算しません。" : esc(item.reason || "計算データ未対応のため、計算には含めません。")}</li>`).join("")}</ul>` : "";

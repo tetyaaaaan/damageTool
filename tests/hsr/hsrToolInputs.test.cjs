@@ -18,12 +18,12 @@ async function tool() {
                 handlers, hidden: false, textContent: "", _html: "",
                 set innerHTML(value) { this._html = value; const selected = value.match(/value="([^"]*)" selected/); if (selected) this.value = selected[1]; },
                 get innerHTML() { return this._html; },
-                addEventListener(event, callback) { handlers[event] = callback; }, querySelectorAll: () => [], scrollIntoView() {} });
+                addEventListener(event, callback) { handlers[event] = callback; }, querySelectorAll: () => [], querySelector: () => null, showModal() { this.open = true; }, scrollIntoView() {} });
         }
         return nodes.get(id);
     }
     let initialize;
-    const document = { getElementById: node, addEventListener: (_, callback) => { initialize = callback; },
+    const document = { body: { classList: { add() {} } }, getElementById: node, addEventListener: (_, callback) => { initialize = callback; },
         querySelectorAll: (selector) => selector === "[data-stat]" ? statKeys.map((key) => node(`hsrStat-${key}`)) : [] };
     const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
     const data = { characters: [
@@ -182,4 +182,34 @@ test("modifier audit separates unsupported data, included final stats and inacti
     assert.equal(app.calculate()[0].breakdown.baseDamage, 1000);
     const html = app.node("hsrResults").innerHTML;
     for (const text of ["入力済みの常時効果・再加算なし", "Included ATK", "データ未対応・表示のみ（計算対象外）", "Unsupported ATK", "この効果は計算未対応です", "条件未成立／対象外", "発動条件を満たしていません"]) assert.ok(html.includes(text), text);
+});
+
+
+test("Guinaifen's display-only Burn condition can select its separately calculated DoT", async () => {
+    const app = await tool();
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    app.state.data.characters.push(catalog.characters.find((item) => item.id === "1210"));
+    app.state.data.attacks = JSON.parse(read("games/hsr/data/calc/attacks-1206-1210.json")).overrides.filter((item) => ["121002", "1210021"].includes(item.id));
+    app.state.data.structuredModifiers = JSON.parse(read("games/hsr/data/calc/modifiers-1206-1210.json")).modifiers.filter((item) => item.source.id === "1210");
+    const burnFlag = app.state.data.structuredModifiers.find((item) => item.id === "trace:1210:121002:burn");
+    app.state.data.structuredModifiers.push({ ...burnFlag, id: "unrelated-display-only", activation: { ...burnFlag.activation, inputKey: "unrelated-flag" } });
+    app.state.characterId = "1210";
+    app.state.conditionTab = "軌跡";
+    app.node("hsrStat-atk").value = "3000";
+    app.node("hsrConditionDialogOpen").handlers.click();
+    assert.match(app.node("hsrConditionList").innerHTML, /data-structured-toggle="guinaifen-burn-active"/);
+    assert.doesNotMatch(app.node("hsrConditionList").innerHTML, /data-structured-toggle="unrelated-flag"/);
+    assert.equal(app.calculate().length, 2, "main and adjacent only before Burn is selected");
+    for (const key of ["enemy-burning", "guinaifen-burn-active"]) app.node("hsrConditionDialog").handlers.change({ target: { dataset: { structuredToggle: key }, checked: true } });
+    assert.match(app.node("hsrConditionList").innerHTML, /data-structured-toggle="guinaifen-burn-active" checked/);
+    const results = app.calculate();
+    assert.equal(results.length, 3);
+    const burn = results.find((result) => result.attack.name === "出だし好調・燃焼");
+    // StarRailRes 541e1100, skill121002 Lv10: ATK * 2.1821; A6 20%; DEF .5, RES .8, toughness .9.
+    assert.ok(Math.abs(burn.nonCrit - 2828.0016) < 1e-9);
+    assert.equal(burn.crit, burn.nonCrit);
+    assert.ok(!burn.applied.some((item) => item.id === burnFlag.id), "the selector is never an extra damage modifier");
+    assert.match(app.node("hsrConditionList").innerHTML, /独立した攻撃結果を表示/);
+    app.node("hsrConditionDialog").handlers.change({ target: { dataset: { structuredToggle: "guinaifen-burn-active" }, checked: false } });
+    assert.equal(app.calculate().length, 2);
 });
