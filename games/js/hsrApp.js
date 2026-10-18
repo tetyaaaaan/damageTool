@@ -806,6 +806,7 @@
   }
 
   function showDetails(type, activeTab) {
+    if (type === "cone") state.coneRank = num($("hsrConeRank").value, 1);
     const item = type === "character" ? character() : type === "cone" ? cone() : type === "relic" ? relic() : type === "relicSecond" ? relicSecond() : ornament(); if (!item) return;
     $("hsrDetailsTitle").textContent = item.name;
     $("hsrDetailsKicker").textContent = type === "character" ? "CHARACTER" : type === "cone" ? "LIGHT CONE" : item.type === "ornament" ? "PLANAR ORNAMENT" : "RELIC SET";

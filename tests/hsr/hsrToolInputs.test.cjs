@@ -234,3 +234,16 @@ test("active Tingyun Benediction refuses a missing or invalid provider trace lev
     app.state.modifierInputs["tingyun-benediction"] = false;
     assert.equal(app.calculate()[0].breakdown.baseDamage, 1000, "inactive support must not block the main attack");
 });
+
+test("light-cone details use the selected refinement before calculation", async () => {
+    const app = await tool();
+    app.state.coneId = "cone";
+    app.state.data.lightCones[0].effect = { name: "Effect", description: "rank value", paramsByRank: [[10], [20], [30], [40], [50]] };
+    app.window.HsrUidImporter = { formatGameText: (_text, params) => String(params[0]) };
+    for (const rank of [5, 1]) {
+        app.node("hsrConeRank").value = String(rank);
+        app.node("hsrConeDetailsButton").handlers.click();
+        assert.equal(app.state.coneRank, rank);
+        assert.ok(app.node("hsrDetailsBody").innerHTML.includes(`<p>${rank * 10}</p>`));
+    }
+});
