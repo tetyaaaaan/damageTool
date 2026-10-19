@@ -575,3 +575,32 @@ test("Waveflair full Skill and Ultimate require the explicit no-extra-Elation co
     restored.node("hsrSkillTrace").value = "10"; restored.node("hsrEidolon").value = "1";
     assert.equal(restored.calculate().length, 1, "E1 must not reuse the scoped E0 Skill/Ultimate");
 });
+
+
+test("latest gear uses existing controls and restores rank, pieces and effect toggles without double stats", async () => {
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    const extraData = { characters: catalog.characters, lightCones: catalog.lightCones, relicSets: catalog.relicSets,
+      attacks: JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a => a.id === "150301"),
+      structuredModifiers: [ ...JSON.parse(read("games/hsr/data/calc/modifiers-light-cones.json")).modifiers, ...JSON.parse(read("games/hsr/data/calc/modifiers-relics-ornaments.json")).modifiers ] };
+    const app = await tool(undefined, extraData); app.state.characterId = "1503"; app.state.coneId = "23055";
+    app.node("hsrStat-def").value = "3000"; app.node("hsrStat-critRate").value = "50"; app.node("hsrStat-critDamage").value = "100";
+    assert.ok(Math.abs(app.calculate()[0].nonCrit - 972) < 1e-9);
+    app.state.modifierInputs["lc-23055-vulnerability-active"] = true;
+    assert.ok(Math.abs(app.calculate()[0].nonCrit - 1185.84) < 1e-9);
+    assert.match(app.node("hsrResults").innerHTML, /再加算しません/); assert.match(app.node("hsrResults").innerHTML, /EP回復・HP回復量/);
+    app.node("hsrConeRank").value = "5"; app.state.relicId = "134";
+    app.state.modifierInputs["relic-134-atk-active"] = true;
+    assert.ok(Math.abs(app.calculate()[0].nonCrit - 1903.5648) < 1e-9); // 972 * 1.44 * 1.36
+    app.node("hsrStat-def").handlers.input();
+    const restored = await tool(app.storage, extraData);
+    assert.equal(restored.state.coneId, "23055"); assert.equal(restored.state.relicId, "134"); assert.equal(restored.state.coneRank, 5);
+    assert.equal(restored.state.modifierInputs["lc-23055-vulnerability-active"], true);
+    assert.equal(restored.state.modifierInputs["relic-134-atk-active"], true);
+    assert.ok(Math.abs(restored.calculate()[0].nonCrit - 1903.5648) < 1e-9);
+    restored.state.relicMode = "2+2"; restored.node("hsrRelicMode").value = "2+2";
+    assert.ok(Math.abs(restored.calculate()[0].nonCrit - 1399.68) < 1e-9);
+    restored.state.modifierInputs["lc-23055-vulnerability-active"] = false;
+    assert.ok(Math.abs(restored.calculate()[0].nonCrit - 972) < 1e-9);
+    restored.state.relicMode = "4pc"; restored.node("hsrRelicMode").value = "4pc"; restored.node("hsrLevel").value = "79";
+    assert.equal(restored.calculate().length, 0); assert.match(restored.node("hsrWarnings").innerHTML, /基礎攻撃力/);
+});
