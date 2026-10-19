@@ -433,3 +433,36 @@ test("Yao Guang excludes ordinary boosts and refuses unverified distribution and
     stacked.modifiers = [{ id: "same-effect", category: "takenDamage", value: 16, stacking: { group: "yaoguang-woes-whisper", rule: "max" } }];
     assert.equal(calc.calculate(stacked).breakdown.takenDamage, 36, "the same structured effect is not added twice");
 });
+
+
+test("four scoped AoE attacks agree with independent released coefficients and ordinary damage factors", async () => {
+    const window = {};
+    vm.runInNewContext(fs.readFileSync(path.join(root, "games/js/hsrCalcData.js"), "utf8"), { window, fetch: async url => ({ ok: true, json: async () => JSON.parse(fs.readFileSync(path.join(root, url), "utf8")) }) });
+    const data = await window.HsrCalcData.load();
+    // Fixed SHA dbe8cdf, character_skills.params[][0]; Prydwen release kits.
+    // 3000 * MV * 0.5 DEF * 0.8 RES * 0.9 toughness, CR=50%, CD=100%.
+    for (const [id, cid, mv, baseline] of [["151302","1513",240,2592], ["151303","1513",400,4320], ["130202","1302",120,1296], ["130203","1302",160,1728]]) {
+        const attack = data.attacks.find(item => item.id === id);
+        const skill = data.characters.find(item => item.id === cid).skills.find(item => item.id === id);
+        assert.equal(attack.support.status, "calculable"); assert.equal(attack.target, "aoe"); assert.equal(attack.canCrit, true);
+        assert.equal(attack.maximumEidolon, 0); assert.equal(attack.maximumTraceLevel, 10);
+        assert.equal(attack.multipliers[9], mv);
+        for (let level = 0; level < 10; level++) assert.ok(Math.abs(attack.multipliers[level] - skill.params[level][0] * 100) < 1e-8);
+        const input = { ...baseInput(), character: { ...baseInput().character, stats: { ...baseInput().character.stats, atk: 3000 } },
+            enemy: { ...baseInput().enemy, resistance: 20, toughnessActive: true }, attack: { ...attack, traceLevel: 10, multiplier: mv } };
+        for (const [stats, enemy, ratio, critRatio, expectedRatio] of [
+            [{}, {}, 1, 2, 1.5], [{ atk: 4000 }, {}, 4/3, 2, 1.5], [{ damageBonus: 50 }, {}, 1.5, 2, 1.5],
+            [{ critRate: 0, critDamage: 150 }, {}, 1, 2.5, 1], [{}, { takenDamage: 20 }, 1.2, 2, 1.5],
+            [{}, { level: 90, defenseReduction: 30, resistancePenetration: 40, toughnessActive: false }, 1000/531, 2, 1.5]
+        ]) {
+            const request = { ...input, character: { ...input.character, stats: { ...input.character.stats, ...stats } }, enemy: { ...input.enemy, ...enemy } };
+            const result = engine().calculate(request);
+            for (const [key, expected] of Object.entries({ nonCrit: baseline*ratio, crit: baseline*ratio*critRatio, expected: baseline*ratio*expectedRatio })) assert.ok(Math.abs(result[key]-expected)<1e-8, `${id} ${key}: ${result[key]} / ${expected}`);
+            assert.ok(Math.abs(result.breakdown.baseDamage*result.breakdown.commonWithoutVulnerability*result.breakdown.vulnerabilityFactorSum-result.nonCrit)<1e-8);
+        }
+    }
+    assert.equal(data.attacks.find(item => item.id === "140603").support.status, "displayOnly");
+    const bounce = data.attacks.find(item => item.id === "130214");
+    assert.equal(bounce.support.status, "displayOnly");
+    assert.equal(engine().calculate({ ...baseInput(), attack: bounce }).supported, false);
+});

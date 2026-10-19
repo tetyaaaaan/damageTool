@@ -3,6 +3,7 @@
   "dataVersion": "character-expansion-2026-07-29",
   "description": "キャラクターの軌跡・星魂からIDとパラメータ位置を個別確認した追加補正。",
   "modifiers": [
+    {"id":"trace:1513:151304:no-banger-zero-fervor","source":{"kind":"trace","id":"1513","skillId":"151304"},"name":"夏アベンチュリン・追加愉悦が発生しない攻撃条件","description":"爆笑の褒美がなく、発動前の熱気が0であることを手動確認した場合のみ、戦闘スキル・必殺技の全ダメージを通常式で計算する。条件不明・不成立の場合はOFF。","category":"extraDamage","unit":"flat","value":{"kind":"fixed","fixed":1},"target":{"owner":"self","attackTypes":["skill","ultimate"],"elements":["Quantum"]},"activation":{"mode":"toggle","conditionText":"星魂0・爆笑の褒美なし・攻撃発動前の熱気0","inputKey":"waveflair-no-banger-zero-fervor","default":false},"stacking":{"group":"waveflair-no-banger-zero-fervor","rule":"nonStacking"},"calculation":{"stage":"extraDamage","operation":"add"},"inputPolicy":"conditional","support":{"status":"displayOnly","verified":true,"reason":"独立した攻撃レコードの表示条件。ステータスやダメージへ追加加算しない。"},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:151304.params[][0,1,2];151302/151303","gameVersion":"4.5","verifiedAt":"2026-10-19","notes":"固定SHA dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487。ダメージ補正ではなく、独立攻撃の表示条件。"}},
     {
       "id": "eidolon:1106:4:ice-resistance-reduction",
       "source": { "kind": "eidolon", "id": "1106", "eidolonRank": 4 },

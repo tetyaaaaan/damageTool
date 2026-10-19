@@ -395,7 +395,7 @@ test("Pearl calculates only her registered DEF Basic ATK and explains other skil
 
 
 for (const [cid, id, stat, value, label, multiplier] of [['1512','151201','hp','6000','HP',50], ['1513','151301','atk','3000','攻撃力',100]]) {
-    test(cid + ' summer form displays only its Basic ATK and stops missing reference inputs', async () => {
+    test(cid + ' summer form defaults to its Basic ATK and stops missing reference inputs', async () => {
         const app = await tool();
         app.state.data.characters = JSON.parse(read('games/hsr/data/catalog.json')).characters;
         app.state.characterId = cid;
@@ -417,8 +417,8 @@ for (const [cid, id, stat, value, label, multiplier] of [['1512','151201','hp','
         assert.equal(result.breakdown.multiplierPercent, multiplier);
         assert.match(app.node('hsrResults').innerHTML, /data-support-status="calculable"/);
         assert.ok(app.node('hsrResults').innerHTML.includes(label + '参照 × 攻撃倍率'));
-        assert.match(app.node('hsrWarnings').innerHTML, /のみ計算対応.*計算対象外/);
-        assert.equal(app.state.data.attacks.length, 1, 'no unsupported skills are implicitly registered');
+        assert.match(app.node('hsrWarnings').innerHTML, cid === '1513' ? /爆笑の褒美なし.*熱気0.*計算対象外/ : /のみ計算対応.*計算対象外/);
+        assert.equal(app.calculate().length, 1, 'conditional skills are not included without confirmation');
     });
 }
 
@@ -545,4 +545,33 @@ test("Yao Guang scoped Elation shows all six unequal hits and restores its expli
     restored.node("hsrElationContext").value = "ultimateAhaInstant";
     assert.equal(restored.calculate().length, 0);
     assert.match(restored.node("hsrWarnings").innerHTML, /初回の通常アッハタイム/);
+});
+
+
+test("Waveflair full Skill and Ultimate require the explicit no-extra-Elation condition and preserve it on reload", async () => {
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    const overrides = JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides;
+    const expanded = JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers;
+    const extraData = { characters: catalog.characters, attacks: overrides.filter(item => ["151301", "151302", "151303"].includes(item.id)), structuredModifiers: expanded };
+    const app = await tool(undefined, extraData); app.state.characterId = "1513";
+    for (const [key, value] of Object.entries({ atk: 3000, critRate: 50, critDamage: 100 })) app.node(`hsrStat-${key}`).value = String(value);
+    assert.equal(app.calculate().length, 1, "unconfirmed CB/Fervor must not show partial Skill or Ultimate totals");
+    app.state.modifierInputs["waveflair-no-banger-zero-fervor"] = true;
+    const results = app.calculate(); assert.equal(results.length, 3);
+    assert.ok(Math.abs(results.find(item => item.attack.name.includes("フィニッシュ")).nonCrit - 2592) < 1e-8);
+    assert.ok(Math.abs(results.find(item => item.attack.name.includes("荒波")).nonCrit - 4320) < 1e-8);
+    assert.match(app.node("hsrResults").innerHTML, /攻撃力参照 × 攻撃倍率/);
+    assert.match(app.node("hsrWarnings").innerHTML, /発動前の熱気0/);
+    app.node("hsrStat-atk").handlers.input();
+    const restored = await tool(app.storage, extraData);
+    assert.equal(restored.state.modifierInputs["waveflair-no-banger-zero-fervor"], true);
+    assert.equal(restored.calculate().length, 3);
+    restored.state.modifierInputs["waveflair-no-banger-zero-fervor"] = false;
+    assert.equal(restored.calculate().length, 1);
+    restored.state.modifierInputs["waveflair-no-banger-zero-fervor"] = true;
+    for (const value of ["", "0", "-1"]) { restored.node("hsrStat-atk").value = value; assert.equal(restored.calculate().length, 0); }
+    restored.node("hsrStat-atk").value = "3000"; restored.node("hsrSkillTrace").value = "11";
+    assert.equal(restored.calculate().length, 0); assert.match(restored.node("hsrWarnings").innerHTML, /軌跡Lv1～10/);
+    restored.node("hsrSkillTrace").value = "10"; restored.node("hsrEidolon").value = "1";
+    assert.equal(restored.calculate().length, 1, "E1 must not reuse the scoped E0 Skill/Ultimate");
 });
