@@ -18,6 +18,12 @@
   }
 
   function referenceValue(reference, context = {}, inputs = {}) {
+    if (reference === "party.elationCount") {
+      const ids = [context.characterId, ...(context.partyIds || [])].filter(Boolean).map(String);
+      // Unknown or repeated members cannot establish a legal party count.
+      if (!ids.length || ids.length > 4 || new Set(ids).size !== ids.length || ids.some((id) => !context.partyPaths?.[id])) return NaN;
+      return ids.filter((id) => context.partyPaths[id] === "Elation").length;
+    }
     const map = {
       "self.hp": context.stats?.hp,
       "self.hpPercent": context.stats?.hpPercent,
@@ -236,8 +242,10 @@
       const supportStatus = record.support?.status || "review";
       const calculable = supportStatus === "calculable" && record.inputPolicy !== "includedInFinalStats";
       const value = resolveValue(record, context, inputs, selection);
-      const enabled = calculable && activation.active;
+      const unknownReference = Boolean(activation.toggled && !Number.isFinite(activation.inputValue));
+      const enabled = calculable && (activation.active || unknownReference);
       const inputWarnings = [];
+      if (unknownReference) inputWarnings.push("パーティの愉悦人数を確認できません。キャラクターの重複・未収録IDを確認してください。");
       const validation = record.inputValidation;
       if (enabled && validation) {
         const raw = inputs[record.value?.inputKey];
@@ -298,7 +306,7 @@
         provenance: record.provenance,
         calculable,
         displayOnly: !calculable,
-        effectLabel: `${value}${record.unit === "percent" ? "%" : ""}`,
+        effectLabel: record.inputPolicy === "includedInFinalStats" ? "最終入力に含める（再加算なし）" : `${value}${record.unit === "percent" ? "%" : ""}`,
         reason: inputWarnings.length ? inputWarnings.join(" ") : calculable ? "" : (record.support?.reason || "計算反映前の確認が必要です。")
       }];
     });

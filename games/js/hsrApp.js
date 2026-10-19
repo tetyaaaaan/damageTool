@@ -328,6 +328,7 @@
       ornamentId: state.ornamentId,
       enhancementState: state.enhancementState,
       partyIds,
+      partyPaths: Object.fromEntries([state.characterId, ...partyIds].map((id) => [id, find("characters", id)?.path])),
       partyEidolons: Object.fromEntries(state.party.filter((member) => member.characterId).map((member) => [String(member.characterId), num(member.eidolon, 0)])),
       partyStats: Object.fromEntries(state.party.filter((member) => member.characterId).map((member) => [String(member.characterId), { atk: num(member.atk), critDamage: num(member.critDamage, 50), breakEffect: num(member.breakEffect) }])),
       baseStats: selectedBaseStats(),
@@ -405,6 +406,7 @@
   }
 
   function conditionStatus(items) {
+    if (items.some((item) => item.enabled && item.inputWarnings?.length)) return { label: "入力確認", className: "is-input" };
     if (items.some(isAttackSelectionCondition)) return items.some((item) => isAttackSelectionCondition(item) && item.activation.active) ? { label: "計算対象", className: "is-auto" } : { label: "対象外", className: "is-inactive" };
     if (items.every((item) => item.displayOnly)) return items.some((item) => item.inputPolicy === "includedInFinalStats") ? { label: "反映済み", className: "is-reflected" } : { label: "表示のみ", className: "is-display" };
     if (items.some((item) => item.enabled)) return items.every((item) => item.automatic || !item.enabled) ? { label: "自動反映", className: "is-auto" } : { label: "適用中", className: "is-auto" };
@@ -424,12 +426,13 @@
       "self.hp": ["HP", ""], "self.hpPercent": ["HP割合", "%"], "self.epPercent": ["EP割合", "%"], "self.speed": ["速度", ""],
       "self.atk": ["攻撃力", ""], "self.def": ["防御力", ""], "self.critRate": ["会心率", "%"], "self.critDamage": ["会心ダメージ", "%"], "self.effectHitRate": ["効果命中", "%"],
       "self.effectRes": ["効果抵抗", "%"], "self.breakEffect": ["撃破特効", "%"], "self.elation": ["愉悦度", "%"],
-      "enemy.hpPercent": ["敵のHP割合", "%"], "enemy.weakness": ["属性弱点", ""], "enemy.debuffCount": ["敵のデバフ数", ""], "enemy.count": ["敵数", ""], "enemy.toughnessRemaining": ["敵の残り靭性", ""], "party.count": ["パーティ人数", ""], "party.sp": ["SP", ""]
+      "enemy.hpPercent": ["敵のHP割合", "%"], "enemy.weakness": ["属性弱点", ""], "enemy.debuffCount": ["敵のデバフ数", ""], "enemy.count": ["敵数", ""], "enemy.toughnessRemaining": ["敵の残り靭性", ""], "party.elationCount": ["愉悦キャラクター数（攻撃者を含む）", "人"], "party.count": ["パーティ人数", ""], "party.sp": ["SP", ""]
     }[activation.reference] || ["現在値", ""];
-    return `${item.conditionText || "自動判定条件"}（現在の${reference[0]} ${num(activation.inputValue)}${reference[1]}）`;
+    return `${item.conditionText || "自動判定条件"}（現在の${reference[0]} ${Number.isFinite(activation.inputValue) ? activation.inputValue : "未確認"}${reference[1]}）`;
   }
 
   function currentConditionReflection(item) {
+    if (item.inputWarnings?.length) return `未適用：${item.inputWarnings.join(" ")}`;
     if (isAttackSelectionCondition(item)) return item.activation.active ? "独立した攻撃結果を表示" : "独立した攻撃は計算対象外";
     if (item.inputPolicy === "includedInFinalStats") return "入力欄のステータスへ反映済み";
     if (item.displayOnly) return "未適用（表示のみ）";
@@ -452,7 +455,7 @@
       const activation = item.activation || {};
       if (["toggle", "toggleThreshold"].includes(activation.mode) && activation.inputKey && !rendered.has(`toggle:${activation.inputKey}`)) {
         rendered.add(`toggle:${activation.inputKey}`);
-        controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(activation.inputKey)}"${(attackSelection ? activation.active : item.enabled) ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${attackSelection ? "この攻撃を計算対象に含める" : "この条件を適用する"}</strong><small>実際に「${esc(item.conditionText || "発動条件")}」を満たす場合だけONにしてください。</small></span></label>`);
+        controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(activation.inputKey)}"${(activation.mode === "toggleThreshold" ? activation.toggled : attackSelection ? activation.active : item.enabled) ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${attackSelection ? "この攻撃を計算対象に含める" : "この条件を適用する"}</strong><small>実際に「${esc(item.conditionText || "発動条件")}」を満たす場合だけONにしてください。</small></span></label>`);
       }
       if (activation.mode === "stack" && activation.inputKey && !rendered.has(`stack:${activation.inputKey}`)) {
         rendered.add(`stack:${activation.inputKey}`); const max = item.stackMax || 1;
@@ -527,7 +530,7 @@
       const supplementalApplies = !attack.sourceModifierId || !item.supplementalAttack || item.id === attack.sourceModifierId;
       const primaryTargetApplies = !item.primaryTargetOnly || attack.target !== "adjacent";
       const adjacentTargetApplies = !item.adjacentTargetOnly || attack.target === "adjacent";
-      return { ...item, applicable: item.enabled && attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies && item.applicable !== false, reason: !item.enabled ? "発動条件を満たしていません" : !supplementalApplies ? "別の付加ダメージに属する補正です" : !primaryTargetApplies ? "隣接対象はこの補正の対象外です" : !adjacentTargetApplies ? "主対象はこの補正の対象外です" : attackApplies ? item.reason || "" : "この攻撃種別・属性は対象外です" };
+      return { ...item, conditionText: item.activation?.reference === "party.elationCount" ? conditionRequirement(item) : item.conditionText, applicable: item.enabled && attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies && item.applicable !== false, reason: !item.enabled ? "発動条件を満たしていません" : !supplementalApplies ? "別の付加ダメージに属する補正です" : !primaryTargetApplies ? "隣接対象はこの補正の対象外です" : !adjacentTargetApplies ? "主対象はこの補正の対象外です" : attackApplies ? item.reason || "" : "この攻撃種別・属性は対象外です" };
     });
   }
 

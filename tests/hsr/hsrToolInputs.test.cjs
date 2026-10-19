@@ -630,3 +630,35 @@ test("Elation equipment restores recipient support, independent CB condition and
     restored.state.party[0].relicMode="2+2";
     assert.ok(Math.abs(restored.calculate().find(r=>r.breakdown.damageFormula==="elation").nonCrit-6455.558016346154)<1e-8);
 });
+
+
+test("Pearl party E1 restores eidolon, automatic path count and toggle, and blocks unknown party counts", async () => {
+  const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+  const generated=JSON.parse(read("games/hsr/data/attacks.generated.json")).attacks;
+  const overrides=JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides;
+  const extraData={characters:catalog.characters,attacks:generated.filter(a=>["150501","150520"].includes(a.id)).map(a=>({...a,...overrides.find(o=>o.id===a.id)})),
+    structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1503")};
+  const app=await tool(undefined,extraData);app.state.characterId="1505";
+  for(const [key,value]of Object.entries({atk:3000,elation:50,critRate:50,critDamage:100}))app.node(`hsrStat-${key}`).value=String(value);
+  app.node("hsrPunchline").value="20";
+  const damage=()=>app.calculate().find(r=>r.breakdown.damageFormula==="elation");
+  assert.ok(Math.abs(damage().nonCrit-6197.335695692308)<1e-8);
+  app.state.party[0]={...app.state.party[0],characterId:"1503",eidolon:0};
+  app.state.modifierInputs["pearl-e1-party-elation"]=true;
+  assert.equal(damage().breakdown.elationPercent,50);
+  app.state.party[0].eidolon=1;
+  assert.equal(damage().breakdown.elationPercent,60);
+  app.state.party[1]={...app.state.party[1],characterId:"1502"};assert.equal(damage().breakdown.elationPercent,70);
+  app.state.party[2]={...app.state.party[2],characterId:"1513"};const result=damage();
+  assert.ok(Math.abs(result.nonCrit-8676.26997396923)<1e-8);
+  assert.match(app.node("hsrResults").innerHTML,/愉悦キャラクター数（攻撃者を含む） 4人/);
+  app.node("hsrStat-elation").handlers.input();const restored=await tool(app.storage,extraData);
+  assert.equal(restored.state.party[0].eidolon,1);assert.equal(restored.state.modifierInputs["pearl-e1-party-elation"],true);
+  assert.ok(Math.abs(restored.calculate().find(r=>r.breakdown.damageFormula==="elation").nonCrit-result.nonCrit)<1e-8);
+  restored.state.modifierInputs["pearl-e1-party-elation"]=false;
+  assert.equal(restored.calculate().find(r=>r.breakdown.damageFormula==="elation").breakdown.elationPercent,50);
+  restored.state.party[2].characterId="missing";restored.state.modifierInputs["pearl-e1-party-elation"]=true;
+  assert.equal(restored.calculate().length,0);assert.match(restored.node("hsrWarnings").innerHTML,/愉悦人数を確認できません/);
+  restored.state.modifierInputs["pearl-e1-party-elation"]=false;
+  assert.ok(restored.calculate().length>0,"unknown party member must not block an inactive E1");
+});

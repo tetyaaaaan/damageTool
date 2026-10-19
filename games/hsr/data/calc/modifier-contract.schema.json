@@ -35,7 +35,7 @@
         "fixed": { "type": "number" },
         "values": { "type": "array", "minItems": 1, "items": { "type": "number" } },
         "perStack": { "type": "number" },
-        "reference": { "enum": ["self.hp", "self.hpPercent", "self.epPercent", "self.speed", "self.atk", "self.def", "self.critRate", "self.critDamage", "self.effectHitRate", "self.effectRes", "self.breakEffect", "self.elation", "enemy.hpPercent", "enemy.weakness", "enemy.debuffCount", "enemy.count", "enemy.toughnessRemaining", "party.count", "party.sp"] },
+        "reference": { "enum": ["self.hp", "self.hpPercent", "self.epPercent", "self.speed", "self.atk", "self.def", "self.critRate", "self.critDamage", "self.effectHitRate", "self.effectRes", "self.breakEffect", "self.elation", "enemy.hpPercent", "enemy.weakness", "enemy.debuffCount", "enemy.count", "enemy.toughnessRemaining", "party.count", "party.elationCount", "party.sp"] },
         "multiplierInputKey": { "type": "string", "minLength": 1 },
         "multiplierInputLabel": { "type": "string", "minLength": 1 },
         "multiplierWhenTrue": { "type": "number", "exclusiveMinimum": 0 },
@@ -126,7 +126,7 @@
         "maximum": { "type": "number" },
         "maximumAtEidolon": { "type": "object", "required": ["rank", "value"], "properties": { "rank": { "type": "integer", "minimum": 1, "maximum": 6 }, "value": { "type": "number" } }, "additionalProperties": false },
         "default": { "type": ["number", "boolean"] },
-        "reference": { "enum": ["self.hp", "self.hpPercent", "self.epPercent", "self.speed", "self.atk", "self.def", "self.critRate", "self.critDamage", "self.effectHitRate", "self.effectRes", "self.breakEffect", "self.elation", "enemy.hpPercent", "enemy.debuffCount", "enemy.count", "enemy.toughnessRemaining", "party.count", "party.sp"] },
+        "reference": { "enum": ["self.hp", "self.hpPercent", "self.epPercent", "self.speed", "self.atk", "self.def", "self.critRate", "self.critDamage", "self.effectHitRate", "self.effectRes", "self.breakEffect", "self.elation", "enemy.hpPercent", "enemy.debuffCount", "enemy.count", "enemy.toughnessRemaining", "party.count", "party.elationCount", "party.sp"] },
         "operator": { "enum": [">=", ">", "<=", "<", "=="] },
         "durationTurns": { "type": "number", "minimum": 0 }
       },

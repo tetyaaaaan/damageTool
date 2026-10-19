@@ -414,3 +414,51 @@ test("Dreamlit Actor separates other-ally Elation and cast-time Certified Banger
   const t=JSON.parse(fs.readFileSync(path.join(root,"games/hsr/data/attack-overrides.json"),"utf8")).overrides.find(a=>a.id==="1415021");
   assert.ok(Math.abs(calcEngine().calculate({...normal,character:{...normal.character,eidolon:0},attack:{...t,traceLevel:10,multiplier:24},trueDamage:{active:true,sourceKind:"finalNonTrueDamage",originalDamage:1080}}).nonCrit-259.2)<1e-9);
 });
+
+
+test("Pearl E1 counts known distinct Elation party members and scopes the additional Elation", () => {
+  const id="eidolon:1503:1:party-elation", calc=calcEngine();
+  const paths={"1503":"Elation","1505":"Elation","1502":"Elation","1513":"Elation","1210":"Nihility"};
+  for (const [aid,cid,base] of [["150520","1505",6197.335695692308],["150220","1502",13070.74437636923]]) {
+    const context={characterId:cid,partyIds:["1503"],partyPaths:paths,partyEidolons:{"1503":1}};
+    assert.equal(candidate(id,{...context,partyIds:[]}),undefined);
+    assert.equal(candidate(id,{...context,partyEidolons:{"1503":0}}),undefined);
+    for (const [partyIds,bonus] of [[["1503"],10],[["1503",cid==="1505"?"1502":"1505"],20],[["1503",cid==="1505"?"1502":"1505","1513"],60]]) {
+      const item=candidate(id,{...context,partyIds},{"pearl-e1-party-elation":true});
+      assert.equal(item.value,bonus); assert.equal(item.providerId,"1503"); assert.equal(item.activation.inputValue,partyIds.length+1);
+      const result=calc.calculate({...scopedElationGearInput(aid),modifiers:[item]});
+      // Independent P1-5B/P1-8A formula and fixed Lv10 MVs: 110% / (100% + 20% * 5); Yao Guang vulnerability 16%.
+      const expected=7535.107*(aid==="150520"?1.1:2)*(1.5+bonus/100)*(1+5*20/260)*.5*.8*.9*(aid==="150220"?1.16:1);
+      assert.ok(Math.abs(result.nonCrit-expected)<1e-8); assert.ok(Math.abs(result.crit-expected*2)<1e-8); assert.ok(Math.abs(result.expected-expected*1.5)<1e-8);
+      assert.equal(result.breakdown.elationPercent,50+bonus); assert.equal(result.applied.filter(m=>m.id===id).length,1);
+      const off=candidate(id,{...context,partyIds},{"pearl-e1-party-elation":false});
+      assert.ok(Math.abs(calc.calculate({...scopedElationGearInput(aid),modifiers:[off]}).nonCrit-base)<1e-8);
+      for(const type of ["normal","dot","break","trueDamage"])assert.equal(runtime.applicableToAttack(item,{type}),false);
+      const normal=calc.calculate({...scopedElationGearInput(aid),attack:{type:"normal",multiplier:100,scalingStat:"atk"},modifiers:[item]});
+      assert.ok(Math.abs(normal.nonCrit-1080)<1e-9);
+    }
+    for(const partyIds of [["1503","missing"],["1503","1503"]]) {
+      const item=candidate(id,{...context,partyIds},{"pearl-e1-party-elation":true});
+      assert.equal(item.applicable,false); assert.match(item.inputWarnings.join(),/愉悦人数を確認できません/);
+    }
+  }
+  const trueAttack=JSON.parse(fs.readFileSync(path.join(root,"games/hsr/data/attack-overrides.json"),"utf8")).overrides.find(a=>a.id==="1415021");
+  const support=candidate(id,{characterId:"1415",partyIds:["1503","1505","1502"],partyPaths:{...paths,"1415":"Remembrance"},partyEidolons:{"1503":1}},{"pearl-e1-party-elation":true});
+  assert.ok(Math.abs(calc.calculate({character:{level:80,eidolon:0,stats:{}},attack:{...trueAttack,traceLevel:10,multiplier:24},trueDamage:{active:true,sourceKind:"finalNonTrueDamage",originalDamage:1080},modifiers:[support]}).nonCrit-259.2)<1e-9);
+  const single=candidate(id,{characterId:"1210",partyIds:["1503"],partyEidolons:{"1503":1},partyPaths:paths},{"pearl-e1-party-elation":true});
+  assert.equal(single.enabled,false); assert.equal(single.value,0);
+  const self=candidate(id,{characterId:"1503",eidolon:1,partyIds:["1505"],partyPaths:paths},{"pearl-e1-party-elation":true});
+  assert.equal(self.value,10); assert.equal(self.enabled,true);
+});
+
+test("Pearl A2 is self-only final-input guidance without DEF threshold or fractional double application", () => {
+  const id="trace:1503:1503101:elation-final";
+  for(const def of [0,2399,2400,2499.9,2500,5999.9,6000,9999]) {
+    const item=candidate(id,{characterId:"1503",stats:{def,elation:140}});
+    assert.equal(item.enabled,false); assert.equal(item.inputPolicy,"includedInFinalStats");
+    assert.equal(item.effectLabel,"最終入力に含める（再加算なし）");
+    assert.match(item.description,/未解放なら含めない/); assert.match(item.description,/DEF6000で最大\+140%/);
+    assert.equal(runtime.applicableToAttack(item,{type:"elation"}),false);
+  }
+  assert.equal(candidate(id,{characterId:"1505",partyIds:["1503"]}),undefined);
+});
