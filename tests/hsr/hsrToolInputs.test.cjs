@@ -662,3 +662,34 @@ test("Pearl party E1 restores eidolon, automatic path count and toggle, and bloc
   restored.state.modifierInputs["pearl-e1-party-elation"]=false;
   assert.ok(restored.calculate().length>0,"unknown party member must not block an inactive E1");
 });
+
+
+test("Summer Songbirds uses independent talent level, validates Fever state and restores strict inputs", async () => {
+  const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+  const extraData={characters:catalog.characters,attacks:JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a=>a.id==="150301"),structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-robin-summeretto.json")).modifiers};
+  const app=await tool(undefined,extraData);app.state.characterId="1503";
+  app.node("hsrStat-def").value="3000";app.node("hsrStat-critRate").value="50";app.node("hsrStat-critDamage").value="100";
+  assert.ok(Math.abs(app.calculate()[0].nonCrit-972)<1e-9);
+  app.state.party[0]={...app.state.party[0],characterId:"1512",eidolon:0,level:10};
+  const set=(key,value)=>app.node("hsrConditionDialog").handlers.change({target:{dataset:{structuredInput:key,structuredStrict:"true"},value}});
+  app.state.modifierInputs["robin-songbirds-vulnerability"]=true;
+  for(const [count,nc]of [[0,972],[1,1049.76],[2,1088.64],[3,1127.52]]){set("robin-songbirds-count",String(count));assert.ok(Math.abs(app.calculate()[0].nonCrit-nc)<1e-9);}
+  assert.match(app.node("hsrWarnings").innerHTML,/防御無視を除外した比較値/);
+  app.state.modifierInputs["robin-summeretto-fever"]=true;app.state.modifierInputs["robin-summeretto-vibes"]=12;
+  assert.ok(Math.abs(app.calculate()[0].nonCrit-1259.7988826815642)<1e-9);
+  assert.match(app.node("hsrResults").innerHTML,/Lv6・3体/);assert.match(app.node("hsrResults").innerHTML,/夏の歌鳥・敵全体の被ダメージ増加/);assert.match(app.node("hsrResults").innerHTML,/フィーバー領域・味方全体の防御無視/);
+  app.node("hsrStat-def").handlers.input();
+  const restored=await tool(app.storage,extraData);
+  assert.equal(restored.state.modifierInputs["robin-songbirds-count"],3);assert.equal(restored.state.modifierInputs["robin-songbirds-vulnerability"],true);
+  assert.ok(Math.abs(restored.calculate()[0].nonCrit-1259.7988826815642)<1e-9);
+  set("robin-songbirds-talent-level","1");assert.ok(Math.abs(app.calculate()[0].nonCrit-1172.9162011173185)<1e-9);
+  set("robin-songbirds-count","2");assert.equal(app.calculate().length,0);assert.match(app.node("hsrWarnings").innerHTML,/3体必要/);
+  app.state.modifierInputs["robin-summeretto-fever"]=false;
+  set("robin-songbirds-count","");assert.equal(app.calculate().length,0);assert.ok(Number.isNaN(app.state.modifierInputs["robin-songbirds-count"]));
+  const blank=await tool(app.storage,extraData);assert.ok(Number.isNaN(blank.state.modifierInputs["robin-songbirds-count"]));assert.equal(blank.calculate().length,0);
+  set("robin-songbirds-count","0");assert.ok(Math.abs(app.calculate()[0].nonCrit-972)<1e-9);
+  set("robin-songbirds-count","4");assert.equal(app.calculate().length,0);
+  set("robin-songbirds-count","1.5");assert.equal(app.calculate().length,0);
+  set("robin-songbirds-count","1");set("robin-songbirds-talent-level","");assert.equal(app.calculate().length,0);assert.match(app.node("hsrWarnings").innerHTML,/精霊天賦Lv/);
+  app.state.modifierInputs["robin-songbirds-vulnerability"]=false;assert.ok(Math.abs(app.calculate()[0].nonCrit-972)<1e-9);
+});

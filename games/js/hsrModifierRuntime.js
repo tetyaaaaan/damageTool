@@ -99,6 +99,12 @@
     return { selected: false };
   }
 
+  function modifierLevel(record, context, inputs) {
+    const value = record.value || {};
+    if (value.levelInputKey) return inputs[value.levelInputKey] === undefined ? value.levelDefault : inputs[value.levelInputKey];
+    return typeof context.traceLevelFor === "function" ? context.traceLevelFor(record.source) : undefined;
+  }
+
   function resolveValue(record, context = {}, inputs = {}, selection = {}) {
     const value = record.value || {};
     const providerStatValue = () => {
@@ -110,10 +116,10 @@
     };
     if (value.kind === "fixed") return number(value.fixed);
     if (value.kind === "byLevel") {
-      const level = typeof context.traceLevelFor === "function"
-        ? number(context.traceLevelFor(record.source), 1)
-        : 1;
-      return number(value.values?.[Math.max(0, Math.min(value.values.length - 1, level - 1))]);
+      const level = number(modifierLevel(record, context, inputs), 1);
+      const amount = number(value.values?.[Math.max(0, Math.min(value.values.length - 1, level - 1))]);
+      const count = inputs[value.inputKey] === undefined ? value.default : inputs[value.inputKey];
+      return amount * (value.inputMultipliers ? number(value.inputMultipliers[count]) : 1);
     }
     if (value.kind === "providerStatPercentByLevel") {
       const level = typeof context.traceLevelFor === "function" ? number(context.traceLevelFor(record.source), 1) : 1;
@@ -243,24 +249,29 @@
       const calculable = supportStatus === "calculable" && record.inputPolicy !== "includedInFinalStats";
       const value = resolveValue(record, context, inputs, selection);
       const unknownReference = Boolean(activation.toggled && !Number.isFinite(activation.inputValue));
-      const enabled = calculable && (activation.active || unknownReference);
+      let enabled = calculable && (activation.active || unknownReference);
       const inputWarnings = [];
       if (unknownReference) inputWarnings.push("パーティの愉悦人数を確認できません。キャラクターの重複・未収録IDを確認してください。");
       const validation = record.inputValidation;
       if (enabled && validation) {
-        const raw = inputs[record.value?.inputKey];
+        const raw = record.value?.inputMultipliers && inputs[record.value.inputKey] === undefined ? record.value.default : inputs[record.value?.inputKey];
         if (!Number.isFinite(raw) || raw < validation.minimum || raw > validation.maximum || (validation.integer && !Number.isInteger(raw))) inputWarnings.push(`${record.value.inputLabel}に${validation.minimum}～${validation.maximum}の整数を入力してください。`);
         const eidolon = selection.providerId === String(context.characterId) ? context.eidolon : context.partyEidolons?.[selection.providerId];
         if (number(eidolon) > validation.maximumEidolon) inputWarnings.push(`${record.name}は支援者の星魂0のみ計算対応です。`);
-        const level = typeof context.traceLevelFor === "function" ? context.traceLevelFor(record.source) : undefined;
-        if (!Number.isInteger(level) || level < 1 || level > validation.levelMaximum) inputWarnings.push(`${record.name}の天賦Lvに1～${validation.levelMaximum}の整数を入力してください。`);
+        const level = modifierLevel(record, context, inputs);
+        if (validation.whenToggle && inputs[validation.whenToggle.inputKey] && raw !== validation.whenToggle.equals) inputWarnings.push(validation.whenToggle.message);
+        if (!Number.isInteger(level) || level < 1 || level > validation.levelMaximum) inputWarnings.push(`${record.value?.levelInputLabel || `${record.name}の天賦Lv`}に1～${validation.levelMaximum}の整数を入力してください。`);
       }
+      if (record.value?.inputMultipliers && (inputs[record.value.inputKey] ?? record.value.default) === 0 && !inputWarnings.length) enabled = false;
+      const displayInput = (input) => Number.isFinite(input) ? input : "未入力";
       return [{
         id: record.id,
         tab: selection.tab,
         name: record.name,
         description: record.description,
-        conditionText: record.activation?.conditionText || "",
+        conditionText: record.value?.levelInputKey
+          ? `${record.activation?.conditionText || ""}（Lv${displayInput(modifierLevel(record, context, inputs))}・${displayInput(inputs[record.value.inputKey] === undefined ? record.value.default : inputs[record.value.inputKey])}${record.value.inputUnit || ""}）`
+          : record.activation?.conditionText || "",
         source: record.source,
         sourceName: selection.sourceName,
         category: record.category,
@@ -274,6 +285,12 @@
         automatic: activation.automatic,
         activation: { ...record.activation, ...activation },
         providerId: selection.providerId || null,
+        levelInput: record.value?.levelInputKey ? {
+          key: record.value.levelInputKey,
+          label: record.value.levelInputLabel || "効果レベル",
+          value: modifierLevel(record, context, inputs),
+          maximum: record.inputValidation?.levelMaximum || 6
+        } : null,
         valueInput: record.value?.multiplierInputKey ? {
           type: "toggle",
           key: record.value.multiplierInputKey,
@@ -287,7 +304,7 @@
             ? number(selection.providerId && context.partyStats?.[selection.providerId]?.[record.value.providerStat] !== undefined
               ? context.partyStats[selection.providerId][record.value.providerStat]
               : context.stats?.[record.value.providerStat], number(inputs[record.value.inputKey], record.value.default || 0))
-            : number(inputs[record.value.inputKey], record.value.default || 0),
+            : record.value.inputMultipliers ? (inputs[record.value.inputKey] === undefined ? record.value.default : inputs[record.value.inputKey]) : number(inputs[record.value.inputKey], record.value.default || 0),
           providerId: selection.providerId || null,
           providerStat: record.value.providerStat || null,
           unit: record.value.inputUnit,

@@ -462,3 +462,42 @@ test("Pearl A2 is self-only final-input guidance without DEF threshold or fracti
   }
   assert.equal(candidate(id,{characterId:"1505",partyIds:["1503"]}),undefined);
 });
+
+
+test("Summer Songbirds Lv1-6 counts sprites, adds vulnerability and stays independent of Fever", () => {
+  const id="trace:1512:1151203:songbirds-vulnerability", feverId="trace:1512:151204:fever-defense-ignore";
+  const context={characterId:"1503",partyIds:["1512"],partyEidolons:{"1512":0},traceLevelFor:()=>10};
+  const calc=calcEngine(), common={character:{level:80,stats:{def:3000,critRate:50,critDamage:100}},enemy:{level:80,resistance:20,toughnessActive:true},attack:{type:"normal",element:"Ice",scalingStat:"def",multiplier:90}};
+  const inputs={"robin-songbirds-vulnerability":true,"robin-songbirds-talent-level":6,"robin-songbirds-count":0};
+  assert.equal(candidate(id,{characterId:"1503"},inputs),undefined);
+  const expectedMatrix=[[4,6,8],[4.8,7.2,9.6],[5.6,8.4,11.2],[6.4,9.6,12.8],[7.2,10.8,14.4],[8,12,16]];
+  const catalog=JSON.parse(fs.readFileSync(path.join(root,"games/hsr/data/catalog.json"),"utf8"));
+  const source=catalog.characters.find(c=>c.id==="1512").skills.find(s=>s.id==="1151203");
+  for(let level=1;level<=6;level++)for(let count=0;count<=3;count++) {
+    const item=candidate(id,context,{...inputs,"robin-songbirds-talent-level":level,"robin-songbirds-count":count});
+    const bonus=count===0?0:expectedMatrix[level-1][count-1];
+    if(count)assert.ok(Math.abs(source.params[level-1][count+1]*100-bonus)<1e-9);
+    assert.ok(Math.abs(item.value-bonus)<1e-9);assert.equal(item.enabled,count>0);assert.equal(item.inputWarnings.length,0);
+    const result=calc.calculate({...common,modifiers:[item]});
+    // Independent: DEF3000 * .9 MV * .5 DEF * .8 RES * .9 toughness * (1+vulnerability).
+    const expected=972*(1+bonus/100);
+    assert.ok(Math.abs(result.nonCrit-expected)<1e-9);assert.ok(Math.abs(result.crit-expected*2)<1e-9);assert.ok(Math.abs(result.expected-expected*1.5)<1e-9);
+  }
+  for(const [fever,other,expected]of [[false,0,1127.52],[true,0,1259.7988826815642],[false,20,1321.92],[true,20,1477.0055865921787]]) {
+    const modifiers=runtime.buildCandidates(records,context,{...inputs,"robin-songbirds-count":3,"robin-summeretto-fever":fever,"robin-summeretto-vibes":12}).filter(m=>[id,feverId].includes(m.id));
+    const result=calc.calculate({...common,enemy:{...common.enemy,takenDamage:other},modifiers});
+    assert.ok(Math.abs(result.nonCrit-expected)<1e-9);assert.ok(Math.abs(result.crit-expected*2)<1e-9);assert.ok(Math.abs(result.expected-expected*1.5)<1e-9);
+    assert.equal(result.breakdown.defenseIgnorePercent,fever?21:0);assert.equal(result.breakdown.takenDamage,16+other);
+  }
+  const on=candidate(id,context,{...inputs,"robin-songbirds-count":3});
+  const off=candidate(id,context,{...inputs,"robin-songbirds-count":3,"robin-songbirds-vulnerability":false});assert.equal(off.enabled,false);
+  assert.ok(Math.abs(calc.calculate({...common,modifiers:[off]}).nonCrit-972)<1e-9);
+  for(const value of [NaN,null,"",-1,4,1.5])assert.ok(candidate(id,context,{...inputs,"robin-songbirds-count":value}).inputWarnings.length);
+  for(const value of [NaN,null,"",0,7,1.5])assert.ok(candidate(id,context,{...inputs,"robin-songbirds-count":1,"robin-songbirds-talent-level":value}).inputWarnings.length);
+  for(const count of [0,1,2])assert.match(candidate(id,context,{...inputs,"robin-songbirds-count":count,"robin-summeretto-fever":true}).inputWarnings.join(),/3体必要/);
+  assert.ok(candidate(id,{...context,partyEidolons:{"1512":1}},{...inputs,"robin-songbirds-count":1}).inputWarnings.length);
+  assert.equal(candidate(id,{...context,partyIds:["1512","1505","1502"]},{...inputs,"robin-songbirds-count":1}).value,8,"ally count must not change sprite count");
+  const elation=scopedElationGearInput("150520");assert.ok(Math.abs(calc.calculate({...elation,modifiers:[on]}).nonCrit-7188.909407003077)<1e-8);
+  const t=JSON.parse(fs.readFileSync(path.join(root,"games/hsr/data/attack-overrides.json"),"utf8")).overrides.find(a=>a.id==="1415021");
+  assert.ok(Math.abs(calc.calculate({...common,character:{...common.character,eidolon:0},attack:{...t,traceLevel:10,multiplier:24},trueDamage:{active:true,sourceKind:"finalNonTrueDamage",originalDamage:1080},modifiers:[on]}).nonCrit-259.2)<1e-9);
+});

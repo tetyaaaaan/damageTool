@@ -412,6 +412,7 @@
     if (items.some((item) => item.enabled)) return items.every((item) => item.automatic || !item.enabled) ? { label: "自動反映", className: "is-auto" } : { label: "適用中", className: "is-auto" };
     if (items.some((item) => item.activation?.mode === "toggleThreshold")) return items.some((item) => item.activation?.toggled) ? { label: "条件未達", className: "is-inactive" } : { label: "条件OFF", className: "is-inactive" };
     if (items.some((item) => ["statThreshold", "numericThreshold"].includes(item.activation?.mode))) return { label: "条件未達", className: "is-inactive" };
+    if (items.some((item) => item.levelInput && item.activation?.active)) return { label: "条件未達", className: "is-inactive" };
     if (items.some((item) => ["toggle", "stack"].includes(item.activation?.mode))) return { label: "条件OFF", className: "is-inactive" };
     return { label: "条件を設定", className: "is-input" };
   }
@@ -455,7 +456,7 @@
       const activation = item.activation || {};
       if (["toggle", "toggleThreshold"].includes(activation.mode) && activation.inputKey && !rendered.has(`toggle:${activation.inputKey}`)) {
         rendered.add(`toggle:${activation.inputKey}`);
-        controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(activation.inputKey)}"${(activation.mode === "toggleThreshold" ? activation.toggled : attackSelection ? activation.active : item.enabled) ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${attackSelection ? "この攻撃を計算対象に含める" : "この条件を適用する"}</strong><small>実際に「${esc(item.conditionText || "発動条件")}」を満たす場合だけONにしてください。</small></span></label>`);
+        controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(activation.inputKey)}"${(activation.mode === "toggleThreshold" ? activation.toggled : attackSelection || item.levelInput ? activation.active : item.enabled) ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${attackSelection ? "この攻撃を計算対象に含める" : "この条件を適用する"}</strong><small>実際に「${esc(item.conditionText || "発動条件")}」を満たす場合だけONにしてください。</small></span></label>`);
       }
       if (activation.mode === "stack" && activation.inputKey && !rendered.has(`stack:${activation.inputKey}`)) {
         rendered.add(`stack:${activation.inputKey}`); const max = item.stackMax || 1;
@@ -465,19 +466,23 @@
         rendered.add(`threshold:${activation.inputKey}`);
         controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(activation.inputLabel || "現在の条件値")}</strong><small>${esc(activation.conditionText || "発動条件の判定に使用する値を入力します。")}</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-structured-input="${esc(activation.inputKey)}" value="${num(activation.inputValue, activation.default || 0)}" min="${num(activation.minimum)}" max="${num(activation.maximum, 999)}" step="${num(activation.step, 1)}"></span></label>`);
       }
+      if (item.levelInput && !rendered.has(`level:${item.levelInput.key}`)) {
+        rendered.add(`level:${item.levelInput.key}`);
+        controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.levelInput.label)}</strong><small>支援者の通常天賦Lvとは別に設定します。</small></span><input type="number" class="input_num" data-structured-strict="true" data-structured-input="${esc(item.levelInput.key)}" value="${Number.isFinite(item.levelInput.value) ? item.levelInput.value : ""}" min="1" max="${item.levelInput.maximum}" step="1"></label>`);
+      }
       if (item.valueInput?.type === "toggle" && !rendered.has(`value:${item.valueInput.key}`)) {
         rendered.add(`value:${item.valueInput.key}`);
         controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(item.valueInput.key)}"${item.valueInput.checked ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${esc(item.valueInput.label)}</strong><small>この追加条件も成立している場合だけONにしてください。</small></span></label>`);
       }
       if (item.valueInput?.type === "number" && !rendered.has(`value:${item.valueInput.key}`)) {
         rendered.add(`value:${item.valueInput.key}`);
-        controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.valueInput.label)}</strong><small>効果量の算出に使用する現在値です。</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-structured-input="${esc(item.valueInput.key)}" value="${item.valueInput.value}" min="${num(item.valueInput.minimum)}" max="${num(item.valueInput.maximum,999)}" step="${num(item.valueInput.step,1)}"><em>${esc(item.valueInput.unit ?? (item.unit === "percent" ? "%" : ""))}</em></span></label>`);
+        controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.valueInput.label)}</strong><small>効果量の算出に使用する現在値です。</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" ${item.levelInput ? 'data-structured-strict="true"' : ""} data-structured-input="${esc(item.valueInput.key)}" value="${Number.isFinite(item.valueInput.value) ? item.valueInput.value : ""}" min="${num(item.valueInput.minimum)}" max="${num(item.valueInput.maximum,999)}" step="${num(item.valueInput.step,1)}"><em>${esc(item.valueInput.unit ?? (item.unit === "percent" ? "%" : ""))}</em></span></label>`);
       }
       if (item.valueInput?.type === "providerStat" && !rendered.has(`provider:${item.valueInput.providerId}:${item.valueInput.providerStat}`)) {
         rendered.add(`provider:${item.valueInput.providerId}:${item.valueInput.providerStat}`);
         const provider = item.valueInput.providerId && String(item.valueInput.providerId) !== String(state.characterId) ? item.source : "計算対象キャラクター";
         const percentStats = new Set(["critRate", "critDamage", "breakEffect", "effectHitRate", "effectRes", "hpPercent", "elation"]);
-        controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.valueInput.label)}</strong><small>${esc(provider)}の現在値を参照します。この値はパーティ設定またはステータス入力欄と同期します。</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-structured-provider-stat="${esc(item.valueInput.providerStat)}" data-provider-id="${esc(item.valueInput.providerId || state.characterId)}" value="${item.valueInput.value}" min="${num(item.valueInput.minimum)}" max="${num(item.valueInput.maximum,999)}" step="${num(item.valueInput.step,1)}">${percentStats.has(item.valueInput.providerStat) ? "<em>%</em>" : ""}</span></label>`);
+        controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.valueInput.label)}</strong><small>${esc(provider)}の現在値を参照します。この値はパーティ設定またはステータス入力欄と同期します。</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-structured-provider-stat="${esc(item.valueInput.providerStat)}" data-provider-id="${esc(item.valueInput.providerId || state.characterId)}" value="${Number.isFinite(item.valueInput.value) ? item.valueInput.value : ""}" min="${num(item.valueInput.minimum)}" max="${num(item.valueInput.maximum,999)}" step="${num(item.valueInput.step,1)}">${percentStats.has(item.valueInput.providerStat) ? "<em>%</em>" : ""}</span></label>`);
       }
     });
     return controls.length ? `<div class="genshin-constellation-controls"><h6>状態・条件</h6>${controls.join("")}</div>` : "";
@@ -732,6 +737,8 @@
     warnings.push(...attacks.map((attack) => attack.calculationNote).filter(Boolean));
     const reviewAttackCount = attacks.filter((attack) => attack.support?.status !== "calculable" || !attack.support?.verified).length;
     if (reviewAttackCount) warnings.push(`このキャラクターの攻撃データ${reviewAttackCount}件は確認中です。計算結果は参考値として表示します。`);
+    if (state.modifierInputs["robin-songbirds-vulnerability"] && state.modifierInputs["robin-songbirds-count"] === 3 && !state.modifierInputs["robin-summeretto-fever"]
+      && [state.characterId, ...state.party.map((member) => member.characterId)].includes("1512")) warnings.push("夏の歌鳥3体ではフィーバーが成立します。現在は防御無視を除外した比較値です。精霊攻撃・その他支援は計算対象外です。");
     const baseStats = selectedBaseStats();
     const inputWarnings = calculationInputWarnings(attacks, baseStats);
     if (inputWarnings.length) {
@@ -965,7 +972,7 @@
         return;
       }
       if (!event.target.dataset.structuredInput) return;
-      state.modifierInputs[event.target.dataset.structuredInput] = num(event.target.value);
+      state.modifierInputs[event.target.dataset.structuredInput] = event.target.dataset.structuredStrict === "true" ? (event.target.value.trim() === "" ? NaN : Number(event.target.value)) : num(event.target.value);
       updateConditionSummary(); markDirty();
     });
     $("hsrConditionDialog").addEventListener("change", (event) => {
@@ -977,7 +984,7 @@
         renderConditions(); updateConditionSummary(); markDirty(); return;
       }
       if (event.target.dataset.structuredInput) {
-        state.modifierInputs[event.target.dataset.structuredInput] = num(event.target.value);
+        state.modifierInputs[event.target.dataset.structuredInput] = event.target.dataset.structuredStrict === "true" ? (event.target.value.trim() === "" ? NaN : Number(event.target.value)) : num(event.target.value);
         renderConditions(); updateConditionSummary(); markDirty(); return;
       }
       const id = event.target.dataset.conditionEnabled || event.target.dataset.conditionValue || event.target.dataset.conditionStack; if (!id) return;

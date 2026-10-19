@@ -9,7 +9,7 @@
         "skillId": "151204"
       },
       "name": "フィーバー領域・味方全体の防御無視",
-      "description": "星魂0のみ。天賦Lv10は15%＋現在のバイブス×0.5%。ベシー展開中にバイブス12以上で全3体が揃いフィーバー開始。開始後の現在値は1～50、0で終了。精霊由来の被ダメージ増加等は含めません。",
+      "description": "星魂0のみ。天賦Lv10は15%＋現在のバイブス×0.5%。ベシー展開中にバイブス12以上で全3体が揃いフィーバー開始。開始後の現在値は1～50、0で終了。精霊由来の被ダメージ増加は別の補正で設定します。精霊の攻撃やその他支援は計算対象外です。",
       "category": "defenseIgnore",
       "unit": "percent",
       "value": {
@@ -87,6 +87,91 @@
         "verifiedAt": "2026-10-18",
         "sourceUrl": "https://github.com/Mar-7th/StarRailRes/tree/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp",
         "notes": "Fever condition and Vibes consumption: https://www.prydwen.gg/star-rail/characters/robin-summeretto; E0 Talent Lv1..10; current Fever Vibes 1..50; no vulnerability or other buffs"
+      }
+    },
+    {
+      "id": "trace:1512:1151203:songbirds-vulnerability",
+      "source": {
+        "kind": "trace",
+        "id": "1512",
+        "skillId": "1151203"
+      },
+      "name": "夏の歌鳥・敵全体の被ダメージ増加",
+      "description": "星魂0・精霊天賦Lv1～6。味方人数ではなく、単発攻撃時点で存在する夏の歌鳥の数（0～3）を設定します。0体は未適用。フィーバー防御無視とは別補正です。3体では実戦上フィーバーが成立するため、防御無視OFFはその補正を除外した比較値です。同じ被ダメージ増加を手動補正へ重複入力しないでください。精霊の攻撃・自己与ダメージ強化・その他支援は計算対象外です。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          4,
+          4.8,
+          5.6,
+          6.4,
+          7.2,
+          8
+        ],
+        "inputKey": "robin-songbirds-count",
+        "inputLabel": "現在の夏の歌鳥の数",
+        "inputUnit": "体",
+        "default": 0,
+        "minimum": 0,
+        "inputMaximum": 3,
+        "inputStep": 1,
+        "inputMultipliers": [
+          0,
+          1,
+          1.5,
+          2
+        ],
+        "levelInputKey": "robin-songbirds-talent-level",
+        "levelInputLabel": "精霊天賦Lv（通常天賦とは別）",
+        "levelDefault": 6
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 6,
+        "minimum": 0,
+        "maximum": 3,
+        "integer": true,
+        "whenToggle": {
+          "inputKey": "robin-summeretto-fever",
+          "equals": 3,
+          "message": "フィーバーON時は夏の歌鳥が3体必要です。精霊数かフィーバー設定を確認してください。"
+        }
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "夏ロビン星魂0・夏の歌鳥が存在する（0体は未適用）",
+        "inputKey": "robin-songbirds-vulnerability",
+        "default": false
+      },
+      "stacking": {
+        "group": "robin-songbirds-vulnerability",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1151203.params[0..5][2,3,4]",
+        "gameVersion": "4.5 release",
+        "verifiedAt": "2026-10-19",
+        "notes": "固定SHA dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487。Lv1～6の1/2/3体倍率は [4,6,8],[4.8,7.2,9.6],[5.6,8.4,11.2],[6.4,9.6,12.8],[7.2,10.8,14.4],[8,12,16]%。PrydwenおよびGachabase release/4.5.0で効果ID・敵全体対象・精霊メンバー数を照合。"
       }
     }
   ]
