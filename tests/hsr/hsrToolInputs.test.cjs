@@ -604,3 +604,29 @@ test("latest gear uses existing controls and restores rank, pieces and effect to
     restored.state.relicMode = "4pc"; restored.node("hsrRelicMode").value = "4pc"; restored.node("hsrLevel").value = "79";
     assert.equal(restored.calculate().length, 0); assert.match(restored.node("hsrWarnings").innerHTML, /基礎攻撃力/);
 });
+
+
+test("Elation equipment restores recipient support, independent CB condition and refinement", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));const generated=JSON.parse(read("games/hsr/data/attacks.generated.json")).attacks;
+    const overrides=JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides;
+    const extraData={characters:catalog.characters,lightCones:catalog.lightCones,relicSets:catalog.relicSets,
+      attacks:generated.filter(a=>["150501","150520"].includes(a.id)).map(a=>({...a,...overrides.find(o=>o.id===a.id)})),
+      structuredModifiers:[...JSON.parse(read("games/hsr/data/calc/modifiers-light-cones.json")).modifiers,...JSON.parse(read("games/hsr/data/calc/modifiers-relics-ornaments.json")).modifiers]};
+    const app=await tool(undefined,extraData);app.state.characterId="1505";app.state.coneId="21066";
+    for(const [key,value]of Object.entries({atk:3000,elation:50,critRate:50,critDamage:100}))app.node(`hsrStat-${key}`).value=String(value);
+    app.node("hsrPunchline").value="20";
+    assert.ok(Math.abs(app.calculate().find(r=>r.breakdown.damageFormula==="elation").nonCrit-6455.558016346154)<1e-8);
+    app.state.modifierInputs["lc-21066-elation-skill"]=false;
+    assert.ok(Math.abs(app.calculate().find(r=>r.breakdown.damageFormula==="elation").nonCrit-6197.335695692308)<1e-8);
+    app.state.party[0]={...app.state.party[0],characterId:"1503",relicId:"133",relicMode:"4pc"};
+    app.state.modifierInputs["lc-21066-elation-skill"]=true;app.state.modifierInputs["relic-133-ally-elation-active"]=true;app.state.modifierInputs["relic-133-certified-banger-crit-active"]=true;
+    const result=app.calculate().find(r=>r.breakdown.damageFormula==="elation");
+    assert.ok(Math.abs(result.expected-11144.87535942)<1e-8);
+    assert.match(app.node("hsrResults").innerHTML,/爆笑の褒美が10以上/);assert.match(app.node("hsrResults").innerHTML,/バカンスのひと時・愉悦スキル中の防御無視/);
+    app.node("hsrStat-elation").handlers.input();const restored=await tool(app.storage,extraData);
+    assert.equal(restored.state.party[0].relicId,"133");assert.equal(restored.state.coneId,"21066");
+    for(const key of ["lc-21066-elation-skill","relic-133-ally-elation-active","relic-133-certified-banger-crit-active"])assert.equal(restored.state.modifierInputs[key],true);
+    assert.ok(Math.abs(restored.calculate().find(r=>r.breakdown.damageFormula==="elation").expected-result.expected)<1e-8);
+    restored.state.party[0].relicMode="2+2";
+    assert.ok(Math.abs(restored.calculate().find(r=>r.breakdown.damageFormula==="elation").nonCrit-6455.558016346154)<1e-8);
+});

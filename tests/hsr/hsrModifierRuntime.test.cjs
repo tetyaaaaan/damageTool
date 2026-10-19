@@ -341,3 +341,76 @@ test("Colors vulnerability supports party normal, DoT, Break and Elation, while 
   assert.ok(Math.abs(calc.calculate({ ...common, attack: { ...t, traceLevel: 10, multiplier: 24 }, trueDamage: { active: true, sourceKind: "finalNonTrueDamage", originalDamage: 1080 } }).nonCrit - 259.2) < 1e-9);
   assert.ok(Math.abs(calc.calculateBreak({ ...common, element: "Fire", breakBaseDamage: { 80: 3767.5533 } }).value - 3677.1320208) < 1e-8);
 });
+
+
+function scopedElationGearInput(id) {
+  const generated = JSON.parse(fs.readFileSync(path.join(root,"games/hsr/data/attacks.generated.json"),"utf8")).attacks.find(a => a.id === id);
+  const override = JSON.parse(fs.readFileSync(path.join(root,"games/hsr/data/attack-overrides.json"),"utf8")).overrides.find(a => a.id === id);
+  return { character: { level: 80, eidolon: 0, stats: { atk: 3000, elation: 50, critRate: 50, critDamage: 100 } },
+    enemy: { level: 80, resistance: 20, toughnessActive: true, count: 1 },
+    attack: { ...generated, ...override, multiplier: override.multipliers[9], traceLevel: 10 },
+    elation: { context: id === "150220" ? "firstAhaInstant" : "ahaInstant", punchline: 20, merrymake: 0 } };
+}
+
+test("Holiday S1-S5 applies only Elation Skill DEF ignore and never re-adds final Elation", () => {
+  const gear = records.filter(r => r.source.kind === "lightCone" && r.source.id === "21066");
+  assert.equal(gear.length, 2); const calc = calcEngine();
+  for (const [id, cid, baseline] of [["150520","1505",6197.335695692308], ["150220","1502",13070.74437636923]]) {
+    for (let rank=1; rank<=5; rank++) {
+      const input = scopedElationGearInput(id);
+      const context = { characterId: cid, lightConeId: "21066", refinement: rank };
+      const modifiers = runtime.buildCandidates(gear, context, {});
+      const result = calc.calculate({ ...input, modifiers });
+      // Independent DEF=1/(2-ignore), other factors unchanged; final Elation already includes equipment.
+      const expected = baseline * 200 / (200 - [8,10,12,14,16][rank-1]);
+      assert.ok(Math.abs(result.nonCrit - expected) < 1e-8); assert.ok(Math.abs(result.expected - expected*1.5) < 1e-8);
+      assert.equal(result.breakdown.elationPercent, 50);
+      assert.equal(modifiers.find(m=>m.id.endsWith("elation-final")).enabled, false);
+      const off = runtime.buildCandidates(gear, context, { "lc-21066-elation-skill": false });
+      assert.ok(Math.abs(calc.calculate({ ...input, modifiers: off }).nonCrit - baseline) < 1e-8);
+      const normal = { ...input, attack: { type: "normal", multiplier: 100, scalingStat: "atk" }, modifiers };
+      assert.ok(Math.abs(calc.calculate(normal).nonCrit-1080)<1e-9);
+    }
+    const input = scopedElationGearInput(id); input.enemy.defenseReduction = 30;
+    const modifiers = runtime.buildCandidates(gear, { characterId: cid, lightConeId: "21066", refinement: 1 }, {});
+    assert.ok(Math.abs(calc.calculate({ ...input, modifiers }).nonCrit-baseline*100/81)<1e-8);
+  }
+  assert.equal(runtime.buildCandidates(gear, { characterId: "1505", partyEquipment: [{ characterId: "1503", lightConeId: "21066", refinement: 5 }] }, {}).length, 0, "DEF ignore belongs to the wearer only");
+});
+
+test("Dreamlit Actor separates other-ally Elation and cast-time Certified Banger crit conditions", () => {
+  const gear = records.filter(r => r.source.kind === "relic" && r.source.id === "133");
+  const inputs = { "relic-133-ally-elation-active": true, "relic-133-certified-banger-crit-active": true };
+  const own = { characterId: "1505", relicIds: ["133"], relicMode: 4 };
+  const self = runtime.buildCandidates(gear, own, inputs);
+  assert.equal(self.some(m=>m.id.endsWith("ally-elation")), false);
+  assert.equal(self.find(m=>m.id.endsWith("speed-final")).enabled, false);
+  assert.equal(self.find(m=>m.id.endsWith("party-crit-damage")).enabled, true, "the party-wide CD can include its wearer");
+  const context = { ...own, partyIds: ["1503"], partyEquipment: [{ characterId: "1503", relicIds: ["133"], relicMode: 4 }] };
+  const supported = runtime.buildCandidates(gear, context, inputs);
+  assert.equal(supported.find(m=>m.id.endsWith("ally-elation")).providerId, "1503", "own equipment cannot mask the other holder");
+  context.relicIds=[];
+  for (const [id, baseline, boosted] of [["150520",6197.335695692308,6858.384836566154], ["150220",13070.74437636923,14464.957109848616]]) {
+    const input=scopedElationGearInput(id); const calc=calcEngine();
+    const on=runtime.buildCandidates(gear, context, inputs); const result=calc.calculate({...input,modifiers:on});
+    assert.ok(Math.abs(result.nonCrit-boosted)<1e-8);
+    assert.ok(Math.abs(result.crit-boosted*2.12)<1e-8); assert.ok(Math.abs(result.expected-boosted*1.56)<1e-8);
+    assert.equal(result.breakdown.elationPercent,66); assert.equal(result.breakdown.critDamagePercent,112);
+    const noCB=runtime.buildCandidates(gear,context,{...inputs,"relic-133-certified-banger-crit-active":false});
+    const below=calc.calculate({...input,modifiers:noCB}); assert.equal(below.breakdown.critDamagePercent,100); assert.equal(below.breakdown.elationPercent,66);
+    const notRecipient=runtime.buildCandidates(gear,context,{...inputs,"relic-133-ally-elation-active":false});
+    assert.equal(calc.calculate({...input,modifiers:notRecipient}).breakdown.elationPercent,50);
+    input.elation.punchline=999;
+    assert.equal(calc.calculate({...input,modifiers:noCB}).breakdown.critDamagePercent,100,"Punchline cannot satisfy the Certified Banger condition");
+    input.elation.punchline=20;
+    context.partyEquipment[0].relicMode=2;
+    assert.ok(Math.abs(calc.calculate({...input,modifiers:runtime.buildCandidates(gear,context,inputs)}).nonCrit-baseline)<1e-8);
+    context.partyEquipment[0].relicMode=4;
+  }
+  const on=runtime.buildCandidates(gear,context,inputs);
+  const normal={character:{level:80,stats:{atk:3000,critRate:50,critDamage:100}},enemy:{level:80,resistance:20,toughnessActive:true},attack:{type:"normal",multiplier:100,scalingStat:"atk"},modifiers:on};
+  assert.ok(Math.abs(calcEngine().calculate(normal).expected-1684.8)<1e-9,"party CD legitimately affects ordinary critical damage");
+  const dot=calcEngine().calculate({...normal,attack:{...normal.attack,type:"dot",canCrit:false}});assert.ok(Math.abs(dot.nonCrit-1080)<1e-9);
+  const t=JSON.parse(fs.readFileSync(path.join(root,"games/hsr/data/attack-overrides.json"),"utf8")).overrides.find(a=>a.id==="1415021");
+  assert.ok(Math.abs(calcEngine().calculate({...normal,character:{...normal.character,eidolon:0},attack:{...t,traceLevel:10,multiplier:24},trueDamage:{active:true,sourceKind:"finalNonTrueDamage",originalDamage:1080}}).nonCrit-259.2)<1e-9);
+});

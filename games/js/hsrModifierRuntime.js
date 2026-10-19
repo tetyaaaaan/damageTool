@@ -74,8 +74,9 @@
     }
     if (source.kind === "relic") {
       const selected = selectedRelics.includes(id) && (!source.setPieces || number(context.relicMode, 4) >= source.setPieces);
-      if (selected) return { selected: true, tab: "遺物", sourceName };
-      const partyRelic = (context.partyEquipment || []).find((item) => (item.relicIds || []).map(String).includes(id) && (!source.setPieces || number(item.relicMode, 4) >= source.setPieces));
+      if (selected && !record.target?.excludeSelf) return { selected: true, tab: "遺物", sourceName };
+      const partyRelic = (context.partyEquipment || []).find((item) => (!record.target?.excludeSelf || String(item.characterId || "") !== characterId)
+        && (item.relicIds || []).map(String).includes(id) && (!source.setPieces || number(item.relicMode, 4) >= source.setPieces));
       return partyRelic && PARTY_TARGETS.has(record.target?.owner)
         ? { selected: true, tab: "パーティ", sourceName, providerId: String(partyRelic.characterId || "") }
         : { selected: false };

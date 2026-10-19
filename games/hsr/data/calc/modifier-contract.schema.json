@@ -23,7 +23,7 @@
     "name": { "type": "string", "minLength": 1 },
     "description": { "type": "string", "minLength": 1 },
     "category": {
-      "enum": ["statFlat", "statPercent", "critRate", "critRateOverride", "critDamage", "damageBonus", "multiplierAddition", "breakEffect", "breakEfficiency", "defenseReduction", "defenseIgnore", "resistancePenetration", "resistanceReduction", "takenDamage", "progressiveTakenDamage", "critTakenDamage", "independentMultiplier", "toughnessDamage", "extraDamage", "dotDamage", "superBreakDamage"]
+      "enum": ["statFlat", "statPercent", "critRate", "critRateOverride", "critDamage", "damageBonus", "multiplierAddition", "breakEffect", "breakEfficiency", "defenseReduction", "defenseIgnore", "resistancePenetration", "resistanceReduction", "takenDamage", "progressiveTakenDamage", "critTakenDamage", "independentMultiplier", "toughnessDamage", "extraDamage", "dotDamage", "superBreakDamage", "elation"]
     },
     "stat": { "enum": ["hp", "atk", "def", "speed", "critRate", "critDamage", "effectHitRate", "effectRes", "breakEffect", "elation", "energy"] },
     "unit": { "enum": ["flat", "percent", "ratio", "toughnessPoint"] },
@@ -92,6 +92,7 @@
           "minItems": 1,
           "items": { "enum": ["all", "normal", "enhancedNormal", "skill", "enhancedSkill", "ultimate", "talent", "followUp", "additional", "dot", "break", "superBreak", "memospriteSkill", "memospriteTalent", "elation"] }
         },
+        "excludeSelf": { "type": "boolean" },
         "attackIds": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
         "elements": { "type": "array", "items": { "enum": ["Physical", "Fire", "Ice", "Thunder", "Wind", "Quantum", "Imaginary"] } }
       },
