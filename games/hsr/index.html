@@ -126,8 +126,9 @@
                 <p class="genshin-help">味方が敵1体に与えた、会心・防御・耐性等の適用後の値を入力してください。追加確定ダメージ、複数回・複数対象の合計を含めません。自動記録・合算・再帰発動は行いません。倍率は上の戦闘スキルLvを参照します。</p>
               </section>
               <section class="genshin-input-step" id="hsrElationSettings" hidden aria-labelledby="hsrElationTitle">
-                <div class="genshin-input-step-head"><h4 id="hsrElationTitle">愉悦スキルの計算条件</h4><p>緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。</p></div>
+                <div class="genshin-input-step-head"><h4 id="hsrElationTitle">愉悦スキルの計算条件</h4><p id="hsrElationScope">緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。</p></div>
                 <div class="genshin-form-grid">
+                  <label class="genshin-field" id="hsrElationContextField" hidden>発動条件<select id="hsrElationContext"><option value="">選択してください</option><option value="firstAhaInstant">初回の通常アッハタイム（消費済み爆笑ネタ0）</option><option value="laterAhaInstant">2回目以降（計算対象外）</option><option value="ultimateAhaInstant">必殺技の追加アッハタイム（計算対象外）</option></select></label>
                   <label class="genshin-field">愉悦スキルLv<select id="hsrElationTrace" aria-label="愉悦スキルレベル"></select></label>
                   <label class="genshin-field">攻撃時点の爆笑ネタ<input id="hsrPunchline" type="number" min="0" step="1" aria-describedby="hsrPunchlineHelp"></label>
                   <label class="genshin-field">上笑（%）<input id="hsrMerrymake" type="number" min="0" step="0.1" value="0"></label>

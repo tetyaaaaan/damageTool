@@ -6,7 +6,7 @@ const vm = require("node:vm");
 const root = path.resolve(__dirname, "../..");
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 
-async function tool(savedStorage) {
+async function tool(savedStorage, extraData) {
     const storage = savedStorage || new Map();
     const nodes = new Map();
     const html = read("games/hsr/index.html");
@@ -35,6 +35,7 @@ async function tool(savedStorage) {
     ], lightCones: [{ id: "cone", name: "Cone", base: { hp: 100, atk: 200, def: 100 } }], relicSets: [], enemies: [],
         structuredModifiers: JSON.parse(read("games/hsr/data/calc/modifiers-tingyun.json")).modifiers,
         attacks: [{ id: "sample-normal", characterId: "sample", name: "Sample attack", type: "normal", element: "Ice", traceKey: "normal", multipliers: [100], scalingStat: "atk", support: { status: "calculable", verified: true } }], breakBaseDamage: { 80: 3767.5533 } };
+    Object.assign(data, extraData);
     const window = { localStorage: { getItem: (key) => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, value), removeItem: (key) => storage.delete(key) }, HsrCalcData: { load: async () => data }, HsrModifierRuntime: require("../../games/js/hsrModifierRuntime.js") };
     const context = { window, document, console, requestAnimationFrame: (callback) => callback() };
     vm.createContext(context);
@@ -264,7 +265,7 @@ test("unimplemented Elation attacks and mixed True/Elation records are unavailab
     app.state.data.attacks = [...attacks.values()];
     for (const stat of ["hp", "atk", "def"]) app.node(`hsrStat-${stat}`).value = "1000";
     app.node("hsrPunchline").value = "20";
-    for (const id of ["150120", "150220", "150621", "800920", "801020", "140603", "150504"]) {
+    for (const id of ["150120", "150621", "800920", "801020", "140603", "150504"]) {
         const blocked = attacks.get(id);
         app.state.characterId = blocked.characterId;
         const results = app.calculate();
@@ -513,4 +514,35 @@ test('HSR saved state tolerates malformed/old data, partial records and unavaila
     const denied={getItem(){throw Error('blocked')},setItem(){throw Error('quota')},removeItem(){throw Error('blocked')}};
     assert.equal(module.load(denied).error,true);assert.equal(module.save(denied,value),false);assert.equal(module.clear(denied),false);
     Object.defineProperty(app.window,'localStorage',{get(){throw Error('blocked')}});app.node('hsrStat-atk').value='1000';assert.doesNotThrow(()=>app.node('hsrStat-atk').handlers.input());assert.equal(app.calculate().length,1);
+});
+
+test("Yao Guang scoped Elation shows all six unequal hits and restores its explicit context", async () => {
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    const generated = JSON.parse(read("games/hsr/data/attacks.generated.json"));
+    const override = JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.find(item => item.id === "150220");
+    const extraData = { characters: catalog.characters, attacks: generated.attacks.filter(item => ["150201", "150220"].includes(item.id)).map(item => ({ ...item, support: item.support || generated.support, ...(item.id === "150220" ? override : {}) })) };
+    const app = await tool(undefined, extraData); app.state.characterId = "1502";
+    for (const [stat, value] of Object.entries({ atk: 3000, elation: 50, critRate: 50, critDamage: 100 })) app.node(`hsrStat-${stat}`).value = String(value);
+    app.node("hsrPunchline").value = "20";
+    assert.equal(app.calculate().length, 0);
+    assert.match(app.node("hsrWarnings").innerHTML, /初回の通常アッハタイム/);
+    app.node("hsrElationContext").value = "firstAhaInstant";
+    const result = app.calculate().find(item => item.breakdown.damageFormula === "elation");
+    assert.ok(Math.abs(result.nonCrit - 13070.74437636923) < 1e-8);
+    const html = app.node("hsrResults").innerHTML;
+    assert.match(html, /全体攻撃：100% × 1ヒット/); assert.match(html, /追撃：20% × 5ヒット/);
+    assert.match(html, /基礎ダメージ（倍率合算）/); assert.doesNotMatch(html, /同じ基礎ダメージを6ヒット/);
+    assert.match(html, /爻光・被ダメージ増加（攻撃前に付与）/);
+    app.node("hsrStat-elation").handlers.input();
+    const restored = await tool(app.storage, extraData);
+    assert.equal(restored.state.characterId, "1502"); assert.equal(restored.node("hsrElationContext").value, "firstAhaInstant");
+    assert.equal(restored.node("hsrResults").innerHTML.includes("hsr-attack-result"), false);
+    assert.ok(Math.abs(restored.calculate().find(item => item.breakdown.damageFormula === "elation").nonCrit - result.nonCrit) < 1e-8);
+    restored.node("hsrEnemyCount").value = "2";
+    assert.equal(restored.calculate().some(item => item.breakdown.damageFormula === "elation"), false);
+    assert.match(restored.node("hsrResults").innerHTML, /敵が1体の場合のみ/);
+    restored.node("hsrEnemyCount").value = "1";
+    restored.node("hsrElationContext").value = "ultimateAhaInstant";
+    assert.equal(restored.calculate().length, 0);
+    assert.match(restored.node("hsrWarnings").innerHTML, /初回の通常アッハタイム/);
 });

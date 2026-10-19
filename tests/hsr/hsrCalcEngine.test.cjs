@@ -359,3 +359,77 @@ test('True DMG refuses inactive fields, missing sources, recursive sources and u
         assert.equal('nonCrit' in result, false);
     }
 });
+
+function yaoguangInput() {
+    const input = elationInput();
+    const generated = JSON.parse(fs.readFileSync(path.join(root, "games/hsr/data/attacks.generated.json"), "utf8")).attacks.find(item => item.id === "150220");
+    const override = JSON.parse(fs.readFileSync(path.join(root, "games/hsr/data/attack-overrides.json"), "utf8")).overrides.find(item => item.id === "150220");
+    input.attack = { ...generated, ...override, traceLevel: 10, multiplier: override.multipliers[9] };
+    input.enemy.count = 1;
+    input.elation.context = "firstAhaInstant";
+    input.character.stats.critRate = 50;
+    return input;
+}
+
+test("Yao Guang one-enemy first Aha Instant matches independent full-attack values", () => {
+    // StarRailRes dbe8cdf 150220 params[1,2,4,5], Prydwen release kit:
+    // Lv10 100% AoE + 5 * 20%, 16% vulnerability applied before every hit.
+    // Independent rational calculation: 7535.107 * 2 * (1+E/100)
+    // * (1+5P/(P+240)) * (1+M/100) * DEF * RES * toughness * 1.16.
+    const cases = [
+        [{}, {}, {}, 13070.74437636923, 26141.48875273846, 19606.116564553846],
+        [{ elation: 100 }, {}, {}, 17427.659168492308, 34855.318336984616, 26141.48875273846],
+        [{}, { punchline: 60 }, {}, 18879.9640992, 37759.9281984, 28319.9461488],
+        [{}, { merrymake: 25 }, {}, 16338.430470461539, 32676.860940923078, 24507.645705692306],
+        [{ critRate: 0 }, {}, {}, 13070.74437636923, 26141.48875273846, 13070.74437636923],
+        [{}, {}, { level: 90, defenseReduction: 30, resistancePenetration: 40, toughnessActive: false }, 24615.337808604956, 49230.67561720991, 36923.00671290743]
+    ];
+    for (const [stats, values, enemy, nonCrit, crit, expected] of cases) {
+        const input = yaoguangInput();
+        Object.assign(input.character.stats, stats); Object.assign(input.elation, values); Object.assign(input.enemy, enemy);
+        const before = JSON.stringify(input);
+        const result = engine().calculate(input);
+        for (const [key, value] of Object.entries({ nonCrit, crit, expected })) assert.ok(Math.abs(result[key] - value) < 1e-8, `${key}: ${result[key]} vs ${value}`);
+        assert.equal(JSON.stringify(input), before, "intrinsic vulnerability must not accumulate on input");
+        assert.equal(result.attack.hitCount, 6);
+        assert.equal(result.breakdown.takenDamage, 16);
+        for (const key of ["nonCrit", "crit", "expected"]) assert.ok(Math.abs(result.breakdown.elationComponents.reduce((sum, item) => sum + item[key], 0) - result[key]) < 1e-8);
+        assert.ok(Math.abs(result.breakdown.elationComponents[0].nonCrit - result.nonCrit / 2) < 1e-8);
+        assert.ok(Math.abs(result.breakdown.elationComponents[1].perHitNonCrit - result.nonCrit / 10) < 1e-8);
+        assert.ok(Math.abs(result.breakdown.baseDamage * result.breakdown.commonWithoutVulnerability * result.breakdown.vulnerabilityFactorSum - result.nonCrit) < 1e-8);
+    }
+    const master = JSON.parse(fs.readFileSync(path.join(root, "games/hsr/data/catalog.json"), "utf8")).characters.find(item => item.id === "1502").skills.find(item => item.id === "150220");
+    for (let level = 1; level <= 10; level++) {
+        const input = yaoguangInput(); input.attack.traceLevel = level; input.attack.multiplier = input.attack.multipliers[level - 1];
+        const row = master.params[level - 1];
+        assert.equal(row[4], 5); assert.equal(row[2], .16);
+        assert.ok(Math.abs(input.attack.multiplier - (row[1] + row[4] * row[5]) * 100) < 1e-9);
+        const result = engine().calculate(input);
+        assert.ok(Math.abs(result.nonCrit - 13070.74437636923 * (row[1] + row[4] * row[5]) / 2) < 1e-8);
+    }
+});
+
+test("Yao Guang excludes ordinary boosts and refuses unverified distribution and resource contexts", () => {
+    const calc = engine(); const input = yaoguangInput(); const baseline = calc.calculate(input).nonCrit;
+    input.character.stats.damageBonus = 999; input.character.stats.atk = 999999;
+    input.modifiers = [{ category: "damageBonus", value: 999 }, { category: "independentMultiplier", value: 999 }];
+    assert.equal(calc.calculate(input).nonCrit, baseline);
+    for (const context of ["", "ahaInstant", "laterAhaInstant", "ultimateAhaInstant", "certifiedBanger"]) {
+        const changed = yaoguangInput(); changed.elation.context = context; assert.equal(calc.calculate(changed).supported, false);
+    }
+    for (const change of [i => i.enemy.count = 2, i => delete i.enemy.count, i => i.character.eidolon = 1,
+        i => i.character.level = 79, i => i.attack.elationComponents = [], i => i.attack.elationComponents = {},
+        i => i.attack.elationComponents = [null, null], i => i.attack.multiplier = 100,
+        i => i.attack.traceLevel = 11, i => i.attack.intrinsicTakenDamage = 0,
+        ...[NaN, -1, 1.5, Infinity].map(value => i => i.elation.punchline = value),
+        i => i.elation.merrymake = NaN, i => i.character.stats.elation = NaN]) {
+        const changed = yaoguangInput(); change(changed); const result = calc.calculate(changed);
+        assert.equal(result.supported, false); assert.equal("nonCrit" in result, false);
+    }
+    const zero = yaoguangInput(); zero.elation.punchline = 0; zero.elation.merrymake = 0; zero.character.stats.elation = 0;
+    assert.ok(calc.calculate(zero).nonCrit > 0);
+    const stacked = yaoguangInput(); stacked.enemy.takenDamage = 20;
+    assert.ok(Math.abs(calc.calculate(stacked).nonCrit - baseline * 1.36 / 1.16) < 1e-8);
+    stacked.modifiers = [{ id: "same-effect", category: "takenDamage", value: 16, stacking: { group: "yaoguang-woes-whisper", rule: "max" } }];
+    assert.equal(calc.calculate(stacked).breakdown.takenDamage, 36, "the same structured effect is not added twice");
+});

@@ -80,7 +80,7 @@ test("HSR runtime uses the ID-based JSON catalog without CSV references", async 
     assert.equal(data.attackCoverage.review, data.attacks.filter((attack) => attack.support?.status !== "calculable" || !attack.support.verified).length);
     assert.equal(data.attackCoverage.calculable + data.attackCoverage.review, data.attackCoverage.total);
     assert.ok(data.attacks.every((item) => item.support && typeof item.support.verified === "boolean"));
-    for (const id of ["150120", "150220", "150621", "800920", "801020", "140603", "150504"]) {
+    for (const id of ["150120", "150621", "800920", "801020", "140603", "150504"]) {
         assert.equal(data.attacks.find((attack) => attack.id === id).support.status, "displayOnly", id);
     }
     assert.equal(data.attacks.find((attack) => attack.id === "150520").damageFormula, "elation");

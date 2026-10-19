@@ -97,8 +97,15 @@
     const ELATION_LEVEL_BASE = Object.freeze({ 80: 7535.1070 });
 
     function supportedElationAttack(attack) {
-        return attack.id === "150520" && attack.damageFormula === "elation" && attack.type === "elation"
-            && attack.elationContext === "ahaInstant" && attack.target === "aoe" && attack.hitCount === 1;
+        if (attack.damageFormula !== "elation" || attack.type !== "elation") return false;
+        return (attack.id === "150520" && attack.elationContext === "ahaInstant" && attack.target === "aoe" && attack.hitCount === 1)
+            || (attack.id === "150220" && attack.elationContext === "firstAhaInstant" && attack.target === "single" && attack.hitCount === 6);
+    }
+
+    function elationComponents(attack) {
+        return (Array.isArray(attack.elationComponents) ? attack.elationComponents : []).map((component) => ({
+            name: component?.name, count: component?.count, multiplierPercent: component?.multipliers?.[attack.traceLevel - 1]
+        }));
     }
 
     function elationInputWarnings(input = {}) {
@@ -107,7 +114,15 @@
         const values = input.elation || {};
         const warnings = [];
         if (!ELATION_LEVEL_BASE[character.level] || (character.eidolon ?? 0) !== 0) warnings.push("この愉悦攻撃はLv80・星魂0のみ計算対応です。");
-        if (values.context !== "ahaInstant") warnings.push("この愉悦攻撃はアッハタイム中のみ計算対応です。爆笑の褒美を参照する攻撃は対象外です。");
+        if (input.attack?.id === "150220") {
+            if (values.context !== "firstAhaInstant") warnings.push("爻光は初回の通常アッハタイム（消費済み爆笑ネタ0）のみ計算対応です。発動条件を選択してください。");
+            if (input.enemy?.count !== 1) warnings.push("爻光の愉悦スキルは敵が1体の場合のみ計算対応です。複数対象への分配は計算しません。");
+            const components = elationComponents(input.attack);
+            if (components.length !== 2 || components[0].count !== 1 || components[1].count !== 5
+                || components.some((item) => !Number.isFinite(item.multiplierPercent) || item.multiplierPercent < 0)
+                || Math.abs(components.reduce((sum, item) => sum + item.count * item.multiplierPercent, 0) - input.attack.multiplier) > 1e-9
+                || input.attack.intrinsicTakenDamage !== 16) warnings.push("爻光の全体攻撃・追撃倍率と被ダメージ補正を確認できません。");
+        } else if (values.context !== "ahaInstant") warnings.push("この愉悦攻撃はアッハタイム中のみ計算対応です。爆笑の褒美を参照する攻撃は対象外です。");
         if (!Number.isInteger(values.punchline) || values.punchline < 0) warnings.push("攻撃時点の爆笑ネタに0以上の整数を入力してください。");
         if (!Number.isFinite(values.merrymake) || values.merrymake < 0) warnings.push("上笑に0以上の数値を入力してください。補正なしは0です。");
         for (const [key, label] of [["elation", "愉悦度"], ["critRate", "会心率"], ["critDamage", "会心ダメージ"]]) {
@@ -280,6 +295,11 @@
         const { character, enemy = {}, attack, elation: values } = input;
         const stats = character.stats;
         const modifiers = (input.modifiers || []).map(normalizeModifier);
+        if (attack.id === "150220") modifiers.push(normalizeModifier({
+            id: "yaoguang-woes-whisper", name: "爻光・被ダメージ増加（攻撃前に付与）", source: "愉悦スキル150220",
+            category: "takenDamage", value: attack.intrinsicTakenDamage, conditionText: "初回の通常アッハタイム・敵1体",
+            stacking: { group: "yaoguang-woes-whisper", rule: "max" }
+        }));
         const allowed = ["elation", "critRate", "critRateOverride", "critDamage", "critTakenDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage"];
         modifiers.forEach((item) => {
             if (!item.enabled || !item.applicable) return;
@@ -317,9 +337,14 @@
         const crit = nonCrit * critMultiplier;
         const expected = nonCrit * expectedCritMultiplier;
         return {
-            attack: { name: attack.name, hitCount: 1, target: attack.target, canCrit: true, scalingStat: "elation" },
-            nonCrit, crit, expected, perHit: { nonCrit, crit, expected }, applied, skipped,
+            attack: { name: attack.name, hitCount: attack.hitCount, target: attack.target, canCrit: true, scalingStat: "elation" },
+            nonCrit, crit, expected, perHit: { nonCrit: nonCrit / attack.hitCount, crit: crit / attack.hitCount, expected: expected / attack.hitCount }, applied, skipped,
             breakdown: {
+                ...(attack.id === "150220" ? { elationComponents: elationComponents(attack).map((component) => {
+                    const perHitNonCrit = levelBase * component.multiplierPercent / 100 * commonMultiplier;
+                    return { ...component, perHitNonCrit, nonCrit: perHitNonCrit * component.count,
+                        crit: perHitNonCrit * component.count * critMultiplier, expected: perHitNonCrit * component.count * expectedCritMultiplier };
+                }) } : {}),
                 damageFormula: "elation", levelBase, referenceValue: levelBase, multiplierPercent: attack.multiplier,
                 multiplierAddition: 0, scalingTerms: [], flatDamage: 0, baseDamage,
                 elationPercent, elationMultiplier, punchline: values.punchline, punchlineMultiplier,
