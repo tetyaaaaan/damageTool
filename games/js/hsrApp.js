@@ -111,6 +111,7 @@
     $("hsrOrnamentDetailsButton").disabled = !ornamentSet;
     $("hsrRelicMode").value = state.relicMode; $("hsrRelicSecondCard").hidden = state.relicMode !== "2+2";
     $("hsrElationField").hidden = char?.path !== "Elation";
+    $("hsrElationInputHelp").hidden = char?.path !== "Elation";
     $("hsrTrueDamageSettings").hidden = char?.id !== "1415";
     $("hsrElationSettings").hidden = !["1505", "1502", "1513"].includes(char?.id);
     $("hsrElationContextField").hidden = char?.id !== "1502";
@@ -413,7 +414,7 @@
   function conditionStatus(items) {
     if (items.some((item) => item.enabled && item.inputWarnings?.length)) return { label: "入力確認", className: "is-input" };
     if (items.some(isAttackSelectionCondition)) return items.some((item) => isAttackSelectionCondition(item) && item.activation.active) ? { label: "計算対象", className: "is-auto" } : { label: "対象外", className: "is-inactive" };
-    if (items.every((item) => item.displayOnly)) return items.some((item) => item.inputPolicy === "includedInFinalStats") ? { label: "反映済み", className: "is-reflected" } : { label: "表示のみ", className: "is-display" };
+    if (items.every((item) => item.displayOnly)) return items.every((item) => item.inputPolicy === "includedInFinalStats") ? { label: "最終入力で管理", className: "is-reflected" } : { label: items.some((item) => item.inputPolicy === "includedInFinalStats") ? "内訳を確認" : "表示のみ", className: "is-display" };
     if (items.some((item) => item.enabled)) return items.every((item) => item.automatic || !item.enabled) ? { label: "自動反映", className: "is-auto" } : { label: "適用中", className: "is-auto" };
     if (items.some((item) => item.activation?.mode === "toggleThreshold")) return items.some((item) => item.activation?.toggled) ? { label: "条件未達", className: "is-inactive" } : { label: "条件OFF", className: "is-inactive" };
     if (items.some((item) => ["statThreshold", "numericThreshold"].includes(item.activation?.mode))) return { label: "条件未達", className: "is-inactive" };
@@ -440,7 +441,7 @@
   function currentConditionReflection(item) {
     if (item.inputWarnings?.length) return `未適用：${item.inputWarnings.join(" ")}`;
     if (isAttackSelectionCondition(item)) return item.activation.active ? "独立した攻撃結果を表示" : "独立した攻撃は計算対象外";
-    if (item.inputPolicy === "includedInFinalStats") return "入力欄のステータスへ反映済み";
+    if (item.inputPolicy === "includedInFinalStats") return "最終ステータスに含めて入力（ここでは再加算しません）";
     if (item.displayOnly) return "未適用（表示のみ）";
     if (!item.enabled && ["statThreshold", "numericThreshold"].includes(item.activation?.mode)) return item.unit === "percent" ? "0%（条件未達）" : "未適用（条件未達）";
     if (!item.enabled && item.activation?.mode === "toggleThreshold") return item.unit === "percent" ? "0%（条件未達）" : "未適用（条件未達）";
@@ -518,7 +519,7 @@
   function updateConditionSummary() {
     const active = allConditions().filter((item) => item.enabled).length;
     $("hsrConditionTitle").textContent = active ? `${active}件の補正を適用` : "適用する補正はありません";
-    $("hsrConditionHelp").textContent = "自動判定と手動条件の適用状態を確認できます。";
+    $("hsrConditionHelp").textContent = "「最終入力で管理」は再加算なし。「表示のみ」は計算対象外です。";
   }
 
   function applyEnemy(id) {
@@ -671,8 +672,8 @@
     const items = allConditions().filter((item) => item.displayOnly && !isAttackSelectionCondition(item));
     const included = items.filter((item) => item.inputPolicy === "includedInFinalStats");
     const unsupported = items.filter((item) => item.inputPolicy !== "includedInFinalStats");
-    const group = (title, entries, includedInStats) => entries.length ? `<h4>${title}</h4><ul>${entries.map((item) => `<li><strong>${esc(item.name)}</strong>：${includedInStats ? "入力された最終ステータスに含める常時効果のため、再加算しません。" : esc(item.reason || "計算データ未対応のため、計算には含めません。")}</li>`).join("")}</ul>` : "";
-    return items.length ? `<details class="hsr-excluded-conditions"><summary>計算に追加しない補正（${items.length}件）</summary>${group("入力済みの常時効果・再加算なし", included, true)}${group("データ未対応・表示のみ（計算対象外）", unsupported, false)}</details>` : "";
+    const group = (title, entries, includedInStats) => entries.length ? `<h4>${title}</h4><ul>${entries.map((item) => `<li><strong>${esc(item.name)}</strong>：${includedInStats ? "最終ステータスに含めて入力する効果です。装備選択による自動加算は行わず、計算時にも再加算しません。" : esc(item.reason || "計算データ未対応のため、計算には含めません。")}</li>`).join("")}</ul>` : "";
+    return items.length ? `<details class="hsr-excluded-conditions"><summary>計算に追加しない補正（${items.length}件）</summary>${group("最終入力で管理する効果・再加算なし", included, true)}${group("データ未対応・表示のみ（計算対象外）", unsupported, false)}</details>` : "";
   }
 
   function renderResults(results, breakResult, specialBreakResults = [], unavailableAttacks = []) {

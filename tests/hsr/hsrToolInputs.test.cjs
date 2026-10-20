@@ -187,7 +187,7 @@ test("modifier audit separates unsupported data, included final stats and inacti
     app.state.conditions.push({ id: "inactive", name: "Inactive buff", category: "damageBonus", value: 100, enabled: false });
     assert.equal(app.calculate()[0].breakdown.baseDamage, 1000);
     const html = app.node("hsrResults").innerHTML;
-    for (const text of ["入力済みの常時効果・再加算なし", "Included ATK", "データ未対応・表示のみ（計算対象外）", "Unsupported ATK", "この効果は計算未対応です", "条件未成立／対象外", "発動条件を満たしていません"]) assert.ok(html.includes(text), text);
+    for (const text of ["最終入力で管理する効果・再加算なし", "装備選択による自動加算は行わず", "Included ATK", "データ未対応・表示のみ（計算対象外）", "Unsupported ATK", "この効果は計算未対応です", "条件未成立／対象外", "発動条件を満たしていません"]) assert.ok(html.includes(text), text);
 });
 
 
@@ -783,4 +783,31 @@ test("Waveflair fixed-20 normal Elation shows unequal components and restores co
     restored.node("hsrMerrymake").value="0";restored.state.modifierInputs[key]=1;assert.equal(restored.calculate().length,0,"non-boolean confirmation cannot establish trigger/stable conditions");
     restored.state.modifierInputs[key]=false;assert.equal(restored.calculate().length,1);
     assert.equal(restored.state.data.attacks.some(a=>a.id==="151321"),false);
+});
+
+
+test("final-input guidance distinguishes permanent gear and Pearl A2 from additional support without changing inputs", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const {loadHsrDataFiles}=require("../../scripts/lib/hsrDataFiles.cjs");
+    const extraData={...catalog,attacks:JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a=>a.id==="150301"),
+        structuredModifiers:loadHsrDataFiles(root).modifiers};
+    const app=await tool(undefined,extraData);app.state.characterId="1503";
+    for(const [k,v]of Object.entries({def:3000,elation:140,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
+    app.node("hsrEidolon").handlers.change({target:{value:"0"}});
+    const cases=[["21066","","光円錐"],["23055","","光円錐"],["","133","遺物・オーナメント"],["","134","遺物・オーナメント"],["","","軌跡"]];
+    for(const [coneId,relicId,tab]of cases){
+        app.state.coneId=coneId;app.state.relicId=relicId;app.state.relicMode="2+2";
+        const result=app.calculate()[0];
+        assert.ok(Math.abs(result.nonCrit-972)<1e-9);
+        assert.equal(app.node("hsrStat-def").value,"3000");assert.equal(app.node("hsrStat-elation").value,"140");
+        assert.ok(result.applied.every(m=>!m.id.includes("final")));
+        app.node("hsrConditionDialogOpen").handlers.click();
+        app.node("hsrConditionDialog").handlers.click({target:{closest:()=>({dataset:{conditionTab:tab}})}});
+        assert.match(app.node("hsrConditionList").innerHTML,/最終ステータスに含めて入力（ここでは再加算しません）/);
+        assert.doesNotMatch(app.node("hsrConditionList").innerHTML,/入力欄のステータスへ反映済み/);
+    }
+    assert.match(app.node("hsrConditionHelp").textContent,/最終入力で管理.*再加算なし.*表示のみ.*計算対象外/);
+    const html=read("games/hsr/index.html");
+    assert.match(html,/装備選択だけでは数値は更新されません/);assert.match(html,/UID反映後もこのルールで確認・編集/);
+    assert.match(html,/aria-describedby="hsrElationInputHelp"/);assert.match(html,/補正条件で追加する支援分は含めません/);
 });

@@ -97,7 +97,7 @@
               </section>
 
               <section class="genshin-input-step" aria-labelledby="hsrStatusStepTitle">
-                <div class="genshin-input-step-head"><h4 id="hsrStatusStepTitle">ステータス</h4><p>装備・軌跡の常時効果を含む最終値を入力します。戦闘中の追加効果は補正条件で設定してください。UID反映後も編集できます。</p></div>
+                <div class="genshin-input-step-head"><h4 id="hsrStatusStepTitle">ステータス</h4><p>キャラ・光円錐の基礎値に、遺物・オーナメント・軌跡の常時ステータス補正を含めた最終値を入力します。装備選択だけでは数値は更新されません。UID反映後もこのルールで確認・編集してください。</p></div>
                 <div class="genshin-profile-stat-inputs"><div class="genshin-form-grid genshin-compact-stats hsr-stat-grid">
                   <label class="genshin-field"><span class="genshin-stat-label hsr-stat-label"><img src="/games/images/hsr/stats/IconMaxHP.png" alt="">HP</span><input id="hsrStat-hp" data-stat="hp" type="number" step="1"></label>
                   <label class="genshin-field"><span class="genshin-stat-label hsr-stat-label"><img src="/games/images/hsr/stats/IconMaxHP.png" alt="">現在HP割合</span><input id="hsrStat-hpPercent" data-stat="hpPercent" type="number" min="0" max="100" step="0.1"><span class="genshin-field-unit">%</span></label>
@@ -112,8 +112,9 @@
                   <label class="genshin-field"><span class="genshin-stat-label hsr-stat-label"><img src="/games/images/hsr/stats/IconEnergyRecovery.png" alt="">EP回復効率</span><input id="hsrStat-energyRegen" data-stat="energyRegen" type="number" step="0.1"><span class="genshin-field-unit">%</span></label>
                   <label class="genshin-field"><span class="genshin-stat-label hsr-stat-label"><img id="hsrDamageBonusIcon" src="/games/images/hsr/elements/Physical.png" alt="">属性ダメージ</span><input id="hsrStat-damageBonus" data-stat="damageBonus" type="number" step="0.1"><span class="genshin-field-unit">%</span></label>
                   <label class="genshin-field" id="hsrDotBaseDamageField" hidden><span class="genshin-stat-label hsr-stat-label"><img src="/games/images/hsr/stats/IconAttack.png" alt="">対象の持続ダメージ（1回分）</span><input id="hsrStat-dotBaseDamage" data-stat="dotBaseDamage" type="number" min="0" step="1"><small>起爆対象に付与されている各持続ダメージの、本来の1回分の合計値です。</small></label>
-                  <label class="genshin-field" id="hsrElationField" hidden><span class="genshin-stat-label hsr-stat-label"><img src="/games/images/hsr/stats/IconJoy.png" alt="">愉悦度</span><input id="hsrStat-elation" data-stat="elation" type="number" step="0.1"><span class="genshin-field-unit">%</span></label>
+                  <label class="genshin-field" id="hsrElationField" hidden><span class="genshin-stat-label hsr-stat-label"><img src="/games/images/hsr/stats/IconJoy.png" alt="">愉悦度</span><input id="hsrStat-elation" data-stat="elation" type="number" step="0.1" aria-describedby="hsrElationInputHelp"><span class="genshin-field-unit">%</span></label>
                 </div></div>
+                <p class="genshin-help" id="hsrElationInputHelp" hidden>装備・軌跡の常時愉悦度（パールA2など）を含めて入力。補正条件で追加する支援分は含めません。</p>
               </section>
 
               <section class="genshin-input-step" id="hsrTrueDamageSettings" hidden aria-labelledby="hsrTrueDamageTitle">
@@ -149,7 +150,7 @@
               </section>
             </div>
 
-            <div class="genshin-fieldset genshin-json-calc-production"><div class="genshin-input-step-head genshin-calculation-step-head"><h3>補正条件</h3><p>キャラ・装備・パーティに応じた候補を確認します。</p></div><div class="genshin-condition-launcher"><div><strong id="hsrConditionTitle">適用する補正はありません</strong><span id="hsrConditionHelp">自動判定と手動条件の適用状態を確認できます。</span></div><button type="button" class="teti-button teti-button-secondary" id="hsrConditionDialogOpen" aria-haspopup="dialog" aria-controls="hsrConditionDialog">補正条件を確認・設定</button></div><div class="genshin-json-actions genshin-json-actions-bottom"><button type="button" class="teti-button teti-button-primary" id="hsrCalculateButton">ダメージ計算を実行</button></div></div>
+            <div class="genshin-fieldset genshin-json-calc-production"><div class="genshin-input-step-head genshin-calculation-step-head"><h3>補正条件</h3><p>戦闘中の支援・条件付き効果は、対象と発動条件を確認して設定します。ここで追加する効果を、入力値（UID反映値を含む）や手動補正に重ねて含めないでください。</p></div><div class="genshin-condition-launcher"><div><strong id="hsrConditionTitle">適用する補正はありません</strong><span id="hsrConditionHelp">「最終入力で管理」は再加算なし。「表示のみ」は計算対象外です。</span></div><button type="button" class="teti-button teti-button-secondary" id="hsrConditionDialogOpen" aria-haspopup="dialog" aria-controls="hsrConditionDialog">補正条件を確認・設定</button></div><div class="genshin-json-actions genshin-json-actions-bottom"><button type="button" class="teti-button teti-button-primary" id="hsrCalculateButton">ダメージ計算を実行</button></div></div>
           </div>
 
           <aside class="genshin-panel genshin-result-panel" id="hsrResultPanel" aria-label="計算結果">
