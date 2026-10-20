@@ -693,3 +693,30 @@ test("Summer Songbirds uses independent talent level, validates Fever state and 
   set("robin-songbirds-count","1");set("robin-songbirds-talent-level","");assert.equal(app.calculate().length,0);assert.match(app.node("hsrWarnings").innerHTML,/精霊天賦Lv/);
   app.state.modifierInputs["robin-songbirds-vulnerability"]=false;assert.ok(Math.abs(app.calculate()[0].nonCrit-972)<1e-9);
 });
+
+
+test("blocked techniques never produce damage or become calculable after restoring a build", async () => {
+  const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+  const file=JSON.parse(read("games/hsr/data/attack-overrides.json"));
+  const attacks=file.overrides.map(a=>({...a,support:a.support||file.support}));
+  const techniques=attacks.filter(a=>a.type==="technique");
+  const extraData={characters:catalog.characters,attacks,structuredModifiers:[]};
+  for(const technique of techniques) {
+    const app=await tool(undefined,extraData);app.state.characterId=technique.characterId;
+    for(const[key,value]of Object.entries({hp:6000,atk:3000,def:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+key).value=String(value);
+    const results=app.calculate();
+    assert.ok(results.length>0,"ordinary attacks remain available: "+technique.id);
+    assert.equal(results.some(r=>r.attack?.name===technique.name),false);
+    const html=app.node("hsrResults").innerHTML;
+    if(technique.hidden)assert.equal(html.includes(technique.name),false);
+    else {assert.ok(html.includes(technique.name));assert.ok(html.includes(technique.support.reason));assert.match(html,/表示のみ・計算不可/);}
+    app.node("hsrStat-atk").handlers.input();
+    // Current saves have no attack selector. An unknown legacy field must not redirect to another attack.
+    const key="tetinet:hsr:calculation:v1", saved=JSON.parse(app.storage.get(key));saved.state.attackId=technique.id;app.storage.set(key,JSON.stringify(saved));
+    const restored=await tool(app.storage,extraData);
+    assert.equal(restored.state.characterId,technique.characterId);assert.equal(Object.hasOwn(restored.state,"attackId"),false);
+    assert.equal(restored.state.data.attacks.find(a=>a.id===technique.id).support.status,"displayOnly");
+    const after=restored.calculate();assert.equal(after.some(r=>r.attack?.name===technique.name),false);assert.equal(after.length,results.length);
+    for(let i=0;i<after.length;i++)assert.equal(after[i].nonCrit,results[i].nonCrit);
+  }
+});

@@ -80,6 +80,26 @@ test("HSR runtime uses the ID-based JSON catalog without CSV references", async 
     assert.equal(data.attackCoverage.review, data.attacks.filter((attack) => attack.support?.status !== "calculable" || !attack.support.verified).length);
     assert.equal(data.attackCoverage.calculable + data.attackCoverage.review, data.attackCoverage.total);
     assert.ok(data.attacks.every((item) => item.support && typeof item.support.verified === "boolean"));
+    const techniques = data.attacks.filter((attack) => attack.type === "technique");
+    assert.deepEqual(Array.from(techniques, (attack) => attack.id).sort(), ["110307", "110507", "110607", "110907", "111107", "111207", "120107", "120307", "120407"]);
+    vm.runInNewContext(read("games/js/hsrCalcEngine.js"), { window });
+    for (const attack of techniques) {
+        assert.equal(attack.support.status, "displayOnly", attack.id);
+        assert.equal(attack.support.verified, false, attack.id);
+        assert.match(attack.support.reason, /計算対象外/);
+        assert.equal(window.HsrCalcEngine.unsupportedAttackReason(attack), attack.support.reason);
+        const result = window.HsrCalcEngine.calculate({ attack });
+        assert.equal(result.supported, false, attack.id);
+        assert.equal("nonCrit" in result, false);
+    }
+    const registeredCounts = { calculable: 0, review: 0, displayOnly: 0 };
+    const effectiveCounts = { calculable: 0, review: 0, displayOnly: 0 };
+    data.attacks.forEach((attack) => {
+        registeredCounts[attack.support.status]++;
+        const effective = window.HsrCalcEngine.unsupportedAttackReason(attack) ? "displayOnly" : attack.support.status;
+        effectiveCounts[effective]++;
+    });
+    assert.deepEqual(effectiveCounts, registeredCounts, "registration must agree with the engine's static damage-kind gate");
     for (const id of ["150120", "150621", "800920", "801020", "140603", "150504"]) {
         assert.equal(data.attacks.find((attack) => attack.id === id).support.status, "displayOnly", id);
     }
