@@ -385,7 +385,7 @@ test("Pearl calculates only her registered DEF Basic ATK and explains other skil
     assert.equal(results.length, 1);
     assert.ok(Math.abs(results[0].nonCrit - 972) < 1e-9);
     assert.equal(results[0].breakdown.referenceValue, 3000);
-    assert.match(app.node('hsrWarnings').innerHTML, /強化通常攻撃・愉悦スキル.*計算対象外/);
+    assert.match(app.node('hsrWarnings').innerHTML, /愉悦版150308・愉悦スキル.*計算対象外/);
     assert.match(app.node('hsrResults').innerHTML, /data-support-status="calculable"/);
     assert.match(app.node('hsrResults').innerHTML, /防御力参照 × 攻撃倍率/);
     assert.match(app.node('hsrResults').innerHTML, /3,000 × 90%/);
@@ -719,4 +719,33 @@ test("blocked techniques never produce damage or become calculable after restori
     const after=restored.calculate();assert.equal(after.some(r=>r.attack?.name===technique.name),false);assert.equal(after.length,results.length);
     for(let i=0;i<after.length;i++)assert.equal(after[i].nonCrit,results[i].nonCrit);
   }
+});
+
+
+test("Pearl enhanced Basic is opt-in manual scope and restores its confirmation without enabling mixed damage", async () => {
+  const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+  const extraData={characters:catalog.characters,attacks:JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a=>a.characterId==="1503"),structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1503")};
+  const app=await tool(undefined,extraData);app.state.characterId="1503";
+  for(const [k,v]of Object.entries({def:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
+  assert.equal(app.calculate().length,1);
+  const key="pearl-non-elation-deep-learning";
+  // This checkbox confirms all physical conditions, including charge>0 and a non-Elation, non-self archetype.
+  app.state.modifierInputs[key]=true;
+  const r=app.calculate().find(r=>r.attack.name.includes("波頭描き"));assert.ok(Math.abs(r.nonCrit-1080)<1e-9);assert.equal(r.breakdown.referenceValue,3000);
+  assert.match(app.node("hsrWarnings").innerHTML,/深層学習中・残チャージ1～3・自身以外の非愉悦/);
+  assert.match(app.node("hsrResults").innerHTML,/3,000 × 100%/);assert.match(app.node("hsrWarnings").innerHTML,/150320等の追加愉悦効果なし/);
+  app.node("hsrStat-def").handlers.input();const restored=await tool(app.storage,extraData);assert.equal(restored.state.modifierInputs[key],true);
+  assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("波頭描き")).nonCrit-r.nonCrit)<1e-9);
+  // Charge, archetype and external extra damage are manually confirmed, not inferred from party membership.
+  // Any failed/unknown physical condition must leave this single confirmation OFF.
+  restored.state.modifierInputs[key]=false;
+  assert.equal(restored.calculate().some(r=>r.attack.name.includes("波頭描き")),false);
+  restored.state.modifierInputs[key]=true;
+  restored.node("hsrNormalTrace").value="1";assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("波頭描き")).nonCrit-540)<1e-9);
+  restored.node("hsrNormalTrace").value="7";assert.equal(restored.calculate().length,0);assert.match(restored.node("hsrWarnings").innerHTML,/Lv1～6/);
+  restored.node("hsrNormalTrace").value="6";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().some(r=>r.attack.name.includes("波頭描き")),false);
+  restored.node("hsrEidolon").value="0";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().some(r=>r.attack.name.includes("波頭描き")),false);
+  restored.node("hsrEnemyCount").value="1";
+  for(const value of ["","0","-1","invalid"]){restored.node("hsrStat-def").value=value;assert.equal(restored.calculate().length,0);assert.match(restored.node("hsrWarnings").innerHTML,/防御力/);}
+  assert.equal(restored.state.data.attacks.some(a=>a.id==="150308"),false);
 });

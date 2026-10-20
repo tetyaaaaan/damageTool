@@ -1409,7 +1409,7 @@ test("Pearl's unenhanced DEF Basic ATK matches independently calculated single-t
         assert.equal(result.breakdown.defense, 0.5);
         assert.equal(result.breakdown.toughness, 0.9);
     }
-    assert.deepEqual(attacks.filter(item => item.characterId === '1503' && item.support?.status === 'calculable').map(item => item.id), ['150301']);
+    assert.deepEqual(attacks.filter(item => item.characterId === '1503' && item.support?.status === 'calculable' && !item.modifierInputKey).map(item => item.id), ['150301']);
 });
 
 
@@ -1449,3 +1449,30 @@ for (const [id, stat, element, base, increased] of [['151201', 'hp', 'Wind', 600
         }
     });
 }
+
+
+test("Pearl non-Elation enhanced Basic uses complete scoped DEF damage at Lv1-6", () => {
+    const attack=attacks.find(a=>a.id==="150310");
+    const master=readJson("games/hsr/data/catalog.json").characters.find(c=>c.id==="1503").skills.find(s=>s.id==="150310");
+    assert.equal(attack.scalingStat,"def");assert.equal(attack.type,"enhancedNormal");assert.equal(attack.element,"Ice");assert.equal(attack.target,"aoe");
+    assert.equal(attack.maximumEidolon,0);assert.equal(attack.maximumTraceLevel,6);assert.equal(attack.enemyCountExact,1);assert.equal(attack.modifierInputDefault,0);
+    assert.deepEqual(attack.multipliers,[50,60,70,80,90,100]);
+    attack.multipliers.forEach((mv,i)=>assert.equal(mv,master.params[i][0]*100));
+    for(const [lv,def,cd,cr,enemyLevel,res,bonus,taken,defDown,nc,crit,expected]of[
+      [6,3000,100,50,80,20,0,0,0,1080,2160,1620],
+      [1,3000,100,50,80,20,0,0,0,540,1080,810],
+      [6,4000,100,50,80,20,0,0,0,1440,2880,2160],
+      [6,3000,150,25,80,20,0,0,0,1080,2700,1485],
+      [6,3000,100,50,90,40,0,0,20,861.7021276595744,1723.4042553191488,1292.5531914893618],
+      [6,3000,100,50,80,20,50,0,0,1620,3240,2430],
+      [6,3000,100,50,80,20,0,20,0,1296,2592,1944]
+    ]) {
+      // Independent: DEF * released MV * (100/(100+(enemyLv+20)*(1-DEFdown))) * (1-RES) * .9 * DMG * vulnerability.
+      const input=request({...attack,multiplier:attack.multipliers[lv-1],traceLevel:lv});
+      Object.assign(input.character.stats,{def,critDamage:cd,critRate:cr,damageBonus:bonus});
+      Object.assign(input.enemy,{level:enemyLevel,resistance:res,takenDamage:taken,defenseReduction:defDown});
+      const r=engine.calculate(input);[r.nonCrit,r.crit,r.expected].forEach((v,i)=>assert.ok(Math.abs(v-[nc,crit,expected][i])<1e-9));
+      assert.equal(r.breakdown.referenceValue,def);assert.equal(r.breakdown.multiplierPercent,attack.multipliers[lv-1]);assert.equal(r.attack.hitCount,1);
+    }
+    assert.equal(attacks.some(a=>a.id==="150308"),false,"mixed Elation version must remain unregistered");
+});
