@@ -331,7 +331,9 @@
         const punchline = attack.id === "151320" ? 20 : values.punchline;
         const punchlineMultiplier = 1 + 5 * punchline / (punchline + 240);
         const merrymakeMultiplier = 1 + values.merrymake / 100;
-        const defense = defenseMultiplier(character.level, enemy.level, number(enemy.defenseReduction) + sum("defenseReduction"), number(enemy.defenseIgnore) + sum("defenseIgnore"));
+        const defenseReduction = number(enemy.defenseReduction) + sum("defenseReduction");
+        const defenseIgnore = number(enemy.defenseIgnore) + sum("defenseIgnore");
+        const defense = defenseMultiplier(character.level, enemy.level, defenseReduction, defenseIgnore);
         const resistance = resistanceMultiplier(number(enemy.resistance) - number(enemy.resistancePenetration) - sum("resistanceReduction") - sum("resistancePenetration"));
         const toughness = enemy.toughnessActive ? 0.9 : 1;
         const takenDamage = number(enemy.takenDamage) + sum("takenDamage");
@@ -361,7 +363,8 @@
                 ...(attack.id === "151320" ? { punchlineSource: "fixedTalent", elationScopeNote: "熱気10到達の通常版自動発動・敵1体・全体1ヒット＋追加10ヒット。爆笑ネタは天賦固定20。全ヒット中の撃破・敵条件変化なし。" } : {}),
                 merrymakePercent: values.merrymake, merrymakeMultiplier,
                 damageBonus: 0, damageBonusMultiplier: 1, independentMultiplier: 1,
-                defense, resistance, weakness: 1, toughness, takenDamage, vulnerabilityFactors: [vulnerability],
+                defense, defenseReductionPercent: defenseReduction, defenseIgnorePercent: defenseIgnore,
+                resistance, weakness: 1, toughness, takenDamage, vulnerabilityFactors: [vulnerability],
                 progressiveVulnerability: [], vulnerabilityFactorSum: vulnerability, commonWithoutVulnerability, commonMultiplier,
                 critMultiplier, expectedCritMultiplier, critRatePercent: critRate, critDamagePercent: critDamage, critTakenDamage
             }

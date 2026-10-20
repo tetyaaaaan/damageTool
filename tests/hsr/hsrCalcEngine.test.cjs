@@ -527,3 +527,26 @@ test("Waveflair refuses enhanced, multi-enemy, unstable and incomplete contexts 
     const regular=elationInput();regular.elation.punchline=60;assert.ok(Math.abs(engine().calculate(regular).nonCrit-8951.707116)<1e-8);
     const yao=yaoguangInput();yao.elation.punchline=60;assert.equal(engine().calculate(yao).breakdown.punchline,60);
 });
+
+
+test("combined Elation gear and party buffs expose the exact defense inputs used by the breakdown", () => {
+    const runtime=require(path.join(root,"games/js/hsrModifierRuntime.js"));
+    const {loadHsrDataFiles}=require(path.join(root,"scripts/lib/hsrDataFiles.cjs"));
+    const input=waveflairElationInput(); input.enemy.defenseReduction=20;
+    input.modifiers=runtime.buildCandidates(loadHsrDataFiles(root).modifiers,{
+        characterId:"1513",lightConeId:"21066",refinement:1,
+        partyIds:["1503","1502","1512"],partyEidolons:{"1503":1,"1512":0},
+        partyPaths:{"1513":"Elation","1503":"Elation","1502":"Elation","1512":"Remembrance"},traceLevelFor:()=>10
+    },{"pearl-e1-party-elation":true,"robin-summeretto-fever":true,"robin-summeretto-vibes":12,
+       "robin-songbirds-vulnerability":true,"robin-songbirds-talent-level":6,"robin-songbirds-count":3});
+    const result=engine().calculate(input), b=result.breakdown;
+    assert.equal(b.defenseReductionPercent,20);assert.equal(b.defenseIgnorePercent,29);
+    assert.equal(b.defense,100/151);assert.equal(b.takenDamage,16);assert.equal(b.elationPercent,70);
+    // Independent: Lv80 base * total MV * final+party Elation * fixed20 * DEF * RES * toughness * vulnerability.
+    const expected=7535.107*2.4*1.7*(18/13)*(100/151)*.8*.9*1.16;
+    assert.ok(Math.abs(result.nonCrit-expected)<1e-8);
+    assert.ok(Math.abs(result.crit-expected*2)<1e-8);assert.ok(Math.abs(result.expected-expected*1.5)<1e-8);
+    for(const key of ["nonCrit","crit","expected"])assert.ok(Math.abs(b.elationComponents.reduce((sum,p)=>sum+p[key],0)-result[key])<1e-8);
+    const unbuffed=engine().calculate(waveflairElationInput()).breakdown;
+    assert.equal(unbuffed.defenseReductionPercent,0);assert.equal(unbuffed.defenseIgnorePercent,0);
+});
