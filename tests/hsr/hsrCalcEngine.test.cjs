@@ -466,3 +466,64 @@ test("four scoped AoE attacks agree with independent released coefficients and o
     assert.equal(bounce.support.status, "displayOnly");
     assert.equal(engine().calculate({ ...baseInput(), attack: bounce }).supported, false);
 });
+
+
+function waveflairElationInput(level=10) {
+    const input=elationInput();
+    const attack=JSON.parse(fs.readFileSync(path.join(root,"games/hsr/data/attack-overrides.json"),"utf8")).overrides.find(a=>a.id==="151320");
+    input.attack={...attack,traceLevel:level,multiplier:attack.multipliers[level-1]};
+    input.enemy.count=1;input.character.stats.critRate=50;
+    input.elation={context:"fervor10Auto",stableEnemy:true,punchline:999,merrymake:0};
+    return input;
+}
+
+test("Waveflair normal Elation matches independent AoE plus ten-hit values with fixed Talent Punchline", () => {
+    const catalog=JSON.parse(fs.readFileSync(path.join(root,"games/hsr/data/catalog.json"),"utf8"));
+    const master=catalog.characters.find(c=>c.id==="1513").skills.find(s=>s.id==="151320");
+    for(let level=1;level<=10;level++) {
+        const input=waveflairElationInput(level), a=input.attack;
+        assert.ok(Math.abs(a.elationComponents[0].multipliers[level-1]-master.params[level-1][0]*100)<1e-9);
+        assert.ok(Math.abs(a.elationComponents[1].multipliers[level-1]-master.params[level-1][2]*100)<1e-9);
+        assert.equal(master.params[level-1][1],10);
+        const r=engine().calculate(input), parts=r.breakdown.elationComponents;
+        for(const field of ["nonCrit","crit","expected"])assert.ok(Math.abs(parts.reduce((sum,p)=>sum+p[field],0)-r[field])<1e-8);
+        assert.equal(r.breakdown.punchline,20);assert.equal(input.elation.punchline,999);
+        assert.equal(r.attack.hitCount,11);assert.equal(parts[0].count,1);assert.equal(parts[1].count,10);
+    }
+    // Independent rational evaluation: 7535.107 * MV * (1+E) * (1+5*20/260) * (1+M) * DEF * RES * toughness.
+    const cases=[
+      [10,{}, {}, {},3380.364924923077,10141.09477476923,13521.459699692308,27042.919399384616,20282.18954953846],
+      [1,{}, {}, {},1690.1824624615385,5070.547387384615,6760.729849846154,13521.459699692308,10141.09477476923],
+      [10,{elation:80}, {}, {},4056.437909907692,12169.313729723077,16225.75163963077,32451.50327926154,24338.627459446154],
+      [10,{}, {merrymake:25}, {},4225.456156153846,12676.368468461539,16901.824624615384,33803.64924923077,25352.736936923077],
+      [10,{critRate:25,critDamage:150}, {}, {},3380.364924923077,10141.09477476923,13521.459699692308,33803.64924923077,18592.007087076924],
+      [10,{}, {}, {level:90,resistance:40,defenseReduction:20},2697.099674140753,8091.299022422259,10788.398696563012,21576.797393126023,16182.598044844517],
+      [10,{damageBonus:9999}, {punchline:NaN}, {},3380.364924923077,10141.09477476923,13521.459699692308,27042.919399384616,20282.18954953846]
+    ];
+    for(const [level,stats,values,enemy,aoe,extra,nc,crit,expected]of cases) {
+        const input=waveflairElationInput(level);Object.assign(input.character.stats,stats);Object.assign(input.elation,values);Object.assign(input.enemy,enemy);
+        const r=engine().calculate(input);assert.ok(Number.isFinite(r.nonCrit));
+        const actual=[r.breakdown.elationComponents[0].nonCrit,r.breakdown.elationComponents[1].nonCrit,r.nonCrit,r.crit,r.expected];
+        actual.forEach((v,i)=>assert.ok(Math.abs(v-[aoe,extra,nc,crit,expected][i])<1e-8));
+    }
+    const input=waveflairElationInput();
+    const runtime=require(path.join(root,"games/js/hsrModifierRuntime.js"));const {loadHsrDataFiles}=require(path.join(root,"scripts/lib/hsrDataFiles.cjs"));
+    input.modifiers=runtime.buildCandidates(loadHsrDataFiles(root).modifiers,{characterId:"1513",lightConeId:"21066",refinement:1},{});
+    const r=engine().calculate(input);assert.ok(Math.abs(r.nonCrit-14084.853853846154)<1e-8);assert.equal(r.breakdown.defense,100/192);
+    assert.ok(r.applied.some(m=>m.id==="lightCone:21066:elation-defense-ignore"));assert.equal(r.breakdown.elationPercent,50);
+});
+
+test("Waveflair refuses enhanced, multi-enemy, unstable and incomplete contexts without changing other Punchline inputs", () => {
+    for(const mutate of [
+      i=>i.character.level=79, i=>i.character.eidolon=1, i=>i.enemy.count=2,
+      i=>i.elation.context="ahaInstant", i=>i.elation.stableEnemy=false, i=>delete i.elation.stableEnemy,
+      i=>i.attack.id="151321", i=>i.attack.hitCount=12, i=>i.attack.fixedPunchline=999,
+      i=>i.attack.elationComponents=i.attack.elationComponents.slice(0,1), i=>i.attack.multiplier=99,
+      i=>i.attack.traceLevel=11, i=>i.character.stats.elation=NaN, i=>i.elation.merrymake=NaN
+    ]) {
+      const input=waveflairElationInput();mutate(input);const r=engine().calculate(input);
+      assert.equal(r.supported,false);assert.ok(r.reason);assert.equal("nonCrit" in r,false);
+    }
+    const regular=elationInput();regular.elation.punchline=60;assert.ok(Math.abs(engine().calculate(regular).nonCrit-8951.707116)<1e-8);
+    const yao=yaoguangInput();yao.elation.punchline=60;assert.equal(engine().calculate(yao).breakdown.punchline,60);
+});

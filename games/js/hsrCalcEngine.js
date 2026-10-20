@@ -99,7 +99,8 @@
     function supportedElationAttack(attack) {
         if (attack.damageFormula !== "elation" || attack.type !== "elation") return false;
         return (attack.id === "150520" && attack.elationContext === "ahaInstant" && attack.target === "aoe" && attack.hitCount === 1)
-            || (attack.id === "150220" && attack.elationContext === "firstAhaInstant" && attack.target === "single" && attack.hitCount === 6);
+            || (attack.id === "150220" && attack.elationContext === "firstAhaInstant" && attack.target === "single" && attack.hitCount === 6)
+            || (attack.id === "151320" && attack.elationContext === "fervor10Auto" && attack.target === "single" && attack.hitCount === 11 && attack.fixedPunchline === 20);
     }
 
     function elationComponents(attack) {
@@ -114,7 +115,14 @@
         const values = input.elation || {};
         const warnings = [];
         if (!ELATION_LEVEL_BASE[character.level] || (character.eidolon ?? 0) !== 0) warnings.push("この愉悦攻撃はLv80・星魂0のみ計算対応です。");
-        if (input.attack?.id === "150220") {
+        if (input.attack?.id === "151320") {
+            if (values.context !== "fervor10Auto" || values.stableEnemy !== true) warnings.push("熱気10到達による通常版の自動発動で、全11ヒット中に撃破・敵条件変化がないことを確認してください。");
+            if (input.enemy?.count !== 1) warnings.push("夏アベンチュリンの通常版愉悦は敵1体のみ計算対応です。複数敵への分配は計算しません。");
+            const components = elationComponents(input.attack);
+            if (components.length !== 2 || components[0].count !== 1 || components[1].count !== 10
+                || components.some((item) => !Number.isFinite(item.multiplierPercent) || item.multiplierPercent < 0)
+                || Math.abs(components.reduce((sum, item) => sum + item.count * item.multiplierPercent, 0) - input.attack.multiplier) > 1e-9) warnings.push("通常版151320の全体攻撃・追加10ヒットの倍率を確認できません。");
+        } else if (input.attack?.id === "150220") {
             if (values.context !== "firstAhaInstant") warnings.push("爻光は初回の通常アッハタイム（消費済み爆笑ネタ0）のみ計算対応です。発動条件を選択してください。");
             if (input.enemy?.count !== 1) warnings.push("爻光の愉悦スキルは敵が1体の場合のみ計算対応です。複数対象への分配は計算しません。");
             const components = elationComponents(input.attack);
@@ -123,7 +131,7 @@
                 || Math.abs(components.reduce((sum, item) => sum + item.count * item.multiplierPercent, 0) - input.attack.multiplier) > 1e-9
                 || input.attack.intrinsicTakenDamage !== 16) warnings.push("爻光の全体攻撃・追撃倍率と被ダメージ補正を確認できません。");
         } else if (values.context !== "ahaInstant") warnings.push("この愉悦攻撃はアッハタイム中のみ計算対応です。爆笑の褒美を参照する攻撃は対象外です。");
-        if (!Number.isInteger(values.punchline) || values.punchline < 0) warnings.push("攻撃時点の爆笑ネタに0以上の整数を入力してください。");
+        if (input.attack?.id !== "151320" && (!Number.isInteger(values.punchline) || values.punchline < 0)) warnings.push("攻撃時点の爆笑ネタに0以上の整数を入力してください。");
         if (!Number.isFinite(values.merrymake) || values.merrymake < 0) warnings.push("上笑に0以上の数値を入力してください。補正なしは0です。");
         for (const [key, label] of [["elation", "愉悦度"], ["critRate", "会心率"], ["critDamage", "会心ダメージ"]]) {
             if (!Number.isFinite(stats[key]) || stats[key] < 0) warnings.push(`${label}に0以上の最終値を入力してください。`);
@@ -319,7 +327,9 @@
         const baseDamage = levelBase * attack.multiplier / 100;
         const elationPercent = stats.elation + sum("elation");
         const elationMultiplier = 1 + elationPercent / 100;
-        const punchlineMultiplier = 1 + 5 * values.punchline / (values.punchline + 240);
+        // Fervor-triggered 151320 uses the Talent's fixed value, never the shared manual input.
+        const punchline = attack.id === "151320" ? 20 : values.punchline;
+        const punchlineMultiplier = 1 + 5 * punchline / (punchline + 240);
         const merrymakeMultiplier = 1 + values.merrymake / 100;
         const defense = defenseMultiplier(character.level, enemy.level, number(enemy.defenseReduction) + sum("defenseReduction"), number(enemy.defenseIgnore) + sum("defenseIgnore"));
         const resistance = resistanceMultiplier(number(enemy.resistance) - number(enemy.resistancePenetration) - sum("resistanceReduction") - sum("resistancePenetration"));
@@ -340,14 +350,15 @@
             attack: { name: attack.name, hitCount: attack.hitCount, target: attack.target, canCrit: true, scalingStat: "elation" },
             nonCrit, crit, expected, perHit: { nonCrit: nonCrit / attack.hitCount, crit: crit / attack.hitCount, expected: expected / attack.hitCount }, applied, skipped,
             breakdown: {
-                ...(attack.id === "150220" ? { elationComponents: elationComponents(attack).map((component) => {
+                ...(["150220", "151320"].includes(attack.id) ? { elationComponents: elationComponents(attack).map((component) => {
                     const perHitNonCrit = levelBase * component.multiplierPercent / 100 * commonMultiplier;
                     return { ...component, perHitNonCrit, nonCrit: perHitNonCrit * component.count,
                         crit: perHitNonCrit * component.count * critMultiplier, expected: perHitNonCrit * component.count * expectedCritMultiplier };
                 }) } : {}),
                 damageFormula: "elation", levelBase, referenceValue: levelBase, multiplierPercent: attack.multiplier,
                 multiplierAddition: 0, scalingTerms: [], flatDamage: 0, baseDamage,
-                elationPercent, elationMultiplier, punchline: values.punchline, punchlineMultiplier,
+                elationPercent, elationMultiplier, punchline, punchlineMultiplier,
+                ...(attack.id === "151320" ? { punchlineSource: "fixedTalent", elationScopeNote: "熱気10到達の通常版自動発動・敵1体・全体1ヒット＋追加10ヒット。爆笑ネタは天賦固定20。全ヒット中の撃破・敵条件変化なし。" } : {}),
                 merrymakePercent: values.merrymake, merrymakeMultiplier,
                 damageBonus: 0, damageBonusMultiplier: 1, independentMultiplier: 1,
                 defense, resistance, weakness: 1, toughness, takenDamage, vulnerabilityFactors: [vulnerability],

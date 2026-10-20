@@ -1443,7 +1443,7 @@ for (const [id, stat, element, base, increased] of [['151201', 'hp', 'Wind', 600
         }
         assert.deepEqual(attacks.filter(item => item.characterId === attack.characterId && !item.modifierInputKey).map(item => item.id), [id]);
         if (attack.characterId === '1513') {
-            const scoped = attacks.filter(item => item.characterId === '1513' && item.modifierInputKey);
+            const scoped = attacks.filter(item => item.characterId === '1513' && item.modifierInputKey && item.type !== 'elation');
             assert.deepEqual(scoped.map(item => item.id), ['151302', '151303']);
             assert.ok(scoped.every(item => item.modifierInputDefault === 0 && item.maximumEidolon === 0));
         }

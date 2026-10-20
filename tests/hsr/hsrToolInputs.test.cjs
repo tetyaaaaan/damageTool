@@ -749,3 +749,38 @@ test("Pearl enhanced Basic is opt-in manual scope and restores its confirmation 
   for(const value of ["","0","-1","invalid"]){restored.node("hsrStat-def").value=value;assert.equal(restored.calculate().length,0);assert.match(restored.node("hsrWarnings").innerHTML,/防御力/);}
   assert.equal(restored.state.data.attacks.some(a=>a.id==="150308"),false);
 });
+
+
+test("Waveflair fixed-20 normal Elation shows unequal components and restores confirmation without overwriting manual Punchline", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const overrides=JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides;
+    const generated=JSON.parse(read("games/hsr/data/attacks.generated.json")).attacks;
+    const extraData={characters:catalog.characters,attacks:[...overrides.filter(a=>a.characterId==="1513"),...generated.filter(a=>["150501","150520"].includes(a.id)).map(a=>({...a,...overrides.find(o=>o.id===a.id)}))],structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers};
+    const app=await tool(undefined,extraData);app.state.characterId="1513";
+    for(const[k,v]of Object.entries({atk:3000,elation:50,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
+    app.node("hsrPunchline").value="60";
+    app.node("hsrEidolon").handlers.change({target:{value:"0"}});
+    assert.equal(app.calculate().length,1,"normal Elation must be opt-in");
+    const key="waveflair-fervor10-stable";app.state.modifierInputs[key]=true;
+    const result=app.calculate().find(r=>r.breakdown.damageFormula==="elation");assert.ok(Math.abs(result.nonCrit-13521.459699692308)<1e-8);
+    assert.equal(result.breakdown.punchline,20);assert.equal(app.state.elationInputs.punchline,60);assert.equal(app.node("hsrPunchline").value,"60");
+    assert.equal(app.node("hsrPunchlineField").hidden,true);
+    const html=app.node("hsrResults").innerHTML;
+    assert.match(html,/全体攻撃：60% × 1ヒット/);assert.match(html,/追加ランダム攻撃（敵1体）：18% × 10ヒット/);assert.match(html,/爆笑ネタ（天賦固定値）/);
+    assert.doesNotMatch(html,/敵1体への全6ヒット/);assert.match(app.node("hsrWarnings").innerHTML,/全11ヒット中に撃破や敵条件変化なし/);
+    app.node("hsrStat-elation").handlers.input();const restored=await tool(app.storage,extraData);
+    assert.equal(restored.state.modifierInputs[key],true);assert.equal(restored.node("hsrPunchline").value,"60");
+    assert.ok(Math.abs(restored.calculate().find(r=>r.breakdown.damageFormula==="elation").nonCrit-result.nonCrit)<1e-8);
+    restored.state.characterId="1505";restored.node("hsrEidolon").handlers.change({target:{value:"0"}});
+    const regular=restored.calculate().find(r=>r.breakdown.damageFormula==="elation");assert.equal(regular.breakdown.punchline,60);assert.equal(restored.node("hsrPunchlineField").hidden,false);
+    restored.state.characterId="1513";restored.node("hsrPunchline").value="";
+    assert.ok(Math.abs(restored.calculate().find(r=>r.breakdown.damageFormula==="elation").nonCrit-result.nonCrit)<1e-8,"fixed PL does not require the unrelated manual input");
+    restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().some(r=>r.breakdown.damageFormula==="elation"),false);assert.match(restored.node("hsrResults").innerHTML,/敵1体のみ/);
+    restored.node("hsrEnemyCount").value="1";restored.node("hsrLevel").value="79";assert.equal(restored.calculate().some(r=>r.breakdown.damageFormula==="elation"),false);
+    restored.node("hsrLevel").value="80";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().some(r=>r.breakdown.damageFormula==="elation"),false);
+    restored.node("hsrEidolon").value="0";restored.node("hsrStat-elation").value="";assert.equal(restored.calculate().length,0);
+    restored.node("hsrStat-elation").value="50";restored.node("hsrMerrymake").value="";assert.equal(restored.calculate().length,0);
+    restored.node("hsrMerrymake").value="0";restored.state.modifierInputs[key]=1;assert.equal(restored.calculate().length,0,"non-boolean confirmation cannot establish trigger/stable conditions");
+    restored.state.modifierInputs[key]=false;assert.equal(restored.calculate().length,1);
+    assert.equal(restored.state.data.attacks.some(a=>a.id==="151321"),false);
+});

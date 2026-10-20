@@ -112,10 +112,15 @@
     $("hsrRelicMode").value = state.relicMode; $("hsrRelicSecondCard").hidden = state.relicMode !== "2+2";
     $("hsrElationField").hidden = char?.path !== "Elation";
     $("hsrTrueDamageSettings").hidden = char?.id !== "1415";
-    $("hsrElationSettings").hidden = !["1505", "1502"].includes(char?.id);
+    $("hsrElationSettings").hidden = !["1505", "1502", "1513"].includes(char?.id);
     $("hsrElationContextField").hidden = char?.id !== "1502";
     $("hsrElationScope").textContent = char?.id === "1502" ? "爻光Lv80・星魂0・敵1体、初回の通常アッハタイムの全6ヒットです。" : "緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。";
+    $("hsrPunchlineField").hidden = char?.id === "1513";
     $("hsrPunchlineHelp").textContent = char?.id === "1502" ? "消費済み爆笑ネタが0の初回通常発動だけに対応します。2回目以降・必殺技による追加発動は対象外です。被ダメージ増加16%は自動適用するため重複入力しないでください。愉悦度・会心等は適用対象の常時効果を含む最終値を入力してください。上笑なしは0。通常の与ダメージ補正は適用しません。" : "Lv80・星魂0・アッハタイム中の敵1体あたり1回分です。爆笑ネタと爆笑の褒美は別の値です。この攻撃では攻撃時点の爆笑ネタだけを使い、攻撃後の爆笑の褒美+5は加算しません。上笑がない場合は0を入力してください。通常の与ダメージ補正は適用しません。";
+    if (char?.id === "1513") {
+      $("hsrElationScope").textContent = "夏アベンチュリンLv80・星魂0・敵1体。通常版151320の全11ヒットです。";
+      $("hsrPunchlineHelp").textContent = "補正条件で熱気10到達による自動発動と、計算途中の撃破・敵条件変化なしを確認してください。爆笑ネタは天賦の固定20を使用し、他攻撃用の手動入力値は保持します。上笑なしは0。通常与ダメージ補正は適用しません。強化版151321・複数敵・熱気自動管理・固有補正の自動反映は対象外です。";
+    }
     $("hsrEnhancementField").hidden = !["1004", "1005", "1006", "1102", "1205"].includes(char?.id);
     $("hsrEnhancementState").value = state.enhancementState;
     $("hsrDotBaseDamageField").hidden = char?.id !== "1005";
@@ -606,6 +611,7 @@
     if (attack.damageFormula === "trueDamage" && state.eidolon !== 0) return { status: "displayOnly", label: "表示のみ・計算不可", reason: "キュレネの領域の確定ダメージは星魂0のみ計算対応です。" };
     if (attack.support?.status === "displayOnly") return { status: "displayOnly", label: "表示のみ・計算不可", reason: attack.support.reason };
     if (attack.damageFormula === "elation" && (state.level !== 80 || state.eidolon !== 0)) return { status: "displayOnly", label: "表示のみ・計算不可", reason: "この愉悦攻撃はLv80・星魂0のアッハタイム中のみ計算対応です。" };
+    if (attack.id === "151320" && state.enemy.count !== 1) return { status: "displayOnly", label: "表示のみ・計算不可", reason: "夏アベンチュリンの通常版愉悦は敵1体のみ計算対応です。複数敵分配は計算しません。" };
     if (attack.id === "150220" && state.enemy.count !== 1) return { status: "displayOnly", label: "表示のみ・計算不可", reason: "爻光の愉悦スキルは敵が1体の場合のみ計算対応です。複数対象への分配は計算しません。" };
     const reason = attack.type === "break" ? "" : window.HsrCalcEngine.unsupportedAttackReason(attack);
     if (reason) return { status: "displayOnly", label: "表示のみ・計算不可", reason };
@@ -635,7 +641,7 @@
     const scaling = isElation
       ? row("Lv80の愉悦基礎値 × 攻撃倍率", `${detailNumber(b.levelBase)} × ${detailNumber(b.multiplierPercent)}%`)
         + row("愉悦度", `${detailNumber(b.elationPercent)}%／×${detailNumber(b.elationMultiplier)}`)
-        + row("爆笑ネタ（攻撃時点）", `${detailNumber(b.punchline)}／×${detailNumber(b.punchlineMultiplier)}`)
+        + row(b.punchlineSource === "fixedTalent" ? "爆笑ネタ（天賦固定値）" : "爆笑ネタ（攻撃時点）", `${detailNumber(b.punchline)}／×${detailNumber(b.punchlineMultiplier)}`)
         + row("上笑", `${detailNumber(b.merrymakePercent)}%／×${detailNumber(b.merrymakeMultiplier)}`)
       : b.damageFormula === "enemyHpCappedByAtk"
       ? row("敵HP参照・攻撃力上限適用後", detailNumber(b.cappedEnemyHpDamage)) + row("敵HP割合／攻撃力上限", `${detailNumber(b.enemyHpPercent)}%／${detailNumber(b.atkCapPercent)}%`) + row("攻撃倍率", `${detailNumber(b.multiplierPercent)}%`)
@@ -644,8 +650,8 @@
     const hitFactors = b.vulnerabilityFactors.length && b.vulnerabilityFactors.every((value) => value === b.vulnerabilityFactors[0])
       ? `<dl class="hsr-hit-factors">${row("被ダメージ倍率（各ヒット）", `×${detailNumber(b.vulnerabilityFactors[0])}`)}</dl>`
       : `<details class="hsr-hit-factors"><summary>被ダメージ倍率（ヒット順）</summary><p>${b.vulnerabilityFactors.map((value) => `×${detailNumber(value)}`).join(" → ") || "ヒットなし"}</p></details>`;
-    return `<section class="hsr-target-breakdown"><h4>${esc(targetLabel)}</h4>${components ? '<p class="hsr-formula-note">初回の通常アッハタイム・敵1体への全6ヒット。全体攻撃1回と追撃5回を合算します。</p>' : isElation ? '<p class="hsr-formula-note">アッハタイム中・敵1体あたりの1回分です。爆笑の褒美への変換や全敵の合計は計算しません。</p>' : ""}<dl>${scaling}${b.flatDamage ? row("固定加算", detailNumber(b.flatDamage)) : ""}
-      ${components ? components.map((item) => row(`${item.name}：${item.multiplierPercent}% × ${item.count}ヒット`, `非会心1ヒット ${detailNumber(item.perHitNonCrit)}／小計 ${detailNumber(item.nonCrit)}`)).join("") : ""}${row(components ? "基礎ダメージ（倍率合算）" : "基礎ダメージ（1ヒット）", detailNumber(b.baseDamage))}${row("ヒット数", hits)}
+    return `<section class="hsr-target-breakdown"><h4>${esc(targetLabel)}</h4>${components ? `<p class="hsr-formula-note">${esc(b.elationScopeNote || "初回の通常アッハタイム・敵1体への全6ヒット。全体攻撃1回と追撃5回を合算します。")}</p>` : isElation ? '<p class="hsr-formula-note">アッハタイム中・敵1体あたりの1回分です。爆笑の褒美への変換や全敵の合計は計算しません。</p>' : ""}<dl>${scaling}${b.flatDamage ? row("固定加算", detailNumber(b.flatDamage)) : ""}
+      ${components ? components.map((item) => row(`${item.name}：${item.multiplierPercent}% × ${item.count}ヒット`, `非会心1ヒット ${detailNumber(item.perHitNonCrit)}／小計 ${detailNumber(item.nonCrit)}${b.punchlineSource === "fixedTalent" ? `／会心小計 ${detailNumber(item.crit)}／期待値小計 ${detailNumber(item.expected)}` : ""}`)).join("") : ""}${row(components ? "基礎ダメージ（倍率合算）" : "基礎ダメージ（1ヒット）", detailNumber(b.baseDamage))}${row("ヒット数", hits)}
       ${isElation ? row("通常の与ダメージ補正", "適用対象外（×1）") : row("与ダメージ補正", `${detailNumber(b.damageBonus)}%／×${detailNumber(b.damageBonusMultiplier)}`)}
       ${Number.isFinite(b.defenseIgnorePercent) ? row("防御ダウン／防御無視（合計100%上限）", `${detailNumber(b.defenseReductionPercent)}%／${detailNumber(b.defenseIgnorePercent)}%`) : ""}${row("防御倍率", `×${detailNumber(b.defense)}`)}${row("耐性倍率", `×${detailNumber(b.resistance)}`)}
       ${row(b.toughness === 0.9 ? "靭性倍率（靭性あり）" : "靭性倍率（弱点撃破中）", `×${detailNumber(b.toughness)}`)}
@@ -683,6 +689,12 @@
       <section data-result-panel="modifiers" hidden class="hsr-result-details hsr-attack-results">${excludedConditions()}${audits}${specialBreakAudit}</section>`;
   }
 
+  function attackElationInputs(attack) {
+    if (attack.id !== "151320") return state.elationInputs;
+    const confirmed = state.modifierInputs["waveflair-fervor10-stable"] === true;
+    return { ...state.elationInputs, context: confirmed ? "fervor10Auto" : "", stableEnemy: confirmed };
+  }
+
   function calculationInputWarnings(attacks, baseStats) {
     if (attacks.length && attacks.every((attack) => attack.damageFormula === "trueDamage")) return attacks.flatMap((attack) => window.HsrCalcEngine.trueDamageInputWarnings({ character: { eidolon: state.eidolon }, attack, trueDamage: state.trueDamageInputs }));
     const warnings = new Set();
@@ -695,7 +707,7 @@
     attacks.forEach((attack) => {
       if (Object.hasOwn(state.traceLevels, attack.traceKey) && (!Number.isInteger(state.traceLevels[attack.traceKey]) || state.traceLevels[attack.traceKey] < 1 || state.traceLevels[attack.traceKey] > (["normal", "elation"].includes(attack.traceKey) ? 10 : 15))) warnings.add(`${ATTACK_LABELS[attack.traceKey] || attack.traceKey}のレベルを確認して選択してください。`);
       if (attack.maximumTraceLevel && attack.traceLevel > attack.maximumTraceLevel) warnings.add(`${attack.name}は軌跡Lv1～${attack.maximumTraceLevel}のみ計算対応です。`);
-      if (attack.damageFormula === "elation") window.HsrCalcEngine.elationInputWarnings({ character: { level: state.level, eidolon: state.eidolon, stats: state.stats }, attack, enemy: state.enemy, elation: state.elationInputs }).forEach((warning) => warnings.add(warning));
+      if (attack.damageFormula === "elation") window.HsrCalcEngine.elationInputWarnings({ character: { level: state.level, eidolon: state.eidolon, stats: state.stats }, attack, enemy: state.enemy, elation: attackElationInputs(attack) }).forEach((warning) => warnings.add(warning));
       const terms = [...(attack.scalingTerms?.length ? attack.scalingTerms : [{ stat: attack.scalingStat || "atk", multiplier: attack.multiplier }]), ...(attack.adjacentScalingTerms || [])];
       terms.filter((term) => num(term.multiplier) !== 0).forEach((term) => requiredStats.add(term.stat));
       if (attack.damageFormula === "enemyHpCappedByAtk") requiredStats.add("atk");
@@ -749,7 +761,7 @@
     }
     const baseRequest = { character: { level: state.level, eidolon: state.eidolon, stats: state.stats, baseStats }, enemy: state.enemy, elation: state.elationInputs, trueDamage: state.trueDamageInputs };
     const results = attacks.map((selected) => {
-      const request = { ...baseRequest, attack: selected, modifiers: modifiers(selected) };
+      const request = { ...baseRequest, elation: attackElationInputs(selected), attack: selected, modifiers: modifiers(selected) };
       const result = window.HsrCalcEngine.calculate(request);
       const adjacentAttack = selected.adjacentMultiplier ? { ...selected, multiplier: selected.adjacentMultiplier, scalingTerms: selected.adjacentScalingTerms?.length ? selected.adjacentScalingTerms : undefined, target: "adjacent" } : null;
       const adjacent = adjacentAttack ? window.HsrCalcEngine.calculate({ ...baseRequest, attack: adjacentAttack, modifiers: modifiers(adjacentAttack) }) : null;
