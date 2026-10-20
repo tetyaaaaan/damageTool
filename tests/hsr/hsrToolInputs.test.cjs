@@ -811,3 +811,34 @@ test("final-input guidance distinguishes permanent gear and Pearl A2 from additi
     assert.match(html,/装備選択だけでは数値は更新されません/);assert.match(html,/UID反映後もこのルールで確認・編集/);
     assert.match(html,/aria-describedby="hsrElationInputHelp"/);assert.match(html,/補正条件で追加する支援分は含めません/);
 });
+
+
+test("scoped Hanya and Gallagher attacks preserve opt-in conditions, limits and reloads", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const {loadHsrDataFiles}=require("../../scripts/lib/hsrDataFiles.cjs");
+    const files=loadHsrDataFiles(root);
+    const generated=JSON.parse(read("games/hsr/data/attacks.generated.json")).attacks;
+    const byId=new Map(generated.map(a=>[a.id,a]));files.attackOverrides.forEach(a=>byId.set(a.id,{...byId.get(a.id),...a}));
+    const data={...catalog,attacks:[...byId.values()],structuredModifiers:files.modifiers};
+    for(const [id,cid,key,nc]of [["121502","1215","hanya-unburdened-skill",2592],["130103","1301","",1620]]){
+        const app=await tool(undefined,data);app.state.characterId=cid;
+        for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
+        app.node("hsrEidolon").handlers.change({target:{value:"0"}});
+        const name=byId.get(id).name,find=()=>app.calculate().find(r=>r.attack.name===name);
+        if(key){assert.equal(find(),undefined);app.state.modifierInputs[key]=true;}
+        const r=find();assert.ok(Math.abs(r.nonCrit-nc)<1e-9,JSON.stringify({id,nc,actual:r.nonCrit,applied:r.applied}));
+        assert.match(app.node("hsrWarnings").innerHTML,/星魂0・軌跡Lv1～10・敵1体/);
+        assert.ok(app.node("hsrResults").innerHTML.includes("3,000 × "+byId.get(id).multipliers[9]+"%"));
+        app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);
+        assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name===name).nonCrit-nc)<1e-9);
+        app.node("hsrStat-atk").value="";assert.equal(app.calculate().length,0);app.node("hsrStat-atk").value="-1";assert.equal(app.calculate().length,0);app.node("hsrStat-atk").value="3000";
+        app.node("hsrEnemyCount").value="2";assert.equal(find(),undefined);app.node("hsrEnemyCount").value="1";
+        app.node("hsrEidolon").value="1";assert.equal(find(),undefined);app.node("hsrEidolon").value="0";
+        app.node(id==="121502"?"hsrSkillTrace":"hsrUltimateTrace").value="11";assert.equal(app.calculate().length,0);
+        app.node(id==="121502"?"hsrSkillTrace":"hsrUltimateTrace").value="10";
+        if(key){app.state.modifierInputs[key]=false;assert.equal(find(),undefined);app.state.modifierInputs[key]=true;}
+        app.state.characterId="1513";app.node("hsrEidolon").handlers.change({target:{value:"0"}});
+        const other=app.calculate();assert.ok(!other.some(r=>r.attack.name===name));
+        assert.ok(other.every(r=>!r.applied.some(m=>m.id.endsWith(":direct-scope"))));
+    }
+});

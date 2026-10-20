@@ -1476,3 +1476,38 @@ test("Pearl non-Elation enhanced Basic uses complete scoped DEF damage at Lv1-6"
     }
     assert.equal(attacks.some(a=>a.id==="150308"),false,"mixed Elation version must remain unregistered");
 });
+
+
+test("scoped direct Skill and Ultimate match release coefficients and independent damage factors", () => {
+    const catalog=readJson("games/hsr/data/catalog.json");
+    const specs=[
+        ["121502","1215",[120,132,144,156,168,180,195,210,225,240],2592],
+        ["130103","1301",[75,82.5,90,97.5,105,112.5,121.88,131.25,140.62,150],1620]
+    ];
+    for(const [id,cid,mvs,baseline]of specs){
+        const a=attacks.find(a=>a.id===id),master=catalog.characters.find(c=>c.id===cid).skills.find(s=>s.id===id);
+        assert.deepEqual(a.multipliers,mvs);assert.equal(a.support.status,"calculable");assert.equal(a.maximumEidolon,0);
+        assert.equal(a.maximumTraceLevel,10);assert.equal(a.enemyCountExact,1);assert.equal(a.hitCount,1);assert.equal(a.scalingStat,"atk");
+        mvs.forEach((mv,i)=>assert.ok(Math.abs(mv-master.params[i][0]*100)<1e-8));
+        for(const [level,atk,cr,cd,bonus,enemyLv,res,down,active]of [
+            [10,3000,50,100,0,80,20,0,false],[1,3000,50,100,0,80,20,0,false],
+            [7,3000,50,100,0,80,20,0,false],[9,3000,50,100,0,80,20,0,false],
+            [10,4000,50,100,0,80,20,0,false],[10,3000,25,150,0,80,20,0,false],
+            [10,3000,50,100,50,80,20,0,false],[10,3000,50,100,0,90,40,20,false],
+            [10,3000,50,100,0,80,20,0,true]
+        ]){
+            const input=request({...a,multiplier:mvs[level-1],traceLevel:level});
+            Object.assign(input.character.stats,{atk,critRate:cr,critDamage:cd,damageBonus:bonus});
+            Object.assign(input.enemy,{level:enemyLv,resistance:res,defenseReduction:down,count:1});
+            input.modifiers=[{id:"explicit-support",category:"damageBonus",value:25,enabled:active}];
+            // Independent release MV * final ATK * DMG * level-defense fraction * RES * toughness.
+            const def=100/(100+(enemyLv+20)*(1-down/100));
+            const nc=atk*mvs[level-1]/100*(1+(bonus+(active?25:0))/100)*def*(1-res/100)*.9;
+            const r=engine.calculate(input);
+            for(const [actual,want]of [[r.nonCrit,nc],[r.crit,nc*(1+cd/100)],[r.expected,nc*(1+cr*cd/10000)]])assert.ok(Math.abs(actual-want)<1e-8,id);
+            assert.equal(r.breakdown.referenceValue,atk);assert.equal(r.breakdown.multiplierPercent,mvs[level-1]);
+            assert.ok(Math.abs(r.breakdown.defense-def)<1e-12);assert.equal(r.breakdown.takenDamage,0);
+            if(level===10&&atk===3000&&cr===50&&bonus===0&&enemyLv===80&&!active)assert.ok(Math.abs(r.nonCrit-baseline)<1e-9);
+        }
+    }
+});

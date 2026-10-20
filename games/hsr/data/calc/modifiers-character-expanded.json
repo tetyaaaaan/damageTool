@@ -111,6 +111,7 @@
       "calculation": { "stage": "resistance", "operation": "add" },
       "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
       "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_ranks.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-07-29", "notes": "character 1220 eidolon 122006; follow-up classification included because the eidolon explicitly treats the talent follow-up as ultimate damage" }
-    }
+    },
+    {"id":"trace:1215:121502:direct-scope","source":{"kind":"trace","id":"1215","skillId":"121502"},"name":"生滅捕縛・限定計算の条件確認","description":"星魂0・軌跡Lv1～10・敵1体。承負のない敵への1回分。懲悪の与ダメージ、承負のSP回復由来の攻撃力上昇が寒鴉にない状態を手動確認。承負付与とSP・EP回復、以後の行動は計算しません。 条件不明・不成立ならOFF。このチェックは攻撃の選択条件で、補正を加算しません。","category":"extraDamage","unit":"flat","value":{"kind":"fixed","fixed":1},"target":{"owner":"self","attackTypes":["skill"],"elements":["Physical"]},"activation":{"mode":"toggle","conditionText":"対象に承負なし・寒鴉に懲悪や承負由来の攻撃力支援なし","inputKey":"hanya-unburdened-skill","default":false},"stacking":{"group":"hanya-unburdened-skill","rule":"nonStacking"},"calculation":{"stage":"extraDamage","operation":"add"},"inputPolicy":"conditional","support":{"status":"displayOnly","verified":true,"reason":"独立した攻撃レコードの選択条件。ステータスやダメージには加算しません。"},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:121502","verifiedAt":"2026-10-21"}}
   ]
 }
