@@ -1105,3 +1105,18 @@ test("Break support restores party trace levels and shows applied effects only i
     restored.state.modifierInputs["break-befog-active"]=false;assert.equal(restored.calculate().length,1);
     restored.state.modifierInputs["break-besotted-active"]=false;assert.equal(restored.calculate().length,1);
 });
+
+
+test("Jiaoqiu combined direct, DoT and Break scopes restore without double counting Roast", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const data={characters:catalog.characters,attacks:JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a=>["121802","121803","1218041"].includes(a.id)),
+        structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>["1218","1222","1301"].includes(m.source.id))};
+    const app=await tool(undefined,data);app.state.characterId="1218";app.state.party[0]={...app.state.party[0],characterId:"1222",level:10,eidolon:0};app.state.party[1]={...app.state.party[1],characterId:"1301",level:10,eidolon:0};
+    app.node("hsrStat-atk").value="3000";app.node("hsrStat-breakEffect").value="200";app.node("hsrWeakness").value="true";app.node("hsrEnemyResistance").value="0";app.node("hsrMaxToughness").value="120";
+    Object.assign(app.state.modifierInputs,{"jiaoqiu-five-roast-zone":true,"jiaoqiu-roast-dot-tick":true,"jiaoqiu-roast-dot-stacks":5,"break-befog-active":true,"break-besotted-active":true});
+    const r=app.calculate();assert.equal(r.length,3);assert.ok(Math.abs(r[0].nonCrit-2733.75)<1e-8);assert.ok(Math.abs(r[1].nonCrit-2025)<1e-8);assert.ok(Math.abs(r[2].nonCrit-3280.5)<1e-8);
+    assert.match(app.node("hsrResults").innerHTML,/被ダメージ倍率<\/dt><dd>1.72/);
+    app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);assert.equal(restored.calculate().length,3);assert.match(restored.node("hsrResults").innerHTML,/被ダメージ倍率<\/dt><dd>1.72/);
+    restored.state.modifierInputs["jiaoqiu-roast-dot-tick"]=false;assert.equal(restored.calculate().length,2);assert.match(restored.node("hsrResults").innerHTML,/被ダメージ倍率<\/dt><dd>1.72/);
+    restored.state.modifierInputs["jiaoqiu-five-roast-zone"]=false;restored.state.modifierInputs["jiaoqiu-roast-dot-tick"]=true;assert.equal(restored.calculate().length,1);assert.match(restored.node("hsrResults").innerHTML,/被ダメージ倍率<\/dt><dd>1.72/);
+});

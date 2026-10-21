@@ -1744,3 +1744,22 @@ test("Befog and Besotted add only to Break and Super Break across source trace l
         for(const level of [0,11,NaN])assert.ok(structured(id,{characterId:cid,eidolon:0,traceLevelFor:()=>level},{"break-befog-active":true,"break-besotted-active":true}).inputWarnings.length>0);
     }
 });
+
+
+test("Jiaoqiu current Roast vulnerability also reaches Break once when direct and DoT scopes coexist", () => {
+    const base=3767.5533,ctx={characterId:"1218",eidolon:0,partyIds:["1222","1301"],partyEidolons:{"1222":0,"1301":0},traceLevelFor:()=>10};
+    for(const direct of [false,true]) for(const dot of [false,true]) for(const bothSupport of [false,true]) {
+        const flags={"jiaoqiu-five-roast-zone":direct,"jiaoqiu-roast-dot-tick":dot,"jiaoqiu-roast-dot-stacks":5,"break-befog-active":bothSupport,"break-besotted-active":bothSupport};
+        const mods=runtime.buildCandidates(structuredModifiers,ctx,flags);
+        const input={character:{level:80,stats:{breakEffect:200}},enemy:{level:80,resistance:0,weakness:true,toughnessActive:false,maxToughness:120},element:"Fire",modifiers:mods,breakBaseDamage:{80:base}};
+        const vuln=1+(direct || dot ? .35 : 0)+(bothSupport ? .37 : 0),b=engine.calculateBreak(input),s=engine.calculateSuperBreak({...input,attack:{type:"normal",element:"Fire",toughnessDamage:10}});
+        assert.ok(Math.abs(b.value-base*2*3*.5*1.5*vuln)<1e-8);assert.ok(Math.abs(s.value-base*3*.5*vuln)<1e-8);
+        assert.equal(b.applied.filter(m=>m.stacking?.group==="jiaoqiu-ashen-roast-vulnerability").length,direct||dot?1:0);
+        if(direct&&dot)assert.ok(b.skipped.some(m=>m.reason.includes("最大値のみ")));
+    }
+    for(const stacks of [1,3,5]) {
+        const mods=runtime.buildCandidates(structuredModifiers,ctx,{"jiaoqiu-roast-dot-tick":true,"jiaoqiu-roast-dot-stacks":stacks});
+        const r=engine.calculateBreak({character:{level:80,stats:{breakEffect:200}},enemy:{level:80,resistance:0,weakness:true,maxToughness:120},element:"Fire",modifiers:mods,breakBaseDamage:{80:base}});
+        assert.ok(Math.abs(r.vulnerability-(1+(15+(stacks-1)*5)/100))<1e-9);
+    }
+});
