@@ -888,3 +888,32 @@ test("Summer Songbirds mode separates final stats, restores snapshots and refuse
     app.node("hsrSongbirdMode").value="false";app.node("hsrStat-hp").value="6000";app.node("hsrStat-critDamage").value="100";
     assert.equal(app.calculate()[0].breakdown.actorKind,undefined);assert.equal(app.calculate()[0].breakdown.referenceValue,6000);
 });
+
+
+test("scoped Lingsha and Firefly Skills preserve confirmation, inputs, limits and reload", async () => {
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    const ids = ["122202", "131002"];
+    const extra = { characters: catalog.characters,
+        attacks: JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a => ids.includes(a.id)),
+        structuredModifiers: JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m => ["1222", "1310"].includes(m.source.id)) };
+    for (const [cid, key, nc] of [["1222", "lingsha-direct-skill", 864], ["1310", "firefly-unenhanced-skill", 2160]]) {
+        const app = await tool(undefined, extra); app.state.characterId = cid;
+        app.node("hsrStat-atk").value = "3000"; app.node("hsrStat-critRate").value = "50"; app.node("hsrStat-critDamage").value = "100";
+        assert.equal(app.calculate().length, 0, "unconfirmed attack is not computed");
+        app.state.modifierInputs[key] = true;
+        let r = app.calculate()[0]; assert.ok(Math.abs(r.nonCrit - nc) < 1e-9); assert.ok(Math.abs(r.crit - nc * 2) < 1e-9); assert.ok(Math.abs(r.expected - nc * 1.5) < 1e-9);
+        assert.match(app.node("hsrWarnings").innerHTML, /星魂0・戦闘スキルLv1～10・敵1体/);
+        assert.match(app.node("hsrResults").innerHTML, /計算対応・確認済み扱い/);
+        app.node("hsrStat-atk").handlers.input();
+        const restored = await tool(app.storage, extra);
+        assert.equal(restored.state.modifierInputs[key], true);
+        assert.ok(Math.abs(restored.calculate()[0].nonCrit - nc) < 1e-9);
+        restored.state.modifierInputs[key] = false; assert.equal(restored.calculate().length, 0);
+        restored.state.modifierInputs[key] = true;
+        for (const val of ["", "0", "-1", "invalid"]) { restored.node("hsrStat-atk").value = val; assert.equal(restored.calculate().length, 0); }
+        restored.node("hsrStat-atk").value = "3000"; restored.node("hsrSkillTrace").value = "11";
+        assert.equal(restored.calculate().length, 0); assert.match(restored.node("hsrWarnings").innerHTML, /Lv1～10/);
+        restored.node("hsrSkillTrace").value = "10"; restored.node("hsrEnemyCount").value = "2"; assert.equal(restored.calculate().length, 0);
+        restored.node("hsrEnemyCount").value = "1"; restored.node("hsrEidolon").value = "1"; assert.equal(restored.calculate().length, 0);
+    }
+});

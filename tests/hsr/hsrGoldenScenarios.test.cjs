@@ -1511,3 +1511,45 @@ test("scoped direct Skill and Ultimate match release coefficients and independen
         }
     }
 });
+
+
+function checkScopedDirectRelease(id, cid, mvs, baseline) {
+    const a = attacks.find(item => item.id === id);
+    const master = readJson("games/hsr/data/catalog.json").characters.find(c => c.id === cid).skills.find(s => s.id === id);
+    assert.deepEqual(a.multipliers, mvs);
+    assert.equal(a.support.status, "calculable");
+    assert.equal(a.maximumEidolon, 0); assert.equal(a.maximumTraceLevel, 10); assert.equal(a.enemyCountExact, 1);
+    assert.equal(a.scalingStat, "atk"); assert.equal(a.hitCount, 1);
+    mvs.forEach((v, i) => assert.ok(Math.abs(v - master.params[i][0] * 100) < 1e-8));
+    // These expectations use release coefficients and the HSR formula, not engine factors.
+    const cases = mvs.map((_, i) => [i + 1, 3000, 50, 100, 0, 80, 20, 0, false]);
+    cases.push([10, 4000, 50, 100, 0, 80, 20, 0, false],
+        [10, 3000, 25, 150, 0, 80, 20, 0, false],
+        [10, 3000, 50, 100, 50, 80, 20, 0, false],
+        [10, 3000, 50, 100, 0, 90, 40, 20, false],
+        [10, 3000, 50, 100, 0, 80, 20, 0, true]);
+    for (const [level, atk, cr, cd, bonus, enemyLv, res, down, support] of cases) {
+        const input = request({ ...a, multiplier: mvs[level - 1], traceLevel: level });
+        Object.assign(input.character, { eidolon: 0 });
+        Object.assign(input.character.stats, { atk, critRate: cr, critDamage: cd, damageBonus: bonus });
+        Object.assign(input.enemy, { count: 1, level: enemyLv, resistance: res, defenseReduction: down });
+        input.modifiers = [{ id: "scoped-support-check", category: "damageBonus", value: 25, enabled: support }];
+        const def = 100 / (100 + (enemyLv + 20) * (1 - down / 100));
+        const nc = atk * mvs[level - 1] / 100 * (1 + (bonus + (support ? 25 : 0)) / 100) * def * (1 - res / 100) * .9;
+        const r = engine.calculate(input);
+        for (const [actual, expected] of [[r.nonCrit, nc], [r.crit, nc * (1 + cd / 100)], [r.expected, nc * (1 + cr * cd / 10000)]])
+            assert.ok(Math.abs(actual - expected) < 1e-8, id + " Lv" + level);
+        assert.equal(r.breakdown.referenceValue, atk); assert.equal(r.breakdown.multiplierPercent, mvs[level - 1]);
+        assert.ok(Math.abs(r.breakdown.defense - def) < 1e-12);
+        assert.ok(Math.abs(r.breakdown.resistance - (1 - res / 100)) < 1e-12);
+        assert.equal(r.applied.length, support ? 1 : 0);
+        if (level === 10 && atk === 3000 && cr === 50 && bonus === 0 && enemyLv === 80 && !support)
+            assert.ok(Math.abs(r.nonCrit - baseline) < 1e-9);
+    }
+}
+test("Lingsha scoped full Skill agrees with release levels and independent damage", () => {
+    checkScopedDirectRelease("122202", "1222", [40,44,48,52,56,60,65,70,75,80], 864);
+});
+test("Firefly unenhanced Skill agrees with release levels without enhanced or Super Break terms", () => {
+    checkScopedDirectRelease("131002", "1310", [100,110,120,130,140,150,162.5,175,187.5,200], 2160);
+});
