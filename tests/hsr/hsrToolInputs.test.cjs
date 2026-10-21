@@ -1046,3 +1046,22 @@ test("Jiaoqiu same-level five-roast Zone scope restores and rejects unsupported 
     restored.node("hsrStat-atk").value="3000";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().length,0);
     restored.node("hsrEnemyCount").value="1";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().length,0);
 });
+
+
+test("Gallagher enhanced Basic restores separately from Ultimate and refuses unsupported states", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const data={characters:catalog.characters,attacks:JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a=>["130108","130103"].includes(a.id)),
+        structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1301")};
+    const app=await tool(undefined,data);app.state.characterId="1301";app.node("hsrNormalTrace").value="6";
+    for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
+    assert.equal(app.calculate().length,1);app.state.modifierInputs["gallagher-enhanced-normal-instance"]=true;
+    const r=app.calculate();assert.equal(r.length,2);const b=r.find(r=>r.attack.name.includes("極上"));
+    assert.ok(Math.abs(b.nonCrit-2700)<1e-8);assert.ok(Math.abs(b.crit-5400)<1e-8);assert.ok(Math.abs(b.expected-4050)<1e-8);assert.match(app.node("hsrWarnings").innerHTML,/必殺技は別行動/);
+    app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);
+    assert.equal(restored.state.modifierInputs["gallagher-enhanced-normal-instance"],true);assert.equal(restored.node("hsrNormalTrace").value,"6");assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("極上")).nonCrit-2700)<1e-8);
+    restored.state.modifierInputs["gallagher-enhanced-normal-instance"]=false;assert.equal(restored.calculate().length,1);restored.state.modifierInputs["gallagher-enhanced-normal-instance"]=true;
+    for(const v of ["","0","-1","invalid"]){restored.node("hsrStat-atk").value=v;assert.equal(restored.calculate().length,0);}
+    restored.node("hsrStat-atk").value="3000";restored.node("hsrNormalTrace").value="7";assert.equal(restored.calculate().length,0);
+    restored.node("hsrNormalTrace").value="6";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().length,0);
+    restored.node("hsrEnemyCount").value="1";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().length,0);
+});

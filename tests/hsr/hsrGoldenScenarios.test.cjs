@@ -1678,3 +1678,21 @@ test("Jiaoqiu five-roast and existing Zone add vulnerabilities at independent tr
     assert.equal(off.enabled,false);
     assert.equal(structured("trace:1218:121804:five-roast",{characterId:"1222",partyIds:["1218"]},{"jiaoqiu-five-roast-zone":true}),undefined);
 });
+
+
+test("Gallagher enhanced Basic independently uses all six release levels and normal-only corrections", () => {
+    const a=attacks.find(a=>a.id==="130108"),mvs=[125,150,175,200,225,250];
+    assert.deepEqual(a.multipliers,mvs);assert.equal(a.type,"enhancedNormal");assert.equal(a.maximumTraceLevel,6);assert.equal(a.maximumEidolon,0);assert.equal(a.enemyCountExact,1);
+    const master=readJson("games/hsr/data/catalog.json").characters.find(c=>c.id==="1301").skills.find(s=>s.id==="130108");
+    for(let l=1;l<=6;l++) for(const[atk,cr,cd,bonus,enemyLv,res,down]of [[3000,50,100,0,80,20,0],[4000,25,150,50,90,40,20]]) {
+        assert.equal(mvs[l-1],master.params[l-1][0]*100);
+        const input=request({...a,attackType:a.type,multiplier:mvs[l-1],traceLevel:l},[
+            {id:"basic-only",category:"damageBonus",value:20,enabled:true,target:{attackTypes:["normal"]}},
+            {id:"ultimate-only",category:"damageBonus",value:99,enabled:true,target:{attackTypes:["ultimate"]}}]);
+        Object.assign(input.character.stats,{atk,critRate:cr,critDamage:cd,damageBonus:bonus,breakEffect:200});
+        Object.assign(input.enemy,{level:enemyLv,resistance:res,defenseReduction:down});
+        const nc=atk*mvs[l-1]/100*(1+(bonus+20)/100)*100/(100+(enemyLv+20)*(1-down/100))*(1-res/100)*.9,r=engine.calculate(input);
+        for(const[actual,want]of [[r.nonCrit,nc],[r.crit,nc*(1+cd/100)],[r.expected,nc*(1+cr*cd/10000)]])assert.ok(Math.abs(actual-want)<1e-8);
+        assert.equal(r.applied.some(m=>m.id==="basic-only"),true);assert.equal(r.applied.some(m=>m.id==="ultimate-only"),false);assert.equal(r.attack.hitCount,1);assert.equal(r.breakdown.referenceValue,atk);
+    }
+});
