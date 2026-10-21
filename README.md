@@ -54,9 +54,15 @@ http://127.0.0.1:4173/games/hsr/
 ```
 
 
-## Cloudflare公開用の隔離配信物
+## Cloudflare GitHub連携での公開
 
-Node.js 22.5以降（推奨24）とGit、tar、Wranglerを使用します。作業フォルダから直接デプロイせず、承認済みのcommitをリポジトリ外の新しいディレクトリへ取り出してください。未commit差分・未追跡ファイルは取り込みません。
+CloudflareがGitHubのクリーンなチェックアウトで `npx wrangler deploy` を実行する従来方式を使用します。`wrangler.toml` のビルドは `node scripts/syncSiteChrome.cjs` のみで、`.git/` がある通常のチェックアウトでも動作します。`RELEASE.json` や隔離配信ディレクトリは必須ではありません。静的公開の除外は `.assetsignore` で維持します。
+
+同じチェックアウトで `npx wrangler deploy --dry-run` を実行すると、本番へ公開せずビルドを確認できます。
+
+## 任意：ローカル用の隔離配信物
+
+Node.js 22.5以降（推奨24）とGit、tar、Wranglerを使用します。ローカルの未commit差分を含めたくない場合は、承認済みのcommitをリポジトリ外の新しいディレクトリへ取り出すこともできます。未commit差分・未追跡ファイルは取り込みません。
 
 PowerShell例（`$releaseCommit` は承認された完全なcommit SHAに置き換えます）:
 
@@ -72,7 +78,7 @@ wrangler deploy --dry-run --outdir (Join-Path $env:TEMP ("tetinet-bundle-" + [gu
 if ($LASTEXITCODE -ne 0) { throw "dry-runに失敗しました" }
 ```
 
-隔離出力時に既存の共通HTML同期を実行してから、`RELEASE.json` に元commitと公開資産・Worker・ビルド設定の一覧およびSHA-256を記録します。ビルド前後にこの記録を照合し、元のGit作業フォルダや編集済み配信物からの公開を停止します。この一覧自体は配信対象外です。準備失敗時の出力先は再利用せず、新しいディレクトリでやり直してください。配信物内のファイルを手動編集しません。
+隔離出力時に既存の共通HTML同期を実行してから、`RELEASE.json` に元commitと公開資産・Worker・ビルド設定の一覧およびSHA-256を記録します。任意の `--check-release` 操作でこの記録を照合できます。GitHub連携や通常のWranglerビルドからは呼び出しません。この一覧自体は配信対象外です。準備失敗時の出力先は再利用せず、新しいディレクトリでやり直してください。配信物内のファイルを手動編集しません。
 
 `.assetsignore` は開発ファイル、Git/エージェント設定、秘密鍵・環境設定・ログ・検証応答などを除外します。Worker本体は静的公開せず、`wrangler.toml` の `main` としてバンドルします。既存の共通HTML同期ビルド、静的ASSETSバインディング、原神・HSRのAPI経路は維持します。原神の候補・バージョン移行JSONにも実行時参照があるため、一律には除外しません。
 
