@@ -1160,3 +1160,32 @@ test("Fanning composite restores selected scope and rejects partial or unsupport
     restored.node("hsrWeakness").value="true";restored.node("hsrStat-breakEffect").value="";assert.equal(restored.calculate().length,0);
     restored.node("hsrStat-breakEffect").value="200";restored.node("hsrNormalTrace").value="7";assert.equal(restored.calculate().length,0);
 });
+
+
+test("enemy inputs cannot silently become zero or clamped one-enemy conditions and survive restoration", async () => {
+  const app = await tool();
+  app.node("hsrStat-atk").value = "1000";
+  const baseline = app.calculate()[0].nonCrit;
+  for (const [id, invalidValues, message, valid] of [
+    ["hsrEnemyLevel", ["", "0", "-1", "80.5", "invalid"], /敵Lv/, "80"],
+    ["hsrEnemyResistance", ["", "invalid"], /敵の耐性/, "20"],
+    ["hsrEnemyCount", ["", "0", "-1", "1.5", "6", "invalid"], /敵数/, "1"]
+  ]) {
+    for (const value of invalidValues) {
+      app.node(id).value = value;
+      assert.equal(app.calculate().length, 0, `${id}=${value}`);
+      assert.match(app.node("hsrWarnings").innerHTML, message);
+      assert.doesNotMatch(app.node("hsrResults").innerHTML, /hsr-attack-result/);
+    }
+    app.node(id).value = valid;
+    assert.equal(app.calculate()[0].nonCrit, baseline);
+  }
+  app.node("hsrEnemyResistance").value = "0";
+  assert.ok(Math.abs(app.calculate()[0].nonCrit - baseline / 0.8) < 1e-9, "zero RES is valid");
+  app.node("hsrEnemyResistance").value = "";
+  app.node("hsrEnemyResistance").handlers.input();
+  const restored = await tool(app.storage);
+  assert.equal(restored.node("hsrEnemyResistance").value, "");
+  assert.equal(restored.calculate().length, 0);
+  assert.match(restored.node("hsrWarnings").innerHTML, /敵の耐性/);
+});

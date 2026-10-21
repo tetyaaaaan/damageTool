@@ -805,12 +805,16 @@
       && [state.characterId, ...state.party.map((member) => member.characterId)].includes("1512")) warnings.push("夏の歌鳥3体ではフィーバーが成立します。現在は防御無視を除外した比較値です。精霊攻撃・その他支援は計算対象外です。");
     const baseStats = selectedBaseStats();
     const inputWarnings = calculationInputWarnings(attacks, baseStats);
+    if (!attacks.length || !attacks.every(attack => attack.damageFormula === "trueDamage")) {
+      if (!Number.isInteger(Number($("hsrEnemyLevel").value)) || Number($("hsrEnemyLevel").value) < 1) inputWarnings.push("敵Lvに1以上の整数を入力してください。");
+      if (String($("hsrEnemyResistance").value).trim() === "" || !Number.isFinite(Number($("hsrEnemyResistance").value))) inputWarnings.push("敵の耐性を入力してください。耐性がない場合は0を入力してください。");
+      const count = Number($("hsrEnemyCount").value);
+      if (!Number.isInteger(count) || count < 1 || count > 5) inputWarnings.push("敵数に1～5の整数を入力してください。");
+    }
     if (independentBreak) {
       const kind = state.breakInputs.mode;
       if (state.trueDamageInputs.active || songbirdMode()) inputWarnings.push("独立した撃破計算では確定ダメージ・精霊専用モードをOFFにしてください。");
       if (!Number.isFinite(state.stats.breakEffect) || state.stats.breakEffect < 0) inputWarnings.push("撃破特効に0以上の数値を入力してください。");
-      if (!Number.isInteger(Number($("hsrEnemyLevel").value)) || Number($("hsrEnemyLevel").value) < 1) inputWarnings.push("敵Lvに1以上の整数を入力してください。");
-      if (!Number.isFinite(Number($("hsrEnemyResistance").value)) || $("hsrEnemyResistance").value.trim() === "") inputWarnings.push("敵の耐性を入力してください。");
       if (kind === "break" && (!Number.isFinite(Number($("hsrMaxToughness").value)) || Number($("hsrMaxToughness").value) <= 0)) inputWarnings.push("敵の最大靭性に0より大きい数値を入力してください。");
       if (kind === "superBreak" && (!Number.isFinite(state.breakInputs.toughnessDamage) || state.breakInputs.toughnessDamage <= 0)) inputWarnings.push("超撃破の基礎削靭値に0より大きい数値を入力してください。");
       if (kind === "superBreak" && (!Number.isFinite(state.breakInputs.multiplier) || state.breakInputs.multiplier < 0)) inputWarnings.push("超撃破の発生倍率に0以上の数値を入力してください。");
