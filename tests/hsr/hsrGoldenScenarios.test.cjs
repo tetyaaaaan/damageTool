@@ -1696,3 +1696,24 @@ test("Gallagher enhanced Basic independently uses all six release levels and nor
         assert.equal(r.applied.some(m=>m.id==="basic-only"),true);assert.equal(r.applied.some(m=>m.id==="ultimate-only"),false);assert.equal(r.attack.hitCount,1);assert.equal(r.breakdown.referenceValue,atk);
     }
 });
+
+
+test("Jiaoqiu Ashen Roast tick independently keeps DoT coefficient, stack vulnerability and gear scope separate", () => {
+    const a=attacks.find(a=>a.id==="1218041"),mvs=[90,99,108,117,126,135,146.25,157.5,168.75,180];
+    const first=[7.5,8.25,9,9.75,10.5,11.25,12.188,13.125,14.063,15],next=[2.5,2.75,3,3.25,3.5,3.75,4.063,4.375,4.688,5];
+    assert.deepEqual(a.multipliers,mvs);assert.equal(a.canCrit,false);assert.equal(a.maximumEidolon,0);
+    for(let l=1;l<=10;l++) for(const stacks of [1,3,5]) for(const[atk,bonus,enemyLv,res,down]of [[3000,0,80,20,0],[4000,50,90,40,20]]) {
+        const ctx={characterId:"1218",eidolon:0,traceLevelFor:()=>l};
+        const m=structured("trace:1218:121804:dot-vulnerability",ctx,{"jiaoqiu-roast-dot-tick":true,"jiaoqiu-roast-dot-stacks":stacks});
+        const r=engine.calculate({...request({...a,multiplier:mvs[l-1],traceLevel:l},[m]),character:{level:80,stats:{atk,damageBonus:bonus,critRate:100,critDamage:999}},enemy:{level:enemyLv,resistance:res,defenseReduction:down,toughnessActive:true}});
+        const nc=atk*mvs[l-1]/100*(1+bonus/100)*100/(100+(enemyLv+20)*(1-down/100))*(1-res/100)*.9*(1+(first[l-1]+(stacks-1)*next[l-1])/100);
+        for(const actual of [r.nonCrit,r.crit,r.expected])assert.ok(Math.abs(actual-nc)<1e-8);assert.equal(r.attack.canCrit,false);
+        assert.ok(Math.abs(r.breakdown.takenDamage-first[l-1]-(stacks-1)*next[l-1])<1e-8);assert.equal(r.breakdown.referenceValue,atk);
+    }
+    const ctx={characterId:"1218",eidolon:0,traceLevelFor:()=>10,relicIds:["117"],relicMode:4,enemy:{debuffCount:1},partyEquipment:[{characterId:"1001",lightConeId:"24005",refinement:1}]};
+    const inputs={"jiaoqiu-roast-dot-tick":true,"jiaoqiu-roast-dot-stacks":5,"jiaoqiu-five-roast-zone":true,"lightcone-24005-skill-active":true};
+    const mods=["trace:1218:121804:dot-vulnerability","trace:1218:121804:five-roast","trace:1218:121803:zone","relic:117:2pc:debuffed-damage","lightCone:24005:skill-party-damage"].map(id=>structured(id,ctx,inputs));
+    const r=engine.calculate({...request({...a,multiplier:180},mods),character:{level:80,stats:{atk:3000,critRate:100,critDamage:999}}});
+    assert.ok(Math.abs(r.nonCrit-3000*1.8*.36*1.35*1.20)<1e-8);assert.equal(r.breakdown.takenDamage,35);
+    assert.equal(r.applied.some(m=>m.id==="trace:1218:121803:zone"),false);assert.equal(r.applied.some(m=>m.id==="trace:1218:121804:five-roast"),false);
+});

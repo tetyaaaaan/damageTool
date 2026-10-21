@@ -1065,3 +1065,24 @@ test("Gallagher enhanced Basic restores separately from Ultimate and refuses uns
     restored.node("hsrNormalTrace").value="6";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().length,0);
     restored.node("hsrEnemyCount").value="1";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().length,0);
 });
+
+
+test("Ashen Roast tick restores stack input without combining direct attacks and rejects missing or contradictory states", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json")),ids=["121802","121803","1218041"];
+    const data={characters:catalog.characters,attacks:JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a=>ids.includes(a.id)),
+        structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1218")};
+    const app=await tool(undefined,data);app.state.characterId="1218";app.node("hsrStat-atk").value="3000";
+    app.state.modifierInputs["jiaoqiu-roast-dot-tick"]=true;
+    let r=app.calculate();assert.equal(r.length,1);assert.ok(Math.abs(r[0].nonCrit-2624.4)<1e-8);assert.equal(r[0].attack.canCrit,false);
+    assert.match(app.node("hsrResults").innerHTML,/hsr-attack-result-values--single/);assert.doesNotMatch(app.node("hsrResults").innerHTML,/会心ダメージ倍率/);assert.match(app.node("hsrWarnings").innerHTML,/敵ターン開始時/);
+    app.state.modifierInputs["jiaoqiu-roast-dot-stacks"]=1;assert.ok(Math.abs(app.calculate()[0].nonCrit-2235.6)<1e-8);
+    app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);assert.equal(restored.state.modifierInputs["jiaoqiu-roast-dot-stacks"],1);assert.ok(Math.abs(restored.calculate()[0].nonCrit-2235.6)<1e-8);
+    for(const v of [null,0,6,1.5,"bad"]){restored.state.modifierInputs["jiaoqiu-roast-dot-stacks"]=v;assert.equal(restored.calculate().length,0);}
+    restored.state.modifierInputs["jiaoqiu-roast-dot-stacks"]=1;restored.state.modifierInputs["jiaoqiu-five-roast-zone"]=true;assert.equal(restored.calculate().length,0);
+    restored.state.modifierInputs["jiaoqiu-roast-dot-stacks"]=5;r=restored.calculate();assert.equal(r.length,3);assert.ok(Math.abs(r[2].nonCrit-2624.4)<1e-8);
+    restored.state.modifierInputs["jiaoqiu-roast-dot-tick"]=false;assert.equal(restored.calculate().length,2);
+    restored.state.modifierInputs["jiaoqiu-five-roast-zone"]=false;restored.state.modifierInputs["jiaoqiu-roast-dot-tick"]=true;
+    restored.node("hsrStat-atk").value="";assert.equal(restored.calculate().length,0);
+    restored.node("hsrStat-atk").value="3000";restored.node("hsrTalentTrace").value="11";assert.equal(restored.calculate().length,0);
+    restored.node("hsrTalentTrace").value="10";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().length,0);
+});
