@@ -188,65 +188,52 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
 .page-hsr .hsr-trace-level-grid > .genshin-field[hidden] { display: none !important; }
 
 .hsr-party-order-field { max-width: 16rem; margin: .5rem 0; }
-.hsr-party-preview {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: .5rem;
-  margin-top: .7rem;
-}
-.hsr-party-preview:empty { display: none; }
-.hsr-party-preview-card {
-  display: grid;
-  grid-template-columns: 2.8rem minmax(0, 1fr);
-  gap: .5rem;
-  align-items: center;
-  min-width: 0;
-  padding: .45rem;
-  border: 1px solid var(--teti-border);
-  border-radius: .7rem;
-  background: var(--teti-surface-soft);
-}
-.hsr-party-preview-card img { width: 2.8rem; height: 2.8rem; object-fit: contain; border-radius: .45rem; background: var(--teti-surface); }
-.hsr-party-preview-copy { display: grid; min-width: 0; gap: .15rem; }
-.hsr-party-preview-copy strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .78rem; }
-.hsr-party-preview-copy small { color: var(--teti-text-muted); font-size: .66rem; }
-.hsr-party-preview-equipment { display: flex; gap: .2rem; grid-column: 1 / -1; }
-.hsr-party-preview-equipment img { width: 1.35rem; height: 1.35rem; object-fit: contain; border-radius: .25rem; }
+.page-hsr .hsr-party-summary { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 .hsr-break-settings { padding: 0; overflow: hidden; }
 .hsr-break-settings > summary,
 .hsr-manual-condition-details > summary {
+  position: relative;
   display: grid;
-  gap: .2rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .2rem .65rem;
   padding: .8rem .9rem;
   cursor: pointer;
-  list-style-position: inside;
+  list-style: none;
 }
+.hsr-break-settings > summary::-webkit-details-marker,
+.hsr-manual-condition-details > summary::-webkit-details-marker { display: none; }
+.hsr-break-settings > summary::after,
+.hsr-manual-condition-details > summary::after { content: "▸ 設定を開く"; grid-column: 2; grid-row: 1 / span 2; align-self: center; color: var(--teti-interactive); font-size: .72rem; font-weight: 650; white-space: nowrap; }
+.hsr-break-settings[open] > summary::after,
+.hsr-manual-condition-details[open] > summary::after { content: "▾ 閉じる"; }
 .hsr-break-settings > summary strong { font-size: .95rem; }
 .hsr-break-settings > summary small { color: var(--teti-text-muted); font-size: .75rem; }
+.hsr-details-state { display: none; }
 .hsr-break-settings[open] > summary { border-bottom: 1px solid var(--teti-border); }
 .hsr-break-settings-body { padding: .15rem .9rem .85rem; }
 .hsr-manual-condition-details { margin-top: .6rem; border: 1px solid var(--teti-border); border-radius: .65rem; }
-.hsr-manual-condition-details > summary { display: block; padding: .55rem .7rem; font-size: .8rem; }
+.hsr-manual-condition-details > summary { grid-template-columns: minmax(0,1fr) auto; padding: .65rem .7rem; font-size: .84rem; font-weight: 650; }
 .hsr-manual-condition-details[open] > p { padding: 0 .7rem; }
 .hsr-manual-condition-details[open] #hsrManualConditionList { padding: 0 .7rem .7rem; }
+.page-hsr #hsrSaveStatus { display: block; margin: .4rem 0 0; }
+.page-hsr #hsrResetMenu > summary { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.page-hsr #hsrResetMenu > summary::after { content: "▸ 開く"; font-size: .75rem; }
+.page-hsr #hsrResetMenu[open] > summary::after { content: "▾ 閉じる"; }
+.page-hsr .hsr-reset-options .hsr-clear-saved-inputs { min-height: 38px; color: var(--teti-text-muted); font-size: .78rem; }
 
-.hsr-damage-table-wrap { max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; }
-.hsr-damage-table { width: 100%; min-width: 20rem; border-collapse: collapse; font-size: .82rem; }
-.hsr-damage-table th, .hsr-damage-table td { padding: .45rem .5rem; border-bottom: 1px solid var(--teti-border); }
-.hsr-damage-table th { color: var(--teti-text-muted); font-size: .72rem; font-weight: 750; text-align: right; white-space: nowrap; }
-.hsr-damage-table th:first-child, .hsr-damage-table td:first-child { text-align: left; }
-.hsr-damage-table td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
-.hsr-damage-table tr:last-child td { border-bottom: 0; }
 .hsr-attack-result { min-width: 0; padding: .7rem; }
 .hsr-attack-result header { min-width: 0; }
 .hsr-attack-result h3 { min-width: 0; }
 .hsr-result-details { min-width: 0; }
 
 @media (max-width: 640px) {
-  .hsr-party-preview { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .page-hsr .genshin-party-preview { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .hsr-break-settings > summary::after,
+  .hsr-manual-condition-details > summary::after { font-size: .66rem; }
   .page-hsr .hsr-status-step-head { grid-template-columns: minmax(0,1fr); gap: .3rem; }
-  .page-hsr .hsr-status-step-head h4 { white-space: normal; }
+  .page-hsr .hsr-status-step-head h4 { white-space: nowrap; }
 }
 
 .hsr-selection-section-title { grid-column: 1 / -1; margin: .6rem 0 .15rem; font-size: .9rem; }
@@ -259,14 +246,9 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
 .hsr-party-order-actions button { color: var(--teti-text); border: 1px solid var(--teti-border); background: var(--teti-surface); border-radius: .35rem; min-width: 2rem; min-height: 2rem; }
 .hsr-manual-condition-row { display: grid; grid-template-columns: auto minmax(0,1fr) 5.5rem auto; align-items: center; gap: .4rem; margin: .45rem 0; font-size: .8rem; }
 .hsr-manual-condition-row input[type="number"] { min-width: 0; width: 100%; }
-.hsr-damage-table td:first-child { min-width: 8rem; }
-.hsr-damage-table td small { display: block; color: var(--teti-text-muted); font-size: .68rem; margin-top: .2rem; }
-.hsr-damage-table td:last-child { background: var(--teti-surface-soft); }
-.hsr-damage-table .hsr-support-status { font-size: .65rem; margin: .3rem 0 0; padding: .1rem .25rem; }
 .hsr-result-details summary, .hsr-unavailable-results summary { cursor: pointer; font-weight: 700; font-size: .85rem; }
 .hsr-unavailable-results { grid-column: 1 / -1; }
 .hsr-precision-note { font-size: .72rem; }
-@media(max-width:460px) { .hsr-damage-table { min-width: 0; font-size: .74rem; } .hsr-damage-table th,.hsr-damage-table td { padding: .4rem .25rem; } }
 
 /* The HSR party editor has five vertical regions; retain its scroll area and footer. */
 #hsrPartyDialog .genshin-party-dialog-body {
@@ -317,4 +299,19 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
   #hsrPartyDialog .hsr-party-equipment-pick { grid-template-columns: 2rem minmax(0, 1fr); gap: .35rem; }
   #hsrPartyDialog .hsr-party-equipment-pick img { width: 2rem; height: 2rem; }
   #hsrPartyDialog .hsr-party-equipment-pick strong { font-size: .72rem; }
+}
+
+/* Reuse Genshin's result table and inline detail controls; only HSR status copy differs. */
+.page-hsr #hsrResults .genshin-json-result-section { margin-top: .7rem; }
+.page-hsr #hsrResults .hsr-noncritical-table .genshin-damage-col-name { width: 70%; }
+.page-hsr #hsrResults .hsr-noncritical-table .genshin-damage-col-value { width: 30%; }
+.page-hsr #hsrResults .hsr-noncritical-table thead th:first-child { width: 70%; }
+.hsr-reference-label { font-weight: 800; }
+.hsr-mobile-reference-label { display: none; }
+.hsr-result-audit { margin-top: .7rem; }
+.hsr-unavailable-results { margin-top: .65rem; padding: .6rem; border: 1px solid var(--teti-border); border-radius: var(--teti-radius-sm); }
+.hsr-unavailable-results article + article { padding-top: .6rem; margin-top: .6rem; border-top: 1px solid var(--teti-border); }
+@media (max-width: 640px) {
+  .hsr-mobile-reference-label { display: block; color: var(--teti-text-muted); font-size: .6rem; line-height: 1.25; }
+  .page-hsr #hsrResults .genshin-damage-detail-row td { white-space: normal; }
 }

@@ -290,7 +290,8 @@ test("dedicated Break attacks keep their supported UI route", async () => {
     assert.ok(html.includes("残梅・弱点撃破ダメージ"));
     assert.ok(html.includes("フラクタルの螺旋・弱点撃破ダメージ"));
     assert.ok(!html.includes("表示のみ・計算不可"));
-    assert.match(html, /撃破ダメージ<\/span><strong>/);
+    assert.match(html, /class="genshin-result-value"/);
+    assert.match(html, /data-hsr-result-detail=/);
 });
 
 test("representative Elation inputs stop incomplete calculation and render actual dedicated factors", async () => {
@@ -1135,7 +1136,7 @@ test("Independent Break and Super Break modes need no direct ATK, validate input
     assert.equal(restored.node("hsrBreakMode").value,"superBreak");assert.equal(restored.node("hsrSuperBreakToughness").value,"12.5");restored.calculate();assert.ok(restored.node("hsrResults").innerHTML.includes(Math.round(expected).toLocaleString("en-US")));
     for(const v of ["","0","-1","bad"]){restored.node("hsrSuperBreakToughness").value=v;restored.calculate();assert.match(restored.node("hsrWarnings").innerHTML,/基礎削靭値/);}
     restored.node("hsrSuperBreakToughness").value="10";restored.node("hsrToughnessState").value="active";restored.calculate();assert.match(restored.node("hsrWarnings").innerHTML,/弱点撃破状態/);
-    restored.node("hsrToughnessState").value="broken";restored.node("hsrSuperBreakMultiplier").value="0";restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/<strong>0<\/strong>/);
+    restored.node("hsrToughnessState").value="broken";restored.node("hsrSuperBreakMultiplier").value="0";restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/class="genshin-result-value">0<\/span>/);
     restored.node("hsrBreakMode").value="break";restored.node("hsrWeakness").value="true";restored.node("hsrMaxToughness").value="120";restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/弱点撃破・適用された補正/);
     restored.node("hsrStat-breakEffect").value="";restored.calculate();assert.match(restored.node("hsrWarnings").innerHTML,/撃破特効/);
     restored.node("hsrStat-breakEffect").value="0";restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/弱点撃破・適用された補正/);
@@ -1244,7 +1245,7 @@ test("party UID builds remain separate from master selection and persist selecte
     assert.equal(app.state.party[0].lightConeId,"21001");
     assert.equal(app.state.party[0].traceLevels.skill,8);
     assert.match(app.node("hsrPartyRows").innerHTML,/data-party-equipment="cone"/);
-    assert.match(app.node("hsrPartyPreview").innerHTML,/hsr-party-preview-equipment/);
+    assert.match(app.node("hsrPartyPreview").innerHTML,/genshin-party-preview-equipment/);
     app.node("hsrAttackerPosition").handlers.change({target:{value:"3"}});
     const restored=await tool(app.storage,{characters:catalog.characters,lightCones:catalog.lightCones,relicSets:catalog.relicSets});
     assert.equal(restored.state.attackerPosition,3);
@@ -1282,4 +1283,116 @@ test("UID party support cannot silently substitute a default for a missing trace
     app.state.party[0].atk=NaN;
     assert.equal(app.calculate().length,0);
     assert.match(app.node("hsrWarnings").innerHTML,/未取得/);
+});
+
+
+function selectReset(app, kind, confirm = true) {
+    app.node("hsrResetMenu").handlers.click({target:{closest:()=>({dataset:{hsrReset:kind}})}});
+    app.node(confirm ? "hsrResetConfirm" : "hsrResetCancel").handlers.click();
+}
+
+test("UID entries appear only in party character selection and preview images open the party editor", async () => {
+    const app=await tool();
+    app.window.HsrTool.setProfileCharacters([{id:"sample",level:80,eidolon:0},{id:"1202",level:80,eidolon:0}]);
+    app.window.HsrTool.openSelection("character");
+    assert.doesNotMatch(app.node("hsrSelectionList").innerHTML,/data-selection-profile=|UIDから取得したキャラクター/);
+    app.window.HsrTool.openSelection("party",0);
+    assert.match(app.node("hsrSelectionList").innerHTML,/data-selection-profile="1"/);
+    app.node("hsrPartyPreview").handlers.click({target:{closest:()=>({dataset:{partyPreviewSlot:"1"}})}});
+    assert.equal(app.node("hsrPartyDialog").open,true);
+    assert.match(app.node("hsrPartyPreview").innerHTML,/class="genshin-party-preview-member"/);
+});
+
+test("condition reset preserves final stats and party, clears correction inputs, saves and requires recalculation", async () => {
+    const app=await tool();
+    app.node("hsrStat-atk").value="1234.567891";
+    app.state.party[0]={...app.state.party[0],characterId:"1202",atk:3000,level:10};
+    app.state.modifierInputs["tingyun-benediction"]=true;
+    app.state.conditions[0].enabled=true;app.state.conditions[0].value=30;
+    app.node("hsrEnemyDefenseIgnore").value="20";
+    app.node("hsrPunchline").value="17";
+    app.calculate();
+    selectReset(app,"conditions",false);
+    assert.equal(app.state.conditions[0].enabled,true,"cancel cannot reset inputs");
+    selectReset(app,"conditions");
+    assert.equal(app.state.stats.atk,1234.567891);
+    assert.equal(app.state.party[0].characterId,"1202");
+    assert.equal(app.state.conditions[0].enabled,false);
+    assert.equal(app.state.conditions[0].value,0);
+    assert.equal(app.state.enemy.defenseIgnore,0);
+    assert.equal(app.state.modifierInputs["tingyun-benediction"],undefined);
+    assert.equal(app.state.elationInputs.punchline,17);
+    assert.doesNotMatch(app.node("hsrResults").innerHTML,/genshin-damage-result-row/);
+    assert.equal(app.node("hsrDirtyNotice").hidden,false);
+    const restored=await tool(app.storage);
+    assert.equal(restored.state.stats.atk,1234.567891);
+    assert.equal(restored.state.party[0].characterId,"1202");
+    assert.equal(restored.state.conditions[0].enabled,false);
+});
+
+test("party reset keeps the active build, independent manual corrections and UID data", async () => {
+    const app=await tool();
+    app.storage.set("tetinet:hsr:lastUid:v1","100000001");
+    app.window.HsrTool.setProfileCharacters([{id:"1202",level:80,eidolon:0}]);
+    app.node("hsrStat-atk").value="1000";
+    app.state.party[0]={...app.state.party[0],characterId:"1202",atk:3000};
+    app.state.modifierInputs["tingyun-benediction"]=true;
+    app.state.modifierInputs["independent-attack-context"]=true;
+    app.state.conditions[0].enabled=true;app.state.conditions[0].value=10;
+    app.state.attackerPosition=3;
+    selectReset(app,"party");
+    assert.equal(app.state.characterId,"sample");
+    assert.equal(app.state.stats.atk,1000);
+    assert.equal(app.state.attackerPosition,1);
+    assert.ok(app.state.party.every(member=>member.characterId===""));
+    assert.equal(app.state.modifierInputs["tingyun-benediction"],undefined);
+    assert.equal(app.state.modifierInputs["independent-attack-context"],true);
+    assert.equal(app.state.conditions[0].value,10);
+    assert.equal(app.state.conditions[0].enabled,true);
+    assert.equal(app.storage.get("tetinet:hsr:lastUid:v1"),"100000001");
+    app.window.HsrTool.openSelection("party",0);
+    assert.match(app.node("hsrSelectionList").innerHTML,/data-selection-profile="0"/);
+});
+
+test("all-input reset restores numeric defaults even after an incomplete UID build without deleting UID storage", async () => {
+    const app=await tool();
+    app.storage.set("tetinet:hsr:lastUid:v1","100000001");
+    app.window.HsrTool.applyProfileCharacter({id:"sample",level:80,traces:[{type:"Normal",level:6}],stats:{atk:1234.567891}});
+    assert.equal(app.node("hsrStat-speed").value,"");
+    app.node("hsrEnemyLevel").value="90";
+    app.state.modifierInputs["tingyun-benediction"]=true;
+    selectReset(app,"all");
+    assert.equal(app.state.characterId,"");
+    assert.equal(app.state.source,"manual");
+    assert.equal(app.state.stats.atk,0);
+    assert.equal(app.state.stats.speed,100);
+    assert.equal(app.state.stats.critRate,5);
+    assert.equal(app.state.enemy.level,80);
+    assert.equal(app.state.trueDamageInputs.active,false);
+    assert.ok(Number.isNaN(app.state.elationInputs.punchline));
+    assert.equal(app.storage.get("tetinet:hsr:lastUid:v1"),"100000001");
+    const restored=await tool(app.storage);
+    assert.equal(restored.state.characterId,"");
+    assert.equal(restored.state.stats.speed,100);
+    assert.doesNotMatch(restored.node("hsrResults").innerHTML,/genshin-damage-result-row/);
+});
+
+test("results reuse the Genshin table and per-attack inline breakdown without changing damage", async () => {
+    const app=await tool();
+    app.node("hsrStat-atk").value="3000";
+    app.node("hsrStat-critRate").value="50";
+    app.node("hsrStat-critDamage").value="100";
+    const result=app.calculate()[0],html=app.node("hsrResults").innerHTML;
+    assert.ok(Math.abs(result.nonCrit-1080)<1e-9);
+    assert.ok(Math.abs(result.crit-2160)<1e-9);
+    assert.ok(Math.abs(result.expected-1620)<1e-9);
+    for(const cls of ["genshin-damage-table","genshin-damage-result-row","genshin-damage-detail-row","genshin-result-attack-head","genshin-result-detail-toggle"]) assert.ok(html.includes(cls),cls);
+    assert.match(html,/data-result-tab="skill"/);
+    assert.doesNotMatch(html,/data-result-tab="breakdown"/);
+    assert.match(html,/aria-expanded="false" aria-controls="hsr-result-detail-0"/);
+    app.node("hsr-result-detail-0").hidden=true;
+    app.node("hsrResults").handlers.click({target:{closest:(selector)=>selector==="[data-hsr-result-detail]"?{dataset:{hsrResultDetail:"hsr-result-detail-0"},setAttribute(){},querySelector:()=>null}:null}});
+    assert.equal(app.node("hsr-result-detail-0").hidden,false);
+    app.node("hsrResults").handlers.click({target:{closest:(selector)=>selector==="[data-hsr-result-detail]"?{dataset:{hsrResultDetail:"hsr-result-detail-0"},setAttribute(){},querySelector:()=>null}:null}});
+    assert.equal(app.node("hsr-result-detail-0").hidden,true);
 });

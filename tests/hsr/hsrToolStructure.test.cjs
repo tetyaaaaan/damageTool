@@ -143,7 +143,7 @@ test("HSR attack data is generated, overrideable, and the page separates calcula
     assert.match(source, /adjacentMultiplierRatio/);
     assert.match(source, /const adjacentAttack = selected\.adjacentMultiplier/);
     assert.match(source, /modifiers\(adjacentAttack\)/);
-    assert.match(source, /modifierAudit\(adjacent, "隣接対象"\)/);
+    assert.match(source, /modifierAudit\(value, target \|\| "1対象分"\)/);
     assert.match(source, /traceLevelLabel/);
     assert.match(html, /id="hsrEnhancementState"/);
     assert.match(read("games/js/hsrCalcData.js"), /dataFiles\.modifiers/);
