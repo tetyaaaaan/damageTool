@@ -44,7 +44,7 @@ test('missing shells fail visibly and deploy synchronizes static markup before s
     assert.throws(()=>synchronize('<main>body</main>','/'),/expected one site header/);
     assert.throws(()=>synchronize(renderHeader('/')+renderHeader('/')+renderFooter(),'/'),/found 2/);
     const config=fs.readFileSync(path.join(__dirname,'../../wrangler.toml'),'utf8');
-    assert.match(config,/\[build\][\s\S]*command = "node scripts\/syncSiteChrome.cjs"/);
+    assert.match(config,/\[build\][\s\S]*command = "node scripts\/prepareWorkerRelease.cjs --check-release && node scripts\/syncSiteChrome.cjs && node scripts\/prepareWorkerRelease.cjs --check-release"/);
     const worker=fs.readFileSync(path.join(__dirname,'../../worker.js'),'utf8');
     assert.doesNotMatch(worker,/function render(?:InfoPage|TetinetHome|HomePage)\(/);
 });

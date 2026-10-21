@@ -11,6 +11,6 @@ directory = "."
 binding = "ASSETS"
 run_worker_first = true
 
-# Keep committed static shells synchronized before deployment.
+# Refuse dirty/local deployments; retain the existing static-shell build.
 [build]
-command = "node scripts/syncSiteChrome.cjs"
+command = "node scripts/prepareWorkerRelease.cjs --check-release && node scripts/syncSiteChrome.cjs && node scripts/prepareWorkerRelease.cjs --check-release"
