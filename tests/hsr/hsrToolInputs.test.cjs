@@ -947,3 +947,30 @@ test("scoped Lingsha and Boothill Ultimates restore independently from Skill con
         restored.node("hsrEnemyCount").value = "1"; restored.node("hsrEidolon").value = "1"; assert.equal(restored.calculate().length, 0);
     }
 });
+
+
+test("Ratio instance selectors and Deduction restore independently without combining future attacks", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const data={characters:catalog.characters,attacks:JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a=>["130503","130504"].includes(a.id)),
+        structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1305")};
+    const app=await tool(undefined,data); app.state.characterId="1305";
+    for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
+    assert.equal(app.calculate().length,0);
+    app.state.modifierInputs["ratio-ultimate-instance"]=true;assert.ok(Math.abs(app.calculate()[0].nonCrit-2592)<1e-8);
+    app.state.modifierInputs["ratio-follow-up-instance"]=true;
+    const base=app.calculate();assert.equal(base.length,2);assert.ok(Math.abs(base[1].nonCrit-2916)<1e-8);
+    app.state.modifierInputs["ratio-deduction-unlocked"]=true;app.node("hsrEnemyDebuffCount").value="3";
+    assert.ok(Math.abs(app.calculate()[1].nonCrit-3790.8)<1e-8);
+    assert.match(app.node("hsrWarnings").innerHTML,/帰納.*最終会心入力/);
+    app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);
+    assert.equal(restored.state.modifierInputs["ratio-deduction-unlocked"],true);
+    assert.equal(restored.node("hsrEnemyDebuffCount").value,"3");assert.ok(Math.abs(restored.calculate()[0].nonCrit-3369.6)<1e-8);
+    restored.state.modifierInputs["ratio-follow-up-instance"]=false;assert.equal(restored.calculate().length,1);
+    restored.state.modifierInputs["ratio-follow-up-instance"]=true;restored.state.modifierInputs["ratio-ultimate-instance"]=false;assert.equal(restored.calculate().length,1);
+    restored.state.modifierInputs["ratio-deduction-unlocked"]=false;assert.ok(Math.abs(restored.calculate()[0].nonCrit-2916)<1e-8);
+    for(const v of ["","0","-1","invalid"]){restored.node("hsrStat-atk").value=v;assert.equal(restored.calculate().length,0);}
+    restored.node("hsrStat-atk").value="3000";restored.node("hsrTalentTrace").value="11";assert.equal(restored.calculate().length,0);
+    restored.node("hsrTalentTrace").value="10";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().length,0);
+    restored.node("hsrEnemyCount").value="1";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().length,0);
+    restored.node("hsrEidolon").value="0";restored.state.characterId="1222";assert.equal(restored.calculate().length,0);
+});

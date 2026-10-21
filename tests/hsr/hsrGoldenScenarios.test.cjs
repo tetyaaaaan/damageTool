@@ -1567,3 +1567,28 @@ test("Boothill Ultimate outside Standoff keeps weakness implant separate from re
     const after = engine.calculate(input);
     assert.equal(before.nonCrit, after.nonCrit); assert.equal(before.breakdown.resistance, after.breakdown.resistance);
 });
+
+
+test("Ratio Ultimate and triggered Talent are separate complete release instances", () => {
+    checkScopedDirectRelease("130503", "1305", [144,153.6,163.2,172.8,182.4,192,204,216,228,240], 2592);
+    checkScopedDirectRelease("130504", "1305", [135,148.5,162,175.5,189,202.5,219.38,236.25,253.12,270], 2916);
+    assert.equal(attacks.find(a => a.id === "130504").type, "followUp");
+    assert.equal(attacks.find(a => a.id === "130504").target, "single");
+});
+test("Ratio Deduction uses current debuffs, caps at five, and stays distinct from follow-up-only buffs", () => {
+    for (const [count, bonus] of [[0,0],[2,0],[3,30],[4,40],[5,50],[9,50]]) for (const id of ["130503","130504"]) {
+        const a = attacks.find(a => a.id === id);
+        for (const unlocked of [false, true]) {
+            const mod = structured("traceNode:1305:1305103:deduction", { characterId:"1305", enemy:{ debuffCount:count } }, {"ratio-deduction-unlocked":unlocked});
+            const input = request({...a,multiplier:a.multipliers[9],traceLevel:10});
+            input.character.stats.atk=3000;
+            input.modifiers=[mod,{id:"follow-only",category:"damageBonus",value:50,enabled:true,target:{attackTypes:["followUp"]}}];
+            const nc=3000*a.multipliers[9]/100*.5*.8*.9*(1+((unlocked?bonus:0)+(id==="130504"?50:0))/100);
+            const r=engine.calculate(input);
+            for(const [actual,want] of [[r.nonCrit,nc],[r.crit,nc*2],[r.expected,nc*1.5]]) assert.ok(Math.abs(actual-want)<1e-8);
+            assert.equal(r.applied.some(m=>m.id===mod.id),unlocked&&count>=3);
+            assert.equal(r.applied.some(m=>m.id==="follow-only"),id==="130504");
+        }
+    }
+    assert.equal(structured("traceNode:1305:1305103:deduction",{characterId:"1222",enemy:{debuffCount:5}},{"ratio-deduction-unlocked":true}),undefined);
+});
