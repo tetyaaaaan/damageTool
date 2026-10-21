@@ -579,3 +579,36 @@ test("Waveflair enhanced Elation independently sums all three hit groups and kee
     }
     assert.equal(engine().calculate(waveflairElationInput()).breakdown.punchline,20);
 });
+
+
+function songbirdRequest(level=6,vibes=12,talentLevel=6) {
+    const a=JSON.parse(fs.readFileSync(path.join(root,"games/hsr/data/attack-overrides.json"),"utf8")).overrides.find(a=>a.id==="1151201");
+    const runtime=require(path.join(root,"games/js/hsrModifierRuntime.js"));
+    const records=require(path.join(root,"scripts/lib/hsrDataFiles.cjs")).loadHsrDataFiles(root).modifiers;
+    return {character:{level:80,eidolon:0,stats:{hp:999999,atk:999999,critRate:100,critDamage:9999,damageBonus:9999}},enemy:{count:1,level:80,resistance:20,toughnessActive:true},
+        attack:{...a,traceLevel:level,multiplier:a.multipliers[level-1]},songbird:{context:"feverStable",hp:4200,critRate:50,critDamage:100,damageBonus:0,fever:true,songbirdsActive:true,count:3,vibes,talentLevel,normalTalentLevel:10},
+        modifiers:runtime.buildCandidates(records,{characterId:"1512",eidolon:0,traceLevelFor:()=>10},{"robin-summeretto-fever":true,"robin-summeretto-vibes":vibes,"robin-songbirds-vulnerability":true,"robin-songbirds-count":3,"robin-songbirds-talent-level":talentLevel})};
+}
+test("Summer Songbirds uses its own final snapshot and independently combines Fever, DEF and vulnerability",()=>{
+    const catalog=JSON.parse(fs.readFileSync(path.join(root,"games/hsr/data/catalog.json"),"utf8")).characters.find(c=>c.id==="1512");
+    const source=catalog.skills.find(s=>s.id==="1151201"),talent=catalog.skills.find(s=>s.id==="1151203");
+    for(let lv=1;lv<=6;lv++)for(const [vibes,tl]of [[12,6],[50,1]]){
+        const i=songbirdRequest(lv,vibes,tl),r=engine().calculate(i);
+        assert.equal(i.attack.multipliers[lv-1],source.params[lv-1][1]*100);
+        const bonus=talent.params[tl-1][0]+vibes*talent.params[tl-1][1],taken=talent.params[tl-1][4];
+        const nc=4200*source.params[lv-1][1]*(1+bonus)/(2-(15+.5*vibes)/100)*.8*.9*(1+taken);
+        for(const [v,w]of [[r.nonCrit,nc],[r.crit,nc*2],[r.expected,nc*1.5]])assert.ok(Math.abs(v-w)<1e-8);
+        assert.equal(r.breakdown.referenceValue,4200);assert.equal(r.breakdown.actorKind,"memosprite");assert.equal(r.breakdown.feverDamageBonusPercent,bonus*100);
+        assert.equal(r.applied.filter(m=>m.id==="songbirds-fever-own-damage").length,1);
+    }
+    const i=songbirdRequest();i.songbird.hp=5000;i.songbird.damageBonus=50;i.songbird.critRate=25;i.songbird.critDamage=150;
+    Object.assign(i.enemy,{level:90,resistance:40,defenseReduction:20});
+    i.modifiers.push({id:"owner-crit",category:"critDamage",value:9999},{id:"owner-bonus",category:"damageBonus",value:9999},{id:"owner-defIgnore",category:"defenseIgnore",value:99});
+    const r=engine().calculate(i),nc=5000*1.5*(1+.5+.84)*(100/(100+110*.59))*.6*.9*1.16;
+    for(const [v,w]of [[r.nonCrit,nc],[r.crit,nc*2.5],[r.expected,nc*1.375]])assert.ok(Math.abs(v-w)<1e-8);
+    assert.ok(r.skipped.some(m=>m.id==="owner-crit"));
+    for(const mutate of [i=>i.songbird.hp=NaN,i=>i.songbird.hp=0,i=>i.songbird.critRate=NaN,i=>i.songbird.damageBonus=NaN,i=>i.songbird.fever=false,i=>i.songbird.count=2,i=>i.songbird.context="",i=>i.songbird.vibes=0,i=>i.songbird.vibes=51,i=>i.songbird.talentLevel=7,i=>i.character.eidolon=1,i=>i.character.level=79,i=>i.enemy.count=2,i=>i.attack.traceLevel=7,i=>i.modifiers=[]]){
+        const i=songbirdRequest();mutate(i);const r=engine().calculate(i);assert.equal(r.supported,false);assert.equal("nonCrit" in r,false);
+    }
+    const zero=songbirdRequest();zero.songbird.critRate=0;zero.songbird.critDamage=0;zero.songbird.damageBonus=0;assert.equal(engine().calculate(zero).expected,engine().calculate(zero).nonCrit);
+});

@@ -126,6 +126,22 @@
                 </div>
                 <p class="genshin-help">味方が敵1体に与えた、会心・防御・耐性等の適用後の値を入力してください。追加確定ダメージ、複数回・複数対象の合計を含めません。自動記録・合算・再帰発動は行いません。倍率は上の戦闘スキルLvを参照します。</p>
               </section>
+
+              <section class="genshin-input-step" id="hsrSongbirdSettings" hidden aria-labelledby="hsrSongbirdTitle">
+                <div class="genshin-input-step-head"><h4 id="hsrSongbirdTitle">夏の歌鳥・精霊自身の計算</h4><p>Lv80・ロビン星魂0・精霊スキルLv1～6。精霊のターンで発動する1回の敵1体分。本体のステータス・攻撃とは合算しません。精霊3体分の攻撃も自動合算しません。</p></div>
+                <label class="genshin-field">計算対象<select id="hsrSongbirdMode"><option value="false">ロビン本体の通常攻撃</option><option value="true">夏の歌鳥の精霊スキルのみ</option></select></label>
+                <label class="genshin-field">精霊の発動条件<select id="hsrSongbirdContext"><option value="">確認してください</option><option value="feverStable">フィーバー中の精霊のターン・攻撃中の状態変化なし</option></select></label>
+                <div class="genshin-form-grid">
+                  <label class="genshin-field">精霊スキルLv<select id="hsrSongbirdSkillLevel"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6</option></select></label>
+                  <label class="genshin-field">精霊自身の最終HP<input id="hsrSongbird-hp" type="number" min="0" step="0.1"></label>
+                  <label class="genshin-field">精霊の最終会心率（%）<input id="hsrSongbird-critRate" type="number" min="0" step="0.1"></label>
+                  <label class="genshin-field">精霊の最終会心ダメージ（%）<input id="hsrSongbird-critDamage" type="number" min="0" step="0.1"></label>
+                  <label class="genshin-field">精霊の最終風属性与ダメージ（%）<input id="hsrSongbird-damageBonus" type="number" min="0" step="0.1"></label>
+                </div>
+                <p class="genshin-help">精霊へ適用される常時・味方補正は、この専用最終値に含めます（A6解放時の会心率+50%も含む）。本体の装備・入力から自動構築しません。フィーバー固有与ダメージだけは別加算するため、この欄へ含めないでください。</p>
+                <p class="genshin-help">補正条件でフィーバーと夏の歌鳥の被ダメージ増加をON、精霊3体、攻撃時点のバイブス（増減を反映済み）、精霊天賦Lvを指定。本体天賦Lvは上の軌跡設定を参照します。自動適用はこの2補正と精霊のフィーバー固有与ダメージのみ。その他の敵補正は敵条件欄で指定してください。カウントダウン・召喚順・状態変化・星魂追加確定ダメージは計算しません。</p>
+              </section>
+
               <section class="genshin-input-step" id="hsrElationSettings" hidden aria-labelledby="hsrElationTitle">
                 <div class="genshin-input-step-head"><h4 id="hsrElationTitle">愉悦スキルの計算条件</h4><p id="hsrElationScope">緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。</p></div>
                 <div class="genshin-form-grid">

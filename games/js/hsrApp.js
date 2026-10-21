@@ -39,6 +39,7 @@
     characterId: "", coneId: "", relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "",
     level: 80, eidolon: 0, enhancementState: "enhanced", coneLevel: 80, coneRank: 1, partySp: 3, traceLevels: { normal: 6, skill: 10, ultimate: 10, talent: 10, elation: 10 }, source: "manual",
     stats: { ...DEFAULT_STATS },
+    songbirdInputs: { active: false, context: "", skillLevel: 6, hp: NaN, critRate: NaN, critDamage: NaN, damageBonus: NaN },
     trueDamageInputs: { active: false, sourceKind: "", originalDamage: NaN },
     elationInputs: { context: "ahaInstant", punchline: NaN, merrymake: 0, fervor: NaN },
     party: Array.from({ length: 3 }, () => ({ characterId: "", eidolon: 0, level: 10, atk: 0, critDamage: 50, breakEffect: 0, lightConeId: "", coneRank: 1, relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "" })),
@@ -113,6 +114,7 @@
     $("hsrElationField").hidden = char?.path !== "Elation";
     $("hsrElationInputHelp").hidden = char?.path !== "Elation";
     $("hsrTrueDamageSettings").hidden = char?.id !== "1415";
+    $("hsrSongbirdSettings").hidden = char?.id !== "1512";
     $("hsrElationSettings").hidden = !["1505", "1502", "1513"].includes(char?.id);
     $("hsrElationContextField").hidden = char?.id !== "1502";
     $("hsrElationScope").textContent = char?.id === "1502" ? "爻光Lv80・星魂0・敵1体、初回の通常アッハタイムの全6ヒットです。" : "緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。";
@@ -139,6 +141,7 @@
 
   function collectInputs() {
     document.querySelectorAll("[data-stat]").forEach((input) => { state.stats[input.dataset.stat] = input.value.trim() === "" ? NaN : Number(input.value); });
+    state.songbirdInputs = { active: $("hsrSongbirdMode").value === "true", context: $("hsrSongbirdContext").value, skillLevel: Number($("hsrSongbirdSkillLevel").value), ...Object.fromEntries(["hp", "critRate", "critDamage", "damageBonus"].map(key => { const value = $("hsrSongbird-"+key).value; return [key, value.trim() === "" ? NaN : Number(value)]; })) };
     state.level = Number($("hsrLevel").value); state.eidolon = num($("hsrEidolon").value); state.enhancementState = $("hsrEnhancementState")?.value || "enhanced"; state.coneLevel = Number($("hsrConeLevel").value); state.coneRank = num($("hsrConeRank").value, 1); state.partySp = Math.min(7, Math.max(0, Math.floor(num($("hsrPartySp")?.value, 3)))); state.traceLevels = { normal: Number($("hsrNormalTrace").value), skill: Number($("hsrSkillTrace").value), ultimate: Number($("hsrUltimateTrace").value), talent: Number($("hsrTalentTrace").value) };
     state.traceLevels.elation = Number($("hsrElationTrace").value);
     state.trueDamageInputs = { active: state.characterId === "1415" && $("hsrTrueDamageActive").value === "true", sourceKind: $("hsrTrueDamageSourceKind").value, originalDamage: $("hsrOriginalDamage").value.trim() === "" ? NaN : Number($("hsrOriginalDamage").value) };
@@ -149,9 +152,18 @@
       defenseIgnore: num($("hsrEnemyDefenseIgnore").value), resistancePenetration: num($("hsrEnemyResistancePenetration").value), takenDamage: num($("hsrEnemyTakenDamage").value) };
   }
 
+  function songbirdMode() { return state.characterId === "1512" && state.songbirdInputs.active; }
+
+  function songbirdSnapshot() {
+    return { ...state.songbirdInputs, fever: state.modifierInputs["robin-summeretto-fever"] === true,
+      songbirdsActive: state.modifierInputs["robin-songbirds-vulnerability"] === true, count: state.modifierInputs["robin-songbirds-count"],
+      vibes: state.modifierInputs["robin-summeretto-vibes"], talentLevel: state.modifierInputs["robin-songbirds-talent-level"] ?? 6, normalTalentLevel: state.traceLevels.talent };
+  }
+
   function availableAttacks() {
     return state.data.attacks.filter((item) => item.characterId === state.characterId
       && !item.hidden
+      && (item.id === "1151201" ? songbirdMode() : !songbirdMode())
       && (item.id === "1415021" ? state.trueDamageInputs.active : !state.trueDamageInputs.active)
       && (!item.requiredEidolon || state.eidolon >= item.requiredEidolon)
       && (item.maximumEidolon === undefined || state.eidolon <= item.maximumEidolon)
@@ -551,6 +563,7 @@
   }
 
   function resolvedAttack(selected) {
+    if (selected.id === "1151201") { const level=state.songbirdInputs.skillLevel; return { ...selected, traceLevel: level, multiplier: selected.multipliers[level-1] }; }
     const level = num(state.traceLevels[selected.traceKey], selected.traceKey === "normal" ? 6 : 10);
     const index = Math.max(0, Math.min(selected.multipliers.length - 1, level - 1));
     const inputHitCount = selected.hitCountInputKey ? num(state.modifierInputs[selected.hitCountInputKey], selected.hitCountDefault || 0) : null;
@@ -652,13 +665,13 @@
         + row("上笑", `${detailNumber(b.merrymakePercent)}%／×${detailNumber(b.merrymakeMultiplier)}`)
       : b.damageFormula === "enemyHpCappedByAtk"
       ? row("敵HP参照・攻撃力上限適用後", detailNumber(b.cappedEnemyHpDamage)) + row("敵HP割合／攻撃力上限", `${detailNumber(b.enemyHpPercent)}%／${detailNumber(b.atkCapPercent)}%`) + row("攻撃倍率", `${detailNumber(b.multiplierPercent)}%`)
-      : b.scalingTerms.map((term) => row(`${SCALING_LABELS[term.stat] || term.stat}参照 × 攻撃倍率`, `${detailNumber(term.referenceValue)} × ${detailNumber(term.multiplierPercent)}%`)).join("");
+      : b.scalingTerms.map((term) => row(`${b.actorKind === "memosprite" ? "精霊の最終" : ""}${SCALING_LABELS[term.stat] || term.stat}参照 × 攻撃倍率`, `${detailNumber(term.referenceValue)} × ${detailNumber(term.multiplierPercent)}%`)).join("");
     const hits = result.attack.hitCount;
     const hitFactors = b.vulnerabilityFactors.length && b.vulnerabilityFactors.every((value) => value === b.vulnerabilityFactors[0])
       ? `<dl class="hsr-hit-factors">${row("被ダメージ倍率（各ヒット）", `×${detailNumber(b.vulnerabilityFactors[0])}`)}</dl>`
       : `<details class="hsr-hit-factors"><summary>被ダメージ倍率（ヒット順）</summary><p>${b.vulnerabilityFactors.map((value) => `×${detailNumber(value)}`).join(" → ") || "ヒットなし"}</p></details>`;
     return `<section class="hsr-target-breakdown"><h4>${esc(targetLabel)}</h4>${components ? `<p class="hsr-formula-note">${esc(b.elationScopeNote || "初回の通常アッハタイム・敵1体への全6ヒット。全体攻撃1回と追撃5回を合算します。")}</p>` : isElation ? '<p class="hsr-formula-note">アッハタイム中・敵1体あたりの1回分です。爆笑の褒美への変換や全敵の合計は計算しません。</p>' : ""}<dl>${scaling}${b.flatDamage ? row("固定加算", detailNumber(b.flatDamage)) : ""}
-      ${components ? components.map((item) => row(`${item.name}：${item.multiplierPercent}% × ${item.count}ヒット`, `非会心1ヒット ${detailNumber(item.perHitNonCrit)}／小計 ${detailNumber(item.nonCrit)}${["fixedTalent", "ahaInput"].includes(b.punchlineSource) ? `／会心小計 ${detailNumber(item.crit)}／期待値小計 ${detailNumber(item.expected)}` : ""}`)).join("") : ""}${row(components ? "基礎ダメージ（倍率合算）" : "基礎ダメージ（1ヒット）", detailNumber(b.baseDamage))}${row("ヒット数", hits)}
+      ${components ? components.map((item) => row(`${item.name}：${item.multiplierPercent}% × ${item.count}ヒット`, `非会心1ヒット ${detailNumber(item.perHitNonCrit)}／小計 ${detailNumber(item.nonCrit)}${["fixedTalent", "ahaInput"].includes(b.punchlineSource) ? `／会心小計 ${detailNumber(item.crit)}／期待値小計 ${detailNumber(item.expected)}` : ""}`)).join("") : ""}${row(components ? "基礎ダメージ（倍率合算）" : "基礎ダメージ（1ヒット）", detailNumber(b.baseDamage))}${row("ヒット数", hits)}${b.actorKind === "memosprite" ? row("フィーバー固有与ダメージ（与ダメージ補正に含む）", detailNumber(b.feverDamageBonusPercent)+"%／精霊天賦Lv"+b.spriteTalentLevel+"・バイブス"+b.vibes) : ""}
       ${isElation ? row("通常の与ダメージ補正", "適用対象外（×1）") : row("与ダメージ補正", `${detailNumber(b.damageBonus)}%／×${detailNumber(b.damageBonusMultiplier)}`)}
       ${Number.isFinite(b.defenseIgnorePercent) ? row("防御ダウン／防御無視（合計100%上限）", `${detailNumber(b.defenseReductionPercent)}%／${detailNumber(b.defenseIgnorePercent)}%`) : ""}${row("防御倍率", `×${detailNumber(b.defense)}`)}${row("耐性倍率", `×${detailNumber(b.resistance)}`)}
       ${row(b.toughness === 0.9 ? "靭性倍率（靭性あり）" : "靭性倍率（弱点撃破中）", `×${detailNumber(b.toughness)}`)}
@@ -707,6 +720,7 @@
   }
 
   function calculationInputWarnings(attacks, baseStats) {
+    if (songbirdMode()) return attacks.flatMap(attack => window.HsrCalcEngine.songbirdInputWarnings({ character: { level: state.level, eidolon: state.eidolon }, enemy: state.enemy, attack, songbird: songbirdSnapshot(), modifiers: modifiers(attack) }));
     if (attacks.length && attacks.every((attack) => attack.damageFormula === "trueDamage")) return attacks.flatMap((attack) => window.HsrCalcEngine.trueDamageInputWarnings({ character: { eidolon: state.eidolon }, attack, trueDamage: state.trueDamageInputs }));
     const warnings = new Set();
     const labels = { hp: "HP", atk: "攻撃力", def: "防御力", speed: "速度", critRate: "会心率", critDamage: "会心ダメージ", damageBonus: "属性ダメージ", breakEffect: "撃破特効", effectHitRate: "効果命中", effectRes: "効果抵抗", energyRegen: "EP回復効率", hpPercent: "現在HP割合", dotBaseDamage: "対象の持続ダメージ", elation: "愉悦度" };
@@ -772,15 +786,15 @@
     }
     const baseRequest = { character: { level: state.level, eidolon: state.eidolon, stats: state.stats, baseStats }, enemy: state.enemy, elation: state.elationInputs, trueDamage: state.trueDamageInputs };
     const results = attacks.map((selected) => {
-      const request = { ...baseRequest, elation: attackElationInputs(selected), attack: selected, modifiers: modifiers(selected) };
+      const request = { ...baseRequest, songbird: songbirdSnapshot(), elation: attackElationInputs(selected), attack: selected, modifiers: modifiers(selected) };
       const result = window.HsrCalcEngine.calculate(request);
       const adjacentAttack = selected.adjacentMultiplier ? { ...selected, multiplier: selected.adjacentMultiplier, scalingTerms: selected.adjacentScalingTerms?.length ? selected.adjacentScalingTerms : undefined, target: "adjacent" } : null;
       const adjacent = adjacentAttack ? window.HsrCalcEngine.calculate({ ...baseRequest, attack: adjacentAttack, modifiers: modifiers(adjacentAttack) }) : null;
       return { attack: selected, result, adjacent };
     });
     const breakAttack = { attackType: "break", type: "break", element: character().element };
-    const breakResult = state.trueDamageInputs.active ? null : window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: character().element, modifiers: modifiers(breakAttack), breakBaseDamage: state.data.breakBaseDamage });
-    const specialBreakResults = (state.trueDamageInputs.active ? [] : state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status !== "displayOnly").map((attack) => {
+    const breakResult = state.trueDamageInputs.active || songbirdMode() ? null : window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: character().element, modifiers: modifiers(breakAttack), breakBaseDamage: state.data.breakBaseDamage });
+    const specialBreakResults = (state.trueDamageInputs.active || songbirdMode() ? [] : state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status !== "displayOnly").map((attack) => {
       const level = num(state.traceLevels[attack.traceKey], 10); const index = Math.max(0, Math.min(attack.multipliers.length - 1, level - 1));
       const multiplier = num(attack.multipliers[index]) + (state.eidolon >= 6 ? num(attack.eidolon6Bonus) : 0);
       const resolved = { ...attack, traceLevel: level, multiplier, attackType: "break" };
@@ -828,7 +842,8 @@
     if (!restored) { $("hsrSaveStatus").textContent = "保存条件の形式に対応していません。初期状態で表示しています。"; return false; }
     Object.assign(state, restored.state);
     renderStaticInputs(); writeStats();
-    const controls = { hsrEnemySelect: state.enemyId, hsrPartySp: state.partySp, hsrElationContext: state.elationInputs.context, hsrPunchline: state.elationInputs.punchline, hsrFervor: state.elationInputs.fervor, hsrMerrymake: state.elationInputs.merrymake, hsrTrueDamageActive: String(state.trueDamageInputs.active), hsrTrueDamageSourceKind: state.trueDamageInputs.sourceKind, hsrOriginalDamage: state.trueDamageInputs.originalDamage };
+    const controls = { hsrSongbirdMode: String(state.songbirdInputs.active), hsrSongbirdContext: state.songbirdInputs.context, hsrSongbirdSkillLevel: state.songbirdInputs.skillLevel,
+      ...Object.fromEntries(["hp", "critRate", "critDamage", "damageBonus"].map(key => ["hsrSongbird-"+key, state.songbirdInputs[key]])), hsrEnemySelect: state.enemyId, hsrPartySp: state.partySp, hsrElationContext: state.elationInputs.context, hsrPunchline: state.elationInputs.punchline, hsrFervor: state.elationInputs.fervor, hsrMerrymake: state.elationInputs.merrymake, hsrTrueDamageActive: String(state.trueDamageInputs.active), hsrTrueDamageSourceKind: state.trueDamageInputs.sourceKind, hsrOriginalDamage: state.trueDamageInputs.originalDamage };
     const enemyControls = { level: "hsrEnemyLevel", maxHp: "hsrEnemyMaxHp", resistance: "hsrEnemyResistance", maxToughness: "hsrMaxToughness", hpPercent: "hsrEnemyHpPercent", count: "hsrEnemyCount", debuffCount: "hsrEnemyDebuffCount", defenseReduction: "hsrEnemyDefenseReduction", defenseIgnore: "hsrEnemyDefenseIgnore", resistancePenetration: "hsrEnemyResistancePenetration", takenDamage: "hsrEnemyTakenDamage" };
     Object.entries(enemyControls).forEach(([key, id]) => { controls[id] = state.enemy[key]; });
     controls.hsrWeakness = String(state.enemy.weakness); controls.hsrToughnessState = state.enemy.toughnessActive ? "active" : "broken";

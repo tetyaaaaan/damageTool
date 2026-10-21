@@ -1,7 +1,7 @@
 (function (global) {
   "use strict";
   const KEY = "tetinet:hsr:calculation:v1";
-  const KEYS = ["characterId", "coneId", "relicId", "relicSecondId", "relicMode", "ornamentId", "level", "eidolon", "enhancementState", "coneLevel", "coneRank", "partySp", "traceLevels", "source", "stats", "trueDamageInputs", "elationInputs", "party", "enemyId", "enemy"];
+  const KEYS = ["characterId", "coneId", "relicId", "relicSecondId", "relicMode", "ornamentId", "level", "eidolon", "enhancementState", "coneLevel", "coneRank", "partySp", "traceLevels", "source", "stats", "trueDamageInputs", "elationInputs", "songbirdInputs", "party", "enemyId", "enemy"];
   const ENEMY_KEYS = ["level", "maxHp", "resistance", "weakness", "toughnessActive", "maxToughness", "hpPercent", "count", "debuffCount", "defenseReduction", "defenseIgnore", "resistancePenetration", "takenDamage"];
   const inputState = (state) => ({ ...Object.fromEntries(KEYS.map((key) => [key, state[key]])), enemy: Object.fromEntries(ENEMY_KEYS.map((key) => [key, state.enemy[key]])) });
   const object = (value) => value && typeof value === "object" && !Array.isArray(value);

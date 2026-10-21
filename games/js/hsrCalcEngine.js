@@ -198,6 +198,38 @@
         return "";
     }
 
+
+    function songbirdInputWarnings(input = {}) {
+        const a=input.attack || {}, c=input.character || {}, s=input.songbird || {}, warnings=[];
+        if (c.level !== 80 || c.eidolon !== 0 || input.enemy?.count !== 1) warnings.push("夏の歌鳥はLv80・ロビン星魂0・敵1体分のみ計算対応です。");
+        if (s.context !== "feverStable" || s.fever !== true || s.songbirdsActive !== true || s.count !== 3) warnings.push("精霊のターンの1回分・フィーバーON・夏の歌鳥3体・攻撃中の状態不変を確認してください。");
+        if (!Number.isInteger(s.vibes) || s.vibes < 1 || s.vibes > 50) warnings.push("攻撃時点のバイブスに1～50の整数を入力してください。");
+        if (!Number.isInteger(s.talentLevel) || s.talentLevel < 1 || s.talentLevel > 6) warnings.push("精霊天賦Lvに1～6を選択してください。");
+        if (!Number.isInteger(s.normalTalentLevel) || s.normalTalentLevel < 1 || s.normalTalentLevel > 10) warnings.push("ロビン本体の天賦Lvに1～10を選択してください。");
+        if (!(Number.isFinite(s.hp) && s.hp > 0)) warnings.push("精霊自身の最終HPに0より大きい値を入力してください。");
+        for(const [key,label]of [["critRate","精霊の最終会心率"],["critDamage","精霊の最終会心ダメージ"],["damageBonus","精霊の最終風属性与ダメージ"]]) if (!Number.isFinite(s[key]) || s[key]<0) warnings.push(label+"に0以上の数値を入力してください。");
+        if (a.type !== "memospriteSkill" || a.element !== "Wind" || a.scalingStat !== "hp" || a.hitCount !== 1 || !Number.isInteger(a.traceLevel) || a.traceLevel<1 || a.traceLevel>6 || !Number.isFinite(a.multiplier) || a.multiplier !== a.multipliers?.[a.traceLevel-1]
+            || !Number.isFinite(a.feverDamageBase?.[s.talentLevel-1]) || !Number.isFinite(a.feverDamagePerVibe?.[s.talentLevel-1])) warnings.push("精霊スキルとフィーバー固有倍率を確認できません。");
+        for(const id of ["trace:1512:151204:fever-defense-ignore","trace:1512:1151203:songbirds-vulnerability"]) if (!(input.modifiers || []).some(m=>m.id===id && m.enabled && m.applicable!==false && m.calculable!==false && Number.isFinite(m.value) && !(m.inputWarnings || []).length)) warnings.push("精霊の計算にはフィーバー防御無視と夏の歌鳥の被ダメージ増加を補正条件で有効にしてください。");
+        return warnings;
+    }
+
+    function calculateSongbird(input) {
+        const warnings=songbirdInputWarnings(input);
+        if(warnings.length) return {supported:false,reason:warnings.join(" ")};
+        const s=input.songbird,a=input.attack;
+        const bonus=a.feverDamageBase[s.talentLevel-1]+s.vibes*a.feverDamagePerVibe[s.talentLevel-1];
+        // Other friendly buffs belong in this unit's explicit final snapshot, never the owner's equipment route.
+        const keep=["trace:1512:151204:fever-defense-ignore","trace:1512:1151203:songbirds-vulnerability"];
+        const mods=(input.modifiers || []).map(m=>keep.includes(m.id)?m:{...m,applicable:false,reason:"精霊専用の最終入力で管理するか、今回の自動適用範囲外です。敵補正は敵条件欄で指定してください。"});
+        mods.push({id:"songbirds-fever-own-damage",name:"精霊天賦・フィーバー固有与ダメージ",source:"夏ロビン・精霊天賦1151203",calculation:{stage:"damageBonus",operation:"add"},category:"damageBonus",value:bonus,enabled:true,applicable:true,conditionText:"精霊天賦Lv"+s.talentLevel+"・攻撃時点のバイブス"+s.vibes});
+        const result=calculate({...input,character:{level:80,eidolon:0,stats:{hp:s.hp,critRate:s.critRate,critDamage:s.critDamage,damageBonus:s.damageBonus},baseStats:{}},
+            attack:{...a,id:"1151201:resolved"},modifiers:mods});
+        result.breakdown.actorKind="memosprite"; result.breakdown.feverDamageBonusPercent=bonus;
+        result.breakdown.spriteTalentLevel=s.talentLevel; result.breakdown.vibes=s.vibes;
+        return result;
+    }
+
     function calculate(input) {
         const character = input?.character || {};
         const enemy = input?.enemy || {};
@@ -206,6 +238,7 @@
         if (unsupportedReason) return { supported: false, reason: unsupportedReason };
         if (supportedElationAttack(attack)) return calculateElation(input);
         if (supportedTrueAttack(attack)) return calculateTrueDamage(input);
+        if (attack.id === "1151201") return calculateSongbird(input);
         const stats = character.stats || {};
         const modifiers = (input?.modifiers || []).map(normalizeModifier);
         modifiers.forEach((item) => {
@@ -463,5 +496,5 @@
         return { supported: true, value, base, toughnessDamage, effectiveToughnessDamage, breakEffect, breakEfficiency, superBreakBonus, defense, resistance, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
     }
 
-    window.HsrCalcEngine = Object.freeze({ trueDamageInputWarnings, elationInputWarnings, unsupportedAttackReason, calculate, calculateBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });
+    window.HsrCalcEngine = Object.freeze({ songbirdInputWarnings, trueDamageInputWarnings, elationInputWarnings, unsupportedAttackReason, calculate, calculateBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });
 })();

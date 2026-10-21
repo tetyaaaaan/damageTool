@@ -417,7 +417,7 @@ for (const [cid, id, stat, value, label, multiplier] of [['1512','151201','hp','
         assert.equal(result.breakdown.multiplierPercent, multiplier);
         assert.match(app.node('hsrResults').innerHTML, /data-support-status="calculable"/);
         assert.ok(app.node('hsrResults').innerHTML.includes(label + '参照 × 攻撃倍率'));
-        assert.match(app.node('hsrWarnings').innerHTML, cid === '1513' ? /爆笑の褒美なし.*熱気0.*計算対象外/ : /のみ計算対応.*計算対象外/);
+        assert.match(app.node('hsrWarnings').innerHTML, cid === '1513' ? /爆笑の褒美なし.*熱気0.*計算対象外/ : /専用入力・精霊のみモード.*計算対象外/);
         assert.equal(app.calculate().length, 1, 'conditional skills are not included without confirmation');
     });
 }
@@ -864,4 +864,27 @@ test("Waveflair enhanced skill restores heat and manual Punchline and fails clos
     app.node("hsrFervor").value="10";app.node("hsrPunchline").value="";assert.equal(app.calculate().length,0);
     app.node("hsrPunchline").value="60";app.state.modifierInputs[flag]=false;app.state.modifierInputs["waveflair-fervor10-stable"]=true;
     assert.equal(app.calculate().find(r=>r.breakdown.damageFormula==="elation").breakdown.punchline,20);assert.equal(app.state.elationInputs.punchline,60);
+});
+
+
+test("Summer Songbirds mode separates final stats, restores snapshots and refuses incomplete Fever states",async()=>{
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json")),files=require("../../scripts/lib/hsrDataFiles.cjs").loadHsrDataFiles(root);
+    const data={...catalog,attacks:files.attackOverrides.filter(a=>a.characterId==="1512"),structuredModifiers:files.modifiers};
+    const app=await tool(undefined,data);app.state.characterId="1512";app.node("hsrEidolon").handlers.change({target:{value:"0"}});
+    app.node("hsrSongbirdMode").value="true";assert.equal(app.calculate().length,0);
+    app.node("hsrSongbirdContext").value="feverStable";app.node("hsrSongbirdSkillLevel").value="6";
+    for(const[k,v]of Object.entries({hp:4200,critRate:50,critDamage:100,damageBonus:0}))app.node("hsrSongbird-"+k).value=String(v);
+    Object.assign(app.state.modifierInputs,{"robin-summeretto-fever":true,"robin-summeretto-vibes":12,"robin-songbirds-vulnerability":true,"robin-songbirds-count":3,"robin-songbirds-talent-level":6});
+    const result=app.calculate()[0],expected=4200*1.5*1.84*(100/179)*.8*.9*1.16;
+    assert.ok(Math.abs(result.nonCrit-expected)<1e-8);assert.equal(app.calculate().length,1);
+    assert.match(app.node("hsrResults").innerHTML,/精霊の最終HP参照/);assert.match(app.node("hsrResults").innerHTML,/フィーバー固有与ダメージ/);
+    app.node("hsrStat-hp").value="999999";app.node("hsrStat-critDamage").value="9999";assert.ok(Math.abs(app.calculate()[0].nonCrit-expected)<1e-8);
+    app.node("hsrSongbird-hp").handlers.input();const rr=await tool(app.storage,data);assert.equal(rr.state.songbirdInputs.active,true);assert.equal(rr.node("hsrSongbird-hp").value,"4200");assert.ok(Math.abs(rr.calculate()[0].nonCrit-expected)<1e-8);
+    app.node("hsrSongbird-hp").value="";assert.equal(app.calculate().length,0);app.node("hsrSongbird-hp").value="4200";
+    app.state.modifierInputs["robin-summeretto-fever"]=false;assert.equal(app.calculate().length,0);app.state.modifierInputs["robin-summeretto-fever"]=true;
+    app.state.modifierInputs["robin-songbirds-count"]=2;assert.equal(app.calculate().length,0);app.state.modifierInputs["robin-songbirds-count"]=3;
+    app.node("hsrEnemyCount").value="2";assert.equal(app.calculate().length,0);app.node("hsrEnemyCount").value="1";
+    app.node("hsrEidolon").value="1";assert.equal(app.calculate().length,0);app.node("hsrEidolon").value="0";
+    app.node("hsrSongbirdMode").value="false";app.node("hsrStat-hp").value="6000";app.node("hsrStat-critDamage").value="100";
+    assert.equal(app.calculate()[0].breakdown.actorKind,undefined);assert.equal(app.calculate()[0].breakdown.referenceValue,6000);
 });
