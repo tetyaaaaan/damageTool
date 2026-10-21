@@ -782,7 +782,7 @@ test("Waveflair fixed-20 normal Elation shows unequal components and restores co
     restored.node("hsrStat-elation").value="50";restored.node("hsrMerrymake").value="";assert.equal(restored.calculate().length,0);
     restored.node("hsrMerrymake").value="0";restored.state.modifierInputs[key]=1;assert.equal(restored.calculate().length,0,"non-boolean confirmation cannot establish trigger/stable conditions");
     restored.state.modifierInputs[key]=false;assert.equal(restored.calculate().length,1);
-    assert.equal(restored.state.data.attacks.some(a=>a.id==="151321"),false);
+    assert.equal(restored.calculate().some(r=>r.breakdown.fervor!==undefined),false);
 });
 
 
@@ -841,4 +841,27 @@ test("scoped Hanya and Gallagher attacks preserve opt-in conditions, limits and 
         const other=app.calculate();assert.ok(!other.some(r=>r.attack.name===name));
         assert.ok(other.every(r=>!r.applied.some(m=>m.id.endsWith(":direct-scope"))));
     }
+});
+
+
+test("Waveflair enhanced skill restores heat and manual Punchline and fails closed outside its distinct trigger",async()=>{
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const {loadHsrDataFiles}=require("../../scripts/lib/hsrDataFiles.cjs"),files=loadHsrDataFiles(root);
+    const data={...catalog,attacks:files.attackOverrides.filter(a=>a.characterId==="1513"),structuredModifiers:files.modifiers};
+    const app=await tool(undefined,data);app.state.characterId="1513";
+    for(const[k,v]of Object.entries({atk:3000,elation:50,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
+    app.node("hsrEidolon").handlers.change({target:{value:"0"}});
+    const flag="waveflair-enhanced-aha-stable";const find=()=>app.calculate().find(r=>r.breakdown.fervor!==undefined);
+    assert.equal(find(),undefined);
+    app.state.modifierInputs[flag]=true;assert.equal(app.calculate().length,0);
+    app.state.party[0]={...app.state.party[0],characterId:"1503"};app.node("hsrFervor").value="10";app.node("hsrPunchline").value="20";
+    const r=find();assert.ok(Math.abs(r.nonCrit-25352.736936923077)<1e-8);assert.equal(r.attack.hitCount,21);
+    assert.match(app.node("hsrResults").innerHTML,/熱気消費による追加攻撃/);assert.match(app.node("hsrResults").innerHTML,/消費熱気（追加ヒット数）/);
+    app.node("hsrStat-elation").handlers.input();const rr=await tool(app.storage,data);
+    assert.equal(rr.node("hsrFervor").value,"10");assert.equal(rr.node("hsrPunchline").value,"20");assert.equal(rr.node("hsrPunchlineField").hidden,false);
+    assert.ok(Math.abs(rr.calculate().find(r=>r.breakdown.fervor!==undefined).nonCrit-r.nonCrit)<1e-8);
+    for(const v of ["","0","31","10.5"]){app.node("hsrFervor").value=v;assert.equal(app.calculate().length,0)}
+    app.node("hsrFervor").value="10";app.node("hsrPunchline").value="";assert.equal(app.calculate().length,0);
+    app.node("hsrPunchline").value="60";app.state.modifierInputs[flag]=false;app.state.modifierInputs["waveflair-fervor10-stable"]=true;
+    assert.equal(app.calculate().find(r=>r.breakdown.damageFormula==="elation").breakdown.punchline,20);assert.equal(app.state.elationInputs.punchline,60);
 });

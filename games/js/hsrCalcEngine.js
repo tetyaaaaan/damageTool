@@ -100,12 +100,13 @@
         if (attack.damageFormula !== "elation" || attack.type !== "elation") return false;
         return (attack.id === "150520" && attack.elationContext === "ahaInstant" && attack.target === "aoe" && attack.hitCount === 1)
             || (attack.id === "150220" && attack.elationContext === "firstAhaInstant" && attack.target === "single" && attack.hitCount === 6)
-            || (attack.id === "151320" && attack.elationContext === "fervor10Auto" && attack.target === "single" && attack.hitCount === 11 && attack.fixedPunchline === 20);
+            || (attack.id === "151320" && attack.elationContext === "fervor10Auto" && attack.target === "single" && attack.hitCount === 11 && attack.fixedPunchline === 20)
+            || (attack.id === "151321" && attack.elationContext === "fervorEnhancedAha" && attack.target === "single" && attack.hitCount === 11 && attack.fixedPunchline === undefined);
     }
 
-    function elationComponents(attack) {
+    function elationComponents(attack, fervor) {
         return (Array.isArray(attack.elationComponents) ? attack.elationComponents : []).map((component) => ({
-            name: component?.name, count: component?.count, multiplierPercent: component?.multipliers?.[attack.traceLevel - 1]
+            name: component?.name, count: attack.id === "151321" && component?.countFrom === "fervor" ? fervor : component?.count, multiplierPercent: component?.multipliers?.[attack.traceLevel - 1]
         }));
     }
 
@@ -115,7 +116,16 @@
         const values = input.elation || {};
         const warnings = [];
         if (!ELATION_LEVEL_BASE[character.level] || (character.eidolon ?? 0) !== 0) warnings.push("この愉悦攻撃はLv80・星魂0のみ計算対応です。");
-        if (input.attack?.id === "151320") {
+        if (input.attack?.id === "151321") {
+            if (values.context !== "fervorEnhancedAha" || values.stableEnemy !== true) warnings.push("熱気10到達の通常版発動後、次のアッハタイムの強化版で全ヒット中に撃破・敵条件変化がないことを確認してください。");
+            if (input.enemy?.count !== 1) warnings.push("強化版151321は敵1体のみ計算対応です。");
+            if (values.hasOtherElation !== true) warnings.push("強化版151321は他の愉悦キャラを編成した場合のみ計算対応です。A4の追加攻撃扱いは計算しません。");
+            if (!Number.isInteger(values.fervor) || values.fervor < 10 || values.fervor > 30) warnings.push("強化版が消費する熱気に10～30の整数を入力してください。");
+            const parts = elationComponents(input.attack, values.fervor);
+            if (parts.length !== 3 || parts[0].count !== 1 || parts[1].count !== 10 || input.attack.elationComponents[2]?.countFrom !== "fervor"
+                || parts.some(p => !Number.isFinite(p.multiplierPercent) || p.multiplierPercent < 0)
+                || Math.abs(parts[0].multiplierPercent + 10 * parts[1].multiplierPercent - input.attack.multiplier) > 1e-9) warnings.push("強化版151321の全体・固定10ヒット・熱気追加倍率を確認できません。");
+        } else if (input.attack?.id === "151320") {
             if (values.context !== "fervor10Auto" || values.stableEnemy !== true) warnings.push("熱気10到達による通常版の自動発動で、全11ヒット中に撃破・敵条件変化がないことを確認してください。");
             if (input.enemy?.count !== 1) warnings.push("夏アベンチュリンの通常版愉悦は敵1体のみ計算対応です。複数敵への分配は計算しません。");
             const components = elationComponents(input.attack);
@@ -324,7 +334,10 @@
         const skipped = modifiers.filter((item) => !item.enabled || !item.applicable);
         const sum = (category) => applied.filter((item) => item.category === category).reduce((total, item) => total + item.value, 0);
         const levelBase = ELATION_LEVEL_BASE[character.level];
-        const baseDamage = levelBase * attack.multiplier / 100;
+        const components = elationComponents(attack, values.fervor);
+        const multiplierPercent = attack.id === "151321" ? components.reduce((total, p) => total + p.count * p.multiplierPercent, 0) : attack.multiplier;
+        const hitCount = attack.id === "151321" ? 11 + values.fervor : attack.hitCount;
+        const baseDamage = levelBase * multiplierPercent / 100;
         const elationPercent = stats.elation + sum("elation");
         const elationMultiplier = 1 + elationPercent / 100;
         // Fervor-triggered 151320 uses the Talent's fixed value, never the shared manual input.
@@ -349,18 +362,19 @@
         const crit = nonCrit * critMultiplier;
         const expected = nonCrit * expectedCritMultiplier;
         return {
-            attack: { name: attack.name, hitCount: attack.hitCount, target: attack.target, canCrit: true, scalingStat: "elation" },
-            nonCrit, crit, expected, perHit: { nonCrit: nonCrit / attack.hitCount, crit: crit / attack.hitCount, expected: expected / attack.hitCount }, applied, skipped,
+            attack: { name: attack.name, hitCount, target: attack.target, canCrit: true, scalingStat: "elation" },
+            nonCrit, crit, expected, perHit: { nonCrit: nonCrit / hitCount, crit: crit / hitCount, expected: expected / hitCount }, applied, skipped,
             breakdown: {
-                ...(["150220", "151320"].includes(attack.id) ? { elationComponents: elationComponents(attack).map((component) => {
+                ...(["150220", "151320", "151321"].includes(attack.id) ? { elationComponents: components.map((component) => {
                     const perHitNonCrit = levelBase * component.multiplierPercent / 100 * commonMultiplier;
                     return { ...component, perHitNonCrit, nonCrit: perHitNonCrit * component.count,
                         crit: perHitNonCrit * component.count * critMultiplier, expected: perHitNonCrit * component.count * expectedCritMultiplier };
                 }) } : {}),
-                damageFormula: "elation", levelBase, referenceValue: levelBase, multiplierPercent: attack.multiplier,
+                damageFormula: "elation", levelBase, referenceValue: levelBase, multiplierPercent,
                 multiplierAddition: 0, scalingTerms: [], flatDamage: 0, baseDamage,
                 elationPercent, elationMultiplier, punchline, punchlineMultiplier,
                 ...(attack.id === "151320" ? { punchlineSource: "fixedTalent", elationScopeNote: "熱気10到達の通常版自動発動・敵1体・全体1ヒット＋追加10ヒット。爆笑ネタは天賦固定20。全ヒット中の撃破・敵条件変化なし。" } : {}),
+                ...(attack.id === "151321" ? { fervor: values.fervor, punchlineSource: "ahaInput", elationScopeNote: "熱気10到達の通常版発動後、次のアッハタイムの強化版・敵1体。全体1＋固定10＋消費熱気分の追加ヒット。全ヒット中の撃破・敵条件変化なし。爆笑ネタは入力値を使用し、固定20は使いません。" } : {}),
                 merrymakePercent: values.merrymake, merrymakeMultiplier,
                 damageBonus: 0, damageBonusMultiplier: 1, independentMultiplier: 1,
                 defense, defenseReductionPercent: defenseReduction, defenseIgnorePercent: defenseIgnore,

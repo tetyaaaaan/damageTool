@@ -550,3 +550,32 @@ test("combined Elation gear and party buffs expose the exact defense inputs used
     const unbuffed=engine().calculate(waveflairElationInput()).breakdown;
     assert.equal(unbuffed.defenseReductionPercent,0);assert.equal(unbuffed.defenseIgnorePercent,0);
 });
+
+
+function waveflairEnhancedInput(level=10,fervor=10,punchline=20) {
+    const input=waveflairElationInput(level);
+    const attack=JSON.parse(fs.readFileSync(path.join(root,"games/hsr/data/attack-overrides.json"),"utf8")).overrides.find(a=>a.id==="151321");
+    input.attack={...attack,traceLevel:level,multiplier:attack.multipliers[level-1]};
+    input.elation={context:"fervorEnhancedAha",stableEnemy:true,hasOtherElation:true,fervor,punchline,merrymake:0};
+    return input;
+}
+test("Waveflair enhanced Elation independently sums all three hit groups and keeps Punchline separate",()=>{
+    const source=JSON.parse(fs.readFileSync(path.join(root,"games/hsr/data/catalog.json"),"utf8")).characters.find(c=>c.id==="1513").skills.find(s=>s.id==="151321");
+    for(let lv=1;lv<=10;lv++)for(const heat of [10,30]){
+        const input=waveflairEnhancedInput(lv,heat,60),r=engine().calculate(input),p=source.params[lv-1];
+        const expected=7535.107*(p[0]+10*p[3]+heat*p[1])*1.5*2*.5*.8*.9;
+        assert.ok(Math.abs(r.nonCrit-expected)<1e-8);
+        assert.ok(Math.abs(r.crit-expected*2)<1e-8);assert.ok(Math.abs(r.expected-expected*1.5)<1e-8);
+        assert.equal(r.attack.hitCount,11+heat);assert.equal(r.breakdown.punchline,60);
+        assert.deepEqual(Array.from(r.breakdown.elationComponents,p=>p.count),[1,10,heat]);
+        for(const key of ["nonCrit","crit","expected"])assert.ok(Math.abs(r.breakdown.elationComponents.reduce((s,p)=>s+p[key],0)-r[key])<1e-8);
+    }
+    const i=waveflairEnhancedInput();Object.assign(i.character.stats,{elation:80,critRate:25,critDamage:150,damageBonus:9999});
+    Object.assign(i.enemy,{level:90,resistance:40,defenseReduction:20});i.elation.merrymake=25;
+    const r=engine().calculate(i),expected=7535.107*4.5*1.8*(18/13)*1.25*(100/188)*.6*.9;
+    assert.ok(Math.abs(r.nonCrit-expected)<1e-8);assert.ok(Math.abs(r.crit-expected*2.5)<1e-8);assert.ok(Math.abs(r.expected-expected*1.375)<1e-8);
+    for(const mutate of [i=>i.elation.fervor=0,i=>i.elation.fervor=31,i=>i.elation.fervor=10.5,i=>i.elation.fervor=NaN,i=>i.elation.punchline=NaN,i=>i.elation.hasOtherElation=false,i=>i.elation.stableEnemy=false,i=>i.elation.context="ahaInstant",i=>i.enemy.count=2,i=>i.character.level=79,i=>i.character.eidolon=1]){
+        const i=waveflairEnhancedInput();mutate(i);assert.equal(engine().calculate(i).supported,false);
+    }
+    assert.equal(engine().calculate(waveflairElationInput()).breakdown.punchline,20);
+});
