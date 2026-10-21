@@ -1025,3 +1025,24 @@ test("Fuyuan action restores two-hit scope without combining Lingsha Skill or Ul
     restored.node("hsrTalentTrace").value="10";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().length,0);
     restored.node("hsrEnemyCount").value="1";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().length,0);
 });
+
+
+test("Jiaoqiu same-level five-roast Zone scope restores and rejects unsupported auxiliary trace levels", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const data={characters:catalog.characters,attacks:JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a=>["121802","121803"].includes(a.id)),
+        structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1218")};
+    const app=await tool(undefined,data);app.state.characterId="1218";
+    for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
+    assert.equal(app.calculate().length,0);app.state.modifierInputs["jiaoqiu-five-roast-zone"]=true;
+    let r=app.calculate();assert.equal(r.length,2);assert.ok(Math.abs(r[0].nonCrit-2187)<1e-8);assert.ok(Math.abs(r[1].nonCrit-1620)<1e-8);
+    assert.equal(r[0].applied.filter(m=>m.category==="takenDamage").length,1);assert.equal(r[1].applied.filter(m=>m.category==="takenDamage").length,2);
+    app.node("hsrStat-effectHitRate").value="200";assert.ok(Math.abs(app.calculate()[0].nonCrit-2187)<1e-8);
+    assert.match(app.node("hsrWarnings").innerHTML,/重複入力しない/);
+    app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);
+    assert.equal(restored.state.modifierInputs["jiaoqiu-five-roast-zone"],true);assert.ok(Math.abs(restored.calculate()[1].nonCrit-1620)<1e-8);
+    restored.state.modifierInputs["jiaoqiu-five-roast-zone"]=false;assert.equal(restored.calculate().length,0);restored.state.modifierInputs["jiaoqiu-five-roast-zone"]=true;
+    for(const id of ["hsrTalentTrace","hsrUltimateTrace"]) { restored.node(id).value="11";assert.equal(restored.calculate().length,0);assert.match(restored.node("hsrWarnings").innerHTML,/参照する/);restored.node(id).value="10"; }
+    for(const v of ["","0","-1","invalid"]){restored.node("hsrStat-atk").value=v;assert.equal(restored.calculate().length,0);}
+    restored.node("hsrStat-atk").value="3000";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().length,0);
+    restored.node("hsrEnemyCount").value="1";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().length,0);
+});

@@ -732,6 +732,10 @@
     attacks.forEach((attack) => {
       if (Object.hasOwn(state.traceLevels, attack.traceKey) && (!Number.isInteger(state.traceLevels[attack.traceKey]) || state.traceLevels[attack.traceKey] < 1 || state.traceLevels[attack.traceKey] > (["normal", "elation"].includes(attack.traceKey) ? 10 : 15))) warnings.add(`${ATTACK_LABELS[attack.traceKey] || attack.traceKey}のレベルを確認して選択してください。`);
       if (attack.maximumTraceLevel && attack.traceLevel > attack.maximumTraceLevel) warnings.add(`${attack.name}は軌跡Lv1～${attack.maximumTraceLevel}のみ計算対応です。`);
+      Object.entries(attack.requiredTraceLevelRanges || {}).forEach(([key, range]) => {
+        const level = state.traceLevels[key];
+        if (!Number.isInteger(level) || level < range.minimum || level > range.maximum) warnings.add(attack.name + "が参照する" + (ATTACK_LABELS[key] || key) + "はLv" + range.minimum + "～" + range.maximum + "のみ計算対応です。");
+      });
       if (attack.damageFormula === "elation") window.HsrCalcEngine.elationInputWarnings({ character: { level: state.level, eidolon: state.eidolon, stats: state.stats }, attack, enemy: state.enemy, elation: attackElationInputs(attack) }).forEach((warning) => warnings.add(warning));
       const terms = [...(attack.scalingTerms?.length ? attack.scalingTerms : [{ stat: attack.scalingStat || "atk", multiplier: attack.multiplier }]), ...(attack.adjacentScalingTerms || [])];
       terms.filter((term) => num(term.multiplier) !== 0).forEach((term) => requiredStats.add(term.stat));

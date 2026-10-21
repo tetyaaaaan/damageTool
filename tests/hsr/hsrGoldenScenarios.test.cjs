@@ -1655,3 +1655,26 @@ test("Lingsha complete Fuyuan action independently sums equal AoE and extra-targ
         assert.ok(Math.abs(r.breakdown.multiplierPercent-mvs[l-1])<1e-9);
     }
 });
+
+
+test("Jiaoqiu five-roast and existing Zone add vulnerabilities at independent trace levels", () => {
+    const skill=[75,82.5,90,97.5,105,112.5,121.875,131.25,140.625,150],ult=[60,64,68,72,76,80,85,90,95,100];
+    const roast=[17.5,19.25,21,22.75,24.5,26.25,28.44,30.625,32.815,35],zone=[9,9.6,10.2,10.8,11.4,12,12.75,13.5,14.25,15];
+    for(const[id,mvs]of [["121802",skill],["121803",ult]]) {
+        const a=attacks.find(a=>a.id===id);assert.deepEqual(a.multipliers,mvs);assert.equal(a.maximumEidolon,0);assert.equal(a.enemyCountExact,1);
+        for(let l=1;l<=10;l++) for(const talent of [1,10]) for(const zoneLevel of [1,10]) for(const[atk,cr,cd,bonus,enemyLv,res,down,taken]of [[3000,50,100,0,80,20,0,0],[4000,25,150,50,90,40,20,10]]) {
+            const context={characterId:"1218",traceLevelFor:s=>s.skillId==="121804"?talent:zoneLevel},inputs={"jiaoqiu-five-roast-zone":true};
+            const mods=["trace:1218:121804:five-roast","trace:1218:121803:zone"].map(id=>structured(id,context,inputs));
+            const input=request({...a,attackType:a.type,multiplier:mvs[l-1],traceLevel:l},mods);
+            Object.assign(input.character.stats,{atk,critRate:cr,critDamage:cd,damageBonus:bonus});Object.assign(input.enemy,{level:enemyLv,resistance:res,defenseReduction:down,takenDamage:taken});
+            const vulnerability=1+(taken+roast[talent-1]+(id==="121803"?zone[zoneLevel-1]:0))/100;
+            const nc=atk*mvs[l-1]/100*(1+bonus/100)*100/(100+(enemyLv+20)*(1-down/100))*(1-res/100)*.9*vulnerability,r=engine.calculate(input);
+            for(const[actual,want]of [[r.nonCrit,nc],[r.crit,nc*(1+cd/100)],[r.expected,nc*(1+cr*cd/10000)],[r.breakdown.takenDamage,(vulnerability-1)*100]])assert.ok(Math.abs(actual-want)<1e-8);
+            assert.equal(r.applied.some(m=>m.id==="trace:1218:121803:zone"),id==="121803");
+            assert.equal(r.breakdown.referenceValue,atk);
+        }
+    }
+    const off=structured("trace:1218:121804:five-roast",{characterId:"1218",traceLevelFor:()=>10},{"jiaoqiu-five-roast-zone":false});
+    assert.equal(off.enabled,false);
+    assert.equal(structured("trace:1218:121804:five-roast",{characterId:"1222",partyIds:["1218"]},{"jiaoqiu-five-roast-zone":true}),undefined);
+});
