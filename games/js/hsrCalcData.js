@@ -5,7 +5,8 @@
         attackManifest: "/games/hsr/data/attacks.json",
         modifiers: "/games/hsr/data/modifiers.json",
         dataFiles: "/games/hsr/data/calc/data-files.json",
-        specialBreakAttacks: "/games/hsr/data/calc/special-break-attacks.json"
+        specialBreakAttacks: "/games/hsr/data/calc/special-break-attacks.json",
+        traceSkillMap: "/games/hsr/data/trace-level-map.json"
     };
     let cached;
     async function load() {
@@ -46,6 +47,7 @@
             }),
             modifiers: raw.modifiers.modifiers,
             structuredModifiers: structuredModifierDataFiles.flatMap((data) => data.modifiers || []).filter((modifier) => !String(modifier.id).startsWith("deprecated:")),
+            traceSkillMap: raw.traceSkillMap?.mappings || {},
             // Lv.80 is the only value enabled until the remaining progression
             // table has an independently recorded source.
             breakBaseDamage: Object.freeze({ 80: 3767.5533 })

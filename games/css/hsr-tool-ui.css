@@ -175,3 +175,146 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
   .hsr-attack-result header { flex-direction: column; gap: .25rem; }
   .hsr-attack-result header span { text-align: left; }
 }
+
+/* Keep the short HSR section title on one line while allowing its note to wrap. */
+.page-hsr .hsr-status-step-head {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: start;
+  gap: .65rem 1rem;
+}
+.page-hsr .hsr-status-step-head h4 { min-width: max-content; margin: 0; white-space: nowrap; }
+.page-hsr .hsr-status-step-head p { display: block; min-width: 0; margin: 0; overflow-wrap: anywhere; }
+.page-hsr .hsr-trace-level-grid > .genshin-field[hidden] { display: none !important; }
+
+.hsr-party-order-field { max-width: 16rem; margin: .5rem 0; }
+.hsr-party-preview {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .5rem;
+  margin-top: .7rem;
+}
+.hsr-party-preview:empty { display: none; }
+.hsr-party-preview-card {
+  display: grid;
+  grid-template-columns: 2.8rem minmax(0, 1fr);
+  gap: .5rem;
+  align-items: center;
+  min-width: 0;
+  padding: .45rem;
+  border: 1px solid var(--teti-border);
+  border-radius: .7rem;
+  background: var(--teti-surface-soft);
+}
+.hsr-party-preview-card img { width: 2.8rem; height: 2.8rem; object-fit: contain; border-radius: .45rem; background: var(--teti-surface); }
+.hsr-party-preview-copy { display: grid; min-width: 0; gap: .15rem; }
+.hsr-party-preview-copy strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .78rem; }
+.hsr-party-preview-copy small { color: var(--teti-text-muted); font-size: .66rem; }
+.hsr-party-preview-equipment { display: flex; gap: .2rem; grid-column: 1 / -1; }
+.hsr-party-preview-equipment img { width: 1.35rem; height: 1.35rem; object-fit: contain; border-radius: .25rem; }
+
+.hsr-break-settings { padding: 0; overflow: hidden; }
+.hsr-break-settings > summary,
+.hsr-manual-condition-details > summary {
+  display: grid;
+  gap: .2rem;
+  padding: .8rem .9rem;
+  cursor: pointer;
+  list-style-position: inside;
+}
+.hsr-break-settings > summary strong { font-size: .95rem; }
+.hsr-break-settings > summary small { color: var(--teti-text-muted); font-size: .75rem; }
+.hsr-break-settings[open] > summary { border-bottom: 1px solid var(--teti-border); }
+.hsr-break-settings-body { padding: .15rem .9rem .85rem; }
+.hsr-manual-condition-details { margin-top: .6rem; border: 1px solid var(--teti-border); border-radius: .65rem; }
+.hsr-manual-condition-details > summary { display: block; padding: .55rem .7rem; font-size: .8rem; }
+.hsr-manual-condition-details[open] > p { padding: 0 .7rem; }
+.hsr-manual-condition-details[open] #hsrManualConditionList { padding: 0 .7rem .7rem; }
+
+.hsr-damage-table-wrap { max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; }
+.hsr-damage-table { width: 100%; min-width: 20rem; border-collapse: collapse; font-size: .82rem; }
+.hsr-damage-table th, .hsr-damage-table td { padding: .45rem .5rem; border-bottom: 1px solid var(--teti-border); }
+.hsr-damage-table th { color: var(--teti-text-muted); font-size: .72rem; font-weight: 750; text-align: right; white-space: nowrap; }
+.hsr-damage-table th:first-child, .hsr-damage-table td:first-child { text-align: left; }
+.hsr-damage-table td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+.hsr-damage-table tr:last-child td { border-bottom: 0; }
+.hsr-attack-result { min-width: 0; padding: .7rem; }
+.hsr-attack-result header { min-width: 0; }
+.hsr-attack-result h3 { min-width: 0; }
+.hsr-result-details { min-width: 0; }
+
+@media (max-width: 640px) {
+  .hsr-party-preview { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .page-hsr .hsr-status-step-head { grid-template-columns: minmax(0,1fr); gap: .3rem; }
+  .page-hsr .hsr-status-step-head h4 { white-space: normal; }
+}
+
+.hsr-selection-section-title { grid-column: 1 / -1; margin: .6rem 0 .15rem; font-size: .9rem; }
+.hsr-party-equipment-row { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.hsr-party-equipment-row > .genshin-party-pick:first-child { grid-column: 1 / -1; }
+.hsr-party-equipment-pick { min-width: 0; padding: .35rem; }
+.hsr-party-equipment-pick img { width: 2.25rem; height: 2.25rem; }
+.hsr-party-equipment-pick strong { font-size: .75rem; white-space: normal; overflow-wrap: anywhere; }
+.hsr-party-order-actions { display: flex; gap: .25rem; margin-left: auto; }
+.hsr-party-order-actions button { color: var(--teti-text); border: 1px solid var(--teti-border); background: var(--teti-surface); border-radius: .35rem; min-width: 2rem; min-height: 2rem; }
+.hsr-manual-condition-row { display: grid; grid-template-columns: auto minmax(0,1fr) 5.5rem auto; align-items: center; gap: .4rem; margin: .45rem 0; font-size: .8rem; }
+.hsr-manual-condition-row input[type="number"] { min-width: 0; width: 100%; }
+.hsr-damage-table td:first-child { min-width: 8rem; }
+.hsr-damage-table td small { display: block; color: var(--teti-text-muted); font-size: .68rem; margin-top: .2rem; }
+.hsr-damage-table td:last-child { background: var(--teti-surface-soft); }
+.hsr-damage-table .hsr-support-status { font-size: .65rem; margin: .3rem 0 0; padding: .1rem .25rem; }
+.hsr-result-details summary, .hsr-unavailable-results summary { cursor: pointer; font-weight: 700; font-size: .85rem; }
+.hsr-unavailable-results { grid-column: 1 / -1; }
+.hsr-precision-note { font-size: .72rem; }
+@media(max-width:460px) { .hsr-damage-table { min-width: 0; font-size: .74rem; } .hsr-damage-table th,.hsr-damage-table td { padding: .4rem .25rem; } }
+
+/* The HSR party editor has five vertical regions; retain its scroll area and footer. */
+#hsrPartyDialog .genshin-party-dialog-body {
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  gap: 10px;
+}
+#hsrPartyDialog .genshin-party-dialog-help,
+#hsrPartyDialog .genshin-party-dialog-body > .genshin-help {
+  position: static;
+  margin: 0;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+#hsrPartyDialog .hsr-party-order-field {
+  display: grid;
+  gap: .35rem;
+  width: min(100%, 22rem);
+  max-width: none;
+  margin: 0;
+}
+#hsrPartyDialog .hsr-party-order-field select { width: 100%; min-width: 0; }
+#hsrPartyDialog .genshin-party-member-list {
+  position: static;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  width: 100%;
+  min-width: 0;
+}
+#hsrPartyDialog .genshin-party-member,
+#hsrPartyDialog .genshin-party-member-head,
+#hsrPartyDialog .hsr-party-equipment-row,
+#hsrPartyDialog .hsr-party-fields { min-width: 0; }
+#hsrPartyDialog .genshin-party-member-head { flex-wrap: wrap; gap: .4rem; }
+#hsrPartyDialog .hsr-party-equipment-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#hsrPartyDialog .hsr-party-equipment-row > .genshin-party-pick:first-child { grid-column: 1 / -1; }
+#hsrPartyDialog .hsr-party-fields { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+#hsrPartyDialog .hsr-party-equipment-pick { grid-template-columns: 2.25rem minmax(0, 1fr); }
+#hsrPartyDialog .hsr-party-equipment-pick strong { white-space: normal; overflow-wrap: anywhere; word-break: normal; }
+#hsrPartyDialog .genshin-party-dialog-actions { position: relative; z-index: 1; background: var(--teti-surface); }
+
+@media (max-width: 680px) {
+  #hsrPartyDialog .genshin-party-member-list { grid-template-columns: minmax(0, 1fr); }
+  #hsrPartyDialog .hsr-party-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 420px) {
+  #hsrPartyDialog .hsr-party-equipment-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #hsrPartyDialog .hsr-party-equipment-row > .genshin-party-pick:first-child { grid-column: 1 / -1; }
+  #hsrPartyDialog .hsr-party-equipment-pick { grid-template-columns: 2rem minmax(0, 1fr); gap: .35rem; }
+  #hsrPartyDialog .hsr-party-equipment-pick img { width: 2rem; height: 2rem; }
+  #hsrPartyDialog .hsr-party-equipment-pick strong { font-size: .72rem; }
+}

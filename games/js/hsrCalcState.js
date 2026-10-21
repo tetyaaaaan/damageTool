@@ -1,7 +1,7 @@
 (function (global) {
   "use strict";
   const KEY = "tetinet:hsr:calculation:v1";
-  const KEYS = ["characterId", "coneId", "relicId", "relicSecondId", "relicMode", "ornamentId", "level", "eidolon", "enhancementState", "coneLevel", "coneRank", "partySp", "traceLevels", "source", "stats", "trueDamageInputs", "elationInputs", "songbirdInputs", "breakInputs", "party", "enemyId", "enemy"];
+  const KEYS = ["characterId", "coneId", "relicId", "relicSecondId", "relicMode", "ornamentId", "level", "eidolon", "enhancementState", "coneLevel", "coneRank", "partySp", "attackerPosition", "traceLevels", "source", "stats", "trueDamageInputs", "elationInputs", "songbirdInputs", "breakInputs", "party", "enemyId", "enemy"];
   const ENEMY_KEYS = ["level", "maxHp", "resistance", "weakness", "toughnessActive", "maxToughness", "hpPercent", "count", "debuffCount", "defenseReduction", "defenseIgnore", "resistancePenetration", "takenDamage"];
   const inputState = (state) => ({ ...Object.fromEntries(KEYS.map((key) => [key, state[key]])), enemy: Object.fromEntries(ENEMY_KEYS.map((key) => [key, state.enemy[key]])) });
   const object = (value) => value && typeof value === "object" && !Array.isArray(value);
@@ -27,6 +27,9 @@
     if (!object(value) || value.schemaVersion !== 1 || value.game !== "hsr" || !object(value.state)) return null;
     const result = merge(inputState(defaults), value.state);
     if (!["manual", "api", "api-edited"].includes(result.source)) result.source = "manual";
+    if (result.source !== "manual") ["memSkill", "memTalent"].forEach((key) => {
+      if (!Object.hasOwn(value.state.traceLevels || {}, key)) result.traceLevels[key] = NaN;
+    });
     if (!["4pc", "2+2"].includes(result.relicMode)) result.relicMode = defaults.relicMode;
     if (!["enhanced", "previous"].includes(result.enhancementState)) result.enhancementState = defaults.enhancementState;
     result.modifierInputs = Object.fromEntries(Object.entries(object(value.modifierInputs) ? value.modifierInputs : {}).filter(([key, item]) => safeKey(key) && key.length <= 256 && (typeof item === "boolean" || (typeof item === "number" && Number.isFinite(item)) || item === null)).slice(0, 2000).map(([key, item]) => [key, item === null ? NaN : item]));
@@ -40,7 +43,14 @@
     check(result.characterId, "characters"); check(result.coneId, "lightCones");
     if (result.enemyId !== "custom") check(result.enemyId, "enemies");
     [result.relicId, result.relicSecondId, result.ornamentId].forEach((id) => check(id, "relicSets"));
-    result.party.forEach((member) => { check(member.characterId, "characters"); check(member.lightConeId, "lightCones"); [member.relicId, member.relicSecondId, member.ornamentId].forEach((id) => check(id, "relicSets")); });
+    result.attackerPosition = Number.isInteger(result.attackerPosition) && result.attackerPosition >= 1 && result.attackerPosition <= 4 ? result.attackerPosition : 1;
+    result.party.forEach((member, index) => {
+      if (member.source !== "api") member.source = "manual";
+      const emptyLevels = Object.fromEntries(Object.keys(defaults.traceLevels || {}).map((key) => [key, NaN]));
+      member.traceLevels = merge(emptyLevels, value.state.party?.[index]?.traceLevels || {});
+      check(member.characterId, "characters"); check(member.lightConeId, "lightCones");
+      [member.relicId, member.relicSecondId, member.ornamentId].forEach((id) => check(id, "relicSets"));
+    });
     return { state: result, fields, missing };
   }
 

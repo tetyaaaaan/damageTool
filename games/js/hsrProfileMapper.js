@@ -45,16 +45,24 @@
         });
     }
 
-    function mapTraces(character, characterData) {
+    function mapTraces(character, characterData, traceSkillMap) {
         return (character.skillTreeList || []).map((tree) => {
             const id = String(tree.pointId || "");
-            const skill = byId(characterData?.skills, id)
-                || byId(characterData?.skills, `${characterData?.id || ""}${id.slice(-2)}`);
+            const linkedSkillIds = traceSkillMap?.[String(characterData?.id || "")]?.[id]?.skillIds;
+            const basicSkillIds = /^(001|002|003)$/.test(id.slice(-3)) && id.startsWith(String(characterData?.id || ""))
+                ? [id, `${characterData.id}${id.slice(-2)}`] : [];
+            const skillIds = Array.isArray(linkedSkillIds) && linkedSkillIds.length
+                ? linkedSkillIds.map(String)
+                : basicSkillIds.find((skillId) => byId(characterData?.skills, skillId))
+                    ? [basicSkillIds.find((skillId) => byId(characterData?.skills, skillId))] : [];
+            const skills = skillIds.map((skillId) => byId(characterData?.skills, skillId)).filter(Boolean);
+            const skill = skills[0];
             const trace = byId(characterData?.traces, id);
             return {
                 id,
                 name: text(skill?.name || trace?.name),
                 type: text(skill?.type, ""),
+                skillIds,
                 level: number(tree.level),
                 maxLevel: number(skill?.params?.length || trace?.maxLevel),
                 description: text(skill?.description || trace?.description, ""),
@@ -121,7 +129,7 @@
         };
     }
 
-    function mapCharacter(character, catalog) {
+    function mapCharacter(character, catalog, traceSkillMap) {
         const id = String(character.avatarId || "");
         const characterData = byId(catalog?.characters, id);
         const coneId = String(character.equipment?.tid || "");
@@ -158,7 +166,7 @@
             lightCone,
             relics,
             relicSets,
-            traces: mapTraces(character, characterData),
+            traces: mapTraces(character, characterData, traceSkillMap),
             image: characterData?.image || "",
             stats: calculateStats(character, characterData, lightConeData, relicSets, catalog)
         };
@@ -167,7 +175,7 @@
     function mapProfileResponse(response, catalog) {
         const player = response?.detailInfo || {};
         const characters = Array.isArray(player.avatarDetailList)
-            ? player.avatarDetailList.map((character) => mapCharacter(character, catalog))
+            ? player.avatarDetailList.map((character) => mapCharacter(character, catalog, catalog?.traceSkillMap))
             : [];
         return {
             provider: "Enka.Network",

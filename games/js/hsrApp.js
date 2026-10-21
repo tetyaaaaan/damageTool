@@ -37,13 +37,13 @@
   const state = {
     data: null,
     characterId: "", coneId: "", relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "",
-    level: 80, eidolon: 0, enhancementState: "enhanced", coneLevel: 80, coneRank: 1, partySp: 3, traceLevels: { normal: 6, skill: 10, ultimate: 10, talent: 10, elation: 10 }, source: "manual",
+    level: 80, eidolon: 0, enhancementState: "enhanced", coneLevel: 80, coneRank: 1, partySp: 3, attackerPosition: 1, traceLevels: { normal: 6, skill: 10, ultimate: 10, talent: 10, elation: 10, memSkill: 6, memTalent: 6 }, source: "manual",
     stats: { ...DEFAULT_STATS },
     songbirdInputs: { active: false, context: "", skillLevel: 6, hp: NaN, critRate: NaN, critDamage: NaN, damageBonus: NaN },
     breakInputs: { mode: "attacks", toughnessDamage: NaN, multiplier: 100 },
     trueDamageInputs: { active: false, sourceKind: "", originalDamage: NaN },
     elationInputs: { context: "ahaInstant", punchline: NaN, merrymake: 0, fervor: NaN },
-    party: Array.from({ length: 3 }, () => ({ characterId: "", eidolon: 0, level: 10, atk: 0, critDamage: 50, breakEffect: 0, lightConeId: "", coneRank: 1, relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "" })),
+    party: Array.from({ length: 3 }, () => ({ characterId: "", eidolon: 0, level: 10, atk: 0, critDamage: 50, breakEffect: 0, lightConeId: "", coneRank: 1, relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "", source: "manual", traceLevels: {} })),
     enemyId: "3001020",
     enemy: { level: 80, maxHp: 100000, resistance: 20, weakness: false, toughnessActive: true, maxToughness: 30, hpPercent: 100, count: 1, debuffCount: 0, defenseReduction: 0, defenseIgnore: 0, resistancePenetration: 0, takenDamage: 0 },
     selectionType: "", selectionFilters: { element: new Set(), rarity: new Set(), path: new Set() }, partySlot: -1, conditionTab: "パーティ", initialized: false,
@@ -56,6 +56,39 @@
       { id: "res-pen", tab: "その他", name: "属性耐性貫通", description: "計算対象属性の耐性貫通", source: "手動入力", category: "resistancePenetration", value: 0, enabled: false, appliesTo: "自身" }
     ]
   };
+
+  // Display values are separate from the exact values used by calculation and storage.
+  const displayedStats = new Map();
+  let profileCharacters = [];
+  const TRACE_FIELDS = {
+    normal: ["Normal", "hsrNormalTrace", "通常", 10], skill: ["BPSkill", "hsrSkillTrace", "スキル", 15],
+    ultimate: ["Ultra", "hsrUltimateTrace", "必殺技", 15], talent: ["Talent", "hsrTalentTrace", "天賦", 15],
+    memSkill: ["MemospriteSkill", "hsrMemSkillTrace", "精霊スキル", 10], memTalent: ["MemospriteTalent", "hsrMemTalentTrace", "精霊天賦", 10],
+    elation: ["ElationDamage", "hsrElationTrace", "愉悦", 10]
+  };
+  function statDisplay(key, value) {
+    if (value === null || !Number.isFinite(Number(value))) return "";
+    const n = Number(value);
+    return ["hp", "atk", "def", "speed"].includes(key) ? String(Math.floor(n + 1e-9)) : n.toFixed(1);
+  }
+  function writeStat(key) {
+    const input = $("hsrStat-" + key); if (!input) return;
+    const value = state.stats[key]; input.value = statDisplay(key, value);
+    displayedStats.set(input.id, { text: input.value, value });
+  }
+  function readStat(input) {
+    const displayed = displayedStats.get(input.id);
+    return displayed && input.value === displayed.text ? displayed.value : input.value.trim() === "" ? NaN : Number(input.value);
+  }
+  function renderTraceInputs() {
+    const skills = character()?.skills || [];
+    Object.entries(TRACE_FIELDS).forEach(([key, [type, id, label, maximum]]) => {
+      const visible = skills.some((skill) => skill.type === type && skill.params?.length);
+      const field = $(id + "Field"); if (field) field.hidden = !visible;
+      // An absent trace is never filled from the character's ordinary talent.
+      fillRange(id, 1, maximum, state.traceLevels[key], (value) => `${label} Lv${value}`);
+    });
+  }
 
   function find(collection, id) { return state.data?.[collection]?.find((item) => item.id === id) || null; }
   function character() { return find("characters", state.characterId); }
@@ -93,6 +126,7 @@
   }
 
   function renderBuild() {
+    renderTraceInputs();
     const char = character(); const lightCone = cone(); const relicSet = relic(); const secondRelicSet = relicSecond(); const ornamentSet = ornament();
     setImage("hsrCharacterImage", char?.image, char?.name);
     setImage("hsrConeImage", lightCone?.image, lightCone?.name);
@@ -136,15 +170,15 @@
   }
 
   function writeStats() {
-    Object.entries(state.stats).forEach(([key, value]) => { const input = $("hsrStat-" + key); if (input) input.value = value === null || !Number.isFinite(Number(value)) ? "" : String(state.source === "api" ? Number(value) : Math.round(Number(value) * 1000) / 1000); });
+    Object.keys(state.stats).forEach(writeStat);
     $("hsrLevel").value = state.level; $("hsrConeLevel").value = state.coneLevel; renderActionValue();
   }
 
   function collectInputs() {
-    document.querySelectorAll("[data-stat]").forEach((input) => { state.stats[input.dataset.stat] = input.value.trim() === "" ? NaN : Number(input.value); });
+    document.querySelectorAll("[data-stat]").forEach((input) => { state.stats[input.dataset.stat] = readStat(input); });
     state.songbirdInputs = { active: $("hsrSongbirdMode").value === "true", context: $("hsrSongbirdContext").value, skillLevel: Number($("hsrSongbirdSkillLevel").value), ...Object.fromEntries(["hp", "critRate", "critDamage", "damageBonus"].map(key => { const value = $("hsrSongbird-"+key).value; return [key, value.trim() === "" ? NaN : Number(value)]; })) };
     state.level = Number($("hsrLevel").value); state.eidolon = num($("hsrEidolon").value); state.enhancementState = $("hsrEnhancementState")?.value || "enhanced"; state.coneLevel = Number($("hsrConeLevel").value); state.coneRank = num($("hsrConeRank").value, 1); state.partySp = Math.min(7, Math.max(0, Math.floor(num($("hsrPartySp")?.value, 3)))); state.traceLevels = { normal: Number($("hsrNormalTrace").value), skill: Number($("hsrSkillTrace").value), ultimate: Number($("hsrUltimateTrace").value), talent: Number($("hsrTalentTrace").value) };
-    state.traceLevels.elation = Number($("hsrElationTrace").value);
+    Object.entries(TRACE_FIELDS).forEach(([key, [, id]]) => { state.traceLevels[key] = $(id).value === "" ? NaN : Number($(id).value); });
     state.trueDamageInputs = { active: state.characterId === "1415" && $("hsrTrueDamageActive").value === "true", sourceKind: $("hsrTrueDamageSourceKind").value, originalDamage: $("hsrOriginalDamage").value.trim() === "" ? NaN : Number($("hsrOriginalDamage").value) };
     if (state.trueDamageInputs.active) state.traceLevels.skill = Number($("hsrSkillTrace").value);
     state.breakInputs = { mode: ["break", "superBreak"].includes($("hsrBreakMode").value) ? $("hsrBreakMode").value : "attacks", toughnessDamage: $("hsrSuperBreakToughness").value.trim() === "" ? NaN : Number($("hsrSuperBreakToughness").value), multiplier: $("hsrSuperBreakMultiplier").value.trim() === "" ? NaN : Number($("hsrSuperBreakMultiplier").value) };
@@ -185,8 +219,8 @@
   }
 
   function selectionItems(type) {
-    if (type === "character" || type === "party") return state.data.characters.filter((item) => type !== "party" || (item.id !== state.characterId && !state.party.some((member, index) => index !== state.partySlot && member.characterId === item.id)));
-    if (type === "cone") return state.data.lightCones.filter((item) => !character() || item.path === character().path);
+    if (type === "character" || type === "party") { const items = state.data.characters.filter((item) => type !== "party" || (item.id !== state.characterId && !state.party.some((member, index) => index !== state.partySlot && member.characterId === item.id))); return window.HsrCharacterOrder?.sort(items) || items; }
+    if (type === "cone") { const owner = state.partySlot >= 0 ? find("characters", state.party[state.partySlot]?.characterId) : character(); return state.data.lightCones.filter((item) => !owner || item.path === owner.path); }
     if (type === "relic" || type === "relicSecond") return state.data.relicSets.filter((item) => item.type === "relic");
     if (type === "ornament") return state.data.relicSets.filter((item) => item.type === "ornament");
     if (type === "enemy") return state.data.enemies;
@@ -196,6 +230,7 @@
   function currentSelectionId() {
     if (state.selectionType === "character") return state.characterId;
     if (state.selectionType === "party") return state.party[state.partySlot]?.characterId || "";
+    if (state.partySlot >= 0) return state.party[state.partySlot]?.[({cone:"lightConeId",relic:"relicId",relicSecond:"relicSecondId",ornament:"ornamentId"})[state.selectionType]] || "";
     return state[state.selectionType + "Id"] || "";
   }
 
@@ -230,8 +265,13 @@
     const clearCard = canClear ? `<button type="button" class="genshin-selection-option" data-selection-id=""><img class="genshin-selection-option-image" src="${FALLBACK}" alt="" width="48" height="48" loading="lazy"><span class="genshin-selection-option-copy"><strong>選択しない</strong><span>設定を解除</span></span></button>` : "";
     const cards = items.map((item) => { const element = item.element ? `<span class="genshin-selection-option-badges"><img class="genshin-selection-element-icon" src="${elementIcon(item.element)}" alt="${esc(item.elementName)}" width="20" height="20"></span>` : ""; const meta = state.selectionType === "enemy" ? `Lv${item.level} / 耐性${item.resistance}% / 最大靭性${item.maxToughness}` : item.elementName ? `${item.pathName} / ★${item.rarity}` : `${item.pathName || (item.type === "ornament" ? "オーナメント" : "遺物")} / ★${item.rarity || "-"}`; const kind = ["relic", "relicSecond", "ornament"].includes(state.selectionType) ? "artifact" : state.selectionType; return `<button type="button" class="genshin-selection-option${item.id === currentSelectionId() ? " is-selected" : ""}" data-selection-id="${item.id}" data-selection-kind="${kind}"${item.rarity ? ` data-rarity="${item.rarity}"` : ""} aria-label="${esc(`${item.name}、${item.elementName || meta}`)}"><img class="genshin-selection-option-image" src="${esc(imageUrl(item.image))}" alt="" width="48" height="48" loading="lazy">${element}<span class="genshin-selection-option-copy"><strong>${esc(item.name)}</strong><span>${esc(meta)}</span></span></button>`; }).join("");
     const hasFilters = !$("hsrSelectionFilters").hidden;
-    $("hsrSelectionList").innerHTML = clearCard + cards || `<p class="genshin-selection-empty">${hasFilters ? "条件に一致する候補がありません。フィルターを切り替えてください。" : "名前に一致する候補がありません。検索内容を確認してください。"}</p>`;
-    const selectedCharacter = character();
+    const characterMode = ["character", "party"].includes(state.selectionType);
+    const uidCards = characterMode ? profileCharacters.flatMap((profile, index) => {
+      const item = items.find((entry) => String(entry.id) === String(profile.id));
+      return item ? [`<button type="button" class="genshin-selection-option" data-selection-id="${esc(item.id)}" data-selection-profile="${index}"><img class="genshin-selection-option-image" src="${esc(imageUrl(item.image))}" alt="" width="48" height="48"><span class="genshin-selection-option-copy"><strong>${esc(item.name)}</strong><span>UID取得・Lv${esc(profile.level)}／星魂${esc(profile.eidolon)}</span></span></button>`] : [];
+    }).join("") : "";
+    $("hsrSelectionList").innerHTML = (uidCards ? `<h3 class="hsr-selection-section-title">UIDから取得したキャラクター</h3>${uidCards}<h3 class="hsr-selection-section-title">キャラクター一覧（手動設定）</h3>` : "") + clearCard + cards || `<p class="genshin-selection-empty">${hasFilters ? "条件に一致する候補がありません。フィルターを切り替えてください。" : "名前に一致する候補がありません。検索内容を確認してください。"}</p>`;
+    const selectedCharacter = state.partySlot >= 0 ? find("characters", state.party[state.partySlot]?.characterId) : character();
     $("hsrSelectionSummary").textContent = state.selectionType === "cone" && selectedCharacter ? `${selectedCharacter.name}が装備できる「${selectedCharacter.pathName}」の光円錐・${items.length}件` : `${items.length}件を表示`;
     $("hsrSelectionList").querySelectorAll("img").forEach((image) => { image.onerror = fixImage; });
   }
@@ -261,10 +301,18 @@
     if (!document.querySelector("dialog[open]")) document.body.classList.remove("modal-open");
   }
 
-  function chooseSelection(id) {
+  function chooseSelection(id, profileIndex) {
     const type = state.selectionType;
+    const profile = profileIndex !== undefined ? profileCharacters[Number(profileIndex)] : null;
+    if (profile && type === "character") { applyProfileCharacter(profile); closeDialog($("hsrSelectionDialog")); return; }
+    if (state.partySlot >= 0 && type !== "party") {
+      const member = state.party[state.partySlot];
+      member[({cone:"lightConeId",relic:"relicId",relicSecond:"relicSecondId",ornament:"ornamentId"})[type]] = id;
+      member.source = "manual"; renderPartyDialog(); renderPartySummary(); updateConditionSummary();
+      closeDialog($("hsrSelectionDialog")); markDirty(); return;
+    }
     if (type === "party") {
-      const member = state.party[state.partySlot]; member.characterId = id; member.eidolon = 0; member.level = 10; member.atk = 0; member.critDamage = 50; member.breakEffect = 0; member.lightConeId = ""; member.coneRank = 1; member.relicId = ""; member.relicSecondId = ""; member.relicMode = "4pc"; member.ornamentId = ""; renderPartyDialog();
+      const member = state.party[state.partySlot]; member.characterId = id; member.eidolon = 0; member.level = 10; member.atk = 0; member.critDamage = 50; member.breakEffect = 0; member.lightConeId = ""; member.coneRank = 1; member.relicId = ""; member.relicSecondId = ""; member.relicMode = "4pc"; member.ornamentId = ""; member.source = "manual"; member.traceLevels = {}; if (profile) applyPartyProfile(member, profile); renderPartyDialog(); renderPartySummary(); updateConditionSummary();
     } else if (type === "enemy") {
       applyEnemy(id);
     } else {
@@ -276,14 +324,35 @@
     closeDialog($("hsrSelectionDialog")); markDirty();
   }
 
+  function profileTraceLevels(profile) {
+    return Object.fromEntries(Object.entries(TRACE_FIELDS).map(([key, [type]]) => [key, profile.traces?.find((item) => item.type === type)?.level ?? NaN]));
+  }
+  function applyPartyProfile(member, profile) {
+    const sets = profile.relicSets || [], tunnels = sets.filter((item) => num(item.id) < 300);
+    Object.assign(member, { eidolon: num(profile.eidolon), level: 10, atk: profile.stats?.atk ?? NaN,
+      critDamage: profile.stats?.critDamage ?? NaN, breakEffect: profile.stats?.breakEffect ?? NaN,
+      lightConeId: find("lightCones", String(profile.lightCone?.id || ""))?.id || "", coneRank: profile.lightCone?.rank ?? 1,
+      relicId: find("relicSets", String(tunnels[0]?.id || ""))?.id || "", relicSecondId: find("relicSets", String(tunnels[1]?.id || ""))?.id || "",
+      relicMode: tunnels.length > 1 ? "2+2" : "4pc", ornamentId: find("relicSets", String(sets.find((item) => num(item.id) >= 300)?.id || ""))?.id || "",
+      source: "api", traceLevels: profileTraceLevels(profile) });
+    if (member.characterId === "1512") state.modifierInputs["robin-songbirds-talent-level"] = member.traceLevels.memTalent;
+  }
+  function partyEquipment(member, index) {
+    return [["cone", "lightCones", member.lightConeId, "光円錐"], ["relic", "relicSets", member.relicId, "遺物"],
+      ...(member.relicMode === "2+2" ? [["relicSecond", "relicSets", member.relicSecondId, "2つ目の遺物"]] : []), ["ornament", "relicSets", member.ornamentId, "オーナメント"]]
+      .map(([type, collection, id, label]) => { const item = find(collection, id); return `<button type="button" class="genshin-party-pick hsr-party-equipment-pick" data-party-equipment="${type}" data-slot="${index}"${member.characterId ? "" : " disabled"}><img src="${esc(imageUrl(item?.image))}" alt="" width="40" height="40"><span><small>${label}</small><strong>${esc(item?.name || "選択する")}</strong></span></button>`; }).join("");
+  }
+  function orderedParty() {
+    const members = state.party.map((member, index) => ({ ...member, supportIndex: index }));
+    members.splice(state.attackerPosition - 1, 0, { characterId: state.characterId, lightConeId: state.coneId, relicId: state.relicId, relicSecondId: state.relicSecondId, relicMode: state.relicMode, ornamentId: state.ornamentId, source: state.source, attacker: true });
+    return members;
+  }
+
   function renderPartyDialog() {
-    const optionList = (items, selected, emptyLabel) => `<option value="">${esc(emptyLabel)}</option>${items.map((entry) => `<option value="${esc(entry.id)}"${String(selected) === String(entry.id) ? " selected" : ""}>${esc(entry.name)}</option>`).join("")}`;
-    const relicSets = state.data.relicSets.filter((entry) => entry.type === "relic");
-    const ornaments = state.data.relicSets.filter((entry) => entry.type === "ornament");
+    $("hsrAttackerPosition").value = String(state.attackerPosition);
     $("hsrPartyRows").innerHTML = state.party.map((member, index) => {
       const item = find("characters", member.characterId);
-      const cones = item ? state.data.lightCones.filter((entry) => entry.path === item.path) : [];
-      return `<section class="genshin-party-member"><div class="genshin-party-member-head"><h3>メンバー${index + 2}</h3><button type="button" class="genshin-party-clear" data-party-clear="${index}"${item ? "" : " disabled"}>解除</button></div><div class="genshin-party-equipment-row hsr-party-equipment-row"><button type="button" class="genshin-party-pick" data-party-select="${index}" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img src="${esc(imageUrl(item?.image))}" alt="" width="56" height="56" loading="lazy"><span><small>キャラクター</small><strong>${esc(item?.name || "選択する")}</strong></span></button></div><div class="genshin-party-basic-fields hsr-party-fields"><label><span>星魂</span><select data-party-field="eidolon" data-slot="${index}"${item ? "" : " disabled"}>${Array.from({ length: 7 }, (_, rank) => `<option value="${rank}"${num(member.eidolon) === rank ? " selected" : ""}>${rank}</option>`).join("")}</select></label><label><span>軌跡Lv</span><input type="number" min="1" max="15" data-party-field="level" data-slot="${index}" value="${member.level}"${item ? "" : " disabled"}></label><label><span>攻撃力</span><input type="number" min="0" max="99999" step="1" data-party-field="atk" data-slot="${index}" value="${num(member.atk)}"${item ? "" : " disabled"}></label><label><span>会心ダメージ</span><span class="genshin-condition-input-unit"><input type="number" min="0" max="500" step="0.1" data-party-field="critDamage" data-slot="${index}" value="${num(member.critDamage, 50)}"${item ? "" : " disabled"}><em>%</em></span></label><label><span>撃破特効</span><span class="genshin-condition-input-unit"><input type="number" min="0" max="500" step="0.1" data-party-field="breakEffect" data-slot="${index}" value="${num(member.breakEffect)}"${item ? "" : " disabled"}><em>%</em></span></label><label><span>光円錐</span><select data-party-field="lightConeId" data-slot="${index}"${item ? "" : " disabled"}>${optionList(cones, member.lightConeId, "選択しない")}</select></label><label><span>重畳</span><select data-party-field="coneRank" data-slot="${index}"${item && member.lightConeId ? "" : " disabled"}>${Array.from({ length: 5 }, (_, rank) => `<option value="${rank + 1}"${num(member.coneRank, 1) === rank + 1 ? " selected" : ""}>${rank + 1}</option>`).join("")}</select></label><label><span>遺物構成</span><select data-party-field="relicMode" data-slot="${index}"${item ? "" : " disabled"}><option value="4pc"${member.relicMode === "4pc" ? " selected" : ""}>4セット</option><option value="2+2"${member.relicMode === "2+2" ? " selected" : ""}>2セット＋2セット</option></select></label><label><span>遺物</span><select data-party-field="relicId" data-slot="${index}"${item ? "" : " disabled"}>${optionList(relicSets, member.relicId, "選択しない")}</select></label><label${member.relicMode === "2+2" ? "" : " hidden"}><span>2つ目の遺物</span><select data-party-field="relicSecondId" data-slot="${index}"${item ? "" : " disabled"}>${optionList(relicSets, member.relicSecondId, "選択しない")}</select></label><label><span>オーナメント</span><select data-party-field="ornamentId" data-slot="${index}"${item ? "" : " disabled"}>${optionList(ornaments, member.ornamentId, "選択しない")}</select></label></div><p class="genshin-party-base-summary">${item ? "支援効果が参照する本人ステータスと、味方へ作用する装備・軌跡・星魂を設定します。" : "キャラクターを選択してください。"}</p></section>`;
+      return `<section class="genshin-party-member"><div class="genshin-party-member-head"><h3>編成${orderedParty().findIndex((entry) => entry.supportIndex === index) + 1} ${member.source === "api" ? "・UID" : ""}</h3><span class="hsr-party-order-actions"><button type="button" data-party-move="-1" data-slot="${index}"${index === 0 ? " disabled" : ""} aria-label="前のサポート枠へ">↑</button><button type="button" data-party-move="1" data-slot="${index}"${index === 2 ? " disabled" : ""} aria-label="次のサポート枠へ">↓</button></span><button type="button" class="genshin-party-clear" data-party-clear="${index}"${item ? "" : " disabled"}>解除</button></div><div class="genshin-party-equipment-row hsr-party-equipment-row"><button type="button" class="genshin-party-pick" data-party-select="${index}" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img src="${esc(imageUrl(item?.image))}" alt="" width="56" height="56" loading="lazy"><span><small>キャラクター</small><strong>${esc(item?.name || "選択する")}</strong></span></button>${partyEquipment(member, index)}</div><div class="genshin-party-basic-fields hsr-party-fields"><label><span>星魂</span><select data-party-field="eidolon" data-slot="${index}"${item ? "" : " disabled"}>${Array.from({ length: 7 }, (_, rank) => `<option value="${rank}"${num(member.eidolon) === rank ? " selected" : ""}>${rank}</option>`).join("")}</select></label><label${member.source === "api" ? " hidden" : ""}><span>支援効果の軌跡Lv</span><input type="number" min="1" max="15" data-party-field="level" data-slot="${index}" value="${member.level}"${item ? "" : " disabled"}></label>${member.source === "api" ? Object.entries(member.traceLevels || {}).filter(([key]) => item?.skills?.some((skill) => skill.type === TRACE_FIELDS[key]?.[0] && skill.params?.length)).map(([key, value]) => `<label><span>${TRACE_FIELDS[key]?.[2] || key}Lv（UID）</span><input type="number" min="1" max="15" data-party-trace="${key}" data-slot="${index}" value="${Number.isFinite(value) ? value : ""}"></label>`).join("") : ""}<label><span>攻撃力</span><input type="number" min="0" max="99999" step="1" data-party-field="atk" data-slot="${index}" value="${statDisplay("atk", member.atk)}" data-party-original="${esc(Number.isFinite(member.atk) ? member.atk : "")}"${item ? "" : " disabled"}></label><label><span>会心ダメージ</span><span class="genshin-condition-input-unit"><input type="number" min="0" max="500" step="0.1" data-party-field="critDamage" data-slot="${index}" value="${statDisplay("critDamage", member.critDamage)}" data-party-original="${esc(Number.isFinite(member.critDamage) ? member.critDamage : "")}"${item ? "" : " disabled"}><em>%</em></span></label><label><span>撃破特効</span><span class="genshin-condition-input-unit"><input type="number" min="0" max="500" step="0.1" data-party-field="breakEffect" data-slot="${index}" value="${statDisplay("breakEffect", member.breakEffect)}" data-party-original="${esc(Number.isFinite(member.breakEffect) ? member.breakEffect : "")}"${item ? "" : " disabled"}><em>%</em></span></label><label><span>重畳</span><select data-party-field="coneRank" data-slot="${index}"${item && member.lightConeId ? "" : " disabled"}>${Array.from({ length: 5 }, (_, rank) => `<option value="${rank + 1}"${num(member.coneRank, 1) === rank + 1 ? " selected" : ""}>${rank + 1}</option>`).join("")}</select></label><label><span>遺物構成</span><select data-party-field="relicMode" data-slot="${index}"${item ? "" : " disabled"}><option value="4pc"${member.relicMode === "4pc" ? " selected" : ""}>4セット</option><option value="2+2"${member.relicMode === "2+2" ? " selected" : ""}>2セット＋2セット</option></select></label></div><p class="genshin-party-base-summary">${item ? "支援効果が参照する本人ステータスと、味方へ作用する装備・軌跡・星魂を設定します。" : "キャラクターを選択してください。"}</p></section>`;
     }).join("");
     $("hsrPartyRows").querySelectorAll("img").forEach((image) => { image.onerror = fixImage; });
   }
@@ -291,19 +360,27 @@
   function collectParty() {
     $("hsrPartyRows").querySelectorAll("[data-party-field]").forEach((input) => {
       const member = state.party[num(input.dataset.slot)]; const field = input.dataset.partyField;
+      if (input.dataset.partyOriginal !== undefined && input.value === statDisplay(field, member[field])) return;
+      if (field === "level" && Number(input.value) !== Number(member.level) && member.source === "api") member.traceLevels = Object.fromEntries(Object.keys(TRACE_FIELDS).map((key) => [key, Number(input.value)]));
       member[field] = input.type === "checkbox" ? input.checked : field === "value" ? num(input.value) : input.value;
     });
-    state.party.forEach((member) => { member.level = num(member.level, 10); member.eidolon = num(member.eidolon, 0); member.coneRank = num(member.coneRank, 1); member.atk = num(member.atk); member.critDamage = num(member.critDamage, 50); member.breakEffect = num(member.breakEffect); });
+    $("hsrPartyRows").querySelectorAll("[data-party-trace]").forEach((input) => { const member = state.party[Number(input.dataset.slot)]; member.traceLevels[input.dataset.partyTrace] = input.value === "" ? NaN : Number(input.value); });
+    state.party.forEach((member) => { member.level = num(member.level, 10); member.eidolon = num(member.eidolon, 0); member.coneRank = num(member.coneRank, 1); member.atk = member.atk === "" ? NaN : Number(member.atk); member.critDamage = member.critDamage === "" ? NaN : Number(member.critDamage); member.breakEffect = member.breakEffect === "" ? NaN : Number(member.breakEffect); });
     renderPartyDialog();
     renderPartySummary(); updateConditionSummary(); markDirty();
   }
 
   function renderPartySummary() {
-    const names = state.party.map((member) => find("characters", member.characterId)?.name).filter(Boolean);
-    $("hsrPartySummary").textContent = names.length ? names.join("、") : "サポートメンバーは未設定です。";
+    const ordered = orderedParty();
+    $("hsrPartySummary").textContent = ordered.filter((member) => member.characterId).map((member, i) => `${ordered.indexOf(member)+1}. ${find("characters", member.characterId)?.name || member.characterId}${member.attacker ? "（計算対象）" : ""}`).join("、") || "サポートメンバーは未設定です。";
+    $("hsrPartyPreview").innerHTML = ordered.map((member, index) => {
+      const item = find("characters", member.characterId);
+      const equipment = [find("lightCones", member.lightConeId), find("relicSets", member.relicId), ...(member.relicMode === "2+2" ? [find("relicSets", member.relicSecondId)] : []), find("relicSets", member.ornamentId)].filter(Boolean);
+      return `<div class="hsr-party-preview-card"><img src="${esc(imageUrl(item?.image))}" alt="" width="44" height="44"><div class="hsr-party-preview-copy"><small>編成${index+1}${member.attacker ? "・計算対象" : ""}${member.source === "api" ? "・UID" : ""}</small><strong>${esc(item?.name || "未選択")}</strong></div><div class="hsr-party-preview-equipment">${equipment.map((entry) => `<img src="${esc(imageUrl(entry.image))}" alt="${esc(entry.name)}" title="${esc(entry.name)}" width="22" height="22">`).join("")}</div></div>`;
+    }).join("");
   }
 
-  const CONDITION_TAB_ORDER = ["パーティ", "光円錐", "遺物・オーナメント", "軌跡", "その他"];
+  const CONDITION_TAB_ORDER = ["パーティ", "光円錐", "遺物・オーナメント", "軌跡"];
   const CONDITION_TAB_META = {
     "パーティ": { title: "パーティ補正", source: "PARTY", subtitle: "味方から受ける効果と現在の反映を確認" },
     "光円錐": { title: "光円錐補正", source: "LIGHT CONE", subtitle: "装備中の光円錐効果と現在の反映を確認" },
@@ -337,7 +414,9 @@
       const skill = provider?.skills?.find((item) => String(item.id) === String(source.skillId));
       if (String(source.id) === String(state.characterId) && skill) return skillLevel(skill);
       const member = state.party.find((item) => String(item.characterId) === String(source.id));
-      return member ? Number(member.level) : 10;
+      if (!member) return 10;
+      const key = Object.entries(TRACE_FIELDS).find(([, [type]]) => type === skill?.type)?.[0];
+      return member.source === "api" && key ? member.traceLevels?.[key] ?? NaN : Number(member.level);
     };
     return {
       characterId: state.characterId,
@@ -369,6 +448,21 @@
     };
   }
 
+  function validateUidProvider(item) {
+    const provider = state.party.find((member) => member.characterId === item.providerId);
+    if (provider?.source !== "api" || item.displayOnly) return item;
+    const warnings = [...(item.inputWarnings || [])];
+    const record = state.data.structuredModifiers.find((entry) => entry.id === item.id);
+    if (record?.source?.skillId && !record.value?.levelInputKey && /byLevel/i.test(record.value?.kind || "")) {
+      const level = structuredModifierContext().traceLevelFor(record.source);
+      if (!Number.isInteger(level) || level < 1 || level > 15) warnings.push(`${item.source}の支援効果が参照する軌跡Lvが未取得です。パーティ設定で入力してください。`);
+    }
+    const stat = item.valueInput?.providerStat;
+    const valueInput = stat ? { ...item.valueInput, value: provider[stat] } : item.valueInput;
+    if (stat && !Number.isFinite(provider[stat])) warnings.push(`${item.source}の${item.valueInput.label}が未取得です。パーティ設定で入力してください。`);
+    return { ...item, valueInput, inputWarnings: warnings, applicable: item.applicable !== false && warnings.length === 0 };
+  }
+
   function structuredSourceConditions() {
     if (!window.HsrModifierRuntime) return [];
     return window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], structuredModifierContext(), state.modifierInputs)
@@ -386,7 +480,7 @@
         inputLabel: item.activation?.inputLabel || "",
         inputMinimum: item.activation?.minimum,
         inputMaximum: item.activation?.maximum
-      }));
+      })).map(validateUidProvider);
   }
 
   function sourceConditions() {
@@ -503,7 +597,7 @@
         rendered.add(`provider:${item.valueInput.providerId}:${item.valueInput.providerStat}`);
         const provider = item.valueInput.providerId && String(item.valueInput.providerId) !== String(state.characterId) ? item.source : "計算対象キャラクター";
         const percentStats = new Set(["critRate", "critDamage", "breakEffect", "effectHitRate", "effectRes", "hpPercent", "elation"]);
-        controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.valueInput.label)}</strong><small>${esc(provider)}の現在値を参照します。この値はパーティ設定またはステータス入力欄と同期します。</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-structured-provider-stat="${esc(item.valueInput.providerStat)}" data-provider-id="${esc(item.valueInput.providerId || state.characterId)}" value="${Number.isFinite(item.valueInput.value) ? item.valueInput.value : ""}" min="${num(item.valueInput.minimum)}" max="${num(item.valueInput.maximum,999)}" step="${num(item.valueInput.step,1)}">${percentStats.has(item.valueInput.providerStat) ? "<em>%</em>" : ""}</span></label>`);
+        controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.valueInput.label)}</strong><small>${esc(provider)}の現在値を参照します。この値はパーティ設定またはステータス入力欄と同期します。</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-structured-provider-stat="${esc(item.valueInput.providerStat)}" data-provider-id="${esc(item.valueInput.providerId || state.characterId)}" value="${statDisplay(item.valueInput.providerStat, item.valueInput.value)}" min="${num(item.valueInput.minimum)}" max="${num(item.valueInput.maximum,999)}" step="any">${percentStats.has(item.valueInput.providerStat) ? "<em>%</em>" : ""}</span></label>`);
       }
     });
     return controls.length ? `<div class="genshin-constellation-controls"><h6>状態・条件</h6>${controls.join("")}</div>` : "";
@@ -516,11 +610,11 @@
     const reflected = items.map((item) => `${item.name}：${currentConditionReflection(item)}`).join("／");
     const targets = [...new Set(items.map((item) => `${displayTarget(item.appliesTo || item.target?.owner || "self")}（${(item.target?.attackTypes || ["all"]).map((type) => ATTACK_LABELS[type] || type).join("・")}）`))].join("／");
     const descriptions = [...new Set(items.map((item) => item.description).filter(Boolean))].join("\n");
-    return `<article class="genshin-constellation-section hsr-condition-section"><header class="genshin-constellation-head"><div><strong>${esc(title.type)}</strong><h5>${esc(title.name)}</h5></div><span class="genshin-condition-status ${status.className}">${status.label}</span></header><dl class="genshin-condition-facts"><div><dt>発動条件</dt><dd>${esc(conditions)}</dd></div><div><dt>効果</dt><dd>${esc(effects)}</dd></div><div><dt>現在の反映</dt><dd>${esc(reflected)}</dd></div><div><dt>適用対象</dt><dd>${esc(targets)}</dd></div></dl>${renderConditionControls(items)}${descriptions ? `<details class="genshin-condition-detail"><summary>効果説明</summary><div class="genshin-condition-detail-block"><h6>効果説明</h6><p>${esc(descriptions)}</p></div></details>` : ""}</article>`;
+    return `<article class="genshin-constellation-section hsr-condition-section"><header class="genshin-constellation-head"><div><strong>${esc(items[0].source)}・${esc(title.type)}</strong><h5>${esc(title.name)}</h5></div><span class="genshin-condition-status ${status.className}">${status.label}</span></header><dl class="genshin-condition-facts"><div><dt>発動条件</dt><dd>${esc(conditions)}</dd></div><div><dt>効果</dt><dd>${esc(effects)}</dd></div><div><dt>現在の反映</dt><dd>${esc(reflected)}</dd></div><div><dt>適用対象</dt><dd>${esc(targets)}</dd></div></dl>${renderConditionControls(items)}${descriptions ? `<details class="genshin-condition-detail"><summary>効果説明</summary><div class="genshin-condition-detail-block"><h6>効果説明</h6><p>${esc(descriptions)}</p></div></details>` : ""}</article>`;
   }
 
   function renderConditions() {
-    const conditions = allConditions(); const tabs = CONDITION_TAB_ORDER;
+    const conditions = sourceConditions(); const tabs = CONDITION_TAB_ORDER;
     if (!tabs.includes(state.conditionTab)) state.conditionTab = tabs[0];
     $("hsrConditionTabs").innerHTML = tabs.map((tab) => `<button type="button" class="genshin-condition-tab${tab === state.conditionTab ? " is-active" : ""}" role="tab" data-condition-tab="${esc(tab)}" aria-selected="${tab === state.conditionTab}">${esc(tab)}</button>`).join("");
     const selected = conditions.filter((item) => item.tab === state.conditionTab); const groups = new Map();
@@ -536,6 +630,7 @@
       const enhanced = state.modifierInputs["waveflair-enhanced-aha-stable"] === true;
       $("hsrPunchlineField").hidden = !enhanced; $("hsrFervorField").hidden = !enhanced;
     }
+    if ($("hsrManualConditionList")) $("hsrManualConditionList").innerHTML = state.conditions.map((item) => `<label class="hsr-manual-condition-row"><input type="checkbox" data-condition-enabled="${esc(item.id)}"${item.enabled ? " checked" : ""}><span>${esc(item.name)}</span><input type="number" data-condition-value="${esc(item.id)}" value="${item.value}" step="any" aria-label="${esc(item.name)}（%）"><span>%</span></label>`).join("");
     const active = allConditions().filter((item) => item.enabled).length;
     $("hsrConditionTitle").textContent = active ? `${active}件の補正を適用` : "適用する補正はありません";
     $("hsrConditionHelp").textContent = "「最終入力で管理」は再加算なし。「表示のみ」は計算対象外です。";
@@ -567,7 +662,9 @@
   function resolvedAttack(selected) {
     if (selected.id === "131508") { const level=state.traceLevels.normal; return { ...selected, traceLevel:level, multiplier:selected.multipliers[level-1], attackType:selected.type, fanningInputs:{confirmed:state.modifierInputs["boothill-fanning-broken"]===true,stacks:state.modifierInputs["boothill-pocket-stacks"]===undefined?3:state.modifierInputs["boothill-pocket-stacks"],talentLevel:state.traceLevels.talent} }; }
     if (selected.id === "1151201") { const level=state.songbirdInputs.skillLevel; return { ...selected, traceLevel: level, multiplier: selected.multipliers[level-1] }; }
-    const level = num(state.traceLevels[selected.traceKey], selected.traceKey === "normal" ? 6 : 10);
+    const masterSkill = character()?.skills?.find((skill) => skill.id === selected.skillId || skill.id === selected.id);
+    const traceKey = masterSkill && ["MemospriteSkill", "MemospriteTalent"].includes(masterSkill.type) ? traceKeyForSkill(masterSkill) : selected.traceKey;
+    const level = num(state.traceLevels[traceKey], traceKey === "normal" ? 6 : 10);
     const index = Math.max(0, Math.min(selected.multipliers.length - 1, level - 1));
     const inputHitCount = selected.hitCountInputKey ? num(state.modifierInputs[selected.hitCountInputKey], selected.hitCountDefault || 0) : null;
     const eidolonHitCount = selected.hitCountAtEidolon && state.eidolon >= num(selected.hitCountAtEidolon.rank) ? num(selected.hitCountAtEidolon.value, selected.hitCount) : selected.hitCount;
@@ -597,7 +694,7 @@
     const multiplierAdditionScale = Array.isArray(selected.multiplierAdditionScaleValues)
       ? num(selected.multiplierAdditionScaleValues[Math.min(selected.multiplierAdditionScaleValues.length - 1, index)], 1)
       : num(selected.multiplierAdditionScale, 1);
-    return { ...selected, hitCount: referencedHits, hitCountReference: selected.hitCountReference || selected.hitCountInputKey || "", attackType: selected.type, element: selected.damageFormula === "trueDamage" ? "None" : character()?.element || "", multiplier, adjacentMultiplier, scalingTerms, adjacentScalingTerms, enemyHpPercent, atkCapPercent, multiplierAdditionScale, traceLevel: level, traceLevelLabel };
+    return { ...selected, traceKey, hitCount: referencedHits, hitCountReference: selected.hitCountReference || selected.hitCountInputKey || "", attackType: selected.type, element: selected.damageFormula === "trueDamage" ? "None" : character()?.element || "", multiplier, adjacentMultiplier, scalingTerms, adjacentScalingTerms, enemyHpPercent, atkCapPercent, multiplierAdditionScale, traceLevel: level, traceLevelLabel };
   }
 
   function supplementalAttacks() {
@@ -714,16 +811,18 @@
 
   function renderResults(results, breakResult, specialBreakResults = [], unavailableAttacks = [], superBreakResult = null) {
     const superBreak = superBreakViews(superBreakResult);
-    const attackCards = results.map(({ result, adjacent, attack }) => `<article class="hsr-attack-result"><header><h3>${esc(result.attack.name)}</h3><span>${esc(ATTACK_LABELS[attack.type] || attack.type)} ${esc(attack.traceLevelLabel || `Lv${attack.traceLevel}`)}・${esc(TARGET_LABELS[result.attack.target] || result.attack.target)}</span></header>${supportBadge(attack)}${adjacent ? "<h4>主対象</h4>" : ""}${damageValues(result)}${adjacent ? `<h4>隣接対象</h4>${damageValues(adjacent)}` : ""}</article>`).join("");
+    const hasCritical = results.some(({ result }) => result.attack.canCrit);
+    const attackRow = (result, attack, label) => `<tr><td><strong>${esc(result.attack.name)}${label ? `・${label}` : ""}</strong><small>${esc(ATTACK_LABELS[attack.type] || attack.type)} ${esc(attack.traceLevelLabel || `Lv${attack.traceLevel}`)}・${esc(TARGET_LABELS[result.attack.target] || result.attack.target)}</small>${supportBadge(attack)}</td><td>${fmt(result.nonCrit)}</td>${hasCritical ? `<td>${result.attack.canCrit ? fmt(result.crit) : "—"}</td><td><strong>${fmt(result.expected)}</strong></td>` : ""}</tr>`;
+    const attackCards = results.length ? `<div class="hsr-damage-table-wrap hsr-attack-result"><table class="hsr-damage-table"><thead><tr><th scope="col">攻撃・計算範囲</th><th scope="col">${hasCritical ? "非会心" : "ダメージ"}</th>${hasCritical ? '<th scope="col">会心</th><th scope="col">期待値</th>' : ""}</tr></thead><tbody>${results.map(({ result, adjacent, attack }) => attackRow(result, attack, adjacent ? "主対象" : "") + (adjacent ? attackRow(adjacent, attack, "隣接対象") : "")).join("")}</tbody></table></div>` : "";
     const unavailableCards = unavailableAttacks.map((attack) => `<article class="hsr-attack-result">${supportBadge(attack)}<h3>${esc(attack.name)}</h3><p>${esc(attackSupport(attack).reason || "この攻撃は表示のみのため、ダメージを計算しません。")}</p></article>`).join("");
     const specialBreakCards = specialBreakResults.map(({ attack, result }) => `<article class="hsr-attack-result"><header><h3>${esc(attack.name)}</h3><span>弱点撃破 Lv${attack.traceLevel}・${esc(TARGET_LABELS[attack.target] || attack.target)}</span></header>${supportBadge(attack)}${result.supported ? `<div class="hsr-attack-result-values hsr-attack-result-values--single"><div><span>撃破ダメージ</span><strong>${fmt(result.value)}</strong></div></div>` : `<p>計算不可：${esc(result.reason)}</p>`}</article>`).join("");
-    const breakdown = results.map(({ result, adjacent, attack }) => `<article class="hsr-attack-result"><h3>${esc(result.attack.name)}</h3>${supportBadge(attack)}${damageBreakdown(result, "主対象")}${adjacent ? damageBreakdown(adjacent, "隣接対象") : ""}</article>`).join("");
+    const breakdown = results.map(({ result, adjacent, attack }) => `<details class="hsr-attack-result"><summary>${esc(result.attack.name)}</summary>${supportBadge(attack)}${damageBreakdown(result, "主対象")}${adjacent ? damageBreakdown(adjacent, "隣接対象") : ""}</details>`).join("");
     const detailedBreakResults = (breakResult?.supported ? [{ attack: null, result: breakResult }] : []).concat(specialBreakResults.filter(({ result }) => result.supported));
     const specialBreakBreakdown = detailedBreakResults.map(({ attack, result: b }) => `<article class="hsr-attack-result"><h3>${esc(attack?.name || "弱点撃破")}</h3>${attack ? supportBadge(attack) : ""}<dl>${[["撃破基礎値", b.base], ["属性・攻撃倍率", b.multiplier], ["撃破特効倍率", b.effect], ["防御倍率", b.defense], ["耐性倍率", b.resistance], ["靭性量倍率", b.toughnessScale], ["被ダメージ倍率", b.vulnerability], ["撃破ダメージ", b.value]].map(([label, value]) => `<div><dt>${label}</dt><dd>${detailNumber(value)}</dd></div>`).join("")}</dl></article>`).join("");
-    const audits = results.map(({ attack, result, adjacent }) => `<article class="hsr-attack-result"><h3>${esc(result.attack.name)}</h3>${modifierAudit(result, "主対象")}${adjacent ? modifierAudit(adjacent, "隣接対象") : ""}</article>`).join("");
+    const audits = results.map(({ attack, result, adjacent }) => `<details class="hsr-attack-result"><summary>${esc(result.attack.name)}</summary>${modifierAudit(result, "主対象")}${adjacent ? modifierAudit(adjacent, "隣接対象") : ""}</details>`).join("");
     const specialBreakAudit = detailedBreakResults.map(({ attack, result }) => `<article class="hsr-attack-result"><h3>${esc(attack?.name || "弱点撃破")}</h3>${modifierAudit(result, "弱点撃破")}</article>`).join("");
     $("hsrResults").innerHTML = `<p class="hsr-support-note">「確認済み扱い」は攻撃データの登録状態です。全条件での計算精度を保証するものではありません。確認中の結果は参考値です。</p><div class="genshin-result-tabs" role="tablist"><button type="button" class="genshin-result-tab" role="tab" data-result-tab="damage" aria-selected="true">ダメージ</button><button type="button" class="genshin-result-tab" role="tab" data-result-tab="breakdown">計算内訳</button><button type="button" class="genshin-result-tab" role="tab" data-result-tab="modifiers">補正</button></div>
-      <section data-result-panel="damage"><div class="hsr-attack-results">${attackCards}${specialBreakCards}${unavailableCards}${superBreak.damage}</div>${breakResult ? `<p class="hsr-result-break"><strong>弱点撃破：</strong>${breakResult.supported ? fmt(breakResult.value) : `計算不可：${esc(breakResult.reason)}`}</p>` : ""}</section>
+      <section data-result-panel="damage"><div class="hsr-attack-results">${attackCards}${specialBreakCards}${superBreak.damage}${unavailableCards ? `<details class="hsr-unavailable-results"><summary>計算不可の攻撃（${unavailableAttacks.length}件）</summary>${unavailableCards}</details>` : ""}</div>${breakResult ? `<p class="hsr-result-break"><strong>弱点撃破：</strong>${breakResult.supported ? fmt(breakResult.value) : `計算不可：${esc(breakResult.reason)}`}</p>` : ""}</section>
       <section data-result-panel="breakdown" hidden class="hsr-result-details hsr-attack-results"><p class="hsr-formula-note">表示値は丸めています。多段攻撃の結果はヒット合計です。</p>${breakdown}${specialBreakBreakdown}${superBreak.breakdown}</section>
       <section data-result-panel="modifiers" hidden class="hsr-result-details hsr-attack-results">${excludedConditions()}${audits}${specialBreakAudit}${superBreak.audit}</section>`;
   }
@@ -858,7 +957,7 @@
 
   function renderActionValue() {
     if (!window.HsrCalcEngine || !$("hsrActionSummary")) return;
-    const result = window.HsrCalcEngine.actionSummary(num($("hsrStat-speed")?.value, state.stats.speed), num($("hsrActionWindow")?.value, 150));
+    const result = window.HsrCalcEngine.actionSummary(num(readStat($("hsrStat-speed")), state.stats.speed), num($("hsrActionWindow")?.value, 150));
     $("hsrActionSummary").innerHTML = `<strong>${result.actionValue.toFixed(2)} AV</strong><span>基準内の行動回数: ${result.actions}</span>`;
   }
 
@@ -873,8 +972,10 @@
     const snapshot = { ...state, party: state.party.map((member) => ({ ...member })) };
     if ($("hsrPartyDialog").open) $("hsrPartyRows").querySelectorAll("[data-party-field]").forEach((input) => {
       const member = snapshot.party[num(input.dataset.slot)]; const field = input.dataset.partyField;
+      if (input.dataset.partyOriginal !== undefined && input.value === statDisplay(field, member?.[field])) return;
       if (member && Object.hasOwn(member, field)) member[field] = typeof member[field] === "number" ? (input.value.trim() === "" ? NaN : Number(input.value)) : input.value;
     });
+    if ($("hsrPartyDialog").open) $("hsrPartyRows").querySelectorAll("[data-party-trace]").forEach((input) => { snapshot.party[Number(input.dataset.slot)].traceLevels = { ...snapshot.party[Number(input.dataset.slot)].traceLevels, [input.dataset.partyTrace]: input.value === "" ? NaN : Number(input.value) }; });
     let ok = false; try { ok = window.HsrCalcState.save(window.localStorage, window.HsrCalcState.create(snapshot, fields)); } catch (_) {}
     $("hsrSaveStatus").textContent = ok ? "入力条件をこのブラウザに自動保存しました。" : "入力条件を保存できません。現在の画面では計算を続けられます。";
   }
@@ -895,11 +996,13 @@
     controls.hsrWeakness = String(state.enemy.weakness); controls.hsrToughnessState = state.enemy.toughnessActive ? "active" : "broken";
     Object.entries(controls).forEach(([id, value]) => { $(id).value = typeof value === "number" && !Number.isFinite(value) ? "" : String(value); });
     savedFields().forEach((input) => {
+      if (input.dataset.stat) return; // State holds the exact value; fields contain only its rounded display.
       if (input.id === "hsrEnemySelect" || !Object.hasOwn(restored.fields, input.id)) return;
       const value = restored.fields[input.id];
       if (input.tagName === "SELECT" && ![...input.options].some((option) => option.value === value)) return;
       input.value = value;
     });
+    $("hsrAttackerPosition").value = String(state.attackerPosition);
     collectInputs(); renderBuild(); updateConditionSummary(); renderActionValue();
     $("hsrSaveStatus").textContent = restored.missing.length ? "保存条件を復元しました。現在利用できないIDがあります。選択内容を確認してください。" : "保存条件を復元しました。";
     return true;
@@ -912,12 +1015,14 @@
     return `<article class="genshin-uid-detail-item hsr-detail-card"><h4>${esc(cleanGameText(title))}</h4><p>${esc(formatGameText(description, params))}</p></article>`;
   }
 
+  function traceKeyForSkill(skill) {
+    const links = Object.values(state.data.traceSkillMap?.[state.characterId] || {});
+    const group = links.find((item) => item.skillIds?.includes(String(skill.id)));
+    const primary = character()?.skills?.find((entry) => entry.id === group?.skillIds?.[0]);
+    return Object.entries(TRACE_FIELDS).find(([, [type]]) => type === (primary?.type || skill.type))?.[0];
+  }
   function skillLevel(skill) {
-    if (skill.type === "ElationDamage" && ["1505", "1502"].includes(character()?.id)) return Number($("hsrElationTrace").value) || 10;
-    if (skill.type === "Normal") return state.traceLevels.normal;
-    if (skill.type === "BPSkill") return state.traceLevels.skill;
-    if (skill.type === "Ultra") return state.traceLevels.ultimate;
-    if (skill.type === "Talent" || skill.type === "MemospriteSkill" || skill.type === "MemospriteTalent") return state.traceLevels.talent;
+    const key = traceKeyForSkill(skill); if (key) return state.traceLevels[key];
     return Math.min(10, skill.params?.length || 10);
   }
 
@@ -996,7 +1101,8 @@
     const lightCone = find("lightCones", String(profile.lightCone?.id || "")); state.coneId = lightCone?.id || "";
     const profileSets = profile.relicSets || []; const tunnels = profileSets.filter((set) => num(set.id) < 300); const planar = profileSets.find((set) => num(set.id) >= 300); state.relicId = find("relicSets", tunnels[0]?.id)?.id || ""; state.relicSecondId = find("relicSets", tunnels[1]?.id)?.id || ""; state.relicMode = state.relicSecondId ? "2+2" : "4pc"; state.ornamentId = find("relicSets", planar?.id)?.id || "";
     state.level = num(profile.level, 80); state.eidolon = num(profile.eidolon); state.coneLevel = num(profile.lightCone?.level, 80); state.coneRank = profile.lightCone ? Number(profile.lightCone.rank) : 1;
-    const trace = (type) => { const value = profile.traces?.find((item) => item.type === type)?.level; return Number.isFinite(value) && value > 0 ? value : NaN; }; state.traceLevels = { normal: trace("Normal"), skill: trace("BPSkill"), ultimate: trace("Ultra"), talent: trace("Talent"), elation: trace("ElationDamage") };
+    const trace = (type) => { const value = profile.traces?.find((item) => item.type === type)?.level; return Number.isFinite(value) && value > 0 ? value : NaN; }; state.traceLevels = { normal: trace("Normal"), skill: trace("BPSkill"), ultimate: trace("Ultra"), talent: trace("Talent"), elation: trace("ElationDamage"), memSkill: trace("MemospriteSkill"), memTalent: trace("MemospriteTalent") };
+    if (char?.id === "1512") { state.songbirdInputs.skillLevel = state.traceLevels.memSkill; $("hsrSongbirdSkillLevel").value = Number.isFinite(state.traceLevels.memSkill) ? state.traceLevels.memSkill : ""; state.modifierInputs["robin-songbirds-talent-level"] = state.traceLevels.memTalent; }
     state.stats = Object.fromEntries(Object.keys(DEFAULT_STATS).map((key) => [key, ["hpPercent", "dotBaseDamage"].includes(key) ? DEFAULT_STATS[key] : null]));
     Object.keys(state.stats).forEach((key) => {
       const value = profile.stats?.[key];
@@ -1015,19 +1121,24 @@
     $("hsrSelectionSearch").addEventListener("input", () => { $("hsrSelectionSearchClear").disabled = !$("hsrSelectionSearch").value; renderSelectionList(); });
     $("hsrSelectionSearchClear").addEventListener("click", () => { $("hsrSelectionSearch").value = ""; $("hsrSelectionSearchClear").disabled = true; renderSelectionList(); if (window.matchMedia("(min-width: 769px)").matches) $("hsrSelectionSearch").focus(); });
     $("hsrSelectionFilters").addEventListener("click", (event) => { const clear = event.target.closest("#hsrFilterClear"); if (clear) { Object.values(state.selectionFilters).forEach((values) => values.clear()); $("hsrSelectionFilters").querySelectorAll("[data-filter-group]").forEach((button) => button.setAttribute("aria-pressed", "false")); clear.disabled = true; renderSelectionList(); return; } const button = event.target.closest("[data-filter-group]"); if (!button) return; const values = state.selectionFilters[button.dataset.filterGroup]; const value = button.dataset.filterValue; if (values.has(value)) values.delete(value); else values.add(value); button.setAttribute("aria-pressed", String(values.has(value))); const clearButton = $("hsrFilterClear"); if (clearButton) clearButton.disabled = !Object.values(state.selectionFilters).some((selected) => selected.size); renderSelectionList(); });
-    $("hsrSelectionList").addEventListener("click", (event) => { const card = event.target.closest("[data-selection-id]"); if (card) chooseSelection(card.dataset.selectionId); });
+    $("hsrSelectionList").addEventListener("click", (event) => { const card = event.target.closest("[data-selection-id]"); if (card) chooseSelection(card.dataset.selectionId, card.dataset.selectionProfile); });
     $("hsrSelectionClose").addEventListener("click", () => closeDialog($("hsrSelectionDialog")));
     $("hsrPartyDialogOpen").addEventListener("click", () => { renderPartyDialog(); openModal($("hsrPartyDialog")); });
     $("hsrPartyDialogClose").addEventListener("click", () => closeDialog($("hsrPartyDialog")));
     $("hsrPartyDialogApply").addEventListener("click", () => { collectParty(); closeDialog($("hsrPartyDialog")); });
+    $("hsrAttackerPosition").addEventListener("change", (event) => { state.attackerPosition = Number(event.target.value); renderPartyDialog(); renderPartySummary(); markDirty(); });
     $("hsrPartyRows").addEventListener("click", (event) => {
+      const equipment = event.target.closest("[data-party-equipment]");
+      if (equipment) { collectParty(); openSelection(equipment.dataset.partyEquipment, Number(equipment.dataset.slot)); return; }
+      const move = event.target.closest("[data-party-move]");
+      if (move) { collectParty(); const from = Number(move.dataset.slot), to = from + Number(move.dataset.partyMove); [state.party[from], state.party[to]] = [state.party[to], state.party[from]]; renderPartyDialog(); renderPartySummary(); markDirty(); return; }
       const clear = event.target.closest("[data-party-clear]");
       if (clear) { state.party[num(clear.dataset.partyClear)] = { characterId: "", eidolon: 0, level: 10, atk: 0, critDamage: 50, breakEffect: 0, lightConeId: "", coneRank: 1, relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "" }; renderPartyDialog(); renderPartySummary(); updateConditionSummary(); markDirty(); return; }
       const button = event.target.closest("[data-party-select]"); if (button) { collectParty(); openSelection("party", num(button.dataset.partySelect)); }
     });
-    $("hsrPartyRows").addEventListener("input", (event) => { if (event.target.matches("[data-party-field]")) markDirty(); });
+    $("hsrPartyRows").addEventListener("input", (event) => { if (event.target.matches("[data-party-field],[data-party-trace]")) markDirty(); });
     $("hsrPartyRows").addEventListener("change", (event) => {
-      if (event.target.matches("[data-party-field]")) collectParty();
+      if (event.target.matches("[data-party-field],[data-party-trace]")) collectParty();
     });
     $("hsrConditionDialogOpen").addEventListener("click", () => {
       collectInputs();
@@ -1121,6 +1232,23 @@
     $("hsrCalculateButton").addEventListener("click", calculate);
     $("hsrResults").addEventListener("click", (event) => { const button = event.target.closest("[data-result-tab]"); if (button) switchResultTab(button.dataset.resultTab); });
     $("hsrActionWindow").addEventListener("input", markDirty);
+    document.querySelectorAll("[data-stat]").forEach((input) => {
+      input.addEventListener("input", () => { displayedStats.delete(input.id); state.stats[input.dataset.stat] = readStat(input); });
+      input.addEventListener("blur", () => { state.stats[input.dataset.stat] = readStat(input); writeStat(input.dataset.stat); });
+    });
+    Object.entries(TRACE_FIELDS).forEach(([key, [, id]]) => $(id).addEventListener("change", () => {
+      collectInputs();
+      if (state.characterId === "1512" && key === "memSkill") { state.songbirdInputs.skillLevel = state.traceLevels.memSkill; $("hsrSongbirdSkillLevel").value = $(id).value; }
+      if (state.characterId === "1512" && key === "memTalent") state.modifierInputs["robin-songbirds-talent-level"] = state.traceLevels.memTalent;
+      markDirty();
+    }));
+    $("hsrSongbirdSkillLevel").addEventListener("change", () => { state.traceLevels.memSkill = Number($("hsrSongbirdSkillLevel").value); $("hsrMemSkillTrace").value = $("hsrSongbirdSkillLevel").value; markDirty(); });
+    $("hsrManualConditionList").addEventListener("input", (event) => {
+      const id = event.target.dataset.conditionEnabled || event.target.dataset.conditionValue;
+      const item = state.conditions.find((entry) => entry.id === id); if (!item) return;
+      if (event.target.dataset.conditionEnabled) item.enabled = event.target.checked; else item.value = num(event.target.value);
+      markDirty();
+    });
     document.querySelectorAll(".hsr-build-fieldset input,.hsr-build-fieldset select").forEach((input) => input.addEventListener("input", markDirty));
     document.querySelectorAll("dialog").forEach((dialog) => dialog.addEventListener("click", (event) => { if (event.target === dialog) closeDialog(dialog); }));
   }
@@ -1135,6 +1263,6 @@
     }
   }
 
-  window.HsrTool = Object.freeze({ applyProfileCharacter, getState: () => state, openSelection });
+  window.HsrTool = Object.freeze({ applyProfileCharacter, getState: () => state, openSelection, setProfileCharacters: (characters) => { profileCharacters = Array.isArray(characters) ? characters : []; } });
   document.addEventListener("DOMContentLoaded", initialize);
 })();

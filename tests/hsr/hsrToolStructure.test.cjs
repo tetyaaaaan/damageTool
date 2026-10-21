@@ -30,6 +30,7 @@ test("HSR runtime uses the ID-based JSON catalog without CSV references", async 
     assert.doesNotMatch(source, /\.csv|data_hsr|legacy-/);
     const files = {
         "/games/hsr/data/catalog.json": JSON.parse(read("games/hsr/data/catalog.json")),
+        "/games/hsr/data/trace-level-map.json": JSON.parse(read("games/hsr/data/trace-level-map.json")),
         "/games/hsr/data/attacks.json": JSON.parse(read("games/hsr/data/attacks.json")),
         "/games/hsr/data/attacks.generated.json": JSON.parse(read("games/hsr/data/attacks.generated.json")),
         "/games/hsr/data/attack-overrides.json": JSON.parse(read("games/hsr/data/attack-overrides.json")),
@@ -74,6 +75,8 @@ test("HSR runtime uses the ID-based JSON catalog without CSV references", async 
     assert.ok(data.structuredModifiers.length >= 95);
     assert.ok(data.attacks.length >= 300);
     assert.equal(data.specialBreakAttacks.length, 2);
+    assert.equal(data.traceSkillMap["1407"]["1407301"].skillIds[0], "1140701");
+    assert.deepEqual(Array.from(data.traceSkillMap["1512"]["1512302"].skillIds), ["1151203", "1151205", "1151206"]);
     assert.equal(data.attackCoverage.total, data.attacks.length);
     assert.ok(data.attackCoverage.calculable >= 10);
     assert.equal(data.attackCoverage.calculable, data.attacks.filter((attack) => attack.support?.status === "calculable" && attack.support.verified).length);
@@ -233,7 +236,8 @@ test("HSR selection supports kana search, multi-select filters, element icons an
 test("HSR selection modal keeps filters compact and preserves visible item metadata", () => {
     const source = read("games/js/hsrApp.js");
     const css = read("games/css/hsr-tool-ui.css");
-    assert.match(source, /type === "cone"\) return state\.data\.lightCones\.filter\(\(item\) => !character\(\) \|\| item\.path === character\(\)\.path\)/);
+    assert.match(source, /type === "cone"/);
+    assert.match(source, /item\.path === owner\.path/);
     assert.match(source, /state\.selectionType === "cone"/);
     assert.match(source, /filterWrap\.hidden = rows\.length === 0/);
     assert.match(source, /data-rarity=/);
@@ -279,7 +283,7 @@ test("HSR party and condition UI translates internal target identifiers", () => 
 test("HSR condition modal follows the Genshin category and card format", () => {
     const source = read("games/js/hsrApp.js");
     const html = read("games/hsr/index.html");
-    assert.match(source, /CONDITION_TAB_ORDER = \["パーティ", "光円錐", "遺物・オーナメント", "軌跡", "その他"\]/);
+    assert.match(source, /CONDITION_TAB_ORDER = \["パーティ", "光円錐", "遺物・オーナメント", "軌跡"\]/);
     ["genshin-condition-card", "genshin-constellation-section", "genshin-constellation-head", "genshin-condition-facts", "genshin-constellation-controls", "genshin-condition-status"].forEach((className) => assert.ok(source.includes(className), className));
     ["発動条件", "効果", "現在の反映", "適用対象", "状態・条件", "条件を設定", "条件未達", "最終入力で管理", "条件OFF", "適用中", "自動反映"].forEach((label) => assert.ok(source.includes(label), label));
     assert.match(source, /type: `星魂\$\{source\.eidolonRank\}`/);
@@ -306,7 +310,8 @@ test("HSR party members expose their own eidolon rank to structured party modifi
     assert.match(source, /data-party-field="eidolon"/);
     assert.match(source, /partyEidolons:/);
     assert.match(runtime, /context\.partyEidolons/);
-    ["atk", "lightConeId", "coneRank", "relicId", "relicMode", "ornamentId"].forEach((field) => assert.match(source, new RegExp(`data-party-field="${field}"`)));
+    ["atk", "coneRank", "relicMode"].forEach((field) => assert.match(source, new RegExp(`data-party-field="${field}"`)));
+    assert.match(source, /data-party-equipment=/);
     assert.match(source, /partyEquipment:/);
 });
 
@@ -341,6 +346,39 @@ test("HSR profile mapper normalizes Enka equipment, relic, trace and set propert
     assert.equal(character.stats.elation, 8);
     assert.equal(character.lightCone.id, "23001"); assert.equal(character.relicSets[0].id, "124"); assert.equal(character.relicSets[0].pieces, 2);
     assert.equal(character.traces.find((item) => item.type === "Normal").level, 6);
+});
+
+test("HSR profile trace skill links use primary skill type and avoid minor trace suffix guesses", () => {
+    const source = read("games/js/hsrProfileMapper.js"); const window = {}; vm.runInNewContext(source, { window, Math });
+    const catalog = { characters: [{
+        id: "1407", name: "Sample", skills: [
+            { id: "1140701", name: "Memo Main", type: "MemospriteSkill", params: [[0.2]] },
+            { id: "1140702", name: "Memo Followup", type: "MemospriteTalent", params: [[0.3]] },
+            { id: "140701", name: "Basic", type: "Normal", params: [[0.5]] }
+        ], traces: [
+            { id: "1407301", name: "Major Trace", maxLevel: 6 },
+            { id: "1407010", name: "Minor Trace", maxLevel: 1 }
+        ]
+    }], lightCones: [], relicSets: [], traceSkillMap: { "1407": {
+        "1407301": { skillIds: ["1140701", "1140702"] }
+    } } };
+    const character = window.HsrProfileMapper.mapProfileResponse({ detailInfo: { avatarDetailList: [{
+        avatarId: "1407", level: 80, skillTreeList: [
+            { pointId: "1407301", level: 4 },
+            { pointId: "1407010", level: 1 },
+            { pointId: "1407001", level: 6 }
+        ]
+    }] } }, catalog).characters[0];
+    const major = character.traces.find((trace) => trace.id === "1407301");
+    const minor = character.traces.find((trace) => trace.id === "1407010");
+    const basic = character.traces.find((trace) => trace.id === "1407001");
+    assert.equal(major.type, "MemospriteSkill");
+    assert.equal(major.name, "Memo Main");
+    assert.deepEqual(Array.from(major.skillIds), ["1140701", "1140702"]);
+    assert.equal(minor.type, "");
+    assert.deepEqual(Array.from(minor.skillIds), []);
+    assert.equal(basic.type, "Normal");
+    assert.equal(basic.skillIds[0], "140701");
 });
 
 test("HSR profile API implementations use Enka without a MiHoMo runtime dependency", () => {

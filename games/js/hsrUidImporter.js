@@ -75,6 +75,7 @@
 
   function clearProfileResult() {
     state.profile = null;
+    window.HsrTool?.setProfileCharacters?.([]);
     state.selectedCharacter = null;
     $("hsrUidResult").hidden = true;
     $("hsrPlayerInfo").hidden = true;
@@ -98,7 +99,7 @@
   function statItem(label, value, suffix = "") {
     const baseLabel = Object.keys(STAT_ICON_NAMES).find((name) => label === name || label.startsWith(name)) || "";
     const icon = baseLabel ? `/games/images/hsr/stats/${STAT_ICON_NAMES[baseLabel]}` : /属性ダメージ/.test(label) ? elementIcon(label.replace("属性ダメージ", "")) : "";
-    return `<div><dt>${icon ? `<img class="genshin-profile-stat-icon" src="${icon}" alt="">` : ""}${esc(label)}</dt><dd>${fmt(value, suffix)}</dd></div>`;
+    return `<div><dt>${icon ? `<img class="genshin-profile-stat-icon" src="${icon}" alt="">` : ""}${esc(label)}</dt><dd>${value != null && Number.isFinite(Number(value)) ? (suffix === "%" ? Number(value).toFixed(1) + "%" : String(Math.floor(Number(value) + 1e-9))) : "-"}</dd></div>`;
   }
 
   function relicRows(character) {
@@ -182,8 +183,9 @@
     const skills = (catalog.skills || []).filter((item) => ["Normal", "BPSkill", "Ultra", "Talent", "Maze"].includes(item.type)).map((item) => detailArticle(item.name, item.description, item.params?.[Math.max(0, traceLevel(item.type) - 1)] || item.params?.[0] || [])).join("");
     const traces = (catalog.traces || []).filter((item) => item.name && item.description).map((item) => detailArticle(item.name, item.description, item.params?.[0] || [])).join("");
     const memospriteSkills = (catalog.skills || []).filter((item) => ["MemospriteSkill", "MemospriteTalent"].includes(item.type));
-    const memosprite = uniqueDetailArticles(memospriteSkills, (item) => traceLevel(item.type));
-    const memospriteStatus = memospriteStatusArticles(catalog.skills || [], (item) => traceLevel(item.type));
+    const levelForSkill = (item) => character.traces.find((trace) => trace.skillIds?.includes(String(item.id)))?.level || traceLevel(item.type);
+    const memosprite = uniqueDetailArticles(memospriteSkills, levelForSkill);
+    const memospriteStatus = memospriteStatusArticles(catalog.skills || [], levelForSkill);
     const elation = (catalog.skills || []).filter((item) => item.type === "ElationDamage").map((item) => detailArticle(item.name, item.description, item.params?.[Math.max(0, traceLevel(item.type) - 1)] || item.params?.[0] || [])).join("");
     const eidolons = (catalog.eidolons || []).map((item) => detailArticle(`星魂${item.rank} ${item.name}`, item.description, [])).join("");
     const setDetails = (character.relicSets || []).map((set) => `<article class="genshin-uid-detail-item hsr-detail-card"><h4>${esc(set.name)} ${Math.min(set.pieces, 4)}セット</h4><p>${esc((set.effects || []).map((effect) => formatGameText(effect.description, effect.params || [])).filter(Boolean).join("\n") || "公開情報なし")}</p></article>`).join("");
@@ -230,6 +232,7 @@
       const raw = await window.HsrProfileApi.fetchHsrProfile(uid);
       const profile = window.HsrProfileMapper.mapProfileResponse(raw, window.HsrTool?.getState()?.data);
       state.profile = profile;
+      window.HsrTool?.setProfileCharacters?.(profile.characters);
       renderPlayer(profile);
       renderSelector(profile.characters);
       if (!profile.characters.length) { setMessage(TEXT.noCharacters, "error"); return; }
