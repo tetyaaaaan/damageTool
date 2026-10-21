@@ -1154,7 +1154,7 @@ test("Fanning composite restores selected scope and rejects partial or unsupport
     assert.match(app.node("hsrResults").innerHTML,/通常部分の全段合算/);assert.match(app.node("hsrResults").innerHTML,/天賦撃破は会心しません/);
     app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);assert.ok(Math.abs(restored.calculate()[0].nonCrit-r.nonCrit)<1e-8);
     for(const value of [0,4,1.5,NaN]){restored.state.modifierInputs["boothill-pocket-stacks"]=value;assert.equal(restored.calculate().length,0);}
-    restored.state.modifierInputs["boothill-pocket-stacks"]=3;restored.node("hsrMaxToughness").value="161";assert.equal(restored.calculate().length,0);assert.match(restored.node("hsrWarnings").innerHTML,/160以下/);
+    restored.state.modifierInputs["boothill-pocket-stacks"]=3;restored.node("hsrMaxToughness").value="161";assert.equal(restored.calculate().length,1);restored.node("hsrMaxToughness").value="481";assert.equal(restored.calculate().length,0);assert.match(restored.node("hsrWarnings").innerHTML,/480以下/);
     restored.node("hsrMaxToughness").value="120";restored.node("hsrToughnessState").value="active";assert.equal(restored.calculate().length,0);
     restored.node("hsrToughnessState").value="broken";restored.node("hsrWeakness").value="false";assert.equal(restored.calculate().length,0);
     restored.node("hsrWeakness").value="true";restored.node("hsrStat-breakEffect").value="";assert.equal(restored.calculate().length,0);

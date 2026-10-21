@@ -235,7 +235,7 @@ function fanningInputWarnings(input={}) {
  const a=input.attack||{},c=input.character||{},enemy=input.enemy||{},f=a.fanningInputs||{},warnings=[];
  if(c.level!==80 || c.eidolon!==0 || enemy.count!==1)warnings.push("ファニングはLv80・星魂0・敵1体のみ計算対応です。");
  if(!f.confirmed || enemy.toughnessActive!==false || enemy.weakness!==true)warnings.push("攻撃前から物理弱点の敵が撃破済み・九死の決闘中・超撃破や外部追加ダメージなしを確認してください。");
- if(!Number.isFinite(enemy.maxToughness)||enemy.maxToughness<=0||enemy.maxToughness>160)warnings.push("ファニングの対象の最大靭性は0より大きく160以下に限定しています。");
+ if(!Number.isFinite(enemy.maxToughness)||enemy.maxToughness<=0||enemy.maxToughness>480)warnings.push("ファニングの対象の最大靭性（旧単位）は0より大きく480以下に限定しています。");
  if(!Number.isInteger(f.stacks)||f.stacks<1||f.stacks>3)warnings.push("ポケットアドバンテージに1～3層を指定してください。");
  if(!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>6||!Number.isInteger(f.talentLevel)||f.talentLevel<1||f.talentLevel>10)warnings.push("ファニングは通常Lv1～6・天賦Lv1～10のみ計算対応です。");
  if(!Number.isFinite(c.stats?.atk)||c.stats.atk<=0||!Number.isFinite(c.stats?.breakEffect)||c.stats.breakEffect<0)warnings.push("最終ATKと0以上の撃破特効を入力してください。");

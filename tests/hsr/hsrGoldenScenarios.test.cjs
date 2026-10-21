@@ -1780,3 +1780,14 @@ test("Boothill Fanning independently sums direct damage and non-critical physica
         assert.equal(r.components.break.applied.some(m=>m.id.endsWith(":break-vulnerability")),true);
     }
 });
+
+
+test("Boothill talent cap uses legacy maximum Toughness units without changing saved Break scaling", () => {
+    const a=attacks.find(a=>a.id==="131508"),mods=[structured("trace:1315:131502:standoff-vulnerability",{characterId:"1315",eidolon:0,traceLevelFor:()=>10},{"boothill-fanning-broken":true,"boothill-pocket-stacks":3})];
+    for(const[legacy,current]of [[120,40],[480,160]]) {
+        const input={character:{level:80,eidolon:0,stats:{atk:3000,breakEffect:200,critRate:50,critDamage:200}},enemy:{level:80,count:1,weakness:true,toughnessActive:false,maxToughness:legacy,resistance:20},attack:{...a,traceLevel:6,multiplier:220,fanningInputs:{confirmed:true,stacks:3,talentLevel:10}},modifiers:mods,breakBaseDamage:{80:3767.5533}};
+        const r=engine.calculate(input),extra=3767.5533*2*1.7*3*.5*.8*(.5+current/40)*1.3;
+        assert.ok(Math.abs(r.components.break.value-extra)<1e-8);assert.ok(Math.abs(r.nonCrit-(3432+extra))<1e-8);
+        assert.equal(engine.calculate({...input,enemy:{...input.enemy,maxToughness:481}}).supported,false);
+    }
+});
