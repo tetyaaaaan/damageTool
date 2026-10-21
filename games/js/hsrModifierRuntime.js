@@ -255,7 +255,7 @@
       const validation = record.inputValidation;
       if (enabled && validation) {
         const raw = inputs[record.value?.inputKey] === undefined ? record.value?.default : inputs[record.value?.inputKey];
-        if (!Number.isFinite(raw) || raw < validation.minimum || raw > validation.maximum || (validation.integer && !Number.isInteger(raw))) inputWarnings.push(`${record.value.inputLabel}に${validation.minimum}～${validation.maximum}の整数を入力してください。`);
+        if (record.value?.inputKey && (!Number.isFinite(raw) || raw < validation.minimum || raw > validation.maximum || (validation.integer && !Number.isInteger(raw)))) inputWarnings.push(`${record.value.inputLabel}に${validation.minimum}～${validation.maximum}の整数を入力してください。`);
         const eidolon = selection.providerId === String(context.characterId) ? context.eidolon : context.partyEidolons?.[selection.providerId];
         if (number(eidolon) > validation.maximumEidolon) inputWarnings.push(`${record.name}は支援者の星魂0のみ計算対応です。`);
         const level = modifierLevel(record, context, inputs);

@@ -1717,3 +1717,30 @@ test("Jiaoqiu Ashen Roast tick independently keeps DoT coefficient, stack vulner
     assert.ok(Math.abs(r.nonCrit-3000*1.8*.36*1.35*1.20)<1e-8);assert.equal(r.breakdown.takenDamage,35);
     assert.equal(r.applied.some(m=>m.id==="trace:1218:121803:zone"),false);assert.equal(r.applied.some(m=>m.id==="trace:1218:121804:five-roast"),false);
 });
+
+
+test("Befog and Besotted add only to Break and Super Break across source trace levels", () => {
+    const lingsha=[15,16,17,18,19,20,21.25,22.5,23.75,25],gallagher=[6,6.6,7.2,7.8,8.4,9,9.75,10.5,11.25,12];
+    const base=3767.5533;
+    for(let l=1;l<=10;l++) for(const[onL,onG]of [[false,false],[true,false],[false,true],[true,true]]) {
+        const ctx={characterId:"1310",partyIds:["1222","1301"],partyEidolons:{"1222":0,"1301":0},traceLevelFor:()=>l};
+        const inputs={"break-befog-active":onL,"break-besotted-active":onG};
+        const mods=["trace:1222:122203:break-vulnerability","trace:1301:130104:break-vulnerability"].map(id=>structured(id,ctx,inputs));
+        const vulnerability=1+((onL?lingsha[l-1]:0)+(onG?gallagher[l-1]:0)+10)/100;
+        const common={character:{level:80,stats:{atk:3000,breakEffect:200,damageBonus:999,critRate:100,critDamage:999}},enemy:{level:80,resistance:20,weakness:true,toughnessActive:false,maxToughness:120,takenDamage:10},element:"Fire",modifiers:[...mods,{id:"unused-regular-damage",category:"damageBonus",value:999,enabled:true}],breakBaseDamage:{80:base}};
+        const b=engine.calculateBreak(common),s=engine.calculateSuperBreak({...common,attack:{type:"enhancedSkill",element:"Fire",toughnessDamage:20}});
+        assert.ok(Math.abs(b.value-base*2*3*.5*.8*1.5*vulnerability)<1e-8);
+        assert.ok(Math.abs(s.value-base*2*3*.5*.8*vulnerability)<1e-8);
+        assert.ok(Math.abs(b.vulnerability-vulnerability)<1e-10);assert.ok(Math.abs(s.vulnerability-vulnerability)<1e-10);
+        assert.equal(b.applied.length,Number(onL)+Number(onG));assert.equal(s.applied.length,b.applied.length);
+        for(const type of ["normal","dot"]) {
+            const a={type,attackType:type,element:"Fire",multiplier:100,scalingStat:"atk",canCrit:type!=="dot"};
+            const r=engine.calculate({...common,attack:a});assert.equal(r.applied.some(m=>m.id.endsWith(":break-vulnerability")),false);assert.equal(r.breakdown.takenDamage,10);
+        }
+    }
+    for(const[cid,id]of [["1222","trace:1222:122203:break-vulnerability"],["1301","trace:1301:130104:break-vulnerability"]]) {
+        const m=structured(id,{characterId:cid,eidolon:0,traceLevelFor:()=>10},{"break-befog-active":true,"break-besotted-active":true});
+        assert.equal(m.inputWarnings.length,0);
+        for(const level of [0,11,NaN])assert.ok(structured(id,{characterId:cid,eidolon:0,traceLevelFor:()=>level},{"break-befog-active":true,"break-besotted-active":true}).inputWarnings.length>0);
+    }
+});

@@ -1086,3 +1086,22 @@ test("Ashen Roast tick restores stack input without combining direct attacks and
     restored.node("hsrStat-atk").value="3000";restored.node("hsrTalentTrace").value="11";assert.equal(restored.calculate().length,0);
     restored.node("hsrTalentTrace").value="10";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().length,0);
 });
+
+
+test("Break support restores party trace levels and shows applied effects only in the Break audit", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const mods=JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.id.endsWith(":break-vulnerability"));
+    const app=await tool(undefined,{structuredModifiers:mods});app.state.data.characters.push(...catalog.characters.filter(c=>["1222","1301"].includes(c.id)));
+    app.state.party[0]={...app.state.party[0],characterId:"1222",eidolon:0,level:10};app.state.party[1]={...app.state.party[1],characterId:"1301",eidolon:0,level:10};
+    app.node("hsrStat-atk").value="3000";app.node("hsrStat-breakEffect").value="200";app.node("hsrWeakness").value="true";app.node("hsrMaxToughness").value="120";
+    const baseline=app.calculate()[0].nonCrit;app.state.modifierInputs["break-befog-active"]=true;app.state.modifierInputs["break-besotted-active"]=true;
+    assert.equal(app.calculate()[0].nonCrit,baseline);assert.match(app.node("hsrResults").innerHTML,/被ダメージ倍率<\/dt><dd>1.37/);
+    assert.match(app.node("hsrResults").innerHTML,/弱点撃破・適用された補正/);assert.match(app.node("hsrResults").innerHTML,/芳酔・撃破被ダメージ増加/);assert.match(app.node("hsrResults").innerHTML,/酩酊・撃破被ダメージ増加/);
+    app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,{structuredModifiers:mods,characters:app.state.data.characters});
+    assert.equal(restored.state.party[0].characterId,"1222");assert.equal(restored.state.modifierInputs["break-besotted-active"],true);assert.equal(restored.calculate()[0].nonCrit,baseline);
+    restored.state.party[0].level=1;restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/被ダメージ倍率<\/dt><dd>1.27/);
+    for(const v of ["",0,11,"bad"]){restored.state.party[0].level=v;assert.equal(restored.calculate().length,0);assert.match(restored.node("hsrWarnings").innerHTML,/1～10/);}
+    restored.state.party[0].level=10;restored.state.party[0].eidolon=1;assert.equal(restored.calculate().length,0);
+    restored.state.modifierInputs["break-befog-active"]=false;assert.equal(restored.calculate().length,1);
+    restored.state.modifierInputs["break-besotted-active"]=false;assert.equal(restored.calculate().length,1);
+});

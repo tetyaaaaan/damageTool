@@ -432,6 +432,10 @@
                 item.applicable = false;
                 item.reason = item.support?.reason || "計算反映前の確認が必要です";
             }
+            if (item.enabled && item.applicable && !["breakEffect","defenseReduction","defenseIgnore","resistanceReduction","resistancePenetration","takenDamage"].includes(item.category)) {
+                item.applicable = false;
+                item.reason = "弱点撃破には適用しない補正です";
+            }
         });
         enforceStackingRules(modifiers);
         const applied = modifiers.filter((item) => item.enabled && item.applicable);
@@ -464,13 +468,17 @@
         const attack = input?.attack || {};
         const modifiers = (input?.modifiers || []).map(normalizeModifier);
         modifiers.forEach((item) => {
-            if (item.enabled && item.applicable && !modifierAppliesToAttack(item, attack)) {
+            if (item.enabled && item.applicable && !modifierAppliesToAttack(item, { ...attack, tags: [...(attack.tags || []), "superBreak"] })) {
                 item.applicable = false;
                 item.reason = "この攻撃の超撃破ダメージは対象外です";
             }
             if (item.enabled && item.applicable && (!item.calculable || (item.support?.status && item.support.status !== "calculable"))) {
                 item.applicable = false;
                 item.reason = item.support?.reason || "計算反映前の確認が必要です";
+            }
+            if (item.enabled && item.applicable && !["breakEffect","breakEfficiency","superBreakDamage","defenseReduction","defenseIgnore","resistanceReduction","resistancePenetration","takenDamage"].includes(item.category)) {
+                item.applicable = false;
+                item.reason = "超撃破には適用しない補正です";
             }
         });
         enforceStackingRules(modifiers);
