@@ -1553,3 +1553,17 @@ test("Lingsha scoped full Skill agrees with release levels and independent damag
 test("Firefly unenhanced Skill agrees with release levels without enhanced or Super Break terms", () => {
     checkScopedDirectRelease("131002", "1310", [100,110,120,130,140,150,162.5,175,187.5,200], 2160);
 });
+
+
+test("Lingsha Ultimate without Fuyuan keeps Befog out of ordinary damage", () => {
+    checkScopedDirectRelease("122203", "1222", [90,96,102,108,114,120,127.5,135,142.5,150], 1620);
+});
+test("Boothill Ultimate outside Standoff keeps weakness implant separate from resistance", () => {
+    checkScopedDirectRelease("131503", "1315", [240,256,272,288,304,320,340,360,380,400], 4320);
+    const a = attacks.find(a => a.id === "131503"), input = request({ ...a, multiplier: 400, traceLevel: 10 });
+    input.enemy.weakness = false;
+    const before = engine.calculate(input);
+    input.enemy.weakness = true;
+    const after = engine.calculate(input);
+    assert.equal(before.nonCrit, after.nonCrit); assert.equal(before.breakdown.resistance, after.breakdown.resistance);
+});

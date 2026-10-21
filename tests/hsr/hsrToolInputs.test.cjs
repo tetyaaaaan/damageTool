@@ -917,3 +917,33 @@ test("scoped Lingsha and Firefly Skills preserve confirmation, inputs, limits an
         restored.node("hsrEnemyCount").value = "1"; restored.node("hsrEidolon").value = "1"; assert.equal(restored.calculate().length, 0);
     }
 });
+
+
+test("scoped Lingsha and Boothill Ultimates restore independently from Skill conditions and stop invalid inputs", async () => {
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    const ids = ["122202", "122203", "131503"];
+    const extra = { characters: catalog.characters,
+        attacks: JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a => ids.includes(a.id)),
+        structuredModifiers: JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m => ["1222", "1315"].includes(m.source.id)) };
+    for (const [cid, key, nc] of [["1222", "lingsha-direct-ultimate", 1620], ["1315", "boothill-non-standoff-ultimate", 4320]]) {
+        const app = await tool(undefined, extra); app.state.characterId = cid;
+        for (const [k, v] of Object.entries({ atk: 3000, critRate: 50, critDamage: 100 })) app.node("hsrStat-" + k).value = String(v);
+        assert.equal(app.calculate().length, 0);
+        app.state.modifierInputs[key] = true;
+        let r = app.calculate()[0]; assert.ok(Math.abs(r.nonCrit - nc) < 1e-9); assert.ok(Math.abs(r.crit - nc * 2) < 1e-9); assert.ok(Math.abs(r.expected - nc * 1.5) < 1e-9);
+        assert.match(app.node("hsrWarnings").innerHTML, /星魂0・必殺技Lv1～10・敵1体/);
+        app.node("hsrStat-atk").handlers.input(); const restored = await tool(app.storage, extra);
+        assert.equal(restored.state.modifierInputs[key], true); assert.ok(Math.abs(restored.calculate()[0].nonCrit - nc) < 1e-9);
+        if (cid === "1222") {
+            restored.state.modifierInputs["lingsha-direct-skill"] = true; assert.equal(restored.calculate().length, 2);
+            restored.state.modifierInputs[key] = false; assert.equal(restored.calculate()[0].attack.name, "彩煙");
+            restored.state.modifierInputs["lingsha-direct-skill"] = false; restored.state.modifierInputs[key] = true;
+        }
+        restored.state.modifierInputs[key] = false; assert.equal(restored.calculate().length, 0);
+        restored.state.modifierInputs[key] = true;
+        for (const value of ["", "0", "-1", "invalid"]) { restored.node("hsrStat-atk").value = value; assert.equal(restored.calculate().length, 0); }
+        restored.node("hsrStat-atk").value = "3000"; restored.node("hsrUltimateTrace").value = "11"; assert.equal(restored.calculate().length, 0);
+        restored.node("hsrUltimateTrace").value = "10"; restored.node("hsrEnemyCount").value = "2"; assert.equal(restored.calculate().length, 0);
+        restored.node("hsrEnemyCount").value = "1"; restored.node("hsrEidolon").value = "1"; assert.equal(restored.calculate().length, 0);
+    }
+});
