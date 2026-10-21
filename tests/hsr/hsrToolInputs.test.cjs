@@ -974,3 +974,35 @@ test("Ratio instance selectors and Deduction restore independently without combi
     restored.node("hsrEnemyCount").value="1";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().length,0);
     restored.node("hsrEidolon").value="0";restored.state.characterId="1222";assert.equal(restored.calculate().length,0);
 });
+
+
+test("Yunli scoped Skill, ordinary Counter and Slash restore while Cull and missing bases stay excluded", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json")), ids=["122102","122104","122103"];
+    const data={characters:catalog.characters,attacks:JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a=>ids.includes(a.id)),
+        structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1221")};
+    const app=await tool(undefined,data);app.state.characterId="1221";
+    for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
+    assert.equal(app.calculate().length,0);
+    const keys=["yunli-skill-instance","yunli-normal-counter-instance","yunli-intuit-slash-instance"];
+    keys.forEach(k=>app.state.modifierInputs[k]=true);
+    let results=app.calculate();assert.equal(results.length,3);
+    const slash=results.find(r=>r.attack.name.includes("看破・斬"));assert.ok(Math.abs(slash.nonCrit-2376)<1e-8);assert.ok(Math.abs(slash.crit-7128)<1e-8);assert.ok(Math.abs(slash.expected-4752)<1e-8);
+    assert.match(app.node("hsrWarnings").innerHTML,/炎輪の滅置換なし/);
+    app.state.modifierInputs["yunli-true-sunder-active"]=true;
+    const base=catalog.characters.find(c=>c.id==="1221").base.atk, atk=3000+base*.3;
+    assert.ok(Math.abs(app.calculate().find(r=>r.attack.name.includes("看破・斬")).nonCrit-atk*2.2*.36)<1e-8);
+    app.state.coneId="cone";const withCone=3000+(base+200)*.3;
+    assert.ok(Math.abs(app.calculate().find(r=>r.attack.name.includes("看破・斬")).nonCrit-withCone*2.2*.36)<1e-8);
+    app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);
+    assert.equal(restored.state.modifierInputs["yunli-true-sunder-active"],true);
+    assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("看破・斬")).nonCrit-withCone*2.2*.36)<1e-8);
+    restored.state.modifierInputs["yunli-intuit-slash-instance"]=false;
+    assert.equal(restored.calculate().some(r=>r.attack.name.includes("看破")),false);
+    restored.state.modifierInputs["yunli-intuit-slash-instance"]=true;
+    restored.node("hsrLevel").value="70";assert.equal(restored.calculate().length,0);assert.match(restored.node("hsrWarnings").innerHTML,/基礎攻撃力/);
+    restored.node("hsrLevel").value="80";
+    for(const v of ["","0","-1","invalid"]){restored.node("hsrStat-atk").value=v;assert.equal(restored.calculate().length,0);}
+    restored.node("hsrStat-atk").value="3000";restored.node("hsrUltimateTrace").value="11";assert.equal(restored.calculate().length,0);
+    restored.node("hsrUltimateTrace").value="10";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().length,0);
+    restored.node("hsrEnemyCount").value="1";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().length,0);
+});

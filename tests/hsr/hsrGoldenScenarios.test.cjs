@@ -1592,3 +1592,50 @@ test("Ratio Deduction uses current debuffs, caps at five, and stays distinct fro
     }
     assert.equal(structured("traceNode:1305:1305103:deduction",{characterId:"1222",enemy:{debuffCount:5}},{"ratio-deduction-unlocked":true}),undefined);
 });
+
+
+test("Yunli Skill and ordinary Counter use complete one-enemy release multipliers", () => {
+    for (const id of ["122102","122104"]) checkScopedDirectRelease(id,"1221",[60,66,72,78,84,90,97.5,105,112.5,120],1296);
+    assert.equal(attacks.find(a=>a.id==="122104").type,"followUp");
+});
+test("Yunli Intuit Slash keeps its intrinsic CRIT buff and dual attack scope without Cull hits", () => {
+    const a=attacks.find(a=>a.id==="122103"), mvs=[132,140.8,149.6,158.4,167.2,176,187,198,209,220], cds=[60,64,68,72,76,80,85,90,95,100];
+    assert.deepEqual(a.multipliers,mvs); assert.deepEqual(a.tags,["followUp"]); assert.equal(a.hitCount,1);
+    assert.equal(a.support.status,"calculable"); assert.equal(a.maximumEidolon,0); assert.equal(a.maximumTraceLevel,10); assert.equal(a.enemyCountExact,1);
+    const master=readJson("games/hsr/data/catalog.json").characters.find(c=>c.id==="1221").skills.find(s=>s.id==="122103");
+    for(let l=1;l<=10;l++) {
+        assert.ok(Math.abs(mvs[l-1]-master.params[l-1][0]*100)<1e-8); assert.equal(cds[l-1],master.params[l-1][1]*100);
+        const crit=structured("trace:1221:122103:slash-critical-damage",{characterId:"1221",traceLevelFor:()=>l},{"yunli-intuit-slash-instance":true});
+        const input=request({...a,multiplier:mvs[l-1],traceLevel:l}); input.character.stats.atk=3000; input.modifiers=[crit];
+        const nc=3000*mvs[l-1]/100*.5*.8*.9, r=engine.calculate(input), cm=2+cds[l-1]/100;
+        for(const[actual,want]of [[r.nonCrit,nc],[r.crit,nc*cm],[r.expected,nc*(1+.5*(cm-1))]])assert.ok(Math.abs(actual-want)<1e-8);
+        assert.equal(r.breakdown.critDamagePercent,100+cds[l-1]); assert.equal(r.attack.hitCount,1);
+    }
+    const cd=structured("trace:1221:122103:slash-critical-damage",{characterId:"1221",traceLevelFor:()=>10},{"yunli-intuit-slash-instance":true});
+    for(const id of ["122102","122104","122103"]) {
+        const b=attacks.find(x=>x.id===id), input=request({...b,multiplier:b.multipliers[9],traceLevel:10}); input.character.stats.atk=3000;
+        input.modifiers=[cd,{id:"follow-up",category:"damageBonus",value:20,enabled:true,target:{attackTypes:["followUp"]}},
+            {id:"ultimate",category:"damageBonus",value:30,enabled:true,target:{attackTypes:["ultimate"]}},
+            {id:"shared-salsotto-style",category:"damageBonus",value:15,enabled:true,target:{attackTypes:["ultimate","followUp"]}}];
+        const bonus=id==="122102"?0:id==="122104"?35:65, nc=3000*b.multipliers[9]/100*.36*(1+bonus/100), r=engine.calculate(input);
+        assert.ok(Math.abs(r.nonCrit-nc)<1e-8); assert.equal(r.breakdown.critDamagePercent,id==="122103"?200:100);
+        assert.equal(r.applied.filter(m=>m.id==="shared-salsotto-style").length,id==="122102"?0:1);
+    }
+});
+test("Yunli True Sunder uses character plus cone base ATK and can persist to Skill without compounding final ATK", () => {
+    for(const id of ["122102","122104","122103"]) for(const base of [1000,1500]) for(const[atk,cr,cd,bonus,enemyLv,res,down]of [
+        [3000,50,100,0,80,20,0],[4000,25,150,50,90,40,20]]) {
+        const a=attacks.find(x=>x.id===id);
+        const sunder=structured("traceNode:1221:1221103:true-sunder",{characterId:"1221"},{"yunli-true-sunder-active":true});
+        const crit=structured("trace:1221:122103:slash-critical-damage",{characterId:"1221",traceLevelFor:()=>10},{"yunli-intuit-slash-instance":true});
+        const input=request({...a,multiplier:a.multipliers[9],traceLevel:10},[sunder,crit]);
+        Object.assign(input.character.stats,{atk,critRate:cr,critDamage:cd,damageBonus:bonus}); input.character.baseStats={atk:base};
+        Object.assign(input.enemy,{level:enemyLv,resistance:res,defenseReduction:down});
+        const effective=atk+base*.3, defense=100/(100+(enemyLv+20)*(1-down/100)), cm=1+(cd+(id==="122103"?100:0))/100;
+        const nc=effective*a.multipliers[9]/100*(1+bonus/100)*defense*(1-res/100)*.9, r=engine.calculate(input);
+        for(const[actual,want]of [[r.nonCrit,nc],[r.crit,nc*cm],[r.expected,nc*(1+cr/100*(cm-1))]])assert.ok(Math.abs(actual-want)<1e-8);
+        assert.equal(r.breakdown.referenceValue,effective); assert.equal(input.character.stats.atk,atk);
+        input.modifiers=[{...sunder,enabled:false},crit];input.character.stats.atk=effective;
+        assert.ok(Math.abs(engine.calculate(input).nonCrit-r.nonCrit)<1e-8);
+    }
+});
