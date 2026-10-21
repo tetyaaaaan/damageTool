@@ -190,6 +190,7 @@
     function unsupportedAttackReason(attack = {}) {
         if (attack.support?.status === "displayOnly") return attack.support.reason || "この攻撃は表示のみのため、ダメージを計算しません。";
         if (supportedElationAttack(attack) || supportedTrueAttack(attack)) return "";
+        if (attack.id === "131508" && attack.damageFormula === "normalAndBreak" && attack.type === "enhancedNormal") return "";
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
         if (attack.damageFormula && !["statMultiplier", "enemyHpCappedByAtk"].includes(attack.damageFormula)) return "このダメージ計算方式は未対応です。通常式では計算しません。";
@@ -230,7 +231,33 @@
         return result;
     }
 
+function fanningInputWarnings(input={}) {
+ const a=input.attack||{},c=input.character||{},enemy=input.enemy||{},f=a.fanningInputs||{},warnings=[];
+ if(c.level!==80 || c.eidolon!==0 || enemy.count!==1)warnings.push("ファニングはLv80・星魂0・敵1体のみ計算対応です。");
+ if(!f.confirmed || enemy.toughnessActive!==false || enemy.weakness!==true)warnings.push("攻撃前から物理弱点の敵が撃破済み・九死の決闘中・超撃破や外部追加ダメージなしを確認してください。");
+ if(!Number.isFinite(enemy.maxToughness)||enemy.maxToughness<=0||enemy.maxToughness>160)warnings.push("ファニングの対象の最大靭性は0より大きく160以下に限定しています。");
+ if(!Number.isInteger(f.stacks)||f.stacks<1||f.stacks>3)warnings.push("ポケットアドバンテージに1～3層を指定してください。");
+ if(!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>6||!Number.isInteger(f.talentLevel)||f.talentLevel<1||f.talentLevel>10)warnings.push("ファニングは通常Lv1～6・天賦Lv1～10のみ計算対応です。");
+ if(!Number.isFinite(c.stats?.atk)||c.stats.atk<=0||!Number.isFinite(c.stats?.breakEffect)||c.stats.breakEffect<0)warnings.push("最終ATKと0以上の撃破特効を入力してください。");
+ if((input.modifiers||[]).some(m=>m.enabled&&m.applicable!==false&&m.category==="progressiveTakenDamage"))warnings.push("全段合算のためヒット順で変化する補正には対応していません。");
+ if([input.modifiers,input.breakModifiers || input.modifiers].some(mods=>!(mods || []).some(m=>m.id==="trace:1315:131502:standoff-vulnerability" && m.enabled && m.applicable!==false && !(m.inputWarnings || []).length)))warnings.push("九死の決闘の被ダメージ増加を通常部分・天賦撃破の両方へ適用してください。");
+ if(!Number.isFinite(a.breakMultipliersByLevel?.[f.talentLevel-1]?.[f.stacks-1]))warnings.push("天賦の撃破倍率を取得できません。");
+ return warnings;
+}
+
+function calculateFanning(input) {
+ const warnings=fanningInputWarnings(input);if(warnings.length)return{supported:false,reason:warnings.join(" ")};
+ const a=input.attack,f=a.fanningInputs;
+ const direct=calculate({...input,attack:{...a,name:"ファニング・通常部分（全段合算）",damageFormula:"statMultiplier"}});
+ const breakMultiplier=a.breakMultipliersByLevel[f.talentLevel-1][f.stacks-1]/100;
+ const extra=calculateBreak({...input,element:"Physical",multiplier:2*breakMultiplier,modifiers:input.breakModifiers||input.modifiers});
+ if(!extra.supported)return extra;
+ return {attack:{...direct.attack,name:a.name},nonCrit:direct.nonCrit+extra.value,crit:direct.crit+extra.value,expected:direct.expected+extra.value,components:{direct,break:extra},
+ breakdown:{damageFormula:"normalAndBreak",breakMultiplierPercent:breakMultiplier*100,stacks:f.stacks},applied:[...direct.applied,...extra.applied].filter((m,i,all)=>all.findIndex(v=>v.id===m.id)===i),skipped:[]};
+}
+
     function calculate(input) {
+        if (input.attack?.id === "131508" && input.attack.damageFormula === "normalAndBreak" && !unsupportedAttackReason(input.attack)) return calculateFanning(input);
         const character = input?.character || {};
         const enemy = input?.enemy || {};
         const attack = input?.attack || {};
@@ -323,7 +350,7 @@
         const expectedPerHit = nonCritPerHit * expectedCritMultiplier;
 
         return {
-            attack: { name: attack.name || "手動攻撃", hitCount, target: attack.target || "single", canCrit, scalingStat },
+            attack: { name: attack.name || "手動攻撃", hitCount, hitCountLabel: attack.hitCountLabel, target: attack.target || "single", canCrit, scalingStat },
             nonCrit: nonCritTotal,
             crit: nonCritTotal * critMultiplier,
             expected: nonCritTotal * expectedCritMultiplier,
@@ -507,5 +534,5 @@
         return { supported: true, value, base, conversionMultiplier, toughnessDamage, effectiveToughnessDamage, breakEffect, breakEfficiency, superBreakBonus, defense, resistance, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
     }
 
-    window.HsrCalcEngine = Object.freeze({ songbirdInputWarnings, trueDamageInputWarnings, elationInputWarnings, unsupportedAttackReason, calculate, calculateBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });
+    window.HsrCalcEngine = Object.freeze({ fanningInputWarnings, songbirdInputWarnings, trueDamageInputWarnings, elationInputWarnings, unsupportedAttackReason, calculate, calculateBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });
 })();

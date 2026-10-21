@@ -1763,3 +1763,20 @@ test("Jiaoqiu current Roast vulnerability also reaches Break once when direct an
         assert.ok(Math.abs(r.vulnerability-(1+(15+(stacks-1)*5)/100))<1e-9);
     }
 });
+
+
+test("Boothill Fanning independently sums direct damage and non-critical physical Break under stable broken-target scope", () => {
+    const a=attacks.find(a=>a.id==="131508"),normal=[110,132,154,176,198,220];
+    const rows=[[35,60,85],[38.5,66,93.5],[42,72,102],[45.5,78,110.5],[49,84,119],[52.5,90,127.5],[56.875,97.5,138.125],[61.25,105,148.75],[65.625,112.5,159.375],[70,120,170]];
+    assert.deepEqual(a.multipliers,normal);assert.deepEqual(a.breakMultipliersByLevel,rows);assert.equal(a.maximumEidolon,0);
+    for(let l=1;l<=6;l++) for(const talent of [1,10]) for(const skill of [1,10]) for(const stacks of [1,2,3]) for(const[atk,be,bonus,enemyLv,res,down]of [[3000,200,0,80,20,0],[4000,250,50,90,40,20]]) {
+        const ctx={characterId:"1315",eidolon:0,partyIds:["1222"],partyEidolons:{"1222":0},traceLevelFor:s=>s.skillId==="131502"?skill:10},flags={"boothill-fanning-broken":true,"boothill-pocket-stacks":stacks,"break-befog-active":true};
+        const mods=["trace:1315:131502:standoff-vulnerability","trace:1222:122203:break-vulnerability"].map(id=>structured(id,ctx,flags));
+        const input={...request({...a,multiplier:normal[l-1],traceLevel:l,fanningInputs:{confirmed:true,stacks,talentLevel:talent}},mods),character:{level:80,eidolon:0,stats:{atk,breakEffect:be,critRate:50,critDamage:200,damageBonus:bonus}},enemy:{level:enemyLv,count:1,weakness:true,toughnessActive:false,maxToughness:120,resistance:res,defenseReduction:down},breakBaseDamage:{80:3767.5533}};
+        const defense=100/(100+(enemyLv+20)*(1-down/100)),direct=atk*normal[l-1]/100*(1+bonus/100)*defense*(1-res/100)*(skill===1?1.15:1.30);
+        const extra=3767.5533*2*rows[talent-1][stacks-1]/100*(1+be/100)*defense*(1-res/100)*1.5*(skill===1?1.40:1.55),r=engine.calculate(input);
+        for(const[actual,want]of [[r.nonCrit,direct+extra],[r.crit,direct*3+extra],[r.expected,direct*2+extra],[r.components.direct.nonCrit,direct],[r.components.break.value,extra]])assert.ok(Math.abs(actual-want)<1e-8);
+        assert.equal(r.components.direct.applied.some(m=>m.id.endsWith(":break-vulnerability")),false);
+        assert.equal(r.components.break.applied.some(m=>m.id.endsWith(":break-vulnerability")),true);
+    }
+});

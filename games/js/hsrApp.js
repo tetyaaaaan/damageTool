@@ -565,6 +565,7 @@
   }
 
   function resolvedAttack(selected) {
+    if (selected.id === "131508") { const level=state.traceLevels.normal; return { ...selected, traceLevel:level, multiplier:selected.multipliers[level-1], attackType:selected.type, fanningInputs:{confirmed:state.modifierInputs["boothill-fanning-broken"]===true,stacks:state.modifierInputs["boothill-pocket-stacks"]===undefined?3:state.modifierInputs["boothill-pocket-stacks"],talentLevel:state.traceLevels.talent} }; }
     if (selected.id === "1151201") { const level=state.songbirdInputs.skillLevel; return { ...selected, traceLevel: level, multiplier: selected.multipliers[level-1] }; }
     const level = num(state.traceLevels[selected.traceKey], selected.traceKey === "normal" ? 6 : 10);
     const index = Math.max(0, Math.min(selected.multipliers.length - 1, level - 1));
@@ -655,6 +656,11 @@
 
   function damageBreakdown(result, targetLabel) {
     const b = result.breakdown;
+    if (b.damageFormula === "normalAndBreak") {
+      const extra = result.components.break;
+      return `<section class="hsr-target-breakdown"><h4>通常部分と天賦撃破の合計</h4>${damageBreakdown(result.components.direct, "通常部分（全段合算）")}<h4>天賦・物理撃破ダメージ</h4><dl>${[["ポケットアドバンテージ",b.stacks],["物理撃破に対する天賦倍率（%）",b.breakMultiplierPercent],["撃破基礎値",extra.base],["属性・天賦倍率",extra.multiplier],["撃破特効倍率",extra.effect],["防御倍率",extra.defense],["耐性倍率",extra.resistance],["最大靭性倍率",extra.toughnessScale],["被ダメージ倍率",extra.vulnerability],["天賦撃破ダメージ",extra.value]].map(([label,value])=>`<div><dt>${esc(label)}</dt><dd>${detailNumber(value)}</dd></div>`).join("")}</dl><p class="hsr-formula-note">天賦撃破は会心しません。元の撃破イベント・撃破DoT・超撃破は合算しません。</p><h4>通常部分＋天賦撃破</h4>${damageValues(result)}</section>`;
+    }
+
     if (b.damageFormula === "trueDamage") return `<section class="hsr-target-breakdown"><h4>敵1体・追加確定ダメージ1回分</h4><dl><div><dt>参照元ダメージ（補正適用後）</dt><dd>${detailNumber(b.originalDamage)}</dd></div><div><dt>確定ダメージ倍率</dt><dd>${detailNumber(b.multiplierPercent)}%</dd></div><div><dt>追加確定ダメージ</dt><dd>${detailNumber(result.nonCrit)}</dd></div><div><dt>適用条件</dt><dd>${esc(b.condition)}</dd></div></dl><p>元ダメージ × 確定ダメージ倍率。会心・防御・耐性・与ダメージ・靭性等は再適用しません。元ダメージとの合算は行いません。</p>${damageValues(result)}</section>`;
     const row = (label, value) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`;
     const isElation = b.damageFormula === "elation";
@@ -673,7 +679,7 @@
       ? `<dl class="hsr-hit-factors">${row("被ダメージ倍率（各ヒット）", `×${detailNumber(b.vulnerabilityFactors[0])}`)}</dl>`
       : `<details class="hsr-hit-factors"><summary>被ダメージ倍率（ヒット順）</summary><p>${b.vulnerabilityFactors.map((value) => `×${detailNumber(value)}`).join(" → ") || "ヒットなし"}</p></details>`;
     return `<section class="hsr-target-breakdown"><h4>${esc(targetLabel)}</h4>${components ? `<p class="hsr-formula-note">${esc(b.elationScopeNote || "初回の通常アッハタイム・敵1体への全6ヒット。全体攻撃1回と追撃5回を合算します。")}</p>` : isElation ? '<p class="hsr-formula-note">アッハタイム中・敵1体あたりの1回分です。爆笑の褒美への変換や全敵の合計は計算しません。</p>' : ""}<dl>${scaling}${b.flatDamage ? row("固定加算", detailNumber(b.flatDamage)) : ""}
-      ${components ? components.map((item) => row(`${item.name}：${item.multiplierPercent}% × ${item.count}ヒット`, `非会心1ヒット ${detailNumber(item.perHitNonCrit)}／小計 ${detailNumber(item.nonCrit)}${["fixedTalent", "ahaInput"].includes(b.punchlineSource) ? `／会心小計 ${detailNumber(item.crit)}／期待値小計 ${detailNumber(item.expected)}` : ""}`)).join("") : ""}${row(components ? "基礎ダメージ（倍率合算）" : "基礎ダメージ（1ヒット）", detailNumber(b.baseDamage))}${row("ヒット数", hits)}${b.actorKind === "memosprite" ? row("フィーバー固有与ダメージ（与ダメージ補正に含む）", detailNumber(b.feverDamageBonusPercent)+"%／精霊天賦Lv"+b.spriteTalentLevel+"・バイブス"+b.vibes) : ""}
+      ${components ? components.map((item) => row(`${item.name}：${item.multiplierPercent}% × ${item.count}ヒット`, `非会心1ヒット ${detailNumber(item.perHitNonCrit)}／小計 ${detailNumber(item.nonCrit)}${["fixedTalent", "ahaInput"].includes(b.punchlineSource) ? `／会心小計 ${detailNumber(item.crit)}／期待値小計 ${detailNumber(item.expected)}` : ""}`)).join("") : ""}${row(components ? "基礎ダメージ（倍率合算）" : "基礎ダメージ（1ヒット）", detailNumber(b.baseDamage))}${row("ヒット数", result.attack.hitCountLabel || hits)}${b.actorKind === "memosprite" ? row("フィーバー固有与ダメージ（与ダメージ補正に含む）", detailNumber(b.feverDamageBonusPercent)+"%／精霊天賦Lv"+b.spriteTalentLevel+"・バイブス"+b.vibes) : ""}
       ${isElation ? row("通常の与ダメージ補正", "適用対象外（×1）") : row("与ダメージ補正", `${detailNumber(b.damageBonus)}%／×${detailNumber(b.damageBonusMultiplier)}`)}
       ${Number.isFinite(b.defenseIgnorePercent) ? row("防御ダウン／防御無視（合計100%上限）", `${detailNumber(b.defenseReductionPercent)}%／${detailNumber(b.defenseIgnorePercent)}%`) : ""}${row("防御倍率", `×${detailNumber(b.defense)}`)}${row("耐性倍率", `×${detailNumber(b.resistance)}`)}
       ${row(b.toughness === 0.9 ? "靭性倍率（靭性あり）" : "靭性倍率（弱点撃破中）", `×${detailNumber(b.toughness)}`)}
@@ -685,6 +691,7 @@
   }
 
   function modifierAudit(result, targetLabel) {
+    if (result.components) return modifierAudit(result.components.direct, "通常部分") + modifierAudit(result.components.break, "天賦撃破");
     const list = (items, applied) => `<ul>${items.length ? items.map((item) => `<li><strong>${esc(item.name)}</strong>：${applied ? `${item.value}${item.unit === "percent" ? "%" : ""}<br><small>出典：${esc(item.source)}／条件：${esc(item.conditionText || "常時")}／計算段階：${esc(item.calculation?.stage || item.category)}</small>` : esc(item.reason || "条件未成立・計算対象外")}</li>`).join("") : "<li>なし</li>"}</ul>`;
     return `<h4>${esc(targetLabel)}・適用された補正</h4>${list(result.applied, true)}<h4>${esc(targetLabel)}・条件未成立／対象外</h4>${list(result.skipped, false)}`;
   }
@@ -731,6 +738,8 @@
     return { ...state.elationInputs, context: confirmed ? "fervor10Auto" : "", stableEnemy: confirmed };
   }
 
+  function inputWarningsForFanning(attack) { return window.HsrCalcEngine.fanningInputWarnings({character:{level:state.level,eidolon:state.eidolon,stats:state.stats},enemy:state.enemy,attack,modifiers:modifiers(attack)}); }
+
   function calculationInputWarnings(attacks, baseStats) {
     if (songbirdMode()) return attacks.flatMap(attack => window.HsrCalcEngine.songbirdInputWarnings({ character: { level: state.level, eidolon: state.eidolon }, enemy: state.enemy, attack, songbird: songbirdSnapshot(), modifiers: modifiers(attack) }));
     if (attacks.length && attacks.every((attack) => attack.damageFormula === "trueDamage")) return attacks.flatMap((attack) => window.HsrCalcEngine.trueDamageInputWarnings({ character: { eidolon: state.eidolon }, attack, trueDamage: state.trueDamageInputs }));
@@ -748,6 +757,7 @@
         const level = state.traceLevels[key];
         if (!Number.isInteger(level) || level < range.minimum || level > range.maximum) warnings.add(attack.name + "が参照する" + (ATTACK_LABELS[key] || key) + "はLv" + range.minimum + "～" + range.maximum + "のみ計算対応です。");
       });
+      if (attack.damageFormula === "normalAndBreak") inputWarningsForFanning(attack).forEach(warning => warnings.add(warning));
       if (attack.damageFormula === "elation") window.HsrCalcEngine.elationInputWarnings({ character: { level: state.level, eidolon: state.eidolon, stats: state.stats }, attack, enemy: state.enemy, elation: attackElationInputs(attack) }).forEach((warning) => warnings.add(warning));
       const terms = [...(attack.scalingTerms?.length ? attack.scalingTerms : [{ stat: attack.scalingStat || "atk", multiplier: attack.multiplier }]), ...(attack.adjacentScalingTerms || [])];
       terms.filter((term) => num(term.multiplier) !== 0).forEach((term) => requiredStats.add(term.stat));
@@ -814,7 +824,7 @@
     }
     const baseRequest = { character: { level: state.level, eidolon: state.eidolon, stats: state.stats, baseStats }, enemy: state.enemy, elation: state.elationInputs, trueDamage: state.trueDamageInputs };
     const results = attacks.map((selected) => {
-      const request = { ...baseRequest, songbird: songbirdSnapshot(), elation: attackElationInputs(selected), attack: selected, modifiers: modifiers(selected) };
+      const request = { ...baseRequest, songbird: songbirdSnapshot(), elation: attackElationInputs(selected), attack: selected, modifiers: modifiers(selected), breakModifiers: selected.damageFormula === "normalAndBreak" ? modifiers({type:"break",element:character().element}) : undefined, breakBaseDamage: state.data.breakBaseDamage };
       const result = window.HsrCalcEngine.calculate(request);
       const adjacentAttack = selected.adjacentMultiplier ? { ...selected, multiplier: selected.adjacentMultiplier, scalingTerms: selected.adjacentScalingTerms?.length ? selected.adjacentScalingTerms : undefined, target: "adjacent" } : null;
       const adjacent = adjacentAttack ? window.HsrCalcEngine.calculate({ ...baseRequest, attack: adjacentAttack, modifiers: modifiers(adjacentAttack) }) : null;

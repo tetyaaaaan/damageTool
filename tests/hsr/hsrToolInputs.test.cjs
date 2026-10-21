@@ -1141,3 +1141,22 @@ test("Independent Break and Super Break modes need no direct ATK, validate input
     restored.node("hsrStat-breakEffect").value="0";restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/弱点撃破・適用された補正/);
     restored.node("hsrBreakMode").value="attacks";restored.calculate();assert.match(restored.node("hsrWarnings").innerHTML,/攻撃力/);
 });
+
+
+test("Fanning composite restores selected scope and rejects partial or unsupported target states", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const data={characters:catalog.characters,attacks:JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a=>a.id==="131508"),
+        structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1315")};
+    const app=await tool(undefined,data);app.state.characterId="1315";for(const[k,v]of Object.entries({atk:3000,breakEffect:200,critRate:50,critDamage:200}))app.node("hsrStat-"+k).value=String(v);
+    app.node("hsrNormalTrace").value="6";app.node("hsrWeakness").value="true";app.node("hsrMaxToughness").value="120";app.node("hsrToughnessState").value="broken";
+    assert.equal(app.calculate().length,0);app.state.modifierInputs["boothill-fanning-broken"]=true;
+    const extra=3767.5533*2*1.7*3*.5*.8*1.5*1.3,r=app.calculate()[0];assert.ok(Math.abs(r.nonCrit-(3432+extra))<1e-8);assert.ok(Math.abs(r.crit-(10296+extra))<1e-8);
+    assert.match(app.node("hsrResults").innerHTML,/通常部分の全段合算/);assert.match(app.node("hsrResults").innerHTML,/天賦撃破は会心しません/);
+    app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);assert.ok(Math.abs(restored.calculate()[0].nonCrit-r.nonCrit)<1e-8);
+    for(const value of [0,4,1.5,NaN]){restored.state.modifierInputs["boothill-pocket-stacks"]=value;assert.equal(restored.calculate().length,0);}
+    restored.state.modifierInputs["boothill-pocket-stacks"]=3;restored.node("hsrMaxToughness").value="161";assert.equal(restored.calculate().length,0);assert.match(restored.node("hsrWarnings").innerHTML,/160以下/);
+    restored.node("hsrMaxToughness").value="120";restored.node("hsrToughnessState").value="active";assert.equal(restored.calculate().length,0);
+    restored.node("hsrToughnessState").value="broken";restored.node("hsrWeakness").value="false";assert.equal(restored.calculate().length,0);
+    restored.node("hsrWeakness").value="true";restored.node("hsrStat-breakEffect").value="";assert.equal(restored.calculate().length,0);
+    restored.node("hsrStat-breakEffect").value="200";restored.node("hsrNormalTrace").value="7";assert.equal(restored.calculate().length,0);
+});
