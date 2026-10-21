@@ -167,6 +167,16 @@
               </section>
             </div>
 
+            <div class="genshin-fieldset hsr-build-fieldset">
+              <h3>撃破・超撃破の独立計算</h3>
+              <p class="genshin-help">攻撃者の撃破特効と敵条件を使用します。芳酔・酩酊はパーティと補正条件で設定してください。通常攻撃・DoT・他の撃破成分とは合算しません。</p>
+              <div class="genshin-input-grid">
+                <label class="genshin-field">計算対象<select id="hsrBreakMode"><option value="attacks">攻撃と弱点撃破の比較（従来）</option><option value="break">弱点撃破のみ</option><option value="superBreak">超撃破のみ</option></select></label>
+                <label class="genshin-field">基礎削靭値（超撃破）<input id="hsrSuperBreakToughness" type="number" min="0" step="0.1" placeholder="例：10"></label>
+                <label class="genshin-field">超撃破の発生倍率（%）<input id="hsrSuperBreakMultiplier" type="number" min="0" step="0.1" value="100"></label>
+              </div>
+              <p class="genshin-help">超撃破は撃破状態の敵への1回分です。削靭値は現在の表示単位で、撃破効率補正前の値を入力します。発生倍率は効果に応じて指定（100%を基準）。発動条件・倍率の変化・途中撃破の判定は自動管理しません。</p>
+            </div>
             <div class="genshin-fieldset genshin-json-calc-production"><div class="genshin-input-step-head genshin-calculation-step-head"><h3>補正条件</h3><p>戦闘中の支援・条件付き効果は、対象と発動条件を確認して設定します。ここで追加する効果を、入力値（UID反映値を含む）や手動補正に重ねて含めないでください。</p></div><div class="genshin-condition-launcher"><div><strong id="hsrConditionTitle">適用する補正はありません</strong><span id="hsrConditionHelp">「最終入力で管理」は再加算なし。「表示のみ」は計算対象外です。</span></div><button type="button" class="teti-button teti-button-secondary" id="hsrConditionDialogOpen" aria-haspopup="dialog" aria-controls="hsrConditionDialog">補正条件を確認・設定</button></div><div class="genshin-json-actions genshin-json-actions-bottom"><button type="button" class="teti-button teti-button-primary" id="hsrCalculateButton">ダメージ計算を実行</button></div></div>
           </div>
 

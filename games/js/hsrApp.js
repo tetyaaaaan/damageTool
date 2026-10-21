@@ -40,6 +40,7 @@
     level: 80, eidolon: 0, enhancementState: "enhanced", coneLevel: 80, coneRank: 1, partySp: 3, traceLevels: { normal: 6, skill: 10, ultimate: 10, talent: 10, elation: 10 }, source: "manual",
     stats: { ...DEFAULT_STATS },
     songbirdInputs: { active: false, context: "", skillLevel: 6, hp: NaN, critRate: NaN, critDamage: NaN, damageBonus: NaN },
+    breakInputs: { mode: "attacks", toughnessDamage: NaN, multiplier: 100 },
     trueDamageInputs: { active: false, sourceKind: "", originalDamage: NaN },
     elationInputs: { context: "ahaInstant", punchline: NaN, merrymake: 0, fervor: NaN },
     party: Array.from({ length: 3 }, () => ({ characterId: "", eidolon: 0, level: 10, atk: 0, critDamage: 50, breakEffect: 0, lightConeId: "", coneRank: 1, relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "" })),
@@ -146,6 +147,7 @@
     state.traceLevels.elation = Number($("hsrElationTrace").value);
     state.trueDamageInputs = { active: state.characterId === "1415" && $("hsrTrueDamageActive").value === "true", sourceKind: $("hsrTrueDamageSourceKind").value, originalDamage: $("hsrOriginalDamage").value.trim() === "" ? NaN : Number($("hsrOriginalDamage").value) };
     if (state.trueDamageInputs.active) state.traceLevels.skill = Number($("hsrSkillTrace").value);
+    state.breakInputs = { mode: ["break", "superBreak"].includes($("hsrBreakMode").value) ? $("hsrBreakMode").value : "attacks", toughnessDamage: $("hsrSuperBreakToughness").value.trim() === "" ? NaN : Number($("hsrSuperBreakToughness").value), multiplier: $("hsrSuperBreakMultiplier").value.trim() === "" ? NaN : Number($("hsrSuperBreakMultiplier").value) };
     state.elationInputs = { context: state.characterId === "1502" ? $("hsrElationContext").value : "ahaInstant", punchline: $("hsrPunchline").value.trim() === "" ? NaN : Number($("hsrPunchline").value), merrymake: $("hsrMerrymake").value.trim() === "" ? NaN : Number($("hsrMerrymake").value), fervor: $("hsrFervor").value.trim() === "" ? NaN : Number($("hsrFervor").value) };
     state.enemy = { level: num($("hsrEnemyLevel").value, 80), maxHp: Math.max(0, num($("hsrEnemyMaxHp").value, 100000)), resistance: num($("hsrEnemyResistance").value), weakness: $("hsrWeakness").value === "true",
       toughnessActive: $("hsrToughnessState").value === "active", maxToughness: num($("hsrMaxToughness").value, 30), hpPercent: Math.min(100, Math.max(0, num($("hsrEnemyHpPercent").value, 100))), count: Math.min(5, Math.max(1, Math.floor(num($("hsrEnemyCount").value, 1)))), debuffCount: Math.max(0, num($("hsrEnemyDebuffCount").value)), defenseReduction: num($("hsrEnemyDefenseReduction").value),
@@ -695,7 +697,16 @@
     return items.length ? `<details class="hsr-excluded-conditions"><summary>計算に追加しない補正（${items.length}件）</summary>${group("最終入力で管理する効果・再加算なし", included, true)}${group("データ未対応・表示のみ（計算対象外）", unsupported, false)}</details>` : "";
   }
 
-  function renderResults(results, breakResult, specialBreakResults = [], unavailableAttacks = []) {
+  function superBreakViews(result) {
+ if (!result) return { damage:"",breakdown:"",audit:"" };
+ const title="超撃破（独立した1回分）";
+ if (!result.supported) return {damage:`<article class="hsr-attack-result"><h3>${esc(title)}</h3><p>計算不可：${esc(result.reason)}</p></article>`,breakdown:"",audit:""};
+ const rows=[["撃破基礎値",result.base],["基礎削靭値",result.toughnessDamage],["撃破効率倍率",result.breakEfficiency],["補正後削靭値",result.effectiveToughnessDamage],["発生倍率",result.conversionMultiplier],["撃破特効倍率",result.breakEffect],["防御倍率",result.defense],["耐性倍率",result.resistance],["被ダメージ倍率",result.vulnerability],["超撃破与ダメージ倍率",result.superBreakBonus],["超撃破ダメージ",result.value]];
+ return {damage:`<article class="hsr-attack-result"><h3>${esc(title)}</h3><div class="hsr-attack-result-values hsr-attack-result-values--single"><div><span>超撃破ダメージ</span><strong>${fmt(result.value)}</strong></div></div><p class="hsr-formula-note">元攻撃・他の撃破成分とは合算しません。</p></article>`,breakdown:`<article class="hsr-attack-result"><h3>${esc(title)}</h3><dl>${rows.map(([label,value])=>`<div><dt>${label}</dt><dd>${detailNumber(value)}</dd></div>`).join("")}</dl></article>`,audit:`<article class="hsr-attack-result"><h3>${esc(title)}</h3>${modifierAudit(result,"超撃破")}</article>`};
+}
+
+  function renderResults(results, breakResult, specialBreakResults = [], unavailableAttacks = [], superBreakResult = null) {
+    const superBreak = superBreakViews(superBreakResult);
     const attackCards = results.map(({ result, adjacent, attack }) => `<article class="hsr-attack-result"><header><h3>${esc(result.attack.name)}</h3><span>${esc(ATTACK_LABELS[attack.type] || attack.type)} ${esc(attack.traceLevelLabel || `Lv${attack.traceLevel}`)}・${esc(TARGET_LABELS[result.attack.target] || result.attack.target)}</span></header>${supportBadge(attack)}${adjacent ? "<h4>主対象</h4>" : ""}${damageValues(result)}${adjacent ? `<h4>隣接対象</h4>${damageValues(adjacent)}` : ""}</article>`).join("");
     const unavailableCards = unavailableAttacks.map((attack) => `<article class="hsr-attack-result">${supportBadge(attack)}<h3>${esc(attack.name)}</h3><p>${esc(attackSupport(attack).reason || "この攻撃は表示のみのため、ダメージを計算しません。")}</p></article>`).join("");
     const specialBreakCards = specialBreakResults.map(({ attack, result }) => `<article class="hsr-attack-result"><header><h3>${esc(attack.name)}</h3><span>弱点撃破 Lv${attack.traceLevel}・${esc(TARGET_LABELS[attack.target] || attack.target)}</span></header>${supportBadge(attack)}${result.supported ? `<div class="hsr-attack-result-values hsr-attack-result-values--single"><div><span>撃破ダメージ</span><strong>${fmt(result.value)}</strong></div></div>` : `<p>計算不可：${esc(result.reason)}</p>`}</article>`).join("");
@@ -705,9 +716,9 @@
     const audits = results.map(({ attack, result, adjacent }) => `<article class="hsr-attack-result"><h3>${esc(result.attack.name)}</h3>${modifierAudit(result, "主対象")}${adjacent ? modifierAudit(adjacent, "隣接対象") : ""}</article>`).join("");
     const specialBreakAudit = detailedBreakResults.map(({ attack, result }) => `<article class="hsr-attack-result"><h3>${esc(attack?.name || "弱点撃破")}</h3>${modifierAudit(result, "弱点撃破")}</article>`).join("");
     $("hsrResults").innerHTML = `<p class="hsr-support-note">「確認済み扱い」は攻撃データの登録状態です。全条件での計算精度を保証するものではありません。確認中の結果は参考値です。</p><div class="genshin-result-tabs" role="tablist"><button type="button" class="genshin-result-tab" role="tab" data-result-tab="damage" aria-selected="true">ダメージ</button><button type="button" class="genshin-result-tab" role="tab" data-result-tab="breakdown">計算内訳</button><button type="button" class="genshin-result-tab" role="tab" data-result-tab="modifiers">補正</button></div>
-      <section data-result-panel="damage"><div class="hsr-attack-results">${attackCards}${specialBreakCards}${unavailableCards}</div>${breakResult ? `<p class="hsr-result-break"><strong>弱点撃破：</strong>${breakResult.supported ? fmt(breakResult.value) : `計算不可：${esc(breakResult.reason)}`}</p>` : ""}</section>
-      <section data-result-panel="breakdown" hidden class="hsr-result-details hsr-attack-results"><p class="hsr-formula-note">表示値は丸めています。多段攻撃の結果はヒット合計です。</p>${breakdown}${specialBreakBreakdown}</section>
-      <section data-result-panel="modifiers" hidden class="hsr-result-details hsr-attack-results">${excludedConditions()}${audits}${specialBreakAudit}</section>`;
+      <section data-result-panel="damage"><div class="hsr-attack-results">${attackCards}${specialBreakCards}${unavailableCards}${superBreak.damage}</div>${breakResult ? `<p class="hsr-result-break"><strong>弱点撃破：</strong>${breakResult.supported ? fmt(breakResult.value) : `計算不可：${esc(breakResult.reason)}`}</p>` : ""}</section>
+      <section data-result-panel="breakdown" hidden class="hsr-result-details hsr-attack-results"><p class="hsr-formula-note">表示値は丸めています。多段攻撃の結果はヒット合計です。</p>${breakdown}${specialBreakBreakdown}${superBreak.breakdown}</section>
+      <section data-result-panel="modifiers" hidden class="hsr-result-details hsr-attack-results">${excludedConditions()}${audits}${specialBreakAudit}${superBreak.audit}</section>`;
   }
 
   function attackElationInputs(attack) {
@@ -767,11 +778,12 @@
     if (!character()) warnings.push("キャラクターを選択してください。");
     if (cone() || relic() || relicSecond() || ornament()) warnings.push("常時効果は入力ステータスを使用し、条件付き効果は補正条件で選択した項目だけを適用します。");
     if (!character()) { renderWarnings(warnings); $("hsrResults").innerHTML = '<p class="genshin-help">計算可能なキャラクターを選択してください。</p>'; return; }
+    const independentBreak = state.breakInputs.mode !== "attacks";
     const available = availableAttacks();
-    const supplemental = state.trueDamageInputs.active ? [] : supplementalAttacks();
-    const unavailableAttacks = supplemental.filter((attack) => attackSupport(attack).status === "displayOnly").concat(available.filter((attack) => attackSupport(attack).status === "displayOnly").concat((state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status === "displayOnly")));
-    const attacks = available.filter((attack) => attackSupport(attack).status !== "displayOnly").map(resolvedAttack).concat(supplemental.filter((attack) => attackSupport(attack).status !== "displayOnly"));
-    if (!attacks.length) {
+    const supplemental = independentBreak || state.trueDamageInputs.active ? [] : supplementalAttacks();
+    const unavailableAttacks = independentBreak ? [] : supplemental.filter((attack) => attackSupport(attack).status === "displayOnly").concat(available.filter((attack) => attackSupport(attack).status === "displayOnly").concat((state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status === "displayOnly")));
+    const attacks = independentBreak ? [] : available.filter((attack) => attackSupport(attack).status !== "displayOnly").map(resolvedAttack).concat(supplemental.filter((attack) => attackSupport(attack).status !== "displayOnly"));
+    if (!attacks.length && !independentBreak) {
       renderWarnings(["このキャラクターには現在計算できる攻撃データがありません。"]);
       renderResults([], null, [], unavailableAttacks);
       return;
@@ -783,6 +795,17 @@
       && [state.characterId, ...state.party.map((member) => member.characterId)].includes("1512")) warnings.push("夏の歌鳥3体ではフィーバーが成立します。現在は防御無視を除外した比較値です。精霊攻撃・その他支援は計算対象外です。");
     const baseStats = selectedBaseStats();
     const inputWarnings = calculationInputWarnings(attacks, baseStats);
+    if (independentBreak) {
+      const kind = state.breakInputs.mode;
+      if (state.trueDamageInputs.active || songbirdMode()) inputWarnings.push("独立した撃破計算では確定ダメージ・精霊専用モードをOFFにしてください。");
+      if (!Number.isFinite(state.stats.breakEffect) || state.stats.breakEffect < 0) inputWarnings.push("撃破特効に0以上の数値を入力してください。");
+      if (!Number.isInteger(Number($("hsrEnemyLevel").value)) || Number($("hsrEnemyLevel").value) < 1) inputWarnings.push("敵Lvに1以上の整数を入力してください。");
+      if (!Number.isFinite(Number($("hsrEnemyResistance").value)) || $("hsrEnemyResistance").value.trim() === "") inputWarnings.push("敵の耐性を入力してください。");
+      if (kind === "break" && (!Number.isFinite(Number($("hsrMaxToughness").value)) || Number($("hsrMaxToughness").value) <= 0)) inputWarnings.push("敵の最大靭性に0より大きい数値を入力してください。");
+      if (kind === "superBreak" && (!Number.isFinite(state.breakInputs.toughnessDamage) || state.breakInputs.toughnessDamage <= 0)) inputWarnings.push("超撃破の基礎削靭値に0より大きい数値を入力してください。");
+      if (kind === "superBreak" && (!Number.isFinite(state.breakInputs.multiplier) || state.breakInputs.multiplier < 0)) inputWarnings.push("超撃破の発生倍率に0以上の数値を入力してください。");
+      modifiers({ type: kind, element: character().element }).filter(item => item.enabled).forEach(item => inputWarnings.push(...(item.inputWarnings || [])));
+    }
     if (inputWarnings.length) {
       renderWarnings(warnings.concat(inputWarnings));
       $("hsrResults").innerHTML = '<p class="genshin-help">入力内容を確認して、ダメージ計算を実行してください。</p>';
@@ -798,15 +821,19 @@
       return { attack: selected, result, adjacent };
     });
     const breakAttack = { attackType: "break", type: "break", element: character().element };
-    const breakResult = state.trueDamageInputs.active || songbirdMode() ? null : window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: character().element, modifiers: modifiers(breakAttack), breakBaseDamage: state.data.breakBaseDamage });
-    const specialBreakResults = (state.trueDamageInputs.active || songbirdMode() ? [] : state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status !== "displayOnly").map((attack) => {
+    const breakResult = state.breakInputs.mode === "superBreak" || state.trueDamageInputs.active || songbirdMode() ? null : window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: character().element, modifiers: modifiers(breakAttack), breakBaseDamage: state.data.breakBaseDamage });
+    const specialBreakResults = (independentBreak || state.trueDamageInputs.active || songbirdMode() ? [] : state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status !== "displayOnly").map((attack) => {
       const level = num(state.traceLevels[attack.traceKey], 10); const index = Math.max(0, Math.min(attack.multipliers.length - 1, level - 1));
       const multiplier = num(attack.multipliers[index]) + (state.eidolon >= 6 ? num(attack.eidolon6Bonus) : 0);
       const resolved = { ...attack, traceLevel: level, multiplier, attackType: "break" };
       const result = window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: attack.element, multiplier: multiplier / 100, modifiers: modifiers(resolved), breakBaseDamage: state.data.breakBaseDamage });
       return { attack: resolved, result };
     });
-    renderWarnings(warnings); renderResults(results, breakResult, specialBreakResults, unavailableAttacks); $("hsrDirtyNotice").hidden = true;
+    const superBreakAttack = { type: "superBreak", element: character().element, toughnessDamage: state.breakInputs.toughnessDamage, superBreakMultiplier: state.breakInputs.multiplier };
+    const superBreakResult = state.breakInputs.mode === "superBreak" ? window.HsrCalcEngine.calculateSuperBreak({ ...baseRequest, attack: superBreakAttack, modifiers: modifiers(superBreakAttack), breakBaseDamage: state.data.breakBaseDamage }) : null;
+    if (superBreakResult && !superBreakResult.supported) warnings.push(superBreakResult.reason);
+    if (independentBreak && breakResult && !breakResult.supported) warnings.push(breakResult.reason);
+    renderWarnings(warnings); renderResults(results, breakResult, specialBreakResults, unavailableAttacks, superBreakResult); $("hsrDirtyNotice").hidden = true;
     requestAnimationFrame(() => $("hsrResults")?.scrollIntoView({ behavior: "smooth", block: "start" }));
   }
 
@@ -847,7 +874,7 @@
     if (!restored) { $("hsrSaveStatus").textContent = "保存条件の形式に対応していません。初期状態で表示しています。"; return false; }
     Object.assign(state, restored.state);
     renderStaticInputs(); writeStats();
-    const controls = { hsrSongbirdMode: String(state.songbirdInputs.active), hsrSongbirdContext: state.songbirdInputs.context, hsrSongbirdSkillLevel: state.songbirdInputs.skillLevel,
+    const controls = { hsrBreakMode: state.breakInputs.mode, hsrSuperBreakToughness: state.breakInputs.toughnessDamage, hsrSuperBreakMultiplier: state.breakInputs.multiplier, hsrSongbirdMode: String(state.songbirdInputs.active), hsrSongbirdContext: state.songbirdInputs.context, hsrSongbirdSkillLevel: state.songbirdInputs.skillLevel,
       ...Object.fromEntries(["hp", "critRate", "critDamage", "damageBonus"].map(key => ["hsrSongbird-"+key, state.songbirdInputs[key]])), hsrEnemySelect: state.enemyId, hsrPartySp: state.partySp, hsrElationContext: state.elationInputs.context, hsrPunchline: state.elationInputs.punchline, hsrFervor: state.elationInputs.fervor, hsrMerrymake: state.elationInputs.merrymake, hsrTrueDamageActive: String(state.trueDamageInputs.active), hsrTrueDamageSourceKind: state.trueDamageInputs.sourceKind, hsrOriginalDamage: state.trueDamageInputs.originalDamage };
     const enemyControls = { level: "hsrEnemyLevel", maxHp: "hsrEnemyMaxHp", resistance: "hsrEnemyResistance", maxToughness: "hsrMaxToughness", hpPercent: "hsrEnemyHpPercent", count: "hsrEnemyCount", debuffCount: "hsrEnemyDebuffCount", defenseReduction: "hsrEnemyDefenseReduction", defenseIgnore: "hsrEnemyDefenseIgnore", resistancePenetration: "hsrEnemyResistancePenetration", takenDamage: "hsrEnemyTakenDamage" };
     Object.entries(enemyControls).forEach(([key, id]) => { controls[id] = state.enemy[key]; });

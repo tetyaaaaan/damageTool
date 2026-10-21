@@ -1120,3 +1120,24 @@ test("Jiaoqiu combined direct, DoT and Break scopes restore without double count
     restored.state.modifierInputs["jiaoqiu-roast-dot-tick"]=false;assert.equal(restored.calculate().length,2);assert.match(restored.node("hsrResults").innerHTML,/被ダメージ倍率<\/dt><dd>1.72/);
     restored.state.modifierInputs["jiaoqiu-five-roast-zone"]=false;restored.state.modifierInputs["jiaoqiu-roast-dot-tick"]=true;assert.equal(restored.calculate().length,1);assert.match(restored.node("hsrResults").innerHTML,/被ダメージ倍率<\/dt><dd>1.72/);
 });
+
+
+test("Independent Break and Super Break modes need no direct ATK, validate inputs and restore fractional toughness", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const mods=JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.id.endsWith(":break-vulnerability"));
+    const app=await tool(undefined,{characters:[...catalog.characters,{id:"sample",name:"Sample",element:"Ice",skills:[]}],structuredModifiers:mods});
+    app.state.party[0]={...app.state.party[0],characterId:"1222",eidolon:0,level:10};app.state.party[1]={...app.state.party[1],characterId:"1301",eidolon:0,level:10};
+    app.state.modifierInputs["break-befog-active"]=true;app.state.modifierInputs["break-besotted-active"]=true;
+    app.node("hsrBreakMode").value="superBreak";app.node("hsrSuperBreakToughness").value="12.5";app.node("hsrSuperBreakMultiplier").value="160";app.node("hsrToughnessState").value="broken";app.node("hsrStat-breakEffect").value="200";app.node("hsrEnemyResistance").value="0";
+    app.calculate();const expected=3767.5533*1.25*3*.5*1.37*1.6;
+    assert.ok(app.node("hsrResults").innerHTML.includes(Math.round(expected).toLocaleString("en-US")));assert.match(app.node("hsrResults").innerHTML,/基礎削靭値/);assert.match(app.node("hsrResults").innerHTML,/芳酔・撃破被ダメージ増加/);
+    app.node("hsrSuperBreakToughness").handlers.input();const restored=await tool(app.storage,{characters:app.state.data.characters,structuredModifiers:mods});
+    assert.equal(restored.node("hsrBreakMode").value,"superBreak");assert.equal(restored.node("hsrSuperBreakToughness").value,"12.5");restored.calculate();assert.ok(restored.node("hsrResults").innerHTML.includes(Math.round(expected).toLocaleString("en-US")));
+    for(const v of ["","0","-1","bad"]){restored.node("hsrSuperBreakToughness").value=v;restored.calculate();assert.match(restored.node("hsrWarnings").innerHTML,/基礎削靭値/);}
+    restored.node("hsrSuperBreakToughness").value="10";restored.node("hsrToughnessState").value="active";restored.calculate();assert.match(restored.node("hsrWarnings").innerHTML,/弱点撃破状態/);
+    restored.node("hsrToughnessState").value="broken";restored.node("hsrSuperBreakMultiplier").value="0";restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/<strong>0<\/strong>/);
+    restored.node("hsrBreakMode").value="break";restored.node("hsrWeakness").value="true";restored.node("hsrMaxToughness").value="120";restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/弱点撃破・適用された補正/);
+    restored.node("hsrStat-breakEffect").value="";restored.calculate();assert.match(restored.node("hsrWarnings").innerHTML,/撃破特効/);
+    restored.node("hsrStat-breakEffect").value="0";restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/弱点撃破・適用された補正/);
+    restored.node("hsrBreakMode").value="attacks";restored.calculate();assert.match(restored.node("hsrWarnings").innerHTML,/攻撃力/);
+});

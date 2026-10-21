@@ -500,8 +500,11 @@
         const defense = defenseMultiplier(character.level, enemy.level, defenseReduction, defenseIgnore);
         const resistance = resistanceMultiplier(number(enemy.resistance) - resistancePenetration);
         const effectiveToughnessDamage = toughnessDamage * breakEfficiency;
-        const value = base * (effectiveToughnessDamage / 10) * breakEffect * defense * resistance * vulnerability * superBreakBonus;
-        return { supported: true, value, base, toughnessDamage, effectiveToughnessDamage, breakEffect, breakEfficiency, superBreakBonus, defense, resistance, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
+        const conversionInput = attack.superBreakMultiplier === undefined ? 100 : attack.superBreakMultiplier;
+        const conversionMultiplier = conversionInput / 100;
+        if (!Number.isFinite(conversionInput) || conversionMultiplier < 0) return { supported: false, reason: "超撃破の発生倍率に0以上の数値を入力してください。" };
+        const value = conversionMultiplier * base * (effectiveToughnessDamage / 10) * breakEffect * defense * resistance * vulnerability * superBreakBonus;
+        return { supported: true, value, base, conversionMultiplier, toughnessDamage, effectiveToughnessDamage, breakEffect, breakEfficiency, superBreakBonus, defense, resistance, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
     }
 
     window.HsrCalcEngine = Object.freeze({ songbirdInputWarnings, trueDamageInputWarnings, elationInputWarnings, unsupportedAttackReason, calculate, calculateBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });

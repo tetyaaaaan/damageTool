@@ -612,3 +612,12 @@ test("Summer Songbirds uses its own final snapshot and independently combines Fe
     }
     const zero=songbirdRequest();zero.songbird.critRate=0;zero.songbird.critDamage=0;zero.songbird.damageBonus=0;assert.equal(engine().calculate(zero).expected,engine().calculate(zero).nonCrit);
 });
+
+
+test("Super Break conversion coefficient is independent of amplification and preserves the legacy 100 percent default", () => {
+    const calc=engine(),base=3767.5533*3*3*.5*.8*1.25;
+    const input={...baseInput(),character:{level:80,stats:{breakEffect:200}},enemy:{level:80,resistance:20,toughnessActive:false},attack:{type:"normal",toughnessDamage:30},breakBaseDamage:{80:3767.5533},modifiers:[{id:"amplify",category:"takenDamage",value:25}]};
+    assert.ok(Math.abs(calc.calculateSuperBreak(input).value-base)<1e-9);
+    for(const coefficient of [0,50,100,160]) {const r=calc.calculateSuperBreak({...input,attack:{...input.attack,superBreakMultiplier:coefficient}});assert.ok(Math.abs(r.value-base*coefficient/100)<1e-8);assert.equal(r.conversionMultiplier,coefficient/100);}
+    for(const coefficient of [null,NaN,-1,Infinity])assert.equal(calc.calculateSuperBreak({...input,attack:{...input.attack,superBreakMultiplier:coefficient}}).supported,false);
+});
