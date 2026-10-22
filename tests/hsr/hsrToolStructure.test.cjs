@@ -148,7 +148,7 @@ test("HSR attack data is generated, overrideable, and the page separates calcula
     assert.match(html, /id="hsrEnhancementState"/);
     assert.match(read("games/js/hsrCalcData.js"), /dataFiles\.modifiers/);
     assert.match(read("games/hsr/data/calc/data-files.json"), /modifiers-welt\.json/);
-    assert.match(source, /この攻撃は倍率・効果の個別検証が未完了のため参考値です/);
+    assert.match(source, /この攻撃は攻撃データを確認中のため参考値です/);
     assert.doesNotMatch(source, /このキャラクターの攻撃データ.*件は確認中/);
 });
 
@@ -188,7 +188,7 @@ test("HSR action value uses an explicit themed input and calculation scrolls to 
     assert.match(css, /\.hsr-action-value-card \.genshin-field input/);
     assert.match(css, /background:\s*var\(--teti-surface\)/);
     assert.match(css, /#hsrResultPanel[^}]*scroll-margin-top/);
-    assert.match(source, /\$\("hsrResults"\)\?\.scrollIntoView\(\{ behavior: "smooth", block: "start" \}\)/);
+    assert.match(source, /\$\("hsrResultPanel"\)\.scrollIntoView\(\{ behavior: "smooth", block: "start" \}\)/);
 });
 
 test("HSR production page has image selection, party and condition dialogs", () => {

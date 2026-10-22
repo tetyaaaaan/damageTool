@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/games/css/menu.css">
   <link rel="stylesheet" href="/games/css/tetinet.css?v=20260722-1">
   <link rel="stylesheet" href="/games/css/genshin-tool-ui.css?v=20260727-4">
-  <link rel="stylesheet" href="/games/css/hsr-tool-ui.css?v=20261022-3">
+  <link rel="stylesheet" href="/games/css/hsr-tool-ui.css?v=20261022-4">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
   <script src="/games/js/windowLoading.js"></script>
   <script src="/games/js/theme.js?v=20260720-2"></script>
@@ -75,7 +75,7 @@
                     <div class="genshin-equipment-content"><input id="hsrConeName" class="genshin-selection-input genshin-equipment-name" type="text" value="選択してください" readonly aria-label="光円錐を選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><div class="genshin-equipment-meta"><label><span>Lv</span><input id="hsrConeLevel" type="number" min="1" max="80" value="80"></label><label><span>重畳</span><select id="hsrConeRank"></select></label><button type="button" class="genshin-equipment-details-button" id="hsrConeDetailsButton" disabled>詳細</button></div><small id="hsrConeMeta" class="hsr-equipment-subline">運命に合う候補を表示</small></div>
                   </article>
                 </div>
-                <div class="genshin-talent-inputs"><h4>軌跡レベル</h4><div class="genshin-form-grid hsr-trace-level-grid"><label class="genshin-field" id="hsrNormalTraceField"><select id="hsrNormalTrace" aria-label="通常攻撃レベル"></select></label><label class="genshin-field" id="hsrSkillTraceField"><select id="hsrSkillTrace" aria-label="戦闘スキルレベル"></select></label><label class="genshin-field" id="hsrUltimateTraceField"><select id="hsrUltimateTrace" aria-label="必殺技レベル"></select></label><label class="genshin-field" id="hsrTalentTraceField"><select id="hsrTalentTrace" aria-label="天賦レベル"></select></label><label class="genshin-field" id="hsrMemSkillTraceField" hidden><select id="hsrMemSkillTrace" aria-label="精霊スキルレベル"></select></label><label class="genshin-field" id="hsrMemTalentTraceField" hidden><select id="hsrMemTalentTrace" aria-label="精霊天賦レベル"></select></label><label class="genshin-field" id="hsrElationTraceField" hidden><select id="hsrElationTrace" aria-label="愉悦スキルレベル"></select></label></div></div>
+                <div class="genshin-talent-inputs"><h4>軌跡レベル</h4><p class="genshin-help">ゲーム内に表示されるLvを指定してください。選択した星魂に応じて候補の上限が変わります。</p><div class="genshin-form-grid hsr-trace-level-grid"><label class="genshin-field" id="hsrNormalTraceField"><select id="hsrNormalTrace" aria-label="通常攻撃レベル"></select></label><label class="genshin-field" id="hsrSkillTraceField"><select id="hsrSkillTrace" aria-label="戦闘スキルレベル"></select></label><label class="genshin-field" id="hsrUltimateTraceField"><select id="hsrUltimateTrace" aria-label="必殺技レベル"></select></label><label class="genshin-field" id="hsrTalentTraceField"><select id="hsrTalentTrace" aria-label="天賦レベル"></select></label><label class="genshin-field" id="hsrMemSkillTraceField" hidden><select id="hsrMemSkillTrace" aria-label="精霊スキルレベル"></select></label><label class="genshin-field" id="hsrMemTalentTraceField" hidden><select id="hsrMemTalentTrace" aria-label="精霊天賦レベル"></select></label><label class="genshin-field" id="hsrElationTraceField" hidden><select id="hsrElationTrace" aria-label="愉悦スキルレベル"></select></label></div></div>
                 <div class="hsr-relic-section">
                   <h4>遺物・次元界オーナメント</h4>
                   <div class="genshin-form-grid genshin-artifact-mode-row hsr-relic-mode-row"><label class="genshin-field">遺物セット構成<select id="hsrRelicMode"><option value="4pc">4セット</option><option value="2+2">2セット + 2セット</option></select></label></div>
@@ -114,9 +114,19 @@
                   <label class="genshin-field" id="hsrDotBaseDamageField" hidden><span class="genshin-stat-label hsr-stat-label"><img src="/games/images/hsr/stats/IconAttack.png" alt="">対象の持続ダメージ（1回分）</span><input id="hsrStat-dotBaseDamage" data-stat="dotBaseDamage" type="number" min="0" step="any"><small>起爆対象に付与されている各持続ダメージの、本来の1回分の合計値です。</small></label>
                   <label class="genshin-field" id="hsrElationField" hidden><span class="genshin-stat-label hsr-stat-label"><img src="/games/images/hsr/stats/IconJoy.png" alt="">愉悦度</span><input id="hsrStat-elation" data-stat="elation" type="number" step="any" aria-describedby="hsrElationInputHelp"><span class="genshin-field-unit">%</span></label>
                 </div></div>
+                <details class="hsr-action-value-card"><summary>行動値の参考（ステータスの速度を使用）</summary><div><p>速度のみから算出する目安です。行動順短縮・再行動・途中の速度変化は含みません。</p></div><label class="genshin-field">行動回数を数える範囲（行動値）<input id="hsrActionWindow" type="number" min="1" value="150"></label><div id="hsrActionSummary" class="hsr-action-summary"></div></details>
                 <p class="genshin-help" id="hsrElationInputHelp" hidden>装備・軌跡の常時愉悦度（パールA2など）を含めて入力。補正条件で追加する支援分は含めません。</p>
               </section>
 
+              <section class="genshin-input-step" id="hsrPearlSettings" hidden>
+                <div class="genshin-input-step-head"><h4>パールの攻撃状態</h4><p>通常攻撃は防御力を入力するだけで計算できます。</p></div>
+                <label class="genshin-field">攻撃状態<select id="hsrPearlMode"><option value="normal">通常攻撃</option><option value="enhanced">深層学習中の強化通常も比較する</option></select></label>
+                <div id="hsrPearlDetails" class="genshin-form-grid" hidden>
+                  <label class="genshin-field">深層学習の残りチャージ<input id="hsrPearlCharges" type="number" min="1" max="3" step="1" placeholder="1～3"></label>
+                  <label class="genshin-field">美学の底本<select id="hsrPearlCanvas"><option value="">パーティから選択</option></select><small>先にパーティへ対象キャラを追加してください。非愉悦の味方に対応しています。</small></label>
+                  <label class="genshin-field">攻撃後の追加愉悦ダメージ<select id="hsrPearlExtraElation"><option value="">選択してください</option><option value="0">発生しない</option><option value="1">発生する（この状態は計算対象外）</option></select></label>
+                </div>
+              </section>
               <section class="genshin-input-step" id="hsrTrueDamageSettings" hidden aria-labelledby="hsrTrueDamageTitle">
                 <div class="genshin-input-step-head"><h4 id="hsrTrueDamageTitle">キュレネの領域・追加確定ダメージ</h4><p>星魂0・戦闘スキルLv1～10。領域が有効でキュレネが生存している場合の、敵1体への1回分です。</p></div>
                 <label class="genshin-field">領域効果（キュレネ生存時）<select id="hsrTrueDamageActive"><option value="false">OFF：通常の攻撃を計算</option><option value="true">ON：追加確定ダメージのみ計算</option></select></label>
@@ -179,15 +189,15 @@
                 <p class="genshin-help">最大靭性は旧単位（現在の表示値×3）、超撃破の削靭値は表示単位で入力します。発生倍率は効果に応じて設定してください（100%が基準）。弱点撃破中の敵に対する1回分です。</p>
               </div>
             </details>
-            <div class="genshin-fieldset genshin-json-calc-production"><div class="genshin-input-step-head genshin-calculation-step-head"><h3>補正条件</h3><p>編成中のキャラ・装備・軌跡に応じた効果を表示します。発動条件が成立する場合に選択してください。最終ステータスに含めた効果は再加算しません。</p></div><div class="genshin-condition-launcher"><div><strong id="hsrConditionTitle">適用する補正はありません</strong><span id="hsrConditionHelp">最終入力に含む常時効果は再加算しません。表示のみの効果は計算対象外です。</span></div><button type="button" class="teti-button teti-button-secondary" id="hsrConditionDialogOpen" aria-haspopup="dialog" aria-controls="hsrConditionDialog">補正条件を確認・設定</button></div><details class="hsr-manual-condition-details"><summary>手動で追加する補正<span class="hsr-details-state" aria-hidden="true"></span></summary><p class="genshin-help">最終ステータス・敵条件・補正条件に加えて、入力した割合を計算時に追加します。同じ効果は重ねて入力しないでください。適用対象は各補正の説明を確認してください。</p><div id="hsrManualConditionList"></div></details><div class="genshin-currentcalc-storage hsr-currentcalc-storage"><p>入力条件はこのブラウザに自動保存され、再読み込み後に復元されます。</p><details class="genshin-reset-menu" id="hsrResetMenu"><summary>リセット</summary><div class="genshin-reset-options"><button type="button" data-hsr-reset="conditions">補正条件をリセット</button><button type="button" data-hsr-reset="party">パーティをリセット…</button><button type="button" data-hsr-reset="all">全入力をリセット…</button><button type="button" class="hsr-clear-saved-inputs" id="hsrClearSavedInputs">保存条件を削除</button></div></details><p id="hsrSaveStatus" role="status" aria-live="polite">入力条件はこのブラウザに自動保存されます。</p></div><div class="genshin-json-actions genshin-json-actions-bottom"><button type="button" class="teti-button teti-button-primary" id="hsrCalculateButton">ダメージ計算を実行</button></div></div>
+            <div class="genshin-fieldset genshin-json-calc-production"><div class="genshin-input-step-head genshin-calculation-step-head"><h3>補正条件</h3><p>編成中のキャラ・装備・軌跡に応じた効果を表示します。発動条件が成立する場合に選択してください。最終ステータスに含めた効果は再加算しません。</p></div><div class="genshin-condition-launcher"><div><strong id="hsrConditionTitle">適用する補正はありません</strong><span id="hsrConditionHelp">最終入力に含む常時効果は再加算しません。表示のみの効果は計算対象外です。</span></div><button type="button" class="teti-button teti-button-secondary" id="hsrConditionDialogOpen" aria-haspopup="dialog" aria-controls="hsrConditionDialog">補正条件を確認・設定</button></div><details class="hsr-manual-condition-details"><summary>手動で追加する補正<span class="hsr-details-state" aria-hidden="true"></span></summary><p class="genshin-help">最終ステータス・敵条件・補正条件に加えて、入力した割合を計算時に追加します。同じ効果は重ねて入力しないでください。適用対象は各補正の説明を確認してください。</p><div id="hsrManualConditionList"></div></details><div class="genshin-currentcalc-storage hsr-currentcalc-storage"><p>入力条件はこのブラウザに自動保存され、再読み込み後に復元されます。</p><details class="genshin-reset-menu" id="hsrResetMenu"><summary>リセット</summary><div class="genshin-reset-options"><button type="button" data-hsr-reset="conditions">補正条件をリセット</button><button type="button" data-hsr-reset="party">パーティをリセット…</button><button type="button" data-hsr-reset="all">全入力をリセット…</button><button type="button" class="hsr-clear-saved-inputs" id="hsrClearSavedInputs">保存条件を削除</button></div></details><p id="hsrSaveStatus" role="status" aria-live="polite">入力条件はこのブラウザに自動保存されます。</p></div><div id="hsrCalculationFeedback" class="hsr-calculation-feedback" role="alert" hidden></div><div class="genshin-json-actions genshin-json-actions-bottom"><button type="button" class="teti-button teti-button-primary" id="hsrCalculateButton">ダメージ計算を実行</button></div></div>
           </div>
 
           <aside class="genshin-panel genshin-result-panel" id="hsrResultPanel" aria-label="計算結果">
             <div class="genshin-panel-head"><div><p class="genshin-kicker">計算結果</p><h2>結果</h2></div></div>
             <div id="hsrResultSelectionSummary" class="genshin-result-selection-summary"><div><span>キャラ・光円錐</span><strong id="hsrResultBuildSummary">未選択</strong></div><div><span>敵情報</span><strong id="hsrResultAttackSummary">未選択</strong></div></div>
             <p id="hsrDirtyNotice" class="genshin-calculation-dirty-notice" role="status" aria-live="polite" hidden>入力内容が変更されています。ダメージ計算を実行して結果を更新してください。</p>
-            <div id="hsrWarnings" class="genshin-json-calc-warnings" hidden></div><div id="hsrResults" class="genshin-json-calc-results"><p class="genshin-help">条件を設定して計算してください。</p></div>
-            <section class="hsr-action-value-card" aria-labelledby="hsrActionValueTitle"><div><h3 id="hsrActionValueTitle">速度・基礎行動値</h3><p>速度のみから算出する目安です。行動順短縮・再行動・途中の速度変化は含みません。</p></div><label class="genshin-field">基準行動値<input id="hsrActionWindow" type="number" min="1" value="150"></label><div id="hsrActionSummary" class="hsr-action-summary"></div></section>
+            <div id="hsrWarnings" class="hsr-result-notice" hidden></div><div id="hsrResults" class="genshin-json-calc-results"><p class="genshin-help">条件を設定して計算してください。</p></div>
+
           </aside>
         </section>
 
@@ -208,7 +218,7 @@
     <dialog class="genshin-modal genshin-equipment-details-dialog genshin-uid-details-dialog" id="hsrUidDetailsDialog" aria-labelledby="hsrUidDetailsTitle"><div class="genshin-modal-shell genshin-equipment-details-dialog-inner"><header class="genshin-modal-head genshin-equipment-details-head"><div><p class="genshin-kicker">UID DETAIL</p><h2 id="hsrUidDetailsTitle">キャラクター詳細</h2></div><button type="button" class="genshin-modal-close genshin-selection-close" id="hsrUidDetailsClose" aria-label="詳細を閉じる">×</button></header><nav class="genshin-uid-details-tabs" id="hsrUidDetailsTabs" aria-label="UID詳細カテゴリ"></nav><div class="genshin-modal-scroll-region genshin-equipment-details-body" id="hsrUidDetailsBody"></div></div></dialog>
 
     <script src="/games/js/hsrProfileApi.js"></script><script src="/games/js/hsrProfileMapper.js?v=20261022-1"></script><script src="/games/js/uidStorage.js"></script><script src="/games/js/hsrCalcData.js?v=20261022-1"></script><script src="/games/js/hsrModifierRuntime.js?v=20260801-3"></script><script src="/games/js/hsrCalcEngine.js?v=20260801-3"></script><script src="/games/js/hsrCalcState.js?v=20261022-1"></script><script src="/games/js/hsrCharacterOrder.js"></script>
-  <script src="/games/js/hsrApp.js?v=20261022-3"></script><script src="/games/js/hsrUidImporter.js?v=20261022-1"></script>
+  <script src="/games/js/hsrApp.js?v=20261022-4"></script><script src="/games/js/hsrUidImporter.js?v=20261022-1"></script>
 
     <!-- site-chrome:footer:start -->
 <footer class="teti-site-footer">
