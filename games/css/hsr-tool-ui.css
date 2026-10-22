@@ -323,7 +323,7 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
 .hsr-result-scope-label { display: block; margin-top: .25rem; color: var(--teti-text-muted); font-size: .7rem; line-height: 1.4; white-space: normal; }
 
 /* Input errors are actionable, distinct from internal/load warnings. */
-.hsr-calculation-feedback, .hsr-result-notice { margin: .7rem 0; padding: .75rem; border: 1px solid var(--teti-border); border-radius: var(--teti-radius-sm); background: var(--teti-surface-soft); overflow-wrap: anywhere; }
+.hsr-calculation-feedback { margin: .7rem 0; padding: .75rem; border: 1px solid var(--teti-border); border-radius: var(--teti-radius-sm); background: var(--teti-surface-soft); overflow-wrap: anywhere; }
 .hsr-calculation-feedback button { border: 0; background: transparent; color: var(--teti-interactive); text-decoration: underline; text-align: left; padding: .2rem 0; cursor: pointer; }
 .hsr-field-error { display: block; color: var(--teti-danger); font-size: .75rem; line-height: 1.5; font-weight: 700; }
 .page-hsr [aria-invalid="true"] { outline: 2px solid var(--teti-danger); outline-offset: 2px; }
@@ -332,7 +332,14 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
 .hsr-action-value-card summary { cursor: pointer; font-weight: 700; }
 .hsr-action-value-card[open] summary { margin-bottom: .7rem; }
 
-.page-hsr :is(.hsr-field-error,.hsr-calculation-feedback,.hsr-result-notice,#hsrPearlDetails,#hsrPearlSettings)[hidden] { display: none !important; }
+.page-hsr :is(#hsrPearlDetails,.hsr-field-error,.hsr-calculation-feedback,#hsrPearlSettings)[hidden] { display: none !important; }
 
-.hsr-calculation-feedback ul, .hsr-result-notice ul { margin: .4rem 0 0; padding-inline-start: 1.2rem; }
-.hsr-calculation-feedback li + li, .hsr-result-notice li + li { margin-top: .25rem; }
+.hsr-calculation-feedback ul { margin: .4rem 0 0; padding-inline-start: 1.2rem; }
+.hsr-calculation-feedback li + li { margin-top: .25rem; }
+
+.hsr-attack-input-notice { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin: .65rem 0; padding: .7rem; border: 1px solid var(--teti-border); border-radius: var(--teti-radius-sm); }
+.hsr-attack-input-notice strong { flex-basis: 100%; }
+.hsr-attack-input-notice span { flex: 1 1 12rem; font-size: .8rem; }
+.page-hsr [data-hsr-pending-input][hidden] { display: none !important; }
+#hsrPearlSettings .genshin-condition-control { margin-block: .6rem; }
+#hsrPearlSettings .genshin-condition-detail { margin-top: .8rem; }

@@ -29,7 +29,7 @@ async function tool(savedStorage, extraData) {
     }
     let initialize;
     const document = { body: { classList: { add() {}, remove(){} } }, querySelector:()=>null, getElementById: node, addEventListener: (_, callback) => { initialize = callback; },
-        querySelectorAll: (selector) => selector === "[data-stat]" ? statKeys.map((key) => node(`hsrStat-${key}`)) : selector === ".hsr-build-fieldset input,.hsr-build-fieldset select" ? formIds.map(node) : [] };
+        querySelectorAll: (selector) => selector === "[data-stat]" ? statKeys.map((key) => node(`hsrStat-${key}`)) : selector === ".hsr-build-fieldset input,.hsr-build-fieldset select" ? formIds.map(node) : selector === '[aria-invalid="true"]' ? [...nodes.values()].filter((item) => item.attributes["aria-invalid"] === "true") : [] };
     const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
     const data = { characters: [
         { id: "sample", name: "Sample", element: "Ice", skills: [], base: { hp: 1000, atk: 500, def: 400, speed: 100 } },
@@ -54,6 +54,15 @@ async function tool(savedStorage, extraData) {
     return { window, state, node, calculate, storage };
 }
 
+function pearlInput(app, id, value, event = "change") {
+    app.state.conditionTab = "軌跡";
+    app.node("hsrConditionDialogOpen").handlers.click();
+    const input = app.node(id);
+    input.value = value;
+    app.node("hsrConditionDialog").handlers[event]({ target: input });
+    return input;
+}
+
 test("manual final stats require only used HP/ATK/DEF and preserve legitimate zero bonuses", async () => {
     const app = await tool();
     assert.equal(app.calculate().length, 0, "initial ATK zero must not produce damage");
@@ -76,7 +85,7 @@ test("an invalid attack field leaves unrelated valid attacks calculable", async 
     const results = app.calculate();
     assert.equal(results.length, 1);
     assert.equal(results[0].breakdown.baseDamage, 1000);
-    assert.match(app.node("hsrCalculationFeedback").innerHTML, /防御力/);
+    assert.match(app.node("hsrResults").innerHTML, /data-hsr-input-target="hsrStat-def"/);
 });
 
 
@@ -92,10 +101,16 @@ test("calculation feedback marks and focuses the offending field without requiri
     app.node("hsrStat-atk").value = "";
     assert.equal(app.calculate().length, 0);
     assert.equal(app.node("hsrStat-atk").attributes["aria-invalid"], "true");
+    assert.equal(app.node("hsrWarnings").hidden, true, "missing input is inline feedback, not a warning panel");
     assert.match(app.node("hsrCalculationFeedback").innerHTML, /data-hsr-input-target="hsrStat-atk"/);
     app.node("hsrCalculationFeedback").handlers.click({ target: { closest: () => ({ dataset: { hsrInputTarget: "hsrStat-atk" } }) } });
     assert.equal(app.node("hsrStat-atk").focused.preventScroll, true);
     assert.equal(app.node("hsrStat-atk").scrolled.behavior, "smooth"); assert.equal(app.node("hsrStat-atk").scrolled.block, "center");
+    app.node("hsrStat-atk").value = "1000";
+    app.node("hsrStat-atk").handlers.input();
+    assert.equal(app.node("hsrWarnings").hidden, true);
+    assert.equal(app.node("hsrCalculationFeedback").innerHTML, "");
+    assert.equal(app.node("hsrDirtyNotice").hidden, false, "editing keeps prior results marked stale");
 });
 
 test("UID missing stats cannot retain a previous character's final stats", async () => {
@@ -127,7 +142,7 @@ test("Tingyun uses character plus cone base ATK and refuses unavailable level ba
     app.state.party[0].atk = 4000;
     app.node("hsrLevel").value = "70";
     assert.equal(app.calculate().length, 0);
-    assert.match(app.node("hsrWarnings").innerHTML, /基礎/);
+    assert.match(app.node("hsrCalculationFeedback").innerHTML, /基礎/);
     app.state.modifierInputs["tingyun-benediction"] = false;
     assert.equal(app.calculate()[0].breakdown.baseDamage, 1000);
     app.node("hsrLevel").value = "80";
@@ -143,7 +158,7 @@ test("missing base stats cannot silently drop active statPercent buffs", async (
     assert.equal(app.calculate()[0].breakdown.baseDamage, 1250);
     app.node("hsrLevel").value = "70";
     assert.equal(app.calculate().length, 0);
-    assert.match(app.node("hsrWarnings").innerHTML, /基礎/);
+    assert.match(app.node("hsrResults").innerHTML,/data-hsr-pending-input/);
 });
 
 test("blank and invalid character levels do not fall back to a different damage level", async () => {
@@ -288,7 +303,7 @@ test("active Tingyun Benediction refuses a missing or invalid provider trace lev
     for (const level of [0, -1, 16, 1.5]) {
         app.state.party[0].level = level;
         assert.equal(app.calculate().length, 0, `invalid provider level ${level}`);
-        assert.match(app.node("hsrWarnings").innerHTML, /停雲.*軌跡Lv/);
+        assert.match(app.node("hsrResults").innerHTML,/data-hsr-pending-input/);
         assert.ok(!app.node("hsrResults").innerHTML.includes("hsr-attack-result"));
     }
     for (const [level, baseDamage] of [[1, 1125], [10, 1250]]) {
@@ -392,7 +407,7 @@ test('Cyrene manual zone effect validates source, displays only actual True fact
     app.state.data.attacks = [{ ...app.state.data.attacks[0], characterId: '1415', scalingStat: 'hp' }, effect];
     app.node('hsrTrueDamageActive').value = 'true';
     assert.equal(app.calculate().length, 0);
-    assert.match(app.node('hsrWarnings').innerHTML, /元ダメージ/);
+    assert.match(app.node('hsrCalculationFeedback').innerHTML, /元ダメージ/);
     app.node('hsrTrueDamageSourceKind').value = 'finalNonTrueDamage';
     app.node('hsrOriginalDamage').value = '1080';
     assert.ok(Math.abs(app.calculate()[0].nonCrit - 259.2) < 1e-9);
@@ -439,7 +454,7 @@ test("Pearl calculates only her registered DEF Basic ATK and explains other skil
     for (const value of ['0', '', '-1', 'invalid']) {
         app.node('hsrStat-def').value = value;
         assert.equal(app.calculate().length, 0);
-        assert.match(app.node('hsrWarnings').innerHTML, /防御力/);
+        assert.match(app.node('hsrCalculationFeedback').innerHTML, /防御力/);
     }
     app.node('hsrStat-def').value = '3000';
     const results = app.calculate();
@@ -469,7 +484,7 @@ for (const [cid, id, stat, value, label, multiplier] of [['1512','151201','hp','
         for (const invalid of ['0', '', '-1', 'invalid']) {
             app.node('hsrStat-' + stat).value = invalid;
             assert.equal(app.calculate().length, 0);
-            assert.ok(app.node('hsrWarnings').innerHTML.includes(label));
+            assert.match(app.node('hsrResults').innerHTML,/data-hsr-pending-input/);
         }
         app.node('hsrStat-' + stat).value = value;
         const result = app.calculate()[0];
@@ -495,12 +510,12 @@ test('Summer Robin Fever party input stops invalid Vibes and reports DEF ignore 
   app.node('hsrEnemyLevel').value='80';app.node('hsrEnemyResistance').value='20';app.node('hsrToughnessState').value='active';
   assert.ok(Math.abs(app.calculate()[0].nonCrit-972)<1e-9);
   app.state.modifierInputs['robin-summeretto-fever']=true;
-  assert.equal(app.calculate().length,0);assert.match(app.node('hsrWarnings').innerHTML,/バイブス/);
+  assert.equal(app.calculate().length,0);assert.match(app.node('hsrResults').innerHTML,/data-hsr-pending-input/);
   app.state.modifierInputs['robin-summeretto-vibes']=50;
   assert.ok(Math.abs(app.calculate()[0].nonCrit-1215)<1e-9);
   assert.match(app.node('hsrResults').innerHTML,/0%／40%/);
   assert.match(app.node('hsrResults').innerHTML,/×0.625/);
-  app.state.party[0].eidolon=1;assert.equal(app.calculate().length,0);assert.match(app.node('hsrWarnings').innerHTML,/星魂0/);
+  app.state.party[0].eidolon=1;assert.equal(app.calculate().length,0);assert.match(app.node('hsrResults').innerHTML,/data-hsr-pending-input/);
   app.state.party[0].eidolon=0;app.state.party[0].level=0;assert.equal(app.calculate().length,0);
   app.state.party[0].level=10;app.state.modifierInputs['robin-summeretto-fever']=false;
   assert.ok(Math.abs(app.calculate()[0].nonCrit-972)<1e-9);
@@ -514,11 +529,11 @@ test('UID import preserves precision, refuses missing crit/trace data and clears
     assert.equal(app.state.coneId,'cone');assert.equal(app.node('hsrConeLevel').value,60);
     assert.equal(app.node('hsrStat-atk').value,'1234');
     assert.ok(Math.abs(app.calculate()[0].breakdown.referenceValue-1234.567891)<1e-9);
-    const missingRank=structuredClone(profile);delete missingRank.lightCone.rank;app.window.HsrTool.applyProfileCharacter(missingRank);assert.equal(app.calculate().length,0);assert.match(app.node('hsrWarnings').innerHTML,/重畳ランク/);
+    const missingRank=structuredClone(profile);delete missingRank.lightCone.rank;app.window.HsrTool.applyProfileCharacter(missingRank);assert.equal(app.calculate().length,0);assert.match(app.node('hsrCalculationFeedback').innerHTML,/重畳ランク/);
     const missing=structuredClone(profile);delete missing.stats.critRate;missing.traces=[];
     app.window.HsrTool.applyProfileCharacter(missing);
     assert.equal(app.node('hsrStat-critRate').value,'');assert.equal(app.node('hsrNormalTrace').value,'');
-    assert.equal(app.calculate().length,0);assert.match(app.node('hsrWarnings').innerHTML,/会心率/);
+    assert.equal(app.calculate().length,0);assert.match(app.node('hsrCalculationFeedback').innerHTML,/会心率/);
     app.node('hsrStat-critRate').value='0';assert.equal(app.calculate().length,0,'missing trace must not become max level');
     app.node('hsrNormalTrace').value='6';assert.equal(app.calculate().length,1);
     app.window.HsrTool.applyProfileCharacter({...profile,id:'not-in-catalog'});
@@ -547,7 +562,7 @@ test('HSR autosave restores inputs, party, equipment and conditions without stor
     assert.equal(restored.state.party[0].atk,2345.678901);assert.equal(restored.state.modifierInputs['tingyun-benediction'],true);assert.equal(restored.state.conditions[0].value,30.5);
     assert.equal(restored.node('hsrDirtyNotice').hidden,false);assert.doesNotMatch(restored.node('hsrResults').innerHTML,/hsr-attack-result/);
     assert.equal(restored.calculate().length,3, 'normal and Tingyun supplemental attacks are regenerated');
-    restored.state.coneId='removed-cone';assert.equal(restored.calculate().length,0,'missing cone IDs cannot supply a guessed base for percentage buffs');assert.match(restored.node('hsrWarnings').innerHTML,/基礎攻撃力/);
+    restored.state.coneId='removed-cone';assert.equal(restored.calculate().length,0,'missing cone IDs cannot supply a guessed base for percentage buffs');assert.match(restored.node('hsrCalculationFeedback').innerHTML,/基礎攻撃力/);
     restored.node('hsrClearSavedInputs').handlers.click();assert.equal(app.storage.has(key),false);assert.equal(app.storage.get('tetinet:hsr:lastUid:v1'),'100000001');
 });
 
@@ -663,7 +678,7 @@ test("latest gear uses existing controls and restores rank, pieces and effect to
     restored.state.modifierInputs["lc-23055-vulnerability-active"] = false;
     assert.ok(Math.abs(restored.calculate()[0].nonCrit - 972) < 1e-9);
     restored.state.relicMode = "4pc"; restored.node("hsrRelicMode").value = "4pc"; restored.node("hsrLevel").value = "79";
-    assert.equal(restored.calculate().length, 0); assert.match(restored.node("hsrWarnings").innerHTML, /基礎攻撃力/);
+    assert.equal(restored.calculate().length, 0); assert.match(restored.node("hsrCalculationFeedback").innerHTML, /基礎攻撃力/);
 });
 
 
@@ -719,7 +734,7 @@ test("Pearl party E1 restores eidolon, automatic path count and toggle, and bloc
   restored.state.modifierInputs["pearl-e1-party-elation"]=false;
   assert.equal(restored.calculate().find(r=>r.breakdown.damageFormula==="elation").breakdown.elationPercent,50);
   restored.state.party[2].characterId="missing";restored.state.modifierInputs["pearl-e1-party-elation"]=true;
-  assert.equal(restored.calculate().length,1,"unknown party member excludes only the E1 elation bonus");assert.match(restored.node("hsrWarnings").innerHTML,/愉悦人数を確認できません/);
+  assert.equal(restored.calculate().length,1,"unknown party member excludes only the E1 elation bonus");assert.match(restored.node("hsrResults").innerHTML,/data-hsr-pending-input/);
   restored.state.modifierInputs["pearl-e1-party-elation"]=false;
   assert.ok(restored.calculate().length>0,"unknown party member must not block an inactive E1");
 });
@@ -744,14 +759,14 @@ test("Summer Songbirds uses independent talent level, validates Fever state and 
   assert.equal(restored.state.modifierInputs["robin-songbirds-count"],3);assert.equal(restored.state.modifierInputs["robin-songbirds-vulnerability"],true);
   assert.ok(Math.abs(restored.calculate()[0].nonCrit-1259.7988826815642)<1e-9);
   set("robin-songbirds-talent-level","1");assert.ok(Math.abs(app.calculate()[0].nonCrit-1172.9162011173185)<1e-9);
-  set("robin-songbirds-count","2");assert.equal(app.calculate().length,0);assert.match(app.node("hsrWarnings").innerHTML,/3体必要/);
+  set("robin-songbirds-count","2");assert.equal(app.calculate().length,0);assert.match(app.node("hsrResults").innerHTML,/data-hsr-pending-input/);
   app.state.modifierInputs["robin-summeretto-fever"]=false;
   set("robin-songbirds-count","");assert.equal(app.calculate().length,0);assert.ok(Number.isNaN(app.state.modifierInputs["robin-songbirds-count"]));
   const blank=await tool(app.storage,extraData);assert.ok(Number.isNaN(blank.state.modifierInputs["robin-songbirds-count"]));assert.equal(blank.calculate().length,0);
   set("robin-songbirds-count","0");assert.ok(Math.abs(app.calculate()[0].nonCrit-972)<1e-9);
   set("robin-songbirds-count","4");assert.equal(app.calculate().length,0);
   set("robin-songbirds-count","1.5");assert.equal(app.calculate().length,0);
-  set("robin-songbirds-count","1");set("robin-songbirds-talent-level","");assert.equal(app.calculate().length,0);assert.match(app.node("hsrWarnings").innerHTML,/精霊天賦Lv/);
+  set("robin-songbirds-count","1");set("robin-songbirds-talent-level","");assert.equal(app.calculate().length,0);assert.match(app.node("hsrResults").innerHTML,/data-hsr-pending-input/);
   app.state.modifierInputs["robin-songbirds-vulnerability"]=false;assert.ok(Math.abs(app.calculate()[0].nonCrit-972)<1e-9);
 });
 
@@ -790,33 +805,29 @@ test("Pearl enhanced Basic is opt-in manual scope and restores its confirmation 
   for(const [k,v]of Object.entries({def:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
   assert.equal(app.calculate().length,1);
   const key="pearl-non-elation-deep-learning";
-  // Enhanced Basic requires explicit mode, remaining charges and a concrete non-Elation party member.
-  app.node("hsrPearlMode").value="enhanced";
-  app.node("hsrPearlCharges").value="1";
-  app.node("hsrPearlCanvas").value="1210";
-  app.node("hsrPearlExtraElation").value="0";
-  app.state.modifierInputs[key]=true;
-  app.state.modifierInputs["pearl-charges"]=1;
-  app.state.modifierInputs["pearl-canvas"]=1210;
   app.state.party[0]={characterId:"1210"};
-  app.state.modifierInputs["pearl-extra-elation"]=0;
+  // Enhanced Basic requires explicit mode, remaining charges and a concrete non-Elation party member.
+  pearlInput(app,"hsrPearlMode","enhanced");
+  pearlInput(app,"hsrPearlCharges","present");
+  pearlInput(app,"hsrPearlCanvas","1210");
+  pearlInput(app,"hsrPearlExtraElation","0");
   const r=app.calculate().find(r=>r.attack.name.includes("波頭描き"));assert.ok(Math.abs(r.nonCrit-1080)<1e-9);assert.equal(r.breakdown.referenceValue,3000);
-  assert.equal(app.node("hsrPearlMode").value,"enhanced");
-  assert.equal(app.node("hsrPearlCharges").value,"1");
+  assert.equal(app.state.modifierInputs[key],true);
+  assert.equal(app.state.modifierInputs["pearl-charges"],1);
   assert.equal(app.node("hsrPearlCanvas").value,"1210");
   assert.match(app.node("hsrResults").innerHTML,/3,000 × 100%/);
   app.node("hsrStat-def").handlers.input();const restored=await tool(app.storage,extraData);assert.equal(restored.state.modifierInputs[key],true);
   restored.state.party[0]={characterId:"1210"};
-  restored.node("hsrPearlMode").value="enhanced";
-  restored.node("hsrPearlCharges").value="1";
-  restored.node("hsrPearlCanvas").value="1210";
-  restored.node("hsrPearlExtraElation").value="0";
+  restored.state.conditionTab="軌跡";restored.node("hsrConditionDialogOpen").handlers.click();
+  assert.equal(restored.node("hsrPearlMode").value,"enhanced");
+  assert.equal(restored.node("hsrPearlCharges").value,"present");
+  assert.equal(restored.node("hsrPearlCanvas").value,"1210");
   assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("波頭描き")).nonCrit-r.nonCrit)<1e-9);
   // Charge, archetype and external extra damage are manually confirmed, not inferred from party membership.
   // Any failed/unknown physical condition must leave this single confirmation OFF.
-  restored.node("hsrPearlMode").value="normal";
+  pearlInput(restored,"hsrPearlMode","normal");
   assert.equal(restored.calculate().some(r=>r.attack.name.includes("波頭描き")),false);
-  restored.node("hsrPearlMode").value="enhanced";
+  pearlInput(restored,"hsrPearlMode","enhanced");
   restored.node("hsrNormalTrace").value="1";assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("波頭描き")).nonCrit-540)<1e-9);
   restored.node("hsrNormalTrace").value="7";assert.equal(restored.calculate().some(r=>r.attack.name.includes("波頭描き")),false);assert.match(restored.node("hsrCalculationFeedback").innerHTML,/Lv1～6/);
   restored.node("hsrNormalTrace").value="6";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().some(r=>r.attack.name.includes("波頭描き")),false);
@@ -988,7 +999,7 @@ test("scoped Lingsha and Firefly Skills preserve confirmation, inputs, limits an
         restored.state.modifierInputs[key] = true;
         for (const val of ["", "0", "-1", "invalid"]) { restored.node("hsrStat-atk").value = val; assert.equal(restored.calculate().length, 0); }
         restored.node("hsrStat-atk").value = "3000"; restored.node("hsrSkillTrace").value = "11";
-        assert.equal(restored.calculate().length, 0); assert.match(restored.node("hsrWarnings").innerHTML, /Lv1～10/);
+        assert.equal(restored.calculate().length, 0); assert.match(restored.node("hsrResults").innerHTML, /data-hsr-pending-input/);
         restored.node("hsrSkillTrace").value = "10"; restored.node("hsrEnemyCount").value = "2"; assert.equal(restored.calculate().length, 0);
         restored.node("hsrEnemyCount").value = "1"; restored.node("hsrEidolon").value = "1"; assert.equal(restored.calculate().length, 0);
     }
@@ -1117,7 +1128,7 @@ test("Jiaoqiu same-level five-roast Zone scope restores and rejects unsupported 
     app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);
     assert.equal(restored.state.modifierInputs["jiaoqiu-five-roast-zone"],true);assert.ok(Math.abs(restored.calculate()[1].nonCrit-1620)<1e-8);
     restored.state.modifierInputs["jiaoqiu-five-roast-zone"]=false;assert.equal(restored.calculate().length,0);restored.state.modifierInputs["jiaoqiu-five-roast-zone"]=true;
-    for(const id of ["hsrTalentTrace","hsrUltimateTrace"]) { restored.node(id).value="11";assert.equal(restored.calculate().length,0);assert.match(restored.node("hsrWarnings").innerHTML,/参照する/);restored.node(id).value="10"; }
+    for(const id of ["hsrTalentTrace","hsrUltimateTrace"]) { restored.node(id).value="11";assert.equal(restored.calculate().length,0);assert.match(restored.node("hsrResults").innerHTML,/data-hsr-pending-input/);restored.node(id).value="10"; }
     for(const v of ["","0","-1","invalid"]){restored.node("hsrStat-atk").value=v;assert.equal(restored.calculate().length,0);}
     restored.node("hsrStat-atk").value="3000";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().length,0);
     restored.node("hsrEnemyCount").value="1";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().length,0);
@@ -1209,13 +1220,13 @@ test("Independent Break and Super Break modes need no direct ATK, validate input
     assert.ok(app.node("hsrResults").innerHTML.includes(Math.round(expected).toLocaleString("en-US")));assert.match(app.node("hsrResults").innerHTML,/基礎削靭値/);assert.match(app.node("hsrResults").innerHTML,/芳酔・撃破被ダメージ増加/);
     app.node("hsrSuperBreakToughness").handlers.input();const restored=await tool(app.storage,{characters:app.state.data.characters,structuredModifiers:mods});
     assert.equal(restored.node("hsrBreakMode").value,"superBreak");assert.equal(restored.node("hsrSuperBreakToughness").value,"12.5");restored.calculate();assert.ok(restored.node("hsrResults").innerHTML.includes(Math.round(expected).toLocaleString("en-US")));
-    for(const v of ["","0","-1","bad"]){restored.node("hsrSuperBreakToughness").value=v;restored.calculate();assert.match(restored.node("hsrWarnings").innerHTML,/基礎削靭値/);}
-    restored.node("hsrSuperBreakToughness").value="10";restored.node("hsrToughnessState").value="active";restored.calculate();assert.match(restored.node("hsrWarnings").innerHTML,/弱点撃破状態/);
+    for(const v of ["","0","-1","bad"]){restored.node("hsrSuperBreakToughness").value=v;restored.calculate();assert.match(restored.node("hsrCalculationFeedback").innerHTML,/基礎削靭値/);}
+    restored.node("hsrSuperBreakToughness").value="10";restored.node("hsrToughnessState").value="active";restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/弱点撃破状態/);
     restored.node("hsrToughnessState").value="broken";restored.node("hsrSuperBreakMultiplier").value="0";restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/class="genshin-result-value">0<\/span>/);
     restored.node("hsrBreakMode").value="break";restored.node("hsrWeakness").value="true";restored.node("hsrMaxToughness").value="120";restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/弱点撃破・適用された補正/);
-    restored.node("hsrStat-breakEffect").value="";restored.calculate();assert.match(restored.node("hsrWarnings").innerHTML,/撃破特効/);
+    restored.node("hsrStat-breakEffect").value="";restored.calculate();assert.match(restored.node("hsrCalculationFeedback").innerHTML,/撃破特効/);
     restored.node("hsrStat-breakEffect").value="0";restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/弱点撃破・適用された補正/);
-    restored.node("hsrBreakMode").value="attacks";restored.calculate();assert.match(restored.node("hsrWarnings").innerHTML,/攻撃力/);
+    restored.node("hsrBreakMode").value="attacks";restored.calculate();assert.match(restored.node("hsrCalculationFeedback").innerHTML,/攻撃力/);
 });
 
 
@@ -1230,7 +1241,7 @@ test("Fanning composite restores selected scope and rejects partial or unsupport
     assert.match(app.node("hsrResults").innerHTML,/通常部分の全段合算/);assert.match(app.node("hsrResults").innerHTML,/天賦撃破は会心しません/);
     app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);assert.ok(Math.abs(restored.calculate()[0].nonCrit-r.nonCrit)<1e-8);
     for(const value of [0,4,1.5,NaN]){restored.state.modifierInputs["boothill-pocket-stacks"]=value;assert.equal(restored.calculate().length,0);}
-    restored.state.modifierInputs["boothill-pocket-stacks"]=3;restored.node("hsrMaxToughness").value="161";assert.equal(restored.calculate().length,1);restored.node("hsrMaxToughness").value="481";assert.equal(restored.calculate().length,0);assert.match(restored.node("hsrWarnings").innerHTML,/480以下/);
+    restored.state.modifierInputs["boothill-pocket-stacks"]=3;restored.node("hsrMaxToughness").value="161";assert.equal(restored.calculate().length,1);restored.node("hsrMaxToughness").value="481";assert.equal(restored.calculate().length,0);assert.match(restored.node("hsrResults").innerHTML,/data-hsr-pending-input/);
     restored.node("hsrMaxToughness").value="120";restored.node("hsrToughnessState").value="active";assert.equal(restored.calculate().length,0);
     restored.node("hsrToughnessState").value="broken";restored.node("hsrWeakness").value="false";assert.equal(restored.calculate().length,0);
     restored.node("hsrWeakness").value="true";restored.node("hsrStat-breakEffect").value="";assert.equal(restored.calculate().length,0);
@@ -1250,7 +1261,7 @@ test("enemy inputs cannot silently become zero or clamped one-enemy conditions a
     for (const value of invalidValues) {
       app.node(id).value = value;
       assert.equal(app.calculate().length, 0, `${id}=${value}`);
-      assert.match(app.node("hsrWarnings").innerHTML, message);
+      assert.match(app.node("hsrCalculationFeedback").innerHTML, message);
       assert.doesNotMatch(app.node("hsrResults").innerHTML, /hsr-attack-result/);
     }
     app.node(id).value = valid;
@@ -1263,7 +1274,7 @@ test("enemy inputs cannot silently become zero or clamped one-enemy conditions a
   const restored = await tool(app.storage);
   assert.equal(restored.node("hsrEnemyResistance").value, "");
   assert.equal(restored.calculate().length, 0);
-  assert.match(restored.node("hsrWarnings").innerHTML, /敵の耐性/);
+  assert.match(restored.node("hsrCalculationFeedback").innerHTML, /敵の耐性/);
 });
 
 
@@ -1350,14 +1361,14 @@ test("UID party support cannot silently substitute a default for a missing trace
     app.state.party[0]={...app.state.party[0],characterId:"1202",source:"api",level:10,traceLevels:{skill:NaN,talent:9},atk:3000};
     app.state.modifierInputs["tingyun-benediction"]=true;
     assert.equal(app.calculate().length,0);
-    assert.match(app.node("hsrWarnings").innerHTML,/軌跡Lvが未取得/);
+    assert.match(app.node("hsrResults").innerHTML,/data-hsr-pending-input/);
     app.node("hsrPartyDialogOpen").handlers.click();
     assert.match(app.node("hsrPartyRows").innerHTML,/data-party-trace="skill" data-slot="0" value=""/);
     app.state.party[0].traceLevels.skill=10;
     assert.ok(app.calculate().length>0);
     app.state.party[0].atk=NaN;
     assert.equal(app.calculate().length,0);
-    assert.match(app.node("hsrWarnings").innerHTML,/未取得/);
+    assert.match(app.node("hsrResults").innerHTML,/data-hsr-pending-input/);
 });
 
 

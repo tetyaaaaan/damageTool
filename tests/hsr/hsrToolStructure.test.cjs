@@ -188,7 +188,7 @@ test("HSR action value uses an explicit themed input and calculation scrolls to 
     assert.match(css, /\.hsr-action-value-card \.genshin-field input/);
     assert.match(css, /background:\s*var\(--teti-surface\)/);
     assert.match(css, /#hsrResultPanel[^}]*scroll-margin-top/);
-    assert.match(source, /\$\("hsrResultPanel"\)\.scrollIntoView\(\{ behavior: "smooth", block: "start" \}\)/);
+    assert.match(source, /window\.scrollTo\(\{ top: Math\.max\(0, panel\.getBoundingClientRect\(\)\.top \+ window\.pageYOffset/);
 });
 
 test("HSR production page has image selection, party and condition dialogs", () => {
@@ -294,7 +294,7 @@ test("HSR condition modal follows the Genshin category and card format", () => {
     assert.match(source, /0%（条件未達）/);
     assert.match(source, /\["statThreshold", "numericThreshold"\][^\n]+label: "条件未達"/);
     assert.match(source, /現在の\$\{reference\[0\]\}/);
-    assert.match(source, /scrollRegion\.scrollTop = 0/);
+    assert.match(source, /region\.scrollTop = 0/);
     assert.match(html, /id="hsrConditionDialogOpen"[^>]*>補正条件を確認・設定<\/button>/);
     assert.match(source, /「最終入力で管理」は再加算なし。「表示のみ」は計算対象外です。/);
 });
