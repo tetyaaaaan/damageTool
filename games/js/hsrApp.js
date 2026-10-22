@@ -745,7 +745,7 @@
 
   function supportBadge(attack) {
     const support = attackSupport(attack);
-    return `<p class="hsr-support-status" data-support-status="${support.status}">${esc(support.label)}</p>`;
+    return `<p class="hsr-support-status" data-support-status="${support.status}">${esc(support.label)}</p>${support.status === "review" ? `<p class="hsr-formula-note">この攻撃は倍率・効果の個別検証が未完了のため参考値です。${esc(attack.support?.reason || "")}</p>` : ""}`;
   }
 
   function damageValues(result) {
@@ -808,41 +808,63 @@
 
   const RESULT_GROUPS = [
     { id: "damage", label: "通常", types: ["normal", "enhancedNormal"] },
-    { id: "skill", label: "スキル", types: ["skill", "enhancedSkill", "memospriteSkill"] },
+    { id: "skill", label: "スキル", types: ["skill", "enhancedSkill"] },
     { id: "ultimate", label: "必殺技", types: ["ultimate"] },
-    { id: "followUp", label: "追加攻撃", types: ["followUp", "additional", "talent", "memospriteTalent"] },
+    { id: "memosprite", label: "精霊", types: ["memospriteSkill", "memospriteTalent"] },
+    { id: "followUp", label: "追加攻撃", types: ["followUp"] },
+    { id: "elation", label: "愉悦", types: ["elation"] },
+    { id: "joint", label: "連携", types: [] },
+    { id: "dot", label: "持続ダメージ", types: ["dot"] },
+    { id: "break", label: "撃破", types: ["break"] },
+    { id: "superBreak", label: "超撃破", types: ["superBreak"] },
+    { id: "trueDamage", label: "確定ダメージ", types: ["trueDamage"] },
+    { id: "additional", label: "付加ダメージ", types: ["additional"] },
+    { id: "talent", label: "天賦", types: ["talent"] },
+    { id: "technique", label: "秘技", types: ["technique"] },
+    { id: "assist", label: "支援", types: ["assist"] },
     { id: "other", label: "その他", types: [] }
   ];
-  function resultGroup(type) { return RESULT_GROUPS.find((group) => group.types.includes(type))?.id || "other"; }
+  // Presentation only: Joint ATKs retain their original damage type for calculation.
+  // Fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 skill IDs; KQM memosprite-mechanics, Damage and Joint Attacks.
+  const JOINT_ATTACK_SKILLS = new Set(["140208", "140709", "800708", "800808"]);
+  function isJointAttack(attack) { return attack.tags?.includes("joint") || JOINT_ATTACK_SKILLS.has(String(attack.sourceSkillId || attack.id)); }
+  function resultGroup(attack) {
+    if (isJointAttack(attack)) return "joint";
+    if (["talent", "additional"].includes(attack.type) && attack.tags?.includes("followUp")) return "followUp";
+    return RESULT_GROUPS.find((group) => group.types.includes(attack.type))?.id || "other";
+  }
 
   function renderResults(results, breakResult, specialBreakResults = [], unavailableAttacks = [], superBreakResult = null) {
     let index = 0;
     const hasCritical = results.some(({result}) => result.attack.canCrit);
     const groups = Object.fromEntries(RESULT_GROUPS.map((group) => [group.id, []]));
+    const unsupported = Object.fromEntries(RESULT_GROUPS.map((group) => [group.id, []]));
     const detailToggle = (id, name) => `<button type="button" class="genshin-result-detail-toggle" data-hsr-result-detail="${id}" aria-expanded="false" aria-controls="${id}" aria-label="${esc(name)}の計算内訳を開く"><span class="genshin-detail-toggle-label">詳細</span><span class="genshin-detail-toggle-icon" aria-hidden="true">▼</span></button>`;
-    const addRow = (group, name, meta, values, detail, badge = "", reference = false) => {
+    const addRow = (group, name, meta, values, detail, badge = "", reference = false, scopeNote = "") => {
       const id = `hsr-result-detail-${index++}`;
       if (!hasCritical) values = values.slice(0,1);
-      groups[group].push(`<tr class="genshin-damage-result-row"><th scope="row"><div class="genshin-result-attack-head"><strong title="${esc(name)}">${esc(name)}</strong>${detailToggle(id, name)}</div><small>${esc(meta)}${reference ? '・<span class="hsr-reference-label">参考値</span>' : ""}</small>${reference ? '<span class="hsr-mobile-reference-label">参考値</span>' : ""}</th>${values.map(([label, value]) => `<td${label === "会心" ? ' class="is-critical"' : ""} data-label="${label}"><span class="genshin-result-value">${value === null ? "—" : fmt(value)}</span></td>`).join("")}</tr><tr class="genshin-damage-detail-row" id="${id}" hidden><td colspan="${values.length+1}"><div class="genshin-json-breakdown hsr-result-details">${badge}${detail}</div></td></tr>`);
+      groups[group].push(`<tr class="genshin-damage-result-row"><th scope="row"><div class="genshin-result-attack-head"><strong title="${esc(name)}">${esc(name)}</strong>${detailToggle(id, name)}</div><small>${esc(meta)}${reference ? '・<span class="hsr-reference-label">参考値</span>' : ""}</small>${reference ? '<span class="hsr-mobile-reference-label">参考値</span>' : ""}${scopeNote ? `<span class="hsr-result-scope-label">${esc(scopeNote)}</span>` : ""}</th>${values.map(([label, value]) => `<td${label === "会心" ? ' class="is-critical"' : ""} data-label="${label}"><span class="genshin-result-value">${value === null ? "—" : fmt(value)}</span></td>`).join("")}</tr><tr class="genshin-damage-detail-row" id="${id}" hidden><td colspan="${values.length+1}"><div class="genshin-json-breakdown hsr-result-details">${badge}${detail}</div></td></tr>`);
     };
     results.forEach(({ result, adjacent, attack }) => {
       [ [result, adjacent ? "主対象" : ""], ...(adjacent ? [[adjacent, "隣接対象"]] : []) ].forEach(([value, target]) => {
         const name = result.attack.name + (target ? `・${target}` : "");
-        const scope = [ATTACK_LABELS[attack.type] || attack.type, attack.traceLevelLabel || `Lv${attack.traceLevel}`, TARGET_LABELS[value.attack.target] || value.attack.target, value.attack.hitCountLabel || `${value.attack.hitCount || 1}ヒット`].join("・");
+        const partialJoint = JOINT_ATTACK_SKILLS.has(String(attack.sourceSkillId || attack.id)) && attackSupport(attack).status === "review";
+        const scope = [ATTACK_LABELS[attack.type] || attack.type, isJointAttack(attack) ? "連携" : "", attack.type !== "followUp" && attack.tags?.includes("followUp") ? "追加攻撃" : "", attack.traceLevelLabel || `Lv${attack.traceLevel}`, TARGET_LABELS[value.attack.target] || value.attack.target, value.attack.hitCountLabel || `${value.attack.hitCount || 1}ヒット`].filter(Boolean).join("・");
         const values = value.attack.canCrit ? [["非会心", value.nonCrit], ["会心", value.crit], ["期待値", value.expected]] : [["ダメージ", value.nonCrit], ["会心", null], ["期待値", null]];
-        addRow(resultGroup(attack.type), name, scope, values, damageBreakdown(value, target || "1対象分") + `<details class="hsr-result-audit"><summary>適用・除外された補正</summary>${modifierAudit(value, target || "1対象分")}</details>`, supportBadge(attack), attackSupport(attack).status === "review");
+        addRow(resultGroup(attack), name, scope, values, damageBreakdown(value, target || "1対象分") + `<details class="hsr-result-audit"><summary>適用・除外された補正</summary>${modifierAudit(value, target || "1対象分")}</details>`, supportBadge(attack) + (partialJoint ? '<p class="hsr-formula-note">現在のレコードは単一成分の参考値です。キャラクターと精霊の全成分を合算した連携ダメージではありません。</p>' : ""), attackSupport(attack).status === "review", partialJoint ? "連携全体の合計には未対応" : "");
       });
     });
     const breakDetails = (value, isSuper) => `<dl>${(isSuper ? [["撃破基礎値",value.base],["基礎削靭値",value.toughnessDamage],["撃破効率倍率",value.breakEfficiency],["補正後削靭値",value.effectiveToughnessDamage],["発生倍率",value.conversionMultiplier],["撃破特効倍率",value.breakEffect],["防御倍率",value.defense],["耐性倍率",value.resistance],["被ダメージ倍率",value.vulnerability],["超撃破与ダメージ倍率",value.superBreakBonus]] : [["撃破基礎値",value.base],["属性・攻撃倍率",value.multiplier],["撃破特効倍率",value.effect],["防御倍率",value.defense],["耐性倍率",value.resistance],["最大靭性倍率",value.toughnessScale],["被ダメージ倍率",value.vulnerability]]).map(([label, amount]) => `<div><dt>${label}</dt><dd>${detailNumber(amount)}</dd></div>`).join("")}</dl><p class="hsr-formula-note">独立した1回分です。通常攻撃・他の撃破成分とは合算しません。</p>${modifierAudit(value, isSuper ? "超撃破" : "弱点撃破")}`;
-    const unsupported = [];
     [ ...(breakResult ? [{name:"弱点撃破",value:breakResult}] : []), ...specialBreakResults.map(({attack,result}) => ({name:attack.name,value:result,attack})), ...(superBreakResult ? [{name:"超撃破",value:superBreakResult,isSuper:true}] : []) ].forEach(({name,value,attack,isSuper}) => {
-      if (!value.supported) { unsupported.push(`<p><strong>${esc(name)}</strong>：${esc(value.reason)}</p>`); return; }
-      addRow("other",name,"会心なし・独立した1回分",[["ダメージ",value.value],["会心",null],["期待値",null]],breakDetails(value,isSuper),attack ? supportBadge(attack) : "");
+      if (!value.supported) { unsupported[isSuper ? "superBreak" : "break"].push(`<p><strong>${esc(name)}</strong>：${esc(value.reason)}</p>`); return; }
+      addRow(isSuper ? "superBreak" : "break",name,"会心なし・独立した1回分",[["ダメージ",value.value],["会心",null],["期待値",null]],breakDetails(value,isSuper),attack ? supportBadge(attack) : "");
     });
-    unavailableAttacks.forEach((attack) => unsupported.push(`<article>${supportBadge(attack)}<strong>${esc(attack.name)}</strong><p>${esc(attackSupport(attack).reason || "この攻撃は表示のみのため、ダメージを計算しません。")}</p></article>`));
-    const active = RESULT_GROUPS.find((group) => groups[group.id].length)?.id || "other";
+    unavailableAttacks.forEach((attack) => unsupported[resultGroup(attack)].push(`<article>${supportBadge(attack)}<strong>${esc(attack.name)}</strong><p>${esc(attackSupport(attack).reason || "この攻撃は表示のみのため、ダメージを計算しません。")}</p></article>`));
+    const visibleGroups = RESULT_GROUPS.filter((group) => groups[group.id].length || unsupported[group.id].length);
+    if (!visibleGroups.length) visibleGroups.push(RESULT_GROUPS.find((group) => group.id === "other"));
+    const active = visibleGroups.find((group) => groups[group.id].length)?.id || visibleGroups[0].id;
     const table = (rows, label) => `<div class="genshin-damage-table-wrap"><table class="genshin-damage-table${hasCritical ? "" : " hsr-noncritical-table"}" aria-label="${label}の計算結果"><colgroup><col class="genshin-damage-col-name"><col class="genshin-damage-col-value">${hasCritical ? '<col class="genshin-damage-col-value"><col class="genshin-damage-col-value">' : ""}</colgroup><thead><tr><th scope="col">攻撃名</th><th scope="col">${hasCritical ? "非会心" : "ダメージ"}</th>${hasCritical ? '<th scope="col">会心</th><th scope="col">期待値</th>' : ""}</tr></thead><tbody>${rows.join("")}</tbody></table></div>`;
-    $("hsrResults").innerHTML = `<div class="genshin-result-tabs" role="tablist" aria-label="攻撃種別">${RESULT_GROUPS.map((group) => `<button type="button" class="genshin-result-tab${group.id === active ? " is-active" : ""}" role="tab" id="hsr-result-tab-${group.id}" aria-controls="hsr-result-panel-${group.id}" data-result-tab="${group.id}" aria-selected="${group.id === active}" tabindex="${group.id === active ? "0" : "-1"}">${group.label}</button>`).join("")}</div>${RESULT_GROUPS.map((group) => `<section class="genshin-json-result-section" role="tabpanel" id="hsr-result-panel-${group.id}" aria-labelledby="hsr-result-tab-${group.id}" data-result-panel="${group.id}"${group.id === active ? "" : " hidden"}>${groups[group.id].length ? table(groups[group.id],group.label) : '<p class="genshin-help">この種別に計算できる攻撃はありません。</p>'}${group.id === "other" && unsupported.length ? `<details class="hsr-unavailable-results"><summary>計算不可の攻撃・条件（${unsupported.length}件）</summary>${unsupported.join("")}</details>` : ""}</section>`).join("")}${excludedConditions()}<p class="hsr-support-note">確認中の攻撃は参考値です。計算対応は登録された条件での対応を示し、全条件での精度を保証するものではありません。表示値は丸めています。多段攻撃はヒット合計です。</p>`;
+    $("hsrResults").innerHTML = `<div class="genshin-result-tabs" role="tablist" aria-label="攻撃種別">${visibleGroups.map((group) => `<button type="button" class="genshin-result-tab${group.id === active ? " is-active" : ""}" role="tab" id="hsr-result-tab-${group.id}" aria-controls="hsr-result-panel-${group.id}" data-result-tab="${group.id}" aria-selected="${group.id === active}" tabindex="${group.id === active ? "0" : "-1"}">${group.label}</button>`).join("")}</div>${visibleGroups.map((group) => `<section class="genshin-json-result-section" role="tabpanel" id="hsr-result-panel-${group.id}" aria-labelledby="hsr-result-tab-${group.id}" data-result-panel="${group.id}"${group.id === active ? "" : " hidden"}>${groups[group.id].length ? table(groups[group.id],group.label) : '<p class="genshin-help">この種別に計算できる攻撃はありません。</p>'}${unsupported[group.id].length ? `<details class="hsr-unavailable-results"><summary>計算不可の攻撃・条件（${unsupported[group.id].length}件）</summary>${unsupported[group.id].join("")}</details>` : ""}</section>`).join("")}${excludedConditions()}<p class="hsr-support-note">表示値は丸めています。多段攻撃はヒット合計です。対応条件は各攻撃の詳細で確認できます。</p>`;
   }
 
   function attackElationInputs(attack) {
@@ -903,7 +925,6 @@
     collectInputs(); const warnings = [];
     renderAttacks();
     if (!character()) warnings.push("キャラクターを選択してください。");
-    if (cone() || relic() || relicSecond() || ornament()) warnings.push("常時効果は入力ステータスを使用し、条件付き効果は補正条件で選択した項目だけを適用します。");
     if (!character()) { renderWarnings(warnings); $("hsrResults").innerHTML = '<p class="genshin-help">計算可能なキャラクターを選択してください。</p>'; return; }
     const independentBreak = state.breakInputs.mode !== "attacks";
     const available = availableAttacks();
@@ -916,8 +937,6 @@
       return;
     }
     warnings.push(...attacks.map((attack) => attack.calculationNote).filter(Boolean));
-    const reviewAttackCount = attacks.filter((attack) => attack.support?.status !== "calculable" || !attack.support?.verified).length;
-    if (reviewAttackCount) warnings.push(`このキャラクターの攻撃データ${reviewAttackCount}件は確認中です。計算結果は参考値として表示します。`);
     if (state.modifierInputs["robin-songbirds-vulnerability"] && state.modifierInputs["robin-songbirds-count"] === 3 && !state.modifierInputs["robin-summeretto-fever"]
       && [state.characterId, ...state.party.map((member) => member.characterId)].includes("1512")) warnings.push("夏の歌鳥3体ではフィーバーが成立します。現在は防御無視を除外した比較値です。精霊攻撃・その他支援は計算対象外です。");
     const baseStats = selectedBaseStats();

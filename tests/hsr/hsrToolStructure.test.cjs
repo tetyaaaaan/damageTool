@@ -148,7 +148,8 @@ test("HSR attack data is generated, overrideable, and the page separates calcula
     assert.match(html, /id="hsrEnhancementState"/);
     assert.match(read("games/js/hsrCalcData.js"), /dataFiles\.modifiers/);
     assert.match(read("games/hsr/data/calc/data-files.json"), /modifiers-welt\.json/);
-    assert.match(source, /件は確認中です。計算結果は参考値として表示します/);
+    assert.match(source, /この攻撃は倍率・効果の個別検証が未完了のため参考値です/);
+    assert.doesNotMatch(source, /このキャラクターの攻撃データ.*件は確認中/);
 });
 
 test("HSR enemy controls use selects for mutually exclusive states and never oversized checkboxes", () => {

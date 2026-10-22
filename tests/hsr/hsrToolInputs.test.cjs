@@ -1387,7 +1387,8 @@ test("results reuse the Genshin table and per-attack inline breakdown without ch
     assert.ok(Math.abs(result.crit-2160)<1e-9);
     assert.ok(Math.abs(result.expected-1620)<1e-9);
     for(const cls of ["genshin-damage-table","genshin-damage-result-row","genshin-damage-detail-row","genshin-result-attack-head","genshin-result-detail-toggle"]) assert.ok(html.includes(cls),cls);
-    assert.match(html,/data-result-tab="skill"/);
+    assert.match(html,/data-result-tab="damage"/);
+    assert.doesNotMatch(html,/data-result-tab="skill"/);
     assert.doesNotMatch(html,/data-result-tab="breakdown"/);
     assert.match(html,/aria-expanded="false" aria-controls="hsr-result-detail-0"/);
     app.node("hsr-result-detail-0").hidden=true;
@@ -1395,4 +1396,53 @@ test("results reuse the Genshin table and per-attack inline breakdown without ch
     assert.equal(app.node("hsr-result-detail-0").hidden,false);
     app.node("hsrResults").handlers.click({target:{closest:(selector)=>selector==="[data-hsr-result-detail]"?{dataset:{hsrResultDetail:"hsr-result-detail-0"},setAttribute(){},querySelector:()=>null}:null}});
     assert.equal(app.node("hsr-result-detail-0").hidden,true);
+});
+
+
+test("HSR result categories separate sprites, Elation, DoT and talents and retain overlapping damage types", async () => {
+    const app=await tool();
+    const base=app.state.data.attacks[0];
+    app.state.data.attacks=[
+      {...base,id:"normal"},
+      {...base,id:"skill",type:"skill"},
+      {...base,id:"sprite-skill",type:"memospriteSkill"},
+      {...base,id:"sprite-talent",type:"memospriteTalent"},
+      {...base,id:"talent",type:"talent"},
+      {...base,id:"additional",type:"additional"},
+      {...base,id:"follow",type:"followUp"},
+      {...base,id:"ultimate",type:"ultimate",tags:["followUp"]},
+      {...base,id:"dot",type:"dot",canCrit:false},
+      {...base,id:"elation",type:"elation",support:{status:"displayOnly",reason:"愉悦の専用条件が未対応です"}}
+    ];
+    app.node("hsrStat-atk").value="3000";
+    const results=app.calculate(),html=app.node("hsrResults").innerHTML;
+    assert.equal(results.length,9);
+    for (const category of ["damage","skill","ultimate","memosprite","followUp","talent","additional","dot","elation"]) assert.ok(html.includes('data-result-tab="'+category+'"'),category);
+    assert.doesNotMatch(html,/data-result-tab="other"/);
+    const section=id=>html.split('data-result-panel="'+id+'"')[1].split('<section class="genshin-json-result-section"')[0];
+    assert.match(section("memosprite"),/記憶の精霊スキル/);
+    assert.match(section("memosprite"),/記憶の精霊天賦/);
+    assert.doesNotMatch(section("followUp"),/記憶の精霊|天賦|付加ダメージ/);
+    assert.match(section("ultimate"),/必殺技・追加攻撃/);
+    assert.match(section("elation"),/愉悦の専用条件が未対応です/);
+    assert.doesNotMatch(section("elation"),/genshin-damage-result-row/);
+});
+
+test("reference notices are specific to the attack and joint labels do not replace calculation types", async () => {
+    const app=await tool();
+    const base=app.state.data.attacks[0];
+    app.state.data.attacks=[base,{...base,id:"800708",sourceSkillId:"800708",name:"連携の例",support:{status:"review",verified:false}}];
+    app.state.coneId="cone";
+    app.node("hsrStat-atk").value="3000";
+    const results=app.calculate(),html=app.node("hsrResults").innerHTML;
+    assert.equal(results.length,2);
+    assert.equal(results[0].nonCrit,results[1].nonCrit);
+    assert.equal(app.state.data.attacks[1].type,"normal");
+    assert.match(html,/data-result-tab="joint"/);
+    assert.match(html,/通常攻撃・連携/);
+    assert.match(html,/連携全体の合計には未対応/);
+    assert.match(html,/この攻撃は倍率・効果の個別検証が未完了のため参考値です/);
+    assert.doesNotMatch(app.node("hsrWarnings").innerHTML,/参考値|常時効果は入力/);
+    const normalPanel=html.split('data-result-panel="damage"')[1].split('<section class="genshin-json-result-section"')[0];
+    assert.doesNotMatch(normalPanel,/参考値/);
 });

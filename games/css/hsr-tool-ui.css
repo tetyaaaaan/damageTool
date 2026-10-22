@@ -315,3 +315,9 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
   .hsr-mobile-reference-label { display: block; color: var(--teti-text-muted); font-size: .6rem; line-height: 1.25; }
   .page-hsr #hsrResults .genshin-damage-detail-row td { white-space: normal; }
 }
+
+/* HSR categories vary by character; keep every available category visible. */
+.page-hsr #hsrResults .genshin-result-tabs { display: flex; flex-wrap: wrap; overflow: visible; }
+.page-hsr #hsrResults .genshin-result-tab { flex: 0 0 auto; white-space: nowrap; padding: 6px 12px; }
+
+.hsr-result-scope-label { display: block; margin-top: .25rem; color: var(--teti-text-muted); font-size: .7rem; line-height: 1.4; white-space: normal; }
