@@ -349,3 +349,8 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
 .hsr-condition-purpose > .genshin-help { margin-block: .5rem; }
 .page-hsr .genshin-result-tab small { display: block; font-size: .65rem; color: var(--teti-danger); }
 #hsrPearlSettings > header p { white-space: normal; overflow: visible; text-overflow: clip; }
+
+.hsr-condition-provider + .hsr-condition-provider { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--teti-border); }
+.hsr-condition-provider-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem .75rem; margin: .75rem 0; }
+.hsr-condition-provider-name strong { color: var(--teti-text); font-size: 1rem; }
+.hsr-condition-provider-name span { color: var(--teti-text-muted); font-size: .8rem; overflow-wrap: anywhere; }

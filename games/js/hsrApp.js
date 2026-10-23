@@ -471,7 +471,7 @@
 
   const CONDITION_TAB_ORDER = ["パーティ", "光円錐", "遺物・オーナメント", "軌跡"];
   const CONDITION_TAB_META = {
-    "パーティ": { title: "パーティ補正", source: "PARTY", subtitle: "味方から受ける効果と現在の反映を確認" },
+    "パーティ": { title: "この編成の補正候補", source: "PARTY", subtitle: "提供者と対象を確認し、成立している効果だけONにしてください。" },
     "光円錐": { title: "光円錐補正", source: "LIGHT CONE", subtitle: "装備中の光円錐効果と現在の反映を確認" },
     "遺物・オーナメント": { title: "遺物・オーナメント補正", source: "RELIC", subtitle: "セット効果の発動条件と現在の反映を確認" },
     "軌跡": { title: "軌跡・星魂補正", source: "TRACE", subtitle: "発動条件と現在の反映を確認" },
@@ -718,24 +718,90 @@
     return controls.length ? `<div class="genshin-constellation-controls"><h6>状態・条件</h6>${controls.join("")}</div>` : "";
   }
 
+  function conditionComparisonAttacks() {
+    const element = character()?.element;
+    if (state.breakInputs.mode !== "attacks") return [{ type: state.breakInputs.mode, element }];
+    return availableAttacks().filter(attack => attackSupport(attack).status !== "displayOnly").map(resolvedAttack)
+      .concat([{ type: "break", element }]);
+  }
+
+  let conditionDisplayAttacks = [];
+  let conditionScopeCache = new WeakMap();
+  function prepareConditionDisplay() {
+    conditionDisplayAttacks = conditionComparisonAttacks();
+    conditionScopeCache = new WeakMap();
+  }
+
+  function conditionAttackScope(item) {
+    if (item.displayOnly || !item.calculable) return [];
+    // Scope is a presentation query, independent of the user's activation choice.
+    if (conditionScopeCache.has(item)) return conditionScopeCache.get(item);
+    const candidate = { ...item, enabled: true };
+    const scope = [...new Set(conditionDisplayAttacks.filter(attack => modifierTargetsCalculation(candidate, attack))
+      .map(attack => ATTACK_LABELS[attack.type] || attack.type))];
+    conditionScopeCache.set(item, scope);
+    return scope;
+  }
+
+  function conditionTargetLabel(item) {
+    const actor = character()?.name || "計算対象キャラクター";
+    const owner = item.appliesTo || item.target?.owner || "self";
+    if (owner === "activeAlly") return actor + "への支援（指定した味方）";
+    if (owner === "partyAll") return "味方全体への支援（計算対象：" + actor + "）";
+    if (owner === "enemyAll") return "敵全体へのデバフ（" + actor + "の攻撃に反映）";
+    if (owner === "enemySingle") return "対象の敵へのデバフ（" + actor + "の攻撃に反映）";
+    return displayTarget(owner);
+  }
+
+  function conditionScopeLabel(items) {
+    if (items.every(item => item.inputPolicy === "includedInFinalStats")) return "最終ステータスで管理・再加算なし";
+    if (items.every(item => item.displayOnly)) return "計算への追加対象外";
+    const types = [...new Set(items.flatMap(conditionAttackScope))];
+    return types.length ? types.join("・") + "（発動条件は別途確認）" : "現在の計算対象には適用されません";
+  }
+
+  function conditionSourceOrder(item) {
+    const source = item.sourceMeta || {};
+    const skill = find("characters", String(source.id))?.skills?.find(entry => String(entry.id) === String(source.skillId));
+    return ({ Normal: 0, BPSkill: 1, Talent: 2, Ultra: 3, MemospriteSkill: 4, MemospriteTalent: 5 })[skill?.type]
+      ?? ({ trace: 6, eidolon: 7, lightCone: 8, relic: 9, ornament: 10 })[source.kind] ?? 11;
+  }
+
+  function renderPartyConditionGroups(entries) {
+    const providers = new Map();
+    entries.forEach(items => {
+      const id = items[0].providerId || "other";
+      if (!providers.has(id)) providers.set(id, []);
+      providers.get(id).push(items);
+    });
+    const order = state.party.map(member => member.characterId);
+    const priority = groups => groups.some(items => items.some(item => conditionAttackScope(item).length)) ? 0 : 1;
+    return [...providers.entries()].sort(([a, left], [b, right]) => priority(left) - priority(right) || order.indexOf(a) - order.indexOf(b)).map(([id, groups]) => {
+      groups.sort((a, b) => priority([a]) - priority([b]) || conditionSourceOrder(a[0]) - conditionSourceOrder(b[0]));
+      const name = find("characters", id)?.name || "その他の提供者";
+      return `<section class="hsr-condition-provider" data-hsr-provider="${esc(id)}" role="group" aria-label="${esc(name)}の補正候補"><p class="hsr-condition-provider-name"><strong>${esc(name)}</strong><span>計算対象：${esc(character()?.name || "未選択")}</span></p>${groups.map(renderConditionGroup).join("")}</section>`;
+    }).join("");
+  }
+
   function renderConditionGroup(items) {
     const title = conditionSourceTitle(items[0]); const status = conditionStatus(items);
     const conditions = [...new Set(items.map(conditionRequirement))].join("／");
     const effects = items.map((item) => `${item.name}：${isAttackSelectionCondition(item) ? "独立した攻撃の表示条件" : item.effectLabel || item.reason || item.description}`).join("／");
     const reflected = items.map((item) => `${item.name}：${currentConditionReflection(item)}`).join("／");
-    const targets = [...new Set(items.map((item) => `${displayTarget(item.appliesTo || item.target?.owner || "self")}（${(item.target?.attackTypes || ["all"]).map((type) => ATTACK_LABELS[type] || type).join("・")}）`))].join("／");
+    const targets = [...new Set(items.map(item => item.tab === "パーティ" ? conditionTargetLabel(item) : `${displayTarget(item.appliesTo || item.target?.owner || "self")}（${(item.target?.attackTypes || ["all"]).map(type => ATTACK_LABELS[type] || type).join("・")}）`))].join("／");
     const descriptions = [...new Set(items.map((item) => item.description).filter(Boolean))].join("\n");
-    return `<article class="genshin-constellation-section hsr-condition-section" data-hsr-condition-ids="${esc(items.map(item => item.id).join(" "))}"><header class="genshin-constellation-head"><div><strong>${esc(items[0].source)}・${esc(title.type)}</strong><h5>${esc(title.name)}</h5></div><span class="genshin-condition-status ${status.className}">${status.label}</span></header><dl class="genshin-condition-facts"><div><dt>発動条件</dt><dd data-condition-fact="requirement">${esc(conditions)}</dd></div><div><dt>効果</dt><dd data-condition-fact="effects">${esc(effects)}</dd></div><div><dt>現在の反映</dt><dd data-condition-fact="reflection">${esc(reflected)}</dd></div><div><dt>適用対象</dt><dd>${esc(targets)}</dd></div></dl>${renderConditionControls(items, conditionPurpose(items[0]))}${descriptions ? `<details class="genshin-condition-detail"><summary>効果説明</summary><div class="genshin-condition-detail-block"><h6>効果説明</h6><p>${esc(descriptions)}</p></div></details>` : ""}</article>`;
+    return `<article class="genshin-constellation-section hsr-condition-section" data-hsr-condition-ids="${esc(items.map(item => item.id).join(" "))}"><header class="genshin-constellation-head"><div><strong>${esc(items[0].source)}・${esc(title.type)}</strong><h5>${esc(title.name)}</h5></div><span class="genshin-condition-status ${status.className}">${status.label}</span></header><dl class="genshin-condition-facts"><div><dt>発動条件</dt><dd data-condition-fact="requirement">${esc(conditions)}</dd></div><div><dt>効果</dt><dd data-condition-fact="effects">${esc(effects)}</dd></div><div><dt>現在の反映</dt><dd data-condition-fact="reflection">${esc(reflected)}</dd></div><div><dt>適用対象</dt><dd data-condition-fact="target">${esc(targets)}</dd></div>${items[0].tab === "パーティ" ? `<div><dt>影響する攻撃</dt><dd data-condition-fact="scope">${esc(conditionScopeLabel(items))}</dd></div>` : ""}</dl>${renderConditionControls(items, conditionPurpose(items[0]))}${descriptions ? `<details class="genshin-condition-detail"><summary>効果説明</summary><div class="genshin-condition-detail-block"><h6>効果説明</h6><p>${esc(descriptions)}</p></div></details>` : ""}</article>`;
   }
 
   function renderConditions() {
+    prepareConditionDisplay();
     const conditions = sourceConditions(); const tabs = CONDITION_TAB_ORDER;
     if (!tabs.includes(state.conditionTab)) state.conditionTab = tabs[0];
     $("hsrConditionTabs").innerHTML = tabs.map((tab) => `<button type="button" class="genshin-condition-tab${tab === state.conditionTab ? " is-active" : ""}" role="tab" data-condition-tab="${esc(tab)}" aria-selected="${tab === state.conditionTab}">${esc(tab)}</button>`).join("");
     const selected = conditions.filter((item) => item.tab === state.conditionTab); const groups = new Map();
     selected.forEach(item => {
       const source = item.sourceMeta || {};
-      const key = conditionPurpose(item) + ":" + (source.kind ? `${source.kind}:${source.id}:${source.skillId || source.traceId || source.eidolonRank || source.setPieces || item.id}` : item.id);
+      const key = conditionPurpose(item) + ":" + (item.providerId || "") + ":" + (source.kind ? `${source.kind}:${source.id}:${source.skillId || source.traceId || source.eidolonRank || source.setPieces || item.id}` : item.id);
       if (!groups.has(key)) groups.set(key, []);
       groups.get(key).push(item);
     });
@@ -744,7 +810,7 @@
     const purposes = CONDITION_PURPOSES.map(purpose => {
       const entries = [...groups.values()].filter(items => conditionPurpose(items[0]) === purpose.id);
       if (!entries.length) return "";
-      const content = `<p class="genshin-help">${esc(purpose.help)}</p>${entries.map(renderConditionGroup).join("")}`;
+      const content = `<p class="genshin-help">${esc(purpose.help)}</p>${state.conditionTab === "パーティ" ? renderPartyConditionGroups(entries) : entries.map(renderConditionGroup).join("")}`;
       return purpose.folded ? `<details class="hsr-condition-purpose" data-condition-purpose="${purpose.id}"><summary>${esc(purpose.title)}（${entries.length}件）</summary>${content}</details>`
         : `<section class="hsr-condition-purpose" data-condition-purpose="${purpose.id}"><h5>${esc(purpose.title)}</h5>${content}</section>`;
     }).join("");
@@ -753,6 +819,7 @@
 
   // Patch facts only: replacing a numeric control on blur steals the next click/focus.
   function refreshConditionFacts() {
+    prepareConditionDisplay();
     const byId = new Map(sourceConditions().map(item => [item.id, item]));
     $("hsrConditionList").querySelectorAll("[data-hsr-condition-ids]").forEach(card => {
       const items = card.dataset.hsrConditionIds.split(" ").map(id => byId.get(id)).filter(Boolean);
@@ -762,6 +829,10 @@
       card.querySelector('[data-condition-fact="requirement"]').textContent = [...new Set(items.map(conditionRequirement))].join("／");
       card.querySelector('[data-condition-fact="effects"]').textContent = items.map(item => `${item.name}：${isAttackSelectionCondition(item) ? "独立した攻撃の表示条件" : item.effectLabel || item.reason || item.description}`).join("／");
       card.querySelector('[data-condition-fact="reflection"]').textContent = items.map(item => `${item.name}：${currentConditionReflection(item)}`).join("／");
+      const target = card.querySelector('[data-condition-fact="target"]');
+      if (target && items[0].tab === "パーティ") target.textContent = [...new Set(items.map(conditionTargetLabel))].join("／");
+      const scope = card.querySelector('[data-condition-fact="scope"]');
+      if (scope) scope.textContent = conditionScopeLabel(items);
     });
   }
 

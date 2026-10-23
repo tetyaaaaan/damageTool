@@ -337,6 +337,74 @@ test("condition modal groups attack, combat, final-stat and excluded purposes se
     assert.match(html, /Excluded effect/);
 });
 
+test("party condition cards group by provider and retain attack scope independently of ON/OFF", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const files=require("../../scripts/lib/hsrDataFiles.cjs").loadHsrDataFiles(root);
+    const generated=JSON.parse(read("games/hsr/data/attacks.generated.json")).attacks;
+    const merged=new Map(generated.map(attack=>[attack.id,attack]));
+    files.attackOverrides.forEach(attack=>merged.set(attack.id,{...merged.get(attack.id),...attack}));
+    const data={characters:catalog.characters,attacks:[...merged.values()],structuredModifiers:files.modifiers,
+        lightCones:catalog.lightCones,relicSets:catalog.relicSets,enemies:catalog.enemies};
+    const app=await tool(undefined,data);app.state.characterId="1003";
+    for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
+    app.node("hsrEnemyLevel").value="80";app.node("hsrEnemyResistance").value="20";app.node("hsrToughnessState").value="active";
+    app.state.party[0]={...app.state.party[0],characterId:"1309",source:"manual",eidolon:0,level:10,atk:3000,critDamage:200,traceLevels:{skill:10,talent:10,ultimate:10}};
+    app.state.party[1]={...app.state.party[1],characterId:"1313",source:"manual",eidolon:0,level:10,atk:3000,critDamage:200,traceLevels:{skill:10,talent:10,ultimate:10}};
+    const selectedKeys=["robin-skill-damage-active","robin-talent-crit-active","robin-concerto-atk-active","sunday-skill-damage-active","sunday-talent-crit-active","sunday-beatified-active"];
+    selectedKeys.forEach(key=>{app.state.modifierInputs[key]=false;});
+    const before=Object.fromEntries(selectedKeys.map(key=>[key,app.state.modifierInputs[key]]));
+    const normal=()=>app.calculate().find(result=>result.attack.name.includes("武装調律"));
+    assert.ok(Math.abs(normal().nonCrit-1080)<1e-8);
+
+    const showConditions=()=>{app.state.conditionTab="パーティ";app.node("hsrConditionDialogOpen").handlers.click();return app.node("hsrConditionList").innerHTML;};
+    const providerGroup=(html,id)=>{
+        const start=html.indexOf(`data-hsr-provider="${id}"`);assert.notEqual(start,-1,`provider ${id} has a group`);
+        const next=html.indexOf('data-hsr-provider="',start+1);return html.slice(start,next<0?html.length:next);
+    };
+    const providerOrder=html=>[...html.matchAll(/data-hsr-provider="(1309|1313)"/g)].map(match=>match[1]);
+    const scopeFacts=group=>[...group.matchAll(/data-condition-fact="scope"[^>]*>([\s\S]*?)<\/dd>/g)].map(match=>match[1].replace(/<[^>]+>/g,""));
+    const assertGroups=(html,targetName="姫子")=>{
+        const combatStart=html.indexOf('data-condition-purpose="combat"');assert.notEqual(combatStart,-1);
+        const finalStart=html.indexOf('data-condition-purpose="finalStats"',combatStart);
+        const combat=html.slice(combatStart,finalStart<0?html.length:finalStart);
+        assert.equal((combat.match(/data-hsr-provider="1309"/g)||[]).length,1);
+        assert.equal((combat.match(/data-hsr-provider="1313"/g)||[]).length,1);
+        const robin=providerGroup(combat,"1309"),sunday=providerGroup(combat,"1313");
+        for(const name of ["ロビン","飛翔のアリア","調和の純正律","協奏"])assert.ok(robin.includes(name),name);
+        for(const name of ["サンデー","紙と式典の賜物","肉体の告解","祝福されし者"])assert.ok(sunday.includes(name),name);
+        const order=(group,ids)=>ids.map(id=>group.indexOf(id));
+        for(const [group,ids] of [[robin,["trace:1309:130902:party-damage","trace:1309:130904:party-crit-damage","trace:1309:130903:concerto-atk"]],
+            [sunday,["trace:1313:131302:party-damage","trace:1313:131304:party-crit-rate","trace:1313:131303:beatified-crit-damage"]]]){
+            const indexes=order(group,ids);assert.ok(indexes.every(index=>index>=0));assert.ok(indexes[0]<indexes[1]&&indexes[1]<indexes[2],JSON.stringify(indexes));
+        }
+        assert.ok(combat.includes(targetName),`scope lists ${targetName} as current target`);assert.match(combat,/通常攻撃/);
+        assert.match(robin,/data-condition-fact="scope"/);assert.match(sunday,/data-condition-fact="scope"/);
+        return {combat,order:providerOrder(combat),robin,sunday,robinScope:scopeFacts(robin),sundayScope:scopeFacts(sunday)};
+    };
+    const initial=assertGroups(showConditions());
+    assert.deepEqual(Object.fromEntries(selectedKeys.map(key=>[key,app.state.modifierInputs[key]])),before,"rendering condition groups does not turn optional effects on");
+    app.node("hsrConditionDialog").handlers.change({target:{dataset:{structuredToggle:"robin-skill-damage-active"},checked:true}});
+    assert.ok(Math.abs(normal().nonCrit-1620)<1e-8,"Robin Skill raises Himeko Basic from 1080 to 1620");
+    const on=assertGroups(app.node("hsrConditionList").innerHTML);assert.deepEqual(on.order,initial.order,"provider grouping order is stable when a support is ON");
+    assert.deepEqual(on.robinScope,initial.robinScope,"target scope is computed independently of activation state");
+    app.node("hsrConditionDialog").handlers.change({target:{dataset:{structuredToggle:"robin-skill-damage-active"},checked:false}});
+    assert.ok(Math.abs(normal().nonCrit-1080)<1e-8);const off=assertGroups(app.node("hsrConditionList").innerHTML);assert.deepEqual(off.order,initial.order);assert.deepEqual(off.robinScope,initial.robinScope);
+
+    // Robin ATK support remains out of scope for Pearl's DEF-scaling Basics even while its toggle is active.
+    app.state.characterId="1503";app.state.data.attacks=files.attackOverrides.filter(attack=>["150301","150310"].includes(attack.id));
+    app.node("hsrStat-def").value="3000";app.node("hsrEidolon").value="0";
+    const pearl=()=>app.calculate().filter(result=>["筆運び・断流臨模","筆運び・波頭描き（非愉悦の底本）"].includes(result.attack.name));
+    const pearlBase=pearl().map(result=>result.nonCrit);assert.equal(pearlBase.length,2);
+    const pearlOff=assertGroups(showConditions(),"パール");
+    const robinAtkGroup=providerGroup(pearlOff.combat,"1309");
+    assert.match(robinAtkGroup,/現在の計算対象には適用されません|対象外/);
+    app.node("hsrConditionDialog").handlers.change({target:{dataset:{structuredToggle:"robin-concerto-atk-active"},checked:true}});
+    assert.deepEqual(pearl().map(result=>result.nonCrit),pearlBase,"ATK support stays out of scope for DEF-scaled Pearl attacks");
+    const pearlOn=assertGroups(app.node("hsrConditionList").innerHTML,"パール");
+    assert.match(providerGroup(pearlOn.combat,"1309"),/現在の計算対象には適用されません|対象外/);
+    assert.deepEqual(pearlOn.robinScope,pearlOff.robinScope,"ATK support scope remains unchanged when its toggle is ON");
+});
+
 test("Boothill Fanning selector and Standoff input share the attack purpose", async () => {
     const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
     const data = {
