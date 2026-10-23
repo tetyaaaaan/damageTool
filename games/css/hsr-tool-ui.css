@@ -332,7 +332,7 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
 .hsr-action-value-card summary { cursor: pointer; font-weight: 700; }
 .hsr-action-value-card[open] summary { margin-bottom: .7rem; }
 
-.page-hsr :is(#hsrPearlDetails,.hsr-field-error,.hsr-calculation-feedback,#hsrPearlSettings)[hidden] { display: none !important; }
+.page-hsr :is(.hsr-field-error,.hsr-calculation-feedback)[hidden] { display: none !important; }
 
 .hsr-calculation-feedback ul { margin: .4rem 0 0; padding-inline-start: 1.2rem; }
 .hsr-calculation-feedback li + li { margin-top: .25rem; }
@@ -341,8 +341,6 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
 .hsr-attack-input-notice strong { flex-basis: 100%; }
 .hsr-attack-input-notice span { flex: 1 1 12rem; font-size: .8rem; }
 .page-hsr [data-hsr-pending-input][hidden] { display: none !important; }
-#hsrPearlSettings .genshin-condition-control { margin-block: .6rem; }
-#hsrPearlSettings .genshin-condition-detail { margin-top: .8rem; }
 
 .hsr-condition-purpose { margin-top: 1rem; }
 .hsr-condition-purpose + .hsr-condition-purpose { border-top: 1px solid var(--teti-border); padding-top: 1rem; }

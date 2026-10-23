@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/games/css/menu.css">
   <link rel="stylesheet" href="/games/css/tetinet.css?v=20260722-1">
   <link rel="stylesheet" href="/games/css/genshin-tool-ui.css?v=20260727-4">
-  <link rel="stylesheet" href="/games/css/hsr-tool-ui.css?v=20261023-4">
+  <link rel="stylesheet" href="/games/css/hsr-tool-ui.css?v=20261023-5">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
   <script src="/games/js/windowLoading.js"></script>
   <script src="/games/js/theme.js?v=20260720-2"></script>
@@ -128,10 +128,10 @@
                 <p class="genshin-help">味方が敵1体に与えた、会心・防御・耐性等の適用後の値を入力してください。追加確定ダメージ、複数回・複数対象の合計を含めません。自動記録・合算・再帰発動は行いません。倍率は上の戦闘スキルLvを参照します。</p>
               </section>
 
-              <section class="genshin-input-step" id="hsrSongbirdSettings" hidden aria-labelledby="hsrSongbirdTitle">
-                <div class="genshin-input-step-head"><h4 id="hsrSongbirdTitle">夏の歌鳥・精霊自身の計算</h4><p>Lv80・ロビン星魂0・精霊スキルLv1～6。精霊のターンで発動する1回の敵1体分。本体のステータス・攻撃とは合算しません。精霊3体分の攻撃も自動合算しません。</p></div>
-                <label class="genshin-field">計算対象<select id="hsrSongbirdMode"><option value="false">ロビン本体の通常攻撃</option><option value="true">夏の歌鳥の精霊スキルのみ</option></select></label>
-                <label class="genshin-field">精霊の発動条件<select id="hsrSongbirdContext"><option value="">確認してください</option><option value="feverStable">フィーバー中の精霊のターン・攻撃中の状態変化なし</option></select></label>
+              <section class="genshin-input-step" id="hsrSongbirdSettings" tabindex="-1" hidden aria-labelledby="hsrSongbirdTitle">
+                <div class="genshin-input-step-head"><h4 id="hsrSongbirdTitle">夏の歌鳥・精霊自身の計算</h4><p>Lv80・ロビン星魂0・精霊スキルLv1～6。フィーバー中・途中の状態変化なしで、精霊のターンに発動する1回の敵1体分を想定します。本体と精霊は別々の結果として表示します。精霊自身の最終値を入力すると精霊攻撃も計算できます。精霊3体分の攻撃は自動合算しません。</p></div>
+                <label class="genshin-field" hidden>旧計算対象<select id="hsrSongbirdMode"><option value="false">ロビン本体の通常攻撃</option><option value="true">夏の歌鳥の精霊スキルのみ</option></select></label>
+                <label class="genshin-field" hidden>旧精霊の発動条件<select id="hsrSongbirdContext"><option value="">確認してください</option><option value="feverStable">フィーバー中の精霊のターン・攻撃中の状態変化なし</option></select></label>
                 <div class="genshin-form-grid">
                   <label class="genshin-field">精霊スキルLv<select id="hsrSongbirdSkillLevel"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6</option></select></label>
                   <label class="genshin-field">精霊自身の最終HP<input id="hsrSongbird-hp" type="number" min="0" step="0.1"></label>
@@ -143,7 +143,7 @@
                 <p class="genshin-help">補正条件でフィーバーと夏の歌鳥の被ダメージ増加をON、精霊3体、攻撃時点のバイブス（増減を反映済み）、精霊天賦Lvを指定。本体天賦Lvは上の軌跡設定を参照します。自動適用はこの2補正と精霊のフィーバー固有与ダメージのみ。その他の敵補正は敵条件欄で指定してください。カウントダウン・召喚順・状態変化・星魂追加確定ダメージは計算しません。</p>
               </section>
 
-              <section class="genshin-input-step" id="hsrElationSettings" hidden aria-labelledby="hsrElationTitle">
+              <section class="genshin-input-step" id="hsrElationSettings" tabindex="-1" hidden aria-labelledby="hsrElationTitle">
                 <div class="genshin-input-step-head"><h4 id="hsrElationTitle">愉悦スキルの計算条件</h4><p id="hsrElationScope">緋英Lv80・星魂0のアッハタイム中、敵1体あたりの1回分です。爆笑の褒美を参照する発動は対象外です。</p></div>
                 <div class="genshin-form-grid">
                   <label class="genshin-field" id="hsrElationContextField" hidden>発動条件<select id="hsrElationContext"><option value="">選択してください</option><option value="firstAhaInstant">初回の通常アッハタイム（消費済み爆笑ネタ0）</option><option value="laterAhaInstant">2回目以降（計算対象外）</option><option value="ultimateAhaInstant">必殺技の追加アッハタイム（計算対象外）</option></select></label>
@@ -202,25 +202,14 @@
 
     <dialog class="genshin-modal genshin-modal--party genshin-equipment-details-dialog genshin-party-dialog" id="hsrPartyDialog" aria-labelledby="hsrPartyDialogTitle"><div class="genshin-modal-shell genshin-equipment-details-dialog-inner"><header class="genshin-modal-head genshin-equipment-details-head"><div><p class="genshin-kicker">PARTY</p><h2 id="hsrPartyDialogTitle">パーティ設定</h2></div><button type="button" class="genshin-modal-close genshin-selection-close" id="hsrPartyDialogClose" aria-label="パーティ設定を閉じる">×</button></header><div class="genshin-equipment-details-body genshin-party-dialog-body"><p class="genshin-party-dialog-help">計算対象は現在選択中のメインキャラです。残り3枠にサポートメンバーを設定できます。</p><label class="genshin-field hsr-party-order-field" for="hsrAttackerPosition">メインキャラの編成位置<select id="hsrAttackerPosition"><option value="1">1番目</option><option value="2">2番目</option><option value="3">3番目</option><option value="4">4番目</option></select></label><p class="genshin-help">位置は編成表示用です。位置固有の効果を自動計算するものではありません。</p><div class="genshin-modal-scroll-region genshin-party-member-list" id="hsrPartyRows"></div><div class="genshin-party-dialog-actions"><button type="button" class="teti-button teti-button-primary" id="hsrPartyDialogApply">完了</button></div></div></div></dialog>
 
-    <dialog class="genshin-modal genshin-modal--condition genshin-equipment-details-dialog genshin-condition-dialog" id="hsrConditionDialog" aria-labelledby="hsrConditionDialogTitle"><div class="genshin-modal-shell genshin-equipment-details-dialog-inner"><header class="genshin-modal-head genshin-equipment-details-head"><div><p class="genshin-kicker">CONDITIONS</p><h2 id="hsrConditionDialogTitle">補正条件</h2></div><button type="button" class="genshin-modal-close genshin-selection-close" id="hsrConditionDialogClose" aria-label="補正条件を閉じる">×</button></header><nav class="genshin-condition-tabs" id="hsrConditionTabs" role="tablist" aria-label="補正条件カテゴリ"></nav><div class="genshin-modal-scroll-region genshin-equipment-details-body genshin-condition-dialog-body"><section class="genshin-condition-card is-wide hsr-condition-category" id="hsrPearlSettings" data-hsr-condition-key="pearl-non-elation-deep-learning" hidden>
-      <header><div><p class="genshin-kicker">攻撃の発動状態・計算対象</p><h4>パール・深層学習</h4><p>発動中にすると強化通常を結果に追加します。ダメージ補正のON/OFFとは別の設定です。</p></div></header>
-      <section class="genshin-party-current-state"><h5>現在の状態</h5>
-        <label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>深層学習</strong><small>通常攻撃はこの設定にかかわらず計算します。</small></span><select id="hsrPearlMode"><option value="normal">発動していない</option><option value="enhanced">発動中（強化通常も計算）</option></select></label>
-        <div class="genshin-constellation-controls" id="hsrPearlDetails" hidden>
-          <label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>深層学習のチャージ</strong></span><select id="hsrPearlCharges"><option value="">選択してください</option><option value="present">残っている</option><option value="0">残っていない</option></select></label>
-          <label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>美学の底本</strong><small>パーティに設定した味方から選択します。</small></span><select id="hsrPearlCanvas"><option value="">パーティから選択</option></select></label>
-          <label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>愉悦スキルの追加ダメージ</strong><small>「理性の描画、愉悦の脱構築」による、次の攻撃後の追加愉悦です。発生する場合、強化通常全体の計算は対象外です。</small></span><select id="hsrPearlExtraElation"><option value="">状態を選択してください</option><option value="0">未付与・消費済み</option><option value="1">次の攻撃後に発生する</option></select></label>
-        </div>
-      </section>
-      <details class="genshin-condition-detail"><summary>計算の範囲</summary><p>星魂0・非愉悦の味方を底本に指定した、敵1体分の強化通常に対応します。チャージの自動消費、回復、SP・EPの変動は計算しません。</p></details>
-    </section><div id="hsrConditionList" class="genshin-condition-cards"></div></div></div></dialog>
+    <dialog class="genshin-modal genshin-modal--condition genshin-equipment-details-dialog genshin-condition-dialog" id="hsrConditionDialog" aria-labelledby="hsrConditionDialogTitle"><div class="genshin-modal-shell genshin-equipment-details-dialog-inner"><header class="genshin-modal-head genshin-equipment-details-head"><div><p class="genshin-kicker">CONDITIONS</p><h2 id="hsrConditionDialogTitle">補正条件</h2></div><button type="button" class="genshin-modal-close genshin-selection-close" id="hsrConditionDialogClose" aria-label="補正条件を閉じる">×</button></header><nav class="genshin-condition-tabs" id="hsrConditionTabs" role="tablist" aria-label="補正条件カテゴリ"></nav><div class="genshin-modal-scroll-region genshin-equipment-details-body genshin-condition-dialog-body"><div id="hsrConditionList" class="genshin-condition-cards"></div></div></div></dialog>
 
     <dialog class="genshin-modal genshin-equipment-details-dialog hsr-details-dialog" id="hsrDetailsDialog" aria-labelledby="hsrDetailsTitle"><div class="genshin-modal-shell genshin-equipment-details-dialog-inner"><header class="genshin-modal-head genshin-equipment-details-head"><div><p class="genshin-kicker" id="hsrDetailsKicker">DETAIL</p><h2 id="hsrDetailsTitle">装備詳細</h2></div><button type="button" class="genshin-modal-close genshin-selection-close" id="hsrDetailsClose" aria-label="詳細を閉じる">×</button></header><nav class="genshin-uid-details-tabs" id="hsrDetailsTabs" aria-label="詳細カテゴリ"></nav><div class="genshin-modal-scroll-region genshin-equipment-details-body" id="hsrDetailsBody"></div></div></dialog>
 
     <dialog class="genshin-modal genshin-equipment-details-dialog genshin-uid-details-dialog" id="hsrUidDetailsDialog" aria-labelledby="hsrUidDetailsTitle"><div class="genshin-modal-shell genshin-equipment-details-dialog-inner"><header class="genshin-modal-head genshin-equipment-details-head"><div><p class="genshin-kicker">UID DETAIL</p><h2 id="hsrUidDetailsTitle">キャラクター詳細</h2></div><button type="button" class="genshin-modal-close genshin-selection-close" id="hsrUidDetailsClose" aria-label="詳細を閉じる">×</button></header><nav class="genshin-uid-details-tabs" id="hsrUidDetailsTabs" aria-label="UID詳細カテゴリ"></nav><div class="genshin-modal-scroll-region genshin-equipment-details-body" id="hsrUidDetailsBody"></div></div></dialog>
 
     <script src="/games/js/hsrProfileApi.js"></script><script src="/games/js/hsrProfileMapper.js?v=20261022-1"></script><script src="/games/js/uidStorage.js"></script><script src="/games/js/hsrCalcData.js?v=20261022-1"></script><script src="/games/js/hsrModifierRuntime.js?v=20261023-8"></script><script src="/games/js/hsrCalcEngine.js?v=20260801-3"></script><script src="/games/js/hsrCalcState.js?v=20261023-5"></script><script src="/games/js/hsrCharacterOrder.js"></script>
-  <script src="/games/js/hsrApp.js?v=20261023-9"></script><script src="/games/js/hsrUidImporter.js?v=20261022-1"></script>
+  <script src="/games/js/hsrApp.js?v=20261023-10"></script><script src="/games/js/hsrUidImporter.js?v=20261022-1"></script>
 
     <!-- site-chrome:footer:start -->
 <footer class="teti-site-footer">

@@ -54,14 +54,6 @@ async function tool(savedStorage, extraData) {
     return { window, state, node, calculate, storage };
 }
 
-function pearlInput(app, id, value, event = "change") {
-    app.state.conditionTab = "軌跡";
-    app.node("hsrConditionDialogOpen").handlers.click();
-    const input = app.node(id);
-    input.value = value;
-    app.node("hsrConditionDialog").handlers[event]({ target: input });
-    return input;
-}
 
 test("manual final stats require only used HP/ATK/DEF and preserve legitimate zero bonuses", async () => {
     const app = await tool();
@@ -293,7 +285,8 @@ test("condition summary separates selected, applied, missing and final-input cou
     assert.match(app.node("hsrConditionTitle").textContent, /選択中 2件/);
     assert.match(app.node("hsrConditionTitle").textContent, /入力不足 1件/);
     assert.doesNotMatch(app.node("hsrConditionTitle").textContent, /計算に適用済み/);
-    assert.match(app.node("hsrConditionTitle").textContent, /パール：深層学習中/);
+    assert.doesNotMatch(app.node("hsrConditionTitle").textContent, /パール：深層学習中/,
+        "Pearl's enhancement state is an attack assumption, not an optional damage modifier");
     assert.match(app.node("hsrConditionHelp").textContent, /最終ステータスで管理 1件/);
 
     app.state.characterId = "sample";
@@ -337,8 +330,8 @@ test("condition modal groups attack, combat, final-stat and excluded purposes se
     app.state.conditionTab = "軌跡";
     app.node("hsrConditionDialogOpen").handlers.click();
     const html = app.node("hsrConditionList").innerHTML;
-    for (const purpose of ["attack", "combat", "finalStats", "excluded"]) assert.match(html, new RegExp(`data-condition-purpose="${purpose}"`));
-    assert.match(html, /Attack selector/);
+    for (const purpose of ["combat", "finalStats", "excluded"]) assert.match(html, new RegExp(`data-condition-purpose="${purpose}"`));
+    assert.doesNotMatch(html, /Attack selector/, "availability-only selectors are shown as attack assumptions, not in the modifier modal");
     assert.match(html, /Combat toggle/);
     assert.match(html, /Final stat effect/);
     assert.match(html, /Excluded effect/);
@@ -541,11 +534,12 @@ test('Cyrene manual zone effect validates source, displays only actual True fact
 });
 
 
-test("Pearl calculates only her registered DEF Basic ATK and explains other skills are excluded", async () => {
-    const app = await tool();
-    app.state.data.characters = JSON.parse(read('games/hsr/data/catalog.json')).characters;
+test("Pearl compares registered normal and enhanced Basic ATKs as separate assumed states", async () => {
+    const {loadHsrDataFiles}=require("../../scripts/lib/hsrDataFiles.cjs");
+    const files=loadHsrDataFiles(root);
+    const app = await tool(undefined,{characters:JSON.parse(read('games/hsr/data/catalog.json')).characters,
+        attacks:files.attackOverrides.filter(item=>item.characterId==='1503'),structuredModifiers:files.modifiers});
     app.state.characterId = '1503';
-    app.state.data.attacks = JSON.parse(read('games/hsr/data/attack-overrides.json')).overrides.filter(item => item.characterId === '1503');
     app.node('hsrEnemyLevel').value = '80';
     app.node('hsrEnemyResistance').value = '20';
     app.node('hsrToughnessState').value = 'active';
@@ -558,15 +552,26 @@ test("Pearl calculates only her registered DEF Basic ATK and explains other skil
     }
     app.node('hsrStat-def').value = '3000';
     const results = app.calculate();
-    assert.equal(results.length, 1);
-    assert.ok(Math.abs(results[0].nonCrit - 972) < 1e-9);
-    assert.equal(results[0].breakdown.referenceValue, 3000);
-    assert.match(app.node('hsrResults').innerHTML, /強化前の通常攻撃です。強化通常は別の状態の比較値として表示し、合算しません。/);
+    const normal = results.find(result => result.attack.name.includes("断流臨模"));
+    const enhanced = results.find(result => result.attack.name.includes("波頭描き"));
+    assert.equal(results.length, 2);
+    assert.ok(Math.abs(normal.nonCrit - 972) < 1e-9);
+    assert.ok(Math.abs(normal.crit - 1944) < 1e-9);
+    assert.ok(Math.abs(normal.expected - 1458) < 1e-9);
+    assert.ok(Math.abs(enhanced.nonCrit - 1080) < 1e-9);
+    assert.ok(Math.abs(enhanced.crit - 2160) < 1e-9);
+    assert.ok(Math.abs(enhanced.expected - 1620) < 1e-9);
+    assert.equal(normal.breakdown.referenceValue, 3000);
+    assert.equal(enhanced.breakdown.referenceValue, 3000);
+    assert.match(app.node('hsrResults').innerHTML, /想定：深層学習中/);
+    assert.match(app.node('hsrResults').innerHTML, /波頭描き/);
     assert.match(app.node('hsrResults').innerHTML, /data-support-status="calculable"/);
     assert.match(app.node('hsrResults').innerHTML, /防御力参照 × 攻撃倍率/);
     assert.match(app.node('hsrResults').innerHTML, /3,000 × 90%/);
     app.node('hsrNormalTrace').value = '1';
-    assert.ok(Math.abs(app.calculate()[0].nonCrit - 486) < 1e-9);
+    const lowTrace = app.calculate();
+    assert.ok(Math.abs(lowTrace.find(result => result.attack.name.includes("断流臨模")).nonCrit - 486) < 1e-9);
+    assert.ok(Math.abs(lowTrace.find(result => result.attack.name.includes("波頭描き")).nonCrit - 540) < 1e-9);
 });
 
 
@@ -603,22 +608,28 @@ test('Summer Robin Fever party input stops invalid Vibes and reports DEF ignore 
   const app=await tool();
   app.state.data.characters=JSON.parse(read('games/hsr/data/catalog.json')).characters;
   app.state.characterId='1503';
-  app.state.data.attacks=JSON.parse(read('games/hsr/data/attack-overrides.json')).overrides.filter(item=>item.id==='150301');
-  app.state.data.structuredModifiers=JSON.parse(read('games/hsr/data/calc/modifiers-robin-summeretto.json')).modifiers;
+  app.state.data.attacks=JSON.parse(read('games/hsr/data/attack-overrides.json')).overrides.filter(item=>['150301','150310'].includes(item.id));
+  app.state.data.structuredModifiers=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers;
   app.state.party[0]={characterId:'1512',eidolon:0,level:10};
   app.node('hsrStat-def').value='3000';app.node('hsrStat-critRate').value='50';app.node('hsrStat-critDamage').value='100';
   app.node('hsrEnemyLevel').value='80';app.node('hsrEnemyResistance').value='20';app.node('hsrToughnessState').value='active';
-  assert.ok(Math.abs(app.calculate()[0].nonCrit-972)<1e-9);
+  assert.equal(app.calculate().length,2);
+  assert.ok(Math.abs(app.calculate().find(r=>r.attack.name.includes('断流臨模')).nonCrit-972)<1e-9);
+  assert.ok(Math.abs(app.calculate().find(r=>r.attack.name.includes('波頭描き')).nonCrit-1080)<1e-9);
   app.state.modifierInputs['robin-summeretto-fever']=true;
   assert.equal(app.calculate().length,0);assert.match(app.node('hsrResults').innerHTML,/data-hsr-pending-input/);
   app.state.modifierInputs['robin-summeretto-vibes']=50;
-  assert.ok(Math.abs(app.calculate()[0].nonCrit-1215)<1e-9);
+  const supported=app.calculate();
+  assert.ok(Math.abs(supported.find(r=>r.attack.name.includes('断流臨模')).nonCrit-1215)<1e-9);
+  assert.ok(Math.abs(supported.find(r=>r.attack.name.includes('波頭描き')).nonCrit-1350)<1e-9);
   assert.match(app.node('hsrResults').innerHTML,/0%／40%/);
   assert.match(app.node('hsrResults').innerHTML,/×0.625/);
   app.state.party[0].eidolon=1;assert.equal(app.calculate().length,0);assert.match(app.node('hsrResults').innerHTML,/data-hsr-pending-input/);
   app.state.party[0].eidolon=0;app.state.party[0].level=0;assert.equal(app.calculate().length,0);
   app.state.party[0].level=10;app.state.modifierInputs['robin-summeretto-fever']=false;
-  assert.ok(Math.abs(app.calculate()[0].nonCrit-972)<1e-9);
+  const off=app.calculate();assert.equal(off.length,2);
+  assert.ok(Math.abs(off.find(r=>r.attack.name.includes('断流臨模')).nonCrit-972)<1e-9);
+  assert.ok(Math.abs(off.find(r=>r.attack.name.includes('波頭描き')).nonCrit-1080)<1e-9);
 });
 
 
@@ -724,14 +735,14 @@ test("Yao Guang scoped Elation shows all six unequal hits and restores its expli
 });
 
 
-test("Waveflair full Skill and Ultimate require the explicit no-extra-Elation condition and preserve it on reload", async () => {
+test("Waveflair full Skill and Ultimate compare under explicit no-extra-Elation assumptions after reload", async () => {
     const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
     const overrides = JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides;
     const expanded = JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers;
     const extraData = { characters: catalog.characters, attacks: overrides.filter(item => ["151301", "151302", "151303"].includes(item.id)), structuredModifiers: expanded };
     const app = await tool(undefined, extraData); app.state.characterId = "1513";
     for (const [key, value] of Object.entries({ atk: 3000, critRate: 50, critDamage: 100 })) app.node(`hsrStat-${key}`).value = String(value);
-    assert.equal(app.calculate().length, 1, "unconfirmed CB/Fervor must not show partial Skill or Ultimate totals");
+    assert.equal(app.calculate().length, 3, "registered attacks are listed as separate hypothetical comparisons");
     app.state.modifierInputs["waveflair-no-banger-zero-fervor"] = true;
     const results = app.calculate(); assert.equal(results.length, 3);
     assert.ok(Math.abs(results.find(item => item.attack.name.includes("フィニッシュ")).nonCrit - 2592) < 1e-8);
@@ -742,8 +753,10 @@ test("Waveflair full Skill and Ultimate require the explicit no-extra-Elation co
     const restored = await tool(app.storage, extraData);
     assert.equal(restored.state.modifierInputs["waveflair-no-banger-zero-fervor"], true);
     assert.equal(restored.calculate().length, 3);
+    const beforeOff=restored.calculate().map(item=>[item.attack.name,item.nonCrit]);
     restored.state.modifierInputs["waveflair-no-banger-zero-fervor"] = false;
-    assert.equal(restored.calculate().length, 1);
+    assert.equal(restored.calculate().length, 3,"the availability selector does not hide comparison rows");
+    assert.deepEqual(restored.calculate().map(item=>[item.attack.name,item.nonCrit]),beforeOff,"turning the legacy availability selector off does not change damage");
     restored.state.modifierInputs["waveflair-no-banger-zero-fervor"] = true;
     for (const value of ["", "0", "-1"]) { restored.node("hsrStat-atk").value = value; assert.equal(restored.calculate().some(item => ["フィニッシュ", "荒波"].some(name => item.attack.name.includes(name))), false); }
     restored.node("hsrStat-atk").value = "3000"; restored.node("hsrEidolon").value = "0"; restored.node("hsrSkillTrace").value = "11";
@@ -903,37 +916,24 @@ test("blocked techniques never produce damage or become calculable after restori
 });
 
 
-test("Pearl enhanced Basic is opt-in manual scope and restores its confirmation without enabling mixed damage", async () => {
+test("Pearl enhanced Basic compares as a separate assumed state and retains numeric limits", async () => {
   const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
   const extraData={characters:catalog.characters,attacks:JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a=>a.characterId==="1503"),structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1503")};
   const app=await tool(undefined,extraData);app.state.characterId="1503";
   for(const [k,v]of Object.entries({def:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
-  assert.equal(app.calculate().length,1);
-  const key="pearl-non-elation-deep-learning";
-  app.state.party[0]={characterId:"1210"};
-  // Enhanced Basic requires explicit mode, remaining charges and a concrete non-Elation party member.
-  pearlInput(app,"hsrPearlMode","enhanced");
-  pearlInput(app,"hsrPearlCharges","present");
-  pearlInput(app,"hsrPearlCanvas","1210");
-  pearlInput(app,"hsrPearlExtraElation","0");
-  const r=app.calculate().find(r=>r.attack.name.includes("波頭描き"));assert.ok(Math.abs(r.nonCrit-1080)<1e-9);assert.equal(r.breakdown.referenceValue,3000);
-  assert.equal(app.state.modifierInputs[key],true);
-  assert.equal(app.state.modifierInputs["pearl-charges"],1);
-  assert.equal(app.node("hsrPearlCanvas").value,"1210");
+  const baseline=app.calculate();
+  assert.equal(baseline.length,2);
+  assert.ok(Math.abs(baseline.find(r=>r.attack.name.includes("断流臨模")).nonCrit-972)<1e-9);
+  const r=baseline.find(r=>r.attack.name.includes("波頭描き"));assert.ok(Math.abs(r.nonCrit-1080)<1e-9);assert.equal(r.breakdown.referenceValue,3000);
+  assert.match(app.node("hsrResults").innerHTML,/想定：深層学習中/);
   assert.match(app.node("hsrResults").innerHTML,/3,000 × 100%/);
-  app.node("hsrStat-def").handlers.input();const restored=await tool(app.storage,extraData);assert.equal(restored.state.modifierInputs[key],true);
-  restored.state.party[0]={characterId:"1210"};
-  restored.state.conditionTab="軌跡";restored.node("hsrConditionDialogOpen").handlers.click();
-  assert.equal(restored.node("hsrPearlMode").value,"enhanced");
-  assert.equal(restored.node("hsrPearlCharges").value,"present");
-  assert.equal(restored.node("hsrPearlCanvas").value,"1210");
-  assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("波頭描き")).nonCrit-r.nonCrit)<1e-9);
-  // Charge, archetype and external extra damage are manually confirmed, not inferred from party membership.
-  // Any failed/unknown physical condition must leave this single confirmation OFF.
-  pearlInput(restored,"hsrPearlMode","normal");
-  assert.equal(restored.calculate().some(r=>r.attack.name.includes("波頭描き")),false);
-  pearlInput(restored,"hsrPearlMode","enhanced");
-  restored.node("hsrNormalTrace").value="1";assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("波頭描き")).nonCrit-540)<1e-9);
+  // Legacy availability fields remain inert and do not hide the hypothetical comparison row.
+  Object.assign(app.state.modifierInputs,{"pearl-non-elation-deep-learning":false,"pearl-charges":0,"pearl-canvas":"","pearl-extra-elation":1});
+  assert.ok(Math.abs(app.calculate().find(r=>r.attack.name.includes("波頭描き")).nonCrit-1080)<1e-9);
+  app.node("hsrStat-def").handlers.input();const restored=await tool(app.storage,extraData);
+  assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("波頭描き")).nonCrit-1080)<1e-9);
+  restored.node("hsrNormalTrace").value="1";
+  assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("波頭描き")).nonCrit-540)<1e-9);
   restored.node("hsrNormalTrace").value="7";assert.equal(restored.calculate().some(r=>r.attack.name.includes("波頭描き")),false);assert.match(restored.node("hsrCalculationFeedback").innerHTML,/Lv1～6/);
   restored.node("hsrNormalTrace").value="6";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().some(r=>r.attack.name.includes("波頭描き")),false);
   restored.node("hsrEidolon").value="0";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().some(r=>r.attack.name.includes("波頭描き")),false);
@@ -943,7 +943,7 @@ test("Pearl enhanced Basic is opt-in manual scope and restores its confirmation 
 });
 
 
-test("Waveflair fixed-20 normal Elation shows unequal components and restores confirmation without overwriting manual Punchline", async () => {
+test("Waveflair compares normal and enhanced Elation with independent numeric inputs", async () => {
     const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
     const overrides=JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides;
     const generated=JSON.parse(read("games/hsr/data/attacks.generated.json")).attacks;
@@ -952,29 +952,36 @@ test("Waveflair fixed-20 normal Elation shows unequal components and restores co
     for(const[k,v]of Object.entries({atk:3000,elation:50,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
     app.node("hsrPunchline").value="60";
     app.node("hsrEidolon").handlers.change({target:{value:"0"}});
-    assert.equal(app.calculate().length,1,"normal Elation must be opt-in");
-    const key="waveflair-fervor10-stable";app.state.modifierInputs[key]=true;
-    const result=app.calculate().find(r=>r.breakdown.damageFormula==="elation");assert.ok(Math.abs(result.nonCrit-13521.459699692308)<1e-8);
+    let calculated=app.calculate();
+    let result=calculated.find(r=>r.attack.name.includes("熱気10・通常版"));
+    assert.ok(result,"normal Elation is listed as an assumed attack");
+    assert.equal(calculated.some(r=>r.attack.name.includes("次のアッハタイム")),false,"enhanced Elation still needs heat and Punchline values");
+    const key="waveflair-fervor10-stable";
+    assert.equal(app.state.modifierInputs[key],undefined,"availability-only confirmation is not required");
+    assert.ok(Math.abs(result.nonCrit-13521.459699692308)<1e-8);
     assert.equal(result.breakdown.punchline,20);assert.equal(app.state.elationInputs.punchline,60);assert.equal(app.node("hsrPunchline").value,"60");
-    assert.equal(app.node("hsrPunchlineField").hidden,true);
+    assert.equal(app.node("hsrPunchlineField").hidden,false,"manual Punchline is available for enhanced Elation");
     const html=app.node("hsrResults").innerHTML;
     assert.match(html,/全体攻撃：60% × 1ヒット/);assert.match(html,/追加ランダム攻撃（敵1体）：18% × 10ヒット/);assert.match(html,/爆笑ネタ（天賦固定値）/);
     assert.doesNotMatch(html,/敵1体への全6ヒット/);assert.match(app.node("hsrResults").innerHTML,/全11ヒット中に撃破や敵条件変化なし/);
     app.node("hsrStat-elation").handlers.input();const restored=await tool(app.storage,extraData);
-    assert.equal(restored.state.modifierInputs[key],true);assert.equal(restored.node("hsrPunchline").value,"60");
-    assert.ok(Math.abs(restored.calculate().find(r=>r.breakdown.damageFormula==="elation").nonCrit-result.nonCrit)<1e-8);
+    assert.equal(restored.state.modifierInputs[key],undefined);assert.equal(restored.node("hsrPunchline").value,"60");
+    assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("熱気10・通常版")).nonCrit-result.nonCrit)<1e-8);
     restored.state.characterId="1505";restored.node("hsrEidolon").handlers.change({target:{value:"0"}});
     const regular=restored.calculate().find(r=>r.breakdown.damageFormula==="elation");assert.equal(regular.breakdown.punchline,60);assert.equal(restored.node("hsrPunchlineField").hidden,false);
     restored.state.characterId="1513";restored.node("hsrPunchline").value="";
-    assert.ok(Math.abs(restored.calculate().find(r=>r.breakdown.damageFormula==="elation").nonCrit-result.nonCrit)<1e-8,"fixed PL does not require the unrelated manual input");
+    assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("熱気10・通常版")).nonCrit-result.nonCrit)<1e-8,"fixed PL does not require the unrelated manual input");
+    restored.node("hsrPunchline").value="20";restored.node("hsrFervor").value="10";
+    assert.ok(restored.calculate().some(r=>r.attack.name.includes("次のアッハタイム")),"enhanced Elation appears when its numeric inputs are provided");
+    assert.match(restored.node("hsrResults").innerHTML,/想定：/);
     restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().some(r=>r.breakdown.damageFormula==="elation"),false);assert.match(restored.node("hsrResults").innerHTML,/敵1体のみ/);
     restored.node("hsrEnemyCount").value="1";restored.node("hsrLevel").value="79";assert.equal(restored.calculate().some(r=>r.breakdown.damageFormula==="elation"),false);
     restored.node("hsrLevel").value="80";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().some(r=>r.breakdown.damageFormula==="elation"),false);
     restored.node("hsrEidolon").value="0";restored.node("hsrStat-elation").value="";assert.equal(restored.calculate().some(r=>r.breakdown.damageFormula==="elation"),false);
     restored.node("hsrStat-elation").value="50";restored.node("hsrMerrymake").value="";assert.equal(restored.calculate().some(r=>r.breakdown.damageFormula==="elation"),false);
-    restored.node("hsrMerrymake").value="0";restored.state.modifierInputs[key]=1;assert.equal(restored.calculate().some(r=>r.breakdown.fervor!==undefined),false,"non-boolean confirmation cannot establish trigger/stable conditions");
-    restored.state.modifierInputs[key]=false;assert.equal(restored.calculate().length,1);
-    assert.equal(restored.calculate().some(r=>r.breakdown.fervor!==undefined),false);
+    restored.node("hsrMerrymake").value="0";restored.state.modifierInputs[key]=1;
+    assert.ok(restored.calculate().some(r=>r.attack.name.includes("熱気10・通常版")),"legacy display-only state does not gate a comparison");
+    restored.node("hsrFervor").value="";assert.equal(restored.calculate().some(r=>r.breakdown.fervor!==undefined),false,"enhanced Elation still requires heat input");
 });
 
 
@@ -999,18 +1006,15 @@ test("final-input guidance distinguishes permanent gear and Pearl A2 from additi
         assert.doesNotMatch(app.node("hsrConditionList").innerHTML,/入力欄のステータスへ反映済み/);
     }
     assert.match(app.node("hsrConditionHelp").textContent,/最終ステータスで管理 .*件（再加算なし）。選択状態は補正条件/);
-    assert.equal(app.node("hsrPearlSettings").hidden, false, "Pearl's attack-state explanation is available within the condition modal");
     assert.match(app.node("hsrConditionList").innerHTML,/data-condition-purpose="finalStats"[\s\S]*?パールA2・万物の洞察（最終愉悦度に含める）/);
     const html=read("games/hsr/index.html");
-    const modalStart=html.indexOf('id="hsrConditionDialog"');
-    const conditionDialog=html.slice(modalStart,html.indexOf("</dialog>",modalStart));
-    assert.match(conditionDialog,/id="hsrPearlSettings"[\s\S]*?ダメージ補正のON\/OFFとは別の設定です/);
+    assert.doesNotMatch(html,/id="hsrPearlSettings"/,"Pearl attack assumptions are not shown as optional damage modifiers");
     assert.match(html,/装備選択だけでは数値は更新されません/);assert.match(html,/UID反映後もこのルールで確認・編集/);
     assert.match(html,/aria-describedby="hsrElationInputHelp"/);assert.match(html,/補正条件で追加する支援分は含めません/);
 });
 
 
-test("scoped Hanya and Gallagher attacks preserve opt-in conditions, limits and reloads", async () => {
+test("scoped Hanya and Gallagher attacks show availability assumptions and preserve numeric limits", async () => {
     const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
     const {loadHsrDataFiles}=require("../../scripts/lib/hsrDataFiles.cjs");
     const files=loadHsrDataFiles(root);
@@ -1022,7 +1026,13 @@ test("scoped Hanya and Gallagher attacks preserve opt-in conditions, limits and 
         for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
         app.node("hsrEidolon").handlers.change({target:{value:"0"}});
         const name=byId.get(id).name,find=()=>app.calculate().find(r=>r.attack.name===name);
-        if(key){assert.equal(find(),undefined);app.state.modifierInputs[key]=true;}
+        if(key){
+            assert.ok(find(),"the direct attack is listed with its assumed condition");
+            assert.ok(Math.abs(find().nonCrit-nc)<1e-9);
+            app.state.modifierInputs[key]=false;
+            assert.ok(Math.abs(find().nonCrit-nc)<1e-9,"legacy availability OFF does not hide a hypothetical attack");
+            app.state.modifierInputs[key]=true;
+        }
         const r=find();assert.ok(Math.abs(r.nonCrit-nc)<1e-9,JSON.stringify({id,nc,actual:r.nonCrit,applied:r.applied}));
         assert.match(app.node("hsrResults").innerHTML,/星魂0・軌跡Lv1～10・敵1体/);
         assert.ok(app.node("hsrResults").innerHTML.includes("3,000 × "+byId.get(id).multipliers[9]+"%"));
@@ -1033,7 +1043,7 @@ test("scoped Hanya and Gallagher attacks preserve opt-in conditions, limits and 
         app.node("hsrEidolon").value="1";assert.equal(find(),undefined);app.node("hsrEidolon").value="0";
         app.node(id==="121502"?"hsrSkillTrace":"hsrUltimateTrace").value="11";assert.equal(find(),undefined);
         app.node(id==="121502"?"hsrSkillTrace":"hsrUltimateTrace").value="10";
-        if(key){app.state.modifierInputs[key]=false;assert.equal(find(),undefined);app.state.modifierInputs[key]=true;}
+        if(key){app.state.modifierInputs[key]=false;assert.ok(Math.abs(find().nonCrit-nc)<1e-9);app.state.modifierInputs[key]=true;}
         app.state.characterId="1513";app.node("hsrEidolon").handlers.change({target:{value:"0"}});
         const other=app.calculate();assert.ok(!other.some(r=>r.attack.name===name));
         assert.ok(other.every(r=>!r.applied.some(m=>m.id.endsWith(":direct-scope"))));
@@ -1064,30 +1074,33 @@ test("Waveflair enhanced skill restores heat and manual Punchline and fails clos
 });
 
 
-test("Summer Songbirds mode separates final stats, restores snapshots and refuses incomplete Fever states",async()=>{
+test("Summer Songbird attack is listed beside Robin's attacks and uses its own required snapshot",async()=>{
     const catalog=JSON.parse(read("games/hsr/data/catalog.json")),files=require("../../scripts/lib/hsrDataFiles.cjs").loadHsrDataFiles(root);
     const data={...catalog,attacks:files.attackOverrides.filter(a=>a.characterId==="1512"),structuredModifiers:files.modifiers};
     const app=await tool(undefined,data);app.state.characterId="1512";app.node("hsrEidolon").handlers.change({target:{value:"0"}});
-    app.node("hsrSongbirdMode").value="true";assert.equal(app.calculate().length,0);
+    app.node("hsrSongbirdMode").value="true";assert.equal(app.calculate().some(r=>r.breakdown.actorKind==="memosprite"),false,"missing sprite snapshot blocks only the sprite result");
     app.node("hsrSongbirdContext").value="feverStable";app.node("hsrSongbirdSkillLevel").value="6";
     for(const[k,v]of Object.entries({hp:4200,critRate:50,critDamage:100,damageBonus:0}))app.node("hsrSongbird-"+k).value=String(v);
     Object.assign(app.state.modifierInputs,{"robin-summeretto-fever":true,"robin-summeretto-vibes":12,"robin-songbirds-vulnerability":true,"robin-songbirds-count":3,"robin-songbirds-talent-level":6});
-    const result=app.calculate()[0],expected=4200*1.5*1.84*(100/179)*.8*.9*1.16;
-    assert.ok(Math.abs(result.nonCrit-expected)<1e-8);assert.equal(app.calculate().length,1);
+    const findSprite=()=>app.calculate().find(r=>r.breakdown.actorKind==="memosprite");
+    const result=findSprite(),expected=4200*1.5*1.84*(100/179)*.8*.9*1.16;
+    assert.ok(result);assert.ok(Math.abs(result.nonCrit-expected)<1e-8);
     assert.match(app.node("hsrResults").innerHTML,/精霊の最終HP参照/);assert.match(app.node("hsrResults").innerHTML,/フィーバー固有与ダメージ/);
-    app.node("hsrStat-hp").value="999999";app.node("hsrStat-critDamage").value="9999";assert.ok(Math.abs(app.calculate()[0].nonCrit-expected)<1e-8);
-    app.node("hsrSongbird-hp").handlers.input();const rr=await tool(app.storage,data);assert.equal(rr.state.songbirdInputs.active,true);assert.equal(rr.node("hsrSongbird-hp").value,"4200");assert.ok(Math.abs(rr.calculate()[0].nonCrit-expected)<1e-8);
-    app.node("hsrSongbird-hp").value="";assert.equal(app.calculate().length,0);app.node("hsrSongbird-hp").value="4200";
-    app.state.modifierInputs["robin-summeretto-fever"]=false;assert.equal(app.calculate().length,0);app.state.modifierInputs["robin-summeretto-fever"]=true;
-    app.state.modifierInputs["robin-songbirds-count"]=2;assert.equal(app.calculate().length,0);app.state.modifierInputs["robin-songbirds-count"]=3;
-    app.node("hsrEnemyCount").value="2";assert.equal(app.calculate().length,0);app.node("hsrEnemyCount").value="1";
-    app.node("hsrEidolon").value="1";assert.equal(app.calculate().length,0);app.node("hsrEidolon").value="0";
+    app.node("hsrStat-hp").value="999999";app.node("hsrStat-critDamage").value="9999";assert.ok(Math.abs(findSprite().nonCrit-expected)<1e-8);
+    app.node("hsrSongbird-hp").handlers.input();const rr=await tool(app.storage,data);assert.equal(rr.state.songbirdInputs.active,true);assert.equal(rr.node("hsrSongbird-hp").value,"4200");assert.ok(Math.abs(rr.calculate().find(r=>r.breakdown.actorKind==="memosprite").nonCrit-expected)<1e-8);
+    app.node("hsrSongbird-hp").value="";assert.equal(findSprite(),undefined);app.node("hsrSongbird-hp").value="4200";
+    app.state.modifierInputs["robin-summeretto-fever"]=false;assert.equal(findSprite(),undefined);app.state.modifierInputs["robin-summeretto-fever"]=true;
+    app.state.modifierInputs["robin-songbirds-count"]=2;assert.equal(findSprite(),undefined);app.state.modifierInputs["robin-songbirds-count"]=3;
+    app.node("hsrEnemyCount").value="2";assert.equal(findSprite(),undefined);app.node("hsrEnemyCount").value="1";
+    app.node("hsrEidolon").value="1";assert.equal(findSprite(),undefined);app.node("hsrEidolon").value="0";
     app.node("hsrSongbirdMode").value="false";app.node("hsrStat-hp").value="6000";app.node("hsrStat-critDamage").value="100";
-    assert.equal(app.calculate()[0].breakdown.actorKind,undefined);assert.equal(app.calculate()[0].breakdown.referenceValue,6000);
+    const both=app.calculate(),normal=both.find(r=>r.breakdown.actorKind!=="memosprite"&&r.breakdown.referenceValue===6000);
+    assert.ok(normal,"Robin's normal attack remains present when the sprite mode flag is off");
+    assert.ok(both.some(r=>r.breakdown.actorKind==="memosprite"),"the sprite comparison is independent from the legacy mode flag");
 });
 
 
-test("scoped Lingsha and Firefly Skills preserve confirmation, inputs, limits and reload", async () => {
+test("Lingsha and Firefly Skills compare as assumed attacks while preserving numeric limits and reload", async () => {
     const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
     const ids = ["122202", "131002"];
     const extra = { characters: catalog.characters,
@@ -1096,27 +1109,26 @@ test("scoped Lingsha and Firefly Skills preserve confirmation, inputs, limits an
     for (const [cid, key, nc] of [["1222", "lingsha-direct-skill", 864], ["1310", "firefly-unenhanced-skill", 2160]]) {
         const app = await tool(undefined, extra); app.state.characterId = cid;
         app.node("hsrStat-atk").value = "3000"; app.node("hsrStat-critRate").value = "50"; app.node("hsrStat-critDamage").value = "100";
-        assert.equal(app.calculate().some(r=>r.attack.id===(cid==="1222"?"122202":"131002")), false, "unconfirmed attack is not computed");
-        app.state.modifierInputs[key] = true;
-        let r = app.calculate()[0]; assert.ok(Math.abs(r.nonCrit - nc) < 1e-9); assert.ok(Math.abs(r.crit - nc * 2) < 1e-9); assert.ok(Math.abs(r.expected - nc * 1.5) < 1e-9);
+        const name=cid==="1222"?"彩煙":"コマンド-天火轟撃",find=()=>app.calculate().find(r=>r.attack.name===name);
+        let r = find(); assert.ok(Math.abs(r.nonCrit - nc) < 1e-9); assert.ok(Math.abs(r.crit - nc * 2) < 1e-9); assert.ok(Math.abs(r.expected - nc * 1.5) < 1e-9);
+        app.state.modifierInputs[key] = false;
+        assert.ok(Math.abs(find().nonCrit-nc)<1e-9,"legacy display-only OFF state does not hide an assumed attack");
         assert.match(app.node("hsrResults").innerHTML, /星魂0・戦闘スキルLv1～10・敵1体/);
         assert.match(app.node("hsrResults").innerHTML, /計算可能/);
         app.node("hsrStat-atk").handlers.input();
         const restored = await tool(app.storage, extra);
-        assert.equal(restored.state.modifierInputs[key], true);
-        assert.ok(Math.abs(restored.calculate()[0].nonCrit - nc) < 1e-9);
-        restored.state.modifierInputs[key] = false; assert.equal(restored.calculate().length, 0);
-        restored.state.modifierInputs[key] = true;
-        for (const val of ["", "0", "-1", "invalid"]) { restored.node("hsrStat-atk").value = val; assert.equal(restored.calculate().length, 0); }
+        assert.equal(restored.state.modifierInputs[key], false);
+        assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name===name).nonCrit - nc) < 1e-9);
+        for (const val of ["", "0", "-1", "invalid"]) { restored.node("hsrStat-atk").value = val; assert.equal(restored.calculate().some(r=>r.attack.name===name), false); }
         restored.node("hsrStat-atk").value = "3000"; restored.node("hsrSkillTrace").value = "11";
-        assert.equal(restored.calculate().length, 0); assert.match(restored.node("hsrResults").innerHTML, /data-hsr-pending-input/);
-        restored.node("hsrSkillTrace").value = "10"; restored.node("hsrEnemyCount").value = "2"; assert.equal(restored.calculate().length, 0);
-        restored.node("hsrEnemyCount").value = "1"; restored.node("hsrEidolon").value = "1"; assert.equal(restored.calculate().length, 0);
+        assert.equal(restored.calculate().some(r=>r.attack.name===name), false); assert.match(restored.node("hsrResults").innerHTML, /data-hsr-pending-input/);
+        restored.node("hsrSkillTrace").value = "10"; restored.node("hsrEnemyCount").value = "2"; assert.equal(restored.calculate().some(r=>r.attack.name===name), false);
+        restored.node("hsrEnemyCount").value = "1"; restored.node("hsrEidolon").value = "1"; assert.equal(restored.calculate().some(r=>r.attack.name===name), false);
     }
 });
 
 
-test("scoped Lingsha and Boothill Ultimates restore independently from Skill conditions and stop invalid inputs", async () => {
+test("Lingsha and Boothill Ultimates compare as assumed attacks and stop invalid inputs", async () => {
     const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
     const ids = ["122202", "122203", "131503"];
     const extra = { characters: catalog.characters,
@@ -1125,23 +1137,22 @@ test("scoped Lingsha and Boothill Ultimates restore independently from Skill con
     for (const [cid, key, nc] of [["1222", "lingsha-direct-ultimate", 1620], ["1315", "boothill-non-standoff-ultimate", 4320]]) {
         const app = await tool(undefined, extra); app.state.characterId = cid;
         for (const [k, v] of Object.entries({ atk: 3000, critRate: 50, critDamage: 100 })) app.node("hsrStat-" + k).value = String(v);
-        assert.equal(app.calculate().length, 0);
-        app.state.modifierInputs[key] = true;
-        let r = app.calculate()[0]; assert.ok(Math.abs(r.nonCrit - nc) < 1e-9); assert.ok(Math.abs(r.crit - nc * 2) < 1e-9); assert.ok(Math.abs(r.expected - nc * 1.5) < 1e-9);
+        const name=cid==="1222"?"彩雲の如く巡る霞":"ダストデビル・ダンサー",find=()=>app.calculate().find(x=>x.attack.name===name);
+        let r = find(); assert.ok(Math.abs(r.nonCrit - nc) < 1e-9); assert.ok(Math.abs(r.crit - nc * 2) < 1e-9); assert.ok(Math.abs(r.expected - nc * 1.5) < 1e-9);
+        app.state.modifierInputs[key]=false;assert.ok(Math.abs(find().nonCrit-nc)<1e-9,"legacy availability OFF does not hide hypothetical attack");
         assert.match(app.node("hsrResults").innerHTML, /星魂0・必殺技Lv1～10・敵1体/);
         app.node("hsrStat-atk").handlers.input(); const restored = await tool(app.storage, extra);
-        assert.equal(restored.state.modifierInputs[key], true); assert.ok(Math.abs(restored.calculate()[0].nonCrit - nc) < 1e-9);
+        assert.equal(restored.state.modifierInputs[key], false); assert.ok(Math.abs(restored.calculate().find(x=>x.attack.name===name).nonCrit - nc) < 1e-9);
         if (cid === "1222") {
             restored.state.modifierInputs["lingsha-direct-skill"] = true; assert.equal(restored.calculate().length, 2);
             restored.state.modifierInputs[key] = false; assert.equal(restored.calculate()[0].attack.name, "彩煙");
             restored.state.modifierInputs["lingsha-direct-skill"] = false; restored.state.modifierInputs[key] = true;
         }
-        restored.state.modifierInputs[key] = false; assert.equal(restored.calculate().length, 0);
-        restored.state.modifierInputs[key] = true;
-        for (const value of ["", "0", "-1", "invalid"]) { restored.node("hsrStat-atk").value = value; assert.equal(restored.calculate().length, 0); }
-        restored.node("hsrStat-atk").value = "3000"; restored.node("hsrUltimateTrace").value = "11"; assert.equal(restored.calculate().length, 0);
-        restored.node("hsrUltimateTrace").value = "10"; restored.node("hsrEnemyCount").value = "2"; assert.equal(restored.calculate().length, 0);
-        restored.node("hsrEnemyCount").value = "1"; restored.node("hsrEidolon").value = "1"; assert.equal(restored.calculate().length, 0);
+        assert.ok(Math.abs(find().nonCrit-nc)<1e-9);
+        for (const value of ["", "0", "-1", "invalid"]) { restored.node("hsrStat-atk").value = value; assert.equal(restored.calculate().some(x=>x.attack.name===name), false); }
+        restored.node("hsrStat-atk").value = "3000"; restored.node("hsrUltimateTrace").value = "11"; assert.equal(restored.calculate().some(x=>x.attack.name===name), false);
+        restored.node("hsrUltimateTrace").value = "10"; restored.node("hsrEnemyCount").value = "2"; assert.equal(restored.calculate().some(x=>x.attack.name===name), false);
+        restored.node("hsrEnemyCount").value = "1"; restored.node("hsrEidolon").value = "1"; assert.equal(restored.calculate().some(x=>x.attack.name===name), false);
     }
 });
 
@@ -1152,9 +1163,11 @@ test("Ratio instance selectors and Deduction restore independently without combi
         structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1305")};
     const app=await tool(undefined,data); app.state.characterId="1305";
     for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
-    assert.equal(app.calculate().length,0);
-    app.state.modifierInputs["ratio-ultimate-instance"]=true;assert.ok(Math.abs(app.calculate()[0].nonCrit-2592)<1e-8);
-    app.state.modifierInputs["ratio-follow-up-instance"]=true;
+    const findUltimate=()=>app.calculate().find(r=>r.attack.name.includes("三段階のパラドックス"));
+    const findFollowUp=()=>app.calculate().find(r=>r.attack.name.includes("我思う、故に我あり"));
+    assert.ok(Math.abs(findUltimate().nonCrit-2592)<1e-8);assert.ok(Math.abs(findFollowUp().nonCrit-2916)<1e-8);
+    app.state.modifierInputs["ratio-ultimate-instance"]=false;app.state.modifierInputs["ratio-follow-up-instance"]=false;
+    assert.ok(Math.abs(findUltimate().nonCrit-2592)<1e-8);assert.ok(Math.abs(findFollowUp().nonCrit-2916)<1e-8,"legacy availability flags do not hide comparison rows");
     const base=app.calculate();assert.equal(base.length,2);assert.ok(Math.abs(base[1].nonCrit-2916)<1e-8);
     app.state.modifierInputs["ratio-deduction-unlocked"]=true;app.node("hsrEnemyDebuffCount").value="3";
     assert.ok(Math.abs(app.calculate()[1].nonCrit-3790.8)<1e-8);
@@ -1162,13 +1175,15 @@ test("Ratio instance selectors and Deduction restore independently without combi
     app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);
     assert.equal(restored.state.modifierInputs["ratio-deduction-unlocked"],true);
     assert.equal(restored.node("hsrEnemyDebuffCount").value,"3");assert.ok(Math.abs(restored.calculate()[0].nonCrit-3369.6)<1e-8);
-    restored.state.modifierInputs["ratio-follow-up-instance"]=false;assert.equal(restored.calculate().length,1);
-    restored.state.modifierInputs["ratio-follow-up-instance"]=true;restored.state.modifierInputs["ratio-ultimate-instance"]=false;assert.equal(restored.calculate().length,1);
-    restored.state.modifierInputs["ratio-deduction-unlocked"]=false;assert.ok(Math.abs(restored.calculate()[0].nonCrit-2916)<1e-8);
+    restored.state.modifierInputs["ratio-follow-up-instance"]=false;assert.ok(restored.calculate().some(r=>r.attack.name.includes("我思う、故に我あり")));
+    restored.state.modifierInputs["ratio-follow-up-instance"]=true;restored.state.modifierInputs["ratio-ultimate-instance"]=false;
+    assert.ok(restored.calculate().some(r=>r.attack.name.includes("三段階のパラドックス")));
+    restored.state.modifierInputs["ratio-deduction-unlocked"]=false;assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("我思う、故に我あり")).nonCrit-2916)<1e-8);
     for(const v of ["","0","-1","invalid"]){restored.node("hsrStat-atk").value=v;assert.equal(restored.calculate().some(r=>r.attack.name.includes("看破・斬")),false);}
-    restored.node("hsrStat-atk").value="3000";restored.node("hsrTalentTrace").value="11";assert.equal(restored.calculate().length,0);
-    restored.node("hsrTalentTrace").value="10";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().some(r=>r.attack.name.includes("強化通常")),false);
-    restored.node("hsrEnemyCount").value="1";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().some(r=>r.attack.name.includes("強化通常")),false);
+    restored.node("hsrStat-atk").value="3000";restored.node("hsrUltimateTrace").value="11";
+    assert.equal(restored.calculate().some(r=>r.attack.name.includes("三段階のパラドックス")),false);
+    assert.ok(restored.calculate().some(r=>r.attack.name.includes("我思う、故に我あり")),"unrelated attack stays available when Ultimate trace is invalid");
+    restored.node("hsrUltimateTrace").value="10";
     restored.node("hsrEidolon").value="0";restored.state.characterId="1222";assert.equal(restored.calculate().length,0);
 });
 
@@ -1179,9 +1194,13 @@ test("Yunli scoped Skill, ordinary Counter and Slash restore while Cull and miss
         structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1221")};
     const app=await tool(undefined,data);app.state.characterId="1221";
     for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
-    assert.equal(app.calculate().length,0);
-    const keys=["yunli-skill-instance","yunli-normal-counter-instance","yunli-intuit-slash-instance"];
-    keys.forEach(k=>app.state.modifierInputs[k]=true);
+    const findSkill=()=>app.calculate().find(r=>r.attack.name.includes("天威煌々"));
+    const findCounter=()=>app.calculate().find(r=>r.attack.name.includes("閃熔"));
+    const findSlash=()=>app.calculate().find(r=>r.attack.name.includes("看破・斬"));
+    assert.ok(findSkill());assert.ok(findCounter());assert.equal(findSlash(),undefined,"the Slash context still controls its real critical modifier");
+    app.state.modifierInputs["yunli-skill-instance"]=false;app.state.modifierInputs["yunli-normal-counter-instance"]=false;
+    assert.ok(findSkill());assert.ok(findCounter(),"display-only selectors do not hide attack comparisons");
+    app.state.modifierInputs["yunli-intuit-slash-instance"]=true;
     let results=app.calculate();assert.equal(results.length,3);
     const slash=results.find(r=>r.attack.name.includes("看破・斬"));assert.ok(Math.abs(slash.nonCrit-2376)<1e-8);assert.ok(Math.abs(slash.crit-7128)<1e-8);assert.ok(Math.abs(slash.expected-4752)<1e-8);
     assert.match(app.node("hsrResults").innerHTML,/炎輪の滅置換なし/);
@@ -1194,7 +1213,7 @@ test("Yunli scoped Skill, ordinary Counter and Slash restore while Cull and miss
     assert.equal(restored.state.modifierInputs["yunli-true-sunder-active"],true);
     assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("看破・斬")).nonCrit-withCone*2.2*.36)<1e-8);
     restored.state.modifierInputs["yunli-intuit-slash-instance"]=false;
-    assert.equal(restored.calculate().some(r=>r.attack.name.includes("看破")),false);
+    assert.equal(restored.calculate().some(r=>r.attack.name.includes("看破・斬")),false);
     restored.state.modifierInputs["yunli-intuit-slash-instance"]=true;
     restored.node("hsrLevel").value="70";assert.equal(restored.calculate().some(r=>r.attack.name.includes("看破・斬")),false);
     restored.node("hsrLevel").value="80";
@@ -1211,16 +1230,17 @@ test("Fuyuan action restores two-hit scope without combining Lingsha Skill or Ul
         structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1222")};
     const app=await tool(undefined,data);app.state.characterId="1222";
     for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
-    assert.equal(app.calculate().length,0);app.state.modifierInputs["lingsha-fuyuan-instance"]=true;
+    const findFuyuan=target=>target.calculate().find(r=>r.attack.hitCount===2);
+    assert.ok(findFuyuan(app));app.state.modifierInputs["lingsha-fuyuan-instance"]=false;
+    assert.ok(findFuyuan(app),"legacy availability OFF state does not hide Fuyuan comparison");
     const r=app.calculate()[0];assert.ok(Math.abs(r.nonCrit-1620)<1e-8);assert.ok(Math.abs(r.crit-3240)<1e-8);assert.ok(Math.abs(r.expected-2430)<1e-8);
     assert.equal(r.attack.hitCount,2);assert.match(app.node("hsrResults").innerHTML,/2ヒット/);assert.match(app.node("hsrResults").innerHTML,/全体1ヒット＋追加単体1ヒット/);
     app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);
-    assert.equal(restored.state.modifierInputs["lingsha-fuyuan-instance"],true);assert.ok(Math.abs(restored.calculate()[0].nonCrit-1620)<1e-8);
-    restored.state.modifierInputs["lingsha-fuyuan-instance"]=false;assert.equal(restored.calculate().length,0);restored.state.modifierInputs["lingsha-fuyuan-instance"]=true;
-    for(const v of ["","0","-1","invalid"]){restored.node("hsrStat-atk").value=v;assert.equal(restored.calculate().length,0);}
-    restored.node("hsrStat-atk").value="3000";restored.node("hsrTalentTrace").value="11";assert.equal(restored.calculate().length,0);
-    restored.node("hsrTalentTrace").value="10";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().length,0);
-    restored.node("hsrEnemyCount").value="1";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().length,0);
+    assert.equal(restored.state.modifierInputs["lingsha-fuyuan-instance"],false);assert.ok(Math.abs(findFuyuan(restored).nonCrit-1620)<1e-8);
+    for(const v of ["","0","-1","invalid"]){restored.node("hsrStat-atk").value=v;assert.equal(restored.calculate().some(r=>r.attack.hitCount===2),false);}
+    restored.node("hsrStat-atk").value="3000";restored.node("hsrTalentTrace").value="11";assert.equal(restored.calculate().some(r=>r.attack.hitCount===2),false);
+    restored.node("hsrTalentTrace").value="10";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().some(r=>r.attack.hitCount===2),false);
+    restored.node("hsrEnemyCount").value="1";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().some(r=>r.attack.hitCount===2),false);
 });
 
 
@@ -1251,16 +1271,38 @@ test("Gallagher enhanced Basic restores separately from Ultimate and refuses uns
         structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1301")};
     const app=await tool(undefined,data);app.state.characterId="1301";app.node("hsrNormalTrace").value="6";
     for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
-    assert.equal(app.calculate().length,1);app.state.modifierInputs["gallagher-enhanced-normal-instance"]=true;
-    const r=app.calculate();assert.equal(r.length,2);const b=r.find(r=>r.attack.name.includes("極上"));
+    const findBasic=target=>target.calculate().find(r=>r.attack.name.includes("極上"));
+    assert.ok(findBasic(app));app.state.modifierInputs["gallagher-enhanced-normal-instance"]=false;
+    const r=app.calculate();assert.equal(r.length,2);const b=findBasic(app);
     assert.ok(Math.abs(b.nonCrit-2700)<1e-8);assert.ok(Math.abs(b.crit-5400)<1e-8);assert.ok(Math.abs(b.expected-4050)<1e-8);assert.match(app.node("hsrResults").innerHTML,/必殺技は別行動/);
     app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);
-    assert.equal(restored.state.modifierInputs["gallagher-enhanced-normal-instance"],true);assert.equal(restored.node("hsrNormalTrace").value,"6");assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("極上")).nonCrit-2700)<1e-8);
-    restored.state.modifierInputs["gallagher-enhanced-normal-instance"]=false;assert.equal(restored.calculate().length,1);restored.state.modifierInputs["gallagher-enhanced-normal-instance"]=true;
+    assert.equal(restored.state.modifierInputs["gallagher-enhanced-normal-instance"],false);assert.equal(restored.node("hsrNormalTrace").value,"6");assert.ok(Math.abs(findBasic(restored).nonCrit-2700)<1e-8);
     for(const v of ["","0","-1","invalid"]){restored.node("hsrStat-atk").value=v;assert.equal(restored.calculate().length,0);}
-    restored.node("hsrStat-atk").value="3000";restored.node("hsrNormalTrace").value="7";assert.equal(restored.calculate().some(r=>r.attack.name.includes("極上")),false);
-    restored.node("hsrNormalTrace").value="6";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().length,0);
-    restored.node("hsrEnemyCount").value="1";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().length,0);
+    restored.node("hsrStat-atk").value="3000";restored.node("hsrNormalTrace").value="7";assert.equal(findBasic(restored),undefined);
+    restored.node("hsrNormalTrace").value="6";restored.node("hsrEnemyCount").value="2";assert.equal(findBasic(restored),undefined);
+    restored.node("hsrEnemyCount").value="1";restored.node("hsrEidolon").value="1";assert.equal(findBasic(restored),undefined);
+});
+
+
+test("Blade Hellscape bonus affects the enhanced-state attacks but not the replaced ordinary Basic", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const files=require("../../scripts/lib/hsrDataFiles.cjs").loadHsrDataFiles(root);
+    const generated=JSON.parse(read("games/hsr/data/attacks.generated.json")).attacks;
+    const byId=new Map(generated.map(a=>[a.id,a]));files.attackOverrides.forEach(a=>byId.set(a.id,{...byId.get(a.id),...a}));
+    const attacks=[...byId.values()].filter(a=>a.characterId==="1205");
+    const app=await tool(undefined,{characters:catalog.characters,attacks,structuredModifiers:files.modifiers});
+    app.state.characterId="1205";app.state.enhancementState="previous";app.node("hsrEnhancementState").value="previous";app.node("hsrEidolon").value="0";
+    for(const[k,v]of Object.entries({hp:7000,atk:2500,critRate:50,critDamage:100}))app.node("hsrStat-"+k).value=String(v);
+    const ordinary=()=>app.calculate().find(r=>r.attack.name.includes("支離剣（強化前）"));
+    const enhanced=()=>app.calculate().find(r=>r.attack.name.includes("無間剣樹（強化前）"));
+    assert.ok(ordinary(),JSON.stringify(app.calculate().map(r=>r.attack.name)));
+    const ordinaryBase=ordinary().nonCrit,enhancedBase=enhanced().nonCrit;
+    assert.equal(app.state.modifierInputs["blade-hellscape-active"],undefined,"the attack assumption does not auto-enable the combat buff");
+    app.state.modifierInputs["blade-hellscape-active"]=true;
+    assert.equal(ordinary().nonCrit,ordinaryBase,"Hellscape replaces the ordinary Basic; its bonus cannot leak to that row");
+    assert.ok(enhanced().nonCrit>enhancedBase,"the same active Hellscape bonus applies to the enhanced Basic");
+    app.state.modifierInputs["blade-hellscape-active"]=false;
+    assert.equal(ordinary().nonCrit,ordinaryBase);assert.equal(enhanced().nonCrit,enhancedBase);
 });
 
 
