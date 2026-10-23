@@ -630,3 +630,13 @@ test("Robin Concerto ATK uses the provider final ATK with flat addition", () => 
     for(const type of ["elation","break","superBreak","trueDamage","memospriteSkill"])assert.equal(runtime.applicableToAttack(candidate(id,context,inputs),{type}),false);
     const r=engine.calculate({...input,modifiers:[candidate(id,context,inputs)],attack:{...input.attack,scalingStat:"def"}});assert.ok(Math.abs(r.nonCrit-1080)<1e-8);
 });
+
+
+test("Enhanced Sparkle Skill uses provider CRIT DMG and exact level coefficients", () => {
+    const id="trace:1306:1130602:party-crit-damage",inputs={"sparkle-enhanced-skill-active":true},c={characterId:"1003",partyIds:["1306"],partyEidolons:{"1306":0},partyStats:{"1306":{critDamage:200}},stats:{critDamage:100},traceLevelFor:()=>10};
+    const engine=calcEngine(),base={character:{level:80,stats:{atk:3000,critRate:50,critDamage:100}},enemy:{level:80,resistance:20,toughnessActive:true},attack:{type:"normal",element:"Fire",scalingStat:"atk",multiplier:100}};
+    for(const[lv,bonus]of [[1,51],[10,93]]) {const buff=candidate(id,{...c,traceLevelFor:()=>lv},inputs);assert.equal(buff.value,bonus);const r=engine.calculate({...base,modifiers:[buff]});assert.ok(Math.abs(r.nonCrit-1080)<1e-8);assert.ok(Math.abs(r.crit-1080*(2+bonus/100))<1e-8);assert.ok(Math.abs(r.expected-1080*(1+.5*(1+bonus/100)))<1e-8);}
+    assert.equal(candidate(id,c,{}).enabled,false);assert.equal(candidate(id,{...c,partyIds:[]},inputs),undefined);assert.equal(candidate(id,{...c,characterId:"1306"},inputs),undefined);
+    for(const type of ["dot","elation","memospriteSkill","break","superBreak","trueDamage"])assert.equal(runtime.applicableToAttack(candidate(id,c,inputs),{type}),false);
+    assert.ok(candidate(id,{...c,partyStats:{"1306":{critDamage:NaN}}},inputs).inputWarnings.length);
+});

@@ -1919,3 +1919,19 @@ test("Concerto validates only ATK results and preserves manual final-stat respon
     restored.node("hsrStat-atk").value="4112";near(restored.calculate()[0].nonCrit,1480.32);
     restored.node("hsrStat-atk").value="3000";restored.state.party[0].characterId="";near(restored.calculate()[0].nonCrit,1080);
 });
+
+
+test("Sparkle Skill preserves manual and UID trace levels and affects only crit-capable outputs", async () => {
+    const cat=JSON.parse(read("games/hsr/data/catalog.json"));const mods=JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1306");
+    const app=await tool(undefined,{structuredModifiers:mods});app.state.data.characters.push(cat.characters.find(c=>c.id==="1306"));const base=app.state.data.attacks[0];app.state.data.attacks.push({...base,id:"dot",type:"dot",canCrit:false});
+    app.state.party[0]={...app.state.party[0],characterId:"1306",eidolon:0,critDamage:200,traceLevels:{skill:10}};
+    app.node("hsrStat-atk").value="3000";app.node("hsrStat-critRate").value="50";app.node("hsrStat-critDamage").value="100";
+    const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);near(app.calculate()[0].expected,1620);
+    app.state.modifierInputs["sparkle-enhanced-skill-active"]=true;near(app.calculate()[0].expected,2122.2);near(app.calculate()[1].nonCrit,1080);
+    app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,{characters:app.state.data.characters,attacks:app.state.data.attacks,structuredModifiers:mods});near(restored.calculate()[0].expected,2122.2);
+    restored.state.party[0].source="api";restored.state.party[0].traceLevels.skill=8;near(restored.calculate()[0].expected,2065.5);
+    restored.state.party[0].traceLevels.skill=NaN;assert.equal(restored.calculate().length,1);
+    restored.state.party[0].source="manual";restored.state.party[0].traceLevels.skill=10;restored.state.party[0].critDamage=NaN;assert.equal(restored.calculate().length,1);
+    restored.state.modifierInputs["sparkle-enhanced-skill-active"]=false;restored.node("hsrStat-critDamage").value="193";near(restored.calculate()[0].expected,2122.2);
+    restored.node("hsrStat-critDamage").value="100";restored.state.party[0].characterId="";near(restored.calculate()[0].expected,1620);
+});
