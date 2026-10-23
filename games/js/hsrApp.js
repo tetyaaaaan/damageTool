@@ -355,7 +355,7 @@
       closeDialog($("hsrSelectionDialog")); markDirty(); return;
     }
     if (type === "party") {
-      const member = state.party[state.partySlot]; member.characterId = id; member.eidolon = 0; member.level = 10; member.atk = 0; member.critDamage = 50; member.breakEffect = 0; member.lightConeId = ""; member.coneRank = 1; member.relicId = ""; member.relicSecondId = ""; member.relicMode = "4pc"; member.ornamentId = ""; member.source = "manual"; member.traceLevels = {}; if (profile) applyPartyProfile(member, profile); renderPartyDialog(); renderPartySummary(); updateConditionSummary();
+      const member = state.party[state.partySlot]; member.characterId = id; member.eidolon = 0; member.level = 10; member.atk = 0; member.critDamage = 50; member.breakEffect = 0; member.lightConeId = ""; member.coneRank = 1; member.relicId = ""; member.relicSecondId = ""; member.relicMode = "4pc"; member.ornamentId = ""; member.source = "manual"; member.traceLevels = Object.fromEntries(partyTraceRequirements(member).map(key => [key, 10])); if (profile) applyPartyProfile(member, profile); renderPartyDialog(); renderPartySummary(); updateConditionSummary();
     } else if (type === "enemy") {
       applyEnemy(id);
     } else {
@@ -391,25 +391,63 @@
     return members;
   }
 
+  function supportTraceKey(source) {
+    const skill = find("characters", String(source.id))?.skills?.find(item => String(item.id) === String(source.skillId));
+    return Object.entries(TRACE_FIELDS).find(([, [type]]) => type === skill?.type)?.[0];
+  }
+
+  function supportTraceLevel(member, key) {
+    if (!key) return NaN;
+    if (Object.hasOwn(member.traceLevels || {}, key)) return member.traceLevels[key];
+    // The shared value is a legacy manual setting, never a UID fallback.
+    return member.source === "api" ? NaN : Number(member.level);
+  }
+
+  function supportTraceMaximum(member, key) {
+    const provider = find("characters", member.characterId);
+    const skill = provider?.skills?.find(item => item.type === TRACE_FIELDS[key]?.[0] && item.params?.length);
+    const bonus = (provider?.eidolons || []).filter(rank => rank.rank <= Number(member.eidolon || 0)).flatMap(rank => rank.levelUpSkills || [])
+      .filter(entry => String(entry.id) === String(skill?.id)).reduce((sum, entry) => sum + Number(entry.num || 0), 0);
+    return Math.min((TRACE_FIELDS[key]?.[3] || 10) + bonus, skill?.params?.length || 15);
+  }
+
+  function partyTraceRequirements(member) {
+    if (!member.characterId) return [];
+    const context = structuredModifierContext();
+    const keys = new Set((state.data.structuredModifiers || []).filter(record =>
+      String(record.source?.id) === String(member.characterId) && record.source?.skillId
+      && /byLevel/i.test(record.value?.kind || "") && !record.value?.levelInputKey
+      && record.support?.status === "calculable" && record.inputPolicy !== "includedInFinalStats"
+      && window.HsrModifierRuntime.sourceSelection(record, context).selected
+    ).map(record => supportTraceKey(record.source)).filter(Boolean));
+    return [...keys];
+  }
+
+  function partyTraceFields(member, index) {
+    return partyTraceRequirements(member).map(key => {
+      const value = supportTraceLevel(member, key);
+      return `<label><span>${TRACE_FIELDS[key][2]}Lv${member.source === "api" ? "（UID）" : ""}</span><input type="number" min="1" max="${supportTraceMaximum(member, key)}" step="1" data-party-trace="${key}" data-slot="${index}" value="${Number.isFinite(value) ? value : ""}"></label>`;
+    }).join("");
+  }
+
   function renderPartyDialog() {
     $("hsrAttackerPosition").value = String(state.attackerPosition);
     $("hsrPartyRows").innerHTML = state.party.map((member, index) => {
       const item = find("characters", member.characterId);
-      return `<section class="genshin-party-member"><div class="genshin-party-member-head"><h3>編成${orderedParty().findIndex((entry) => entry.supportIndex === index) + 1} ${member.source === "api" ? "・UID" : ""}</h3><span class="hsr-party-order-actions"><button type="button" data-party-move="-1" data-slot="${index}"${index === 0 ? " disabled" : ""} aria-label="前のサポート枠へ">↑</button><button type="button" data-party-move="1" data-slot="${index}"${index === 2 ? " disabled" : ""} aria-label="次のサポート枠へ">↓</button></span><button type="button" class="genshin-party-clear" data-party-clear="${index}"${item ? "" : " disabled"}>解除</button></div><div class="genshin-party-equipment-row hsr-party-equipment-row"><button type="button" class="genshin-party-pick" data-party-select="${index}" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img src="${esc(imageUrl(item?.image))}" alt="" width="56" height="56" loading="lazy"><span><small>キャラクター</small><strong>${esc(item?.name || "選択する")}</strong></span></button>${partyEquipment(member, index)}</div><div class="genshin-party-basic-fields hsr-party-fields"><label><span>星魂</span><select data-party-field="eidolon" data-slot="${index}"${item ? "" : " disabled"}>${Array.from({ length: 7 }, (_, rank) => `<option value="${rank}"${num(member.eidolon) === rank ? " selected" : ""}>${rank}</option>`).join("")}</select></label><label${member.source === "api" ? " hidden" : ""}><span>支援効果の軌跡Lv</span><input type="number" min="1" max="15" data-party-field="level" data-slot="${index}" value="${member.level}"${item ? "" : " disabled"}></label>${member.source === "api" ? Object.entries(member.traceLevels || {}).filter(([key]) => item?.skills?.some((skill) => skill.type === TRACE_FIELDS[key]?.[0] && skill.params?.length)).map(([key, value]) => `<label><span>${TRACE_FIELDS[key]?.[2] || key}Lv（UID）</span><input type="number" min="1" max="15" data-party-trace="${key}" data-slot="${index}" value="${Number.isFinite(value) ? value : ""}"></label>`).join("") : ""}<label><span>攻撃力</span><input type="number" min="0" max="99999" step="1" data-party-field="atk" data-slot="${index}" value="${statDisplay("atk", member.atk)}" data-party-original="${esc(Number.isFinite(member.atk) ? member.atk : "")}"${item ? "" : " disabled"}></label><label><span>会心ダメージ</span><span class="genshin-condition-input-unit"><input type="number" min="0" max="500" step="0.1" data-party-field="critDamage" data-slot="${index}" value="${statDisplay("critDamage", member.critDamage)}" data-party-original="${esc(Number.isFinite(member.critDamage) ? member.critDamage : "")}"${item ? "" : " disabled"}><em>%</em></span></label><label><span>撃破特効</span><span class="genshin-condition-input-unit"><input type="number" min="0" max="500" step="0.1" data-party-field="breakEffect" data-slot="${index}" value="${statDisplay("breakEffect", member.breakEffect)}" data-party-original="${esc(Number.isFinite(member.breakEffect) ? member.breakEffect : "")}"${item ? "" : " disabled"}><em>%</em></span></label><label><span>重畳</span><select data-party-field="coneRank" data-slot="${index}"${item && member.lightConeId ? "" : " disabled"}>${Array.from({ length: 5 }, (_, rank) => `<option value="${rank + 1}"${num(member.coneRank, 1) === rank + 1 ? " selected" : ""}>${rank + 1}</option>`).join("")}</select></label><label><span>遺物構成</span><select data-party-field="relicMode" data-slot="${index}"${item ? "" : " disabled"}><option value="4pc"${member.relicMode === "4pc" ? " selected" : ""}>4セット</option><option value="2+2"${member.relicMode === "2+2" ? " selected" : ""}>2セット＋2セット</option></select></label></div><p class="genshin-party-base-summary">${item ? "支援効果が参照する本人ステータスと、味方へ作用する装備・軌跡・星魂を設定します。" : "キャラクターを選択してください。"}</p></section>`;
+      return `<section class="genshin-party-member"><div class="genshin-party-member-head"><h3>編成${orderedParty().findIndex((entry) => entry.supportIndex === index) + 1} ${member.source === "api" ? "・UID" : ""}</h3><span class="hsr-party-order-actions"><button type="button" data-party-move="-1" data-slot="${index}"${index === 0 ? " disabled" : ""} aria-label="前のサポート枠へ">↑</button><button type="button" data-party-move="1" data-slot="${index}"${index === 2 ? " disabled" : ""} aria-label="次のサポート枠へ">↓</button></span><button type="button" class="genshin-party-clear" data-party-clear="${index}"${item ? "" : " disabled"}>解除</button></div><div class="genshin-party-equipment-row hsr-party-equipment-row"><button type="button" class="genshin-party-pick" data-party-select="${index}" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><img src="${esc(imageUrl(item?.image))}" alt="" width="56" height="56" loading="lazy"><span><small>キャラクター</small><strong>${esc(item?.name || "選択する")}</strong></span></button>${partyEquipment(member, index)}</div><div class="genshin-party-basic-fields hsr-party-fields"><label><span>星魂</span><select data-party-field="eidolon" data-slot="${index}"${item ? "" : " disabled"}>${Array.from({ length: 7 }, (_, rank) => `<option value="${rank}"${num(member.eidolon) === rank ? " selected" : ""}>${rank}</option>`).join("")}</select></label>${partyTraceFields(member, index)}<label><span>攻撃力</span><input type="number" min="0" max="99999" step="1" data-party-field="atk" data-slot="${index}" value="${statDisplay("atk", member.atk)}" data-party-original="${esc(Number.isFinite(member.atk) ? member.atk : "")}"${item ? "" : " disabled"}></label><label><span>会心ダメージ</span><span class="genshin-condition-input-unit"><input type="number" min="0" max="500" step="0.1" data-party-field="critDamage" data-slot="${index}" value="${statDisplay("critDamage", member.critDamage)}" data-party-original="${esc(Number.isFinite(member.critDamage) ? member.critDamage : "")}"${item ? "" : " disabled"}><em>%</em></span></label><label><span>撃破特効</span><span class="genshin-condition-input-unit"><input type="number" min="0" max="500" step="0.1" data-party-field="breakEffect" data-slot="${index}" value="${statDisplay("breakEffect", member.breakEffect)}" data-party-original="${esc(Number.isFinite(member.breakEffect) ? member.breakEffect : "")}"${item ? "" : " disabled"}><em>%</em></span></label><label><span>重畳</span><select data-party-field="coneRank" data-slot="${index}"${item && member.lightConeId ? "" : " disabled"}>${Array.from({ length: 5 }, (_, rank) => `<option value="${rank + 1}"${num(member.coneRank, 1) === rank + 1 ? " selected" : ""}>${rank + 1}</option>`).join("")}</select></label><label><span>遺物構成</span><select data-party-field="relicMode" data-slot="${index}"${item ? "" : " disabled"}><option value="4pc"${member.relicMode === "4pc" ? " selected" : ""}>4セット</option><option value="2+2"${member.relicMode === "2+2" ? " selected" : ""}>2セット＋2セット</option></select></label></div><p class="genshin-party-base-summary">${item ? "支援効果が参照する本人ステータスと、味方へ作用する装備・軌跡・星魂を設定します。" : "キャラクターを選択してください。"}</p></section>`;
     }).join("");
     $("hsrPartyRows").querySelectorAll("img").forEach((image) => { image.onerror = fixImage; });
   }
 
-  function collectParty() {
+  function collectParty(redraw = false) {
     $("hsrPartyRows").querySelectorAll("[data-party-field]").forEach((input) => {
       const member = state.party[num(input.dataset.slot)]; const field = input.dataset.partyField;
       if (input.dataset.partyOriginal !== undefined && input.value === statDisplay(field, member[field])) return;
-      if (field === "level" && Number(input.value) !== Number(member.level) && member.source === "api") member.traceLevels = Object.fromEntries(Object.keys(TRACE_FIELDS).map((key) => [key, Number(input.value)]));
       member[field] = input.type === "checkbox" ? input.checked : field === "value" ? num(input.value) : input.value;
     });
     $("hsrPartyRows").querySelectorAll("[data-party-trace]").forEach((input) => { const member = state.party[Number(input.dataset.slot)]; member.traceLevels[input.dataset.partyTrace] = input.value === "" ? NaN : Number(input.value); });
     state.party.forEach((member) => { member.level = num(member.level, 10); member.eidolon = num(member.eidolon, 0); member.coneRank = num(member.coneRank, 1); member.atk = member.atk === "" ? NaN : Number(member.atk); member.critDamage = member.critDamage === "" ? NaN : Number(member.critDamage); member.breakEffect = member.breakEffect === "" ? NaN : Number(member.breakEffect); });
-    renderPartyDialog();
+    if (redraw) renderPartyDialog();
     renderPartySummary(); updateConditionSummary(); markDirty();
   }
 
@@ -462,7 +500,7 @@
       const member = state.party.find((item) => String(item.characterId) === String(source.id));
       if (!member) return 10;
       const key = Object.entries(TRACE_FIELDS).find(([, [type]]) => type === skill?.type)?.[0];
-      return member.source === "api" && key ? member.traceLevels?.[key] ?? NaN : Number(member.level);
+      return supportTraceLevel(member, key);
     };
     return {
       characterId: state.characterId,
@@ -494,18 +532,20 @@
     };
   }
 
-  function validateUidProvider(item) {
+  function validateProvider(item) {
     const provider = state.party.find((member) => member.characterId === item.providerId);
-    if (provider?.source !== "api" || item.displayOnly) return item;
+    if (!provider || item.displayOnly || !item.enabled) return item;
     const warnings = [...(item.inputWarnings || [])];
     const record = state.data.structuredModifiers.find((entry) => entry.id === item.id);
     if (record?.source?.skillId && !record.value?.levelInputKey && /byLevel/i.test(record.value?.kind || "")) {
       const level = structuredModifierContext().traceLevelFor(record.source);
-      if (!Number.isInteger(level) || level < 1 || level > 15) warnings.push(`${item.source}の支援効果が参照する軌跡Lvが未取得です。パーティ設定で入力してください。`);
+      const key = supportTraceKey(record.source);
+      const maximum = Math.min(record.inputValidation?.levelMaximum || 15, supportTraceMaximum(provider, key));
+      if (!Number.isInteger(level) || level < 1 || level > maximum) warnings.push(`${item.source}の${TRACE_FIELDS[key]?.[2] || "軌跡"}Lvに1～${maximum}の整数を入力してください。`);
     }
     const stat = item.valueInput?.providerStat;
     const valueInput = stat ? { ...item.valueInput, value: provider[stat] } : item.valueInput;
-    if (stat && !Number.isFinite(provider[stat])) warnings.push(`${item.source}の${item.valueInput.label}が未取得です。パーティ設定で入力してください。`);
+    if (stat && !Number.isFinite(provider[stat])) warnings.push(`${item.source}の${item.valueInput.label}が未入力です。パーティ設定で入力してください。`);
     return { ...item, valueInput, inputWarnings: warnings, applicable: item.applicable !== false && warnings.length === 0 };
   }
 
@@ -527,7 +567,7 @@
         inputLabel: item.activation?.inputLabel || "",
         inputMinimum: item.activation?.minimum,
         inputMaximum: item.activation?.maximum
-      })).map(validateUidProvider);
+      })).map(validateProvider);
   }
 
   function sourceConditions() {
@@ -865,14 +905,14 @@
     if (modifierIssueLinks.has(fieldId)) {
       const {item, message} = modifierIssueLinks.get(fieldId);
       const provider = state.party.findIndex(member => member.characterId === item.providerId);
-      const needsLevel = /軌跡Lv|天賦Lv|精霊天賦Lv/.test(message) && !item.levelInput;
+      const needsLevel = /(?:軌跡|天賦|精霊天賦|スキル|必殺技|通常)Lv/.test(message) && !item.levelInput;
       if (provider >= 0 && needsLevel) {
         renderPartyDialog(); openModal($("hsrPartyDialog"));
         requestAnimationFrame(() => {
           const source = state.data.structuredModifiers.find(record => record.id === item.id)?.source;
           const skill = find("characters", item.providerId)?.skills?.find(entry => entry.id === source?.skillId);
           const key = Object.entries(TRACE_FIELDS).find(([, [type]]) => type === skill?.type)?.[0];
-          const selector = state.party[provider].source === "api" && key ? `[data-party-trace="${key}"][data-slot="${provider}"]` : `[data-party-field="level"][data-slot="${provider}"]`;
+          const selector = `[data-party-trace="${key}"][data-slot="${provider}"]`;
           const input = $("hsrPartyRows").querySelector(selector); input?.focus?.({preventScroll:true}); input?.scrollIntoView?.({block:"center",behavior:"smooth"});
         });
         return;
@@ -1110,8 +1150,6 @@
   function modifierInputIssues(attack, baseStats) {
     return modifiers(attack).filter(item => item.enabled && item.matchesAttack).flatMap(item => {
       const issues = [...(item.inputWarnings || [])];
-      const provider = state.party.find(member => member.characterId === item.providerId);
-      if (item.id === "trace:1202:120202:benediction-atk" && provider && (!Number.isInteger(provider.level) || provider.level < 1 || provider.level > 15)) issues.push("停雲の軌跡Lvに1～15の整数を入力してください。");
       if (["hp", "atk", "def"].includes(item.valueInput?.providerStat) && !(Number.isFinite(item.valueInput.value) && item.valueInput.value > 0)) issues.push(`${item.valueInput.label}に、発動者の最終値（0より大きい数値）を入力してください。`);
       const baseStat = item.category === "statPercent" ? item.stat : item.requiredBaseStat;
       if (baseStat && !(Number.isFinite(baseStats[baseStat]) && baseStats[baseStat] > 0)) issues.push(`必要な基礎${{hp:"HP",atk:"攻撃力",def:"防御力",speed:"速度"}[baseStat] || baseStat}を取得できません。キャラ・光円錐のLv80基礎値が必要です。この補正を外すか、レベル・装備を確認してください。`);
@@ -1508,7 +1546,7 @@
     });
     $("hsrPartyRows").addEventListener("input", (event) => { if (event.target.matches("[data-party-field],[data-party-trace]")) markDirty(); });
     $("hsrPartyRows").addEventListener("change", (event) => {
-      if (event.target.matches("[data-party-field],[data-party-trace]")) collectParty();
+      if (event.target.matches("[data-party-field],[data-party-trace]")) collectParty(event.target.tagName === "SELECT");
     });
     $("hsrConditionDialogOpen").addEventListener("click", () => openConditionSettings());
     $("hsrConditionDialogClose").addEventListener("click", () => closeDialog($("hsrConditionDialog")));

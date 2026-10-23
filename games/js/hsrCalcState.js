@@ -47,7 +47,17 @@
     result.party.forEach((member, index) => {
       if (member.source !== "api") member.source = "manual";
       const emptyLevels = Object.fromEntries(Object.keys(defaults.traceLevels || {}).map((key) => [key, NaN]));
-      member.traceLevels = merge(emptyLevels, value.state.party?.[index]?.traceLevels || {});
+      const savedMember = value.state.party?.[index] || {};
+      const savedLevels = object(savedMember.traceLevels) ? savedMember.traceLevels : {};
+      member.traceLevels = merge(emptyLevels, savedLevels);
+      // Old manual snapshots had only one shared trace setting. Explicit per-trace
+      // blanks (null) and missing UID values must remain unknown.
+      if (member.source === "manual" && !Object.keys(savedLevels).length) {
+        const legacy = savedMember.level;
+        if (typeof legacy === "number" && Number.isInteger(legacy) && legacy >= 1 && legacy <= 15) {
+          for (const key of ["normal", "skill", "ultimate", "talent"]) member.traceLevels[key] = legacy;
+        }
+      }
       check(member.characterId, "characters"); check(member.lightConeId, "lightCones");
       [member.relicId, member.relicSecondId, member.ornamentId].forEach((id) => check(id, "relicSets"));
     });

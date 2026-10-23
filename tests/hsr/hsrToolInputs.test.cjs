@@ -1296,11 +1296,60 @@ test("Break support restores party trace levels and shows applied effects only i
     assert.match(app.node("hsrResults").innerHTML,/弱点撃破・適用された補正/);assert.match(app.node("hsrResults").innerHTML,/芳酔・撃破被ダメージ増加/);assert.match(app.node("hsrResults").innerHTML,/酩酊・撃破被ダメージ増加/);
     app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,{structuredModifiers:mods,characters:app.state.data.characters});
     assert.equal(restored.state.party[0].characterId,"1222");assert.equal(restored.state.modifierInputs["break-besotted-active"],true);assert.equal(restored.calculate()[0].nonCrit,baseline);
-    restored.state.party[0].level=1;restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/被ダメージ倍率<\/dt><dd>1.27/);
-    for(const v of ["",0,11,"bad"]){restored.state.party[0].level=v;assert.equal(restored.calculate().length,1,"invalid party support data leaves the independent Break attack available");assert.equal(restored.calculate()[0].nonCrit,baseline,"invalid party trace data excludes only its support effect");}
-    restored.state.party[0].level=10;restored.state.party[0].eidolon=1;assert.equal(restored.calculate().length,1);
+    restored.state.party[0].traceLevels.ultimate=1;restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/被ダメージ倍率<\/dt><dd>1.27/);
+    for(const v of ["",0,11,"bad"]){restored.state.party[0].traceLevels.ultimate=v;assert.equal(restored.calculate().length,1,"invalid party support data leaves the independent Break attack available");assert.equal(restored.calculate()[0].nonCrit,baseline,"invalid party trace data excludes only its support effect");}
+    restored.state.party[0].traceLevels.ultimate=10;restored.state.party[0].eidolon=1;assert.equal(restored.calculate().length,1);
     restored.state.modifierInputs["break-befog-active"]=false;assert.equal(restored.calculate().length,1);
     restored.state.modifierInputs["break-besotted-active"]=false;assert.equal(restored.calculate().length,1);
+});
+
+test("manual Tingyun support effects use independent skill, ultimate and talent trace levels", async () => {
+    const app = await tool();
+    app.state.party[0] = { ...app.state.party[0], characterId: "1202", source: "manual", atk: 4000,
+        traceLevels: { skill: 1, ultimate: 10, talent: 6 } };
+    app.state.modifierInputs["tingyun-benediction"] = true;
+    app.state.modifierInputs["tingyun-ultimate-active"] = true;
+    app.node("hsrStat-atk").value = "1000";
+    let results = app.calculate();
+    assert.equal(results.length, 3);
+    const benedictionResult = results.find((result) => result.attack.name.includes("祥音和韻"));
+    assert.ok(benedictionResult);
+    const applied = benedictionResult.applied;
+    const skipped = benedictionResult.skipped;
+    assert.equal(applied.find((item) => item.id === "trace:1202:120202:benediction-extra-damage").value, 20,
+        "skill Lv1 drives the skill effect");
+    assert.equal(applied.find((item) => item.id === "trace:1202:120203:ultimate-damage").value, 50,
+        "ultimate Lv10 independently drives its effect");
+    assert.equal(skipped.find((item) => item.id === "trace:1202:120204:talent-extra-damage").value, 45,
+        "talent Lv6 independently resolves even when that effect does not apply to this attack");
+    assert.equal(app.state.party[0].traceLevels.ultimate, 10, "ultimate remains independently selected");
+
+    app.state.party[0].traceLevels.skill = NaN;
+    results = app.calculate();
+    assert.equal(results.length, 0, "the missing level blocks the enabled Tingyun support result");
+    app.state.modifierInputs["tingyun-benediction"] = false;
+    assert.equal(app.calculate().length, 1, "a missing skill level does not block the ordinary attack when that effect is off");
+});
+
+test("party trace restore migrates legacy shared level and preserves explicit unknown values", async () => {
+    const app = await tool();
+    const defaults = app.state;
+    const saved = app.window.HsrCalcState.create(defaults);
+    saved.state.party[0] = { ...saved.state.party[0], characterId: "1202", source: "manual", level: 4, traceLevels: {} };
+    const legacyStorage = new Map([[app.window.HsrCalcState.KEY, JSON.stringify(saved)]]);
+    const legacy = await tool(legacyStorage);
+    assert.equal(legacy.state.party[0].traceLevels.skill, 4);
+    assert.equal(legacy.state.party[0].traceLevels.ultimate, 4);
+    assert.equal(legacy.state.party[0].traceLevels.talent, 4);
+
+    const modernSaved = app.window.HsrCalcState.create(defaults);
+    modernSaved.state.party[0] = { ...modernSaved.state.party[0], characterId: "1202", source: "manual", level: 4,
+        traceLevels: { skill: NaN, ultimate: 10, talent: 6 } };
+    const modernStorage = new Map([[app.window.HsrCalcState.KEY, JSON.stringify(modernSaved)]]);
+    const modern = await tool(modernStorage);
+    assert.ok(Number.isNaN(modern.state.party[0].traceLevels.skill), "explicit blank remains unknown despite legacy level");
+    assert.equal(modern.state.party[0].traceLevels.ultimate, 10);
+    assert.equal(modern.state.party[0].traceLevels.talent, 6);
 });
 
 

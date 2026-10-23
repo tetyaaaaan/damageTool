@@ -314,6 +314,9 @@ test("HSR party members expose their own eidolon rank to structured party modifi
     ["atk", "coneRank", "relicMode"].forEach((field) => assert.match(source, new RegExp(`data-party-field="${field}"`)));
     assert.match(source, /data-party-equipment=/);
     assert.match(source, /partyEquipment:/);
+    assert.match(source, /function partyTraceFields\(member, index\)/);
+    assert.match(source, /data-party-trace=/);
+    assert.match(source, /traceLevels\[key\]/);
 });
 
 test("HSR profile mapper normalizes Enka equipment, relic, trace and set properties", () => {
