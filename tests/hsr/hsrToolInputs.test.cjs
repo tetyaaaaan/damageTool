@@ -405,6 +405,72 @@ test("party condition cards group by provider and retain attack scope independen
     assert.deepEqual(pearlOn.robinScope,pearlOff.robinScope,"ATK support scope remains unchanged when its toggle is ON");
 });
 
+test("party provider fields follow the selected effect while scope stays visible and independent", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const files=require("../../scripts/lib/hsrDataFiles.cjs").loadHsrDataFiles(root);
+    const generated=JSON.parse(read("games/hsr/data/attacks.generated.json")).attacks;
+    const merged=new Map(generated.map(attack=>[attack.id,attack]));
+    files.attackOverrides.forEach(attack=>merged.set(attack.id,{...merged.get(attack.id),...attack}));
+    const data={characters:catalog.characters,attacks:[...merged.values()],structuredModifiers:files.modifiers,
+        lightCones:catalog.lightCones,relicSets:catalog.relicSets,enemies:catalog.enemies};
+    const app=await tool(undefined,data);app.state.characterId="1003";
+    app.state.party[0]={...app.state.party[0],characterId:"1309",source:"manual",eidolon:0,level:10,atk:3000,critDamage:200,traceLevels:{skill:10,talent:10,ultimate:10}};
+    app.state.modifierInputs["robin-concerto-atk-active"]=false;
+    const openPartyConditions=()=>{app.state.conditionTab="パーティ";app.node("hsrConditionDialogOpen").handlers.click();return app.node("hsrConditionList").innerHTML;};
+    let html=openPartyConditions();
+    const robinGroup=()=>{
+        const start=app.node("hsrConditionList").innerHTML.indexOf('data-hsr-provider="1309"');
+        assert.notEqual(start,-1);
+        const next=app.node("hsrConditionList").innerHTML.indexOf('data-hsr-provider="',start+1);
+        return app.node("hsrConditionList").innerHTML.slice(start,next<0?undefined:next);
+    };
+    assert.match(robinGroup(),/data-structured-toggle="robin-concerto-atk-active"/,"provider activation remains available while OFF");
+    assert.doesNotMatch(robinGroup(),/data-structured-provider-stat="atk"/,"unused provider input is hidden while OFF");
+    app.node("hsrConditionDialog").handlers.change({target:{dataset:{structuredToggle:"robin-concerto-atk-active"},checked:true}});
+    html=app.node("hsrConditionList").innerHTML;
+    assert.match(robinGroup(),/data-structured-provider-stat="atk" data-provider-id="1309" value="3000"/,"turning the effect on reveals the provider's existing ATK without clearing it");
+    assert.match(robinGroup(),/data-hsr-provider-settings="1309" data-hsr-provider-trace="ultimate"/,"trace shortcut routes to Robin's Ultimate level");
+    const robinAtkCardStart=robinGroup().indexOf('data-hsr-condition-ids="trace:1309:130903:concerto-atk"');
+    assert.notEqual(robinAtkCardStart,-1,"the individual Robin ATK support card is present");
+    const robinAtkCard=robinGroup().slice(robinAtkCardStart,robinGroup().indexOf("</article>",robinAtkCardStart));
+    const robinAtkScope=robinAtkCard.match(/<dd data-condition-fact="scope">([\s\S]*?)<\/dd>/)?.[1]||"";
+    assert.match(robinAtkScope,/通常攻撃/,"the Himeko target scope names its Basic Attack");
+    assert.doesNotMatch(robinAtkScope,/対象外|現在の計算対象外/,"Robin ATK support is applicable to Himeko's ATK-scaled Basic");
+    assert.ok(html.includes("trace:1309:130903:concerto-atk"),"the Robin support condition remains grouped after activation");
+    let traceSelector="",focused=false,scrolled=false;
+    app.node("hsrPartyRows").querySelector=selector=>{traceSelector=selector;return {focus(){focused=true;},scrollIntoView(){scrolled=true;}};};
+    app.node("hsrConditionDialog").handlers.click({target:{closest:selector=>selector==="[data-hsr-provider-settings]"?{dataset:{hsrProviderSettings:"1309",hsrProviderTrace:"ultimate"}}:null}});
+    assert.equal(app.node("hsrPartyDialog").open,true,"the shortcut opens the party editor");
+    assert.equal(traceSelector,'[data-party-trace="ultimate"][data-slot="0"]');
+    assert.equal(focused,true,"the provider's Ultimate level receives focus");assert.equal(scrolled,true,"the focused level is brought into view");
+});
+
+test("rejoining a previously selected party provider restores its optional condition with a notice", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const data={characters:catalog.characters,lightCones:catalog.lightCones,relicSets:catalog.relicSets,
+        structuredModifiers:require("../../scripts/lib/hsrDataFiles.cjs").loadHsrDataFiles(root).modifiers};
+    const app=await tool(undefined,data);
+    app.window.HsrTool.openSelection("party",0);
+    app.node("hsrSelectionList").handlers.click({target:{closest:()=>({dataset:{selectionId:"1309"}})}});
+    const clearPartySlot=()=>app.node("hsrPartyRows").handlers.click({target:{closest:(selector)=>selector==="[data-party-clear]"?{dataset:{partyClear:"0"}}:null}});
+    assert.doesNotMatch(app.node("hsrConditionHelp").textContent,/前回の選択を復元しました/,"freshly selected OFF provider has no restoration notice");
+    app.node("hsrConditionDialogOpen").handlers.click();
+    app.node("hsrConditionDialog").handlers.change({target:{dataset:{structuredToggle:"robin-skill-damage-active"},checked:true}});
+    clearPartySlot();
+    assert.equal(app.state.party[0].characterId,"");
+    app.window.HsrTool.openSelection("party",0);
+    app.node("hsrSelectionList").handlers.click({target:{closest:()=>({dataset:{selectionId:"1309"}})}});
+    app.node("hsrConditionDialogOpen").handlers.click();
+    const html=app.node("hsrConditionList").innerHTML;
+    assert.match(html,/data-hsr-selection-restored="1309"/,"provider header identifies a restored selection");
+    assert.match(html,/前回の選択を復元しました/,"restoration is explained to the user");
+    assert.equal(app.state.modifierInputs["robin-skill-damage-active"],true,"the previously selected condition is restored");
+    const storage=app.storage;
+    const restored=await tool(storage,data);
+    assert.equal(restored.state.party[0].characterId,"1309");
+    assert.equal(restored.state.modifierInputs["robin-skill-damage-active"],true,"the existing saved condition survives reload");
+});
+
 test("Boothill Fanning selector and Standoff input share the attack purpose", async () => {
     const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
     const data = {

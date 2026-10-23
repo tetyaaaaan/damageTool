@@ -66,6 +66,9 @@
   let conditionAudit = null;
   const modifierIssueLinks = new Map();
   const modifierIssueIds = new Set();
+  let observedPartyProviders = new Set();
+  const departedPartyProviders = new Set();
+  const restoredPartySelections = new Set();
   const TRACE_FIELDS = {
     normal: ["Normal", "hsrNormalTrace", "通常", 6], skill: ["BPSkill", "hsrSkillTrace", "スキル", 10],
     ultimate: ["Ultra", "hsrUltimateTrace", "必殺技", 10], talent: ["Talent", "hsrTalentTrace", "天賦", 10],
@@ -627,7 +630,26 @@
     { id:"excluded", title:"今回の計算に含めない効果", help:"未対応の効果と、回復・EPなど単発ダメージの計算対象外の効果です。", folded:true }
   ];
 
+  function hasSelectedPartyChoice(item) {
+    if (item.tab !== "パーティ" || !item.activation?.inputKey || item.automatic) return false;
+    const value = state.modifierInputs[item.activation.inputKey];
+    return value === true || (typeof value === "number" && Number.isFinite(value) && value > 0);
+  }
+
+  function trackPartySelectionRestore(conditions) {
+    const current = new Set(state.party.map(member => member.characterId).filter(id => id && id !== state.characterId));
+    if (state.initialized) {
+      observedPartyProviders.forEach(id => { if (!current.has(id)) { departedPartyProviders.add(id); restoredPartySelections.delete(id); } });
+      current.forEach(id => {
+        if (!observedPartyProviders.has(id) && departedPartyProviders.has(id) && conditions.some(item => item.providerId === id && hasSelectedPartyChoice(item))) restoredPartySelections.add(id);
+      });
+    }
+    observedPartyProviders = current;
+    restoredPartySelections.forEach(id => { if (!conditions.some(item => item.providerId === id && hasSelectedPartyChoice(item))) restoredPartySelections.delete(id); });
+  }
+
   function conditionStatus(items) {
+    if (items[0]?.tab === "パーティ" && items.some(item => !item.displayOnly) && !items.some(item => conditionAttackScope(item).length)) return { label: "現在の計算対象外", className: "is-inactive" };
     if (items.some((item) => item.enabled && (item.inputWarnings?.length || modifierIssueIds.has(item.id)))) return { label: "入力不足", className: "is-input" };
     if (items.some(isAttackSelectionCondition)) return items.some((item) => isAttackSelectionCondition(item) && item.activation.active) ? { label: "計算対象", className: "is-auto" } : { label: "対象外", className: "is-inactive" };
     if (items.every((item) => item.displayOnly)) return items.every((item) => item.inputPolicy === "includedInFinalStats") ? { label: "最終入力で管理", className: "is-reflected" } : { label: items.some((item) => item.inputPolicy === "includedInFinalStats") ? "内訳を確認" : "表示のみ", className: "is-display" };
@@ -640,7 +662,7 @@
     if (items.some((item) => ["statThreshold", "numericThreshold"].includes(item.activation?.mode))) return { label: "条件未達", className: "is-inactive" };
     if (items.some((item) => item.activation?.mode === "toggle" && item.activation.active)) return { label: "効果量0・未適用", className: "is-inactive" };
     if (items.some((item) => item.levelInput && item.activation?.active)) return { label: "条件未達", className: "is-inactive" };
-    if (items.some((item) => ["toggle", "stack"].includes(item.activation?.mode))) return { label: "条件OFF", className: "is-inactive" };
+    if (items.some((item) => ["toggle", "stack"].includes(item.activation?.mode))) return { label: items[0]?.tab === "パーティ" ? "候補・OFF" : "条件OFF", className: "is-inactive" };
     return { label: "条件を設定", className: "is-input" };
   }
 
@@ -696,6 +718,7 @@
         rendered.add(`threshold:${activation.inputKey}`);
         controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(activation.inputLabel || "現在の条件値")}</strong><small>${esc(activation.conditionText || "発動条件の判定に使用する値を入力します。")}</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-structured-input="${esc(activation.inputKey)}" value="${num(activation.inputValue, activation.default || 0)}" min="${num(activation.minimum)}" max="${num(activation.maximum, 999)}" step="${num(activation.step, 1)}"></span></label>`);
       }
+      if (item.tab === "パーティ" && ["toggle", "toggleThreshold"].includes(activation.mode) && !(activation.active || activation.toggled)) return;
       if (item.levelInput && !rendered.has(`level:${item.levelInput.key}`)) {
         rendered.add(`level:${item.levelInput.key}`);
         controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.levelInput.label)}</strong><small>支援者の通常天賦Lvとは別に設定します。</small></span><input type="number" class="input_num" data-structured-strict="true" data-structured-input="${esc(item.levelInput.key)}" value="${Number.isFinite(item.levelInput.value) ? item.levelInput.value : ""}" min="1" max="${item.levelInput.maximum}" step="1"></label>`);
@@ -715,7 +738,15 @@
         controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.valueInput.label)}</strong><small>${esc(provider)}の現在値を参照します。この値はパーティ設定またはステータス入力欄と同期します。</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-structured-provider-stat="${esc(item.valueInput.providerStat)}" data-provider-id="${esc(item.valueInput.providerId || state.characterId)}" value="${statDisplay(item.valueInput.providerStat, item.valueInput.value)}" min="${num(item.valueInput.minimum)}" max="${num(item.valueInput.maximum,999)}" step="any">${percentStats.has(item.valueInput.providerStat) ? "<em>%</em>" : ""}</span></label>`);
       }
     });
-    return controls.length ? `<div class="genshin-constellation-controls"><h6>状態・条件</h6>${controls.join("")}</div>` : "";
+    const requirements = new Map();
+    items.filter(item => item.tab === "パーティ" && item.enabled).forEach(item => {
+      const record = state.data.structuredModifiers.find(entry => entry.id === item.id);
+      const key = record?.source?.skillId && !record.value?.levelInputKey && /byLevel/i.test(record.value?.kind || "") ? supportTraceKey(record.source) : null;
+      const member = state.party.find(entry => entry.characterId === item.providerId);
+      if (key && member) requirements.set(item.providerId + ":" + key, { id: item.providerId, key, level: supportTraceLevel(member, key) });
+    });
+    const levels = [...requirements.values()].map(({id, key, level}) => `<p class="hsr-condition-input-help">参照する${esc(find("characters", id)?.name || id)}の${esc(TRACE_FIELDS[key][2])}Lv：${Number.isFinite(level) ? level : "未入力"} <button type="button" class="genshin-equipment-details-button" data-hsr-provider-settings="${esc(id)}" data-hsr-provider-trace="${key}">軌跡Lvを設定</button></p>`).join("");
+    return controls.length ? `<div class="genshin-constellation-controls"><h6>状態・条件</h6>${controls.join("")}${levels}</div>` : "";
   }
 
   function conditionComparisonAttacks() {
@@ -779,7 +810,8 @@
     return [...providers.entries()].sort(([a, left], [b, right]) => priority(left) - priority(right) || order.indexOf(a) - order.indexOf(b)).map(([id, groups]) => {
       groups.sort((a, b) => priority([a]) - priority([b]) || conditionSourceOrder(a[0]) - conditionSourceOrder(b[0]));
       const name = find("characters", id)?.name || "その他の提供者";
-      return `<section class="hsr-condition-provider" data-hsr-provider="${esc(id)}" role="group" aria-label="${esc(name)}の補正候補"><p class="hsr-condition-provider-name"><strong>${esc(name)}</strong><span>計算対象：${esc(character()?.name || "未選択")}</span></p>${groups.map(renderConditionGroup).join("")}</section>`;
+      const restored = restoredPartySelections.has(id) && groups.some(items => items.some(hasSelectedPartyChoice));
+      return `<section class="hsr-condition-provider" data-hsr-provider="${esc(id)}" role="group" aria-label="${esc(name)}の補正候補"><p class="hsr-condition-provider-name"><strong>${esc(name)}</strong><span>計算対象：${esc(character()?.name || "未選択")}</span></p>${restored ? `<p class="hsr-condition-restored" data-hsr-selection-restored="${esc(id)}">前回の選択を復元しました。発動条件と参照値を確認してください。</p>` : ""}${groups.map(renderConditionGroup).join("")}</section>`;
     }).join("");
   }
 
@@ -796,6 +828,7 @@
   function renderConditions() {
     prepareConditionDisplay();
     const conditions = sourceConditions(); const tabs = CONDITION_TAB_ORDER;
+    trackPartySelectionRestore(conditions);
     if (!tabs.includes(state.conditionTab)) state.conditionTab = tabs[0];
     $("hsrConditionTabs").innerHTML = tabs.map((tab) => `<button type="button" class="genshin-condition-tab${tab === state.conditionTab ? " is-active" : ""}" role="tab" data-condition-tab="${esc(tab)}" aria-selected="${tab === state.conditionTab}">${esc(tab)}</button>`).join("");
     const selected = conditions.filter((item) => item.tab === state.conditionTab); const groups = new Map();
@@ -841,6 +874,7 @@
   function updateConditionSummary() {
     if ($("hsrManualConditionList") && !$("hsrManualConditionList").contains?.(document.activeElement)) $("hsrManualConditionList").innerHTML = state.conditions.map((item) => `<label class="hsr-manual-condition-row"><input type="checkbox" data-condition-enabled="${esc(item.id)}"${item.enabled ? " checked" : ""}><span>${esc(item.name)}</span><input type="number" data-condition-value="${esc(item.id)}" value="${item.value}" step="any" aria-label="${esc(item.name)}（%）"><span>%</span></label>`).join("");
     const conditions = allConditions();
+    trackPartySelectionRestore(conditions);
     const selected = conditions.filter(item => !item.displayOnly && (item.enabled || item.activation?.toggled || (item.activation?.mode === "toggle" && item.activation.active)));
     const missing = selected.filter(item => item.inputWarnings?.length || modifierIssueIds.has(item.id)).length;
     const applied = selected.filter(item => conditionAudit?.applied.has(item.id)).length;
@@ -851,7 +885,8 @@
     if (skipped) counts.push(`この計算の対象外 ${skipped}件`);
     $("hsrConditionTitle").textContent = counts.join("・");
     const reflected = conditions.filter(item => item.inputPolicy === "includedInFinalStats").length;
-    $("hsrConditionHelp").textContent = (reflected ? `最終ステータスで管理 ${reflected}件（再加算なし）。` : "") + "選択状態は補正条件で、攻撃ごとの適用・対象外は計算内訳で確認できます。";
+    $("hsrConditionHelp").textContent = (reflected ? `最終ステータスで管理 ${reflected}件（再加算なし）。` : "") + "選択状態は補正条件で、攻撃ごとの適用・対象外は計算内訳で確認できます。"
+      + (restoredPartySelections.size ? " " + [...restoredPartySelections].map(id => find("characters", id)?.name || id).join("・") + "：前回の選択を復元しました。発動条件を確認してください。" : "");
 
   }
 
@@ -972,6 +1007,16 @@
     requestAnimationFrame(() => {
       const input = fieldId && $(fieldId);
       if (input) { input.focus?.({ preventScroll: true }); input.scrollIntoView({ behavior: "smooth", block: "nearest" }); }
+    });
+  }
+
+  function openProviderTraceSettings(id, key) {
+    const slot = state.party.findIndex(member => member.characterId === id);
+    if (slot < 0) return;
+    closeDialog($("hsrConditionDialog")); renderPartyDialog(); openModal($("hsrPartyDialog"));
+    requestAnimationFrame(() => {
+      const input = $("hsrPartyRows").querySelector(`[data-party-trace="${key}"][data-slot="${slot}"]`);
+      input?.focus?.({preventScroll:true}); input?.scrollIntoView?.({block:"center",behavior:"smooth"});
     });
   }
 
@@ -1631,7 +1676,11 @@
     });
     $("hsrConditionDialogOpen").addEventListener("click", () => openConditionSettings());
     $("hsrConditionDialogClose").addEventListener("click", () => closeDialog($("hsrConditionDialog")));
-    $("hsrConditionDialog").addEventListener("click", (event) => { const tab = event.target.closest("[data-condition-tab]"); if (tab) { state.conditionTab = tab.dataset.conditionTab; renderConditions(); } });
+    $("hsrConditionDialog").addEventListener("click", (event) => {
+      const provider = event.target.closest("[data-hsr-provider-settings]");
+      if (provider?.dataset.hsrProviderSettings) { openProviderTraceSettings(provider.dataset.hsrProviderSettings, provider.dataset.hsrProviderTrace); return; }
+      const tab = event.target.closest("[data-condition-tab]"); if (tab) { state.conditionTab = tab.dataset.conditionTab; renderConditions(); }
+    });
     $("hsrConditionDialog").addEventListener("input", (event) => {
       if (event.target.dataset.structuredProviderStat) {
         const providerId = String(event.target.dataset.providerId || state.characterId);
