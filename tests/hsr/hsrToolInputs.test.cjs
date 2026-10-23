@@ -1955,3 +1955,17 @@ test("Sparkle shares one Figment input, preserves zero and blocks only affected 
     for(const count of [4,-1,1.5,NaN]) {restored.state.modifierInputs["sparkle-enhanced-figment-stacks"]=count;assert.equal(restored.calculate().length,0);}
     restored.state.party[0].characterId="";near(restored.calculate()[0].expected,1620);
 });
+
+
+test("provider stat edits in the condition modal preserve blank, zero and fractional values", async () => {
+    const cat=JSON.parse(read("games/hsr/data/catalog.json")),mods=JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1306");
+    const app=await tool(undefined,{structuredModifiers:mods});app.state.data.characters.push(cat.characters.find(c=>c.id==="1306"));const base=app.state.data.attacks[0];app.state.data.attacks.push({...base,id:"dot",type:"dot",canCrit:false});
+    app.state.party[0]={...app.state.party[0],characterId:"1306",eidolon:0,critDamage:200,traceLevels:{skill:10,talent:10,ultimate:10}};app.state.modifierInputs["sparkle-enhanced-skill-active"]=true;
+    for(const[k,v]of Object.entries({atk:"3000",critRate:"50",critDamage:"100"}))app.node("hsrStat-"+k).value=v;
+    const edit=value=>app.node("hsrConditionDialog").handlers.input({target:{value,dataset:{structuredProviderStat:"critDamage",providerId:"1306"}}});
+    edit("");assert.ok(Number.isNaN(app.state.party[0].critDamage));assert.equal(app.calculate().length,1,"the unrelated DoT remains calculable");
+    app.state.modifierInputs["sparkle-enhanced-skill-active"]=false;assert.equal(app.calculate().length,2);
+    app.state.modifierInputs["sparkle-enhanced-skill-active"]=true;edit("0");assert.equal(app.state.party[0].critDamage,0);assert.ok(Math.abs(app.calculate()[0].expected-1863)<1e-8);
+    edit("200.125");assert.equal(app.state.party[0].critDamage,200.125);assert.ok(Math.abs(app.calculate()[0].expected-2122.362)<1e-8);
+    app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,{characters:app.state.data.characters,attacks:app.state.data.attacks,structuredModifiers:mods});assert.equal(restored.state.party[0].critDamage,200.125);assert.ok(Math.abs(restored.calculate()[0].expected-2122.362)<1e-8);
+});

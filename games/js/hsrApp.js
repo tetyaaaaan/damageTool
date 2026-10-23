@@ -1558,8 +1558,9 @@
       if (event.target.dataset.structuredProviderStat) {
         const providerId = String(event.target.dataset.providerId || state.characterId);
         const stat = event.target.dataset.structuredProviderStat;
-        if (providerId === String(state.characterId)) { state.stats[stat] = num(event.target.value); writeStats(); }
-        else { const member = state.party.find((entry) => String(entry.characterId) === providerId); if (member) member[stat] = num(event.target.value); }
+        const value = readStat(event.target);
+        if (providerId === String(state.characterId)) { state.stats[stat] = value; writeStats(); }
+        else { const member = state.party.find((entry) => String(entry.characterId) === providerId); if (member) member[stat] = value; }
         updateConditionSummary(); markDirty(); return;
       }
       if (event.target.dataset.conditionValue) {
