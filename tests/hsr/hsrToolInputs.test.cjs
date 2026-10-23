@@ -21,7 +21,7 @@ async function tool(savedStorage, extraData) {
                 handlers, attributes: {}, hidden: false, textContent: "", _html: "", focused: null, scrolled: null,
                 setAttribute(name, value) { this.attributes[name] = value; }, removeAttribute(name) { delete this.attributes[name]; },
                 focus(options) { this.focused = options; }, scrollIntoView(options) { this.scrolled = options; },
-                set innerHTML(value) { this._html = value; const selected = value.match(/value="([^"]*)" selected/); if (selected) this.value = selected[1]; },
+                set innerHTML(value) { this._html = value; this.innerHTMLWrites = (this.innerHTMLWrites || 0) + 1; const selected = value.match(/value="([^"]*)" selected/); if (selected) this.value = selected[1]; },
                 get innerHTML() { return this._html; },
                 addEventListener(event, callback) { handlers[event] = callback; }, querySelectorAll: () => [], querySelector: () => null, classList: {add(){},remove(){}}, close(){this.open=false;}, showModal() { this.open = true; } });
         }
@@ -262,6 +262,54 @@ test("modifier audit separates unsupported data, included final stats and inacti
     assert.equal(app.calculate()[0].breakdown.baseDamage, 1000);
     const html = app.node("hsrResults").innerHTML;
     for (const text of ["最終入力で管理する効果・再加算なし", "装備選択による自動加算は行わず", "Included ATK", "データ未対応・表示のみ（計算対象外）", "Unsupported ATK", "この効果は計算未対応です", "条件未成立／対象外", "発動条件を満たしていません"]) assert.ok(html.includes(text), text);
+});
+
+test("numeric provider condition edits preserve the condition list DOM", async () => {
+    const app = await tool();
+    app.state.party[0] = { ...app.state.party[0], characterId: "1202", atk: 3000, level: 10 };
+    app.node("hsrConditionDialogOpen").handlers.click();
+    const list = app.node("hsrConditionList");
+    const html = list.innerHTML;
+    const writes = list.innerHTMLWrites;
+    const input = { dataset: { structuredProviderStat: "atk", providerId: "1202" }, value: "3500" };
+    app.node("hsrConditionDialog").handlers.input({ target: input });
+    app.node("hsrConditionDialog").handlers.change({ target: input });
+    assert.equal(app.state.party[0].atk, 3500);
+    assert.equal(list.innerHTML, html);
+    assert.equal(list.innerHTMLWrites, writes, "numeric changes update facts without replacing the full list");
+});
+
+test("condition summary separates selected, applied, missing and final-input counts and clears Pearl state on character switch", async () => {
+    const app = await tool();
+    app.node("hsrStat-atk").value = "1000";
+    app.state.conditions.push(
+        { id: "summary-applied", name: "Selected bonus", category: "damageBonus", value: 20, enabled: true, unit: "percent", target: { attackTypes: ["all"] } },
+        { id: "summary-missing", name: "Missing bonus", category: "damageBonus", value: 10, enabled: true, unit: "percent", inputWarnings: ["入力が必要です"], applicable: false },
+        { id: "summary-final", name: "Final input", category: "damageBonus", value: 10, enabled: true, displayOnly: true, inputPolicy: "includedInFinalStats" }
+    );
+    app.state.characterId = "1503";
+    app.state.modifierInputs["pearl-non-elation-deep-learning"] = true;
+    app.node("hsrStat-atk").handlers.input();
+    assert.match(app.node("hsrConditionTitle").textContent, /選択中 2件/);
+    assert.match(app.node("hsrConditionTitle").textContent, /入力不足 1件/);
+    assert.doesNotMatch(app.node("hsrConditionTitle").textContent, /計算に適用済み/);
+    assert.match(app.node("hsrConditionTitle").textContent, /パール：深層学習中/);
+    assert.match(app.node("hsrConditionHelp").textContent, /最終ステータスで管理 1件/);
+
+    app.state.characterId = "sample";
+    app.state.modifierInputs["pearl-non-elation-deep-learning"] = false;
+    app.node("hsrStat-atk").handlers.input();
+    assert.doesNotMatch(app.node("hsrConditionTitle").textContent, /パール/);
+    app.state.conditions = app.state.conditions.filter(item => item.id !== "summary-missing");
+    assert.equal(app.calculate().length, 1);
+    assert.match(app.node("hsrConditionTitle").textContent, /計算に適用済み 1件/);
+    app.state.conditions.push({ id: "summary-missing", name: "Missing bonus", category: "damageBonus", value: 10, enabled: true, unit: "percent", inputWarnings: ["入力が必要です"], applicable: false });
+
+    app.node("hsrStat-atk").value = "1100";
+    app.node("hsrStat-atk").handlers.input();
+    assert.doesNotMatch(app.node("hsrConditionTitle").textContent, /計算に適用済み/);
+    assert.match(app.node("hsrConditionTitle").textContent, /選択中 2件/);
+    assert.match(app.node("hsrConditionTitle").textContent, /入力不足 1件/);
 });
 
 
@@ -893,7 +941,7 @@ test("final-input guidance distinguishes permanent gear and Pearl A2 from additi
         assert.match(app.node("hsrConditionList").innerHTML,/最終ステータスに含めて入力（ここでは再加算しません）/);
         assert.doesNotMatch(app.node("hsrConditionList").innerHTML,/入力欄のステータスへ反映済み/);
     }
-    assert.match(app.node("hsrConditionHelp").textContent,/最終入力で管理.*再加算なし.*表示のみ.*計算対象外/);
+    assert.match(app.node("hsrConditionHelp").textContent,/最終ステータスで管理 .*件（再加算なし）。選択状態は補正条件/);
     const html=read("games/hsr/index.html");
     assert.match(html,/装備選択だけでは数値は更新されません/);assert.match(html,/UID反映後もこのルールで確認・編集/);
     assert.match(html,/aria-describedby="hsrElationInputHelp"/);assert.match(html,/補正条件で追加する支援分は含めません/);

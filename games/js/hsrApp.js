@@ -63,6 +63,7 @@
   let initialInputs = null;
   let initialDefaults = null;
   let pendingReset = null;
+  let conditionAudit = null;
   const TRACE_FIELDS = {
     normal: ["Normal", "hsrNormalTrace", "通常", 6], skill: ["BPSkill", "hsrSkillTrace", "スキル", 10],
     ultimate: ["Ultra", "hsrUltimateTrace", "必殺技", 10], talent: ["Talent", "hsrTalentTrace", "天賦", 10],
@@ -180,7 +181,7 @@
     $("hsrDamageBonusIcon").src = elementIcon(char?.element || "Physical");
     $("hsrInputProvenance").textContent = state.source === "api" ? "UID取得値（編集可能）" : state.source === "api-edited" ? "UID取得値を手動変更" : "手動入力値";
     $("hsrResultBuildSummary").textContent = char ? `${char.name} / ${lightCone?.name || "光円錐未選択"}` : "未選択";
-    renderAttacks(); renderPartySummary();
+    renderAttacks(); renderPartySummary(); updateConditionSummary();
   }
 
   function writeStats() {
@@ -565,10 +566,14 @@
   }
 
   function conditionStatus(items) {
-    if (items.some((item) => item.enabled && item.inputWarnings?.length)) return { label: "入力確認", className: "is-input" };
+    if (items.some((item) => item.enabled && item.inputWarnings?.length)) return { label: "入力不足", className: "is-input" };
     if (items.some(isAttackSelectionCondition)) return items.some((item) => isAttackSelectionCondition(item) && item.activation.active) ? { label: "計算対象", className: "is-auto" } : { label: "対象外", className: "is-inactive" };
     if (items.every((item) => item.displayOnly)) return items.every((item) => item.inputPolicy === "includedInFinalStats") ? { label: "最終入力で管理", className: "is-reflected" } : { label: items.some((item) => item.inputPolicy === "includedInFinalStats") ? "内訳を確認" : "表示のみ", className: "is-display" };
-    if (items.some((item) => item.enabled)) return items.every((item) => item.automatic || !item.enabled) ? { label: "自動反映", className: "is-auto" } : { label: "適用中", className: "is-auto" };
+    if (items.some((item) => item.enabled)) {
+      if (items.some(item => conditionAudit?.applied.has(item.id))) return { label: "計算に適用済み", className: "is-auto" };
+      if (items.some(item => item.enabled && conditionAudit?.skipped.has(item.id))) return { label: "この計算には適用されない", className: "is-inactive" };
+      return { label: "選択中", className: "is-auto" };
+    }
     if (items.some((item) => item.activation?.mode === "toggleThreshold")) return items.some((item) => item.activation?.toggled) ? { label: "条件未達", className: "is-inactive" } : { label: "条件OFF", className: "is-inactive" };
     if (items.some((item) => ["statThreshold", "numericThreshold"].includes(item.activation?.mode))) return { label: "条件未達", className: "is-inactive" };
     if (items.some((item) => item.levelInput && item.activation?.active)) return { label: "条件未達", className: "is-inactive" };
@@ -599,7 +604,8 @@
     if (!item.enabled && ["statThreshold", "numericThreshold"].includes(item.activation?.mode)) return item.unit === "percent" ? "0%（条件未達）" : "未適用（条件未達）";
     if (!item.enabled && item.activation?.mode === "toggleThreshold") return item.unit === "percent" ? "0%（条件未達）" : "未適用（条件未達）";
     if (!item.enabled) return item.unit === "percent" || !item.structured ? "0%" : "未適用";
-    return item.effectLabel || `${item.value}${item.unit === "percent" || !item.structured ? "%" : ""}`;
+    const amount = item.effectLabel || `${item.value}${item.unit === "percent" || !item.structured ? "%" : ""}`;
+    return conditionAudit?.applied.has(item.id) ? `${amount}（計算に適用済み）` : conditionAudit?.skipped.has(item.id) ? "この計算には適用されない（各攻撃の内訳を確認）" : `${amount}（選択中・再計算で反映）`;
   }
 
   function renderConditionControls(items) {
@@ -654,7 +660,7 @@
     const reflected = items.map((item) => `${item.name}：${currentConditionReflection(item)}`).join("／");
     const targets = [...new Set(items.map((item) => `${displayTarget(item.appliesTo || item.target?.owner || "self")}（${(item.target?.attackTypes || ["all"]).map((type) => ATTACK_LABELS[type] || type).join("・")}）`))].join("／");
     const descriptions = [...new Set(items.map((item) => item.description).filter(Boolean))].join("\n");
-    return `<article class="genshin-constellation-section hsr-condition-section"><header class="genshin-constellation-head"><div><strong>${esc(items[0].source)}・${esc(title.type)}</strong><h5>${esc(title.name)}</h5></div><span class="genshin-condition-status ${status.className}">${status.label}</span></header><dl class="genshin-condition-facts"><div><dt>発動条件</dt><dd>${esc(conditions)}</dd></div><div><dt>効果</dt><dd>${esc(effects)}</dd></div><div><dt>現在の反映</dt><dd>${esc(reflected)}</dd></div><div><dt>適用対象</dt><dd>${esc(targets)}</dd></div></dl>${renderConditionControls(items)}${descriptions ? `<details class="genshin-condition-detail"><summary>効果説明</summary><div class="genshin-condition-detail-block"><h6>効果説明</h6><p>${esc(descriptions)}</p></div></details>` : ""}</article>`;
+    return `<article class="genshin-constellation-section hsr-condition-section"><header class="genshin-constellation-head"><div><strong>${esc(items[0].source)}・${esc(title.type)}</strong><h5>${esc(title.name)}</h5></div><span class="genshin-condition-status ${status.className}">${status.label}</span></header><dl class="genshin-condition-facts"><div><dt>発動条件</dt><dd data-condition-fact="requirement">${esc(conditions)}</dd></div><div><dt>効果</dt><dd data-condition-fact="effects">${esc(effects)}</dd></div><div><dt>現在の反映</dt><dd data-condition-fact="reflection">${esc(reflected)}</dd></div><div><dt>適用対象</dt><dd>${esc(targets)}</dd></div></dl>${renderConditionControls(items)}${descriptions ? `<details class="genshin-condition-detail"><summary>効果説明</summary><div class="genshin-condition-detail-block"><h6>効果説明</h6><p>${esc(descriptions)}</p></div></details>` : ""}</article>`;
   }
 
   function renderConditions() {
@@ -668,6 +674,20 @@
     $("hsrConditionList").innerHTML = `<section class="genshin-condition-card is-wide hsr-condition-category"><header><div><h4>${esc(meta.title)}</h4><p>${esc(meta.subtitle)}</p></div><span class="genshin-condition-source">${esc(meta.source)}</span></header>${groups.size ? [...groups.values()].map(renderConditionGroup).join("") : '<p class="genshin-condition-card-empty">このカテゴリに設定できる補正はありません。</p>'}</section>`;
   }
 
+  // Patch facts only: replacing a numeric control on blur steals the next click/focus.
+  function refreshConditionFacts() {
+    const byId = new Map(sourceConditions().map(item => [item.id, item]));
+    $("hsrConditionList").querySelectorAll("[data-hsr-condition-ids]").forEach(card => {
+      const items = card.dataset.hsrConditionIds.split(" ").map(id => byId.get(id)).filter(Boolean);
+      if (!items.length) return;
+      const status = conditionStatus(items), badge = card.querySelector(".genshin-condition-status");
+      badge.textContent = status.label; badge.className = "genshin-condition-status " + status.className;
+      card.querySelector('[data-condition-fact="requirement"]').textContent = [...new Set(items.map(conditionRequirement))].join("／");
+      card.querySelector('[data-condition-fact="effects"]').textContent = items.map(item => `${item.name}：${isAttackSelectionCondition(item) ? "独立した攻撃の表示条件" : item.effectLabel || item.reason || item.description}`).join("／");
+      card.querySelector('[data-condition-fact="reflection"]').textContent = items.map(item => `${item.name}：${currentConditionReflection(item)}`).join("／");
+    });
+  }
+
   function allConditions() { return sourceConditions().concat(state.conditions); }
 
   function updateConditionSummary() {
@@ -675,11 +695,21 @@
       const enhanced = state.modifierInputs["waveflair-enhanced-aha-stable"] === true;
       $("hsrPunchlineField").hidden = !enhanced; $("hsrFervorField").hidden = !enhanced;
     }
-    if ($("hsrManualConditionList")) $("hsrManualConditionList").innerHTML = state.conditions.map((item) => `<label class="hsr-manual-condition-row"><input type="checkbox" data-condition-enabled="${esc(item.id)}"${item.enabled ? " checked" : ""}><span>${esc(item.name)}</span><input type="number" data-condition-value="${esc(item.id)}" value="${item.value}" step="any" aria-label="${esc(item.name)}（%）"><span>%</span></label>`).join("");
-    const active = allConditions().filter((item) => item.enabled).length;
-    $("hsrConditionTitle").textContent = active ? `${active}件の補正を適用` : "適用する補正はありません";
-    if (state.characterId === "1503" && state.modifierInputs["pearl-non-elation-deep-learning"] === true) $("hsrConditionTitle").textContent = (active ? `${active}件の補正を適用・` : "") + "パール：深層学習中";
-    $("hsrConditionHelp").textContent = "「最終入力で管理」は再加算なし。「表示のみ」は計算対象外です。";
+    if ($("hsrManualConditionList") && !$("hsrManualConditionList").contains?.(document.activeElement)) $("hsrManualConditionList").innerHTML = state.conditions.map((item) => `<label class="hsr-manual-condition-row"><input type="checkbox" data-condition-enabled="${esc(item.id)}"${item.enabled ? " checked" : ""}><span>${esc(item.name)}</span><input type="number" data-condition-value="${esc(item.id)}" value="${item.value}" step="any" aria-label="${esc(item.name)}（%）"><span>%</span></label>`).join("");
+    const conditions = allConditions();
+    const selected = conditions.filter(item => !item.displayOnly && (item.enabled || item.activation?.toggled));
+    const missing = selected.filter(item => item.inputWarnings?.length).length;
+    const applied = selected.filter(item => conditionAudit?.applied.has(item.id)).length;
+    const skipped = selected.filter(item => !conditionAudit?.applied.has(item.id) && conditionAudit?.skipped.has(item.id)).length;
+    const counts = selected.length ? [`選択中 ${selected.length}件`] : ["追加する補正はありません"];
+    if (conditionAudit) counts.push(`計算に適用済み ${applied}件`);
+    if (missing) counts.push(`入力不足 ${missing}件`);
+    if (skipped) counts.push(`この計算の対象外 ${skipped}件`);
+    if (state.characterId === "1503" && state.modifierInputs["pearl-non-elation-deep-learning"] === true) counts.push("パール：深層学習中");
+    $("hsrConditionTitle").textContent = counts.join("・");
+    const reflected = conditions.filter(item => item.inputPolicy === "includedInFinalStats").length;
+    $("hsrConditionHelp").textContent = (reflected ? `最終ステータスで管理 ${reflected}件（再加算なし）。` : "") + "選択状態は補正条件で、攻撃ごとの適用・対象外は計算内訳で確認できます。";
+
   }
 
   function applyEnemy(id) {
@@ -831,6 +861,7 @@
   function finishCalculation(messages = [], fields = new Map(), calculated = 0) {
     inputFeedback(messages, fields, calculated);
     $("hsrDirtyNotice").hidden = true;
+    updateConditionSummary(); refreshConditionFacts();
     const first = !calculated && fields.size ? [...fields.keys()][0] : "";
     requestAnimationFrame(() => { if (first) navigateInput(first); else scrollToResults(); });
   }
@@ -945,6 +976,15 @@
   }
 
   function renderResults(results, breakResult, specialBreakResults = [], unavailableAttacks = [], superBreakResult = null) {
+    conditionAudit = { applied: new Set(), skipped: new Set() };
+    const audit = result => {
+      if (!result || result.supported === false) return;
+      if (result.components) { Object.values(result.components).forEach(audit); return; }
+      (result.applied || []).forEach(item => conditionAudit.applied.add(item.id));
+      (result.skipped || []).forEach(item => conditionAudit.skipped.add(item.id));
+    };
+    results.forEach(({result, adjacent}) => { audit(result); audit(adjacent); });
+    [breakResult, superBreakResult, ...specialBreakResults.map(item => item.result)].forEach(audit);
     let index = 0;
     const hasCritical = results.some(({result}) => result.attack.canCrit);
     const groups = Object.fromEntries(RESULT_GROUPS.map((group) => [group.id, []]));
@@ -1061,7 +1101,7 @@
   }
 
   function calculate() {
-    collectInputs(); const warnings = [];
+    collectInputs(); conditionAudit = null; const warnings = [];
     renderAttacks();
     if (!character()) warnings.push("キャラクターを選択してください。");
     if (!character()) { renderWarnings([]); $("hsrResults").innerHTML = '<p class="genshin-help">キャラクターを選択してください。</p>'; finishCalculation(warnings,new Map([["hsrCharacterTrigger",warnings[0]]])); return; }
@@ -1251,7 +1291,7 @@
     dialog.addEventListener("close", () => { pendingReset = null; menu.querySelector("summary")?.focus(); });
   }
 
-  function markDirty(origin = "manual") { if (!state.initialized) return; inputFeedback(); renderWarnings([]); document.querySelectorAll("[data-hsr-pending-input]").forEach(notice => { notice.hidden = true; }); if (origin !== "api" && state.source === "api") { state.source = "api-edited"; $("hsrInputProvenance").textContent = "UID取得値を手動変更"; } $("hsrDirtyNotice").hidden = false; renderActionValue(); saveInputs(); }
+  function markDirty(origin = "manual") { if (!state.initialized) return; conditionAudit = null; inputFeedback(); renderWarnings([]); document.querySelectorAll("[data-hsr-pending-input]").forEach(notice => { notice.hidden = true; }); if (origin !== "api" && state.source === "api") { state.source = "api-edited"; $("hsrInputProvenance").textContent = "UID取得値を手動変更"; } $("hsrDirtyNotice").hidden = false; renderActionValue(); saveInputs(); updateConditionSummary(); refreshConditionFacts(); }
 
   function detailArticle(title, description, params = []) {
     if (!description) return "";
@@ -1409,16 +1449,14 @@
     });
     $("hsrConditionDialog").addEventListener("change", (event) => {
       if (collectPearlInput(event.target)) { renderPearlInputs(); updateConditionSummary(); markDirty(); return; }
-      if (event.target.dataset.structuredProviderStat) {
-        renderConditions(); updateConditionSummary(); markDirty(); return;
-      }
+      if (event.target.dataset.structuredProviderStat) { updateConditionSummary(); markDirty(); return; }
       if (event.target.dataset.structuredToggle) {
         state.modifierInputs[event.target.dataset.structuredToggle] = event.target.checked;
         renderConditions(); updateConditionSummary(); markDirty(); return;
       }
       if (event.target.dataset.structuredInput) {
         state.modifierInputs[event.target.dataset.structuredInput] = event.target.dataset.structuredStrict === "true" ? (event.target.value.trim() === "" ? NaN : Number(event.target.value)) : num(event.target.value);
-        renderConditions(); updateConditionSummary(); markDirty(); return;
+        updateConditionSummary(); markDirty(); return;
       }
       const id = event.target.dataset.conditionEnabled || event.target.dataset.conditionValue || event.target.dataset.conditionStack; if (!id) return;
       if (id.startsWith("party:")) {
@@ -1427,7 +1465,7 @@
         const item = state.conditions.find((condition) => condition.id === id); if (!item) return;
         if (event.target.dataset.conditionEnabled) item.enabled = event.target.checked; else item.value = num(event.target.value);
       }
-      renderConditions(); updateConditionSummary(); markDirty();
+      updateConditionSummary(); markDirty();
     });
     $("hsrDetailsClose").addEventListener("click", () => closeDialog($("hsrDetailsDialog")));
     $("hsrCharacterDetailsButton").addEventListener("click", () => showDetails("character"));

@@ -286,7 +286,7 @@ test("HSR condition modal follows the Genshin category and card format", () => {
     const html = read("games/hsr/index.html");
     assert.match(source, /CONDITION_TAB_ORDER = \["パーティ", "光円錐", "遺物・オーナメント", "軌跡"\]/);
     ["genshin-condition-card", "genshin-constellation-section", "genshin-constellation-head", "genshin-condition-facts", "genshin-constellation-controls", "genshin-condition-status"].forEach((className) => assert.ok(source.includes(className), className));
-    ["発動条件", "効果", "現在の反映", "適用対象", "状態・条件", "条件を設定", "条件未達", "最終入力で管理", "条件OFF", "適用中", "自動反映"].forEach((label) => assert.ok(source.includes(label), label));
+    ["発動条件", "効果", "現在の反映", "適用対象", "状態・条件", "条件を設定", "条件未達", "最終入力で管理", "条件OFF", "計算に適用済み", "この計算には適用されない"].forEach((label) => assert.ok(source.includes(label), label));
     assert.match(source, /type: `星魂\$\{source\.eidolonRank\}`/);
     assert.match(source, /type: "追加能力"/);
     assert.match(source, /\["statThreshold", "numericThreshold"\]\.includes\(item\.activation\?\.mode\)/);
@@ -296,7 +296,7 @@ test("HSR condition modal follows the Genshin category and card format", () => {
     assert.match(source, /現在の\$\{reference\[0\]\}/);
     assert.match(source, /region\.scrollTop = 0/);
     assert.match(html, /id="hsrConditionDialogOpen"[^>]*>補正条件を確認・設定<\/button>/);
-    assert.match(source, /「最終入力で管理」は再加算なし。「表示のみ」は計算対象外です。/);
+    assert.match(source, /選択状態は補正条件で、攻撃ごとの適用・対象外は計算内訳で確認できます。/);
 });
 
 test("HSR condition modal distinguishes summarized minor traces from additional abilities", () => {
@@ -428,3 +428,4 @@ test('UID reconstruction independently matches two elemental profiles and leaves
     const noCone=structuredClone(first);delete noCone.equipment;assert.ok(Math.abs(map(noCone).stats.atk-660)<1e-9,'unequipped is a valid zero cone base');
     const unknown=structuredClone(first);unknown.avatarId='unknown';assert.equal(map(unknown).stats.atk,undefined);
 });
+
