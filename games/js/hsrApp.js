@@ -1102,7 +1102,7 @@
 
   function supportBadge(attack) {
     const support = attackSupport(attack);
-    return `<p class="hsr-support-status" data-support-status="${support.status}">${esc(support.label)}</p>${support.status === "review" ? `<p class="hsr-formula-note">この攻撃は攻撃データを確認中のため参考値です。</p>` : ""}`;
+    return `<p class="hsr-support-status" data-support-status="${support.status}">${esc(support.label)}</p>${support.status === "review" ? `<p class="hsr-formula-note">参考値：攻撃ごとの独立検証が完了していません。倍率・参照値・追加成分・発動条件を確認し、独立計算との一致を記録するまで参考値として扱います。</p>` : ""}`;
   }
 
   function damageValues(result) {
@@ -1437,9 +1437,12 @@
   function renderActionValue() {
     if (!window.HsrCalcEngine || !$("hsrActionSummary")) return;
     const speed = readStat($("hsrStat-speed"));
-    if (!Number.isFinite(speed) || speed <= 0) { $("hsrActionSummary").textContent = "速度を入力すると、基礎行動値を表示します。"; return; }
-    const result = window.HsrCalcEngine.actionSummary(speed, num($("hsrActionWindow")?.value, 150));
-    $("hsrActionSummary").innerHTML = `<span>ステータスの速度：${statDisplay("speed", speed)}</span><strong>${result.actionValue.toFixed(2)} AV</strong><span>指定した行動値内の行動回数: ${result.actions}</span>`;
+    if (!Number.isFinite(speed) || speed <= 0) { $("hsrActionSummary").textContent = "速度を入力すると、第1ラウンドの行動回数を表示します。0より大きい最終速度を入力してください。"; return; }
+    const result = window.HsrCalcEngine.actionSummary(speed, 150);
+    const budget = num($("hsrActionWindow")?.value, 150);
+    const custom = budget > 0 && budget !== 150 ? window.HsrCalcEngine.actionSummary(speed, budget) : null;
+    $("hsrActionSummary").innerHTML = `<strong>速度${detailNumber(speed)}：第1ラウンドに${result.actions}回行動</strong><span>基本行動値：${result.actionValue.toFixed(2)} AV（10000÷速度）</span><span>第1ラウンド：150行動値</span>${custom ? `<span>指定範囲${detailNumber(budget)}行動値：${custom.actions}回行動</span>` : ""}`;
+    if (!(budget > 0)) $("hsrActionSummary").innerHTML += '<span>任意の行動値範囲には0より大きい値を入力してください。</span>';
   }
 
   function savedFields() {

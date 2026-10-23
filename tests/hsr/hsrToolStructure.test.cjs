@@ -148,8 +148,23 @@ test("HSR attack data is generated, overrideable, and the page separates calcula
     assert.match(html, /id="hsrEnhancementState"/);
     assert.match(read("games/js/hsrCalcData.js"), /dataFiles\.modifiers/);
     assert.match(read("games/hsr/data/calc/data-files.json"), /modifiers-welt\.json/);
-    assert.match(source, /この攻撃は攻撃データを確認中のため参考値です/);
+    assert.match(source, /参考値：攻撃ごとの独立検証が完了していません/);
     assert.doesNotMatch(source, /このキャラクターの攻撃データ.*件は確認中/);
+});
+
+test("HSR explanatory lists keep their markers and wrapped text inside the bordered panels", () => {
+    const css = read("games/css/hsr-tool-ui.css");
+    assert.match(css, /\.page-hsr :is\(\.hsr-excluded-conditions, \.hsr-result-audit, \.hsr-unavailable-results, \.hsr-calculation-feedback, \.hsr-condition-purpose\) ul\s*\{[^}]*padding-inline-start:\s*1\.4em[^}]*list-style-position:\s*outside/s);
+    assert.match(css, /\.page-hsr :is\(\.hsr-excluded-conditions, \.hsr-result-audit, \.hsr-unavailable-results, \.hsr-calculation-feedback, \.hsr-condition-purpose\) li\s*\{[^}]*overflow-wrap:\s*anywhere/s);
+});
+
+test("HSR action guidance is explicitly about the first 150 AV round at constant speed", () => {
+    const html = read("games/hsr/index.html");
+    assert.match(html, /第1ラウンド/);
+    assert.match(html, /速度一定/);
+    assert.match(html, /行動順.*(?:短縮|変更)|(?:短縮|変更).*行動順/);
+    assert.match(read("games/js/hsrApp.js"), /actionSummary\(speed, 150\)/);
+    assert.match(read("games/js/hsrApp.js"), /第1ラウンド：150行動値/);
 });
 
 test("HSR enemy controls use selects for mutually exclusive states and never oversized checkboxes", () => {

@@ -21,7 +21,7 @@
     }
 
     function actionValue(speed) {
-        const resolvedSpeed = Math.max(1, number(speed, 100));
+        const resolvedSpeed = Number.isFinite(Number(speed)) && Number(speed) > 0 ? Number(speed) : 100;
         return 10000 / resolvedSpeed;
     }
 

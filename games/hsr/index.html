@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/games/css/menu.css">
   <link rel="stylesheet" href="/games/css/tetinet.css?v=20260722-1">
   <link rel="stylesheet" href="/games/css/genshin-tool-ui.css?v=20260727-4">
-  <link rel="stylesheet" href="/games/css/hsr-tool-ui.css?v=20261024-2">
+  <link rel="stylesheet" href="/games/css/hsr-tool-ui.css?v=20261024-3">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
   <script src="/games/js/windowLoading.js"></script>
   <script src="/games/js/theme.js?v=20260720-2"></script>
@@ -114,7 +114,7 @@
                   <label class="genshin-field" id="hsrDotBaseDamageField" hidden><span class="genshin-stat-label hsr-stat-label"><img src="/games/images/hsr/stats/IconAttack.png" alt="">対象の持続ダメージ（1回分）</span><input id="hsrStat-dotBaseDamage" data-stat="dotBaseDamage" type="number" min="0" step="any"><small>起爆対象に付与されている各持続ダメージの、本来の1回分の合計値です。</small></label>
                   <label class="genshin-field" id="hsrElationField" hidden><span class="genshin-stat-label hsr-stat-label"><img src="/games/images/hsr/stats/IconJoy.png" alt="">愉悦度</span><input id="hsrStat-elation" data-stat="elation" type="number" step="any" aria-describedby="hsrElationInputHelp"><span class="genshin-field-unit">%</span></label>
                 </div></div>
-                <details class="hsr-action-value-card"><summary>行動値の参考（ステータスの速度を使用）</summary><div><p>速度のみから算出する目安です。行動順短縮・再行動・途中の速度変化は含みません。</p></div><label class="genshin-field">行動回数を数える範囲（行動値）<input id="hsrActionWindow" type="number" min="1" value="150"></label><div id="hsrActionSummary" class="hsr-action-summary"></div></details>
+                <details class="hsr-action-value-card" open><summary>速度と第1ラウンドの行動回数</summary><div id="hsrActionSummary" class="hsr-action-summary"></div><p>速度一定・行動順変更なしの場合の目安です。行動順加速・遅延・追加ターン・途中の速度変化は含みません。</p><details><summary>別の行動値範囲で比較する</summary><label class="genshin-field">行動値の範囲（任意）<input id="hsrActionWindow" type="number" min="1" value="150"></label></details></details>
                 <p class="genshin-help" id="hsrElationInputHelp" hidden>装備・軌跡の常時愉悦度（パールA2など）を含めて入力。補正条件で追加する支援分は含めません。</p>
               </section>
 
@@ -208,8 +208,8 @@
 
     <dialog class="genshin-modal genshin-equipment-details-dialog genshin-uid-details-dialog" id="hsrUidDetailsDialog" aria-labelledby="hsrUidDetailsTitle"><div class="genshin-modal-shell genshin-equipment-details-dialog-inner"><header class="genshin-modal-head genshin-equipment-details-head"><div><p class="genshin-kicker">UID DETAIL</p><h2 id="hsrUidDetailsTitle">キャラクター詳細</h2></div><button type="button" class="genshin-modal-close genshin-selection-close" id="hsrUidDetailsClose" aria-label="詳細を閉じる">×</button></header><nav class="genshin-uid-details-tabs" id="hsrUidDetailsTabs" aria-label="UID詳細カテゴリ"></nav><div class="genshin-modal-scroll-region genshin-equipment-details-body" id="hsrUidDetailsBody"></div></div></dialog>
 
-    <script src="/games/js/hsrProfileApi.js"></script><script src="/games/js/hsrProfileMapper.js?v=20261022-1"></script><script src="/games/js/uidStorage.js"></script><script src="/games/js/hsrCalcData.js?v=20261022-1"></script><script src="/games/js/hsrModifierRuntime.js?v=20261023-8"></script><script src="/games/js/hsrCalcEngine.js?v=20260801-3"></script><script src="/games/js/hsrCalcState.js?v=20261023-5"></script><script src="/games/js/hsrCharacterOrder.js"></script>
-  <script src="/games/js/hsrApp.js?v=20261024-3"></script><script src="/games/js/hsrUidImporter.js?v=20261022-1"></script>
+    <script src="/games/js/hsrProfileApi.js"></script><script src="/games/js/hsrProfileMapper.js?v=20261022-1"></script><script src="/games/js/uidStorage.js"></script><script src="/games/js/hsrCalcData.js?v=20261022-1"></script><script src="/games/js/hsrModifierRuntime.js?v=20261023-8"></script><script src="/games/js/hsrCalcEngine.js?v=20261024-1"></script><script src="/games/js/hsrCalcState.js?v=20261023-5"></script><script src="/games/js/hsrCharacterOrder.js"></script>
+  <script src="/games/js/hsrApp.js?v=20261024-4"></script><script src="/games/js/hsrUidImporter.js?v=20261022-1"></script>
 
     <!-- site-chrome:footer:start -->
 <footer class="teti-site-footer">

@@ -88,8 +88,10 @@ test("calculation feedback marks and focuses the offending field without requiri
     app.node("hsrStat-speed").handlers.input();
     app.node("hsrActionWindow").handlers.input();
     assert.equal(app.calculate().length, 1);
-    assert.match(app.node("hsrActionSummary").textContent, /速度を入力すると/);
-    assert.doesNotMatch(app.node("hsrActionSummary").textContent, /AV/);
+    const emptySpeedSummary = app.node("hsrActionSummary").textContent;
+    assert.match(emptySpeedSummary, /速度/);
+    assert.doesNotMatch(emptySpeedSummary, /第1ラウンドに\d+回行動/);
+    assert.doesNotMatch(emptySpeedSummary, /AV/);
     app.node("hsrStat-atk").value = "";
     assert.equal(app.calculate().length, 0);
     assert.equal(app.node("hsrStat-atk").attributes["aria-invalid"], "true");
@@ -103,6 +105,70 @@ test("calculation feedback marks and focuses the offending field without requiri
     assert.equal(app.node("hsrWarnings").hidden, true);
     assert.equal(app.node("hsrCalculationFeedback").innerHTML, "");
     assert.equal(app.node("hsrDirtyNotice").hidden, false, "editing keeps prior results marked stale");
+});
+
+test("first-round action count uses exact final speed and the 150 AV boundaries", async () => {
+    const app = await tool();
+    app.node("hsrStat-atk").value = "1000";
+    const summary = () => app.node("hsrActionSummary").textContent || app.node("hsrActionSummary").innerHTML;
+    const cases = [[100, 1], [120, 1], [134, 2], [160, 2]];
+    for (const [speed, actions] of cases) {
+        app.node("hsrStat-speed").value = String(speed);
+        app.node("hsrStat-speed").handlers.input();
+        assert.match(summary(), /速度/);
+        assert.match(summary(), new RegExp(String(speed)), `speed ${speed} is shown`);
+        assert.match(summary(), new RegExp(`第1ラウンドに${actions}回行動`), `speed ${speed}`);
+    }
+
+    // Independent mathematical thresholds for floor(150 * speed / 10000):
+    // 66 2/3 gives the first action, 133 1/3 the second, and 200 the third.
+    const boundaryCases = [
+        [66.6666, 0], [10000 / 150, 1], [66.6667, 1],
+        [133.3333, 1], [10000 / 75, 2], [133.3334, 2],
+        [199.9999, 2], [200, 3], [200.0001, 3],
+        [400 / 3 - 0.0001, 1], [400 / 3, 2], [400 / 3 + 0.0001, 2]
+    ];
+    for (const [speed, actions] of boundaryCases) {
+        app.node("hsrStat-speed").value = String(speed);
+        app.node("hsrStat-speed").handlers.input();
+        assert.match(summary(), new RegExp(`第1ラウンドに${actions}回行動`), `boundary ${speed}`);
+    }
+
+    // This value is displayed as a whole-number speed in the stat summary,
+    // but the internal value must still cross the exact 2-action threshold.
+    const fractionalThreshold = 133.33333333333334;
+    app.node("hsrStat-speed").value = String(fractionalThreshold);
+    app.node("hsrStat-speed").handlers.input();
+    assert.equal(app.state.stats.speed, fractionalThreshold);
+    assert.match(summary(), /第1ラウンドに2回行動/);
+    assert.equal(app.calculate().length, 1, "speed is not a required damage input");
+
+    app.node("hsrStat-speed").value = "0.5";
+    app.node("hsrStat-speed").handlers.input();
+    assert.match(summary(), /第1ラウンドに0回行動/, "positive fractional speed uses its exact base AV without a speed=1 clamp");
+});
+
+test("blank, zero, and invalid speed show guidance without blocking damage", async () => {
+    const app = await tool();
+    app.node("hsrStat-atk").value = "1000";
+    for (const value of ["", "0", "not-a-number", "-1"]) {
+        app.node("hsrStat-speed").value = value;
+        app.node("hsrStat-speed").handlers.input();
+        const summary = app.node("hsrActionSummary").textContent;
+        assert.match(summary, /速度/);
+        assert.doesNotMatch(summary, /第1ラウンドに\d+回行動/);
+        assert.equal(app.calculate().length, 1, `speed ${JSON.stringify(value)} must not stop unrelated damage`);
+    }
+});
+
+test("UID profile speed keeps fractional precision for first-round actions after display rounding", async () => {
+    const app = await tool();
+    const speed = 133.3334;
+    app.window.HsrTool.applyProfileCharacter({ id: "sample", level: 80, eidolon: 0, traces: [], stats: { atk: 1000, speed } });
+    assert.equal(app.state.stats.speed, speed);
+    assert.equal(app.node("hsrStat-speed").value, "133", "the field may display a rounded whole number");
+    const summary = app.node("hsrActionSummary").textContent || app.node("hsrActionSummary").innerHTML;
+    assert.match(summary, /第1ラウンドに2回行動/);
 });
 
 test("UID missing stats cannot retain a previous character's final stats", async () => {
@@ -2021,8 +2087,7 @@ test("reference notices are specific to the attack and joint labels do not repla
     assert.match(html,/data-result-tab="joint"/);
     assert.match(html,/通常攻撃・連携/);
     assert.match(html,/連携全体の合計には未対応/);
-    assert.match(html,/この攻撃は攻撃データを確認中のため参考値です/);
-    assert.match(html,/この攻撃は攻撃データを確認中のため参考値です/);
+    assert.match(html,/参考値：攻撃ごとの独立検証が完了していません/);
     assert.doesNotMatch(app.node("hsrWarnings").innerHTML,/参考値|常時効果は入力/);
     const normalPanel=html.split('data-result-panel="damage"')[1].split('<section class="genshin-json-result-section"')[0];
     assert.doesNotMatch(normalPanel,/参考値/);
