@@ -67,7 +67,6 @@
   const modifierIssueLinks = new Map();
   const modifierIssueIds = new Set();
   let observedPartyProviders = new Set();
-  const departedPartyProviders = new Set();
   const restoredPartySelections = new Set();
   const TRACE_FIELDS = {
     normal: ["Normal", "hsrNormalTrace", "通常", 6], skill: ["BPSkill", "hsrSkillTrace", "スキル", 10],
@@ -639,9 +638,9 @@
   function trackPartySelectionRestore(conditions) {
     const current = new Set(state.party.map(member => member.characterId).filter(id => id && id !== state.characterId));
     if (state.initialized) {
-      observedPartyProviders.forEach(id => { if (!current.has(id)) { departedPartyProviders.add(id); restoredPartySelections.delete(id); } });
+      observedPartyProviders.forEach(id => { if (!current.has(id)) restoredPartySelections.delete(id); });
       current.forEach(id => {
-        if (!observedPartyProviders.has(id) && departedPartyProviders.has(id) && conditions.some(item => item.providerId === id && hasSelectedPartyChoice(item))) restoredPartySelections.add(id);
+        if (!observedPartyProviders.has(id) && conditions.some(item => item.providerId === id && hasSelectedPartyChoice(item))) restoredPartySelections.add(id);
       });
     }
     observedPartyProviders = current;
