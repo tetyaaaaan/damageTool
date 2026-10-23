@@ -343,3 +343,11 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
 .page-hsr [data-hsr-pending-input][hidden] { display: none !important; }
 #hsrPearlSettings .genshin-condition-control { margin-block: .6rem; }
 #hsrPearlSettings .genshin-condition-detail { margin-top: .8rem; }
+
+.hsr-condition-purpose { margin-top: 1rem; }
+.hsr-condition-purpose + .hsr-condition-purpose { border-top: 1px solid var(--teti-border); padding-top: 1rem; }
+.hsr-condition-purpose > h5, .hsr-condition-purpose > summary { margin: 0 0 .5rem; font-size: .9rem; font-weight: 700; }
+.hsr-condition-purpose > summary { cursor: pointer; }
+.hsr-condition-purpose > .genshin-help { margin-block: .5rem; }
+.page-hsr .genshin-result-tab small { display: block; font-size: .65rem; color: var(--teti-danger); }
+#hsrPearlSettings > header p { white-space: normal; overflow: visible; text-overflow: clip; }

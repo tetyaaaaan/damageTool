@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/games/css/menu.css">
   <link rel="stylesheet" href="/games/css/tetinet.css?v=20260722-1">
   <link rel="stylesheet" href="/games/css/genshin-tool-ui.css?v=20260727-4">
-  <link rel="stylesheet" href="/games/css/hsr-tool-ui.css?v=20261023-1">
+  <link rel="stylesheet" href="/games/css/hsr-tool-ui.css?v=20261023-4">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
   <script src="/games/js/windowLoading.js"></script>
   <script src="/games/js/theme.js?v=20260720-2"></script>
@@ -203,7 +203,7 @@
     <dialog class="genshin-modal genshin-modal--party genshin-equipment-details-dialog genshin-party-dialog" id="hsrPartyDialog" aria-labelledby="hsrPartyDialogTitle"><div class="genshin-modal-shell genshin-equipment-details-dialog-inner"><header class="genshin-modal-head genshin-equipment-details-head"><div><p class="genshin-kicker">PARTY</p><h2 id="hsrPartyDialogTitle">パーティ設定</h2></div><button type="button" class="genshin-modal-close genshin-selection-close" id="hsrPartyDialogClose" aria-label="パーティ設定を閉じる">×</button></header><div class="genshin-equipment-details-body genshin-party-dialog-body"><p class="genshin-party-dialog-help">計算対象は現在選択中のメインキャラです。残り3枠にサポートメンバーを設定できます。</p><label class="genshin-field hsr-party-order-field" for="hsrAttackerPosition">メインキャラの編成位置<select id="hsrAttackerPosition"><option value="1">1番目</option><option value="2">2番目</option><option value="3">3番目</option><option value="4">4番目</option></select></label><p class="genshin-help">位置は編成表示用です。位置固有の効果を自動計算するものではありません。</p><div class="genshin-modal-scroll-region genshin-party-member-list" id="hsrPartyRows"></div><div class="genshin-party-dialog-actions"><button type="button" class="teti-button teti-button-primary" id="hsrPartyDialogApply">完了</button></div></div></div></dialog>
 
     <dialog class="genshin-modal genshin-modal--condition genshin-equipment-details-dialog genshin-condition-dialog" id="hsrConditionDialog" aria-labelledby="hsrConditionDialogTitle"><div class="genshin-modal-shell genshin-equipment-details-dialog-inner"><header class="genshin-modal-head genshin-equipment-details-head"><div><p class="genshin-kicker">CONDITIONS</p><h2 id="hsrConditionDialogTitle">補正条件</h2></div><button type="button" class="genshin-modal-close genshin-selection-close" id="hsrConditionDialogClose" aria-label="補正条件を閉じる">×</button></header><nav class="genshin-condition-tabs" id="hsrConditionTabs" role="tablist" aria-label="補正条件カテゴリ"></nav><div class="genshin-modal-scroll-region genshin-equipment-details-body genshin-condition-dialog-body"><section class="genshin-condition-card is-wide hsr-condition-category" id="hsrPearlSettings" data-hsr-condition-key="pearl-non-elation-deep-learning" hidden>
-      <header><div><h4>パール</h4><p>戦闘スキル・深層学習</p></div></header>
+      <header><div><p class="genshin-kicker">攻撃の発動状態・計算対象</p><h4>パール・深層学習</h4><p>発動中にすると強化通常を結果に追加します。ダメージ補正のON/OFFとは別の設定です。</p></div></header>
       <section class="genshin-party-current-state"><h5>現在の状態</h5>
         <label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>深層学習</strong><small>通常攻撃はこの設定にかかわらず計算します。</small></span><select id="hsrPearlMode"><option value="normal">発動していない</option><option value="enhanced">発動中（強化通常も計算）</option></select></label>
         <div class="genshin-constellation-controls" id="hsrPearlDetails" hidden>
@@ -220,7 +220,7 @@
     <dialog class="genshin-modal genshin-equipment-details-dialog genshin-uid-details-dialog" id="hsrUidDetailsDialog" aria-labelledby="hsrUidDetailsTitle"><div class="genshin-modal-shell genshin-equipment-details-dialog-inner"><header class="genshin-modal-head genshin-equipment-details-head"><div><p class="genshin-kicker">UID DETAIL</p><h2 id="hsrUidDetailsTitle">キャラクター詳細</h2></div><button type="button" class="genshin-modal-close genshin-selection-close" id="hsrUidDetailsClose" aria-label="詳細を閉じる">×</button></header><nav class="genshin-uid-details-tabs" id="hsrUidDetailsTabs" aria-label="UID詳細カテゴリ"></nav><div class="genshin-modal-scroll-region genshin-equipment-details-body" id="hsrUidDetailsBody"></div></div></dialog>
 
     <script src="/games/js/hsrProfileApi.js"></script><script src="/games/js/hsrProfileMapper.js?v=20261022-1"></script><script src="/games/js/uidStorage.js"></script><script src="/games/js/hsrCalcData.js?v=20261022-1"></script><script src="/games/js/hsrModifierRuntime.js?v=20260801-3"></script><script src="/games/js/hsrCalcEngine.js?v=20260801-3"></script><script src="/games/js/hsrCalcState.js?v=20261022-1"></script><script src="/games/js/hsrCharacterOrder.js"></script>
-  <script src="/games/js/hsrApp.js?v=20261023-3"></script><script src="/games/js/hsrUidImporter.js?v=20261022-1"></script>
+  <script src="/games/js/hsrApp.js?v=20261023-4"></script><script src="/games/js/hsrUidImporter.js?v=20261022-1"></script>
 
     <!-- site-chrome:footer:start -->
 <footer class="teti-site-footer">

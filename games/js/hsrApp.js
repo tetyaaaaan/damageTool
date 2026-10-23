@@ -567,6 +567,21 @@
         && attack.support?.status !== "displayOnly" && attack.modifierInputKey === item.activation.inputKey);
   }
 
+  function conditionPurpose(item) {
+    if (item.inputPolicy === "includedInFinalStats") return "finalStats";
+    const key = item.activation?.inputKey;
+    const selectsAttack = key && (state.data?.attacks || []).some(attack => attack.characterId === state.characterId && !attack.hidden && attack.support?.status !== "displayOnly" && attack.modifierInputKey === key);
+    if (selectsAttack) return "attack";
+    return item.displayOnly ? "excluded" : "combat";
+  }
+
+  const CONDITION_PURPOSES = [
+    { id:"attack", title:"攻撃の発動状態・計算対象", help:"実際の発動状態を指定します。この状態に必須の補正も含めて計算します。" },
+    { id:"combat", title:"戦闘中に追加する補正", help:"任意の効果は成立時にONにします。装備等の自動判定は現在の条件に従います。" },
+    { id:"finalStats", title:"最終ステータスで管理する効果", help:"入力値に含める効果です。ここでは再加算しません。", folded:true },
+    { id:"excluded", title:"今回の計算に含めない効果", help:"未対応の効果と、回復・EPなど単発ダメージの計算対象外の効果です。", folded:true }
+  ];
+
   function conditionStatus(items) {
     if (items.some((item) => item.enabled && (item.inputWarnings?.length || modifierIssueIds.has(item.id)))) return { label: "入力不足", className: "is-input" };
     if (items.some(isAttackSelectionCondition)) return items.some((item) => isAttackSelectionCondition(item) && item.activation.active) ? { label: "計算対象", className: "is-auto" } : { label: "対象外", className: "is-inactive" };
@@ -611,10 +626,10 @@
     return conditionAudit?.applied.has(item.id) ? `${amount}（計算に適用済み）` : conditionAudit?.skipped.has(item.id) ? "この計算には適用されない（各攻撃の内訳を確認）" : `${amount}（選択中・再計算で反映）`;
   }
 
-  function renderConditionControls(items) {
+  function renderConditionControls(items, purpose) {
     const rendered = new Set(); const controls = [];
     items.forEach((item) => {
-      const attackSelection = isAttackSelectionCondition(item);
+      const attackSelection = isAttackSelectionCondition(item) || purpose === "attack";
       if (item.displayOnly && !attackSelection) return;
       if (!item.structured && !rendered.has(`manual:${item.id}`)) {
         rendered.add(`manual:${item.id}`);
@@ -624,7 +639,7 @@
       const activation = item.activation || {};
       if (["toggle", "toggleThreshold"].includes(activation.mode) && activation.inputKey && !rendered.has(`toggle:${activation.inputKey}`)) {
         rendered.add(`toggle:${activation.inputKey}`);
-        controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(activation.inputKey)}"${(activation.mode === "toggleThreshold" ? activation.toggled : attackSelection || item.levelInput ? activation.active : item.enabled) ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${attackSelection ? "この攻撃を計算対象に含める" : "この条件を適用する"}</strong><small>実際に「${esc(item.conditionText || "発動条件")}」を満たす場合だけONにしてください。</small></span></label>`);
+        controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(activation.inputKey)}"${(activation.mode === "toggleThreshold" ? activation.toggled : attackSelection || item.levelInput ? activation.active : item.enabled) ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${attackSelection ? "この状態の攻撃を計算する" : "この条件を適用する"}</strong><small>実際に「${esc(item.conditionText || "発動条件")}」を満たす場合だけONにしてください。</small></span></label>`);
       }
       if (activation.mode === "stack" && activation.inputKey && !rendered.has(`stack:${activation.inputKey}`)) {
         rendered.add(`stack:${activation.inputKey}`); const max = item.stackMax || 1;
@@ -663,7 +678,7 @@
     const reflected = items.map((item) => `${item.name}：${currentConditionReflection(item)}`).join("／");
     const targets = [...new Set(items.map((item) => `${displayTarget(item.appliesTo || item.target?.owner || "self")}（${(item.target?.attackTypes || ["all"]).map((type) => ATTACK_LABELS[type] || type).join("・")}）`))].join("／");
     const descriptions = [...new Set(items.map((item) => item.description).filter(Boolean))].join("\n");
-    return `<article class="genshin-constellation-section hsr-condition-section"><header class="genshin-constellation-head"><div><strong>${esc(items[0].source)}・${esc(title.type)}</strong><h5>${esc(title.name)}</h5></div><span class="genshin-condition-status ${status.className}">${status.label}</span></header><dl class="genshin-condition-facts"><div><dt>発動条件</dt><dd data-condition-fact="requirement">${esc(conditions)}</dd></div><div><dt>効果</dt><dd data-condition-fact="effects">${esc(effects)}</dd></div><div><dt>現在の反映</dt><dd data-condition-fact="reflection">${esc(reflected)}</dd></div><div><dt>適用対象</dt><dd>${esc(targets)}</dd></div></dl>${renderConditionControls(items)}${descriptions ? `<details class="genshin-condition-detail"><summary>効果説明</summary><div class="genshin-condition-detail-block"><h6>効果説明</h6><p>${esc(descriptions)}</p></div></details>` : ""}</article>`;
+    return `<article class="genshin-constellation-section hsr-condition-section" data-hsr-condition-ids="${esc(items.map(item => item.id).join(" "))}"><header class="genshin-constellation-head"><div><strong>${esc(items[0].source)}・${esc(title.type)}</strong><h5>${esc(title.name)}</h5></div><span class="genshin-condition-status ${status.className}">${status.label}</span></header><dl class="genshin-condition-facts"><div><dt>発動条件</dt><dd data-condition-fact="requirement">${esc(conditions)}</dd></div><div><dt>効果</dt><dd data-condition-fact="effects">${esc(effects)}</dd></div><div><dt>現在の反映</dt><dd data-condition-fact="reflection">${esc(reflected)}</dd></div><div><dt>適用対象</dt><dd>${esc(targets)}</dd></div></dl>${renderConditionControls(items, conditionPurpose(items[0]))}${descriptions ? `<details class="genshin-condition-detail"><summary>効果説明</summary><div class="genshin-condition-detail-block"><h6>効果説明</h6><p>${esc(descriptions)}</p></div></details>` : ""}</article>`;
   }
 
   function renderConditions() {
@@ -671,10 +686,22 @@
     if (!tabs.includes(state.conditionTab)) state.conditionTab = tabs[0];
     $("hsrConditionTabs").innerHTML = tabs.map((tab) => `<button type="button" class="genshin-condition-tab${tab === state.conditionTab ? " is-active" : ""}" role="tab" data-condition-tab="${esc(tab)}" aria-selected="${tab === state.conditionTab}">${esc(tab)}</button>`).join("");
     const selected = conditions.filter((item) => item.tab === state.conditionTab); const groups = new Map();
-    selected.forEach((item) => { const source = item.sourceMeta || {}; const key = source.kind ? `${source.kind}:${source.id}:${source.skillId || source.traceId || source.eidolonRank || source.setPieces || item.id}` : item.id; if (!groups.has(key)) groups.set(key, []); groups.get(key).push(item); });
+    selected.forEach(item => {
+      const source = item.sourceMeta || {};
+      const key = conditionPurpose(item) + ":" + (source.kind ? `${source.kind}:${source.id}:${source.skillId || source.traceId || source.eidolonRank || source.setPieces || item.id}` : item.id);
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(item);
+    });
     const meta = CONDITION_TAB_META[state.conditionTab] || CONDITION_TAB_META["その他"];
     renderPearlInputs();
-    $("hsrConditionList").innerHTML = `<section class="genshin-condition-card is-wide hsr-condition-category"><header><div><h4>${esc(meta.title)}</h4><p>${esc(meta.subtitle)}</p></div><span class="genshin-condition-source">${esc(meta.source)}</span></header>${groups.size ? [...groups.values()].map(renderConditionGroup).join("") : '<p class="genshin-condition-card-empty">このカテゴリに設定できる補正はありません。</p>'}</section>`;
+    const purposes = CONDITION_PURPOSES.map(purpose => {
+      const entries = [...groups.values()].filter(items => conditionPurpose(items[0]) === purpose.id);
+      if (!entries.length) return "";
+      const content = `<p class="genshin-help">${esc(purpose.help)}</p>${entries.map(renderConditionGroup).join("")}`;
+      return purpose.folded ? `<details class="hsr-condition-purpose" data-condition-purpose="${purpose.id}"><summary>${esc(purpose.title)}（${entries.length}件）</summary>${content}</details>`
+        : `<section class="hsr-condition-purpose" data-condition-purpose="${purpose.id}"><h5>${esc(purpose.title)}</h5>${content}</section>`;
+    }).join("");
+    $("hsrConditionList").innerHTML = `<section class="genshin-condition-card is-wide hsr-condition-category"><header><div><h4>${esc(meta.title)}</h4><p>${esc(meta.subtitle)}</p></div><span class="genshin-condition-source">${esc(meta.source)}</span></header>${purposes || '<p class="genshin-condition-card-empty">このカテゴリに設定できる効果はありません。</p>'}</section>`;
   }
 
   // Patch facts only: replacing a numeric control on blur steals the next click/focus.
@@ -853,6 +880,7 @@
       state.conditionTab = item.tab; openConditionSettings();
       requestAnimationFrame(() => {
         const card = [...$("hsrConditionList").querySelectorAll("[data-hsr-condition-ids]")].find(node => node.dataset.hsrConditionIds.split(" ").includes(item.id));
+        card?.closest?.("details")?.setAttribute("open", "");
         const key = item.levelInput && message.includes(item.levelInput.label) ? item.levelInput.key : item.valueInput?.key;
         const input = (key && card?.querySelector(`[data-structured-input="${key}"]`)) || card?.querySelector("[data-structured-provider-stat]") || card?.querySelector("input,select");
         input?.focus?.({preventScroll:true}); (input || card)?.scrollIntoView?.({block:"center",behavior:"smooth"});

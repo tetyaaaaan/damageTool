@@ -312,6 +312,58 @@ test("condition summary separates selected, applied, missing and final-input cou
     assert.match(app.node("hsrConditionTitle").textContent, /入力不足 1件/);
 });
 
+test("condition modal groups attack, combat, final-stat and excluded purposes separately", async () => {
+    const app = await tool();
+    const makeModifier = (id, purpose, name, inputKey) => ({
+        id,
+        source: { kind: "trace", id: "sample", skillId: id, traceId: id },
+        name,
+        description: name,
+        category: "damageBonus",
+        unit: "percent",
+        value: { kind: "fixed", fixed: 10 },
+        activation: { mode: inputKey ? "toggle" : "always", inputKey, default: false },
+        target: { owner: "self", attackTypes: ["normal"] },
+        inputPolicy: purpose === "finalStats" ? "includedInFinalStats" : "conditional",
+        support: { status: purpose === "attack" || purpose === "excluded" ? "displayOnly" : "calculable", verified: true }
+    });
+    app.state.data.structuredModifiers = [
+        makeModifier("scope", "attack", "Attack selector", "sample-attack-selector"),
+        makeModifier("combat", "combat", "Combat toggle", "sample-combat-toggle"),
+        makeModifier("final", "finalStats", "Final stat effect", ""),
+        makeModifier("excluded", "excluded", "Excluded effect", "")
+    ];
+    app.state.data.attacks[0].modifierInputKey = "sample-attack-selector";
+    app.state.conditionTab = "軌跡";
+    app.node("hsrConditionDialogOpen").handlers.click();
+    const html = app.node("hsrConditionList").innerHTML;
+    for (const purpose of ["attack", "combat", "finalStats", "excluded"]) assert.match(html, new RegExp(`data-condition-purpose="${purpose}"`));
+    assert.match(html, /Attack selector/);
+    assert.match(html, /Combat toggle/);
+    assert.match(html, /Final stat effect/);
+    assert.match(html, /Excluded effect/);
+});
+
+test("Boothill Fanning selector and Standoff input share the attack purpose", async () => {
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    const data = {
+        characters: catalog.characters,
+        attacks: JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(attack => attack.id === "131508"),
+        structuredModifiers: JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(item => item.source.id === "1315")
+    };
+    const app = await tool(undefined, data);
+    app.state.characterId = "1315";
+    app.state.conditionTab = "軌跡";
+    app.node("hsrConditionDialogOpen").handlers.click();
+    const html = app.node("hsrConditionList").innerHTML;
+    const attackPurpose = html.indexOf('data-condition-purpose="attack"');
+    assert.notEqual(attackPurpose, -1);
+    assert.match(html.slice(attackPurpose), /ファニング・通常＋天賦撃破の計算条件/);
+    assert.match(html.slice(attackPurpose), /九死の決闘・敵被ダメージ増加/);
+    assert.match(html.slice(attackPurpose), /この状態の攻撃を計算する/);
+    assert.doesNotMatch(html.slice(attackPurpose), /<strong>この条件を適用する<\/strong>/);
+});
+
 
 test("Guinaifen's display-only Burn condition can select its separately calculated DoT", async () => {
     const app = await tool();
@@ -947,7 +999,12 @@ test("final-input guidance distinguishes permanent gear and Pearl A2 from additi
         assert.doesNotMatch(app.node("hsrConditionList").innerHTML,/入力欄のステータスへ反映済み/);
     }
     assert.match(app.node("hsrConditionHelp").textContent,/最終ステータスで管理 .*件（再加算なし）。選択状態は補正条件/);
+    assert.equal(app.node("hsrPearlSettings").hidden, false, "Pearl's attack-state explanation is available within the condition modal");
+    assert.match(app.node("hsrConditionList").innerHTML,/data-condition-purpose="finalStats"[\s\S]*?パールA2・万物の洞察（最終愉悦度に含める）/);
     const html=read("games/hsr/index.html");
+    const modalStart=html.indexOf('id="hsrConditionDialog"');
+    const conditionDialog=html.slice(modalStart,html.indexOf("</dialog>",modalStart));
+    assert.match(conditionDialog,/id="hsrPearlSettings"[\s\S]*?ダメージ補正のON\/OFFとは別の設定です/);
     assert.match(html,/装備選択だけでは数値は更新されません/);assert.match(html,/UID反映後もこのルールで確認・編集/);
     assert.match(html,/aria-describedby="hsrElationInputHelp"/);assert.match(html,/補正条件で追加する支援分は含めません/);
 });
@@ -1333,6 +1390,12 @@ test("invalid Tingyun ATK input blocks the ATK attack but leaves a DEF attack ca
     assert.match(html, /DEF comparison/);
     assert.match(html, /data-hsr-input-target="modifier:trace:1202:120202:benediction-atk"/);
     assert.match(html, /祥音和韻・賜福攻撃力/);
+    const providerInput = app.node("test-tingyun-provider-atk");
+    const card = { dataset: { hsrConditionIds: "trace:1202:120202:benediction-atk" }, querySelector(selector) { return selector === "[data-structured-provider-stat]" ? providerInput : null; } };
+    app.node("hsrConditionList").querySelectorAll = () => [card];
+    app.node("hsrResults").handlers.click({target:{closest:()=>({dataset:{hsrInputTarget:"modifier:trace:1202:120202:benediction-atk"}})}});
+    assert.match(app.node("hsrConditionList").innerHTML, /data-hsr-condition-ids="[^"]*trace:1202:120202:benediction-atk/);
+    assert.equal(providerInput.focused.preventScroll, true);
 });
 
 
