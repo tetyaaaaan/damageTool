@@ -1513,12 +1513,12 @@ test("scoped direct Skill and Ultimate match release coefficients and independen
 });
 
 
-function checkScopedDirectRelease(id, cid, mvs, baseline, maximumEidolon = 0) {
+function checkScopedDirectRelease(id, cid, mvs, baseline, maximumEidolon = 0, maximumTraceLevel = 10) {
     const a = attacks.find(item => item.id === id);
     const master = readJson("games/hsr/data/catalog.json").characters.find(c => c.id === cid).skills.find(s => s.id === id);
     assert.deepEqual(a.multipliers, mvs);
     assert.equal(a.support.status, "calculable");
-    assert.equal(a.maximumEidolon, maximumEidolon); assert.equal(a.maximumTraceLevel, 10); assert.equal(a.enemyCountExact, 1);
+    assert.equal(a.maximumEidolon, maximumEidolon); assert.equal(a.maximumTraceLevel, maximumTraceLevel); assert.equal(a.enemyCountExact, 1);
     assert.equal(a.scalingStat, "atk"); assert.equal(a.hitCount, 1);
     mvs.forEach((v, i) => assert.ok(Math.abs(v - master.params[i][0] * 100) < 1e-8));
     // These expectations use release coefficients and the HSR formula, not engine factors.
@@ -1595,15 +1595,15 @@ test("Ratio Deduction uses current debuffs, caps at five, and stays distinct fro
 
 
 test("Yunli Skill and ordinary Counter use complete one-enemy release multipliers", () => {
-    for (const id of ["122102","122104"]) checkScopedDirectRelease(id,"1221",[60,66,72,78,84,90,97.5,105,112.5,120],1296,1);
+    for (const id of ["122102","122104"]) checkScopedDirectRelease(id,"1221",[60,66,72,78,84,90,97.5,105,112.5,120,126,132],1296,6,12);
     assert.equal(attacks.find(a=>a.id==="122104").type,"followUp");
 });
 test("Yunli Intuit Slash keeps its intrinsic CRIT buff and dual attack scope without Cull hits", () => {
-    const a=attacks.find(a=>a.id==="122103"), mvs=[132,140.8,149.6,158.4,167.2,176,187,198,209,220], cds=[60,64,68,72,76,80,85,90,95,100];
+    const a=attacks.find(a=>a.id==="122103"), mvs=[132,140.8,149.6,158.4,167.2,176,187,198,209,220,228.8,237.6], cds=[60,64,68,72,76,80,85,90,95,100,104,108];
     assert.deepEqual(a.multipliers,mvs); assert.deepEqual(a.tags,["followUp"]); assert.equal(a.hitCount,1);
-    assert.equal(a.support.status,"calculable"); assert.equal(a.maximumEidolon,1); assert.equal(a.maximumTraceLevel,10); assert.equal(a.enemyCountExact,1);
+    assert.equal(a.support.status,"calculable"); assert.equal(a.maximumEidolon,5); assert.equal(a.maximumTraceLevel,12); assert.equal(a.enemyCountExact,1);
     const master=readJson("games/hsr/data/catalog.json").characters.find(c=>c.id==="1221").skills.find(s=>s.id==="122103");
-    for(let l=1;l<=10;l++) {
+    for(let l=1;l<=12;l++) {
         assert.ok(Math.abs(mvs[l-1]-master.params[l-1][0]*100)<1e-8); assert.equal(cds[l-1],master.params[l-1][1]*100);
         const crit=structured("trace:1221:122103:slash-critical-damage",{characterId:"1221",traceLevelFor:()=>l},{"yunli-intuit-slash-instance":true});
         const input=request({...a,multiplier:mvs[l-1],traceLevel:l}); input.character.stats.atk=3000; input.modifiers=[crit];
@@ -1692,6 +1692,102 @@ test("Yunli E1 adds 20 percentage points to Intuit Slash damage only, with E0 an
         assert.ok(Math.abs(result.nonCrit - expected) < 1e-8, id);
         assert.equal(result.applied.some(item => item.id === effectId), false, id);
     }
+});
+
+test("Yunli E2 defense ignore applies once to counter attacks, while E3/E5 levels use explicit in-game levels", () => {
+    const e2Id = "eidolon:1221:2:counter-defense-ignore";
+    const e2 = structured(e2Id, { characterId: "1221", eidolon: 2 });
+    assert.ok(e2, "E2 record is loaded from the production structured-modifier data");
+    assert.equal(e2.category, "defenseIgnore");
+    assert.equal(e2.value, 20);
+    assert.equal(e2.source.eidolonRank, 2);
+    for (const id of ["122103", "122104"]) assert.equal(runtime.applicableToAttack(e2, attacks.find(item => item.id === id)), true, id);
+    for (const id of ["122102", "122101"]) assert.equal(runtime.applicableToAttack(e2, attacks.find(item => item.id === id)), false, id);
+    assert.equal(structured(e2Id, { characterId: "1221", eidolon: 1 }), undefined, "E1 does not receive E2 defense ignore");
+
+    const slash = attacks.find(item => item.id === "122103");
+    const slashCrit = structured("trace:1221:122103:slash-critical-damage", { characterId: "1221", traceLevelFor: () => 10 }, { "yunli-intuit-slash-instance": true });
+    const e1 = structured("eidolon:1221:1:intuit-damage", { characterId: "1221", eidolon: 2 });
+    const slashInput = request({ ...slash, multiplier: slash.multipliers[9], traceLevel: 10 });
+    Object.assign(slashInput.character.stats, { atk: 3000, critRate: 50, critDamage: 100, damageBonus: 0 });
+    slashInput.character.eidolon = 2;
+    slashInput.modifiers = [slashCrit, e1, e2];
+    const slashE0 = engine.calculate({ ...slashInput, character: { ...slashInput.character, eidolon: 0 }, modifiers: [slashCrit] });
+    const slashE2 = engine.calculate(slashInput);
+    for (const [actual, expected] of [[slashE0.nonCrit,2376],[slashE0.crit,7128],[slashE0.expected,4752]]) assert.ok(Math.abs(actual-expected)<1e-8, "E0 slash baseline includes only the intrinsic +100% CRIT DMG");
+    for (const [actual, expected] of [[slashE2.nonCrit,3168],[slashE2.crit,9504],[slashE2.expected,6336]]) assert.ok(Math.abs(actual-expected)<1e-8, "E2 slash includes E1 +20% damage and E2's 20% defense ignore");
+    assert.equal(slashE2.breakdown.defenseIgnorePercent, 20);
+    assert.equal(slashE2.breakdown.damageBonus, 20, "E1 is added once in the ordinary damage-bonus bucket");
+    assert.equal(slashE2.breakdown.critDamagePercent, 200, "intrinsic Slash +100% CRIT DMG remains separate from E1/E2");
+    assert.equal(slashE2.applied.filter(item => item.id === e2Id).length, 1, "E2 defense ignore is not duplicated");
+
+    const counter = attacks.find(item => item.id === "122104");
+    const counterInput = request({ ...counter, multiplier: counter.multipliers[9], traceLevel: 10 });
+    Object.assign(counterInput.character.stats, { atk: 3000, critRate: 50, critDamage: 100 });
+    counterInput.character.eidolon = 2;
+    counterInput.modifiers = [e2];
+    const counterE0 = engine.calculate({ ...counterInput, character: { ...counterInput.character, eidolon: 0 }, modifiers: [] });
+    const counterE2 = engine.calculate(counterInput);
+    for (const [actual, expected] of [[counterE0.nonCrit,1296],[counterE0.crit,2592],[counterE0.expected,1944]]) assert.ok(Math.abs(actual-expected)<1e-8);
+    for (const [actual, expected] of [[counterE2.nonCrit,1440],[counterE2.crit,2880],[counterE2.expected,2160]]) assert.ok(Math.abs(actual-expected)<1e-8);
+    assert.equal(counterE2.breakdown.defenseIgnorePercent, 20);
+
+    const variedCounter = request({ ...counter, multiplier: counter.multipliers[9], traceLevel: 10 });
+    Object.assign(variedCounter.character.stats, { atk: 3000, critRate: 50, critDamage: 100 });
+    variedCounter.character.eidolon = 2;
+    variedCounter.enemy.level = 90; variedCounter.enemy.resistance = 40;
+    variedCounter.enemy.defenseReduction = 25; variedCounter.enemy.defenseIgnore = 10;
+    variedCounter.modifiers = [e2];
+    const variedE2 = engine.calculate(variedCounter);
+    const variedDefense = 100 / (100 + 110 * (1 - .25 - .10 - .20));
+    const variedBase = 3000 * 1.2 * variedDefense * .60 * .9;
+    for (const [actual, expected] of [[variedE2.nonCrit,variedBase],[variedE2.crit,variedBase*2],[variedE2.expected,variedBase*1.5]]) assert.ok(Math.abs(actual-expected)<1e-8, "E2 combines with manual ignore/down, enemy level and RES");
+    assert.equal(variedE2.breakdown.defenseReductionPercent, 25);
+    assert.equal(variedE2.breakdown.defenseIgnorePercent, 30);
+
+    const cappedInput = { ...counterInput, enemy: { ...counterInput.enemy, defenseReduction: 80 }, modifiers: [e2] };
+    const capped = engine.calculate(cappedInput);
+    const allDefenseDown = engine.calculate({ ...cappedInput, enemy: { ...cappedInput.enemy, defenseReduction: 100 }, modifiers: [] });
+    assert.ok(Math.abs(capped.nonCrit-allDefenseDown.nonCrit)<1e-8, "E2 ignore and defense reduction share the 100% effective-defense cap");
+    const capWithOtherIgnore = engine.calculate({ ...cappedInput, enemy: { ...cappedInput.enemy, defenseIgnore: 15 } });
+    assert.ok(Math.abs(capWithOtherIgnore.nonCrit-allDefenseDown.nonCrit)<1e-8, "80% defense down + 15% other ignore + 20% E2 reaches, then respects, the 100% cap");
+    const duplicateE2 = { ...e2, id: `${e2Id}:duplicate` };
+    const duplicateResult = engine.calculate({ ...counterInput, modifiers: [e2, duplicateE2] });
+    assert.ok(Math.abs(duplicateResult.nonCrit-counterE2.nonCrit)<1e-8, "same non-stacking E2 group is not counted twice");
+    assert.equal(duplicateResult.applied.filter(item => item.category === "defenseIgnore" && item.stacking?.group === e2.stacking.group).length, 1);
+    assert.equal(structured(e2Id, { characterId: "1222", eidolon: 2 }), undefined, "Yunli's self effect is not provided by another party member");
+
+    const catalog = readJson("games/hsr/data/catalog.json"), yunli = catalog.characters.find(item => item.id === "1221");
+    const levelRows = [["122102", "skill", 5, [126,132]], ["122104", "talent", 5, [126,132]], ["122103", "ultimate", 3, [228.8,237.6]]];
+    for (const [id, traceKey, rank, expectedValues] of levelRows) {
+        const attack = attacks.find(item => item.id === id), skill = yunli.skills.find(item => item.id === id);
+        assert.equal(attack.maximumTraceLevel, 12);
+        assert.equal(attack.maximumEidolon, id === "122103" ? 5 : 6);
+        assert.deepEqual(attack.multipliers.slice(10, 12), expectedValues);
+        for (let index = 0; index < 2; index++) assert.ok(Math.abs(skill.params[index + 10][0] * 100 - expectedValues[index]) < 1e-10, `${id} Lv${index + 11} matches the fixed rank-bonus level row`);
+        assert.ok(attack.eidolonSupportNotes.some(note => note.rank === rank), `${id} has an attack-specific E${rank} note`);
+    }
+    const e3UltInput = request({ ...slash, multiplier: slash.multipliers[10], traceLevel: 11 });
+    Object.assign(e3UltInput.character.stats, { atk: 3000, critRate: 50, critDamage: 100 });
+    e3UltInput.character.eidolon = 3;
+    const slashCrit11 = structured("trace:1221:122103:slash-critical-damage", { characterId: "1221", traceLevelFor: () => 11 }, { "yunli-intuit-slash-instance": true });
+    e3UltInput.modifiers = [slashCrit11, e1];
+    const e3Ult = engine.calculate(e3UltInput);
+    const e3NonCrit = 3000 * 2.288 * .36 * 1.2, e3CritMultiplier = 1 + (100 + 104) / 100;
+    for (const [actual, expected] of [[e3Ult.nonCrit,e3NonCrit],[e3Ult.crit,e3NonCrit*e3CritMultiplier],[e3Ult.expected,e3NonCrit*(1+.5*(e3CritMultiplier-1))]]) assert.ok(Math.abs(actual-expected)<1e-8, "E3 Lv11 uses the entered multiplier, intrinsic +104% CRIT DMG and E1 damage bonus");
+    const e5Skill = attacks.find(item => item.id === "122102");
+    const skillInput = request({ ...e5Skill, multiplier: e5Skill.multipliers[11], traceLevel: 12 });
+    skillInput.character.stats.atk = 3000; skillInput.character.eidolon = 5;
+    const e5SkillResult = engine.calculate(skillInput), e5SkillNonCrit = 3000 * 1.32 * .5 * .8 * .9;
+    for (const [actual, expected] of [[e5SkillResult.nonCrit,e5SkillNonCrit],[e5SkillResult.crit,e5SkillNonCrit*2],[e5SkillResult.expected,e5SkillNonCrit*1.5]]) assert.ok(Math.abs(actual-expected)<1e-8, "E5 skill Lv12 uses its actual level but excludes counter-only E2");
+    const e5CounterAttack = attacks.find(item => item.id === "122104");
+    const e5CounterInput = request({ ...e5CounterAttack, multiplier: e5CounterAttack.multipliers[11], traceLevel: 12 });
+    e5CounterInput.character.stats.atk = 3000; e5CounterInput.character.eidolon = 5; e5CounterInput.modifiers = [e2];
+    const e5Counter = engine.calculate(e5CounterInput), e5CounterNonCrit = 3000 * 1.32 * .5 * .8 * .9 * (10 / 9);
+    for (const [actual, expected] of [[e5Counter.nonCrit,e5CounterNonCrit],[e5Counter.crit,e5CounterNonCrit*2],[e5Counter.expected,e5CounterNonCrit*1.5]]) assert.ok(Math.abs(actual-expected)<1e-8, "E5 Lv12 Counter includes E2 exactly once");
+    const noDoubleLevel = request({ ...e5Skill, multiplier: e5Skill.multipliers[9], traceLevel: 10 });
+    noDoubleLevel.character.stats.atk = 3000; noDoubleLevel.character.eidolon = 5;
+    assert.ok(Math.abs(engine.calculate(noDoubleLevel).nonCrit - 3000 * 1.2 * .5 * .8 * .9) < 1e-8, "E5 never adds +2 again to the displayed input level");
 });
 test("Yunli True Sunder uses character plus cone base ATK and can persist to Skill without compounding final ATK", () => {
     for(const id of ["122102","122104","122103"]) for(const base of [1000,1500]) for(const[atk,cr,cd,bonus,enemyLv,res,down]of [

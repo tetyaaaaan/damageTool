@@ -1392,7 +1392,7 @@ test("Ratio instance selectors and Deduction restore independently without combi
 });
 
 
-test("Yunli scoped Skill, ordinary Counter and Slash restore while Cull and missing bases stay excluded", async () => {
+test("Yunli rank-scoped attacks preserve E1/E2 effects, E3/E5 actual trace levels, and only exclude E6 Slash", async () => {
     const catalog=JSON.parse(read("games/hsr/data/catalog.json")), ids=["122102","122104","122103"];
     const data={characters:catalog.characters,attacks:JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a=>ids.includes(a.id)),
         structuredModifiers:JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1221")};
@@ -1436,32 +1436,46 @@ test("Yunli scoped Skill, ordinary Counter and Slash restore while Cull and miss
     restored.node("hsrStat-atk").value="3000";restored.node("hsrUltimateTrace").value="11";assert.equal(restored.calculate().some(r=>r.attack.name.includes("看破・斬")),false);
     restored.node("hsrUltimateTrace").value="10";restored.node("hsrEnemyCount").value="2";assert.equal(restored.calculate().some(r=>r.attack.name.includes("看破・斬")),false);
     restored.node("hsrEnemyCount").value="1";
-    for(const rank of [2,3,4,5,6]) {
+    restored.state.modifierInputs["yunli-true-sunder-active"]=false;restored.state.coneId="";
+    for(const rank of [2,3,4,5]) {
       restored.node("hsrEidolon").value=String(rank);restored.node("hsrEidolon").handlers.change({target:{value:String(rank)}});
-      assert.equal(restored.calculate().length,0,`Yunli E${rank} exceeds the implemented E1 scope`);
-      assert.match(restored.node("hsrResults").innerHTML,/星魂0～1|星魂1まで|星魂1|E1/);
+      const rankResults=restored.calculate();assert.equal(rankResults.length,3,`Yunli E${rank} supports this scoped Skill/Counter/Slash set`);
+      assert.match(restored.node("hsrResults").innerHTML,/星魂\d+の反映範囲/);
     }
     restored.node("hsrEidolon").value="3";restored.node("hsrEidolon").handlers.change({target:{value:"3"}});
     assert.match(restored.node("hsrNormalTrace").innerHTML,/value="7"/);
     assert.match(restored.node("hsrUltimateTrace").innerHTML,/value="12"/);
+    assert.equal(restored.node("hsrUltimateTrace").value,"10","E3 raises the available game-level cap but does not add +2 to the entered UID level");
     restored.node("hsrEidolon").value="5";restored.node("hsrEidolon").handlers.change({target:{value:"5"}});
     assert.match(restored.node("hsrSkillTrace").innerHTML,/value="12"/);
     assert.match(restored.node("hsrTalentTrace").innerHTML,/value="12"/);
+    assert.equal(restored.node("hsrSkillTrace").value,"10","E5 keeps the user's actual Skill level rather than adding +2 again");
+    for(const field of ["hsrSkillTrace","hsrTalentTrace","hsrUltimateTrace"]) restored.node(field).value="12";
+    const level12=restored.calculate();assert.equal(level12.length,3);
+    const level12Slash=level12.find(r=>r.attack.name.includes("看破・斬"));
+    const level12Skill=level12.find(r=>r.attack.name.includes("天威煌々"));
+    const level12Counter=level12.find(r=>r.attack.name.includes("閃熔"));
+    assert.ok(Math.abs(level12Slash.nonCrit-3000*2.376*.36*1.2*(10/9))<1e-8,"E3 Lv12 Slash uses Lv12 multiplier, E1 damage bonus, and E2 defense ignore");
+    assert.ok(Math.abs(level12Skill.nonCrit-3000*1.32*.5*.8*.9)<1e-8,"E5 Lv12 Skill uses its multiplier but excludes counter-only E2");
+    assert.ok(Math.abs(level12Counter.nonCrit-3000*1.32*.5*.8*.9*(10/9))<1e-8,"E5 Lv12 Counter uses E2 exactly once");
+    restored.node("hsrEidolon").value="6";restored.node("hsrEidolon").handlers.change({target:{value:"6"}});
+    const e6Results=restored.calculate();assert.equal(e6Results.length,2,"E6 Slash remains blocked while Skill and ordinary Counter remain calculable");
+    assert.ok(e6Results.some(r=>r.attack.name.includes("天威煌々")));assert.ok(e6Results.some(r=>r.attack.name.includes("閃熔")));
+    assert.match(restored.node("hsrResults").innerHTML,/看破・斬.*星魂6|星魂6.*看破・斬|星魂0～5/);
     const uidApp=await tool(undefined,data);
-    uidApp.window.HsrTool.applyProfileCharacter({id:"1221",level:80,eidolon:1,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,critRate:50,critDamage:100,damageBonus:0}});
+    uidApp.window.HsrTool.applyProfileCharacter({id:"1221",level:80,eidolon:2,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,critRate:50,critDamage:100,damageBonus:0}});
     uidApp.state.modifierInputs["yunli-intuit-slash-instance"]=true;
-    assert.equal(uidApp.state.eidolon,1);assert.equal(uidApp.state.traceLevels.skill,10);assert.equal(uidApp.state.traceLevels.ultimate,10);assert.equal(uidApp.state.traceLevels.talent,10,"eidolon trace levels are UI caps; UID levels are not auto-increased");
-    const uidE1Results=uidApp.calculate();
-    assert.ok(Math.abs(uidE1Results.find(r=>r.attack.name.includes("看破・斬"))?.nonCrit-2851.2)<1e-8,`UID E1 receives the scoped E1 damage bonus; got ${uidE1Results.length} results / ${uidApp.node("hsrResults").innerHTML.slice(-1400)}`);
+    assert.equal(uidApp.state.eidolon,2);assert.equal(uidApp.state.traceLevels.skill,10);assert.equal(uidApp.state.traceLevels.ultimate,10);assert.equal(uidApp.state.traceLevels.talent,10,"UID trace levels are actual game levels and are not auto-increased by eidolon");
+    const uidE2Results=uidApp.calculate();
+    assert.ok(Math.abs(uidE2Results.find(r=>r.attack.name.includes("看破・斬"))?.nonCrit-3168)<1e-8,`UID E2 applies E1 damage and E2 defense ignore to Slash; got ${uidE2Results.length} results / ${uidApp.node("hsrResults").innerHTML.slice(-1400)}`);
     uidApp.node("hsrStat-atk").handlers.input();
     const uidRestored=await tool(uidApp.storage,data);
-    assert.equal(uidRestored.state.eidolon,1,"UID rank survives reload");
+    assert.equal(uidRestored.state.eidolon,2,"UID rank survives reload");
     assert.equal(uidRestored.state.traceLevels.skill,10);
     assert.equal(uidRestored.state.characterId,"1221");
     assert.equal(uidRestored.state.modifierInputs["yunli-intuit-slash-instance"],true);
-    assert.ok(Math.abs(uidRestored.calculate().find(r=>r.attack.name.includes("看破・斬")).nonCrit-2851.2)<1e-8,"UID E1 and trace state recalculate identically after reload");
-    uidRestored.node("hsrEidolon").value="2";uidRestored.node("hsrEidolon").handlers.change({target:{value:"2"}});
-    assert.equal(uidRestored.calculate().length,0,"a UID-backed build above E1 remains blocked instead of falling back to E0");
+    assert.ok(Math.abs(uidRestored.calculate().find(r=>r.attack.name.includes("看破・斬")).nonCrit-3168)<1e-8,"UID E2 and trace state recalculate identically after reload");
+    assert.equal(uidRestored.calculate().length,3,"UID-backed E2 retains all three independently supported attack rows");
     const uidTraceApp=await tool(undefined,data);
     uidTraceApp.window.HsrTool.applyProfileCharacter({id:"1221",level:80,eidolon:5,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,critRate:50,critDamage:100,damageBonus:0}});
     assert.equal(uidTraceApp.state.eidolon,5);assert.equal(uidTraceApp.state.traceLevels.skill,10);assert.equal(uidTraceApp.state.traceLevels.ultimate,10);assert.equal(uidTraceApp.state.traceLevels.talent,10,"eidolon trace levels are UI caps; UID levels are not auto-increased");

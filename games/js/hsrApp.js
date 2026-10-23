@@ -1105,15 +1105,19 @@
     const note = $("hsrEidolonSupport");
     const attacks = availableAttacks();
     note.hidden = !character() || (!state.eidolon && !attacks.some(attack => attack.maximumEidolon !== undefined));
-    note.textContent = `${character()?.name || ""}・星魂${state.eidolon}：反映できる星魂効果は攻撃ごとに異なります。各結果の「星魂の反映範囲」と未対応理由を確認してください。未対応の攻撃は星魂0相当へ置き換えません。`;
+    const partiallySupported = attacks.some(attack => attack.maximumEidolon !== undefined && state.eidolon > attack.maximumEidolon);
+    note.textContent = `${character()?.name || ""}・星魂${state.eidolon}：${partiallySupported ? "一部の攻撃は選択中の星魂に未対応です。" : ""}反映できる星魂効果は攻撃ごとに異なります。各結果の「星魂の反映範囲」と未対応理由を確認してください。未対応の攻撃は星魂0相当へ置き換えません。`;
   }
 
   function supportBadge(attack) {
     const support = attackSupport(attack);
-    const eidolonNote = attack.eidolonSupportNote && state.eidolon <= attack.maximumEidolon
-      ? state.eidolon === 0 ? "星魂0で計算しています。星魂1の与ダメージ補正は加算しません。" : attack.eidolonSupportNote
-      : state.eidolon > 0 && support.status === "review" ? "この攻撃の星魂効果全体は未検証です。入力した最終ステータス・軌跡Lvと、内訳に掲載した補正の範囲で計算した参考値です。" : "";
-    const eidolonScope = eidolonNote ? `<details class="hsr-eidolon-scope" open><summary>星魂${state.eidolon}の反映範囲</summary><p>${esc(eidolonNote)}</p></details>` : "";
+    const notes = state.eidolon <= attack.maximumEidolon && attack.eidolonSupportNotes
+      ? attack.eidolonSupportNotes.filter(note => state.eidolon === 0 ? note.rank === 0 : note.rank > 0 && note.rank <= state.eidolon).map(note => note.text) : [];
+    if (!notes.length) {
+      if (attack.eidolonSupportNote && state.eidolon <= attack.maximumEidolon) notes.push(state.eidolon === 0 ? "星魂0で計算しています。星魂の固有補正は加算しません。" : attack.eidolonSupportNote);
+      else if (state.eidolon > 0 && support.status === "review") notes.push("この攻撃の星魂効果全体は未検証です。入力した最終ステータス・軌跡Lvと、内訳に掲載した補正の範囲で計算した参考値です。");
+    }
+    const eidolonScope = notes.length ? `<details class="hsr-eidolon-scope" open><summary>星魂${state.eidolon}の反映範囲</summary>${notes.map(note => `<p>${esc(note)}</p>`).join("")}</details>` : "";
     return `<p class="hsr-support-status" data-support-status="${support.status}">${esc(support.label)}</p>${eidolonScope}${support.status === "review" ? `<p class="hsr-formula-note">参考値：攻撃ごとの独立検証が完了していません。倍率・参照値・追加成分・発動条件を確認し、独立計算との一致を記録するまで参考値として扱います。</p>` : ""}`;
   }
 
