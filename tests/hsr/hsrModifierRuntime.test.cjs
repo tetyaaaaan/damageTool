@@ -539,3 +539,64 @@ test("Summer Songbirds Lv1-6 counts sprites, adds vulnerability and stays indepe
   const t=JSON.parse(fs.readFileSync(path.join(root,"games/hsr/data/attack-overrides.json"),"utf8")).overrides.find(a=>a.id==="1415021");
   assert.ok(Math.abs(calc.calculate({...common,character:{...common.character,eidolon:0},attack:{...t,traceLevel:10,multiplier:24},trueDamage:{active:true,sourceKind:"finalNonTrueDamage",originalDamage:1080},modifiers:[on]}).nonCrit-259.2)<1e-9);
 });
+
+test("Robin and Sunday party buffs use provider stats, trace levels, and ordinary attack scopes", () => {
+  const ids = ["trace:1309:130902:party-damage", "trace:1309:130904:party-crit-damage", "trace:1313:131303:beatified-crit-damage"];
+  const party = { characterId: "1407", partyIds: ["1309", "1313"], partyStats: { "1309": { critDamage: 100 }, "1313": { critDamage: 200 } }, traceLevelFor: () => 10 };
+  const inputs = { "robin-skill-damage-active": true, "robin-talent-crit-active": true, "sunday-beatified-active": true };
+  const calc = calcEngine();
+  const attack = { character: { level: 80, stats: { atk: 3000, critRate: 50, critDamage: 100 } }, enemy: { level: 80, resistance: 20, toughnessActive: true }, attack: { type: "normal", multiplier: 100, scalingStat: "atk" } };
+  const findAll = (context = party, state = inputs) => runtime.buildCandidates(records, context, state).filter((item) => ids.includes(item.id));
+  const byId = (items, id) => items.find((item) => item.id === id);
+  let items = findAll();
+  assert.equal(byId(items, ids[0]).value, 50);
+  assert.equal(byId(items, ids[1]).value, 20);
+  assert.equal(byId(items, ids[2]).value, 72);
+  assert.equal(byId(items, ids[2]).valueInput.type, "providerStat");
+  assert.equal(byId(items, ids[2]).valueInput.value, 200);
+  let result = calc.calculate({ ...attack, modifiers: items });
+  assert.ok(Math.abs(result.nonCrit - 1620) < 1e-9);
+  assert.ok(Math.abs(result.crit - 4730.4) < 1e-9);
+  assert.ok(Math.abs(result.expected - 3175.2) < 1e-9);
+
+  for (const [id, level1, level10] of [[ids[0], 25, 50], [ids[1], 5, 20], [ids[2], 32, 72]]) {
+    for (const [level, expected] of [[1, level1], [10, level10]]) {
+      const skillId = id.split(":")[2];
+      const context = { ...party, traceLevelFor: (source) => source.skillId === skillId ? level : 10 };
+      assert.equal(candidate(id, context, inputs).value, expected, `${id} at Lv${level}`);
+    }
+  }
+
+  const singles = [
+    [ids[0], { "robin-skill-damage-active": true }, 1620, 3240, 2430],
+    [ids[1], { "robin-talent-crit-active": true }, 1080, 2376, 1728],
+    [ids[2], { "sunday-beatified-active": true }, 1080, 2937.6, 2008.8]
+  ];
+  for (const [id, state, nonCrit, crit, expected] of singles) {
+    result = calc.calculate({ ...attack, modifiers: [candidate(id, party, state)] });
+    assert.ok(Math.abs(result.nonCrit - nonCrit) < 1e-9);
+    assert.ok(Math.abs(result.crit - crit) < 1e-9);
+    assert.ok(Math.abs(result.expected - expected) < 1e-9);
+  }
+
+  for (const id of ids) {
+    assert.equal(candidate(id, party, { ...inputs, [id === ids[0] ? "robin-skill-damage-active" : id === ids[1] ? "robin-talent-crit-active" : "sunday-beatified-active"]: false }).enabled, false);
+    assert.equal(candidate(id, { ...party, characterId: id.startsWith("trace:1309") ? "1309" : "1313" }, inputs), undefined, "provider cannot select own party-only effect");
+  }
+  for (const critDamage of [NaN, -1]) {
+    const invalid = candidate(ids[2], { ...party, partyStats: { ...party.partyStats, "1313": { critDamage } } }, inputs);
+    assert.equal(invalid.enabled, true);
+    assert.equal(invalid.applicable, false);
+    assert.ok(invalid.inputWarnings.length, `invalid provider crit damage ${critDamage} is reported`);
+    const disabled = candidate(ids[2], { ...party, partyStats: { ...party.partyStats, "1313": { critDamage } } }, { ...inputs, "sunday-beatified-active": false });
+    assert.equal(disabled.enabled, false);
+    assert.equal(disabled.inputWarnings.length, 0, "disabled effect does not require a provider stat");
+  }
+  for (const type of ["elation", "break", "superBreak", "trueDamage", "memospriteSkill"]) {
+    for (const item of items) assert.equal(runtime.applicableToAttack(item, { attackType: type }), false, `${item.id} excludes ${type}`);
+  }
+  assert.equal(runtime.applicableToAttack(byId(items, ids[0]), { attackType: "dot" }), true, "Robin skill damage bonus includes DoT");
+  assert.equal(runtime.applicableToAttack(byId(items, ids[1]), { attackType: "dot" }), false);
+  assert.equal(runtime.applicableToAttack(byId(items, ids[2]), { attackType: "dot" }), false);
+  for (const item of items) assert.equal(runtime.applicableToAttack(item, { attackType: "normal" }), true);
+});

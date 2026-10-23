@@ -1847,3 +1847,38 @@ test("reference notices are specific to the attack and joint labels do not repla
     const normalPanel=html.split('data-result-panel="damage"')[1].split('<section class="genshin-json-result-section"')[0];
     assert.doesNotMatch(normalPanel,/参考値/);
 });
+
+
+test("Robin and Sunday party buffs preserve source stats, scoped validation and saves", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const records=JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>["1309","1313"].includes(m.source.id));
+    const app=await tool(undefined,{structuredModifiers:records});
+    app.state.data.characters.push(...catalog.characters.filter(c=>["1309","1313"].includes(c.id)));
+    const base=app.state.data.attacks[0];
+    app.state.data.attacks.push({...base,id:"dot",name:"DoT comparison",type:"dot",canCrit:false});
+    app.state.party[0]={...app.state.party[0],characterId:"1309",source:"manual",eidolon:0,traceLevels:{skill:10,talent:10}};
+    app.state.party[1]={...app.state.party[1],characterId:"1313",source:"manual",eidolon:0,critDamage:200,traceLevels:{ultimate:10}};
+    app.node("hsrStat-atk").value="3000";app.node("hsrStat-critRate").value="50";app.node("hsrStat-critDamage").value="100";
+    const near=(actual,expected)=>assert.ok(Math.abs(actual-expected)<1e-8,actual+" != "+expected);
+    near(app.calculate()[0].nonCrit,1080);
+    Object.assign(app.state.modifierInputs,{"robin-skill-damage-active":true,"robin-talent-crit-active":true,"sunday-beatified-active":true});
+    let r=app.calculate();near(r[0].nonCrit,1620);near(r[0].crit,4730.4);near(r[0].expected,3175.2);near(r[1].nonCrit,1620);
+    app.node("hsrStat-atk").handlers.input();
+    const restored=await tool(app.storage,{characters:app.state.data.characters,attacks:app.state.data.attacks,structuredModifiers:records});
+    near(restored.calculate()[0].expected,3175.2);
+    assert.equal(restored.state.party[1].critDamage,200);assert.equal(restored.state.party[0].traceLevels.skill,10);
+    for(const invalid of [NaN,-1,501]) {
+        restored.state.party[1].critDamage=invalid;r=restored.calculate();
+        assert.equal(r.length,1,"only the crit-capable ordinary attack is blocked");near(r[0].nonCrit,1620);
+        assert.match(restored.node("hsrResults").innerHTML,/サンデー|祝福されし者/);
+    }
+    restored.state.modifierInputs["sunday-beatified-active"]=false;
+    r=restored.calculate();assert.equal(r.length,2);near(r[0].crit,3564);
+    restored.state.modifierInputs["sunday-beatified-active"]=true;
+    restored.state.party[1].critDamage=200;restored.state.party[1].traceLevels.ultimate=NaN;
+    assert.equal(restored.calculate().length,1);
+    restored.state.party[1].characterId="";r=restored.calculate();assert.equal(r.length,2);near(r[0].crit,3564);
+    restored.state.party[0].traceLevels.skill=NaN;assert.equal(restored.calculate().length,0);
+    restored.state.modifierInputs["robin-skill-damage-active"]=false;assert.equal(restored.calculate().length,2);
+    restored.state.party[0].characterId="";near(restored.calculate()[0].expected,1620);
+});
