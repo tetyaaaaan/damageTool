@@ -1935,3 +1935,23 @@ test("Sparkle Skill preserves manual and UID trace levels and affects only crit-
     restored.state.modifierInputs["sparkle-enhanced-skill-active"]=false;restored.node("hsrStat-critDamage").value="193";near(restored.calculate()[0].expected,2122.2);
     restored.node("hsrStat-critDamage").value="100";restored.state.party[0].characterId="";near(restored.calculate()[0].expected,1620);
 });
+
+
+test("Sparkle shares one Figment input, preserves zero and blocks only affected invalid states", async () => {
+    const cat=JSON.parse(read("games/hsr/data/catalog.json")),mods=JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1306");
+    const app=await tool(undefined,{structuredModifiers:mods});app.state.data.characters.push(cat.characters.find(c=>c.id==="1306"));
+    app.state.party[0]={...app.state.party[0],characterId:"1306",eidolon:0,critDamage:200,traceLevels:{skill:10,talent:10,ultimate:10}};
+    for(const[k,v]of Object.entries({atk:"3000",critRate:"50",critDamage:"100"}))app.node("hsrStat-"+k).value=v;
+    const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);near(app.calculate()[0].expected,1620);
+    app.state.modifierInputs["sparkle-enhanced-figment-stacks"]=3;near(app.calculate()[0].expected,1814.4);
+    app.state.modifierInputs["sparkle-enhanced-cipher-active"]=true;near(app.calculate()[0].expected,2106);
+    app.state.modifierInputs["sparkle-enhanced-skill-active"]=true;let r=app.calculate()[0];near(r.nonCrit,1404);near(r.crit,4113.72);near(r.expected,2758.86);
+    app.state.conditionTab="パーティ";app.node("hsrConditionDialogOpen").handlers.click();assert.equal((app.node("hsrConditionList").innerHTML.match(/data-structured-input="sparkle-enhanced-figment-stacks"/g)||[]).length,1);
+    app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,{characters:app.state.data.characters,attacks:app.state.data.attacks,structuredModifiers:mods});near(restored.calculate()[0].expected,2758.86);
+    restored.state.modifierInputs["sparkle-enhanced-skill-active"]=false;restored.state.modifierInputs["sparkle-enhanced-figment-stacks"]=0;restored.state.party[0].traceLevels.talent=NaN;restored.state.party[0].traceLevels.ultimate=NaN;near(restored.calculate()[0].expected,1620);
+    restored.state.conditionTab="パーティ";restored.node("hsrConditionDialogOpen").handlers.click();assert.match(restored.node("hsrConditionList").innerHTML,/data-structured-toggle="sparkle-enhanced-cipher-active" checked/);assert.match(restored.node("hsrConditionList").innerHTML,/効果量0・未適用/);assert.match(restored.node("hsrConditionTitle").textContent,/選択中 1件/);
+    restored.state.modifierInputs["sparkle-enhanced-figment-stacks"]=3;assert.equal(restored.calculate().length,0);
+    restored.state.party[0].traceLevels.talent=10;assert.equal(restored.calculate().length,0);restored.state.modifierInputs["sparkle-enhanced-cipher-active"]=false;near(restored.calculate()[0].expected,1814.4);
+    for(const count of [4,-1,1.5,NaN]) {restored.state.modifierInputs["sparkle-enhanced-figment-stacks"]=count;assert.equal(restored.calculate().length,0);}
+    restored.state.party[0].characterId="";near(restored.calculate()[0].expected,1620);
+});

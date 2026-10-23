@@ -250,15 +250,19 @@
       const calculable = supportStatus === "calculable" && record.inputPolicy !== "includedInFinalStats";
       const value = resolveValue(record, context, inputs, selection);
       const unknownReference = Boolean(activation.toggled && !Number.isFinite(activation.inputValue));
-      let enabled = calculable && (activation.active || unknownReference);
+      const validation = record.inputValidation;
+      const validatedInputKey = record.value?.inputKey || (record.activation?.mode === "stack" ? record.activation.inputKey : undefined);
+      const raw = record.value?.providerStat
+        ? (selection.providerId === String(context.characterId) ? context.stats?.[record.value.providerStat] : context.partyStats?.[selection.providerId]?.[record.value.providerStat])
+        : inputs[validatedInputKey] === undefined ? (record.value?.default ?? (record.activation?.mode === "stack" ? record.activation.default : undefined)) : inputs[validatedInputKey];
+      const invalidValue = Boolean(validation && validatedInputKey && (!Number.isFinite(raw) || raw < validation.minimum || raw > validation.maximum || (validation.integer && !Number.isInteger(raw))));
+      let enabled = calculable && (activation.active || unknownReference || (record.activation?.mode === "stack" && invalidValue));
+      // A known zero multiplier needs no level; state-consistency checks still take precedence.
+      if (record.value?.inputMultipliers?.[raw] === 0 && !validation?.whenToggle) enabled = false;
       const inputWarnings = [];
       if (unknownReference) inputWarnings.push("パーティの愉悦人数を確認できません。キャラクターの重複・未収録IDを確認してください。");
-      const validation = record.inputValidation;
       if (enabled && validation) {
-        const raw = record.value?.providerStat
-          ? (selection.providerId === String(context.characterId) ? context.stats?.[record.value.providerStat] : context.partyStats?.[selection.providerId]?.[record.value.providerStat])
-          : inputs[record.value?.inputKey] === undefined ? record.value?.default : inputs[record.value?.inputKey];
-        if (record.value?.inputKey && (!Number.isFinite(raw) || raw < validation.minimum || raw > validation.maximum || (validation.integer && !Number.isInteger(raw)))) inputWarnings.push(`${record.value.inputLabel}に${validation.minimum}～${validation.maximum}の${validation.integer ? "整数" : "数値"}を入力してください。`);
+        if (invalidValue) inputWarnings.push((record.value?.inputLabel || record.activation?.inputLabel) + "に" + validation.minimum + "～" + validation.maximum + "の" + (validation.integer ? "整数" : "数値") + "を入力してください。");
         const eidolon = selection.providerId === String(context.characterId) ? context.eidolon : context.partyEidolons?.[selection.providerId];
         if (number(eidolon) > validation.maximumEidolon) inputWarnings.push(`${record.name}は支援者の星魂0のみ計算対応です。`);
         const level = modifierLevel(record, context, inputs);
@@ -267,7 +271,7 @@
       }
       if (record.value?.inputMultipliers && (inputs[record.value.inputKey] ?? record.value.default) === 0 && !inputWarnings.length) enabled = false;
       const requiredInput = Boolean(validation && record.value?.inputKey && record.value.default === undefined);
-      const missingInput = requiredInput && !Number.isFinite(inputs[record.value.inputKey]);
+      const missingInput = Boolean(validation && record.value?.inputKey && !Number.isFinite(raw));
       const displayInput = (input) => Number.isFinite(input) ? input : "未入力";
       return [{
         id: record.id,
@@ -290,7 +294,7 @@
         automatic: activation.automatic,
         activation: { ...record.activation, ...activation },
         providerId: selection.providerId || null,
-        strictInput: requiredInput,
+        strictInput: requiredInput || Boolean(validation && record.value?.inputMultipliers),
         levelInput: record.value?.levelInputKey ? {
           key: record.value.levelInputKey,
           label: record.value.levelInputLabel || "効果レベル",
@@ -305,6 +309,7 @@
         } : record.value?.inputKey ? {
           type: record.value.providerStat ? "providerStat" : "number",
           key: record.value.inputKey,
+          shared: record.value.sharedInput === true,
           label: record.value.inputLabel || "参照値",
           value: missingInput ? NaN : record.value.providerStat
             ? number(selection.providerId && context.partyStats?.[selection.providerId]?.[record.value.providerStat] !== undefined

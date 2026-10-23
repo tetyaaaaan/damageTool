@@ -38,6 +38,7 @@
         "perStack": { "type": "number" },
         "reference": { "enum": ["self.hp", "self.hpPercent", "self.epPercent", "self.speed", "self.atk", "self.def", "self.critRate", "self.critDamage", "self.effectHitRate", "self.effectRes", "self.breakEffect", "self.elation", "enemy.hpPercent", "enemy.weakness", "enemy.debuffCount", "enemy.count", "enemy.toughnessRemaining", "party.count", "party.elationCount", "party.sp"] },
         "multiplierInputKey": { "type": "string", "minLength": 1 },
+        "sharedInput": { "type": "boolean" },
         "multiplierInputLabel": { "type": "string", "minLength": 1 },
         "multiplierWhenTrue": { "type": "number", "exclusiveMinimum": 0 },
         "inputKey": { "type": "string", "minLength": 1 },

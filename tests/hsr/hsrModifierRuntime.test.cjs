@@ -640,3 +640,17 @@ test("Enhanced Sparkle Skill uses provider CRIT DMG and exact level coefficients
     for(const type of ["dot","elation","memospriteSkill","break","superBreak","trueDamage"])assert.equal(runtime.applicableToAttack(candidate(id,c,inputs),{type}),false);
     assert.ok(candidate(id,{...c,partyStats:{"1306":{critDamage:NaN}}},inputs).inputWarnings.length);
 });
+
+
+test("Enhanced Sparkle Figment and Cipher add vulnerability with independent levels", () => {
+    const c={characterId:"1003",partyIds:["1306"],partyEidolons:{"1306":0},traceLevelFor:s=>s.skillId==="1130604"?1:10};
+    const inputs={"sparkle-enhanced-figment-stacks":3,"sparkle-enhanced-cipher-active":true};
+    const base=candidate("trace:1306:1130604:figment-vulnerability",c,inputs),extra=candidate("trace:1306:1130603:cipher-vulnerability",c,inputs);
+    assert.equal(base.value,6);assert.equal(extra.value,18);assert.equal(extra.category,"takenDamage");assert.equal(extra.valueInput.shared,true);
+    const engine=calcEngine(),input={character:{level:80,stats:{atk:3000,critRate:50,critDamage:100}},enemy:{level:80,resistance:20,toughnessActive:true},attack:{type:"normal",element:"Fire",scalingStat:"atk",multiplier:100}};
+    const full={...c,traceLevelFor:()=>10},r=engine.calculate({...input,modifiers:runtime.buildCandidates(records,full,inputs)});assert.ok(Math.abs(r.nonCrit-1404)<1e-8);assert.ok(Math.abs(r.expected-2106)<1e-8);
+    for(const count of [0,1,2,3]) {const rows=runtime.buildCandidates(records,full,{...inputs,"sparkle-enhanced-figment-stacks":count});const rr=engine.calculate({...input,modifiers:rows});assert.ok(Math.abs(rr.nonCrit-1080*(1+.1*count))<1e-8);}
+    const zero=runtime.buildCandidates(records,{...c,traceLevelFor:()=>NaN},{...inputs,"sparkle-enhanced-figment-stacks":0});assert.ok(zero.filter(x=>x.id.includes("figment")||x.id.includes("cipher")).every(x=>!x.enabled&&!x.inputWarnings.length));
+    for(const count of [-1,4,1.5,NaN]) {const bad=candidate(base.id,full,{...inputs,"sparkle-enhanced-figment-stacks":count});assert.equal(bad.enabled,true);assert.ok(bad.inputWarnings.length);}
+    for(const type of ["elation","break","superBreak","trueDamage","memospriteSkill"])assert.equal(runtime.applicableToAttack(base,{type}),false);
+});

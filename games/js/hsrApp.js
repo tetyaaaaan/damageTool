@@ -633,6 +633,7 @@
     }
     if (items.some((item) => item.activation?.mode === "toggleThreshold")) return items.some((item) => item.activation?.toggled) ? { label: "条件未達", className: "is-inactive" } : { label: "条件OFF", className: "is-inactive" };
     if (items.some((item) => ["statThreshold", "numericThreshold"].includes(item.activation?.mode))) return { label: "条件未達", className: "is-inactive" };
+    if (items.some((item) => item.activation?.mode === "toggle" && item.activation.active)) return { label: "効果量0・未適用", className: "is-inactive" };
     if (items.some((item) => item.levelInput && item.activation?.active)) return { label: "条件未達", className: "is-inactive" };
     if (items.some((item) => ["toggle", "stack"].includes(item.activation?.mode))) return { label: "条件OFF", className: "is-inactive" };
     return { label: "条件を設定", className: "is-input" };
@@ -659,6 +660,7 @@
     if (isAttackSelectionCondition(item)) return item.activation.active ? "独立した攻撃結果を表示" : "独立した攻撃は計算対象外";
     if (item.inputPolicy === "includedInFinalStats") return "最終ステータスに含めて入力（ここでは再加算しません）";
     if (item.displayOnly) return "未適用（表示のみ）";
+    if (!item.enabled && item.activation?.mode === "toggle" && item.activation.active) return "0%（選択中・未適用）";
     if (!item.enabled && ["statThreshold", "numericThreshold"].includes(item.activation?.mode)) return item.unit === "percent" ? "0%（条件未達）" : "未適用（条件未達）";
     if (!item.enabled && item.activation?.mode === "toggleThreshold") return item.unit === "percent" ? "0%（条件未達）" : "未適用（条件未達）";
     if (!item.enabled) return item.unit === "percent" || !item.structured ? "0%" : "未適用";
@@ -679,7 +681,7 @@
       const activation = item.activation || {};
       if (["toggle", "toggleThreshold"].includes(activation.mode) && activation.inputKey && !rendered.has(`toggle:${activation.inputKey}`)) {
         rendered.add(`toggle:${activation.inputKey}`);
-        controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(activation.inputKey)}"${(activation.mode === "toggleThreshold" ? activation.toggled : attackSelection || item.levelInput ? activation.active : item.enabled) ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${attackSelection ? "この状態の攻撃を計算する" : "この条件を適用する"}</strong><small>実際に「${esc(item.conditionText || "発動条件")}」を満たす場合だけONにしてください。</small></span></label>`);
+        controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(activation.inputKey)}"${(activation.mode === "toggleThreshold" ? activation.toggled : activation.active) ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${attackSelection ? "この状態の攻撃を計算する" : "この条件を適用する"}</strong><small>実際に「${esc(item.conditionText || "発動条件")}」を満たす場合だけONにしてください。</small></span></label>`);
       }
       if (activation.mode === "stack" && activation.inputKey && !rendered.has(`stack:${activation.inputKey}`)) {
         rendered.add(`stack:${activation.inputKey}`); const max = item.stackMax || 1;
@@ -697,7 +699,7 @@
         rendered.add(`value:${item.valueInput.key}`);
         controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(item.valueInput.key)}"${item.valueInput.checked ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${esc(item.valueInput.label)}</strong><small>この追加条件も成立している場合だけONにしてください。</small></span></label>`);
       }
-      if (item.valueInput?.type === "number" && !rendered.has(`value:${item.valueInput.key}`)) {
+      if (item.valueInput?.type === "number" && !item.valueInput.shared && !rendered.has(`value:${item.valueInput.key}`)) {
         rendered.add(`value:${item.valueInput.key}`);
         controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.valueInput.label)}</strong><small>効果量の算出に使用する現在値です。</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" ${item.levelInput || item.strictInput ? 'data-structured-strict="true"' : ""} data-structured-input="${esc(item.valueInput.key)}" value="${Number.isFinite(item.valueInput.value) ? item.valueInput.value : ""}" min="${num(item.valueInput.minimum)}" max="${num(item.valueInput.maximum,999)}" step="${num(item.valueInput.step,1)}"><em>${esc(item.valueInput.unit ?? (item.unit === "percent" ? "%" : ""))}</em></span></label>`);
       }
@@ -767,7 +769,7 @@
     }
     if ($("hsrManualConditionList") && !$("hsrManualConditionList").contains?.(document.activeElement)) $("hsrManualConditionList").innerHTML = state.conditions.map((item) => `<label class="hsr-manual-condition-row"><input type="checkbox" data-condition-enabled="${esc(item.id)}"${item.enabled ? " checked" : ""}><span>${esc(item.name)}</span><input type="number" data-condition-value="${esc(item.id)}" value="${item.value}" step="any" aria-label="${esc(item.name)}（%）"><span>%</span></label>`).join("");
     const conditions = allConditions();
-    const selected = conditions.filter(item => !item.displayOnly && (item.enabled || item.activation?.toggled));
+    const selected = conditions.filter(item => !item.displayOnly && (item.enabled || item.activation?.toggled || (item.activation?.mode === "toggle" && item.activation.active)));
     const missing = selected.filter(item => item.inputWarnings?.length || modifierIssueIds.has(item.id)).length;
     const applied = selected.filter(item => conditionAudit?.applied.has(item.id)).length;
     const skipped = selected.filter(item => !conditionAudit?.applied.has(item.id) && conditionAudit?.skipped.has(item.id)).length;
@@ -922,7 +924,7 @@
         const card = [...$("hsrConditionList").querySelectorAll("[data-hsr-condition-ids]")].find(node => node.dataset.hsrConditionIds.split(" ").includes(item.id));
         card?.closest?.("details")?.setAttribute("open", "");
         const key = item.levelInput && message.includes(item.levelInput.label) ? item.levelInput.key : item.valueInput?.key;
-        const input = (key && card?.querySelector(`[data-structured-input="${key}"]`)) || card?.querySelector("[data-structured-provider-stat]") || card?.querySelector("input,select");
+        const input = (key && card?.querySelector(`[data-structured-input="${key}"]`)) || card?.querySelector("[data-structured-provider-stat]") || (item.valueInput?.shared && key && $("hsrConditionList").querySelector(`[data-structured-input="${key}"]`)) || card?.querySelector("input,select");
         input?.focus?.({preventScroll:true}); (input || card)?.scrollIntoView?.({block:"center",behavior:"smooth"});
       });
       return;
