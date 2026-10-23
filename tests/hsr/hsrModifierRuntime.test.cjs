@@ -600,3 +600,20 @@ test("Robin and Sunday party buffs use provider stats, trace levels, and ordinar
   assert.equal(runtime.applicableToAttack(byId(items, ids[2]), { attackType: "dot" }), false);
   for (const item of items) assert.equal(runtime.applicableToAttack(item, { attackType: "normal" }), true);
 });
+
+
+test("Sunday Skill damage and Talent CRIT Rate use separate levels, scopes and durations", () => {
+    const engine=calcEngine(),context={characterId:"1003",partyIds:["1313"],partyEidolons:{"1313":0},traceLevelFor:s=>s.skillId==="131302"?1:10};
+    const keys={"sunday-skill-damage-active":true,"sunday-talent-crit-active":true};
+    const skill=candidate("trace:1313:131302:party-damage",context,keys),talent=candidate("trace:1313:131304:party-crit-rate",context,keys);
+    assert.equal(skill.value,15);assert.equal(talent.value,20);assert.equal(skill.activation.durationTurns,2);assert.equal(talent.activation.durationTurns,3);
+    assert.equal(candidate(skill.id,context,{}).enabled,false);assert.equal(candidate(talent.id,context,{}).enabled,false);
+    assert.equal(candidate(skill.id,{...context,partyIds:[]},keys),undefined);assert.equal(candidate(skill.id,{...context,characterId:"1313"},keys),undefined);
+    for(const type of ["break","superBreak","elation","memospriteSkill","trueDamage"])assert.equal(runtime.applicableToAttack(skill,{type}),false);
+    assert.equal(runtime.applicableToAttack(skill,{type:"dot"}),true);assert.equal(runtime.applicableToAttack(talent,{type:"dot"}),false);
+    const input={character:{level:80,stats:{atk:3000,critRate:50,critDamage:100}},enemy:{level:80,resistance:20,toughnessActive:true},attack:{type:"normal",element:"Fire",scalingStat:"atk",multiplier:100}};
+    for(const [lv,nc,crit,expected]of [[1,1242,2484,1987.2],[10,1404,2808,2386.8]]) {
+        const c={...context,traceLevelFor:()=>lv};const r=engine.calculate({...input,modifiers:runtime.buildCandidates(records,c,keys)});
+        for(const[a,e]of [[r.nonCrit,nc],[r.crit,crit],[r.expected,expected]])assert.ok(Math.abs(a-e)<1e-8,a+" != "+e);
+    }
+});

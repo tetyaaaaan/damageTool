@@ -1882,3 +1882,22 @@ test("Robin and Sunday party buffs preserve source stats, scoped validation and 
     restored.state.modifierInputs["robin-skill-damage-active"]=false;assert.equal(restored.calculate().length,2);
     restored.state.party[0].characterId="";near(restored.calculate()[0].expected,1620);
 });
+
+
+test("Sunday buffs retain separate trace levels and expiry states across saves", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));const mods=JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1313");
+    const app=await tool(undefined,{structuredModifiers:mods});app.state.data.characters.push(catalog.characters.find(c=>c.id==="1313"));
+    app.state.party[0]={...app.state.party[0],characterId:"1313",eidolon:0,critDamage:200,traceLevels:{skill:10,talent:10,ultimate:10}};
+    app.node("hsrStat-atk").value="3000";app.node("hsrStat-critRate").value="50";app.node("hsrStat-critDamage").value="100";
+    const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+    near(app.calculate()[0].expected,1620);
+    Object.assign(app.state.modifierInputs,{"sunday-skill-damage-active":true,"sunday-talent-crit-active":true});let r=app.calculate()[0];near(r.nonCrit,1404);near(r.crit,2808);near(r.expected,2386.8);
+    app.state.modifierInputs["sunday-beatified-active"]=true;r=app.calculate()[0];near(r.crit,3818.88);near(r.expected,3094.416);
+    app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,{characters:app.state.data.characters,attacks:app.state.data.attacks,structuredModifiers:mods});near(restored.calculate()[0].expected,3094.416);
+    restored.state.party[0].traceLevels.skill=NaN;assert.equal(restored.calculate().length,0);
+    restored.state.modifierInputs["sunday-skill-damage-active"]=false;near(restored.calculate()[0].expected,2380.32);
+    restored.state.modifierInputs["sunday-beatified-active"]=false;near(restored.calculate()[0].expected,1836);
+    restored.state.party[0].traceLevels.talent=NaN;assert.equal(restored.calculate().length,0);
+    restored.state.modifierInputs["sunday-talent-crit-active"]=false;near(restored.calculate()[0].expected,1620);
+    restored.state.party[0].characterId="";near(restored.calculate()[0].expected,1620);
+});
