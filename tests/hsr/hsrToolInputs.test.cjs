@@ -726,7 +726,12 @@ test("latest gear uses existing controls and restores rank, pieces and effect to
     restored.state.modifierInputs["lc-23055-vulnerability-active"] = false;
     assert.ok(Math.abs(restored.calculate()[0].nonCrit - 972) < 1e-9);
     restored.state.relicMode = "4pc"; restored.node("hsrRelicMode").value = "4pc"; restored.node("hsrLevel").value = "79";
-    assert.equal(restored.calculate().length, 0); assert.match(restored.node("hsrCalculationFeedback").innerHTML, /基礎攻撃力/);
+    restored.state.data.attacks.push({ id: "150399", characterId: "1503", name: "ATK-scaling comparison", element: "Ice", type: "normal", traceKey: "normal", target: "single", scalingStat: "atk", multipliers: [100], support: { status: "calculable", verified: true } });
+    const lowerLevelResults = restored.calculate();
+    assert.equal(lowerLevelResults.length, 1, "the valid DEF attack remains available when the selected ATK modifier lacks its base stat");
+    assert.match(restored.node("hsrResults").innerHTML, /筆運び・断流臨模/);
+    assert.match(restored.node("hsrResults").innerHTML, /ATK-scaling comparison/);
+    assert.match(restored.node("hsrResults").innerHTML, /data-hsr-pending-input/);
 });
 
 
@@ -1242,6 +1247,95 @@ test("Break support restores party trace levels and shows applied effects only i
 });
 
 
+test("invalid selected Break modifiers block only matching Break outputs and link to their condition", async () => {
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    const mods = JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m => m.id.endsWith(":break-vulnerability"));
+    const app = await tool(undefined, { structuredModifiers: mods });
+    app.state.data.characters.push(...catalog.characters.filter(c => ["1222", "1301"].includes(c.id)));
+    app.state.party[0] = { ...app.state.party[0], characterId: "1301", eidolon: 1, level: 10, atk: 3000 };
+    app.state.modifierInputs["break-besotted-active"] = true;
+    app.node("hsrStat-atk").value = "1000";
+    app.node("hsrStat-breakEffect").value = "200";
+    app.node("hsrWeakness").value = "true";
+    app.node("hsrMaxToughness").value = "120";
+
+    const normalResults = app.calculate();
+    assert.equal(normalResults.length, 1, "the ordinary attack survives an invalid Break-only support condition");
+    let html = app.node("hsrResults").innerHTML;
+    assert.match(html, /Sample attack/);
+    assert.match(html, /data-hsr-input-target="modifier:trace:1301:130104:break-vulnerability"/);
+    assert.match(html, /酩酊・撃破被ダメージ増加/);
+    assert.doesNotMatch(html, /弱点撃破・適用された補正/);
+    app.node("hsrResults").handlers.click({ target: { closest: () => ({ dataset: { hsrInputTarget: "modifier:trace:1301:130104:break-vulnerability" } }) } });
+    assert.equal(app.node("hsrConditionDialog").open, true, "the pending Break notice opens the selected condition");
+    assert.match(app.node("hsrConditionList").innerHTML, /酩酊・撃破被ダメージ増加/);
+
+    app.state.party[0].eidolon = 0;
+    app.state.party[0].level = 0;
+    assert.equal(app.calculate().length, 1, "missing provider trace stops only the automatic Break result");
+    assert.doesNotMatch(app.node("hsrResults").innerHTML, /弱点撃破・適用された補正/);
+
+    for (const mode of ["break", "superBreak"]) {
+        app.node("hsrBreakMode").value = mode;
+        app.node("hsrSuperBreakToughness").value = "10";
+        app.node("hsrSuperBreakMultiplier").value = "100";
+        app.node("hsrToughnessState").value = "broken";
+        const results = app.calculate();
+        assert.equal(results.length, 0, `${mode} cannot produce a result with invalid selected Break support`);
+        html = app.node("hsrResults").innerHTML;
+        assert.match(html, /data-hsr-pending-input/);
+        assert.match(html, /酩酊・撃破被ダメージ増加/);
+        assert.doesNotMatch(html, /genshin-damage-result-row/);
+    }
+
+    app.state.modifierInputs["break-besotted-active"] = false;
+    app.node("hsrBreakMode").value = "break";
+    assert.equal(app.calculate().length, 0);
+    assert.match(app.node("hsrResults").innerHTML, /弱点撃破・適用された補正/);
+    assert.doesNotMatch(app.node("hsrCalculationFeedback").innerHTML, /入力を確認/);
+
+    app.state.party[0] = { ...app.state.party[0], characterId: "1222", eidolon: 1, level: 10 };
+    app.state.modifierInputs["break-befog-active"] = true;
+    app.node("hsrBreakMode").value = "attacks";
+    assert.equal(app.calculate().length, 1, "an invalid selected Lingsha condition also leaves the ordinary attack available");
+    html = app.node("hsrResults").innerHTML;
+    assert.match(html, /data-hsr-input-target="modifier:trace:1222:122203:break-vulnerability"/);
+    assert.match(html, /芳酔・撃破被ダメージ増加/);
+    app.node("hsrBreakMode").value = "break";
+    assert.equal(app.calculate().length, 0);
+    assert.match(app.node("hsrResults").innerHTML, /data-hsr-pending-input/);
+    app.state.modifierInputs["break-befog-active"] = false;
+    assert.equal(app.calculate().length, 0);
+    assert.match(app.node("hsrResults").innerHTML, /弱点撃破・適用された補正/);
+});
+
+
+test("invalid Tingyun ATK input blocks the ATK attack but leaves a DEF attack calculable", async () => {
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    const mods = JSON.parse(read("games/hsr/data/calc/modifiers-tingyun.json")).modifiers;
+    const attacks = [
+        { id: "sample-atk", characterId: "sample", name: "ATK comparison", element: "Ice", type: "normal", traceKey: "normal", target: "single", scalingStat: "atk", multipliers: [100], support: { status: "calculable", verified: true } },
+        { id: "sample-def", characterId: "sample", name: "DEF comparison", element: "Ice", type: "skill", traceKey: "skill", target: "single", scalingStat: "def", multipliers: [100], support: { status: "calculable", verified: true } }
+    ];
+    const app = await tool(undefined, { structuredModifiers: mods, attacks });
+    app.state.data.characters.push(catalog.characters.find(character => character.id === "1202"));
+    app.state.party[0] = { ...app.state.party[0], characterId: "1202", source: "manual", eidolon: 0, level: 10, atk: NaN };
+    app.state.modifierInputs["tingyun-benediction"] = true;
+    app.node("hsrStat-atk").value = "1000";
+    app.node("hsrStat-def").value = "1000";
+    app.node("hsrStat-critRate").value = "0";
+    app.node("hsrStat-critDamage").value = "50";
+
+    const results = app.calculate();
+    assert.equal(results.length, 1, "the unaffected DEF-scaled attack remains calculable");
+    const html = app.node("hsrResults").innerHTML;
+    assert.match(html, /ATK comparison/);
+    assert.match(html, /DEF comparison/);
+    assert.match(html, /data-hsr-input-target="modifier:trace:1202:120202:benediction-atk"/);
+    assert.match(html, /祥音和韻・賜福攻撃力/);
+});
+
+
 test("Jiaoqiu combined direct, DoT and Break scopes restore without double counting Roast", async () => {
     const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
     const data={characters:catalog.characters,attacks:JSON.parse(read("games/hsr/data/attack-overrides.json")).overrides.filter(a=>["121802","121803","1218041"].includes(a.id)),
@@ -1274,7 +1368,11 @@ test("Independent Break and Super Break modes need no direct ATK, validate input
     restored.node("hsrBreakMode").value="break";restored.node("hsrWeakness").value="true";restored.node("hsrMaxToughness").value="120";restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/弱点撃破・適用された補正/);
     restored.node("hsrStat-breakEffect").value="";restored.calculate();assert.match(restored.node("hsrCalculationFeedback").innerHTML,/撃破特効/);
     restored.node("hsrStat-breakEffect").value="0";restored.calculate();assert.match(restored.node("hsrResults").innerHTML,/弱点撃破・適用された補正/);
-    restored.node("hsrBreakMode").value="attacks";restored.calculate();assert.match(restored.node("hsrCalculationFeedback").innerHTML,/攻撃力/);
+    restored.node("hsrBreakMode").value="attacks";assert.equal(restored.calculate().length,0);
+    assert.match(restored.node("hsrResults").innerHTML,/data-hsr-pending-input/);
+    assert.match(restored.node("hsrResults").innerHTML,/攻撃力/);
+    assert.match(restored.node("hsrResults").innerHTML,/弱点撃破/);
+    assert.match(restored.node("hsrCalculationFeedback").innerHTML,/計算できない結果/);
 });
 
 

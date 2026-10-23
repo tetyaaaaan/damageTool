@@ -64,6 +64,8 @@
   let initialDefaults = null;
   let pendingReset = null;
   let conditionAudit = null;
+  const modifierIssueLinks = new Map();
+  const modifierIssueIds = new Set();
   const TRACE_FIELDS = {
     normal: ["Normal", "hsrNormalTrace", "通常", 6], skill: ["BPSkill", "hsrSkillTrace", "スキル", 10],
     ultimate: ["Ultra", "hsrUltimateTrace", "必殺技", 10], talent: ["Talent", "hsrTalentTrace", "天賦", 10],
@@ -566,7 +568,7 @@
   }
 
   function conditionStatus(items) {
-    if (items.some((item) => item.enabled && item.inputWarnings?.length)) return { label: "入力不足", className: "is-input" };
+    if (items.some((item) => item.enabled && (item.inputWarnings?.length || modifierIssueIds.has(item.id)))) return { label: "入力不足", className: "is-input" };
     if (items.some(isAttackSelectionCondition)) return items.some((item) => isAttackSelectionCondition(item) && item.activation.active) ? { label: "計算対象", className: "is-auto" } : { label: "対象外", className: "is-inactive" };
     if (items.every((item) => item.displayOnly)) return items.every((item) => item.inputPolicy === "includedInFinalStats") ? { label: "最終入力で管理", className: "is-reflected" } : { label: items.some((item) => item.inputPolicy === "includedInFinalStats") ? "内訳を確認" : "表示のみ", className: "is-display" };
     if (items.some((item) => item.enabled)) {
@@ -598,6 +600,7 @@
 
   function currentConditionReflection(item) {
     if (item.inputWarnings?.length) return `未適用：${item.inputWarnings.join(" ")}`;
+    if (modifierIssueIds.has(item.id)) return `未適用：${modifierIssueLinks.get("modifier:" + item.id)?.message || "必要な入力を確認してください。"}`;
     if (isAttackSelectionCondition(item)) return item.activation.active ? "独立した攻撃結果を表示" : "独立した攻撃は計算対象外";
     if (item.inputPolicy === "includedInFinalStats") return "最終ステータスに含めて入力（ここでは再加算しません）";
     if (item.displayOnly) return "未適用（表示のみ）";
@@ -698,7 +701,7 @@
     if ($("hsrManualConditionList") && !$("hsrManualConditionList").contains?.(document.activeElement)) $("hsrManualConditionList").innerHTML = state.conditions.map((item) => `<label class="hsr-manual-condition-row"><input type="checkbox" data-condition-enabled="${esc(item.id)}"${item.enabled ? " checked" : ""}><span>${esc(item.name)}</span><input type="number" data-condition-value="${esc(item.id)}" value="${item.value}" step="any" aria-label="${esc(item.name)}（%）"><span>%</span></label>`).join("");
     const conditions = allConditions();
     const selected = conditions.filter(item => !item.displayOnly && (item.enabled || item.activation?.toggled));
-    const missing = selected.filter(item => item.inputWarnings?.length).length;
+    const missing = selected.filter(item => item.inputWarnings?.length || modifierIssueIds.has(item.id)).length;
     const applied = selected.filter(item => conditionAudit?.applied.has(item.id)).length;
     const skipped = selected.filter(item => !conditionAudit?.applied.has(item.id) && conditionAudit?.skipped.has(item.id)).length;
     const counts = selected.length ? [`選択中 ${selected.length}件`] : ["追加する補正はありません"];
@@ -725,13 +728,29 @@
     renderAttacks(); markDirty();
   }
 
+  function modifierTargetsCalculation(item, attack) {
+    if (attack.damageFormula === "trueDamage") return false;
+    if (item.structured && !window.HsrModifierRuntime.applicableToAttack(item, attack)) return false;
+    if (attack.id === "1151201") return ["trace:1512:151204:fever-defense-ignore", "trace:1512:1151203:songbirds-vulnerability"].includes(item.id);
+    // Match the existing engines' accepted categories; this only scopes validation/application.
+    if (attack.damageFormula === "elation") return ["elation", "critRate", "critRateOverride", "critDamage", "critTakenDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage"].includes(item.category);
+    if (["break", "superBreak"].includes(attack.type)) return ["breakEffect", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage", ...(attack.type === "superBreak" ? ["breakEfficiency", "superBreakDamage"] : [])].includes(item.category);
+    if ((attack.canCrit === false || attack.type === "dot") && ["critRate", "critRateOverride", "critDamage", "critTakenDamage"].includes(item.category)) return false;
+    if (["statFlat", "statPercent"].includes(item.category) || item.requiredBaseStat) {
+      const stats = [...(attack.scalingTerms?.length ? attack.scalingTerms : [{stat: attack.scalingStat || "atk"}]), ...(attack.adjacentScalingTerms || [])].map(term => term.stat);
+      if (attack.damageFormula === "enemyHpCappedByAtk") stats.push("atk");
+      return stats.includes(item.stat || item.requiredBaseStat);
+    }
+    return true;
+  }
+
   function modifiers(attack) {
     return allConditions().filter((item) => !item.displayOnly).map((item) => {
-      const attackApplies = !item.structured || window.HsrModifierRuntime.applicableToAttack(item, attack);
+      const attackApplies = modifierTargetsCalculation(item, attack);
       const supplementalApplies = !attack.sourceModifierId || !item.supplementalAttack || item.id === attack.sourceModifierId;
       const primaryTargetApplies = !item.primaryTargetOnly || attack.target !== "adjacent";
       const adjacentTargetApplies = !item.adjacentTargetOnly || attack.target === "adjacent";
-      return { ...item, conditionText: item.activation?.reference === "party.elationCount" ? conditionRequirement(item) : item.conditionText, applicable: item.enabled && attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies && item.applicable !== false, reason: !item.enabled ? "発動条件を満たしていません" : !supplementalApplies ? "別の付加ダメージに属する補正です" : !primaryTargetApplies ? "隣接対象はこの補正の対象外です" : !adjacentTargetApplies ? "主対象はこの補正の対象外です" : attackApplies ? item.reason || "" : "この攻撃種別・属性は対象外です" };
+      return { ...item, matchesAttack: attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies, conditionText: item.activation?.reference === "party.elationCount" ? conditionRequirement(item) : item.conditionText, applicable: item.enabled && attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies && item.applicable !== false, reason: !item.enabled ? "発動条件を満たしていません" : !supplementalApplies ? "別の付加ダメージに属する補正です" : !primaryTargetApplies ? "隣接対象はこの補正の対象外です" : !adjacentTargetApplies ? "主対象はこの補正の対象外です" : attackApplies ? item.reason || "" : "この攻撃種別・属性は対象外です" };
     });
   }
 
@@ -816,6 +835,30 @@
   }
 
   function navigateInput(fieldId) {
+    if (modifierIssueLinks.has(fieldId)) {
+      const {item, message} = modifierIssueLinks.get(fieldId);
+      const provider = state.party.findIndex(member => member.characterId === item.providerId);
+      const needsLevel = /軌跡Lv|天賦Lv|精霊天賦Lv/.test(message) && !item.levelInput;
+      if (provider >= 0 && needsLevel) {
+        renderPartyDialog(); openModal($("hsrPartyDialog"));
+        requestAnimationFrame(() => {
+          const source = state.data.structuredModifiers.find(record => record.id === item.id)?.source;
+          const skill = find("characters", item.providerId)?.skills?.find(entry => entry.id === source?.skillId);
+          const key = Object.entries(TRACE_FIELDS).find(([, [type]]) => type === skill?.type)?.[0];
+          const selector = state.party[provider].source === "api" && key ? `[data-party-trace="${key}"][data-slot="${provider}"]` : `[data-party-field="level"][data-slot="${provider}"]`;
+          const input = $("hsrPartyRows").querySelector(selector); input?.focus?.({preventScroll:true}); input?.scrollIntoView?.({block:"center",behavior:"smooth"});
+        });
+        return;
+      }
+      state.conditionTab = item.tab; openConditionSettings();
+      requestAnimationFrame(() => {
+        const card = [...$("hsrConditionList").querySelectorAll("[data-hsr-condition-ids]")].find(node => node.dataset.hsrConditionIds.split(" ").includes(item.id));
+        const key = item.levelInput && message.includes(item.levelInput.label) ? item.levelInput.key : item.valueInput?.key;
+        const input = (key && card?.querySelector(`[data-structured-input="${key}"]`)) || card?.querySelector("[data-structured-provider-stat]") || card?.querySelector("input,select");
+        input?.focus?.({preventScroll:true}); (input || card)?.scrollIntoView?.({block:"center",behavior:"smooth"});
+      });
+      return;
+    }
     if (PEARL_INPUT_IDS.includes(fieldId)) { openConditionSettings(fieldId); return; }
     const input = $(fieldId); if (!input) return;
     input.closest?.("details")?.setAttribute("open", "");
@@ -842,7 +885,7 @@
     });
     const feedback = $("hsrCalculationFeedback"); feedback.hidden = !messages.length;
     if (calculated) {
-      feedback.innerHTML = messages.length ? '<span>' + calculated + '件を計算しました。未設定の攻撃は結果欄から設定できます。</span>' : "";
+      feedback.innerHTML = messages.length ? '<span>' + calculated + '件を計算しました。計算できない結果の条件は、結果欄から確認できます。</span>' : "";
       return;
     }
     const pearlOnly = fields.size && [...fields.keys()].every(id => PEARL_INPUT_IDS.includes(id));
@@ -1016,14 +1059,14 @@
         const pearl = attack.id === "150310";
         const pearlUnset = ["pearl-charges", "pearl-canvas", "pearl-extra-elation"].some(key => !Number.isFinite(state.modifierInputs[key]));
         const message = pearl ? (pearlUnset ? "強化通常の状態が未設定です。" : "この状態の強化通常は計算対象外です。") : attack.inputIssues[0];
-        pending[resultGroup(attack)].push('<article class="genshin-json-input-notices hsr-attack-input-notice" data-hsr-pending-input><strong>' + esc(attack.name) + '</strong><span>' + esc(message) + '</span>' + (fieldId ? '<button type="button" class="teti-button teti-button-secondary" data-hsr-input-target="' + esc(fieldId) + '">' + (PEARL_INPUT_IDS.includes(fieldId) ? '補正条件を開く' : '入力欄へ移動') + '</button>' : '') + '</article>');
+        pending[resultGroup(attack)].push('<article class="genshin-json-input-notices hsr-attack-input-notice" data-hsr-pending-input><strong>' + esc(attack.name) + '</strong><span>' + esc(message) + '</span>' + (fieldId ? '<button type="button" class="teti-button teti-button-secondary" data-hsr-input-target="' + esc(fieldId) + '">' + (PEARL_INPUT_IDS.includes(fieldId) || modifierIssueLinks.has(fieldId) ? '補正条件を開く' : '入力欄へ移動') + '</button>' : '') + '</article>');
       } else unsupported[resultGroup(attack)].push('<article>' + supportBadge(attack) + '<strong>' + esc(attack.name) + '</strong><p>' + esc(attackSupport(attack).reason || "この攻撃は現在計算できません。") + '</p></article>');
     });
     const visibleGroups = RESULT_GROUPS.filter((group) => groups[group.id].length || pending[group.id].length || unsupported[group.id].length);
     if (!visibleGroups.length) visibleGroups.push(RESULT_GROUPS.find((group) => group.id === "other"));
     const active = visibleGroups.find((group) => groups[group.id].length)?.id || visibleGroups[0].id;
     const table = (rows, label) => `<div class="genshin-damage-table-wrap"><table class="genshin-damage-table${hasCritical ? "" : " hsr-noncritical-table"}" aria-label="${label}の計算結果"><colgroup><col class="genshin-damage-col-name"><col class="genshin-damage-col-value">${hasCritical ? '<col class="genshin-damage-col-value"><col class="genshin-damage-col-value">' : ""}</colgroup><thead><tr><th scope="col">攻撃名</th><th scope="col">${hasCritical ? "非会心" : "ダメージ"}</th>${hasCritical ? '<th scope="col">会心</th><th scope="col">期待値</th>' : ""}</tr></thead><tbody>${rows.join("")}</tbody></table></div>`;
-    $("hsrResults").innerHTML = `<div class="genshin-result-tabs" role="tablist" aria-label="攻撃種別">${visibleGroups.map((group) => `<button type="button" class="genshin-result-tab${group.id === active ? " is-active" : ""}" role="tab" id="hsr-result-tab-${group.id}" aria-controls="hsr-result-panel-${group.id}" data-result-tab="${group.id}" aria-selected="${group.id === active}" tabindex="${group.id === active ? "0" : "-1"}">${group.label}</button>`).join("")}</div>${visibleGroups.map((group) => `<section class="genshin-json-result-section" role="tabpanel" id="hsr-result-panel-${group.id}" aria-labelledby="hsr-result-tab-${group.id}" data-result-panel="${group.id}"${group.id === active ? "" : " hidden"}>${groups[group.id].length ? table(groups[group.id],group.label) : pending[group.id].length ? "" : '<p class="genshin-help">この種別に計算できる攻撃はありません。</p>'}${pending[group.id].join("")}${unsupported[group.id].length ? `<details class="hsr-unavailable-results"><summary>計算不可の攻撃・条件（${unsupported[group.id].length}件）</summary>${unsupported[group.id].join("")}</details>` : ""}</section>`).join("")}${excludedConditions()}<p class="hsr-support-note">表示値は丸めています。多段攻撃はヒット合計です。対応条件は各攻撃の詳細で確認できます。</p>`;
+    $("hsrResults").innerHTML = `<div class="genshin-result-tabs" role="tablist" aria-label="攻撃種別">${visibleGroups.map((group) => `<button type="button" class="genshin-result-tab${group.id === active ? " is-active" : ""}" role="tab" id="hsr-result-tab-${group.id}" aria-controls="hsr-result-panel-${group.id}" data-result-tab="${group.id}" aria-selected="${group.id === active}" tabindex="${group.id === active ? "0" : "-1"}">${group.label}${pending[group.id].length ? `<small>入力確認 ${pending[group.id].length}</small>` : ""}</button>`).join("")}</div>${visibleGroups.map((group) => `<section class="genshin-json-result-section" role="tabpanel" id="hsr-result-panel-${group.id}" aria-labelledby="hsr-result-tab-${group.id}" data-result-panel="${group.id}"${group.id === active ? "" : " hidden"}>${groups[group.id].length ? table(groups[group.id],group.label) : pending[group.id].length ? "" : '<p class="genshin-help">この種別に計算できる攻撃はありません。</p>'}${pending[group.id].join("")}${unsupported[group.id].length ? `<details class="hsr-unavailable-results"><summary>計算不可の攻撃・条件（${unsupported[group.id].length}件）</summary>${unsupported[group.id].join("")}</details>` : ""}</section>`).join("")}${excludedConditions()}<p class="hsr-support-note">表示値は丸めています。多段攻撃はヒット合計です。対応条件は各攻撃の詳細で確認できます。</p>`;
   }
 
   function attackElationInputs(attack) {
@@ -1034,6 +1077,23 @@
     if (attack.id !== "151320") return state.elationInputs;
     const confirmed = state.modifierInputs["waveflair-fervor10-stable"] === true;
     return { ...state.elationInputs, context: confirmed ? "fervor10Auto" : "", stableEnemy: confirmed };
+  }
+
+  function modifierInputIssues(attack, baseStats) {
+    return modifiers(attack).filter(item => item.enabled && item.matchesAttack).flatMap(item => {
+      const issues = [...(item.inputWarnings || [])];
+      const provider = state.party.find(member => member.characterId === item.providerId);
+      if (item.id === "trace:1202:120202:benediction-atk" && provider && (!Number.isInteger(provider.level) || provider.level < 1 || provider.level > 15)) issues.push("停雲の軌跡Lvに1～15の整数を入力してください。");
+      if (["hp", "atk", "def"].includes(item.valueInput?.providerStat) && !(Number.isFinite(item.valueInput.value) && item.valueInput.value > 0)) issues.push(`${item.valueInput.label}に、発動者の最終値（0より大きい数値）を入力してください。`);
+      const baseStat = item.category === "statPercent" ? item.stat : item.requiredBaseStat;
+      if (baseStat && !(Number.isFinite(baseStats[baseStat]) && baseStats[baseStat] > 0)) issues.push(`必要な基礎${{hp:"HP",atk:"攻撃力",def:"防御力",speed:"速度"}[baseStat] || baseStat}を取得できません。キャラ・光円錐のLv80基礎値が必要です。この補正を外すか、レベル・装備を確認してください。`);
+      return [...new Set(issues)].map(message => {
+        modifierIssueIds.add(item.id);
+        const target = "modifier:" + item.id;
+        modifierIssueLinks.set(target, { item, message });
+        return { message: `${item.source}・${item.name}：${message}`, target };
+      });
+    });
   }
 
   function inputWarningsForFanning(attack) { return window.HsrCalcEngine.fanningInputWarnings({character:{level:state.level,eidolon:state.eidolon,stats:state.stats},enemy:state.enemy,attack,modifiers:modifiers(attack)}); }
@@ -1079,18 +1139,8 @@
       const terms = [...(attack.scalingTerms?.length ? attack.scalingTerms : [{ stat: attack.scalingStat || "atk", multiplier: attack.multiplier }]), ...(attack.adjacentScalingTerms || [])];
       terms.filter((term) => num(term.multiplier) !== 0).forEach((term) => requiredStats.add(term.stat));
       if (attack.damageFormula === "enemyHpCappedByAtk") requiredStats.add("atk");
-      modifiers(attack).filter(item => item.enabled && (!item.structured || window.HsrModifierRuntime.applicableToAttack(item, attack)) && (!attack.sourceModifierId || !item.supplementalAttack || item.id === attack.sourceModifierId)).forEach(item => (item.inputWarnings || []).forEach(warning => warnings.add(warning)));
-      modifiers(attack).filter((item) => item.enabled && item.applicable).forEach((item) => {
-        if (item.valueInput?.providerStat && (!item.providerId || String(item.providerId) === state.characterId)) requiredBonuses.add(item.valueInput.providerStat);
-        if (item.id === "trace:1202:120202:benediction-atk") {
-          const provider = state.party.find((member) => member.characterId === item.providerId);
-          if (provider && (!Number.isInteger(provider.level) || provider.level < 1 || provider.level > 15)) warnings.add("停雲の軌跡Lvに1～15の整数を入力してください。");
-        }
-        const providerStat = item.valueInput?.providerStat;
-        if (["hp", "atk", "def"].includes(providerStat) && !(Number.isFinite(item.valueInput.value) && item.valueInput.value > 0)) warnings.add(`${item.name}が参照する${labels[providerStat]}に、発動者の最終値（0より大きい数値）を入力してください。`);
-        const stat = item.category === "statPercent" ? item.stat : item.requiredBaseStat;
-        if (stat && !(Number.isFinite(baseStats[stat]) && baseStats[stat] > 0)) warnings.add(`${item.name}に必要な基礎${labels[stat] || stat}を取得できません。キャラ・光円錐のLv80基礎値が必要です。この補正を外すか、レベル・装備を確認してください。`);
-      });
+      const scopes = attack.damageFormula === "normalAndBreak" ? [attack, {type:"break", element:attack.element}] : [attack];
+      scopes.flatMap(scope => modifierInputIssues(scope, baseStats)).forEach(issue => fieldWarning(issue.message, issue.target));
     });
     Object.entries(state.stats).forEach(([stat, value]) => {
       if (["hp", "atk", "def"].includes(stat)) {
@@ -1101,7 +1151,7 @@
   }
 
   function calculate() {
-    collectInputs(); conditionAudit = null; const warnings = [];
+    collectInputs(); conditionAudit = null; modifierIssueLinks.clear(); modifierIssueIds.clear(); const warnings = [];
     renderAttacks();
     if (!character()) warnings.push("キャラクターを選択してください。");
     if (!character()) { renderWarnings([]); $("hsrResults").innerHTML = '<p class="genshin-help">キャラクターを選択してください。</p>'; finishCalculation(warnings,new Map([["hsrCharacterTrigger",warnings[0]]])); return; }
@@ -1143,18 +1193,12 @@
       if (kind === "break" && (!Number.isFinite(Number($("hsrMaxToughness").value)) || Number($("hsrMaxToughness").value) <= 0)) commonIssue("敵の最大靭性に0より大きい数値を入力してください。", "hsrMaxToughness");
       if (kind === "superBreak" && (!Number.isFinite(state.breakInputs.toughnessDamage) || state.breakInputs.toughnessDamage <= 0)) commonIssue("超撃破の基礎削靭値に0より大きい数値を入力してください。", "hsrSuperBreakToughness");
       if (kind === "superBreak" && (!Number.isFinite(state.breakInputs.multiplier) || state.breakInputs.multiplier < 0)) commonIssue("超撃破の発生倍率に0以上の数値を入力してください。", "hsrSuperBreakMultiplier");
-      modifiers({ type: kind, element: character().element }).filter(item => item.enabled && (!item.structured || window.HsrModifierRuntime.applicableToAttack(item, { type: kind, element: character().element }))).forEach(item => inputWarnings.push(...(item.inputWarnings || [])));
+
     }
     if (inputWarnings.length) {
       renderWarnings([]);
       $("hsrResults").innerHTML = '<p class="genshin-help">入力内容を確認して、もう一度計算してください。</p>';
       finishCalculation(inputWarnings, fieldErrors);
-      return;
-    }
-    if (!attacks.length && !independentBreak) {
-      const messages = [...new Set(blocked.flatMap(attack => attack.inputIssues))];
-      renderWarnings([]); renderResults([], null, [], unavailableAttacks.concat(blocked));
-      finishCalculation(messages, fieldErrors);
       return;
     }
     const baseRequest = { character: { level: state.level, eidolon: state.eidolon, stats: state.stats, baseStats }, enemy: state.enemy, elation: state.elationInputs, trueDamage: state.trueDamageInputs };
@@ -1165,21 +1209,33 @@
       const adjacent = adjacentAttack ? window.HsrCalcEngine.calculate({ ...baseRequest, attack: adjacentAttack, modifiers: modifiers(adjacentAttack) }) : null;
       return { attack: selected, result, adjacent };
     });
-    const breakAttack = { attackType: "break", type: "break", element: character().element };
-    const breakResult = state.breakInputs.mode === "superBreak" || state.trueDamageInputs.active || songbirdMode() ? null : window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: character().element, modifiers: modifiers(breakAttack), breakBaseDamage: state.data.breakBaseDamage });
+    const checkedBreak = (attack, run) => {
+      if ((attack.type === "break" && !state.enemy.weakness) || (attack.type === "superBreak" && state.enemy.toughnessActive)) return run();
+      const issues = modifierInputIssues(attack, baseStats);
+      if (!Number.isFinite(state.stats.breakEffect) || state.stats.breakEffect < 0) issues.push({message:"撃破特効に0以上の数値を入力してください。", target:"hsrStat-breakEffect"});
+      if (attack.type === "break" && !(Number.isFinite(state.enemy.maxToughness) && state.enemy.maxToughness > 0)) issues.push({message:"敵の最大靭性に0より大きい数値を入力してください。",target:"hsrMaxToughness"});
+      if (issues.length) {
+        issues.forEach(issue => fieldErrors.set(issue.target, issue.message));
+        blocked.push({...attack, inputIssues:issues.map(issue => issue.message), inputTargets:issues.map(issue => issue.target)});
+        return null;
+      }
+      return run();
+    };
+    const breakAttack = { id:"independent-break", name:"弱点撃破", attackType: "break", type: "break", element: character().element };
+    const breakResult = state.breakInputs.mode === "superBreak" || state.trueDamageInputs.active || songbirdMode() ? null : checkedBreak(breakAttack, () => window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: character().element, modifiers: modifiers(breakAttack), breakBaseDamage: state.data.breakBaseDamage }));
     const specialBreakResults = (independentBreak || state.trueDamageInputs.active || songbirdMode() ? [] : state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status !== "displayOnly").map((attack) => {
       const level = num(state.traceLevels[attack.traceKey], 10); const index = Math.max(0, Math.min(attack.multipliers.length - 1, level - 1));
       const multiplier = num(attack.multipliers[index]) + (state.eidolon >= 6 ? num(attack.eidolon6Bonus) : 0);
       const resolved = { ...attack, traceLevel: level, multiplier, attackType: "break" };
-      const result = window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: attack.element, multiplier: multiplier / 100, modifiers: modifiers(resolved), breakBaseDamage: state.data.breakBaseDamage });
+      const result = checkedBreak(resolved, () => window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: attack.element, multiplier: multiplier / 100, modifiers: modifiers(resolved), breakBaseDamage: state.data.breakBaseDamage }));
       return { attack: resolved, result };
-    });
-    const superBreakAttack = { type: "superBreak", element: character().element, toughnessDamage: state.breakInputs.toughnessDamage, superBreakMultiplier: state.breakInputs.multiplier };
-    const superBreakResult = state.breakInputs.mode === "superBreak" ? window.HsrCalcEngine.calculateSuperBreak({ ...baseRequest, attack: superBreakAttack, modifiers: modifiers(superBreakAttack), breakBaseDamage: state.data.breakBaseDamage }) : null;
+    }).filter(item => item.result);
+    const superBreakAttack = { id:"independent-super-break", name:"超撃破", type: "superBreak", element: character().element, toughnessDamage: state.breakInputs.toughnessDamage, superBreakMultiplier: state.breakInputs.multiplier };
+    const superBreakResult = state.breakInputs.mode === "superBreak" ? checkedBreak(superBreakAttack, () => window.HsrCalcEngine.calculateSuperBreak({ ...baseRequest, attack: superBreakAttack, modifiers: modifiers(superBreakAttack), breakBaseDamage: state.data.breakBaseDamage })) : null;
     if (superBreakResult && !superBreakResult.supported) warnings.push(superBreakResult.reason);
     if (independentBreak && breakResult && !breakResult.supported) warnings.push(breakResult.reason);
     renderWarnings(warnings); renderResults(results, breakResult, specialBreakResults, unavailableAttacks.concat(blocked), superBreakResult);
-    finishCalculation(blocked.flatMap(attack => attack.inputIssues), fieldErrors, results.length);
+    finishCalculation(blocked.flatMap(attack => attack.inputIssues), fieldErrors, results.length + Number(breakResult?.supported === true) + Number(superBreakResult?.supported === true) + specialBreakResults.filter(item => item.result.supported).length);
   }
 
   function switchResultTab(tab) {
@@ -1291,7 +1347,7 @@
     dialog.addEventListener("close", () => { pendingReset = null; menu.querySelector("summary")?.focus(); });
   }
 
-  function markDirty(origin = "manual") { if (!state.initialized) return; conditionAudit = null; inputFeedback(); renderWarnings([]); document.querySelectorAll("[data-hsr-pending-input]").forEach(notice => { notice.hidden = true; }); if (origin !== "api" && state.source === "api") { state.source = "api-edited"; $("hsrInputProvenance").textContent = "UID取得値を手動変更"; } $("hsrDirtyNotice").hidden = false; renderActionValue(); saveInputs(); updateConditionSummary(); refreshConditionFacts(); }
+  function markDirty(origin = "manual") { if (!state.initialized) return; conditionAudit = null; modifierIssueIds.clear(); inputFeedback(); renderWarnings([]); document.querySelectorAll("[data-hsr-pending-input]").forEach(notice => { notice.hidden = true; }); if (origin !== "api" && state.source === "api") { state.source = "api-edited"; $("hsrInputProvenance").textContent = "UID取得値を手動変更"; } $("hsrDirtyNotice").hidden = false; renderActionValue(); saveInputs(); updateConditionSummary(); refreshConditionFacts(); }
 
   function detailArticle(title, description, params = []) {
     if (!description) return "";

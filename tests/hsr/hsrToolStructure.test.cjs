@@ -428,4 +428,3 @@ test('UID reconstruction independently matches two elemental profiles and leaves
     const noCone=structuredClone(first);delete noCone.equipment;assert.ok(Math.abs(map(noCone).stats.atk-660)<1e-9,'unequipped is a valid zero cone base');
     const unknown=structuredClone(first);unknown.avatarId='unknown';assert.equal(map(unknown).stats.atk,undefined);
 });
-
