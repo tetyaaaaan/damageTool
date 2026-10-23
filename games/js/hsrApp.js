@@ -146,6 +146,7 @@
 
   function renderBuild() {
     renderTraceInputs();
+    renderEidolonScope();
     const char = character(); const lightCone = cone(); const relicSet = relic(); const secondRelicSet = relicSecond(); const ornamentSet = ornament();
     setImage("hsrCharacterImage", char?.image, char?.name);
     setImage("hsrConeImage", lightCone?.image, lightCone?.name);
@@ -247,7 +248,7 @@
   }
 
   function attackStateIssues(attack, issue) {
-    if (attack.maximumEidolon !== undefined && state.eidolon > attack.maximumEidolon) issue("この攻撃は星魂" + attack.maximumEidolon + "までの計算に対応しています。", "hsrEidolon");
+    if (attack.maximumEidolon !== undefined && state.eidolon > attack.maximumEidolon) issue(`${attack.name}：選択中は星魂${state.eidolon}です。計算対応は星魂0～${attack.maximumEidolon}です。${attack.unsupportedEidolonReason || "この星魂で変化する倍率・固有効果は未検証です。"} 星魂0相当へ置き換えず、この攻撃の結果を停止します。`, "hsrEidolon");
     if (attack.hpPercentMaximum !== undefined && state.stats.hpPercent > attack.hpPercentMaximum) issue("この攻撃は現在HP" + attack.hpPercentMaximum + "%以下の場合のみ計算対応です。", "hsrStat-hpPercent");
     if (attack.enemyHpPercentMaximum !== undefined && state.enemy.hpPercent > attack.enemyHpPercentMaximum) issue("この攻撃は敵HP" + attack.enemyHpPercentMaximum + "%以下の場合のみ計算対応です。", "hsrEnemyHpPercent");
     if (attack.enemyDebuffMinimum !== undefined && state.enemy.debuffCount < attack.enemyDebuffMinimum) issue("敵のデバフ数に" + attack.enemyDebuffMinimum + "以上を指定してください。", "hsrEnemyDebuffCount");
@@ -1067,7 +1068,7 @@
       input.setAttribute?.("aria-invalid", "true");
       let error = $(id + "Error");
       if (!error && input.insertAdjacentHTML) { input.insertAdjacentHTML("afterend", '<small class="hsr-field-error" id="' + id + 'Error"></small>'); error = $(id + "Error"); }
-      if (error) { error.textContent = message; error.hidden = false; input.setAttribute?.("aria-errormessage", id + "Error"); }
+      if (error) { error.textContent = id === "hsrEidolon" ? `選択中の星魂${state.eidolon}では計算できない攻撃があります。未対応の効果と理由は、結果欄の各攻撃で確認できます。` : message; error.hidden = false; input.setAttribute?.("aria-errormessage", id + "Error"); }
     });
     const feedback = $("hsrCalculationFeedback"); feedback.hidden = !messages.length;
     if (calculated) {
@@ -1100,9 +1101,20 @@
     return { status: "review", label: "参考値" };
   }
 
+  function renderEidolonScope() {
+    const note = $("hsrEidolonSupport");
+    const attacks = availableAttacks();
+    note.hidden = !character() || (!state.eidolon && !attacks.some(attack => attack.maximumEidolon !== undefined));
+    note.textContent = `${character()?.name || ""}・星魂${state.eidolon}：反映できる星魂効果は攻撃ごとに異なります。各結果の「星魂の反映範囲」と未対応理由を確認してください。未対応の攻撃は星魂0相当へ置き換えません。`;
+  }
+
   function supportBadge(attack) {
     const support = attackSupport(attack);
-    return `<p class="hsr-support-status" data-support-status="${support.status}">${esc(support.label)}</p>${support.status === "review" ? `<p class="hsr-formula-note">参考値：攻撃ごとの独立検証が完了していません。倍率・参照値・追加成分・発動条件を確認し、独立計算との一致を記録するまで参考値として扱います。</p>` : ""}`;
+    const eidolonNote = attack.eidolonSupportNote && state.eidolon <= attack.maximumEidolon
+      ? state.eidolon === 0 ? "星魂0で計算しています。星魂1の与ダメージ補正は加算しません。" : attack.eidolonSupportNote
+      : state.eidolon > 0 && support.status === "review" ? "この攻撃の星魂効果全体は未検証です。入力した最終ステータス・軌跡Lvと、内訳に掲載した補正の範囲で計算した参考値です。" : "";
+    const eidolonScope = eidolonNote ? `<details class="hsr-eidolon-scope" open><summary>星魂${state.eidolon}の反映範囲</summary><p>${esc(eidolonNote)}</p></details>` : "";
+    return `<p class="hsr-support-status" data-support-status="${support.status}">${esc(support.label)}</p>${eidolonScope}${support.status === "review" ? `<p class="hsr-formula-note">参考値：攻撃ごとの独立検証が完了していません。倍率・参照値・追加成分・発動条件を確認し、独立計算との一致を記録するまで参考値として扱います。</p>` : ""}`;
   }
 
   function damageValues(result) {

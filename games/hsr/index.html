@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="/games/css/menu.css">
   <link rel="stylesheet" href="/games/css/tetinet.css?v=20260722-1">
   <link rel="stylesheet" href="/games/css/genshin-tool-ui.css?v=20260727-4">
-  <link rel="stylesheet" href="/games/css/hsr-tool-ui.css?v=20261024-3">
+  <link rel="stylesheet" href="/games/css/hsr-tool-ui.css?v=20261024-4">
   <link rel="icon" href="/games/images/icon/te_maru.ico">
   <script src="/games/js/windowLoading.js"></script>
   <script src="/games/js/theme.js?v=20260720-2"></script>
@@ -75,6 +75,8 @@
                     <div class="genshin-equipment-content"><input id="hsrConeName" class="genshin-selection-input genshin-equipment-name" type="text" value="選択してください" readonly aria-label="光円錐を選択" aria-haspopup="dialog" aria-controls="hsrSelectionDialog"><div class="genshin-equipment-meta"><label><span>Lv</span><input id="hsrConeLevel" type="number" min="1" max="80" value="80"></label><label><span>重畳</span><select id="hsrConeRank"></select></label><button type="button" class="genshin-equipment-details-button" id="hsrConeDetailsButton" disabled>詳細</button></div><small id="hsrConeMeta" class="hsr-equipment-subline">運命に合う候補を表示</small></div>
                   </article>
                 </div>
+                <p class="genshin-help" id="hsrEidolonSupport" hidden></p>
+                <p class="hsr-field-error" id="hsrEidolonError" hidden></p>
                 <div class="genshin-talent-inputs"><h4>軌跡レベル</h4><p class="genshin-help">ゲーム内に表示されるLvを指定してください。選択した星魂に応じて候補の上限が変わります。</p><div class="genshin-form-grid hsr-trace-level-grid"><label class="genshin-field" id="hsrNormalTraceField"><select id="hsrNormalTrace" aria-label="通常攻撃レベル"></select></label><label class="genshin-field" id="hsrSkillTraceField"><select id="hsrSkillTrace" aria-label="戦闘スキルレベル"></select></label><label class="genshin-field" id="hsrUltimateTraceField"><select id="hsrUltimateTrace" aria-label="必殺技レベル"></select></label><label class="genshin-field" id="hsrTalentTraceField"><select id="hsrTalentTrace" aria-label="天賦レベル"></select></label><label class="genshin-field" id="hsrMemSkillTraceField" hidden><select id="hsrMemSkillTrace" aria-label="精霊スキルレベル"></select></label><label class="genshin-field" id="hsrMemTalentTraceField" hidden><select id="hsrMemTalentTrace" aria-label="精霊天賦レベル"></select></label><label class="genshin-field" id="hsrElationTraceField" hidden><select id="hsrElationTrace" aria-label="愉悦スキルレベル"></select></label></div></div>
                 <div class="hsr-relic-section">
                   <h4>遺物・次元界オーナメント</h4>
@@ -209,7 +211,7 @@
     <dialog class="genshin-modal genshin-equipment-details-dialog genshin-uid-details-dialog" id="hsrUidDetailsDialog" aria-labelledby="hsrUidDetailsTitle"><div class="genshin-modal-shell genshin-equipment-details-dialog-inner"><header class="genshin-modal-head genshin-equipment-details-head"><div><p class="genshin-kicker">UID DETAIL</p><h2 id="hsrUidDetailsTitle">キャラクター詳細</h2></div><button type="button" class="genshin-modal-close genshin-selection-close" id="hsrUidDetailsClose" aria-label="詳細を閉じる">×</button></header><nav class="genshin-uid-details-tabs" id="hsrUidDetailsTabs" aria-label="UID詳細カテゴリ"></nav><div class="genshin-modal-scroll-region genshin-equipment-details-body" id="hsrUidDetailsBody"></div></div></dialog>
 
     <script src="/games/js/hsrProfileApi.js"></script><script src="/games/js/hsrProfileMapper.js?v=20261022-1"></script><script src="/games/js/uidStorage.js"></script><script src="/games/js/hsrCalcData.js?v=20261022-1"></script><script src="/games/js/hsrModifierRuntime.js?v=20261023-8"></script><script src="/games/js/hsrCalcEngine.js?v=20261024-1"></script><script src="/games/js/hsrCalcState.js?v=20261023-5"></script><script src="/games/js/hsrCharacterOrder.js"></script>
-  <script src="/games/js/hsrApp.js?v=20261024-4"></script><script src="/games/js/hsrUidImporter.js?v=20261022-1"></script>
+  <script src="/games/js/hsrApp.js?v=20261024-5"></script><script src="/games/js/hsrUidImporter.js?v=20261022-1"></script>
 
     <!-- site-chrome:footer:start -->
 <footer class="teti-site-footer">

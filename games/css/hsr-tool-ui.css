@@ -372,3 +372,5 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
 }
 .page-hsr :is(.hsr-excluded-conditions, .hsr-result-audit, .hsr-unavailable-results, .hsr-calculation-feedback, .hsr-condition-purpose) li + li { margin-top: .4rem; }
 .hsr-action-summary > strong { flex-basis: 100%; }
+
+.page-hsr .hsr-field-error { min-width: 0; white-space: normal; overflow-wrap: anywhere; }

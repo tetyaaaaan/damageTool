@@ -446,3 +446,11 @@ test('UID reconstruction independently matches two elemental profiles and leaves
     const noCone=structuredClone(first);delete noCone.equipment;assert.ok(Math.abs(map(noCone).stats.atk-660)<1e-9,'unequipped is a valid zero cone base');
     const unknown=structuredClone(first);unknown.avatarId='unknown';assert.equal(map(unknown).stats.atk,undefined);
 });
+
+test("HSR eidolon scope feedback stays outside the non-wrapping equipment metadata", () => {
+    const html = read("games/hsr/index.html"), css = read("games/css/hsr-tool-ui.css");
+    const characterCard = html.slice(html.indexOf('id="hsrCharacterCard"'), html.indexOf('id="hsrConeCard"'));
+    assert.doesNotMatch(characterCard, /id="hsrEidolonError"/);
+    assert.match(html, /id="hsrEidolonSupport"[^>]*><\/p>\s*<p[^>]*id="hsrEidolonError"/);
+    assert.match(css, /\.page-hsr \.hsr-field-error\s*\{[^}]*white-space:\s*normal;[^}]*overflow-wrap:\s*anywhere;/);
+});

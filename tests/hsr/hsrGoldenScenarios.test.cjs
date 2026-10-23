@@ -1513,12 +1513,12 @@ test("scoped direct Skill and Ultimate match release coefficients and independen
 });
 
 
-function checkScopedDirectRelease(id, cid, mvs, baseline) {
+function checkScopedDirectRelease(id, cid, mvs, baseline, maximumEidolon = 0) {
     const a = attacks.find(item => item.id === id);
     const master = readJson("games/hsr/data/catalog.json").characters.find(c => c.id === cid).skills.find(s => s.id === id);
     assert.deepEqual(a.multipliers, mvs);
     assert.equal(a.support.status, "calculable");
-    assert.equal(a.maximumEidolon, 0); assert.equal(a.maximumTraceLevel, 10); assert.equal(a.enemyCountExact, 1);
+    assert.equal(a.maximumEidolon, maximumEidolon); assert.equal(a.maximumTraceLevel, 10); assert.equal(a.enemyCountExact, 1);
     assert.equal(a.scalingStat, "atk"); assert.equal(a.hitCount, 1);
     mvs.forEach((v, i) => assert.ok(Math.abs(v - master.params[i][0] * 100) < 1e-8));
     // These expectations use release coefficients and the HSR formula, not engine factors.
@@ -1595,13 +1595,13 @@ test("Ratio Deduction uses current debuffs, caps at five, and stays distinct fro
 
 
 test("Yunli Skill and ordinary Counter use complete one-enemy release multipliers", () => {
-    for (const id of ["122102","122104"]) checkScopedDirectRelease(id,"1221",[60,66,72,78,84,90,97.5,105,112.5,120],1296);
+    for (const id of ["122102","122104"]) checkScopedDirectRelease(id,"1221",[60,66,72,78,84,90,97.5,105,112.5,120],1296,1);
     assert.equal(attacks.find(a=>a.id==="122104").type,"followUp");
 });
 test("Yunli Intuit Slash keeps its intrinsic CRIT buff and dual attack scope without Cull hits", () => {
     const a=attacks.find(a=>a.id==="122103"), mvs=[132,140.8,149.6,158.4,167.2,176,187,198,209,220], cds=[60,64,68,72,76,80,85,90,95,100];
     assert.deepEqual(a.multipliers,mvs); assert.deepEqual(a.tags,["followUp"]); assert.equal(a.hitCount,1);
-    assert.equal(a.support.status,"calculable"); assert.equal(a.maximumEidolon,0); assert.equal(a.maximumTraceLevel,10); assert.equal(a.enemyCountExact,1);
+    assert.equal(a.support.status,"calculable"); assert.equal(a.maximumEidolon,1); assert.equal(a.maximumTraceLevel,10); assert.equal(a.enemyCountExact,1);
     const master=readJson("games/hsr/data/catalog.json").characters.find(c=>c.id==="1221").skills.find(s=>s.id==="122103");
     for(let l=1;l<=10;l++) {
         assert.ok(Math.abs(mvs[l-1]-master.params[l-1][0]*100)<1e-8); assert.equal(cds[l-1],master.params[l-1][1]*100);
@@ -1620,6 +1620,77 @@ test("Yunli Intuit Slash keeps its intrinsic CRIT buff and dual attack scope wit
         const bonus=id==="122102"?0:id==="122104"?35:65, nc=3000*b.multipliers[9]/100*.36*(1+bonus/100), r=engine.calculate(input);
         assert.ok(Math.abs(r.nonCrit-nc)<1e-8); assert.equal(r.breakdown.critDamagePercent,id==="122103"?200:100);
         assert.equal(r.applied.filter(m=>m.id==="shared-salsotto-style").length,id==="122102"?0:1);
+    }
+});
+
+test("Yunli E1 adds 20 percentage points to Intuit Slash damage only, with E0 and E1 independently verified at every level", () => {
+    const a = attacks.find(item => item.id === "122103");
+    const multipliers = [132,140.8,149.6,158.4,167.2,176,187,198,209,220];
+    const cdBonuses = [60,64,68,72,76,80,85,90,95,100];
+    const effectId = "eidolon:1221:1:intuit-damage";
+    const e0Effect = structured(effectId, { characterId: "1221", eidolon: 0 });
+    const e1Effect = structured(effectId, { characterId: "1221", eidolon: 1 });
+    assert.equal(e0Effect, undefined, "the E1 damage bonus is absent at E0");
+    assert.ok(e1Effect);
+    assert.equal(e1Effect.value, 20);
+    assert.equal(e1Effect.enabled, true);
+    assert.equal(e1Effect.automatic, true);
+    assert.equal(e1Effect.source.eidolonRank, 1);
+    assert.equal(runtime.applicableToAttack(e1Effect, a), true);
+    for (const id of ["122102", "122104"]) assert.equal(runtime.applicableToAttack(e1Effect, attacks.find(item => item.id === id)), false);
+
+    for (let level = 1; level <= 10; level++) {
+        const multiplier = multipliers[level - 1];
+        const critSupport = structured("trace:1221:122103:slash-critical-damage", { characterId: "1221", traceLevelFor: () => level }, { "yunli-intuit-slash-instance": true });
+        assert.equal(a.multipliers[level - 1], multiplier);
+        const e0Input = request({ ...a, multiplier, traceLevel: level });
+        Object.assign(e0Input.character.stats, { atk: 3000, critRate: 50, critDamage: 100, damageBonus: 0 });
+        e0Input.character.eidolon = 0;
+        e0Input.modifiers = [critSupport];
+        const e1Input = request({ ...a, multiplier, traceLevel: level });
+        Object.assign(e1Input.character.stats, { atk: 3000, critRate: 50, critDamage: 100, damageBonus: 0 });
+        e1Input.character.eidolon = 1;
+        e1Input.modifiers = [critSupport, e1Effect];
+        const direct = 3000 * multiplier / 100 * .36;
+        const critMultiplier = 1 + (100 + cdBonuses[level - 1]) / 100;
+        const expectedMultiplier = 1 + .5 * (critMultiplier - 1);
+        const e0 = engine.calculate(e0Input), e1 = engine.calculate(e1Input);
+        for (const [actual, wanted] of [[e0.nonCrit,direct],[e0.crit,direct*critMultiplier],[e0.expected,direct*expectedMultiplier]]) assert.ok(Math.abs(actual-wanted)<1e-8, `E0 Lv${level}`);
+        for (const [actual, wanted] of [[e1.nonCrit,direct*1.2],[e1.crit,direct*1.2*critMultiplier],[e1.expected,direct*1.2*expectedMultiplier]]) assert.ok(Math.abs(actual-wanted)<1e-8, `E1 Lv${level}`);
+        assert.equal(e0.applied.some(item => item.id === effectId), false);
+        assert.equal(e1.applied.some(item => item.id === effectId), true);
+        assert.equal(e1.breakdown.damageBonus, 20, "E1 adds 20 points in the normal damage-bonus bucket");
+        assert.equal(e1.breakdown.critDamagePercent, 100 + cdBonuses[level - 1], "the E1 bonus does not alter crit damage");
+    }
+
+    const conditions = { atk: 4000, critRate: 25, critDamage: 150, damageBonus: 50 };
+    const enemy = { level: 90, resistance: 40, defenseReduction: 20 };
+    const critSupport = structured("trace:1221:122103:slash-critical-damage", { characterId: "1221", traceLevelFor: () => 10 }, { "yunli-intuit-slash-instance": true });
+    const varied = (eidolon, modifiers) => {
+        const input = request({ ...a, multiplier: multipliers[9], traceLevel: 10 });
+        Object.assign(input.character.stats, conditions); input.character.eidolon = eidolon;
+        Object.assign(input.enemy, enemy); input.modifiers = modifiers;
+        const def = 100 / (100 + (enemy.level + 20) * (1 - enemy.defenseReduction / 100));
+        const nc = conditions.atk * multipliers[9] / 100 * (1 + (conditions.damageBonus + (eidolon ? 20 : 0)) / 100) * def * (1 - enemy.resistance / 100) * .9;
+        const cm = 1 + (conditions.critDamage + 100) / 100;
+        const result = engine.calculate(input);
+        for (const [actual, wanted] of [[result.nonCrit,nc],[result.crit,nc*cm],[result.expected,nc*(1+.25*(cm-1))]]) assert.ok(Math.abs(actual-wanted)<1e-8, `varied E${eidolon}`);
+        assert.equal(result.breakdown.damageBonus, conditions.damageBonus + (eidolon ? 20 : 0));
+        return result;
+    };
+    const base = varied(0, [critSupport]);
+    const supported = varied(1, [critSupport, e1Effect]);
+    assert.ok(Math.abs(supported.nonCrit / base.nonCrit - 17 / 15) < 1e-12, "add 20 percentage points to the existing 50% damage bonus; do not multiply by 1.2");
+
+    for (const id of ["122102", "122104"]) {
+        const attack = attacks.find(item => item.id === id), level = 10;
+        const input = request({ ...attack, multiplier: attack.multipliers[level - 1], traceLevel: level });
+        Object.assign(input.character.stats, { atk: 3000, critRate: 50, critDamage: 100, damageBonus: 0 });
+        input.character.eidolon = 1;
+        input.modifiers = [e1Effect];
+        const result = engine.calculate(input), expected = 3000 * attack.multipliers[level - 1] / 100 * .36;
+        assert.ok(Math.abs(result.nonCrit - expected) < 1e-8, id);
+        assert.equal(result.applied.some(item => item.id === effectId), false, id);
     }
 });
 test("Yunli True Sunder uses character plus cone base ATK and can persist to Skill without compounding final ATK", () => {
