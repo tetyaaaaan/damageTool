@@ -62,10 +62,11 @@
 
     if (["character", "trace", "eidolon"].includes(source.kind)) {
       if (id === characterId) {
+        if (record.providerScope === "party") return { selected: false };
         if (source.kind === "eidolon" && number(context.eidolon) < number(source.eidolonRank, 1)) return { selected: false };
         return { selected: true, tab: "キャラ", sourceName, providerId: id };
       }
-      if (partyIds.includes(id) && PARTY_TARGETS.has(record.target?.owner)) {
+      if (record.providerScope !== "self" && partyIds.includes(id) && PARTY_TARGETS.has(record.target?.owner)) {
         if (source.kind === "eidolon" && number(context.partyEidolons?.[id]) < number(source.eidolonRank, 1)) return { selected: false };
         return { selected: true, tab: "パーティ", sourceName, providerId: id };
       }
@@ -263,6 +264,8 @@
         if (!Number.isInteger(level) || level < 1 || level > validation.levelMaximum) inputWarnings.push(`${record.value?.levelInputLabel || `${record.name}の天賦Lv`}に1～${validation.levelMaximum}の整数を入力してください。`);
       }
       if (record.value?.inputMultipliers && (inputs[record.value.inputKey] ?? record.value.default) === 0 && !inputWarnings.length) enabled = false;
+      const requiredInput = Boolean(validation && record.value?.inputKey && record.value.default === undefined);
+      const missingInput = requiredInput && !Number.isFinite(inputs[record.value.inputKey]);
       const displayInput = (input) => Number.isFinite(input) ? input : "未入力";
       return [{
         id: record.id,
@@ -285,6 +288,7 @@
         automatic: activation.automatic,
         activation: { ...record.activation, ...activation },
         providerId: selection.providerId || null,
+        strictInput: requiredInput,
         levelInput: record.value?.levelInputKey ? {
           key: record.value.levelInputKey,
           label: record.value.levelInputLabel || "効果レベル",
@@ -300,7 +304,7 @@
           type: record.value.providerStat ? "providerStat" : "number",
           key: record.value.inputKey,
           label: record.value.inputLabel || "参照値",
-          value: record.value.providerStat
+          value: missingInput ? NaN : record.value.providerStat
             ? number(selection.providerId && context.partyStats?.[selection.providerId]?.[record.value.providerStat] !== undefined
               ? context.partyStats[selection.providerId][record.value.providerStat]
               : context.stats?.[record.value.providerStat], number(inputs[record.value.inputKey], record.value.default || 0))
@@ -323,7 +327,7 @@
         provenance: record.provenance,
         calculable,
         displayOnly: !calculable,
-        effectLabel: record.inputPolicy === "includedInFinalStats" ? "最終入力に含める（再加算なし）" : `${value}${record.unit === "percent" ? "%" : ""}`,
+        effectLabel: record.inputPolicy === "includedInFinalStats" ? "最終入力に含める（再加算なし）" : missingInput ? "入力後に算出" : `${value}${record.unit === "percent" ? "%" : ""}`,
         reason: inputWarnings.length ? inputWarnings.join(" ") : calculable ? "" : (record.support?.reason || "計算反映前の確認が必要です。")
       }];
     });

@@ -57,6 +57,44 @@ test("party support scaling reads the selected provider's own structured stats",
   assert.equal(ruanA6.valueInput.value, 180);
 });
 
+test("Jiaoqiu party Roast and Zone use provider trace levels, require stacks, and stay attack-scoped", () => {
+  const roastId = "trace:1218:121804:party-roast";
+  const zoneId = "trace:1218:121803:party-zone";
+  const context = {
+    characterId: "1202", partyIds: ["1218"], partyEidolons: { "1218": 0 },
+    traceLevelFor: (source) => source.skillId === "121804" ? 8 : 9
+  };
+  const roastInputs = { "jiaoqiu-party-roast-active": true, "jiaoqiu-party-roast-stacks": 5 };
+  const roast = candidate(roastId, context, roastInputs);
+  assert.equal(roast.providerId, "1218");
+  assert.equal(roast.value, 30.61, "five stacks at provider Talent Lv8 use the fixed-SHA values");
+  assert.equal(roast.strictInput, true);
+  assert.equal(candidate(roastId, context, { ...roastInputs, "jiaoqiu-party-roast-stacks": undefined }).applicable, false);
+  for (const attackType of ["normal", "ultimate", "dot", "break", "superBreak", "elation"]) {
+    assert.equal(runtime.applicableToAttack(roast, { attackType }), true, `Roast applies to ${attackType}`);
+  }
+  for (const attackType of ["trueDamage", "memosprite"]) {
+    assert.equal(runtime.applicableToAttack(roast, { attackType }), false, `Roast excludes ${attackType}`);
+  }
+
+  const zone = candidate(zoneId, context, { "jiaoqiu-party-zone-active": true });
+  assert.equal(zone.value, 14.25, "provider Ultimate Lv9 drives Zone");
+  assert.equal(runtime.applicableToAttack(zone, { attackType: "ultimate" }), true);
+  for (const attackType of ["normal", "dot", "break", "superBreak", "elation", "trueDamage"]) {
+    assert.equal(runtime.applicableToAttack(zone, { attackType }), false, `Zone excludes ${attackType}`);
+  }
+  assert.equal(candidate(roastId, { ...context, characterId: "1218" }, roastInputs), undefined,
+    "party-only Roast is not selected when Jiaoqiu is the attacker");
+  assert.equal(candidate(zoneId, { ...context, characterId: "1218" }, { "jiaoqiu-party-zone-active": true }), undefined,
+    "party-only Zone is not selected when Jiaoqiu is the attacker");
+  assert.ok(candidate("trace:1218:121804:direct-scope", { characterId: "1218", partyIds: [] },
+    { "jiaoqiu-five-roast-zone": true }),
+    "Jiaoqiu's existing self-only attack scope remains available");
+  const levelTenContext = { ...context, traceLevelFor: () => 10 };
+  assert.equal(candidate(roastId, levelTenContext, roastInputs).value, 35);
+  assert.equal(candidate(zoneId, levelTenContext, { "jiaoqiu-party-zone-active": true }).value, 15);
+});
+
 test("Bronya normal crit override and Ruan Mei skill scope never leak to unrelated attacks", () => {
   const override = candidate("traceNode:1101:1101101:normal-crit-override", { characterId: "1101" });
   assert.equal(runtime.applicableToAttack(override, { attackType: "normal", element: "Wind" }), true);

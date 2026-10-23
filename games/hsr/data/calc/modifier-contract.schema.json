@@ -7,6 +7,7 @@
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "variant": { "enum": ["previous", "enhanced"] },
+    "providerScope": { "enum": ["self", "party"] },
     "source": {
       "type": "object",
       "required": ["kind", "id"],

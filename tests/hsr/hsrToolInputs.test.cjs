@@ -1284,6 +1284,62 @@ test("Ashen Roast tick restores stack input without combining direct attacks and
     restored.node("hsrTalentTrace").value="10";restored.node("hsrEidolon").value="1";assert.equal(restored.calculate().length,0);
 });
 
+test("Jiaoqiu party Roast reads provider talent, preserves attacker stats, and restores strict inputs", async () => {
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    const records = JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers
+        .filter((item) => ["trace:1218:121804:party-roast", "trace:1218:121803:party-zone"].includes(item.id));
+    const data = { characters: [{ id: "sample", name: "Sample", element: "Ice", skills: [], base: { hp: 1000, atk: 500, def: 400, speed: 100 } }, ...catalog.characters], structuredModifiers: records };
+    const app = await tool(undefined, data);
+    app.state.characterId = "sample";
+    app.state.party[0] = { ...app.state.party[0], characterId: "1218", source: "manual", atk: 9000,
+        traceLevels: { skill: 10, ultimate: 9, talent: 8 } };
+    app.node("hsrStat-atk").value = "1000";
+    app.node("hsrStat-critRate").value = "0";
+    app.node("hsrStat-critDamage").value = "50";
+    app.node("hsrStat-damageBonus").value = "0";
+    app.node("hsrStat-breakEffect").value = "0";
+    const baseline = app.calculate()[0].nonCrit;
+
+    app.state.modifierInputs["jiaoqiu-party-roast-active"] = true;
+    app.state.modifierInputs["jiaoqiu-party-roast-stacks"] = 5;
+    const supported = app.calculate();
+    assert.equal(supported.length, 1);
+    const roast = supported[0].applied.find((item) => item.id === "trace:1218:121804:party-roast");
+    assert.equal(roast.value, 30.61, "party trace map uses Jiaoqiu Talent Lv8");
+    assert.ok(supported[0].nonCrit > baseline);
+    app.state.party[0].atk = 100;
+    assert.equal(app.calculate()[0].nonCrit, supported[0].nonCrit,
+        "party provider ATK is not used as the attacker's damage stat");
+
+    app.node("hsrStat-atk").handlers.input();
+    const restored = await tool(app.storage, data);
+    assert.equal(restored.state.modifierInputs["jiaoqiu-party-roast-active"], true);
+    assert.equal(restored.state.modifierInputs["jiaoqiu-party-roast-stacks"], 5);
+    assert.equal(restored.state.party[0].traceLevels.talent, 8);
+    assert.equal(restored.calculate()[0].applied.find((item) => item.id === "trace:1218:121804:party-roast").value, 30.61);
+
+    restored.state.modifierInputs["jiaoqiu-party-roast-stacks"] = NaN;
+    assert.equal(restored.calculate().length, 0, "enabled Roast requires an explicit stack count");
+    for (const invalid of [0, 6, 1.5, "bad"]) {
+        restored.state.modifierInputs["jiaoqiu-party-roast-stacks"] = invalid;
+        assert.equal(restored.calculate().length, 0, `invalid stack count ${invalid} fails closed`);
+    }
+    restored.state.modifierInputs["jiaoqiu-party-roast-stacks"] = 5;
+    restored.state.modifierInputs["jiaoqiu-party-roast-active"] = false;
+    assert.equal(restored.calculate()[0].nonCrit, baseline, "disabled Roast does not require its stacks");
+    restored.state.modifierInputs["jiaoqiu-party-roast-active"] = true;
+    restored.state.party[0].traceLevels.talent = NaN;
+    assert.equal(restored.calculate().length, 0, "enabled Roast requires provider Talent level");
+    restored.state.party[0].traceLevels.talent = 11;
+    assert.equal(restored.calculate().length, 0, "invalid provider Talent level fails closed");
+    restored.state.modifierInputs["jiaoqiu-party-roast-active"] = false;
+    assert.equal(restored.calculate()[0].nonCrit, baseline, "disabled Roast does not require provider Talent level");
+    restored.state.modifierInputs["jiaoqiu-party-roast-active"] = true;
+    restored.state.party[0].traceLevels.talent = 8;
+    restored.state.party[0].characterId = "";
+    assert.equal(restored.calculate()[0].nonCrit, baseline, "removing the provider removes party Roast");
+});
+
 
 test("Break support restores party trace levels and shows applied effects only in the Break audit", async () => {
     const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
