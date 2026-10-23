@@ -2268,3 +2268,37 @@ test("provider stat edits in the condition modal preserve blank, zero and fracti
     edit("200.125");assert.equal(app.state.party[0].critDamage,200.125);assert.ok(Math.abs(app.calculate()[0].expected-2122.362)<1e-8);
     app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,{characters:app.state.data.characters,attacks:app.state.data.attacks,structuredModifiers:mods});assert.equal(restored.state.party[0].critDamage,200.125);assert.ok(Math.abs(restored.calculate()[0].expected-2122.362)<1e-8);
 });
+
+
+test("Yunli Slash explains entered CRIT DMG, Parry's intrinsic bonus and party support from the calculated snapshot", async () => {
+    const catalog = JSON.parse(read("games/hsr/data/catalog.json"));
+    const registered = require("../../scripts/lib/hsrDataFiles.cjs").loadHsrDataFiles(root);
+    const data = { characters: catalog.characters, attacks: registered.attackOverrides.filter(a => a.characterId === "1221"),
+        structuredModifiers: registered.modifiers.filter(m => ["1221", "1309"].includes(m.source.id)) };
+    const app = await tool(undefined, data); app.state.characterId = "1221";
+    app.state.party[0] = { characterId: "1309", level: 80, eidolon: 0, traceLevels: { talent: 10 } };
+    Object.assign(app.state.modifierInputs, { "yunli-intuit-slash-instance": true, "robin-talent-crit-active": true });
+    for (const [key, value] of Object.entries({ atk: 3000, critRate: 50, critDamage: 100 })) app.node("hsrStat-" + key).value = String(value);
+    const setRank = rank => { app.node("hsrEidolon").value = String(rank); app.node("hsrEidolon").handlers.change({ target: { value: String(rank) } }); };
+    const slash = target => target.calculate().find(r => r.attack.name.includes("看破・斬"));
+    setRank(2);
+    let result = slash(app);
+    assert.equal(result.breakdown.critDamagePercent, 220, "input100 + Parry Lv10 intrinsic100 + Robin talent20; neither E1 nor E2 adds crit damage");
+    assert.match(app.node("hsrResults").innerHTML, /最終入力100% ＋ 必殺技「構え」100% ＋ その他の補正20% ＝ 220%/);
+    assert.ok(Math.abs(result.crit - 10137.6) < 1e-8); assert.ok(Math.abs(result.expected - 6652.8) < 1e-8);
+    setRank(5); app.node("hsrUltimateTrace").value = "12";
+    result = slash(app);
+    assert.equal(result.breakdown.critDamagePercent, 228);
+    assert.match(app.node("hsrResults").innerHTML, /最終入力100% ＋ 必殺技「構え」108% ＋ その他の補正20% ＝ 228%/);
+    assert.ok(Math.abs(result.nonCrit - 3421.44) < 1e-8); assert.ok(Math.abs(result.crit - 11222.3232) < 1e-8); assert.ok(Math.abs(result.expected - 7321.8816) < 1e-8);
+    const skill = app.calculate().find(r => r.attack.name.includes("天威煌々"));
+    assert.equal(skill.breakdown.critDamagePercent, 120, "Parry's bonus never leaks into the ordinary Skill");
+    app.node("hsrStat-atk").handlers.input();
+    const restored = await tool(app.storage, data);
+    assert.equal(restored.state.eidolon, 5); assert.equal(restored.state.traceLevels.ultimate, 12);
+    assert.ok(Math.abs(slash(restored).crit - 11222.3232) < 1e-8);
+    assert.match(restored.node("hsrResults").innerHTML, /最終入力100% ＋ 必殺技「構え」108% ＋ その他の補正20% ＝ 228%/);
+    restored.state.party[0].characterId = "";
+    assert.equal(slash(restored).breakdown.critDamagePercent, 208);
+    assert.match(restored.node("hsrResults").innerHTML, /最終入力100% ＋ 必殺技「構え」108% ＝ 208%/);
+});

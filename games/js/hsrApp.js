@@ -1138,6 +1138,13 @@
 
     if (b.damageFormula === "trueDamage") return `<section class="hsr-target-breakdown"><h4>敵1体・追加確定ダメージ1回分</h4><dl><div><dt>参照元ダメージ（補正適用後）</dt><dd>${detailNumber(b.originalDamage)}</dd></div><div><dt>確定ダメージ倍率</dt><dd>${detailNumber(b.multiplierPercent)}%</dd></div><div><dt>追加確定ダメージ</dt><dd>${detailNumber(result.nonCrit)}</dd></div><div><dt>適用条件</dt><dd>${esc(b.condition)}</dd></div></dl><p>元ダメージ × 確定ダメージ倍率。会心・防御・耐性・与ダメージ・靭性等は再適用しません。元ダメージとの合算は行いません。</p>${damageValues(result)}</section>`;
     const row = (label, value) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`;
+    const nativeCrit = result.applied.find(item => item.id === "trace:1221:122103:slash-critical-damage");
+    const otherCrit = result.applied.filter(item => item.category === "critDamage" && item !== nativeCrit).reduce((total, item) => total + item.value, 0);
+    const critOrigin = nativeCrit ? row("会心ダメージの内訳", [
+      "最終入力" + detailNumber(b.critDamagePercent - nativeCrit.value - otherCrit) + "%",
+      "必殺技「構え」" + detailNumber(nativeCrit.value) + "%",
+      ...(otherCrit ? ["その他の補正" + detailNumber(otherCrit) + "%"] : [])
+    ].join(" ＋ ") + " ＝ " + detailNumber(b.critDamagePercent) + "%") : "";
     const isElation = b.damageFormula === "elation";
     const components = b.elationComponents;
     const scaling = isElation
@@ -1160,7 +1167,7 @@
       ${row(b.toughness === 0.9 ? "靭性倍率（靭性あり）" : "靭性倍率（弱点撃破中）", `×${detailNumber(b.toughness)}`)}
       ${isElation ? "" : row("独立倍率", `×${detailNumber(b.independentMultiplier)}`)}${row("共通倍率（被ダメージ補正を除く）", `×${detailNumber(b.commonWithoutVulnerability)}`)}
       ${row("被ダメージ増加（共通分）", `${detailNumber(b.takenDamage)}%`)}${row(components ? "被ダメージ倍率（合算基礎値へ適用）" : "被ダメージ倍率合計", detailNumber(b.vulnerabilityFactorSum))}
-      ${result.attack.canCrit ? row("会心率", `${detailNumber(b.critRatePercent)}%`) + row("会心ダメージ／会心被ダメージ補正", `${detailNumber(b.critDamagePercent)}%／${detailNumber(b.critTakenDamage)}%`) + row("会心倍率", `×${detailNumber(b.critMultiplier)}`) + row("期待値の会心倍率", `×${detailNumber(b.expectedCritMultiplier)}`) : ""}</dl>
+      ${result.attack.canCrit ? row("会心率", `${detailNumber(b.critRatePercent)}%`) + row("会心ダメージ／会心被ダメージ補正", `${detailNumber(b.critDamagePercent)}%／${detailNumber(b.critTakenDamage)}%`) + critOrigin + row("会心倍率", `×${detailNumber(b.critMultiplier)}`) + row("期待値の会心倍率", `×${detailNumber(b.expectedCritMultiplier)}`) : ""}</dl>
       ${hitFactors}<p class="hsr-formula-note">${result.attack.canCrit ? "非会心合計" : "ダメージ合計"}＝基礎ダメージ${components ? "（倍率合算）" : "（1ヒット）"}×共通倍率×${components ? "被ダメージ倍率" : "被ダメージ倍率合計"}</p>
       ${!components && hits > 1 ? `<p class="hsr-formula-note">同じ基礎ダメージを${hits}ヒット分集計します。1ヒット平均：${detailNumber(result.perHit.nonCrit)}${result.attack.target === "bounce" ? "。命中先の分配は再現しません。" : ""}</p>` : ""}${damageValues(result)}</section>`;
   }
