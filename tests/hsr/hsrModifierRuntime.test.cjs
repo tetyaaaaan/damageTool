@@ -617,3 +617,16 @@ test("Sunday Skill damage and Talent CRIT Rate use separate levels, scopes and d
         for(const[a,e]of [[r.nonCrit,nc],[r.crit,crit],[r.expected,expected]])assert.ok(Math.abs(a-e)<1e-8,a+" != "+e);
     }
 });
+
+
+test("Robin Concerto ATK uses the provider final ATK with flat addition", () => {
+    const id="trace:1309:130903:concerto-atk",inputs={"robin-concerto-atk-active":true};
+    const context={characterId:"1003",partyIds:["1309"],partyEidolons:{"1309":0},partyStats:{"1309":{atk:4000}},stats:{atk:3000},traceLevelFor:()=>10};
+    const engine=calcEngine(),input={character:{level:80,stats:{atk:3000,def:3000,critRate:50,critDamage:100}},enemy:{level:80,resistance:20,toughnessActive:true},attack:{type:"normal",element:"Fire",scalingStat:"atk",multiplier:100}};
+    for(const[lv,bonus]of [[1,658],[10,1112]]) {const c={...context,traceLevelFor:()=>lv};const buff=candidate(id,c,inputs);assert.ok(Math.abs(buff.value-bonus)<1e-9);assert.equal(buff.stat,"atk");const r=engine.calculate({...input,modifiers:[buff]});assert.ok(Math.abs(r.nonCrit-(3000+bonus)*.36)<1e-8);assert.ok(Math.abs(r.expected-(3000+bonus)*.36*1.5)<1e-8);}
+    assert.equal(candidate(id,{...context,partyIds:[]},inputs),undefined);
+    for(const atk of [NaN,0,-1])assert.ok(candidate(id,{...context,partyStats:{"1309":{atk}}},inputs).inputWarnings.length);
+    assert.equal(candidate(id,{...context,partyStats:{}},{}).inputWarnings.length,0);
+    for(const type of ["elation","break","superBreak","trueDamage","memospriteSkill"])assert.equal(runtime.applicableToAttack(candidate(id,context,inputs),{type}),false);
+    const r=engine.calculate({...input,modifiers:[candidate(id,context,inputs)],attack:{...input.attack,scalingStat:"def"}});assert.ok(Math.abs(r.nonCrit-1080)<1e-8);
+});

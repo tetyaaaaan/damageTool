@@ -1901,3 +1901,21 @@ test("Sunday buffs retain separate trace levels and expiry states across saves",
     restored.state.modifierInputs["sunday-talent-crit-active"]=false;near(restored.calculate()[0].expected,1620);
     restored.state.party[0].characterId="";near(restored.calculate()[0].expected,1620);
 });
+
+
+test("Concerto validates only ATK results and preserves manual final-stat responsibility", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));const mods=JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1309");
+    const app=await tool(undefined,{structuredModifiers:mods});app.state.data.characters.push(catalog.characters.find(c=>c.id==="1309"));
+    const base=app.state.data.attacks[0];app.state.data.attacks.push({...base,id:"def",name:"DEF example",scalingStat:"def"},{...base,id:"hp",name:"HP example",scalingStat:"hp"},{...base,id:"dot",name:"DoT example",type:"dot",canCrit:false});
+    app.state.party[0]={...app.state.party[0],characterId:"1309",eidolon:0,atk:4000,traceLevels:{skill:10,talent:10,ultimate:10}};
+    for(const[k,v]of Object.entries({atk:"3000",def:"3000",hp:"6000",critRate:"50",critDamage:"100"}))app.node("hsrStat-"+k).value=v;
+    const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+    app.state.modifierInputs["robin-concerto-atk-active"]=true;let r=app.calculate();assert.equal(r.length,4);near(r[0].nonCrit,1480.32);near(r[1].nonCrit,1080);near(r[2].nonCrit,2160);near(r[3].nonCrit,1480.32);
+    assert.match(app.node("hsrResults").innerHTML,/追加物理は含まない/);
+    app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,{characters:app.state.data.characters,attacks:app.state.data.attacks,structuredModifiers:mods});near(restored.calculate()[0].nonCrit,1480.32);
+    for(const atk of [NaN,0,-1]) {restored.state.party[0].atk=atk;r=restored.calculate();assert.equal(r.length,2);near(r[0].nonCrit,1080);near(r[1].nonCrit,2160);}
+    restored.state.party[0].atk=4000;restored.state.party[0].traceLevels.ultimate=NaN;assert.equal(restored.calculate().length,2);
+    restored.state.modifierInputs["robin-concerto-atk-active"]=false;assert.equal(restored.calculate().length,4);near(restored.calculate()[0].nonCrit,1080);
+    restored.node("hsrStat-atk").value="4112";near(restored.calculate()[0].nonCrit,1480.32);
+    restored.node("hsrStat-atk").value="3000";restored.state.party[0].characterId="";near(restored.calculate()[0].nonCrit,1080);
+});
