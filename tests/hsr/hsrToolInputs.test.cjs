@@ -2356,3 +2356,50 @@ test("promoted attacks keep reviewed siblings, per-attack limits, source correct
     restored.node("hsrStat-atk").value = "";
     assert.equal(restored.calculate().length, 0, "missing required ATK must not produce a partial value");
 });
+
+
+test("grouped Basic promotions preserve stat ownership, E0 limits, party toggles and saved comparison inputs", async () => {
+    const window = {};
+    vm.runInNewContext(read("games/js/hsrCalcData.js"), { window, fetch: async url => ({ ok: true, json: async () => JSON.parse(read(url.slice(1))) }) });
+    const data = await window.HsrCalcData.load();
+    const app = await tool(undefined, data);
+    const names = { "1211": "望・聞・問…蹴！", "1215": "冥兆天筆", "1217": "令旗・風雨招来", "1304": "ストレートべット", "1313": "光を纏う告諭" };
+    const near = (a, b) => assert.ok(Math.abs(a - b) < 1e-8, a + " != " + b);
+    const find = (target, name) => target.calculate().find(r => r.attack.name === name && r.attack.hitCountLabel === "全段合算");
+    for (const [id, name] of Object.entries(names)) {
+        app.window.HsrTool.applyProfileCharacter({ id, level: 80, eidolon: 0,
+            traces: [{ type: "Normal", level: 6 }, { type: "BPSkill", level: 10 }, { type: "Ultra", level: 10 }, { type: "Talent", level: 10 }],
+            stats: { atk: 3000, hp: 6000, def: 3000, critRate: 50, critDamage: 100, damageBonus: 0 } });
+        let result = find(app, name); near(result.nonCrit, 1080); near(result.crit, 2160); near(result.expected, 1620);
+        assert.match(app.node("hsrResults").innerHTML, /全段合算/);
+        assert.match(app.node("hsrResults").innerHTML, /星魂0・通常攻撃Lv1～6/);
+        if (id === "1215") assert.match(app.node("hsrResults").innerHTML, /承負なし/);
+        if (id === "1304") assert.equal(result.breakdown.critRatePercent, 50, "Leverage is already owned by final input, not added twice");
+        app.node("hsrEidolon").value = "1";
+        assert.equal(find(app, name), undefined, id + " must not silently calculate E0 damage for E1");
+        app.node("hsrEidolon").value = "0"; app.node("hsrNormalTrace").value = "7";
+        assert.equal(find(app, name), undefined, id + " must reject an unverified Basic level");
+        app.node("hsrNormalTrace").value = "6";
+        const key = id === "1217" ? "hp" : id === "1304" ? "def" : "atk";
+        app.node("hsrStat-" + key).value = "";
+        assert.equal(find(app, name), undefined, id + " missing source stat stops only affected results");
+        app.node("hsrStat-" + key).value = key === "hp" ? "6000" : "3000";
+        if (key !== "atk") { app.node("hsrStat-atk").value = ""; near(find(app, name).nonCrit, 1080); }
+        app.state.party[0] = { characterId: "1309", level: 80, eidolon: 0, atk: 4000, traceLevels: { skill: 10, talent: 10, ultimate: 10 } };
+        app.state.modifierInputs["robin-skill-damage-active"] = true;
+        result = find(app, name); near(result.nonCrit, 1620); near(result.crit, 3240); near(result.expected, 2430);
+        app.state.modifierInputs["robin-concerto-atk-active"] = true;
+        result = find(app, name);
+        near(result.nonCrit, key === "atk" ? (3000 + 4000 * .228 + 200) * .36 * 1.5 : 1620);
+        app.state.modifierInputs["robin-concerto-atk-active"] = false;
+        app.node("hsrStat-" + key).handlers.input();
+        const restored = await tool(app.storage, data);
+        near(find(restored, name).nonCrit, 1620);
+        assert.equal(restored.state.party[0].characterId, "1309");
+        assert.equal(restored.state.modifierInputs["robin-skill-damage-active"], true);
+        restored.state.party[0].characterId = "";
+        near(find(restored, name).nonCrit, 1080);
+        app.state.party[0].characterId = "";
+        app.state.modifierInputs["robin-skill-damage-active"] = false;
+    }
+});
