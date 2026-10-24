@@ -282,4 +282,3 @@ test("Dr. Ratio Basic attack is an independent fixed-source ATK hit and A6 Deduc
         assert.equal(attackOf(data, id).support.status, "calculable", "existing Ratio " + id + " remains calculable");
     }
 });
-
