@@ -28,3 +28,14 @@ test('the three E0 composition-confirmed supports independently verify their sol
  const specs=[{id:'1211',attack:'121101',stat:'atk',curve:[50,60,70,80,90,100]},{id:'1110',attack:'111001',stat:'hp',curve:[25,30,35,40,45,50]},{id:'1313',attack:'131301',stat:'atk',curve:[50,60,70,80,90,100]}];
  for(const s of specs){const a=data.attacks.find(a=>a.id===s.attack);assert.equal(a.support.status,'calculable');for(let level=1;level<=6;level++){for(const stats of [{atk:3123.5,hp:9876.25,def:2345.75,critRate:37.5,critDamage:83.25,damageBonus:11.5},{atk:2195.75,hp:12345.5,def:1876.125,critRate:71.25,critDamage:142.75,damageBonus:46.25}]){const input=makeRequest(a,level,{...stats,enemyLevel:82,resistance:27.5,defenseReduction:13.5});const expected=independentDirectDamage({...input,attack:{...input.attack,scalingStat:s.stat,multiplier:s.curve[level-1],hitCount:1}}),actual=engine.calculate(input);for(const k of ['nonCrit','crit','expected'])assertClose(actual[k],expected[k],s.id+' Lv'+level+' '+k);}}}
 });
+
+
+test('candidate audit keeps missing damage components distinct from registered source skills',()=>{
+ const {e0CandidateAudit}=require('../../scripts/reportHsrCompletion.cjs');
+ const audits=Object.values(e0CandidateAudit);
+ assert.equal(audits.length,19);
+ assert.equal(audits.filter(a=>a.status==='confirmed').length,5);
+ assert.equal(audits.filter(a=>a.status==='pending').length,12);
+ assert.deepEqual(Object.entries(e0CandidateAudit).filter(([,a])=>a.missingComponents?.length).map(([id])=>id),['1001','1003']);
+ for(const a of audits){assert.ok(a.evidence);assert.ok(a.remaining);if(a.status==='confirmed')assert.ok(a.majorSourceIds.length);}
+});
