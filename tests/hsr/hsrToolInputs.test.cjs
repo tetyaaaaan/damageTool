@@ -1401,7 +1401,7 @@ test("Yunli rank-scoped attacks preserve E1/E2 effects, E3/E5 actual trace level
     const findSkill=()=>app.calculate().find(r=>r.attack.name.includes("天威煌々"));
     const findCounter=()=>app.calculate().find(r=>r.attack.name.includes("閃熔"));
     const findSlash=()=>app.calculate().find(r=>r.attack.name.includes("看破・斬"));
-    assert.ok(findSkill());assert.ok(findCounter());assert.equal(findSlash(),undefined,"the Slash context still controls its real critical modifier");
+    assert.ok(findSkill());assert.ok(findCounter());assert.ok(findSlash(),"the assumed Slash result includes its mandatory counter critical modifier without selecting availability");
     app.state.modifierInputs["yunli-skill-instance"]=false;app.state.modifierInputs["yunli-normal-counter-instance"]=false;
     assert.ok(findSkill());assert.ok(findCounter(),"display-only selectors do not hide attack comparisons");
     app.state.modifierInputs["yunli-intuit-slash-instance"]=true;
@@ -1428,7 +1428,7 @@ test("Yunli rank-scoped attacks preserve E1/E2 effects, E3/E5 actual trace level
     assert.equal(restored.state.eidolon,1);
     assert.ok(Math.abs(restored.calculate().find(r=>r.attack.name.includes("看破・斬")).nonCrit-withCone*2.2*.36*1.2)<1e-8);
     restored.state.modifierInputs["yunli-intuit-slash-instance"]=false;
-    assert.equal(restored.calculate().some(r=>r.attack.name.includes("看破・斬")),false);
+    assert.equal(restored.calculate().some(r=>r.attack.name.includes("看破・斬")),true, "saved OFF availability does not hide a computable assumed attack");
     restored.state.modifierInputs["yunli-intuit-slash-instance"]=true;
     restored.node("hsrLevel").value="70";assert.equal(restored.calculate().some(r=>r.attack.name.includes("看破・斬")),false);
     restored.node("hsrLevel").value="80";
@@ -2467,4 +2467,54 @@ test("second grouped promotions preserve independent comparison states, source s
     app.state.modifierInputs["boothill-fanning-broken"] = true;
     near(promoted(app, "スパーズ・クラッシュ").nonCrit, 3123.5 * .36);
     assert.equal(promoted(app, "スパーズ・クラッシュ").applied.some(m => m.id === "trace:1315:131502:standoff-vulnerability"), false);
+});
+
+
+test("major actions compare assumed states without selecting availability and stop only invalid results", async () => {
+    const window = {};
+    vm.runInNewContext(read("games/js/hsrCalcData.js"), { window, fetch: async url => ({ ok: true, json: async () => JSON.parse(read(url.slice(1))) }) });
+    const data = await window.HsrCalcData.load(), app = await tool(undefined, data);
+    const near = (a,b) => assert.ok(Math.abs(a-b)<1e-8, a+" != "+b);
+    const profile = id => { app.window.HsrTool.applyProfileCharacter({ id, level:80,eidolon:0,
+        traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],
+        stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+        app.node("hsrWeakness").value="false"; app.node("hsrToughnessState").value="active"; };
+    const find=(target,name)=>target.calculate().find(r=>r.attack.name===name);
+    const cull="天を揺るがす大地の剣・看破・滅（敵1体）";
+    profile("1221");
+    const initial=find(app,cull);near(initial.nonCrit,7041.6);near(initial.crit,21124.8);near(initial.expected,14083.2);
+    assert.equal(app.state.modifierInputs["yunli-intuit-cull-instance"],undefined);
+    assert.match(app.node("hsrResults").innerHTML,/初撃 220% ＋ 追加6ヒット合計 432% ＝ 652%/);
+    assert.match(app.node("hsrResults").innerHTML,/最終入力100% ＋ 必殺技「構え」100%/);
+    app.state.modifierInputs["yunli-intuit-slash-instance"]=false;
+    assert.ok(app.calculate().some(r=>r.attack.name.includes("看破・斬")));
+    app.node("hsrEidolon").value="1";assert.equal(find(app,cull),undefined);assert.ok(app.calculate().some(r=>r.attack.name.includes("看破・斬")));
+    profile("1312");const ult="ち…遅刻する！";
+    near(find(app,ult).nonCrit,1944);
+    assert.doesNotMatch(app.node("hsrResults").innerHTML, /計算に追加しない補正/, "the hit-count input is used by this attack, not an excluded modifier");
+    app.state.conditionTab="軌跡";
+    app.node("hsrConditionDialogOpen").handlers.click();
+    assert.match(app.node("hsrConditionList").innerHTML, /data-condition-purpose="attack"/);
+    assert.match(app.node("hsrConditionList").innerHTML, /data-structured-input="misha-ultimate-hits"/);
+    app.node("hsrConditionDialogClose").handlers.click();
+    app.state.modifierInputs["misha-ultimate-hits"]=10;
+    near(find(app,ult).nonCrit,6480);near(find(app,ult).crit,12960);near(find(app,ult).expected,9720);
+    app.state.modifierInputs["misha-frozen-crit-active"]=true;
+    near(find(app,ult).crit,14904);near(find(app,ult).expected,10692);
+    for(const invalid of [NaN,0,2,11,3.5]){app.state.modifierInputs["misha-ultimate-hits"]=invalid;assert.equal(find(app,ult),undefined);assert.ok(find(app,"ど…退いてくださーい！"));assert.match(app.node("hsrResults").innerHTML,/攻撃段数に3～10の整数/);}
+    app.state.modifierInputs["misha-ultimate-hits"]=10;app.node("hsrStat-atk").handlers.input();
+    const saved=await tool(app.storage,data);near(find(saved,ult).expected,10692);assert.equal(saved.state.modifierInputs["misha-ultimate-hits"],10);
+    app.state.modifierInputs["misha-frozen-crit-active"]=false;
+    for(const[id,name,expected]of [["1314","欲望の淵での地獄の契り",2592],["1224","蓋世の傑物、三月なのか",2592]]){profile(id);near(find(app,name).nonCrit,expected);near(find(app,name).crit,expected*2);app.node("hsrWeakness").value="true";assert.equal(find(app,name),undefined);assert.match(app.node("hsrResults").innerHTML,id==="1314"?/量子属性/:/虚数属性/);}
+    profile("1220");const follow="雷狩・追加攻撃1回";
+    near(find(app,follow).nonCrit,1900.8);near(find(app,follow).expected,2851.2);
+    assert.equal(find(app,follow).breakdown.damageBonus,60);
+    app.state.modifierInputs["feixiao-formshift-unlocked"]=true;
+    near(find(app,follow).crit,4485.888);near(find(app,follow).expected,3193.344);
+    app.state.party[0]={characterId:"1309",level:80,eidolon:0,traceLevels:{skill:10}};app.state.modifierInputs["robin-skill-damage-active"]=true;
+    const supported=find(app,follow);near(supported.nonCrit,2494.8);near(supported.expected,4191.264);assert.equal(supported.breakdown.damageBonus,110);
+    app.node("hsrTalentTrace").value="";assert.equal(find(app,follow),undefined);assert.ok(app.calculate().some(r=>r.attack.name==="閃裂"));
+    app.node("hsrTalentTrace").value="10";app.node("hsrStat-atk").handlers.input();
+    const restored=await tool(app.storage,data);near(find(restored,follow).expected,4191.264);restored.state.party[0].characterId="";near(find(restored,follow).expected,3193.344);
+    assert.match(restored.node("hsrResults").innerHTML,/data-support-status="review"/);
 });

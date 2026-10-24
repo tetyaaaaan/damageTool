@@ -248,7 +248,11 @@
   }
 
   function attackStateIssues(attack, issue) {
-    if (attack.requiresNonWeakTarget && state.enemy.weakness) issue(`${attack.name}は今回、虚数属性が弱点ではない敵のみ計算対応です。属性弱点を「弱点なし」にしてください。`, "hsrWeakness");
+    if (attack.requiresValidHitCount) {
+      const count = state.modifierInputs[attack.hitCountInputKey] === undefined ? attack.hitCountDefault : state.modifierInputs[attack.hitCountInputKey];
+      if (!Number.isInteger(count) || count < attack.hitCountMinimum || count > attack.hitCountMaximum) issue(attack.name + "の攻撃段数に" + attack.hitCountMinimum + "～" + attack.hitCountMaximum + "の整数を補正条件で入力してください。", "hsrConditionDialogOpen");
+    }
+    if (attack.requiresNonWeakTarget && state.enemy.weakness) issue(`${attack.name}は今回、${ELEMENT_KEYS[attack.element] || "対応する"}属性が弱点ではない敵のみ計算対応です。属性弱点を「弱点なし」にしてください。`, "hsrWeakness");
     if (attack.requiredToughnessActive && !state.enemy.toughnessActive) issue(`${attack.name}は今回、未撃破の敵のみ計算対応です。靭性状態を「靭性あり」にしてください。`, "hsrToughnessState");
     if (attack.maximumEidolon !== undefined && state.eidolon > attack.maximumEidolon) issue(`${attack.name}：選択中は星魂${state.eidolon}です。計算対応は星魂0～${attack.maximumEidolon}です。${attack.unsupportedEidolonReason || "この星魂で変化する倍率・固有効果は未検証です。"} 星魂0相当へ置き換えず、この攻撃の結果を停止します。`, "hsrEidolon");
     if (attack.hpPercentMaximum !== undefined && state.stats.hpPercent > attack.hpPercentMaximum) issue("この攻撃は現在HP" + attack.hpPercentMaximum + "%以下の場合のみ計算対応です。", "hsrStat-hpPercent");
@@ -612,15 +616,16 @@
   }
 
   function isAttackSelectionCondition(item) {
-    return item.displayOnly && item.inputPolicy !== "includedInFinalStats" && item.activation?.mode === "toggle" && Boolean(item.activation.inputKey)
+    return item.displayOnly && item.inputPolicy !== "includedInFinalStats" && Boolean(item.activation?.inputKey)
       && (state.data?.attacks || []).some((attack) => attack.characterId === state.characterId && !attack.hidden
-        && attack.support?.status !== "displayOnly" && attack.modifierInputKey === item.activation.inputKey);
+        && attack.support?.status !== "displayOnly" && ((item.activation.mode === "toggle" && attack.modifierInputKey === item.activation.inputKey)
+          || (attack.requiresValidHitCount && attack.hitCountInputKey === item.activation.inputKey)));
   }
 
   function conditionPurpose(item) {
     if (item.inputPolicy === "includedInFinalStats") return "finalStats";
     const key = item.activation?.inputKey;
-    const selectsAttack = key && (state.data?.attacks || []).some(attack => attack.characterId === state.characterId && !attack.hidden && attack.support?.status !== "displayOnly" && attack.modifierInputKey === key);
+    const selectsAttack = key && (state.data?.attacks || []).some(attack => attack.characterId === state.characterId && !attack.hidden && attack.support?.status !== "displayOnly" && (attack.modifierInputKey === key || (attack.requiresValidHitCount && attack.hitCountInputKey === key)));
     if (selectsAttack) return "attack";
     return item.displayOnly ? "excluded" : "combat";
   }
@@ -964,11 +969,11 @@
     const enemyHpPercent = selected.enemyHpPercentMultipliers?.[Math.min(selected.enemyHpPercentMultipliers.length - 1, formulaIndex)];
     const atkCapPercent = selected.atkCapMultipliers?.[Math.min(selected.atkCapMultipliers.length - 1, formulaIndex)];
     const adjacentMultiplier = selected.adjacentMultiplierRatio !== undefined ? multiplier * num(selected.adjacentMultiplierRatio) / 100 : selected.adjacentMultipliers?.[index] || 0;
-    const traceLevelLabel = components.length ? components.map((component) => `${ATTACK_LABELS[component.traceKey] || component.traceKey}Lv${component.level}`).join("＋") : `Lv${level}`;
+    const traceLevelLabel = components.length ? [...new Set(components.map((component) => `${ATTACK_LABELS[component.traceKey] || component.traceKey}Lv${component.level}`))].join("＋") : `Lv${level}`;
     const multiplierAdditionScale = Array.isArray(selected.multiplierAdditionScaleValues)
       ? num(selected.multiplierAdditionScaleValues[Math.min(selected.multiplierAdditionScaleValues.length - 1, index)], 1)
       : num(selected.multiplierAdditionScale, 1);
-    return { ...selected, traceKey, hitCount: referencedHits, hitCountReference: selected.hitCountReference || selected.hitCountInputKey || "", attackType: selected.type, element: selected.damageFormula === "trueDamage" ? "None" : character()?.element || "", multiplier, adjacentMultiplier, scalingTerms, adjacentScalingTerms, enemyHpPercent, atkCapPercent, multiplierAdditionScale, traceLevel: level, traceLevelLabel };
+    return { ...selected, traceKey, hitCount: referencedHits, hitCountReference: selected.hitCountReference || selected.hitCountInputKey || "", attackType: selected.type, element: selected.damageFormula === "trueDamage" ? "None" : character()?.element || "", multiplier, adjacentMultiplier, scalingTerms, adjacentScalingTerms, enemyHpPercent, atkCapPercent, multiplierAdditionScale, traceLevel: level, traceLevelLabel, resolvedMultiplierComponents: components };
   }
 
   function supplementalAttacks() {
@@ -1254,7 +1259,7 @@
         const partialJoint = JOINT_ATTACK_SKILLS.has(String(attack.sourceSkillId || attack.id)) && attackSupport(attack).status === "review";
         const scope = [ATTACK_LABELS[attack.type] || attack.type, isJointAttack(attack) ? "連携" : "", attack.type !== "followUp" && attack.tags?.includes("followUp") ? "追加攻撃" : "", attack.traceLevelLabel || `Lv${attack.traceLevel}`, TARGET_LABELS[value.attack.target] || value.attack.target, value.attack.hitCountLabel || `${value.attack.hitCount || 1}ヒット`].filter(Boolean).join("・");
         const values = value.attack.canCrit ? [["非会心", value.nonCrit], ["会心", value.crit], ["期待値", value.expected]] : [["ダメージ", value.nonCrit], ["会心", null], ["期待値", null]];
-        addRow(resultGroup(attack), name, scope, values, damageBreakdown(value, target || "1対象分") + `<details class="hsr-result-audit"><summary>適用・除外された補正</summary>${modifierAudit(value, target || "1対象分")}</details>`, supportBadge(attack) + (publicAttackNote(attack) ? `<details class="hsr-result-scope"><summary>計算の範囲</summary><p>${esc(publicAttackNote(attack))}</p></details>` : "") + (partialJoint ? '<p class="hsr-formula-note">現在のレコードは単一成分の参考値です。キャラクターと精霊の全成分を合算した連携ダメージではありません。</p>' : ""), attackSupport(attack).status === "review", partialJoint ? "連携全体の合計には未対応" : comparisonCondition(attack) ? "想定：" + comparisonAssumption(attack) : ["enhancedNormal", "enhancedSkill"].includes(attack.type) ? "強化状態を想定したダメージ" : attack.id === "1151201" ? "精霊自身の最終値・フィーバー中の1回分" : "");
+        addRow(resultGroup(attack), name, scope, values, (attack.resolvedMultiplierComponents?.every(component => component.name) && attack.resolvedMultiplierComponents.length ? `<p class="hsr-formula-note">${attack.resolvedMultiplierComponents.map(component => `${esc(component.name)} ${detailNumber(component.value)}%`).join(" ＋ ")} ＝ ${detailNumber(attack.multiplier)}%</p>` : "") + damageBreakdown(value, target || "1対象分") + `<details class="hsr-result-audit"><summary>適用・除外された補正</summary>${modifierAudit(value, target || "1対象分")}</details>`, supportBadge(attack) + (publicAttackNote(attack) ? `<details class="hsr-result-scope"><summary>計算の範囲</summary><p>${esc(publicAttackNote(attack))}</p></details>` : "") + (partialJoint ? '<p class="hsr-formula-note">現在のレコードは単一成分の参考値です。キャラクターと精霊の全成分を合算した連携ダメージではありません。</p>' : ""), attackSupport(attack).status === "review", partialJoint ? "連携全体の合計には未対応" : comparisonCondition(attack) ? "想定：" + comparisonAssumption(attack) : ["enhancedNormal", "enhancedSkill"].includes(attack.type) ? "強化状態を想定したダメージ" : attack.id === "1151201" ? "精霊自身の最終値・フィーバー中の1回分" : "");
       });
     });
     const breakDetails = (value, isSuper) => `<dl>${(isSuper ? [["撃破基礎値",value.base],["基礎削靭値",value.toughnessDamage],["撃破効率倍率",value.breakEfficiency],["補正後削靭値",value.effectiveToughnessDamage],["発生倍率",value.conversionMultiplier],["撃破特効倍率",value.breakEffect],["防御倍率",value.defense],["耐性倍率",value.resistance],["被ダメージ倍率",value.vulnerability],["超撃破与ダメージ倍率",value.superBreakBonus]] : [["撃破基礎値",value.base],["属性・攻撃倍率",value.multiplier],["撃破特効倍率",value.effect],["防御倍率",value.defense],["耐性倍率",value.resistance],["最大靭性倍率",value.toughnessScale],["被ダメージ倍率",value.vulnerability]]).map(([label, amount]) => `<div><dt>${label}</dt><dd>${detailNumber(amount)}</dd></div>`).join("")}</dl><p class="hsr-formula-note">独立した1回分です。通常攻撃・他の撃破成分とは合算しません。</p>${modifierAudit(value, isSuper ? "超撃破" : "弱点撃破")}`;

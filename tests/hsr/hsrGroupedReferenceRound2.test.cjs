@@ -182,7 +182,7 @@ test("Misha A6 frozen-target critical-damage option is self-scoped, attack-scope
     assert.equal(record.activation.mode, "toggle");
     assert.equal(record.activation.inputKey, "misha-frozen-crit-active");
     assert.equal(record.activation.default, false);
-    assert.deepEqual(Array.from(record.target.attackIds), ["131201", "131202"]);
+    assert.deepEqual(Array.from(record.target.attackIds), ["131201", "131202", "131203"]);
 
     const context = { characterId: "1312", eidolon: 0, traceLevelFor: () => 6 };
     const off = runtime.buildCandidates([record], context, { "misha-frozen-crit-active": false });
@@ -196,6 +196,6 @@ test("Misha A6 frozen-target critical-damage option is self-scoped, attack-scope
     for (const attackId of ["131201", "131202"]) {
         assert.equal(runtime.applicableToAttack(on[0], { id: attackId, type: attackId === "131201" ? "normal" : "skill", attackType: attackId === "131201" ? "normal" : "skill", element: "Ice" }), true, attackId + " accepts A6 CD");
     }
-    assert.equal(runtime.applicableToAttack(on[0], { id: "131203", type: "ultimate", attackType: "ultimate", element: "Ice" }), false, "Misha's Ultimate is outside A6's Basic/Skill scope");
+    assert.equal(runtime.applicableToAttack(on[0], { id: "131203", type: "ultimate", attackType: "ultimate", element: "Ice" }), true, "the newly verified stable prefrozen Ultimate shares A6 with Basic and Skill");
     assert.deepEqual(runtime.buildCandidates([record], { characterId: "1301", partyIds: ["1312"], eidolon: 0 }, { "misha-frozen-crit-active": true }), [], "self A6 effect is not offered as a party buff when Misha is another character's teammate");
 });
