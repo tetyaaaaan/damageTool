@@ -594,16 +594,19 @@ test("Gepard 1104 golden: direct skill and Frozen additional damage remain separ
     assert.equal(result.crit, result.expected);
 });
 
-test("Gepard 1104 golden: Fighting Spirit converts exactly thirty-five percent of current DEF to flat ATK", () => {
+test("Gepard 1104 golden: Fighting Spirit is included in entered final ATK and never added twice", () => {
     const fightingSpirit = structured("traceNode:1104:1104103:defense-to-atk", { characterId: "1104", stats: { def: 1000 }, traceLevelFor: () => 1 });
-    assert.equal(fightingSpirit.enabled, true);
-    assert.equal(fightingSpirit.value, 350);
-    assert.equal(fightingSpirit.valueInput.providerStat, "def");
+    assert.equal(fightingSpirit.enabled, false);
+    assert.equal(fightingSpirit.displayOnly, true);
+    assert.equal(fightingSpirit.inputPolicy, "includedInFinalStats");
+    assert.equal(fightingSpirit.value, 350, "the documented DEF conversion remains unchanged");
     const normal = attacks.find((item) => item.id === "110401");
-    const result = engine.calculate(request({ ...normal, attackType: normal.type, multiplier: normal.multipliers[5] }, [fightingSpirit]));
+    const input = request({ ...normal, attackType: normal.type, multiplier: normal.multipliers[5] }, [fightingSpirit]);
+    input.character.stats.atk = 1350; // Already includes 350 from Fighting Spirit.
+    const result = engine.calculate(input);
     assert.equal(result.breakdown.referenceValue, 1350);
     assert.ok(Math.abs(result.nonCrit - 486) < 1e-9);
-    assert.equal(result.applied[0].id, "traceNode:1104:1104103:defense-to-atk");
+    assert.equal(result.applied.length, 0);
 });
 
 test("Gepard 1104 golden: minor traces are summarized and eidolon utility remains quarantined", () => {

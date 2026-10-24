@@ -2630,3 +2630,17 @@ test("Jiaoqiu and Lingsha basics compare without availability checks and preserv
  app.state.modifierInputs["break-befog-active"]=true;near(basic(app).nonCrit,1080,"Break-only Befog cannot buff the direct basic");
  for(const [id,value]of [["hsrEidolon","1"],["hsrNormalTrace","7"],["hsrLevel","70"],["hsrWeakness","true"],["hsrToughnessState","broken"],["hsrStat-atk",""]]){const old=app.node(id).value;app.node(id).value=value;assert.equal(basic(app),undefined,id);app.node(id).value=old;}
 });
+
+
+test("Gepard final ATK already includes Fighting Spirit across manual edits and restoration", async()=>{
+ const window={};vm.runInNewContext(read("games/js/hsrCalcData.js"),{window,fetch:async u=>({ok:true,json:async()=>JSON.parse(read(u.slice(1)))})});
+ const data=await window.HsrCalcData.load(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1104",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:3000,critRate:50,critDamage:100,damageBonus:0}});
+ const basic=t=>t.calculate().find(r=>r.attack.name===data.attacks.find(a=>a.id==="110401").name);
+ near(basic(app).nonCrit,1080);near(basic(app).crit,2160);near(basic(app).expected,1620);
+ assert.equal(basic(app).applied.some(m=>m.id==="traceNode:1104:1104103:defense-to-atk"),false);
+ assert.match(app.node("hsrResults").innerHTML,/最終ステータスに含めて入力する効果/);
+ app.node("hsrStat-def").value="4000";near(basic(app).nonCrit,1080,"editing DEF must not rebuild final ATK");
+ app.node("hsrStat-atk").value="3500";near(basic(app).nonCrit,1260);app.node("hsrStat-atk").handlers.input();
+ const restored=await tool(app.storage,data);near(basic(restored).nonCrit,1260);near(basic(restored).breakdown.referenceValue,3500);
+});
