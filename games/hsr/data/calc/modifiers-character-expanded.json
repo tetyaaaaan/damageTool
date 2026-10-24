@@ -149,6 +149,68 @@
     {"providerScope":"party","category":"takenDamage","unit":"percent","target":{"owner":"enemyAll","attackTypes":["normal","enhancedNormal","skill","enhancedSkill","ultimate","talent","followUp","additional","dot"],"elements":[]},"inputPolicy":"conditional","calculation":{"stage":"vulnerability","operation":"add"},"inputValidation":{"maximumEidolon":0,"levelMaximum":10,"minimum":0,"maximum":3,"integer":true},"support":{"status":"calculable","verified":true,"reason":"強化版・星魂0・Lv1～10、同一条件で得た幻相0～3層の通常ダメージ/通常DoTのみを独立検証。"},"id":"trace:1306:1130604:figment-vulnerability","source":{"kind":"trace","id":"1306","skillId":"1130604"},"name":"幻相・敵被ダメージ増加（強化版）","description":"強化版1130604・星魂0・天賦Lv1～10。味方のSP消費1につき得る幻相の現在層数（0～3）を指定します。Lv10は1層4%、最大12%、2ターン継続。敵全体の被ダメージ増加で、通常の与ダメージとは別枠です。奇怪な謎の強化分は必殺技側で追加します。すべての層が同じ奇怪な謎の状態で獲得され、途中で条件が変化していない単発時点だけを対象とします。過去の異なる条件で得た層の混在・層数自動蓄積・SP/ターン管理は対象外。0層は未適用です。同じデバフを手動被ダメージ増加へ重複入力しないでください。","value":{"kind":"perStackByLevel","values":[2,2.2,2.4,2.6,2.8,3,3.25,3.5,3.75,4],"levelInputLabel":"花火の天賦Lv"},"activation":{"mode":"stack","inputKey":"sparkle-enhanced-figment-stacks","inputLabel":"現在の幻相（同一条件で得た層のみ）","default":0,"minimum":0,"maximum":3,"durationTurns":2,"conditionText":"強化版花火の幻相が敵に有効。同一の奇怪な謎状態で得た層のみ"},"stacking":{"group":"sparkle-figment-base","rule":"nonStacking"},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:1130604.params[0..9][0,1,3]","gameVersion":"fixed-sha-dbe8cdf / enhanced Sparkle kit","referenceUrl":"https://www.prydwen.gg/star-rail/characters/sparkle","verifiedAt":"2026-10-23","scope":"E0; trace Lv1..10; Figment stacks 0..3 gained under one unchanged Cipher state; ordinary damage and DoT only. No transition/mixed-stack history or Elation/Break/True/memosprite integration.","precisionNote":"強化版1130603/4は敵被ダメージ枠。旧版130603/4の与ダメージ枠・係数と混在させない。"}},
     {"providerScope":"party","category":"takenDamage","unit":"percent","target":{"owner":"enemyAll","attackTypes":["normal","enhancedNormal","skill","enhancedSkill","ultimate","talent","followUp","additional","dot"],"elements":[]},"inputPolicy":"conditional","calculation":{"stage":"vulnerability","operation":"add"},"inputValidation":{"maximumEidolon":0,"levelMaximum":10,"minimum":0,"maximum":3,"integer":true},"support":{"status":"calculable","verified":true,"reason":"強化版・星魂0・Lv1～10、同一条件で得た幻相0～3層の通常ダメージ/通常DoTのみを独立検証。"},"id":"trace:1306:1130603:cipher-vulnerability","source":{"kind":"trace","id":"1306","skillId":"1130603"},"name":"奇怪な謎・幻相の強化分（強化版）","description":"強化版1130603・星魂0・必殺技Lv1～10。現在の幻相がすべて奇怪な謎を持つ味方のSP消費で得られた同一条件の層であり、その状態が継続中の場合のみONにします。Lv10は1層につき被ダメージ増加をさらに6%加算し、3層では強化分18%＋天賦基本分12%＝合計30%。幻相層数は天賦欄と共通です。必殺技だけで層数は増やしません。0層なら強化分も0です。奇怪な謎は3ターン継続。付与・消失前後の層が混在する状態、残存層の参照時点、自動SP回復・記録値・ターン管理は対象外です。","value":{"kind":"byLevel","values":[3.6,3.84,4.08,4.32,4.56,4.8,5.1,5.4,5.7,6],"levelInputLabel":"花火の必殺技Lv","inputKey":"sparkle-enhanced-figment-stacks","inputLabel":"現在の幻相（天賦と共通）","inputUnit":"層","default":0,"minimum":0,"inputMaximum":3,"inputStep":1,"inputMultipliers":[0,1,2,3],"sharedInput":true},"activation":{"mode":"toggle","inputKey":"sparkle-enhanced-cipher-active","default":false,"durationTurns":3,"conditionText":"全幻相が奇怪な謎中のSP消費で得た同一条件の層で、現在も継続中"},"stacking":{"group":"sparkle-figment-cipher-extra","rule":"nonStacking"},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:1130603.params[0..9][2,3]","gameVersion":"fixed-sha-dbe8cdf / enhanced Sparkle kit","referenceUrl":"https://www.prydwen.gg/star-rail/characters/sparkle","verifiedAt":"2026-10-23","scope":"E0; trace Lv1..10; Figment stacks 0..3 gained under one unchanged Cipher state; ordinary damage and DoT only. No transition/mixed-stack history or Elation/Break/True/memosprite integration.","precisionNote":"強化版1130603/4は敵被ダメージ枠。旧版130603/4の与ダメージ枠・係数と混在させない。"}},
     {"id":"eidolon:1221:1:intuit-damage","source":{"kind":"eidolon","id":"1221","eidolonRank":1},"providerScope":"self","name":"雲璃・星魂1：看破・斬の与ダメージ","description":"星魂1の看破・斬の与ダメージ+20%。他の与ダメージ補正と加算します。スキル・通常カウンター・通常攻撃には適用しません。看破・滅の追加3ヒットは別の未対応攻撃で、この結果に含めません。同じ効果を最終与ダメージや手動補正へ重複入力しないでください。","category":"damageBonus","unit":"percent","value":{"kind":"fixed","fixed":20},"target":{"owner":"self","attackIds":["122103"],"attackTypes":["ultimate"],"elements":["Physical"]},"activation":{"mode":"always","conditionText":"星魂1以上・看破・斬（計算対応は星魂5まで）"},"stacking":{"group":"yunli-e1-intuit-damage","rule":"nonStacking"},"calculation":{"stage":"damageBonus","operation":"add"},"inputPolicy":"conditional","support":{"status":"calculable","verified":true},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json","sourceFile":"character_ranks.json:122101.desc","referenceUrl":"https://hsr.keqingmains.com/q/yunli-quickguide/","formulaSource":"https://srl.keqingmains.com/combat-mechanics/damage/damage-formula","verifiedAt":"2026-10-24","scope":"星魂1～5・敵1体・看破・斬1回。通常与ダメージ加算枠。看破・滅は含めない。"}},
-    {"id":"eidolon:1221:2:counter-defense-ignore","source":{"kind":"eidolon","id":"1221","eidolonRank":2},"providerScope":"self","name":"雲璃・星魂2：カウンターの防御無視","description":"通常カウンターと看破・斬のダメージ時に敵の防御力を20%無視します。通常攻撃・戦闘スキル・撃破・他キャラクターには適用しません。他の防御無視・防御ダウンと加算（合計100%上限）。同じ星魂効果を敵条件や手動補正へ重複入力しないでください。看破・滅は対象外です。","category":"defenseIgnore","unit":"percent","value":{"kind":"fixed","fixed":20},"target":{"owner":"self","attackIds":["122103","122104"],"attackTypes":["ultimate","followUp"],"elements":["Physical"]},"activation":{"mode":"always","conditionText":"星魂2以上・雲璃の通常カウンターまたは看破・斬"},"stacking":{"group":"yunli-e2-counter-defense-ignore","rule":"nonStacking"},"calculation":{"stage":"defense","operation":"add"},"inputPolicy":"conditional","support":{"status":"calculable","verified":true},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json","sourceFile":"character_ranks.json:122102.desc","referenceUrl":"https://hsr.keqingmains.com/q/yunli-quickguide/","verifiedAt":"2026-10-24","scope":"通常カウンター122104（星魂2～6）と看破・斬122103（星魂2～5）のみ。敵1体。看破・滅と他攻撃は対象外。"}}
+    {"id":"eidolon:1221:2:counter-defense-ignore","source":{"kind":"eidolon","id":"1221","eidolonRank":2},"providerScope":"self","name":"雲璃・星魂2：カウンターの防御無視","description":"通常カウンターと看破・斬のダメージ時に敵の防御力を20%無視します。通常攻撃・戦闘スキル・撃破・他キャラクターには適用しません。他の防御無視・防御ダウンと加算（合計100%上限）。同じ星魂効果を敵条件や手動補正へ重複入力しないでください。看破・滅は対象外です。","category":"defenseIgnore","unit":"percent","value":{"kind":"fixed","fixed":20},"target":{"owner":"self","attackIds":["122103","122104"],"attackTypes":["ultimate","followUp"],"elements":["Physical"]},"activation":{"mode":"always","conditionText":"星魂2以上・雲璃の通常カウンターまたは看破・斬"},"stacking":{"group":"yunli-e2-counter-defense-ignore","rule":"nonStacking"},"calculation":{"stage":"defense","operation":"add"},"inputPolicy":"conditional","support":{"status":"calculable","verified":true},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json","sourceFile":"character_ranks.json:122102.desc","referenceUrl":"https://hsr.keqingmains.com/q/yunli-quickguide/","verifiedAt":"2026-10-24","scope":"通常カウンター122104（星魂2～6）と看破・斬122103（星魂2～5）のみ。敵1体。看破・滅と他攻撃は対象外。"}},
+    {
+      "id": "traceNode:1312:1312103:frozen-critical-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1312",
+        "traceId": "1312103"
+      },
+      "name": "トランスミッション・凍結対象への会心ダメージ",
+      "description": "ミーシャ星魂0。軌跡トランスミッションを解放済みで、対象が攻撃前から凍結している場合、通常攻撃・スキルの会心ダメージ+30%。入力済みの最終会心ダメージへ含めている場合はOFFにしてください。必殺技はバウンドと途中の凍結判定が未検証のため対象外です。味方や精霊への支援ではありません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 30
+      },
+      "target": {
+        "owner": "self",
+        "attackIds": [
+          "131201",
+          "131202"
+        ],
+        "attackTypes": [
+          "normal",
+          "skill"
+        ],
+        "elements": [
+          "Ice"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "misha-frozen-crit-active",
+        "default": false,
+        "conditionText": "トランスミッション解放済み・攻撃前から対象凍結・最終会心ダメージへ未算入"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0
+      },
+      "stacking": {
+        "group": "misha-transmission-frozen",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "星魂0・通常/スキルの凍結対象1体への会心ダメージ30%を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1312103.params[0][0]",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/misha",
+        "verifiedAt": "2026-10-24",
+        "scope": "E0; Basic131201/Skill131202 only; pre-hit Frozen target, unlocked trace, not already included in final CRIT DMG; no freeze or turn simulation."
+      }
+    }
   ]
 }

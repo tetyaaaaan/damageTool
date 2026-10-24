@@ -2339,7 +2339,7 @@ test("promoted attacks keep reviewed siblings, per-attack limits, source correct
     profile("1317"); app.node("hsrWeakness").value = "false"; app.node("hsrToughnessState").value = "active";
     near(find("忍切・初志貫徹").nonCrit, 1296);
     app.node("hsrWeakness").value = "true";
-    assert.equal(find("忍切・初志貫徹"), undefined); assert.ok(app.calculate().some(r => r.attack.name === "忍法・七転八起"));
+    assert.equal(find("忍切・初志貫徹"), undefined); assert.equal(find("忍法・七転八起"), undefined, "both verified direct attacks require the non-weak target scope"); assert.ok(app.calculate().some(r => r.attack.name === "忍具・降魔の花弁"), "the unverified enhanced comparison remains a reference value");
     assert.match(app.node("hsrResults").innerHTML, /hsrWeakness/);
     app.node("hsrWeakness").value = "false"; app.node("hsrToughnessState").value = "broken";
     assert.equal(find("忍切・初志貫徹"), undefined); assert.match(app.node("hsrResults").innerHTML, /hsrToughnessState/);
@@ -2402,4 +2402,69 @@ test("grouped Basic promotions preserve stat ownership, E0 limits, party toggles
         app.state.party[0].characterId = "";
         app.state.modifierInputs["robin-skill-damage-active"] = false;
     }
+});
+
+
+test("second grouped promotions preserve independent comparison states, source stats and native/support conditions", async () => {
+    const window = {};
+    vm.runInNewContext(read("games/js/hsrCalcData.js"), { window, fetch: async url => ({ ok: true, json: async () => JSON.parse(read(url.slice(1))) }) });
+    const data = await window.HsrCalcData.load();
+    const app = await tool(undefined, data);
+    const near = (a, b) => assert.ok(Math.abs(a - b) < 1e-8, a + " != " + b);
+    const profile = id => app.window.HsrTool.applyProfileCharacter({ id, level: 80, eidolon: 0,
+        traces: [{ type: "Normal", level: 6 }, { type: "BPSkill", level: 10 }, { type: "Ultra", level: 10 }, { type: "Talent", level: 10 }],
+        stats: { atk: 3123.5, hp: 9876.25, def: 2345.75, critRate: 50, critDamage: 100, damageBonus: 0 } });
+    const promoted = (target, name) => target.calculate().find(r => r.attack.name === name && r.attack.hitCountLabel === "全段合算");
+    for (const [id, name, key, coefficient] of [["1312", "ど…退いてくださーい！", "atk", 1], ["1301", "持ち込み料", "atk", 1], ["1315", "スパーズ・クラッシュ", "atk", 1], ["1317", "忍法・七転八起", "atk", 1], ["1409", "雲を撫でるそよ風", "hp", .5]]) {
+        profile(id); app.node("hsrWeakness").value = "false"; app.node("hsrToughnessState").value = "active";
+        const base = promoted(app, name); const original = { atk: 3123.5, hp: 9876.25, def: 2345.75 };
+        near(base.nonCrit, original[key] * coefficient * .36);
+        for (const changed of ["atk", "hp", "def"]) {
+            app.node("hsrStat-" + changed).value = String(original[changed] + 157.25);
+            const next = promoted(app, name);
+            for (const property of ["nonCrit", "crit", "expected"]) near(next[property], base[property] * (changed === key ? (original[key] + 157.25) / original[key] : 1));
+            app.node("hsrStat-" + changed).value = String(original[changed]);
+        }
+        app.node("hsrEidolon").value = "1"; assert.equal(promoted(app, name), undefined);
+        app.node("hsrEidolon").value = "0";
+        app.node("hsrStat-" + key).value = ""; assert.equal(promoted(app, name), undefined);
+        app.node("hsrStat-" + key).value = String(original[key]);
+    }
+    profile("1312");
+    const normal = "ど…退いてくださーい！", skill = "ル…ルームサービスです！";
+    near(promoted(app, skill).nonCrit, 3123.5 * 2 * .36);
+    assert.equal(app.calculate().filter(r => r.attack.target === "adjacent").length, 0, "one enemy has no adjacent target");
+    app.node("hsrSkillTrace").value = "";
+    assert.equal(promoted(app, skill), undefined); assert.ok(promoted(app, normal));
+    app.node("hsrSkillTrace").value = "10";
+    app.state.modifierInputs["misha-frozen-crit-active"] = true;
+    near(promoted(app, normal).crit, 3123.5 * .36 * 2.3);
+    near(promoted(app, skill).crit, 3123.5 * 2 * .36 * 2.3);
+    assert.match(app.node("hsrResults").innerHTML, /トランスミッション/);
+    app.state.modifierInputs["misha-frozen-crit-active"] = false;
+    app.node("hsrStat-critDamage").value = "130";
+    near(promoted(app, skill).crit, 3123.5 * 2 * .36 * 2.3);
+    app.node("hsrStat-critDamage").value = "100"; app.state.modifierInputs["misha-frozen-crit-active"] = true;
+    app.state.party[0] = { characterId: "1309", level: 80, eidolon: 0, traceLevels: { skill: 10 } };
+    app.state.modifierInputs["robin-skill-damage-active"] = true;
+    near(promoted(app, skill).nonCrit, 3123.5 * 2 * .36 * 1.5);
+    near(promoted(app, skill).crit, 3123.5 * 2 * .36 * 1.5 * 2.3);
+    app.node("hsrStat-atk").handlers.input();
+    const restored = await tool(app.storage, data);
+    near(promoted(restored, skill).crit, 3123.5 * 2 * .36 * 1.5 * 2.3);
+    assert.equal(restored.state.modifierInputs["misha-frozen-crit-active"], true);
+    restored.state.party[0].characterId = "";
+    near(promoted(restored, skill).crit, 3123.5 * 2 * .36 * 2.3);
+    profile("1301"); app.state.party[0].characterId = ""; app.state.modifierInputs["robin-skill-damage-active"] = false;
+    app.state.modifierInputs["break-besotted-active"] = true;
+    near(promoted(app, "持ち込み料").nonCrit, 3123.5 * .36);
+    assert.equal(promoted(app, "持ち込み料").applied.some(m => m.id.includes("misha")), false, "previous actor's frozen buff cannot leak");
+    profile("1317"); app.node("hsrWeakness").value = "true";
+    assert.equal(promoted(app, "忍法・七転八起"), undefined);
+    app.node("hsrWeakness").value = "false"; app.node("hsrToughnessState").value = "broken";
+    assert.equal(promoted(app, "忍法・七転八起"), undefined);
+    profile("1315"); app.node("hsrToughnessState").value = "active";
+    app.state.modifierInputs["boothill-fanning-broken"] = true;
+    near(promoted(app, "スパーズ・クラッシュ").nonCrit, 3123.5 * .36);
+    assert.equal(promoted(app, "スパーズ・クラッシュ").applied.some(m => m.id === "trace:1315:131502:standoff-vulnerability"), false);
 });
