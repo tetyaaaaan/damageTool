@@ -2302,3 +2302,57 @@ test("Yunli Slash explains entered CRIT DMG, Parry's intrinsic bonus and party s
     assert.equal(slash(restored).breakdown.critDamagePercent, 208);
     assert.match(restored.node("hsrResults").innerHTML, /最終入力100% ＋ 必殺技「構え」108% ＝ 208%/);
 });
+
+
+test("promoted attacks keep reviewed siblings, per-attack limits, source corrections and saved comparison states", async () => {
+    const dataWindow = {};
+    vm.runInNewContext(read("games/js/hsrCalcData.js"), { window: dataWindow, fetch: async url => ({ ok: true, json: async () => JSON.parse(read(url.slice(1))) }) });
+    const data = await dataWindow.HsrCalcData.load();
+    const app = await tool(undefined, data);
+    const profile = (id, eidolon = 0) => app.window.HsrTool.applyProfileCharacter({ id, level: 80, eidolon,
+        traces: [{ type: "Normal", level: 6 }, { type: "BPSkill", level: 10 }, { type: "Ultra", level: 10 }, { type: "Talent", level: 10 }],
+        stats: { atk: 3000, hp: 6000, def: 3000, critRate: 50, critDamage: 100, damageBonus: 0 } });
+    const near = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-8, actual + " != " + expected);
+    const find = name => app.calculate().find(result => result.attack.name === name);
+    profile("1221", 2);
+    let normal = find("震天動地"); near(normal.nonCrit, 1080);
+    assert.equal(normal.applied.some(m => m.id.startsWith("eidolon:1221:")), false, "Counter-only E1/E2 never enter Basic damage");
+    assert.match(app.node("hsrResults").innerHTML, /全段合算/);
+    app.state.modifierInputs["yunli-true-sunder-active"] = true;
+    near(find("震天動地").nonCrit, (3000 + 679.14 * .3) * .36);
+    app.state.modifierInputs["yunli-true-sunder-active"] = false;
+    app.node("hsrNormalTrace").value = "7";
+    assert.equal(find("震天動地"), undefined, "E2 cannot use Basic Lv7");
+    app.node("hsrEidolon").value = "3"; app.node("hsrEidolon").handlers.change({ target: { value: "3" } });
+    near(find("震天動地").nonCrit, 1188);
+    profile("1305");
+    near(find("産婆術").nonCrit, 1620);
+    assert.match(app.node("hsrResults").innerHTML, /data-support-status="review"/);
+    assert.match(app.node("hsrResults").innerHTML, /天賦の追撃は別/);
+    app.state.modifierInputs["ratio-deduction-unlocked"] = true; app.node("hsrEnemyDebuffCount").value = "3";
+    near(find("産婆術").nonCrit, 2106);
+    app.node("hsrEnemyDebuffCount").value = "5";
+    const skill = find("産婆術"); near(skill.nonCrit, 2430); near(skill.crit, 4860); near(skill.expected, 3645);
+    assert.equal(skill.breakdown.critDamagePercent, 100, "the entered snapshot already owns Induction; it is not silently added twice");
+    app.state.modifierInputs["ratio-deduction-unlocked"] = false;
+    near(find("産婆術").nonCrit, 1620);
+    profile("1317"); app.node("hsrWeakness").value = "false"; app.node("hsrToughnessState").value = "active";
+    near(find("忍切・初志貫徹").nonCrit, 1296);
+    app.node("hsrWeakness").value = "true";
+    assert.equal(find("忍切・初志貫徹"), undefined); assert.ok(app.calculate().some(r => r.attack.name === "忍法・七転八起"));
+    assert.match(app.node("hsrResults").innerHTML, /hsrWeakness/);
+    app.node("hsrWeakness").value = "false"; app.node("hsrToughnessState").value = "broken";
+    assert.equal(find("忍切・初志貫徹"), undefined); assert.match(app.node("hsrResults").innerHTML, /hsrToughnessState/);
+    app.node("hsrToughnessState").value = "active"; app.node("hsrSkillTrace").value = "";
+    assert.equal(find("忍切・初志貫徹"), undefined, "only the Skill needs its missing level");
+    app.node("hsrSkillTrace").value = "10"; app.node("hsrEidolon").value = "1";
+    assert.equal(find("忍切・初志貫徹"), undefined, "E1 is outside the verified Skill scope");
+    app.node("hsrEidolon").value = "0"; app.node("hsrStat-atk").value = "4000";
+    near(find("忍切・初志貫徹").nonCrit, 1728);
+    app.node("hsrStat-atk").handlers.input();
+    const restored = await tool(app.storage, data);
+    near(restored.calculate().find(r => r.attack.name === "忍切・初志貫徹").nonCrit, 1728);
+    assert.equal(restored.state.enemy.weakness, false); assert.equal(restored.state.enemy.toughnessActive, true);
+    restored.node("hsrStat-atk").value = "";
+    assert.equal(restored.calculate().length, 0, "missing required ATK must not produce a partial value");
+});

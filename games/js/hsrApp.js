@@ -248,6 +248,8 @@
   }
 
   function attackStateIssues(attack, issue) {
+    if (attack.requiresNonWeakTarget && state.enemy.weakness) issue(`${attack.name}は今回、虚数属性が弱点ではない敵のみ計算対応です。属性弱点を「弱点なし」にしてください。`, "hsrWeakness");
+    if (attack.requiredToughnessActive && !state.enemy.toughnessActive) issue(`${attack.name}は今回、未撃破の敵のみ計算対応です。靭性状態を「靭性あり」にしてください。`, "hsrToughnessState");
     if (attack.maximumEidolon !== undefined && state.eidolon > attack.maximumEidolon) issue(`${attack.name}：選択中は星魂${state.eidolon}です。計算対応は星魂0～${attack.maximumEidolon}です。${attack.unsupportedEidolonReason || "この星魂で変化する倍率・固有効果は未検証です。"} 星魂0相当へ置き換えず、この攻撃の結果を停止します。`, "hsrEidolon");
     if (attack.hpPercentMaximum !== undefined && state.stats.hpPercent > attack.hpPercentMaximum) issue("この攻撃は現在HP" + attack.hpPercentMaximum + "%以下の場合のみ計算対応です。", "hsrStat-hpPercent");
     if (attack.enemyHpPercentMaximum !== undefined && state.enemy.hpPercent > attack.enemyHpPercentMaximum) issue("この攻撃は敵HP" + attack.enemyHpPercentMaximum + "%以下の場合のみ計算対応です。", "hsrEnemyHpPercent");
@@ -1157,18 +1159,19 @@
       ? row("敵HP参照・攻撃力上限適用後", detailNumber(b.cappedEnemyHpDamage)) + row("敵HP割合／攻撃力上限", `${detailNumber(b.enemyHpPercent)}%／${detailNumber(b.atkCapPercent)}%`) + row("攻撃倍率", `${detailNumber(b.multiplierPercent)}%`)
       : b.scalingTerms.map((term) => row(`${b.actorKind === "memosprite" ? "精霊の最終" : ""}${SCALING_LABELS[term.stat] || term.stat}参照 × 攻撃倍率`, `${detailNumber(term.referenceValue)} × ${detailNumber(term.multiplierPercent)}%`)).join("");
     const hits = result.attack.hitCount;
+    const aggregated = result.attack.hitCountLabel === "全段合算";
     const hitFactors = b.vulnerabilityFactors.length && b.vulnerabilityFactors.every((value) => value === b.vulnerabilityFactors[0])
-      ? `<dl class="hsr-hit-factors">${row("被ダメージ倍率（各ヒット）", `×${detailNumber(b.vulnerabilityFactors[0])}`)}</dl>`
+      ? `<dl class="hsr-hit-factors">${row(aggregated ? "被ダメージ倍率（全段共通）" : "被ダメージ倍率（各ヒット）", `×${detailNumber(b.vulnerabilityFactors[0])}`)}</dl>`
       : `<details class="hsr-hit-factors"><summary>被ダメージ倍率（ヒット順）</summary><p>${b.vulnerabilityFactors.map((value) => `×${detailNumber(value)}`).join(" → ") || "ヒットなし"}</p></details>`;
     return `<section class="hsr-target-breakdown"><h4>${esc(targetLabel)}</h4>${components ? `<p class="hsr-formula-note">${esc(b.elationScopeNote || "初回の通常アッハタイム・敵1体への全6ヒット。全体攻撃1回と追撃5回を合算します。")}</p>` : isElation ? '<p class="hsr-formula-note">アッハタイム中・敵1体あたりの1回分です。爆笑の褒美への変換や全敵の合計は計算しません。</p>' : ""}<dl>${scaling}${b.flatDamage ? row("固定加算", detailNumber(b.flatDamage)) : ""}
-      ${components ? components.map((item) => row(`${item.name}：${item.multiplierPercent}% × ${item.count}ヒット`, `非会心1ヒット ${detailNumber(item.perHitNonCrit)}／小計 ${detailNumber(item.nonCrit)}${["fixedTalent", "ahaInput"].includes(b.punchlineSource) ? `／会心小計 ${detailNumber(item.crit)}／期待値小計 ${detailNumber(item.expected)}` : ""}`)).join("") : ""}${row(components ? "基礎ダメージ（倍率合算）" : "基礎ダメージ（1ヒット）", detailNumber(b.baseDamage))}${row("ヒット数", result.attack.hitCountLabel || hits)}${b.actorKind === "memosprite" ? row("フィーバー固有与ダメージ（与ダメージ補正に含む）", detailNumber(b.feverDamageBonusPercent)+"%／精霊天賦Lv"+b.spriteTalentLevel+"・バイブス"+b.vibes) : ""}
+      ${components ? components.map((item) => row(`${item.name}：${item.multiplierPercent}% × ${item.count}ヒット`, `非会心1ヒット ${detailNumber(item.perHitNonCrit)}／小計 ${detailNumber(item.nonCrit)}${["fixedTalent", "ahaInput"].includes(b.punchlineSource) ? `／会心小計 ${detailNumber(item.crit)}／期待値小計 ${detailNumber(item.expected)}` : ""}`)).join("") : ""}${row(components ? "基礎ダメージ（倍率合算）" : aggregated ? "基礎ダメージ（全段合算）" : "基礎ダメージ（1ヒット）", detailNumber(b.baseDamage))}${row(aggregated ? "計算単位" : "ヒット数", result.attack.hitCountLabel || hits)}${b.actorKind === "memosprite" ? row("フィーバー固有与ダメージ（与ダメージ補正に含む）", detailNumber(b.feverDamageBonusPercent)+"%／精霊天賦Lv"+b.spriteTalentLevel+"・バイブス"+b.vibes) : ""}
       ${isElation ? row("通常の与ダメージ補正", "適用対象外（×1）") : row("与ダメージ補正", `${detailNumber(b.damageBonus)}%／×${detailNumber(b.damageBonusMultiplier)}`)}
       ${Number.isFinite(b.defenseIgnorePercent) ? row("防御ダウン／防御無視（合計100%上限）", `${detailNumber(b.defenseReductionPercent)}%／${detailNumber(b.defenseIgnorePercent)}%`) : ""}${row("防御倍率", `×${detailNumber(b.defense)}`)}${row("耐性倍率", `×${detailNumber(b.resistance)}`)}
       ${row(b.toughness === 0.9 ? "靭性倍率（靭性あり）" : "靭性倍率（弱点撃破中）", `×${detailNumber(b.toughness)}`)}
       ${isElation ? "" : row("独立倍率", `×${detailNumber(b.independentMultiplier)}`)}${row("共通倍率（被ダメージ補正を除く）", `×${detailNumber(b.commonWithoutVulnerability)}`)}
       ${row("被ダメージ増加（共通分）", `${detailNumber(b.takenDamage)}%`)}${row(components ? "被ダメージ倍率（合算基礎値へ適用）" : "被ダメージ倍率合計", detailNumber(b.vulnerabilityFactorSum))}
       ${result.attack.canCrit ? row("会心率", `${detailNumber(b.critRatePercent)}%`) + row("会心ダメージ／会心被ダメージ補正", `${detailNumber(b.critDamagePercent)}%／${detailNumber(b.critTakenDamage)}%`) + critOrigin + row("会心倍率", `×${detailNumber(b.critMultiplier)}`) + row("期待値の会心倍率", `×${detailNumber(b.expectedCritMultiplier)}`) : ""}</dl>
-      ${hitFactors}<p class="hsr-formula-note">${result.attack.canCrit ? "非会心合計" : "ダメージ合計"}＝基礎ダメージ${components ? "（倍率合算）" : "（1ヒット）"}×共通倍率×${components ? "被ダメージ倍率" : "被ダメージ倍率合計"}</p>
+      ${hitFactors}<p class="hsr-formula-note">${result.attack.canCrit ? "非会心合計" : "ダメージ合計"}＝基礎ダメージ${components ? "（倍率合算）" : aggregated ? "（全段合算）" : "（1ヒット）"}×共通倍率×${components ? "被ダメージ倍率" : "被ダメージ倍率合計"}</p>
       ${!components && hits > 1 ? `<p class="hsr-formula-note">同じ基礎ダメージを${hits}ヒット分集計します。1ヒット平均：${detailNumber(result.perHit.nonCrit)}${result.attack.target === "bounce" ? "。命中先の分配は再現しません。" : ""}</p>` : ""}${damageValues(result)}</section>`;
   }
 
