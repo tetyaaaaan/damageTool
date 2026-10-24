@@ -2483,6 +2483,111 @@
         "ultimateInitialHitAddition": 2,
         "ultimateExtraHitChanceAddition": 20
       }
+    },
+    {
+      "element": "Imaginary",
+      "target": "single",
+      "damageFormula": "statMultiplier",
+      "canCrit": true,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "calculationScope": "independently-checked-character-main-action",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの全対応Lv・参照値・全直接成分を照合し、非対称ステータスと補正の独立計算で検証。"
+      },
+      "id": "130404",
+      "characterId": "1304",
+      "name": "銃口の右には…（敵1体・7段）",
+      "type": "followUp",
+      "traceKey": "talent",
+      "scalingStat": "def",
+      "hitCount": 7,
+      "hitCountLabel": "7段合計",
+      "multipliers": [
+        12.5,
+        13.75,
+        15,
+        16.25,
+        17.5,
+        18.75,
+        20.31,
+        21.88,
+        23.44,
+        25
+      ],
+      "maximumTraceLevel": 10,
+      "sourceSkillId": "130404",
+      "requiredTraceLevelRanges": {
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "conditionText": "ブラインドベット7を消費した追加攻撃・敵1体へ7段・状態変化なし",
+      "calculationNote": "星魂0・Lv80・天賦Lv1～10・虚数非弱点かつ未撃破の敵1体。ブラインドベット7を消費して発動した天賦追加攻撃1回を想定し、7段すべてが同じ敵へ命中する全段合計です。全段が同じ最終DEF・会心・敵条件を参照し、途中の撃破・敵消滅・装備効果の発動/消失・他の追撃の連鎖は対象外です。レバレッジの会心率（DEF1600超過分100につき2%、最大48%）やDEF上昇は最終入力へ含め、再加算しません。動揺は攻撃前から成立している場合だけ既存の補正条件で追加します。バリア付与・チャージ管理は計算対象外。星魂4の段数/DEF変化や複数敵へのランダム分配は未対応です。",
+      "resultSummary": "追加攻撃1回・敵1体への7段合計。バリアとブラインドベットの自動管理は含みません。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:130404.params[0..9][1..2];character_skill_trees.json:1304101..1304103;character_ranks.json:130401..130406",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/aventurine",
+        "verifiedAt": "2026-10-25",
+        "scope": "星魂0・Lv80・天賦Lv1～10・虚数非弱点かつ未撃破の敵1体。ブラインドベット7を消費して発動した天賦追加攻撃1回を想定し、7段すべてが同じ敵へ命中する全段合計です。全段が同じ最終DEF・会心・敵条件を参照し、途中の撃破・敵消滅・装備効果の発動/消失・他の追撃の連鎖は対象外です。レバレッジの会心率（DEF1600超過分100につき2%、最大48%）やDEF上昇は最終入力へ含め、再加算しません。動揺は攻撃前から成立している場合だけ既存の補正条件で追加します。バリア付与・チャージ管理は計算対象外。星魂4の段数/DEF変化や複数敵へのランダム分配は未対応です。",
+        "verification": "tests/hsr/hsrCompletionPromotions.test.cjs: independent all-level NC/C/EV, seven hits, DEF ownership and correction scope; hsrToolInputs.test.cjs: local stops, condition toggles and restoration"
+      }
+    },
+    {
+      "element": "Imaginary",
+      "target": "single",
+      "damageFormula": "statMultiplier",
+      "canCrit": true,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "calculationScope": "independently-checked-character-main-action",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの全対応Lv・参照値・全直接成分を照合し、非対称ステータスと補正の独立計算で検証。"
+      },
+      "id": "130501",
+      "characterId": "1305",
+      "name": "知識は力なり",
+      "type": "normal",
+      "traceKey": "normal",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "hitCountLabel": "1回分",
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "maximumTraceLevel": 6,
+      "sourceSkillId": "130501",
+      "conditionText": "通常攻撃単独・後続追撃を合算しない",
+      "calculationNote": "星魂0・Lv80・通常Lv1～6・虚数非弱点かつ未撃破の敵1体への通常攻撃1回です。レイシオ本人の最終ATKを参照します。帰納による会心率/会心ダメージなどのステータス変化は最終入力に含め、再加算しません。推論を解放済みなら既存の補正条件でONにし、攻撃時点の敵デバフ数3/4/5個以上に応じて与ダメージ30/40/50%を一度だけ追加します。同じ推論を属性与ダメージへ重複入力しないでください。通常攻撃自体はスキルの天賦追撃を発動せず、他のキャラクターによる追加ダメージ・追撃を自動合算しません。智者の短慮はデバフ数に含めません。途中撃破・敵条件変化・星魂1以上は未対応です。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:130501.params[0..5][0];character_skill_trees.json:1305101..1305103;character_ranks.json:130501..130506",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/dr-ratio",
+        "verifiedAt": "2026-10-25",
+        "scope": "星魂0・Lv80・通常Lv1～6・虚数非弱点かつ未撃破の敵1体への通常攻撃1回です。レイシオ本人の最終ATKを参照します。帰納による会心率/会心ダメージなどのステータス変化は最終入力に含め、再加算しません。推論を解放済みなら既存の補正条件でONにし、攻撃時点の敵デバフ数3/4/5個以上に応じて与ダメージ30/40/50%を一度だけ追加します。同じ推論を属性与ダメージへ重複入力しないでください。通常攻撃自体はスキルの天賦追撃を発動せず、他のキャラクターによる追加ダメージ・追撃を自動合算しません。智者の短慮はデバフ数に含めません。途中撃破・敵条件変化・星魂1以上は未対応です。",
+        "verification": "tests/hsr/hsrCompletionPromotions.test.cjs: all-level independent NC/C/EV, ATK ownership, Deduction thresholds and scope; hsrToolInputs.test.cjs: all-action comparison, local stops and restoration"
+      }
     }
   ]
 }

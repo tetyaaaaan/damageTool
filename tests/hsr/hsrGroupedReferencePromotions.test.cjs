@@ -59,7 +59,7 @@ test("five direct single-target Basic attacks are promoted only with fixed-sourc
         assert.equal(engine.unsupportedAttackReason(attack), "", id + " passes engine validation");
     }
 
-    assert.equal(attackOf(data, "130501").support.status, "review", "an unverified sibling remains a reference value");
+    assert.equal(attackOf(data, "122001").support.status, "review", "an unverified sibling remains a reference value");
     assert.equal(attackOf(data, "140603").support.status, "displayOnly", "an unsupported compound attack remains unavailable");
     assert.equal(data.attacks.length, data.attackCoverage.total, "loader totals remain derived from the actual attack list");
 });

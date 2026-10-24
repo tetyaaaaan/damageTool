@@ -2327,7 +2327,7 @@ test("promoted attacks keep reviewed siblings, per-attack limits, source correct
     near(find("震天動地").nonCrit, 1188);
     profile("1305");
     near(find("産婆術").nonCrit, 1620);
-    assert.match(app.node("hsrResults").innerHTML, /data-support-status="review"/);
+    assert.doesNotMatch(app.node("hsrResults").innerHTML, /data-support-status="review"/);
     assert.match(app.node("hsrResults").innerHTML, /天賦の追撃は別/);
     app.state.modifierInputs["ratio-deduction-unlocked"] = true; app.node("hsrEnemyDebuffCount").value = "3";
     near(find("産婆術").nonCrit, 2106);
@@ -2588,4 +2588,23 @@ test("Hunt March compares realized enhanced hits without activation selection an
     saved.node("hsrTalentTrace").value="10";
     for(const [id,value]of [["hsrEidolon","1"],["hsrNormalTrace","7"],["hsrLevel","70"],["hsrWeakness","true"],["hsrToughnessState","broken"],["hsrStat-atk",""]]){const old=saved.node(id).value;saved.node(id).value=value;assert.equal(enhanced(saved).length,0,id);saved.node(id).value=old;}
     const mods=saved.state.data.structuredModifiers;saved.state.data.structuredModifiers=mods.filter(m=>m.id!=="trace:1224:122404:enhanced-damage");assert.equal(enhanced(saved).length,0,"missing native modifier cannot yield a partial result");saved.state.data.structuredModifiers=mods;
+});
+
+test("completion promotions keep source stats, optional corrections and saved party conditions separate", async () => {
+ const window={};vm.runInNewContext(read("games/js/hsrCalcData.js"),{window,fetch:async u=>({ok:true,json:async()=>JSON.parse(read(u.slice(1)))})});
+ const data=await window.HsrCalcData.load(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+ const profile=id=>app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:4000,critRate:50,critDamage:100,damageBonus:0}});
+ profile("1304");const follow=t=>t.calculate().find(r=>r.attack.name.startsWith("銃口の右には…"));
+ let r=follow(app);near(r.nonCrit,2520);near(r.crit,5040);near(r.expected,3780);assert.equal(r.attack.hitCount,7);
+ app.state.modifierInputs["aventurine-unnerve-active"]=true;r=follow(app);near(r.nonCrit,2520);near(r.crit,5418);near(r.expected,3969);assert.equal(r.applied.filter(m=>m.id==="trace:1304:130403:crit-vulnerability").length,1);
+ app.node("hsrUltimateTrace").value="";assert.equal(follow(app),undefined);assert.match(app.node("hsrResults").innerHTML,/アベンチュリンの必殺技Lv/);
+ app.state.modifierInputs["aventurine-unnerve-active"]=false;near(follow(app).expected,3780);app.node("hsrUltimateTrace").value="10";
+ for(const [id,value]of [["hsrEnemyCount","2"],["hsrEidolon","1"],["hsrToughnessState","broken"],["hsrTalentTrace",""]]){const old=app.node(id).value;app.node(id).value=value;assert.equal(follow(app),undefined,id);app.node(id).value=old;}
+ profile("1305");const basic=t=>t.calculate().find(r=>r.attack.name==="知識は力なり");near(basic(app).nonCrit,1080);near(basic(app).expected,1620);
+ app.state.modifierInputs["ratio-deduction-unlocked"]=true;
+ for(const[count,expected]of [[0,1620],[2,1620],[3,2106],[4,2268],[5,2430],[7,2430]]){app.node("hsrEnemyDebuffCount").value=String(count);near(basic(app).expected,expected);}
+ app.node("hsrEnemyDebuffCount").value="3";app.state.party[0]={characterId:"1309",level:80,eidolon:0,traceLevels:{skill:10}};app.state.modifierInputs["robin-skill-damage-active"]=true;near(basic(app).expected,2916);
+ app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(basic(saved).expected,2916);saved.state.party[0].characterId="";near(basic(saved).expected,2106);
+ saved.node("hsrNormalTrace").value="";assert.equal(basic(saved),undefined);assert.ok(saved.calculate().some(r=>r.attack.name==="三段階のパラドックス"));saved.node("hsrNormalTrace").value="6";
+ saved.state.modifierInputs["ratio-deduction-unlocked"]=false;near(basic(saved).expected,1620);
 });

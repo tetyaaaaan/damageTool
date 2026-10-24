@@ -61,7 +61,7 @@ test("the production HSR loader promotes only the three reviewed attacks with fi
     assert.equal(data.attackCoverage.review, data.attacks.filter((attack) => attack.support?.status !== "calculable" || !attack.support?.verified).length);
     assert.ok(counts.calculable >= 3);
 
-    assert.equal(attackOf(data, "130501").support.status, "review", "an unrelated reference attack remains review-only");
+    assert.equal(attackOf(data, "122001").support.status, "review", "an unrelated reference attack remains review-only");
     assert.equal(attackOf(data, "151320").support.status, "calculable", "an unrelated existing calculable attack stays calculable");
     assert.equal(attackOf(data, "140603").support.status, "displayOnly", "an unrelated unsupported compound attack stays display-only");
 });
@@ -139,7 +139,7 @@ test("Dr. Ratio Deduction applies only to eligible attacks at the manually enter
     const id = "traceNode:1305:1305103:deduction";
     const record = data.structuredModifiers.find((item) => item.id === id);
     assert.ok(record);
-    assert.deepEqual(Array.from(record.target.attackTypes), ["skill", "ultimate", "followUp"]);
+    assert.deepEqual(Array.from(record.target.attackTypes), ["normal", "skill", "ultimate", "followUp"]);
     assert.equal(record.activation.reference, "enemy.debuffCount");
     assert.equal(record.activation.inputKey, "ratio-deduction-unlocked");
 
@@ -157,7 +157,7 @@ test("Dr. Ratio Deduction applies only to eligible attacks at the manually enter
         assert.equal(selected.value, bonus);
         assert.equal(runtime.applicableToAttack(selected, attack), true);
         assert.equal(runtime.applicableToAttack(selected, followUp), true);
-        assert.equal(runtime.applicableToAttack(selected, normal), false);
+        assert.equal(runtime.applicableToAttack(selected, normal), true);
 
         const input = makeRequest(attack, 10, { debuffCount });
         input.modifiers = [selected];
