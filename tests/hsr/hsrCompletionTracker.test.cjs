@@ -1,0 +1,30 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const {skillRole}=require('../../scripts/reportHsrCompletion.cjs');
+const {loadProductionFixture,makeRequest,independentDirectDamage,assertClose}=require('./helpers/hsrDirectVerification.cjs');
+
+test('completion tracker distinguishes non-damaging support, conditional damage and field actions',()=>{
+ assert.match(skillRole({type:'BPSkill',effect:'Support',desc:'指定味方の与ダメージ+50%。'}),/^支援/);
+ assert.match(skillRole({type:'Ultra',effect:'Restore',desc:'味方全体のHPを回復する。'}),/^支援/);
+ assert.match(skillRole({type:'BPSkill',effect:'Support',desc:'味方の攻撃後に付加ダメージを与える。'}),/^条件付き/);
+ assert.match(skillRole({type:'Talent',effect:'Summon',desc:'精霊を召喚する。'}),/^召喚/);
+ assert.match(skillRole({type:'Maze',effect:'SingleAttack',desc:'敵にダメージを与える。'}),/^秘技/);
+});
+
+test('completion document tracks each runtime character exactly once and separates completion gates',async()=>{
+ const {data}=await loadProductionFixture();
+ const text=fs.readFileSync(path.join(__dirname,'../../docs/HSR_CHARACTER_COMPLETION.md'),'utf8');
+ const ids=[...text.matchAll(/^### (\d+) /gm)].map(m=>m[1]);
+ assert.equal(ids.length,data.characters.length);
+ assert.deepEqual([...ids].sort(),data.characters.map(c=>c.id).sort());
+ assert.match(text,/登録上の充足候補/);assert.match(text,/最終完成認定/);assert.match(text,/新しい計算処理が必要な攻撃の総数: \*\*未確定/);
+ for(const a of data.attacks)assert.ok(text.includes('|'+a.id+' '),'registered attack detail '+a.id);
+});
+
+test('the three E0 composition-confirmed supports independently verify their sole damaging combat action at all E0 levels',async()=>{
+ const {data,engine}=await loadProductionFixture();
+ const specs=[{id:'1211',attack:'121101',stat:'atk',curve:[50,60,70,80,90,100]},{id:'1110',attack:'111001',stat:'hp',curve:[25,30,35,40,45,50]},{id:'1313',attack:'131301',stat:'atk',curve:[50,60,70,80,90,100]}];
+ for(const s of specs){const a=data.attacks.find(a=>a.id===s.attack);assert.equal(a.support.status,'calculable');for(let level=1;level<=6;level++){for(const stats of [{atk:3123.5,hp:9876.25,def:2345.75,critRate:37.5,critDamage:83.25,damageBonus:11.5},{atk:2195.75,hp:12345.5,def:1876.125,critRate:71.25,critDamage:142.75,damageBonus:46.25}]){const input=makeRequest(a,level,{...stats,enemyLevel:82,resistance:27.5,defenseReduction:13.5});const expected=independentDirectDamage({...input,attack:{...input.attack,scalingStat:s.stat,multiplier:s.curve[level-1],hitCount:1}}),actual=engine.calculate(input);for(const k of ['nonCrit','crit','expected'])assertClose(actual[k],expected[k],s.id+' Lv'+level+' '+k);}}}
+});
