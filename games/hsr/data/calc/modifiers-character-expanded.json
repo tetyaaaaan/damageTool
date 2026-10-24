@@ -774,6 +774,78 @@
         "referenceUrl": "https://www.prydwen.gg/star-rail/characters/march-7th-swordmaster",
         "verifiedAt": "2026-10-24"
       }
+    },
+    {
+      "id": "trace:1218:121804:basic-five-roast",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1218",
+        "skillId": "121804"
+      },
+      "name": "心火計・既存焼尽5層の被ダメージ増加",
+      "description": "星魂0・Lv80・通常Lv1～6・天賦Lv1～10・炎非弱点かつ未撃破の敵1体。攻撃前から焼尽5層が付与済みで、攻撃中の敵・補正状態が変わらない場合の想定ダメージです。焼尽5層の被ダメージ増加を天賦Lvから1回だけ自動加算します。同じ焼尽を敵条件・手動補正へ重複入力しないでください。A4等の常時ATKは椒丘本人の完成済み最終ATKに含めます。燃焼DoTは敵ターンの別行であり合算しません。初回付与・5層未満・途中撃破・星魂1以上は未対応です。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          17.5,
+          19.25,
+          21,
+          22.75,
+          24.5,
+          26.25,
+          28.44,
+          30.625,
+          32.815,
+          35
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal"
+        ],
+        "attackIds": [
+          "121801"
+        ],
+        "elements": [
+          "Fire"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "心火計は攻撃前から焼尽5層がある状態を想定"
+      },
+      "stacking": {
+        "group": "jiaoqiu-ashen-roast-vulnerability",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "通常攻撃の明示した5層想定に限定。既存の焼尽と同じ非重複枠を使用。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes and release table",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121804.params[0..9][1,2]",
+        "referenceUrl": "https://hsr.keqingmains.com/q/jiaoqiu-quickguide/",
+        "verifiedAt": "2026-10-25",
+        "precisionNote": "既存の椒丘自身用5層補正と同じ正式版テーブル精度を採用。固定SHAのLv7～9の丸め値との差を混在させない。",
+        "scope": "星魂0・Lv80・通常Lv1～6・天賦Lv1～10・炎非弱点かつ未撃破の敵1体。攻撃前から焼尽5層が付与済みで、攻撃中の敵・補正状態が変わらない場合の想定ダメージです。焼尽5層の被ダメージ増加を天賦Lvから1回だけ自動加算します。同じ焼尽を敵条件・手動補正へ重複入力しないでください。A4等の常時ATKは椒丘本人の完成済み最終ATKに含めます。燃焼DoTは敵ターンの別行であり合算しません。初回付与・5層未満・途中撃破・星魂1以上は未対応です。"
+      }
     }
   ]
 }

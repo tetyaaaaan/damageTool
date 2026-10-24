@@ -2608,3 +2608,25 @@ test("completion promotions keep source stats, optional corrections and saved pa
  saved.node("hsrNormalTrace").value="";assert.equal(basic(saved),undefined);assert.ok(saved.calculate().some(r=>r.attack.name==="三段階のパラドックス"));saved.node("hsrNormalTrace").value="6";
  saved.state.modifierInputs["ratio-deduction-unlocked"]=false;near(basic(saved).expected,1620);
 });
+
+
+test("Jiaoqiu and Lingsha basics compare without availability checks and preserve native/support scopes", async () => {
+ const window={};vm.runInNewContext(read("games/js/hsrCalcData.js"),{window,fetch:async u=>({ok:true,json:async()=>JSON.parse(read(u.slice(1)))})});
+ const data=await window.HsrCalcData.load(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+ const profile=(id,traces=[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}])=>app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,traces,stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+ const basic=t=>t.calculate().find(r=>r.attack.name.startsWith(t.state.characterId==="1218"?"心火計":"供香"));
+ profile("1218");let r=basic(app);near(r.nonCrit,1458);near(r.crit,2916);near(r.expected,2187);
+ assert.equal(r.applied.filter(m=>m.id==="trace:1218:121804:basic-five-roast").length,1);
+ assert.equal(Object.keys(app.state.modifierInputs).length,0,"assumed five-stack basic needs no availability toggle");
+ app.state.modifierInputs["jiaoqiu-five-roast-zone"]=true;near(basic(app).nonCrit,1458);
+ app.state.modifierInputs["jiaoqiu-roast-dot-tick"]=true;app.state.modifierInputs["jiaoqiu-roast-dot-stacks"]=5;near(basic(app).nonCrit,1458);
+ app.state.party[0]={characterId:"1309",level:80,eidolon:0,traceLevels:{skill:10}};app.state.modifierInputs["robin-skill-damage-active"]=true;near(basic(app).expected,3280.5);
+ app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(basic(saved).expected,3280.5);saved.state.party[0].characterId="";near(basic(saved).expected,2187);
+ saved.node("hsrNormalTrace").value="";assert.equal(basic(saved),undefined);assert.ok(saved.calculate().some(r=>r.attack.name.startsWith("炊陣妙法")));saved.node("hsrNormalTrace").value="6";
+ const records=saved.state.data.structuredModifiers;saved.state.data.structuredModifiers=records.filter(m=>m.id!=="trace:1218:121804:basic-five-roast");assert.equal(basic(saved),undefined);saved.state.data.structuredModifiers=records;
+ profile("1218",[{type:"Normal",level:6}]);assert.equal(basic(app),undefined,"Talent is required for native Roast");assert.match(app.node("hsrResults").innerHTML,/天賦/);
+ app.state.party[0].characterId="";app.state.modifierInputs["robin-skill-damage-active"]=false;
+ profile("1222");near(basic(app).nonCrit,1080);near(basic(app).expected,1620);assert.equal(basic(app).applied.some(m=>m.id==="trace:1218:121804:basic-five-roast"),false);
+ app.state.modifierInputs["break-befog-active"]=true;near(basic(app).nonCrit,1080,"Break-only Befog cannot buff the direct basic");
+ for(const [id,value]of [["hsrEidolon","1"],["hsrNormalTrace","7"],["hsrLevel","70"],["hsrWeakness","true"],["hsrToughnessState","broken"],["hsrStat-atk",""]]){const old=app.node(id).value;app.node(id).value=value;assert.equal(basic(app),undefined,id);app.node(id).value=old;}
+});

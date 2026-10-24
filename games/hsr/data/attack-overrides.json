@@ -2588,6 +2588,113 @@
         "scope": "星魂0・Lv80・通常Lv1～6・虚数非弱点かつ未撃破の敵1体への通常攻撃1回です。レイシオ本人の最終ATKを参照します。帰納による会心率/会心ダメージなどのステータス変化は最終入力に含め、再加算しません。推論を解放済みなら既存の補正条件でONにし、攻撃時点の敵デバフ数3/4/5個以上に応じて与ダメージ30/40/50%を一度だけ追加します。同じ推論を属性与ダメージへ重複入力しないでください。通常攻撃自体はスキルの天賦追撃を発動せず、他のキャラクターによる追加ダメージ・追撃を自動合算しません。智者の短慮はデバフ数に含めません。途中撃破・敵条件変化・星魂1以上は未対応です。",
         "verification": "tests/hsr/hsrCompletionPromotions.test.cjs: all-level independent NC/C/EV, ATK ownership, Deduction thresholds and scope; hsrToolInputs.test.cjs: all-action comparison, local stops and restoration"
       }
+    },
+    {
+      "id": "121801",
+      "characterId": "1218",
+      "name": "心火計（焼尽5層）",
+      "requiredTraceLevelRanges": {
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "requiredModifierIds": [
+        "trace:1218:121804:basic-five-roast"
+      ],
+      "sourceSkillId": "121801",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "element": "Fire",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "calculationScope": "independently-checked-direct-instance",
+      "calculationNote": "星魂0・Lv80・通常Lv1～6・天賦Lv1～10・炎非弱点かつ未撃破の敵1体。攻撃前から焼尽5層が付与済みで、攻撃中の敵・補正状態が変わらない場合の想定ダメージです。焼尽5層の被ダメージ増加を天賦Lvから1回だけ自動加算します。同じ焼尽を敵条件・手動補正へ重複入力しないでください。A4等の常時ATKは椒丘本人の完成済み最終ATKに含めます。燃焼DoTは敵ターンの別行であり合算しません。初回付与・5層未満・途中撃破・星魂1以上は未対応です。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの全採用Lv・参照ATK・単発全成分を確認し、非対称ステータスと補正変更を独立検証。既存焼尽5層を仮定し、付与タイミングを推測しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121801.params[0..5][0]",
+        "referenceUrl": "https://hsr.keqingmains.com/q/jiaoqiu-quickguide/",
+        "verifiedAt": "2026-10-25",
+        "scope": "星魂0・Lv80・通常Lv1～6・天賦Lv1～10・炎非弱点かつ未撃破の敵1体。攻撃前から焼尽5層が付与済みで、攻撃中の敵・補正状態が変わらない場合の想定ダメージです。焼尽5層の被ダメージ増加を天賦Lvから1回だけ自動加算します。同じ焼尽を敵条件・手動補正へ重複入力しないでください。A4等の常時ATKは椒丘本人の完成済み最終ATKに含めます。燃焼DoTは敵ターンの別行であり合算しません。初回付与・5層未満・途中撃破・星魂1以上は未対応です。",
+        "verification": "tests/hsr/hsrCompletionBasics.test.cjs: all E0 levels, independent NC/C/EV, ATK/HP/DEF isolation, native debuff and support scopes; hsrToolInputs: local stops and restoration"
+      }
+    },
+    {
+      "id": "122201",
+      "characterId": "1222",
+      "name": "供香",
+      "sourceSkillId": "122201",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "element": "Fire",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120,
+        130,
+        140
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "calculationScope": "independently-checked-direct-instance",
+      "calculationNote": "星魂0・Lv80・通常Lv1～6・炎非弱点かつ未撃破の敵1体への通常攻撃1回。霊砂本人の完成済み最終ATK（A2の撃破特効からの変換・装備等を含む）を参照し、常時効果を再加算しません。浮元は別行動であり合算しません。芳酔・酩酊の撃破専用被ダメージ増加は通常攻撃へ適用しません。EP回復、撃破/超撃破、外部の追加ダメージ、途中撃破、星魂1以上はこの通常攻撃の合計に含めません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの全採用Lv・参照ATK・単発全成分を確認し、非対称ステータスと補正変更を独立検証。浮元の別行動を合算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:122201.params[0..5][0]",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/lingsha",
+        "verifiedAt": "2026-10-25",
+        "scope": "星魂0・Lv80・通常Lv1～6・炎非弱点かつ未撃破の敵1体への通常攻撃1回。霊砂本人の完成済み最終ATK（A2の撃破特効からの変換・装備等を含む）を参照し、常時効果を再加算しません。浮元は別行動であり合算しません。芳酔・酩酊の撃破専用被ダメージ増加は通常攻撃へ適用しません。EP回復、撃破/超撃破、外部の追加ダメージ、途中撃破、星魂1以上はこの通常攻撃の合計に含めません。",
+        "verification": "tests/hsr/hsrCompletionBasics.test.cjs: all E0 levels, independent NC/C/EV, ATK/HP/DEF isolation, native debuff and support scopes; hsrToolInputs: local stops and restoration"
+      }
     }
   ]
 }

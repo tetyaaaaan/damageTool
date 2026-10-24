@@ -65,11 +65,13 @@
         if (modifier.primaryTargetOnly && attack?.target === "adjacent") return false;
         if (modifier.adjacentTargetOnly && attack?.target !== "adjacent") return false;
         const attackTypes = modifier.target?.attackTypes || ["all"];
+        const attackIds = modifier.target?.attackIds || [];
         const elements = modifier.target?.elements || [];
         const attackType = attack?.attackType || attack?.type || "normal";
         const attackTags = Array.isArray(attack?.tags) ? attack.tags : [];
         const element = attack?.element || "";
-        return (attackTypes.includes("all") || attackTypes.includes(attackType) || attackTags.some((tag) => attackTypes.includes(tag)))
+        return (!attackIds.length || attackIds.includes(String(attack?.id || "")))
+            && (attackTypes.includes("all") || attackTypes.includes(attackType) || attackTags.some((tag) => attackTypes.includes(tag)))
             && (!elements.length || elements.includes(element));
     }
 
