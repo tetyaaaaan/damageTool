@@ -2379,6 +2379,107 @@
         ],
         "pawnAttackPercentAtCap": 25
       }
+    },
+    {
+      "id": "122408",
+      "characterId": "1224",
+      "name": "一に眉間、二に心臓",
+      "element": "Imaginary",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 3,
+      "hitCountLabel": "3段合計",
+      "canCrit": true,
+      "multipliers": [
+        40,
+        48,
+        56,
+        64,
+        72,
+        80
+      ],
+      "sourceSkillId": "122408",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "requiredTraceLevelRanges": {
+        "normal": {
+          "minimum": 1,
+          "maximum": 6
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "requiredModifierIds": ["trace:1224:122404:enhanced-damage"],
+      "comparisonStates": [
+        {
+          "hitCount": 3,
+          "label": "3段",
+          "note": "必殺技強化なし・師匠：調和/虚無/存護/豊穣"
+        },
+        {
+          "hitCount": 4,
+          "label": "4段",
+          "note": "必殺技強化なし・師匠：調和/虚無/存護/豊穣"
+        },
+        {
+          "hitCount": 5,
+          "label": "5段",
+          "note": "通常時／必殺技強化後・師匠：調和/虚無/存護/豊穣"
+        },
+        {
+          "hitCount": 6,
+          "label": "6段",
+          "note": "通常時／必殺技強化後・師匠：調和/虚無/存護/豊穣"
+        },
+        {
+          "hitCount": 7,
+          "label": "7段",
+          "note": "必殺技強化後のみ・師匠：調和/虚無/存護/豊穣"
+        },
+        {
+          "hitCount": 8,
+          "label": "8段",
+          "note": "必殺技強化後のみ・師匠：調和/虚無/存護/豊穣"
+        }
+      ],
+      "conditionText": "支援系師匠・チャージ7以上の強化状態・各実段数の比較（抽選平均ではない）",
+      "calculationNote": "星魂0・Lv80・通常Lv1～6・天賦Lv1～10・敵1体。師匠が調和・虚無・存護・豊穣のいずれかで、強化通常の各段に付加ダメージが発生しない状態を想定します。虚数非弱点・未撃破で、玲瓏による師匠属性の削靭も含め、途中の弱点撃破・敵消滅・ステータス/補正変化なしに限定します。3～6段は通常時、5～8段は必殺技強化後に発生し得る実段数です。各行は別の抽選結果の比較値で、合算しません。期待値欄は会心の期待値で、段数抽選の平均ではありません。天賦の強化中与ダメージ40～80%を天賦Lvから1回だけ自動加算するため、入力済み属性与ダメージへこの分を含めないでください。師匠が知恵・壊滅・巡狩・記憶・愉悦の場合の付加ダメージ、撃破/超撃破、師匠への行動後支援は含まず、この師匠条件での全体計算は未対応です。",
+      "calculationScope": "independently-checked-enhanced-states",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの倍率・天賦・師匠条件を照合。付加ダメージのない師匠条件で全段を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:122408.params[0..5];122404.params[0..9];122402;122403;character_skill_trees.json:1224101..1224103;character_ranks.json:122401..122406",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/march-7th-swordmaster",
+        "verifiedAt": "2026-10-24",
+        "scope": "星魂0・Lv80・通常Lv1～6・天賦Lv1～10・敵1体。師匠が調和・虚無・存護・豊穣のいずれかで、強化通常の各段に付加ダメージが発生しない状態を想定します。虚数非弱点・未撃破で、玲瓏による師匠属性の削靭も含め、途中の弱点撃破・敵消滅・ステータス/補正変化なしに限定します。3～6段は通常時、5～8段は必殺技強化後に発生し得る実段数です。各行は別の抽選結果の比較値で、合算しません。期待値欄は会心の期待値で、段数抽選の平均ではありません。天賦の強化中与ダメージ40～80%を天賦Lvから1回だけ自動加算するため、入力済み属性与ダメージへこの分を含めないでください。師匠が知恵・壊滅・巡狩・記憶・愉悦の場合の付加ダメージ、撃破/超撃破、師匠への行動後支援は含まず、この師匠条件での全体計算は未対応です。",
+        "verification": "tests/hsr/hsrMarchEnhanced.test.cjs: all supported Normal/Talent levels, realized hits, independent NC/C/EV and reference-stat isolation; hsrToolInputs.test.cjs: assumed state list, local stop, support and restoration",
+        "masterPathsWithoutAdditionalDamage": [
+          "Harmony",
+          "Nihility",
+          "Preservation",
+          "Abundance"
+        ],
+        "baseHits": 3,
+        "baseExtraHitChance": 60,
+        "maximumExtraHits": 3,
+        "ultimateInitialHitAddition": 2,
+        "ultimateExtraHitChanceAddition": 20
+      }
     }
   ]
 }

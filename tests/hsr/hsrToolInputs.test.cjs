@@ -2563,3 +2563,25 @@ test("Jade capped-Pawn Follow-Up uses final stats once and only needs Ultimate L
     app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(follow(saved).expected,4536);assert.equal(saved.state.modifierInputs["jade-enhanced-followup-active"],true);
     saved.node("hsrEidolon").value="1";assert.equal(follow(saved),undefined);
 });
+
+test("Hunt March compares realized enhanced hits without activation selection and stops only incomplete enhanced rows", async () => {
+    const window={};vm.runInNewContext(read("games/js/hsrCalcData.js"),{window,fetch:async u=>({ok:true,json:async()=>JSON.parse(read(u.slice(1)))})});
+    const data=await window.HsrCalcData.load(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+    app.window.HsrTool.applyProfileCharacter({id:"1224",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+    const enhanced=target=>target.calculate().filter(r=>r.attack.name.startsWith("一に眉間、二に心臓・"));
+    let values=enhanced(app);assert.equal(values.length,6);
+    values.forEach((r,i)=>{near(r.nonCrit,1555.2*(i+3));near(r.crit,r.nonCrit*2);near(r.expected,r.nonCrit*1.5);assert.equal(r.applied.filter(m=>m.id==="trace:1224:122404:enhanced-damage").length,1);});
+    near(app.calculate().find(r=>r.attack.name==="妖魔を祓う瑠璃剣").nonCrit,1080);
+    near(app.calculate().find(r=>r.attack.name==="蓋世の傑物、三月なのか").nonCrit,2592);
+    assert.match(app.node("hsrResults").innerHTML,/想定：7段・必殺技強化後のみ・師匠：調和\/虚無\/存護\/豊穣/);
+    assert.match(app.node("hsrResults").innerHTML,/段数抽選の平均ではありません/);
+    assert.equal(Object.keys(app.state.modifierInputs).length,0,"no availability checkbox or new saved state is needed");
+    app.state.party[0]={characterId:"1309",level:80,eidolon:0,traceLevels:{skill:10}};app.state.modifierInputs["robin-skill-damage-active"]=true;
+    values=enhanced(app);near(values[0].nonCrit,5961.6);
+    app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(enhanced(saved)[0].expected,8942.4);
+    saved.state.party[0].characterId="";near(enhanced(saved)[0].expected,6998.4);
+    saved.node("hsrTalentTrace").value="";assert.equal(enhanced(saved).length,0);assert.ok(saved.calculate().some(r=>r.attack.name==="妖魔を祓う瑠璃剣"));assert.ok(saved.calculate().some(r=>r.attack.name==="蓋世の傑物、三月なのか"));
+    saved.node("hsrTalentTrace").value="10";
+    for(const [id,value]of [["hsrEidolon","1"],["hsrNormalTrace","7"],["hsrLevel","70"],["hsrWeakness","true"],["hsrToughnessState","broken"],["hsrStat-atk",""]]){const old=saved.node(id).value;saved.node(id).value=value;assert.equal(enhanced(saved).length,0,id);saved.node(id).value=old;}
+    const mods=saved.state.data.structuredModifiers;saved.state.data.structuredModifiers=mods.filter(m=>m.id!=="trace:1224:122404:enhanced-damage");assert.equal(enhanced(saved).length,0,"missing native modifier cannot yield a partial result");saved.state.data.structuredModifiers=mods;
+});

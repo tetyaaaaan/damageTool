@@ -262,6 +262,10 @@
     if (attack.enemyDebuffMinimum !== undefined && state.enemy.debuffCount < attack.enemyDebuffMinimum) issue("敵のデバフ数に" + attack.enemyDebuffMinimum + "以上を指定してください。", "hsrEnemyDebuffCount");
     if (attack.enemyCountExact !== undefined && state.enemy.count !== attack.enemyCountExact) issue("この攻撃は敵" + attack.enemyCountExact + "体の条件のみ計算対応です。", "hsrEnemyCount");
     if (attack.enemyCountMinimum !== undefined && state.enemy.count < attack.enemyCountMinimum) issue("この攻撃は敵" + attack.enemyCountMinimum + "体以上の条件のみ計算対応です。", "hsrEnemyCount");
+    for (const id of attack.requiredModifierIds || []) {
+      const required = modifiers(attack).filter(item => item.id === id && item.enabled && item.applicable && Number.isFinite(item.value));
+      if (required.length !== 1) issue(`${attack.name}の固有補正を読み込めませんでした。ページを再読み込みしてください。`);
+    }
     const conditions = [...(attack.modifierConditions || [])];
     if (attack.modifierInputKey && !comparisonCondition(attack)) conditions.push({ inputKey: attack.modifierInputKey, minimum: attack.modifierInputMinimum ?? 0, default: attack.modifierInputDefault ?? 0 });
     for (const condition of conditions) {
@@ -1196,6 +1200,15 @@
       ${!components && hits > 1 ? `<p class="hsr-formula-note">同じ基礎ダメージを${hits}ヒット分集計します。1ヒット平均：${detailNumber(result.perHit.nonCrit)}${result.attack.target === "bounce" ? "。命中先の分配は再現しません。" : ""}</p>` : ""}${damageValues(result)}</section>`;
   }
 
+  function resolvedAttackComparisons(selected) {
+    const attack = resolvedAttack(selected);
+    if (!Array.isArray(selected.comparisonStates)) return [attack];
+    return selected.comparisonStates.map(variant => ({ ...attack,
+      name: `${attack.name}・${variant.label}`, hitCount: variant.hitCount, hitCountLabel: `${variant.hitCount}段合計`,
+      comparisonStateNote: `${variant.label}・${variant.note}`
+    }));
+  }
+
   function modifierAudit(result, targetLabel) {
     if (result.breakdown?.damageFormula === "componentSequence") return Object.entries(result.components || {}).map(([key, component]) => modifierAudit(component, component.componentName || key)).join("");
     if (result.components) return modifierAudit(result.components.direct, "通常部分") + modifierAudit(result.components.break, "天賦撃破");
@@ -1276,7 +1289,7 @@
         const partialJoint = JOINT_ATTACK_SKILLS.has(String(attack.sourceSkillId || attack.id)) && attackSupport(attack).status === "review";
         const scope = [ATTACK_LABELS[attack.type] || attack.type, isJointAttack(attack) ? "連携" : "", attack.type !== "followUp" && attack.tags?.includes("followUp") ? "追加攻撃" : "", attack.traceLevelLabel || `Lv${attack.traceLevel}`, TARGET_LABELS[value.attack.target] || value.attack.target, value.attack.hitCountLabel || `${value.attack.hitCount || 1}ヒット`].filter(Boolean).join("・");
         const values = value.attack.canCrit ? [["非会心", value.nonCrit], ["会心", value.crit], ["期待値", value.expected]] : [["ダメージ", value.nonCrit], ["会心", null], ["期待値", null]];
-        addRow(resultGroup(attack), name, scope, values, (attack.resolvedMultiplierComponents?.every(component => component.name) && attack.resolvedMultiplierComponents.length ? `<p class="hsr-formula-note">${attack.resolvedMultiplierComponents.map(component => `${esc(component.name)} ${detailNumber(component.value)}%`).join(" ＋ ")} ＝ ${detailNumber(attack.multiplier)}%</p>` : "") + damageBreakdown(value, target || "1対象分") + `<details class="hsr-result-audit"><summary>適用・除外された補正</summary>${modifierAudit(value, target || "1対象分")}</details>`, supportBadge(attack) + (publicAttackNote(attack) ? `<details class="hsr-result-scope"><summary>計算の範囲</summary><p>${esc(publicAttackNote(attack))}</p></details>` : "") + (partialJoint ? '<p class="hsr-formula-note">現在のレコードは単一成分の参考値です。キャラクターと精霊の全成分を合算した連携ダメージではありません。</p>' : ""), attackSupport(attack).status === "review", partialJoint ? "連携全体の合計には未対応" : comparisonCondition(attack) ? "想定：" + comparisonAssumption(attack) : ["enhancedNormal", "enhancedSkill"].includes(attack.type) ? "強化状態を想定したダメージ" : attack.id === "1151201" ? "精霊自身の最終値・フィーバー中の1回分" : "");
+        addRow(resultGroup(attack), name, scope, values, (attack.resolvedMultiplierComponents?.every(component => component.name) && attack.resolvedMultiplierComponents.length ? `<p class="hsr-formula-note">${attack.resolvedMultiplierComponents.map(component => `${esc(component.name)} ${detailNumber(component.value)}%`).join(" ＋ ")} ＝ ${detailNumber(attack.multiplier)}%</p>` : "") + damageBreakdown(value, target || "1対象分") + `<details class="hsr-result-audit"><summary>適用・除外された補正</summary>${modifierAudit(value, target || "1対象分")}</details>`, supportBadge(attack) + (publicAttackNote(attack) ? `<details class="hsr-result-scope"><summary>計算の範囲</summary><p>${esc(publicAttackNote(attack))}</p></details>` : "") + (partialJoint ? '<p class="hsr-formula-note">現在のレコードは単一成分の参考値です。キャラクターと精霊の全成分を合算した連携ダメージではありません。</p>' : ""), attackSupport(attack).status === "review", partialJoint ? "連携全体の合計には未対応" : attack.comparisonStateNote ? "想定：" + attack.comparisonStateNote : comparisonCondition(attack) ? "想定：" + comparisonAssumption(attack) : ["enhancedNormal", "enhancedSkill"].includes(attack.type) ? "強化状態を想定したダメージ" : attack.id === "1151201" ? "精霊自身の最終値・フィーバー中の1回分" : "");
       });
     });
     const breakDetails = (value, isSuper) => `<dl>${(isSuper ? [["撃破基礎値",value.base],["基礎削靭値",value.toughnessDamage],["撃破効率倍率",value.breakEfficiency],["補正後削靭値",value.effectiveToughnessDamage],["発生倍率",value.conversionMultiplier],["撃破特効倍率",value.breakEffect],["防御倍率",value.defense],["耐性倍率",value.resistance],["被ダメージ倍率",value.vulnerability],["超撃破与ダメージ倍率",value.superBreakBonus]] : [["撃破基礎値",value.base],["属性・攻撃倍率",value.multiplier],["撃破特効倍率",value.effect],["防御倍率",value.defense],["耐性倍率",value.resistance],["最大靭性倍率",value.toughnessScale],["被ダメージ倍率",value.vulnerability]]).map(([label, amount]) => `<div><dt>${label}</dt><dd>${detailNumber(amount)}</dd></div>`).join("")}</dl><p class="hsr-formula-note">独立した1回分です。通常攻撃・他の撃破成分とは合算しません。</p>${modifierAudit(value, isSuper ? "超撃破" : "弱点撃破")}`;
@@ -1301,8 +1314,8 @@
 
   function renderAttackPreview() {
     if (!character()) return;
-    renderResults([], null, [], availableAttacks().map(attack => attackSupport(attack).status === "displayOnly" ? attack
-      : { ...attack, preview: true, inputIssues: ["ステータスを入力し、「ダメージ計算」で比較できます。"] }));
+    renderResults([], null, [], availableAttacks().flatMap(attack => attackSupport(attack).status === "displayOnly" ? [attack]
+      : resolvedAttackComparisons(attack).map(variant => ({ ...variant, preview: true, inputIssues: ["ステータスを入力し、「ダメージ計算」で比較できます。"] }))));
     conditionAudit = null;
     updateConditionSummary();
   }
@@ -1409,7 +1422,7 @@
     const available = availableAttacks();
     const supplemental = independentBreak ? [] : supplementalAttacks();
     const unavailableAttacks = independentBreak ? [] : supplemental.filter((attack) => attackSupport(attack).status === "displayOnly").concat(available.filter((attack) => attackSupport(attack).status === "displayOnly").concat((state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status === "displayOnly")));
-    let attacks = independentBreak ? [] : available.filter((attack) => attackSupport(attack).status !== "displayOnly").map(resolvedAttack).concat(supplemental.filter((attack) => attackSupport(attack).status !== "displayOnly"));
+    let attacks = independentBreak ? [] : available.filter((attack) => attackSupport(attack).status !== "displayOnly").flatMap(resolvedAttackComparisons).concat(supplemental.filter((attack) => attackSupport(attack).status !== "displayOnly"));
     if (!attacks.length && !independentBreak) {
       renderWarnings([]);
       renderResults([], null, [], unavailableAttacks);

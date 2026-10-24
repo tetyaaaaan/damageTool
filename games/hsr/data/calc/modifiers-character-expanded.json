@@ -704,6 +704,75 @@
         "verifiedAt": "2026-10-24",
         "referenceUrl": "https://www.prydwen.gg/star-rail/characters/jade"
       }
+    },
+    {
+      "id": "trace:1224:122404:enhanced-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1224",
+        "skillId": "122404"
+      },
+      "name": "師匠、わかりました！・強化通常の与ダメージ",
+      "description": "チャージ7以上の強化通常を比較する各行に、天賦Lvの与ダメージ上昇を1回だけ加算します。入力済みの属性与ダメージにこの効果を含めないでください。通常手番の通常攻撃・必殺技には加算しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          40,
+          44,
+          48,
+          52,
+          56,
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "levelInputLabel": "三月なのかの天賦Lv"
+      },
+      "target": {
+        "owner": "self",
+        "elements": [
+          "Imaginary"
+        ],
+        "attackTypes": [
+          "enhancedNormal"
+        ],
+        "attackIds": [
+          "122408"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "チャージ7以上で即時行動した強化通常の想定に必ず含む効果"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "stacking": {
+        "group": "trace:1224:122404:enhanced-damage",
+        "rule": "nonStacking"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:122404.params[0..9][1]",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/march-7th-swordmaster",
+        "verifiedAt": "2026-10-24"
+      }
     }
   ]
 }
