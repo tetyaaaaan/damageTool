@@ -2518,3 +2518,48 @@ test("major actions compare assumed states without selecting availability and st
     const restored=await tool(app.storage,data);near(find(restored,follow).expected,4191.264);restored.state.party[0].characterId="";near(find(restored,follow).expected,3193.344);
     assert.match(restored.node("hsrResults").innerHTML,/data-support-status="review"/);
 });
+
+
+test("Feixiao Skill keeps component corrections separate and never adds the independent Follow-Up row twice", async () => {
+    const window={};vm.runInNewContext(read("games/js/hsrCalcData.js"),{window,fetch:async u=>({ok:true,json:async()=>JSON.parse(read(u.slice(1)))})});
+    const data=await window.HsrCalcData.load(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+    app.window.HsrTool.applyProfileCharacter({id:"1220",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+    const skill=target=>target.calculate().find(r=>r.breakdown?.damageFormula==="componentSequence");
+    let result=skill(app);near(result.components.skill.nonCrit,2160);near(result.components.followUp.nonCrit,1900.8);near(result.nonCrit,4060.8);near(result.crit,8121.6);near(result.expected,6091.2);
+    assert.equal(app.state.modifierInputs["feixiao-previous-followup-buff"],undefined);
+    const independent=app.calculate().find(r=>r.attack.name==="雷狩・追加攻撃1回");near(independent.nonCrit,1900.8);near(result.nonCrit,result.components.skill.nonCrit+independent.nonCrit);
+    assert.equal(result.components.skill.applied.some(m=>m.id==="trace:1220:122004:followup-damage"),false);
+    assert.equal(result.components.followUp.applied.filter(m=>m.id==="trace:1220:122004:followup-damage").length,1);
+    app.state.modifierInputs["feixiao-formshift-unlocked"]=true;
+    result=skill(app);near(result.components.skill.crit,4320);near(result.components.followUp.crit,4485.888);near(result.expected,6433.344);
+    app.state.modifierInputs["feixiao-previous-followup-buff"]=true;
+    result=skill(app);near(result.components.skill.nonCrit,3456);near(result.components.followUp.nonCrit,1900.8);near(result.nonCrit,5356.8);
+    for(const stat of ["atk","hp","def"]){const value=Number(app.node("hsrStat-"+stat).value);app.node("hsrStat-"+stat).value=String(value+413.5);near(skill(app).nonCrit,result.nonCrit*(stat==="atk"?(value+413.5)/value:1));app.node("hsrStat-"+stat).value=String(value);}
+    app.state.modifierInputs["feixiao-previous-followup-buff"]=false;
+    app.state.party[0]={characterId:"1309",level:80,eidolon:0,traceLevels:{skill:10}};app.state.modifierInputs["robin-skill-damage-active"]=true;
+    result=skill(app);near(result.components.skill.nonCrit,3240);near(result.components.followUp.nonCrit,2494.8);near(result.nonCrit,5734.8);near(result.expected,9051.264);
+    app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(skill(saved).expected,9051.264);
+    saved.state.party[0].characterId="";near(skill(saved).expected,6433.344);
+    assert.match(saved.node("hsrResults").innerHTML,/スキル本体＋追加攻撃の合計/);
+    saved.node("hsrSkillTrace").value="";assert.equal(skill(saved),undefined);assert.ok(saved.calculate().some(r=>r.attack.name==="雷狩・追加攻撃1回"));
+    saved.node("hsrSkillTrace").value="10";saved.node("hsrTalentTrace").value="";assert.equal(skill(saved),undefined);assert.ok(saved.calculate().some(r=>r.attack.name==="閃裂"));
+    saved.node("hsrTalentTrace").value="10";
+    for(const[key,value]of [["hsrEidolon","1"],["hsrLevel","70"],["hsrWeakness","true"],["hsrToughnessState","broken"]]){const old=saved.node(key).value;saved.node(key).value=value;assert.equal(skill(saved),undefined,key);saved.node(key).value=old;}
+    const kept=saved.state.data.attacks;saved.state.data.attacks=kept.filter(a=>a.id!=="122004");assert.equal(skill(saved),undefined,"missing component must stop the Skill locally");saved.state.data.attacks=kept;
+});
+
+test("Jade capped-Pawn Follow-Up uses final stats once and only needs Ultimate Lv when its boost is selected", async () => {
+    const window={};vm.runInNewContext(read("games/js/hsrCalcData.js"),{window,fetch:async u=>({ok:true,json:async()=>JSON.parse(read(u.slice(1)))})});
+    const data=await window.HsrCalcData.load(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+    app.window.HsrTool.applyProfileCharacter({id:"1314",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:220,damageBonus:0}});
+    const follow=target=>target.calculate().find(r=>r.attack.name==="富を削ぐ毒牙（質草50層・敵1体）");
+    let result=follow(app);near(result.nonCrit,1296);near(result.crit,4147.2);near(result.expected,2721.6);assert.equal(result.breakdown.critDamagePercent,220,"the final 50-stack CRIT DMG is not added twice");
+    app.state.modifierInputs["jade-enhanced-followup-active"]=true;
+    result=follow(app);near(result.nonCrit,2160);near(result.crit,6912);near(result.expected,4536);near(result.breakdown.multiplierAddition,80);
+    assert.equal(result.applied.filter(m=>m.id==="trace:1314:131403:followup-multiplier").length,1);
+    app.node("hsrUltimateTrace").value="";assert.equal(follow(app),undefined);assert.ok(app.calculate().some(r=>r.attack.name==="むしり取る鞭打ち"));
+    app.state.modifierInputs["jade-enhanced-followup-active"]=false;near(follow(app).nonCrit,1296);
+    app.node("hsrUltimateTrace").value="10";app.state.modifierInputs["jade-enhanced-followup-active"]=true;
+    app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(follow(saved).expected,4536);assert.equal(saved.state.modifierInputs["jade-enhanced-followup-active"],true);
+    saved.node("hsrEidolon").value="1";assert.equal(follow(saved),undefined);
+});

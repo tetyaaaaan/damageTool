@@ -562,6 +562,148 @@
         "verifiedAt": "2026-10-24",
         "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json"
       }
+    },
+    {
+      "id": "trace:1220:122004:prior-buff-skill",
+      "source": {
+        "kind": "trace",
+        "id": "1220",
+        "skillId": "122004"
+      },
+      "name": "雷狩・スキル発動前からの与ダメージ上昇",
+      "description": "スキル発動前から雷狩の与ダメージ上昇が持続中で、入力済み与ダメージに未算入の場合だけON。本体へ追加します。直後の雷狩には別の必須補正が1回だけ入り、この選択で二重加算しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          30,
+          33,
+          36,
+          39,
+          42,
+          45,
+          48.75,
+          52.5,
+          56.25,
+          60
+        ],
+        "levelInputLabel": "飛霄の天賦Lv"
+      },
+      "target": {
+        "owner": "self",
+        "elements": [
+          "Wind"
+        ],
+        "attackTypes": [
+          "skill"
+        ],
+        "attackIds": [
+          "122002"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "feixiao-previous-followup-buff",
+        "default": false,
+        "conditionText": "スキル発動前から雷狩の与ダメージ上昇が持続中で、入力済み与ダメージに未算入の場合だけON。本体へ追加します。直後の雷狩には別の必須補正が1回だけ入り、この選択で二重加算しません。"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "inputPolicy": "conditional",
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "stacking": {
+        "group": "trace:1220:122004:prior-buff-skill",
+        "rule": "nonStacking"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:122004.params[0..9][4]",
+        "verifiedAt": "2026-10-24",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/feixiao"
+      }
+    },
+    {
+      "id": "trace:1314:131403:followup-multiplier",
+      "source": {
+        "kind": "trace",
+        "id": "1314",
+        "skillId": "131403"
+      },
+      "name": "必殺技・天賦追加攻撃の倍率強化",
+      "description": "必殺技後の強化追撃が残っている時だけON。次の2回の天賦追加攻撃へ、必殺技Lvの40～80ポイントを加算します。必殺技本体や通常の与ダメージ補正とは別枠です。残り回数は手動確認し、自動消費しません。",
+      "category": "multiplierAddition",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          40,
+          44,
+          48,
+          52,
+          56,
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "levelInputLabel": "ジェイドの必殺技Lv"
+      },
+      "target": {
+        "owner": "self",
+        "elements": [
+          "Quantum"
+        ],
+        "attackTypes": [
+          "followUp"
+        ],
+        "attackIds": [
+          "131404"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "jade-enhanced-followup-active",
+        "default": false,
+        "conditionText": "必殺技後の強化追撃が残っている時だけON。次の2回の天賦追加攻撃へ、必殺技Lvの40～80ポイントを加算します。必殺技本体や通常の与ダメージ補正とは別枠です。残り回数は手動確認し、自動消費しません。"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "inputPolicy": "conditional",
+      "calculation": {
+        "stage": "attackMultiplier",
+        "operation": "add"
+      },
+      "stacking": {
+        "group": "trace:1314:131403:followup-multiplier",
+        "rule": "nonStacking"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:131403.params[0..9][0]",
+        "verifiedAt": "2026-10-24",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/jade"
+      }
     }
   ]
 }

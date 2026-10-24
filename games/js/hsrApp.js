@@ -248,6 +248,8 @@
   }
 
   function attackStateIssues(attack, issue) {
+    if (attack.characterLevelExact !== undefined && state.level !== attack.characterLevelExact) issue(`${attack.name}はキャラクターLv${attack.characterLevelExact}のみ計算対応です。`, "hsrLevel");
+    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== 2)) issue(`${attack.name}の構成データ（スキル本体・追加攻撃）を読み込めません。ページを再読み込みして確認してください。`, "");
     if (attack.requiresValidHitCount) {
       const count = state.modifierInputs[attack.hitCountInputKey] === undefined ? attack.hitCountDefault : state.modifierInputs[attack.hitCountInputKey];
       if (!Number.isInteger(count) || count < attack.hitCountMinimum || count > attack.hitCountMaximum) issue(attack.name + "の攻撃段数に" + attack.hitCountMinimum + "～" + attack.hitCountMaximum + "の整数を補正条件で入力してください。", "hsrConditionDialogOpen");
@@ -941,6 +943,15 @@
   function resolvedAttack(selected) {
     if (selected.id === "131508") { const level=state.traceLevels.normal; return { ...selected, traceLevel:level, multiplier:selected.multipliers[level-1], attackType:selected.type, fanningInputs:{confirmed:state.modifierInputs["boothill-fanning-broken"]===true,stacks:state.modifierInputs["boothill-pocket-stacks"]===undefined?3:state.modifierInputs["boothill-pocket-stacks"],talentLevel:state.traceLevels.talent} }; }
     if (selected.id === "1151201") { const level=state.songbirdInputs.skillLevel; return { ...selected, traceLevel: level, multiplier: selected.multipliers[level-1] }; }
+    if (selected.id === "122002" && selected.damageFormula === "componentSequence") {
+      const level = num(state.traceLevels.skill, 10);
+      const multiplier = num(selected.multipliers?.[level - 1]);
+      const skill = { ...selected, damageFormula: "statMultiplier", type: "skill", attackType: "skill", scalingStat: "atk", target: "single", hitCount: 1, hitCountLabel: "全段合算", canCrit: true, multiplier, adjacentMultipliers: undefined, adjacentMultiplierRatio: undefined, damageComponents: undefined, traceLevel: level, traceLevelLabel: `スキルLv${level}` };
+      const followUpRecord = state.data.attacks.find(item => item.id === "122004" && item.characterId === "1220");
+      const followUp = followUpRecord ? resolvedAttack(followUpRecord) : null;
+      const definitions = selected.damageComponents || [];
+      return { ...selected, traceLevel: level, multiplier, traceLevelLabel: `スキルLv${level}＋天賦Lv${state.traceLevels.talent}`, sequenceAttacks: definitions.length === 2 && followUp ? [skill, followUp] : [] };
+    }
     const masterSkill = character()?.skills?.find((skill) => skill.id === selected.skillId || skill.id === selected.id);
     const traceKey = masterSkill && ["MemospriteSkill", "MemospriteTalent"].includes(masterSkill.type) ? traceKeyForSkill(masterSkill) : selected.traceKey;
     const level = num(state.traceLevels[traceKey], traceKey === "normal" ? 6 : 10);
@@ -1138,6 +1149,11 @@
 
   function damageBreakdown(result, targetLabel) {
     const b = result.breakdown;
+    if (b.damageFormula === "componentSequence") {
+      const componentNames = b.componentNames || [];
+      const componentDetails = Object.entries(result.components || {}).map(([key, component], index) => `<h4>${esc(componentNames[index] || component.componentName || key)}</h4>${damageBreakdown(component, "同一対象・各成分")}`).join("");
+      return `<section class="hsr-target-breakdown"><h4>構成成分と合計</h4><p class="hsr-formula-note">${esc(b.condition || "各成分を個別計算し、同一対象の結果を合算します。")}</p>${componentDetails}<h4>スキル本体＋追加攻撃の合計</h4>${damageValues(result)}</section>`;
+    }
     if (b.damageFormula === "normalAndBreak") {
       const extra = result.components.break;
       return `<section class="hsr-target-breakdown"><h4>通常部分と天賦撃破の合計</h4>${damageBreakdown(result.components.direct, "通常部分（全段合算）")}<h4>天賦・物理撃破ダメージ</h4><dl>${[["ポケットアドバンテージ",b.stacks],["物理撃破に対する天賦倍率（%）",b.breakMultiplierPercent],["撃破基礎値",extra.base],["属性・天賦倍率",extra.multiplier],["撃破特効倍率",extra.effect],["防御倍率",extra.defense],["耐性倍率",extra.resistance],["最大靭性倍率",extra.toughnessScale],["被ダメージ倍率",extra.vulnerability],["天賦撃破ダメージ",extra.value]].map(([label,value])=>`<div><dt>${esc(label)}</dt><dd>${detailNumber(value)}</dd></div>`).join("")}</dl><p class="hsr-formula-note">天賦撃破は会心しません。元の撃破イベント・撃破DoT・超撃破は合算しません。</p><h4>通常部分＋天賦撃破</h4>${damageValues(result)}</section>`;
@@ -1181,6 +1197,7 @@
   }
 
   function modifierAudit(result, targetLabel) {
+    if (result.breakdown?.damageFormula === "componentSequence") return Object.entries(result.components || {}).map(([key, component]) => modifierAudit(component, component.componentName || key)).join("");
     if (result.components) return modifierAudit(result.components.direct, "通常部分") + modifierAudit(result.components.break, "天賦撃破");
     const list = (items, applied) => `<ul>${items.length ? items.map((item) => `<li><strong>${esc(item.name)}</strong>：${applied ? `${item.value}${item.unit === "percent" ? "%" : ""}<br><small>出典：${esc(item.source)}／条件：${esc(item.conditionText || "常時")}／計算段階：${esc(item.calculation?.stage || item.category)}</small>` : esc(item.reason || "条件未成立・計算対象外")}</li>`).join("") : "<li>なし</li>"}</ul>`;
     return `<h4>${esc(targetLabel)}・適用された補正</h4>${list(result.applied, true)}<h4>${esc(targetLabel)}・条件未成立／対象外</h4>${list(result.skipped, false)}`;
@@ -1340,16 +1357,17 @@
     const labels = { hp: "HP", atk: "攻撃力", def: "防御力", speed: "速度", critRate: "会心率", critDamage: "会心ダメージ", damageBonus: "属性ダメージ", breakEffect: "撃破特効", effectHitRate: "効果命中", effectRes: "効果抵抗", energyRegen: "EP回復効率", hpPercent: "現在HP割合", dotBaseDamage: "対象の持続ダメージ", elation: "愉悦度" };
     const requiredStats = new Set();
     const requiredBonuses = new Set();
-    const fieldWarning = (message, id) => { warnings.add(message); fields.set(id,message); };
+    const fieldWarning = (message, id) => { warnings.add(message); if (id) fields.set(id,message); };
     enemyInputIssues().forEach(([message, id]) => fieldWarning(message, id));
     if (!Number.isInteger(state.level) || state.level < 1 || state.level > 80) fieldWarning("キャラクターのレベルに1～80の整数を入力してください。", "hsrLevel");
     if (cone() && (!Number.isInteger(state.coneLevel) || state.coneLevel < 1 || state.coneLevel > 80)) fieldWarning("光円錐のレベルに1～80の整数を入力してください。", "hsrConeLevel");
     if (cone() && (!Number.isInteger(state.coneRank) || state.coneRank < 1 || state.coneRank > 5)) fieldWarning("光円錐の重畳ランクに1～5を選択してください。", "hsrConeRank");
     if (attacks.some((attack) => attack.damageFormula === "elation") && (!Number.isInteger(state.traceLevels.elation) || state.traceLevels.elation < 1 || state.traceLevels.elation > 10)) warnings.add("星魂0の愉悦スキルLvに1～10の整数を選択してください。");
     attacks.forEach((attack) => {
-      if (attack.canCrit !== false && attack.type !== "dot") { requiredBonuses.add("critRate"); requiredBonuses.add("critDamage"); }
-      if (attack.damageFormula === "elation") requiredBonuses.add("elation"); else requiredBonuses.add("damageBonus");
-      if (attack.damageFormula === "normalAndBreak") requiredBonuses.add("breakEffect");
+      const attackScopes = attack.sequenceAttacks?.length ? attack.sequenceAttacks : [attack];
+      if (attackScopes.some(scope => scope.canCrit !== false && scope.type !== "dot")) { requiredBonuses.add("critRate"); requiredBonuses.add("critDamage"); }
+      if (attackScopes.some(scope => scope.damageFormula === "elation")) requiredBonuses.add("elation"); else requiredBonuses.add("damageBonus");
+      if (attackScopes.some(scope => scope.damageFormula === "normalAndBreak")) requiredBonuses.add("breakEffect");
       if (Object.hasOwn(state.traceLevels, attack.traceKey) && (!Number.isInteger(state.traceLevels[attack.traceKey]) || state.traceLevels[attack.traceKey] < 1 || state.traceLevels[attack.traceKey] > traceMaximum(attack.traceKey))) fieldWarning(`${ATTACK_LABELS[attack.traceKey] || attack.traceKey}のレベルを確認して選択してください。`, TRACE_FIELDS[attack.traceKey][1]);
       if (attack.maximumTraceLevel && attack.traceLevel > attack.maximumTraceLevel) {
         const message = `${attack.name}は軌跡Lv1～${attack.maximumTraceLevel}のみ計算対応です。`;
@@ -1359,16 +1377,19 @@
         const level = state.traceLevels[key];
         if (!Number.isInteger(level) || level < range.minimum || level > range.maximum) fieldWarning(attack.name + "が参照する" + (ATTACK_LABELS[key] || key) + "はLv" + range.minimum + "～" + range.maximum + "のみ計算対応です。", TRACE_FIELDS[key]?.[1] || "hsrConditionDialogOpen");
       });
-      attackStateIssues(attack, fieldWarning);
+      if (attack.sequenceAttacks?.length) attackStateIssues(attack, fieldWarning);
+      attackScopes.forEach(scope => attackStateIssues(scope, fieldWarning));
       if (attack.damageFormula === "normalAndBreak") inputWarningsForFanning(attack).forEach(warning => warnings.add(warning));
       if (attack.damageFormula === "elation") window.HsrCalcEngine.elationInputWarnings({ character: { level: state.level, eidolon: state.eidolon, stats: state.stats }, attack, enemy: state.enemy, elation: attackElationInputs(attack) }).forEach(warning => {
         const field = warning.includes("消費する熱気") ? "hsrFervor" : warning.includes("爆笑ネタに") ? "hsrPunchline" : warning.includes("上笑に") ? "hsrMerrymake" : "hsrElationSettings";
         fieldWarning(warning, field);
       });
-      const terms = [...(attack.scalingTerms?.length ? attack.scalingTerms : [{ stat: attack.scalingStat || "atk", multiplier: attack.multiplier }]), ...(attack.adjacentScalingTerms || [])];
-      terms.filter((term) => num(term.multiplier) !== 0).forEach((term) => requiredStats.add(term.stat));
-      if (attack.damageFormula === "enemyHpCappedByAtk") requiredStats.add("atk");
-      const scopes = attack.damageFormula === "normalAndBreak" ? [attack, {type:"break", element:attack.element}] : [attack];
+      const scopes = attack.sequenceAttacks?.length ? attack.sequenceAttacks : attack.damageFormula === "normalAndBreak" ? [attack, {type:"break", element:attack.element}] : [attack];
+      scopes.forEach(scope => {
+        const terms = [...(scope.scalingTerms?.length ? scope.scalingTerms : [{ stat: scope.scalingStat || "atk", multiplier: scope.multiplier }]), ...(scope.adjacentScalingTerms || [])];
+        terms.filter((term) => num(term.multiplier) !== 0).forEach((term) => requiredStats.add(term.stat));
+        if (scope.damageFormula === "enemyHpCappedByAtk") requiredStats.add("atk");
+      });
       scopes.flatMap(scope => modifierInputIssues(scope, baseStats)).forEach(issue => fieldWarning(issue.message, issue.target));
     });
     Object.entries(state.stats).forEach(([stat, value]) => {
@@ -1424,12 +1445,19 @@
       return;
     }
     const baseRequest = { character: { level: state.level, eidolon: state.eidolon, stats: state.stats, baseStats }, enemy: state.enemy, elation: state.elationInputs, trueDamage: state.trueDamageInputs };
-    const results = attacks.map((selected) => {
+    let results = attacks.map((selected) => {
       const request = { ...baseRequest, songbird: songbirdSnapshot(), elation: attackElationInputs(selected), attack: selected, modifiers: modifiers(selected), breakModifiers: selected.damageFormula === "normalAndBreak" ? modifiers({type:"break",element:character().element}) : undefined, breakBaseDamage: state.data.breakBaseDamage };
+      if (selected.damageFormula === "componentSequence") request.sequenceComponents = (selected.sequenceAttacks || []).map((component, index) => ({ key: selected.damageComponents[index].key, name: selected.damageComponents[index].name, input: { ...baseRequest, attack: component, modifiers: modifiers(component), songbird: songbirdSnapshot(), elation: attackElationInputs(component), breakBaseDamage: state.data.breakBaseDamage } }));
       const result = window.HsrCalcEngine.calculate(request);
       const adjacentAttack = selected.adjacentMultiplier ? { ...selected, multiplier: selected.adjacentMultiplier, scalingTerms: selected.adjacentScalingTerms?.length ? selected.adjacentScalingTerms : undefined, target: "adjacent" } : null;
       const adjacent = adjacentAttack ? window.HsrCalcEngine.calculate({ ...baseRequest, attack: adjacentAttack, modifiers: modifiers(adjacentAttack) }) : null;
       return { attack: selected, result, adjacent };
+    });
+    results = results.filter(({ attack, result }) => {
+      if (result && result.supported !== false && result.attack) return true;
+      const message = result?.reason || `${attack.name}の計算結果を作成できませんでした。条件と攻撃データを確認してください。`;
+      blocked.push({ ...attack, inputIssues: [message], inputTargets: [], support: { status: "displayOnly", reason: message } });
+      return false;
     });
     const checkedBreak = (attack, run) => {
       if ((attack.type === "break" && !state.enemy.weakness) || (attack.type === "superBreak" && state.enemy.toughnessActive)) return run();

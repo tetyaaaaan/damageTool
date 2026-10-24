@@ -191,6 +191,15 @@
         if (attack.support?.status === "displayOnly") return attack.support.reason || "この攻撃は表示のみのため、ダメージを計算しません。";
         if (supportedElationAttack(attack) || supportedTrueAttack(attack)) return "";
         if (attack.id === "131508" && attack.damageFormula === "normalAndBreak" && attack.type === "enhancedNormal") return "";
+        if (attack.damageFormula === "componentSequence") {
+            const components = attack.damageComponents;
+            const validFeixiaoDefinition = attack.id === "122002" && Array.isArray(components) && components.length === 2
+                && attack.type === "skill" && (!attack.attackType || attack.attackType === "skill") && attack.target === "single"
+                && attack.element === "Wind" && attack.sourceSkillId === "122002"
+                && components[0]?.key === "skill" && components[0]?.attackId === "122002"
+                && components[1]?.key === "followUp" && components[1]?.attackId === "122004";
+            return validFeixiaoDefinition ? "" : "この複合攻撃の構成は未対応です。";
+        }
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
         if (attack.damageFormula && !["statMultiplier", "enemyHpCappedByAtk"].includes(attack.damageFormula)) return "このダメージ計算方式は未対応です。通常式では計算しません。";
@@ -263,6 +272,7 @@ function calculateFanning(input) {
         const attack = input?.attack || {};
         const unsupportedReason = unsupportedAttackReason(attack);
         if (unsupportedReason) return { supported: false, reason: unsupportedReason };
+        if (attack.damageFormula === "componentSequence") return calculateComponentSequence(input);
         if (supportedElationAttack(attack)) return calculateElation(input);
         if (supportedTrueAttack(attack)) return calculateTrueDamage(input);
         if (attack.id === "1151201") return calculateSongbird(input);
@@ -362,6 +372,78 @@ function calculateFanning(input) {
                 damageBonusMultiplier, commonWithoutVulnerability, vulnerabilityFactorSum, critMultiplier, expectedCritMultiplier,
                 baseDamage, commonMultiplier, independentMultiplier, critRatePercent: critRate * 100, critDamagePercent: number(effectiveStats.critDamage), critTakenDamage
             },
+            applied,
+            skipped
+        };
+    }
+
+    function calculateComponentSequence(input = {}) {
+        const attack = input.attack || {};
+        const character = input.character || {};
+        const enemy = input.enemy || {};
+        const components = input.sequenceComponents || [];
+        const expected = [
+            { key: "skill", id: "122002", type: "skill" },
+            { key: "followUp", id: "122004", type: "followUp" }
+        ];
+        const fail = reason => ({ supported: false, reason });
+        if (attack.id !== "122002" || attack.damageFormula !== "componentSequence") return fail("この複合攻撃は未対応です。");
+        if (character.level !== 80 || character.eidolon !== 0 || enemy.count !== 1 || enemy.weakness !== false || enemy.toughnessActive !== true) {
+            return fail("飛霄のスキル＋追加攻撃はLv80・星魂0・風弱点なし・敵1体・靭性ありのみ計算対応です。");
+        }
+        if (!(Number.isFinite(character.stats?.atk) && character.stats.atk > 0)
+            || !Number.isFinite(character.stats?.critRate) || !Number.isFinite(character.stats?.critDamage)
+            || !Number.isFinite(character.stats?.damageBonus)) {
+            return fail("飛霄の最終攻撃力・会心率・会心ダメージ・与ダメージ補正をすべて入力してください。");
+        }
+        if (!Number.isInteger(attack.traceLevel) || attack.traceLevel < 1 || attack.traceLevel > 10) return fail("飛霄のスキルLv1～10を指定してください。");
+        if (components.length !== expected.length) return fail("スキル本体と天賦追加攻撃の両成分が必要です。");
+        for (let index = 0; index < expected.length; index++) {
+            const spec = expected[index];
+            const component = components[index];
+            const childInput = component?.input || {};
+            const childAttack = childInput.attack || {};
+            if (component?.key !== spec.key || component?.name !== attack.damageComponents?.[index]?.name
+                || attack.damageComponents?.[index]?.key !== spec.key || attack.damageComponents?.[index]?.attackId !== spec.id
+                || childAttack.id !== spec.id || childAttack.type !== spec.type || childAttack.attackType !== spec.type
+                || childAttack.sourceSkillId !== spec.id || !Number.isInteger(childAttack.traceLevel) || childAttack.traceLevel < 1 || childAttack.traceLevel > 10
+                || (spec.key === "skill" && childAttack.traceLevel !== attack.traceLevel)
+                || childAttack.damageFormula !== "statMultiplier" || childAttack.element !== "Wind"
+                || childAttack.scalingStat !== "atk" || childAttack.target !== "single" || childAttack.hitCount !== 1
+                || childAttack.canCrit === false || !Number.isFinite(childAttack.multiplier) || childAttack.multiplier <= 0) {
+                return fail("スキル本体または追加攻撃のデータが、確認済みの構成と一致しません。");
+            }
+            if (JSON.stringify(childInput.character) !== JSON.stringify(character)
+                || JSON.stringify(childInput.enemy) !== JSON.stringify(enemy)) {
+                return fail("複合攻撃の各成分は同じ攻撃時点のステータス・敵条件で計算してください。");
+            }
+        }
+        const followUpModifiers = Array.isArray(components[1].input.modifiers) ? components[1].input.modifiers : [];
+        const nativeFollowUpBonus = followUpModifiers.filter(item => item.id === "trace:1220:122004:followup-damage");
+        if (nativeFollowUpBonus.length !== 1 || nativeFollowUpBonus[0].enabled !== true || nativeFollowUpBonus[0].applicable !== true
+            || !Number.isFinite(nativeFollowUpBonus[0].value)) {
+            return fail("天賦追加攻撃に必須の発動時与ダメージ補正を、補正条件から1件だけ有効にしてください。");
+        }
+        const resolved = components.map(component => ({
+            key: component.key,
+            name: component.name,
+            result: calculate(component.input)
+        }));
+        const unsupported = resolved.find(component => component.result?.supported === false);
+        if (unsupported) return fail(`${unsupported.name}：${unsupported.result.reason}`);
+        if (resolved.some(component => !["nonCrit", "crit", "expected"].every(key => Number.isFinite(component.result[key])))) {
+            return fail("スキル本体または追加攻撃の計算結果が数値として成立しません。入力と補正条件を確認してください。");
+        }
+        const total = key => resolved.reduce((sum, component) => sum + number(component.result[key]), 0);
+        const applied = resolved.flatMap(component => component.result.applied || []);
+        const skipped = resolved.flatMap(component => component.result.skipped || []);
+        return {
+            attack: { name: attack.name || "スキル本体＋追加攻撃", hitCount: 1, hitCountLabel: attack.hitCountLabel || "本体＋追加攻撃1回", target: "single", canCrit: true, scalingStat: "atk" },
+            nonCrit: total("nonCrit"),
+            crit: total("crit"),
+            expected: total("expected"),
+            components: Object.fromEntries(resolved.map(component => [component.key, { ...component.result, componentName: component.name }])),
+            breakdown: { damageFormula: "componentSequence", componentNames: resolved.map(component => component.name), condition: "同じ敵・最終ステータスを参照し、各成分の固有補正は別々に適用" },
             applied,
             skipped
         };

@@ -2241,6 +2241,144 @@
         "scope": "天賦による追加攻撃が敵1体へ実際に発動した1回分です。スキル後の即時追加攻撃も、この独立した結果を参照します。スキル本体と自動合算しません。発動時の天賦与ダメージ上昇を天賦Lvから自動で1回だけ追加するため、その分を入力済み与ダメージへ含めないでください。解形を解放済みで会心ダメージ36%が最終入力に未算入の場合だけ、既存形式の補正条件で追加します。神速などのATK上昇は攻撃時点の最終ATKへ含めます。",
         "verification": "tests/hsr/hsrMajorAttackPromotions.test.cjs: fixed-source component curves, all supported levels, independent NC/C/EV, ATK/HP/DEF isolation; hsrToolInputs.test.cjs: assumed states, local input stops, party and save/restore"
       }
+    },
+    {
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "calculationScope": "independently-checked-main-components",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの全採用Lv・参照ステータス・星魂0の構成を照合し、成分別の独立計算と参照値個別変更で検証。限定条件以外の成分は合算しません。"
+      },
+      "id": "122002",
+      "characterId": "1220",
+      "name": "斧貫（スキル本体＋直後の雷狩）",
+      "element": "Wind",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "sourceSkillId": "122002",
+      "damageFormula": "componentSequence",
+      "characterLevelExact": 80,
+      "hitCountLabel": "本体＋追加攻撃1回",
+      "multipliers": [
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        162.5,
+        175,
+        187.5,
+        200
+      ],
+      "damageComponents": [
+        {
+          "key": "skill",
+          "name": "スキル本体",
+          "attackId": "122002"
+        },
+        {
+          "key": "followUp",
+          "name": "天賦追加攻撃",
+          "attackId": "122004"
+        }
+      ],
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "conditionText": "スキル本体の後に天賦追加攻撃1回・全成分で敵条件変化なし",
+      "calculationNote": "星魂0・Lv80・スキル/天賦Lv1～10・未撃破かつ風非弱点の敵1体。スキル本体の後に雷狩が1回発動する状態を想定し、成分ごとに補正を判定して合算します。神速解放時のATK48%上昇はスキル発動後の最終ATKへ含め、2成分で同じ最終ATKを使用します（再加算なし）。本体に乗る発動前からの雷狩与ダメージ上昇は補正条件で指定します。直後の雷狩には発動時の天賦与ダメージを1回だけ加算し、解形の会心ダメージは追撃だけへ適用します。このスキル結果には直後の雷狩1回を含むため、別行の雷狩をさらに足さないでください。途中の撃破・敵の消滅・外部補正の発動/消失は対象外です。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:122002;122004;character_skill_trees.json:1220101..1220103;character_ranks.json:122001..122006",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/feixiao",
+        "verifiedAt": "2026-10-24",
+        "scope": "星魂0・Lv80・スキル/天賦Lv1～10・未撃破かつ風非弱点の敵1体。スキル本体の後に雷狩が1回発動する状態を想定し、成分ごとに補正を判定して合算します。神速解放時のATK48%上昇はスキル発動後の最終ATKへ含め、2成分で同じ最終ATKを使用します（再加算なし）。本体に乗る発動前からの雷狩与ダメージ上昇は補正条件で指定します。直後の雷狩には発動時の天賦与ダメージを1回だけ加算し、解形の会心ダメージは追撃だけへ適用します。このスキル結果には直後の雷狩1回を含むため、別行の雷狩をさらに足さないでください。途中の撃破・敵の消滅・外部補正の発動/消失は対象外です。",
+        "verification": "tests/hsr/hsrCompositeMainActions.test.cjs: component NC/C/EV, all source levels, source-stat isolation, modifier scope and incomplete-request rejection; hsrToolInputs.test.cjs: local stop and save/restore"
+      }
+    },
+    {
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "calculationScope": "independently-checked-main-components",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの全採用Lv・参照ステータス・星魂0の構成を照合し、成分別の独立計算と参照値個別変更で検証。限定条件以外の成分は合算しません。"
+      },
+      "id": "131404",
+      "characterId": "1314",
+      "name": "富を削ぐ毒牙（質草50層・敵1体）",
+      "element": "Quantum",
+      "type": "followUp",
+      "traceKey": "talent",
+      "target": "aoe",
+      "sourceSkillId": "131404",
+      "damageFormula": "statMultiplier",
+      "characterLevelExact": 80,
+      "hitCountLabel": "全段合算",
+      "multipliers": [
+        60,
+        66,
+        72,
+        78,
+        84,
+        90,
+        97.5,
+        105,
+        112.5,
+        120
+      ],
+      "conditionText": "追撃前から質草50層・本人非債権回収者・チャージ8消費の天賦追加攻撃1回",
+      "calculationNote": "星魂0・Lv80・天賦Lv1～10・未撃破かつ量子非弱点の敵1体。追撃前から質草50層で上限に到達し、本人は債権回収者ではなく、チャージ8を消費して天賦追加攻撃1回が発動した状態を想定します。今回獲得する質草5層は上限により数値を変えません。計算する天賦Lvに対応した質草50層分の会心ダメージと、流れ者解放時のATK25%は最終入力へ含め、再加算しません。必殺技の強化が残っている場合だけ補正条件をONにし、必殺技Lvから倍率を加算します。50層未満、本人債権回収者の付加ダメージ、途中の撃破・敵条件変化・他の追撃の連鎖は対象外です。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:131404;131403;character_skill_trees.json:1314101..1314103;character_ranks.json:131401..131406",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/jade",
+        "verifiedAt": "2026-10-24",
+        "scope": "星魂0・Lv80・天賦Lv1～10・未撃破かつ量子非弱点の敵1体。追撃前から質草50層で上限に到達し、本人は債権回収者ではなく、チャージ8を消費して天賦追加攻撃1回が発動した状態を想定します。今回獲得する質草5層は上限により数値を変えません。計算する天賦Lvに対応した質草50層分の会心ダメージと、流れ者解放時のATK25%は最終入力へ含め、再加算しません。必殺技の強化が残っている場合だけ補正条件をONにし、必殺技Lvから倍率を加算します。50層未満、本人債権回収者の付加ダメージ、途中の撃破・敵条件変化・他の追撃の連鎖は対象外です。",
+        "verification": "tests/hsr/hsrCompositeMainActions.test.cjs: component NC/C/EV, all source levels, source-stat isolation, modifier scope and incomplete-request rejection; hsrToolInputs.test.cjs: local stop and save/restore",
+        "timingRestriction": "Pawned Asset grant/snapshot timing is not inferred. The verified pre-FUA 50-stack cap makes the five newly granted stacks numerically inert.",
+        "pawnCritDamagePerStack": [
+          1.2,
+          1.32,
+          1.44,
+          1.56,
+          1.68,
+          1.8,
+          1.95,
+          2.1,
+          2.25,
+          2.4
+        ],
+        "pawnAttackPercentAtCap": 25
+      }
     }
   ]
 }
