@@ -321,6 +321,17 @@ function difficulty(a){
  return '小～中候補: 独立検証/固有効果精査';
 }
 async function fixed(file){const response=await fetch(sourceBase+file);if(!response.ok)throw Error(`${file}: HTTP ${response.status}`);return response.json();}
+const batchWorkReview={A:new Set(['1105']),B:new Set(['8001','8002','8003','8004','8005','8006','1002','1102','1008']),D:new Set(['1218','1209','1204','1005','1004','1207','1109','1106','1103','1009','1503','1406','1212','1215','1206'])};
+function remainingWorkClass(d){
+ if(d.confirmed)return {group:'済',confidence:'E0限定条件を検証済み',reason:'星魂/装備/支援の最終完成とは別'};
+ if(batchWorkReview.A.has(d.c.id))return {group:'A',confidence:'重点監査済み',reason:'既存攻撃の全Lv独立検証と非ダメージ行動の分類整理'};
+ if(batchWorkReview.B.has(d.c.id))return {group:'B',confidence:'重点監査済み',reason:'既存式による少数の倍率/段数/成分/補正/入力境界の修正'};
+ if(batchWorkReview.D.has(d.c.id))return {group:'D',confidence:'具体的な保留理由あり',reason:d.audit?.remaining||knownGaps[d.c.id]||'初回付与/段間更新/参照値の証拠不足。新証拠待ち'};
+ if(d.absent.length||d.hasMissingComponent||d.attacks.some(a=>['elation','trueDamage','memospriteSkill','memospriteTalent'].includes(a.type)||['componentSequence','normalAndBreak'].includes(a.damageFormula)))return {group:'C',confidence:'構造からの暫定見積・個別工数不明',reason:'成分/独立参照の追加接続候補。未登録IDが別攻撃か既存状態の説明か要精査。新しい式が必須とは断定しない'};
+ return {group:'D',confidence:'全構成の仕様精査未了',reason:'限定値の登録だけでは全主要構成の確証不足。未調査をゼロ工数や独立検証のみと見なさない'};
+}
+function instructionForecast(remaining,measuredBatch=0){return [['楽観',3,Math.max(8,Math.min(10,measuredBatch||8))],['標準',2,6],['悲観',1,3]].map(([scenario,legacyRate,batchRate])=>({scenario,legacyRate,batchRate,legacy:Math.ceil(remaining/legacyRate),batch:Math.ceil(remaining/batchRate)}));}
+const batchRun={start:'4bdda21',audited:12,confirmed:0,promoted:0,phase:'工程A・実装前'};
 async function generate(){
  const [{data,engine},characters,skills,trees,ranks]=await Promise.all([loadProductionFixture(),fixed('characters.json'),fixed('character_skills.json'),fixed('character_skill_trees.json'),fixed('character_ranks.json')]);
  if(data.characters.length!==98||Object.keys(characters).length!==98)throw Error('固定母集団98人と不一致');
@@ -359,6 +370,14 @@ async function generate(){
  for(const[id,a]of Object.entries(e0CandidateAudit)){const name=data.characters.find(c=>c.id===id)?.name||id;p(`|${id} ${cell(name)}|${a.status==='confirmed'?'E0主要構成確認済み':a.status==='missing'?'未登録成分あり':'構成/独立検証待ち'}|${cell(a.summary+' '+a.remaining)}|${cell(a.evidence)}|`);}
  p('','重点監査で判明した未登録成分のうち、現在も残るものを以下に列挙する。解消済みの成分は上表に履歴を残す。マスターの主スキルIDだけで成分の完全性を認定しない。');
  for(const[id,a]of Object.entries(e0CandidateAudit))for(const component of a.missingComponents||[])p(`- ${id}: ${component}`);
+ p('','## 完成までの予測残Codex指示回数（開始4bdda21）','','A=既存攻撃の独立検証、B=軽微な補正/登録修正、C=新成分/処理の接続、D=仕様または全構成の確証不足。C/Dには未精査の暫定区分を含む。Cを新エンジン必須、Dを永久対応不可と断定しない。A/Bも検証前に完成保証しない。');
+ const work=details.map(d=>({...remainingWorkClass(d),id:d.c.id,name:d.c.name})),workCounts=sumBy(work,x=>x.group);
+ p('', '|E0区分|人数|具体対象|','|---|---:|---|');for(const group of ['済','A','B','C','D'])p(`|${group}|${workCounts[group]||0}|${work.filter(w=>w.group===group).map(w=>w.id+' '+w.name).join('、')||'—'}|`);
+ p('','|ID・キャラ|区分|根拠の確度|残作業|','|---|---|---|---|');for(const w of work)p(`|${w.id} ${cell(w.name)}|${w.group}|${cell(w.confidence)}|${cell(w.reason)}|`);
+ p('','### E0の回数換算','','従来実績は1指示1～3人（直近14→15は1人、15→18は3人）。一括方式は共通式/男女対応を再利用し、楽観8～10人・標準6人・悲観3人を完了する仮定。複雑なCや未精査Dにも同じ速度を保証しない。以下は全残キャラをその速度で処理できた場合の条件付き換算。','', '|ケース|従来方式|一括方式|一括方式の仮定|','|---|---:|---:|---|');
+ for(const e of instructionForecast(98-confirmed.length,batchRun.confirmed))p(`|${e.scenario}|${e.legacy}回＋U|${e.batch}回＋U|1指示${e.batchRate}人|`);
+ p('','Uは仕様確証の取得、未精査C/Dの工数増分。Dの証拠が入手できなければ全98人E0の完了回数に有限の上限を置けない。Uを0として完成日/回数を保証しない。','', '### E0以外の残作業','','|領域|確認できる量|未確定工数|','|---|---|---|',`|E1～E6|98人×6段=588元記録、構造化${eidolon.length}件（計算対象${eidolon.filter(m=>m.support.status==='calculable').length}/表示専用${eidolon.filter(m=>m.support.status==='displayOnly').length}）|表示専用を全て未実装効果と数えない。全段/全攻撃の倍率・状態・Lv加算検証工数は未調査|`,`|光円錐|マスター${data.lightCones.length}件、計算処理対象${data.structuredModifiers.filter(m=>m.source.kind==='lightCone'&&m.support.status==='calculable').length}レコード|装備件数と効果数は異なる。適用先/重畳/未対応効果の実装工数は不明|`,`|遺物/オーナメント|マスター${data.relicSets.length}セット、構造化記録は別軸表|最終入力効果と条件付き効果を区別する個別棚卸しが必要|`,'|パーティ支援/敵デバフ|主要支援の限定対応と保守課題は別軸表|全提供者/対象/版/精霊継承の未対応効果数は不明|','|参考値/計算不可|E0改善と重複する記録を工数へ二重加算しない|秘技9件等の対象外を区別して残検証を精査|','|UID/画面/保存/最終QA|既存の合成UID/保存/3幅表示テストを再利用|全星魂/装備/支援の組み合わせQA工数は未調査|');
+ p('','最終完成の予測残指示回数: 楽観/標準/悲観とも「上記E0換算＋U＋星魂/装備/支援/QAの追加工数（不明）」。現状の根拠から有限の総回数は算出不能。テキスト収録・候補表示・テスト通過を全効果完成と同一視しない。',`今回実績: ${batchRun.phase}、候補監査${batchRun.audited}人、新規E0確認${batchRun.confirmed}人、参考値昇格${batchRun.promoted}攻撃。工程Cで実測へ更新。`);
  p(
   "",
   "## 主要サポーター3人と登録不足解消（開始151f594）",
@@ -451,4 +470,4 @@ async function generate(){
  return {text:lines.join('\n'),summary:{characters:98,attacks:data.attacks.length,counts,confirmedE0:confirmed.length,screenedCandidates:candidates.length,notCertified:98-confirmed.length,missingCharacters,pendingComposition,backlogRegistered:backlogRegistered.length,backlogWithUnregistered:backlogWithUnregistered.length,missingMasterCandidates:missing,unknownStateSkills:unknown}};
 }
 if(require.main===module)generate().then(({text,summary})=>{if(process.argv.includes('--check')){if(!fs.existsSync(output)||fs.readFileSync(output,'utf8')!==text)throw Error('管理表が現在データと不一致。node scripts/reportHsrCompletion.cjs で更新してください。');}else fs.writeFileSync(output,text,'utf8');console.log(JSON.stringify(summary));}).catch(error=>{console.error(error.message);process.exitCode=1;});
-module.exports={generate,skillRole,e0CandidateAudit};
+module.exports={generate,skillRole,e0CandidateAudit,remainingWorkClass,instructionForecast};
