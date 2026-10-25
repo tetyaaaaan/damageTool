@@ -346,6 +346,9 @@ async function generate(){
  const confirmed=details.filter(d=>d.confirmed),candidates=details.filter(d=>d.candidate);
  const missingCharacters=details.filter(d=>d.pending.length>0||d.hasMissingComponent).length;
  const pendingComposition=98-confirmed.length-missingCharacters;
+ const registrationBacklog=details.filter(d=>d.pending.length>0||d.hasMissingComponent);
+ const backlogWithUnregistered=registrationBacklog.filter(d=>d.absent.length>0||d.hasMissingComponent);
+ const backlogRegistered=registrationBacklog.filter(d=>!d.absent.length&&!d.hasMissingComponent);
  const eidolon=data.structuredModifiers.filter(m=>m.source?.kind==='eidolon');
  const eidolonOwners=new Set(eidolon.map(m=>m.source.id));
  const missing=details.reduce((n,d)=>n+d.absent.length,0),unknown=details.reduce((n,d)=>n+d.unknown.length,0);
@@ -356,6 +359,33 @@ async function generate(){
  for(const[id,a]of Object.entries(e0CandidateAudit)){const name=data.characters.find(c=>c.id===id)?.name||id;p(`|${id} ${cell(name)}|${a.status==='confirmed'?'E0主要構成確認済み':a.status==='missing'?'未登録成分あり':'構成/独立検証待ち'}|${cell(a.summary+' '+a.remaining)}|${cell(a.evidence)}|`);}
  p('','重点監査で判明した未登録成分のうち、現在も残るものを以下に列挙する。解消済みの成分は上表に履歴を残す。マスターの主スキルIDだけで成分の完全性を認定しない。');
  for(const[id,a]of Object.entries(e0CandidateAudit))for(const component of a.missingComponents||[])p(`- ${id}: ${component}`);
+ p(
+  "",
+  "## 主要サポーター3人と登録不足解消（開始151f594）",
+  "",
+  "工程Aで花火1306・ブローニャ1101・フォフォ1217を構成監査し、工程Bで既存5通常行を全E0採用Lvで検証。参考値の130601/1130601/1121701を正式対応へ変更した。新しい攻撃ID、架空のスキルダメージ、計算式は追加していない。確認済み15→18、精査待ち26→25、登録不足57→55、登録充足候補25→28。最終完成認定は0のまま。",
+  "",
+  "|対象|E0本人の主要攻撃と採用倍率|支援との区別・本人補正|",
+  "|---|---|---|",
+  "|花火1306|原版130601/強化版1130601、量子・ATK単体、通常Lv1～6=50/60/70/80/90/100%|スキルCD・SP回復・天賦強化は攻撃ではない。夜想曲ATKは最終ATK、本人CD/原版DMGは最終入力、強化版幻相/CipherとA6耐性貫通は敵条件へ1回。既存party専用補正を本人へ自動流用しない|",
+  "|ブローニャ1101|110101、風・ATK単体、通常Lv1～6=50/60/70/80/90/100%|号令CR100%と軍勢DMG10%は既存補正で1回。小軌跡風22.4%/CD24%は最終入力。110104は行動順変更のみと固定版で確認して管理分類を補正。E4追撃をE0不足にしない|",
+  "|フォフォ1217|原版121701/強化版1121701、風・本人最大HP単体、通常Lv1～6=25/30/35/40/45/50%|回復/解除/EP/自身以外へのATK支援は本人の攻撃ではない。強化A4のEP160条件も本人HP式へ加算しない。HP小軌跡・装備は最終最大HPへ含める|",
+  "",
+  "- 固定SHAの対象skills/trees/ranksを直接取得し、係数・説明をローカルと照合。KQMブローニャv1.6は一致する能力の補助資料として使用、Prydwen花火/フォフォの強化版説明を原版IDへ混在させない。",
+  "- 計算機の最終入力契約に従ったE0・Lv80・敵1体・状態一定の単発範囲の認定。支援の自動計算まで完成したという意味ではない。花火本人の各支援状態は上表どおり手動管理し、既存の他味方用支援3効果は維持。フォフォ必殺ATK支援は未対応のまま別課題。",
+  "- 基準ATK3000/HP6000・CR50%/CD100%・敵Lv80/耐性20%/靭性あり: 花火両版とフォフォ両版のLv6は1080/2160/1620。ブローニャは風小軌跡22.4%を最終入力、軍勢10%を別加算、号令100%で1429.92/2859.84/2859.84。",
+  "- ロビンスキルLv10併用: 花火/フォフォ各1620/3240/2430、ブローニャ1969.92/3939.84/3939.84。通常ATKとHPを入れ替えず、それぞれ本人の参照値だけが変化する。",
+  "- 花火の原版Talent/Cipher合計DMG48%を入力した例は1598.4/3196.8/2397.6。強化版で本人最終CD169%、敵被ダメージ30%、耐性貫通10%を各1回入力した例は1579.5/4248.855/2914.1775。入力は成立済みの同一状態を表し、SP消費や層を自動生成しない。",
+  "- 発見した操作不具合: 性能版の切替欄が固定5キャラ限定だった。版付き攻撃データの有無に連動させ、花火/フォフォのprevious/enhancedを選択・保存・復元できるよう修正。強化状態の想定攻撃を隠す処理とは別。",
+  "- 検証: hsrSupporterE0Completion全7ケース（全5行×全6Lv×非対称2条件、ATK/HP/DEFと未参照値、号令/軍勢、最終値の非再加算）、hsrToolInputsの版/不足値/支援/保存。HSR全419テスト成功。実画面PC1440/390/320で両版・本人補正入力・提供者離脱・合成UID形式欠損・再読込を確認。箇条書きマーカーと枠線を画像で目視、横はみ出し/JavaScript例外なし。実UID通信は今回の対象外。",
+  "",
+  "- 工程Cでは既存確認済み15人の代表攻撃をPC1440/390/320で再操作。姫子星火324、存護なのか凍結648、クラーラ強化カウンター4492.8、ヘルタ閾値、サンポ0/5層、霊砂4行と芳酔の撃破/超撃破専用範囲を維持。飛霄/ジェイドの複合内訳、パール通常/強化、精霊タブ、支援ON/OFF/離脱と保存復元も成功。横はみ出し・JavaScript例外なし。既存保留の初回適用順は再調査していない。",
+  "",
+  "### 登録不足の中身と次回のA・B・C",
+  "",
+  "下記は実行時の管理候補IDによる集計であり、全キャラクターの固有効果を再監査した件数ではない。「未登録ID」は支援に付随する成分/既存行の別表現の場合もあるため、その数だけ新規攻撃を作らない。"
+ );
+ p('', '|残る登録不足の内訳|人数|扱い|','|---|---:|---|',`|主要候補IDは全て登録済みだが計算対応が不足|${backlogRegistered.length}|参考値・固有成分・全Lvの独立検証を優先。登録だけでA判定しない|`,`|未登録の主要候補IDまたは明示された成分不足あり|${backlogWithUnregistered.length}|既存攻撃との対応付け/支援の区別を先に確認。必要な成分だけ追加|`,'','A・B・Cは実装着手順の評価。以下のA/Bは次回の重点確認候補であり、全Lvや固有効果の検証前に完成を保証するものではない。','','|区分|次回候補|必要作業/境界|','|---|---|---|','|A: 既存データの独立検証を優先|ナターシャ1105・通常110501|E0は通常のみ。回復天賦110504の非ダメージ分類、全通常Lv/自己小軌跡、E6追加成分との分離を照合。未検証のまま認定しない|','|B: 少数の成分/対応付け改善を優先|調和開拓者8005/8006・通常/スキル/バックダンス|既存スキル行はhitCount1の主係数候補。敵1体の初撃+4段と、初撃削靭A4、既存超撃破経路を分離して検証。今回の登録充足だけでは完成ではない|','|B: 少数の状態行/対応付け改善の候補|存護開拓者8003/8004・通常/強化通常/必殺|Talent800304/800404の未登録が別攻撃の不足か、既存強化通常を指すかを確認。ATK+DEF必殺と既存複数参照式、状態別表示を検証|','|C: 仕様/新しい成分処理の証拠待ち|既存保留10人、ルアン・メェイ130303/130304等|既存10人は保留台帳の新証拠が得られるまで再調査しない。ルアンの残梅/撃破追加は通常攻撃へ合算せず、所有者と遅延時点を確認してから着手|');
  p('','## 開始2f48bd5の未確認11人・今回の完成判定','','開始時の分類はA（追加独立検証のみ）0人・B（既存処理/限定条件の軽微修正）1人・C（仕様未確定/新成分処理）10人。各分類はキャラクター全体の主要構成について判断。一部の既存曲線が一致するだけでAや確認済みにしない。','','|ID・名前|開始分類|今回の結果・残作業|','|---|---|---|');
  for(const id of ['1222','1218','1209','1204','1005','1004','1207','1109','1106','1103','1009']){const a=e0CandidateAudit[id],name=data.characters.find(c=>c.id===id)?.name||id;p(`|${id} ${cell(name)}|${id==='1222'?'B':'C'}|${a.status==='confirmed'?'新規E0主要構成確認済み。':'未認定。'}${cell(a.remaining)}|`);}
  p('','### 霊砂の今回の検証（工程B・30040a5）','','- 122201通常Lv1～6、122202スキル/122203必殺/122204浮元はLv1～10。全て霊砂本人の最終ATK参照。固定版A2/A4/A6と正式4.6を照合。浮元の有無で必殺自身の倍率は変わらず、100%前進後の浮元は別行動。通常の浮元とA6緊急発動は同じ天賦の1回分を独立比較し、発生回数を自動生成しない。','- 浮元1ヒットのLv7～9は正式4.6の60.938/65.625/70.313%を既存採用値として維持。固定SHAの60.94/65.62/70.31%との記録精度差をprovenanceへ保持し、倍率そのものを変更していない。','- ATK3000・CR50%/CD100%・与ダメージ0%・敵Lv80/炎耐性20%/靭性あり: 通常Lv6=1080/2160/1620、スキルLv10=864/1728/1296、必殺Lv10=1620/3240/2430、浮元Lv10の2ヒット計=1620/3240/2430（非会心/会心/期待値）。必殺と浮元が同値でも別イベント。','- 2つの非対称ステータスで全E0曲線、ATK/HP/DEF/撃破特効の個別変更、ロビンスキルON/OFFを独立照合。朱炎によるATK変換を入力済みATKへ再加算しない。芳酔25%は4つの通常ダメージへ適用しない。','- 画面では芳酔により撃破9042.12792→11302.6599、超撃破5651.32995を確認。Lv80・BE200%・炎耐性20%・敵Lv80、撃破は最大靭性60、超撃破は削靭値10/転換率100%/撃破済み。通常・撃破・超撃破は別々の計算で、自動合算しない。','- PC1440/390/320で4行、支援ON/OFF/提供者離脱、必殺/天賦Lv不足だけの局所停止、E1/敵2体の範囲外停止、合成UID形式入力と保存/再計算を確認。実UID通信は実施していない。');
@@ -410,7 +440,7 @@ async function generate(){
  p('','## 星魂・装備・パーティの別軸管理','',`- 98人に各E1～6の元データ（計${data.characters.reduce((n,c)=>n+c.eidolons.length,0)}件）。固定rank辞書全体${Object.keys(ranks).length}件とは母集団が異なる。`,`- 構造化星魂${eidolon.length}件・${eidolonOwners.size}人、計算処理対象${eidolon.filter(m=>m.support.status==='calculable').length}件、表示専用${eidolon.filter(m=>m.support.status==='displayOnly').length}件。攻撃倍率/ヒット数のoverride対応や軌跡Lv加算は別経路なので、この件数を全対応効果数とはしない。`,'- E3/E5はcatalog.eidolons[].levelUpSkillsからのLv加算処理と、各攻撃の採用曲線/上限/星魂範囲をセットで検証する。元データやUI上限の存在だけでは計算対応としない。','','|星魂|構造化記録|計算処理対象|表示専用|','|---|---:|---:|---:|');
  for(let n=1;n<=6;n++){const items=eidolon.filter(m=>Number(m.source.eidolonRank)===n);p(`|E${n}|${items.length}|${items.filter(m=>m.support.status==='calculable').length}|${items.filter(m=>m.support.status==='displayOnly').length}|`);}
  p('','|補正提供元|登録|計算処理対象|表示専用|','|---|---:|---:|---:|');for(const kind of ['trace','lightCone','relic','ornament']){const a=data.structuredModifiers.filter(m=>m.source.kind===kind);p(`|${kind}|${a.length}|${a.filter(m=>m.support.status==='calculable').length}|${a.filter(m=>m.support.status==='displayOnly').length}|`);}
- p('','- 停雲、ロビン、サンデー、花火、椒丘、夏ロビン、霊砂/ギャラガーの既存補正は提供者/対象/個別軌跡/ON/OFFを維持する。候補表示だけを適用済みと数えない。','- 主な不足: フォフォ121703の味方ATK支援（trace補正なし）、光円錐21056の味方撃破ダメージ支援（表示専用、撃破/超撃破の範囲要照合）。','- 常時効果21066愉悦度・23055DEF・遺物133速度/134会心ダメージ・パールA2は最終入力で管理する。表示専用でも未実装の自動加算漏れとは数えない。','- 任意補正OFFで基礎計算、ONで必要値不足は影響する結果のみ停止。提供者離脱/再加入・保存復元・UID反映は独立の統合QA項目。','','## 次回優先順位（最大10項目）','',"1. 花火1306: 130601/1130601の通常と非ダメージ支援を構成監査。登録上の参考値を全E0 Lv・追加能力・参照分離で検証できるか先に判断する（未調査の完成候補であり認定ではない）。","2. ブローニャ1101: E0通常110101と支援/天賦の区別、追加能力の確定会心を確認。E4追撃1101041の登録をE0不足に数えず、全E0主要構成を照合する。","3. フォフォ1217: 121701/1121701の通常を原版/強化版で区別し、他行動が非ダメージ支援であることと追加能力を確認。未対応121703味方ATK支援はE0本人の主要攻撃認定と別管理。","4. 寒鴉1215: 121501/121502の全曲線は再利用し、121504承負の初回適用順と現在の支援範囲を限定調査。新規順序証拠がなければ保留へ回す。","5. 彦卿120903/120904/1209041/1209101: 必殺後持続CR/CDと追撃の必須状態を単発入力で表現できるか調べる。新規智剣連心の順序が未確定なら全構成認定はしない。","6. 御空120704/1207011: 通常限定補正の継承は、その補正ごとの実行資料/実測が得られた場合に再開。未確認補正ON時の局所停止を維持。","7. 椒丘121801..121803: 初回付与/5層未満/隣接の順序証拠が得られたら事前5層の限定行と分ける。同じ5層の数値テストだけを反復しない。","8. ヴェルト100402/1100402・カフカ100503/1100503: 減速/感電の付与と追加/起爆の順序資料が得られた時に再開。自己最終ATKの非再加算を維持。","9. アスター100902/100904: KQM v1.4のターン終了時獲得を固定版へ継承できる証拠を得てから再開。途中で蓄エネが増えると推測して新処理を作らない。","10. 景元120402・セーバル110302・フック110902/110909・ペラ110603/110602: 上記保留台帳/既存記録の再開条件を満たす新証拠待ち。現在の独立検証済み状態は維持し、同じ検索を次工程の主作業にしない。",'','過去保留のパール150308/150320・サフェル140603・鏡流の版差は再調査せず、根拠が得られるまで保留欄で追跡する。人気順位は推測していない。','','## キャラクター別の登録・未登録・Lv/星魂・限定条件','');
+ p('','- 停雲、ロビン、サンデー、花火、椒丘、夏ロビン、霊砂/ギャラガーの既存補正は提供者/対象/個別軌跡/ON/OFFを維持する。候補表示だけを適用済みと数えない。','- 主な不足: フォフォ121703の味方ATK支援（trace補正なし）、光円錐21056の味方撃破ダメージ支援（表示専用、撃破/超撃破の範囲要照合）。','- 常時効果21066愉悦度・23055DEF・遺物133速度/134会心ダメージ・パールA2は最終入力で管理する。表示専用でも未実装の自動加算漏れとは数えない。','- 任意補正OFFで基礎計算、ONで必要値不足は影響する結果のみ停止。提供者離脱/再加入・保存復元・UID反映は独立の統合QA項目。','','## 次回優先順位（最大10項目）','',"1. A候補・ナターシャ110501: E0通常の全Lvと追加能力を独立検証し、110504の回復天賦を構成管理で非ダメージとして明示。E6通常追加1105016をE0へ混在させない。","2. B候補・調和開拓者8005/8006: 通常と敵1体スキル5段を既存式で検証し、バックダンス超撃破/初撃削靭の別成分と対応付けを確認。支援スキルを直接ダメージとして新設しない。","3. B候補・存護開拓者8003/8004: 800304/800404の説明を既存強化通常と対応付け、通常/強化/ATK+DEF必殺の全成分を限定検証。重複レコードを増やさない。","4. A/B候補の次段階選定: 登録不足55人のうち主要候補ID全登録31人と未登録候補を持つ24人を分け、固有成分/全Lvを確認できる少数から次工程を選ぶ。ID順や人気推測を使わない。","5. C・アベンチュリン130403: 初回動揺付与の同撃会心被ダメージ参照順を先に確認。通常130401/追撃130404の登録だけで構成完成にしない。","6. C・ルアン・メェイ130303/130304: 残梅の後続ダメージと撃破追加の所有者/参照値/時点を既存撃破式と照合。単純な通常式へ変換しない。","7. ジェイド131401/131402: 通常と債権回収者の追加を別成分で定義できる資料を得てから、既存131403/131404と合わせて構成認定を判断。質草の最終ATK/CDを再加算しない。","8. 支援別管理: フォフォ121703/1121703と強化A4の味方ATK支援、花火本人の支援状態の入力導線を保守課題として扱う。本人攻撃のE0認定を全支援対応と呼ばない。","9. C・前工程の保留10人: 景元/セーバル/フック/ペラ/御空/彦卿/アスター/カフカ/ヴェルト/椒丘は必要な新しい処理順/参照証拠が出た場合だけ再開。既存数値テストや同じ検索を反復しない。","10. E0主要構成の不足解消後にE1～6、装備/パーティの重要不足、残る参考値、UI/UID/保存/計算精度の統合QAへ進む。最終完成認定はこの別軸が揃うまで0を維持。",'','過去保留のパール150308/150320・サフェル140603・鏡流の版差は再調査せず、根拠が得られるまで保留欄で追跡する。人気順位は推測していない。','','## キャラクター別の登録・未登録・Lv/星魂・限定条件','');
  for(const d of details){p(`<a id="character-${d.c.id}"></a>`, `### ${d.c.id} ${d.c.name}`,'',d.confirmed?confirmedE0[d.c.id]:d.audit?(d.audit.summary+' 残作業: '+d.audit.remaining+' 証拠: '+d.audit.evidence):knownGaps[d.c.id]||'登録一覧の全成分/固有効果は要精査。登録状態と完成認定を分ける。','', '|攻撃ID・種類・名前|登録/実行|Lv・星魂範囲|必要入力・限定条件・不足|次作業/難易度|','|---|---|---|---|---|');for(const a of d.attacks)p(`|${a.id} ${cell(category(a)+' '+a.name)}|登録・${attackStatus(a)}|${cell(bounds(a))}|${cell(a.calculationNote||a.conditionText||a.support?.reason||'個別の入力・固有補正範囲は未明示')}|${cell(difficulty(a))}|`);
   p('','|固定版スキルID・名前|性質|対応する登録攻撃|管理上の扱い|','|---|---|---|---|');for(const s of d.sources){const mapped=d.mapped(s);const role=skillRole(s);p(`|${s.id} ${cell(s.name)}|${cell(role)}|${mapped.map(a=>a.id+' '+attackStatus(a)).join('、')||'なし'}|${role.startsWith('支援')?'ダメージ未実装数に含めない':role.startsWith('秘技')?'主要完成集計外':role.startsWith('召喚')?'有無/子攻撃/既存式接続を要確認':mapped.length?'成分/時点/条件の完全性を確認':'未登録候補。独立ダメージか既存行の成分か要確認'}|`);}
   p('','|星魂|構造化計算/表示|軌跡Lv加算（元データ）/残作業|','|---|---|---|');
@@ -418,7 +448,7 @@ async function generate(){
   p('',`星魂: 元データE1～6あり。構造化${d.eidolon.length}件（計算${d.eidolon.filter(m=>m.support.status==='calculable').length}・表示${d.eidolon.filter(m=>m.support.status==='displayOnly').length}）。E0主要攻撃と別に、各星魂の攻撃影響/軌跡Lv加算を確認する。`,'');
  }
  p('## 機械照合用フィンガープリント','',`- runtime: \`${hash({attacks:data.attacks,modifiers:data.structuredModifiers,specialBreak:data.specialBreakAttacks})}\``,`- fixed skills/trees/ranks: \`${hash({skills,trees,ranks})}\``,'','元JSONのコピーは保存せず、固定SHAからメモリ上で照合する。この管理表は配信資産や計算ランタイムには使用しない。','');
- return {text:lines.join('\n'),summary:{characters:98,attacks:data.attacks.length,counts,confirmedE0:confirmed.length,screenedCandidates:candidates.length,notCertified:98-confirmed.length,missingCharacters,pendingComposition,missingMasterCandidates:missing,unknownStateSkills:unknown}};
+ return {text:lines.join('\n'),summary:{characters:98,attacks:data.attacks.length,counts,confirmedE0:confirmed.length,screenedCandidates:candidates.length,notCertified:98-confirmed.length,missingCharacters,pendingComposition,backlogRegistered:backlogRegistered.length,backlogWithUnregistered:backlogWithUnregistered.length,missingMasterCandidates:missing,unknownStateSkills:unknown}};
 }
 if(require.main===module)generate().then(({text,summary})=>{if(process.argv.includes('--check')){if(!fs.existsSync(output)||fs.readFileSync(output,'utf8')!==text)throw Error('管理表が現在データと不一致。node scripts/reportHsrCompletion.cjs で更新してください。');}else fs.writeFileSync(output,text,'utf8');console.log(JSON.stringify(summary));}).catch(error=>{console.error(error.message);process.exitCode=1;});
 module.exports={generate,skillRole,e0CandidateAudit};
