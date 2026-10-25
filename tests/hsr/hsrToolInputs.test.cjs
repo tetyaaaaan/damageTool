@@ -2662,3 +2662,17 @@ test("Starfire and March Frozen ticks compare as independent assumed events with
  app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);near(byId(restored,"1001031").nonCrit,648);assert.match(restored.node("hsrResults").innerHTML,/確率込み平均/);
  restored.node("hsrEidolon").value="1";assert.equal(byId(restored,"1001031"),undefined);assert.ok(byId(restored,"100101"));
 });
+
+
+test("Clara compares marked states and counters with independent trace levels and local missing-input stops", async()=>{
+ const window={};vm.runInNewContext(read("games/js/hsrCalcData.js"),{window,fetch:async u=>({ok:true,json:async()=>JSON.parse(read(u.slice(1)))})});
+ const data=await window.HsrCalcData.load(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1107",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:3000,critRate:50,critDamage:100,damageBonus:0}});
+ const row=(t,id)=>t.calculate().find(r=>r.attack.name===data.attacks.find(a=>a.id===id).name);
+ for(const[id,n]of [["110701",1080],["110702",1296],["1107021",2592],["110704",2246.4],["1107031",4492.8]])near(row(app,id).nonCrit,n);
+ assert.equal(Object.keys(app.state.modifierInputs).length,0,"availability is assumed per state, not enabled by a checkbox");assert.match(app.node("hsrResults").innerHTML,/天賦カウンター 160% ＋ 必殺技による追加倍率 160%/);
+ app.node("hsrUltimateTrace").value="";assert.equal(row(app,"1107031"),undefined);assert.ok(row(app,"110704"));assert.ok(row(app,"1107021"));app.node("hsrUltimateTrace").value="10";
+ app.node("hsrTalentTrace").value="";assert.equal(row(app,"1107031"),undefined);assert.equal(row(app,"110704"),undefined);assert.ok(row(app,"110701"));app.node("hsrTalentTrace").value="5";near(row(app,"1107031").nonCrit,3818.88);
+ app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(row(saved,"1107031").nonCrit,3818.88);assert.equal(saved.state.traceLevels.talent,5);
+ saved.node("hsrTalentTrace").value="10";saved.state.party[0]={characterId:"1309",level:80,eidolon:0,traceLevels:{skill:10}};saved.state.modifierInputs["robin-skill-damage-active"]=true;near(row(saved,"1107031").nonCrit,6220.8);saved.state.party[0].characterId="";near(row(saved,"1107031").nonCrit,4492.8);
+});
