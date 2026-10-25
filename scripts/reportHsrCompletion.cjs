@@ -223,6 +223,49 @@ const e0CandidateAudit={
     "evidence": "固定版122201..122204/A2/A4/A6・KQM Lingsha Quick Guide・正式4.6の浮元精密係数を照合。hsrLingshaE0Completionで全E0曲線と非対称2条件/参照分離/支援/芳酔除外、hsrToolInputsで4行・不足Lvの局所停止・保存。PC1440/390/320で必殺と浮元の別行動、芳酔の撃破/超撃破専用範囲を実画面確認。",
     "remaining": "E0・Lv80・敵1体・状態一定の単発比較。通常の既存条件に合わせ炎非弱点の未撃破を使用。朱炎のATK変換は最終ATKへ含める。回復/EP/召喚残数/行動順/低HP判定を自動管理しない。必殺で100%前進した浮元とA6による天賦発動は別行動として同じ122204を使用し、必殺へ自動合算しない。複数敵・途中撃破・E1以上、全装備/支援を含む最終完成は別認定。"
   },
+  "1101": {
+    "status": "confirmed",
+    "majorSourceIds": [
+      "110101"
+    ],
+    "requiredAttackIds": [
+      "110101"
+    ],
+    "nonDamageSourceIds": [
+      "110104"
+    ],
+    "summary": "E0本人ダメージは通常110101のみ。号令のCR100%と軍勢の戦闘中与ダメージ10%を既存補正で1回適用。スキル/必殺は支援、天賦は行動順変更のみ。E4追撃をE0不足に数えない。",
+    "evidence": "固定110101..110104/1101101..1101103/星魂110104を直接照合。hsrSupporterE0Completion: 全E0通常Lv、非対称2条件、参照分離、号令通常限定/軍勢10%とRobin支援の独立計算。hsrToolInputsとPC1440/390/320で1行/不足Lv/保存。",
+    "remaining": "E0・Lv80・通常Lv1～6・主要追加能力解放済み・敵1体・状態一定。風小軌跡22.4%/CD24%は最終入力、軍勢10%は未算入の入力から既存補正を使用。行動順/支援運用/回復・他行動は合算しない。E1以上・全支援/装備の最終完成は別認定。"
+  },
+  "1217": {
+    "status": "confirmed",
+    "majorSourceIds": [
+      "121701",
+      "1121701"
+    ],
+    "requiredAttackIds": [
+      "121701",
+      "1121701"
+    ],
+    "summary": "原版121701/強化版1121701の通常は本人の最終最大HP参照。E0本人の直接ダメージはこの通常のみ。スキル/天賦の回復と必殺の自身以外へのEP/ATK支援は本人攻撃に含まない。",
+    "evidence": "固定121701..121704/1121701..1121704と各追加能力/星魂を照合。原版hsrGroupedReferencePromotionsを再利用、hsrSupporterE0Completionで両版全E0曲線・HPのみの感度/非再加算/Robin支援を独立検証。hsrToolInputsとPC1440/390/320で版・HP不足・保存。",
+    "remaining": "E0・Lv80・通常Lv1～6・敵1体・状態一定。装備/小軌跡のHPは最終最大HPへ含める。現在HP/他者ATK/自身以外への支援で参照値を置換しない。回復/SP/EP/行動順は合算せず、必殺ATK支援・強化A4の最大EP条件を含む支援完成やE1以上は別認定。"
+  },
+  "1306": {
+    "status": "confirmed",
+    "majorSourceIds": [
+      "130601",
+      "1130601"
+    ],
+    "requiredAttackIds": [
+      "130601",
+      "1130601"
+    ],
+    "summary": "原版/強化版とも本人の直接ダメージはATK参照通常のみ。130601/1130601を版選択で分離し、同名の別版を同時合算しない。スキル/天賦/必殺の支援はダメージ攻撃不足に数えない。",
+    "evidence": "固定130601..130604/1130601..1130604と各追加能力/星魂を照合。hsrSupporterE0Completion: 両版の全E0曲線、ATK/HP/DEF分離、自己ATK非再加算、入力CD/DMG/敵被ダメージ/耐性貫通、Robin支援を独立照合。hsrToolInputsとPC1440/390/320で版/保存/局所停止。",
+    "remaining": "E0・Lv80・通常Lv1～6・敵1体・状態一定。夜想曲のATKは最終入力。本人SkillのCDと原版Talent/CipherのDMGは最終入力/手動欄、強化版の幻相/CipherとA6耐性貫通10%は敵条件に1回だけ指定。花火の既存party専用支援は本人へ自動適用しない。自己支援の全自動化、層更新/SP/行動順、E1以上、全支援/装備は別認定。"
+  },
   "1301": {
     "status": "confirmed",
     "majorSourceIds": [
@@ -254,6 +297,7 @@ const knownGaps={
  '1308':'必殺技の段階別成分/集真赤の状態変化を要確認。'
 };
 function skillRole(skill){
+ if(Object.values(e0CandidateAudit).some(a=>a.nonDamageSourceIds?.includes(String(skill.id))))return '支援/行動順（非ダメージを固定版で監査済み）';
  if(!combatTypes.has(skill.type))return '秘技/フィールド（E0主要攻撃の判定外）';
  if(directEffects.has(skill.effect))return '直接ダメージ行動';
  if(/付加ダメージ|確定ダメージ|持続ダメージ|ダメージを与|ダメージが発生/.test(skill.desc||''))return '条件付き/別成分（即時攻撃と区別）';

@@ -2765,3 +2765,22 @@ test("Lingsha E0 compares every ordinary action and separate Fuyuan while preser
  saved.node("hsrEnemyCount").value="2";r=rows(saved);assert.equal(find(r,"122204"),undefined);assert.equal(find(r,"122203"),undefined);saved.node("hsrEnemyCount").value="1";
  saved.node("hsrEidolon").value="1";r=rows(saved);for(const id of ["122201","122202","122203","122204"])assert.equal(find(r,id),undefined);
 });
+
+
+test("supporter E0 basics distinguish released versions, native final inputs, missing stats and party save state",async()=>{
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture(),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+" != "+b);
+ for(const[cid,variants,damageBonus,baseline]of [["1306",[["previous","130601"],["enhanced","1130601"]],0,1080],["1217",[["previous","121701"],["enhanced","1121701"]],0,1080],["1101",[["enhanced","110101"]],22.4,1429.92]]){
+  const app=await tool(undefined,data);app.window.HsrTool.applyProfileCharacter({id:cid,level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus}});
+  const name=data.attacks.find(a=>a.characterId===cid&&a.type==="normal").name,one=t=>t.calculate().find(r=>r.attack?.name===name);
+  assert.equal(app.node("hsrEnhancementField").hidden,cid==="1101","released-version selector follows versioned attack data");
+  for(const[variant,id]of variants){app.state.enhancementState=variant;app.node("hsrEnhancementState").value=variant;let r=one(app);assert.ok(r,id);near(r.nonCrit,baseline);near(r.crit,baseline*2);near(r.expected,baseline*(cid==="1101"?2:1.5));assert.equal(app.calculate().filter(r=>r.attack?.name===name).length,1,"one released version at a time");
+   app.node("hsrNormalTrace").value="1";near(one(app).nonCrit,baseline/2);app.node("hsrNormalTrace").value="6";
+   const unused=cid==="1217"?"atk":"hp",ref=cid==="1217"?"hp":"atk";app.node("hsrStat-"+unused).value="9999";near(one(app).nonCrit,baseline);app.node("hsrStat-"+ref).value=cid==="1217"?"9000":"4500";near(one(app).nonCrit,baseline*1.5);app.node("hsrStat-"+ref).value=cid==="1217"?"6000":"3000";
+   app.node("hsrStat-"+ref).value="";assert.equal(one(app),undefined);app.node("hsrStat-"+ref).value=cid==="1217"?"6000":"3000";app.node("hsrNormalTrace").value="";assert.equal(one(app),undefined);app.node("hsrNormalTrace").value="6";
+   app.node("hsrEidolon").value="1";assert.equal(one(app),undefined);app.node("hsrEidolon").value="0";
+  }
+  app.state.party[0]={characterId:"1309",level:80,eidolon:0,traceLevels:{skill:10}};app.state.modifierInputs["robin-skill-damage-active"]=true;const expectedBonus=1+(damageBonus+(cid==="1101"?10:0)+50)/100,baseBonus=1+(damageBonus+(cid==="1101"?10:0))/100;near(one(app).nonCrit,baseline*expectedBonus/baseBonus);
+  app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(one(saved).nonCrit,baseline*expectedBonus/baseBonus);assert.equal(saved.state.enhancementState,variants.at(-1)[0]);saved.state.party[0].characterId="";near(one(saved).nonCrit,baseline);
+  if(cid==="1306"){saved.node("hsrStat-critDamage").value="169";saved.node("hsrEnemyTakenDamage").value="30";saved.node("hsrEnemyResistancePenetration").value="10";let r=one(saved);near(r.nonCrit,1579.5);near(r.crit,4248.855);near(r.expected,2914.1775);saved.node("hsrStat-damageBonus").value="48";saved.node("hsrStat-critDamage").value="100";saved.node("hsrEnemyTakenDamage").value="0";saved.node("hsrEnemyResistancePenetration").value="0";saved.state.enhancementState="previous";saved.node("hsrEnhancementState").value="previous";near(one(saved).nonCrit,1598.4);}
+ }
+});

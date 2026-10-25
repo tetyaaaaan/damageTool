@@ -75,14 +75,14 @@ test("Castorice reviewed attacks keep HP scaling, blast sides, and six-hit memos
     assert.ok(Math.abs(bounce.nonCrit - 6048) < 1e-9);
 });
 
-test("Bronya 1101 golden: Lv10 normal is reviewed and A2 forces 100% expected crit", () => {
+test("Bronya 1101 golden: E0 Lv6 normal and A2 forces 100% expected crit", () => {
     const attack = attacks.find((item) => item.id === "110101");
     const critOverride = structured("traceNode:1101:1101101:normal-crit-override", { characterId: "1101" });
-    const result = engine.calculate(request({ ...attack, attackType: attack.type, element: attack.element, multiplier: attack.multipliers[9] }, [critOverride]));
-    assert.equal(attack.multipliers[9], 140);
-    assert.ok(Math.abs(result.nonCrit - 504) < 1e-9);
-    assert.ok(Math.abs(result.crit - 1008) < 1e-9);
-    assert.ok(Math.abs(result.expected - 1008) < 1e-9);
+    const result = engine.calculate(request({ ...attack, attackType: attack.type, element: attack.element, multiplier: attack.multipliers[5] }, [critOverride]));
+    assert.equal(attack.multipliers[5], 100);
+    assert.ok(Math.abs(result.nonCrit - 360) < 1e-9);
+    assert.ok(Math.abs(result.crit - 720) < 1e-9);
+    assert.ok(Math.abs(result.expected - 720) < 1e-9);
     assert.equal(result.applied[0].id, "traceNode:1101:1101101:normal-crit-override");
 });
 

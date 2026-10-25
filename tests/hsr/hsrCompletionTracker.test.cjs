@@ -10,6 +10,8 @@ test('completion tracker distinguishes non-damaging support, conditional damage 
  assert.match(skillRole({type:'Ultra',effect:'Restore',desc:'味方全体のHPを回復する。'}),/^支援/);
  assert.match(skillRole({type:'BPSkill',effect:'Support',desc:'味方の攻撃後に付加ダメージを与える。'}),/^条件付き/);
  assert.match(skillRole({type:'Talent',effect:'Summon',desc:'精霊を召喚する。'}),/^召喚/);
+ assert.match(skillRole({id:'110104',type:'Talent',effect:'',desc:'通常攻撃後、行動順を早める。'}),/^支援\/行動順/);
+ assert.match(skillRole({type:'Talent',effect:'',desc:'未知の状態を得る。'}),/^召喚\/状態/);
  assert.match(skillRole({type:'Maze',effect:'SingleAttack',desc:'敵にダメージを与える。'}),/^秘技/);
 });
 
@@ -33,8 +35,8 @@ test('the three E0 composition-confirmed supports independently verify their sol
 test('candidate audit keeps missing damage components distinct from registered source skills',async()=>{
  const {e0CandidateAudit}=require('../../scripts/reportHsrCompletion.cjs');
  const audits=Object.values(e0CandidateAudit);
- assert.equal(audits.length,21);
- for(const id of ['1013','1108','1222'])assert.equal(e0CandidateAudit[id].status,'confirmed');
+ assert.equal(audits.length,24);
+ for(const id of ['1013','1108','1222','1101','1217','1306'])assert.equal(e0CandidateAudit[id].status,'confirmed');
  for(const id of ['1106','1207','1218'])assert.equal(e0CandidateAudit[id].status,'pending');
  assert.ok(audits.every(a=>['confirmed','pending','missing'].includes(a.status)));
  for(const id of ['1001','1003'])assert.equal(e0CandidateAudit[id].missingComponents.length,0,'the independently added delayed event resolves the registration gap');
