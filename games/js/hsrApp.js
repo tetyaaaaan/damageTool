@@ -250,6 +250,11 @@
   function attackStateIssues(attack, issue) {
     if (attack.characterLevelExact !== undefined && state.level !== attack.characterLevelExact) issue(`${attack.name}はキャラクターLv${attack.characterLevelExact}のみ計算対応です。`, "hsrLevel");
     if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== 2)) issue(`${attack.name}の構成データ（スキル本体・追加攻撃）を読み込めません。ページを再読み込みして確認してください。`, "");
+    if (attack.rejectNormalOnlyModifiers) {
+      const base = {id:"120701",type:"normal",attackType:"normal",element:"Imaginary"};
+      const reason = window.HsrCalcEngine.normalOnlyModifierReason(allConditions().filter(item=>item.enabled&&!item.displayOnly&&modifierTargetsCalculation(item,base)).map(item=>({...item,applicable:true})));
+      if (reason) issue(reason, "hsrConditionDialogOpen");
+    }
     if (attack.requiresValidHitCount) {
       const count = state.modifierInputs[attack.hitCountInputKey] === undefined ? attack.hitCountDefault : state.modifierInputs[attack.hitCountInputKey];
       if (!Number.isInteger(count) || count < attack.hitCountMinimum || count > attack.hitCountMaximum) issue(attack.name + "の攻撃段数に" + attack.hitCountMinimum + "～" + attack.hitCountMaximum + "の整数を補正条件で入力してください。", "hsrConditionDialogOpen");
@@ -947,6 +952,11 @@
   function resolvedAttack(selected) {
     if (selected.id === "131508") { const level=state.traceLevels.normal; return { ...selected, traceLevel:level, multiplier:selected.multipliers[level-1], attackType:selected.type, fanningInputs:{confirmed:state.modifierInputs["boothill-fanning-broken"]===true,stacks:state.modifierInputs["boothill-pocket-stacks"]===undefined?3:state.modifierInputs["boothill-pocket-stacks"],talentLevel:state.traceLevels.talent} }; }
     if (selected.id === "1151201") { const level=state.songbirdInputs.skillLevel; return { ...selected, traceLevel: level, multiplier: selected.multipliers[level-1] }; }
+    if (selected.id === "1207011" && selected.damageFormula === "componentSequence") {
+      const parts = selected.damageComponents.map(c=>state.data.attacks.find(a=>a.id===c.attackId&&a.characterId==="1207"));
+      const sequenceAttacks = parts.every(Boolean) ? parts.map(a=>({...resolvedAttack(a),damageFormula:"statMultiplier"})) : [];
+      return {...selected,traceLevel:state.traceLevels.normal,multiplier:sequenceAttacks[0]?.multiplier,traceLevelLabel:`通常Lv${state.traceLevels.normal}＋天賦Lv${state.traceLevels.talent}`,attackType:selected.type,sequenceAttacks};
+    }
     if (selected.id === "122002" && selected.damageFormula === "componentSequence") {
       const level = num(state.traceLevels.skill, 10);
       const multiplier = num(selected.multipliers?.[level - 1]);
@@ -1156,7 +1166,7 @@
     if (b.damageFormula === "componentSequence") {
       const componentNames = b.componentNames || [];
       const componentDetails = Object.entries(result.components || {}).map(([key, component], index) => `<h4>${esc(componentNames[index] || component.componentName || key)}</h4>${damageBreakdown(component, "同一対象・各成分")}`).join("");
-      return `<section class="hsr-target-breakdown"><h4>構成成分と合計</h4><p class="hsr-formula-note">${esc(b.condition || "各成分を個別計算し、同一対象の結果を合算します。")}</p>${componentDetails}<h4>スキル本体＋追加攻撃の合計</h4>${damageValues(result)}</section>`;
+      return `<section class="hsr-target-breakdown"><h4>構成成分と合計</h4><p class="hsr-formula-note">${esc(b.condition || "各成分を個別計算し、同一対象の結果を合算します。")}</p>${componentDetails}<h4>${esc(b.totalLabel || "スキル本体＋追加攻撃の合計")}</h4>${damageValues(result)}</section>`;
     }
     if (b.damageFormula === "normalAndBreak") {
       const extra = result.components.break;

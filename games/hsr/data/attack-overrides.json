@@ -1006,21 +1006,7 @@
       "sourceSkillId": "110602",
       "overrideReason": "戦闘スキル本体の攻撃力倍率をバフ解除効果から分離し、全15レベルで照合。"
     },
-    {
-      "id": "110603",
-      "characterId": "1106",
-      "name": "領域制圧",
-      "element": "Ice",
-      "type": "ultimate",
-      "traceKey": "ultimate",
-      "target": "aoe",
-      "scalingStat": "atk",
-      "hitCount": 1,
-      "canCrit": true,
-      "multipliers": [60,64,68,72,76,80,85,90,95,100,104,108,112,116,120],
-      "sourceSkillId": "110603",
-      "overrideReason": "必殺技の敵全体への攻撃力倍率を防御力ダウン効果から分離し、全15レベルで照合。"
-    },
+    {"id":"110603","characterId":"1106","name":"領域制圧（同Lv一般解が付与済み）","element":"Ice","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[60,64,68,72,76,80,85,90,95,100,104,108,112,116,120],"sourceSkillId":"110603","overrideReason":"必殺技の敵全体への攻撃力倍率を防御力ダウン効果から分離し、全15レベルで照合。","maximumEidolon":0,"characterLevelExact":80,"maximumTraceLevel":10,"enemyCountExact":1,"requiredModifierIds":["trace:1106:110603:prior-solution","traceNode:1106:1106101:prior-solution-damage"],"calculationNote":"E0・Lv80・必殺技Lv1～10・敵1体。攻撃前から同じLvの一般解が付与済みで、敵/補正状態が一定の場合を想定します。この一般解の防御ダウンと、痛撃解放済みのデバフ対象与ダメージ20%を各1回だけ適用。既存の一般解条件をONにしても同一効果は重ねません。同じ一般解を手動の防御ダウンへ重複入力しないでください。他の防御ダウン/無視とは防御区分で加算し合計100%上限。初回必殺が新規付与する一般解を同じヒットへ参照する順序は未確認のため、この結果は初回発動値ではありません。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110603.params[0..9];character_skill_trees.json:1106101","referenceUrl":"https://hsr.keqingmains.com/Pela/","verifiedAt":"2026-10-25","scope":"E0・Lv80・必殺技Lv1～10・敵1体。攻撃前から同じLvの一般解が付与済みで、敵/補正状態が一定の場合を想定します。この一般解の防御ダウンと、痛撃解放済みのデバフ対象与ダメージ20%を各1回だけ適用。既存の一般解条件をONにしても同一効果は重ねません。同じ一般解を手動の防御ダウンへ重複入力しないでください。他の防御ダウン/無視とは防御区分で加算し合計100%上限。初回必殺が新規付与する一般解を同じヒットへ参照する順序は未確認のため、この結果は初回発動値ではありません。"}},
     {
       "id": "110607",
       "characterId": "1106",
@@ -2778,6 +2764,7 @@
         "verified": true,
         "reason": "固定版の独立した後続成分を照合。状態成立時の1回分を独立計算し、即時攻撃/付与確率を合算しない。"
       }
-    }
+    },
+    {"id":"1207011","characterId":"1207","sourceSkillId":"120701","name":"流鏑＋徹札矢（天賦発動時の合計）","type":"normal","traceKey":"normal","element":"Imaginary","target":"single","scalingStat":"atk","damageFormula":"componentSequence","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100],"maximumEidolon":0,"maximumTraceLevel":6,"characterLevelExact":80,"enemyCountExact":1,"requiresNonWeakTarget":true,"requiredToughnessActive":true,"rejectNormalOnlyModifiers":true,"requiredTraceLevelRanges":{"normal":{"minimum":1,"maximum":6},"talent":{"minimum":1,"maximum":10}},"displayOrder":11,"damageComponents":[{"key":"basic","attackId":"120701","name":"通常攻撃本体"},{"key":"talent","attackId":"120704","name":"徹札矢・追加成分"}],"calculationNote":"E0・Lv80・通常Lv1～6/天賦Lv1～10・虚数非弱点で未撃破の敵1体。徹札矢が再発動可能な通常攻撃1回の想定です。通常本体と天賦の追加成分を、同じ最終ATK/敵状態から個別計算して合計します。別行の通常/追加成分をさらに足さないでください。通常攻撃限定補正の天賦への適用範囲は未検証のため、有効時はこの合計を停止します。汎用補正は成分ごとに判定。削靭/ターン・途中状態変化・外部追加ダメージは対象外。","support":{"status":"calculable","verified":true,"reason":"固定版の通常/天賦全採用Lvと独立計算を照合。通常限定補正は未確認範囲として除外せず停止。"},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:120701,120704.params[0..9]","referenceUrl":"https://hsr.keqingmains.com/yukong/","verifiedAt":"2026-10-25","scope":"E0・Lv80・通常Lv1～6/天賦Lv1～10・虚数非弱点で未撃破の敵1体。徹札矢が再発動可能な通常攻撃1回の想定です。通常本体と天賦の追加成分を、同じ最終ATK/敵状態から個別計算して合計します。別行の通常/追加成分をさらに足さないでください。通常攻撃限定補正の天賦への適用範囲は未検証のため、有効時はこの合計を停止します。汎用補正は成分ごとに判定。削靭/ターン・途中状態変化・外部追加ダメージは対象外。"}}
   ]
 }

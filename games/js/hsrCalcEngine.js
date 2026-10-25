@@ -200,7 +200,12 @@
                 && attack.element === "Wind" && attack.sourceSkillId === "122002"
                 && components[0]?.key === "skill" && components[0]?.attackId === "122002"
                 && components[1]?.key === "followUp" && components[1]?.attackId === "122004";
-            return validFeixiaoDefinition ? "" : "この複合攻撃の構成は未対応です。";
+            const validYukongDefinition = attack.id === "1207011" && Array.isArray(components) && components.length === 2
+                && attack.type === "normal" && (!attack.attackType || attack.attackType === "normal") && attack.target === "single"
+                && attack.element === "Imaginary" && attack.sourceSkillId === "120701"
+                && components[0]?.key === "basic" && components[0]?.attackId === "120701"
+                && components[1]?.key === "talent" && components[1]?.attackId === "120704";
+            return validFeixiaoDefinition || validYukongDefinition ? "" : "この複合攻撃の構成は未対応です。";
         }
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
@@ -267,6 +272,11 @@ function calculateFanning(input) {
  breakdown:{damageFormula:"normalAndBreak",breakMultiplierPercent:breakMultiplier*100,stacks:f.stacks},applied:[...direct.applied,...extra.applied].filter((m,i,all)=>all.findIndex(v=>v.id===m.id)===i),skipped:[]};
 }
 
+    function normalOnlyModifierReason(modifiers = []) {
+        const item = modifiers.find(m => { const types = m.target?.attackTypes || m.attackTypes || ["all"]; return m.enabled !== false && m.applicable !== false && !m.displayOnly && modifierAppliesToAttack(m,{id:"120701",type:"normal",element:"Imaginary"}) && types.includes("normal") && !types.includes("all") && !types.includes("additional"); });
+        return item ? (item.name || item.id || "通常攻撃限定補正") + "：徹札矢への通常攻撃限定補正の適用範囲は未検証です。追加成分と合計を停止します。" : "";
+    }
+
     function calculate(input) {
         if (input.attack?.id === "131508" && input.attack.damageFormula === "normalAndBreak" && !unsupportedAttackReason(input.attack)) return calculateFanning(input);
         const character = input?.character || {};
@@ -274,6 +284,7 @@ function calculateFanning(input) {
         const attack = input?.attack || {};
         const unsupportedReason = unsupportedAttackReason(attack);
         if (unsupportedReason) return { supported: false, reason: unsupportedReason };
+        if (attack.rejectNormalOnlyModifiers && attack.damageFormula !== "componentSequence") { const reason = normalOnlyModifierReason(input.modifiers || []); if (reason) return { supported: false, reason }; }
         if (attack.damageFormula === "componentSequence") return calculateComponentSequence(input);
         if (supportedElationAttack(attack)) return calculateElation(input);
         if (supportedTrueAttack(attack)) return calculateTrueDamage(input);
@@ -384,21 +395,23 @@ function calculateFanning(input) {
         const character = input.character || {};
         const enemy = input.enemy || {};
         const components = input.sequenceComponents || [];
-        const expected = [
+        const yukong = attack.id === "1207011";
+        const element = yukong ? "Imaginary" : "Wind";
+        const expected = yukong ? [{ key:"basic", id:"120701", type:"normal" }, { key:"talent", id:"120704", type:"additional" }] : [
             { key: "skill", id: "122002", type: "skill" },
             { key: "followUp", id: "122004", type: "followUp" }
         ];
         const fail = reason => ({ supported: false, reason });
-        if (attack.id !== "122002" || attack.damageFormula !== "componentSequence") return fail("この複合攻撃は未対応です。");
+        if ((!yukong && attack.id !== "122002") || attack.damageFormula !== "componentSequence") return fail("この複合攻撃は未対応です。");
         if (character.level !== 80 || character.eidolon !== 0 || enemy.count !== 1 || enemy.weakness !== false || enemy.toughnessActive !== true) {
-            return fail("飛霄のスキル＋追加攻撃はLv80・星魂0・風弱点なし・敵1体・靭性ありのみ計算対応です。");
+            return fail(yukong ? "通常＋徹札矢はLv80・星魂0・虚数弱点なし・敵1体・靭性ありのみ計算対応です。" : "飛霄のスキル＋追加攻撃はLv80・星魂0・風弱点なし・敵1体・靭性ありのみ計算対応です。");
         }
         if (!(Number.isFinite(character.stats?.atk) && character.stats.atk > 0)
             || !Number.isFinite(character.stats?.critRate) || !Number.isFinite(character.stats?.critDamage)
             || !Number.isFinite(character.stats?.damageBonus)) {
             return fail("飛霄の最終攻撃力・会心率・会心ダメージ・与ダメージ補正をすべて入力してください。");
         }
-        if (!Number.isInteger(attack.traceLevel) || attack.traceLevel < 1 || attack.traceLevel > 10) return fail("飛霄のスキルLv1～10を指定してください。");
+        if (!Number.isInteger(attack.traceLevel) || attack.traceLevel < 1 || attack.traceLevel > (yukong ? 6 : 10)) return fail(yukong ? "通常Lv1～6を指定してください。" : "飛霄のスキルLv1～10を指定してください。");
         if (components.length !== expected.length) return fail("スキル本体と天賦追加攻撃の両成分が必要です。");
         for (let index = 0; index < expected.length; index++) {
             const spec = expected[index];
@@ -408,9 +421,9 @@ function calculateFanning(input) {
             if (component?.key !== spec.key || component?.name !== attack.damageComponents?.[index]?.name
                 || attack.damageComponents?.[index]?.key !== spec.key || attack.damageComponents?.[index]?.attackId !== spec.id
                 || childAttack.id !== spec.id || childAttack.type !== spec.type || childAttack.attackType !== spec.type
-                || childAttack.sourceSkillId !== spec.id || !Number.isInteger(childAttack.traceLevel) || childAttack.traceLevel < 1 || childAttack.traceLevel > 10
-                || (spec.key === "skill" && childAttack.traceLevel !== attack.traceLevel)
-                || childAttack.damageFormula !== "statMultiplier" || childAttack.element !== "Wind"
+                || childAttack.sourceSkillId !== spec.id || !Number.isInteger(childAttack.traceLevel) || childAttack.traceLevel < 1 || childAttack.traceLevel > (spec.type === "normal" ? 6 : 10)
+                || (["skill", "basic"].includes(spec.key) && childAttack.traceLevel !== attack.traceLevel)
+                || childAttack.damageFormula !== "statMultiplier" || childAttack.element !== element
                 || childAttack.scalingStat !== "atk" || childAttack.target !== "single" || childAttack.hitCount !== 1
                 || childAttack.canCrit === false || !Number.isFinite(childAttack.multiplier) || childAttack.multiplier <= 0) {
                 return fail("スキル本体または追加攻撃のデータが、確認済みの構成と一致しません。");
@@ -420,10 +433,11 @@ function calculateFanning(input) {
                 return fail("複合攻撃の各成分は同じ攻撃時点のステータス・敵条件で計算してください。");
             }
         }
+        if (yukong) { const reason = normalOnlyModifierReason(components.flatMap(c=>c.input.modifiers || [])); if(reason) return fail(reason); }
         const followUpModifiers = Array.isArray(components[1].input.modifiers) ? components[1].input.modifiers : [];
         const nativeFollowUpBonus = followUpModifiers.filter(item => item.id === "trace:1220:122004:followup-damage");
-        if (nativeFollowUpBonus.length !== 1 || nativeFollowUpBonus[0].enabled !== true || nativeFollowUpBonus[0].applicable !== true
-            || !Number.isFinite(nativeFollowUpBonus[0].value)) {
+        if (!yukong && (nativeFollowUpBonus.length !== 1 || nativeFollowUpBonus[0].enabled !== true || nativeFollowUpBonus[0].applicable !== true
+            || !Number.isFinite(nativeFollowUpBonus[0].value))) {
             return fail("天賦追加攻撃に必須の発動時与ダメージ補正を、補正条件から1件だけ有効にしてください。");
         }
         const resolved = components.map(component => ({
@@ -445,7 +459,7 @@ function calculateFanning(input) {
             crit: total("crit"),
             expected: total("expected"),
             components: Object.fromEntries(resolved.map(component => [component.key, { ...component.result, componentName: component.name }])),
-            breakdown: { damageFormula: "componentSequence", componentNames: resolved.map(component => component.name), condition: "同じ敵・最終ステータスを参照し、各成分の固有補正は別々に適用" },
+            breakdown: { damageFormula: "componentSequence", totalLabel: yukong ? "通常本体＋徹札矢の合計" : "スキル本体＋追加攻撃の合計", componentNames: resolved.map(component => component.name), condition: "同じ敵・最終ステータスを参照し、各成分の固有補正は別々に適用" },
             applied,
             skipped
         };
@@ -618,5 +632,5 @@ function calculateFanning(input) {
         return { supported: true, value, base, conversionMultiplier, toughnessDamage, effectiveToughnessDamage, breakEffect, breakEfficiency, superBreakBonus, defense, resistance, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
     }
 
-    window.HsrCalcEngine = Object.freeze({ fanningInputWarnings, songbirdInputWarnings, trueDamageInputWarnings, elationInputWarnings, unsupportedAttackReason, calculate, calculateBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });
+    window.HsrCalcEngine = Object.freeze({ normalOnlyModifierReason, fanningInputWarnings, songbirdInputWarnings, trueDamageInputWarnings, elationInputWarnings, unsupportedAttackReason, calculate, calculateBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });
 })();

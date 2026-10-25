@@ -2687,3 +2687,25 @@ test("permanent EHR conversions preserve completed ATK through imported inputs, 
  app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);near(row(restored).breakdown.referenceValue,3500);assert.match(restored.node("hsrResults").innerHTML,/最終ステータスに含めて入力する効果/);
  }
 });
+
+
+test("Yukong compares Basic, Talent and total with scoped buffs and keeps missing inputs local",async()=>{
+ const window={};vm.runInNewContext(read("games/js/hsrCalcData.js"),{window,fetch:async u=>({ok:true,json:async()=>JSON.parse(read(u.slice(1)))})});const data=await window.HsrCalcData.load(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1207",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:3000,critRate:50,critDamage:100,damageBonus:12}});
+ const row=(t,id)=>t.calculate().find(r=>r.attack.name===data.attacks.find(a=>a.id===id).name);
+ near(row(app,"120701").nonCrit,1209.6);near(row(app,"120704").nonCrit,967.68);near(row(app,"1207011").nonCrit,2177.28);near(row(app,"1207011").crit,4354.56);near(row(app,"1207011").expected,3265.92);
+ assert.equal(app.state.modifierInputs["yukong-bowshot-ready"],undefined);assert.match(app.node("hsrResults").innerHTML,/通常本体＋徹札矢の合計/);
+ app.node("hsrTalentTrace").value="";assert.equal(row(app,"120704"),undefined);assert.equal(row(app,"1207011"),undefined);assert.ok(row(app,"120701"));assert.ok(row(app,"120703"));app.node("hsrTalentTrace").value="10";
+ app.state.data.structuredModifiers.push({id:"test-normal-only",source:{kind:"trace",id:"1207"},name:"通常限定検証",category:"damageBonus",unit:"percent",value:{kind:"fixed",fixed:20},target:{owner:"self",attackTypes:["normal"],elements:[]},activation:{mode:"toggle",inputKey:"test-normal-only-active",default:false},stacking:{group:"test-normal",rule:"nonStacking"},calculation:{stage:"damageBonus",operation:"add"},inputPolicy:"conditional",support:{status:"calculable",verified:true}});
+ app.state.modifierInputs["test-normal-only-active"]=true;assert.equal(row(app,"120704"),undefined);assert.equal(row(app,"1207011"),undefined);assert.ok(row(app,"120701"));assert.ok(row(app,"120703"));assert.match(app.node("hsrResults").innerHTML,/通常攻撃限定補正.*未検証/);app.state.modifierInputs["test-normal-only-active"]=false;
+ app.state.party[0]={characterId:"1309",level:80,eidolon:0,traceLevels:{skill:10}};app.state.modifierInputs["robin-skill-damage-active"]=true;near(row(app,"1207011").nonCrit,3149.28);app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);near(row(restored,"1207011").nonCrit,3149.28);restored.state.party[0].characterId="";near(row(restored,"1207011").nonCrit,2177.28);
+});
+
+test("Pela Ultimate assumes prior same-level Solution, deduplicates selected debuffs and stops missing native data",async()=>{
+ const window={};vm.runInNewContext(read("games/js/hsrCalcData.js"),{window,fetch:async u=>({ok:true,json:async()=>JSON.parse(read(u.slice(1)))})});const data=await window.HsrCalcData.load(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1106",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:3000,critRate:50,critDamage:100,damageBonus:0}});
+ const ult=t=>t.calculate().find(r=>r.attack.name===data.attacks.find(a=>a.id==="110603").name);near(ult(app).nonCrit,1620);near(ult(app).crit,3240);near(ult(app).expected,2430);
+ app.state.modifierInputs["pela-general-solution"]=true;app.node("hsrEnemyDebuffCount").value="1";near(ult(app).nonCrit,1620);assert.equal(ult(app).applied.filter(m=>m.stacking?.group==="pela-general-solution-defense").length,1);
+ const records=app.state.data.structuredModifiers;app.state.data.structuredModifiers=records.filter(m=>m.id!=="trace:1106:110603:prior-solution");assert.equal(ult(app),undefined);assert.ok(app.calculate().some(r=>r.attack.name===data.attacks.find(a=>a.id==="110601").name));app.state.data.structuredModifiers=records;
+ app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(ult(saved).nonCrit,1620);assert.match(saved.node("hsrResults").innerHTML,/初回.*未確認/);
+});

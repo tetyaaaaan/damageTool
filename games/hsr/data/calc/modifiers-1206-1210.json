@@ -1111,56 +1111,7 @@
         "notes": "IDと数値パラメータ位置をレビュー表で固定"
       }
     },
-    {
-      "id": "traceNode:1207:1207102:imaginary-damage",
-      "source": {
-        "kind": "trace",
-        "id": "1207",
-        "traceId": "1207102"
-      },
-      "name": "追加能力「遅彝」・虚数属性ダメージ",
-      "description": "御空がフィールド上にいる時、味方全体の虚数属性ダメージ+12%。",
-      "category": "damageBonus",
-      "unit": "percent",
-      "value": {
-        "kind": "fixed",
-        "fixed": 12
-      },
-      "target": {
-        "owner": "partyAll",
-        "attackTypes": [
-          "all"
-        ],
-        "elements": [
-          "Imaginary"
-        ]
-      },
-      "activation": {
-        "mode": "always",
-        "conditionText": "対象効果を確認"
-      },
-      "stacking": {
-        "group": "traceNode:1207:1207102:imaginary-damage",
-        "rule": "nonStacking"
-      },
-      "calculation": {
-        "stage": "damageBonus",
-        "operation": "add"
-      },
-      "inputPolicy": "conditional",
-      "support": {
-        "status": "calculable",
-        "verified": true
-      },
-      "provenance": {
-        "sourceName": "Mar-7th/StarRailRes",
-        "sourceUrl": "https://github.com/Mar-7th/StarRailRes",
-        "sourceFile": "index_new/jp/character_skill_trees.json",
-        "gameVersion": "snapshot-2026-07-28",
-        "verifiedAt": "2026-08-01",
-        "notes": "IDと数値パラメータ位置をレビュー表で固定"
-      }
-    },
+    {"id":"traceNode:1207:1207102:imaginary-damage","source":{"kind":"trace","id":"1207","traceId":"1207102"},"name":"追加能力「遅彝」・虚数属性ダメージ","description":"御空がフィールド上にいる時、味方全体の虚数属性ダメージ+12%。 別の攻撃者へのパーティ支援です。御空自身の常時12%は最終属性与ダメージ入力で管理し、ここでは再加算しません。","category":"damageBonus","unit":"percent","value":{"kind":"fixed","fixed":12},"target":{"owner":"partyAll","attackTypes":["all"],"elements":["Imaginary"]},"activation":{"mode":"always","conditionText":"対象効果を確認"},"stacking":{"group":"traceNode:1207:1207102:imaginary-damage","rule":"nonStacking"},"calculation":{"stage":"damageBonus","operation":"add"},"inputPolicy":"conditional","support":{"status":"calculable","verified":true},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceUrl":"https://github.com/Mar-7th/StarRailRes","sourceFile":"index_new/jp/character_skill_trees.json","gameVersion":"snapshot-2026-07-28","verifiedAt":"2026-08-01","notes":"IDと数値パラメータ位置をレビュー表で固定"},"providerScope":"party"},
     {
       "id": "traceNode:1207:1207103:energy",
       "source": {
@@ -4245,6 +4196,7 @@
         "verifiedAt": "2026-08-01",
         "notes": "IDと数値パラメータ位置をレビュー表で固定"
       }
-    }
+    },
+    {"id":"traceNode:1207:1207102:imaginary-damage:self","source":{"kind":"trace","id":"1207","traceId":"1207102"},"name":"遅彝・自身の最終虚数与ダメージで管理","description":"御空がフィールド上にいる時、味方全体の虚数属性ダメージ+12%。 別の攻撃者へのパーティ支援です。御空自身の常時12%は最終属性与ダメージ入力で管理し、ここでは再加算しません。","category":"damageBonus","unit":"percent","value":{"kind":"fixed","fixed":12},"target":{"owner":"self","attackTypes":["all"],"elements":["Imaginary"]},"activation":{"mode":"always","conditionText":"対象効果を確認"},"stacking":{"group":"traceNode:1207:1207102:imaginary-damage","rule":"nonStacking"},"calculation":{"stage":"damageBonus","operation":"add"},"inputPolicy":"includedInFinalStats","support":{"status":"displayOnly","verified":true,"reason":"自身の常時虚数与ダメージ12%は完成済み最終入力に含め、再加算しません。"},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceUrl":"https://github.com/Mar-7th/StarRailRes","sourceFile":"index_new/jp/character_skill_trees.json","gameVersion":"snapshot-2026-07-28","verifiedAt":"2026-08-01","notes":"IDと数値パラメータ位置をレビュー表で固定"},"providerScope":"self"}
   ]
 }
