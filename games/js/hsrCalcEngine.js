@@ -409,10 +409,10 @@ function calculateFanning(input) {
         if (!(Number.isFinite(character.stats?.atk) && character.stats.atk > 0)
             || !Number.isFinite(character.stats?.critRate) || !Number.isFinite(character.stats?.critDamage)
             || !Number.isFinite(character.stats?.damageBonus)) {
-            return fail("飛霄の最終攻撃力・会心率・会心ダメージ・与ダメージ補正をすべて入力してください。");
+            return fail("攻撃者の最終攻撃力・会心率・会心ダメージ・与ダメージ補正をすべて入力してください。");
         }
         if (!Number.isInteger(attack.traceLevel) || attack.traceLevel < 1 || attack.traceLevel > (yukong ? 6 : 10)) return fail(yukong ? "通常Lv1～6を指定してください。" : "飛霄のスキルLv1～10を指定してください。");
-        if (components.length !== expected.length) return fail("スキル本体と天賦追加攻撃の両成分が必要です。");
+        if (components.length !== expected.length) return fail("本体と追加成分の両方が必要です。");
         for (let index = 0; index < expected.length; index++) {
             const spec = expected[index];
             const component = components[index];
@@ -426,7 +426,7 @@ function calculateFanning(input) {
                 || childAttack.damageFormula !== "statMultiplier" || childAttack.element !== element
                 || childAttack.scalingStat !== "atk" || childAttack.target !== "single" || childAttack.hitCount !== 1
                 || childAttack.canCrit === false || !Number.isFinite(childAttack.multiplier) || childAttack.multiplier <= 0) {
-                return fail("スキル本体または追加攻撃のデータが、確認済みの構成と一致しません。");
+                return fail("本体または追加成分のデータが、対応している構成と一致しません。");
             }
             if (JSON.stringify(childInput.character) !== JSON.stringify(character)
                 || JSON.stringify(childInput.enemy) !== JSON.stringify(enemy)) {
@@ -448,7 +448,7 @@ function calculateFanning(input) {
         const unsupported = resolved.find(component => component.result?.supported === false);
         if (unsupported) return fail(`${unsupported.name}：${unsupported.result.reason}`);
         if (resolved.some(component => !["nonCrit", "crit", "expected"].every(key => Number.isFinite(component.result[key])))) {
-            return fail("スキル本体または追加攻撃の計算結果が数値として成立しません。入力と補正条件を確認してください。");
+            return fail("本体または追加成分の計算結果が数値として成立しません。入力と補正条件を確認してください。");
         }
         const total = key => resolved.reduce((sum, component) => sum + number(component.result[key]), 0);
         const applied = resolved.flatMap(component => component.result.applied || []);
