@@ -832,6 +832,7 @@ test("Hook 1109 golden: direct, enhanced, Burn, talent, and technique attacks st
     assert.equal(ultimate.multipliers[9], 400);
     assert.equal(talent.multipliers[9], 100);
     assert.equal(talent.modifierInputKey, "hook-enemy-burning");
+    assert.equal(talent.assumeAvailabilityAtEidolon, 0, "only reviewed E0 uses an assumed trigger; E6 retains its damage-changing Burn condition");
     assert.equal(technique.multipliers[0], 50);
     assert.equal(techniqueBurn.canCrit, false);
 });
@@ -1260,12 +1261,14 @@ test("Jing Yuan 1204 golden: E6 vulnerability progresses per hit and never leaks
 test("Jing Yuan 1204 golden: every trace and eidolon is classified", () => {
     const context = { characterId: "1204", eidolon: 6, traceLevelFor: () => 10 };
     const own = runtime.buildCandidates(structuredModifiers, context, {}).filter((item) => String(item.source?.id) === "1204");
-    assert.equal(own.length, 16);
-    assert.equal(own.filter((item) => item.calculable).length, 4);
+    assert.equal(own.length, 17);
+    assert.equal(own.filter((item) => item.calculable).length, 5);
     assert.equal(own.filter((item) => item.displayOnly).length, 12);
     assert.equal(structured("traceStats:1204:attack", context).value, 28);
     assert.equal(structured("traceStats:1204:crit-rate", context).value, 12);
     assert.equal(structured("traceStats:1204:defense", context).value, 12.5);
+    const prior = own.find(m=>m.id==="traceNode:1204:1204103:prior-skill-crit-rate");
+    assert.deepEqual(prior.target.attackIds,["120402"]);
 });
 
 function resolveBladeAttack(id, levelIndex, adjacent = false) {

@@ -2719,3 +2719,34 @@ test("Sampo zero stacks are finite and invalid stack input stops only the DoT ro
  for(const count of [NaN,-1,6,1.5]){app.state.modifierInputs["sampo-wind-shear-stacks"]=count;assert.equal(row(app,"110804"),undefined);assert.ok(row(app,"110801"));}
  app.state.modifierInputs["sampo-wind-shear-stacks"]=5;app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(row(saved,"110804").nonCrit,2808);saved.node("hsrEnemyCount").value="2";assert.equal(row(saved,"110802"),undefined);assert.ok(row(saved,"110801"));
 });
+
+
+test("Jing Yuan compares LL3..10 with per-result native CD, local stops and unchanged stored hit input",async()=>{
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1204",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:3000,critRate:50,critDamage:100,damageBonus:0}});
+ app.state.modifierInputs["jingyuan-lightning-lord-hits"]=10;
+ const ll=t=>t.calculate().filter(r=>r.attack?.name.startsWith("神君（敵1体・星魂0）"));
+ const verify=t=>{const rows=ll(t);assert.equal(rows.length,8);for(let n=3;n<=10;n++){const r=rows.find(r=>r.attack.name.endsWith("・"+n+"段"));assert.ok(r);near(r.nonCrit,712.8*n);near(r.crit,712.8*n*(n>=6?2.25:2));near(r.expected,712.8*n*(n>=6?1.625:1.5));near(r.breakdown.critDamagePercent,n>=6?125:100);assert.equal(r.applied.filter(m=>m.id==="traceNode:1204:1204101:followup-crit-damage").length,n>=6?1:0);}return rows;};
+ verify(app);assert.equal(app.state.modifierInputs["jingyuan-lightning-lord-hits"],10);assert.doesNotMatch(app.node("hsrResults").innerHTML,/<h4>隣接対象<\/h4>/);
+ app.state.conditionTab="軌跡";app.node("hsrConditionDialogOpen").handlers.click();assert.match(app.node("hsrConditionList").innerHTML,/各結果の想定段数で判定/);assert.match(app.node("hsrConditionList").innerHTML,/一部の想定結果に適用/);assert.doesNotMatch(app.node("hsrConditionList").innerHTML,/data-structured-input="jingyuan-lightning-lord-hits"/);
+ app.state.modifierInputs["jingyuan-skill-crit-active"]=true;let r=ll(app).find(r=>r.attack.name.endsWith("・6段"));near(r.expected,7484.4);near(r.breakdown.critRatePercent,60);app.state.modifierInputs["jingyuan-skill-crit-active"]=false;
+ app.state.party[0]={characterId:"1309",level:80,eidolon:0,traceLevels:{skill:10}};app.state.modifierInputs["robin-skill-damage-active"]=true;r=ll(app).find(r=>r.attack.name.endsWith("・6段"));near(r.nonCrit,6415.2);near(r.expected,10424.7);app.state.party[0].characterId="";verify(app);
+ app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);verify(saved);assert.equal(saved.state.modifierInputs["jingyuan-lightning-lord-hits"],10);
+ saved.node("hsrEnemyCount").value="2";assert.equal(ll(saved).length,0);assert.ok(saved.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==="120401").name));saved.node("hsrEnemyCount").value="1";
+ saved.node("hsrTalentTrace").value="";assert.equal(ll(saved).length,0);assert.ok(saved.calculate().some(r=>r.attack?.name===data.attacks.find(a=>a.id==="120402").name));saved.node("hsrTalentTrace").value="10";
+ saved.node("hsrLevel").value="79";let unsupported=saved.calculate();assert.equal(unsupported.some(r=>r.attack?.name===data.attacks.find(a=>a.id==="120402").name),false);assert.equal(ll(saved).length,0);saved.node("hsrLevel").value="80";
+ const nativeRecords=saved.state.data.structuredModifiers;saved.state.data.structuredModifiers=nativeRecords.filter(m=>m.id!=="traceNode:1204:1204103:prior-skill-crit-rate");unsupported=saved.calculate();assert.equal(unsupported.some(r=>r.attack?.name===data.attacks.find(a=>a.id==="120402").name),false);assert.ok(unsupported.some(r=>r.attack?.name===data.attacks.find(a=>a.id==="120401").name));saved.state.data.structuredModifiers=nativeRecords;
+ saved.node("hsrEidolon").value="1";assert.equal(ll(saved).length,0);
+});
+
+test("Serval and Hook compare body, triggered extra and delayed DoT without an availability checkbox",async()=>{
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+ const profile=id=>app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:3000,critRate:50,critDamage:100,damageBonus:0}});
+ const rows=t=>new Map(t.calculate().filter(r=>r.attack&&r.attack.target!=="adjacent").map(r=>[r.attack.name,r]));const find=(map,id)=>map.get(data.attacks.find(a=>a.id===id).name);
+ profile("1103");let r=rows(app);for(const[id,n]of [["110301",1080],["110302",1512],["110303",1944],["110304",777.6],["1103021",1123.2]])near(find(r,id).nonCrit,n);assert.match(app.node("hsrResults").innerHTML,/攻撃全体の合計ではありません/);
+ profile("1109");r=rows(app);for(const[id,n]of [["110901",1080],["110902",2592],["110909",3024],["110903",4320],["110904",1080],["1109021",702]])near(find(r,id).nonCrit,n);assert.equal(app.state.modifierInputs["hook-enemy-burning"],undefined);
+ app.state.modifierInputs["hook-enemy-burning"]=true;r=rows(app);near(find(r,"110904").nonCrit,1080);near(find(r,"110902").nonCrit,2592);app.state.modifierInputs["hook-enemy-burning"]=false;
+ app.node("hsrTalentTrace").value="";r=rows(app);assert.equal(find(r,"110904"),undefined);assert.ok(find(r,"110909"));assert.ok(find(r,"1109021"));app.node("hsrTalentTrace").value="10";
+ app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);r=rows(saved);near(find(r,"110904").nonCrit,1080);near(find(r,"110909").nonCrit,3024);assert.match(saved.node("hsrResults").innerHTML,/新規燃焼.*同撃/);
+ saved.node("hsrEidolon").value="6";saved.state.modifierInputs["hook-enemy-burning"]=false;r=rows(saved);assert.equal(find(r,"110904"),undefined,"E6 still requires its damage-changing Burn condition");saved.state.modifierInputs["hook-enemy-burning"]=true;r=rows(saved);near(find(r,"110904").nonCrit,1296);
+});

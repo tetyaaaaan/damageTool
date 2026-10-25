@@ -221,6 +221,9 @@
       || ![undefined, "statMultiplier", "elation"].includes(attack.damageFormula) || !attack.modifierInputKey) return null;
     const records = state.data.structuredModifiers || [];
     const key = attack.modifierInputKey;
+    // Reviewed E0-only availability states have no damage-changing consumers at that rank.
+    const assumed = attack.assumeAvailabilityAtEidolon === state.eidolon && records.find(item => item.activation?.inputKey === key && item.activation.mode === "toggle" && item.category === "attackState" && item.source?.id === attack.characterId);
+    if (assumed) return assumed;
     const selector = records.find(item => item.activation?.inputKey === key && item.activation.mode === "toggle"
       && item.support?.status === "displayOnly" && item.inputPolicy !== "includedInFinalStats");
     if (!selector || records.some(item => item.support?.status === "calculable" && JSON.stringify(item).includes('"' + key + '"'))) return null;
@@ -237,7 +240,8 @@
   function comparisonSelector(item) {
     const key = item.activation?.inputKey;
     const attacks = (state.data?.attacks || []).filter(attack => attack.characterId === state.characterId && !attack.hidden && attack.modifierInputKey === key);
-    return Boolean(key && attacks.length && attacks.every(comparisonCondition));
+    return Boolean(key && item.displayOnly && item.inputPolicy !== "includedInFinalStats" && comparisonInputValues(key).length)
+      || Boolean(key && attacks.length && attacks.every(comparisonCondition));
   }
 
   function availableAttacks() {
@@ -574,12 +578,19 @@
     return { ...item, valueInput, inputWarnings: warnings, applicable: item.applicable !== false && warnings.length === 0 };
   }
 
-  function structuredSourceConditions() {
+  function comparisonInputValues(key) {
+    if (!key) return [];
+    return availableAttacks().filter(a => a.maximumEidolon === undefined || state.eidolon <= a.maximumEidolon)
+      .flatMap(a => (a.comparisonStates || []).map(v => v.modifierInputs?.[key])).filter(Number.isFinite);
+  }
+
+  function structuredSourceConditions(inputs = state.modifierInputs) {
     if (!window.HsrModifierRuntime) return [];
-    return window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], structuredModifierContext(), state.modifierInputs)
+    return window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], structuredModifierContext(), inputs)
       .filter(item => !comparisonSelector(item))
       .map((item) => ({
         ...item,
+        comparisonControlled: inputs === state.modifierInputs && !item.displayOnly && comparisonInputValues(item.activation?.inputKey).length > 0,
         sourceMeta: item.source,
         source: item.sourceName,
         tab: ({ "キャラ": "軌跡", "遺物": "遺物・オーナメント", "オーナメント": "遺物・オーナメント", "敵": "その他", "手動": "その他" })[item.tab] || item.tab,
@@ -595,8 +606,8 @@
       })).map(validateProvider);
   }
 
-  function sourceConditions() {
-    return structuredSourceConditions();
+  function sourceConditions(inputs = state.modifierInputs) {
+    return structuredSourceConditions(inputs);
   }
 
   function conditionSourceTitle(item) {
@@ -634,6 +645,7 @@
   }
 
   function conditionPurpose(item) {
+    if (item.comparisonControlled) return "attack";
     if (item.inputPolicy === "includedInFinalStats") return "finalStats";
     const key = item.activation?.inputKey;
     const selectsAttack = key && (state.data?.attacks || []).some(attack => attack.characterId === state.characterId && !attack.hidden && attack.support?.status !== "displayOnly" && (attack.modifierInputKey === key || (attack.requiresValidHitCount && attack.hitCountInputKey === key)));
@@ -667,6 +679,7 @@
   }
 
   function conditionStatus(items) {
+    if (items.every(item => item.comparisonControlled)) return { label: items.some(item => conditionAudit?.applied.has(item.id)) ? "一部の想定結果に適用" : "結果ごとに自動判定", className: "is-auto" };
     if (items[0]?.tab === "パーティ" && items.some(item => !item.displayOnly) && !items.some(item => conditionAttackScope(item).length)) return { label: "現在の計算対象外", className: "is-inactive" };
     if (items.some((item) => item.enabled && (item.inputWarnings?.length || modifierIssueIds.has(item.id)))) return { label: "入力不足", className: "is-input" };
     if (items.some(isAttackSelectionCondition)) return items.some((item) => isAttackSelectionCondition(item) && item.activation.active) ? { label: "計算対象", className: "is-auto" } : { label: "対象外", className: "is-inactive" };
@@ -685,6 +698,7 @@
   }
 
   function conditionRequirement(item) {
+    if (item.comparisonControlled) return item.conditionText + "（各結果の想定段数で判定）";
     const activation = item.activation || {};
     if (!["statThreshold", "numericThreshold", "toggleThreshold"].includes(activation.mode)) return item.conditionText || "常時";
     if (activation.mode === "numericThreshold" && activation.inputKey) {
@@ -700,6 +714,7 @@
   }
 
   function currentConditionReflection(item) {
+    if (item.comparisonControlled) return "各結果の想定段数で個別に判定します。適用・対象外は各結果の内訳で確認できます。";
     if (item.inputWarnings?.length) return `未適用：${item.inputWarnings.join(" ")}`;
     if (modifierIssueIds.has(item.id)) return `未適用：${modifierIssueLinks.get("modifier:" + item.id)?.message || "必要な入力を確認してください。"}`;
     if (isAttackSelectionCondition(item)) return item.activation.active ? "独立した攻撃結果を表示" : "独立した攻撃は計算対象外";
@@ -732,7 +747,7 @@
         rendered.add(`stack:${activation.inputKey}`); const max = item.stackMax || 1;
         controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.inputLabel || "現在の層数")}</strong><small>現在成立している層数を選択します。</small></span><select data-structured-input="${esc(activation.inputKey)}">${Array.from({ length: max + 1 }, (_, value) => `<option value="${value}"${value === item.stacks ? " selected" : ""}>${value === 0 ? "未発動（0層）" : `${value}層`}</option>`).join("")}</select></label>`);
       }
-      if (activation.mode === "numericThreshold" && activation.inputKey && !rendered.has(`threshold:${activation.inputKey}`)) {
+      if (activation.mode === "numericThreshold" && activation.inputKey && !item.comparisonControlled && !rendered.has(`threshold:${activation.inputKey}`)) {
         rendered.add(`threshold:${activation.inputKey}`);
         controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(activation.inputLabel || "現在の条件値")}</strong><small>${esc(activation.conditionText || "発動条件の判定に使用する値を入力します。")}</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-structured-input="${esc(activation.inputKey)}" value="${num(activation.inputValue, activation.default || 0)}" min="${num(activation.minimum)}" max="${num(activation.maximum, 999)}" step="${num(activation.step, 1)}"></span></label>`);
       }
@@ -887,13 +902,13 @@
     });
   }
 
-  function allConditions() { return sourceConditions().concat(state.conditions); }
+  function allConditions(inputs = state.modifierInputs) { return sourceConditions(inputs).concat(state.conditions); }
 
   function updateConditionSummary() {
     if ($("hsrManualConditionList") && !$("hsrManualConditionList").contains?.(document.activeElement)) $("hsrManualConditionList").innerHTML = state.conditions.map((item) => `<label class="hsr-manual-condition-row"><input type="checkbox" data-condition-enabled="${esc(item.id)}"${item.enabled ? " checked" : ""}><span>${esc(item.name)}</span><input type="number" data-condition-value="${esc(item.id)}" value="${item.value}" step="any" aria-label="${esc(item.name)}（%）"><span>%</span></label>`).join("");
     const conditions = allConditions();
     trackPartySelectionRestore(conditions);
-    const selected = conditions.filter(item => !item.displayOnly && (item.enabled || item.activation?.toggled || (item.activation?.mode === "toggle" && item.activation.active)));
+    const selected = conditions.filter(item => !item.displayOnly && (item.comparisonControlled || item.enabled || item.activation?.toggled || (item.activation?.mode === "toggle" && item.activation.active)));
     const missing = selected.filter(item => item.inputWarnings?.length || modifierIssueIds.has(item.id)).length;
     const applied = selected.filter(item => conditionAudit?.applied.has(item.id)).length;
     const skipped = selected.filter(item => !conditionAudit?.applied.has(item.id) && conditionAudit?.skipped.has(item.id)).length;
@@ -940,7 +955,8 @@
   }
 
   function modifiers(attack) {
-    return allConditions().filter((item) => !item.displayOnly).map((item) => {
+    const inputs = attack.comparisonModifierInputs ? { ...state.modifierInputs, ...attack.comparisonModifierInputs } : state.modifierInputs;
+    return allConditions(inputs).filter((item) => !item.displayOnly).map((item) => {
       const attackApplies = modifierTargetsCalculation(item, attack);
       const supplementalApplies = !attack.sourceModifierId || !item.supplementalAttack || item.id === attack.sourceModifierId;
       const primaryTargetApplies = !item.primaryTargetOnly || attack.target !== "adjacent";
@@ -1215,6 +1231,7 @@
     if (!Array.isArray(selected.comparisonStates)) return [attack];
     return selected.comparisonStates.map(variant => ({ ...attack,
       name: `${attack.name}・${variant.label}`, hitCount: variant.hitCount, hitCountLabel: `${variant.hitCount}段合計`,
+      comparisonModifierInputs: variant.modifierInputs,
       comparisonStateNote: `${variant.label}・${variant.note}`
     }));
   }
@@ -1486,7 +1503,7 @@
       const request = { ...baseRequest, songbird: songbirdSnapshot(), elation: attackElationInputs(selected), attack: selected, modifiers: modifiers(selected), breakModifiers: selected.damageFormula === "normalAndBreak" ? modifiers({type:"break",element:character().element}) : undefined, breakBaseDamage: state.data.breakBaseDamage };
       if (selected.damageFormula === "componentSequence") request.sequenceComponents = (selected.sequenceAttacks || []).map((component, index) => ({ key: selected.damageComponents[index].key, name: selected.damageComponents[index].name, input: { ...baseRequest, attack: component, modifiers: modifiers(component), songbird: songbirdSnapshot(), elation: attackElationInputs(component), breakBaseDamage: state.data.breakBaseDamage } }));
       const result = window.HsrCalcEngine.calculate(request);
-      const adjacentAttack = selected.adjacentMultiplier ? { ...selected, multiplier: selected.adjacentMultiplier, scalingTerms: selected.adjacentScalingTerms?.length ? selected.adjacentScalingTerms : undefined, target: "adjacent" } : null;
+      const adjacentAttack = selected.adjacentMultiplier && !(selected.suppressAdjacentWithSingleEnemy && state.enemy.count === 1) ? { ...selected, multiplier: selected.adjacentMultiplier, scalingTerms: selected.adjacentScalingTerms?.length ? selected.adjacentScalingTerms : undefined, target: "adjacent" } : null;
       const adjacent = adjacentAttack ? window.HsrCalcEngine.calculate({ ...baseRequest, attack: adjacentAttack, modifiers: modifiers(adjacentAttack) }) : null;
       return { attack: selected, result, adjacent };
     });

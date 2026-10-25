@@ -753,84 +753,11 @@
       "conditionText": "必殺技後1ターンの乱れ蝶状態を味方が攻撃",
       "overrideReason": "星魂6の付加ダメージを強化後必殺技倍率の15%として全レベルで構造化。"
     },
-    {
-      "id": "110301",
-      "characterId": "1103",
-      "name": "雷鳴音階",
-      "element": "Thunder",
-      "type": "normal",
-      "traceKey": "normal",
-      "target": "single",
-      "scalingStat": "atk",
-      "hitCount": 1,
-      "canCrit": true,
-      "multipliers": [50, 60, 70, 80, 90, 100, 110, 120, 130, 140],
-      "sourceSkillId": "110301",
-      "overrideReason": "通常攻撃の攻撃力倍率を全10レベルで照合。"
-    },
-    {
-      "id": "110302",
-      "characterId": "1103",
-      "name": "スパーク",
-      "element": "Thunder",
-      "type": "skill",
-      "traceKey": "skill",
-      "target": "blast",
-      "scalingStat": "atk",
-      "hitCount": 1,
-      "canCrit": true,
-      "multipliers": [70,77,84,91,98,105,113.75,122.5,131.25,140,147,154,161,168,175],
-      "adjacentMultipliers": [30,33,36,39,42,45,48.75,52.5,56.25,60,63,66,69,72,75],
-      "sourceSkillId": "110302",
-      "overrideReason": "戦闘スキルの主対象と隣接対象の攻撃力倍率を全15レベルで分離して照合。"
-    },
-    {
-      "id": "1103021",
-      "characterId": "1103",
-      "name": "スパーク・感電",
-      "element": "Thunder",
-      "type": "dot",
-      "traceKey": "skill",
-      "target": "single",
-      "scalingStat": "atk",
-      "hitCount": 1,
-      "canCrit": false,
-      "multipliers": [40,44,48,52,56,62,70,80,92,104,109.2,114.4,119.6,124.8,130],
-      "sourceSkillId": "110302",
-      "conditionText": "戦闘スキルで付与した感電状態（2ターン）",
-      "overrideReason": "戦闘スキル本体から分離し、会心しない感電持続ダメージを全15レベルで照合。"
-    },
-    {
-      "id": "110303",
-      "characterId": "1103",
-      "name": "機械ブーム登場！",
-      "element": "Thunder",
-      "type": "ultimate",
-      "traceKey": "ultimate",
-      "target": "aoe",
-      "scalingStat": "atk",
-      "hitCount": 1,
-      "canCrit": true,
-      "multipliers": [108,115.2,122.4,129.6,136.8,144,153,162,171,180,187.2,194.4,201.6,208.8,216],
-      "sourceSkillId": "110303",
-      "overrideReason": "必殺技の全体攻撃倍率を全15レベルで照合。感電延長は構造化補正へ分離。"
-    },
-    {
-      "id": "110304",
-      "characterId": "1103",
-      "name": "情熱コード",
-      "element": "Thunder",
-      "type": "talent",
-      "traceKey": "talent",
-      "target": "aoe",
-      "scalingStat": "atk",
-      "hitCount": 1,
-      "canCrit": true,
-      "multipliers": [36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72,75.6,79.2,82.8,86.4,90],
-      "sourceSkillId": "110304",
-      "conditionText": "攻撃後、感電状態の敵全体へ発生",
-      "overrideReason": "感電状態の敵全体へ発生する天賦付加ダメージを全15レベルで照合。"
-    },
+    {"id":"110301","characterId":"1103","name":"雷鳴音階・本体","element":"Thunder","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"110301","overrideReason":"通常攻撃の攻撃力倍率を全10レベルで照合。","calculationNote":"本体成分のみの比較値です。感電成立時の天賦付加110304と、敵ターンの感電1103021は別行で表示し、この本体へ自動合算しません。付加/後続成分を含む攻撃全体の合計ではありません。今回の検証はE0・通常Lv1～6/その他Lv1～10・1対象分・途中の撃破/条件変化なし。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110301","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"}},
+    {"id":"110302","characterId":"1103","name":"スパーク・本体","element":"Thunder","type":"skill","traceKey":"skill","target":"blast","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[70,77,84,91,98,105,113.75,122.5,131.25,140,147,154,161,168,175],"adjacentMultipliers":[30,33,36,39,42,45,48.75,52.5,56.25,60,63,66,69,72,75],"sourceSkillId":"110302","overrideReason":"戦闘スキルの主対象と隣接対象の攻撃力倍率を全15レベルで分離して照合。","calculationNote":"本体成分のみの比較値です。感電成立時の天賦付加110304と、敵ターンの感電1103021は別行で表示し、この本体へ自動合算しません。付加/後続成分を含む攻撃全体の合計ではありません。今回の検証はE0・通常Lv1～6/その他Lv1～10・1対象分・途中の撃破/条件変化なし。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110302","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"}},
+    {"id":"1103021","characterId":"1103","name":"スパーク・感電","element":"Thunder","type":"dot","traceKey":"skill","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[40,44,48,52,56,62,70,80,92,104,109.2,114.4,119.6,124.8,130],"sourceSkillId":"110302","conditionText":"戦闘スキルで付与した感電状態（2ターン）","overrideReason":"戦闘スキル本体から分離し、会心しない感電持続ダメージを全15レベルで照合。","calculationNote":"付与済みの感電による敵ターン開始1回分の独立DoT。会心不可で、即時本体や天賦付加には合算しません。付与の基礎確率や継続ターン数をダメージへ乗算しません。最終ATKはこのDoTを評価する時点の値を入力してください。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110302","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"}},
+    {"id":"110303","characterId":"1103","name":"機械ブーム登場！・本体","element":"Thunder","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[108,115.2,122.4,129.6,136.8,144,153,162,171,180,187.2,194.4,201.6,208.8,216],"sourceSkillId":"110303","overrideReason":"必殺技の全体攻撃倍率を全15レベルで照合。感電延長は構造化補正へ分離。","calculationNote":"本体成分のみの比較値です。感電成立時の天賦付加110304と、敵ターンの感電1103021は別行で表示し、この本体へ自動合算しません。付加/後続成分を含む攻撃全体の合計ではありません。今回の検証はE0・通常Lv1～6/その他Lv1～10・1対象分・途中の撃破/条件変化なし。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110303","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"}},
+    {"id":"110304","characterId":"1103","name":"情熱コード・付加成分（感電成立時）","element":"Thunder","type":"talent","traceKey":"talent","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72,75.6,79.2,82.8,86.4,90],"sourceSkillId":"110304","conditionText":"攻撃後、感電状態の敵全体へ発生","overrideReason":"感電状態の敵全体へ発生する天賦付加ダメージを全15レベルで照合。","calculationNote":"感電中の敵への天賦付加1回のみ。発生する状態を想定して独立表示し、本体や後続DoTへ重ねて計上しません。付加自体は通常ダメージで会心可能。新規感電の同撃判定は版別の実行順序の確認が必要です。攻撃途中の撃破で生じる感電は対象外。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110304","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"}},
     {
       "id": "110307",
       "characterId": "1103",
@@ -1123,30 +1050,12 @@
       "sourceSkillId": "1140706",
       "overrideReason": "キャストリス最大HP参照の6ヒット記憶の精霊天賦。倍率#1と回数#2を照合。"
     },
-    {
-      "id": "110901", "characterId": "1109", "name": "おい！火の元に気をつけな", "element": "Fire", "type": "normal", "traceKey": "normal", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": true,
-      "multipliers": [50,60,70,80,90,100,110,120,130,140], "sourceSkillId": "110901", "overrideReason": "通常攻撃の攻撃力倍率を全10レベルで照合。"
-    },
-    {
-      "id": "110902", "characterId": "1109", "name": "おい！フックを覚えてるか？", "element": "Fire", "type": "skill", "traceKey": "skill", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": true,
-      "multipliers": [120,132,144,156,168,180,195,210,225,240,252,264,276,288,300], "sourceSkillId": "110902", "overrideReason": "通常戦闘スキルの直接ダメージを燃焼から分離。"
-    },
-    {
-      "id": "1109021", "characterId": "1109", "name": "おい！フックを覚えてるか？・燃焼", "element": "Fire", "type": "dot", "traceKey": "skill", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": false,
-      "multipliers": [25,27.5,30,32.5,35,38.75,43.75,50,57.5,65,68.25,71.5,74.75,78,81.25], "sourceSkillId": "110902", "conditionText": "戦闘スキルで付与した燃焼の1ターンダメージ", "overrideReason": "燃焼DoTを非会心の独立攻撃として登録。"
-    },
-    {
-      "id": "110909", "characterId": "1109", "name": "おい！フックを覚えてるか？・強化", "element": "Fire", "type": "enhancedSkill", "traceKey": "skill", "target": "blast", "scalingStat": "atk", "hitCount": 1, "canCrit": true,
-      "multipliers": [140,154,168,182,196,210,227.5,245,262.5,280,294,308,322,336,350], "adjacentMultipliers": [40,44,48,52,56,60,65,70,75,80,84,88,92,96,100], "sourceSkillId": "110909", "overrideReason": "必殺技後の強化戦闘スキルを主対象と隣接倍率に分離。"
-    },
-    {
-      "id": "110903", "characterId": "1109", "name": "ドカン！飛んでけ花火！", "element": "Fire", "type": "ultimate", "traceKey": "ultimate", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": true,
-      "multipliers": [240,256,272,288,304,320,340,360,380,400,416,432,448,464,480], "sourceSkillId": "110903", "overrideReason": "必殺技の単体直接ダメージを全15レベルで照合。"
-    },
-    {
-      "id": "110904", "characterId": "1109", "name": "はっ！火に油を注ぐ・付加ダメージ", "element": "Fire", "type": "additional", "traceKey": "talent", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": true, "modifierInputKey": "hook-enemy-burning", "modifierInputMinimum": 1,
-      "multipliers": [50,55,60,65,70,75,81.25,87.5,93.75,100,105,110,115,120,125], "sourceSkillId": "110904", "conditionText": "燃焼状態の敵を攻撃", "overrideReason": "天賦の付加ダメージを燃焼条件付き独立攻撃として登録。"
-    },
+    {"id":"110901","characterId":"1109","name":"おい！火の元に気をつけな・本体","element":"Fire","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"110901","overrideReason":"通常攻撃の攻撃力倍率を全10レベルで照合。","calculationNote":"本体成分のみの比較値です。燃焼成立時の天賦付加110904と、敵ターンの燃焼1109021は別行で表示し、この本体へ自動合算しません。付加/後続成分を含む攻撃全体の合計ではありません。今回の検証はE0・通常Lv1～6/その他Lv1～10・1対象分・途中の撃破/条件変化なし。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110901","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"}},
+    {"id":"110902","characterId":"1109","name":"おい！フックを覚えてるか？・本体","element":"Fire","type":"skill","traceKey":"skill","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[120,132,144,156,168,180,195,210,225,240,252,264,276,288,300],"sourceSkillId":"110902","overrideReason":"通常戦闘スキルの直接ダメージを燃焼から分離。","calculationNote":"本体成分のみの比較値です。燃焼成立時の天賦付加110904と、敵ターンの燃焼1109021は別行で表示し、この本体へ自動合算しません。付加/後続成分を含む攻撃全体の合計ではありません。今回の検証はE0・通常Lv1～6/その他Lv1～10・1対象分・途中の撃破/条件変化なし。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110902","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"}},
+    {"id":"1109021","characterId":"1109","name":"おい！フックを覚えてるか？・燃焼","element":"Fire","type":"dot","traceKey":"skill","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[25,27.5,30,32.5,35,38.75,43.75,50,57.5,65,68.25,71.5,74.75,78,81.25],"sourceSkillId":"110902","conditionText":"戦闘スキルで付与した燃焼の1ターンダメージ","overrideReason":"燃焼DoTを非会心の独立攻撃として登録。","calculationNote":"付与済みの燃焼による敵ターン開始1回分の独立DoT。会心不可で、即時本体や天賦付加には合算しません。付与の基礎確率や継続ターン数をダメージへ乗算しません。最終ATKはこのDoTを評価する時点の値を入力してください。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110902","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"}},
+    {"id":"110909","characterId":"1109","name":"おい！フックを覚えてるか？・強化・本体","element":"Fire","type":"enhancedSkill","traceKey":"skill","target":"blast","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[140,154,168,182,196,210,227.5,245,262.5,280,294,308,322,336,350],"adjacentMultipliers":[40,44,48,52,56,60,65,70,75,80,84,88,92,96,100],"sourceSkillId":"110909","overrideReason":"必殺技後の強化戦闘スキルを主対象と隣接倍率に分離。","calculationNote":"本体成分のみの比較値です。燃焼成立時の天賦付加110904と、敵ターンの燃焼1109021は別行で表示し、この本体へ自動合算しません。付加/後続成分を含む攻撃全体の合計ではありません。今回の検証はE0・通常Lv1～6/その他Lv1～10・1対象分・途中の撃破/条件変化なし。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110909","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"}},
+    {"id":"110903","characterId":"1109","name":"ドカン！飛んでけ花火！・本体","element":"Fire","type":"ultimate","traceKey":"ultimate","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[240,256,272,288,304,320,340,360,380,400,416,432,448,464,480],"sourceSkillId":"110903","overrideReason":"必殺技の単体直接ダメージを全15レベルで照合。","calculationNote":"本体成分のみの比較値です。燃焼成立時の天賦付加110904と、敵ターンの燃焼1109021は別行で表示し、この本体へ自動合算しません。付加/後続成分を含む攻撃全体の合計ではありません。今回の検証はE0・通常Lv1～6/その他Lv1～10・1対象分・途中の撃破/条件変化なし。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110903","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"}},
+    {"id":"110904","characterId":"1109","name":"はっ！火に油を注ぐ・付加成分（事前燃焼）","element":"Fire","type":"additional","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,55,60,65,70,75,81.25,87.5,93.75,100,105,110,115,120,125],"sourceSkillId":"110904","conditionText":"燃焼状態の敵を攻撃","overrideReason":"天賦の付加ダメージを燃焼条件付き独立攻撃として登録。","calculationNote":"攻撃前から対象が燃焼中で、天賦付加が発生する状態の独立1回分です。表示のための燃焼チェックは不要。本体/後続DoTとは別成分で、会心可能。新規燃焼を付与する同撃の天賦判定順は未確認です。発動確率や燃焼層数を乗算せず、EP回復も加算しません。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:110904","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"},"modifierInputKey":"hook-enemy-burning","modifierInputMinimum":1,"assumeAvailabilityAtEidolon":0},
     {
       "id": "110907", "characterId": "1109", "name": "ほら！滅茶苦茶になってる", "element": "Fire", "type": "technique", "traceKey": "technique", "target": "single", "scalingStat": "atk", "hitCount": 1, "canCrit": true,
       "multipliers": [50], "sourceSkillId": "110907", "overrideReason": "秘技の直接ダメージを燃焼から分離。",
@@ -1263,18 +1172,10 @@
       "id":"120307","characterId":"1203","name":"愚者の悲哀","element":"Imaginary","type":"technique","traceKey":"technique","target":"single","scalingStat":"atk","hitCount":1,"canCrit":false,"multipliers":[0],"hidden":true,"sourceSkillId":"120307","overrideReason":"秘技は次の戦闘開始時に結界を展開する効果のみで、直接ダメージを与えないため非表示攻撃として分類。",
       "support": {"status":"displayOnly","verified":false,"reason":"この秘技は直接ダメージを与えない効果のため、ダメージ計算対象外です。非表示の登録を維持します。"}
     },
-    {
-      "id":"120401","characterId":"1204","name":"電光石火","element":"Thunder","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"120401","overrideReason":"通常攻撃倍率を全10レベルで照合。"
-    },
-    {
-      "id":"120402","characterId":"1204","name":"紫霄の雷鳴","element":"Thunder","type":"skill","traceKey":"skill","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,55,60,65,70,75,81.25,87.5,93.75,100,105,110,115,120,125],"sourceSkillId":"120402","overrideReason":"戦闘スキルの全体攻撃倍率を全15レベルで照合。神君+2段は共有段数入力へ分離。"
-    },
-    {
-      "id":"120403","characterId":"1204","name":"我が身の輝き","element":"Thunder","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[120,128,136,144,152,160,170,180,190,200,208,216,224,232,240],"sourceSkillId":"120403","overrideReason":"必殺技の全体攻撃倍率を全15レベルで照合。神君+3段は共有段数入力へ分離。"
-    },
-    {
-      "id":"120404","characterId":"1204","name":"神君（星魂0・主対象25%隣接）","element":"Thunder","type":"followUp","traceKey":"talent","target":"bounce","scalingStat":"atk","hitCount":3,"hitCountInputKey":"jingyuan-lightning-lord-hits","hitCountDefault":3,"hitCountMinimum":3,"hitCountMaximum":10,"canCrit":true,"multipliers":[33,36.3,39.6,42.9,46.2,49.5,53.63,57.75,61.88,66,69.3,72.6,75.9,79.2,82.5],"adjacentMultiplierRatio":25,"maximumEidolon":0,"sourceSkillId":"120404","overrideReason":"神君を1段単位の倍率と3-10段の共有入力で計算。星魂0の隣接倍率は主対象の25%。"
-    },
+    {"id":"120401","characterId":"1204","name":"電光石火","element":"Thunder","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"120401","overrideReason":"通常攻撃倍率を全10レベルで照合。","calculationNote":"今回の独立検証は星魂0・通常Lv1～6/スキル・必殺Lv1～10・状態一定の1対象分。神君は別行動で自動合算しません。遣将のCR10%が攻撃前から有効で、最終会心率へ含めていない場合だけ補正をONにしてください。新たなスキル発動で生じる同撃への適用順序は今回確定していません。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:120401","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"}},
+    {"id":"120402","characterId":"1204","name":"紫霄の雷鳴（遣将が事前有効）","element":"Thunder","type":"skill","traceKey":"skill","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,55,60,65,70,75,81.25,87.5,93.75,100,105,110,115,120,125],"sourceSkillId":"120402","overrideReason":"戦闘スキルの全体攻撃倍率を全15レベルで照合。神君+2段は共有段数入力へ分離。","calculationNote":"攻撃前から遣将が有効で、最終会心率にはその10%を含めていない状態を想定したスキルです。会心率10%を1回だけ適用し、同じ手動遣将との二重加算を防ぎます。初回スキルで新規発生する遣将の同撃参照は未確認で、この行の値と同一視しません。神君は別行動のため合算しません。今回の独立検証はE0・Lv1～10・1対象分・状態一定。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:120402","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"},"requiredModifierIds":["traceNode:1204:1204103:prior-skill-crit-rate"],"characterLevelExact":80},
+    {"id":"120403","characterId":"1204","name":"我が身の輝き","element":"Thunder","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[120,128,136,144,152,160,170,180,190,200,208,216,224,232,240],"sourceSkillId":"120403","overrideReason":"必殺技の全体攻撃倍率を全15レベルで照合。神君+3段は共有段数入力へ分離。","calculationNote":"今回の独立検証は星魂0・通常Lv1～6/スキル・必殺Lv1～10・状態一定の1対象分。神君は別行動で自動合算しません。遣将のCR10%が攻撃前から有効で、最終会心率へ含めていない場合だけ補正をONにしてください。新たなスキル発動で生じる同撃への適用順序は今回確定していません。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:120403","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"}},
+    {"id":"120404","characterId":"1204","name":"神君（敵1体・星魂0）","element":"Thunder","type":"followUp","traceKey":"talent","target":"bounce","scalingStat":"atk","hitCount":3,"hitCountInputKey":"jingyuan-lightning-lord-hits","hitCountDefault":3,"hitCountMinimum":3,"hitCountMaximum":10,"canCrit":true,"multipliers":[33,36.3,39.6,42.9,46.2,49.5,53.63,57.75,61.88,66,69.3,72.6,75.9,79.2,82.5],"adjacentMultiplierRatio":25,"maximumEidolon":0,"sourceSkillId":"120404","overrideReason":"神君を1段単位の倍率と3-10段の共有入力で計算。星魂0の隣接倍率は主対象の25%。","characterLevelExact":80,"maximumTraceLevel":10,"enemyCountExact":1,"suppressAdjacentWithSingleEnemy":true,"comparisonStates":[{"label":"3段","hitCount":3,"modifierInputs":{"jingyuan-lightning-lord-hits":3},"note":"敵1体へ全段命中・攻撃中の敵/補正変化なし。破陣の会心ダメージは対象外です。"},{"label":"4段","hitCount":4,"modifierInputs":{"jingyuan-lightning-lord-hits":4},"note":"敵1体へ全段命中・攻撃中の敵/補正変化なし。破陣の会心ダメージは対象外です。"},{"label":"5段","hitCount":5,"modifierInputs":{"jingyuan-lightning-lord-hits":5},"note":"敵1体へ全段命中・攻撃中の敵/補正変化なし。破陣の会心ダメージは対象外です。"},{"label":"6段","hitCount":6,"modifierInputs":{"jingyuan-lightning-lord-hits":6},"note":"敵1体へ全段命中・攻撃中の敵/補正変化なし。破陣の会心ダメージ25%を含みます。"},{"label":"7段","hitCount":7,"modifierInputs":{"jingyuan-lightning-lord-hits":7},"note":"敵1体へ全段命中・攻撃中の敵/補正変化なし。破陣の会心ダメージ25%を含みます。"},{"label":"8段","hitCount":8,"modifierInputs":{"jingyuan-lightning-lord-hits":8},"note":"敵1体へ全段命中・攻撃中の敵/補正変化なし。破陣の会心ダメージ25%を含みます。"},{"label":"9段","hitCount":9,"modifierInputs":{"jingyuan-lightning-lord-hits":9},"note":"敵1体へ全段命中・攻撃中の敵/補正変化なし。破陣の会心ダメージ25%を含みます。"},{"label":"10段","hitCount":10,"modifierInputs":{"jingyuan-lightning-lord-hits":10},"note":"敵1体へ全段命中・攻撃中の敵/補正変化なし。破陣の会心ダメージ25%を含みます。"}],"calculationNote":"星魂0・Lv80・敵1体への神君1行動。3～10段を独立した想定結果で比較し、各結果は合算しません。6段以上は破陣の会心ダメージ25%を1回適用。神君の段数/速度増加、行動順、途中撃破/条件変化を自動管理しません。隣接1段は主対象1段の25%ですが、敵1体では隣接対象は存在しません。敵2体以上のランダム分配は未対応です。 会心ダメージ欄には破陣の25%を含めず入力してください。","provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json","sourceFile":"character_skills.json:120404","verifiedAt":"2026-10-25","scope":"E0の各独立成分・全採用Lv、状態一定。未確認の同撃順序を合算しない。"}},
     {
       "id":"1204041","characterId":"1204","name":"神君（星魂1以上・主対象50%隣接）","element":"Thunder","type":"followUp","traceKey":"talent","target":"bounce","scalingStat":"atk","hitCount":3,"hitCountInputKey":"jingyuan-lightning-lord-hits","hitCountDefault":3,"hitCountMinimum":3,"hitCountMaximum":10,"canCrit":true,"multipliers":[33,36.3,39.6,42.9,46.2,49.5,53.63,57.75,61.88,66,69.3,72.6,75.9,79.2,82.5],"adjacentMultiplierRatio":50,"requiredEidolon":1,"sourceSkillId":"120404","conditionText":"星魂1で隣接倍率が主対象の50%へ上昇","overrideReason":"星魂1の隣接倍率増加を主対象の50%として独立攻撃化し、表示専用星魂補正との二重適用を防止。"
     },
