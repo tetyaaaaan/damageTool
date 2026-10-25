@@ -246,7 +246,6 @@
       "scalingStat": "atk",
       "hitCount": 1,
       "canCrit": true,
-      "variant": "previous",
       "multipliers": [
         50,
         60,
@@ -272,7 +271,6 @@
       "scalingStat": "atk",
       "hitCount": 1,
       "canCrit": true,
-      "variant": "previous",
       "multipliers": [
         90,
         96,
@@ -303,7 +301,6 @@
       "scalingStat": "atk",
       "hitCount": 1,
       "canCrit": true,
-      "variant": "previous",
       "multipliers": [
         50,
         55,
@@ -2694,6 +2691,94 @@
         "verifiedAt": "2026-10-25",
         "scope": "星魂0・Lv80・通常Lv1～6・炎非弱点かつ未撃破の敵1体への通常攻撃1回。霊砂本人の完成済み最終ATK（A2の撃破特効からの変換・装備等を含む）を参照し、常時効果を再加算しません。浮元は別行動であり合算しません。芳酔・酩酊の撃破専用被ダメージ増加は通常攻撃へ適用しません。EP回復、撃破/超撃破、外部の追加ダメージ、途中撃破、星魂1以上はこの通常攻撃の合計に含めません。",
         "verification": "tests/hsr/hsrCompletionBasics.test.cjs: all E0 levels, independent NC/C/EV, ATK/HP/DEF isolation, native debuff and support scopes; hsrToolInputs: local stops and restoration"
+      }
+    },
+    {
+      "id": "10031011",
+      "characterId": "1003",
+      "name": "星火・燃焼成立時（敵ターン開始1回）",
+      "sourceSkillId": "1003101",
+      "type": "dot",
+      "traceKey": "bonus",
+      "fixedTraceLevel": 1,
+      "target": "single",
+      "element": "Fire",
+      "scalingStat": "atk",
+      "multipliers": [
+        30
+      ],
+      "maximumTraceLevel": 1,
+      "calculationNote": "星魂0・Lv80・敵1体。追加能力「星火」解放済みで、その燃焼が成立した敵ターン開始時の炎DoT1回分です。倍率は姫子本人の最終ATK30%で固定、天賦Lvに依存しません。50%の基礎付与確率・2ターン継続は説明上の条件であり、この値は確率込み平均でも2回分合計でもありません。会心不可。撃破による燃焼・他者の燃焼とは別物です。直接攻撃・追撃と自動合算せず、付与/更新/ターン管理は行いません。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1003101.params[0][0..2]",
+        "referenceUrl": "https://srl.keqingmains.com/characters/fire/himeko",
+        "verifiedAt": "2026-10-25",
+        "scope": "星魂0・Lv80・敵1体。追加能力「星火」解放済みで、その燃焼が成立した敵ターン開始時の炎DoT1回分です。倍率は姫子本人の最終ATK30%で固定、天賦Lvに依存しません。50%の基礎付与確率・2ターン継続は説明上の条件であり、この値は確率込み平均でも2回分合計でもありません。会心不可。撃破による燃焼・他者の燃焼とは別物です。直接攻撃・追撃と自動合算せず、付与/更新/ターン管理は行いません。",
+        "verification": "tests/hsr/hsrDelayedDamageCompletion.test.cjs: fixed-source independent coefficients, all E0 levels, stat isolation and scoped modifiers; hsrToolInputs: separate rows and restoration"
+      },
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "enemyCountExact": 1,
+      "displayOrder": 50,
+      "calculationScope": "independently-checked-delayed-instance",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の独立した後続成分を照合。状態成立時の1回分を独立計算し、即時攻撃/付与確率を合算しない。"
+      }
+    },
+    {
+      "id": "1001031",
+      "characterId": "1001",
+      "name": "氷刻矢雨の時・凍結成立時（敵ターン開始1回）",
+      "sourceSkillId": "100103",
+      "type": "additional",
+      "traceKey": "ultimate",
+      "target": "single",
+      "element": "Ice",
+      "scalingStat": "atk",
+      "multipliers": [
+        30,
+        33,
+        36,
+        39,
+        42,
+        45,
+        48.75,
+        52.5,
+        56.25,
+        60
+      ],
+      "maximumTraceLevel": 10,
+      "calculationNote": "星魂0・Lv80・必殺技Lv1～10・敵1体。存護なのかの必殺技で凍結が成立した後、敵ターン開始時の氷属性付加ダメージ1回分です。必殺技の即時攻撃とは別行で、通常DoT・撃破の凍結ではありません。会心不可。凍結は基礎確率50%（氷呪解放時65%）、1ターン。付与確率や敵の抵抗判定はダメージへ乗算せず、確率込み平均を示しません。ターン経過や他の凍結による更新は管理しません。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:100103.params[0..9][3]",
+        "referenceUrl": "https://srl.keqingmains.com/characters/ice/march_7th",
+        "verifiedAt": "2026-10-25",
+        "scope": "星魂0・Lv80・必殺技Lv1～10・敵1体。存護なのかの必殺技で凍結が成立した後、敵ターン開始時の氷属性付加ダメージ1回分です。必殺技の即時攻撃とは別行で、通常DoT・撃破の凍結ではありません。会心不可。凍結は基礎確率50%（氷呪解放時65%）、1ターン。付与確率や敵の抵抗判定はダメージへ乗算せず、確率込み平均を示しません。ターン経過や他の凍結による更新は管理しません。",
+        "verification": "tests/hsr/hsrDelayedDamageCompletion.test.cjs: fixed-source independent coefficients, all E0 levels, stat isolation and scoped modifiers; hsrToolInputs: separate rows and restoration"
+      },
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "enemyCountExact": 1,
+      "displayOrder": 50,
+      "calculationScope": "independently-checked-delayed-instance",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の独立した後続成分を照合。状態成立時の1回分を独立計算し、即時攻撃/付与確率を合算しない。"
       }
     }
   ]

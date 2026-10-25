@@ -21,22 +21,18 @@ const confirmedE0={
 const confirmedMajorIds={'1211':['121101'],'1110':['111001'],'1313':['131301'],'1305':['130501','130502','130503','130504']};
 const e0CandidateAudit={
   "1001": {
-    "status": "missing",
-    "summary": "通常・必殺本体・カウンターはあるが、必殺による後続の凍結ダメージ行がない。",
-    "evidence": "固定character_skills:100103.params[][3]はATK30～60%（E0採用Lv1～10）。",
-    "remaining": "凍結成功済みの敵ターン開始に発生する非会心付加ダメージの独立行/検証が不足。",
-    "missingComponents": [
-      "100103 凍結・敵ターン開始の付加ダメージ（E0:ATK30～60%）"
-    ]
+    "status": "pending",
+    "summary": "通常・必殺本体・カウンターに、凍結成立後の非会心付加ダメージ1001031を追加。誤った旧版限定を解除。",
+    "evidence": "固定100103.params[][3]、hsrDelayedDamageCompletionとhsrToolInputsで全E0採用Lv・独立値・別行表示を検証。",
+    "remaining": "後続成分の登録不足は解消。構成認定とPC/モバイル・保存復元の統合確認を続ける。",
+    "missingComponents": []
   },
   "1003": {
-    "status": "missing",
-    "summary": "通常/スキル/必殺/追撃は登録済みだが、主要追加能力の別ダメージが不足。",
-    "evidence": "固定character_skill_trees:1003101/1003102/1003103を直接照合。runtimeに1003の補正・DoT行なし。",
-    "remaining": "星火: ATK30%炎DoT未登録。灼熱: 燃焼敵へのスキル+20%条件UI未接続。道標: HP80%以上CR15%は最終入力で表現可能だが条件UI未接続。",
-    "missingComponents": [
-      "1003101 星火・敵ターン開始の燃焼DoT（ATK30%）"
-    ]
+    "status": "pending",
+    "summary": "星火の燃焼DoT10031011、灼熱の任意スキル補正、道標の最終会心入力を接続。",
+    "evidence": "固定1003101..103、hsrDelayedDamageCompletionで全E0直接曲線・DoT・補正対象を独立検証。",
+    "remaining": "後続成分の登録不足は解消。確率付与・主対象と隣接の異なる燃焼状態を分け、構成認定と統合確認を続ける。",
+    "missingComponents": []
   },
   "1004": {
     "status": "pending",
@@ -239,11 +235,11 @@ async function generate(){
  for(const d of details){const list=types=>d.attacks.filter(a=>types.includes(category(a))).map(a=>`${a.id}[${attackStatus(a)}]`).join('、')||'—';const cs=sumBy(d.attacks,attackStatus);const gap=d.audit?.remaining||knownGaps[d.c.id]||`${d.pending.length}主要候補未充足・${d.unknown.length}状態/召喚等の有無確認待ち。固有補正/全状態は個別精査。`;p(`|${'['+cell(d.c.id+' '+d.c.name)+'](#character-'+d.c.id+')'}|${list(['通常','強化通常'])}|${list(['スキル','強化スキル'])}|${list(['必殺技'])}|${list(['追加/カウンター'])}|${list(['精霊/独立参照','固有/特殊','talent','additional','joint','assist'])}|${cs['計算対応']||0}/${cs['参考値']||0}/${cs['計算不可']||0}|${cell((d.confirmed?'確認済み':d.hasMissingComponent?'監査で成分不足を確認':d.candidate?'登録上充足候補・構成要確認':'未認定')+'。'+gap)}|${d.confirmed?'小: 統合QA/星魂へ':d.unknown.length?'要精査: 条件/召喚':'既存式候補～成分処理（未確定）'}|`);}
  p('','## 充足候補19人の重点監査','','固定版のスキル・追加能力・実行時行・独立検証記録を照合。登録だけでは認定しない。E0採用Lvは通常1～6、その他1～10。全曲線のLv7/11以上の一致をE0や星魂対応の認定と混同しない。','','|ID・名前|判定|確認内容・残作業|検証根拠|','|---|---|---|---|');
  for(const[id,a]of Object.entries(e0CandidateAudit)){const name=data.characters.find(c=>c.id===id)?.name||id;p(`|${id} ${cell(name)}|${a.status==='confirmed'?'E0主要構成確認済み':a.status==='missing'?'未登録成分あり':'構成/独立検証待ち'}|${cell(a.summary+' '+a.remaining)}|${cell(a.evidence)}|`);}
- p('','監査で追加した未登録成分は次の2件。マスターの主スキルIDだけでは検出できないため、集計の主要候補不足へ明示的に反映する。');
+ p('','重点監査で判明した未登録成分のうち、現在も残るものを以下に列挙する。解消済みの成分は上表に履歴を残す。マスターの主スキルIDだけで成分の完全性を認定しない。');
  for(const[id,a]of Object.entries(e0CandidateAudit))for(const component of a.missingComponents||[])p(`- ${id}: ${component}`);
  p('','### 残作業の調査入口（確定した実装規模ではない）','','|分類|参考値/不可レコード数|','|---|---:|');
  for(const [name,count] of Object.entries(sumBy(data.attacks.filter(a=>attackStatus(a)!=='計算対応'&&a.type!=='technique'),difficulty)))p(`|${cell(name)}|${count}|`);
- p('','## 今回の登録不足改善と統合検証','','- 椒丘121801「心火計（焼尽5層）」と霊砂122201「供香」を参考値から正式対応へ変更。既存IDをoverrideし、攻撃行の総数は増やしていない。通常Lv1～6はATK50/60/70/80/90/100%。両者ともE0・Lv80・炎非弱点の未撃破の敵1体・途中状態変化なし。','- 椒丘は天賦Lv1～10の既存焼尽5層を前提とし、必須被ダメージ増加を1回だけ適用。初回付与・5層未満・DoT合算は対応外。霊砂は浮元の別行動や撃破ダメージを通常へ合算しない。','- ATK3000・会心50/100%・通常Lv6・敵Lv80/炎耐性20%/靭性あり: 椒丘（天賦10・焼尽5層）1458/2916/2187、霊砂1080/2160/1620（非会心/会心/期待値）。全採用LvとATK/HP/DEF個別変更をhsrCompletionBasicsで独立検証。','- ジェパードの戦意を完成済み最終ATKへ再加算する不具合を実画面で再現して修正。係数35%は説明用に保持し、includedInFinalStatsとして二重適用しない。ATK3000/DEF3000の通常Lv6は1458ではなく1080。','- 補正のattackIdsをエンジンの直接呼び出しでも尊重。通常専用補正が別攻撃/超撃破へ混入しない回帰テストを追加。','- PC1440px・390px・320pxで確認済み9人と新しい通常2件を操作。補正ON/OFF、ロビン支援、必要Lv不足による局所停止、保存/再読み込み、箇条書きの枠内位置を確認。UI用一時画像はリポジトリへ保存しない。');
+ p('','## 前工程の通常攻撃改善と統合検証（b7aac65）','','- 椒丘121801「心火計（焼尽5層）」と霊砂122201「供香」を参考値から正式対応へ変更。既存IDをoverrideし、攻撃行の総数は増やしていない。通常Lv1～6はATK50/60/70/80/90/100%。両者ともE0・Lv80・炎非弱点の未撃破の敵1体・途中状態変化なし。','- 椒丘は天賦Lv1～10の既存焼尽5層を前提とし、必須被ダメージ増加を1回だけ適用。初回付与・5層未満・DoT合算は対応外。霊砂は浮元の別行動や撃破ダメージを通常へ合算しない。','- ATK3000・会心50/100%・通常Lv6・敵Lv80/炎耐性20%/靭性あり: 椒丘（天賦10・焼尽5層）1458/2916/2187、霊砂1080/2160/1620（非会心/会心/期待値）。全採用LvとATK/HP/DEF個別変更をhsrCompletionBasicsで独立検証。','- ジェパードの戦意を完成済み最終ATKへ再加算する不具合を実画面で再現して修正。係数35%は説明用に保持し、includedInFinalStatsとして二重適用しない。ATK3000/DEF3000の通常Lv6は1458ではなく1080。','- 補正のattackIdsをエンジンの直接呼び出しでも尊重。通常専用補正が別攻撃/超撃破へ混入しない回帰テストを追加。','- PC1440px・390px・320pxで確認済み9人と新しい通常2件を操作。補正ON/OFF、ロビン支援、必要Lv不足による局所停止、保存/再読み込み、箇条書きの枠内位置を確認。UI用一時画像はリポジトリへ保存しない。');
  p('','## 星魂・装備・パーティの別軸管理','',`- 98人に各E1～6の元データ（計${data.characters.reduce((n,c)=>n+c.eidolons.length,0)}件）。固定rank辞書全体${Object.keys(ranks).length}件とは母集団が異なる。`,`- 構造化星魂${eidolon.length}件・${eidolonOwners.size}人、計算処理対象${eidolon.filter(m=>m.support.status==='calculable').length}件、表示専用${eidolon.filter(m=>m.support.status==='displayOnly').length}件。攻撃倍率/ヒット数のoverride対応や軌跡Lv加算は別経路なので、この件数を全対応効果数とはしない。`,'- E3/E5はcatalog.eidolons[].levelUpSkillsからのLv加算処理と、各攻撃の採用曲線/上限/星魂範囲をセットで検証する。元データやUI上限の存在だけでは計算対応としない。','','|星魂|構造化記録|計算処理対象|表示専用|','|---|---:|---:|---:|');
  for(let n=1;n<=6;n++){const items=eidolon.filter(m=>Number(m.source.eidolonRank)===n);p(`|E${n}|${items.length}|${items.filter(m=>m.support.status==='calculable').length}|${items.filter(m=>m.support.status==='displayOnly').length}|`);}
  p('','|補正提供元|登録|計算処理対象|表示専用|','|---|---:|---:|---:|');for(const kind of ['trace','lightCone','relic','ornament']){const a=data.structuredModifiers.filter(m=>m.source.kind===kind);p(`|${kind}|${a.length}|${a.filter(m=>m.support.status==='calculable').length}|${a.filter(m=>m.support.status==='displayOnly').length}|`);}

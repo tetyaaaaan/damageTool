@@ -2644,3 +2644,21 @@ test("Gepard final ATK already includes Fighting Spirit across manual edits and 
  app.node("hsrStat-atk").value="3500";near(basic(app).nonCrit,1260);app.node("hsrStat-atk").handlers.input();
  const restored=await tool(app.storage,data);near(basic(restored).nonCrit,1260);near(basic(restored).breakdown.referenceValue,3500);
 });
+
+
+test("Starfire and March Frozen ticks compare as independent assumed events without hiding immediate attacks", async()=>{
+ const window={};vm.runInNewContext(read("games/js/hsrCalcData.js"),{window,fetch:async u=>({ok:true,json:async()=>JSON.parse(read(u.slice(1)))})});
+ const data=await window.HsrCalcData.load(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+ const profile=(id,traces=[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}])=>app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,traces,stats:{atk:3000,hp:6000,def:3000,critRate:50,critDamage:100,damageBonus:0}});
+ const byId=(t,id)=>t.calculate().find(r=>r.attack.name===data.attacks.find(a=>a.id===id).name);
+ profile("1003");for(const[id,n]of [["100301",1080],["100302",2160],["100303",2484],["100304",1512],["10031011",324]])near(byId(app,id).nonCrit,n);
+ near(byId(app,"10031011").crit,324);near(byId(app,"10031011").expected,324);assert.match(app.node("hsrResults").innerHTML,/追加能力Lv1/);
+ app.state.modifierInputs["himeko-target-burning"]=true;near(byId(app,"100302").nonCrit,2592);near(byId(app,"10031011").nonCrit,324);near(byId(app,"100301").expected,1620);
+ app.node("hsrTalentTrace").value="";assert.ok(byId(app,"10031011"),"fixed A2 tick does not require a Talent level");assert.ok(byId(app,"100301"));assert.equal(byId(app,"100304"),undefined);app.node("hsrTalentTrace").value="10";
+ app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(byId(saved,"100302").nonCrit,2592);near(byId(saved,"10031011").nonCrit,324);saved.state.modifierInputs["himeko-target-burning"]=false;near(byId(saved,"100302").nonCrit,2160);
+ profile("1001");near(byId(app,"100101").nonCrit,1080);near(byId(app,"100103").nonCrit,1620);near(byId(app,"100104").nonCrit,1080);near(byId(app,"1001031").nonCrit,648);near(byId(app,"1001031").crit,648);near(byId(app,"1001031").expected,648);
+ assert.equal(byId(app,"1001031").applied.some(m=>m.id.includes("1003:")),false,"Himeko state cannot leak onto March");
+ app.node("hsrUltimateTrace").value="";assert.equal(byId(app,"1001031"),undefined);assert.equal(byId(app,"100103"),undefined);assert.ok(byId(app,"100101"));app.node("hsrUltimateTrace").value="10";
+ app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);near(byId(restored,"1001031").nonCrit,648);assert.match(restored.node("hsrResults").innerHTML,/確率込み平均/);
+ restored.node("hsrEidolon").value="1";assert.equal(byId(restored,"1001031"),undefined);assert.ok(byId(restored,"100101"));
+});

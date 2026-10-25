@@ -846,6 +846,170 @@
         "precisionNote": "既存の椒丘自身用5層補正と同じ正式版テーブル精度を採用。固定SHAのLv7～9の丸め値との差を混在させない。",
         "scope": "星魂0・Lv80・通常Lv1～6・天賦Lv1～10・炎非弱点かつ未撃破の敵1体。攻撃前から焼尽5層が付与済みで、攻撃中の敵・補正状態が変わらない場合の想定ダメージです。焼尽5層の被ダメージ増加を天賦Lvから1回だけ自動加算します。同じ焼尽を敵条件・手動補正へ重複入力しないでください。A4等の常時ATKは椒丘本人の完成済み最終ATKに含めます。燃焼DoTは敵ターンの別行であり合算しません。初回付与・5層未満・途中撃破・星魂1以上は未対応です。"
       }
+    },
+    {
+      "id": "traceNode:1003:1003102:burned-skill",
+      "source": {
+        "kind": "trace",
+        "id": "1003",
+        "traceId": "1003102"
+      },
+      "name": "灼熱・燃焼中の対象へのスキル与ダメージ",
+      "description": "灼熱を解放し、攻撃前から対象が燃焼中である間、戦闘スキルの与ダメージ+20%。主対象/隣接は同じ燃焼状態を仮定。通常・必殺・追撃・燃焼DoTには適用しません。付与後の星火DoTをこのスキルへ合算しません。同じ20%を属性与ダメージへ入力済みならOFFにしてください。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "skill"
+        ],
+        "attackIds": [
+          "100302"
+        ],
+        "elements": [
+          "Fire"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "himeko-target-burning",
+        "inputLabel": "灼熱解放済み・攻撃前から対象が燃焼中",
+        "conditionText": "攻撃前から対象が燃焼中（灼熱解放済み）",
+        "default": false
+      },
+      "stacking": {
+        "group": "himeko-magma-skill",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定追加能力1003102のスキル限定+20%を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1003102.params[0][0]",
+        "referenceUrl": "https://srl.keqingmains.com/characters/fire/himeko",
+        "verifiedAt": "2026-10-25",
+        "scope": "E0; pre-existing Burn; one stable target; only Skill damage",
+        "verification": "tests/hsr/hsrDelayedDamageCompletion.test.cjs: fixed-source independent coefficients, all E0 levels, stat isolation and scoped modifiers; hsrToolInputs: separate rows and restoration"
+      }
+    },
+    {
+      "id": "traceNode:1003:1003103:benchmark",
+      "source": {
+        "kind": "trace",
+        "id": "1003",
+        "traceId": "1003103"
+      },
+      "name": "道標・最終会心率で管理",
+      "description": "道標解放済みで現在HP80%以上なら会心率+15%。成立時の最終会心率へ含めて入力し、ここでは再加算しません。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 15
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "道標解放済み・HP80%以上の最終会心率へ手動反映"
+      },
+      "stacking": {
+        "group": "himeko-benchmark",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "完成済み最終会心率に含めて入力するため、計算時に再加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1003103.params[0][0,1]",
+        "referenceUrl": "https://srl.keqingmains.com/characters/fire/himeko",
+        "verifiedAt": "2026-10-25",
+        "scope": "Final-stat responsibility; no second CRIT Rate addition",
+        "verification": "tests/hsr/hsrDelayedDamageCompletion.test.cjs: fixed-source independent coefficients, all E0 levels, stat isolation and scoped modifiers; hsrToolInputs: separate rows and restoration"
+      }
+    },
+    {
+      "id": "trace:1001:100103:freeze-scope",
+      "source": {
+        "kind": "trace",
+        "id": "1001",
+        "skillId": "100103"
+      },
+      "name": "氷刻矢雨の時・凍結と後続ダメージ",
+      "description": "星魂0・Lv80・必殺技Lv1～10・敵1体。存護なのかの必殺技で凍結が成立した後、敵ターン開始時の氷属性付加ダメージ1回分です。必殺技の即時攻撃とは別行で、通常DoT・撃破の凍結ではありません。会心不可。凍結は基礎確率50%（氷呪解放時65%）、1ターン。付与確率や敵の抵抗判定はダメージへ乗算せず、確率込み平均を示しません。ターン経過や他の凍結による更新は管理しません。",
+      "category": "extraDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate",
+          "additional"
+        ],
+        "elements": [
+          "Ice"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "必殺技の即時ダメージと、凍結成立後の敵ターンを分けて比較"
+      },
+      "stacking": {
+        "group": "march-freeze-scope",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "extraDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "凍結の後続ダメージは独立行です。基礎付与確率は50%（氷呪解放時65%）であり、表示ダメージへ乗算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:100103; character_skill_trees.json:1001103",
+        "referenceUrl": "https://srl.keqingmains.com/characters/ice/march_7th",
+        "verifiedAt": "2026-10-25",
+        "scope": "星魂0・Lv80・必殺技Lv1～10・敵1体。存護なのかの必殺技で凍結が成立した後、敵ターン開始時の氷属性付加ダメージ1回分です。必殺技の即時攻撃とは別行で、通常DoT・撃破の凍結ではありません。会心不可。凍結は基礎確率50%（氷呪解放時65%）、1ターン。付与確率や敵の抵抗判定はダメージへ乗算せず、確率込み平均を示しません。ターン経過や他の凍結による更新は管理しません。",
+        "verification": "tests/hsr/hsrDelayedDamageCompletion.test.cjs: fixed-source independent coefficients, all E0 levels, stat isolation and scoped modifiers; hsrToolInputs: separate rows and restoration"
+      }
     }
   ]
 }

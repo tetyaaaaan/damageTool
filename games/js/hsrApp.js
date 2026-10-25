@@ -958,7 +958,7 @@
     }
     const masterSkill = character()?.skills?.find((skill) => skill.id === selected.skillId || skill.id === selected.id);
     const traceKey = masterSkill && ["MemospriteSkill", "MemospriteTalent"].includes(masterSkill.type) ? traceKeyForSkill(masterSkill) : selected.traceKey;
-    const level = num(state.traceLevels[traceKey], traceKey === "normal" ? 6 : 10);
+    const level = selected.fixedTraceLevel ?? num(state.traceLevels[traceKey], traceKey === "normal" ? 6 : 10);
     const index = Math.max(0, Math.min(selected.multipliers.length - 1, level - 1));
     const inputHitCount = selected.hitCountInputKey ? num(state.modifierInputs[selected.hitCountInputKey], selected.hitCountDefault || 0) : null;
     const eidolonHitCount = selected.hitCountAtEidolon && state.eidolon >= num(selected.hitCountAtEidolon.rank) ? num(selected.hitCountAtEidolon.value, selected.hitCount) : selected.hitCount;
@@ -984,7 +984,7 @@
     const enemyHpPercent = selected.enemyHpPercentMultipliers?.[Math.min(selected.enemyHpPercentMultipliers.length - 1, formulaIndex)];
     const atkCapPercent = selected.atkCapMultipliers?.[Math.min(selected.atkCapMultipliers.length - 1, formulaIndex)];
     const adjacentMultiplier = selected.adjacentMultiplierRatio !== undefined ? multiplier * num(selected.adjacentMultiplierRatio) / 100 : selected.adjacentMultipliers?.[index] || 0;
-    const traceLevelLabel = components.length ? [...new Set(components.map((component) => `${ATTACK_LABELS[component.traceKey] || component.traceKey}Lv${component.level}`))].join("＋") : `Lv${level}`;
+    const traceLevelLabel = selected.fixedTraceLevel ? `追加能力Lv${level}` : components.length ? [...new Set(components.map((component) => `${ATTACK_LABELS[component.traceKey] || component.traceKey}Lv${component.level}`))].join("＋") : `Lv${level}`;
     const multiplierAdditionScale = Array.isArray(selected.multiplierAdditionScaleValues)
       ? num(selected.multiplierAdditionScaleValues[Math.min(selected.multiplierAdditionScaleValues.length - 1, index)], 1)
       : num(selected.multiplierAdditionScale, 1);
