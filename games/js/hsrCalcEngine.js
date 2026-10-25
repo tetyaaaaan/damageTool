@@ -361,9 +361,9 @@ function calculateFanning(input) {
         const progressiveVulnerability = applied.filter((item) => item.category === "progressiveTakenDamage");
         const vulnerabilityFactors = Array.from({ length: hitCount }, (_, hitIndex) => 1 + (takenDamage + progressiveVulnerability.reduce((sum, item) => sum + item.value * Math.min(hitIndex, number(item.stacking?.maximumStacks, 1)), 0)) / 100);
         const vulnerabilityFactorSum = vulnerabilityFactors.reduce((sum, value) => sum + value, 0);
-        const commonMultiplier = commonWithoutVulnerability * vulnerabilityFactorSum / hitCount;
+        const commonMultiplier = hitCount ? commonWithoutVulnerability * vulnerabilityFactorSum / hitCount : 0;
         const nonCritTotal = baseDamage * commonWithoutVulnerability * vulnerabilityFactorSum;
-        const nonCritPerHit = nonCritTotal / hitCount;
+        const nonCritPerHit = hitCount ? nonCritTotal / hitCount : 0;
         const canCrit = attack.canCrit !== false;
         const critRate = clamp(effectiveStats.critRate, 0, 100) / 100;
         const critTakenDamage = applied.filter((item) => item.category === "critTakenDamage").reduce((sum, item) => sum + item.value, 0);

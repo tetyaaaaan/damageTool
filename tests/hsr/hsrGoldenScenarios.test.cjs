@@ -695,7 +695,13 @@ test("Pela 1106 golden: automatic debuff condition and manual effects retain ind
 test("Pela 1106 golden: all traces and eidolons are classified without double-applying final stats", () => {
     const context = { characterId: "1106", eidolon: 6, enemy: { debuffCount: 0 }, traceLevelFor: () => 10 };
     const selected = runtime.buildCandidates(structuredModifiers, context, {}).filter((item) => String(item.source?.id) === "1106");
-    assert.equal(selected.length, 16);
+    assert.equal(selected.length, 18);
+    const priorSolution = selected.filter((item) => item.id.endsWith(":prior-solution") || item.id.endsWith(":prior-solution-damage"));
+    assert.equal(priorSolution.length, 2);
+    for (const item of priorSolution) {
+        assert.deepEqual(item.target.attackIds, ["110603"]);
+        assert.equal(runtime.applicableToAttack(item, { id: "110601", type: "normal", element: "Ice" }), false);
+    }
     assert.equal(structured("traceNode:1106:1106101:debuffed-damage", context).enabled, false);
     assert.equal(structured("traceNode:1106:1106101:debuffed-damage", { ...context, enemy: { debuffCount: 1 } }).enabled, true);
     assert.equal(structured("traceStats:1106:ice-damage", context).value, 22.4);

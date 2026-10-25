@@ -17,19 +17,7 @@
       "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
       "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01", "notes": "skill110803 levels1-15, duration2" }
     },
-    {
-      "id": "trace:1108:110804:wind-shear-stacks",
-      "source": { "kind": "trace", "id": "1108", "skillId": "110804", "traceId": "110804" },
-      "name": "天賦 風を切り裂く匕首・風化層数",
-      "description": "敵に付与されている風化の現在層数。1層ごとの倍率は選択中の天賦レベルから計算する。",
-      "category": "attackState", "unit": "stack", "value": { "kind": "perStack", "perStack": 1 },
-      "target": { "owner": "enemySingle", "attackTypes": ["dot"], "elements": ["Wind"] },
-      "activation": { "mode": "stack", "conditionText": "敵に付与されている風化の現在層数", "inputKey": "sampo-wind-shear-stacks", "inputLabel": "風化の現在層数", "minimum": 0, "maximum": 5, "default": 0, "durationTurns": 3 },
-      "stacking": { "group": "sampo-wind-shear-stacks", "rule": "nonStacking", "maximumStacks": 5 },
-      "calculation": { "stage": "attackState", "operation": "set" },
-      "inputPolicy": "conditional", "support": { "status": "calculable", "verified": true },
-      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceUrl": "https://github.com/Mar-7th/StarRailRes", "sourceFile": "index_new/jp/character_skills.json", "gameVersion": "snapshot-2026-07-28", "verifiedAt": "2026-08-01", "notes": "skill110804 chance65%, duration3, max5; shared input drives attack hit count" }
-    },
+    {"id":"trace:1108:110804:wind-shear-stacks","source":{"kind":"trace","id":"1108","skillId":"110804","traceId":"110804"},"name":"天賦 風を切り裂く匕首・風化層数","description":"敵に付与されている風化の現在層数。1層ごとの倍率は選択中の天賦レベルから計算する。","category":"attackState","unit":"stack","value":{"kind":"perStack","perStack":1},"target":{"owner":"enemySingle","attackTypes":["dot"],"elements":["Wind"]},"activation":{"mode":"stack","conditionText":"敵に付与されている風化の現在層数","inputKey":"sampo-wind-shear-stacks","inputLabel":"風化の現在層数","minimum":0,"maximum":5,"default":0,"durationTurns":3},"stacking":{"group":"sampo-wind-shear-stacks","rule":"nonStacking","maximumStacks":5},"calculation":{"stage":"attackState","operation":"set"},"inputPolicy":"conditional","support":{"status":"calculable","verified":true},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceUrl":"https://github.com/Mar-7th/StarRailRes","sourceFile":"index_new/jp/character_skills.json","gameVersion":"snapshot-2026-07-28","verifiedAt":"2026-08-01","notes":"skill110804 chance65%, duration3, max5; shared input drives attack hit count"},"inputValidation":{"minimum":0,"maximum":5,"integer":true}},
     {
       "id": "trace:1108:110804:wind-shear", "source": { "kind": "trace", "id": "1108", "skillId": "110804", "traceId": "110804" },
       "name": "天賦 風を切り裂く匕首・風化ダメージ", "description": "敵のターン開始時、風化1層ごとに風属性持続ダメージを与える。Lv10では1層52%。",

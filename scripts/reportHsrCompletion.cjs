@@ -77,10 +77,22 @@ const e0CandidateAudit={
     "remaining": "100901/100902/1009011: 5段スキル・燃焼DoTと蓄エネ更新の参照時点を全Lvで照合。必殺技の速度支援はダメージ不足としない。"
   },
   "1013": {
-    "status": "pending",
-    "summary": "通常・敵HP条件のスキル・必殺・HP閾値での追撃あり。",
-    "evidence": "hsrGoldenScenariosでHP境界・凍結・E1/E2/E4の分離。",
-    "remaining": "101301..101304: 敵HP50%境界のスキル/追撃と凍結対象必殺の全Lv独立値、攻撃途中に閾値を跨ぐ場合の単位を検証する必要。"
+    "status": "confirmed",
+    "majorSourceIds": [
+      "101301",
+      "101302",
+      "101303",
+      "101304"
+    ],
+    "requiredAttackIds": [
+      "101301",
+      "101302",
+      "101303",
+      "101304"
+    ],
+    "summary": "通常・HP50%以上/未満のスキル・凍結状態別必殺・独立追撃のE0主要4行を確認。",
+    "evidence": "固定101301..304/1013101..103、hsrHertaE0Completion: 全E0曲線・非対称2条件・ATK/HP/DEF分離。スキルHP条件20%と追加能力25%を別加算、凍結必殺20%、恒常氷/会心の非再加算を独立照合。",
+    "remaining": "Lv80・E0・敵1体・攻撃中のHP/凍結状態一定の単発範囲。追撃は発動した1回を独立比較し連鎖/途中閾値通過を自動再現しない。E1以上/複数敵/行動管理は別認定。"
   },
   "1103": {
     "status": "pending",
@@ -124,10 +136,22 @@ const e0CandidateAudit={
     ]
   },
   "1108": {
-    "status": "pending",
-    "summary": "通常・5段スキル・必殺・風化層数のE0行あり。E4起爆はE0から除外。",
-    "evidence": "固定曲線、hsrGoldenScenariosのDoT/層数/補正範囲。",
-    "remaining": "110801/110802/110803/110804: 5段スキル・風化1～5層・被DoT増加を全Lvで独立検証。1108044のE4起爆はE0外。"
+    "status": "confirmed",
+    "majorSourceIds": [
+      "110801",
+      "110802",
+      "110803",
+      "110804"
+    ],
+    "requiredAttackIds": [
+      "110801",
+      "110802",
+      "110803",
+      "110804"
+    ],
+    "summary": "通常・敵1体へのスキル全5段・必殺即時・風化1～5層の独立DoTを確認。",
+    "evidence": "固定110801..304、hsrSampoE0Completion: 全E0曲線/風化全層/必殺DoT被ダメージ増加全Lv・非対称2条件・参照値分離。hsrToolInputsで0層/不正値の局所停止/保存を検証。",
+    "remaining": "Lv80・E0・敵1体・状態一定の単発範囲。風化は成立済みの敵ターン1回で非会心、付与確率65%・3ターンを乗算しない。0層は有限0、E4起爆/分配/途中付与は別認定。"
   },
   "1109": {
     "status": "pending",
@@ -173,6 +197,12 @@ const e0CandidateAudit={
     "evidence": "hsrBatch1206To1210は曲線/補正範囲中心。",
     "remaining": "120901/120902/120903/120904/1209041/1209101: 智剣連心CR/CD、必殺自身のCR60%/CD、被弾解除・追撃/凍結成立時の全Lv・状態別独立値が不足。"
   },
+  "1218": {
+    "status": "pending",
+    "summary": "121801/121802/121803/1218041の通常・スキル・必殺・焼尽DoTは既存限定条件で全採用Lvの独立記録あり。",
+    "evidence": "hsrCompletionBasics・hsrJiaoqiuAshenRoast・hsrE0MainAttackExpansionの固定曲線/5層前提/DoT層数・参照分離を再利用。",
+    "remaining": "121801は攻撃前から焼尽5層、スキル/必殺も既存5層/領域状態に限定。初回付与と5層未満の直接攻撃・隣接対象の層/参照順を全成分で照合する必要。DoTは直接攻撃に合算しない。"
+  },
   "1221": {
     "status": "confirmed",
     "majorSourceIds": [
@@ -184,6 +214,12 @@ const e0CandidateAudit={
     "summary": "通常・スキル・通常カウンター・看破の斬/滅を別状態で比較。E0・敵1体・途中変化なしの主要成分を確認。",
     "evidence": "hsrReferencePromotions / hsrGoldenScenarios / hsrMajorAttackPromotions / hsrToolInputs。固定曲線と独立NC/C/期待値を再利用。",
     "remaining": "敵複数への滅の分配、途中撃破、E1以上はこのE0認定の範囲外。"
+  },
+  "1222": {
+    "status": "pending",
+    "summary": "122201/122202/122203/122204の通常・スキル・必殺・浮元2段を既存条件で独立検証済み。",
+    "evidence": "hsrCompletionBasics・hsrE0MainAttackExpansion・hsrGoldenScenariosの全採用Lv/参照分離/独立追撃を再利用。",
+    "remaining": "122203は浮元が場にいない状態に限定。浮元が存在する主要状態での必殺・次行動/低HP追撃・途中芳酔参照の全体関係は未確認。浮元を即時必殺へ無条件に合算しない。"
   },
   "1301": {
     "status": "confirmed",
@@ -270,7 +306,7 @@ async function generate(){
  const lines=[];const p=(...s)=>lines.push(...s);
  p('# HSR 全98キャラクター完成管理表','','この表は作業管理用です。登録状態、E0主要攻撃の構成確認、星魂/装備/支援の完成を分けます。計算対応レコードの存在だけではキャラクター全体を完成扱いにしません。','','## 更新手順','','1. `node scripts/reportHsrCompletion.cjs` で本番ローダーと固定版を再照合して更新。ネットワーク取得に失敗した場合は書き換えません。','2. `node scripts/reportHsrCompletion.cjs --check` で現在の文書と再生成結果を照合。','3. 個別攻撃の正式化はoverrideの限定条件/provenanceと独立検証テストを更新してから再生成。','4. E0主要構成を確認できた人はスクリプトのconfirmedE0へ根拠を追記。登録件数だけで追加しない。','5. E1～6、装備/パーティ、UI/UID/保存の統合確認を別途完了して初めて最終ゴールの完成認定を行う。','','## 基準と現在値','',`- 固定版: [StarRailRes ${sha}](https://github.com/Mar-7th/StarRailRes/tree/${sha}/index_new/jp)。98 ID・${matchedSkills}スキルの係数配列/説明・${matchedRanks}星魂の説明/Lv加算がカタログと一致。これは各攻撃の精度検証とは別。`,`- 本番攻撃（非表示の内部記録を含む）: ${data.attacks.length}件 = 計算対応${counts['計算対応']||0} / 参考値${counts['参考値']||0} / 計算不可${counts['計算不可']||0}。特殊撃破レコードは別枠${data.specialBreakAttacks.length}件。hidden ${data.attacks.filter(a=>a.hidden).length}件（うち計算対応${data.attacks.filter(a=>a.hidden&&attackStatus(a)==='計算対応').length}件）は画面の主要ダメージ一覧に含めない。`,`- E0主要攻撃の構成確認済み: **${confirmed.length}人** (${confirmed.map(d=>`${d.c.name} ${d.c.id}`).join('、')})。このE0限定単発範囲のみの認定であり、全星魂/全装備の完成ではない。`,`- 残るE0完成未認定: **${98-confirmed.length}人**。登録上の充足候補は全98人中${candidates.length}人（確認済みを含む）。主要候補の登録不足がある${missingCharacters}人と、登録済みでも全構成の確認待ち${pendingComposition}人を区別。`,`- 主要候補スキルIDの未登録: ${missing}件。これはマスターの明示ダメージ/条件成分からの管理候補であり、独立した未実装ダメージ数ではない。状態系の有無確認待ちは${unknown} ID。`,`- 新しい計算処理が必要な攻撃の総数: **未確定**。下表の難易度は調査入口。既存式の接続不足、新しい成分処理、新しいダメージ式を混同しない。`,`- 育成・全星魂・全装備/支援・統合QAまでの最終完成認定: **0人**（この基準の全項目を完了した記録はまだない）。既存の過去complete宣言は採用していない。`,'','分類: 主なNormal/BPSkill/Ultra/Talent/Elation/Memosprite/Assistを対象とする。秘技/フィールドは主要攻撃集計から除外。Support等でも付加/持続/確定ダメージを生む記述は別成分の要確認として残し、支援発動時の直接ダメージにしない。未知の状態/Summonを未実装攻撃と断定しない。','','## 98人一覧','','表中の対応数は登録状態。E0構成欄の「登録上充足候補」は倍率・固有効果・未登録成分まで確認済みという意味ではありません。','', '|ID・名前|通常/強化|スキル/強化|必殺技|追加/カウンター|精霊/特殊等|登録 対応/参考/不可|E0主要構成と不足|難易度|','|---|---|---|---|---|---|---:|---|---|');
  for(const d of details){const list=types=>d.attacks.filter(a=>types.includes(category(a))).map(a=>`${a.id}[${attackStatus(a)}]`).join('、')||'—';const cs=sumBy(d.attacks,attackStatus);const gap=d.audit?.remaining||knownGaps[d.c.id]||`${d.pending.length}主要候補未充足・${d.unknown.length}状態/召喚等の有無確認待ち。固有補正/全状態は個別精査。`;p(`|${'['+cell(d.c.id+' '+d.c.name)+'](#character-'+d.c.id+')'}|${list(['通常','強化通常'])}|${list(['スキル','強化スキル'])}|${list(['必殺技'])}|${list(['追加/カウンター'])}|${list(['精霊/独立参照','固有/特殊','talent','additional','joint','assist'])}|${cs['計算対応']||0}/${cs['参考値']||0}/${cs['計算不可']||0}|${cell((d.confirmed?'確認済み':d.hasMissingComponent?'監査で成分不足を確認':d.candidate?'登録上充足候補・構成要確認':'未認定')+'。'+gap)}|${d.confirmed?'小: 統合QA/星魂へ':d.unknown.length?'要精査: 条件/召喚':'既存式候補～成分処理（未確定）'}|`);}
- p('','## 充足候補19人の重点監査','','固定版のスキル・追加能力・実行時行・独立検証記録を照合。登録だけでは認定しない。今回新規認定はキャラLv80・主要追加能力解放済み・敵1体・状態一定の単発範囲。E0採用Lvは通常1～6、その他1～10。全曲線のLv7/11以上の一致をE0や星魂対応の認定と混同しない。','','|ID・名前|判定|確認内容・残作業|検証根拠|','|---|---|---|---|');
+ p('','## 登録充足候補の継続重点監査','','固定版のスキル・追加能力・実行時行・独立検証記録を照合。登録だけでは認定しない。今回新規認定はキャラLv80・主要追加能力解放済み・敵1体・状態一定の単発範囲。E0採用Lvは通常1～6、その他1～10。全曲線のLv7/11以上の一致をE0や星魂対応の認定と混同しない。','','|ID・名前|判定|確認内容・残作業|検証根拠|','|---|---|---|---|');
  for(const[id,a]of Object.entries(e0CandidateAudit)){const name=data.characters.find(c=>c.id===id)?.name||id;p(`|${id} ${cell(name)}|${a.status==='confirmed'?'E0主要構成確認済み':a.status==='missing'?'未登録成分あり':'構成/独立検証待ち'}|${cell(a.summary+' '+a.remaining)}|${cell(a.evidence)}|`);}
  p('','重点監査で判明した未登録成分のうち、現在も残るものを以下に列挙する。解消済みの成分は上表に履歴を残す。マスターの主スキルIDだけで成分の完全性を認定しない。');
  for(const[id,a]of Object.entries(e0CandidateAudit))for(const component of a.missingComponents||[])p(`- ${id}: ${component}`);
@@ -281,7 +317,7 @@ async function generate(){
  p('','## 星魂・装備・パーティの別軸管理','',`- 98人に各E1～6の元データ（計${data.characters.reduce((n,c)=>n+c.eidolons.length,0)}件）。固定rank辞書全体${Object.keys(ranks).length}件とは母集団が異なる。`,`- 構造化星魂${eidolon.length}件・${eidolonOwners.size}人、計算処理対象${eidolon.filter(m=>m.support.status==='calculable').length}件、表示専用${eidolon.filter(m=>m.support.status==='displayOnly').length}件。攻撃倍率/ヒット数のoverride対応や軌跡Lv加算は別経路なので、この件数を全対応効果数とはしない。`,'- E3/E5はcatalog.eidolons[].levelUpSkillsからのLv加算処理と、各攻撃の採用曲線/上限/星魂範囲をセットで検証する。元データやUI上限の存在だけでは計算対応としない。','','|星魂|構造化記録|計算処理対象|表示専用|','|---|---:|---:|---:|');
  for(let n=1;n<=6;n++){const items=eidolon.filter(m=>Number(m.source.eidolonRank)===n);p(`|E${n}|${items.length}|${items.filter(m=>m.support.status==='calculable').length}|${items.filter(m=>m.support.status==='displayOnly').length}|`);}
  p('','|補正提供元|登録|計算処理対象|表示専用|','|---|---:|---:|---:|');for(const kind of ['trace','lightCone','relic','ornament']){const a=data.structuredModifiers.filter(m=>m.source.kind===kind);p(`|${kind}|${a.length}|${a.filter(m=>m.support.status==='calculable').length}|${a.filter(m=>m.support.status==='displayOnly').length}|`);}
- p('','- 停雲、ロビン、サンデー、花火、椒丘、夏ロビン、霊砂/ギャラガーの既存補正は提供者/対象/個別軌跡/ON/OFFを維持する。候補表示だけを適用済みと数えない。','- 主な不足: フォフォ121703の味方ATK支援（trace補正なし）、光円錐21056の味方撃破ダメージ支援（表示専用、撃破/超撃破の範囲要照合）。','- 常時効果21066愉悦度・23055DEF・遺物133速度/134会心ダメージ・パールA2は最終入力で管理する。表示専用でも未実装の自動加算漏れとは数えない。','- 任意補正OFFで基礎計算、ONで必要値不足は影響する結果のみ停止。提供者離脱/再加入・保存復元・UID反映は独立の統合QA項目。','','## 次回優先順位（最大10項目）','','1. ペラ110603/110602: 一般解の初回付与/同撃参照と、解除直後の次攻撃補正の根拠を確認。検証済み事前状態と混同しない。','2. 御空120701/120703/120704: 通常本体/天賦付加・再発動状態、鳴弦号令下の必殺を独立検証。','3. 飛霄122003/122008/122009: 必殺技の段階別成分と途中撃破なしの限定単発を検討。','4. アベンチュリン130403: 動揺の同撃適用と任意条件との整合を確定してから正式化。','5. ジェイド131401: 既存必殺/追撃と合わせ通常を検証。本人債権回収者の別成分を混同しない。','6. 巡狩なのか122401/122402: 通常の検証と攻撃型師匠の属性別付加成分を分離。','7. キャストリス1140702: 精霊の参照値/フェーズ別全成分を確認。','8. E3/E5を中心に採用曲線と星魂上限を攻撃単位で照合。E1/E2/E4/E6の倍率/段数変更はそれぞれ別検証。','9. フォフォ121703: 重要な味方ATK支援の提供者/対象/継続状態を既存補正へ接続。','10. 光円錐21056: 撃破/超撃破支援の適用範囲を確定。残る参考値検証→PC/モバイル/UID/保存の総合QAへ進む。','','過去保留のパール150308/150320・サフェル140603・鏡流の版差は再調査せず、根拠が得られるまで保留欄で追跡する。人気順位は推測していない。','','## キャラクター別の登録・未登録・Lv/星魂・限定条件','');
+ p('','- 停雲、ロビン、サンデー、花火、椒丘、夏ロビン、霊砂/ギャラガーの既存補正は提供者/対象/個別軌跡/ON/OFFを維持する。候補表示だけを適用済みと数えない。','- 主な不足: フォフォ121703の味方ATK支援（trace補正なし）、光円錐21056の味方撃破ダメージ支援（表示専用、撃破/超撃破の範囲要照合）。','- 常時効果21066愉悦度・23055DEF・遺物133速度/134会心ダメージ・パールA2は最終入力で管理する。表示専用でも未実装の自動加算漏れとは数えない。','- 任意補正OFFで基礎計算、ONで必要値不足は影響する結果のみ停止。提供者離脱/再加入・保存復元・UID反映は独立の統合QA項目。','','## 次回優先順位（最大10項目）','','1. ペラ110603/110602: 一般解の初回付与/同撃参照と、解除直後の次攻撃補正の根拠を確認。検証済み事前状態と混同しない。','2. 御空120704/1207011: 通常攻撃限定補正の天賦継承を確認。通常/天賦全60組は照合済みで、未確認の継承が必要な場合だけ局所停止を維持。','3. 飛霄122003/122008/122009: 必殺技の段階別成分と途中撃破なしの限定単発を検討。','4. アベンチュリン130403: 動揺の同撃適用と任意条件との整合を確定してから正式化。','5. ジェイド131401: 既存必殺/追撃と合わせ通常を検証。本人債権回収者の別成分を混同しない。','6. 巡狩なのか122401/122402: 通常の検証と攻撃型師匠の属性別付加成分を分離。','7. キャストリス1140702: 精霊の参照値/フェーズ別全成分を確認。','8. E3/E5を中心に採用曲線と星魂上限を攻撃単位で照合。E1/E2/E4/E6の倍率/段数変更はそれぞれ別検証。','9. フォフォ121703: 重要な味方ATK支援の提供者/対象/継続状態を既存補正へ接続。','10. 光円錐21056: 撃破/超撃破支援の適用範囲を確定。残る参考値検証→PC/モバイル/UID/保存の総合QAへ進む。','','過去保留のパール150308/150320・サフェル140603・鏡流の版差は再調査せず、根拠が得られるまで保留欄で追跡する。人気順位は推測していない。','','## キャラクター別の登録・未登録・Lv/星魂・限定条件','');
  for(const d of details){p(`<a id="character-${d.c.id}"></a>`, `### ${d.c.id} ${d.c.name}`,'',d.confirmed?confirmedE0[d.c.id]:d.audit?(d.audit.summary+' 残作業: '+d.audit.remaining+' 証拠: '+d.audit.evidence):knownGaps[d.c.id]||'登録一覧の全成分/固有効果は要精査。登録状態と完成認定を分ける。','', '|攻撃ID・種類・名前|登録/実行|Lv・星魂範囲|必要入力・限定条件・不足|次作業/難易度|','|---|---|---|---|---|');for(const a of d.attacks)p(`|${a.id} ${cell(category(a)+' '+a.name)}|登録・${attackStatus(a)}|${cell(bounds(a))}|${cell(a.calculationNote||a.conditionText||a.support?.reason||'個別の入力・固有補正範囲は未明示')}|${cell(difficulty(a))}|`);
   p('','|固定版スキルID・名前|性質|対応する登録攻撃|管理上の扱い|','|---|---|---|---|');for(const s of d.sources){const mapped=d.mapped(s);const role=skillRole(s);p(`|${s.id} ${cell(s.name)}|${cell(role)}|${mapped.map(a=>a.id+' '+attackStatus(a)).join('、')||'なし'}|${role.startsWith('支援')?'ダメージ未実装数に含めない':role.startsWith('秘技')?'主要完成集計外':role.startsWith('召喚')?'有無/子攻撃/既存式接続を要確認':mapped.length?'成分/時点/条件の完全性を確認':'未登録候補。独立ダメージか既存行の成分か要確認'}|`);}
   p('','|星魂|構造化計算/表示|軌跡Lv加算（元データ）/残作業|','|---|---|---|');

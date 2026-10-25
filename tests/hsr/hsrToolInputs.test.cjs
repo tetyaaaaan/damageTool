@@ -2709,3 +2709,13 @@ test("Pela Ultimate assumes prior same-level Solution, deduplicates selected deb
  const records=app.state.data.structuredModifiers;app.state.data.structuredModifiers=records.filter(m=>m.id!=="trace:1106:110603:prior-solution");assert.equal(ult(app),undefined);assert.ok(app.calculate().some(r=>r.attack.name===data.attacks.find(a=>a.id==="110601").name));app.state.data.structuredModifiers=records;
  app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(ult(saved).nonCrit,1620);assert.match(saved.node("hsrResults").innerHTML,/初回.*未確認/);
 });
+
+
+test("Sampo zero stacks are finite and invalid stack input stops only the DoT row",async()=>{
+ const window={};vm.runInNewContext(read("games/js/hsrCalcData.js"),{window,fetch:async u=>({ok:true,json:async()=>JSON.parse(read(u.slice(1)))})});const data=await window.HsrCalcData.load(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1108",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:3000,critRate:50,critDamage:100,damageBonus:0}});
+ const row=(t,id)=>t.calculate().find(r=>r.attack.name===data.attacks.find(a=>a.id===id).name);
+ for(const count of [0,1,5]){app.state.modifierInputs["sampo-wind-shear-stacks"]=count;const r=row(app,"110804");near(r.nonCrit,561.6*count);assert.equal(Number.isFinite(r.perHit.nonCrit),true);assert.equal(Number.isFinite(r.breakdown.commonMultiplier),true);assert.doesNotMatch(app.node("hsrResults").innerHTML,/NaN/);}
+ for(const count of [NaN,-1,6,1.5]){app.state.modifierInputs["sampo-wind-shear-stacks"]=count;assert.equal(row(app,"110804"),undefined);assert.ok(row(app,"110801"));}
+ app.state.modifierInputs["sampo-wind-shear-stacks"]=5;app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(row(saved,"110804").nonCrit,2808);saved.node("hsrEnemyCount").value="2";assert.equal(row(saved,"110802"),undefined);assert.ok(row(saved,"110801"));
+});

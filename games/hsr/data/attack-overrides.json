@@ -1058,15 +1058,11 @@
     {
       "id":"110801","characterId":"1108","name":"眩い刃紋","element":"Wind","type":"normal","traceKey":"normal","target":"single","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[50,60,70,80,90,100,110,120,130,140],"sourceSkillId":"110801","overrideReason":"通常攻撃の攻撃力倍率を全10レベルで照合。"
     },
-    {
-      "id":"110802","characterId":"1108","name":"反復横跳びの愛","element":"Wind","type":"skill","traceKey":"skill","target":"bounce","scalingStat":"atk","hitCount":5,"hitCountAtEidolon":{"rank":1,"value":6},"canCrit":true,"multipliers":[28,30.8,33.6,36.4,39.2,42,45.5,49,52.5,56,58.8,61.6,64.4,67.2,70],"sourceSkillId":"110802","overrideReason":"初撃と追加4ヒットの同一単発倍率を保持し、星魂1では追加1ヒットを加えて合計6ヒットにする。"
-    },
+    {"id":"110802","characterId":"1108","name":"反復横跳びの愛","element":"Wind","type":"skill","traceKey":"skill","target":"bounce","scalingStat":"atk","hitCount":5,"hitCountAtEidolon":{"rank":1,"value":6},"canCrit":true,"multipliers":[28,30.8,33.6,36.4,39.2,42,45.5,49,52.5,56,58.8,61.6,64.4,67.2,70],"sourceSkillId":"110802","overrideReason":"初撃と追加4ヒットの同一単発倍率を保持し、星魂1では追加1ヒットを加えて合計6ヒットにする。","enemyCountExact":1,"calculationNote":"星魂0の5ヒットを同じ敵に当てる比較は敵1体に限定。初撃+ランダム追加4ヒットの全段合計です。途中撃破・敵/補正変化なし。風化の付与/更新は敵ターンの別DoTに関する状態で、直接スキルへDoTを合算しません。複数敵への対象別分配は未対応です。"},
     {
       "id":"110803","characterId":"1108","name":"サプライズボックス","element":"Wind","type":"ultimate","traceKey":"ultimate","target":"aoe","scalingStat":"atk","hitCount":1,"canCrit":true,"multipliers":[96,102.4,108.8,115.2,121.6,128,136,144,152,160,166.4,172.8,179.2,185.6,192],"sourceSkillId":"110803","overrideReason":"必殺技の敵全体直接ダメージを持続ダメージ被ダメージ増加から分離。"
     },
-    {
-      "id":"110804","characterId":"1108","name":"風を切り裂く匕首・風化","element":"Wind","type":"dot","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"hitCountInputKey":"sampo-wind-shear-stacks","hitCountMinimum":0,"hitCountMaximum":5,"hitCountDefault":0,"canCrit":false,"multipliers":[20,22,24,26,28,31,35,40,46,52,54.6,57.2,59.8,62.4,65],"sourceSkillId":"110804","conditionText":"補正条件で指定した風化層数分の1ターンダメージ","overrideReason":"天賦の1層あたり風化倍率を全15レベルで保持し、補正条件の0～5層をヒット数として乗算。"
-    },
+    {"id":"110804","characterId":"1108","name":"風を切り裂く匕首・風化","element":"Wind","type":"dot","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"hitCountInputKey":"sampo-wind-shear-stacks","hitCountMinimum":0,"hitCountMaximum":5,"hitCountDefault":0,"canCrit":false,"multipliers":[20,22,24,26,28,31,35,40,46,52,54.6,57.2,59.8,62.4,65],"sourceSkillId":"110804","conditionText":"補正条件で指定した風化層数分の1ターンダメージ","overrideReason":"天賦の1層あたり風化倍率を全15レベルで保持し、補正条件の0～5層をヒット数として乗算。","requiresValidHitCount":true,"calculationNote":"風化0～5層の敵ターン開始時1回分。0層はDoTなしでダメージ0、1～5層は本人の同時点最終ATKと天賦倍率を参照し、非会心です。単発時点でATK/敵条件が一定の範囲。付与確率65%・3ターン継続を表示値へ掛けず、直接攻撃へ合算しません。空欄/範囲外/小数層はDoT行だけ停止します。"},
     {
       "id":"1108044","characterId":"1108","name":"愛する程恨む・風化起爆","element":"Wind","type":"dot","traceKey":"talent","target":"single","scalingStat":"atk","hitCount":1,"hitCountInputKey":"sampo-wind-shear-stacks","hitCountMinimum":0,"hitCountMaximum":5,"hitCountDefault":0,"canCrit":false,"requiredEidolon":4,"modifierInputKey":"sampo-wind-shear-stacks","modifierInputMinimum":5,"multiplierAdditionScale":0.08,"multipliers":[1.6,1.76,1.92,2.08,2.24,2.48,2.8,3.2,3.68,4.16,4.368,4.576,4.784,4.992,5.2],"sourceSkillId":"110804","conditionText":"星魂4以上で風化5層以上の敵へ戦闘スキルが命中","overrideReason":"各風化層の本来ダメージ8%を独立起爆として登録。星魂6の倍率加算も8%へ縮小して適用。"
     },

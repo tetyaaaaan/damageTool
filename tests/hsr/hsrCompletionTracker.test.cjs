@@ -33,7 +33,9 @@ test('the three E0 composition-confirmed supports independently verify their sol
 test('candidate audit keeps missing damage components distinct from registered source skills',async()=>{
  const {e0CandidateAudit}=require('../../scripts/reportHsrCompletion.cjs');
  const audits=Object.values(e0CandidateAudit);
- assert.equal(audits.length,19);
+ assert.equal(audits.length,21);
+ for(const id of ['1013','1108'])assert.equal(e0CandidateAudit[id].status,'confirmed');
+ for(const id of ['1106','1207','1218','1222'])assert.equal(e0CandidateAudit[id].status,'pending');
  assert.ok(audits.every(a=>['confirmed','pending','missing'].includes(a.status)));
  for(const id of ['1001','1003'])assert.equal(e0CandidateAudit[id].missingComponents.length,0,'the independently added delayed event resolves the registration gap');
  for(const a of audits)if(a.missingComponents?.length)assert.equal(a.status,'missing');
