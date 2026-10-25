@@ -2750,3 +2750,18 @@ test("Serval and Hook compare body, triggered extra and delayed DoT without an a
  app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);r=rows(saved);near(find(r,"110904").nonCrit,1080);near(find(r,"110909").nonCrit,3024);assert.match(saved.node("hsrResults").innerHTML,/新規燃焼.*同撃/);
  saved.node("hsrEidolon").value="6";saved.state.modifierInputs["hook-enemy-burning"]=false;r=rows(saved);assert.equal(find(r,"110904"),undefined,"E6 still requires its damage-changing Burn condition");saved.state.modifierInputs["hook-enemy-burning"]=true;r=rows(saved);near(find(r,"110904").nonCrit,1296);
 });
+
+
+test("Lingsha E0 compares every ordinary action and separate Fuyuan while preserving support and missing-level scopes",async()=>{
+ const {data}=await require("./helpers/hsrDirectVerification.cjs").loadProductionFixture(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+ app.window.HsrTool.applyProfileCharacter({id:"1222",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:3000,critRate:50,critDamage:100,damageBonus:0,breakEffect:200}});
+ const rows=t=>new Map(t.calculate().filter(r=>r.attack).map(r=>[r.attack.name,r])),find=(r,id)=>r.get(data.attacks.find(a=>a.id===id).name);
+ const check=t=>{const r=rows(t);for(const[id,n]of [["122201",1080],["122202",864],["122203",1620],["122204",1620]]){const a=find(r,id);assert.ok(a,id+" exists");near(a.nonCrit,n);near(a.crit,n*2);near(a.expected,n*1.5);near(a.breakdown.referenceValue,3000);}assert.equal(find(r,"122203").attack.hitCount,1);assert.equal(find(r,"122204").attack.hitCount,2);return r;};
+ check(app);for(const active of [false,true]){app.state.modifierInputs["lingsha-direct-ultimate"]=active;app.state.modifierInputs["lingsha-fuyuan-instance"]=active;check(app);}assert.doesNotMatch(app.node("hsrResults").innerHTML,/浮元不在/);assert.match(app.node("hsrResults").innerHTML,/独立した別行動/);
+ app.state.modifierInputs["break-befog-active"]=true;check(app);app.state.party[0]={characterId:"1309",level:80,eidolon:0,traceLevels:{skill:10}};app.state.modifierInputs["robin-skill-damage-active"]=true;let r=rows(app);for(const[id,n]of [["122201",1620],["122202",1296],["122203",2430],["122204",2430]])near(find(r,id).nonCrit,n);
+ app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);r=rows(saved);near(find(r,"122203").expected,3645);near(find(r,"122204").expected,3645);assert.equal(saved.state.modifierInputs["break-befog-active"],true);saved.state.party[0].characterId="";check(saved);
+ saved.node("hsrUltimateTrace").value="";r=rows(saved);assert.equal(find(r,"122203"),undefined);assert.ok(find(r,"122201"));assert.ok(find(r,"122202"));assert.ok(find(r,"122204"));saved.node("hsrUltimateTrace").value="10";
+ saved.node("hsrTalentTrace").value="";r=rows(saved);assert.equal(find(r,"122204"),undefined);assert.ok(find(r,"122203"));saved.node("hsrTalentTrace").value="10";
+ saved.node("hsrEnemyCount").value="2";r=rows(saved);assert.equal(find(r,"122204"),undefined);assert.equal(find(r,"122203"),undefined);saved.node("hsrEnemyCount").value="1";
+ saved.node("hsrEidolon").value="1";r=rows(saved);for(const id of ["122201","122202","122203","122204"])assert.equal(find(r,id),undefined);
+});

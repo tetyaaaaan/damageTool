@@ -1561,7 +1561,7 @@ test("Firefly unenhanced Skill agrees with release levels without enhanced or Su
 });
 
 
-test("Lingsha Ultimate without Fuyuan keeps Befog out of ordinary damage", () => {
+test("Lingsha ordinary Ultimate stays separate from advanced Fuyuan and excludes Befog", () => {
     checkScopedDirectRelease("122203", "1222", [90,96,102,108,114,120,127.5,135,142.5,150], 1620);
 });
 test("Boothill Ultimate outside Standoff keeps weakness implant separate from resistance", () => {

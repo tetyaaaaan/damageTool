@@ -216,10 +216,12 @@ const e0CandidateAudit={
     "remaining": "敵複数への滅の分配、途中撃破、E1以上はこのE0認定の範囲外。"
   },
   "1222": {
-    "status": "pending",
-    "summary": "122201/122202/122203/122204の通常・スキル・必殺・浮元2段を既存条件で独立検証済み。",
-    "evidence": "hsrCompletionBasics・hsrGoldenScenarios（scoped full Skill・Ultimate without Fuyuan・complete Fuyuan action）の全採用Lv/参照分離/独立追撃を再利用。",
-    "remaining": "122203は浮元が場にいない状態に限定。浮元が存在する主要状態での必殺・次行動/低HP追撃・途中芳酔参照の全体関係は未確認。浮元を即時必殺へ無条件に合算しない。"
+    "status": "confirmed",
+    "majorSourceIds": ["122201", "122202", "122203", "122204"],
+    "requiredAttackIds": ["122201", "122202", "122203", "122204"],
+    "summary": "E0通常・スキル・必殺・浮元の4行を独立比較。必殺自身は1ヒット、浮元は全体+追加単体の2ヒット。浮元の有無は必殺自身の倍率を変えない。",
+    "evidence": "固定版122201..122204/A2/A4/A6・KQM Lingsha Quick Guide・正式4.6の浮元精密係数を照合。hsrLingshaE0Completionで全E0曲線と非対称2条件/参照分離/支援/芳酔除外、hsrToolInputsで4行・不足Lvの局所停止・保存。PC1440/390/320で必殺と浮元の別行動、芳酔の撃破/超撃破専用範囲を実画面確認。",
+    "remaining": "E0・Lv80・敵1体・状態一定の単発比較。通常の既存条件に合わせ炎非弱点の未撃破を使用。朱炎のATK変換は最終ATKへ含める。回復/EP/召喚残数/行動順/低HP判定を自動管理しない。必殺で100%前進した浮元とA6による天賦発動は別行動として同じ122204を使用し、必殺へ自動合算しない。複数敵・途中撃破・E1以上、全装備/支援を含む最終完成は別認定。"
   },
   "1301": {
     "status": "confirmed",
