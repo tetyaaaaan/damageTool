@@ -2676,3 +2676,14 @@ test("Clara compares marked states and counters with independent trace levels an
  app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(row(saved,"1107031").nonCrit,3818.88);assert.equal(saved.state.traceLevels.talent,5);
  saved.node("hsrTalentTrace").value="10";saved.state.party[0]={characterId:"1309",level:80,eidolon:0,traceLevels:{skill:10}};saved.state.modifierInputs["robin-skill-damage-active"]=true;near(row(saved,"1107031").nonCrit,6220.8);saved.state.party[0].characterId="";near(row(saved,"1107031").nonCrit,4492.8);
 });
+
+
+test("permanent EHR conversions preserve completed ATK through imported inputs, manual edits and reload", async()=>{
+ const window={};vm.runInNewContext(read("games/js/hsrCalcData.js"),{window,fetch:async u=>({ok:true,json:async()=>JSON.parse(read(u.slice(1)))})});
+ const data=await window.HsrCalcData.load(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
+ for(const id of ["1004","1005"]){app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:3000,critRate:50,critDamage:100,damageBonus:0,effectHitRate:80}});
+ const normal=data.attacks.find(a=>a.characterId===id&&a.type==="normal"&&a.variant==="enhanced");const row=t=>t.calculate().find(r=>r.attack.name===normal.name);
+ near(row(app).breakdown.referenceValue,3000);app.node("hsrStat-effectHitRate").value="100";near(row(app).breakdown.referenceValue,3000,"EHR edit cannot rebuild entered ATK");app.node("hsrStat-atk").value="3500";near(row(app).breakdown.referenceValue,3500);
+ app.node("hsrStat-atk").handlers.input();const restored=await tool(app.storage,data);near(row(restored).breakdown.referenceValue,3500);assert.match(restored.node("hsrResults").innerHTML,/最終ステータスに含めて入力する効果/);
+ }
+});

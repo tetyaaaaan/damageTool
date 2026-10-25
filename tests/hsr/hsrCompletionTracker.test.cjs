@@ -30,7 +30,7 @@ test('the three E0 composition-confirmed supports independently verify their sol
 });
 
 
-test('candidate audit keeps missing damage components distinct from registered source skills',()=>{
+test('candidate audit keeps missing damage components distinct from registered source skills',async()=>{
  const {e0CandidateAudit}=require('../../scripts/reportHsrCompletion.cjs');
  const audits=Object.values(e0CandidateAudit);
  assert.equal(audits.length,19);
@@ -38,4 +38,5 @@ test('candidate audit keeps missing damage components distinct from registered s
  for(const id of ['1001','1003'])assert.equal(e0CandidateAudit[id].missingComponents.length,0,'the independently added delayed event resolves the registration gap');
  for(const a of audits)if(a.missingComponents?.length)assert.equal(a.status,'missing');
  for(const a of audits){assert.ok(a.evidence);assert.ok(a.remaining);if(a.status==='confirmed')assert.ok(a.majorSourceIds.length);}
+ const {data}=await loadProductionFixture();for(const [id,a]of Object.entries(e0CandidateAudit))for(const attackId of a.requiredAttackIds||[]){const attack=data.attacks.find(x=>x.id===attackId&&x.characterId===id&&!x.hidden);assert.ok(attack,attackId+' mandatory damage component');assert.equal(attack.support.status,'calculable');}
 });

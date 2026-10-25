@@ -176,20 +176,14 @@ test("Kafka 1005 golden: previous and enhanced detonations preserve target and n
     assert.equal(result.crit, result.expected);
 });
 
-test("Kafka 1005 golden: enhanced effect-hit threshold changes base ATK only at 75 percent", () => {
-    const id = "traceNode:1005:11005101:effect-hit-atk";
-    const below = structured(id, { characterId: "1005", enhancementState: "enhanced", stats: { effectHitRate: 74 } });
+test("Kafka 1005 golden: her own effect-hit ATK passive is included in final ATK, external support remains scoped", () => {
+    const id = "traceNode:1005:11005101:effect-hit-atk:self";
     const reached = structured(id, { characterId: "1005", enhancementState: "enhanced", stats: { effectHitRate: 75 } });
-    assert.equal(below.enabled, false);
-    assert.equal(below.activation.inputValue, 74);
-    assert.equal(reached.enabled, true);
-    assert.equal(reached.activation.inputValue, 75);
-    const normal = attacks.find((item) => item.id === "1100501");
-    const base = request({ ...normal, attackType: normal.type, multiplier: normal.multipliers[9] }, [reached]);
-    base.character.baseStats = { atk: 1000 };
-    const result = engine.calculate(base);
-    assert.ok(Math.abs(result.nonCrit - 1008) < 1e-9);
-    assert.equal(result.applied[0].id, id);
+    assert.equal(reached.displayOnly, true);assert.equal(reached.enabled, false);assert.equal(reached.value,100);
+    assert.equal(structured("traceNode:1005:11005101:effect-hit-atk", {characterId:"1005",enhancementState:"enhanced"}),undefined);
+    const normal=attacks.find(a=>a.id==="1100501");const input=request({...normal,attackType:normal.type,multiplier:normal.multipliers[9]},[reached]);
+    input.character.stats.atk=2000;input.character.baseStats={atk:1000};const result=engine.calculate(input);
+    assert.ok(Math.abs(result.nonCrit-1008)<1e-9);assert.equal(result.breakdown.referenceValue,2000);assert.equal(result.applied.length,0);
 });
 
 test("Kafka 1005 golden: E1 and E2 affect DoT but never direct attacks", () => {
@@ -867,7 +861,7 @@ test("Hook 1109 golden: Burn and talent remain non-critical/conditional and ever
     const selected = runtime.buildCandidates(structuredModifiers, context, {}).filter((item) => String(item.source?.id) === "1109");
     assert.equal(selected.length, 17);
     assert.equal(selected.filter((item) => item.displayOnly).length, 14);
-    assert.equal(structured("traceStats:1109:attack", context).value, 22);
+    assert.equal(structured("traceStats:1109:attack", context).value, 28);
     assert.equal(structured("traceStats:1109:hp", context).value, 18);
     assert.equal(structured("traceStats:1109:crit-damage", context).value, 13.3);
 });
