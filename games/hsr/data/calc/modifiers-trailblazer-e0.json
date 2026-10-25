@@ -1,0 +1,784 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "e0-batch-2026-10-25",
+  "description": "開拓者各運命と丹恒のE0単発計算。最終入力と計算時の補正を区別。",
+  "modifiers": [
+    {
+      "id": "trace:8001:800104:atk-stacks",
+      "source": {
+        "kind": "trace",
+        "id": "8001",
+        "traceId": "800104",
+        "skillId": "800104"
+      },
+      "name": "天賦の現在層による自己ATK（最終入力）",
+      "description": "天賦の現在層による自己ATK（最終入力）。計算時点の完成済み最終ステータスへ含め、同じ効果を再加算しません。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByLevel",
+        "values": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16.25,
+          17.5,
+          18.75,
+          20
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "physical-tb-talent-stacks",
+        "inputLabel": "最終ATKに含めた天賦の層数",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 2,
+        "conditionText": "現在の天賦0～2層は最終ATKへ反映済み"
+      },
+      "stacking": {
+        "group": "trace:8001:800104:atk-stacks",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力済み最終値で管理。単発計算時に自動で再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:800104;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-25",
+        "scope": "完成済み入力の責務。行動順/ターン/層更新は自動管理しない。",
+        "verification": "hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batch; independent full E0 curves, stat isolation, native bonuses, party and saved UI inputs"
+      }
+    },
+    {
+      "id": "traceNode:8001:8001103:primary-blast-damage",
+      "source": {
+        "kind": "trace",
+        "id": "8001",
+        "traceId": "8001103"
+      },
+      "name": "闘志・主対象への与ダメージ",
+      "description": "解放済みの闘志。スキル/拡散必殺の主対象に与ダメージ25%。隣接・単体必殺・通常へ加算しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 25
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "skill",
+          "ultimate"
+        ],
+        "attackIds": [
+          "800102",
+          "800109"
+        ],
+        "elements": [
+          "Physical"
+        ]
+      },
+      "primaryTargetOnly": true,
+      "activation": {
+        "mode": "always",
+        "conditionText": "闘志解放済み・スキル/拡散必殺の主対象"
+      },
+      "stacking": {
+        "group": "traceNode:8001:8001103:primary-blast-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:8001103;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-25",
+        "scope": "主対象だけ25%。恒常ATKは最終入力。",
+        "verification": "hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batch; independent full E0 curves, stat isolation, native bonuses, party and saved UI inputs"
+      }
+    },
+    {
+      "id": "trace:8002:800204:atk-stacks",
+      "source": {
+        "kind": "trace",
+        "id": "8002",
+        "traceId": "800204",
+        "skillId": "800204"
+      },
+      "name": "天賦の現在層による自己ATK（最終入力）",
+      "description": "天賦の現在層による自己ATK（最終入力）。計算時点の完成済み最終ステータスへ含め、同じ効果を再加算しません。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByLevel",
+        "values": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16.25,
+          17.5,
+          18.75,
+          20
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "physical-tb-talent-stacks",
+        "inputLabel": "最終ATKに含めた天賦の層数",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 2,
+        "conditionText": "現在の天賦0～2層は最終ATKへ反映済み"
+      },
+      "stacking": {
+        "group": "trace:8002:800204:atk-stacks",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力済み最終値で管理。単発計算時に自動で再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:800204;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-25",
+        "scope": "完成済み入力の責務。行動順/ターン/層更新は自動管理しない。",
+        "verification": "hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batch; independent full E0 curves, stat isolation, native bonuses, party and saved UI inputs"
+      }
+    },
+    {
+      "id": "traceNode:8002:8002103:primary-blast-damage",
+      "source": {
+        "kind": "trace",
+        "id": "8002",
+        "traceId": "8002103"
+      },
+      "name": "闘志・主対象への与ダメージ",
+      "description": "解放済みの闘志。スキル/拡散必殺の主対象に与ダメージ25%。隣接・単体必殺・通常へ加算しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 25
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "skill",
+          "ultimate"
+        ],
+        "attackIds": [
+          "800202",
+          "800209"
+        ],
+        "elements": [
+          "Physical"
+        ]
+      },
+      "primaryTargetOnly": true,
+      "activation": {
+        "mode": "always",
+        "conditionText": "闘志解放済み・スキル/拡散必殺の主対象"
+      },
+      "stacking": {
+        "group": "traceNode:8002:8002103:primary-blast-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:8002103;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-25",
+        "scope": "主対象だけ25%。恒常ATKは最終入力。",
+        "verification": "hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batch; independent full E0 curves, stat isolation, native bonuses, party and saved UI inputs"
+      }
+    },
+    {
+      "id": "traceNode:8003:8003103:shield-atk",
+      "source": {
+        "kind": "trace",
+        "id": "8003",
+        "traceId": "8003103"
+      },
+      "name": "堅き者を助ける弱き者・バリア下ATK15%",
+      "description": "堅き者を助ける弱き者・バリア下ATK15%。計算時点の完成済み最終ステータスへ含め、同じ効果を再加算しません。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 15
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "指定した状態を最終入力へ反映済み"
+      },
+      "stacking": {
+        "group": "traceNode:8003:8003103:shield-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力済み最終値で管理。単発計算時に自動で再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:8003103;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-25",
+        "scope": "完成済み入力の責務。行動順/ターン/層更新は自動管理しない。",
+        "verification": "hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batch; independent full E0 curves, stat isolation, native bonuses, party and saved UI inputs"
+      }
+    },
+    {
+      "id": "traceNode:8004:8004103:shield-atk",
+      "source": {
+        "kind": "trace",
+        "id": "8004",
+        "traceId": "8004103"
+      },
+      "name": "堅き者を助ける弱き者・バリア下ATK15%",
+      "description": "堅き者を助ける弱き者・バリア下ATK15%。計算時点の完成済み最終ステータスへ含め、同じ効果を再加算しません。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 15
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "指定した状態を最終入力へ反映済み"
+      },
+      "stacking": {
+        "group": "traceNode:8004:8004103:shield-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力済み最終値で管理。単発計算時に自動で再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:8004103;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-25",
+        "scope": "完成済み入力の責務。行動順/ターン/層更新は自動管理しない。",
+        "verification": "hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batch; independent full E0 curves, stat isolation, native bonuses, party and saved UI inputs"
+      }
+    },
+    {
+      "id": "trace:8005:800503:backup-break-effect",
+      "source": {
+        "kind": "trace",
+        "id": "8005",
+        "traceId": "800503",
+        "skillId": "800503"
+      },
+      "name": "バックダンス・撃破特効（最終入力）",
+      "description": "バックダンス・撃破特効（最終入力）。計算時点の完成済み最終ステータスへ含め、同じ効果を再加算しません。",
+      "category": "statPercent",
+      "stat": "breakEffect",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          15,
+          16.5,
+          18,
+          19.5,
+          21,
+          22.5,
+          24.37,
+          26.25,
+          28.12,
+          30
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "指定した状態を最終入力へ反映済み"
+      },
+      "stacking": {
+        "group": "trace:8005:800503:backup-break-effect",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力済み最終値で管理。単発計算時に自動で再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:800503;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-25",
+        "scope": "完成済み入力の責務。行動順/ターン/層更新は自動管理しない。",
+        "verification": "hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batch; independent full E0 curves, stat isolation, native bonuses, party and saved UI inputs"
+      }
+    },
+    {
+      "id": "traceNode:8005:8005101:super-break-scaling",
+      "source": {
+        "kind": "trace",
+        "id": "8005",
+        "traceId": "8005101"
+      },
+      "name": "A2・超撃破発生倍率（独立モードへ入力）",
+      "description": "敵1体・A2解放時のバックダンス発生倍率は160%。独立超撃破欄へ指定し、この説明値60%をさらに重複加算しません。スキルA4は初撃のみ削靭を倍化し、現在単位で合計40。",
+      "category": "superBreakDamage",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 60
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "superBreak"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "指定した状態を最終入力へ反映済み"
+      },
+      "stacking": {
+        "group": "traceNode:8005:8005101:super-break-scaling",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力済み最終値で管理。単発計算時に自動で再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:8005101;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-25",
+        "scope": "完成済み入力の責務。行動順/ターン/層更新は自動管理しない。",
+        "verification": "hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batch; independent full E0 curves, stat isolation, native bonuses, party and saved UI inputs"
+      }
+    },
+    {
+      "id": "trace:8006:800603:backup-break-effect",
+      "source": {
+        "kind": "trace",
+        "id": "8006",
+        "traceId": "800603",
+        "skillId": "800603"
+      },
+      "name": "バックダンス・撃破特効（最終入力）",
+      "description": "バックダンス・撃破特効（最終入力）。計算時点の完成済み最終ステータスへ含め、同じ効果を再加算しません。",
+      "category": "statPercent",
+      "stat": "breakEffect",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          15,
+          16.5,
+          18,
+          19.5,
+          21,
+          22.5,
+          24.37,
+          26.25,
+          28.12,
+          30
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "指定した状態を最終入力へ反映済み"
+      },
+      "stacking": {
+        "group": "trace:8006:800603:backup-break-effect",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力済み最終値で管理。単発計算時に自動で再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:800603;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-25",
+        "scope": "完成済み入力の責務。行動順/ターン/層更新は自動管理しない。",
+        "verification": "hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batch; independent full E0 curves, stat isolation, native bonuses, party and saved UI inputs"
+      }
+    },
+    {
+      "id": "traceNode:8006:8006101:super-break-scaling",
+      "source": {
+        "kind": "trace",
+        "id": "8006",
+        "traceId": "8006101"
+      },
+      "name": "A2・超撃破発生倍率（独立モードへ入力）",
+      "description": "敵1体・A2解放時のバックダンス発生倍率は160%。独立超撃破欄へ指定し、この説明値60%をさらに重複加算しません。スキルA4は初撃のみ削靭を倍化し、現在単位で合計40。",
+      "category": "superBreakDamage",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 60
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "superBreak"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "指定した状態を最終入力へ反映済み"
+      },
+      "stacking": {
+        "group": "traceNode:8006:8006101:super-break-scaling",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "manual",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "入力済み最終値で管理。単発計算時に自動で再加算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:8006101;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-25",
+        "scope": "完成済み入力の責務。行動順/ターン/層更新は自動管理しない。",
+        "verification": "hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batch; independent full E0 curves, stat isolation, native bonuses, party and saved UI inputs"
+      }
+    },
+    {
+      "id": "trace:1002:100204:wind-penetration",
+      "source": {
+        "kind": "trace",
+        "id": "1002",
+        "skillId": "100204"
+      },
+      "name": "寸勁・次攻撃の風耐性貫通",
+      "description": "寸勁・次攻撃の風耐性貫通。発動済みで入力/手動補正に未算入の場合だけ有効にします。発動/消費/継続を自動管理しません。",
+      "category": "resistancePenetration",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          18,
+          19.8,
+          21.6,
+          23.4,
+          25.2,
+          27,
+          29.25,
+          31.5,
+          33.75,
+          36
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal",
+          "skill",
+          "ultimate"
+        ],
+        "elements": [
+          "Wind"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "danheng-talent-active",
+        "default": false,
+        "conditionText": "天賦の次攻撃への耐性貫通が使用可能"
+      },
+      "stacking": {
+        "group": "trace:1002:100204:wind-penetration",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "resistancePenetration",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:100204;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-25",
+        "scope": "固定版のLv別係数と対象を独立検証",
+        "verification": "hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batch; independent full E0 curves, stat isolation, native bonuses, party and saved UI inputs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      }
+    },
+    {
+      "id": "traceNode:1002:1002103:slowed-basic-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1002",
+        "traceId": "1002103"
+      },
+      "name": "潜龍・減速敵への通常与ダメージ",
+      "description": "潜龍・減速敵への通常与ダメージ。発動済みで入力/手動補正に未算入の場合だけ有効にします。発動/消費/継続を自動管理しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 40
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal"
+        ],
+        "elements": [
+          "Wind"
+        ],
+        "attackIds": [
+          "100201"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "danheng-enemy-slowed",
+        "default": false,
+        "conditionText": "攻撃前から対象が減速状態"
+      },
+      "stacking": {
+        "group": "traceNode:1002:1002103:slowed-basic-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:100201;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-25",
+        "scope": "固定版のLv別係数と対象を独立検証",
+        "verification": "hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batch; independent full E0 curves, stat isolation, native bonuses, party and saved UI inputs"
+      }
+    },
+    {
+      "id": "trace:1002:100203:slowed-ultimate-multiplier",
+      "source": {
+        "kind": "trace",
+        "id": "1002",
+        "skillId": "100203"
+      },
+      "name": "減速敵への必殺技追加倍率",
+      "description": "減速敵への必殺技追加倍率。発動済みで入力/手動補正に未算入の場合だけ有効にします。発動/消費/継続を自動管理しません。",
+      "category": "multiplierAddition",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          72,
+          76.8,
+          81.6,
+          86.4,
+          91.2,
+          96,
+          102,
+          108,
+          114,
+          120
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "elements": [
+          "Wind"
+        ],
+        "attackIds": [
+          "100203"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "danheng-enemy-slowed",
+        "default": false,
+        "conditionText": "攻撃前から対象が減速状態"
+      },
+      "stacking": {
+        "group": "trace:1002:100203:slowed-ultimate-multiplier",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "multiplierAddition",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:100203;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-25",
+        "scope": "固定版のLv別係数と対象を独立検証",
+        "verification": "hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batch; independent full E0 curves, stat isolation, native bonuses, party and saved UI inputs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      }
+    }
+  ]
+}

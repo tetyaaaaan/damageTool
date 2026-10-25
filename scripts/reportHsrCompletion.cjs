@@ -266,6 +266,203 @@ const e0CandidateAudit={
     "evidence": "固定130601..130604/1130601..1130604と各追加能力/星魂を照合。hsrSupporterE0Completion: 両版の全E0曲線、ATK/HP/DEF分離、自己ATK非再加算、入力CD/DMG/敵被ダメージ/耐性貫通、Robin支援を独立照合。hsrToolInputsとPC1440/390/320で版/保存/局所停止。",
     "remaining": "E0・Lv80・通常Lv1～6・敵1体・状態一定。夜想曲のATKは最終入力。本人SkillのCDと原版Talent/CipherのDMGは最終入力/手動欄、強化版の幻相/CipherとA6耐性貫通10%は敵条件に1回だけ指定。花火の既存party専用支援は本人へ自動適用しない。自己支援の全自動化、層更新/SP/行動順、E1以上、全支援/装備は別認定。"
   },
+  "1002": {
+    "status": "confirmed",
+    "majorSourceIds": [
+      "100201",
+      "100202",
+      "100203"
+    ],
+    "requiredAttackIds": [
+      "100201",
+      "100202",
+      "100203"
+    ],
+    "sourceRoleOverrides": {
+      "100204": "自己補正（次攻撃の風耐性貫通・独立ダメージなし）"
+    },
+    "summary": "通常・スキル・事前減速別必殺の全曲線。減速はA6通常40%と必殺追加倍率で共有。寸勁の次攻撃耐性貫通は任意ON。",
+    "evidence": "固定SHAのskills/trees/ranksと公開資料を照合。hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batchで全E0曲線・非対称値・参照分離・固有補正・支援を独立検証。hsrToolInputsと3幅実画面で入力/局所停止/保存を確認。",
+    "remaining": "E0・Lv80・敵1体・状態一定。敵減速は攻撃前から成立した状態。スキル新規減速と途中の会心/撃破/天賦消費を自動管理しない。秘技ATK40%と小軌跡は最終入力。補正ONで必要TalentLv不足なら影響する攻撃だけ停止。"
+  },
+  "1008": {
+    "status": "confirmed",
+    "majorSourceIds": [
+      "100801",
+      "100802",
+      "100803"
+    ],
+    "requiredAttackIds": [
+      "100801",
+      "100802",
+      "100803"
+    ],
+    "sourceRoleOverrides": {
+      "100804": "自己補正（損失HPの与ダメージ・独立攻撃なし）"
+    },
+    "summary": "通常・スキル・必殺の主/隣接と、損失HP天賦を全Lvで検証。入力HPはダメージ時点で、スキルは消費後HPを1回だけ参照。",
+    "evidence": "固定SHAのskills/trees/ranksと公開資料を照合。hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batchで全E0曲線・非対称値・参照分離・固有補正・支援を独立検証。hsrToolInputsと3幅実画面で入力/局所停止/保存を確認。",
+    "remaining": "E0・Lv80・敵1体・状態一定。最終最大HPと生存1HP以上の割合が必要。スキルは15%消費後で最大85%。HP消費/回復/被弾/撃破を自動生成せず、0%を1HPの代用にしない。小軌跡ATK/HPは最終入力、E1以上は別認定。"
+  },
+  "1102": {
+    "status": "confirmed",
+    "majorSourceIds": [
+      "110201",
+      "110202",
+      "110203",
+      "1110201",
+      "1110202",
+      "1110203"
+    ],
+    "requiredAttackIds": [
+      "110201",
+      "110202",
+      "110203",
+      "1110201",
+      "1110202",
+      "1110203"
+    ],
+    "sourceRoleOverrides": {
+      "110204": "増幅/再行動の状態説明（各通常/スキル/必殺の補正として検証）",
+      "1110204": "増幅/自動スキルの説明（スキル1110202は独立1回・自動合算しない）"
+    },
+    "summary": "原版/強化版それぞれ通常・スキル・必殺。必殺は発動時に増幅へ入るため攻撃ローカルで必ず増幅を想定。通常/スキルの任意状態と保存値を変えない。",
+    "evidence": "固定SHAのskills/trees/ranksと公開資料を照合。hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batchで全E0曲線・非対称値・参照分離・固有補正・支援を独立検証。hsrToolInputsと3幅実画面で入力/局所停止/保存を確認。",
+    "remaining": "E0・Lv80・敵1体・状態一定。増幅DMG40～80%、原版/強化版耐性貫通20/25%、強化版の事前撃破層0～3を独立検証。途中撃破で層や追加ターンを生成せず、自動スキルは同じスキル1回として別行動。E6付加は別認定。"
+  },
+  "1105": {
+    "status": "confirmed",
+    "majorSourceIds": [
+      "110501"
+    ],
+    "requiredAttackIds": [
+      "110501"
+    ],
+    "sourceRoleOverrides": {
+      "110504": "回復天賦（独立ダメージなし）"
+    },
+    "summary": "E0本人の直接攻撃は通常のみ。回復スキル/必殺/天賦を不足ダメージに数えず、E6付加と分離。",
+    "evidence": "固定SHAのskills/trees/ranksと公開資料を照合。hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batchで全E0曲線・非対称値・参照分離・固有補正・支援を独立検証。hsrToolInputsと3幅実画面で入力/局所停止/保存を確認。",
+    "remaining": "E0・Lv80・通常Lv1～6・敵1体・状態一定。HP/DEF小軌跡は最終入力。回復/解除/EPやE6のHP追加を合算しない。"
+  },
+  "8001": {
+    "status": "confirmed",
+    "majorSourceIds": [
+      "800101",
+      "800102",
+      "800108",
+      "800109"
+    ],
+    "requiredAttackIds": [
+      "800101",
+      "800102",
+      "800108",
+      "800109"
+    ],
+    "sourceRoleOverrides": {
+      "800103": "選択式の集約説明（800108/800109で各モードを検証）",
+      "800104": "自己強化（天賦ATKは完成済み最終入力・独立ダメージなし）"
+    },
+    "summary": "通常・スキル・単体必殺・拡散必殺の4行。選択式説明は隠し、2モードを二重合算しない。闘志25%はスキル/拡散必殺の主対象のみ。",
+    "evidence": "固定SHAのskills/trees/ranksと公開資料を照合。hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batchで全E0曲線・非対称値・参照分離・固有補正・支援を独立検証。hsrToolInputsと3幅実画面で入力/局所停止/保存を確認。",
+    "remaining": "E0・Lv80・敵1体・状態一定。隣接曲線は別に検証するが敵1体の画面では表示しない。天賦ATK0～2層と小軌跡は完成済み最終ATK。途中撃破・層/EP/回復自動管理・E1以上は対象外。"
+  },
+  "8002": {
+    "status": "confirmed",
+    "majorSourceIds": [
+      "800201",
+      "800202",
+      "800208",
+      "800209"
+    ],
+    "requiredAttackIds": [
+      "800201",
+      "800202",
+      "800208",
+      "800209"
+    ],
+    "sourceRoleOverrides": {
+      "800203": "選択式の集約説明（800208/800209で各モードを検証）",
+      "800204": "自己強化（天賦ATKは完成済み最終入力・独立ダメージなし）"
+    },
+    "summary": "通常・スキル・単体必殺・拡散必殺の4行。選択式説明は隠し、2モードを二重合算しない。闘志25%はスキル/拡散必殺の主対象のみ。",
+    "evidence": "固定SHAのskills/trees/ranksと公開資料を照合。hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batchで全E0曲線・非対称値・参照分離・固有補正・支援を独立検証。hsrToolInputsと3幅実画面で入力/局所停止/保存を確認。",
+    "remaining": "E0・Lv80・敵1体・状態一定。隣接曲線は別に検証するが敵1体の画面では表示しない。天賦ATK0～2層と小軌跡は完成済み最終ATK。途中撃破・層/EP/回復自動管理・E1以上は対象外。"
+  },
+  "8003": {
+    "status": "confirmed",
+    "majorSourceIds": [
+      "800301",
+      "800303",
+      "800308"
+    ],
+    "requiredAttackIds": [
+      "800301",
+      "800303",
+      "800308"
+    ],
+    "sourceRoleOverrides": {
+      "800304": "強化状態/シールドの説明（800308に含まれ、独立追撃ではない）"
+    },
+    "summary": "通常・強化通常・ATK+DEF必殺を別行で比較。必殺の欠けていたATK項と強化通常の隣接係数を修正。",
+    "evidence": "固定SHAのskills/trees/ranksと公開資料を照合。hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batchで全E0曲線・非対称値・参照分離・固有補正・支援を独立検証。hsrToolInputsと3幅実画面で入力/局所停止/保存を確認。",
+    "remaining": "E0・Lv80・敵1体・状態一定。強化通常は灼熱意志4層または必殺後の強化を想定して表示。A6バリア下ATK15%は最終入力、EP/シールド/回復は非ダメージ。隣接曲線は独立照合済み、認定外の複数敵や途中変化を再現しない。"
+  },
+  "8004": {
+    "status": "confirmed",
+    "majorSourceIds": [
+      "800401",
+      "800403",
+      "800408"
+    ],
+    "requiredAttackIds": [
+      "800401",
+      "800403",
+      "800408"
+    ],
+    "sourceRoleOverrides": {
+      "800404": "強化状態/シールドの説明（800408に含まれ、独立追撃ではない）"
+    },
+    "summary": "通常・強化通常・ATK+DEF必殺を別行で比較。必殺の欠けていたATK項と強化通常の隣接係数を修正。",
+    "evidence": "固定SHAのskills/trees/ranksと公開資料を照合。hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batchで全E0曲線・非対称値・参照分離・固有補正・支援を独立検証。hsrToolInputsと3幅実画面で入力/局所停止/保存を確認。",
+    "remaining": "E0・Lv80・敵1体・状態一定。強化通常は灼熱意志4層または必殺後の強化を想定して表示。A6バリア下ATK15%は最終入力、EP/シールド/回復は非ダメージ。隣接曲線は独立照合済み、認定外の複数敵や途中変化を再現しない。"
+  },
+  "8005": {
+    "status": "confirmed",
+    "majorSourceIds": [
+      "800501",
+      "800502"
+    ],
+    "requiredAttackIds": [
+      "800501",
+      "800502"
+    ],
+    "sourceRoleOverrides": {
+      "800503": "支援/超撃破（直撃なし・独立超撃破モードを全UltLvで検証）",
+      "800504": "EP回復（独立ダメージなし）"
+    },
+    "summary": "通常1回・敵1体のスキル5ヒットと、バックダンス超撃破を独立計算。直撃へ超撃破を合算した全体値と表示しない。",
+    "evidence": "固定SHAのskills/trees/ranksと公開資料を照合。hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batchで全E0曲線・非対称値・参照分離・固有補正・支援を独立検証。hsrToolInputsと3幅実画面で入力/局所停止/保存を確認。",
+    "remaining": "E0・Lv80・敵1体・状態一定。超撃破は既存の独立モードで、撃破済み・最終BEに選択UltLvの効果を1回算入、A2解放時160%、通常削靭10/スキル40（A4初撃20+後続5×4）。複数敵/途中撃破/自動層/ターン/EP・E1以上は未対応。支援自動化の最終完成とは別。"
+  },
+  "8006": {
+    "status": "confirmed",
+    "majorSourceIds": [
+      "800601",
+      "800602"
+    ],
+    "requiredAttackIds": [
+      "800601",
+      "800602"
+    ],
+    "sourceRoleOverrides": {
+      "800603": "支援/超撃破（直撃なし・独立超撃破モードを全UltLvで検証）",
+      "800604": "EP回復（独立ダメージなし）"
+    },
+    "summary": "通常1回・敵1体のスキル5ヒットと、バックダンス超撃破を独立計算。直撃へ超撃破を合算した全体値と表示しない。",
+    "evidence": "固定SHAのskills/trees/ranksと公開資料を照合。hsrPhysicalTrailblazerE0Completion / hsrTrailblazerBranchesE0Batch / hsrClassicAttackerE0Batchで全E0曲線・非対称値・参照分離・固有補正・支援を独立検証。hsrToolInputsと3幅実画面で入力/局所停止/保存を確認。",
+    "remaining": "E0・Lv80・敵1体・状態一定。超撃破は既存の独立モードで、撃破済み・最終BEに選択UltLvの効果を1回算入、A2解放時160%、通常削靭10/スキル40（A4初撃20+後続5×4）。複数敵/途中撃破/自動層/ターン/EP・E1以上は未対応。支援自動化の最終完成とは別。"
+  },
   "1301": {
     "status": "confirmed",
     "majorSourceIds": [
@@ -297,6 +494,7 @@ const knownGaps={
  '1308':'必殺技の段階別成分/集真赤の状態変化を要確認。'
 };
 function skillRole(skill){
+ const verifiedRole=Object.values(e0CandidateAudit).map(a=>a.sourceRoleOverrides?.[String(skill.id)]).find(Boolean);if(verifiedRole)return verifiedRole;
  if(Object.values(e0CandidateAudit).some(a=>a.nonDamageSourceIds?.includes(String(skill.id))))return '支援/行動順（非ダメージを固定版で監査済み）';
  if(!combatTypes.has(skill.type))return '秘技/フィールド（E0主要攻撃の判定外）';
  if(directEffects.has(skill.effect))return '直接ダメージ行動';
@@ -331,7 +529,7 @@ function remainingWorkClass(d){
  return {group:'D',confidence:'全構成の仕様精査未了',reason:'限定値の登録だけでは全主要構成の確証不足。未調査をゼロ工数や独立検証のみと見なさない'};
 }
 function instructionForecast(remaining,measuredBatch=0){return [['楽観',3,Math.max(8,Math.min(10,measuredBatch||8))],['標準',2,6],['悲観',1,3]].map(([scenario,legacyRate,batchRate])=>({scenario,legacyRate,batchRate,legacy:Math.ceil(remaining/legacyRate),batch:Math.ceil(remaining/batchRate)}));}
-const batchRun={start:'4bdda21',audited:12,confirmed:0,promoted:0,phase:'工程A・実装前'};
+const batchRun={start:'4bdda21',audited:12,confirmed:10,promoted:18,phase:'工程B・検証中'};
 async function generate(){
  const [{data,engine},characters,skills,trees,ranks]=await Promise.all([loadProductionFixture(),fixed('characters.json'),fixed('character_skills.json'),fixed('character_skill_trees.json'),fixed('character_ranks.json')]);
  if(data.characters.length!==98||Object.keys(characters).length!==98)throw Error('固定母集団98人と不一致');
