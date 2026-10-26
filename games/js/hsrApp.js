@@ -64,6 +64,7 @@
   let initialDefaults = null;
   let pendingReset = null;
   let conditionAudit = null;
+  let conditionReferenceInputs = new Set();
   const modifierIssueLinks = new Map();
   const modifierIssueIds = new Set();
   let observedPartyProviders = new Set();
@@ -254,7 +255,7 @@
   function attackStateIssues(attack, issue) {
     if (attack.damageFormula === "enemyHpCappedByAtk" && (String($("hsrEnemyMaxHp").value).trim() === "" || !(Number($("hsrEnemyMaxHp").value)>0))) issue("この裂創成分に必要な敵の最大HPを入力してください。", "hsrEnemyMaxHp");
     if (attack.characterLevelExact !== undefined && state.level !== attack.characterLevelExact) issue(`${attack.name}はキャラクターLv${attack.characterLevelExact}のみ計算対応です。`, "hsrLevel");
-    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== 2)) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
+    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
     if (attack.rejectNormalOnlyModifiers) {
       const base = {id:"120701",type:"normal",attackType:"normal",element:"Imaginary"};
       const reason = window.HsrCalcEngine.normalOnlyModifierReason(allConditions().filter(item=>item.enabled&&!item.displayOnly&&modifierTargetsCalculation(item,base)).map(item=>({...item,applicable:true})));
@@ -543,6 +544,7 @@
     };
     return {
       characterId: state.characterId,
+      characterElement: character()?.element,
       eidolon: state.eidolon,
       lightConeId: state.coneId,
       refinement: state.coneRank,
@@ -748,6 +750,11 @@
         controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-condition-enabled="${esc(item.id)}"${item.enabled ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>この条件を適用する</strong><small>入力した補正を計算へ加える場合だけONにしてください。</small></span></label><label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>効果量</strong><small>${esc(item.description)}</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-condition-value="${esc(item.id)}" value="${item.value}" step="0.1"><em>%</em></span></label>`);
         return;
       }
+      const reference = item.supplementalAttack;
+      if (item.enabled && reference?.damageBonusInputKey && reference.element !== character()?.element) {
+        const key=reference.damageBonusInputKey+":"+state.characterId;
+        if (!conditionReferenceInputs.has(key)) { conditionReferenceInputs.add(key); controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(reference.damageBonusInputLabel||"参照者の属性与ダメージ")}</strong><small>現在の攻撃者の最終値。元の属性の与ダメージとは別です。補正なしは0。</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-structured-input="${esc(key)}" data-structured-strict="true" value="${Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:""}" step="0.1"><em>%</em></span></label>`); }
+      }
       const activation = item.activation || {};
       if (["toggle", "toggleThreshold"].includes(activation.mode) && activation.inputKey && !rendered.has(`toggle:${activation.inputKey}`)) {
         rendered.add(`toggle:${activation.inputKey}`);
@@ -870,6 +877,7 @@
   }
 
   function renderConditions() {
+    conditionReferenceInputs = new Set();
     prepareConditionDisplay();
     const conditions = sourceConditions(); const tabs = CONDITION_TAB_ORDER;
     trackPartySelectionRestore(conditions);
@@ -970,7 +978,7 @@
     const inputs = attack.comparisonModifierInputs ? { ...state.modifierInputs, ...attack.comparisonModifierInputs } : state.modifierInputs;
     return allConditions(inputs).filter((item) => !item.displayOnly).map((item) => {
       const attackApplies = modifierTargetsCalculation(item, attack);
-      const supplementalApplies = !attack.sourceModifierId || !item.supplementalAttack || item.id === attack.sourceModifierId;
+      const supplementalApplies = !item.supplementalAttack || item.id === attack.sourceModifierId;
       const primaryTargetApplies = !item.primaryTargetOnly || attack.target !== "adjacent";
       const adjacentTargetApplies = !item.adjacentTargetOnly || attack.target === "adjacent";
       return { ...item, matchesAttack: attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies, conditionText: item.activation?.reference === "party.elationCount" ? conditionRequirement(item) : item.conditionText, applicable: item.enabled && attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies && item.applicable !== false, reason: !item.enabled ? "発動条件を満たしていません" : !supplementalApplies ? "別の付加ダメージに属する補正です" : !primaryTargetApplies ? "隣接対象はこの補正の対象外です" : !adjacentTargetApplies ? "主対象はこの補正の対象外です" : attackApplies ? item.reason || "" : "この攻撃種別・属性は対象外です" };
@@ -980,6 +988,13 @@
   function resolvedAttack(selected) {
     if (selected.id === "131508") { const level=state.traceLevels.normal; return { ...selected, traceLevel:level, multiplier:selected.multipliers[level-1], attackType:selected.type, fanningInputs:{confirmed:state.modifierInputs["boothill-fanning-broken"]===true,stacks:state.modifierInputs["boothill-pocket-stacks"]===undefined?3:state.modifierInputs["boothill-pocket-stacks"],talentLevel:state.traceLevels.talent} }; }
     if (selected.id === "1151201") { const level=state.songbirdInputs.skillLevel; return { ...selected, traceLevel: level, multiplier: selected.multipliers[level-1] }; }
+    if (selected.id === "1111083" && selected.damageFormula === "componentSequence") {
+      const defs = selected.damageComponents.filter(c=>!c.optional || selected.ownBleed);
+      const parts = defs.map(c=>state.data.attacks.find(a=>a.id===c.attackId && a.characterId===selected.characterId));
+      const assumptions = {"luka-fighting-will-stacks":2,"luka-enemy-bleeding":selected.ownBleed?1:0};
+      const sequenceAttacks = parts.every(Boolean) ? parts.map((a,i)=>({...resolvedAttack(a),damageFormula:a.damageFormula||"statMultiplier",hitCount:i===0?3+selected.realizedExtraPunches:1,formulaTraceLevel:a.formulaTraceKey?state.traceLevels[a.formulaTraceKey]:undefined,comparisonModifierInputs:assumptions,modifierInputKey:undefined,modifierInputMinimum:undefined,modifierConditions:undefined})) : [];
+      return {...selected,traceLevel:state.traceLevels.normal,multiplier:sequenceAttacks[0]?.multiplier,traceLevelLabel: '通常Lv'+state.traceLevels.normal+(selected.ownBleed?'＋スキルLv'+state.traceLevels.skill+'＋天賦Lv'+state.traceLevels.talent:''),attackType:selected.type,sequenceAttacks,comparisonModifierInputs:assumptions};
+    }
     if (selected.id === "1223021" && selected.damageFormula === "componentSequence") {
       const parts = selected.damageComponents.map(c=>state.data.attacks.find(a=>a.id===c.attackId&&a.characterId==="1223"));
       const sequenceAttacks = parts.every(Boolean) ? parts.map(a=>({...resolvedAttack(a),damageFormula:"statMultiplier"})) : [];
@@ -1040,7 +1055,13 @@
     return structuredSourceConditions().filter((item) => item.enabled && item.calculable && item.supplementalAttack).map((item) => {
       const source = item.sourceMeta || {};
       const level = source.skillId ? num(context.traceLevelFor(source), 10) : 1;
+      const reference=window.HsrModifierRuntime.supplementalReference(item,context,state.modifierInputs);
+      const sourceName=find("characters",reference.sourceCharacterId)?.name||reference.sourceCharacterId;
+      const ownerName=character()?.name||state.characterId;
+      const triggerName=find("characters",reference.triggerCharacterId)?.name||reference.triggerCharacterId;
       return {
+        referenceStats:reference.stats,referenceRoles:reference,referenceIssue:reference.supported?"":reference.reason,referenceCondition:{...item,valueInput:{key:reference.inputKey,shared:true}},
+        calculationNote:`発生元：${sourceName}。数値参照：${ownerName}の最終ATK・会心・${ELEMENT_KEYS[item.supplementalAttack.element]||item.supplementalAttack.element}属性与ダメージ。発動：${triggerName}の攻撃後。軌跡Lvは${sourceName}を参照します。元攻撃とは別の1回分で、自動合算しません。`,
         id: `supplemental:${item.id}`,
         sourceModifierId: item.id,
         support: item.support,
@@ -1245,6 +1266,7 @@
   }
 
   function resolvedAttackComparisons(selected) {
+    if (Array.isArray(selected.comparisonStates) && selected.comparisonStates.some(v=>v.resolvedOverrides)) return selected.comparisonStates.map(v=>({...resolvedAttack({...selected,...v.resolvedOverrides}),name:selected.name+"・"+v.label,comparisonStateNote:v.note,hitCountLabel:"追加拳"+v.resolvedOverrides.realizedExtraPunches+"回・自己裂創"+(v.resolvedOverrides.ownBleed?"あり":"なし")}));
     const attack = resolvedAttack(selected);
     if (!Array.isArray(selected.comparisonStates)) return [attack];
     return selected.comparisonStates.map(variant => ({ ...attack,
@@ -1354,7 +1376,7 @@
     const breakDetails = (value, isSuper) => `<dl>${(isSuper ? [["撃破基礎値",value.base],["基礎削靭値",value.toughnessDamage],["撃破効率倍率",value.breakEfficiency],["補正後削靭値",value.effectiveToughnessDamage],["発生倍率",value.conversionMultiplier],["撃破特効倍率",value.breakEffect],["防御倍率",value.defense],["耐性倍率",value.resistance],["被ダメージ倍率",value.vulnerability],["超撃破与ダメージ倍率",value.superBreakBonus]] : [["撃破基礎値",value.base],["属性・攻撃倍率",value.multiplier],["撃破特効倍率",value.effect],["防御倍率",value.defense],["耐性倍率",value.resistance],["最大靭性倍率",value.toughnessScale],["被ダメージ倍率",value.vulnerability]]).map(([label, amount]) => `<div><dt>${label}</dt><dd>${detailNumber(amount)}</dd></div>`).join("")}</dl><p class="hsr-formula-note">独立した1回分です。通常攻撃・他の撃破成分とは合算しません。</p><details class="hsr-result-audit"><summary>適用・除外された補正</summary>${modifierAudit(value, isSuper ? "超撃破" : "弱点撃破")}</details>`;
     [ ...(breakResult ? [{name:"弱点撃破",value:breakResult}] : []), ...specialBreakResults.map(({attack,result}) => ({name:attack.name,value:result,attack})), ...(superBreakResult ? [{name:"超撃破",value:superBreakResult,isSuper:true}] : []) ].forEach(({name,value,attack,isSuper}) => {
       if (!value.supported) { unsupported[isSuper ? "superBreak" : "break"].push(`<p><strong>${esc(name)}</strong>：${esc(value.reason)}</p>`); return; }
-      addRow(isSuper ? "superBreak" : "break",name,"会心なし・独立した1回分",[["ダメージ",value.value],["会心",null],["期待値",null]],breakDetails(value,isSuper),attack ? supportBadge(attack) : "");
+      addRow(isSuper ? "superBreak" : "break",name,"会心なし・独立した1回分",[["ダメージ",value.value],["会心",null],["期待値",null]],breakDetails(value,isSuper),attack ? supportBadge(attack)+`<p class="hsr-formula-note">${esc(attack.calculationNote||attack.conditionText||"")}</p>` : "");
     });
     unavailableAttacks.forEach(attack => {
       if (attack.inputIssues?.length) {
@@ -1436,9 +1458,10 @@
     if (cone() && (!Number.isInteger(state.coneRank) || state.coneRank < 1 || state.coneRank > 5)) fieldWarning("光円錐の重畳ランクに1～5を選択してください。", "hsrConeRank");
     if (attacks.some((attack) => attack.damageFormula === "elation") && (!Number.isInteger(state.traceLevels.elation) || state.traceLevels.elation < 1 || state.traceLevels.elation > 10)) warnings.add("星魂0の愉悦スキルLvに1～10の整数を選択してください。");
     attacks.forEach((attack) => {
+      if (attack.referenceIssue) { const item=attack.referenceCondition; const target="modifier:"+item.id; modifierIssueIds.add(item.id); modifierIssueLinks.set(target,{item,message:attack.referenceIssue}); fieldWarning(attack.referenceIssue,target); }
       const attackScopes = attack.sequenceAttacks?.length ? attack.sequenceAttacks : [attack];
       if (attackScopes.some(scope => scope.canCrit !== false && scope.type !== "dot" && !scope.fixedCritStats)) { requiredBonuses.add("critRate"); requiredBonuses.add("critDamage"); }
-      if (attackScopes.some(scope => scope.damageFormula === "elation")) requiredBonuses.add("elation"); else requiredBonuses.add("damageBonus");
+      if (attackScopes.some(scope => scope.damageFormula === "elation")) requiredBonuses.add("elation"); else if (!attack.referenceStats) requiredBonuses.add("damageBonus");
       if (attackScopes.some(scope => scope.damageFormula === "normalAndBreak")) requiredBonuses.add("breakEffect");
       if (Object.hasOwn(state.traceLevels, attack.traceKey) && (!Number.isInteger(state.traceLevels[attack.traceKey]) || state.traceLevels[attack.traceKey] < 1 || state.traceLevels[attack.traceKey] > traceMaximum(attack.traceKey))) fieldWarning(`${ATTACK_LABELS[attack.traceKey] || attack.traceKey}のレベルを確認して選択してください。`, TRACE_FIELDS[attack.traceKey][1]);
       if (attack.maximumTraceLevel && attack.traceLevel > attack.maximumTraceLevel) {
@@ -1518,7 +1541,7 @@
     }
     const baseRequest = { character: { level: state.level, eidolon: state.eidolon, stats: state.stats, baseStats }, enemy: state.enemy, elation: state.elationInputs, trueDamage: state.trueDamageInputs };
     let results = attacks.map((selected) => {
-      const request = { ...baseRequest, songbird: songbirdSnapshot(), elation: attackElationInputs(selected), attack: selected, modifiers: modifiers(selected), breakModifiers: selected.damageFormula === "normalAndBreak" ? modifiers({type:"break",element:character().element}) : undefined, breakBaseDamage: state.data.breakBaseDamage };
+      const request = { ...baseRequest, character:selected.referenceStats ? {...baseRequest.character,stats:selected.referenceStats}:baseRequest.character, songbird: songbirdSnapshot(), elation: attackElationInputs(selected), attack: selected, modifiers: modifiers(selected), breakModifiers: selected.damageFormula === "normalAndBreak" ? modifiers({type:"break",element:character().element}) : undefined, breakBaseDamage: state.data.breakBaseDamage };
       if (selected.damageFormula === "componentSequence") request.sequenceComponents = (selected.sequenceAttacks || []).map((component, index) => ({ key: selected.damageComponents[index].key, name: selected.damageComponents[index].name, input: { ...baseRequest, attack: component, modifiers: modifiers(component), songbird: songbirdSnapshot(), elation: attackElationInputs(component), breakBaseDamage: state.data.breakBaseDamage } }));
       const result = window.HsrCalcEngine.calculate(request);
       const adjacentAttack = selected.adjacentMultiplier && !(selected.suppressAdjacentWithSingleEnemy && state.enemy.count === 1) ? { ...selected, multiplier: selected.adjacentMultiplier, scalingTerms: selected.adjacentScalingTerms?.length ? selected.adjacentScalingTerms : undefined, target: "adjacent" } : null;
@@ -1532,7 +1555,7 @@
       return false;
     });
     const checkedBreak = (attack, run) => {
-      if ((attack.type === "break" && !state.enemy.weakness) || (attack.type === "superBreak" && state.enemy.toughnessActive)) return run();
+      if ((attack.type === "break" && attack.breakEvent !== "additional" && !state.enemy.weakness) || (attack.type === "superBreak" && state.enemy.toughnessActive)) return run();
       const issues = modifierInputIssues(attack, baseStats);
       if (!Number.isFinite(state.stats.breakEffect) || state.stats.breakEffect < 0) issues.push({message:"撃破特効に0以上の数値を入力してください。", target:"hsrStat-breakEffect"});
       if (attack.type === "break" && !(Number.isFinite(state.enemy.maxToughness) && state.enemy.maxToughness > 0)) issues.push({message:"敵の最大靭性に0より大きい数値を入力してください。",target:"hsrMaxToughness"});
@@ -1546,10 +1569,10 @@
     const breakAttack = { id:"independent-break", name:"弱点撃破", attackType: "break", type: "break", element: character().element };
     const breakResult = state.breakInputs.mode === "superBreak" ? null : checkedBreak(breakAttack, () => window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: character().element, modifiers: modifiers(breakAttack), breakBaseDamage: state.data.breakBaseDamage }));
     const specialBreakResults = (independentBreak ? [] : state.data.specialBreakAttacks || []).filter((attack) => attack.characterId === state.characterId && !attack.hidden && attackSupport(attack).status !== "displayOnly").map((attack) => {
-      const level = num(state.traceLevels[attack.traceKey], 10); const index = Math.max(0, Math.min(attack.multipliers.length - 1, level - 1));
+      const level = attack.breakEvent === "additional" ? state.traceLevels[attack.traceKey] : num(state.traceLevels[attack.traceKey], 10); const index = Math.max(0, Math.min(attack.multipliers.length - 1, level - 1));
       const multiplier = num(attack.multipliers[index]) + (state.eidolon >= 6 ? num(attack.eidolon6Bonus) : 0);
       const resolved = { ...attack, traceLevel: level, multiplier, attackType: "break" };
-      const result = checkedBreak(resolved, () => window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, element: attack.element, multiplier: multiplier / 100, modifiers: modifiers(resolved), breakBaseDamage: state.data.breakBaseDamage }));
+      const result = checkedBreak(resolved, () => attack.breakEvent === "additional" ? window.HsrCalcEngine.calculateAdditionalBreak({character:{...baseRequest.character,id:state.characterId},enemy:state.enemy,attack:resolved,modifiers:modifiers(resolved),breakBaseDamage:state.data.breakBaseDamage}) : window.HsrCalcEngine.calculateBreak({ character: baseRequest.character, enemy: state.enemy, attack:resolved, element: attack.element, multiplier: multiplier / 100, modifiers: modifiers(resolved), breakBaseDamage: state.data.breakBaseDamage }));
       return { attack: resolved, result };
     }).filter(item => item.result);
     const superBreakAttack = { id:"independent-super-break", name:"超撃破", type: "superBreak", element: character().element, toughnessDamage: state.breakInputs.toughnessDamage, superBreakMultiplier: state.breakInputs.multiplier };

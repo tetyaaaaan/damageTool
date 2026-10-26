@@ -864,6 +864,7 @@ test('HSR autosave restores inputs, party, equipment and conditions without stor
     app.storage.set('tetinet:hsr:lastUid:v1','100000001');
     app.state.coneId='cone';app.state.relicId='removed-relic';app.state.party[0]={...app.state.party[0],characterId:'1202',level:8,atk:2345.678901};
     app.state.modifierInputs['tingyun-benediction']=true;
+    app.state.modifierInputs['tingyun-reference-lightning:sample']=0;
     app.state.conditions[0].enabled=true;app.state.conditions[0].value=30.5;
     app.node('hsrStat-atk').value='1234.567891';app.node('hsrStat-hp').value='';app.node('hsrStat-critRate').value='0';
     app.node('hsrNormalTrace').value='4';app.node('hsrEidolon').value='2';app.node('hsrConeRank').value='3';app.node('hsrEnemyResistance').value='-20.25';
@@ -1665,6 +1666,7 @@ test("manual Tingyun support effects use independent skill, ultimate and talent 
     app.state.party[0] = { ...app.state.party[0], characterId: "1202", source: "manual", atk: 4000,
         traceLevels: { skill: 1, ultimate: 10, talent: 6 } };
     app.state.modifierInputs["tingyun-benediction"] = true;
+    app.state.modifierInputs["tingyun-reference-lightning:sample"] = 0;
     app.state.modifierInputs["tingyun-ultimate-active"] = true;
     app.node("hsrStat-atk").value = "1000";
     let results = app.calculate();
@@ -2856,4 +2858,24 @@ test("batch3 own Bleed requires explicit enemy maximum HP without stopping ordin
   app.window.HsrTool.applyProfileCharacter({id:'1111',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
   app.node('hsrEnemyMaxHp').value='100000';let r=app.calculate();assert.ok(r.some(x=>Math.abs(x.nonCrit-3650.4)<1e-8));
   app.node('hsrEnemyMaxHp').value='';r=app.calculate();assert.ok(r.some(x=>Math.abs(x.nonCrit-1080)<1e-8));assert.equal(r.some(x=>x.breakdown?.cappedEnemyHpDamage),false);assert.match(app.node('hsrResults').innerHTML,/敵の最大HP/);
+});
+
+test('batch4 Luka assumed realized states compare all eight rows and lose only Bleed rows when their input is missing',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();const app=await tool(undefined,data);const real=app.window.HsrCalcEngine;let calls=[];app.window.HsrCalcEngine={...real,calculate(i){const r=real.calculate(i);calls.push({a:i.attack,r});return r;}};
+ app.window.HsrTool.applyProfileCharacter({id:'1111',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});app.node('hsrEnemyMaxHp').value='100000';
+ const run=()=>{calls=[];app.calculate();return calls.filter(x=>x.a.id==='1111083'&&x.r.supported!==false);};let states=run();assert.equal(states.length,8);for(let n=0;n<4;n++){assert.ok(Math.abs(states[n].r.nonCrit-(1512+216*n))<1e-8);assert.ok(Math.abs(states[n+4].r.nonCrit-(4614.84+216*n))<1e-8);assert.ok(Math.abs(states[n+4].r.expected-(5370.84+324*n))<1e-8);}
+ assert.equal(app.state.modifierInputs['luka-enemy-bleeding'],undefined,'comparison does not mutate global enemy condition');app.node('hsrEnemyMaxHp').value='';states=run();assert.equal(states.length,4);assert.ok(states.every(x=>x.a.ownBleed===false));app.node('hsrEnemyMaxHp').value='100000';app.node('hsrStat-atk').handlers.input();const restored=await tool(app.storage,data);assert.ok(restored.calculate().some(r=>Math.abs(r.nonCrit-5262.84)<1e-8));
+});
+
+test('batch4 Ruan additional-break events use her completed BE on non-Ice weakness without readding her A2',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();const app=await tool(undefined,data);const real=app.window.HsrCalcEngine;let extras=[];app.window.HsrCalcEngine={...real,calculateAdditionalBreak(i){const r=real.calculateAdditionalBreak(i);extras.push({i,r});return r;}};
+ app.window.HsrTool.applyProfileCharacter({id:'1303',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0,breakEffect:230}});app.node('hsrMaxToughness').value='300';app.node('hsrWeakness').value='false';app.calculate();assert.equal(extras.length,2);for(const e of extras){assert.equal(e.i.character.id,'1303');assert.equal(e.r.supported,true);assert.ok(Math.abs(e.r.effect-3.3)<1e-8);const coeff=e.i.attack.id==='1303041'?1.2:.5;assert.ok(Math.abs(e.r.value-3767.5533*coeff*3.3*.5*.8*3)<1e-8);}
+ const m=data.structuredModifiers.find(x=>x.id==='traceNode:1303:1303101:party-break-effect');const rt=app.window.HsrModifierRuntime;assert.equal(rt.buildCandidates([m],{characterId:'1303',stats:{breakEffect:230}},{}).length,0);const party=rt.buildCandidates([m],{characterId:'1111',partyIds:['1303'],stats:{breakEffect:230}},{});assert.equal(party.length,1);assert.equal(party[0].value,20,'party support unchanged');app.node('hsrTalentTrace').value='';extras=[];assert.ok(app.calculate().some(r=>Math.abs(r.nonCrit-1080)<1e-8));assert.equal(extras.filter(e=>e.r.supported).length,1,'missing Talent stops only its additional event');
+});
+
+test('batch4 Tingyun cross-element input is local, zero is saved per recipient, and reference roles are visible',async()=>{
+ const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();const app=await tool(undefined,data);app.window.HsrTool.applyProfileCharacter({id:'1003',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:50}});app.state.party[0]={...app.state.party[0],characterId:'1202',source:'manual',atk:1000,traceLevels:{skill:10,talent:10,ultimate:10}};app.state.modifierInputs['tingyun-benediction']=true;
+ let rs=app.calculate();assert.ok(rs.some(r=>Math.abs(r.nonCrit-1755)<1e-8));assert.equal(rs.some(r=>r.attack.name.includes('賜福')||r.attack.name.includes('紫電')),false);assert.match(app.node('hsrResults').innerHTML,/雷属性与ダメージ/);
+ const key='tingyun-reference-lightning:1003';app.state.modifierInputs[key]=0;rs=app.calculate();assert.ok(Math.abs(rs.find(r=>r.attack.name.includes('祥音')).nonCrit-468)<1e-8);assert.ok(Math.abs(rs.find(r=>r.attack.name.includes('紫電')).nonCrit-702)<1e-8);assert.match(app.node('hsrResults').innerHTML,/発生元：停雲/);assert.match(app.node('hsrResults').innerHTML,/数値参照：姫子/);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);assert.equal(saved.state.modifierInputs[key],0);assert.ok(saved.calculate().some(r=>Math.abs(r.nonCrit-468)<1e-8));app.state.modifierInputs['tingyun-benediction']=false;assert.equal(app.state.modifierInputs[key],0);app.state.modifierInputs['tingyun-benediction']=true;app.state.characterId='1002';rs=app.calculate();assert.equal(rs.some(r=>r.attack.name.includes('祥音')),false,'another recipient requires its own Lightning value');app.state.party[0].characterId='';assert.equal(app.calculate().some(r=>r.attack.name.includes('紫電')),false);
 });

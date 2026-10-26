@@ -355,7 +355,21 @@
       && (!elements.length || elements.includes(element));
   }
 
-  const api = { referenceValue, sourceSelection, resolveValue, activationState, buildCandidates, applicableToAttack };
+
+  function supplementalReference(candidate, context = {}, inputs = {}) {
+    const definition = candidate.supplementalAttack || {};
+    const sourceId = String(candidate.providerId || candidate.sourceMeta?.id || candidate.source?.id || "");
+    const ownerId = String(context.characterId || "");
+    if (definition.statReference !== "activeCharacter") return {supported:false,reason:"この付加ダメージのステータス参照者は未対応です。"};
+    const key = definition.damageBonusInputKey ? definition.damageBonusInputKey + ":" + ownerId : "";
+    const sameElement = definition.element === context.characterElement;
+    const damageBonus = sameElement ? context.stats?.damageBonus : inputs[key];
+    const roles = {sourceCharacterId:sourceId,statReferenceId:ownerId,triggerCharacterId:definition.triggerActor === "provider" ? sourceId : ownerId,traceOwnerId:sourceId};
+    if (!sameElement && (!key || !Number.isFinite(damageBonus))) return {supported:false,...roles,inputKey:key,reason:(definition.damageBonusInputLabel||"参照者の属性与ダメージ")+"を入力してください。補正なしは0を指定します。"};
+    return {supported:true,...roles,inputKey:key,stats:{...context.stats,damageBonus}};
+  }
+
+  const api = { supplementalReference, referenceValue, sourceSelection, resolveValue, activationState, buildCandidates, applicableToAttack };
   global.HsrModifierRuntime = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

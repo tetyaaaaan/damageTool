@@ -210,7 +210,9 @@
                 && attack.element === "Thunder" && attack.sourceSkillId === "122302"
                 && components[0]?.key === "skill" && components[0]?.attackId === "122302"
                 && components[1]?.key === "additional" && components[1]?.attackId === "122304";
-            return validFeixiaoDefinition || validYukongDefinition || validMozeDefinition ? "" : "この複合攻撃の構成は未対応です。";
+            const validLukaDefinition = attack.id === "1111083" && attack.type === "enhancedNormal" && attack.sourceSkillId === "111108" && attack.element === "Physical" && attack.target === "single"
+                && Array.isArray(components) && components.length === 3 && components[0]?.key === "punches" && components[0]?.attackId === "1111081" && components[1]?.key === "uppercut" && components[1]?.attackId === "1111082" && components[2]?.key === "bleed" && components[2]?.attackId === "1111041";
+            return validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validLukaDefinition ? "" : "この複合攻撃の構成は未対応です。";
         }
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
@@ -401,6 +403,7 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if (input.attack?.id === "1111083") return calculateRealizedLuka(input);
         const attack = input.attack || {};
         const character = input.character || {};
         const enemy = input.enemy || {};
@@ -451,6 +454,11 @@ function calculateFanning(input) {
             || !Number.isFinite(nativeFollowUpBonus[0].value))) {
             return fail("天賦追加攻撃に必須の発動時与ダメージ補正を、補正条件から1件だけ有効にしてください。");
         }
+        return combineDamageComponents(attack, components, yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計");
+    }
+
+    function combineDamageComponents(attack, components, totalLabel) {
+        const fail = reason => ({ supported: false, reason });
         const resolved = components.map(component => ({
             key: component.key,
             name: component.name,
@@ -470,10 +478,36 @@ function calculateFanning(input) {
             crit: total("crit"),
             expected: total("expected"),
             components: Object.fromEntries(resolved.map(component => [component.key, { ...component.result, componentName: component.name }])),
-            breakdown: { damageFormula: "componentSequence", totalLabel: yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計", componentNames: resolved.map(component => component.name), condition: "同じ敵・最終ステータスを参照し、各成分の固有補正は別々に適用" },
+            breakdown: { damageFormula: "componentSequence", totalLabel: totalLabel, componentNames: resolved.map(component => component.name), condition: "同じ敵・最終ステータスを参照し、各成分の固有補正は別々に適用" },
             applied,
             skipped
         };
+    }
+
+
+    function calculateRealizedLuka(input) {
+        const {attack, character = {}, enemy = {}} = input;
+        const components = input.sequenceComponents || [];
+        const fail = reason => ({supported:false, reason});
+        const n = attack.realizedExtraPunches;
+        if (!(Number.isFinite(character.stats?.atk) && character.stats.atk > 0) || !Number.isFinite(character.stats?.critRate) || !Number.isFinite(character.stats?.critDamage) || !Number.isFinite(character.stats?.damageBonus)) return fail("攻撃者の最終ATK・会心率・会心ダメージ・与ダメージを入力してください。");
+        if (character.level !== 80 || character.eidolon !== 0 || enemy.count !== 1 || enemy.weakness !== false || enemy.toughnessActive !== true) return fail("ルカの合計はLv80・星魂0・物理非弱点/未撃破の敵1体・状態一定のみ計算対応です。");
+        if (!Number.isInteger(n) || n < 0 || n > 3 || typeof attack.ownBleed !== "boolean") return fail("実現した追加拳0～3回と、自分の裂創の有無を指定してください。");
+        if (!Number.isInteger(attack.traceLevel) || attack.traceLevel < 1 || attack.traceLevel > 6 || components.length !== (attack.ownBleed ? 3 : 2)) return fail("通常Lv1～6と、この状態に必要な直接/起爆成分が必要です。");
+        const specs = [{key:"punches",id:"1111081",type:"enhancedNormal",count:3+n},{key:"uppercut",id:"1111082",type:"enhancedNormal",count:1},...(attack.ownBleed?[{key:"bleed",id:"1111041",type:"dot",count:1}]:[])];
+        for (let i=0;i<specs.length;i++) {
+            const spec=specs[i], component=components[i], child=component?.input, a=child?.attack || {};
+            if (component?.key !== spec.key || component?.name !== attack.damageComponents?.[i]?.name || attack.damageComponents?.[i]?.attackId !== spec.id || a.id !== spec.id || a.type !== spec.type || a.attackType !== spec.type || a.element !== "Physical" || a.target !== "single" || a.hitCount !== spec.count || !Number.isFinite(a.multiplier) || a.multiplier <= 0) return fail("合計に必要な成分または実現段数が一致しません。");
+            if (JSON.stringify(child.character)!==JSON.stringify(character) || JSON.stringify(child.enemy)!==JSON.stringify(enemy)) return fail("各成分は同じ攻撃時点の最終ステータス・敵条件で計算してください。");
+            if ((child.modifiers||[]).some(m=>m.enabled!==false && m.applicable!==false && m.category==="progressiveTakenDamage")) return fail("段間で増加する被ダメージ補正は、この状態一定の合計には対応していません。");
+            if (spec.type !== "dot") {
+                if (a.damageFormula!=="statMultiplier" || a.scalingStat!=="atk" || a.canCrit===false || a.traceLevel!==attack.traceLevel || a.multiplier!==a.multipliers?.[a.traceLevel-1] || a.sourceSkillId!=="111108") return fail("直接成分の通常Lv・参照値・種別が一致しません。");
+            } else {
+                const skill=a.formulaTraceLevel, talent=a.traceLevel;
+                if (!Number.isInteger(skill)||skill<1||skill>10||!Number.isInteger(talent)||talent<1||talent>10 || a.damageFormula!=="enemyHpCappedByAtk" || a.sourceSkillId!=="111104" || a.scalingStat!=="enemyHp" || a.canCrit!==false || a.multiplier!==a.multipliers?.[talent-1] || a.enemyHpPercent!==24 || a.atkCapPercent!==a.atkCapMultipliers?.[skill-1] || !(Number.isFinite(enemy.maxHp)&&enemy.maxHp>0)) return fail("自己裂創のスキルLv1～10・起爆天賦Lv1～10・敵最大HP・攻撃力上限が必要です。");
+            }
+        }
+        return combineDamageComponents(attack,components,"直接ダメージ＋自己裂創起爆（会心なし）の合計");
     }
 
     function calculateElation(input) {
@@ -558,7 +592,7 @@ function calculateFanning(input) {
         const character = input?.character || {};
         const enemy = input?.enemy || {};
         const modifiers = (input?.modifiers || []).map(normalizeModifier);
-        const breakAttack = { attackType: "break", type: "break", element: input?.element || "" };
+        const breakAttack = { ...(input?.attack || {}), attackType: "break", type: "break", element: input?.element || "" };
         modifiers.forEach((item) => {
             if (item.enabled && item.applicable && !modifierAppliesToAttack(item, breakAttack)) {
                 item.applicable = false;
@@ -596,6 +630,20 @@ function calculateFanning(input) {
         const toughnessScale = 0.5 + Math.max(0, number(enemy.maxToughness, 30)) / 120;
         const vulnerability = 1 + takenDamage / 100;
         return { supported: true, value: base * multiplier * effect * defense * resistance * toughnessScale * vulnerability, base, multiplier, effect, defense, resistance, toughnessScale, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
+    }
+
+
+    function calculateAdditionalBreak(input = {}) {
+        const {character = {},enemy = {},attack = {}}=input;
+        const fail=reason=>({supported:false,reason});
+        const id=attack.id, level=attack.traceLevel;
+        const curves={"1303041":[60,66,72,78,84,90,97.5,105,112.5,120],"1303031":[30,32,34,36,38,40,42.5,45,47.5,50]};
+        const source=id==="1303041"?"130304":"130303";
+        if (!curves[id] || attack.breakEvent!=="additional" || attack.characterId!=="1303" || character.id!=="1303" || attack.sourceSkillId!==source || attack.type!=="break" || attack.element!=="Ice") return fail("追加撃破の提供者・独立イベント・成分定義を確認してください。");
+        if (character.level!==80 || character.eidolon!==0 || enemy.count!==1 || !Number.isInteger(level) || level<1 || level>10 || attack.multiplier!==curves[id][level-1]) return fail("ルアン・メェイの追加撃破はLv80・星魂0・敵1体・軌跡Lv1～10のみ計算対応です。");
+        if (!(Number.isFinite(character.stats?.breakEffect)&&character.stats.breakEffect>=0) || !(Number.isFinite(enemy.maxToughness)&&enemy.maxToughness>0)) return fail("提供者本人の最終撃破特効と敵の最大靭性を入力してください。");
+        const result=calculateBreak({...input,element:"Ice",multiplier:attack.multiplier/100,enemy:{...enemy,weakness:true}});
+        return result.supported ? {...result,breakEvent:"additional",sourceCharacterId:character.id,condition:"発動済みの追加撃破1回を想定。初回撃破・通常ダメージとは合算しません。"}:result;
     }
 
     function calculateSuperBreak(input) {
@@ -643,5 +691,5 @@ function calculateFanning(input) {
         return { supported: true, value, base, conversionMultiplier, toughnessDamage, effectiveToughnessDamage, breakEffect, breakEfficiency, superBreakBonus, defense, resistance, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
     }
 
-    window.HsrCalcEngine = Object.freeze({ normalOnlyModifierReason, fanningInputWarnings, songbirdInputWarnings, trueDamageInputWarnings, elationInputWarnings, unsupportedAttackReason, calculate, calculateBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });
+    window.HsrCalcEngine = Object.freeze({ normalOnlyModifierReason, fanningInputWarnings, songbirdInputWarnings, trueDamageInputWarnings, elationInputWarnings, unsupportedAttackReason, calculate, calculateBreak, calculateAdditionalBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });
 })();
