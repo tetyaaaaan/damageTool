@@ -276,6 +276,10 @@
     if (attack.enemyDebuffMinimum !== undefined && state.enemy.debuffCount < attack.enemyDebuffMinimum) issue("敵のデバフ数に" + attack.enemyDebuffMinimum + "以上を指定してください。", "hsrEnemyDebuffCount");
     if (attack.enemyCountExact !== undefined && state.enemy.count !== attack.enemyCountExact) issue("この攻撃は敵" + attack.enemyCountExact + "体の条件のみ計算対応です。", "hsrEnemyCount");
     if (attack.enemyCountMinimum !== undefined && state.enemy.count < attack.enemyCountMinimum) issue("この攻撃は敵" + attack.enemyCountMinimum + "体以上の条件のみ計算対応です。", "hsrEnemyCount");
+    for (const input of attack.numericModifierInputs || []) {
+      const value = state.modifierInputs[input.inputKey] === undefined ? input.default : state.modifierInputs[input.inputKey];
+      if (!Number.isFinite(value) || value < input.minimum || value > input.maximum) issue(`${input.label}に${input.minimum}～${input.maximum}の数値を入力してください。`, "hsrConditionDialogOpen");
+    }
     for (const id of attack.requiredModifierIds || []) {
       const required = modifiers(attack).filter(item => item.id === id && item.enabled && item.matchesAttack);
       if (required.length !== 1 || (!required[0].inputWarnings?.length && (!required[0].applicable || !Number.isFinite(required[0].value)))) issue(`${attack.name}の固有補正を読み込めませんでした。ページを再読み込みしてください。`);
@@ -754,7 +758,8 @@
       }
       if (activation.mode === "numericThreshold" && activation.inputKey && !item.comparisonControlled && !rendered.has(`threshold:${activation.inputKey}`)) {
         rendered.add(`threshold:${activation.inputKey}`);
-        controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(activation.inputLabel || "現在の条件値")}</strong><small>${esc(activation.conditionText || "発動条件の判定に使用する値を入力します。")}</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-structured-input="${esc(activation.inputKey)}" value="${num(activation.inputValue, activation.default || 0)}" min="${num(activation.minimum)}" max="${num(activation.maximum, 999)}" step="${num(activation.step, 1)}"></span></label>`);
+        const thresholdValue = state.modifierInputs[activation.inputKey] === undefined ? activation.default : state.modifierInputs[activation.inputKey];
+        controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(activation.inputLabel || "現在の条件値")}</strong><small>${esc(activation.conditionText || "発動条件の判定に使用する値を入力します。")}</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" ${activation.strictInput ? 'data-structured-strict="true"' : ""} data-structured-input="${esc(activation.inputKey)}" value="${activation.strictInput ? Number.isFinite(thresholdValue) ? thresholdValue : "" : num(activation.inputValue, activation.default || 0)}" min="${num(activation.minimum)}" max="${num(activation.maximum, 999)}" step="${num(activation.step, 1)}"></span></label>`);
       }
       if (item.tab === "パーティ" && ["toggle", "toggleThreshold"].includes(activation.mode) && !(activation.active || activation.toggled)) return;
       if (item.levelInput && !rendered.has(`level:${item.levelInput.key}`)) {
@@ -996,7 +1001,8 @@
     const referencedHits = selected.hitCountReference === "enemy.debuffCount" ? Math.max(0, Math.min(num(selected.hitCountMaximum, 99), num(state.enemy.debuffCount)))
       : selected.hitCountInputKey ? Math.max(num(selected.hitCountMinimum, 0), Math.min(num(selected.hitCountMaximum, 99), inputHitCount))
       : eidolonHitCount;
-    const components = Array.isArray(selected.multiplierComponents) ? selected.multiplierComponents.map((component) => {
+    const componentDefinitions = selected.multiplierProductComponents || selected.multiplierComponents;
+    const components = Array.isArray(componentDefinitions) ? componentDefinitions.map((component) => {
       const componentLevel = num(state.traceLevels[component.traceKey], component.traceKey === "normal" ? 6 : 10);
       const componentIndex = Math.max(0, Math.min((component.values || []).length - 1, componentLevel - 1));
       return { ...component, level: componentLevel, value: num(component.values?.[componentIndex]) };
@@ -1009,7 +1015,7 @@
     });
     const scalingTerms = resolveScalingTerms(selected.scalingTermComponents || selected.scalingTerms);
     const adjacentScalingTerms = resolveScalingTerms(selected.adjacentScalingTermComponents || selected.adjacentScalingTerms);
-    const multiplier = components.length ? components.reduce((sum, component) => sum + component.value, 0) : selected.multipliers[index];
+    const multiplier = components.length ? selected.multiplierProductComponents ? components.reduce((product, component) => product * component.value / 100, 100) : components.reduce((sum, component) => sum + component.value, 0) : selected.multipliers[index];
     const formulaLevel = num(state.traceLevels[selected.formulaTraceKey], selected.formulaTraceKey === "normal" ? 6 : 10);
     const formulaIndex = Math.max(0, formulaLevel - 1);
     const enemyHpPercent = selected.enemyHpPercentMultipliers?.[Math.min(selected.enemyHpPercentMultipliers.length - 1, formulaIndex)];
@@ -1335,7 +1341,7 @@
         const partialJoint = JOINT_ATTACK_SKILLS.has(String(attack.sourceSkillId || attack.id)) && attackSupport(attack).status === "review";
         const scope = [ATTACK_LABELS[attack.type] || attack.type, isJointAttack(attack) ? "連携" : "", attack.type !== "followUp" && attack.tags?.includes("followUp") ? "追加攻撃" : "", attack.traceLevelLabel || `Lv${attack.traceLevel}`, TARGET_LABELS[value.attack.target] || value.attack.target, value.attack.hitCountLabel || `${value.attack.hitCount || 1}ヒット`].filter(Boolean).join("・");
         const values = value.attack.canCrit ? [["非会心", value.nonCrit], ["会心", value.crit], ["期待値", value.expected]] : [["ダメージ", value.nonCrit], ["会心", null], ["期待値", null]];
-        addRow(resultGroup(attack), name, scope, values, (attack.resolvedMultiplierComponents?.every(component => component.name) && attack.resolvedMultiplierComponents.length ? `<p class="hsr-formula-note">${attack.resolvedMultiplierComponents.map(component => `${esc(component.name)} ${detailNumber(component.value)}%`).join(" ＋ ")} ＝ ${detailNumber(attack.multiplier)}%</p>` : "") + damageBreakdown(value, target || "1対象分") + `<details class="hsr-result-audit"><summary>適用・除外された補正</summary>${modifierAudit(value, target || "1対象分")}</details>`, supportBadge(attack) + (publicAttackNote(attack) ? `<details class="hsr-result-scope"><summary>計算の範囲</summary><p>${esc(publicAttackNote(attack))}</p></details>` : "") + (partialJoint ? '<p class="hsr-formula-note">現在のレコードは単一成分の参考値です。キャラクターと精霊の全成分を合算した連携ダメージではありません。</p>' : ""), attackSupport(attack).status === "review", resultScopeNote(attack, value, partialJoint));
+        addRow(resultGroup(attack), name, scope, values, (attack.resolvedMultiplierComponents?.every(component => component.name) && attack.resolvedMultiplierComponents.length ? `<p class="hsr-formula-note">${attack.resolvedMultiplierComponents.map(component => `${esc(component.name)} ${detailNumber(component.value)}%`).join(attack.multiplierProductComponents ? " × " : " ＋ ")} ＝ ${detailNumber(attack.multiplier)}%</p>` : "") + damageBreakdown(value, target || "1対象分") + `<details class="hsr-result-audit"><summary>適用・除外された補正</summary>${modifierAudit(value, target || "1対象分")}</details>`, supportBadge(attack) + (publicAttackNote(attack) ? `<details class="hsr-result-scope"><summary>計算の範囲</summary><p>${esc(publicAttackNote(attack))}</p></details>` : "") + (partialJoint ? '<p class="hsr-formula-note">現在のレコードは単一成分の参考値です。キャラクターと精霊の全成分を合算した連携ダメージではありません。</p>' : ""), attackSupport(attack).status === "review", resultScopeNote(attack, value, partialJoint));
       });
     });
     const breakDetails = (value, isSuper) => `<dl>${(isSuper ? [["撃破基礎値",value.base],["基礎削靭値",value.toughnessDamage],["撃破効率倍率",value.breakEfficiency],["補正後削靭値",value.effectiveToughnessDamage],["発生倍率",value.conversionMultiplier],["撃破特効倍率",value.breakEffect],["防御倍率",value.defense],["耐性倍率",value.resistance],["被ダメージ倍率",value.vulnerability],["超撃破与ダメージ倍率",value.superBreakBonus]] : [["撃破基礎値",value.base],["属性・攻撃倍率",value.multiplier],["撃破特効倍率",value.effect],["防御倍率",value.defense],["耐性倍率",value.resistance],["最大靭性倍率",value.toughnessScale],["被ダメージ倍率",value.vulnerability]]).map(([label, amount]) => `<div><dt>${label}</dt><dd>${detailNumber(amount)}</dd></div>`).join("")}</dl><p class="hsr-formula-note">独立した1回分です。通常攻撃・他の撃破成分とは合算しません。</p><details class="hsr-result-audit"><summary>適用・除外された補正</summary>${modifierAudit(value, isSuper ? "超撃破" : "弱点撃破")}</details>`;

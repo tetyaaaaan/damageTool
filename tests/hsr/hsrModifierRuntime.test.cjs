@@ -117,16 +117,14 @@ test("numeric thresholds read the shared enemy input without confusing input bou
   assert.equal(candidate("relic:117:2pc:debuffed-damage", { relicIds: ["117"], relicMode: 2, enemy: { debuffCount: 0 } }).enabled, false);
 });
 
-test("numeric inputs respect structured lower and upper bounds before status and calculation", () => {
-  const defaulted = candidate("trace:1205:1120503:hp-loss-main", { characterId: "1205", enhancementState: "enhanced" });
-  const belowMinimum = candidate("trace:1205:1120503:hp-loss-main", { characterId: "1205", enhancementState: "enhanced" }, { "blade-ult-hp-loss-percent": 0 });
-  const aboveMaximum = candidate("trace:1205:1120503:hp-loss-main", { characterId: "1205", enhancementState: "enhanced" }, { "blade-ult-hp-loss-percent": 120 });
-  assert.equal(defaulted.activation.inputValue, 50);
-  assert.equal(defaulted.enabled, true);
-  assert.equal(belowMinimum.activation.inputValue, 50);
-  assert.equal(belowMinimum.value, 50);
-  assert.equal(aboveMaximum.activation.inputValue, 90);
-  assert.equal(aboveMaximum.value, 90);
+test("Blade HP tally accepts zero instead of inventing a fifty-percent floor", () => {
+  const context={characterId:"1205",enhancementState:"enhanced",traceLevelFor:()=>10};
+  const zero=candidate("trace:1205:1120503:hp-loss-main",context,{});
+  assert.equal(zero.activation.inputValue,0);assert.equal(zero.enabled,false);assert.equal(zero.value,0);
+  const tally=candidate("trace:1205:1120503:hp-loss-main",context,{"blade-ult-hp-loss-percent":31.75});
+  assert.equal(tally.activation.inputValue,31.75);assert.equal(tally.value,31.75*1.2);
+  const capped=candidate("trace:1205:1120503:hp-loss-main",context,{"blade-ult-hp-loss-percent":120});
+  assert.equal(capped.activation.inputValue,90);assert.equal(capped.value,108);
 });
 
 test("included-in-final-stat records are quarantined while base-stat buffs are selectable", () => {

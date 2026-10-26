@@ -222,30 +222,41 @@ test("Silver Wolf 1006 golden: previous and enhanced ultimate targets remain dis
     assert.equal(enhanced.multipliers[9], 380);
 });
 
-test("Silver Wolf 1006 golden: enhanced effect-hit trace reaches 50% ATK cap", () => {
+test("Silver Wolf 1006 golden: enhanced effect-hit ATK cap is included once in final ATK", () => {
+    // Pinned trace11006103: +10% ATK per10% EHR, capped50%.
+    // This permanent effect belongs in the completed ATK input.
     const id = "traceNode:1006:11006103:effect-hit-atk";
     const below = structured(id, { characterId: "1006", enhancementState: "enhanced", stats: { effectHitRate: 9.9 } });
     const capped = structured(id, { characterId: "1006", enhancementState: "enhanced", stats: { effectHitRate: 70 } });
-    assert.equal(below.enabled, false);
-    assert.equal(capped.enabled, true);
+    assert.equal(below.value, 0);
     assert.equal(capped.value, 50);
+    for (const candidate of [below, capped]) {
+        assert.equal(candidate.enabled, false);
+        assert.equal(candidate.inputPolicy, "includedInFinalStats");
+        assert.equal(candidate.support.status, "displayOnly");
+    }
     const normal = attacks.find((item) => item.id === "1100601");
     const input = request({ ...normal, attackType: normal.type, multiplier: normal.multipliers[9] }, [capped]);
     input.character.baseStats = { atk: 1000 };
-    assert.ok(Math.abs(engine.calculate(input).nonCrit - 756) < 1e-9);
+    input.character.stats.atk = 1000 + 1000 * .50;
+    // Lv10 coefficient140%, DEF.5, RES.8, toughness.9; no second +50%.
+    assert.ok(Math.abs(engine.calculate(input).nonCrit - 1500 * 1.4 * .5 * .8 * .9) < 1e-9);
 });
 
-test("Silver Wolf 1006 golden: Annotation requires both its toggle and three enemy debuffs", () => {
+test("Silver Wolf 1006 golden: Annotation remembers the qualified cast while current debuffs change", () => {
+    // Pinned trace1006103 checks three pre-cast debuffs; its realized two-turn
+    // additional RES reduction is an explicit event state after that cast.
     const id = "traceNode:1006:1006103:extra-resistance";
-    const off = structured(id, { characterId: "1006", enhancementState: "previous", enemy: { debuffCount: 3 } });
-    const short = structured(id, { characterId: "1006", enhancementState: "previous", enemy: { debuffCount: 2 } }, { "silverwolf-annotation-active": true });
-    const active = structured(id, { characterId: "1006", enhancementState: "previous", enemy: { debuffCount: 3 } }, { "silverwolf-annotation-active": true });
-    assert.equal(off.enabled, false);
-    assert.equal(off.activation.toggled, false);
-    assert.equal(short.enabled, false);
-    assert.equal(short.activation.toggled, true);
-    assert.equal(active.enabled, true);
-    assert.equal(active.value, 3);
+    const off = structured(id, { characterId: "1006", enhancementState: "previous", enemy: { debuffCount: 7 } });
+    assert.equal(off.enabled, false, "current debuffs alone do not establish a qualified earlier cast");
+    assert.equal(off.activation.mode, "toggle");
+    for (const debuffCount of [0, 2, 3, 7]) {
+        const active = structured(id, { characterId: "1006", enhancementState: "previous", enemy: { debuffCount } }, { "silverwolf-annotation-active": true });
+        assert.equal(active.enabled, true, "confirmed cast effect persists independently of current debuff count");
+        assert.equal(active.value, 3);
+        const result = engine.calculate(request({ type: "normal", element: "Quantum", multiplier: 100 }, [active]));
+        assert.ok(Math.abs(result.nonCrit - 1000 * .5 * .83 * .9) < 1e-9);
+    }
 });
 
 test("Silver Wolf 1006 golden: E6 and E4 share the capped enemy debuff count", () => {
@@ -444,14 +455,17 @@ test("Archer 1015 golden: Circuit Connection caps at two stacks and E6 unlocks t
     assert.equal(eidolon6.activation.maximum, 3);
 });
 
-test("Archer 1015 golden: Guardian follows current SP automatically", () => {
+test("Archer 1015 golden: Guardian explicitly preserves its one-turn SP-gain event buff", () => {
+    // Pinned trace1015103: after allies gain SP at>=4SP, +120%CD for1turn.
     const id = "traceNode:1015:1015103:crit-damage";
-    const below = structured(id, { characterId: "1015", party: { sp: 3 } });
-    const threshold = structured(id, { characterId: "1015", party: { sp: 4 } });
-    assert.equal(below.enabled, false);
-    assert.equal(threshold.enabled, true);
-    assert.equal(threshold.value, 120);
-    assert.equal(threshold.activation.automatic, true);
+    const unconfirmed = structured(id, { characterId: "1015", party: { sp: 7 } });
+    const active = structured(id, { characterId: "1015", party: { sp: 0 } }, { "archer-guardian-active": true });
+    assert.equal(unconfirmed.enabled, false);
+    assert.equal(active.enabled, true, "SP spent after the trigger does not remove the confirmed buff");
+    assert.equal(active.value, 120);
+    assert.equal(active.activation.automatic, false);
+    const result = engine.calculate(request({ type: "normal", element: "Quantum", multiplier: 100 }, [active]));
+    assert.ok(Math.abs(result.crit - 1000 * .5 * .8 * .9 * (1 + (100 + 120) / 100)) < 1e-9);
 });
 
 test("Archer 1015 golden: E4 and E6 retain attack scope while E2 stays Quantum-only", () => {
@@ -1009,7 +1023,7 @@ test("Topaz 1112 golden: normal, skill Numby, and talent Numby attacks remain se
     assert.equal(technique.hidden, true);
 });
 
-test("Topaz 1112 golden: Debt Proof and Windfall affect follow-up tags but not unrelated attacks", () => {
+test("Topaz 1112 golden: Debt Proof covers follow-up tags while Windfall buffs only Numby attacks", () => {
     const context = { characterId: "1112", eidolon: 0, traceLevelFor: () => 10, enemy: { weakness: false } };
     const inputs = { "topaz-debt-proof": true, "topaz-windfall": true };
     const debt = structured("trace:1112:111202:debt-proof", context, inputs);
@@ -1020,11 +1034,22 @@ test("Topaz 1112 golden: Debt Proof and Windfall affect follow-up tags but not u
     assert.equal(critDamage.value, 25);
     const topazNormal = attacks.find((item) => item.id === "111201");
     const tagged = engine.calculate(request({ ...topazNormal, attackType: "normal", element: "Fire", multiplier: 100 }, [debt, multiplier, critDamage]));
-    assert.ok(Math.abs(tagged.nonCrit - 1350) < 1e-9);
-    assert.ok(Math.abs(tagged.crit - 3037.5) < 1e-9);
+    // A2 makes Basic a follow-up for Debt Proof, but not a Numby attack.
+    assert.ok(Math.abs(tagged.nonCrit - 1000 * .5 * .8 * .9 * 1.5) < 1e-9);
+    assert.ok(Math.abs(tagged.crit - tagged.nonCrit * 2) < 1e-9);
+    assert.deepEqual(Array.from(tagged.applied, item => item.id), [debt.id]);
+    for (const id of ["111202", "111204"]) {
+        const attack = attacks.find(item => item.id === id);
+        assert.equal(attack.multipliers[9], 150, "pinned Lv10 Numby coefficient");
+        const result = engine.calculate(request({ ...attack, attackType: attack.type, element: "Fire", multiplier: 150 }, [debt, multiplier, critDamage]));
+        // Skill and Talent Numby: (150%+150%)ATK, Debt50%, CD+25%.
+        const expected = 1000 * (1.5 + 1.5) * .5 * .8 * .9 * 1.5;
+        assert.ok(Math.abs(result.nonCrit - expected) < 1e-9, id);
+        assert.ok(Math.abs(result.crit - expected * 2.25) < 1e-9, id);
+    }
     const unrelated = engine.calculate(request({ attackType: "normal", type: "normal", element: "Fire", multiplier: 100 }, [debt, multiplier, critDamage]));
     assert.ok(Math.abs(unrelated.nonCrit - 360) < 1e-9);
-    assert.deepEqual(unrelated.applied, []);
+    assert.equal(unrelated.applied.length, 0);
 });
 
 test("Topaz 1112 golden: weakness, E1 stacks, and E6 resistance penetration keep independent conditions", () => {
@@ -1324,7 +1349,13 @@ test("Blade 1205 golden: enhanced HP-loss, E1, E4, E6 and Hellscape apply only t
     const talent = calc(resolveBladeAttack("1120504", 9));
     assert.ok(Math.abs(normal.nonCrit - 1360.8) < 1e-9);
     assert.ok(Math.abs(enhanced.nonCrit - 7212.24) < 1e-9);
-    assert.ok(Math.abs(ultimate.nonCrit - 10206) < 1e-9);
+    // Pinned enhanced Ultimate1120503 Lv10:150%HP +120%loss; E1 adds150%loss.
+    // E4 contributes2*20% of1000baseHP; Hellscape is+40%DMG.
+    const effectiveHp = 5000 + 1000 * .20 * 2;
+    const lossRatio = .90;
+    const ultimateCoefficient = 1.50 + 1.20 * lossRatio + 1.50 * lossRatio;
+    const expectedUltimate = effectiveHp * ultimateCoefficient * 1.40 * .5 * .8 * .9;
+    assert.ok(Math.abs(ultimate.nonCrit - expectedUltimate) < 1e-9);
     assert.ok(Math.abs(adjacent.nonCrit - 3102.624) < 1e-9);
     assert.ok(Math.abs(talent.nonCrit - 5598.72) < 1e-9);
     assert.deepEqual(Array.from(ultimate.applied, (item) => item.id).filter((id) => id.includes("hp-loss")), ["trace:1205:1120503:hp-loss-main", "eidolon:1205:1:hp-loss-main:enhanced"]);
