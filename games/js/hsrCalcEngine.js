@@ -205,7 +205,12 @@
                 && attack.element === "Imaginary" && attack.sourceSkillId === "120701"
                 && components[0]?.key === "basic" && components[0]?.attackId === "120701"
                 && components[1]?.key === "talent" && components[1]?.attackId === "120704";
-            return validFeixiaoDefinition || validYukongDefinition ? "" : "この複合攻撃の構成は未対応です。";
+            const validMozeDefinition = attack.id === "1223021" && Array.isArray(components) && components.length === 2
+                && attack.type === "skill" && (!attack.attackType || attack.attackType === "skill") && attack.target === "single"
+                && attack.element === "Thunder" && attack.sourceSkillId === "122302"
+                && components[0]?.key === "skill" && components[0]?.attackId === "122302"
+                && components[1]?.key === "additional" && components[1]?.attackId === "122304";
+            return validFeixiaoDefinition || validYukongDefinition || validMozeDefinition ? "" : "この複合攻撃の構成は未対応です。";
         }
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
@@ -289,6 +294,8 @@ function calculateFanning(input) {
         if (supportedElationAttack(attack)) return calculateElation(input);
         if (supportedTrueAttack(attack)) return calculateTrueDamage(input);
         if (attack.id === "1151201") return calculateSongbird(input);
+        const fixedCrit = attack.fixedCritStats;
+        if (fixedCrit && (attack.id !== "130903" || fixedCrit.critRate !== 100 || fixedCrit.critDamage !== 150 || attack.type !== "additional" || attack.element !== "Physical")) return { supported:false, reason:"この固定会心の構成データは計算対象外です。" };
         const stats = character.stats || {};
         const modifiers = (input?.modifiers || []).map(normalizeModifier);
         modifiers.forEach((item) => {
@@ -305,9 +312,12 @@ function calculateFanning(input) {
                 item.reason = `基礎${item.stat || "ステータス"}が未入力です`;
             }
         });
+        if (fixedCrit) modifiers.forEach(item => { if (item.enabled && item.applicable && ["critRate","critRateOverride","critDamage"].includes(item.category)) { item.applicable=false; item.reason="協奏追加ダメージは会心率100%・会心ダメージ150%固定のため再加算しません。"; } });
         enforceStackingRules(modifiers);
         const applied = modifiers.filter((item) => item.enabled && item.applicable);
         const skipped = modifiers.filter((item) => !item.enabled || !item.applicable);
+
+        if (fixedCrit && applied.some(item => item.category === "critTakenDamage" && item.value !== 0)) return {supported:false,reason:"協奏追加ダメージと会心被ダメージ増加の併用は未検証です。この補正をOFFにしてください。"};
 
         const statBonus = (category, stat) => applied.filter((item) => item.category === category && (!stat || item.stat === stat)).reduce((sum, item) => sum + item.value, 0);
         const resolvedStat = (stat) => number(stats[stat]) + statBonus("statFlat", stat)
@@ -318,8 +328,8 @@ function calculateFanning(input) {
             atk: resolvedStat("atk"),
             def: resolvedStat("def"),
             speed: resolvedStat("speed"),
-            critRate: Math.max(number(stats.critRate) + statBonus("critRate"), number(attack.critRateOverride), ...applied.filter((item) => item.category === "critRateOverride").map((item) => item.value)),
-            critDamage: number(stats.critDamage) + statBonus("critDamage"),
+            critRate: fixedCrit ? fixedCrit.critRate : Math.max(number(stats.critRate) + statBonus("critRate"), number(attack.critRateOverride), ...applied.filter((item) => item.category === "critRateOverride").map((item) => item.value)),
+            critDamage: fixedCrit ? fixedCrit.critDamage : number(stats.critDamage) + statBonus("critDamage"),
             breakEffect: number(stats.breakEffect) + statBonus("breakEffect"),
             elation: number(stats.elation) + statBonus("elation")
         };
@@ -396,22 +406,23 @@ function calculateFanning(input) {
         const enemy = input.enemy || {};
         const components = input.sequenceComponents || [];
         const yukong = attack.id === "1207011";
-        const element = yukong ? "Imaginary" : "Wind";
-        const expected = yukong ? [{ key:"basic", id:"120701", type:"normal" }, { key:"talent", id:"120704", type:"additional" }] : [
+        const moze = attack.id === "1223021";
+        const element = yukong ? "Imaginary" : moze ? "Thunder" : "Wind";
+        const expected = yukong ? [{ key:"basic", id:"120701", type:"normal" }, { key:"talent", id:"120704", type:"additional" }] : moze ? [{key:"skill",id:"122302",type:"skill"},{key:"additional",id:"122304",type:"additional"}] : [
             { key: "skill", id: "122002", type: "skill" },
             { key: "followUp", id: "122004", type: "followUp" }
         ];
         const fail = reason => ({ supported: false, reason });
-        if ((!yukong && attack.id !== "122002") || attack.damageFormula !== "componentSequence") return fail("この複合攻撃は未対応です。");
+        if ((!yukong && !moze && attack.id !== "122002") || attack.damageFormula !== "componentSequence") return fail("この複合攻撃は未対応です。");
         if (character.level !== 80 || character.eidolon !== 0 || enemy.count !== 1 || enemy.weakness !== false || enemy.toughnessActive !== true) {
-            return fail(yukong ? "通常＋徹札矢はLv80・星魂0・虚数弱点なし・敵1体・靭性ありのみ計算対応です。" : "飛霄のスキル＋追加攻撃はLv80・星魂0・風弱点なし・敵1体・靭性ありのみ計算対応です。");
+            return fail(yukong ? "通常＋徹札矢はLv80・星魂0・虚数弱点なし・敵1体・靭性ありのみ計算対応です。" : moze ? "モゼの初回スキル＋付加はLv80・星魂0・雷弱点なし・敵1体・靭性ありのみ計算対応です。" : "飛霄のスキル＋追加攻撃はLv80・星魂0・風弱点なし・敵1体・靭性ありのみ計算対応です。");
         }
         if (!(Number.isFinite(character.stats?.atk) && character.stats.atk > 0)
             || !Number.isFinite(character.stats?.critRate) || !Number.isFinite(character.stats?.critDamage)
             || !Number.isFinite(character.stats?.damageBonus)) {
             return fail("攻撃者の最終攻撃力・会心率・会心ダメージ・与ダメージ補正をすべて入力してください。");
         }
-        if (!Number.isInteger(attack.traceLevel) || attack.traceLevel < 1 || attack.traceLevel > (yukong ? 6 : 10)) return fail(yukong ? "通常Lv1～6を指定してください。" : "飛霄のスキルLv1～10を指定してください。");
+        if (!Number.isInteger(attack.traceLevel) || attack.traceLevel < 1 || attack.traceLevel > (yukong ? 6 : 10)) return fail(yukong ? "通常Lv1～6を指定してください。" : "スキルLv1～10を指定してください。");
         if (components.length !== expected.length) return fail("本体と追加成分の両方が必要です。");
         for (let index = 0; index < expected.length; index++) {
             const spec = expected[index];
@@ -436,7 +447,7 @@ function calculateFanning(input) {
         if (yukong) { const reason = normalOnlyModifierReason(components.flatMap(c=>c.input.modifiers || [])); if(reason) return fail(reason); }
         const followUpModifiers = Array.isArray(components[1].input.modifiers) ? components[1].input.modifiers : [];
         const nativeFollowUpBonus = followUpModifiers.filter(item => item.id === "trace:1220:122004:followup-damage");
-        if (!yukong && (nativeFollowUpBonus.length !== 1 || nativeFollowUpBonus[0].enabled !== true || nativeFollowUpBonus[0].applicable !== true
+        if (!yukong && !moze && (nativeFollowUpBonus.length !== 1 || nativeFollowUpBonus[0].enabled !== true || nativeFollowUpBonus[0].applicable !== true
             || !Number.isFinite(nativeFollowUpBonus[0].value))) {
             return fail("天賦追加攻撃に必須の発動時与ダメージ補正を、補正条件から1件だけ有効にしてください。");
         }
@@ -459,7 +470,7 @@ function calculateFanning(input) {
             crit: total("crit"),
             expected: total("expected"),
             components: Object.fromEntries(resolved.map(component => [component.key, { ...component.result, componentName: component.name }])),
-            breakdown: { damageFormula: "componentSequence", totalLabel: yukong ? "通常本体＋徹札矢の合計" : "スキル本体＋追加攻撃の合計", componentNames: resolved.map(component => component.name), condition: "同じ敵・最終ステータスを参照し、各成分の固有補正は別々に適用" },
+            breakdown: { damageFormula: "componentSequence", totalLabel: yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計", componentNames: resolved.map(component => component.name), condition: "同じ敵・最終ステータスを参照し、各成分の固有補正は別々に適用" },
             applied,
             skipped
         };

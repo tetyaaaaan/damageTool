@@ -1,0 +1,356 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "batch3-2026-10-26",
+  "modifiers": [
+    {
+      "id": "trace:1309:130902:self-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1309",
+        "skillId": "130902"
+      },
+      "providerScope": "self",
+      "name": "ロビン本人・飛翔のアリア・味方全体与ダメージ",
+      "description": "通常ロビン（夏空の歌とは別）の戦闘スキルLv1～10・星魂0。味方全体の通常ダメージと通常DoTへの与ダメージ補正を追加します。Lv10は50%。入力済みの与ダメージに同じ効果を含めている場合はOFFにしてください。協奏のATK支援・追加物理ダメージ・行動順は含みません。撃破・超撃破・愉悦・確定ダメージ・精霊専用計算は対象外です。 本人の最終値に反映済みの場合はOFFにしてください。協奏の固定会心には通常の会心補正を再加算しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "levelInputLabel": "ロビンの戦闘スキルLv",
+        "kind": "byLevel",
+        "values": [
+          25,
+          27.5,
+          30,
+          32.5,
+          35,
+          37.5,
+          40.62,
+          43.75,
+          46.88,
+          50
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal",
+          "enhancedNormal",
+          "skill",
+          "enhancedSkill",
+          "ultimate",
+          "talent",
+          "followUp",
+          "additional",
+          "dot"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "robin-skill-damage-active",
+        "default": false,
+        "conditionText": "通常ロビンの戦闘スキル効果が継続中"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "stacking": {
+        "group": "trace:1309:130902:party-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "星魂0・Lv1～10の味方支援。通常式の対応範囲を独立検証。キャラクター全体の効果対応を示すものではありません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-26",
+        "scope": "通常ロビン（夏空の歌とは別）の戦闘スキルLv1～10・星魂0。味方全体の通常ダメージと通常DoTへの与ダメージ補正を追加します。Lv10は50%。入力済みの与ダメージに同じ効果を含めている場合はOFFにしてください。協奏のATK支援・追加物理ダメージ・行動順は含みません。撃破・超撃破・愉悦・確定ダメージ・精霊専用計算は対象外です。 本人の最終値に反映済みの場合はOFFにしてください。協奏の固定会心には通常の会心補正を再加算しません。",
+        "verification": "hsrBatch3TingyunRobinArgenti.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1309:130904:self-crit-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1309",
+        "skillId": "130904"
+      },
+      "providerScope": "self",
+      "name": "ロビン本人・調和の純正律・味方全体会心ダメージ",
+      "description": "通常ロビンの天賦Lv1～10・星魂0。戦闘参加中に味方全体へ作用する会心ダメージを、最終入力に含めていない場合に追加します。Lv10は20%。OFFはこの効果を除外した比較値です。最終会心ダメージや手動補正に反映済みなら重複してONにしないでください。協奏・A4の追加攻撃専用会心ダメージ・EP回復は含みません。今回は会心可能な通常式のみで、愉悦・精霊専用計算は対象外です。 本人の最終値に反映済みの場合はOFFにしてください。協奏の固定会心には通常の会心補正を再加算しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "levelInputLabel": "ロビンの天賦Lv",
+        "kind": "byLevel",
+        "values": [
+          5,
+          6.5,
+          8,
+          9.5,
+          11,
+          12.5,
+          14.37,
+          16.25,
+          18.12,
+          20
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "robin-talent-crit-active",
+        "default": false,
+        "conditionText": "通常ロビンが戦闘に参加している天賦効果を追加する"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "stacking": {
+        "group": "trace:1309:130904:party-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "星魂0・Lv1～10の味方支援。通常式の対応範囲を独立検証。キャラクター全体の効果対応を示すものではありません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-26",
+        "scope": "通常ロビンの天賦Lv1～10・星魂0。戦闘参加中に味方全体へ作用する会心ダメージを、最終入力に含めていない場合に追加します。Lv10は20%。OFFはこの効果を除外した比較値です。最終会心ダメージや手動補正に反映済みなら重複してONにしないでください。協奏・A4の追加攻撃専用会心ダメージ・EP回復は含みません。今回は会心可能な通常式のみで、愉悦・精霊専用計算は対象外です。 本人の最終値に反映済みの場合はOFFにしてください。協奏の固定会心には通常の会心補正を再加算しません。",
+        "verification": "hsrBatch3TingyunRobinArgenti.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1309:1309102:party-followup-crit",
+      "source": {
+        "kind": "trace",
+        "id": "1309",
+        "traceId": "1309102"
+      },
+      "name": "即興の装飾・協奏中の味方追撃CD",
+      "description": "即興の装飾・協奏中の味方追撃CD",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 25
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "followUp"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "robin-concerto-atk-active",
+        "default": false,
+        "conditionText": "協奏が継続中・通常の追加攻撃ダメージに適用"
+      },
+      "inputPolicy": "conditional",
+      "stacking": {
+        "group": "traceNode:1309:1309102:party-followup-crit",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critDamage",
+        "operation": "add"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-26",
+        "scope": "即興の装飾・協奏中の味方追撃CD",
+        "verification": "hsrBatch3TingyunRobinArgenti.test.cjs"
+      },
+      "providerScope": "party"
+    },
+    {
+      "id": "traceNode:1214:1214101:break-effect-final",
+      "source": {
+        "kind": "trace",
+        "id": "1214",
+        "traceId": "1214101"
+      },
+      "name": "予兆の機杼・撃破特効参照の与ダメージ（最終入力）",
+      "description": "予兆の機杼・撃破特効参照の与ダメージ（最終入力）",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "最終属性与ダメージに min(撃破特効%,240%) を含める"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "stacking": {
+        "group": "traceNode:1214:1214101:break-effect-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "完成済み最終属性与ダメージに反映し、計算時に再加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-26",
+        "scope": "予兆の機杼・撃破特効参照の与ダメージ（最終入力）",
+        "verification": "hsrBatch3XueyiMozeLuka.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1223:1223103:prey-followup",
+      "source": {
+        "kind": "trace",
+        "id": "1223",
+        "traceId": "1223103"
+      },
+      "name": "正影・獲物の追加攻撃被ダメージ",
+      "description": "正影・獲物の追加攻撃被ダメージ",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 25
+      },
+      "target": {
+        "owner": "enemySingle",
+        "attackTypes": [
+          "followUp"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "moze-prey-active",
+        "default": false,
+        "conditionText": "正影・獲物の追加攻撃被ダメージが成立中"
+      },
+      "inputPolicy": "conditional",
+      "stacking": {
+        "group": "traceNode:1223:1223103:prey-followup",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "takenDamage",
+        "operation": "add"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-26",
+        "scope": "正影・獲物の追加攻撃被ダメージ",
+        "verification": "hsrBatch3XueyiMozeLuka.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1223:122307:technique-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1223",
+        "skillId": "122307"
+      },
+      "name": "闃然・秘技からの与ダメージ",
+      "description": "闃然・秘技からの与ダメージ",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 30
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "moze-technique-active",
+        "default": false,
+        "conditionText": "闃然・秘技からの与ダメージが成立中"
+      },
+      "inputPolicy": "conditional",
+      "stacking": {
+        "group": "trace:1223:122307:technique-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-26",
+        "scope": "闃然・秘技からの与ダメージ",
+        "verification": "hsrBatch3XueyiMozeLuka.test.cjs"
+      }
+    }
+  ]
+}

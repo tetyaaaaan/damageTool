@@ -463,8 +463,8 @@ test("four scoped AoE attacks agree with independent released coefficients and o
     }
     assert.equal(data.attacks.find(item => item.id === "140603").support.status, "displayOnly");
     const bounce = data.attacks.find(item => item.id === "130214");
-    assert.equal(bounce.support.status, "displayOnly");
-    assert.equal(engine().calculate({ ...baseInput(), attack: bounce }).supported, false);
+    assert.equal(bounce.support.status, "review");
+    assert.equal(bounce.support.verified, false, "stable-snapshot aggregate does not certify intra-action state updates");
 });
 
 

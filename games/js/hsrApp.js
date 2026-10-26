@@ -252,6 +252,7 @@
   }
 
   function attackStateIssues(attack, issue) {
+    if (attack.damageFormula === "enemyHpCappedByAtk" && (String($("hsrEnemyMaxHp").value).trim() === "" || !(Number($("hsrEnemyMaxHp").value)>0))) issue("この裂創成分に必要な敵の最大HPを入力してください。", "hsrEnemyMaxHp");
     if (attack.characterLevelExact !== undefined && state.level !== attack.characterLevelExact) issue(`${attack.name}はキャラクターLv${attack.characterLevelExact}のみ計算対応です。`, "hsrLevel");
     if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== 2)) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
     if (attack.rejectNormalOnlyModifiers) {
@@ -947,6 +948,7 @@
   }
 
   function modifierTargetsCalculation(item, attack) {
+    if (attack.fixedCritStats && ["critRate","critRateOverride","critDamage"].includes(item.category)) return false;
     if (attack.damageFormula === "trueDamage") return false;
     if (state.characterId === "1205" && attack.type === "normal" && item.activation?.inputKey === "blade-hellscape-active") return false;
     if (attack.id === "131503" && item.id === "trace:1315:131502:standoff-vulnerability") return false;
@@ -978,6 +980,11 @@
   function resolvedAttack(selected) {
     if (selected.id === "131508") { const level=state.traceLevels.normal; return { ...selected, traceLevel:level, multiplier:selected.multipliers[level-1], attackType:selected.type, fanningInputs:{confirmed:state.modifierInputs["boothill-fanning-broken"]===true,stacks:state.modifierInputs["boothill-pocket-stacks"]===undefined?3:state.modifierInputs["boothill-pocket-stacks"],talentLevel:state.traceLevels.talent} }; }
     if (selected.id === "1151201") { const level=state.songbirdInputs.skillLevel; return { ...selected, traceLevel: level, multiplier: selected.multipliers[level-1] }; }
+    if (selected.id === "1223021" && selected.damageFormula === "componentSequence") {
+      const parts = selected.damageComponents.map(c=>state.data.attacks.find(a=>a.id===c.attackId&&a.characterId==="1223"));
+      const sequenceAttacks = parts.every(Boolean) ? parts.map(a=>({...resolvedAttack(a),damageFormula:"statMultiplier"})) : [];
+      return {...selected,traceLevel:state.traceLevels.skill,multiplier:sequenceAttacks[0]?.multiplier,traceLevelLabel:`スキルLv${state.traceLevels.skill}＋天賦Lv${state.traceLevels.talent}`,attackType:selected.type,sequenceAttacks};
+    }
     if (selected.id === "1207011" && selected.damageFormula === "componentSequence") {
       const parts = selected.damageComponents.map(c=>state.data.attacks.find(a=>a.id===c.attackId&&a.characterId==="1207"));
       const sequenceAttacks = parts.every(Boolean) ? parts.map(a=>({...resolvedAttack(a),damageFormula:"statMultiplier"})) : [];
@@ -1430,7 +1437,7 @@
     if (attacks.some((attack) => attack.damageFormula === "elation") && (!Number.isInteger(state.traceLevels.elation) || state.traceLevels.elation < 1 || state.traceLevels.elation > 10)) warnings.add("星魂0の愉悦スキルLvに1～10の整数を選択してください。");
     attacks.forEach((attack) => {
       const attackScopes = attack.sequenceAttacks?.length ? attack.sequenceAttacks : [attack];
-      if (attackScopes.some(scope => scope.canCrit !== false && scope.type !== "dot")) { requiredBonuses.add("critRate"); requiredBonuses.add("critDamage"); }
+      if (attackScopes.some(scope => scope.canCrit !== false && scope.type !== "dot" && !scope.fixedCritStats)) { requiredBonuses.add("critRate"); requiredBonuses.add("critDamage"); }
       if (attackScopes.some(scope => scope.damageFormula === "elation")) requiredBonuses.add("elation"); else requiredBonuses.add("damageBonus");
       if (attackScopes.some(scope => scope.damageFormula === "normalAndBreak")) requiredBonuses.add("breakEffect");
       if (Object.hasOwn(state.traceLevels, attack.traceKey) && (!Number.isInteger(state.traceLevels[attack.traceKey]) || state.traceLevels[attack.traceKey] < 1 || state.traceLevels[attack.traceKey] > traceMaximum(attack.traceKey))) fieldWarning(`${ATTACK_LABELS[attack.traceKey] || attack.traceKey}のレベルを確認して選択してください。`, TRACE_FIELDS[attack.traceKey][1]);

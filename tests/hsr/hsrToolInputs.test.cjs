@@ -276,6 +276,7 @@ test("non-critical DoT and capped enemy-HP attacks do not show invented critical
     assert.match(app.node("hsrResults").innerHTML, /ダメージ（合計）/);
     assert.doesNotMatch(app.node("hsrResults").innerHTML, /会心|期待値/);
     Object.assign(attack, { damageFormula: "enemyHpCappedByAtk", scalingStat: "enemyHp", enemyHpPercentMultipliers: [24], atkCapMultipliers: [338] });
+    app.node("hsrEnemyMaxHp").value = "100000";
     const capped = app.calculate()[0];
     assert.equal(capped.breakdown.cappedEnemyHpDamage, 3380);
     assert.match(app.node("hsrResults").innerHTML, /敵HP参照・攻撃力上限適用後/);
@@ -2831,4 +2832,28 @@ test('batch2 Guardian, Hidden Hand, detonation levels and delayed Freeze retain 
  b.profile('1006');a.state.enhancementState='previous';a.node('hsrEnhancementState').value='previous';const resKey=b.data.structuredModifiers.find(m=>m.id==='trace:1006:100602:all-resistance').activation.inputKey;a.state.modifierInputs[resKey]=true;a.node('hsrSkillTrace').value='';assert.equal(one(b.run(),'100601'),undefined,'selected RES debuff requires Skill level');a.state.modifierInputs[resKey]=false;assert.ok(one(b.run(),'100601'));
  b.profile('1312');rs=b.run();near(one(rs,'1312032').result.nonCrit,324);near(one(rs,'1312032').result.crit,324);a.node('hsrUltimateTrace').value='';rs=b.run();assert.equal(one(rs,'1312032'),undefined);assert.ok(one(rs,'131201'));
  b.profile('1014');rs=b.run();near(one(rs,'1014032').result.nonCrit,14904);assert.match(a.node('hsrResults').innerHTML,/状態一定の参考値/);assert.equal(b.data.attacks.find(r=>r.id==='1014032').support.status,'review');a.state.modifierInputs['saber-ally-ultimate-damage-active']=true;a.node('hsrTalentTrace').value='';assert.equal(one(b.run(),'101401'),undefined,'selected Talent damage requires Talent level');a.state.modifierInputs['saber-ally-ultimate-damage-active']=false;assert.ok(one(b.run(),'101401'));
+});
+
+test("batch3 Robin fixed-CRIT proc and Moze two-component Skill preserve localized input stops and saved trace levels", async () => {
+  const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();
+  const app=await tool(undefined,data);
+  function apply(id,traces){app.window.HsrTool.applyProfileCharacter({id,level:80,eidolon:0,traces,stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});}
+  const traces=[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}];
+  apply('1309',traces);
+  app.node('hsrStat-critRate').value='';app.node('hsrStat-critDamage').value='';
+  let r=app.calculate();assert.equal(r.length,1,'missing ordinary CRIT stats stops Basic, not fixed Concerto');assert.ok(Math.abs(r[0].expected-3240)<1e-8);
+  app.state.modifierInputs['robin-talent-crit-active']=true;
+  apply('1309',traces.filter(t=>t.type!=='Talent'));
+  r=app.calculate();assert.ok(r.some(x=>Math.abs(x.expected-3240)<1e-8),'unused optional Talent input cannot stop fixed proc');
+  apply('1223',traces);app.state.modifierInputs['robin-talent-crit-active']=false;
+  r=app.calculate();const full=r.find(x=>x.components?.additional);assert.ok(Math.abs(full.nonCrit-1944)<1e-8);assert.ok(Math.abs(full.components.skill.nonCrit-1620)<1e-8);assert.ok(Math.abs(full.components.additional.nonCrit-324)<1e-8);
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);assert.equal(saved.state.traceLevels.talent,10);assert.ok(Math.abs(saved.calculate().find(x=>x.components?.additional).nonCrit-1944)<1e-8);
+  apply('1223',traces.filter(t=>t.type!=='Talent'));r=app.calculate();assert.ok(r.some(x=>Math.abs(x.nonCrit-1080)<1e-8));assert.equal(r.some(x=>x.components?.additional),false);assert.match(app.node('hsrResults').innerHTML,/data-hsr-pending-input/);
+});
+
+test("batch3 own Bleed requires explicit enemy maximum HP without stopping ordinary direct attacks", async()=>{
+  const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();const app=await tool(undefined,data);
+  app.window.HsrTool.applyProfileCharacter({id:'1111',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
+  app.node('hsrEnemyMaxHp').value='100000';let r=app.calculate();assert.ok(r.some(x=>Math.abs(x.nonCrit-3650.4)<1e-8));
+  app.node('hsrEnemyMaxHp').value='';r=app.calculate();assert.ok(r.some(x=>Math.abs(x.nonCrit-1080)<1e-8));assert.equal(r.some(x=>x.breakdown?.cappedEnemyHpDamage),false);assert.match(app.node('hsrResults').innerHTML,/敵の最大HP/);
 });
