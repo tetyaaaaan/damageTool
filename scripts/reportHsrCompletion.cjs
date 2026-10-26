@@ -694,7 +694,7 @@ function remainingWorkClass(d){
  return {group:'D',confidence:'全構成の仕様精査未了',reason:'限定値の登録だけでは全主要構成の確証不足。未調査をゼロ工数や独立検証のみと見なさない'};
 }
 function instructionForecast(remaining,measuredBatch=0){const recent=Math.max(1,measuredBatch||4);return [['楽観',3,Math.ceil((7+recent)/2)],['標準',2,recent],['悲観',1,Math.max(1,Math.floor(recent/2))]].map(([scenario,legacyRate,batchRate])=>({scenario,legacyRate,batchRate,legacy:Math.ceil(remaining/legacyRate),batch:Math.ceil(remaining/batchRate)}));}
-const batchRun={start:'db57ab0',audited:8,confirmed:4,promoted:0,added:2,independentlyChecked:44,holds:4,phase:'第2回・工程B検証中'};
+const batchRun={start:'db57ab0',audited:8,confirmed:4,promoted:0,added:2,independentlyChecked:44,holds:4,phase:'第2回・工程C完了'};
 async function generate(){
  const [{data,engine},characters,skills,trees,ranks]=await Promise.all([loadProductionFixture(),fixed('characters.json'),fixed('character_skills.json'),fixed('character_skill_trees.json'),fixed('character_ranks.json')]);
  if(data.characters.length!==98||Object.keys(characters).length!==98)throw Error('固定母集団98人と不一致');
@@ -743,6 +743,7 @@ async function generate(){
  p('', '前回予測は残70ID・7/12/24回+U。今回の残66IDでは6/4/2人レートにより11/17/33回+Uへ更新。人数が進んでも、初回の男女共通処理の効果を除き未確定仕様が増えたため、回数を機械的に減らさない。');
  p('','Uは仕様確証の取得、未精査C/Dの工数増分。Dの証拠が入手できなければ全98人E0の完了回数に有限の上限を置けない。Uを0として完成日/回数を保証しない。','', '### E0以外の残作業','','|領域|確認できる量|未確定工数|','|---|---|---|',`|E1～E6|98人×6段=588元記録、構造化${eidolon.length}件（計算対象${eidolon.filter(m=>m.support.status==='calculable').length}/表示専用${eidolon.filter(m=>m.support.status==='displayOnly').length}）|表示専用を全て未実装効果と数えない。全段/全攻撃の倍率・状態・Lv加算検証工数は未調査|`,`|光円錐|マスター${data.lightCones.length}件、計算処理対象${data.structuredModifiers.filter(m=>m.source.kind==='lightCone'&&m.support.status==='calculable').length}レコード|装備件数と効果数は異なる。適用先/重畳/未対応効果の実装工数は不明|`,`|遺物/オーナメント|マスター${data.relicSets.length}セット、構造化記録は別軸表|最終入力効果と条件付き効果を区別する個別棚卸しが必要|`,'|パーティ支援/敵デバフ|主要支援の限定対応と保守課題は別軸表|全提供者/対象/版/精霊継承の未対応効果数は不明|','|参考値/計算不可|E0改善と重複する記録を工数へ二重加算しない|秘技9件等の対象外を区別して残検証を精査|','|UID/画面/保存/最終QA|既存の合成UID/保存/3幅表示テストを再利用|全星魂/装備/支援の組み合わせQA工数は未調査|');
  p('','最終完成の予測残指示回数: 楽観/標準/悲観とも「上記E0換算＋U＋星魂/装備/支援/QAの追加工数（不明）」。現状の根拠から有限の総回数は算出不能。テキスト収録・候補表示・テスト通過を全効果完成と同一視しない。',`今回実績: ${batchRun.phase}、候補監査${batchRun.audited}人、新規E0確認${batchRun.confirmed}人、参考値昇格${batchRun.promoted}攻撃。今回8候補中4人を認定、残り4人は部分改善/仕様保留。独立検証44行（ミーシャ既存3行の記録再利用と秘技4行の成分検証を含む）、新規2行（凍結後続1正式/セイバー合計1参考）、既存参考値の昇格0。本人攻撃の実用性を優先し、非ダメージ説明4行をhidden/displayOnlyへ整理した。前回予測7/12/24回+Uを、今回実績の6/4/2人レートで再評価する。`);
+ p('', '第2回の統合検証: HSR関連465テスト成功、生成--check成功。今回8候補と既存確認済み28人の代表行を1440/390/320pxで実操作。通常/強化/複合/DoT/精霊一覧、支援ON/OFF・提供者離脱、軌跡/星魂、空欄と0、必須参照Lvの局所停止、保存/再読込を確認。8候補の66画面を保存して代表スクリーンショットのマーカー/枠線/折り返しを目視確認。JavaScript例外・横はみ出しなし。銀狼/桂乃芬/セイバーの追加ON・Lv不足/OFF検証も3幅で確認。UID形式は合成プロフィールのみで、実UID通信や生レスポンス保存なし。');
  p('', '前回の統合検証: HSR関連441テスト成功、生成--check成功。新規10IDと既存確認済み18人の代表行を1440/390/320pxで再操作し、通常/強化/複合/精霊一覧、後続DoT/凍結、補正ON/OFF・提供者離脱、入力不足の局所停止、合成UID形式入力、保存復元を確認。新規画面および超撃破内訳のスクリーンショットで長文・箇条書きの枠内表示を点検。横はみ出し・JavaScript例外なし。個人UIDの通信/生レスポンスは今回の検証に使用していない。');
  p(
   "",

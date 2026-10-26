@@ -3588,7 +3588,8 @@
         "gameVersion": "snapshot-2026-07-28",
         "verifiedAt": "2026-08-01",
         "notes": "IDと数値パラメータ位置をレビュー表で固定"
-      }
+      },
+      "inputValidation": {"levelMaximum":15}
     },
     {
       "id": "traceNode:1210:1210101:normal-burn",
