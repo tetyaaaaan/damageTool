@@ -6,7 +6,10 @@
     "attacks-batch6-blade.json",
     "attacks-batch6-black-swan.json",
     "attacks-batch6-anaxa.json",
-    "attacks-batch6-fugue-memory.json"
+    "attacks-batch6-fugue-memory.json",
+    "attacks-batch7-hiyu.json",
+    "attacks-batch7-break.json",
+    "attacks-batch7-elation.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",
@@ -46,6 +49,9 @@
     "modifiers-batch5-tribbie.json",
     "modifiers-batch6-blade.json",
     "modifiers-batch6-black-swan.json",
-    "modifiers-batch6-anaxa.json"
+    "modifiers-batch6-anaxa.json",
+    "modifiers-batch7-hiyu.json",
+    "modifiers-batch7-break.json",
+    "modifiers-batch7-elation.json"
   ]
 }

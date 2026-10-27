@@ -74,7 +74,8 @@ test("HSR runtime uses the ID-based JSON catalog without CSV references", async 
     assert.ok(data.modifiers.length >= 5);
     assert.ok(data.structuredModifiers.length >= 95);
     assert.ok(data.attacks.length >= 300);
-    assert.equal(data.specialBreakAttacks.length, 2);
+    assert.equal(data.specialBreakAttacks.length, 3);
+    assert.ok(data.specialBreakAttacks.some(a => a.id === "1317041" && a.breakEvent === "additional"));
     assert.equal(data.traceSkillMap["1407"]["1407301"].skillIds[0], "1140701");
     assert.deepEqual(Array.from(data.traceSkillMap["1512"]["1512302"].skillIds), ["1151203", "1151205", "1151206"]);
     assert.equal(data.attackCoverage.total, data.attacks.length);
@@ -103,9 +104,13 @@ test("HSR runtime uses the ID-based JSON catalog without CSV references", async 
         effectiveCounts[effective]++;
     });
     assert.deepEqual(effectiveCounts, registeredCounts, "registration must agree with the engine's static damage-kind gate");
-    for (const id of ["150120", "150621", "800920", "801020", "140603", "150504"]) {
+    for (const id of ["150120", "150621", "800920", "801020", "140603"]) {
         assert.equal(data.attacks.find((attack) => attack.id === id).support.status, "displayOnly", id);
     }
+    const fox = data.attacks.find(attack => attack.id === "150504");
+    assert.equal(fox.support.status, "calculable");
+    assert.equal(fox.calculationScope, "independently-checked-ordinary-component-only");
+    assert.match(fox.resultSummary, /通常ダメージ|通常成分/);
     assert.equal(data.attacks.find((attack) => attack.id === "150520").damageFormula, "elation");
     assert.equal(data.attacks.find((attack) => attack.id === "150520").support.status, "calculable");
     assert.ok(data.characters.every((item) => item.skills.length && item.traces.length && item.eidolons.length === 6));

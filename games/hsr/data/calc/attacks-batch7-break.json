@@ -1,0 +1,568 @@
+{
+  "schemaVersion": 1,
+  "description": "版別の本人直接＋自己超撃破。撃破前後を進行させず事前撃破のみ。",
+  "overrides": [
+    {
+      "id": "131001",
+      "characterId": "1310",
+      "sourceSkillId": "131001",
+      "name": "コマンド-フラッシュオーバー推進",
+      "variant": "previous",
+      "type": "normal",
+      "traceKey": "normal",
+      "element": "Fire",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "canCrit": true,
+      "hitCount": 1,
+      "hitCountLabel": "同一敵への全成分合計",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "conditionText": "完全燃焼外・状態一定の本人直接攻撃。途中撃破の別ダメージは含めません。",
+      "calculationNote": "固定版の旧版（A4:BE200/360で超撃破35/50%）。A6のATK→BE、小軌跡・装備の常時効果は最終入力へ含めます。強化前後を同じ攻撃として合算しません。強化スキルの直撃は基礎倍率＋min(戦闘BE,360)×0.2%。本人超撃破は会心せず、通常与ダメージを使いません。新規撃破・敵復帰・途中変化・他者の超撃破・追加ダメージは自動合算しません。",
+      "resultSummary": "完全燃焼外の本人直接ダメージ。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の版別全採用Lv・直接成分と本人超撃破を独立照合。Lv80/E0/敵1体・状態一定の限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:131001/2/3/8/9;1131001/2/3/8/9;character_skill_trees.json:1310102/3;11310101/2/3",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/firefly",
+        "verification": "tests/hsr/hsrBatch7Break.test.cjs"
+      }
+    },
+    {
+      "id": "131002",
+      "characterId": "1310",
+      "sourceSkillId": "131002",
+      "name": "コマンド-天火轟撃",
+      "variant": "previous",
+      "type": "skill",
+      "traceKey": "skill",
+      "element": "Fire",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "multipliers": [
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        162.5,
+        175,
+        187.5,
+        200
+      ],
+      "canCrit": true,
+      "hitCount": 1,
+      "hitCountLabel": "同一敵への全成分合計",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "conditionText": "完全燃焼外・状態一定の本人直接攻撃。途中撃破の別ダメージは含めません。",
+      "calculationNote": "固定版の旧版（A4:BE200/360で超撃破35/50%）。A6のATK→BE、小軌跡・装備の常時効果は最終入力へ含めます。強化前後を同じ攻撃として合算しません。強化スキルの直撃は基礎倍率＋min(戦闘BE,360)×0.2%。本人超撃破は会心せず、通常与ダメージを使いません。新規撃破・敵復帰・途中変化・他者の超撃破・追加ダメージは自動合算しません。",
+      "resultSummary": "完全燃焼外の本人直接ダメージ。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の版別全採用Lv・直接成分と本人超撃破を独立照合。Lv80/E0/敵1体・状態一定の限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:131001/2/3/8/9;1131001/2/3/8/9;character_skill_trees.json:1310102/3;11310101/2/3",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/firefly",
+        "verification": "tests/hsr/hsrBatch7Break.test.cjs"
+      }
+    },
+    {
+      "id": "131008",
+      "characterId": "1310",
+      "sourceSkillId": "131008",
+      "name": "ファイアフライ-IV-底火斬撃（撃破済み・直撃＋本人超撃破）",
+      "variant": "previous",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "element": "Fire",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "nativeBreakSequence",
+      "multipliers": [
+        100,
+        120,
+        140,
+        160,
+        180,
+        200
+      ],
+      "canCrit": true,
+      "hitCount": 1,
+      "hitCountLabel": "同一敵への全成分合計",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "nativeBreakKind": "firefly",
+      "requiresBrokenTarget": true,
+      "requiredWeakTarget": true,
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "comparisonModifierInputs": {
+        "firefly-native-combustion": true
+      },
+      "requiredModifierIds": [
+        "trace:1310:131003:native-break-taken",
+        "trace:1310:131003:native-efficiency"
+      ],
+      "conditionText": "完全燃焼・攻撃前から炎弱点/撃破済み・状態一定を想定。新規撃破/外部超撃破は含めません。",
+      "calculationNote": "固定版の旧版（A4:BE200/360で超撃破35/50%）。A6のATK→BE、小軌跡・装備の常時効果は最終入力へ含めます。強化前後を同じ攻撃として合算しません。強化スキルの直撃は基礎倍率＋min(戦闘BE,360)×0.2%。本人超撃破は会心せず、通常与ダメージを使いません。新規撃破・敵復帰・途中変化・他者の超撃破・追加ダメージは自動合算しません。",
+      "resultSummary": "直接ダメージ＋本人A4の超撃破。攻撃前から撃破済みの炎弱点敵1体。外部の別ダメージは含みません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の版別全採用Lv・直接成分と本人超撃破を独立照合。Lv80/E0/敵1体・状態一定の限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:131001/2/3/8/9;1131001/2/3/8/9;character_skill_trees.json:1310102/3;11310101/2/3",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/firefly",
+        "verification": "tests/hsr/hsrBatch7Break.test.cjs"
+      }
+    },
+    {
+      "id": "131009",
+      "characterId": "1310",
+      "sourceSkillId": "131009",
+      "name": "ファイアフライ-IV-死星オーバーロード（撃破済み・直撃＋本人超撃破）",
+      "variant": "previous",
+      "type": "enhancedSkill",
+      "traceKey": "skill",
+      "element": "Fire",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "nativeBreakSequence",
+      "multipliers": [
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        162.5,
+        175,
+        187.5,
+        200
+      ],
+      "canCrit": true,
+      "hitCount": 1,
+      "hitCountLabel": "同一敵への全成分合計",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "nativeBreakKind": "firefly",
+      "requiresBrokenTarget": true,
+      "requiredWeakTarget": true,
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "comparisonModifierInputs": {
+        "firefly-native-combustion": true
+      },
+      "requiredModifierIds": [
+        "trace:1310:131003:native-break-taken",
+        "trace:1310:131003:native-efficiency"
+      ],
+      "conditionText": "完全燃焼・攻撃前から炎弱点/撃破済み・状態一定を想定。新規撃破/外部超撃破は含めません。",
+      "calculationNote": "固定版の旧版（A4:BE200/360で超撃破35/50%）。A6のATK→BE、小軌跡・装備の常時効果は最終入力へ含めます。強化前後を同じ攻撃として合算しません。強化スキルの直撃は基礎倍率＋min(戦闘BE,360)×0.2%。本人超撃破は会心せず、通常与ダメージを使いません。新規撃破・敵復帰・途中変化・他者の超撃破・追加ダメージは自動合算しません。",
+      "resultSummary": "直接ダメージ＋本人A4の超撃破。攻撃前から撃破済みの炎弱点敵1体。外部の別ダメージは含みません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の版別全採用Lv・直接成分と本人超撃破を独立照合。Lv80/E0/敵1体・状態一定の限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:131001/2/3/8/9;1131001/2/3/8/9;character_skill_trees.json:1310102/3;11310101/2/3",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/firefly",
+        "verification": "tests/hsr/hsrBatch7Break.test.cjs"
+      }
+    },
+    {
+      "id": "1131001",
+      "characterId": "1310",
+      "sourceSkillId": "1131001",
+      "name": "コマンド-フラッシュオーバー推進",
+      "variant": "enhanced",
+      "type": "normal",
+      "traceKey": "normal",
+      "element": "Fire",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "canCrit": true,
+      "hitCount": 1,
+      "hitCountLabel": "同一敵への全成分合計",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "conditionText": "完全燃焼外・状態一定の本人直接攻撃。途中撃破の別ダメージは含めません。",
+      "calculationNote": "固定版の強化版（A4:BE150/300で超撃破100/150%、A2のBE25%はこの想定結果へ別加算）。A6のATK→BE、小軌跡・装備の常時効果は最終入力へ含めます。強化前後を同じ攻撃として合算しません。強化スキルの直撃は基礎倍率＋min(戦闘BE,360)×0.2%。本人超撃破は会心せず、通常与ダメージを使いません。新規撃破・敵復帰・途中変化・他者の超撃破・追加ダメージは自動合算しません。",
+      "resultSummary": "完全燃焼外の本人直接ダメージ。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の版別全採用Lv・直接成分と本人超撃破を独立照合。Lv80/E0/敵1体・状態一定の限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:131001/2/3/8/9;1131001/2/3/8/9;character_skill_trees.json:1310102/3;11310101/2/3",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/firefly",
+        "verification": "tests/hsr/hsrBatch7Break.test.cjs"
+      }
+    },
+    {
+      "id": "1131002",
+      "characterId": "1310",
+      "sourceSkillId": "1131002",
+      "name": "コマンド-天火轟撃",
+      "variant": "enhanced",
+      "type": "skill",
+      "traceKey": "skill",
+      "element": "Fire",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "multipliers": [
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        162.5,
+        175,
+        187.5,
+        200
+      ],
+      "canCrit": true,
+      "hitCount": 1,
+      "hitCountLabel": "同一敵への全成分合計",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "conditionText": "完全燃焼外・状態一定の本人直接攻撃。途中撃破の別ダメージは含めません。",
+      "calculationNote": "固定版の強化版（A4:BE150/300で超撃破100/150%、A2のBE25%はこの想定結果へ別加算）。A6のATK→BE、小軌跡・装備の常時効果は最終入力へ含めます。強化前後を同じ攻撃として合算しません。強化スキルの直撃は基礎倍率＋min(戦闘BE,360)×0.2%。本人超撃破は会心せず、通常与ダメージを使いません。新規撃破・敵復帰・途中変化・他者の超撃破・追加ダメージは自動合算しません。",
+      "resultSummary": "完全燃焼外の本人直接ダメージ。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の版別全採用Lv・直接成分と本人超撃破を独立照合。Lv80/E0/敵1体・状態一定の限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:131001/2/3/8/9;1131001/2/3/8/9;character_skill_trees.json:1310102/3;11310101/2/3",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/firefly",
+        "verification": "tests/hsr/hsrBatch7Break.test.cjs"
+      }
+    },
+    {
+      "id": "1131008",
+      "characterId": "1310",
+      "sourceSkillId": "1131008",
+      "name": "ファイアフライ-IV-底火斬撃（撃破済み・直撃＋本人超撃破）",
+      "variant": "enhanced",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "element": "Fire",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "nativeBreakSequence",
+      "multipliers": [
+        100,
+        120,
+        140,
+        160,
+        180,
+        200
+      ],
+      "canCrit": true,
+      "hitCount": 1,
+      "hitCountLabel": "同一敵への全成分合計",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "nativeBreakKind": "firefly",
+      "requiresBrokenTarget": true,
+      "requiredWeakTarget": true,
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "comparisonModifierInputs": {
+        "firefly-native-combustion": true
+      },
+      "requiredModifierIds": [
+        "trace:1310:1131003:native-break-taken",
+        "trace:1310:1131003:native-efficiency",
+        "trace:1310:11310101:native-be"
+      ],
+      "conditionText": "完全燃焼・攻撃前から炎弱点/撃破済み・状態一定を想定。新規撃破/外部超撃破は含めません。",
+      "calculationNote": "固定版の強化版（A4:BE150/300で超撃破100/150%、A2のBE25%はこの想定結果へ別加算）。A6のATK→BE、小軌跡・装備の常時効果は最終入力へ含めます。強化前後を同じ攻撃として合算しません。強化スキルの直撃は基礎倍率＋min(戦闘BE,360)×0.2%。本人超撃破は会心せず、通常与ダメージを使いません。新規撃破・敵復帰・途中変化・他者の超撃破・追加ダメージは自動合算しません。",
+      "resultSummary": "直接ダメージ＋本人A4の超撃破。攻撃前から撃破済みの炎弱点敵1体。外部の別ダメージは含みません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の版別全採用Lv・直接成分と本人超撃破を独立照合。Lv80/E0/敵1体・状態一定の限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:131001/2/3/8/9;1131001/2/3/8/9;character_skill_trees.json:1310102/3;11310101/2/3",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/firefly",
+        "verification": "tests/hsr/hsrBatch7Break.test.cjs"
+      }
+    },
+    {
+      "id": "1131009",
+      "characterId": "1310",
+      "sourceSkillId": "1131009",
+      "name": "ファイアフライ-IV-死星オーバーロード（撃破済み・直撃＋本人超撃破）",
+      "variant": "enhanced",
+      "type": "enhancedSkill",
+      "traceKey": "skill",
+      "element": "Fire",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "nativeBreakSequence",
+      "multipliers": [
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        162.5,
+        175,
+        187.5,
+        200
+      ],
+      "canCrit": true,
+      "hitCount": 1,
+      "hitCountLabel": "同一敵への全成分合計",
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "nativeBreakKind": "firefly",
+      "requiresBrokenTarget": true,
+      "requiredWeakTarget": true,
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "comparisonModifierInputs": {
+        "firefly-native-combustion": true
+      },
+      "requiredModifierIds": [
+        "trace:1310:1131003:native-break-taken",
+        "trace:1310:1131003:native-efficiency",
+        "trace:1310:11310101:native-be"
+      ],
+      "conditionText": "完全燃焼・攻撃前から炎弱点/撃破済み・状態一定を想定。新規撃破/外部超撃破は含めません。",
+      "calculationNote": "固定版の強化版（A4:BE150/300で超撃破100/150%、A2のBE25%はこの想定結果へ別加算）。A6のATK→BE、小軌跡・装備の常時効果は最終入力へ含めます。強化前後を同じ攻撃として合算しません。強化スキルの直撃は基礎倍率＋min(戦闘BE,360)×0.2%。本人超撃破は会心せず、通常与ダメージを使いません。新規撃破・敵復帰・途中変化・他者の超撃破・追加ダメージは自動合算しません。",
+      "resultSummary": "直接ダメージ＋本人A4の超撃破。攻撃前から撃破済みの炎弱点敵1体。外部の別ダメージは含みません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の版別全採用Lv・直接成分と本人超撃破を独立照合。Lv80/E0/敵1体・状態一定の限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:131001/2/3/8/9;1131001/2/3/8/9;character_skill_trees.json:1310102/3;11310101/2/3",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/firefly",
+        "verification": "tests/hsr/hsrBatch7Break.test.cjs"
+      }
+    },
+    {
+      "id": "131508",
+      "characterId": "1315",
+      "sourceSkillId": "131508",
+      "name": "ファニング（撃破済み・通常＋天賦撃破）",
+      "element": "Physical",
+      "type": "enhancedNormal",
+      "tags": [
+        "normal"
+      ],
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "hitCountLabel": "通常部分の全段合算",
+      "canCrit": true,
+      "multipliers": [
+        110,
+        132,
+        154,
+        176,
+        198,
+        220
+      ],
+      "damageFormula": "normalAndBreak",
+      "breakMultipliersByLevel": [
+        [
+          35,
+          60,
+          85
+        ],
+        [
+          38.5,
+          66,
+          93.5
+        ],
+        [
+          42,
+          72,
+          102
+        ],
+        [
+          45.5,
+          78,
+          110.5
+        ],
+        [
+          49,
+          84,
+          119
+        ],
+        [
+          52.5,
+          90,
+          127.5
+        ],
+        [
+          56.875,
+          97.5,
+          138.125
+        ],
+        [
+          61.25,
+          105,
+          148.75
+        ],
+        [
+          65.625,
+          112.5,
+          159.375
+        ],
+        [
+          70,
+          120,
+          170
+        ]
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "enemyCountExact": 1,
+      "modifierInputDefault": 0,
+      "modifierInputMinimum": 0,
+      "conditionText": "攻撃前から物理弱点・撃破済み・九死の決闘を想定。ポケット0～3層を指定。",
+      "calculationNote": "Lv80・星魂0・通常Lv1～6・スキル/天賦Lv1～10・敵1体。攻撃前から物理弱点の敵が撃破済みで、九死の決闘を改めて指定済み、ポケットアドバンテージ0～3層・最大靭性（旧単位）480以下・全段中に条件変化なしの想定。通常部分は全段合算、天賦の物理撃破ダメージは別成分。攻撃中の新規撃破・撃破由来DoT・超撃破・外部追加ダメージは含めません。ゴーストロード等の常時会心補正は最終入力に含めます。自動蓄積・回復・SP/EP・敵複数体は対象外です。 この行は決闘成立を想定し、表示用のチェックは要求しません。ポケット0層では天賦追加撃破は0です。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "通常全段と天賦物理撃破1回を分離して独立検証。敵1体・撃破済み・最大靭性（旧単位）480以下に限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes and release table",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:131508;131504.params[0..9][0..2,5];131502.params[0..9][0]",
+        "referenceUrl": "https://hsr.gachabase.net/characters/1315/boothill/release/4.6.0?lang=en",
+        "mechanicsSource": "https://www.prydwen.gg/star-rail/characters/boothill",
+        "verifiedAt": "2026-10-21",
+        "precisionNote": "正式4.6テーブルの記録精度を使用。一部Lvの固定SHA小数差は丸め精度の差。",
+        "scope": "Lv80・星魂0・通常Lv1～6・スキル/天賦Lv1～10・敵1体。攻撃前から物理弱点の敵が撃破済みで、九死の決闘を改めて指定済み、ポケットアドバンテージ1～3層・最大靭性（旧単位）480以下・全段中に条件変化なしを手動確認。通常部分は全段合算、天賦の物理撃破ダメージは別成分。攻撃中の新規撃破・撃破由来DoT・超撃破・外部追加ダメージは含めません。ゴーストロード等の常時会心補正は最終入力に含めます。自動蓄積・回復・SP/EP・敵複数体は対象外です。",
+        "toughnessNote": "最大靭性は既存の旧単位（通常の基礎削靭30）で入力。正式版131501 break_damage.single_target=30、天賦131504.params[][5]=16より上限480。現在の表示単位では通常10・上限160に相当。"
+      },
+      "allowZeroStacks": true,
+      "comparisonModifierInputs": {
+        "boothill-fanning-broken": true
+      },
+      "modifierInputKey": null,
+      "enforceSnapshotContract": true,
+      "characterLevelExact": 80,
+      "triggerSkillId": "131504"
+    }
+  ]
+}

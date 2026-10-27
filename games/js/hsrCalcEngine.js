@@ -100,7 +100,7 @@
 
     function supportedElationAttack(attack) {
         if (attack.damageFormula !== "elation" || attack.type !== "elation") return false;
-        return (attack.id === "150520" && attack.elationContext === "ahaInstant" && attack.target === "aoe" && attack.hitCount === 1)
+        return (["1513041","1513042"].includes(attack.id) && attack.characterId==='1513' && attack.sourceSkillId==='151304' && attack.elationContext==='certifiedBanger' && attack.hitCount===1 && attack.target==='aoe') || (attack.id === "150520" && attack.elationContext === "ahaInstant" && attack.target === "aoe" && attack.hitCount === 1)
             || (attack.id === "150220" && attack.elationContext === "firstAhaInstant" && attack.target === "single" && attack.hitCount === 6)
             || (attack.id === "151320" && attack.elationContext === "fervor10Auto" && attack.target === "single" && attack.hitCount === 11 && attack.fixedPunchline === 20)
             || (attack.id === "151321" && attack.elationContext === "fervorEnhancedAha" && attack.target === "single" && attack.hitCount === 11 && attack.fixedPunchline === undefined);
@@ -118,7 +118,11 @@
         const values = input.elation || {};
         const warnings = [];
         if (!ELATION_LEVEL_BASE[character.level] || (character.eidolon ?? 0) !== 0) warnings.push("この愉悦攻撃はLv80・星魂0のみ計算対応です。");
-        if (input.attack?.id === "151321") {
+        if (input.attack?.elationContext === "certifiedBanger") {
+            const a=input.attack,curve=a.id==='1513041'?[20,22,24,26,28,30,32.5,35,37.5,40]:a.id==='1513042'?[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72]:[];
+            if(values.context!=='certifiedBanger'||!Number.isInteger(values.certifiedBanger)||values.certifiedBanger<1||values.certifiedBanger>10000)warnings.push('攻撃時点の爆笑の褒美に1～10000の整数を入力してください。爆笑ネタは使用しません。');
+            if(input.enemy?.count!==1||a.multiplier!==curve[a.traceLevel-1])warnings.push('追加愉悦の天賦倍率・敵1体の条件を確認してください。');
+        } else if (input.attack?.id === "151321") {
             if (values.context !== "fervorEnhancedAha" || values.stableEnemy !== true) warnings.push("熱気10到達の通常版発動後、次のアッハタイムの強化版で全ヒット中に撃破・敵条件変化がないことを確認してください。");
             if (input.enemy?.count !== 1) warnings.push("強化版151321は敵1体のみ計算対応です。");
             if (values.hasOtherElation !== true) warnings.push("強化版151321は他の愉悦キャラを編成した場合のみ計算対応です。A4の追加攻撃扱いは計算しません。");
@@ -143,12 +147,12 @@
                 || Math.abs(components.reduce((sum, item) => sum + item.count * item.multiplierPercent, 0) - input.attack.multiplier) > 1e-9
                 || input.attack.intrinsicTakenDamage !== 16) warnings.push("爻光の全体攻撃・追撃倍率と被ダメージ補正を確認できません。");
         } else if (values.context !== "ahaInstant") warnings.push("この愉悦攻撃はアッハタイム中のみ計算対応です。爆笑の褒美を参照する攻撃は対象外です。");
-        if (input.attack?.id !== "151320" && (!Number.isInteger(values.punchline) || values.punchline < 0)) warnings.push("攻撃時点の爆笑ネタに0以上の整数を入力してください。");
+        if (input.attack?.elationContext !== "certifiedBanger" && input.attack?.id !== "151320" && (!Number.isInteger(values.punchline) || values.punchline < 0)) warnings.push("攻撃時点の爆笑ネタに0以上の整数を入力してください。");
         if (!Number.isFinite(values.merrymake) || values.merrymake < 0) warnings.push("上笑に0以上の数値を入力してください。補正なしは0です。");
         for (const [key, label] of [["elation", "愉悦度"], ["critRate", "会心率"], ["critDamage", "会心ダメージ"]]) {
             if (!Number.isFinite(stats[key]) || stats[key] < 0) warnings.push(`${label}に0以上の最終値を入力してください。`);
         }
-        if (!Number.isInteger(input.attack?.traceLevel) || input.attack.traceLevel < 1 || input.attack.traceLevel > 10) warnings.push("星魂0の愉悦スキルLvに1～10の整数を選択してください。");
+        if (!Number.isInteger(input.attack?.traceLevel) || input.attack.traceLevel < 1 || input.attack.traceLevel > 10) warnings.push(input.attack?.elationContext === "certifiedBanger" ? "追加愉悦の天賦Lvに1～10の整数を選択してください。" : "星魂0の愉悦スキルLvに1～10の整数を選択してください。");
         if (!Number.isFinite(input.attack?.multiplier) || input.attack.multiplier < 0) warnings.push("愉悦スキルの倍率を取得できません。");
         return warnings;
     }
@@ -192,6 +196,7 @@
     function unsupportedAttackReason(attack = {}) {
         if (attack.support?.status === "displayOnly") return attack.support.reason || "この攻撃は表示のみのため、ダメージを計算しません。";
         if (supportedElationAttack(attack) || supportedTrueAttack(attack)) return "";
+        if (["131008","131009","1131008","1131009"].includes(attack.id) && attack.characterId === "1310" && attack.damageFormula === "nativeBreakSequence") return "";
         if (attack.id === "131508" && attack.damageFormula === "normalAndBreak" && attack.type === "enhancedNormal") return "";
         if (attack.damageFormula === "componentSequence") {
             const components = attack.damageComponents;
@@ -259,12 +264,12 @@ function fanningInputWarnings(input={}) {
  if(c.level!==80 || c.eidolon!==0 || enemy.count!==1)warnings.push("ファニングはLv80・星魂0・敵1体のみ計算対応です。");
  if(!f.confirmed || enemy.toughnessActive!==false || enemy.weakness!==true)warnings.push("攻撃前から物理弱点の敵が撃破済み・九死の決闘中・超撃破や外部追加ダメージなしを確認してください。");
  if(!Number.isFinite(enemy.maxToughness)||enemy.maxToughness<=0||enemy.maxToughness>480)warnings.push("ファニングの対象の最大靭性（旧単位）は0より大きく480以下に限定しています。");
- if(!Number.isInteger(f.stacks)||f.stacks<1||f.stacks>3)warnings.push("ポケットアドバンテージに1～3層を指定してください。");
+ if(!Number.isInteger(f.stacks)||f.stacks<(f.allowZeroStacks===true?0:1)||f.stacks>3)warnings.push("ポケットアドバンテージに0～3層を指定してください。");
  if(!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>6||!Number.isInteger(f.talentLevel)||f.talentLevel<1||f.talentLevel>10)warnings.push("ファニングは通常Lv1～6・天賦Lv1～10のみ計算対応です。");
  if(!Number.isFinite(c.stats?.atk)||c.stats.atk<=0||!Number.isFinite(c.stats?.breakEffect)||c.stats.breakEffect<0)warnings.push("最終ATKと0以上の撃破特効を入力してください。");
  if((input.modifiers||[]).some(m=>m.enabled&&m.applicable!==false&&m.category==="progressiveTakenDamage"))warnings.push("全段合算のためヒット順で変化する補正には対応していません。");
  if([input.modifiers,input.breakModifiers || input.modifiers].some(mods=>!(mods || []).some(m=>m.id==="trace:1315:131502:standoff-vulnerability" && m.enabled && m.applicable!==false && !(m.inputWarnings || []).length)))warnings.push("九死の決闘の被ダメージ増加を通常部分・天賦撃破の両方へ適用してください。");
- if(!Number.isFinite(a.breakMultipliersByLevel?.[f.talentLevel-1]?.[f.stacks-1]))warnings.push("天賦の撃破倍率を取得できません。");
+ if(f.stacks!==0&&!Number.isFinite(a.breakMultipliersByLevel?.[f.talentLevel-1]?.[f.stacks-1]))warnings.push("天賦の撃破倍率を取得できません。");
  return warnings;
 }
 
@@ -272,7 +277,7 @@ function calculateFanning(input) {
  const warnings=fanningInputWarnings(input);if(warnings.length)return{supported:false,reason:warnings.join(" ")};
  const a=input.attack,f=a.fanningInputs;
  const direct=calculate({...input,attack:{...a,name:"ファニング・通常部分（全段合算）",damageFormula:"statMultiplier"}});
- const breakMultiplier=a.breakMultipliersByLevel[f.talentLevel-1][f.stacks-1]/100;
+ const breakMultiplier=f.stacks===0?0:a.breakMultipliersByLevel[f.talentLevel-1][f.stacks-1]/100;
  const extra=calculateBreak({...input,element:"Physical",multiplier:2*breakMultiplier,modifiers:input.breakModifiers||input.modifiers});
  if(!extra.supported)return extra;
  return {attack:{...direct.attack,name:a.name},nonCrit:direct.nonCrit+extra.value,crit:direct.crit+extra.value,expected:direct.expected+extra.value,components:{direct,break:extra},
@@ -285,6 +290,7 @@ function calculateFanning(input) {
     }
 
     function calculate(input) {
+        if (input.attack?.damageFormula === "nativeBreakSequence" && !unsupportedAttackReason(input.attack)) return calculateNativeBreakSequence(input);
         if (input.attack?.id === "131508" && input.attack.damageFormula === "normalAndBreak" && !unsupportedAttackReason(input.attack)) return calculateFanning(input);
         const character = input?.character || {};
         const enemy = input?.enemy || {};
@@ -500,6 +506,29 @@ function calculateFanning(input) {
 
 
 
+
+    // Combines only a pre-broken snapshot; it never creates or advances a Break event.
+    function calculateNativeBreakSequence(input) {
+        const {attack:a,character:c={},enemy:e={}}=input,fail=reason=>({supported:false,reason});
+        const enhanced=a.id.startsWith('11310'),skill=a.id.endsWith('09'),level=a.traceLevel,ult=a.nativeUltimateLevel;
+        const curve=skill?[100,110,120,130,140,150,162.5,175,187.5,200]:[100,120,140,160,180,200];
+        if(a.characterId!=='1310'||a.nativeBreakKind!=='firefly'||a.sourceSkillId!==a.id||a.variant!==(enhanced?'enhanced':'previous')||a.type!==(skill?'enhancedSkill':'enhancedNormal')||a.element!=='Fire'||a.scalingStat!=='atk'||a.hitCount!==1||!Number.isInteger(level)||level<1||level>curve.length||a.multiplier!==curve[level-1])return fail('ホタルの版・攻撃種別・全採用Lvの成分定義を確認してください。');
+        if(c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==false||e.weakness!==true)return fail('この想定はLv80・星魂0・攻撃前から炎弱点かつ撃破済みの敵1体・状態一定のみ対応です。');
+        if(!Number.isInteger(ult)||ult<1||ult>10)return fail('完全燃焼の必殺技Lv1～10を入力してください。');
+        for(const key of ['atk','critRate','critDamage','damageBonus','breakEffect'])if(!Number.isFinite(c.stats?.[key])||(key==='atk'?c.stats[key]<=0:key==='breakEffect'&&c.stats[key]<0))return fail('ホタルの最終ATK・会心・炎与ダメージ・撃破特効を入力してください。');
+        const bm=input.breakModifiers||[],sbAttack={...a,type:'superBreak',attackType:'superBreak',toughnessDamage:skill?30:15,superBreakMultiplier:100};
+        const prefix=enhanced?'11310':'1310',taken=[10,11,12,13,14,15,16.25,17.5,18.75,20][ult-1];
+        const required=[['trace:1310:'+prefix+'03:native-break-taken',taken],['trace:1310:'+prefix+'03:native-efficiency',50],...(enhanced?[['trace:1310:11310101:native-be',25]]:[])];
+        for(const[id,value]of required){const matches=bm.filter(m=>m.id===id&&m.enabled!==false&&m.applicable!==false&&m.calculable!==false&&!(m.inputWarnings||[]).length&&modifierAppliesToAttack(m,sbAttack));if(matches.length!==1||Math.abs(matches[0].value-value)>1e-9)return fail('完全燃焼の必須補正が不足しています：'+id);}
+        if((input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&modifierAppliesToAttack(m,a)&&['statFlat','statPercent'].includes(m.category)&&m.stat==='atk'))return fail('ATK支援によるA6の撃破特効再変換は未対応です。この結果では支援をOFFにするか、ATKと撃破特効の両方を最終入力へ反映してください。');
+        const sb=calculateSuperBreak({...input,attack:sbAttack,modifiers:bm});if(!sb.supported)return sb;
+        const be=(sb.breakEffect-1)*100,conversion=enhanced?(be>=300-1e-9?150:be>=150-1e-9?100:0):(be>=360-1e-9?50:be>=200-1e-9?35:0);
+        sb.value*=conversion/100;sb.conversionMultiplier=conversion/100;
+        const direct=calculate({...input,attack:{...a,damageFormula:'statMultiplier',multiplier:a.multiplier+(skill?Math.min(360,be)*.2:0),requiredModifierIds:undefined}});if(direct.supported===false)return direct;
+        const extra={attack:{name:'本人A4・超撃破',canCrit:false,hitCount:1,target:'single'},nonCrit:sb.value,crit:sb.value,expected:sb.value,applied:sb.applied,skipped:sb.skipped,breakdown:{damageFormula:'breakComponent',kind:'superBreak',...sb,finalBreakEffect:be}};
+        return {attack:{...direct.attack,name:a.name},nonCrit:direct.nonCrit+sb.value,crit:direct.crit+sb.value,expected:direct.expected+sb.value,components:{direct,superBreak:extra},applied:[...direct.applied,...sb.applied],skipped:[...direct.skipped,...sb.skipped],breakdown:{damageFormula:'componentSequence',componentNames:['直接ダメージ','本人A4・超撃破（会心不可）'],totalLabel:'直接＋本人超撃破',condition:'攻撃前から撃破済み・同一敵・状態一定。初回撃破/外部の別ダメージは合算しません。'}};
+    }
+
     function calculateAnaxaSequence(input) {
         const {attack:a,character:c={},enemy:e={}}=input,p=input.sequenceComponents||[],normal=a.id==='1405011',fail=reason=>({supported:false,reason});
         if(c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==false||e.weaknessCount!==7||a.qualitativeDisclosureActive!==true||p.length!==2) return fail('アナイクスの合計はLv80・星魂0・7弱点/本質暴露・撃破済みの敵1体・状態一定のみ対応です。');
@@ -612,7 +641,7 @@ function calculateFanning(input) {
         const elationPercent = stats.elation + sum("elation");
         const elationMultiplier = 1 + elationPercent / 100;
         // Fervor-triggered 151320 uses the Talent's fixed value, never the shared manual input.
-        const punchline = attack.id === "151320" ? 20 : values.punchline;
+        const punchline = attack.elationContext === "certifiedBanger" ? values.certifiedBanger : attack.id === "151320" ? 20 : values.punchline;
         const punchlineMultiplier = 1 + 5 * punchline / (punchline + 240);
         const merrymakeMultiplier = 1 + values.merrymake / 100;
         const defenseReduction = number(enemy.defenseReduction) + sum("defenseReduction");
@@ -644,6 +673,7 @@ function calculateFanning(input) {
                 damageFormula: "elation", levelBase, referenceValue: levelBase, multiplierPercent,
                 multiplierAddition: 0, scalingTerms: [], flatDamage: 0, baseDamage,
                 elationPercent, elationMultiplier, punchline, punchlineMultiplier,
+                ...(attack.elationContext === "certifiedBanger" ? {certifiedBanger:values.certifiedBanger,punchlineSource:"certifiedBanger",elationScopeNote:"爆笑の褒美を使う独立した天賦追加愉悦。爆笑ネタ/熱気は参照せず、直撃と自動合算しません。"} : {}),
                 ...(attack.id === "151320" ? { punchlineSource: "fixedTalent", elationScopeNote: "熱気10到達の通常版自動発動・敵1体・全体1ヒット＋追加10ヒット。爆笑ネタは天賦固定20。全ヒット中の撃破・敵条件変化なし。" } : {}),
                 ...(attack.id === "151321" ? { fervor: values.fervor, punchlineSource: "ahaInput", elationScopeNote: "熱気10到達の通常版発動後、次のアッハタイムの強化版・敵1体。全体1＋固定10＋消費熱気分の追加ヒット。全ヒット中の撃破・敵条件変化なし。爆笑ネタは入力値を使用し、固定20は使いません。" } : {}),
                 merrymakePercent: values.merrymake, merrymakeMultiplier,
@@ -705,6 +735,15 @@ function calculateFanning(input) {
         const {character = {},enemy = {},attack = {}}=input;
         const fail=reason=>({supported:false,reason});
         const id=attack.id, level=attack.traceLevel;
+        if(id==='1317041'){
+            const base=[30,33,36,39,42,45,48.75,52.5,56.25,60],per=[25,27.5,30,32.5,35,37.5,40.62,43.75,46.88,50];
+            const charge=Object.hasOwn(input.modifierInputs||{},'rappa-consumed-charge')?input.modifierInputs['rappa-consumed-charge']:0;
+            if(attack.characterId!=='1317'||character.id!=='1317'||attack.sourceSkillId!=='131704'||attack.breakEvent!=='additional'||attack.type!=='break'||attack.element!=='Imaginary'||character.level!==80||character.eidolon!==0||enemy.count!==1||!Number.isInteger(level)||level<1||level>10||attack.multiplier!==base[level-1]||!Number.isInteger(charge)||charge<0||charge>10)return fail('乱破の天賦追加撃破はLv80・星魂0・敵1体・天賦Lv1～10・チャージ0～10のみ対応です。');
+            if(!Number.isFinite(character.stats?.breakEffect)||character.stats.breakEffect<0||!Number.isFinite(enemy.maxToughness)||enemy.maxToughness<=0)return fail('乱破本人の最終撃破特効と敵最大靭性を入力してください。');
+            const coefficient=base[level-1]+per[level-1]*charge;
+            const result=calculateBreak({...input,element:'Imaginary',multiplier:.5*coefficient/100,enemy:{...enemy,weakness:true}});
+            return result.supported?{...result,breakEvent:'additional',sourceCharacterId:character.id,charge,coefficient,condition:'第三段で発生した天賦追加撃破1回。直撃・超撃破・初回撃破との合算なし。'}:result;
+        }
         const curves={"1303041":[60,66,72,78,84,90,97.5,105,112.5,120],"1303031":[30,32,34,36,38,40,42.5,45,47.5,50]};
         const source=id==="1303041"?"130304":"130303";
         if (!curves[id] || attack.breakEvent!=="additional" || attack.characterId!=="1303" || character.id!=="1303" || attack.sourceSkillId!==source || attack.type!=="break" || attack.element!=="Ice") return fail("追加撃破の提供者・独立イベント・成分定義を確認してください。");

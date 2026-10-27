@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "modifiers": [
+    {
+      "id": "trace:1513:151304:banger-reference-input",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1513",
+        "skillId": "151304"
+      },
+      "name": "追加愉悦の爆笑の褒美",
+      "description": "攻撃時点で本人が持つ爆笑の褒美。爆笑ネタ/熱気とは別に指定します。",
+      "category": "extraDamage",
+      "unit": "flat",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "elation"
+        ],
+        "elements": [
+          "Quantum"
+        ]
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "inputKey": "elation-certified-banger",
+        "inputLabel": "攻撃時点の爆笑の褒美",
+        "minimum": 1,
+        "maximum": 10000,
+        "step": 1,
+        "strictInput": true,
+        "operator": ">=",
+        "threshold": 1,
+        "conditionText": "褒美の継続中・追加愉悦発生時点の個数"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "独立した追加愉悦の参照値。補正値としては加算しません。"
+      },
+      "provenance": {
+        "verifiedAt": "2026-10-27"
+      },
+      "calculation": {
+        "stage": "extraDamage",
+        "operation": "add"
+      }
+    }
+  ]
+}

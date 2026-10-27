@@ -269,7 +269,7 @@
         if (validation.whenToggle && inputs[validation.whenToggle.inputKey] && raw !== validation.whenToggle.equals) inputWarnings.push(validation.whenToggle.message);
         if (!Number.isInteger(level) || level < 1 || level > validation.levelMaximum) inputWarnings.push(`${record.value?.levelInputLabel || `${record.name}の天賦Lv`}に1～${validation.levelMaximum}の整数を入力してください。`);
       }
-      if (record.value?.inputMultipliers && (inputs[record.value.inputKey] ?? record.value.default) === 0 && !inputWarnings.length) enabled = false;
+      if (record.value?.inputMultipliers?.[inputs[record.value.inputKey] ?? record.value.default] === 0 && !inputWarnings.length) enabled = false;
       const requiredInput = Boolean(validation && record.value?.inputKey && record.value.default === undefined);
       const missingInput = Boolean(validation && record.value?.inputKey && !Number.isFinite(raw));
       const displayInput = (input) => Number.isFinite(input) ? input : "未入力";

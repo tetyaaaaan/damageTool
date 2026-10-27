@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "overrides": [
+    {
+      "id": "1513041",
+      "characterId": "1513",
+      "sourceSkillId": "151304",
+      "name": "戦闘スキル後の追加愉悦（爆笑の褒美）",
+      "type": "elation",
+      "traceKey": "talent",
+      "element": "Quantum",
+      "target": "aoe",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        20,
+        22,
+        24,
+        26,
+        28,
+        30,
+        32.5,
+        35,
+        37.5,
+        40
+      ],
+      "maximumTraceLevel": 10,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "conditionText": "天賦による追加愉悦1回・敵1体・状態一定。本人の爆笑の褒美を参照し、爆笑ネタ/熱気は使用しません。",
+      "calculationNote": "本人のLv80愉悦基礎値・最終愉悦度/会心、天賦Lv1～10を参照する独立成分。通常S/U直撃、熱気10の自動愉悦、他者の攻撃を合算しません。A2速度由来愉悦度、A4の人数分岐、事前成立のA6会心は最終入力に含め、この成分では再加算しません。褒美の新規獲得・消費・速度/会心状態の途中変化は対象外です。入力上限10000は検証上限でゲーム上限ではありません。",
+      "resultSummary": "追加愉悦成分だけ。通常ダメージや別行の愉悦スキルとの全体合計ではありません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版天賦の全採用Lvと独立した褒美参照の式を検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "151304.params[][1,2]",
+        "formulaSource": "https://cowaii.io/HonkaiSR/StatsInfo/",
+        "verification": "tests/hsr/hsrBatch7Elation.test.cjs"
+      }
+    },
+    {
+      "id": "1513042",
+      "characterId": "1513",
+      "sourceSkillId": "151304",
+      "name": "必殺技後の追加愉悦（爆笑の褒美）",
+      "type": "elation",
+      "traceKey": "talent",
+      "element": "Quantum",
+      "target": "aoe",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        36,
+        39.6,
+        43.2,
+        46.8,
+        50.4,
+        54,
+        58.5,
+        63,
+        67.5,
+        72
+      ],
+      "maximumTraceLevel": 10,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "numericModifierInputs": [
+        {
+          "inputKey": "elation-certified-banger",
+          "label": "攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "conditionText": "天賦による追加愉悦1回・敵1体・状態一定。本人の爆笑の褒美を参照し、爆笑ネタ/熱気は使用しません。",
+      "calculationNote": "本人のLv80愉悦基礎値・最終愉悦度/会心、天賦Lv1～10を参照する独立成分。通常S/U直撃、熱気10の自動愉悦、他者の攻撃を合算しません。A2速度由来愉悦度、A4の人数分岐、事前成立のA6会心は最終入力に含め、この成分では再加算しません。褒美の新規獲得・消費・速度/会心状態の途中変化は対象外です。入力上限10000は検証上限でゲーム上限ではありません。",
+      "resultSummary": "追加愉悦成分だけ。通常ダメージや別行の愉悦スキルとの全体合計ではありません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版天賦の全採用Lvと独立した褒美参照の式を検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "151304.params[][1,2]",
+        "formulaSource": "https://cowaii.io/HonkaiSR/StatsInfo/",
+        "verification": "tests/hsr/hsrBatch7Elation.test.cjs"
+      }
+    }
+  ]
+}

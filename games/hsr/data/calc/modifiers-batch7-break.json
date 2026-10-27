@@ -1,0 +1,451 @@
+{
+  "schemaVersion": 1,
+  "modifiers": [
+    {
+      "variant": "previous",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1310",
+        "skillId": "131003"
+      },
+      "unit": "percent",
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "firefly-native-combustion",
+        "default": false,
+        "comparisonDerived": true,
+        "conditionText": "各強化攻撃の完全燃焼状態を想定"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:131001/2/3/8/9;1131001/2/3/8/9;character_skill_trees.json:1310102/3;11310101/2/3",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/firefly",
+        "verification": "tests/hsr/hsrBatch7Break.test.cjs",
+        "verifiedAt": "2026-10-27"
+      },
+      "id": "trace:1310:131003:native-break-taken",
+      "name": "完全燃焼・本人撃破被ダメージ増加",
+      "description": "この結果の完全燃焼状態を想定。敵の手動被ダメージ欄へ同じ効果を重複入力しないでください。",
+      "category": "takenDamage",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16.25,
+          17.5,
+          18.75,
+          20
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "break",
+          "superBreak"
+        ],
+        "elements": [
+          "Fire"
+        ],
+        "attackIds": [
+          "131008",
+          "131009"
+        ]
+      },
+      "stacking": {
+        "group": "firefly-native-break-taken",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      }
+    },
+    {
+      "variant": "previous",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1310",
+        "skillId": "131003"
+      },
+      "unit": "percent",
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "firefly-native-combustion",
+        "default": false,
+        "comparisonDerived": true,
+        "conditionText": "各強化攻撃の完全燃焼状態を想定"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:131001/2/3/8/9;1131001/2/3/8/9;character_skill_trees.json:1310102/3;11310101/2/3",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/firefly",
+        "verification": "tests/hsr/hsrBatch7Break.test.cjs",
+        "verifiedAt": "2026-10-27"
+      },
+      "id": "trace:1310:131003:native-efficiency",
+      "name": "完全燃焼・弱点撃破効率50%",
+      "description": "この結果の完全燃焼状態を想定。敵の手動被ダメージ欄へ同じ効果を重複入力しないでください。",
+      "category": "breakEfficiency",
+      "value": {
+        "kind": "fixed",
+        "fixed": 50
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "superBreak"
+        ],
+        "elements": [
+          "Fire"
+        ],
+        "attackIds": [
+          "131008",
+          "131009"
+        ]
+      },
+      "stacking": {
+        "group": "firefly-native-efficiency",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "toughness",
+        "operation": "add"
+      }
+    },
+    {
+      "variant": "enhanced",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1310",
+        "skillId": "1131003"
+      },
+      "unit": "percent",
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "firefly-native-combustion",
+        "default": false,
+        "comparisonDerived": true,
+        "conditionText": "各強化攻撃の完全燃焼状態を想定"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:131001/2/3/8/9;1131001/2/3/8/9;character_skill_trees.json:1310102/3;11310101/2/3",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/firefly",
+        "verification": "tests/hsr/hsrBatch7Break.test.cjs",
+        "verifiedAt": "2026-10-27"
+      },
+      "id": "trace:1310:1131003:native-break-taken",
+      "name": "完全燃焼・本人撃破被ダメージ増加",
+      "description": "この結果の完全燃焼状態を想定。敵の手動被ダメージ欄へ同じ効果を重複入力しないでください。",
+      "category": "takenDamage",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16.25,
+          17.5,
+          18.75,
+          20
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "break",
+          "superBreak"
+        ],
+        "elements": [
+          "Fire"
+        ],
+        "attackIds": [
+          "1131008",
+          "1131009"
+        ]
+      },
+      "stacking": {
+        "group": "firefly-native-break-taken",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      }
+    },
+    {
+      "variant": "enhanced",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1310",
+        "skillId": "1131003"
+      },
+      "unit": "percent",
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "firefly-native-combustion",
+        "default": false,
+        "comparisonDerived": true,
+        "conditionText": "各強化攻撃の完全燃焼状態を想定"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:131001/2/3/8/9;1131001/2/3/8/9;character_skill_trees.json:1310102/3;11310101/2/3",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/firefly",
+        "verification": "tests/hsr/hsrBatch7Break.test.cjs",
+        "verifiedAt": "2026-10-27"
+      },
+      "id": "trace:1310:1131003:native-efficiency",
+      "name": "完全燃焼・弱点撃破効率50%",
+      "description": "この結果の完全燃焼状態を想定。敵の手動被ダメージ欄へ同じ効果を重複入力しないでください。",
+      "category": "breakEfficiency",
+      "value": {
+        "kind": "fixed",
+        "fixed": 50
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "superBreak"
+        ],
+        "elements": [
+          "Fire"
+        ],
+        "attackIds": [
+          "1131008",
+          "1131009"
+        ]
+      },
+      "stacking": {
+        "group": "firefly-native-efficiency",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "toughness",
+        "operation": "add"
+      }
+    },
+    {
+      "variant": "enhanced",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1310",
+        "traceId": "11310101"
+      },
+      "unit": "percent",
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "firefly-native-combustion",
+        "default": false,
+        "comparisonDerived": true,
+        "conditionText": "各強化攻撃の完全燃焼状態を想定"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:131001/2/3/8/9;1131001/2/3/8/9;character_skill_trees.json:1310102/3;11310101/2/3",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/firefly",
+        "verification": "tests/hsr/hsrBatch7Break.test.cjs",
+        "verifiedAt": "2026-10-27"
+      },
+      "id": "trace:1310:11310101:native-be",
+      "name": "強化版A2・完全燃焼の撃破特効25%",
+      "description": "入力BEにはA6/装備など常時効果を含め、完全燃焼A2の25%はここで一度加算します。",
+      "category": "breakEffect",
+      "value": {
+        "kind": "fixed",
+        "fixed": 25
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "enhancedNormal",
+          "enhancedSkill",
+          "superBreak"
+        ],
+        "elements": [
+          "Fire"
+        ],
+        "attackIds": [
+          "1131008",
+          "1131009"
+        ]
+      },
+      "stacking": {
+        "group": "firefly-native-be",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "breakEffect",
+        "operation": "add"
+      }
+    },
+    {
+      "id": "trace:1317:131704:consumed-charge-input",
+      "source": {
+        "kind": "trace",
+        "id": "1317",
+        "skillId": "131704"
+      },
+      "name": "第三段で消費するチャージ",
+      "description": "入力は第三段開始時のチャージ。直撃や他の撃破へ加算せず、独立した天賦追加撃破1回だけに使用します。",
+      "category": "extraDamage",
+      "unit": "flat",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "break"
+        ],
+        "elements": [
+          "Imaginary"
+        ]
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "inputKey": "rappa-consumed-charge",
+        "inputLabel": "第三段で消費するチャージ",
+        "strictInput": true,
+        "default": 0,
+        "minimum": 0,
+        "maximum": 10,
+        "step": 1,
+        "operator": ">=",
+        "threshold": 0,
+        "conditionText": "第三段時点の消費チャージ0～10（自動蓄積なし）"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "追加撃破の入力条件。ステータス補正としては加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceFile": "character_skills.json:131704.params[][2,4]",
+        "verifiedAt": "2026-10-27"
+      },
+      "calculation": {
+        "stage": "extraDamage",
+        "operation": "add"
+      }
+    },
+    {
+      "id": "traceNode:1317:1317103:prior-break-vulnerability",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1317",
+        "traceId": "1317103"
+      },
+      "name": "枯葉・事前成立の撃破被ダメージ増加",
+      "description": "敵へ既に成立している枯葉の効果量を入力します。基礎2%＋攻撃力2400超過100ごとに1%、追加上限8%、2ターン。現在のATKから新規付与や途中更新を生成しません。通常被ダメージ欄へ入れると直撃にも適用されるため、ここで撃破専用に指定してください。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "inputScaleByLevelPlusByLevel",
+        "inputKey": "rappa-prior-break-vulnerability",
+        "inputLabel": "事前成立の枯葉の効果量（%）",
+        "minimum": 2,
+        "inputMaximum": 10,
+        "inputStep": 0.01,
+        "scaleValues": [
+          100
+        ],
+        "addValues": [
+          0
+        ]
+      },
+      "inputValidation": {
+        "minimum": 2,
+        "maximum": 10,
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "break",
+          "superBreak"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "rappa-prior-withered-leaf",
+        "default": false,
+        "conditionText": "攻撃前から枯葉の撃破被ダメージ増加が有効"
+      },
+      "inputPolicy": "conditional",
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "stacking": {
+        "group": "rappa-withered-leaf",
+        "rule": "nonStacking"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceFile": "character_skill_trees.json:1317103",
+        "verifiedAt": "2026-10-27"
+      }
+    }
+  ]
+}

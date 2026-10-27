@@ -3,7 +3,164 @@
   "dataVersion": "ruanmei-special-break-2026-07-29",
   "description": "通常ダメージ式ではなく、氷属性弱点撃破ダメージを基準に計算する固有攻撃。",
   "attacks": [
-    {"id":"1303031","characterId":"1303","sourceSkillId":"130303","name":"残梅・弱点撃破ダメージ","type":"break","traceKey":"ultimate","element":"Ice","target":"single","multipliers":[30,32,34,36,38,40,42.5,45,47.5,50,52,54,56,58,60],"conditionText":"残梅を付与された敵が弱点撃破状態から回復しようとした時","support":{"status":"calculable","verified":true},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json","sourceFile":"character_skills.json;character_skill_trees.json;character_ranks.json","verifiedAt":"2026-10-26","scope":"ルアン・メェイ本人の最終撃破特効を参照する追加撃破1回の想定。敵に氷弱点がなくても発生します。通常攻撃/初回撃破/超撃破と自動合算しません。天賦は味方の撃破後、残梅は敵が撃破から復帰しようとする時の別イベント。現在の靭性状態を進行させず、氷耐性と敵最大靭性を指定してください。","verification":"hsrBatch4CommonStates.test.cjs"},"breakEvent":"additional","maximumEidolon":0,"maximumTraceLevel":10,"characterLevelExact":80,"enemyCountExact":1,"calculationNote":"ルアン・メェイ本人の最終撃破特効を参照する追加撃破1回の想定。敵に氷弱点がなくても発生します。通常攻撃/初回撃破/超撃破と自動合算しません。天賦は味方の撃破後、残梅は敵が撃破から復帰しようとする時の別イベント。現在の靭性状態を進行させず、氷耐性と敵最大靭性を指定してください。"},
-    {"id":"1303041","characterId":"1303","sourceSkillId":"130304","name":"フラクタルの螺旋・弱点撃破ダメージ","type":"break","traceKey":"talent","element":"Ice","target":"single","multipliers":[60,66,72,78,84,90,97.5,105,112.5,120,126,132,138,144,150],"eidolon6Bonus":200,"conditionText":"味方が敵を弱点撃破した後","support":{"status":"calculable","verified":true},"provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json","sourceFile":"character_skills.json;character_skill_trees.json;character_ranks.json","verifiedAt":"2026-10-26","scope":"ルアン・メェイ本人の最終撃破特効を参照する追加撃破1回の想定。敵に氷弱点がなくても発生します。通常攻撃/初回撃破/超撃破と自動合算しません。天賦は味方の撃破後、残梅は敵が撃破から復帰しようとする時の別イベント。現在の靭性状態を進行させず、氷耐性と敵最大靭性を指定してください。","verification":"hsrBatch4CommonStates.test.cjs"},"breakEvent":"additional","maximumEidolon":0,"maximumTraceLevel":10,"characterLevelExact":80,"enemyCountExact":1,"calculationNote":"ルアン・メェイ本人の最終撃破特効を参照する追加撃破1回の想定。敵に氷弱点がなくても発生します。通常攻撃/初回撃破/超撃破と自動合算しません。天賦は味方の撃破後、残梅は敵が撃破から復帰しようとする時の別イベント。現在の靭性状態を進行させず、氷耐性と敵最大靭性を指定してください。"}
+    {
+      "id": "1303031",
+      "characterId": "1303",
+      "sourceSkillId": "130303",
+      "name": "残梅・弱点撃破ダメージ",
+      "type": "break",
+      "traceKey": "ultimate",
+      "element": "Ice",
+      "target": "single",
+      "multipliers": [
+        30,
+        32,
+        34,
+        36,
+        38,
+        40,
+        42.5,
+        45,
+        47.5,
+        50,
+        52,
+        54,
+        56,
+        58,
+        60
+      ],
+      "conditionText": "残梅を付与された敵が弱点撃破状態から回復しようとした時",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-26",
+        "scope": "ルアン・メェイ本人の最終撃破特効を参照する追加撃破1回の想定。敵に氷弱点がなくても発生します。通常攻撃/初回撃破/超撃破と自動合算しません。天賦は味方の撃破後、残梅は敵が撃破から復帰しようとする時の別イベント。現在の靭性状態を進行させず、氷耐性と敵最大靭性を指定してください。",
+        "verification": "hsrBatch4CommonStates.test.cjs"
+      },
+      "breakEvent": "additional",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationNote": "ルアン・メェイ本人の最終撃破特効を参照する追加撃破1回の想定。敵に氷弱点がなくても発生します。通常攻撃/初回撃破/超撃破と自動合算しません。天賦は味方の撃破後、残梅は敵が撃破から復帰しようとする時の別イベント。現在の靭性状態を進行させず、氷耐性と敵最大靭性を指定してください。"
+    },
+    {
+      "id": "1303041",
+      "characterId": "1303",
+      "sourceSkillId": "130304",
+      "name": "フラクタルの螺旋・弱点撃破ダメージ",
+      "type": "break",
+      "traceKey": "talent",
+      "element": "Ice",
+      "target": "single",
+      "multipliers": [
+        60,
+        66,
+        72,
+        78,
+        84,
+        90,
+        97.5,
+        105,
+        112.5,
+        120,
+        126,
+        132,
+        138,
+        144,
+        150
+      ],
+      "eidolon6Bonus": 200,
+      "conditionText": "味方が敵を弱点撃破した後",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-26",
+        "scope": "ルアン・メェイ本人の最終撃破特効を参照する追加撃破1回の想定。敵に氷弱点がなくても発生します。通常攻撃/初回撃破/超撃破と自動合算しません。天賦は味方の撃破後、残梅は敵が撃破から復帰しようとする時の別イベント。現在の靭性状態を進行させず、氷耐性と敵最大靭性を指定してください。",
+        "verification": "hsrBatch4CommonStates.test.cjs"
+      },
+      "breakEvent": "additional",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationNote": "ルアン・メェイ本人の最終撃破特効を参照する追加撃破1回の想定。敵に氷弱点がなくても発生します。通常攻撃/初回撃破/超撃破と自動合算しません。天賦は味方の撃破後、残梅は敵が撃破から復帰しようとする時の別イベント。現在の靭性状態を進行させず、氷耐性と敵最大靭性を指定してください。"
+    },
+    {
+      "id": "1317041",
+      "characterId": "1317",
+      "sourceSkillId": "131704",
+      "name": "忍法・耐え抜くゲージ（第三段の追加撃破のみ）",
+      "type": "break",
+      "traceKey": "talent",
+      "element": "Imaginary",
+      "target": "single",
+      "breakEvent": "additional",
+      "multipliers": [
+        30,
+        33,
+        36,
+        39,
+        42,
+        45,
+        48.75,
+        52.5,
+        56.25,
+        60
+      ],
+      "chargeMultipliers": [
+        25,
+        27.5,
+        30,
+        32.5,
+        35,
+        37.5,
+        40.62,
+        43.75,
+        46.88,
+        50
+      ],
+      "maximumTraceLevel": 10,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "numericModifierInputs": [
+        {
+          "inputKey": "rappa-consumed-charge",
+          "label": "第三段で消費するチャージ",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 10,
+          "integer": true
+        }
+      ],
+      "conditionText": "第三段の天賦追加撃破1回だけ。消費チャージは手動指定。初回撃破・直撃・超撃破とは合算しません。",
+      "calculationNote": "Lv80・E0・敵1体。本人の最終撃破特効と敵の虚数耐性/最大靭性を参照。通常攻撃第三段の天賦追加撃破のみで、全強化通常の合計ではありません。元の撃破・直撃・A4超撃破・ターン進行を生成しません。枯葉の事前成立は撃破専用補正で指定し、通常被ダメージ欄へ混入させません。固定版の丸め済み天賦係数を使用します。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の全Lv×チャージ0～10を既存撃破式へ接続し、独立計算で照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "131704.params[0..9][2,4]",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/rappa",
+        "verification": "tests/hsr/hsrBatch7Break.test.cjs"
+      }
+    }
   ]
 }
