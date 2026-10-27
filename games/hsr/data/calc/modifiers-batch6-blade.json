@@ -1,0 +1,559 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "mortenax-e0-2026-10-27",
+  "description": "千冶・刃のE0本人補正。完成済み会心入力と、比較行ごとの結界・敵状態を使用。",
+  "modifiers": [
+    {
+      "id": "trace:1507:150703:infinite-fury-state",
+      "source": {
+        "kind": "trace",
+        "id": "1507",
+        "skillId": "150703"
+      },
+      "providerScope": "self",
+      "name": "無量忿怒が有効",
+      "description": "通常と強化状態の比較用説明。強化各行は状態成立を想定し、会心上昇を1回加算します。入力会心へはこの上昇を含めないでください。",
+      "category": "extraDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "mortenax-infinite-fury-active",
+        "inputLabel": "無量忿怒が有効",
+        "default": false,
+        "conditionText": "比較行の無量忿怒状態と、編成中の他の虚無キャラクターの有無で自動判定します。",
+        "comparisonDerived": true
+      },
+      "stacking": {
+        "group": "mortenax-infinite-fury-state",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "extraDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10,
+        "minimum": 0,
+        "maximum": 1,
+        "integer": true
+      },
+      "support": {
+        "status": "displayOnly",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150703",
+        "formulaSource": "https://srl.keqingmains.com/combat-mechanics/damage/damage-formula",
+        "verifiedAt": "2026-10-27",
+        "verification": "tests/hsr/hsrBatch6Blade.test.cjs",
+        "gameVersion": "fixed source dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      }
+    },
+    {
+      "id": "trace:1507:150703:balefire-defense",
+      "source": {
+        "kind": "trace",
+        "id": "1507",
+        "skillId": "150703"
+      },
+      "providerScope": "self",
+      "name": "修羅の炎・防御ダウンが有効",
+      "description": "変身行は同Lvの修羅の炎が攻撃前から成立する想定です。敵条件にはこの効果を重複入力せず、通常行への継続分だけチェックで指定します。",
+      "category": "defenseReduction",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26.25,
+          27.5,
+          28.75,
+          30
+        ],
+        "levelInputLabel": "千冶・刃の必殺技Lv"
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "mortenax-balefire-active",
+        "inputLabel": "通常行にも修羅の炎の継続分を適用",
+        "default": false,
+        "conditionText": "変身行は同Lvの修羅の炎が攻撃前から成立する想定です。敵条件にはこの効果を重複入力せず、通常行への継続分だけチェックで指定します。"
+      },
+      "stacking": {
+        "group": "mortenax-balefire-defense",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10,
+        "minimum": 0,
+        "maximum": 1,
+        "integer": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150703",
+        "formulaSource": "https://srl.keqingmains.com/combat-mechanics/damage/damage-formula",
+        "verifiedAt": "2026-10-27",
+        "verification": "tests/hsr/hsrBatch6Blade.test.cjs",
+        "gameVersion": "fixed source dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      }
+    },
+    {
+      "id": "trace:1507:150703:balefire-taken",
+      "source": {
+        "kind": "trace",
+        "id": "1507",
+        "skillId": "150703"
+      },
+      "providerScope": "self",
+      "name": "修羅の炎・被ダメージ増加が有効",
+      "description": "変身行は同Lvの修羅の炎が攻撃前から成立する想定です。敵条件にはこの効果を重複入力せず、通常行への継続分だけチェックで指定します。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          30,
+          32,
+          34,
+          36,
+          38,
+          40,
+          42.5,
+          45,
+          47.5,
+          50
+        ],
+        "levelInputLabel": "千冶・刃の必殺技Lv"
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "mortenax-balefire-active",
+        "inputLabel": "通常行にも修羅の炎の継続分を適用",
+        "default": false,
+        "conditionText": "変身行は同Lvの修羅の炎が攻撃前から成立する想定です。敵条件にはこの効果を重複入力せず、通常行への継続分だけチェックで指定します。"
+      },
+      "stacking": {
+        "group": "mortenax-balefire-taken",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10,
+        "minimum": 0,
+        "maximum": 1,
+        "integer": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150703",
+        "formulaSource": "https://srl.keqingmains.com/combat-mechanics/damage/damage-formula",
+        "verifiedAt": "2026-10-27",
+        "verification": "tests/hsr/hsrBatch6Blade.test.cjs",
+        "gameVersion": "fixed source dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      }
+    },
+    {
+      "id": "trace:1507:1507103:zone-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1507",
+        "traceId": "1507103"
+      },
+      "providerScope": "self",
+      "name": "千冶・刃A6・結界中の与ダメージ50%",
+      "description": "A6解放済みで結界が有効。最終与ダメージ欄にこの50%を含めず、追加補正として1回適用。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 50
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "mortenax-infinite-fury-active",
+        "inputLabel": "千冶・刃A6・結界中の与ダメージ50%",
+        "default": false,
+        "conditionText": "比較行の無量忿怒状態と、編成中の他の虚無キャラクターの有無で自動判定します。",
+        "comparisonDerived": true
+      },
+      "stacking": {
+        "group": "mortenax-zone-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10,
+        "minimum": 0,
+        "maximum": 1,
+        "integer": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1507103",
+        "formulaSource": "https://srl.keqingmains.com/combat-mechanics/damage/damage-formula",
+        "verifiedAt": "2026-10-27",
+        "verification": "tests/hsr/hsrBatch6Blade.test.cjs",
+        "gameVersion": "fixed source dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      }
+    },
+    {
+      "id": "trace:1507:1507103:solo-nihility-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1507",
+        "traceId": "1507103"
+      },
+      "providerScope": "self",
+      "name": "千冶・刃A6・他の虚無なし75%",
+      "description": "結界中に本人以外の虚無がいるかを編成から判定します。この効果を入力済みの与ダメージへ含めないでください。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 75
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggleThreshold",
+        "inputKey": "mortenax-no-other-nihility",
+        "inputLabel": "千冶・刃A6・他の虚無なし75%",
+        "default": false,
+        "conditionText": "比較行の無量忿怒状態と、編成中の他の虚無キャラクターの有無で自動判定します。",
+        "reference": "mortenax-infinite-fury-active",
+        "operator": ">=",
+        "threshold": 1,
+        "comparisonDerived": true
+      },
+      "stacking": {
+        "group": "mortenax-a6-nihility-branch",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10,
+        "minimum": 0,
+        "maximum": 1,
+        "integer": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1507103",
+        "formulaSource": "https://srl.keqingmains.com/combat-mechanics/damage/damage-formula",
+        "verifiedAt": "2026-10-27",
+        "verification": "tests/hsr/hsrBatch6Blade.test.cjs",
+        "gameVersion": "fixed source dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      }
+    },
+    {
+      "id": "trace:1507:1507103:other-nihility-ultimate",
+      "source": {
+        "kind": "trace",
+        "id": "1507",
+        "traceId": "1507103"
+      },
+      "providerScope": "self",
+      "name": "千冶・刃A6・他の虚無あり必殺75%",
+      "description": "結界中に本人以外の虚無がいるかを編成から判定します。この効果を入力済みの与ダメージへ含めないでください。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 75
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggleThreshold",
+        "inputKey": "mortenax-other-nihility",
+        "inputLabel": "千冶・刃A6・他の虚無あり必殺75%",
+        "default": false,
+        "conditionText": "比較行の無量忿怒状態と、編成中の他の虚無キャラクターの有無で自動判定します。",
+        "reference": "mortenax-infinite-fury-active",
+        "operator": ">=",
+        "threshold": 1,
+        "comparisonDerived": true
+      },
+      "stacking": {
+        "group": "mortenax-a6-nihility-branch",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10,
+        "minimum": 0,
+        "maximum": 1,
+        "integer": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1507103",
+        "formulaSource": "https://srl.keqingmains.com/combat-mechanics/damage/damage-formula",
+        "verifiedAt": "2026-10-27",
+        "verification": "tests/hsr/hsrBatch6Blade.test.cjs",
+        "gameVersion": "fixed source dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      }
+    },
+    {
+      "id": "trace:1507:150703:fury-critRate",
+      "source": {
+        "kind": "trace",
+        "id": "1507",
+        "skillId": "150703"
+      },
+      "providerScope": "self",
+      "name": "無量忿怒・会心率",
+      "description": "強化状態を想定する行に1回加算。入力会心へはこの効果を含めないでください。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "enhancedNormal",
+          "skill",
+          "ultimate",
+          "followUp"
+        ],
+        "attackIds": [
+          "150708",
+          "150702",
+          "150714",
+          "1507041"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "mortenax-infinite-fury-active",
+        "default": false,
+        "conditionText": "比較行の無量忿怒状態と、編成中の他の虚無キャラクターの有無で自動判定します。",
+        "comparisonDerived": true
+      },
+      "stacking": {
+        "group": "trace:1507:150703:fury-critRate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10,
+        "minimum": 0,
+        "maximum": 1,
+        "integer": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150703",
+        "formulaSource": "https://srl.keqingmains.com/combat-mechanics/damage/damage-formula",
+        "verifiedAt": "2026-10-27",
+        "verification": "tests/hsr/hsrBatch6Blade.test.cjs",
+        "gameVersion": "fixed source dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      }
+    },
+    {
+      "id": "trace:1507:150703:fury-critDamage",
+      "source": {
+        "kind": "trace",
+        "id": "1507",
+        "skillId": "150703"
+      },
+      "providerScope": "self",
+      "name": "無量忿怒・会心ダメージ",
+      "description": "強化状態を想定する行に1回加算。入力会心へはこの効果を含めないでください。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          30,
+          33,
+          36,
+          39,
+          42,
+          45,
+          48.75,
+          52.5,
+          56.25,
+          60
+        ],
+        "levelInputLabel": "千冶・刃の必殺技Lv"
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "enhancedNormal",
+          "skill",
+          "ultimate",
+          "followUp"
+        ],
+        "attackIds": [
+          "150708",
+          "150702",
+          "150714",
+          "1507041"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "mortenax-infinite-fury-active",
+        "default": false,
+        "conditionText": "比較行の無量忿怒状態と、編成中の他の虚無キャラクターの有無で自動判定します。",
+        "comparisonDerived": true
+      },
+      "stacking": {
+        "group": "trace:1507:150703:fury-critDamage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10,
+        "minimum": 0,
+        "maximum": 1,
+        "integer": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150703",
+        "formulaSource": "https://srl.keqingmains.com/combat-mechanics/damage/damage-formula",
+        "verifiedAt": "2026-10-27",
+        "verification": "tests/hsr/hsrBatch6Blade.test.cjs",
+        "gameVersion": "fixed source dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      }
+    }
+  ]
+}

@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "anaxa-fixed-seven-weakness-e0-2026-10-27",
+  "description": "アナイクスの7弱点・本質暴露・撃破状態で一定の限定計算。全E0状態の認定ではありません。",
+  "overrides": [
+    {
+      "id": "140501",
+      "characterId": "1405",
+      "sourceSkillId": "140501",
+      "name": "苦痛、認識の造成（通常本体のみ）",
+      "element": "Wind",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "requiresBrokenTarget": true,
+      "requiredWeaknessCount": 7,
+      "requiredTraceLevelRanges": {
+        "normal": {
+          "minimum": 1,
+          "maximum": 6
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "conditionText": "攻撃前から7弱点・本質暴露中、撃破状態の敵1体・状態一定",
+      "calculationScope": "independently-checked-fixed-seven-weakness-instance",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "7弱点・本質暴露・撃破状態で一定の限定範囲。弱点0～6からの付与順序は計算対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:140501.params[0..5][0];140504.params[0..9][0];character_skill_trees.json:1405103.params[0][0]",
+        "referenceUrl": "https://anaxamains.com/",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・撃破状態の敵1体。攻撃前から7種類の弱点と本質暴露が有効で、攻撃中の敵・補正状態が一定。A4は知恵1人の会心ダメージ+140%または知恵2人以上の与ダメージ+50%の該当する一方だけを本人の最終入力へ含めます。天賦の与ダメージとA6の防御無視28%は自動で1回加算し、最終入力や手動補正へ重複させないでください。",
+        "verification": "hsrBatch6Anaxa.test.cjs"
+      },
+      "displayOrder": 10,
+      "calculationNote": "Lv80・星魂0・撃破状態の敵1体。攻撃前から7種類の弱点と本質暴露が有効で、攻撃中の敵・補正状態が一定。A4は知恵1人の会心ダメージ+140%または知恵2人以上の与ダメージ+50%の該当する一方だけを本人の最終入力へ含めます。天賦の与ダメージとA6の防御無視28%は自動で1回加算し、最終入力や手動補正へ重複させないでください。 この行は通常本体だけです。直後の追加スキルを含む1行動は「通常＋追加スキル」の合計を選択してください。",
+      "qualitativeDisclosureActive": true,
+      "enforceSnapshotContract": true,
+      "requiredModifierIds": [
+        "trace:1405:140504:qualitative-disclosure",
+        "traceNode:1405:1405103:seven-weakness-defense-ignore"
+      ]
+    },
+    {
+      "id": "140502",
+      "characterId": "1405",
+      "sourceSkillId": "140502",
+      "name": "分形、誤謬の駆逐（スキル1回・5段）",
+      "element": "Wind",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        175,
+        192.5,
+        210,
+        227.5,
+        245,
+        262.5,
+        284.35,
+        306.25,
+        328.1,
+        350
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiresBrokenTarget": true,
+      "requiredWeaknessCount": 7,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "conditionText": "攻撃前から7弱点・本質暴露中、撃破状態の敵1体・状態一定",
+      "calculationScope": "independently-checked-fixed-seven-weakness-instance",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "7弱点・本質暴露・撃破状態で一定の限定範囲。弱点0～6からの付与順序は計算対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:140502.params[0..9][0];140504.params[0..9][0];character_skill_trees.json:1405103.params[0][0]",
+        "referenceUrl": "https://anaxamains.com/",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・撃破状態の敵1体。攻撃前から7種類の弱点と本質暴露が有効で、攻撃中の敵・補正状態が一定。A4は知恵1人の会心ダメージ+140%または知恵2人以上の与ダメージ+50%の該当する一方だけを本人の最終入力へ含めます。天賦の与ダメージとA6の防御無視28%は自動で1回加算し、最終入力や手動補正へ重複させないでください。",
+        "verification": "hsrBatch6Anaxa.test.cjs"
+      },
+      "displayOrder": 20,
+      "hitCountLabel": "初段＋4バウンド・5段合計",
+      "calculationNote": "Lv80・星魂0・撃破状態の敵1体。攻撃前から7種類の弱点と本質暴露が有効で、攻撃中の敵・補正状態が一定。A4は知恵1人の会心ダメージ+140%または知恵2人以上の与ダメージ+50%の該当する一方だけを本人の最終入力へ含めます。天賦の与ダメージとA6の防御無視28%は自動で1回加算し、最終入力や手動補正へ重複させないでください。 初段と4回のバウンドの5段合計です。敵1体によるスキル与ダメージ+20%を別に自動加算します。この行はスキル1回であり、本質暴露による追加スキルを含む1行動は「スキル＋追加スキル」の合計を選択してください。",
+      "qualitativeDisclosureActive": true,
+      "enforceSnapshotContract": true,
+      "requiredModifierIds": [
+        "trace:1405:140504:qualitative-disclosure",
+        "traceNode:1405:1405103:seven-weakness-defense-ignore",
+        "trace:1405:140502:single-enemy-damage"
+      ]
+    },
+    {
+      "id": "140503",
+      "characterId": "1405",
+      "sourceSkillId": "140503",
+      "name": "化育、世界の創造（7弱点・本質暴露中）",
+      "element": "Wind",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        80,
+        88,
+        96,
+        104,
+        112,
+        120,
+        130,
+        140,
+        150,
+        160
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiresBrokenTarget": true,
+      "requiredWeaknessCount": 7,
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "conditionText": "攻撃前から7弱点・本質暴露中、撃破状態の敵1体・状態一定",
+      "calculationScope": "independently-checked-fixed-seven-weakness-instance",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "7弱点・本質暴露・撃破状態で一定の限定範囲。弱点0～6からの付与順序は計算対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:140503.params[0..9][0];140504.params[0..9][0];character_skill_trees.json:1405103.params[0][0]",
+        "referenceUrl": "https://anaxamains.com/",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・撃破状態の敵1体。攻撃前から7種類の弱点と本質暴露が有効で、攻撃中の敵・補正状態が一定。A4は知恵1人の会心ダメージ+140%または知恵2人以上の与ダメージ+50%の該当する一方だけを本人の最終入力へ含めます。天賦の与ダメージとA6の防御無視28%は自動で1回加算し、最終入力や手動補正へ重複させないでください。",
+        "verification": "hsrBatch6Anaxa.test.cjs"
+      },
+      "displayOrder": 30,
+      "calculationNote": "Lv80・星魂0・撃破状態の敵1体。攻撃前から7種類の弱点と本質暴露が有効で、攻撃中の敵・補正状態が一定。A4は知恵1人の会心ダメージ+140%または知恵2人以上の与ダメージ+50%の該当する一方だけを本人の最終入力へ含めます。天賦の与ダメージとA6の防御無視28%は自動で1回加算し、最終入力や手動補正へ重複させないでください。 必殺技1回分。昇華はダメージ前に7弱点を付与しますが、この限定計算では発動前から7弱点を指定します。必殺技から追加スキルは発生しません。",
+      "qualitativeDisclosureActive": true,
+      "enforceSnapshotContract": true,
+      "requiredModifierIds": [
+        "trace:1405:140504:qualitative-disclosure",
+        "traceNode:1405:1405103:seven-weakness-defense-ignore"
+      ]
+    },
+    {
+      "id": "1405011",
+      "characterId": "1405",
+      "sourceSkillId": "140501",
+      "name": "通常＋追加スキル（本質暴露中の1行動）",
+      "element": "Wind",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "requiresBrokenTarget": true,
+      "requiredWeaknessCount": 7,
+      "requiredTraceLevelRanges": {
+        "normal": {
+          "minimum": 1,
+          "maximum": 6
+        },
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "conditionText": "攻撃前から7弱点・本質暴露中、撃破状態の敵1体・状態一定",
+      "calculationScope": "independently-checked-fixed-seven-weakness-instance",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "7弱点・本質暴露・撃破状態で一定の限定範囲。弱点0～6からの付与順序は計算対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:140501.params[0..5][0];140502.params[0..9][0,1,2];140504.params[0..9][0,1,2];character_skill_trees.json:1405102,1405103",
+        "referenceUrl": "https://anaxamains.com/",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・撃破状態の敵1体。攻撃前から7種類の弱点と本質暴露が有効で、攻撃中の敵・補正状態が一定。A4は知恵1人の会心ダメージ+140%または知恵2人以上の与ダメージ+50%の該当する一方だけを本人の最終入力へ含めます。天賦の与ダメージとA6の防御無視28%は自動で1回加算し、最終入力や手動補正へ重複させないでください。",
+        "verification": "hsrBatch6Anaxa.test.cjs"
+      },
+      "displayOrder": 9,
+      "hitCountLabel": "通常本体＋スキル5段",
+      "damageComponents": [
+        {
+          "key": "normal",
+          "attackId": "140501",
+          "name": "通常本体"
+        },
+        {
+          "key": "extraSkill",
+          "attackId": "140502",
+          "name": "本質暴露の追加スキル5段"
+        }
+      ],
+      "calculationNote": "Lv80・星魂0・撃破状態の敵1体。攻撃前から7種類の弱点と本質暴露が有効で、攻撃中の敵・補正状態が一定。A4は知恵1人の会心ダメージ+140%または知恵2人以上の与ダメージ+50%の該当する一方だけを本人の最終入力へ含めます。天賦の与ダメージとA6の防御無視28%は自動で1回加算し、最終入力や手動補正へ重複させないでください。 通常またはスキルと、その直後に発生する追加スキル1回の合計。各成分に攻撃種別の補正を個別適用します。追加スキルは再発動を起こしません。成分単独の行をさらに加算しないでください。弱点付与・途中撃破・敵の交代・割り込みによる状態変化は計算対象外です。",
+      "qualitativeDisclosureActive": true,
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "1405021",
+      "characterId": "1405",
+      "sourceSkillId": "140502",
+      "name": "スキル＋追加スキル（本質暴露中の1行動）",
+      "element": "Wind",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        175,
+        192.5,
+        210,
+        227.5,
+        245,
+        262.5,
+        284.35,
+        306.25,
+        328.1,
+        350
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiresBrokenTarget": true,
+      "requiredWeaknessCount": 7,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "conditionText": "攻撃前から7弱点・本質暴露中、撃破状態の敵1体・状態一定",
+      "calculationScope": "independently-checked-fixed-seven-weakness-instance",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "7弱点・本質暴露・撃破状態で一定の限定範囲。弱点0～6からの付与順序は計算対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/en/character_skills.json",
+        "sourceFile": "character_skills.json:140501.params[0..5][0];140502.params[0..9][0,1,2];140504.params[0..9][0,1,2];character_skill_trees.json:1405102,1405103",
+        "referenceUrl": "https://anaxamains.com/",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・撃破状態の敵1体。攻撃前から7種類の弱点と本質暴露が有効で、攻撃中の敵・補正状態が一定。A4は知恵1人の会心ダメージ+140%または知恵2人以上の与ダメージ+50%の該当する一方だけを本人の最終入力へ含めます。天賦の与ダメージとA6の防御無視28%は自動で1回加算し、最終入力や手動補正へ重複させないでください。",
+        "verification": "hsrBatch6Anaxa.test.cjs"
+      },
+      "displayOrder": 19,
+      "hitCountLabel": "スキル5段＋追加スキル5段",
+      "damageComponents": [
+        {
+          "key": "skill",
+          "attackId": "140502",
+          "name": "スキル5段"
+        },
+        {
+          "key": "extraSkill",
+          "attackId": "140502",
+          "name": "本質暴露の追加スキル5段"
+        }
+      ],
+      "calculationNote": "Lv80・星魂0・撃破状態の敵1体。攻撃前から7種類の弱点と本質暴露が有効で、攻撃中の敵・補正状態が一定。A4は知恵1人の会心ダメージ+140%または知恵2人以上の与ダメージ+50%の該当する一方だけを本人の最終入力へ含めます。天賦の与ダメージとA6の防御無視28%は自動で1回加算し、最終入力や手動補正へ重複させないでください。 通常またはスキルと、その直後に発生する追加スキル1回の合計。各成分に攻撃種別の補正を個別適用します。追加スキルは再発動を起こしません。成分単独の行をさらに加算しないでください。弱点付与・途中撃破・敵の交代・割り込みによる状態変化は計算対象外です。",
+      "qualitativeDisclosureActive": true,
+      "enforceSnapshotContract": true
+    }
+  ]
+}

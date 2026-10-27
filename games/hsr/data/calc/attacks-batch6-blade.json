@@ -1,0 +1,287 @@
+{
+  "schemaVersion": 1,
+  "description": "千冶・刃E0の本人ダメージ。最大HPと成立済みの攻撃時点を参照。",
+  "overrides": [
+    {
+      "id": "150701",
+      "characterId": "1507",
+      "sourceSkillId": "150701",
+      "name": "刈り尽くす毀刃",
+      "element": "Fire",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "hp",
+      "damageFormula": "statMultiplier",
+      "canCrit": true,
+      "hitCount": 1,
+      "hitCountLabel": "全段合算",
+      "multipliers": [
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-direct-aggregate",
+      "conditionText": "無量忿怒外・攻撃中の敵条件と最終ステータスが一定",
+      "calculationNote": "Lv80・E0・敵1体・状態一定。本人の最終最大HPと、常時効果を含む会心を参照します。入力には無量忿怒の会心・結界の与ダメージを含めず、強化行へ各1回加算します。この行は無量忿怒の外の通常攻撃です。HP消費・回復・チャージ・行動順・途中撃破は自動進行しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAのJP/ENスキル・追加能力・星魂を照合し、全E0LvのHP参照と非会心・会心・期待値を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150701.params[0..5][0];character_skill_trees.json:1507101..1507103;character_ranks.json:150701..150706",
+        "formulaSource": "https://srl.keqingmains.com/combat-mechanics/damage/damage-formula",
+        "verifiedAt": "2026-10-27",
+        "verification": "tests/hsr/hsrBatch6Blade.test.cjs"
+      },
+      "comparisonModifierInputs": {
+        "mortenax-infinite-fury-active": false
+      },
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "150708",
+      "characterId": "1507",
+      "sourceSkillId": "150708",
+      "name": "魂魄を断つ鋭刃",
+      "element": "Fire",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "hp",
+      "damageFormula": "statMultiplier",
+      "canCrit": true,
+      "hitCount": 1,
+      "hitCountLabel": "全段合算",
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-direct-aggregate",
+      "conditionText": "無量忿怒中・攻撃中の敵条件と最終ステータスが一定",
+      "calculationNote": "Lv80・E0・敵1体・状態一定。本人の最終最大HPと、常時効果を含む会心を参照します。入力には無量忿怒の会心・結界の与ダメージを含めず、強化行へ各1回加算します。この行は無量忿怒と修羅の炎が攻撃前から成立している想定。敵条件には修羅の炎のDEF低下・被ダメージ増加を重複入力しないでください。HP消費・回復・チャージ・行動順・途中撃破は自動進行しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAのJP/ENスキル・追加能力・星魂を照合し、全E0LvのHP参照と非会心・会心・期待値を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150708.params[0..5][0];character_skill_trees.json:1507101..1507103;character_ranks.json:150701..150706",
+        "formulaSource": "https://srl.keqingmains.com/combat-mechanics/damage/damage-formula",
+        "verifiedAt": "2026-10-27",
+        "verification": "tests/hsr/hsrBatch6Blade.test.cjs"
+      },
+      "comparisonModifierInputs": {
+        "mortenax-infinite-fury-active": true,
+        "mortenax-balefire-active": true
+      },
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "150702",
+      "characterId": "1507",
+      "sourceSkillId": "150702",
+      "name": "葬り去る千刃（敵1体・全5ヒット）",
+      "element": "Fire",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "hp",
+      "damageFormula": "statMultiplier",
+      "canCrit": true,
+      "hitCount": 1,
+      "hitCountLabel": "全5ヒット合算",
+      "multipliers": [
+        84,
+        92.4,
+        100.8,
+        109.2,
+        117.6,
+        126,
+        136.5,
+        147,
+        157.5,
+        168
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-direct-aggregate",
+      "conditionText": "無量忿怒中・攻撃中の敵条件と最終ステータスが一定",
+      "calculationNote": "Lv80・E0・敵1体・状態一定。本人の最終最大HPと、常時効果を含む会心を参照します。入力には無量忿怒の会心・結界の与ダメージを含めず、強化行へ各1回加算します。この行は無量忿怒と修羅の炎が攻撃前から成立している想定。敵条件には修羅の炎のDEF低下・被ダメージ増加を重複入力しないでください。全体1回＋ランダム4回を敵1体へ合算した5段分。発動直前のHPが1を超える状態を想定します。HP消費・回復・チャージ・行動順・途中撃破は自動進行しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAのJP/ENスキル・追加能力・星魂を照合し、全E0LvのHP参照と非会心・会心・期待値を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150702.params[0..9][0];150702.params[][1,2];150704;character_skill_trees.json:1507101..1507103;character_ranks.json:150701..150706",
+        "formulaSource": "https://srl.keqingmains.com/combat-mechanics/damage/damage-formula",
+        "verifiedAt": "2026-10-27",
+        "verification": "tests/hsr/hsrBatch6Blade.test.cjs"
+      },
+      "comparisonModifierInputs": {
+        "mortenax-infinite-fury-active": true,
+        "mortenax-balefire-active": true
+      },
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "150714",
+      "characterId": "1507",
+      "sourceSkillId": "150714",
+      "name": "千冶は一を鋳り、万劫を燼滅す",
+      "element": "Fire",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "aoe",
+      "scalingStat": "hp",
+      "damageFormula": "statMultiplier",
+      "canCrit": true,
+      "hitCount": 1,
+      "hitCountLabel": "全段合算",
+      "multipliers": [
+        210,
+        224,
+        238,
+        252,
+        266,
+        280,
+        297.5,
+        315,
+        332.5,
+        350
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-direct-aggregate",
+      "conditionText": "無量忿怒中・攻撃中の敵条件と最終ステータスが一定",
+      "calculationNote": "Lv80・E0・敵1体・状態一定。本人の最終最大HPと、常時効果を含む会心を参照します。入力には無量忿怒の会心・結界の与ダメージを含めず、強化行へ各1回加算します。この行は無量忿怒と修羅の炎が攻撃前から成立している想定。敵条件には修羅の炎のDEF低下・被ダメージ増加を重複入力しないでください。HP消費・回復・チャージ・行動順・途中撃破は自動進行しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAのJP/ENスキル・追加能力・星魂を照合し、全E0LvのHP参照と非会心・会心・期待値を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150714.params[0..9][0];character_skill_trees.json:1507101..1507103;character_ranks.json:150701..150706",
+        "formulaSource": "https://srl.keqingmains.com/combat-mechanics/damage/damage-formula",
+        "verifiedAt": "2026-10-27",
+        "verification": "tests/hsr/hsrBatch6Blade.test.cjs"
+      },
+      "comparisonModifierInputs": {
+        "mortenax-infinite-fury-active": true,
+        "mortenax-balefire-active": true
+      },
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "1507041",
+      "characterId": "1507",
+      "sourceSkillId": "150702",
+      "name": "因果清算の追加スキル（追加攻撃・全5ヒット）",
+      "element": "Fire",
+      "type": "followUp",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "hp",
+      "damageFormula": "statMultiplier",
+      "canCrit": true,
+      "hitCount": 1,
+      "hitCountLabel": "全5ヒット合算",
+      "multipliers": [
+        84,
+        92.4,
+        100.8,
+        109.2,
+        117.6,
+        126,
+        136.5,
+        147,
+        157.5,
+        168
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-direct-aggregate",
+      "conditionText": "無量忿怒中・攻撃中の敵条件と最終ステータスが一定",
+      "calculationNote": "Lv80・E0・敵1体・状態一定。本人の最終最大HPと、常時効果を含む会心を参照します。入力には無量忿怒の会心・結界の与ダメージを含めず、強化行へ各1回加算します。この行は無量忿怒と修羅の炎が攻撃前から成立している想定。敵条件には修羅の炎のDEF低下・被ダメージ増加を重複入力しないでください。全体1回＋ランダム4回を敵1体へ合算した5段分。発動直前のHPが1を超える状態を想定します。因果清算で発生する追加スキル1回で、戦闘スキルLv・追加攻撃用補正を参照し、別行と自動合算しません。HP消費・回復・チャージ・行動順・途中撃破は自動進行しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAのJP/ENスキル・追加能力・星魂を照合し、全E0LvのHP参照と非会心・会心・期待値を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150702.params[0..9][0];150702.params[][1,2];150704;character_skill_trees.json:1507101..1507103;character_ranks.json:150701..150706",
+        "formulaSource": "https://srl.keqingmains.com/combat-mechanics/damage/damage-formula",
+        "verifiedAt": "2026-10-27",
+        "verification": "tests/hsr/hsrBatch6Blade.test.cjs"
+      },
+      "triggerSkillId": "150704",
+      "comparisonModifierInputs": {
+        "mortenax-infinite-fury-active": true,
+        "mortenax-balefire-active": true
+      },
+      "requiredTraceLevelRanges": {
+        "ultimate": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "enforceSnapshotContract": true
+    }
+  ]
+}

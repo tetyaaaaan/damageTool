@@ -1,0 +1,341 @@
+{
+  "schemaVersion": 1,
+  "overrides": [
+    {
+      "id": "122501",
+      "characterId": "1225",
+      "sourceSkillId": "122501",
+      "name": "燦然たる日月の尾",
+      "element": "Fire",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "maximumTraceLevel": 6,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "calculationNote": "Lv80・星魂0・敵1体。本人の最終ATKを参照する直接ダメージ。強化通常は灼熱状態を想定して並列表示します。狐の祈りの指定先は別の味方、敵のDEF低下は攻撃前から成立済みの値を敵条件に入力。未撃破でこの攻撃が新たな撃破を起こさない状態に限定し、通常/強化/必殺の直接成分と撃破・超撃破・雲火昭瑞の再撃破を自動合算しません。常時BE30%は最終入力へ含め、再加算しません。",
+      "assumptions": [
+        "通常手番の直接攻撃",
+        "未撃破・途中撃破なし・狐の祈りは別の味方"
+      ],
+      "resultSummary": "本人の直接ダメージ。撃破・超撃破・雲火昭瑞の再撃破は別の結果です。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の全E0採用Lvを独立検証した本人直接成分。支援能力の全対応認定ではありません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・敵1体。本人の最終ATKを参照する直接ダメージ。強化通常は灼熱状態を想定して並列表示します。狐の祈りの指定先は別の味方、敵のDEF低下は攻撃前から成立済みの値を敵条件に入力。未撃破でこの攻撃が新たな撃破を起こさない状態に限定し、通常/強化/必殺の直接成分と撃破・超撃破・雲火昭瑞の再撃破を自動合算しません。常時BE30%は最終入力へ含め、再加算しません。",
+        "verification": "hsrBatch6FugueMemory.test.cjs"
+      }
+    },
+    {
+      "id": "122508",
+      "characterId": "1225",
+      "sourceSkillId": "122508",
+      "name": "緩緩たる熾炎",
+      "element": "Fire",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "target": "blast",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "adjacentMultipliers": [
+        25,
+        30,
+        35,
+        40,
+        45,
+        50
+      ],
+      "suppressAdjacentWithSingleEnemy": true,
+      "maximumTraceLevel": 6,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "calculationNote": "Lv80・星魂0・敵1体。本人の最終ATKを参照する直接ダメージ。強化通常は灼熱状態を想定して並列表示します。狐の祈りの指定先は別の味方、敵のDEF低下は攻撃前から成立済みの値を敵条件に入力。未撃破でこの攻撃が新たな撃破を起こさない状態に限定し、通常/強化/必殺の直接成分と撃破・超撃破・雲火昭瑞の再撃破を自動合算しません。常時BE30%は最終入力へ含め、再加算しません。",
+      "assumptions": [
+        "灼熱状態の強化通常",
+        "未撃破・途中撃破なし・狐の祈りは別の味方"
+      ],
+      "resultSummary": "本人の直接ダメージ。撃破・超撃破・雲火昭瑞の再撃破は別の結果です。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の全E0採用Lvを独立検証した本人直接成分。支援能力の全対応認定ではありません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・敵1体。本人の最終ATKを参照する直接ダメージ。強化通常は灼熱状態を想定して並列表示します。狐の祈りの指定先は別の味方、敵のDEF低下は攻撃前から成立済みの値を敵条件に入力。未撃破でこの攻撃が新たな撃破を起こさない状態に限定し、通常/強化/必殺の直接成分と撃破・超撃破・雲火昭瑞の再撃破を自動合算しません。常時BE30%は最終入力へ含め、再加算しません。",
+        "verification": "hsrBatch6FugueMemory.test.cjs"
+      }
+    },
+    {
+      "id": "122503",
+      "characterId": "1225",
+      "sourceSkillId": "122503",
+      "name": "極陽は遍く世を照らす",
+      "element": "Fire",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        162.5,
+        175,
+        187.5,
+        200
+      ],
+      "maximumTraceLevel": 10,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredToughnessActive": true,
+      "enforceSnapshotContract": true,
+      "calculationNote": "Lv80・星魂0・敵1体。本人の最終ATKを参照する直接ダメージ。強化通常は灼熱状態を想定して並列表示します。狐の祈りの指定先は別の味方、敵のDEF低下は攻撃前から成立済みの値を敵条件に入力。未撃破でこの攻撃が新たな撃破を起こさない状態に限定し、通常/強化/必殺の直接成分と撃破・超撃破・雲火昭瑞の再撃破を自動合算しません。常時BE30%は最終入力へ含め、再加算しません。",
+      "assumptions": [
+        "通常手番の直接攻撃",
+        "未撃破・途中撃破なし・狐の祈りは別の味方"
+      ],
+      "resultSummary": "本人の直接ダメージ。撃破・超撃破・雲火昭瑞の再撃破は別の結果です。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の全E0採用Lvを独立検証した本人直接成分。支援能力の全対応認定ではありません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・敵1体。本人の最終ATKを参照する直接ダメージ。強化通常は灼熱状態を想定して並列表示します。狐の祈りの指定先は別の味方、敵のDEF低下は攻撃前から成立済みの値を敵条件に入力。未撃破でこの攻撃が新たな撃破を起こさない状態に限定し、通常/強化/必殺の直接成分と撃破・超撃破・雲火昭瑞の再撃破を自動合算しません。常時BE30%は最終入力へ含め、再加算しません。",
+        "verification": "hsrBatch6FugueMemory.test.cjs"
+      }
+    },
+    {
+      "id": "800701",
+      "characterId": "8007",
+      "sourceSkillId": "800701",
+      "name": "お任せあれ！",
+      "element": "Ice",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "maximumTraceLevel": 6,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "開拓者本人ATK参照の通常1回のみ。精霊/連携とは別。"
+      },
+      "calculationNote": "開拓者本人の通常攻撃だけを計算します。ミュリオンのATK・会心・属性与ダメージは本人と独立であり、この値を精霊へ代用しません。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "verification": "hsrBatch6FugueMemory.test.cjs"
+      }
+    },
+    {
+      "id": "800801",
+      "characterId": "8008",
+      "sourceSkillId": "800801",
+      "name": "お任せあれ！",
+      "element": "Ice",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "maximumTraceLevel": 6,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "開拓者本人ATK参照の通常1回のみ。精霊/連携とは別。"
+      },
+      "calculationNote": "開拓者本人の通常攻撃だけを計算します。ミュリオンのATK・会心・属性与ダメージは本人と独立であり、この値を精霊へ代用しません。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "verification": "hsrBatch6FugueMemory.test.cjs"
+      }
+    },
+    {
+      "id": "800703",
+      "characterId": "8007",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "ミュリオン自身のATK・会心・氷与ダメージと攻撃種別の補正範囲が必要です。開拓者本人のステータスでは計算しません。"
+      },
+      "calculationNote": "精霊の独立ステータスと補正適用範囲が未接続のため、この結果だけを停止します。本人の通常攻撃は維持します。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "scope": "ミュリオン所有者/連携の参照境界。数値の代用を禁止。",
+        "verification": "hsrBatch6FugueMemory.test.cjs"
+      }
+    },
+    {
+      "id": "800708",
+      "characterId": "8007",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "開拓者とミュリオンの別々のATK/会心/補正が必要な連携攻撃です。本人のATKだけで合計を表示しません。"
+      },
+      "calculationNote": "精霊の独立ステータスと補正適用範囲が未接続のため、この結果だけを停止します。本人の通常攻撃は維持します。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "scope": "ミュリオン所有者/連携の参照境界。数値の代用を禁止。",
+        "verification": "hsrBatch6FugueMemory.test.cjs"
+      }
+    },
+    {
+      "id": "1800701",
+      "characterId": "8007",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "ミュリオン自身のATK・会心・氷与ダメージと攻撃種別の補正範囲が必要です。開拓者本人のステータスでは計算しません。"
+      },
+      "calculationNote": "精霊の独立ステータスと補正適用範囲が未接続のため、この結果だけを停止します。本人の通常攻撃は維持します。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "scope": "ミュリオン所有者/連携の参照境界。数値の代用を禁止。",
+        "verification": "hsrBatch6FugueMemory.test.cjs"
+      }
+    },
+    {
+      "id": "131718",
+      "characterId": "1317",
+      "sourceSkillId": "131718",
+      "name": "忍具・降魔の花弁（直撃3段のみ・参考値）",
+      "type": "enhancedNormal",
+      "traceKey": "normal",
+      "element": "Imaginary",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "multipliers": [
+        180,
+        204,
+        228,
+        252,
+        276,
+        300
+      ],
+      "adjacentMultipliers": [
+        120,
+        136,
+        152,
+        168,
+        184,
+        200
+      ],
+      "hitCount": 1,
+      "hitCountLabel": "直撃3段合算",
+      "canCrit": true,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "suppressAdjacentWithSingleEnemy": true,
+      "support": {
+        "status": "review",
+        "verified": false,
+        "reason": "直撃3段の係数のみ独立検証。天賦の追加撃破・A4超撃破・3段目の状態変化を含む攻撃全体は未対応です。"
+      },
+      "resultSummary": "直撃3段だけの参考成分。天賦の追加撃破と超撃破を含む全体合計ではありません。",
+      "calculationNote": "固定版131718の主対象はparam0を2回+param2を1回、隣接はparam1を2回+param2を1回。Lv80・E0・敵1体・状態一定の直接成分だけです。天賦の基礎撃破30～60%+消費チャージ分、A4の超撃破、削靭による新規撃破は未合算のため、攻撃全体の正式対応にはしません。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "scope": "主2*param0+param2、隣接2*param1+param2。部分値を全体としない。",
+        "verification": "hsrBatch6FugueMemory.test.cjs"
+      }
+    }
+  ]
+}

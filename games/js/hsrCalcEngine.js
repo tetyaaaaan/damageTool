@@ -212,7 +212,7 @@
                 && components[1]?.key === "additional" && components[1]?.attackId === "122304";
             const validLukaDefinition = attack.id === "1111083" && attack.type === "enhancedNormal" && attack.sourceSkillId === "111108" && attack.element === "Physical" && attack.target === "single"
                 && Array.isArray(components) && components.length === 3 && components[0]?.key === "punches" && components[0]?.attackId === "1111081" && components[1]?.key === "uppercut" && components[1]?.attackId === "1111082" && components[2]?.key === "bleed" && components[2]?.attackId === "1111041";
-            return validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
+            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
         }
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
@@ -291,6 +291,15 @@ function calculateFanning(input) {
         const attack = input?.attack || {};
         const unsupportedReason = unsupportedAttackReason(attack);
         if (unsupportedReason) return { supported: false, reason: unsupportedReason };
+        if (attack.enforceSnapshotContract) {
+            const fail=reason=>({supported:false,reason});
+            if(character.level!==attack.characterLevelExact || character.eidolon!==0 || enemy.count!==1 || !Number.isInteger(attack.traceLevel) || attack.traceLevel<1 || attack.traceLevel>attack.maximumTraceLevel) return fail("この独立検証済み範囲はLv80・星魂0・敵1体・登録済み軌跡Lvのみ対応です。");
+            if(attack.requiredToughnessActive && enemy.toughnessActive!==true) return fail("この比較は未撃破で途中撃破しない敵を想定します。");
+            if(attack.requiresBrokenTarget && enemy.toughnessActive!==false) return fail("この比較は攻撃前から撃破状態の敵を想定します。靭性状態を撃破済みにしてください。");
+            if(attack.requiredWeaknessCount && enemy.weaknessCount!==attack.requiredWeaknessCount) return fail("攻撃前から7弱点・本質暴露が成立した比較のみ対応です。");
+            for(const spec of attack.numericModifierInputs||[]){const values=input.modifierInputs||{},v=Object.hasOwn(values,spec.inputKey)?values[spec.inputKey]:spec.default;if(!Number.isFinite(v)||v<spec.minimum||v>spec.maximum||(spec.integer&&!Number.isInteger(v)))return fail(spec.label+"に"+spec.minimum+"～"+spec.maximum+"の"+(spec.integer?"整数":"数値")+"を入力してください。");}
+            for(const id of attack.requiredModifierIds||[]){const mods=(input.modifiers||[]).filter(m=>m.id===id&&m.enabled!==false&&m.applicable!==false&&m.calculable!==false&&Number.isFinite(m.value)&&!(m.inputWarnings||[]).length&&modifierAppliesToAttack(m,attack));if(mods.length!==1)return fail("必要な補正が不足しています："+id);}
+        }
         if (attack.rejectNormalOnlyModifiers && attack.damageFormula !== "componentSequence") { const reason = normalOnlyModifierReason(input.modifiers || []); if (reason) return { supported: false, reason }; }
         if (attack.damageFormula === "componentSequence") return calculateComponentSequence(input);
         if (supportedElationAttack(attack)) return calculateElation(input);
@@ -403,6 +412,7 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if (["1405011","1405021"].includes(input.attack?.id)) return calculateAnaxaSequence(input);
         if (input.attack?.id === "1111083") return calculateRealizedLuka(input);
         if (input.attack?.id === "1223031") return calculateMozeUltimate(input);
         if (["1224011","1224081"].includes(input.attack?.id)) return calculateMarchSequence(input);
@@ -488,6 +498,20 @@ function calculateFanning(input) {
 
 
 
+
+
+    function calculateAnaxaSequence(input) {
+        const {attack:a,character:c={},enemy:e={}}=input,p=input.sequenceComponents||[],normal=a.id==='1405011',fail=reason=>({supported:false,reason});
+        if(c.level!==80||c.eidolon!==0||e.count!==1||e.toughnessActive!==false||e.weaknessCount!==7||a.qualitativeDisclosureActive!==true||p.length!==2) return fail('アナイクスの合計はLv80・星魂0・7弱点/本質暴露・撃破済みの敵1体・状態一定のみ対応です。');
+        const specs=normal?[['normal','140501','normal'],['extraSkill','140502','skill']]:[['skill','140502','skill'],['extraSkill','140502','skill']];
+        for(let i=0;i<2;i++){const [key,id,type]=specs[i],r=p[i],b=r?.input?.attack||{};
+            if(r?.key!==key||a.damageComponents?.[i]?.attackId!==id||r.name!==a.damageComponents[i]?.name||b.id!==id||b.type!==type||b.attackType!==type||b.element!=='Wind'||b.scalingStat!=='atk'||b.hitCount!==1||b.damageFormula!=='statMultiplier'||!Number.isInteger(b.traceLevel)||b.traceLevel<1||b.traceLevel>(type==='normal'?6:10)||b.multiplier!==b.multipliers?.[b.traceLevel-1]) return fail('本体と非再帰の追加スキルの構成が一致しません。');
+            if(JSON.stringify(r.input.character)!==JSON.stringify(c)||JSON.stringify(r.input.enemy)!==JSON.stringify(e))return fail('全成分に同じ攻撃者/敵のスナップショットが必要です。');
+            const required=['trace:1405:140504:qualitative-disclosure','traceNode:1405:1405103:seven-weakness-defense-ignore',...(type==='skill'?['trace:1405:140502:single-enemy-damage']:[])];
+            for(const rid of required)if((r.input.modifiers||[]).filter(m=>m.id===rid&&m.enabled!==false&&m.applicable!==false&&m.calculable!==false&&Number.isFinite(m.value)&&modifierAppliesToAttack(m,b)).length!==1)return fail('各成分の必須補正が不足しています：'+rid);
+        }
+        return combineDamageComponents(a,p,normal?'通常本体＋追加スキル1回':'スキル本体＋追加スキル1回');
+    }
 
     function calculateMarchSequence(input) {
         const {attack:a,character:c={},enemy:e={}}=input, parts=input.sequenceComponents||[], enhanced=a.id==="1224081";

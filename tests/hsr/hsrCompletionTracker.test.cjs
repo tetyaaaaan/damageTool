@@ -35,7 +35,11 @@ test('the three E0 composition-confirmed supports independently verify their sol
 test('candidate audit keeps missing damage components distinct from registered source skills',async()=>{
  const {e0CandidateAudit}=require('../../scripts/reportHsrCompletion.cjs');
  const audits=Object.values(e0CandidateAudit);
- assert.equal(audits.length,66);
+ assert.equal(audits.length,89);
+ const initial=audits.filter(a=>a.batch6InitialClass);assert.equal(initial.length,34);
+ assert.deepEqual(initial.reduce((r,a)=>(r[a.batch6InitialClass]=(r[a.batch6InitialClass]||0)+1,r),{}),{C1:17,B:1,C2:16});
+ for(const id of ['1507','1225'])assert.equal(e0CandidateAudit[id].status,'confirmed');
+ for(const id of ['1307','1405','1410','8007','8008'])assert.equal(e0CandidateAudit[id].workClass,'D');
  for(const id of ['1013','1108','1222','1101','1217','1306'])assert.equal(e0CandidateAudit[id].status,'confirmed');
  for(const id of ['1106','1207','1218'])assert.equal(e0CandidateAudit[id].status,'pending');
  assert.ok(audits.every(a=>['confirmed','pending','missing'].includes(a.status)));

@@ -1,0 +1,658 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "batch6-black-swan-2026-10-27",
+  "description": "ブラックスワン原版/強化版のE0限定単発比較。全E0完成認定ではありません。",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。"
+  },
+  "overrides": [
+    {
+      "id": "130701",
+      "characterId": "1307",
+      "variant": "previous",
+      "name": "洞察、緘黙の黎明",
+      "element": "Wind",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        30,
+        36,
+        42,
+        48,
+        54,
+        60
+      ],
+      "sourceSkillId": "130701",
+      "displayOrder": 10,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "suppressAdjacentWithSingleEnemy": true,
+      "calculationScope": "batch6-black-swan-independent-e0-snapshot",
+      "conditionText": "事前成立の防御ダウン・開示を持つ固定状態",
+      "calculationNote": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+      "assumptions": [
+        "事前成立の敵状態で比較。初回の付与処理は再現しない"
+      ],
+      "comparisonModifierInputs": {
+        "black-swan-natural-enemy-turn": false
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:130701.params[0..5][0]",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+        "verification": "hsrBatch6BlackSwan.test.cjs"
+      },
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "130702",
+      "characterId": "1307",
+      "variant": "previous",
+      "name": "失墜、偽神の黄昏",
+      "element": "Wind",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "blast",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        45,
+        49.5,
+        54,
+        58.5,
+        63,
+        67.5,
+        73.12,
+        78.75,
+        84.38,
+        90
+      ],
+      "sourceSkillId": "130702",
+      "displayOrder": 20,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "suppressAdjacentWithSingleEnemy": true,
+      "calculationScope": "batch6-black-swan-independent-e0-snapshot",
+      "conditionText": "事前成立の防御ダウン・開示を持つ固定状態",
+      "calculationNote": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。 このスキル行は同Lvの防御ダウンが攻撃前から成立済みの比較です。今回新たに付与する防御ダウンの適用順は仮定しません。",
+      "assumptions": [
+        "事前成立の敵状態で比較。初回の付与処理は再現しない"
+      ],
+      "comparisonModifierInputs": {
+        "black-swan-natural-enemy-turn": false,
+        "black-swan-skill-def-active": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:130702.params[0..9][0];[3] DEF reduction; adjacent same[0]",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+        "verification": "hsrBatch6BlackSwan.test.cjs"
+      },
+      "adjacentMultipliers": [
+        45,
+        49.5,
+        54,
+        58.5,
+        63,
+        67.5,
+        73.12,
+        78.75,
+        84.38,
+        90
+      ],
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "130703",
+      "characterId": "1307",
+      "variant": "previous",
+      "name": "彼方の抱擁に酔いしれて",
+      "element": "Wind",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        72,
+        76.8,
+        81.6,
+        86.4,
+        91.2,
+        96,
+        102,
+        108,
+        114,
+        120
+      ],
+      "sourceSkillId": "130703",
+      "displayOrder": 30,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "suppressAdjacentWithSingleEnemy": true,
+      "calculationScope": "batch6-black-swan-independent-e0-snapshot",
+      "conditionText": "事前成立の防御ダウン・開示を持つ固定状態",
+      "calculationNote": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+      "assumptions": [
+        "事前成立の敵状態で比較。初回の付与処理は再現しない"
+      ],
+      "comparisonModifierInputs": {
+        "black-swan-natural-enemy-turn": false
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:130703.params[0..9][0]",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+        "verification": "hsrBatch6BlackSwan.test.cjs"
+      },
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "130704",
+      "characterId": "1307",
+      "variant": "previous",
+      "name": "アルカナ・敵のターン開始1回",
+      "element": "Wind",
+      "type": "dot",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        96,
+        111.84,
+        127.68,
+        143.52,
+        159.36,
+        175.2,
+        189.6,
+        204,
+        222,
+        240
+      ],
+      "sourceSkillId": "130704",
+      "displayOrder": 40,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "suppressAdjacentWithSingleEnemy": true,
+      "calculationScope": "batch6-black-swan-independent-e0-snapshot",
+      "conditionText": "アルカナ1～50層・状態一定・対象自身のターン開始",
+      "calculationNote": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+      "assumptions": [
+        "敵のターン開始時に発生するアルカナ1回"
+      ],
+      "comparisonModifierInputs": {
+        "black-swan-natural-enemy-turn": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:130704.params[0..9][0];[2] stack addition;[3,5,6,7] variant conditions",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+        "verification": "hsrBatch6BlackSwan.test.cjs"
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "black-swan-arcana-stacks",
+          "label": "ダメージ発生時のアルカナ層数",
+          "minimum": 1,
+          "maximum": 50,
+          "integer": true,
+          "default": 1
+        }
+      ],
+      "requiredModifierIds": [
+        "trace:1307:130704:arcana-stacks"
+      ],
+      "unsupportedStateReason": "旧版アルカナの0層・51層以上・小数・未確定値はこの限定比較の対象外です。",
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "1307041",
+      "characterId": "1307",
+      "variant": "previous",
+      "name": "アルカナ・起爆用100%基準値",
+      "element": "Wind",
+      "type": "dot",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        96,
+        111.84,
+        127.68,
+        143.52,
+        159.36,
+        175.2,
+        189.6,
+        204,
+        222,
+        240
+      ],
+      "sourceSkillId": "130704",
+      "displayOrder": 41,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "suppressAdjacentWithSingleEnemy": true,
+      "calculationScope": "batch6-black-swan-independent-e0-snapshot",
+      "conditionText": "アルカナ1～50層・状態一定・対象のターン外に起爆される直前",
+      "calculationNote": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+      "assumptions": [
+        "敵のターン外の起爆用基準値。味方の起爆率を掛ける前の100%分"
+      ],
+      "comparisonModifierInputs": {
+        "black-swan-natural-enemy-turn": false
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:130704.params[0..9][0];[2] stack addition;[3,5,6,7] variant conditions",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+        "verification": "hsrBatch6BlackSwan.test.cjs"
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "black-swan-arcana-stacks",
+          "label": "ダメージ発生時のアルカナ層数",
+          "minimum": 1,
+          "maximum": 50,
+          "integer": true,
+          "default": 1
+        }
+      ],
+      "requiredModifierIds": [
+        "trace:1307:130704:arcana-stacks"
+      ],
+      "unsupportedStateReason": "旧版アルカナの0層・51層以上・小数・未確定値はこの限定比較の対象外です。",
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "1130701",
+      "characterId": "1307",
+      "variant": "enhanced",
+      "name": "洞察、緘黙の黎明",
+      "element": "Wind",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "sourceSkillId": "1130701",
+      "displayOrder": 10,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "suppressAdjacentWithSingleEnemy": true,
+      "calculationScope": "batch6-black-swan-independent-e0-snapshot",
+      "conditionText": "事前成立の防御ダウン・開示を持つ固定状態",
+      "calculationNote": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+      "assumptions": [
+        "事前成立の敵状態で比較。初回の付与処理は再現しない"
+      ],
+      "comparisonModifierInputs": {
+        "black-swan-natural-enemy-turn": false
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1130701.params[0..5][0]",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+        "verification": "hsrBatch6BlackSwan.test.cjs"
+      },
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "1130702",
+      "characterId": "1307",
+      "variant": "enhanced",
+      "name": "失墜、偽神の黄昏",
+      "element": "Wind",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "blast",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        45,
+        49.5,
+        54,
+        58.5,
+        63,
+        67.5,
+        73.12,
+        78.75,
+        84.38,
+        90
+      ],
+      "sourceSkillId": "1130702",
+      "displayOrder": 20,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "suppressAdjacentWithSingleEnemy": true,
+      "calculationScope": "batch6-black-swan-independent-e0-snapshot",
+      "conditionText": "事前成立の防御ダウン・開示を持つ固定状態",
+      "calculationNote": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。 このスキル行は同Lvの防御ダウンが攻撃前から成立済みの比較です。今回新たに付与する防御ダウンの適用順は仮定しません。",
+      "assumptions": [
+        "事前成立の敵状態で比較。初回の付与処理は再現しない"
+      ],
+      "comparisonModifierInputs": {
+        "black-swan-natural-enemy-turn": false,
+        "black-swan-skill-def-active": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1130702.params[0..9][0];[3] DEF reduction; adjacent same[0]",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+        "verification": "hsrBatch6BlackSwan.test.cjs"
+      },
+      "adjacentMultipliers": [
+        45,
+        49.5,
+        54,
+        58.5,
+        63,
+        67.5,
+        73.12,
+        78.75,
+        84.38,
+        90
+      ],
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "1130703",
+      "characterId": "1307",
+      "variant": "enhanced",
+      "name": "彼方の抱擁に酔いしれて",
+      "element": "Wind",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        72,
+        76.8,
+        81.6,
+        86.4,
+        91.2,
+        96,
+        102,
+        108,
+        114,
+        120
+      ],
+      "sourceSkillId": "1130703",
+      "displayOrder": 30,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "suppressAdjacentWithSingleEnemy": true,
+      "calculationScope": "batch6-black-swan-independent-e0-snapshot",
+      "conditionText": "事前成立の防御ダウン・開示を持つ固定状態",
+      "calculationNote": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+      "assumptions": [
+        "事前成立の敵状態で比較。初回の付与処理は再現しない",
+        "事前に開示成立。付与後にダメージを与える強化必殺の被ダメージ増加を含む。"
+      ],
+      "comparisonModifierInputs": {
+        "black-swan-natural-enemy-turn": false,
+        "black-swan-epiphany-active": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1130703.params[0..9][0]",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+        "verification": "hsrBatch6BlackSwan.test.cjs"
+      },
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "1130704",
+      "characterId": "1307",
+      "variant": "enhanced",
+      "name": "アルカナ・敵のターン開始1回",
+      "element": "Wind",
+      "type": "dot",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        96,
+        111.84,
+        127.68,
+        143.52,
+        159.36,
+        175.2,
+        189.6,
+        204,
+        222,
+        240
+      ],
+      "sourceSkillId": "1130704",
+      "displayOrder": 40,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "suppressAdjacentWithSingleEnemy": true,
+      "calculationScope": "batch6-black-swan-independent-e0-snapshot",
+      "conditionText": "アルカナ1～10000層・状態一定・対象自身のターン開始",
+      "calculationNote": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。 入力上限10000は計算画面の対応範囲で、ゲームの持続上限50と混同しません。",
+      "assumptions": [
+        "敵のターン開始時に発生するアルカナ1回"
+      ],
+      "comparisonModifierInputs": {
+        "black-swan-natural-enemy-turn": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1130704.params[0..9][0];[2] stack addition;[3,5,6,7] variant conditions",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+        "verification": "hsrBatch6BlackSwan.test.cjs"
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "black-swan-arcana-stacks",
+          "label": "ダメージ発生時のアルカナ層数",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true,
+          "default": 1
+        }
+      ],
+      "requiredModifierIds": [
+        "trace:1307:1130704:arcana-stacks"
+      ],
+      "unsupportedStateReason": "層数0・非整数・10001以上は今回の入力対応外です。持続上限50を超えたダメージ発生時の一時層数は、50へ丸めず参照します。",
+      "enforceSnapshotContract": true
+    },
+    {
+      "id": "11307041",
+      "characterId": "1307",
+      "variant": "enhanced",
+      "name": "アルカナ・起爆用100%基準値",
+      "element": "Wind",
+      "type": "dot",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": false,
+      "multipliers": [
+        96,
+        111.84,
+        127.68,
+        143.52,
+        159.36,
+        175.2,
+        189.6,
+        204,
+        222,
+        240
+      ],
+      "sourceSkillId": "1130704",
+      "displayOrder": 41,
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "suppressAdjacentWithSingleEnemy": true,
+      "calculationScope": "batch6-black-swan-independent-e0-snapshot",
+      "conditionText": "アルカナ1～10000層・状態一定・対象のターン外に起爆される直前",
+      "calculationNote": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。 入力上限10000は計算画面の対応範囲で、ゲームの持続上限50と混同しません。",
+      "assumptions": [
+        "敵のターン外の起爆用基準値。味方の起爆率を掛ける前の100%分"
+      ],
+      "comparisonModifierInputs": {
+        "black-swan-natural-enemy-turn": false
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1130704.params[0..9][0];[2] stack addition;[3,5,6,7] variant conditions",
+        "verifiedAt": "2026-10-27",
+        "scope": "Lv80・星魂0・敵1体・ダメージ発生時点の状態一定。ブラックスワン本人の最終ATKと与ダメージを使用。小軌跡・A6の効果命中由来与ダメージは最終入力に含め、再加算しません。スキル防御ダウンと開示は事前成立状態を指定。初回スキルの付与順、初回必殺の成立過程、ターン・確率・途中撃破・層数更新・隣接・味方起爆率との合算は対象外。",
+        "verification": "hsrBatch6BlackSwan.test.cjs"
+      },
+      "numericModifierInputs": [
+        {
+          "inputKey": "black-swan-arcana-stacks",
+          "label": "ダメージ発生時のアルカナ層数",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true,
+          "default": 1
+        }
+      ],
+      "requiredModifierIds": [
+        "trace:1307:1130704:arcana-stacks"
+      ],
+      "unsupportedStateReason": "層数0・非整数・10001以上は今回の入力対応外です。持続上限50を超えたダメージ発生時の一時層数は、50へ丸めず参照します。",
+      "enforceSnapshotContract": true
+    }
+  ]
+}

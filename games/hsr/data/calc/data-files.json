@@ -2,7 +2,11 @@
   "schemaVersion": 1,
   "attackOverrides": [
     "/games/hsr/data/attack-overrides.json",
-    "attacks-1206-1210.json"
+    "attacks-1206-1210.json",
+    "attacks-batch6-blade.json",
+    "attacks-batch6-black-swan.json",
+    "attacks-batch6-anaxa.json",
+    "attacks-batch6-fugue-memory.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",
@@ -39,6 +43,9 @@
     "modifiers-welt.json",
     "modifiers-trailblazer-e0.json",
     "modifiers-batch3-main-actions.json",
-    "modifiers-batch5-tribbie.json"
+    "modifiers-batch5-tribbie.json",
+    "modifiers-batch6-blade.json",
+    "modifiers-batch6-black-swan.json",
+    "modifiers-batch6-anaxa.json"
   ]
 }

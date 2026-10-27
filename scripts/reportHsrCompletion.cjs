@@ -1061,6 +1061,154 @@ Object.assign(e0CandidateAudit['1224'],{status:'pending',workClass:'D',majorSour
 Object.assign(e0CandidateAudit['1403'],{status:'pending',workClass:'D',majorSourceIds:['140301','140302','140303','140304'],requiredAttackIds:['140301','140303','1403031','140304'],sourceRoleOverrides:{'140302':'味方耐性貫通支援（スキル直接ダメージなし）'},summary:'HP参照通常・必殺本体・追撃・結界付加1回を独立検証。A2完了済み0～3層72%ずつ、スキル貫通、結界被ダメを分離。A4は完成済み最終HPへ含む。',remaining:'初回必殺自身の結界/A4適用順、追撃後から結界付加までの新規A2適用順が未確定。独立スナップショットを無条件に全体へ合算しない。',missingComponents:[],evidence:'固定SHA JP/EN140301..304/1403101/1403102/ranks、hsrBatch5Tribbie全採用Lv・HP隔離・提供者/軌跡Lv/条件ON/OFF・追撃分類を独立検証。'});
 Object.assign(e0CandidateAudit['1414'],{workClass:'D',summary:'本人通常141401・必殺直撃141403を全E0採用Lvで検証。後続龍霊のPhysical本人ATK成分、同袍属性/ATK付加、A6最高HP対象付加を別イベントと特定。',remaining:'龍霊の同袍側ダメージ帰属はrankE2にも明記されるが、会心/与ダメ/防御無視等の継承範囲・参照時点を確認できない。別参照者ヘルパーだけで龍霊全体を有効化しない。',evidence:'固定SHA JP/EN141401/141403/trees/ranksとhsrBatch5DanHeng。通常50～100%、必殺150～300%。龍霊2成分40～80%、A6同袍ATK40%は係数までで継承は未認定。'});
 
+
+// Batch 6: preliminary classification uses existing records, not a new source audit.
+const batch6InitialReview={
+  "1213": [
+    "C1",
+    "通常式を各命中へ使う候補。段ごとの与ダメ/会心蓄積と隣接成分の接続が必要。"
+  ],
+  "1220": [
+    "C1",
+    "既存スキル合算/追撃を再利用。必殺6段と終撃、撃破状態別成分の接続が必要。"
+  ],
+  "1223": [
+    "C1",
+    "既存U/F/付加の合算を再利用。閾値と獲物消滅には新証拠が必要で再調査しない。"
+  ],
+  "1225": [
+    "B",
+    "本人直接3行の独立検証。狐の祈り/雲火昭瑞/超撃破支援を本人の未登録ATK攻撃と数えない。"
+  ],
+  "1307": [
+    "C1",
+    "既存DoT式で旧/強化アルカナの層・自然発生/起爆・DEF無視を分離できる。"
+  ],
+  "1308": [
+    "C2",
+    "必殺段階/集真赤の途中更新を含むヒット別構成の詳細未計測。"
+  ],
+  "1310": [
+    "C1",
+    "通常式/既存超撃破式を再利用。完全燃焼の直撃と固有超撃破を分離する必要。"
+  ],
+  "1315": [
+    "C1",
+    "既存normalAndBreak経路を保持。未撃破から新規撃破/ポケット状態分岐の全構成受入が必要。"
+  ],
+  "1317": [
+    "C1",
+    "既存撃破/超撃破式を再利用。直撃3段・チャージ追加撃破・段ごとの超撃破接続が必要。"
+  ],
+  "1321": [
+    "C2",
+    "超撃破共同成分・別参照/状態別入力の全受入量が未計測。"
+  ],
+  "1401": [
+    "C1",
+    "通常/強化Skillの成分分離と最後撃だけの解読を既存式へ接続する候補。"
+  ],
+  "1402": [
+    "C2",
+    "本人/精霊の共同通常・速度参照と補正継承の全構成未精査。"
+  ],
+  "1405": [
+    "C1",
+    "通常/Skill後の非再帰追加Skillを既存成分式へ接続する候補。弱点付与同撃順に証拠が必要。"
+  ],
+  "1407": [
+    "C2",
+    "精霊のHP消費/段階別成分と別所有者の入力・補正継承が必要。"
+  ],
+  "1408": [
+    "C2",
+    "変身/消費/段間状態の全成分構成、HP/ATK換算/分配の詳細未計測。"
+  ],
+  "1409": [
+    "C2",
+    "イカルン独立参照と累計治癒量由来成分の全構成/入力が未計測。"
+  ],
+  "1410": [
+    "C1",
+    "DoT4種と結界DoTは既存DoT/cappedHP式候補。必殺全起爆の段順・発動数が必要。"
+  ],
+  "1413": [
+    "C2",
+    "独立精霊とHP/段階状態の新しい入力/構成の詳細未計測。"
+  ],
+  "1415": [
+    "C2",
+    "精霊/確定ダメージ・共同成分の全所有者/発動時点が未接続。"
+  ],
+  "1501": [
+    "C2",
+    "SP消費反復と強化通常/愉悦の状態構成、全成分受入量が未計測。"
+  ],
+  "1502": [
+    "C1",
+    "150220の既存愉悦式を再利用。大吉の提供者/攻撃者愉悦度max参照、属性付加と追加アッハ時点が未接続。"
+  ],
+  "1504": [
+    "C1",
+    "本体/餌/暴食反復と自己追撃を既存成分式で分解する候補。"
+  ],
+  "1505": [
+    "C1",
+    "既存150520愉悦式を持つ。通常/Skill/Ultと追加愉悦の別成分接続が必要。"
+  ],
+  "1506": [
+    "C2",
+    "愉悦専用成分・強化状態とリソース別の構成の詳細未精査。"
+  ],
+  "1507": [
+    "C1",
+    "HP参照5イベント、Skill天賦追撃の分類、変身会心/編成分岐の接続で完成候補。"
+  ],
+  "1508": [
+    "C1",
+    "別参照者・宝石反復を既存成分式へ接続する候補。所有者/段順の受入は未計測。"
+  ],
+  "1509": [
+    "C1",
+    "既存通常式/別参照者を再利用する候補。セイバーとの連携、興の層数/強化状態の全構成は未検証。"
+  ],
+  "1510": [
+    "C2",
+    "通常/必殺状態別と連携の複数所有者・補正継承の詳細未計測。"
+  ],
+  "1512": [
+    "C2",
+    "フィーバー以外を含む全精霊行動・独立所有者の詳細量は未計測。"
+  ],
+  "1513": [
+    "C1",
+    "既存愉悦式は利用可能。151304の褒美由来追加成分とA4単独愉悦時の追撃扱いを接続する必要。"
+  ],
+  "8007": [
+    "C2",
+    "男性版にも同じ精霊所有者問題。本人ATKによる代用を停止する必要。"
+  ],
+  "8008": [
+    "C2",
+    "精霊と本人の別ATK/会心/補正、連携と確定成分。独立スナップショットが未接続。"
+  ],
+  "8009": [
+    "C2",
+    "愉悦女性版と同型候補だが所有者/成分・全Lvの個別受入が必要。"
+  ],
+  "8010": [
+    "C2",
+    "愉悦の複合/追加成分・状態入力の詳細量は未計測。既存式だけで閉じるか要精査。"
+  ]
+};
+for(const [id,[group,reason]]of Object.entries(batch6InitialReview)){const a=e0CandidateAudit[id]||{status:"pending",majorSourceIds:[],requiredAttackIds:[],missingComponents:[],summary:"既存管理記録からの一次分類。全構成・固有倍率の詳細受入は未完了。",evidence:"既存管理表・本番ローダーの構造を再利用した作業分類であり、検証済みを意味しません。"};a.batch6InitialClass=group;a.workClass=group;a.batch6ClassificationReason=reason;if(!a.remaining)a.remaining=reason;e0CandidateAudit[id]=a;}
+Object.assign(e0CandidateAudit['1225'],{status:'confirmed',workClass:'済',majorSourceIds:['122501','122508','122503'],requiredAttackIds:['122501','122508','122503'],missingComponents:[],sourceRoleOverrides:{'122502':'支援/狐の祈り・灼熱・敵DEF低下（本人の直接ダメージなし）','122504':'支援/雲火昭瑞・各攻撃者の再撃破/超撃破（本人ATKの追加攻撃ではない）'},summary:'本人通常・強化通常・必殺の直接3行を全E0採用Lvで確認。支援由来の撃破/超撃破は独立経路と分離。',remaining:'Lv80・E0・敵1体・未撃破で途中撃破なし。狐の祈りは別の味方、敵DEFは事前成立分。A4BE30%は最終BE。支援全対応・初回/虚靭性の進行・全星魂までの最終完成とは別。',evidence:'固定JP/EN122501/508/503/504、trees/ranks。hsrBatch6FugueMemory全Lv・ATK/HP/DEF分離・通常会心と独立超撃破の非会心経路。hsrToolInputsと3幅の実画面/保存。'});
+Object.assign(e0CandidateAudit['1507'],{status:'confirmed',workClass:'済',majorSourceIds:['150701','150708','150702','150704','150714'],requiredAttackIds:['150701','150708','150702','1507041','150714'],missingComponents:[],sourceRoleOverrides:{'150703':'支援/結界・会心強化・修羅の炎（変身時の直接ダメージなし）','150704':'条件付き/別成分（即時攻撃と区別）','150709':'支援/内部HP消費データ（追加の独立攻撃ではない）'},summary:'HP参照通常/強化通常・全体+4段Skill・Talent由来FUA・強化必殺の5行を確認。SkillのHP消費10%をダメージ係数へ誤抽出していた参考値を168%へ訂正。',remaining:'Lv80・E0・敵1体・状態一定。変身各行は成立済みの無量忿怒/修羅の炎、FUAはチャージで発生した1回を仮定。会心上昇は各行に加算し、入力に含めない。A6は他の虚無の有無から自動分岐。HP/EP消費・再発動・途中撃破・複数敵は対象外。',evidence:'固定JP/EN150701/702/703/704/708/714/1507103、trees/ranks。hsrBatch6Blade全Lv/独立UltLv/HP隔離/CRCD/支援とカテゴリ別補正。hsrToolInputsと3幅実画面・提供者離脱/保存。'});
+Object.assign(e0CandidateAudit['1307'],{status:'pending',workClass:'D',majorSourceIds:['130701','130702','130703','130704','1130701','1130702','1130703','1130704'],requiredAttackIds:['130701','130702','130703','130704','1307041','1130701','1130702','1130703','1130704','11307041'],missingComponents:[],summary:'旧/強化の直接成分とアルカナ自然/起爆原始値を全Lv確認。B+層C、非会心、旧自然7層DEF20%/強化常時20%を分離。強化51/75層も持続上限50に切り捨てず検証。',remaining:'初回Skillで新たに付与するDEF低下の同撃順が未確定。スキルは同LvDEF低下が事前成立した行だけを正式化し、全E0認定は保留。層リセット/発生確率/他者起爆率との複合は未再現。',evidence:'固定JP/EN1307/11307 skills/trees/ranksとKQM。hsrBatch6BlackSwan全Lv/層境界・超過/独立SkillUltLv/ATK隔離・A6最終管理、3幅UI/保存。'});
+Object.assign(e0CandidateAudit['1405'],{status:'pending',workClass:'D',majorSourceIds:['140501','140502','140503','140504'],requiredAttackIds:['140501','140502','140503','1405011','1405021'],sourceRoleOverrides:{'140504':'支援/弱点付与・本質暴露と後続Skill（全体成分は1405011/1405021）'},missingComponents:[],summary:'事前7弱点・本質暴露・撃破済みで、直接3成分と通常+追加Skill/Skill2回の非再帰合計を独立検証。',remaining:'0～6弱点で攻撃中に弱点が増える場合のDEF無視/本質暴露の同撃順は未確認。本文の記載順だけで確定しない。A4知恵1人CD140%/2人以上DMG50%は該当一方を最終入力。限定7状態だけでE0認定しない。',evidence:'固定JP/EN140501..504/1405101..103、AnaxaMains v3.8は事前本質暴露の追撃条件を記載するが各命中の更新順は未証明。hsrBatch6Anaxa全Lv/独立TalentLv/2成分/補正種別/所有者、3幅UI。'});
+for(const id of ['8007','8008'])Object.assign(e0CandidateAudit[id],{status:'missing',workClass:'D',summary:'本人通常は全E0採用Lvを検証。ミュリオンATKを本人で代用していた男性800703/800708/1800701も停止し、女性と同じ所有者境界に訂正。',remaining:'精霊の独立ATK/会心/氷DMG/防御無視/耐性貫通・連携2所有者・能力Lv6・確定成分が未接続。親必殺から発生する精霊ダメージへの必殺専用補正の範囲にも証拠が必要。',missingComponents:['精霊の独立スナップショット/補正帰属と連携・確定成分'],evidence:'固定JP/EN8007/8008と共有1800701/703/707・trees/ranks、KQM memosprite mechanics v3.2。hsrBatch6FugueMemoryで本人ATK代用の拒否と通常維持、UI/保存。'});
+Object.assign(e0CandidateAudit['1410'],{workClass:'D',remaining:'Talent4種DoT/結界DoTの係数は判明。必殺A4の全DoT150%起爆・新規Talent付与・結界DoT最大8回の同一攻撃中の順序/回数と他所有者DoTを含む全構成が未確定。新しい版付き実行順証拠を待つ。',evidence:'固定JP/EN141001..004・1410101..103を一次照合。全状態の実行順の証拠は未取得。DoT/cappedHPの既存式は再利用候補だが、部分値を必殺全体としない。'});
+
 e0CandidateAudit["1111"].sourceRoleOverrides={"111104":"条件付き/別成分（即時攻撃と区別）"};
 for(const [id,audit]of Object.entries(e0CandidateAudit)){if(audit.status==='confirmed'){confirmedE0[id]=audit.summary+' 証拠: '+audit.evidence+' 範囲外: '+audit.remaining;confirmedMajorIds[id]=audit.majorSourceIds;}}
 const knownGaps={
@@ -1109,15 +1257,15 @@ async function fixed(file){const response=await fetch(sourceBase+file);if(!respo
 const batchWorkReview={A:new Set(),B:new Set(['1112','1205','1015','1201']),D:new Set(['1218','1209','1204','1005','1004','1207','1109','1106','1103','1009','1503','1406','1212','1215','1206','1006','1312','1210','1014','1302','1214'])};
 function remainingWorkClass(d){
  if(d.confirmed)return {group:'済',confidence:'E0限定条件を検証済み',reason:'星魂/装備/支援の最終完成とは別'};
- if(d.audit?.workClass && ['A','B','C','D'].includes(d.audit.workClass))return {group:d.audit.workClass,confidence:d.audit.workClass==='D'?'具体的な保留理由あり':'一次分類済み・詳細受入/工数は未確定',reason:d.audit.remaining};
+ if(d.audit?.workClass && ['A','B','C','C1','C2','D'].includes(d.audit.workClass))return {group:d.audit.workClass,confidence:d.audit.workClass==='D'?'具体的な保留理由あり':'一次分類済み・詳細受入/工数は未確定',reason:d.audit.remaining};
  if(batchWorkReview.A.has(d.c.id))return {group:'A',confidence:'重点監査済み',reason:'既存攻撃の全Lv独立検証と非ダメージ行動の分類整理'};
  if(batchWorkReview.B.has(d.c.id))return {group:'B',confidence:'重点監査済み',reason:'既存式による少数の倍率/段数/成分/補正/入力境界の修正'};
  if(batchWorkReview.D.has(d.c.id))return {group:'D',confidence:'具体的な保留理由あり',reason:d.audit?.remaining||knownGaps[d.c.id]||'初回付与/段間更新/参照値の証拠不足。新証拠待ち'};
  if(d.absent.length||d.hasMissingComponent||d.attacks.some(a=>['elation','trueDamage','memospriteSkill','memospriteTalent'].includes(a.type)||['componentSequence','normalAndBreak'].includes(a.damageFormula)))return {group:'C',confidence:'構造からの暫定見積・個別工数不明',reason:'成分/独立参照の追加接続候補。未登録IDが別攻撃か既存状態の説明か要精査。新しい式が必須とは断定しない'};
  return {group:'D',confidence:'全構成の仕様精査未了',reason:'限定値の登録だけでは全主要構成の確証不足。未調査をゼロ工数や独立検証のみと見なさない'};
 }
-function instructionForecast(){return [['楽観',4],['標準',2],['悲観',1]].map(([scenario,capacity])=>({scenario,capacity,planned:Math.ceil(11/capacity)}));}
-const batchRun={start:"5f663ad",audited:5,confirmed:1,promoted:7,added:4,independentlyChecked:17,holds:4,phase:"第5回・工程C完了"};
+function instructionForecast(){return [['楽観',2],['標準',1],['悲観',0.5]].map(([scenario,capacity])=>({scenario,capacity,planned:Math.ceil(13/capacity)}));}
+const batchRun={start:"4cfb74b",audited:9,confirmed:2,promoted:20,added:5,independentlyChecked:26,holds:7,phase:"第6回・工程C完了"};
 async function generate(){
  const [{data,engine},characters,skills,trees,ranks]=await Promise.all([loadProductionFixture(),fixed('characters.json'),fixed('character_skills.json'),fixed('character_skill_trees.json'),fixed('character_ranks.json')]);
  if(data.characters.length!==98||Object.keys(characters).length!==98)throw Error('固定母集団98人と不一致');
@@ -1131,7 +1279,7 @@ async function generate(){
   const allRecords=attacks.concat((data.specialBreakAttacks||[]).filter(a=>String(a.characterId)===c.id));
   const sources=c.skills.map(s=>skills[s.id]);
   const required=sources.filter(s=>['直接ダメージ行動','条件付き/別成分（即時攻撃と区別）'].includes(skillRole(s)));
-  const mapped=s=>allRecords.filter(a=>(a.id===s.id||a.sourceSkillId===s.id)&&!(a.requiredEidolon>0)&&!a.hidden);
+  const mapped=s=>allRecords.filter(a=>(a.id===s.id||a.sourceSkillId===s.id||a.triggerSkillId===s.id)&&!(a.requiredEidolon>0)&&!a.hidden);
   const absent=required.filter(s=>!mapped(s).length);
   const pending=required.filter(s=>!mapped(s).some(a=>attackStatus(a)==='計算対応'));
   const unknown=sources.filter(s=>skillRole(s)==='召喚/状態/条件（ダメージ有無の確認待ち）');
@@ -1158,20 +1306,20 @@ async function generate(){
  for(const[id,a]of Object.entries(e0CandidateAudit)){const name=data.characters.find(c=>c.id===id)?.name||id;p(`|${id} ${cell(name)}|${a.status==='confirmed'?'E0主要構成確認済み':a.status==='missing'?'未登録成分あり':'構成/独立検証待ち'}|${cell(a.summary+' '+a.remaining)}|${cell(a.evidence)}|`);}
  p('','重点監査で判明した未登録成分のうち、現在も残るものを以下に列挙する。解消済みの成分は上表に履歴を残す。マスターの主スキルIDだけで成分の完全性を認定しない。');
  for(const[id,a]of Object.entries(e0CandidateAudit))for(const component of a.missingComponents||[])p(`- ${id}: ${component}`);
- p('','## 完成までの予測残Codex指示回数（第5回・開始5f663ad）','','A=既存攻撃の独立検証、B=軽微な補正/登録修正、C=新成分/処理の接続、D=仕様または全構成の確証不足。C/Dには未精査の暫定区分を含む。Cを新エンジン必須、Dを永久対応不可と断定しない。A/Bも検証前に完成保証しない。');
+ p('','## 完成までの予測残Codex指示回数（第6回・開始4cfb74b）','','A=独立検証のみ、B=軽微修正、C1=既存共通処理へ追加接続、C2=新しい状態/成分処理の要否精査、D=具体的な仕様証拠待ち。一次分類を完了認定や確定工数と混同しない。');
  const work=details.map(d=>({...remainingWorkClass(d),id:d.c.id,name:d.c.name})),workCounts=sumBy(work,x=>x.group);
- p('', '|E0区分|人数|具体対象|','|---|---:|---|');for(const group of ['済','A','B','C','D'])p(`|${group}|${workCounts[group]||0}|${work.filter(w=>w.group===group).map(w=>w.id+' '+w.name).join('、')||'—'}|`);
- p('','|ID・キャラ|区分|根拠の確度|残作業|','|---|---|---|---|');for(const w of work)p(`|${w.id} ${cell(w.name)}|${w.group}|${cell(w.confidence)}|${cell(w.reason)}|`);
- p('', `Dの内訳: 具体的保留理由${work.filter(w=>w.group==='D'&&w.confidence==='具体的な保留理由あり').length}人、全主要構成の仕様精査未了${work.filter(w=>w.group==='D'&&w.confidence==='全構成の仕様精査未了').length}人。未精査を対応不能と断定せず、次回のA/B候補抽出対象とする。A/Bの残数は${(workCounts.A||0)+(workCounts.B||0)}。C${workCounts.C||0}人も全員が新エンジン必須という意味ではない。`);
-
- p('', '### 類型別実績と残回数','','第5回は5人を監査し、別参照者接続で停雲1人をE0確認済みへ移行。モゼの限定合計、巡狩なのかの異属性合計、トリビーの独立4成分、丹恒・騰荒の本人2行を改善した。通常式を新設せず、既存合算を2系統へ接続し、共通の属性別参照と完成済みパーティ参照を追加した。未確定仕様を理由に残4人を完成認定しない。',
- '', '|受入類型|今回完了人数|残作業への意味|','|---|---:|---|','|独立検証だけ|0|全構成確認が必要で、係数一致だけでは認定しない|','|既存処理/軽微修正|0|トリビーの追撃分類訂正は成分検証の一部|','|共通参照/成分接続で全構成受入|1|停雲。対象の最終値・提供者・帰属・軌跡を分離|','|改善したが証拠/未接続条件が残る|4|モゼの閾値、なのかの通常限定継承、トリビーの初回結界/A2順、龍霊の同袍継承|',
- '', '|残作業の主分類|人数|境界|','|---|---:|---|','|入口特定済みC|11|第4回一次分類から残る10人＋モゼ。各全構成の詳細受入/機能量は未測定|','|その他C|23|詳細分解・個別実装量が未計測|','|証拠待ちD|26|既存23＋なのか/トリビー/丹恒・騰荒を実装後の具体的証拠待ちへ再分類|',
- '', '|ケース|既知11Cの基礎工数シナリオ|仮定（完了保証ではない）|','|---|---:|---|');
- for(const e of instructionForecast())p('|'+e.scenario+'|'+e.planned+'回＋U証拠＋U追加実装＋U未調査|成分接続類型1バッチ'+e.capacity+'人|');
- p('', '3/6/11回は11Cだけの条件付き換算。標準2人/指示は第4回の新成分接続実績、楽観4人は再利用拡大、悲観1人は今回の別参照者受入実績に相当する。今回の5人を同じ難易度とみなして全60人へ外挿しない。共通処理の再利用が残るキャラの認定工数を何件減らすかは未測定。',
- '', 'U証拠=26D＋モゼ等の副次的順序課題、U追加実装=11Cの参照/状態/機能量のばらつき、U未調査=23Cの全構成受入工数。Dと副次課題は重なるため人数へ足さない。全98人E0完了までの有限総回数は算定不能。証拠取得には有限上限を置けない。前回の4/8/15回（15C）の母数から、停雲1人の完了と3人のD移行を除いて11Cとした。',
- '', '### 最終完成までの測定','','星魂588rank/構造化209、LC170、装備62セットの母数と層別標本を工数台帳に維持。今回は新規星魂/装備の全受入を行っておらず、実装完了速度は未計測。共通参照ヘルパーは丹恒・騰荒や遠坂凛の候補に再利用できるが、所有者/会心継承の証拠を代替しない。最終完成の有限総回数は未確定。',
+ p('', '|E0区分|人数|具体対象|','|---|---:|---|');for(const group of ['済','A','B','C1','C2','C','D'])p('|'+group+'|'+(workCounts[group]||0)+'|'+(work.filter(w=>w.group===group).map(w=>w.id+' '+w.name).join('、')||'—')+'|');
+ p('','### C34人の一次分類（詳細監査前）','','既存管理記録・本番ローダーからB1/C1=17/C2=16へ一次分類。全員を資料から再監査した意味ではない。下記9 IDを詳細監査し、2人を認定、5人を具体的証拠待ちへ移行した。残るC2の14人も新エンジン必須と確定したわけではなく、詳細分解/受入工数が未計測。','','|ID・キャラ|一次区分|根拠と不足|','|---|---|---|');
+ for(const[id,a]of Object.entries(e0CandidateAudit).filter(([,a])=>a.batch6InitialClass))p('|'+id+' '+cell(data.characters.find(c=>c.id===id)?.name||id)+'|'+a.batch6InitialClass+'|'+cell(a.batch6ClassificationReason)+'|');
+ p('','|ID・キャラ|現在区分|根拠の確度|残作業|','|---|---|---|---|');for(const w of work)p('|'+w.id+' '+cell(w.name)+'|'+w.group+'|'+cell(w.confidence)+'|'+cell(w.reason)+'|');
+ p('','### 類型別実績と残回数','','詳細対象9 ID: 千冶・刃1507、帰忘1225、ブラックスワン1307、アナイクス1405、記憶開拓者8007/8008、セイレンス1410、乱破1317、爻光1502。既存D26人の同一調査は繰り返していない。',
+ '', '|受入類型|今回完了人数|実績|','|---|---:|---|','|独立検証だけ|0|係数一致だけで主要構成を認定しない|','|軽微な修正・非ダメージ行動分類(B)|1|帰忘の直接3行と、他者帰属の撃破支援を分離|','|既存成分・状態処理接続(C1)|1|千冶・刃の本人5イベントと編成派生補正|','|詳細監査後に証拠待ち(D)|5|ブラックスワン/アナイクス/記憶男女/セイレンス。4種類の仕様証拠群|','|改善/調査したが実装が残る(C1)|2|乱破の追加撃破/超撃破、爻光の大吉/アッハ文脈|',
+ '', '通常登録467=計算対応341/参考値99/計算不可27。既存20行の検証付き正式化、新規5行、記憶3行の誤所有者を停止、乱破1行の部分係数を参考値のまま訂正。新規を含む26レコードを独立検証（乱破は部分値の係数検証）。5Dは個別の数式検証不足だけが理由ではない。',
+ '', '|ケース|残13C1の条件付き計画値|仮定・不確実性|','|---|---:|---|');
+ for(const e of instructionForecast())p('|'+e.scenario+'|'+e.planned+'回＋U|1指示'+e.capacity+'人相当。全E0の回数ではない|');
+ p('', '7/13/26回はC1の13人だけの計画シナリオ。標準1人は今回のC1受入実績、楽観2人は第4回の共通成分接続実績、悲観0.5人は実装量増大の仮定で実測速度ではない。C1の全受入カードは未計測のため、有限の確定見積もりではない。新規共通ヘルパーによる将来の個別実装削減件数も未測定。',
+ '', 'U証拠=31D（旧26＋新5）と副次的順序課題、U追加実装=13C1の機能量のばらつきと14C2の新処理、U未調査=残27Cの全構成分解/詳細受入の不足。課題は重複するので人数を足さない。全98人のE0完了までの有限総回数は依然算定不能。証拠取得には有限上限を置かない。前回の11C換算3/6/11回と今回は母数・分類が異なる。',
+ '', '### 最終完成までの測定','','星魂588rank/構造化209、LC170、装備62セットの母数と層別標本は工数台帳を維持。今回これらの新規実装完了速度は測定していない。最終完成0人。星魂/装備/支援の全受入と実UID通信を含む最終QAは別工程で、E0の人数速度を外挿した有限総回数を作らない。',
  '', '## 独立した追加撃破レコード','','通常登録数とは別枠。初回弱点撃破の値ではなく、発動したと仮定した1回分。','', '|ID|提供者/参照者|軌跡Lv|対応範囲|','|---|---|---|---|');
  for(const a of data.specialBreakAttacks||[])p('|'+a.id+'|'+a.characterId+' 本人最終BE|'+a.traceKey+' Lv1～'+(a.maximumTraceLevel||'未限定')+'|'+cell(a.calculationNote||a.conditionText)+'|');
  p('', '第4回の統合検証: HSR関連512テスト成功（既存489＋新規23）、生成--check成功。今回7対象と記憶開拓者の参照境界をPC1440/390/320で実操作。36スクリーンショットで8状態の成分/非会心/会心/期待値、追加撃破の氷非弱点/本人BE、異属性の停雲参照0/不足/保存・提供者離脱と参照者表示を確認。長文・箇条書き・枠線を代表画像で目視し、横はみ出し/JavaScript例外なし。既存の6候補の画面手順も再利用。実UID通信は今回行わず、合成UID形式と保存のテストを使用。');
@@ -1259,7 +1407,16 @@ async function generate(){
  p('','## 星魂・装備・パーティの別軸管理','',`- 98人に各E1～6の元データ（計${data.characters.reduce((n,c)=>n+c.eidolons.length,0)}件）。固定rank辞書全体${Object.keys(ranks).length}件とは母集団が異なる。`,`- 構造化星魂${eidolon.length}件・${eidolonOwners.size}人、計算処理対象${eidolon.filter(m=>m.support.status==='calculable').length}件、表示専用${eidolon.filter(m=>m.support.status==='displayOnly').length}件。攻撃倍率/ヒット数のoverride対応や軌跡Lv加算は別経路なので、この件数を全対応効果数とはしない。`,'- E3/E5はcatalog.eidolons[].levelUpSkillsからのLv加算処理と、各攻撃の採用曲線/上限/星魂範囲をセットで検証する。元データやUI上限の存在だけでは計算対応としない。','','|星魂|構造化記録|計算処理対象|表示専用|','|---|---:|---:|---:|');
  for(let n=1;n<=6;n++){const items=eidolon.filter(m=>Number(m.source.eidolonRank)===n);p(`|E${n}|${items.length}|${items.filter(m=>m.support.status==='calculable').length}|${items.filter(m=>m.support.status==='displayOnly').length}|`);}
  p('','|補正提供元|登録|計算処理対象|表示専用|','|---|---:|---:|---:|');for(const kind of ['trace','lightCone','relic','ornament']){const a=data.structuredModifiers.filter(m=>m.source.kind===kind);p(`|${kind}|${a.length}|${a.filter(m=>m.support.status==='calculable').length}|${a.filter(m=>m.support.status==='displayOnly').length}|`);}
- p('','- 停雲、ロビン、サンデー、花火、椒丘、夏ロビン、霊砂/ギャラガーの既存補正は提供者/対象/個別軌跡/ON/OFFを維持する。候補表示だけを適用済みと数えない。','- 主な不足: フォフォ121703の味方ATK支援（trace補正なし）、光円錐21056の味方撃破ダメージ支援（表示専用、撃破/超撃破の範囲要照合）。','- 常時効果21066愉悦度・23055DEF・遺物133速度/134会心ダメージ・パールA2は最終入力で管理する。表示専用でも未実装の自動加算漏れとは数えない。','- 任意補正OFFで基礎計算、ONで必要値不足は影響する結果のみ停止。提供者離脱/再加入・保存復元・UID反映は独立の統合QA項目。','','## 次回優先順位（最大10項目）','',"1. 既存Cから次の成分群を分解: ブラックスワン1307のDoT/起爆、アナイクス1405の状態別攻撃を全Lv・全成分の受入カードへ分ける。今回実装した異属性/別所有者参照を無関係な攻撃へ自動拡張しない。","2. 別参照者: 停雲1202は完成済みパーティ参照の限定E0受入を完了。次は丹恒・騰荒1414/遠坂凛1508の帰属・会心/補正継承が確定した成分だけ同ヘルパーへ接続。新証拠なしの反復調査をしない。","3. 精霊の参照群: 記憶開拓者8007/8008を男女コピーでなく同じ精霊所有者契約から監査。ミュリオンATK/精霊会心/補正継承と連携成分が確定するまで本人ATKによる代用をしない。","4. 今回の限定成分の保守: モゼ閾値/獲物消滅、なのかの通常限定補正継承、トリビーの初回結界/A2順は具体的な版付き証拠を待つ。限定合計を全E0完成と読み替えない。","5. E0確認済み38人は同じE0監査を反復せず、E1～6/装備/支援の別受入カードへ引き継ぐ。最終完成0人を維持し、未測定領域の工数を0扱いしない。","6. 星魂/装備の類型速度測定: 工数台帳の層別標本を実装・受入まで閉じ、既存枠接続/新機能/証拠待ちの完了カード数を記録してから最終完成回数へ外挿する。","7. D26人の証拠待ち台帳を維持。アベンチュリン初回動揺、ジェイド50層未満、アルジェンティ段間栄耀等は、新しい版付き処理順証拠が得られた時のみ再開する。");
+ p('','- 停雲、ロビン、サンデー、花火、椒丘、夏ロビン、霊砂/ギャラガーの既存補正は提供者/対象/個別軌跡/ON/OFFを維持。候補表示だけを適用済みと数えない。','- 主な不足: フォフォ121703の味方ATK支援、光円錐21056の味方撃破支援など。常時properties/最終入力と戦闘中の条件効果を分ける。','- 任意補正OFFで基礎計算、ONで必要値不足は影響する行だけ停止。精霊固有値を本人値で代用しない。','','## 次回優先順位（最大10項目）','',
+ '1. 愉悦共通群: 夏アベンチュリン1513、緋英1505、爻光1502の既存入口から、本人イベントと付加/アッハの所有者・補正範囲を分解。現在の愉悦式を再利用できる成分を先に閉じる。',
+ '2. 撃破共通群: 乱破1317・ホタル1310・ブートヒル1315を、直接/追加撃破/超撃破の受入カードへ分ける。全体合計に未接続成分を含めない。',
+ '3. 丹恒・飲月1213とマダム・ヘルタ1401の段数/補正対象を、既存の状態比較・成分別集計へ接続できる範囲から検証。',
+ '4. C2の14人は一次分類止まり。まず全構成と必要機能を少数の受入カードへ分解し、既存処理だけで閉じるA/Bを再抽出。',
+ '5. ブラックスワン初回Skill DEF・アナイクス0～6弱点の段間・セイレンスの領域/DoT順は版付き処理順証拠待ち。説明順だけで確定せず、同一調査を反復しない。',
+ '6. 記憶開拓者男女の精霊ATK/会心/氷DMG・補正継承を独立した所有者契約で確認。本人ATK代用の停止を維持。',
+ '7. E0確認済み40人は同じE0監査を反復せず、E1～E6・装備/支援の別受入カードへ引き継ぐ。最終完成0人を維持。',
+ '8. 工数台帳の星魂・LC・装備・支援の層別標本を実装受入まで閉じ、完了速度を測定してから最終完成工数へ外挿。',
+ '9. UID・保存・PC/モバイルの最終QAは開発完了と別に記録する。今回実UID通信は行っていない。');
  for(const d of details){p(`<a id="character-${d.c.id}"></a>`, `### ${d.c.id} ${d.c.name}`,'',d.confirmed?confirmedE0[d.c.id]:d.audit?(d.audit.summary+' 残作業: '+d.audit.remaining+' 証拠: '+d.audit.evidence):knownGaps[d.c.id]||'登録一覧の全成分/固有効果は要精査。登録状態と完成認定を分ける。','', '|攻撃ID・種類・名前|登録/実行|Lv・星魂範囲|必要入力・限定条件・不足|次作業/難易度|','|---|---|---|---|---|');for(const a of d.attacks)p(`|${a.id} ${cell(category(a)+' '+a.name)}|登録・${attackStatus(a)}|${cell(bounds(a))}|${cell(a.calculationNote||a.conditionText||a.support?.reason||'個別の入力・固有補正範囲は未明示')}|${cell(difficulty(a))}|`);
   p('','|固定版スキルID・名前|性質|対応する登録攻撃|管理上の扱い|','|---|---|---|---|');for(const s of d.sources){const mapped=d.mapped(s);const role=skillRole(s);p(`|${s.id} ${cell(s.name)}|${cell(role)}|${mapped.map(a=>a.id+' '+attackStatus(a)).join('、')||'なし'}|${role.startsWith('支援')?'ダメージ未実装数に含めない':role.startsWith('秘技')?'主要完成集計外':role.startsWith('召喚')?'有無/子攻撃/既存式接続を要確認':mapped.length?'成分/時点/条件の完全性を確認':'未登録候補。独立ダメージか既存行の成分か要確認'}|`);}
   p('','|星魂|構造化計算/表示|軌跡Lv加算（元データ）/残作業|','|---|---|---|');
