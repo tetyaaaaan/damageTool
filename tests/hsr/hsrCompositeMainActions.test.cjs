@@ -183,6 +183,11 @@ test("Feixiao Skill composition independently verifies both parts across all Ski
                         const expectedFollowUp = independentDirectDamage(followUpOracle);
                         const result = engine.calculate(all.request);
                         const suffix = `/prior=${priorBuff}/A4=${a4Unlocked}`;
+                        if (!a4Unlocked) {
+                            assert.equal(result.supported, false, "required A4 missing stops this FUA and its aggregate");
+                            assert.equal(result.nonCrit, undefined, "no partial positive aggregate is returned without A4");
+                            continue;
+                        }
                         assert.notEqual(result.supported, false, `Feixiao E0 Skill Lv${skillLevel}/Talent Lv${talentLevel}${suffix} calculates`);
                         for (const key of ["nonCrit", "crit", "expected"]) {
                             assertClose(result.components.skill[key], expectedSkill[key], `Feixiao skill Lv${skillLevel}/${talentLevel}${suffix} ${key}`);
@@ -191,6 +196,8 @@ test("Feixiao Skill composition independently verifies both parts across all Ski
                         }
                         assertClose(result.components.skill.breakdown.referenceValue, scenario.stats.atk, "Feixiao Skill references the final ATK snapshot");
                         assertClose(result.components.followUp.breakdown.referenceValue, scenario.stats.atk, "Feixiao FUA reuses the same final ATK snapshot");
+                        assertClose(result.components.skill.breakdown.critDamagePercent, scenario.stats.critDamage, "Skill body preserves permanent final CD without FUA A4");
+                        assertClose(result.components.followUp.breakdown.critDamagePercent, scenario.stats.critDamage + 36, "required A4 adds 36 scoped CD exactly once");
                     }
                 }
             }
@@ -198,48 +205,53 @@ test("Feixiao Skill composition independently verifies both parts across all Ski
     }
 });
 
-test("Feixiao optional buffs remain component-scoped and never duplicate the separate FUA result", async () => {
+test("Feixiao optional prior buff remains component-scoped with required A4 and never duplicates the separate FUA", async () => {
     const { data, engine } = await loadProductionFixture();
     const parent = attackOf(data, "122002"), followUp = attackOf(data, "122004");
-    const records = modifierRecords(data, feixiaoModifierIds);
-    const scenario = scenarios[0];
-    const make = (prior, a4) => {
+    const records = modifierRecords(data, feixiaoModifierIds), scenario = scenarios[0];
+    const make = (prior, a4 = true) => {
         const candidates = modifierCandidates(records, "1220", { "122004": 10 }, {
             "feixiao-formshift-unlocked": a4,
             "feixiao-previous-followup-buff": prior
         }, scenario.stats);
-        const skillMods = scopedModifiers(candidates, { id: "122002", type: "skill", attackType: "skill", element: "Wind", target: "single" });
-        const fuaMods = scopedModifiers(candidates, { id: "122004", type: "followUp", attackType: "followUp", element: "Wind", target: "single" });
-        const built = makeFeixiaoSequence(parent, parent, followUp, 10, 10, scenario, skillMods, fuaMods);
+        const built = makeFeixiaoSequence(parent, parent, followUp, 10, 10, scenario,
+            scopedModifiers(candidates, { id: "122002", type: "skill", attackType: "skill", element: "Wind", target: "single" }),
+            scopedModifiers(candidates, { id: "122004", type: "followUp", attackType: "followUp", element: "Wind", target: "single" }));
         const result = engine.calculate(built.request);
+        if (!a4) {
+            assert.equal(result.supported, false, "required A4 OFF stops the aggregate locally");
+            assert.equal(result.nonCrit, undefined, "invalid A4 state has no positive comparison value");
+            return { built, result };
+        }
+        assert.notEqual(result.supported, false, result.reason);
         const skill = result.components.skill, fua = result.components.followUp;
         assert.equal(skill.applied.some((item) => item.id === records[2].id), prior, "prior FUA buff applies to Skill body only when selected");
-        assert.equal(fua.applied.some((item) => item.id === records[2].id), false, "prior FUA buff does not repeat on the immediate FUA");
-        assert.equal(skill.applied.some((item) => item.id === records[1].id), false, "A4 Crit DMG cannot affect Skill body");
-        assert.equal(fua.applied.some((item) => item.id === records[1].id), a4, "A4 Crit DMG is limited to FUA");
-        assert.equal(skill.applied.some((item) => item.id === records[0].id), false, "native FUA bonus is excluded from Skill body");
-        assert.equal(fua.applied.filter((item) => item.id === records[0].id).length, 1, "native FUA bonus is applied once");
+        assert.equal(fua.applied.some((item) => item.id === records[2].id), false, "prior buff does not repeat on immediate FUA");
+        assert.equal(skill.applied.some((item) => item.id === records[1].id), false, "A4 cannot affect Skill body");
+        assert.equal(fua.applied.filter((item) => item.id === records[1].id).length, 1, "required A4 applies to FUA exactly once");
+        assert.equal(skill.applied.some((item) => item.id === records[0].id), false, "fresh native FUA bonus excludes Skill body");
+        assert.equal(fua.applied.filter((item) => item.id === records[0].id).length, 1, "native FUA damage applies once");
+        assertClose(fua.breakdown.critDamagePercent, scenario.stats.critDamage + 36, "permanent final CD plus separate A4 36");
         return { built, result };
     };
-    const baseline = make(false, false);
-    const priorOnly = make(true, false);
-    const a4Only = make(false, true);
-    const both = make(true, true);
-
-    assert.ok(priorOnly.result.components.skill.nonCrit > baseline.result.components.skill.nonCrit);
-    assertClose(priorOnly.result.components.followUp.nonCrit, baseline.result.components.followUp.nonCrit, "prior-buff toggle cannot change immediate FUA");
-    assertClose(a4Only.result.components.skill.crit, baseline.result.components.skill.crit, "A4 cannot change Skill result");
-    assert.ok(a4Only.result.components.followUp.crit > baseline.result.components.followUp.crit);
-    assertClose(both.result.nonCrit, priorOnly.result.nonCrit, "Crit-only A4 does not change non-crit total");
-
+    make(false, false);
+    make(true, false);
+    const baseline = make(false), priorOn = make(true);
+    assert.ok(priorOn.result.components.skill.nonCrit > baseline.result.components.skill.nonCrit);
+    for (const key of ["nonCrit", "crit", "expected"]) {
+        assertClose(priorOn.result.components.followUp[key], baseline.result.components.followUp[key], "prior toggle cannot change immediate FUA " + key);
+        assertClose(baseline.result[key], baseline.result.components.skill[key] + baseline.result.components.followUp[key], "aggregate contains exactly one FUA " + key);
+    }
+    const separateCandidates = modifierCandidates(records.slice(0, 2), "1220", { "122004": 10 }, { "feixiao-formshift-unlocked": true }, scenario.stats);
     const separate = makeRequest(followUp, 10, {
         characterLevel: 80, eidolon: 0, atk: scenario.stats.atk, hp: scenario.stats.hp, def: scenario.stats.def,
         baseAtk: scenario.baseStats.atk, baseHp: scenario.baseStats.hp, baseDef: scenario.baseStats.def,
         critRate: scenario.stats.critRate, critDamage: scenario.stats.critDamage, damageBonus: scenario.stats.damageBonus,
         enemyLevel: scenario.enemyLevel, resistance: scenario.resistance, toughnessActive: true, enemyCount: 1, weakness: false
-    }, scopedModifiers(modifierCandidates([records[0]], "1220", { "122004": 10 }, {}, scenario.stats), { id: "122004", type: "followUp", attackType: "followUp", element: "Wind", target: "single" }));
-    assertMatchesOracle(engine, separate, oracleInput(separate, "atk", feixiaoSource.followUp[9], separate.modifiers), "separate Feixiao FUA");
-    assertClose(separate.attack.multiplier, feixiaoSource.followUp[9], "separate attack row remains one FUA, without Skill aggregate addition");
+    }, scopedModifiers(separateCandidates, { id: "122004", type: "followUp", attackType: "followUp", element: "Wind", target: "single" }));
+    const standalone = assertMatchesOracle(engine, separate, oracleInput(separate, "atk", feixiaoSource.followUp[9], separate.modifiers), "separate FUA with mandatory native effects");
+    for (const key of ["nonCrit", "crit", "expected"]) assertClose(standalone[key], baseline.result.components.followUp[key], "separate row represents the same single FUA " + key);
+    assertClose(separate.attack.multiplier, feixiaoSource.followUp[9], "separate FUA never includes Skill aggregate coefficient");
 });
 
 test("Feixiao Skill composition rejects incomplete or altered component requests instead of showing a partial total", async () => {
@@ -259,9 +271,10 @@ test("Feixiao Skill composition rejects incomplete or altered component requests
     wrongEnemy.sequenceComponents[1].input.enemy = { ...wrongEnemy.sequenceComponents[1].input.enemy, resistance: 40 };
     assert.equal(engine.calculate(wrongEnemy).supported, false, "both components must use the same enemy snapshot");
 
-    const [nativeDamage] = modifierRecords(data, [feixiaoModifierIds[0]]);
-    const validNative = modifierCandidates([nativeDamage], "1220", { "122004": 10 }, {}, scenario.stats);
+    const [nativeDamage, a4CritDamage] = modifierRecords(data, feixiaoModifierIds.slice(0, 2));
+    const validNative = modifierCandidates([nativeDamage, a4CritDamage], "1220", { "122004": 10 }, { "feixiao-formshift-unlocked": true }, scenario.stats);
     const valid = makeFeixiaoSequence(parent, parent, followUp, 10, 10, scenario, [], validNative);
+    assert.notEqual(engine.calculate(valid.request).supported, false, "negative mutations start from a complete required-native request");
     const missingRequiredBonus = engine.calculate(built.request);
     assert.equal(missingRequiredBonus.supported, false, "required native FUA bonus cannot be silently omitted");
     assert.equal(missingRequiredBonus.nonCrit, undefined, "missing required FUA bonus returns no partial total");
@@ -364,18 +377,20 @@ test("Jade enhanced FUA condition is optional and cannot alter the Ultimate or a
 test("Both promotions isolate ATK scaling from HP and DEF changes in asymmetric final-stat inputs", async () => {
     const { data, engine } = await loadProductionFixture();
     const feixiaoParent = attackOf(data, "122002"), feixiaoFua = attackOf(data, "122004"), jade = attackOf(data, "131404");
-    const feixiaoRecords = modifierRecords(data, [feixiaoModifierIds[0]]);
+    const feixiaoRecords = modifierRecords(data, feixiaoModifierIds.slice(0, 2));
     const jadeRecords = modifierRecords(data, [jadeModifierId]);
     const baseline = scenarios[0];
 
     const makeFeixiao = (stats) => {
-        const candidates = modifierCandidates(feixiaoRecords, "1220", { "122004": 6 }, {}, stats);
+        const candidates = modifierCandidates(feixiaoRecords, "1220", { "122004": 6 }, { "feixiao-formshift-unlocked": true }, stats);
         const built = makeFeixiaoSequence(feixiaoParent, feixiaoParent, feixiaoFua, 4, 6, baseline,
             scopedModifiers(candidates, { id: "122002", type: "skill", attackType: "skill", element: "Wind", target: "single" }),
             scopedModifiers(candidates, { id: "122004", type: "followUp", attackType: "followUp", element: "Wind", target: "single" }));
         built.request.character.stats = { ...built.request.character.stats, ...stats };
         for (const item of built.request.sequenceComponents) item.input.character.stats = { ...item.input.character.stats, ...stats };
-        return engine.calculate(built.request);
+        const actual = engine.calculate(built.request);
+        assert.notEqual(actual.supported, false, actual.reason);
+        return actual;
     };
     const fxBase = makeFeixiao(baseline.stats);
     const fxAtk = makeFeixiao({ ...baseline.stats, atk: baseline.stats.atk + 1200 });

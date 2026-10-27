@@ -98,9 +98,15 @@
     // https://honkai-star-rail.fandom.com/wiki/Elation_DMG
     const ELATION_LEVEL_BASE = Object.freeze({ 80: 7535.1070 });
 
+    // Fixed-source CB riders reuse the Elation equation, with an owner-specific snapshot.
+    function certifiedBangerCurve(attack) {
+        return ({'1513041':[20,22,24,26,28,30,32.5,35,37.5,40], '1513042':[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72],
+            '1505041':[8,8.8,9.6,10.4,11.2,12,13,14,15,16], '1505042':[138,151.8,165.6,179.4,193.2,207,224.25,241.5,258.75,276], '1505043':[12.5,13.75,15,16.25,17.5,18.75,20.31,21.88,23.44,25]})[attack.id] || [];
+    }
+
     function supportedElationAttack(attack) {
         if (attack.damageFormula !== "elation" || attack.type !== "elation") return false;
-        return (["1513041","1513042"].includes(attack.id) && attack.characterId==='1513' && attack.sourceSkillId==='151304' && attack.elationContext==='certifiedBanger' && attack.hitCount===1 && attack.target==='aoe') || (attack.id === "150520" && attack.elationContext === "ahaInstant" && attack.target === "aoe" && attack.hitCount === 1)
+        return (["1505041","1505042","1505043"].includes(attack.id) && attack.characterId==='1505' && attack.sourceSkillId==='150504' && attack.elationContext==='certifiedBanger' && attack.hitCount===(attack.id==='1505042'?10:1) && attack.target==='aoe' && attack.requiresFinalCritDamageConversion===true && attack.minimumCertifiedBanger===(attack.id==='1505042'?480:undefined)) || (["1513041","1513042"].includes(attack.id) && attack.characterId==='1513' && attack.sourceSkillId==='151304' && attack.elationContext==='certifiedBanger' && attack.hitCount===1 && attack.target==='aoe') || (attack.id === "150520" && attack.elationContext === "ahaInstant" && attack.target === "aoe" && attack.hitCount === 1)
             || (attack.id === "150220" && attack.elationContext === "firstAhaInstant" && attack.target === "single" && attack.hitCount === 6)
             || (attack.id === "151320" && attack.elationContext === "fervor10Auto" && attack.target === "single" && attack.hitCount === 11 && attack.fixedPunchline === 20)
             || (attack.id === "151321" && attack.elationContext === "fervorEnhancedAha" && attack.target === "single" && attack.hitCount === 11 && attack.fixedPunchline === undefined);
@@ -119,9 +125,10 @@
         const warnings = [];
         if (!ELATION_LEVEL_BASE[character.level] || (character.eidolon ?? 0) !== 0) warnings.push("この愉悦攻撃はLv80・星魂0のみ計算対応です。");
         if (input.attack?.elationContext === "certifiedBanger") {
-            const a=input.attack,curve=a.id==='1513041'?[20,22,24,26,28,30,32.5,35,37.5,40]:a.id==='1513042'?[36,39.6,43.2,46.8,50.4,54,58.5,63,67.5,72]:[];
+            const a=input.attack,curve=certifiedBangerCurve(a);
             if(values.context!=='certifiedBanger'||!Number.isInteger(values.certifiedBanger)||values.certifiedBanger<1||values.certifiedBanger>10000)warnings.push('攻撃時点の爆笑の褒美に1～10000の整数を入力してください。爆笑ネタは使用しません。');
             if(input.enemy?.count!==1||a.multiplier!==curve[a.traceLevel-1])warnings.push('追加愉悦の天賦倍率・敵1体の条件を確認してください。');
+            if(a.id==='1505042'){const parts=elationComponents(a);if(parts.length!==2||parts[0].count!==1||parts[1].count!==9||parts.some(p=>!Number.isFinite(p.multiplierPercent))||Math.abs(parts.reduce((n,p)=>n+p.count*p.multiplierPercent,0)-a.multiplier)>1e-8)warnings.push('緋英の全体1回・9バウンドの追加愉悦成分を確認してください。');}
         } else if (input.attack?.id === "151321") {
             if (values.context !== "fervorEnhancedAha" || values.stableEnemy !== true) warnings.push("熱気10到達の通常版発動後、次のアッハタイムの強化版で全ヒット中に撃破・敵条件変化がないことを確認してください。");
             if (input.enemy?.count !== 1) warnings.push("強化版151321は敵1体のみ計算対応です。");
@@ -633,6 +640,7 @@ function calculateFanning(input) {
         const applied = modifiers.filter((item) => item.enabled && item.applicable);
         const skipped = modifiers.filter((item) => !item.enabled || !item.applicable);
         const sum = (category) => applied.filter((item) => item.category === category).reduce((total, item) => total + item.value, 0);
+        if (attack.requiresFinalCritDamageConversion && applied.some(item => item.category === "critDamage" && item.value !== 0)) return {supported:false,reason:"緋英の会心ダメージ支援による愉悦度の再変換は未検証です。攻撃時点の最終会心ダメージ・愉悦度に反映し、同じ支援をOFFにしてください。"};
         const levelBase = ELATION_LEVEL_BASE[character.level];
         const components = elationComponents(attack, values.fervor);
         const multiplierPercent = attack.id === "151321" ? components.reduce((total, p) => total + p.count * p.multiplierPercent, 0) : attack.multiplier;
@@ -641,7 +649,7 @@ function calculateFanning(input) {
         const elationPercent = stats.elation + sum("elation");
         const elationMultiplier = 1 + elationPercent / 100;
         // Fervor-triggered 151320 uses the Talent's fixed value, never the shared manual input.
-        const punchline = attack.elationContext === "certifiedBanger" ? values.certifiedBanger : attack.id === "151320" ? 20 : values.punchline;
+        const punchline = attack.elationContext === "certifiedBanger" ? Math.max(values.certifiedBanger,attack.minimumCertifiedBanger || 0) : attack.id === "151320" ? 20 : values.punchline;
         const punchlineMultiplier = 1 + 5 * punchline / (punchline + 240);
         const merrymakeMultiplier = 1 + values.merrymake / 100;
         const defenseReduction = number(enemy.defenseReduction) + sum("defenseReduction");
@@ -662,10 +670,10 @@ function calculateFanning(input) {
         const crit = nonCrit * critMultiplier;
         const expected = nonCrit * expectedCritMultiplier;
         return {
-            attack: { name: attack.name, hitCount, target: attack.target, canCrit: true, scalingStat: "elation" },
+            attack: { name: attack.name, hitCount, hitCountLabel:attack.hitCountLabel, target: attack.target, canCrit: true, scalingStat: "elation" },
             nonCrit, crit, expected, perHit: { nonCrit: nonCrit / hitCount, crit: crit / hitCount, expected: expected / hitCount }, applied, skipped,
             breakdown: {
-                ...(["150220", "151320", "151321"].includes(attack.id) ? { elationComponents: components.map((component) => {
+                ...(["150220", "151320", "151321", "1505042"].includes(attack.id) ? { elationComponents: components.map((component) => {
                     const perHitNonCrit = levelBase * component.multiplierPercent / 100 * commonMultiplier;
                     return { ...component, perHitNonCrit, nonCrit: perHitNonCrit * component.count,
                         crit: perHitNonCrit * component.count * critMultiplier, expected: perHitNonCrit * component.count * expectedCritMultiplier };
@@ -673,7 +681,7 @@ function calculateFanning(input) {
                 damageFormula: "elation", levelBase, referenceValue: levelBase, multiplierPercent,
                 multiplierAddition: 0, scalingTerms: [], flatDamage: 0, baseDamage,
                 elationPercent, elationMultiplier, punchline, punchlineMultiplier,
-                ...(attack.elationContext === "certifiedBanger" ? {certifiedBanger:values.certifiedBanger,punchlineSource:"certifiedBanger",elationScopeNote:"爆笑の褒美を使う独立した天賦追加愉悦。爆笑ネタ/熱気は参照せず、直撃と自動合算しません。"} : {}),
+                ...(attack.elationContext === "certifiedBanger" ? {certifiedBanger:punchline,inputCertifiedBanger:values.certifiedBanger,minimumCertifiedBanger:attack.minimumCertifiedBanger || 0,punchlineSource:"certifiedBanger",elationScopeNote:attack.characterId==='1505'?"緋英本人の爆笑の褒美による追加愉悦成分のみ。必殺技は固定版の最大EP480を参照下限に使用。9バウンドと全体分は状態一定で合算し、通常ダメージ・キツネ先生・他の追加愉悦を自動合算しません。":"爆笑の褒美を使う独立した天賦追加愉悦。爆笑ネタ/熱気は参照せず、直撃と自動合算しません。"} : {}),
                 ...(attack.id === "151320" ? { punchlineSource: "fixedTalent", elationScopeNote: "熱気10到達の通常版自動発動・敵1体・全体1ヒット＋追加10ヒット。爆笑ネタは天賦固定20。全ヒット中の撃破・敵条件変化なし。" } : {}),
                 ...(attack.id === "151321" ? { fervor: values.fervor, punchlineSource: "ahaInput", elationScopeNote: "熱気10到達の通常版発動後、次のアッハタイムの強化版・敵1体。全体1＋固定10＋消費熱気分の追加ヒット。全ヒット中の撃破・敵条件変化なし。爆笑ネタは入力値を使用し、固定20は使いません。" } : {}),
                 merrymakePercent: values.merrymake, merrymakeMultiplier,

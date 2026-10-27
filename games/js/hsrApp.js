@@ -1319,6 +1319,7 @@
     const scaling = isElation
       ? row("Lv80の愉悦基礎値 × 攻撃倍率", `${detailNumber(b.levelBase)} × ${detailNumber(b.multiplierPercent)}%`)
         + row("愉悦度", `${detailNumber(b.elationPercent)}%／×${detailNumber(b.elationMultiplier)}`)
+        + (b.minimumCertifiedBanger ? row("入力した褒美／必殺技の参照下限", `${detailNumber(b.inputCertifiedBanger)}／${detailNumber(b.minimumCertifiedBanger)}`) : "")
         + row(b.punchlineSource === "certifiedBanger" ? "爆笑の褒美（攻撃時点）" : b.punchlineSource === "fixedTalent" ? "爆笑ネタ（天賦固定値）" : "爆笑ネタ（攻撃時点）", `${detailNumber(b.punchline)}／×${detailNumber(b.punchlineMultiplier)}`)
         + (Number.isFinite(b.fervor) ? row("消費熱気（追加ヒット数）", detailNumber(b.fervor)) : "")
         + row("上笑", `${detailNumber(b.merrymakePercent)}%／×${detailNumber(b.merrymakeMultiplier)}`)
@@ -1479,7 +1480,7 @@
   }
 
   function attackElationInputs(attack) {
-    if (attack.elationContext === "certifiedBanger") return {...state.elationInputs,context:"certifiedBanger",certifiedBanger:state.modifierInputs["elation-certified-banger"]};
+    if (attack.elationContext === "certifiedBanger") return {...state.elationInputs,context:"certifiedBanger",certifiedBanger:state.modifierInputs[attack.certifiedBangerInputKey || "elation-certified-banger"]};
     if (attack.id === "151321") return { ...state.elationInputs, context: "fervorEnhancedAha", stableEnemy: true, hasOtherElation: true };
     if (attack.id === "151320") return { ...state.elationInputs, context: "fervor10Auto", stableEnemy: true };
     return state.elationInputs;

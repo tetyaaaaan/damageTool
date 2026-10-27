@@ -1,0 +1,231 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "batch8-hiyu-certified-banger-2026-10-28",
+  "description": "Lv80・星魂0・敵1体・状態一定の独立した追加愉悦成分。天賦Lv1～10、本人の最終愉悦度/会心と攻撃時点の爆笑の褒美を参照します。会心ダメージ由来の愉悦度20%分は攻撃時点の最終愉悦度へ含めます。会心ダメージ支援を適用する場合は最終会心ダメージ・最終愉悦度の両方へ反映し、同じ支援をOFFにします。会心ダメージ支援の自動再変換は検証範囲外です。通常ダメージとこの成分をまとめた行動全体の合計は表示しません。EP/褒美の獲得・消費・自動発動・途中撃破・敵消滅・状態変化は対象外です。褒美入力上限10000は検証範囲でゲーム上限ではありません。",
+  "overrides": [
+    {
+      "id": "1505041",
+      "characterId": "1505",
+      "sourceSkillId": "150504",
+      "name": "戦闘スキル後の追加愉悦（爆笑の褒美）",
+      "type": "elation",
+      "traceKey": "talent",
+      "element": "Physical",
+      "target": "aoe",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "hitCount": 1,
+      "hitCountLabel": "追加愉悦1回",
+      "canCrit": true,
+      "multipliers": [
+        8,
+        8.8,
+        9.6,
+        10.4,
+        11.2,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "maximumTraceLevel": 10,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "numericModifierInputs": [
+        {
+          "inputKey": "hiyu-certified-banger",
+          "label": "緋英の攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "conditionText": "独立した追加愉悦・敵1体・状態一定。爆笑ネタ・熱気は参照しません。",
+      "calculationNote": "Lv80・星魂0・敵1体・状態一定の独立した追加愉悦成分。天賦Lv1～10、本人の最終愉悦度/会心と攻撃時点の爆笑の褒美を参照します。会心ダメージ由来の愉悦度20%分は攻撃時点の最終愉悦度へ含めます。会心ダメージ支援を適用する場合は最終会心ダメージ・最終愉悦度の両方へ反映し、同じ支援をOFFにします。会心ダメージ支援の自動再変換は検証範囲外です。通常ダメージとこの成分をまとめた行動全体の合計は表示しません。EP/褒美の獲得・消費・自動発動・途中撃破・敵消滅・状態変化は対象外です。褒美入力上限10000は検証範囲でゲーム上限ではありません。",
+      "resultSummary": "追加愉悦成分のみ。通常ダメージ成分や行動全体の合計ではありません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版天賦の全採用Lv・独立した爆笑の褒美参照と敵1体の追加愉悦成分を検証。全E0完成ではありません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150504.params[0..9][6];150504.params[0..9][4]",
+        "verifiedAt": "2026-10-28",
+        "formulaSource": "https://cowaii.io/HonkaiSR/StatsInfo/",
+        "verification": "tests/hsr/hsrBatch8Hiyu.test.cjs"
+      },
+      "displayOrder": 50,
+      "requiresFinalCritDamageConversion": true,
+      "enforceSnapshotContract": true,
+      "certifiedBangerInputKey": "hiyu-certified-banger"
+    },
+    {
+      "id": "1505042",
+      "characterId": "1505",
+      "sourceSkillId": "150504",
+      "name": "必殺技後の追加愉悦（全体＋9ヒット・爆笑の褒美）",
+      "type": "elation",
+      "traceKey": "talent",
+      "element": "Physical",
+      "target": "aoe",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "hitCount": 10,
+      "hitCountLabel": "全体1回＋9ヒット合算",
+      "canCrit": true,
+      "multipliers": [
+        138,
+        151.8,
+        165.6,
+        179.4,
+        193.2,
+        207,
+        224.25,
+        241.5,
+        258.75,
+        276
+      ],
+      "maximumTraceLevel": 10,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "numericModifierInputs": [
+        {
+          "inputKey": "hiyu-certified-banger",
+          "label": "緋英の攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "minimumCertifiedBanger": 480,
+      "conditionText": "独立した追加愉悦・敵1体・状態一定。爆笑ネタ・熱気は参照しません。",
+      "calculationNote": "Lv80・星魂0・敵1体・状態一定の独立した追加愉悦成分。天賦Lv1～10、本人の最終愉悦度/会心と攻撃時点の爆笑の褒美を参照します。会心ダメージ由来の愉悦度20%分は攻撃時点の最終愉悦度へ含めます。会心ダメージ支援を適用する場合は最終会心ダメージ・最終愉悦度の両方へ反映し、同じ支援をOFFにします。会心ダメージ支援の自動再変換は検証範囲外です。通常ダメージとこの成分をまとめた行動全体の合計は表示しません。EP/褒美の獲得・消費・自動発動・途中撃破・敵消滅・状態変化は対象外です。褒美入力上限10000は検証範囲でゲーム上限ではありません。 必殺技はA2解放済みの全体1回＋9ランダムヒットが敵1体へ当たる想定です。参照褒美はmax(入力褒美,最大EP480)。キツネ先生の累計EP閾値240とは別です。",
+      "resultSummary": "追加愉悦成分のみ。通常ダメージ成分や行動全体の合計ではありません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版天賦の全採用Lv・独立した爆笑の褒美参照と敵1体の追加愉悦成分を検証。全E0完成ではありません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150504.params[0..9][5,7];150503;character_skill_trees.json:1505101.params[0][3];characters.json:1505.max_sp",
+        "verifiedAt": "2026-10-28",
+        "formulaSource": "https://cowaii.io/HonkaiSR/StatsInfo/",
+        "verification": "tests/hsr/hsrBatch8Hiyu.test.cjs"
+      },
+      "displayOrder": 51,
+      "requiresFinalCritDamageConversion": true,
+      "enforceSnapshotContract": true,
+      "certifiedBangerInputKey": "hiyu-certified-banger",
+      "elationComponents": [
+        {
+          "name": "全体攻撃への追加愉悦",
+          "count": 1,
+          "multipliers": [
+            12,
+            13.2,
+            14.4,
+            15.6,
+            16.8,
+            18,
+            19.5,
+            21,
+            22.5,
+            24
+          ]
+        },
+        {
+          "name": "9バウンドへの追加愉悦",
+          "count": 9,
+          "multipliers": [
+            14,
+            15.4,
+            16.8,
+            18.2,
+            19.6,
+            21,
+            22.75,
+            24.5,
+            26.25,
+            28
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1505043",
+      "characterId": "1505",
+      "sourceSkillId": "150504",
+      "name": "キツネ先生後の追加愉悦（爆笑の褒美）",
+      "type": "elation",
+      "traceKey": "talent",
+      "element": "Physical",
+      "target": "aoe",
+      "scalingStat": "elation",
+      "damageFormula": "elation",
+      "elationContext": "certifiedBanger",
+      "hitCount": 1,
+      "hitCountLabel": "追加愉悦1回",
+      "canCrit": true,
+      "multipliers": [
+        12.5,
+        13.75,
+        15,
+        16.25,
+        17.5,
+        18.75,
+        20.31,
+        21.88,
+        23.44,
+        25
+      ],
+      "maximumTraceLevel": 10,
+      "maximumEidolon": 0,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "numericModifierInputs": [
+        {
+          "inputKey": "hiyu-certified-banger",
+          "label": "緋英の攻撃時点の爆笑の褒美",
+          "minimum": 1,
+          "maximum": 10000,
+          "integer": true
+        }
+      ],
+      "requiredModifierIds": [
+        "traceNode:1505:1505102:fox-cb-prior-vulnerability"
+      ],
+      "conditionText": "A4の被ダメージ増加12%が攻撃前から成立済みの独立追加愉悦。敵1体・状態一定。",
+      "calculationNote": "Lv80・星魂0・敵1体・状態一定の独立した追加愉悦成分。天賦Lv1～10、本人の最終愉悦度/会心と攻撃時点の爆笑の褒美を参照します。会心ダメージ由来の愉悦度20%分は攻撃時点の最終愉悦度へ含めます。会心ダメージ支援を適用する場合は最終会心ダメージ・最終愉悦度の両方へ反映し、同じ支援をOFFにします。会心ダメージ支援の自動再変換は検証範囲外です。通常ダメージとこの成分をまとめた行動全体の合計は表示しません。EP/褒美の獲得・消費・自動発動・途中撃破・敵消滅・状態変化は対象外です。褒美入力上限10000は検証範囲でゲーム上限ではありません。 A4被ダメージ増加12%を必ず別加算します。同じ12%を敵条件/手動補正に含めません。初回付与タイミングは仮定しません。",
+      "resultSummary": "追加愉悦成分のみ。通常ダメージ成分や行動全体の合計ではありません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版天賦の全採用Lv・独立した爆笑の褒美参照と敵1体の追加愉悦成分を検証。全E0完成ではありません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150504.params[0..9][1];150504.params[0..9][4]",
+        "verifiedAt": "2026-10-28",
+        "formulaSource": "https://cowaii.io/HonkaiSR/StatsInfo/",
+        "verification": "tests/hsr/hsrBatch8Hiyu.test.cjs"
+      },
+      "displayOrder": 52,
+      "requiresFinalCritDamageConversion": true,
+      "enforceSnapshotContract": true,
+      "certifiedBangerInputKey": "hiyu-certified-banger"
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "batch8-hiyu-certified-banger-2026-10-28",
+  "modifiers": [
+    {
+      "id": "trace:1505:150504:banger-reference-input",
+      "providerScope": "self",
+      "source": {
+        "kind": "trace",
+        "id": "1505",
+        "skillId": "150504"
+      },
+      "name": "緋英・追加愉悦の爆笑の褒美",
+      "description": "攻撃時点で本人が持つ爆笑の褒美。爆笑ネタ/熱気とは別入力。必殺技成分は最大EP480を参照下限にします。",
+      "category": "extraDamage",
+      "unit": "flat",
+      "value": {
+        "kind": "fixed",
+        "fixed": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "elation"
+        ],
+        "attackIds": [
+          "1505041",
+          "1505042",
+          "1505043"
+        ],
+        "elements": [
+          "Physical"
+        ]
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "inputKey": "hiyu-certified-banger",
+        "inputLabel": "緋英の攻撃時点の爆笑の褒美",
+        "minimum": 1,
+        "maximum": 10000,
+        "step": 1,
+        "strictInput": true,
+        "operator": ">=",
+        "threshold": 1,
+        "conditionText": "褒美の継続中・追加愉悦発生時点の個数"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "独立した追加愉悦の参照値。補正値としては加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150504.params[0..9][5..7]",
+        "verifiedAt": "2026-10-28",
+        "formulaSource": "https://cowaii.io/HonkaiSR/StatsInfo/",
+        "verification": "tests/hsr/hsrBatch8Hiyu.test.cjs"
+      },
+      "calculation": {
+        "stage": "extraDamage",
+        "operation": "add"
+      }
+    },
+    {
+      "id": "traceNode:1505:1505102:fox-cb-prior-vulnerability",
+      "source": {
+        "kind": "trace",
+        "id": "1505",
+        "traceId": "1505102"
+      },
+      "providerScope": "self",
+      "name": "キツネ先生・追加愉悦前から成立済みの被ダメージ増加",
+      "description": "A4被ダメージ増加12%が攻撃前から成立済みのキツネ先生追加愉悦です。初回付与タイミングは計算しません。同じ12%を敵条件/手動補正へ重複入力しません。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 12
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "elation"
+        ],
+        "attackIds": [
+          "1505043"
+        ],
+        "elements": [
+          "Physical"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "A4被ダメージ増加12%が攻撃前から成立済み"
+      },
+      "stacking": {
+        "group": "traceNode:1505:1505102:fox-cb-prior-vulnerability",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "事前成立状態だけを扱い、初回付与タイミングを仮定しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1505102.params[0][0]",
+        "verifiedAt": "2026-10-28",
+        "formulaSource": "https://cowaii.io/HonkaiSR/StatsInfo/",
+        "verification": "tests/hsr/hsrBatch8Hiyu.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1505:1505102:cb-prior-vulnerability",
+      "source": {
+        "kind": "trace",
+        "id": "1505",
+        "traceId": "1505102"
+      },
+      "providerScope": "self",
+      "name": "緋英・スキル/必殺技の追加愉悦前から成立済みの被ダメージ増加",
+      "description": "A4被ダメージ増加12%がスキル/必殺技前から成立し、敵条件/手動補正に未算入の場合だけON。今回の攻撃による初回付与は仮定しません。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 12
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "elation"
+        ],
+        "attackIds": [
+          "1505041",
+          "1505042"
+        ],
+        "elements": [
+          "Physical"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "hiyu-prior-fox-vulnerability",
+        "inputLabel": "攻撃前からA4被ダメージ増加12%が有効",
+        "default": false,
+        "conditionText": "攻撃前から成立済み・敵条件/手動補正に未算入"
+      },
+      "stacking": {
+        "group": "hiyu-cb-prior-vulnerability",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "事前成立状態だけを扱い、初回付与タイミングを仮定しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1505102.params[0][0]",
+        "verifiedAt": "2026-10-28",
+        "formulaSource": "https://cowaii.io/HonkaiSR/StatsInfo/",
+        "verification": "tests/hsr/hsrBatch8Hiyu.test.cjs"
+      }
+    }
+  ]
+}
