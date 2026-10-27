@@ -374,3 +374,10 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
 .hsr-action-summary > strong { flex-basis: 100%; }
 
 .page-hsr .hsr-field-error { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+/* Keep large HSR totals inside their own columns on narrow phones. */
+@media (max-width: 420px) {
+  .page-hsr #hsrResults .genshin-damage-col-name { width: 36%; }
+  .page-hsr #hsrResults .genshin-damage-col-value { width: 21.333333%; }
+  .page-hsr #hsrResults .genshin-damage-result-row td { padding-inline: 2px; }
+  .page-hsr #hsrResults .genshin-damage-result-row .genshin-result-value { font-size: .66rem; }
+}

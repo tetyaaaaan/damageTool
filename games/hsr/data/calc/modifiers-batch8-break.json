@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "description": "既存超撃破モードへ結印の既知効率を接続。自動ターン/初回撃破は扱わない。",
+  "modifiers": [
+    {
+      "id": "trace:1317:131703:sealform-super-break-efficiency",
+      "source": {
+        "kind": "trace",
+        "id": "1317",
+        "skillId": "131703"
+      },
+      "providerScope": "self",
+      "name": "結印中・超撃破の撃破効率",
+      "description": "結印中の本人撃破効率+50%を、独立した超撃破へ追加します。基礎削靭は主25/隣15（非虚数弱点は半分）、A4発生倍率60%を入力します。最終撃破特効には選択必殺技Lvの10～30%を含めてください。削靭入力へ既に50%を乗算した場合は重複するためOFF。天賦削靭や初回撃破は合算しません。",
+      "category": "breakEfficiency",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 50
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "superBreak"
+        ],
+        "elements": [
+          "Imaginary"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "rappa-sealform-super-break-efficiency",
+        "inputLabel": "結印中の撃破効率50%を超撃破へ追加",
+        "default": false,
+        "conditionText": "結印が持続中・基礎削靭へ効率未算入"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "inputPolicy": "conditional",
+      "stacking": {
+        "group": "trace:1317:131703:sealform-super-break-efficiency",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "toughness",
+        "operation": "add"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版E0・必殺技Lv1～10で固定50%。独立超撃破だけの接続で全構成認定ではない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:131703.params[0..9][0]",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/rappa",
+        "verifiedAt": "2026-10-28",
+        "verification": "tests/hsr/hsrBatch8BreakIsolation.test.cjs"
+      }
+    }
+  ]
+}
