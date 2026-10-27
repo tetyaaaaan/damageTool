@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "tribbie-e0-2026-10-27",
+  "description": "トリビーE0の独立ダメージ補正。自分の攻撃、味方への戦闘中支援、最終HPに含む効果を区別し、攻撃順序は進行管理しない。",
+  "modifiers": [
+    {
+      "id": "trace:1403:140302:resistance-penetration",
+      "source": {
+        "kind": "trace",
+        "id": "1403",
+        "skillId": "140302",
+        "traceId": "140302"
+      },
+      "name": "戦闘スキル「プレゼントはどこ？」・全属性耐性貫通",
+      "description": "トリビーのスキルLv1～10に応じた全属性耐性貫通。発動状態を手動指定します。最終値へ既に反映した分は重複して有効にしないでください。",
+      "category": "resistancePenetration",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          12,
+          13.2,
+          14.4,
+          15.6,
+          16.8,
+          18,
+          19.5,
+          21,
+          22.5,
+          24
+        ],
+        "levelInputLabel": "トリビーの戦闘スキルLv"
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "tribbie-numinosity-active",
+        "inputLabel": "神の啓示が有効",
+        "default": false,
+        "durationTurns": 3,
+        "conditionText": "神の啓示が継続中"
+      },
+      "stacking": {
+        "group": "trace:1403:140302:resistance-penetration",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "resistance",
+        "operation": "subtract"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "トリビーE0・スキルLv1～10の手動指定スナップショット。自動の発動・継続管理はしません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-27",
+        "scope": "味方への全属性耐性貫通。戦闘中状態を手動指定。",
+        "verification": "hsrBatch5Tribbie.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1403:140303:damage-taken",
+      "source": {
+        "kind": "trace",
+        "id": "1403",
+        "skillId": "140303",
+        "traceId": "140303"
+      },
+      "name": "必殺技「宇宙の休日」・敵の被ダメージ増加",
+      "description": "トリビーの必殺技Lv1～10に応じた敵の被ダメージ増加。敵に効果が有効な状態を手動指定します。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          15,
+          16.5,
+          18,
+          19.5,
+          21,
+          22.5,
+          24.37,
+          26.25,
+          28.12,
+          30
+        ],
+        "levelInputLabel": "トリビーの必殺技Lv"
+      },
+      "target": {
+        "owner": "enemySingle",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "tribbie-zone-active",
+        "inputLabel": "対象の敵に神の啓示が有効",
+        "default": false,
+        "durationTurns": 2,
+        "conditionText": "対象の敵が神の啓示の領域効果を受けている"
+      },
+      "stacking": {
+        "group": "trace:1403:140303:damage-taken",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "takenDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "トリビーE0・必殺技Lv1～10の手動指定スナップショット。領域のターン管理はしません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-27",
+        "scope": "領域中の敵被ダメージ増加。初回必殺技自身の効果順は本定義では保証しない。",
+        "verification": "hsrBatch5Tribbie.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1403:1403101:damage",
+      "source": {
+        "kind": "trace",
+        "id": "1403",
+        "traceId": "1403101"
+      },
+      "name": "壁の外の子羊…・追撃後の与ダメージ上昇",
+      "description": "天賦追撃後に与ダメージ+72%、最大3層・3ターン継続。ダメージ発生時点で有効な層数を指定します。その追撃で新たに得る層を追撃自身へは加算しません。追撃直後の結界付加までの新規層適用順は未確認です。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "perStack",
+        "perStack": 72,
+        "inputKey": "tribbie-followup-damage-stacks",
+        "default": 0
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal",
+          "skill",
+          "ultimate",
+          "followUp",
+          "additional"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "tribbie-followup-damage-stacks",
+        "inputLabel": "追撃後の与ダメージ上昇・有効層数（3ターン）",
+        "minimum": 0,
+        "maximum": 3,
+        "default": 0,
+        "conditionText": "ダメージ発生前に得ていて3ターンの効果が継続中の層数。新しい追撃で得る層は含めない"
+      },
+      "stacking": {
+        "group": "traceNode:1403:1403101:damage",
+        "rule": "add",
+        "maximumStacks": 3
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 3,
+        "integer": true,
+        "maximumEidolon": 0
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "E0・0～3回の完了済み追撃後における自己攻撃スナップショット。追撃カウンターは自動更新しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-27",
+        "scope": "トリビー自身の攻撃に適用する完了済み追撃由来の72%/層（最大3層）。",
+        "verification": "hsrBatch5Tribbie.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1403:1403102:party-hp-final",
+      "source": {
+        "kind": "trace",
+        "id": "1403",
+        "traceId": "1403102"
+      },
+      "name": "結界中の最大HP増加（味方の最大HP合計の9%）",
+      "description": "領域中、味方全体の最大HPの合計9%分のトリビーの最大HP増加は、完成済み最終HPへ含めてください。自己HPの9%を再加算する効果として扱わず、ここでは再構築しません。",
+      "category": "statPercent",
+      "stat": "hp",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 9
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "領域中。完成済み最終HPへ反映済みとして扱う"
+      },
+      "stacking": {
+        "group": "traceNode:1403:1403102:party-hp-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "最終HPは領域・小軌跡・装備を含む完成済み入力値です。HPを再構築して二重加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json;character_skill_trees.json;character_ranks.json",
+        "verifiedAt": "2026-10-27",
+        "scope": "A4 maximum HP from party HP is reflected in the completed final HP input; no recursive reconstruction.",
+        "verification": "hsrBatch5Tribbie.test.cjs"
+      }
+    }
+  ]
+}

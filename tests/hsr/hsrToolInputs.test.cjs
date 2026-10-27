@@ -864,7 +864,7 @@ test('HSR autosave restores inputs, party, equipment and conditions without stor
     app.storage.set('tetinet:hsr:lastUid:v1','100000001');
     app.state.coneId='cone';app.state.relicId='removed-relic';app.state.party[0]={...app.state.party[0],characterId:'1202',level:8,atk:2345.678901};
     app.state.modifierInputs['tingyun-benediction']=true;
-    app.state.modifierInputs['tingyun-reference-lightning:sample']=0;
+    app.state.modifierInputs['tingyun-reference-lightning:sample']=0;app.state.modifierInputs['enemy-resistance:Thunder']=20;
     app.state.conditions[0].enabled=true;app.state.conditions[0].value=30.5;
     app.node('hsrStat-atk').value='1234.567891';app.node('hsrStat-hp').value='';app.node('hsrStat-critRate').value='0';
     app.node('hsrNormalTrace').value='4';app.node('hsrEidolon').value='2';app.node('hsrConeRank').value='3';app.node('hsrEnemyResistance').value='-20.25';
@@ -1666,7 +1666,7 @@ test("manual Tingyun support effects use independent skill, ultimate and talent 
     app.state.party[0] = { ...app.state.party[0], characterId: "1202", source: "manual", atk: 4000,
         traceLevels: { skill: 1, ultimate: 10, talent: 6 } };
     app.state.modifierInputs["tingyun-benediction"] = true;
-    app.state.modifierInputs["tingyun-reference-lightning:sample"] = 0;
+    app.state.modifierInputs["tingyun-reference-lightning:sample"] = 0;app.state.modifierInputs["enemy-resistance:Thunder"]=20;
     app.state.modifierInputs["tingyun-ultimate-active"] = true;
     app.node("hsrStat-atk").value = "1000";
     let results = app.calculate();
@@ -2876,6 +2876,30 @@ test('batch4 Ruan additional-break events use her completed BE on non-Ice weakne
 test('batch4 Tingyun cross-element input is local, zero is saved per recipient, and reference roles are visible',async()=>{
  const {data}=await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture();const app=await tool(undefined,data);app.window.HsrTool.applyProfileCharacter({id:'1003',level:80,eidolon:0,traces:[{type:'Normal',level:6},{type:'BPSkill',level:10},{type:'Ultra',level:10},{type:'Talent',level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:50}});app.state.party[0]={...app.state.party[0],characterId:'1202',source:'manual',atk:1000,traceLevels:{skill:10,talent:10,ultimate:10}};app.state.modifierInputs['tingyun-benediction']=true;
  let rs=app.calculate();assert.ok(rs.some(r=>Math.abs(r.nonCrit-1755)<1e-8));assert.equal(rs.some(r=>r.attack.name.includes('賜福')||r.attack.name.includes('紫電')),false);assert.match(app.node('hsrResults').innerHTML,/雷属性与ダメージ/);
- const key='tingyun-reference-lightning:1003';app.state.modifierInputs[key]=0;rs=app.calculate();assert.ok(Math.abs(rs.find(r=>r.attack.name.includes('祥音')).nonCrit-468)<1e-8);assert.ok(Math.abs(rs.find(r=>r.attack.name.includes('紫電')).nonCrit-702)<1e-8);assert.match(app.node('hsrResults').innerHTML,/発生元：停雲/);assert.match(app.node('hsrResults').innerHTML,/数値参照：姫子/);
+ const key='tingyun-reference-lightning:1003';app.state.modifierInputs[key]=0;app.state.modifierInputs['enemy-resistance:Thunder']=20;rs=app.calculate();assert.ok(Math.abs(rs.find(r=>r.attack.name.includes('祥音')).nonCrit-468)<1e-8);assert.ok(Math.abs(rs.find(r=>r.attack.name.includes('紫電')).nonCrit-702)<1e-8);assert.match(app.node('hsrResults').innerHTML,/発生元：停雲/);assert.match(app.node('hsrResults').innerHTML,/数値参照：姫子/);
  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);assert.equal(saved.state.modifierInputs[key],0);assert.ok(saved.calculate().some(r=>Math.abs(r.nonCrit-468)<1e-8));app.state.modifierInputs['tingyun-benediction']=false;assert.equal(app.state.modifierInputs[key],0);app.state.modifierInputs['tingyun-benediction']=true;app.state.characterId='1002';rs=app.calculate();assert.equal(rs.some(r=>r.attack.name.includes('祥音')),false,'another recipient requires its own Lightning value');app.state.party[0].characterId='';assert.equal(app.calculate().some(r=>r.attack.name.includes('紫電')),false);
+});
+
+test('batch5 selected-party Tingyun reference isolates owners, saves zero and stops only its row',async()=>{
+ const data=(await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture()).data,app=await tool(undefined,data);app.state.characterId='1202';app.state.party[0].characterId='1302';app.state.party[0].eidolon=0;
+ for(const[k,v]of Object.entries({atk:2000,hp:6000,def:1500,critRate:50,critDamage:100,damageBonus:0}))app.node('hsrStat-'+k).value=String(v);
+ let r=app.calculate();assert.ok(r.some(x=>x.attack?.name===data.attacks.find(a=>a.id==='120201').name));assert.equal(r.some(x=>x.attack?.name===data.attacks.find(a=>a.id==='120204').name),false);
+ app.state.modifierInputs['party-reference-owner:1202']=1302;
+ for(const[k,v]of Object.entries({atk:4000,critRate:25,critDamage:200,Thunder:0,defenseIgnore:0,resistancePenetration:0}))app.state.modifierInputs['party-reference:1302:'+k]=v;
+ const proc=rs=>rs.find(x=>x.attack?.name===data.attacks.find(a=>a.id==='120204').name);
+ r=app.calculate();assert.ok(proc(r));app.state.modifierInputs['tingyun-benediction']=true;assert.ok(Math.abs(app.calculate().find(x=>x.attack?.name==='逐客令').nonCrit-1008)<1e-8,'Benediction targeting another ally does not buff Tingyun');assert.ok(Math.abs(proc(r).nonCrit-864)<1e-8);assert.ok(Math.abs(proc(r).crit-2592)<1e-8);assert.ok(Math.abs(proc(r).expected-1296)<1e-8);
+ app.node('hsrStat-atk').value='9999';app.node('hsrStat-critDamage').value='999';assert.ok(Math.abs(proc(app.calculate()).nonCrit-864)<1e-8);assert.ok(Math.abs(proc(app.calculate()).crit-2592)<1e-8);
+ app.state.modifierInputs['party-reference:1302:atk']=5000;assert.ok(Math.abs(proc(app.calculate()).nonCrit-1080)<1e-8);
+ app.state.modifierInputs['robin-skill-damage-active']=true;app.node('hsrStat-atk').handlers.input();const restored=await tool(app.storage,data);assert.equal(restored.state.modifierInputs['party-reference:1302:Thunder'],0);assert.equal(restored.state.modifierInputs['party-reference-owner:1202'],1302);assert.ok(Math.abs(proc(restored.calculate()).nonCrit-1080)<1e-8);
+ app.state.party[0].characterId='';assert.equal(proc(app.calculate()),undefined);assert.ok(app.calculate().some(x=>x.attack?.name===data.attacks.find(a=>a.id==='120201').name));
+});
+
+test('batch5 Hunt March adds mixed-element full rows without hiding the existing support-Shifu comparisons',async()=>{
+ const data=(await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture()).data,app=await tool(undefined,data);app.state.characterId='1224';app.state.party[0].characterId='1003';app.state.party[0].eidolon=0;
+ for(const[k,v]of Object.entries({atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}))app.node('hsrStat-'+k).value=String(v);
+ let r=app.calculate();assert.equal(r.filter(x=>x.attack?.name?.includes('攻撃型師匠')).length,0);assert.equal(r.filter(x=>x.attack?.name?.includes('一に眉間')&&!x.attack.name.includes('攻撃型師匠')).length,6);
+ app.state.modifierInputs['march-shifu-id']=1003;app.state.modifierInputs['element-damage:1224:Fire']=50;app.state.modifierInputs['enemy-resistance:Fire']=40;
+ r=app.calculate();const full=r.filter(x=>x.attack?.name?.includes('攻撃型師匠'));assert.equal(full.length,7,JSON.stringify({party:app.state.party,inputs:app.state.modifierInputs,issues:app.node('hsrResults').innerHTML.replace(/<[^>]+>/g,' ').match(/攻撃型師匠[^。]+。/g)}));const normal=full.find(x=>x.attack.name.includes('妖魔'));assert.ok(Math.abs(normal.nonCrit-1323)<1e-8);const enhanced=full.filter(x=>x.attack.name.includes('一に眉間'));assert.equal(enhanced.length,6);assert.ok(enhanced.every(x=>x.components.basic&&x.components.additional));app.node('hsrSkillTrace').value='5';assert.ok(Math.abs(app.calculate().filter(x=>x.attack?.name?.includes('攻撃型師匠')&&x.attack.name.includes('一に眉間'))[0].nonCrit-5448.06)<1e-8,'Skill level changes additional coefficient without changing Talent80%');app.node('hsrSkillTrace').value='10';
+ app.node('hsrStat-atk').handlers.input();const restored=await tool(app.storage,data);assert.equal(restored.state.modifierInputs['march-shifu-id'],1003);assert.equal(restored.state.modifierInputs['enemy-resistance:Fire'],40);assert.equal(restored.calculate().filter(x=>x.attack?.name?.includes('攻撃型師匠')).length,7);
+ app.state.modifierInputs['enemy-resistance:Fire']=NaN;r=app.calculate();assert.equal(r.filter(x=>x.attack?.name?.includes('攻撃型師匠')).length,0);assert.ok(r.some(x=>x.attack?.name?.includes('一に眉間')));
 });

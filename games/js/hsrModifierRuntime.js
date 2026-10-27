@@ -356,10 +356,31 @@
   }
 
 
+
+  // An explicit completed battle snapshot, not the current attacker's partial stats.
+  function partyReferenceSnapshot(id, element, context = {}, inputs = {}) {
+    id=String(id||'');
+    const fail=reason=>({supported:false,statsOwnerId:id,reason});
+    if(!id||![String(context.characterId),...(context.partyIds||[]).map(String)].includes(id)) return fail('参照する味方を現在のパーティから選択してください。');
+    const r=context.partyReferences?.[id];
+    if(!r||String(r.characterId)!==id||r.level!==80||r.eidolon!==0) return fail('参照する味方はLv80・星魂0の完成済み戦闘ステータスが必要です。');
+    if(!(Number.isFinite(r.stats?.atk)&&r.stats.atk>0)||!Number.isFinite(r.stats?.critRate)||r.stats.critRate<0||!Number.isFinite(r.stats?.critDamage)||r.stats.critDamage<0) return fail('参照する味方の最終ATK・会心率・会心ダメージを入力してください。');
+    const damageBonus=r.damageBonuses?.[element], resistance=context.enemy?.resistances?.[element] ?? (context.characterElement===element?context.enemy?.resistance:undefined);
+    if(!Number.isFinite(damageBonus)||!Number.isFinite(resistance)||!Number.isFinite(r.defenseIgnore)||r.defenseIgnore<0||!Number.isFinite(r.resistancePenetration)||r.resistancePenetration<0) return fail('参照する味方の属性与ダメージ・防御無視・耐性貫通と敵の属性耐性を入力してください。補正なしは0です。');
+    const character={id,level:r.level,eidolon:r.eidolon,stats:{...r.stats,damageBonus,damageBonuses:{[element]:damageBonus}},baseStats:{...(r.baseStats||{})}};
+    const enemy={...context.enemy,resistance,resistances:{...context.enemy?.resistances,[element]:resistance},defenseIgnore:r.defenseIgnore,resistancePenetration:r.resistancePenetration};
+    return {supported:true,statsOwnerId:id,character,enemy,stats:character.stats};
+  }
+
   function supplementalReference(candidate, context = {}, inputs = {}) {
     const definition = candidate.supplementalAttack || {};
     const sourceId = String(candidate.providerId || candidate.sourceMeta?.id || candidate.source?.id || "");
     const ownerId = String(context.characterId || "");
+    if (definition.statReference === "selectedParty") {
+      const id=String(inputs[definition.ownerInputKey]||''), snapshot=partyReferenceSnapshot(id,definition.element,context,inputs);
+      if (![String(context.characterId),...(context.partyIds||[]).map(String)].includes(sourceId)) return {supported:false,reason:"補正の提供者がパーティにいません。",sourceCharacterId:sourceId,statReferenceId:id};
+      return {...snapshot,sourceCharacterId:sourceId,statReferenceId:id,damageOwnerId:id,triggerCharacterId:definition.triggerActor==='provider'?sourceId:id,traceOwnerId:sourceId,inputKey:definition.ownerInputKey};
+    }
     if (definition.statReference !== "activeCharacter") return {supported:false,reason:"この付加ダメージのステータス参照者は未対応です。"};
     const key = definition.damageBonusInputKey ? definition.damageBonusInputKey + ":" + ownerId : "";
     const sameElement = definition.element === context.characterElement;
@@ -369,7 +390,7 @@
     return {supported:true,...roles,inputKey:key,stats:{...context.stats,damageBonus}};
   }
 
-  const api = { supplementalReference, referenceValue, sourceSelection, resolveValue, activationState, buildCandidates, applicableToAttack };
+  const api = { partyReferenceSnapshot, supplementalReference, referenceValue, sourceSelection, resolveValue, activationState, buildCandidates, applicableToAttack };
   global.HsrModifierRuntime = api;
   if (typeof module !== "undefined" && module.exports) module.exports = api;
 })(typeof window !== "undefined" ? window : globalThis);

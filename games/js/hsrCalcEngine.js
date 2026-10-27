@@ -212,7 +212,7 @@
                 && components[1]?.key === "additional" && components[1]?.attackId === "122304";
             const validLukaDefinition = attack.id === "1111083" && attack.type === "enhancedNormal" && attack.sourceSkillId === "111108" && attack.element === "Physical" && attack.target === "single"
                 && Array.isArray(components) && components.length === 3 && components[0]?.key === "punches" && components[0]?.attackId === "1111081" && components[1]?.key === "uppercut" && components[1]?.attackId === "1111082" && components[2]?.key === "bleed" && components[2]?.attackId === "1111041";
-            return validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validLukaDefinition ? "" : "この複合攻撃の構成は未対応です。";
+            return validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
         }
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
@@ -352,7 +352,7 @@ function calculateFanning(input) {
             : cappedEnemyHpDamage;
         const flatDamage = number(attack.flatDamage);
         const hitCount = attack.hitCountReference ? Math.max(0, Math.floor(number(attack.hitCount))) : Math.max(1, Math.floor(number(attack.hitCount, 1)));
-        const damageBonus = number(stats.damageBonus) + applied.filter((item) => item.category === "damageBonus" || (item.category === "dotDamage" && attack.type === "dot")).reduce((sum, item) => sum + item.value, 0);
+        const damageBonus = number(stats.damageBonuses?.[attack.element], number(stats.damageBonus)) + applied.filter((item) => item.category === "damageBonus" || (item.category === "dotDamage" && attack.type === "dot")).reduce((sum, item) => sum + item.value, 0);
         const takenDamage = number(enemy.takenDamage) + applied.filter((item) => item.category === "takenDamage").reduce((sum, item) => sum + item.value, 0);
         const defenseReduction = number(enemy.defenseReduction) + applied.filter((item) => item.category === "defenseReduction").reduce((sum, item) => sum + item.value, 0);
         const defenseIgnore = number(enemy.defenseIgnore) + applied.filter((item) => item.category === "defenseIgnore").reduce((sum, item) => sum + item.value, 0);
@@ -361,7 +361,7 @@ function calculateFanning(input) {
             ? scalingTerms.reduce((sum, term) => sum + term.referenceValue * term.multiplierPercent / 100, 0)
             : cappedEnemyHpDamage * (number(attack.multiplier) + multiplierAddition) / 100) + flatDamage;
         const defense = defenseMultiplier(character.level, enemy.level, defenseReduction, defenseIgnore);
-        const resistance = resistanceMultiplier(number(enemy.resistance) - resistancePen);
+        const resistance = resistanceMultiplier(number(enemy.resistances?.[attack.element], number(enemy.resistance)) - resistancePen);
         // Weakness itself is not a separate direct-damage multiplier.  It
         // controls toughness reduction and break eligibility; base RES is an
         // explicit enemy input.
@@ -404,6 +404,8 @@ function calculateFanning(input) {
 
     function calculateComponentSequence(input = {}) {
         if (input.attack?.id === "1111083") return calculateRealizedLuka(input);
+        if (input.attack?.id === "1223031") return calculateMozeUltimate(input);
+        if (["1224011","1224081"].includes(input.attack?.id)) return calculateMarchSequence(input);
         const attack = input.attack || {};
         const character = input.character || {};
         const enemy = input.enemy || {};
@@ -484,6 +486,48 @@ function calculateFanning(input) {
         };
     }
 
+
+
+
+    function calculateMarchSequence(input) {
+        const {attack:a,character:c={},enemy:e={}}=input, parts=input.sequenceComponents||[], enhanced=a.id==="1224081";
+        const fail=reason=>({supported:false,reason});
+        if(c.level!==80||c.eidolon!==0||e.count!==1||e.weakness!==false||e.toughnessActive!==true) return fail("師匠付加を含む合計はLv80・星魂0・全成分非弱点/未撃破の敵1体・状態一定のみ対応です。");
+        if(!['Erudition','Destruction','Hunt','Remembrance','Elation'].includes(a.shifuPath)||!['Physical','Fire','Ice','Thunder','Wind','Quantum','Imaginary'].includes(a.shifuElement)) return fail("攻撃型の師匠の運命と属性を補正条件で指定してください。");
+        if(!Number.isInteger(a.hitCount)||a.hitCount<(enhanced?3:1)||a.hitCount>(enhanced?8:1)||!Number.isInteger(a.traceLevel)||a.traceLevel<1||a.traceLevel>6||parts.length!==2) return fail("通常Lv1～6と、通常1段/強化3～8段の実現段数を指定してください。");
+        const native=[40,44,48,52,56,60,65,70,75,80], base=enhanced?[40,48,56,64,72,80]:[50,60,70,80,90,100], added=[10,11,12,13,14,15,16.25,17.5,18.75,20];
+        if(enhanced&&(!Number.isInteger(a.talentLevel)||a.talentLevel<1||a.talentLevel>10)) return fail("強化通常の天賦Lv1～10が必要です。");
+        for(let i=0;i<2;i++) {
+            const p=parts[i],b=p?.input?.attack||{},key=i?'additional':'basic',id=i?'122402':enhanced?'122408':'122401',type=i?'additional':enhanced?'enhancedNormal':'normal',element=i?a.shifuElement:'Imaginary';
+            if(p?.key!==key||a.damageComponents?.[i]?.key!==key||a.damageComponents?.[i]?.attackId!==id||p.name!==a.damageComponents[i].name||b.id!==id||b.sourceSkillId!==id||b.type!==type||b.attackType!==type||b.element!==element||b.scalingStat!=="atk"||b.damageFormula!=="statMultiplier"||b.target!=="single"||b.hitCount!==a.hitCount||b.canCrit===false||!Number.isInteger(b.traceLevel)||b.traceLevel<1||b.traceLevel>(i?10:6)||b.multiplier!==(i?added:base)[b.traceLevel-1]||(!i&&b.traceLevel!==a.traceLevel)) return fail("師匠付加と通常本体の倍率・属性・段数が一致しません。");
+            if(JSON.stringify(p.input.character)!==JSON.stringify(c)||JSON.stringify(p.input.enemy)!==JSON.stringify(e)) return fail("各成分は同じなのかのステータスと敵条件を使用してください。師匠のATKは参照しません。");
+            if(!Number.isFinite(c.stats?.damageBonuses?.[element])||!Number.isFinite(e.resistances?.[element])) return fail("各成分の属性与ダメージと敵属性耐性を入力してください。補正なしは0を指定します。");
+            const mods=p.input.modifiers||[];
+            if(mods.some(m=>m.enabled!==false&&m.applicable!==false&&((m.category==='progressiveTakenDamage')||((m.target?.attackTypes||[]).some(t=>['normal','enhancedNormal'].includes(t))&&!(m.target.attackTypes.includes('all'))&&m.id!=='trace:1224:122404:enhanced-damage')))) return fail("通常攻撃限定補正の師匠付加への継承、または段間更新は未検証のため合計を停止します。");
+            const n=mods.filter(m=>m.id==='trace:1224:122404:enhanced-damage'&&m.enabled!==false&&m.applicable!==false);
+            if(enhanced&&(n.length!==1||n[0].value!==native[a.talentLevel-1]||n[0].calculable===false||!modifierAppliesToAttack(n[0],b))) return fail("強化状態の天賦与ダメージを各成分に1回だけ適用してください。");
+            if(!enhanced&&n.length) return fail("通常手番へ強化状態の天賦補正は適用しません。");
+        }
+        return combineDamageComponents(a,parts,"なのかの通常本体＋師匠属性の付加（"+a.hitCount+"段）");
+    }
+
+    // Only a fresh 9-charge Prey or no Prey: no threshold/expiration event is inferred.
+    function calculateMozeUltimate(input) {
+        const {attack:a,character:c={},enemy:e={}}=input, parts=input.sequenceComponents||[];
+        const fail=reason=>({supported:false,reason});
+        if(c.level!==80||c.eidolon!==0||e.count!==1||e.weakness!==false||e.toughnessActive!==true) return fail("モゼ必殺合計はLv80・星魂0・雷非弱点/未撃破の敵1体・状態一定のみ対応です。");
+        if(typeof a.preyActive!=="boolean" || (a.preyActive && a.preyCharges!==9)) return fail("獲物なし、または付与直後の9チャージを指定してください。閾値・消滅分岐は未対応です。");
+        const specs=[['ultimate','122303','ultimate'],['followUp','1223041','followUp'],...(a.preyActive?[['additional1','122304','additional'],['additional2','122304','additional']]:[])];
+        if(parts.length!==specs.length) return fail("必殺本体・直後追撃・獲物付加の構成が不足しています。");
+        for(let i=0;i<specs.length;i++) {
+            const [key,id,type]=specs[i],p=parts[i],b=p?.input?.attack||{};
+            if(p?.key!==key||a.damageComponents?.[i]?.key!==key||a.damageComponents?.[i]?.attackId!==id||p.name!==a.damageComponents[i].name||b.id!==id||b.type!==type||b.attackType!==type||b.element!=="Thunder"||b.scalingStat!=="atk"||b.hitCount!==1||b.damageFormula!=="statMultiplier"||!Number.isInteger(b.traceLevel)||b.traceLevel<1||b.traceLevel>10||!Number.isFinite(b.multiplier)||b.multiplier!==b.multipliers?.[b.traceLevel-1]) return fail("必殺合計の成分・倍率・軌跡Lvが一致しません。");
+            if(i===0&&b.traceLevel!==a.traceLevel) return fail("必殺Lvが一致しません。");
+            if(JSON.stringify(p.input.character)!==JSON.stringify(c)||JSON.stringify(p.input.enemy)!==JSON.stringify(e)) return fail("各成分は同じ攻撃時点の最終ステータスと敵条件を使用してください。");
+            if((p.input.modifiers||[]).some(m=>m.enabled!==false&&m.applicable!==false&&m.category==="progressiveTakenDamage")) return fail("段間で更新する補正は、この状態一定の合計では扱いません。");
+        }
+        return combineDamageComponents(a,parts,"必殺本体＋直後追撃"+(a.preyActive?"＋獲物付加2回":""));
+    }
 
     function calculateRealizedLuka(input) {
         const {attack, character = {}, enemy = {}} = input;
