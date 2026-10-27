@@ -2510,7 +2510,7 @@ test("major actions compare assumed states without selecting availability and st
     app.state.modifierInputs["misha-frozen-crit-active"]=false;
     for(const[id,name,expected]of [["1314","欲望の淵での地獄の契り",2592],["1224","蓋世の傑物、三月なのか",2592]]){profile(id);near(find(app,name).nonCrit,expected);near(find(app,name).crit,expected*2);app.node("hsrWeakness").value="true";assert.equal(find(app,name),undefined);assert.match(app.node("hsrResults").innerHTML,id==="1314"?/量子属性/:/虚数属性/);}
     profile("1220");const follow="雷狩・追加攻撃1回";
-    near(find(app,follow).nonCrit,1900.8);near(find(app,follow).expected,2851.2);
+    near(find(app,follow).nonCrit,1900.8);near(find(app,follow).expected,3193.344);
     assert.equal(find(app,follow).breakdown.damageBonus,60);
     app.state.modifierInputs["feixiao-formshift-unlocked"]=true;
     near(find(app,follow).crit,4485.888);near(find(app,follow).expected,3193.344);
@@ -2519,7 +2519,7 @@ test("major actions compare assumed states without selecting availability and st
     app.node("hsrTalentTrace").value="";assert.equal(find(app,follow),undefined);assert.ok(app.calculate().some(r=>r.attack.name==="閃裂"));
     app.node("hsrTalentTrace").value="10";app.node("hsrStat-atk").handlers.input();
     const restored=await tool(app.storage,data);near(find(restored,follow).expected,4191.264);restored.state.party[0].characterId="";near(find(restored,follow).expected,3193.344);
-    assert.match(restored.node("hsrResults").innerHTML,/data-support-status="review"/);
+    assert.doesNotMatch(restored.node("hsrResults").innerHTML,/data-support-status="review"/);
 });
 
 
@@ -2528,7 +2528,7 @@ test("Feixiao Skill keeps component corrections separate and never adds the inde
     const data=await window.HsrCalcData.load(),app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+" != "+b);
     app.window.HsrTool.applyProfileCharacter({id:"1220",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:2000,critRate:50,critDamage:100,damageBonus:0}});
     const skill=target=>target.calculate().find(r=>r.breakdown?.damageFormula==="componentSequence");
-    let result=skill(app);near(result.components.skill.nonCrit,2160);near(result.components.followUp.nonCrit,1900.8);near(result.nonCrit,4060.8);near(result.crit,8121.6);near(result.expected,6091.2);
+    let result=skill(app);near(result.components.skill.nonCrit,2160);near(result.components.followUp.nonCrit,1900.8);near(result.nonCrit,4060.8);near(result.crit,8805.888);near(result.expected,6433.344);
     assert.equal(app.state.modifierInputs["feixiao-previous-followup-buff"],undefined);
     const independent=app.calculate().find(r=>r.attack.name==="雷狩・追加攻撃1回");near(independent.nonCrit,1900.8);near(result.nonCrit,result.components.skill.nonCrit+independent.nonCrit);
     assert.match(app.node("hsrResults").innerHTML,/hsr-result-scope-label">スキル本体＋直後の雷狩1回の合計/);
@@ -2936,4 +2936,13 @@ test('batch7 Rappa additional Break consumes only the explicit charge snapshot a
 });
 test('batch7 production Fanning is an assumed action without an availability checkbox and keeps zero pockets after reload',async()=>{
  const data=(await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture()).data,app=await tool(undefined,data);app.state.characterId='1315';for(const[k,v]of Object.entries({atk:3000,hp:6000,def:2000,breakEffect:200,critRate:50,critDamage:100,damageBonus:0}))app.node('hsrStat-'+k).value=String(v);app.node('hsrWeakness').value='true';app.node('hsrToughnessState').value='broken';app.node('hsrMaxToughness').value='120';app.state.modifierInputs['boothill-pocket-stacks']=0;const name=data.attacks.find(a=>a.id==='131508').name;let r=app.calculate(),a=r.find(x=>x.attack?.name===name);assert.ok(a);assert.equal(a.components.break.value,0);assert.equal(app.state.modifierInputs['boothill-fanning-broken'],undefined);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);assert.equal(saved.state.modifierInputs['boothill-pocket-stacks'],0);assert.ok(saved.calculate().some(x=>x.attack?.name===name));app.state.modifierInputs['boothill-pocket-stacks']=NaN;r=app.calculate();assert.equal(r.some(x=>x.attack?.name===name),false);assert.ok(r.some(x=>x.attack?.name===data.attacks.find(a=>a.id==='131501').name));
+});
+
+
+test('batch8 Feixiao lists normal and seven Ultimate choices without availability switches; native A4 and save stay local',async()=>{
+ const data=(await require('./helpers/hsrDirectVerification.cjs').loadProductionFixture()).data,app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);app.state.characterId='1220';for(const[k,v]of Object.entries({atk:3000,hp:6100,def:1700,critRate:50,critDamage:100,damageBonus:0}))app.node('hsrStat-'+k).value=String(v);
+ let r=app.calculate();const normal=r.find(x=>x.attack?.name==='閃裂'),skill=r.find(x=>x.components);assert.ok(normal);near(normal.nonCrit,1080);assert.ok(skill);near(skill.components.followUp.crit/skill.components.followUp.nonCrit,2.36);near(skill.components.skill.crit/skill.components.skill.nonCrit,2);assert.equal(r.filter(x=>x.attack?.name?.startsWith('大荒滅破砕')).length,0);
+ app.node('hsrToughnessState').value='broken';r=app.calculate();const ult=r.filter(x=>x.attack?.name?.startsWith('大荒滅破砕'));assert.equal(ult.length,7);near(ult[0].nonCrit,3000*5.2*.5*.8);near(ult[6].nonCrit,3000*7*.5*.8);near(ult[6].crit,ult[6].nonCrit*2.36);assert.match(app.node('hsrResults').innerHTML,/条件一致6回/);assert.match(app.node('hsrResults').innerHTML,/途中撃破/);assert.equal(app.state.modifierInputs['feixiao-formshift-unlocked'],undefined,'assumed action does not mutate saved switches');
+ app.state.modifierInputs['feixiao-previous-followup-buff']=true;r=app.calculate();const after=r.filter(x=>x.attack?.name?.startsWith('大荒滅破砕'));near(after[6].nonCrit,ult[6].nonCrit*1.6);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);assert.equal(saved.state.modifierInputs['feixiao-previous-followup-buff'],true);near(saved.calculate().find(x=>x.attack?.name===after[6].attack.name).nonCrit,after[6].nonCrit);
+ app.node('hsrTalentTrace').value='';r=app.calculate();assert.ok(r.some(x=>x.attack?.name==='閃裂')===false,'ON prior talent needs its level');app.state.modifierInputs['feixiao-previous-followup-buff']=false;r=app.calculate();assert.ok(r.some(x=>x.attack?.name==='閃裂'));assert.equal(r.filter(x=>x.attack?.name?.startsWith('大荒滅破砕')).length,7,'OFF optional talent does not stop Ultimate');app.node('hsrStat-atk').value='';assert.equal(app.calculate().length,0);
 });

@@ -76,13 +76,16 @@ function nativeModifiersFor(data, attackId, level) {
         const record = data.structuredModifiers.find((item) => item.id === "trace:1220:122004:followup-damage");
         assert.ok(record, "Feixiao Talent native damage source is available");
         specs.push({ record, characterId: "1220", expected: reviewed["122004"].nativeDamageBonus[level - 1], label: "Feixiao Talent damage bonus" });
+        const a4 = data.structuredModifiers.find((item) => item.id === "traceNode:1220:1220102:followup-critical-damage");
+        assert.ok(a4, "Feixiao required A4 source is available");
+        specs.push({ record: a4, characterId: "1220", expected: 36, label: "Feixiao A4 scoped CRIT DMG" });
     }
     return specs.flatMap(({ record, characterId, expected, label }) => {
         const candidates = runtime.buildCandidates([record], {
             characterId,
             eidolon: 0,
             traceLevelFor: () => level
-        }, {});
+        }, attackId === "122004" ? { "feixiao-formshift-unlocked": true } : {});
         assert.equal(candidates.length, 1, label + " resolves exactly once at Lv" + level);
         assert.equal(candidates[0].enabled, true, label + " is active for its guaranteed eligible attack event");
         assertClose(candidates[0].value, expected, label + " source curve at Lv" + level);
@@ -266,7 +269,7 @@ test("Misha A6 frozen-target Crit DMG remains optional, applies to the Ultimate 
     assertClose(onResult.crit, offResult.crit * ((1 + (scenarios[0].stats.critDamage + 30) / 100) / (1 + scenarios[0].stats.critDamage / 100)), "A6 changes only critical damage across all 10 realized hits");
 });
 
-test("Feixiao's guaranteed Talent damage bonus is attack-scoped and the A4 Crit DMG option remains optional", async () => {
+test("Feixiao's Talent event requires its native damage bonus and unlocked A4 CD exactly once", async () => {
     const { data, engine } = await loadProductionFixture();
     const attack = attackOf(data, "122004");
     const spec = reviewed["122004"];
@@ -286,6 +289,9 @@ test("Feixiao's guaranteed Talent damage bonus is attack-scoped and the A4 Crit 
 
     const a4 = records.find((record) => record.source?.id === "1220" && record.activation?.inputKey === "feixiao-formshift-unlocked");
     assert.ok(a4, "A4 unlock condition is represented");
+    assert.equal(attack.comparisonModifierInputs["feixiao-formshift-unlocked"], true, "the verified FUA comparison assumes A4 unlocked");
+    assert.ok(attack.requiredModifierIds.includes(a4.id), "A4 is required by this FUA snapshot");
+    assert.ok(attack.requiredModifierIds.includes(guaranteed.id), "native Talent damage is required by this FUA snapshot");
     assert.equal(String(a4.source.traceId), "1220102");
     assert.equal(a4.category, "critDamage");
     assert.equal(a4.activation.default, false);
@@ -299,11 +305,18 @@ test("Feixiao's guaranteed Talent damage bonus is attack-scoped and the A4 Crit 
     assert.equal(runtime.applicableToAttack(on[0], { id: "122001", type: "normal", attackType: "normal", element: "Wind" }), false, "A4 state is limited to Feixiao's Talent Follow-Up");
 
     const withNative = makePromotionRequest(attack, 10, spec, scenarios[0], nativeCandidate);
-    const actual = assertEngineMatchesOracle(engine, withNative, spec, 10, 1, "Feixiao Talent with native damage bonus");
-    assertClose(actual.breakdown.damageBonus, scenarios[0].stats.damageBonus + 60, "native Talent bonus is added once in damageBonus bucket");
+    assert.equal(engine.calculate(withNative).supported, false, "missing required A4 stops this FUA locally");
+    const a4Disabled = makePromotionRequest(attack, 10, spec, scenarios[0], [...nativeCandidate, ...off]);
+    assert.equal(engine.calculate(a4Disabled).supported, false, "disabled required A4 cannot become a positive FUA comparison");
+    const withoutNative = makePromotionRequest(attack, 10, spec, scenarios[0], on);
+    assert.equal(engine.calculate(withoutNative).supported, false, "missing required native damage stops this FUA locally");
+    const basic = makeRequest(attackOf(data, "122001"), 6, { ...scenarios[0].stats, toughnessActive: true, enemyCount: 1 });
+    assert.notEqual(engine.calculate(basic).supported, false, "unrelated Basic ATK stays calculable without FUA-specific native effects");
     const withA4 = makePromotionRequest(attack, 10, spec, scenarios[0], [...nativeCandidate, ...on]);
     const a4Result = assertEngineMatchesOracle(engine, withA4, spec, 10, 1, "Feixiao Talent with native bonus and A4");
     assertClose(a4Result.breakdown.critDamagePercent, scenarios[0].stats.critDamage + 36, "A4's scoped 36% Crit DMG is added only to this eligible attack");
+    assertClose(a4Result.breakdown.damageBonus, scenarios[0].stats.damageBonus + 60, "native Talent damage is added exactly once");
+    assertClose(withA4.character.stats.critDamage, scenarios[0].stats.critDamage, "final input preserves permanent CD and excludes the separate scoped A4 36%");
 });
 
 test("Yunli's mandatory Cull CRIT DMG source applies once to both counter results, without changing the old Slash value", async () => {

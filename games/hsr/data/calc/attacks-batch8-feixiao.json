@@ -1,0 +1,416 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "batch8-feixiao-prior-broken-2026-10-28",
+  "description": "Lv80・星魂0・敵1体・攻撃前から撃破済みで状態一定。解形を解放した必殺技の6回選択＋最後撃を合算します。撃破済みの敵への閃裂刃舞を条件一致、斧貫衝天を条件不一致として0～6回を比較します。途中撃破・敵消滅・外部条件変化・削靭・撃破ダメージは含めません。最終ATKには神速などを、最終会心には恒常効果を含めます。解形の追撃専用CD36%は別加算するため最終入力に含めません。雷狩の与ダメージ上昇は攻撃前から有効な場合だけ補正条件で指定します。",
+  "overrides": [
+    {
+      "id": "122001",
+      "characterId": "1220",
+      "sourceSkillId": "122001",
+      "name": "閃裂",
+      "element": "Wind",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "calculationScope": "independently-checked-fixed-state-action",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの全採用Lv・成分別係数・状態一定のE0範囲を独立検証。途中撃破の全状態を認定しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:122001.params[0..5]",
+        "verifiedAt": "2026-10-28",
+        "verification": "tests/hsr/hsrBatch8Feixiao.test.cjs"
+      },
+      "displayOrder": 10,
+      "calculationNote": "Lv80・星魂0・敵1体・状態一定の通常1回。恒常会心・神速などのATK上昇は最終入力に含めます。攻撃前から成立済みの雷狩与ダメージ上昇は補正条件で指定します。途中撃破と外部追加ダメージは含めません。"
+    },
+    {
+      "id": "122003",
+      "characterId": "1220",
+      "sourceSkillId": "122003",
+      "name": "大荒滅破砕（6回選択＋最後撃）",
+      "element": "Wind",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        402,
+        431.8,
+        461.6,
+        491.4,
+        521.2,
+        551,
+        588.22,
+        625.5,
+        662.72,
+        700
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "calculationScope": "independently-checked-fixed-state-action",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの全採用Lv・成分別係数・状態一定のE0範囲を独立検証。途中撃破の全状態を認定しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:122003.params[0..9][0];122008.params[0..9][0,1];122009.params[0..9][0,1];character_skill_trees.json:1220102",
+        "verifiedAt": "2026-10-28",
+        "verification": "tests/hsr/hsrBatch8Feixiao.test.cjs",
+        "notes": "122003.params[][3]は上限の丸め表示。実成分を使うためLv7最大588.22%、Lv9最大662.72%（上限表示588.25/662.75）です。"
+      },
+      "displayOrder": 30,
+      "tags": [
+        "followUp"
+      ],
+      "requiresBrokenTarget": true,
+      "requiredModifierIds": [
+        "traceNode:1220:1220102:ultimate-followup-critical-damage"
+      ],
+      "hitCountLabel": "6回選択＋最後撃",
+      "calculationNote": "Lv80・星魂0・敵1体・攻撃前から撃破済みで状態一定。解形を解放した必殺技の6回選択＋最後撃を合算します。撃破済みの敵への閃裂刃舞を条件一致、斧貫衝天を条件不一致として0～6回を比較します。途中撃破・敵消滅・外部条件変化・削靭・撃破ダメージは含めません。最終ATKには神速などを、最終会心には恒常効果を含めます。解形の追撃専用CD36%は別加算するため最終入力に含めません。雷狩の与ダメージ上昇は攻撃前から有効な場合だけ補正条件で指定します。",
+      "conditionText": "解形解放済み・攻撃前から撃破済み・状態一定",
+      "resultSummary": "必殺技の6回選択と最後撃の合計。途中撃破は含みません。",
+      "comparisonStates": [
+        {
+          "label": "条件一致0回・不一致6回",
+          "note": "撃破済み：閃裂刃舞0回＋斧貫衝天6回＋最後撃。",
+          "resolvedOverrides": {
+            "multipliers": [
+              312,
+              332.8,
+              353.6,
+              374.4,
+              395.2,
+              416,
+              442,
+              468,
+              494,
+              520
+            ],
+            "feixiaoMatchingStrikes": 0
+          }
+        },
+        {
+          "label": "条件一致1回・不一致5回",
+          "note": "撃破済み：閃裂刃舞1回＋斧貫衝天5回＋最後撃。",
+          "resolvedOverrides": {
+            "multipliers": [
+              327,
+              349.3,
+              371.6,
+              393.9,
+              416.2,
+              438.5,
+              466.37,
+              494.25,
+              522.12,
+              550
+            ],
+            "feixiaoMatchingStrikes": 1
+          }
+        },
+        {
+          "label": "条件一致2回・不一致4回",
+          "note": "撃破済み：閃裂刃舞2回＋斧貫衝天4回＋最後撃。",
+          "resolvedOverrides": {
+            "multipliers": [
+              342,
+              365.8,
+              389.6,
+              413.4,
+              437.2,
+              461,
+              490.74,
+              520.5,
+              550.24,
+              580
+            ],
+            "feixiaoMatchingStrikes": 2
+          }
+        },
+        {
+          "label": "条件一致3回・不一致3回",
+          "note": "撃破済み：閃裂刃舞3回＋斧貫衝天3回＋最後撃。",
+          "resolvedOverrides": {
+            "multipliers": [
+              357,
+              382.3,
+              407.6,
+              432.9,
+              458.2,
+              483.5,
+              515.11,
+              546.75,
+              578.36,
+              610
+            ],
+            "feixiaoMatchingStrikes": 3
+          }
+        },
+        {
+          "label": "条件一致4回・不一致2回",
+          "note": "撃破済み：閃裂刃舞4回＋斧貫衝天2回＋最後撃。",
+          "resolvedOverrides": {
+            "multipliers": [
+              372,
+              398.8,
+              425.6,
+              452.4,
+              479.2,
+              506,
+              539.48,
+              573,
+              606.48,
+              640
+            ],
+            "feixiaoMatchingStrikes": 4
+          }
+        },
+        {
+          "label": "条件一致5回・不一致1回",
+          "note": "撃破済み：閃裂刃舞5回＋斧貫衝天1回＋最後撃。",
+          "resolvedOverrides": {
+            "multipliers": [
+              387,
+              415.3,
+              443.6,
+              471.9,
+              500.2,
+              528.5,
+              563.85,
+              599.25,
+              634.6,
+              670
+            ],
+            "feixiaoMatchingStrikes": 5
+          }
+        },
+        {
+          "label": "条件一致6回・不一致0回",
+          "note": "撃破済み：閃裂刃舞6回＋斧貫衝天0回＋最後撃。",
+          "resolvedOverrides": {
+            "multipliers": [
+              402,
+              431.8,
+              461.6,
+              491.4,
+              521.2,
+              551,
+              588.22,
+              625.5,
+              662.72,
+              700
+            ],
+            "feixiaoMatchingStrikes": 6
+          }
+        }
+      ]
+    },
+    {
+      "id": "122008",
+      "characterId": "1220",
+      "sourceSkillId": "122008",
+      "name": "閃裂刃舞・撃破済み",
+      "element": "Wind",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        51,
+        54.9,
+        58.8,
+        62.7,
+        66.6,
+        70.5,
+        75.37,
+        80.25,
+        85.12,
+        90
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "calculationScope": "independently-checked-fixed-state-action",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの全採用Lv・成分別係数・状態一定のE0範囲を独立検証。途中撃破の全状態を認定しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:122008.params[0..9][0,1];character_skill_trees.json:1220102",
+        "verifiedAt": "2026-10-28",
+        "verification": "tests/hsr/hsrBatch8Feixiao.test.cjs"
+      },
+      "displayOrder": 30,
+      "hidden": true,
+      "tags": [
+        "followUp"
+      ],
+      "requiresBrokenTarget": true,
+      "requiredModifierIds": [
+        "traceNode:1220:1220102:ultimate-followup-critical-damage"
+      ],
+      "calculationNote": "Lv80・星魂0・敵1体・攻撃前から撃破済みで状態一定。解形を解放した必殺技の6回選択＋最後撃を合算します。撃破済みの敵への閃裂刃舞を条件一致、斧貫衝天を条件不一致として0～6回を比較します。途中撃破・敵消滅・外部条件変化・削靭・撃破ダメージは含めません。最終ATKには神速などを、最終会心には恒常効果を含めます。解形の追撃専用CD36%は別加算するため最終入力に含めません。雷狩の与ダメージ上昇は攻撃前から有効な場合だけ補正条件で指定します。"
+    },
+    {
+      "id": "122009",
+      "characterId": "1220",
+      "sourceSkillId": "122009",
+      "name": "斧貫衝天・撃破済み",
+      "element": "Wind",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        36,
+        38.4,
+        40.8,
+        43.2,
+        45.6,
+        48,
+        51,
+        54,
+        57,
+        60
+      ],
+      "characterLevelExact": 80,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "enforceSnapshotContract": true,
+      "calculationScope": "independently-checked-fixed-state-action",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの全採用Lv・成分別係数・状態一定のE0範囲を独立検証。途中撃破の全状態を認定しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:122009.params[0..9][0,1];character_skill_trees.json:1220102",
+        "verifiedAt": "2026-10-28",
+        "verification": "tests/hsr/hsrBatch8Feixiao.test.cjs"
+      },
+      "displayOrder": 30,
+      "hidden": true,
+      "tags": [
+        "followUp"
+      ],
+      "requiresBrokenTarget": true,
+      "requiredModifierIds": [
+        "traceNode:1220:1220102:ultimate-followup-critical-damage"
+      ],
+      "calculationNote": "Lv80・星魂0・敵1体・攻撃前から撃破済みで状態一定。解形を解放した必殺技の6回選択＋最後撃を合算します。撃破済みの敵への閃裂刃舞を条件一致、斧貫衝天を条件不一致として0～6回を比較します。途中撃破・敵消滅・外部条件変化・削靭・撃破ダメージは含めません。最終ATKには神速などを、最終会心には恒常効果を含めます。解形の追撃専用CD36%は別加算するため最終入力に含めません。雷狩の与ダメージ上昇は攻撃前から有効な場合だけ補正条件で指定します。"
+    },
+    {
+      "id": "122004",
+      "characterId": "1220",
+      "name": "雷狩・追加攻撃1回",
+      "element": "Wind",
+      "type": "followUp",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        55,
+        60.5,
+        66,
+        71.5,
+        77,
+        82.5,
+        89.38,
+        96.25,
+        103.12,
+        110
+      ],
+      "sourceSkillId": "122004",
+      "displayOrder": 40,
+      "generatedFrom": "catalog.json:characters[].skills",
+      "calculationScope": "independently-checked-main-action",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAの全採用Lv・参照ATK・全直接成分・固有補正・星魂0の範囲を確認。独立計算とステータス個別変更で非会心・会心・期待値を検証。"
+      },
+      "resultSummary": "雷狩1回だけの比較値。スキルの合計に含まれる1回なので、さらに加算しません。",
+      "tags": [],
+      "damageFormula": "statMultiplier",
+      "hitCountLabel": "全段合算",
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "enemyCountExact": 1,
+      "requiresNonWeakTarget": true,
+      "requiredToughnessActive": true,
+      "conditionText": "天賦による追加攻撃が敵1体へ実際に発動した1回分です。スキル合計には同じ1回を含むため重ねて加算しません。発動時の天賦与ダメージ上昇と解形の追撃専用会心ダメージ36%を、それぞれ1回だけ別加算します。解形解放済みを想定し、この36%と天賦与ダメージ上昇は最終入力に含めません。恒常会心効果と神速などのATK上昇は最終入力に含めます。",
+      "calculationNote": "星魂0・Lv80・天賦Lv1～10・未撃破かつ風非弱点の敵1体・状態一定。天賦による追加攻撃が敵1体へ実際に発動した1回分です。スキル合計には同じ1回を含むため重ねて加算しません。発動時の天賦与ダメージ上昇と解形の追撃専用会心ダメージ36%を、それぞれ1回だけ別加算します。解形解放済みを想定し、この36%と天賦与ダメージ上昇は最終入力に含めません。恒常会心効果と神速などのATK上昇は最終入力に含めます。 途中撃破・条件変化・複数敵への分配は対象外です。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:122004.params[0..9];character_skill_trees.json:1220101..1220103;character_ranks.json:122001..122006",
+        "referenceUrl": "https://www.prydwen.gg/star-rail/characters/feixiao",
+        "verifiedAt": "2026-10-24",
+        "scope": "星魂0・Lv80・天賦Lv1～10・未撃破かつ風非弱点の敵1体・状態一定。天賦による追加攻撃が敵1体へ実際に発動した1回分です。スキル合計には同じ1回を含むため重ねて加算しません。発動時の天賦与ダメージ上昇と解形の追撃専用会心ダメージ36%を、それぞれ1回だけ別加算します。解形解放済みを想定し、この36%と天賦与ダメージ上昇は最終入力に含めません。恒常会心効果と神速などのATK上昇は最終入力に含めます。 途中撃破・条件変化・複数敵への分配は対象外です。",
+        "verification": "tests/hsr/hsrMajorAttackPromotions.test.cjs: fixed-source component curves, all supported levels, independent NC/C/EV, ATK/HP/DEF isolation; hsrToolInputs.test.cjs: assumed states, local input stops, party and save/restore"
+      },
+      "enforceSnapshotContract": true,
+      "comparisonModifierInputs": {
+        "feixiao-formshift-unlocked": true
+      },
+      "requiredModifierIds": [
+        "trace:1220:122004:followup-damage",
+        "traceNode:1220:1220102:followup-critical-damage"
+      ],
+      "characterLevelExact": 80
+    }
+  ]
+}

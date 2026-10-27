@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "batch8-feixiao-native-2026-10-28",
+  "modifiers": [
+    {
+      "id": "traceNode:1220:1220102:ultimate-followup-critical-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1220",
+        "traceId": "1220102"
+      },
+      "providerScope": "self",
+      "name": "解形・必殺技の追撃会心ダメージ",
+      "description": "この必殺技比較は解形解放済みを想定し、追撃扱いとCD36%を必ず適用します。恒常会心効果は最終入力に含め、この追撃専用36%は含めません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 36
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "attackIds": [
+          "122003",
+          "122008",
+          "122009"
+        ],
+        "elements": [
+          "Wind"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "解形解放済みを想定した必殺技比較"
+      },
+      "stacking": {
+        "group": "traceNode:1220:1220102:ultimate-followup-critical-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1220102.params[0][0]",
+        "verifiedAt": "2026-10-28",
+        "verification": "tests/hsr/hsrBatch8Feixiao.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1220:122004:prior-buff-batch8",
+      "source": {
+        "kind": "trace",
+        "id": "1220",
+        "skillId": "122004"
+      },
+      "providerScope": "self",
+      "name": "雷狩・通常/必殺技前からの与ダメージ上昇",
+      "description": "攻撃前から雷狩の与ダメージ上昇が持続し、最終与ダメージ入力に未算入の場合だけON。今回の通常/必殺技が新たにこの効果を付与するとは扱いません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          30,
+          33,
+          36,
+          39,
+          42,
+          45,
+          48.75,
+          52.5,
+          56.25,
+          60
+        ],
+        "levelInputLabel": "飛霄の天賦Lv"
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal",
+          "ultimate"
+        ],
+        "attackIds": [
+          "122001",
+          "122003",
+          "122008",
+          "122009"
+        ],
+        "elements": [
+          "Wind"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "feixiao-previous-followup-buff",
+        "inputLabel": "攻撃前から雷狩の与ダメージ上昇が有効",
+        "default": false,
+        "conditionText": "攻撃前から成立・最終与ダメージに未算入"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "inputPolicy": "conditional",
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "stacking": {
+        "group": "trace:1220:122004:prior-buff-batch8",
+        "rule": "nonStacking"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:122004.params[0..9][4]",
+        "verifiedAt": "2026-10-28",
+        "verification": "tests/hsr/hsrBatch8Feixiao.test.cjs"
+      }
+    }
+  ]
+}
