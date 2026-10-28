@@ -82,6 +82,7 @@
       "properties": {
         "maximumEidolon": { "type": "integer", "minimum": 0, "maximum": 6 },
         "levelMaximum": { "type": "integer", "minimum": 1, "maximum": 15 },
+        "levelMaximumAtEidolon": { "type": "object", "required": ["rank", "maximum"], "properties": { "rank": { "type": "integer", "minimum": 1, "maximum": 6 }, "maximum": { "type": "integer", "minimum": 1, "maximum": 15 } }, "additionalProperties": false },
         "minimum": { "type": "number" },
         "maximum": { "type": "number" },
         "integer": { "type": "boolean" },

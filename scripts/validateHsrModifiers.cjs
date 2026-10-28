@@ -33,6 +33,11 @@ for (const [index, modifier] of (data.modifiers || []).entries()) {
   }
   if (!/^\d{4}-\d{2}-\d{2}$/.test(modifier.provenance?.verifiedAt || "")) issues.push(`${at}: verifiedAt must be YYYY-MM-DD`);
   const value = modifier.value || {};
+  const inputValidation = modifier.inputValidation;
+  const eidolonLevel = inputValidation?.levelMaximumAtEidolon;
+  if (eidolonLevel && (!Number.isInteger(eidolonLevel.rank) || eidolonLevel.rank < 1 || eidolonLevel.rank > 6 || !Number.isInteger(eidolonLevel.maximum) || eidolonLevel.maximum < 1 || eidolonLevel.maximum > 15 || eidolonLevel.maximum <= inputValidation.levelMaximum)) {
+    issues.push(`${at}: levelMaximumAtEidolon must increase levelMaximum at a valid eidolon rank`);
+  }
   if (value.kind === "fixed" && !Number.isFinite(value.fixed)) issues.push(`${at}: fixed value required`);
   if (["byLevel", "byRefinement", "perStackByLevel", "perStackByRefinement"].includes(value.kind) && (!Array.isArray(value.values) || !value.values.every(Number.isFinite))) issues.push(`${at}: numeric values required`);
   if (["byRefinement", "perStackByRefinement"].includes(value.kind) && value.values?.length !== 5) issues.push(`${at}: refinement values must contain R1-R5`);

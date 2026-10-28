@@ -588,7 +588,11 @@
     if (record?.source?.skillId && !record.value?.levelInputKey && /byLevel/i.test(record.value?.kind || "")) {
       const level = structuredModifierContext().traceLevelFor(record.source);
       const key = supportTraceKey(record.source);
-      const maximum = Math.min(record.inputValidation?.levelMaximum || 15, supportTraceMaximum(provider, key));
+      const levelMaximumAtEidolon = record.inputValidation?.levelMaximumAtEidolon;
+      const validationMaximum = levelMaximumAtEidolon && num(provider.eidolon) >= num(levelMaximumAtEidolon.rank)
+        ? num(levelMaximumAtEidolon.maximum, record.inputValidation?.levelMaximum || 15)
+        : (record.inputValidation?.levelMaximum || 15);
+      const maximum = Math.min(validationMaximum, supportTraceMaximum(provider, key));
       if (!Number.isInteger(level) || level < 1 || level > maximum) warnings.push(`${item.source}の${TRACE_FIELDS[key]?.[2] || "軌跡"}Lvに1～${maximum}の整数を入力してください。`);
     }
     const stat = item.valueInput?.providerStat;

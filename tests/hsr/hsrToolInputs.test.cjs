@@ -2222,6 +2222,49 @@ test("Concerto validates only ATK results and preserves manual final-stat respon
     restored.node("hsrStat-atk").value="3000";restored.state.party[0].characterId="";near(restored.calculate()[0].nonCrit,1080);
 });
 
+test("Robin E1 resistance toggle is independent of final ATK, restores, and requires its party provider", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const e1=JSON.parse(read("games/hsr/data/calc/modifiers-batch3-main-actions.json")).modifiers.filter(m=>m.id==="eidolon:1309:130901:concerto-resistance-penetration");
+    const existing=JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1309"&&m.providerScope==="party");
+    const extraData={structuredModifiers:[...e1,...existing]};
+    const app=await tool(undefined,extraData);
+    const robin=catalog.characters.find(c=>c.id==="1309");app.state.data.characters.push(robin);
+    app.node("hsrStat-atk").value="4112";app.node("hsrStat-critRate").value="50";app.node("hsrStat-critDamage").value="100";
+    app.state.party[0]={characterId:"1309",level:80,eidolon:1,atk:4000,traceLevels:{skill:10,talent:10,ultimate:10}};
+    app.node("hsrConditionDialog").handlers.change({target:{dataset:{structuredToggle:"robin-concerto-resistance-active"},checked:true}});
+    app.state.modifierInputs["robin-concerto-atk-active"]=false;
+    const finalStats=app.calculate()[0];
+    assert.ok(finalStats);
+    assert.equal(finalStats.applied.some(m=>m.id==="eidolon:1309:130901:concerto-resistance-penetration"&&m.value===24),true);
+    app.node("hsrConditionDialog").handlers.change({target:{dataset:{structuredToggle:"robin-concerto-resistance-active"},checked:false}});
+    assert.equal(app.calculate()[0].applied.some(m=>m.id==="eidolon:1309:130901:concerto-resistance-penetration"),false);
+    app.node("hsrConditionDialog").handlers.change({target:{dataset:{structuredToggle:"robin-concerto-resistance-active"},checked:true}});
+    const withManualATK=app.calculate()[0].nonCrit;
+    app.node("hsrStat-atk").value="3000";app.node("hsrConditionDialog").handlers.change({target:{dataset:{structuredToggle:"robin-concerto-atk-active"},checked:true}});
+    const withATKSupport=app.calculate()[0].nonCrit;
+    assert.ok(Math.abs(withManualATK-withATKSupport)<1e-8,"the same final ATK plus E1 result must not double-add ATK");
+    const restored=await tool(app.storage,extraData);restored.state.data.characters.push(robin);
+    assert.equal(restored.state.modifierInputs["robin-concerto-resistance-active"],true);
+    assert.equal(restored.calculate()[0].applied.some(m=>m.id==="eidolon:1309:130901:concerto-resistance-penetration"),true);
+    restored.state.party[0].characterId="";
+    assert.equal(restored.calculate()[0].applied.some(m=>m.id==="eidolon:1309:130901:concerto-resistance-penetration"),false);
+});
+
+test("Robin E6 party Skill, Ultimate and Talent Lv12 apply to damage without provider-level warnings", async () => {
+    const catalog=JSON.parse(read("games/hsr/data/catalog.json"));
+    const modifiers=JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1309"&&m.providerScope==="party");
+    const app=await tool(undefined,{structuredModifiers:modifiers});
+    app.state.data.characters.push(catalog.characters.find(c=>c.id==="1309"));
+    app.node("hsrStat-atk").value="3000";app.node("hsrStat-critRate").value="50";app.node("hsrStat-critDamage").value="100";
+    app.state.party[0]={characterId:"1309",level:80,eidolon:6,atk:4000,traceLevels:{skill:12,ultimate:12,talent:12}};
+    Object.assign(app.state.modifierInputs,{"robin-skill-damage-active":true,"robin-talent-crit-active":true,"robin-concerto-atk-active":true});
+    const result=app.calculate();
+    assert.equal(result.length,1);
+    for(const[id,value]of [["trace:1309:130902:party-damage",55],["trace:1309:130903:concerto-atk",1202.8],["trace:1309:130904:party-crit-damage",23]]){
+        assert.ok(result[0].applied.some(m=>m.id===id&&Math.abs(m.value-value)<1e-9),`${id} Lv12 reaches calculated damage`);
+    }
+    assert.doesNotMatch(app.node("hsrCalculationFeedback").innerHTML,/ロビン.*Lv1～10/);
+});
 
 test("Sparkle Skill preserves manual and UID trace levels and affects only crit-capable outputs", async () => {
     const cat=JSON.parse(read("games/hsr/data/catalog.json"));const mods=JSON.parse(read("games/hsr/data/calc/modifiers-character-expanded.json")).modifiers.filter(m=>m.source.id==="1306");

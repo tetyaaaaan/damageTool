@@ -200,7 +200,7 @@ test("Tingyun A4 is a separate self-basic bonus and entered permanent trace stat
     }
 });
 
-test("Robin Concerto provider input fails closed for missing ATK, out-of-scope levels and eidolons", async () => {
+test("Robin party supports require provider ATK and unlock high trace levels at their actual eidolons", async () => {
     const { data } = await loadProductionFixture();
     const id = "trace:1309:130903:concerto-atk";
     const base = { characterId: "1302", partyIds: ["1309"], partyEidolons: { "1309": 0 }, stats: { atk: 7777 }, partyStats: { "1309": { atk: 4123.75 } } };
@@ -212,8 +212,18 @@ test("Robin Concerto provider input fails closed for missing ATK, out-of-scope l
         const invalid = candidate(data, id, level, base, inputs);
         assert.equal(invalid.applicable, false, "provider level " + level + " is rejected");
     }
-    const eidolon = candidate(data, id, 10, { ...base, partyEidolons: { "1309": 1 } }, inputs);
-    assert.equal(eidolon.applicable, false, "E1 support is not labelled E0 verified");
+    const e1 = candidate(data, id, 10, { ...base, partyEidolons: { "1309": 1 } }, inputs);
+    assert.equal(e1.applicable, true, "Concerto ATK applies at E1");
+    const e2Level11 = candidate(data, id, 11, { ...base, partyEidolons: { "1309": 2 } }, inputs);
+    assert.equal(e2Level11.applicable, false, "Ultimate Lv11 remains locked before E3");
+    const e3Level12 = candidate(data, id, 12, { ...base, partyEidolons: { "1309": 3 } }, inputs);
+    assert.equal(e3Level12.applicable, true, "Ultimate Lv12 is accepted from E3");
+    assertClose(e3Level12.value, 4123.75 * 0.2432 + 230, "fixed-SHA Ultimate Lv12 ATK support at E3");
+    const talentE4Level11 = candidate(data, "trace:1309:130904:party-crit-damage", 11, { ...base, partyEidolons: { "1309": 4 } }, { "robin-talent-crit-active": true });
+    assert.equal(talentE4Level11.applicable, false, "Talent Lv11 remains locked before E5");
+    const talentE5Level12 = candidate(data, "trace:1309:130904:party-crit-damage", 12, { ...base, partyEidolons: { "1309": 5 } }, { "robin-talent-crit-active": true });
+    assert.equal(talentE5Level12.applicable, true, "Talent Lv12 is accepted from E5");
+    assertClose(talentE5Level12.value, 23, "fixed-SHA Talent Lv12 party CRIT DMG");
 });
 
 test("Robin Concerto additional proc has native fixed CRIT and never becomes an immediate Ultimate hit", async () => {

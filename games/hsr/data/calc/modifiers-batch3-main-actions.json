@@ -3,6 +3,68 @@
   "dataVersion": "batch3-2026-10-26",
   "modifiers": [
     {
+      "id": "eidolon:1309:130901:concerto-resistance-penetration",
+      "source": {
+        "kind": "eidolon",
+        "id": "1309",
+        "eidolonRank": 1
+      },
+      "providerScope": "party",
+      "name": "ロビンE1・協奏中の味方全体全属性耐性貫通",
+      "description": "ロビンの星魂1。協奏中、味方全体の通常攻撃・戦闘スキル・必殺技・追加攻撃・通常DoTに全属性耐性貫通+24%。協奏が有効な単発ダメージを指定します。撃破・超撃破・愉悦・精霊攻撃は個別の接続検証対象として含めません。",
+      "category": "resistancePenetration",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 24
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "normal",
+          "enhancedNormal",
+          "skill",
+          "enhancedSkill",
+          "ultimate",
+          "talent",
+          "followUp",
+          "additional",
+          "dot"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "robin-concerto-resistance-active",
+        "default": false,
+        "conditionText": "星魂1以上のロビンの協奏が継続中",
+        "inputLabel": "協奏のE1耐性貫通を追加"
+      },
+      "stacking": {
+        "group": "eidolon:1309:130901:concerto-resistance-penetration",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "resistance",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定SHAのロビンE1。協奏中の通常・スキル・必殺・追加攻撃・通常DoTへの味方全体耐性貫通を独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
+        "sourceFile": "character_ranks.json:130901.desc",
+        "gameVersion": "fixed-sha-dbe8cdf / original Robin kit",
+        "verifiedAt": "2026-10-28",
+        "scope": "Party provider E1..E6; active Concerto; ordinary direct damage and DoT only; no action simulation.",
+        "notes": "「協奏」状態の時、味方全体の全属性耐性貫通+24%。"
+      }
+    },
+    {
       "id": "trace:1309:130902:self-damage",
       "source": {
         "kind": "trace",

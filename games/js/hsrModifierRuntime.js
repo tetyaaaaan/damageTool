@@ -264,10 +264,13 @@
       if (enabled && validation) {
         if (invalidValue) inputWarnings.push((record.value?.inputLabel || record.activation?.inputLabel) + "に" + validation.minimum + "～" + validation.maximum + "の" + (validation.integer ? "整数" : "数値") + "を入力してください。");
         const eidolon = selection.providerId === String(context.characterId) ? context.eidolon : context.partyEidolons?.[selection.providerId];
-        if (number(eidolon) > validation.maximumEidolon) inputWarnings.push(`${record.name}は支援者の星魂0のみ計算対応です。`);
+        if (number(eidolon) > validation.maximumEidolon) inputWarnings.push(`${record.name}は支援者の星魂${validation.maximumEidolon}まで計算対応です。`);
         const level = modifierLevel(record, context, inputs);
+        const levelMaximum = validation.levelMaximumAtEidolon && number(eidolon) >= number(validation.levelMaximumAtEidolon.rank)
+          ? number(validation.levelMaximumAtEidolon.maximum)
+          : validation.levelMaximum;
         if (validation.whenToggle && inputs[validation.whenToggle.inputKey] && raw !== validation.whenToggle.equals) inputWarnings.push(validation.whenToggle.message);
-        if (!Number.isInteger(level) || level < 1 || level > validation.levelMaximum) inputWarnings.push(`${record.value?.levelInputLabel || `${record.name}の天賦Lv`}に1～${validation.levelMaximum}の整数を入力してください。`);
+        if (!Number.isInteger(level) || level < 1 || level > levelMaximum) inputWarnings.push(`${record.value?.levelInputLabel || `${record.name}の天賦Lv`}に1～${levelMaximum}の整数を入力してください。`);
       }
       if (record.value?.inputMultipliers?.[inputs[record.value.inputKey] ?? record.value.default] === 0 && !inputWarnings.length) enabled = false;
       const requiredInput = Boolean(validation && record.value?.inputKey && record.value.default === undefined);

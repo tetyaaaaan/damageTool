@@ -1,6 +1,8 @@
 # 崩壊：スターレイル計算データの出典・適用範囲
 
-更新日: 2026-07-28
+初期記録日: 2026-07-28。以下の初期件数・対応一覧は当時の記録です。
+
+現在の配信データ構成は `games/js/hsrCalcData.js` と `games/hsr/data/calc/data-files.json`、固定版は StarRailRes `dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487` を参照します。現在の対応範囲は [主要攻撃の対応範囲](HSR_MAIN_ATTACK_SCOPE.md)、登録状況は [生成完成管理表](HSR_CHARACTER_COMPLETION.md)、効果別受入と残作業は [残作業測定](HSR_COMPLETION_WORKLOAD.md) が管理元です。下記の「14攻撃」「代表5支援」「条件付き装備は詳細表示のみ」を現在の開発制限として使用しません。マスター再生成を通常の効果追加手順に含めません。
 
 ## 実行時の正本
 
