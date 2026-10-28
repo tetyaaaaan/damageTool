@@ -1,0 +1,156 @@
+# ④ Modifier仕様 — 効果登録・発動判定・適用範囲
+
+## 文書の役割と判定
+
+この文書はHSR Modifierの現行データ契約・処理経路を記録し、完成時に満たす要求と区別する。記述は次の分類で読む。
+
+- **A — 要求・実装確認済み**：要求と現行実装が一致することをコード、データ、テストで確認。
+- **B — 要求・未対応または部分対応**：要求は維持し、実装不足を課題として扱う。
+- **C — 草案の誤りまたは根拠不足**：実装上の事実としては記載しない。必要なら要求として別に明記。
+- **D — 未検証**：根拠を得るまで確定しない。
+
+完成要求は、利用者が指定した任意の一時点の状態で攻撃候補ごとのダメージを計算すること。常時効果や現在の入力から成立を確定できる効果は自動適用し、発動済みかを入力だけから判断できない効果だけを条件UIで指定する。候補は現在のキャラクター・解放状態・装備・編成から抽出し、効果は指定された受益者・攻撃・属性・成分に限定する。最終ステータスとの二重加算を避け、攻撃一覧を表示するだけの不要な発動操作を要求しない。複数ヒット・追加成分の計算と合算は対象だが、ラウンド戦闘やローテーションの自動再現は対象外。
+
+## 現行契約（A: 実装確認済み）
+
+宣言上の形状契約は [`modifier-contract.schema.json`](../../../games/hsr/data/calc/modifier-contract.schema.json)。登録データは [`data-files.json`](../../../games/hsr/data/calc/data-files.json) が列挙する各 `modifiers*.json`。正本の一覧は [`games/hsr/data/calc/README.md`](../../../games/hsr/data/calc/README.md) を参照する。スキーマの必須項目は `id`, `source`, `name`, `description`, `category`, `unit`, `value`, `target`, `activation`, `calculation`, `support`, `provenance`。概略は次の実在フィールドから成る（値は例示であり、効果の正否は個別データの根拠とテストで判断する）。
+
+```json
+{
+  "id": "eidolon:1309:130901:concerto-resistance-penetration",
+  "source": {
+    "kind": "eidolon",
+    "id": "1309",
+    "eidolonRank": 1
+  },
+  "providerScope": "party",
+  "name": "ロビンE1・協奏中の味方全体全属性耐性貫通",
+  "description": "ロビンの星魂1。協奏中、味方全体の通常攻撃・戦闘スキル・必殺技・追加攻撃・通常DoTに全属性耐性貫通+24%。協奏が有効な単発ダメージを指定します。撃破・超撃破・愉悦・精霊攻撃は個別の接続検証対象として含めません。",
+  "category": "resistancePenetration",
+  "unit": "percent",
+  "value": {
+    "kind": "fixed",
+    "fixed": 24
+  },
+  "target": {
+    "owner": "partyAll",
+    "attackTypes": [
+      "normal",
+      "enhancedNormal",
+      "skill",
+      "enhancedSkill",
+      "ultimate",
+      "talent",
+      "followUp",
+      "additional",
+      "dot"
+    ],
+    "elements": []
+  },
+  "activation": {
+    "mode": "toggle",
+    "inputKey": "robin-concerto-resistance-active",
+    "default": false,
+    "conditionText": "星魂1以上のロビンの協奏が継続中"
+  },
+  "stacking": {
+    "group": "eidolon:1309:130901:concerto-resistance-penetration",
+    "rule": "nonStacking"
+  },
+  "calculation": {
+    "stage": "resistance",
+    "operation": "add"
+  },
+  "inputPolicy": "conditional",
+  "support": {
+    "status": "calculable",
+    "verified": true
+  },
+  "provenance": {
+    "sourceName": "Mar-7th/StarRailRes",
+    "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
+    "sourceFile": "character_ranks.json:130901.desc",
+    "gameVersion": "fixed-sha-dbe8cdf / original Robin kit",
+    "verifiedAt": "2026-10-28"
+  }
+}
+```
+
+この記録は [`modifiers-batch3-main-actions.json`](../../../games/hsr/data/calc/modifiers-batch3-main-actions.json) の実データをもとに、長い説明や出典値を省略して抜粋したもの。`source.kind` は `character`, `trace`, `eidolon`, `lightCone`, `relic`, `ornament`, `enemy`, `manual`。カテゴリ、対象所有者、攻撃種、属性、発動モード、値の種類、計算段階・演算子の許容値はスキーマを参照する。任意のプロパティも含め、未定義の概念フィールドを実装契約として追加しない。
+
+スキーマは本番全レコードを完全に表現できているわけではない。たとえば実データの `category: "attackState"` はcategory enumに含まれず、provenanceの `sourceCommit` / `scope` 等は `additionalProperties:false` の宣言と差がある。実行時ローダーはJSON Schema検証を実施せず、既存テスト/静的検証器もスキーマ全項目の完全適合を検査しない。現行形式の事実は実データと読込・評価コードを併せて確認する。契約の同期不足はBとして台帳に記録し、本書の概略例だけで契約へ適合したと認定しない。
+
+### 抽出・評価・計算経路
+
+1. [`hsrCalcData.js`](../../../games/js/hsrCalcData.js) が登録済みの修正データファイルを読み、`structuredModifiers` に統合する。
+2. [`hsrApp.js`](../../../games/js/hsrApp.js) の `structuredModifierContext()` が対象キャラ、軌跡Lv、星魂、装備、編成、味方ステータス、敵、保存済み `modifierInputs` をランタイムへ渡す。
+3. [`hsrModifierRuntime.js`](../../../games/js/hsrModifierRuntime.js) の `sourceSelection()` が効果候補を選ぶ。キャラ・軌跡・星魂はID、星魂段階、`providerScope`、対象所有者とパーティを照合する。光円錐・遺物・オーナメントは本人または味方の装備と重畳・セット数を照合する。variant・敵・手動ソースも扱う。
+4. `activationState()` と `resolveValue()` が発動状態と数値を評価し、`buildCandidates()` が利用可能性、`support.status`, `inputPolicy`, 入力検証、出典、表示情報を候補に付ける。説明文から数値や条件を解析しない。
+5. `hsrApp.js` の `validateProvider()` が一部の味方の軌跡Lvや提供ステータスを検証する。`modifiers(attack)` が `modifierTargetsCalculation()` と `HsrModifierRuntime.applicableToAttack()` を使い、攻撃ID・種別・タグ・属性・対象位置・成分の範囲で候補を絞る。
+6. `calculate()` は攻撃別リクエストに絞ったModifierを [`hsrCalcEngine.js`](../../../games/js/hsrCalcEngine.js) へ渡す。エンジンはカテゴリごとの計算経路で適用する。現行の `hsrCalcEngine.js` は `calculation.stage` / `calculation.operation` を読み取らず、実演算はカテゴリ別ロジックと値に依存するため、このメタデータ単独では演算を切り替えない。候補登録だけではダメージ適用を意味しない。
+
+### 自動と手動の条件
+
+- `activation.mode: "always"` は自動で有効。
+- `statThreshold` は `reference`, `operator`, `threshold` を現在の計算コンテキストで比較し、自動判定する。
+- `numericThreshold` は `inputKey` があればその値を最小・最大の範囲内に制限して判定するため入力が必要。キーがない場合は参照値から判定する。閾値は候補生成時の入力コンテキストを参照し、他の効果を適用した後の再計算ステータスを参照する依存解決ではない。
+- `toggle` は `inputKey` と `default` による任意状態指定。既定値がfalseでも効果候補自体は一覧に出る。
+- `toggleThreshold` はユーザーのトグルと数値条件の両方が必要。
+- `stack` は入力された層数を最小・最大（星魂段階による最大値を含む）に制限し、正の層数で有効になる。
+
+これはランタイムの現行動作であり、全ての効果データが望ましい発動区分で登録済みという意味ではない。とくに入力から導出可能な効果がトグル登録されている場合は要求に対するBの不足として扱う。 具体例として [`modifiers-character-expanded.json`](../../../games/hsr/data/calc/modifiers-character-expanded.json) の `trace:1309:130904:party-crit-damage` はロビン天賦の味方全体会心ダメージを `activation.mode: "toggle"` / 既定OFFで登録している。編成と解放状態から候補を選べ、常時効果の成立に追加状況は不要なので、これはB（不要な手動トグル）の具体例である。
+
+### 最終ステータスと重複
+
+`inputPolicy: "includedInFinalStats"` の候補はランタイム上calculableにならず、最終値へ再加算されない。`support.status: "displayOnly"` または `review` も計算に入らない。これは個々のデータで重複を避ける仕組みであり、UID値の完全な由来分解や、あらゆるボーナスの自動重複判定を意味しない。最終入力への算入有無を根拠付きで記録し、不明な値を二重計上しないことは完成要求として維持する。
+
+`stacking` は `group` と `rule` (`add`, `multiply`, `max`, `replace`, `nonStacking`) などを記録する実在契約だが、`hsrCalcEngine.js` の `enforceStackingRules()` は、同じ `group` の有効候補をまとめる。複数件の場合 `add` は全件を残し、`replace` は配列順で最後を残し、その他（`multiply`, `max`, `nonStacking`）は値が最大の1件だけ残して他を非適用にする。groupなし・単独候補は処理しない。したがって `multiply` は宣言名どおりの乗算ではなく最大値採用になる。今回の登録データに `rule: "multiply"` の使用例はなく、既存の実ダメージ不具合が発生しているとまでは断定しない。処理自体は実装済みだが、全宣言ルールが意味どおり実装されているわけではなく、group内容や演算の整合性を個別検証する必要がある。重複して装備された非重複効果が一つだけ計算に接続する個別テストはある。各カテゴリの加算、上限、排他はエンジン側の実処理とテストで個別に確認する。単一の汎用重複保証として説明しない。
+
+保存は [`hsrCalcState.js`](../../../games/js/hsrCalcState.js) が `modifierInputs` をブラウザ保存データに含めて復元する。復元時は型とキーを検証する。提供者を外しても入力キーが保存に残る場合があるが、その提供者の候補が選択されなければ効果は適用されない。パーティ初期化時には、現行ビルドで使われないModifier入力キーを消去する処理がある。
+
+## 原神CurrentCalcの参照（C: 別実装として確認）
+
+参照実装は [`genshinCalcConditions.js`](../../../games/js/genshinCalcConditions.js) と [`genshinPartyModifiers.js`](../../../games/js/genshinPartyModifiers.js)。Genshin側は `condition`, `conditionGroupId`, `applyTo`, `reference`, `stack`, `effectGroupId` 等を含む既存のModifierと、`uiState`、条件カード、`GenshinCalcEngine.collectActiveModifiers()` / `buildEffectiveStats()` を使う。`automaticCondition()` は `always` と `constellationUnlocked` を自動条件として扱い、`dedupeKey()` はキャラ・ソース・効果・カテゴリ・対象を組み合わせる。`artifactConditionPolicy()` はUID反映済みの効果を `reflected`（無効）、常時効果を `automatic`、重撃・武器種条件を `derived` として装備・攻撃から判定する。層数条件の一部は入力を求め、それ以外は `userToggle` にする。これらはGenshin側の仕組みであり、HSRに同じpolicy APIがあることを意味しない。チーム対象の区分や提供者ステータスの局所評価もある。
+
+このGenshinの形式・規則はHSRの契約ではない。HSRへ移植済みともみなさない。参考にできるのは自動条件の分類、提供者・受益者の区別、候補UIとエンジンの連携、局所的な参照評価といった設計上の考え方であり、具体的な接続はHSR側のスキーマ・実装・検証を根拠とする。
+
+## 受入要求と現状の差
+
+下記は完成時の受入要求。現行テストの存在だけで全効果への対応済みとは判定しない。
+
+| 要求 | 現状判定 | 根拠・扱い |
+|---|---|---|
+| 所有・装備・編成・解放状態に基づく候補抽出と攻撃スコープ | A（基盤確認） | `sourceSelection`, `applicableToAttack`, `hsrApp.js` の攻撃別絞込み。データ網羅性・個別接続精度は別途検証。 |
+| 常時効果と入力から確定できる閾値効果の自動適用 | B | `always` と `statThreshold` は実装済み。ただし全データが自動条件で登録されているとは限らず、数値閾値の一部は入力を求める。不要トグルは個別監査する。 |
+| 発動済み状態・敵状態・スタックなど判断不能な状態のユーザー指定 | A（基盤確認） | toggle, toggleThreshold, stack等と条件UIがある。全効果・入力検証の網羅性は未完了。 |
+| 最終ステータスの由来を識別し、重複を避ける | B | `includedInFinalStats` 候補の除外はある。入力最終値の由来網羅・自動判定は確認できない。 |
+| 同じ `stacking.group` 内の複数候補の選別 | A（限定実装）/ B（契約との不一致） | `enforceStackingRules()` は `add` / `replace` / その他を実行。ただし `multiply` が実装では最大値採用となる。groupの正しい付与と競合対象の整合性は個別検証が必要。 |
+| 1攻撃内の複数成分をそれぞれ適切な対象規則で計算し合算 | B | 一部の成分・シーケンス経路は存在するが全攻撃データの完全性はこの文書の監査範囲外。攻撃・成分別の独立検証を続ける。 |
+| 入力・条件の保存復元 | A（基盤確認） | `hsrCalcState.js` のcreate/save/restoreで状態を保存。提供者が消えた場合は候補選択で適用を防ぐ。 |
+| 効果定義・実行経路・適用対象の説明可能性 | A（基盤確認） | データの出典・supportと候補のaudit情報を提供。根拠のない候補は `review` / `displayOnly` に留める。 |
+| 攻撃一覧のためだけの不要な発動スイッチを要求しない | B | 完成要求。既存の一部攻撃や特殊条件では入力が攻撃行の成立条件と結びつくため、攻撃の列挙と任意効果状態を個別に分離する必要がある。 |
+
+## 根拠ファイルと検証
+
+- 契約: [`games/hsr/data/calc/modifier-contract.schema.json`](../../../games/hsr/data/calc/modifier-contract.schema.json)
+- 登録・読込: [`games/hsr/data/calc/data-files.json`](../../../games/hsr/data/calc/data-files.json), [`games/js/hsrCalcData.js`](../../../games/js/hsrCalcData.js)
+- 選択・評価: [`games/js/hsrModifierRuntime.js`](../../../games/js/hsrModifierRuntime.js)
+- UIと計算接続: [`games/js/hsrApp.js`](../../../games/js/hsrApp.js)
+- 保存: [`games/js/hsrCalcState.js`](../../../games/js/hsrCalcState.js)
+- 契約・候補・個別適用テスト: [`tests/hsr/hsrModifierContract.test.cjs`](../../../tests/hsr/hsrModifierContract.test.cjs), [`tests/hsr/hsrModifierRuntime.test.cjs`](../../../tests/hsr/hsrModifierRuntime.test.cjs), [`tests/hsr/hsrToolInputs.test.cjs`](../../../tests/hsr/hsrToolInputs.test.cjs)
+
+データ契約検査は [`validateHsrModifiers.cjs`](../../../scripts/validateHsrModifiers.cjs)、カバレッジ監査は [`auditHsrCoverage.cjs`](../../../scripts/auditHsrCoverage.cjs)。通過は形式や登録根拠の確認であり、全計算式の独立正解を証明しない。計算精度は攻撃種・対象成分ごとの独立期待値テストで確認する。`stacking` の宣言だけで動作を承認せず、実際のエンジン適用経路を確認する。
+
+## 旧草案からの訂正
+
+- **C**: トップレベルの `identity`, `availability`, `controls`, `reference`, `targets`, `operation`, `valueRule`, `stackRule`, `inclusion`, `evidence` は旧草案の概念フィールドであり、HSRの実在スキーマとして記載しない。実在契約へ差し替えた。`value.reference` や `calculation.operation` のように別の階層には実在する名前もあり、同名フィールドを一律に禁止する意味ではない。
+- **C**: 発動モードを `always / derived / manual` とするenumは存在しない。実在値は `always / toggle / toggleThreshold / stack / statThreshold / numericThreshold`。各モードの現行挙動を明記した。
+- **C**: 全対象で成分ID単位のフィルタがあるとの記述は誤り。スキーマには `attackIds` があるが、汎用のcomponent ID対象フィールドは確認できない。成分対応は攻撃データと計算経路ごとに検証する。
+- **C**: 汎用の循環依存検出、完全な重複正規化、条件説明の保存形式は確認できないため、現行機能としての評価順・保証から外した。
+- **B**: 最終ステータス二重加算防止を全効果の自動機能とせず、既算入マークによる除外の実装範囲と、残るデータ・由来管理課題を分けた。
+- **C**: Genshinの既存フィールドやAPIをHSRの実装方式として提示していた点を修正し、参照専用の比較に限定した。
+
+
+
+
+差分の進捗は [残作業台帳の仕様照合欄](../../HSR_COMPLETION_WORKLOAD.md#仕様書照合で確認した実装差分2026-10-28) が管理元。

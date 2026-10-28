@@ -1,0 +1,58 @@
+# ② 機能仕様
+
+照合日: 2026-10-28。要求と現行動作の差を保持する。判定は[README](README.md)参照。
+
+## 操作と再計算
+
+[要求] UID検索/手動選択 → 育成・装備・最終ステータス・パーティ → 敵 → 補正 → 計算 → 攻撃一覧/内訳。
+
+[実装確認 A] [画面HTML](../../../games/hsr/index.html)と[hsrApp.js](../../../games/js/hsrApp.js)の `bind` / `calculate` に明示的な `hsrCalculateButton` がある。入力変更は `markDirty` により保存と未再計算表示を行い、直前の結果を自動的に最新値へ置き換える方式ではない。「装備変更で結果更新」は再計算後に成立する。初稿の自動再計算の仮定を訂正した（C）。
+
+`availableAttacks` はキャラID、hidden、必要星魂、強化前/強化後の版で候補を選ぶ。`resolvedAttackComparisons` で対応済みの状態別比較を作り、`renderResults` は攻撃種別タブと詳細内訳へ出力する。全候補の全状態が計算済みという意味ではない（B）。
+
+## UIDと手動設定
+
+|要求|現行動作・判定|根拠|
+|---|---|---|
+|UID取得情報を利用する|A: 公開キャラ、Lv、星魂、光円錐/重畳、遺物セット、軌跡を正規化し、選択して計算欄へ反映|[UID UI](../../../games/js/hsrUidImporter.js)の `search`、[Mapper](../../../games/js/hsrProfileMapper.js)の `mapProfileResponse`、Appの `applyProfileCharacter`|
+|取得値を捏造しない|A/B: ステータスは装備props・カタログ等から再構成。Lv80以外のHP/ATK/DEFは未取得扱いで線形補間しない。全戦闘バフの自動取得ではない|Mapperの `collectProperties` / `calculateStats`|
+|UIDなしでも使える|A: 手動選択・最終値編集を提供。全キャラ選択可能でも全攻撃の計算対応はB|Appの `chooseSelection`、`collectInputs`、`calculate`|
+|取得元と手動変更を区別|A: `manual` / `api` / `api-edited`。再取込は対象欄を取得値へ置換し、未知の数値を前キャラから残さない|`applyProfileCharacter` / `markDirty`、[入力テスト](../../../tests/hsr/hsrToolInputs.test.cjs)|
+|失敗時にも手動利用|A: UID検索エラー表示と手動設定。失敗理由の表示はUIでまとめられる場合がある|[API](../../../games/js/hsrProfileApi.js)、UID UI|
+
+通信は同一オリジン `/games/api/hsr-profile?uid=...` を優先。プロキシ404またはTypeError時はEnka直結を試す。400/その他非成功をすべて直結へ再送するわけではない。Workerは[worker.js](../../../worker.js)の `fetchHsrProfile`。現在の外部全レスポンス・通信可用性は今回の文書監査では実通信検証していない（D）。ユーザーの実戦編成・敵・発動履歴は公開プロフィールから自動確定しない。
+
+## 育成・装備・パーティ・敵
+
+[要求] キャラLv・ゲーム内表示の軌跡Lv・星魂、光円錐/重畳、4セット/2+2とオーナメント、最終値、提供者別の編成値、敵Lv・耐性・弱点・靭性・デバフ等を設定する。
+
+[実装確認 A/B] `traceMaximum` / `supportTraceMaximum` は星魂のLv加算を入力上限へ反映する。入力値へさらに+1/+2しない。手動の基礎値は `selectedBaseStats` がカタログ/装備の正確なLv80基礎値から得る。任意Lvの基礎値を自由編集できる汎用フォームがあるという初稿の解釈は訂正する（C）。精確な基礎値が必要で不足する場合は該当結果を停止する。
+
+`renderPartyDialog` / `collectParty` は計算対象とは別に支援者、装備、星魂、必要な個別軌跡、ATK等を管理する。配置は表示用で、位置固有効果を自動実装したものではない。敵欄は単一の敵モデルを使い、全属性別耐性表・全敵個体の別設定は未実装（B）。
+
+## 補正条件
+
+要求は[01](01_SYSTEM_OVERVIEW.md)、実契約は[04](04_MODIFIER_SPEC.md)。登録された候補を現在の編成/装備から再抽出し、自動条件、ON/OFF、層数・数値を適用する（A）。全常時効果の自動化、支援による変化後の閾値再判定、全効果の最終値算入追跡は網羅していない（B）。
+
+提供者解除で保存済みON値自体を必ず削除する仕様ではない。候補/適用から外し、再編成で選択を復元できる。幽霊補正を適用しない要求は維持する。最終値へ任意バフを含めた場合、該当追加をOFFにする現在の入力責任も説明する。
+
+## 結果と入力エラー
+
+|要求|現行・受入範囲|
+|---|---|
+|各攻撃の想定値を比較|A/B: 登録済み攻撃と比較状態を出力。未登録・参考値・非対応を完成扱いにしない|
+|会心/非会心/期待値|A: `damageValues` / `damageBreakdown`。非会心式や固定会心の説明を分ける|
+|ヒット・成分内訳と合算|A（特定の合成式）/B（全攻撃）: 段数乗算だけの行に全段独立状態があるとは扱わない|
+|不足時の局所停止|A: `calculationInputWarnings`、`modifierInputIssues`、`attackStateIssues` が影響行を止める。すべての異常値に同じ処理を保証する汎用検証器ではない|
+|攻撃表示のための不要チェックを要求しない|A（比較対応の行）/B（網羅性）: 値の前提・比較対象・追加発生条件が必要な行は残る。全チェックの無条件撤去は要求しない|
+|狭幅で確認可能|A: 既存の変更別画面検証記録あり。今後のUI変更は1440/390/320pxで対象を確認|
+
+## 保存と復元
+
+[実装確認 A] [hsrCalcState.js](../../../games/js/hsrCalcState.js)の `create` / `restore`、Appの `saveInputs` / `restoreInputs` がビルド、編成、敵、補正、特殊入力、手動条件、入力フィールドを保存する。結果・計算内訳・生UID応答・プロフィール一覧は保存対象ではない。初稿の「結果行と内訳の保存形式は要照合」は、入力を復元して再計算する契約へ訂正した（C）。成功UIDの記憶は計算入力保存と別経路。
+
+不正JSON・未知バージョン・未知ID・保存失敗の処理は実装されるが、すべての旧版移行や不整合を個別通知する保証はない（B）。0と空欄を区別し、NaNはJSONではnullとなり対応する入力復元で未入力へ戻す。保存件数・キー・形状は[05](05_TECHNICAL_DESIGN.md)を参照。
+
+## 根拠・未実装
+
+主な受入入口は [hsrToolInputs.test.cjs](../../../tests/hsr/hsrToolInputs.test.cjs) と [hsrToolStructure.test.cjs](../../../tests/hsr/hsrToolStructure.test.cjs)。要求に対する差分と優先度は[既存残作業台帳](../../HSR_COMPLETION_WORKLOAD.md)の仕様照合欄で管理し、本章に残件数を重複集計しない。

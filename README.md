@@ -4,6 +4,8 @@
 
 原神のCurrentCalcは、現在状態を明示入力する単発ダメージ計算です。対応範囲、保存機能、既知の制限は[利用ガイド](guides/genshin/index.html)、公開判定に使うテスト集合と実行手順は[CurrentCalc Release Gate](docs/GENSHIN_CURRENTCALC_RELEASE_GATE.md)を参照してください。
 
+スタレの要求仕様と実装の対応は [HSR仕様・設計](docs/hsr/specs/README.md) を参照してください。完成状況・効果受入・残課題はそこから既存管理資料へ辿れます。
+
 ## 開発メモ
 
 - 共通ヘッダー・フッターを含むリポジトリの開発指示は [AGENTS.md](AGENTS.md) を参照してください。
@@ -13,7 +15,7 @@
 - Pages Functionsとは併用しないため、`functions/` ディレクトリは置きません。
 - 画面表示は `games/index.html`、`games/genshin/index.html`、`games/hsr/index.html` を中心に構成します。
 - 計算処理は `games/js/` 配下にまとめます。
-- 元データは `games/data/` 配下のCSVを正とし、同名のExcelファイルは編集・確認用として扱います。
+- CSVを使う従来画面のデータは `games/data/` 配下を参照し、同名のExcelは編集・確認用です。HSRの現行実行データは `games/hsr/data/` のJSONで、読込元と根拠は [HSR仕様・設計](docs/hsr/specs/README.md) を参照してください。
 - 命名規則、コメント方針、配色を含むデザインシステム、CSVの編集ルールは `docs/DEVELOPMENT_RULES.md` を参照してください。
 - 原神JSON計算の責務、補正解析、対応順は `docs/GENSHIN_CALC_DESIGN.md` を参照してください。
 - STEP 19〜24の監査・数式拡張・ゴールデン検証は `docs/GENSHIN_CALC_STEP19_24.md` を参照してください。

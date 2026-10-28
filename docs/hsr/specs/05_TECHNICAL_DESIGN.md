@@ -1,0 +1,88 @@
+# ⑤ 技術設計書 — 現行実装と要求仕様
+
+- 監査基準: `dc6a6b184338d8ff299855c90c71766d284c3604` の作業ツリー
+- 対象: 静的なHSR計算ページのUID取込、状態、データ、Modifier、計算、表示の経路
+- 判定: **A** = 要求に沿う実装を確認、**B** = 正しい要求だが未実装/部分実装、**C** = 初稿の誤り・根拠なしを訂正、**D** = リポジトリ根拠で確定できない
+
+この文書はコードの責務を説明する。完成目標は要求仕様書が正本であり、現行実装の不足を理由に引き下げない。現行関数の挙動を、そのまま将来仕様とはみなさない。
+
+## 1. 実際のデータフロー
+
+```text
+UID入力
+  -> games/js/hsrUidImporter.js
+  -> games/js/hsrProfileApi.js
+  -> /games/api/hsr-profile (worker.js) -> Enka.Network
+  -> games/js/hsrProfileMapper.js
+  -> UIDキャラクター選択・反映 (hsrApp.js)
+
+games/hsr/index.html
+  -> HsrCalcData.load()
+       catalog.json + attacks.json/generated + data-files.json配下のoverride/modifier
+  -> hsrApp.jsの入力状態・敵/編成・補正候補
+  -> HsrModifierRuntime.buildCandidates()/applicableToAttack()
+  -> HsrCalcEngine.calculate() と個別のbreak計算
+  -> renderResults() / 結果・未対応理由
+
+入力変更 -> saveInputs() -> HsrCalcState.create()/save() (localStorage)
+再読込 -> HsrCalcState.load()/restore() -> restoreInputs() -> 入力状態
+```
+
+この図は確認した実経路。手動入力は `games/hsr/index.html` のフォームと `hsrApp.js` の `state` から入る。戦闘ローテーションを再現する経路ではない。
+
+## 2. モジュール対応表
+
+| 実パス | 実在する入口・関数 | 実際に担う処理 | 判定 |
+|---|---|---|---|
+| `worker.js` | `fetchHsrProfile()` | 8～10桁UIDを検査しEnka HSR endpointへ転送。成功時はTTLを使い `_tetinetProvider` を付ける | A: UID中継を確認 |
+| `games/js/hsrProfileApi.js` | `fetchHsrProfile()`, `fetchFromSameOriginProxy()` | 同一オリジンproxyを優先し、proxyが404またはTypeErrorの場合にEnkaへ直接要求（その他の非成功応答はエラー） | A |
+| `games/js/hsrUidImporter.js` | 検索処理、`renderSelector()`, `renderSummary()`, `renderUidDetails()` | UID入力検査、取得表示、公開キャラ選択、詳細表示、反映操作 | A |
+| `games/js/hsrProfileMapper.js` | `mapProfileResponse()`, `mapCharacter()`, `mapTraces()`, `mapRelicSets()`, `calculateStats()` | Enka応答をカタログとID照合し、キャラ・装備・軌跡・ステータス表示用オブジェクトへ変換 | A: 反映可能項目に限る。全Lvの基礎値を復元するものではない |
+| `games/js/hsrCalcData.js` | `HsrCalcData.load()`, `resetCache()` | カタログ、攻撃manifest、生成攻撃、override、構造化Modifier群を読み込み、同ID overrideを統合 | A |
+| `games/js/hsrCalcState.js` | `create()`, `restore()`, `load()`, `save()`, `clear()` | 現行入力契約の保存・検証付き復元・削除。schemaVersion 1 | A |
+| `games/js/hsrModifierRuntime.js` | `buildCandidates()`, `activationState()`, `applicableToAttack()`, `sourceSelection()` | 出典選択、候補の展開、入力/activation判定、攻撃種別・属性・IDへの対象判定 | A: 実装された定義範囲。全効果の網羅はB |
+| `games/js/hsrApp.js` | `structuredModifierContext()`, `modifiers()`, `calculate()`, `renderResults()`, `applyProfileCharacter()` | UI状態、UID値のフォーム反映、敵/パーティ/条件、計算要求組立、結果/警告表示 | A: 現行画面経路 |
+| `games/js/hsrCalcEngine.js` | `calculate()`, `calculateComponentSequence()`, `calculateBreak()`, `calculateAdditionalBreak()`, `calculateSuperBreak()` | 単一攻撃/成分列、撃破・追加撃破・超撃破等の対応式と対応範囲検査 | A: 登録・検証範囲のみ。完全な攻撃種網羅はB |
+| `scripts/reportHsrCompletion.cjs` | CLIレポート生成 | `docs/HSR_CHARACTER_COMPLETION.md` の生成 | A: 出力ファイルを手編集しない |
+
+初稿の「UIDアダプター」「攻撃候補列挙」等の仮想層は実在するファイル名・APIではない。上表の実処理名に置き換えた (**C**)。「攻撃候補列挙」専用のエンジン層は確認できない。攻撃候補は読込済みデータを `hsrApp.js` が選択キャラ・条件で絞り込み、エンジンへ渡す。
+
+保存キーは `tetinet:hsr:calculation:v1`、形状は `{schemaVersion:1, game:"hsr", state, modifierInputs, conditions, fields}`。`state` は許可された入力項目のみ。`create` は結果・生UID応答・プロフィール一覧を含めず、再読込時は入力を復元して再計算する。成功したUIDの記憶はこれとは別経路である。
+
+## 3. データ定義の実際
+
+- `games/hsr/data/catalog.json` は表示・詳細情報等を含む静的カタログ。収録数や全スキル説明の存在は、全効果が計算されることを意味しない。
+- `games/hsr/data/attacks.json` は生成攻撃ファイルとoverrideのmanifest。生成元は `scripts/generateHsrAttacks.cjs`、出力 `games/hsr/data/attacks.generated.json`。overrideの実行時一覧は `games/hsr/data/calc/data-files.json` が指定する。
+- `games/hsr/data/calc/data-files.json` は攻撃overrideと構造化Modifierファイルの実際の読込一覧。`games/js/hsrCalcData.js` が取得して集約する。
+- `games/hsr/data/calc/attack-contract.schema.json` と `modifier-contract.schema.json` は形状契約。生産定義は各JSON。表示文の解析を計算効果の根拠にはしない。
+- ローダーはこのほか `games/hsr/data/modifiers.json`、`games/hsr/data/trace-level-map.json`、`games/hsr/data/calc/special-break-attacks.json` を読む。返り値の `modifiers` と `structuredModifiers` は別で、現在のApp `sourceConditions` は後者の候補を使う。`breakBaseDamage` はローダーでLv80値だけを有効化する。
+- `coverage-report.json` 等は監査用生成物で、進捗の正本は管理資料に従う。
+
+## 4. 実装と要求の差
+
+| 要求 | 判定 | 確認事項 |
+|---|---|---|
+| UIDまたは手動でキャラを設定する | A | UID反映と手入力フォームが存在 |
+| UID取得項目を可能な範囲で反映し、手修正できる | B | Lv80基礎HP/ATK/DEF等を再構成する経路と編集状態がある。`calculateStats()` は基礎HP/ATK/DEFのLv80以外を未設定とする。全UID項目の計算入力化は未完 |
+| 攻撃候補を発動スイッチなしに表示し、登録成分を計算する | B | manifest/overrideとengine経路がある。全キャラ・全攻撃・全条件の登録/検証は未完 |
+| 常時/入力から判定できる条件を自動適用し、任意条件を選ぶ | B | `activationState()` と候補UIは存在するが、未登録効果の候補化・条件分類を含む全効果適用は未完 |
+| 編成・装備から効果を抽出し、対象攻撃だけに反映する | B | `sourceSelection()`、`buildCandidates()`、`applicableToAttack()` を確認。データ登録の網羅と個々の対象正確性は管理資料・検証単位で扱う |
+| UID最終値と効果の二重加算を防ぐ | B | `inputPolicy` とUID再構成経路はある。全UID入力・全Modifierについて完了したとは確認できない |
+| 複数ヒット/成分の合算と攻撃別結果 | B | `componentSequence` 経路、break系列、結果表示がある。完成目標の全攻撃範囲は未達 |
+| 1ラウンド自動戦闘・ローテーション | 対象外 | 完成目標に含まれない。`actionSummary()` は行動値の簡易表示で、戦闘再現ではない |
+
+現状の完成範囲・検証済み攻撃・残件は [主要攻撃の対応範囲](../../HSR_MAIN_ATTACK_SCOPE.md)、登録監査は [完成管理表](../../HSR_CHARACTER_COMPLETION.md)、効果単位の継続受入は [残作業測定](../../HSR_COMPLETION_WORKLOAD.md) を参照する。この文書に件数を複製しない。
+
+## 5. 固定データと参照元
+
+StarRailRes固定参照・実行時データの適用範囲は [`HSR_CALC_DATA_SOURCES.md`](../../HSR_CALC_DATA_SOURCES.md) と [`games/hsr/data/calc/README.md`](../../../games/hsr/data/calc/README.md) を参照する。データ定義の追加では固定版ID・数値・効果条件・provenanceを登録し、適切な独立検証を追加する。集計資料の生成元は `scripts/reportHsrCompletion.cjs`。生成管理表を直接編集しない。
+
+## 6. 原神CurrentCalcの参照
+
+原神CurrentCalcはModifier UI/条件/提供者の候補化を調べる参考実装であり、スタレコードの正本・計算式根拠ではない。スタレの実経路は上記 `HsrModifierRuntime` と `hsrCalcEngine`。具体的な原神参照ファイル・関数と比較結果は④Modifier仕様書に記録する。原神側ファイルは参照専用で、この変更では触れない。
+
+## 7. 未確定事項 (D)
+
+- Enka公開プロフィールが返さない非公開ビルド状態や戦闘中一時効果を、UIDから取得できるとは扱わない。個々の提供項目の網羅的な将来保証はない。
+- サイト全体の任意ブラウザ/ネットワーク条件での直接Enka fallback可用性はコードだけでは保証できない。
+- 本書にない計算成分やプロバイダー仕様は、対応データと独立検証を確認するまで未確定とする。
