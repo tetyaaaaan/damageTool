@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "relic-round2-2026-10-28",
+  "description": "固定StarRailRes版で根拠を確認した遺物効果。最終ステータスへ含める常時2セット効果は登録しない。",
+  "modifiers": [
+    {
+      "id": "relic:114:4pc:party-speed",
+      "source": {
+        "kind": "relic",
+        "id": "114",
+        "setPieces": 4
+      },
+      "name": "仮想空間を漫遊するメッセンジャー・味方全体の速度",
+      "description": "装備者が味方を対象に必殺技を発動した後、味方全体の速度+12%が有効な状態を指定する。1ターン継続、重複しない。最終速度に含めた場合は反映済み欄で除外します。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 12
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備者が味方を対象に必殺技を発動した後（1ターン以内）",
+        "inputKey": "relic-114-party-speed-active",
+        "inputLabel": "味方全体の速度+12%が有効",
+        "default": false,
+        "durationTurns": 1
+      },
+      "stacking": {
+        "group": "relic:114:4pc:party-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:114",
+        "gameVersion": "snapshot-2026-10-28",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版4セット: 味方対象の必殺技後、味方全体SPD+12%、1ターン、重複不可。2セットSPD+6%は最終入力に含める。",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      },
+      "providerScope": "party",
+      "finalStatsInclusion": {
+        "inputKey": "relic-114-party-speed-active:in-final-stats",
+        "inputLabel": "仮想空間を漫遊するメッセンジャー・味方全体の速度を最終入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:118:4pc:party-break-effect",
+      "source": {
+        "kind": "relic",
+        "id": "118",
+        "setPieces": 4
+      },
+      "name": "夢を紡ぐ時計屋・味方全体の撃破特効",
+      "description": "装備者が味方を対象に必殺技を発動した後、味方全体の撃破特効+30%が有効な状態を指定する。2ターン継続、重複しない。最終撃破特効に含めた場合は反映済み欄で除外します。",
+      "category": "breakEffect",
+      "stat": "breakEffect",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 30
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備者が味方を対象に必殺技を発動した後（2ターン以内）",
+        "inputKey": "relic-118-party-break-effect-active",
+        "inputLabel": "味方全体の撃破特効+30%が有効",
+        "default": false,
+        "durationTurns": 2
+      },
+      "stacking": {
+        "group": "relic:118:4pc:party-break-effect",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:118",
+        "gameVersion": "snapshot-2026-10-28",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版4セット: 味方対象の必殺技後、味方全体Break Effect+30%、2ターン、重複不可。2セットBreak Effect+16%は最終入力に含める。primary source record verified against fixed SHA.",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      },
+      "providerScope": "party",
+      "finalStatsInclusion": {
+        "inputKey": "relic-118-party-break-effect-active:in-final-stats",
+        "inputLabel": "夢を紡ぐ時計屋・味方全体の撃破特効を最終入力に反映済み"
+      }
+    }
+  ]
+}

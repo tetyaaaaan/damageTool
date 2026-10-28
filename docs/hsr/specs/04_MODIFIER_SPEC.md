@@ -160,3 +160,9 @@
 敵の状態による攻撃時CR（廃土客など）を、全体パネルCRの支援としてeffective閾値へ寄与させない。現在の廃土客CRはenemy.debuffCountのstatThresholdで自動判定し、独立補正の一段評価元（always/toggle/stack）へ含めない。新しい依存順や再帰評価は追加しない。
 
 補正モーダルでは、選択中の装備にeffective速度閾値がある場合、SPD補正を「速度条件の判定（各攻撃へ間接反映）」と表示する。これは直接ダメージへのSPD加算やエンジンapplied件数への追加ではない。finalStatsInclusionは任意発動効果にも使用でき、未算入時はその発動条件に従う。算入済み指定だけで未発動の効果を成立させない。
+
+### 数値比較・特定属性弱点の局所参照
+
+`activation.thresholdReference: "self.hpPercent"` は `statThreshold` / `reference: "enemy.hpPercent"` の比較右辺としてのみ対応する。敵・本人の割合が有限の0～100である場合にだけ判定し、未入力や不正値を成立値へ置き換えない。通常の固定threshold契約と独立ステータスの一段評価は維持し、汎用の参照間依存・再帰評価には拡張しない。[光円錐定義](../../../games/hsr/data/calc/modifiers-equipment-round2.json)の秘密の誓いで使用する。
+
+`reference: "enemy.quantumWeakness"` は天才の量子弱点追加DEF無視に使用する。計算対象キャラが量子なら、通常の敵弱点入力から自動取得する。他属性なら同じ入力から量子弱点を推定せず、登録inputKeyの任意チェックを表示する。Runtimeの返却activation.modeは前者statThreshold、後者toggleとなり、既存の条件UIを使用する。確定した敵の量子弱点は攻撃の全属性成分へ共有し、成分の属性を理由に別属性の弱点入力を流用しない。

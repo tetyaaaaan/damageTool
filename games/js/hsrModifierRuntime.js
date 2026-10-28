@@ -203,6 +203,12 @@
   function activationState(record, context = {}, inputs = {}) {
     const activation = record.activation || {};
     const input = inputs[activation.inputKey];
+    if (activation.reference === "enemy.quantumWeakness") {
+      // The enemy weakness selector describes the main character's element, not each component.
+      const automatic = context.characterElement === "Quantum";
+      const active = automatic ? context.enemy?.weakness === true : Boolean(input ?? activation.default);
+      return { active, automatic, mode: automatic ? "statThreshold" : "toggle", inputValue: active ? 1 : 0, threshold: 1 };
+    }
     if (activation.mode === "always") return { active: true, automatic: true };
     if (activation.mode === "toggle") {
       return { active: Boolean(input ?? activation.default), automatic: false };
@@ -230,9 +236,12 @@
           Math.min(number(activation.maximum, Number.POSITIVE_INFINITY), current)
         );
       }
-      const threshold = number(activation.threshold);
+      // Only the declared HP-ratio comparison is supported; no dependency iteration.
+      const referenceComparison = activation.thresholdReference !== undefined;
+      const knownComparison = !referenceComparison || (activation.mode === "statThreshold" && activation.reference === "enemy.hpPercent" && activation.thresholdReference === "self.hpPercent" && [context.enemy?.hpPercent, context.stats?.hpPercent].every(value => Number.isFinite(value) && value >= 0 && value <= 100));
+      const threshold = referenceComparison ? context.stats?.hpPercent : number(activation.threshold);
       return {
-        active: compare(current, activation.operator, threshold),
+        active: knownComparison && compare(current, activation.operator, threshold),
         automatic: activation.mode === "statThreshold" || !activation.inputKey,
         inputValue: current,
         threshold

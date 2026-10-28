@@ -1,0 +1,697 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "light-cone-round2-2026-10-28",
+  "description": "Unregistered light-cone direct damage bonuses connected to existing modifier evaluation.",
+  "modifiers": [
+    {
+      "id": "lightCone:20009:high-hp-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "20009"
+      },
+      "name": "楽壊・HP50%超の敵への与ダメージ",
+      "description": "敵の残りHPが50%を超える場合、装備者の与ダメージ+20/25/30/35/40%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "敵の残りHPが50%を超える",
+        "reference": "enemy.hpPercent",
+        "operator": ">",
+        "threshold": 50
+      },
+      "stacking": {
+        "group": "lightCone:20009:high-hp-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:20009.params[1]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "S1-S5 values 20/25/30/35/40%; wearer path Destruction."
+      }
+    },
+    {
+      "id": "lightCone:20011:slowed-enemy-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "20011"
+      },
+      "name": "淵環・減速状態の敵への与ダメージ",
+      "description": "減速状態の敵に対する装備者の与ダメージ+24/30/36/42/48%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "攻撃対象の敵が減速状態",
+        "inputKey": "lc-20011-enemy-slowed",
+        "inputLabel": "敵が減速中",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:20011:slowed-enemy-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:20011.params[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "S1-S5 values 24/30/36/42/48%; wearer path Nihility."
+      }
+    },
+    {
+      "id": "lightCone:21006:followup-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21006"
+      },
+      "name": "「私」の誕生・追加攻撃ダメージ",
+      "description": "装備者の追加攻撃ダメージ+24/30/36/42/48%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "followUp"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "装備中は常時"
+      },
+      "stacking": {
+        "group": "lightCone:21006:followup-base",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21006.params[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "S1-S5 values 24/30/36/42/48%; wearer path Erudition."
+      }
+    },
+    {
+      "id": "lightCone:21006:followup-low-hp-extra",
+      "source": {
+        "kind": "lightCone",
+        "id": "21006"
+      },
+      "name": "「私」の誕生・敵HP50%以下への追加攻撃ダメージ",
+      "description": "敵の残りHPが50%以下の場合、追加攻撃ダメージをさらに+24/30/36/42/48%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "followUp"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "敵の残りHPが50%以下",
+        "reference": "enemy.hpPercent",
+        "operator": "<=",
+        "threshold": 50
+      },
+      "stacking": {
+        "group": "lightCone:21006:followup-low-hp",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21006.params[2]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "S1-S5 values 24/30/36/42/48%; wearer path Erudition."
+      }
+    },
+    {
+      "id": "lightCone:21012:base-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21012"
+      },
+      "name": "秘密の誓い・与ダメージ",
+      "description": "装備者の与ダメージ+20/25/30/35/40%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "装備中は常時"
+      },
+      "stacking": {
+        "group": "lightCone:21012:base-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21012.params[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "S1-S5 values 20/25/30/35/40%; wearer path Destruction."
+      }
+    },
+    {
+      "id": "lightCone:21012:equal-or-higher-hp-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21012"
+      },
+      "name": "秘密の誓い・HP比が装備者以上の敵への与ダメージ",
+      "description": "敵の残りHP割合が装備者以上の場合、さらに与ダメージ+20/25/30/35/40%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "敵の残りHP割合が装備者以上",
+        "reference": "enemy.hpPercent",
+        "thresholdReference": "self.hpPercent",
+        "operator": ">=",
+        "threshold": 0
+      },
+      "stacking": {
+        "group": "lightCone:21012:equal-or-higher-hp-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21012.params[1]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "S1-S5 values 20/25/30/35/40%; wearer path Destruction."
+      }
+    },
+    {
+      "id": "lightCone:21017:normal-skill-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21017"
+      },
+      "name": "フォローして！・通常攻撃/戦闘スキルダメージ",
+      "description": "装備者の通常攻撃と戦闘スキルダメージ+24/30/36/42/48%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal",
+          "enhancedNormal",
+          "skill",
+          "enhancedSkill"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "装備中は常時"
+      },
+      "stacking": {
+        "group": "lightCone:21017:normal-skill-base",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21017.params[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "S1-S5 values 24/30/36/42/48%; wearer path Hunt."
+      }
+    },
+    {
+      "id": "lightCone:21017:normal-skill-full-energy-extra",
+      "source": {
+        "kind": "lightCone",
+        "id": "21017"
+      },
+      "name": "フォローして！・EP満タン時の通常攻撃/戦闘スキル追加ダメージ",
+      "description": "装備者のEPが満タンの場合、通常攻撃と戦闘スキルダメージをさらに+24/30/36/42/48%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal",
+          "enhancedNormal",
+          "skill",
+          "enhancedSkill"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "conditionText": "装備者のEPが満タン",
+        "inputKey": "lc-21017-energy-percent",
+        "inputLabel": "装備者の現在EP割合",
+        "minimum": 0,
+        "maximum": 100,
+        "step": 1,
+        "default": 0,
+        "operator": ">=",
+        "threshold": 100
+      },
+      "stacking": {
+        "group": "lightCone:21017:normal-skill-full-energy",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21017.params[1]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "S1-S5 values 24/30/36/42/48%; wearer path Hunt."
+      }
+    },
+    {
+      "id": "lightCone:21013:ultimate-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21013"
+      },
+      "name": "この世界に喧噪を・必殺技ダメージ",
+      "description": "必殺技ダメージ+32/40/48/56/64%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          32,
+          40,
+          48,
+          56,
+          64
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "装備中は常時"
+      },
+      "stacking": {
+        "group": "lightCone:21013:ultimate-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21013.params[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "S1-S5 values 32/40/48/56/64%; wearer path Erudition. Entry EP is outside direct-damage calculation."
+      }
+    },
+    {
+      "id": "lightCone:20000:conditional-critRate",
+      "source": {
+        "kind": "lightCone",
+        "id": "20000"
+      },
+      "name": "矢じり・条件中の会心率",
+      "description": "戦闘開始時の3ターン会心率上昇が継続中。最終入力に含めた場合は反映済み欄で除外します。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-20000-stat-active",
+        "inputLabel": "戦闘開始時の3ターン会心率上昇が継続中",
+        "conditionText": "戦闘開始時の3ターン会心率上昇が継続中",
+        "default": false,
+        "durationTurns": 3
+      },
+      "stacking": {
+        "group": "lc-20000-conditional-critRate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-20000-stat-in-final",
+        "inputLabel": "矢じりの補正を最終入力に反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:20000.params[0..4]",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版の全S値・期間・properties空を確認。実際の期間内かをユーザーが指定し、経過をシミュレーションしない。"
+      }
+    },
+    {
+      "id": "lightCone:20007:conditional-atk",
+      "source": {
+        "kind": "lightCone",
+        "id": "20007"
+      },
+      "name": "離弦・条件中の攻撃力",
+      "description": "装備者が敵を倒した後の3ターン攻撃力上昇が継続中。最終入力に含めた場合は反映済み欄で除外します。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-20007-stat-active",
+        "inputLabel": "装備者が敵を倒した後の3ターン攻撃力上昇が継続中",
+        "conditionText": "装備者が敵を倒した後の3ターン攻撃力上昇が継続中",
+        "default": false,
+        "durationTurns": 3
+      },
+      "stacking": {
+        "group": "lc-20007-conditional-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-20007-stat-in-final",
+        "inputLabel": "離弦の補正を最終入力に反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:20007.params[0..4]",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版の全S値・期間・properties空を確認。実際の期間内かをユーザーが指定し、経過をシミュレーションしない。"
+      }
+    },
+    {
+      "id": "lightCone:20014:conditional-speed",
+      "source": {
+        "kind": "lightCone",
+        "id": "20014"
+      },
+      "name": "相抗・条件中の速度",
+      "description": "装備者が敵を倒した後の2ターン速度上昇が継続中。最終入力に含めた場合は反映済み欄で除外します。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          10,
+          12,
+          14,
+          16,
+          18
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-20014-stat-active",
+        "inputLabel": "装備者が敵を倒した後の2ターン速度上昇が継続中",
+        "conditionText": "装備者が敵を倒した後の2ターン速度上昇が継続中",
+        "default": false,
+        "durationTurns": 2
+      },
+      "stacking": {
+        "group": "lc-20014-conditional-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-20014-stat-in-final",
+        "inputLabel": "相抗の補正を最終入力に反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:20014.params[0..4]",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版の全S値・期間・properties空を確認。実際の期間内かをユーザーが指定し、経過をシミュレーションしない。"
+      }
+    }
+  ]
+}

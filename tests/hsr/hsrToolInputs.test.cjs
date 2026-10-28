@@ -3094,3 +3094,76 @@ test('new relic stack and recipient controls save final-stat exclusion without d
   near(saved.calculate()[0].expected,1620);
  }
 });
+
+
+test('round2 Messenger and Watchmaker use the App party, threshold, final-inclusion and saved-state paths',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers;
+ const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);
+ for(const[setId,key]of [['114','relic-114-party-speed-active'],['118','relic-118-party-break-effect-active']]){
+  const records=all.filter(m=>m.id==='ornament:311:2pc:speed-damage'||m.source.kind==='relic'&&m.source.id===setId),rec=records.find(m=>m.source.kind==='relic');
+  const data={structuredModifiers:records,relicSets:catalog.relicSets};let app=await tool(undefined,data);app.state.data.characters.push(catalog.characters.find(c=>c.id==='1313'));app.state.party[0]={characterId:'1313',level:80,eidolon:0,relicId:setId,relicMode:'4pc',traceLevels:{ultimate:10}};
+  let last;const run=()=>{const engine=app.window.HsrCalcEngine,original=engine.calculateBreak;engine.calculateBreak=input=>{last=original(input);return last;};const result=app.calculate();engine.calculateBreak=original;return setId==='114'?result[0].nonCrit:last.value;};
+  let off,on;
+  if(setId==='114'){app.state.ornamentId='311';for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100,speed:148}))app.node('hsrStat-'+k).value=String(v);off=1209.6;on=1274.4;}
+  else{app.node('hsrBreakMode').value='break';app.node('hsrWeakness').value='true';app.node('hsrStat-breakEffect').value='100';off=3767.5533*2*.5*.8*.75;on=3767.5533*2.3*.5*.8*.75;}
+  near(run(),off);app.state.conditionTab='パーティ';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,new RegExp(key));
+  app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:key},checked:true}});near(run(),on);
+  app=await tool(app.storage,{...data,characters:app.state.data.characters});assert.equal(app.state.modifierInputs[key],true);near(run(),on);
+  app.node('hsrStat-'+(setId==='114'?'speed':'breakEffect')).value=setId==='114'?'160':'130';app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:rec.finalStatsInclusion.inputKey},checked:true}});near(run(),on);
+  app.node('hsrStat-'+(setId==='114'?'speed':'breakEffect')).value=setId==='114'?'148':'100';app.state.party[0].relicId='';near(run(),off);
+ }
+});
+
+test('round2 light cones reach App damage with automatic HP checks, explicit EP/slow, save restore and path validation',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);
+ const cases=[{lc:'20009',char:'1107',type:'skill',hp:51,bonus:20},{lc:'20011',char:'1004',type:'skill',hp:70,bonus:24,toggle:'lc-20011-enemy-slowed'},{lc:'21006',char:'1003',type:'followUp',hp:50,bonus:48},{lc:'21012',char:'1107',type:'skill',hp:70,bonus:40},{lc:'21017',char:'1002',type:'normal',hp:70,bonus:48,numeric:'lc-21017-energy-percent'},{lc:'21013',char:'1003',type:'ultimate',hp:70,bonus:32}];
+ for(const c of cases){
+  const data={characters:catalog.characters,lightCones:catalog.lightCones,structuredModifiers:all.filter(m=>m.source.kind==='lightCone'&&m.source.id===c.lc),attacks:[{id:'lc-round2-app',name:'LC comparison',characterId:c.char,type:c.type,element:catalog.characters.find(x=>x.id===c.char).element,scalingStat:'atk',multipliers:[100],support:{status:'calculable',verified:true}}]};
+  const app=await tool(undefined,data);app.state.characterId=c.char;app.state.coneId=c.lc;
+  for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100,hpPercent:70}))app.node('hsrStat-'+k).value=String(v);app.node('hsrEnemyHpPercent').value=String(c.hp);
+  if(c.toggle)app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:c.toggle},checked:true}});
+  if(c.numeric){app.state.conditionTab='光円錐';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,new RegExp(c.numeric));app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredInput:c.numeric},value:'100'}});}
+  let r=app.calculate()[0];assert.ok(r,c.lc);near(r.nonCrit,1080*(1+c.bonus/100));near(r.expected,1620*(1+c.bonus/100));app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].nonCrit,r.nonCrit);
+  if(c.lc==='21012'){saved.node('hsrEnemyHpPercent').value='69.99';near(saved.calculate()[0].nonCrit,1296);saved.node('hsrEnemyHpPercent').value='70';near(saved.calculate()[0].nonCrit,1512);}
+  saved.state.coneId='';near(saved.calculate()[0].nonCrit,1080);
+ }
+ // A stale/imported loadout cannot activate a light cone from another path.
+ const bad=await tool(undefined,{characters:catalog.characters,lightCones:catalog.lightCones,structuredModifiers:all.filter(m=>m.source.kind==='lightCone'&&m.source.id==='20009'),attacks:[{id:'bad-lc',name:'Invalid loadout',characterId:'1003',type:'normal',element:'Fire',multipliers:[100],scalingStat:'atk',support:{status:'calculable',verified:true}}]});bad.state.characterId='1003';bad.state.coneId='20009';bad.node('hsrStat-atk').value='3000';bad.node('hsrEnemyHpPercent').value='100';assert.equal(bad.calculate().length,0);assert.match(bad.node('hsrCalculationFeedback').innerHTML,/運命が装備者と一致しません/);
+});
+
+
+test('round2 native SPD choices restore in the App and update Glamoth only after the selected action',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers;
+ for(const[id,owner,key,included,party]of [['eidolon:1202:1:speed','1202','tingyun-e1-speed-active','tingyun-e1-speed-in-final-stats',true],['traceNode:1202:1202101:speed','1202','tingyun-a2-speed-active','tingyun-a2-speed-in-final-stats',false],['traceNode:1201:1201103:speed','1201','qingque-a3-speed-active','qingque-a3-speed-in-final-stats',false]]){
+  const char=party?'1001':owner,records=all.filter(m=>[id,'ornament:311:2pc:speed-damage'].includes(m.id)),data={characters:catalog.characters,relicSets:catalog.relicSets,structuredModifiers:records,attacks:[{id:'native-spd',name:'SPD state',characterId:char,type:'normal',element:'Ice',multipliers:[100],scalingStat:'atk',support:{status:'calculable',verified:true}}]};
+  const app=await tool(undefined,data);app.state.characterId=char;app.state.ornamentId='311';if(party)app.state.party[0]={characterId:owner,level:80,eidolon:1,traceLevels:{skill:10}};
+  for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100,speed:130}))app.node('hsrStat-'+k).value=String(v);
+  const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);near(app.calculate()[0].nonCrit,1080);app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:key},checked:true}});near(app.calculate()[0].nonCrit,1209.6);
+  const saved=await tool(app.storage,data);assert.equal(saved.state.modifierInputs[key],true);near(saved.calculate()[0].nonCrit,1209.6);saved.node('hsrStat-speed').value='150';saved.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:included},checked:true}});near(saved.calculate()[0].nonCrit,1209.6);
+ }
+});
+
+test('Genius uses main-character Quantum weakness for every element and restores non-Quantum explicit weakness',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),records=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers.filter(m=>m.source.kind==='relic'&&m.source.id==='108');
+ for(const[char,element]of [['1003','Fire'],['1102','Quantum']]){
+  const data={characters:catalog.characters,relicSets:catalog.relicSets,structuredModifiers:records,attacks:['Fire','Quantum'].map(e=>({id:'genius-'+e,name:e,characterId:char,type:'normal',element:e,multipliers:[100],scalingStat:'atk',support:{status:'calculable',verified:true}}))};
+  const app=await tool(undefined,data);app.state.characterId=char;app.state.relicId='108';app.node('hsrStat-atk').value='3000';app.node('hsrWeakness').value='true';
+  const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);for(const r of app.calculate())near(r.nonCrit,element==='Quantum'?1200:2160/1.9);
+  app.state.conditionTab='遺物・オーナメント';app.node('hsrConditionDialogOpen').handlers.click();
+  if(element==='Fire'){assert.match(app.node('hsrConditionList').innerHTML,/data-structured-toggle="enemy-quantum-weakness"/);app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'enemy-quantum-weakness'},checked:true}});for(const r of app.calculate())near(r.nonCrit,1200);const saved=await tool(app.storage,data);for(const r of saved.calculate())near(r.nonCrit,1200);}
+  else{assert.doesNotMatch(app.node('hsrConditionList').innerHTML,/data-structured-toggle="enemy-quantum-weakness"/);app.node('hsrWeakness').value='false';for(const r of app.calculate())near(r.nonCrit,2160/1.9);}
+ }
+});
+
+
+test('round2 low-rarity stat cones save activation and final inclusion through the App',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers,char=catalog.characters.find(c=>c.id==='1002');
+ for(const[id,stat,amount]of [['20000','critRate',12],['20007','atk',24],['20014','speed',10]]){
+  const cone=catalog.lightCones.find(c=>c.id===id),records=all.filter(m=>m.id===`lightCone:${id}:conditional-${stat}`||m.id==='ornament:311:2pc:speed-damage');
+  const data={characters:catalog.characters,lightCones:catalog.lightCones,relicSets:catalog.relicSets,structuredModifiers:records,attacks:[{id:'stat-cone',name:'Stat cone',characterId:'1002',type:'normal',element:'Wind',multipliers:[100],scalingStat:'atk',support:{status:'calculable',verified:true}}]};
+  const app=await tool(undefined,data);app.state.characterId='1002';app.state.coneId=id;app.state.ornamentId='311';for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100,speed:stat==='speed'?135-char.base.speed*.1:125}))app.node('hsrStat-'+k).value=String(v);
+  const rec=records.find(m=>m.source.kind==='lightCone'),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);near(app.calculate()[0].expected,1620);app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:rec.activation.inputKey},checked:true}});
+  const final=stat==='atk'?3000+(char.base.atk+cone.base.atk)*amount/100:stat==='critRate'?62:135,expected=stat==='atk'?final*.54:stat==='critRate'?1749.6:1814.4;near(app.calculate()[0].expected,expected);
+  const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,expected);saved.node('hsrStat-'+stat).value=String(final);saved.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:rec.finalStatsInclusion.inputKey},checked:true}});near(saved.calculate()[0].expected,expected);const included=await tool(saved.storage,data);assert.equal(included.state.modifierInputs[rec.finalStatsInclusion.inputKey],true);near(included.calculate()[0].expected,expected);
+ }
+});

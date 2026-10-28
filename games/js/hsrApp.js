@@ -581,6 +581,12 @@
   }
 
   function validateProvider(item) {
+    const source = item.sourceMeta || item.source;
+    if (source?.kind === "lightCone" && item.enabled && !item.displayOnly) {
+      const wearer = item.providerId ? find("characters", item.providerId) : character();
+      const equipped = find("lightCones", String(source.id));
+      if (wearer?.path && equipped?.path && wearer.path !== equipped.path) return { ...item, applicable: false, inputWarnings: [...(item.inputWarnings || []), "光円錐の運命が装備者と一致しません。装備を確認してください。"] };
+    }
     const provider = state.party.find((member) => member.characterId === item.providerId);
     if (!provider || item.displayOnly || !item.enabled) return item;
     const warnings = [...(item.inputWarnings || [])];
@@ -734,7 +740,7 @@
       "self.hp": ["HP", ""], "self.hpPercent": ["HP割合", "%"], "self.epPercent": ["EP割合", "%"], "self.speed": ["速度", ""],
       "self.atk": ["攻撃力", ""], "self.def": ["防御力", ""], "self.critRate": ["会心率", "%"], "self.critDamage": ["会心ダメージ", "%"], "self.effectHitRate": ["効果命中", "%"],
       "self.effectRes": ["効果抵抗", "%"], "self.breakEffect": ["撃破特効", "%"], "self.elation": ["愉悦度", "%"],
-      "enemy.hpPercent": ["敵のHP割合", "%"], "enemy.weakness": ["属性弱点", ""], "enemy.debuffCount": ["敵のデバフ数", ""], "enemy.count": ["敵数", ""], "enemy.toughnessRemaining": ["敵の残り靭性", ""], "party.elationCount": ["愉悦キャラクター数（攻撃者を含む）", "人"], "party.count": ["パーティ人数", ""], "party.sp": ["SP", ""]
+      "enemy.hpPercent": ["敵のHP割合", "%"], "enemy.weakness": ["属性弱点", ""], "enemy.quantumWeakness": ["敵の量子弱点", ""], "enemy.debuffCount": ["敵のデバフ数", ""], "enemy.count": ["敵数", ""], "enemy.toughnessRemaining": ["敵の残り靭性", ""], "party.elationCount": ["愉悦キャラクター数（攻撃者を含む）", "人"], "party.count": ["パーティ人数", ""], "party.sp": ["SP", ""]
     }[activation.reference] || ["現在値", ""];
     return `${item.conditionText || "自動判定条件"}（現在の${reference[0]} ${Number.isFinite(activation.inputValue) ? activation.inputValue : "未確認"}${reference[1]}）`;
   }

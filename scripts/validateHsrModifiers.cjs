@@ -15,7 +15,7 @@ const fieldSets = {
   inputValidation: new Set(["maximumEidolon", "levelMaximum", "levelMaximumAtEidolon", "minimum", "maximum", "integer", "whenToggle"]),
   target: new Set(["owner", "attackTypes", "excludeSelf", "attackIds", "elements"]),
   supplementalAttack: new Set(["name", "element", "type", "scalingStat", "target", "canCrit", "statReference", "triggerActor", "damageBonusInputKey", "damageBonusInputLabel"]),
-  activation: new Set(["mode", "conditionText", "inputKey", "inputLabel", "threshold", "minimum", "maximum", "maximumAtEidolon", "default", "reference", "operator", "durationTurns", "comparisonDerived", "strictInput", "step", "statSource"]),
+  activation: new Set(["mode", "conditionText", "inputKey", "inputLabel", "threshold", "thresholdReference", "minimum", "maximum", "maximumAtEidolon", "default", "reference", "operator", "durationTurns", "comparisonDerived", "strictInput", "step", "statSource"]),
   stacking: new Set(["group", "rule", "maximumStacks"]),
   calculation: new Set(["stage", "operation", "cap", "floor"]),
   finalStatsInclusion: new Set(["inputKey", "inputLabel", "legacyToggleKey"]),
@@ -30,7 +30,7 @@ const allowedElements = new Set(["Physical", "Fire", "Ice", "Thunder", "Wind", "
 const allowedOwners = new Set(["self", "activeAlly", "partyAll", "enemySingle", "enemyAll", "summon", "memosprite"]);
 const allowedStages = new Set(["baseStats", "baseDamage", "attackMultiplier", "damageBonus", "critical", "defense", "resistance", "vulnerability", "independent", "toughness", "extraDamage", "finalDamage", "breakDamage", "baseStat", "attackState", "resistancePenetration", "multiplierAddition", "critDamage", "takenDamage", "breakEffect"]);
 const allowedOperations = new Set(["add", "multiply", "replace", "max", "set", "subtract"]);
-const allowedReferences = new Set(["self.hp", "self.hpPercent", "self.epPercent", "self.speed", "self.atk", "self.def", "self.critRate", "self.critDamage", "self.effectHitRate", "self.effectRes", "self.breakEffect", "self.elation", "mortenax-infinite-fury-active", "enemy.hpPercent", "enemy.weakness", "enemy.debuffCount", "enemy.count", "enemy.toughnessRemaining", "party.count", "party.elationCount", "party.sp"]);
+const allowedReferences = new Set(["self.hp", "self.hpPercent", "self.epPercent", "self.speed", "self.atk", "self.def", "self.critRate", "self.critDamage", "self.effectHitRate", "self.effectRes", "self.breakEffect", "self.elation", "mortenax-infinite-fury-active", "enemy.hpPercent", "enemy.weakness", "enemy.quantumWeakness", "enemy.debuffCount", "enemy.count", "enemy.toughnessRemaining", "party.count", "party.elationCount", "party.sp"]);
 const allowedProviderStats = new Set(["hp", "hpPercent", "atk", "def", "speed", "critRate", "critDamage", "breakEffect", "effectHitRate", "elation"]);
 const allowedTargetStats = new Set(["hp", "atk", "def", "speed"]);
 
@@ -74,6 +74,9 @@ function validateModifiers(records) {
     checkEnum(modifier.activation?.mode, new Set(["always", "toggle", "toggleThreshold", "stack", "statThreshold", "numericThreshold"]), `${at}.activation.mode`, issues);
     checkEnum(modifier.activation?.reference, allowedReferences, `${at}.activation.reference`, issues);
     checkEnum(modifier.activation?.statSource, new Set(["input", "effective"]), `${at}.activation.statSource`, issues);
+    checkEnum(modifier.activation?.thresholdReference, new Set(["self.hpPercent"]), `${at}.activation.thresholdReference`, issues);
+    if (modifier.activation?.reference === "enemy.quantumWeakness" && (modifier.activation.mode !== "statThreshold" || !modifier.activation.inputKey || modifier.activation.threshold !== 1 || modifier.activation.operator !== "==")) issues.push(`${at}: Quantum weakness requires statThreshold, inputKey and == 1`);
+    if (modifier.activation?.thresholdReference !== undefined && (modifier.activation.mode !== "statThreshold" || modifier.activation.reference !== "enemy.hpPercent")) issues.push(`${at}: HP thresholdReference requires statThreshold and enemy.hpPercent`);
     checkEnum(modifier.statSource, new Set(["input", "effective"]), `${at}.statSource`, issues);
     checkEnum(modifier.stacking?.rule, allowedStackRules, `${at}.stacking.rule`, issues);
     if (modifier.stacking?.rule === "multiply") issues.push(`${at}: stacking.rule multiply is unsupported`);

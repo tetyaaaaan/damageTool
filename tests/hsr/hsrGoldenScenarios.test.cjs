@@ -1134,7 +1134,7 @@ test("Qingque 1201 golden: E1 is ultimate-only and every trace and eidolon effec
     assert.deepEqual(normalResult.applied, []);
     const own = runtime.buildCandidates(structuredModifiers, context, {}).filter((item) => String(item.source?.id) === "1201");
     assert.equal(own.length, 15);
-    assert.equal(own.filter((item) => item.displayOnly).length, 10);
+    assert.equal(own.filter((item) => item.displayOnly).length, 9);
     assert.equal(structured("traceStats:1201:attack", context).value, 28);
     assert.equal(structured("traceStats:1201:quantum-damage", context).value, 14.4);
     assert.equal(structured("traceStats:1201:defense", context).value, 12.5);
@@ -1191,8 +1191,8 @@ test("Tingyun 1202 golden: supplemental Lightning attacks use the blessed ally a
     assert.deepEqual(unrelated.applied, []);
     const own = runtime.buildCandidates(structuredModifiers, { characterId: "1202", eidolon: 6, stats: { atk: 2000 }, baseStats: { atk: 600 }, traceLevelFor: () => 10 }, {}).filter((item) => String(item.source?.id) === "1202");
     assert.equal(own.length, 18);
-    assert.equal(own.filter((item) => item.displayOnly).length, 12);
-    assert.equal(own.filter((item) => item.calculable).length, 6);
+    assert.equal(own.filter((item) => item.displayOnly).length, 10);
+    assert.equal(own.filter((item) => item.calculable).length, 8);
 });
 
 test("Luocha 1203 golden: normal and ultimate keep exact reviewed multipliers while healing skills stay hidden", () => {
