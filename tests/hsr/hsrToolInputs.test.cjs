@@ -3028,3 +3028,69 @@ test('Huohuo Ultimate and Firesmith next Fire attack change only their intended 
  let result=app.calculate();assert.ok(Math.abs(result[0].nonCrit-1290.24)<1e-8);assert.ok(Math.abs(result[1].nonCrit-1152)<1e-8);
  const restored=await tool(app.storage,{...data,characters:app.state.data.characters,attacks:app.state.data.attacks});assert.ok(Math.abs(restored.calculate()[0].nonCrit-1290.24)<1e-8);restored.state.party[0].characterId='';assert.ok(Math.abs(restored.calculate()[0].nonCrit-1209.6)<1e-8);restored.state.relicId='';assert.ok(Math.abs(restored.calculate()[0].nonCrit-1080)<1e-8);
 });
+
+
+test('Robin E2 speed crosses Glamoth in the App, preserves inclusion and state on reload, and disappears with provider',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json'));
+ const records=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers.filter(m=>['eidolon:1309:2:party-speed','ornament:311:2pc:speed-damage'].includes(m.id));
+ const data={structuredModifiers:records,relicSets:catalog.relicSets};const app=await tool(undefined,data);
+ app.state.data.characters.push(catalog.characters.find(c=>c.id==='1309'));
+ app.state.party[0]={characterId:'1309',level:80,eidolon:2,traceLevels:{talent:10}};app.state.ornamentId='311';
+ for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100,speed:119}))app.node('hsrStat-'+k).value=String(v);
+ const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+' != '+b);
+ near(app.calculate()[0].nonCrit,1080);
+ app.state.conditionTab='パーティ';app.node('hsrConditionDialogOpen').handlers.click();
+ assert.match(app.node('hsrConditionList').innerHTML,/robin-e2-concerto-speed-active/);
+ assert.match(app.node('hsrConditionList').innerHTML,/速度条件の判定（各攻撃へ間接反映）/);
+ app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'robin-e2-concerto-speed-active'},checked:true}});
+ // Base SPD 100, final input 119: 119 + 100 * .16 = 135; Glamoth adds 12% damage.
+ near(app.calculate()[0].nonCrit,1209.6);
+ const saved=await tool(app.storage,{...data,characters:app.state.data.characters});
+ assert.equal(saved.state.modifierInputs['robin-e2-concerto-speed-active'],true);near(saved.calculate()[0].nonCrit,1209.6);
+ saved.node('hsrStat-speed').value='135';saved.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'robin-e2-speed-in-final-stats'},checked:true}});
+ near(saved.calculate()[0].nonCrit,1209.6);
+ const included=await tool(saved.storage,{...data,characters:app.state.data.characters});
+ assert.equal(included.state.modifierInputs['robin-e2-speed-in-final-stats'],true);near(included.calculate()[0].nonCrit,1209.6);
+ included.node('hsrStat-speed').value='119';included.state.modifierInputs['robin-e2-speed-in-final-stats']=false;
+ included.state.party[0].eidolon=1;near(included.calculate()[0].nonCrit,1080);
+ included.state.party[0].eidolon=2;near(included.calculate()[0].nonCrit,1209.6);
+ included.state.party[0].characterId='';near(included.calculate()[0].nonCrit,1080);
+});
+
+
+test('Rappa E4 and Pela E2 speed states persist through App reload with effective Glamoth tiers',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers;
+ const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+' != '+b);
+ for(const c of [
+  {id:'1317',rank:4,record:'eidolon:1317:4:party-speed',key:'rappa-e4-sealform-speed-active',included:'rappa-e4-speed-in-final-stats',raw:123,goal:135,off:1080,on:1209.6},
+  {id:'1106',rank:2,record:'eidolon:1106:2:speed',key:'pela-e2-speed-active',included:'pela-e2-speed-in-final-stats',raw:149.5,goal:160,off:1209.6,on:1274.4}
+ ]){
+  const character=catalog.characters.find(x=>x.id===c.id),isPela=c.id==='1106';
+  const records=all.filter(m=>[c.record,'ornament:311:2pc:speed-damage'].includes(m.id));
+  const data={structuredModifiers:records,relicSets:catalog.relicSets};
+  if(isPela){data.characters=[character];data.attacks=[{id:'pela-e2-app',characterId:c.id,name:'SPD comparison',type:'normal',element:'Ice',multipliers:[100],scalingStat:'atk',support:{status:'calculable',verified:true}}];}
+  const app=await tool(undefined,data);if(isPela){app.state.characterId=c.id;app.state.eidolon=c.rank;app.node('hsrEidolon').value=String(c.rank);}else{app.state.data.characters.push(character);app.state.party[0]={characterId:c.id,level:80,eidolon:c.rank,traceLevels:{talent:10}};}
+  app.state.ornamentId='311';for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100,speed:c.raw}))app.node('hsrStat-'+k).value=String(v);
+  near(app.calculate()[0].nonCrit,c.off);app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:c.key},checked:true}});near(app.calculate()[0].nonCrit,c.on);
+  const saved=await tool(app.storage,{...data,characters:app.state.data.characters});assert.equal(saved.state.modifierInputs[c.key],true);near(saved.calculate()[0].nonCrit,c.on);
+  saved.node('hsrStat-speed').value=String(c.goal);saved.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:c.included},checked:true}});near(saved.calculate()[0].nonCrit,c.on);
+  const included=await tool(saved.storage,{...data,characters:app.state.data.characters});assert.equal(included.state.modifierInputs[c.included],true);near(included.calculate()[0].nonCrit,c.on);
+ }
+});
+
+test('new relic stack and recipient controls save final-stat exclusion without double addition',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers;
+ const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8,a+' != '+b);
+ for(const c of [{id:'105',rec:'relic:105:4pc:atk-stacks',key:'relic-105-atk-stacks',n:5,nc:1125,expected:1687.5},{id:'121',rec:'relic:121:4pc:target-crit-damage',key:'relic-121-target-crit-damage-stacks',n:2,nc:1080,expected:1814.4}]){
+  const rec=all.find(m=>m.id===c.rec),data={structuredModifiers:[rec],relicSets:catalog.relicSets};const app=await tool(undefined,data);
+  if(c.id==='121')app.state.party[0]={characterId:'1202',level:80,eidolon:0,relicId:'121',relicMode:'4pc',traceLevels:{skill:10}};else app.state.relicId=c.id;
+  for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+  near(app.calculate()[0].expected,1620);app.state.conditionTab=c.id==='121'?'パーティ':'遺物・オーナメント';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,new RegExp('data-structured-input="'+c.key+'"'));
+  app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredInput:c.key},value:String(c.n)}});near(app.calculate()[0].nonCrit,c.nc);near(app.calculate()[0].expected,c.expected);
+  const saved=await tool(app.storage,{...data,characters:app.state.data.characters});assert.equal(saved.state.modifierInputs[c.key],c.n);near(saved.calculate()[0].expected,c.expected);
+  if(c.id==='105')saved.node('hsrStat-atk').value='3125';else saved.node('hsrStat-critDamage').value='136';
+  saved.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:rec.finalStatsInclusion.inputKey},checked:true}});near(saved.calculate()[0].expected,c.expected);
+  if(c.id==='121'){saved.state.party[0].relicId='';saved.node('hsrStat-critDamage').value='100';}else{saved.state.relicId='';saved.node('hsrStat-atk').value='3000';}
+  near(saved.calculate()[0].expected,1620);
+ }
+});

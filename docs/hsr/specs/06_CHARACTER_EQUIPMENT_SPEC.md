@@ -87,3 +87,11 @@
 - 未確認のゲーム挙動、丸め、重複/排他の優先順位は、独立検証または具体的なコード・レコード確認なしに決めない。
 
 フォフォ必殺支援は表示Lv1～10に加え、固定版rank121703によるE3以上の表示Lv11～12を同じ `levelMaximumAtEidolon` 経路で受け付ける。火匠の次攻撃補正は通常式の炎属性直接攻撃に限定し、DoT/撃破/愉悦への継承を未検証のまま追加しない。
+
+## 共通Modifierで追加する戦闘中効果
+
+固定値の星魂SPD支援は、[ロビンE2](../../../games/hsr/data/calc/modifiers-robin-e2-speed.json)と[乱破E4](../../../games/hsr/data/calc/modifiers-eidolon-speed-support.json)、本人のみの[ペラE2](../../../games/hsr/data/calc/modifiers-pela.json)が同じstatPercent/基礎SPD・状態トグル・finalStatsInclusionを利用する。固定値の効果に軌跡Lvの検証を付けず、星魂の受付はsource.eidolonRankで行う。SPDは攻撃倍率へ直接加算せず、選択装備のeffective速度条件を通じてダメージへ間接反映する。EP回復・行動順・状態の経過は含めない。
+
+[遺物の追加定義](../../../games/hsr/data/calc/modifiers-relics-batch2.json)は、成立済みの状態/層数を既存カテゴリへ接続する。廃土客の敵条件CRはパネルCRへ含めないため、敵デバフ数のstatThresholdとして評価し、競技場のグローバルCR判定へ戻さない。大公4pcの前回追撃で得たATK層は、次の追撃で解除されるため追撃へ持ち越さない。追撃内の層獲得・ヒット別ATK更新は未対応として別管理する。司祭の層数は装備者が現在の計算対象を単体スキル/必殺の対象にした結果であり、編成のみで付与しない。
+
+恒常2pcの属性DMG/ATK/CR等は既存の最終入力責務を維持する。戦闘中のステータス補正は算入済み申告時だけ除外し、発動状態とは別に保存する。強化カフカ本人など既存の完成済み最終ステータス契約は、その移行を受入せずに自動追加へ変更しない。個別完了数と除外候補は[残作業台帳](../../HSR_COMPLETION_WORKLOAD.md)を参照する。

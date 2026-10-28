@@ -721,7 +721,10 @@ test("Pela 1106 golden: all traces and eidolons are classified without double-ap
     assert.equal(structured("traceStats:1106:ice-damage", context).value, 22.4);
     assert.equal(structured("traceStats:1106:attack", context).value, 18);
     assert.equal(structured("traceStats:1106:effect-hit", context).value, 10);
-    ["traceStats:1106:ice-damage", "traceStats:1106:attack", "traceStats:1106:effect-hit", "traceNode:1106:1106102:party-effect-hit", "eidolon:1106:2:speed"].forEach((id) => {
+    const speed = structured("eidolon:1106:2:speed", context);
+    assert.equal(speed.displayOnly, false, "E2 is a selectable combat speed effect");
+    assert.equal(speed.enabled, false, "buff removal has not been selected");
+    ["traceStats:1106:ice-damage", "traceStats:1106:attack", "traceStats:1106:effect-hit", "traceNode:1106:1106102:party-effect-hit"].forEach((id) => {
         const item = structured(id, context);
         assert.equal(item.displayOnly, true);
         assert.equal(item.enabled, false);

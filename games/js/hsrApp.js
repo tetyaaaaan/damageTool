@@ -704,8 +704,9 @@
 
   function conditionStatus(items) {
     if (items.every(item => item.comparisonControlled)) return { label: items.some(item => conditionAudit?.applied.has(item.id)) ? "一部の想定結果に適用" : "結果ごとに自動判定", className: "is-auto" };
-    if (items[0]?.tab === "パーティ" && items.some(item => !item.displayOnly) && !items.some(item => conditionAttackScope(item).length)) return { label: "現在の計算対象外", className: "is-inactive" };
+    if (items[0]?.tab === "パーティ" && items.some(item => !item.displayOnly) && !items.some(item => conditionAttackScope(item).length || conditionFeedsSpeedThreshold(item))) return { label: "現在の計算対象外", className: "is-inactive" };
     if (items.some((item) => item.enabled && (item.inputWarnings?.length || modifierIssueIds.has(item.id)))) return { label: "入力不足", className: "is-input" };
+    if (items.some(conditionFeedsSpeedThreshold)) return { label: items.some(item => item.includedInFinalStats) ? "最終入力で管理" : items.some(item => item.enabled) ? "速度条件に反映" : "候補・OFF", className: items.some(item => item.enabled) ? "is-auto" : "is-inactive" };
     if (items.some(item=>item.resultAssumed && conditionAudit?.applied.has(item.id))) return {label:"一部の想定結果に適用",className:"is-auto"};
     if (items.some(isAttackSelectionCondition)) return items.some((item) => isAttackSelectionCondition(item) && item.activation.active) ? { label: "計算対象", className: "is-auto" } : { label: "対象外", className: "is-inactive" };
     if (items.every((item) => item.displayOnly)) return items.every((item) => item.inputPolicy === "includedInFinalStats") ? { label: "最終入力で管理", className: "is-reflected" } : { label: items.some((item) => item.inputPolicy === "includedInFinalStats") ? "内訳を確認" : "表示のみ", className: "is-display" };
@@ -775,7 +776,7 @@
       }
       if (item.inclusionInput && !rendered.has(`included:${item.inclusionInput.key}`)) {
         rendered.add(`included:${item.inclusionInput.key}`);
-        controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(item.inclusionInput.key)}"${item.inclusionInput.checked ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${esc(item.inclusionInput.label)}</strong><small>入力済みなら追加せず、未算入なら自動適用します。</small></span></label>`);
+        controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(item.inclusionInput.key)}"${item.inclusionInput.checked ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${esc(item.inclusionInput.label)}</strong><small>入力済みなら追加せず、未算入なら成立中の条件に従って適用します。</small></span></label>`);
       }
       const activation = item.activation || {};
       if (["toggle", "toggleThreshold"].includes(activation.mode) && activation.inputKey && !item.comparisonControlled && !rendered.has(`toggle:${activation.inputKey}`)) {
@@ -857,9 +858,16 @@
     return displayTarget(owner);
   }
 
+  function conditionFeedsSpeedThreshold(item) {
+    if (state.breakInputs.mode !== "attacks" || item.displayOnly || !item.calculable || item.stat !== "speed" || !["statFlat", "statPercent"].includes(item.category)) return false;
+    const context = structuredModifierContext();
+    return (state.data.structuredModifiers || []).some(record => record.activation?.statSource === "effective" && record.activation.reference === "self.speed" && window.HsrModifierRuntime.sourceSelection(record, context).selected);
+  }
+
   function conditionScopeLabel(items) {
     if (items.every(item => item.inputPolicy === "includedInFinalStats")) return "最終ステータスで管理・再加算なし";
     if (items.every(item => item.displayOnly)) return "計算への追加対象外";
+    if (items.some(conditionFeedsSpeedThreshold)) return "速度条件の判定（各攻撃へ間接反映）";
     const types = [...new Set(items.flatMap(conditionAttackScope))];
     return types.length ? types.join("・") + "（発動条件は別途確認）" : "現在の計算対象には適用されません";
   }

@@ -381,3 +381,6 @@ html[data-theme="dark"] .page-hsr .uid-importer__message[data-type="success"] { 
   .page-hsr #hsrResults .genshin-damage-result-row td { padding-inline: 2px; }
   .page-hsr #hsrResults .genshin-damage-result-row .genshin-result-value { font-size: .66rem; }
 }
+
+/* Equipment names in condition cards may exceed the remaining space beside a status badge. */
+.page-hsr .hsr-condition-section .genshin-constellation-head > div > strong { flex: 0 1 auto; min-width: 0; overflow-wrap: anywhere; }

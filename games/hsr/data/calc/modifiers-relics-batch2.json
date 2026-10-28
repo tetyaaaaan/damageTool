@@ -1,0 +1,583 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "relic-batch-2026-10-28",
+  "description": "固定StarRailRes版で根拠を確認した遺物セットの独立Modifier定義。",
+  "modifiers": [
+    {
+      "id": "relic:104:4pc:ultimate-crit-damage",
+      "source": {
+        "kind": "relic",
+        "id": "104",
+        "setPieces": 4
+      },
+      "name": "雪の密林の狩人・必殺技後会心ダメージ",
+      "description": "必殺技を発動した後、会心ダメージ+25%が有効な間を手動指定する。入力会心ダメージに含めた場合はOFF。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 25
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "relic-104-ultimate-crit-damage-active",
+        "inputLabel": "必殺技後の会心ダメージ+25%が有効",
+        "default": false,
+        "durationTurns": 2,
+        "conditionText": "必殺技発動後2ターン以内"
+      },
+      "stacking": {
+        "group": "relic:104:4pc:ultimate-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:104",
+        "gameVersion": "snapshot-2026-10-28",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定SHA dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487。効果文とセット区分を照合。",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      },
+      "stat": "critDamage",
+      "finalStatsInclusion": {
+        "inputKey": "relic:104:4pc:ultimate-crit-damage:in-final-stats",
+        "inputLabel": "雪の密林の狩人・必殺技後会心ダメージを最終入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:105:4pc:atk-stacks",
+      "source": {
+        "kind": "relic",
+        "id": "105",
+        "setPieces": 4
+      },
+      "name": "成り上がりチャンピオン・累積攻撃力",
+      "description": "攻撃または被攻撃後の攻撃力上昇を現在の層数で指定する（1層5%、最大5層）。入力ATKへ含めた場合は0層にする。",
+      "category": "statPercent",
+      "unit": "percent",
+      "value": {
+        "kind": "perStack",
+        "perStack": 5
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "relic-105-atk-stacks",
+        "inputLabel": "現在の攻撃力上昇層数",
+        "minimum": 0,
+        "maximum": 5,
+        "default": 0,
+        "conditionText": "攻撃または被攻撃後、戦闘中に累積"
+      },
+      "stacking": {
+        "group": "relic:105:4pc:atk-stacks",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:105",
+        "gameVersion": "snapshot-2026-10-28",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定SHA dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487。効果文とセット区分を照合。",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      },
+      "stat": "atk",
+      "finalStatsInclusion": {
+        "inputKey": "relic:105:4pc:atk-stacks:in-final-stats",
+        "inputLabel": "成り上がりチャンピオン・累積攻撃力を最終入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:109:4pc:skill-atk",
+      "source": {
+        "kind": "relic",
+        "id": "109",
+        "setPieces": 4
+      },
+      "name": "雷鳴轟くバンド・戦闘スキル後攻撃力",
+      "description": "戦闘スキルを発動した後、攻撃力+20%が有効な間を手動指定する。入力ATKに含めた場合はOFF。",
+      "category": "statPercent",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "relic-109-skill-atk-active",
+        "inputLabel": "戦闘スキル後の攻撃力+20%が有効",
+        "default": false,
+        "durationTurns": 1,
+        "conditionText": "戦闘スキル発動後1ターン"
+      },
+      "stacking": {
+        "group": "relic:109:4pc:skill-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:109",
+        "gameVersion": "snapshot-2026-10-28",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定SHA dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487。効果文とセット区分を照合。",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      },
+      "stat": "atk",
+      "finalStatsInclusion": {
+        "inputKey": "relic:109:4pc:skill-atk:in-final-stats",
+        "inputLabel": "雷鳴轟くバンド・戦闘スキル後攻撃力を最終入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:112:4pc:debuff-crit-rate",
+      "source": {
+        "kind": "relic",
+        "id": "112",
+        "setPieces": 4
+      },
+      "name": "荒地で盗みを働く廃土客・デバフ敵への会心率",
+      "description": "デバフ状態の敵に攻撃する場合の会心率+10%。敵デバフ状態を手動指定する。最終会心率に含めた場合はOFF。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "reference": "enemy.debuffCount",
+        "operator": ">=",
+        "threshold": 1,
+        "conditionText": "計算対象の敵のデバフ数が1以上（攻撃時の会心率のみ）"
+      },
+      "stacking": {
+        "group": "relic:112:4pc:debuff-crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:112",
+        "gameVersion": "snapshot-2026-10-28",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定SHA dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487。効果文とセット区分を照合。",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      },
+      "stat": "critRate",
+      "finalStatsInclusion": {
+        "inputKey": "relic:112:4pc:debuff-crit-rate:in-final-stats",
+        "inputLabel": "荒地で盗みを働く廃土客・デバフ敵への会心率を最終入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:112:4pc:imprison-crit-damage",
+      "source": {
+        "kind": "relic",
+        "id": "112",
+        "setPieces": 4
+      },
+      "name": "荒地で盗みを働く廃土客・禁錮敵への会心ダメージ",
+      "description": "禁錮状態の敵に攻撃する場合の会心ダメージ+20%。禁錮状態を手動指定する。最終会心ダメージに含めた場合はOFF。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "relic-112-imprison-crit-damage-active",
+        "inputLabel": "敵が禁錮状態",
+        "default": false,
+        "conditionText": "禁錮状態の敵にダメージを与える"
+      },
+      "stacking": {
+        "group": "relic:112:4pc:imprison-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:112",
+        "gameVersion": "snapshot-2026-10-28",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定SHA dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487。効果文とセット区分を照合。",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      },
+      "stat": "critDamage",
+      "finalStatsInclusion": {
+        "inputKey": "relic:112:4pc:imprison-crit-damage:in-final-stats",
+        "inputLabel": "荒地で盗みを働く廃土客・禁錮敵への会心ダメージを最終入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:115:2pc:followup-damage",
+      "source": {
+        "kind": "relic",
+        "id": "115",
+        "setPieces": 2
+      },
+      "name": "灰燼を燃やし尽くす大公・追加攻撃ダメージ",
+      "description": "追加攻撃ダメージ+20%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "followUp"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "2セット装備中の追加攻撃"
+      },
+      "stacking": {
+        "group": "relic:115:2pc:followup-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:115",
+        "gameVersion": "snapshot-2026-10-28",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定SHA dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487。効果文とセット区分を照合。",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      }
+    },
+    {
+      "id": "relic:115:4pc:atk-stacks",
+      "source": {
+        "kind": "relic",
+        "id": "115",
+        "setPieces": 4
+      },
+      "name": "灰燼を燃やし尽くす大公・追加攻撃後攻撃力",
+      "description": "追加攻撃で得たATK上昇が残る、次の追加攻撃以外の単発攻撃へ適用します。次の追加攻撃では解除されるため、追加攻撃内の層獲得・ヒット別更新はこの補正の対象外です。",
+      "category": "statPercent",
+      "unit": "percent",
+      "value": {
+        "kind": "perStack",
+        "perStack": 6
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal",
+          "enhancedNormal",
+          "skill",
+          "enhancedSkill",
+          "ultimate",
+          "dot"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "relic-115-atk-stacks",
+        "inputLabel": "追加攻撃後の攻撃力上昇層数",
+        "minimum": 0,
+        "maximum": 8,
+        "default": 0,
+        "conditionText": "追加攻撃ヒット後、次の追加攻撃まで（3ターン）"
+      },
+      "stacking": {
+        "group": "relic:115:4pc:atk-stacks",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:115",
+        "gameVersion": "snapshot-2026-10-28",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定SHA dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487。固定版の説明文・セット区分を直接照合。",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "scope": "成立済み0～8層を通常/強化通常/スキル/強化スキル/必殺/DoTへ適用。次の追加攻撃は解除・ヒット内更新を要するため除外。"
+      },
+      "stat": "atk",
+      "finalStatsInclusion": {
+        "inputKey": "relic:115:4pc:atk-stacks:in-final-stats",
+        "inputLabel": "灰燼を燃やし尽くす大公・追加攻撃後攻撃力を最終入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:121:4pc:target-crit-damage",
+      "source": {
+        "kind": "relic",
+        "id": "121",
+        "setPieces": 4
+      },
+      "name": "再び苦難の道を歩む司祭・単体スキル/必殺対象の会心ダメージ",
+      "description": "装備者の単体スキルまたは必殺技の対象になったキャラクターへ会心ダメージ+18%、最大2層。現在の計算対象が受けた層数を指定します。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "perStack",
+        "perStack": 18
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "relic-121-target-crit-damage-stacks",
+        "inputLabel": "司祭セットから受けた会心ダメージ層数",
+        "minimum": 0,
+        "maximum": 2,
+        "default": 0,
+        "conditionText": "装備者が計算対象キャラクターをスキル/必殺の単体対象にした後（2ターン）"
+      },
+      "stacking": {
+        "group": "relic:121:4pc:target-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:121",
+        "gameVersion": "snapshot-2026-10-28",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定SHA dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487。固定版の説明文・セット区分を直接照合。",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      },
+      "stat": "critDamage",
+      "finalStatsInclusion": {
+        "inputKey": "relic:121:4pc:target-crit-damage:in-final-stats",
+        "inputLabel": "再び苦難の道を歩む司祭・スキル対象の会心ダメージを最終入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:126:4pc:ultimate-atk",
+      "source": {
+        "kind": "relic",
+        "id": "126",
+        "setPieces": 4
+      },
+      "name": "荒海を越える船長・必殺技後攻撃力",
+      "description": "「助力」2層を消費して必殺技を発動した後、攻撃力+48%が有効な1ターンを手動指定する。入力ATKに含めた場合はOFF。",
+      "category": "statPercent",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 48
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "relic-126-ultimate-atk-active",
+        "inputLabel": "助力2層消費後の攻撃力+48%が有効",
+        "default": false,
+        "durationTurns": 1,
+        "conditionText": "他の味方のスキル対象になって助力2層を得た後、必殺技発動（1ターン）"
+      },
+      "stacking": {
+        "group": "relic:126:4pc:ultimate-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:126",
+        "gameVersion": "snapshot-2026-10-28",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定SHA dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487。固定版の説明文・セット区分を直接照合。",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      },
+      "stat": "atk",
+      "finalStatsInclusion": {
+        "inputKey": "relic:126:4pc:ultimate-atk:in-final-stats",
+        "inputLabel": "荒海を越える船長・必殺技後攻撃力を最終入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:131:4pc:skill-ultimate-stacks",
+      "source": {
+        "kind": "relic",
+        "id": "131",
+        "setPieces": 4
+      },
+      "name": "星巡るナビゲーター「シケン」・スキル/必殺ダメージ累積",
+      "description": "戦闘開始または戦闘スキル後のダメージ上昇を層数で指定。1層18%、最大3層。ターン開始・必殺後の解除は現在層数に反映する。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "perStack",
+        "perStack": 18
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "skill",
+          "enhancedSkill",
+          "ultimate"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "relic-131-damage-stacks",
+        "inputLabel": "現在のスキル/必殺ダメージ層数",
+        "minimum": 0,
+        "maximum": 3,
+        "default": 0,
+        "conditionText": "戦闘開始/スキル発動で累積し、ターン開始/必殺発動後に1層減少"
+      },
+      "stacking": {
+        "group": "relic:131:4pc:skill-ultimate-stacks",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:131",
+        "gameVersion": "snapshot-2026-10-28",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定SHA dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487。固定版の説明文・セット区分を直接照合。",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487"
+      }
+    }
+  ]
+}

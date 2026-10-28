@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "eidolon-speed-support-2026-10-28",
+  "description": "固定根拠のある星魂SPD支援。任意戦闘状態の単発比較。",
+  "modifiers": [
+    {
+      "id": "eidolon:1317:4:party-speed",
+      "source": {
+        "kind": "eidolon",
+        "id": "1317",
+        "eidolonRank": 4,
+        "rankId": "131704"
+      },
+      "name": "星魂4「経年劣化、任侠ニ忍義無シ」・結印中の味方速度",
+      "description": "乱破の結印状態を手動指定します。状態中、味方全体の速度+12%。最終速度に反映済みの場合は別の反映済み欄で除外します。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 12
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "rappa-e4-sealform-speed-active",
+        "inputLabel": "乱破E4・結印中",
+        "default": false,
+        "conditionText": "星魂4以上の乱破が結印状態"
+      },
+      "stacking": {
+        "group": "eidolon:1317:4:party-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "rappa-e4-speed-in-final-stats",
+        "inputLabel": "乱破E4の速度上昇を最終速度へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版で結印状態・味方全体・速度+12%を確認。状態指定の単発比較に限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
+        "sourceFile": "character_ranks.json",
+        "verifiedAt": "2026-10-28",
+        "notes": "rank131704:「結印」状態中、味方全体の速度+12%。",
+        "scope": "星魂4以上の乱破が結印中、本人を含む味方全体の速度+12%。結印移行・解除の自動進行はしない。",
+        "verification": "tests/hsr/hsrRobinE2Speed.test.cjs"
+      }
+    }
+  ]
+}

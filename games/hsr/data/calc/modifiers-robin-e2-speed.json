@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "robin-e2-speed-2026-10-28",
+  "description": "ロビン星魂2の協奏中SPD支援。手動状態指定による単発評価。",
+  "modifiers": [
+    {
+      "id": "eidolon:1309:2:party-speed",
+      "source": {
+        "kind": "eidolon",
+        "id": "1309",
+        "eidolonRank": 2,
+        "rankId": "130902"
+      },
+      "name": "星魂2「2人のアフタヌーンティー」・協奏中の味方速度",
+      "description": "ロビンの協奏が有効な状態を選択します。味方全体の速度+16%。ロビン本人も対象です。最終速度に反映済みなら別の反映済み欄で除外し、協奏の発動状態とは分けて指定します。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 16
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "robin-e2-concerto-speed-active",
+        "inputLabel": "ロビンE2・協奏中",
+        "default": false,
+        "conditionText": "星魂2以上のロビンの協奏が継続中"
+      },
+      "stacking": {
+        "group": "eidolon:1309:2:party-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "robin-e2-speed-in-final-stats",
+        "inputLabel": "ロビンE2の速度上昇を最終速度へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版で効果量と協奏条件を確認。任意の協奏状態を選択した単発比較のみ。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
+        "sourceFile": "character_ranks.json",
+        "verifiedAt": "2026-10-28",
+        "notes": "rank130902: 協奏中、味方全体速度+16%。ロビン本人も味方全体に含む。ターン状態は任意入力。",
+        "scope": "星魂2以上ロビンの協奏中、本人を含む味方全体の速度+16%。単一攻撃時点の閾値評価に限定。",
+        "verification": "tests/hsr/hsrRobinE2Speed.test.cjs"
+      }
+    }
+  ]
+}
