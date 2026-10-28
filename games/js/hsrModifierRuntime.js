@@ -27,6 +27,7 @@
     const map = {
       "self.hp": context.stats?.hp,
       "self.hpPercent": context.stats?.hpPercent,
+      "self.preCombatSpeed": inputs["pre-combat-speed"],
       "self.epPercent": context.stats?.epPercent,
       "self.speed": context.stats?.speed,
       "self.atk": context.stats?.atk,
@@ -45,6 +46,7 @@
       "party.count": Array.isArray(context.partyIds) ? context.partyIds.filter(Boolean).length + 1 : 1,
       "party.sp": context.party?.sp
     };
+    if (reference === "self.preCombatSpeed") { const value = map[reference]; return Number.isFinite(value) && value > 0 && value <= 99999 ? value : NaN; }
     if (["self.hpPercent", "enemy.hpPercent", "self.epPercent"].includes(reference)) {
       const value = map[reference];
       return Number.isFinite(value) && value >= 0 && value <= 100 ? value : NaN;
@@ -165,7 +167,9 @@
     }
     if (value.kind === "perReferenceStack") {
       const raw = referenceValue(value.reference, context, inputs);
-      return number(value.perStack) * Math.max(number(value.minimum, 0), Math.min(number(value.maximum, Number.MAX_SAFE_INTEGER), raw));
+      const refinement = number(selection.refinement ?? context.refinement, 1);
+      const perStack = Array.isArray(value.values) ? number(value.values[Math.max(0, Math.min(4, refinement - 1))]) : number(value.perStack);
+      return perStack * Math.max(number(value.minimum, 0), Math.min(number(value.maximum, Number.MAX_SAFE_INTEGER), raw));
     }
     if (value.kind === "threshold") {
       const current = referenceValue(record.activation?.reference, context, inputs);
@@ -233,8 +237,9 @@
       const explicitInput = activation.inputKey ? inputs[activation.inputKey] : undefined;
       let current = explicitInput === undefined
         ? referenceValue(activation.reference, context, inputs)
-        : activation.reference === "self.epPercent" && !Number.isFinite(explicitInput) ? NaN : number(explicitInput, activation.default || 0);
+        : ["self.epPercent", "self.preCombatSpeed"].includes(activation.reference) && !Number.isFinite(explicitInput) ? NaN : number(explicitInput, activation.default || 0);
       if (activation.reference === "self.epPercent" && (!Number.isFinite(current) || current < 0 || current > 100)) current = NaN;
+      if (activation.reference === "self.preCombatSpeed" && (!Number.isFinite(current) || current <= 0 || current > 99999)) current = NaN;
       if (activation.mode === "numericThreshold" && activation.inputKey) {
         current = Math.max(
           number(activation.minimum, Number.NEGATIVE_INFINITY),
@@ -247,7 +252,7 @@
       const threshold = referenceComparison ? context.stats?.hpPercent : number(activation.threshold);
       return {
         active: knownComparison && compare(current, activation.operator, threshold),
-        unresolved: ([activation.reference, activation.thresholdReference].some(ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent"].includes(ref))) && (!Number.isFinite(current) || !knownComparison),
+        unresolved: ([activation.reference, activation.thresholdReference].some(ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent", "self.preCombatSpeed"].includes(ref))) && (!Number.isFinite(current) || !knownComparison),
         automatic: activation.mode === "statThreshold" || !activation.inputKey,
         inputValue: current,
         threshold
@@ -386,23 +391,33 @@
       if(rule==="add")return items;
       return [rule==="replace"?items.at(-1):items.reduce((best,item)=>item.value>best.value?item:best,items[0])];
     });
-    return initial.map(item => {
+    const evaluate = (item, extra = []) => {
+      const statContributors = [...contributors, ...extra];
       const record=byId.get(item.id);
       if(record?.activation?.statSource!=="effective")return item;
       const stat=String(record.activation.reference||"").replace(/^self\./, "");
-      if(!["critRate","speed","breakEffect"].includes(stat) || (["critRate", "breakEffect"].includes(record.category) && record.category===stat) || (["statFlat","statPercent"].includes(record.category)&&record.stat===stat)) {
+      if(!["critRate","speed","breakEffect","atk"].includes(stat) || (["critRate", "breakEffect"].includes(record.category) && record.category===stat) || (["statFlat","statPercent"].includes(record.category)&&record.stat===stat)) {
         return {...item,enabled:true,applicable:false,inputWarnings:["この閾値の参照依存は未対応です。"],reason:"自身の参照値を変える閾値は再帰評価しません。"};
       }
       if (!Number.isFinite(context.stats?.[stat])) {
         return {...item,enabled:true,applicable:false,inputWarnings:[`閾値判定に必要な${stat}が未入力です。`],reason:"閾値の参照値を確定できません。"};
       }
-      if (contributors.some(m=>m.category==="statPercent" && m.stat===stat) && !Number.isFinite(context.baseStats?.[stat])) {
+      if (statContributors.some(m=>m.category==="statPercent" && m.stat===stat) && !Number.isFinite(context.baseStats?.[stat])) {
         return {...item,enabled:true,applicable:false,inputWarnings:[`閾値判定に必要な基礎${stat}が未入力です。`],reason:"閾値の参照値を確定できません。"};
       }
-      const sum=(category)=>contributors.filter(m=>m.category===category && ((["critRate", "breakEffect"].includes(category) && category===stat) || m.stat===stat)).reduce((total,m)=>total+m.value,0);
+      const sum=(category)=>statContributors.filter(m=>m.category===category && ((["critRate", "breakEffect"].includes(category) && category===stat) || m.stat===stat)).reduce((total,m)=>total+m.value,0);
       const added=sum("statFlat") + number(context.baseStats?.[stat])*sum("statPercent")/100 + (stat==="critRate"?sum("critRate"):0) + (stat==="breakEffect"?sum("breakEffect"):0);
       const effectiveContext={...context,stats:{...context.stats,[stat]:number(context.stats?.[stat])+added}};
       return {...buildRawCandidates([record],effectiveContext,inputs)[0],thresholdReferenceValue:effectiveContext.stats[stat]};
+    };
+    const evaluated = initial.map(item => evaluate(item));
+    // Fixed dependency only: effective SPD -> Talia BE -> Iron Cavalry's BE threshold. No feedback into SPD.
+    const talia = evaluated.find(item => item.id === "ornament:307:2pc:break-effect-effective-speed");
+    if (!talia?.enabled || talia.applicable === false || talia.inputWarnings?.length) return evaluated;
+    return evaluated.map(item => {
+      const record = byId.get(item.id);
+      return record?.source?.kind === "relic" && record.source.id === "119" && record.activation?.statSource === "effective"
+        && record.activation.reference === "self.breakEffect" ? evaluate(item, [talia]) : item;
     });
   }
 

@@ -51,7 +51,7 @@ games/hsr/index.html
 
 ### 補正評価の限定的な拡張
 
-`HsrModifierRuntime.buildCandidates` は `buildRawCandidates` の一次候補から、入力元が独立した全般的なステータス補正だけを集め、`activation.statSource: "effective"` を宣言した会心率/速度/撃破特効閾値へ一段で渡す。Appの `modifiers(attack)` は攻撃の文脈と `validateProvider` を渡し、提供者Lv不足等を検証する。閾値から生じる効果を再度入力へ戻さず、変換・攻撃限定会心・参照自身を変更する効果はこの評価へ混ぜない。参照値/基礎値が不明なら当該候補だけを未確定とする。
+`HsrModifierRuntime.buildCandidates` は `buildRawCandidates` の一次候補から、入力元が独立した全般的なステータス補正だけを集め、`activation.statSource: "effective"` を宣言した会心率/速度/撃破特効/攻撃力閾値へ一段で渡す。Appの `modifiers(attack)` は攻撃の文脈と `validateProvider` を渡し、提供者Lv不足等を検証する。タリア→鉄騎の固定依存を除いて閾値出力を再度入力へ戻さず、変換・攻撃限定会心・参照自身を変更する効果はこの評価へ混ぜない。参照値/基礎値が不明なら当該候補だけを未確定とする。
 
 `finalStatsInclusion` は常時効果の発動状態ではなく、最終入力へ算入済みかのユーザー宣言。ロビン天賦は自動適用し、算入済みなら追加しない。旧保存キーの明示OFFは除外を保ち、新しい算入済みキーを指定すれば優先する。保存スキーマの版は変更せず、既存のmodifierInputsへ保存する。算入由来を推測する汎用エンジンは導入していない。
 
@@ -102,3 +102,5 @@ Appの `readHpRatio()` は既存の本人/敵HP割合入力を読み、空値・
 隠者128の4セット装備者が複数いる場合は、Appの提供者検証でその支援候補だけを未確定にする。単一提供者のバリア所持状態は既存トグルで指定し、バリアの生成・耐久・消失をシミュレーションしない。保存スキーマ・計算エンジンの責務は変更しない。
 
 第4回の既存経路への追加では、Appの `structuredSourceConditions()` が名匠132のCD条件を既知の敵DEF低下/適用可能な補正から局所判定する。`validateProvider()` は丹恒・騰荒A2の参照ATK不足だけを未確定として除外し、固定能力に不要な技能Lvを追加しない。定義の新規ファイルは既存manifestから読み、攻撃は[attacks-round4.json](../../../games/hsr/data/calc/attacks-round4.json)のoverrideで既存参考行を置換する。ローダー・状態スキーマ・計算エンジン・マスター生成方式は変更しない。
+
+第5回の限定変更は `hsrModifierRuntime.referenceValue()` の戦闘前SPD参照、`resolveValue()` のLCランク別参照層、`buildCandidates()` の独立ATK一段参照とタリア→鉄騎の固定依存。Schema/静的検証器も同じ形状へ同期する。AppのUID反映は取得済みSPDだけを共有入力へ設定し、未取得時は旧値を削除する。数値条件の表示は未入力と速度単位を区別する。`validateProvider()` は21053の複数提供者を局所除外する。保存スキーマ・計算エンジン・マスター生成方式は変更しない。

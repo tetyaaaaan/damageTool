@@ -30,7 +30,7 @@ const allowedElements = new Set(["Physical", "Fire", "Ice", "Thunder", "Wind", "
 const allowedOwners = new Set(["self", "activeAlly", "partyAll", "enemySingle", "enemyAll", "summon", "memosprite"]);
 const allowedStages = new Set(["baseStats", "baseDamage", "attackMultiplier", "damageBonus", "critical", "defense", "resistance", "vulnerability", "independent", "toughness", "extraDamage", "finalDamage", "breakDamage", "baseStat", "attackState", "resistancePenetration", "multiplierAddition", "critDamage", "takenDamage", "breakEffect"]);
 const allowedOperations = new Set(["add", "multiply", "replace", "max", "set", "subtract"]);
-const allowedReferences = new Set(["self.hp", "self.hpPercent", "self.epPercent", "self.speed", "self.atk", "self.def", "self.critRate", "self.critDamage", "self.effectHitRate", "self.effectRes", "self.breakEffect", "self.elation", "mortenax-infinite-fury-active", "enemy.hpPercent", "enemy.weakness", "enemy.quantumWeakness", "enemy.debuffCount", "enemy.count", "enemy.toughnessRemaining", "party.count", "party.elationCount", "party.sp"]);
+const allowedReferences = new Set(["self.hp", "self.hpPercent", "self.preCombatSpeed", "self.epPercent", "self.speed", "self.atk", "self.def", "self.critRate", "self.critDamage", "self.effectHitRate", "self.effectRes", "self.breakEffect", "self.elation", "mortenax-infinite-fury-active", "enemy.hpPercent", "enemy.weakness", "enemy.quantumWeakness", "enemy.debuffCount", "enemy.count", "enemy.toughnessRemaining", "party.count", "party.elationCount", "party.sp"]);
 const allowedProviderStats = new Set(["hp", "hpPercent", "atk", "def", "speed", "critRate", "critDamage", "breakEffect", "effectHitRate", "elation"]);
 const allowedTargetStats = new Set(["hp", "atk", "def", "speed"]);
 
@@ -113,7 +113,11 @@ function validateModifiers(records) {
     if (value.kind === "perStack" && (!Number.isFinite(value.perStack) || !Number.isInteger(modifier.stacking?.maximumStacks ?? modifier.activation?.maximum))) issues.push(`${at}: per-stack value and stack/input maximum required`);
     if (value.kind === "perStackByLevel" && !Number.isInteger(modifier.stacking?.maximumStacks ?? modifier.activation?.maximum)) issues.push(`${at}: level per-stack value needs stack/input maximum`);
     if (value.kind === "perStackByRefinement" && !Number.isInteger(modifier.stacking?.maximumStacks ?? modifier.activation?.maximum)) issues.push(`${at}: refinement per-stack value needs stack/input maximum`);
-    if (value.kind === "perReferenceStack" && (!value.reference || !Number.isFinite(value.perStack) || !Number.isInteger(value.maximum))) issues.push(`${at}: reference, per-stack value and maximum required`);
+    if (value.kind === "perReferenceStack") {
+      const fixed = Number.isFinite(value.perStack);
+      const ranked = modifier.source?.kind === "lightCone" && Array.isArray(value.values) && value.values.length === 5 && value.values.every(Number.isFinite);
+      if (!value.reference || !Number.isInteger(value.maximum) || (fixed ? value.values !== undefined : !ranked || value.perStack !== undefined)) issues.push(`${at}: reference, maximum and either fixed perStack or five light-cone rank values required`);
+    }
     if (value.kind === "inputScaleByLevelPlusByLevel" && (!value.inputKey || value.scaleValues?.length !== value.addValues?.length)) issues.push(`${at}: input scale/add level tables must align`);
     if (value.kind === "targetBasePercentCappedByProviderPercentByLevel" && (!value.inputKey || !value.providerStat || !value.targetStat || value.targetPercentValues?.length !== value.capPercentValues?.length)) issues.push(`${at}: target/provider capped level tables must align`);
     if (value.kind === "providerStatPercentByLevel" && (!value.inputKey || !value.providerStat || !Array.isArray(value.values) || !value.values.every(Number.isFinite))) issues.push(`${at}: provider stat and numeric level percentages required`);

@@ -590,6 +590,10 @@
       const providers = [state.relicMode === "4pc" && state.relicId === "128", ...state.party.map(member => member.characterId && member.relicMode === "4pc" && member.relicId === "128")].filter(Boolean).length;
       if (providers > 1) return { ...item, enabled: false, applicable: false, activation: { ...item.activation, unresolved: true, unresolvedReason: "同じセットの複数提供者がいる場合のバリア支援は条件未確定です。" } };
     }
+    if (source?.kind === "lightCone" && String(source.id) === "21053" && item.enabled && !item.displayOnly) {
+      const providers = [state.coneId === "21053", ...state.party.map(member => member.characterId && member.lightConeId === "21053")].filter(Boolean).length;
+      if (providers > 1) return { ...item, enabled: false, applicable: false, activation: { ...item.activation, unresolved: true, unresolvedReason: "同じ光円錐の複数提供者によるバリア支援は条件未確定のため追加しません。" } };
+    }
     if (source?.kind === "lightCone" && item.enabled && !item.displayOnly) {
       const wearer = item.providerId ? find("characters", item.providerId) : character();
       const equipped = find("lightCones", String(source.id));
@@ -633,7 +637,7 @@
     const knownDefenseDown = state.enemy.defenseReduction > 0 || candidates.some(item => item.category === "defenseReduction" && item.value > 0
       && item.enabled && item.applicable !== false && !item.inputWarnings?.length
       && (attack ? window.HsrModifierRuntime.applicableToAttack(item, attack) : item.target?.attackTypes?.includes("all")));
-    return candidates.map(item => item.id === "relic:132:4pc:defense-down-crit-damage" && knownDefenseDown && item.calculable && !item.includedInFinalStats
+    return candidates.map(item => ["relic:132:4pc:defense-down-crit-damage", "lightCone:21044:enemy-debuff-crit-damage"].includes(item.id) && knownDefenseDown && item.calculable && !item.includedInFinalStats
       ? { ...item, enabled: true, automatic: true, activation: { ...item.activation, mode: "always", active: true, automatic: true }, conditionText: "入力した防御ダウンまたは有効な防御低下補正から自動判定" }
       : item)
       .filter(item => !comparisonSelector(item))
@@ -755,7 +759,9 @@
     const activation = item.activation || {};
     if (!["statThreshold", "numericThreshold", "toggleThreshold"].includes(activation.mode)) return item.conditionText || "常時";
     if (activation.mode === "numericThreshold" && activation.inputKey) {
-      return `${item.conditionText || "入力条件"}（現在値：${num(activation.inputValue)}${item.unit === "percent" ? "%" : ""}）`;
+      const precombat = activation.reference === "self.preCombatSpeed";
+      const value = Number.isFinite(activation.inputValue) ? `${detailNumber(activation.inputValue)}${!precombat && item.unit === "percent" ? "%" : ""}` : "未入力";
+      return `${item.conditionText || "入力条件"}（${precombat ? "戦闘前の速度" : "現在値"}：${value}）`;
     }
     const reference = {
       "self.hp": ["HP", ""], "self.hpPercent": ["HP割合", "%"], "self.epPercent": ["EP割合", "%"], "self.speed": ["速度", ""],
@@ -767,7 +773,7 @@
   }
 
   function currentConditionReflection(item) {
-    if (item.calculable && item.activation?.unresolved && !item.includedInFinalStats) return item.activation.unresolvedReason || "条件未確定：参照するHP・EP割合を入力するまで、この効果は追加しません。";
+    if (item.calculable && item.activation?.unresolved && !item.includedInFinalStats) return item.activation.unresolvedReason || "条件未確定：参照する数値を入力するまで、この効果は追加しません。";
     if (item.comparisonControlled) return item.activation?.comparisonDerived ? "各結果の想定状態・編成で個別に判定します。適用・対象外は各結果の内訳で確認できます。" : "各結果の想定段数で個別に判定します。適用・対象外は各結果の内訳で確認できます。";
     if (item.resultAssumed) return "一部の結果は状態成立を想定します。ON/OFFはそれ以外の結果へ反映し、各結果の内訳で確認できます。";
     if (item.inputWarnings?.length) return `未適用：${item.inputWarnings.join(" ")}`;
@@ -1932,6 +1938,8 @@
       const value = profile.stats?.[key];
       if (value != null && value !== "" && Number.isFinite(Number(value))) state.stats[key] = Number(value);
     });
+    if (Number.isFinite(state.stats.speed) && state.stats.speed > 0) state.modifierInputs["pre-combat-speed"] = state.stats.speed;
+    else delete state.modifierInputs["pre-combat-speed"];
     state.source = "api"; writeStats(); renderStaticInputs(); renderBuild(); markDirty("api"); renderAttackPreview();
   }
 

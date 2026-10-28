@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "native-round5-2026-10-28",
+  "modifiers": [
+    {
+      "id": "traceNode:1211:1211101:overheal-hp",
+      "source": {
+        "kind": "trace",
+        "id": "1211",
+        "traceId": "1211101"
+      },
+      "name": "岐黄精義・過剰治癒対象の最大HP",
+      "description": "白露が現在の計算対象を最大HPを超えて治癒し、最大HP上昇が有効な2ターン以内。受益者の基礎HPの10%を加算し、白露のHPは参照しません。",
+      "category": "statPercent",
+      "stat": "hp",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "bailu-overheal-hp-active",
+        "inputLabel": "岐黄精義・過剰治癒対象の最大HPが有効",
+        "conditionText": "白露が現在の計算対象を最大HPを超えて治癒し、最大HP上昇が有効な2ターン以内",
+        "default": false,
+        "durationTurns": 2
+      },
+      "stacking": {
+        "group": "traceNode:1211:1211101:overheal-hp",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "bailu-overheal-hp-active-in-final",
+        "inputLabel": "岐黄精義・過剰治癒対象の最大HPを最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1211101.params[0]",
+        "verifiedAt": "2026-10-28",
+        "scope": "解放済み追加能力・Lv80の成立状態を指定した単発計算。自動治癒/行動順/期間管理はしない。",
+        "verification": "tests/hsr/hsrNativeRound5.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1412:1412103:merit-speed",
+      "source": {
+        "kind": "trace",
+        "id": "1412",
+        "traceId": "1412103"
+      },
+      "name": "征した者・本人または軍功対象の速度",
+      "description": "ケリュドラのスキル使用時に本人または軍功を持つ味方として速度上昇を得て、3ターン以内。固定SPD20を加算し、基礎SPD割合として扱いません。",
+      "category": "statFlat",
+      "stat": "speed",
+      "unit": "flat",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "cerydra-merit-speed-active",
+        "inputLabel": "征した者・本人または軍功対象の速度が有効",
+        "conditionText": "ケリュドラのスキル使用時に本人または軍功を持つ味方として速度上昇を得て、3ターン以内",
+        "default": false,
+        "durationTurns": 3
+      },
+      "stacking": {
+        "group": "traceNode:1412:1412103:merit-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "cerydra-merit-speed-active-in-final",
+        "inputLabel": "征した者・本人または軍功対象の速度を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1412103.params[0]",
+        "verifiedAt": "2026-10-28",
+        "scope": "解放済み追加能力・Lv80の成立状態を指定した単発計算。自動治癒/行動順/期間管理はしない。",
+        "verification": "tests/hsr/hsrNativeRound5.test.cjs"
+      }
+    }
+  ]
+}

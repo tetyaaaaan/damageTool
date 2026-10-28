@@ -3320,3 +3320,83 @@ test('round4 Artificer detects explicit or supported DEF reduction automatically
  saved.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'enemy-defense-down-active'},checked:true}});near(saved.calculate()[0].expected,1771.2);
  const row=recs.find(x=>x.id==='relic:132:4pc:defense-down-crit-damage');saved.node('hsrStat-critDamage').value='128';saved.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:row.finalStatsInclusion.inputKey},checked:true}});near(saved.calculate()[0].expected,1771.2);
 });
+
+test('round5 light cone batch reaches App damage and restores only the selected equipped effects',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../games/hsr/data/calc/modifiers-equipment-round5.json').modifiers,gl=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers.find(x=>x.id==='ornament:311:2pc:speed-damage'),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ const chars={Warlock:'1108',Warrior:'1107',Knight:'1104',Rogue:'1002',Mage:'1003',Memory:'8007',Shaman:'1202',Priest:'1105'};
+ for(const[id,dmg,cr,cd,spd]of [['21001',36,0,0,false],['21022',16,0,0,false],['21024',12,0,0,true],['21026',16,0,0,false],['21038',25,0,0,false],['21041',18,0,0,false],['21042',0,15,0,false],['21043',16,0,0,false],['21044',0,0,24,false],['21045',0,0,0,true],['21051',20,0,0,false],['21053',12,0,0,false]]){
+  const cone=catalog.lightCones.find(x=>x.id===id),char=chars[cone.path];assert.ok(char,cone.path);const rows=all.filter(x=>x.source.id===id);
+  const data={characters:catalog.characters,lightCones:catalog.lightCones,relicSets:catalog.relicSets,structuredModifiers:spd?[...rows,gl]:rows,attacks:[{id:'r5-lc-app',characterId:char,name:'Cone state',type:'normal',element:catalog.characters.find(x=>x.id===char).element,scalingStat:'atk',multipliers:[100],support:{status:'calculable',verified:true}}]};
+  const app=await tool(undefined,data);app.state.characterId=char;app.state.coneId=id;if(spd)app.state.ornamentId='311';
+  for(const[k,v]of Object.entries({atk:3000,speed:128,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+  near(app.calculate()[0].expected,1620);
+  for(const row of rows){if(row.activation.mode==='toggle')app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:row.activation.inputKey},checked:true}});
+   if(row.activation.mode==='stack')app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredInput:row.activation.inputKey},value:String(row.activation.maximum)}});}
+  if(id==='21001')app.node('hsrEnemyDebuffCount').value='3';
+  const nc=1080*(1+(dmg+(spd?12:0))/100),expected=nc*(1+(50+cr)/100*(1+cd/100));near(app.calculate()[0].expected,expected);
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,expected);saved.state.coneId='';near(saved.calculate()[0].expected,1620);
+ }
+});
+
+test('round5 shielded ally receives LC21053 from another wearer and LC21044 reuses known enemy DEF reduction',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),rows=require('../../games/hsr/data/calc/modifiers-equipment-round5.json').modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ const data={characters:catalog.characters,lightCones:catalog.lightCones,structuredModifiers:rows.filter(x=>x.source.id==='21053'),attacks:[{id:'shield-r5',name:'Shield recipient',characterId:'1003',type:'normal',element:'Fire',multipliers:[100],scalingStat:'atk',support:{status:'calculable',verified:true}}]};
+ const app=await tool(undefined,data);app.state.characterId='1003';app.state.party[0]={characterId:'1104',level:80,eidolon:0,lightConeId:'21053',coneRank:5,traceLevels:{}};
+ for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);near(app.calculate()[0].expected,1620);
+ app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'lc-21053-barrier-active'},checked:true}});near(app.calculate()[0].expected,1944);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,1944);saved.state.party[1]={characterId:'1304',level:80,eidolon:0,lightConeId:'21053',coneRank:1,traceLevels:{}};near(saved.calculate()[0].expected,1620);assert.match(saved.node('hsrConditionTitle').textContent,/条件未確定/);saved.state.party[1].characterId='';near(saved.calculate()[0].expected,1944);saved.state.party[0].characterId='';near(saved.calculate()[0].expected,1620);
+ const dance=await tool(undefined,{...data,structuredModifiers:rows.filter(x=>x.source.id==='21044'),attacks:[{...data.attacks[0],characterId:'1108',element:'Wind'}]});dance.state.characterId='1108';dance.state.coneId='21044';
+ for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))dance.node('hsrStat-'+k).value=String(v);dance.node('hsrEnemyDefenseReduction').value='40';near(dance.calculate()[0].expected,2187);
+ dance.node('hsrEnemyDefenseReduction').value='0';near(dance.calculate()[0].expected,1620);
+});
+
+test('round5 entry SPD inputs stay separate, unknown is local, and UID speed supplies a precise precombat value',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../games/hsr/data/calc/modifiers-sets-round5.json').modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ for(const[set,cases]of [['124',[[94.999,1965.6],[95,1836],[109.999,1836],[110,1620]]],['130',[[119.999,1620],[120,1728],[159.999,1728],[160,1814.4]]]]){
+  const data={characters:[{id:'sample',name:'Sample',element:'Ice',base:{atk:500,speed:100}},...catalog.characters],relicSets:catalog.relicSets,structuredModifiers:all.filter(x=>x.source.id===set)};
+  const app=await tool(undefined,data);app.state.relicId=set;app.state.relicMode='4pc';for(const[k,v]of Object.entries({atk:3000,speed:300,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);near(app.calculate()[0].expected,1620);assert.match(app.node('hsrConditionTitle').textContent,/条件未確定/);
+  app.state.conditionTab='遺物・オーナメント';app.node('hsrConditionDialogOpen').handlers.click();assert.equal((app.node('hsrConditionList').innerHTML.match(/data-structured-input="pre-combat-speed"/g)||[]).length,1);assert.match(app.node('hsrConditionList').innerHTML,/戦闘前の速度：未入力/);
+  for(const[speed,expected]of cases){app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredInput:'pre-combat-speed',structuredStrict:'true'},value:String(speed)}});near(app.calculate()[0].expected,expected);}
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,cases.at(-1)[1]);saved.node('hsrStat-speed').value='1';near(saved.calculate()[0].expected,cases.at(-1)[1]);
+ }
+ const uid=await tool(undefined,{characters:catalog.characters,relicSets:catalog.relicSets,structuredModifiers:all});uid.state.modifierInputs['pre-combat-speed']=999;
+ uid.window.HsrTool.applyProfileCharacter({id:'1003',level:80,eidolon:0,stats:{atk:3000,speed:94.999,critRate:50,critDamage:100},relicSets:[{id:'124',pieces:4}],traces:[]});assert.equal(uid.state.modifierInputs['pre-combat-speed'],94.999);
+ uid.window.HsrTool.applyProfileCharacter({id:'1003',level:80,eidolon:0,stats:{atk:3000},relicSets:[],traces:[]});assert.equal(Object.hasOwn(uid.state.modifierInputs,'pre-combat-speed'),false);
+});
+
+test('round5 party SPD -> Talia -> Iron Cavalry reaches the actual Super Break App request once',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers,ids=['119','307','323'],data={characters:catalog.characters,relicSets:catalog.relicSets,structuredModifiers:all.filter(x=>ids.includes(x.source.id))};
+ const app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);app.state.characterId='1003';app.state.relicId='119';app.state.relicMode='4pc';app.state.ornamentId='307';app.state.party[0]={characterId:'8007',level:80,eidolon:0,ornamentId:'323',traceLevels:{}};
+ for(const[k,v]of Object.entries({atk:3000,speed:137.32,breakEffect:230}))app.node('hsrStat-'+k).value=String(v);
+ app.node('hsrBreakMode').value='superBreak';app.node('hsrToughnessState').value='broken';app.node('hsrSuperBreakToughness').value='30';app.node('hsrSuperBreakMultiplier').value='100';
+ let value;const original=app.window.HsrCalcEngine.calculateSuperBreak;app.window.HsrCalcEngine.calculateSuperBreak=input=>{const r=original(input);value=r.value;return r;};app.calculate();near(value,3767.5533*3*3.3*.8/1.9);
+ app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'ornament-323-memosprite-active'},checked:true}});app.calculate();near(value,18084.25584);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);let restored;const fn=saved.window.HsrCalcEngine.calculateSuperBreak;saved.window.HsrCalcEngine.calculateSuperBreak=input=>{const r=fn(input);restored=r.value;return r;};saved.calculate();near(restored,value);
+ saved.state.party[0].characterId='';saved.calculate();near(restored,3767.5533*3*3.3*.8/1.9);
+});
+
+test('round5 native supports and effective ATK DoT threshold survive real App input and provider removal',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ for(const[provider,rowId,stat,expected]of [['1211','traceNode:1211:1211101:overheal-hp','hp',3294],['1412','traceNode:1412:1412103:merit-speed','atk',1814.4]]){
+  const row=all.find(x=>x.id===rowId),gl=all.find(x=>x.id==='ornament:311:2pc:speed-damage'),data={characters:[{id:'sample',name:'Sample',element:'Ice',base:{hp:1000,atk:1000,speed:100}},...catalog.characters],relicSets:catalog.relicSets,structuredModifiers:[row,gl],attacks:[{id:'support-r5',characterId:'sample',name:'Supported attack',type:'normal',element:'Ice',multipliers:[100],scalingStat:stat,support:{status:'calculable',verified:true}}]};
+  const app=await tool(undefined,data);app.state.party[0]={characterId:provider,level:80,eidolon:0,traceLevels:{}};if(provider==='1412')app.state.ornamentId='311';
+  for(const[k,v]of Object.entries({atk:3000,hp:6000,speed:115,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+  const off=app.calculate()[0].expected;app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:row.activation.inputKey},checked:true}});near(app.calculate()[0].expected,expected);
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,expected);saved.state.party[0].characterId='';near(saved.calculate()[0].expected,off);
+ }
+ const huohuo=all.find(x=>x.id==='trace:1217:121703:party-atk'),dot=all.find(x=>x.id==='ornament:322:2pc:atk-threshold-dot-damage');
+ const app=await tool(undefined,{characters:[{id:'sample',name:'Sample',element:'Ice',base:{atk:1000}},...catalog.characters],relicSets:catalog.relicSets,structuredModifiers:[huohuo,dot],attacks:[{id:'dot-r5',characterId:'sample',name:'DoT',type:'dot',element:'Ice',multipliers:[100],canCrit:false,scalingStat:'atk',support:{status:'calculable',verified:true}}]});
+ app.state.ornamentId='322';app.state.party[0]={characterId:'1217',level:80,eidolon:0,traceLevels:{ultimate:10}};app.node('hsrStat-atk').value='2390';near(app.calculate()[0].nonCrit,2390*.36);
+ app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:huohuo.activation.inputKey},checked:true}});near(app.calculate()[0].nonCrit,2790*.36*1.12);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,{characters:[{id:'sample',name:'Sample',element:'Ice',base:{atk:1000}},...catalog.characters],relicSets:catalog.relicSets,structuredModifiers:[huohuo,dot],attacks:[{id:'dot-r5',characterId:'sample',name:'DoT',type:'dot',element:'Ice',multipliers:[100],canCrit:false,scalingStat:'atk',support:{status:'calculable',verified:true}}]});near(saved.calculate()[0].nonCrit,2790*.36*1.12);
+});
+
+test('round5 Skill promotions are visible without activation checks and restore at every accepted character',async()=>{
+ const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture();
+ for(const row of require('../../games/hsr/data/calc/attacks-round5.json').overrides){
+  const a=p.attacks.find(x=>x.id===row.id),data={characters:p.characters,attacks:[a],structuredModifiers:[]};const app=await tool(undefined,data);app.state.characterId=a.characterId;
+  for(const[k,v]of Object.entries({atk:3000,hp:6000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);app.node('hsrSkillTrace').value='10';const expected=3000*a.multipliers[9]/100*.36;
+  const result=app.calculate()[0];assert.ok(result,row.id);assert.ok(Math.abs(result.nonCrit-expected)<1e-6);
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);assert.ok(Math.abs(saved.calculate()[0].nonCrit-expected)<1e-6);
+ }
+});

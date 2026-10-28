@@ -1,0 +1,510 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "modifier-sets-round5-2026-10-28",
+  "description": "固定StarRailRes SHAで確認した遺物・オーナメント効果。常時properties由来の2セット速度、攻撃力、撃破特効、会心率、会心ダメージは最終入力に含め、再加算しない。戦闘前速度と戦闘中有効速度はactivation.statSourceで区別する。",
+  "modifiers": [
+    {
+      "id": "ornament:307:2pc:break-effect-effective-speed",
+      "source": {
+        "kind": "ornament",
+        "id": "307",
+        "setPieces": 2
+      },
+      "name": "盗賊公国タリア・戦闘中速度145以上の撃破特効",
+      "description": "装備者の戦闘中有効速度が145以上なら撃破特効+20%。2セット撃破特効+16%は最終撃破特効に含め、ここでは追加しません。戦闘中のSPD支援も閾値へ反映します。",
+      "category": "breakEffect",
+      "stat": "breakEffect",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "戦闘中有効速度145以上",
+        "reference": "self.speed",
+        "operator": ">=",
+        "threshold": 145,
+        "statSource": "effective"
+      },
+      "stacking": {
+        "group": "ornament:307:2pc:break-effect-effective-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "breakEffect",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:307",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:装備者の撃破特効+16%。速度145以上ならさらに撃破特効+20%。常時16%は最終入力へ含める。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "ornament:307:2pc:break-effect-effective-speed:in-final-stats",
+        "inputLabel": "タリア速度条件撃破特効+20%を最終入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:124:4pc:precombat-crit-rate",
+      "source": {
+        "kind": "relic",
+        "id": "124",
+        "setPieces": 4
+      },
+      "name": "亡国の悲哀を詠う詩人・戦闘前速度条件の会心率",
+      "description": "戦闘前速度が95未満なら会心率+32%、95以上110未満なら+20%、110以上なら0%。速度値はセットの恒常速度補正を含む戦闘前値として入力し、装備者の記憶の精霊にも効果が有効です。4セット速度-8%は入力値に含めてください。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "threshold",
+        "thresholds": [
+          {
+            "minimum": 0,
+            "value": 32
+          },
+          {
+            "minimum": 95,
+            "value": 20
+          },
+          {
+            "minimum": 110,
+            "value": 0
+          }
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "conditionText": "入力された戦闘前速度が110未満",
+        "reference": "self.preCombatSpeed",
+        "operator": "<",
+        "threshold": 110,
+        "inputKey": "pre-combat-speed",
+        "inputLabel": "戦闘前の速度（セットの恒常速度補正を含む）",
+        "strictInput": true,
+        "minimum": 1,
+        "maximum": 99999
+      },
+      "stacking": {
+        "group": "relic:124:4pc:precombat-crit-rate",
+        "rule": "replace"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:124",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:4セット速度-8%、戦闘前速度110未満で会心率+20%、95未満で+32%。4pcは共有の明示的な戦闘前SPD入力に基づき、2pc量子DMG+10%とセット速度-8%は最終ステータスに含める。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "relic:124:4pc:precombat-crit-rate:in-final-stats",
+        "inputLabel": "詩人の戦闘前速度条件会心率を最終会心率に反映済み"
+      }
+    },
+    {
+      "id": "relic:130:4pc:precombat-crit-rate",
+      "source": {
+        "kind": "relic",
+        "id": "130",
+        "setPieces": 4
+      },
+      "name": "天命に従う旅の卜者・戦闘前速度条件の会心率",
+      "description": "戦闘前速度が120以上160未満なら会心率+10%、160以上なら+18%、120未満なら0%。速度値はセットの恒常速度補正を含む戦闘前値を入力し、戦闘中のSPD支援は含めません。2セット速度+6%を含む戦闘前速度を入力してください。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "threshold",
+        "thresholds": [
+          {
+            "minimum": 0,
+            "value": 0
+          },
+          {
+            "minimum": 120,
+            "value": 10
+          },
+          {
+            "minimum": 160,
+            "value": 18
+          }
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "conditionText": "入力された戦闘前速度が120以上",
+        "reference": "self.preCombatSpeed",
+        "operator": ">=",
+        "threshold": 120,
+        "inputKey": "pre-combat-speed",
+        "inputLabel": "戦闘前の速度（セットの恒常速度補正を含む）",
+        "strictInput": true,
+        "minimum": 1,
+        "maximum": 99999
+      },
+      "stacking": {
+        "group": "relic:130:4pc:precombat-crit-rate",
+        "rule": "replace"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:130",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:戦闘前速度120/160以上で会心率+10/+18%。4pcは共有の明示的な戦闘前SPD入力に基づき、2pc速度+6%は戦闘前値に含める。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "relic:130:4pc:precombat-crit-rate:in-final-stats",
+        "inputLabel": "卜者の戦闘前速度条件会心率を最終会心率に反映済み"
+      }
+    },
+    {
+      "id": "relic:130:4pc:party-elation-first-skill",
+      "source": {
+        "kind": "relic",
+        "id": "130",
+        "setPieces": 4
+      },
+      "name": "天命に従う旅の卜者・初回愉悦スキル後の味方愉悦度",
+      "description": "装備キャラが1回の戦闘で初めて愉悦スキルを発動した後、味方全体の愉悦度+10%。累積不可。発動済み状態を手動指定し、行動順や再発動は追跡しません。2セット速度+6%は最終速度に含めます。",
+      "category": "elation",
+      "stat": "elation",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "elation"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備キャラが戦闘中初めて愉悦スキルを発動した後",
+        "inputKey": "relic-130-first-elation-skill-active",
+        "inputLabel": "卜者の初回愉悦スキル後・味方愉悦度+10%中",
+        "default": false
+      },
+      "stacking": {
+        "group": "relic:130:4pc:party-elation-first-skill",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:130",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:装備キャラが戦闘中初めて愉悦スキルを発動時、味方全体愉悦度+10%、累積不可。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "relic:130:4pc:party-elation-first-skill:in-final-stats",
+        "inputLabel": "卜者の初回愉悦スキル後の味方愉悦度+10%を最終入力に反映済み"
+      }
+    },
+    {
+      "id": "ornament:313:2pc:enemy-defeated-crit-damage",
+      "source": {
+        "kind": "ornament",
+        "id": "313",
+        "setPieces": 2
+      },
+      "name": "荒涼の惑星ツガンニヤ・敵撃破数に応じた会心ダメージ",
+      "description": "敵を倒すたび会心ダメージ+4%、最大10層。装備キャラの戦闘中の撃破数を入力します。2セット会心率+4%は最終会心率に含めます。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "perStack",
+        "perStack": 4
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "conditionText": "この戦闘で倒された敵の累積数（0～10）",
+        "inputKey": "ornament-313-enemy-defeated-stacks",
+        "inputLabel": "この戦闘で倒された敵の数",
+        "minimum": 0,
+        "maximum": 10,
+        "default": 0
+      },
+      "stacking": {
+        "group": "ornament:313:2pc:enemy-defeated-crit-damage",
+        "rule": "add",
+        "maximumStacks": 10
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:313",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:会心率+4%、敵が倒された時に会心ダメージ+4%、最大10層。敵の撃破数を入力する。常時会心率は最終入力へ含める。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "ornament:313:2pc:enemy-defeated-crit-damage:in-final-stats",
+        "inputLabel": "ツガンニヤの敵撃破会心ダメージを最終入力に反映済み"
+      }
+    },
+    {
+      "id": "ornament:318:2pc:summon-field-crit-damage",
+      "source": {
+        "kind": "ornament",
+        "id": "318",
+        "setPieces": 2
+      },
+      "name": "奇想天外のバナダイス・召喚物出場中の会心ダメージ",
+      "description": "装備キャラが召喚したターゲットがフィールド上にいる間、装備キャラの会心ダメージ+32%。召喚物の出場状態を手動指定します。2セット会心ダメージ+16%は最終会心ダメージに含めます。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 32
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備キャラが召喚したターゲットがフィールド上にいる",
+        "inputKey": "ornament-318-summon-active",
+        "inputLabel": "装備者の召喚ターゲットがフィールド上",
+        "default": false
+      },
+      "stacking": {
+        "group": "ornament:318:2pc:summon-field-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:318",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:会心ダメージ+16%。装備キャラが召喚したターゲットの出場中はさらに会心ダメージ+32%。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "ornament:318:2pc:summon-field-crit-damage:in-final-stats",
+        "inputLabel": "バナダイス召喚ターゲット出場中の会心ダメージ+32%を最終入力に反映済み"
+      }
+    },
+    {
+      "id": "ornament:322:2pc:atk-threshold-dot-damage",
+      "source": {
+        "kind": "ornament",
+        "id": "322",
+        "setPieces": 2
+      },
+      "name": "酩酊の海域・攻撃力条件の持続ダメージ",
+      "description": "戦闘中の有効攻撃力が2400以上で持続ダメージ+12%、3600以上で+24%。2セット攻撃力+12%は最終攻撃力に含め、再加算しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "threshold",
+        "thresholds": [
+          {
+            "minimum": 2400,
+            "value": 12
+          },
+          {
+            "minimum": 3600,
+            "value": 24
+          }
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "dot"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "装備キャラの有効攻撃力2400以上",
+        "reference": "self.atk",
+        "operator": ">=",
+        "threshold": 2400,
+        "statSource": "effective"
+      },
+      "stacking": {
+        "group": "ornament:322:2pc:atk-threshold-dot-damage",
+        "rule": "replace"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:322",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:ATK+12%。装備者ATK2400/3600以上でDoT与ダメージさらに+12/+24%。ATK+12%は最終入力に含める。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "ornament:322:2pc:atk-threshold-dot-damage:in-final-stats",
+        "inputLabel": "巨樹の攻撃力条件DoT与ダメージを最終入力に反映済み"
+      }
+    },
+    {
+      "id": "ornament:323:2pc:party-speed-memosprite",
+      "source": {
+        "kind": "ornament",
+        "id": "323",
+        "setPieces": 2
+      },
+      "name": "永遠の地オンパロス・記憶の精霊出場中の味方速度",
+      "description": "装備キャラの記憶の精霊がフィールド上にいる間、味方全体の速度+8%。状態は手動指定し、累積させません。2セット会心率+8%は最終会心率に含めます。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 8
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備キャラの記憶の精霊がフィールド上にいる",
+        "inputKey": "ornament-323-memosprite-active",
+        "inputLabel": "オンパロス装備者の記憶の精霊がフィールド上・味方速度+8%中",
+        "default": false
+      },
+      "stacking": {
+        "group": "ornament:323:2pc:party-speed-memosprite",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:323",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:会心率+8%。装備キャラの記憶の精霊がフィールドにいる時、味方全体速度+8%、累積不可。会心率+8%は最終入力へ含める。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "ornament:323:2pc:party-speed-memosprite:in-final-stats",
+        "inputLabel": "オンパロスの味方速度+8%を最終入力に反映済み"
+      }
+    }
+  ]
+}

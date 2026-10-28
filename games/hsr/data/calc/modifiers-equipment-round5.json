@@ -1,0 +1,819 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "light-cone-round5-2026-10-28",
+  "description": "固定版の光円錐条件効果を既存Modifier経路へ接続する。装備の恒常ステータスは最終入力責務とし、戦闘中の現在状態のみ追加する。",
+  "modifiers": [
+    {
+      "id": "lightCone:21001:debuff-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21001"
+      },
+      "name": "おやすみなさいと寝顔・敵のデバフ数に応じた与ダメージ",
+      "description": "敵のデバフ1つにつき与ダメージ+12/15/18/21/24%、最大3層。持続ダメージを含む。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "perReferenceStack",
+        "values": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ],
+        "reference": "enemy.debuffCount",
+        "maximum": 3
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "reference": "enemy.debuffCount",
+        "operator": ">=",
+        "threshold": 1,
+        "conditionText": "敵にデバフが1つ以上ある。効果は最大3層。"
+      },
+      "stacking": {
+        "group": "lightCone:21001:debuff-damage",
+        "rule": "nonStacking",
+        "maximumStacks": 3
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21001-effect-in-final",
+        "inputLabel": "おやすみなさいと寝顔のこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21001.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "R1-R5 debuff stack multiplier; max 3; all damage including DoT."
+      }
+    },
+    {
+      "id": "lightCone:21022:shock-wind-shear-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21022"
+      },
+      "name": "フェルマータ・感電または風化中の敵への与ダメージ",
+      "description": "攻撃対象が感電または風化状態のとき、装備者の与ダメージ+16/20/24/28/32%。持続ダメージを含む。常時撃破特効は最終入力へ含める。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          16,
+          20,
+          24,
+          28,
+          32
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-21022-shock-wind-shear-active",
+        "inputLabel": "攻撃対象が感電または風化状態",
+        "default": false,
+        "conditionText": "攻撃対象が感電または風化状態"
+      },
+      "stacking": {
+        "group": "lightCone:21022:shock-wind-shear-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21022-effect-in-final",
+        "inputLabel": "フェルマータのこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21022.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "Shock or Wind Shear target condition, applies to wearer damage including DoT; permanent BE omitted from runtime because it is final-stat input."
+      }
+    },
+    {
+      "id": "lightCone:21026:burn-bleed-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21026"
+      },
+      "name": "ワン！散歩の時間！・燃焼または裂創中の敵への与ダメージ",
+      "description": "攻撃対象が燃焼または裂創状態のとき、装備者の与ダメージ+16/20/24/28/32%。持続ダメージを含む。常時ATKは最終入力へ含める。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          16,
+          20,
+          24,
+          28,
+          32
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-21026-burn-bleed-active",
+        "inputLabel": "攻撃対象が燃焼または裂創状態",
+        "default": false,
+        "conditionText": "攻撃対象が燃焼または裂創状態"
+      },
+      "stacking": {
+        "group": "lightCone:21026:burn-bleed-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21026-effect-in-final",
+        "inputLabel": "ワン！散歩の時間！のこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21026.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "Burn or Bleed target condition, applies to wearer damage including DoT; permanent ATK omitted from runtime because it is final-stat input."
+      }
+    },
+    {
+      "id": "lightCone:21042:post-ultimate-crit-rate",
+      "source": {
+        "kind": "lightCone",
+        "id": "21042"
+      },
+      "name": "心に刻まれた約束・必殺技後の会心率",
+      "description": "装備者が必殺技を発動した後2ターン、会心率+15/18.75/22.5/26.25/30%。常時撃破特効は最終入力へ含める。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          15,
+          18.75,
+          22.5,
+          26.25,
+          30
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-21042-post-ultimate-active",
+        "inputLabel": "必殺技後の会心率上昇が有効（2ターン以内）",
+        "default": false,
+        "durationTurns": 2,
+        "conditionText": "装備者が必殺技を発動した後2ターン"
+      },
+      "stacking": {
+        "group": "lightCone:21042:post-ultimate-crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21042-effect-in-final",
+        "inputLabel": "心に刻まれた約束のこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21042.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "R1-R5 post-Ult CR for 2 turns; permanent BE omitted because it is final-stat input."
+      }
+    },
+    {
+      "id": "lightCone:21043:shielded-ally-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21043"
+      },
+      "name": "二人だけのコンサート・バリア中の味方数に応じた与ダメージ",
+      "description": "バリアを持つ味方1名につき与ダメージ+4/5/6/7/8%。バリア中の現在の味方数を0～4で指定。常時DEFは最終入力へ含める。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "lc-21043-shielded-allies",
+        "inputLabel": "バリアを持つ味方数（装備者を含む）",
+        "minimum": 0,
+        "maximum": 4,
+        "step": 1,
+        "default": 0,
+        "conditionText": "現在バリアを持つ味方数"
+      },
+      "stacking": {
+        "group": "lightCone:21043:shielded-ally-damage",
+        "rule": "nonStacking",
+        "maximumStacks": 4
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21043-effect-in-final",
+        "inputLabel": "二人だけのコンサートのこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21043.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "Each shielded ally currently grants damage; value per ally scales by refinement. Permanent DEF omitted from runtime."
+      }
+    },
+    {
+      "id": "lightCone:21044:enemy-debuff-crit-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21044"
+      },
+      "name": "終わりなき舞踏・防御力ダウンまたは速度ダウン中の敵への会心ダメージ",
+      "description": "敵が防御力ダウンまたは速度ダウン状態のとき、会心ダメージ+24/30/36/42/48%。常時会心率は最終入力へ含める。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-21044-enemy-def-down-or-slow",
+        "inputLabel": "攻撃対象が防御力ダウンまたは速度ダウン状態",
+        "default": false,
+        "conditionText": "敵が防御力ダウンまたは速度ダウン状態"
+      },
+      "stacking": {
+        "group": "lightCone:21044:enemy-debuff-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21044-effect-in-final",
+        "inputLabel": "終わりなき舞踏のこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21044.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "Target condition is defense reduction or slow; permanent CR omitted because it is final-stat input."
+      }
+    },
+    {
+      "id": "lightCone:21045:post-ultimate-speed",
+      "source": {
+        "kind": "lightCone",
+        "id": "21045"
+      },
+      "name": "調和が沈黙した後・必殺技後の速度",
+      "description": "装備者が必殺技を発動した後2ターン、速度+8/10/12/14/16%。常時撃破特効は最終入力へ含める。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          8,
+          10,
+          12,
+          14,
+          16
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-21045-post-ultimate-active",
+        "inputLabel": "必殺技後の速度上昇が有効（2ターン以内）",
+        "default": false,
+        "durationTurns": 2,
+        "conditionText": "装備者が必殺技を発動した後2ターン"
+      },
+      "stacking": {
+        "group": "lightCone:21045:post-ultimate-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21045-effect-in-final",
+        "inputLabel": "調和が沈黙した後のこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21045.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "R1-R5 speed after Ult for 2 turns; permanent BE omitted because it is final-stat input."
+      }
+    },
+    {
+      "id": "lightCone:21051:post-ultimate-normal-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21051"
+      },
+      "name": "天才たちの「挨拶」・必殺技後の通常攻撃ダメージ",
+      "description": "装備者が必殺技を発動した後3ターン、装備者と記憶精霊の通常攻撃ダメージ+20/25/30/35/40%。このModifierは装備者の通常・強化通常攻撃を対象とし、別個体の記憶精霊攻撃は計算対象外。常時ATKは最終入力へ含める。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal",
+          "enhancedNormal"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-21051-post-ultimate-active",
+        "inputLabel": "必殺技後の通常攻撃強化が有効（3ターン以内）",
+        "default": false,
+        "durationTurns": 3,
+        "conditionText": "装備者が必殺技を発動した後3ターン"
+      },
+      "stacking": {
+        "group": "lightCone:21051:post-ultimate-normal-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21051-effect-in-final",
+        "inputLabel": "天才たちの「挨拶」のこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21051.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "R1-R5 normal damage after Ult for 3 turns; maps to user's normal/enhanced-normal attacks. Separate memosprite actor is not represented by this row."
+      }
+    },
+    {
+      "id": "lightCone:21053:barrier-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21053"
+      },
+      "name": "旅が平穏であるように・バリア中の味方への与ダメージ",
+      "description": "バリアを持つ味方本人の与ダメージ+12/14/16/18/20%。装備者は提供者であり、装備者を含めた現在のバリア受益者が対象。バリア状態は手動指定。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12,
+          14,
+          16,
+          18,
+          20
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-21053-barrier-active",
+        "inputLabel": "味方がバリアを持つ",
+        "default": false,
+        "conditionText": "味方がバリアを持つ"
+      },
+      "stacking": {
+        "group": "lightCone:21053:barrier-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21053-effect-in-final",
+        "inputLabel": "旅が平穏であるようにのこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21053.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "The fixed description applies to the ally target while shielded, not only the wearer; activeAlly allows the wearer itself or another current ally as beneficiary. R1-R5 DMG values are 12/14/16/18/20%."
+      }
+    },
+    {
+      "id": "lightCone:21024:battle-entry-speed",
+      "source": {
+        "kind": "lightCone",
+        "id": "21024"
+      },
+      "name": "春水に初生する・戦闘開始時の速度",
+      "description": "戦闘開始時に速度+8/9/10/11/12%。装備者が攻撃を受けると解除され、次のターン終了後に再発動する。現在有効な状態を選択。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          8,
+          9,
+          10,
+          11,
+          12
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-21024-entry-buff-active",
+        "inputLabel": "春水に初生するの速度・与ダメージ上昇が有効",
+        "default": false,
+        "conditionText": "戦闘開始時。被弾後は次のターン終了後に再発動"
+      },
+      "stacking": {
+        "group": "lightCone:21024:entry-buff",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21024-speed-in-final",
+        "inputLabel": "春水に初生するの速度上昇を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21024.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "Shared explicit current-state toggle with separate speed and damage final-stat inclusion guards."
+      }
+    },
+    {
+      "id": "lightCone:21024:battle-entry-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21024"
+      },
+      "name": "春水に初生する・戦闘開始時の与ダメージ",
+      "description": "戦闘開始時に与ダメージ+12/15/18/21/24%。装備者が攻撃を受けると解除され、次のターン終了後に再発動する。現在有効な状態を選択。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-21024-entry-buff-active",
+        "inputLabel": "春水に初生するの速度・与ダメージ上昇が有効",
+        "default": false,
+        "conditionText": "戦闘開始時。被弾後は次のターン終了後に再発動"
+      },
+      "stacking": {
+        "group": "lightCone:21024:entry-buff",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21024-damage-in-final",
+        "inputLabel": "春水に初生するの与ダメージ上昇を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21024.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "Shared explicit current-state toggle with separate speed and damage final-stat inclusion guards."
+      }
+    },
+    {
+      "id": "lightCone:21038:hp-loss-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21038"
+      },
+      "name": "烈火の彼方・HPを失った後の与ダメージ",
+      "description": "1回のHP減少・消費が最大HPの25%を超えた後、与ダメージ+25/31.25/37.5/43.75/50%が2ターン有効。発動間隔は3ターン。現在有効な状態のみ選択し、HP・ターン経過は再現しない。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          25,
+          31.25,
+          37.5,
+          43.75,
+          50
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-21038-hp-loss-active",
+        "inputLabel": "烈火の彼方のHP消費後の与ダメージ上昇が有効",
+        "default": false,
+        "durationTurns": 2,
+        "conditionText": "単一のHP減少・消費が最大HPの25%を超えた後2ターン。再発動間隔3ターン。"
+      },
+      "stacking": {
+        "group": "lightCone:21038:hp-loss-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21038-effect-in-final",
+        "inputLabel": "烈火の彼方のこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21038.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "Manual state captures whether the HP-loss trigger is active; HP and turn timeline are not simulated."
+      }
+    },
+    {
+      "id": "lightCone:21041:trick-damage-stacks",
+      "source": {
+        "kind": "lightCone",
+        "id": "21041"
+      },
+      "name": "ショーの始まり・現在の「トリック」層数による与ダメージ",
+      "description": "装備者がデバフを付与して獲得した「トリック」の現在層数に応じ、1層につき与ダメージ+6/7/8/9/10%。最大3層、1ターン継続。常時効果命中と条件付きATKは最終入力へ含める。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "lc-21041-trick-stacks",
+        "inputLabel": "現在のトリック層数",
+        "minimum": 0,
+        "maximum": 3,
+        "step": 1,
+        "default": 0,
+        "conditionText": "装備者がデバフを付与して獲得した現在の層数（最大3）、1ターン継続",
+        "durationTurns": 1
+      },
+      "stacking": {
+        "group": "lightCone:21041:trick-damage-stacks",
+        "rule": "nonStacking",
+        "maximumStacks": 3
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21041-effect-in-final",
+        "inputLabel": "ショーの始まりのこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21041.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "Current Trick stack count is an explicit input; each stack grants 6/7/8/9/10% DMG for 1 turn. Persistent effect-hit and any ATK converted into final stats are not recalculated."
+      }
+    }
+  ]
+}

@@ -12,7 +12,8 @@
     "attacks-batch7-elation.json",
     "attacks-batch8-feixiao.json",
     "attacks-batch8-hiyu.json",
-    "attacks-round4.json"
+    "attacks-round4.json",
+    "attacks-round5.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",
@@ -69,6 +70,9 @@
     "modifiers-batch8-break.json",
     "modifiers-equipment-round4.json",
     "modifiers-sets-round4.json",
-    "modifiers-native-round4.json"
+    "modifiers-native-round4.json",
+    "modifiers-equipment-round5.json",
+    "modifiers-sets-round5.json",
+    "modifiers-native-round5.json"
   ]
 }
