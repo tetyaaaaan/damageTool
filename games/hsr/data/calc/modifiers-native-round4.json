@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "native-round4-2026-10-28",
+  "description": "固定SHAで確認したキャラクター軌跡の条件付きダメージ・味方攻撃力補正。",
+  "modifiers": [
+    {
+      "id": "traceNode:1302:1302103:low-hp-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1302",
+        "traceId": "1302103"
+      },
+      "name": "追加能力「勇気」・低HPの敵への与ダメージ",
+      "description": "敵の残りHPが50%以下なら、アルジェンティの与ダメージ+15%。現在HP割合の入力から自動判定します。最終与ダメージに反映済みなら算入済み欄で除外してください。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 15
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "敵の残りHPが50%以下",
+        "reference": "enemy.hpPercent",
+        "operator": "<=",
+        "threshold": 50
+      },
+      "stacking": {
+        "group": "traceNode:1302:1302103:low-hp-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "argenti-a6-damage-in-final-stats",
+        "inputLabel": "低HP敵への追加与ダメージを最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1302103「勇気」の敵HP50%以下・与ダメージ+15%を自動判定へ接続。現在HP不明時は成立扱いにしない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1302103.params[0][0..1]",
+        "verifiedAt": "2026-10-28",
+        "notes": "「勇気」params=[[0.5,0.15]]: 敵の残りHP<=50%でアルジェンティの与ダメージ+15%。",
+        "scope": "アルジェンティ本人の全攻撃へ適用。enemy.hpPercentは攻撃時点の残HP割合を使用し、不明時は発動させない。",
+        "verification": "tests/hsr/hsrNativeRound4.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1408:1408102:healing-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1408",
+        "traceId": "1408102"
+      },
+      "name": "追加能力「幾千万の炎を携えて」・他者の治癒／バリア後の与ダメージ",
+      "description": "ファイノンが自身以外の味方から治癒またはバリアを受けた後、与ダメージ+45%が4ターン継続中の状態を選択します。このダメージ効果は1ターンに1回まで発動します。最終与ダメージに反映済みなら算入済み欄で除外します。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 45
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "他の味方から治癒またはバリアを受けた後の与ダメージ上昇中",
+        "inputKey": "phainon-a2-healing-damage-active",
+        "inputLabel": "ファイノンA2・他者の治癒／バリア後",
+        "default": false,
+        "durationTurns": 4
+      },
+      "stacking": {
+        "group": "traceNode:1408:1408102:healing-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "phainon-a2-damage-in-final-stats",
+        "inputLabel": "ファイノンA2の与ダメージを最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1408102の治癒/バリア後+45%、4ターン、1ターン1回を任意状態入力へ接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1408102.params[0][0..2]",
+        "verifiedAt": "2026-10-28",
+        "notes": "params=[[0.45,4,1]]。自身以外の味方による治癒効果またはバリアを受けた後、与ダメージ+45%、4ターン。1ターンに1回。",
+        "scope": "ファイノン本人の全攻撃へ適用。他の味方からの治癒/バリア後の有効状態を単発入力。",
+        "verification": "tests/hsr/hsrNativeRound4.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1414:1414101:partner-atk",
+      "source": {
+        "kind": "trace",
+        "id": "1414",
+        "traceId": "1414101"
+      },
+      "name": "追加能力「偉観」・同袍の攻撃力",
+      "description": "丹恒・騰荒が戦闘スキルを発動し「同袍」に選んだ味方へ、丹恒・騰荒の攻撃力15%分を固定攻撃力として加算します。戦闘スキル後の成立状態を指定し、最終攻撃力に含まれている場合は算入済み欄で除外します。",
+      "category": "statFlat",
+      "stat": "atk",
+      "unit": "flat",
+      "value": {
+        "kind": "providerStatPercentByLevel",
+        "providerStat": "atk",
+        "values": [
+          15
+        ],
+        "inputKey": "dan-heng-pt-a2-provider-atk",
+        "inputLabel": "丹恒・騰荒の現在攻撃力",
+        "default": 0,
+        "minimum": 0,
+        "inputMaximum": 99999,
+        "inputStep": 1
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "丹恒・騰荒が戦闘スキルを発動し、現在の計算対象が「同袍」として選ばれている",
+        "inputKey": "dan-heng-pt-a2-partner-atk-active",
+        "inputLabel": "丹恒・騰荒の「同袍」攻撃力上昇中",
+        "default": false
+      },
+      "stacking": {
+        "group": "traceNode:1414:1414101:partner-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "dan-heng-pt-a2-atk-in-final-stats",
+        "inputLabel": "「偉観」の攻撃力上昇を最終攻撃力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1414101「偉観」の受益者攻撃力=提供者ATK×15%をproviderStatPercentByLevelで計算。スキル後の対象指定のみ任意入力。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1414101.params[0][0]",
+        "verifiedAt": "2026-10-28",
+        "notes": "「偉観」params=[[0.15]]: スキル発動時、「同袍」になった対象のATKを丹恒・騰荒のATK15%分増加。",
+        "scope": "丹恒・騰荒を編成中の単一計算対象で、同袍に選択された味方。提供者と受益者を分離。",
+        "verification": "tests/hsr/hsrNativeRound4.test.cjs"
+      }
+    }
+  ]
+}

@@ -3224,3 +3224,99 @@ test('round3 shared Rain and provider shield states are applied once, saved and 
   if(set==='128'){saved.state.party[1]={characterId:'1211',level:80,eidolon:0,relicId:set,relicMode:'4pc',traceLevels:{skill:10}};near(saved.calculate()[0].expected,1620);assert.match(saved.node('hsrConditionTitle').textContent,/条件未確定/);}else{saved.state.relicId='';near(saved.calculate()[0].expected,1620);}
  }
 });
+
+test('round4 six cone states reach App damage, final inclusion, equipment changes and saved inputs',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);
+ for(const[id,char,category,key,amount]of [['21003','1002','critRate',null,12],['21008','1108','dotDamage',null,24],['21019','1107','critRate','lc-21019-kill-crit-active',12],['21020','1003','critDamage','lc-21020-kill-cd-active',24],['21027','1003','statPercent','lc-21027-kill-stacks',12],['21005','1107','statPercent','lc-21005-mischief-stacks',36]]){
+  const row=all.find(x=>x.source.kind==='lightCone'&&x.source.id===id),type=category==='dotDamage'?'dot':'normal';
+  const data={characters:catalog.characters,lightCones:catalog.lightCones,structuredModifiers:[row],attacks:[{id:'round4-cone-app',name:'Cone state',characterId:char,type,element:catalog.characters.find(x=>x.id===char).element,multipliers:[100],scalingStat:'atk',canCrit:type!=='dot',support:{status:'calculable',verified:true}}]};
+  const app=await tool(undefined,data);app.state.characterId=char;app.state.coneId=id;
+  for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+  app.node('hsrEnemyCount').value=id==='21003'?'3':'1';
+  const baseAtk=catalog.characters.find(x=>x.id===char).base.atk+catalog.lightCones.find(x=>x.id===id).base.atk;
+  if(key){const event=category==='statPercent'?{dataset:{structuredInput:key},value:'3'}:{dataset:{structuredToggle:key},checked:true};app.node('hsrConditionDialog').handlers.change({target:event});}
+  else if(id==='21003'){near(app.calculate()[0].expected,1620);app.node('hsrEnemyCount').value='2';}
+  const atk=3000+(category==='statPercent'?baseAtk*amount/100:0),nc=atk*0.5*0.8*0.9*(category==='dotDamage'?1+amount/100:1);
+  const expected=category==='dotDamage'?nc:nc*(1+(50+(category==='critRate'?amount:0))/100*(1+(category==='critDamage'?amount/100:0)));
+  near(app.calculate()[0].expected,expected);
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,expected);
+  if(category==='statPercent')saved.node('hsrStat-atk').value=String(atk);
+  if(category==='critRate')saved.node('hsrStat-critRate').value=String(50+amount);
+  if(category==='critDamage')saved.node('hsrStat-critDamage').value=String(100+amount);
+  if(category==='dotDamage')saved.node('hsrStat-damageBonus').value=String(amount);
+  saved.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:row.finalStatsInclusion.inputKey},checked:true}});near(saved.calculate()[0].expected,expected);
+  // Removing a cone removes its additional effect; a user-supplied final value remains their input.
+  saved.state.coneId='';saved.node('hsrStat-atk').value='3000';saved.node('hsrStat-critRate').value='50';saved.node('hsrStat-critDamage').value='100';saved.node('hsrStat-damageBonus').value='0';near(saved.calculate()[0].expected,type==='dot'?1080:1620);
+ }
+});
+
+test('round4 accepted Normal attacks reach the App without activation checks and restore as single-attack results',async()=>{
+ const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:prod}=await loadProductionFixture();
+ const ids=require('../../games/hsr/data/calc/attacks-round4.json').overrides.map(x=>x.id);
+ for(const id of ids){
+  const a=prod.attacks.find(x=>x.id===id),data={characters:prod.characters,lightCones:prod.lightCones,attacks:[a],structuredModifiers:[]};
+  const app=await tool(undefined,data);app.state.characterId=a.characterId;app.state.eidolon=0;
+  for(const[k,v]of Object.entries({hp:6000,atk:3000,def:4000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+  app.node('hsrNormalTrace').value='6';app.node('hsrEnemyCount').value='1';
+  const expected=(a.scalingStat==='hp'?6000:3000)*a.multipliers[5]/100*0.5*0.8*0.9;
+  const results=app.calculate();assert.equal(results.length,1,id);assert.ok(Math.abs(results[0].nonCrit-expected)<1e-7,id);
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);assert.ok(Math.abs(saved.calculate()[0].nonCrit-expected)<1e-7,id+' restored');
+ }
+});
+
+test('round4 native HP and healing conditions reach App calculations and restore',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);
+ for(const[char,id,key,on]of [['1302','traceNode:1302:1302103:low-hp-damage',null,1242],['1408','traceNode:1408:1408102:healing-damage','phainon-a2-healing-damage-active',1566]]){
+  const data={characters:catalog.characters,structuredModifiers:all.filter(x=>x.id===id),attacks:[{id:'native-r4-app',name:'Native state',characterId:char,type:'normal',element:catalog.characters.find(x=>x.id===char).element,multipliers:[100],scalingStat:'atk',support:{status:'calculable',verified:true}}]};
+  const app=await tool(undefined,data);app.state.characterId=char;for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+  app.node('hsrEnemyHpPercent').value='';near(app.calculate()[0].nonCrit,1080);
+  if(key)app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:key},checked:true}});
+  else{for(const[hp,nc]of [['50.001',1080],['50',1242],['49.999',1242]]){app.node('hsrEnemyHpPercent').value=hp;near(app.calculate()[0].nonCrit,nc);}}
+  near(app.calculate()[0].nonCrit,on);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].nonCrit,on);
+ }
+});
+
+test('round4 same-cloak support uses provider ATK without a skill-level requirement, missing ATK excludes only that support',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),row=require('../../games/hsr/data/calc/modifiers-native-round4.json').modifiers.find(x=>x.source.id==='1414'),data={characters:[{id:'sample',name:'Sample',element:'Ice',base:{atk:500}},...catalog.characters],structuredModifiers:[row]};
+ const app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);
+ app.state.party[0]={characterId:'1414',level:80,eidolon:0,atk:4000,traceLevels:{}};
+ for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);near(app.calculate()[0].nonCrit,1080);
+ app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:row.activation.inputKey},checked:true}});near(app.calculate()[0].nonCrit,1296);
+ for(const atk of[NaN,0,undefined]){app.state.party[0].atk=atk;near(app.calculate()[0].nonCrit,1080);assert.match(app.node('hsrConditionTitle').textContent,/条件未確定/);}
+ app.state.party[0].atk=4000;near(app.calculate()[0].nonCrit,1296);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].nonCrit,1296);
+ saved.node('hsrStat-atk').value='3600';saved.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:row.finalStatsInclusion.inputKey},checked:true}});near(saved.calculate()[0].nonCrit,1296);
+ saved.state.party[0].characterId='';saved.node('hsrStat-atk').value='3000';near(saved.calculate()[0].nonCrit,1080);
+});
+
+test('round4 new set conditions share state, affect wearer HP or SPD/CD, and restore',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);
+ for(const set of['123','127']){
+  const recs=all.filter(m=>m.source.kind==='relic'&&m.source.id===set||m.id==='ornament:311:2pc:speed-damage');
+  const data={characters:[{id:'sample',name:'Sample',element:'Ice',base:{atk:500,hp:1000,speed:100}},...catalog.characters],relicSets:catalog.relicSets,structuredModifiers:recs};
+  if(set==='127')data.attacks=[{id:'r4-hp-app',name:'HP attack',characterId:'sample',type:'normal',element:'Ice',multipliers:[100],scalingStat:'hp',support:{status:'calculable',verified:true}}];
+  const app=await tool(undefined,data);app.state.relicId=set;app.state.relicMode='4pc';if(set==='123')app.state.ornamentId='311';
+  for(const[k,v]of Object.entries({atk:3000,hp:6000,speed:130,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+  const off=app.calculate()[0].expected;
+  for(const key of[...new Set(recs.filter(x=>x.source.id===set).map(x=>x.activation.inputKey))])app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:key},checked:true}});
+  const expected=set==='123'?1995.84:3875.04;near(app.calculate()[0].expected,expected);
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,expected);
+  saved.state.relicId='';near(saved.calculate()[0].expected,off);
+ }
+});
+
+test('round4 Artificer detects explicit or supported DEF reduction automatically without triggering Fuel',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers;
+ const recs=all.filter(x=>x.source.kind==='relic'&&x.source.id==='132'||x.id==='trace:1106:110607:defense-reduction'),data={characters:[{id:'sample',name:'Sample',element:'Ice',base:{atk:500}},...catalog.characters],relicSets:catalog.relicSets,structuredModifiers:recs};
+ const app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);app.state.relicId='132';app.state.relicMode='4pc';
+ for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+ near(app.calculate()[0].expected,1620);app.node('hsrEnemyDefenseReduction').value='40';near(app.calculate()[0].expected,2214);
+ app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'relic-132-fuel'},checked:true}});near(app.calculate()[0].expected,2546.1);
+ app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'relic-132-fuel'},checked:false}});
+ app.node('hsrEnemyDefenseReduction').value='0';app.state.party[0]={characterId:'1106',level:80,eidolon:0,traceLevels:{}};
+ app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'pela-technique-defense-down'},checked:true}});near(app.calculate()[0].expected,1968);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,1968);
+ saved.state.party[0].characterId='';near(saved.calculate()[0].expected,1620);
+ const pela=data.structuredModifiers.find(x=>x.id==='trace:1106:110607:defense-reduction'),zero={...pela,value:{kind:'fixed',fixed:0}},zeroApp=await tool(undefined,{...data,structuredModifiers:recs.map(x=>x.id===pela.id?zero:x)});zeroApp.state.relicId='132';zeroApp.state.relicMode='4pc';zeroApp.state.party[0]={characterId:'1106',level:80,eidolon:0,traceLevels:{}};for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))zeroApp.node('hsrStat-'+k).value=String(v);zeroApp.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'pela-technique-defense-down'},checked:true}});near(zeroApp.calculate()[0].expected,1620);
+ saved.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'enemy-defense-down-active'},checked:true}});near(saved.calculate()[0].expected,1771.2);
+ const row=recs.find(x=>x.id==='relic:132:4pc:defense-down-crit-damage');saved.node('hsrStat-critDamage').value='128';saved.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:row.finalStatsInclusion.inputKey},checked:true}});near(saved.calculate()[0].expected,1771.2);
+});

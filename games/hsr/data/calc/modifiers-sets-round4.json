@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "relic-sets-round4-2026-10-28",
+  "description": "固定StarRailRes SHAで原文確認した遺物効果。固定値の2セット効果は完成最終ステータスに含め、再加算しない。記憶の精霊自身の固有HP値は現在の計算対象外。",
+  "modifiers": [
+    {
+      "id": "relic:123:4pc:memosprite-speed",
+      "source": {
+        "kind": "relic",
+        "id": "123",
+        "setPieces": 4
+      },
+      "name": "凱歌を揚げる英雄・記憶の精霊出場中の速度",
+      "description": "装備キャラの記憶の精霊がフィールドにいる間、装備キャラの速度+6%。記憶の精霊の出場状態を手動指定する。2セット攻撃力+12%は最終ATKへ含め、再加算しない。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 6
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備キャラの記憶の精霊がフィールド上にいる",
+        "inputKey": "relic-123-memosprite-present",
+        "inputLabel": "装備者の記憶の精霊がフィールド上",
+        "default": false
+      },
+      "stacking": {
+        "group": "relic:123:4pc:memosprite-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:123",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版4セット:記憶の精霊がフィールドにいる間、装備キャラの速度+6%。2セット攻撃力+12%は最終入力へ含める。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "relic:123:4pc:memosprite-speed:in-final-stats",
+        "inputLabel": "記憶の精霊出場中の英雄速度+6%を最終速度に反映済み"
+      }
+    },
+    {
+      "id": "relic:123:4pc:memosprite-attack-crit-damage",
+      "source": {
+        "kind": "relic",
+        "id": "123",
+        "setPieces": 4
+      },
+      "name": "凱歌を揚げる英雄・記憶の精霊攻撃後の会心ダメージ",
+      "description": "装備キャラの記憶の精霊が攻撃した後、装備キャラおよびその記憶の精霊の会心ダメージ+30%、2ターン継続。発動後状態を手動指定し、行動順やターン経過を自動追跡しない。2セット攻撃力+12%は最終ATKへ含め、再加算しない。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 30
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備者の記憶の精霊が攻撃した後（2ターン以内）",
+        "inputKey": "relic-123-memosprite-attack-active",
+        "inputLabel": "記憶の精霊攻撃後・会心ダメージ+30%中",
+        "default": false,
+        "durationTurns": 2
+      },
+      "stacking": {
+        "group": "relic:123:4pc:memosprite-attack-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:123",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版4セット:装備キャラの記憶の精霊攻撃後、装備キャラとその記憶の精霊の会心ダメージ+30%、2ターン。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "relic:123:4pc:memosprite-attack-crit-damage:in-final-stats",
+        "inputLabel": "記憶の精霊攻撃後の会心ダメージ+30%を最終CDに反映済み"
+      }
+    },
+    {
+      "id": "relic:127:4pc:wearer-hp",
+      "source": {
+        "kind": "relic",
+        "id": "127",
+        "setPieces": 4
+      },
+      "name": "天地再創の救世主・記憶の精霊出場後の装備者最大HP",
+      "description": "装備キャラが通常攻撃または戦闘スキルを発動した後、装備キャラの記憶の精霊がフィールド上にいる場合、装備キャラおよびその精霊の最大HP+24%。条件成立後の装備者本人へのHP+24%を計算する。2セット会心率+8%は最終会心率に含める。記憶の精霊側の最大HPは現在の汎用ステータス入力で扱わない。",
+      "category": "statPercent",
+      "stat": "hp",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 24
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備キャラが通常攻撃または戦闘スキルを発動した後、装備キャラの記憶の精霊がフィールド上にいる状態から次の通常攻撃または戦闘スキルまで",
+        "inputKey": "relic-127-party-damage",
+        "inputLabel": "装備者の通常/スキル後・精霊出場状態",
+        "default": false
+      },
+      "stacking": {
+        "group": "relic:127:4pc:wearer-hp",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "装備者本人の最大HPのみを扱う。記憶の精霊側の最大HPは攻撃者別最終HP入力がないため未対応。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:127",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版4セット:装備キャラの通常/戦闘スキル後、記憶の精霊が出場時に装備者と精霊の最大HP+24%。この記録は装備者本人分。"
+      },
+      "scope": "装備キャラ本人の最大HP+24%まで。記憶の精霊側の最大HP+24%および精霊の最大HP参照ダメージへの反映は未対応。発動状態は同じ固定版トリガーの味方与ダメージ効果と共有。",
+      "finalStatsInclusion": {
+        "inputKey": "relic:127:4pc:wearer-hp:in-final-stats",
+        "inputLabel": "救世主4セットの装備者最大HP+24%を最終HPに反映済み"
+      }
+    }
+  ]
+}

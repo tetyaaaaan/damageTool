@@ -33,7 +33,7 @@ const variedModifiers = (stat) => [
     { id: "disabled-bonus", category: "damageBonus", value: 80, enabled: false, applicable: false }
 ];
 
-test("five direct single-target Basic attacks are promoted only with fixed-source E0 scope", async () => {
+test("the five earlier direct single-target Basic promotions retain fixed-source E0 scope", async () => {
     const { data, engine } = await loadProductionFixture();
     for (const [id, spec] of Object.entries(promotions)) {
         const attack = attackOf(data, id);
@@ -59,7 +59,7 @@ test("five direct single-target Basic attacks are promoted only with fixed-sourc
         assert.equal(engine.unsupportedAttackReason(attack), "", id + " passes engine validation");
     }
 
-    assert.equal(attackOf(data, "140601").support.status, "review", "an unverified sibling remains a reference value");
+    assert.equal(attackOf(data, "140602").support.status, "review", "an unrelated unverified skill remains a reference value");
     assert.equal(attackOf(data, "140603").support.status, "displayOnly", "an unsupported compound attack remains unavailable");
     assert.equal(data.attacks.length, data.attackCoverage.total, "loader totals remain derived from the actual attack list");
 });

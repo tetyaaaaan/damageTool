@@ -595,6 +595,11 @@
       const equipped = find("lightCones", String(source.id));
       if (wearer?.path && equipped?.path && wearer.path !== equipped.path) return { ...item, applicable: false, inputWarnings: [...(item.inputWarnings || []), "光円錐の運命が装備者と一致しません。装備を確認してください。"] };
     }
+    // This fixed trace has no skill-level input; only its provider ATK is required.
+    if (item.id === "traceNode:1414:1414101:partner-atk" && item.enabled && !item.displayOnly) {
+      const providerAtk = item.providerId === state.characterId ? state.stats.atk : state.party.find(member => member.characterId === item.providerId)?.atk;
+      if (!Number.isFinite(providerAtk) || providerAtk <= 0) return { ...item, enabled: false, applicable: false, activation: { ...item.activation, unresolved: true, unresolvedReason: "丹恒・騰荒の攻撃力が未確定のため、この支援は追加しません。編成の攻撃力を入力してください。" } };
+    }
     const provider = state.party.find((member) => member.characterId === item.providerId);
     if (!provider || item.displayOnly || !item.enabled) return item;
     const warnings = [...(item.inputWarnings || [])];
@@ -623,7 +628,14 @@
 
   function structuredSourceConditions(inputs = state.modifierInputs, attack) {
     if (!window.HsrModifierRuntime) return [];
-    return window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, inputs)
+    const candidates = window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, inputs);
+    // Only infer the existing enemy condition from known positive reductions, without feeding threshold outputs back.
+    const knownDefenseDown = state.enemy.defenseReduction > 0 || candidates.some(item => item.category === "defenseReduction" && item.value > 0
+      && item.enabled && item.applicable !== false && !item.inputWarnings?.length
+      && (attack ? window.HsrModifierRuntime.applicableToAttack(item, attack) : item.target?.attackTypes?.includes("all")));
+    return candidates.map(item => item.id === "relic:132:4pc:defense-down-crit-damage" && knownDefenseDown && item.calculable && !item.includedInFinalStats
+      ? { ...item, enabled: true, automatic: true, activation: { ...item.activation, mode: "always", active: true, automatic: true }, conditionText: "入力した防御ダウンまたは有効な防御低下補正から自動判定" }
+      : item)
       .filter(item => !comparisonSelector(item))
       .map((item) => ({
         ...item,

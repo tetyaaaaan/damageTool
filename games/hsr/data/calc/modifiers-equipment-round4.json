@@ -1,0 +1,382 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "light-cone-round4-2026-10-28",
+  "description": "固定版の既存カテゴリで評価する6光円錐。恒常propertiesは最終入力へ含め、重複追加しない。",
+  "modifiers": [
+    {
+      "id": "lightCone:21003:few-enemies-crit",
+      "source": {
+        "kind": "lightCone",
+        "id": "21003"
+      },
+      "name": "沈黙のみ・フィールド上の敵数が2体以下",
+      "description": "フィールド上の敵数が2体以下。常時ATK16/20/24/28/32%はpropertiesに含まれるため最終入力へ含める。敵数条件CRのみ追加。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "reference": "enemy.count",
+        "operator": "<=",
+        "threshold": 2,
+        "conditionText": "フィールド上の敵数が2体以下"
+      },
+      "stacking": {
+        "group": "lightCone:21003:few-enemies-crit",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21003-effect-in-final",
+        "inputLabel": "沈黙のみのこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21003.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "常時ATK16/20/24/28/32%はpropertiesに含まれるため最終入力へ含める。敵数条件CRのみ追加。"
+      }
+    },
+    {
+      "id": "lightCone:21008:dot-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21008"
+      },
+      "name": "獲物の視線・装備者の持続ダメージ",
+      "description": "装備者の持続ダメージ。常時効果命中20/25/30/35/40%はpropertiesとして最終入力へ含める。DoT補正は攻撃種類dotに限定し通常攻撃等へ漏らさない。",
+      "category": "dotDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "dot"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "装備者の持続ダメージ"
+      },
+      "stacking": {
+        "group": "lightCone:21008:dot-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21008-effect-in-final",
+        "inputLabel": "獲物の視線のこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21008.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "常時効果命中20/25/30/35/40%はpropertiesとして最終入力へ含める。DoT補正は攻撃種類dotに限定し通常攻撃等へ漏らさない。"
+      }
+    },
+    {
+      "id": "lightCone:21019:kill-crit",
+      "source": {
+        "kind": "lightCone",
+        "id": "21019"
+      },
+      "name": "青空の下で・装備者が敵を倒した後3ターン以内",
+      "description": "装備者が敵を倒した後3ターン以内。常時ATK16/20/24/28/32%は最終入力へ含める。撃破の発生や期間は再現せず現在の成立状態を指定。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-21019-kill-crit-active",
+        "inputLabel": "敵撃破後の会心率上昇が継続中",
+        "default": false,
+        "durationTurns": 3,
+        "conditionText": "装備者が敵を倒した後3ターン以内"
+      },
+      "stacking": {
+        "group": "lightCone:21019:kill-crit",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21019-effect-in-final",
+        "inputLabel": "青空の下でのこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21019.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "常時ATK16/20/24/28/32%は最終入力へ含める。撃破の発生や期間は再現せず現在の成立状態を指定。"
+      }
+    },
+    {
+      "id": "lightCone:21020:kill-crit-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "21020"
+      },
+      "name": "天才たちの休息・装備者が敵を倒した後3ターン以内",
+      "description": "装備者が敵を倒した後3ターン以内。常時ATK16/20/24/28/32%は最終入力へ含める。撃破の発生や期間は再現しない。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24,
+          30,
+          36,
+          42,
+          48
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-21020-kill-cd-active",
+        "inputLabel": "敵撃破後の会心ダメージ上昇が継続中",
+        "default": false,
+        "durationTurns": 3,
+        "conditionText": "装備者が敵を倒した後3ターン以内"
+      },
+      "stacking": {
+        "group": "lightCone:21020:kill-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21020-effect-in-final",
+        "inputLabel": "天才たちの休息のこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21020.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "常時ATK16/20/24/28/32%は最終入力へ含める。撃破の発生や期間は再現しない。"
+      }
+    },
+    {
+      "id": "lightCone:21027:kill-atk-stacks",
+      "source": {
+        "kind": "lightCone",
+        "id": "21027"
+      },
+      "name": "朝食の儀式感・装備者の敵撃破による現在の有効層数0～3",
+      "description": "装備者の敵撃破による現在の有効層数0～3。常時DMG12/15/18/21/24%はAllDamageTypeAddedRatio propertiesとして最終入力へ含める。1層のATK4/5/6/7/8%のみ追加。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "lc-21027-kill-stacks",
+        "inputLabel": "装備者の撃破で獲得した現在の層数",
+        "minimum": 0,
+        "maximum": 3,
+        "step": 1,
+        "default": 0,
+        "conditionText": "装備者の敵撃破による現在の有効層数0～3"
+      },
+      "stacking": {
+        "group": "lightCone:21027:kill-atk-stacks",
+        "rule": "nonStacking",
+        "maximumStacks": 3
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21027-effect-in-final",
+        "inputLabel": "朝食の儀式感のこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21027.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "常時DMG12/15/18/21/24%はAllDamageTypeAddedRatio propertiesとして最終入力へ含める。1層のATK4/5/6/7/8%のみ追加。"
+      }
+    },
+    {
+      "id": "lightCone:21005:mischief-atk-stacks",
+      "source": {
+        "kind": "lightCone",
+        "id": "21005"
+      },
+      "name": "モグラ党へようこそ・装備者が通常・スキル・必殺で敵を攻撃した後に得た種類別各1層、合計0～3",
+      "description": "装備者が通常・スキル・必殺で敵を攻撃した後に得た種類別各1層、合計0～3。同じ攻撃種類の繰返しで層を増やさない。発生順・行動履歴は再現せず、獲得済み層数だけを指定する。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          12,
+          15,
+          18,
+          21,
+          24
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "lc-21005-mischief-stacks",
+        "inputLabel": "有効なわんぱく値（通常・スキル・必殺で各1層）",
+        "minimum": 0,
+        "maximum": 3,
+        "step": 1,
+        "default": 0,
+        "conditionText": "装備者が通常・スキル・必殺で敵を攻撃した後に得た種類別各1層、合計0～3"
+      },
+      "stacking": {
+        "group": "lightCone:21005:mischief-atk-stacks",
+        "rule": "nonStacking",
+        "maximumStacks": 3
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-21005-effect-in-final",
+        "inputLabel": "モグラ党へようこそのこの補正を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:21005.params/properties/desc",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "同じ攻撃種類の繰返しで層を増やさない。発生順・行動履歴は再現せず、獲得済み層数だけを指定する。"
+      }
+    }
+  ]
+}

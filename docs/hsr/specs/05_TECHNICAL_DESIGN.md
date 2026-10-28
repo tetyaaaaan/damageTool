@@ -100,3 +100,5 @@ StarRailRes固定参照・実行時データの適用範囲は [`HSR_CALC_DATA_S
 Appの `readHpRatio()` は既存の本人/敵HP割合入力を読み、空値・範囲外をNaNで保持する。初期値も未指定。NaNは保存JSONでnullとなり、復元後も空欄へ戻す。UID反映は現在HPを生成しない。Runtimeの `referenceValue()` / `activationState()` はHP/EPの欠損を成立数値へ変換せず、候補の `activation.unresolved` として返す。Appは条件未確定表示とHP入力欄への移動を提供し、その候補だけ除外する。
 
 隠者128の4セット装備者が複数いる場合は、Appの提供者検証でその支援候補だけを未確定にする。単一提供者のバリア所持状態は既存トグルで指定し、バリアの生成・耐久・消失をシミュレーションしない。保存スキーマ・計算エンジンの責務は変更しない。
+
+第4回の既存経路への追加では、Appの `structuredSourceConditions()` が名匠132のCD条件を既知の敵DEF低下/適用可能な補正から局所判定する。`validateProvider()` は丹恒・騰荒A2の参照ATK不足だけを未確定として除外し、固定能力に不要な技能Lvを追加しない。定義の新規ファイルは既存manifestから読み、攻撃は[attacks-round4.json](../../../games/hsr/data/calc/attacks-round4.json)のoverrideで既存参考行を置換する。ローダー・状態スキーマ・計算エンジン・マスター生成方式は変更しない。

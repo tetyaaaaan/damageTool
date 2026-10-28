@@ -4,7 +4,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const { runtime, fixedSourceSha, loadProductionFixture, attackOf, makeRequest, assertClose, assertMatchesIndependent } = require("./helpers/hsrDirectVerification.cjs");
 
-test("the production HSR loader promotes only the three reviewed attacks with fixed-source provenance", async () => {
+test("the three earlier reviewed attacks retain fixed-source provenance", async () => {
     const { data, engine } = await loadProductionFixture();
     const expected = {
         "122101": {
@@ -61,7 +61,7 @@ test("the production HSR loader promotes only the three reviewed attacks with fi
     assert.equal(data.attackCoverage.review, data.attacks.filter((attack) => attack.support?.status !== "calculable" || !attack.support?.verified).length);
     assert.ok(counts.calculable >= 3);
 
-    assert.equal(attackOf(data, "140601").support.status, "review", "an unrelated reference attack remains review-only");
+    assert.equal(attackOf(data, "140602").support.status, "review", "an unrelated unverified skill remains review-only");
     assert.equal(attackOf(data, "151320").support.status, "calculable", "an unrelated existing calculable attack stays calculable");
     assert.equal(attackOf(data, "140603").support.status, "displayOnly", "an unrelated unsupported compound attack stays display-only");
 });
