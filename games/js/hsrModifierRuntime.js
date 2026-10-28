@@ -45,6 +45,10 @@
       "party.count": Array.isArray(context.partyIds) ? context.partyIds.filter(Boolean).length + 1 : 1,
       "party.sp": context.party?.sp
     };
+    if (["self.hpPercent", "enemy.hpPercent", "self.epPercent"].includes(reference)) {
+      const value = map[reference];
+      return Number.isFinite(value) && value >= 0 && value <= 100 ? value : NaN;
+    }
     if (map[reference] !== undefined) return number(map[reference]);
     return number(inputs[reference]);
   }
@@ -216,7 +220,7 @@
     if (activation.mode === "toggleThreshold") {
       const current = referenceValue(activation.reference, context, inputs);
       const toggled = Boolean(input ?? activation.default);
-      return { active: toggled && compare(current, activation.operator, number(activation.threshold)), automatic: false, toggled, inputValue: current, threshold: number(activation.threshold) };
+      return { active: toggled && compare(current, activation.operator, number(activation.threshold)), unresolved: toggled && ["self.hpPercent", "enemy.hpPercent"].includes(activation.reference) && !Number.isFinite(current), automatic: false, toggled, inputValue: current, threshold: number(activation.threshold) };
     }
     if (activation.mode === "stack") {
       const maximum = activation.maximumAtEidolon && number(context.eidolon) >= number(activation.maximumAtEidolon.rank)
@@ -229,7 +233,8 @@
       const explicitInput = activation.inputKey ? inputs[activation.inputKey] : undefined;
       let current = explicitInput === undefined
         ? referenceValue(activation.reference, context, inputs)
-        : number(explicitInput, activation.default || 0);
+        : activation.reference === "self.epPercent" && !Number.isFinite(explicitInput) ? NaN : number(explicitInput, activation.default || 0);
+      if (activation.reference === "self.epPercent" && (!Number.isFinite(current) || current < 0 || current > 100)) current = NaN;
       if (activation.mode === "numericThreshold" && activation.inputKey) {
         current = Math.max(
           number(activation.minimum, Number.NEGATIVE_INFINITY),
@@ -242,6 +247,7 @@
       const threshold = referenceComparison ? context.stats?.hpPercent : number(activation.threshold);
       return {
         active: knownComparison && compare(current, activation.operator, threshold),
+        unresolved: ([activation.reference, activation.thresholdReference].some(ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent"].includes(ref))) && (!Number.isFinite(current) || !knownComparison),
         automatic: activation.mode === "statThreshold" || !activation.inputKey,
         inputValue: current,
         threshold
@@ -351,7 +357,7 @@
         calculable,
         displayOnly: !calculable,
         effectLabel: includedInFinalStats ? "最終入力に反映済み（追加なし）" : record.inputPolicy === "includedInFinalStats" ? "最終入力に含める（再加算なし）" : missingInput ? "入力後に算出" : `${value}${record.unit === "percent" ? "%" : ""}`,
-        reason: inputWarnings.length ? inputWarnings.join(" ") : calculable ? "" : (record.support?.reason || "計算反映前の確認が必要です。")
+        reason: activation.unresolved && calculable && !includedInFinalStats ? "条件の参照値が未確定のため、この効果は追加しません。" : inputWarnings.length ? inputWarnings.join(" ") : calculable ? "" : (record.support?.reason || "計算反映前の確認が必要です。")
       }];
     });
   }
@@ -370,7 +376,7 @@
         && (!target.attackIds?.length && !target.elements?.length && !item.primaryTargetOnly && !item.adjacentTargetOnly)
         && (types.includes("all") || ["normal", "skill", "ultimate", "followUp"].every(type => types.includes(type)))
         && (!context.attack || applicableToAttack(item, context.attack))
-        && (["critRate", "statFlat", "statPercent"].includes(item.category));
+        && (["critRate", "breakEffect", "statFlat", "statPercent"].includes(item.category));
     });
     const groups = new Map();
     independent.forEach(item => { const key=item.stacking?.group || item.id; if(!groups.has(key))groups.set(key,[]);groups.get(key).push(item); });
@@ -384,7 +390,7 @@
       const record=byId.get(item.id);
       if(record?.activation?.statSource!=="effective")return item;
       const stat=String(record.activation.reference||"").replace(/^self\./, "");
-      if(!["critRate","speed"].includes(stat) || (record.category==="critRate" && stat==="critRate") || (["statFlat","statPercent"].includes(record.category)&&record.stat===stat)) {
+      if(!["critRate","speed","breakEffect"].includes(stat) || (["critRate", "breakEffect"].includes(record.category) && record.category===stat) || (["statFlat","statPercent"].includes(record.category)&&record.stat===stat)) {
         return {...item,enabled:true,applicable:false,inputWarnings:["この閾値の参照依存は未対応です。"],reason:"自身の参照値を変える閾値は再帰評価しません。"};
       }
       if (!Number.isFinite(context.stats?.[stat])) {
@@ -393,8 +399,8 @@
       if (contributors.some(m=>m.category==="statPercent" && m.stat===stat) && !Number.isFinite(context.baseStats?.[stat])) {
         return {...item,enabled:true,applicable:false,inputWarnings:[`閾値判定に必要な基礎${stat}が未入力です。`],reason:"閾値の参照値を確定できません。"};
       }
-      const sum=(category)=>contributors.filter(m=>m.category===category && (category==="critRate" || m.stat===stat)).reduce((total,m)=>total+m.value,0);
-      const added=sum("statFlat") + number(context.baseStats?.[stat])*sum("statPercent")/100 + (stat==="critRate"?sum("critRate"):0);
+      const sum=(category)=>contributors.filter(m=>m.category===category && ((["critRate", "breakEffect"].includes(category) && category===stat) || m.stat===stat)).reduce((total,m)=>total+m.value,0);
+      const added=sum("statFlat") + number(context.baseStats?.[stat])*sum("statPercent")/100 + (stat==="critRate"?sum("critRate"):0) + (stat==="breakEffect"?sum("breakEffect"):0);
       const effectiveContext={...context,stats:{...context.stats,[stat]:number(context.stats?.[stat])+added}};
       return {...buildRawCandidates([record],effectiveContext,inputs)[0],thresholdReferenceValue:effectiveContext.stats[stat]};
     });

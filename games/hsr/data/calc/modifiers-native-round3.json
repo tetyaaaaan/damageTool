@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "native-round3-2026-10-28",
+  "description": "固定版で確認したキャラクター・星魂の単発ダメージ補正。",
+  "modifiers": [
+    {
+      "id": "eidolon:1211:4:healing-damage",
+      "source": {
+        "kind": "eidolon",
+        "id": "1211",
+        "eidolonRank": 4,
+        "rankId": "121104"
+      },
+      "name": "星魂4「外傷癒す肘後の備急」・スキル治癒対象の与ダメージ",
+      "description": "星魂4以上の白露が戦闘スキルで治癒した対象について、現在の計算対象が受けた有効なスキル治癒回数（0～3層）を指定します。1層につき与ダメージ+10%、2ターン継続。治癒対象は白露本人を含みます。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "perStack",
+        "perStack": 10
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "conditionText": "白露の戦闘スキルによる治癒を受けた対象。現在の対象別有効層数を指定",
+        "inputKey": "bailu-e4-healing-stacks",
+        "inputLabel": "白露E4・この味方が受けたスキル治癒の有効層数",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 3
+      },
+      "stacking": {
+        "group": "eidolon:1211:4:healing-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "bailu-e4-damage-in-final-stats",
+        "inputLabel": "白露E4の与ダメージ上昇を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版rank121104の10%/層・最大3層・2ターンを確認。対象ごとの成立済み層数を選択する単発評価。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
+        "sourceFile": "character_ranks.json:121104",
+        "verifiedAt": "2026-10-28",
+        "notes": "rank121104: 白露の戦闘スキルによる治癒を受けた味方は、与ダメージ+10%、最大3層、2ターン。実際の各味方の受療回数・残存ターンは単発計算時点の入力値で指定。",
+        "scope": "現在選択している計算対象を明示的な受益者とし、白露が編成中か本人で星魂4以上の場合に限定。",
+        "verification": "tests/hsr/hsrNativeRound3.test.cjs"
+      }
+    },
+    {
+      "id": "eidolon:1215:2:speed",
+      "source": {
+        "kind": "eidolon",
+        "id": "1215",
+        "eidolonRank": 2,
+        "rankId": "121502"
+      },
+      "name": "星魂2「二観」・戦闘スキル後の速度",
+      "description": "寒鴉が戦闘スキルを発動した後、本人の速度+20%が1ターン継続する状態を選択します。最終速度に反映済みなら別の反映済み欄で除外し、状態選択とは分けて指定します。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "星魂2以上の寒鴉が戦闘スキルを発動した後、速度上昇が継続中",
+        "inputKey": "hanya-e2-skill-speed-active",
+        "inputLabel": "寒鴉E2・戦闘スキル後の速度上昇中",
+        "default": false,
+        "durationTurns": 1
+      },
+      "stacking": {
+        "group": "eidolon:1215:2:speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "hanya-e2-speed-in-final-stats",
+        "inputLabel": "寒鴉E2の速度上昇を最終速度へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版rank121502のスキル発動後SPD+20%・1ターンを確認。発動状態を選択し、既存のSPD閾値評価へ接続。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
+        "sourceFile": "character_ranks.json:121502",
+        "verifiedAt": "2026-10-28",
+        "notes": "rank121502: 戦闘スキル後に本人の速度+20%、1ターン。状態は任意入力。",
+        "scope": "寒鴉本人の単発計算時SPDおよび既存の速度閾値判定に限定。味方支援ではない。",
+        "verification": "tests/hsr/hsrNativeRound3.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1215:1215101:sp-recovery-atk",
+      "source": {
+        "kind": "trace",
+        "id": "1215",
+        "traceId": "1215101"
+      },
+      "name": "追加能力「録事」・SP回復を発動した味方の攻撃力",
+      "description": "「承負」によるSP回復効果を発動させた味方の攻撃力+10%、1ターン継続。対象の味方自身がSP回復を発動した場合も、その本人を計算対象として選択できます。最終攻撃力に反映済みなら別の反映済み欄で除外します。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "寒鴉の「承負」によるSP回復効果を発動させた味方で、攻撃力上昇が継続中",
+        "inputKey": "hanya-recorded-sp-recovery-atk-active",
+        "inputLabel": "「承負」のSP回復を発動した味方の攻撃力上昇中",
+        "default": false,
+        "durationTurns": 1
+      },
+      "stacking": {
+        "group": "traceNode:1215:1215101:sp-recovery-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "hanya-recorded-sp-recovery-atk-in-final-stats",
+        "inputLabel": "「録事」の攻撃力上昇を最終攻撃力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版character_skill_trees.jsonの1215101で攻撃力+10%・1ターンを確認。SP回復が発動した攻撃者の状態を任意指定する単発評価。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1215101.params[0][0..1]",
+        "verifiedAt": "2026-10-28",
+        "notes": "trace 1215101「録事」: 「承負」によるSP回復効果を発動させた味方の攻撃力+10%、1ターン。params=[[0.1,1]]。効果を得た攻撃者と攻撃時点の持続状態は任意入力。",
+        "scope": "寒鴉が編成中または計算対象本人で、現在の計算対象が承負SP回復を発動した攻撃者である単発ダメージに限定。",
+        "verification": "tests/hsr/hsrNativeRound3.test.cjs"
+      }
+    }
+  ]
+}

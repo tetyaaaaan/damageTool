@@ -32,7 +32,7 @@
   const PARTY_TARGET_LABELS = { allySingle: "味方単体", activeAlly: "指定した味方", partyAll: "味方全体", enemySingle: "敵単体", enemyAll: "敵全体", self: "発動者自身", summon: "召喚物", memosprite: "記憶の精霊" };
   const displayTarget = (value) => PARTY_TARGET_LABELS[value] || TARGET_LABELS[value] || value;
 
-  const DEFAULT_STATS = { hp: 0, hpPercent: 100, atk: 0, def: 0, speed: 100, critRate: 5, critDamage: 50, breakEffect: 0, effectHitRate: 0, effectRes: 0, energyRegen: 100, damageBonus: 0, dotBaseDamage: 0, elation: 0 };
+  const DEFAULT_STATS = { hp: 0, hpPercent: NaN, atk: 0, def: 0, speed: 100, critRate: 5, critDamage: 50, breakEffect: 0, effectHitRate: 0, effectRes: 0, energyRegen: 100, damageBonus: 0, dotBaseDamage: 0, elation: 0 };
 
   const state = {
     data: null,
@@ -45,7 +45,7 @@
     elationInputs: { context: "ahaInstant", punchline: NaN, merrymake: 0, fervor: NaN },
     party: Array.from({ length: 3 }, () => ({ characterId: "", eidolon: 0, level: 10, atk: 0, critDamage: 50, breakEffect: 0, lightConeId: "", coneRank: 1, relicId: "", relicSecondId: "", relicMode: "4pc", ornamentId: "", source: "manual", traceLevels: {} })),
     enemyId: "3001020",
-    enemy: { level: 80, maxHp: 100000, resistance: 20, weakness: false, toughnessActive: true, maxToughness: 30, hpPercent: 100, count: 1, debuffCount: 0, defenseReduction: 0, defenseIgnore: 0, resistancePenetration: 0, takenDamage: 0 },
+    enemy: { level: 80, maxHp: 100000, resistance: 20, weakness: false, toughnessActive: true, maxToughness: 30, hpPercent: NaN, count: 1, debuffCount: 0, defenseReduction: 0, defenseIgnore: 0, resistancePenetration: 0, takenDamage: 0 },
     selectionType: "", selectionFilters: { element: new Set(), rarity: new Set(), path: new Set() }, partySlot: -1, conditionTab: "パーティ", initialized: false,
     modifierInputs: {},
     conditions: [
@@ -88,6 +88,10 @@
   function readStat(input) {
     const displayed = displayedStats.get(input.id);
     return displayed && input.value === displayed.text ? displayed.value : input.value.trim() === "" ? NaN : Number(input.value);
+  }
+  function readHpRatio(input) {
+    const value = readStat(input);
+    return Number.isFinite(value) && value >= 0 && value <= 100 ? value : NaN;
   }
   function traceMaximum(key) {
     const [type, , , base] = TRACE_FIELDS[key];
@@ -196,7 +200,7 @@
   }
 
   function collectInputs() {
-    document.querySelectorAll("[data-stat]").forEach((input) => { state.stats[input.dataset.stat] = readStat(input); });
+    document.querySelectorAll("[data-stat]").forEach((input) => { state.stats[input.dataset.stat] = input.dataset.stat === "hpPercent" ? readHpRatio(input) : readStat(input); });
     state.songbirdInputs = { active: $("hsrSongbirdMode").value === "true", context: $("hsrSongbirdContext").value, skillLevel: Number($("hsrSongbirdSkillLevel").value), ...Object.fromEntries(["hp", "critRate", "critDamage", "damageBonus"].map(key => { const value = $("hsrSongbird-"+key).value; return [key, value.trim() === "" ? NaN : Number(value)]; })) };
     state.level = Number($("hsrLevel").value); state.eidolon = num($("hsrEidolon").value); state.enhancementState = $("hsrEnhancementState")?.value || "enhanced"; state.coneLevel = Number($("hsrConeLevel").value); state.coneRank = num($("hsrConeRank").value, 1); state.partySp = Math.min(7, Math.max(0, Math.floor(num($("hsrPartySp")?.value, 3)))); state.traceLevels = { normal: Number($("hsrNormalTrace").value), skill: Number($("hsrSkillTrace").value), ultimate: Number($("hsrUltimateTrace").value), talent: Number($("hsrTalentTrace").value) };
     Object.entries(TRACE_FIELDS).forEach(([key, [, id]]) => { state.traceLevels[key] = $(id).value === "" ? NaN : Number($(id).value); });
@@ -205,7 +209,7 @@
     state.breakInputs = { mode: ["break", "superBreak"].includes($("hsrBreakMode").value) ? $("hsrBreakMode").value : "attacks", toughnessDamage: $("hsrSuperBreakToughness").value.trim() === "" ? NaN : Number($("hsrSuperBreakToughness").value), multiplier: $("hsrSuperBreakMultiplier").value.trim() === "" ? NaN : Number($("hsrSuperBreakMultiplier").value) };
     state.elationInputs = { context: state.characterId === "1502" ? $("hsrElationContext").value : "ahaInstant", punchline: $("hsrPunchline").value.trim() === "" ? NaN : Number($("hsrPunchline").value), merrymake: $("hsrMerrymake").value.trim() === "" ? NaN : Number($("hsrMerrymake").value), fervor: $("hsrFervor").value.trim() === "" ? NaN : Number($("hsrFervor").value) };
     state.enemy = { level: num($("hsrEnemyLevel").value, 80), maxHp: Math.max(0, num($("hsrEnemyMaxHp").value, 100000)), resistance: num($("hsrEnemyResistance").value), weakness: $("hsrWeakness").value === "true",
-      toughnessActive: $("hsrToughnessState").value === "active", maxToughness: num($("hsrMaxToughness").value, 30), hpPercent: Math.min(100, Math.max(0, num($("hsrEnemyHpPercent").value, 100))), count: Math.min(5, Math.max(1, Math.floor(num($("hsrEnemyCount").value, 1)))), debuffCount: Math.max(0, num($("hsrEnemyDebuffCount").value)), defenseReduction: num($("hsrEnemyDefenseReduction").value),
+      toughnessActive: $("hsrToughnessState").value === "active", maxToughness: num($("hsrMaxToughness").value, 30), hpPercent: readHpRatio($("hsrEnemyHpPercent")), count: Math.min(5, Math.max(1, Math.floor(num($("hsrEnemyCount").value, 1)))), debuffCount: Math.max(0, num($("hsrEnemyDebuffCount").value)), defenseReduction: num($("hsrEnemyDefenseReduction").value),
       defenseIgnore: num($("hsrEnemyDefenseIgnore").value), resistancePenetration: num($("hsrEnemyResistancePenetration").value), takenDamage: num($("hsrEnemyTakenDamage").value) };
   }
 
@@ -582,6 +586,10 @@
 
   function validateProvider(item) {
     const source = item.sourceMeta || item.source;
+    if (source?.kind === "relic" && String(source.id) === "128" && item.enabled && !item.displayOnly) {
+      const providers = [state.relicMode === "4pc" && state.relicId === "128", ...state.party.map(member => member.characterId && member.relicMode === "4pc" && member.relicId === "128")].filter(Boolean).length;
+      if (providers > 1) return { ...item, enabled: false, applicable: false, activation: { ...item.activation, unresolved: true, unresolvedReason: "同じセットの複数提供者がいる場合のバリア支援は条件未確定です。" } };
+    }
     if (source?.kind === "lightCone" && item.enabled && !item.displayOnly) {
       const wearer = item.providerId ? find("characters", item.providerId) : character();
       const equipped = find("lightCones", String(source.id));
@@ -709,6 +717,7 @@
   }
 
   function conditionStatus(items) {
+    if (items.some(item => item.calculable && item.activation?.unresolved && !item.includedInFinalStats)) return { label: "条件未確定", className: "is-input" };
     if (items.every(item => item.comparisonControlled)) return { label: items.some(item => conditionAudit?.applied.has(item.id)) ? "一部の想定結果に適用" : "結果ごとに自動判定", className: "is-auto" };
     if (items[0]?.tab === "パーティ" && items.some(item => !item.displayOnly) && !items.some(item => conditionAttackScope(item).length || conditionFeedsSpeedThreshold(item))) return { label: "現在の計算対象外", className: "is-inactive" };
     if (items.some((item) => item.enabled && (item.inputWarnings?.length || modifierIssueIds.has(item.id)))) return { label: "入力不足", className: "is-input" };
@@ -746,6 +755,7 @@
   }
 
   function currentConditionReflection(item) {
+    if (item.calculable && item.activation?.unresolved && !item.includedInFinalStats) return item.activation.unresolvedReason || "条件未確定：参照するHP・EP割合を入力するまで、この効果は追加しません。";
     if (item.comparisonControlled) return item.activation?.comparisonDerived ? "各結果の想定状態・編成で個別に判定します。適用・対象外は各結果の内訳で確認できます。" : "各結果の想定段数で個別に判定します。適用・対象外は各結果の内訳で確認できます。";
     if (item.resultAssumed) return "一部の結果は状態成立を想定します。ON/OFFはそれ以外の結果へ反映し、各結果の内訳で確認できます。";
     if (item.inputWarnings?.length) return `未適用：${item.inputWarnings.join(" ")}`;
@@ -770,6 +780,14 @@
         rendered.add(`manual:${item.id}`);
         controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-condition-enabled="${esc(item.id)}"${item.enabled ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>この条件を適用する</strong><small>入力した補正を計算へ加える場合だけONにしてください。</small></span></label><label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>効果量</strong><small>${esc(item.description)}</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" data-condition-value="${esc(item.id)}" value="${item.value}" step="0.1"><em>%</em></span></label>`);
         return;
+      }
+      const ratioFields = { "self.hpPercent": ["hsrStat-hpPercent", "現在HP割合"], "enemy.hpPercent": ["hsrEnemyHpPercent", "敵の現在HP割合"] };
+      for (const ref of [item.activation?.reference, item.activation?.thresholdReference]) {
+        const field = ratioFields[ref];
+        if (field && !rendered.has("ratio:" + field[0])) {
+          rendered.add("ratio:" + field[0]);
+          controls.push(`<p class="hsr-condition-input-help"><button type="button" class="genshin-equipment-details-button" data-hsr-ratio-field="${field[0]}">${field[1]}の入力欄へ</button>（入力すると自動判定します）</p>`);
+        }
       }
       const reference = item.supplementalAttack;
       if (item.enabled && reference?.damageBonusInputKey && reference.element !== character()?.element) {
@@ -1004,6 +1022,8 @@
     if (missing) counts.push(`入力不足 ${missing}件`);
     if (skipped) counts.push(`この計算の対象外 ${skipped}件`);
     $("hsrConditionTitle").textContent = counts.join("・");
+    const unresolved = conditions.filter(item => item.calculable && item.activation?.unresolved && !item.includedInFinalStats).length;
+    if (unresolved) $("hsrConditionTitle").textContent += `・条件未確定 ${unresolved}件`;
     const reflected = conditions.filter(item => item.inputPolicy === "includedInFinalStats").length;
     $("hsrConditionHelp").textContent = (reflected ? `最終ステータスで管理 ${reflected}件（再加算なし）。` : "") + "選択状態は補正条件で、攻撃ごとの適用・対象外は計算内訳で確認できます。"
       + (restoredPartySelections.size ? " " + [...restoredPartySelections].map(id => find("characters", id)?.name || id).join("・") + "：前回の選択を復元しました。発動条件を確認してください。" : "");
@@ -1017,7 +1037,7 @@
     $("hsrEnemyLevel").value = state.enemy.level; $("hsrEnemyMaxHp").value = state.enemy.maxHp || 100000; $("hsrEnemyResistance").value = state.enemy.resistance;
     $("hsrWeakness").value = String(Boolean(state.enemy.weakness)); $("hsrToughnessState").value = state.enemy.toughnessActive ? "active" : "broken";
     $("hsrMaxToughness").value = state.enemy.maxToughness;
-    $("hsrEnemyHpPercent").value = state.enemy.hpPercent ?? 100; $("hsrEnemyCount").value = state.enemy.count || 1; $("hsrEnemyDebuffCount").value = state.enemy.debuffCount || 0;
+    $("hsrEnemyHpPercent").value = Number.isFinite(state.enemy.hpPercent) ? state.enemy.hpPercent : ""; $("hsrEnemyCount").value = state.enemy.count || 1; $("hsrEnemyDebuffCount").value = state.enemy.debuffCount || 0;
     setImage("hsrEnemyImage", item?.image, item?.name); $("hsrEnemyName").textContent = item?.name || "カスタム敵";
     $("hsrEnemySummary").textContent = item ? `Lv${item.level} / 耐性${item.resistance}% / 最大靭性${item.maxToughness}` : "入力値を個別に編集します。";
     renderAttacks(); markDirty();
@@ -1052,7 +1072,7 @@
       const supplementalApplies = !item.supplementalAttack || item.id === attack.sourceModifierId;
       const primaryTargetApplies = !item.primaryTargetOnly || attack.target !== "adjacent";
       const adjacentTargetApplies = !item.adjacentTargetOnly || attack.target === "adjacent";
-      return { ...item, matchesAttack: attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies, conditionText: item.activation?.reference === "party.elationCount" ? conditionRequirement(item) : item.conditionText, applicable: item.enabled && attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies && item.applicable !== false, reason: !item.enabled ? (item.includedInFinalStats ? "最終入力に反映済みのため追加しません" : "発動条件を満たしていません") : separateBenediction ? "賜福の対象は選択した別の味方です。停雲本人のATKへは加算しません。" : !supplementalApplies ? "別の付加ダメージに属する補正です" : !primaryTargetApplies ? "隣接対象はこの補正の対象外です" : !adjacentTargetApplies ? "主対象はこの補正の対象外です" : attackApplies ? item.reason || "" : "この攻撃種別・属性は対象外です" };
+      return { ...item, matchesAttack: attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies, conditionText: item.activation?.reference === "party.elationCount" ? conditionRequirement(item) : item.conditionText, applicable: item.enabled && attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies && item.applicable !== false, reason: !item.enabled ? (item.calculable && item.activation?.unresolved && !item.includedInFinalStats ? "条件の参照値が未確定のため追加しません" : item.includedInFinalStats ? "最終入力に反映済みのため追加しません" : "発動条件を満たしていません") : separateBenediction ? "賜福の対象は選択した別の味方です。停雲本人のATKへは加算しません。" : !supplementalApplies ? "別の付加ダメージに属する補正です" : !primaryTargetApplies ? "隣接対象はこの補正の対象外です" : !adjacentTargetApplies ? "主対象はこの補正の対象外です" : attackApplies ? item.reason || "" : "この攻撃種別・属性は対象外です" };
     });
   }
 
@@ -1599,6 +1619,7 @@
   function calculate() {
     collectInputs(); conditionAudit = null; modifierIssueLinks.clear(); modifierIssueIds.clear(); const warnings = [];
     renderAttacks();
+    if (allConditions().some(item => item.calculable && item.activation?.unresolved && !item.includedInFinalStats)) warnings.push("条件未確定の補正だけを除外して計算します。補正条件から参照する入力を確認してください。");
     if (!character()) warnings.push("キャラクターを選択してください。");
     if (!character()) { renderWarnings([]); $("hsrResults").innerHTML = '<p class="genshin-help">キャラクターを選択してください。</p>'; finishCalculation(warnings,new Map([["hsrCharacterTrigger",warnings[0]]])); return; }
     const independentBreak = state.breakInputs.mode !== "attacks";
@@ -1937,6 +1958,8 @@
     $("hsrConditionDialogOpen").addEventListener("click", () => openConditionSettings());
     $("hsrConditionDialogClose").addEventListener("click", () => closeDialog($("hsrConditionDialog")));
     $("hsrConditionDialog").addEventListener("click", (event) => {
+      const ratio = event.target.closest("[data-hsr-ratio-field]");
+      if (ratio?.dataset.hsrRatioField && ["hsrStat-hpPercent", "hsrEnemyHpPercent"].includes(ratio.dataset.hsrRatioField)) { closeDialog($("hsrConditionDialog")); const field = $(ratio.dataset.hsrRatioField); field?.focus(); field?.scrollIntoView({ block: "center" }); return; }
       const provider = event.target.closest("[data-hsr-provider-settings]");
       if (provider?.dataset.hsrProviderSettings) { openProviderTraceSettings(provider.dataset.hsrProviderSettings, provider.dataset.hsrProviderTrace); return; }
       const tab = event.target.closest("[data-condition-tab]"); if (tab) { state.conditionTab = tab.dataset.conditionTab; renderConditions(); }
@@ -1988,12 +2011,12 @@
     $("hsrRelicMode").addEventListener("change", (event) => { state.relicMode = event.target.value; if (state.relicMode === "4pc") state.relicSecondId = ""; renderBuild(); markDirty(); });
     $("hsrEidolon").addEventListener("change", (event) => { state.eidolon = num(event.target.value); renderBuild(); updateConditionSummary(); markDirty(); });
     $("hsrStat-hpPercent").addEventListener("input", (event) => {
-      state.stats.hpPercent = Math.min(100, Math.max(0, num(event.target.value, 100)));
+      state.stats.hpPercent = readHpRatio(event.target);
       renderAttacks();
       updateConditionSummary();
     });
     $("hsrEnemyHpPercent").addEventListener("input", (event) => {
-      state.enemy.hpPercent = Math.min(100, Math.max(0, num(event.target.value, 100)));
+      state.enemy.hpPercent = readHpRatio(event.target);
       renderAttacks();
       updateConditionSummary();
     });
@@ -2041,8 +2064,8 @@
     });
     $("hsrActionWindow").addEventListener("input", markDirty);
     document.querySelectorAll("[data-stat]").forEach((input) => {
-      input.addEventListener("input", () => { displayedStats.delete(input.id); state.stats[input.dataset.stat] = readStat(input); });
-      input.addEventListener("blur", () => { state.stats[input.dataset.stat] = readStat(input); writeStat(input.dataset.stat); });
+      input.addEventListener("input", () => { displayedStats.delete(input.id); state.stats[input.dataset.stat] = input.dataset.stat === "hpPercent" ? readHpRatio(input) : readStat(input); });
+      input.addEventListener("blur", () => { state.stats[input.dataset.stat] = input.dataset.stat === "hpPercent" ? readHpRatio(input) : readStat(input); writeStat(input.dataset.stat); });
     });
     Object.entries(TRACE_FIELDS).forEach(([key, [, id]]) => $(id).addEventListener("change", () => {
       collectInputs();

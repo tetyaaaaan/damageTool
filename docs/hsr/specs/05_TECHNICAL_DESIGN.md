@@ -51,7 +51,7 @@ games/hsr/index.html
 
 ### 補正評価の限定的な拡張
 
-`HsrModifierRuntime.buildCandidates` は `buildRawCandidates` の一次候補から、入力元が独立した全般的なステータス補正だけを集め、`activation.statSource: "effective"` を宣言した会心率/速度閾値へ一段で渡す。Appの `modifiers(attack)` は攻撃の文脈と `validateProvider` を渡し、提供者Lv不足等を検証する。閾値から生じる効果を再度入力へ戻さず、変換・攻撃限定会心・参照自身を変更する効果はこの評価へ混ぜない。参照値/基礎値が不明なら当該候補だけを未確定とする。
+`HsrModifierRuntime.buildCandidates` は `buildRawCandidates` の一次候補から、入力元が独立した全般的なステータス補正だけを集め、`activation.statSource: "effective"` を宣言した会心率/速度/撃破特効閾値へ一段で渡す。Appの `modifiers(attack)` は攻撃の文脈と `validateProvider` を渡し、提供者Lv不足等を検証する。閾値から生じる効果を再度入力へ戻さず、変換・攻撃限定会心・参照自身を変更する効果はこの評価へ混ぜない。参照値/基礎値が不明なら当該候補だけを未確定とする。
 
 `finalStatsInclusion` は常時効果の発動状態ではなく、最終入力へ算入済みかのユーザー宣言。ロビン天賦は自動適用し、算入済みなら追加しない。旧保存キーの明示OFFは除外を保ち、新しい算入済みキーを指定すれば優先する。保存スキーマの版は変更せず、既存のmodifierInputsへ保存する。算入由来を推測する汎用エンジンは導入していない。
 
@@ -94,3 +94,9 @@ StarRailRes固定参照・実行時データの適用範囲は [`HSR_CALC_DATA_S
 - 本書にない計算成分やプロバイダー仕様は、対応データと独立検証を確認するまで未確定とする。
 
 光円錐の条件評価では、`hsrApp.validateProvider()` が既知の装備者/光円錐pathの不一致を確認する。選択画面の絞込みに加え、復元/取込状態の不適格な装備から効果を適用しない。マスターに存在しないpathを推測で補完しない。数値比較と量子弱点の局所参照は [04](04_MODIFIER_SPEC.md) の契約を使用し、ダメージエンジンの演算式は変えない。
+
+### 未指定割合と局所的な提供者制限
+
+Appの `readHpRatio()` は既存の本人/敵HP割合入力を読み、空値・範囲外をNaNで保持する。初期値も未指定。NaNは保存JSONでnullとなり、復元後も空欄へ戻す。UID反映は現在HPを生成しない。Runtimeの `referenceValue()` / `activationState()` はHP/EPの欠損を成立数値へ変換せず、候補の `activation.unresolved` として返す。Appは条件未確定表示とHP入力欄への移動を提供し、その候補だけ除外する。
+
+隠者128の4セット装備者が複数いる場合は、Appの提供者検証でその支援候補だけを未確定にする。単一提供者のバリア所持状態は既存トグルで指定し、バリアの生成・耐久・消失をシミュレーションしない。保存スキーマ・計算エンジンの責務は変更しない。

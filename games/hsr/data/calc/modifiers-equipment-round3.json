@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "light-cone-round3-2026-10-28",
+  "description": "Fixed-SHA additions for three low-rarity light cone effects, using existing stat modifier evaluation.",
+  "modifiers": [
+    {
+      "id": "lightCone:20020:ultimate-atk",
+      "source": { "kind": "lightCone", "id": "20020" },
+      "name": "見識・必殺技後の攻撃力",
+      "description": "装備者が必殺技を発動した後2ターン、攻撃力+24/30/36/42/48%。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": { "kind": "byRefinement", "values": [24, 30, 36, 42, 48] },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備者が必殺技を発動した後2ターンの攻撃力上昇が継続中",
+        "inputKey": "lc-20020-ultimate-atk-active",
+        "inputLabel": "必殺技後の攻撃力上昇が継続中",
+        "default": false,
+        "durationTurns": 2
+      },
+      "stacking": { "group": "lightCone:20020:ultimate-atk", "rule": "nonStacking" },
+      "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-20020-atk-in-final",
+        "inputLabel": "見識の攻撃力上昇を最終攻撃力に反映済み"
+      },
+      "support": { "status": "calculable", "verified": true },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:20020.params[0..4]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版で効果説明・全重畳値・propertiesByRank（空）を照合。発動後2ターンのため編成だけでは自動適用しない。"
+      }
+    },
+    {
+      "id": "lightCone:20016:low-hp-crit-rate",
+      "source": { "kind": "lightCone", "id": "20016" },
+      "name": "倶歿・HP80%未満の会心率",
+      "description": "装備者の残りHPが80%未満の場合、会心率+12/15/18/21/24%。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": { "kind": "byRefinement", "values": [12, 15, 18, 21, 24] },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "装備者の残りHPが80%未満",
+        "reference": "self.hpPercent",
+        "operator": "<",
+        "threshold": 80
+      },
+      "stacking": { "group": "lightCone:20016:low-hp-crit-rate", "rule": "nonStacking" },
+      "calculation": { "stage": "critical", "operation": "add" },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-20016-crit-in-final",
+        "inputLabel": "倶歿の会心率を最終会心率に反映済み"
+      },
+      "support": { "status": "calculable", "verified": true },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:20016.params[0..4]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版で80%未満の厳密条件・全重畳値・propertiesByRank（空）を照合。現在HP割合は手動入力値を使い、戦闘中のHP変化は追跡しない。"
+      }
+    },
+    {
+      "id": "lightCone:20003:low-hp-extra-def",
+      "source": { "kind": "lightCone", "id": "20003" },
+      "name": "琥珀・HP50%未満の追加防御力",
+      "description": "装備者の残りHPが50%未満の場合、追加で防御力+16/20/24/28/32%。恒常防御力上昇はUID最終値に反映する既存経路を使い、ここでは重ねて加算しません。",
+      "category": "statPercent",
+      "stat": "def",
+      "unit": "percent",
+      "value": { "kind": "byRefinement", "values": [16, 20, 24, 28, 32] },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "装備者の残りHPが50%未満",
+        "reference": "self.hpPercent",
+        "operator": "<",
+        "threshold": 50
+      },
+      "stacking": { "group": "lightCone:20003:low-hp-extra-def", "rule": "nonStacking" },
+      "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-20003-extra-def-in-final",
+        "inputLabel": "琥珀のHP50%未満時の追加防御力を最終防御力に反映済み"
+      },
+      "support": { "status": "calculable", "verified": true },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:20003.params[0..4]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版で恒常DEF・50%未満時の追加DEF・全重畳値・DefenceAddedRatio propertiesを照合。恒常DEF部分は再登録せず条件部分だけ実装。"
+      }
+    }
+  ]
+}

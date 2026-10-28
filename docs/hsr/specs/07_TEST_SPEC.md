@@ -67,3 +67,5 @@ UI・接続を変更したら1440/390/320pxで変更箇所と必要な境界を�
 [画面入力テスト](../../../tests/hsr/hsrToolInputs.test.cjs)では、SPD支援とグラモス、層数・受益者・算入済み指定を画面イベントから計算・保存復元まで照合する。表示の変更時は変更箇所だけを必要な幅で確認する。全テストの結果と個別効果の完了範囲は既存台帳で記録する。
 
 第2回は[遺物支援と天才/学者](../../../tests/hsr/hsrRelicRound2.test.cjs)、[光円錐全S値](../../../tests/hsr/hsrEquipmentRound2.test.cjs)、[SPD3効果](../../../tests/hsr/hsrSpeedSupportRound2.test.cjs)、[割合参照比較の制限](../../../tests/hsr/hsrReferenceComparison.test.cjs)を入口とする。固定値の独立式、HP未満/一致/超過、基礎SPD、攻撃種別、混在属性、防御低下/無視の合成、装備者/受益者、既算入同値を確認する。画面テストでは現在EP数値・量子弱点の自動/任意切替・光円錐の運命不一致・保存復元を検証する。旧表示専用件数の期待値は昇格に合わせて更新し、既存のダメージ期待値を対応のためだけに変更しない。
+
+第3回は[光円錐](../../../tests/hsr/hsrEquipmentRound3.test.cjs)、[星魂・軌跡](../../../tests/hsr/hsrNativeRound3.test.cjs)、[遺物](../../../tests/hsr/hsrSetsRound3.test.cjs)、[未指定条件とBE支援](../../../tests/hsr/hsrMissingConditions.test.cjs)を入口とする。同調は既存効果の再検証として新規完了から区別する。HP80%/50%の厳密境界、全S値、DEF参照攻撃、BE150%/250%、支援解除、超撃破のDEF無視合計25%、受益者と装備者、対象外攻撃、既算入同値を確認する。AppテストはHP/EP未指定の局所除外、HP入力への移動、時計屋から鉄騎の再評価、層数・共有状態・単一提供者と複数隠者の局所除外、保存復元を確認する。実画面では既存HP欄への移動と狭幅表示を確認し、UID実通信とは区別する。

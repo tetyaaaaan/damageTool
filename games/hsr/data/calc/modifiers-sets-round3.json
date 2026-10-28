@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "relic-sets-round3-2026-10-28",
+  "description": "StarRailRes固定版で原文を確認した追加遺物効果。常時2セットの速度・攻撃力・会心率・撃破特効はUID/手動の最終ステータスへ含め、再加算しない。 重複可否が固定版原文から確認できない場合は単一提供者の状態だけを計算する。",
+  "modifiers": [
+    {
+      "id": "relic:119:4pc:break-defense-ignore",
+      "source": {
+        "kind": "relic",
+        "id": "119",
+        "setPieces": 4
+      },
+      "name": "蝗害を一掃せし鉄騎・弱点撃破の防御無視",
+      "description": "装備者の有効撃破特効が150%以上で撃破/超撃破のDEF無視10%。250%以上の超撃破では別成分の15%と合計25%。2pcBE16%は最終値へ含めます。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "break",
+          "superBreak"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "最終撃破特効150%以上",
+        "reference": "self.breakEffect",
+        "operator": ">=",
+        "threshold": 150,
+        "statSource": "effective"
+      },
+      "stacking": {
+        "group": "relic:119:4pc:break-defense-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add",
+        "cap": 100
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:119",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定JP/EN119原文: Break DMG ignores10%; Super Break additionally ignores15%。基礎10%は両撃破へ適用し、250%で超撃破合計25%。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "relic:119:4pc:break-defense-ignore:in-final-stats",
+        "inputLabel": "蝗害を一掃せし鉄騎・弱点撃破の防御無視を最終ステータス/敵条件入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:119:4pc:super-break-defense-ignore",
+      "source": {
+        "kind": "relic",
+        "id": "119",
+        "setPieces": 4
+      },
+      "name": "蝗害を一掃せし鉄騎・超撃破の防御無視",
+      "description": "装備者の最終撃破特効が250%以上の時、超撃破ダメージが敵防御力を15%無視する。2セット撃破特効+16%は最終撃破特効入力に含め、再加算しない。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 15
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "superBreak"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "最終撃破特効250%以上",
+        "reference": "self.breakEffect",
+        "operator": ">=",
+        "threshold": 250,
+        "statSource": "effective"
+      },
+      "stacking": {
+        "group": "relic:119:4pc:super-break-defense-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add",
+        "cap": 100
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:119",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "4セット原文: 撃破特効250%以上で超撃破ダメージがさらに防御力を15%無視。超撃破専用に適用。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "relic:119:4pc:super-break-defense-ignore:in-final-stats",
+        "inputLabel": "蝗害を一掃せし鉄騎・超撃破の防御無視を最終ステータス/敵条件入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:120:4pc:ultimate-damage-after-follow-up",
+      "source": {
+        "kind": "relic",
+        "id": "120",
+        "setPieces": 4
+      },
+      "name": "風雲を薙ぎ払う勇烈・追加攻撃後の必殺技ダメージ",
+      "description": "追加攻撃を行った後、必殺技ダメージ+36%が有効な状態を指定する。効果は1ターン継続。2セット攻撃力+12%と4セット会心率+6%は最終ステータスへ含め、再加算しない。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 36
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備者が追加攻撃を行った後（1ターン以内）",
+        "inputKey": "relic-120-after-follow-up-active",
+        "inputLabel": "追加攻撃後・必殺技+36%有効",
+        "default": false,
+        "durationTurns": 1
+      },
+      "stacking": {
+        "group": "relic:120:4pc:ultimate-damage-after-follow-up",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:120",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "4セット会心率+6%はpropertiesの恒常値として最終入力へ含める。追加攻撃後1ターンの必殺技DMG+36%のみ条件付き計算。2セット攻撃力+12%は最終入力へ含める。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "relic:120:4pc:ultimate-damage-after-follow-up:in-final-stats",
+        "inputLabel": "勇烈の追加攻撃後・必殺技ダメージ+36%を最終与ダメージ入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:125:4pc:rain-speed",
+      "source": {
+        "kind": "relic",
+        "id": "125",
+        "setPieces": 4
+      },
+      "name": "烈陽と雷鳴の武神・慈雨状態中の速度",
+      "description": "装備者またはその記憶の精霊が、装備者とその精霊以外の味方を治癒した後に得る『慈雨』状態中、装備者の速度+6%。状態の有効/解除を指定する。2セット速度+6%は最終速度へ含め、再加算しない。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 6
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "『慈雨』状態中（治癒後2ターン、1ターンに最大1回発動）",
+        "inputKey": "relic-125-rain-active",
+        "inputLabel": "慈雨状態中",
+        "default": false,
+        "durationTurns": 2
+      },
+      "stacking": {
+        "group": "relic:125:4pc:rain-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:125",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "4セット: 本人または本人の精霊が他の味方を治癒した後に慈雨を得る。持続2ターン、1ターン1回。状態中SPD+6%。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "relic:125:4pc:rain-speed:in-final-stats",
+        "inputLabel": "烈陽と雷鳴の武神・慈雨状態中の速度を最終ステータス/敵条件入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:125:4pc:party-crit-damage",
+      "source": {
+        "kind": "relic",
+        "id": "125",
+        "setPieces": 4
+      },
+      "name": "烈陽と雷鳴の武神・慈雨状態中の味方会心ダメージ",
+      "description": "『慈雨』状態中、装備者を含む味方全体の会心ダメージ+15%。『慈雨』状態とその解除を指定する。効果は重複しない。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 15
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備者が『慈雨』状態中（2ターン）",
+        "inputKey": "relic-125-rain-active",
+        "inputLabel": "慈雨状態中",
+        "default": false,
+        "durationTurns": 2
+      },
+      "stacking": {
+        "group": "relic:125:4pc:party-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:125",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "4セット: 慈雨所持中の味方全体会心ダメージ+15%、累積不可。状態は同じ任意入力キーで共有。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "relic:125:4pc:party-crit-damage:in-final-stats",
+        "inputLabel": "烈陽と雷鳴の武神・慈雨状態中の味方会心ダメージを最終ステータス/敵条件入力に反映済み"
+      }
+    },
+    {
+      "id": "relic:128:4pc:provider-shield-crit-damage",
+      "source": {
+        "kind": "relic",
+        "id": "128",
+        "setPieces": 4
+      },
+      "name": "星の光を隠した隠者・装備者のバリアを持つ味方の会心ダメージ",
+      "description": "装備者が付与したバリアを計算対象キャラが現在持っている状態を指定すると、会心ダメージ+15%。装備者本人も自身が付与したバリアを持つ場合は対象になり得る。2セットの付与バリア耐久値+10%と4セットのバリア耐久値+12%は計算対象外。複数の隠者装備者による同種バリアの重複可否は固定版原文に示されないため、単一の提供者によるバリア状態のみ受け付ける。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 15
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "計算対象キャラがこの遺物の装備者から付与されたバリアを所持中",
+        "inputKey": "relic-128-provider-shield-active",
+        "inputLabel": "隠者の装備者が付与したバリアを所持中",
+        "default": false
+      },
+      "stacking": {
+        "group": "relic:128:4pc:provider-shield-crit-damage",
+        "rule": "replace"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:128",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "4セット原文: 装備キャラが付与したバリアを持つ味方の会心ダメージ+15%。複数装備者による重複可否は原文から未確定。単一提供者の状態だけ計算する。バリア耐久値の増加は計算対象外。"
+      },
+      "scope": "単一提供者のバリア状態のみを入力可能。複数装備者の同種バリアの重複可否は未確定のため、重複計算には対応しない。",
+      "finalStatsInclusion": {
+        "inputKey": "relic:128:4pc:provider-shield-crit-damage:in-final-stats",
+        "inputLabel": "隠者の装備者バリア中の会心ダメージ+15%を最終入力に反映済み"
+      }
+    }
+  ]
+}

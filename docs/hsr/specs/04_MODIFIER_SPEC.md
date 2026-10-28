@@ -92,7 +92,7 @@
 ### 自動と手動の条件
 
 - `activation.mode: "always"` は自動で有効。
-- `statThreshold` は `reference`, `operator`, `threshold` を計算コンテキストで比較する。既定の参照元は入力ステータス。`activation.statSource: "effective"` を明示した閾値だけ、独立・戦闘全体対象の `critRate` / `statFlat` / `statPercent` 効果を一度だけ反映した参照値で再評価する。寄与候補は `always` / `toggle` / `stack` と `fixed` / `byLevel` / `byRefinement` / `perStack` / `perStackByLevel` / `perStackByRefinement` に限る。攻撃ID・属性・位置に限定される効果や攻撃固有ボーナス、閾値効果の出力は再評価元へ含めない。閾値自身が参照ステータスを変える循環、割合補正の計算に必要な基礎値が不明なケースは、その閾値効果だけ適用停止する。
+- `statThreshold` は `reference`, `operator`, `threshold` を計算コンテキストで比較する。既定の参照元は入力ステータス。`activation.statSource: "effective"` を明示した閾値だけ、独立・戦闘全体対象の `critRate` / `breakEffect` / `statFlat` / `statPercent` 効果を一度だけ反映した参照値で再評価する。寄与候補は `always` / `toggle` / `stack` と `fixed` / `byLevel` / `byRefinement` / `perStack` / `perStackByLevel` / `perStackByRefinement` に限る。攻撃ID・属性・位置に限定される効果や攻撃固有ボーナス、閾値効果の出力は再評価元へ含めない。閾値自身が参照ステータスを変える循環、割合補正の計算に必要な基礎値が不明なケースは、その閾値効果だけ適用停止する。
 - `numericThreshold` は `inputKey` があればその値を最小・最大の範囲内に制限して判定するため入力が必要。キーがない場合は参照値から判定する。閾値は候補生成時の入力コンテキストを参照し、他の効果を適用した後の再計算ステータスを参照する依存解決ではない。
 - `toggle` は `inputKey` と `default` による任意状態指定。既定値がfalseでも効果候補自体は一覧に出る。
 - `toggleThreshold` はユーザーのトグルと数値条件の両方が必要。
@@ -121,7 +121,7 @@
 | 要求 | 現状判定 | 根拠・扱い |
 |---|---|---|
 | 所有・装備・編成・解放状態に基づく候補抽出と攻撃スコープ | A（基盤確認） | `sourceSelection`, `applicableToAttack`, `hsrApp.js` の攻撃別絞込み。データ網羅性・個別接続精度は別途検証。 |
-| 常時効果と入力から確定できる閾値効果の自動適用 | A（限定確認）/ B（網羅性） | ロビン天賦を自動適用へ修正。`activation.statSource: "effective"` は、限定された独立・全体対象の会心率/速度補正を一度だけ反映する。閾値出力・攻撃固有補正は除外し、自己循環や割合補正に必要な基礎値不明は対象閾値のみ停止する。全効果の自動区分は引き続き確認が必要。 |
+| 常時効果と入力から確定できる閾値効果の自動適用 | A（限定確認）/ B（網羅性） | ロビン天賦を自動適用へ修正。`activation.statSource: "effective"` は、限定された独立・全体対象の会心率/速度/撃破特効補正を一度だけ反映する。閾値出力・攻撃固有補正は除外し、自己循環や割合補正に必要な基礎値不明は対象閾値のみ停止する。全効果の自動区分は引き続き確認が必要。 |
 | 発動済み状態・敵状態・スタックなど判断不能な状態のユーザー指定 | A（基盤確認） | toggle, toggleThreshold, stack等と条件UIがある。全効果・入力検証の網羅性は未完了。 |
 | 最終ステータスの由来を識別し、重複を避ける | A（申告経路の限定実装）/ B（由来網羅） | `finalStatsInclusion` で申告時のみ除外し、未算入効果を自動適用できる。旧保存トグルのfalseは除外へ移行。UID最終値の由来網羅・自動判定は未対応。 |
 | 同じ `stacking.group` 内の複数候補の選別 | A（限定実装）/ B（全groupの網羅） | `add` / `replace` / `max` / `nonStacking` を処理し、未対応の `multiply` は登録時と評価時に拒否する。groupの正しい付与と競合対象の整合性は個別検証が必要。 |
@@ -166,3 +166,9 @@
 `activation.thresholdReference: "self.hpPercent"` は `statThreshold` / `reference: "enemy.hpPercent"` の比較右辺としてのみ対応する。敵・本人の割合が有限の0～100である場合にだけ判定し、未入力や不正値を成立値へ置き換えない。通常の固定threshold契約と独立ステータスの一段評価は維持し、汎用の参照間依存・再帰評価には拡張しない。[光円錐定義](../../../games/hsr/data/calc/modifiers-equipment-round2.json)の秘密の誓いで使用する。
 
 `reference: "enemy.quantumWeakness"` は天才の量子弱点追加DEF無視に使用する。計算対象キャラが量子なら、通常の敵弱点入力から自動取得する。他属性なら同じ入力から量子弱点を推定せず、登録inputKeyの任意チェックを表示する。Runtimeの返却activation.modeは前者statThreshold、後者toggleとなり、既存の条件UIを使用する。確定した敵の量子弱点は攻撃の全属性成分へ共有し、成分の属性を理由に別属性の弱点入力を流用しない。
+
+### 現在割合の未確定とBEの限定評価
+
+`self.hpPercent` / `enemy.hpPercent` / `self.epPercent` は有限の0～100だけを既知値として扱う。HP/EP条件の不足は実行時候補の `activation.unresolved` として表示し、当該候補を追加せず他の計算は継続する。このフラグは保存する登録データの新フィールドではない。最終値算入済みを宣言した候補は追加せず、参照不足の追加を要求しない。HP条件は既存の本人/敵HP割合入力へ移動するボタン、EPは既存の数値入力を再利用する。
+
+一段のeffective評価の対象参照はCR/SPD/BE。BEは独立した `breakEffect` 加算等から取り、閾値由来の補正・参照自身を変える閾値は入力へ戻さない。鉄騎はBE150%以上で撃破/超撃破のDEF無視10%、250%以上で超撃破に追加15%（合計25%）となる。時計屋等の支援解除・既算入指定で再評価する。隠者128の複数装備者時の重複可否は未確定のため、Appが当該候補だけ未確定として除外する。汎用の重複規則として推定しない。

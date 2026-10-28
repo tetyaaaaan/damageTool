@@ -97,3 +97,5 @@
 恒常2pcの属性DMG/ATK/CR等は既存の最終入力責務を維持する。戦闘中のステータス補正は算入済み申告時だけ除外し、発動状態とは別に保存する。強化カフカ本人など既存の完成済み最終ステータス契約は、その移行を受入せずに自動追加へ変更しない。個別完了数と除外候補は[残作業台帳](../../HSR_COMPLETION_WORKLOAD.md)を参照する。
 
 第2回の追加は[遺物支援](../../../games/hsr/data/calc/modifiers-relics-round2.json)、[光円錐](../../../games/hsr/data/calc/modifiers-equipment-round2.json)、既存の停雲/青雀定義が正本。メッセンジャー・時計屋の4セット戦闘中支援は任意状態と算入済み申告を分離し、2セットの恒常SPD/BEを再加算しない。天才の量子弱点追加DEF無視は全属性成分へ適用するため、敵弱点の参照元を攻撃成分から切り離す。学者の既存スキル/必殺補正は重複追加しない。光円錐の常時攻撃種補正と数値条件追加、開始時/撃破後の残期間は別条件として登録する。具体的な完了群・値・残範囲は[残作業台帳](../../HSR_COMPLETION_WORKLOAD.md)を参照。
+
+第3回の効果定義正本は[光円錐](../../../games/hsr/data/calc/modifiers-equipment-round3.json)、[星魂・軌跡](../../../games/hsr/data/calc/modifiers-native-round3.json)、[遺物](../../../games/hsr/data/calc/modifiers-sets-round3.json)。既存の同調は[調和支援](../../../games/hsr/data/calc/modifiers-harmony-party.json)を再利用し、重複登録しない。琥珀の常時DEFや恒常セットプロパティは最終入力へ含め、HP条件の追加分等だけを評価する。白露E4は受益者の有効層、寒鴉A2はSP回復を発動した受益者の成立状態、武神は装備者の慈雨状態、隠者はその装備者からのバリア所持を指定する。隠者の複数装備者重複は未確定として局所除外する。値・ID・受入範囲・残課題は[残作業台帳](../../HSR_COMPLETION_WORKLOAD.md)で管理し、効果全文や進捗を本書へ複製しない。

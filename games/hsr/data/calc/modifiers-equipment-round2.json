@@ -428,9 +428,10 @@
         "minimum": 0,
         "maximum": 100,
         "step": 1,
-        "default": 0,
         "operator": ">=",
-        "threshold": 100
+        "threshold": 100,
+        "reference": "self.epPercent",
+        "strictInput": true
       },
       "stacking": {
         "group": "lightCone:21017:normal-skill-full-energy",

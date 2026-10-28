@@ -56,3 +56,7 @@
 ## 根拠・未実装
 
 主な受入入口は [hsrToolInputs.test.cjs](../../../tests/hsr/hsrToolInputs.test.cjs) と [hsrToolStructure.test.cjs](../../../tests/hsr/hsrToolStructure.test.cjs)。要求に対する差分と優先度は[既存残作業台帳](../../HSR_COMPLETION_WORKLOAD.md)の仕様照合欄で管理し、本章に残件数を重複集計しない。
+
+### 現在HP・EPの条件入力
+
+本人/敵の現在HP割合は未指定を初期状態とし、満タンと推定しない。既存の割合欄へ補正モーダルから移動して入力すると、HP条件を自動判定する。現在EPは既存の補正数値欄を使う。割合の空値・不正値は該当補正の「条件未確定」として表示し、その補正だけ除外して他の計算は継続する。明示した保存値は維持し、空値も復元する。UIDプロフィールの最大HPから現在HPを生成しない。
