@@ -50,6 +50,9 @@ async function tool(savedStorage, extraData) {
     await initialize();
     const state = window.HsrTool.getState();
     if (!savedStorage) state.characterId = "sample";
+    // Existing fixtures isolate optional supports and emulate their prior saved OFF state.
+    // Tests for a fresh automatic Talent explicitly remove this legacy key.
+    if (!savedStorage) state.modifierInputs["robin-talent-crit-active"] = false;
     function calculate() { results.length = 0; node("hsrCalculateButton").handlers.click(); return results; }
     return { window, state, node, calculate, storage };
 }
@@ -2625,7 +2628,7 @@ test("Hunt March compares realized enhanced hits without activation selection an
     assert.match(app.node("hsrResults").innerHTML,/想定：7段・必殺技強化後のみ・師匠：調和\/虚無\/存護\/豊穣/);
     assert.match(app.node("hsrResults").innerHTML,/段数抽選の平均ではありません/);
     assert.match(app.node("hsrResults").innerHTML,/hsr-result-scope-label">師匠由来の付加ダメージの参考値/);
-    assert.equal(Object.keys(app.state.modifierInputs).length,0,"no availability checkbox or new saved state is needed");
+    assert.equal(Object.keys(app.state.modifierInputs).filter(key=>key!=="robin-talent-crit-active").length,0,"no availability checkbox or new saved state is needed");
     app.state.party[0]={characterId:"1309",level:80,eidolon:0,traceLevels:{skill:10}};app.state.modifierInputs["robin-skill-damage-active"]=true;
     values=enhanced(app);near(values[0].nonCrit,5961.6);
     app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(enhanced(saved)[0].expected,8942.4);
@@ -2663,7 +2666,7 @@ test("Jiaoqiu and Lingsha basics compare without availability checks and preserv
  const basic=t=>t.calculate().find(r=>r.attack.name.startsWith(t.state.characterId==="1218"?"心火計":"供香"));
  profile("1218");let r=basic(app);near(r.nonCrit,1458);near(r.crit,2916);near(r.expected,2187);
  assert.equal(r.applied.filter(m=>m.id==="trace:1218:121804:basic-five-roast").length,1);
- assert.equal(Object.keys(app.state.modifierInputs).length,0,"assumed five-stack basic needs no availability toggle");
+ assert.equal(Object.keys(app.state.modifierInputs).filter(key=>key!=="robin-talent-crit-active").length,0,"assumed five-stack basic needs no availability toggle");
  app.state.modifierInputs["jiaoqiu-five-roast-zone"]=true;near(basic(app).nonCrit,1458);
  app.state.modifierInputs["jiaoqiu-roast-dot-tick"]=true;app.state.modifierInputs["jiaoqiu-roast-dot-stacks"]=5;near(basic(app).nonCrit,1458);
  app.state.party[0]={characterId:"1309",level:80,eidolon:0,traceLevels:{skill:10}};app.state.modifierInputs["robin-skill-damage-active"]=true;near(basic(app).expected,3280.5);
@@ -2716,7 +2719,7 @@ test("Clara compares marked states and counters with independent trace levels an
  app.window.HsrTool.applyProfileCharacter({id:"1107",level:80,eidolon:0,traces:[{type:"Normal",level:6},{type:"BPSkill",level:10},{type:"Ultra",level:10},{type:"Talent",level:10}],stats:{atk:3000,hp:6000,def:3000,critRate:50,critDamage:100,damageBonus:0}});
  const row=(t,id)=>t.calculate().find(r=>r.attack.name===data.attacks.find(a=>a.id===id).name);
  for(const[id,n]of [["110701",1080],["110702",1296],["1107021",2592],["110704",2246.4],["1107031",4492.8]])near(row(app,id).nonCrit,n);
- assert.equal(Object.keys(app.state.modifierInputs).length,0,"availability is assumed per state, not enabled by a checkbox");assert.match(app.node("hsrResults").innerHTML,/天賦カウンター 160% ＋ 必殺技による追加倍率 160%/);
+ assert.equal(Object.keys(app.state.modifierInputs).filter(key=>key!=="robin-talent-crit-active").length,0,"availability is assumed per state, not enabled by a checkbox");assert.match(app.node("hsrResults").innerHTML,/天賦カウンター 160% ＋ 必殺技による追加倍率 160%/);
  app.node("hsrUltimateTrace").value="";assert.equal(row(app,"1107031"),undefined);assert.ok(row(app,"110704"));assert.ok(row(app,"1107021"));app.node("hsrUltimateTrace").value="10";
  app.node("hsrTalentTrace").value="";assert.equal(row(app,"1107031"),undefined);assert.equal(row(app,"110704"),undefined);assert.ok(row(app,"110701"));app.node("hsrTalentTrace").value="5";near(row(app,"1107031").nonCrit,3818.88);
  app.node("hsrStat-atk").handlers.input();const saved=await tool(app.storage,data);near(row(saved,"1107031").nonCrit,3818.88);assert.equal(saved.state.traceLevels.talent,5);
@@ -2996,4 +2999,32 @@ test('batch8 Hiyu displays independent CB components, keeps resources separate a
  app.state.modifierInputs['hiyu-certified-banger']=40;r=app.calculate();const a=get(r,'1505041'),u=get(r,'1505042'),f=get(r,'1505043');near(a.nonCrit,7535.107*.16*2*(1+200/280)*.5*.8*.9);near(u.nonCrit,7535.107*2.76*2*(1+2400/720)*.5*.8*.9);near(f.nonCrit,7535.107*.25*2*(1+200/280)*.5*.8*.9*1.12);near(get(r,'150503').nonCrit,13392);assert.equal(u.breakdown.inputCertifiedBanger,40);assert.equal(u.breakdown.certifiedBanger,480);assert.match(app.node('hsrResults').innerHTML,/入力した褒美／必殺技の参照下限/);assert.match(app.node('hsrResults').innerHTML,/通常ダメージ・キツネ先生/);
  app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/data-structured-input="hiyu-certified-banger"/);app.node('hsrConditionDialogClose').handlers.click();app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);assert.equal(saved.state.modifierInputs['hiyu-certified-banger'],40);near(get(saved.calculate(),'1505042').nonCrit,u.nonCrit);
  app.state.party[0]={characterId:'1309',level:80,eidolon:0,traceLevels:{talent:10,skill:10}};app.state.modifierInputs['robin-talent-crit-active']=true;r=app.calculate();near(get(r,'1505041').nonCrit,a.nonCrit);near(get(r,'150501').crit/get(r,'150501').nonCrit,2.2);assert.ok(!get(r,'1505041').applied.some(m=>m.category==='critDamage'),'ordinary-only support is outside Elation scope');app.state.modifierInputs['robin-talent-crit-active']=false;r=app.calculate();near(get(r,'1505041').nonCrit,a.nonCrit);app.state.modifierInputs['hiyu-certified-banger']=NaN;r=app.calculate();assert.equal(get(r,'1505042'),undefined);assert.ok(get(r,'150503'));app.node('hsrTalentTrace').value='';r=app.calculate();assert.ok(get(r,'150501'));assert.equal(get(r,'1505043'),undefined);
+});
+
+test('fresh Robin Talent automatically applies without an activation checkbox and preserves included final CD on reload',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json'));const records=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers.filter(m=>m.id==='trace:1309:130904:party-crit-damage');
+ const data={structuredModifiers:records};const app=await tool(undefined,data);app.state.data.characters.push(catalog.characters.find(c=>c.id==='1309'));delete app.state.modifierInputs['robin-talent-crit-active'];
+ app.state.party[0]={characterId:'1309',eidolon:0,level:80,traceLevels:{talent:10}};
+ for(const[k,v]of Object.entries({atk:'3000',critRate:'50',critDamage:'100'}))app.node('hsrStat-'+k).value=v;
+ let result=app.calculate()[0];assert.ok(Math.abs(result.expected-1728)<1e-8);
+ app.node('hsrConditionDialogOpen').handlers.click();assert.doesNotMatch(app.node('hsrConditionList').innerHTML,/data-structured-toggle="robin-talent-crit-active"/);assert.match(app.node('hsrConditionList').innerHTML,/ロビン天賦の会心ダメージを最終値に反映済み/);
+ app.node('hsrStat-critDamage').value='120';app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'robin-talent-crit-in-final-stats'},checked:true}});
+ assert.ok(Math.abs(app.calculate()[0].expected-1728)<1e-8);
+ const restored=await tool(app.storage,{...data,characters:app.state.data.characters});assert.equal(restored.state.modifierInputs['robin-talent-crit-in-final-stats'],true);assert.ok(Math.abs(restored.calculate()[0].expected-1728)<1e-8);
+ restored.state.party[0].characterId='';assert.ok(!restored.calculate()[0].applied.some(m=>m.id===records[0].id));
+});
+test('Arena uses Sunday combat CR after support selection and restores threshold decisions',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json'));const records=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers.filter(m=>['ornament:309:2pc:normal-skill-damage','trace:1313:131304:party-crit-rate'].includes(m.id));
+ const data={structuredModifiers:records,relicSets:catalog.relicSets};const app=await tool(undefined,data);app.state.data.characters.push(catalog.characters.find(c=>c.id==='1313'));app.state.ornamentId='309';app.state.party[0]={characterId:'1313',eidolon:0,level:80,traceLevels:{talent:10}};
+ app.node('hsrStat-atk').value='3000';app.node('hsrStat-critRate').value='50';app.node('hsrStat-critDamage').value='100';assert.ok(Math.abs(app.calculate()[0].nonCrit-1080)<1e-8);
+ app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'sunday-talent-crit-active'},checked:true}});assert.ok(Math.abs(app.calculate()[0].nonCrit-1296)<1e-8);
+ const restored=await tool(app.storage,{...data,characters:app.state.data.characters});assert.ok(Math.abs(restored.calculate()[0].nonCrit-1296)<1e-8);restored.state.party[0].characterId='';assert.ok(Math.abs(restored.calculate()[0].nonCrit-1080)<1e-8);
+});
+test('Huohuo Ultimate and Firesmith next Fire attack change only their intended components and restore',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json'));const records=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers.filter(m=>['trace:1217:121703:party-atk','relic:107:4pc:next-fire-damage','relic:107:4pc:skill-damage'].includes(m.id));
+ const data={structuredModifiers:records,relicSets:catalog.relicSets};const app=await tool(undefined,data);app.state.data.characters.push(catalog.characters.find(c=>c.id==='1217'));app.state.party[0]={characterId:'1217',level:80,eidolon:0,traceLevels:{ultimate:10}};app.state.relicId='107';app.state.relicMode='4pc';app.state.data.attacks[0].element='Fire';app.state.data.attacks.push({...app.state.data.attacks[0],id:'ice-comparison',element:'Ice'});
+ app.node('hsrStat-atk').value='3000';app.node('hsrStat-critRate').value='50';app.node('hsrStat-critDamage').value='100';assert.ok(Math.abs(app.calculate()[0].nonCrit-1080)<1e-8);
+ for(const key of ['huohuo-ultimate-atk-active','firesmith-ultimate-next-fire-active'])app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:key},checked:true}});
+ let result=app.calculate();assert.ok(Math.abs(result[0].nonCrit-1290.24)<1e-8);assert.ok(Math.abs(result[1].nonCrit-1152)<1e-8);
+ const restored=await tool(app.storage,{...data,characters:app.state.data.characters,attacks:app.state.data.attacks});assert.ok(Math.abs(restored.calculate()[0].nonCrit-1290.24)<1e-8);restored.state.party[0].characterId='';assert.ok(Math.abs(restored.calculate()[0].nonCrit-1209.6)<1e-8);restored.state.relicId='';assert.ok(Math.abs(restored.calculate()[0].nonCrit-1080)<1e-8);
 });

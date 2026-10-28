@@ -78,7 +78,7 @@
 
 この記録は [`modifiers-batch3-main-actions.json`](../../../games/hsr/data/calc/modifiers-batch3-main-actions.json) の実データをもとに、長い説明や出典値を省略して抜粋したもの。`source.kind` は `character`, `trace`, `eidolon`, `lightCone`, `relic`, `ornament`, `enemy`, `manual`。カテゴリ、対象所有者、攻撃種、属性、発動モード、値の種類、計算段階・演算子の許容値はスキーマを参照する。任意のプロパティも含め、未定義の概念フィールドを実装契約として追加しない。
 
-スキーマは本番全レコードを完全に表現できているわけではない。たとえば実データの `category: "attackState"` はcategory enumに含まれず、provenanceの `sourceCommit` / `scope` 等は `additionalProperties:false` の宣言と差がある。実行時ローダーはJSON Schema検証を実施せず、既存テスト/静的検証器もスキーマ全項目の完全適合を検査しない。現行形式の事実は実データと読込・評価コードを併せて確認する。契約の同期不足はBとして台帳に記録し、本書の概略例だけで契約へ適合したと認定しない。
+スキーマは確認済みの本番登録キー・列挙値と同期し、トップレベルと定義済みオブジェクト内の未知キーを禁止する。`validateHsrModifiers.cjs` はローダーから全登録効果を読み、フィールド名・主要enum・契約上の値形状・stacking等の追加条件を検証する。ただし、これはJSON Schemaの全制約を汎用評価する実行器ではなく、スキーマ全制約の完全な検証を主張しない。実行時ローダーもJSON Schema検証器ではない。宣言値と実計算経路の整合は実コードと独立テストで確認する。
 
 ### 抽出・評価・計算経路
 
@@ -92,19 +92,19 @@
 ### 自動と手動の条件
 
 - `activation.mode: "always"` は自動で有効。
-- `statThreshold` は `reference`, `operator`, `threshold` を現在の計算コンテキストで比較し、自動判定する。
+- `statThreshold` は `reference`, `operator`, `threshold` を計算コンテキストで比較する。既定の参照元は入力ステータス。`activation.statSource: "effective"` を明示した閾値だけ、独立・戦闘全体対象の `critRate` / `statFlat` / `statPercent` 効果を一度だけ反映した参照値で再評価する。寄与候補は `always` / `toggle` / `stack` と `fixed` / `byLevel` / `byRefinement` / `perStack` / `perStackByLevel` / `perStackByRefinement` に限る。攻撃ID・属性・位置に限定される効果や攻撃固有ボーナス、閾値効果の出力は再評価元へ含めない。閾値自身が参照ステータスを変える循環、割合補正の計算に必要な基礎値が不明なケースは、その閾値効果だけ適用停止する。
 - `numericThreshold` は `inputKey` があればその値を最小・最大の範囲内に制限して判定するため入力が必要。キーがない場合は参照値から判定する。閾値は候補生成時の入力コンテキストを参照し、他の効果を適用した後の再計算ステータスを参照する依存解決ではない。
 - `toggle` は `inputKey` と `default` による任意状態指定。既定値がfalseでも効果候補自体は一覧に出る。
 - `toggleThreshold` はユーザーのトグルと数値条件の両方が必要。
 - `stack` は入力された層数を最小・最大（星魂段階による最大値を含む）に制限し、正の層数で有効になる。
 
-これはランタイムの現行動作であり、全ての効果データが望ましい発動区分で登録済みという意味ではない。とくに入力から導出可能な効果がトグル登録されている場合は要求に対するBの不足として扱う。 具体例として [`modifiers-character-expanded.json`](../../../games/hsr/data/calc/modifiers-character-expanded.json) の `trace:1309:130904:party-crit-damage` はロビン天賦の味方全体会心ダメージを `activation.mode: "toggle"` / 既定OFFで登録している。編成と解放状態から候補を選べ、常時効果の成立に追加状況は不要なので、これはB（不要な手動トグル）の具体例である。
+これはランタイムの現行動作であり、全ての効果データが望ましい発動区分で登録済みという意味ではない。修正例として [`modifiers-character-expanded.json`](../../../games/hsr/data/calc/modifiers-character-expanded.json) の `trace:1309:130904:party-crit-damage` は、編成・軌跡解放から成立するロビン天賦の味方全体会心ダメージを `activation.mode: "always"` に変更した。最終値への既算入申告は発動条件と分離した `finalStatsInclusion: { inputKey, inputLabel, legacyToggleKey }` で扱う。新規状態・保存キーなしでは自動適用し、新しい `inputKey: true` の場合だけ除外する。旧保存データで `legacyToggleKey: false` があり新しいキーがない場合は、従来の状態を保つため除外する。新しいキーが明示されていればそちらを優先し、falseなら自動適用へ戻る。これは発動済みか不明な戦闘中バフ用の任意ON/OFFとは異なる。
 
 ### 最終ステータスと重複
 
-`inputPolicy: "includedInFinalStats"` の候補はランタイム上calculableにならず、最終値へ再加算されない。`support.status: "displayOnly"` または `review` も計算に入らない。これは個々のデータで重複を避ける仕組みであり、UID値の完全な由来分解や、あらゆるボーナスの自動重複判定を意味しない。最終入力への算入有無を根拠付きで記録し、不明な値を二重計上しないことは完成要求として維持する。
+`inputPolicy: "includedInFinalStats"` の候補は計算対象外で、最終値へ再加算されない。`finalStatsInclusion` は効果を通常時は有効にしつつ、利用者がその効果を入力済み最終値へ含めた場合だけ除外するための保存可能な申告である。旧トグルキーがfalseで新しい申告キーが未保存なら旧状態を維持して除外し、新しい申告falseは自動適用、trueは既算入として除外する。`support.status: "displayOnly"` または `review` も計算に入らない。これらはUID値の完全な由来分解やあらゆるボーナスの自動重複判定を意味しない。
 
-`stacking` は `group` と `rule` (`add`, `multiply`, `max`, `replace`, `nonStacking`) などを記録する実在契約だが、`hsrCalcEngine.js` の `enforceStackingRules()` は、同じ `group` の有効候補をまとめる。複数件の場合 `add` は全件を残し、`replace` は配列順で最後を残し、その他（`multiply`, `max`, `nonStacking`）は値が最大の1件だけ残して他を非適用にする。groupなし・単独候補は処理しない。したがって `multiply` は宣言名どおりの乗算ではなく最大値採用になる。今回の登録データに `rule: "multiply"` の使用例はなく、既存の実ダメージ不具合が発生しているとまでは断定しない。処理自体は実装済みだが、全宣言ルールが意味どおり実装されているわけではなく、group内容や演算の整合性を個別検証する必要がある。重複して装備された非重複効果が一つだけ計算に接続する個別テストはある。各カテゴリの加算、上限、排他はエンジン側の実処理とテストで個別に確認する。単一の汎用重複保証として説明しない。
+`stacking` は `group` と `rule` (`add`, `max`, `replace`, `nonStacking`) を記録する。`multiply` は以前の評価処理で最大値採用となり、乗算と誤認される契約だったため、スキーマ・静的検証で拒否し、エンジンも該当効果を局所的に非適用として理由を記録する。複数件の場合 `add` は全件を残し、`replace` は配列順で最後を残し、`max` / `nonStacking` は値最大の1件だけを残す。groupなし・単独候補は処理しない。重複して装備された非重複効果が一つだけ計算に接続する個別テストはある。各カテゴリの加算、上限、排他はエンジン側の実処理とテストで個別に確認する。単一の汎用重複保証として説明しない。
 
 保存は [`hsrCalcState.js`](../../../games/js/hsrCalcState.js) が `modifierInputs` をブラウザ保存データに含めて復元する。復元時は型とキーを検証する。提供者を外しても入力キーが保存に残る場合があるが、その提供者の候補が選択されなければ効果は適用されない。パーティ初期化時には、現行ビルドで使われないModifier入力キーを消去する処理がある。
 
@@ -121,10 +121,10 @@
 | 要求 | 現状判定 | 根拠・扱い |
 |---|---|---|
 | 所有・装備・編成・解放状態に基づく候補抽出と攻撃スコープ | A（基盤確認） | `sourceSelection`, `applicableToAttack`, `hsrApp.js` の攻撃別絞込み。データ網羅性・個別接続精度は別途検証。 |
-| 常時効果と入力から確定できる閾値効果の自動適用 | B | `always` と `statThreshold` は実装済み。ただし全データが自動条件で登録されているとは限らず、数値閾値の一部は入力を求める。不要トグルは個別監査する。 |
+| 常時効果と入力から確定できる閾値効果の自動適用 | A（限定確認）/ B（網羅性） | ロビン天賦を自動適用へ修正。`activation.statSource: "effective"` は、限定された独立・全体対象の会心率/速度補正を一度だけ反映する。閾値出力・攻撃固有補正は除外し、自己循環や割合補正に必要な基礎値不明は対象閾値のみ停止する。全効果の自動区分は引き続き確認が必要。 |
 | 発動済み状態・敵状態・スタックなど判断不能な状態のユーザー指定 | A（基盤確認） | toggle, toggleThreshold, stack等と条件UIがある。全効果・入力検証の網羅性は未完了。 |
-| 最終ステータスの由来を識別し、重複を避ける | B | `includedInFinalStats` 候補の除外はある。入力最終値の由来網羅・自動判定は確認できない。 |
-| 同じ `stacking.group` 内の複数候補の選別 | A（限定実装）/ B（契約との不一致） | `enforceStackingRules()` は `add` / `replace` / その他を実行。ただし `multiply` が実装では最大値採用となる。groupの正しい付与と競合対象の整合性は個別検証が必要。 |
+| 最終ステータスの由来を識別し、重複を避ける | A（申告経路の限定実装）/ B（由来網羅） | `finalStatsInclusion` で申告時のみ除外し、未算入効果を自動適用できる。旧保存トグルのfalseは除外へ移行。UID最終値の由来網羅・自動判定は未対応。 |
+| 同じ `stacking.group` 内の複数候補の選別 | A（限定実装）/ B（全groupの網羅） | `add` / `replace` / `max` / `nonStacking` を処理し、未対応の `multiply` は登録時と評価時に拒否する。groupの正しい付与と競合対象の整合性は個別検証が必要。 |
 | 1攻撃内の複数成分をそれぞれ適切な対象規則で計算し合算 | B | 一部の成分・シーケンス経路は存在するが全攻撃データの完全性はこの文書の監査範囲外。攻撃・成分別の独立検証を続ける。 |
 | 入力・条件の保存復元 | A（基盤確認） | `hsrCalcState.js` のcreate/save/restoreで状態を保存。提供者が消えた場合は候補選択で適用を防ぐ。 |
 | 効果定義・実行経路・適用対象の説明可能性 | A（基盤確認） | データの出典・supportと候補のaudit情報を提供。根拠のない候補は `review` / `displayOnly` に留める。 |
@@ -137,7 +137,7 @@
 - 選択・評価: [`games/js/hsrModifierRuntime.js`](../../../games/js/hsrModifierRuntime.js)
 - UIと計算接続: [`games/js/hsrApp.js`](../../../games/js/hsrApp.js)
 - 保存: [`games/js/hsrCalcState.js`](../../../games/js/hsrCalcState.js)
-- 契約・候補・個別適用テスト: [`tests/hsr/hsrModifierContract.test.cjs`](../../../tests/hsr/hsrModifierContract.test.cjs), [`tests/hsr/hsrModifierRuntime.test.cjs`](../../../tests/hsr/hsrModifierRuntime.test.cjs), [`tests/hsr/hsrToolInputs.test.cjs`](../../../tests/hsr/hsrToolInputs.test.cjs)
+- 契約・候補・個別適用テスト: [`tests/hsr/hsrModifierContract.test.cjs`](../../../tests/hsr/hsrModifierContract.test.cjs), [`tests/hsr/hsrModifierValidation.test.cjs`](../../../tests/hsr/hsrModifierValidation.test.cjs), [`tests/hsr/hsrModifierRuntime.test.cjs`](../../../tests/hsr/hsrModifierRuntime.test.cjs), [`tests/hsr/hsrModifierEvaluation.test.cjs`](../../../tests/hsr/hsrModifierEvaluation.test.cjs), [`tests/hsr/hsrSupportEquipmentBatch.test.cjs`](../../../tests/hsr/hsrSupportEquipmentBatch.test.cjs), [`tests/hsr/hsrBreakDamageBonus.test.cjs`](../../../tests/hsr/hsrBreakDamageBonus.test.cjs), [`tests/hsr/hsrToolInputs.test.cjs`](../../../tests/hsr/hsrToolInputs.test.cjs)
 
 データ契約検査は [`validateHsrModifiers.cjs`](../../../scripts/validateHsrModifiers.cjs)、カバレッジ監査は [`auditHsrCoverage.cjs`](../../../scripts/auditHsrCoverage.cjs)。通過は形式や登録根拠の確認であり、全計算式の独立正解を証明しない。計算精度は攻撃種・対象成分ごとの独立期待値テストで確認する。`stacking` の宣言だけで動作を承認せず、実際のエンジン適用経路を確認する。
 
@@ -147,7 +147,7 @@
 - **C**: 発動モードを `always / derived / manual` とするenumは存在しない。実在値は `always / toggle / toggleThreshold / stack / statThreshold / numericThreshold`。各モードの現行挙動を明記した。
 - **C**: 全対象で成分ID単位のフィルタがあるとの記述は誤り。スキーマには `attackIds` があるが、汎用のcomponent ID対象フィールドは確認できない。成分対応は攻撃データと計算経路ごとに検証する。
 - **C**: 汎用の循環依存検出、完全な重複正規化、条件説明の保存形式は確認できないため、現行機能としての評価順・保証から外した。
-- **B**: 最終ステータス二重加算防止を全効果の自動機能とせず、既算入マークによる除外の実装範囲と、残るデータ・由来管理課題を分けた。
+- **B**: 最終ステータス二重加算防止を全効果の自動機能とせず、既算入申告による除外・旧保存値移行と、残るUID最終値の由来管理課題を分けた。
 - **C**: Genshinの既存フィールドやAPIをHSRの実装方式として提示していた点を修正し、参照専用の比較に限定した。
 
 

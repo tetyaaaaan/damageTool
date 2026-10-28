@@ -35,7 +35,8 @@ const profiles = [
 ];
 
 function native(data, attack, talentLevel, inputs = {}, party = false, attackLevel = talentLevel) {
-    const effectiveInputs = { ...inputs, ...(attack.comparisonModifierInputs || {}) };
+    // The entered critDamage is a completed final value including Robin Talent; isolate the optional Skill support here.
+    const effectiveInputs = { ...(party ? { "robin-talent-crit-in-final-stats": true } : {}), ...inputs, ...(attack.comparisonModifierInputs || {}) };
     return runtime.buildCandidates(data.structuredModifiers, {
         characterId: attack.characterId, eidolon: 0, enhancementState: attack.variant,
         partyIds: party ? ["1309"] : [], partyEidolons: { "1309": 0 },
@@ -225,7 +226,7 @@ function arlanCheck(data, engine, attack, level, talentLevel, hpPercent, profile
         characterId: "1008", eidolon: 0, stats: { ...profile, hpPercent },
         partyIds: robin ? ["1309"] : [], partyEidolons: { "1309": 0 },
         traceLevelFor: source => source.id === "1309" ? 10 : talentLevel
-    }, { "robin-skill-damage-active": robin }).map(c => ({
+    }, { "robin-skill-damage-active": robin, "robin-talent-crit-in-final-stats": true }).map(c => ({
         ...c, applicable: c.applicable !== false && runtime.applicableToAttack(c, effectiveAttack)
     }));
     const talent = candidates.find(c => c.id === "trace:1008:100804:missing-hp-damage");

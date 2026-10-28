@@ -150,7 +150,7 @@
       },
       "providerScope": "self",
       "name": "ロビン本人・調和の純正律・味方全体会心ダメージ",
-      "description": "通常ロビンの天賦Lv1～10・星魂0。戦闘参加中に味方全体へ作用する会心ダメージを、最終入力に含めていない場合に追加します。Lv10は20%。OFFはこの効果を除外した比較値です。最終会心ダメージや手動補正に反映済みなら重複してONにしないでください。協奏・A4の追加攻撃専用会心ダメージ・EP回復は含みません。今回は会心可能な通常式のみで、愉悦・精霊専用計算は対象外です。 本人の最終値に反映済みの場合はOFFにしてください。協奏の固定会心には通常の会心補正を再加算しません。",
+      "description": "天賦の会心ダメージを自動適用。入力済み最終CDに含む場合は反映済みを選び再加算しない。協奏の固定会心には適用しない。",
       "category": "critDamage",
       "unit": "percent",
       "value": {
@@ -177,10 +177,8 @@
         "elements": []
       },
       "activation": {
-        "mode": "toggle",
-        "inputKey": "robin-talent-crit-active",
-        "default": false,
-        "conditionText": "通常ロビンが戦闘に参加している天賦効果を追加する"
+        "mode": "always",
+        "conditionText": "ロビンの天賦が有効（最終会心ダメージに未算入）"
       },
       "inputValidation": {
         "maximumEidolon": 0,
@@ -208,6 +206,11 @@
         "verifiedAt": "2026-10-26",
         "scope": "通常ロビンの天賦Lv1～10・星魂0。戦闘参加中に味方全体へ作用する会心ダメージを、最終入力に含めていない場合に追加します。Lv10は20%。OFFはこの効果を除外した比較値です。最終会心ダメージや手動補正に反映済みなら重複してONにしないでください。協奏・A4の追加攻撃専用会心ダメージ・EP回復は含みません。今回は会心可能な通常式のみで、愉悦・精霊専用計算は対象外です。 本人の最終値に反映済みの場合はOFFにしてください。協奏の固定会心には通常の会心補正を再加算しません。",
         "verification": "hsrBatch3TingyunRobinArgenti.test.cjs"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "robin-talent-crit-in-final-stats",
+        "inputLabel": "ロビン天賦の会心ダメージを最終値に反映済み",
+        "legacyToggleKey": "robin-talent-crit-active"
       }
     },
     {

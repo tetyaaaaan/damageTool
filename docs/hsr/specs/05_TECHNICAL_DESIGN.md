@@ -49,6 +49,12 @@ games/hsr/index.html
 
 保存キーは `tetinet:hsr:calculation:v1`、形状は `{schemaVersion:1, game:"hsr", state, modifierInputs, conditions, fields}`。`state` は許可された入力項目のみ。`create` は結果・生UID応答・プロフィール一覧を含めず、再読込時は入力を復元して再計算する。成功したUIDの記憶はこれとは別経路である。
 
+### 補正評価の限定的な拡張
+
+`HsrModifierRuntime.buildCandidates` は `buildRawCandidates` の一次候補から、入力元が独立した全般的なステータス補正だけを集め、`activation.statSource: "effective"` を宣言した会心率/速度閾値へ一段で渡す。Appの `modifiers(attack)` は攻撃の文脈と `validateProvider` を渡し、提供者Lv不足等を検証する。閾値から生じる効果を再度入力へ戻さず、変換・攻撃限定会心・参照自身を変更する効果はこの評価へ混ぜない。参照値/基礎値が不明なら当該候補だけを未確定とする。
+
+`finalStatsInclusion` は常時効果の発動状態ではなく、最終入力へ算入済みかのユーザー宣言。ロビン天賦は自動適用し、算入済みなら追加しない。旧保存キーの明示OFFは除外を保ち、新しい算入済みキーを指定すれば優先する。保存スキーマの版は変更せず、既存のmodifierInputsへ保存する。算入由来を推測する汎用エンジンは導入していない。
+
 ## 3. データ定義の実際
 
 - `games/hsr/data/catalog.json` は表示・詳細情報等を含む静的カタログ。収録数や全スキル説明の存在は、全効果が計算されることを意味しない。

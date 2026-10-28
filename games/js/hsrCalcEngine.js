@@ -77,6 +77,10 @@
 
     function enforceStackingRules(modifiers) {
         const groups = new Map();
+        modifiers.filter((item) => item.enabled && item.applicable && item.stacking?.rule === "multiply").forEach((item) => {
+            item.applicable = false;
+            item.reason = "乗算スタック規則は未対応です";
+        });
         modifiers.filter((item) => item.enabled && item.applicable && item.stacking?.group).forEach((item) => {
             const key = item.stacking.group;
             if (!groups.has(key)) groups.set(key, []);
@@ -84,7 +88,7 @@
         });
         groups.forEach((items) => {
             const rule = items[0]?.stacking?.rule || "add";
-            if (rule === "add" || items.length < 2) return;
+            if (rule === "add" || rule === "multiply" || items.length < 2) return;
             const keep = rule === "replace" ? items[items.length - 1] : items.reduce((best, item) => item.value > best.value ? item : best, items[0]);
             items.forEach((item) => {
                 if (item === keep) return;
@@ -708,7 +712,7 @@ function calculateFanning(input) {
                 item.applicable = false;
                 item.reason = item.support?.reason || "計算反映前の確認が必要です";
             }
-            if (item.enabled && item.applicable && !["breakEffect","defenseReduction","defenseIgnore","resistanceReduction","resistancePenetration","takenDamage"].includes(item.category)) {
+            if (item.enabled && item.applicable && !["breakEffect","breakDamage","defenseReduction","defenseIgnore","resistanceReduction","resistancePenetration","takenDamage"].includes(item.category)) {
                 item.applicable = false;
                 item.reason = "弱点撃破には適用しない補正です";
             }
@@ -727,6 +731,8 @@ function calculateFanning(input) {
         if (!Number.isFinite(multiplier)) return { supported: false, reason: "撃破属性倍率を特定できません。" };
         const breakEffectBonus = applied.filter((item) => item.category === "breakEffect").reduce((sum, item) => sum + item.value, 0);
         const effect = 1 + (number(character.stats?.breakEffect) + breakEffectBonus) / 100;
+        const breakDamageBonus = applied.filter((item) => item.category === "breakDamage").reduce((sum, item) => sum + item.value, 0);
+        const breakDamageMultiplier = 1 + breakDamageBonus / 100;
         const defenseReduction = number(enemy.defenseReduction) + applied.filter((item) => item.category === "defenseReduction").reduce((sum, item) => sum + item.value, 0);
         const defenseIgnore = number(enemy.defenseIgnore) + applied.filter((item) => item.category === "defenseIgnore").reduce((sum, item) => sum + item.value, 0);
         const resistancePenetration = number(enemy.resistancePenetration) + applied.filter((item) => ["resistancePenetration", "resistanceReduction"].includes(item.category)).reduce((sum, item) => sum + item.value, 0);
@@ -735,7 +741,7 @@ function calculateFanning(input) {
         const resistance = resistanceMultiplier(number(enemy.resistance) - resistancePenetration);
         const toughnessScale = 0.5 + Math.max(0, number(enemy.maxToughness, 30)) / 120;
         const vulnerability = 1 + takenDamage / 100;
-        return { supported: true, value: base * multiplier * effect * defense * resistance * toughnessScale * vulnerability, base, multiplier, effect, defense, resistance, toughnessScale, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
+        return { supported: true, value: base * multiplier * effect * breakDamageMultiplier * defense * resistance * toughnessScale * vulnerability, base, multiplier, effect, breakDamageBonus, breakDamageMultiplier, defense, resistance, toughnessScale, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
     }
 
 
@@ -775,7 +781,7 @@ function calculateFanning(input) {
                 item.applicable = false;
                 item.reason = item.support?.reason || "計算反映前の確認が必要です";
             }
-            if (item.enabled && item.applicable && !["breakEffect","breakEfficiency","superBreakDamage","defenseReduction","defenseIgnore","resistanceReduction","resistancePenetration","takenDamage"].includes(item.category)) {
+            if (item.enabled && item.applicable && !["breakEffect","breakDamage","breakEfficiency","superBreakDamage","defenseReduction","defenseIgnore","resistanceReduction","resistancePenetration","takenDamage"].includes(item.category)) {
                 item.applicable = false;
                 item.reason = "超撃破には適用しない補正です";
             }
@@ -790,6 +796,7 @@ function calculateFanning(input) {
         if (enemy.toughnessActive !== false) return { supported: false, reason: "超撃破は弱点撃破状態の敵にのみ発生します。" };
         const sum = (categories) => applied.filter((item) => categories.includes(item.category)).reduce((total, item) => total + item.value, 0);
         const breakEffect = 1 + (number(character.stats?.breakEffect) + sum(["breakEffect"])) / 100;
+        const breakDamageMultiplier = 1 + sum(["breakDamage"]) / 100;
         const breakEfficiency = 1 + sum(["breakEfficiency"]) / 100;
         const superBreakBonus = 1 + sum(["superBreakDamage"]) / 100;
         const defenseReduction = number(enemy.defenseReduction) + sum(["defenseReduction"]);
@@ -802,8 +809,8 @@ function calculateFanning(input) {
         const conversionInput = attack.superBreakMultiplier === undefined ? 100 : attack.superBreakMultiplier;
         const conversionMultiplier = conversionInput / 100;
         if (!Number.isFinite(conversionInput) || conversionMultiplier < 0) return { supported: false, reason: "超撃破の発生倍率に0以上の数値を入力してください。" };
-        const value = conversionMultiplier * base * (effectiveToughnessDamage / 10) * breakEffect * defense * resistance * vulnerability * superBreakBonus;
-        return { supported: true, value, base, conversionMultiplier, toughnessDamage, effectiveToughnessDamage, breakEffect, breakEfficiency, superBreakBonus, defense, resistance, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
+        const value = conversionMultiplier * base * (effectiveToughnessDamage / 10) * breakEffect * breakDamageMultiplier * defense * resistance * vulnerability * superBreakBonus;
+        return { supported: true, value, base, conversionMultiplier, toughnessDamage, effectiveToughnessDamage, breakEffect, breakDamageMultiplier, breakEfficiency, superBreakBonus, defense, resistance, vulnerability, applied, skipped: modifiers.filter((item) => !item.enabled || !item.applicable) };
     }
 
     window.HsrCalcEngine = Object.freeze({ normalOnlyModifierReason, fanningInputWarnings, songbirdInputWarnings, trueDamageInputWarnings, elationInputWarnings, unsupportedAttackReason, calculate, calculateBreak, calculateAdditionalBreak, calculateSuperBreak, defenseMultiplier, resistanceMultiplier, actionSummary });

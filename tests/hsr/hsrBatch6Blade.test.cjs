@@ -108,7 +108,8 @@ test("batch6 Mortenax conditional transform CR/CD and external ATK/FUA/Skill buf
   const attack=attackOf(data,id),level=spec.values.length;
   for(let nativeLevel=1;nativeLevel<=10;nativeLevel++){
    const profile={...profiles[0]};
-   const inputs={"mortenax-infinite-fury-active":true,"mortenax-other-nihility":true,"mortenax-crit-already-in-final":true,"robin-skill-damage-active":true};
+   // Completed profile CD includes Robin Talent; this check separately adds Robin Skill.
+   const inputs={"mortenax-infinite-fury-active":true,"mortenax-other-nihility":true,"mortenax-crit-already-in-final":true,"robin-skill-damage-active":true,"robin-talent-crit-in-final-stats":true};
    const candidates=mods(data,attack,inputs,nativeLevel,true);
    const rate=candidates.find(m=>m.id==="trace:1507:150703:fury-critRate");assert.ok(rate);assert.equal(rate.applicable,id!=="150701","Fury crit does not leak into ordinary basic");
    const request=makeRequest(attack,level,profile,candidates);request.character.stats.hpPercent=50;

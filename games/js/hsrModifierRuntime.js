@@ -241,11 +241,13 @@
     return { active: false, automatic: false };
   }
 
-  function buildCandidates(records = [], context = {}, inputs = {}) {
+  function buildRawCandidates(records = [], context = {}, inputs = {}) {
     return records.flatMap((record) => {
       const selection = sourceSelection(record, context);
       if (!selection.selected) return [];
       const activation = activationState(record, context, inputs);
+      const inclusion = record.finalStatsInclusion;
+      const includedInFinalStats = Boolean(inclusion && (inputs[inclusion.inputKey] ?? (inclusion.legacyToggleKey && inputs[inclusion.legacyToggleKey] === false)));
       const supportStatus = record.support?.status || "review";
       const calculable = supportStatus === "calculable" && record.inputPolicy !== "includedInFinalStats";
       const value = resolveValue(record, context, inputs, selection);
@@ -256,7 +258,7 @@
         ? (selection.providerId === String(context.characterId) ? context.stats?.[record.value.providerStat] : context.partyStats?.[selection.providerId]?.[record.value.providerStat])
         : inputs[validatedInputKey] === undefined ? (record.value?.default ?? (record.activation?.mode === "stack" ? record.activation.default : undefined)) : inputs[validatedInputKey];
       const invalidValue = Boolean(validation && validatedInputKey && (!Number.isFinite(raw) || raw < validation.minimum || raw > validation.maximum || (validation.integer && !Number.isInteger(raw))));
-      let enabled = calculable && (activation.active || unknownReference || (record.activation?.mode === "stack" && invalidValue));
+      let enabled = !includedInFinalStats && calculable && (activation.active || unknownReference || (record.activation?.mode === "stack" && invalidValue));
       // A known zero multiplier needs no level; state-consistency checks still take precedence.
       if (record.value?.inputMultipliers?.[raw] === 0 && !validation?.whenToggle) enabled = false;
       const inputWarnings = [];
@@ -294,6 +296,8 @@
         enabled,
         applicable: inputWarnings.length === 0,
         inputWarnings,
+        includedInFinalStats,
+        inclusionInput: inclusion ? {key:inclusion.inputKey,label:inclusion.inputLabel,checked:includedInFinalStats} : null,
         automatic: activation.automatic,
         activation: { ...record.activation, ...activation },
         providerId: selection.providerId || null,
@@ -337,9 +341,53 @@
         provenance: record.provenance,
         calculable,
         displayOnly: !calculable,
-        effectLabel: record.inputPolicy === "includedInFinalStats" ? "最終入力に含める（再加算なし）" : missingInput ? "入力後に算出" : `${value}${record.unit === "percent" ? "%" : ""}`,
+        effectLabel: includedInFinalStats ? "最終入力に反映済み（追加なし）" : record.inputPolicy === "includedInFinalStats" ? "最終入力に含める（再加算なし）" : missingInput ? "入力後に算出" : `${value}${record.unit === "percent" ? "%" : ""}`,
         reason: inputWarnings.length ? inputWarnings.join(" ") : calculable ? "" : (record.support?.reason || "計算反映前の確認が必要です。")
       }];
+    });
+  }
+
+  // One bounded pass: only independent, combat-wide stat additions can feed opted-in thresholds.
+  // Threshold-derived effects never feed this pass, so dependency cycles are not iterated.
+  function buildCandidates(records = [], context = {}, inputs = {}) {
+    const initial = buildRawCandidates(records, context, inputs);
+    const byId = new Map(records.map(record => [record.id, record]));
+    const independent = initial.map(item => typeof context.validateCandidate === "function" ? context.validateCandidate(item) : item).filter(item => {
+      const record = byId.get(item.id), target = item.target || {};
+      const types = target.attackTypes || [];
+      return item.enabled && item.applicable && item.calculable && record?.activation?.statSource !== "effective"
+        && ["always", "toggle", "stack"].includes(record?.activation?.mode)
+        && ["fixed","byLevel","byRefinement","perStack","perStackByLevel","perStackByRefinement"].includes(record?.value?.kind)
+        && (!target.attackIds?.length && !target.elements?.length && !item.primaryTargetOnly && !item.adjacentTargetOnly)
+        && (types.includes("all") || ["normal", "skill", "ultimate", "followUp"].every(type => types.includes(type)))
+        && (!context.attack || applicableToAttack(item, context.attack))
+        && (["critRate", "statFlat", "statPercent"].includes(item.category));
+    });
+    const groups = new Map();
+    independent.forEach(item => { const key=item.stacking?.group || item.id; if(!groups.has(key))groups.set(key,[]);groups.get(key).push(item); });
+    const contributors = [...groups.values()].flatMap(items => {
+      const rule=items[0].stacking?.rule || "add";
+      if(rule==="multiply")return [];
+      if(rule==="add")return items;
+      return [rule==="replace"?items.at(-1):items.reduce((best,item)=>item.value>best.value?item:best,items[0])];
+    });
+    return initial.map(item => {
+      const record=byId.get(item.id);
+      if(record?.activation?.statSource!=="effective")return item;
+      const stat=String(record.activation.reference||"").replace(/^self\./, "");
+      if(!["critRate","speed"].includes(stat) || (record.category==="critRate" && stat==="critRate") || (["statFlat","statPercent"].includes(record.category)&&record.stat===stat)) {
+        return {...item,enabled:true,applicable:false,inputWarnings:["この閾値の参照依存は未対応です。"],reason:"自身の参照値を変える閾値は再帰評価しません。"};
+      }
+      if (!Number.isFinite(context.stats?.[stat])) {
+        return {...item,enabled:true,applicable:false,inputWarnings:[`閾値判定に必要な${stat}が未入力です。`],reason:"閾値の参照値を確定できません。"};
+      }
+      if (contributors.some(m=>m.category==="statPercent" && m.stat===stat) && !Number.isFinite(context.baseStats?.[stat])) {
+        return {...item,enabled:true,applicable:false,inputWarnings:[`閾値判定に必要な基礎${stat}が未入力です。`],reason:"閾値の参照値を確定できません。"};
+      }
+      const sum=(category)=>contributors.filter(m=>m.category===category && (category==="critRate" || m.stat===stat)).reduce((total,m)=>total+m.value,0);
+      const added=sum("statFlat") + number(context.baseStats?.[stat])*sum("statPercent")/100 + (stat==="critRate"?sum("critRate"):0);
+      const effectiveContext={...context,stats:{...context.stats,[stat]:number(context.stats?.[stat])+added}};
+      return {...buildRawCandidates([record],effectiveContext,inputs)[0],thresholdReferenceValue:effectiveContext.stats[stat]};
     });
   }
 

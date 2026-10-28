@@ -371,20 +371,21 @@ test("Tingyun E0 Benediction ATK rejects a missing provider snapshot instead of 
 });
 
 
-test("Robin own Talent CRIT DMG is optional at every level, applies to her Basic, and cannot change fixed Concerto CRIT", async () => {
+test("Robin own Talent CRIT DMG is automatic unless included in final stats and cannot change fixed Concerto CRIT", async () => {
     const { data, engine } = await loadProductionFixture();
     const ownTalent = data.structuredModifiers.find(item => item.source?.id === "1309" && item.source?.skillId === "130904"
         && item.providerScope === "self" && item.category === "critDamage");
     assert.ok(ownTalent, "Robin has a separate self Talent record");
-    assert.equal(ownTalent.activation.default, false, "entered final CD may already contain Talent");
+    assert.equal(ownTalent.activation.mode, "always");
+    assert.ok(ownTalent.finalStatsInclusion.inputKey);
     const ownContext = { characterId: "1309", eidolon: 0, partyIds: [], stats: profiles[0] };
     const basic = attackOf(data, "130901");
     const proc = attackOf(data, "130903");
     for (let level = 1; level <= 10; level++) {
-        const inputs = { [ownTalent.activation.inputKey]: true };
+        const inputs = { [ownTalent.finalStatsInclusion.inputKey]: false };
         const on = candidate(data, ownTalent.id, level, ownContext, inputs);
-        const off = candidate(data, ownTalent.id, level, ownContext, {});
-        assert.equal(off.enabled, false, "own Talent defaults OFF Lv" + level);
+        const off = candidate(data, ownTalent.id, level, ownContext, { [ownTalent.finalStatsInclusion.inputKey]: true });
+        assert.equal(off.enabled, false, "already included Talent is excluded Lv" + level);
         assertClose(on.value, source.robinTalentCritDamage[level - 1], "own Talent CD source Lv" + level);
         for (let basicLevel = 1; basicLevel <= 6; basicLevel++) {
             const input = makeRequest(basic, basicLevel, profiles[0], scoped([on], basic));

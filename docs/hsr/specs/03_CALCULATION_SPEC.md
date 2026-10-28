@@ -7,9 +7,9 @@
 
 ## 1. 根拠と適用範囲
 
-主な実装は [`games/js/hsrCalcEngine.js`](../../../games/js/hsrCalcEngine.js) の `calculate`、`calculateComponentSequence`、`calculateBreak`、`calculateAdditionalBreak`、`calculateSuperBreak`、`calculateElation`、`calculateTrueDamage`、`defenseMultiplier`、`resistanceMultiplier`。入力データの読込・構築は [`games/js/hsrCalcData.js`](../../../games/js/hsrCalcData.js)、攻撃倍率やブレーク値のデータファイルは [`games/hsr/data/calc/data-files.json`](../../../games/hsr/data/calc/data-files.json) とそこから指定されるJSON群にある。
+主な実装は [`games/js/hsrCalcEngine.js`](../../../games/js/hsrCalcEngine.js) の `calculate`、`calculateComponentSequence`、`calculateBreak`、`calculateAdditionalBreak`、`calculateSuperBreak`、`calculateElation`、`calculateTrueDamage`、`defenseMultiplier`、`resistanceMultiplier`。入力データの読込・構築は [`games/js/hsrCalcData.js`](../../../games/js/hsrCalcData.js)、攻撃倍率やブレーク値のデータファイルは [`games/hsr/data/calc/data-files.json`](../../../games/hsr/data/calc/data-files.json) とそこから指定されるJSON群にある。`breakDamage` は通常の `damageBonus` / `independentMultiplier` や `breakEffect` と別カテゴリで、撃破系の式に専用の加算合計→係数として適用する。
 
-独立した通常ダメージ計算の参照実装と固定StarRailResコミットは [`tests/hsr/helpers/hsrDirectVerification.cjs`](../../../tests/hsr/helpers/hsrDirectVerification.cjs) の `independentDirectDamage` / `fixedSourceSha`（`dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487`）。エンジン自身の出力だけで作った期待値を独立検証とみなさない。特に参照すべきテストは [`tests/hsr/hsrCalcEngine.test.cjs`](../../../tests/hsr/hsrCalcEngine.test.cjs)、[`tests/hsr/hsrCompositeMainActions.test.cjs`](../../../tests/hsr/hsrCompositeMainActions.test.cjs)、[`tests/hsr/hsrBatch7Break.test.cjs`](../../../tests/hsr/hsrBatch7Break.test.cjs)、[`tests/hsr/hsrBatch8BreakIsolation.test.cjs`](../../../tests/hsr/hsrBatch8BreakIsolation.test.cjs)、[`tests/hsr/hsrBatch7Elation.test.cjs`](../../../tests/hsr/hsrBatch7Elation.test.cjs)。個別キャラの全対応範囲は各 `tests/hsr/hsrBatch*.test.cjs` を参照する。
+独立した通常ダメージ計算の参照実装と固定StarRailResコミットは [`tests/hsr/helpers/hsrDirectVerification.cjs`](../../../tests/hsr/helpers/hsrDirectVerification.cjs) の `independentDirectDamage` / `fixedSourceSha`（`dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487`）。エンジン自身の出力だけで作った期待値を独立検証とみなさない。特に参照すべきテストは [`tests/hsr/hsrCalcEngine.test.cjs`](../../../tests/hsr/hsrCalcEngine.test.cjs)、[`tests/hsr/hsrBreakDamageBonus.test.cjs`](../../../tests/hsr/hsrBreakDamageBonus.test.cjs)、[`tests/hsr/hsrCompositeMainActions.test.cjs`](../../../tests/hsr/hsrCompositeMainActions.test.cjs)、[`tests/hsr/hsrBatch7Break.test.cjs`](../../../tests/hsr/hsrBatch7Break.test.cjs)、[`tests/hsr/hsrBatch8BreakIsolation.test.cjs`](../../../tests/hsr/hsrBatch8BreakIsolation.test.cjs)、[`tests/hsr/hsrBatch7Elation.test.cjs`](../../../tests/hsr/hsrBatch7Elation.test.cjs)。個別キャラの全対応範囲は各 `tests/hsr/hsrBatch*.test.cjs` を参照する。
 
 これらは式のコード挙動や、宣言された入力範囲内の再計算一致を示す。ゲームの全バージョン・全攻撃・あらゆる内部丸めの正しさまで証明するものではない。外部の原神CurrentCalcはHSR計算式の根拠ではない。
 
@@ -59,16 +59,17 @@ D0 = B × (1 + 与ダメージ補正合計 / 100)
 ```text
 撃破ダメージ = 撃破基礎値 × 属性（または明示）倍率
   × (1 + (最終撃破特効 + 適用BE補正)/100)
+  × (1 + 適用breakDamage補正合計/100)
   × 防御倍率 × 耐性倍率
   × (0.5 + max(0, 敵最大靭性)/120)
   × (1 + 被ダメージ合計/100)
 ```
 
-この関数は会心を計算しない。通常与ダメージ補正・`independentMultiplier` 等は受け付けずスキップする。BREAKの最大靭性係数はこの関数で確認した実装式で、他の経路へ一般化しない。基礎値の出所・バージョンはデータの provenance を参照する。
+この関数は会心を計算しない。通常与ダメージ補正・`independentMultiplier` 等は受け付けずスキップする。`breakDamage` は撃破ダメージ専用カテゴリで、適用対象の有効補正値を合算し、`1 + 合計/100` を掛ける。これは最終撃破特効の加算ではなく、通常与ダメージとも別の乗算段階である。現行の戻り値には `breakDamageBonus` と `breakDamageMultiplier` が含まれる。BREAKの最大靭性係数はこの関数で確認した実装式で、他の経路へ一般化しない。基礎値の出所・バージョンはデータの provenance を参照する。
 
 ### 3.2 追加撃破 (`calculateAdditionalBreak`)
 
-汎用の「任意の追加撃破」を評価する関数ではない。現状受理するのはRuan Meiの指定攻撃ID `1303041` / `1303031` とRappa `1317041` の限定定義で、Lv80・E0・敵1体・指定軌跡Lv等を検査し、必要入力が合わなければ停止する。Rappaは0〜10チャージの指定も必要。成立した各呼出しは独立した追加撃破1回を算出し、通常直撃・初回撃破・別追加撃破・超撃破を自動加算しない。追加撃破の一般化、攻撃データ全件への効果定義、発生順・複数イベント処理は要求に対してB。
+汎用の「任意の追加撃破」を評価する関数ではない。現状受理するのはRuan Meiの指定攻撃ID `1303041` / `1303031` とRappa `1317041` の限定定義で、Lv80・E0・敵1体・指定軌跡Lv等を検査し、必要入力が合わなければ停止する。Rappaは0〜10チャージの指定も必要。成立した各呼出しは `calculateBreak` を呼ぶため、適用対象となる `breakDamage` も同じ撃破ダメージ係数として反映する。各呼出しは独立した追加撃破1回を算出し、通常直撃・初回撃破・別追加撃破・超撃破を自動加算しない。追加撃破の一般化、攻撃データ全件への効果定義、発生順・複数イベント処理は要求に対してB。
 
 ### 3.3 超撃破 (`calculateSuperBreak`)
 
@@ -77,12 +78,13 @@ D0 = B × (1 + 与ダメージ補正合計 / 100)
 ```text
 超撃破 = 発生倍率/100 × 撃破基礎値 × (有効削靭値/10)
        × (1 + 最終撃破特効/100)
+       × (1 + 適用breakDamage補正合計/100)
        × 防御倍率 × 耐性倍率 × (1 + 被ダメージ合計/100)
        × (1 + 超撃破ダメージ補正/100)
 有効削靭値 = 基礎削靭値 × (1 + 撃破効率補正合計/100)
 ```
 
-発生倍率既定値は100%。関数は会心なし。攻撃データに基礎削靭値がない場合、ゲーム既定値を推測せず停止する。撃破特効、撃破効率、超撃破ダメージ、防御、耐性、被ダメージ補正のみ対象。元素弱点・初回撃破の自動発生や状態変化は再現しない。Firefly等一部の専用経路は追加の専用係数や条件を [`calculateNativeBreakSequence`](../../../games/js/hsrCalcEngine.js) で適用する。
+発生倍率既定値は100%。関数は会心なし。攻撃データに基礎削靭値がない場合、ゲーム既定値を推測せず停止する。エンジンは `breakDamage` を超撃破の計算式にも受け付け、`breakEffect`・`breakEfficiency`・`superBreakDamage`・防御・耐性・被ダメージ補正と別の係数として処理する。ただし、これはエンジンのカテゴリ能力を記述するものであり、個別効果が超撃破を対象にする根拠にはならない。元素弱点・初回撃破の自動発生や状態変化は再現しない。Firefly等一部の専用経路は追加の専用係数や条件を [`calculateNativeBreakSequence`](../../../games/js/hsrCalcEngine.js) で適用する。LC21056「風を追う時」の固定版効果は「弱点撃破ダメージ」表記のみ確認でき、超撃破への適用を裏付ける一次資料は未確認である。そのデータ対象は弱点撃破に限定し、超撃破適用はDとして保留する。
 
 ## 4. DoT・愉悦・確定ダメージ・成分列
 
@@ -92,7 +94,11 @@ D0 = B × (1 + 与ダメージ補正合計 / 100)
 - **複数成分・ヒット（部分対応、B）**：`componentSequence` は一般的な任意成分リストの処理器ではない。エンジンは既知IDと構成を検証し、成分ごとに通常式または専用経路を呼び、結果を合算する。例としてFeixiao、Yukong、Moze、Luka等の固定構成や、Anaxa/March等の専用関数がある。成分ID・属性・攻撃種別・レベル・同一スナップショットが登録定義と異なる場合は停止する。複数ヒットだけの攻撃は通常経路で個数を集約できるが、ヒット順に敵状態やModifierが変化する一般シミュレーションではない。あらゆる攻撃への共通複合定義は要求に対するB。
 - 成分に会心可／不可が混在する場合、成分の独立結果を合算する専用経路では会心不可成分は会心増分なしとなる。合算表示の「会心」は各成分の会心可能性を考慮した評価値であり、複数成分のゲーム内一括会心抽選を表さない。
 
-## 5. 実装と要求の差分
+## 5. Modifierのスタック規則（現行エンジン）
+
+計算前に `enforceStackingRules` が有効候補を評価する。`stacking.rule: "multiply"` は現行未対応であり、候補が単独でも適用不可にして理由を返す。乗算を最大値採用として扱わず、その候補だけを除外するため、別グループや他の有効補正の計算は継続する。`nonStacking` 等の既存規則は本書の式で定義する算術カテゴリとは別で、候補間の重複解決に用いる。
+
+## 6. 実装と要求の差分
 
 | 分類 | 事項 | 根拠・判断 |
 |---|---|---|
@@ -105,8 +111,9 @@ D0 = B × (1 + 与ダメージ補正合計 / 100)
 | C | 初稿の論理積式を現行エンジン仕様として読める記述 | エンジンは群ごとの加算、独立乗算、上限、特殊分岐を実装済み。上記の式と現行コードを明記 |
 | C | `componentSequence` が一般の任意成分列を受理するとの初稿上の含意 | 現在はID/定義限定のルーター。任意構成を受理しないが、必要な単一攻撃範囲を満たすことは別途必要 |
 | D | ゲームの権威的な内部丸め位置、全攻撃に共通する最終丸め規則 | コードの浮動小数点出力・UI整数表示・テスト許容誤差からは決められない |
+| D | LC21056「風を追う時」の「弱点撃破ダメージ」が超撃破にも適用されるか | 固定版の文言は弱点撃破ダメージまで。超撃破適用を裏付ける一次資料が未確認のため、現行データの対象は撃破に限定する |
 | D | 個別キャラクター効果の全バージョンでの正しさ、網羅外の敵・状態との相互作用 | 個別データの根拠・独立テスト・対象範囲を追加確認するまで一般化しない |
 
-## 6. 資料・更新ルール
+## 7. 資料・更新ルール
 
 本書は計算責務、現行エンジンが確実に行う式、確認済みの制約、要求との差分を管理する。効果係数・キャラクター全件の完了数や作業量は複製しない。キャラクター・装備効果の定義正本と検証対応は [`06_CHARACTER_EQUIPMENT_SPEC.md`](06_CHARACTER_EQUIPMENT_SPEC.md)、テスト受入条件は [`07_TEST_SPEC.md`](07_TEST_SPEC.md)、進捗・攻撃範囲・工数の正本は前掲の既存管理資料とする。コードまたは独立検証が変わった時に、本書の式・対応範囲・リンクを再照合する。

@@ -44,7 +44,8 @@ test("Lingsha E0 levels independently calculate with isolated stats and real Rob
     const attack = attackOf(data, id), max = id === "122201" ? 6 : 10;
     for (let level = 1; level <= max; level++) for (const profile of profiles) for (const robinOn of [false, true]) {
       const context = { characterId: "1222", eidolon: 0, stats: profile, traceLevelFor: () => level, partyIds: ["1309"], partyEidolons: { "1309": 0 } };
-      const native = runtime.buildCandidates(lingshaMods, context, { "break-befog-active": true }).filter(m => runtime.applicableToAttack(m, attack));
+      // Profile critDamage is treated as completed input including Robin Talent; this case isolates Robin Skill.
+      const native = runtime.buildCandidates(lingshaMods, context, { "break-befog-active": true, "robin-talent-crit-in-final-stats": true }).filter(m => runtime.applicableToAttack(m, attack));
       const robin = runtime.buildCandidates([robinSkill], { ...context, characterId: "1222", partyIds: ["1309"], traceLevelFor: () => 10 }, { "robin-skill-damage-active": robinOn })[0];
       assert.equal(robin.value, 50);
       assert.equal(robin.enabled, robinOn);

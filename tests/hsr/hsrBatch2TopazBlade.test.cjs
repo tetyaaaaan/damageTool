@@ -30,7 +30,7 @@ function candidates(data, attack, inputs, levels = {}, party = false, weakness =
         characterId: attack.characterId, eidolon: 0, enhancementState: attack.variant,
         partyIds: party ? ["1309"] : [], partyEidolons: { "1309": 0 },
         enemy: { weakness }, traceLevelFor: source => source.id === "1309" ? 10 : levels[source.skillId] ?? 10
-    }, { ...inputs, ...(attack.comparisonModifierInputs || {}) }).map(c => ({ ...c, applicable: c.applicable !== false && runtime.applicableToAttack(c, attack) }));
+    }, { "robin-talent-crit-in-final-stats": true, ...inputs, ...(attack.comparisonModifierInputs || {}) }).map(c => ({ ...c, applicable: c.applicable !== false && runtime.applicableToAttack(c, attack) }));
 }
 function resolved(attack, level, adjacent = false) {
     const components = adjacent ? attack.adjacentScalingTermComponents : attack.scalingTermComponents;

@@ -607,9 +607,9 @@
       .flatMap(a => (a.comparisonStates || []).map(v => v.modifierInputs?.[key])).filter(Number.isFinite);
   }
 
-  function structuredSourceConditions(inputs = state.modifierInputs) {
+  function structuredSourceConditions(inputs = state.modifierInputs, attack) {
     if (!window.HsrModifierRuntime) return [];
-    return window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], structuredModifierContext(), inputs)
+    return window.HsrModifierRuntime.buildCandidates(state.data?.structuredModifiers || [], {...structuredModifierContext(), attack, validateCandidate:validateProvider}, inputs)
       .filter(item => !comparisonSelector(item))
       .map((item) => ({
         ...item,
@@ -630,8 +630,8 @@
       })).map(validateProvider);
   }
 
-  function sourceConditions(inputs = state.modifierInputs) {
-    return structuredSourceConditions(inputs);
+  function sourceConditions(inputs = state.modifierInputs, attack) {
+    return structuredSourceConditions(inputs, attack);
   }
 
   function conditionSourceTitle(item) {
@@ -772,6 +772,10 @@
       if(item.enabled && reference?.element && reference.element!==character()?.element) {
         const key='enemy-resistance:'+reference.element;
         if(!conditionReferenceInputs.has(key)){conditionReferenceInputs.add(key);controls.push('<label class="genshin-condition-control"><span>敵の'+esc(ELEMENT_KEYS[reference.element]||reference.element)+'属性耐性（%）</span><input class="input_num" type="number" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" step="0.1"></label>');}
+      }
+      if (item.inclusionInput && !rendered.has(`included:${item.inclusionInput.key}`)) {
+        rendered.add(`included:${item.inclusionInput.key}`);
+        controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(item.inclusionInput.key)}"${item.inclusionInput.checked ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${esc(item.inclusionInput.label)}</strong><small>入力済みなら追加せず、未算入なら自動適用します。</small></span></label>`);
       }
       const activation = item.activation || {};
       if (["toggle", "toggleThreshold"].includes(activation.mode) && activation.inputKey && !item.comparisonControlled && !rendered.has(`toggle:${activation.inputKey}`)) {
@@ -971,7 +975,7 @@
     });
   }
 
-  function allConditions(inputs = state.modifierInputs) { return sourceConditions(inputs).concat(state.conditions); }
+  function allConditions(inputs = state.modifierInputs, attack) { return sourceConditions(inputs, attack).concat(state.conditions); }
 
   function updateConditionSummary() {
     if ($("hsrManualConditionList") && !$("hsrManualConditionList").contains?.(document.activeElement)) $("hsrManualConditionList").innerHTML = state.conditions.map((item) => `<label class="hsr-manual-condition-row"><input type="checkbox" data-condition-enabled="${esc(item.id)}"${item.enabled ? " checked" : ""}><span>${esc(item.name)}</span><input type="number" data-condition-value="${esc(item.id)}" value="${item.value}" step="any" aria-label="${esc(item.name)}（%）"><span>%</span></label>`).join("");
@@ -1014,7 +1018,7 @@
     if (attack.id === "1151201") return ["trace:1512:151204:fever-defense-ignore", "trace:1512:1151203:songbirds-vulnerability"].includes(item.id);
     // Match the existing engines' accepted categories; this only scopes validation/application.
     if (attack.damageFormula === "elation") return ["elation", "critRate", "critRateOverride", "critDamage", "critTakenDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage"].includes(item.category);
-    if (["break", "superBreak"].includes(attack.type)) return ["breakEffect", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage", ...(attack.type === "superBreak" ? ["breakEfficiency", "superBreakDamage"] : [])].includes(item.category);
+    if (["break", "superBreak"].includes(attack.type)) return ["breakEffect", "breakDamage", "defenseReduction", "defenseIgnore", "resistanceReduction", "resistancePenetration", "takenDamage", ...(attack.type === "superBreak" ? ["breakEfficiency", "superBreakDamage"] : [])].includes(item.category);
     if ((attack.canCrit === false || attack.type === "dot") && ["critRate", "critRateOverride", "critDamage", "critTakenDamage"].includes(item.category)) return false;
     if (["statFlat", "statPercent"].includes(item.category) || item.requiredBaseStat) {
       const stats = [...(attack.scalingTerms?.length ? attack.scalingTerms : [{stat: attack.scalingStat || "atk"}]), ...(attack.adjacentScalingTerms || [])].map(term => term.stat);
@@ -1027,14 +1031,14 @@
   function modifiers(attack) {
     const otherNihility=state.characterId==='1507' && state.party.some(m=>String(m.characterId)!==state.characterId && ['Warlock','Nihility'].includes(find('characters',m.characterId)?.path));
     const inputs = attack.comparisonModifierInputs || state.characterId==='1507' ? { ...state.modifierInputs, ...attack.comparisonModifierInputs,...(state.characterId==='1507'?{'mortenax-no-other-nihility':!otherNihility,'mortenax-other-nihility':otherNihility}:{}) } : state.modifierInputs;
-    return allConditions(inputs).filter((item) => !item.displayOnly).map((original) => {
+    return allConditions(inputs, attack).filter((item) => !item.displayOnly).map((original) => {
       const item=attack.marchEnhancedAdditional && original.id === "trace:1224:122404:enhanced-damage" ? {...original,target:{...original.target,attackIds:["122402"],attackTypes:["additional"],elements:[]}} : original;
       const separateBenediction=item.id==="trace:1202:120202:benediction-atk" && state.characterId==="1202" && state.party.some(m=>String(m.characterId)===String(state.modifierInputs["party-reference-owner:1202"]));
       const attackApplies = !separateBenediction && modifierTargetsCalculation(item, attack) && (!attack.completedReferenceSnapshot || ['enemySingle','enemyAll'].includes(item.target?.owner));
       const supplementalApplies = !item.supplementalAttack || item.id === attack.sourceModifierId;
       const primaryTargetApplies = !item.primaryTargetOnly || attack.target !== "adjacent";
       const adjacentTargetApplies = !item.adjacentTargetOnly || attack.target === "adjacent";
-      return { ...item, matchesAttack: attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies, conditionText: item.activation?.reference === "party.elationCount" ? conditionRequirement(item) : item.conditionText, applicable: item.enabled && attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies && item.applicable !== false, reason: !item.enabled ? "発動条件を満たしていません" : separateBenediction ? "賜福の対象は選択した別の味方です。停雲本人のATKへは加算しません。" : !supplementalApplies ? "別の付加ダメージに属する補正です" : !primaryTargetApplies ? "隣接対象はこの補正の対象外です" : !adjacentTargetApplies ? "主対象はこの補正の対象外です" : attackApplies ? item.reason || "" : "この攻撃種別・属性は対象外です" };
+      return { ...item, matchesAttack: attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies, conditionText: item.activation?.reference === "party.elationCount" ? conditionRequirement(item) : item.conditionText, applicable: item.enabled && attackApplies && supplementalApplies && primaryTargetApplies && adjacentTargetApplies && item.applicable !== false, reason: !item.enabled ? (item.includedInFinalStats ? "最終入力に反映済みのため追加しません" : "発動条件を満たしていません") : separateBenediction ? "賜福の対象は選択した別の味方です。停雲本人のATKへは加算しません。" : !supplementalApplies ? "別の付加ダメージに属する補正です" : !primaryTargetApplies ? "隣接対象はこの補正の対象外です" : !adjacentTargetApplies ? "主対象はこの補正の対象外です" : attackApplies ? item.reason || "" : "この攻撃種別・属性は対象外です" };
     });
   }
 
@@ -1455,7 +1459,7 @@
         addRow(resultGroup(attack), name, scope, values, (attack.resolvedMultiplierComponents?.every(component => component.name) && attack.resolvedMultiplierComponents.length ? `<p class="hsr-formula-note">${attack.resolvedMultiplierComponents.map(component => `${esc(component.name)} ${detailNumber(component.value)}%`).join(attack.multiplierProductComponents ? " × " : " ＋ ")} ＝ ${detailNumber(attack.multiplier)}%</p>` : "") + damageBreakdown(value, target || "1対象分") + `<details class="hsr-result-audit"><summary>適用・除外された補正</summary>${modifierAudit(value, target || "1対象分")}</details>`, supportBadge(attack) + (publicAttackNote(attack) ? `<details class="hsr-result-scope"><summary>計算の範囲</summary><p>${esc(publicAttackNote(attack))}</p></details>` : "") + (partialJoint ? '<p class="hsr-formula-note">現在のレコードは単一成分の参考値です。キャラクターと精霊の全成分を合算した連携ダメージではありません。</p>' : ""), attackSupport(attack).status === "review", resultScopeNote(attack, value, partialJoint));
       });
     });
-    const breakDetails = (value, isSuper) => `<dl>${(isSuper ? [["撃破基礎値",value.base],["基礎削靭値",value.toughnessDamage],["撃破効率倍率",value.breakEfficiency],["補正後削靭値",value.effectiveToughnessDamage],["発生倍率",value.conversionMultiplier],["撃破特効倍率",value.breakEffect],["防御倍率",value.defense],["耐性倍率",value.resistance],["被ダメージ倍率",value.vulnerability],["超撃破与ダメージ倍率",value.superBreakBonus]] : [...(Number.isInteger(value.charge)?[["消費チャージ",value.charge],["天賦追加撃破倍率（%）",value.coefficient]]:[]),["撃破基礎値",value.base],["属性・攻撃倍率",value.multiplier],["撃破特効倍率",value.effect],["防御倍率",value.defense],["耐性倍率",value.resistance],["最大靭性倍率",value.toughnessScale],["被ダメージ倍率",value.vulnerability]]).map(([label, amount]) => `<div><dt>${label}</dt><dd>${detailNumber(amount)}</dd></div>`).join("")}</dl><p class="hsr-formula-note">独立した1回分です。通常攻撃・他の撃破成分とは合算しません。</p><details class="hsr-result-audit"><summary>適用・除外された補正</summary>${modifierAudit(value, isSuper ? "超撃破" : "弱点撃破")}</details>`;
+    const breakDetails = (value, isSuper) => `<dl>${(isSuper ? [["撃破基礎値",value.base],["基礎削靭値",value.toughnessDamage],["撃破効率倍率",value.breakEfficiency],["補正後削靭値",value.effectiveToughnessDamage],["発生倍率",value.conversionMultiplier],["撃破特効倍率",value.breakEffect],["撃破与ダメージ倍率",value.breakDamageMultiplier ?? 1],["防御倍率",value.defense],["耐性倍率",value.resistance],["被ダメージ倍率",value.vulnerability],["超撃破与ダメージ倍率",value.superBreakBonus]] : [...(Number.isInteger(value.charge)?[["消費チャージ",value.charge],["天賦追加撃破倍率（%）",value.coefficient]]:[]),["撃破基礎値",value.base],["属性・攻撃倍率",value.multiplier],["撃破特効倍率",value.effect],["撃破与ダメージ倍率",value.breakDamageMultiplier ?? 1],["防御倍率",value.defense],["耐性倍率",value.resistance],["最大靭性倍率",value.toughnessScale],["被ダメージ倍率",value.vulnerability]]).map(([label, amount]) => `<div><dt>${label}</dt><dd>${detailNumber(amount)}</dd></div>`).join("")}</dl><p class="hsr-formula-note">独立した1回分です。通常攻撃・他の撃破成分とは合算しません。</p><details class="hsr-result-audit"><summary>適用・除外された補正</summary>${modifierAudit(value, isSuper ? "超撃破" : "弱点撃破")}</details>`;
     [ ...(breakResult ? [{name:"弱点撃破",value:breakResult}] : []), ...specialBreakResults.map(({attack,result}) => ({name:attack.name,value:result,attack})), ...(superBreakResult ? [{name:"超撃破",value:superBreakResult,isSuper:true}] : []) ].forEach(({name,value,attack,isSuper}) => {
       if (!value.supported) { unsupported[isSuper ? "superBreak" : "break"].push(`<p><strong>${esc(name)}</strong>：${esc(value.reason)}</p>`); return; }
       addRow(isSuper ? "superBreak" : "break",name,"会心なし・独立した1回分",[["ダメージ",value.value],["会心",null],["期待値",null]],breakDetails(value,isSuper),attack ? supportBadge(attack)+`<p class="hsr-formula-note">${esc(attack.calculationNote||attack.conditionText||"")}</p>` : "");
