@@ -18,12 +18,22 @@
   }
 
   function referenceValue(reference, context = {}, inputs = {}) {
-    if (reference === "party.elationCount") {
+    if (["party.elationCount", "party.samePathAllyCount", "party.nihilityAllyCount"].includes(reference)) {
       const ids = [context.characterId, ...(context.partyIds || [])].filter(Boolean).map(String);
       // Unknown or repeated members cannot establish a legal party count.
       if (!ids.length || ids.length > 4 || new Set(ids).size !== ids.length || ids.some((id) => !context.partyPaths?.[id])) return NaN;
-      return ids.filter((id) => context.partyPaths[id] === "Elation").length;
+      if (reference === "party.nihilityAllyCount") return ids.filter(id => id !== String(context.characterId) && context.partyPaths[id] === "Warlock").length;
+      return reference === "party.elationCount" ? ids.filter((id) => context.partyPaths[id] === "Elation").length
+        : ids.filter(id => id !== String(context.characterId) && context.partyPaths[id] === context.partyPaths[String(context.characterId)]).length;
     }
+    const snapshotKeys = { "self.maxEnergy": "current-max-energy", "self.preCombatMaxEnergy": "pre-combat-max-energy", "self.preCombatCritDamage": "pre-combat-crit-damage", "party.fieldCount": "ally-target-count" };
+    if (snapshotKeys[reference]) {
+      const value = inputs[snapshotKeys[reference]];
+      return reference === "self.preCombatCritDamage"
+        ? Number.isFinite(value) && value >= 0 && value <= 99999 ? value : NaN
+        : Number.isFinite(value) && Number.isInteger(value) && value >= 1 && value <= 99999 ? value : NaN;
+    }
+    if (reference === "self.speedAbove100Steps") return Number.isFinite(context.stats?.speed) ? Math.floor(Math.max(0, context.stats.speed - 100) / 10) : NaN;
     if (reference?.startsWith("provider.")) {
       const provider = String(context.providerId || context.characterId || "");
       const current = String(context.characterId || "");
@@ -229,6 +239,8 @@
     return 0;
   }
 
+  const unresolvedReference = ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent", "self.preCombatSpeed", "self.preCombatCritDamage", "self.maxEnergy", "self.preCombatMaxEnergy", "party.fieldCount", "party.samePathAllyCount", "party.nihilityAllyCount"].includes(ref) || ref?.startsWith("provider.");
+
   function activationState(record, context = {}, inputs = {}) {
     const activation = record.activation || {};
     const input = inputs[activation.inputKey];
@@ -245,7 +257,7 @@
     if (activation.mode === "toggleThreshold") {
       const current = referenceValue(activation.reference, context, inputs);
       const toggled = Boolean(input ?? activation.default);
-      return { active: toggled && compare(current, activation.operator, number(activation.threshold)), unresolved: toggled && ["self.hpPercent", "enemy.hpPercent"].includes(activation.reference) && !Number.isFinite(current), automatic: false, toggled, inputValue: current, threshold: number(activation.threshold) };
+      return { active: toggled && compare(current, activation.operator, number(activation.threshold)), unresolved: toggled && unresolvedReference(activation.reference) && !Number.isFinite(current), automatic: false, toggled, inputValue: current, threshold: number(activation.threshold) };
     }
     if (activation.mode === "stack") {
       const maximum = activation.maximumAtEidolon && number(context.eidolon) >= number(activation.maximumAtEidolon.rank)
@@ -258,9 +270,10 @@
       const explicitInput = activation.inputKey ? inputs[activation.inputKey] : undefined;
       let current = explicitInput === undefined
         ? referenceValue(activation.reference, context, inputs)
-        : ["self.epPercent", "self.preCombatSpeed"].includes(activation.reference) && !Number.isFinite(explicitInput) ? NaN : number(explicitInput, activation.default || 0);
+        : (activation.strictInput || ["self.epPercent", "self.preCombatSpeed"].includes(activation.reference)) && !Number.isFinite(explicitInput) ? NaN : number(explicitInput, activation.default || 0);
       if (activation.reference === "self.epPercent" && (!Number.isFinite(current) || current < 0 || current > 100)) current = NaN;
       if (activation.reference === "self.preCombatSpeed" && (!Number.isFinite(current) || current <= 0 || current > 99999)) current = NaN;
+      if (["self.maxEnergy", "self.preCombatMaxEnergy", "party.fieldCount"].includes(activation.reference) && (!Number.isInteger(current) || current < 1 || current > 99999)) current = NaN;
       if (activation.mode === "numericThreshold" && activation.inputKey) {
         current = Math.max(
           number(activation.minimum, Number.NEGATIVE_INFINITY),
@@ -273,7 +286,7 @@
       const threshold = referenceComparison ? context.stats?.hpPercent : number(activation.threshold);
       return {
         active: knownComparison && compare(current, activation.operator, threshold),
-        unresolved: ([activation.reference, activation.thresholdReference].some(ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent", "self.preCombatSpeed"].includes(ref) || ref?.startsWith("provider."))) && (!Number.isFinite(current) || !knownComparison),
+        unresolved: ([activation.reference, activation.thresholdReference].some(unresolvedReference)) && (!Number.isFinite(current) || !knownComparison),
         automatic: activation.mode === "statThreshold" || !activation.inputKey,
         inputValue: current,
         threshold
@@ -293,7 +306,7 @@
           + (context.partyEquipment || []).filter(item => String(item.ornamentId || "") === String(record.source.id) && (!record.target?.excludeSelf || String(item.characterId) !== String(context.characterId))).length;
         if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じオーナメントの複数提供者による支援は条件未確定です。" });
       }
-      if (record.source?.kind === "lightCone" && ["23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
+      if (record.source?.kind === "lightCone" && ["21015", "23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
         const count = Number(String(context.lightConeId || "") === String(record.source.id))
           + (context.partyEquipment || []).filter(item => String(item.lightConeId || "") === String(record.source.id)).length;
         if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じ光円錐の複数提供者による支援は条件未確定です。" });
@@ -303,7 +316,7 @@
       const supportStatus = record.support?.status || "review";
       const calculable = supportStatus === "calculable" && record.inputPolicy !== "includedInFinalStats";
       const value = resolveValue(record, providerContext, inputs, selection);
-      const unknownReference = Boolean(activation.toggled && !Number.isFinite(activation.inputValue));
+      const unknownReference = Boolean(activation.toggled && !activation.unresolved && !Number.isFinite(activation.inputValue));
       const validation = record.inputValidation;
       const validatedInputKey = record.value?.inputKey || (record.activation?.mode === "stack" ? record.activation.inputKey : undefined);
       const raw = record.value?.providerStat
@@ -430,8 +443,11 @@
       const reference = String(record.activation.reference || "");
       if (reference.startsWith("provider.") && item.providerId && String(item.providerId) !== String(context.characterId)) return item;
       const stat=reference.replace(/^(self|provider)\./, "");
-      if(!["critRate","speed","breakEffect","atk"].includes(stat) || (["critRate", "breakEffect"].includes(record.category) && record.category===stat) || (["statFlat","statPercent"].includes(record.category)&&record.stat===stat)) {
+      if(!["critRate","speed","breakEffect","atk","hp"].includes(stat) || (["critRate", "breakEffect"].includes(record.category) && record.category===stat) || (["statFlat","statPercent"].includes(record.category)&&record.stat===stat)) {
         return {...item,enabled:true,applicable:false,inputWarnings:["この閾値の参照依存は未対応です。"],reason:"自身の参照値を変える閾値は再帰評価しません。"};
+      }
+      if (stat === "hp" && !(Number.isFinite(context.stats?.hp) && context.stats.hp > 0)) {
+        return {...item, enabled:false, applicable:false, activation:{...item.activation, active:false, unresolved:true}, reason:"最大HPが未入力のため、この補正は追加しません。"};
       }
       if (!Number.isFinite(context.stats?.[stat])) {
         return {...item,enabled:true,applicable:false,inputWarnings:[`閾値判定に必要な${stat}が未入力です。`],reason:"閾値の参照値を確定できません。"};

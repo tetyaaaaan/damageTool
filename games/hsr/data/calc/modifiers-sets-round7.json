@@ -1,0 +1,798 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "ornament-round7-2026-10-29",
+  "description": "Fixed-SHA ornament effects. Permanent properties are separate final-input management rows; only supported damage modifiers are calculable.",
+  "modifiers": [
+    {
+      "id": "ornament:303:2pc:effect-hit-final-input",
+      "source": {
+        "kind": "ornament",
+        "id": "303",
+        "setPieces": 2
+      },
+      "name": "汎銀河商事会社・効果命中+10%（最終入力管理）",
+      "description": "効果命中+10%は最終効果命中へ含めます。効果命中を参照する攻撃力変換は最終ATKへ含め、個別に再加算しません。変換値の自動評価は二重加算の判定が確立するまで行いません。",
+      "category": "statPercent",
+      "stat": "effectHitRate",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "2セット効果命中+10%"
+      },
+      "stacking": {
+        "group": "ornament:303:2pc:effect-hit-final-input",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常の効果命中は最終入力で管理します。効果命中25%相当のATK変換（最大25%）は最終ATKに含め、独立加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:303 desc[0], properties[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-29",
+        "notes": "2pc: StatusProbabilityBase 0.1; ATK increases by current EHR×25%, capped at 25%. ATK conversion remains final-input responsibility pending duplicate-accounting verification."
+      }
+    },
+    {
+      "id": "ornament:305:2pc:crit-damage-final-input",
+      "source": {
+        "kind": "ornament",
+        "id": "305",
+        "setPieces": 2
+      },
+      "name": "天体階差機関・会心ダメージ+16%（最終入力管理）",
+      "description": "2セット会心ダメージ+16%は最終会心ダメージへ含めます。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 16
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "2セット会心ダメージ+16%"
+      },
+      "stacking": {
+        "group": "ornament:305:2pc:crit-damage-final-input",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常会心ダメージは最終入力で管理します。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:305 desc[0], properties[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-29",
+        "notes": "2pc CriticalDamageBase 0.16."
+      }
+    },
+    {
+      "id": "ornament:305:2pc:first-attack-crit-rate",
+      "source": {
+        "kind": "ornament",
+        "id": "305",
+        "setPieces": 2
+      },
+      "name": "天体階差機関・会心ダメージ条件の初回会心率",
+      "description": "戦闘開始時の会心ダメージが120%以上で、初回攻撃前の状態を選択した時、装備者の会心率+60%。初回攻撃後の状態は選択しません。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 60,
+        "inputKey": "pre-combat-crit-damage",
+        "inputLabel": "戦闘開始時の会心ダメージ",
+        "inputUnit": "%",
+        "minimum": 0,
+        "inputMaximum": 99999,
+        "inputStep": 0.1
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggleThreshold",
+    "conditionText": "戦闘開始時の会心ダメージ120%以上・初回攻撃前",
+        "inputKey": "ornament-305-first-attack-active",
+        "inputLabel": "天体階差機関の初回攻撃前効果中",
+        "default": false,
+    "reference": "self.preCombatCritDamage",
+        "operator": ">=",
+    "threshold": 120
+      },
+  "inputValidation": {
+    "maximumEidolon": 0,
+    "levelMaximum": 1,
+    "minimum": 0,
+    "maximum": 99999,
+    "integer": false
+  },
+      "stacking": {
+        "group": "ornament:305:2pc:first-attack-crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "ornament-305-first-attack-crit-rate-in-final",
+        "inputLabel": "天体階差機関の初回会心率+60%を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:305 desc[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-29",
+    "notes": "On battle entry, CRIT Rate+60% while pre-combat CRIT DMG is at least 120%, until first attack ends. Pre-combat CRIT DMG and the first-attack state are supplied separately from current CRIT DMG."
+      }
+    },
+    {
+      "id": "ornament:308:2pc:energy-regen-final-input",
+      "source": {
+        "kind": "ornament",
+        "id": "308",
+        "setPieces": 2
+      },
+      "name": "生命のウェンワーク・EP回復効率+5%（最終入力管理）",
+      "description": "2セットEP回復効率+5%は最終入力へ含めます。速度120以上で戦闘開始時に発動する行動順前進40%はダメージ計算の対象外です。",
+      "category": "statPercent",
+      "stat": "energyRegen",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 5
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "2セットEP回復効率+5%"
+      },
+      "stacking": {
+        "group": "ornament:308:2pc:energy-regen-final-input",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常EP回復効率は最終入力で管理します。行動順前進は単発ダメージへ作用しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:308 desc[0], properties[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-29",
+        "notes": "2pc SPRatioBase 0.05; at SPD>=120 action advances by 40% on entering combat."
+      }
+    },
+    {
+      "id": "ornament:314:2pc:atk-final-input",
+      "source": {
+        "kind": "ornament",
+        "id": "314",
+        "setPieces": 2
+      },
+      "name": "顕世の出雲と高天の神国・攻撃力+12%（最終入力管理）",
+      "description": "2セット攻撃力+12%は最終攻撃力へ含めます。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 12
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "2セット攻撃力+12%"
+      },
+      "stacking": {
+        "group": "ornament:314:2pc:atk-final-input",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常攻撃力は最終入力で管理します。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:314 desc[0], properties[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-29",
+        "notes": "2pc AttackAddedRatio 0.12."
+      }
+    },
+    {
+      "id": "ornament:314:2pc:same-path-ally-crit-rate",
+      "source": {
+        "kind": "ornament",
+        "id": "314",
+        "setPieces": 2
+      },
+      "name": "顕世の出雲と高天の神国・同運命味方条件の会心率",
+      "description": "戦闘開始時、装備者以外に同じ運命の味方がいる場合、装備者の会心率+12%。編成データから自動判定します。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 12
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "戦闘開始時、装備者以外に同じ運命の味方が1名以上",
+        "reference": "party.samePathAllyCount",
+        "operator": ">=",
+        "threshold": 1
+      },
+      "stacking": {
+        "group": "ornament:314:2pc:same-path-ally-crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "ornament-314-same-path-crit-rate-in-final",
+        "inputLabel": "出雲の同運命味方会心率+12%を最終入力に反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:314 desc[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-29",
+        "notes": "When entering combat, wearer gains CRIT Rate+12% if another teammate of the same Path is present."
+      }
+    },
+    {
+      "id": "ornament:319:2pc:hp-final-input",
+      "source": {
+        "kind": "ornament",
+        "id": "319",
+        "setPieces": 2
+      },
+      "name": "静謐な拾骨地・HP+12%（最終入力管理）",
+      "description": "2セット最大HP+12%は最終HPへ含めます。",
+      "category": "statPercent",
+      "stat": "hp",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 12
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "2セット最大HP+12%"
+      },
+      "stacking": {
+        "group": "ornament:319:2pc:hp-final-input",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常最大HPは最終入力で管理します。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:319 desc[0], properties[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-29",
+        "notes": "2pc HPAddedRatio 0.12."
+      }
+    },
+    {
+      "id": "ornament:319:2pc:max-hp-crit-damage",
+      "source": {
+        "kind": "ornament",
+        "id": "319",
+        "setPieces": 2
+      },
+      "name": "静謐な拾骨地・最大HP条件の会心ダメージ",
+      "description": "装備者の最大HPが5000以上の場合、装備者および記憶の精霊に会心ダメージ+28%。最大HPを現在HPや戦闘前HPと混同しません。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 28
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "装備者の最大HP5000以上",
+        "reference": "self.hp",
+        "operator": ">=",
+        "threshold": 5000,
+        "statSource": "effective"
+      },
+      "stacking": {
+        "group": "ornament:319:2pc:max-hp-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "ornament-319-max-hp-crit-damage-in-final",
+        "inputLabel": "拾骨地の最大HP条件会心ダメージ+28%を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:319 desc[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-29",
+        "notes": "At Max HP>=5000, wearer and memosprite gain CRIT DMG+28%."
+      }
+    },
+    {
+      "id": "ornament:320:2pc:speed-final-input",
+      "source": {
+        "kind": "ornament",
+        "id": "320",
+        "setPieces": 2
+      },
+      "name": "深慮に浸る巨樹・速度+6%（最終入力管理）",
+      "description": "2セット速度+6%は最終速度へ含めます。速度135/180以上で装備者と記憶の精霊の治癒量+12%/+20%となる効果はダメージ計算の対象外です。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 6
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "2セット速度+6%"
+      },
+      "stacking": {
+        "group": "ornament:320:2pc:speed-final-input",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常速度は最終入力で管理します。治癒量効果は現行ダメージ結果の対象外です。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:320 desc[0], properties[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-29",
+        "notes": "2pc SpeedAddedRatio 0.06; at SPD 135/180 outgoing healing+12%/+20%."
+      }
+    },
+    {
+      "id": "ornament:327:2pc:crit-rate-final-input",
+      "source": {
+        "kind": "ornament",
+        "id": "327",
+        "setPieces": 2
+      },
+      "name": "墜星の出航地・会心率+8%（最終入力管理）",
+      "description": "2セット会心率+8%は最終会心率へ含めます。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 8
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "2セット会心率+8%"
+      },
+      "stacking": {
+        "group": "ornament:327:2pc:crit-rate-final-input",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "恒常会心率は最終入力で管理します。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:327 desc[0], properties[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-29",
+        "notes": "2pc CriticalChanceBase 0.08."
+      }
+    },
+    {
+      "id": "ornament:327:2pc:trailblaze-companion-crit-damage",
+      "source": {
+        "kind": "ornament",
+        "id": "327",
+        "setPieces": 2
+      },
+      "name": "墜星の出航地・開拓仲間条件の会心ダメージ",
+      "description": "戦闘開始時、装備者と別の味方1名が開拓仲間キャラクターである状態を指定すると、装備者の会心ダメージ+32%。開拓仲間の判定はキャラクターIDから自動判定できないため手動指定します。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 32
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggleThreshold",
+        "conditionText": "戦闘開始時、装備者と別の味方がともに開拓仲間",
+        "inputKey": "ornament-327-trailblaze-companions-active",
+        "inputLabel": "墜星の出航地・開拓仲間条件成立",
+        "default": false,
+        "reference": "party.count",
+        "operator": ">=",
+        "threshold": 2
+      },
+      "stacking": {
+        "group": "ornament:327:2pc:trailblaze-companion-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "ornament-327-trailblaze-crit-damage-in-final",
+        "inputLabel": "墜星の出航地の会心ダメージ+32%を最終入力に反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:327 desc[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-29",
+        "notes": "At battle entry, wearer and another teammate both must be Trailblaze Companions; CD+32%. The teammate count is validated automatically, membership is manually asserted because fixed source data has no character identity mapping."
+      }
+    },
+    {
+      "id": "ornament:321:2pc:field-ally-count-damage",
+      "source": {
+        "kind": "ornament",
+        "id": "321",
+        "setPieces": 2
+      },
+      "name": "夢を紡ぐ妖精の楽園・フィールド上の味方数による与ダメージ",
+      "description": "フィールド上の味方ターゲット数が4と異なる場合、超過/不足1名につき装備者と記憶の精霊の与ダメージ+9%/+12%。不足側は最大3層、超過側は最大4層。実際の味方数は単発計算時に指定します。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "threshold",
+        "inputKey": "ally-target-count",
+        "inputLabel": "フィールド上の味方ターゲット数",
+        "inputUnit": "人",
+        "sharedInput": true,
+        "thresholds": [
+          {
+            "minimum": 1,
+            "value": 36
+          },
+          {
+            "minimum": 2,
+            "value": 24
+          },
+          {
+            "minimum": 3,
+            "value": 12
+          },
+          {
+            "minimum": 4,
+            "value": 0
+          },
+          {
+            "minimum": 5,
+            "value": 9
+          },
+          {
+            "minimum": 6,
+            "value": 18
+          },
+          {
+            "minimum": 7,
+            "value": 27
+          },
+          {
+            "minimum": 8,
+            "value": 36
+          },
+          {
+            "minimum": 9,
+            "value": 36
+          }
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "conditionText": "単発計算時のフィールド上の味方ターゲット数",
+        "inputKey": "ally-target-count",
+        "inputLabel": "フィールド上の味方ターゲット数",
+        "reference": "party.fieldCount",
+        "operator": ">=",
+        "threshold": 1,
+        "minimum": 1,
+        "maximum": 99999,
+        "step": 1,
+        "strictInput": true
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 1,
+        "minimum": 1,
+        "maximum": 99999,
+        "integer": true
+      },
+      "stacking": {
+        "group": "ornament:321:2pc:field-ally-count-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "ornament-321-field-ally-count-damage-in-final",
+        "inputLabel": "妖精の楽園の味方数与ダメージ補正を最終入力に反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:321 desc[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-29",
+        "notes": "Field ally target count differs from4: each excess/fewer target grants9%/12%; maximum4/3 stacks. Exact count, potentially including summons, is input per selected scenario."
+      }
+    },
+    {
+      "id": "ornament:328:2pc:max-energy-damage",
+      "source": {
+        "kind": "ornament",
+        "id": "328",
+        "setPieces": 2
+      },
+      "name": "宇宙生命科学研究院・最大EP超過分の与ダメージ",
+      "description": "戦闘開始時、装備者の最大EPが200以上の場合、200を超える1EPにつき与ダメージ+0.2%、最大+32%。最大EPを現在EPやEP回復効率と混同せず、必要な最大EPを入力します。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "linearThreshold",
+        "inputKey": "pre-combat-max-energy",
+        "inputLabel": "装備者の最大EP",
+        "inputUnit": "EP",
+        "threshold": 200,
+        "step": 1,
+        "perStep": 0.2,
+        "maximum": 32,
+        "sharedInput": true
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "conditionText": "戦闘開始時の最大EP200以上",
+        "inputKey": "pre-combat-max-energy",
+        "inputLabel": "装備者の最大EP",
+        "reference": "self.preCombatMaxEnergy",
+        "operator": ">=",
+        "threshold": 200,
+        "minimum": 1,
+        "maximum": 99999,
+        "step": 1,
+        "strictInput": true
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 1,
+        "minimum": 1,
+        "maximum": 99999,
+        "integer": true
+      },
+      "stacking": {
+        "group": "ornament:328:2pc:max-energy-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "ornament-328-max-energy-damage-in-final",
+        "inputLabel": "生命科学研究院の最大EP与ダメージを最終入力に反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:328 desc[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-29",
+        "notes": "At battle entry, max energy>=200; every excess max-energy point gives0.2% damage, capped32%. Current energy is not used."
+      }
+    }
+  ]
+}

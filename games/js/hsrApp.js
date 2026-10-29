@@ -763,11 +763,13 @@
     if (!["statThreshold", "numericThreshold", "toggleThreshold"].includes(activation.mode)) return item.conditionText || "常時";
     if (activation.mode === "numericThreshold" && activation.inputKey) {
       const precombat = activation.reference === "self.preCombatSpeed";
+      const numericLabels = { "self.maxEnergy": ["現在の最大EP", ""], "self.preCombatMaxEnergy": ["戦闘開始時の最大EP", ""], "party.fieldCount": ["場の味方ターゲット数", "体"] };
+      if (numericLabels[activation.reference]) { const [label, unit] = numericLabels[activation.reference]; return `${item.conditionText || "入力条件"}（${label}：${Number.isFinite(activation.inputValue) ? detailNumber(activation.inputValue) + unit : "未入力"}）`; }
       const value = Number.isFinite(activation.inputValue) ? `${detailNumber(activation.inputValue)}${!precombat && item.unit === "percent" ? "%" : ""}` : "未入力";
       return `${item.conditionText || "入力条件"}（${precombat ? "戦闘前の速度" : "現在値"}：${value}）`;
     }
     const reference = {
-      "provider.speed": ["提供者の速度", ""], "provider.effectRes": ["提供者の効果抵抗", "%"], "provider.breakEffect": ["提供者の撃破特効", "%"], "provider.sameElement": ["提供者との属性一致（1=一致）", ""], "provider.firstSlotRecipient": ["1枠目への支援（1=成立）", ""],
+      "self.preCombatCritDamage": ["戦闘開始時の会心ダメージ", "%"], "party.nihilityAllyCount": ["本人以外の虚無キャラ数", "人"], "party.samePathAllyCount": ["同運命の別キャラ数", "人"], "provider.speed": ["提供者の速度", ""], "provider.effectRes": ["提供者の効果抵抗", "%"], "provider.breakEffect": ["提供者の撃破特効", "%"], "provider.sameElement": ["提供者との属性一致（1=一致）", ""], "provider.firstSlotRecipient": ["1枠目への支援（1=成立）", ""],
       "self.hp": ["HP", ""], "self.hpPercent": ["HP割合", "%"], "self.epPercent": ["EP割合", "%"], "self.speed": ["速度", ""],
       "self.atk": ["攻撃力", ""], "self.def": ["防御力", ""], "self.critRate": ["会心率", "%"], "self.critDamage": ["会心ダメージ", "%"], "self.effectHitRate": ["効果命中", "%"],
       "self.effectRes": ["効果抵抗", "%"], "self.breakEffect": ["撃破特効", "%"], "self.elation": ["愉悦度", "%"],
@@ -829,8 +831,8 @@
         rendered.add(`toggle:${activation.inputKey}`);
         controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(activation.inputKey)}"${(activation.mode === "toggleThreshold" ? activation.toggled : activation.active) ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${attackSelection ? "この状態の攻撃を計算する" : "この条件を適用する"}</strong><small>実際に「${esc(item.conditionText || "発動条件")}」を満たす場合だけONにしてください。</small></span></label>`);
       }
-      if (activation.mode === "stack" && activation.inputKey && !rendered.has(`stack:${activation.inputKey}`)) {
-        rendered.add(`stack:${activation.inputKey}`); const max = item.stackMax || 1;
+      if (activation.mode === "stack" && activation.inputKey && !rendered.has(`stack:${activation.inputKey}`) && !conditionReferenceInputs.has(`stack:${activation.inputKey}`)) {
+        rendered.add(`stack:${activation.inputKey}`); conditionReferenceInputs.add(`stack:${activation.inputKey}`); const max = item.stackMax || 1;
         controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.inputLabel || "現在の層数")}</strong><small>現在成立している層数を選択します。</small></span><select data-structured-input="${esc(activation.inputKey)}">${Array.from({ length: max + 1 }, (_, value) => `<option value="${value}"${value === item.stacks ? " selected" : ""}>${value === 0 ? "未発動（0層）" : `${value}層`}</option>`).join("")}</select></label>`);
       }
       if (activation.mode === "numericThreshold" && activation.inputKey && !item.comparisonControlled && !rendered.has(`threshold:${activation.inputKey}`) && !rendered.has(`stack:${activation.inputKey}`)) {
@@ -849,7 +851,7 @@
       }
       if (item.valueInput?.type === "number" && !item.valueInput.shared && !rendered.has(`value:${item.valueInput.key}`)) {
         rendered.add(`value:${item.valueInput.key}`);
-        controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.valueInput.label)}</strong><small>効果量の算出に使用する現在値です。</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" ${item.levelInput || item.strictInput ? 'data-structured-strict="true"' : ""} data-structured-input="${esc(item.valueInput.key)}" value="${Number.isFinite(item.valueInput.value) ? item.valueInput.value : ""}" min="${num(item.valueInput.minimum)}" max="${num(item.valueInput.maximum,999)}" step="${num(item.valueInput.step,1)}"><em>${esc(item.valueInput.unit ?? (item.unit === "percent" ? "%" : ""))}</em></span></label>`);
+        controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.valueInput.label)}</strong><small>${item.valueInput.key === "pre-combat-crit-damage" ? "戦闘開始時の会心ダメージを入力します。戦闘中の支援は含めません。" : "効果量の算出に使用する現在値です。"}</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" ${item.levelInput || item.strictInput ? 'data-structured-strict="true"' : ""} data-structured-input="${esc(item.valueInput.key)}" value="${Number.isFinite(item.valueInput.value) ? item.valueInput.value : ""}" min="${num(item.valueInput.minimum)}" max="${num(item.valueInput.maximum,999)}" step="${num(item.valueInput.step,1)}"><em>${esc(item.valueInput.unit ?? (item.unit === "percent" ? "%" : ""))}</em></span></label>`);
       }
       if (item.valueInput?.type === "providerStat" && !rendered.has(`provider:${item.valueInput.providerId}:${item.valueInput.providerStat}`)) {
         rendered.add(`provider:${item.valueInput.providerId}:${item.valueInput.providerStat}`);

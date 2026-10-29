@@ -1,0 +1,584 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "native-round7-2026-10-29",
+  "modifiers": [
+    {
+      "id": "traceNode:1002:1002102:post-attack-speed",
+      "source": {
+        "kind": "trace",
+        "id": "1002",
+        "traceId": "1002102"
+      },
+      "providerScope": "self",
+      "name": "絶影・発動中の速度",
+      "description": "50%固定確率の抽選結果を推測せず、速度+20%が有効な状態を指定。基礎速度の20%を加算する。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "danheng-afterimage-speed-active",
+        "inputLabel": "攻撃後に絶影の速度上昇が成立し、2ターン以内",
+        "conditionText": "攻撃後に絶影の速度上昇が成立し、2ターン以内",
+        "default": false,
+        "durationTurns": 2
+      },
+      "stacking": {
+        "group": "traceNode:1002:1002102:post-attack-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "traceNode:1002:1002102:post-attack-speed-in-final",
+        "inputLabel": "絶影・発動中の速度を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1002102",
+        "verifiedAt": "2026-10-29",
+        "scope": "固定版の解放済み能力と選択した単発状態。発生確率・ターン進行・同撃途中の層更新は再現しない。",
+        "verification": "tests/hsr/hsrNativeRound7.test.cjs"
+      }
+    },
+    {
+      "id": "eidolon:1003:2:low-enemy-hp-damage",
+      "source": {
+        "kind": "eidolon",
+        "id": "1003",
+        "eidolonRank": 2
+      },
+      "name": "邂逅・敵HP50%以下への与ダメージ",
+      "description": "星魂2以上・攻撃対象の現在HPが50%以下",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 15
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "reference": "enemy.hpPercent",
+        "operator": "<=",
+        "threshold": 50,
+        "conditionText": "星魂2以上・攻撃対象の現在HPが50%以下"
+      },
+      "stacking": {
+        "group": "eidolon:1003:2:low-enemy-hp-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "eidolon:1003:2:low-enemy-hp-damage-in-final",
+        "inputLabel": "邂逅・敵HP50%以下への与ダメージを最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
+        "sourceFile": "character_ranks.json:100302",
+        "verifiedAt": "2026-10-29",
+        "scope": "固定版の解放済み能力と選択した単発状態。発生確率・ターン進行・同撃途中の層更新は再現しない。",
+        "verification": "tests/hsr/hsrNativeRound7.test.cjs"
+      }
+    },
+    {
+      "id": "eidolon:1002:1:high-enemy-hp-crit-rate",
+      "source": {
+        "kind": "eidolon",
+        "id": "1002",
+        "eidolonRank": 1
+      },
+      "name": "極天窮尽するも昂り保てず・敵HP条件の会心率",
+      "description": "星魂1以上・命中する敵の現在HPが50%以上",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 12
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "reference": "enemy.hpPercent",
+        "operator": ">=",
+        "threshold": 50,
+        "conditionText": "星魂1以上・命中する敵の現在HPが50%以上"
+      },
+      "stacking": {
+        "group": "eidolon:1002:1:high-enemy-hp-crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "eidolon:1002:1:high-enemy-hp-crit-rate-in-final",
+        "inputLabel": "極天窮尽するも昂り保てず・敵HP条件の会心率を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
+        "sourceFile": "character_ranks.json:100201",
+        "verifiedAt": "2026-10-29",
+        "scope": "固定版の解放済み能力と選択した単発状態。発生確率・ターン進行・同撃途中の層更新は再現しない。",
+        "verification": "tests/hsr/hsrNativeRound7.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1305:1305101:induction-critRate",
+      "source": {
+        "kind": "trace",
+        "id": "1305",
+        "traceId": "1305101"
+      },
+      "providerScope": "self",
+      "name": "帰納・現在の蓄積会心率",
+      "description": "スキル時に獲得して蓄積した帰納の現在値を指定。現在の敵デバフ数から過去の蓄積を推測せず、同撃途中の付与順も再現しない。E1以降の初期4層/上限変更は今回受入外。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "perStack",
+        "perStack": 2.5
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "ratio-induction-stacks",
+        "inputLabel": "帰納の現在有効な層数（E0、最大6層）",
+        "conditionText": "帰納の現在有効な層数（E0、最大6層）",
+        "minimum": 0,
+        "maximum": 6,
+        "default": 0
+      },
+      "stacking": {
+        "group": "traceNode:1305:1305101:induction-critRate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "traceNode:1305:1305101:induction-critRate-in-final",
+        "inputLabel": "帰納・現在の蓄積会心率を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1305101",
+        "verifiedAt": "2026-10-29",
+        "scope": "固定版の解放済み能力と選択した単発状態。発生確率・ターン進行・同撃途中の層更新は再現しない。",
+        "verification": "tests/hsr/hsrNativeRound7.test.cjs"
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 6,
+        "integer": true,
+        "maximumEidolon": 0,
+        "levelMaximum": 1
+      }
+    },
+    {
+      "id": "traceNode:1305:1305101:induction-critDamage",
+      "source": {
+        "kind": "trace",
+        "id": "1305",
+        "traceId": "1305101"
+      },
+      "providerScope": "self",
+      "name": "帰納・現在の蓄積会心ダメージ",
+      "description": "スキル時に獲得して蓄積した帰納の現在値を指定。現在の敵デバフ数から過去の蓄積を推測せず、同撃途中の付与順も再現しない。E1以降の初期4層/上限変更は今回受入外。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "perStack",
+        "perStack": 5
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "ratio-induction-stacks",
+        "inputLabel": "帰納の現在有効な層数（E0、最大6層）",
+        "conditionText": "帰納の現在有効な層数（E0、最大6層）",
+        "minimum": 0,
+        "maximum": 6,
+        "default": 0
+      },
+      "stacking": {
+        "group": "traceNode:1305:1305101:induction-critDamage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "traceNode:1305:1305101:induction-critDamage-in-final",
+        "inputLabel": "帰納・現在の蓄積会心ダメージを最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1305101",
+        "verifiedAt": "2026-10-29",
+        "scope": "固定版の解放済み能力と選択した単発状態。発生確率・ターン進行・同撃途中の層更新は再現しない。",
+        "verification": "tests/hsr/hsrNativeRound7.test.cjs"
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 6,
+        "integer": true,
+        "maximumEidolon": 0,
+        "levelMaximum": 1
+      }
+    },
+    {
+      "id": "traceNode:1314:1314103:pawned-asset-atk",
+      "source": {
+        "kind": "trace",
+        "id": "1314",
+        "traceId": "1314103"
+      },
+      "providerScope": "self",
+      "name": "流れ物・質草の攻撃力",
+      "description": "解放済み追加能力。質草1層につき基礎攻撃力の0.5%を加算。天賦の会心ダメージと層数を共有し、最終ATKへ既算入なら除外。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "perStack",
+        "perStack": 0.5
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "jade-pawned-asset-stacks",
+        "inputLabel": "質草の現在有効な層数（最大50層）",
+        "conditionText": "質草の現在有効な層数（最大50層）",
+        "minimum": 0,
+        "maximum": 50,
+        "default": 0
+      },
+      "stacking": {
+        "group": "traceNode:1314:1314103:pawned-asset-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "traceNode:1314:1314103:pawned-asset-atk-in-final",
+        "inputLabel": "流れ物・質草の攻撃力を最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1314103",
+        "verifiedAt": "2026-10-29",
+        "scope": "固定版の解放済み能力と選択した単発状態。発生確率・ターン進行・同撃途中の層更新は再現しない。",
+        "verification": "tests/hsr/hsrNativeRound7.test.cjs"
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 50,
+        "integer": true,
+        "maximumEidolon": 0,
+        "levelMaximum": 1
+      }
+    },
+    {
+      "id": "trace:1314:131404:pawned-asset-crit-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1314",
+        "skillId": "131404"
+      },
+      "providerScope": "self",
+      "name": "富を削ぐ毒牙・質草の会心ダメージ",
+      "description": "天賦Lv1～10の1層あたり会心ダメージ。質草0～50層は流れ物と共有し、最終CDへ既算入なら除外。現在の追撃が獲得する新しい層は自動加算しない。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByLevel",
+        "values": [
+          1.2,
+          1.32,
+          1.44,
+          1.56,
+          1.68,
+          1.8,
+          1.95,
+          2.1,
+          2.25,
+          2.4
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "jade-pawned-asset-stacks",
+        "inputLabel": "質草の現在有効な層数（最大50層）",
+        "conditionText": "質草の現在有効な層数（最大50層）",
+        "minimum": 0,
+        "maximum": 50,
+        "default": 0
+      },
+      "stacking": {
+        "group": "trace:1314:131404:pawned-asset-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "trace:1314:131404:pawned-asset-crit-damage-in-final",
+        "inputLabel": "富を削ぐ毒牙・質草の会心ダメージを最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:131404",
+        "verifiedAt": "2026-10-29",
+        "scope": "固定版の解放済み能力と選択した単発状態。発生確率・ターン進行・同撃途中の層更新は再現しない。",
+        "verification": "tests/hsr/hsrNativeRound7.test.cjs"
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 50,
+        "integer": true,
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      }
+    },
+    {
+      "id": "trace:1003:100307:technique-fire-vulnerability",
+      "source": {
+        "kind": "trace",
+        "id": "1003",
+        "skillId": "100307"
+      },
+      "name": "不完全燃焼・敵の炎属性被ダメージ",
+      "description": "秘技のデバフが既に対象に有効な単発状態。本人または別味方が与える炎属性成分のみ被ダメージ+10%。付与確率や領域/ターンの追跡は再現しない。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": [
+          "Fire"
+        ]
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "himeko-technique-fire-vulnerability-active",
+        "inputLabel": "秘技領域で戦闘に入り、対象の炎属性被ダメージ上昇が成立した2ターン以内",
+        "conditionText": "秘技領域で戦闘に入り、対象の炎属性被ダメージ上昇が成立した2ターン以内",
+        "default": false,
+        "durationTurns": 2
+      },
+      "stacking": {
+        "group": "trace:1003:100307:technique-fire-vulnerability",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "trace:1003:100307:technique-fire-vulnerability-in-final",
+        "inputLabel": "不完全燃焼・敵の炎属性被ダメージを最終入力へ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:100307",
+        "verifiedAt": "2026-10-29",
+        "scope": "固定版の解放済み能力と選択した単発状態。発生確率・ターン進行・同撃途中の層更新は再現しない。",
+        "verification": "tests/hsr/hsrNativeRound7.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1308:1308102:nihility-independent-multiplier",
+      "source": {
+        "kind": "trace",
+        "id": "1308",
+        "traceId": "1308102"
+      },
+      "providerScope": "self",
+      "name": "奈落・虚無編成による本来ダメージ倍率",
+      "description": "黄泉以外の虚無キャラが1人なら本来の115%、2人以上なら160%。E0・解放済み追加能力。既存の与ダメージ加算へ混ぜず独立乗算する。",
+      "category": "independentMultiplier",
+      "unit": "percent",
+      "value": {
+        "kind": "threshold",
+        "thresholds": [
+          {
+            "minimum": 1,
+            "value": 15
+          },
+          {
+            "minimum": 2,
+            "value": 60
+          }
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal",
+          "skill",
+          "ultimate"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "reference": "party.nihilityAllyCount",
+        "operator": ">=",
+        "threshold": 1,
+        "conditionText": "黄泉以外の虚無キャラが1人/2人以上いる"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 1
+      },
+      "stacking": {
+        "group": "acheron-nihility-native-multiplier",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "independent",
+        "operation": "multiply"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "acheron-nihility-independent-in-final",
+        "inputLabel": "奈落の独立倍率を入力ダメージへ反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1308102.params[0]",
+        "verifiedAt": "2026-10-29",
+        "scope": "星魂0・追加能力解放・現在指定した編成。E2の虚無人数緩和は対象外。",
+        "verification": "tests/hsr/hsrNativeRound7.test.cjs"
+      }
+    }
+  ]
+}

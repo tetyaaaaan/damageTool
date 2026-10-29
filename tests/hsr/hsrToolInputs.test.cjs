@@ -3467,3 +3467,69 @@ test('round6 Fugue shares one stack input, automatically checks provider BE, fee
  saved.state.party[0].breakEffect=NaN;saved.calculate();near(restored,3767.5533*3*3.42*.8/1.9);assert.match(saved.node('hsrConditionTitle').textContent,/条件未確定/);
  saved.state.party[0].characterId='';saved.calculate();near(restored,3767.5533*3*3.3*.8/1.9);
 });
+
+test('round7 numeric ornament snapshots are separate, local when missing, and persist through App storage',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),rows=require('../../games/hsr/data/calc/modifiers-sets-round7.json').modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ for(const[set,key,amount,expected]of [['321','ally-target-count',3,1814.4],['328','pre-combat-max-energy',360,2138.4]]){
+  const data={characters:[{id:'sample',name:'Sample',element:'Ice',path:'Rogue',base:{atk:1000}},...catalog.characters],relicSets:catalog.relicSets,structuredModifiers:rows.filter(x=>x.source.id===set)},app=await tool(undefined,data);app.state.ornamentId=set;
+  for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);near(app.calculate()[0].expected,1620);assert.match(app.node('hsrConditionTitle').textContent,/条件未確定/);
+  app.state.conditionTab='遺物・オーナメント';app.node('hsrConditionDialogOpen').handlers.click();assert.equal((app.node('hsrConditionList').innerHTML.match(new RegExp('data-structured-input="'+key+'"','g'))||[]).length,1,'one snapshot input');
+  app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredInput:key,structuredStrict:'true'},value:String(amount)}});near(app.calculate()[0].expected,expected);
+  app.state.modifierInputs['current-max-energy']=1;near(app.calculate()[0].expected,expected,'the current maximum does not replace the battle-entry snapshot');
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,expected);saved.state.ornamentId='';near(saved.calculate()[0].expected,1620);
+ }
+});
+
+test('round7 first attack uses entry CD, Companion membership uses a real teammate, and both restore',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),rows=require('../../games/hsr/data/calc/modifiers-sets-round7.json').modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ for(const[set,expected]of [['305',2160],['327',1792.8]]){
+  const row=rows.find(x=>x.source.id===set&&x.support.status==='calculable'),data={characters:[{id:'sample',name:'Sample',element:'Ice',path:'Rogue',base:{atk:1000}},...catalog.characters],relicSets:catalog.relicSets,structuredModifiers:rows.filter(x=>x.source.id===set)},app=await tool(undefined,data);app.state.ornamentId=set;
+  for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);if(set==='327')app.state.party[0]={characterId:'1002',level:80,traceLevels:{}};
+  near(app.calculate()[0].expected,1620);app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:row.activation.inputKey},checked:true}});
+  if(set==='305'){near(app.calculate()[0].expected,1620);assert.match(app.node('hsrConditionTitle').textContent,/条件未確定/);app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredInput:'pre-combat-crit-damage',structuredStrict:'true'},value:'120'}});}
+  near(app.calculate()[0].expected,expected);app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,expected);
+  if(set==='327'){saved.state.party[0].characterId='';near(saved.calculate()[0].expected,1620);}else{saved.state.modifierInputs['pre-combat-crit-damage']=119.99;saved.node('hsrStat-critDamage').value='300';near(saved.calculate()[0].expected,2700,'current CD does not satisfy the entry condition');}
+ }
+});
+
+test('round7 numeric cone input and automatic Izumo lineup reach damage and saved restoration',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),coneRows=require('../../games/hsr/data/calc/modifiers-equipment-round7.json').modifiers,setRows=require('../../games/hsr/data/calc/modifiers-sets-round7.json').modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ const data={characters:catalog.characters,lightCones:catalog.lightCones,relicSets:catalog.relicSets,structuredModifiers:coneRows.filter(x=>x.source.id==='21034'),attacks:[{id:'ep-r7',characterId:'1003',name:'EP test',type:'normal',element:'Fire',multipliers:[100],scalingStat:'atk',support:{status:'calculable',verified:true}}]},app=await tool(undefined,data);app.state.characterId='1003';app.state.coneId='21034';
+ for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);near(app.calculate()[0].expected,1620);app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredInput:'current-max-energy',structuredStrict:'true'},value:'160'}});near(app.calculate()[0].expected,2138.4);app.state.modifierInputs['pre-combat-max-energy']=999;near(app.calculate()[0].expected,2138.4);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,2138.4);saved.state.coneId='';near(saved.calculate()[0].expected,1620);
+ const izumo=await tool(undefined,{characters:[{id:'sample',name:'Sample',element:'Ice',path:'Rogue',base:{atk:1000}},...catalog.characters],relicSets:catalog.relicSets,structuredModifiers:setRows.filter(x=>x.source.id==='314')});izumo.state.ornamentId='314';izumo.state.party[0]={characterId:'1002',level:80,traceLevels:{}};for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))izumo.node('hsrStat-'+k).value=String(v);near(izumo.calculate()[0].expected,1749.6);izumo.state.party[0].characterId='1001';near(izumo.calculate()[0].expected,1620);
+});
+
+test('round7 Jade and Ratio use one shared stack field, persist, and remove included stats once',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../games/hsr/data/calc/modifiers-native-round7.json').modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ for(const[id,key,stacks,expected]of [['1305','ratio-induction-stacks',6,1992.6],['1314','jade-pawned-asset-stacks',50,2457]]){
+  const rows=all.filter(x=>x.source.id===id),data={characters:[{id,name:'Native',element:'Imaginary',path:'Rogue',base:{atk:1000}},...catalog.characters.filter(x=>x.id!==id)],structuredModifiers:rows,attacks:[{id:'stack-r7-'+id,characterId:id,name:'Stack test',type:'normal',element:'Imaginary',multipliers:[100],scalingStat:'atk',support:{status:'calculable',verified:true}}]},app=await tool(undefined,data);app.state.characterId=id;for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);near(app.calculate()[0].expected,1620);
+  app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.equal((app.node('hsrConditionList').innerHTML.match(new RegExp('data-structured-input="'+key+'"','g'))||[]).length,1);
+  app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredInput:key},value:String(stacks)}});near(app.calculate()[0].expected,expected);
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,expected);for(const row of rows)saved.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:row.finalStatsInclusion.inputKey},checked:true}});near(saved.calculate()[0].expected,1620);
+ }
+});
+
+test('round7 promoted main attacks need no availability checkbox and Acheron automatically follows its actual party',async()=>{
+ const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ for(const row of require('../../games/hsr/data/calc/attacks-round7.json').overrides){
+  const a=p.attacks.find(x=>x.id===row.id),recs=p.structuredModifiers.filter(x=>x.id==='traceNode:1308:1308102:nihility-independent-multiplier'),data={characters:p.characters,attacks:[a],structuredModifiers:a.characterId==='1308'?recs:[]},app=await tool(undefined,data);app.state.characterId=a.characterId;if(a.variant)app.node('hsrEnhancementState').value=a.variant;
+  for(const[k,v]of Object.entries({atk:3000,hp:6000,def:2400,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);app.node(a.traceKey==='ultimate'?'hsrUltimateTrace':'hsrSkillTrace').value='10';const expected=3000*a.multipliers[9]/100*.36*(a.hitCount||1);near(app.calculate()[0].nonCrit,expected);
+  if(a.characterId==='1308'){app.state.party[0]={characterId:'1004',level:80,traceLevels:{}};near(app.calculate()[0].nonCrit,expected*1.15);app.state.party[1]={characterId:'1108',level:80,traceLevels:{}};near(app.calculate()[0].nonCrit,expected*1.6);app.state.party[0].characterId='';near(app.calculate()[0].nonCrit,expected*1.15);}
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].nonCrit,expected*(a.characterId==='1308'?1.15:1));
+ }
+});
+
+test('round7 Bone Collection follows actual HP support, preserves restoration and leaves ATK attacks running with unknown HP',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers,rows=all.filter(x=>x.source.kind==='ornament'&&x.source.id==='319'||x.id==='traceNode:1211:1211101:overheal-hp'),data={characters:[{id:'sample',name:'Sample',path:'Rogue',element:'Ice',base:{hp:1000,atk:1000}},...catalog.characters],relicSets:catalog.relicSets,structuredModifiers:rows},app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ app.state.ornamentId='319';app.state.party[0]={characterId:'1211',level:80,traceLevels:{}};for(const[k,v]of Object.entries({atk:3000,hp:4990,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);near(app.calculate()[0].expected,1620);
+ const support=rows.find(x=>x.source.id==='1211');app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:support.activation.inputKey},checked:true}});near(app.calculate()[0].expected,1771.2);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,1771.2);saved.state.party[0].characterId='';near(saved.calculate()[0].expected,1620);saved.node('hsrStat-hp').value='';near(saved.calculate()[0].expected,1620);assert.match(saved.node('hsrConditionTitle').textContent,/条件未確定/);
+});
+
+test('round7 Fallen debuff keeps a single provider exact and locally excludes an ambiguous second cone wearer',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),row=require('../../games/hsr/data/calc/modifiers-equipment-round7.json').modifiers.find(x=>x.source.id==='21015'),data={characters:[{id:'sample',name:'Sample',path:'Rogue',element:'Ice',base:{atk:1000}},...catalog.characters],lightCones:catalog.lightCones,structuredModifiers:[row]},app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ app.state.party[0]={characterId:'1004',lightConeId:'21015',coneRank:1,level:80,traceLevels:{}};for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:row.activation.inputKey},checked:true}});near(app.calculate()[0].expected,1620/0.94);
+ app.state.party[1]={characterId:'1108',lightConeId:'21015',coneRank:5,level:80,traceLevels:{}};near(app.calculate()[0].expected,1620);assert.match(app.node('hsrConditionTitle').textContent,/条件未確定/);app.state.party[1].characterId='';near(app.calculate()[0].expected,1620/0.94);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,1620/0.94);saved.state.party[0].characterId='';near(saved.calculate()[0].expected,1620);
+});

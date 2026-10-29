@@ -194,3 +194,13 @@
 仙舟302のSPDは計算対象が装備者本人なら既存のbounded effective評価、他人の装備なら編成で明示した提供者の判定値を使う。他人のSPDへ現在の計算対象の支援を足さない。`target.excludeSelf` はオーナメントの本人選択にも適用する。同セット302/310/312/317の複数提供者、およびLC23061/23062の複数提供者は勝者/重複仕様を推定せずRuntimeで当該支援のみ未確定にする（LC23061の本人スキル補正は別）。単一提供者は計算可能。
 
 帰忘の流離人の追加BEは提供者の明示済みBEだけを参照し、受益者本人へ返さない。従って解決済みの追加分を独立BE支援として既存の有効BE閾値へ渡せる。タリアの限定した二段依存とは別で、全Modifierの再帰評価は行わない。固定追加能力の層数検証に技能Lvを要求せず、技能Lv検証はsource.skillId/value.levelInputKeyを持つものに限定する。0層なら共有追加分の参照値不足を要求しない。Schema/静的検証器は上記の実在参照へ同期する。
+
+### 開始時スナップショットと編成人数（第7回）
+
+実装参照は `self.preCombatCritDamage`→`pre-combat-crit-damage`、`self.preCombatMaxEnergy`→`pre-combat-max-energy`、`self.maxEnergy`→`current-max-energy`、`party.fieldCount`→`ally-target-count`。CDは有限0～99999の小数、最大EP/場の人数は1～99999の整数として明示入力する。未入力・不正値はNaNとし、numericThreshold/statThreshold/toggleThresholdで共通に未確定表示・当該補正だけの除外へ接続する。初回攻撃状態がOFFなら無関係な開始時CDを必須にしない。
+
+`party.samePathAllyCount` と `party.nihilityAllyCount` は合法な重複なしの編成と既知のpartyPathsから本人以外を数える。後者の固定版の虚無path IDはWarlock。未知path/重複IDを0人と推定しない。黄泉の奈落は1人で独立+15%、2人以上で+60%（本来の1.15/1.6倍）とし、通常の与ダメージ加算へ混ぜない。受入はLv80・E0・追加能力解放済みの単発条件で、全育成段階の解放自動判定を完成扱いにしない。
+
+`self.speedAbove100Steps` は有効SPDからfloor(max(SPD-100,0)/10)を導く。夜の帳の6層上限は既存perReferenceStackのmaximumで処理する。既存の有効値一段評価へHPも限定追加し、静謐な拾骨地のHP→CD条件は独立HP支援後に判定する。自己HPを変えるHP閾値は依然再帰評価しない。最大HP欠損/0はこの補正だけ未確定。共有stackキーはカードをまたいでも1欄だけ表示し、各成分の算入済み申告は個別に維持する。providerScopeは既存のself/partyまたは省略のみとし、架空のbothは静的検証で拒否する。
+
+LC21015の陥落も、同じLCを持つ提供者が複数いる場合は採用ランク/付与履歴を推定せず、既存の複数提供者ガードで当該DEF低下だけを未確定とする。単一提供者の指定済み陥落は計算可能。

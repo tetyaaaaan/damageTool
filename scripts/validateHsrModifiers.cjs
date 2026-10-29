@@ -30,7 +30,7 @@ const allowedElements = new Set(["Physical", "Fire", "Ice", "Thunder", "Wind", "
 const allowedOwners = new Set(["self", "activeAlly", "partyAll", "enemySingle", "enemyAll", "summon", "memosprite"]);
 const allowedStages = new Set(["baseStats", "baseDamage", "attackMultiplier", "damageBonus", "critical", "defense", "resistance", "vulnerability", "independent", "toughness", "extraDamage", "finalDamage", "breakDamage", "baseStat", "attackState", "resistancePenetration", "multiplierAddition", "critDamage", "takenDamage", "breakEffect"]);
 const allowedOperations = new Set(["add", "multiply", "replace", "max", "set", "subtract"]);
-const allowedReferences = new Set(["self.hp", "self.hpPercent", "self.preCombatSpeed", "self.epPercent", "self.speed", "self.atk", "self.def", "self.critRate", "self.critDamage", "self.effectHitRate", "self.effectRes", "self.breakEffect", "self.elation", "provider.speed", "provider.effectRes", "provider.breakEffect", "provider.sameElement", "provider.firstSlotRecipient", "mortenax-infinite-fury-active", "enemy.hpPercent", "enemy.weakness", "enemy.quantumWeakness", "enemy.debuffCount", "enemy.count", "enemy.toughnessRemaining", "party.count", "party.elationCount", "party.sp"]);
+const allowedReferences = new Set(["self.hp", "self.hpPercent", "self.preCombatSpeed", "self.epPercent", "self.speed", "self.atk", "self.def", "self.critRate", "self.critDamage", "self.effectHitRate", "self.effectRes", "self.breakEffect", "self.elation", "self.preCombatCritDamage", "party.nihilityAllyCount", "self.maxEnergy", "self.preCombatMaxEnergy", "self.speedAbove100Steps", "party.fieldCount", "party.samePathAllyCount", "provider.speed", "provider.effectRes", "provider.breakEffect", "provider.sameElement", "provider.firstSlotRecipient", "mortenax-infinite-fury-active", "enemy.hpPercent", "enemy.weakness", "enemy.quantumWeakness", "enemy.debuffCount", "enemy.count", "enemy.toughnessRemaining", "party.count", "party.elationCount", "party.sp"]);
 const allowedProviderStats = new Set(["hp", "hpPercent", "atk", "def", "speed", "critRate", "critDamage", "breakEffect", "effectHitRate", "elation"]);
 const allowedTargetStats = new Set(["hp", "atk", "def", "speed"]);
 
@@ -72,6 +72,7 @@ function validateModifiers(records) {
     if (modifier.target?.attackIds !== undefined && (!Array.isArray(modifier.target.attackIds) || modifier.target.attackIds.some((id) => typeof id !== "string" || !id))) issues.push(`${at}.target.attackIds: expected non-empty strings`);
     checkEnum(modifier.value?.kind, allowedValueKinds, `${at}.value.kind`, issues);
     checkEnum(modifier.activation?.mode, new Set(["always", "toggle", "toggleThreshold", "stack", "statThreshold", "numericThreshold"]), `${at}.activation.mode`, issues);
+    checkEnum(modifier.providerScope, new Set(["self", "party"]), `${at}.providerScope`, issues);
     checkEnum(modifier.activation?.reference, allowedReferences, `${at}.activation.reference`, issues);
     checkEnum(modifier.activation?.statSource, new Set(["input", "effective"]), `${at}.activation.statSource`, issues);
     checkEnum(modifier.activation?.thresholdReference, new Set(["self.hpPercent"]), `${at}.activation.thresholdReference`, issues);
