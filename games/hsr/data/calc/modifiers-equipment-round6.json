@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "light-cone-round6-2026-10-28",
+  "description": "固定版の光円錐効果から、既存Modifierで単発計算できる状態効果を追加。propertiesに記録された恒常ステータスは再計算しない。",
+  "modifiers": [
+    {
+      "id":"lightCone:24003:post-ultimate-dot-damage","source":{"kind":"lightCone","id":"24003"},
+      "name":"孤独の癒し・必殺技後の持続ダメージ","description":"装備者が必殺技を発動した後2ターン、装備者の持続ダメージ+24/30/36/42/48%。常時撃破特効は最終入力に含める。",
+      "category":"dotDamage","unit":"percent","value":{"kind":"byRefinement","values":[24,30,36,42,48]},
+      "target":{"owner":"self","attackTypes":["dot"],"elements":[]},
+      "activation":{"mode":"toggle","inputKey":"lc-24003-post-ultimate-dot-active","inputLabel":"必殺技後の持続ダメージ上昇が有効","default":false,"durationTurns":2,"conditionText":"装備者が必殺技を発動した後2ターン"},
+      "stacking":{"group":"lightCone:24003:post-ultimate-dot-damage","rule":"nonStacking"},"calculation":{"stage":"damageBonus","operation":"add"},"inputPolicy":"conditional",
+      "finalStatsInclusion":{"inputKey":"lc-24003-dot-in-final","inputLabel":"孤独の癒しのこの補正を最終入力へ反映済み"},"support":{"status":"calculable","verified":true},
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json","sourceFile":"light_cone_ranks.json:24003.params/properties/desc","gameVersion":"fixed-sha-dbe8cdf","verifiedAt":"2026-10-28","notes":"R1-R5 parameter 2 after Ultimate; DoT only. Permanent Break Effect from properties is final-stat responsibility."}
+    },
+    {
+      "id":"lightCone:23004:debuffed-target-damage","source":{"kind":"lightCone","id":"23004"},
+      "name":"世界の名を以て・デバフ状態の敵への与ダメージ","description":"デバフ状態の敵に対して、装備者の与ダメージ+24/28/32/36/40%。デバフ数が1以上なら自動適用。戦闘スキル時の効果命中・ATK補正は今回のダメージ成分に含めない。",
+      "category":"damageBonus","unit":"percent","value":{"kind":"byRefinement","values":[24,28,32,36,40]},
+      "target":{"owner":"self","attackTypes":["all"],"elements":[]},
+      "activation":{"mode":"statThreshold","reference":"enemy.debuffCount","operator":">=","threshold":1,"conditionText":"攻撃対象がデバフ状態"},
+      "stacking":{"group":"lightCone:23004:debuffed-target-damage","rule":"nonStacking"},"calculation":{"stage":"damageBonus","operation":"add"},"inputPolicy":"conditional",
+      "finalStatsInclusion":{"inputKey":"lc-23004-debuff-damage-in-final","inputLabel":"世界の名を以てのこの補正を最終入力へ反映済み"},"support":{"status":"calculable","verified":true},
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json","sourceFile":"light_cone_ranks.json:23004.params/properties/desc","gameVersion":"fixed-sha-dbe8cdf","verifiedAt":"2026-10-28","notes":"R1-R5 parameter 1; enemy must have at least one active debuff. Temporary skill hit-rate and ATK are out of scope."}
+    },
+    {
+      "id":"lightCone:23060:damage-defense-ignore","source":{"kind":"lightCone","id":"23060"},
+      "name":"夜を照らす導きの星・装備者の防御無視","description":"装備者がダメージを与える時、対象の防御力を32/36/40/44/48%無視する。支援スキルで得る「出航」の層効果は別状態入力の対象外。",
+      "category":"defenseIgnore","unit":"percent","value":{"kind":"byRefinement","values":[32,36,40,44,48]},
+      "target":{"owner":"self","attackTypes":["all"],"elements":[]},
+      "activation":{"mode":"always","conditionText":"装備者が与えるダメージ"},
+      "stacking":{"group":"lightCone:23060:damage-defense-ignore","rule":"nonStacking"},"calculation":{"stage":"defense","operation":"add"},"inputPolicy":"conditional",
+      "finalStatsInclusion":{"inputKey":"lc-23060-defense-ignore-in-final","inputLabel":"夜を照らす導きの星の防御無視を最終敵補正へ反映済み"},"support":{"status":"calculable","verified":true},
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json","sourceFile":"light_cone_ranks.json:23060.params/desc","gameVersion":"fixed-sha-dbe8cdf","verifiedAt":"2026-10-28","notes":"R1-R5 parameter 7, unconditional on damage. Sail stack bonuses from support skills are not modeled here."}
+    },
+    {
+      "id":"lightCone:23061:crown-party-defense-ignore","source":{"kind":"lightCone","id":"23061"},
+      "name":"静かに瞬く小さな火・輝く王冠中の味方全体防御無視","description":"味方の1ターン中のSP消費が4以上となり「輝く王冠」が有効な間、味方全体の与ダメージが敵防御力を20/24/28/32/36%無視する。",
+      "category":"defenseIgnore","unit":"percent","value":{"kind":"byRefinement","values":[20,24,28,32,36]},
+      "target":{"owner":"partyAll","attackTypes":["all"],"elements":[]},
+      "activation":{"mode":"toggle","inputKey":"lc-23061-crown-active","inputLabel":"SPを4以上消費した後の輝く王冠が有効","default":false,"durationTurns":3,"conditionText":"任意の味方が自身のターン中にSPを4以上消費した後3ターン"},
+      "stacking":{"group":"lightCone:23061:crown-defense-ignore","rule":"nonStacking"},"calculation":{"stage":"defense","operation":"add"},"inputPolicy":"conditional",
+      "finalStatsInclusion":{"inputKey":"lc-23061-crown-defense-in-final","inputLabel":"静かに瞬く小さな火の防御無視を最終敵補正へ反映済み"},"support":{"status":"calculable","verified":true},
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json","sourceFile":"light_cone_ranks.json:23061.params[rank][2]/desc","gameVersion":"fixed-sha-dbe8cdf","verifiedAt":"2026-10-29","notes":"R1-R5 parameter 3 is 4; the trigger requires at least 4 SP spent in one turn. Parameter 4 is the 3-turn duration; parameter 5 is defense ignore."}
+    },
+    {
+      "id":"lightCone:23061:crown-skill-damage","source":{"kind":"lightCone","id":"23061"},
+      "name":"静かに瞬く小さな火・輝く王冠中の装備者スキルダメージ","description":"「輝く王冠」が有効な間、装備者の戦闘スキルダメージ+72/84/96/108/120%。",
+      "category":"damageBonus","unit":"percent","value":{"kind":"byRefinement","values":[72,84,96,108,120]},
+      "target":{"owner":"self","attackTypes":["skill"],"elements":[]},
+      "activation":{"mode":"toggle","inputKey":"lc-23061-crown-active","inputLabel":"SPを4以上消費した後の輝く王冠が有効","default":false,"durationTurns":3,"conditionText":"任意の味方が自身のターン中にSPを4以上消費した後3ターン"},
+      "stacking":{"group":"lightCone:23061:crown-skill-damage","rule":"nonStacking"},"calculation":{"stage":"damageBonus","operation":"add"},"inputPolicy":"conditional",
+      "finalStatsInclusion":{"inputKey":"lc-23061-crown-skill-in-final","inputLabel":"静かに瞬く小さな火のこのスキル補正を最終入力へ反映済み"},"support":{"status":"calculable","verified":true},
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json","sourceFile":"light_cone_ranks.json:23061.params/desc","gameVersion":"fixed-sha-dbe8cdf","verifiedAt":"2026-10-28","notes":"R1-R5 parameter 2; only equipment wearer skill damage, same active-state toggle as party defense ignore above."}
+    },
+    {
+      "id":"lightCone:23062:royal-entertainment-party-crit-damage","source":{"kind":"lightCone","id":"23062"},
+      "name":"在るがままの我・王の娯楽中の味方全体会心ダメージ","description":"戦闘開始時または装備者の必殺技後、「王の娯楽」が有効な3ターン、味方全体の会心ダメージ+24/30/36/42/48%。常時ATK・EP回復効率は最終入力へ含める。",
+      "category":"critDamage","unit":"percent","value":{"kind":"byRefinement","values":[24,30,36,42,48]},
+      "target":{"owner":"partyAll","attackTypes":["all"],"elements":[]},
+      "activation":{"mode":"toggle","inputKey":"lc-23062-royal-entertainment-active","inputLabel":"王の娯楽が有効","default":false,"durationTurns":3,"conditionText":"戦闘開始時または装備者が必殺技を発動した後3ターン"},
+      "stacking":{"group":"lightCone:23062:royal-entertainment-crit-damage","rule":"nonStacking"},"calculation":{"stage":"critical","operation":"add"},"inputPolicy":"conditional",
+      "finalStatsInclusion":{"inputKey":"lc-23062-party-crit-damage-in-final","inputLabel":"在るがままの我のこの会心ダメージ補正を最終入力へ反映済み"},"support":{"status":"calculable","verified":true},
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json","sourceFile":"light_cone_ranks.json:23062.params/desc","gameVersion":"fixed-sha-dbe8cdf","verifiedAt":"2026-10-28","notes":"R1-R5 parameter 5, party wide and non-stacking; permanent ATK/Energy Regeneration Rate are not recalculated."}
+    },
+    {
+      "id":"lightCone:23064:tailwind-speed","source":{"kind":"lightCone","id":"23064"},
+      "name":"波しぶきが躍る夏へ・追い風中の速度","description":"装備者が愉悦スキルを発動して「追い風」が有効な間、速度+24/28/32/36/40%。愉悦度・SP回復は単発ダメージへ含めない。",
+      "category":"statPercent","stat":"speed","unit":"percent","value":{"kind":"byRefinement","values":[24,28,32,36,40]},
+      "target":{"owner":"self","attackTypes":["all"],"elements":[]},
+      "activation":{"mode":"toggle","inputKey":"lc-23064-tailwind-active","inputLabel":"愉悦スキル発動後の追い風が有効","default":false,"conditionText":"装備者が愉悦スキルを発動した後"},
+      "stacking":{"group":"lightCone:23064:tailwind-speed","rule":"nonStacking"},"calculation":{"stage":"baseStats","operation":"add"},"inputPolicy":"conditional",
+      "finalStatsInclusion":{"inputKey":"lc-23064-speed-in-final","inputLabel":"波しぶきが躍る夏へのこの速度補正を最終入力へ反映済み"},"support":{"status":"calculable","verified":true},
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json","sourceFile":"light_cone_ranks.json:23064.params/desc","gameVersion":"fixed-sha-dbe8cdf","verifiedAt":"2026-10-28","notes":"R1-R5 parameter 2; active Tailwind is a selected state. Euphoria and SP effects are outside direct damage output."}
+    },
+    {
+      "id":"lightCone:23002:post-kill-or-hit-damage","source":{"kind":"lightCone","id":"23002"},
+      "name":"かけがえのないもの・敵撃破または被弾後の与ダメージ","description":"装備者が敵を倒す、または攻撃を受けた後、次のターン終了まで与ダメージ+24/28/32/36/40%。発動状況を選択。常時ATKは最終入力へ含める。",
+      "category":"damageBonus","unit":"percent","value":{"kind":"byRefinement","values":[24,28,32,36,40]},
+      "target":{"owner":"self","attackTypes":["all"],"elements":[]},
+      "activation":{"mode":"toggle","inputKey":"lc-23002-post-kill-or-hit-active","inputLabel":"敵撃破または被弾後の与ダメージ上昇が有効","default":false,"conditionText":"敵撃破または被弾後、装備者の次のターン終了まで"},
+      "stacking":{"group":"lightCone:23002:post-kill-or-hit-damage","rule":"nonStacking"},"calculation":{"stage":"damageBonus","operation":"add"},"inputPolicy":"conditional",
+      "finalStatsInclusion":{"inputKey":"lc-23002-damage-in-final","inputLabel":"かけがえのないもののこの補正を最終入力へ反映済み"},"support":{"status":"calculable","verified":true},
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json","sourceFile":"light_cone_ranks.json:23002.params/desc","gameVersion":"fixed-sha-dbe8cdf","verifiedAt":"2026-10-28","notes":"R1-R5 parameter 3, current effect is selected instead of simulating kill/hit and turn cadence. Permanent ATK omitted."}
+    },
+    {
+      "id":"lightCone:22002:post-ultimate-damage","source":{"kind":"lightCone","id":"22002"},
+      "name":"明日のための旅・必殺技後の与ダメージ","description":"装備者が必殺技を発動した後1ターン、与ダメージ+18/21/24/27/30%。常時ATKは最終入力へ含める。",
+      "category":"damageBonus","unit":"percent","value":{"kind":"byRefinement","values":[18,21,24,27,30]},
+      "target":{"owner":"self","attackTypes":["all"],"elements":[]},
+      "activation":{"mode":"toggle","inputKey":"lc-22002-post-ultimate-active","inputLabel":"必殺技後の与ダメージ上昇が有効","default":false,"durationTurns":1,"conditionText":"装備者が必殺技を発動した後1ターン"},
+      "stacking":{"group":"lightCone:22002:post-ultimate-damage","rule":"nonStacking"},"calculation":{"stage":"damageBonus","operation":"add"},"inputPolicy":"conditional",
+      "finalStatsInclusion":{"inputKey":"lc-22002-damage-in-final","inputLabel":"明日のための旅のこの補正を最終入力へ反映済み"},"support":{"status":"calculable","verified":true},
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json","sourceFile":"light_cone_ranks.json:22002.params/desc","gameVersion":"fixed-sha-dbe8cdf","verifiedAt":"2026-10-28","notes":"R1-R5 parameter 2, 1-turn state; permanent ATK omitted."}
+    },
+    {
+      "id":"lightCone:22003:hp-event-crit-damage","source":{"kind":"lightCone","id":"22003"},
+      "name":"忍事録・音律狩猟・HP変動後の会心ダメージ","description":"装備者がHPを失う、または回復した後、会心ダメージ+18/22.5/27/31.5/36%、2ターン継続。現在の効果状態を選択。常時最大HPは最終入力へ含める。",
+      "category":"critDamage","unit":"percent","value":{"kind":"byRefinement","values":[18,22.5,27,31.5,36]},
+      "target":{"owner":"self","attackTypes":["all"],"elements":[]},
+      "activation":{"mode":"toggle","inputKey":"lc-22003-hp-event-active","inputLabel":"HP変動後の会心ダメージ上昇が有効","default":false,"durationTurns":2,"conditionText":"装備者がHPを失う、または回復した後2ターン。1ターンに1回まで"},
+      "stacking":{"group":"lightCone:22003:hp-event-crit-damage","rule":"nonStacking"},"calculation":{"stage":"critical","operation":"add"},"inputPolicy":"conditional",
+      "finalStatsInclusion":{"inputKey":"lc-22003-crit-damage-in-final","inputLabel":"忍事録・音律狩猟のこの補正を最終入力へ反映済み"},"support":{"status":"calculable","verified":true},
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json","sourceFile":"light_cone_ranks.json:22003.params/desc","gameVersion":"fixed-sha-dbe8cdf","verifiedAt":"2026-10-28","notes":"R1-R5 parameter 2. Trigger history/once-per-turn limit are not simulated; selected state is the current buff only."}
+    },
+    {
+      "id":"lightCone:22004:enemy-distinct-weakness-damage","source":{"kind":"lightCone","id":"22004"},
+      "name":"宇宙一の大商い！・敵の異なる弱点属性数に応じた与ダメージ","description":"敵が持つ異なる弱点属性1つにつき、装備者がその敵に与えるダメージ+4/5/6/7/8%。敵の異なる弱点属性数を0～7で指定。常時ATKは最終入力へ含める。",
+      "category":"damageBonus","unit":"percent","value":{"kind":"perStackByRefinement","values":[4,5,6,7,8]},
+      "target":{"owner":"self","attackTypes":["all"],"elements":[]},
+      "activation":{"mode":"stack","inputKey":"lc-22004-distinct-weakness-count","inputLabel":"敵が持つ異なる弱点属性数","minimum":0,"maximum":7,"step":1,"default":0,"conditionText":"攻撃対象の異なる弱点属性数（最大7）"},
+      "stacking":{"group":"lightCone:22004:enemy-distinct-weakness-damage","rule":"nonStacking","maximumStacks":7},"calculation":{"stage":"damageBonus","operation":"add"},"inputPolicy":"conditional",
+      "finalStatsInclusion":{"inputKey":"lc-22004-damage-in-final","inputLabel":"宇宙一の大商い！のこの補正を最終入力へ反映済み"},"support":{"status":"calculable","verified":true},
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json","sourceFile":"light_cone_ranks.json:22004.params/desc","gameVersion":"fixed-sha-dbe8cdf","verifiedAt":"2026-10-28","notes":"R1-R5 parameter 2; weakness-attribute count is entered explicitly because the current enemy selector does not expose the full weakness list."}
+    },
+    {
+      "id":"lightCone:22008:follow-up-crit-damage-stacks","source":{"kind":"lightCone","id":"22008"},
+      "name":"地平線のゴールへ・追加攻撃後の会心ダメージ層数","description":"装備者が追加攻撃を発動した後、1層につき会心ダメージ+3/3.5/4/4.5/5%、2ターン継続、最大10層。現在有効な層数を指定。常時ATKは最終入力へ含める。",
+      "category":"critDamage","unit":"percent","value":{"kind":"perStackByRefinement","values":[3,3.5,4,4.5,5]},
+      "target":{"owner":"self","attackTypes":["all"],"elements":[]},
+      "activation":{"mode":"stack","inputKey":"lc-22008-follow-up-stacks","inputLabel":"追加攻撃後に獲得した現在の層数","minimum":0,"maximum":10,"step":1,"default":0,"durationTurns":2,"conditionText":"追加攻撃後2ターン、現在の有効層数（最大10）"},
+      "stacking":{"group":"lightCone:22008:follow-up-crit-damage-stacks","rule":"nonStacking","maximumStacks":10},"calculation":{"stage":"critical","operation":"add"},"inputPolicy":"conditional",
+      "finalStatsInclusion":{"inputKey":"lc-22008-crit-damage-in-final","inputLabel":"地平線のゴールへのこの補正を最終入力へ反映済み"},"support":{"status":"calculable","verified":true},
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json","sourceFile":"light_cone_ranks.json:22008.params/desc","gameVersion":"fixed-sha-dbe8cdf","verifiedAt":"2026-10-28","notes":"R1-R5 parameter 2, maximum 10 layers, 2-turn duration. Current stacks represent the selected snapshot; hit chronology is not simulated."}
+    },
+    {
+      "id":"lightCone:21047:post-break-speed","source":{"kind":"lightCone","id":"21047"},
+      "name":"夜は影のように付き纏う・弱点撃破後の速度","description":"戦闘開始時または装備者が弱点撃破ダメージを与えた後、速度+8/9/10/11/12%、2ターン継続。常時撃破特効は最終入力へ含める。",
+      "category":"statPercent","stat":"speed","unit":"percent","value":{"kind":"byRefinement","values":[8,9,10,11,12]},
+      "target":{"owner":"self","attackTypes":["all"],"elements":[]},
+      "activation":{"mode":"toggle","inputKey":"lc-21047-post-break-speed-active","inputLabel":"戦闘開始または弱点撃破後の速度上昇が有効","default":false,"durationTurns":2,"conditionText":"戦闘開始時または弱点撃破ダメージを与えた後2ターン"},
+      "stacking":{"group":"lightCone:21047:post-break-speed","rule":"nonStacking"},"calculation":{"stage":"baseStats","operation":"add"},"inputPolicy":"conditional",
+      "finalStatsInclusion":{"inputKey":"lc-21047-speed-in-final","inputLabel":"夜は影のように付き纏うのこの速度補正を最終入力へ反映済み"},"support":{"status":"calculable","verified":true},
+      "provenance":{"sourceName":"Mar-7th/StarRailRes","sourceCommit":"dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487","sourceUrl":"https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json","sourceFile":"light_cone_ranks.json:21047.params/properties/desc","gameVersion":"fixed-sha-dbe8cdf","verifiedAt":"2026-10-28","notes":"R1-R5 parameter 2; Break Effect in properties is final-stat responsibility, the current speed buff is explicitly selected."}
+    }
+  ]
+}

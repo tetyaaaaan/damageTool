@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "fugue-trace-round6-2026-10-29",
+  "description": "固定版の帰忘の流離人追加能力1225103から、味方の撃破特効支援と220%条件分を単発計算へ接続。",
+  "modifiers": [
+    {
+      "id": "trace:1225:1225103:break-effect-party",
+      "source": { "kind": "trace", "id": "1225", "traceId": "1225103" },
+      "providerScope": "party",
+      "name": "璣星の太素・味方の撃破特効",
+      "description": "敵が弱点撃破された後、帰忘の流離人以外の味方に撃破特効+6%を2ターン付与。現在有効な層数を指定（最大2）。",
+      "category": "breakEffect",
+      "unit": "percent",
+      "value": { "kind": "perStack", "perStack": 6 },
+      "inputValidation": { "minimum": 0, "maximum": 2, "integer": true, "maximumEidolon": 0, "levelMaximum": 1 },
+      "target": { "owner": "activeAlly", "excludeSelf": true, "attackTypes": ["all"], "elements": [] },
+      "activation": { "mode": "stack", "inputKey": "fugue-break-buff-stacks", "inputLabel": "璣星の太素の現在有効な層数", "default": 0, "minimum": 0, "maximum": 2, "conditionText": "敵が弱点撃破された後2ターン、最大2層" },
+      "stacking": { "group": "fugue-1225103-break-effect-base", "rule": "nonStacking", "maximumStacks": 2 },
+      "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": { "inputKey": "fugue-break-buff-in-final", "inputLabel": "璣星の太素の撃破特効を最終ステータスへ反映済み" },
+      "support": { "status": "calculable", "verified": true, "reason": "他の味方に対する撃破特効支援。弱点撃破後の現行層数だけを入力し、付与・消失のターン推移は再現しない。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487", "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json", "sourceFile": "character_skill_trees.json:1225103.desc/params[0]", "gameVersion": "fixed-sha-dbe8cdf", "verifiedAt": "2026-10-29", "notes": "固定版params[0]=[0.06,2,2,2.2,0.12]: 基礎6%、2ターン、最大2層、提供者撃破特効220%以上で追加12%/層。" }
+    },
+    {
+      "id": "trace:1225:1225103:break-effect-party-220",
+      "source": { "kind": "trace", "id": "1225", "traceId": "1225103" },
+      "providerScope": "party",
+      "name": "璣星の太素・提供者撃破特効220%以上の追加分",
+      "description": "帰忘の流離人の撃破特効が220%以上の時、味方への撃破特効上昇をさらに+12%/層。基礎効果と同じ有効層数（最大2）を使用。",
+      "category": "breakEffect",
+      "unit": "percent",
+      "value": { "kind": "byLevel", "values": [12], "inputKey": "fugue-break-buff-stacks", "inputLabel": "璣星の太素の現在有効な層数", "inputUnit": "層", "default": 0, "minimum": 0, "inputMaximum": 2, "inputStep": 1, "inputMultipliers": [0, 1, 2], "sharedInput": true },
+      "inputValidation": { "minimum": 0, "maximum": 2, "integer": true, "maximumEidolon": 0, "levelMaximum": 1 },
+      "target": { "owner": "activeAlly", "excludeSelf": true, "attackTypes": ["all"], "elements": [] },
+      "activation": { "mode": "statThreshold", "reference": "provider.breakEffect", "operator": ">=", "threshold": 220, "conditionText": "提供者の撃破特効が220%以上" },
+      "stacking": { "group": "fugue-1225103-break-effect-extra", "rule": "nonStacking", "maximumStacks": 2 },
+      "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": { "inputKey": "fugue-break-buff-in-final", "inputLabel": "璣星の太素の撃破特効を最終ステータスへ反映済み" },
+      "support": { "status": "calculable", "verified": true, "reason": "追加12%/層は提供者の撃破特効220%以上で成立。基礎効果の層数入力を共有し、層0では提供者撃破特効を要求しない。" },
+      "provenance": { "sourceName": "Mar-7th/StarRailRes", "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487", "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json", "sourceFile": "character_skill_trees.json:1225103.desc/params[0]", "gameVersion": "fixed-sha-dbe8cdf", "verifiedAt": "2026-10-29", "notes": "固定版params[0]=[0.06,2,2,2.2,0.12]: 2.2=220%しきい値、12%=層あたり追加撃破特効。" }
+    }
+  ]
+}

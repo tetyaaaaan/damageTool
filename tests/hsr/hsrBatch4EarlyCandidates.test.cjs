@@ -63,8 +63,11 @@ test("batch4 Aventurine E0 full direct curves and seven-hit aggregate stay sourc
         assert.equal(attack.hitCount, spec.hits);
         assert.equal(attack.canCrit, true);
         if (id === "130403") {
-            assert.equal(attack.support.status, "review", "first-application Ultimate is not verified by textual timing");
-            assert.equal(attack.support.verified, false);
+            assert.equal(attack.support.status, "calculable", "only the pre-existing same-level Unnerved snapshot is promoted");
+            assert.equal(attack.support.verified, true);
+            assert.ok(attack.requiredModifierIds.includes(unnerveId));
+            assert.ok(attack.modifierConditions.some(item => item.inputKey === "aventurine-unnerve-active" && item.minimum === 1 && item.default === 0));
+            assert.match(attack.calculationNote, /攻撃前/);
         } else {
             assert.equal(attack.support.status, "calculable");
             assert.equal(attack.maximumEidolon, 0);

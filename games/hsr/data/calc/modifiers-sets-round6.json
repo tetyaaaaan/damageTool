@@ -1,0 +1,409 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "ornament-round6-2026-10-28",
+  "description": "Fixed-SHA conditional ornament effects. Permanent 2pc properties stay in final-stat inputs and are not added again.",
+  "modifiers": [
+    {
+      "id": "ornament:301:2pc:speed-atk-effective",
+      "source": {
+        "kind": "ornament",
+        "id": "301",
+        "setPieces": 2
+      },
+      "name": "宇宙封印ステーション・速度条件の攻撃力",
+      "description": "2セット攻撃力+12%は最終攻撃力へ含めます。戦闘中の有効速度が120以上なら、攻撃力をさらに+12%。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 12
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "装備者の戦闘中有効速度が120以上",
+        "reference": "self.speed",
+        "operator": ">=",
+        "threshold": 120,
+        "statSource": "effective"
+      },
+      "stacking": {
+        "group": "ornament:301:2pc:speed-atk-effective",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "ornament:301-speed-atk-in-final",
+        "inputLabel": "封印ステーションの速度条件攻撃力+12%を最終ATKに反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:301",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:2セットAttackAddedRatio 0.12は最終入力へ含める。戦闘中速度120以上ならAttackAddedRatioをさらに0.12。"
+      }
+    },
+    {
+      "id": "ornament:304:2pc:effect-hit-def",
+      "source": {
+        "kind": "ornament",
+        "id": "304",
+        "setPieces": 2
+      },
+      "name": "建創者のベロブルグ・効果命中条件の防御力",
+      "description": "2セット防御力+15%は最終防御力へ含めます。装備者の最終効果命中が50%以上なら、防御力をさらに+15%。",
+      "category": "statPercent",
+      "stat": "def",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 15
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "装備者の効果命中が50%以上",
+        "reference": "self.effectHitRate",
+        "operator": ">=",
+        "threshold": 50
+      },
+      "stacking": {
+        "group": "ornament:304:2pc:effect-hit-def",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "ornament:304-effect-hit-def-in-final",
+        "inputLabel": "ベロブルグの効果命中条件防御力+15%を最終DEFに反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:304",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:2セットDefenceAddedRatio 0.15は最終入力へ含める。効果命中50%以上ならさらにDefenceAddedRatio 0.15。"
+      }
+    },
+    {
+      "id": "ornament:316:2pc:fire-weakness-break-effect-active",
+      "source": {
+        "kind": "ornament",
+        "id": "316",
+        "setPieces": 2
+      },
+      "name": "劫火と蓮灯の鋳煉宮・炎弱点命中後の撃破特効",
+      "description": "炎属性弱点を持つ敵に攻撃が命中した後、継続中の撃破特効+40%を指定します。2セット速度+6%は最終速度へ含め、命中後の状態は自動追跡しません。",
+      "category": "breakEffect",
+      "stat": "breakEffect",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 40
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "炎属性弱点を持つ敵に攻撃が命中した後、撃破特効上昇が継続中",
+        "inputKey": "ornament-316-fire-weakness-break-effect-active",
+        "inputLabel": "炎弱点へ命中後・撃破特効+40%継続中",
+        "default": false
+      },
+      "stacking": {
+        "group": "ornament:316:2pc:fire-weakness-break-effect-active",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "breakEffect",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "ornament:316-fire-break-effect-in-final",
+        "inputLabel": "鋳煉宮の炎弱点命中後撃破特効+40%を最終BEに反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:316",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:2セットSpeedAddedRatio 0.06は最終速度へ含める。炎属性弱点の敵への攻撃命中で撃破特効+40%、1ターン継続。単発計算では状態を手動指定。"
+      }
+    },
+    {
+      "id": "ornament:302:2pc:provider-speed-party-atk",
+      "source": {
+        "kind": "ornament",
+        "id": "302",
+        "setPieces": 2
+      },
+      "name": "老いぬ者の仙舟・速度条件の味方攻撃力",
+      "description": "2セットHP+12%は装備者の最終HPへ含めます。装備者の速度が120以上なら味方全体の攻撃力+8%。速度の判定値は選択した装備者の入力値です。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 8
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "選択した装備者の速度が120以上",
+        "reference": "provider.speed",
+        "operator": ">=",
+        "threshold": 120,
+        "statSource": "effective"
+      },
+      "stacking": {
+        "group": "ornament:302:2pc:provider-speed-party-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "ornament:302-party-atk-in-final",
+        "inputLabel": "仙舟の速度条件味方攻撃力+8%を最終ATKに反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:302",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:装備者HP+12%はfinal properties。装備者SPD120以上なら味方全体ATK+8%。provider SPDを明示入力から確認。"
+      }
+    },
+    {
+      "id": "ornament:310:2pc:provider-effect-res-party-crit-damage",
+      "source": {
+        "kind": "ornament",
+        "id": "310",
+        "setPieces": 2
+      },
+      "name": "折れた竜骨・効果抵抗条件の味方会心ダメージ",
+      "description": "2セット効果抵抗+10%は装備者の最終効果抵抗へ含めます。装備者の効果抵抗が30%以上なら味方全体の会心ダメージ+10%。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "選択した装備者の効果抵抗が30%以上",
+        "reference": "provider.effectRes",
+        "operator": ">=",
+        "threshold": 30
+      },
+      "stacking": {
+        "group": "ornament:310:2pc:provider-effect-res-party-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "ornament:310-party-crit-damage-in-final",
+        "inputLabel": "竜骨の味方会心ダメージ+10%を最終会心ダメージに反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:310",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:装備者Effect RES+10%はfinal properties。装備者効果抵抗30%以上なら味方全体CD+10%。provider値を明示入力から確認。"
+      }
+    },
+    {
+      "id": "ornament:312:2pc:provider-same-element-ally-damage",
+      "source": {
+        "kind": "ornament",
+        "id": "312",
+        "setPieces": 2
+      },
+      "name": "夢の地ピノコニー・同属性の味方与ダメージ",
+      "description": "2セットEP回復効率+5%は装備者の最終入力へ含めます。装備者以外で装備者と同属性の計算対象キャラへ与ダメージ+10%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 10
+      },
+      "target": {
+        "owner": "activeAlly",
+        "excludeSelf": true,
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "装備者以外の計算対象キャラが装備者と同属性",
+        "reference": "provider.sameElement",
+        "operator": "==",
+        "threshold": 1
+      },
+      "stacking": {
+        "group": "ornament:312:2pc:provider-same-element-ally-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "ornament:312-ally-damage-in-final",
+        "inputLabel": "ピノコニーの同属性支援+10%を最終与ダメージに反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:312",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:EP回復効率+5%はfinal properties。装備者と同属性の別味方に全与ダメージ+10%。異属性一致による誤適用を避ける。"
+      }
+    },
+    {
+      "id": "ornament:317:2pc:provider-first-slot-ally-atk",
+      "source": {
+        "kind": "ornament",
+        "id": "317",
+        "setPieces": 2
+      },
+      "name": "海に沈んだルサカ・1枠目の味方攻撃力",
+      "description": "2セットEP回復効率+5%は装備者の最終入力へ含めます。装備者が1枠目以外なら、編成の1枠目にいる計算対象キャラの攻撃力+12%。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 12
+      },
+      "target": {
+        "owner": "activeAlly",
+        "excludeSelf": true,
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "装備者が1枠目以外で、計算対象キャラが1枠目",
+        "reference": "provider.firstSlotRecipient",
+        "operator": "==",
+        "threshold": 1
+      },
+      "stacking": {
+        "group": "ornament:317:2pc:provider-first-slot-ally-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "ornament:317-first-slot-atk-in-final",
+        "inputLabel": "ルサカの1枠目攻撃力+12%を最終ATKに反映済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:317",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-28",
+        "notes": "固定版:EP回復効率+5%はfinal properties。装備者が1枠目でない場合に1枠目ATK+12%。party orderを選択中の編成順として評価。"
+      }
+    }
+  ]
+}

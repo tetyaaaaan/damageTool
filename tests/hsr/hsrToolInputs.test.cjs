@@ -3400,3 +3400,70 @@ test('round5 Skill promotions are visible without activation checks and restore 
   app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);assert.ok(Math.abs(saved.calculate()[0].nonCrit-expected)<1e-6);
  }
 });
+
+test('round6 provider SPD and Effect RES inputs gate only their own party effect and restore',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),rows=require('../../games/hsr/data/calc/modifiers-sets-round6.json').modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);
+ for(const[set,field,boundary,expected]of [['302','speed',120,1663.2],['310','effectRes',30,1674]]){
+  const data={characters:[{id:'sample',name:'Sample',element:'Ice',base:{atk:1000,speed:100}},...catalog.characters],relicSets:catalog.relicSets,structuredModifiers:rows.filter(x=>x.source.id===set)};
+  const app=await tool(undefined,data);app.state.party[0]={characterId:'1001',ornamentId:set,level:80,traceLevels:{},[field]:NaN};
+  for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+  near(app.calculate()[0].expected,1620);assert.match(app.node('hsrConditionTitle').textContent,/条件未確定/);
+  app.state.party[0][field]=boundary-.001;near(app.calculate()[0].expected,1620);
+  app.state.party[0][field]=boundary;near(app.calculate()[0].expected,expected);
+  app.node('hsrPartyDialogOpen').handlers.click();assert.match(app.node('hsrPartyRows').innerHTML,new RegExp('data-party-field="'+field+'"'));
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,expected);assert.equal(saved.state.party[0][field],boundary);
+  // Exercise the actual party form collection, including a deliberately cleared value.
+  const input={dataset:{slot:'0',partyField:field},type:'number',value:''};saved.node('hsrPartyRows').querySelectorAll=selector=>selector==='[data-party-field]'?[input]:[];saved.node('hsrPartyDialogApply').handlers.click();assert.ok(Number.isNaN(saved.state.party[0][field]));near(saved.calculate()[0].expected,1620);
+  saved.state.party[0][field]=boundary;saved.state.party[0].ornamentId='';near(saved.calculate()[0].expected,1620);
+ }
+});
+
+test('round6 same-element and first-slot support follows actual party context and local duplicate exclusion',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),rows=require('../../games/hsr/data/calc/modifiers-sets-round6.json').modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);
+ for(const[set,expected]of [['312',1782],['317',1684.8]]){
+  const data={characters:[{id:'sample',name:'Sample',element:'Ice',base:{atk:1000}},...catalog.characters],relicSets:catalog.relicSets,structuredModifiers:rows.filter(x=>x.source.id===set)},app=await tool(undefined,data);app.state.party[0]={characterId:'1001',ornamentId:set,level:80,traceLevels:{}};
+  for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);near(app.calculate()[0].expected,expected);
+  if(set==='312'){app.state.party[0].characterId='1003';near(app.calculate()[0].expected,1620);app.state.party[0].characterId='1001';}
+  else{app.state.attackerPosition=2;near(app.calculate()[0].expected,1620);app.state.attackerPosition=1;}
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,expected);
+  saved.state.party[1]={characterId:'1002',ornamentId:set,level:80,traceLevels:{}};near(saved.calculate()[0].expected,1620);assert.match(saved.node('hsrConditionTitle').textContent,/条件未確定/);
+  saved.state.party[1].characterId='';saved.state.party[0].characterId='';near(saved.calculate()[0].expected,1620);
+ }
+});
+
+test('round6 cone party support persists, checks the wearer path, and excludes unknown duplicate providers locally',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),rows=require('../../games/hsr/data/calc/modifiers-equipment-round6.json').modifiers,near=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,a+' != '+b);
+ for(const[id,provider,expected]of [['23061','1510',1800],['23062','1212',1749.6]]){
+  const row=rows.find(x=>x.source.id===id&&x.target.owner==='partyAll'),data={characters:[{id:'sample',name:'Sample',element:'Ice',base:{atk:1000}},...catalog.characters],lightCones:catalog.lightCones,structuredModifiers:rows.filter(x=>x.source.id===id)},app=await tool(undefined,data);
+  app.state.party[0]={characterId:provider,lightConeId:id,coneRank:1,level:80,traceLevels:{}};for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);near(app.calculate()[0].expected,1620);
+  app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:row.activation.inputKey},checked:true}});near(app.calculate()[0].expected,expected);
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,expected);
+  saved.state.party[1]={characterId:id==='23061'?'1003':'1107',lightConeId:id,coneRank:5,level:80,traceLevels:{}};near(saved.calculate()[0].expected,1620);assert.match(saved.node('hsrConditionTitle').textContent,/条件未確定/);
+  saved.state.party[1].characterId='';saved.state.party[0].characterId='1001';assert.equal(saved.calculate().length,0,'an incompatible equipped path retains the existing input-error behavior');
+  saved.state.party[0].characterId='';near(saved.calculate()[0].expected,1620);
+ }
+});
+
+test('round6 promoted direct attacks appear without trigger toggles and survive actual App restoration',async()=>{
+ const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture();
+ for(const row of require('../../games/hsr/data/calc/attacks-round6.json').overrides){
+  const a=p.attacks.find(x=>x.id===row.id),data={characters:p.characters,attacks:[a],structuredModifiers:row.id==='130403'?p.structuredModifiers.filter(x=>x.id==='trace:1304:130403:crit-vulnerability'):[]},app=await tool(undefined,data);app.state.characterId=a.characterId;
+  if(row.id==='130403'){app.node('hsrStat-def').value='2400';assert.equal(app.calculate().length,0,'initial-application timing remains outside the accepted scope');app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredToggle:'aventurine-unnerve-active'},checked:true}});}
+  for(const[k,v]of Object.entries({atk:3000,hp:6000,def:2400,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);app.node(a.traceKey==='ultimate'?'hsrUltimateTrace':'hsrSkillTrace').value='10';
+  const reference={atk:3000,hp:6000,def:2400}[a.scalingStat],expected=reference*a.multipliers[9]/100*.36,r=app.calculate()[0];assert.ok(r,row.id);assert.ok(Math.abs(r.nonCrit-expected)<1e-6,row.id);
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);assert.ok(Math.abs(saved.calculate()[0].nonCrit-expected)<1e-6,row.id+' restore');
+ }
+});
+
+test('round6 Fugue shares one stack input, automatically checks provider BE, feeds Iron Cavalry and restores',async()=>{
+ const catalog=JSON.parse(read('games/hsr/data/catalog.json')),all=require('../../scripts/lib/hsrDataFiles.cjs').loadHsrDataFiles(root).modifiers,rows=all.filter(x=>x.source.id==='1225'&&x.source.traceId==='1225103'||x.source.kind==='relic'&&x.source.id==='119'),data={characters:catalog.characters,relicSets:catalog.relicSets,structuredModifiers:rows},app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ assert.ok(Number.isNaN(app.state.party[0].breakEffect),'an unentered provider BE is not assumed to be zero');app.state.characterId='1003';app.state.relicId='119';app.state.relicMode='4pc';app.state.party[0]={characterId:'1225',level:80,eidolon:0,breakEffect:220,traceLevels:{}};
+ for(const[k,v]of Object.entries({atk:3000,breakEffect:230}))app.node('hsrStat-'+k).value=String(v);app.node('hsrBreakMode').value='superBreak';app.node('hsrToughnessState').value='broken';app.node('hsrSuperBreakToughness').value='30';app.node('hsrSuperBreakMultiplier').value='100';
+ let value;const original=app.window.HsrCalcEngine.calculateSuperBreak;app.window.HsrCalcEngine.calculateSuperBreak=input=>{const r=original(input);value=r.value;return r;};app.calculate();near(value,3767.5533*3*3.3*.8/1.9);
+ app.state.conditionTab='パーティ';app.node('hsrConditionDialogOpen').handlers.click();assert.equal((app.node('hsrConditionList').innerHTML.match(/data-structured-input="fugue-break-buff-stacks"/g)||[]).length,1,'one shared stack field');
+ app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredInput:'fugue-break-buff-stacks',structuredStrict:'true'},value:'2'}});app.calculate();near(value,3767.5533*3*3.66*.8/1.75);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);let restored;const fn=saved.window.HsrCalcEngine.calculateSuperBreak;saved.window.HsrCalcEngine.calculateSuperBreak=input=>{const r=fn(input);restored=r.value;return r;};saved.calculate();near(restored,value);
+ saved.state.party[0].breakEffect=219.99;saved.calculate();near(restored,3767.5533*3*3.42*.8/1.9);
+ saved.state.party[0].breakEffect=NaN;saved.calculate();near(restored,3767.5533*3*3.42*.8/1.9);assert.match(saved.node('hsrConditionTitle').textContent,/条件未確定/);
+ saved.state.party[0].characterId='';saved.calculate();near(restored,3767.5533*3*3.3*.8/1.9);
+});

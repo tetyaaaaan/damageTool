@@ -24,6 +24,27 @@
       if (!ids.length || ids.length > 4 || new Set(ids).size !== ids.length || ids.some((id) => !context.partyPaths?.[id])) return NaN;
       return ids.filter((id) => context.partyPaths[id] === "Elation").length;
     }
+    if (reference?.startsWith("provider.")) {
+      const provider = String(context.providerId || context.characterId || "");
+      const current = String(context.characterId || "");
+      const ids = [current, ...(context.partyIds || []).map(String)];
+      if (!provider || !ids.includes(provider) || new Set(ids).size !== ids.length) return NaN;
+      if (reference === "provider.sameElement") {
+        const ownElement = context.characterElement || context.partyElements?.[current];
+        const element = provider === current ? ownElement : context.partyElements?.[provider];
+        return ownElement && element ? Number(ownElement === element) : NaN;
+      }
+      if (reference === "provider.firstSlotRecipient") {
+        const order = context.partyOrder;
+        if (!Array.isArray(order) || !order.length || !order[0] || !order.map(String).includes(provider)
+          || new Set(order.filter(Boolean).map(String)).size !== order.filter(Boolean).length) return NaN;
+        return Number(String(order[0]) === current && provider !== current);
+      }
+      const stat = reference.slice(9);
+      if (!["speed", "effectRes", "breakEffect"].includes(stat)) return NaN;
+      const value = provider === current ? context.stats?.[stat] : context.partyStats?.[provider]?.[stat];
+      return Number.isFinite(value) && value >= 0 && (stat !== "speed" || value > 0) ? value : NaN;
+    }
     const map = {
       "self.hp": context.stats?.hp,
       "self.hpPercent": context.stats?.hpPercent,
@@ -95,8 +116,8 @@
         : { selected: false };
     }
     if (source.kind === "ornament") {
-      if (String(context.ornamentId || "") === id) return { selected: true, tab: "オーナメント", sourceName };
-      const partyOrnament = (context.partyEquipment || []).find((item) => String(item.ornamentId || "") === id);
+      if (String(context.ornamentId || "") === id && !record.target?.excludeSelf) return { selected: true, tab: "オーナメント", sourceName };
+      const partyOrnament = (context.partyEquipment || []).find((item) => String(item.ornamentId || "") === id && (!record.target?.excludeSelf || String(item.characterId || "") !== characterId));
       return partyOrnament && PARTY_TARGETS.has(record.target?.owner)
         ? { selected: true, tab: "パーティ", sourceName, providerId: String(partyOrnament.characterId || "") }
         : { selected: false };
@@ -252,7 +273,7 @@
       const threshold = referenceComparison ? context.stats?.hpPercent : number(activation.threshold);
       return {
         active: knownComparison && compare(current, activation.operator, threshold),
-        unresolved: ([activation.reference, activation.thresholdReference].some(ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent", "self.preCombatSpeed"].includes(ref))) && (!Number.isFinite(current) || !knownComparison),
+        unresolved: ([activation.reference, activation.thresholdReference].some(ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent", "self.preCombatSpeed"].includes(ref) || ref?.startsWith("provider."))) && (!Number.isFinite(current) || !knownComparison),
         automatic: activation.mode === "statThreshold" || !activation.inputKey,
         inputValue: current,
         threshold
@@ -265,12 +286,23 @@
     return records.flatMap((record) => {
       const selection = sourceSelection(record, context);
       if (!selection.selected) return [];
-      const activation = activationState(record, context, inputs);
+      const providerContext = { ...context, providerId: selection.providerId || context.characterId };
+      const activation = activationState(record, providerContext, inputs);
+      if (record.source?.kind === "ornament" && record.activation?.reference?.startsWith("provider.")) {
+        const count = Number(String(context.ornamentId || "") === String(record.source.id) && !record.target?.excludeSelf)
+          + (context.partyEquipment || []).filter(item => String(item.ornamentId || "") === String(record.source.id) && (!record.target?.excludeSelf || String(item.characterId) !== String(context.characterId))).length;
+        if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じオーナメントの複数提供者による支援は条件未確定です。" });
+      }
+      if (record.source?.kind === "lightCone" && ["23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
+        const count = Number(String(context.lightConeId || "") === String(record.source.id))
+          + (context.partyEquipment || []).filter(item => String(item.lightConeId || "") === String(record.source.id)).length;
+        if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じ光円錐の複数提供者による支援は条件未確定です。" });
+      }
       const inclusion = record.finalStatsInclusion;
       const includedInFinalStats = Boolean(inclusion && (inputs[inclusion.inputKey] ?? (inclusion.legacyToggleKey && inputs[inclusion.legacyToggleKey] === false)));
       const supportStatus = record.support?.status || "review";
       const calculable = supportStatus === "calculable" && record.inputPolicy !== "includedInFinalStats";
-      const value = resolveValue(record, context, inputs, selection);
+      const value = resolveValue(record, providerContext, inputs, selection);
       const unknownReference = Boolean(activation.toggled && !Number.isFinite(activation.inputValue));
       const validation = record.inputValidation;
       const validatedInputKey = record.value?.inputKey || (record.activation?.mode === "stack" ? record.activation.inputKey : undefined);
@@ -280,7 +312,7 @@
       const invalidValue = Boolean(validation && validatedInputKey && (!Number.isFinite(raw) || raw < validation.minimum || raw > validation.maximum || (validation.integer && !Number.isInteger(raw))));
       let enabled = !includedInFinalStats && calculable && (activation.active || unknownReference || (record.activation?.mode === "stack" && invalidValue));
       // A known zero multiplier needs no level; state-consistency checks still take precedence.
-      if (record.value?.inputMultipliers?.[raw] === 0 && !validation?.whenToggle) enabled = false;
+      if (record.value?.inputMultipliers?.[raw] === 0 && !validation?.whenToggle) { enabled = false; activation.unresolved = false; }
       const inputWarnings = [];
       if (unknownReference) inputWarnings.push("パーティの愉悦人数を確認できません。キャラクターの重複・未収録IDを確認してください。");
       if (enabled && validation) {
@@ -292,7 +324,7 @@
           ? number(validation.levelMaximumAtEidolon.maximum)
           : validation.levelMaximum;
         if (validation.whenToggle && inputs[validation.whenToggle.inputKey] && raw !== validation.whenToggle.equals) inputWarnings.push(validation.whenToggle.message);
-        if (!Number.isInteger(level) || level < 1 || level > levelMaximum) inputWarnings.push(`${record.value?.levelInputLabel || `${record.name}の天賦Lv`}に1～${levelMaximum}の整数を入力してください。`);
+        if ((record.source?.skillId || record.value?.levelInputKey) && (!Number.isInteger(level) || level < 1 || level > levelMaximum)) inputWarnings.push(`${record.value?.levelInputLabel || `${record.name}の天賦Lv`}に1～${levelMaximum}の整数を入力してください。`);
       }
       if (record.value?.inputMultipliers?.[inputs[record.value.inputKey] ?? record.value.default] === 0 && !inputWarnings.length) enabled = false;
       const requiredInput = Boolean(validation && record.value?.inputKey && record.value.default === undefined);
@@ -376,7 +408,7 @@
       const record = byId.get(item.id), target = item.target || {};
       const types = target.attackTypes || [];
       return item.enabled && item.applicable && item.calculable && record?.activation?.statSource !== "effective"
-        && ["always", "toggle", "stack"].includes(record?.activation?.mode)
+        && (["always", "toggle", "stack"].includes(record?.activation?.mode) || (record?.activation?.reference === "provider.breakEffect" && record.target?.excludeSelf === true && item.providerId !== String(context.characterId)))
         && ["fixed","byLevel","byRefinement","perStack","perStackByLevel","perStackByRefinement"].includes(record?.value?.kind)
         && (!target.attackIds?.length && !target.elements?.length && !item.primaryTargetOnly && !item.adjacentTargetOnly)
         && (types.includes("all") || ["normal", "skill", "ultimate", "followUp"].every(type => types.includes(type)))
@@ -395,7 +427,9 @@
       const statContributors = [...contributors, ...extra];
       const record=byId.get(item.id);
       if(record?.activation?.statSource!=="effective")return item;
-      const stat=String(record.activation.reference||"").replace(/^self\./, "");
+      const reference = String(record.activation.reference || "");
+      if (reference.startsWith("provider.") && item.providerId && String(item.providerId) !== String(context.characterId)) return item;
+      const stat=reference.replace(/^(self|provider)\./, "");
       if(!["critRate","speed","breakEffect","atk"].includes(stat) || (["critRate", "breakEffect"].includes(record.category) && record.category===stat) || (["statFlat","statPercent"].includes(record.category)&&record.stat===stat)) {
         return {...item,enabled:true,applicable:false,inputWarnings:["この閾値の参照依存は未対応です。"],reason:"自身の参照値を変える閾値は再帰評価しません。"};
       }
