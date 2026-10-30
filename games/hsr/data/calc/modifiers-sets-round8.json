@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "relic-round8-2026-10-30",
+  "description": "固定StarRailRes版129功績輝く魔法少女。2セット会心ダメージは最終会心ダメージ入力に含め、4セットの本人愉悦攻撃用防御無視を計算します。",
+  "modifiers": [
+    {
+      "id": "relic:129:2pc:crit-damage-final",
+      "source": { "kind": "relic", "id": "129", "setPieces": 2 },
+      "name": "功績輝く魔法少女・2セット会心ダメージ",
+      "description": "会心ダメージ+16%。遺物込みの最終会心ダメージ入力へ含め、重ねて加算しません。",
+      "category": "critDamage",
+      "unit": "percent",
+      "value": { "kind": "fixed", "fixed": 16 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] },
+      "activation": { "mode": "always", "conditionText": "2セット常時効果は最終会心ダメージ入力へ含める" },
+      "stacking": { "group": "relic:129:2pc:crit-damage-final", "rule": "nonStacking" },
+      "calculation": { "stage": "critical", "operation": "add" },
+      "inputPolicy": "includedInFinalStats",
+      "support": { "status": "displayOnly", "verified": true, "reason": "2セット会心ダメージは最終会心ダメージ入力に含め、計算時に再加算しません。" },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:129 (2-piece)",
+        "verifiedAt": "2026-10-30",
+        "scope": "2-piece permanent stat; included in final Crit DMG input."
+      }
+    },
+    {
+      "id": "relic:129:4pc:elation-defense-ignore-base",
+      "source": { "kind": "relic", "id": "129", "setPieces": 4 },
+      "name": "功績輝く魔法少女・4セット愉悦ダメージ防御無視",
+      "description": "装備者本人の愉悦ダメージに防御無視10%。精霊への継承は対象外。敵防御無視の最終入力へ含めた場合は反映済み欄で除外します。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": { "kind": "fixed", "fixed": 10 },
+      "target": { "owner": "self", "attackTypes": ["elation"], "elements": [] },
+      "activation": { "mode": "always", "conditionText": "4セット装備中、本人の愉悦攻撃へ常時適用" },
+      "stacking": { "group": "relic:129:4pc:elation-defense-ignore-base", "rule": "add" },
+      "calculation": { "stage": "defense", "operation": "add" },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "relic-129-elation-defense-ignore-base-in-final",
+        "inputLabel": "功績輝く魔法少女4セット基本防御無視10%を敵の最終防御無視入力へ反映済み"
+      },
+      "support": { "status": "calculable", "verified": true, "reason": "固定版4セット効果の基本防御無視10%を本人の愉悦攻撃に限定して適用します。" },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:129 (4-piece)",
+        "verifiedAt": "2026-10-30",
+        "scope": "4-piece wearer Elation damage only. No memosprite inheritance."
+      }
+    },
+    {
+      "id": "relic:129:4pc:elation-defense-ignore-earned-punchline",
+      "source": { "kind": "relic", "id": "129", "setPieces": 4 },
+      "name": "功績輝く魔法少女・獲得済み爆笑ネタによる防御無視",
+      "description": "累計で獲得した爆笑ネタ5個ごとに防御無視+1%、最大10層。現在所持している爆笑ネタから獲得累計を推測せず、現在の獲得済み5個単位を指定します。装備者本人の愉悦ダメージだけに適用し、精霊への継承は対象外です。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": { "kind": "perStack", "perStack": 1 },
+      "target": { "owner": "self", "attackTypes": ["elation"], "elements": [] },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "relic-129-earned-punchline-five-stacks",
+        "inputLabel": "累計獲得済み爆笑ネタの5個単位（防御無視1%ごと、最大10）",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 10,
+        "conditionText": "累計獲得済み爆笑ネタ5個ごとに1層。現在所持数からは判定しない"
+      },
+      "stacking": { "group": "relic:129:4pc:elation-defense-ignore-earned-punchline", "rule": "add", "maximumStacks": 10 },
+      "calculation": { "stage": "defense", "operation": "add" },
+      "inputPolicy": "conditional",
+      "inputValidation": { "minimum": 0, "maximum": 10, "integer": true },
+      "finalStatsInclusion": {
+        "inputKey": "relic-129-elation-defense-ignore-earned-punchline-in-final",
+        "inputLabel": "功績輝く魔法少女4セット累計獲得分の防御無視を敵の最終防御無視入力へ反映済み"
+      },
+      "support": { "status": "calculable", "verified": true, "reason": "累計獲得済み爆笑ネタ5個単位の明示値0～10から1層1%を評価。現在の爆笑ネタ所持量・精霊の攻撃へは接続しません。" },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/relic_sets.json",
+        "sourceFile": "relic_sets.json:129 (4-piece)",
+        "verifiedAt": "2026-10-30",
+        "scope": "4-piece wearer Elation damage only; cumulative Punchline-earned thresholds entered as 0..10. No inference from current Punchline inventory and no memosprite inheritance."
+      }
+    }
+  ]
+}

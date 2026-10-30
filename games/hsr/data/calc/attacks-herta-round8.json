@@ -1,0 +1,250 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": "fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 index_new/jp/character_skills.json",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "Lv80・星魂0・敵1体。通常Lv1～6、必殺Lv1～10、強化スキルLv1～10は事前解読42層に限定して固定版と独立照合。"
+  },
+  "overrides": [
+    {
+      "id": "140101",
+      "characterId": "1401",
+      "sourceSkillId": "140101",
+      "name": "これでわかった？（星魂0・敵1体）",
+      "element": "Ice",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "指定対象への直接ダメージ1回",
+      "canCrit": true,
+      "multipliers": [
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-direct-attack",
+      "conditionText": "Lv80・星魂0・通常攻撃Lv1～6・敵1体。",
+      "calculationNote": "通常攻撃の固定版ATK直接ダメージです。E0の採用通常攻撃Lv1～6だけを扱います。『解読』の付与・蓄積などダメージ計算に不要な後続状態は再現しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "character_skills.json:140101.params[0..5][0]のE0通常攻撃Lv1～6倍率を照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140101.params[0..5][0]",
+        "verifiedAt": "2026-10-30",
+        "verification": "tests/hsr/hsrHertaRound8.test.cjs"
+      }
+    },
+    {
+      "id": "140103",
+      "characterId": "1401",
+      "sourceSkillId": "140103",
+      "name": "魔法だって言ったでしょ（星魂0・敵1体）",
+      "element": "Ice",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "敵1体への必殺技直接ダメージ1回",
+      "canCrit": true,
+      "multipliers": [
+        100,
+        110,
+        120,
+        130,
+        140,
+        150,
+        162.5,
+        175,
+        187.5,
+        200
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-direct-attack",
+      "conditionText": "Lv80・星魂0・必殺技Lv1～10・敵1体。必殺技ダメージ部分のみ。",
+      "calculationNote": "固定版必殺技のATK直接ダメージ部分です。必殺技発動後に得る攻撃力上昇は後続状態のためこの必殺技の入力へ加えません。『第六感』獲得と『解読』再配分も後続状態として扱います。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "character_skills.json:140103.params[0..9][0]の必殺技ATK倍率を全Lv照合。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140103.params[0..9][0]",
+        "verifiedAt": "2026-10-30",
+        "verification": "tests/hsr/hsrHertaRound8.test.cjs"
+      }
+    },
+    {
+      "id": "140109",
+      "characterId": "1401",
+      "sourceSkillId": "140109",
+      "name": "大胆なアイデア（星魂0・敵1体・攻撃前解読42層）",
+      "element": "Ice",
+      "type": "enhancedSkill",
+      "traceKey": "skill",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 4,
+      "hitCountLabel": "戦闘スキル3段＋最後の全体攻撃",
+      "canCrit": true,
+      "multipliers": [
+        40,
+        44,
+        48,
+        52,
+        56,
+        60,
+        65,
+        70,
+        75,
+        80
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiredTraceLevelRanges": {
+        "skill": {
+          "minimum": 1,
+          "maximum": 10
+        },
+        "talent": {
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "damageComponents": [
+        {
+          "key": "main",
+          "name": "メインターゲットの1段目",
+          "attackId": "140109",
+          "multipliers": [
+            40,
+            44,
+            48,
+            52,
+            56,
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "type": "enhancedSkill",
+          "scalingStat": "atk",
+          "element": "Ice",
+          "count": 1
+        },
+        {
+          "key": "repeat1",
+          "name": "命中後の繰り返し1段目",
+          "attackId": "140109",
+          "multipliers": [
+            40,
+            44,
+            48,
+            52,
+            56,
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "type": "enhancedSkill",
+          "scalingStat": "atk",
+          "element": "Ice",
+          "count": 1
+        },
+        {
+          "key": "repeat2",
+          "name": "命中後の繰り返し2段目",
+          "attackId": "140109",
+          "multipliers": [
+            40,
+            44,
+            48,
+            52,
+            56,
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "type": "enhancedSkill",
+          "scalingStat": "atk",
+          "element": "Ice",
+          "count": 1
+        },
+        {
+          "key": "final",
+          "name": "最後の全体攻撃",
+          "attackId": "140109:final",
+          "multipliers": [
+            20,
+            22,
+            24,
+            26,
+            28,
+            30,
+            32.5,
+            35,
+            37.5,
+            40
+          ],
+          "type": "enhancedSkill",
+          "scalingStat": "atk",
+          "element": "Ice",
+          "count": 1
+        }
+      ],
+      "calculationScope": "fixed-pre-attack-interpretation-cap-single-enemy",
+      "conditionText": "Lv80・星魂0・敵1体・攻撃前からメイン対象の解読42層・状態一定",
+      "calculationNote": "固定版140109の本体#1を3回、最後の全体攻撃#3を1回に分けます。解読による倍率加算は最後の全体攻撃成分だけに適用する既存KQM根拠の範囲です。攻撃前からメイン対象に解読42層がある状態を固定し、攻撃中の層付与/消費は再現しません。A1の+50%与ダメージもこの状態で自動適用します。敵1体のため隣接/複数対象の別計算はしません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版140109.params[0..9][0,2]、140104.params[0..9][0]を参照し、KQM根拠の解読倍率は最後の全体成分だけに限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140109.params[0..9][0,2],140104.params[0..9][0]; character_skill_trees.json:1401101.params[0][1]",
+        "verifiedAt": "2026-10-30",
+        "verification": "tests/hsr/hsrHertaRound8.test.cjs",
+        "scope": "E0, Lv80, one enemy, preattack Interpretation fixed at42, no action-internal state updates.",
+        "referenceUrl": "https://hsr.keqingmains.com/the-herta/#traces",
+        "mechanicsSource": "KeqingMains The Herta guide, Traces: Interpretation multiplier increase applies only to the final AoE hit."
+      },
+      "tags": [
+        "skill"
+      ]
+    }
+  ]
+}

@@ -108,3 +108,10 @@ Appの `readHpRatio()` は既存の本人/敵HP割合入力を読み、空値・
 第6回は同じmanifestへ[光円錐](../../../games/hsr/data/calc/modifiers-equipment-round6.json)、[オーナメント](../../../games/hsr/data/calc/modifiers-sets-round6.json)、[追加能力](../../../games/hsr/data/calc/modifiers-native-round6.json)、[攻撃override](../../../games/hsr/data/calc/attacks-round6.json)を追加する。AppのstructuredModifierContext()がpartyElements/partyOrderと提供者SPD/効果抵抗/BEを渡し、RuntimeがsourceSelection後の提供者を各条件へ束縛する。オーナメントのexcludeSelfと重複提供者の局所除外はRuntime、装備運命の既存検証はAppに属する。提供者以外のステータスを更新する依存グラフは作らない。保存は既存hsrCalcStateのテンプレートマージを使い、追加フィールドのNaNはnullから未入力として復元する。ダメージエンジン・保存スキーマ・マスター生成方式は変更しない。
 
 第7回の実体はmanifestの[光円錐](../../../games/hsr/data/calc/modifiers-equipment-round7.json)、[オーナメント](../../../games/hsr/data/calc/modifiers-sets-round7.json)、[キャラ効果](../../../games/hsr/data/calc/modifiers-native-round7.json)、[攻撃override](../../../games/hsr/data/calc/attacks-round7.json)。Runtime.referenceValue()へ明示スナップショット/同運命/他虚無数/速度段数を追加し、既存のvalue kindで計算する。buildCandidates()は独立HP支援からCD閾値への一段評価を許し、HP欠損を局所除外する。Appは既存モーダルの数値欄を使い、開始時と現在のラベル・共有層数の重複排除を行う。データローダー、ダメージ式、保存スキーマ、マスター生成方式は変更しない。
+
+
+## 第8回追加：既存の複合攻撃経路への接続（A）
+
+`data-files.json`のround8 override/modifier群も従来のローダーで統合する。`hsrApp.js`の`resolvedAttack`は130803/140109について、登録された`damageComponents`から各子のレベル・倍率・種別・属性を構築し、`sequenceComponents`へ各成分専用Modifierを渡す。表示だけの発動チェックは追加しない。計算は既存`calculateComponentSequence`から局所的な`calculateAcheronSnapshot`/`calculateHertaSnapshot`へ分岐し、既知の構成数/成分ID/倍率/同一人物・敵スナップショットを検査する。通常式の`calculate`を各子に適用し、既存`combineDamageComponents`で合算する。これは任意の戦闘シーケンスを解釈する汎用エンジンではない。
+
+成分内訳も既存の表示経路を再利用し、各子を1ヒットと表示する。保存は既存`modifierInputs`と`HsrCalcState`で、別の保存形式は増やさない。`party.eruditionCount`と`requiredToggleKey`の契約は[Modifier仕様](04_MODIFIER_SPEC.md)へ記録する。

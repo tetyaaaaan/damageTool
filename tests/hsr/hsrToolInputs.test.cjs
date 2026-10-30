@@ -3533,3 +3533,105 @@ test('round7 Fallen debuff keeps a single provider exact and locally excludes an
  app.state.party[1]={characterId:'1108',lightConeId:'21015',coneRank:5,level:80,traceLevels:{}};near(app.calculate()[0].expected,1620);assert.match(app.node('hsrConditionTitle').textContent,/条件未確定/);app.state.party[1].characterId='';near(app.calculate()[0].expected,1620/0.94);
  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,1620/0.94);saved.state.party[0].characterId='';near(saved.calculate()[0].expected,1620);
 });
+
+test('round8 Jingliu eight main attack variants: all accepted levels, native states and actual App persistence',async()=>{
+ const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ const ids=['121201','121202','121209','121203','1121201','1121202','1121209','1121203'];
+ const data={characters:p.characters,attacks:p.attacks.filter(a=>ids.includes(a.id)),structuredModifiers:p.structuredModifiers.filter(m=>m.source.id==='1212')},app=await tool(undefined,data);
+ app.state.characterId='1212';for(const[k,v]of Object.entries({atk:3000,hp:6000,def:2400,critRate:40,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+ app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.equal((app.node('hsrConditionList').innerHTML.match(/data-structured-toggle="jingliu-hp-transmigration-active"/g)||[]).length,1);
+ app.state.modifierInputs['jingliu-atk-transmigration-active']=true;app.state.modifierInputs['jingliu-hp-transmigration-active']=true;app.state.modifierInputs['jingliu-moonlight-stacks']=5;
+ for(let level=1;level<=10;level++){
+  app.node('hsrNormalTrace').value=String(Math.min(level,6));app.node('hsrSkillTrace').value=String(level);app.node('hsrUltimateTrace').value=String(level);app.node('hsrTalentTrace').value='10';
+  const out=app.calculate();assert.equal(out.length,8);
+  for(const [i,a]of data.attacks.entries()){
+   const transformed=['121209','121203','1121209','1121203'].includes(a.id),hp=a.scalingStat==='hp',ult=a.type==='ultimate',lv=a.traceKey==='normal'?Math.min(level,6):level;
+   const nc=(hp?6000:3000)*a.multipliers[lv-1]/100*.36*(transformed&&ult?1.2:1),cr=transformed?.9:.4,cd=hp&&transformed?3.2:1;
+   near(out[i].nonCrit,nc);near(out[i].crit,nc*(1+cd));near(out[i].expected,nc*(1+cr*cd));
+  }
+ }
+ app.state.modifierInputs['jingliu-hp-transmigration-active']=false;let results=app.calculate(),hpUltIndex=data.attacks.findIndex(a=>a.id==='1121203');near(results[hpUltIndex].expected,6000*1.8*.36*1.4);
+ app.state.modifierInputs['jingliu-hp-transmigration-active']=true;app.state.modifierInputs['jingliu-hp-next-attack-defense-ignore-in-final']=false;
+ app.state.modifierInputs['jingliu-hp-syzygy-cap-next-attack-defense-ignore-active']=true;results=app.calculate();near(results[hpUltIndex].nonCrit,6000*1.8*1.2*(100/175)*.8*.9);
+ app.state.modifierInputs['jingliu-hp-syzygy-cap-next-attack-defense-ignore-active']=false;
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[hpUltIndex].expected,18102.528);
+ saved.state.modifierInputs['jingliu-hp-transmigration-crit-rate-in-final']=true;saved.state.modifierInputs['jingliu-hp-moonlight-crit-damage-in-final']=true;near(saved.calculate()[hpUltIndex].expected,4665.6*1.4);
+});
+
+test('round8 Acheron thirteen Ultimate components preserve automatic native modifiers, party scaling and restoration',async()=>{
+ const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b),a=p.attacks.find(a=>a.id==='130803');
+ const data={characters:p.characters,attacks:[a],structuredModifiers:p.structuredModifiers.filter(m=>m.source.id==='1308')},app=await tool(undefined,data);app.state.characterId='1308';
+ for(const[k,v]of Object.entries({atk:3000,hp:6000,def:2400,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+ for(let level=1;level<=10;level++){
+  app.node('hsrUltimateTrace').value=String(level);app.node('hsrTalentTrace').value=String(level);
+  const result=app.calculate()[0];assert.ok(result,result?.reason);assert.equal(result.supported,undefined);
+  const coeff=a.multipliers[level-1]+150,resReduction=10+([0,1,2,3,4,5,6.25,7.5,8.75,10][level-1]);
+  const expected=3000*coeff/100*1.9*.5*(1-(20-resReduction)/100)*.9;
+  near(result.nonCrit,expected);near(result.crit,expected*2);near(result.expected,expected*1.5);assert.equal(Object.keys(result.components).length,13);
+ }
+ app.state.party[0]={characterId:'1004',level:80,traceLevels:{}};app.state.party[1]={characterId:'1108',level:80,traceLevels:{}};near(app.calculate()[0].expected,32134.32);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,32134.32);saved.state.party[1].characterId='';near(saved.calculate()[0].expected,20083.95*1.15);
+});
+
+test('round8 The Herta complete main actions: final-hit Interpretation, roster buffs, Answers and restoration through App',async()=>{
+ const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ const data={characters:p.characters,attacks:p.attacks.filter(a=>a.characterId==='1401'),structuredModifiers:p.structuredModifiers.filter(m=>m.source.id==='1401')},app=await tool(undefined,data);app.state.characterId='1401';
+ for(const[k,v]of Object.entries({atk:3000,hp:6000,def:2400,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+ const enhancedIndex=data.attacks.findIndex(a=>a.id==='140109'),ultimateIndex=data.attacks.findIndex(a=>a.id==='140103'),talent=[4,4.4,4.8,5.2,5.6,6,6.5,7,7.5,8];
+ for(let level=1;level<=10;level++){
+  app.node('hsrNormalTrace').value=String(Math.min(level,6));app.node('hsrSkillTrace').value=String(level);app.node('hsrUltimateTrace').value=String(level);app.node('hsrTalentTrace').value=String(level);
+  const out=app.calculate();assert.equal(out.length,4);
+  const enhanced=out[enhancedIndex],d=data.attacks[enhancedIndex].damageComponents;
+  const nc=3000*(3*d[0].multipliers[level-1]+d[3].multipliers[level-1]+42*talent[level-1])/100*1.5*.36;
+  near(enhanced.nonCrit,nc);near(enhanced.expected,nc*1.5);assert.equal(Object.keys(enhanced.components).length,4);
+  const ultimate=out[ultimateIndex];near(ultimate.nonCrit,3000*data.attacks[ultimateIndex].multipliers[level-1]/100*.36);
+ }
+ app.state.party[0]={characterId:'1003',level:80,traceLevels:{}};
+ // All four components get +50% Ice DMG, only the final hit receives two 42*8 additions.
+ let out=app.calculate(),enhanced=out[enhancedIndex];near(enhanced.nonCrit,3000*(240+40+672)/100*1.5*.36);near(enhanced.expected,enhanced.nonCrit*1.9);
+ const answerRow=data.structuredModifiers.find(m=>m.id.includes('answers-ultimate'));app.state.modifierInputs[answerRow.activation.inputKey]=99;out=app.calculate();near(out[ultimateIndex].nonCrit,3000*2.99*.36);near(out[ultimateIndex].expected,3000*2.99*.36*1.9);
+ const buff=data.structuredModifiers.find(m=>m.id==='trace:1401:140103:post-ultimate-atk');app.state.modifierInputs[buff.activation.inputKey]=true;const baseAtk=p.characters.find(c=>c.id==='1401').base.atk;near(app.calculate()[ultimateIndex].expected,(3000+baseAtk*.8)*2.99*.36*1.9);app.state.modifierInputs[buff.finalStatsInclusion.inputKey]=true;near(app.calculate()[ultimateIndex].expected,3000*2.99*.36*1.9);app.state.modifierInputs[buff.activation.inputKey]=false;app.state.modifierInputs[buff.finalStatsInclusion.inputKey]=false;
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[enhancedIndex].expected,enhanced.nonCrit*1.9);
+ saved.state.party[0].characterId='';near(saved.calculate()[enhancedIndex].expected,3000*(240+40+336)/100*1.5*.36*1.5);
+});
+
+
+test('round8 Herta enhanced skill retains ordinary skill-only equipment modifiers on each child',async()=>{
+ const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),a=p.attacks.find(a=>a.id==='140109');
+ const rows=p.structuredModifiers.filter(m=>m.source.id==='1401'||m.source.kind==='relic'&&m.source.id==='122');
+ const app=await tool(undefined,{characters:p.characters,relicSets:p.relicSets,attacks:[a],structuredModifiers:rows});app.state.characterId='1401';app.state.relicId='122';app.state.relicMode='4pc';
+ for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+ const next=rows.find(m=>m.id==='relic:122:4pc:next-skill-damage');app.state.modifierInputs[next.activation.inputKey]=true;
+ const result=app.calculate()[0];assert.ok(Math.abs(result.nonCrit-3000*6.16*.36*1.95)<1e-6);
+ for(const c of Object.values(result.components)){assert.equal(c.attack.hitCountLabel,'この成分1ヒット');assert.ok(c.applied.some(m=>m.id===next.id));}
+});
+
+test('round8 cone support reaches actual recipient damage, enforces wearer path and survives provider changes',async()=>{
+ const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),rows=require('../../games/hsr/data/calc/modifiers-equipment-round8.json').modifiers;
+ for(const [id,provider]of [['23016','1112'],['23017','1217']]){
+  const row=rows.find(m=>m.source.id===id&&['enemySingle','activeAlly'].includes(m.target.owner));
+  const a={id:'r8-cone-normal',characterId:'1003',name:'Support comparison',type:'normal',element:'Fire',traceKey:'normal',scalingStat:'atk',multipliers:Array(6).fill(100),support:{status:'calculable',verified:true}};
+  const data={characters:p.characters,lightCones:p.lightCones,attacks:[a],structuredModifiers:[row]},app=await tool(undefined,data);app.state.characterId='1003';app.state.party[0]={characterId:provider,lightConeId:id,coneRank:1,level:80,traceLevels:{}};
+  for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+  app.state.modifierInputs[row.activation.inputKey]=row.activation.maximum;
+  const baseAtk=p.characters.find(c=>c.id==='1003').base.atk,expected=id==='23016'?1080*(1+.5*1.24):(3000+baseAtk*.12)*.36*1.5;
+  assert.ok(Math.abs(app.calculate()[0].expected-expected)<1e-6);
+  app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);assert.ok(Math.abs(saved.calculate()[0].expected-expected)<1e-6);
+  saved.state.party[0].characterId='1001';assert.equal(saved.calculate().length,0,'incompatible light cone path is rejected');
+  saved.state.party[0].characterId='';assert.ok(Math.abs(saved.calculate()[0].expected-1620)<1e-6);
+ }
+});
+
+test('round8 Aventurine main composition keeps DEF, final CR and pre-existing Unnerve separate through App',async()=>{
+ const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ const data={characters:p.characters,attacks:p.attacks.filter(a=>a.characterId==='1304'),structuredModifiers:p.structuredModifiers.filter(m=>m.source.id==='1304')},app=await tool(undefined,data);app.state.characterId='1304';
+ for(const[k,v]of Object.entries({atk:3000,hp:6000,def:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+ const ultIndex=data.attacks.findIndex(a=>a.id==='130403');let off=app.calculate();assert.equal(off.length,2,'only the U with unspecified prior Unnerve is excluded before engine calculation');assert.match(app.node('hsrResults').innerHTML,/aventurine-unnerve-active|動揺/);
+ app.state.modifierInputs['aventurine-unnerve-active']=true;
+ for(let level=1;level<=10;level++){
+  app.node('hsrNormalTrace').value=String(Math.min(level,6));app.node('hsrUltimateTrace').value=String(level);app.node('hsrTalentTrace').value=String(level);
+  const out=app.calculate(),vul=[9,9.6,10.2,10.8,11.4,12,12.75,13.5,14.25,15][level-1];
+  data.attacks.forEach((a,i)=>{const lv=a.traceKey==='normal'?Math.min(level,6):level,nc=3000*a.multipliers[lv-1]/100*(a.hitCount||1)*.36;near(out[i].nonCrit,nc);near(out[i].expected,nc*(1+.5*(1+vul/100)));});
+ }
+ app.node('hsrStat-def').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[ultIndex].expected,4592.7);saved.state.modifierInputs['aventurine-unnerve-active']=false;assert.equal(saved.calculate().length,2);
+});

@@ -1,0 +1,691 @@
+{
+  "schemaVersion": 1,
+  "description": "固定版の未定義光円錐10種類。恒常最終値と追加計算成分を分離。23027速度/23028会心変換は残範囲。",
+  "modifiers": [
+    {
+      "id": "lightCone:23005:after-hit-def",
+      "source": {
+        "kind": "lightCone",
+        "id": "23005"
+      },
+      "name": "勝利の刹那・被攻撃後の追加防御力",
+      "description": "被攻撃後の追加防御力。効果量S1～S5: 24.0/28.0/32.0/36.0/40.0%。恒常propertiesは最終入力に含め、この成分で重ねない。",
+      "category": "statPercent",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          24.0,
+          28.0,
+          32.0,
+          36.0,
+          40.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "被攻撃後の追加防御力",
+        "inputKey": "lc-23005-after-hit-def-active",
+        "inputLabel": "被攻撃後の追加防御力が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lc-23005-after-hit-def",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23005-after-hit-def-in-final",
+        "inputLabel": "勝利の刹那の被攻撃後の追加防御力を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23005.params[rank][2]/desc",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版S1～S5。単発攻撃時点の完成した状態のみ。継続ターン・行動順は自動再現しない。"
+      },
+      "stat": "def"
+    },
+    {
+      "id": "lightCone:23012:noncrit-proc-cr",
+      "source": {
+        "kind": "lightCone",
+        "id": "23012"
+      },
+      "name": "泥の如き眠り・通常またはスキルの非会心後の会心率",
+      "description": "通常またはスキルの非会心後の会心率。効果量S1～S5: 36.0/42.0/48.0/54.0/60.0%。恒常propertiesは最終入力に含め、この成分で重ねない。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          36.0,
+          42.0,
+          48.0,
+          54.0,
+          60.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "通常またはスキルの非会心後の会心率",
+        "inputKey": "lc-23012-noncrit-proc-cr-active",
+        "inputLabel": "通常またはスキルの非会心後の会心率が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lc-23012-noncrit-proc-cr",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23012-noncrit-proc-cr-in-final",
+        "inputLabel": "泥の如き眠りの通常またはスキルの非会心後の会心率を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23012.params[rank][1]/desc",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版S1～S5。単発攻撃時点の完成した状態のみ。継続ターン・行動順は自動再現しない。"
+      }
+    },
+    {
+      "id": "lightCone:23015:dragons-call",
+      "source": {
+        "kind": "lightCone",
+        "id": "23015"
+      },
+      "name": "陽光より輝くもの・龍吟の攻撃力",
+      "description": "龍吟の攻撃力。効果量S1～S5: 18.0/21.0/24.0/27.0/30.0%。恒常propertiesは最終入力に含め、この成分で重ねない。",
+      "category": "statPercent",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          18.0,
+          21.0,
+          24.0,
+          27.0,
+          30.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "conditionText": "龍吟の攻撃力",
+        "inputKey": "lc-23015-dragons-call-stacks",
+        "inputLabel": "龍吟の攻撃力の現在有効層数",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 2
+      },
+      "stacking": {
+        "group": "lc-23015-dragons-call",
+        "rule": "nonStacking",
+        "maximumStacks": 2
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23015-dragons-call-in-final",
+        "inputLabel": "陽光より輝くものの龍吟の攻撃力を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23015.params[rank][3]/desc",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版S1～S5。単発攻撃時点の完成した状態のみ。継続ターン・行動順は自動再現しない。"
+      },
+      "stat": "atk"
+    },
+    {
+      "id": "lightCone:23016:followup-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "23016"
+      },
+      "name": "悩んで笑って・追加攻撃ダメージ",
+      "description": "追加攻撃ダメージ。効果量S1～S5: 30.0/35.0/40.0/45.0/50.0%。恒常propertiesは最終入力に含め、この成分で重ねない。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          30.0,
+          35.0,
+          40.0,
+          45.0,
+          50.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "followUp"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "装備中、対象攻撃へ自動適用"
+      },
+      "stacking": {
+        "group": "lc-23016-followup-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23016-followup-damage-in-final",
+        "inputLabel": "悩んで笑っての追加攻撃ダメージを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23016.params[rank][1]/desc",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版S1～S5。単発攻撃時点の完成した状態のみ。継続ターン・行動順は自動再現しない。"
+      }
+    },
+    {
+      "id": "lightCone:23016:tame",
+      "source": {
+        "kind": "lightCone",
+        "id": "23016"
+      },
+      "name": "悩んで笑って・対象の従順による会心ダメージ",
+      "description": "対象の従順による会心ダメージ。効果量S1～S5: 12.0/14.0/16.0/18.0/20.0%。恒常propertiesは最終入力に含め、この成分で重ねない。",
+      "category": "critTakenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          12.0,
+          14.0,
+          16.0,
+          18.0,
+          20.0
+        ]
+      },
+      "target": {
+        "owner": "enemySingle",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "conditionText": "対象の従順による会心ダメージ",
+        "inputKey": "lc-23016-tame-stacks",
+        "inputLabel": "対象の従順による会心ダメージの現在有効層数",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 2
+      },
+      "stacking": {
+        "group": "lc-23016-tame",
+        "rule": "nonStacking",
+        "maximumStacks": 2
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23016-tame-in-final",
+        "inputLabel": "悩んで笑っての対象の従順による会心ダメージを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23016.params[rank][2]/desc",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版S1～S5。単発攻撃時点の完成した状態のみ。継続ターン・行動順は自動再現しない。"
+      }
+    },
+    {
+      "id": "lightCone:23017:healed-atk",
+      "source": {
+        "kind": "lightCone",
+        "id": "23017"
+      },
+      "name": "驚魂の夜・治癒を受けた対象の攻撃力",
+      "description": "治癒を受けた対象の攻撃力。効果量S1～S5: 2.4/2.8/3.2/3.6/4.0%。恒常propertiesは最終入力に含め、この成分で重ねない。 現在選択中の計算対象に治癒支援が付与された層数を指定。味方全体への一律付与ではない。",
+      "category": "statPercent",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          2.4,
+          2.8,
+          3.2,
+          3.6,
+          4.0
+        ]
+      },
+      "target": {
+        "owner": "activeAlly",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "conditionText": "治癒を受けた対象の攻撃力",
+        "inputKey": "lc-23017-healed-atk-stacks",
+        "inputLabel": "治癒を受けた対象の攻撃力の現在有効層数",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 5
+      },
+      "stacking": {
+        "group": "lc-23017-healed-atk",
+        "rule": "nonStacking",
+        "maximumStacks": 5
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23017-healed-atk-in-final",
+        "inputLabel": "驚魂の夜の治癒を受けた対象の攻撃力を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23017.params[rank][2]/desc",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版S1～S5。単発攻撃時点の完成した状態のみ。継続ターン・行動順は自動再現しない。"
+      },
+      "stat": "atk"
+    },
+    {
+      "id": "lightCone:23018:max-energy-ultimate",
+      "source": {
+        "kind": "lightCone",
+        "id": "23018"
+      },
+      "name": "その一刻、目に焼き付けて・最大EPによる必殺技ダメージ",
+      "description": "最大EPによる必殺技ダメージ。効果量S1～S5: 0.36/0.42/0.48/0.54/0.6%。恒常propertiesは最終入力に含め、この成分で重ねない。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "perReferenceStack",
+        "values": [
+          0.36,
+          0.42,
+          0.48,
+          0.54,
+          0.6
+        ],
+        "reference": "self.maxEnergy",
+        "inputKey": "current-max-energy",
+        "minimum": 0,
+        "maximum": 180,
+        "sharedInput": true
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "conditionText": "最大EPによる必殺技ダメージ",
+        "reference": "self.maxEnergy",
+        "operator": ">=",
+        "threshold": 1,
+        "inputKey": "current-max-energy",
+        "inputLabel": "装備者の最大EP",
+        "minimum": 1,
+        "maximum": 99999,
+        "step": 1,
+        "strictInput": true
+      },
+      "stacking": {
+        "group": "lc-23018-max-energy-ultimate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23018-max-energy-ultimate-in-final",
+        "inputLabel": "その一刻、目に焼き付けての最大EPによる必殺技ダメージを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23018.params[rank][1]/desc",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版S1～S5。単発攻撃時点の完成した状態のみ。継続ターン・行動順は自動再現しない。"
+      }
+    },
+    {
+      "id": "lightCone:23027:break-defense-ignore",
+      "source": {
+        "kind": "lightCone",
+        "id": "23027"
+      },
+      "name": "二度目の生に向かって・撃破ダメージの防御無視",
+      "description": "撃破ダメージの防御無視。効果量S1～S5: 20.0/23.0/26.0/29.0/32.0%。恒常propertiesは最終入力に含め、この成分で重ねない。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          20.0,
+          23.0,
+          26.0,
+          29.0,
+          32.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "break",
+          "superBreak"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "装備中、対象攻撃へ自動適用"
+      },
+      "stacking": {
+        "group": "lc-23027-break-defense-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23027-break-defense-ignore-in-final",
+        "inputLabel": "二度目の生に向かっての撃破ダメージの防御無視を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23027.params[rank][2]/desc",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版S1～S5。単発攻撃時点の完成した状態のみ。継続ターン・行動順は自動再現しない。"
+      }
+    },
+    {
+      "id": "lightCone:23028:after-normal-defense-ignore",
+      "source": {
+        "kind": "lightCone",
+        "id": "23028"
+      },
+      "name": "されど希望の銘は無価・入場時または通常攻撃後の防御無視",
+      "description": "入場時または通常攻撃後の防御無視。効果量S1～S5: 20.0/24.0/28.0/32.0/36.0%。恒常propertiesは最終入力に含め、この成分で重ねない。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          20.0,
+          24.0,
+          28.0,
+          32.0,
+          36.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "followUp",
+          "ultimate"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "入場時または通常攻撃後の防御無視",
+        "inputKey": "lc-23028-after-normal-defense-ignore-active",
+        "inputLabel": "入場時または通常攻撃後の防御無視が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lc-23028-after-normal-defense-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23028-after-normal-defense-ignore-in-final",
+        "inputLabel": "されど希望の銘は無価の入場時または通常攻撃後の防御無視を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23028.params[rank][5]/desc",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版S1～S5。単発攻撃時点の完成した状態のみ。継続ターン・行動順は自動再現しない。"
+      }
+    },
+    {
+      "id": "lightCone:23030:flame-dance",
+      "source": {
+        "kind": "lightCone",
+        "id": "23030"
+      },
+      "name": "夕日に舞う・炎舞の追加攻撃ダメージ",
+      "description": "炎舞の追加攻撃ダメージ。効果量S1～S5: 36.0/42.0/48.0/54.0/60.0%。恒常propertiesは最終入力に含め、この成分で重ねない。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          36.0,
+          42.0,
+          48.0,
+          54.0,
+          60.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "followUp"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "conditionText": "炎舞の追加攻撃ダメージ",
+        "inputKey": "lc-23030-flame-dance-stacks",
+        "inputLabel": "炎舞の追加攻撃ダメージの現在有効層数",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 2
+      },
+      "stacking": {
+        "group": "lc-23030-flame-dance",
+        "rule": "nonStacking",
+        "maximumStacks": 2
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23030-flame-dance-in-final",
+        "inputLabel": "夕日に舞うの炎舞の追加攻撃ダメージを最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23030.params[rank][2]/desc",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版S1～S5。単発攻撃時点の完成した状態のみ。継続ターン・行動順は自動再現しない。"
+      }
+    },
+    {
+      "id": "lightCone:23031:luminance",
+      "source": {
+        "kind": "lightCone",
+        "id": "23031"
+      },
+      "name": "我が征く巡狩の道・流光の必殺技防御無視",
+      "description": "流光の必殺技防御無視。効果量S1～S5: 27.0/30.0/33.0/36.0/39.0%。恒常propertiesは最終入力に含め、この成分で重ねない。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          27.0,
+          30.0,
+          33.0,
+          36.0,
+          39.0
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "conditionText": "流光の必殺技防御無視",
+        "inputKey": "lc-23031-luminance-stacks",
+        "inputLabel": "流光の必殺技防御無視の現在有効層数",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 2
+      },
+      "stacking": {
+        "group": "lc-23031-luminance",
+        "rule": "nonStacking",
+        "maximumStacks": 2
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lc-23031-luminance-in-final",
+        "inputLabel": "我が征く巡狩の道の流光の必殺技防御無視を最終入力へ算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23031.params[rank][1]/desc",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版S1～S5。単発攻撃時点の完成した状態のみ。継続ターン・行動順は自動再現しない。"
+      }
+    }
+  ]
+}

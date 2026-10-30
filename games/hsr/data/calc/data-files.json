@@ -15,7 +15,10 @@
     "attacks-round4.json",
     "attacks-round5.json",
     "attacks-round6.json",
-    "attacks-round7.json"
+    "attacks-round7.json",
+    "attacks-jingliu-round8.json",
+    "attacks-herta-round8.json",
+    "attacks-acheron-round8.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",
@@ -81,6 +84,11 @@
     "modifiers-native-round6.json",
     "modifiers-sets-round7.json",
     "modifiers-native-round7.json",
-    "modifiers-equipment-round7.json"
+    "modifiers-equipment-round7.json",
+    "modifiers-jingliu-round8.json",
+    "modifiers-equipment-round8.json",
+    "modifiers-herta-round8.json",
+    "modifiers-acheron-round8.json",
+    "modifiers-sets-round8.json"
   ]
 }

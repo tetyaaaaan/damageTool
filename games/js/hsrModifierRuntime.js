@@ -18,10 +18,11 @@
   }
 
   function referenceValue(reference, context = {}, inputs = {}) {
-    if (["party.elationCount", "party.samePathAllyCount", "party.nihilityAllyCount"].includes(reference)) {
+    if (["party.eruditionCount", "party.elationCount", "party.samePathAllyCount", "party.nihilityAllyCount"].includes(reference)) {
       const ids = [context.characterId, ...(context.partyIds || [])].filter(Boolean).map(String);
       // Unknown or repeated members cannot establish a legal party count.
       if (!ids.length || ids.length > 4 || new Set(ids).size !== ids.length || ids.some((id) => !context.partyPaths?.[id])) return NaN;
+      if (reference === "party.eruditionCount") return ids.filter(id => context.partyPaths[id] === "Mage").length;
       if (reference === "party.nihilityAllyCount") return ids.filter(id => id !== String(context.characterId) && context.partyPaths[id] === "Warlock").length;
       return reference === "party.elationCount" ? ids.filter((id) => context.partyPaths[id] === "Elation").length
         : ids.filter(id => id !== String(context.characterId) && context.partyPaths[id] === context.partyPaths[String(context.characterId)]).length;
@@ -239,11 +240,12 @@
     return 0;
   }
 
-  const unresolvedReference = ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent", "self.preCombatSpeed", "self.preCombatCritDamage", "self.maxEnergy", "self.preCombatMaxEnergy", "party.fieldCount", "party.samePathAllyCount", "party.nihilityAllyCount"].includes(ref) || ref?.startsWith("provider.");
+  const unresolvedReference = ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent", "self.preCombatSpeed", "self.preCombatCritDamage", "self.maxEnergy", "self.preCombatMaxEnergy", "party.fieldCount", "party.samePathAllyCount", "party.nihilityAllyCount", "party.eruditionCount"].includes(ref) || ref?.startsWith("provider.");
 
   function activationState(record, context = {}, inputs = {}) {
     const activation = record.activation || {};
     const input = inputs[activation.inputKey];
+    if (activation.requiredToggleKey && inputs[activation.requiredToggleKey] !== true) return { active: false, automatic: false };
     if (activation.reference === "enemy.quantumWeakness") {
       // The enemy weakness selector describes the main character's element, not each component.
       const automatic = context.characterElement === "Quantum";
@@ -306,7 +308,7 @@
           + (context.partyEquipment || []).filter(item => String(item.ornamentId || "") === String(record.source.id) && (!record.target?.excludeSelf || String(item.characterId) !== String(context.characterId))).length;
         if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じオーナメントの複数提供者による支援は条件未確定です。" });
       }
-      if (record.source?.kind === "lightCone" && ["21015", "23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
+      if (record.source?.kind === "lightCone" && ["21015", "23016", "23017", "23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
         const count = Number(String(context.lightConeId || "") === String(record.source.id))
           + (context.partyEquipment || []).filter(item => String(item.lightConeId || "") === String(record.source.id)).length;
         if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じ光円錐の複数提供者による支援は条件未確定です。" });

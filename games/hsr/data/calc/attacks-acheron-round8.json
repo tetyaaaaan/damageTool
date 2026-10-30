@@ -1,0 +1,335 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "acheron-ultimate-fixed-knots-2026-10-30",
+  "description": "黄泉の必殺技をLv80・E0・敵1体・攻撃前9層の集真赤・各啼沢斬りで3層ずつ消去・軌跡1308103の効果が攻撃開始時点で3層有効、全成分の状態一定として限定計算する。状態の初回付与順序は再現しない。",
+  "overrides": [
+    {
+      "id": "130803",
+      "characterId": "1308",
+      "sourceSkillId": "130803",
+      "name": "残夢染める繚乱の一太刀（集真赤9層・雷心事前3層）",
+      "element": "Thunder",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "hitCountLabel": "啼沢斬り3回（直接＋集真赤消去時の全体成分）＋黄泉返り1回＋A6追加6ヒット",
+      "canCrit": true,
+      "multipliers": [
+        223.20000000000002,
+        238.07999999999998,
+        252.95999999999998,
+        267.84,
+        282.71999999999997,
+        297.6,
+        316.2,
+        334.8,
+        353.4,
+        372
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-fixed-state-component-sequence",
+      "conditionText": "Lv80・星魂0・敵1体・必殺技Lv1～10。攻撃前に指定敵が「集真赤」を9層持ち、啼沢斬り3回で各3層を消去する状態。追加能力「奈落」は編成人数から自動評価します。追加能力「雷心」は攻撃開始前から3層が有効とする単発状態です。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版130803全Lvの成分係数を用い、攻撃前9層の集真赤が各啼沢斬りで3層消去される状態の合計を独立計算。攻撃途中の付与順・初回層獲得は対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:130803.params[0..9][0,1,2,4,5,6]",
+        "verifiedAt": "2026-10-30",
+        "scope": "Lv80/E0/enemy1, initial 9 Crimson Knots, three removals of three knots, constant state, A6 trace effect already at three stacks before the attack.",
+        "verification": "tests/hsr/hsrAcheronRound8.test.cjs"
+      },
+      "damageComponents": [
+        {
+          "key": "rainblade-1-direct",
+          "name": "啼沢斬り1・指定対象",
+          "attackId": "130803-rainblade-direct",
+          "multipliers": [
+            14.4,
+            15.36,
+            16.32,
+            17.28,
+            18.24,
+            19.2,
+            20.4,
+            21.6,
+            22.8,
+            24
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "rainblade-1-knots",
+          "name": "啼沢斬り1・集真赤3層消去",
+          "attackId": "130803-rainblade-knots",
+          "multipliers": [
+            36,
+            38.4,
+            40.8,
+            43.2,
+            45.6,
+            48,
+            51,
+            54,
+            57,
+            60
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "aoe"
+        },
+        {
+          "key": "rainblade-2-direct",
+          "name": "啼沢斬り2・指定対象",
+          "attackId": "130803-rainblade-direct",
+          "multipliers": [
+            14.4,
+            15.36,
+            16.32,
+            17.28,
+            18.24,
+            19.2,
+            20.4,
+            21.6,
+            22.8,
+            24
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "rainblade-2-knots",
+          "name": "啼沢斬り2・集真赤3層消去",
+          "attackId": "130803-rainblade-knots",
+          "multipliers": [
+            36,
+            38.4,
+            40.8,
+            43.2,
+            45.6,
+            48,
+            51,
+            54,
+            57,
+            60
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "aoe"
+        },
+        {
+          "key": "rainblade-3-direct",
+          "name": "啼沢斬り3・指定対象",
+          "attackId": "130803-rainblade-direct",
+          "multipliers": [
+            14.4,
+            15.36,
+            16.32,
+            17.28,
+            18.24,
+            19.2,
+            20.4,
+            21.6,
+            22.8,
+            24
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "rainblade-3-knots",
+          "name": "啼沢斬り3・集真赤3層消去",
+          "attackId": "130803-rainblade-knots",
+          "multipliers": [
+            36,
+            38.4,
+            40.8,
+            43.2,
+            45.6,
+            48,
+            51,
+            54,
+            57,
+            60
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "aoe"
+        },
+        {
+          "key": "resurge",
+          "name": "黄泉返り",
+          "attackId": "130803-resurge",
+          "multipliers": [
+            72,
+            76.8,
+            81.6,
+            86.4,
+            91.2,
+            96,
+            102,
+            108,
+            114,
+            120
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "aoe"
+        },
+        {
+          "key": "a6-extra-1",
+          "name": "雷心・追加ヒット1",
+          "attackId": "130803-a6-extra",
+          "multipliers": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "a6-extra-2",
+          "name": "雷心・追加ヒット2",
+          "attackId": "130803-a6-extra",
+          "multipliers": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "a6-extra-3",
+          "name": "雷心・追加ヒット3",
+          "attackId": "130803-a6-extra",
+          "multipliers": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "a6-extra-4",
+          "name": "雷心・追加ヒット4",
+          "attackId": "130803-a6-extra",
+          "multipliers": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "a6-extra-5",
+          "name": "雷心・追加ヒット5",
+          "attackId": "130803-a6-extra",
+          "multipliers": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "a6-extra-6",
+          "name": "雷心・追加ヒット6",
+          "attackId": "130803-a6-extra",
+          "multipliers": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        }
+      ],
+      "calculationNote": "指定した敵1体の攻撃前状態を固定し、啼沢斬りは直接係数#1と3層消去時係数#5を3回、黄泉返りは係数#3を1回適用します。雷心の追加6ヒットは敵1体条件のためランダム対象が一意です。各成分に必殺技専用補正を適用します。初回付与順や攻撃内での状態更新は再現しません。"
+    }
+  ],
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定版130803のE0必殺技を、敵1体・初期9層・雷心3層を固定した13成分スナップショットで検証。"
+  }
+}

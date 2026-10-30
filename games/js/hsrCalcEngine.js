@@ -211,6 +211,7 @@
         if (attack.id === "131508" && attack.damageFormula === "normalAndBreak" && attack.type === "enhancedNormal") return "";
         if (attack.damageFormula === "componentSequence") {
             const components = attack.damageComponents;
+            const validAcheronDefinition = attack.id === "130803" && attack.characterId === "1308" && attack.sourceSkillId === "130803" && attack.type === "ultimate" && attack.element === "Thunder" && Array.isArray(components) && components.length === 13;
             const validFeixiaoDefinition = attack.id === "122002" && Array.isArray(components) && components.length === 2
                 && attack.type === "skill" && (!attack.attackType || attack.attackType === "skill") && attack.target === "single"
                 && attack.element === "Wind" && attack.sourceSkillId === "122002"
@@ -228,7 +229,7 @@
                 && components[1]?.key === "additional" && components[1]?.attackId === "122304";
             const validLukaDefinition = attack.id === "1111083" && attack.type === "enhancedNormal" && attack.sourceSkillId === "111108" && attack.element === "Physical" && attack.target === "single"
                 && Array.isArray(components) && components.length === 3 && components[0]?.key === "punches" && components[0]?.attackId === "1111081" && components[1]?.key === "uppercut" && components[1]?.attackId === "1111082" && components[2]?.key === "bleed" && components[2]?.attackId === "1111041";
-            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
+            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
         }
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
@@ -429,6 +430,8 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if (input.attack?.id === "130803") return calculateAcheronSnapshot(input);
+        if (input.attack?.id === "140109") return calculateHertaSnapshot(input);
         if (["1405011","1405021"].includes(input.attack?.id)) return calculateAnaxaSequence(input);
         if (input.attack?.id === "1111083") return calculateRealizedLuka(input);
         if (input.attack?.id === "1223031") return calculateMozeUltimate(input);
@@ -484,6 +487,47 @@ function calculateFanning(input) {
             return fail("天賦追加攻撃に必須の発動時与ダメージ補正を、補正条件から1件だけ有効にしてください。");
         }
         return combineDamageComponents(attack, components, yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計");
+    }
+
+    // Interpretation is already capped before the attack; only the final AoE receives it.
+    function calculateHertaSnapshot(input) {
+        const a = input.attack || {}, c = input.character || {}, e = input.enemy || {};
+        const fail = reason => ({ supported: false, reason });
+        const definitions = a.damageComponents || [], parts = input.sequenceComponents || [];
+        if (c.level !== 80 || c.eidolon !== 0 || e.count !== 1 || !Number.isInteger(a.traceLevel) || a.traceLevel < 1 || a.traceLevel > 10) return fail("マダム・ヘルタの強化スキルはLv80・星魂0・敵1体・スキルLv1～10・解読事前42層のみ対応です。");
+        if (definitions.length !== 4 || parts.length !== 4) return fail("強化スキルの4成分が不足しています。");
+        for (let i = 0; i < 4; i++) {
+            const d = definitions[i], part = parts[i], child = part?.input?.attack || {};
+            if (part?.key !== d.key || part?.name !== d.name || child.id !== (i === 3 ? "140109:final" : "140109")
+                || child.type !== "enhancedSkill" || child.attackType !== "enhancedSkill" || child.element !== "Ice"
+                || child.scalingStat !== "atk" || child.damageFormula !== "statMultiplier" || child.traceLevel !== a.traceLevel
+                || child.hitCount !== 1 || child.canCrit === false || !Number.isFinite(child.multiplier)
+                || child.multiplier <= 0 || child.multiplier !== d.multipliers?.[a.traceLevel - 1]) return fail("強化スキルの成分が固定状態の定義と一致しません。");
+            if (JSON.stringify(part.input.character) !== JSON.stringify(c) || JSON.stringify(part.input.enemy) !== JSON.stringify(e)) return fail("強化スキルの全成分には同じ最終ステータスと敵条件が必要です。");
+        }
+        return combineDamageComponents(a, parts, "強化スキル3段＋最後の全体攻撃（解読事前42層）");
+    }
+
+    // Fixed single-target snapshot: 9 initial Knots and a pre-existing full A6 buff.
+    // This adds no battle-state iteration; every child uses the same completed inputs.
+    function calculateAcheronSnapshot(input) {
+        const a = input.attack || {}, c = input.character || {}, e = input.enemy || {};
+        const fail = reason => ({ supported: false, reason });
+        const definitions = a.damageComponents || [], parts = input.sequenceComponents || [];
+        const keys = ["rainblade-1-direct", "rainblade-1-knots", "rainblade-2-direct", "rainblade-2-knots", "rainblade-3-direct", "rainblade-3-knots", "resurge", ...Array.from({length:6}, (_, i) => "a6-extra-" + (i + 1))];
+        if (c.level !== 80 || c.eidolon !== 0 || e.count !== 1 || !Number.isInteger(a.traceLevel) || a.traceLevel < 1 || a.traceLevel > 10) return fail("黄泉の固定状態必殺技はLv80・星魂0・敵1体・必殺Lv1～10のみ対応です。");
+        if (definitions.length !== 13 || parts.length !== 13) return fail("黄泉の必殺技13成分が不足しています。");
+        for (let i = 0; i < 13; i++) {
+            const d = definitions[i], part = parts[i], child = part?.input?.attack || {};
+            if (d.key !== keys[i] || part?.key !== d.key || part?.name !== d.name || child.id !== d.attackId
+                || child.sourceSkillId !== "130803" || child.type !== "ultimate" || child.attackType !== "ultimate"
+                || child.element !== "Thunder" || child.scalingStat !== "atk" || child.damageFormula !== "statMultiplier"
+                || child.traceLevel !== a.traceLevel || child.hitCount !== 1 || child.canCrit === false
+                || !Number.isFinite(child.multiplier) || child.multiplier <= 0 || child.multiplier !== d.multipliers?.[a.traceLevel - 1]
+                || (i >= 7 && child.multiplier !== 25)) return fail("黄泉の必殺技成分が固定状態の定義と一致しません。");
+            if (JSON.stringify(part.input.character) !== JSON.stringify(c) || JSON.stringify(part.input.enemy) !== JSON.stringify(e)) return fail("黄泉の全成分には同じ最終ステータスと敵条件が必要です。");
+        }
+        return combineDamageComponents(a, parts, "啼沢斬り3回＋黄泉返り＋雷心6ヒット（集真赤9層・雷心事前3層）");
     }
 
     function combineDamageComponents(attack, components, totalLabel) {

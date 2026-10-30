@@ -77,3 +77,10 @@ UI・接続を変更したら1440/390/320pxで変更箇所と必要な境界を�
 第6回は[光円錐](../../../tests/hsr/hsrEquipmentRound6.test.cjs)、[オーナメント](../../../tests/hsr/hsrSetsRound6.test.cjs)、[追加能力](../../../tests/hsr/hsrNativeRound6.test.cjs)、[攻撃](../../../tests/hsr/hsrAttacksRound6.test.cjs)を入口にする。提供者のSPD/効果抵抗/BE境界・欠損、同属性と編成順、複数提供者の局所除外、全S値、固定BE支援から鉄騎閾値への一段反映を独立式で確認する。Appテストは実入力/未入力・装備運命・提供者離脱・保存復元・1つの共有層数入力を検証する。アベンチュリン必殺は攻撃前から同Lvの動揺がある場合に限定し、既存の全Lv独立式を維持する。初回付与の順序を調べたことにして旧テストを削除しない。件数/実行結果は台帳へ記録する。
 
 第7回の入口は[光円錐](../../../tests/hsr/hsrEquipmentRound7.test.cjs)、[オーナメント](../../../tests/hsr/hsrSetsRound7.test.cjs)、[キャラ効果と参照契約](../../../tests/hsr/hsrNativeRound7.test.cjs)、[主要攻撃](../../../tests/hsr/hsrAttacksRound7.test.cjs)。戦闘開始時CDと現在CD、開始時最大EPと現在最大EP/現在EP割合、場のターゲット数と編成人数を別に検証する。全S/採用Lv、層数共有、HP支援後の境界、虚無人数による独立乗算、3段の各ヒット/合計を独立式で確認する。Appテストで実入力・保存復元・条件未確定の局所除外・装備/提供者解除を受け入れる。構造化定義ありとダメージ成分の完成を別集計し、既存の計算対応攻撃を新規昇格数へ含めない。最終全体テスト/画面結果は台帳を正本とする。
+
+
+## 第8回追加の受入検証
+
+[鏡流](../../../tests/hsr/hsrJingliuRound8.test.cjs)、[黄泉](../../../tests/hsr/hsrAcheronRound8.test.cjs)、[ヘルタ](../../../tests/hsr/hsrHertaRound8.test.cjs)、[アベンチュリン](../../../tests/hsr/hsrAventurineRound8.test.cjs)は固定版の採用曲線と独立式を照合する。黄泉13成分・ヘルタ4成分は個別値と合計、成分欠損/並替/参照不一致の拒否も確認する。ヘルタはSkill LvとTalent Lvを独立に変え、知恵人数と最後成分だけの倍率を検査する。
+
+[装備](../../../tests/hsr/hsrEquipmentRound8.test.cjs)は全S1～S5、[遺物129](../../../tests/hsr/hsrSetsRound8.test.cjs)は愉悦式とDEF係数を独立検証する。[App入力](../../../tests/hsr/hsrToolInputs.test.cjs)は全主要行、スキル専用補正、共有入力数、提供者解除/運命不一致、既算入、局所除外、実保存復元まで確認する。限定状態の成功はその範囲だけの受入であり、未検証の状態順を補完する証拠にはしない。最新の全体実行結果は[残作業正本](../../HSR_COMPLETION_WORKLOAD.md)にのみ記録する。

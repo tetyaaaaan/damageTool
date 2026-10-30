@@ -47,6 +47,10 @@ test("production loader registers five fixed-source E0 direct components once", 
     assert.equal(engine.unsupportedAttackReason(attack), "", id + " uses the existing direct-damage path");
   }
   const aventurine = data.attacks.find(item => item.id === "130403");
+  const jingliuBaseSkill = data.attacks.find(item => item.id === "1121202");
+  assert.equal(jingliuBaseSkill.name, "無罅の飛光（転魄前）");
+  assert.match(jingliuBaseSkill.conditionText, /転魄前.*通常戦闘スキル/);
+  assert.match(jingliuBaseSkill.calculationNote, /通常戦闘スキルで.*1121209.*転魄前/);
   assert.deepEqual(Array.from(aventurine.modifierConditions), [{ inputKey: "aventurine-unnerve-active", minimum: 1, default: 0 }]);
   assert.deepEqual(Array.from(aventurine.requiredModifierIds), ["trace:1304:130403:crit-vulnerability"]);
   assert.match(aventurine.conditionText, /動揺.*攻撃前から/);

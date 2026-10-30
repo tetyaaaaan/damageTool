@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "acheron-native-round8-2026-10-30",
+  "generatedFrom": "fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 index_new/jp/character_skills.json and character_skill_trees.json",
+  "modifiers": [
+    {
+      "id": "traceNode:1308:1308103:ultimate-three-stack-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1308",
+        "traceId": "1308103"
+      },
+      "name": "追加能力「雷心」・必殺技開始時の3層与ダメージ",
+      "description": "限定した必殺技スナップショットでは攻撃前から3層が有効。攻撃中の層獲得・更新順は再現しない。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 90
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "elements": [
+          "Thunder"
+        ],
+        "attackIds": [
+          "130803-rainblade-direct",
+          "130803-rainblade-knots",
+          "130803-resurge",
+          "130803-a6-extra"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "この限定スナップショットでは攻撃開始時点から3層（+90%）が有効"
+      },
+      "stacking": {
+        "group": "traceNode:1308:1308103:ultimate-three-stack-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版の30%×最大3層を適用。効果を持つ敵への必殺技限定スナップショットで攻撃開始時3層を固定し、途中付与順は扱わない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1308103.params[0..4]",
+        "verifiedAt": "2026-10-30",
+        "scope": "130803限定。攻撃前から雷心3層、状態一定。",
+        "verification": "tests/hsr/hsrAcheronRound8.test.cjs"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0
+      },
+      "finalStatsInclusion": {
+        "inputKey": "traceNode:1308:1308103:ultimate-three-stack-damage-included-in-final",
+        "inputLabel": "追加能力「雷心」・必殺技開始時の3層与ダメージを最終入力へ反映済み"
+      }
+    },
+    {
+      "id": "trace:1308:130804:ultimate-all-resistance-reduction",
+      "source": {
+        "kind": "trace",
+        "id": "1308",
+        "skillId": "130804"
+      },
+      "name": "天賦「紅葉に時雨、万里の空」・必殺技中の全属性耐性ダウン",
+      "description": "必殺技中は敵全体の全属性耐性を軌跡レベルに応じて低下。必殺技各成分へ一度適用。",
+      "category": "resistanceReduction",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16.25,
+          17.5,
+          18.75,
+          20
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "elements": [
+          "Thunder"
+        ]
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "必殺技中の攻撃に自動適用"
+      },
+      "stacking": {
+        "group": "trace:1308:130804:ultimate-all-resistance-reduction",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "resistance",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版130804.params[][1]のLv1～10を使用。耐性ダウンは必殺技中の全攻撃成分に1回加算する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:130804.params[0..9][1]",
+        "verifiedAt": "2026-10-30",
+        "scope": "黄泉の必殺技中だけ。攻撃種類をultimateに制限。",
+        "verification": "tests/hsr/hsrAcheronRound8.test.cjs"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1308:130804:ultimate-all-resistance-reduction-included-in-final",
+        "inputLabel": "天賦「紅葉に時雨、万里の空」・必殺技中の全属性耐性ダウンを最終入力へ反映済み"
+      }
+    }
+  ]
+}

@@ -1,0 +1,426 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "jingliu-native-round8-2026-10-30",
+  "description": "鏡流のATK/HP参照版を攻撃IDで分離し、転魄の確定済み単発状態を計算へ接続する。",
+  "modifiers": [
+    {
+      "id": "trace:1212:121204:syzygy-crit-rate-atk-variant",
+      "source": {
+        "kind": "trace",
+        "id": "1212",
+        "skillId": "121204",
+        "traceId": "121204"
+      },
+      "name": "淡月転魄・星魂0 ATK参照版の会心率",
+      "description": "転魄中の会心率上昇。ATK参照版の通常・強化スキル・必殺だけに適用し、最終入力に算入済みなら除外。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46.25,
+          47.5,
+          48.75,
+          50
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "attackIds": [
+          "121209",
+          "121203"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "jingliu-atk-transmigration-active",
+        "inputLabel": "鏡流が転魄状態（ATK参照版）",
+        "conditionText": "転魄状態中",
+        "default": false
+      },
+      "stacking": {
+        "group": "jingliu-atk-transmigration-crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "jingliu-atk-transmigration-crit-rate-in-final",
+        "inputLabel": "転魄中の会心率を最終入力に算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版121204.params[level][6]を使用。ATK参照攻撃IDだけに限定。"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:121204.params[0..9][6]",
+        "verifiedAt": "2026-10-30",
+        "scope": "転魄状態を選んだ単発計算。攻撃後の朔望・HP消費・ATK変換は追跡しない。",
+        "verification": "tests/hsr/hsrJingliuRound8.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1212:1121204:syzygy-crit-rate-hp-variant",
+      "source": {
+        "kind": "trace",
+        "id": "1212",
+        "skillId": "1121204",
+        "traceId": "1121204"
+      },
+      "name": "淡月転魄・星魂0 HP参照版の会心率",
+      "description": "転魄中の会心率上昇。HP参照版の通常・強化スキル・必殺だけに適用し、最終入力に算入済みなら除外。",
+      "category": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46.25,
+          47.5,
+          48.75,
+          50
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "attackIds": [
+          "1121209",
+          "1121203"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "jingliu-hp-transmigration-active",
+        "inputLabel": "鏡流が転魄状態（HP参照版）",
+        "conditionText": "転魄状態中",
+        "default": false
+      },
+      "stacking": {
+        "group": "jingliu-hp-transmigration-crit-rate",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "jingliu-hp-transmigration-crit-rate-in-final",
+        "inputLabel": "転魄中の会心率を最終入力に算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1121204.params[level][6]を使用。HP参照攻撃IDだけに限定。"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1121204.params[0..9][6]",
+        "verifiedAt": "2026-10-30",
+        "scope": "転魄状態を選んだ単発計算。攻撃後の朔望・HP消費・ATK変換は追跡しない。",
+        "verification": "tests/hsr/hsrJingliuRound8.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1212:1121204:moonlight-crit-damage-hp-variant",
+      "source": {
+        "kind": "trace",
+        "id": "1212",
+        "skillId": "1121204",
+        "traceId": "1121204"
+      },
+      "name": "淡月転魄・星魂0 HP参照版の月光会心ダメージ",
+      "description": "転魄中に獲得済みの月光0～5層を指定。今回の攻撃が得る層は加えず、HP参照版にだけ適用。最終入力に算入済みなら除外。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByLevel",
+        "values": [
+          22,
+          24.2,
+          26.4,
+          28.6,
+          30.8,
+          33,
+          35.75,
+          38.5,
+          41.25,
+          44
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "attackIds": [
+          "1121209",
+          "1121203"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "jingliu-moonlight-stacks",
+        "inputLabel": "転魄中に獲得済みの月光層数",
+        "conditionText": "転魄中の月光（現在値）",
+        "minimum": 0,
+        "maximum": 5,
+        "default": 0,
+        "requiredToggleKey": "jingliu-hp-transmigration-active"
+      },
+      "stacking": {
+        "group": "jingliu-hp-moonlight-crit-damage",
+        "rule": "nonStacking",
+        "maximumStacks": 5
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "jingliu-hp-moonlight-crit-damage-in-final",
+        "inputLabel": "月光による会心ダメージを最終入力に算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1121204.params[level][2]を層あたり会心ダメージとして変換。月光は発生順を追わず現在値を入力。"
+      },
+      "inputValidation": {
+        "minimum": 0,
+        "maximum": 5,
+        "integer": true,
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:1121204.params[0..9][2,3]",
+        "verifiedAt": "2026-10-30",
+        "scope": "E0・現在の月光0～5層を指定する単発計算。被撃・HP消費による攻撃途中の層更新を再現しない。",
+        "verification": "tests/hsr/hsrJingliuRound8.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1212:1212103:transmigration-ultimate-damage-atk-variant",
+      "source": {
+        "kind": "trace",
+        "id": "1212",
+        "traceId": "1212103"
+      },
+      "name": "霜魄・ATK参照版の転魄中必殺技ダメージ",
+      "description": "転魄状態中の必殺技ダメージ+20%。ATK参照版必殺だけに適用。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "attackIds": [
+          "121203"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "jingliu-atk-transmigration-active",
+        "inputLabel": "鏡流が転魄状態（ATK参照版）",
+        "conditionText": "転魄状態中",
+        "default": false
+      },
+      "stacking": {
+        "group": "jingliu-atk-transmigration-ult-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "jingliu-atk-transmigration-ult-damage-in-final",
+        "inputLabel": "転魄中の必殺技ダメージを最終入力に算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1212103",
+        "verifiedAt": "2026-10-30",
+        "scope": "転魄状態を選んだE0単発必殺技計算。",
+        "verification": "tests/hsr/hsrJingliuRound8.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1212:11212101:transmigration-ultimate-damage-hp-variant",
+      "source": {
+        "kind": "trace",
+        "id": "1212",
+        "traceId": "11212101"
+      },
+      "name": "死境・HP参照版の転魄中必殺技ダメージ",
+      "description": "HP参照版の転魄状態中、必殺技ダメージ+20%。HP参照版必殺だけに適用。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "attackIds": [
+          "1121203"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "jingliu-hp-transmigration-active",
+        "inputLabel": "鏡流が転魄状態（HP参照版）",
+        "conditionText": "転魄状態中",
+        "default": false
+      },
+      "stacking": {
+        "group": "jingliu-hp-transmigration-ult-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "jingliu-hp-transmigration-ult-damage-in-final",
+        "inputLabel": "転魄中の必殺技ダメージを最終入力に算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:11212101",
+        "verifiedAt": "2026-10-30",
+        "scope": "転魄状態を選んだE0単発必殺技計算。",
+        "verification": "tests/hsr/hsrJingliuRound8.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1212:11212103:next-attack-defense-ignore-hp-variant",
+      "source": {
+        "kind": "trace",
+        "id": "1212",
+        "traceId": "11212103"
+      },
+      "name": "霜魄・HP参照版の次の攻撃の防御無視",
+      "description": "朔望獲得時に上限へ達していた場合、次の攻撃1回が防御力を25%無視する状態を指定。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 25
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "attackIds": [
+          "1121201",
+          "1121209",
+          "1121203"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "jingliu-hp-syzygy-cap-next-attack-defense-ignore-active",
+        "inputLabel": "朔望を上限中に獲得し、次の1攻撃が対象",
+        "conditionText": "朔望が上限の時に朔望を獲得後、次の攻撃1回のみ",
+        "default": false
+      },
+      "stacking": {
+        "group": "jingliu-hp-next-attack-defense-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add",
+        "cap": 100
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "jingliu-hp-next-attack-defense-ignore-in-final",
+        "inputLabel": "次の攻撃の防御無視を最終入力に算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:11212103.params[0]",
+        "verifiedAt": "2026-10-30",
+        "scope": "E0・条件成立後の次の攻撃を選択した単発計算。朔望の獲得・上限到達の順序・持続追跡は自動再現しない。",
+        "verification": "tests/hsr/hsrJingliuRound8.test.cjs"
+      }
+    }
+  ]
+}

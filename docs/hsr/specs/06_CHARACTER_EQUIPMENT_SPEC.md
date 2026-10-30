@@ -107,3 +107,12 @@
 第6回の正本は[光円錐](../../../games/hsr/data/calc/modifiers-equipment-round6.json)、[オーナメント](../../../games/hsr/data/calc/modifiers-sets-round6.json)、[帰忘の流離人の追加能力](../../../games/hsr/data/calc/modifiers-native-round6.json)、[攻撃override](../../../games/hsr/data/calc/attacks-round6.json)。恒常properties/2セット基礎効果は最終入力のまま、条件成立時の追加分だけを接続する。仙舟/竜骨は提供者の数値、ピノコニーは本人以外の同属性キャラ、ルサカは本人以外の1枠目が受益者。鋳煉宮は炎弱点を攻撃した後の状態を指定し、単に現在の炎弱点があるだけでは発動させない。璣星の太素はE0・解放済み追加能力の撃破後有効層数を指定し、提供者BE条件による追加分も共有層数で計算する。各LCのS1～S5と攻撃の採用Lvは専用テストで照合するが、未実装のEP変換・技能中変換・愉悦/資源更新や全キットの完成を意味しない。個別の数値・残範囲・件数は台帳へ集約する。
 
 第7回の効果正本は[光円錐](../../../games/hsr/data/calc/modifiers-equipment-round7.json)、[オーナメント](../../../games/hsr/data/calc/modifiers-sets-round7.json)、[キャラ効果](../../../games/hsr/data/calc/modifiers-native-round7.json)。恒常ステータスはincludedInFinalStats/displayOnlyの管理行で再加算を禁止し、計算対応行と区別する。汎銀河のEHR→ATKは最終値責務を維持して自動変換を保留、ウェンワークの行動順・巨樹の治癒量は単発ダメージの対象外。所属タグや精霊一般継承を推測しない。レイシオ/ジェイドの現在層数、丹恒の発動済み速度、姫子の秘技デバフは明示した状態を使用する。黄泉は解放済み奈落を編成から自動評価する限定条件。追加能力の全育成段階・星魂による全キット変更は受入外で、具体的な完了/残範囲は既存台帳に記録する。
+
+
+## 第8回追加の定義参照
+
+鏡流は[attacks-jingliu-round8.json](../../../games/hsr/data/calc/attacks-jingliu-round8.json)と[modifiers-jingliu-round8.json](../../../games/hsr/data/calc/modifiers-jingliu-round8.json)、黄泉は[attacks-acheron-round8.json](../../../games/hsr/data/calc/attacks-acheron-round8.json)と[modifiers-acheron-round8.json](../../../games/hsr/data/calc/modifiers-acheron-round8.json)、ヘルタは[attacks-herta-round8.json](../../../games/hsr/data/calc/attacks-herta-round8.json)と[modifiers-herta-round8.json](../../../games/hsr/data/calc/modifiers-herta-round8.json)を正本とする。既存1121202の説明訂正は`attacks-round6.json`の同じ行へ反映し、重複登録しない。
+
+[光円錐追加](../../../games/hsr/data/calc/modifiers-equipment-round8.json)は固定版S1～S5の追加成分のみを構造化する。23027のBE条件SPD・23028のCD条件FUAは残範囲で、計算行の存在だけで全文完成としない。[遺物追加](../../../games/hsr/data/calc/modifiers-sets-round8.json)の129は本人愉悦のDEF無視と獲得済み累積層を扱い、精霊への一般継承を認定しない。恒常CDは最終入力管理。
+
+計算行がないオーナメント303は変換の既算入責務、308/320は恒常値と非ダメージ効果である。件数のために計算行を追加しない。現在の装備種類集計と個別残範囲は[残作業正本](../../HSR_COMPLETION_WORKLOAD.md)、E0認定は[生成完成表](../../HSR_CHARACTER_COMPLETION.md)で管理する。

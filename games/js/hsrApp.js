@@ -259,7 +259,7 @@
   function attackStateIssues(attack, issue) {
     if (attack.damageFormula === "enemyHpCappedByAtk" && (String($("hsrEnemyMaxHp").value).trim() === "" || !(Number($("hsrEnemyMaxHp").value)>0))) issue("この裂創成分に必要な敵の最大HPを入力してください。", "hsrEnemyMaxHp");
     if (attack.characterLevelExact !== undefined && state.level !== attack.characterLevelExact) issue(`${attack.name}はキャラクターLv${attack.characterLevelExact}のみ計算対応です。`, "hsrLevel");
-    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
+    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id === "140109" ? 4 : attack.id === "130803" ? 13 : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
     if (["1224011","1224081"].includes(attack.id)) {
       if(!['Erudition','Destruction','Hunt','Remembrance','Elation'].includes(attack.shifuPath) || !Object.keys(ELEMENT_KEYS).includes(attack.shifuElement)) issue('攻撃型師匠の運命と属性を補正条件で指定してください。従来の支援型師匠の比較はそのまま計算できます。','hsrConditionDialogOpen');
       if(attack.shifuElement && attack.shifuElement!=='Imaginary') for(const [key,label] of [['element-damage:1224:'+attack.shifuElement,'なのかの師匠属性与ダメージ'],['enemy-resistance:'+attack.shifuElement,'敵の師匠属性耐性']]) if(!Number.isFinite(state.modifierInputs[key])) issue(label+'を入力してください。補正なしは0です。','hsrConditionDialogOpen');
@@ -769,7 +769,7 @@
       return `${item.conditionText || "入力条件"}（${precombat ? "戦闘前の速度" : "現在値"}：${value}）`;
     }
     const reference = {
-      "self.preCombatCritDamage": ["戦闘開始時の会心ダメージ", "%"], "party.nihilityAllyCount": ["本人以外の虚無キャラ数", "人"], "party.samePathAllyCount": ["同運命の別キャラ数", "人"], "provider.speed": ["提供者の速度", ""], "provider.effectRes": ["提供者の効果抵抗", "%"], "provider.breakEffect": ["提供者の撃破特効", "%"], "provider.sameElement": ["提供者との属性一致（1=一致）", ""], "provider.firstSlotRecipient": ["1枠目への支援（1=成立）", ""],
+      "self.preCombatCritDamage": ["戦闘開始時の会心ダメージ", "%"], "party.eruditionCount": ["編成内の知恵キャラ数", "人"], "party.nihilityAllyCount": ["本人以外の虚無キャラ数", "人"], "party.samePathAllyCount": ["同運命の別キャラ数", "人"], "provider.speed": ["提供者の速度", ""], "provider.effectRes": ["提供者の効果抵抗", "%"], "provider.breakEffect": ["提供者の撃破特効", "%"], "provider.sameElement": ["提供者との属性一致（1=一致）", ""], "provider.firstSlotRecipient": ["1枠目への支援（1=成立）", ""],
       "self.hp": ["HP", ""], "self.hpPercent": ["HP割合", "%"], "self.epPercent": ["EP割合", "%"], "self.speed": ["速度", ""],
       "self.atk": ["攻撃力", ""], "self.def": ["防御力", ""], "self.critRate": ["会心率", "%"], "self.critDamage": ["会心ダメージ", "%"], "self.effectHitRate": ["効果命中", "%"],
       "self.effectRes": ["効果抵抗", "%"], "self.breakEffect": ["撃破特効", "%"], "self.elation": ["愉悦度", "%"],
@@ -827,8 +827,8 @@
         controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(item.inclusionInput.key)}"${item.inclusionInput.checked ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${esc(item.inclusionInput.label)}</strong><small>入力済みなら追加せず、未算入なら成立中の条件に従って適用します。</small></span></label>`);
       }
       const activation = item.activation || {};
-      if (["toggle", "toggleThreshold"].includes(activation.mode) && activation.inputKey && !item.comparisonControlled && !rendered.has(`toggle:${activation.inputKey}`)) {
-        rendered.add(`toggle:${activation.inputKey}`);
+      if (["toggle", "toggleThreshold"].includes(activation.mode) && activation.inputKey && !item.comparisonControlled && !rendered.has(`toggle:${activation.inputKey}`) && !conditionReferenceInputs.has(`toggle:${activation.inputKey}`)) {
+        rendered.add(`toggle:${activation.inputKey}`); conditionReferenceInputs.add(`toggle:${activation.inputKey}`);
         controls.push(`<label class="genshin-condition-toggle"><input type="checkbox" data-structured-toggle="${esc(activation.inputKey)}"${(activation.mode === "toggleThreshold" ? activation.toggled : activation.active) ? " checked" : ""}><span class="genshin-condition-control-copy"><strong>${attackSelection ? "この状態の攻撃を計算する" : "この条件を適用する"}</strong><small>実際に「${esc(item.conditionText || "発動条件")}」を満たす場合だけONにしてください。</small></span></label>`);
       }
       if (activation.mode === "stack" && activation.inputKey && !rendered.has(`stack:${activation.inputKey}`) && !conditionReferenceInputs.has(`stack:${activation.inputKey}`)) {
@@ -1114,6 +1114,24 @@
     if (selected.damageFormula === "nativeBreakSequence") return {...selected,traceLevel:state.traceLevels[selected.traceKey],multiplier:selected.multipliers[state.traceLevels[selected.traceKey]-1],nativeUltimateLevel:state.traceLevels.ultimate,attackType:selected.type};
     if (selected.id === "131508") { const level=state.traceLevels.normal; return { ...selected, traceLevel:level, multiplier:selected.multipliers[level-1], attackType:selected.type, fanningInputs:{allowZeroStacks:selected.allowZeroStacks===true,confirmed:selected.comparisonModifierInputs?.["boothill-fanning-broken"]===true || state.modifierInputs["boothill-fanning-broken"]===true,stacks:state.modifierInputs["boothill-pocket-stacks"]===undefined?3:state.modifierInputs["boothill-pocket-stacks"],talentLevel:state.traceLevels.talent} }; }
     if (selected.id === "1151201") { const level=state.songbirdInputs.skillLevel; return { ...selected, traceLevel: level, multiplier: selected.multipliers[level-1] }; }
+    if (selected.id === "140109" && selected.damageFormula === "componentSequence") {
+      const level = state.traceLevels.skill;
+      const sequenceAttacks = (selected.damageComponents || []).map(component => ({
+        ...selected, ...component, id: component.attackId, sourceSkillId: "140109", damageFormula: "statMultiplier",
+        damageComponents: undefined, hitCount: 1, hitCountLabel: "この成分1ヒット", canCrit: true, attackType: "enhancedSkill", traceLevel: level,
+        multiplier: component.multipliers?.[level - 1], traceLevelLabel: `スキルLv${level}`
+      }));
+      return { ...selected, traceLevel: level, multiplier: selected.multipliers?.[level - 1], attackType: "enhancedSkill", traceLevelLabel: `スキルLv${level}`, sequenceAttacks };
+    }
+    if (selected.id === "130803" && selected.damageFormula === "componentSequence") {
+      const level = state.traceLevels.ultimate;
+      const sequenceAttacks = (selected.damageComponents || []).map(component => ({
+        ...selected, ...component, id: component.attackId, sourceSkillId: "130803", damageFormula: "statMultiplier",
+        damageComponents: undefined, hitCount: 1, hitCountLabel: "この成分1ヒット", canCrit: true, attackType: "ultimate", traceLevel: level,
+        multiplier: component.multipliers?.[level - 1], traceLevelLabel: `必殺Lv${level}`
+      }));
+      return { ...selected, traceLevel: level, multiplier: selected.multipliers?.[level - 1], attackType: "ultimate", traceLevelLabel: `必殺Lv${level}`, sequenceAttacks };
+    }
     if (selected.id === "1111083" && selected.damageFormula === "componentSequence") {
       const defs = selected.damageComponents.filter(c=>!c.optional || selected.ownBleed);
       const parts = defs.map(c=>state.data.attacks.find(a=>a.id===c.attackId && a.characterId===selected.characterId));
