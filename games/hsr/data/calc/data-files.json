@@ -26,7 +26,11 @@
     "attacks-lingsha-round10.json",
     "attacks-promotions-round11.json",
     "attacks-lingsha-round11.json",
-    "attacks-hanya-round11.json"
+    "attacks-hanya-round11.json",
+    "attacks-phainon-round12.json",
+    "attacks-dahlia-round12.json",
+    "attacks-serin-cipher-round12.json",
+    "attacks-extra-round12.json"
   ],
   "modifiers": [
     "modifiers-robin-summeretto.json",
@@ -107,6 +111,11 @@
     "modifiers-hanya-round11.json",
     "modifiers-lingsha-round11.json",
     "modifiers-equipment-round11.json",
-    "modifiers-promotions-round11.json"
+    "modifiers-promotions-round11.json",
+    "modifiers-phainon-round12.json",
+    "modifiers-dahlia-round12.json",
+    "modifiers-serin-cipher-round12.json",
+    "modifiers-equipment-round12.json",
+    "modifiers-extra-round12.json"
   ]
 }

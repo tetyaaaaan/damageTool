@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "dahlia-round12-field-break-efficiency-2026-10-31",
+  "modifiers": [
+    {
+      "id": "trace:1321:132102:field-break-efficiency",
+      "source": {
+        "kind": "trace",
+        "id": "1321",
+        "skillId": "132102"
+      },
+      "name": "舐る…炎の舌を伸ばす背叛・結界中の弱点撃破効率",
+      "description": "ダリアの結界が有効な間、味方全体の弱点撃破効率+50%。この登録は撃破効率成分のみです。敵が未撃破の時にも超撃破を発生させる結界の機能は未対応で、敵の靭性状態を変更しません。",
+      "category": "breakEfficiency",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 50
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": ["break", "superBreak"],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "dahlia-skill-field-active",
+        "inputLabel": "ダリアの結界が有効",
+        "default": false,
+        "durationTurns": 3,
+        "conditionText": "戦闘スキルで結界を展開済み・効果時間中"
+      },
+      "inputPolicy": "conditional",
+      "stacking": {
+        "group": "dahlia-skill-field-break-efficiency",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "toughness",
+        "operation": "add"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版132102.params[0..14][2]の味方全体への弱点撃破効率+50%を結界中の任意状態として登録。未撃破時の超撃破許可は現行計算経路の対象外として分離。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:132102.params[0..14][2]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrDahliaRound12.test.cjs",
+        "notes": "攻撃中に結界を新規付与したり、敵の未撃破状態から超撃破を発生させたりしません。"
+      }
+    }
+  ]
+}

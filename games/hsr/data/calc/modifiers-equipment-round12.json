@@ -1,0 +1,216 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "equipment-round12-light-cones-2026-10-31",
+  "description": "固定版LC23044/23008/23047/23041の攻撃計算に関係する7成分を、S1～S5と既存の状態入力へ接続。各光円錐の効果全体を完成扱いにはしない。",
+  "modifiers": [
+    {
+      "id": "lightCone:23044:defense-ignore",
+      "source": { "kind": "lightCone", "id": "23044" },
+      "name": "燃え盛る黎明のように・防御無視",
+      "description": "装備者の全ダメージで対象敵の防御力を18/22.5/27/31.5/36%無視します。敵の防御条件欄へ同じ値を算入済みの場合は最終入力算入を選択してください。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": { "kind": "byRefinement", "values": [18, 22.5, 27, 31.5, 36] },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] },
+      "activation": { "mode": "always", "conditionText": "装備中は常時" },
+      "finalStatsInclusion": { "inputKey": "lc-23044-defense-ignore-in-final", "inputLabel": "光円錐の防御無視を敵の最終防御条件へ算入済み" },
+      "inputPolicy": "conditional",
+      "stacking": { "group": "lc-23044-defense-ignore", "rule": "nonStacking" },
+      "calculation": { "stage": "defense", "operation": "add" },
+      "support": { "status": "calculable", "verified": true, "reason": "固定版光円錐23044のparams[0..4][1]をS1～S5へ変換。全攻撃に対する装備者本人の防御無視だけを登録。" },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23044.params[0..4][1]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound12.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23044:sunlight-damage",
+      "source": { "kind": "lightCone", "id": "23044" },
+      "name": "燃え盛る黎明のように・必殺技後の「烈日」",
+      "description": "装備者が必殺技を発動した後、「烈日」が有効な間、本人の与ダメージを60/78/96/114/132%上げます。次に装備者のターンが回って解除されるまでの状態を指定してください。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": { "kind": "byRefinement", "values": [60, 78, 96, 114, 132] },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23044-sunlight-active",
+        "inputLabel": "必殺技後の「烈日」が有効",
+        "default": false,
+        "conditionText": "装備者が必殺技を発動済みで、次の装備者ターン開始前"
+      },
+      "stacking": { "group": "lc-23044-sunlight-damage", "rule": "nonStacking" },
+      "calculation": { "stage": "damageBonus", "operation": "add" },
+      "inputPolicy": "conditional",
+      "support": { "status": "calculable", "verified": true, "reason": "固定版光円錐23044.params[0..4][2]を百分率化し、必殺技後の短い状態を任意指定する装備者本人向け補正として登録。" },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23044.params[0..4][2]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound12.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23008:post-ultimate-party-speed",
+      "source": { "kind": "lightCone", "id": "23008" },
+      "name": "棺のこだま・必殺技後の味方速度",
+      "description": "装備者が必殺技を発動した後、味方全体の速度を12/14/16/18/20上げます。効果中の受益者の最終速度に同じ上昇を含めている場合は最終入力算入を選択してください。",
+      "category": "statFlat",
+      "stat": "speed",
+      "unit": "flat",
+      "value": { "kind": "byRefinement", "values": [12, 14, 16, 18, 20] },
+      "target": { "owner": "partyAll", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23008-ultimate-speed-active",
+        "inputLabel": "装備者の必殺技後に味方速度上昇が有効",
+        "default": false,
+        "durationTurns": 1,
+        "conditionText": "装備者が必殺技を発動した後・1ターン以内"
+      },
+      "finalStatsInclusion": { "inputKey": "lc-23008-party-speed-in-final", "inputLabel": "この光円錐による受益者の速度上昇を最終速度へ算入済み" },
+      "inputPolicy": "conditional",
+      "stacking": { "group": "lc-23008-post-ultimate-party-speed", "rule": "nonStacking" },
+      "calculation": { "stage": "baseStats", "operation": "add" },
+      "support": { "status": "calculable", "verified": true, "reason": "固定版光円錐23008.params[0..4][1]の必殺技後、味方全体への固定SPD上昇を受益者の状態として実装。" },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23008.params[0..4][1]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound12.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23047:dot-vulnerability-stacks",
+      "source": { "kind": "lightCone", "id": "23047" },
+      "name": "海の歌は何がため・「魂迷」の持続ダメージ被ダメージ",
+      "description": "装備者が付与した「魂迷」が有効な敵について、装備者由来の層数1～6に応じて持続ダメージ被ダメージをS1～S5で1層あたり5/6.25/7.5/8.75/10%上げます。付与の80%基礎確率と層の蓄積は自動再現しません。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": { "kind": "perStackByRefinement", "values": [5, 6.25, 7.5, 8.75, 10] },
+      "target": { "owner": "enemyAll", "attackTypes": ["dot"], "elements": [] },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "lc-23047-soultrance-stacks",
+        "inputLabel": "装備者が付与した「魂迷」の有効層数",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 6,
+        "conditionText": "対象敵に装備者が付与した「魂迷」が有効・層数は最大6"
+      },
+      "finalStatsInclusion": { "inputKey": "lc-23047-dot-vulnerability-in-final", "inputLabel": "「魂迷」の持続ダメージ被ダメージ増加を敵条件へ算入済み" },
+      "inputPolicy": "conditional",
+      "stacking": { "group": "lc-23047-soultrance-dot-vulnerability", "rule": "nonStacking", "maximumStacks": 6 },
+      "calculation": { "stage": "vulnerability", "operation": "add" },
+      "support": { "status": "calculable", "verified": true, "reason": "固定版光円錐23047.params[0..4][3,4]から、装備者付与の「魂迷」1層あたりのDoT専用被ダメージ補正と最大6層を実装。付与成功確率と戦闘中の層追加はシミュレーションしない。" },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23047.params[0..4][2,3,4]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound12.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23047:soultrance-recipient-speed",
+      "source": { "kind": "lightCone", "id": "23047" },
+      "name": "海の歌は何がため・「魂迷」対象攻撃後の味方速度",
+      "description": "味方が「魂迷」状態の敵を攻撃した後、その味方の速度を10/12.5/15/17.5/20%上げます。効果を受けた味方の最終速度に同じ上昇を含めている場合は最終入力算入を選択してください。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": { "kind": "byRefinement", "values": [10, 12.5, 15, 17.5, 20] },
+      "target": { "owner": "activeAlly", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23047-soultrance-hit-speed-active",
+        "inputLabel": "味方が「魂迷」状態の敵を攻撃済み",
+        "default": false,
+        "durationTurns": 3,
+        "conditionText": "対象の味方が「魂迷」状態の敵を攻撃した後・3ターン以内"
+      },
+      "finalStatsInclusion": { "inputKey": "lc-23047-recipient-speed-in-final", "inputLabel": "この光円錐による受益者の速度上昇を最終速度へ算入済み" },
+      "inputPolicy": "conditional",
+      "stacking": { "group": "lc-23047-soultrance-recipient-speed", "rule": "nonStacking" },
+      "calculation": { "stage": "baseStats", "operation": "add" },
+      "support": { "status": "calculable", "verified": true, "reason": "固定版光円錐23047.params[0..4][5,6]から、攻撃した味方本人へのSPD割合上昇を任意状態として登録。" },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23047.params[0..4][5,6]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound12.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23041:implanted-weakness-damage",
+      "source": { "kind": "lightCone", "id": "23041" },
+      "name": "生命、焼滅すべし・装備者が付与した弱点属性への与ダメージ",
+      "description": "装備者が対象敵に付与した弱点属性が有効な間、本人の与ダメージをS1～S5で60/70/80/90/100%上げます。付与済みの敵状態を指定してください。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": { "kind": "byRefinement", "values": [60, 70, 80, 90, 100] },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23041-implanted-weakness-active",
+        "inputLabel": "装備者が対象敵へ弱点属性を付与済み",
+        "default": false,
+        "conditionText": "対象敵に装備者が付与した弱点属性が有効"
+      },
+      "stacking": { "group": "lc-23041-implanted-weakness-damage", "rule": "nonStacking" },
+      "calculation": { "stage": "damageBonus", "operation": "add" },
+      "inputPolicy": "conditional",
+      "support": { "status": "calculable", "verified": true, "reason": "固定版光円錐23041.params[0..4][2]を百分率化し、装備者が弱点を付与済みの対象敵への装備者本人ダメージとして登録。" },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23041.params[0..4][2]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound12.test.cjs"
+      }
+    },
+    {
+      "id": "lightCone:23041:prior-defense-reduction",
+      "source": { "kind": "lightCone", "id": "23041" },
+      "name": "生命、焼滅すべし・事前成立した敵防御力低下",
+      "description": "装備者の攻撃で発生し、現在の攻撃より前から有効な対象敵の防御力低下をS1～S5で12/15/18/21/24%適用します。初回攻撃への先行適用は扱いません。敵の防御条件欄に同じ値を算入済みなら最終入力算入を選択してください。",
+      "category": "defenseReduction",
+      "unit": "percent",
+      "value": { "kind": "byRefinement", "values": [12, 15, 18, 21, 24] },
+      "target": { "owner": "enemyAll", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lc-23041-prior-defense-down-active",
+        "inputLabel": "装備者による対象敵の防御力低下が攻撃前から有効",
+        "default": false,
+        "durationTurns": 2,
+        "conditionText": "装備者が先行して攻撃し、防御力低下が事前成立済み・2ターン以内"
+      },
+      "finalStatsInclusion": { "inputKey": "lc-23041-defense-reduction-in-final", "inputLabel": "この光円錐の防御力低下を敵の最終防御条件へ算入済み" },
+      "inputPolicy": "conditional",
+      "stacking": { "group": "lc-23041-prior-defense-reduction", "rule": "nonStacking" },
+      "calculation": { "stage": "defense", "operation": "add" },
+      "support": { "status": "calculable", "verified": true, "reason": "固定版光円錐23041.params[0..4][1,3]の敵防御力低下を事前成立スナップショットに限定し、初回適用順を推測しない。" },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23041.params[0..4][1,3]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrEquipmentRound12.test.cjs"
+      }
+    }
+  ]
+}

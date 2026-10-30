@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "extra-round12-dbe8cdf-2026-10-31",
+  "generatedFrom": "fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 index_new/jp/character_skills.json",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "ジェイド通常の敵1体直接成分・債権回収者状態で成立した追加ダメージ、およびギルガメッシュの敵1体必殺・自身の連携追撃成分を固定版パラメータで接続。E0の採用Lvと限定状態を共通計算で独立検証。E0主要構成の完成認定ではない。"
+  },
+  "overrides": [
+    {
+      "id": "131402",
+      "characterId": "1314",
+      "name": "ほしいままに呑み込む買収（状態付与スキル・直接ダメージなし）",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "この戦闘スキルは味方1名を債権回収者に指定する状態付与です。直接ダメージを与えないため、ジェイドATK参照の付加ダメージは独立した追加成分1314021として、味方の攻撃後に発生した状態を指定して計算します。"
+      },
+      "calculationNote": "戦闘スキルID131402そのものはダメージ倍率を持たない状態付与です。ジェイドの付加ダメージは、債権回収者の攻撃成立後に発生する別成分1314021として計算します。スキル本体を直接ダメージ攻撃として計算しません。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:131402",
+        "verifiedAt": "2026-10-31",
+        "scope": "味方への債権回収者状態付与。直接ダメージなし。付加ダメージはID1314021で別計算。",
+        "verification": "tests/hsr/hsrExtraRound12.test.cjs"
+      },
+      "sourceSkillId": "131402",
+      "element": "Quantum",
+      "multipliers": [
+        0
+      ],
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": false
+    },
+    {
+      "id": "131401",
+      "characterId": "1314",
+      "sourceSkillId": "131401",
+      "name": "むしり取る鞭打ち",
+      "element": "Quantum",
+      "type": "normal",
+      "traceKey": "normal",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "主対象への直接攻撃1回",
+      "canCrit": true,
+      "multipliers": [
+        45,
+        54,
+        63,
+        72,
+        81,
+        90
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 6,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-single-target-primary-component",
+      "conditionText": "Lv80・星魂0・通常攻撃Lv1～6・敵1体。指定対象へのジェイド本人のATK参照成分。",
+      "calculationNote": "固定版ID131401.params[0..5][0]の主対象ATK倍率を使用します。隣接敵へのparams[1]成分、味方の債権回収者付加ダメージ、チャージや天賦追加攻撃は含みません。通常攻撃Lv1～6はE0範囲です。最終ATKを参照し、小軌跡や質草等の既算入効果は再加算しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版params[0..5][0]×100の主対象倍率45/54/63/72/81/90%をE0通常Lv1～6で独立検証。敵1体へ限定し隣接成分と分離。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:131401.params[0..5][0]",
+        "verifiedAt": "2026-10-31",
+        "scope": "E0・敵1体・指定した主対象への通常攻撃の直接成分。",
+        "verification": "tests/hsr/hsrExtraRound12.test.cjs"
+      }
+    },
+    {
+      "id": "1314021",
+      "characterId": "1314",
+      "sourceSkillId": "131402",
+      "name": "ほしいままに呑み込む買収（債権回収者の攻撃後付加ダメージ）",
+      "element": "Quantum",
+      "type": "additional",
+      "traceKey": "skill",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "債権回収者の1回の攻撃に付随する追加成分1回",
+      "canCrit": true,
+      "multipliers": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21.25,
+        22.5,
+        23.75,
+        25
+      ],
+      "modifierInputKey": "jade-debt-collector-active",
+      "modifierInputMinimum": 1,
+      "modifierInputDefault": 0,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-single-enemy-additional-damage-snapshot",
+      "conditionText": "Lv80・星魂0・戦闘スキルLv1～10。債権回収者状態の味方が敵1体へ攻撃し、ジェイドの付加ダメージが成立した1回。",
+      "calculationNote": "固定版ID131402.params[0..9][2]のジェイドATK倍率15～25%を使う、債権回収者攻撃後の付加ダメージ1回です。参照ATKはジェイド本人の最終値で、攻撃を行った債権回収者のステータスは使いません。味方の先行攻撃・残HP消費・ターン数/回数管理は再現しません。債権回収者状態と追加成分成立を補正条件で選択します。ジェイド通常攻撃や他の攻撃本体と別成分として表示し、合算しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版params[0..9][2]×100のジェイドATK倍率をE0戦闘スキルLv1～10で独立検証。債権回収者状態・追加成分成立済みの敵1体単発へ限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:131402.params[0..9][2]",
+        "verifiedAt": "2026-10-31",
+        "scope": "E0・敵1体・債権回収者状態の味方が攻撃後に発生した付加ダメージ1回。参照値はジェイド本人の最終ATK。",
+        "verification": "tests/hsr/hsrExtraRound12.test.cjs"
+      }
+    },
+    {
+      "id": "150902",
+      "characterId": "1509",
+      "sourceSkillId": "150902",
+      "name": "王の財宝（星魂0・指定対象と隣接対象）",
+      "element": "Thunder",
+      "type": "skill",
+      "traceKey": "skill",
+      "target": "blast",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "指定対象1回。隣接対象は別成分表示",
+      "canCrit": true,
+      "multipliers": [
+        140,
+        154,
+        168,
+        182,
+        196,
+        210,
+        227.5,
+        245,
+        262.5,
+        280
+      ],
+      "adjacentMultipliers": [
+        70,
+        77,
+        84,
+        91,
+        98,
+        105,
+        113.75,
+        122.5,
+        131.25,
+        140
+      ],
+      "suppressAdjacentWithSingleEnemy": true,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "comparisonModifierInputs": {
+        "gilgamesh-kings-recognition-active": true
+      },
+      "characterLevelExact": 80,
+      "calculationScope": "independently-checked-blast-skill-components",
+      "conditionText": "Lv80・星魂0・戦闘スキルLv1～10。敵1体なら指定対象の直接成分。敵が複数なら隣接対象の成分も別に表示。",
+      "calculationNote": "固定版ID150902.params[0..9][0..1]から指定対象ATK倍率140～280%と隣接対象70～140%を分離します。対象防御力を15～30%無視する「王が認める」は必殺技・戦闘スキル後の状態を計算前から指定した場合だけ有効化してください。初回スキルの付加順は仮定せず、同スキルの初撃に自己付与を先行適用しません。参照値はギルガメッシュ本人の最終ATKです。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版params[0..9][0..1]を100倍した主対象/隣接倍率をE0スキルLv1～10で独立検証。隣接対象を主対象と分離し、敵1体では隣接成分を抑止する。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150902.params[0..9][0..1,4..6]",
+        "verifiedAt": "2026-10-31",
+        "scope": "E0・敵数に応じた単発スキル主対象成分/隣接成分。防御無視は計算前から有効な状態のみ。",
+        "verification": "tests/hsr/hsrExtraRound12.test.cjs"
+      }
+    },
+    {
+      "id": "150903",
+      "characterId": "1509",
+      "sourceSkillId": "150903",
+      "name": "天地乖離す開闢の星（敵1体・11ヒット）",
+      "element": "Thunder",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "全体攻撃1回＋ランダムバウンド10回（敵1体）",
+      "canCrit": true,
+      "multipliers": [
+        700,
+        770,
+        840,
+        910,
+        980,
+        1050,
+        1137.5,
+        1225,
+        1312.5,
+        1400
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-one-enemy-aoe-plus-bounce",
+      "conditionText": "Lv80・星魂0・必殺技Lv1～10・敵1体。全体攻撃1回とランダムバウンド10回が同じ敵へ命中する状態。",
+      "calculationNote": "固定版ID150903.params[0..9][0..2]の全体倍率と10回のランダムバウンドを合算します。敵1体では全て同じ敵へ命中するため合計倍率は#1+10×#2（Lv1～10で700～1400%）です。複数敵でのランダム対象分配、攻撃内の敵状態変化は含みません。最終ATKを使用し、星魂0の限定構成です。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版params[0..9][0]+10×params[0..9][1]の全体1回+10バウンドを敵1体限定で全採用Lv独立検証。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150903.params[0..9][0..2]",
+        "verifiedAt": "2026-10-31",
+        "scope": "E0・敵1体・全体攻撃1回とバウンド10回の合計。",
+        "verification": "tests/hsr/hsrExtraRound12.test.cjs"
+      }
+    },
+    {
+      "id": "1509051",
+      "characterId": "1509",
+      "sourceSkillId": "150905",
+      "name": "「攻撃を許す」（ギルガメッシュの連携追加攻撃・雷成分）",
+      "element": "Thunder",
+      "type": "followUp",
+      "traceKey": "talent",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 1,
+      "hitCountLabel": "連携追加攻撃のギルガメッシュ雷属性成分1回",
+      "canCrit": true,
+      "multipliers": [
+        200,
+        220,
+        240,
+        260,
+        280,
+        300,
+        325,
+        350,
+        375,
+        400
+      ],
+      "modifierInputKey": "gilgamesh-link-followup-ready",
+      "modifierInputMinimum": 1,
+      "modifierInputDefault": 0,
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-single-enemy-coordinated-attack-component",
+      "conditionText": "Lv80・星魂0・天賦Lv1～10。累計8回の攻撃後に連携追加攻撃が発生した状態。",
+      "calculationNote": "固定版ID150905.params[0..9][0]のギルガメッシュ本人のATK参照・雷属性成分のみを計算します。敵1体に対する連携追加攻撃1回です。セイバーの風属性成分、攻撃回数の蓄積・リセット、「興」の獲得は含みません。連携追加攻撃が発生済みの想定状態を選択してください。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版params[0..9][0]×100のギルガメッシュ雷成分200～400%をE0天賦Lv1～10で独立検証。セイバーの別属性・別参照値を合算しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:150905.params[0..9][0,4]",
+        "verifiedAt": "2026-10-31",
+        "scope": "E0・敵1体・ギルガメッシュの連携追加攻撃の雷成分1回のみ。セイバー風成分は別キャラクターの攻撃として対象外。",
+        "verification": "tests/hsr/hsrExtraRound12.test.cjs"
+      }
+    }
+  ]
+}

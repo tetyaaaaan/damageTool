@@ -142,3 +142,11 @@
 霊砂は[攻撃](../../../games/hsr/data/calc/attacks-lingsha-round11.json)で本体の星魂/Lv範囲と同一浮元イベント合計を扱い、[E1補正](../../../games/hsr/data/calc/modifiers-lingsha-round11.json)を追加する。既存E2/E6支援と追加4段のみの行は維持する。一般精霊継承/複数敵対象移動を完成扱いにしない。
 
 [参考値昇格攻撃](../../../games/hsr/data/calc/attacks-promotions-round11.json)と[事前デバフ](../../../games/hsr/data/calc/modifiers-promotions-round11.json)は直接成分と明示状態の限定受入。ダリア結界中の超撃破等の未接続成分を含む全文完成ではない。[LC](../../../games/hsr/data/calc/modifiers-equipment-round11.json)は確認したS1～S5成分だけを計算し、恒常propertiesは最終入力へ含む管理行とする。精霊向け同量DMG、戦闘前最大SP条件、未確認の複数提供者合成は局所保留。種類数/残件/効果群の集計は[台帳](../../HSR_COMPLETION_WORKLOAD.md)にのみ記録する。
+
+## 第12回追加の定義参照
+
+[ファイノン攻撃](../../../games/hsr/data/calc/attacks-phainon-round12.json)と[形態/A6](../../../games/hsr/data/calc/modifiers-phainon-round12.json)は、明示層数・最終値・係数差の局所保留を管理する。[ダリア攻撃](../../../games/hsr/data/calc/attacks-dahlia-round12.json)と[結界効率](../../../games/hsr/data/calc/modifiers-dahlia-round12.json)は既存参考値の追撃と、明示削靭による事前撃破済み超撃破を分離する。
+
+[セイレンス/サフェル攻撃](../../../games/hsr/data/calc/attacks-serin-cipher-round12.json)と[補正](../../../games/hsr/data/calc/modifiers-serin-cipher-round12.json)は、択一DoT・領域1回・必殺直接成分・Cipherの指定記録4成分を区別する。Cipherの限定E0受入と範囲外は生成完成表が正本で、全状態の認定に読み替えない。[追加キャラ攻撃](../../../games/hsr/data/calc/attacks-extra-round12.json)と[DEF無視](../../../games/hsr/data/calc/modifiers-extra-round12.json)はジェイド/ギルガメッシュの本人成分を扱い、別所有者の全連携を完成扱いにしない。
+
+[LC](../../../games/hsr/data/calc/modifiers-equipment-round12.json)は確認したS1～S5の計算成分だけを追加し、恒常propertiesは既存の最終入力責務を維持。未確認の初回付与/複数提供者合成を全文完成として登録しない。分類・種類数と残範囲は[台帳](../../HSR_COMPLETION_WORKLOAD.md)で管理する。

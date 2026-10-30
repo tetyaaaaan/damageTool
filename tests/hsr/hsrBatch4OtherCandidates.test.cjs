@@ -143,8 +143,10 @@ test("batch4 Remembrance owner boundaries withhold Mem-only Ultimate and two-own
     }
 });
 
-test('batch4 Phainon maximum descriptor preserves the complete fixed-source percentage without claiming whole-action verification',async()=>{
+test('batch4 Phainon Ruin descriptor keeps its raw maximum curve separate from stack-selected calculations',async()=>{
  const {data}=await loadProductionFixture();const a=attackOf(data,'140811');
- assert.deepEqual(Array.from(a.multipliers),[585,643.5,702,760.5,819,877.5,950.62,1023.75,1096.88,1170,1228.5,1287,1345.5,1404,1462.5]);
- assert.equal(a.support.status,'review');assert.equal(a.support.verified,false);assert.equal(a.provenance.sourceCommit,fixedSourceSha);
+ assert.deepEqual(Array.from(a.multipliers),[90,99,108,117,126,135,146.24,157.48,168.76,180,189,198,207,216,225], 'base display curve represents one Ruin stack');
+ assert.deepEqual(Array.from(a.phainonRuinMultipliers['4']),[585,643.5,702,760.5,819,877.5,null,null,null,1170,1228.5,1287,1345.5,1404,1462.5], 'four-stack raw maximum retains the fixed-source Lv7–9 exclusions');
+ assert.deepEqual(Array.from(a.phainonUnresolvedRuinLevels),[7,8,9]);
+ assert.equal(a.support.status,'calculable');assert.equal(a.support.verified,true);assert.equal(a.provenance.sourceCommit,fixedSourceSha);
 });

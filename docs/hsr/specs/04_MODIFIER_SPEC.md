@@ -243,3 +243,11 @@ LC23014のDEF無視は共有`eclipse-stacks`の`numericThreshold>=3`から自動
 `buildCandidates()`の有限な有効値一段評価へ、別提供者の`providerStatPercentByLevel`・`statFlat speed`だけを追加し、グラモス等の閾値に反映する。自己参照SPDや全Modifier再帰評価へ拡張しない。既算入の速度を戻して足し直さない。
 
 LC23045の最大EP300条件は既存`current-max-energy`の数値閾値と必殺後`requiredToggleKey`を共に要求する。未指定EPを仮定しない。23054/21050/22007/24006の同LC複数提供者合成が未確認なら当該支援だけを局所除外する。事前敵デバフと攻撃ごとの想定状態も既存形式を使用し、状態保存は`modifierInputs`を維持する。[定義と受入](06_CHARACTER_EQUIPMENT_SPEC.md)を参照。
+
+## 第12回追加：既存形式の再利用と参照時点
+
+ファイノンの形態ATK/HPは共有toggle、A6は現在成立した1～2層を既存stack入力で指定する。入場/変身終了の履歴から層を推定しない。形態攻撃の想定ONは各結果だけへ与え、保存全体値を上書きしない。既算入なら再加算せず、Phainonの必須補正照合も`includedInFinalStats`を受理する。全Modifierの依存/時間更新は導入しない。
+
+サフェルA4の速度140/170によるCRは既存thresholdと有効SPD一段評価を使用し、高い段階だけを採用する。FUA CD100%はFUA限定、戦場にいる時の敵被DMG40%は常時。スキルATK30%は事前有効な状態のtoggleで、最終入力の算入済み除外を個別に持つ。セイレンスA6のEHR→DMGも既存条件式を使用する。
+
+ダリア結界のbreakEfficiencyは既発動toggleで、基礎削靭入力を効率補正前と定義する。LC23008/23047/23041の同系複数提供者は未確認の合成を行わず、その支援だけを未確定にする。装備者由来の魂迷層を総敵デバフ数で代用しない。追加形式の正本は[定義参照](06_CHARACTER_EQUIPMENT_SPEC.md)、意味群/成分の集計は台帳。

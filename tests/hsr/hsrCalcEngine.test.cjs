@@ -461,7 +461,10 @@ test("four scoped AoE attacks agree with independent released coefficients and o
             assert.ok(Math.abs(result.breakdown.baseDamage*result.breakdown.commonWithoutVulnerability*result.breakdown.vulnerabilityFactorSum-result.nonCrit)<1e-8);
         }
     }
-    assert.equal(data.attacks.find(item => item.id === "140603").support.status, "displayOnly");
+    assert.equal(data.attacks.find(item => item.id === "140603").support.status, "calculable", "the limited one-enemy snapshot Ultimate is verified");
+    assert.equal(data.attacks.find(item => item.id === "140603").support.verified, true);
+    assert.equal(data.attacks.find(item => item.id === "150902").support.status, "calculable", "the Gilgamesh skill is calculable under its declared prior-state scope");
+    assert.equal(data.attacks.find(item => item.id === "150902").support.verified, true);
     const bounce = data.attacks.find(item => item.id === "130214");
     assert.equal(bounce.support.status, "calculable");
     assert.equal(bounce.support.verified, true, "the explicit stable 10-stack snapshot is accepted; intra-action updates remain excluded");

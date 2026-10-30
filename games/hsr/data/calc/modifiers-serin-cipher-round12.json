@@ -1,0 +1,337 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "serin-cipher-round12-dbe8cdf-2026-10-31",
+  "description": "セイレンスとサフェルのE0で直接ダメージへ反映する固定版軌跡条件。攻撃中の履歴や状態更新は推定しない。",
+  "modifiers": [
+    {
+      "id": "trace:1406:1406101:speed-crit-rate",
+      "source": {
+        "kind": "trace",
+        "id": "1406",
+        "traceId": "1406101"
+      },
+      "name": "金のボテス・速度条件の会心率",
+      "description": "サフェル自身の実効速度が140以上で会心率+25%、170以上で+50%。速度から自動判定します。最終会心率へ既に加算している場合は算入済みを選択してください。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "threshold",
+        "thresholds": [
+          {
+            "minimum": 140,
+            "value": 25
+          },
+          {
+            "minimum": 170,
+            "value": 50
+          }
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "サフェルの実効速度が140以上（170以上で高い段階へ置換）",
+        "reference": "self.speed",
+        "operator": ">=",
+        "threshold": 140,
+        "statSource": "effective"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "cipher-a4-speed-crit-in-final-stats",
+        "inputLabel": "サフェルの速度条件会心率を最終会心率へ反映済み"
+      },
+      "stacking": {
+        "group": "trace:1406:1406101:speed-crit-rate",
+        "rule": "replace"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1406101.params[0..1]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-31",
+        "notes": "速度140/170以上で会心率25/50%。threshold value uses replace so the two tiers do not add together.",
+        "scope": "E0・サフェル本人の実効SPD閾値。ダメージ記録値の取得量は計算対象外。",
+        "verification": "tests/hsr/hsrSerinCipherRound12.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1406:1406103:follow-up-crit-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1406",
+        "traceId": "1406103"
+      },
+      "name": "世を欺く嘘・天賦追加攻撃の会心ダメージ",
+      "description": "サフェルの天賦追加攻撃の会心ダメージ+100%。会心ダメージの通常入力には含めず、追加攻撃だけに適用します。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 100
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "followUp"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "サフェルのA6を取得済み。天賦追加攻撃に適用。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "cipher-fua-crit-damage-in-final-stats",
+        "inputLabel": "サフェルA6の追加攻撃用会心ダメージ+100%を最終会心ダメージへ反映済み"
+      },
+      "stacking": {
+        "group": "trace:1406:1406103:follow-up-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1406103.params[1]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-31",
+        "notes": "A6 grants follow-up CRIT DMG +100%; enemy taken damage +40% while Cipher is on the field is a separate enemy state not assumed here.",
+        "scope": "星魂0のサフェル本人の天賦追撃だけ。攻撃順・記録更新・敵被ダメージ増加は別状態。",
+        "verification": "tests/hsr/hsrSerinCipherRound12.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1406:140602:post-skill-atk",
+      "source": {
+        "kind": "trace",
+        "id": "1406",
+        "skillId": "140602"
+      },
+      "name": "へへっ！お宝いただき～！・使用後の攻撃力",
+      "description": "戦闘スキルを使用した後、サフェルの攻撃力+30%、2ターン。計算対象攻撃より前にこの効果が成立した状態を手動指定してください。発動した戦闘スキル自身へ遡って適用しません。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 30
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "戦闘スキル使用後のATK+30%が計算対象攻撃より前から有効",
+        "inputKey": "cipher-skill-atk-active",
+        "inputLabel": "サフェルの戦闘スキル後ATK+30%が有効",
+        "default": false,
+        "durationTurns": 2
+      },
+      "finalStatsInclusion": {
+        "inputKey": "cipher-skill-atk-in-final-stats",
+        "inputLabel": "サフェルの戦闘スキル後ATK+30%を最終ATKへ反映済み"
+      },
+      "stacking": {
+        "group": "character:1406:140602:post-skill-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10,
+        "minimum": 0,
+        "maximum": 1,
+        "integer": true
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140602.params[0..9][4]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-31",
+        "notes": "Every fixed-source skill level gives ATK +30% after use for 2 turns.",
+        "scope": "Only a pre-existing post-skill snapshot. The first skill hit does not inherit its own resulting buff; no duration/action-order simulation.",
+        "verification": "tests/hsr/hsrSerinCipherRound12.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1406:1406103:enemy-taken-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1406",
+        "traceId": "1406103"
+      },
+      "name": "世を欺く嘘・敵全体の被ダメージ",
+      "description": "サフェルが戦場にいる間、敵全体の受けるダメージ+40%。敵の被ダメージ入力へ反映済みの場合は算入済みを指定してください。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 40
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "サフェルが戦場にいる（選択キャラまたは編成中の味方）"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "cipher-a6-taken-damage-in-enemy-input",
+        "inputLabel": "サフェルA6の敵被ダメージ+40%を敵入力へ反映済み"
+      },
+      "stacking": {
+        "group": "trace:1406:1406103:enemy-taken-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "takenDamage",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1406103.params[0]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-31",
+        "notes": "While Cipher is on the field enemies take 40% more damage. This is separate from FUA Crit DMG +100%.",
+        "scope": "Single-target damage requests with Cipher selected or in the modeled party. No enemy-status duration/history state.",
+        "verification": "tests/hsr/hsrSerinCipherRound12.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1410:1410103:effect-hit-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1410",
+        "traceId": "1410103"
+      },
+      "name": "真珠の琴線・効果命中超過分の与ダメージ",
+      "description": "セイレンスの効果命中が60%を超えた後、超過10%ごとに与ダメージ+15%、最大+90%。効果命中から自動判定します。条件付き与ダメージを最終入力へ含めている場合は算入済みを指定してください。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "threshold",
+        "thresholds": [
+          {
+            "minimum": 70,
+            "value": 15
+          },
+          {
+            "minimum": 80,
+            "value": 30
+          },
+          {
+            "minimum": 90,
+            "value": 45
+          },
+          {
+            "minimum": 100,
+            "value": 60
+          },
+          {
+            "minimum": 110,
+            "value": 75
+          },
+          {
+            "minimum": 120,
+            "value": 90
+          }
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "効果命中が60%を超える場合、10%超過ごとの段階を自動判定",
+        "reference": "self.effectHitRate",
+        "operator": ">",
+        "threshold": 60
+      },
+      "finalStatsInclusion": {
+        "inputKey": "serin-a6-ehr-damage-in-final-input",
+        "inputLabel": "セイレンスA6の条件付き与ダメージを最終与ダメージへ反映済み"
+      },
+      "stacking": {
+        "group": "trace:1410:1410103:effect-hit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1410103.params[0..3]",
+        "gameVersion": "fixed-sha-dbe8cdf",
+        "verifiedAt": "2026-10-31",
+        "notes": "EHR threshold60, step10, 15% damage bonus per step, cap90.",
+        "scope": "E0・セイレンス本人の入力効果命中で自動評価。初回DoT付与順・必殺のDoT起爆は対象外。",
+        "verification": "tests/hsr/hsrSerinCipherRound12.test.cjs"
+      }
+    }
+  ]
+}

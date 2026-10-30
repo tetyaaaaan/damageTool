@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "phainon-round12-dbe8cdf-2026-10-31",
+  "description": "変身中の本人攻撃力・最大HP補正と、変身攻撃で常時成立する追加能力1408103の戦闘開始ATK+50%。追加能力1408102の治癒/バリア後DMG+45%は既存modifiers-native-round4.jsonに計算対応済みのため重複登録しない。",
+  "modifiers": [
+    {
+      "id": "trace:1408:140805:kaslana-atk",
+      "source": { "kind": "trace", "id": "1408", "skillId": "140805" },
+      "name": "運命・この身は神なり・カスライナ形態の攻撃力",
+      "description": "カスライナ形態中の攻撃力+40～80%。形態中の攻撃を入力する場合に有効化します。変身後の最終ATKを入力済みなら算入済み欄を選択してください。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "levelInputLabel": "ファイノンの天賦Lv",
+        "values": [40, 44, 48, 52, 56, 60, 65, 70, 75, 80]
+      },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "カスライナ形態中",
+        "inputKey": "phainon-kaslana-form",
+        "inputLabel": "ファイノンがカスライナ形態中",
+        "default": false
+      },
+      "inputValidation": { "maximumEidolon": 0, "levelMaximum": 10 },
+      "finalStatsInclusion": {
+        "inputKey": "phainon-kaslana-atk-in-final-stats",
+        "inputLabel": "カスライナ形態の攻撃力上昇を最終ATKへ反映済み"
+      },
+      "stacking": { "group": "trace:1408:140805:kaslana-atk", "rule": "nonStacking" },
+      "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版140805.params[0..9][3]を100倍したカスライナ形態のATK上昇を天賦Lv1～10で接続。変身状態は任意入力とし、変身後最終ATKの算入済み選択で二重加算を防ぐ。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140805.params[0..9][3]",
+        "verifiedAt": "2026-10-31",
+        "scope": "カスライナ形態中のファイノン本人の全攻撃。ATK上昇を含む最終ATKを入力済みなら算入済みへ切り替えます。",
+        "verification": "tests/hsr/hsrPhainonRound12.test.cjs"
+      }
+    },
+    {
+      "id": "trace:1408:140805:kaslana-hp",
+      "source": { "kind": "trace", "id": "1408", "skillId": "140805" },
+      "name": "運命・この身は神なり・カスライナ形態の最大HP",
+      "description": "カスライナ形態中の最大HP+135～270%。形態中の攻撃を入力する場合に有効化します。変身後の最終HPを入力済みなら算入済み欄を選択してください。",
+      "category": "statPercent",
+      "stat": "hp",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "levelInputLabel": "ファイノンの天賦Lv",
+        "values": [135, 148.5, 162, 175.5, 189, 202.5, 219.38, 236.25, 253.12, 270]
+      },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [] },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "カスライナ形態中",
+        "inputKey": "phainon-kaslana-form",
+        "inputLabel": "ファイノンがカスライナ形態中",
+        "default": false
+      },
+      "inputValidation": { "maximumEidolon": 0, "levelMaximum": 10 },
+      "finalStatsInclusion": {
+        "inputKey": "phainon-kaslana-hp-in-final-stats",
+        "inputLabel": "カスライナ形態の最大HP上昇を最終HPへ反映済み"
+      },
+      "stacking": { "group": "trace:1408:140805:kaslana-hp", "rule": "nonStacking" },
+      "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版140805.params[0..9][4]を100倍したカスライナ形態の最大HP上昇を天賦Lv1～10で接続。HP参照攻撃に適用し、変身後最終HPの算入済み選択で二重加算を防ぐ。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140805.params[0..9][4]",
+        "verifiedAt": "2026-10-31",
+        "scope": "カスライナ形態中のファイノン本人の最大HP。HP上昇を含む最終HPを入力済みなら算入済みへ切り替えます。",
+        "verification": "tests/hsr/hsrPhainonRound12.test.cjs"
+      }
+    },
+    {
+      "id": "traceNode:1408:1408103:battle-atk",
+      "source": { "kind": "trace", "id": "1408", "traceId": "1408103" },
+      "name": "追加能力「映し出されし英雄の本質」・戦闘開始時の攻撃力",
+      "description": "戦闘開始時または変身終了時に得る攻撃力+50%の層数（最大2）を指定します。変身中・変身終了後のどちらも成立層数が異なるため、自動で決めません。最終ATKへ反映済みなら算入済み欄で除外してください。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": { "kind": "perStack", "perStack": 50 },
+      "target": { "owner": "self", "attackTypes": ["all"], "elements": [], "attackIds": ["140803", "140809", "140811"] },
+      "activation": {
+        "mode": "stack",
+        "inputKey": "phainon-a6-atk-stacks",
+        "inputLabel": "追加能力「映し出されし英雄の本質」の攻撃力上昇層数",
+        "conditionText": "戦闘開始・変身終了で得た現在の層数",
+        "minimum": 1,
+        "maximum": 2
+      },
+      "inputValidation": { "minimum": 1, "maximum": 2, "integer": true, "maximumEidolon": 0 },
+      "finalStatsInclusion": {
+        "inputKey": "phainon-a6-atk-in-final-stats",
+        "inputLabel": "追加能力「映し出されし英雄の本質」の戦闘開始時ATK+50%を最終ATKへ反映済み"
+      },
+      "stacking": { "group": "traceNode:1408:1408103:battle-atk", "rule": "nonStacking" },
+      "calculation": { "stage": "baseStats", "operation": "add" },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1408103.params[0][0]=0.5、params[0][1]=2を確認。戦闘開始/変身終了で得た状態層数1～2を必須入力し、層ごとにATK+50%。最終ATK算入済み入力で二重加算を防ぐ。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1408103.params[0][0..1]",
+        "verifiedAt": "2026-10-31",
+        "scope": "カスライナ形態のファイノン攻撃140803/140809/140811。戦闘開始/変身終了で得たATK+50%を1～2層の明示入力から反映。",
+        "verification": "tests/hsr/hsrPhainonRound12.test.cjs"
+      }
+    }
+  ]
+}

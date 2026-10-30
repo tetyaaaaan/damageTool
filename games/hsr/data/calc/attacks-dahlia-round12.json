@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": "fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 index_new/jp/character_skills.json",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定版天賦の単発追加攻撃について、敵1体に限定した5バウンドの直接炎属性ダメージを全採用Lvで独立検証。超撃破成分と発動頻度の再現は含めません。"
+  },
+  "overrides": [
+    {
+      "id": "132104",
+      "characterId": "1321",
+      "sourceSkillId": "132104",
+      "name": "コンスタンスを恐れる者は？（星魂0・敵1体への天賦追加攻撃）",
+      "element": "Fire",
+      "type": "followUp",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "statMultiplier",
+      "hitCount": 5,
+      "hitCountLabel": "敵1体へランダムな5ヒット",
+      "canCrit": true,
+      "multipliers": [15, 16.5, 18, 19.5, 21, 22.5, 24.37, 26.25, 28.12, 30],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-direct-attack",
+      "conditionText": "Lv80・星魂0・敵1体・天賦Lv1～10。ダリア以外の「共に舞う者」が敵を攻撃した後に発生する追加攻撃1回を想定。1ターン中の発動上限を超える追加発生は含みません。",
+      "calculationNote": "固定版ID132104.params[0..9][0]の1ヒットごとのATK倍率と[1]の5ヒットを使い、敵1体にランダム選択された全5ヒットが命中する直接炎属性ダメージだけを計算します。倍率配列は1ヒットあたりの値です。敵が弱点撃破状態の時に発生するparams[2]由来の超撃破は別成分で、この攻撃行には含めません。攻撃前の「共に舞う者」状態と味方の先行攻撃は成立済みとし、行動順・発動頻度・ターンごとの上限追跡は再現しません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版ID132104.params[0..9][0]を100倍した1ヒット倍率を全10天賦Lvで検証し、同一敵への5ヒット合計を独立計算。敵1体の条件でのみランダム対象を確定します。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:132104.params[0..9][0,1]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrDahliaRound12.test.cjs"
+      }
+    },
+    {
+      "id": "1321042",
+      "characterId": "1321",
+      "sourceSkillId": "132104",
+      "name": "コンスタンスを恐れる者は？（天賦追加攻撃の超撃破成分）",
+      "element": "Fire",
+      "type": "superBreak",
+      "traceKey": "talent",
+      "target": "single",
+      "scalingStat": "atk",
+      "damageFormula": "dahliaSuperBreak",
+      "hitCount": 1,
+      "hitCountLabel": "天賦追加攻撃5段分の超撃破成分",
+      "canCrit": false,
+      "multipliers": [100, 110, 120, 130, 140, 150, 162.5, 175, 187.5, 200],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "requiresBrokenTarget": true,
+      "requiresFireWeakness": true,
+      "numericModifierInputs": [
+        {
+          "inputKey": "dahlia-fua-base-toughness",
+          "label": "追加攻撃5段の基礎削靭値（効率補正前）",
+          "minimum": 0,
+          "maximum": 99999
+        }
+      ],
+      "calculationScope": "independently-checked-super-break-component",
+      "conditionText": "Lv80・星魂0・敵1体・天賦Lv1～10。攻撃前から炎弱点かつ弱点撃破済みの敵に、他の「共に舞う者」の攻撃後に行う天賦追加攻撃が成立した状態。5段分の基礎削靭値は利用者が指定します。",
+      "calculationNote": "固定版ID132104.params[0..9][2]の倍率で天賦追加攻撃5段に由来する超撃破成分のみを計算します。固定版に各敵の有効削靭値は記録されていないため、5段合計の基礎削靭値を「効率補正前」の状態で入力してください。炎弱点・敵1体・攻撃前撃破済みを必須とし、結界中なら既存の+50%弱点撃破効率を選択できます。直接炎ダメージ、敵状態遷移、攻撃発生頻度は含みません。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版params[0..9][2]の天賦追加攻撃超撃破倍率を全10Lvで検証。削靭値は固定版から推測せず、5段合計の効率補正前の値を明示入力する専用経路です。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:132104.params[0..9][2]",
+        "verifiedAt": "2026-10-31",
+        "verification": "tests/hsr/hsrDahliaRound12.test.cjs"
+      }
+    }
+  ]
+}

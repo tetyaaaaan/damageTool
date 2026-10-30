@@ -61,9 +61,11 @@ test("the three earlier reviewed attacks retain fixed-source provenance", async 
     assert.equal(data.attackCoverage.review, data.attacks.filter((attack) => attack.support?.status !== "calculable" || !attack.support?.verified).length);
     assert.ok(counts.calculable >= 3);
 
-    assert.equal(attackOf(data, "140602").support.status, "review", "an unrelated unverified skill remains review-only");
+    assert.equal(attackOf(data, "140602").support.status, "calculable", "the independently verified direct one-enemy skill is promoted");
     assert.equal(attackOf(data, "151320").support.status, "calculable", "an unrelated existing calculable attack stays calculable");
-    assert.equal(attackOf(data, "140603").support.status, "displayOnly", "an unrelated unsupported compound attack stays display-only");
+    assert.equal(attackOf(data, "140603").support.status, "calculable", "the independently verified one-enemy snapshot Ultimate is promoted");
+    assert.equal(attackOf(data, "150902").support.status, "calculable", "the fixed-scope Gilgamesh skill is promoted");
+    assert.equal(attackOf(data, "150905").support.status, "review", "the original mixed-owner joint attack remains review-only");
 });
 
 test("each promoted direct attack matches independent NC, C, and expected-value calculations at every supported level", async () => {

@@ -110,3 +110,11 @@ UI・接続を変更したら1440/390/320pxで変更箇所と必要な境界を�
 [昇格行](../../../tests/hsr/hsrPromotionsRound11.test.cjs)は全Lv×複数の非対称ステータスで通常/スキル/必殺/追撃の直接係数を独立計算し、事前固有デバフの不足/算入済みを区別する。[LC全S](../../../tests/hsr/hsrEquipmentRound11.test.cjs)はATK/CR/CD/DMGと愉悦専用式、最大EP境界/未入力、共有条件、提供者解除/複数提供者局所除外、保存を確認する。
 
 [App](../../../tests/hsr/hsrToolInputs.test.cjs)は寒鴉主要攻撃/必殺→実受益者→速度閾値、霊砂全星魂/合計、昇格行の事前状態、実際の装備運命、既算入・解除・保存を検証する。既存UIDモック取得/再構成/入力反映の回帰も全体で実行し、実通信と混同しない。汎用100%倍率のModifier単体テストでは公式の限定攻撃を改変せず、明示的な合成攻撃を使う。最終全体・静的問題差分・3幅画面・文書検証の結果は台帳へ記録する。
+
+## 第12回追加の受入検証
+
+[Phainon](../../../tests/hsr/hsrPhainonRound12.test.cjs)は全採用Lvの形態/層別独立式、A6の明示層と既算入、4層/Lv7～9の局所拒否を確認。[Dahlia](../../../tests/hsr/hsrDahliaRound12.test.cjs)は5段直接FUAと別の超撃破式、明示した非対称な削靭値/BE、結界OFF/ON、未撃破/非弱点/入力不足の拒否を検証する。
+
+[Serin/Cipher](../../../tests/hsr/hsrSerinCipherRound12.test.cjs)は直接/DoT全採用Lv、裂創のHP/ATK上限、Cipherの通常/既発動ATKスキル/追撃と4成分必殺、速度140/170境界、各既算入/対象外を独立照合する。[追加キャラ](../../../tests/hsr/hsrExtraRound12.test.cjs)は本人ATKの付加・単体バウンド合計・事前DEF無視と解除を確認。[LC](../../../tests/hsr/hsrEquipmentRound12.test.cjs)は全S1～S5・任意/自動・DoT限定被DMG・支援SPDを検証する。
+
+[App](../../../tests/hsr/hsrToolInputs.test.cjs)は新しい数値欄の単一表示/未入力/保存復元、局所保留、Cipher実native効果と記録値4成分、BE計算へ不要なATKを要求しないことを確認する。既存UIDモック再構成→入力反映→計算→保存の回帰と実通信を区別する。最終全HSR・静的問題の開始時との差分・3幅画面・文書検証の結果は台帳に記録する。

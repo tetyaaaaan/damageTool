@@ -139,3 +139,9 @@ UIDの構成は変更しない。`hsrProfileApi.fetchHsrProfile()`のproxy成功
 `hsrApp.js`の`resolvedAttack()`は1222062を既存122204/1222061から2子攻撃に構成し、天賦Lvと固定追加倍率を区別する。`hsrCalcEngine.js`の`calculateLingshaSnapshot()`がID/属性/攻撃種類/参照値/順序/各倍率/同一入力とE6 RES補正を検査して既存成分合算へ渡す。任意攻撃を自由に合算する汎用機構へ広げない。
 
 `hsrModifierRuntime.js`は提供者SPDを既存有効値一段評価へ渡す。Appは寒鴉SPD不足を当該成分へ局所化する。霊砂E1用の撃破boolean参照は既存敵入力を使用し、入力欄/保存形式/UID取得経路を増やさない。[受入検証](07_TEST_SPEC.md)からApp/UIDモックへ辿る。
+
+## 第12回追加：限定した入力・合成経路
+
+`data-files.json`がround12のPhainon/Dahlia/Serin-Cipher/extra攻撃と対応Modifier・equipmentを読む。`hsrApp.js`の`comparisonReferenceControls()`は該当キャラの`numericModifierInputs`を既存モーダルへ1キー1欄で表示し、`resolvedAttack()`が層別倍率またはCipherの4子攻撃を構成する。記録値は子ごとに`trueDamage`へ渡し、既存`modifierInputs`と状態保存を利用する。新しい保存/UID経路は作らない。
+
+エンジンはPhainonの層別倍率と局所保留、`calculateCipherSnapshot()`の4成分、`calculateDahliaSuperBreak()`の限定変換を検査する。任意の攻撃/所有者を合成できる一般エンジンにはしない。`attack-contract.schema.json`は実在するsuperBreak型と明示下限E0を同期した。UI変更を配信/キャッシュ更新で反映するため、ページのApp/Engine/Runtimeのスクリプト読み込み版も更新する。共通ヘッダー/フッターは変更しない。

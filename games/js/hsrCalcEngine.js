@@ -170,6 +170,7 @@
 
     // Scoped to one final, non-True damage instance; no automatic result chaining.
     function supportedTrueAttack(attack) {
+        if (["1406033","1406034"].includes(attack.id)) return attack.characterId === "1406" && attack.sourceSkillId === "140603" && attack.damageFormula === "trueDamage" && attack.type === "trueDamage" && attack.target === "single" && attack.hitCount === 1;
         return attack.id === "1415021" && attack.damageFormula === "trueDamage"
             && attack.type === "trueDamage" && attack.sourceSkillId === "141502"
             && attack.target === "single" && attack.hitCount === 1;
@@ -178,6 +179,11 @@
     function trueDamageInputWarnings(input = {}) {
         const values = input.trueDamage || {};
         const warnings = [];
+        if (["1406033","1406034"].includes(input.attack?.id)) {
+            const expected=input.attack.id==="1406033"?25:75;
+            if(input.character?.level!==80 || input.character?.eidolon!==0 || input.enemy?.count!==1 || values.sourceKind!=="cipherRecord" || values.active!==true || !Number.isFinite(values.originalDamage) || values.originalDamage<0 || input.attack.multiplier!==expected) warnings.push("サフェルの確定成分はLv80/E0/敵1体・指定した参照時点の記録値0以上と固定25%/75%倍率が必要です。");
+            return warnings;
+        }
         if ((input.character?.eidolon ?? 0) !== 0) warnings.push("キュレネの領域の確定ダメージは星魂0のみ計算対応です。");
         if (values.active !== true) warnings.push("領域が有効でキュレネが生存している場合のみ計算できます。");
         if (values.sourceKind !== "finalNonTrueDamage") warnings.push("参照元には追加確定ダメージを含まない、味方が敵1体へ与えた補正適用後のダメージ1回分を指定してください。");
@@ -198,7 +204,8 @@
         return {
             attack: { name: input.attack.name, hitCount: 1, target: "single", canCrit: false },
             nonCrit: value,
-            breakdown: { damageFormula: "trueDamage", originalDamage, multiplierPercent, condition: "領域有効・キュレネ生存／確定ダメージを含まない元ダメージ1回分" },
+            ...(["1406033","1406034"].includes(input.attack.id) ? {crit:value,expected:value} : {}),
+            breakdown: { damageFormula: "trueDamage", sourceKind:input.trueDamage.sourceKind, originalDamage, multiplierPercent, condition: ["1406033","1406034"].includes(input.attack.id) ? "サフェルのこの成分が参照する記録値。補正/会心を再適用しない" : "領域有効・キュレネ生存／確定ダメージを含まない元ダメージ1回分" },
             applied: [],
             skipped: (input.modifiers || []).map(normalizeModifier).map((item) => ({ ...item, applicable: false, reason: "確定ダメージへ補正を再適用しません。元ダメージに含まれる補正は保持します。" }))
         };
@@ -207,6 +214,7 @@
     function unsupportedAttackReason(attack = {}) {
         if (attack.support?.status === "displayOnly") return attack.support.reason || "この攻撃は表示のみのため、ダメージを計算しません。";
         if (supportedElationAttack(attack) || supportedTrueAttack(attack)) return "";
+        if(attack.id === "1321042" && attack.characterId === "1321" && attack.sourceSkillId === "132104" && attack.type === "superBreak" && attack.damageFormula === "dahliaSuperBreak" && attack.element === "Fire") return "";
         if (["131008","131009","1131008","1131009"].includes(attack.id) && attack.characterId === "1310" && attack.damageFormula === "nativeBreakSequence") return "";
         if (attack.id === "131508" && attack.damageFormula === "normalAndBreak" && attack.type === "enhancedNormal") return "";
         if (attack.damageFormula === "componentSequence") {
@@ -227,11 +235,12 @@
                 && attack.element === "Thunder" && attack.sourceSkillId === "122302"
                 && components[0]?.key === "skill" && components[0]?.attackId === "122302"
                 && components[1]?.key === "additional" && components[1]?.attackId === "122304";
+            const validCipherDefinition = attack.id === "140603" && attack.characterId === "1406" && attack.sourceSkillId === "140603" && attack.type === "ultimate" && components?.length === 4;
             const validLingshaDefinition = attack.id === "1222062" && attack.characterId === "1222" && attack.sourceSkillId === "122206" && attack.type === "followUp" && attack.element === "Fire" && attack.target === "single" && components?.length === 2;
             const validSushangDefinition = attack.id === "1206022" && attack.characterId === "1206" && attack.sourceSkillId === "120602" && attack.type === "skill" && attack.element === "Physical" && attack.target === "single" && components?.length === 3;
             const validLukaDefinition = attack.id === "1111083" && attack.type === "enhancedNormal" && attack.sourceSkillId === "111108" && attack.element === "Physical" && attack.target === "single"
                 && Array.isArray(components) && components.length === 3 && components[0]?.key === "punches" && components[0]?.attackId === "1111081" && components[1]?.key === "uppercut" && components[1]?.attackId === "1111082" && components[2]?.key === "bleed" && components[2]?.attackId === "1111041";
-            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validSushangDefinition || validLingshaDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
+            return ( ["1405011","1405021"].includes(attack.id) && attack.characterId==="1405" && attack.type===(attack.id==="1405011"?"normal":"skill") ) || (attack.id === "140109" && attack.characterId === "1401" && attack.type === "enhancedSkill" && attack.element === "Ice" && components?.length === 4) || validAcheronDefinition || validFeixiaoDefinition || validYukongDefinition || validMozeDefinition || validSushangDefinition || validLingshaDefinition || validCipherDefinition || validLukaDefinition || (attack.id === "1223031" && attack.type === "ultimate" && attack.sourceSkillId === "122303" && attack.element === "Thunder") || (["1224011","1224081"].includes(attack.id) && attack.characterId === "1224") ? "" : "この複合攻撃の構成は未対応です。";
         }
         const terms = [...(attack.scalingTerms || []), ...(attack.adjacentScalingTerms || [])];
         if ([attack.type, attack.attackType, attack.scalingStat, ...terms.map((term) => term.stat)].includes("elation")) return "愉悦ダメージの専用計算は未対応です。通常式では計算しません。";
@@ -304,6 +313,7 @@ function calculateFanning(input) {
     }
 
     function calculate(input) {
+        if (input.attack?.id === "1321042" && input.attack.damageFormula === "dahliaSuperBreak") return calculateDahliaSuperBreak(input);
         if (input.attack?.damageFormula === "nativeBreakSequence" && !unsupportedAttackReason(input.attack)) return calculateNativeBreakSequence(input);
         if (input.attack?.id === "131508" && input.attack.damageFormula === "normalAndBreak" && !unsupportedAttackReason(input.attack)) return calculateFanning(input);
         const character = input?.character || {};
@@ -314,6 +324,15 @@ function calculateFanning(input) {
         if (attack.id === "1206031" && attack.requiresValidHitCount && attack.hitCount > 1 && input.modifierInputs?.["sushang-sword-stance-stacks"] !== 10) return {supported:false,reason:"複数の追加剣勢は逐寇が事前10層で飽和した状態のみ計算対応です。"};
         if (attack.id === "122204" && (character.eidolon < 3 && attack.traceLevel > 10 || attack.traceLevel > 12)) return {supported:false,reason:"浮元は星魂0～2で天賦Lv1～10、星魂3以上でLv1～12に対応します。"};
         if (attack.enforceSnapshotContract && attack.id === "122204" && character.eidolon === 6 && !(input.modifiers || []).some(m => m.id === "eidolon:1222:6:fuyuan-all-res-down" && (m.includedInFinalStats || m.enabled !== false && m.applicable !== false && !(m.inputWarnings || []).length))) return {supported:false,reason:"浮元が攻撃する星魂6の本体には、在場中の耐性低下の適用または算入済み指定が必要です。"};
+        if (["140809","140811"].includes(attack.id)) {
+            const key=attack.id==="140809" ? "phainon-counter-flame-stacks" : "phainon-ruin-stacks", n=input.modifierInputs?.[key],level=attack.traceLevel;
+            if(character.level!==80 || character.eidolon!==0 || enemy.count!==1 || !Number.isInteger(level) || level<1 || level>10 || !Number.isInteger(n) || n<1 || n>(attack.id==="140809"?99:4)) return {supported:false,reason:"ファイノンのこの構成はLv80/E0/敵1体/スキルLv1～10・明示した層数のみ対応です。"};
+            if(attack.id==="140811" && n===4 && [7,8,9].includes(level)) return {supported:false,reason:"壊傷4層のLv7～9は固定版の段別係数と最大合計に差があるため計算対象外です。"};
+            const expected=attack.id==="140809" ? (attack.phainonCounterBaseMultipliers?.[level-1]+4*attack.phainonCounterBounceMultipliers?.[level-1])*(1+.2*n) : attack.phainonRuinMultipliers?.[String(n)]?.[level-1];
+            if(!Number.isFinite(expected) || Math.abs(attack.multiplier-expected)>1e-8) return {supported:false,reason:"指定層数に対応する攻撃倍率を確認できません。"};
+        }
+        if(attack.id==="150902" && attack.comparisonModifierInputs?.["gilgamesh-kings-recognition-active"] && !(input.modifiers||[]).some(m=>m.id==="trace:1509:150902:kings-recognition-defense-ignore" && (m.includedInFinalStats || m.enabled!==false && m.applicable!==false && !(m.inputWarnings||[]).length)))return {supported:false,reason:"このスキルは王が認めるの防御無視が攻撃前から有効な状態のみ対応します。"};
+        if(attack.id==="140602" && attack.comparisonModifierInputs?.["cipher-skill-atk-active"] && !(input.modifiers||[]).some(m=>m.id==="trace:1406:140602:post-skill-atk" && (m.includedInFinalStats || m.enabled!==false && m.applicable!==false && !(m.inputWarnings||[]).length)))return {supported:false,reason:"このスキルはATK30%が攻撃前から有効な状態のみ対応します。"};
         if (attack.enforceSnapshotContract && attack.id === "121502") {
             for(const id of ["trace:1215:121504:party-damage","traceNode:1215:1215101:sp-recovery-atk"]){
                 if(!(input.modifiers||[]).some(m=>m.id===id && (m.includedInFinalStats || m.enabled!==false && m.applicable!==false && !(m.inputWarnings||[]).length))) return {supported:false,reason:"このスキルは承負・懲悪・録事が事前成立した状態のみ計算対応です。"};
@@ -445,6 +464,7 @@ function calculateFanning(input) {
     }
 
     function calculateComponentSequence(input = {}) {
+        if(input.attack?.id === "140603") return calculateCipherSnapshot(input);
         if (input.attack?.id === "130803") return calculateAcheronSnapshot(input);
         if (input.attack?.id === "140109") return calculateHertaSnapshot(input);
         if (input.attack?.id === "1206022") return calculateSushangSnapshot(input);
@@ -504,6 +524,27 @@ function calculateFanning(input) {
             return fail("天賦追加攻撃に必須の発動時与ダメージ補正を、補正条件から1件だけ有効にしてください。");
         }
         return combineDamageComponents(attack, components, yukong ? "通常本体＋徹札矢の合計" : moze ? "スキル本体＋天賦付加の合計" : "スキル本体＋追加攻撃の合計");
+    }
+
+    function calculateDahliaSuperBreak(input) {
+        const a=input.attack||{},c=input.character||{},e=input.enemy||{},v=input.modifierInputs?.["dahlia-fua-base-toughness"];
+        if(!Number.isFinite(c.stats?.breakEffect) || c.stats.breakEffect<0 || c.level!==80 || c.eidolon!==0 || e.count!==1 || e.weakness!==true || e.toughnessActive!==false || !Number.isInteger(a.traceLevel) || a.traceLevel<1 || a.traceLevel>10 || !Number.isFinite(v) || v<0 || v>99999 || a.multiplier!==a.multipliers?.[a.traceLevel-1]) return {supported:false,reason:"ダリアの追撃超撃破はLv80/E0/炎弱点の敵1体が事前撃破済み・天賦Lv1～10・基礎削靭値の指定が必要です。"};
+        const sb=calculateSuperBreak({...input,attack:{...a,superBreakMultiplier:a.multiplier,toughnessDamage:v}});
+        if(!sb.supported)return sb;
+        return {attack:{name:a.name,canCrit:false,hitCount:1,target:"single"},nonCrit:sb.value,crit:sb.value,expected:sb.value,applied:sb.applied,skipped:sb.skipped,breakdown:{damageFormula:"breakComponent",kind:"superBreak",...sb,finalBreakEffect:(sb.breakEffect-1)*100}};
+    }
+
+    function calculateCipherSnapshot(input) {
+        const a=input.attack||{}, c=input.character||{}, e=input.enemy||{},parts=input.sequenceComponents||[];
+        const fail=reason=>({supported:false,reason});
+        if(c.level!==80 || c.eidolon!==0 || e.count!==1 || !Number.isInteger(a.traceLevel) || a.traceLevel<1 || a.traceLevel>10 || parts.length!==4 || a.damageComponents?.length!==4)return fail("サフェル必殺の指定記録値比較はLv80/E0/敵1体/必殺Lv1～10のみ対応です。");
+        for(let i=0;i<4;i++){
+            const p=parts[i], d=a.damageComponents[i], child=p?.input?.attack||{},isTrue=[1,3].includes(i);
+            if(child.id!==["1406031","1406033","1406032","1406034"][i] || child.id!==d.attackId || child.sourceSkillId!=="140603" || child.characterId!=="1406" || JSON.stringify(p.input.character)!==JSON.stringify(c) || JSON.stringify(p.input.enemy)!==JSON.stringify(e))return fail("サフェル必殺の各成分・参照者・敵入力が一致しません。");
+            if(isTrue){const expected=i===1?25:75,key=i===1?"cipher-recorded-before-25":"cipher-recorded-before-75";if(child.damageFormula!=="trueDamage" || child.multiplier!==expected || d.recordInputKey!==key || p.input.trueDamage?.originalDamage!==input.modifierInputs?.[key])return fail("確定成分ごとの記録値と倍率を確認してください。");}
+            else if(child.type!=="ultimate" || child.element!=="Quantum" || child.scalingStat!=="atk" || child.multiplier!==d.multipliers?.[a.traceLevel-1] || child.traceLevel!==a.traceLevel)return fail("必殺直撃の倍率・攻撃種類が一致しません。");
+        }
+        return combineDamageComponents(a,parts,"必殺直撃2成分＋各参照時点の記録値25%/75%の合計（記録更新は自動再現しない）");
     }
 
     function calculateLingshaSnapshot(input) {
