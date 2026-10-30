@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "characters-round9-argenti-stable-ultimate-2026-10-30",
+  "description": "アルジェンティの180EP必殺技を、攻撃前から栄達10層・敵1体・攻撃中HP閾値一定の状態で計算対応へ昇格する。",
+  "overrides": [
+    {
+      "id": "130214",
+      "characterId": "1302",
+      "name": "美の花咲くその日まで（180EP・事前栄達10層・敵1体）",
+      "element": "Physical",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "bounce",
+      "scalingStat": "atk",
+      "hitCount": 1,
+      "canCrit": true,
+      "multipliers": [
+        510,
+        544,
+        578,
+        612,
+        646,
+        680,
+        722.5,
+        765,
+        807.5,
+        850
+      ],
+      "sourceSkillId": "130214",
+      "displayOrder": 30,
+      "generatedFrom": "catalog.json:characters[].skills",
+      "calculationScope": "independently-checked-stable-state-direct-aggregate",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版130214の全体攻撃と追加6段を分離して全E0必殺Lvで独立検証。事前栄達10層の会心率は最終ステータスへ算入し、攻撃中の敵HP閾値と攻撃状態が一定の敵1体へ限定。"
+      },
+      "damageFormula": "statMultiplier",
+      "hitCountLabel": "全体1回＋追加6段（敵1体）",
+      "multiplierComponents": [
+        {
+          "name": "全体部分",
+          "traceKey": "ultimate",
+          "values": [
+            168,
+            179.2,
+            190.4,
+            201.6,
+            212.8,
+            224,
+            238,
+            252,
+            266,
+            280
+          ]
+        },
+        {
+          "name": "追加6段",
+          "traceKey": "ultimate",
+          "values": [
+            342,
+            364.8,
+            387.6,
+            410.4,
+            433.2,
+            456,
+            484.5,
+            513,
+            541.5,
+            570
+          ]
+        }
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "conditionText": "星魂0・Lv80・必殺技Lv1～10・敵1体。攻撃前から栄達10層が有効で、層数に応じた会心率を最終会心率へ算入済み。敵の現在HP割合は既存の数値入力を使用し、攻撃中に50%境界をまたがない状態を指定してください。",
+      "calculationNote": "敵1体への180EP必殺技を全体攻撃1回＋追加6段として合算し、成分別倍率を保持します。ATK・会心率・会心ダメージ等は攻撃時点の完成済み最終値を使用し、小軌跡・装備・栄達10層の会心率を再加算しません。敵の現在HP割合は既存の敵HP割合入力で指定し、攻撃中に50%境界をまたがない場合のみ計算対応です。アルジェンティA6は敵HP50%以下の条件から自動適用されます。栄達0～9層の段間更新、初回付与、A6の途中HP境界更新、複数敵への跳弾分配は再現しません。90EP版と別行動であり両方を合算しません。",
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:130214;character_skill_trees.json:1302103",
+        "verifiedAt": "2026-10-30",
+        "scope": "敵1体・攻撃前から栄達10層・層数由来CRは最終入力へ算入・攻撃中に敵HP50%境界をまたがない一定状態。",
+        "verification": "tests/hsr/hsrCharactersRound9.test.cjs"
+      },
+      "suppressAdjacentWithSingleEnemy": true
+    }
+  ],
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "固定SHAの180EP必殺をE0・敵1体・栄達事前10層・HP閾値を跨がない状態で全採用Lv独立検証。"
+  }
+}

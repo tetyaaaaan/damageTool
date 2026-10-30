@@ -259,7 +259,7 @@
   function attackStateIssues(attack, issue) {
     if (attack.damageFormula === "enemyHpCappedByAtk" && (String($("hsrEnemyMaxHp").value).trim() === "" || !(Number($("hsrEnemyMaxHp").value)>0))) issue("この裂創成分に必要な敵の最大HPを入力してください。", "hsrEnemyMaxHp");
     if (attack.characterLevelExact !== undefined && state.level !== attack.characterLevelExact) issue(`${attack.name}はキャラクターLv${attack.characterLevelExact}のみ計算対応です。`, "hsrLevel");
-    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id === "140109" ? 4 : attack.id === "130803" ? 13 : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
+    if (attack.damageFormula === "componentSequence" && (!Array.isArray(attack.sequenceAttacks) || attack.sequenceAttacks.length !== (attack.id === "140109" ? 4 : attack.id === "130803" ? (attack.sequenceAttacks?.length || 0) : attack.id === "1111083" ? (attack.ownBleed ? 3 : 2) : attack.id === "1223031" ? (attack.preyActive ? 4 : 2) : 2))) issue(`${attack.name}の構成データ（本体・追加成分）を読み込めません。ページを再読み込みして確認してください。`, "");
     if (["1224011","1224081"].includes(attack.id)) {
       if(!['Erudition','Destruction','Hunt','Remembrance','Elation'].includes(attack.shifuPath) || !Object.keys(ELEMENT_KEYS).includes(attack.shifuElement)) issue('攻撃型師匠の運命と属性を補正条件で指定してください。従来の支援型師匠の比較はそのまま計算できます。','hsrConditionDialogOpen');
       if(attack.shifuElement && attack.shifuElement!=='Imaginary') for(const [key,label] of [['element-damage:1224:'+attack.shifuElement,'なのかの師匠属性与ダメージ'],['enemy-resistance:'+attack.shifuElement,'敵の師匠属性耐性']]) if(!Number.isFinite(state.modifierInputs[key])) issue(label+'を入力してください。補正なしは0です。','hsrConditionDialogOpen');
@@ -769,7 +769,7 @@
       return `${item.conditionText || "入力条件"}（${precombat ? "戦闘前の速度" : "現在値"}：${value}）`;
     }
     const reference = {
-      "self.preCombatCritDamage": ["戦闘開始時の会心ダメージ", "%"], "party.eruditionCount": ["編成内の知恵キャラ数", "人"], "party.nihilityAllyCount": ["本人以外の虚無キャラ数", "人"], "party.samePathAllyCount": ["同運命の別キャラ数", "人"], "provider.speed": ["提供者の速度", ""], "provider.effectRes": ["提供者の効果抵抗", "%"], "provider.breakEffect": ["提供者の撃破特効", "%"], "provider.sameElement": ["提供者との属性一致（1=一致）", ""], "provider.firstSlotRecipient": ["1枠目への支援（1=成立）", ""],
+      "self.interpretation": ["指定した解読層数", "層"], "self.preCombatCritDamage": ["戦闘開始時の会心ダメージ", "%"], "party.eruditionCount": ["編成内の知恵キャラ数", "人"], "party.nihilityAllyCount": ["本人以外の虚無キャラ数", "人"], "party.samePathAllyCount": ["同運命の別キャラ数", "人"], "provider.speed": ["提供者の速度", ""], "provider.effectRes": ["提供者の効果抵抗", "%"], "provider.breakEffect": ["提供者の撃破特効", "%"], "provider.sameElement": ["提供者との属性一致（1=一致）", ""], "provider.firstSlotRecipient": ["1枠目への支援（1=成立）", ""],
       "self.hp": ["HP", ""], "self.hpPercent": ["HP割合", "%"], "self.epPercent": ["EP割合", "%"], "self.speed": ["速度", ""],
       "self.atk": ["攻撃力", ""], "self.def": ["防御力", ""], "self.critRate": ["会心率", "%"], "self.critDamage": ["会心ダメージ", "%"], "self.effectHitRate": ["効果命中", "%"],
       "self.effectRes": ["効果抵抗", "%"], "self.breakEffect": ["撃破特効", "%"], "self.elation": ["愉悦度", "%"],
@@ -835,8 +835,8 @@
         rendered.add(`stack:${activation.inputKey}`); conditionReferenceInputs.add(`stack:${activation.inputKey}`); const max = item.stackMax || 1;
         controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(item.inputLabel || "現在の層数")}</strong><small>現在成立している層数を選択します。</small></span><select data-structured-input="${esc(activation.inputKey)}">${Array.from({ length: max + 1 }, (_, value) => `<option value="${value}"${value === item.stacks ? " selected" : ""}>${value === 0 ? "未発動（0層）" : `${value}層`}</option>`).join("")}</select></label>`);
       }
-      if (activation.mode === "numericThreshold" && activation.inputKey && !item.comparisonControlled && !rendered.has(`threshold:${activation.inputKey}`) && !rendered.has(`stack:${activation.inputKey}`)) {
-        rendered.add(`threshold:${activation.inputKey}`);
+      if (activation.mode === "numericThreshold" && activation.inputKey && !item.comparisonControlled && !rendered.has(`threshold:${activation.inputKey}`) && !rendered.has(`stack:${activation.inputKey}`) && !conditionReferenceInputs.has(activation.inputKey)) {
+        conditionReferenceInputs.add(activation.inputKey); rendered.add(`threshold:${activation.inputKey}`);
         const thresholdValue = state.modifierInputs[activation.inputKey] === undefined ? activation.default : state.modifierInputs[activation.inputKey];
         controls.push(`<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>${esc(activation.inputLabel || "現在の条件値")}</strong><small>${esc(activation.conditionText || "発動条件の判定に使用する値を入力します。")}</small></span><span class="genshin-condition-input-unit"><input type="number" class="input_num" ${activation.strictInput ? 'data-structured-strict="true"' : ""} data-structured-input="${esc(activation.inputKey)}" value="${activation.strictInput ? Number.isFinite(thresholdValue) ? thresholdValue : "" : num(activation.inputValue, activation.default || 0)}" min="${num(activation.minimum)}" max="${num(activation.maximum, 999)}" step="${num(activation.step, 1)}"></span></label>`);
       }
@@ -969,6 +969,11 @@
     return '<section class="hsr-condition-purpose" data-hsr-condition-ids="party-reference:1202"><h5>停雲本人の攻撃後に発生する賜福対象の付加</h5><p class="genshin-help">Lv80・星魂0の賜福対象の戦闘中の最終値を入力します。賜福・他の支援・装備の効果を含めた値を使い、この付加行には攻撃者側の支援を再加算しません。停雲本人の通常とは別の1回分です。</p><label class="genshin-condition-control"><span>賜福対象</span><select data-comparison-choice="party-reference-owner:1202"><option value="">パーティから選択</option>'+state.party.filter(m=>m.characterId).map(m=>'<option value="'+m.characterId+'"'+(String(m.characterId)===id?' selected':'')+'>'+esc(find('characters',m.characterId)?.name||m.characterId)+'</option>').join('')+'</select></label>'+fields+'</section>';
   }
   function comparisonReferenceControls() {
+    if (state.characterId === "1308" && state.conditionTab === "軌跡" && availableAttacks().some(a => a.numericModifierInputs?.some(x => x.inputKey === "acheron-initial-knots"))) {
+      const value=state.modifierInputs["acheron-initial-knots"];
+      return `<label class="genshin-condition-control"><span class="genshin-condition-control-copy"><strong>必殺技開始時の集真赤層数</strong><small>対象の敵1体にある0～9層。雷心は攻撃前から3層が有効な比較です。</small></span><input type="number" class="input_num" data-structured-input="acheron-initial-knots" data-structured-strict="true" min="0" max="9" step="1" value="${Number.isFinite(value)?value:""}"></label>`;
+    }
+
     if(state.characterId!=="1224" || state.conditionTab!=="軌跡") return "";
     const number=(key,label)=>'<label class="genshin-condition-control"><span>'+esc(label)+'</span><input class="input_num" type="number" data-structured-input="'+key+'" data-structured-strict="true" value="'+(Number.isFinite(state.modifierInputs[key])?state.modifierInputs[key]:'')+'" step="0.1"></label>';
     const shifuId=String(state.modifierInputs['march-shifu-id']||''), shifu=state.party.some(m=>String(m.characterId)===shifuId)?find('characters',shifuId):null, element=shifu?.element;
@@ -1125,12 +1130,20 @@
     }
     if (selected.id === "130803" && selected.damageFormula === "componentSequence") {
       const level = state.traceLevels.ultimate;
-      const sequenceAttacks = (selected.damageComponents || []).map(component => ({
+      const dynamic = selected.numericModifierInputs?.some(spec => spec.inputKey === "acheron-initial-knots");
+      let remaining = dynamic ? state.modifierInputs["acheron-initial-knots"] : 9;
+      const components = (selected.damageComponents || []).flatMap(component => {
+        if (!component.key.endsWith("-knots")) return [{...component, multiplier:component.multipliers?.[level - 1]}];
+        const removed = Math.min(3, remaining); remaining -= removed;
+        if (!Number.isInteger(removed) || removed <= 0) return [];
+        return [{...component, multiplier:dynamic ? Math.min(component.capMultipliers?.[level - 1], component.perKnotMultipliers?.[level - 1] * (1 + removed)) : component.multipliers?.[level - 1]}];
+      });
+      const sequenceAttacks = components.map(component => ({
         ...selected, ...component, id: component.attackId, sourceSkillId: "130803", damageFormula: "statMultiplier",
         damageComponents: undefined, hitCount: 1, hitCountLabel: "この成分1ヒット", canCrit: true, attackType: "ultimate", traceLevel: level,
-        multiplier: component.multipliers?.[level - 1], traceLevelLabel: `必殺Lv${level}`
+        traceLevelLabel: `必殺Lv${level}`
       }));
-      return { ...selected, traceLevel: level, multiplier: selected.multipliers?.[level - 1], attackType: "ultimate", traceLevelLabel: `必殺Lv${level}`, sequenceAttacks };
+      return { ...selected, damageComponents:components, traceLevel: level, multiplier: selected.multipliers?.[level - 1], attackType: "ultimate", traceLevelLabel: `必殺Lv${level}`, sequenceAttacks, sequenceTemplates:selected.damageComponents };
     }
     if (selected.id === "1111083" && selected.damageFormula === "componentSequence") {
       const defs = selected.damageComponents.filter(c=>!c.optional || selected.ownBleed);
@@ -1709,6 +1722,7 @@
       const attackEnemy=selected.requiredWeaknessCount?{...baseRequest.enemy,weakness:true,weaknessCount:selected.requiredWeaknessCount}:baseRequest.enemy;
       const request = { ...baseRequest, modifierInputs:state.modifierInputs, character:selected.referenceCharacter || (selected.referenceStats ? {...baseRequest.character,stats:selected.referenceStats}:baseRequest.character), enemy:selected.referenceEnemy || attackEnemy, songbird: songbirdSnapshot(), elation: attackElationInputs(selected), attack: selected, modifiers: modifiers(selected), breakModifiers: selected.damageFormula === "nativeBreakSequence" ? modifiers({...selected,type:"superBreak",attackType:"superBreak"}) : selected.damageFormula === "normalAndBreak" ? modifiers({...selected,type:"break",attackType:"break"}) : undefined, breakBaseDamage: state.data.breakBaseDamage };
       if (selected.damageFormula === "componentSequence") request.sequenceComponents = (selected.sequenceAttacks || []).map((component, index) => ({ key: selected.damageComponents[index].key, name: selected.damageComponents[index].name, input: { ...baseRequest, enemy:attackEnemy, modifierInputs:state.modifierInputs, attack: component, modifiers: modifiers(component), songbird: songbirdSnapshot(), elation: attackElationInputs(component), breakBaseDamage: state.data.breakBaseDamage } }));
+      if (selected.sequenceTemplates) request.attack = {...request.attack, damageComponents:selected.sequenceTemplates};
       const result = window.HsrCalcEngine.calculate(request);
       const adjacentAttack = selected.adjacentMultiplier && !(selected.suppressAdjacentWithSingleEnemy && state.enemy.count === 1) ? { ...selected, multiplier: selected.adjacentMultiplier, scalingTerms: selected.adjacentScalingTerms?.length ? selected.adjacentScalingTerms : undefined, target: "adjacent" } : null;
       const adjacent = adjacentAttack ? window.HsrCalcEngine.calculate({ ...baseRequest, attack: adjacentAttack, modifiers: modifiers(adjacentAttack) }) : null;

@@ -84,3 +84,12 @@ UI・接続を変更したら1440/390/320pxで変更箇所と必要な境界を�
 [鏡流](../../../tests/hsr/hsrJingliuRound8.test.cjs)、[黄泉](../../../tests/hsr/hsrAcheronRound8.test.cjs)、[ヘルタ](../../../tests/hsr/hsrHertaRound8.test.cjs)、[アベンチュリン](../../../tests/hsr/hsrAventurineRound8.test.cjs)は固定版の採用曲線と独立式を照合する。黄泉13成分・ヘルタ4成分は個別値と合計、成分欠損/並替/参照不一致の拒否も確認する。ヘルタはSkill LvとTalent Lvを独立に変え、知恵人数と最後成分だけの倍率を検査する。
 
 [装備](../../../tests/hsr/hsrEquipmentRound8.test.cjs)は全S1～S5、[遺物129](../../../tests/hsr/hsrSetsRound8.test.cjs)は愉悦式とDEF係数を独立検証する。[App入力](../../../tests/hsr/hsrToolInputs.test.cjs)は全主要行、スキル専用補正、共有入力数、提供者解除/運命不一致、既算入、局所除外、実保存復元まで確認する。限定状態の成功はその範囲だけの受入であり、未検証の状態順を補完する証拠にはしない。最新の全体実行結果は[残作業正本](../../HSR_COMPLETION_WORKLOAD.md)にのみ記録する。
+
+
+## 第9回追加の受入検証
+
+[黄泉](../../../tests/hsr/hsrAcheronRound9.test.cjs)は全採用Lv×開始集真赤0～9×非対称条件の独立式を確認し、0消去成分の省略・順序/係数改変・入力不足を拒否する。[ヘルタ](../../../tests/hsr/hsrHertaRound9.test.cjs)は全Skill/Talent Lv×最後解読0～42、知恵人数、A2の独立入力と境界、最後成分だけの倍率を検証する。これらを未実証の戦闘内付与順の証明へ流用しない。
+
+[主要構成](../../../tests/hsr/hsrCharactersRound9.test.cjs)と既存景元/彦卿テストは全採用Lv・成分別独立値を確認する。アルジェンティは敵1体・栄達10層の180EP全体＋6バウンドで、HP50%を跨がない条件を明記する。[優先LC](../../../tests/hsr/hsrEquipmentRound9.test.cjs)、[追加LC](../../../tests/hsr/hsrEquipmentExtraRound9.test.cjs)、[霊砂星魂](../../../tests/hsr/hsrNativeRound9.test.cjs)は全S、閾値、BE→SPD→装備閾値、CD支援、循環の局所除外、攻撃/受益者/提供者、既算入を独立計算する。
+
+[App入力](../../../tests/hsr/hsrToolInputs.test.cjs)では二つの層数の非混同・1つの共有欄・未入力の局所停止・保存復元、主要構成の全Lv、彦卿の算入済み、LC閾値支援の解除を確認する。最終製品コードで全HSRテスト、Modifier静的検証、攻撃静的検証の既存問題との比較、生成完成管理`--check`を実施する。変更部分の1440/390/320pxと実UID通信の有無を区別し、結果・件数は残作業台帳にのみ記録する。

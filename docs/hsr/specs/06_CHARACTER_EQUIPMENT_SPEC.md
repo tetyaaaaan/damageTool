@@ -109,10 +109,21 @@
 第7回の効果正本は[光円錐](../../../games/hsr/data/calc/modifiers-equipment-round7.json)、[オーナメント](../../../games/hsr/data/calc/modifiers-sets-round7.json)、[キャラ効果](../../../games/hsr/data/calc/modifiers-native-round7.json)。恒常ステータスはincludedInFinalStats/displayOnlyの管理行で再加算を禁止し、計算対応行と区別する。汎銀河のEHR→ATKは最終値責務を維持して自動変換を保留、ウェンワークの行動順・巨樹の治癒量は単発ダメージの対象外。所属タグや精霊一般継承を推測しない。レイシオ/ジェイドの現在層数、丹恒の発動済み速度、姫子の秘技デバフは明示した状態を使用する。黄泉は解放済み奈落を編成から自動評価する限定条件。追加能力の全育成段階・星魂による全キット変更は受入外で、具体的な完了/残範囲は既存台帳に記録する。
 
 
-## 第8回追加の定義参照
+## 第8回追加の定義参照（黄泉・ヘルタの現行置換は第9回を参照）
 
 鏡流は[attacks-jingliu-round8.json](../../../games/hsr/data/calc/attacks-jingliu-round8.json)と[modifiers-jingliu-round8.json](../../../games/hsr/data/calc/modifiers-jingliu-round8.json)、黄泉は[attacks-acheron-round8.json](../../../games/hsr/data/calc/attacks-acheron-round8.json)と[modifiers-acheron-round8.json](../../../games/hsr/data/calc/modifiers-acheron-round8.json)、ヘルタは[attacks-herta-round8.json](../../../games/hsr/data/calc/attacks-herta-round8.json)と[modifiers-herta-round8.json](../../../games/hsr/data/calc/modifiers-herta-round8.json)を正本とする。既存1121202の説明訂正は`attacks-round6.json`の同じ行へ反映し、重複登録しない。
 
 [光円錐追加](../../../games/hsr/data/calc/modifiers-equipment-round8.json)は固定版S1～S5の追加成分のみを構造化する。23027のBE条件SPD・23028のCD条件FUAは残範囲で、計算行の存在だけで全文完成としない。[遺物追加](../../../games/hsr/data/calc/modifiers-sets-round8.json)の129は本人愉悦のDEF無視と獲得済み累積層を扱い、精霊への一般継承を認定しない。恒常CDは最終入力管理。
 
 計算行がないオーナメント303は変換の既算入責務、308/320は恒常値と非ダメージ効果である。件数のために計算行を追加しない。現在の装備種類集計と個別残範囲は[残作業正本](../../HSR_COMPLETION_WORKLOAD.md)、E0認定は[生成完成表](../../HSR_CHARACTER_COMPLETION.md)で管理する。
+
+
+## 第9回追加の定義参照
+
+黄泉の現行攻撃は[attacks-acheron-round9.json](../../../games/hsr/data/calc/attacks-acheron-round9.json)、固有補正は既存round8を維持する。ヘルタは[攻撃](../../../games/hsr/data/calc/attacks-herta-round9.json)と[Modifier](../../../games/hsr/data/calc/modifiers-herta-round9.json)が現行で、round8 Modifierはmanifestから除外する。最後撃解読とA2使用時解読を区別し、必殺の初回付与順は未認定。黄泉の雷心事前3層以外も未認定のまま。
+
+[アルジェンティ攻撃](../../../games/hsr/data/calc/attacks-characters-round9.json)は事前栄達10層・敵1体の180EP必殺を計算対応にする。景元・彦卿の主要行は既存定義を維持し、彦卿の既存5補正に `finalStatsInclusion` を追加する。認定基準と限定条件は完成管理表と攻撃範囲資料を正本とし、個別行の存在だけで認定しない。
+
+[優先LC](../../../games/hsr/data/calc/modifiers-equipment-round9.json)は23027のBE条件SPDと23028のCD条件FUA、[追加LC](../../../games/hsr/data/calc/modifiers-equipment-extra-round9.json)は固定S1～S5の不足成分を扱う。恒常propertiesは最終値管理行で再加算を禁止し、計算成分へ数えない。一般の精霊継承や未確認の同LC複数提供者合成は認定外。
+
+[霊砂星魂](../../../games/hsr/data/calc/modifiers-native-round9.json)はE2の必殺後BE支援とE6の浮元在場RES低下のみ。E6追加攻撃等の未接続成分を全文完成扱いにしない。オーナメント303/308/320と計算行なし遺物は第8回の責務区分を維持する。個別数値・新規意味群/成分・残範囲は[残作業台帳](../../HSR_COMPLETION_WORKLOAD.md)へ集約する。

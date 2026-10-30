@@ -1,0 +1,458 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "herta-round9-fixed-dbe8cdf",
+  "modifiers": [
+    {
+      "id": "traceNode:1401:1401102:party-crit-damage",
+      "source": {
+        "kind": "trace",
+        "id": "1401",
+        "traceId": "1401102"
+      },
+      "name": "境界からの便り（1401102）・味方全体会心ダメージ",
+      "description": "味方全体の会心ダメージ+80%。知恵の運命を歩むキャラクターがパーティ内に2名以上いる場合に自動適用します。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 80
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "normal",
+          "enhancedNormal",
+          "skill",
+          "enhancedSkill",
+          "ultimate",
+          "talent",
+          "followUp",
+          "additional"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "パーティ内の知恵キャラクターが2名以上",
+        "reference": "party.eruditionCount",
+        "operator": ">=",
+        "threshold": 2
+      },
+      "finalStatsInclusion": {
+        "inputKey": "herta-a4-party-crit-damage-in-final",
+        "inputLabel": "マダム・ヘルタ1401102の会心ダメージ+80%を最終入力に反映済み"
+      },
+      "stacking": {
+        "group": "traceNode:1401:1401102:party-crit-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1401102.params[0]=0.8。party.samePathAllyCountは提供者本人を除く知恵キャラクター数を参照。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1401102.params[0]",
+        "verifiedAt": "2026-10-30",
+        "notes": "会心可能な通常ダメージへ適用。Elation・確定ダメージ・精霊継承は対象外。"
+      }
+    },
+    {
+      "id": "traceNode:1401:1401103:answers-ultimate-multiplier",
+      "source": {
+        "kind": "trace",
+        "id": "1401",
+        "traceId": "1401103"
+      },
+      "name": "飢えた地景・回答による必殺技倍率",
+      "description": "現在の回答スタック数（0～99）に応じて、必殺技ダメージ倍率へ1層あたり1%を加算します。スタック数は計算時点の状態として指定します。",
+      "category": "multiplierAddition",
+      "unit": "percent",
+      "value": {
+        "kind": "perStack",
+        "perStack": 1
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "ultimate"
+        ],
+        "elements": [
+          "Ice"
+        ]
+      },
+      "activation": {
+        "mode": "stack",
+        "conditionText": "必殺技発動時の回答スタック数",
+        "inputKey": "herta-answers-stacks",
+        "inputLabel": "回答のスタック数",
+        "minimum": 0,
+        "maximum": 99,
+        "default": 0
+      },
+      "stacking": {
+        "group": "traceNode:1401:1401103:answers-ultimate-multiplier",
+        "rule": "nonStacking",
+        "maximumStacks": 99
+      },
+      "calculation": {
+        "stage": "multiplierAddition",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1401103.params[0]=1% per Answers stack, maximum99. Input is a snapshot and does not simulate stack changes."
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1401103.params[0]",
+        "verifiedAt": "2026-10-30",
+        "notes": "必殺技成分のみに適用。増分は倍率ポイントとして直接加算し、会心・与ダメージ等の別補正に混ぜません。"
+      }
+    },
+    {
+      "id": "trace:1401:140103:post-ultimate-atk",
+      "source": {
+        "kind": "trace",
+        "id": "1401",
+        "skillId": "140103",
+        "traceId": "140103"
+      },
+      "name": "魔法だって言ったでしょ・発動後の攻撃力",
+      "description": "必殺技発動後の攻撃力上昇が計算時点で既に有効な場合だけ適用します。必殺技自身への適用タイミングは仮定しません。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "byLevel",
+        "values": [
+          40,
+          44,
+          48,
+          52,
+          56,
+          60,
+          65,
+          70,
+          75,
+          80,
+          84,
+          88,
+          92,
+          96,
+          100
+        ],
+        "levelInputLabel": "必殺技Lv"
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal",
+          "enhancedNormal",
+          "skill",
+          "enhancedSkill",
+          "ultimate",
+          "talent",
+          "followUp",
+          "additional"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "必殺技発動後の攻撃力上昇が計算時点で有効",
+        "inputKey": "herta-ultimate-atk-active",
+        "inputLabel": "必殺技後の攻撃力上昇中",
+        "default": false,
+        "durationTurns": 3
+      },
+      "finalStatsInclusion": {
+        "inputKey": "herta-ultimate-atk-in-final",
+        "inputLabel": "マダム・ヘルタの必殺技後ATK上昇を最終入力へ反映済み"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10
+      },
+      "stacking": {
+        "group": "trace:1401:140103:post-ultimate-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版140103.params[3]、計算時点ですでに有効な攻撃力上昇状態を選択した場合に限定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140103.params[0..9][3]",
+        "verifiedAt": "2026-10-30",
+        "notes": "攻撃時点の状態入力。必殺技の初回発動時に同じ必殺ダメージへ適用されるとは仮定しない。"
+      }
+    },
+    {
+      "id": "traceNode:1401:1401101:full-interpretation-skill-damage:round9-snapshot",
+      "source": {
+        "kind": "trace",
+        "id": "1401",
+        "traceId": "1401101"
+      },
+      "name": "冷たい真実・強化スキル使用時の解読42層A2補正",
+      "description": "強化スキル使用時のメイン対象の解読層数を入力します。42層以上なら、その攻撃中の氷属性与ダメージ+50%を自動適用します。攻撃内の層更新は再現しません。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 50
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "enhancedSkill"
+        ],
+        "elements": [
+          "Ice"
+        ]
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "conditionText": "強化スキル使用時のメイン対象の解読層数が42層以上。使用時点の層数を入力し自動判定します。",
+        "reference": "self.interpretation",
+        "operator": ">=",
+        "threshold": 42,
+        "inputKey": "herta-enhanced-interpretation-at-cast",
+        "inputLabel": "強化スキル使用時のメイン対象「解読」層数",
+        "minimum": 0,
+        "maximum": 42,
+        "step": 1,
+        "strictInput": true
+      },
+      "stacking": {
+        "group": "traceNode:1401:1401101:full-interpretation-skill-damage:round9-snapshot",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版1401101.params[0][1]=0.5。使用時点の層数入力が42以上の時だけ、強化スキル全成分の氷属性与ダメージへ適用。攻撃内の到達タイミングは自動推定しない。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skill_trees.json",
+        "sourceFile": "character_skill_trees.json:1401101.params[0][1]",
+        "verifiedAt": "2026-10-30",
+        "notes": "KQM trace description states A2 +50% Ice DMG when using Enhanced Skill if primary target Interpretation reaches42; this input records the selected A2-check snapshot, with no per-hit state simulation.",
+        "referenceUrl": "https://hsr.keqingmains.com/the-herta/#traces",
+        "mechanicsSource": "Fixed-source trace text states the +50% damage bonus lasts until the enhanced skill action ends."
+      },
+      "finalStatsInclusion": {
+        "inputKey": "herta-a2-interpretation-damage-in-final",
+        "inputLabel": "マダム・ヘルタ1401101の強化スキル与ダメージ+50%を最終入力に反映済み"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10,
+        "minimum": 0,
+        "maximum": 42,
+        "integer": true
+      }
+    },
+    {
+      "id": "traceNode:1401:140104:interpretation-final-multiplier:round9-snapshot",
+      "source": {
+        "kind": "trace",
+        "id": "1401",
+        "skillId": "140104",
+        "traceId": "140104"
+      },
+      "name": "私がもらうね・強化スキル最終攻撃の解読倍率",
+      "description": "最後の全体攻撃が参照するメイン対象の「解読」層数（0～42）を入力し、天賦Lvごとの1層あたり倍率を加算します。攻撃中の層更新は再現しません。",
+      "category": "multiplierAddition",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByLevel",
+        "values": [
+          4,
+          4.4,
+          4.8,
+          5.2,
+          5.6,
+          6,
+          6.5,
+          7,
+          7.5,
+          8
+        ],
+        "levelInputLabel": "天賦Lv"
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "enhancedSkill"
+        ],
+        "attackIds": [
+          "140109:final"
+        ],
+        "elements": [
+          "Ice"
+        ]
+      },
+      "activation": {
+        "mode": "numericThreshold",
+        "conditionText": "最後の全体攻撃が参照するメイン対象の解読層数（0～42）を入力。攻撃内の更新順は再現しません。",
+        "reference": "self.interpretation",
+        "operator": ">",
+        "threshold": 0,
+        "inputKey": "herta-final-interpretation",
+        "inputLabel": "最後の全体攻撃が参照する「解読」層数",
+        "minimum": 0,
+        "maximum": 42,
+        "step": 1,
+        "strictInput": true
+      },
+      "stacking": {
+        "group": "traceNode:1401:140104:interpretation-final-multiplier",
+        "rule": "add",
+        "maximumStacks": 42
+      },
+      "calculation": {
+        "stage": "multiplierAddition",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版140104.params[0..9][0]の天賦Lv1～10の1層あたり倍率。明示入力された最後の全体攻撃参照層数に応じて計算し、最後成分限定はKQM Tracesに記載。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140104.params[0..9][0]",
+        "verifiedAt": "2026-10-30",
+        "notes": "Explicit final AoE Interpretation snapshot; no inference from pre-attack count or action-internal stack changes.",
+        "referenceUrl": "https://hsr.keqingmains.com/the-herta/#traces",
+        "mechanicsSource": "KeqingMains The Herta guide, Traces: Interpretation multiplier increase applies to the final AoE hit only."
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10,
+        "minimum": 0,
+        "maximum": 42,
+        "integer": true
+      }
+    },
+    {
+      "id": "traceNode:1401:140104:interpretation-double-final-multiplier:round9-snapshot",
+      "source": {
+        "kind": "trace",
+        "id": "1401",
+        "skillId": "140104",
+        "traceId": "140104"
+      },
+      "name": "私がもらうね・知恵2名以上の追加最終倍率",
+      "description": "最後の全体攻撃が参照するメイン対象の「解読」層数（0～42）を入力し、天賦Lvごとの1層あたり倍率を加算します。攻撃中の層更新は再現しません。",
+      "category": "multiplierAddition",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByLevel",
+        "values": [
+          4,
+          4.4,
+          4.8,
+          5.2,
+          5.6,
+          6,
+          6.5,
+          7,
+          7.5,
+          8
+        ],
+        "levelInputLabel": "天賦Lv",
+        "inputKey": "herta-final-interpretation",
+        "inputLabel": "最後の全体攻撃が参照する「解読」層数",
+        "sharedInput": true,
+        "inputMaximum": 42,
+        "inputStep": 1
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "enhancedSkill"
+        ],
+        "attackIds": [
+          "140109:final"
+        ],
+        "elements": [
+          "Ice"
+        ]
+      },
+      "activation": {
+        "mode": "statThreshold",
+        "conditionText": "パーティ内の知恵キャラクターが2名以上。最後の全体攻撃が参照する解読層数は同じ入力欄で指定します。",
+        "reference": "party.eruditionCount",
+        "operator": ">=",
+        "threshold": 2
+      },
+      "stacking": {
+        "group": "traceNode:1401:140104:interpretation-final-multiplier",
+        "rule": "add",
+        "maximumStacks": 42
+      },
+      "calculation": {
+        "stage": "multiplierAddition",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版140104.params[0..9][0]の天賦Lv1～10の1層あたり倍率。明示入力された最後の全体攻撃参照層数に応じて計算し、最後成分限定はKQM Tracesに記載。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140104.params[0..9][0]",
+        "verifiedAt": "2026-10-30",
+        "notes": "Explicit final AoE Interpretation snapshot; no inference from pre-attack count or action-internal stack changes.",
+        "referenceUrl": "https://hsr.keqingmains.com/the-herta/#traces",
+        "mechanicsSource": "KeqingMains The Herta guide, Traces: Interpretation multiplier increase applies to the final AoE hit only."
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 10,
+        "minimum": 0,
+        "maximum": 42,
+        "integer": true
+      }
+    }
+  ]
+}

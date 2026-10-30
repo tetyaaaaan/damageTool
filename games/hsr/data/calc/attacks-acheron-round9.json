@@ -1,0 +1,418 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "acheron-ultimate-initial-knots-2026-10-30",
+  "description": "黄泉130803必殺技の攻撃前「集真赤」0～9層入力に応じた啼沢斬り成分。状態遷移は再現せず、雷心は事前3層が有効な単発スナップショットに限定する。",
+  "overrides": [
+    {
+      "id": "130803",
+      "characterId": "1308",
+      "sourceSkillId": "130803",
+      "name": "残夢染める繚乱の一太刀（集真赤事前0～9層・雷心事前3層）",
+      "element": "Thunder",
+      "type": "ultimate",
+      "traceKey": "ultimate",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 1,
+      "hitCountLabel": "啼沢斬り3回（直接＋集真赤消去時の全体成分）＋黄泉返り1回＋A6追加6ヒット",
+      "canCrit": true,
+      "multipliers": [
+        223.20000000000002,
+        238.07999999999998,
+        252.95999999999998,
+        267.84,
+        282.71999999999997,
+        297.6,
+        316.2,
+        334.8,
+        353.4,
+        372
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "calculationScope": "independently-checked-fixed-state-component-sequence",
+      "conditionText": "Lv80・星魂0・敵1体・必殺技Lv1～10。攻撃前に指定敵が持つ「集真赤」を0～9層から指定します。啼沢斬り3回が各最大3層を消去し、0層消去ならその啼沢斬りの全体成分は発生しません。追加能力「雷心」は攻撃開始前から3層が有効とする単発状態です。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版130803全Lvの係数に基づき、攻撃前の集真赤0～9層を数値入力し、各啼沢斬りで消去する層数に応じた全体成分を個別計算。攻撃前から雷心3層を固定し、攻撃途中の付与順・初回層獲得は対象外。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:130803.params[0..9][0,1,2,4,5,6]",
+        "verifiedAt": "2026-10-30",
+        "scope": "Lv80/E0/enemy1; selected target initial Crimson Knot 0..9; three Rainblades remove up to three each; A6 is explicitly pre-active at 3 stacks; constant state; no automatic first grant/update sequence.",
+        "verification": "tests/hsr/hsrAcheronRound9.test.cjs",
+        "referenceUrl": "https://hsr.keqingmains.com/acheron/"
+      },
+      "damageComponents": [
+        {
+          "key": "rainblade-1-direct",
+          "name": "啼沢斬り1・指定対象",
+          "attackId": "130803-rainblade-direct",
+          "multipliers": [
+            14.4,
+            15.36,
+            16.32,
+            17.28,
+            18.24,
+            19.2,
+            20.4,
+            21.6,
+            22.8,
+            24
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "rainblade-1-knots",
+          "name": "啼沢斬り1・集真赤消去（最大3層・層数入力）",
+          "attackId": "130803-rainblade-knots",
+          "multipliers": [
+            36,
+            38.4,
+            40.8,
+            43.2,
+            45.6,
+            48,
+            51,
+            54,
+            57,
+            60
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "aoe",
+          "perKnotMultipliers": [
+            9,
+            9.6,
+            10.2,
+            10.8,
+            11.4,
+            12,
+            12.75,
+            13.5,
+            14.25,
+            15
+          ],
+          "capMultipliers": [
+            36,
+            38.4,
+            40.8,
+            43.2,
+            45.6,
+            48,
+            51,
+            54,
+            57,
+            60
+          ]
+        },
+        {
+          "key": "rainblade-2-direct",
+          "name": "啼沢斬り2・指定対象",
+          "attackId": "130803-rainblade-direct",
+          "multipliers": [
+            14.4,
+            15.36,
+            16.32,
+            17.28,
+            18.24,
+            19.2,
+            20.4,
+            21.6,
+            22.8,
+            24
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "rainblade-2-knots",
+          "name": "啼沢斬り2・集真赤消去（最大3層・層数入力）",
+          "attackId": "130803-rainblade-knots",
+          "multipliers": [
+            36,
+            38.4,
+            40.8,
+            43.2,
+            45.6,
+            48,
+            51,
+            54,
+            57,
+            60
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "aoe",
+          "perKnotMultipliers": [
+            9,
+            9.6,
+            10.2,
+            10.8,
+            11.4,
+            12,
+            12.75,
+            13.5,
+            14.25,
+            15
+          ],
+          "capMultipliers": [
+            36,
+            38.4,
+            40.8,
+            43.2,
+            45.6,
+            48,
+            51,
+            54,
+            57,
+            60
+          ]
+        },
+        {
+          "key": "rainblade-3-direct",
+          "name": "啼沢斬り3・指定対象",
+          "attackId": "130803-rainblade-direct",
+          "multipliers": [
+            14.4,
+            15.36,
+            16.32,
+            17.28,
+            18.24,
+            19.2,
+            20.4,
+            21.6,
+            22.8,
+            24
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "rainblade-3-knots",
+          "name": "啼沢斬り3・集真赤消去（最大3層・層数入力）",
+          "attackId": "130803-rainblade-knots",
+          "multipliers": [
+            36,
+            38.4,
+            40.8,
+            43.2,
+            45.6,
+            48,
+            51,
+            54,
+            57,
+            60
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "aoe",
+          "perKnotMultipliers": [
+            9,
+            9.6,
+            10.2,
+            10.8,
+            11.4,
+            12,
+            12.75,
+            13.5,
+            14.25,
+            15
+          ],
+          "capMultipliers": [
+            36,
+            38.4,
+            40.8,
+            43.2,
+            45.6,
+            48,
+            51,
+            54,
+            57,
+            60
+          ]
+        },
+        {
+          "key": "resurge",
+          "name": "黄泉返り",
+          "attackId": "130803-resurge",
+          "multipliers": [
+            72,
+            76.8,
+            81.6,
+            86.4,
+            91.2,
+            96,
+            102,
+            108,
+            114,
+            120
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "aoe"
+        },
+        {
+          "key": "a6-extra-1",
+          "name": "雷心・追加ヒット1",
+          "attackId": "130803-a6-extra",
+          "multipliers": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "a6-extra-2",
+          "name": "雷心・追加ヒット2",
+          "attackId": "130803-a6-extra",
+          "multipliers": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "a6-extra-3",
+          "name": "雷心・追加ヒット3",
+          "attackId": "130803-a6-extra",
+          "multipliers": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "a6-extra-4",
+          "name": "雷心・追加ヒット4",
+          "attackId": "130803-a6-extra",
+          "multipliers": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "a6-extra-5",
+          "name": "雷心・追加ヒット5",
+          "attackId": "130803-a6-extra",
+          "multipliers": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        },
+        {
+          "key": "a6-extra-6",
+          "name": "雷心・追加ヒット6",
+          "attackId": "130803-a6-extra",
+          "multipliers": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "type": "ultimate",
+          "scalingStat": "atk",
+          "element": "Thunder",
+          "target": "single"
+        }
+      ],
+      "calculationNote": "啼沢斬りの指定対象直接成分は3回、各回の集真赤消去全体成分は消去数が1～3の場合だけ追加します。固定版の全体係数はLvごとのparams[1]×(1+消去層数)で、params[4]を上限とします。黄泉返りは常に1回。雷心3層は攻撃前から有効な限定値として追加6ヒットと+90%与ダメージを適用します。初回付与順や攻撃内での状態更新は再現しません。",
+      "description": "黄泉の必殺技をLv80・E0・敵1体で計算する。攻撃開始時に指定対象が持つ集真赤を0～9層から選択し、雷心3層は攻撃開始前から有効とする限定状態。",
+      "numericModifierInputs": [
+        {
+          "inputKey": "acheron-initial-knots",
+          "label": "必殺技開始時の指定対象「集真赤」層数",
+          "minimum": 0,
+          "maximum": 9,
+          "integer": true
+        }
+      ]
+    }
+  ],
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "全10採用Lvについて、攻撃開始時の集真赤0～9層から各啼沢斬りの消去数と成分を構成し、独立直接ダメージ合計で検証。敵1体・E0・Lv80・雷心事前3層の限定スナップショット。"
+  }
+}

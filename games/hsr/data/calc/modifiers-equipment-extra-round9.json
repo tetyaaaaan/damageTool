@@ -1,0 +1,1136 @@
+{
+  "schemaVersion": 1,
+  "description": "固定版で確認した光円錐8種類のS1～S5効果。恒常propertiesは最終入力へ含め、現在状態が必要な成分だけ補正入力で指定します。",
+  "modifiers": [
+    {
+      "id": "lightCone:24004:base-atk-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "24004"
+      },
+      "name": "絶え間ない演算・恒常攻撃力",
+      "description": "固定propertiesの恒常攻撃力。S1～S5: 8/9/10/11/12%。装備の完成済み最終値へ含めます。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          8,
+          9,
+          10,
+          11,
+          12
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終ステータスに含める"
+      },
+      "stacking": {
+        "group": "lightCone:24004:base-atk-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "光円錐の恒常propertiesを最終ステータスへ含め、二重加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:24004.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「絶え間ない演算」の「境界なき思考」をS1～S5で個別照合。"
+      }
+    },
+    {
+      "id": "lightCone:24004:attack-stacks",
+      "source": {
+        "kind": "lightCone",
+        "id": "24004"
+      },
+      "name": "絶え間ない演算・前の攻撃の敵命中数による攻撃力",
+      "description": "攻撃前時点の有効な層数。1層ごとに攻撃力+4/5/6/7/8%。最大5層。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "perStackByRefinement",
+        "values": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "stack",
+        "conditionText": "前の攻撃で累積し現在も有効な攻撃力層数",
+        "inputKey": "lc-24004-atk-stacks",
+        "inputLabel": "現在有効な攻撃力層数",
+        "minimum": 0,
+        "maximum": 5,
+        "default": 0,
+        "durationTurns": 1
+      },
+      "stacking": {
+        "group": "lightCone:24004:attack-stacks",
+        "rule": "nonStacking",
+        "maximumStacks": 5
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:24004.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「絶え間ない演算」の「境界なき思考」をS1～S5で個別照合。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "lc-24004-atk-stacks-in-final",
+        "inputLabel": "絶え間ない演算の累積攻撃力を最終入力へ算入済み"
+      },
+      "inputValidation": {
+        "maximumEidolon": 0,
+        "levelMaximum": 1,
+        "minimum": 0,
+        "maximum": 5,
+        "integer": true
+      }
+    },
+    {
+      "id": "lightCone:24004:three-target-speed",
+      "source": {
+        "kind": "lightCone",
+        "id": "24004"
+      },
+      "name": "絶え間ない演算・直前の攻撃が3体以上へ命中後の速度",
+      "description": "攻撃前から、直前の攻撃が3体以上へ命中して速度効果が有効な状態。S1～S5: 8/10/12/14/16%。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          8,
+          10,
+          12,
+          14,
+          16
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "直前の攻撃が3体以上へ命中し、1ターンの速度効果が有効",
+        "inputKey": "lc-24004-three-target-speed-active",
+        "inputLabel": "直前攻撃3体以上命中後の速度効果",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:24004:three-target-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:24004.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「絶え間ない演算」の「境界なき思考」をS1～S5で個別照合。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "lc-24004-three-target-speed-in-final",
+        "inputLabel": "絶え間ない演算の速度効果を最終入力へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:23037:base-crit-rate-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "23037"
+      },
+      "name": "触れてはならぬ領域へ・恒常会心率",
+      "description": "固定propertiesの恒常会心率。S1～S5: 12/14/16/18/20%。装備の完成済み最終値へ含めます。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          12,
+          14,
+          16,
+          18,
+          20
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終ステータスに含める"
+      },
+      "stacking": {
+        "group": "lightCone:23037:base-crit-rate-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "光円錐の恒常propertiesを最終ステータスへ含め、二重加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23037.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「触れてはならぬ領域へ」の「マインドゲーム」をS1～S5で個別照合。"
+      }
+    },
+    {
+      "id": "lightCone:23037:ultimate-triggered-skill-ult-damage",
+      "source": {
+        "kind": "lightCone",
+        "id": "23037"
+      },
+      "name": "触れてはならぬ領域へ・必殺技発動後のスキル/必殺技ダメージ",
+      "description": "装備者が必殺技を発動した後の3ターン、装備者本人の戦闘スキル・必殺技ダメージ+60/70/80/90/100%。",
+      "category": "damageBonus",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          60,
+          70,
+          80,
+          90,
+          100
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "skill",
+          "enhancedSkill",
+          "ultimate"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備者の必殺技発動後の効果が有効",
+        "inputKey": "lc-23037-ultimate-state-active",
+        "inputLabel": "必殺技発動後の効果が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23037:ultimate-triggered-skill-ult-damage",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "damageBonus",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23037.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「触れてはならぬ領域へ」の「マインドゲーム」をS1～S5で個別照合。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "lc-23037-ultimate-damage-in-final",
+        "inputLabel": "触れてはならぬ領域への必殺後ダメージ補正を最終値へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:23040:base-hp-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "23040"
+      },
+      "name": "永訣よ美しくあれ・恒常最大HP",
+      "description": "固定propertiesの恒常最大HP。S1～S5: 30/37.5/45/52.5/60%。装備の完成済み最終値へ含めます。",
+      "category": "statPercent",
+      "stat": "hp",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          30,
+          37.5,
+          45,
+          52.5,
+          60
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終ステータスに含める"
+      },
+      "stacking": {
+        "group": "lightCone:23040:base-hp-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "光円錐の恒常propertiesを最終ステータスへ含め、二重加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23040.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「永訣よ美しくあれ」の「銘刻」をS1～S5で個別照合。"
+      }
+    },
+    {
+      "id": "lightCone:23040:hellflower-defense-ignore",
+      "source": {
+        "kind": "lightCone",
+        "id": "23040"
+      },
+      "name": "永訣よ美しくあれ・冥花中の防御無視",
+      "description": "装備者が冥花を持つ時、装備者本人の非記憶の精霊攻撃に防御無視30/35/40/45/50%。記憶の精霊攻撃への汎用継承は行いません。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          30,
+          35,
+          40,
+          45,
+          50
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "normal",
+          "enhancedNormal",
+          "skill",
+          "enhancedSkill",
+          "ultimate",
+          "talent",
+          "followUp",
+          "additional",
+          "dot",
+          "break",
+          "superBreak",
+          "elation",
+          "technique"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備者が冥花を持つ状態",
+        "inputKey": "lc-23040-hellflower-active",
+        "inputLabel": "冥花が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23040:hellflower-defense-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23040.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「永訣よ美しくあれ」の「銘刻」をS1～S5で個別照合。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "lc-23040-hellflower-defense-ignore-in-final",
+        "inputLabel": "永訣よ美しくあれの冥花防御無視を最終補正へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:23057:base-speed-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "23057"
+      },
+      "name": "銀河シティへようこそ・恒常速度",
+      "description": "固定propertiesの恒常速度。S1～S5: 18/21/24/27/30%。装備の完成済み最終値へ含めます。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          18,
+          21,
+          24,
+          27,
+          30
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終ステータスに含める"
+      },
+      "stacking": {
+        "group": "lightCone:23057:base-speed-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "光円錐の恒常propertiesを最終ステータスへ含め、二重加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23057.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「銀河シティへようこそ」の「必勝」をS1～S5で個別照合。"
+      }
+    },
+    {
+      "id": "lightCone:23057:elation-defense-ignore",
+      "source": {
+        "kind": "lightCone",
+        "id": "23057"
+      },
+      "name": "銀河シティへようこそ・愉悦ダメージの防御無視",
+      "description": "装備者の愉悦ダメージに防御無視20/24/28/32/36%。",
+      "category": "defenseIgnore",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          20,
+          24,
+          28,
+          32,
+          36
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "elation"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "装備者の愉悦ダメージへ自動適用"
+      },
+      "stacking": {
+        "group": "lightCone:23057:elation-defense-ignore",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "defense",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23057.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「銀河シティへようこそ」の「必勝」をS1～S5で個別照合。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "lc-23057-elation-defense-ignore-in-final",
+        "inputLabel": "銀河シティへようこその防御無視を最終補正へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:23063:base-hp-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "23063"
+      },
+      "name": "立ち上がり高らかな歌を・恒常最大HP",
+      "description": "固定propertiesの恒常最大HP。S1～S5: 30/37.5/45/52.5/60%。装備の完成済み最終値へ含めます。",
+      "category": "statPercent",
+      "stat": "hp",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          30,
+          37.5,
+          45,
+          52.5,
+          60
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終ステータスに含める"
+      },
+      "stacking": {
+        "group": "lightCone:23063:base-hp-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "光円錐の恒常propertiesを最終ステータスへ含め、二重加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23063.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「立ち上がり高らかな歌を」の「アドリブ」をS1～S5で個別照合。"
+      }
+    },
+    {
+      "id": "lightCone:23063:new-song-party-speed",
+      "source": {
+        "kind": "lightCone",
+        "id": "23063"
+      },
+      "name": "立ち上がり高らかな歌を・新たな歌声・味方全体速度",
+      "description": "装備者が戦闘開始時に得る「新たな歌声」が有効な間、味方全体の速度+20/25/30/35/40%。",
+      "category": "statPercent",
+      "stat": "speed",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ]
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備者の「新たな歌声」が有効",
+        "inputKey": "lc-23063-new-song-active",
+        "inputLabel": "新たな歌声が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23063:new-song-party-speed",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23063.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「立ち上がり高らかな歌を」の「アドリブ」をS1～S5で個別照合。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "lc-23063-new-song-speed-in-final",
+        "inputLabel": "立ち上がり高らかな歌の味方速度を最終入力へ算入済み"
+      },
+      "providerScope": "party"
+    },
+    {
+      "id": "lightCone:23056:base-crit-rate-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "23056"
+      },
+      "name": "或る嘘の終幕・恒常会心率",
+      "description": "固定propertiesの恒常会心率。S1～S5: 18/21/24/27/30%。装備の完成済み最終値へ含めます。",
+      "category": "critRate",
+      "stat": "critRate",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          18,
+          21,
+          24,
+          27,
+          30
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終ステータスに含める"
+      },
+      "stacking": {
+        "group": "lightCone:23056:base-crit-rate-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "光円錐の恒常propertiesを最終ステータスへ含め、二重加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23056.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「或る嘘の終幕」の「呑噬」をS1～S5で個別照合。"
+      }
+    },
+    {
+      "id": "lightCone:23056:shadow-eater-atk",
+      "source": {
+        "kind": "lightCone",
+        "id": "23056"
+      },
+      "name": "或る嘘の終幕・影喰い・装備者攻撃力",
+      "description": "影喰いが有効な時、装備者の攻撃力+40/50/60/70/80%。",
+      "category": "statPercent",
+      "stat": "atk",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          40,
+          50,
+          60,
+          70,
+          80
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "戦闘開始時または追加攻撃4回後の影喰いが有効",
+        "inputKey": "lc-23056-shadow-eater-active",
+        "inputLabel": "影喰いが有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23056:shadow-eater-atk",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23056.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「或る嘘の終幕」の「呑噬」をS1～S5で個別照合。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "lc-23056-shadow-eater-atk-in-final",
+        "inputLabel": "或る嘘の終幕の影喰い攻撃力を最終入力へ算入済み"
+      }
+    },
+    {
+      "id": "lightCone:23056:shadow-eater-enemy-taken",
+      "source": {
+        "kind": "lightCone",
+        "id": "23056"
+      },
+      "name": "或る嘘の終幕・影喰い・敵全体の被ダメージ",
+      "description": "影喰いが有効な時、敵全体の受けるダメージ+20/22.5/25/27.5/30%。同系効果は累積しません。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          20,
+          22.5,
+          25,
+          27.5,
+          30
+        ]
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備者の影喰いが有効",
+        "inputKey": "lc-23056-shadow-eater-active",
+        "inputLabel": "影喰いが有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23056:shadow-eater-enemy-taken",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23056.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「或る嘘の終幕」の「呑噬」をS1～S5で個別照合。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "lc-23056-shadow-eater-taken-in-final",
+        "inputLabel": "或る嘘の終幕の敵被ダメージ補正を敵条件へ算入済み"
+      },
+      "providerScope": "party"
+    },
+    {
+      "id": "lightCone:23058:base-crit-damage-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "23058"
+      },
+      "name": "再び花が咲く季節に・恒常会心ダメージ",
+      "description": "固定propertiesの恒常会心ダメージ。S1～S5: 60/75/90/105/120%。装備の完成済み最終値へ含めます。",
+      "category": "critDamage",
+      "stat": "critDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          60,
+          75,
+          90,
+          105,
+          120
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終ステータスに含める"
+      },
+      "stacking": {
+        "group": "lightCone:23058:base-crit-damage-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "光円錐の恒常propertiesを最終ステータスへ含め、二重加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23058.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「再び花が咲く季節に」の「空想」をS1～S5で個別照合。"
+      }
+    },
+    {
+      "id": "lightCone:23058:elation-skill-enemy-taken",
+      "source": {
+        "kind": "lightCone",
+        "id": "23058"
+      },
+      "name": "再び花が咲く季節に・愉悦スキル後の敵被ダメージ",
+      "description": "装備者が愉悦スキルを発動した後の2ターン、敵全体の受けるダメージ+15/18.75/22.5/26.25/30%。同系効果は累積しません。",
+      "category": "takenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          15,
+          18.75,
+          22.5,
+          26.25,
+          30
+        ]
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備者の愉悦スキル発動後の敵被ダメージ増加が有効",
+        "inputKey": "lc-23058-elation-skill-active",
+        "inputLabel": "愉悦スキル発動後の効果が有効",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23058:elation-skill-enemy-taken",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "vulnerability",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23058.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「再び花が咲く季節に」の「空想」をS1～S5で個別照合。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "lc-23058-elation-skill-taken-in-final",
+        "inputLabel": "再び花が咲く季節にの敵被ダメージ補正を敵条件へ算入済み"
+      },
+      "providerScope": "party"
+    },
+    {
+      "id": "lightCone:23059:base-hp-final",
+      "source": {
+        "kind": "lightCone",
+        "id": "23059"
+      },
+      "name": "煉獄に焼かれし新身・恒常最大HP",
+      "description": "固定propertiesの恒常最大HP。S1～S5: 30/37.5/45/52.5/60%。装備の完成済み最終値へ含めます。",
+      "category": "statPercent",
+      "stat": "hp",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          30,
+          37.5,
+          45,
+          52.5,
+          60
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "always",
+        "conditionText": "恒常propertiesを最終ステータスに含める"
+      },
+      "stacking": {
+        "group": "lightCone:23059:base-hp-final",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "includedInFinalStats",
+      "support": {
+        "status": "displayOnly",
+        "verified": true,
+        "reason": "光円錐の恒常propertiesを最終ステータスへ含め、二重加算しません。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23059.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「煉獄に焼かれし新身」の「鍛錬」をS1～S5で個別照合。"
+      }
+    },
+    {
+      "id": "lightCone:23059:inferno-enemy-crit-taken",
+      "source": {
+        "kind": "lightCone",
+        "id": "23059"
+      },
+      "name": "煉獄に焼かれし新身・煉獄・敵が受ける会心ダメージ",
+      "description": "煉獄が有効な敵は、攻撃者を問わず会心ダメージを受ける時+30/37.5/45/52.5/60%。",
+      "category": "critTakenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          30,
+          37.5,
+          45,
+          52.5,
+          60
+        ]
+      },
+      "target": {
+        "owner": "enemySingle",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備者の戦闘スキル後に付与された煉獄が有効",
+        "inputKey": "lc-23059-inferno-active",
+        "inputLabel": "対象の敵が煉獄状態",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23059:inferno-enemy-crit-taken",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23059.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「煉獄に焼かれし新身」の「鍛錬」をS1～S5で個別照合。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "lc-23059-inferno-crit-taken-in-final",
+        "inputLabel": "煉獄の敵会心被ダメージ増加を敵条件へ算入済み"
+      },
+      "providerScope": "party"
+    },
+    {
+      "id": "lightCone:23059:inferno-wearer-extra-crit-taken",
+      "source": {
+        "kind": "lightCone",
+        "id": "23059"
+      },
+      "name": "煉獄に焼かれし新身・煉獄・装備者から受ける追加会心ダメージ",
+      "description": "煉獄が有効な敵は、装備者から受ける会心ダメージをさらに+30/37.5/45/52.5/60%。",
+      "category": "critTakenDamage",
+      "unit": "percent",
+      "value": {
+        "kind": "byRefinement",
+        "values": [
+          30,
+          37.5,
+          45,
+          52.5,
+          60
+        ]
+      },
+      "target": {
+        "owner": "self",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "conditionText": "装備者の戦闘スキル後に付与された煉獄が有効",
+        "inputKey": "lc-23059-inferno-active",
+        "inputLabel": "対象の敵が煉獄状態",
+        "default": false
+      },
+      "stacking": {
+        "group": "lightCone:23059:inferno-wearer-extra-crit-taken",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "critical",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/light_cone_ranks.json",
+        "sourceFile": "light_cone_ranks.json:23059.params[rank]",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版「煉獄に焼かれし新身」の「鍛錬」をS1～S5で個別照合。"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "lc-23059-wearer-extra-crit-taken-in-final",
+        "inputLabel": "煉獄の装備者専用追加会心被ダメージを敵条件へ算入済み"
+      }
+    }
+  ]
+}

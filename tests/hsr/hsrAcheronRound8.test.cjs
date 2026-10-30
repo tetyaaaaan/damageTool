@@ -77,6 +77,7 @@ test("Acheron's fixed-state total matches an independent direct-damage sum for e
         { id: talentReduction.id, enabled: true, applicable: true, category: "resistanceReduction", value: talentReduction.value.values[level - 1] }
       ];
       const parent = makeRequest(attack, level, { ...scenario, characterLevel: 80, eidolon: 0, enemyCount: 1 }, native);
+      parent.modifierInputs = {"acheron-initial-knots":9};
       const components = attack.damageComponents.map(component => {
         const input = { ...parent, attack: {
           ...parent.attack,

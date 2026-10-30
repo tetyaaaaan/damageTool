@@ -494,7 +494,9 @@ function calculateFanning(input) {
         const a = input.attack || {}, c = input.character || {}, e = input.enemy || {};
         const fail = reason => ({ supported: false, reason });
         const definitions = a.damageComponents || [], parts = input.sequenceComponents || [];
-        if (c.level !== 80 || c.eidolon !== 0 || e.count !== 1 || !Number.isInteger(a.traceLevel) || a.traceLevel < 1 || a.traceLevel > 10) return fail("マダム・ヘルタの強化スキルはLv80・星魂0・敵1体・スキルLv1～10・解読事前42層のみ対応です。");
+        if (c.level !== 80 || c.eidolon !== 0 || e.count !== 1 || !Number.isInteger(a.traceLevel) || a.traceLevel < 1 || a.traceLevel > 10) return fail("マダム・ヘルタの強化スキルはLv80・星魂0・敵1体・スキルLv1～10・指定した解読状態のみ対応です。");
+        const finalStacks = input.modifierInputs?.["herta-final-interpretation"];
+        if (a.numericModifierInputs?.length && (!Number.isInteger(finalStacks) || finalStacks < 0 || finalStacks > 42)) return fail("最後の全体攻撃が参照する解読層数を0～42の整数で入力してください。");
         if (definitions.length !== 4 || parts.length !== 4) return fail("強化スキルの4成分が不足しています。");
         for (let i = 0; i < 4; i++) {
             const d = definitions[i], part = parts[i], child = part?.input?.attack || {};
@@ -505,7 +507,7 @@ function calculateFanning(input) {
                 || child.multiplier <= 0 || child.multiplier !== d.multipliers?.[a.traceLevel - 1]) return fail("強化スキルの成分が固定状態の定義と一致しません。");
             if (JSON.stringify(part.input.character) !== JSON.stringify(c) || JSON.stringify(part.input.enemy) !== JSON.stringify(e)) return fail("強化スキルの全成分には同じ最終ステータスと敵条件が必要です。");
         }
-        return combineDamageComponents(a, parts, "強化スキル3段＋最後の全体攻撃（解読事前42層）");
+        return combineDamageComponents(a, parts, `強化スキル3段＋最後の全体攻撃（最後撃の解読${a.numericModifierInputs?.length ? finalStacks : 42}層）`);
     }
 
     // Fixed single-target snapshot: 9 initial Knots and a pre-existing full A6 buff.
@@ -513,21 +515,33 @@ function calculateFanning(input) {
     function calculateAcheronSnapshot(input) {
         const a = input.attack || {}, c = input.character || {}, e = input.enemy || {};
         const fail = reason => ({ supported: false, reason });
-        const definitions = a.damageComponents || [], parts = input.sequenceComponents || [];
-        const keys = ["rainblade-1-direct", "rainblade-1-knots", "rainblade-2-direct", "rainblade-2-knots", "rainblade-3-direct", "rainblade-3-knots", "resurge", ...Array.from({length:6}, (_, i) => "a6-extra-" + (i + 1))];
+        const templates = a.damageComponents || [], parts = input.sequenceComponents || [];
+        const dynamic = a.numericModifierInputs?.some(spec => spec.inputKey === "acheron-initial-knots");
+        const knots = dynamic ? input.modifierInputs?.["acheron-initial-knots"] : 9;
         if (c.level !== 80 || c.eidolon !== 0 || e.count !== 1 || !Number.isInteger(a.traceLevel) || a.traceLevel < 1 || a.traceLevel > 10) return fail("黄泉の固定状態必殺技はLv80・星魂0・敵1体・必殺Lv1～10のみ対応です。");
-        if (definitions.length !== 13 || parts.length !== 13) return fail("黄泉の必殺技13成分が不足しています。");
-        for (let i = 0; i < 13; i++) {
-            const d = definitions[i], part = parts[i], child = part?.input?.attack || {};
-            if (d.key !== keys[i] || part?.key !== d.key || part?.name !== d.name || child.id !== d.attackId
+        if (!Number.isInteger(knots) || knots < 0 || knots > 9) return fail("必殺技開始時の集真赤を0～9の整数で入力してください。");
+        const keys = ["rainblade-1-direct", "rainblade-1-knots", "rainblade-2-direct", "rainblade-2-knots", "rainblade-3-direct", "rainblade-3-knots", "resurge", ...Array.from({length:6}, (_, i) => "a6-extra-" + (i + 1))];
+        if (templates.length !== 13 || templates.some((d,i) => d.key !== keys[i])) return fail("黄泉の必殺技の成分定義が不足しています。");
+        let remaining = knots;
+        const expected = templates.flatMap(d => {
+            if (!d.key.endsWith("-knots")) return [{d, multiplier:d.multipliers?.[a.traceLevel - 1]}];
+            const removed = Math.min(3, remaining); remaining -= removed;
+            if (!removed) return [];
+            const multiplier = dynamic ? Math.min(d.capMultipliers?.[a.traceLevel - 1], d.perKnotMultipliers?.[a.traceLevel - 1] * (1 + removed)) : d.multipliers?.[a.traceLevel - 1];
+            return [{d, multiplier}];
+        });
+        if (parts.length !== expected.length) return fail("開始時の集真赤に対応する必殺技成分が不足しています。");
+        for (let i = 0; i < expected.length; i++) {
+            const {d, multiplier} = expected[i], part = parts[i], child = part?.input?.attack || {};
+            if (part?.key !== d.key || part?.name !== d.name || child.id !== d.attackId
                 || child.sourceSkillId !== "130803" || child.type !== "ultimate" || child.attackType !== "ultimate"
                 || child.element !== "Thunder" || child.scalingStat !== "atk" || child.damageFormula !== "statMultiplier"
                 || child.traceLevel !== a.traceLevel || child.hitCount !== 1 || child.canCrit === false
-                || !Number.isFinite(child.multiplier) || child.multiplier <= 0 || child.multiplier !== d.multipliers?.[a.traceLevel - 1]
-                || (i >= 7 && child.multiplier !== 25)) return fail("黄泉の必殺技成分が固定状態の定義と一致しません。");
+                || !Number.isFinite(child.multiplier) || child.multiplier <= 0 || Math.abs(child.multiplier - multiplier) > 1e-9
+                || (d.key.startsWith("a6-extra-") && child.multiplier !== 25)) return fail("黄泉の必殺技成分が指定した開始状態と一致しません。");
             if (JSON.stringify(part.input.character) !== JSON.stringify(c) || JSON.stringify(part.input.enemy) !== JSON.stringify(e)) return fail("黄泉の全成分には同じ最終ステータスと敵条件が必要です。");
         }
-        return combineDamageComponents(a, parts, "啼沢斬り3回＋黄泉返り＋雷心6ヒット（集真赤9層・雷心事前3層）");
+        return combineDamageComponents(a, parts, `啼沢斬り3回＋黄泉返り＋雷心6ヒット（集真赤事前${knots}層・雷心事前3層）`);
     }
 
     function combineDamageComponents(attack, components, totalLabel) {

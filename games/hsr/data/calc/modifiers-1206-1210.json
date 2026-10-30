@@ -2476,6 +2476,10 @@
         "gameVersion": "snapshot-2026-07-28",
         "verifiedAt": "2026-08-01",
         "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1209:120903:ultimate-crit-rate-in-final",
+        "inputLabel": "必殺技・会心率を最終入力へ算入済み"
       }
     },
     {
@@ -2547,6 +2551,10 @@
         "gameVersion": "snapshot-2026-07-28",
         "verifiedAt": "2026-08-01",
         "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1209:120903:soulsteel-crit-damage-in-final",
+        "inputLabel": "必殺技・智剣連心時会心ダメージを最終入力へ算入済み"
       }
     },
     {
@@ -2615,6 +2623,10 @@
         "gameVersion": "snapshot-2026-07-28",
         "verifiedAt": "2026-08-01",
         "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1209:120904:soulsteel-crit-rate-in-final",
+        "inputLabel": "天賦「智剣連心」・会心率を最終入力へ算入済み"
       }
     },
     {
@@ -2683,6 +2695,10 @@
         "gameVersion": "snapshot-2026-07-28",
         "verifiedAt": "2026-08-01",
         "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1209:120904:soulsteel-crit-damage-in-final",
+        "inputLabel": "天賦「智剣連心」・会心ダメージを最終入力へ算入済み"
       }
     },
     {
@@ -2848,6 +2864,10 @@
         "gameVersion": "snapshot-2026-07-28",
         "verifiedAt": "2026-08-01",
         "notes": "IDと数値パラメータ位置をレビュー表で固定"
+      },
+      "finalStatsInclusion": {
+        "inputKey": "trace:1209:120907:damage-in-final",
+        "inputLabel": "秘技「御剣真訣」・与ダメージを最終入力へ算入済み"
       }
     },
     {

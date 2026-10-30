@@ -3560,7 +3560,7 @@ test('round8 Jingliu eight main attack variants: all accepted levels, native sta
 
 test('round8 Acheron thirteen Ultimate components preserve automatic native modifiers, party scaling and restoration',async()=>{
  const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b),a=p.attacks.find(a=>a.id==='130803');
- const data={characters:p.characters,attacks:[a],structuredModifiers:p.structuredModifiers.filter(m=>m.source.id==='1308')},app=await tool(undefined,data);app.state.characterId='1308';
+ const data={characters:p.characters,attacks:[a],structuredModifiers:p.structuredModifiers.filter(m=>m.source.id==='1308')},app=await tool(undefined,data);app.state.characterId='1308';app.state.modifierInputs['acheron-initial-knots']=9;
  for(const[k,v]of Object.entries({atk:3000,hp:6000,def:2400,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
  for(let level=1;level<=10;level++){
   app.node('hsrUltimateTrace').value=String(level);app.node('hsrTalentTrace').value=String(level);
@@ -3575,7 +3575,7 @@ test('round8 Acheron thirteen Ultimate components preserve automatic native modi
 
 test('round8 The Herta complete main actions: final-hit Interpretation, roster buffs, Answers and restoration through App',async()=>{
  const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
- const data={characters:p.characters,attacks:p.attacks.filter(a=>a.characterId==='1401'),structuredModifiers:p.structuredModifiers.filter(m=>m.source.id==='1401')},app=await tool(undefined,data);app.state.characterId='1401';
+ const data={characters:p.characters,attacks:p.attacks.filter(a=>a.characterId==='1401'),structuredModifiers:p.structuredModifiers.filter(m=>m.source.id==='1401')},app=await tool(undefined,data);app.state.characterId='1401';app.state.modifierInputs['herta-final-interpretation']=42;app.state.modifierInputs['herta-enhanced-interpretation-at-cast']=42;
  for(const[k,v]of Object.entries({atk:3000,hp:6000,def:2400,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
  const enhancedIndex=data.attacks.findIndex(a=>a.id==='140109'),ultimateIndex=data.attacks.findIndex(a=>a.id==='140103'),talent=[4,4.4,4.8,5.2,5.6,6,6.5,7,7.5,8];
  for(let level=1;level<=10;level++){
@@ -3599,7 +3599,7 @@ test('round8 The Herta complete main actions: final-hit Interpretation, roster b
 test('round8 Herta enhanced skill retains ordinary skill-only equipment modifiers on each child',async()=>{
  const {loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),a=p.attacks.find(a=>a.id==='140109');
  const rows=p.structuredModifiers.filter(m=>m.source.id==='1401'||m.source.kind==='relic'&&m.source.id==='122');
- const app=await tool(undefined,{characters:p.characters,relicSets:p.relicSets,attacks:[a],structuredModifiers:rows});app.state.characterId='1401';app.state.relicId='122';app.state.relicMode='4pc';
+ const app=await tool(undefined,{characters:p.characters,relicSets:p.relicSets,attacks:[a],structuredModifiers:rows});app.state.characterId='1401';app.state.modifierInputs['herta-final-interpretation']=42;app.state.modifierInputs['herta-enhanced-interpretation-at-cast']=42;app.state.relicId='122';app.state.relicMode='4pc';
  for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
  const next=rows.find(m=>m.id==='relic:122:4pc:next-skill-damage');app.state.modifierInputs[next.activation.inputKey]=true;
  const result=app.calculate()[0];assert.ok(Math.abs(result.nonCrit-3000*6.16*.36*1.95)<1e-6);
@@ -3634,4 +3634,46 @@ test('round8 Aventurine main composition keeps DEF, final CR and pre-existing Un
   data.attacks.forEach((a,i)=>{const lv=a.traceKey==='normal'?Math.min(level,6):level,nc=3000*a.multipliers[lv-1]/100*(a.hitCount||1)*.36;near(out[i].nonCrit,nc);near(out[i].expected,nc*(1+.5*(1+vul/100)));});
  }
  app.node('hsrStat-def').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[ultIndex].expected,4592.7);saved.state.modifierInputs['aventurine-unnerve-active']=false;assert.equal(saved.calculate().length,2);
+});
+
+test('round9 Acheron initial knots are required, vary 10-13 components and persist without a maximum fallback',async()=>{
+ const{loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),a=p.attacks.find(a=>a.id==='130803'),data={characters:p.characters,attacks:[a],structuredModifiers:p.structuredModifiers.filter(m=>m.source.id==='1308')},app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);app.state.characterId='1308';
+ for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);assert.equal(app.calculate().length,0);
+ app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.match(app.node('hsrConditionList').innerHTML,/data-structured-input="acheron-initial-knots"/);
+ for(const n of [0,1,2,3,4,6,7,8,9]){app.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredInput:'acheron-initial-knots',structuredStrict:'true'},value:String(n)}});let left=n,sum=342;for(let i=0;i<3;i++){const r=Math.min(3,left);left-=r;if(r)sum+=15*(1+r);}const out=app.calculate()[0];near(out.nonCrit,3000*sum/100*1.9*.5*.9);near(out.expected,out.nonCrit*1.5);assert.equal(Object.keys(out.components).length,10+Math.ceil(n/3));}
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate()[0].expected,20083.95);saved.node('hsrConditionDialog').handlers.change({target:{dataset:{structuredInput:'acheron-initial-knots',structuredStrict:'true'},value:''}});assert.equal(saved.calculate().length,0);
+});
+
+test('round9 Herta distinct state inputs are shared once, final-only, locally missing and restorable',async()=>{
+ const{loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),data={characters:p.characters,attacks:p.attacks.filter(a=>a.characterId==='1401'),structuredModifiers:p.structuredModifiers.filter(m=>m.source.id==='1401')},app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);app.state.characterId='1401';app.state.party[0]={characterId:'1003',level:80,traceLevels:{}};for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+ assert.equal(app.calculate().length,3,'only enhanced Skill needs the final-hit state');app.state.conditionTab='軌跡';app.node('hsrConditionDialogOpen').handlers.click();assert.equal((app.node('hsrConditionList').innerHTML.match(/data-structured-input="herta-final-interpretation"/g)||[]).length,1);
+ for(const final of [0,1,20,41,42])for(const cast of [0,41,42]){app.state.modifierInputs['herta-final-interpretation']=final;app.state.modifierInputs['herta-enhanced-interpretation-at-cast']=cast;const out=app.calculate().find(r=>r.breakdown?.damageFormula==='componentSequence');assert.ok(out);const nc=3000*(2.8+final*.16)*.36*(cast===42?1.5:1);near(out.nonCrit,nc);near(out.expected,nc*1.9);near(out.components.main.nonCrit,3000*.8*.36*(cast===42?1.5:1));}
+ app.state.modifierInputs['herta-final-interpretation']=20;delete app.state.modifierInputs['herta-enhanced-interpretation-at-cast'];let out=app.calculate().find(r=>r.breakdown?.damageFormula==='componentSequence');near(out.nonCrit,6480);assert.match(app.node('hsrConditionTitle').textContent,/条件未確定/);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate().find(r=>r.breakdown?.damageFormula==='componentSequence').nonCrit,6480);saved.state.modifierInputs['herta-final-interpretation']=43;assert.equal(saved.calculate().length,3);
+});
+
+test('round9 Argenti full major composition uses completed Glory CR and independent HP boundaries',async()=>{
+ const{loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),data={characters:p.characters,attacks:p.attacks.filter(a=>a.characterId==='1302'),structuredModifiers:p.structuredModifiers.filter(m=>m.source.id==='1302')},app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);app.state.characterId='1302';for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);
+ for(let level=1;level<=10;level++)for(const hp of [50,50.01]){app.node('hsrNormalTrace').value=String(Math.min(level,6));app.node('hsrSkillTrace').value=String(level);app.node('hsrUltimateTrace').value=String(level);app.node('hsrEnemyHpPercent').value=String(hp);const out=app.calculate();assert.equal(out.length,4);data.attacks.forEach((a,i)=>{const lv=a.traceKey==='normal'?Math.min(level,6):level,nc=3000*a.multipliers[lv-1]/100*.36*(hp<=50?1.15:1);near(out[i].nonCrit,nc);near(out[i].expected,nc*1.5);});}
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate().find(r=>r.attack.name.includes('180EP')).expected,13770);
+});
+
+test('round9 Yanqing complete core actions and frozen/weakness components keep native CR/CD and inclusion separate',async()=>{
+ const{loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),ids=['120901','120902','120903','120904','1209041','1209101'],data={characters:p.characters,attacks:p.attacks.filter(a=>ids.includes(a.id)),structuredModifiers:p.structuredModifiers.filter(m=>m.source.id==='1209')},app=await tool(undefined,data),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);app.state.characterId='1209';for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);Object.assign(app.state.modifierInputs,{'yanqing-soulsteel-active':true,'yanqing-followup-triggered':true,'enemy-frozen':true,'enemy-ice-weakness':true});
+ const cr=[15,15.5,16,16.5,17,17.5,18.12,18.75,19.38,20],cd=[15,16.5,18,19.5,21,22.5,24.37,26.25,28.12,30],ultCD=[30,32,34,36,38,40,42.5,45,47.5,50];
+ for(let level=1;level<=10;level++){app.node('hsrNormalTrace').value=String(Math.min(level,6));app.node('hsrSkillTrace').value=String(level);app.node('hsrUltimateTrace').value=String(level);app.node('hsrTalentTrace').value=String(level);const out=app.calculate();assert.equal(out.length,6);data.attacks.forEach((a,i)=>{const lv=a.traceKey==='normal'?Math.min(level,6):a.id==='1209101'?1:level,nc=3000*a.multipliers[lv-1]/100*.36,isUlt=a.id==='120903',rate=Math.min(100,50+cr[level-1]+(isUlt?60:0))/100,damage=(100+cd[level-1]+(isUlt?ultCD[level-1]:0))/100;near(out[i].nonCrit,nc);near(out[i].expected,a.canCrit===false?nc:nc*(1+rate*damage));});}
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,data);near(saved.calculate().find(r=>r.attack.name==='快雨に戯れる燕').expected,10584);
+ for(const r of data.structuredModifiers.filter(m=>m.finalStatsInclusion))saved.state.modifierInputs[r.finalStatsInclusion.inputKey]=true;saved.node('hsrStat-critRate').value='100';saved.node('hsrStat-critDamage').value='180';near(saved.calculate().find(r=>r.attack.name==='快雨に戯れる燕').expected,10584);
+});
+
+test('round9 priority cone thresholds react to real supports and actual App restoration',async()=>{
+ const{loadProductionFixture}=require('./helpers/hsrDirectVerification.cjs'),{data:p}=await loadProductionFixture(),near=(a,b)=>assert.ok(Math.abs(a-b)<1e-6,a+' != '+b);
+ const sample={id:'sample',name:'Sample',path:'Rogue',element:'Fire',base:{atk:1000,speed:100,hp:1000}},a={id:'r9-threshold',characterId:'sample',name:'Threshold test',type:'normal',traceKey:'normal',element:'Fire',scalingStat:'atk',multipliers:[100],support:{status:'calculable',verified:true}};
+ const records=p.structuredModifiers.filter(m=>m.id==='lightCone:23027:break-effect-speed'||m.id==='ornament:311:2pc:speed-damage'||m.source.kind==='eidolon'&&m.source.id==='1222');
+ const app=await tool(undefined,{characters:[sample,...p.characters],lightCones:p.lightCones,relicSets:p.relicSets,attacks:[a],structuredModifiers:records});app.state.coneId='23027';app.state.ornamentId='311';app.state.party[0]={characterId:'1222',eidolon:2,level:80,traceLevels:{}};
+ for(const[k,v]of Object.entries({atk:3000,speed:148,breakEffect:110,critRate:50,critDamage:100}))app.node('hsrStat-'+k).value=String(v);near(app.calculate()[0].nonCrit,1209.6);app.state.modifierInputs['lingsha-e2-ultimate-break-effect']=true;near(app.calculate()[0].nonCrit,1274.4);
+ app.node('hsrStat-atk').handlers.input();const saved=await tool(app.storage,{characters:[sample,...p.characters],lightCones:p.lightCones,relicSets:p.relicSets,attacks:[a],structuredModifiers:records});near(saved.calculate()[0].nonCrit,1274.4);saved.state.party[0].characterId='';near(saved.calculate()[0].nonCrit,1209.6);
+ const cdSample={...sample,path:'Mage'},fa={...a,type:'followUp'},mods=p.structuredModifiers.filter(m=>m.id==='lightCone:23028:crit-damage-followup'||m.id==='trace:1309:130904:party-crit-damage');const cdApp=await tool(undefined,{characters:[cdSample,...p.characters],lightCones:p.lightCones,attacks:[fa],structuredModifiers:mods});cdApp.state.coneId='23028';cdApp.state.party[0]={characterId:'1309',level:80,eidolon:0,traceLevels:{talent:10}};delete cdApp.state.modifierInputs['robin-talent-crit-active'];
+ for(const[k,v]of Object.entries({atk:3000,critRate:50,critDamage:120}))cdApp.node('hsrStat-'+k).value=String(v);near(cdApp.calculate()[0].nonCrit,1209.6);near(cdApp.calculate()[0].expected,2056.32);
+ cdApp.state.modifierInputs['robin-talent-crit-in-final-stats']=true;cdApp.node('hsrStat-critDamage').value='140';near(cdApp.calculate()[0].expected,2056.32);cdApp.state.party[0].characterId='';cdApp.node('hsrStat-critDamage').value='120';near(cdApp.calculate()[0].nonCrit,1080);
 });

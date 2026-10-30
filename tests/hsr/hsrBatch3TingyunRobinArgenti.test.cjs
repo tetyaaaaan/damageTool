@@ -318,7 +318,7 @@ test("Robin own Skill bonus uses all ten independent levels and cannot duplicate
     }
 });
 
-test("Argenti 180 Energy reference includes the initial AoE and all six bounces at every Ultimate level", async () => {
+test("Argenti 180 Energy fixed-state calculation includes the initial AoE and all six bounces at every Ultimate level", async () => {
     const { data, engine } = await loadProductionFixture();
     const attack = attackOf(data, "130214");
     assert.equal(attack.type, "ultimate");
@@ -326,8 +326,8 @@ test("Argenti 180 Energy reference includes the initial AoE and all six bounces 
     assert.equal(attack.element, "Physical");
     assert.equal(attack.enemyCountExact, 1);
     assert.equal(attack.maximumTraceLevel, 10);
-    assert.equal(attack.support.status, "review", "unknown intra-action native-state order remains a reference");
-    assert.equal(attack.support.verified, false);
+    assert.equal(attack.support.status, "calculable", "the completed 10-stack snapshot is accepted; transitions remain outside scope");
+    assert.equal(attack.support.verified, true);
     assert.equal(attack.provenance.sourceCommit, fixedSourceSha);
     assert.equal(attack.multiplierComponents.length, 2, "AoE and six-bounce sum are exposed separately");
     for (let level = 1; level <= 10; level++) {

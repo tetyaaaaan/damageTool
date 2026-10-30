@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": "fixed StarRailRes dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487 index_new/jp/character_skills.json",
+  "support": {
+    "status": "calculable",
+    "verified": true,
+    "reason": "星魂0・Lv80・敵1体。強化スキルLv1～10。攻撃内状態遷移を行わず、最後撃参照層数とA2条件層数を明示入力して独立検証。"
+  },
+  "overrides": [
+    {
+      "id": "140109",
+      "characterId": "1401",
+      "sourceSkillId": "140109",
+      "name": "大胆なアイデア（星魂0・敵1体・指定解読状態）",
+      "element": "Ice",
+      "type": "enhancedSkill",
+      "traceKey": "skill",
+      "target": "aoe",
+      "scalingStat": "atk",
+      "damageFormula": "componentSequence",
+      "hitCount": 4,
+      "hitCountLabel": "戦闘スキル3段＋最後の全体攻撃",
+      "canCrit": true,
+      "multipliers": [
+        40,
+        44,
+        48,
+        52,
+        56,
+        60,
+        65,
+        70,
+        75,
+        80
+      ],
+      "maximumEidolon": 0,
+      "maximumTraceLevel": 10,
+      "characterLevelExact": 80,
+      "enemyCountExact": 1,
+      "damageComponents": [
+        {
+          "key": "main",
+          "name": "メインターゲットの1段目",
+          "attackId": "140109",
+          "multipliers": [
+            40,
+            44,
+            48,
+            52,
+            56,
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "type": "enhancedSkill",
+          "scalingStat": "atk",
+          "element": "Ice",
+          "count": 1
+        },
+        {
+          "key": "repeat1",
+          "name": "命中後の繰り返し1段目",
+          "attackId": "140109",
+          "multipliers": [
+            40,
+            44,
+            48,
+            52,
+            56,
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "type": "enhancedSkill",
+          "scalingStat": "atk",
+          "element": "Ice",
+          "count": 1
+        },
+        {
+          "key": "repeat2",
+          "name": "命中後の繰り返し2段目",
+          "attackId": "140109",
+          "multipliers": [
+            40,
+            44,
+            48,
+            52,
+            56,
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "type": "enhancedSkill",
+          "scalingStat": "atk",
+          "element": "Ice",
+          "count": 1
+        },
+        {
+          "key": "final",
+          "name": "最後の全体攻撃",
+          "attackId": "140109:final",
+          "multipliers": [
+            20,
+            22,
+            24,
+            26,
+            28,
+            30,
+            32.5,
+            35,
+            37.5,
+            40
+          ],
+          "type": "enhancedSkill",
+          "scalingStat": "atk",
+          "element": "Ice",
+          "count": 1
+        }
+      ],
+      "calculationScope": "fixed-pre-final-hit-interpretation-snapshot-single-enemy",
+      "conditionText": "Lv80・星魂0・強化スキルLv1～10・敵1体。攻撃内の解読更新は再現せず、最後の全体攻撃が参照する解読層数とA2判定時点の層数を補正条件で指定。",
+      "calculationNote": "固定版140109の本体#1を3回、最後の全体攻撃#3を1回に分けます。解読による倍率加算は最後の全体攻撃成分だけです。最後の全体攻撃が参照するメイン対象の解読層数は補正条件から0～42層で指定します。攻撃中の層付与・消費・リセットは再現しません。追加能力A2の与ダメージ+50%は、強化スキル使用時のメイン対象の解読層数を別入力し、42層以上なら自動適用します。敵1体のみ。",
+      "support": {
+        "status": "calculable",
+        "verified": true,
+        "reason": "固定版140109.params[0..9][0,2]と140104.params[0..9][0]を参照。最後の全体攻撃だけに天賦倍率を適用し、参照層数を入力状態として指定。A2は1401101固定版条件の独立入力で判定。"
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_skills.json",
+        "sourceFile": "character_skills.json:140109.params[0..9][0,2],140104.params[0..9][0]; character_skill_trees.json:1401101.params[0][1]",
+        "verifiedAt": "2026-10-30",
+        "verification": "tests/hsr/hsrHertaRound9.test.cjs",
+        "scope": "E0, Lv80, one enemy, fixed final AoE Interpretation snapshot 0–42 and separate A2 condition snapshot; no action-internal state updates.",
+        "referenceUrl": "https://hsr.keqingmains.com/the-herta/#traces",
+        "mechanicsSource": "KeqingMains The Herta guide, Traces: Interpretation multiplier increase applies only to the final AoE hit."
+      },
+      "tags": [
+        "skill"
+      ],
+      "enforceSnapshotContract": true,
+      "numericModifierInputs": [
+        {
+          "inputKey": "herta-final-interpretation",
+          "label": "最後の全体攻撃が参照する「解読」層数",
+          "minimum": 0,
+          "maximum": 42,
+          "integer": true
+        }
+      ]
+    }
+  ]
+}

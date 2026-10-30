@@ -115,3 +115,12 @@ Appの `readHpRatio()` は既存の本人/敵HP割合入力を読み、空値・
 `data-files.json`のround8 override/modifier群も従来のローダーで統合する。`hsrApp.js`の`resolvedAttack`は130803/140109について、登録された`damageComponents`から各子のレベル・倍率・種別・属性を構築し、`sequenceComponents`へ各成分専用Modifierを渡す。表示だけの発動チェックは追加しない。計算は既存`calculateComponentSequence`から局所的な`calculateAcheronSnapshot`/`calculateHertaSnapshot`へ分岐し、既知の構成数/成分ID/倍率/同一人物・敵スナップショットを検査する。通常式の`calculate`を各子に適用し、既存`combineDamageComponents`で合算する。これは任意の戦闘シーケンスを解釈する汎用エンジンではない。
 
 成分内訳も既存の表示経路を再利用し、各子を1ヒットと表示する。保存は既存`modifierInputs`と`HsrCalcState`で、別の保存形式は増やさない。`party.eruditionCount`と`requiredToggleKey`の契約は[Modifier仕様](04_MODIFIER_SPEC.md)へ記録する。
+
+
+## 第9回追加：状態入力から成分計算まで
+
+`data-files.json`の後方に登録したround9 attack overrideが同一IDのround8定義を置換する。ヘルタModifierはround8をmanifestから外し、同じ既存成分をround9ファイルへまとめて置換する。旧ファイルを同時に読み込んで二重加算しない。
+
+`hsrApp.js`の `comparisonReferenceControls()` は既存補正モーダルへ黄泉の開始集真赤欄を追加する。入力を使い各啼沢斬りの消去数と実際の子攻撃を構成し、canonicalな `sequenceTemplates` も保持する。`hsrCalcEngine.js`の `calculateAcheronSnapshot()` はテンプレート・入力範囲・順序・係数を検査して10～13成分を計算する。ヘルタは同じ既存4成分と `calculateHertaSnapshot()` を使用し、最後撃の必須値と独立したA2値を検査する。入力不足は該当攻撃/補正へ局所化する。
+
+`hsrModifierRuntime.js`の `buildCandidates()` 内で独立CD支援とLC23027の有限の依存順を評価し、通常の候補を既存計算経路へ渡す。状態を時系列に自動更新するエンジンは追加しない。Appの共有数値入力管理は同一キーを1欄へ集約し、既存 `modifierInputs` の保存復元を使う。新しい保存形式やUID通信方式は導入しない。

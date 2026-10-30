@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "modifiers": [
+    {
+      "id": "eidolon:1222:2:ultimate-break-effect",
+      "source": {
+        "kind": "eidolon",
+        "id": "1222",
+        "eidolonRank": 2,
+        "rankId": "122202"
+      },
+      "name": "垂れ雲に紅香炉・必殺後の味方撃破特効",
+      "description": "固定版の星魂2に記載された垂れ雲に紅香炉・必殺後の味方撃破特効。現在成立している状態だけを指定し、行動順は追跡しません。",
+      "category": "breakEffect",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 40
+      },
+      "target": {
+        "owner": "partyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lingsha-e2-ultimate-break-effect",
+        "inputLabel": "霊砂の必殺後BE上昇が有効（3ターン）",
+        "default": false,
+        "conditionText": "必殺技を発動した後、BE上昇が継続中"
+      },
+      "stacking": {
+        "group": "lingsha-e2-ultimate-break-effect",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "baseStats",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lingsha-e2-ultimate-break-effect-in-final",
+        "inputLabel": "垂れ雲に紅香炉・必殺後の味方撃破特効を最終ステータス/敵入力に算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
+        "sourceFile": "character_ranks.json:122202.desc",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版星魂説明を直接照合。E6追加4ヒットは今回の耐性低下とは別の未対応成分。"
+      }
+    },
+    {
+      "id": "eidolon:1222:6:fuyuan-all-res-down",
+      "source": {
+        "kind": "eidolon",
+        "id": "1222",
+        "eidolonRank": 6,
+        "rankId": "122206"
+      },
+      "name": "春蘭の宿香・浮元存在中の敵全属性耐性低下",
+      "description": "固定版の星魂6に記載された春蘭の宿香・浮元存在中の敵全属性耐性低下。現在成立している状態だけを指定し、行動順は追跡しません。",
+      "category": "resistanceReduction",
+      "unit": "percent",
+      "value": {
+        "kind": "fixed",
+        "fixed": 20
+      },
+      "target": {
+        "owner": "enemyAll",
+        "attackTypes": [
+          "all"
+        ],
+        "elements": []
+      },
+      "activation": {
+        "mode": "toggle",
+        "inputKey": "lingsha-fuyuan-on-field",
+        "inputLabel": "霊砂の浮元がフィールド上に存在する",
+        "default": false,
+        "conditionText": "浮元がフィールド上に存在する"
+      },
+      "stacking": {
+        "group": "lingsha-e6-fuyuan-all-res-down",
+        "rule": "nonStacking"
+      },
+      "calculation": {
+        "stage": "resistance",
+        "operation": "add"
+      },
+      "inputPolicy": "conditional",
+      "finalStatsInclusion": {
+        "inputKey": "lingsha-fuyuan-on-field-in-final",
+        "inputLabel": "春蘭の宿香・浮元存在中の敵全属性耐性低下を最終ステータス/敵入力に算入済み"
+      },
+      "support": {
+        "status": "calculable",
+        "verified": true
+      },
+      "provenance": {
+        "sourceName": "Mar-7th/StarRailRes",
+        "sourceCommit": "dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487",
+        "sourceUrl": "https://github.com/Mar-7th/StarRailRes/blob/dbe8cdfcfb0bf657b9fe1cf92d5537f118ccb487/index_new/jp/character_ranks.json",
+        "sourceFile": "character_ranks.json:122206.desc",
+        "verifiedAt": "2026-10-30",
+        "notes": "固定版星魂説明を直接照合。E6追加4ヒットは今回の耐性低下とは別の未対応成分。"
+      }
+    }
+  ]
+}

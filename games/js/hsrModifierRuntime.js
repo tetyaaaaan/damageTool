@@ -34,6 +34,8 @@
         ? Number.isFinite(value) && value >= 0 && value <= 99999 ? value : NaN
         : Number.isFinite(value) && Number.isInteger(value) && value >= 1 && value <= 99999 ? value : NaN;
     }
+    if (reference === "self.interpretation") return NaN; // This state requires an explicit activation input key.
+    if (reference === "self.critDamageAbove120Steps") return Number.isFinite(context.stats?.critDamage) ? Math.floor(Math.max(0, context.stats.critDamage - 120) / 20) : NaN;
     if (reference === "self.speedAbove100Steps") return Number.isFinite(context.stats?.speed) ? Math.floor(Math.max(0, context.stats.speed - 100) / 10) : NaN;
     if (reference?.startsWith("provider.")) {
       const provider = String(context.providerId || context.characterId || "");
@@ -178,7 +180,7 @@
       return number(value.perStack) * Math.max(minimum, Math.min(maximum, raw));
     }
     if (value.kind === "perStackByLevel") {
-      const raw = number(inputs[record.activation?.inputKey], record.activation?.default || 0);
+      const raw = number(inputs[value.inputKey || record.activation?.inputKey], record.activation?.default || 0);
       const minimum = number(record.activation?.minimum, 0);
       const maximum = record.activation?.maximumAtEidolon && number(context.eidolon) >= number(record.activation.maximumAtEidolon.rank)
         ? number(record.activation.maximumAtEidolon.value)
@@ -240,7 +242,7 @@
     return 0;
   }
 
-  const unresolvedReference = ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent", "self.preCombatSpeed", "self.preCombatCritDamage", "self.maxEnergy", "self.preCombatMaxEnergy", "party.fieldCount", "party.samePathAllyCount", "party.nihilityAllyCount", "party.eruditionCount"].includes(ref) || ref?.startsWith("provider.");
+  const unresolvedReference = ref => ["self.hpPercent", "enemy.hpPercent", "self.epPercent", "self.preCombatSpeed", "self.preCombatCritDamage", "self.maxEnergy", "self.preCombatMaxEnergy", "party.fieldCount", "party.samePathAllyCount", "party.nihilityAllyCount", "party.eruditionCount", "self.interpretation"].includes(ref) || ref?.startsWith("provider.");
 
   function activationState(record, context = {}, inputs = {}) {
     const activation = record.activation || {};
@@ -273,6 +275,7 @@
       let current = explicitInput === undefined
         ? referenceValue(activation.reference, context, inputs)
         : (activation.strictInput || ["self.epPercent", "self.preCombatSpeed"].includes(activation.reference)) && !Number.isFinite(explicitInput) ? NaN : number(explicitInput, activation.default || 0);
+      if (activation.reference === "self.interpretation" && (!Number.isInteger(current) || current < 0 || current > 42)) current = NaN;
       if (activation.reference === "self.epPercent" && (!Number.isFinite(current) || current < 0 || current > 100)) current = NaN;
       if (activation.reference === "self.preCombatSpeed" && (!Number.isFinite(current) || current <= 0 || current > 99999)) current = NaN;
       if (["self.maxEnergy", "self.preCombatMaxEnergy", "party.fieldCount"].includes(activation.reference) && (!Number.isInteger(current) || current < 1 || current > 99999)) current = NaN;
@@ -308,7 +311,7 @@
           + (context.partyEquipment || []).filter(item => String(item.ornamentId || "") === String(record.source.id) && (!record.target?.excludeSelf || String(item.characterId) !== String(context.characterId))).length;
         if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じオーナメントの複数提供者による支援は条件未確定です。" });
       }
-      if (record.source?.kind === "lightCone" && ["21015", "23016", "23017", "23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
+      if (record.source?.kind === "lightCone" && ["21015", "23016", "23017", "23056", "23058", "23059", "23063", "23061", "23062"].includes(String(record.source.id)) && PARTY_TARGETS.has(record.target?.owner)) {
         const count = Number(String(context.lightConeId || "") === String(record.source.id))
           + (context.partyEquipment || []).filter(item => String(item.lightConeId || "") === String(record.source.id)).length;
         if (count > 1) Object.assign(activation, { active: false, unresolved: true, unresolvedReason: "同じ光円錐の複数提供者による支援は条件未確定です。" });
@@ -325,6 +328,7 @@
         ? (selection.providerId === String(context.characterId) ? context.stats?.[record.value.providerStat] : context.partyStats?.[selection.providerId]?.[record.value.providerStat])
         : inputs[validatedInputKey] === undefined ? (record.value?.default ?? (record.activation?.mode === "stack" ? record.activation.default : undefined)) : inputs[validatedInputKey];
       const invalidValue = Boolean(validation && validatedInputKey && (!Number.isFinite(raw) || raw < validation.minimum || raw > validation.maximum || (validation.integer && !Number.isInteger(raw))));
+      if (record.value?.kind === "perStackByLevel" && record.value.inputKey && invalidValue && activation.active) Object.assign(activation, {active:false, unresolved:true});
       let enabled = !includedInFinalStats && calculable && (activation.active || unknownReference || (record.activation?.mode === "stack" && invalidValue));
       // A known zero multiplier needs no level; state-consistency checks still take precedence.
       if (record.value?.inputMultipliers?.[raw] === 0 && !validation?.whenToggle) { enabled = false; activation.unresolved = false; }
@@ -423,12 +427,12 @@
       const record = byId.get(item.id), target = item.target || {};
       const types = target.attackTypes || [];
       return item.enabled && item.applicable && item.calculable && record?.activation?.statSource !== "effective"
-        && (["always", "toggle", "stack"].includes(record?.activation?.mode) || (record?.activation?.reference === "provider.breakEffect" && record.target?.excludeSelf === true && item.providerId !== String(context.characterId)))
-        && ["fixed","byLevel","byRefinement","perStack","perStackByLevel","perStackByRefinement"].includes(record?.value?.kind)
+        && (["always", "toggle", "stack"].includes(record?.activation?.mode) || record?.activation?.reference === "party.eruditionCount" || (record?.activation?.reference === "provider.breakEffect" && record.target?.excludeSelf === true && item.providerId !== String(context.characterId)))
+        && (["fixed","byLevel","byRefinement","perStack","perStackByLevel","perStackByRefinement"].includes(record?.value?.kind) || (item.category === "critDamage" && record?.value?.kind === "providerStatPercentByLevel" && item.providerId && item.providerId !== String(context.characterId)))
         && (!target.attackIds?.length && !target.elements?.length && !item.primaryTargetOnly && !item.adjacentTargetOnly)
         && (types.includes("all") || ["normal", "skill", "ultimate", "followUp"].every(type => types.includes(type)))
         && (!context.attack || applicableToAttack(item, context.attack))
-        && (["critRate", "breakEffect", "statFlat", "statPercent"].includes(item.category));
+        && (["critRate", "critDamage", "breakEffect", "statFlat", "statPercent"].includes(item.category));
     });
     const groups = new Map();
     independent.forEach(item => { const key=item.stacking?.group || item.id; if(!groups.has(key))groups.set(key,[]);groups.get(key).push(item); });
@@ -445,27 +449,47 @@
       const reference = String(record.activation.reference || "");
       if (reference.startsWith("provider.") && item.providerId && String(item.providerId) !== String(context.characterId)) return item;
       const stat=reference.replace(/^(self|provider)\./, "");
-      if(!["critRate","speed","breakEffect","atk","hp"].includes(stat) || (["critRate", "breakEffect"].includes(record.category) && record.category===stat) || (["statFlat","statPercent"].includes(record.category)&&record.stat===stat)) {
+      if(!["critRate","critDamage","speed","breakEffect","atk","hp"].includes(stat) || (["critRate", "critDamage", "breakEffect"].includes(record.category) && record.category===stat) || (["statFlat","statPercent"].includes(record.category)&&record.stat===stat)) {
         return {...item,enabled:true,applicable:false,inputWarnings:["この閾値の参照依存は未対応です。"],reason:"自身の参照値を変える閾値は再帰評価しません。"};
       }
       if (stat === "hp" && !(Number.isFinite(context.stats?.hp) && context.stats.hp > 0)) {
         return {...item, enabled:false, applicable:false, activation:{...item.activation, active:false, unresolved:true}, reason:"最大HPが未入力のため、この補正は追加しません。"};
       }
       if (!Number.isFinite(context.stats?.[stat])) {
+        if (stat === "critDamage") return {...item,enabled:false,applicable:false,activation:{...item.activation,active:false,unresolved:true},reason:"会心ダメージが未入力のため、この補正は追加しません。"};
         return {...item,enabled:true,applicable:false,inputWarnings:[`閾値判定に必要な${stat}が未入力です。`],reason:"閾値の参照値を確定できません。"};
       }
       if (statContributors.some(m=>m.category==="statPercent" && m.stat===stat) && !Number.isFinite(context.baseStats?.[stat])) {
         return {...item,enabled:true,applicable:false,inputWarnings:[`閾値判定に必要な基礎${stat}が未入力です。`],reason:"閾値の参照値を確定できません。"};
       }
-      const sum=(category)=>statContributors.filter(m=>m.category===category && ((["critRate", "breakEffect"].includes(category) && category===stat) || m.stat===stat)).reduce((total,m)=>total+m.value,0);
-      const added=sum("statFlat") + number(context.baseStats?.[stat])*sum("statPercent")/100 + (stat==="critRate"?sum("critRate"):0) + (stat==="breakEffect"?sum("breakEffect"):0);
+      const sum=(category)=>statContributors.filter(m=>m.category===category && ((["critRate", "critDamage", "breakEffect"].includes(category) && category===stat) || m.stat===stat)).reduce((total,m)=>total+m.value,0);
+      const added=sum("statFlat") + number(context.baseStats?.[stat])*sum("statPercent")/100 + (stat==="critRate"?sum("critRate"):0) + (stat==="breakEffect"?sum("breakEffect"):0) + (stat==="critDamage"?sum("critDamage"):0);
       const effectiveContext={...context,stats:{...context.stats,[stat]:number(context.stats?.[stat])+added}};
       return {...buildRawCandidates([record],effectiveContext,inputs)[0],thresholdReferenceValue:effectiveContext.stats[stat]};
     };
-    const evaluated = initial.map(item => evaluate(item));
-    // Fixed dependency only: effective SPD -> Talia BE -> Iron Cavalry's BE threshold. No feedback into SPD.
-    const talia = evaluated.find(item => item.id === "ornament:307:2pc:break-effect-effective-speed");
-    if (!talia?.enabled || talia.applicable === false || talia.inputWarnings?.length) return evaluated;
+    let evaluated = initial.map(item => evaluate(item));
+    const active = item => item?.enabled && item.applicable !== false && !item.inputWarnings?.length;
+    const speedId = "lightCone:23027:break-effect-speed", taliaId = "ornament:307:2pc:break-effect-effective-speed";
+    const initialTalia = evaluated.find(item => item.id === taliaId);
+    let speedCone = evaluated.find(item => item.id === speedId);
+    // Fixed dependency: independent BE (and already-active Talia) -> cone SPD -> SPD thresholds.
+    // A Talia bonus that needs this same SPD bonus cannot activate the cone in return.
+    if (speedCone && !speedCone.includedInFinalStats) {
+      if (active(initialTalia)) speedCone = evaluate(speedCone, [initialTalia]);
+      evaluated = evaluated.map(item => item.id === speedId ? speedCone : item);
+      if (active(speedCone)) {
+        evaluated = evaluated.map(item => item.id === speedId ? speedCone : byId.get(item.id)?.activation?.statSource === "effective" && ["self.speed", "provider.speed"].includes(byId.get(item.id).activation.reference) ? evaluate(item, [speedCone]) : item);
+      } else if (initialTalia && !active(initialTalia) && Number.isFinite(speedCone.value)) {
+        const hypotheticalTalia = evaluate(initialTalia, [{...speedCone, enabled:true, applicable:true}]);
+        if (active(hypotheticalTalia) && active(evaluate(speedCone, [hypotheticalTalia]))) {
+          speedCone = {...speedCone, enabled:false, applicable:false, activation:{...speedCone.activation, active:false, unresolved:true, unresolvedReason:"タリアのBEと光円錐のSPDが相互に条件となるため、成立済み最終値を確認してください。"}};
+        }
+        evaluated = evaluated.map(item => item.id === speedId ? speedCone : item);
+      }
+    }
+    // Effective SPD -> Talia BE -> Iron Cavalry, with no feedback to the cone.
+    const talia = evaluated.find(item => item.id === taliaId);
+    if (!active(talia)) return evaluated;
     return evaluated.map(item => {
       const record = byId.get(item.id);
       return record?.source?.kind === "relic" && record.source.id === "119" && record.activation?.statSource === "effective"
